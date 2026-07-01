@@ -37,7 +37,13 @@ test.describe('SP4b — production slot in daily session', () => {
     // Session-Rec #1/#2: PRODUCTION_POOL is now [dialogue, writing, shadowing,
     // production_drill, dictation]. With rnd=0 + mic-available + B1, the first
     // eligible item is `dialogue` (label "Conversation").
-    await expect(page.getByText('Conversation')).toBeVisible({ timeout: 15_000 });
+    // Scope to the session card (as the sibling test below does for "Speaking"):
+    // the Home tab's Daily Input card can also contain the substring
+    // "conversation" (a listening unit's description), so an unscoped getByText
+    // would strict-mode-violate.
+    await expect(page.getByTestId('session-card').getByText('Conversation')).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   test('open Speaking is routed into the session as a production slot (B1, mic available)', async ({
