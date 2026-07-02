@@ -249,11 +249,43 @@ async function _withRetry<T>(fn: () => Promise<T>, label: string, maxAttempts = 
   throw lastErr; // unreachable — satisfies TypeScript
 }
 
+/**
+ * True when a snapshot carries NO real progress — zero XP/lessons/grammar/speaking,
+ * no visited screens, no favourites, no journal. Such a snapshot is what a fresh
+ * or briefly-misclassified device produces before the cloud read hydrates. Writing
+ * it would overwrite the real `progress` blob (a single string field, replaced
+ * wholesale by set+merge) with defaults — the catastrophic-wipe path. We refuse
+ * to persist it: there is nothing worth saving, and a genuine user writes the
+ * moment they earn any progress. Deliberately IGNORES `onboarded` so that merely
+ * flagging the account established (cross-device fix) can't let an un-hydrated
+ * empty snapshot through. Exported for tests.
+ */
+export function isEmptyProgressSnapshot(data: Record<string, unknown>): boolean {
+  const st = (data.stats || data.st || {}) as Record<string, unknown>;
+  const n = (v: unknown): number => (typeof v === 'number' ? v : 0);
+  const emptyArr = (a: unknown): boolean => !Array.isArray(a) || a.length === 0;
+  return (
+    n(st.xp) <= 0 &&
+    n(st.lc) <= 0 &&
+    n(st.gc) <= 0 &&
+    n(st.sp) <= 0 &&
+    emptyArr(st.vs) &&
+    emptyArr(data.favs) &&
+    emptyArr(data.journal)
+  );
+}
+
 export async function fbSaveProgress(
   uid: string,
   data: Record<string, unknown>,
-): Promise<{ ok: boolean; err?: string; code?: string }> {
+): Promise<{ ok: boolean; err?: string; code?: string; skipped?: boolean }> {
   if (!_fbReady || !_fbDb) return { ok: false, err: 'Firebase not initialized' };
+  // ── Wipe guard ────────────────────────────────────────────────────────────
+  // Never let an empty "brand-new user" snapshot overwrite (or pre-create) a
+  // document. If a returning login is briefly misclassified as new — e.g. before
+  // the cloud read hydrates, or a transient blob-less server read — its save
+  // would otherwise clobber the real progress blob. Skipping is always safe.
+  if (isEmptyProgressSnapshot(data)) return { ok: true, skipped: true };
   // Flush any pending coalesced fbApplyDelta writes before the full snapshot
   // save. Both writes target the same user document, and the snapshot blob
   // includes the incremented stats already — so without a flush, the next

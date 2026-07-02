@@ -713,6 +713,7 @@ function App() {
     syncNowRef: _syncNowRef,
     setSyncReady: _setSyncReady,
     syncReady: _syncReady,
+    setOnboarded,
   });
 
   // ── Screen launchers ────────────────────────────────────────────────────────
