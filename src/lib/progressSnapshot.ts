@@ -21,6 +21,22 @@ interface ProgressSnapshotParams {
   jWords: unknown[];
 }
 
+/**
+ * Read a string[] from localStorage, or undefined when absent/empty. Returning
+ * undefined lets Firestore's setDoc(merge) drop the field, so an empty local set
+ * never overwrites server history — the same guard the nh_journey field uses.
+ */
+function _strArrOrUndef(key: string): string[] | undefined {
+  try {
+    const p = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!Array.isArray(p)) return undefined;
+    const arr = p.filter((x): x is string => typeof x === 'string');
+    return arr.length > 0 ? arr : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Merge React dc state with localStorage dcDay3 — truth is the union of answered positions. */
 function _bestDc(dchlA: boolean[], dchlSl: string[]) {
   const today = _todayStr();
@@ -98,6 +114,14 @@ export function buildProgressSnapshot({
       localStorage.getItem('nh_placement_done') === 'true' ||
       localStorage.getItem('placement_done') === 'true',
     nh_grammar_track_done: localStorage.getItem('nh_grammar_track_done') === 'true',
+    // ── Structured-track progress — device-local done/mastery sets, union-merged
+    // across devices (Content-Rec #1 listening, #8 phonemes, #9 conversation).
+    // These curricula stored completion only on-device; syncing them means a
+    // learner's path progress follows them to a new device. undefined when empty
+    // so an empty local set never clobbers server history (nh_journey pattern).
+    nh_listening_track_done: _strArrOrUndef('nh_listening_track_done'),
+    nh_interaction_track_done: _strArrOrUndef('nh_interaction_track_done'),
+    nh_phonemes_mastered: _strArrOrUndef('nh_phonemes_mastered'),
     nh_daily_goal_xp: parseInt(localStorage.getItem('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.
