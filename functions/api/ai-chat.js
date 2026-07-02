@@ -107,7 +107,7 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no expla
   "level_demonstrated": "<A1|A2|B1|B2|C1|C2>",
   "strengths": ["<specific positive observation>", "<another strength>"],
   "mistakes": [
-    {"original": "<exact learner phrase with error>", "correction": "<corrected form>", "rule": "<brief grammar rule>" }
+    {"original": "<exact learner phrase with error>", "correction": "<corrected form>", "rule": "<brief grammar rule>", "errorType": "<one of: case | aspect | tense | word_order | vocab | agreement | spelling | other>" }
   ],
   "focus_areas": [
     {"topic": "<grammar or vocab topic>", "explanation": "<1 sentence on why this is the priority>", "exercise": "<one key from: accusativedrill,tenseflip,verbdrill,negation,possess,ordinals,relpron,emogender,comparatives,future,sibil,prepdrill,numtime,profgender,reflexive,sentbuild,genderdrill>"}
@@ -143,7 +143,7 @@ Return ONLY a valid JSON object (no markdown, no explanation):
   "level_demonstrated": "<A1|A2|B1|B2|C1|C2>",
   "corrected_text": "<the full text with corrections applied>",
   "changes": [
-    {"original": "<exact phrase with error>", "corrected": "<corrected version>", "note": "<brief English grammar rule>"}
+    {"original": "<exact phrase with error>", "corrected": "<corrected version>", "note": "<brief English grammar rule>", "errorType": "<one of: case | aspect | tense | word_order | vocab | agreement | spelling | other>"}
   ],
   "strengths": ["<specific positive observation>"],
   "improvements": ["<specific actionable suggestion>"],

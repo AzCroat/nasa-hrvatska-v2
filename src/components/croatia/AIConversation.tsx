@@ -13,6 +13,7 @@ import {
 import { useWriteMode } from '../../hooks/useWriteMode';
 import { markQuest } from '../../lib/quests.js';
 import { logError, getErrorsForAPI } from '../../lib/learnerErrors.js';
+import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { SCENARIOS, deriveWeakAreas, sceneForCat } from './ConversationScenarios.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
@@ -922,15 +923,25 @@ export default function AIConversation({
       const ev = parseJSON(raw);
       setEvaluation(ev);
       if (ev && ev.mistakes && Array.isArray(ev.mistakes)) {
-        (ev.mistakes as Array<{ type?: string; original?: string; correction?: string }>).forEach(
-          (m) => {
-            logError(m.type || 'conversation_grammar', 'grammar', {
-              wrong: m.original,
-              correct: m.correction,
-              source: 'conversation',
-            });
-          },
-        );
+        const mistakes = ev.mistakes as Array<{
+          type?: string;
+          errorType?: string;
+          original?: string;
+          correction?: string;
+        }>;
+        mistakes.forEach((m) => {
+          logError(m.errorType || m.type || 'conversation_grammar', 'grammar', {
+            wrong: m.original,
+            correct: m.correction,
+            source: 'conversation',
+          });
+        });
+        // Content-Rec #7: close the output feedback loop — feed the conversation's
+        // grammar error-types into the adaptive scheduler so the daily session
+        // re-drills them next (previously errors were logged for insight but never
+        // fed back into practice). Shared errorType→category mapping; unmapped
+        // types are ignored.
+        applyWritingErrorsToAdaptive(mistakes.map((m) => m.errorType));
       }
       if (ev && !evalXpFired.current && typeof award === 'function') {
         evalXpFired.current = true;
@@ -994,6 +1005,28 @@ export default function AIConversation({
       const result = parseJSON(raw);
       if (!result) throw new Error('Could not parse evaluation response.');
       setWriteEval(result);
+      // Content-Rec #7: close the output feedback loop for Free Write — record each
+      // correction and feed its error-type into the adaptive scheduler so the daily
+      // session re-drills it. Previously the feedback was shown then discarded, so a
+      // written mistake never resurfaced in practice. Mirrors WritingScreen.
+      const changes = (Array.isArray(result.changes) ? result.changes : []) as Array<{
+        original?: string;
+        corrected?: string;
+        note?: string;
+        errorType?: string;
+      }>;
+      changes.forEach((c) => {
+        logError(
+          c.errorType || c.note || 'writing_error',
+          c.errorType === 'vocab' ? 'vocabulary' : 'grammar',
+          {
+            wrong: c.original || '',
+            correct: (c.corrected || '').trim(),
+            source: 'ai-conversation-write',
+          },
+        );
+      });
+      applyWritingErrorsToAdaptive(changes.map((c) => c.errorType));
       if (typeof award === 'function' && !writeXpFired.current) {
         writeXpFired.current = true;
         const xp = result.score >= 80 ? 18 : result.score >= 60 ? 13 : 8;
