@@ -311,6 +311,9 @@ describe('ShadowingScreen — scoring integrity', () => {
     const componentSource = (await import('../components/practice/ShadowingScreen?raw'))
       .default as string;
     expect(componentSource).toContain('acousticScore={acousticScore}');
-    expect(componentSource).toContain('onScore={(r) => setAcousticScore(r.score)}');
+    // onScore drives acousticScore from the scorer's result (the callback also
+    // logs a pronunciation weakness — Content-Rec #8 — but the score wiring is
+    // the invariant this guards).
+    expect(componentSource).toContain('setAcousticScore(r.score)');
   });
 });

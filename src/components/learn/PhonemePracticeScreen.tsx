@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
+import { orderByWeakness, getWeakPhonemes } from '../../lib/pronunciationCurriculum';
 
 const STORAGE_KEY = 'nh_phonemes_mastered';
 
@@ -137,6 +138,20 @@ export default function PhonemePracticeScreen({
   const [active, setActive] = useState<number | null>(null);
   const [celebrated, setCelebrated] = useState(false);
 
+  // Order the phoneme grid so the sounds the learner scored poorly on (from the
+  // pronunciation weakness ledger — Content-Rec #8) come first. Memoised on
+  // mount so the index `active` points at stays stable while the screen is open.
+  const orderedPhonemes = useMemo(() => {
+    const order = orderByWeakness(PHONEMES.map((p) => p.key));
+    return order.map((k) => PHONEMES.find((p) => p.key === k)!).filter(Boolean);
+  }, []);
+  // The single weakest measured sound in this grid the learner hasn't mastered —
+  // drives the "recommended next" hint. Recomputed as mastery changes.
+  const recommendedKey = useMemo(() => {
+    const gridKeys = new Set(PHONEMES.map((p) => p.key));
+    return getWeakPhonemes().find((k) => gridKeys.has(k) && !mastered.has(k)) || null;
+  }, [mastered]);
+
   useEffect(() => {
     knightSpeak(
       'teaching',
@@ -264,7 +279,7 @@ export default function PhonemePracticeScreen({
 
   // ── Active phoneme drill ───────────────────────────────────────────────────
   if (active !== null) {
-    const p = PHONEMES[active]!;
+    const p = orderedPhonemes[active]!;
     const isMastered = mastered.has(p.key);
     return (
       <div className="scr-wrap">
@@ -629,9 +644,29 @@ export default function PhonemePracticeScreen({
         </div>
       </div>
 
+      {/* Recommended-next hint — surfaces the weakest measured sound (Content-Rec #8) */}
+      {recommendedKey && (
+        <div
+          style={{
+            background: 'rgba(212,0,45,0.06)',
+            border: '1px solid rgba(212,0,45,0.25)',
+            borderRadius: 12,
+            padding: '12px 16px',
+            marginBottom: 16,
+            fontSize: 13,
+            color: 'var(--heading)',
+            lineHeight: 1.5,
+          }}
+        >
+          🎯 <strong>Practice {recommendedKey.toUpperCase()} next</strong> — your spoken{' '}
+          {recommendedKey.toUpperCase()} has been scoring low. It's moved to the front of the grid
+          below.
+        </div>
+      )}
+
       {/* Phoneme grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-        {PHONEMES.map((p, i) => {
+        {orderedPhonemes.map((p, i) => {
           const isMastered = mastered.has(p.key);
           return (
             <button
