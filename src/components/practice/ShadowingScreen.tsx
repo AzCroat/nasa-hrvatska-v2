@@ -3,6 +3,7 @@ import { H, Bar, Spk, speakSlow } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import PronunciationScorer from '../shared/PronunciationScorer';
 import { recordTopicResult } from '../../lib/adaptive.js';
+import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useRecorder } from '../../hooks/useRecorder';
@@ -603,7 +604,20 @@ export default function ShadowingScreen({
           </div>
         )}
 
-        <PronunciationScorer targetText={item.hr} onScore={(r) => setAcousticScore(r.score)} />
+        <PronunciationScorer
+          targetText={item.hr}
+          onScore={(r) => {
+            setAcousticScore(r.score);
+            // Route a weak acoustic score into the pronunciation weakness ledger
+            // (Content-Rec #8) so the struggled sound resurfaces for practice.
+            logPronunciationWeakness({
+              score: r.score,
+              worstPhoneme: r.worstPhoneme,
+              targetText: item.hr,
+              source: 'shadowing',
+            });
+          }}
+        />
 
         {/* Record My Attempt — shown before "said" */}
         {!said && (
@@ -675,7 +689,11 @@ export default function ShadowingScreen({
             <button
               className="b bp"
               onClick={() => {
-                recordTopicResult('speaking', true);
+                // Record a real speaking result, not an unconditional pass: a low
+                // acoustic score now counts as a weak attempt (Content-Rec #8).
+                // Null (mic unavailable / not acoustically scored) stays a pass so
+                // keyboard-only learners are never penalised.
+                recordTopicResult('speaking', acousticScore === null || acousticScore >= 70);
                 if (idx < items.length - 1) {
                   setIdx((i) => i + 1);
                   advanceItem();

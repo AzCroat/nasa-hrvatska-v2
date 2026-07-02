@@ -5,6 +5,7 @@ import PronunciationScorer from '../shared/PronunciationScorer';
 import { scoreColor, scoreEmoji, scoreLabel } from '../shared/pronunciationUtils.js';
 import { markQuest } from '../../lib/quests.js';
 import { rnd } from '../../lib/random.js';
+import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 
 // ── Assessment phrase banks per CEFR level ──────────────────────────────────
 const PHRASES = {
@@ -244,10 +245,19 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
       : null;
 
   const handleScore = useCallback(
-    (result: { score: number | null }) => {
+    (result: { score: number | null; worstPhoneme?: string | null }) => {
       setScores((prev) => ({ ...prev, [currentIdx]: result.score }));
+      // Feed a weak acoustic score back into the pronunciation weakness ledger so
+      // the struggled sound resurfaces in the phoneme grid and Error Analysis
+      // (Content-Rec #8). No-op when scored well or not acoustically scored.
+      logPronunciationWeakness({
+        score: result.score,
+        worstPhoneme: result.worstPhoneme,
+        targetText: currentPhrase?.hr,
+        source: 'pron-assess',
+      });
     },
-    [currentIdx],
+    [currentIdx, currentPhrase],
   );
 
   const handleNext = useCallback(() => {
