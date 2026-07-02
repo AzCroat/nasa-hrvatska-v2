@@ -9,8 +9,15 @@ import DialogueScenarioMenu from './DialogueScenarioMenu';
 import DialogueResultsScreen from './DialogueResultsScreen';
 import DialogueGuidedMode from './DialogueGuidedMode';
 import DialogueAiMode from './DialogueAiMode';
+import InteractionPathBanner from './InteractionPathBanner';
 import { SCENARIOS } from './dialogueScenarios.js';
 import { _aiPost } from '../../lib/aiPost';
+import { shouldShowAdvancedBridge } from '../../lib/conversationLevel';
+import {
+  getNextInteractionUnit,
+  getInteractionProgress,
+  markInteractionUnitDone,
+} from '../../lib/interactionCurriculum';
 
 // Normalize Croatian diacritics for lenient free-text comparison
 function normCro(s: string) {
@@ -134,6 +141,8 @@ export default function DialogueSim({
           award((score + lastCorrect) * 6, false, 'speaking');
         }
         markQuest('speak');
+        // Content-Rec #9: this scenario counts toward the conversation path.
+        markInteractionUnitDone(scenario.id);
       }
       setDone(true);
     } else {
@@ -202,16 +211,33 @@ export default function DialogueSim({
 
   // --- MENU SCREEN ---
   if (!scenario) {
+    const lvl = String(userLevel || 'A1');
+    // Route to the advanced (B2–C2) AIConversation scenarios (Content-Rec #4 / #9).
+    const goAdvanced = () => {
+      sCurEx?.('aiconvo');
+      setScr('aiconvo');
+    };
+    // Content-Rec #9: the structured conversation path — what to practise next.
+    const nextUnit = getNextInteractionUnit(lvl);
+    const progress = getInteractionProgress();
     return (
       <DialogueScenarioMenu
         scenarios={SCENARIOS}
         onSelect={startScenario}
-        userLevel={String(userLevel || 'A1')}
-        onAdvanced={() => {
-          // Route to the advanced (B2–C2) AIConversation scenarios (Content-Rec #4).
-          sCurEx?.('aiconvo');
-          setScr('aiconvo');
-        }}
+        userLevel={lvl}
+        onAdvanced={goAdvanced}
+        topBanner={
+          <InteractionPathBanner
+            nextUnit={nextUnit}
+            progress={progress}
+            showAdvancedBridge={shouldShowAdvancedBridge(lvl)}
+            onStart={() => {
+              const s = SCENARIOS.find((x: { id: string }) => x.id === nextUnit?.id);
+              if (s) startScenario(s);
+            }}
+            onAdvanced={goAdvanced}
+          />
+        }
       />
     );
   }
@@ -320,6 +346,9 @@ export default function DialogueSim({
             if (!finishFired.current) {
               finishFired.current = true;
               if (award) award(aiTurns * 5, false, 'speaking');
+              // Content-Rec #9: an AI conversation on this scenario also
+              // completes its conversation-path unit.
+              markInteractionUnitDone(scenario.id);
             }
             setAiDone(true);
           }}
