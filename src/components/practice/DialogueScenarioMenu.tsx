@@ -14,12 +14,15 @@ export default function DialogueScenarioMenu({
   onSelect,
   userLevel = 'A1',
   onAdvanced,
+  topBanner,
 }: {
   scenarios: any[];
   onSelect: (s: any) => void;
   userLevel?: string;
   // Content-Rec #4: routes B2+ learners to the advanced AIConversation scenarios.
   onAdvanced?: () => void;
+  // Content-Rec #9: the structured conversation-path banner, rendered above the grid.
+  topBanner?: React.ReactNode;
 }) {
   // Surface level-appropriate scenarios first; stretch ones fall to the end.
   const ordered = sortScenariosByLevel(scenarios, userLevel);
@@ -28,6 +31,8 @@ export default function DialogueScenarioMenu({
   return (
     <div className="scr-wrap">
       {H('💬 Dialogue Simulator', 'Real conversations, real Croatian', undefined)}
+
+      {topBanner}
 
       {/* Content-Rec #4: bridge to the advanced (B2–C2) AIConversation scenarios.
           The guided scenarios below top out at B1; this routes learners who are
