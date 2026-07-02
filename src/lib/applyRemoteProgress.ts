@@ -255,6 +255,27 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   }
   if (fp.nh_grammar_track_done) localStorage.setItem('nh_grammar_track_done', 'true');
 
+  // ── Structured-track progress — union-merged done/mastery sets ─────────────
+  // Curriculum completion (listening #1, phonemes #8, conversation #9) was
+  // device-local; sync it so a learner's path progress follows them. These are
+  // growing sets of ids: union (never let one device's smaller set clobber the
+  // other), matching the merge-rules table for "sets that grow".
+  const _unionStrArr = (key: string, remote: unknown) => {
+    if (!Array.isArray(remote) || remote.length === 0) return;
+    let local: string[] = [];
+    try {
+      const p = JSON.parse(localStorage.getItem(key) || '[]');
+      if (Array.isArray(p)) local = p.filter((x): x is string => typeof x === 'string');
+    } catch (_) {}
+    const merged = [...new Set([...local, ...remote.filter((x) => typeof x === 'string')])];
+    try {
+      localStorage.setItem(key, JSON.stringify(merged));
+    } catch (_) {}
+  };
+  _unionStrArr('nh_listening_track_done', fp.nh_listening_track_done);
+  _unionStrArr('nh_interaction_track_done', fp.nh_interaction_track_done);
+  _unionStrArr('nh_phonemes_mastered', fp.nh_phonemes_mastered);
+
   // ── UI/accessibility preferences ──────────────────────────────────────────
   // Three-state values (null | 'true' | 'false'): only write when remote is non-null
   if (fp.darkMode !== null && fp.darkMode !== undefined)
