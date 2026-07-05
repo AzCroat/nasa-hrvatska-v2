@@ -53,6 +53,20 @@ export function syncReadyResolution(
   return hasData ? 'open-after-apply' : 'open-now';
 }
 
+/**
+ * True when a Firestore emission authoritatively proves this login already has an
+ * account — a SERVER (non-cache) snapshot whose user document EXISTS, even if its
+ * progress blob hasn't hydrated yet (a delta-only doc, or a transient blob-less
+ * read). The watcher uses this to mark the account "established" so the one-time
+ * placement / onboarding popup is never shown to a returning user on a new device
+ * or browser. A genuinely new account (exists === false) is deliberately excluded,
+ * so first-run onboarding still fires exactly once. Cache emissions are excluded —
+ * they are stale/empty on a fresh or Safari/iPad device.
+ */
+export function isEstablishedAccountSignal(meta: SyncSnapshotMeta): boolean {
+  return !meta.fromCache && meta.exists;
+}
+
 interface SyncManagerParams {
   authUser: AuthUser | null;
   authScreen: string;
@@ -69,6 +83,9 @@ interface SyncManagerParams {
   syncNowRef?: React.MutableRefObject<(() => Promise<boolean>) | undefined>;
   setSyncReady?: (ready: boolean) => void;
   syncReady: boolean;
+  /** Marks the React onboarding state complete when the server confirms an
+   *  existing account — so a returning login never re-sees the onboarding tour. */
+  setOnboarded?: (v: boolean) => void;
 }
 
 interface SyncManagerResult {
@@ -94,6 +111,7 @@ export function useSyncManager({
   syncNowRef,
   setSyncReady,
   syncReady,
+  setOnboarded,
 }: SyncManagerParams): SyncManagerResult {
   const [showBackupBanner, setShowBackupBanner] = useState(false);
   const [lastSyncedAt, setLastSyncedAt] = useState<number>(0);
@@ -317,6 +335,21 @@ export function useSyncManager({
 
           // Apply remote data as soon as it arrives (cache OR server) for fast hydration.
           if (fp) enqueueSnapshot(fp, fpTs, uid);
+
+          // Cross-device new-user fix: the moment a SERVER snapshot confirms this
+          // login's document EXISTS, mark the account established — even if its
+          // progress blob hasn't hydrated yet (a delta-only doc or a transient
+          // blob-less read). This suppresses BOTH one-time popups for a returning
+          // user on a new device/browser: the placement redirect (reads the
+          // `onboarded` localStorage flag) and the OnboardingTour (reads the
+          // `onboarded` React state). A genuinely new account (exists === false)
+          // is untouched, so first-run onboarding still fires exactly once.
+          if (isEstablishedAccountSignal(meta)) {
+            try {
+              localStorage.setItem('onboarded', 'true');
+            } catch (_) {}
+            if (setOnboarded) setOnboarded(true);
+          }
 
           // _syncReady gates the "is this a brand-new user?" decision — the onboarding
           // tour (AppModals) and the placement redirect (App.tsx) both wait on it.

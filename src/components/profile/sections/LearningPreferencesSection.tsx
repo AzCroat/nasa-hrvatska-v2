@@ -13,6 +13,7 @@ import {
 } from '../../../lib/soundSettings.js';
 import { speak, getAudioDebugState } from '../../../lib/audio.ts';
 import { getEntries } from '../../../lib/debugLog.ts';
+import { useApp } from '../../../context/AppContext';
 
 /**
  * Learning Preferences cluster — extracted from SettingsTab as part of the 1a
@@ -25,6 +26,7 @@ import { getEntries } from '../../../lib/debugLog.ts';
  * React state for the visual, exactly as before.
  */
 export default function LearningPreferencesSection() {
+  const { setScr } = useApp();
   const [audioTestStatus, setAudioTestStatus] = useState<null | 'testing' | 'ok' | 'failed'>(null);
   const [showAudioDebug, setShowAudioDebug] = useState(false);
   const [audioDebugLines, setAudioDebugLines] = useState<LogEntry[]>([]);
@@ -519,6 +521,36 @@ export default function LearningPreferencesSection() {
         </div>
         <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
           📌 Applies to all Croatian audio playback (lessons, examples, story narration)
+        </div>
+      </div>
+
+      {/* Retake placement — user-initiated only. The placement/onboarding flow
+          never auto-appears for an existing account (it runs once, at first
+          sign-up); this is the deliberate way to redo it. */}
+      <div style={{ padding: '14px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>🎯 Placement Test</div>
+            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
+              Retake it to reset your recommended starting level.
+            </div>
+          </div>
+          <button
+            onClick={() => setScr('new-placement')}
+            style={{
+              padding: '8px 14px',
+              borderRadius: 20,
+              border: 'none',
+              cursor: 'pointer',
+              background: 'var(--info)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 'var(--text-xs)',
+              flexShrink: 0,
+            }}
+          >
+            Retake
+          </button>
         </div>
       </div>
     </React.Fragment>
