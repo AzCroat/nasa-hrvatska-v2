@@ -209,6 +209,12 @@ function gapSentence(sentence: string, target: string, _wrong: string) {
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
+// When launched as a Today's Session (Dnevna Vježba) activity, the drill is
+// capped to this many pairs so it's finishable in one sitting and actually
+// reaches its completion trigger (Finish → completeExercise →
+// signalSessionCompleteIfActive). Standalone practice keeps the full pool.
+const DAILY_PAIR_CAP = 3;
+
 export default function AspectDrillScreen({
   goBack,
   award,
@@ -219,6 +225,16 @@ export default function AspectDrillScreen({
   const { stats, setStats, writeDelta } = useStats();
   const { grammar, loading, error } = useGrammar();
   const finishFired = useRef(false);
+
+  // Read once on mount: was this screen launched by the daily session? HomeTab's
+  // session launcher writes nh_session_started = 'aspectdrill'; standalone
+  // launches (Grad / Practice / Browse) never set it, so the cap below applies
+  // only inside the daily session.
+  const [inDailySession] = useState(
+    () =>
+      typeof sessionStorage !== 'undefined' &&
+      sessionStorage.getItem('nh_session_started') === 'aspectdrill',
+  );
 
   const [sessionMode, setSessionMode] = useState('drill');
 
@@ -252,8 +268,11 @@ export default function AspectDrillScreen({
   const allItems = useMemo(() => {
     const pairs = (grammar?.ASPECT_PAIRS ?? []) as unknown as AspectPair[];
     if (!pairs?.length) return [];
-    return sh([...pairs]);
-  }, [grammar]);
+    const shuffled = sh([...pairs]);
+    // In the daily session, serve only a short, finishable set (a fresh random
+    // few each day). Standalone drill keeps the full pool for deep practice.
+    return inDailySession ? shuffled.slice(0, DAILY_PAIR_CAP) : shuffled;
+  }, [grammar, inDailySession]);
 
   const items = useMemo(() => {
     if (mistakesOnly && mistakeIds.size > 0) {
