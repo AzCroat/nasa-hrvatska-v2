@@ -12,10 +12,22 @@ import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 
 interface ListeningQuestion {
+  // /api/listening returns { q, options, correct } — `q` is the prompt and
+  // `correct` is the index of the right option. (text/question/answer are kept
+  // optional for tolerance against older/other shapes.)
+  q?: string;
   text?: string;
   question?: string;
   options: string[];
-  answer: string;
+  correct?: number;
+  answer?: string;
+}
+
+/** The correct option string for a question, from the `correct` index (with a
+ *  legacy fallback to a literal `answer` field). Undefined when absent. */
+export function correctOption(q: ListeningQuestion): string | undefined {
+  if (typeof q.correct === 'number' && q.options) return q.options[q.correct];
+  return q.answer;
 }
 
 interface ListeningSpeaker {
@@ -112,7 +124,7 @@ export default function DailyListeningCard({
     if (!data?.questions) return;
     let correct = 0;
     data.questions.forEach((q, i) => {
-      if (answers[i] === q.answer) correct++;
+      if (answers[i] === correctOption(q)) correct++;
     });
     setScore(correct);
     setChecked(true);
@@ -427,13 +439,14 @@ export default function DailyListeningCard({
                   lineHeight: 1.4,
                 }}
               >
-                {qi + 1}. {q.question}
+                {qi + 1}. {q.q ?? q.question ?? q.text}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {(q.options || []).map((opt, oi) => {
                   const isSelected = answers[qi] === opt;
-                  const isCorrect = checked && opt === q.answer;
-                  const isWrong = checked && isSelected && opt !== q.answer;
+                  const correctOpt = correctOption(q);
+                  const isCorrect = checked && opt === correctOpt;
+                  const isWrong = checked && isSelected && opt !== correctOpt;
                   return (
                     <button
                       key={oi}

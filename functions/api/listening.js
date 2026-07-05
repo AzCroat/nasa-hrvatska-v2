@@ -160,6 +160,14 @@ export async function onRequestPost(context) {
 
   // ── Call Anthropic ──
 
+  // A flat 1200-token budget truncated the model's JSON for the heaviest output
+  // shapes — a full dialogue (speaker turns + 3 questions + 5-8 vocab) and B2+
+  // content where sentences run long — which then failed JSON.parse and surfaced
+  // to the learner as "content tried to load but never did." Scale the budget up
+  // for those cases so the JSON always completes. (e.g. B2 dialogue "At the Doctor".)
+  const heavyOutput = safeStyle === 'dialogue' || VALID_LEVELS.indexOf(safeLevel) >= 3; // B2+
+  const maxTokens = heavyOutput ? 2600 : 1500;
+
   // Block 1: fetch — catches network errors only
   let res;
   try {
@@ -170,10 +178,12 @@ export async function onRequestPost(context) {
         'x-api-key': ANTHROPIC_KEY,
         'anthropic-version': '2023-06-01',
       },
-      signal: AbortSignal.timeout(25000),
+      // 28s server budget stays under the client's 30s fetch timeout, so a slower
+      // (larger) generation returns a handled error instead of the client aborting.
+      signal: AbortSignal.timeout(28000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 1200,
+        max_tokens: maxTokens,
         system: systemPrompt,
         messages: [{ role: 'user', content: userMessage }],
       }),
