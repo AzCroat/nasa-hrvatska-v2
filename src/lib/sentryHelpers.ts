@@ -16,3 +16,34 @@ export function shouldEnableSentryReplay(userAgent?: string): boolean {
   if (/DuckDuckGo/.test(ua)) return false;
   return true;
 }
+
+/**
+ * Minimal structural view of the Sentry event fields the abort filter inspects.
+ * The real Sentry `Event` is structurally assignable to it.
+ */
+interface AbortFilterEvent {
+  exception?: {
+    values?: Array<{
+      type?: string;
+      value?: string;
+      mechanism?: { type?: string };
+    }>;
+  };
+}
+
+/**
+ * True when a Sentry event is a benign AbortError surfaced as an *unhandled
+ * promise rejection*. `apiFetch` re-throws AbortError (src/lib/apiFetch.ts), so a
+ * fire-and-forget request aborted by SPA navigation or its own timeout escapes
+ * as an unhandled rejection — nothing user-facing broke, the request was simply
+ * cut short (common on slow iOS in-app WebKit like DuckDuckGo Mobile). Scoped to
+ * the `onunhandledrejection` mechanism so an AbortError captured any other way
+ * (e.g. an explicit Sentry.captureException, or a real synchronous throw) is
+ * still reported.
+ */
+export function isBenignAbortRejection(event: AbortFilterEvent | null | undefined): boolean {
+  const ex = event?.exception?.values?.[0];
+  if (!ex) return false;
+  const isAbort = ex.type === 'AbortError' || /\bAbortError\b/i.test(ex.value ?? '');
+  return isAbort && ex.mechanism?.type === 'onunhandledrejection';
+}

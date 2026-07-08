@@ -28,7 +28,7 @@ import { initPostHog } from './lib/analytics';
 import { registerSW } from 'virtual:pwa-register';
 import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
-import { shouldEnableSentryReplay } from './lib/sentryHelpers';
+import { shouldEnableSentryReplay, isBenignAbortRejection } from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
 
 // ─── Capacitor native: mark <html> for CSS animation overrides ────────────
@@ -151,6 +151,13 @@ if (import.meta.env.VITE_SENTRY_DSN) {
         ],
         // Scrub PII from error reports
         beforeSend(event) {
+          // Drop benign AbortError unhandled rejections — an aborted/timed-out
+          // fetch (apiFetch re-throws AbortError) whose rejection escaped a
+          // .catch on SPA navigation. Not actionable; noisy on iOS in-app WebKit
+          // (DuckDuckGo Mobile). Scoped to the unhandledrejection mechanism so a
+          // real AbortError captured elsewhere still reports. Logic + tests live
+          // in sentryHelpers.isBenignAbortRejection.
+          if (isBenignAbortRejection(event)) return null;
           // Downgrade non-actionable environmental IndexedDB errors (flaky device
           // storage, surfaced async from Firebase persistence) so they stop paging
           // as high-priority but are retained for frequency tracking. Logic +
@@ -338,6 +345,10 @@ window.onunhandledrejection = function (event) {
   // iOS in-app WKWebView containers (DuckDuckGo Mobile, FB, etc.) — third-party
   // bundled code probes native handlers; WKWebView rejects with no reply.
   if (rawMsg.includes('WKWebView API client did not respond')) return;
+  // Benign aborted/timed-out fetch (apiFetch re-throws AbortError) whose
+  // rejection escaped a .catch on SPA navigation — nothing user-facing broke.
+  // Skip the homegrown /api/report-error duplicate (the SDK drops it too).
+  if (reason?.name === 'AbortError') return;
   // Non-actionable environmental IndexedDB error (see beforeSend / window.onerror):
   // the SDK already captures+downgrades it; skip the duplicate homegrown report.
   if (isEnvironmentalIdbError(msg)) return;
