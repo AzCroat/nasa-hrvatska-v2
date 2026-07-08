@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { shouldEnableSentryReplay } from '../sentryHelpers';
+import { shouldEnableSentryReplay, isBenignAbortRejection } from '../sentryHelpers';
 
 describe('shouldEnableSentryReplay', () => {
   // UA samples below are real strings observed in production (DDG) or
@@ -43,5 +43,46 @@ describe('shouldEnableSentryReplay', () => {
     // In vitest jsdom, navigator.userAgent is a non-DDG string by default.
     // The function should fall back to it and return true.
     expect(shouldEnableSentryReplay()).toBe(true);
+  });
+});
+
+describe('isBenignAbortRejection', () => {
+  const unhandled = (over: Record<string, unknown>) => ({
+    exception: { values: [{ mechanism: { type: 'onunhandledrejection' }, ...over }] },
+  });
+
+  it('is true for an AbortError-typed unhandled rejection (the DDG Mobile issue)', () => {
+    expect(isBenignAbortRejection(unhandled({ type: 'AbortError', value: 'AbortError' }))).toBe(
+      true,
+    );
+  });
+
+  it('matches AbortError named in the value even when type differs', () => {
+    expect(
+      isBenignAbortRejection(unhandled({ type: 'Error', value: 'AbortError: AbortError' })),
+    ).toBe(true);
+  });
+
+  it('does NOT drop an AbortError captured any other way (e.g. explicit capture)', () => {
+    expect(
+      isBenignAbortRejection({
+        exception: { values: [{ type: 'AbortError', mechanism: { type: 'generic' } }] },
+      }),
+    ).toBe(false);
+    // no mechanism at all → not the unhandledrejection path → keep it
+    expect(isBenignAbortRejection({ exception: { values: [{ type: 'AbortError' }] } })).toBe(false);
+  });
+
+  it('does NOT drop a real (non-abort) unhandled rejection', () => {
+    expect(
+      isBenignAbortRejection(unhandled({ type: 'TypeError', value: 'x is not a function' })),
+    ).toBe(false);
+  });
+
+  it('is false for empty / missing event shapes (never throws)', () => {
+    expect(isBenignAbortRejection(null)).toBe(false);
+    expect(isBenignAbortRejection(undefined)).toBe(false);
+    expect(isBenignAbortRejection({})).toBe(false);
+    expect(isBenignAbortRejection({ exception: { values: [] } })).toBe(false);
   });
 });
