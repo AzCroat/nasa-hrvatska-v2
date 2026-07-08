@@ -10992,7 +10992,7 @@ export const FORMAL_REGISTER = {
     {
       q: "'Thank you (formal)' in an email:",
       a: 'Zahvaljujem Vam na...',
-      opts: ['Hvala ti!', 'Zahvaljujem Vam na...', 'Fala lijepo', 'Bok, hvala'],
+      opts: ['Hvala ti!', 'Zahvaljujem Vam na...', 'Fala lijepo', 'Bog, hvala'],
     },
     {
       q: 'Which verb form goes with Vi (formal singular)?',

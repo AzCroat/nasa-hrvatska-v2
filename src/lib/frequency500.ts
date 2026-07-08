@@ -496,7 +496,7 @@ export const FREQUENCY_500: FrequencyEntry[] = [
   { rank: 471, hr: 'odmah', en: 'immediately', pos: 'adv' },
   { rank: 472, hr: 'tek', en: 'just / only', pos: 'adv' },
   { rank: 473, hr: 'baš', en: 'exactly / just', pos: 'adv' },
-  { rank: 474, hr: 'bok', en: 'hi / bye (informal)', pos: 'interj' },
+  { rank: 474, hr: 'bog', en: 'hi / bye (informal)', pos: 'interj' },
   { rank: 475, hr: 'dobar dan', en: 'good day', pos: 'interj' },
   { rank: 476, hr: 'dobro jutro', en: 'good morning', pos: 'interj' },
   { rank: 477, hr: 'dobra večer', en: 'good evening', pos: 'interj' },

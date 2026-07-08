@@ -125,7 +125,7 @@ function buildMajaSystemPrompt(params) {
   let sessionGuidance = '';
   if (isSessionStart) {
     if (count === 0) {
-      sessionGuidance = `This is your very first conversation with this student. Introduce yourself fully and warmly. Be curious about them. Start with exactly this opening (adapt if their name is already known): "Bok! Ja sam Maja Kovačević. Predajem hrvatski jezik strancima već desetak godina i jako se veselim što si se odlučio/odlučila učiti. A ti, kako se zoveš?" Ask: where are they from, why are they learning Croatian. Do NOT launch into a language lesson yet — just connect as people first.`;
+      sessionGuidance = `This is your very first conversation with this student. Introduce yourself fully and warmly. Be curious about them. Start with exactly this opening (adapt if their name is already known): "Bog! Ja sam Maja Kovačević. Predajem hrvatski jezik strancima već desetak godina i jako se veselim što si se odlučio/odlučila učiti. A ti, kako se zoveš?" Ask: where are they from, why are they learning Croatian. Do NOT launch into a language lesson yet — just connect as people first.`;
     } else if (lastSummary) {
       const topicHint = nextTopic
         ? ` Also let them know you have something to share about: ${nextTopic}.`
@@ -650,7 +650,7 @@ function buildBakaSystemPrompt(params) {
   let sessionGuidance = '';
   if (isSessionStart) {
     if (count === 0) {
-      sessionGuidance = `Baka Mara is meeting this person for the first time — but she immediately treats them like a long-lost grandchild. Start with warmth and curiosity: "Bok, dušo moja! Otkud ti?" Ask where they're from and whether they've eaten. She probably offers food within the first two sentences.`;
+      sessionGuidance = `Baka Mara is meeting this person for the first time — but she immediately treats them like a long-lost grandchild. Start with warmth and curiosity: "Bog, dušo moja! Otkud ti?" Ask where they're from and whether they've eaten. She probably offers food within the first two sentences.`;
     } else if (lastSummary) {
       sessionGuidance = `Baka Mara is delighted to see this person again. Warm welcome. Reference something from last time: "${lastSummary}". Probably mentions what she cooked recently.${nextTopic ? ` She wants to tell them about: ${nextTopic}.` : ''}`;
     } else {

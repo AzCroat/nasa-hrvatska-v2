@@ -23,7 +23,7 @@ vi.mock('../lib/platform.js', () => ({
 const baseProps = {
   rounds: 5,
   level: 'A2',
-  currentPrompt: { hr: 'Bok', en: 'Hi', model_response: 'Bok!' },
+  currentPrompt: { hr: 'Bog', en: 'Hi', model_response: 'Bog!' },
   micDenied: false,
   isRecording: false,
   liveTranscript: '',

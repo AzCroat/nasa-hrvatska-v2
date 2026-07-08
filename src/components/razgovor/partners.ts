@@ -47,7 +47,7 @@ export const PARTNERS: Partner[] = [
     name: 'Ana',
     role: 'svakodnevni razgovor',
     tint: 'rgba(14,116,144,.12)',
-    greeting: { hr: 'Bok! O čemu ćemo danas pričati?', en: 'Hi! What shall we talk about today?' },
+    greeting: { hr: 'Bog! O čemu ćemo danas pričati?', en: 'Hi! What shall we talk about today?' },
     modes: [
       chat('secretary'),
       {

@@ -489,7 +489,7 @@ export const PLACE = [
   },
   {
     q: 'Standard formal sign-off in a Croatian letter?',
-    o: ['Bok!', 'Vidimo se!', 'S poštovanjem,'],
+    o: ['Bog!', 'Vidimo se!', 'S poštovanjem,'],
     c: 2,
     d: 3,
     cefr: 'B2',
