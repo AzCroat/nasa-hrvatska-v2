@@ -1,5 +1,7 @@
 // Persona config, memory helpers, and utility functions for MajaScreen
 
+import { isSpeechRecognitionSupported } from '../../lib/platform.js';
+
 // ── Keyframe CSS (injected once) ──────────────────────────────────────────────
 export const MAJA_STYLES = `
 @keyframes maja-pulse {
@@ -111,8 +113,10 @@ export function getPersona() {
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-export const SR_SUPPORTED =
-  typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+// Single source of truth for Web Speech availability. isSpeechRecognitionSupported()
+// excludes browsers with a broken stub (DuckDuckGo) so razgovor voice falls back
+// to the MediaRecorder→Whisper path there instead of a dead SpeechRecognition.
+export const SR_SUPPORTED = isSpeechRecognitionSupported();
 
 export const DEFAULT_MEMORY = {
   sessionCount: 0,
