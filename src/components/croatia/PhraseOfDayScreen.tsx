@@ -486,7 +486,7 @@ export default function PhraseOfDayScreen({
       });
       if (!res.ok) throw new Error('api_error');
       const data = await res.json();
-      const reply = data.reply || 'Bok! Hajde vježbati!';
+      const reply = data.reply || 'Bog! Hajde vježbati!';
       setChatHistory([{ role: 'maja', content: reply }]);
     } catch {
       setChatHistory([

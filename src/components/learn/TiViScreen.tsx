@@ -87,7 +87,7 @@ const SITUATIONS = [
   {
     situation: 'Entering a shop or office',
     context: 'Default greeting on entering',
-    informal: { hr: 'Bok!', en: 'Hi!' },
+    informal: { hr: 'Bog!', en: 'Hi!' },
     formal: { hr: 'Dobar dan!', en: 'Good day!' },
     tip: '"Dobar dan" is always appropriate when entering any business. Never wrong.',
   },

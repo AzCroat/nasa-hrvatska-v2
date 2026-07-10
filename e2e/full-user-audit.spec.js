@@ -545,7 +545,7 @@ test.describe('Full user audit — nasahrvatska.com', () => {
       await tInput.fill('hello');
       await page.waitForTimeout(2000);
       const afterText = await page.locator('#root').innerText().catch(() => '');
-      if (afterText.includes('halo') || afterText.includes('bok') || afterText.includes('Bok') || afterText.includes('zdravo')) {
+      if (afterText.includes('halo') || afterText.includes('bog') || afterText.includes('Bog') || afterText.includes('zdravo')) {
         console.log('  ✓ Translator working');
       } else {
         bug('MEDIUM', 'Home/Translator', 'Translator did not return a Croatian translation for "hello"');

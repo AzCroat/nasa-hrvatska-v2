@@ -299,7 +299,7 @@ ${mistakeLines.length ? mistakeLines.join('\n') : 'None recorded yet — first s
   if (turnCount === 0) {
     sessionArcGuidance = `OPENING TURN (turn 0):
 This is the very first message of this conversation session.
-- Warm greeting, introduce the topic lightly: "${safeTopic === 'free' ? 'Open with a warm "Bok!" and a simple question about how they are or what they want to talk about.' : `Introduce the topic: ${topicScenarios[safeTopic]}`}"
+- Warm greeting, introduce the topic lightly: "${safeTopic === 'free' ? 'Open with a warm "Bog!" and a simple question about how they are or what they want to talk about.' : `Introduce the topic: ${topicScenarios[safeTopic]}`}"
 - Set a welcoming, low-pressure tone.
 - For A1/A2: speak very slowly and simply. This is the trust-building moment.`;
   } else if (turnCount >= sessionMax - 2) {

@@ -11,7 +11,7 @@ const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 // Detect language of user's input (Croatian vs English)
 function detectLanguage(text) {
   const croatianMarkers =
-    /[čćšžđČĆŠŽĐ]|\b(ja|ti|on|ona|mi|vi|oni|sam|si|je|smo|ste|su|da|ne|što|gdje|kako|hvala|molim|dobar|dobro|bok|ne\s+razumijem|ne\s+znam)\b/i;
+    /[čćšžđČĆŠŽĐ]|\b(ja|ti|on|ona|mi|vi|oni|sam|si|je|smo|ste|su|da|ne|što|gdje|kako|hvala|molim|dobar|dobro|bok|bog|ne\s+razumijem|ne\s+znam)\b/i;
   const englishMarkers =
     /\b(I|you|the|is|are|was|were|have|has|do|does|don't|can't|what|where|how|why|please|thank|hello|yes|no|sorry|help)\b/;
   const hasCroatian = croatianMarkers.test(text);

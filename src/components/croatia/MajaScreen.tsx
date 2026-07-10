@@ -95,6 +95,13 @@ export default function MajaScreen() {
   const [sessionActive, setSessionActive] = useState(false);
   const [fallbackText, setFallbackText] = useState('');
   const [micDenied, setMicDenied] = useState(false);
+  // Runtime guard: some browsers (DuckDuckGo and other in-app WebKit) advertise
+  // SpeechRecognition but its service is dead — it errors with network /
+  // service-not-allowed instead of returning results. When that happens we flip
+  // srFailed and re-route voice through the MediaRecorder→Whisper path, exactly
+  // like iOS Safari. srFailedRef mirrors it for reads inside stable callbacks.
+  const [srFailed, setSrFailed] = useState(false);
+  const srFailedRef = useRef(false);
 
   // ── refs ───────────────────────────────────
   const debriefXpFired = useRef<boolean>(false);
@@ -431,11 +438,25 @@ export default function MajaScreen() {
 
   // Voice availability: Web Speech (desktop) OR MediaRecorder→Whisper (iOS Safari,
   // which has no SpeechRecognition). Drives the banner + the iOS capture path.
+  // Can this device capture voice via MediaRecorder→Whisper (the SR-independent
+  // path)? This is what the DuckDuckGo/in-app-WebKit fallback needs.
+  const WHISPER_CAPABLE =
+    typeof navigator !== 'undefined' &&
+    !!navigator.mediaDevices?.getUserMedia &&
+    typeof MediaRecorder !== 'undefined';
+
   const VOICE_AVAILABLE = isVoiceAvailable(
     SR_SUPPORTED,
     typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia,
     typeof MediaRecorder !== 'undefined',
   );
+
+  // Effective voice mode: use the Whisper path whenever Web Speech is absent
+  // (iOS Safari) OR proved dead at runtime (DuckDuckGo stub). Keep the ref in
+  // sync so the stable startListening/effect callbacks read the latest value.
+  useEffect(() => {
+    srFailedRef.current = srFailed;
+  }, [srFailed]);
 
   // iOS / no-Web-Speech voice path: record → Whisper STT → feed the transcript to
   // Maja, exactly like AIConversation. VAD auto-stops on silence and fires onResult.
@@ -467,7 +488,7 @@ export default function MajaScreen() {
   // Mid-conversation it stays on across turns; isSpeaking suppresses self-capture.
   useEffect(() => {
     if (
-      !SR_SUPPORTED &&
+      (!SR_SUPPORTED || srFailedRef.current) &&
       phase !== 'listening' &&
       phase !== 'maja-speaking' &&
       iosVoiceRef.current.isListening
@@ -486,11 +507,12 @@ export default function MajaScreen() {
 
     startWaveform();
 
-    if (!SR_SUPPORTED) {
-      // iOS Safari has no Web Speech API: capture via MediaRecorder → Whisper.
+    if (!SR_SUPPORTED || srFailedRef.current) {
+      // iOS Safari (no Web Speech) OR a browser whose SpeechRecognition proved
+      // dead at runtime (DuckDuckGo stub): capture via MediaRecorder → Whisper.
       // VAD auto-stops on silence and fires iosVoice.onResult → sendMessage.
       // A text input remains as a manual backup (showFallbackInput).
-      if (VOICE_AVAILABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
+      if (WHISPER_CAPABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
       return;
     }
 
@@ -528,6 +550,29 @@ export default function MajaScreen() {
       if (re.error === 'not-allowed') {
         setMicDenied(true);
         setPhase('listening'); // fallback will show
+        return;
+      }
+      // A browser that advertises SpeechRecognition but whose service is dead
+      // (DuckDuckGo & other in-app WebKit) errors here with network /
+      // service-not-allowed / audio-capture / language-not-supported instead of
+      // ever returning a result. Don't die silently — flip to the Whisper path
+      // (proven to work in these WebViews) and keep listening.
+      if (
+        re.error === 'network' ||
+        re.error === 'service-not-allowed' ||
+        re.error === 'audio-capture' ||
+        re.error === 'language-not-supported'
+      ) {
+        stopMicImmediate();
+        setSrFailed(true);
+        srFailedRef.current = true;
+        if (
+          WHISPER_CAPABLE &&
+          phaseRef.current === 'listening' &&
+          !iosVoiceRef.current.isListening
+        ) {
+          iosVoiceRef.current.toggle();
+        }
       }
     };
 
@@ -544,7 +589,7 @@ export default function MajaScreen() {
     } catch {
       // rec already started — ignore
     }
-  }, [startWaveform, stopMic, sendMessage, VOICE_AVAILABLE]);
+  }, [startWaveform, stopMic, sendMessage, WHISPER_CAPABLE]);
 
   // ── start session ──────────────────────────
   const startSession = useCallback(async () => {
@@ -748,7 +793,7 @@ export default function MajaScreen() {
   // ── derived values ─────────────────────────
   const isFirstTime = memory.sessionCount === 0;
   const showFallbackInput =
-    (!SR_SUPPORTED || micDenied) && (phase === 'listening' || sessionActive);
+    (!SR_SUPPORTED || srFailed || micDenied) && (phase === 'listening' || sessionActive);
 
   // ─────────────────────────────────────────────
   // RENDER

@@ -471,7 +471,7 @@ test('Block 1 (Days 1-10) — First session: home, onboarding, hero CTA, first X
   if (home.match(/today|plan|suggested|daily|recommended/i)) ok('Daily plan section visible');
   else bug('UX', 'Home', 'No daily plan or recommended section');
 
-  if (home.match(/vitez|knight|hrvoje|Bok|Dobrodošli/i)) ok('Knight mascot visible');
+  if (home.match(/vitez|knight|hrvoje|Bog|Dobrodošli/i)) ok('Knight mascot visible');
   else info('Knight mascot not visible');
 
   const heroCta = page.locator('button, a').filter({ hasText: /continue learning|start lesson|begin|let'?s go|explore/i }).first();

@@ -15,7 +15,7 @@ vi.mock('../data', () => ({
 }));
 
 vi.mock('../data/exercises.js', () => ({
-  TRANSLATE_DRILLS: [{ en: 'Hello', hr: 'Bok', opts: ['Bok', 'Zdravo'], level: 'A2' }],
+  TRANSLATE_DRILLS: [{ en: 'Hello', hr: 'Bog', opts: ['Bog', 'Zdravo'], level: 'A2' }],
   C1_DRILLS: [],
 }));
 
@@ -75,7 +75,7 @@ describe('TranslateDrillsScreen contract (Pattern X)', () => {
       </StatsProvider>,
     );
 
-    fireEvent.click(screen.getByText('Bok'));
+    fireEvent.click(screen.getByText('Bog'));
     fireEvent.click(screen.getByText(/See Results/));
 
     expect(award).toHaveBeenCalledOnce();
@@ -109,7 +109,7 @@ describe('TranslateDrillsScreen contract (Pattern X)', () => {
       </StatsProvider>,
     );
 
-    fireEvent.click(screen.getByText('Bok'));
+    fireEvent.click(screen.getByText('Bog'));
     fireEvent.click(screen.getByText(/See Results/));
 
     expect(award).not.toHaveBeenCalled();

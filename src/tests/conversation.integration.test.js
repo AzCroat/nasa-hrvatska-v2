@@ -23,7 +23,7 @@ beforeEach(() => {
     // Emit a minimal Anthropic SSE stream: a single text_delta then message_stop.
     const encoder = new TextEncoder();
     const sse =
-      'data: {"type":"content_block_delta","delta":{"type":"text_delta","text":"{\\"croatian\\":\\"Bok!\\",\\"english_gloss\\":null,\\"correction\\":null,\\"scaffolding_level\\":0,\\"emotion\\":\\"warm\\",\\"topic_detected\\":\\"daily_life\\",\\"level_demonstrated\\":\\"B1\\",\\"is_session_end\\":false,\\"recast_word\\":null,\\"errorPatterns\\":[]}"}}\n\n' +
+      'data: {"type":"content_block_delta","delta":{"type":"text_delta","text":"{\\"croatian\\":\\"Bog!\\",\\"english_gloss\\":null,\\"correction\\":null,\\"scaffolding_level\\":0,\\"emotion\\":\\"warm\\",\\"topic_detected\\":\\"daily_life\\",\\"level_demonstrated\\":\\"B1\\",\\"is_session_end\\":false,\\"recast_word\\":null,\\"errorPatterns\\":[]}"}}\n\n' +
       'data: {"type":"message_stop"}\n\n';
     const body = new ReadableStream({
       start(controller) {
@@ -55,7 +55,7 @@ const baseBody = {
   topic: 'free',
   turnCount: 1,
   messages: [
-    { role: 'assistant', content: 'Bok! Kako si?' },
+    { role: 'assistant', content: 'Bog! Kako si?' },
     { role: 'user', content: 'Dobro sam, hvala.' },
   ],
 };

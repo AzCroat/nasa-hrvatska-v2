@@ -792,10 +792,10 @@ export const BUSINESS_REGISTER = {
   drills: [
     {
       q: 'Choose the correct opening for a letter to Mr. Horvat:',
-      opts: ['Bok Horvat,', 'Poštovani gospodine Horvate,', 'Dragi Horvat,', 'Gospodin Horvat,'],
+      opts: ['Bog Horvat,', 'Poštovani gospodine Horvate,', 'Dragi Horvat,', 'Gospodin Horvat,'],
       correct: 1,
       explain:
-        '`Poštovani` + vocative `gospodine Horvate`. `Bok` and `Dragi` are informal; `Gospodin Horvat` (nominative) is not an address form.',
+        '`Poštovani` + vocative `gospodine Horvate`. `Bog` and `Dragi` are informal; `Gospodin Horvat` (nominative) is not an address form.',
     },
     {
       q: 'In a formal email, which spelling of "you" is correct?',
@@ -818,10 +818,10 @@ export const BUSINESS_REGISTER = {
     },
     {
       q: 'Which sign-off matches the most formal register?',
-      opts: ['Pozdrav,', 'Srdačan pozdrav,', 'S poštovanjem,', 'Bok,'],
+      opts: ['Pozdrav,', 'Srdačan pozdrav,', 'S poštovanjem,', 'Bog,'],
       correct: 2,
       explain:
-        '`S poštovanjem` ("Yours sincerely") is the most formal. `Pozdrav` and `Bok` are informal; `Srdačan pozdrav` is neutral business.',
+        '`S poštovanjem` ("Yours sincerely") is the most formal. `Pozdrav` and `Bog` are informal; `Srdačan pozdrav` is neutral business.',
     },
     {
       q: 'How do you address a female sales director named Marić?',
