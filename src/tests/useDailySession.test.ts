@@ -85,8 +85,9 @@ describe('buildSessionActivities', () => {
 
   it('only includes exercises at or below user CEFR level', () => {
     const acts = buildSessionActivities('A1');
-    // B1+ exercises should not appear in an A1 session
-    const b1Exercises = ['aspectdrill', 'clitic', 'future', 'accusativedrill'];
+    // B1+ exercises should not appear in an A1 session (case drills are A1 now,
+    // so the locked examples here are verb/syntax tiers).
+    const b1Exercises = ['aspectdrill', 'clitic', 'future'];
     for (const ex of b1Exercises) {
       expect(acts.find((a) => a.screen === ex)).toBeFalsy();
     }
@@ -174,21 +175,23 @@ describe('buildSessionActivities', () => {
     const adaptive = await import('../lib/adaptive');
     const getDueCategoryQueue = vi.mocked(adaptive.getDueCategoryQueue);
     getDueCategoryQueue.mockReturnValue([{ category: 'genitive', difficulty: 3 }]);
-    // genitive maps to 'genitivedrill' (A2) — use an A2 user so it's unlocked.
+    // genitive maps to 'genitivedrill' (A1) — unlocked for an A2 user.
     const acts = buildSessionActivities('A2');
     expect(acts.find((a) => a.screen === 'genitivedrill')).toBeTruthy();
   });
 
-  it('CEFR-gates the adaptive pick: an A1 user does NOT get a locked A2 case drill', async () => {
+  it('CEFR-gates the adaptive pick: an A1 user does NOT get a locked higher-tier drill', async () => {
     const adaptive = await import('../lib/adaptive');
+    // The full case system is A1 now, so use a genuinely higher-tier category:
+    // aspect-imperfective → aspectdrill (B1), locked for an A1 user.
     vi.mocked(adaptive.getDueCategoryQueue).mockReturnValue([
-      { category: 'genitive', difficulty: 3 },
+      { category: 'aspect-imperfective', difficulty: 3 },
     ]);
     const acts = buildSessionActivities('A1');
-    // genitivedrill is A2 — locked for A1. The adaptive slot is skipped and the
-    // guaranteed-grammar slot (G2) backfills the only A1 grammar drill (nomdrill).
-    expect(acts.some((a) => a.screen === 'genitivedrill')).toBe(false);
-    expect(acts.some((a) => a.screen === 'nomdrill')).toBe(true);
+    // aspectdrill is B1 — locked for A1. The adaptive slot is skipped and the
+    // guaranteed-grammar slot (G2) still backfills a level-appropriate grammar drill.
+    expect(acts.some((a) => a.screen === 'aspectdrill')).toBe(false);
+    expect(acts.some((a) => GRAMMAR_STRUCTURE_CATEGORIES.has(a.category))).toBe(true);
   });
 });
 
@@ -340,7 +343,7 @@ describe('buildSessionActivities — difficulty bias (defect #1)', () => {
   it('keeps an A1 user on easy types (only tier 1–2 unlocked anyway)', () => {
     const screens = buildSessionActivities('A1').map((a) => a.screen);
     // No advanced-tier type should appear at A1 (they are CEFR-locked).
-    for (const hard of ['sentbuild', 'aspectdrill', 'clitic', 'accusativedrill', 'future']) {
+    for (const hard of ['sentbuild', 'aspectdrill', 'clitic', 'future']) {
       expect(screens).not.toContain(hard);
     }
   });
@@ -370,12 +373,14 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     expect(hasGrammar(acts)).toBe(true);
   });
 
-  it('the guaranteed slot is level-appropriate: an A1 user gets A1 grammar (nomdrill), not a buried higher tier', () => {
-    // A1's only unlocked grammar drill is nomdrill (tier 2). The P3 tier sort
-    // (target tier 1) would push it below the recognition games; G4 exempts the
-    // guaranteed slot so it appears anyway.
+  it('the guaranteed slot is level-appropriate: an A1 user gets an A1 case/grammar drill, not a buried higher tier', () => {
+    // The full case system now unlocks at A1, so an A1 user's guaranteed grammar
+    // slot is one of the A1 case drills (case-tier 3–4). The P3 tier sort (target
+    // tier 1) would push them below the recognition games; G4 exempts the
+    // guaranteed slot so a case/grammar drill appears anyway.
+    const A1_GRAMMAR = ['nomdrill', 'genitivedrill', 'accusativedrill', 'locdrill', 'instrumental'];
     const acts = buildSessionActivities('A1');
-    expect(acts.some((a) => a.screen === 'nomdrill')).toBe(true);
+    expect(acts.some((a) => A1_GRAMMAR.includes(a.screen))).toBe(true);
   });
 
   it('DISPLACES a vocab fill — does not lengthen the session beyond fillTarget', () => {
