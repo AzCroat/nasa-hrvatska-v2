@@ -18,7 +18,8 @@ import {
   PERSONA_CONFIG,
   getPersona,
   SR_SUPPORTED,
-  SILENCE_DELAY_MS,
+  computeSilenceDelay,
+  extractStreamingReply,
   loadMemory,
   saveMemory,
   fmtElapsed,
@@ -357,9 +358,11 @@ export default function MajaScreen() {
                 const parsed = JSON.parse(data);
                 if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
                   streamedText += parsed.delta.text;
+                  // Show Maja's words as they stream — never the raw JSON envelope.
+                  const visible = extractStreamingReply(streamedText);
                   setConversation((prev) =>
                     prev.map((m, i) =>
-                      i === prev.length - 1 && m.streaming ? { ...m, content: streamedText } : m,
+                      i === prev.length - 1 && m.streaming ? { ...m, content: visible } : m,
                     ),
                   );
                 }
@@ -525,13 +528,15 @@ export default function MajaScreen() {
 
     const resetSilenceTimer = () => {
       clearTimeout(silenceTimerRef.current ?? undefined);
+      // Adaptive: end the turn quickly when the utterance looks complete, but
+      // wait longer if the speaker seems mid-thought (see computeSilenceDelay).
       silenceTimerRef.current = setTimeout(() => {
         const captured = transcriptRef.current.trim();
         if (captured.length > 1 && phaseRef.current === 'listening') {
           stopMic();
           sendMessage(captured);
         }
-      }, SILENCE_DELAY_MS);
+      }, computeSilenceDelay(transcriptRef.current));
     };
 
     rec.onresult = (e: Event) => {

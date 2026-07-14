@@ -130,7 +130,107 @@ export const DEFAULT_MEMORY = {
   sessions: [],
 };
 
-export const SILENCE_DELAY_MS = 2000;
+// ── Adaptive endpointing ──────────────────────────────────────────────────────
+// A flat 2 s "have you stopped talking?" timer cut learners off mid-thought
+// (halting heritage speech pauses to recall a word) and added a full 2 s of dead
+// air to every turn. Instead, end the turn quickly (BASE) once the utterance
+// looks complete, but wait longer (EXTENDED) when it clearly isn't — the speaker
+// just started, or trailed off on a conjunction/filler that promises more.
+export const SILENCE_BASE_MS = 900;
+export const SILENCE_EXTENDED_MS = 1700;
+
+// High-frequency Croatian connectors + hesitation fillers. If the utterance ends
+// on one of these, the speaker is mid-thought — give them more time.
+const MID_THOUGHT_TOKENS = new Set([
+  // coordinating / subordinating conjunctions
+  'i',
+  'pa',
+  'te',
+  'ni',
+  'a',
+  'ali',
+  'nego',
+  'no',
+  'ili',
+  'jer',
+  'da',
+  'kad',
+  'kada',
+  'dok',
+  'ako',
+  'iako',
+  'jel',
+  'zato',
+  'dakle',
+  'onda',
+  'međutim',
+  'te',
+  // hesitation fillers
+  'ovaj',
+  'znači',
+  'znaci',
+  'mislim',
+  'kao',
+  'pa',
+  'hm',
+  'hmm',
+  'eee',
+  'ovaj',
+]);
+
+/**
+ * How long to wait after the last recognized speech before treating the turn as
+ * finished. Pure + dependency-free so it can be unit-tested.
+ * @param {string} transcript current recognized transcript for the turn
+ * @returns {number} milliseconds of trailing silence to require
+ */
+export function computeSilenceDelay(transcript) {
+  const t = (transcript || '').trim();
+  if (!t) return SILENCE_EXTENDED_MS; // nothing yet — don't fire on noise
+  const words = t.split(/\s+/);
+  if (words.length < 2) return SILENCE_EXTENDED_MS; // barely started — let them go on
+  if (/[,]$/.test(t)) return SILENCE_EXTENDED_MS; // trailing comma = list/clause continues
+  const last = words[words.length - 1].toLowerCase().replace(/[.,!?…]+$/, '');
+  if (MID_THOUGHT_TOKENS.has(last)) return SILENCE_EXTENDED_MS;
+  return SILENCE_BASE_MS;
+}
+
+/**
+ * Maja's reply streams from the API as a JSON envelope ({"reply":"…","emotion":…}).
+ * Rendering the raw accumulating buffer made users watch literal JSON type into
+ * the chat bubble before it snapped to clean text. This pulls the (possibly
+ * partial) value of the `reply` field out of the streaming buffer so the bubble
+ * shows Maja's words as they arrive — never the envelope. Tolerant of a partial
+ * string whose closing quote / escape hasn't streamed in yet.
+ * @param {string} buffer accumulated SSE text so far
+ * @returns {string} the reply text to display right now
+ */
+export function extractStreamingReply(buffer) {
+  if (!buffer) return '';
+  const m = /"reply"\s*:\s*"/.exec(buffer);
+  if (!m) {
+    // No reply field yet. If the stream doesn't look like a JSON envelope, treat
+    // it as a plain-text reply and show it; if it does, wait (avoid a JSON flash).
+    const head = buffer.replace(/^\s+/, '');
+    if (head.startsWith('{') || head.startsWith('```')) return '';
+    return buffer;
+  }
+  let out = '';
+  for (let i = m.index + m[0].length; i < buffer.length; i++) {
+    const c = buffer[i];
+    if (c === '\\') {
+      const n = buffer[i + 1];
+      if (n === undefined) break; // escape split across chunks — stop cleanly
+      out += n === 'n' ? '\n' : n === 't' ? '\t' : n === 'r' ? '' : n;
+      i++;
+    } else if (c === '"') {
+      break; // closing quote — reply value complete
+    } else {
+      out += c;
+    }
+  }
+  return out;
+}
 
 // ── Memory persistence ────────────────────────────────────────────────────────
 export function loadMemory() {
