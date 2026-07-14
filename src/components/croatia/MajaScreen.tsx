@@ -302,6 +302,7 @@ export default function MajaScreen() {
   const ttsStreamDoneRef = useRef(false);
   const ttsGenRef = useRef(0);
   const startListeningRef = useRef<() => void>(() => {});
+  const bargeInRef = useRef<() => void>(() => {});
 
   // Fetch (but do not play) one sentence's TTS as a ready-to-play audio element.
   const fetchClip = useCallback(async (text: string): Promise<HTMLAudioElement | null> => {
@@ -617,7 +618,8 @@ export default function MajaScreen() {
         sendMessage(t);
       }
     },
-    onInterrupt: () => {},
+    // Barge-in: the VAD detected the user speaking over Maja → cut her off.
+    onInterrupt: () => bargeInRef.current(),
     onError: () => {},
     isSpeaking: phase === 'maja-speaking',
   });
@@ -625,6 +627,19 @@ export default function MajaScreen() {
   // stable (it feeds the auto-listen effect) instead of churning every render.
   const iosVoiceRef = useRef(iosVoice);
   iosVoiceRef.current = iosVoice;
+
+  // Barge-in: the user starts talking (or taps) while Maja is speaking → stop her
+  // immediately, drop the rest of the queued reply, and start capturing. On the
+  // Web Speech path this is driven by a tap (open-mic detection during playback
+  // is a follow-up); on the Whisper/VAD path onInterrupt drives it hands-free.
+  const handleBargeIn = useCallback(() => {
+    if (phaseRef.current !== 'maja-speaking') return;
+    cancelTTSTurn(); // stop the current clip + clear the streaming-TTS queue
+    startListeningRef.current(); // → phase 'listening', opens/keeps the mic
+  }, [cancelTTSTurn]);
+  useEffect(() => {
+    bargeInRef.current = handleBargeIn;
+  }, [handleBargeIn]);
 
   // Surface a Whisper-path mic denial through the same banner as Web Speech.
   useEffect(() => {
@@ -1067,13 +1082,20 @@ export default function MajaScreen() {
               </div>
             )}
 
-            {/* ── THE ORB ── */}
-            <MajaOrb
-              phase={phase}
-              waveform={waveform}
-              liveTranscript={liveTranscript}
-              personaCfg={personaCfg}
-            />
+            {/* ── THE ORB (tap to interrupt while Maja is speaking) ── */}
+            <div
+              onClick={phase === 'maja-speaking' ? handleBargeIn : undefined}
+              role={phase === 'maja-speaking' ? 'button' : undefined}
+              aria-label={phase === 'maja-speaking' ? 'Prekini i govori' : undefined}
+              style={phase === 'maja-speaking' ? { cursor: 'pointer' } : undefined}
+            >
+              <MajaOrb
+                phase={phase}
+                waveform={waveform}
+                liveTranscript={liveTranscript}
+                personaCfg={personaCfg}
+              />
+            </div>
 
             {/* ── Error message ── */}
             {phase === 'error' && (
@@ -1218,7 +1240,8 @@ export default function MajaScreen() {
                       <span style={{ color: '#d97706', fontWeight: 600 }}>Obrađujem…</span>
                     ) : phase === 'maja-speaking' ? (
                       <span style={{ color: personaCfg.speakingColor, fontWeight: 600 }}>
-                        {personaCfg.name.split(' ')[0]} govori…
+                        {personaCfg.name.split(' ')[0]} govori…{' '}
+                        <span style={{ opacity: 0.65, fontWeight: 500 }}>· dodirni za prekid</span>
                       </span>
                     ) : null}
                   </span>
