@@ -260,7 +260,14 @@ export default function EquivalencyTestScreen({
               <li>{testSet.items.length} multiple-choice items</li>
               <li>~{testSet.minutes} minutes</li>
               <li>Mix of vocabulary, grammar, and reading comprehension</li>
-              {speaking && <li>A short speaking task (🎙️ shown for now, not yet required)</li>}
+              {speaking && (
+                <li>
+                  A short speaking task{' '}
+                  {isSpeakingGateEnforced()
+                    ? '(🎙️ required)'
+                    : '(🎙️ shown for now, not yet required)'}
+                </li>
+              )}
               <li>
                 Pass = <b>80%+</b> overall AND on every skill
               </li>

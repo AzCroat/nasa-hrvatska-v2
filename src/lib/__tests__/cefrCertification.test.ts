@@ -105,7 +105,10 @@ describe('getCertifiedLevel', () => {
     expect(getCertifiedLevel()).toBe('A2');
     recordEquivalencyAttempt({
       level: 'B1',
-      scores: { vocab: 0.85, grammar: 0.85, reading: 0.85 },
+      // Speaking is a required skill for B1+ certification (gate live since
+      // SPEAKING_ENFORCEMENT_DATE), mirroring the real equivalency flow which
+      // administers a speaking section from B1 up.
+      scores: { vocab: 0.85, grammar: 0.85, reading: 0.85, speaking: 0.85 },
       currentLessonCount: 20,
     });
     expect(getCertifiedLevel()).toBe('B1');
@@ -123,7 +126,8 @@ describe('getCertifiedLevel', () => {
   it('does NOT downgrade when a higher level is passed but a lower one is failed', () => {
     recordEquivalencyAttempt({
       level: 'B1',
-      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9 },
+      // B1+ requires speaking (enforcement gate live) — see note above.
+      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9 },
       currentLessonCount: 10,
     });
     expect(getCertifiedLevel()).toBe('B1');
@@ -181,7 +185,8 @@ describe('recordEquivalencyAttempt', () => {
   it('stores a pass and updates certifiedLevel', () => {
     const r = recordEquivalencyAttempt({
       level: 'B1',
-      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9 },
+      // B1+ requires speaking (enforcement gate live) — see note above.
+      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9 },
       currentLessonCount: 25,
     });
     expect(r.passed).toBe(true);
