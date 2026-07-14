@@ -99,9 +99,14 @@ export function getSessionFillTarget(userCefr: string, fluencyMode: boolean): nu
 const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   genitive: 'genitivedrill',
   accusative: 'accusativedrill',
-  'dative-locative': 'cloze',
-  instrumental: 'cloze',
-  vocative: 'cloze',
+  // Route each case to its dedicated drill (these components already exist and
+  // are registered in AppRouter). Previously dative-locative/instrumental/vocative
+  // all collapsed to generic 'cloze', so even when the adaptive picker chose them
+  // the learner never got a real case drill. Dative & locative share endings in
+  // Croatian, so the locative drill covers the combined 'dative-locative' category.
+  'dative-locative': 'locdrill',
+  instrumental: 'instrumental',
+  vocative: 'vocative',
   'past-tense': 'cloze',
   'future-tense': 'future',
   'aspect-imperfective': 'aspectdrill',
@@ -143,7 +148,12 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'genitivedrill',
     label: 'Genitive Case',
     screen: 'genitivedrill',
-    cefr: 'A2',
+    // Cases are the core challenge for English speakers (no case system in
+    // English), so the full padež system is introduced from A1 — every case
+    // drill unlocks at A1 and reinforces at every level above (unlock is
+    // cumulative). Deeper case applications (prepdrill/negation/dative/animateacc)
+    // still phase in higher up.
+    cefr: 'A1',
     category: 'genitive',
   },
   {
@@ -157,7 +167,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'locdrill',
     label: 'Locative Case',
     screen: 'locdrill',
-    cefr: 'B1',
+    cefr: 'A1',
     category: 'dative-locative',
   },
   {
@@ -186,7 +196,9 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'accusativedrill',
     label: 'Accusative Case',
     screen: 'accusativedrill',
-    cefr: 'B1',
+    // Accusative (direct object) is foundational — introduced at A1 with the rest
+    // of the case system (was B1). Content is basic direct objects.
+    cefr: 'A1',
     category: 'accusative',
   },
   { id: 'future', label: 'Future Tense', screen: 'future', cefr: 'B1', category: 'future-tense' },
@@ -237,7 +249,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'instrumental',
     label: 'Instrumental Case',
     screen: 'instrumental',
-    cefr: 'B1',
+    cefr: 'A1',
     category: 'instrumental',
   },
   { id: 'dative', label: 'Dative Case', screen: 'dative', cefr: 'B1', category: 'dative-locative' },
@@ -290,9 +302,13 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
 // pick (resolveAdaptiveActivity) so the coverage floor can't surface a locked
 // drill (e.g. B1 accusative, B2 clitics) to an A1/A2 user.
-const SCREEN_CEFR: Record<string, string> = Object.fromEntries(
-  CEFR_EXERCISE_POOL.map((e) => [e.screen, e.cefr]),
-);
+const SCREEN_CEFR: Record<string, string> = {
+  ...Object.fromEntries(CEFR_EXERCISE_POOL.map((e) => [e.screen, e.cefr])),
+  // vocative (VocativeScreen) is routed by the adaptive picker but is not part of
+  // the Priority-3 fill pool, so it has no pool-derived CEFR. Part of the full
+  // case system introduced at A1.
+  vocative: 'A1',
+};
 
 /** Croatia rotation pool — Priority 4 always adds one of these */
 const CROATIA_POOL: SessionActivity[] = [
