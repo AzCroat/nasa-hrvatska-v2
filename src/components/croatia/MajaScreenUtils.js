@@ -232,6 +232,46 @@ export function extractStreamingReply(buffer) {
   return out;
 }
 
+/**
+ * Incrementally split a growing reply into complete sentences for streaming TTS,
+ * so Maja can start speaking sentence 1 while the model is still writing the rest
+ * (collapsing the multi-second "wait for the whole reply" gap).
+ *
+ * During streaming (final=false) it only emits a sentence whose terminal
+ * punctuation is followed by whitespace — proof the sentence is finished and not
+ * merely the current end of the buffer. At the final flush (final=true) it also
+ * emits the trailing fragment. Ordinals/decimals ("3.", "3.14") are not treated
+ * as sentence ends. Returns the advanced cursor so the caller resumes cleanly.
+ *
+ * @param {string} text full reply text accumulated so far
+ * @param {number} cursor how many chars have already been emitted
+ * @param {boolean} final if true, flush the trailing fragment too
+ * @returns {{ sentences: string[], cursor: number }}
+ */
+export function extractSentences(text, cursor = 0, final = false) {
+  const rest = (text || '').slice(cursor);
+  const sentences = [];
+  let lastEnd = 0;
+  const re = /[.!?…]+["'”’)\]]*\s+/g;
+  let m;
+  while ((m = re.exec(rest)) !== null) {
+    // Skip a lone period right after a digit (ordinal "3." / decimal "3.14").
+    if (m[0][0] === '.' && /\d/.test(rest[m.index - 1] || '')) continue;
+    const end = m.index + m[0].length;
+    const s = rest.slice(lastEnd, end).trim();
+    if (s) sentences.push(s);
+    lastEnd = end;
+  }
+  if (final) {
+    const tail = rest.slice(lastEnd).trim();
+    if (tail) {
+      sentences.push(tail);
+      lastEnd = rest.length;
+    }
+  }
+  return { sentences, cursor: cursor + lastEnd };
+}
+
 // ── Memory persistence ────────────────────────────────────────────────────────
 export function loadMemory() {
   try {
