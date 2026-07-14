@@ -20,6 +20,7 @@ import {
   SR_SUPPORTED,
   computeSilenceDelay,
   extractStreamingReply,
+  extractSentences,
   loadMemory,
   saveMemory,
   fmtElapsed,
@@ -156,6 +157,7 @@ export default function MajaScreen() {
       }
       stopMicImmediate();
       stopWaveform();
+      cancelTTSTurn(); // invalidate any running streaming-TTS pump
       clearTimeout(silenceTimerRef.current ?? undefined);
       clearInterval(elapsedTimerRef.current ?? undefined);
       if (audioRef.current) {
@@ -288,6 +290,124 @@ export default function MajaScreen() {
     stopWaveform();
   }, [stopWaveform]);
 
+  // ── Streaming TTS queue (voice phase 2) ────────────────────────────────────
+  // Speak Maja's reply sentence-by-sentence as it streams instead of waiting for
+  // the whole reply + one big TTS request. The first sentence plays while the
+  // model is still writing the rest, collapsing multi-second dead air to ~1s.
+  // Clips play in order; the next clip is prefetched during the current one so
+  // there is no gap. A per-turn generation token invalidates a running pump when
+  // a new turn starts (or the screen tears down), so stale audio never leaks.
+  const ttsQueueRef = useRef<string[]>([]);
+  const ttsActiveRef = useRef(false);
+  const ttsStreamDoneRef = useRef(false);
+  const ttsGenRef = useRef(0);
+  const startListeningRef = useRef<() => void>(() => {});
+
+  // Fetch (but do not play) one sentence's TTS as a ready-to-play audio element.
+  const fetchClip = useCallback(async (text: string): Promise<HTMLAudioElement | null> => {
+    try {
+      const res = await ttsFetch({ text, slow: false, voice: getVoicePreference() });
+      if (!res || !res.ok) return null;
+      const blob = await res.blob();
+      // base64 data URL — blob: URLs fail silently on some Android OEM WebViews.
+      const url = await new Promise<string>((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result as string);
+        r.onerror = () => reject(new Error('read failed'));
+        r.readAsDataURL(blob);
+      });
+      const audio = new Audio(url);
+      audio.volume = 1.0; // low volume blocks activation on some WebViews
+      return audio;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  // When the reply is fully streamed AND every clip has played, resume listening.
+  const finishTTSIfDone = useCallback((gen: number) => {
+    if (gen !== ttsGenRef.current) return;
+    if (ttsActiveRef.current || ttsQueueRef.current.length || !ttsStreamDoneRef.current) return;
+    if (phaseRef.current === 'debrief' || phaseRef.current === 'error') return;
+    startListeningRef.current();
+  }, []);
+
+  const pumpTTS = useCallback(
+    async (gen: number) => {
+      if (ttsActiveRef.current) return;
+      ttsActiveRef.current = true;
+      let prefetch: Promise<HTMLAudioElement | null> | null = null;
+      try {
+        while (gen === ttsGenRef.current) {
+          const next = ttsQueueRef.current.shift();
+          if (next === undefined) break; // drained — re-kicked when more arrives
+          const clip = await (prefetch ?? fetchClip(next));
+          prefetch = null;
+          if (gen !== ttsGenRef.current) break; // superseded by a newer turn
+          // Prefetch the following sentence's audio while this one plays (no gap).
+          const following = ttsQueueRef.current[0];
+          if (following) prefetch = fetchClip(following);
+          if (!clip) continue; // TTS failed for this sentence — skip, keep going
+          if (phaseRef.current === 'debrief' || phaseRef.current === 'error') break;
+          if (phaseRef.current !== 'maja-speaking') setPhase('maja-speaking');
+          unlockAudio();
+          audioRef.current = clip;
+          await new Promise<void>((resolve) => {
+            clip.onended = () => resolve();
+            clip.onerror = () => resolve();
+            clip.play().catch(() => resolve());
+          });
+          if (audioRef.current === clip) audioRef.current = null;
+        }
+      } finally {
+        ttsActiveRef.current = false;
+      }
+      finishTTSIfDone(gen);
+    },
+    [fetchClip, finishTTSIfDone],
+  );
+
+  const enqueueSentences = useCallback(
+    (gen: number, list: string[]) => {
+      if (gen !== ttsGenRef.current || !list.length) return;
+      ttsQueueRef.current.push(...list);
+      void pumpTTS(gen);
+    },
+    [pumpTTS],
+  );
+
+  // Start a fresh TTS turn: bump the generation (invalidating any running pump),
+  // clear the queue, stop any playing clip. Returns the new generation token.
+  const beginTTSTurn = useCallback((): number => {
+    const gen = ++ttsGenRef.current;
+    ttsQueueRef.current = [];
+    ttsStreamDoneRef.current = false;
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+      } catch {
+        /* ignore */
+      }
+      audioRef.current = null;
+    }
+    return gen;
+  }, []);
+
+  // Hard-stop the queue (new turn cancelled, screen teardown, session end).
+  const cancelTTSTurn = useCallback(() => {
+    ttsGenRef.current++; // invalidate any running pump
+    ttsQueueRef.current = [];
+    ttsStreamDoneRef.current = false;
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+      } catch {
+        /* ignore */
+      }
+      audioRef.current = null;
+    }
+  }, []);
+
   // ── send message ───────────────────────────
   const sendMessage = useCallback(
     async (text: string) => {
@@ -299,6 +419,10 @@ export default function MajaScreen() {
 
       setPhase('thinking');
       setLiveTranscript('');
+
+      // Start a streaming-TTS turn; sentences are enqueued as they complete.
+      const ttsGen = beginTTSTurn();
+      let sentCursor = 0;
 
       const userMsg = { role: 'user', content: text };
       setConversation((prev) => [...prev, userMsg]);
@@ -365,6 +489,13 @@ export default function MajaScreen() {
                       i === prev.length - 1 && m.streaming ? { ...m, content: visible } : m,
                     ),
                   );
+                  // Speak each sentence the moment it's complete (before the rest
+                  // of the reply has even finished generating).
+                  const seg = extractSentences(visible, sentCursor, false);
+                  if (seg.sentences.length) {
+                    sentCursor = seg.cursor;
+                    enqueueSentences(ttsGen, seg.sentences);
+                  }
                 }
               } catch {
                 continue;
@@ -415,13 +546,18 @@ export default function MajaScreen() {
         }
 
         if (phaseRef.current !== 'debrief') {
-          setPhase('maja-speaking');
-          await playTTS(replyText);
-          if (phaseRef.current === 'maja-speaking') {
-            startListening();
-          }
+          // Flush any final sentence (the last one may have no trailing space),
+          // then mark the reply complete. The TTS queue keeps playing in the
+          // background and resumes listening once the last clip finishes; if no
+          // audio was produced at all, finishTTSIfDone falls straight through.
+          const finalVisible = extractStreamingReply(streamedText) || replyText;
+          const flush = extractSentences(finalVisible, sentCursor, true);
+          enqueueSentences(ttsGen, flush.sentences);
+          ttsStreamDoneRef.current = true;
+          finishTTSIfDone(ttsGen);
         }
       } catch {
+        cancelTTSTurn();
         // Finalize any in-progress streaming bubble so it doesn't remain stuck
         setConversation((prev) =>
           prev.map((m, i) =>
@@ -436,7 +572,16 @@ export default function MajaScreen() {
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [conversation, session, level, name, playTTS],
+    [
+      conversation,
+      session,
+      level,
+      name,
+      beginTTSTurn,
+      enqueueSentences,
+      finishTTSIfDone,
+      cancelTTSTurn,
+    ],
   );
 
   // Voice availability: Web Speech (desktop) OR MediaRecorder→Whisper (iOS Safari,
@@ -596,6 +741,12 @@ export default function MajaScreen() {
     }
   }, [startWaveform, stopMic, sendMessage, WHISPER_CAPABLE]);
 
+  // The TTS queue resumes listening via a ref (it's created before startListening
+  // is defined), so keep the ref pointed at the latest startListening.
+  useEffect(() => {
+    startListeningRef.current = startListening;
+  }, [startListening]);
+
   // ── start session ──────────────────────────
   const startSession = useCallback(async () => {
     setPhase('thinking');
@@ -678,6 +829,7 @@ export default function MajaScreen() {
   // ── end session ────────────────────────────
   const endSession = useCallback(async () => {
     stopMic();
+    cancelTTSTurn(); // stop any in-flight streaming-TTS playback
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
@@ -756,7 +908,7 @@ export default function MajaScreen() {
       });
       setPhase('debrief');
     }
-  }, [conversation, elapsedSecs, level, name, session, stopMic]);
+  }, [conversation, elapsedSecs, level, name, session, stopMic, cancelTTSTurn]);
 
   // ── continue conversation ──────────────────
   const handleContinue = useCallback(() => {

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   computeSilenceDelay,
   extractStreamingReply,
+  extractSentences,
   SILENCE_BASE_MS,
   SILENCE_EXTENDED_MS,
 } from './MajaScreenUtils.js';
@@ -68,5 +69,48 @@ describe('extractStreamingReply — show words, never the JSON envelope', () => 
 
   it('never throws on empty input', () => {
     expect(extractStreamingReply('')).toBe('');
+  });
+});
+
+describe('extractSentences — incremental segmentation for streaming TTS', () => {
+  it('emits complete sentences and keeps the incomplete tail buffered', () => {
+    const r = extractSentences('Bog! Kako si danas? Ja sam dob', 0, false);
+    expect(r.sentences).toEqual(['Bog!', 'Kako si danas?']);
+    // cursor sits right after "Kako si danas? " — the tail "Ja sam dob" waits
+    expect('Bog! Kako si danas? Ja sam dob'.slice(r.cursor)).toBe('Ja sam dob');
+  });
+
+  it('does NOT emit a sentence sitting at the very end of the buffer (may continue)', () => {
+    // No trailing whitespace after "?", so it is not yet proven complete.
+    const r = extractSentences('Kako si?', 0, false);
+    expect(r.sentences).toEqual([]);
+    expect(r.cursor).toBe(0);
+  });
+
+  it('flushes the trailing fragment when final=true', () => {
+    const r = extractSentences('Ja sam dobro', 0, true);
+    expect(r.sentences).toEqual(['Ja sam dobro']);
+  });
+
+  it('resumes from a cursor without re-emitting earlier sentences', () => {
+    const text = 'Prva rečenica. Druga rečenica. Treća';
+    const first = extractSentences(text, 0, false);
+    expect(first.sentences).toEqual(['Prva rečenica.', 'Druga rečenica.']);
+    const second = extractSentences(text, first.cursor, true);
+    expect(second.sentences).toEqual(['Treća']);
+  });
+
+  it('does not split on ordinals or decimals', () => {
+    const r = extractSentences('Cijena je 3.14 eura. Vidimo se u 5. mjesecu. ', 0, false);
+    expect(r.sentences).toEqual(['Cijena je 3.14 eura.', 'Vidimo se u 5. mjesecu.']);
+  });
+
+  it('handles ellipsis and closing quotes as terminals', () => {
+    const r = extractSentences('Rekla je "dobro". Pa dobro… Idemo dalje. ', 0, false);
+    expect(r.sentences).toEqual(['Rekla je "dobro".', 'Pa dobro…', 'Idemo dalje.']);
+  });
+
+  it('never throws on empty input', () => {
+    expect(extractSentences('', 0, true)).toEqual({ sentences: [], cursor: 0 });
   });
 });
