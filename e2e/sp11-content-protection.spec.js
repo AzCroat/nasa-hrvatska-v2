@@ -176,52 +176,11 @@ test.describe('SP11 — content endpoints + bundle audit', () => {
     await requestPromise; // throws if no /api/content/grammar request fires within 60s
   });
 
-  test('Story of the Day card renders when endpoints are mocked', async ({ page }) => {
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-
-    // Mock the catalog so the card has data to render
-    await page.route('**/api/content/catalog', (route) =>
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          data: {
-            stories: [
-              {
-                id: 'gs_a1_1',
-                level: 'A1',
-                title: 'Test priča',
-                titleEn: 'Test story',
-                focus: 'accusative',
-                icon: '📖',
-                duration: 5,
-                intro: 'A test story for e2e.',
-                levelColor: '#166534',
-                levelBg: '#dcfce7',
-                etag: 'e1',
-              },
-            ],
-            grammarUnits: [],
-          },
-          etag: 'cat1',
-        }),
-        headers: { ETag: '"cat1"' },
-      }),
-    );
-
-    await page.goto('/');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
-      timeout: 15_000,
-    });
-    // The 2026-05-22 refactor put Story card behind a tab; open it first.
-    await page.getByRole('tab', { name: /Story/ }).click();
-    await expect(page.getByTestId('story-of-the-day-card')).toBeVisible({
-      timeout: 15_000,
-    });
-    await expect(page.getByText('Test priča')).toBeVisible();
-  });
+  // NOTE: the "Story of the Day card renders" test was removed with the card —
+  // Story of the Day was taken off the Home tab (single reading lesson), so the
+  // graded-story catalog is now reached via Learn → Browse instead. The catalog
+  // endpoint mocking / content-protection coverage remains in the tests above and
+  // the bundle audit below.
 
   test('bundle audit: no curriculum needles in dist/assets/*.js', async () => {
     const distDir = resolve(process.cwd(), 'dist', 'assets');
