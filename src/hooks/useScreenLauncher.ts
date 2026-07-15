@@ -6,6 +6,7 @@
  */
 import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
+import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -702,6 +703,11 @@ export function useScreenLauncher({
     async (screen: string, category?: string): Promise<void> => {
       returnContextRef.current = { tab: 'home', screen: 'dashboard' };
 
+      // The caller (SessionCard.onStart) sets nh_session_started BEFORE calling us.
+      // Any early exit that does NOT navigate (e.g. empty vocab pool) calls
+      // clearActiveSessionActivity(), else nh_session_started stays set with no screen
+      // able to complete it — pinning the session (re-tapping "Start" just re-bails).
+
       if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
         const _d = (await _getData()) as { V?: Record<string, string[][]> };
         const V: Record<string, string[][]> = _d.V ?? {};
@@ -710,7 +716,7 @@ export function useScreenLauncher({
           .filter((w) => w?.[0] && w?.[1]);
 
         if (screen === 'flashcards') {
-          if (globalPool.length === 0) return;
+          if (globalPool.length === 0) return clearActiveSessionActivity();
           setFcInitPool(_sh(globalPool).slice(0, 20));
           sCurEx('flashcards');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
@@ -735,7 +741,7 @@ export function useScreenLauncher({
                 },
               ];
             });
-          if (qs.length === 0) return;
+          if (qs.length === 0) return clearActiveSessionActivity();
           setMcInitQ(qs);
           sCurEx('mcgame');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
@@ -743,7 +749,7 @@ export function useScreenLauncher({
           setScr('mcgame');
         } else {
           const sel = _sh(globalPool).slice(0, 6);
-          if (sel.length < 2) return;
+          if (sel.length < 2) return clearActiveSessionActivity();
           const matchPool = _sh([
             ...sel.map((w, i) => ({ id: `h${i}`, t: w[0], p: i, tp: 'hr' })),
             ...sel.map((w, i) => ({ id: `e${i}`, t: w[1], p: i, tp: 'en' })),
@@ -757,7 +763,7 @@ export function useScreenLauncher({
       } else if (screen === 'listening') {
         const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
         const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
-        if (pool.length === 0) return;
+        if (pool.length === 0) return clearActiveSessionActivity();
         setLsInitQ(pool);
         sCurEx('listening');
         sessionStorage.setItem('nh_ex_start', Date.now().toString());
@@ -777,7 +783,7 @@ export function useScreenLauncher({
         const pool = allCats
           .flatMap((t) => (V[t] ?? []) as string[][])
           .filter((w) => w?.[0] && w?.[1]);
-        if (pool.length === 0) return;
+        if (pool.length === 0) return clearActiveSessionActivity();
         const items = _sh(pool).slice(0, 6);
         sSi(items);
         sSx(0);

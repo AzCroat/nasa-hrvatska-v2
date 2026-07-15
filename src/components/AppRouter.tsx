@@ -1569,24 +1569,33 @@ export default function AppRouter(props: Record<string, any>) {
             <WordSprint sh={_sh} award={award} goBack={goBack} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'speaking' && (
-          <ScreenErrorBoundary key="speaking" name="speaking">
-            <SpeakingScreen
-              sw={sw}
-              si={si}
-              sx={sx}
-              sr={sr}
-              ssc={ssc}
-              sSr={sSr}
-              sSx={sSx}
-              sSw={sSw}
-              sSsc={sSsc}
-              goBack={goBack}
-              award={award}
-              setSt={setStats}
-            />
-          </ScreenErrorBoundary>
-        )}
+        {currentScreen === 'speaking' &&
+          (sw?.[0] ? (
+            <ScreenErrorBoundary key="speaking" name="speaking">
+              <SpeakingScreen
+                sw={sw}
+                si={si}
+                sx={sx}
+                sr={sr}
+                ssc={ssc}
+                sSr={sSr}
+                sSx={sSx}
+                sSw={sSw}
+                sSsc={sSsc}
+                goBack={goBack}
+                award={award}
+                setSt={setStats}
+              />
+            </ScreenErrorBoundary>
+          ) : (
+            // Without launch-time state (`sw`), SpeakingScreen renders `null` —
+            // a blank, back-button-less screen that pins the daily session
+            // (nh_session_started stays set, never cleared). ScreenGuard shows a
+            // recovery path AND clears the stale session markers, matching the
+            // guarded flashcards/mcgame/match/listening routes. This is the ONE
+            // parent-launch-state session exercise that previously lacked it.
+            <ScreenGuard goBack={goBack} label="speaking practice" />
+          ))}
         {currentScreen === 'speaking_sprint' && (
           <ScreenErrorBoundary key="speaking_sprint" name="speaking_sprint">
             <SpeakingSprintScreen goBack={goBack} award={award} />
