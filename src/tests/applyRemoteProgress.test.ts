@@ -317,6 +317,44 @@ describe('applyRemoteProgress — quest flags (additive)', () => {
     window.removeEventListener('nh-campaign-quest-done', listener);
     expect(events).toHaveLength(1);
   });
+
+  // ── Regression: 2026-07-15 Firestore write-storm loop ──────────────────────
+  // The quest-done event must fire ONLY on a genuine false→true transition.
+  // When the flag is already '1' locally, a watcher snapshot re-delivering the
+  // same remote blob must NOT re-dispatch — the App.tsx listener turns the
+  // event into doSyncNow(), whose write re-triggers the watcher: dispatching
+  // unconditionally created a self-sustaining write loop that exhausted the
+  // Firestore client write queue (code=resource-exhausted) and re-rendered the
+  // app in a burst for any user with a completed Easter quest.
+  it('does NOT re-dispatch quest-done when the flag is already set locally', () => {
+    localStorage.setItem('nh_cq_easter_uskrs_q2', '1');
+    const events: Event[] = [];
+    const listener = (e: Event) => events.push(e);
+    window.addEventListener('nh-campaign-quest-done', listener);
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    // Simulate the watcher echo cycle: repeated applies of the same blob.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    window.removeEventListener('nh-campaign-quest-done', listener);
+    expect(events).toHaveLength(0);
+    // Flag stays set (additive semantics unchanged).
+    expect(localStorage.getItem('nh_cq_easter_uskrs_q2')).toBe('1');
+  });
+
+  it('dispatches once for a NEW completion even when another quest is already done', () => {
+    localStorage.setItem('nh_cq_easter_uskrs_q1', '1'); // old news
+    const events: Event[] = [];
+    const listener = (e: Event) => events.push(e);
+    window.addEventListener('nh-campaign-quest-done', listener);
+    const setters = makeSetters();
+    // Remote blob carries the old q1 AND a newly-completed q3.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q1: true, nh_cq_easter_uskrs_q3: true }, setters);
+    // Echo of the same blob after flags persisted — must be silent.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q1: true, nh_cq_easter_uskrs_q3: true }, setters);
+    window.removeEventListener('nh-campaign-quest-done', listener);
+    expect(events).toHaveLength(1);
+  });
 });
 
 describe('applyRemoteProgress — user settings', () => {
