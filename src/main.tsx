@@ -30,6 +30,7 @@ import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
 import { shouldEnableSentryReplay, isBenignAbortRejection } from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
+import { lsGet } from './lib/safeStorage';
 
 // ─── Capacitor native: mark <html> for CSS animation overrides ────────────
 // Many CSS entrance animations start at opacity:0 with fill-mode:both.
@@ -211,7 +212,11 @@ if (import.meta.env.VITE_SENTRY_DSN) {
 // Only initialize PostHog if the user has already accepted analytics cookies
 // (i.e. they accepted on a previous visit). On first visit this is skipped and
 // CookieConsent will call initPostHog() when the user clicks "Accept all".
-if (localStorage.getItem('cookie_consent_v1') === 'accepted') {
+// lsGet (not raw localStorage) because this runs at MODULE LOAD, before
+// ReactDOM.createRoot — a SecurityError here (cookies/site-data blocked,
+// supervised/child profiles) would crash before React mounts, leaving a
+// permanent blank screen the ErrorBoundary can never catch.
+if (lsGet('cookie_consent_v1') === 'accepted') {
   initPostHog();
 }
 
