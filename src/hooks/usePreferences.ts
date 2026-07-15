@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import type { MutableRefObject } from 'react';
 import { fbToggleFavorite } from '../lib/firebase.js';
+import { lsGet, lsSet } from '../lib/safeStorage';
 
 export interface FavItem {
   hr?: string;
@@ -26,7 +27,7 @@ export function usePreferences(uidRef?: MutableRefObject<string | null | undefin
   isFav: (key: string) => boolean;
 } {
   const [darkMode, setDarkMode] = useState(() => {
-    const stored = localStorage.getItem('darkMode');
+    const stored = lsGet('darkMode');
     // If the user has never set a preference, auto-detect from system
     if (stored === null) {
       return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
@@ -40,7 +41,7 @@ export function usePreferences(uidRef?: MutableRefObject<string | null | undefin
     const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
     if (!mq) return undefined;
     const handler = (e: MediaQueryListEvent): void => {
-      if (localStorage.getItem('nh_dm_explicit') !== '1') {
+      if (lsGet('nh_dm_explicit') !== '1') {
         setDarkMode(e.matches);
       }
     };
@@ -50,30 +51,30 @@ export function usePreferences(uidRef?: MutableRefObject<string | null | undefin
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
-    localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+    lsSet('darkMode', darkMode ? 'true' : 'false');
   }, [darkMode]);
 
   // Wrap setDarkMode to record that the user explicitly made a choice
   const setDarkModeExplicit = (val: boolean): void => {
-    localStorage.setItem('nh_dm_explicit', '1');
+    lsSet('nh_dm_explicit', '1');
     setDarkMode(val);
   };
 
   // Initialise font-size and reduce-motion accessibility settings on app load
   useEffect(() => {
-    const fs = localStorage.getItem('nh_font_size') || 'medium';
+    const fs = lsGet('nh_font_size') || 'medium';
     if (fs === 'medium') {
       document.documentElement.removeAttribute('data-font');
     } else {
       document.documentElement.setAttribute('data-font', fs);
     }
-    const rm = localStorage.getItem('nh_reduce_motion') === 'true';
+    const rm = lsGet('nh_reduce_motion') === 'true';
     document.documentElement.classList.toggle('reduce-motion', rm);
   }, []);
 
   const [favs, setFavs] = useState<FavItem[]>(() => {
     try {
-      return JSON.parse(localStorage.getItem('uFavs') || '[]') as FavItem[];
+      return JSON.parse(lsGet('uFavs') || '[]') as FavItem[];
     } catch {
       return [];
     }
@@ -86,7 +87,7 @@ export function usePreferences(uidRef?: MutableRefObject<string | null | undefin
       ? favs.filter((f) => (f.hr || f.name) !== key)
       : [{ hr: item.hr, en: item.en, type: item.type || 'custom', go: item.go }, ...favs];
     setFavs(next);
-    localStorage.setItem('uFavs', JSON.stringify(next));
+    lsSet('uFavs', JSON.stringify(next));
     // Immediate Firestore write so this toggle isn't lost if the user closes the app before autosave.
     const uid = uidRef?.current;
     if (uid) fbToggleFavorite(uid, next).catch(() => {});
