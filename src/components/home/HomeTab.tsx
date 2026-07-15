@@ -153,7 +153,6 @@ export default function HomeTab({
   daysSinceJoin = null,
   resumeLesson = null,
   launchActivity,
-  launchStory,
 }: HomeTabProps) {
   const { setScr, doSignUp, currentScreen } = useApp();
   const { stats: st, award } = useStats();
@@ -633,7 +632,7 @@ export default function HomeTab({
           (Word / Phrase / City / Story). Single fixed-height container,
           all four labels visible in the tab strip, user picks what to see.
           Eliminates the scroll that previously buried Story of the Day. */}
-      <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} launchStory={launchStory} />
+      <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} />
 
       {/* ── BROWSE THE FULL LIBRARY — off-ramp so Today isn't a one-item conveyor
           with no path to the wider content. Opens the Learn tab's full content

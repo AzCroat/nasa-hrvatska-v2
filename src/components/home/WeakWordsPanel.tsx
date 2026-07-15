@@ -7,9 +7,15 @@ import { speak } from '../../data';
 export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) => void }) {
   const [expanded, setExpanded] = useState(false);
 
-  const weakWords = useMemo(() => {
+  // Keep the panel compact on the Home tab (was 8 collapsed / 20 expanded) — a
+  // short "here's what to work on" nudge, not a wall of cards that pushes
+  // everything below the fold.
+  const COLLAPSED_COUNT = 3;
+  const EXPANDED_COUNT = 8;
+
+  const allWeak = useMemo(() => {
     const sr = getSR();
-    const entries = Object.entries(sr)
+    return Object.entries(sr)
       .filter(([, card]) => (card.r || 0) + (card.w || 0) >= 2) // need ≥2 reviews for signal
       .map(([word, card]) => {
         const total = (card.r || 0) + (card.w || 0);
@@ -20,11 +26,10 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
         const score = errorRate * 0.6 + (difficulty / 10) * 0.3 + (Math.min(lapses, 5) / 5) * 0.1;
         return { word, errorRate, difficulty, total, lapses, score };
       })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, expanded ? 20 : 8);
+      .sort((a, b) => b.score - a.score);
+  }, []);
 
-    return entries;
-  }, [expanded]);
+  const weakWords = allWeak.slice(0, expanded ? EXPANDED_COUNT : COLLAPSED_COUNT);
 
   if (weakWords.length === 0) {
     return (
@@ -113,7 +118,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
             NEEDS WORK
           </div>
           <div style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>
-            Weak Areas · {weakWords.length} words
+            Weak Areas · {allWeak.length} words
           </div>
         </div>
         <button
@@ -232,7 +237,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
           })}
         </div>
 
-        {weakWords.length >= 8 && (
+        {allWeak.length > COLLAPSED_COUNT && (
           <button
             onClick={() => setExpanded((e) => !e)}
             style={{
