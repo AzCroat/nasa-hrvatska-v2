@@ -62,7 +62,18 @@ function computeRms(analyser, buf) {
   return Math.sqrt(sum / buf.length);
 }
 
-export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaking }) {
+export default function useWhisperSTT({
+  onResult,
+  onInterrupt,
+  onError,
+  isSpeaking,
+  // When false, the user's voice does NOT auto-interrupt Maja while she's
+  // speaking — the mic is ignored until she finishes (or the user interrupts
+  // explicitly, e.g. by tapping). Used for lessons, where halting learner speech
+  // and background noise would otherwise cause false cut-offs. Defaults to true
+  // to preserve the hands-free barge-in behaviour for other callers.
+  allowBargeIn = true,
+}) {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [vadLevel, setVadLevel] = useState(0); // 0–1 for UI visualisation
@@ -108,6 +119,10 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
   const onInterruptRef = useRef(onInterrupt);
   const onErrorRef = useRef(onError);
   const isSpeakingRef = useRef(isSpeaking);
+  const allowBargeInRef = useRef(allowBargeIn);
+  useEffect(() => {
+    allowBargeInRef.current = allowBargeIn;
+  }, [allowBargeIn]);
   useEffect(() => {
     onResultRef.current = onResult;
   }, [onResult]);
@@ -246,7 +261,14 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
         if (!speechStartRef.current) {
           speechStartRef.current = now;
         } else if (now - speechStartRef.current > MIN_SPEECH_MS) {
-          // Confirmed real speech — start recording
+          // Confirmed real speech.
+          if (isSpeakingRef.current && !allowBargeInRef.current) {
+            // Tap-only mode (lessons): do NOT let the user's voice interrupt Maja
+            // — halting learner speech / background noise would cause false
+            // cut-offs. Ignore the mic until she stops (or the user taps).
+            speechStartRef.current = null;
+            return;
+          }
           if (isSpeakingRef.current) {
             // User is speaking while Maja talks → interrupt TTS immediately
             stopAudio();

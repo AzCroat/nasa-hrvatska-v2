@@ -302,7 +302,6 @@ export default function MajaScreen() {
   const ttsStreamDoneRef = useRef(false);
   const ttsGenRef = useRef(0);
   const startListeningRef = useRef<() => void>(() => {});
-  const bargeInRef = useRef<() => void>(() => {});
 
   // Fetch (but do not play) one sentence's TTS as a ready-to-play audio element.
   const fetchClip = useCallback(async (text: string): Promise<HTMLAudioElement | null> => {
@@ -618,28 +617,28 @@ export default function MajaScreen() {
         sendMessage(t);
       }
     },
-    // Barge-in: the VAD detected the user speaking over Maja → cut her off.
-    onInterrupt: () => bargeInRef.current(),
+    onInterrupt: () => {},
     onError: () => {},
     isSpeaking: phase === 'maja-speaking',
+    // Lessons use an explicit tap to interrupt (see handleBargeIn / the orb),
+    // so the mic never auto-cuts Maja off on halting learner speech or noise.
+    allowBargeIn: false,
   });
   // Read iosVoice through a ref so startListening's useCallback identity stays
   // stable (it feeds the auto-listen effect) instead of churning every render.
   const iosVoiceRef = useRef(iosVoice);
   iosVoiceRef.current = iosVoice;
 
-  // Barge-in: the user starts talking (or taps) while Maja is speaking → stop her
-  // immediately, drop the rest of the queued reply, and start capturing. On the
-  // Web Speech path this is driven by a tap (open-mic detection during playback
-  // is a follow-up); on the Whisper/VAD path onInterrupt drives it hands-free.
+  // Barge-in: the user taps while Maja is speaking → stop her immediately, drop
+  // the rest of the queued reply, and start capturing. Tapping is the single,
+  // universal interrupt model across every platform (the Whisper/VAD path runs
+  // with allowBargeIn:false so the mic never auto-cuts Maja off on halting
+  // learner speech or noise during a lesson).
   const handleBargeIn = useCallback(() => {
     if (phaseRef.current !== 'maja-speaking') return;
     cancelTTSTurn(); // stop the current clip + clear the streaming-TTS queue
     startListeningRef.current(); // → phase 'listening', opens/keeps the mic
   }, [cancelTTSTurn]);
-  useEffect(() => {
-    bargeInRef.current = handleBargeIn;
-  }, [handleBargeIn]);
 
   // Surface a Whisper-path mic denial through the same banner as Web Speech.
   useEffect(() => {
