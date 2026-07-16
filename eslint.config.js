@@ -192,8 +192,15 @@ export default [
   // exempt — splitting would not improve maintainability. Mostly src/data/**;
   // listening/exercises.ts is the comprehension-exercise corpus extracted from
   // ListeningComprehensionScreen in 1b (data only, no logic).
+  // dialogueScenarios.js is the guided-dialogue corpus (2026-07 expansion took
+  // it past 800 lines) — same data-only class, structurally validated by
+  // src/tests/dialogueScenarios.test.ts.
   {
-    files: ['src/data/**/*.{js,ts,tsx}', 'src/components/practice/listening/exercises.ts'],
+    files: [
+      'src/data/**/*.{js,ts,tsx}',
+      'src/components/practice/listening/exercises.ts',
+      'src/components/practice/dialogueScenarios.js',
+    ],
     rules: { 'max-lines': 'off' },
   },
   // SP3a: grandfathered files over the 800-line threshold (audit 2026-05-16).
