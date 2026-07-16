@@ -198,6 +198,31 @@ Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs daily at 9am UTC for
 
 ---
 
+## Croatian Content Authoring (owner directive, 2026-07-16)
+
+Claude has extensive Croatian-language training and authors Croatian content
+(dialogue scenarios, exercises, prompts, grammar tips) as a domain expert.
+Own the correctness — every authored line must meet native-standard Croatian:
+
+- Standard štokavski; correct case government (incl. partitive genitive after
+  quantities, `hvala na` + locative, `radovati se` + dative, `unatoč` + dative)
+- Clitic ordering (second-position clusters: `htio bih se naručiti`)
+- `sa` before s/š/z/ž, `s` otherwise; full diacritics (č ć đ š ž) everywhere
+- Register-appropriate forms (V-form politeness in service/formal contexts;
+  conditional softening `htio/htjela bih` for requests)
+- Distractor options in exercises must be *plausibly wrong* (register errors,
+  case errors, word-order errors learners actually make) — never gibberish
+- The greeting is `bog` (not `bok`) per the 2026-07 owner decision; the idiom
+  `bok uz bok` (side by side) is the one deliberate exception
+
+Do not gate content delivery on external review by default — write it right,
+self-verify against the rules above, and ship it through the normal test
+gates (structural validation lives in `src/tests/dialogueScenarios.test.ts`).
+Flag a construction to the owner only when genuinely uncertain, not as a
+blanket disclaimer.
+
+---
+
 ## Testing
 
 - **Unit tests**: `src/tests/` using Vitest + Testing Library. Run with `npm test`.
