@@ -332,6 +332,23 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   }
 
   // ── Seasonal/campaign quest completion — additive ─────────────────────────
+  // Capture prior LOCAL state BEFORE writing the flags: the quest-done event
+  // must fire only on a genuine false→true transition (a completion newly
+  // arriving from another device). Dispatching unconditionally created a
+  // self-sustaining write loop for any user with a completed quest: watcher
+  // snapshot → applyRemoteProgress → event → App.tsx onQuestDone → doSyncNow
+  // → Firestore write → watcher snapshot → … which flooded the client write
+  // queue (resource-exhausted: "Write stream exhausted maximum allowed queued
+  // writes") and re-rendered the app in a loop. Flags remain additive — true
+  // is never overwritten by false.
+  let _q1Was = false;
+  let _q2Was = false;
+  let _q3Was = false;
+  try {
+    _q1Was = localStorage.getItem('nh_cq_easter_uskrs_q1') === '1';
+    _q2Was = localStorage.getItem('nh_cq_easter_uskrs_q2') === '1';
+    _q3Was = localStorage.getItem('nh_cq_easter_uskrs_q3') === '1';
+  } catch (_) {}
   if (fp.nh_uskrs_kviz_done === true)
     try {
       localStorage.setItem('nh_uskrs_kviz_done', '1');
@@ -348,11 +365,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     try {
       localStorage.setItem('nh_cq_easter_uskrs_q3', '1');
     } catch (_) {}
-  if (
-    fp.nh_cq_easter_uskrs_q1 === true ||
-    fp.nh_cq_easter_uskrs_q2 === true ||
-    fp.nh_cq_easter_uskrs_q3 === true
-  ) {
+  const _questNewlyDone =
+    (fp.nh_cq_easter_uskrs_q1 === true && !_q1Was) ||
+    (fp.nh_cq_easter_uskrs_q2 === true && !_q2Was) ||
+    (fp.nh_cq_easter_uskrs_q3 === true && !_q3Was);
+  if (_questNewlyDone) {
     try {
       window.dispatchEvent(new CustomEvent('nh-campaign-quest-done'));
     } catch (_) {}
