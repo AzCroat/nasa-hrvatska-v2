@@ -184,18 +184,19 @@ export function useAward({
 
   const award = useCallback(
     async (amt: number, celebrate?: boolean, activityType?: AwardActivityType) => {
-      if (!Number.isFinite(amt) || amt === 0) return;
       const _effectiveEx = curEx;
-      // Signal daily-session completion FIRST — before the XP-cooldown gate below.
-      // The daily session is a practice FLOW decoupled from the XP economy: finishing
-      // an activity must advance the session even when XP is on cooldown (the learner
-      // already earned XP for this exercise earlier today). Previously this write sat
-      // AFTER the canEarnXP early-return, so award()-only screens (mcgame, comparatives,
-      // qwords, genderdrill, sentbuild, and the listening quizzes) stranded the session
-      // at N-1/N on the 2nd+ run of the day — no path to complete it. completeExercise
-      // already signals unconditionally; this brings the award() path in line.
-      // HomeTab reads nh_session_completed on remount to distinguish a real finish from
-      // a back-press, and the started===_effectiveEx guard keeps it activity-accurate.
+      // Signal daily-session completion FIRST — before the XP-cooldown gate below
+      // AND before the amt===0 early-return. The daily session is a practice FLOW
+      // decoupled from the XP economy: finishing an activity must advance the
+      // session even when XP is on cooldown (the learner already earned XP for
+      // this exercise earlier today) AND even when the finish earned zero XP
+      // (dictation/future/dialogue call award(score·N) at finish — a 0-correct
+      // run is still a FINISH, not an abandon; gating on amt>0 stranded the
+      // session at N-1/N for those runs — 2026-07-16 completion-matrix audit).
+      // completeExercise already signals unconditionally; this brings the
+      // award() path fully in line. HomeTab reads nh_session_completed on
+      // remount to distinguish a real finish from a back-press, and the
+      // started===_effectiveEx guard keeps it activity-accurate.
       if (_effectiveEx) {
         try {
           const started = sessionStorage.getItem('nh_session_started');
@@ -204,6 +205,7 @@ export function useAward({
           }
         } catch {}
       }
+      if (!Number.isFinite(amt) || amt === 0) return;
       // Session-Rec #6 (synced): count a production rep on completion of ANY
       // production exercise — daily session OR Practice tab — keyed on the screen
       // id. Done here, before the XP-cooldown gate, so production is counted even

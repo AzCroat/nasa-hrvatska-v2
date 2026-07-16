@@ -575,6 +575,38 @@ describe('useAward — daily-session completion signal (bug #2/#3)', () => {
     expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
   });
 
+  it('REGRESSION (2026-07-16): a zero-XP finish still completes the session — award(0)', async () => {
+    // dictation/future/dialogue call award(score·N) at their FINISH point; a
+    // 0-correct run therefore calls award(0). The amt===0 early-return used to
+    // sit BEFORE the session handshake, so those finishes never wrote
+    // nh_session_completed — pinning Dnevna Vježba at N-1/N with no way to
+    // advance (the reported Writing/production-slot block was this class).
+    // A finish is a finish: the session is a practice flow, not a mastery gate.
+    sessionStorage.setItem('nh_session_started', 'dictation');
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'dictation', stats: { ...DS }, setStats }),
+    );
+    await act(async () => {
+      await result.current.award(0);
+    });
+    // No XP mutation for 0 — but the session advances.
+    expect(setStats).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('dictation');
+  });
+
+  it('award(0) does NOT signal when the started activity differs (accuracy preserved)', async () => {
+    sessionStorage.setItem('nh_session_started', 'flashcards');
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'dictation', stats: { ...DS }, setStats }),
+    );
+    await act(async () => {
+      await result.current.award(0);
+    });
+    expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
+  });
+
   it('does not write the signal when no session activity is active', async () => {
     localStorage.setItem('xpCooldown', JSON.stringify({ mcgame: '2026-04-19' }));
     const setStats = vi.fn();

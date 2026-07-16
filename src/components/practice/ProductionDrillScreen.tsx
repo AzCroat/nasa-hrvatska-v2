@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext';
 import { recordTopicResult, rateCategorySession } from '../../lib/adaptive.ts';
 import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
@@ -1292,6 +1293,9 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
   function handleDone() {
     if (!finishFired.current) {
       finishFired.current = true;
+      // handleDone had NO award/signal path — a zero-correct sub-drill finish
+      // stranded the daily session (completion-matrix audit). Signal explicitly.
+      signalSessionCompleteIfActive('production_drill');
       markQuest('grammar');
       if (!stats.vs?.includes('production')) {
         setStats((prev) => {
