@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { NEGATION } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
@@ -82,6 +83,9 @@ function NegationScreen({ goBack, award }: Props) {
     }
     if (answeredCount + 1 >= shuffledQuiz.length && !questFiredRef.current) {
       questFiredRef.current = true;
+      // Zero-correct runs award() nothing — signal the finish explicitly so
+      // the daily session can never strand here (completion-matrix audit).
+      signalSessionCompleteIfActive('negation');
       markQuest('grammar');
       if (!stats.vs?.includes('negation')) {
         setStats((prev) => {

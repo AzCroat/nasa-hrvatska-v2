@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { COMPARE, COMPQUIZ } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -37,6 +38,9 @@ function ComparativesScreen({ goBack, award }: Props) {
     if (handledRef.current.size >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
+        // Zero-correct runs award() nothing — signal the finish explicitly so
+        // the daily session can never strand here (completion-matrix audit).
+        signalSessionCompleteIfActive('comparatives');
         markQuest('grammar');
         if (!stats.vs?.includes('comparatives')) {
           setStats((prev) => {

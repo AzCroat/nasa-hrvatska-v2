@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { AIContentSkeleton, AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
@@ -191,6 +192,10 @@ export default function AIListeningScreen({
               : 'Something went wrong — please try again',
         );
         setPhase('setup');
+        // Generation-failure self-heal: a dead AI endpoint must not strand the
+        // daily session (mirrors DictationScreen's empty-set signal; the award
+        // at results-time is unreachable when generation never succeeds).
+        signalSessionCompleteIfActive('ai_listening');
       }
     }
   }

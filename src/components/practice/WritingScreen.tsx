@@ -10,6 +10,7 @@ import { _aiPost } from '../../lib/aiPost';
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { addWordToSRS } from '../../lib/srs.js';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
@@ -211,6 +212,13 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       const data = await res.json();
       if (!mountedRef.current) return;
       setResult(data);
+      // A graded submission IS the finish for the daily session. Before this,
+      // the ONLY completion signal was the award() behind the "✨ New Prompt"
+      // button (result-gated + ≥30-words gated) — the natural gesture (read
+      // feedback → Back) never fired it, permanently pinning the session at
+      // N-1/N (reported 2026-07-16, B2 user, twice). XP/vs credit stays on the
+      // button; only session progression is unblocked here.
+      signalSessionCompleteIfActive('writing');
       // Log mistakes and add single-word corrections to SRS queue
       type ApiCorrection = CorrectionChange & { type?: string; errorType?: string };
       const corrections: ApiCorrection[] = data.changes || data.mistakes || [];
@@ -237,6 +245,9 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           ? 'No connection — please reconnect to use AI feedback.'
           : 'Could not connect to AI correction service. Check your connection.',
       );
+      // AI-failure self-heal: the user DID the writing; a dead /api/correct
+      // must not strand the session (mirrors DictationScreen's empty-set signal).
+      signalSessionCompleteIfActive('writing');
     } finally {
       if (mountedRef.current) setLoading(false);
     }
