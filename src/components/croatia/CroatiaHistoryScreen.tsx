@@ -1,22 +1,28 @@
 import React, { useState, useRef } from 'react';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
 
 interface HistoryHero {
   name: string;
   role: string;
+  roleHr?: string;
   desc: string;
+  descHr?: string;
 }
 interface HistoryTimelineEntry {
   emoji: string;
   year: string;
   title: string;
+  titleHr?: string;
   text: string;
+  textHr?: string;
 }
 interface HistoryShape {
   title: string;
   subtitle: string;
   intro: string;
+  introHr?: string;
   quote: string;
   quote2: string;
   timeline: HistoryTimelineEntry[];
@@ -237,12 +243,14 @@ function HimnaPlayer() {
 
 function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
   const { content, loading, error } = useContent();
+  const { showEn, toggle } = useEnglishToggle();
   if (error) return <ErrorState message="Couldn't load content - please retry." />;
   if (loading || !content) return <LoadingState />;
   const HISTORY = content.HISTORY as unknown as HistoryShape;
   return (
     <div className="scr-wrap">
       {H('🇭🇷 ' + HISTORY.title, HISTORY.subtitle, goBack)}
+      {HISTORY.introHr && <EnglishToggleButton showEn={showEn} toggle={toggle} />}
       <div
         className="c"
         style={{
@@ -251,7 +259,9 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           background: 'linear-gradient(135deg,#fef2f2,#fee2e2)',
         }}
       >
-        <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>{HISTORY.intro}</div>
+        <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
+          <BiText hr={HISTORY.introHr} en={HISTORY.intro} showEn={showEn} />
+        </div>
       </div>
       <div
         style={{
@@ -287,11 +297,13 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
                     fontFamily: "'Playfair Display',serif",
                   }}
                 >
-                  {e.title}
+                  {e.titleHr ?? e.title}
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: '#44403c' }}>{e.text}</p>
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: '#44403c' }}>
+              <BiText hr={e.textHr} en={e.text} showEn={showEn} />
+            </p>
           </div>
         );
       })}
@@ -303,9 +315,11 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           <div key={i} className="c" style={{ marginBottom: 10, padding: '14px 20px' }}>
             <div style={{ fontSize: 15, fontWeight: 800, color: '#164e63' }}>{h.name}</div>
             <div style={{ fontSize: 12, color: '#b45309', fontWeight: 600, marginBottom: 4 }}>
-              {h.role}
+              {h.roleHr ?? h.role}
             </div>
-            <div style={{ fontSize: 13, color: '#44403c' }}>{h.desc}</div>
+            <div style={{ fontSize: 13, color: '#44403c' }}>
+              <BiText hr={h.descHr} en={h.desc} showEn={showEn} />
+            </div>
           </div>
         );
       })}
