@@ -5596,4 +5596,1009 @@ export const GRADED_STORIES = [
       },
     ],
   },
+  {
+    id: 'gs_c1_8',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '🗣️',
+    title: 'Tri riječi za kuću',
+    titleEn: 'Three Words for House',
+    duration: 10,
+    focus: 'Dijalektologija • Metajezični rječnik • Složene odnosne rečenice',
+    intro:
+      'Kajkavski, čakavski, štokavski: tri narječja, tri glazbe istog jezika. Zašto Hrvati iz različitih krajeva katkad zvuče kao stranci — i zašto je to bogatstvo.',
+    paragraphs: [
+      {
+        hr: 'Pitate li Zagorca, Splićanina i Slavonca kako kažu „što", dobit ćete tri odgovora: kaj, ča i što. Po tim se zamjenicama tri hrvatska narječja i zovu — kajkavsko, čakavsko i štokavsko. Standardni je jezik izgrađen na štokavskoj osnovici, ali narječja nisu njegova iskrivljenja, nego stariji, ravnopravni ogranci istoga stabla: čakavski je, primjerice, sačuvao naglasni sustav stariji od većine onoga što se danas čuje u Europi.',
+        en: 'Ask someone from Zagorje, Split and Slavonia how they say "what" and you will get three answers: kaj, ča and što. The three Croatian dialect groups are named after those pronouns — Kajkavian, Chakavian and Shtokavian. The standard language was built on a Shtokavian base, but the dialects are not corruptions of it; they are older, equal branches of the same tree: Chakavian, for instance, has preserved an accentual system older than most of what can be heard in Europe today.',
+      },
+      {
+        hr: 'Dijalekt je desetljećima nosio žig provincije: u školi se ispravljao, na radiju izbjegavao, a govornike je pratio osjećaj da njihov materinski govor „nije pravi jezik". Lingvisti su, srećom, mislili drukčije. Godine 2019. kajkavski je književni jezik — onaj kojim su pisali Krleža u Baladama i stari zagorski pisci — dobio i međunarodni jezični kod, a čakavska poezija odavno ulazi u školske čitanke.',
+        en: 'For decades dialect carried the stigma of the provinces: it was corrected at school, avoided on the radio, and its speakers were haunted by the feeling that their mother tongue was "not a real language". Linguists, fortunately, thought otherwise. In 2019 the Kajkavian literary language — the one Krleža wrote his Ballads in, along with the old Zagorje writers — received an international language code, and Chakavian poetry has long since entered school readers.',
+      },
+      {
+        hr: 'Napetost između standarda i zavičajnoga govora svaki govornik rješava sam. Novinarka rođena u Bednji — čiji se mjesni govor smatra jednim od najosebujnijih u Hrvatskoj — priča kako je na poslu godinama „prevodila samu sebe", a onda shvatila da upravo zbog dvoglasja bolje čuje jezik od kolega: tko od djetinjstva živi u dva sustava, taj o oba misli svjesnije.',
+        en: 'Every speaker resolves the tension between the standard and the home vernacular in their own way. A journalist born in Bednja — whose local speech is considered among the most distinctive in Croatia — tells how at work she "translated herself" for years, and then realized that precisely because of that double voice she hears language better than her colleagues: whoever grows up living in two systems thinks about both more consciously.',
+      },
+      {
+        hr: 'Danas se narječja vraćaju na velika vrata: mladi na društvenim mrežama pišu kajkavski i čakavski bez srama, dijalektalni se rap sluša od Čakovca do Kaštela, a festivali poput Croatia rediviva čuvaju ča-kaj-što kao trojstvo, ne kao natjecanje. Jer jezik nije samo sredstvo sporazumijevanja — on je pamćenje. A narod koji pamti na tri načina, bogatiji je tri puta.',
+        en: 'Today the dialects are returning through the front door: young people write Kajkavian and Chakavian on social media without shame, dialect rap is listened to from Čakovec to Kaštela, and festivals such as Croatia rediviva guard ča-kaj-što as a trinity, not a competition. For language is not merely a means of communication — it is memory. And a people that remembers in three ways is three times richer.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'narječje',
+        en: 'dialect group',
+        ex: 'Tri hrvatska narječja: kajkavsko, čakavsko i štokavsko.',
+      },
+      {
+        hr: 'osnovica',
+        en: 'base, foundation',
+        ex: 'Standard je izgrađen na štokavskoj osnovici.',
+      },
+      {
+        hr: 'iskrivljenje',
+        en: 'distortion, corruption',
+        ex: 'Narječja nisu iskrivljenja standarda.',
+      },
+      {
+        hr: 'žig',
+        en: 'stamp, stigma',
+        ex: 'Dijalekt je nosio žig provincije.',
+      },
+      {
+        hr: 'materinski govor',
+        en: 'mother tongue',
+        ex: 'Njihov materinski govor nije „pogrešan".',
+      },
+      {
+        hr: 'osebujan',
+        en: 'distinctive, peculiar',
+        ex: 'Bednjanski je govor izrazito osebujan.',
+      },
+      {
+        hr: 'zavičajni',
+        en: 'of one’s home region',
+        ex: 'Napetost standarda i zavičajnoga govora.',
+      },
+      {
+        hr: 'sporazumijevanje',
+        en: 'communication, mutual understanding',
+        ex: 'Jezik nije samo sredstvo sporazumijevanja.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Po čemu su narječja dobila imena?',
+        qEn: 'After what are the dialect groups named?',
+        opts: ['Po zamjenici za „što"', 'Po regijama', 'Po rijekama', 'Po piscima'],
+        correct: 0,
+      },
+      {
+        q: 'Što se dogodilo 2019. godine?',
+        qEn: 'What happened in 2019?',
+        opts: [
+          'Kajkavski književni jezik dobio je međunarodni kod',
+          'Čakavski je zabranjen',
+          'Standard je promijenjen',
+          'Bednja je postala grad',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je jezik prema završetku teksta?',
+        qEn: 'According to the ending, what is language?',
+        opts: ['Pamćenje', 'Natjecanje', 'Sredstvo bez vrijednosti', 'Prepreka'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_9',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '🏖️',
+    title: 'Zlatna koka i njezina jaja',
+    titleEn: 'The Golden Hen and Her Eggs',
+    duration: 10,
+    focus: 'Argumentacija s ustupcima • Ekonomsko nazivlje • Ironijski otklon',
+    intro:
+      'Turizam čini petinu hrvatskoga gospodarstva — brojka kojom se drugi hvale, a ekonomisti zbog nje ne spavaju. Analiza zemlje koja živi od ljeta.',
+    paragraphs: [
+      {
+        hr: 'U Hrvatskoj se turizam od milja zove „zlatna koka", i brojke tom nadimku daju za pravo: gotovo petina bruto domaćeg proizvoda, dvadesetak milijuna dolazaka godišnje, pune terase od Umaga do Cavtata. Malo koja europska zemlja toliko ovisi o jednoj djelatnosti — i upravo je to, upozoravaju ekonomisti, druga strana medalje: koka koja nese zlatna jaja može i prehladiti se.',
+        en: 'In Croatia tourism is affectionately called "the golden hen", and the figures justify the nickname: nearly a fifth of gross domestic product, some twenty million arrivals a year, full terraces from Umag to Cavtat. Few European countries depend so heavily on a single industry — and that, economists warn, is the other side of the coin: a hen that lays golden eggs can also catch a cold.',
+      },
+      {
+        hr: 'Ovisnost o sezoni vidi se najbolje u studenome, kad se poluotoci isprazne, konobe pozatvaraju, a tisuće sezonskih radnika odjave s burze tek dogodine u svibnju. Obalni gradovi žive četiri mjeseca na godinu, a preostalih osam broje dane; ekonomisti to zovu monokulturom, a stanovnici — čekanjem. Svaki potres na emitivnim tržištima, od pandemije do inflacije, ovdje se osjeti dvostruko.',
+        en: 'Dependence on the season is most visible in November, when the peninsulas empty, the taverns shut one after another, and thousands of seasonal workers sign off the employment register until the following May. Coastal towns live four months a year and count the days for the remaining eight; economists call it a monoculture, the residents call it waiting. Every tremor in the source markets, from pandemic to inflation, is felt here twice over.',
+      },
+      {
+        hr: 'Druga je cijena manje vidljiva u tablicama: apartmanizacija guta prostor, najam istiskuje domaće iz starih jezgri, a komunalna infrastruktura ljeti radi na granici pucanja. Otoci ostaju bez mladih, jer je isplativije iznajmiti tri sobe nego pokrenuti obrt. „Prodajemo ono od čega živimo", kaže sociolog s riječkog sveučilišta, „a čudimo se što nam ga je sve manje."',
+        en: 'The other price is less visible in the spreadsheets: apartment-building devours space, rents push locals out of the old town cores, and the utility infrastructure runs at breaking point in summer. The islands are losing their young, because letting three rooms pays better than starting a trade. "We are selling the very thing we live off," says a sociologist from the university in Rijeka, "and then wonder why there is less and less of it."',
+      },
+      {
+        hr: 'Rješenja se znaju napamet — produljenje sezone, kongresni i zdravstveni turizam, povratak poljoprivredi i industriji znanja — i svaki ih strateški dokument uredno nabraja. No mijenjati model dok novac pristiže znači rezati granu na kojoj se ugodno sjedi, pa se reforme odgađaju do prve krize. A koka, strpljiva, nese dalje. Do prve prehlade.',
+        en: 'The solutions are known by heart — extending the season, congress and health tourism, a return to agriculture and the knowledge industry — and every strategic document dutifully lists them. But changing the model while the money keeps arriving means sawing off the branch one sits on so comfortably, and so the reforms are postponed until the first crisis. And the hen, patient, keeps laying. Until the first cold.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'bruto domaći proizvod',
+        en: 'gross domestic product',
+        ex: 'Turizam čini petinu BDP-a.',
+      },
+      {
+        hr: 'djelatnost',
+        en: 'industry, activity',
+        ex: 'Ovisnost o jednoj djelatnosti.',
+      },
+      {
+        hr: 'burza (rada)',
+        en: 'employment office',
+        ex: 'Radnici se odjave s burze.',
+      },
+      {
+        hr: 'monokultura',
+        en: 'monoculture',
+        ex: 'Ekonomisti to zovu monokulturom.',
+      },
+      {
+        hr: 'apartmanizacija',
+        en: 'proliferation of holiday flats',
+        ex: 'Apartmanizacija guta prostor.',
+      },
+      {
+        hr: 'obrt',
+        en: 'trade, small business',
+        ex: 'Isplativije je iznajmljivati nego pokrenuti obrt.',
+      },
+      {
+        hr: 'isplativ',
+        en: 'profitable',
+        ex: 'Najam je isplativiji od obrta.',
+      },
+      {
+        hr: 'produljenje',
+        en: 'extension, prolongation',
+        ex: 'Produljenje sezone stalna je tema.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliki udio BDP-a čini turizam?',
+        qEn: 'What share of GDP does tourism make up?',
+        opts: ['Gotovo petinu', 'Polovinu', 'Desetinu', 'Trećinu'],
+        correct: 0,
+      },
+      {
+        q: 'Što se događa u studenome?',
+        qEn: 'What happens in November?',
+        opts: [
+          'Obala se isprazni, a sezonci odjave s burze',
+          'Počinje nova sezona',
+          'Rastu cijene najma',
+          'Otvaraju se konobe',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Zašto se reforme odgađaju?',
+        qEn: 'Why are reforms postponed?',
+        opts: [
+          'Jer novac i dalje pristiže',
+          'Jer nema strategija',
+          'Jer ih zabranjuje EU',
+          'Jer nema turista',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_10',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '👧',
+    title: 'Dijete s dva jezika',
+    titleEn: 'A Child with Two Languages',
+    duration: 10,
+    focus: 'Psiholingvistika • Savjetodavni registar • Kondicionalne strukture',
+    intro:
+      'Milijuni hrvatske djece odrastaju izvan Hrvatske, između jezika škole i jezika nedjeljnog ručka. Što znanost kaže o dvojezičnom odrastanju — a što bake?',
+    paragraphs: [
+      {
+        hr: 'U subotu ujutro u hrvatskim dopunskim školama od Münchena do Melbournea sjede djeca koja hrvatski čuju uglavnom nedjeljom, preko videopoziva s bakom. Roditelji ih dovode s istom tihom nadom: da jezik ne završi s njihovom generacijom. I s istim strahom: hoće li dijete miješati jezike, zaostati u školi, zbuniti se?',
+        en: 'On Saturday mornings, in Croatian supplementary schools from Munich to Melbourne, sit children who hear Croatian mostly on Sundays, over a video call with grandma. Parents bring them with the same quiet hope: that the language should not end with their generation. And with the same fear: will the child mix languages, fall behind at school, get confused?',
+      },
+      {
+        hr: 'Znanost je tu neuobičajeno jednoglasna: neće. Dvojezična djeca katkad progovore koji mjesec kasnije i posuđuju riječi iz jednog jezika u drugi, ali to nije zbrka, nego strategija — mozak poseže za najbržom dostupnom riječju. Dugoročne su prednosti mjerljive: lakše prebacivanje pažnje, bolje razumijevanje tuđih perspektiva i, u starosti, otpornija memorija. Uvjet je samo jedan: da oba jezika dobiju dovoljno životnoga prostora.',
+        en: 'Science is unusually unanimous here: they will not. Bilingual children sometimes start speaking a few months later and borrow words from one language into the other, but that is not confusion, it is strategy — the brain reaches for the fastest available word. The long-term advantages are measurable: easier switching of attention, better understanding of other perspectives and, in old age, a more resilient memory. There is only one condition: that both languages get enough living space.',
+      },
+      {
+        hr: 'Upravo tu nastaje problem koji lingvisti zovu nasljednim jezikom: hrvatski tih mališana često ostaje „kuhinjski" — savršen za juhu, sarmu i laku noć, preslab za raspravu o klimatskim promjenama. Razumiju sve, odgovaraju na engleskom ili njemačkom, a padeži im klize. Stručnjaci savjetuju ono što zvuči jednostavno, a traži disciplinu: čitati na hrvatskom, gledati crtiće na hrvatskom i — najvažnije — ne ispravljati svaku pogrešku, nego razgovarati dalje.',
+        en: 'This is exactly where the problem linguists call a heritage language arises: those children’s Croatian often remains "kitchen Croatian" — perfect for soup, sarma and goodnight, too weak for a debate on climate change. They understand everything, answer in English or German, and their cases slip. Experts advise what sounds simple and demands discipline: read in Croatian, watch cartoons in Croatian and — most importantly — don’t correct every mistake, keep the conversation going.',
+      },
+      {
+        hr: 'A bake, koje o psiholingvistici ne znaju ništa, znaju ono glavno. „Ja s njom govorim samo hrvatski", kaže baka Anka iz Toronta o unuci, „pa neka odgovara kako hoće. Jednog dana će joj moje riječi zatrebati." Istraživanja joj daju za pravo: djeca koja jezik vežu uz osobu koju vole, uče ga dublje od svake škole. Jezik se, pokazuje se, ne prenosi gramatikama — prenosi se ljubavlju.',
+        en: 'And the grandmothers, who know nothing about psycholinguistics, know the main thing. "I speak only Croatian with her," says grandma Anka from Toronto about her granddaughter, "and let her answer however she likes. One day she will need my words." Research proves her right: children who tie a language to a person they love learn it more deeply than any school can teach. Language, it turns out, is not passed on by grammars — it is passed on by love.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'dopunska škola',
+        en: 'supplementary school',
+        ex: 'Subotom idu u hrvatsku dopunsku školu.',
+      },
+      {
+        hr: 'dvojezičan',
+        en: 'bilingual',
+        ex: 'Dvojezična djeca ne zaostaju.',
+      },
+      {
+        hr: 'posuđivati',
+        en: 'to borrow',
+        ex: 'Posuđuju riječi iz jednog jezika u drugi.',
+      },
+      {
+        hr: 'mjerljiv',
+        en: 'measurable',
+        ex: 'Prednosti su mjerljive.',
+      },
+      {
+        hr: 'nasljedni jezik',
+        en: 'heritage language',
+        ex: 'Lingvisti to zovu nasljednim jezikom.',
+      },
+      {
+        hr: 'mališan',
+        en: 'little one, child',
+        ex: 'Hrvatski tih mališana ostaje „kuhinjski".',
+      },
+      {
+        hr: 'ispravljati',
+        en: 'to correct',
+        ex: 'Ne ispravljati svaku pogrešku.',
+      },
+      {
+        hr: 'prenositi',
+        en: 'to pass on, transmit',
+        ex: 'Jezik se prenosi ljubavlju.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što znanost kaže o miješanju jezika?',
+        qEn: 'What does science say about language mixing?',
+        opts: [
+          'To je strategija, a ne zbrka',
+          'To je znak zaostajanja',
+          'To treba kažnjavati',
+          'To je rijetko',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je „kuhinjski" hrvatski?',
+        qEn: 'What is "kitchen" Croatian?',
+        opts: [
+          'Jezik dovoljan za dom, preslab za rasprave',
+          'Jezik recepata',
+          'Dijalekt',
+          'Jezik dopunske škole',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Čime se jezik prema tekstu prenosi?',
+        qEn: 'According to the text, how is language passed on?',
+        opts: ['Ljubavlju', 'Gramatikama', 'Testovima', 'Televizijom'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_11',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '⚡',
+    title: 'Čovjek koji je upalio svjetlo',
+    titleEn: 'The Man Who Turned On the Light',
+    duration: 10,
+    focus: 'Biografski registar • Pasiv u historiografiji • Vremenske rečenice',
+    intro:
+      'Rodio se u ličkom selu za grmljavinske noći, a umro u njujorškom hotelu s golubicom na prozoru. Nikola Tesla — život između munje i tišine.',
+    paragraphs: [
+      {
+        hr: 'U noći između 9. i 10. srpnja 1856., dok je nad Smiljanom bjesnjela oluja, rodio se dječak kojega će svijet pamtiti po munjama. Primalja je, kažu, rekla da će dijete rođeno u takvoj noći biti dijete tame. „Ne", odgovorila je majka Đuka, „bit će dijete svjetla." Malo je proročanstava u povijesti tako uredno ispunjeno.',
+        en: 'On the night between the 9th and 10th of July 1856, while a storm raged over Smiljan, a boy was born whom the world would remember for lightning. The midwife, they say, remarked that a child born on such a night would be a child of darkness. "No," replied his mother Đuka, "he will be a child of light." Few prophecies in history have been fulfilled so neatly.',
+      },
+      {
+        hr: 'Otac, pravoslavni svećenik, namijenio mu je bogosloviju; sin je birao struju. Preko Graza i Praga stigao je u Budimpeštu, gdje mu je u parku, usred recitiranja Goethea, sinula ideja okretnoga magnetskog polja — temelj izmjenične struje. Godine 1884. iskrcao se u New Yorku s četiri centa u džepu i preporukom u kojoj je, prema legendi, pisalo: „Poznajem dva velika čovjeka — jedan ste vi, drugi je ovaj mladić."',
+        en: 'His father, an Orthodox priest, intended him for the seminary; the son chose electricity. Via Graz and Prague he reached Budapest, where, in a park, in the middle of reciting Goethe, the idea of the rotating magnetic field came to him — the foundation of alternating current. In 1884 he disembarked in New York with four cents in his pocket and a letter of recommendation which, according to legend, read: "I know two great men — one is you, the other is this young man."',
+      },
+      {
+        hr: 'Uslijedio je „rat struja" protiv Edisona, pobjeda izmjenične struje na Svjetskoj izložbi u Chicagu i hidroelektrana na Niagari, kojom je Teslin sustav osvijetlio kontinent. No izumitelj kojemu se pripisuje više od tristo patenata za novac nikad nije mario: ugovore je derao kad bi prijateljima zaprijetio bankrot, a bogatstvo je potrošio na laboratorije i viziju bežičnoga prijenosa energije koju svijet ni danas nije dostigao.',
+        en: 'There followed the "war of the currents" against Edison, the victory of alternating current at the Chicago World’s Fair, and the hydroelectric plant at Niagara, with which Tesla’s system lit a continent. Yet the inventor credited with more than three hundred patents never cared for money: he tore up contracts when bankruptcy threatened his friends, and spent his fortune on laboratories and a vision of wireless energy transmission the world has not reached even today.',
+      },
+      {
+        hr: 'Umro je sam, u hotelskoj sobi 3327, među bilježnicama i mrvicama za golubove. Danas mu ime nose jedinica magnetske indukcije, najpoznatija tvornica automobila na svijetu i zračna luka u Beogradu; Smiljan mu čuva rodnu kuću, a Zagreb ulicu i institut. Hrvatska i Srbija katkad se spore čiji je više — a on bi, vjerojatno, odgovorio kao i za života: da pripada budućnosti.',
+        en: 'He died alone, in hotel room 3327, among notebooks and crumbs for the pigeons. Today his name is borne by the unit of magnetic induction, the most famous car factory in the world and Belgrade’s airport; Smiljan keeps his birth house, Zagreb a street and an institute. Croatia and Serbia sometimes quarrel over whose he is more — and he would probably answer as he did in life: that he belongs to the future.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'primalja',
+        en: 'midwife',
+        ex: 'Primalja je rekla da će biti dijete tame.',
+      },
+      {
+        hr: 'proročanstvo',
+        en: 'prophecy',
+        ex: 'Malo je proročanstava tako ispunjeno.',
+      },
+      {
+        hr: 'bogoslovija',
+        en: 'seminary',
+        ex: 'Otac mu je namijenio bogosloviju.',
+      },
+      {
+        hr: 'izmjenična struja',
+        en: 'alternating current',
+        ex: 'Temelj izmjenične struje.',
+      },
+      {
+        hr: 'izumitelj',
+        en: 'inventor',
+        ex: 'Izumitelj s tristo patenata.',
+      },
+      {
+        hr: 'patent',
+        en: 'patent',
+        ex: 'Pripisuje mu se više od tristo patenata.',
+      },
+      {
+        hr: 'bežični',
+        en: 'wireless',
+        ex: 'Vizija bežičnoga prijenosa energije.',
+      },
+      {
+        hr: 'pripadati',
+        en: 'to belong',
+        ex: 'Odgovorio bi da pripada budućnosti.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Gdje je Tesli sinula ideja okretnoga magnetskog polja?',
+        qEn: 'Where did the idea of the rotating magnetic field come to Tesla?',
+        opts: ['U parku u Budimpešti', 'Na Niagari', 'U New Yorku', 'U Smiljanu'],
+        correct: 0,
+      },
+      {
+        q: 'Kako se Tesla odnosio prema novcu?',
+        qEn: 'How did Tesla treat money?',
+        opts: [
+          'Nije za njega mario',
+          'Skupljao ga je',
+          'Ulagao je u dionice',
+          'Ostavio ga je obitelji',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je majka Đuka prorekla?',
+        qEn: 'What did his mother Đuka foretell?',
+        opts: [
+          'Da će biti dijete svjetla',
+          'Da će biti svećenik',
+          'Da će otići u Ameriku',
+          'Da će biti bogat',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_12',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '📜',
+    title: 'Pismo uklesano u kamen',
+    titleEn: 'A Script Carved in Stone',
+    duration: 10,
+    focus: 'Historiografski registar • Trpni oblici • Kulturno pamćenje',
+    intro:
+      'Glagoljica je pismo kojim su Hrvati pisali tisuću godina — na kamenu, pergameni i vratima crkava. Priča o slovima koja su odbila umrijeti.',
+    paragraphs: [
+      {
+        hr: 'Oko 1100. godine, na otoku Krku, netko je u ploču bijeloga vapnenca uklesao rečenicu kojom hrvatski jezik ulazi u povijest: zapis o zemlji koju je kralj Zvonimir darovao crkvi svete Lucije. Bašćanska ploča, kako je danas zovemo, prvi je spomenik na kojem se hrvatsko ime spominje na hrvatskom jeziku — i to glagoljicom, pismom obloga, tajanstvenog crteža koje ne sliči nijednom drugom u Europi.',
+        en: 'Around the year 1100, on the island of Krk, someone carved into a slab of white limestone the sentence with which the Croatian language enters history: a record of land donated by King Zvonimir to the church of Saint Lucy. The Baška Tablet, as we call it today, is the first monument on which the Croatian name is mentioned in the Croatian language — and in Glagolitic, a script of rounded, mysterious shapes that resembles no other in Europe.',
+      },
+      {
+        hr: 'Glagoljicu su u devetom stoljeću sastavili Ćiril i Metod za potrebe slavenskoga bogoslužja, no dok ju je većina Slavena s vremenom zamijenila ćirilicom ili latinicom, hrvatski su je glagoljaši — seoski popovi od Istre do Zadra — tvrdoglavo čuvali stoljećima. Na glagoljici su ispisani misali i zakoni; Misal po zakonu rimskoga dvora iz 1483. prva je hrvatska tiskana knjiga, otisnuta svega tridesetak godina nakon Gutenberga.',
+        en: 'Glagolitic was devised in the ninth century by Cyril and Methodius for Slavic liturgy, but while most Slavs replaced it in time with Cyrillic or Latin script, the Croatian Glagolites — village priests from Istria to Zadar — stubbornly preserved it for centuries. Missals and laws were written in Glagolitic; the Missal by the Law of the Roman Court of 1483 is the first printed Croatian book, produced barely thirty years after Gutenberg.',
+      },
+      {
+        hr: 'Vinodolski zakonik, drugi najstariji slavenski pravni tekst, ispisan je glagoljicom 1288.; njome su vođene matice rođenih, sastavljane oporuke i klesani natpisi nad vratima. Bila je pismo svakodnevice, ne samo oltara. Tek je u devetnaestom stoljeću konačno ustuknula pred latinicom — no u istarskim je župama pokoji svećenik glagoljao gotovo do naših dana.',
+        en: 'The Law Codex of Vinodol, the second-oldest Slavic legal text, was written in Glagolitic in 1288; registers of births were kept in it, wills drawn up, inscriptions carved above doorways. It was a script of everyday life, not only of the altar. Only in the nineteenth century did it finally yield to the Latin script — yet in Istrian parishes the occasional priest sang the Glagolitic liturgy almost into our own times.',
+      },
+      {
+        hr: 'Danas glagoljica živi drugim životom: studenti je uče kao izborni kolegij, dizajneri je nose na majicama, a Aleja glagoljaša između Roča i Huma — najmanjega grada na svijetu — vodi putnika kroz kamena slova velika poput čovjeka. Narod koji je vlastito ime prvi put zapisao vlastitim pismom to ne zaboravlja: glagoljica više nije sredstvo komunikacije, ali jest ono što je oduvijek bila — potpis.',
+        en: 'Today Glagolitic lives a second life: students take it as an elective course, designers put it on T-shirts, and the Glagolitic Alley between Roč and Hum — the smallest town in the world — leads the traveller past stone letters as tall as a person. A people that first wrote down its own name in its own script does not forget that: Glagolitic is no longer a means of communication, but it remains what it always was — a signature.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'uklesati',
+        en: 'to carve (into stone)',
+        ex: 'Rečenica je uklesana u vapnenac.',
+      },
+      {
+        hr: 'spomenik',
+        en: 'monument',
+        ex: 'Prvi spomenik s hrvatskim imenom.',
+      },
+      {
+        hr: 'bogoslužje',
+        en: 'liturgy, divine service',
+        ex: 'Pismo za slavensko bogoslužje.',
+      },
+      {
+        hr: 'glagoljaš',
+        en: 'Glagolitic priest',
+        ex: 'Glagoljaši su pismo čuvali stoljećima.',
+      },
+      {
+        hr: 'misal',
+        en: 'missal',
+        ex: 'Misal iz 1483. prva je tiskana knjiga.',
+      },
+      {
+        hr: 'zakonik',
+        en: 'law codex',
+        ex: 'Vinodolski zakonik ispisan je 1288.',
+      },
+      {
+        hr: 'oporuka',
+        en: 'will, testament',
+        ex: 'Glagoljicom su sastavljane oporuke.',
+      },
+      {
+        hr: 'ustuknuti',
+        en: 'to yield, give way',
+        ex: 'Ustuknula je pred latinicom.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je Bašćanska ploča?',
+        qEn: 'What is the Baška Tablet?',
+        opts: [
+          'Prvi spomenik s hrvatskim imenom na hrvatskom jeziku',
+          'Prva tiskana knjiga',
+          'Najstariji zakon',
+          'Ploča s deset zapovijedi',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je Misal iz 1483. godine?',
+        qEn: 'What is the Missal of 1483?',
+        opts: [
+          'Prva hrvatska tiskana knjiga',
+          'Rukopis Ćirila i Metoda',
+          'Zbirka pjesama',
+          'Prijevod Biblije',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je glagoljica danas, prema tekstu?',
+        qEn: 'According to the text, what is Glagolitic today?',
+        opts: ['Potpis naroda', 'Službeno pismo', 'Zaboravljeno pismo', 'Sredstvo komunikacije'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_3',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🖋️',
+    title: 'Pismo koje nikad nisam poslao',
+    titleEn: 'The Letter I Never Sent',
+    duration: 11,
+    focus: 'Aorist i imperfekt u pripovijedanju • Epistolarni stil • Unutarnji monolog',
+    intro:
+      'Književna minijatura u kojoj pripovjedač piše ocu — trideset godina prekasno. Tekst svjesno poseže za aoristom i imperfektom, vremenima sjećanja.',
+    paragraphs: [
+      {
+        hr: 'Dragi oče, počeh ovo pismo tridesetak puta, i tridesetak ga puta poderah. Večeras, kad kiša dobova po istom limenom prozorskom pragu po kojem je dobovala i onda, ne dam mu da završi u košu. Bijaše listopad kad si me otpratio na kolodvor; nosio si moj kovčeg, a ja tvoju šutnju. „Piši", reče mi, i to bi sve. Vlak krenu, ti osta na peronu, kaput ti se vijoraše — a ja, dvadesetogodišnjak siguran u sve, ne mahnuh.',
+        en: 'Dear Father, I began this letter some thirty times, and some thirty times I tore it up. Tonight, as the rain drums on the same tin windowsill it drummed on back then, I will not let it end in the wastebasket. It was October when you saw me off at the station; you carried my suitcase, and I carried your silence. "Write," you said, and that was all. The train moved, you remained on the platform, your coat fluttering — and I, a twenty-year-old certain of everything, did not wave.',
+      },
+      {
+        hr: 'Ne pisah. Ni prve godine, kad mi tuđina bijaše gorka poput kave koju ondje piju bez razgovora; ni poslije, kad postadoh netko kome se drugi obraćaju s poštovanjem. Slao sam novac — uredno, svakoga prvog u mjesecu — i mišljah da je to isto. Majka mi u pismima javljaše da si zdrav, da vinograd rodi, da pitaš za mene. Nikad ne napisa: „nedostaješ mu". To sam morao pročitati sâm, među recima, ali naučih čitati prekasno.',
+        en: 'I did not write. Not in the first year, when the foreign land was bitter to me like the coffee they drink there without conversation; nor later, when I became someone whom others address with respect. I sent money — punctually, on the first of every month — and thought it was the same thing. Mother wrote that you were well, that the vineyard was bearing, that you asked after me. She never once wrote: "he misses you." That I had to read myself, between the lines, but I learned to read too late.',
+      },
+      {
+        hr: 'Kad te posljednji put vidjeh, sjeđaše na klupi pred kućom i gledaše u brijeg, onako kako se gleda u nešto što se zna napamet. Htjedoh ti reći sve — i ne rekoh ništa. Govorili smo o vremenu. O berbi. O susjedovu traktoru. Dva čovjeka koja su se cijeli život voljela na jeziku u kojem za tu ljubav nema riječi, ili je mi ne znadosmo naći.',
+        en: 'When I saw you for the last time, you were sitting on the bench in front of the house, looking at the hill the way one looks at something known by heart. I wanted to tell you everything — and said nothing. We spoke about the weather. About the harvest. About the neighbour’s tractor. Two men who loved each other all their lives in a language that has no words for that love — or we did not know how to find them.',
+      },
+      {
+        hr: 'Sada je kasno za slanje, a nije kasno za pisanje; tek sada razumijem razliku. Tvoj kaput visi u mome ormaru, u tuđem gradu koji je postao moj. Kad ga obučem, ramena mi bivaju šira nego što jesu. Laku noć, oče. Vlak davno ode, peron opustje — ali evo me, napokon mašem.',
+        en: 'It is too late now for sending, but not too late for writing; only now do I understand the difference. Your coat hangs in my wardrobe, in a foreign city that has become mine. When I put it on, my shoulders become broader than they are. Good night, Father. The train left long ago, the platform emptied — but here I am, waving at last.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'poderati',
+        en: 'to tear up',
+        ex: 'Trideset ga puta poderah.',
+      },
+      {
+        hr: 'dobovati',
+        en: 'to drum, patter',
+        ex: 'Kiša dobuje po limenom pragu.',
+      },
+      {
+        hr: 'tuđina',
+        en: 'foreign land(s)',
+        ex: 'Tuđina mi bijaše gorka.',
+      },
+      {
+        hr: 'obraćati se',
+        en: 'to address (someone)',
+        ex: 'Obraćaju mu se s poštovanjem.',
+      },
+      {
+        hr: 'među recima',
+        en: 'between the lines',
+        ex: 'To sam čitao među recima.',
+      },
+      {
+        hr: 'znati napamet',
+        en: 'to know by heart',
+        ex: 'Gledaše u brijeg koji zna napamet.',
+      },
+      {
+        hr: 'opustjeti',
+        en: 'to become deserted',
+        ex: 'Peron opustje.',
+      },
+      {
+        hr: 'vijoriti se',
+        en: 'to flutter, wave',
+        ex: 'Kaput ti se vijoraše na vjetru.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'U kojem je glagolskom vremenu „počeh"?',
+        qEn: 'Which tense is "počeh"?',
+        opts: ['Aorist', 'Imperfekt', 'Perfekt', 'Pluskvamperfekt'],
+        correct: 0,
+      },
+      {
+        q: 'Što je pripovjedač slao umjesto pisama?',
+        qEn: 'What did the narrator send instead of letters?',
+        opts: ['Novac', 'Fotografije', 'Razglednice', 'Poklone'],
+        correct: 0,
+      },
+      {
+        q: 'Što pripovjedač na kraju napokon čini?',
+        qEn: 'What does the narrator finally do at the end?',
+        opts: ['Maše', 'Šalje pismo', 'Vraća se kući', 'Prodaje kaput'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_4',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🌉',
+    title: 'Most',
+    titleEn: 'The Bridge',
+    duration: 11,
+    focus: 'Esejistička meditacija • Simbolika i metafora • Nominalne rečenice',
+    intro:
+      'Meditacija o mostovima — građevinama koje spajaju obale i razdvajaju epohe. Od rimskih lukova do novog mosta na Pelješcu.',
+    paragraphs: [
+      {
+        hr: 'Nijedna građevina ne govori o čovjeku toliko koliko most. Kuća je briga za sebe; tvrđava, strah od drugoga; hram, razgovor s nebom. Most je jedini oblik kojim kamen izgovara povjerenje: on pretpostavlja da na drugoj obali stanuje netko do koga vrijedi doći. Zato mostove ne ruše oluje nego vojske — tko želi ubiti grad, prvo mu prekine ruku pruženu preko vode.',
+        en: 'No structure speaks of man as much as a bridge. A house is care for oneself; a fortress, fear of the other; a temple, conversation with heaven. The bridge is the only form in which stone utters trust: it presumes that on the far bank lives someone worth reaching. That is why bridges are destroyed not by storms but by armies — whoever wants to kill a city first severs the arm it extends across the water.',
+      },
+      {
+        hr: 'Na ovim prostorima mostovi su oduvijek bili više od inženjerstva. Rimski luk u Solinu pregazio je carstva koja su ga gradila; šibenski je most šezdesetih spojio ne samo dvije obale Krke nego i dva svijeta, selo i grad; a stari most u Mostaru, kad se 1993. srušio u Neretvu, nije pao kao kamen, nego kao čovjek — snimka njegova pada boli i one koji ga nikad nisu prešli. Obnovljen je, dakako. Ali obnovljeni most, kao i zaraslo tkivo, pamti.',
+        en: 'In these lands bridges have always been more than engineering. The Roman arch at Solin outlived the empires that built it; the Šibenik bridge in the sixties joined not only the two banks of the Krka but two worlds, village and town; and the Old Bridge of Mostar, when it collapsed into the Neretva in 1993, fell not like stone but like a man — the footage of its fall pains even those who never crossed it. It was rebuilt, of course. But a rebuilt bridge, like healed tissue, remembers.',
+      },
+      {
+        hr: 'Ljeti 2022. Hrvatska je dobila most o kojem je sanjala pola stoljeća: dva i pol kilometra čelika preko Malostonskoga zaljeva, kojim je jug zemlje napokon spojen s njezinim tijelom. Na otvorenju su ljudi plakali, i to ne zbog prometa. Plakali su jer most na ovim prostorima nikad nije samo prečac: on je dokaz da se nešto veliko može i dovršiti, da obale, ma kako se dugo mimoilazile, na kraju ipak jedna drugoj — pripadnu.',
+        en: 'In the summer of 2022 Croatia received the bridge it had dreamed of for half a century: two and a half kilometres of steel across the Bay of Mali Ston, finally joining the country’s south to its body. At the opening, people wept — and not because of traffic. They wept because in these lands a bridge is never a mere shortcut: it is proof that something great can actually be finished, that shores, however long they pass each other by, in the end do belong to one another.',
+      },
+      {
+        hr: 'Svaki od nas gradi svoje mostove i svaki poneki sruši. Jezici su mostovi; isprike su mostovi; šutnja koja se prekine poslije dugih godina najuži je i najhrabriji od svih. Graditelji starih lukova znali su tajnu koju psihologija tek otkriva: luk stoji zato što se dvije polovice, naslonjene jedna na drugu, međusobno drže u zraku. Tako i ljudi. Most nije mjesto prelaska. Most je zagrljaj koji je naučio stajati.',
+        en: 'Each of us builds bridges of our own, and each of us tears the odd one down. Languages are bridges; apologies are bridges; a silence broken after long years is the narrowest and bravest of them all. The builders of the old arches knew a secret psychology is only now discovering: an arch stands because its two halves, leaning against each other, hold one another in the air. So do people. A bridge is not a place of crossing. A bridge is an embrace that has learned to stand.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'građevina',
+        en: 'structure, building',
+        ex: 'Nijedna građevina ne govori toliko o čovjeku.',
+      },
+      {
+        hr: 'povjerenje',
+        en: 'trust',
+        ex: 'Kamen izgovara povjerenje.',
+      },
+      {
+        hr: 'pretpostavljati',
+        en: 'to presuppose, assume',
+        ex: 'Most pretpostavlja drugu obalu.',
+      },
+      {
+        hr: 'pregaziti',
+        en: 'to outlive; to run over',
+        ex: 'Luk je pregazio carstva.',
+      },
+      {
+        hr: 'tkivo',
+        en: 'tissue',
+        ex: 'Obnovljeni most, kao zaraslo tkivo, pamti.',
+      },
+      {
+        hr: 'zaljev',
+        en: 'bay, gulf',
+        ex: 'Most preko Malostonskoga zaljeva.',
+      },
+      {
+        hr: 'prečac',
+        en: 'shortcut',
+        ex: 'Most nikad nije samo prečac.',
+      },
+      {
+        hr: 'mimoilaziti se',
+        en: 'to pass one another by',
+        ex: 'Obale se dugo mimoilaze.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što most, prema tekstu, „izgovara"?',
+        qEn: 'According to the text, what does a bridge "utter"?',
+        opts: ['Povjerenje', 'Strah', 'Brigu', 'Snagu'],
+        correct: 0,
+      },
+      {
+        q: 'Zašto su ljudi plakali na otvorenju Pelješkog mosta?',
+        qEn: 'Why did people weep at the opening of the Pelješac Bridge?',
+        opts: [
+          'Jer je dokaz da se veliko može dovršiti',
+          'Zbog prometa',
+          'Zbog cijene',
+          'Zbog vjetra',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Zašto luk stoji?',
+        qEn: 'Why does an arch stand?',
+        opts: [
+          'Jer se dvije polovice međusobno drže',
+          'Zbog težine temelja',
+          'Zbog čelika',
+          'Zbog žbuke',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_5',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🕰️',
+    title: 'O zaboravu',
+    titleEn: 'On Forgetting',
+    duration: 11,
+    focus: 'Filozofski esej • Apstraktni leksik • Parodoksalne konstrukcije',
+    intro:
+      'Pamćenje slavimo, zaborav osuđujemo. A ipak, bez zaborava ne bi bilo ni praštanja, ni sna, ni novoga početka. Esej u obranu najklevetanije sposobnosti uma.',
+    paragraphs: [
+      {
+        hr: 'O pamćenju govorimo kao o vrlini, o zaboravu kao o kvaru. Pamćenje ima svoje spomenike, arhive i obljetnice; zaborav nema ničega — njemu ne dižemo kipove, njega se stidimo. Pa ipak, tko bi izdržao um koji ništa ne ispušta? Borges je o tome napisao priču: njegov Funes, osuđen da pamti svaki list svakoga stabla, ne može misliti. Misliti znači sažimati, a sažimati znači — ispuštati. Zaborav nije rupa u pamćenju; zaborav je njegov oblik.',
+        en: 'We speak of memory as a virtue, of forgetting as a defect. Memory has its monuments, archives and anniversaries; forgetting has nothing — we raise no statues to it, we are ashamed of it. And yet, who could endure a mind that lets nothing go? Borges wrote a story about this: his Funes, condemned to remember every leaf of every tree, cannot think. To think is to condense, and to condense is — to let go. Forgetting is not a hole in memory; forgetting is its shape.',
+      },
+      {
+        hr: 'Neurologija potvrđuje ono što je književnost slutila: mozak troši više energije na zaboravljanje nego na pohranu. Svake noći, u snu, um prosijava dan — bitno pretače u trajno, nebitno rastvara. Čovjek koji „loše pamti" često samo dobro prosijava. I obrnuto: nesanica je katkad tek pamćenje koje je odbilo predati smjenu.',
+        en: 'Neurology confirms what literature suspected: the brain spends more energy on forgetting than on storage. Every night, in sleep, the mind sifts the day — decanting the essential into the lasting, dissolving the inessential. A person who "remembers poorly" is often merely sifting well. And conversely: insomnia is sometimes just memory refusing to hand over its shift.',
+      },
+      {
+        hr: 'Postoji, dakako, zaborav kojega se valja bojati — onaj naručeni, kolektivni, koji briše nezgodna poglavlja i preimenuje ulice. Protiv njega pamćenje s pravom ratuje. No postoji i zaborav bez kojega zajednice ne mogu dalje: onaj koji nakon svađe, rata ili nesreće dopušta da se susjed ponovno pogleda u oči. Praštanje nije čin pamćenja nego njegova svjesnog stišavanja; tko kaže „oprostio sam, ali ne zaboravljam", najčešće nije učinio ni jedno ni drugo.',
+        en: 'There is, of course, a forgetting one should fear — the commissioned, collective kind that erases inconvenient chapters and renames streets. Against that kind, memory rightly wages war. But there is also a forgetting without which communities cannot go on: the kind that, after a quarrel, a war or a calamity, allows one to look a neighbour in the eye again. Forgiveness is not an act of memory but of its conscious quieting; whoever says "I have forgiven, but I do not forget" has usually done neither.',
+      },
+      {
+        hr: 'Možda je mudrost upravo u tome: pamtiti ono što nas je izgradilo, zaboraviti ono što nas je samo ranilo — i ne brkati jedno s drugim. Starost, kažu, briše najprije imena, a najkasnije melodije. Kao da nam um na odlasku poručuje što je cijelo vrijeme bilo važno: ne kako se što zvalo, nego kako je — zvučalo. Blago onome tko na kraju zaboravi sve osim onoga što je volio. On nije izgubio pamćenje. On ga je dovršio.',
+        en: 'Perhaps wisdom lies precisely there: to remember what built us, to forget what merely wounded us — and not to confuse the two. Old age, they say, erases names first and melodies last. As if the departing mind were telling us what mattered all along: not what things were called, but how they — sounded. Blessed is the one who at the end forgets everything except what he loved. He has not lost his memory. He has completed it.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'vrlina',
+        en: 'virtue',
+        ex: 'O pamćenju govorimo kao o vrlini.',
+      },
+      {
+        hr: 'kvar',
+        en: 'defect, malfunction',
+        ex: 'Zaborav smatramo kvarom.',
+      },
+      {
+        hr: 'sažimati',
+        en: 'to condense, summarize',
+        ex: 'Misliti znači sažimati.',
+      },
+      {
+        hr: 'pohrana',
+        en: 'storage',
+        ex: 'Mozak troši više na zaborav nego na pohranu.',
+      },
+      {
+        hr: 'prosijavati',
+        en: 'to sift',
+        ex: 'Um noću prosijava dan.',
+      },
+      {
+        hr: 'naručen',
+        en: 'commissioned, ordered',
+        ex: 'Naručeni zaborav briše poglavlja.',
+      },
+      {
+        hr: 'stišavanje',
+        en: 'quieting, hushing',
+        ex: 'Praštanje je svjesno stišavanje pamćenja.',
+      },
+      {
+        hr: 'brkati',
+        en: 'to confuse, mix up',
+        ex: 'Ne brkati jedno s drugim.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto Borgesov Funes ne može misliti?',
+        qEn: 'Why can Borges’s Funes not think?',
+        opts: [
+          'Jer pamti sve i ništa ne ispušta',
+          'Jer je zaboravio jezik',
+          'Jer je slijep',
+          'Jer ne spava',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što um radi noću, prema tekstu?',
+        qEn: 'According to the text, what does the mind do at night?',
+        opts: ['Prosijava dan', 'Briše sve', 'Ponavlja melodije', 'Odmara se bez rada'],
+        correct: 0,
+      },
+      {
+        q: 'Kojeg se zaborava valja bojati?',
+        qEn: 'Which forgetting should one fear?',
+        opts: ['Naručenog, kolektivnog', 'Staračkog', 'Noćnog', 'Svakog'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_6',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '💨',
+    title: 'Bura',
+    titleEn: 'The Bura',
+    duration: 11,
+    focus: 'Personifikacija • Bogat pridjevski leksik • Ritam rečenice',
+    intro:
+      'Vjetar koji ruši kamione i bistri glave. Portret bure — sile koja je oblikovala kamen, kuće i karaktere sjevernoga Jadrana.',
+    paragraphs: [
+      {
+        hr: 'Bura se ne najavljuje. Jugo kuka danima, mijesi nebo u sivo tijesto, boli koljena i glave; bura dolazi kao presuda — preko noći, s Velebita, čista i bijela. Najprije zazviždi u žicama, zatim legne na zaljev i počne ga češljati protiv dlake. Ujutro je nebo oprano do modrine kakvu boje ne poznaju, a zrak tako oštar da se čini: udahneš li dublje, porezat ćeš se.',
+        en: 'The bura gives no notice. The southerly whines for days, kneading the sky into grey dough, aching in knees and heads; the bura arrives like a verdict — overnight, off the Velebit range, clean and white. First it whistles in the wires, then it lies down on the bay and begins combing it against the grain. By morning the sky is washed to a blue no paint knows, and the air is so sharp it seems that if you breathed in deeper, you would cut yourself.',
+      },
+      {
+        hr: 'Rađa se, kažu meteorolozi, iz hladnoga zraka koji se prelije preko planine i sruči niz padinu poput lavine; najjača je upravo pod Velebitom, u Senju, i na mostovima koje s užitkom zatvara. Njezini udari — refuli, kako ih zovu na obali — znaju prevrnuti kamion i odnijeti krov, pa se u senjskim kućama i danas grade vrata na zavjetrinu, a stare masline uz more rastu vodoravno, počešljane jednom zauvijek.',
+        en: 'It is born, meteorologists say, of cold air that spills over the mountain and crashes down the slope like an avalanche; it is strongest right under Velebit, in Senj, and on the bridges it delights in closing. Its gusts — refuli, as they call them on the coast — can overturn a lorry and carry off a roof, which is why doors in Senj houses are still built on the lee side, and the old olive trees by the sea grow horizontally, combed once and for all.',
+      },
+      {
+        hr: 'A opet, nitko o buri ne govori kao o neprijatelju. Ona suši pršut i meso na način koji nijedna komora ne zna oponašati; ona tjera vlagu iz kuća i mutljag iz uvala; ona, vele stari, „bistri more i pamet". Poslije tri dana bure svijet izgleda kao nov: otoci priđu bliže, Velebit se vidi do posljednje bore, a čovjek, koliko god ga izmučila, hoda uspravnije. Malo koja nepogoda ostavlja za sobom — red.',
+        en: 'And yet no one speaks of the bura as an enemy. It cures pršut and meat in a way no chamber can imitate; it drives damp from the houses and murk from the coves; it, the old folk say, "clears the sea and the mind". After three days of bura the world looks new: the islands draw nearer, Velebit is visible to its last wrinkle, and a person, however much it has worn them out, walks more upright. Few calamities leave order in their wake.',
+      },
+      {
+        hr: 'Zato je bura ovim krajevima više od vremena: ona je ćud. Ljudi ispod Velebita govore kratko, troše malo i ne obećavaju olako — jer sve što je suvišno bura ionako odnese. Nauči li čovjek živjeti s vjetrom koji mu svako malo pokuša odnijeti krov, naučio je i ono glavno: da se temelji kopaju duboko, a da se poslije svake oluje — broji, popravi i ide dalje. Bura ne oblikuje samo kamen. Bura odgaja.',
+        en: 'That is why in these parts the bura is more than weather: it is a temperament. The people below Velebit speak briefly, spend little and do not promise lightly — for whatever is superfluous, the bura carries off anyway. Once you learn to live with a wind that every so often tries to take your roof, you have learned the main thing: that foundations are dug deep, and that after every storm you — count, repair and carry on. The bura does not only shape stone. The bura raises children.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'najavljivati se',
+        en: 'to announce oneself',
+        ex: 'Bura se ne najavljuje.',
+      },
+      {
+        hr: 'presuda',
+        en: 'verdict',
+        ex: 'Dolazi kao presuda, preko noći.',
+      },
+      {
+        hr: 'padina',
+        en: 'slope',
+        ex: 'Zrak se sruči niz padinu.',
+      },
+      {
+        hr: 'udar',
+        en: 'gust, blow',
+        ex: 'Njezini udari prevrću kamione.',
+      },
+      {
+        hr: 'zavjetrina',
+        en: 'lee, sheltered side',
+        ex: 'Vrata se grade na zavjetrinu.',
+      },
+      {
+        hr: 'oponašati',
+        en: 'to imitate',
+        ex: 'Nijedna komora to ne zna oponašati.',
+      },
+      {
+        hr: 'nepogoda',
+        en: 'storm, bad weather',
+        ex: 'Malo koja nepogoda ostavlja red.',
+      },
+      {
+        hr: 'ćud',
+        en: 'temperament, nature',
+        ex: 'Bura je ćud ovih krajeva.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Odakle bura dolazi?',
+        qEn: 'Where does the bura come from?',
+        opts: ['S Velebita', 'S mora', 'Iz Italije', 'S juga'],
+        correct: 0,
+      },
+      {
+        q: 'Kako se na obali zovu udari bure?',
+        qEn: 'What are the bura’s gusts called on the coast?',
+        opts: ['Refuli', 'Valovi', 'Zapusi', 'Maestrali'],
+        correct: 0,
+      },
+      {
+        q: 'Što bura, prema starima, „bistri"?',
+        qEn: 'According to the old folk, what does the bura "clear"?',
+        opts: ['More i pamet', 'Nebo i zvijezde', 'Vino i ulje', 'Kuće i dvorišta'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_7',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🔍',
+    title: 'Rubovi jezika',
+    titleEn: 'The Edges of Language',
+    duration: 12,
+    focus: 'Metajezična refleksija • Neprevodivost • Složena subordinacija',
+    intro:
+      'Svaki jezik ima riječi koje drugi jezici mogu samo opisati. Esej o neprevodivome — i o tome što rubovi jezika otkrivaju o njegovu središtu.',
+    paragraphs: [
+      {
+        hr: 'Postoje riječi koje se ne daju prevesti, nego samo prepričati. Portugalci imaju saudade, čežnju za nečim što se možda nikad nije ni dogodilo; Danci hygge, toplinu male sreće; Nijemci Torschlusspanik, strah od vrata koja se zatvaraju. Hrvatski svojim govornicima nudi vlastite nepremostivosti: fjaku, stanje slatke obamrlosti koje nije lijenost nego mudrost tijela; merak, užitak koji se ne troši nego traje; inat, koji rječnici prevode kao „prkos" i time ga uredno promaše.',
+        en: 'There are words that cannot be translated, only recounted. The Portuguese have saudade, a longing for something that perhaps never happened at all; the Danes hygge, the warmth of small happiness; the Germans Torschlusspanik, the fear of closing doors. Croatian offers its speakers untranslatabilities of its own: fjaka, a state of sweet torpor that is not laziness but the body’s wisdom; merak, a pleasure that is not spent but lasts; inat, which dictionaries render as "spite" and thereby miss it entirely.',
+      },
+      {
+        hr: 'Jer inat nije prkos. Prkos je reakcija; inat je svjetonazor. Iz inata se gradi kuća kraj susjedove veće, završava fakultet koji su svi otpisali, preživljava opsada. Inat je iracionalan, skup i ponekad autodestruktivan — i upravo zato dostojanstven: on je odbijanje da svijet ima zadnju riječ. Tko ne razumije inat, taj će povijest ovih prostora čitati kao niz nerazumnih odluka. Tko ga razumije, prepoznat će u njima — kralježnicu.',
+        en: 'For inat is not spite. Spite is a reaction; inat is a worldview. Out of inat one builds a house next to the neighbour’s bigger one, finishes the degree everyone had written off, survives a siege. Inat is irrational, costly and sometimes self-destructive — and precisely for that reason dignified: it is the refusal to let the world have the last word. Whoever does not understand inat will read the history of these lands as a series of unreasonable decisions. Whoever understands it will recognize in them — a backbone.',
+      },
+      {
+        hr: 'Lingvisti će reći da neprevodive riječi ne dokazuju da narodi različito osjećaju, nego da su različite osjećaje smatrali vrijednima imenovanja. Upravo je to njihova draž: rječnik je popis onoga što je zajednici bilo dovoljno važno da dobije ime. Gdje Eskimi nijansiraju snijeg, Dalmatinci nijansiraju dokolicu; gdje njemački precizira strahove, hrvatski precizira otpore. Reci mi što ne možeš prevesti, i reći ću ti tko si.',
+        en: 'Linguists will say that untranslatable words do not prove that peoples feel differently, but that they considered different feelings worth naming. That is precisely their charm: a lexicon is an inventory of what a community found important enough to name. Where the Inuit shade snow into nuances, Dalmatians shade idleness; where German makes fears precise, Croatian makes resistances precise. Tell me what you cannot translate, and I will tell you who you are.',
+      },
+      {
+        hr: 'Za onoga tko uči hrvatski, rubovi su jezika najstrmiji dio puta — i najljepši. Padeže će savladati vježbom, red riječi sluhom; ali tek kad prvi put osjeti fjaku umjesto da je prevede, kad iz inata ustraje u nečemu što se ne isplati, kad mu za nekim bude žao onako kako se samo na hrvatskom može „biti žao" — tada više ne uči jezik. Tada jezik uči njega. A to je, možda, jedina definicija tečnosti koja nešto vrijedi: govoriti jezik znači pristati da te on izgovara.',
+        en: 'For the learner of Croatian, the edges of the language are the steepest part of the journey — and the most beautiful. Cases can be mastered by practice, word order by ear; but only when he first feels fjaka instead of translating it, when out of inat he persists in something that does not pay, when he misses someone the way one can only "be sorry" in Croatian — then he is no longer learning the language. Then the language is learning him. And that, perhaps, is the only definition of fluency worth anything: to speak a language is to consent to being spoken by it.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'neprevodiv',
+        en: 'untranslatable',
+        ex: 'Neprevodive riječi samo se prepričavaju.',
+      },
+      {
+        hr: 'obamrlost',
+        en: 'torpor, numbness',
+        ex: 'Fjaka je slatka obamrlost.',
+      },
+      {
+        hr: 'svjetonazor',
+        en: 'worldview',
+        ex: 'Inat je svjetonazor, ne reakcija.',
+      },
+      {
+        hr: 'otpisati',
+        en: 'to write off',
+        ex: 'Fakultet koji su svi otpisali.',
+      },
+      {
+        hr: 'dostojanstven',
+        en: 'dignified',
+        ex: 'Inat je upravo zato dostojanstven.',
+      },
+      {
+        hr: 'kralježnica',
+        en: 'spine, backbone',
+        ex: 'U tim se odlukama prepoznaje kralježnica.',
+      },
+      {
+        hr: 'dokolica',
+        en: 'leisure, idleness',
+        ex: 'Dalmatinci nijansiraju dokolicu.',
+      },
+      {
+        hr: 'tečnost',
+        en: 'fluency',
+        ex: 'Jedina definicija tečnosti koja vrijedi.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Po čemu se inat razlikuje od prkosa?',
+        qEn: 'How does inat differ from spite?',
+        opts: [
+          'Inat je svjetonazor, prkos reakcija',
+          'Inat je slabiji',
+          'Prkos je stariji pojam',
+          'Ni po čemu',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je rječnik, prema tekstu?',
+        qEn: 'According to the text, what is a lexicon?',
+        opts: [
+          'Popis onoga što je zajednici bilo važno imenovati',
+          'Popis pravila',
+          'Zbirka prijevoda',
+          'Povijest jezika',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kada učenik „više ne uči jezik"?',
+        qEn: 'When is the learner "no longer learning the language"?',
+        opts: [
+          'Kad jezik počne učiti njega',
+          'Kad savlada padeže',
+          'Kad položi ispit',
+          'Kad prevede fjaku',
+        ],
+        correct: 0,
+      },
+    ],
+  },
 ];
