@@ -1,6 +1,7 @@
 /**
  * gradedStories.js — Graded Croatian reading & listening content
- * 9 stories across A1, A2, and B1 CEFR levels.
+ * Graded stories across A1-C2 (see per-level counts in the array; the
+ * 2026-07 reading expansion grew A1/A2 to 16 each).
  * Each story: Croatian paragraphs, English translations, vocabulary, comprehension quiz.
  */
 
@@ -2661,6 +2662,1364 @@ export const GRADED_STORIES = [
         q: 'Što, prema autoru, "hvata smisao"?',
         qEn: 'According to the author, what "captures meaning"?',
         opts: ['Brzina', 'Sporost', 'Žurba', 'Površnost'],
+        correct: 1,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // A1 — 2026-07 reading expansion (gs_a1_7 … gs_a1_16)
+  // ═══════════════════════════════════════════════════════
+
+  {
+    id: 'gs_a1_7',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🥐',
+    title: 'U pekarnici',
+    titleEn: 'At the Bakery',
+    duration: 4,
+    focus: 'Present tense • Food & prices • Polite requests',
+    intro:
+      'Marko starts every morning at the neighbourhood bakery. Learn breakfast words and how to order politely.',
+    paragraphs: [
+      {
+        hr: 'Marko svako jutro ide u pekarnicu. Pekarnica je blizu njegove kuće, na uglu ulice. Unutra uvijek lijepo miriše na svježi kruh.',
+        en: 'Marko goes to the bakery every morning. The bakery is close to his house, on the street corner. Inside it always smells nicely of fresh bread.',
+      },
+      {
+        hr: '"Dobro jutro! Izvolite?" pita prodavačica.\n"Dobro jutro! Jedan kruh i dva peciva, molim vas," kaže Marko.\n"Želite li još nešto? Burek je još topao."\n"Može jedan burek sa sirom, hvala."',
+        en: '"Good morning! What can I get you?" asks the shop assistant.\n"Good morning! One loaf of bread and two rolls, please," says Marko.\n"Would you like anything else? The burek is still warm."\n"One cheese burek then, thank you."',
+      },
+      {
+        hr: 'Marko plaća četiri eura i pedeset centi. Prodavačica mu daje vrećicu i kaže: "Ugodan dan!" Marko odgovara: "Hvala, također!"',
+        en: 'Marko pays four euros and fifty cents. The shop assistant gives him a bag and says: "Have a nice day!" Marko replies: "Thanks, you too!"',
+      },
+      {
+        hr: 'Doma Marko pije kavu i jede topli burek. Njegova sestra jede pecivo s marmeladom. Doručak je najvažniji obrok u danu, kaže njihova mama.',
+        en: 'At home Marko drinks coffee and eats the warm burek. His sister eats a roll with jam. Breakfast is the most important meal of the day, says their mum.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'pekarnica', en: 'bakery', ex: 'Pekarnica je na uglu.' },
+      { hr: 'kruh', en: 'bread', ex: 'Kruh je svjež.' },
+      { hr: 'pecivo', en: 'roll / pastry', ex: 'Jedem pecivo s marmeladom.' },
+      { hr: 'topao', en: 'warm', ex: 'Burek je topao.' },
+      { hr: 'mirisati', en: 'to smell (nice)', ex: 'Kruh lijepo miriše.' },
+      { hr: 'vrećica', en: 'small bag', ex: 'Kruh je u vrećici.' },
+      { hr: 'doručak', en: 'breakfast', ex: 'Doručak je u osam.' },
+      { hr: 'obrok', en: 'meal', ex: 'Ručak je veliki obrok.' },
+    ],
+    quiz: [
+      {
+        q: 'Gdje je pekarnica?',
+        qEn: 'Where is the bakery?',
+        opts: ['U centru grada', 'Na uglu ulice', 'Pokraj škole', 'Na tržnici'],
+        correct: 1,
+      },
+      {
+        q: 'Što Marko kupuje osim kruha i peciva?',
+        qEn: 'What does Marko buy besides bread and rolls?',
+        opts: ['Kavu', 'Marmeladu', 'Burek sa sirom', 'Mlijeko'],
+        correct: 2,
+      },
+      {
+        q: 'Što kaže mama o doručku?',
+        qEn: 'What does mum say about breakfast?',
+        opts: [
+          'Doručak je skup',
+          'Doručak je najvažniji obrok u danu',
+          'Doručak nije važan',
+          'Doručak je uvijek topao',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_8',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '👨‍👩‍👧‍👦',
+    title: 'Moja obitelj',
+    titleEn: 'My Family',
+    duration: 4,
+    focus: 'Present tense • Family vocabulary • Possessives (moj/moja)',
+    intro:
+      'Lucija introduces her family — parents, brother, grandma and the family dog. Core family words in context.',
+    paragraphs: [
+      {
+        hr: 'Zovem se Lucija i imam veliku obitelj. Moj tata se zove Ivan i radi kao vozač autobusa. Moja mama se zove Marija i ona je učiteljica u školi.',
+        en: 'My name is Lucija and I have a big family. My dad is called Ivan and he works as a bus driver. My mum is called Marija and she is a teacher at a school.',
+      },
+      {
+        hr: 'Imam jednog brata. On se zove Petar i ima deset godina. Petar voli sport, posebno nogomet. Svaki dan igra nogomet u parku s prijateljima.',
+        en: 'I have one brother. His name is Petar and he is ten years old. Petar loves sport, especially football. Every day he plays football in the park with his friends.',
+      },
+      {
+        hr: 'Naša baka živi s nama. Ona odlično kuha — njezina juha je najbolja na svijetu! Baka svako popodne pije kavu i čita novine na balkonu.',
+        en: 'Our grandma lives with us. She cooks wonderfully — her soup is the best in the world! Every afternoon grandma drinks coffee and reads the newspaper on the balcony.',
+      },
+      {
+        hr: 'Imamo i psa. On se zove Rex i jako je veseo. Navečer svi zajedno večeramo i pričamo o danu. Volim svoju obitelj!',
+        en: 'We also have a dog. His name is Rex and he is very cheerful. In the evening we all have dinner together and talk about the day. I love my family!',
+      },
+    ],
+    vocabulary: [
+      { hr: 'obitelj', en: 'family', ex: 'Imam veliku obitelj.' },
+      { hr: 'vozač', en: 'driver', ex: 'Tata je vozač autobusa.' },
+      { hr: 'učiteljica', en: 'teacher (f.)', ex: 'Mama je učiteljica.' },
+      { hr: 'posebno', en: 'especially', ex: 'Volim sport, posebno nogomet.' },
+      { hr: 'najbolji', en: 'the best', ex: 'Bakina juha je najbolja.' },
+      { hr: 'popodne', en: 'afternoon', ex: 'Popodne pijem kavu.' },
+      { hr: 'veseo', en: 'cheerful', ex: 'Pas je veseo.' },
+      { hr: 'večerati', en: 'to have dinner', ex: 'Večeramo zajedno.' },
+    ],
+    quiz: [
+      {
+        q: 'Što radi Lucijin tata?',
+        qEn: "What does Lucija's dad do?",
+        opts: ['On je učitelj', 'On je vozač autobusa', 'On je kuhar', 'On je prodavač'],
+        correct: 1,
+      },
+      {
+        q: 'Što Petar voli?',
+        qEn: 'What does Petar love?',
+        opts: ['Kuhanje', 'Čitanje', 'Nogomet', 'Glazbu'],
+        correct: 2,
+      },
+      {
+        q: 'Gdje baka čita novine?',
+        qEn: 'Where does grandma read the newspaper?',
+        opts: ['U parku', 'U kuhinji', 'U školi', 'Na balkonu'],
+        correct: 3,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_9',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🌳',
+    title: 'Nedjelja u parku',
+    titleEn: 'Sunday in the Park',
+    duration: 4,
+    focus: 'Present tense • Weather • Activities outdoors',
+    intro:
+      'A sunny Sunday in the city park — ice cream, a lake and a small adventure with the dog.',
+    paragraphs: [
+      {
+        hr: 'Danas je nedjelja i vrijeme je lijepo. Sunce sija i nebo je plavo. Obitelj Kovač ide u park. Park je velik i zelen, a u sredini je malo jezero.',
+        en: 'Today is Sunday and the weather is nice. The sun is shining and the sky is blue. The Kovač family goes to the park. The park is big and green, and in the middle there is a small lake.',
+      },
+      {
+        hr: 'Djeca se igraju na igralištu. Tata i mama sjede na klupi i razgovaraju. Pas Rex trči po travi i lovi lopticu. Svi su sretni.',
+        en: 'The children play on the playground. Dad and mum sit on a bench and talk. Rex the dog runs on the grass and chases the little ball. Everyone is happy.',
+      },
+      {
+        hr: 'Poslije igre svi jedu sladoled. Mali Petar želi dva sladoleda, ali mama kaže: "Jedan je dovoljno!" Petar bira čokoladu, a Lucija jagodu.',
+        en: 'After playing, everyone eats ice cream. Little Petar wants two ice creams, but mum says: "One is enough!" Petar chooses chocolate, and Lucija strawberry.',
+      },
+      {
+        hr: 'Odjednom Rex skače u jezero! Voda je hladna, ali Rex je sretan. Tata se smije: "Rex također želi sladoled!" Svi se smiju. Kakva lijepa nedjelja!',
+        en: 'Suddenly Rex jumps into the lake! The water is cold, but Rex is happy. Dad laughs: "Rex wants ice cream too!" Everyone laughs. What a lovely Sunday!',
+      },
+    ],
+    vocabulary: [
+      { hr: 'vrijeme', en: 'weather / time', ex: 'Vrijeme je lijepo.' },
+      { hr: 'sijati', en: 'to shine', ex: 'Sunce sija.' },
+      { hr: 'jezero', en: 'lake', ex: 'U parku je jezero.' },
+      { hr: 'igralište', en: 'playground', ex: 'Djeca su na igralištu.' },
+      { hr: 'klupa', en: 'bench', ex: 'Sjedimo na klupi.' },
+      { hr: 'trava', en: 'grass', ex: 'Rex trči po travi.' },
+      { hr: 'dovoljno', en: 'enough', ex: 'Jedan sladoled je dovoljno.' },
+      { hr: 'odjednom', en: 'suddenly', ex: 'Odjednom pada kiša.' },
+    ],
+    quiz: [
+      {
+        q: 'Kakvo je vrijeme danas?',
+        qEn: 'What is the weather like today?',
+        opts: ['Pada kiša', 'Lijepo je i sunčano', 'Hladno je', 'Pada snijeg'],
+        correct: 1,
+      },
+      {
+        q: 'Što je u sredini parka?',
+        qEn: 'What is in the middle of the park?',
+        opts: ['Igralište', 'Kafić', 'Malo jezero', 'Pekarnica'],
+        correct: 2,
+      },
+      {
+        q: 'Što radi Rex na kraju priče?',
+        qEn: 'What does Rex do at the end of the story?',
+        opts: ['Jede sladoled', 'Spava na travi', 'Skače u jezero', 'Trči kući'],
+        correct: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_10',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🚌',
+    title: 'Autobusom u školu',
+    titleEn: 'By Bus to School',
+    duration: 4,
+    focus: 'Present tense • Transport • Telling time',
+    intro: "Petar's school morning: the alarm, the bus stop, and a race against the clock.",
+    paragraphs: [
+      {
+        hr: 'Petar ustaje svaki dan u sedam sati. Brzo se oblači, pere zube i jede doručak. U sedam i trideset izlazi iz kuće.',
+        en: "Petar gets up every day at seven o'clock. He quickly gets dressed, brushes his teeth and eats breakfast. At seven thirty he leaves the house.",
+      },
+      {
+        hr: 'Autobusna stanica je blizu. Autobus broj pet dolazi u sedam i četrdeset. Petar čeka s prijateljicom Anom. Oni razgovaraju o školi.',
+        en: 'The bus stop is nearby. Bus number five comes at seven forty. Petar waits with his friend Ana. They talk about school.',
+      },
+      {
+        hr: 'Danas autobus kasni! Petar gleda na sat: sedam i četrdeset pet... sedam i pedeset... "Škola počinje u osam!" kaže Ana. Napokon, autobus dolazi.',
+        en: 'Today the bus is late! Petar looks at his watch: seven forty-five... seven fifty... "School starts at eight!" says Ana. At last, the bus arrives.',
+      },
+      {
+        hr: 'Vožnja traje deset minuta. Petar i Ana trče od stanice do škole. Ulaze u razred točno u osam sati. Učiteljica se smiješi: "Baš na vrijeme!"',
+        en: 'The ride takes ten minutes. Petar and Ana run from the stop to the school. They enter the classroom at exactly eight o\'clock. The teacher smiles: "Right on time!"',
+      },
+    ],
+    vocabulary: [
+      { hr: 'ustajati', en: 'to get up', ex: 'Ustajem u sedam sati.' },
+      { hr: 'oblačiti se', en: 'to get dressed', ex: 'Brzo se oblačim.' },
+      { hr: 'stanica', en: 'stop / station', ex: 'Čekam na stanici.' },
+      { hr: 'kasniti', en: 'to be late', ex: 'Autobus kasni.' },
+      { hr: 'napokon', en: 'at last', ex: 'Napokon dolazi autobus.' },
+      { hr: 'vožnja', en: 'ride / drive', ex: 'Vožnja traje deset minuta.' },
+      { hr: 'trajati', en: 'to last', ex: 'Sat traje 45 minuta.' },
+      { hr: 'na vrijeme', en: 'on time', ex: 'Dolazim na vrijeme.' },
+    ],
+    quiz: [
+      {
+        q: 'Kada Petar ustaje?',
+        qEn: 'When does Petar get up?',
+        opts: ['U šest sati', 'U sedam sati', 'U osam sati', 'U sedam i trideset'],
+        correct: 1,
+      },
+      {
+        q: 'Koji autobus Petar čeka?',
+        qEn: 'Which bus does Petar wait for?',
+        opts: ['Broj dva', 'Broj deset', 'Broj pet', 'Broj petnaest'],
+        correct: 2,
+      },
+      {
+        q: 'Zašto Petar i Ana trče do škole?',
+        qEn: 'Why do Petar and Ana run to school?',
+        opts: [
+          'Jer vole trčati',
+          'Jer autobus kasni i škola počinje u osam',
+          'Jer pada kiša',
+          'Jer je škola daleko',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_11',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🎂',
+    title: 'Bakin rođendan',
+    titleEn: "Grandma's Birthday",
+    duration: 4,
+    focus: 'Present tense • Celebrations • Giving gifts (dative)',
+    intro:
+      "The whole family gathers for grandma's seventieth birthday — cake, presents and one big surprise.",
+    paragraphs: [
+      {
+        hr: 'Danas baka slavi rođendan. Ima sedamdeset godina! Cijela obitelj dolazi na proslavu: tete, stričevi, bratići i sestrične.',
+        en: 'Today grandma is celebrating her birthday. She is seventy years old! The whole family is coming to the celebration: aunts, uncles and cousins.',
+      },
+      {
+        hr: 'Mama peče veliku tortu od čokolade. Lucija i Petar ukrašavaju dnevnu sobu balonima. Tata kupuje cvijeće — baka najviše voli ruže.',
+        en: 'Mum is baking a big chocolate cake. Lucija and Petar are decorating the living room with balloons. Dad is buying flowers — grandma loves roses the most.',
+      },
+      {
+        hr: 'U pet sati svi viču: "Sretan rođendan!" Baka je jako sretna. Djeca joj daju poklon: veliki album sa starim fotografijama obitelji.',
+        en: 'At five o\'clock everyone shouts: "Happy birthday!" Grandma is very happy. The children give her a present: a big album with old family photographs.',
+      },
+      {
+        hr: 'Baka gleda fotografije i plače od sreće. "Ovo je najljepši poklon na svijetu," kaže ona. Onda svi jedu tortu i pjevaju stare pjesme do kasne večeri.',
+        en: 'Grandma looks at the photographs and cries with joy. "This is the most beautiful present in the world," she says. Then everyone eats cake and sings old songs until late evening.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'slaviti', en: 'to celebrate', ex: 'Baka slavi rođendan.' },
+      { hr: 'proslava', en: 'celebration', ex: 'Proslava je u pet sati.' },
+      { hr: 'peći', en: 'to bake', ex: 'Mama peče tortu.' },
+      { hr: 'ukrašavati', en: 'to decorate', ex: 'Ukrašavamo sobu balonima.' },
+      { hr: 'cvijeće', en: 'flowers', ex: 'Baka voli cvijeće.' },
+      { hr: 'poklon', en: 'present / gift', ex: 'Ovo je poklon za tebe.' },
+      { hr: 'fotografija', en: 'photograph', ex: 'Gledamo stare fotografije.' },
+      { hr: 'pjevati', en: 'to sing', ex: 'Pjevamo stare pjesme.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko godina baka ima?',
+        qEn: 'How old is grandma?',
+        opts: ['Šezdeset', 'Sedamdeset', 'Osamdeset', 'Pedeset'],
+        correct: 1,
+      },
+      {
+        q: 'Koje cvijeće baka najviše voli?',
+        qEn: 'Which flowers does grandma love the most?',
+        opts: ['Tulipane', 'Ruže', 'Suncokrete', 'Ljiljane'],
+        correct: 1,
+      },
+      {
+        q: 'Što djeca daju baki?',
+        qEn: 'What do the children give grandma?',
+        opts: ['Tortu', 'Balone', 'Album s fotografijama', 'Novu haljinu'],
+        correct: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_12',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🏖️',
+    title: 'Dan na plaži',
+    titleEn: 'A Day at the Beach',
+    duration: 4,
+    focus: 'Present tense • Summer & sea vocabulary • Colours',
+    intro: 'A hot July day on the Adriatic — swimming, sandcastles and the bluest sea.',
+    paragraphs: [
+      {
+        hr: 'Ljeto je i obitelj je na moru. Danas je jako vruće — trideset pet stupnjeva! Plaža je puna ljudi, ali more je mirno i plavo.',
+        en: 'It is summer and the family is at the seaside. Today it is very hot — thirty-five degrees! The beach is full of people, but the sea is calm and blue.',
+      },
+      {
+        hr: 'Lucija i Petar plivaju cijelo jutro. Voda je topla i čista. Petar roni i gleda male ribe. "Vidim plavu ribu!" viče on.',
+        en: 'Lucija and Petar swim all morning. The water is warm and clean. Petar dives and watches little fish. "I can see a blue fish!" he shouts.',
+      },
+      {
+        hr: 'U podne obitelj sjedi u hladu pod suncobranom. Jedu sendviče i lubenicu. Mama kaže: "Poslije ručka jedan sat bez plivanja!" Djeca grade dvorac od pijeska.',
+        en: 'At noon the family sits in the shade under the parasol. They eat sandwiches and watermelon. Mum says: "After lunch, one hour without swimming!" The children build a sandcastle.',
+      },
+      {
+        hr: 'Navečer svi gledaju zalazak sunca. Nebo je narančasto i ružičasto. "More je najljepše navečer," kaže tata. Sutra dolaze opet!',
+        en: 'In the evening they all watch the sunset. The sky is orange and pink. "The sea is most beautiful in the evening," says dad. Tomorrow they are coming again!',
+      },
+    ],
+    vocabulary: [
+      { hr: 'vruće', en: 'hot (weather)', ex: 'Danas je jako vruće.' },
+      { hr: 'stupanj', en: 'degree', ex: 'Trideset stupnjeva je vruće.' },
+      { hr: 'plivati', en: 'to swim', ex: 'Plivamo u moru.' },
+      { hr: 'roniti', en: 'to dive', ex: 'Petar roni i gleda ribe.' },
+      { hr: 'hlad', en: 'shade', ex: 'Sjedimo u hladu.' },
+      { hr: 'lubenica', en: 'watermelon', ex: 'Ljeti jedemo lubenicu.' },
+      { hr: 'pijesak', en: 'sand', ex: 'Dvorac od pijeska.' },
+      { hr: 'zalazak sunca', en: 'sunset', ex: 'Gledamo zalazak sunca.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko je stupnjeva danas?',
+        qEn: 'How many degrees is it today?',
+        opts: ['Dvadeset pet', 'Trideset', 'Trideset pet', 'Četrdeset'],
+        correct: 2,
+      },
+      {
+        q: 'Što Petar vidi kad roni?',
+        qEn: 'What does Petar see when he dives?',
+        opts: ['Plavu ribu', 'Dvorac', 'Lubenicu', 'Suncobran'],
+        correct: 0,
+      },
+      {
+        q: 'Kakvo je nebo navečer?',
+        qEn: 'What is the sky like in the evening?',
+        opts: ['Sivo i tamno', 'Narančasto i ružičasto', 'Plavo i zeleno', 'Crno'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_13',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '☕',
+    title: 'Kava s prijateljicom',
+    titleEn: 'Coffee with a Friend',
+    duration: 4,
+    focus: 'Present tense • Café culture • Ordering drinks',
+    intro: 'Ana meets her best friend for coffee — the most Croatian of all rituals.',
+    paragraphs: [
+      {
+        hr: 'Subota je ujutro. Ana ide u kafić u centru grada. Tamo je čeka njezina najbolja prijateljica Ivana. One piju kavu zajedno svake subote.',
+        en: 'It is Saturday morning. Ana goes to a café in the city centre. Her best friend Ivana is waiting for her there. They drink coffee together every Saturday.',
+      },
+      {
+        hr: '"Bog, Ivana! Kako si?" pita Ana.\n"Odlično! Sjedni. Što piješ danas?"\n"Kavu s mlijekom, kao i uvijek," smije se Ana.\nKonobar dolazi i one naručuju dvije kave i čašu vode.',
+        en: '"Hi, Ivana! How are you?" asks Ana.\n"Great! Sit down. What are you drinking today?"\n"Coffee with milk, as always," laughs Ana.\nThe waiter comes and they order two coffees and a glass of water.',
+      },
+      {
+        hr: 'Prijateljice razgovaraju dva sata. Pričaju o poslu, o obitelji i o planovima za ljeto. Kava je odavno gotova, ali razgovor ne prestaje.',
+        en: 'The friends talk for two hours. They talk about work, about family and about plans for the summer. The coffee is long finished, but the conversation does not stop.',
+      },
+      {
+        hr: 'U Hrvatskoj kava nije samo piće — kava je vrijeme za prijatelje. "Vidimo se sljedeće subote?" pita Ivana. "Naravno! Isti kafić, isto vrijeme," odgovara Ana.',
+        en: 'In Croatia coffee is not just a drink — coffee is time for friends. "See you next Saturday?" asks Ivana. "Of course! Same café, same time," replies Ana.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'kafić', en: 'café', ex: 'Kafić je u centru.' },
+      {
+        hr: 'najbolja prijateljica',
+        en: 'best friend (f.)',
+        ex: 'Ivana je moja najbolja prijateljica.',
+      },
+      { hr: 'naručivati', en: 'to order', ex: 'Naručujemo dvije kave.' },
+      { hr: 'konobar', en: 'waiter', ex: 'Konobar donosi kavu.' },
+      { hr: 'razgovarati', en: 'to talk / converse', ex: 'Razgovaramo o poslu.' },
+      { hr: 'plan', en: 'plan', ex: 'Imamo planove za ljeto.' },
+      { hr: 'odavno', en: 'long ago / for a long time', ex: 'Kava je odavno gotova.' },
+      { hr: 'piće', en: 'drink', ex: 'Kava je toplo piće.' },
+    ],
+    quiz: [
+      {
+        q: 'Kada Ana i Ivana piju kavu zajedno?',
+        qEn: 'When do Ana and Ivana drink coffee together?',
+        opts: ['Svaki dan', 'Svake subote', 'Svake nedjelje', 'Jednom mjesečno'],
+        correct: 1,
+      },
+      {
+        q: 'Što Ana uvijek pije?',
+        qEn: 'What does Ana always drink?',
+        opts: ['Čaj', 'Sok', 'Kavu s mlijekom', 'Vodu'],
+        correct: 2,
+      },
+      {
+        q: 'Što je kava u Hrvatskoj?',
+        qEn: 'What is coffee in Croatia?',
+        opts: ['Samo piće', 'Vrijeme za prijatelje', 'Doručak', 'Skupo piće'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_14',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🏠',
+    title: 'Naš stan',
+    titleEn: 'Our Flat',
+    duration: 4,
+    focus: 'Present tense • Rooms & furniture • Locative (u/na + location)',
+    intro: "A tour of the family flat, room by room — and everyone's favourite corner.",
+    paragraphs: [
+      {
+        hr: 'Živimo u stanu na trećem katu. Stan nije velik, ali je svijetao i udoban. Imamo dnevnu sobu, kuhinju, dvije spavaće sobe i kupaonicu.',
+        en: 'We live in a flat on the third floor. The flat is not big, but it is bright and comfortable. We have a living room, a kitchen, two bedrooms and a bathroom.',
+      },
+      {
+        hr: 'U dnevnoj sobi je velika siva sofa i televizor. Tata navečer tamo gleda vijesti. Na zidu su fotografije obitelji i jedna slika mora.',
+        en: 'In the living room there is a big grey sofa and a television. Dad watches the news there in the evening. On the wall there are family photographs and one painting of the sea.',
+      },
+      {
+        hr: 'Kuhinja je mamino kraljevstvo. Tamo uvijek nešto lijepo miriše. Na stolu je uvijek svježe voće, a u pećnici često kolač.',
+        en: "The kitchen is mum's kingdom. Something always smells nice there. There is always fresh fruit on the table, and often a cake in the oven.",
+      },
+      {
+        hr: 'Moja soba je mala, ali je moja! U njoj su krevet, radni stol i police pune knjiga. Na balkonu imamo cvijeće i dvije stolice. Tu čitam kad je lijepo vrijeme.',
+        en: 'My room is small, but it is mine! In it there is a bed, a desk and shelves full of books. On the balcony we have flowers and two chairs. I read there when the weather is nice.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'kat', en: 'floor / storey', ex: 'Stan je na trećem katu.' },
+      { hr: 'udoban', en: 'comfortable', ex: 'Sofa je udobna.' },
+      { hr: 'dnevna soba', en: 'living room', ex: 'Televizor je u dnevnoj sobi.' },
+      { hr: 'zid', en: 'wall', ex: 'Slika je na zidu.' },
+      { hr: 'pećnica', en: 'oven', ex: 'Kolač je u pećnici.' },
+      { hr: 'radni stol', en: 'desk', ex: 'Učim za radnim stolom.' },
+      { hr: 'polica', en: 'shelf', ex: 'Police su pune knjiga.' },
+      { hr: 'balkon', en: 'balcony', ex: 'Na balkonu je cvijeće.' },
+    ],
+    quiz: [
+      {
+        q: 'Na kojem katu je stan?',
+        qEn: 'On which floor is the flat?',
+        opts: ['Na prvom', 'Na drugom', 'Na trećem', 'Na četvrtom'],
+        correct: 2,
+      },
+      {
+        q: 'Što tata radi u dnevnoj sobi?',
+        qEn: 'What does dad do in the living room?',
+        opts: ['Kuha', 'Gleda vijesti', 'Čita knjige', 'Spava'],
+        correct: 1,
+      },
+      {
+        q: 'Gdje pripovjedačica čita kad je lijepo vrijeme?',
+        qEn: 'Where does the narrator read when the weather is nice?',
+        opts: ['U kuhinji', 'U dnevnoj sobi', 'Na balkonu', 'U parku'],
+        correct: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_15',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🌧️',
+    title: 'Kišni dan',
+    titleEn: 'A Rainy Day',
+    duration: 4,
+    focus: 'Present tense • Weather • Indoor activities',
+    intro: 'Rain all day — but inside there are board games, hot chocolate and palačinke.',
+    paragraphs: [
+      {
+        hr: 'Danas pada kiša cijeli dan. Nebo je sivo i puše jak vjetar. Nitko ne ide van. "Što radimo danas?" pita Petar tužno.',
+        en: 'Today it is raining all day. The sky is grey and a strong wind is blowing. Nobody is going outside. "What are we doing today?" asks Petar sadly.',
+      },
+      {
+        hr: '"Igramo društvene igre!" kaže Lucija. Ona donosi karte i "Čovječe, ne ljuti se". Cijela obitelj sjedi za stolom i igra. Tata gubi tri puta i svi se smiju.',
+        en: '"We are playing board games!" says Lucija. She brings cards and "Ludo". The whole family sits at the table and plays. Dad loses three times and everyone laughs.',
+      },
+      {
+        hr: 'Popodne mama radi palačinke s marmeladom i orasima. Djeca piju topli kakao. Vani i dalje pada kiša, ali unutra je toplo i veselo.',
+        en: 'In the afternoon mum makes pancakes with jam and walnuts. The children drink hot cocoa. Outside it is still raining, but inside it is warm and cheerful.',
+      },
+      {
+        hr: 'Navečer svi zajedno gledaju stari film. Rex spava pokraj sofe. "Kišni dani nisu tako loši," kaže Petar. "Posebno kad ima palačinki!"',
+        en: 'In the evening they all watch an old film together. Rex sleeps next to the sofa. "Rainy days are not so bad," says Petar. "Especially when there are pancakes!"',
+      },
+    ],
+    vocabulary: [
+      { hr: 'padati', en: 'to fall (rain: to rain)', ex: 'Kiša pada cijeli dan.' },
+      { hr: 'puhati', en: 'to blow (wind)', ex: 'Puše jak vjetar.' },
+      { hr: 'društvena igra', en: 'board game', ex: 'Igramo društvene igre.' },
+      { hr: 'gubiti', en: 'to lose', ex: 'Tata gubi tri puta.' },
+      { hr: 'palačinke', en: 'pancakes', ex: 'Mama radi palačinke.' },
+      { hr: 'orah', en: 'walnut', ex: 'Palačinke s orasima.' },
+      { hr: 'i dalje', en: 'still / continuing', ex: 'Kiša i dalje pada.' },
+      { hr: 'pokraj', en: 'next to', ex: 'Rex spava pokraj sofe.' },
+    ],
+    quiz: [
+      {
+        q: 'Kakvo je vrijeme danas?',
+        qEn: 'What is the weather like today?',
+        opts: ['Sunčano', 'Pada kiša cijeli dan', 'Pada snijeg', 'Vruće je'],
+        correct: 1,
+      },
+      {
+        q: 'Tko gubi tri puta u igri?',
+        qEn: 'Who loses three times in the game?',
+        opts: ['Petar', 'Lucija', 'Mama', 'Tata'],
+        correct: 3,
+      },
+      {
+        q: 'Što mama radi popodne?',
+        qEn: 'What does mum make in the afternoon?',
+        opts: ['Tortu', 'Palačinke', 'Juhu', 'Sendviče'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a1_16',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🍽️',
+    title: 'Večera kod susjeda',
+    titleEn: 'Dinner at the Neighbours',
+    duration: 4,
+    focus: 'Present tense • Being a guest • Polite phrases',
+    intro: 'The neighbours invite the family over — a first lesson in Croatian hospitality.',
+    paragraphs: [
+      {
+        hr: 'Susjedi Horvat zovu obitelj na večeru. "Dođite u sedam!" kaže gospođa Horvat. Mama nosi bocu vina i kutiju čokolade — u Hrvatskoj gost nikad ne dolazi praznih ruku.',
+        en: 'The Horvat neighbours invite the family to dinner. "Come at seven!" says Mrs Horvat. Mum brings a bottle of wine and a box of chocolates — in Croatia a guest never arrives empty-handed.',
+      },
+      {
+        hr: '"Dobra večer! Dobro došli!" kaže gospodin Horvat na vratima. "Izvolite, uđite." Stan lijepo miriše. Na stolu je juha, pečena piletina i salata.',
+        en: '"Good evening! Welcome!" says Mr Horvat at the door. "Please, come in." The flat smells lovely. On the table there is soup, roast chicken and salad.',
+      },
+      {
+        hr: '"Jedite, jedite! Ima još!" govori gospođa Horvat cijelu večer. Tata kaže: "Sve je jako ukusno!" Gospođa Horvat se smiješi: "Uzmite još malo piletine!"',
+        en: '"Eat, eat! There is more!" says Mrs Horvat all evening. Dad says: "Everything is delicious!" Mrs Horvat smiles: "Take a little more chicken!"',
+      },
+      {
+        hr: 'Poslije večere odrasli piju kavu, a djeca se igraju. U deset sati obitelj ide kući. "Hvala na svemu! Sljedeći put vi dođite k nama!" kaže mama. Tako to ide među dobrim susjedima.',
+        en: 'After dinner the adults drink coffee and the children play. At ten o\'clock the family goes home. "Thank you for everything! Next time you come to us!" says mum. That is how it goes between good neighbours.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'susjed', en: 'neighbour', ex: 'Susjedi su jako dragi.' },
+      { hr: 'gost', en: 'guest', ex: 'Gost ne dolazi praznih ruku.' },
+      { hr: 'boca', en: 'bottle', ex: 'Boca vina je poklon.' },
+      { hr: 'dobro došli', en: 'welcome', ex: 'Dobro došli u naš dom!' },
+      { hr: 'ukusno', en: 'delicious', ex: 'Sve je jako ukusno.' },
+      { hr: 'pečen', en: 'roasted / baked', ex: 'Pečena piletina je na stolu.' },
+      { hr: 'odrasli', en: 'adults', ex: 'Odrasli piju kavu.' },
+      { hr: 'sljedeći put', en: 'next time', ex: 'Sljedeći put dođite k nama.' },
+    ],
+    quiz: [
+      {
+        q: 'Što mama nosi susjedima?',
+        qEn: 'What does mum bring to the neighbours?',
+        opts: ['Tortu i cvijeće', 'Bocu vina i čokoladu', 'Palačinke', 'Ništa'],
+        correct: 1,
+      },
+      {
+        q: 'Što gospođa Horvat govori cijelu večer?',
+        qEn: 'What does Mrs Horvat say all evening?',
+        opts: ['"Laku noć!"', '"Jedite, jedite!"', '"Doviđenja!"', '"Kako ste?"'],
+        correct: 1,
+      },
+      {
+        q: 'Što gost u Hrvatskoj nikad ne radi?',
+        qEn: 'What does a guest in Croatia never do?',
+        opts: ['Ne dolazi praznih ruku', 'Ne jede juhu', 'Ne pije kavu', 'Ne razgovara'],
+        correct: 0,
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // A2 — 2026-07 reading expansion (gs_a2_7 … gs_a2_16)
+  // ═══════════════════════════════════════════════════════
+
+  {
+    id: 'gs_a2_7',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '💼',
+    title: 'Prvi dan na poslu',
+    titleEn: 'First Day at Work',
+    duration: 5,
+    focus: 'Past tense (perfekt) • Workplace vocabulary • Introductions',
+    intro:
+      "Ivana's nervous first day at a new office — new faces, a small mistake, and a kind colleague.",
+    paragraphs: [
+      {
+        hr: 'Ivana je jučer imala prvi dan na novom poslu. Ustala je već u šest sati jer je bila jako nervozna. Obukla je bijelu košulju i crne hlače, popila kavu i krenula autobusom u ured.',
+        en: "Yesterday Ivana had her first day at a new job. She got up at six o'clock already because she was very nervous. She put on a white shirt and black trousers, drank a coffee and set off by bus to the office.",
+      },
+      {
+        hr: 'U uredu ju je dočekala šefica, gospođa Novak. "Dobro došli u naš tim!" rekla je i pokazala Ivani njezin radni stol. Kolege su se predstavili: Marko iz računovodstva, Petra iz marketinga i Davor, koji sjedi pokraj nje.',
+        en: 'At the office the boss, Mrs Novak, welcomed her. "Welcome to our team!" she said and showed Ivana her desk. The colleagues introduced themselves: Marko from accounting, Petra from marketing and Davor, who sits next to her.',
+      },
+      {
+        hr: 'Prije podneva Ivana je napravila malu pogrešku — poslala je e-poštu krivoj osobi. Jako se zabrinula, ali Davor se nasmijao: "Ne brini! Svi smo prvi dan nešto krivo napravili. Ja sam prve godine izbrisao važan dokument!"',
+        en: 'Before noon Ivana made a small mistake — she sent an email to the wrong person. She got very worried, but Davor laughed: "Don\'t worry! We all did something wrong on our first day. In my first year I deleted an important document!"',
+      },
+      {
+        hr: 'Za vrijeme pauze svi su zajedno otišli na kavu. Pričali su o poslu, ali i o obitelji i hobijima. Ivana je saznala da Petra također trenira odbojku. Dogovorile su se da idući tjedan idu zajedno na trening.',
+        en: 'During the break they all went for coffee together. They talked about work, but also about family and hobbies. Ivana found out that Petra also plays volleyball. They agreed to go to practice together next week.',
+      },
+      {
+        hr: 'Navečer je Ivana nazvala mamu. "Kako je bilo?" pitala je mama. "Iskreno — počelo je s pogreškom, ali završilo je odlično. Mislim da ću biti sretna tamo," odgovorila je Ivana s osmijehom.',
+        en: 'In the evening Ivana called her mum. "How was it?" asked mum. "Honestly — it started with a mistake, but it ended great. I think I will be happy there," Ivana answered with a smile.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'nervozan', en: 'nervous', ex: 'Bila je nervozna prije posla.' },
+      { hr: 'dočekati', en: 'to welcome / meet on arrival', ex: 'Šefica ju je dočekala.' },
+      { hr: 'predstaviti se', en: 'to introduce oneself', ex: 'Kolege su se predstavili.' },
+      { hr: 'pogreška', en: 'mistake', ex: 'Napravila je malu pogrešku.' },
+      { hr: 'zabrinuti se', en: 'to get worried', ex: 'Jako se zabrinula.' },
+      { hr: 'pauza', en: 'break', ex: 'Za vrijeme pauze pijemo kavu.' },
+      { hr: 'saznati', en: 'to find out', ex: 'Saznala je zanimljivu vijest.' },
+      { hr: 'dogovoriti se', en: 'to agree / arrange', ex: 'Dogovorile su se za trening.' },
+      { hr: 'iskreno', en: 'honestly', ex: 'Iskreno, bilo je teško.' },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je Ivana ustala u šest sati?',
+        qEn: "Why did Ivana get up at six o'clock?",
+        opts: [
+          'Jer je imala trening',
+          'Jer je bila nervozna',
+          'Jer je autobus rano išao',
+          'Jer je uvijek rano ustaje',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kakvu je pogrešku Ivana napravila?',
+        qEn: 'What mistake did Ivana make?',
+        opts: [
+          'Zakasnila je na posao',
+          'Izbrisala je dokument',
+          'Poslala je e-poštu krivoj osobi',
+          'Zaboravila je ime šefice',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što Ivana i Petra imaju zajedničko?',
+        qEn: 'What do Ivana and Petra have in common?',
+        opts: ['Obje rade u marketingu', 'Obje treniraju odbojku', 'Obje piju čaj', 'Obje su nove'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_8',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '💦',
+    title: 'Izlet na Plitvička jezera',
+    titleEn: 'A Trip to Plitvice Lakes',
+    duration: 5,
+    focus: 'Past tense • Nature vocabulary • Trip planning',
+    intro:
+      "The family visits Croatia's most famous national park — sixteen lakes, wooden paths and one lost cap.",
+    paragraphs: [
+      {
+        hr: 'Prošle subote obitelj Kovač je išla na izlet na Plitvička jezera. Ustali su rano, spremili sendviče i vodu te krenuli autom u sedam sati. Vožnja je trajala dva sata.',
+        en: "Last Saturday the Kovač family went on a trip to Plitvice Lakes. They got up early, prepared sandwiches and water and set off by car at seven o'clock. The drive took two hours.",
+      },
+      {
+        hr: 'Plitvička jezera su najpoznatiji nacionalni park u Hrvatskoj. Park ima šesnaest jezera i mnogo slapova. Voda je nevjerojatno čista — plava i zelena u isto vrijeme. Obitelj je hodala drvenim stazama iznad vode.',
+        en: 'Plitvice Lakes is the most famous national park in Croatia. The park has sixteen lakes and many waterfalls. The water is incredibly clean — blue and green at the same time. The family walked on wooden paths above the water.',
+      },
+      {
+        hr: 'Petar je cijelo vrijeme fotografirao. "Pogledaj ovaj slap!" vikao je svakih pet minuta. Kod velikog slapa puhao je jak vjetar i Petru je odletjela kapa — ravno u jezero! Svi su se smijali, čak i Petar.',
+        en: 'Petar was taking photos the whole time. "Look at this waterfall!" he shouted every five minutes. By the big waterfall a strong wind was blowing and Petar\'s cap flew off — straight into the lake! Everyone laughed, even Petar.',
+      },
+      {
+        hr: 'U podne su sjeli na klupu i pojeli sendviče. Vidjeli su patke i jednu veliku ribu. "U ovom parku ne smiješ plivati ni hraniti životinje," pročitala je Lucija na znaku. "Priroda se ovdje čuva."',
+        en: 'At noon they sat on a bench and ate their sandwiches. They saw ducks and one big fish. "In this park you may not swim or feed the animals," Lucija read on a sign. "Nature is protected here."',
+      },
+      {
+        hr: 'Kući su stigli navečer, umorni ali sretni. Petar je izabrao najbolju fotografiju i stavio je na zid svoje sobe. "Sljedeći put idemo bez kape," rekao je tata i namignuo.',
+        en: 'They arrived home in the evening, tired but happy. Petar chose the best photo and put it on the wall of his room. "Next time we go without a cap," said dad and winked.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'izlet', en: 'trip / excursion', ex: 'Idemo na izlet u subotu.' },
+      { hr: 'najpoznatiji', en: 'the most famous', ex: 'Plitvice su najpoznatiji park.' },
+      { hr: 'slap', en: 'waterfall', ex: 'Veliki slap je prekrasan.' },
+      { hr: 'nevjerojatno', en: 'incredibly', ex: 'Voda je nevjerojatno čista.' },
+      { hr: 'staza', en: 'path / trail', ex: 'Hodamo drvenim stazama.' },
+      { hr: 'odletjeti', en: 'to fly off', ex: 'Kapa mu je odletjela.' },
+      { hr: 'patka', en: 'duck', ex: 'Patke plivaju u jezeru.' },
+      { hr: 'znak', en: 'sign', ex: 'Pročitaj što piše na znaku.' },
+      { hr: 'namignuti', en: 'to wink', ex: 'Tata je namignuo.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko jezera ima park?',
+        qEn: 'How many lakes does the park have?',
+        opts: ['Šest', 'Deset', 'Šesnaest', 'Dvadeset'],
+        correct: 2,
+      },
+      {
+        q: 'Što se dogodilo Petru kod velikog slapa?',
+        qEn: 'What happened to Petar by the big waterfall?',
+        opts: [
+          'Pao je u vodu',
+          'Odletjela mu je kapa u jezero',
+          'Izgubio je fotoaparat',
+          'Vidio je veliku ribu',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što se u parku ne smije raditi?',
+        qEn: 'What is not allowed in the park?',
+        opts: [
+          'Fotografirati i hodati',
+          'Jesti sendviče',
+          'Plivati i hraniti životinje',
+          'Sjediti na klupi',
+        ],
+        correct: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_9',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🩺',
+    title: 'Kod liječnice',
+    titleEn: "At the Doctor's",
+    duration: 5,
+    focus: 'Past tense • Health & body • Giving advice (imperative)',
+    intro:
+      'Marko wakes up ill and visits the doctor — symptoms, advice and a week without football.',
+    paragraphs: [
+      {
+        hr: 'Marko se u ponedjeljak probudio s temperaturom. Boljelo ga je grlo i imao je jaku glavobolju. "Ne ideš danas na posao," rekla je njegova žena. "Idi liječnici!"',
+        en: 'On Monday Marko woke up with a fever. His throat hurt and he had a bad headache. "You are not going to work today," said his wife. "Go to the doctor!"',
+      },
+      {
+        hr: 'U ambulanti je čekao pola sata. Napokon je sestra pozvala njegovo ime. Liječnica ga je pitala: "Što vas muči?" Marko je objasnio: "Boli me grlo od subote, imam temperaturu i stalno sam umoran."',
+        en: 'At the clinic he waited for half an hour. Finally the nurse called his name. The doctor asked him: "What is troubling you?" Marko explained: "My throat has hurt since Saturday, I have a fever and I am constantly tired."',
+      },
+      {
+        hr: 'Liječnica ga je pregledala. Pogledala mu je grlo, poslušala pluća i izmjerila temperaturu — trideset osam i pet. "Imate gripu," rekla je. "Ništa strašno, ali morate se odmarati."',
+        en: 'The doctor examined him. She looked at his throat, listened to his lungs and measured his temperature — thirty-eight point five. "You have the flu," she said. "Nothing serious, but you must rest."',
+      },
+      {
+        hr: '"Pijte puno tekućine — vodu, čaj s medom i limunom. Uzimajte ovaj lijek tri puta dnevno poslije jela. I ostanite doma barem pet dana," rekla je liječnica i napisala recept.',
+        en: '"Drink a lot of fluids — water, tea with honey and lemon. Take this medicine three times a day after meals. And stay home for at least five days," said the doctor and wrote a prescription.',
+      },
+      {
+        hr: '"A nogomet u četvrtak?" pitao je Marko tiho. Liječnica se nasmijala: "Nikakav sport ovaj tjedan! Zdravlje je na prvom mjestu." Marko je uzdahnuo, kupio lijekove u ljekarni i otišao doma u krevet.',
+        en: '"And football on Thursday?" asked Marko quietly. The doctor laughed: "No sport this week! Health comes first." Marko sighed, bought the medicine at the pharmacy and went home to bed.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'probuditi se', en: 'to wake up', ex: 'Probudio se s temperaturom.' },
+      { hr: 'ambulanta', en: "clinic / doctor's office", ex: 'Čekao je u ambulanti.' },
+      { hr: 'mučiti', en: 'to trouble / bother', ex: 'Što vas muči?' },
+      { hr: 'pregledati', en: 'to examine', ex: 'Liječnica ga je pregledala.' },
+      { hr: 'pluća', en: 'lungs', ex: 'Poslušala mu je pluća.' },
+      { hr: 'tekućina', en: 'fluid / liquid', ex: 'Pijte puno tekućine.' },
+      { hr: 'recept', en: 'prescription / recipe', ex: 'Napisala je recept.' },
+      { hr: 'uzdahnuti', en: 'to sigh', ex: 'Marko je uzdahnuo.' },
+      { hr: 'na prvom mjestu', en: 'in first place / first', ex: 'Zdravlje je na prvom mjestu.' },
+    ],
+    quiz: [
+      {
+        q: 'Od kada Marka boli grlo?',
+        qEn: "Since when has Marko's throat hurt?",
+        opts: ['Od ponedjeljka', 'Od subote', 'Od jučer', 'Od jutra'],
+        correct: 1,
+      },
+      {
+        q: 'Kolika je Markova temperatura?',
+        qEn: "What is Marko's temperature?",
+        opts: ['37,5', '38,5', '39,5', '36,5'],
+        correct: 1,
+      },
+      {
+        q: 'Što liječnica kaže o nogometu?',
+        qEn: 'What does the doctor say about football?',
+        opts: [
+          'Može igrati u četvrtak',
+          'Nikakav sport ovaj tjedan',
+          'Samo pola utakmice',
+          'Nogomet je zdrav',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_10',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '📦',
+    title: 'Selidba',
+    titleEn: 'Moving House',
+    duration: 5,
+    focus: 'Past tense • Home & furniture • Helping verbs',
+    intro:
+      'Boxes everywhere! The family moves to a bigger flat — with a little help from their friends.',
+    paragraphs: [
+      {
+        hr: 'Obitelj Babić se prošli vikend selila u veći stan. Novi stan ima tri spavaće sobe i veliki balkon s pogledom na park. Cijeli tjedan prije selidbe pakirali su stvari u kutije.',
+        en: 'Last weekend the Babić family moved to a bigger flat. The new flat has three bedrooms and a big balcony with a view of the park. The whole week before the move they packed things into boxes.',
+      },
+      {
+        hr: 'U subotu ujutro došli su prijatelji pomoći. Šest ljudi je nosilo kutije, sofu, krevete i veliki ormar. "Ovaj ormar je težak kao slon!" šalio se ujak Tomislav. Stubište je bilo usko pa su morali biti jako oprezni.',
+        en: 'On Saturday morning friends came to help. Six people carried boxes, the sofa, beds and the big wardrobe. "This wardrobe is as heavy as an elephant!" joked uncle Tomislav. The staircase was narrow so they had to be very careful.',
+      },
+      {
+        hr: 'Mama je organizirala sve: "Kutije s knjigama u dnevnu sobu! Posuđe u kuhinju! Igračke u dječju sobu!" Do podneva su prenijeli sve stvari. Onda je mama naručila pizzu za sve.',
+        en: 'Mum organized everything: "Boxes with books to the living room! Dishes to the kitchen! Toys to the children\'s room!" By noon they had carried everything over. Then mum ordered pizza for everyone.',
+      },
+      {
+        hr: 'Popodne su slagali namještaj. Tata je tri sata sastavljao krevet i na kraju su mu ostala dva vijka. "To je normalno," smijao se prijatelj Darko. "Uvijek ostane nekoliko vijaka!"',
+        en: 'In the afternoon they arranged the furniture. Dad spent three hours assembling a bed and at the end he had two screws left over. "That is normal," laughed his friend Darko. "There are always a few screws left!"',
+      },
+      {
+        hr: 'Navečer su svi sjedili na podu među kutijama, jeli pizzu i pili sok. Stan je još bio pun neraspakiranih stvari, ali osjećao se kao dom. "Za naš novi dom!" rekao je tata. "Živjeli!"',
+        en: 'In the evening they all sat on the floor among the boxes, ate pizza and drank juice. The flat was still full of unpacked things, but it felt like home. "To our new home!" said dad. "Cheers!"',
+      },
+    ],
+    vocabulary: [
+      { hr: 'seliti se', en: 'to move (house)', ex: 'Selimo se u veći stan.' },
+      { hr: 'pakirati', en: 'to pack', ex: 'Pakiramo stvari u kutije.' },
+      { hr: 'stubište', en: 'staircase', ex: 'Stubište je usko.' },
+      { hr: 'oprezan', en: 'careful', ex: 'Budite oprezni s ormarom!' },
+      { hr: 'posuđe', en: 'dishes / crockery', ex: 'Posuđe ide u kuhinju.' },
+      { hr: 'prenijeti', en: 'to carry over / transfer', ex: 'Prenijeli su sve stvari.' },
+      { hr: 'sastavljati', en: 'to assemble', ex: 'Tata sastavlja krevet.' },
+      { hr: 'vijak', en: 'screw', ex: 'Ostala su dva vijka.' },
+      { hr: 'osjećati se', en: 'to feel', ex: 'Stan se osjeća kao dom.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko spavaćih soba ima novi stan?',
+        qEn: 'How many bedrooms does the new flat have?',
+        opts: ['Dvije', 'Tri', 'Četiri', 'Jednu'],
+        correct: 1,
+      },
+      {
+        q: 'S čime ujak Tomislav uspoređuje ormar?',
+        qEn: 'What does uncle Tomislav compare the wardrobe to?',
+        opts: ['S autom', 'S kućom', 'Sa slonom', 'S konjem'],
+        correct: 2,
+      },
+      {
+        q: 'Što je tati ostalo nakon sastavljanja kreveta?',
+        qEn: 'What did dad have left after assembling the bed?',
+        opts: ['Dva vijka', 'Jedna daska', 'Ništa', 'Jedan kotač'],
+        correct: 0,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_11',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🍷',
+    title: 'Ljetni posao u konobi',
+    titleEn: 'A Summer Job at the Konoba',
+    duration: 5,
+    focus: 'Past tense • Restaurant work • Coastal culture',
+    intro:
+      'Student Luka spends July waiting tables in a Dalmatian konoba — hard work, good tips and unforgettable sunsets.',
+    paragraphs: [
+      {
+        hr: 'Luka je student i ovog ljeta je radio u konobi u malom mjestu pokraj Šibenika. Konoba je stara kamena kuća s terasom uz more. Njegov posao? Konobar — od pet popodne do ponoći, šest dana u tjednu.',
+        en: 'Luka is a student and this summer he worked in a konoba in a small town near Šibenik. The konoba is an old stone house with a terrace by the sea. His job? Waiter — from five in the afternoon until midnight, six days a week.',
+      },
+      {
+        hr: 'Prvi tjedan je bio težak. Luka je morao zapamtiti cijeli jelovnik: crni rižot, brudet, pašticadu, ribu s gradela... Jednom je gostima donio krivo jelo i šef ga je strogo pogledao. Ali Luka je brzo učio.',
+        en: 'The first week was hard. Luka had to memorize the whole menu: black risotto, fish stew, pašticada, grilled fish... Once he brought guests the wrong dish and the boss gave him a stern look. But Luka learned fast.',
+      },
+      {
+        hr: 'Gosti su dolazili iz cijele Europe: Nijemci, Talijani, Francuzi... Luka je s njima govorio engleski, ali hrvatski gosti su mu bili najdraži. "Mali, donesi još pola litre!" vikali su domaći s velikog stola svaku večer.',
+        en: 'Guests came from all over Europe: Germans, Italians, French... Luka spoke English with them, but the Croatian guests were his favourites. "Kid, bring another half litre!" the locals shouted from the big table every evening.',
+      },
+      {
+        hr: 'Najljepši dio dana bio je zalazak sunca. Oko osam sati more bi postalo zlatno i svi gosti bi utihnuli na trenutak. Čak i šef bi stao i pogledao prema moru. "Zbog ovoga živimo ovdje," rekao je jednom.',
+        en: 'The most beautiful part of the day was the sunset. Around eight o\'clock the sea would turn golden and all the guests would fall silent for a moment. Even the boss would stop and look towards the sea. "This is why we live here," he said once.',
+      },
+      {
+        hr: 'Krajem kolovoza Luka je zaradio dovoljno za novi laptop i put u Berlin. Šef mu je na rastanku rekao: "Dogodine te opet čekam. Sada si pravi konobar!" Luka se vratio na fakultet umoran, preplanuo i ponosan.',
+        en: 'At the end of August Luka had earned enough for a new laptop and a trip to Berlin. At parting the boss told him: "I expect you again next year. Now you are a real waiter!" Luka returned to university tired, tanned and proud.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'konoba', en: 'traditional Dalmatian tavern', ex: 'Večeramo u konobi.' },
+      { hr: 'ponoć', en: 'midnight', ex: 'Radi do ponoći.' },
+      { hr: 'zapamtiti', en: 'to memorize', ex: 'Zapamtio je cijeli jelovnik.' },
+      { hr: 'jelovnik', en: 'menu', ex: 'Jelovnik je na stolu.' },
+      { hr: 'jelo', en: 'dish / meal', ex: 'Donio je krivo jelo.' },
+      { hr: 'najdraži', en: 'favourite / dearest', ex: 'Domaći gosti su mu najdraži.' },
+      { hr: 'utihnuti', en: 'to fall silent', ex: 'Svi su utihnuli na trenutak.' },
+      { hr: 'rastanak', en: 'parting / farewell', ex: 'Na rastanku su se rukovali.' },
+      { hr: 'preplanuo', en: 'tanned', ex: 'Vratio se preplanuo s mora.' },
+    ],
+    quiz: [
+      {
+        q: 'Gdje je Luka radio ovog ljeta?',
+        qEn: 'Where did Luka work this summer?',
+        opts: [
+          'U hotelu u Zagrebu',
+          'U konobi pokraj Šibenika',
+          'Na plaži u Splitu',
+          'U restoranu u Berlinu',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što se dogodilo prvi tjedan?',
+        qEn: 'What happened in the first week?',
+        opts: [
+          'Luka je dobio otkaz',
+          'Luka je donio gostima krivo jelo',
+          'Luka je razbio čašu',
+          'Luka je zaboravio doći',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što je Luka kupio zarađenim novcem?',
+        qEn: 'What did Luka buy with the money he earned?',
+        opts: ['Auto', 'Novi laptop i put u Berlin', 'Novi mobitel', 'Bicikl'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_12',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🚂',
+    title: 'Vlakom u Split',
+    titleEn: 'By Train to Split',
+    duration: 5,
+    focus: 'Past tense • Travel vocabulary • Buying tickets',
+    intro:
+      'A summer train journey from Zagreb to the coast — tickets, tunnels and a talkative fellow passenger.',
+    paragraphs: [
+      {
+        hr: 'Ana je odlučila posjetiti sestru u Splitu. Kupila je kartu na kolodvoru — trideset eura u jednom smjeru. "Vlak polazi u osam i petnaest s trećeg perona," rekla je službenica na šalteru.',
+        en: 'Ana decided to visit her sister in Split. She bought a ticket at the station — thirty euros one way. "The train departs at eight fifteen from platform three," said the clerk at the counter.',
+      },
+      {
+        hr: 'Vlak je krenuo točno na vrijeme. Ana je sjedila pokraj prozora. Nasuprot nje sjedila je starija gospođa koja je odmah počela razgovor: "Idete li i vi na more? Ja idem kod unuke u Kaštela!"',
+        en: 'The train left exactly on time. Ana sat by the window. Opposite her sat an older lady who immediately started a conversation: "Are you going to the seaside too? I am going to my granddaughter\'s in Kaštela!"',
+      },
+      {
+        hr: 'Putovanje je trajalo šest sati, ali Ani nije bilo dosadno. Gospođa Marica joj je pričala o svom životu: radila je četrdeset godina kao krojačica, ima petero unučadi i svako ljeto putuje na more istim vlakom.',
+        en: 'The journey took six hours, but Ana was not bored. Mrs Marica told her about her life: she worked for forty years as a seamstress, has five grandchildren and travels to the seaside every summer on the same train.',
+      },
+      {
+        hr: 'Poslije Gospića krajolik se promijenio. Vlak je prošao kroz duge tunele, a onda se odjednom — more! Cijeli vagon je uzviknuo: "Eno mora!" To je tradicija: tko prvi vidi more, taj ima sreću cijelo ljeto.',
+        en: 'After Gospić the landscape changed. The train passed through long tunnels, and then suddenly — the sea! The whole carriage exclaimed: "There\'s the sea!" It is a tradition: whoever sees the sea first has luck all summer.',
+      },
+      {
+        hr: 'U Splitu je Anu čekala sestra. "Kako je bilo na putu?" pitala je. "Prekrasno! Upoznala sam gospođu Maricu, čula njezinu cijelu životnu priču i prva vidjela more," smijala se Ana. "Ovo će biti sretno ljeto!"',
+        en: 'In Split her sister was waiting for Ana. "How was the journey?" she asked. "Wonderful! I met Mrs Marica, heard her whole life story and was first to see the sea," laughed Ana. "This will be a lucky summer!"',
+      },
+    ],
+    vocabulary: [
+      { hr: 'u jednom smjeru', en: 'one way (ticket)', ex: 'Karta u jednom smjeru.' },
+      { hr: 'polaziti', en: 'to depart', ex: 'Vlak polazi u osam.' },
+      { hr: 'peron', en: 'platform', ex: 'Vlak je na trećem peronu.' },
+      { hr: 'šalter', en: 'counter / ticket window', ex: 'Kupujem kartu na šalteru.' },
+      { hr: 'nasuprot', en: 'opposite', ex: 'Sjedi nasuprot mene.' },
+      { hr: 'unuka', en: 'granddaughter', ex: 'Ide kod unuke na more.' },
+      { hr: 'krojačica', en: 'seamstress', ex: 'Radila je kao krojačica.' },
+      { hr: 'krajolik', en: 'landscape', ex: 'Krajolik se promijenio.' },
+      { hr: 'uzviknuti', en: 'to exclaim', ex: 'Svi su uzviknuli: "More!"' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko je koštala karta?',
+        qEn: 'How much did the ticket cost?',
+        opts: ['Dvadeset eura', 'Trideset eura', 'Četrdeset eura', 'Pedeset eura'],
+        correct: 1,
+      },
+      {
+        q: 'Što je gospođa Marica radila četrdeset godina?',
+        qEn: 'What did Mrs Marica do for forty years?',
+        opts: ['Bila je učiteljica', 'Bila je krojačica', 'Bila je kuharica', 'Bila je liječnica'],
+        correct: 1,
+      },
+      {
+        q: 'Kakvu sreću ima onaj tko prvi vidi more?',
+        qEn: 'What luck does the person who sees the sea first have?',
+        opts: [
+          'Sreću cijeli dan',
+          'Sreću cijelo ljeto',
+          'Sreću cijelu godinu',
+          'Nema nikakve sreće',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_13',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '📚',
+    title: 'Tjedan prije ispita',
+    titleEn: 'The Week Before the Exam',
+    duration: 5,
+    focus: 'Past tense + future • Studying • Daily schedule',
+    intro: 'Lucija has a big maths exam — a week of studying, one crisis and a well-earned reward.',
+    paragraphs: [
+      {
+        hr: 'Lucija sljedeći petak piše veliki ispit iz matematike. Napravila je plan: svaki dan poslije škole učit će dva sata. "Bez mobitela dok učiš!" rekla je mama i stavila telefon u ladicu.',
+        en: 'Next Friday Lucija is taking a big maths exam. She made a plan: every day after school she will study for two hours. "No phone while you study!" said mum and put the phone in a drawer.',
+      },
+      {
+        hr: 'Prva tri dana su prošla dobro. Lucija je rješavala zadatke, ponavljala formule i pisala bilješke u bilježnicu. Ali u srijedu je došla kriza — nije razumjela zadatke s postotcima i počela je plakati.',
+        en: 'The first three days went well. Lucija solved problems, revised formulas and wrote notes in her notebook. But on Wednesday came a crisis — she did not understand the percentage problems and started to cry.',
+      },
+      {
+        hr: 'Tata je sjeo pokraj nje. "Pokazat ću ti trik," rekao je mirno. "Postotak je samo dio od sto." Objasnio joj je polako, korak po korak, s primjerima iz trgovine: popust od dvadeset posto, cijena od pedeset eura...',
+        en: 'Dad sat down next to her. "I will show you a trick," he said calmly. "A percentage is just a part of one hundred." He explained it to her slowly, step by step, with examples from the shop: a twenty percent discount, a price of fifty euros...',
+      },
+      {
+        hr: 'Odjednom je Luciji sve postalo jasno! "Pa to je lako!" uzviknula je. Četvrtak je cijeli dan vježbala i riješila trideset zadataka. Navečer je mirno zaspala — bila je spremna.',
+        en: 'Suddenly everything became clear to Lucija! "But that is easy!" she exclaimed. On Thursday she practised all day and solved thirty problems. In the evening she fell asleep peacefully — she was ready.',
+      },
+      {
+        hr: 'U petak poslije ispita Lucija je izašla iz škole s velikim osmijehom. "Mislim da sam sve točno riješila!" Sljedeći tjedan je stigla ocjena: odličan! Za nagradu, cijela obitelj je otišla na sladoled. Lucija je naručila najveći.',
+        en: 'On Friday after the exam Lucija came out of school with a big smile. "I think I solved everything correctly!" The next week the grade arrived: an A! As a reward, the whole family went for ice cream. Lucija ordered the biggest one.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'ispit', en: 'exam', ex: 'Piše ispit iz matematike.' },
+      { hr: 'rješavati', en: 'to solve (impf.)', ex: 'Rješava zadatke svaki dan.' },
+      { hr: 'ponavljati', en: 'to revise / repeat', ex: 'Ponavlja formule.' },
+      { hr: 'bilješka', en: 'note', ex: 'Piše bilješke u bilježnicu.' },
+      { hr: 'kriza', en: 'crisis', ex: 'U srijedu je došla kriza.' },
+      { hr: 'postotak', en: 'percentage', ex: 'Postotak je dio od sto.' },
+      { hr: 'korak po korak', en: 'step by step', ex: 'Objasnio je korak po korak.' },
+      { hr: 'spreman', en: 'ready', ex: 'Bila je spremna za ispit.' },
+      { hr: 'nagrada', en: 'reward / prize', ex: 'Za nagradu idu na sladoled.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko sati dnevno Lucija uči po planu?',
+        qEn: 'How many hours a day does Lucija study according to the plan?',
+        opts: ['Jedan sat', 'Dva sata', 'Tri sata', 'Četiri sata'],
+        correct: 1,
+      },
+      {
+        q: 'Što Lucija nije razumjela u srijedu?',
+        qEn: 'What did Lucija not understand on Wednesday?',
+        opts: ['Zadatke s postotcima', 'Formule za površinu', 'Zadatke s razlomcima', 'Geometriju'],
+        correct: 0,
+      },
+      {
+        q: 'Koju je ocjenu Lucija dobila?',
+        qEn: 'What grade did Lucija get?',
+        opts: ['Dobar', 'Vrlo dobar', 'Odličan', 'Dovoljan'],
+        correct: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_14',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🍲',
+    title: 'Nedjeljni ručak',
+    titleEn: 'Sunday Lunch',
+    duration: 5,
+    focus: 'Present + past • Food & tradition • Family gatherings',
+    intro:
+      "The sacred Croatian institution: Sunday lunch at grandma's — soup, sarma and three generations at one table.",
+    paragraphs: [
+      {
+        hr: 'U Hrvatskoj je nedjeljni ručak svetinja. Svake nedjelje u jedan sat cijela obitelj Jurić dolazi kod bake Kate. Nitko ne smije kasniti — to baka ne oprašta!',
+        en: "In Croatia, Sunday lunch is sacred. Every Sunday at one o'clock the whole Jurić family comes to grandma Kata's. Nobody is allowed to be late — grandma does not forgive that!",
+      },
+      {
+        hr: 'Baka je jutros ustala u šest i počela kuhati. Prvo juha od povrća s domaćim rezancima. Onda sarma — kupila je kiseli kupus još u četvrtak na tržnici. I na kraju, njezin slavni kolač od jabuka.',
+        en: 'Grandma got up at six this morning and started cooking. First vegetable soup with homemade noodles. Then sarma — she bought the sauerkraut back on Thursday at the market. And finally, her famous apple cake.',
+      },
+      {
+        hr: 'Za stolom sjedi jedanaest ljudi: baka, njezina dva sina s obiteljima i teta Vesna iz Osijeka. Svi pričaju u isto vrijeme — o poslu, o politici, o nogometu. "Tiše malo, juha se hladi!" viče baka iz kuhinje.',
+        en: 'Eleven people sit at the table: grandma, her two sons with their families and aunt Vesna from Osijek. Everyone talks at the same time — about work, politics, football. "Quiet down a bit, the soup is getting cold!" shouts grandma from the kitchen.',
+      },
+      {
+        hr: 'Mali Ivan ne voli sarmu. "Moraš probati barem jednu," kaže mama. Ivan proba i — čudo! — pojede tri sarme. Baka je sretna: "Vidiš! Bakina sarma je najbolja na svijetu." Svi se slažu, i to nije prvi put.',
+        en: 'Little Ivan does not like sarma. "You have to try at least one," says mum. Ivan tries and — a miracle! — eats three sarmas. Grandma is happy: "You see! Grandma\'s sarma is the best in the world." Everyone agrees, and not for the first time.',
+      },
+      {
+        hr: 'Poslije ručka muškarci gledaju utakmicu, žene piju kavu, a djeca se igraju u dvorištu. Oko šest sati svi polako idu doma — s punim trbusima i vrećicama kolača za ponijeti. "Vidimo se sljedeće nedjelje!" To se ne mora ni reći.',
+        en: 'After lunch the men watch the match, the women drink coffee, and the children play in the yard. Around six o\'clock everyone slowly goes home — with full bellies and bags of cake to take away. "See you next Sunday!" That does not even need to be said.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'svetinja', en: 'sacred thing', ex: 'Nedjeljni ručak je svetinja.' },
+      { hr: 'opraštati', en: 'to forgive', ex: 'Baka kašnjenje ne oprašta.' },
+      { hr: 'rezanci', en: 'noodles', ex: 'Juha s domaćim rezancima.' },
+      { hr: 'kiseli kupus', en: 'sauerkraut', ex: 'Sarma se radi od kiselog kupusa.' },
+      { hr: 'slavan', en: 'famous', ex: 'Njezin slavni kolač od jabuka.' },
+      { hr: 'hladiti se', en: 'to get cold', ex: 'Juha se hladi!' },
+      { hr: 'čudo', en: 'miracle / wonder', ex: 'Ivan je pojeo tri sarme — čudo!' },
+      { hr: 'dvorište', en: 'yard / courtyard', ex: 'Djeca se igraju u dvorištu.' },
+      { hr: 'za ponijeti', en: 'to take away', ex: 'Kolači za ponijeti.' },
+    ],
+    quiz: [
+      {
+        q: 'U koliko sati je nedjeljni ručak?',
+        qEn: 'At what time is Sunday lunch?',
+        opts: ['U dvanaest', 'U jedan', 'U dva', 'U tri'],
+        correct: 1,
+      },
+      {
+        q: 'Kada je baka kupila kiseli kupus?',
+        qEn: 'When did grandma buy the sauerkraut?',
+        opts: ['Jučer', 'U subotu', 'U četvrtak', 'Danas ujutro'],
+        correct: 2,
+      },
+      {
+        q: 'Koliko sarmi je Ivan pojeo?',
+        qEn: 'How many sarmas did Ivan eat?',
+        opts: ['Nijednu', 'Jednu', 'Dvije', 'Tri'],
+        correct: 3,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_15',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🎁',
+    title: 'Poklon za mamu',
+    titleEn: 'A Present for Mum',
+    duration: 5,
+    focus: 'Past tense • Shopping • Making decisions',
+    intro: 'Two kids, twenty euros and a mission: find the perfect birthday present for mum.',
+    paragraphs: [
+      {
+        hr: 'Mamin rođendan je u subotu. Lucija i Petar su štedjeli džeparac dva mjeseca i skupili dvadeset eura. "Što ćemo joj kupiti?" pitala je Lucija. "Nešto savršeno," rekao je Petar ozbiljno.',
+        en: 'Mum\'s birthday is on Saturday. Lucija and Petar saved their pocket money for two months and collected twenty euros. "What shall we buy her?" asked Lucija. "Something perfect," said Petar seriously.',
+      },
+      {
+        hr: 'U četvrtak poslije škole otišli su u trgovački centar. Prvo su gledali parfeme — preskupi. Onda šalove — "Mama ima pet šalova," rekla je Lucija. Onda knjige — "Ali koju? Ne znamo što je već pročitala."',
+        en: 'On Thursday after school they went to the shopping centre. First they looked at perfumes — too expensive. Then scarves — "Mum has five scarves," said Lucija. Then books — "But which one? We don\'t know what she has already read."',
+      },
+      {
+        hr: 'Poslije sat vremena bili su umorni i bez ideje. Sjeli su na klupu. Odjednom je Petar pokazao na mali dućan preko puta: "Pogledaj!" U izlogu je bila šalica s natpisom "Najbolja mama na svijetu" — ali to nije bilo to.',
+        en: 'After an hour they were tired and out of ideas. They sat on a bench. Suddenly Petar pointed at a small shop across the way: "Look!" In the window was a mug with the inscription "Best mum in the world" — but that was not it.',
+      },
+      {
+        hr: 'Pokraj šalice stajala je mala srebrna ogrlica s privjeskom u obliku srca. "To je to!" rekli su u isto vrijeme. Ogrlica je koštala osamnaest eura. Prodavačica ju je lijepo zamotala u plavi papir s vrpcom.',
+        en: 'Next to the mug stood a small silver necklace with a heart-shaped pendant. "That\'s it!" they said at the same time. The necklace cost eighteen euros. The shop assistant wrapped it nicely in blue paper with a ribbon.',
+      },
+      {
+        hr: 'U subotu ujutro donijeli su mami doručak u krevet i poklon. Mama je otvorila kutijicu i oči su joj se napunile suzama. "Ovo je najljepši poklon koji sam ikad dobila," rekla je i zagrlila ih oboje. Petar je šapnuo Luciji: "Rekao sam ti — savršeno."',
+        en: 'On Saturday morning they brought mum breakfast in bed and the present. Mum opened the little box and her eyes filled with tears. "This is the most beautiful present I have ever received," she said and hugged them both. Petar whispered to Lucija: "I told you — perfect."',
+      },
+    ],
+    vocabulary: [
+      { hr: 'džeparac', en: 'pocket money', ex: 'Štede džeparac dva mjeseca.' },
+      { hr: 'skupiti', en: 'to collect / gather', ex: 'Skupili su dvadeset eura.' },
+      { hr: 'preskup', en: 'too expensive', ex: 'Parfemi su preskupi.' },
+      { hr: 'dućan', en: 'shop (colloquial)', ex: 'Mali dućan preko puta.' },
+      { hr: 'izlog', en: 'shop window', ex: 'U izlogu je šalica.' },
+      { hr: 'ogrlica', en: 'necklace', ex: 'Srebrna ogrlica sa srcem.' },
+      { hr: 'privjesak', en: 'pendant', ex: 'Privjesak u obliku srca.' },
+      { hr: 'zamotati', en: 'to wrap', ex: 'Zamotala je poklon u papir.' },
+      { hr: 'zagrliti', en: 'to hug', ex: 'Mama ih je zagrlila.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko su novca djeca skupila?',
+        qEn: 'How much money did the children collect?',
+        opts: ['Deset eura', 'Petnaest eura', 'Dvadeset eura', 'Trideset eura'],
+        correct: 2,
+      },
+      {
+        q: 'Zašto nisu kupili knjigu?',
+        qEn: 'Why did they not buy a book?',
+        opts: [
+          'Knjige su preskupe',
+          'Mama ne voli čitati',
+          'Ne znaju što je mama već pročitala',
+          'Knjižara je bila zatvorena',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što su na kraju kupili?',
+        qEn: 'What did they buy in the end?',
+        opts: ['Šalicu s natpisom', 'Srebrnu ogrlicu s privjeskom', 'Plavi šal', 'Parfem'],
+        correct: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'gs_a2_16',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '📱',
+    title: 'Video-poziv s bakom',
+    titleEn: 'A Video Call with Grandma',
+    duration: 5,
+    focus: 'Present + past • Diaspora life • Technology & family',
+    intro:
+      'Every Sunday, a screen connects Chicago and Zagorje — a diaspora family keeps Croatian alive one video call at a time.',
+    paragraphs: [
+      {
+        hr: 'Obitelj Marić živi u Chicagu već petnaest godina, ali svake nedjelje u pet sati — u Hrvatskoj je tada ponoć manje sat — zovu baku Đurđu u Zagorje. To je njihova najvažnija tradicija.',
+        en: "The Marić family has lived in Chicago for fifteen years, but every Sunday at five o'clock — in Croatia it is then one hour to midnight — they call grandma Đurđa in Zagorje. It is their most important tradition.",
+      },
+      {
+        hr: '"Bako, vidiš li nas?" viče mali Tomislav na engleskom. "Vidim, vidim! Ali govori hrvatski, zlato moje!" smije se baka na ekranu. Tomislav se trudi: "Bako... kako si... danas?" Baka plješće: "Bravo! Svaki tjedan sve bolje!"',
+        en: '"Grandma, can you see us?" shouts little Tomislav in English. "I see you, I see you! But speak Croatian, my darling!" laughs grandma on the screen. Tomislav tries hard: "Grandma... how are you... today?" Grandma claps: "Bravo! Better every week!"',
+      },
+      {
+        hr: 'Baka im pokazuje svoj vrt kroz kameru: rajčice, papriku, cvijeće. "Ove godine imam najbolje rajčice u selu!" Onda pita: "Kada dolazite? Kuham vam štrukle čim sletite!" Tata odgovara: "U srpnju, mama. Već smo kupili karte."',
+        en: 'Grandma shows them her garden through the camera: tomatoes, peppers, flowers. "This year I have the best tomatoes in the village!" Then she asks: "When are you coming? I will cook you štrukli as soon as you land!" Dad answers: "In July, mum. We have already bought the tickets."',
+      },
+      {
+        hr: 'Mama i baka onda pola sata razgovaraju o receptima. Baka objašnjava kako se radi prava zagorska juha, a mama zapisuje. "U Americi nema takvog vrhnja," žali se mama. "Onda dođi po njega!" odgovara baka. Svi se smiju.',
+        en: 'Mum and grandma then talk about recipes for half an hour. Grandma explains how real Zagorje soup is made, and mum writes it down. "In America there is no cream like that," complains mum. "Then come and get it!" answers grandma. Everyone laughs.',
+      },
+      {
+        hr: 'Na kraju poziva svi mašu ekranu. "Volim vas! Vidimo se u srpnju!" kaže baka. Tomislav nakon poziva pita: "Tata, koliko još ima do srpnja?" Tata ga zagrli: "Još malo, sine. Još samo malo." Domovina je daleko, ali nedjeljom je uvijek blizu.',
+        en: 'At the end of the call everyone waves at the screen. "I love you! See you in July!" says grandma. After the call Tomislav asks: "Dad, how long until July?" Dad hugs him: "A little longer, son. Just a little longer." The homeland is far away, but on Sundays it is always near.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'video-poziv', en: 'video call', ex: 'Nedjeljom imamo video-poziv.' },
+      { hr: 'ekran', en: 'screen', ex: 'Baka je na ekranu.' },
+      {
+        hr: 'truditi se',
+        en: 'to try hard / make an effort',
+        ex: 'Tomislav se trudi govoriti hrvatski.',
+      },
+      { hr: 'pljeskati', en: 'to clap', ex: 'Baka plješće od sreće.' },
+      { hr: 'vrt', en: 'garden', ex: 'Baka pokazuje svoj vrt.' },
+      { hr: 'sletjeti', en: 'to land (plane)', ex: 'Kuham čim sletite!' },
+      { hr: 'vrhnje', en: 'cream (dairy)', ex: 'Juha sa vrhnjem.' },
+      { hr: 'mahati', en: 'to wave', ex: 'Svi mašu ekranu.' },
+      { hr: 'domovina', en: 'homeland', ex: 'Domovina je daleko.' },
+    ],
+    quiz: [
+      {
+        q: 'Koliko dugo obitelj Marić živi u Chicagu?',
+        qEn: 'How long has the Marić family lived in Chicago?',
+        opts: ['Pet godina', 'Deset godina', 'Petnaest godina', 'Dvadeset godina'],
+        correct: 2,
+      },
+      {
+        q: 'Što baka kaže Tomislavu kad govori engleski?',
+        qEn: 'What does grandma tell Tomislav when he speaks English?',
+        opts: [
+          '"Bravo, odlično!"',
+          '"Govori hrvatski, zlato moje!"',
+          '"Ne razumijem te."',
+          '"Zovi mamu."',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kada obitelj dolazi u Hrvatsku?',
+        qEn: 'When is the family coming to Croatia?',
+        opts: ['U lipnju', 'U srpnju', 'U kolovozu', 'Za Božić'],
         correct: 1,
       },
     ],
