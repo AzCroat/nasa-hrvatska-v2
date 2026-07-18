@@ -11,7 +11,7 @@ interface Props {
 
 function RelativePronounsScreen({ goBack, award }: Props) {
   const { setStats, writeDelta } = useStats();
-  const questions = shMemo('rp', RELPRON.quiz, undefined);
+  const questions = shMemo('rp', RELPRON.quiz, 10);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
   const [done, setDone] = useState(false);
