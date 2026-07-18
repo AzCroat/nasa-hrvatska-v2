@@ -69,3 +69,60 @@ describe('client mirror stays in sync', () => {
     expect(client).toBe(server);
   });
 });
+
+// ── 7c-ii: Krajevi regions ────────────────────────────────────────────────────
+import { REGIONS } from '../../functions/api/content/_data/cultural/regions.js';
+
+interface RegionShape {
+  introHr?: unknown;
+  sections: Array<{ hHr?: unknown; tHr?: unknown }>;
+  timeline: Array<{ eventHr?: unknown }>;
+  people: Array<{ roleHr?: unknown; storyHr?: unknown }>;
+  facts: unknown[];
+  factsHr?: unknown[];
+}
+const ALL_REGIONS = REGIONS as unknown as Record<string, RegionShape>;
+
+describe('REGIONS — bilingual coverage (7c-ii)', () => {
+  it('all 10 regions carry a complete Croatian layer', () => {
+    const keys = Object.keys(ALL_REGIONS);
+    expect(keys.length).toBeGreaterThanOrEqual(10);
+    for (const k of keys) {
+      const r = ALL_REGIONS[k]!;
+      expect(nonEmpty(r.introHr), `${k}.introHr`).toBe(true);
+      for (const [i, s] of r.sections.entries()) {
+        expect(nonEmpty(s.hHr), `${k}.sections[${i}].hHr`).toBe(true);
+        expect(nonEmpty(s.tHr), `${k}.sections[${i}].tHr`).toBe(true);
+      }
+      for (const [i, t] of r.timeline.entries()) {
+        expect(nonEmpty(t.eventHr), `${k}.timeline[${i}].eventHr`).toBe(true);
+      }
+      for (const [i, p] of r.people.entries()) {
+        expect(nonEmpty(p.roleHr), `${k}.people[${i}].roleHr`).toBe(true);
+        expect(nonEmpty(p.storyHr), `${k}.people[${i}].storyHr`).toBe(true);
+      }
+      expect(Array.isArray(r.factsHr), `${k}.factsHr`).toBe(true);
+      expect(r.factsHr!.length, `${k}.factsHr length`).toBe(r.facts.length);
+    }
+  });
+
+  it('regions Croatian corpus has diacritics and no encoding bleed', () => {
+    const allHr = Object.values(ALL_REGIONS)
+      .flatMap((r) => [
+        r.introHr,
+        ...r.sections.flatMap((s) => [s.hHr, s.tHr]),
+        ...r.timeline.map((t) => t.eventHr),
+        ...r.people.flatMap((p) => [p.roleHr, p.storyHr]),
+        ...(r.factsHr ?? []),
+      ])
+      .join(' ');
+    expect(/[čćđšž]/.test(allHr)).toBe(true);
+    expect(/Ä|Å¡|Å¾|Ä‡|â€/.test(allHr)).toBe(false);
+  });
+
+  it('client regions mirror is byte-identical to the server file', () => {
+    const server = readFileSync('functions/api/content/_data/cultural/regions.js', 'utf8');
+    const client = readFileSync('src/data/cultural/regions.js', 'utf8');
+    expect(client).toBe(server);
+  });
+});
