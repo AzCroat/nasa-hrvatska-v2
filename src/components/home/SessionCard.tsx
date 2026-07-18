@@ -1,6 +1,7 @@
 // src/components/home/SessionCard.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { DailySession, SessionActivity } from '../../hooks/useDailySession';
+import { LAUNCH_FAILED_EVENT } from '../../lib/launchFailure';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -214,6 +215,16 @@ export default function SessionCard({
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
   const inProgress = completedCount > 0 && !isComplete;
+
+  // P0 (2026-07-18): a session launch must never be a silent no-op. The
+  // launcher broadcasts failures (lazy-chunk load error, empty pool); we show
+  // the error at the exact button the user tapped. Cleared on the next tap.
+  const [launchError, setLaunchError] = useState(false);
+  useEffect(() => {
+    const onFail = () => setLaunchError(true);
+    window.addEventListener(LAUNCH_FAILED_EVENT, onFail);
+    return () => window.removeEventListener(LAUNCH_FAILED_EVENT, onFail);
+  }, []);
 
   return (
     <div data-testid="session-card">
@@ -531,9 +542,31 @@ export default function SessionCard({
 
           {/* CTA button wrapper */}
           <div style={{ padding: '14px 18px 18px', position: 'relative' }}>
+            {launchError && (
+              <div
+                data-testid="session-launch-error"
+                style={{
+                  marginBottom: 10,
+                  padding: '10px 12px',
+                  borderRadius: 10,
+                  background: 'rgba(204,0,0,.08)',
+                  border: '1px solid rgba(204,0,0,.35)',
+                  color: CROATIAN_RED,
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
+                }}
+              >
+                Couldn't start the lesson — check your connection and tap again. If it keeps
+                happening, close and reopen the app to get the latest version.
+              </div>
+            )}
             <button
               data-testid="session-begin-cta"
-              onClick={onStart}
+              onClick={() => {
+                setLaunchError(false);
+                onStart();
+              }}
               disabled={!nextActivity}
               style={{
                 width: '100%',
