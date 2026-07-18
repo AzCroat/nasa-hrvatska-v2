@@ -5687,4 +5687,296 @@ export const LESSONS = [
       },
     ],
   },
+  // ─────────────────────────────────────────────────────────
+  // A2 parity: Modalni glagoli: moći, morati, htjeti, smjeti, trebati
+  // ─────────────────────────────────────────────────────────
+  {
+    id: 'modal-verbs-a2',
+    title: 'Modalni glagoli: moći, morati, htjeti, smjeti, trebati',
+    subtitle: 'Can, must, want, may, should — modal verb + infinitive patterns',
+    icon: '🔑',
+    level: 'A2',
+    duration: '~7 min',
+    color: '#7c3aed',
+    bg: '#f5f3ff',
+    slides: [
+      {
+        type: 'intro',
+        title: 'Modal Verbs — Expressing Ability, Obligation, and Desire',
+        body: "Modal verbs let you talk about what you can, must, want, may, and should do. Croatian has five key modals: moći (can/to be able), morati (must/have to), htjeti (want), smjeti (may/to be allowed), and trebati (should/need to). Each modal is conjugated for person, and pairs with a second verb in the infinitive: 'Moram raditi' (I must work), 'Želim putovati' (I want to travel) — modal first, infinitive second, just like English 'can go' or 'must eat'.",
+        icon: '🔑',
+      },
+      {
+        type: 'rule',
+        title: 'moći — Ability and Permission',
+        body: "Moći means 'can' in the sense of ability or possibility: 'Mogu plivati' (I can swim — I have the skill). Conjugation: mogu, možeš, može, možemo, možete, mogu. Moći also covers general possibility: 'Može kišiti' (It might rain). Note the irregular 3rd person plural 'mogu', identical to 1st person singular.",
+        highlight: 'mogu, možeš, može, možemo, možete, mogu',
+      },
+      {
+        type: 'rule',
+        title: 'smjeti vs moći — Permission vs Ability',
+        body: "Croatian distinguishes permission from ability where English uses 'can' for both. Smjeti means 'may/to be allowed' — permission granted by a rule or person: 'Ne smiješ pušiti ovdje' (You may not smoke here — it's forbidden). Moći covers physical or practical ability: 'Ne mogu doći' (I can't come — I'm unable to). Mixing these up is a common learner error: 'Smijem li ući?' (May I come in?) asks permission, not ability.",
+        highlight: 'smjeti = permission, moći = ability',
+      },
+      {
+        type: 'rule',
+        title: 'morati and trebati — Obligation and Recommendation',
+        body: "Morati expresses strong obligation, 'must/have to': 'Moram ići kući' (I must go home — no choice). Trebati is softer, 'should/need to', and can take either an infinitive or a noun in accusative: 'Trebam otići liječniku' (I need to go to the doctor) or 'Trebam novu knjigu' (I need a new book). Negated morati ('ne moram') means 'don't have to', not 'must not' — for prohibition, use 'ne smijem'.",
+        highlight: "ne moram = don't have to, not must not",
+      },
+      {
+        type: 'table',
+        title: 'Modal Verbs — Present Tense Conjugation',
+        headers: [
+          'Person',
+          'moći (can)',
+          'morati (must)',
+          'htjeti (want)',
+          'smjeti (may)',
+          'trebati (should)',
+        ],
+        rows: [
+          ['ja', 'mogu', 'moram', 'hoću', 'smijem', 'trebam'],
+          ['ti', 'možeš', 'moraš', 'hoćeš', 'smiješ', 'trebaš'],
+          ['on/ona/ono', 'može', 'mora', 'hoće', 'smije', 'treba'],
+          ['mi', 'možemo', 'moramo', 'hoćemo', 'smijemo', 'trebamo'],
+          ['vi', 'možete', 'morate', 'hoćete', 'smijete', 'trebate'],
+          ['oni/one', 'mogu', 'moraju', 'hoće', 'smiju', 'trebaju'],
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Modal Verbs in Everyday Sentences',
+        items: [
+          {
+            hr: 'Moram učiti za ispit.',
+            en: 'I must study for the exam.',
+            note: 'morati — strong obligation',
+          },
+          {
+            hr: 'Možeš li mi pomoći?',
+            en: 'Can you help me?',
+            note: 'moći — ability/request',
+          },
+          {
+            hr: 'Smijem li otvoriti prozor?',
+            en: 'May I open the window?',
+            note: 'smjeti — asking permission',
+          },
+          {
+            hr: 'Trebaš popiti više vode.',
+            en: 'You should drink more water.',
+            note: 'trebati — soft recommendation',
+          },
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'htjeti — Want, and Its Special Negative',
+        body: "Htjeti means 'want' and also forms the future tense auxiliary (ću, ćeš, će...). As a standalone modal it conjugates: hoću, hoćeš, hoće, hoćemo, hoćete, hoće. Its negative form is completely irregular and written as one word: neću, nećeš, neće, nećemo, nećete, neće — never 'ne hoću'. 'Neću ići' means both 'I don't want to go' and 'I won't go', depending on context.",
+        highlight: 'neću, not ne hoću',
+      },
+      {
+        type: 'example',
+        title: 'Negation and Mixed Modal Sentences',
+        items: [
+          {
+            hr: 'Ne moram raditi sutra.',
+            en: "I don't have to work tomorrow.",
+            note: 'ne moram = no obligation, not prohibition',
+          },
+          {
+            hr: 'Ne smiješ parkirati ovdje.',
+            en: 'You must not park here.',
+            note: 'ne smiješ = forbidden',
+          },
+          {
+            hr: 'Neću jesti meso.',
+            en: "I don't want to eat meat.",
+            note: 'neću — irregular negative of htjeti',
+          },
+          {
+            hr: 'Trebamo li rezervirati stol?',
+            en: 'Do we need to reserve a table?',
+            note: 'trebati in a question',
+          },
+        ],
+      },
+      {
+        type: 'quiz',
+        q: "Your friend asks 'Smijem li sjesti ovdje?' What is being asked?",
+        options: [
+          'Whether they are allowed to sit there',
+          'Whether they physically can sit there',
+          'Whether they want to sit there',
+          'Whether they should sit there for health reasons',
+        ],
+        correct: 0,
+        explanation:
+          "Smjeti expresses permission, not ability. 'Smijem li sjesti ovdje?' asks 'Am I allowed to sit here?' — checking if the seat is free or if it's okay to sit there, not testing physical capability.",
+      },
+      {
+        type: 'quiz',
+        q: "Which sentence correctly expresses 'I don't want to go' using the irregular negative?",
+        options: ['Ne hoću ići.', 'Neću ići.', 'Ne moram ići.', 'Ne smijem ići.'],
+        correct: 1,
+        explanation:
+          "The negative of htjeti is irregular and written as one word: neću, nećeš, neće... 'Ne hoću' is incorrect Croatian. 'Ne moram' means 'I don't have to' (no obligation), and 'ne smijem' means 'I'm not allowed'.",
+      },
+      {
+        type: 'summary',
+        title: 'Modal Verbs — Complete!',
+        points: [
+          'Modal verb + infinitive: Moram raditi, Želim putovati, Mogu doći',
+          "moći = ability/possibility; smjeti = permission — don't mix them up",
+          "morati = strong obligation ('must'); trebati = softer recommendation ('should')",
+          "ne moram = don't have to (no obligation) vs ne smijem = must not (forbidden)",
+          "htjeti's negative is irregular: neću, nećeš, neće — never 'ne hoću'",
+        ],
+      },
+    ],
+  },
+  // ─────────────────────────────────────────────────────────
+  // A2 parity: Komparacija pridjeva — Comparison of Adjectives
+  // ─────────────────────────────────────────────────────────
+  {
+    id: 'comparatives-a2',
+    title: 'Komparacija pridjeva — Comparison of Adjectives',
+    subtitle: 'Comparative and superlative forms, plus od vs nego',
+    icon: '📊',
+    level: 'A2',
+    duration: '~6 min',
+    color: '#0369a1',
+    bg: '#f0f9ff',
+    slides: [
+      {
+        type: 'intro',
+        title: 'Comparing Things in Croatian',
+        body: "To say 'bigger', 'more beautiful', or 'the best' in Croatian, adjectives change form rather than adding a separate word like English 'more'. This lesson covers the regular comparative suffixes, the most common irregular comparatives, the superlative prefix naj-, and the two ways to say 'than' — od and nego.",
+        icon: '📊',
+      },
+      {
+        type: 'rule',
+        title: 'The Regular Comparative: -iji, -ji, -ši',
+        body: 'Most adjectives form the comparative by adding -iji to the stem: jednostavan → jednostavniji (simpler), pametan → pametniji (smarter). Adjectives ending in a single consonant plus -k, -c, -h often drop it and add -ji, with the preceding consonant softening: lijep → ljepši (more beautiful), mlad → mlađi (younger), jak → jači (stronger). A smaller group uses -ši: lak → lakši (easier).',
+        highlight: 'jednostavan → jednostavniji',
+      },
+      {
+        type: 'rule',
+        title: 'Irregular Comparatives — Memorize These',
+        body: "A handful of very common adjectives have completely irregular comparatives that don't follow any suffix rule: dobar (good) → bolji (better), loš (bad) → gori (worse), velik (big) → veći (bigger), malen/mali (small) → manji (smaller), and visok (tall) → viši (taller). These five appear constantly in everyday speech, so memorize them as whole words rather than trying to derive them.",
+        highlight: 'dobar→bolji, loš→gori, velik→veći, malen→manji',
+      },
+      {
+        type: 'rule',
+        title: 'The Superlative: naj- + Comparative',
+        body: "The superlative ('the most/-est') is formed by simply adding the prefix naj- to the comparative form — no separate rule to learn. Ljepši (more beautiful) → najljepši (most beautiful). Bolji (better) → najbolji (best). Veći (bigger) → najveći (biggest). Because the superlative always builds on the comparative, once you know the comparative, the superlative comes for free.",
+        highlight: 'naj- + comparative = superlative',
+      },
+      {
+        type: 'rule',
+        title: "od vs nego — Two Ways to Say 'Than'",
+        body: "Croatian expresses 'than' in a comparison two ways: 'od' + genitive case, or 'nego' + the same case as the first noun. 'Marko je stariji od mene' and 'Marko je stariji nego ja' both mean 'Marko is older than me' — the first uses genitive after od, the second uses nominative because nego compares like-for-like forms. Nego is required (not od) when comparing phrases, clauses, or anything other than simple nouns/pronouns.",
+        highlight: 'od + genitive, or nego + matching case',
+      },
+      {
+        type: 'table',
+        title: 'Adjective Comparison — Key Forms',
+        headers: ['Positive', 'Comparative', 'Superlative', 'English'],
+        rows: [
+          ['dobar', 'bolji', 'najbolji', 'good → better → best'],
+          ['loš', 'gori', 'najgori', 'bad → worse → worst'],
+          ['velik', 'veći', 'najveći', 'big → bigger → biggest'],
+          ['malen', 'manji', 'najmanji', 'small → smaller → smallest'],
+          ['visok', 'viši', 'najviši', 'tall → taller → tallest'],
+          ['lijep', 'ljepši', 'najljepši', 'beautiful → more beautiful → most beautiful'],
+          ['jednostavan', 'jednostavniji', 'najjednostavniji', 'simple → simpler → simplest'],
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Comparatives in Sentences',
+        items: [
+          {
+            hr: 'Ovaj grad je veći od Splita.',
+            en: 'This city is bigger than Split.',
+            note: 'veći (irregular) + od + genitive',
+          },
+          {
+            hr: 'Zagreb je najveći grad u Hrvatskoj.',
+            en: 'Zagreb is the biggest city in Croatia.',
+            note: 'najveći — superlative',
+          },
+          {
+            hr: 'Ana je pametnija nego njezin brat.',
+            en: 'Ana is smarter than her brother.',
+            note: 'nego + nominative (matching case)',
+          },
+          {
+            hr: 'Ovo vino je bolje od onoga.',
+            en: 'This wine is better than that one.',
+            note: 'bolji (irregular) + od + genitive',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'More Comparative Patterns',
+        items: [
+          {
+            hr: 'Danas je hladnije nego jučer.',
+            en: "Today it's colder than yesterday.",
+            note: 'hladnije used with time expressions, not nouns',
+          },
+          {
+            hr: 'Moja sestra je mlađa od mene.',
+            en: 'My sister is younger than me.',
+            note: 'mlađi (irregular softening) + od + genitive',
+          },
+          {
+            hr: 'Ovo je najjednostavniji recept.',
+            en: 'This is the simplest recipe.',
+            note: 'najjednostavniji — regular -iji + naj-',
+          },
+          {
+            hr: 'On trči brže nego ja.',
+            en: 'He runs faster than I do.',
+            note: 'nego required — comparing two clauses',
+          },
+        ],
+      },
+      {
+        type: 'quiz',
+        q: "What is the correct comparative of 'dobar' (good)?",
+        options: ['dobriji', 'najdobriji', 'bolji', 'dobreji'],
+        correct: 2,
+        explanation:
+          "Dobar is one of the irregular comparatives that doesn't take a suffix — it becomes bolji (better), completely unrelated to the root 'dobar'. The superlative built on it is najbolji (best).",
+      },
+      {
+        type: 'quiz',
+        q: "Which sentence correctly says 'Zagreb is bigger than Split'?",
+        options: [
+          'Zagreb je veći nego od Splita.',
+          'Zagreb je veći Split.',
+          'Zagreb je najveći od Splita.',
+          'Zagreb je veći od Splita.',
+        ],
+        correct: 3,
+        explanation:
+          "The pattern is comparative + od + genitive: 'veći od Splita' (bigger than Split). 'Nego od' mixes both constructions incorrectly, and 'najveći od Splita' wrongly uses the superlative for a two-way comparison.",
+      },
+      {
+        type: 'summary',
+        title: 'Comparison of Adjectives — Complete!',
+        points: [
+          'Regular comparative: add -iji/-ji/-ši to the stem (jednostavniji, ljepši, lakši)',
+          'Irregular comparatives to memorize: dobar→bolji, loš→gori, velik→veći, malen→manji, visok→viši',
+          'Superlative = naj- + comparative: najbolji, najveći, najljepši',
+          "Use 'od' + genitive for simple noun/pronoun comparisons: veći od mene",
+          "Use 'nego' when comparing phrases or clauses, matching the case of the first item",
+        ],
+      },
+    ],
+  },
 ];

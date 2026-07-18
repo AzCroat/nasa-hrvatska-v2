@@ -868,6 +868,10 @@ describe('LESSONS', () => {
     const count = (lvl) => LESSONS.filter((l) => l.level === lvl).length;
     expect(count('C1')).toBeGreaterThanOrEqual(8);
     expect(count('C2')).toBeGreaterThanOrEqual(4);
+    // A2 parity (deficit #7): modal verbs + comparatives close the A2 ladder.
+    expect(count('A2')).toBeGreaterThanOrEqual(8);
+    expect(LESSONS.map((l) => l.id)).toContain('modal-verbs-a2');
+    expect(LESSONS.map((l) => l.id)).toContain('comparatives-a2');
     const ids = LESSONS.map((l) => l.id);
     for (const id of [
       'aorist-imperfekt',
