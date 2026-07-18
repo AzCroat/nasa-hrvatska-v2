@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { shouldEnableSentryReplay, isBenignAbortRejection } from '../sentryHelpers';
+import {
+  shouldEnableSentryReplay,
+  isBenignAbortRejection,
+  isBenignSwLoadRejection,
+} from '../sentryHelpers';
 
 describe('shouldEnableSentryReplay', () => {
   // UA samples below are real strings observed in production (DDG) or
@@ -84,5 +88,67 @@ describe('isBenignAbortRejection', () => {
     expect(isBenignAbortRejection(undefined)).toBe(false);
     expect(isBenignAbortRejection({})).toBe(false);
     expect(isBenignAbortRejection({ exception: { values: [] } })).toBe(false);
+  });
+});
+
+describe('isBenignSwLoadRejection', () => {
+  const unhandled = (ex: { type?: string; value?: string }) => ({
+    exception: { values: [{ ...ex, mechanism: { type: 'onunhandledrejection' } }] },
+  });
+
+  it('drops the Safari signature: SecurityError + sw.js load failed via unhandledrejection', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'SecurityError',
+          value: 'Script https://nasahrvatska.com/sw.js load failed',
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it('matches SecurityError named in the value when the type is generic', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'Error', value: 'SecurityError: Script https://x/sw.js load failed' }),
+      ),
+    ).toBe(true);
+  });
+
+  it('does NOT drop a SecurityError unrelated to sw.js', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'SecurityError', value: 'Blocked a frame with origin' }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop an sw.js failure that is not a SecurityError', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'TypeError', value: 'Script https://x/sw.js load failed' }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop the same error captured outside unhandledrejection', () => {
+    expect(
+      isBenignSwLoadRejection({
+        exception: {
+          values: [
+            {
+              type: 'SecurityError',
+              value: 'Script https://x/sw.js load failed',
+              mechanism: { type: 'generic' },
+            },
+          ],
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it('is false for empty / missing shapes (never throws)', () => {
+    expect(isBenignSwLoadRejection(null)).toBe(false);
+    expect(isBenignSwLoadRejection({})).toBe(false);
   });
 });
