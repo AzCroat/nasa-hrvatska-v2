@@ -196,6 +196,7 @@ const FleetingADrill = lazyWithReload(() => import('./practice/FleetingADrill'))
 const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
 const NumbersCasesDrill = lazyWithReload(() => import('./practice/NumbersCasesDrill'));
 const ImperativeDrill = lazyWithReload(() => import('./practice/ImperativeDrill'));
+const C2StructureDrill = lazyWithReload(() => import('./practice/C2StructureDrill'));
 const ParticipleDrill = lazyWithReload(() => import('./practice/ParticipleDrill'));
 const SubordinationDrill = lazyWithReload(() => import('./practice/SubordinationDrill'));
 const ConditionalDrill = lazyWithReload(() => import('./practice/ConditionalDrill'));
@@ -1649,6 +1650,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'imperative' && (
           <ScreenErrorBoundary key="imperative" name="imperative">
             <ImperativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'c2drill' && (
+          <ScreenErrorBoundary key="c2drill" name="c2drill">
+            <C2StructureDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'neggen' && (

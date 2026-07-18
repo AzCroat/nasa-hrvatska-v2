@@ -218,6 +218,17 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'nominative',
   },
+  // C2 — the pool's first C2 grammar-structure drill: before this, the
+  // guaranteed-grammar slot could only offer C1 to a C2 user. Covers the
+  // C2 animated lessons' ground: aorist/imperfekt/pluskvamperfekt
+  // recognition, administrative nominal style, and comma rules.
+  {
+    id: 'c2drill',
+    label: 'C2 Structure',
+    screen: 'c2drill',
+    cefr: 'C2',
+    category: 'nominalization',
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -272,4 +283,5 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   coloragree: 2,
   imperative: 3,
   neggen: 3,
+  c2drill: 5,
 };
