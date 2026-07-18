@@ -35,12 +35,33 @@ describe('grammar-advanced.js schema', () => {
     }
   });
 
-  it('each unit meets quality floor: 6+ forms, 5+ examples, 3+ tips, 5+ drills', () => {
+  it('has at least 13 units (6 B2 + 5 C1 + 2 C2)', () => {
+    expect(ADVANCED_UNITS.length).toBeGreaterThanOrEqual(13);
+  });
+
+  it('each unit meets quality floor: 6+ forms, 5+ examples, 3+ tips, 12+ drills', () => {
     for (const u of ADVANCED_UNITS) {
       expect(u.forms.length, `${u.id} <6 forms`).toBeGreaterThanOrEqual(6);
       expect(u.examples.length, `${u.id} <5 examples`).toBeGreaterThanOrEqual(5);
       expect(u.tips.length, `${u.id} <3 tips`).toBeGreaterThanOrEqual(3);
-      expect(u.drills.length, `${u.id} <5 drills`).toBeGreaterThanOrEqual(5);
+      expect(u.drills.length, `${u.id} <12 drills`).toBeGreaterThanOrEqual(12);
+    }
+  });
+
+  it('every drill has 4 unique opts and a valid correct index', () => {
+    for (const u of ADVANCED_UNITS) {
+      for (const d of u.drills) {
+        expect(new Set(d.opts).size, `${u.id}: duplicate opts in "${d.q}"`).toBe(4);
+        expect(d.opts[d.correct], `${u.id}: bad correct index in "${d.q}"`).toBeTruthy();
+      }
+    }
+  });
+
+  it('(q, answer) pairs are unique within each unit', () => {
+    for (const u of ADVANCED_UNITS) {
+      const keys = u.drills.map((d) => `${d.q} ${d.opts[d.correct]}`);
+      const dupes = keys.filter((k, i) => keys.indexOf(k) !== i);
+      expect(dupes, `${u.id}: duplicate drills: ${dupes.join(' | ')}`).toEqual([]);
     }
   });
 
@@ -93,17 +114,17 @@ describe('grammar-advanced.js schema', () => {
     }
   });
 
-  it('ADVANCED_UNITS has exactly 12 entries', () => {
-    expect(ADVANCED_UNITS).toHaveLength(12);
+  it('ADVANCED_UNITS has exactly 13 entries', () => {
+    expect(ADVANCED_UNITS).toHaveLength(13);
   });
 
-  it('exactly 6 B2 + 5 C1 + 1 C2', () => {
+  it('exactly 6 B2 + 5 C1 + 2 C2', () => {
     const b2 = ADVANCED_UNITS.filter((u) => u.cefr === 'B2');
     const c1 = ADVANCED_UNITS.filter((u) => u.cefr === 'C1');
     const c2 = ADVANCED_UNITS.filter((u) => u.cefr === 'C2');
     expect(b2).toHaveLength(6);
     expect(c1).toHaveLength(5);
-    expect(c2).toHaveLength(1);
+    expect(c2).toHaveLength(2);
   });
 
   it('no drill option string is empty', () => {
