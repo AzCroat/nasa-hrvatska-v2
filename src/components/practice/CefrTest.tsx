@@ -558,9 +558,254 @@ const LEVELS = {
       },
     ],
   },
+  C1: {
+    label: 'C1 — Advanced',
+    color: '#f3e8ff',
+    border: '#d8b4fe',
+    text: '#6b21a8',
+    emoji: '🌳',
+    desc: 'Nuanced argument, idiom, register control and complex syntax',
+    questions: [
+      {
+        q: "Choose the correct form: 'Da sam znao, ____ ti pomogao.'",
+        opts: ['bio bih', 'bih bio sam', 'budem', 'bio sam'],
+        answer: 0,
+        tip: 'Kondicional II: bio bih pomogao — unrealized past possibility.',
+      },
+      {
+        q: "'Unatoč ____ nastavili smo put.' Fill in:",
+        opts: ['kiši', 'kiše', 'kišu', 'kišom'],
+        answer: 0,
+        tip: 'unatoč + DATIVE: unatoč kiši.',
+      },
+      {
+        q: 'Which sentence uses the verbal adverb correctly?',
+        opts: [
+          'Ušavši u sobu, upalio je svjetlo.',
+          'Ušavši u sobu, svjetlo se upalilo.',
+          'Ušao u sobu, upalivši je svjetlo.',
+          'Svjetlo je ušavši upalio u sobu.',
+        ],
+        answer: 0,
+        tip: 'Same-subject rule: the one who entered must be the one who switched on the light.',
+      },
+      {
+        q: "'Sve ____ je rekao pokazalo se točnim.'",
+        opts: ['što', 'koje', 'koji', 'čega'],
+        answer: 0,
+        tip: 'After sve/ono/ništa the relativizer is što.',
+      },
+      {
+        q: "What does 'prodavati maglu' mean?",
+        opts: [
+          'to peddle empty promises',
+          'to sell umbrellas',
+          'to forecast the weather',
+          'to speak quietly',
+        ],
+        answer: 0,
+        tip: 'Idiom: prodavati maglu = to deceive with empty talk.',
+      },
+      {
+        q: 'Pick the FORMAL request:',
+        opts: [
+          'Ljubazno Vas molim da mi dostavite ponudu.',
+          'Daj mi ponudu.',
+          'Može ponuda?',
+          'Hoću ponudu što prije.',
+        ],
+        answer: 0,
+        tip: 'Business register: Ljubazno Vas molim + da-clause.',
+      },
+      {
+        q: "'Radujem se ____.' (your arrival)",
+        opts: ['tvom dolasku', 'tvoj dolazak', 'tvog dolaska', 'tvojim dolaskom'],
+        answer: 0,
+        tip: 'radovati se + DATIVE: dolasku.',
+      },
+      {
+        q: 'Which is the se-passive?',
+        opts: [
+          'Ovdje se govori hrvatski.',
+          'On se brije svako jutro.',
+          'Marko i Ana se vole.',
+          'Bojim se mraka.',
+        ],
+        answer: 0,
+        tip: 'Impersonal/passive se: Croatian is spoken here.',
+      },
+      {
+        q: "'Kad biste imali vremena, ____ li nam se pridružiti?'",
+        opts: ['biste', 'bi', 'budete', 'bili'],
+        answer: 0,
+        tip: '2nd person plural conditional: biste li…',
+      },
+      {
+        q: "Choose the correct clitic order: 'Ja ____ dala.'",
+        opts: ['sam mu je', 'je mu sam', 'mu sam je', 'sam je mu'],
+        answer: 0,
+        tip: 'aux (sam) → dative (mu) → accusative je goes LAST: sam mu je.',
+      },
+      {
+        q: "What nuance does the aorist add in 'Stigoh!'?",
+        opts: ['punchy immediacy', 'formal politeness', 'uncertainty', 'habitual repetition'],
+        answer: 0,
+        tip: 'The living aorist in messages: short, expressive, just-now.',
+      },
+      {
+        q: "'Zahvaljujući ____, položio sam ispit.'",
+        opts: ['profesorici', 'profesorice', 'profesoricu', 'profesoricom'],
+        answer: 0,
+        tip: 'zahvaljujući + DATIVE.',
+      },
+      {
+        q: 'Pick the sentence with correct agreement:',
+        opts: [
+          'Djeca su se igrala u dvorištu.',
+          'Djeca su se igrali u dvorištu.',
+          'Djeca se igralo u dvorištu.',
+          'Djeca je igrala u dvorištu.',
+        ],
+        answer: 0,
+        tip: 'djeca + plural verb, neuter-style participle: igrala su se.',
+      },
+      {
+        q: "'To je čovjek na ____ se možeš osloniti.'",
+        opts: ['kojeg', 'koji', 'kojem', 'kojim'],
+        answer: 0,
+        tip: 'osloniti se NA + accusative; animate: na kojeg.',
+      },
+      {
+        q: 'Which word does NOT belong to formal correspondence?',
+        opts: ['fakat', 'poštovani', 's poštovanjem', 'u privitku'],
+        answer: 0,
+        tip: "'fakat' is colloquial — never in business writing.",
+      },
+    ],
+  },
+  C2: {
+    label: 'C2 — Mastery',
+    color: '#fce7f3',
+    border: '#f9a8d4',
+    text: '#9d174d',
+    emoji: '🏔️',
+    desc: 'Literary tenses, rhetoric, irony and near-native judgement',
+    questions: [
+      {
+        q: "'____, vidjeh, pobijedih.' — complete Caesar's boast:",
+        opts: ['Dođoh', 'Došao', 'Dolazim', 'Dođem'],
+        answer: 0,
+        tip: 'Aorist chain: dođoh, vidjeh, pobijedih.',
+      },
+      {
+        q: "Identify the tense: 'Bijaše hladno jutro.'",
+        opts: ['imperfekt', 'aorist', 'perfekt', 'pluskvamperfekt'],
+        answer: 0,
+        tip: 'bijaše = imperfect of biti — the one imperfect still alive.',
+      },
+      {
+        q: "'Vlak je već ____ kad smo stigli.' (pluperfect)",
+        opts: ['bio otišao', 'otišao', 'bio otići', 'bivao otišao'],
+        answer: 0,
+        tip: 'Pluskvamperfekt: je + bio + otišao.',
+      },
+      {
+        q: "What is the rhetorical effect of 'Nije baš da smo se pretrgnuli od posla'?",
+        opts: ['ironic understatement', 'sincere complaint', 'formal apology', 'literal report'],
+        answer: 0,
+        tip: 'Understatement (litota) signalling the opposite.',
+      },
+      {
+        q: "'Komu vjerovati?' uses which case of 'tko'?",
+        opts: ['dative', 'accusative', 'genitive', 'locative'],
+        answer: 0,
+        tip: 'vjerovati + dative: komu.',
+      },
+      {
+        q: 'Choose the aphorism with parallel structure:',
+        opts: [
+          'Standard je dogovor, a dijalekt je pamćenje.',
+          'Standard i dijalekt su različiti.',
+          'Dijalekti su jako zanimljivi.',
+          'Dogovor je važan za standard.',
+        ],
+        answer: 0,
+        tip: 'Parallel predication X je A, a Y je B — the aphoristic mould.',
+      },
+      {
+        q: "'Sve što bijaše obećao, pokazalo se istinitim.' — 'bijaše obećao' is:",
+        opts: ['literary pluperfect', 'aorist', 'conditional', 'future II'],
+        answer: 0,
+        tip: 'bijah + participle = the literary pluperfect variant.',
+      },
+      {
+        q: 'Which pair are NOT synonyms?',
+        opts: [
+          'iskrenost / istina',
+          'kraj / svršetak',
+          'dom / kuća (roughly)',
+          'rad / posao (roughly)',
+        ],
+        answer: 0,
+        tip: 'Honesty is a property of the speaker; truth, of the claim.',
+      },
+      {
+        q: "'Zaboravu usprkos, neka imena ostaju.' The fronted phrase expresses:",
+        opts: ['concession', 'cause', 'purpose', 'time'],
+        answer: 0,
+        tip: 'usprkos + dative, fronted for emphasis: despite oblivion.',
+      },
+      {
+        q: 'Pick the correctly built impersonal:',
+        opts: [
+          'Ovdje se dobro jede.',
+          'Ovdje se dobro jedu.',
+          'Ovdje dobro jede.',
+          'Ovdje je dobro jesti se.',
+        ],
+        answer: 0,
+        tip: 'Impersonal se + 3rd singular: dobro se jede.',
+      },
+      {
+        q: "What does 'čitatelj kao porota' exemplify?",
+        opts: ['metaphor', 'metonymy', 'hyperbole', 'onomatopoeia'],
+        answer: 0,
+        tip: 'Reader-as-jury: a metaphor mapping courtroom onto reading.',
+      },
+      {
+        q: "'Malo je proročanstava tako uredno ispunjeno.' — 'proročanstava' is:",
+        opts: [
+          'genitive plural after malo',
+          'nominative plural',
+          'accusative plural',
+          'dative plural',
+        ],
+        answer: 0,
+        tip: 'Quantifier malo + partitive genitive plural.',
+      },
+      {
+        q: "Which register does 'nikamo nisu mrdnuli' inject into formal debate?",
+        opts: ['colloquial punch', 'archaic solemnity', 'legal precision', 'scientific neutrality'],
+        answer: 0,
+        tip: 'Controlled register-mixing: colloquial verb inside formal argument.',
+      },
+      {
+        q: "'Roman s pogreškom koja mu pripada' — 'mu' refers to:",
+        opts: ['the novel', 'the author', 'the reader', 'the mistake'],
+        answer: 0,
+        tip: 'Dative clitic mu = to the novel (roman).',
+      },
+      {
+        q: "The bura 'ne oblikuje samo kamen — ona odgaja.' The figure is:",
+        opts: ['personification', 'simile', 'irony', 'euphemism'],
+        answer: 0,
+        tip: 'The wind is given a human role: it raises children.',
+      },
+    ],
+  },
 };
 
-const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2'];
+const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 function gradeMessage(pct: number) {
   if (pct >= 90) return { icon: '🏆', msg: "Excellent! You've mastered this level!" };
