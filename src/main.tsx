@@ -28,7 +28,11 @@ import { initPostHog } from './lib/analytics';
 import { registerSW } from 'virtual:pwa-register';
 import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
-import { shouldEnableSentryReplay, isBenignAbortRejection } from './lib/sentryHelpers';
+import {
+  shouldEnableSentryReplay,
+  isBenignAbortRejection,
+  isBenignSwLoadRejection,
+} from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
 import { lsGet } from './lib/safeStorage';
 
@@ -159,6 +163,12 @@ if (import.meta.env.VITE_SENTRY_DSN) {
           // real AbortError captured elsewhere still reports. Logic + tests live
           // in sentryHelpers.isBenignAbortRejection.
           if (isBenignAbortRejection(event)) return null;
+          // Drop benign Safari SW-script SecurityErrors ("Script …/sw.js load
+          // failed", DOMException 18) — a privacy setting or transient network
+          // failure blocking the SW update fetch. The app runs fine without
+          // offline support; not actionable. Logic + tests live in
+          // sentryHelpers.isBenignSwLoadRejection.
+          if (isBenignSwLoadRejection(event)) return null;
           // Downgrade non-actionable environmental IndexedDB errors (flaky device
           // storage, surfaced async from Firebase persistence) so they stop paging
           // as high-priority but are retained for frequency tracking. Logic +
@@ -357,6 +367,10 @@ window.onunhandledrejection = function (event) {
   // Non-actionable environmental IndexedDB error (see beforeSend / window.onerror):
   // the SDK already captures+downgrades it; skip the duplicate homegrown report.
   if (isEnvironmentalIdbError(msg)) return;
+  // Benign Safari SW-script SecurityError ("Script …/sw.js load failed") —
+  // Sentry beforeSend drops the SDK capture (isBenignSwLoadRejection); skip
+  // the homegrown /api/report-error duplicate too.
+  if (msg.includes('sw.js') && (msg.includes('load failed') || msg.includes('failed to'))) return;
   reportError(reason ?? new Error('Unhandled rejection'), 'unhandledrejection');
 };
 

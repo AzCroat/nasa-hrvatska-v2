@@ -47,3 +47,25 @@ export function isBenignAbortRejection(event: AbortFilterEvent | null | undefine
   const isAbort = ex.type === 'AbortError' || /\bAbortError\b/i.test(ex.value ?? '');
   return isAbort && ex.mechanism?.type === 'onunhandledrejection';
 }
+
+/**
+ * True when a Sentry event is a benign service-worker script-load failure
+ * surfaced as an *unhandled promise rejection* — Safari's signature is
+ * `SecurityError: Script https://…/sw.js load failed` (DOMException 18),
+ * thrown when a privacy setting ("Block all cookies", some private-browsing
+ * configurations) or a transient network failure blocks the SW script fetch,
+ * typically during the browser's own periodic registration *update* check
+ * (which vite-plugin-pwa's onRegisterError does not cover). Nothing
+ * user-facing breaks — the app simply runs without offline support — so
+ * these must not page anyone. Scoped to the onunhandledrejection mechanism
+ * and to the sw.js script specifically; any other SecurityError still reports.
+ */
+export function isBenignSwLoadRejection(event: AbortFilterEvent | null | undefined): boolean {
+  const ex = event?.exception?.values?.[0];
+  if (!ex) return false;
+  const msg = ex.value ?? '';
+  const isSwLoad =
+    /\bsw\.js\b/.test(msg) && /load failed|failed to (fetch|load|register)/i.test(msg);
+  const isSecurity = ex.type === 'SecurityError' || /\bSecurityError\b/.test(msg);
+  return isSwLoad && isSecurity && ex.mechanism?.type === 'onunhandledrejection';
+}
