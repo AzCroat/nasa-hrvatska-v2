@@ -69,7 +69,10 @@ const FALLBACK_ARTICLES = [
   },
 ];
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+// C2 added with the server's C2 news mode — authentic press register, no
+// simplification. Before this, a C2 user defaulted to B1 (double downgrade:
+// no chip here, no C2 rule server-side).
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const LC = LEVEL_COLORS as Record<string, string>;
 
 interface WordTooltip {
