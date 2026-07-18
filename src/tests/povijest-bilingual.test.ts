@@ -126,3 +126,19 @@ describe('REGIONS — bilingual coverage (7c-ii)', () => {
     expect(client).toBe(server);
   });
 });
+
+describe('REGIONS — bilingual quiz layer (deficit #4)', () => {
+  it('every quiz question in every region carries qHr/aHr/alHr', () => {
+    for (const [k, r] of Object.entries(ALL_REGIONS)) {
+      const quiz = (r as unknown as { quiz: Array<Record<string, unknown>> }).quiz;
+      for (const [i, q] of quiz.entries()) {
+        expect(nonEmpty(q.qHr), `${k}.quiz[${i}].qHr`).toBe(true);
+        expect(nonEmpty(q.aHr), `${k}.quiz[${i}].aHr`).toBe(true);
+        expect(Array.isArray(q.alHr), `${k}.quiz[${i}].alHr`).toBe(true);
+        expect((q.alHr as unknown[]).length, `${k}.quiz[${i}].alHr length`).toBe(
+          (q.al as unknown[]).length,
+        );
+      }
+    }
+  });
+});

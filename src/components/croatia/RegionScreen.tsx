@@ -20,8 +20,21 @@ function RegionScreen({ regionKey, goBack }: Props) {
   // SP11d: REGIONS is async-loaded; provide safe fallback for useMemo deps until ready.
   const REGIONS = (content?.REGIONS ?? {}) as Record<string, any>;
   const r = REGIONS[regionKey];
+  // Quiz options as {en, hr} pairs so the bilingual layer survives the shuffle
+  // (answers still compare by the English value — the data's identity key).
+  // hr is undefined on stale cached content → English-only render, as before.
   const frozenOpts = useMemo(
-    () => (r ? (r.quiz as any[]).map((q: any) => sh([q.a, ...q.al])) : []),
+    () =>
+      r
+        ? (r.quiz as any[]).map((q: any) =>
+            sh(
+              [q.a, ...q.al].map((en: string, i: number) => ({
+                en,
+                hr: i === 0 ? q.aHr : q.alHr?.[i - 1],
+              })),
+            ),
+          )
+        : [],
     [r],
   );
   if (error)
@@ -395,12 +408,12 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     color: 'var(--heading)',
                   }}
                 >
-                  {r.quiz[quizI]!.q}
+                  <BiText hr={r.quiz[quizI]!.qHr} en={r.quiz[quizI]!.q} showEn={showEn} />
                 </div>
               </div>
-              {(frozenOpts[quizI] ?? []).map(function (opt, i) {
-                const chosen = quizSel === opt;
-                const correct = opt === r.quiz[quizI]!.a;
+              {(frozenOpts[quizI] ?? []).map(function (opt: { en: string; hr?: string }, i) {
+                const chosen = quizSel === opt.en;
+                const correct = opt.en === r.quiz[quizI]!.a;
                 const revealed = quizSel !== null;
                 let bg = 'var(--card)',
                   border = '1px solid var(--card-b)',
@@ -419,11 +432,11 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     key={i}
                     role="button"
                     tabIndex={0}
-                    onClick={() => handleQuizAnswer(opt)}
+                    onClick={() => handleQuizAnswer(opt.en)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        handleQuizAnswer(opt);
+                        handleQuizAnswer(opt.en);
                       }
                     }}
                     style={{
@@ -441,7 +454,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                   >
                     {revealed && correct && '✅ '}
                     {revealed && chosen && !correct && '❌ '}
-                    {opt}
+                    <BiText hr={opt.hr} en={opt.en} showEn={showEn} />
                   </div>
                 );
               })}
