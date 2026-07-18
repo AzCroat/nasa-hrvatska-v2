@@ -7,6 +7,9 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
 import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
+import { notifyLaunchFailure } from '../lib/launchFailure';
+import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
+import { _getData, _buildAdaptivePool } from '../lib/exerciseData';
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -25,42 +28,6 @@ function _sh<T>(a: T[]): T[] {
 }
 
 type VocabWord = [string, string, string?, ...string[]];
-
-/**
- * _buildAdaptivePool — weights vocabulary by FSRS stability so weaker words
- * appear more often in quiz pools.
- */
-function _buildAdaptivePool(pool: VocabWord[]): VocabWord[] {
-  let srData: Record<string, { due?: number; nextDue?: number }> = {};
-  try {
-    srData = JSON.parse(localStorage.getItem('nh_sr') || '{}');
-  } catch (_) {}
-  const now = Date.now();
-  const weighted: VocabWord[] = [];
-  for (const w of pool) {
-    const key = w[0];
-    const card = srData[key];
-    if (!card) {
-      weighted.push(w, w);
-      continue;
-    }
-    const msRemaining = (card.due || card.nextDue || 0) - now;
-    if (msRemaining < 0) {
-      weighted.push(w, w, w, w);
-    } else if (msRemaining < 7 * 86400000) {
-      weighted.push(w, w);
-    } else {
-      weighted.push(w);
-    }
-  }
-  return weighted;
-}
-
-let _dataCache: Record<string, unknown> | null = null;
-async function _getData(): Promise<Record<string, unknown>> {
-  if (!_dataCache) _dataCache = (await import('../data')) as Record<string, unknown>;
-  return _dataCache;
-}
 
 // Screens in LEARN_PATH that don't self-report completion — dwell ≥20s grants credit.
 const BLACK_HOLE_SCREENS: Record<string, string> = {
@@ -701,116 +668,145 @@ export function useScreenLauncher({
   // other exercises navigate directly. Called from HomeTab's SessionCard.
   const launchSessionActivity = useCallback(
     async (screen: string, category?: string): Promise<void> => {
-      returnContextRef.current = { tab: 'home', screen: 'dashboard' };
+      try {
+        returnContextRef.current = { tab: 'home', screen: 'dashboard' };
 
-      // The caller (SessionCard.onStart) sets nh_session_started BEFORE calling us.
-      // Any early exit that does NOT navigate (e.g. empty vocab pool) calls
-      // clearActiveSessionActivity(), else nh_session_started stays set with no screen
-      // able to complete it — pinning the session (re-tapping "Start" just re-bails).
+        // The caller (SessionCard.onStart) sets nh_session_started BEFORE calling us.
+        // Any early exit that does NOT navigate (e.g. empty vocab pool) calls
+        // clearActiveSessionActivity(), else nh_session_started stays set with no screen
+        // able to complete it — pinning the session (re-tapping "Start" just re-bails).
 
-      if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
-        const _d = (await _getData()) as { V?: Record<string, string[][]> };
-        const V: Record<string, string[][]> = _d.V ?? {};
-        const globalPool = allCats
-          .flatMap((t) => (V[t] ?? []) as string[][])
-          .filter((w) => w?.[0] && w?.[1]);
+        if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
+          const _d = (await _getData()) as { V?: Record<string, string[][]> };
+          const V: Record<string, string[][]> = _d.V ?? {};
+          const globalPool = allCats
+            .flatMap((t) => (V[t] ?? []) as string[][])
+            .filter((w) => w?.[0] && w?.[1]);
 
-        if (screen === 'flashcards') {
-          if (globalPool.length === 0) return clearActiveSessionActivity();
-          setFcInitPool(_sh(globalPool).slice(0, 20));
-          sCurEx('flashcards');
+          if (screen === 'flashcards') {
+            if (globalPool.length === 0) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            setFcInitPool(_sh(globalPool).slice(0, 20));
+            sCurEx('flashcards');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('flashcards');
+            setScr('flashcards');
+          } else if (screen === 'mcgame') {
+            const qs = _sh(globalPool)
+              .slice(0, 20)
+              .flatMap((w) => {
+                const wr = _sh(globalPool.filter((x) => x[1] !== w[1]))
+                  .slice(0, 3)
+                  .map((x) => x[1])
+                  .filter((s): s is string => s != null);
+                if (wr.length < 3) return [];
+                return [
+                  {
+                    hr: w[0]!,
+                    en: w[1]!,
+                    ph: w[2] ?? '',
+                    opts: _sh([w[1]!].concat(wr)),
+                    correct: w[1]!,
+                  },
+                ];
+              });
+            if (qs.length === 0) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            setMcInitQ(qs);
+            sCurEx('mcgame');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('quiz');
+            setScr('mcgame');
+          } else {
+            const sel = _sh(globalPool).slice(0, 6);
+            if (sel.length < 2) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            const matchPool = _sh([
+              ...sel.map((w, i) => ({ id: `h${i}`, t: w[0], p: i, tp: 'hr' })),
+              ...sel.map((w, i) => ({ id: `e${i}`, t: w[1], p: i, tp: 'en' })),
+            ]);
+            setMatchInitPool(matchPool);
+            sCurEx('match');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('matching');
+            setScr('match');
+          }
+        } else if (screen === 'listening') {
+          const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
+          const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
+          if (pool.length === 0) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          setLsInitQ(pool);
+          sCurEx('listening');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('flashcards');
-          setScr('flashcards');
-        } else if (screen === 'mcgame') {
-          const qs = _sh(globalPool)
-            .slice(0, 20)
-            .flatMap((w) => {
-              const wr = _sh(globalPool.filter((x) => x[1] !== w[1]))
-                .slice(0, 3)
-                .map((x) => x[1])
-                .filter((s): s is string => s != null);
-              if (wr.length < 3) return [];
-              return [
-                {
-                  hr: w[0]!,
-                  en: w[1]!,
-                  ph: w[2] ?? '',
-                  opts: _sh([w[1]!].concat(wr)),
-                  correct: w[1]!,
-                },
-              ];
-            });
-          if (qs.length === 0) return clearActiveSessionActivity();
-          setMcInitQ(qs);
-          sCurEx('mcgame');
+          trackStart('listening');
+          setScr('listening');
+        } else if (screen === 'speaking') {
+          // SpeakingScreen depends on parent-held state (speakItems/Word/Index/…);
+          // the generic branch below sets only curEx + setScr, so a cold session
+          // launch would hit the screen's `if (!sw || !sw[0]) return null` guard and
+          // render BLANK. Initialise the spoken-vocab pool here (mirroring the
+          // Practice-tab launchSpeaking path) BEFORE navigating, and bail without
+          // navigating if no vocab is available — never route to an empty screen
+          // (the dead-lesson class the session-routes guard protects against).
+          // Unlike launchSpeaking we keep the home return-context set at the top.
+          const _d = (await _getData()) as { V?: Record<string, string[][]> };
+          const V: Record<string, string[][]> = _d.V ?? {};
+          const pool = allCats
+            .flatMap((t) => (V[t] ?? []) as string[][])
+            .filter((w) => w?.[0] && w?.[1]);
+          if (pool.length === 0) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          const items = _sh(pool).slice(0, 6);
+          sSi(items);
+          sSx(0);
+          sSw(items[0]);
+          sSr(null);
+          sSsc(0);
+          sCurEx('speaking');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('quiz');
-          setScr('mcgame');
+          trackStart('speaking');
+          setScr('speaking');
         } else {
-          const sel = _sh(globalPool).slice(0, 6);
-          if (sel.length < 2) return clearActiveSessionActivity();
-          const matchPool = _sh([
-            ...sel.map((w, i) => ({ id: `h${i}`, t: w[0], p: i, tp: 'hr' })),
-            ...sel.map((w, i) => ({ id: `e${i}`, t: w[1], p: i, tp: 'en' })),
-          ]);
-          setMatchInitPool(matchPool);
-          sCurEx('match');
+          // Conjugation drill carries its target category in curEx so the screen
+          // can pick the right form-type; screen id stays 'conjpractice' for routing.
+          const ex = screen === 'conjpractice' && category ? `conjpractice:${category}` : screen;
+          // Topic-aware cloze: the adaptive categories dative-locative / instrumental
+          // / vocative route to the generic cloze screen (no dedicated drill). Hand
+          // the requested category to ClozeEngine via sessionStorage so it serves
+          // sentences for THAT topic — the session chip promises it. We deliberately
+          // do NOT fold the category into curEx (as conjpractice does): curEx is the
+          // session-completion key compared against nh_session_started, and changing
+          // it would strand the session at N-1/N (completion never fires).
+          if (screen === 'cloze') {
+            sessionStorage.setItem('nh_cloze_topic', category ?? '');
+          }
+          sCurEx(ex);
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('matching');
-          setScr('match');
+          setScr(screen);
         }
-      } else if (screen === 'listening') {
-        const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
-        const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
-        if (pool.length === 0) return clearActiveSessionActivity();
-        setLsInitQ(pool);
-        sCurEx('listening');
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
-        trackStart('listening');
-        setScr('listening');
-      } else if (screen === 'speaking') {
-        // SpeakingScreen depends on parent-held state (speakItems/Word/Index/…);
-        // the generic branch below sets only curEx + setScr, so a cold session
-        // launch would hit the screen's `if (!sw || !sw[0]) return null` guard and
-        // render BLANK. Initialise the spoken-vocab pool here (mirroring the
-        // Practice-tab launchSpeaking path) BEFORE navigating, and bail without
-        // navigating if no vocab is available — never route to an empty screen
-        // (the dead-lesson class the session-routes guard protects against).
-        // Unlike launchSpeaking we keep the home return-context set at the top.
-        const _d = (await _getData()) as { V?: Record<string, string[][]> };
-        const V: Record<string, string[][]> = _d.V ?? {};
-        const pool = allCats
-          .flatMap((t) => (V[t] ?? []) as string[][])
-          .filter((w) => w?.[0] && w?.[1]);
-        if (pool.length === 0) return clearActiveSessionActivity();
-        const items = _sh(pool).slice(0, 6);
-        sSi(items);
-        sSx(0);
-        sSw(items[0]);
-        sSr(null);
-        sSsc(0);
-        sCurEx('speaking');
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
-        trackStart('speaking');
-        setScr('speaking');
-      } else {
-        // Conjugation drill carries its target category in curEx so the screen
-        // can pick the right form-type; screen id stays 'conjpractice' for routing.
-        const ex = screen === 'conjpractice' && category ? `conjpractice:${category}` : screen;
-        // Topic-aware cloze: the adaptive categories dative-locative / instrumental
-        // / vocative route to the generic cloze screen (no dedicated drill). Hand
-        // the requested category to ClozeEngine via sessionStorage so it serves
-        // sentences for THAT topic — the session chip promises it. We deliberately
-        // do NOT fold the category into curEx (as conjpractice does): curEx is the
-        // session-completion key compared against nh_session_started, and changing
-        // it would strand the session at N-1/N (completion never fires).
-        if (screen === 'cloze') {
-          sessionStorage.setItem('nh_cloze_topic', category ?? '');
-        }
-        sCurEx(ex);
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
-        setScr(screen);
+      } catch (err) {
+        // A launch must either navigate or visibly fail — never a silent no-op.
+        // Clear the pinned session marker so re-tapping Start can retry cleanly.
+        clearActiveSessionActivity();
+        // Catching here means window.onunhandledrejection never sees a stale-chunk
+        // rejection, so the launcher must route it to the healer itself; only if
+        // the reload budget is spent (or it's not a chunk error) fail visibly.
+        const msg = String(
+          (err as Error)?.message ?? (err as Error)?.name ?? err ?? '',
+        ).toLowerCase();
+        if (isChunkLoadError(msg) && reloadWithCachePurge('nh_reload_attempt')) return;
+        notifyLaunchFailure('load-error', err);
       }
     },
     [
