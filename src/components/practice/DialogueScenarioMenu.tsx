@@ -6,8 +6,22 @@ import {
   shouldShowAdvancedBridge,
 } from '../../lib/conversationLevel';
 
-const DIFF_COLORS = { A1: '#dcfce7', A2: '#dbeafe', B1: '#fef3c7', B2: '#fce7f3' };
-const DIFF_TEXT = { A1: '#166534', A2: '#1e40af', B1: '#92400e', B2: '#9d174d' };
+const DIFF_COLORS = {
+  A1: '#dcfce7',
+  A2: '#dbeafe',
+  B1: '#fef3c7',
+  B2: '#fce7f3',
+  C1: '#f3e8ff',
+  C2: '#ffe4e6',
+};
+const DIFF_TEXT = {
+  A1: '#166534',
+  A2: '#1e40af',
+  B1: '#92400e',
+  B2: '#9d174d',
+  C1: '#6b21a8',
+  C2: '#9f1239',
+};
 
 export default function DialogueScenarioMenu({
   scenarios,

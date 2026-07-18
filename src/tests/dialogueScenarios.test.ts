@@ -2,7 +2,7 @@
  * dialogueScenarios.test.ts — structural validation for the guided-dialogue
  * content file. Every scenario the Dialogue Simulator serves must satisfy the
  * shape DialogueGuidedMode and the interaction curriculum rely on. Added with
- * the 2026-07 content expansion (10 → 22 scenarios) so malformed content can
+ * the 2026-07 content expansions (10 → 26 scenarios, A1–C2) so malformed content can
  * never ship: a missing field or wrong answer-index here renders a broken
  * exercise, not a build error.
  */
@@ -39,7 +39,7 @@ describe('dialogueScenarios — structural integrity', () => {
       expect(s.title, s.id).toBeTruthy();
       expect(s.subtitle, s.id).toBeTruthy();
       // DialogueScenarioMenu's DIFF_COLORS supports exactly these levels.
-      expect(['A1', 'A2', 'B1', 'B2'], `${s.id} difficulty`).toContain(s.difficulty);
+      expect(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'], `${s.id} difficulty`).toContain(s.difficulty);
     }
   });
 
@@ -73,6 +73,8 @@ describe('dialogueScenarios — structural integrity', () => {
     expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(8);
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(5);
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(2);
-    expect(scenarios.length).toBeGreaterThanOrEqual(22);
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(2);
+    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(2);
+    expect(scenarios.length).toBeGreaterThanOrEqual(26);
   });
 });
