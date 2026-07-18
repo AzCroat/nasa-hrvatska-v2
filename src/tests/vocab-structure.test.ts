@@ -74,13 +74,19 @@ describe('server advanced tiers', () => {
     expect(count(V_C1 as never)).toBeGreaterThanOrEqual(900);
   });
 
-  it('C1 tier has no duplicate lemmas (B2 legacy dups tracked as Batch 6c)', () => {
-    const seen = new Set<string>();
-    for (const arr of Object.values(V_C1)) {
-      for (const entry of arr as string[][]) {
-        const key = (entry[0] as string).toLowerCase();
-        expect(seen.has(key), `duplicate C1 lemma: ${entry[0]}`).toBe(false);
-        seen.add(key);
+  it('no tier contains duplicate lemmas (B2 legacy dups fixed in Batch 6c)', () => {
+    for (const [name, tier] of [
+      ['V_B2', V_B2],
+      ['V_C1', V_C1],
+      ['V_C2', V_C2],
+    ] as const) {
+      const seen = new Set<string>();
+      for (const arr of Object.values(tier)) {
+        for (const entry of arr as string[][]) {
+          const key = (entry[0] as string).toLowerCase();
+          expect(seen.has(key), `duplicate ${name} lemma: ${entry[0]}`).toBe(false);
+          seen.add(key);
+        }
       }
     }
   });
