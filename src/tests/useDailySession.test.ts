@@ -378,7 +378,18 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     // slot is one of the A1 case drills (case-tier 3–4). The P3 tier sort (target
     // tier 1) would push them below the recognition games; G4 exempts the
     // guaranteed slot so a case/grammar drill appears anyway.
-    const A1_GRAMMAR = ['nomdrill', 'genitivedrill', 'accusativedrill', 'locdrill', 'instrumental'];
+    const A1_GRAMMAR = [
+      'nomdrill',
+      'genitivedrill',
+      'accusativedrill',
+      'locdrill',
+      'instrumental',
+      // 7a rotation expansion — new A1 grammar-structure drills are equally
+      // valid guaranteed-slot picks.
+      'numtime',
+      'possess',
+      'cityloc',
+    ];
     const acts = buildSessionActivities('A1');
     expect(acts.some((a) => A1_GRAMMAR.includes(a.screen))).toBe(true);
   });
@@ -494,5 +505,32 @@ describe('shouldAutoCompleteOnReturn — Croatia/reference slot completion', () 
       expect(SESSION_AUTOCOMPLETE_SCREENS.has(s)).toBe(false);
       expect(shouldAutoCompleteOnReturn(s, null)).toBe(false);
     }
+  });
+});
+
+describe('7a — A1 rotation expansion', () => {
+  it('an A1 user has more than 10 distinct fill-pool drills to rotate through', () => {
+    const a1 = CEFR_EXERCISE_POOL.filter((ex) => ex.cefr === 'A1');
+    expect(a1.length).toBeGreaterThan(10);
+    // The 7a additions specifically:
+    const screens = new Set(a1.map((ex) => ex.screen));
+    for (const s of [
+      'boje',
+      'numtime',
+      'wordsprint',
+      'possess',
+      'cityloc',
+      'genderdrill',
+      'typing',
+    ]) {
+      expect(screens.has(s), `expected ${s} at A1`).toBe(true);
+    }
+  });
+
+  it('the 7a screens are unique pool entries (no duplicate ids/screens)', () => {
+    const ids = CEFR_EXERCISE_POOL.map((ex) => ex.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const screens = CEFR_EXERCISE_POOL.map((ex) => ex.screen);
+    expect(new Set(screens).size).toBe(screens.length);
   });
 });
