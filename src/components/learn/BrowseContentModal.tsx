@@ -740,12 +740,12 @@ export default function BrowseContentModal({
           <Section
             title="Interactive Media"
             icon="✨"
-            count="24 lessons + tools"
+            count="26 lessons + tools"
             defaultOpen={true}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {tiles5([
-                // ── Animated Grammar Lessons (24 tiles here; 43 lessons total, A1→C2) ──
+                // ── Animated Grammar Lessons (26 tiles here; 45 lessons total, A1→C2) ──
                 [
                   '🔤',
                   'Alphabet & Sounds',
@@ -794,6 +794,26 @@ export default function BrowseContentModal({
                   () => {
                     onClose();
                     launchAnimLesson && launchAnimLesson('vi-vs-ti');
+                  },
+                ],
+                [
+                  '🎛️',
+                  'Modal Verbs',
+                  'moći, morati, htjeti, smjeti, trebati — A2',
+                  'animlesson_modals',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('modal-verbs-a2');
+                  },
+                ],
+                [
+                  '📊',
+                  'Comparison of Adjectives',
+                  'bolji, gori, veći — comparatives and naj- superlatives — A2',
+                  'animlesson_compare',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('comparatives-a2');
                   },
                 ],
                 [
