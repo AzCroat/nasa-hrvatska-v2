@@ -4024,4 +4024,1576 @@ export const GRADED_STORIES = [
       },
     ],
   },
+  {
+    id: 'gs_b1_7',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🧺',
+    title: 'Subota na Dolcu',
+    titleEn: 'Saturday at Dolac Market',
+    duration: 7,
+    focus: 'Perfekt i prezent u pripovijedanju • Genitiv količine • Dijalog na tržnici',
+    intro:
+      'Dolac je najpoznatija zagrebačka tržnica. Subotom ujutro ondje kupuje pola grada — a naša pripovjedačica uči kako se to radi.',
+    paragraphs: [
+      {
+        hr: 'Subotom ujutro Dolac je najživlje mjesto u Zagrebu. Crveni suncobrani otvaraju se već u sedam, a kumice slažu rajčice, breskve i domaći sir. Došla sam rano jer mi je baka rekla: tko dođe kasno, bira ono što su drugi ostavili.',
+        en: 'On Saturday mornings Dolac is the liveliest place in Zagreb. The red parasols open by seven, and the market women arrange tomatoes, peaches and homemade cheese. I came early because my grandma told me: whoever comes late chooses what others have left behind.',
+      },
+      {
+        hr: 'Prvo sam kupila kilogram rajčica i pola kile mladog krumpira. Kumica me pitala jesam li iz Zagreba. Rekla sam joj da su mi roditelji odavde, ali da sam odrasla u Kanadi. Nasmijala se i dodala mi šaku trešanja: „Ovo je gratis, za dobrodošlicu."',
+        en: 'First I bought a kilogram of tomatoes and half a kilo of new potatoes. The market woman asked me whether I was from Zagreb. I told her my parents were from here, but that I grew up in Canada. She laughed and handed me a fistful of cherries: "These are free, to welcome you."',
+      },
+      {
+        hr: 'Kod mliječnih proizvoda trebalo je čekati u redu. Ispred mene stajala je gospođa koja je kupovala svježi kravlji sir i vrhnje — kaže, za štrukle. Objasnila mi je da se pravi sir prepoznaje po mirisu i da nikad ne kupujem onaj koji ničim ne miriše.',
+        en: 'At the dairy products one had to wait in line. In front of me stood a lady buying fresh cow’s cheese and cream — for štrukli, she says. She explained to me that real cheese is recognized by its smell and that I should never buy one that smells of nothing.',
+      },
+      {
+        hr: 'Kući sam se vratila s punim torbama i praznim novčanikom, ali sretna. Na Dolcu ne kupuješ samo hranu — kupuješ razgovor, savjet i osjećaj da pripadaš. Sljedeće subote idem opet, ovaj put s bakinim popisom.',
+        en: 'I returned home with full bags and an empty wallet, but happy. At Dolac you don’t just buy food — you buy conversation, advice and a feeling of belonging. Next Saturday I’m going again, this time with grandma’s list.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'tržnica',
+        en: 'market(place)',
+        ex: 'Dolac je najpoznatija zagrebačka tržnica.',
+      },
+      {
+        hr: 'kumica',
+        en: 'market woman (Zagreb)',
+        ex: 'Kumica mi je dodala šaku trešanja.',
+      },
+      {
+        hr: 'suncobran',
+        en: 'parasol',
+        ex: 'Crveni suncobrani otvaraju se u sedam.',
+      },
+      {
+        hr: 'vrhnje',
+        en: 'cream',
+        ex: 'Kupila je svježi sir i vrhnje.',
+      },
+      {
+        hr: 'red',
+        en: 'line, queue',
+        ex: 'Trebalo je čekati u redu.',
+      },
+      {
+        hr: 'novčanik',
+        en: 'wallet',
+        ex: 'Vratila sam se s praznim novčanikom.',
+      },
+      {
+        hr: 'šaka',
+        en: 'fist(ful)',
+        ex: 'Dodala mi je šaku trešanja.',
+      },
+      {
+        hr: 'pripadati',
+        en: 'to belong',
+        ex: 'Kupuješ osjećaj da pripadaš.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je pripovjedačica došla rano?',
+        qEn: 'Why did the narrator come early?',
+        opts: [
+          'Jer je baka tako savjetovala',
+          'Jer subotom nema gužve',
+          'Jer se Dolac rano zatvara',
+          'Jer je radila u blizini',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je kumica dala gratis?',
+        qEn: 'What did the market woman give for free?',
+        opts: ['Šaku trešanja', 'Kilogram rajčica', 'Svježi sir', 'Mladi krumpir'],
+        correct: 0,
+      },
+      {
+        q: 'Za što gospođa kupuje sir i vrhnje?',
+        qEn: 'What is the lady buying cheese and cream for?',
+        opts: ['Za štrukle', 'Za palačinke', 'Za sarmu', 'Za pitu'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_8',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '⚽',
+    title: 'Nedjeljna utakmica',
+    titleEn: 'The Sunday Match',
+    duration: 7,
+    focus: 'Glagoli kretanja s prefiksima • Navijanje i sport • Bliska budućnost',
+    intro:
+      'U malom mjestu nogometna utakmica nije samo sport — nedjeljom se na igralištu okuplja cijelo selo.',
+    paragraphs: [
+      {
+        hr: 'U našem mjestu nedjelja ima svoj red: ujutro misa, u podne ručak, a poslijepodne — utakmica. Naš klub igra u trećoj ligi i nikad neće u prvu, ali to nikome ne smeta. Na tribini se zna tko gdje sjedi već trideset godina.',
+        en: 'In our town Sunday has its order: mass in the morning, lunch at noon, and in the afternoon — the match. Our club plays in the third league and will never make the first, but that bothers no one. In the stands, everyone has known who sits where for thirty years.',
+      },
+      {
+        hr: 'Moj bratić Luka igra veznog. Cijeli tjedan radi u očevoj radionici, a subotom navečer rano liježe, što je kod nas prava senzacija. Mama mu nosi čistu opremu, a djed, koji je i sam nekad igrao, daje mu iste savjete već deset godina: „Gledaj loptu, a ne publiku."',
+        en: 'My cousin Luka plays midfield. All week he works in his father’s workshop, and on Saturday evenings he goes to bed early, which around here is a real sensation. His mum brings him clean kit, and grandpa, who once played himself, has been giving him the same advice for ten years: "Watch the ball, not the crowd."',
+      },
+      {
+        hr: 'Danas igramo protiv susjednog sela. To je derbi u kojem rezultat znači manje od časti. Kad je sudac dosudio jedanaesterac protiv nas, pola tribine je skočilo na noge. Gol smo primili, ali smo do kraja izjednačili — i slavili kao da smo osvojili prvenstvo.',
+        en: 'Today we play against the neighbouring village. It’s a derby in which the result means less than honour. When the referee awarded a penalty against us, half the stand jumped to their feet. We conceded the goal, but equalized by the end — and celebrated as if we had won the championship.',
+      },
+      {
+        hr: 'Poslije utakmice svi zajedno idemo u dom na kobasice i gemišt. Igrači obiju momčadi sjede za istim stolom. Sljedeće nedjelje sve ispočetka — i neka tako ostane.',
+        en: 'After the match we all go together to the community hall for sausages and gemišt. Players of both teams sit at the same table. Next Sunday it all starts again — and long may it stay that way.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'utakmica',
+        en: 'match, game',
+        ex: 'Poslijepodne je utakmica.',
+      },
+      {
+        hr: 'tribina',
+        en: 'stand, bleachers',
+        ex: 'Na tribini se zna tko gdje sjedi.',
+      },
+      {
+        hr: 'vezni (igrač)',
+        en: 'midfielder',
+        ex: 'Luka igra veznog.',
+      },
+      {
+        hr: 'sudac',
+        en: 'referee',
+        ex: 'Sudac je dosudio jedanaesterac.',
+      },
+      {
+        hr: 'jedanaesterac',
+        en: 'penalty kick',
+        ex: 'Dosudio je jedanaesterac protiv nas.',
+      },
+      {
+        hr: 'izjednačiti',
+        en: 'to equalize',
+        ex: 'Do kraja smo izjednačili.',
+      },
+      {
+        hr: 'momčad',
+        en: 'team',
+        ex: 'Igrači obiju momčadi sjede zajedno.',
+      },
+      {
+        hr: 'čast',
+        en: 'honour',
+        ex: 'Rezultat znači manje od časti.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'U kojoj ligi igra klub?',
+        qEn: 'In which league does the club play?',
+        opts: ['U trećoj', 'U prvoj', 'U drugoj', 'U županijskoj'],
+        correct: 0,
+      },
+      {
+        q: 'Što djed savjetuje Luki?',
+        qEn: 'What does grandpa advise Luka?',
+        opts: [
+          'Da gleda loptu, a ne publiku',
+          'Da trenira svaki dan',
+          'Da puca jače',
+          'Da mijenja klub',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kako je završila utakmica?',
+        qEn: 'How did the match end?',
+        opts: ['Izjednačeno', 'Pobjedom domaćih', 'Porazom bez gola', 'Prekinuta je'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_9',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🚗',
+    title: 'Autoškola',
+    titleEn: 'Driving School',
+    duration: 7,
+    focus: 'Imperativ i upute • Modalni glagoli morati/smjeti • Promet',
+    intro:
+      'Polaganje vozačkog ispita u Hrvatskoj ozbiljan je pothvat — pogotovo kad ti je instruktor legenda kvarta.',
+    paragraphs: [
+      {
+        hr: 'Upisala sam autoškolu u rujnu. Prvo ide teorija: znakovi, prednost prolaska, pravila o brzini. Na testu me najviše mučilo tko prolazi prvi na raskrižju bez znakova — dok mi instruktor nije rekao čarobnu formulu: „Tko dolazi zdesna, taj ima prednost."',
+        en: 'I enrolled in driving school in September. Theory comes first: signs, right of way, speed rules. On the test I struggled most with who goes first at an unmarked intersection — until my instructor told me the magic formula: "Whoever comes from the right has priority."',
+      },
+      {
+        hr: 'Moj instruktor Zvone vozi ljude po ovim ulicama trideset godina. Smiren je kao more u kolovozu. Kad sam prvi put ugasila auto nasred križanja, samo je rekao: „Ništa, upali ponovno. Svi su nekad gasili." Kaže da je najgori učenik kojeg je imao — on sam, davne osamdesete.',
+        en: 'My instructor Zvone has been driving people around these streets for thirty years. He is calm as the sea in August. The first time I stalled the car in the middle of an intersection, he just said: "No matter, start it again. Everyone has stalled once." He says the worst student he ever had was — himself, back in the eighties.',
+      },
+      {
+        hr: 'Najteže mi je bilo parkiranje unatrag. Zvone je imao metodu: „Kad retrovizorom uhvatiš drugi stup ograde, vrti volan do kraja." Vježbale smo na parkiralištu iza trgovačkog centra dok nisam mogla parkirati i zatvorenih očiju — što, naravno, ne smijem raditi.',
+        en: 'Reverse parking was hardest for me. Zvone had a method: "When you catch the second fence post in your mirror, turn the wheel all the way." We practised in the car park behind the shopping centre until I could park with my eyes closed — which, of course, I’m not allowed to do.',
+      },
+      {
+        hr: 'Na dan ispita ruke su mi se tresle. Ispitivač je bio strog, ali pravedan. Kad je na kraju rekao „Položili ste", prvo sam nazvala mamu, a onda Zvonu. Rekao je: „Znao sam. Sad polako — i nikad ne žuri na žuto."',
+        en: 'On exam day my hands were shaking. The examiner was strict but fair. When at the end he said "You have passed", I first called my mum, and then Zvone. He said: "I knew it. Take it easy now — and never rush an amber light."',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'prednost prolaska',
+        en: 'right of way',
+        ex: 'Tko dolazi zdesna, ima prednost.',
+      },
+      {
+        hr: 'raskrižje',
+        en: 'intersection',
+        ex: 'Ugasila sam auto nasred raskrižja.',
+      },
+      {
+        hr: 'ugasiti (auto)',
+        en: 'to stall (a car)',
+        ex: 'Svi su nekad gasili auto.',
+      },
+      {
+        hr: 'retrovizor',
+        en: 'rear-view mirror',
+        ex: 'Uhvati stup retrovizorom.',
+      },
+      {
+        hr: 'volan',
+        en: 'steering wheel',
+        ex: 'Vrti volan do kraja.',
+      },
+      {
+        hr: 'ispitivač',
+        en: 'examiner',
+        ex: 'Ispitivač je bio strog, ali pravedan.',
+      },
+      {
+        hr: 'položiti (ispit)',
+        en: 'to pass (an exam)',
+        ex: 'Položili ste!',
+      },
+      {
+        hr: 'žuriti',
+        en: 'to hurry',
+        ex: 'Nikad ne žuri na žuto.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je pripovjedačici bilo najteže?',
+        qEn: 'What was hardest for the narrator?',
+        opts: ['Parkiranje unatrag', 'Teorija', 'Vožnja autocestom', 'Pokretanje na uzbrdici'],
+        correct: 0,
+      },
+      {
+        q: 'Tko je bio Zvonin najgori učenik?',
+        qEn: 'Who was Zvone’s worst student?',
+        opts: ['On sam', 'Pripovjedačica', 'Njegov sin', 'Susjed'],
+        correct: 0,
+      },
+      {
+        q: 'Koga je pripovjedačica prvo nazvala?',
+        qEn: 'Whom did the narrator call first?',
+        opts: ['Mamu', 'Zvonu', 'Tatu', 'Sestru'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_10',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🏕️',
+    title: 'Sezona u kampu',
+    titleEn: 'A Season at the Campsite',
+    duration: 8,
+    focus: 'Futur I • Poslovni razgovori • Turizam i sezona',
+    intro:
+      'Tisuće studenata svako ljeto rade sezonu na obali. Ovo je priča o jednom ljetu na recepciji kampa na Krku.',
+    paragraphs: [
+      {
+        hr: 'U svibnju sam se javio na oglas: kamp na otoku Krku tražio je recepcionara sa znanjem engleskog i njemačkog. Na razgovoru su me pitali mogu li raditi pod pritiskom. Rekao sam da sam odrastao u kući s tri sestre. Dobio sam posao odmah.',
+        en: 'In May I answered an ad: a campsite on the island of Krk was looking for a receptionist with English and German. At the interview they asked me whether I could work under pressure. I said I grew up in a house with three sisters. I got the job immediately.',
+      },
+      {
+        hr: 'Lipanj je bio miran, ali u srpnju je počeo pravi val. Njemačke obitelji s prikolicama, nizozemski biciklisti, talijanski kamperi — svi stižu istog dana i svi žele parcelu u prvom redu do mora. Naučio sam najvažniju rečenicu sezone: „Trenutačno je sve zauzeto, ali vidjet ću što mogu učiniti."',
+        en: 'June was quiet, but in July the real wave began. German families with caravans, Dutch cyclists, Italian campers — they all arrive on the same day and all want a pitch in the first row by the sea. I learned the most important sentence of the season: "Everything is currently full, but I’ll see what I can do."',
+      },
+      {
+        hr: 'Najviše sam naučio od šefice Vesne. Ona može istovremeno smiriti ljutitog gosta, primiti rezervaciju telefonom i objasniti čistačici raspored — na tri jezika. Kad je jedne noći puknula vodovodna cijev, organizirala je sve prije nego što je majstor uopće stigao.',
+        en: 'I learned the most from my boss Vesna. She can simultaneously calm an angry guest, take a phone reservation and explain the schedule to the cleaner — in three languages. When a water pipe burst one night, she had everything organized before the repairman even arrived.',
+      },
+      {
+        hr: 'Krajem rujna kamp se ispraznio. Zadnji gosti, umirovljenici iz Beča, ostavili su mi napojnicu i poruku: „Vidimo se dogodine." Sjeo sam na prazan mol i shvatio da ću se vratiti — zbog mora, ali još više zbog ljudi.',
+        en: 'At the end of September the campsite emptied. The last guests, pensioners from Vienna, left me a tip and a note: "See you next year." I sat on the empty pier and realized I would come back — for the sea, but even more for the people.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'oglas',
+        en: 'advertisement',
+        ex: 'Javio sam se na oglas u svibnju.',
+      },
+      {
+        hr: 'recepcionar',
+        en: 'receptionist',
+        ex: 'Kamp je tražio recepcionara.',
+      },
+      {
+        hr: 'parcela',
+        en: 'pitch, plot',
+        ex: 'Svi žele parcelu do mora.',
+      },
+      {
+        hr: 'prikolica',
+        en: 'caravan, trailer',
+        ex: 'Obitelji stižu s prikolicama.',
+      },
+      {
+        hr: 'zauzeto',
+        en: 'occupied, full',
+        ex: 'Trenutačno je sve zauzeto.',
+      },
+      {
+        hr: 'vodovodna cijev',
+        en: 'water pipe',
+        ex: 'Noću je puknula vodovodna cijev.',
+      },
+      {
+        hr: 'napojnica',
+        en: 'tip, gratuity',
+        ex: 'Gosti su mi ostavili napojnicu.',
+      },
+      {
+        hr: 'umirovljenik',
+        en: 'pensioner',
+        ex: 'Zadnji gosti bili su umirovljenici iz Beča.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Gdje se nalazi kamp?',
+        qEn: 'Where is the campsite?',
+        opts: ['Na Krku', 'Na Hvaru', 'U Istri', 'Kod Zadra'],
+        correct: 0,
+      },
+      {
+        q: 'Što svi gosti žele?',
+        qEn: 'What do all the guests want?',
+        opts: ['Parcelu do mora', 'Besplatan doručak', 'Mirnu parcelu u hladu', 'Popust'],
+        correct: 0,
+      },
+      {
+        q: 'Zašto će se pripovjedač vratiti?',
+        qEn: 'Why will the narrator return?',
+        opts: ['Zbog mora i ljudi', 'Zbog plaće', 'Zbog šefice', 'Zbog napojnica'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_11',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🦷',
+    title: 'Kod zubara',
+    titleEn: 'At the Dentist',
+    duration: 6,
+    focus: 'Bezlične konstrukcije (boli me…) • Zdravstveni rječnik • Izražavanje straha',
+    intro:
+      'Odgađati zubara nacionalni je sport — dok zub ne presudi sam. Priča o pobjedi nad strahom.',
+    paragraphs: [
+      {
+        hr: 'Zub me bolio tjedan dana, a ja sam se pravio da ne postoji. Pio sam hladno na drugu stranu usta i žvakao samo lijevo. Moja žena je na kraju rekla: „Ili zubar ili spavaš u dnevnom boravku." Nazvao sam ordinaciju isti dan.',
+        en: 'My tooth had been aching for a week, and I pretended it didn’t exist. I drank cold drinks on the other side of my mouth and chewed only on the left. In the end my wife said: "Either the dentist or you sleep in the living room." I called the surgery that same day.',
+      },
+      {
+        hr: 'U čekaonici je sjedio dječak od možda osam godina, potpuno miran. Ja sam prelistao sve časopise i dvaput izašao „na zrak". Kad me sestra prozvala, dječak mi je rekao: „Ne boj se, striček, doktorica je super." Zemlja, otvori se.',
+        en: 'In the waiting room sat a boy of maybe eight, completely calm. I leafed through all the magazines and stepped out twice "for air". When the nurse called my name, the boy told me: "Don’t be afraid, mister, the doctor is great." Earth, swallow me now.',
+      },
+      {
+        hr: 'Doktorica je pogledala snimku i rekla da je upala ozbiljna, ali da se zub može spasiti. „Boljet će manje nego što mislite, a manje-više odmah ćete osjetiti olakšanje." Imala je pravo. Nakon pola sata izašao sam s plombom i osjećajem da sam pobijedio zmaja.',
+        en: 'The dentist looked at the X-ray and said the inflammation was serious, but the tooth could be saved. "It will hurt less than you think, and you’ll feel relief more or less immediately." She was right. After half an hour I walked out with a filling and the feeling of having slain a dragon.',
+      },
+      {
+        hr: 'Sada idem na kontrolu svakih šest mjeseci, kako je doktorica rekla. Dječaku iz čekaonice, gdje god bio — hvala. Ponekad hrabrost dolazi u malim pakiranjima.',
+        en: 'Now I go for a check-up every six months, as the dentist said. To the boy from the waiting room, wherever he is — thank you. Sometimes courage comes in small packages.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'zubar',
+        en: 'dentist',
+        ex: 'Ili zubar ili dnevni boravak.',
+      },
+      {
+        hr: 'ordinacija',
+        en: 'doctor’s office, surgery',
+        ex: 'Nazvao sam ordinaciju isti dan.',
+      },
+      {
+        hr: 'čekaonica',
+        en: 'waiting room',
+        ex: 'U čekaonici je sjedio dječak.',
+      },
+      {
+        hr: 'upala',
+        en: 'inflammation',
+        ex: 'Upala je bila ozbiljna.',
+      },
+      {
+        hr: 'snimka',
+        en: 'X-ray, scan',
+        ex: 'Doktorica je pogledala snimku.',
+      },
+      {
+        hr: 'plomba',
+        en: 'filling',
+        ex: 'Izašao sam s plombom.',
+      },
+      {
+        hr: 'olakšanje',
+        en: 'relief',
+        ex: 'Odmah ćete osjetiti olakšanje.',
+      },
+      {
+        hr: 'kontrola',
+        en: 'check-up',
+        ex: 'Idem na kontrolu svakih šest mjeseci.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko je dugo pripovjedača bolio zub?',
+        qEn: 'How long had the narrator’s tooth ached?',
+        opts: ['Tjedan dana', 'Jedan dan', 'Mjesec dana', 'Tri dana'],
+        correct: 0,
+      },
+      {
+        q: 'Tko ga je ohrabrio u čekaonici?',
+        qEn: 'Who encouraged him in the waiting room?',
+        opts: ['Dječak', 'Sestra', 'Žena', 'Doktorica'],
+        correct: 0,
+      },
+      {
+        q: 'Što sada radi svakih šest mjeseci?',
+        qEn: 'What does he now do every six months?',
+        opts: ['Ide na kontrolu', 'Mijenja četkicu', 'Ide na čišćenje', 'Zove ordinaciju'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_12',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🎓',
+    title: 'Upis na fakultet',
+    titleEn: 'Enrolling at University',
+    duration: 7,
+    focus: 'Buduće namjere • Obrazovni sustav • Kondicional za želje',
+    intro:
+      'Državna matura, bodovi, rang-liste — i jedna velika odluka. Kako je Petra birala svoj put.',
+    paragraphs: [
+      {
+        hr: 'Cijelo ljeto nakon mature Petra je osvježavala stranicu s rang-listama. Prijavila je tri studija: pravo u Zagrebu, psihologiju u Rijeci i — na mamino inzistiranje — ekonomiju „za svaki slučaj". Bodovi s državne mature bili su dobri, ali za psihologiju je gužva svake godine.',
+        en: 'All summer after her school-leaving exams Petra kept refreshing the ranking-list page. She had applied for three programmes: law in Zagreb, psychology in Rijeka and — at her mum’s insistence — economics "just in case". Her matura points were good, but for psychology it’s crowded every year.',
+      },
+      {
+        hr: 'Djed je navijao za pravo: „U ovoj obitelji nitko još nije bio odvjetnik, a svima bi nam trebao." Tata je šutio, što kod njega znači da ima mišljenje, ali čeka da ga netko pita. Kad ga je Petra napokon pitala, rekao je samo: „Biraj ono zbog čega ćeš ustajati bez budilice."',
+        en: 'Grandpa was rooting for law: "No one in this family has been a lawyer yet, and we could all use one." Dad kept quiet, which with him means he has an opinion but is waiting to be asked. When Petra finally asked him, he said only: "Choose the thing that will get you up without an alarm clock."',
+      },
+      {
+        hr: 'Objava je stigla u srpnju u devet ujutro: psihologija, Rijeka, četrnaesto mjesto od šezdeset. Petra je vrištala, mama je plakala, a djed je rekao da će joj oprostiti što neće biti odvjetnica — ako mu jednog dana objasni zašto njegov susjed stalno pomiče ogradu.',
+        en: 'The announcement came in July at nine in the morning: psychology, Rijeka, fourteenth place out of sixty. Petra screamed, mum cried, and grandpa said he would forgive her for not becoming a lawyer — if one day she explains to him why his neighbour keeps moving the fence.',
+      },
+      {
+        hr: 'U rujnu je potpisala ugovor o studiranju i našla sobu s pogledom na Učku. Prvi kolegij zove se Uvod u psihologiju. Kaže da se malo boji statistike, ali da se prvi put u životu veseli ponedjeljku.',
+        en: 'In September she signed her study contract and found a room with a view of Učka. The first course is called Introduction to Psychology. She says she’s a little afraid of statistics, but that for the first time in her life she is looking forward to Monday.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'državna matura',
+        en: 'state school-leaving exam',
+        ex: 'Bodovi s državne mature bili su dobri.',
+      },
+      {
+        hr: 'rang-lista',
+        en: 'ranking list',
+        ex: 'Osvježavala je stranicu s rang-listama.',
+      },
+      {
+        hr: 'prijaviti (studij)',
+        en: 'to apply for (a programme)',
+        ex: 'Prijavila je tri studija.',
+      },
+      {
+        hr: 'bodovi',
+        en: 'points',
+        ex: 'Bodovi su bili dobri.',
+      },
+      {
+        hr: 'odvjetnik',
+        en: 'lawyer',
+        ex: 'Nitko još nije bio odvjetnik.',
+      },
+      {
+        hr: 'budilica',
+        en: 'alarm clock',
+        ex: 'Ustajat ćeš bez budilice.',
+      },
+      {
+        hr: 'kolegij',
+        en: 'university course',
+        ex: 'Prvi kolegij je Uvod u psihologiju.',
+      },
+      {
+        hr: 'veseliti se',
+        en: 'to look forward to',
+        ex: 'Veseli se ponedjeljku.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koji je studij Petra upisala?',
+        qEn: 'Which programme did Petra get into?',
+        opts: ['Psihologiju u Rijeci', 'Pravo u Zagrebu', 'Ekonomiju', 'Medicinu'],
+        correct: 0,
+      },
+      {
+        q: 'Što je tata savjetovao?',
+        qEn: 'What did dad advise?',
+        opts: [
+          'Da bira ono zbog čega će ustajati bez budilice',
+          'Da upiše pravo',
+          'Da sluša mamu',
+          'Da ode u inozemstvo',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Čega se Petra malo boji?',
+        qEn: 'What is Petra a little afraid of?',
+        opts: ['Statistike', 'Ispita', 'Profesora', 'Cimerice'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_13',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🍇',
+    title: 'Berba grožđa',
+    titleEn: 'The Grape Harvest',
+    duration: 7,
+    focus: 'Množina i količine • Tradicijski običaji • Radnje koje se ponavljaju',
+    intro:
+      'Svake jeseni obitelj se okuplja u Zagorju na berbi. Posao je težak, ali nitko ga ne bi mijenjao.',
+    paragraphs: [
+      {
+        hr: 'Zadnje subote u rujnu u našoj se obitelji ne pita ništa: ide se u Zagorje, na berbu. Djedov vinograd nije velik — tristo trsova na brijegu iznad kuće — ali svake godine okupi tridesetak ljudi: rodbinu, susjede i dvoje-troje zalutalih prijatelja koji su „samo došli pomoći".',
+        en: 'On the last Saturday of September, no questions are asked in our family: we go to Zagorje, to the harvest. Grandpa’s vineyard isn’t big — three hundred vines on the hill above the house — but every year it gathers thirty-odd people: relatives, neighbours and two or three stray friends who "just came to help".',
+      },
+      {
+        hr: 'Radi se u parovima: jedan reže grozdove škarama, drugi drži kantu. Baka nadgleda sve s vrha reda i nepogrešivo primjećuje svaki preskočeni trs. Do podneva su nam ruke ljepljive od soka, a netko svake godine sjedne na punu kantu — ove godine bio je to stric Ivo.',
+        en: 'You work in pairs: one cuts the bunches with shears, the other holds the bucket. Grandma supervises everything from the top of the row and unerringly spots every skipped vine. By noon our hands are sticky with juice, and every year someone sits on a full bucket — this year it was uncle Ivo.',
+      },
+      {
+        hr: 'U podne se sve zaustavlja. Na dugačkom stolu pod orahom čeka gulaš, domaći kruh i sir. Djed drži isti govor kao i svake godine: da je ovo vino posebno jer ga beremo zajedno. Svi ga slušamo kao da ga prvi put čujemo.',
+        en: 'At noon everything stops. On the long table under the walnut tree wait goulash, homemade bread and cheese. Grandpa gives the same speech as every year: that this wine is special because we pick it together. We all listen as if hearing it for the first time.',
+      },
+      {
+        hr: 'Navečer se mošt već cijedi u podrumu, a mi umorni sjedimo na klupi i računamo: ako godina bude dobra, bit će oko petsto litara. Ali prava računica je drukčija — jedan dan berbe vrijedi više od svih litara ovoga svijeta.',
+        en: 'In the evening the must is already draining in the cellar, and we sit tired on the bench doing the maths: if it’s a good year, there will be about five hundred litres. But the real calculation is different — one day of harvest is worth more than all the litres in this world.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'berba',
+        en: 'harvest (grapes)',
+        ex: 'Ide se u Zagorje, na berbu.',
+      },
+      {
+        hr: 'vinograd',
+        en: 'vineyard',
+        ex: 'Djedov vinograd nije velik.',
+      },
+      {
+        hr: 'trs',
+        en: 'grapevine',
+        ex: 'Tristo trsova na brijegu.',
+      },
+      {
+        hr: 'grozd',
+        en: 'bunch of grapes',
+        ex: 'Jedan reže grozdove škarama.',
+      },
+      {
+        hr: 'kanta',
+        en: 'bucket',
+        ex: 'Drugi drži kantu.',
+      },
+      {
+        hr: 'ljepljiv',
+        en: 'sticky',
+        ex: 'Ruke su nam ljepljive od soka.',
+      },
+      {
+        hr: 'mošt',
+        en: 'grape must',
+        ex: 'Mošt se cijedi u podrumu.',
+      },
+      {
+        hr: 'podrum',
+        en: 'cellar',
+        ex: 'U podrumu je hladno.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko trsova ima djedov vinograd?',
+        qEn: 'How many vines does grandpa’s vineyard have?',
+        opts: ['Tristo', 'Petsto', 'Sto', 'Tisuću'],
+        correct: 0,
+      },
+      {
+        q: 'Tko je ove godine sjeo na punu kantu?',
+        qEn: 'Who sat on a full bucket this year?',
+        opts: ['Stric Ivo', 'Baka', 'Djed', 'Pripovjedač'],
+        correct: 0,
+      },
+      {
+        q: 'Što djed kaže u govoru?',
+        qEn: 'What does grandpa say in his speech?',
+        opts: [
+          'Da je vino posebno jer ga beru zajedno',
+          'Da je godina loša',
+          'Da će prodati vinograd',
+          'Da je vino najbolje u Zagorju',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_14',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🎣',
+    title: 'Ribolov s djedom',
+    titleEn: 'Fishing with Grandpa',
+    duration: 6,
+    focus: 'Prošla ponavljana radnja • Priroda i more • Odnos unuka i djeda',
+    intro:
+      'Neke se lekcije ne uče u školi. Najvažnije stvari unuk je naučio u barci, čekajući ribu koja možda neće doći.',
+    paragraphs: [
+      {
+        hr: 'Djed me budio u pet ujutro, uvijek istom rečenicom: „Riba ne čeka lijene." U luci bi već mirisalo na sol i dizel. Njegova barka zvala se Zvijezda i bila je starija od moje mame, ali motor je palio iz prve — jer ga je djed svake nedjelje čistio kao da je zlatan.',
+        en: 'Grandpa used to wake me at five in the morning, always with the same sentence: "Fish don’t wait for the lazy." The harbour would already smell of salt and diesel. His boat was called Zvijezda and was older than my mum, but the engine started first time — because grandpa cleaned it every Sunday as if it were made of gold.',
+      },
+      {
+        hr: 'Vozili bismo se do uvale koju je znao samo on. Tamo bi ugasio motor i rekao: „Sad slušaj." Slušao sam galebove, vodu o bok barke i ništa više. Trebale su mi godine da shvatim: upravo to ništa bilo je ono po što smo dolazili.',
+        en: 'We would motor to a cove only he knew. There he would cut the engine and say: "Now listen." I listened to the gulls, the water against the hull and nothing else. It took me years to understand: that very nothing was what we came for.',
+      },
+      {
+        hr: 'Ribolov me naučio strpljenju. Nekad bismo za tri sata ulovili pun kabao šarga, a nekad ništa osim jedne smokve koju bi mi djed dodao iz torbe. „I prazna mreža nešto lovi", govorio je, „lovi mir."',
+        en: 'Fishing taught me patience. Sometimes in three hours we would catch a full pail of bream, and sometimes nothing but a fig grandpa would hand me from his bag. "An empty net catches something too," he used to say, "it catches peace."',
+      },
+      {
+        hr: 'Djeda više nema, a Zvijezda je sada moja. Svakog ljeta odvedem svog sina u istu uvalu, ugasim motor i kažem: „Sad slušaj." On još misli da čekamo ribu. Neka misli — shvatit će kad dođe vrijeme.',
+        en: 'Grandpa is gone now, and Zvijezda is mine. Every summer I take my son to the same cove, cut the engine and say: "Now listen." He still thinks we’re waiting for fish. Let him think so — he’ll understand when the time comes.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'ribolov',
+        en: 'fishing',
+        ex: 'Ribolov me naučio strpljenju.',
+      },
+      {
+        hr: 'barka',
+        en: 'small boat',
+        ex: 'Njegova barka zvala se Zvijezda.',
+      },
+      {
+        hr: 'uvala',
+        en: 'cove, bay',
+        ex: 'Vozili bismo se do uvale.',
+      },
+      {
+        hr: 'galeb',
+        en: 'seagull',
+        ex: 'Slušao sam galebove.',
+      },
+      {
+        hr: 'strpljenje',
+        en: 'patience',
+        ex: 'Naučio me strpljenju.',
+      },
+      {
+        hr: 'kabao',
+        en: 'pail, bucket',
+        ex: 'Ulovili bismo pun kabao šarga.',
+      },
+      {
+        hr: 'mreža',
+        en: 'net',
+        ex: 'I prazna mreža nešto lovi.',
+      },
+      {
+        hr: 'bok (barke)',
+        en: 'side, hull (of a boat)',
+        ex: 'Voda udara o bok barke.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Kako se zvala djedova barka?',
+        qEn: 'What was grandpa’s boat called?',
+        opts: ['Zvijezda', 'Galeb', 'Uvala', 'Sreća'],
+        correct: 0,
+      },
+      {
+        q: 'Što po djedu lovi prazna mreža?',
+        qEn: 'According to grandpa, what does an empty net catch?',
+        opts: ['Mir', 'Ništa', 'Sreću', 'Vjetar'],
+        correct: 0,
+      },
+      {
+        q: 'Kamo pripovjedač sada vodi sina?',
+        qEn: 'Where does the narrator now take his son?',
+        opts: ['U istu uvalu', 'Na drugi otok', 'U luku', 'Na jezero'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_15',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🧭',
+    title: 'Izgubljena u Zagrebu',
+    titleEn: 'Lost in Zagreb',
+    duration: 6,
+    focus: 'Upute za snalaženje • Prostorni prijedlozi • Ljubaznost prema strancima',
+    intro:
+      'GPS je odustao, mobitel se ugasio — i tako je Emma iz Australije otkrila kako se u Zagrebu zapravo pita za put.',
+    paragraphs: [
+      {
+        hr: 'Emma je u Zagreb stigla u posjet rodbini koju nikad nije upoznala. Adresa: Ilica, negdje. Mobitel joj se ugasio u tramvaju broj šest, a papirić s kućnim brojem ostao je u drugoj jakni. Znala je samo da zgrada ima zeleni ulaz i da je „blizu one velike kavane".',
+        en: 'Emma arrived in Zagreb to visit relatives she had never met. The address: Ilica, somewhere. Her phone died in tram number six, and the slip with the house number stayed in her other jacket. All she knew was that the building had a green entrance and was "near that big café".',
+      },
+      {
+        hr: 'Prvo je pitala mladića sa slušalicama. Izvadio je jednu slušalicu, saslušao je i rekao: „Ilica je duga tri kilometra. Trebat će nam više podataka." Nasmijali su se i krenuli zajedno — jer u Zagrebu se put ne objašnjava, u Zagrebu te se otprati.',
+        en: 'First she asked a young man with earphones. He took out one earphone, heard her out and said: "Ilica is three kilometres long. We’re going to need more data." They laughed and set off together — because in Zagreb directions aren’t explained, in Zagreb you get walked there.',
+      },
+      {
+        hr: 'Kod Britanskog trga pridružila im se gospođa s tržnice koja je „točno znala koja je to kavana". Usput je Emma saznala gdje se pije najbolja kava, zašto se špica subotom ne propušta i da se njezina prezimena — Horvat — u Zagrebu ne treba sramiti, jer ga nosi pola grada.',
+        en: 'At Britanski Square they were joined by a lady from the market who "knew exactly which café that was". Along the way Emma learned where the best coffee is drunk, why the Saturday špica must not be missed, and that her surname — Horvat — is nothing to be shy about in Zagreb, since half the city carries it.',
+      },
+      {
+        hr: 'Zeleni ulaz našli su u pokrajnjoj ulici. Teta Jagoda otvorila je vrata, pogledala cijelu delegaciju i — pozvala sve na kavu. Mladić sa slušalicama danas je Emmin vodič po Zagrebu. Njegovo ime? Također Horvat. Nisu u rodu. Vjerojatno.',
+        en: 'They found the green entrance in a side street. Aunt Jagoda opened the door, looked at the whole delegation and — invited everyone in for coffee. The young man with the earphones is now Emma’s guide around Zagreb. His name? Also Horvat. They’re not related. Probably.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'snalaziti se',
+        en: 'to find one’s way',
+        ex: 'Teško se snalazila bez mobitela.',
+      },
+      {
+        hr: 'ulaz',
+        en: 'entrance',
+        ex: 'Zgrada ima zeleni ulaz.',
+      },
+      {
+        hr: 'slušalice',
+        en: 'earphones',
+        ex: 'Mladić je izvadio jednu slušalicu.',
+      },
+      {
+        hr: 'otpratiti',
+        en: 'to walk somebody (somewhere)',
+        ex: 'U Zagrebu te se otprati.',
+      },
+      {
+        hr: 'pridružiti se',
+        en: 'to join',
+        ex: 'Pridružila im se gospođa s tržnice.',
+      },
+      {
+        hr: 'špica',
+        en: 'Saturday promenade (Zagreb)',
+        ex: 'Špica se subotom ne propušta.',
+      },
+      {
+        hr: 'pokrajnja ulica',
+        en: 'side street',
+        ex: 'Ulaz je u pokrajnjoj ulici.',
+      },
+      {
+        hr: 'u rodu',
+        en: 'related (by family)',
+        ex: 'Nisu u rodu. Vjerojatno.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je Emma znala o zgradi?',
+        qEn: 'What did Emma know about the building?',
+        opts: ['Da ima zeleni ulaz', 'Kućni broj', 'Ime ulice i broj', 'Kat i stan'],
+        correct: 0,
+      },
+      {
+        q: 'Kako se u Zagrebu objašnjava put?',
+        qEn: 'How are directions given in Zagreb?',
+        opts: ['Otprati te se', 'Nacrta se karta', 'Pošalje se lokacija', 'Kaže se broj tramvaja'],
+        correct: 0,
+      },
+      {
+        q: 'Kako se preziva mladić sa slušalicama?',
+        qEn: 'What is the young man’s surname?',
+        opts: ['Horvat', 'Kovač', 'Babić', 'Jagoda'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_16',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🎄',
+    title: 'Advent u Zagrebu',
+    titleEn: 'Advent in Zagreb',
+    duration: 7,
+    focus: 'Opis atmosfere • Bezlični izrazi • Zimske tradicije',
+    intro:
+      'Zagrebački advent više je puta biran za najbolji u Europi. Ali za obitelj Novak advent znači nešto sasvim svoje.',
+    paragraphs: [
+      {
+        hr: 'Kad se na Zrinjevcu upale lampice, u obitelji Novak počinje sezona koju tata zove „mjesec kuhanog vina", a mama „mjesec potrošenog novca". Djeca imaju svoj raspored: klizanje na Tomislavcu, fritule kod štanda do fontane i obavezno razgledavanje jaslica u katedrali.',
+        en: 'When the lights come on in Zrinjevac park, the Novak family begins the season dad calls "the month of mulled wine" and mum "the month of spent money". The children have their own schedule: skating at Tomislav Square, fritule at the stand by the fountain, and the obligatory viewing of the nativity scene at the cathedral.',
+      },
+      {
+        hr: 'Baka Novak drži do tradicije: na prvu nedjelju adventa pali se prva svijeća na vijencu, a na stol dolazi pečena purica s mlincima. Unuci znaju da se prije ručka ništa ne grize, ma koliko mirisalo iz kuhinje — to je pravilo starije od svih njih zajedno.',
+        en: 'Grandma Novak keeps tradition: on the first Sunday of Advent the first candle on the wreath is lit, and roast turkey with mlinci comes to the table. The grandchildren know that nothing gets nibbled before lunch, no matter how good the kitchen smells — that rule is older than all of them put together.',
+      },
+      {
+        hr: 'Ove godine snijeg je pao baš na Badnjak. Cijela ulica izašla je van: susjedi su se grudali kao djeca, netko je iznio termosicu čaja, a gospodin Perić, koji inače ne pozdravlja nikoga, čistio je snijeg pred tuđim vratima i pjevušio.',
+        en: 'This year snow fell right on Christmas Eve. The whole street came outside: neighbours had a snowball fight like children, someone brought out a thermos of tea, and Mr Perić, who normally greets no one, was clearing snow in front of other people’s doors and humming.',
+      },
+      {
+        hr: 'Na Štefanje se obitelj okuplja kod bake. Stol se produžuje s dvije daske, jer nas je svake godine više. Kad se upali svijeća i digne čaša, baka kaže isto što i uvijek: „Da nam je svima ovako — i dogodine." I bude.',
+        en: 'On St Stephen’s Day the family gathers at grandma’s. The table is extended with two boards, because every year there are more of us. When the candle is lit and the glass raised, grandma says what she always says: "May we all be like this — next year too." And so it is.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'advent',
+        en: 'Advent',
+        ex: 'Zagrebački advent biran je za najbolji u Europi.',
+      },
+      {
+        hr: 'kuhano vino',
+        en: 'mulled wine',
+        ex: 'Mjesec kuhanog vina.',
+      },
+      {
+        hr: 'klizanje',
+        en: 'ice skating',
+        ex: 'Klizanje na Tomislavcu.',
+      },
+      {
+        hr: 'fritule',
+        en: 'fritule (mini doughnuts)',
+        ex: 'Fritule kod štanda do fontane.',
+      },
+      {
+        hr: 'jaslice',
+        en: 'nativity scene',
+        ex: 'Razgledavanje jaslica u katedrali.',
+      },
+      {
+        hr: 'vijenac',
+        en: 'wreath',
+        ex: 'Pali se prva svijeća na vijencu.',
+      },
+      {
+        hr: 'Badnjak',
+        en: 'Christmas Eve',
+        ex: 'Snijeg je pao baš na Badnjak.',
+      },
+      {
+        hr: 'grudati se',
+        en: 'to have a snowball fight',
+        ex: 'Susjedi su se grudali kao djeca.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što baka servira prve nedjelje adventa?',
+        qEn: 'What does grandma serve on the first Sunday of Advent?',
+        opts: ['Puricu s mlincima', 'Sarmu', 'Bakalar', 'Fritule'],
+        correct: 0,
+      },
+      {
+        q: 'Kada je ove godine pao snijeg?',
+        qEn: 'When did it snow this year?',
+        opts: ['Na Badnjak', 'Na Štefanje', 'Na Novu godinu', 'Prve nedjelje adventa'],
+        correct: 0,
+      },
+      {
+        q: 'Što baka kaže uz podignutu čašu?',
+        qEn: 'What does grandma say with her glass raised?',
+        opts: [
+          '„Da nam je svima ovako — i dogodine."',
+          '„Živjeli!"',
+          '„Sretan Božić!"',
+          '„Dobar tek!"',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_8',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🏛️',
+    title: 'Život u palači',
+    titleEn: 'Living in a Palace',
+    duration: 9,
+    focus: 'Pasivne konstrukcije • Povijesni prezent • Baština i suvremenost',
+    intro:
+      'Dioklecijanova palača nije muzej — u njoj se već sedamnaest stoljeća živi. Split je grad koji stanuje u vlastitoj povijesti.',
+    paragraphs: [
+      {
+        hr: 'Kad je rimski car Dioklecijan oko 300. godine dao sagraditi palaču uz more, planirao je mirnu starost: vrtove, terme i pogled na otoke. Nije mogao znati da će se njegova rezidencija pretvoriti u živi grad — da će se u carskim podrumima jednog dana prodavati suveniri, a u peristilu ljeti izvoditi opera.',
+        en: 'When the Roman emperor Diocletian had a palace built by the sea around the year 300, he was planning a peaceful retirement: gardens, baths and a view of the islands. He could not have known that his residence would turn into a living city — that souvenirs would one day be sold in the imperial basements, and opera performed in the Peristyle in summer.',
+      },
+      {
+        hr: 'Nakon propasti Salone u sedmom stoljeću, izbjeglice su se sklonile unutar palačinih zidina i više nikad nisu otišle. Antički su stupovi ugrađeni u srednjovjekovne kuće, carev mauzolej postao je katedrala, a hramovi skladišta i crkvice. Palača nije sačuvana usprkos životu u njoj — sačuvana je upravo zbog njega.',
+        en: 'After the fall of Salona in the seventh century, refugees took shelter within the palace walls and never left. Ancient columns were built into medieval houses, the emperor’s mausoleum became a cathedral, and temples became warehouses and chapels. The palace was not preserved despite the life within it — it was preserved precisely because of it.',
+      },
+      {
+        hr: 'Danas u staroj jezgri živi oko dvije tisuće ljudi. Gospođa Marija, čiji stan gleda ravno na Peristil, kaže da se na turiste navikneš kao na galebove: „Ujutro, prije osam, grad je samo naš. Popijem kavu na prozoru i gledam kako se kamen budi. Ta svjetlost — nju ni car nije mogao kupiti."',
+        en: 'Today about two thousand people live in the old core. Mrs Marija, whose flat looks straight onto the Peristyle, says you get used to the tourists the way you get used to seagulls: "In the morning, before eight, the city is ours alone. I drink my coffee at the window and watch the stone wake up. That light — even the emperor couldn’t buy it."',
+      },
+      {
+        hr: 'No život u spomeniku ima i cijenu. Stanovi se sve češće pretvaraju u apartmane, mladi odlaze u kvartove gdje je život jeftiniji, a konzervatori i stanari vode beskrajne pregovore oko svake klime i svakog prozora. Split traži ravnotežu koju traže svi povijesni gradovi: kako živjeti od baštine, a ne potrošiti je.',
+        en: 'But life in a monument has its price. Flats are increasingly turned into holiday apartments, the young move to neighbourhoods where life is cheaper, and conservators and residents hold endless negotiations over every air-conditioning unit and every window. Split is seeking the balance all historic cities seek: how to live off heritage without using it up.',
+      },
+      {
+        hr: 'Ipak, kad se navečer upale svjetla i kamen poprimi boju meda, jasno je zašto se odavde teško odlazi. Dioklecijan je gradio za sebe, a ostavio svima. Malo koji car može reći da mu se u dnevnom boravku i danas — živi.',
+        en: 'Still, when the lights come on in the evening and the stone takes on the colour of honey, it is clear why this place is hard to leave. Diocletian built for himself and left it to everyone. Few emperors can say that people still — live in their living room.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'palača',
+        en: 'palace',
+        ex: 'U palači se živi već sedamnaest stoljeća.',
+      },
+      {
+        hr: 'izbjeglica',
+        en: 'refugee',
+        ex: 'Izbjeglice su se sklonile unutar zidina.',
+      },
+      {
+        hr: 'zidine',
+        en: 'city walls',
+        ex: 'Sklonili su se unutar zidina.',
+      },
+      {
+        hr: 'mauzolej',
+        en: 'mausoleum',
+        ex: 'Carev mauzolej postao je katedrala.',
+      },
+      {
+        hr: 'jezgra',
+        en: 'core (old town)',
+        ex: 'U staroj jezgri živi dvije tisuće ljudi.',
+      },
+      {
+        hr: 'spomenik',
+        en: 'monument',
+        ex: 'Život u spomeniku ima cijenu.',
+      },
+      {
+        hr: 'konzervator',
+        en: 'conservator',
+        ex: 'Konzervatori i stanari pregovaraju.',
+      },
+      {
+        hr: 'baština',
+        en: 'heritage',
+        ex: 'Kako živjeti od baštine, a ne potrošiti je?',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je palača sačuvana?',
+        qEn: 'Why was the palace preserved?',
+        opts: [
+          'Upravo zbog života u njoj',
+          'Jer je bila zaključana',
+          'Jer su je čuvali vojnici',
+          'Jer je bila muzej',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je postao carev mauzolej?',
+        qEn: 'What did the emperor’s mausoleum become?',
+        opts: ['Katedrala', 'Skladište', 'Kazalište', 'Tržnica'],
+        correct: 0,
+      },
+      {
+        q: 'Koji problem muči staru jezgru?',
+        qEn: 'Which problem troubles the old core?',
+        opts: [
+          'Stanovi postaju apartmani, mladi odlaze',
+          'Nema turista',
+          'Zidine se ruše',
+          'Previše je muzeja',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_9',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🎶',
+    title: 'Klapa — pjesma bez instrumenata',
+    titleEn: 'Klapa — Song without Instruments',
+    duration: 9,
+    focus: 'Neodređene zamjenice • Glazbeno nazivlje • Opis tradicije (UNESCO)',
+    intro:
+      'Klapsko pjevanje uvršteno je na UNESCO-ov popis nematerijalne baštine. Ali za pjevače, klapa je prije svega — prijateljstvo koje pjeva.',
+    paragraphs: [
+      {
+        hr: 'Klapa u dalmatinskom govoru znači društvo, grupa prijatelja. I upravo je to bit klapskog pjevanja: nekoliko muških ili ženskih glasova bez ikakvih instrumenata, poredanih u polukrug, pjeva o moru, ljubavi, maslinama i majci. Prvi tenor vodi melodiju, a ostali ga slijede u skladnim akordima — uho uz uho, rame uz rame.',
+        en: 'In the Dalmatian vernacular, klapa means company, a group of friends. And that is precisely the essence of klapa singing: several male or female voices without any instruments, arranged in a semicircle, singing about the sea, love, olives and mother. The first tenor leads the melody and the others follow in harmonious chords — ear to ear, shoulder to shoulder.',
+      },
+      {
+        hr: 'Tradicija je nastala u devetnaestom stoljeću iz crkvenog pjevanja i serenada pod prozorima. Pjevalo se u konobama, na rivi, poslije mise — gdje god su se našla četvorica koje je spajao dobar sluh i još bolja volja. Godine 2012. klapsko je pjevanje uvršteno na UNESCO-ov popis nematerijalne kulturne baštine čovječanstva.',
+        en: 'The tradition arose in the nineteenth century from church singing and serenades under windows. People sang in taverns, on the waterfront, after mass — wherever four men were brought together by a good ear and even better will. In 2012 klapa singing was inscribed on UNESCO’s list of the intangible cultural heritage of humanity.',
+      },
+      {
+        hr: 'Ante, prvi bas klape iz Omiša, objašnjava da se u klapi ne traži najljepši glas, nego onaj koji zna slušati: „Solist može biti zvijezda. U klapi si dio zvuka. Ako se tvoj glas čuje previše — pogriješio si." Omiš svake godine ugošćuje najstariji festival klapa, gdje se novi sastavi natječu pred punim trgom.',
+        en: 'Ante, first bass of a klapa from Omiš, explains that a klapa does not look for the most beautiful voice, but for the one that knows how to listen: "A soloist can be a star. In a klapa you are part of the sound. If your voice is heard too much — you’ve made a mistake." Every year Omiš hosts the oldest klapa festival, where new groups compete before a packed square.',
+      },
+      {
+        hr: 'Danas klape pjevaju i obrade pop-pjesama, snimaju spotove i pune dvorane, a ženske i mješovite klape odavno su ravnopravne. Puristi ponekad negoduju, ali tradicija koja se ne mijenja — umire. Klapa živi upravo zato što svaka generacija u nju unese nešto svoje.',
+        en: 'Today klapas also sing pop covers, record videos and fill concert halls, and female and mixed klapas have long been equals. Purists sometimes grumble, but a tradition that does not change — dies. Klapa lives precisely because every generation brings something of its own to it.',
+      },
+      {
+        hr: 'A najbolje se klapa i dalje čuje tamo gdje je i nastala: uz bocu vina, poslije večere, kad netko tiho počne „Da te mogu pismom zvati" i svi se pogledi sretnu. Tada ni publika ni pozornica nisu potrebni — dovoljno je društvo. Dovoljna je klapa.',
+        en: 'And a klapa is still heard at its best where it was born: over a bottle of wine, after dinner, when someone quietly begins "Da te mogu pismom zvati" and all eyes meet. Then neither audience nor stage is needed — company is enough. A klapa is enough.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'klapa',
+        en: 'klapa; group of friends',
+        ex: 'Klapa znači društvo, grupa prijatelja.',
+      },
+      {
+        hr: 'polukrug',
+        en: 'semicircle',
+        ex: 'Pjevači stoje u polukrugu.',
+      },
+      {
+        hr: 'sklad',
+        en: 'harmony',
+        ex: 'Glasovi se slažu u skladu.',
+      },
+      {
+        hr: 'sluh',
+        en: 'ear (for music)',
+        ex: 'Spajao ih je dobar sluh.',
+      },
+      {
+        hr: 'nematerijalna baština',
+        en: 'intangible heritage',
+        ex: 'Uvršteno na popis nematerijalne baštine.',
+      },
+      {
+        hr: 'sastav',
+        en: 'ensemble, group',
+        ex: 'Novi sastavi natječu se u Omišu.',
+      },
+      {
+        hr: 'obrada',
+        en: 'cover (of a song)',
+        ex: 'Klape pjevaju i obrade pop-pjesama.',
+      },
+      {
+        hr: 'ravnopravan',
+        en: 'equal (in rights)',
+        ex: 'Ženske klape odavno su ravnopravne.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što u dalmatinskom govoru znači klapa?',
+        qEn: 'What does klapa mean in the Dalmatian vernacular?',
+        opts: ['Društvo, grupu prijatelja', 'Pjesmu o moru', 'Vrstu konobe', 'Crkveni zbor'],
+        correct: 0,
+      },
+      {
+        q: 'Kada je klapsko pjevanje uvršteno na UNESCO-ov popis?',
+        qEn: 'When was klapa singing inscribed on the UNESCO list?',
+        opts: ['2012.', '1979.', '2005.', '1991.'],
+        correct: 0,
+      },
+      {
+        q: 'Što se po Anti u klapi najviše cijeni?',
+        qEn: 'According to Ante, what matters most in a klapa?',
+        opts: ['Glas koji zna slušati', 'Najljepši glas', 'Najjači glas', 'Solistička karijera'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_10',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '💻',
+    title: 'Ured s pogledom na more',
+    titleEn: 'An Office with a Sea View',
+    duration: 9,
+    focus: 'Argumentacija za i protiv • Kondicional u raspravi • Suvremeno tržište rada',
+    intro:
+      'Rad na daljinu promijenio je tko može živjeti u Hrvatskoj — i odakle se uopće radi. Rasprava koja dijeli generacije.',
+    paragraphs: [
+      {
+        hr: 'Kad je Marta rekla roditeljima da daje otkaz u zagrebačkoj banci i seli na Korčulu, mama je tjedan dana kuhala u tišini. „A posao?" — „Nosim ga sa sobom." Marta programira za njemačku tvrtku: potreban joj je laptop, stabilan internet i mir. Sve troje na otoku ima — uz pogled kakav nijedan ured ne nudi.',
+        en: 'When Marta told her parents she was quitting her job at a Zagreb bank and moving to Korčula, her mum cooked in silence for a week. "And work?" — "I’m taking it with me." Marta codes for a German company: she needs a laptop, stable internet and peace. She has all three on the island — with a view no office can offer.',
+      },
+      {
+        hr: 'Hrvatska je 2021. među prvima u Europi uvela vizu za digitalne nomade, a otoci su počeli privlačiti ljude koji zarađuju u eurima, dolarima i funtama, a troše u lokalnom dućanu. Zimi, kad se apartmani isprazne, upravo oni drže kafiće otvorenima i školu punijom za koje dijete.',
+        en: 'In 2021 Croatia was among the first in Europe to introduce a digital-nomad visa, and the islands began attracting people who earn in euros, dollars and pounds, and spend in the local shop. In winter, when the holiday flats empty, it is they who keep the cafés open and the school fuller by a child or two.',
+      },
+      {
+        hr: 'No slika nije samo razglednica. Cijene najma rastu i domaćima, internet zna pasti baš prije važnog sastanka, a trajekt po buri ne pita za rokove. Najteža je, kaže Marta, granica između posla i života: „Kad ti je ured deset koraka od plaže, uvijek si pomalo na poslu — i pomalo na godišnjem."',
+        en: 'But the picture is not just a postcard. Rents rise for locals too, the internet tends to drop right before an important meeting, and the ferry in a bura gale does not ask about deadlines. Hardest of all, says Marta, is the boundary between work and life: "When your office is ten steps from the beach, you are always slightly at work — and slightly on holiday."',
+      },
+      {
+        hr: 'Njezin susjed, umirovljeni ribar Frane, isprva je sumnjičavo gledao „malu koja cijeli dan tipka". Onda mu je pomogla postaviti internetsko oglašavanje apartmana i sad je najveći zagovornik novih susjeda. „Otok umire bez mladih", kaže. „Meni je svejedno tipka li netko ili veze mreže — bitno da svijetli prozor."',
+        en: 'Her neighbour, the retired fisherman Frane, at first looked askance at "the girl who types all day". Then she helped him set up online advertising for his apartments, and now he is the biggest advocate of the new neighbours. "The island dies without the young," he says. "I don’t care whether someone types or mends nets — what matters is a lit window."',
+      },
+      {
+        hr: 'Marta ne zna hoće li ostati zauvijek. Zna samo da je prvi put u životu na kavi do devet, a na poslu do pet — i da joj se pojam „kvaliteta života" više ne čini kao fraza iz oglasa. Možda je budućnost rada zapravo vrlo stara ideja: raditi da bi se živjelo, a ne obrnuto.',
+        en: 'Marta doesn’t know whether she’ll stay forever. She only knows that for the first time in her life she has coffee until nine and works until five — and that the phrase "quality of life" no longer sounds to her like ad copy. Perhaps the future of work is actually a very old idea: working in order to live, not the other way round.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'rad na daljinu',
+        en: 'remote work',
+        ex: 'Rad na daljinu promijenio je tržište.',
+      },
+      {
+        hr: 'otkaz',
+        en: 'resignation, notice',
+        ex: 'Dala je otkaz u banci.',
+      },
+      {
+        hr: 'viza',
+        en: 'visa',
+        ex: 'Viza za digitalne nomade uvedena je 2021.',
+      },
+      {
+        hr: 'najam',
+        en: 'rent',
+        ex: 'Cijene najma rastu i domaćima.',
+      },
+      {
+        hr: 'rok',
+        en: 'deadline',
+        ex: 'Trajekt po buri ne pita za rokove.',
+      },
+      {
+        hr: 'granica',
+        en: 'boundary, border',
+        ex: 'Granica između posla i života.',
+      },
+      {
+        hr: 'zagovornik',
+        en: 'advocate',
+        ex: 'Frane je najveći zagovornik novih susjeda.',
+      },
+      {
+        hr: 'pojam',
+        en: 'concept, notion',
+        ex: 'Pojam kvalitete života nije fraza.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je Marti potrebno za posao?',
+        qEn: 'What does Marta need for her work?',
+        opts: ['Laptop, internet i mir', 'Ured u gradu', 'Automobil', 'Tvrtka u Hrvatskoj'],
+        correct: 0,
+      },
+      {
+        q: 'Što zimi rade digitalni nomadi za otok?',
+        qEn: 'What do digital nomads do for the island in winter?',
+        opts: [
+          'Drže kafiće otvorenima i školu punijom',
+          'Iznajmljuju apartmane',
+          'Odlaze kućama',
+          'Grade hotele',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je Frani najvažnije?',
+        qEn: 'What matters most to Frane?',
+        opts: ['Da svijetli prozor', 'Da se vežu mreže', 'Da nomadi plaćaju najam', 'Da je tiho'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_11',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🌊',
+    title: 'Otok bez plastike',
+    titleEn: 'An Island without Plastic',
+    duration: 9,
+    focus: 'Izražavanje cilja i posljedice • Ekološki rječnik • Se-pasiv u novinskom stilu',
+    intro:
+      'Mali otok, velika odluka: priča o zajednici koja je rekla ne jednokratnoj plastici — i o tome što se dogodilo poslije.',
+    paragraphs: [
+      {
+        hr: 'Sve je počelo nakon jedne zimske oluje, kad je jugo na žalo naplavilo brdo smeća: boce, vrećice, komade stiropora s uzgajališta. Mještani su ga skupljali tri vikenda. Na trećem je netko rekao ono što su svi mislili: „Čistiti možemo dovijeka. Ili možemo nešto promijeniti."',
+        en: 'It all began after a winter storm, when the southerly wind washed a mountain of rubbish onto the beach: bottles, bags, pieces of styrofoam from the fish farms. The locals spent three weekends collecting it. On the third, someone said what everyone was thinking: "We can clean forever. Or we can change something."',
+      },
+      {
+        hr: 'Mjesni je odbor donio odluku kakvu dotad nije imao nijedan hrvatski otok: u trgovini se ukidaju plastične vrećice, kafići prelaze na povratne čaše, a na rivi se postavljaju spremnici za odvojeno prikupljanje otpada. Turistima se na trajektu dijeli platnena vrećica s natpisom „Otok se čuva — čuvaj ga i ti."',
+        en: 'The local board made a decision no Croatian island had made before: plastic bags were abolished in the shop, cafés switched to returnable cups, and containers for separate waste collection were installed on the waterfront. Tourists on the ferry are handed a cloth bag with the inscription "The island keeps itself — you keep it too."',
+      },
+      {
+        hr: 'Nije išlo glatko. Trgovkinja Nada isprva se bunila da će izgubiti kupce, konobari su gunđali zbog pranja čaša, a jedan je apartmandžija tvrdio da će „takve komplikacije" otjerati goste. Dogodilo se suprotno: o otoku su pisali strani mediji, a gosti su počeli dolaziti upravo zbog čistog mora i mira bez smeća.',
+        en: 'It did not go smoothly. Nada the shopkeeper protested at first that she would lose customers, waiters grumbled about washing cups, and one apartment owner claimed that "such complications" would drive guests away. The opposite happened: foreign media wrote about the island, and guests began coming precisely for the clean sea and rubbish-free peace.',
+      },
+      {
+        hr: 'Djeca iz jedine škole na otoku postala su „zeleni inspektori": svakog mjeseca važu otpad i rezultate objavljuju na oglasnoj ploči ispred crkve. Količina miješanog otpada pala je za trećinu u dvije godine. „Odrasli se natječu tko će imati manje", smije se učiteljica. „Nitko ne želi da ga prozovu djeca."',
+        en: 'The children from the island’s only school became "green inspectors": every month they weigh the waste and post the results on the noticeboard in front of the church. The amount of mixed waste fell by a third in two years. "The adults compete over who will have less," laughs the teacher. "Nobody wants to be called out by the children."',
+      },
+      {
+        hr: 'Otok nije spasio svijet i njegovi žitelji to znaju. Ali svako žalo koje se više ne mora čistiti svaki vikend dokaz je da se velike promjene ponekad donose malom većinom — na mjesnom odboru, u veljači, kad trajekt kasni i kad se čini da vas nitko ne gleda.',
+        en: 'The island has not saved the world and its inhabitants know it. But every beach that no longer needs cleaning every weekend is proof that big changes are sometimes made by a small majority — at the local board, in February, when the ferry is late and it seems no one is watching.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'jednokratna plastika',
+        en: 'single-use plastic',
+        ex: 'Otok je rekao ne jednokratnoj plastici.',
+      },
+      {
+        hr: 'žalo',
+        en: 'pebble beach',
+        ex: 'Jugo je na žalo naplavilo smeće.',
+      },
+      {
+        hr: 'naplaviti',
+        en: 'to wash ashore',
+        ex: 'Oluja je naplavila brdo smeća.',
+      },
+      {
+        hr: 'mjesni odbor',
+        en: 'local board',
+        ex: 'Mjesni odbor donio je odluku.',
+      },
+      {
+        hr: 'povratna čaša',
+        en: 'returnable cup',
+        ex: 'Kafići prelaze na povratne čaše.',
+      },
+      {
+        hr: 'spremnik',
+        en: 'container, bin',
+        ex: 'Postavljeni su spremnici za otpad.',
+      },
+      {
+        hr: 'otpad',
+        en: 'waste',
+        ex: 'Odvojeno prikupljanje otpada.',
+      },
+      {
+        hr: 'žitelj',
+        en: 'inhabitant',
+        ex: 'Žitelji otoka to znaju.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je pokrenulo promjenu?',
+        qEn: 'What set off the change?',
+        opts: [
+          'Smeće koje je oluja naplavila na žalo',
+          'Odluka ministarstva',
+          'Turistička sezona',
+          'Novi načelnik',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Tko su „zeleni inspektori"?',
+        qEn: 'Who are the "green inspectors"?',
+        opts: ['Djeca iz škole', 'Konobari', 'Turisti', 'Policajci'],
+        correct: 0,
+      },
+      {
+        q: 'Za koliko je pao miješani otpad?',
+        qEn: 'By how much did mixed waste fall?',
+        opts: ['Za trećinu', 'Za polovinu', 'Za desetinu', 'Nije pao'],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_12',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '📱',
+    title: 'Generacija ekrana',
+    titleEn: 'The Screen Generation',
+    duration: 9,
+    focus: 'Izražavanje mišljenja i neslaganja • Statistički izrazi • Rasprava o društvu',
+    intro:
+      'Koliko je sati previše? Razgovor o mladima i ekranima u kojem nitko nema potpuno pravo — ni potpuno krivo.',
+    paragraphs: [
+      {
+        hr: 'U obitelji Kovačević večera počinje istim ritualom: mobiteli u košaru na polici. Pravilo je uvela mama Sanja nakon što je shvatila da za stolom sjede četiri osobe i — četiri ekrana. „Nismo razgovarali, nego smo se jedni drugima javljali", kaže. Najteže se odvikavala, priznaje, ona sama.',
+        en: 'In the Kovačević family, dinner begins with the same ritual: phones into the basket on the shelf. Mum Sanja introduced the rule after realizing that four people were sitting at the table with — four screens. "We weren’t talking, we were messaging each other," she says. The hardest to wean off, she admits, was she herself.',
+      },
+      {
+        hr: 'Istraživanja pokazuju da hrvatski srednjoškolci na ekranima provode u prosjeku više od pet sati dnevno, a svaki četvrti kaže da bi se „teško ili nikako" mogao odvojiti od mobitela na jedan dan. Psihologinja Ivana Radić upozorava da problem nije ekran, nego ono što istiskuje: san, kretanje i dosadu — „a iz dosade se, začudo, rađaju najbolje ideje".',
+        en: 'Research shows that Croatian secondary-school pupils spend on average more than five hours a day on screens, and one in four says they could "hardly or not at all" part with their phone for a single day. Psychologist Ivana Radić warns that the problem is not the screen but what it crowds out: sleep, movement and boredom — "and out of boredom, oddly enough, the best ideas are born".',
+      },
+      {
+        hr: 'Šesnaestogodišnji Karlo na to ima protuargument koji roditelji nerado čuju: na mobitelu uči engleski, montira video-uratke i vodi grupu za pripremu mature. „Vi ste imali kvart, mi imamo internet. Nije pitanje koliko sam na ekranu, nego što na njemu radim." Njegova baka dodaje da se isto govorilo i o televiziji — pa su svi preživjeli.',
+        en: 'Sixteen-year-old Karlo has a counter-argument parents are reluctant to hear: on his phone he learns English, edits videos and runs a matura-prep group. "You had the neighbourhood, we have the internet. The question isn’t how long I’m on the screen, but what I do on it." His grandma adds that the same used to be said about television — and everyone survived.',
+      },
+      {
+        hr: 'Škole traže svoj put između zabrane i zanemarivanja. Neke su uvele „ladice za mobitele" na početku sata, druge medijsku pismenost kao izborni predmet. Profesorica informatike iz Osijeka sažima ono oko čega se struka uglavnom slaže: „Zabrana bez razgovora samo seli problem u hodnik."',
+        en: 'Schools are seeking their own path between prohibition and neglect. Some have introduced "phone drawers" at the start of class, others media literacy as an elective subject. An informatics teacher from Osijek sums up what the profession broadly agrees on: "A ban without conversation merely moves the problem into the corridor."',
+      },
+      {
+        hr: 'Kod Kovačevićevih košara je i dalje na polici, ali uz novo pravilo koje je predložio — Karlo: nedjeljom poslijepodne svi zajedno biraju film. S ekranom, dakako. Možda je u tome cijela mudrost: ekran koji spaja umjesto onoga koji razdvaja.',
+        en: 'At the Kovačevićs’ the basket is still on the shelf, but with a new rule proposed by — Karlo: on Sunday afternoons they all choose a film together. With a screen, of course. Perhaps that is the whole wisdom: a screen that connects instead of one that divides.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'ekran',
+        en: 'screen',
+        ex: 'Za stolom su sjedila četiri ekrana.',
+      },
+      {
+        hr: 'odviknuti se',
+        en: 'to wean oneself off',
+        ex: 'Najteže se odvikavala mama.',
+      },
+      {
+        hr: 'u prosjeku',
+        en: 'on average',
+        ex: 'Više od pet sati dnevno u prosjeku.',
+      },
+      {
+        hr: 'istisnuti',
+        en: 'to crowd out, displace',
+        ex: 'Ekran istiskuje san i kretanje.',
+      },
+      {
+        hr: 'protuargument',
+        en: 'counter-argument',
+        ex: 'Karlo ima protuargument.',
+      },
+      {
+        hr: 'medijska pismenost',
+        en: 'media literacy',
+        ex: 'Uveli su medijsku pismenost kao predmet.',
+      },
+      {
+        hr: 'zanemarivanje',
+        en: 'neglect',
+        ex: 'Put između zabrane i zanemarivanja.',
+      },
+      {
+        hr: 'razdvajati',
+        en: 'to divide, separate',
+        ex: 'Ekran koji spaja, a ne razdvaja.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koje je pravilo uvela mama Sanja?',
+        qEn: 'Which rule did mum Sanja introduce?',
+        opts: [
+          'Mobiteli u košaru za vrijeme večere',
+          'Zabrana interneta',
+          'Sat ekrana dnevno',
+          'Mobitel tek nakon zadaće',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što po psihologinji ekran istiskuje?',
+        qEn: 'According to the psychologist, what does the screen crowd out?',
+        opts: ['San, kretanje i dosadu', 'Prijatelje', 'Školu', 'Obitelj'],
+        correct: 0,
+      },
+      {
+        q: 'Što je predložio Karlo?',
+        qEn: 'What did Karlo propose?',
+        opts: [
+          'Zajednički film nedjeljom',
+          'Više vremena za igrice',
+          'Ukidanje košare',
+          'Novi mobitel',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_13',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '☕',
+    title: 'Kava od tri sata',
+    titleEn: 'The Three-Hour Coffee',
+    duration: 8,
+    focus: 'Frazemi i kolokacije uz kavu • Društvene konvencije • Ironija i humor',
+    intro:
+      'U Hrvatskoj „idemo na kavu" rijetko znači kavu. To je institucija, mjera vremena i način života — na užas svakog rokovnika.',
+    paragraphs: [
+      {
+        hr: 'Stranci koji dođu živjeti u Hrvatsku najprije nauče dvije stvari: da se papiri vade „od šalterskog do šalterskog" i da poziv na kavu nema nikakve veze s kavom. Na kavu se ide kad se slavi, kad se tuguje, kad se nešto dogovara i kad se nema što raditi — dakle, uvijek.',
+        en: 'Foreigners who come to live in Croatia first learn two things: that paperwork is done "from one counter to the next", and that an invitation for coffee has nothing to do with coffee. One goes for coffee to celebrate, to grieve, to arrange something and when there is nothing to do — in other words, always.',
+      },
+      {
+        hr: 'Prosječna kava u kafiću traje sat i pol, a subotnja i po tri — jer se s kavom ne žuri. Konobar vas neće požurivati ni kad odavno gledate u praznu šalicu: stol je vaš dok god ga ne napustite. Poslovni ljudi iz Njemačke na tome dožive kulturni šok, a onda se, u pravilu, oduševe.',
+        en: 'An average coffee in a café lasts an hour and a half, and a Saturday one up to three — because coffee is not to be rushed. The waiter will not hurry you even when you have long been staring into an empty cup: the table is yours as long as you don’t leave it. Business people from Germany suffer culture shock over this — and then, as a rule, fall in love with it.',
+      },
+      {
+        hr: 'Kava ima i svoju gramatiku. „Idemo na kavu" znači druženje. „Moramo na kavu" znači da postoji tema. „Naći ćemo se na kavi" može značiti bilo što između sutra i nikad. A najozbiljnija od svih poruka glasi: „Dođi na kavu, imam ti nešto za reći" — tu se otkazuju svi drugi planovi.',
+        en: 'Coffee also has its own grammar. "Let’s go for coffee" means socializing. "We must go for coffee" means there is a topic. "We’ll meet for coffee" can mean anything between tomorrow and never. And the most serious message of all reads: "Come for coffee, I have something to tell you" — for that one, all other plans are cancelled.',
+      },
+      {
+        hr: 'Ekonomisti povremeno izračunaju koliko nas nacionalno ispijanje kave košta u radnim satima, i brojke su uvijek dramatične. Ali te tablice ne mjere ono najvažnije: da se uz kavu čuvaju brakovi, sklapaju poslovi, prebrode krize i drže na okupu kvartovi. Neke se investicije ne vide u proračunu.',
+        en: 'Economists occasionally calculate how much our national coffee-drinking costs in working hours, and the figures are always dramatic. But those tables do not measure what matters most: that over coffee marriages are saved, deals are made, crises are weathered and neighbourhoods held together. Some investments do not show up in the budget.',
+      },
+      {
+        hr: 'Zato, ako vas netko u Hrvatskoj pozove na kavu — pristanite. Ne pijete li kavu, naručite čaj, sok ili ništa: nitko neće ni primijetiti. Kava je, kao što svaki domaći zna, samo izgovor. Ono pravo dolazi u razgovoru, negdje između druge i treće šalice koje niste ni popili.',
+        en: 'So, if someone in Croatia invites you for coffee — say yes. If you don’t drink coffee, order tea, juice or nothing: no one will even notice. Coffee, as every local knows, is only an excuse. The real thing arrives in the conversation, somewhere between the second and third cup you never even drank.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'šalter',
+        en: 'counter, service window',
+        ex: 'Papiri se vade od šalterskog do šalterskog.',
+      },
+      {
+        hr: 'požurivati',
+        en: 'to hurry (someone)',
+        ex: 'Konobar vas neće požurivati.',
+      },
+      {
+        hr: 'šalica',
+        en: 'cup',
+        ex: 'Gledate u praznu šalicu.',
+      },
+      {
+        hr: 'druženje',
+        en: 'socializing',
+        ex: 'Kava znači druženje.',
+      },
+      {
+        hr: 'otkazati',
+        en: 'to cancel',
+        ex: 'Otkazuju se svi drugi planovi.',
+      },
+      {
+        hr: 'prebroditi',
+        en: 'to weather, overcome',
+        ex: 'Uz kavu se prebrode krize.',
+      },
+      {
+        hr: 'proračun',
+        en: 'budget',
+        ex: 'Neke se investicije ne vide u proračunu.',
+      },
+      {
+        hr: 'izgovor',
+        en: 'excuse, pretext',
+        ex: 'Kava je samo izgovor.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko traje prosječna kava u kafiću?',
+        qEn: 'How long does an average café coffee last?',
+        opts: ['Sat i pol', 'Petnaest minuta', 'Pola sata', 'Cijeli dan'],
+        correct: 0,
+      },
+      {
+        q: 'Što znači poruka „Dođi na kavu, imam ti nešto za reći"?',
+        qEn: 'What does "Come for coffee, I have something to tell you" mean?',
+        opts: [
+          'Otkazuju se svi drugi planovi',
+          'Ništa posebno',
+          'Poziv na posao',
+          'Da je kava gotova',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je kava, prema tekstu, zapravo?',
+        qEn: 'According to the text, what is coffee really?',
+        opts: ['Izgovor za razgovor', 'Nacionalno piće', 'Gubitak vremena', 'Poslovni ritual'],
+        correct: 0,
+      },
+    ],
+  },
 ];
