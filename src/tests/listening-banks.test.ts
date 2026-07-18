@@ -15,13 +15,15 @@ describe('comprehension EXERCISES', () => {
     expect(Object.keys(EXERCISES)).toEqual(CEFR);
   });
 
-  it('every level has ≥3 sets and ≥24 questions; A1–B2 have ≥4 sets', () => {
+  it('every level has ≥6 sets and ≥38 questions; A1–B2 have ≥7 sets', () => {
+    // Floors raised by the 2026-07 connected-speech expansion (+3 sets / +15
+    // questions per level).
     for (const [lvl, block] of Object.entries(EXERCISES)) {
       const qCount = block.sets.reduce((a, s) => a + s.questions.length, 0);
-      expect(block.sets.length, `${lvl} sets`).toBeGreaterThanOrEqual(3);
-      expect(qCount, `${lvl} questions`).toBeGreaterThanOrEqual(23);
+      expect(block.sets.length, `${lvl} sets`).toBeGreaterThanOrEqual(6);
+      expect(qCount, `${lvl} questions`).toBeGreaterThanOrEqual(38);
       if (['A1', 'A2', 'B1', 'B2'].includes(lvl)) {
-        expect(block.sets.length, `${lvl} sets`).toBeGreaterThanOrEqual(4);
+        expect(block.sets.length, `${lvl} sets`).toBeGreaterThanOrEqual(7);
       }
     }
   });
@@ -50,8 +52,9 @@ describe('comprehension EXERCISES', () => {
 });
 
 describe('DICTATION_DATA', () => {
-  it('has ≥60 items spanning all six levels with ≥8 at C1 and ≥6 at C2', () => {
-    expect(DICTATION_DATA.length).toBeGreaterThanOrEqual(60);
+  it('has ≥80 items spanning all six levels with ≥18 at C1 and ≥16 at C2', () => {
+    // C1/C2 floors raised by the 2026-07 dictation depth expansion (+10 each).
+    expect(DICTATION_DATA.length).toBeGreaterThanOrEqual(80);
     const by: Record<string, number> = {};
     for (const d of DICTATION_DATA) {
       expect(d.text, JSON.stringify(d)).toBeTruthy();
@@ -59,8 +62,8 @@ describe('DICTATION_DATA', () => {
       expect(CEFR, d.text).toContain(d.level);
       by[d.level] = (by[d.level] ?? 0) + 1;
     }
-    expect(by['C1'] ?? 0).toBeGreaterThanOrEqual(8);
-    expect(by['C2'] ?? 0).toBeGreaterThanOrEqual(6);
+    expect(by['C1'] ?? 0).toBeGreaterThanOrEqual(18);
+    expect(by['C2'] ?? 0).toBeGreaterThanOrEqual(16);
   });
 
   it('texts are unique', () => {
@@ -102,13 +105,14 @@ import { readFileSync } from 'node:fs';
 describe('3b — connected-speech passage sets', () => {
   const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-  it('every level has at least one passage set with valid structure', () => {
+  it('every level has at least four passage sets with valid structure', () => {
+    // Floor raised from 1 by the 2026-07 connected-speech expansion.
     for (const lvl of CEFR) {
       const ld = (EXERCISES as Record<string, (typeof EXERCISES)['A1']>)[lvl]!;
       const passageSets = ld.sets.filter(
         (s) => 'passage' in s && typeof (s as { passage?: string }).passage === 'string',
       );
-      expect(passageSets.length, `${lvl} passage sets`).toBeGreaterThanOrEqual(1);
+      expect(passageSets.length, `${lvl} passage sets`).toBeGreaterThanOrEqual(4);
       for (const s of passageSets) {
         const passage = (s as { passage: string }).passage;
         // connected speech: multiple sentences

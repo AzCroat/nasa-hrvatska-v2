@@ -237,6 +237,107 @@ export const DICTATION_DATA = [
     en: 'The question of who bears responsibility remains open.',
     level: 'C2',
   },
+  // ── 2026-07 C1/C2 dictation depth (+20) ──
+  {
+    text: 'Nadam se da ćemo se uspjeti dogovoriti prije isteka roka.',
+    en: 'I hope we will manage to reach an agreement before the deadline expires.',
+    level: 'C1',
+  },
+  {
+    text: 'Unatoč upornim nastojanjima cijeloga tima, očekivani rezultati ipak su izostali.',
+    en: "Despite the whole team's persistent efforts, the expected results nonetheless failed to materialize.",
+    level: 'C1',
+  },
+  {
+    text: 'Provedba reforme zahtijeva pomno planiranje i postupno uvođenje potrebnih izmjena u praksi.',
+    en: 'Implementing the reform requires careful planning and the gradual introduction of the necessary changes in practice.',
+    level: 'C1',
+  },
+  {
+    text: 'Iscrpljen dugim putovanjem, jedva je uspio stići na sastanak na vrijeme.',
+    en: 'Exhausted by the long journey, he barely managed to arrive at the meeting on time.',
+    level: 'C1',
+  },
+  {
+    text: 'Nije mu se dalo iznova objašnjavati isto po treći put ovog tjedna.',
+    en: 'He could not bring himself to explain the same thing for a third time this week.',
+    level: 'C1',
+  },
+  {
+    text: 'Unatoč jasnim upozorenjima stručnjaka, odluka je donesena bez dodatnih konzultacija.',
+    en: "Despite the experts' clear warnings, the decision was made without further consultations.",
+    level: 'C1',
+  },
+  {
+    text: 'Rješavanje ovog spora zahtijeva strpljenje obiju strana i spremnost na kompromis.',
+    en: 'Resolving this dispute requires patience from both sides and a willingness to compromise.',
+    level: 'C1',
+  },
+  {
+    text: 'Da su ga ranije upozorili, ne bi mu se dogodila takva pogreška.',
+    en: 'Had they warned him earlier, such a mistake would not have happened to him.',
+    level: 'C1',
+  },
+  {
+    text: 'Ugovor potpisan prošlog mjeseca stupa na snagu tek iduće godine.',
+    en: 'The contract signed last month does not come into force until next year.',
+    level: 'C1',
+  },
+  {
+    text: 'Koliko god mu se to činilo nepravednim, morat će prihvatiti odluku.',
+    en: 'However unfair it may seem to him, he will have to accept the decision.',
+    level: 'C1',
+  },
+  {
+    text: 'Šutnja koja je dugo vladala među njima napokon je postala nepodnošljivom.',
+    en: 'The silence that had long persisted between them finally became unbearable.',
+    level: 'C2',
+  },
+  {
+    text: 'Nedovršeni rukopis, ostavljen na stolu, čekao je desetljećima na svog čitatelja.',
+    en: 'The unfinished manuscript, left on the table, waited decades for its reader.',
+    level: 'C2',
+  },
+  {
+    text: 'Nepovjerenje prema institucijama proizlazi izravno iz dugogodišnjeg zanemarivanja javnog interesa.',
+    en: 'Distrust of institutions stems directly from years of neglecting the public interest.',
+    level: 'C2',
+  },
+  {
+    text: 'Da mu se barem jednom obratila iskreno, možda bi sve bilo drukčije.',
+    en: 'Had she at least once addressed him honestly, perhaps everything would have been different.',
+    level: 'C2',
+  },
+  {
+    text: 'Unatoč svemu što im se dogodilo, njihovo je prijateljstvo ostalo nepokolebljivo.',
+    en: 'Despite everything that had happened to them, their friendship remained unshaken.',
+    level: 'C2',
+  },
+  {
+    text: 'Iznenađen vlastitom hrabrošću, nije znao objasniti otkud mu ta odlučnost.',
+    en: 'Surprised by his own courage, he could not explain where that resolve had come from.',
+    level: 'C2',
+  },
+  {
+    text: 'Postupno urušavanje starih vrijednosti ostavlja iza sebe prazninu koju nitko ne popunjava.',
+    en: 'The gradual collapse of old values leaves behind a void that no one fills.',
+    level: 'C2',
+  },
+  {
+    text: 'Da mu se ranije posvetila pažnja, možda bi se izbjegla čitava nesreća.',
+    en: 'Had attention been paid to him earlier, perhaps the whole disaster could have been avoided.',
+    level: 'C2',
+  },
+  {
+    text: 'Odluka, donesena bez uvida u sve okolnosti, izazvala je opravdano negodovanje javnosti.',
+    en: 'The decision, made without insight into all the circumstances, provoked justified public outrage.',
+    level: 'C2',
+  },
+  {
+    text: 'Nije riječ o slučajnom podudaranju, nego o dugo pripremanom slijedu događaja.',
+    en: 'This is not a matter of coincidental overlap, but of a long-prepared sequence of events.',
+    level: 'C2',
+  },
 ];
 
 const levelColor: Record<string, string> = {
