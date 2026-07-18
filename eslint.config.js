@@ -194,12 +194,15 @@ export default [
   // ListeningComprehensionScreen in 1b (data only, no logic).
   // dialogueScenarios.js is the guided-dialogue corpus (2026-07 expansion took
   // it past 800 lines) — same data-only class, structurally validated by
-  // src/tests/dialogueScenarios.test.ts.
+  // src/tests/dialogueScenarios.test.ts. frequency500.ts is the corpus-frequency
+  // word list (1,250 ranks after the 2026-07 expansion), validated by
+  // src/tests/frequencyList.test.ts.
   {
     files: [
       'src/data/**/*.{js,ts,tsx}',
       'src/components/practice/listening/exercises.ts',
       'src/components/practice/dialogueScenarios.js',
+      'src/lib/frequency500.ts',
     ],
     rules: { 'max-lines': 'off' },
   },
