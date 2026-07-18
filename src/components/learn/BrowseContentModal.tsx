@@ -740,12 +740,12 @@ export default function BrowseContentModal({
           <Section
             title="Interactive Media"
             icon="✨"
-            count="15 lessons + tools"
+            count="24 lessons + tools"
             defaultOpen={true}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {tiles5([
-                // ── Animated Grammar Lessons (22 total, A1→C1) ──────────────────────
+                // ── Animated Grammar Lessons (24 tiles here; 43 lessons total, A1→C2) ──
                 [
                   '🔤',
                   'Alphabet & Sounds',
@@ -904,6 +904,87 @@ export default function BrowseContentModal({
                   () => {
                     onClose();
                     launchAnimLesson && launchAnimLesson('idioms-register');
+                  },
+                ],
+                // ── 7b: C1/C2 depth ─────────────────────────────────────────────────
+                [
+                  '📜',
+                  'Aorist & Imperfekt',
+                  'The literary past tenses — read novels and poetry — C1',
+                  'animlesson_aorist',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('aorist-imperfekt');
+                  },
+                ],
+                [
+                  '🧱',
+                  'Word Formation',
+                  'Prefixes, suffixes, diminutives & augmentatives — C1',
+                  'animlesson_tvorba',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('tvorba-rijeci');
+                  },
+                ],
+                [
+                  '🎯',
+                  'Word Order & Emphasis',
+                  'Information structure, fronting, emphatic pronouns — C1',
+                  'animlesson_wordorder',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('word-order-emphasis');
+                  },
+                ],
+                [
+                  '👥',
+                  'Collective Numbers',
+                  'dvoje, trojica, obojica, petero — counting groups — C1',
+                  'animlesson_collnum',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('collective-numbers');
+                  },
+                ],
+                [
+                  '⏳',
+                  'Pluperfect & Sequencing',
+                  'bio sam rekao / bijah rekao — the past before the past — C2',
+                  'animlesson_pluskvam',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('pluskvamperfekt');
+                  },
+                ],
+                [
+                  '🎭',
+                  'Rhetorical Figures',
+                  'metafora, gradacija, antiteza — read and write with intent — C2',
+                  'animlesson_stilfig',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('stilske-figure');
+                  },
+                ],
+                [
+                  '🏛️',
+                  'Administrative Croatian',
+                  'temeljem, sukladno, rješenja i žalbe — decode officialese — C2',
+                  'animlesson_adminstil',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('administrativni-stil');
+                  },
+                ],
+                [
+                  '✒️',
+                  'The Croatian Comma',
+                  'Kad dođeš, javi se — punctuation grammar dictates — C2',
+                  'animlesson_zarez',
+                  () => {
+                    onClose();
+                    launchAnimLesson && launchAnimLesson('zarez-interpunkcija');
                   },
                 ],
                 // ── Interactive Tools ───────────────────────────────────────────────

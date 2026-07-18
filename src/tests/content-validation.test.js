@@ -831,4 +831,67 @@ describe('LESSONS', () => {
       }
     }
   });
+
+  // ── 7b hardening ──────────────────────────────────────────────────────────
+  it('every lesson level is a valid CEFR level', () => {
+    const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    for (const lesson of LESSONS) {
+      expect(CEFR.has(lesson.level), `${lesson.id}: level "${lesson.level}"`).toBe(true);
+    }
+  });
+
+  it('every quiz slide has an options array and an in-range correct index', () => {
+    // Regression: six legacy lessons shipped quiz slides keyed `opts` instead of
+    // `options` — QuizSlide renders slide.options!, so those slides crashed at
+    // runtime (A1 Greetings among them). The data was normalized in 7b; this
+    // guard keeps the shape locked.
+    for (const lesson of LESSONS) {
+      for (const slide of lesson.slides) {
+        if (slide.type !== 'quiz') continue;
+        expect(Array.isArray(slide.options), `${lesson.id}: quiz missing options`).toBe(true);
+        expect(slide.options.length, `${lesson.id}: quiz options count`).toBeGreaterThanOrEqual(2);
+        expect(new Set(slide.options).size, `${lesson.id}: duplicate quiz options`).toBe(
+          slide.options.length,
+        );
+        expect(
+          Number.isInteger(slide.correct) &&
+            slide.correct >= 0 &&
+            slide.correct < slide.options.length,
+          `${lesson.id}: correct index ${slide.correct} out of range`,
+        ).toBe(true);
+        expect(typeof slide.explanation, `${lesson.id}: quiz missing explanation`).toBe('string');
+      }
+    }
+  });
+
+  it('C1/C2 floors hold (7b): C1 ≥ 8 lessons, C2 ≥ 4 lessons', () => {
+    const count = (lvl) => LESSONS.filter((l) => l.level === lvl).length;
+    expect(count('C1')).toBeGreaterThanOrEqual(8);
+    expect(count('C2')).toBeGreaterThanOrEqual(4);
+    const ids = LESSONS.map((l) => l.id);
+    for (const id of [
+      'aorist-imperfekt',
+      'tvorba-rijeci',
+      'word-order-emphasis',
+      'collective-numbers',
+      'pluskvamperfekt',
+      'stilske-figure',
+      'administrativni-stil',
+      'zarez-interpunkcija',
+    ]) {
+      expect(ids, `missing 7b lesson ${id}`).toContain(id);
+    }
+  });
+
+  it('every summary slide has points and every lesson ends with a summary', () => {
+    for (const lesson of LESSONS) {
+      const last = lesson.slides[lesson.slides.length - 1];
+      expect(last.type, `${lesson.id}: last slide must be summary (awards XP)`).toBe('summary');
+      for (const slide of lesson.slides) {
+        if (slide.type === 'summary') {
+          expect(Array.isArray(slide.points), `${lesson.id}: summary missing points`).toBe(true);
+        }
+      }
+    }
+  });
 });
