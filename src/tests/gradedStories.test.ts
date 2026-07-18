@@ -1,7 +1,7 @@
 /**
  * gradedStories.test.ts — structural validation for the graded-reading corpus
  * (functions/api/content/_data/gradedStories.js). Added with the 2026-07
- * reading expansion (A1/A2/B1 at 16 stories each, B2 at 13). A malformed story
+ * reading expansion (A1/A2/B1 at 16 each, B2 at 13, C1 at 12, C2 at 7). A malformed story
  * renders a broken reader or a quiz whose "correct" index points at nothing —
  * silent content corruption this locks out. Server data imported directly
  * (same pattern as vocabulary-coverage.test.ts); tests are not bundled, so
@@ -63,7 +63,9 @@ describe('graded stories — structural integrity', () => {
     expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(16);
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(16);
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(13);
-    expect(stories.length).toBeGreaterThanOrEqual(70);
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(7);
+    expect(stories.length).toBeGreaterThanOrEqual(80);
   });
 
   it('every story is complete: metadata, paragraphs with hr+en, vocab, quiz', () => {
