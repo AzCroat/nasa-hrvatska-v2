@@ -2848,14 +2848,16 @@ export const LISTEN = [
       'Hello, who are you?',
       'Good morning, how old are you?',
     ],
+    level: 'A1',
   },
   {
     hr: 'Ja sam iz Hrvatske.',
     en: 'I am from Croatia.',
     opts: ['I am from Croatia.', 'I am in Croatia.', 'I love Croatia.', 'I live in Croatia.'],
+    level: 'A1',
   },
   {
-    hr: 'Koliko ko\u0161ta kava?',
+    hr: 'Koliko košta kava?',
     en: 'How much is a coffee?',
     opts: [
       'How much is a coffee?',
@@ -2863,9 +2865,10 @@ export const LISTEN = [
       'I want coffee.',
       'Do you have coffee?',
     ],
+    level: 'A1',
   },
   {
-    hr: '\u017delim naru\u010diti riblju juhu.',
+    hr: 'Želim naručiti riblju juhu.',
     en: 'I want to order fish soup.',
     opts: [
       'I want to order fish soup.',
@@ -2873,9 +2876,10 @@ export const LISTEN = [
       'The fish soup is cold.',
       'Do you have fish soup?',
     ],
+    level: 'A2',
   },
   {
-    hr: 'Gdje je najbli\u017ea ljekarna?',
+    hr: 'Gdje je najbliža ljekarna?',
     en: 'Where is the nearest pharmacy?',
     opts: [
       'Where is the nearest pharmacy?',
@@ -2883,9 +2887,10 @@ export const LISTEN = [
       'I need a doctor.',
       'Where is the nearest market?',
     ],
+    level: 'A1',
   },
   {
-    hr: 'Moja djeca u\u010de hrvatski.',
+    hr: 'Moja djeca uče hrvatski.',
     en: 'My children are learning Croatian.',
     opts: [
       'My children are learning Croatian.',
@@ -2893,14 +2898,16 @@ export const LISTEN = [
       'My family is Croatian.',
       'My children love Croatia.',
     ],
+    level: 'A2',
   },
   {
-    hr: 'Mo\u017eete li mi pomo\u0107i?',
+    hr: 'Možete li mi pomoći?',
     en: 'Can you help me?',
     opts: ['Can you help me?', 'Can I help you?', 'Do you need help?', 'Where can I find help?'],
+    level: 'A1',
   },
   {
-    hr: 'Sutra idemo na pla\u017eu.',
+    hr: 'Sutra idemo na plažu.',
     en: 'Tomorrow we go to the beach.',
     opts: [
       'Tomorrow we go to the beach.',
@@ -2908,6 +2915,7 @@ export const LISTEN = [
       'We like the beach.',
       'The beach is beautiful.',
     ],
+    level: 'A2',
   },
   {
     hr: 'Trebam kupiti kruh i mlijeko.',
@@ -2918,9 +2926,10 @@ export const LISTEN = [
       'Bread and milk are expensive.',
       'Where is the bread and milk?',
     ],
+    level: 'A2',
   },
   {
-    hr: 'On je govorio s lije\u010dnikom.',
+    hr: 'On je govorio s liječnikom.',
     en: 'He was talking with the doctor.',
     opts: [
       'He was talking with the doctor.',
@@ -2928,9 +2937,10 @@ export const LISTEN = [
       'He needs a doctor.',
       'The doctor is talking.',
     ],
+    level: 'B1',
   },
   {
-    hr: 'Hrvatska je lijepa zemlja s dugom povije\u0161\u0107u.',
+    hr: 'Hrvatska je lijepa zemlja s dugom poviješću.',
     en: 'Croatia is a beautiful country with a long history.',
     opts: [
       'Croatia is a beautiful country with a long history.',
@@ -2938,16 +2948,18 @@ export const LISTEN = [
       'Croatia has beautiful beaches.',
       'I want to visit Croatia.',
     ],
+    level: 'B1',
   },
   {
-    hr: 'Ne razumijem, mo\u017eete li ponoviti?',
-    en: 'I don\u0027t understand, can you repeat?',
+    hr: 'Ne razumijem, možete li ponoviti?',
+    en: "I don't understand, can you repeat?",
     opts: [
-      'I don\u0027t understand, can you repeat?',
+      "I don't understand, can you repeat?",
       'I understand everything.',
       'Please speak louder.',
-      'I don\u0027t speak Croatian.',
+      "I don't speak Croatian.",
     ],
+    level: 'A2',
   },
   {
     hr: 'Tražim posao u IT sektoru već tri mjeseca.',
@@ -2958,6 +2970,7 @@ export const LISTEN = [
       'I found an IT job last month.',
       "I don't want to work in IT.",
     ],
+    level: 'B1',
   },
   {
     hr: 'Po mom mišljenju, klimatske promjene su najveći problem današnjice.',
@@ -2968,6 +2981,7 @@ export const LISTEN = [
       'The weather is getting better.',
       'We need more factories.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Stanarina u Zagrebu je jako visoka za mlade.',
@@ -2978,6 +2992,7 @@ export const LISTEN = [
       'Young people own houses in Zagreb.',
       'Zagreb is the cheapest city.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Slažem se s tobom da trebamo reciklirati više.',
@@ -2988,6 +3003,7 @@ export const LISTEN = [
       'Recycling is not important.',
       'We recycle enough already.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Kolege su mi rekle da je šef jako zahtjevan.',
@@ -2998,6 +3014,7 @@ export const LISTEN = [
       'I have no colleagues.',
       'The boss left the company.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Ne mogu priuštiti taj stan bez suvlasnika.',
@@ -3008,6 +3025,7 @@ export const LISTEN = [
       "I don't need an apartment.",
       'I own a house already.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Hrvatska je postala članica Europske unije 2013. godine.',
@@ -3018,6 +3036,7 @@ export const LISTEN = [
       'Croatia is not in the EU.',
       'Croatia will join the EU soon.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Rekao bih da je važno znati više od jednog jezika.',
@@ -3028,6 +3047,7 @@ export const LISTEN = [
       'Languages are too difficult.',
       "I don't care about languages.",
     ],
+    level: 'B2',
   },
   {
     hr: 'Mladi sve češće biraju rad od kuće umjesto ureda.',
@@ -3038,6 +3058,272 @@ export const LISTEN = [
       'No one works from home.',
       'Working from home is banned.',
     ],
+    level: 'B2',
+  },
+  // ── 2026-07 depth expansion (+24): level-tagged, B1–C2 heavy ──
+  {
+    hr: 'Vlak polazi u osam.',
+    en: 'The train leaves at eight.',
+    opts: [
+      'The train leaves at eight.',
+      'The train arrives at eight.',
+      'The bus leaves at eight.',
+      'The train leaves at six.',
+    ],
+    level: 'A1',
+  },
+  {
+    hr: 'Danas je vani hladno.',
+    en: 'It is cold outside today.',
+    opts: [
+      'It is cold outside today.',
+      'It is warm outside today.',
+      'It was cold yesterday.',
+      'It is raining outside today.',
+    ],
+    level: 'A1',
+  },
+  {
+    hr: 'Subotom idemo na tržnicu.',
+    en: 'On Saturdays we go to the market.',
+    opts: [
+      'On Saturdays we go to the market.',
+      'On Sundays we go to church.',
+      'On Saturdays we go to the beach.',
+      'Every day we go to the market.',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Ne mogu doći na večeru.',
+    en: 'I cannot come to dinner.',
+    opts: [
+      'I cannot come to dinner.',
+      'I cannot cook dinner.',
+      'I will come to dinner.',
+      'I cannot come to lunch.',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Koliko dugo učiš hrvatski?',
+    en: 'How long have you been learning Croatian?',
+    opts: [
+      'How long have you been learning Croatian?',
+      'How well do you speak Croatian?',
+      'Why are you learning Croatian?',
+      'How long did you live in Croatia?',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Da imam vremena, više bih čitao.',
+    en: 'If I had time, I would read more.',
+    opts: [
+      'If I had time, I would read more.',
+      'Since I have time, I read a lot.',
+      'If I had money, I would read more.',
+      'When I have time, I will write more.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Javit ću ti se čim stignem.',
+    en: 'I will get in touch as soon as I arrive.',
+    opts: [
+      'I will get in touch as soon as I arrive.',
+      'I got in touch when I arrived.',
+      'I will call you before I leave.',
+      'Get in touch as soon as you arrive.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Iako je skupo, vrijedi svakog eura.',
+    en: 'Although it is expensive, it is worth every euro.',
+    opts: [
+      'Although it is expensive, it is worth every euro.',
+      'Because it is cheap, it is worth buying.',
+      'It is too expensive to be worth it.',
+      'Although it is cheap, it is worthless.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Moram priznati da si bio u pravu.',
+    en: 'I must admit you were right.',
+    opts: [
+      'I must admit you were right.',
+      'I refuse to admit you were right.',
+      'I must admit I was right.',
+      'You must admit I was wrong.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Upravo sam se vratio s posla.',
+    en: 'I have just returned from work.',
+    opts: [
+      'I have just returned from work.',
+      'I am just leaving for work.',
+      'I returned from work long ago.',
+      'I have just found a job.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Da sam znao, nikad ne bih pristao.',
+    en: 'Had I known, I would never have agreed.',
+    opts: [
+      'Had I known, I would never have agreed.',
+      'Since I knew, I agreed at once.',
+      'Had I known, I would have agreed sooner.',
+      'I never knew what I agreed to.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Sastanak je odgođen za sljedeći tjedan.',
+    en: 'The meeting has been postponed to next week.',
+    opts: [
+      'The meeting has been postponed to next week.',
+      'The meeting was moved up to this week.',
+      'The meeting was cancelled for good.',
+      'The meeting lasted a whole week.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Nisam siguran isplati li se toliki trošak.',
+    en: 'I am not sure such an expense is worth it.',
+    opts: [
+      'I am not sure such an expense is worth it.',
+      'I am certain the expense is worth it.',
+      'I am not sure how much it costs.',
+      'Such an expense is clearly unaffordable.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Što više učim, to manje znam.',
+    en: 'The more I learn, the less I know.',
+    opts: [
+      'The more I learn, the less I know.',
+      'The more I learn, the more I know.',
+      'The less I learn, the less I know.',
+      'I learn little but know a lot.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Ponuda vrijedi dok traju zalihe.',
+    en: 'The offer is valid while stocks last.',
+    opts: [
+      'The offer is valid while stocks last.',
+      'The offer expired when stocks ran out.',
+      'The offer is valid for one day only.',
+      'Stocks last as long as the offer.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Koliko god zvučalo čudno, nedostaje mi gužva.',
+    en: 'However strange it sounds, I miss the crowds.',
+    opts: [
+      'However strange it sounds, I miss the crowds.',
+      'Strangely enough, I avoid the crowds.',
+      'The crowds sound strange to me.',
+      'However strange, the crowds miss me.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Ta se tema provlači kroz cijeli njegov opus.',
+    en: 'That theme runs through his entire body of work.',
+    opts: [
+      'That theme runs through his entire body of work.',
+      'That theme appears in only one of his works.',
+      'His work avoids that theme entirely.',
+      'The theme of his work keeps changing.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Prijedlog je naišao na žestok otpor oporbe.',
+    en: 'The proposal met with fierce resistance from the opposition.',
+    opts: [
+      'The proposal met with fierce resistance from the opposition.',
+      'The proposal was warmly welcomed by the opposition.',
+      'The opposition proposed fierce measures.',
+      'The proposal quietly passed without debate.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'S obzirom na sve, prošli smo relativno dobro.',
+    en: 'All things considered, we came off relatively well.',
+    opts: [
+      'All things considered, we came off relatively well.',
+      'Considering everything, we failed badly.',
+      'We passed everything with top marks.',
+      'All things considered, it could not have gone worse.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Ne preostaje nam ništa drugo nego čekati.',
+    en: 'Nothing remains for us but to wait.',
+    opts: [
+      'Nothing remains for us but to wait.',
+      'We have many options besides waiting.',
+      'We refused to wait any longer.',
+      'Waiting is the one thing we cannot do.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Njegovim odlaskom kuća osta bez duše.',
+    en: 'With his departure the house was left without a soul.',
+    opts: [
+      'With his departure the house was left without a soul.',
+      'When he arrived, the house came alive.',
+      'He left the house to save his soul.',
+      'The house was soulless before he left.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Šutnja katkad kaže više od riječi.',
+    en: 'Silence sometimes says more than words.',
+    opts: [
+      'Silence sometimes says more than words.',
+      'Words always say more than silence.',
+      'Silence never says anything at all.',
+      'Sometimes words fall silent.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Bijaše jednom jedan kralj.',
+    en: 'Once upon a time there was a king.',
+    opts: [
+      'Once upon a time there was a king.',
+      'There will one day be a king.',
+      'The king was once alone.',
+      'Once a king, always a king.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Sve što rekoše, vjetar odnese.',
+    en: 'All that they said, the wind carried away.',
+    opts: [
+      'All that they said, the wind carried away.',
+      'Everything they said was written down.',
+      'The wind brought them new words.',
+      'They said nothing, and the wind was still.',
+    ],
+    level: 'C2',
   },
 ];
 export const NUMTIME = {

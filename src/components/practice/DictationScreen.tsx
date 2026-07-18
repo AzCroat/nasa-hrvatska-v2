@@ -15,7 +15,7 @@ function shLocal(a: any[]) {
   return b;
 }
 
-const DATA = [
+export const DICTATION_DATA = [
   { text: 'Dobar dan, kako ste?', en: 'Good day, how are you?', level: 'A1' },
   { text: 'Gdje je najbliža ljekarna?', en: 'Where is the nearest pharmacy?', level: 'A1' },
   { text: 'Jednu kavu i dva soka, molim.', en: 'One coffee and two juices, please.', level: 'A1' },
@@ -84,6 +84,159 @@ const DATA = [
     en: 'Thank you very much, you are very kind.',
     level: 'A1',
   },
+  // ── 2026-07 depth expansion (+40): full A1–C2 ladder ──
+  { text: 'Gdje radiš?', en: 'Where do you work?', level: 'A1' },
+  { text: 'Trg je pun ljudi.', en: 'The square is full of people.', level: 'A2' },
+  { text: 'Kako se zoveš?', en: 'What is your name?', level: 'A1' },
+  { text: 'Danas je lijep dan.', en: 'Today is a nice day.', level: 'A1' },
+  { text: 'Idem u školu.', en: 'I am going to school.', level: 'A1' },
+  { text: 'Molim vas račun.', en: 'The bill, please.', level: 'A1' },
+  { text: 'Vidimo se sutra.', en: 'See you tomorrow.', level: 'A1' },
+  {
+    text: 'Svaki dan pijem kavu s mlijekom.',
+    en: 'Every day I drink coffee with milk.',
+    level: 'A2',
+  },
+  { text: 'Moja sestra živi u Splitu.', en: 'My sister lives in Split.', level: 'A2' },
+  { text: 'Kupio sam poklon za mamu.', en: 'I bought a present for mum.', level: 'A2' },
+  { text: 'Vlak kasni dvadeset minuta.', en: 'The train is twenty minutes late.', level: 'A2' },
+  {
+    text: 'Kad završim posao, idem na trening.',
+    en: 'When I finish work, I go to training.',
+    level: 'B1',
+  },
+  { text: 'Zaboravio sam ponijeti kišobran.', en: 'I forgot to bring an umbrella.', level: 'B1' },
+  {
+    text: 'Moramo se dogovoriti oko termina.',
+    en: 'We have to agree on a time slot.',
+    level: 'B1',
+  },
+  {
+    text: 'Prošle godine smo putovali po Europi.',
+    en: 'Last year we travelled around Europe.',
+    level: 'B1',
+  },
+  { text: 'Sviđa mi se kako pjevaš.', en: 'I like the way you sing.', level: 'B1' },
+  {
+    text: 'Unatoč umoru, nastavili smo hodati prema vrhu.',
+    en: 'Despite the fatigue, we kept walking towards the summit.',
+    level: 'B2',
+  },
+  {
+    text: 'Da sam na tvom mjestu, prihvatio bih ponudu.',
+    en: 'If I were in your place, I would accept the offer.',
+    level: 'B2',
+  },
+  {
+    text: 'Nisam očekivao da će se toliko naljutiti.',
+    en: 'I did not expect him to get so angry.',
+    level: 'B2',
+  },
+  {
+    text: 'Cijene su porasle zbog velike potražnje.',
+    en: 'Prices have risen because of high demand.',
+    level: 'B2',
+  },
+  {
+    text: 'Razmišljam o tome da promijenim posao.',
+    en: 'I am thinking about changing jobs.',
+    level: 'B2',
+  },
+  {
+    text: 'Izvještaj treba predati najkasnije do petka.',
+    en: 'The report needs to be submitted by Friday at the latest.',
+    level: 'B2',
+  },
+  {
+    text: 'Koliko god se trudili, rezultati su izostali.',
+    en: 'However hard they tried, the results failed to materialize.',
+    level: 'C1',
+  },
+  {
+    text: 'Ta će odluka dugoročno utjecati na cijelo gospodarstvo.',
+    en: 'That decision will affect the entire economy in the long term.',
+    level: 'C1',
+  },
+  {
+    text: 'Izjava je izazvala burne rasprave u javnosti.',
+    en: 'The statement provoked heated public debates.',
+    level: 'C1',
+  },
+  {
+    text: 'S obzirom na okolnosti, postupili smo ispravno.',
+    en: 'Given the circumstances, we acted correctly.',
+    level: 'C1',
+  },
+  {
+    text: 'Njegov je prijedlog naišao na neočekivan otpor.',
+    en: 'His proposal met with unexpected resistance.',
+    level: 'C1',
+  },
+  {
+    text: 'Umjesto isprike, ponudio je samo šutnju.',
+    en: 'Instead of an apology, he offered only silence.',
+    level: 'C1',
+  },
+  {
+    text: 'Preostaje nam nadati se da će se situacija smiriti.',
+    en: 'It remains for us to hope the situation will calm down.',
+    level: 'C1',
+  },
+  {
+    text: 'Istraživanje je provedeno na uzorku od tisuću ispitanika.',
+    en: 'The research was conducted on a sample of a thousand respondents.',
+    level: 'C1',
+  },
+  {
+    text: 'Zahtjev je odbijen zbog nepotpune dokumentacije.',
+    en: 'The request was rejected due to incomplete documentation.',
+    level: 'C1',
+  },
+  {
+    text: 'Svjedoci tvrde da se sve dogodilo u nekoliko sekundi.',
+    en: 'Witnesses claim everything happened in a few seconds.',
+    level: 'C1',
+  },
+  {
+    text: 'Njegova šutnja bila je rječitija od svakoga govora.',
+    en: 'His silence was more eloquent than any speech.',
+    level: 'C2',
+  },
+  {
+    text: 'Sloboda bez odgovornosti izrodi se u samovolju.',
+    en: 'Freedom without responsibility degenerates into arbitrariness.',
+    level: 'C2',
+  },
+  {
+    text: 'Bijaše to jutro kakvo se pamti cijeli život.',
+    en: 'It was a morning one remembers all one’s life.',
+    level: 'C2',
+  },
+  {
+    text: 'Povijest se ne ponavlja, ali se rimuje.',
+    en: 'History does not repeat itself, but it rhymes.',
+    level: 'C2',
+  },
+  {
+    text: 'U njezinu se glasu naslućivala prešućena tuga.',
+    en: 'In her voice one sensed an unspoken sorrow.',
+    level: 'C2',
+  },
+  {
+    text: 'Obilje izbora katkad više sputava nego što oslobađa.',
+    en: 'An abundance of choice sometimes constrains more than it liberates.',
+    level: 'C2',
+  },
+  {
+    text: 'Zaboravu usprkos, neka imena ostaju.',
+    en: 'In spite of oblivion, some names remain.',
+    level: 'C2',
+  },
+  {
+    text: 'Ostaje otvorenim pitanje tko snosi odgovornost.',
+    en: 'The question of who bears responsibility remains open.',
+    level: 'C2',
+  },
 ];
 
 const levelColor: Record<string, string> = {
@@ -126,7 +279,7 @@ export default function DictationScreen({ goBack, award }: Props) {
     },
     [],
   );
-  const [qs] = useState(() => shLocal(DATA).slice(0, 10));
+  const [qs] = useState(() => shLocal(DICTATION_DATA).slice(0, 10));
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [input, setInput] = useState('');
