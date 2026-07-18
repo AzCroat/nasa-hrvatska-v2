@@ -6821,6 +6821,252 @@ export const GRADED_STORIES = [
     ],
   },
   {
+    id: 'gs_a1_19',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🐕',
+    title: 'Moj pas Bela',
+    titleEn: 'My Dog Bela',
+    duration: 9,
+    focus: 'Present tense • Daily routine vocabulary • Family & pets',
+    intro:
+      'Follow Ana through an ordinary day with her lively dog Bela — from the morning walk to a small scare near the road, and a cozy evening at home.',
+    paragraphs: [
+      {
+        hr: 'Zovem se Ana i živim s obitelji u malom stanu. Imamo psa koji se zove Bela. Bela je bijela, mala i vesela. Svako jutro me budi lavežem pored kreveta. Prvo joj dam vodu, a onda hranu u zdjelicu. Bela jede brzo i maše repom od sreće.',
+        en: 'My name is Ana and I live with my family in a small apartment. We have a dog named Bela. Bela is white, small, and cheerful. Every morning she wakes me up with barking next to my bed. First I give her water, then food in her bowl. Bela eats quickly and wags her tail with joy.',
+      },
+      {
+        hr: 'Poslije doručka izlazimo u šetnju. Bela voli park iza naše zgrade jer tamo ima puno trave i drveća. Ja nosim uzicu, a Bela trči ispred mene i njuši svaki grm. Ptice pjevaju, a sunce izlazi. Bela ponekad stane i gleda mačku, ali je brzo pozovem.',
+        en: "After breakfast we go out for a walk. Bela loves the park behind our building because there's lots of grass and trees there. I carry the leash while Bela runs ahead of me, sniffing every bush. Birds sing and the sun rises. Bela sometimes stops to look at a cat, but I quickly call her back.",
+      },
+      {
+        hr: 'U parku često srećemo susjedova psa Rexa. Rex je velik i smeđ, ali vrlo dobroćudan. Bela i Rex se vole igrati zajedno i trčati u krug. Vlasnici sjede na klupi i razgovaraju. Djeca se smiju i gledaju pse kako se jure po travi.',
+        en: "In the park we often meet our neighbor's dog, Rex. Rex is big and brown, but very good-natured. Bela and Rex love playing together and running in circles. The owners sit on a bench and chat. Children laugh as they watch the dogs chase each other across the grass.",
+      },
+      {
+        hr: 'Jednog jutra Bela odjednom potrči prema cesti jer vidi vjevericu. Srce mi jako brzo kuca od straha. Vičem njezino ime glasno. Srećom, Bela stane točno na rubu ceste i pogleda me. Brzo joj stavim uzicu i čvrsto je držim. Osjećam olakšanje kad je sigurna pored mene.',
+        en: "One morning Bela suddenly darts toward the road because she sees a squirrel. My heart pounds with fear. I shout her name loudly. Luckily, Bela stops right at the edge of the road and looks at me. I quickly put on her leash and hold it tightly. I feel relief once she's safe beside me.",
+      },
+      {
+        hr: 'Poslije tog straha hodamo kući. Bela hoda mirno pored mene. Kod kuće joj dam malo vode i ona legne na svoj jastuk. Skuham čaj i sjednem pored nje. Bela zaspi za nekoliko minuta jer je šetnja bila duga. Gledam njezino mirno disanje i osjećam se sretno.',
+        en: 'After that scare we walk home. Bela walks calmly beside me. At home I give her a little water and she lies down on her cushion. I make tea and sit down next to her. Bela falls asleep within minutes because the walk was long. I watch her breathing peacefully and feel content.',
+      },
+      {
+        hr: 'Poslijepodne se Bela probudi puna energije. Traži svoju omiljenu igračku, žutu gumenu loptu. Bacam joj loptu po hodniku, a ona je brzo donosi natrag. Ova igra joj se jako sviđa. Katkad lopta padne pod ormar i Bela cvili dok je ne izvadim. Onda opet veselo maše repom.',
+        en: 'In the afternoon Bela wakes up full of energy. She looks for her favorite toy, a yellow rubber ball. I throw the ball down the hallway and she quickly brings it back. She loves this game. Sometimes the ball rolls under the wardrobe and Bela whines until I fish it out. Then she happily wags her tail again.',
+      },
+      {
+        hr: 'Navečer izlazimo na kratku šetnju prije spavanja. Ulice su tihe, a zrak je svjež i ugodan. Bela njuši svaki kutak jer je noć puna novih mirisa. Susjedi nas pozdravljaju i pitaju kako je Bela. Odgovaram da je danas bila živahna. Bela maše repom kad čuje svoje ime.',
+        en: 'In the evening we go out for a short walk before bed. The streets are quiet and the air is fresh and pleasant. Bela sniffs every corner because the night is full of new smells. Neighbors greet us and ask how Bela is doing. I tell them she was lively today. Bela wags her tail when she hears her name.',
+      },
+      {
+        hr: 'Kad se vratimo kući, cijela obitelj večera zajedno. Bela sjedi ispod stola i strpljivo čeka mrvice. Tata joj katkad da mali komad kruha, iako mama kaže da nije zdravo. Poslije večere Bela legne na svoje mjesto u dnevnoj sobi. Gledamo televiziju dok ona tiho hrče pored kauča.',
+        en: "When we get home, the whole family has dinner together. Bela sits under the table, patiently waiting for crumbs. Dad sometimes gives her a small piece of bread, even though Mom says it isn't healthy. After dinner Bela lies down in her spot in the living room. We watch television while she snores softly by the couch.",
+      },
+      {
+        hr: 'Prije spavanja Bela dolazi u moju sobu i skoči na krevet. Ja je pomilujem po glavi i poželim joj laku noć. Bela se sklupča kraj mojih nogu i brzo zaspi. Volim ovaj mirni trenutak na kraju dana. Bela nije samo pas, ona je pravi član naše obitelji.',
+        en: "Before bed Bela comes into my room and jumps onto the bed. I stroke her head and wish her goodnight. Bela curls up by my feet and quickly falls asleep. I love this peaceful moment at the end of the day. Bela isn't just a dog — she's a true member of our family.",
+      },
+    ],
+    vocabulary: [
+      { hr: 'psa', en: 'dog (accusative/genitive)', ex: 'Imamo psa koji se zove Bela.' },
+      { hr: 'u šetnju', en: 'for a walk', ex: 'Poslije doručka izlazimo u šetnju.' },
+      {
+        hr: 'njuši',
+        en: 'sniffs',
+        ex: 'Ja nosim uzicu, a Bela trči ispred mene i njuši svaki grm.',
+      },
+      {
+        hr: 'susjedova psa',
+        en: "the neighbor's dog",
+        ex: 'U parku često srećemo susjedova psa Rexa.',
+      },
+      { hr: 'od straha', en: 'out of fear', ex: 'Srce mi jako brzo kuca od straha.' },
+      { hr: 'uzicu', en: 'leash (accusative)', ex: 'Brzo joj stavim uzicu i čvrsto je držim.' },
+      { hr: 'jastuk', en: 'cushion', ex: 'Kod kuće joj dam malo vode i ona legne na svoj jastuk.' },
+      {
+        hr: 'gumenu loptu',
+        en: 'rubber ball',
+        ex: 'Traži svoju omiljenu igračku, žutu gumenu loptu.',
+      },
+      { hr: 'maše repom', en: 'wags her tail', ex: 'Bela maše repom kad čuje svoje ime.' },
+      {
+        hr: 'član naše obitelji',
+        en: 'member of our family',
+        ex: 'Bela nije samo pas, ona je pravi član naše obitelji.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Kako se zove pas u priči?',
+        qEn: "What is the dog's name in the story?",
+        opts: ['Bela', 'Rex', 'Luna', 'Sivko'],
+        correct: 0,
+      },
+      {
+        q: 'Zašto se Ana uplaši u parku?',
+        qEn: 'Why does Ana get scared in the park?',
+        opts: [
+          'Bela je pobjegla kroz vrata',
+          'Bela potrči prema cesti kad vidi vjevericu',
+          'Bela se potuče s Rexom',
+          'Bela padne u jezero',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što Bela radi dok obitelj večera?',
+        qEn: 'What does Bela do while the family eats dinner?',
+        opts: [
+          'Spava u svojoj košari',
+          'Laje na goste',
+          'Sjedi ispod stola i čeka mrvice',
+          'Igra se loptom u dvorištu',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Gdje Bela spava navečer?',
+        qEn: 'Where does Bela sleep in the evening?',
+        opts: ['Na kuhinjskom podu', 'U dvorištu', 'U autu', 'Kraj Aninih nogu na krevetu'],
+        correct: 3,
+      },
+      {
+        q: 'Koju igračku Bela najviše voli?',
+        qEn: 'Which toy does Bela love the most?',
+        opts: ['Plišanog medvjeda', 'Žutu gumenu loptu', 'Staru cipelu', 'Konopac za vuču'],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_a1_20',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '⛴️',
+    title: 'Putovanje trajektom',
+    titleEn: 'The Ferry Trip',
+    duration: 9,
+    focus: 'Present tense • Travel vocabulary • Sequencing words',
+    intro:
+      'A family sets out on a ferry crossing to a Croatian island, watching gulls, riding the waves, and ending the day with ice cream by the harbor.',
+    paragraphs: [
+      {
+        hr: 'Danas putujemo trajektom na otok. Cijela obitelj rano ustaje jer trajekt polazi u osam sati. Tata vozi auto do luke, a ja gledam more kroz prozor. Na luci ima puno ljudi i automobila koji čekaju ukrcaj. Mama kupuje karte na šalteru pored ulaza.',
+        en: "Today we're traveling by ferry to an island. The whole family gets up early because the ferry departs at eight o'clock. Dad drives the car to the harbor while I watch the sea through the window. The harbor is full of people and cars waiting to board. Mom buys the tickets at the counter near the entrance.",
+      },
+      {
+        hr: 'Karte nisu skupe, svaka košta samo nekoliko eura. Službenik nam pokazuje gdje treba stati u redu. Čekamo desetak minuta, a onda trajekt polako pristaje uz obalu. Vozila ulaze prva, a putnici bez auta ulaze pješice preko rampe. Ja hodam iza mame i držim njezinu ruku.',
+        en: "The tickets aren't expensive — each one costs just a few euros. An attendant shows us where to line up. We wait about ten minutes, and then the ferry slowly docks at the pier. Vehicles board first, and passengers without cars walk on board over the ramp. I walk behind Mom, holding her hand.",
+      },
+      {
+        hr: 'Na trajektu odmah idemo na gornju palubu. Vjetar puše jako, a more je tamnoplave boje. Galebovi lete iznad broda i glasno kliču. Brat baca komadić kruha u zrak, a galeb ga spretno uhvati. Svi se smijemo toj vještoj ptici.',
+        en: 'On the ferry we head straight for the upper deck. The wind blows hard and the sea is deep blue. Seagulls fly above the boat, calling loudly. My brother tosses a piece of bread into the air and a gull catches it skillfully. We all laugh at the clever bird.',
+      },
+      {
+        hr: 'Trajekt polako izlazi iz luke i plovi prema otvorenom moru. Grad iza nas postaje sve manji. Vidimo druge otoke u daljini i male ribarske brodove. More miriše na sol, a sunce grije moje lice. Sjedimo na klupi i uživamo u pogledu.',
+        en: 'The ferry slowly leaves the harbor and sails toward the open sea. The town behind us grows smaller and smaller. We see other islands in the distance and small fishing boats. The sea smells of salt and the sun warms my face. We sit on a bench and enjoy the view.',
+      },
+      {
+        hr: 'Putovanje traje otprilike sat i pol. Na trajektu postoji mali kafić gdje ljudi piju kavu i jedu sendviče. Tata kupuje sok za mene i brata. Pijemo sok i gledamo valove kako udaraju o bok broda. Neki putnici čitaju knjige, a drugi se samo odmaraju.',
+        en: "The trip takes about an hour and a half. There's a small café on the ferry where people drink coffee and eat sandwiches. Dad buys juice for me and my brother. We drink our juice and watch the waves hit the side of the boat. Some passengers read books while others just rest.",
+      },
+      {
+        hr: 'Odjednom brod počne malo ljuljati jer je more nemirnije. Mama kaže da to nije opasno, samo obično ljuljanje. Ipak, malo se bojim i čvrsto držim ogradu. Brat se smije i kaže da je to kao vlakić u zabavnom parku. Polako se opuštam kad vidim da su svi mirni.',
+        en: "Suddenly the boat starts rocking a little because the sea has become rougher. Mom says it's not dangerous, just normal rocking. Still, I'm a little scared and grip the railing tightly. My brother laughs and says it's like a ride at an amusement park. I slowly relax when I see everyone else staying calm.",
+      },
+      {
+        hr: 'Nakon nekog vremena ugledamo obalu otoka. Kućice su bijele i crvene, a luka je puna malih brodica. Putnici počinju skupljati svoje stvari i silaziti prema izlazu. Auti kreću prvi, a mi pješice slijedimo gomilu ljudi. Osjećam uzbuđenje jer prvi put dolazim na ovaj otok.',
+        en: "After a while we spot the island's coastline. The houses are white and red, and the harbor is full of small boats. Passengers start gathering their things and heading for the exit. Cars go first, and we follow the crowd on foot. I feel excited because this is my first time visiting this island.",
+      },
+      {
+        hr: 'Kad siđemo s trajekta, odmah osjetimo miris borova i mora. Luka je mala i mirna, potpuno drugačija od velikog grada. Tata iznajmljuje skuter, a mi hodamo prema centru mjesta. Ulice su uske i pune cvijeća na prozorima. Svi ljudi izgledaju opušteno i sretno.',
+        en: 'As soon as we step off the ferry, we smell pine trees and the sea. The harbor is small and quiet, completely different from the big city. Dad rents a scooter while we walk toward the center of town. The streets are narrow and full of flowers in the windows. Everyone looks relaxed and happy.',
+      },
+      {
+        hr: 'Na kraju dana kupujemo sladoled u maloj slastičarnici pored rive. Ja biram čokoladni okus, a brat uzima jagodu. Sjedimo na klupi i gledamo sunce kako zalazi nad morem. Ovaj dan na otoku je pravo malo putovanje. Jedva čekamo sutrašnje kupanje na plaži.',
+        en: 'At the end of the day we buy ice cream at a small shop by the seafront. I choose chocolate flavor while my brother picks strawberry. We sit on a bench and watch the sun set over the sea. This day on the island feels like a little adventure. We can hardly wait to swim at the beach tomorrow.',
+      },
+    ],
+    vocabulary: [
+      { hr: 'trajektom', en: 'by ferry', ex: 'Danas putujemo trajektom na otok.' },
+      { hr: 'karte', en: 'tickets', ex: 'Mama kupuje karte na šalteru pored ulaza.' },
+      { hr: 'gornju palubu', en: 'upper deck', ex: 'Na trajektu odmah idemo na gornju palubu.' },
+      { hr: 'Galebovi', en: 'seagulls', ex: 'Galebovi lete iznad broda i glasno kliču.' },
+      {
+        hr: 'otvorenom moru',
+        en: 'open sea',
+        ex: 'Trajekt polako izlazi iz luke i plovi prema otvorenom moru.',
+      },
+      { hr: 'sat i pol', en: 'an hour and a half', ex: 'Putovanje traje otprilike sat i pol.' },
+      {
+        hr: 'ljuljati',
+        en: 'to rock/sway',
+        ex: 'Odjednom brod počne malo ljuljati jer je more nemirnije.',
+      },
+      {
+        hr: 'obalu otoka',
+        en: "the island's coastline",
+        ex: 'Nakon nekog vremena ugledamo obalu otoka.',
+      },
+      {
+        hr: 'miris borova',
+        en: 'the smell of pine trees',
+        ex: 'Kad siđemo s trajekta, odmah osjetimo miris borova i mora.',
+      },
+      {
+        hr: 'sladoled',
+        en: 'ice cream',
+        ex: 'Na kraju dana kupujemo sladoled u maloj slastičarnici pored rive.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'U koliko sati polazi trajekt?',
+        qEn: 'At what time does the ferry depart?',
+        opts: ['U osam sati', 'U deset sati', 'U podne', 'U šest sati'],
+        correct: 0,
+      },
+      {
+        q: 'Gdje obitelj prvo ide kad se ukrca na trajekt?',
+        qEn: 'Where does the family go first after boarding the ferry?',
+        opts: [
+          'U kafić na donjoj palubi',
+          'Na gornju palubu',
+          'U auto na parkingu broda',
+          'U kabinu za odmor',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto se pripovjedačica malo uplaši na moru?',
+        qEn: 'Why does the narrator get a little scared at sea?',
+        opts: [
+          'Vidi oluju na horizontu',
+          'Netko padne u more',
+          'Brod počne ljuljati jer je more nemirnije',
+          'Trajekt stane usred puta',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što obitelj kupuje na kraju dana?',
+        qEn: 'What does the family buy at the end of the day?',
+        opts: ['Suvenire', 'Ribu za večeru', 'Nove sandale', 'Sladoled u slastičarnici'],
+        correct: 3,
+      },
+      {
+        q: 'Koliko otprilike traje putovanje trajektom?',
+        qEn: 'About how long does the ferry trip take?',
+        opts: ['Pola sata', 'Sat i pol', 'Tri sata', 'Cijeli dan'],
+        correct: 1,
+      },
+    ],
+  },
+  {
     id: 'gs_a2_17',
     level: 'A2',
     levelColor: '#1e40af',
@@ -7054,6 +7300,301 @@ export const GRADED_STORIES = [
           'Da će dolaziti svake godine',
           'Da neće više dolaziti',
           'Da će poslati novac',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_a2_19',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🚲',
+    title: 'Biciklom na posao',
+    titleEn: 'Cycling to Work',
+    duration: 10,
+    focus: 'Perfekt tense • Everyday connectors (pa, zato, ali, jer) • Workplace vocabulary',
+    intro:
+      "Marko's bike commute takes an unexpected detour when a flat tire threatens to make him late for an important meeting — a story about small mishaps and understanding bosses.",
+    paragraphs: [
+      {
+        hr: 'Marko svako jutro vozi bicikl na posao jer živi blizu centra grada. Jučer je ustao malo kasnije nego inače, pa je morao žuriti. Popio je kavu u žurbi i brzo obukao jaknu. Bicikl je čekao ispred zgrade, naslonjen na ogradu. Marko je skočio na sjedalo i krenuo prema uredu.',
+        en: 'Marko rides his bike to work every morning because he lives close to the city center. Yesterday he got up a bit later than usual, so he had to rush. He drank his coffee in a hurry and quickly put on his jacket. The bike was waiting outside the building, leaning against the railing. Marko hopped on the seat and set off toward the office.',
+      },
+      {
+        hr: 'Vožnja je obično ugodna jer prolazi kroz mirnu ulicu pored parka. Tog jutra je sunce lijepo sijalo, a zrak je bio svjež. Marko je vozio brzo jer nije htio zakasniti na sastanak. Odjednom je začuo čudan zvuk iz stražnjeg kotača. Bicikl je odjednom postao težak za vožnju, kao da nešto vuče kotač.',
+        en: "The ride is usually pleasant because it passes through a quiet street by the park. That morning the sun was shining beautifully and the air was fresh. Marko rode fast because he didn't want to be late for his meeting. Suddenly he heard a strange sound coming from the back wheel. The bike suddenly became hard to pedal, as if something were dragging on the wheel.",
+      },
+      {
+        hr: 'Marko je stao pored ceste i pogledao kotač. Guma je bila potpuno prazna, probušena komadićem stakla. Uzdahnuo je od frustracije jer nije ponio alat za popravak. Pogledao je sat na mobitelu: za dvadeset minuta počinje sastanak. Nazvao je kolegicu i objasnio joj problem.',
+        en: "Marko stopped by the road and looked at the wheel. The tire was completely flat, punctured by a piece of glass. He sighed in frustration because he hadn't brought any repair tools. He checked the clock on his phone: the meeting started in twenty minutes. He called a colleague and explained the problem.",
+      },
+      {
+        hr: 'Srećom, ubrzo se sjetio da postoji servis bicikala dvije ulice dalje. Gurao je bicikl niz ulicu, ljutit na sebe zbog kašnjenja. Vlasnik servisa, stariji gospodin, odmah je prepoznao problem. Rekao je da će popravak trajati samo petnaest minuta. Marko mu je zahvalio na brzoj pomoći.',
+        en: 'Luckily, he soon remembered there was a bike repair shop two streets away. He pushed the bike down the street, annoyed with himself for being late. The shop owner, an older gentleman, immediately recognized the problem. He said the repair would take only fifteen minutes. Marko thanked him for the quick help.',
+      },
+      {
+        hr: "Dok je čekao, Marko je poslao poruku šefu da će malo zakasniti. Šef mu je odgovorio kratko: 'U redu, samo dođi čim možeš.' Marko se malo smirio jer nije očekivao takvu reakciju. Sjeo je na klupu ispred servisa i gledao ljude kako prolaze. Vrijeme je prolazilo sporije nego što je htio.",
+        en: "While he waited, Marko texted his boss to say he'd be a little late. His boss replied briefly: 'No problem, just come when you can.' Marko calmed down a bit since he hadn't expected such a reaction. He sat on a bench in front of the shop and watched people passing by. Time seemed to pass more slowly than he wanted.",
+      },
+      {
+        hr: 'Nakon petnaest minuta, mehaničar je vratio bicikl s novom unutarnjom gumom. Marko mu je platio nekoliko eura i zahvalio na trudu. Brzo je skočio na bicikl i nastavio put prema uredu. Vozio je brže nego inače jer je htio nadoknaditi izgubljeno vrijeme. Srce mu je jako tuklo od žurbe i napora.',
+        en: 'After fifteen minutes, the mechanic returned the bike with a new inner tube. Marko paid him a few euros and thanked him for his effort. He quickly hopped back on the bike and continued toward the office. He pedaled faster than usual, trying to make up for lost time. His heart pounded hard from the rush and the effort.',
+      },
+      {
+        hr: 'Kad je stigao u ured, sastanak je već bio u tijeku. Tiho je ušao i sjeo na svoje mjesto pored prozora. Šef ga je pogledao, ali nije rekao ništa neugodno. Nakon sastanka, šef mu je prišao i pitao što se dogodilo. Marko mu je ispričao cijelu priču o probušenoj gumi.',
+        en: "When he arrived at the office, the meeting was already underway. He quietly slipped in and sat down at his seat by the window. His boss glanced at him but didn't say anything unpleasant. After the meeting, the boss came over and asked what had happened. Marko told him the whole story about the flat tire.",
+      },
+      {
+        hr: 'Šef se nasmijao i rekao da se to svima može dogoditi. Ipak, savjetovao je Marku da idući put nosi rezervni alat. Marko mu je obećao da će od sutra imati komplet za hitne popravke u torbi. Kolege su ga zadirkivale cijeli dan zbog kašnjenja. Marko se samo smijao i priznao da je jutro bilo naporno.',
+        en: "The boss laughed and said it could happen to anyone. Still, he advised Marko to carry spare tools next time. Marko promised that from tomorrow he'd keep an emergency repair kit in his bag. His coworkers teased him all day about being late. Marko just laughed along and admitted the morning had been exhausting.",
+      },
+      {
+        hr: 'Navečer, na putu kući, Marko je kupio mali komplet alata u trgovini. Odlučio je da više nikad neće riskirati takvo kašnjenje. Vozio je polako kući, uživajući u mirnoj večeri bez žurbe. Ovaj dan ga je naučio da uvijek treba biti spreman na iznenađenja. Sutra će opet voziti bicikl na posao, ali s alatom u torbi.',
+        en: "In the evening, on his way home, Marko bought a small tool kit at a shop. He decided he would never risk being late like that again. He rode home slowly, enjoying the calm evening without any rush. The day taught him that you should always be ready for surprises. Tomorrow he'll ride his bike to work again — but this time with tools in his bag.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'vozi bicikl',
+        en: 'rides a bike',
+        ex: 'Marko svako jutro vozi bicikl na posao jer živi blizu centra grada.',
+      },
+      {
+        hr: 'probušena komadićem stakla',
+        en: 'punctured by a piece of glass',
+        ex: 'Guma je bila potpuno prazna, probušena komadićem stakla.',
+      },
+      {
+        hr: 'servis bicikala',
+        en: 'bike repair shop',
+        ex: 'Srećom, ubrzo se sjetio da postoji servis bicikala dvije ulice dalje.',
+      },
+      {
+        hr: 'zahvalio na brzoj pomoći',
+        en: 'thanked him for the quick help',
+        ex: 'Marko mu je zahvalio na brzoj pomoći.',
+      },
+      {
+        hr: 'poslao poruku šefu',
+        en: 'sent a message to the boss',
+        ex: 'Dok je čekao, Marko je poslao poruku šefu da će malo zakasniti.',
+      },
+      {
+        hr: 'novom unutarnjom gumom',
+        en: 'with a new inner tube',
+        ex: 'Nakon petnaest minuta, mehaničar je vratio bicikl s novom unutarnjom gumom.',
+      },
+      {
+        hr: 'sastanak je već bio u tijeku',
+        en: 'the meeting was already underway',
+        ex: 'Kad je stigao u ured, sastanak je već bio u tijeku.',
+      },
+      {
+        hr: 'savjetovao je Marku',
+        en: 'he advised Marko',
+        ex: 'Ipak, savjetovao je Marku da idući put nosi rezervni alat.',
+      },
+      {
+        hr: 'zadirkivale cijeli dan',
+        en: 'teased him all day',
+        ex: 'Kolege su ga zadirkivale cijeli dan zbog kašnjenja.',
+      },
+      {
+        hr: 'komplet alata',
+        en: 'tool kit',
+        ex: 'Navečer, na putu kući, Marko je kupio mali komplet alata u trgovini.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je Marko jučer žurio ujutro?',
+        qEn: 'Why was Marko in a hurry yesterday morning?',
+        opts: [
+          'Ustao je kasnije nego inače',
+          'Zaboravio je bicikl kod kuće',
+          'Auto mu se pokvario',
+          'Prespavao je sastanak',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što se dogodilo s biciklom tijekom vožnje?',
+        qEn: 'What happened to the bike during the ride?',
+        opts: [
+          'Lanac je pukao',
+          'Guma na stražnjem kotaču se probušila',
+          'Kočnice nisu radile',
+          'Sjedalo se otkačilo',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Koliko je trajao popravak bicikla?',
+        qEn: 'How long did the bike repair take?',
+        opts: ['Pet minuta', 'Pola sata', 'Petnaest minuta', 'Cijeli sat'],
+        correct: 2,
+      },
+      {
+        q: 'Kako je šef reagirao kad je Marko poslao poruku o kašnjenju?',
+        qEn: 'How did the boss react when Marko sent the message about being late?',
+        opts: [
+          'Ljutito je odgovorio',
+          'Nije uopće odgovorio',
+          'Otkazao je sastanak',
+          'Mirno mu je rekao da dođe čim može',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Što je Marko kupio navečer na putu kući?',
+        qEn: 'What did Marko buy in the evening on the way home?',
+        opts: ['Novi bicikl', 'Mali komplet alata', 'Novu jaknu', 'Kavu za sutra'],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_a2_20',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🫙',
+    title: 'Priprema zimnice',
+    titleEn: 'Making Winter Preserves',
+    duration: 10,
+    focus: 'Perfekt tense • Food & kitchen vocabulary • Family tradition',
+    intro:
+      "Laura spends a day at her grandmother's house learning the family tradition of making ajvar — Croatia's beloved roasted-pepper preserve — jar by jar.",
+    paragraphs: [
+      {
+        hr: 'Svake jeseni baka Zora poziva unuku Lauru da joj pomogne oko zimnice. Ove godine Laura je prvi put ozbiljno sudjelovala u cijelom procesu. Rano ujutro stigla je k baki na selo, gdje su je čekale vreće svježe paprike. Baka je već pripremila veliki lonac i daske za rezanje. Kuhinja je mirisala na papriku i češnjak.',
+        en: "Every autumn, Grandma Zora invites her granddaughter Laura to help her with the winter preserves. This year, Laura took part in the whole process seriously for the first time. She arrived early in the morning at her grandmother's village house, where sacks of fresh peppers were waiting for her. Grandma had already prepared a big pot and cutting boards. The kitchen smelled of peppers and garlic.",
+      },
+      {
+        hr: 'Prvi zadatak bio je oprati papriku pod hladnom vodom. Laura je pažljivo prala svaku papriku, a baka je provjeravala je li dovoljno čista. Zatim su zajedno pekle papriku na velikom pladnju u pećnici. Kad je koža paprike postala tamna i mjehurasta, baka ju je izvadila i pokrila krpom da se ohladi.',
+        en: 'The first task was washing the peppers under cold water. Laura carefully washed each pepper while Grandma checked that they were clean enough. Then together they roasted the peppers on a large tray in the oven. When the pepper skins turned dark and blistered, Grandma took them out and covered them with a cloth to cool.',
+      },
+      {
+        hr: 'Guljenje kože bio je najsporiji dio posla, pa su sjele za stol i radile zajedno. Baka je ispričala kako je nekad, kad je bila mlada, cijela obitelj pomagala u pripremi zimnice. Laura je pažljivo slušala priče o starim vremenima. Ruke su im bile ljepljive od soka paprike, ali obje su uživale u razgovoru.',
+        en: 'Peeling the skins was the slowest part of the job, so they sat at the table and worked together. Grandma told stories about how, back when she was young, the whole family used to help prepare the winter preserves. Laura listened carefully to the stories about the old days. Their hands were sticky from the pepper juice, but they both enjoyed the conversation.',
+      },
+      {
+        hr: 'Kad je sva paprika oguljena, baka je uključila stroj za mljevenje. Meso paprike pretvorilo se u gustu crvenu masu. Baka je dodala malo ulja, soli i češnjaka po staroj obiteljskoj recepturi. Laura je miješala smjesu drvenom kuhačom dok se ajvar polako kuhao na laganoj vatri.',
+        en: 'Once all the peppers were peeled, Grandma turned on the grinding machine. The pepper flesh turned into a thick red paste. Grandma added a little oil, salt, and garlic, following the old family recipe. Laura stirred the mixture with a wooden spoon while the ajvar slowly cooked over a low flame.',
+      },
+      {
+        hr: 'Kuhanje ajvara trajalo je gotovo dva sata jer se smjesa morala stalno miješati. Miris pečene paprike ispunio je cijelu kuću i dopro čak do dvorišta. Baka je povremeno kušala ajvar i dodavala začine po potrebi. Laura je zahvalila baki na strpljenju jer je proces bio dulji nego što je očekivala.',
+        en: "Cooking the ajvar took almost two hours because the mixture had to be stirred constantly. The smell of roasted peppers filled the whole house and even reached the yard. Grandma occasionally tasted the ajvar and added seasoning as needed. Laura thanked Grandma for her patience, since the process took longer than she'd expected.",
+      },
+      {
+        hr: 'Dok su čekale da se ajvar skuha, zajedno su oprale staklenke u vrućoj vodi. Baka je objasnila da staklenke moraju biti savršeno čiste, inače se zimnica brzo pokvari. Laura je slagala staklenke na čist ručnik da se osuše. Sunce je kroz prozor obasjavalo kuhinju, a baka je pjevušila staru pjesmu dok je radila.',
+        en: 'While waiting for the ajvar to cook, they washed the jars together in hot water. Grandma explained that the jars had to be perfectly clean, otherwise the preserves would spoil quickly. Laura arranged the jars on a clean towel to dry. Sunlight streamed through the window into the kitchen while Grandma hummed an old song as she worked.',
+      },
+      {
+        hr: 'Kad je ajvar bio gotov, baka je vruću smjesu pažljivo ulila u staklenke. Laura je brzo zatvarala poklopce dok je baka punila sljedeću staklenku. Zajedno su okrenule staklenke naopako na deku, kako je baka naučila od svoje majke. Ova stara metoda pomaže da se poklopci dobro zabrtve.',
+        en: 'When the ajvar was ready, Grandma carefully poured the hot mixture into the jars. Laura quickly sealed the lids while Grandma filled the next jar. Together they turned the jars upside down on a blanket, just as Grandma had learned from her own mother. This old method helps the lids seal tightly.',
+      },
+      {
+        hr: 'Poslije nekoliko sati staklenke su se ohladile, a poklopci su tiho puknuli kao znak da su dobro zatvorene. Baka je s ponosom poredala staklenke na policu u smočnici. Rekla je da će ove zalihe ajvara trajati cijelu zimu. Laura je osjetila veliko zadovoljstvo jer je prvi put sama sudjelovala u cijelom postupku.',
+        en: 'After a few hours the jars had cooled, and the lids quietly popped as a sign that they were sealed properly. Grandma proudly lined up the jars on a shelf in the pantry. She said this batch of ajvar would last the whole winter. Laura felt a deep sense of satisfaction, having taken part in the whole process herself for the first time.',
+      },
+      {
+        hr: 'Navečer su sjele za stol i probale svježi kruh s toplim ajvarom. Okus je bio bogat, blago sladak i pomalo ljut. Baka je zahvalila Lauri na pomoći i rekla da je ponosna na nju. Laura je obećala da će svake godine dolaziti pomoći oko zimnice. Ova tradicija sada je postala i njezina, ne samo bakina.',
+        en: "In the evening they sat at the table and tasted fresh bread with warm ajvar. The flavor was rich, slightly sweet, and a little spicy. Grandma thanked Laura for her help and said she was proud of her. Laura promised she would come help with the winter preserves every year from now on. This tradition had now become hers too, not just her grandmother's.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'vreće svježe paprike',
+        en: 'sacks of fresh peppers',
+        ex: 'Rano ujutro stigla je k baki na selo, gdje su je čekale vreće svježe paprike.',
+      },
+      {
+        hr: 'pekle papriku',
+        en: 'roasted the peppers',
+        ex: 'Zatim su zajedno pekle papriku na velikom pladnju u pećnici.',
+      },
+      {
+        hr: 'guljenje kože',
+        en: 'peeling the skin',
+        ex: 'Guljenje kože bio je najsporiji dio posla, pa su sjele za stol i radile zajedno.',
+      },
+      {
+        hr: 'stroj za mljevenje',
+        en: 'grinding machine',
+        ex: 'Kad je sva paprika oguljena, baka je uključila stroj za mljevenje.',
+      },
+      {
+        hr: 'ajvar polako kuhao',
+        en: 'the ajvar slowly cooked',
+        ex: 'Laura je miješala smjesu drvenom kuhačom dok se ajvar polako kuhao na laganoj vatri.',
+      },
+      {
+        hr: 'zahvalila baki na strpljenju',
+        en: 'thanked grandma for her patience',
+        ex: 'Laura je zahvalila baki na strpljenju jer je proces bio dulji nego što je očekivala.',
+      },
+      {
+        hr: 'oprale staklenke',
+        en: 'washed the jars',
+        ex: 'Dok su čekale da se ajvar skuha, zajedno su oprale staklenke u vrućoj vodi.',
+      },
+      {
+        hr: 'okrenule staklenke naopako',
+        en: 'turned the jars upside down',
+        ex: 'Zajedno su okrenule staklenke naopako na deku, kako je baka naučila od svoje majke.',
+      },
+      {
+        hr: 'poklopci su tiho puknuli',
+        en: 'the lids quietly popped',
+        ex: 'Poslije nekoliko sati staklenke su se ohladile, a poklopci su tiho puknuli kao znak da su dobro zatvorene.',
+      },
+      {
+        hr: 'probale svježi kruh s toplim ajvarom',
+        en: 'tasted fresh bread with warm ajvar',
+        ex: 'Navečer su sjele za stol i probale svježi kruh s toplim ajvarom.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Tko poziva Lauru da pomogne oko zimnice?',
+        qEn: 'Who invites Laura to help with the winter preserves?',
+        opts: ['Baka Zora', 'Majka', 'Teta', 'Susjeda'],
+        correct: 0,
+      },
+      {
+        q: 'Što rade Laura i baka s paprikom nakon pranja?',
+        qEn: 'What do Laura and grandma do with the peppers after washing them?',
+        opts: ['Odmah je melju', 'Peku je u pećnici', 'Stave je u zamrzivač', 'Kuhaju je u vodi'],
+        correct: 1,
+      },
+      {
+        q: 'Koliko otprilike traje kuhanje ajvara?',
+        qEn: 'About how long does cooking the ajvar take?',
+        opts: ['Pola sata', 'Jedan sat', 'Gotovo dva sata', 'Cijeli dan'],
+        correct: 2,
+      },
+      {
+        q: 'Zašto baka i Laura okreću staklenke naopako?',
+        qEn: 'Why do grandma and Laura turn the jars upside down?',
+        opts: [
+          'Da se ajvar brže ohladi',
+          'Da provjere boju ajvara',
+          'Da uklone zrak iz staklenke',
+          'Jer je to stara metoda da se poklopci dobro zabrtve',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Što Laura i baka rade navečer, na kraju dana?',
+        qEn: 'What do Laura and grandma do in the evening, at the end of the day?',
+        opts: [
+          'Idu spavati bez večere',
+          'Probaju svježi kruh s toplim ajvarom',
+          'Odlaze u kupovinu',
+          'Peru sve staklenke ponovno',
         ],
         correct: 1,
       },
@@ -7334,6 +7875,335 @@ export const GRADED_STORIES = [
           'Da više nikada neće raditi u vinogradu',
         ],
         correct: 2,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_19',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🐕',
+    title: 'Volontiranje u azilu za životinje',
+    titleEn: 'Volunteering at an Animal Shelter',
+    duration: 11,
+    focus:
+      'Dativ i instrumental u kontekstu • Vidski parovi (svršeni/nesvršeni) • Rječnik skrbi za životinje',
+    intro:
+      "Follow a first-time volunteer's first months at a Croatian animal shelter, from daily chores to earning the trust of a traumatized dog.",
+    paragraphs: [
+      {
+        hr: 'Kad sam prije šest mjeseci prvi put ušla u azil za životinje, nisam znala što očekivati. Prijateljica mi je rekla da azilu uvijek nedostaju volonteri, pa sam se odlučila prijaviti. Ravnateljica azila me je dočekala s osmijehom i odmah me odvela u dvorište gdje su psi lajali iz svih kutova.',
+        en: "When I first walked into the animal shelter six months ago, I didn't know what to expect. A friend told me the shelter always lacked volunteers, so I decided to sign up. The shelter director greeted me with a smile and immediately took me to the yard where dogs were barking from every corner.",
+      },
+      {
+        hr: 'Svako jutro počinjem s hranjenjem životinja i čišćenjem kaveza, što traje gotovo dva sata. Poslije toga šetam pse po dvorištu, jednog po jednog, jer neki od njih ne podnose druge pse. Volonteri se međusobno dogovaraju tko će raditi koju smjenu, a ja obično dolazim vikendom, kad imam više vremena.',
+        en: "Every morning I start by feeding the animals and cleaning the cages, which takes almost two hours. After that I walk the dogs around the yard, one at a time, because some of them can't stand other dogs. The volunteers arrange among themselves who works which shift, and I usually come on weekends, when I have more time.",
+      },
+      {
+        hr: 'Upoznala sam nekoliko drugih volontera, uglavnom studente i umirovljenike koji vole životinje. Marko, iskusni volonter, pokazao mi je gdje se drži hrana i kako se pravilno stavlja ovratnik psu koji se boji ljudi. Zahvalila sam mu na strpljenju, jer sam u početku sve radila presporo i bojala se pogrešaka.',
+        en: 'I met several other volunteers, mostly students and retirees who love animals. Marko, an experienced volunteer, showed me where the food is kept and how to properly put a collar on a dog afraid of people. I thanked him for his patience, because at first I did everything too slowly and was afraid of mistakes.',
+      },
+      {
+        hr: 'Najteži slučaj u azilu bio je pas po imenu Rex, njemački ovčar kojeg je prijašnji vlasnik zlostavljao. Rex je režao na svakoga tko mu se približi i skrivao se u kutu kaveza čim bi netko ušao. Nitko od volontera nije se usudio ući k njemu sam, pa smo uvijek išli u paru.',
+        en: 'The hardest case in the shelter was a dog named Rex, a German shepherd whose previous owner had abused him. Rex growled at anyone who came near him and hid in the corner of his cage the moment someone entered. None of the volunteers dared go in to him alone, so we always went in pairs.',
+      },
+      {
+        hr: 'Tjednima sam dolazila k Rexovu kavezu i samo sjedila na podu, ne gledajući ga izravno u oči, kako me je naučila veterinarka. Isprva bi zarežao čim bih sjela, no polako se navikavao na moju prisutnost. Donosila sam mu iste poslastice svaki put, u isto vrijeme, jer psi poput njega trebaju predvidljivost.',
+        en: "For weeks I came to Rex's cage and just sat on the floor, not looking him directly in the eyes, as the vet had taught me. At first he would growl the moment I sat down, but slowly he got used to my presence. I brought him the same treats every time, at the same time, because dogs like him need predictability.",
+      },
+      {
+        hr: 'Prekretnica se dogodila jednog kišnog utorka, kad je Rex prvi put prišao i onjušio mi ruku umjesto da se povuče. Srce mi je snažno kucalo dok sam mirno sjedila, a on je nakon nekoliko sekundi legao pored mene. Te večeri sam se vratila kući presretna i odmah nazvala roditelje da im ispričam.',
+        en: 'The turning point came on a rainy Tuesday, when Rex approached for the first time and sniffed my hand instead of pulling back. My heart pounded hard as I sat still, and after a few seconds he lay down beside me. That evening I went home overjoyed and immediately called my parents to tell them.',
+      },
+      {
+        hr: 'Do proljeća je Rex naučio hodati na povodcu bez povlačenja i više nije režao kad bi mu netko prišao polako. Ravnateljica mi je rekla da se rijetko koji pas oporavi tako brzo, ali da je to zbog moje upornosti i redovitih dolazaka. Bila sam ponosna, iako sam znala da posao još nije završen.',
+        en: "By spring Rex had learned to walk on a leash without pulling and no longer growled when someone approached him slowly. The director told me few dogs recover that fast, but that it was thanks to my persistence and regular visits. I was proud, although I knew the work wasn't finished yet.",
+      },
+      {
+        hr: 'Osim pasa, u azilu živi i tridesetak mačaka o kojima se brine druga skupina volontera. Mačke su općenito mirnije, no neke satima ne izlaze iz kartonske kutije od straha. Volim gledati kako se mlade mačke igraju klupkom vune dok starije drijemaju na suncu.',
+        en: "Besides dogs, the shelter is also home to about thirty cats, cared for by another group of volunteers. Cats are generally calmer, though some don't leave their cardboard box for hours out of fear. I love watching the young cats play with a ball of yarn while the older ones doze in the sun.",
+      },
+      {
+        hr: 'Azil je organizirao dan otvorenih vrata kako bi se životinje lakše udomile, s plakatima, fotografijama i pričama o svakom psu i svakoj mački. Danima smo pripremali dvorište, postavljali stolove i tiskali letke s brojevima telefona za zainteresirane. Nadala sam se da će netko prepoznati Rexovu vrijednost unatoč njegovoj burnoj prošlosti.',
+        en: "The shelter organized an open house so the animals could be adopted more easily, with posters, photos, and stories about every dog and cat. For days we prepared the yard, set up tables, and printed flyers with phone numbers for anyone interested. I hoped someone would recognize Rex's worth despite his turbulent past.",
+      },
+      {
+        hr: 'Na sam dan, bračni par se zaustavio pred Rexovim kavezom i strpljivo me ispitivao o njegovoj prošlosti. Dva tjedna poslije potpisali su papire, a ja sam plakala od sreće dok je odlazio kroz vrata. Danas mi šalju fotografije kako trči po vrtu bez straha, i zato se svake subote vraćam u azil, znajući da povjerenje uvijek vrijedi truda.',
+        en: "On the day itself, a married couple stopped for a long time in front of Rex's cage and patiently asked me about his past. Two weeks later they signed the papers, and I cried with joy as he walked out the door. Today they send me photos of him running around the yard without fear, and that's why I come back to the shelter every Saturday, knowing that trust is always worth the effort.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'azil',
+        en: 'shelter',
+        ex: 'Kad sam prije šest mjeseci prvi put ušla u azil za životinje, nisam znala što očekivati.',
+      },
+      {
+        hr: 'nedostajati',
+        en: 'to be lacking / needed',
+        ex: 'Prijateljica mi je rekla da azilu uvijek nedostaju volonteri, pa sam se odlučila prijaviti.',
+      },
+      {
+        hr: 'kavez',
+        en: 'cage',
+        ex: 'Rex je režao na svakoga tko mu se približi i skrivao se u kutu kaveza čim bi netko ušao.',
+      },
+      {
+        hr: 'zlostavljati',
+        en: 'to abuse / mistreat',
+        ex: 'Najteži slučaj u azilu bio je pas po imenu Rex, njemački ovčar kojeg je prijašnji vlasnik zlostavljao.',
+      },
+      {
+        hr: 'povodac',
+        en: 'leash',
+        ex: 'Do proljeća je Rex naučio hodati na povodcu bez povlačenja i više nije režao kad bi mu netko prišao polako.',
+      },
+      {
+        hr: 'udomiti',
+        en: 'to find a home for / adopt out',
+        ex: 'Azil je organizirao dan otvorenih vrata kako bi se životinje lakše udomile, s plakatima, fotografijama i pričama o svakom psu i svakoj mački.',
+      },
+      {
+        hr: 'povjerenje',
+        en: 'trust',
+        ex: 'Danas mi šalju fotografije kako trči po vrtu bez straha, i zato se svake subote vraćam u azil, znajući da povjerenje uvijek vrijedi truda.',
+      },
+      {
+        hr: 'strpljenje',
+        en: 'patience',
+        ex: 'Zahvalila sam mu na strpljenju, jer sam u početku sve radila presporo i bojala se pogrešaka.',
+      },
+      {
+        hr: 'prekretnica',
+        en: 'turning point',
+        ex: 'Prekretnica se dogodila jednog kišnog utorka, kad je Rex prvi put prišao i onjušio mi ruku umjesto da se povuče.',
+      },
+      {
+        hr: 'predvidljivost',
+        en: 'predictability',
+        ex: 'Donosila sam mu iste poslastice svaki put, u isto vrijeme, jer psi poput njega trebaju predvidljivost.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto se glavna junakinja odlučila prijaviti kao volonterka?',
+        qEn: 'Why did the main character decide to sign up as a volunteer?',
+        opts: [
+          'Zato što ju je ravnateljica azila osobno pozvala.',
+          'Zato što joj je prijateljica rekla da azilu uvijek nedostaju volonteri.',
+          'Zato što je htjela udomiti psa za sebe.',
+          'Zato što je to bio školski zadatak.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što je Rexov prijašnji vlasnik radio njemu?',
+        qEn: "What had Rex's previous owner done to him?",
+        opts: [
+          'Trenirao ga je kao psa čuvara.',
+          'Napustio ga je dok je bio štene.',
+          'Zlostavljao ga je.',
+          'Udomio ga je iz drugog azila.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Kada se dogodila prekretnica s Rexom?',
+        qEn: 'When did the turning point with Rex happen?',
+        opts: [
+          'Jednog sunčanog nedjeljnog jutra.',
+          'Na danu otvorenih vrata.',
+          'Prvog dana u azilu.',
+          'Jednog kišnog utorka.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Što je azil pripremao za dan otvorenih vrata?',
+        qEn: 'What did the shelter prepare for the open house day?',
+        opts: [
+          'Plakate, fotografije i priče o životinjama, uz stolove i letke.',
+          'Veterinarski pregled za svaku životinju.',
+          'Nove kaveze za sve pse.',
+          'Dobrotvornu dražbu s lokalnim tvrtkama.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Tko je udomio Rexa?',
+        qEn: 'Who adopted Rex?',
+        opts: [
+          'Mlada studentica volonterka.',
+          'Sama ravnateljica azila.',
+          'Bračni par.',
+          'Obitelj s troje djece.',
+        ],
+        correct: 2,
+      },
+    ],
+  },
+  {
+    id: 'gs_b1_20',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🏃',
+    title: 'Prvi polumaraton',
+    titleEn: 'My First Half-Marathon',
+    duration: 12,
+    focus: 'Futur • Kondicional za ublažavanje (bih, htio bih) • Rječnik trčanja i izdržljivosti',
+    intro:
+      'An office worker with no running background trains through a harsh winter and a mid-season injury to complete his first half-marathon in the rain.',
+    paragraphs: [
+      {
+        hr: 'Kad sam se prijavio na svoj prvi polumaraton, radio sam u uredu od devet do pet i jedva sam stigao trčati dva puta tjedno. Kolega mi je rekao da ću, ako budem uporan, sigurno stići do cilja za pet mjeseci treninga. Ipak, u sebi sam sumnjao hoću li uopće izdržati prvih deset kilometara.',
+        en: 'When I signed up for my first half-marathon, I was working nine-to-five and barely managed to run twice a week. A colleague told me that if I stayed consistent, I would surely make it to the finish line after five months of training. Still, deep down I doubted whether I could even survive the first ten kilometers.',
+      },
+      {
+        hr: 'Prve tjedne treninga počeo sam usred zime, kad je vani bilo tek nekoliko stupnjeva iznad nule. Ustajao sam prije posla i trčao po mraku, uz cestu punu leda, jer poslije radnog dana nisam imao ni volje ni energije. Kupio sam toplu jaknu i reflektirajući prsluk kako bih bio siguran u prometu.',
+        en: 'I started my first weeks of training in the dead of winter, when it was only a few degrees above freezing outside. I got up before work and ran in the dark, along a road covered in ice, because after a workday I had neither the will nor the energy. I bought a warm jacket and a reflective vest to stay safe in traffic.',
+      },
+      {
+        hr: 'Nakon mjesec dana treninga počeo sam sumnjati je li polumaraton uopće za mene. Noge su me boljele, tempo mi se nije poboljšavao, a prijatelji su govorili da bih se možda trebao zadovoljiti s deset kilometara. Ipak, odlučio sam da neću odustati prije nego što barem pokušam trčati cijelu udaljenost jednom u treningu.',
+        en: "After a month of training I started doubting whether a half-marathon was even for me. My legs hurt, my pace wasn't improving, and friends said I should maybe settle for ten kilometers. Still, I decided I wouldn't quit before at least trying to run the full distance once in training.",
+      },
+      {
+        hr: 'Prijavio sam se na online plan treninga koji je obećavao da ću, ako ga budem pratio strogo, poboljšati vrijeme za nekoliko minuta. Plan je uključivao duge nedjeljne trke, kraće brze intervale srijedom i dan odmora petkom. Obećao sam sebi da ću se držati rasporeda bez obzira na vrijeme ili raspoloženje.',
+        en: 'I signed up for an online training plan that promised that if I followed it strictly, I would improve my time by several minutes. The plan included long Sunday runs, shorter fast intervals on Wednesdays, and a rest day on Fridays. I promised myself I would stick to the schedule regardless of the weather or my mood.',
+      },
+      {
+        hr: 'Šest tjedana prije utrke uganuo sam gležanj na mokrom pločniku i liječnik mi je rekao da ne smijem trčati barem deset dana. Bio sam očajan, jer sam se bojao da ću izgubiti svu formu koju sam gradio mjesecima. Umjesto trčanja, plivao sam i vozio bicikl kako bih zadržao barem dio kondicije.',
+        en: "Six weeks before the race I sprained my ankle on a wet pavement, and the doctor told me I couldn't run for at least ten days. I was devastated, afraid I would lose all the fitness I had built over months. Instead of running, I swam and cycled to keep at least some of my conditioning.",
+      },
+      {
+        hr: 'Kad sam se konačno vratio trčanju, tempo mi je bio sporiji nego prije ozljede i bojao sam se da bih mogao ponovno ozlijediti isti gležanj. Fizioterapeutkinja mi je savjetovala vježbe za stabilizaciju gležnja prije svakog treninga. Polako sam vratio povjerenje u svoje tijelo, iako sam ostatak priprema trčao opreznije nego ikad.',
+        en: 'When I finally got back to running, my pace was slower than before the injury and I was afraid I might re-injure the same ankle. The physiotherapist advised me to do stabilization exercises for the ankle before every training session. I slowly regained trust in my body, though I ran the rest of the preparation more cautiously than ever.',
+      },
+      {
+        hr: 'Večer prije utrke jedva sam spavao, provjeravajući vremensku prognozu koja je najavljivala kišu cijeli dan. Pripremio sam odjeću, broj za prsa i energetske gelove još navečer, kako ujutro ne bih ništa zaboravio u žurbi. Poslao sam poruku obitelji da će me, ako sve bude u redu, moći vidjeti na cilju oko podneva.',
+        en: "The night before the race I barely slept, checking the weather forecast that predicted rain all day. I had already prepared my clothes, race bib, and energy gels that evening, so I wouldn't forget anything in the morning rush. I texted my family that if everything went well, they would be able to see me at the finish around noon.",
+      },
+      {
+        hr: 'Utrka je krenula pod pljuskom, a cipele su mi bile mokre već nakon prvog kilometra. Oko petnaestog kilometra noge su mi otežale i pomislio sam da bih se možda trebao zaustaviti i prohodati malo. Ipak, sjetio sam se svih hladnih jutara zimskog treninga i odlučio sam da neću stati, bez obzira na kišu.',
+        en: "The race started under a downpour, and my shoes were already soaked after the first kilometer. Around the fifteenth kilometer my legs grew heavy and I thought I might have to stop and walk for a while. Still, I remembered all the cold winter training mornings and decided I wouldn't stop, no matter the rain.",
+      },
+      {
+        hr: 'Kad sam ugledao cilj, obitelj je stajala s kišobranima i vikala moje ime, a ja sam potrčao zadnjih dvjesto metara koliko su mi noge dopuštale. Prešao sam crtu s vremenom boljim nego što sam se ikad usudio nadati, unatoč ozljedi i kiši. Zagrlio sam suprugu mokar do kože, ali sretniji nego ikad.',
+        en: 'When I spotted the finish line, my family was standing there with umbrellas shouting my name, and I sprinted the last two hundred meters as much as my legs allowed. I crossed the line with a time better than I had ever dared to hope for, despite the injury and the rain. I hugged my wife, soaked to the skin, but happier than ever.',
+      },
+      {
+        hr: 'Sljedeći tjedan noge su me još boljele, ali sam već pretraživao internet u potrazi za sljedećom utrkom. Kolega s posla rekao mi je da ću, ako nastavim ovim tempom, uskoro trčati puni maraton, a ja sam se samo nasmijao. Za sada mi je dovoljno što znam da mogu izdržati više nego što sam mislio.',
+        en: "The following week my legs still hurt, but I was already searching online for the next race. A colleague from work told me that if I kept up this pace, I would soon be running a full marathon, and I just laughed. For now, it's enough for me to know I can endure more than I thought.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'uporan',
+        en: 'persistent',
+        ex: 'Kolega mi je rekao da ću, ako budem uporan, sigurno stići do cilja za pet mjeseci treninga.',
+      },
+      {
+        hr: 'izdržati',
+        en: 'to endure / hold out',
+        ex: 'Ipak, u sebi sam sumnjao hoću li uopće izdržati prvih deset kilometara.',
+      },
+      {
+        hr: 'odustati',
+        en: 'to give up',
+        ex: 'Ipak, odlučio sam da neću odustati prije nego što barem pokušam trčati cijelu udaljenost jednom u treningu.',
+      },
+      {
+        hr: 'uganuti',
+        en: 'to sprain',
+        ex: 'Šest tjedana prije utrke uganuo sam gležanj na mokrom pločniku i liječnik mi je rekao da ne smijem trčati barem deset dana.',
+      },
+      {
+        hr: 'gležanj',
+        en: 'ankle',
+        ex: 'Fizioterapeutkinja mi je savjetovala vježbe za stabilizaciju gležnja prije svakog treninga.',
+      },
+      {
+        hr: 'kondicija',
+        en: 'fitness / physical condition',
+        ex: 'Umjesto trčanja, plivao sam i vozio bicikl kako bih zadržao barem dio kondicije.',
+      },
+      {
+        hr: 'pljusak',
+        en: 'downpour',
+        ex: 'Utrka je krenula pod pljuskom, a cipele su mi bile mokre već nakon prvog kilometra.',
+      },
+      {
+        hr: 'cilj',
+        en: 'finish line / goal',
+        ex: 'Kad sam ugledao cilj, obitelj je stajala s kišobranima i vikala moje ime, a ja sam potrčao zadnjih dvjesto metara koliko su mi noge dopuštale.',
+      },
+      {
+        hr: 'prognoza',
+        en: 'forecast',
+        ex: 'Večer prije utrke jedva sam spavao, provjeravajući vremensku prognozu koja je najavljivala kišu cijeli dan.',
+      },
+      {
+        hr: 'tempo',
+        en: 'pace',
+        ex: 'Kad sam se konačno vratio trčanju, tempo mi je bio sporiji nego prije ozljede i bojao sam se da bih mogao ponovno ozlijediti isti gležanj.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je glavni lik u početku sumnjao da može istrčati polumaraton?',
+        qEn: 'Why did the main character initially doubt he could run the half-marathon?',
+        opts: [
+          'Zato što mu je liječnik savjetovao da ne trči.',
+          'Zato što nikad prije nije trčao.',
+          'Zato što mu se tempo nije poboljšavao, a noge su ga boljele.',
+          'Zato što nije imao prave tenisice za trčanje.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Kada se dogodila ozljeda gležnja?',
+        qEn: 'When did the ankle injury happen?',
+        opts: [
+          'Dan prije utrke.',
+          'Šest tjedana prije utrke.',
+          'Na prvom treningu.',
+          'Tjedan dana nakon utrke.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što je radio dok se oporavljao od ozljede?',
+        qEn: 'What did he do while recovering from the injury?',
+        opts: [
+          'Potpuno je mirovao mjesec dana.',
+          'Nastavio je trčati unatoč boli.',
+          'Plivao je i vozio bicikl kako bi održao kondiciju.',
+          'Unajmio je osobnog trenera.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Kakvo je bilo vrijeme na dan utrke?',
+        qEn: 'What was the weather like on race day?',
+        opts: [
+          'Kiša je padala cijelu utrku.',
+          'Bilo je sunčano i vruće.',
+          'Bilo je hladno uz slab snijeg.',
+          'Bilo je vjetrovito, ali suho.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Tko ga je dočekao na cilju?',
+        qEn: 'Who was waiting for him at the finish line?',
+        opts: [
+          'Njegov trkački klub.',
+          'Kolega s posla.',
+          'Nitko, završio je sam.',
+          'Obitelj s kišobranima.',
+        ],
+        correct: 3,
       },
     ],
   },
@@ -7620,6 +8490,326 @@ export const GRADED_STORIES = [
           'Danas uspinjaču koriste samo školarci',
         ],
         correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_16',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🏚️',
+    title: 'Obnova stare kuće',
+    titleEn: 'Renovating the Old House',
+    duration: 12,
+    focus: 'Pasivne konstrukcije i particip • Zavisne rečenice • Rječnik birokracije i obnove',
+    intro:
+      "A man inherits his great-aunt's stone house in inland Croatia and navigates permits, craftsmen, and an unexpected discovery in the walls while renovating it.",
+    paragraphs: [
+      {
+        hr: 'Kad mi je teta Štefanija preminula, ostavila mi je staru kamenu kuću u zagorskom selu, pa sam odlučio obnoviti je umjesto da je prodam, iako su mi svi savjetovali suprotno. Kuća, sagrađena krajem devetnaestog stoljeća, godinama je stajala prazna i vlažna, s krovom koji je propuštao na dva mjesta. Nisam bio svjestan koliko će papirologija biti kompliciranija od samih radova.',
+        en: 'When my great-aunt Štefanija passed away, she left me an old stone house in a Zagorje village, and I decided to renovate it instead of selling it, even though everyone advised the opposite. The house, built in the late nineteenth century, had stood empty and damp for years, with a roof leaking in two places. I had no idea how much more complicated the paperwork would be than the construction work itself.',
+      },
+      {
+        hr: 'Prvi korak bio je zatražiti uvjerenje da kuća nije zaštićena kao spomenik kulture, jer bi tada svaki zahvat morao odobriti konzervatorski odjel. Zatim sam ishodio glavni projekt kod arhitekta i predao zahtjev za građevinsku dozvolu. Činovnica mi je obećala odgovor za mjesec dana, no čekao sam gotovo tri.',
+        en: "The first step was to obtain a certificate confirming the house wasn't registered as a cultural monument, since in that case every intervention would have to be approved by the conservation department. Then I obtained the main project from an architect and submitted an application for a building permit. The clerk promised me an answer within a month, but I waited almost three.",
+      },
+      {
+        hr: 'Kad sam napokon dobio dozvolu, potražio sam majstore spremne raditi u udaljenom selu, što se pokazalo težim nego što sam mislio. Zidara Ivicu preporučio mi je susjed, a on se prihvatio posla zajedno sa svojim šogorom, tesarom specijaliziranim za stare krovne konstrukcije. Dogovorili smo se da će radovi trajati šest mjeseci, iako sam u sebi znao da će potrajati dulje.',
+        en: 'Once I finally got the permit, I looked for craftsmen willing to work in a remote village, which proved harder than I expected. A neighbor recommended the mason Ivica, who took on the job together with his brother-in-law, a carpenter specializing in old roof structures. We agreed the work would take six months, though deep down I knew it would take longer.',
+      },
+      {
+        hr: 'Radovi su počeli rušenjem trulih greda i skidanjem starog crijepa, pri čemu se otkrilo da je krovna konstrukcija ozbiljnije oštećena nego što je procijenjeno u projektu. Zidovi su bili građeni od lokalnog kamena, vezanog vapnenom žbukom, tehnikom koja se danas rijetko primjenjuje. Ivica mi je objasnio da takve zidove ne treba rušiti nego samo očistiti i ojačati.',
+        en: "The work began with tearing down rotten beams and removing the old roof tiles, which revealed that the roof structure was more seriously damaged than the project had estimated. The walls were built of local stone bound with lime mortar, a technique rarely used today. Ivica explained that such walls shouldn't be torn down, only cleaned and reinforced.",
+      },
+      {
+        hr: 'Sredinom radova, dok su radnici uklanjali staru žbuku u prizemlju, u zidu su pronašli metalnu kutiju s pismima pisanim rukom i nekoliko starih fotografija. Ispostavilo se da je pisma teta Štefanija pisala svome zaručniku koji se nije vratio iz rata, a nikada ih nije poslala. Sjedio sam među ruševinama i prvi put čitao riječi koje nisu bile namijenjene meni.',
+        en: 'Midway through the work, while the workers were removing old plaster on the ground floor, they found a metal box in the wall containing handwritten letters and a few old photographs. It turned out that aunt Štefanija had written the letters to her fiancé, who never returned from the war, and had never sent them. I sat among the ruins that evening and for the first time read words that were never meant for me.',
+      },
+      {
+        hr: 'Ta su pisma promijenila moj odnos prema kući, koja mi je do tada bila samo naslijeđena obveza puna papirologije i troškova. Shvatio sam da svaki kamen u tim zidovima nosi priču ljudi koji su ovdje živjeli, voljeli i čekali, a da obnova nije samo popravljanje krova nego i čuvanje sjećanja. Odlučio sam pisma uokviriti i objesiti u budućoj dnevnoj sobi.',
+        en: "Those letters changed my relationship with the house, which until then had been just an inherited burden full of paperwork and expenses. I realized that every stone in those walls carries the story of people who lived, loved, and waited here, and that renovation isn't just fixing a roof but also preserving memory. I decided to frame the letters and hang them in the future living room.",
+      },
+      {
+        hr: 'Usred radova morao sam prijaviti promjenu izvođača građevinskoj inspekciji, jer se Ivicin šogor razbolio, pa je posao preuzeo drugi tesar. Inspektor je zahtijevao dodatnu dokumentaciju o statici krova prije nego što je odobrio nastavak radova, što je sve zajedno stajalo dodatna dva mjeseca čekanja. Naučio sam da u obnovi stare kuće birokracija ponekad traje dulje od samih zidarskih radova.',
+        en: "In the middle of the work I had to report a change of contractor to the building inspectorate, since Ivica's brother-in-law fell ill and another carpenter took over. The inspector required additional documentation about the roof's structural stability before approving the continuation of the work, which altogether cost two extra months of waiting. I learned that in renovating an old house, bureaucracy sometimes takes longer than the masonry work itself.",
+      },
+      {
+        hr: 'Kad je došlo vrijeme za unutarnje uređenje, morao sam odlučiti hoću li ugraditi podno grijanje ili zadržati vanjštinu što je moguće netaknutijom. Arhitektica mi je predložila kompromis: moderne instalacije skrivene ispod podova, dok su vanjski zidovi i kameni okviri prozora ostali izvorni. Time je kuća zadržala dušu, ali dobila i udobnost koju stara gradnja sama nije mogla pružiti.',
+        en: "When it came time for the interior work, I had to decide whether to install underfloor heating or keep the exterior as untouched as possible. The architect suggested a compromise: modern installations hidden under the floors, while the exterior walls and stone window frames remained original. That way the house kept its soul but also gained a comfort the old construction alone couldn't provide.",
+      },
+      {
+        hr: 'Uselio sam se prošlog ljeta, nešto više od dvije godine nakon prvog zahtjeva za dozvolu. Kuća više ne izgleda kao muzej ni kao praznina, nego kao mjesto u kojemu se stara pisma, novi zidovi i moja svakodnevica isprepliću u jednu cjelinu. Shvatio sam da dom nije nešto što se nasljeđuje gotovo, nego nešto što se, kamen po kamen, iznova gradi.',
+        en: "I moved in last summer, a little more than two years after my first permit application. The house no longer looks like a museum or an empty shell, but like a place where old letters, new walls, and my daily life are woven into one whole. I realized that home isn't something inherited ready-made, but something that is, stone by stone, built anew.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'papirologija',
+        en: 'paperwork',
+        ex: 'Nisam bio svjestan koliko će papirologija biti kompliciranija od samih radova.',
+      },
+      {
+        hr: 'konzervatorski odjel',
+        en: 'conservation department',
+        ex: 'Prvi korak bio je zatražiti uvjerenje da kuća nije zaštićena kao spomenik kulture, jer bi tada svaki zahvat morao odobriti konzervatorski odjel.',
+      },
+      {
+        hr: 'građevinska dozvola',
+        en: 'building permit',
+        ex: 'Zatim sam ishodio glavni projekt kod arhitekta i predao zahtjev za građevinsku dozvolu.',
+      },
+      {
+        hr: 'žbuka',
+        en: 'plaster / mortar',
+        ex: 'Sredinom radova, dok su radnici uklanjali staru žbuku u prizemlju, u zidu su pronašli metalnu kutiju s pismima pisanim rukom i nekoliko starih fotografija.',
+      },
+      {
+        hr: 'zaručnik',
+        en: 'fiancé',
+        ex: 'Ispostavilo se da je pisma teta Štefanija pisala svome zaručniku koji se nije vratio iz rata, a nikada ih nije poslala.',
+      },
+      {
+        hr: 'inspekcija',
+        en: 'inspectorate / inspection',
+        ex: 'Usred radova morao sam prijaviti promjenu izvođača građevinskoj inspekciji, jer se Ivicin šogor razbolio, pa je posao preuzeo drugi tesar.',
+      },
+      {
+        hr: 'statika',
+        en: 'structural stability / statics',
+        ex: 'Inspektor je zahtijevao dodatnu dokumentaciju o statici krova prije nego što je odobrio nastavak radova, što je sve zajedno stajalo dodatna dva mjeseca čekanja.',
+      },
+      {
+        hr: 'vanjština',
+        en: 'exterior',
+        ex: 'Kad je došlo vrijeme za unutarnje uređenje, morao sam odlučiti hoću li ugraditi podno grijanje ili zadržati vanjštinu što je moguće netaknutijom.',
+      },
+      {
+        hr: 'ojačati',
+        en: 'to reinforce',
+        ex: 'Ivica mi je objasnio da takve zidove ne treba rušiti nego samo očistiti i ojačati.',
+      },
+      {
+        hr: 'nasljeđivati',
+        en: 'to inherit',
+        ex: 'Shvatio sam da dom nije nešto što se nasljeđuje gotovo, nego nešto što se, kamen po kamen, iznova gradi.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što su pripovjedaču svi savjetovali nakon što je naslijedio kuću?',
+        qEn: 'What did everyone advise the narrator after he inherited the house?',
+        opts: [
+          'Da prvo obnovi krov i useli se u kuću.',
+          'Da kuću daruje lokalnom muzeju.',
+          'Da kuću iznajmljuje turistima.',
+          'Da kuću proda umjesto da je obnavlja.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Koliko je pripovjedač čekao na odgovor za građevinsku dozvolu?',
+        qEn: 'How long did the narrator wait for the building permit decision?',
+        opts: [
+          'Gotovo tri mjeseca, iako mu je obećan mjesec dana.',
+          'Točno mjesec dana, kako je obećano.',
+          'Gotovo godinu dana.',
+          'Dva tjedna.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što su radnici pronašli u zidu tijekom radova?',
+        qEn: 'What did the workers find in the wall during the renovation?',
+        opts: [
+          'Staru zbirku kovanica.',
+          'Metalnu kutiju s rukom pisanim pismima i fotografijama.',
+          'Skrivene stube prema podrumu.',
+          'Ništa vrijedno spomena.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto je došlo do dodatnog kašnjenja usred radova?',
+        qEn: 'Why was there an additional delay in the middle of the work?',
+        opts: [
+          'Zidar je potpuno napustio projekt.',
+          'Pripovjedaču je ponestalo novca.',
+          'Inspektor je nakon promjene izvođača zatražio dodatnu dokumentaciju.',
+          'Oluja je oštetila novi krov.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Kakav je kompromis predložila arhitektica za unutarnje uređenje?',
+        qEn: 'What compromise did the architect suggest for the interior work?',
+        opts: [
+          'Zamijeniti sve kamene zidove modernim betonom.',
+          'Sakriti moderne instalacije ispod podova, a vanjštinu zadržati izvornom.',
+          'Dograditi kat na kuću.',
+          'Ostaviti unutrašnjost potpuno nedovršenom.',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_b2_17',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🏢',
+    title: 'Sastanak stanara',
+    titleEn: "The Tenants' Meeting",
+    duration: 12,
+    focus: 'Neupravni (indirektni) govor • Kondicional • Rječnik zgrade i zajednice',
+    intro:
+      "A leaking roof forces a building's quarrelling tenants into a meeting that swings between factions, dry humor, and an unexpected compromise.",
+    paragraphs: [
+      {
+        hr: 'Krov naše zgrade prokišnjava već treću godinu zaredom, a ovog proljeća voda je počela kapati i u stan na trećem katu, daleko od najoštećenijeg dijela. Predsjednica suvlasnika, gospođa Perić, sazvala je hitan sastanak stanara u zajedničkoj prostoriji, tvrdeći da se problem više ne smije odgađati. Petnaestak stanara stiglo je te srijede navečer, neki mrzovoljni, a neki radoznali.',
+        en: "Our building's roof has been leaking for the third year running, and this spring water started dripping even into the apartment on the third floor, far from the most damaged section. The board chair, Mrs. Perić, called an urgent tenants' meeting in the shared ground-floor room, insisting the problem could no longer be postponed. About fifteen tenants showed up that Wednesday evening, some grumpy, some curious about what would happen.",
+      },
+      {
+        hr: 'Odmah su se izdvojile dvije suprotstavljene struje. Gospodin Horvat s prvog kata inzistirao je da je dovoljno samo zakrpati oštećena mjesta, jer sebi uz mirovinu ne može priuštiti veći trošak. Mlađi bračni par iz potkrovlja, naprotiv, tvrdio je da bi djelomični popravak bio bacanje novca i da bi cijeli krov trebalo zamijeniti odjednom, unatoč visokoj cijeni.',
+        en: "Two opposing camps immediately formed. Mr. Horvat from the first floor insisted that patching the damaged spots was enough, since he couldn't afford a bigger expense on his pension. The young married couple from the attic apartment, on the other hand, argued that a partial repair would be throwing money away and that the whole roof should be replaced at once, despite the high cost.",
+      },
+      {
+        hr: 'Majstor koji je prošli tjedan pregledao krov rekao je predsjednici da bi djelomični popravak izdržao možda dvije zime, ali da bi potpuna obnova bila jedino trajno rješenje. Gospođa Perić je prenijela stanarima da je majstor procijenio kako bi cjelovita obnova stajala oko petnaest tisuća eura, dok bi zakrpa koštala tek dvije tisuće. Nakon te informacije, rasprava se dodatno rasplamsala.',
+        en: 'The roofer who inspected the roof the previous week told the chair that a partial repair might hold up for maybe two winters, but that a complete renovation would be the only lasting solution. Mrs. Perić relayed to the tenants that the roofer had estimated a full renovation at around fifteen thousand euros, while patching would cost only two thousand. After that information, the debate flared up even more.',
+      },
+      {
+        hr: 'Usred žustre svađe, stariji gospodin Fabijan, poznat po suhom humoru, ustao je i rekao da će, ako se ovako nastavi, krov propasti prije nego što se itko složi oko ičega. Svi su se nasmijali, čak i gospodin Horvat, a napetost u prostoriji nakratko je popustila. Netko je predložio stanku za kavu, na što se predsjednica nevoljko složila.',
+        en: 'In the middle of the heated argument, older Mr. Fabijan, known for his dry humor, stood up and said that if things kept going this way, the roof would collapse before anyone agreed on anything. Everyone laughed, even Mr. Horvat, and the tension in the room briefly eased. Someone suggested a coffee break, which the chair reluctantly agreed to.',
+      },
+      {
+        hr: 'Nakon stanke, mlađi susjed s drugog kata, inženjer po struci, predložio je treće rješenje: obnoviti krov u dvije faze, počevši od najoštećenijeg dijela iznad zajedničkog stubišta. Objasnio je da bi se time trošak mogao podijeliti na dvije godine, a stanari bez ušteđevine ne bi bili prisiljeni odmah platiti cijeli iznos. Ideja je zvučala razumno, no Horvat je ostao sumnjičav.',
+        en: "After the break, a younger neighbor from the second floor, an engineer by profession, proposed a third option: renovate the roof in two phases, starting with the most damaged section above the shared staircase. He explained that this would spread the cost over two years, and tenants without savings wouldn't be forced to pay the whole amount at once. The idea sounded reasonable, but Mr. Horvat still looked suspicious.",
+      },
+      {
+        hr: 'Gospodin Horvat rekao je da se boji kako bi se druga faza mogla vječno odgađati te da bi platili dvaput više nego za jednokratnu obnovu. Podsjetio je stanare da su prije pet godina na sličan način odgodili sanaciju pročelja, koje je na kraju koštalo gotovo dvostruko više nego prvotna procjena. Nekoliko je stanara kimnulo, prisjećajući se te neugodne epizode.',
+        en: "Mr. Horvat said he was afraid the second phase could be postponed forever and that they'd end up paying twice as much as for a one-time renovation. He reminded the tenants that five years earlier they had postponed the façade repair in a similar way, which ended up costing almost double the original estimate. Several tenants nodded, recalling that unpleasant episode.",
+      },
+      {
+        hr: 'Nakon dodatnog sata rasprave, dogovoren je kompromis koji nitko od stanara u početku nije predložio: krov će se obnoviti u cijelosti, ali radovi će se podijeliti na dva kredita koji će se otplaćivati iz zajedničke pričuve, tako da nijedan stanar ne mora odjednom izdvojiti veći iznos. Gospodin Horvat pristao je uz uvjet da se troškovi pismeno potvrde, na što se predsjednica rado složila.',
+        en: 'After another hour of discussion, a compromise was reached that none of the tenants had initially proposed: the roof would be fully renovated, but the work would be split across two reserve-fund loans, so no tenant would have to pay a large sum all at once. Mr. Horvat agreed on the condition that all costs be confirmed in writing in advance, which the chair happily accepted.',
+      },
+      {
+        hr: 'Na kraju sastanka, gospodin Fabijan je, s uobičajenim osmijehom, primijetio da je krovu trebalo tri kišne sezone da natjera cijelu zgradu da se konačno dogovori oko ičega. Svi su se nasmijali, a predsjednica je zapisnik zaključila riječima da će prvi krediti biti odobreni već sljedećeg mjeseca. Stanari su se razišli kasno navečer, umorni, ali prvi put pomalo optimistični.',
+        en: 'At the end of the meeting, Mr. Fabijan, with his usual smile, remarked that it had taken three rainy seasons to make the whole building finally agree on anything. Everyone laughed, and the chair closed the minutes by saying the first loans would be approved as early as next month. The tenants dispersed late in the evening, tired but, for the first time since the problem began, somewhat optimistic.',
+      },
+      {
+        hr: 'Kao netko tko je godinama izbjegavao sastanke stanara, smatrajući ih gubitkom vremena, te sam večeri shvatio koliko je važno da susjedi razgovaraju licem u lice umjesto da razmjenjuju ljutite poruke u skupini. Krov će možda još kapati mjesecima dok se ne isplate krediti, ali barem znamo da ćemo, kad idući problem iskrsne, sjesti za isti stol i nekako se dogovoriti.',
+        en: "As someone who had avoided tenants' meetings for years, considering them a waste of time, I realized that evening how important it is for neighbors to talk face to face instead of exchanging angry messages in the group chat. The roof might still leak for months until the loans are paid off, but at least we know that when the next problem comes up, we'll sit at the same table and somehow work it out.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'prokišnjavati',
+        en: 'to leak (of a roof)',
+        ex: 'Krov naše zgrade prokišnjava već treću godinu zaredom, a ovog proljeća voda je počela kapati i u stan na trećem katu, daleko od najoštećenijeg dijela.',
+      },
+      {
+        hr: 'suvlasnik',
+        en: 'co-owner',
+        ex: 'Predsjednica suvlasnika, gospođa Perić, sazvala je hitan sastanak stanara u zajedničkoj prostoriji, tvrdeći da se problem više ne smije odgađati.',
+      },
+      {
+        hr: 'priuštiti',
+        en: 'to afford',
+        ex: 'Gospodin Horvat s prvog kata inzistirao je da je dovoljno samo zakrpati oštećena mjesta, jer sebi uz mirovinu ne može priuštiti veći trošak.',
+      },
+      {
+        hr: 'procijeniti',
+        en: 'to estimate',
+        ex: 'Gospođa Perić je prenijela stanarima da je majstor procijenio kako bi cjelovita obnova stajala oko petnaest tisuća eura, dok bi zakrpa koštala tek dvije tisuće.',
+      },
+      {
+        hr: 'popustiti',
+        en: 'to ease / loosen',
+        ex: 'Svi su se nasmijali, čak i gospodin Horvat, a napetost u prostoriji nakratko je popustila.',
+      },
+      {
+        hr: 'ušteđevina',
+        en: 'savings',
+        ex: 'Objasnio je da bi se time trošak mogao podijeliti na dvije godine, a stanari bez ušteđevine ne bi bili prisiljeni odmah platiti cijeli iznos.',
+      },
+      {
+        hr: 'sanacija',
+        en: 'repair / remediation',
+        ex: 'Podsjetio je stanare da su prije pet godina na sličan način odgodili sanaciju pročelja, koje je na kraju koštalo gotovo dvostruko više nego prvotna procjena.',
+      },
+      {
+        hr: 'kompromis',
+        en: 'compromise',
+        ex: 'Nakon dodatnog sata rasprave, dogovoren je kompromis koji nitko od stanara u početku nije predložio: krov će se obnoviti u cijelosti, ali radovi će se podijeliti na dva kredita koji će se otplaćivati iz zajedničke pričuve, tako da nijedan stanar ne mora odjednom izdvojiti veći iznos.',
+      },
+      {
+        hr: 'zapisnik',
+        en: 'minutes (of a meeting)',
+        ex: 'Svi su se nasmijali, a predsjednica je zapisnik zaključila riječima da će prvi krediti biti odobreni već sljedećeg mjeseca.',
+      },
+      {
+        hr: 'iskrsnuti',
+        en: 'to arise / come up (of a problem)',
+        ex: 'Krov će možda još kapati mjesecima dok se ne isplate krediti, ali barem znamo da ćemo, kad idući problem iskrsne, sjesti za isti stol i nekako se dogovoriti.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je gospođa Perić sazvala hitan sastanak?',
+        qEn: 'Why did Mrs. Perić call an urgent meeting?',
+        opts: [
+          'Zato što se useljavao novi stanar.',
+          'Zato što je prokišnjavanje zahvatilo i dotad neoštećen stan.',
+          'Zato što je trebalo odobriti godišnji proračun.',
+          'Zato što je jedan stanar podnio tužbu.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što je majstor procijenio da će koštati potpuna obnova krova?',
+        qEn: 'What did the roofer estimate a full roof renovation would cost?',
+        opts: [
+          'Oko petnaest tisuća eura.',
+          'Oko dvije tisuće eura.',
+          'Oko trideset tisuća eura.',
+          'Odbio je dati procjenu.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Tko je razriješio napetost šalom usred rasprave?',
+        qEn: 'Who eased the tension with a joke in the middle of the argument?',
+        opts: [
+          'Gospođa Perić.',
+          'Inženjer s drugog kata.',
+          'Gospodin Horvat.',
+          'Gospodin Fabijan.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Čega se bojao gospodin Horvat vezano uz predloženu drugu fazu radova?',
+        qEn: 'What was Mr. Horvat afraid of regarding the proposed second phase of work?',
+        opts: [
+          'Da će krovopokrivač bankrotirati prije završetka.',
+          'Da će se druga faza vječno odgađati i na kraju koštati više.',
+          'Da zgrada tijekom radova neće biti sigurna.',
+          'Da susjedi više neće razgovarati jedni s drugima.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kakav je konačni dogovor postignut na sastanku?',
+        qEn: 'What was the final agreement reached at the meeting?',
+        opts: [
+          'Da se napravi samo djelomična zakrpa.',
+          'Da se obnova odgodi za još godinu dana.',
+          'Da se potpuna obnova podijeli na dva kredita iz zajedničke pričuve.',
+          'Da svaki stanar unajmi vlastitog izvođača.',
+        ],
+        correct: 2,
       },
     ],
   },
@@ -7940,6 +9130,301 @@ export const GRADED_STORIES = [
           'Da izabrana samoća prestaje biti kazna i postaje oblik discipline',
         ],
         correct: 3,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_15',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '🖌️',
+    title: 'Restauratorica fresaka',
+    titleEn: 'The Fresco Restorer',
+    duration: 12,
+    focus: 'zanat • strpljivost • etika obnove',
+    intro:
+      'A fresco restorer in an Istrian church reflects on the slow, exacting craft of conservation — and on where the line falls between preserving history and rewriting it.',
+    paragraphs: [
+      {
+        hr: 'Ivana Barić svako jutro otključa vrata istarske crkvice i prvo ugasi mobitel, jer tišina koju restauriranje zahtijeva mora biti gotovo obredna. Popne se na skelu, otvori kutiju s kistovima i pincetama te zastane pred freskom kao pred pacijentom povjerenim na skrb. Svaki centimetar zida svjedoči o rukama koje su ga oslikale prije sedam stoljeća.',
+        en: 'Every morning, Ivana Barić unlocks the door of the Istrian church and first turns off her phone, because the silence restoration demands must be almost ritual. She climbs the scaffold, opens her case of brushes and tweezers, and pauses before the fresco as before a patient entrusted to her care. Every centimeter of the wall bears witness to hands that painted it seven centuries ago.',
+      },
+      {
+        hr: 'Freska prikazuje Poklonstvo pastira, no stoljeća vlage i dima od svijeća nagrizla su boju tako da se lice Djevice jedva nazire ispod sivkaste mrlje. Ispod gornjeg sloja rendgenska je snimka otkrila stariji crtež, grublju verziju iste scene, nastalu možda desetljeće ranije. Ta dva sloja, vidljivi i skriveni, pretvaraju fresku u dvostruki spomenik: jedan trenutku nastanka, drugi trenutku naknadne dorade.',
+        en: "The fresco depicts the Adoration of the Shepherds, but centuries of damp and candle smoke have corroded the paint until the Virgin's face is barely visible beneath a grayish stain. Beneath the top layer, an X-ray revealed an older, rougher version of the same scene, painted perhaps a decade earlier. These two layers, visible and hidden, turn the fresco into a double monument: one to the moment of its creation, the other to a later reworking.",
+      },
+      {
+        hr: 'Prije nego dotakne boju, Ivana provede tjedne u promatranju: fotografira fresku pod ultraljubičastim svjetlom, bilježi pukotine, testira otapalo na neupadljivom rubu veličine nokta. Skalpel drži gotovo okomito, uklanjajući nečistoću u slojevima tanjim od papira, dok povećalo uvećava svaki potez kista njezina prethodnika. Brzina ovdje nije vrlina; jedan pogrešan pokret može zauvijek izbrisati ono što fotografija ne bi mogla vratiti.',
+        en: 'Before she touches the paint, Ivana spends weeks observing: she photographs the fresco under ultraviolet light, notes the cracks, tests a solvent on an inconspicuous patch the size of a fingernail. She holds the scalpel almost vertical, removing grime in layers thinner than paper, while a magnifying glass enlarges every brushstroke of her predecessor. Speed is no virtue here; a single wrong move can erase forever what no photograph could restore.',
+      },
+      {
+        hr: 'Suvremena konzervatorska etika nalaže da svaka nadopuna bude prepoznatljiva izbliza, ali neupadljiva s udaljenosti s koje vjernici promatraju oltar. Ivana zato koristi tehniku tratteggio, tanke crtice koje oko s nekoliko metara stapa u cjelinu, no koje pod povećalom jasno odaju suvremenu intervenciju. Cilj nije prevariti gledatelja, nego mu vratiti sliku bez laži o cjelovitosti.',
+        en: 'Modern conservation ethics require that any addition be recognizable up close, yet unobtrusive from the distance at which worshippers view the altar. Ivana therefore uses the tratteggio technique, thin brushstrokes that the eye blends into the whole from a few meters away, but that clearly betray a modern intervention under magnification. The goal is not to deceive the viewer, but to give the image back without a lie about its wholeness.',
+      },
+      {
+        hr: 'Prošle je jeseni, čisteći donji rub freske, naišla na trag ranije intervencije: premazan oblak boje kojim je neki prijašnji majstor prekrio oštećenje umjesto da ga sanira. Mogla ga je ukloniti, no odlučila je zadržati ga kao svjedočanstvo da freska ima vlastitu povijest brige, ne samo povijest nastanka. Time je priznala da autentičnost nije zamrznuto stanje, nego niz odluka donesenih kroz stoljeća.',
+        en: "Last autumn, cleaning the fresco's lower edge, she found a trace of an earlier intervention: a patch of color with which some previous master had covered damage instead of repairing it. She could have removed it, but chose to keep it as testimony that the fresco has its own history of care, not just a history of creation. In doing so she acknowledged that authenticity is not a frozen state but a series of decisions made across centuries.",
+      },
+      {
+        hr: 'Sate provedene na skeli tijelo pamti drukčije nego um: ukočen vrat, prašina koja peče oči, vlaga koja se hladnim dahom uvlači pod kožu. Rad u polumraku crkve stvara osjećaj redovničke izdvojenosti od vanjskog svijeta, koji ne sluti da netko gore, centimetar po centimetru, vraća boju licima što su ih naslikali davno umrli slikari. Kad siđe sa skele, hod joj je nesiguran, kao da se vraća iz drugog stoljeća.',
+        en: "Hours spent on the scaffold are remembered by the body differently than by the mind: a stiff neck, dust that stings the eyes, damp that creeps under the skin with a cold breath. Working in the church's half-light creates a feeling of monastic isolation from the outside world, which has no idea that someone up there is restoring colour, centimeter by centimeter, to faces painted by long-dead painters. When she climbs down from the scaffold, her steps are unsteady, as though returning from another century.",
+      },
+      {
+        hr: 'Norma je nemilosrdna i istodobno oslobađajuća: jedan kvadratni centimetar dnevno, jer je žurba jedini pravi neprijatelj konzervatora. U toj usporenosti vrijeme se ne mjeri satima nego dovršenim poljima, a dan koji je drugima prazan njoj donosi vidljiv pomak. Naučila je da strpljenje nije vrlina koju netko posjeduje od rođenja, nego vještina koja se, poput poteza kista, uvježbava ponavljanjem.',
+        en: "The quota is merciless and, at the same time, liberating: one square centimeter a day, because haste is the conservator's one true enemy. In that slowness, time is measured not in hours but in completed patches, and a day that would seem empty to others brings her a visible advance. She has learned that patience is not a virtue one is born with but a skill practiced, like a brushstroke, through repetition.",
+      },
+      {
+        hr: 'Najteže odluke ne tiču se tehnike nego opsega: gdje povući crtu između obnavljanja izgubljenog i izmišljanja onoga što nikad nije postojalo. Ivana odbija dovršavati praznine domišljanjem, koliko god iskušenje bilo veliko; radije ostavlja vidljivu prazninu nego nameće vlastitu ruku tamo gdje izvornik šuti. Poniznost pred izvornim slikarom, kaže, važnija je od želje da posao izgleda dovršeno.',
+        en: 'The hardest decisions concern not technique but scope: where to draw the line between restoring what is lost and inventing what never existed. Ivana refuses to complete gaps by guesswork, however tempting; she would rather leave a visible void than impose her own hand where the original stays silent. Humility before the original painter, she says, matters more than the wish to make the work look finished.',
+      },
+      {
+        hr: 'Kad navečer spremi alat i siđe niz skelu posljednji put, okrene se i pogleda fresku koja još nije gotova, možda neće biti ni sljedeće godine. U tom nedovršenom stanju ipak prepoznaje uspjeh, jer njezin posao nikad nije bio da freska izgleda nova, nego da preživi još jedno stoljeće čitljiva onima koji dolaze poslije nje. Zaključa vrata s istim mirom s kojim ih je ujutro otključala.',
+        en: 'When she packs her tools in the evening and climbs down the scaffold for the last time, she turns to look at the fresco, still unfinished, perhaps not to be finished even next year. Yet in that unfinished state she recognizes success, for her task was never to make the fresco look new, but to help it survive one more century, legible to those who come after her. She locks the door with the same calm with which she unlocked it that morning.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'restauriranje',
+        en: 'restoration',
+        ex: 'tišina koju restauriranje zahtijeva mora biti gotovo obredna',
+      },
+      {
+        hr: 'skela',
+        en: 'scaffold',
+        ex: 'Popne se na skelu, otvori kutiju s kistovima i pincetama',
+      },
+      {
+        hr: 'sloj',
+        en: 'layer',
+        ex: 'Ta dva sloja, vidljivi i skriveni, pretvaraju fresku u dvostruki spomenik',
+      },
+      { hr: 'otapalo', en: 'solvent', ex: 'testira otapalo na neupadljivom rubu veličine nokta' },
+      {
+        hr: 'nadopuna',
+        en: 'in-fill / retouching',
+        ex: 'Suvremena konzervatorska etika nalaže da svaka nadopuna bude prepoznatljiva izbliza',
+      },
+      {
+        hr: 'svjedočanstvo',
+        en: 'testimony',
+        ex: 'odlučila je zadržati ga kao svjedočanstvo da freska ima vlastitu povijest brige',
+      },
+      {
+        hr: 'autentičnost',
+        en: 'authenticity',
+        ex: 'autentičnost nije zamrznuto stanje, nego niz odluka donesenih kroz stoljeća',
+      },
+      {
+        hr: 'konzervator',
+        en: 'conservator',
+        ex: 'jer je žurba jedini pravi neprijatelj konzervatora',
+      },
+      {
+        hr: 'poniznost',
+        en: 'humility',
+        ex: 'Poniznost pred izvornim slikarom, kaže, važnija je od želje da posao izgleda dovršeno.',
+      },
+      {
+        hr: 'izvornik',
+        en: 'the original (work)',
+        ex: 'radije ostavlja vidljivu prazninu nego nameće vlastitu ruku tamo gdje izvornik šuti',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto Ivana ugasi mobitel prije početka rada?',
+        qEn: 'Why does Ivana turn off her phone before starting work?',
+        opts: [
+          'Zato što je tišina dio obreda koji restauriranje zahtijeva.',
+          'Zato što crkva zabranjuje mobitele.',
+          'Zato što skela blokira signal.',
+          'Zato što to zahtijeva njezina nadređena.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što je otkrila rendgenska snimka ispod gornjeg sloja freske?',
+        qEn: "What did the X-ray scan reveal beneath the fresco's top layer?",
+        opts: [
+          'Prazan, neoslikan zid.',
+          'Stariju, grublju verziju iste scene.',
+          'Modernu krivotvorinu.',
+          'Potpis izvornog slikara.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto je Ivana odlučila zadržati trag ranije intervencije umjesto da ga ukloni?',
+        qEn: 'Why did Ivana decide to keep the trace of an earlier intervention instead of removing it?',
+        opts: [
+          'Uklanjanje bi oštetilo zid.',
+          'Nije imala odgovarajuće otapalo.',
+          'Ostaje kao svjedočanstvo da freska ima vlastitu povijest brige.',
+          'Previše se dobro uklapao u stil izvornog slikara.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Prema tekstu, koja je najveća prijetnja poslu konzervatora?',
+        qEn: "According to the text, what is the greatest threat to a conservator's work?",
+        opts: ['Nedovoljna rasvjeta.', 'Nedostatak novca.', 'Kritika javnosti.', 'Žurba.'],
+        correct: 3,
+      },
+      {
+        q: 'Što Ivana radije čini kad joj nedostaje informacija o izvornom izgledu dijela freske?',
+        qEn: "What does Ivana prefer to do when she lacks information about a fresco's original appearance?",
+        opts: [
+          'Izmisliti uvjerljivu nadopunu po uzoru na slične freske.',
+          'Posavjetovati se s lokalnim povjesničarima.',
+          'Ostaviti vidljivu prazninu radije nego nametnuti vlastitu ruku.',
+          'Prekriti prazninu neutralnom bojom.',
+        ],
+        correct: 2,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_16',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '🌙',
+    title: 'Noćna smjena',
+    titleEn: 'Night Shift',
+    duration: 12,
+    focus: 'ritam noćne smjene • empatija • izdržljivost',
+    intro:
+      'A hospital nurse moves through the rhythm of a night shift — small crises, quiet vigilance, and the long wait for dawn.',
+    paragraphs: [
+      {
+        hr: 'Kad u dvadeset i dva sata preuzme smjenu, Petra Vidović prošeta hodnikom i osluhne bolnicu, jer noću zvukovi govore više nego izvještaji na papiru. Dnevna sestra joj preda ključeve ormarića s lijekovima i kratko sažme stanje svakog pacijenta, a onda nestane, umorna od dvanaest sati na nogama. Petra ostaje sama s tridesetak duša koje spavaju, i sa satima koji se pružaju sporo.',
+        en: "When she takes over the shift at ten in the evening, Petra Vidović walks the corridor and listens to the hospital, because at night sounds say more than any written report. The day nurse hands her the medication cabinet keys and briefly summarizes each patient's condition, then disappears, tired after twelve hours on her feet. Petra is left alone with some thirty souls who are sleeping, and with hours that stretch on slowly.",
+      },
+      {
+        hr: 'Obilazak soba obavlja se uvijek istim redoslijedom, od sobe broj jedan do sobe broj petnaest, jer promjena rutine povećava rizik da se nešto zaboravi. Mjeri tlak, broji disanje, provjerava infuzije, a tihim glasom izgovara ime svakog pacijenta, kao da ih podsjeća da nisu sami u mraku. Do ponoći zna tko diše otežano, tko je nemiran u snu, a tko čeka jutro s tjeskobom.',
+        en: "The rounds are always done in the same order, from room one to room fifteen, because changing the routine increases the risk that something will be forgotten. She takes blood pressure, counts breaths, checks IV drips, and quietly says each patient's name as she goes, as if reminding them they are not alone in the dark. By midnight she knows who is breathing with difficulty, who is restless in sleep, and who is waiting for morning with anxiety.",
+      },
+      {
+        hr: 'Malo iza jedan sat noću oglasi se alarm s monitora u sobi sedam, gdje zasićenost kisikom starijeg gospodina naglo pada. Petra utrči bez panike, prilagodi protok kisika i govori mu smirenim glasom dok mu se disanje ne stabilizira. Takvi trenuci ne dopuštaju razmišljanje, samo uvježbani slijed pokreta koji tijelo pamti bolje od uma.',
+        en: "Shortly after one in the morning, an alarm sounds from the monitor in room seven, where an elderly man's oxygen saturation is suddenly dropping. Petra rushes in without panic, adjusts the oxygen flow, and speaks to him calmly until his breathing stabilizes. Such moments leave no room for thought, only a practiced sequence of movements the body remembers better than the mind.",
+      },
+      {
+        hr: 'U noćnoj smjeni se rijetko govori o osjećajima; umjesto toga se šuti, broji, bilježi, jer riječi bi usporile posao koji zahtijeva brzinu. Protokoli se poštuju ne zato što bi netko provjeravao, nego zato što se u tišini bolnice, kad je osoblje malobrojno, na njih jedino može osloniti. Tako se gradi navika koja izvana izgleda hladno, a zapravo je oblik brige.',
+        en: "On the night shift people rarely talk about feelings; instead they stay silent, count, and record, because words would slow down work that demands speed. Protocols are followed not because anyone is checking, but because, in the hospital's night silence, when staff are few, they are the only thing to rely on. Night after night, this builds a habit that looks cold from outside but is, in fact, a form of care.",
+      },
+      {
+        hr: 'Oko četiri zazvoni telefon na postaji: kćer pacijentice iz sobe devet, koja živi u inozemstvu, zabrinuto pita kako je majka provela noć. Petra joj mirno objašnjava da je majka spavala, da su vitalni znakovi stabilni, i osjeti kako se glas na drugoj strani opušta. Takvi pozivi nisu dio službenog opisa posla, no za Petru su jednako važni kao mjerenje tlaka.',
+        en: "Around four, the phone rings at the nurses' station: the daughter of the patient in room nine, who lives abroad, anxiously asks how her mother spent the night. Petra calmly explains that her mother slept, that her vital signs are stable, and she can feel the voice on the other end relax. Such calls are not part of the official job description, but for Petra they matter just as much as taking blood pressure.",
+      },
+      {
+        hr: 'Između četiri i pet, kad se i najnemirniji pacijenti utišaju, nastupa najteži dio smjene: sat u kojem tijelo najviše žudi za snom, a um mora ostati budan. Petra tada piše izvještaje, provjerava zalihe zavoja, i dopušta si trenutak pogleda kroz prozor prema parkiralištu. Razmišlja zašto je odabrala ovaj posao, a odgovor je uvijek isti: netko mora biti budan dok drugi spavaju.',
+        en: 'Between four and five, when even the most restless patients settle, comes the hardest part of the shift: the hour when the body craves sleep most and the mind must stay alert. Petra writes reports, checks bandage supplies, and allows herself a moment to look out the window at the parking lot. She thinks about why she chose this job at all, and the answer is always the same: someone has to stay awake while others sleep.',
+      },
+      {
+        hr: 'Nešto prije pet, iz sobe tri javi se zvono za pomoć, a mlada pacijentica nakon operacije žali se na iznenadnu, oštru bol u trbuhu. Petra pozove dežurnog liječnika, provjeri ranu, izmjeri temperaturu, i zajedno brzo utvrde da je riječ o komplikaciji koja zahtijeva hitnu intervenciju. Kriza se rješava u tridesetak minuta zahvaljujući uigranom timu koji, iako umoran, funkcionira kao jedno tijelo s više pari ruku.',
+        en: 'A little before five, the call bell rings from room three, where a young patient recovering from surgery complains of sudden, sharp abdominal pain. Petra calls the on-duty doctor, checks the wound, takes her temperature, and together they quickly determine it is a complication requiring urgent intervention. The crisis is resolved within about thirty minutes, thanks to a well-drilled team that, tired as it is, functions like a single body with several pairs of hands.',
+      },
+      {
+        hr: 'Nakon deset godina noćnih smjena, Petra je naučila razlikovati umor koji dolazi jednom od onoga koji se nakuplja mjesecima, sloj po sloj, kao naslage na dnu posude koja se nikad do kraja ne ispere. Svaka noć, gledano zasebno, izgleda podnošljivo; tek kad se noći zbroje u godine, otkriva se koliko je taj ritam mijenjao njezino tijelo i njezin odnos prema danu.',
+        en: 'After ten years of night shifts, Petra has learned to tell apart the fatigue that comes once from the kind that builds up over months, layer by layer, like sediment at the bottom of a container that never fully rinses clean. Each single night, seen on its own, seems bearable; only when the nights add up to years does it become clear how much this rhythm has changed her body and her relationship to daytime.',
+      },
+      {
+        hr: 'U sedam sati, dnevna sestra dolazi svježa i naspavana, a Petra joj u nekoliko rečenica preda cijelu noć: tko je dobro spavao, tko je imao krizu, što treba paziti do podneva. Izlazi u jutro koje za druge tek počinje, a za nju je već davno u tijeku. Ne žali se na obrnuti ritam života; zna da netko mora čuvati noć da bi drugi mirno sanjali.',
+        en: 'At seven, the day nurse arrives fresh and rested, and Petra hands over the entire night in a few sentences: who slept well, who had a crisis, what to watch until noon. She steps out into a morning that, for others, is just beginning, while for her it has long been underway. She does not resent this inverted rhythm of life; she knows that someone must keep watch over the night so that others may dream in peace.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'smjena',
+        en: 'shift',
+        ex: 'Kad u dvadeset i dva sata preuzme smjenu, Petra Vidović prošeta hodnikom i osluhne bolnicu',
+      },
+      {
+        hr: 'obilazak',
+        en: 'rounds (ward round)',
+        ex: 'Obilazak soba obavlja se uvijek istim redoslijedom, od sobe broj jedan do sobe broj petnaest',
+      },
+      {
+        hr: 'zasićenost kisikom',
+        en: 'oxygen saturation',
+        ex: 'gdje zasićenost kisikom starijeg gospodina naglo pada',
+      },
+      {
+        hr: 'protokol',
+        en: 'protocol',
+        ex: 'Protokoli se poštuju ne zato što bi netko provjeravao',
+      },
+      { hr: 'postaja', en: "nurses' station", ex: 'Oko četiri zazvoni telefon na postaji' },
+      { hr: 'vitalni znakovi', en: 'vital signs', ex: 'da su vitalni znakovi stabilni' },
+      { hr: 'zavoj', en: 'bandage / dressing', ex: 'provjerava zalihe zavoja' },
+      {
+        hr: 'komplikacija',
+        en: 'complication',
+        ex: 'da je riječ o komplikaciji koja zahtijeva hitnu intervenciju',
+      },
+      {
+        hr: 'naslage',
+        en: 'sediment / build-up',
+        ex: 'sloj po sloj, kao naslage na dnu posude koja se nikad do kraja ne ispere',
+      },
+      { hr: 'budnost', en: 'wakefulness', ex: 'netko mora biti budan dok drugi spavaju' },
+    ],
+    quiz: [
+      {
+        q: 'Zašto Petra obilazi sobe uvijek istim redoslijedom?',
+        qEn: 'Why does Petra always do her rounds in the same order?',
+        opts: [
+          'Zato što to nalažu bolnička pravila.',
+          'Zato što promjena rutine povećava rizik da se nešto zaboravi.',
+          'Zato što pacijenti očekuju stalan raspored.',
+          'Zato što se tako štedi najviše vremena.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što Petra radi kad se oglasi alarm zbog pada zasićenosti kisikom?',
+        qEn: 'What does Petra do when the alarm signals falling oxygen saturation?',
+        opts: [
+          'Zove liječnika i čeka upute.',
+          'Budi pacijentovu obitelj.',
+          'Sama prilagodi protok kisika i smiruje pacijenta.',
+          'Premješta pacijenta na intenzivnu njegu.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Prema tekstu, zašto se u noćnoj smjeni protokoli strogo poštuju?',
+        qEn: 'According to the text, why are protocols strictly followed during the night shift?',
+        opts: [
+          'Zato što se samo na njih osoblje može osloniti kad je malobrojno.',
+          'Zato što nadređeni izdaleka nadziru osoblje.',
+          'Zato što osiguranje zahtijeva dokumentaciju.',
+          'Zato što to traže pacijenti.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kako Petra opisuje razliku između umora nakon jedne noćne smjene i umora nakupljenog kroz godine?',
+        qEn: 'How does Petra describe the difference between fatigue after one night shift and fatigue accumulated over years?',
+        opts: [
+          'Nema stvarne razlike među njima.',
+          'Umor nakon jedne smjene uvijek je gori.',
+          'Nakupljeni umor nestane nakon godišnjeg odmora.',
+          'Jedna noć izgleda podnošljivo, ali godine noćnih smjena mijenjaju tijelo i navike.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Zašto Petra ne zamjera obrnutom ritmu svog života?',
+        qEn: "Why doesn't Petra resent her inverted daily rhythm?",
+        opts: [
+          'Zato što uskoro planira promijeniti posao.',
+          'Zato što su noćne smjene znatno bolje plaćene.',
+          'Zato što vjeruje da netko mora čuvati noć kako bi drugi mirno spavali.',
+          'Zato što voli biti sama noću.',
+        ],
+        correct: 2,
       },
     ],
   },
@@ -8270,6 +9755,326 @@ export const GRADED_STORIES = [
           'Posjedovano vrijeme uopće ne postoji u modernom svijetu',
           'Posjedovano vrijeme čini čovjeka gospodarom vlastita trajanja, unajmljeno ga otuđuje',
           'Unajmljeno vrijeme uvijek je produktivnije od posjedovanog',
+        ],
+        correct: 2,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_10',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🏝️',
+    title: 'Otok zimi',
+    titleEn: 'The Island in Winter',
+    duration: 12,
+    focus: 'praznina • zajedništvo • ritam otočne zime',
+    intro:
+      'An essay on an Adriatic island once the ferries thin out and the tourists leave, and on what community comes to mean when only a few hundred people remain.',
+    paragraphs: [
+      {
+        hr: 'Zadnji rujanski trajekt odveze posljednje turiste, a luka, još jučer krcata glasovima, utone u tišinu koja će potrajati do proljeća. Onima koji ostaju taj prizor nije nov: znaju da otok mijenja disanje, da se ljeto povlači kao plima, ostavljajući prazne terase i zatvorene kapke. Ono što se doima kao kraj sezone za njih je početak jedinog razdoblja u kojem je otok napokon njihov.',
+        en: 'The last September ferry carries away the final tourists, and the harbor, packed just yesterday with voices, sinks into a silence that will last until spring. For those who stay, the scene is nothing new: they know the island changes its breathing, that summer withdraws like a tide, leaving empty terraces and shuttered windows behind. What looks like the end of the season is, for them, the beginning of the only period in which the island is finally theirs.',
+      },
+      {
+        hr: 'Trajekt koji je ljeti plovio šest puta dnevno zimi pristaje tek dvaput, a kad zapuše jaka bura, ne pristaje uopće, pa se otok danima nalazi odsječen od kopna poput broda usidrenog u vlastitoj samoći. Ta izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu: kažu da se otok zimi vraća samome sebi, oslobođen obveze da bude razglednica za svakoga tko prođe.',
+        en: 'The ferry that sailed six times a day in summer calls only twice in winter, and when a strong bura blows, it does not call at all, leaving the island cut off from the mainland for days, like a ship anchored in its own solitude. That isolation, which an outsider would call a misfortune, the locals experience almost as protection: they say the island returns to itself in winter, freed from the obligation to be a postcard for whoever passes through.',
+      },
+      {
+        hr: 'Oni koji ostaju nisu samo najstariji; među njima je mladi ribar koji je odbio posao u Rijeci, učiteljica koja vozi djecu trajektom do škole na susjednom otoku, te umirovljeni pomorac koji zimi popravlja tuđe krovove jer ne zna sjediti besposlen. Njih ne drži nostalgija, nego uvjerenje da otok bez stalnih stanovnika prestaje biti otok, a postaje samo kulisa.',
+        en: "Those who stay are not only the oldest; among them is a young fisherman who turned down a job in Rijeka, a teacher who ferries children to school on a neighboring island, and a retired sailor who spends winters fixing other people's roofs because he doesn't know how to sit idle. What holds them is not nostalgia but the conviction that an island without permanent residents stops being an island and becomes merely a backdrop.",
+      },
+      {
+        hr: 'Zimi se pomoć organizira bez dogovora: netko će susjedu odvesti u ambulantu, netko drugi podijeliti drva kad ponestane goriva, a treći će svratiti da provjeri je li starica upalila peć. Nitko to ne naziva solidarnošću, jer riječ zvuči preuzvišeno za nešto što je, u zajednici od stotinjak duša, tek način na koji se preživljava zima. Gustoća međusobne ovisnosti čini otočku zajednicu zimi čvršćom nego ljeti.',
+        en: 'In winter, help is organized without discussion: someone will drive a neighbor to the clinic, someone else will share firewood when fuel runs low, and a third will stop by to check that an old woman has managed to light her own stove. No one calls it solidarity, because the word sounds too grand for something that, in a community of about a hundred souls, is simply how one gets through winter. This density of mutual dependence makes the island community tighter in winter than in summer.',
+      },
+      {
+        hr: 'Jedina konoba koja zimi ostaje otvorena postaje neslužbeno sjedište otoka: tamo se svako predvečerje skupi šačica muškaraca uz partiju briškule, a žene svrate po kruh i ostanu na kavu. Konobar, koji ljeti jedva stigne poslužiti sve stolove, zimi pamti kako svatko pije kavu. Ta konoba, malena i skromna, obavlja zimi posao koji trg i crkva obavljaju ljeti: drži zajednicu na okupu.',
+        en: "The single tavern that stays open in winter becomes the island's unofficial headquarters: every evening a handful of men gather there for a game of briškula, and women stop in for bread and stay for coffee. The waiter, who in summer barely manages to serve every table, remembers in winter how everyone takes their coffee. This small, modest tavern performs in winter the role the square and the church perform in summer: it holds the community together.",
+      },
+      {
+        hr: 'Stariji se sjećaju zime kad struje nestade na deset dana i kad se cijelo selo grijaše oko jedne peći u školi, dijeleći ono malo hrane što bijaše u smočnicama. O toj zimi pričaju bez gorčine, gotovo s ponosom, kao o ispitu koji je otok položio i koji je pokazao da zajedništvo, kad zatreba, nadmašuje svaku nestašicu.',
+        en: 'The older residents remember a winter when the power vanished for ten days and the whole village warmed itself around a single stove in the school, sharing what little food remained in their pantries. They speak of that winter without bitterness, almost with pride, as of a test the island passed, one that showed that togetherness, when needed, outweighs any shortage.',
+      },
+      {
+        hr: 'Ljeti je otok proizvod: mjeri se brojem ležajeva, cijenom kave, ocjenama na internetskim stranicama koje mještani rijetko čitaju. Zimi otok prestaje biti proizvod i postaje mjesto življenja, s vlastitim sitnim brigama poput toga hoće li trajekt sutra pristati ili hoće li liječnik doći na vrijeme. Mještani u toj razlici prepoznaju dvije različite verzije istog komada zemlje.',
+        en: 'In summer the island is a product: measured in bed counts, coffee prices, online ratings the locals rarely read. In winter the island stops being a product and becomes a place to live, with its own small worries, like whether the ferry will call tomorrow or whether the doctor will arrive on time. In this difference, residents recognize two different versions of the same patch of land.',
+      },
+      {
+        hr: 'Svake godine netko od mladih ode, privučen poslom na kopnu ili u inozemstvu, a otok ostaje siromašniji za jedan glas, jedan par ruku, jednu buduću obitelj. Oni koji ostaju o tome ne govore puno, kao da je tema preteška za konobu i kavu, no u tišini kojom je prate osjeća se koliko su svjesni da zajedništvo koje ih zimi drži na okupu nije zajamčeno zauvijek.',
+        en: "Every year someone young leaves, drawn by work on the mainland or abroad, and the island is left poorer by one voice, one pair of hands, one future family. Those who remain don't talk about it much, as if the subject were too heavy for the tavern and its coffee, but in the silence with which they meet it one senses how aware they are that the togetherness holding them together in winter is not guaranteed forever.",
+      },
+      {
+        hr: 'Kad bi netko izvana pitao mještane što otok zimi zapravo jest, odgovor bi vjerojatno bio jednostavan: mjesto gdje se ljudi oslanjaju jedni na druge, ne iz izbora nego iz nužde koja je postala vrijednost sama po sebi. Trajekti koji sve rjeđe pristaju ne prorjeđuju samo promet, nego i iluziju da zajednica može opstati bez truda; zima svake godine iznova podsjeća tko ostaje i zašto.',
+        en: 'If an outsider asked the locals what the island in winter actually is, the answer would probably be simple: a place where people rely on one another, not by choice but out of a necessity that has become a value in itself. The ferries that call less and less often thin out not just traffic but the illusion that a community can survive without effort; every year, winter reminds anew who stays and why.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'trajekt',
+        en: 'ferry',
+        ex: 'Trajekt koji je ljeti plovio šest puta dnevno zimi pristaje tek dvaput',
+      },
+      { hr: 'bura', en: 'the bura (north wind)', ex: 'a kad zapuše jaka bura, ne pristaje uopće' },
+      {
+        hr: 'mještani',
+        en: 'locals / residents',
+        ex: 'Ta izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu',
+      },
+      {
+        hr: 'konoba',
+        en: 'tavern',
+        ex: 'Jedina konoba koja zimi ostaje otvorena postaje neslužbeno sjedište otoka',
+      },
+      {
+        hr: 'briškula',
+        en: 'briškula (a Croatian card game)',
+        ex: 'tamo se svako predvečerje skupi šačica muškaraca uz partiju briškule',
+      },
+      {
+        hr: 'solidarnost',
+        en: 'solidarity',
+        ex: 'Nitko to ne naziva solidarnošću, jer riječ zvuči preuzvišeno',
+      },
+      {
+        hr: 'smočnica',
+        en: 'pantry / larder',
+        ex: 'dijeleći ono malo hrane što bijaše u smočnicama',
+      },
+      {
+        hr: 'nestašica',
+        en: 'shortage',
+        ex: 'zajedništvo, kad zatreba, nadmašuje svaku nestašicu',
+      },
+      {
+        hr: 'ležaj',
+        en: 'bed / berth (tourist accommodation)',
+        ex: 'mjeri se brojem ležajeva, cijenom kave',
+      },
+      {
+        hr: 'zajedništvo',
+        en: 'togetherness / solidarity',
+        ex: 'zajedništvo koje ih zimi drži na okupu nije zajamčeno zauvijek',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što se dogodi s otokom kad ode zadnji rujanski trajekt?',
+        qEn: 'What happens to the island when the last September ferry departs?',
+        opts: [
+          'Luka se zatvara zbog popravaka.',
+          'Otok utone u tišinu i, na neki način, vrati se svojim stanovnicima.',
+          'Sve trgovine odmah se zatvaraju do proljeća.',
+          'Broj stanovnika se udvostruči dolaskom radnika.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kako mještani doživljavaju zimsku izoliranost uzrokovanu burom?',
+        qEn: 'How do the locals experience the winter isolation caused by the bura wind?',
+        opts: [
+          'Kao opasnost koja zahtijeva evakuaciju.',
+          'Kao nezgodu na koju se stalno žale.',
+          'Gotovo kao zaštitu koja otoku dopušta da se vrati samome sebi.',
+          'Kao priliku za podizanje cijena turistima.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Prema tekstu, tko su ljudi koji ostaju na otoku zimi?',
+        qEn: 'According to the text, who are the people who stay on the island in winter?',
+        opts: [
+          'Mješavina mladih i starih: ribar, učiteljica i umirovljeni pomorac.',
+          'Samo najstariji stanovnici koji nemaju kamo.',
+          'Uglavnom sezonski radnici bez zimskog posla.',
+          'Bogati vlasnici zatvorenih vila.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kakvu ulogu ima jedina zimi otvorena konoba?',
+        qEn: 'What role does the one tavern that stays open in winter play?',
+        opts: [
+          'Služi uglavnom kao turistička atrakcija.',
+          'Posluje s gubitkom i uskoro će se zatvoriti.',
+          'Rezervirana je samo za ribare.',
+          'Djeluje kao neslužbeno središte koje drži zajednicu na okupu.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Čemu, prema zaključku eseja, zapravo služi otočna zima?',
+        qEn: "According to the essay's conclusion, what does the island's winter ultimately serve to do?",
+        opts: [
+          'Privlačenju ulagača u turizam.',
+          'Podsjećanju tko ostaje i zašto zajedništvo nije zajamčeno.',
+          'Smanjenju troškova trajektne tvrtke.',
+          'Građi za lokalne folklorne festivale.',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_11',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🔧',
+    title: 'Popravljati, ne bacati',
+    titleEn: 'To Repair, Not to Discard',
+    duration: 13,
+    focus: 'kultura popravka • planirano zastarijevanje • dostojanstvo održavanja',
+    intro:
+      'An essay on repair culture versus disposability, seen through a village handyman who has spent forty years pushing back against planned obsolescence.',
+    paragraphs: [
+      {
+        hr: 'U dnu sela, u radionici čiji je krov zarđao kao i ruke njegova vlasnika, Ante Perković već četrdeset godina popravlja ono što bi drugi bez razmišljanja bacili: fen za kosu, miješalicu za beton, dječji bicikl, staru peglu. Na policama čekaju uređaji čiji su vlasnici odustali od popravka, uvjereni da je jeftinije kupiti nov. Ante misli suprotno, a ta razlika u uvjerenju pitanje je o tome kakav svijet gradimo.',
+        en: "At the edge of the village, in a workshop whose roof has rusted just like its owner's hands, Ante Perković has spent forty years repairing what others would discard without a second thought: a hairdryer, a concrete mixer, a child's bicycle, an old iron. On the shelves wait devices whose owners gave up on repair, convinced it was cheaper to buy new. Ante believes the opposite, and that difference in conviction is a question of what kind of world we are building.",
+      },
+      {
+        hr: 'Planirano zastarijevanje, pojam skovan još prošlog stoljeća, označava namjerno skraćivanje vijeka trajanja proizvoda kako bi potrošnja ostala neprekidna: baterija koja se ne može zamijeniti, dio koji prestaje biti dostupan, softver koji uređaj usporava dovoljno da kupnja novoga postane nužnost. Riječ je o logici u kojoj je kvar unaprijed ugrađen, a ne slučajna nezgoda.',
+        en: "Planned obsolescence, a term coined back in the last century, describes the deliberate shortening of a product's lifespan to keep consumption uninterrupted: a battery that cannot be replaced, a part that stops being available, software that slows a device down just enough to make buying a new one feel necessary. It is a logic in which failure is built in beforehand rather than accidental.",
+      },
+      {
+        hr: 'Naši su djedovi i bake živjeli u svijetu u kojem se svaka stvar popravljala dok god je to imalo smisla, a bacanje je bilo gotovo sramotno, znak rastrošnosti koju si je malo tko mogao priuštiti. Majstor u selu nije bio luksuz nego nužnost, jedina osoba koja je znala vratiti stroj u pogon. Kultura je nestala jer je popravak prestao biti isplativ u usporedbi s novom robom.',
+        en: 'Our grandparents lived in a world where everything was repaired for as long as it made any sense, and throwing things away was almost shameful, a sign of wastefulness few could afford. The village craftsman was not a luxury but a necessity, the only person who knew how to bring a machine back to life. That culture disappeared because repair stopped being worthwhile compared with new goods.',
+      },
+      {
+        hr: 'Prošli je tjedan u radionicu ušla mlada žena s pokvarenim aparatom za kavu, uvjerena da će joj Ante reći kako popravak nema smisla. On je aparat rastavio, pronašao napuknut plastični dio vrijedan nekoliko eura, naručio zamjenu i za dva dana joj vratio uređaj koji je radio kao nov. Njezino ga iznenađenje, kaže Ante, rastužuje, jer otkriva koliko je ljudi naviklo misliti da je popravak nemoguć.',
+        en: 'Last week a young woman walked into the workshop with a broken coffee machine, convinced Ante would tell her repair made no sense. He took the machine apart, found a cracked plastic part worth only a few euros, ordered a replacement, and returned the appliance to her two days later working like new. Her surprise, Ante says, saddens him, because it reveals how many people have learned to assume repair is impossible.',
+      },
+      {
+        hr: 'Za Antu, popravljanje nije samo tehnička vještina nego način poštovanja prema stvarima i ljudima koji su ih stvorili: svaki uređaj, kaže, nosi u sebi trud inženjera, radnika na traci, čovjeka koji ga je kupio štedeći mjesecima. Baciti nešto prerano znači obezvrijediti taj trud, dok popravak, koliko god skroman, vraća stvarima dostojanstvo koje im rastrošno društvo oduzima.',
+        en: 'For Ante, repairing is not merely a technical skill but a way of respecting both the things themselves and the people who made them: every device, he says, carries within it the effort of an engineer, a worker on an assembly line, a person who bought it after months of saving. Throwing something away too soon devalues that effort, while repair, however modest, restores to things a dignity that a wasteful society strips from them.',
+      },
+      {
+        hr: 'Zašto plaćamo više za jamstvo od godinu dana nego za uređaj koji bi, uz malu njegu, trajao deset? Zašto je jeftinije baciti pokvareni fen nego ga odnijeti na popravak, iako popravak zahtijeva samo zamjenu jedne grijaće spirale? Odgovor nije u nedostatku znanja, nego u sustavu cijena i rada koji popravak čini skupljim od nove robe.',
+        en: 'Why do we pay more for a one-year warranty than for a device that, with a little care, would last ten? Why is it cheaper to throw away a broken hairdryer than to have it repaired, even though the repair requires only replacing one heating coil? The answer lies not in a lack of knowledge, but in a system of pricing and labor that makes repair more expensive than buying new.',
+      },
+      {
+        hr: 'Svaki bačeni uređaj nije samo gubitak novca nego i sirovina, energije utrošene u proizvodnju, prostora na odlagalištu koje se sporo, ako uopće, razgrađuje. Kultura popravka, stoga, nije nostalgičan hir starih majstora, nego praktičan odgovor na pitanje koje društvo sve rjeđe postavlja: koliko toga uistinu moramo baciti da bismo kupili nešto novo?',
+        en: 'Every discarded device is not just a loss of money but of raw materials, of energy spent in production, of landfill space that decomposes slowly, if at all. A culture of repair, then, is not a nostalgic whim of old craftsmen but a practical answer to a question society asks less and less often: how much do we truly need to throw away in order to buy something new?',
+      },
+      {
+        hr: 'Antina radionica odavno je više od mjesta popravka: susjedi navraćaju popiti kavu, popričati o vremenu i pritom mu donijeti pokvareni alat, kao da je popravak samo izgovor za druženje koje si selo inače rijetko priušti. Djeca ga promatraju kako lemi žicu ili brusi zupčanik, i neka od njih, kaže sa smiješkom, već su naučila razlikovati odvijač od ključa bolje nego njihovi roditelji.',
+        en: "Ante's workshop has long been more than a place of repair: neighbors stop by for coffee, to talk about the weather, and bring along a broken tool, as if the repair were merely an excuse for company the village otherwise rarely affords itself. Children watch him solder a wire or grind a gear, and some of them, he says with a smile, have already learned to tell a screwdriver from a wrench better than their parents can.",
+      },
+      {
+        hr: 'Posljednjih godina primjećuje obrat: mladi koji dolaze u radionicu ne zato što nemaju novca za novo, nego zato što svjesno biraju popravak kao stav, gotovo politički čin protiv društva koje ih uvjerava da je bacanje normalno. Traže od njega da im pokaže kako zamijeniti bateriju ili ekran, jer žele razumjeti uređaje koje koriste.',
+        en: 'In recent years he has also noticed a reversal: young people who come to the workshop not because they lack money for something new, but because they consciously choose repair as a stance, almost a political act against a society that convinces them that throwing things away is normal. They ask him to show them how to replace a battery or a screen, because they want to understand the devices they use.',
+      },
+      {
+        hr: 'Ante zna da njegova radionica jednog dana neće imati nasljednika, jer malo je mladih spremno provesti život uz miris lemila i ulja umjesto uz ekrane. No dok vrata ostaju otvorena, nastavlja raditi ono što smatra osnovnim oblikom poštovanja prema svijetu: ne bacati nešto samo zato što je lakše kupiti novo, nego mu dati priliku da proradi.',
+        en: "Ante knows his workshop will one day have no successor, since few young people are willing to spend their lives amid the smell of solder and oil instead of in front of screens. But as long as the doors remain open, he continues doing what he considers the most basic form of respect for the world: not throwing something away just because it's easier to buy new, but giving it a chance to work.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'popravljati',
+        en: 'to repair / fix',
+        ex: 'već četrdeset godina popravlja ono što bi drugi bez razmišljanja bacili',
+      },
+      {
+        hr: 'planirano zastarijevanje',
+        en: 'planned obsolescence',
+        ex: 'Planirano zastarijevanje, pojam skovan još prošlog stoljeća, označava namjerno skraćivanje vijeka trajanja proizvoda',
+      },
+      {
+        hr: 'rastrošnost',
+        en: 'wastefulness',
+        ex: 'bacanje je bilo gotovo sramotno, znak rastrošnosti koju si je malo tko mogao priuštiti',
+      },
+      {
+        hr: 'isplativ',
+        en: 'cost-effective / profitable',
+        ex: 'popravak prestao biti isplativ u usporedbi s novom robom',
+      },
+      {
+        hr: 'dostojanstvo',
+        en: 'dignity',
+        ex: 'popravak, koliko god skroman, vraća stvarima dostojanstvo koje im rastrošno društvo oduzima',
+      },
+      {
+        hr: 'jamstvo',
+        en: 'warranty',
+        ex: 'Zašto plaćamo više za jamstvo od godinu dana nego za uređaj koji bi, uz malu njegu, trajao deset?',
+      },
+      {
+        hr: 'odlagalište',
+        en: 'landfill / waste site',
+        ex: 'prostora na odlagalištu koje se sporo, ako uopće, razgrađuje',
+      },
+      {
+        hr: 'sirovina',
+        en: 'raw material',
+        ex: 'Svaki bačeni uređaj nije samo gubitak novca nego i sirovina, energije utrošene u proizvodnju',
+      },
+      {
+        hr: 'majstor',
+        en: 'craftsman / handyman',
+        ex: 'Majstor u selu nije bio luksuz nego nužnost, jedina osoba koja je znala vratiti stroj u pogon',
+      },
+      {
+        hr: 'odvijač',
+        en: 'screwdriver',
+        ex: 'već su naučila razlikovati odvijač od ključa bolje nego njihovi roditelji',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto Ante Perković misli suprotno od ljudi koji radije kupuju novo?',
+        qEn: 'Why does Ante Perković think differently from people who prefer to buy new rather than repair?',
+        opts: [
+          'Vjeruje da je popravljanje pitanje toga kakav svijet gradimo.',
+          'Ne može si priuštiti prodaju novih uređaja.',
+          'Ima osobnu zamjerku prema proizvođačima.',
+          'Zakon ga je obvezao otvoriti radionicu.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što, prema tekstu, planirano zastarijevanje zapravo znači?',
+        qEn: 'According to the text, what does planned obsolescence actually mean?',
+        opts: [
+          'Kvarove nastale slučajnim tvorničkim greškama.',
+          'Namjerno skraćivanje vijeka trajanja proizvoda radi neprekidne potrošnje.',
+          'Marketinški pojam bez stvarnog učinka.',
+          'Zakon koji nalaže godišnje ažuriranje softvera.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto je mlada žena bila iznenađena kad je Ante popravio njezin aparat za kavu?',
+        qEn: 'Why was the young woman surprised when Ante repaired her coffee machine?',
+        opts: [
+          'Očekivala je da će popravak trajati tjednima.',
+          'Mislila je da je popravak preskup.',
+          'Bila je uvjerena da popravak nema smisla i prije nego što je pokušala.',
+          'Nije znala da Antina radionica još postoji.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Zašto, prema Anti, bacanje uređaja prerano obezvrjeđuje uloženi trud?',
+        qEn: 'According to Ante, why does discarding a device too soon devalue the effort invested in it?',
+        opts: [
+          'Zato što se time krše uvjeti jamstva.',
+          'Zato što poskupljuje sirovine.',
+          'Zato što šteti ugledu proizvođača.',
+          'Zato što zanemaruje trud inženjera i radnika koji su ga stvorili.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Zašto mladi danas svjesno biraju popravak umjesto kupnje novog uređaja, prema tekstu?',
+        qEn: 'Why, according to the text, do young people today consciously choose repair over buying new?',
+        opts: [
+          'Zato što servisi nude bolja jamstva od trgovina.',
+          'Zato što si ne mogu priuštiti nove uređaje.',
+          'Zato što popravak vide kao stav protiv potrošačke kulture i žele razumjeti što koriste.',
+          'Zato što državne subvencije čine popravak obveznim.',
         ],
         correct: 2,
       },
