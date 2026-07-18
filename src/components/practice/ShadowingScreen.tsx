@@ -7,6 +7,8 @@ import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useRecorder } from '../../hooks/useRecorder';
+import { getUserCefr, cefrRank, isUnlocked } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -427,7 +429,22 @@ export default function ShadowingScreen({
   }, [recState]);
 
   if (!SHADOWING || SHADOWING.length === 0) return null;
-  const items = SHADOWING;
+  // 3b: level-aware selection. Items now carry a CEFR `level` tag — serve the
+  // ~12 nearest the user's unlock level (easier→harder order) instead of the
+  // whole pool in fixed order. Content cached before the deploy has no tags
+  // and keeps the original full-pool behaviour.
+  const userCefr = getContentUnlockLevel(getUserCefr(stats.xp ?? 0, stats.lc ?? 0, stats.gc ?? 0));
+  const tagged = SHADOWING.filter((s) => s?.level);
+  let items = SHADOWING;
+  if (tagged.length > 0) {
+    const unlocked = tagged.filter((s) => isUnlocked(s.level, userCefr));
+    const pool = unlocked.length >= 4 ? unlocked : tagged;
+    const r = cefrRank(userCefr);
+    items = [...pool]
+      .sort((a, b) => Math.abs(cefrRank(a.level) - r) - Math.abs(cefrRank(b.level) - r))
+      .slice(0, 12)
+      .sort((a, b) => cefrRank(a.level) - cefrRank(b.level));
+  }
 
   // Reset recording state when moving to a new item
   function advanceItem() {
