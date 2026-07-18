@@ -484,7 +484,7 @@ export default function FrequencyTrackScreen({
     <div className="scr-wrap" style={{ paddingBottom: 100, fontFamily: "'Outfit', sans-serif" }}>
       {/* ── HEADER ── */}
       {H(
-        'Top 500 Croatian Words',
+        `Top ${FREQUENCY_500.length} Croatian Words`,
         'Master the words that make up 80% of everyday Croatian speech',
         goBack,
       )}
@@ -604,7 +604,7 @@ export default function FrequencyTrackScreen({
           }}
         >
           {learnedCount >= FREQUENCY_500.length
-            ? '🎉 All 500 words learned!'
+            ? `🎉 All ${FREQUENCY_500.length} words learned!`
             : `Quiz me on due words (${FREQUENCY_500.length - learnedCount} remaining)`}
         </button>
       </div>
