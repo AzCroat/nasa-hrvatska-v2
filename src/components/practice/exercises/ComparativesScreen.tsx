@@ -12,7 +12,7 @@ interface Props {
 
 function ComparativesScreen({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
-  const questions = shMemo('cq', COMPQUIZ, undefined);
+  const questions = shMemo('cq', COMPQUIZ, 15);
   const shuffledOpts = React.useMemo(
     () => (questions as { q: string; opts: string[]; a: string }[]).map((q) => sh([...q.opts])),
     [questions],
