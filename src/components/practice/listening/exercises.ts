@@ -290,6 +290,49 @@ export const EXERCISES = {
           },
         ],
       },
+
+      {
+        title: 'Connected Speech: Ana',
+        icon: '🔗',
+        passage: 'Zovem se Ana. Živim u Zagrebu. Imam brata i sestru. Volim kavu i more.',
+        questions: [
+          {
+            hr: 'Zovem se Ana.',
+            en: 'My name is Ana.',
+            opts: ['My name is Ana.', 'I am calling Ana.', 'Her name is Ana.', 'I live with Ana.'],
+          },
+          {
+            hr: 'Živim u Zagrebu.',
+            en: 'I live in Zagreb.',
+            opts: [
+              'I live in Zagreb.',
+              'I work in Zagreb.',
+              'I was born in Zagreb.',
+              'I am going to Zagreb.',
+            ],
+          },
+          {
+            hr: 'Imam brata i sestru.',
+            en: 'I have a brother and a sister.',
+            opts: [
+              'I have a brother and a sister.',
+              'I have two brothers.',
+              'I love my brother and sister.',
+              'My brother has a sister.',
+            ],
+          },
+          {
+            hr: 'Volim kavu i more.',
+            en: 'I love coffee and the sea.',
+            opts: [
+              'I love coffee and the sea.',
+              'I drink coffee by the sea.',
+              'I want coffee and more.',
+              'I love tea and the sea.',
+            ],
+          },
+        ],
+      },
     ],
   },
   A2: {
@@ -594,6 +637,65 @@ export const EXERCISES = {
           },
         ],
       },
+
+      {
+        title: 'Connected Speech: My Morning',
+        icon: '🔗',
+        passage:
+          'Jutros sam ustala u sedam sati. Popila sam kavu i pojela sendvič. Autobusom sam otišla na posao. Poslije posla idem u trgovinu. Navečer ću gledati film.',
+        questions: [
+          {
+            hr: 'Jutros sam ustala u sedam sati.',
+            en: "This morning I got up at seven o'clock.",
+            opts: [
+              "This morning I got up at seven o'clock.",
+              "This morning I left at seven o'clock.",
+              "Yesterday I got up at seven o'clock.",
+              "This morning I got up at six o'clock.",
+            ],
+          },
+          {
+            hr: 'Popila sam kavu i pojela sendvič.',
+            en: 'I drank a coffee and ate a sandwich.',
+            opts: [
+              'I drank a coffee and ate a sandwich.',
+              'I made a coffee and a sandwich.',
+              'I drank tea and ate a sandwich.',
+              'I bought a coffee and a sandwich.',
+            ],
+          },
+          {
+            hr: 'Autobusom sam otišla na posao.',
+            en: 'I went to work by bus.',
+            opts: [
+              'I went to work by bus.',
+              'I went to work by tram.',
+              'I walked to work.',
+              'The bus was late for work.',
+            ],
+          },
+          {
+            hr: 'Poslije posla idem u trgovinu.',
+            en: 'After work I am going to the shop.',
+            opts: [
+              'After work I am going to the shop.',
+              'Before work I go to the shop.',
+              'After work I am going home.',
+              'After the shop I go to work.',
+            ],
+          },
+          {
+            hr: 'Navečer ću gledati film.',
+            en: 'In the evening I will watch a film.',
+            opts: [
+              'In the evening I will watch a film.',
+              'In the evening I watched a film.',
+              'Tonight I am making a film.',
+              'In the morning I will watch a film.',
+            ],
+          },
+        ],
+      },
     ],
   },
   B1: {
@@ -864,6 +966,65 @@ export const EXERCISES = {
               'I am sure I will make it on time.',
               'I am not sure when it starts.',
               'I know I will be late.',
+            ],
+          },
+        ],
+      },
+
+      {
+        title: 'Connected Speech: Trip to Split',
+        icon: '🔗',
+        passage:
+          'Prošlog vikenda putovali smo u Split. Vlak je kasnio pola sata, ali nismo se ljutili. U gradu smo posjetili Dioklecijanovu palaču. Ručali smo ribu u maloj konobi kraj mora. Kući smo se vratili umorni, ali sretni.',
+        questions: [
+          {
+            hr: 'Prošlog vikenda putovali smo u Split.',
+            en: 'Last weekend we travelled to Split.',
+            opts: [
+              'Last weekend we travelled to Split.',
+              'Next weekend we are travelling to Split.',
+              'Last weekend we moved to Split.',
+              'Last week we flew to Split.',
+            ],
+          },
+          {
+            hr: 'Vlak je kasnio pola sata, ali nismo se ljutili.',
+            en: 'The train was half an hour late, but we were not angry.',
+            opts: [
+              'The train was half an hour late, but we were not angry.',
+              'The train was an hour late, so we were angry.',
+              'The bus was half an hour late, but we did not mind.',
+              'The train arrived half an hour early.',
+            ],
+          },
+          {
+            hr: 'U gradu smo posjetili Dioklecijanovu palaču.',
+            en: "In the city we visited Diocletian's Palace.",
+            opts: [
+              "In the city we visited Diocletian's Palace.",
+              "In the city we saw Diocletian's statue.",
+              'Outside the city we visited a palace.',
+              "We stayed at a hotel near Diocletian's Palace.",
+            ],
+          },
+          {
+            hr: 'Ručali smo ribu u maloj konobi kraj mora.',
+            en: 'We had fish for lunch in a small tavern by the sea.',
+            opts: [
+              'We had fish for lunch in a small tavern by the sea.',
+              'We had dinner in a big restaurant by the sea.',
+              'We caught fish in the sea near a tavern.',
+              'We had meat for lunch in a small tavern.',
+            ],
+          },
+          {
+            hr: 'Kući smo se vratili umorni, ali sretni.',
+            en: 'We returned home tired but happy.',
+            opts: [
+              'We returned home tired but happy.',
+              'We returned home late and unhappy.',
+              'We stayed at home, tired but happy.',
+              'They returned home tired but happy.',
             ],
           },
         ],
@@ -1162,6 +1323,65 @@ export const EXERCISES = {
           },
         ],
       },
+
+      {
+        title: "Connected Speech: A Nurse's Work",
+        icon: '🔗',
+        passage:
+          'Moja sestra već tri godine radi u jednoj velikoj bolnici. Posao je naporan, no kaže da ga ne bi mijenjala. Najteže su joj noćne smjene, osobito zimi. Ipak, kad pacijent ozdravi i zahvali joj, sve ima smisla. Sljedeće godine planira specijalizaciju iz pedijatrije.',
+        questions: [
+          {
+            hr: 'Moja sestra već tri godine radi u jednoj velikoj bolnici.',
+            en: 'My sister has been working in a large hospital for three years.',
+            opts: [
+              'My sister has been working in a large hospital for three years.',
+              'My sister worked in a large hospital three years ago.',
+              'My sister has been running a large hospital for three years.',
+              'My sister has been studying at a hospital for two years.',
+            ],
+          },
+          {
+            hr: 'Posao je naporan, no kaže da ga ne bi mijenjala.',
+            en: 'The job is demanding, but she says she would not change it.',
+            opts: [
+              'The job is demanding, but she says she would not change it.',
+              'The job is easy, so she will not change it.',
+              'The job is demanding, so she wants to change it.',
+              'The job is demanding, and she says it is changing her.',
+            ],
+          },
+          {
+            hr: 'Najteže su joj noćne smjene, osobito zimi.',
+            en: 'The night shifts are hardest for her, especially in winter.',
+            opts: [
+              'The night shifts are hardest for her, especially in winter.',
+              'The morning shifts are hardest for her in winter.',
+              'She finds nights hardest, especially in summer.',
+              'Night shifts are the best paid, especially in winter.',
+            ],
+          },
+          {
+            hr: 'Ipak, kad pacijent ozdravi i zahvali joj, sve ima smisla.',
+            en: 'Still, when a patient recovers and thanks her, it all makes sense.',
+            opts: [
+              'Still, when a patient recovers and thanks her, it all makes sense.',
+              'Still, when a patient complains, nothing makes sense.',
+              'When a patient recovers, she thanks the doctors.',
+              'Whenever a patient arrives and greets her, it all makes sense.',
+            ],
+          },
+          {
+            hr: 'Sljedeće godine planira specijalizaciju iz pedijatrije.',
+            en: 'Next year she plans to specialise in paediatrics.',
+            opts: [
+              'Next year she plans to specialise in paediatrics.',
+              'Last year she specialised in paediatrics.',
+              'Next year she plans to leave paediatrics.',
+              'Next month she starts working in paediatrics.',
+            ],
+          },
+        ],
+      },
     ],
   },
   C1: {
@@ -1430,6 +1650,65 @@ export const EXERCISES = {
           },
         ],
       },
+
+      {
+        title: 'Connected Speech: City Council',
+        icon: '🔗',
+        passage:
+          'Na jučerašnjoj sjednici gradskog vijeća raspravljalo se o obnovi stare gradske jezgre. Većina vijećnika podržala je prijedlog, premda su neki upozorili na visoke troškove. Sredstva će se dijelom osigurati iz europskih fondova. Radovi bi trebali započeti početkom sljedeće godine. Građani će o svemu biti pravodobno obaviješteni.',
+        questions: [
+          {
+            hr: 'Na jučerašnjoj sjednici gradskog vijeća raspravljalo se o obnovi stare gradske jezgre.',
+            en: "At yesterday's city council session, the renovation of the old town core was discussed.",
+            opts: [
+              "At yesterday's city council session, the renovation of the old town core was discussed.",
+              "At tomorrow's session the council will discuss the old town.",
+              'Yesterday the council voted to demolish the old town core.',
+              "At yesterday's session the mayor presented the new town centre.",
+            ],
+          },
+          {
+            hr: 'Većina vijećnika podržala je prijedlog, premda su neki upozorili na visoke troškove.',
+            en: 'Most councillors supported the proposal, although some warned about the high costs.',
+            opts: [
+              'Most councillors supported the proposal, although some warned about the high costs.',
+              'Most councillors rejected the proposal because of the high costs.',
+              'A minority supported the proposal despite the low costs.',
+              'All councillors supported the proposal without any warnings.',
+            ],
+          },
+          {
+            hr: 'Sredstva će se dijelom osigurati iz europskih fondova.',
+            en: 'The funds will be partly secured from European funds.',
+            opts: [
+              'The funds will be partly secured from European funds.',
+              'The funds were fully provided by European funds.',
+              'The funds will be borrowed from European banks.',
+              'European funds have rejected the funding request.',
+            ],
+          },
+          {
+            hr: 'Radovi bi trebali započeti početkom sljedeće godine.',
+            en: 'The works should begin at the start of next year.',
+            opts: [
+              'The works should begin at the start of next year.',
+              'The works began at the start of this year.',
+              'The works should finish by the end of next year.',
+              'The works must begin by the end of this month.',
+            ],
+          },
+          {
+            hr: 'Građani će o svemu biti pravodobno obaviješteni.',
+            en: 'The citizens will be informed about everything in due time.',
+            opts: [
+              'The citizens will be informed about everything in due time.',
+              'The citizens were informed about everything yesterday.',
+              'The citizens must inform the council in due time.',
+              'The citizens will decide about everything by referendum.',
+            ],
+          },
+        ],
+      },
     ],
   },
   C2: {
@@ -1694,6 +1973,65 @@ export const EXERCISES = {
               'And so, day after day, they seized life fully.',
               'Life stopped for them one day.',
               'They passed by life only once.',
+            ],
+          },
+        ],
+      },
+
+      {
+        title: 'Connected Speech: Wage Talks',
+        icon: '🔗',
+        passage:
+          'Nakon višemjesečnih pregovora, sindikati i poslodavci napokon su postigli dogovor. Kolektivnim ugovorom predviđeno je postupno povećanje plaća tijekom sljedeće dvije godine. Obje strane ocijenile su kompromis prihvatljivim, iako ne i idealnim. Analitičari upozoravaju da će provedba ovisiti o gospodarskim kretanjima. Bude li inflacija rasla, pregovori bi se mogli ponoviti.',
+        questions: [
+          {
+            hr: 'Nakon višemjesečnih pregovora, sindikati i poslodavci napokon su postigli dogovor.',
+            en: 'After months of negotiations, the unions and employers finally reached an agreement.',
+            opts: [
+              'After months of negotiations, the unions and employers finally reached an agreement.',
+              "After weeks of negotiations, the unions rejected the employers' offer.",
+              'The unions and employers are finally starting negotiations after months.',
+              'After months of strikes, the employers finally gave up.',
+            ],
+          },
+          {
+            hr: 'Kolektivnim ugovorom predviđeno je postupno povećanje plaća tijekom sljedeće dvije godine.',
+            en: 'The collective agreement provides for a gradual wage increase over the next two years.',
+            opts: [
+              'The collective agreement provides for a gradual wage increase over the next two years.',
+              'The collective agreement freezes wages for the next two years.',
+              'The agreement provides for an immediate wage increase this year.',
+              'The contract predicts a gradual wage decrease over two years.',
+            ],
+          },
+          {
+            hr: 'Obje strane ocijenile su kompromis prihvatljivim, iako ne i idealnim.',
+            en: 'Both sides deemed the compromise acceptable, though not ideal.',
+            opts: [
+              'Both sides deemed the compromise acceptable, though not ideal.',
+              'Both sides deemed the compromise ideal and final.',
+              'One side found the compromise unacceptable.',
+              'Both sides refused to comment on the compromise.',
+            ],
+          },
+          {
+            hr: 'Analitičari upozoravaju da će provedba ovisiti o gospodarskim kretanjima.',
+            en: 'Analysts warn that implementation will depend on economic trends.',
+            opts: [
+              'Analysts warn that implementation will depend on economic trends.',
+              'Analysts promise that implementation will improve the economy.',
+              'Analysts warn that the economy depends on the agreement.',
+              'Analysts doubt the agreement was ever implemented.',
+            ],
+          },
+          {
+            hr: 'Bude li inflacija rasla, pregovori bi se mogli ponoviti.',
+            en: 'Should inflation rise, the negotiations could be repeated.',
+            opts: [
+              'Should inflation rise, the negotiations could be repeated.',
+              'Because inflation rose, the negotiations were repeated.',
+              'If inflation falls, the negotiations will be cancelled.',
+              'Inflation will rise if the negotiations are repeated.',
             ],
           },
         ],

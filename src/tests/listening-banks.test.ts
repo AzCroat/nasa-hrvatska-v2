@@ -94,3 +94,67 @@ describe('LISTEN pool', () => {
     expect(dupes, dupes.join(' | ')).toEqual([]);
   });
 });
+
+// ── 3b: connected-speech passages + shadowing level tags ─────────────────────
+import { SHADOWING } from '../data/cultural/language.js';
+import { readFileSync } from 'node:fs';
+
+describe('3b — connected-speech passage sets', () => {
+  const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+  it('every level has at least one passage set with valid structure', () => {
+    for (const lvl of CEFR) {
+      const ld = (EXERCISES as Record<string, (typeof EXERCISES)['A1']>)[lvl]!;
+      const passageSets = ld.sets.filter(
+        (s) => 'passage' in s && typeof (s as { passage?: string }).passage === 'string',
+      );
+      expect(passageSets.length, `${lvl} passage sets`).toBeGreaterThanOrEqual(1);
+      for (const s of passageSets) {
+        const passage = (s as { passage: string }).passage;
+        // connected speech: multiple sentences
+        expect(
+          passage.split('.').filter((x) => x.trim()).length,
+          `${lvl} sentences`,
+        ).toBeGreaterThanOrEqual(3);
+        expect(s.questions.length, `${lvl} questions`).toBeGreaterThanOrEqual(4);
+        for (const q of s.questions) {
+          expect(passage.includes(q.hr), `${lvl}: "${q.hr}" not in passage`).toBe(true);
+          expect(q.opts, q.hr).toContain(q.en);
+          expect(new Set(q.opts).size, `${lvl}: dup opts for "${q.hr}"`).toBe(q.opts.length);
+        }
+      }
+    }
+  });
+});
+
+describe('3b — shadowing level tags', () => {
+  const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+
+  it('every shadowing item carries hr/en/tip and a valid CEFR level', () => {
+    expect(SHADOWING.length).toBeGreaterThanOrEqual(36);
+    for (const s of SHADOWING as Array<Record<string, string>>) {
+      expect(typeof s.hr, JSON.stringify(s)).toBe('string');
+      expect(typeof s.en, s.hr).toBe('string');
+      expect(typeof s.tip, s.hr).toBe('string');
+      expect(CEFR.has(s.level!), `${s.hr} → ${s.level}`).toBe(true);
+    }
+  });
+
+  it('every CEFR band has at least 5 shadowing items', () => {
+    const by: Record<string, number> = {};
+    for (const s of SHADOWING as Array<Record<string, string>>) {
+      by[s.level!] = (by[s.level!] ?? 0) + 1;
+    }
+    for (const lvl of CEFR) {
+      expect(by[lvl] ?? 0, `level ${lvl}`).toBeGreaterThanOrEqual(5);
+    }
+  });
+
+  it('hr texts are unique and the client mirror matches the server file', () => {
+    const hrs = (SHADOWING as Array<Record<string, string>>).map((s) => s.hr);
+    expect(new Set(hrs).size).toBe(hrs.length);
+    const server = readFileSync('functions/api/content/_data/cultural/language.js', 'utf8');
+    const client = readFileSync('src/data/cultural/language.js', 'utf8');
+    expect(client).toBe(server);
+  });
+});
