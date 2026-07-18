@@ -13,7 +13,7 @@ function shLocal(a: any[]) {
   return b;
 }
 
-const DATA = [
+export const DATA = [
   {
     q: 'Dajem poklon ___.',
     opts: ['bratu', 'brata', 'brat', 'bratom'],
@@ -78,9 +78,9 @@ const DATA = [
     tip: 'Indirect object: dijete (neut) → dative: djetetu',
   },
   {
-    q: 'Treba mi pomoć ___.',
-    opts: ['liječniku', 'liječnika', 'liječnik', 'liječnikom'],
-    answer: 'liječniku',
+    q: '___ treba moja pomoć.',
+    opts: ['Liječniku', 'Liječnika', 'Liječnik', 'Liječnikom'],
+    answer: 'Liječniku',
     en: 'The doctor needs my help.',
     tip: "'trebati' takes dative for the person who needs: liječnik + -u → liječniku",
   },
@@ -154,6 +154,217 @@ const DATA = [
     en: 'I am writing to my friend.',
     tip: "'pisati' (to write to) takes dative: prijatelj → prijatelju",
   },
+  // ── 2026-07 depth expansion (+30): more governance patterns + PLURAL forms ──
+  {
+    q: 'Šaljem pismo ___.',
+    opts: ['prijatelju', 'prijatelja', 'prijatelj', 'prijateljem'],
+    answer: 'prijatelju',
+    en: 'I am sending a letter to a friend.',
+    tip: 'Recipient takes dative: prijatelj → prijatelju.',
+  },
+  {
+    q: 'Pomažem ___ u kuhinji.',
+    opts: ['mami', 'mamu', 'mama', 'mamom'],
+    answer: 'mami',
+    en: 'I help mum in the kitchen.',
+    tip: "'Pomagati' governs the DATIVE: mama → mami.",
+  },
+  {
+    q: 'Radujem se ___.',
+    opts: ['ljetu', 'ljeto', 'ljeta', 'ljetom'],
+    answer: 'ljetu',
+    en: 'I am looking forward to summer.',
+    tip: "'Radovati se' + dative: ljeto → ljetu.",
+  },
+  {
+    q: 'Idem k ___.',
+    opts: ['baki', 'baku', 'baka', 'bakom'],
+    answer: 'baki',
+    en: "I am going to grandma's.",
+    tip: 'Direction to a person: k/ka + dative. Sibilarization: baka → baki.',
+  },
+  {
+    q: 'Vjerujem svom ___.',
+    opts: ['bratu', 'brata', 'brat', 'bratom'],
+    answer: 'bratu',
+    en: 'I trust my brother.',
+    tip: "'Vjerovati' + dative: brat → bratu.",
+  },
+  {
+    q: 'Ovaj kaput pripada ___.',
+    opts: ['susjedi', 'susjedu', 'susjeda', 'susjedom'],
+    answer: 'susjedi',
+    en: 'This coat belongs to the (female) neighbour.',
+    tip: "'Pripadati' + dative. Feminine susjeda → susjedi.",
+  },
+  {
+    q: 'Čestitam ti na ___!',
+    opts: ['uspjehu', 'uspjeh', 'uspjeha', 'uspjehom'],
+    answer: 'uspjehu',
+    en: 'I congratulate you on your success!',
+    tip: "'Na' after čestitati takes locative — same form as dative: uspjeh → uspjehu.",
+  },
+  {
+    q: 'Hvala ___ na pomoći.',
+    opts: ['vama', 'vas', 'vi', 'vami'],
+    answer: 'vama',
+    en: 'Thank you (formal) for the help.',
+    tip: "'Hvala' + dative of the person: vi → vama.",
+  },
+  {
+    q: 'Obećao sam ___ da ću doći.',
+    opts: ['sestri', 'sestru', 'sestra', 'sestrom'],
+    answer: 'sestri',
+    en: 'I promised my sister that I would come.',
+    tip: 'Person promised-to takes dative: sestra → sestri.',
+  },
+  {
+    q: 'Djeca se vesele ___.',
+    opts: ['Božiću', 'Božić', 'Božića', 'Božićem'],
+    answer: 'Božiću',
+    en: 'The children are looking forward to Christmas.',
+    tip: "'Veseliti se' + dative: Božić → Božiću.",
+  },
+  {
+    q: 'Približavamo se ___.',
+    opts: ['gradu', 'grad', 'grada', 'gradom'],
+    answer: 'gradu',
+    en: 'We are approaching the city.',
+    tip: "'Približavati se' + dative: grad → gradu.",
+  },
+  {
+    q: 'To se ___ ne sviđa.',
+    opts: ['tati', 'tatu', 'tata', 'tatom'],
+    answer: 'tati',
+    en: 'Dad does not like that.',
+    tip: "'Sviđati se' — the experiencer is dative: tata → tati.",
+  },
+  {
+    q: 'Unatoč ___, izašli smo van.',
+    opts: ['kiši', 'kišu', 'kiša', 'kišom'],
+    answer: 'kiši',
+    en: 'Despite the rain, we went outside.',
+    tip: "'Unatoč' governs the DATIVE: kiša → kiši.",
+  },
+  {
+    q: 'Zahvaljujući ___, položio sam ispit.',
+    opts: ['profesoru', 'profesora', 'profesor', 'profesorom'],
+    answer: 'profesoru',
+    en: 'Thanks to the professor, I passed the exam.',
+    tip: "'Zahvaljujući' + dative: profesor → profesoru.",
+  },
+  {
+    q: 'Divim se njezinoj ___.',
+    opts: ['hrabrosti', 'hrabrost', 'hrabrošću', 'hrabrostima'],
+    answer: 'hrabrosti',
+    en: 'I admire her courage.',
+    tip: "'Diviti se' + dative. i-declension: hrabrost → hrabrosti.",
+  },
+  {
+    q: 'Mačka prilazi ___.',
+    opts: ['vratima', 'vrata', 'vratiju', 'vratama'],
+    answer: 'vratima',
+    en: 'The cat approaches the door.',
+    tip: "PLURAL-only noun: vrata → vratima ('prilaziti' + dative).",
+  },
+  {
+    q: 'Učiteljica objašnjava zadatak ___.',
+    opts: ['učenicima', 'učenike', 'učenika', 'učenici'],
+    answer: 'učenicima',
+    en: 'The teacher explains the task to the pupils.',
+    tip: 'PLURAL dative: učenici → učenicima.',
+  },
+  {
+    q: 'Nosimo poklone ___.',
+    opts: ['djevojčicama', 'djevojčice', 'djevojčica', 'djevojčici'],
+    answer: 'djevojčicama',
+    en: 'We bring presents to the girls.',
+    tip: 'PLURAL feminine: djevojčice → djevojčicama.',
+  },
+  {
+    q: 'Pišem poruku ___.',
+    opts: ['roditeljima', 'roditelje', 'roditelja', 'roditelji'],
+    answer: 'roditeljima',
+    en: 'I am writing a message to my parents.',
+    tip: 'PLURAL: roditelji → roditeljima.',
+  },
+  {
+    q: 'Konobar donosi račun ___.',
+    opts: ['gostima', 'goste', 'gostiju', 'gosti'],
+    answer: 'gostima',
+    en: 'The waiter brings the bill to the guests.',
+    tip: 'PLURAL: gosti → gostima.',
+  },
+  {
+    q: 'Baka priča priče ___.',
+    opts: ['unucima', 'unuke', 'unuka', 'unuci'],
+    answer: 'unucima',
+    en: 'Grandma tells stories to her grandchildren.',
+    tip: 'PLURAL: unuci → unucima.',
+  },
+  {
+    q: 'Grad pomaže ___ nakon poplave.',
+    opts: ['obiteljima', 'obitelji', 'obitelja', 'obiteljama'],
+    answer: 'obiteljima',
+    en: 'The city helps the families after the flood.',
+    tip: 'PLURAL i-declension: obitelji → obiteljima.',
+  },
+  {
+    q: 'Dajem vodu ___.',
+    opts: ['psima', 'pse', 'pasa', 'psi'],
+    answer: 'psima',
+    en: 'I give water to the dogs.',
+    tip: 'PLURAL: psi → psima (note the fleeting -a-: pas → psi).',
+  },
+  {
+    q: 'Kupujemo sladoled ___.',
+    opts: ['djeci', 'djecu', 'djece', 'djecom'],
+    answer: 'djeci',
+    en: 'We are buying the children ice cream.',
+    tip: "Collective 'djeca' declines as feminine singular: djeca → djeci.",
+  },
+  {
+    q: 'Novinar postavlja pitanje ___.',
+    opts: ['ministru', 'ministra', 'ministar', 'ministrom'],
+    answer: 'ministru',
+    en: 'The journalist asks the minister a question.',
+    tip: 'Person asked takes dative: ministar → ministru (fleeting -a-).',
+  },
+  {
+    q: 'Ova pjesma je posvećena ___.',
+    opts: ['majci', 'majku', 'majka', 'majkom'],
+    answer: 'majci',
+    en: 'This song is dedicated to mother.',
+    tip: 'Sibilarization k→c: majka → majci.',
+  },
+  {
+    q: 'Smijemo se ___, ne tebi!',
+    opts: ['vicu', 'vic', 'vica', 'vicem'],
+    answer: 'vicu',
+    en: 'We are laughing at the joke, not at you!',
+    tip: "'Smijati se' + dative: vic → vicu.",
+  },
+  {
+    q: 'Javite se ___ sutra ujutro.',
+    opts: ['liječnici', 'liječnicu', 'liječnica', 'liječnicom'],
+    answer: 'liječnici',
+    en: 'Contact the (female) doctor tomorrow morning.',
+    tip: "'Javiti se' + dative. Feminine: liječnica → liječnici.",
+  },
+  {
+    q: 'Sve to zahvaljujemo našim ___.',
+    opts: ['bakama', 'bake', 'baka', 'baki'],
+    answer: 'bakama',
+    en: 'We owe everything to our grandmas.',
+    tip: 'PLURAL: bake → bakama.',
+  },
+  {
+    q: 'Nastavnik je zadovoljan, a to znači puno ___.',
+    opts: ['studentima', 'studente', 'studenata', 'studenti'],
+    answer: 'studentima',
+    en: 'The teacher is satisfied, and that means a lot to the students.',
+    tip: 'PLURAL: studenti → studentima.',
+  },
 ];
 
 interface Props {
@@ -165,7 +376,9 @@ export default function DativeDrill({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
   const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
+    shLocal(DATA)
+      .slice(0, 20)
+      .map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
   );
   const total = q.length;
   const [idx, setIdx] = useState(0);
