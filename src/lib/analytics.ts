@@ -224,3 +224,14 @@ export function trackFriendAdded(): void {
 export function trackFamilyJoined(): void {
   safeLog('family_joined', {});
 }
+
+/**
+ * Wave 1 (session catchment): one event per built daily session recording the
+ * exact slot mix, so pool-coverage broadening is measurable in production
+ * instead of assumed. Fired from buildSessionActivities — once per fresh
+ * session (date/CEFR rollover), not per render.
+ */
+export function trackSessionBuilt({ cefr, screens }: { cefr: string; screens: string[] }): void {
+  safeLog('session_built', { cefr, slot_count: screens.length, screens: screens.join(',') });
+  phCapture('session_built', { cefr, slot_count: screens.length, screens });
+}
