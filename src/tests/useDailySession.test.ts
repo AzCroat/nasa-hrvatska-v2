@@ -389,6 +389,9 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
       'numtime',
       'possess',
       'cityloc',
+      // Wave 1 catchment — vocative (A1, grammar-structure category) joined the
+      // pool, so the guaranteed slot may pick it too.
+      'vocative',
     ];
     const acts = buildSessionActivities('A1');
     expect(acts.some((a) => A1_GRAMMAR.includes(a.screen))).toBe(true);
