@@ -7477,6 +7477,219 @@ export const GRADED_STORIES = [
     ],
   },
   {
+    id: 'gs_a1_25',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '💊',
+    title: 'U ljekarni',
+    titleEn: 'At the Pharmacy',
+    focus: 'present tense • V-form politeness • pharmacy vocabulary',
+    intro:
+      'Ana has a cold and visits the local pharmacy for advice. The pharmacist listens to her symptoms and recommends a syrup and a soothing tea.',
+    paragraphs: [
+      {
+        hr: 'Ana se ne osjeća dobro. Grlo je boli i glava je boli. Kašlje cijeli dan i često kiha. Ima i malu temperaturu. Mama kaže da mora ići u ljekarnu. Ljekarna je blizu, samo pet minuta hoda. Ana oblači toplu jaknu. Vani je hladno i vjetrovito.',
+        en: "Ana doesn't feel well. Her throat and head hurt. She coughs all day and sneezes often. She has a slight fever. Her mother says she must go to the pharmacy. The pharmacy is close, just a five-minute walk. Ana puts on a warm jacket. It is cold and windy outside.",
+      },
+      {
+        hr: "Ana ulazi u ljekarnu i pozdravlja. 'Dobar dan', kaže ljubazno. Ljekarnica se zove gospođa Novak. Ona radi u toj ljekarni već dugo. 'Dobar dan', odgovara ljekarnica i smiješi se. 'Kako vam mogu pomoći?', pita ljekarnica. Ana odgovara mirno i polako. 'Ne osjećam se dobro', kaže Ana. 'Boli me grlo i kašljem.'",
+        en: "Ana enters the pharmacy and greets the pharmacist. 'Good day,' she says politely. The pharmacist is called Mrs. Novak. She has worked at that pharmacy for a long time. 'Good day,' the pharmacist replies with a smile. 'How can I help you?' asks the pharmacist. Ana answers calmly and slowly. 'I don't feel well,' says Ana. 'My throat hurts and I'm coughing.'",
+      },
+      {
+        hr: "'Imate li temperaturu?', pita ljekarnica pristojno. 'Imam malu temperaturu', odgovara Ana. 'Kašljem i kiham cijeli dan. Grlo me jako boli. Ne mogu dobro gutati.' Ljekarnica pažljivo sluša Anu. 'To zvuči kao obična prehlada', kaže ljekarnica. 'Imate li i glavobolju?' 'Da, malu glavobolju imam', odgovara Ana tiho.",
+        en: "'Do you have a fever?' the pharmacist asks politely. 'I have a slight fever,' Ana replies. 'I've been coughing and sneezing all day. My throat hurts a lot. I can't swallow well.' The pharmacist listens carefully to Ana. 'That sounds like an ordinary cold,' says the pharmacist. 'Do you also have a headache?' 'Yes, I have a slight headache,' Ana answers quietly.",
+      },
+      {
+        hr: "Ljekarnica preporučuje sirup za kašalj. 'Ovaj sirup je vrlo dobar', objašnjava ona. 'Pijte ga tri puta dnevno.' Ana pažljivo sluša savjet. 'Treba li mi recept?', pita Ana radoznalo. 'Ne, ovaj sirup ne treba recept', odgovara ljekarnica. 'Ali za jače lijekove uvijek treba recept od liječnika.' Ana kima glavom i razumije.",
+        en: "The pharmacist recommends a cough syrup. 'This syrup is very good,' she explains. 'Drink it three times a day.' Ana listens carefully to the advice. 'Do I also need a prescription?' Ana asks curiously. 'No, this syrup doesn't need a prescription,' the pharmacist replies. 'But stronger medicine always needs a prescription from a doctor.' Ana nods and understands.",
+      },
+      {
+        hr: "'Preporučujem vam i topli čaj', dodaje ljekarnica. 'Čaj s medom i limunom pomaže grlu.' 'Koliko čaja trebam piti?', pita Ana. 'Pijte tri šalice dnevno', savjetuje ljekarnica. 'Čaj umiruje grlo i smanjuje kašalj.' Ana zahvaljuje ljekarnici na savjetu. 'Hvala vam na pomoći', kaže Ana pristojno. Ljekarnica se ljubazno smiješi Ani.",
+        en: "'I also recommend a warm tea,' adds the pharmacist. 'Tea with honey and lemon helps the throat.' 'How much tea should I drink?' asks Ana. 'Drink three cups a day,' the pharmacist advises. 'Tea soothes the throat and reduces coughing.' Ana thanks the pharmacist for the advice. 'Thank you for your help,' Ana says politely. The pharmacist smiles kindly at Ana.",
+      },
+      {
+        hr: "Ljekarnica daje Ani još savjeta. 'Odmarajte se i pijte puno vode', kaže ona. 'Ako temperatura poraste, morate posjetiti liječnika.' Ana obećava da će se odmarati. 'Hoću li brzo ozdraviti?', pita Ana s nadom. 'Za nekoliko dana bit ćete bolje', odgovara ljekarnica s osmijehom. Ana se osjeća malo mirnije nakon razgovora.",
+        en: "The pharmacist gives Ana more advice. 'Rest and drink plenty of water,' she says. 'If your temperature rises, you must see a doctor.' Ana promises to rest. 'Will I recover quickly?' Ana asks hopefully. 'You'll feel better in a few days,' the pharmacist answers with a smile. Ana feels a bit calmer after the conversation.",
+      },
+      {
+        hr: "Ana plaća sirup i čaj na blagajni. Sirup košta pet eura. Čaj u vrećicama košta dva eura. Ana vadi novac iz novčanika. 'Izvolite', kaže ljekarnica i daje joj vrećicu. U vrećici su sirup, čaj i uputa za korištenje. Ana uzima vrećicu i zahvaljuje ljekarnici.",
+        en: "Ana pays for the syrup and tea at the register. The syrup costs five euros. The tea bags cost two euros. Ana takes money out of her wallet. 'Here you are,' says the pharmacist, handing her a bag. Inside the bag are the syrup, the tea and the instructions for use. Ana takes the bag and thanks the pharmacist.",
+      },
+      {
+        hr: "'Doviđenja i brzo ozdravite', kaže ljekarnica ljubazno. 'Doviđenja, hvala vam puno', odgovara Ana. Ana izlazi iz ljekarne i ide kući. Vani i dalje puše hladan vjetar. Ana žuri kući da popije čaj. Kod kuće stavlja vodu za čaj. Uzima sirup prema uputama ljekarnice.",
+        en: "'Goodbye, and get well soon,' says the pharmacist kindly. 'Goodbye, thank you very much,' Ana replies. Ana leaves the pharmacy and heads home. Outside, the cold wind is still blowing. Ana hurries home to drink her tea. At home she puts water on for tea. She takes the syrup as the pharmacist instructed.",
+      },
+      {
+        hr: 'Navečer Ana pije topli čaj s medom. Uzima sirup prije spavanja. Rano liježe i dobro spava. Sljedeći dan grlo je manje boli. Kašalj je slabiji nego jučer. Ana je zadovoljna savjetom ljekarnice. Ljekarna joj je stvarno pomogla.',
+        en: "In the evening Ana drinks warm tea with honey. She takes the syrup before sleeping. She goes to bed early and sleeps well. The next day her throat hurts less. Her cough is weaker than yesterday. Ana is pleased with the pharmacist's advice. The pharmacy really helped her.",
+      },
+    ],
+    vocabulary: [
+      { hr: 'ljekarna', en: 'pharmacy', ex: 'Ljekarna je blizu, samo pet minuta hoda.' },
+      { hr: 'ljekarnica', en: 'female pharmacist', ex: 'Ljekarnica se zove gospođa Novak.' },
+      { hr: 'sirup', en: 'syrup', ex: 'Ljekarnica preporučuje sirup za kašalj.' },
+      {
+        hr: 'recept',
+        en: 'prescription',
+        ex: 'Ali za jače lijekove uvijek treba recept od liječnika.',
+      },
+      { hr: 'kašalj', en: 'cough', ex: 'Kašalj je slabiji nego jučer.' },
+      { hr: 'grlo', en: 'throat', ex: 'Grlo me jako boli.' },
+      { hr: 'temperatura', en: 'temperature/fever', ex: "'Imam malu temperaturu', odgovara Ana." },
+      { hr: 'čaj', en: 'tea', ex: "'Preporučujem vam i topli čaj', dodaje ljekarnica." },
+      {
+        hr: 'prehlada',
+        en: 'cold (illness)',
+        ex: "'To zvuči kao obična prehlada', kaže ljekarnica.",
+      },
+      { hr: 'liječnik', en: 'doctor', ex: 'Ako temperatura poraste, morate posjetiti liječnika.' },
+    ],
+    quiz: [
+      {
+        q: 'Što boli Anu na početku priče?',
+        qEn: 'What hurts Ana at the start of the story?',
+        opts: ['Grlo i glava', 'Noga', 'Ruka', 'Leđa'],
+        correct: 0,
+      },
+      {
+        q: 'Koliko puta dnevno Ana treba piti sirup?',
+        qEn: 'How many times a day should Ana drink the syrup?',
+        opts: ['Jednom dnevno', 'Tri puta dnevno', 'Pet puta dnevno', 'Dva puta tjedno'],
+        correct: 1,
+      },
+      {
+        q: 'Što ljekarnica preporučuje za grlo osim sirupa?',
+        qEn: 'What does the pharmacist recommend for the throat besides syrup?',
+        opts: ['Sladoled', 'Toplo mlijeko', 'Čaj s medom i limunom', 'Hladnu vodu'],
+        correct: 2,
+      },
+      {
+        q: 'Koliko sirup košta?',
+        qEn: 'How much does the syrup cost?',
+        opts: ['Dva eura', 'Tri eura', 'Deset eura', 'Pet eura'],
+        correct: 3,
+      },
+      {
+        q: 'Što ljekarnica kaže da Ana treba učiniti ako joj temperatura poraste?',
+        qEn: 'What does the pharmacist say Ana should do if her temperature rises?',
+        opts: ['Piti više čaja', 'Posjetiti liječnika', 'Ići spavati', 'Zvati mamu'],
+        correct: 1,
+      },
+    ],
+    duration: 9,
+  },
+  {
+    id: 'gs_a1_26',
+    level: 'A1',
+    levelColor: '#166534',
+    levelBg: '#dcfce7',
+    icon: '🛝',
+    title: 'Na igralištu',
+    titleEn: 'At the Playground',
+    focus: 'present tense • playground vocabulary • describing feelings',
+    intro:
+      'Nika spends a sunny afternoon at the playground with her friend Filip. After a small accident on the slide, an ice cream helps make everything better.',
+    paragraphs: [
+      {
+        hr: 'Nika ide na igralište s mamom. Igralište je u parku blizu kuće. Poslijepodne je sunčano i toplo. Nika nosi svoju omiljenu loptu i kantu. Igralište ima ljuljačku, tobogan i pješčanik. Puno djece se igra vani veselo. Nika trči prema ljuljački puna energije.',
+        en: 'Nika goes to the playground with her mother. The playground is in the park near their house. The afternoon is sunny and warm. Nika carries her favorite ball and a bucket. The playground has a swing, a slide and a sandbox. Lots of children are playing outside happily. Nika runs toward the swing full of energy.',
+      },
+      {
+        hr: "Nika sjeda na ljuljačku i ljulja se. Ljuljačka ide gore i dolje. Nika se glasno smije od sreće. Mama gura ljuljačku polako i nježno. 'Više, mama, više!', viče Nika veselo. Poslije ljuljačke Nika trči prema toboganu. Tobogan je visok i pomalo strašan.",
+        en: "Nika sits on the swing and swings. The swing goes up and down. Nika laughs loudly with joy. Mom pushes the swing slowly and gently. 'Higher, mom, higher!' Nika shouts happily. After the swing, Nika runs toward the slide. The slide is tall and a little scary.",
+      },
+      {
+        hr: "Nika se penje uz stepenice tobogana. Na vrhu tobogana malo je nervozna. Ipak, hrabro sjeda i spušta se. Tobogan je brz i zabavan. Nika se smije cijelim putem dolje. Na kraju tobogana skače u pijesak. 'To je bilo super!', kaže Nika sretno.",
+        en: "Nika climbs the slide's steps. At the top of the slide she is a bit nervous. Still, she bravely sits down and goes down. The slide is fast and fun. Nika laughs the whole way down. At the bottom of the slide she jumps into the sand. 'That was great!' says Nika happily.",
+      },
+      {
+        hr: "U pješčaniku Nika vidi svog prijatelja Filipa. Filip gradi veliki pješčani dvorac. 'Bog, Filipe!', pozdravlja Nika veselo. 'Bog, Nika! Hoćeš li mi pomoći?', pita Filip. Nika sjeda pored njega u pijesak. Zajedno grade tornjeve i mostove. Pješčanik je pun malih kanti i lopatica.",
+        en: "In the sandbox Nika sees her friend Filip. Filip is building a big sandcastle. 'Hi, Filip!' Nika greets him happily. 'Hi, Nika! Will you help me?' asks Filip. Nika sits down next to him in the sand. Together they build towers and bridges. The sandbox is full of small buckets and shovels.",
+      },
+      {
+        hr: 'Nika i Filip grade dvorac cijelo popodne. Dodaju kule i mali most. Filip donosi vodu da pijesak bude čvršći. Djeca se smiju i pričaju zajedno. Sunce grije, a djeca su sretna. Odjednom Nika ustaje da potrči do tobogana. Filip ostaje kraj dvorca sam.',
+        en: 'Nika and Filip build the castle all afternoon. They add towers and a small bridge. Filip brings water to make the sand firmer. The children laugh and chat together. The sun is warm, and the children are happy. Suddenly Nika gets up to run to the slide. Filip stays by the castle alone.',
+      },
+      {
+        hr: "Nika trči prema toboganu prebrzo. Odjednom se spotakne i padne. Koljeno joj krvari i jako boli. Nika počinje glasno plakati od boli. Filip trči po Nikinu mamu brzo. Mama dolazi i gleda koljeno pažljivo. 'Nije jako strašno', kaže mama smireno.",
+        en: "Nika runs toward the slide too fast. Suddenly she trips and falls. Her knee is bleeding and hurts badly. Nika starts crying loudly from the pain. Filip quickly runs to get Nika's mom. Mom comes and carefully looks at the knee. 'It's not too serious,' mom says calmly.",
+      },
+      {
+        hr: "Mama čisti Nikino koljeno vodom. Stavlja flaster preko male rane. 'Boli li još?', pita mama nježno. 'Malo boli', odgovara Nika kroz suze. Filip sjeda pored Nike i tješi je. 'Sve će biti dobro', kaže Filip prijateljski. Nika se polako smiruje i diše.",
+        en: "Mom cleans Nika's knee with water. She puts a bandage over the small wound. 'Does it still hurt?' mom asks gently. 'It hurts a little,' Nika answers through tears. Filip sits next to Nika and comforts her. 'Everything will be fine,' Filip says kindly. Nika slowly calms down and breathes.",
+      },
+      {
+        hr: "Mama ima ideju kako pomoći Niki. 'Idemo po sladoled', kaže mama veselo. Nika se odmah nasmiješi kroz suze. Blizu igrališta je mali kiosk sa sladoledom. Nika bira sladoled od čokolade i vanilije. Filip također dobiva sladoled od jagode. Djeca zajedno jedu sladoled na klupi.",
+        en: "Mom has an idea to help Nika. 'Let's go get ice cream,' mom says cheerfully. Nika immediately smiles through her tears. Near the playground there is a small ice cream kiosk. Nika chooses chocolate and vanilla ice cream. Filip also gets strawberry ice cream. The children eat ice cream together on a bench.",
+      },
+      {
+        hr: "Koljeno više ne boli tako jako. Nika se smije i priča s Filipom. 'Sutra opet dolazim na igralište', kaže Nika. Filip se raduje novom druženju sutra. Mama i Nika polako idu kući. Sunce polako zalazi iza drveća. Bio je to lijep dan na igralištu.",
+        en: "Her knee doesn't hurt as much anymore. Nika laughs and chats with Filip. 'I'm coming back to the playground tomorrow,' says Nika. Filip looks forward to hanging out again tomorrow. Mom and Nika slowly walk home. The sun slowly sets behind the trees. It was a lovely day at the playground.",
+      },
+    ],
+    vocabulary: [
+      { hr: 'ljuljačka', en: 'swing', ex: 'Nika sjeda na ljuljačku i ljulja se.' },
+      { hr: 'tobogan', en: 'slide', ex: 'Tobogan je brz i zabavan.' },
+      { hr: 'pješčanik', en: 'sandbox', ex: 'U pješčaniku Nika vidi svog prijatelja Filipa.' },
+      { hr: 'koljeno', en: 'knee', ex: 'Koljeno joj krvari i jako boli.' },
+      { hr: 'flaster', en: 'band-aid/plaster', ex: 'Stavlja flaster preko male rane.' },
+      { hr: 'sladoled', en: 'ice cream', ex: "'Idemo po sladoled', kaže mama veselo." },
+      { hr: 'plakati', en: 'to cry', ex: 'Nika počinje glasno plakati od boli.' },
+      { hr: 'kiosk', en: 'kiosk', ex: 'Blizu igrališta je mali kiosk sa sladoledom.' },
+      { hr: 'dvorac', en: 'castle', ex: 'Filip gradi veliki pješčani dvorac.' },
+      { hr: 'suze', en: 'tears', ex: "'Malo boli', odgovara Nika kroz suze." },
+    ],
+    quiz: [
+      {
+        q: 'Što se nalazi na igralištu?',
+        qEn: 'What is at the playground?',
+        opts: [
+          'Bazen i teren za košarku',
+          'Ljuljačka, tobogan i pješčanik',
+          'Klupa i fontana',
+          'Samo klackalica',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Tko je Nikin prijatelj na igralištu?',
+        qEn: "Who is Nika's friend at the playground?",
+        opts: ['Luka', 'Ivan', 'Filip', 'Marko'],
+        correct: 2,
+      },
+      {
+        q: 'Što Nika i Filip grade u pješčaniku?',
+        qEn: 'What do Nika and Filip build in the sandbox?',
+        opts: ['Brod', 'Kuću', 'Most', 'Dvorac'],
+        correct: 3,
+      },
+      {
+        q: 'Zašto Nika padne dok trči prema toboganu?',
+        qEn: 'Why does Nika fall while running toward the slide?',
+        opts: [
+          'Trči prebrzo i spotakne se',
+          'Netko je gurne',
+          'Poskliznu se na vodi',
+          'Sudari se s Filipom',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što mama i Nika rade nakon što joj previju koljeno?',
+        qEn: 'What do mom and Nika do after her knee is bandaged?',
+        opts: [
+          'Zovu liječnika',
+          'Idu po sladoled',
+          'Vraćaju se kući odmah',
+          'Sjede na klupi bez razgovora',
+        ],
+        correct: 1,
+      },
+    ],
+    duration: 8,
+  },
+  {
     id: 'gs_a2_17',
     level: 'A2',
     levelColor: '#1e40af',
@@ -8510,6 +8723,237 @@ export const GRADED_STORIES = [
         correct: 2,
       },
     ],
+  },
+  {
+    id: 'gs_a2_25',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🧹',
+    title: 'Proljetno čišćenje',
+    titleEn: 'Spring Cleaning',
+    focus: 'perfekt narrative • household vocabulary • past tense storytelling',
+    intro:
+      'Ivana spends a weekend giving her apartment a thorough spring clean. Along the way she discovers a forgotten photo album that brings back cherished memories.',
+    paragraphs: [
+      {
+        hr: 'Ivana je odlučila da će ovog vikenda temeljito počistiti stan. Zima je prošla, a proljeće je donijelo želju za redom. U petak navečer napravila je popis zadataka. Kupila je nove kutije za spremanje stvari i pripremila vreće za staru odjeću. Bila je odlučna da ovaj put stan stvarno posprema do kraja.',
+        en: 'Ivana decided that this weekend she would thoroughly clean her apartment. Winter had passed, and spring brought a desire for order. On Friday evening she made a list of tasks. She bought new storage boxes and prepared bags for old clothes. She was determined that this time she would really finish tidying the apartment.',
+      },
+      {
+        hr: 'U subotu ujutro Ivana je otvorila veliki ormar u hodniku. Unutra je našla stare cipele, zimske jakne i nekoliko kutija. Neke stvari nije koristila već godinama. Odlučila je da mora biti stroža prema sebi. Sve što nije nosila dvije godine stavila je u vreću za doniranje. Ormar je polako postajao prazniji i pregledniji.',
+        en: "On Saturday morning Ivana opened the big wardrobe in the hallway. Inside she found old shoes, winter jackets and several boxes. She hadn't used some things for years. She decided she had to be stricter with herself. Everything she hadn't worn in two years she put into a bag for donation. The wardrobe slowly became emptier and tidier.",
+      },
+      {
+        hr: 'Nakon ormara, Ivana je prešla na policu s knjigama. Knjige su bile prekrivene tankim slojem prašine. Obrisala je svaku policu vlažnom krpom. Poredala je knjige po veličini i temi. Neke stare udžbenike odlučila je pokloniti susjedovoj kćeri. Djevojčica je upravo krenula u srednju školu. Ivana se obradovala što knjige neće samo stajati nekorištene.',
+        en: "After the wardrobe, Ivana moved on to the bookshelf. The books were covered in a thin layer of dust. She wiped every shelf with a damp cloth. She arranged the books by size and topic. She decided to give some old textbooks to her neighbor's daughter. The girl had just started high school. Ivana was glad the books wouldn't just sit unused.",
+      },
+      {
+        hr: 'Ispod hrpe starih časopisa, Ivana je pronašla nešto neočekivano. Bio je to stari album s fotografijama, koji je pripadao njezinoj baki. Baka je preminula prije pet godina. Ivana je sjela na pod i polako listala stranice. Na fotografijama su bili baka, djed i cijela obitelj. Neke slike Ivana nikada prije nije vidjela.',
+        en: 'Under a pile of old magazines, Ivana found something unexpected. It was an old photo album that had belonged to her grandmother. Her grandmother had passed away five years earlier. Ivana sat on the floor and slowly turned the pages. In the photos were her grandmother, grandfather and the whole family. Some pictures Ivana had never seen before.',
+      },
+      {
+        hr: "Jedna fotografija posebno je dirnula Ivanu. Na njoj je bila baka kao mlada žena, nasmijana na moru. Ivana se sjetila ljetnih praznika kod bake u Dalmaciji. Odlučila je album ne baciti, nego ga pažljivo spremiti. Stavila je album u posebnu kutiju s natpisom 'Obiteljske uspomene'. Osjećala se sretno što je nešto tako vrijedno pronašla.",
+        en: "One photograph moved Ivana especially. In it was her grandmother as a young woman, smiling by the sea. Ivana remembered summer holidays at her grandmother's in Dalmatia. She decided not to throw away the album, but to keep it carefully. She put the album into a special box labeled 'Family Memories'. She felt happy to have found something so valuable.",
+      },
+      {
+        hr: 'Poslije albuma, Ivana je nastavila s ormarom pored kreveta. Tamo je čuvala odjeću koju odavno nije nosila. Izdvojila je nekoliko jakni, majica i traperica. Odjeću je pažljivo složila u velike vreće. Sutra planira sve odnijeti u dobrotvornu udrugu blizu tržnice. Sada joj je važnije da netko drugi ima korist od odjeće.',
+        en: "After the album, Ivana continued with the wardrobe by the bed. There she kept clothes she hadn't worn in a long time. She set aside a few jackets, shirts and jeans. She carefully packed the clothes into large bags. Tomorrow she plans to take everything to a charity near the market. Now it matters more to her that someone else benefits from the clothes.",
+      },
+      {
+        hr: 'Popodne je Ivana očistila kuhinju i dnevni boravak. Oprala je prozore i obrisala prašinu s polica. Usisala je tepihe i pomela pod. Posložila je jastuke na kauču lijepo i uredno. Stan je počeo mirisati na limun. Ivana je osjećala umor, ali i veliko zadovoljstvo.',
+        en: 'In the afternoon Ivana cleaned the kitchen and the living room. She washed the windows and wiped the dust off the shelves. She vacuumed the rugs and swept the floor. She arranged the cushions on the sofa neatly and tidily. The apartment began to smell of lemon cleaning product. Ivana felt tired, but also very satisfied.',
+      },
+      {
+        hr: "U nedjelju ujutro Ivana je odnijela vreće u dobrotvornu udrugu. Žena na šalteru zahvalila joj je na donaciji. 'Ova odjeća pomoći će mnogim obiteljima', rekla je žena. Ivana se vratila kući laganijeg koraka i lakšeg srca. Osjećala je da je učinila nešto zaista korisno. Odjeća koju više nije trebala sada će nekome poslužiti.",
+        en: "On Sunday morning Ivana took the bags to the charity. The woman at the counter thanked her for the donation. 'This clothing will help many families,' the woman said. Ivana walked home with a lighter step and a lighter heart. She felt she had done something truly useful. The clothes she no longer needed would now serve someone else.",
+      },
+      {
+        hr: 'Kad se vratila, stan je izgledao potpuno drukčije. Sve je bilo na svom mjestu, čisto i uredno. Album s fotografijama stavila je na vidljivo mjesto u dnevnom boravku. Proljetno čišćenje donijelo je više od urednog stana. Ivana se osjećala lakše i spremnije za novu sezonu.',
+        en: 'When she got back, the apartment looked completely different. Everything was in its place, clean and tidy. She put the photo album in a visible spot in the living room. The spring cleaning brought more than just a tidy apartment. Ivana felt lighter and more ready for the new season.',
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'ormar',
+        en: 'wardrobe/cabinet',
+        ex: 'U subotu ujutro Ivana je otvorila veliki ormar u hodniku.',
+      },
+      { hr: 'prašina', en: 'dust', ex: 'Knjige su bile prekrivene tankim slojem prašine.' },
+      {
+        hr: 'album',
+        en: 'album',
+        ex: 'Bio je to stari album s fotografijama, koji je pripadao njezinoj baki.',
+      },
+      { hr: 'fotografija', en: 'photograph', ex: 'Jedna fotografija posebno je dirnula Ivanu.' },
+      {
+        hr: 'doniranje',
+        en: 'donating',
+        ex: 'Sve što nije nosila dvije godine stavila je u vreću za doniranje.',
+      },
+      {
+        hr: 'tržnica',
+        en: 'market',
+        ex: 'Sutra planira sve odnijeti u dobrotvornu udrugu blizu tržnice.',
+      },
+      { hr: 'uredno', en: 'tidy/neatly', ex: 'Sve je bilo na svom mjestu, čisto i uredno.' },
+      {
+        hr: 'susjed',
+        en: 'neighbor',
+        ex: 'Neke stare udžbenike odlučila je pokloniti susjedovoj kćeri.',
+      },
+      { hr: 'vreća', en: 'bag', ex: 'Odjeću je pažljivo složila u velike vreće.' },
+      {
+        hr: 'uspomena',
+        en: 'memory/keepsake',
+        ex: "Stavila je album u posebnu kutiju s natpisom 'Obiteljske uspomene'.",
+      },
+    ],
+    quiz: [
+      {
+        q: 'Što je Ivana pronašla ispod hrpe starih časopisa?',
+        qEn: 'What did Ivana find under a pile of old magazines?',
+        opts: ['Stari novčanik', 'Album s fotografijama', 'Pismo od bake', 'Kutiju nakita'],
+        correct: 1,
+      },
+      {
+        q: 'Kome je Ivana poklonila stare udžbenike?',
+        qEn: 'Who did Ivana give the old textbooks to?',
+        opts: ['Susjedovoj kćeri', 'Prijateljici s posla', 'Bratovoj djeci', 'Knjižnici u gradu'],
+        correct: 0,
+      },
+      {
+        q: 'Gdje je Ivana odnijela vreće s odjećom?',
+        qEn: 'Where did Ivana take the bags of clothes?',
+        opts: ['Susjedi u prizemlju', 'U staru školu', 'Na tržnicu', 'U dobrotvornu udrugu'],
+        correct: 3,
+      },
+      {
+        q: 'Čime je Ivana obrisala prašinu s polica?',
+        qEn: 'What did Ivana use to wipe the dust off the shelves?',
+        opts: ['Suhom krpom', 'Vlažnom krpom', 'Papirnatim ručnikom', 'Metlom'],
+        correct: 1,
+      },
+      {
+        q: 'Kako se Ivana osjećala nakon što je stan bio čist?',
+        qEn: 'How did Ivana feel after the apartment was clean?',
+        opts: ['Ljutito i umorno', 'Tužno i usamljeno', 'Lakše i spremnije', 'Ravnodušno'],
+        correct: 2,
+      },
+    ],
+    duration: 10,
+  },
+  {
+    id: 'gs_a2_26',
+    level: 'A2',
+    levelColor: '#1e40af',
+    levelBg: '#dbeafe',
+    icon: '🐱',
+    title: 'Susjedova mačka',
+    titleEn: "The Neighbor's Cat",
+    focus: 'perfekt narrative • daily routine • animal care vocabulary',
+    intro:
+      "Petra agrees to look after her neighbor's shy cat for a week while she is away. Slowly, patience and a daily routine turn a nervous cat into a trusting companion.",
+    paragraphs: [
+      {
+        hr: 'Petrina susjeda, gospođa Barić, otputovala je na tjedan dana. Zamolila je Petru da pripazi na njezinu mačku Micu. Petra je rado pristala pomoći susjedi. Gospođa Barić dala joj je ključeve stana i objasnila upute. Rekla je kada Mica jede i gdje spava. Mica je bila stidljiva mačka koja ne voli strance.',
+        en: "Petra's neighbor, Mrs. Barić, went away for a week. She asked Petra to look after her cat, Mica. Petra happily agreed to help her neighbor. Mrs. Barić gave her the apartment keys and explained the instructions. She said when Mica eats and where she sleeps. Mica was a shy cat who didn't like strangers.",
+      },
+      {
+        hr: 'Prvog dana Petra je došla u susjedin stan poslijepodne. Otvorila je vrata polako i tiho pozvala Micu. Mačke nije bilo nigdje na vidiku. Petra je stavila hranu u zdjelicu na podu. Provjerila je i posudu s vodom pored kuhinje. Iz sobe je čula tiho šuštanje, ali Mica se nije pojavila.',
+        en: "On the first day Petra came to the neighbor's apartment in the afternoon. She opened the door slowly and quietly called Mica. The cat was nowhere in sight. Petra put food in the bowl on the floor. She also checked the water dish by the kitchen. From the room she heard a quiet rustling, but Mica didn't appear.",
+      },
+      {
+        hr: 'Drugog dana Petra je opet došla u isto vrijeme. Hrana iz zdjelice bila je pojedena preko noći. To je značilo da je Mica bila tamo. Petra je opet napunila zdjelicu svježom hranom. Sjela je tiho na pod i pričekala nekoliko minuta. Iz ormara su je promatrala dva mala svijetla oka. Mica ju je promatrala.',
+        en: 'On the second day Petra came again at the same time. The food from the bowl had been eaten overnight. That meant Mica had been there. Petra filled the bowl again with fresh food. She sat quietly on the floor and waited a few minutes. From inside the wardrobe, two small shining eyes were watching her. Mica was watching her.',
+      },
+      {
+        hr: 'Trećeg dana Petra je donijela i igračku za Micu. Bacila je malu lopticu preko sobe. Mica je znatiželjno gledala loptu, ali ostala je skrivena. Petra je sjela na pod i tiho pričala s njom. Govorila je Mici da je sve u redu. Polako je pomaknula ruku prema hrani. Mica je prvi put prišla bliže.',
+        en: 'On the third day Petra also brought a toy for Mica. She threw a small ball across the room. Mica watched the ball curiously, but stayed hidden. Petra sat on the floor and talked quietly to her. She told Mica that everything was fine. She slowly moved her hand toward the food. For the first time, Mica came closer.',
+      },
+      {
+        hr: 'Četvrtog dana dogodilo se nešto lijepo. Dok je Petra sjedila na podu, Mica joj je prišla sasvim blizu. Mačka je onjušila Petrinu ruku oprezno. Zatim se iznenada otrla o njezinu nogu. Petra je osjetila veliku radost i olakšanje. Nježno je pogladila Micu po leđima. Mica je počela tiho presti od zadovoljstva.',
+        en: "On the fourth day something lovely happened. While Petra was sitting on the floor, Mica came very close to her. The cat carefully sniffed Petra's hand. Then she suddenly rubbed against her leg. Petra felt great joy and relief. She gently stroked Mica's back. Mica began to purr quietly with contentment.",
+      },
+      {
+        hr: 'Sljedećih dana Mica je svaki put dočekivala Petru na vratima. Više se nije skrivala. Skakala je Petri u krilo dok je sjedila. Petra joj je svaki dan pričala o svom danu. Hranila ju je, mijenjala vodu i čistila pijesak. Mica je postala opuštena i vesela mačka. Njihovo prijateljstvo raslo je iz dana u dan.',
+        en: "In the following days Mica greeted Petra at the door every time. She no longer hid. She jumped into Petra's lap while she sat. Petra told her about her day every day. She fed her, changed the water and cleaned the litter. Mica became a relaxed and cheerful cat. Their friendship grew day by day.",
+      },
+      {
+        hr: 'Sedmi dan bio je poseban za Petru i Micu. Navečer je Mica zaspala Petri na krilu. Petra nije htjela ustati da je ne probudi. Sjedila je satima gledajući televiziju vrlo tiho. Osjećala je koliko je mačka sada opuštena uz nju. Petra je znala da će joj nedostajati ova mačja druženja.',
+        en: "The seventh day was special for Petra and Mica. In the evening Mica fell asleep on Petra's lap. Petra didn't want to get up so as not to wake her. She sat for hours watching television very quietly. She felt how relaxed the cat now was with her. Petra knew she would miss these feline get-togethers.",
+      },
+      {
+        hr: "Gospođa Barić vratila se kući u subotu poslijepodne. Pozvonila je na Petrina vrata da joj zahvali osobno. Donijela je Petri malu vrećicu suvenira s puta. 'Hvala ti od srca na svemu', rekla je gospođa Barić. Ispričala je Petri koliko je mirno putovala. Petra je rekla da joj je bilo drago paziti na Micu.",
+        en: "Mrs. Barić came home on Saturday afternoon. She rang Petra's doorbell to thank her in person. She brought Petra a small bag of souvenirs from her trip. 'Thank you so much for everything,' Mrs. Barić said. She told Petra how peacefully she had traveled. Petra said she had been happy to look after Mica.",
+      },
+      {
+        hr: 'Mica je začula poznati glas i dotrčala u hodnik. Skočila je gospođi Barić ravno u naručje. Gospođa Barić se nasmijala i zagrlila svoju mačku. Petra je osjetila malu tugu što se Mica vraća kući. Ipak, bila je sretna što je Mica dobro zbrinuta. Gospođa Barić pozvala je Petru da opet čuva Micu sljedeći put.',
+        en: "Mica heard the familiar voice and ran into the hallway. She jumped straight into Mrs. Barić's arms. Mrs. Barić laughed and hugged her cat. Petra felt a little sad that Mica was going back home. Still, she was happy that Mica had been well cared for. Mrs. Barić invited Petra to look after Mica again next time.",
+      },
+    ],
+    vocabulary: [
+      { hr: 'mačka', en: 'cat', ex: 'Zamolila je Petru da pripazi na njezinu mačku Micu.' },
+      { hr: 'zdjelica', en: 'small bowl', ex: 'Petra je stavila hranu u zdjelicu na podu.' },
+      {
+        hr: 'ormar',
+        en: 'wardrobe/cabinet',
+        ex: 'Iz ormara su je promatrala dva mala svijetla oka.',
+      },
+      { hr: 'presti', en: 'to purr', ex: 'Mica je počela tiho presti od zadovoljstva.' },
+      { hr: 'naručje', en: 'arms/embrace', ex: 'Skočila je gospođi Barić ravno u naručje.' },
+      { hr: 'hraniti', en: 'to feed', ex: 'Hranila ju je, mijenjala vodu i čistila pijesak.' },
+      { hr: 'skrivati se', en: 'to hide', ex: 'Više se nije skrivala.' },
+      { hr: 'pijesak', en: 'litter/sand', ex: 'Hranila ju je, mijenjala vodu i čistila pijesak.' },
+      {
+        hr: 'prijateljstvo',
+        en: 'friendship',
+        ex: 'Njihovo prijateljstvo raslo je iz dana u dan.',
+      },
+      {
+        hr: 'susjeda',
+        en: 'female neighbor',
+        ex: 'Petrina susjeda, gospođa Barić, otputovala je na tjedan dana.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto je Petra pazila na Micu?',
+        qEn: 'Why did Petra look after Mica?',
+        opts: [
+          'Jer je susjeda otputovala na tjedan dana',
+          'Jer je Mica bila bolesna',
+          'Jer je Petra htjela mačku za sebe',
+          'Jer je gospođa Barić bila u bolnici',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Gdje se Mica skrivala prvih dana?',
+        qEn: 'Where did Mica hide during the first days?',
+        opts: ['Ispod kreveta', 'U ormaru', 'Na balkonu', 'U kupaonici'],
+        correct: 1,
+      },
+      {
+        q: 'Što je Petra donijela Mici trećeg dana?',
+        qEn: 'What did Petra bring Mica on the third day?',
+        opts: ['Igračku', 'Novu zdjelicu', 'Deku', 'Ogrlicu'],
+        correct: 0,
+      },
+      {
+        q: 'Gdje je Mica zaspala sedmog dana?',
+        qEn: 'Where did Mica fall asleep on the seventh day?',
+        opts: ['Na prozoru', 'Na kauču', 'Petri na krilu', 'Na gospođinu krevetu'],
+        correct: 2,
+      },
+      {
+        q: 'Što je gospođa Barić donijela Petri kad se vratila?',
+        qEn: 'What did Mrs. Barić bring Petra when she returned?',
+        opts: ['Novac', 'Cvijeće', 'Knjigu', 'Vrećicu suvenira'],
+        correct: 3,
+      },
+    ],
+    duration: 10,
   },
   {
     id: 'gs_b1_17',
@@ -9653,6 +10097,280 @@ export const GRADED_STORIES = [
           'Da prenoće u domu',
           'Da nazovu gorsku službu spašavanja',
         ],
+        correct: 1,
+      },
+    ],
+    duration: 11,
+  },
+  {
+    id: 'gs_b1_25',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '💃',
+    title: 'Tečaj plesa',
+    titleEn: 'Dance Course',
+    focus: 'aspect pairs • imperative in dialogue • wedding preparations',
+    intro:
+      "A couple signs up for a dance course before a friend's wedding, discovering they both have two left feet. A patient instructor and weeks of counting steps aloud finally pay off on the dance floor.",
+    paragraphs: [
+      {
+        hr: "Iva i Marko dobili su pozivnicu na vjenčanje prijateljice Petre. Bit će veliko slavlje, s više od sto uzvanika i, naravno, plesom. Marko se odmah počeo brinuti. 'Ne znam plesati', rekao je Ivi. 'Kad god pokušam, nagazim ti na nogu.' Iva se nasmijala, ali priznala je da ni ona ne pleše bolje. Odlučili su nešto poduzeti prije vjenčanja.",
+        en: "Iva and Marko received an invitation to their friend Petra's wedding. It would be a big celebration, with more than a hundred guests and, of course, dancing. Marko immediately started worrying. 'I don't know how to dance,' he told Iva. 'Whenever I try, I step on your foot.' Iva laughed, but admitted she didn't dance any better. They decided to do something before the wedding.",
+      },
+      {
+        hr: 'Iva je pronašla tečaj plesa koji se održava dvaput tjedno u dvorani blizu njihove zgrade. Prijavili su se za osnovni tečaj, jer su htjeli naučiti barem valcer i jedan brži ples. Prva večer bila je i smiješna i pomalo neugodna. U dvorani su bili i drugi parovi, neki jednako nespretni kao Iva i Marko.',
+        en: 'Iva found a dance course held twice a week in a hall close to their building. They signed up for a basic course, because they wanted to learn at least the waltz and one faster dance. The first evening was both funny and a little awkward. There were other couples in the hall, some just as clumsy as Iva and Marko.',
+      },
+      {
+        hr: "Instruktor se zvao Vlado, čovjek koji je plesao već tridesetak godina. Bio je strpljiv i nikad nije podizao glas, čak ni kad je Marko po treći put zaboravio koji je korak sljedeći. 'Ne žurite se', govorio je Vlado. 'Prvo naučite ritam, tek onda brzinu.' Njegov je pristup umirivao i najnervoznije parove u dvorani.",
+        en: "The instructor's name was Vlado, a man who had been dancing for some thirty years. He was patient and never raised his voice, even when Marko forgot for the third time which step came next. 'Don't rush,' Vlado would say. 'First learn the rhythm, only then the speed.' His approach calmed even the most nervous couples in the hall.",
+      },
+      {
+        hr: "Prvi sat posvetili su osnovnom držanju. 'Ispravite leđa i gledajte partnera u oči, a ne u pod', ponavljao je Vlado. Marko je stalno gledao dolje, provjeravajući gdje mu je noga, pa je stalno gubio ravnotežu. Iva mu je šapnula: 'Prestani gledati u pod, past ćeš.' Postupno je Marko podigao pogled i osjetio se sigurnije.",
+        en: "They devoted the first session to basic posture. 'Straighten your back and look your partner in the eye, not at the floor,' Vlado kept repeating. Marko kept looking down, checking where his foot was, so he kept losing his balance. Iva whispered to him, 'Stop looking at the floor, you'll fall.' Gradually Marko lifted his gaze and felt more secure.",
+      },
+      {
+        hr: "Drugi tjedan učili su korake valcera. Vlado je brojao naglas: 'Jedan, dva, tri', dok je par po par prolazio dvoranom. Iva je brzo upamtila slijed koraka, ali Marko je stalno brkao okret ulijevo s okretom udesno. 'Okreni se prema meni, ne od mene!', vikala mu je Iva u šali, a on se samo smijao svojoj nespretnosti.",
+        en: "In the second week they learned the waltz steps. Vlado counted aloud, 'One, two, three,' as couple after couple crossed the hall. Iva quickly memorised the sequence of steps, but Marko kept confusing turning left with turning right. 'Turn toward me, not away from me!' Iva jokingly shouted at him, and he just laughed at his own clumsiness.",
+      },
+      {
+        hr: "Kod kuće su svaku večer brojali korake naglas. Susjed ispod njih jednom je pokucao na vrata i pitao u šali izvode li iznad njega neku vrstu marša. Nisu odustali od vježbanja. Treći tjedan Vlado je uveo brži ples, nazvan 'jednostavni cha-cha korak', prilagođen početnicima.",
+        en: "At home they counted steps aloud every evening. Their downstairs neighbour once knocked on the door and jokingly asked whether some kind of march was being staged above him. They didn't give up practising. In the third week Vlado introduced a faster dance called the 'simple cha-cha step,' adapted for beginners.",
+      },
+      {
+        hr: "'Ne mislite previše, samo osjetite ritam', savjetovao je Vlado. Marko je isprva bio siguran da mu tijelo ne može tako brzo reagirati, no nakon nekoliko pokušaja uspio je zapamtiti osnovni obrazac koraka. Dva tjedna prije vjenčanja Iva je kupila niske cipele s mekim potplatom, prikladnije za vrtnju po parketu, a Marko je posudio smoking od brata.",
+        en: "'Don't think too much, just feel the rhythm,' Vlado advised. Marko was at first certain his body couldn't react that fast, but after several attempts he managed to remember the basic step pattern. Two weeks before the wedding Iva bought low shoes with a soft sole, more suitable for turning on the parquet floor, and Marko borrowed a tuxedo from his brother.",
+      },
+      {
+        hr: "Na posljednjem satu prije vjenčanja Vlado ih je promatrao kako plešu valcer bez njegovih uputa. 'Konačno se ne gledate u noge', rekao je zadovoljno. 'Sad plešete jedno s drugim, a ne jedno pored drugoga.' Iva i Marko su se pogledali i shvatili da su, gotovo neprimjetno, postali pravi plesni par.",
+        en: "At the last lesson before the wedding, Vlado watched them dance the waltz without his instructions. 'You're finally not looking at your feet,' he said with satisfaction. 'Now you're dancing with each other, not just next to each other.' Iva and Marko looked at each other and realised that, almost imperceptibly, they had become a real dancing couple.",
+      },
+      {
+        hr: 'Vjenčanje je bilo prekrasno. Petra je plakala od sreće, a nakon večere počeo je prvi ples. Kad je voditelj pozvao sve uzvanike na plesni podij, Iva i Marko nisu oklijevali. Uhvatili su ritam, zapamtili korake i zavrtjeli se po podiju kao da su plesali cijeli život. Prijatelji su ih promatrali s čuđenjem, jer su nekoć znali za njihove nespretne pokušaje.',
+        en: "The wedding was beautiful. Petra cried with happiness, and after dinner the first dance began. When the host called all the guests onto the dance floor, Iva and Marko didn't hesitate. They caught the rhythm, remembered the steps and spun around the floor as if they had danced their whole lives. Friends watched them in amazement, since they once knew about their clumsy attempts.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'nagaziti',
+        en: "to step on (someone's foot)",
+        ex: 'Kad god pokušam, nagazim ti na nogu.',
+      },
+      {
+        hr: 'tečaj',
+        en: 'course',
+        ex: 'Iva je pronašla tečaj plesa koji se održava dvaput tjedno u dvorani blizu njihove zgrade.',
+      },
+      {
+        hr: 'strpljiv',
+        en: 'patient',
+        ex: 'Bio je strpljiv i nikad nije podizao glas, čak ni kad je Marko po treći put zaboravio koji je korak sljedeći.',
+      },
+      { hr: 'ritam', en: 'rhythm', ex: 'Prvo naučite ritam, tek onda brzinu.' },
+      { hr: 'držanje', en: 'posture', ex: 'Prvi sat posvetili su osnovnom držanju.' },
+      {
+        hr: 'ravnoteža',
+        en: 'balance',
+        ex: 'Marko je stalno gledao dolje, provjeravajući gdje mu je noga, pa je stalno gubio ravnotežu.',
+      },
+      { hr: 'okret', en: 'turn', ex: 'Marko je stalno brkao okret ulijevo s okretom udesno.' },
+      {
+        hr: 'obrazac',
+        en: 'pattern',
+        ex: 'Marko je isprva bio siguran da mu tijelo ne može tako brzo reagirati, no nakon nekoliko pokušaja uspio je zapamtiti osnovni obrazac koraka.',
+      },
+      {
+        hr: 'vrtjeti se',
+        en: 'to spin, turn around',
+        ex: 'Dva tjedna prije vjenčanja Iva je kupila niske cipele s mekim potplatom, prikladnije za vrtnju po parketu, a Marko je posudio smoking od brata.',
+      },
+      {
+        hr: 'podij',
+        en: 'dance floor, stage',
+        ex: 'Kad je voditelj pozvao sve uzvanike na plesni podij, Iva i Marko nisu oklijevali.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto su se Iva i Marko upisali na tečaj plesa?',
+        qEn: 'Why did Iva and Marko sign up for a dance course?',
+        opts: [
+          'Zbog vjenčanja prijateljice Petre',
+          'Zbog natjecanja u plesu',
+          'Zbog posla u plesnom studiju',
+          'Zbog rođendana',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kako se zvao instruktor plesa?',
+        qEn: "What was the dance instructor's name?",
+        opts: ['Marko', 'Vlado', 'Ivan', 'Petar'],
+        correct: 1,
+      },
+      {
+        q: 'Što je Marko stalno radio pogrešno na prvom satu?',
+        qEn: 'What did Marko keep doing wrong in the first lesson?',
+        opts: [
+          'Brojao je prebrzo',
+          'Gledao je u pod umjesto u partnericu',
+          'Nosio je neudobne cipele',
+          'Zaboravljao je doći na tečaj',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Tko je pokucao na vrata dok su vježbali kod kuće?',
+        qEn: 'Who knocked on the door while they were practising at home?',
+        opts: ['Vlado', 'Petra', 'Susjed ispod njih', 'Ivin brat'],
+        correct: 2,
+      },
+      {
+        q: 'Što je Vlado rekao na posljednjem satu prije vjenčanja?',
+        qEn: 'What did Vlado say at the last lesson before the wedding?',
+        opts: [
+          'Da moraju vježbati još mjesec dana',
+          'Da je valcer prezahtjevan za njih',
+          'Da trebaju drugog instruktora',
+          'Da konačno plešu jedno s drugim, a ne jedno pored drugoga',
+        ],
+        correct: 3,
+      },
+    ],
+    duration: 11,
+  },
+  {
+    id: 'gs_b1_26',
+    level: 'B1',
+    levelColor: '#92400e',
+    levelBg: '#fef3c7',
+    icon: '🏡',
+    title: 'Baka se seli u grad',
+    titleEn: 'Grandma Moves to the City',
+    focus: 'past narration • dative constructions • family life',
+    intro:
+      'An elderly grandmother leaves her village home to move in near her family in the city. Packing up a lifetime forces hard choices about what to keep, and a small balcony garden becomes her new source of joy.',
+    paragraphs: [
+      {
+        hr: 'Baka Zorka živjela je u istoj kući na selu više od pedeset godina. Ondje je odgojila djecu, sadila povrće i poznavala svakog susjeda po imenu. No otkako je djed umro, kuća joj se činila prevelika i pretiha. Djeca su joj već godinama govorila da bi bilo lakše da živi bliže njima, u gradu.',
+        en: 'Grandma Zorka had lived in the same village house for more than fifty years. There she had raised her children, grown vegetables and knew every neighbour by name. But ever since her husband died, the house had felt too big and too quiet to her. For years her children had been telling her it would be easier if she lived closer to them, in the city.',
+      },
+      {
+        hr: "Napokon je pristala. Njezina kćer Marija pronašla joj je mali stan blizu svoje zgrade, s balkonom okrenutim prema jugu. Baki se stan svidio na prvi pogled, iako je bio mnogo manji od kuće na koju je navikla. 'Manje prostora znači manje čišćenja', rekla je Marija, pokušavajući joj olakšati odluku.",
+        en: "Finally she agreed. Her daughter Marija found her a small flat close to her own building, with a balcony facing south. Grandma liked the flat at first sight, even though it was much smaller than the house she was used to. 'Less space means less cleaning,' Marija said, trying to make the decision easier for her.",
+      },
+      {
+        hr: 'Pakiranje je bilo najteži dio selidbe. Baka Zorka morala je odlučiti što će ponijeti, a što ostaviti. Zadržala je djedovu fotografiju s vjenčanja, staru drvenu škrinju i vezene stolnjake koje je sama izradila. Odrekla se velikog kredenca, starih lonaca i alata iz staje, jer u novom stanu jednostavno nije bilo mjesta za sve to.',
+        en: "Packing was the hardest part of the move. Grandma Zorka had to decide what to bring and what to leave behind. She kept her husband's wedding photograph, an old wooden chest and the embroidered tablecloths she had made herself. She gave up the big cupboard, the old pots and the tools from the barn, because there simply wasn't room for all of it in the new flat.",
+      },
+      {
+        hr: "Unucima je posebno teško padalo rastajanje s bakinim vrtom. 'Tko će sad brati jabuke?', pitao je najmlađi unuk, sedmogodišnji Luka. Baka mu je obećala da će mu svake godine donositi jabuke, čak i kad više ne bude živjela ondje. Susjedi su joj priredili malu oproštajnu večeru i poklonili joj sadnicu ružmarina za novi balkon.",
+        en: "The grandchildren found it especially hard to part with grandma's garden. 'Who will pick the apples now?' asked the youngest grandson, seven-year-old Luka. Grandma promised him she would bring him apples every year, even after she no longer lived there. The neighbours held a small farewell dinner for her and gave her a rosemary seedling for the new balcony.",
+      },
+      {
+        hr: 'Selidba se dogodila jednog sunčanog nedjeljnog jutra. Sin Ivan i zet Tomo utovarili su namještaj u kombi, dok je baka sjedila na klupi i promatrala kako joj cijeli život odlazi u kutijama. Suza joj je pala niz obraz, ali nije ništa rekla. Samo je tiho pomilovala vrata kuće prije nego što je sjela u auto.',
+        en: 'The move happened on a sunny Sunday morning. Her son Ivan and son-in-law Tomo loaded the furniture into a van, while grandma sat on the bench and watched her whole life leaving in boxes. A tear rolled down her cheek, but she said nothing. She just quietly stroked the door of the house before getting into the car.',
+      },
+      {
+        hr: 'U gradu joj je isprva sve bilo strano. Nedostajali su joj mirisi sela, pijetlovi ujutro i tišina navečer. Umjesto toga čula je promet, tramvaje i glasove susjeda iz zgrade. Marija joj je svaki dan dolazila u posjet, a i unuci su navraćali nakon škole, što je baki bilo veliko olakšanje.',
+        en: 'In the city, everything at first felt foreign to her. She missed the smells of the village, the roosters in the morning and the quiet in the evening. Instead she heard traffic, trams and the voices of neighbours in the building. Marija visited her every day, and the grandchildren dropped by after school too, which was a great relief for grandma.',
+      },
+      {
+        hr: 'Trebalo joj je nekoliko tjedana da se navikne na nove navike. Umjesto ranog ustajanja radi stoke, sada je ustajala kasnije i pila kavu na balkonu, gledajući prolaznike. Marija joj je pokazala gdje je najbliža tržnica, ljekarna i park s klupama, gdje su se okupljale starije žene iz susjedstva.',
+        en: 'It took her a few weeks to get used to new habits. Instead of getting up early for the livestock, she now got up later and drank coffee on the balcony, watching passers-by. Marija showed her where the nearest market, pharmacy and park with benches were, where the older women from the neighbourhood gathered.',
+      },
+      {
+        hr: 'Balkon joj je postao najvažniji dio stana. Ondje je posadila ružmarin koji su joj poklonili susjedi, a uz njega bosiljak, papriku u loncu i nekoliko cvjetova nevena. Svako jutro zalijevala je biljke i razgovarala s njima kao da su joj društvo. Susjedi su joj čestitali na lijepom balkonskom vrtu i tražili savjete za svoje biljke.',
+        en: 'The balcony became the most important part of her flat. There she planted the rosemary the neighbours had given her, along with basil, peppers in a pot and a few marigolds. Every morning she watered the plants and talked to them as if they were company. Neighbours complimented her lovely balcony garden and asked her for advice about their own plants.',
+      },
+      {
+        hr: 'Nedjeljom bi cijela obitelj dolazila k njoj na ručak. Baka je i dalje kuhala kao nekad, iako je sada kuhinja bila upola manja. Unucima je pripovijedala priče o selu, o djedu i o starim vremenima, a oni su je slušali širom otvorenih očiju, iako su te priče već znali napamet.',
+        en: 'On Sundays the whole family would come to her for lunch. Grandma still cooked as she used to, even though the kitchen was now half the size. She told the grandchildren stories about the village, about grandpa and about old times, and they listened wide-eyed, even though they already knew those stories by heart.',
+      },
+      {
+        hr: "Godinu dana kasnije baka Zorka priznala je Mariji da joj selidba, iako teška, ipak nije donijela samo gubitak. 'Nedostaje mi kuća', rekla je, 'ali blizina vama vrijedi više.' Gledala je unuke kako se igraju u dnevnoj sobi i osjećala se, po prvi put nakon djedove smrti, potpuno okruženom obitelji.",
+        en: "A year later Grandma Zorka admitted to Marija that the move, though difficult, hadn't brought only loss. 'I miss the house,' she said, 'but being close to you is worth more.' She watched the grandchildren playing in the living room and felt, for the first time since grandpa's death, completely surrounded by family.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'odgojiti',
+        en: 'to raise (children)',
+        ex: 'Ondje je odgojila djecu, sadila povrće i poznavala svakog susjeda po imenu.',
+      },
+      { hr: 'pristati', en: 'to agree', ex: 'Napokon je pristala.' },
+      { hr: 'selidba', en: 'move, relocation', ex: 'Pakiranje je bilo najteži dio selidbe.' },
+      {
+        hr: 'škrinja',
+        en: 'chest, trunk',
+        ex: 'Zadržala je djedovu fotografiju s vjenčanja, staru drvenu škrinju i vezene stolnjake koje je sama izradila.',
+      },
+      {
+        hr: 'kredenac',
+        en: 'cupboard, sideboard',
+        ex: 'Odrekla se velikog kredenca, starih lonaca i alata iz staje, jer u novom stanu jednostavno nije bilo mjesta za sve to.',
+      },
+      {
+        hr: 'sadnica',
+        en: 'seedling',
+        ex: 'Susjedi su joj priredili malu oproštajnu večeru i poklonili joj sadnicu ružmarina za novi balkon.',
+      },
+      {
+        hr: 'utovariti',
+        en: 'to load (up)',
+        ex: 'Sin Ivan i zet Tomo utovarili su namještaj u kombi, dok je baka sjedila na klupi i promatrala kako joj cijeli život odlazi u kutijama.',
+      },
+      {
+        hr: 'nedostajati',
+        en: 'to miss, to be lacking',
+        ex: 'Nedostajali su joj mirisi sela, pijetlovi ujutro i tišina navečer.',
+      },
+      {
+        hr: 'navika',
+        en: 'habit',
+        ex: 'Trebalo joj je nekoliko tjedana da se navikne na nove navike.',
+      },
+      {
+        hr: 'zalijevati',
+        en: 'to water (plants)',
+        ex: 'Svako jutro zalijevala je biljke i razgovarala s njima kao da su joj društvo.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko je godina baka Zorka živjela u kući na selu?',
+        qEn: 'How many years had grandma Zorka lived in the village house?',
+        opts: ['Više od pedeset godina', 'Dvadeset godina', 'Deset godina', 'Trideset godina'],
+        correct: 0,
+      },
+      {
+        q: 'Tko je baki pronašao stan u gradu?',
+        qEn: 'Who found grandma the flat in the city?',
+        opts: ['Susjedi', 'Unuk Luka', 'Kćer Marija', 'Sin Ivan'],
+        correct: 2,
+      },
+      {
+        q: 'Što je baka zadržala prilikom pakiranja?',
+        qEn: 'What did grandma keep while packing?',
+        opts: [
+          'Veliki kredenac i alat iz staje',
+          'Djedovu fotografiju, škrinju i vezene stolnjake',
+          'Stare lonce',
+          'Sve stvari iz staje',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što su joj susjedi poklonili prije selidbe?',
+        qEn: 'What did the neighbours give her before the move?',
+        opts: ['Novi lonac', 'Vezeni stolnjak', 'Fotografiju', 'Sadnicu ružmarina'],
+        correct: 3,
+      },
+      {
+        q: 'Što je baka posadila na svom novom balkonu, uz ružmarin?',
+        qEn: 'What did grandma plant on her new balcony, besides rosemary?',
+        opts: ['Rajčice i krumpir', 'Bosiljak, papriku i neven', 'Samo cvijeće', 'Jabuke'],
         correct: 1,
       },
     ],
@@ -10857,6 +11575,308 @@ export const GRADED_STORIES = [
       },
     ],
     duration: 12,
+  },
+  {
+    id: 'gs_b2_22',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '🔑',
+    title: 'Kupnja prvog stana',
+    titleEn: 'Buying a First Apartment',
+    focus: 'conditional mood • argumentation • real-estate terminology',
+    intro:
+      'A young couple weighs savings against rising prices, wades through mortgage paperwork, and compromises on location and size to buy their first apartment. The first night sleeping on a mattress among boxes feels like the real beginning.',
+    paragraphs: [
+      {
+        hr: "Lana i Filip štedjeli su gotovo šest godina za prvi stan. Svaki mjesec odvajali su dio plaće na poseban račun, izbjegavajući nepotrebne troškove. Unatoč tome, ušteđevina im nikad nije bila dovoljna, jer su cijene nekretnina rasle brže nego njihova plaća. 'Da smo barem prije pet godina kupili stan, sad bismo plaćali upola manje', uzdahnula je Lana jedne večeri.",
+        en: "Lana and Filip had been saving for nearly six years for their first flat. Every month they set aside part of their salary into a separate account, avoiding unnecessary expenses. Even so, their savings were never enough, since property prices were rising faster than their salary. 'If only we'd bought a flat five years ago, we'd be paying half as much now,' Lana sighed one evening.",
+      },
+      {
+        hr: "Odlučili su konzultirati kreditnog savjetnika. On im je objasnio uvjete stambenog kredita: kolika bi bila kamata, koliki bi bio predujam i na koliko bi godina mogli otplaćivati kredit. 'Kad biste uzeli kredit na dvadeset godina, rata bi bila podnošljiva, ali ukupno biste banci vratili gotovo dvostruko više', upozorio ih je savjetnik. Lana i Filip su se zabrinuto pogledali.",
+        en: "They decided to consult a loan advisor. He explained to them the terms of the housing loan: what the interest rate would be, how large the down payment would need to be, and over how many years they could repay the loan. 'If you took out a loan for twenty years, the instalment would be bearable, but in total you'd repay the bank almost double,' the advisor warned them. Lana and Filip looked at each other, worried.",
+      },
+      {
+        hr: "Počeli su pregledavati oglase za stanove, no ubrzo su shvatili koliko su njihova očekivanja nerealna. Htjeli su stan od šezdeset kvadrata u centru, s balkonom i parkirnim mjestom, no takav bi stan koštao više nego što su mogli priuštiti. 'Da smo spremni na kompromis, možda bismo brže našli nešto prihvatljivo', primijetio je Filip nakon nekoliko razočaravajućih razgledavanja.",
+        en: "They started browsing listings for flats, but soon realised how unrealistic their expectations were. They wanted a sixty-square-metre flat in the centre, with a balcony and a parking space, but such a flat would cost more than they could afford. 'If we were ready to compromise, we might find something acceptable faster,' Filip remarked after several disappointing viewings.",
+      },
+      {
+        hr: 'Napokon su prihvatili da centar nije opcija za njihov proračun. Proširili su potragu na naselja dalje od centra, gdje su cijene po kvadratu bile znatno niže. Pronašli su dvosobni stan od četrdeset pet kvadrata, na trećem katu zgrade bez lifta, dvadeset minuta tramvajem od centra. Stan je bio manji nego što su zamišljali, ali cijena je napokon odgovarala njihovim mogućnostima.',
+        en: "They finally accepted that the centre wasn't an option for their budget. They expanded their search to neighbourhoods farther from the centre, where prices per square metre were considerably lower. They found a two-room flat of forty-five square metres, on the third floor of a building without a lift, twenty minutes by tram from the centre. The flat was smaller than they had imagined, but the price finally matched what they could afford.",
+      },
+      {
+        hr: "Prije potpisivanja ugovora trebalo je urediti mnogo papirologije. Vlasnik stana morao je dostaviti dokaz o vlasništvu, a Lana i Filip su morali podnijeti dokaze o prihodima banci koja im je odobravala kredit. 'Kad bi sve išlo brže, ovaj bi proces bio manje stresan', požalio se Filip, listajući hrpu dokumenata na kuhinjskom stolu.",
+        en: "Before signing the contract, a great deal of paperwork had to be sorted out. The owner of the flat had to provide proof of ownership, while Lana and Filip had to submit proof of income to the bank approving their loan. 'If everything moved faster, this process would be less stressful,' Filip complained, leafing through a pile of documents on the kitchen table.",
+      },
+      {
+        hr: 'Ugovor o kupoprodaji potpisan je kod javnog bilježnika, koji je provjerio identitete obiju strana i ovjerio potpise. Bez te ovjere ugovor ne bi imao pravnu snagu, objasnio im je bilježnik strpljivo, dok su Lana i Filip nervozno čekali red. Nakon potpisivanja slijedila je uknjižba u zemljišne knjige, korak koji je potvrdio da su Lana i Filip službeno vlasnici stana.',
+        en: "The sales contract was signed at the public notary's office, who verified the identities of both parties and certified the signatures. Without that certification the contract would have no legal force, the notary patiently explained to them, while Lana and Filip nervously waited their turn. After the signing came the land registry entry, the step that confirmed Lana and Filip were officially the owners of the flat.",
+      },
+      {
+        hr: 'Selidba je uslijedila brzo, jer su iznajmljivali stan i morali su ga napustiti do određenog datuma. Kutije su se gomilale u novom stanu brže nego što su stizali raspakiravati ih. Filip je sastavljao ormar do kasno navečer, dok je Lana pokušavala pronaći gdje su pospremili posteljinu. Cijeli je stan izgledao poput skladišta, a ne doma.',
+        en: 'The move followed quickly, since they had been renting a flat and had to vacate it by a certain date. Boxes piled up in the new flat faster than they managed to unpack them. Filip assembled the wardrobe until late in the evening, while Lana tried to find where they had packed the bedding. The whole flat looked more like a warehouse than a home.',
+      },
+      {
+        hr: "Te prve noći nisu imali ni kreveta, pa su spustili madrac na pod dnevne sobe, okruženi kutijama sa svih strana. 'Da smo barem sastavili krevet prije selidbe', promrmljala je Lana umorno, pokušavajući zaspati usred nereda. No unatoč umoru, oboje su osjećali čudno zadovoljstvo. Prvi put u životu ležali su u prostoru koji je bio isključivo njihov.",
+        en: "That first night they didn't even have a bed, so they laid a mattress on the living room floor, surrounded by boxes on every side. 'If only we'd assembled the bed before the move,' Lana murmured tiredly, trying to fall asleep amid the chaos. But despite their exhaustion, they both felt a strange contentment. For the first time in their lives, they were lying in a space that was exclusively theirs.",
+      },
+      {
+        hr: "Filip je, gledajući u strop obasjan uličnom svjetiljkom, rekao Lani da mu se kat bez lifta više uopće ne čini kao problem. 'Kad bismo se sad vratili u prošlost, opet bismo odabrali ovaj stan', rekla je Lana i nasmiješila se u mraku. Šest godina štednje, kredita i papirologije napokon se pretvorilo u dom.",
+        en: "Filip, looking at the ceiling lit by the street lamp, told Lana that the floor without a lift no longer seemed like a problem to him at all. 'If we went back in time now, we'd choose this flat again,' Lana said, smiling in the dark. Six years of saving, loans and paperwork had finally turned into a home.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'ušteđevina',
+        en: 'savings',
+        ex: 'Unatoč tome, ušteđevina im nikad nije bila dovoljna, jer su cijene nekretnina rasle brže nego njihova plaća.',
+      },
+      { hr: 'kredit', en: 'loan, credit', ex: 'Odlučili su konzultirati kreditnog savjetnika.' },
+      {
+        hr: 'kamata',
+        en: 'interest (rate)',
+        ex: 'On im je objasnio uvjete stambenog kredita: kolika bi bila kamata, koliki bi bio predujam i na koliko bi godina mogli otplaćivati kredit.',
+      },
+      {
+        hr: 'predujam',
+        en: 'down payment',
+        ex: 'On im je objasnio uvjete stambenog kredita: kolika bi bila kamata, koliki bi bio predujam i na koliko bi godina mogli otplaćivati kredit.',
+      },
+      {
+        hr: 'kvadrat',
+        en: 'square metre (colloquial)',
+        ex: 'Htjeli su stan od šezdeset kvadrata u centru, s balkonom i parkirnim mjestom, no takav bi stan koštao više nego što su mogli priuštiti.',
+      },
+      {
+        hr: 'proračun',
+        en: 'budget',
+        ex: 'Napokon su prihvatili da centar nije opcija za njihov proračun.',
+      },
+      {
+        hr: 'vlasništvo',
+        en: 'ownership',
+        ex: 'Vlasnik stana morao je dostaviti dokaz o vlasništvu, a Lana i Filip su morali podnijeti dokaze o prihodima banci koja im je odobravala kredit.',
+      },
+      {
+        hr: 'javni bilježnik',
+        en: 'public notary',
+        ex: 'Ugovor o kupoprodaji potpisan je kod javnog bilježnika, koji je provjerio identitete obiju strana i ovjerio potpise.',
+      },
+      {
+        hr: 'uknjižba',
+        en: 'land registry entry',
+        ex: 'Nakon potpisivanja slijedila je uknjižba u zemljišne knjige, korak koji je potvrdio da su Lana i Filip službeno vlasnici stana.',
+      },
+      {
+        hr: 'madrac',
+        en: 'mattress',
+        ex: 'Te prve noći nisu imali ni kreveta, pa su spustili madrac na pod dnevne sobe, okruženi kutijama sa svih strana.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko su dugo Lana i Filip štedjeli za prvi stan?',
+        qEn: 'How long had Lana and Filip been saving for their first flat?',
+        opts: ['Gotovo šest godina', 'Dvije godine', 'Deset godina', 'Godinu dana'],
+        correct: 0,
+      },
+      {
+        q: 'Što ih je upozorio kreditni savjetnik u banci?',
+        qEn: 'What did the loan advisor at the bank warn them about?',
+        opts: [
+          'Da neće dobiti kredit',
+          'Da bi banci ukupno vratili gotovo dvostruko više',
+          'Da moraju čekati godinu dana',
+          'Da im treba veći predujam',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kakav su stan na kraju kupili?',
+        qEn: 'What kind of flat did they end up buying?',
+        opts: [
+          'Stan od šezdeset kvadrata u centru',
+          'Studio u centru',
+          'Dvosobni stan od četrdeset pet kvadrata, dvadeset minuta od centra',
+          'Kuću na selu',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Tko je ovjerio potpise na ugovoru o kupoprodaji?',
+        qEn: 'Who certified the signatures on the sales contract?',
+        opts: ['Kreditni savjetnik', 'Vlasnik stana', 'Susjed', 'Javni bilježnik'],
+        correct: 3,
+      },
+      {
+        q: 'Gdje su Lana i Filip spavali prve noći u novom stanu?',
+        qEn: 'Where did Lana and Filip sleep the first night in the new flat?',
+        opts: [
+          'Na madracu na podu dnevne sobe',
+          'Kod roditelja',
+          'U krevetu koji su odmah sastavili',
+          'U hotelu',
+        ],
+        correct: 0,
+      },
+    ],
+    duration: 11,
+  },
+  {
+    id: 'gs_b2_23',
+    level: 'B2',
+    levelColor: '#6b21a8',
+    levelBg: '#f3e8ff',
+    icon: '⚽',
+    title: 'Trener malih nogometaša',
+    titleEn: 'Coach of the Little Footballers',
+    focus: 'reported speech • subordination • youth sport values',
+    intro:
+      "A man volunteers to coach a children's football team and survives a chaotic first practice. A shy boy blossoms over the season, parents watch from the sidelines, and the team learns what winning really means at nine years old.",
+    paragraphs: [
+      {
+        hr: 'Kad je klub objavio da traži volontera koji bi vodio ekipu devetogodišnjih dječaka, Damir se odmah javio. Igrao je nogomet cijeli život, iako nikad profesionalno, i mislio je da će mu biti lako prenijeti djeci osnove igre. Predsjednik kluba rekao mu je da će prvi trening biti već sljedeće subote i da je najvažnije da se djeca zabave.',
+        en: 'When the club announced it was looking for a volunteer to coach a team of nine-year-old boys, Damir immediately signed up. He had played football his whole life, though never professionally, and thought it would be easy to teach children the basics of the game. The club president told him the first practice would already be next Saturday and that the most important thing was for the children to have fun.',
+      },
+      {
+        hr: 'Prvi trening bio je potpuni kaos. Petnaestorica dječaka trčala su za loptom u jednoj gomili, dok su neki od njih zaboravili obući dresove. Jedan je dječak plakao jer mu nitko nije dodavao loptu, dok je drugi vikao da je pravilo ofsajda nepošteno, iako ga nije razumio. Damir je shvatio da mu treba drugačiji plan.',
+        en: "The first practice was total chaos. Fifteen boys were running after the ball in one clump, while some of them had forgotten to put on their jerseys. One boy cried because no one was passing him the ball, while another shouted that the offside rule was unfair, even though he didn't understand it. Damir realised he needed a different plan.",
+      },
+      {
+        hr: 'Roditelji su stajali sa strane igrališta, neki snimajući svaku akciju mobitelom, drugi dovikujući upute koje su se sudarale s Damirovima. Jedna majka rekla mu je da njezin sin mora igrati u napadu, jer je navodno najbolji strijelac u razredu. Damir je pristojno odgovorio da će svi dječaci probati različite pozicije, kako bi naučili igru u cjelini.',
+        en: "The parents stood on the sidelines of the pitch, some filming every play on their phones, others shouting instructions that clashed with Damir's own. One mother told him that her son had to play as a forward, since he was supposedly the best scorer in his class. Damir politely replied that all the boys would try different positions, so they could learn the game as a whole.",
+      },
+      {
+        hr: 'Među dječacima najviše mu je zapeo za oko Luka, tih i povučen dječak koji je rijetko tražio loptu. Damir ga je pitao zašto ne pokušava dodavati se s ostalima, na što mu je Luka tiho odgovorio da se boji da će pogriješiti pred svima. Damir mu je rekao da svi griješe i da je greška najbolji način učenja.',
+        en: "Among the boys, the one who caught his eye the most was Luka, a quiet and withdrawn boy who rarely asked for the ball. Damir asked him why he didn't try passing with the others, to which Luka quietly replied that he was afraid of making a mistake in front of everyone. Damir told him that everyone makes mistakes and that a mistake is the best way to learn.",
+      },
+      {
+        hr: 'Sljedećih nekoliko tjedana Damir je posvećivao posebnu pažnju Luki, stavljajući ga u parove s najstrpljivijim dječacima u ekipi. Polako, Luka je počeo tražiti loptu, isprva plaho, a zatim sve samouvjerenije. Kad je jednom doveo loptu do gola i asistirao za pogodak, cijela je ekipa potrčala prema njemu vrišteći od oduševljenja, kao da je zabio najvažniji gol sezone.',
+        en: 'Over the next few weeks Damir paid special attention to Luka, pairing him with the most patient boys on the team. Slowly, Luka began to ask for the ball, timidly at first, and then with growing confidence. When he once carried the ball to the goal and assisted a score, the whole team ran toward him screaming with delight, as if he had scored the most important goal of the season.',
+      },
+      {
+        hr: 'Damir je roditeljima objasnio da rezultat utakmica u toj dobi nije najvažniji, iako je znao da će neki to teško prihvatiti. Rekao im je da je važnije da svaki dječak nauči surađivati, poštovati suigrače i protivnike te izdržati poraz bez suza. Neki su roditelji kimali glavom u znak slaganja, dok su drugi i dalje vikali s tribina.',
+        en: "Damir explained to the parents that the result of matches at that age wasn't the most important thing, although he knew some would find that hard to accept. He told them it was more important that every boy learn to cooperate, respect teammates and opponents, and endure defeat without tears. Some parents nodded in agreement, while others kept shouting from the stands.",
+      },
+      {
+        hr: 'Prije jedne utakmice dječak je upitao Damira hoće li pobijediti, na što mu je Damir odgovorio da ne zna, ali da zna da će svi igrati najbolje što mogu. Utakmica je završila neriješeno, jedan naprama jedan, a dječaci su bili razočarani. Damir im je objasnio da bod protiv jače ekipe ponekad vrijedi više od pobjede protiv slabije.',
+        en: "Before one match, a boy asked Damir whether they would win, to which Damir replied that he didn't know, but that he knew everyone would play their best. The match ended in a draw, one to one, and the boys were disappointed. Damir explained to them that a point against a stronger team sometimes counts for more than a win against a weaker one.",
+      },
+      {
+        hr: 'Na kraju sezone klub je organizirao malu proslavu za mlađe uzraste. Damir je pozvao Luku da stane u prvi red, jer je, kako je rekao pred svima, najviše napredovao od svih dječaka u ekipi. Luka je pocrvenio, ali osmijeh mu nije silazio s lica. Njegova mu je majka kasnije zahvalila suznih očiju, rekavši da ga tako sretnog nije vidjela godinama.',
+        en: "At the end of the season the club organised a small celebration for the youth age groups. Damir invited Luka to stand in the front row, since, as he said in front of everyone, he had improved the most of all the boys on the team. Luka blushed, but the smile didn't leave his face. His mother later thanked Damir with tearful eyes, saying she hadn't seen him that happy in years.",
+      },
+      {
+        hr: 'Te večeri, vraćajući se kući, Damir je razmišljao o tome što je naučio te sezone. Shvatio je da pobjeda u devetoj godini ne znači konačan rezultat na semaforu, nego napredak svakog djeteta i radost igranja s prijateljima. Odlučio je da će sljedeće sezone opet prihvatiti ulogu trenera, jer mu je to iskustvo vrijedilo više od bilo kojeg pehara.',
+        en: "That evening, on his way home, Damir reflected on what he had learned that season. He realised that winning at nine years old doesn't mean the final score on the scoreboard, but rather each child's progress and the joy of playing with friends. He decided he would take on the coaching role again next season, because that experience was worth more to him than any trophy.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'volonter',
+        en: 'volunteer',
+        ex: 'Kad je klub objavio da traži volontera koji bi vodio ekipu devetogodišnjih dječaka, Damir se odmah javio.',
+      },
+      { hr: 'trening', en: 'training, practice', ex: 'Prvi trening bio je potpuni kaos.' },
+      {
+        hr: 'dres',
+        en: 'jersey',
+        ex: 'Petnaestorica dječaka trčala su za loptom u jednoj gomili, dok su neki od njih zaboravili obući dresove.',
+      },
+      {
+        hr: 'dodavanje',
+        en: 'passing (the ball)',
+        ex: 'Damir ga je pitao zašto ne pokušava dodavati se s ostalima, na što mu je Luka tiho odgovorio da se boji da će pogriješiti pred svima.',
+      },
+      {
+        hr: 'povučen',
+        en: 'withdrawn, reserved',
+        ex: 'Među dječacima najviše mu je zapeo za oko Luka, tih i povučen dječak koji je rijetko tražio loptu.',
+      },
+      {
+        hr: 'samouvjeren',
+        en: 'self-confident',
+        ex: 'Polako, Luka je počeo tražiti loptu, isprva plaho, a zatim sve samouvjerenije.',
+      },
+      {
+        hr: 'poraz',
+        en: 'defeat, loss',
+        ex: 'Rekao im je da je važnije da svaki dječak nauči surađivati, poštovati suigrače i protivnike te izdržati poraz bez suza.',
+      },
+      {
+        hr: 'neriješeno',
+        en: 'a draw, tied',
+        ex: 'Utakmica je završila neriješeno, jedan naprama jedan, a dječaci su bili razočarani.',
+      },
+      {
+        hr: 'napredovati',
+        en: 'to progress, improve',
+        ex: 'Damir je pozvao Luku da stane u prvi red, jer je, kako je rekao pred svima, najviše napredovao od svih dječaka u ekipi.',
+      },
+      {
+        hr: 'pehar',
+        en: 'trophy',
+        ex: 'Odlučio je da će sljedeće sezone opet prihvatiti ulogu trenera, jer mu je to iskustvo vrijedilo više od bilo kojeg pehara.',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Zašto se Damir javio kao volonter u klubu?',
+        qEn: 'Why did Damir sign up as a volunteer at the club?',
+        opts: [
+          'Jer je klub tražio volontera za vođenje ekipe devetogodišnjih dječaka',
+          'Jer je htio zaraditi novac',
+          'Jer mu je sin igrao u klubu',
+          'Jer je bio profesionalni igrač',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kakav je bio prvi trening?',
+        qEn: 'What was the first practice like?',
+        opts: [
+          'Vrlo miran i organiziran',
+          'Potpuni kaos',
+          'Otkazan zbog kiše',
+          'Kratak, samo pola sata',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto se Luka bojao tražiti loptu?',
+        qEn: 'Why was Luka afraid to ask for the ball?',
+        opts: [
+          'Bojao se ozljede',
+          'Nije volio nogomet',
+          'Bojao se da će pogriješiti pred svima',
+          'Nije znao pravila igre',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Kako je završila utakmica o kojoj se pripovijeda?',
+        qEn: 'How did the match described in the story end?',
+        opts: [
+          'Pobjedom njihove ekipe',
+          'Neriješeno, jedan naprama jedan',
+          'Porazom njihove ekipe',
+          'Utakmica je prekinuta',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Što je Damir zaključio na kraju sezone o pobjedi u toj dobi?',
+        qEn: 'What did Damir conclude at the end of the season about winning at that age?',
+        opts: [
+          'Da je rezultat na semaforu najvažniji',
+          'Da djeca trebaju igrati samo protiv slabijih ekipa',
+          'Da bi trebao prestati trenirati',
+          'Da je važniji napredak i radost igranja nego konačan rezultat',
+        ],
+        correct: 3,
+      },
+    ],
+    duration: 11,
   },
   {
     id: 'gs_c1_13',
@@ -12124,6 +13144,322 @@ export const GRADED_STORIES = [
           'Smisao cijelog iskaza može se promijeniti, što može utjecati na temelj presude',
           'To nikada ne utječe na konačnu presudu',
           'Zapisničar sam ispravlja takve pogreške naknadno',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_21',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '🏔️',
+    title: 'Voditeljica planinarskog doma',
+    titleEn: 'The Warden of the Mountain Hut',
+    duration: 12,
+    focus: 'opskrba i logistika • vrijeme kao svakodnevna odluka • samoća na visini',
+    intro:
+      'A portrait of a woman who runs a mountain hut alone — supply runs, the daily negotiation with weather, hikers she must turn back, and the isolation of winters spent at altitude.',
+    paragraphs: [
+      {
+        hr: 'Kad se prije zore probudi u planinarskom domu na tisuću i pol metara nadmorske visine, prvo što učini jest pogledati kroz prozor: je li magla legla na dolinu ili se nebo razvedrilo. Taj kratki pogled, kaže, vrijedi više od bilo koje prognoze, jer joj gorski krajolik govori jezikom koji je naučila čitati tek nakon godina provedenih na toj visini.',
+        en: 'When she wakes before dawn in the mountain hut at fifteen hundred metres, the first thing she does is look out the window: has fog settled over the valley, or has the sky cleared. That brief glance, she says, is worth more than any forecast, because the mountain landscape speaks a language she learned to read only after years spent at that altitude.',
+      },
+      {
+        hr: 'Opskrba planinarskog doma nikad nije jednostavna zadaća. Ljeti dio robe donose nosači, dio stiže žičarom do najbliže postaje, a ono najteže — plinske boce, drva, konzerve — prevozi se helikopterom kad vrijeme dopusti, najviše dva do tri puta godišnje. Zimi, kad su prilazi zatrpani snijegom, mora unaprijed procijeniti koliko će zaliha hrane i goriva trebati da dom preživi mjesece bez dopreme.',
+        en: 'Supplying a mountain hut is never a simple task. In summer some goods come up with porters, some arrive by cable car to the nearest station, and the heaviest items — gas canisters, firewood, tinned food — are flown in by helicopter when weather allows, at most two or three times a year. In winter, when the approaches are buried in snow, she must estimate in advance how much food and fuel the hut will need to survive months without deliveries.',
+      },
+      {
+        hr: 'Vrijeme u gorju nije podatak nego svakodnevno pregovaranje. Svako jutro provjerava nekoliko prognoza, uspoređuje ih s onim što vidi na obzoru i donosi odluku koja može promijeniti nečiji dan, a ponekad i sudbinu: hoće li markacije prema vrhu biti prohodne, hoće li se magla spustiti prije podneva, je li vjetar na grebenu dovoljno jak da obeshrabri i najupornije planinare.',
+        en: "Weather in the mountains isn't data but a daily negotiation. Every morning she checks several forecasts, compares them with what she sees on the horizon, and makes a decision that can change someone's day, and sometimes their fate: will the trail markings toward the summit be passable, will fog descend before noon, is the wind on the ridge strong enough to discourage even the most stubborn hikers.",
+      },
+      {
+        hr: 'Održavanje markacija dijeli s lokalnim planinarskim društvom, no odgovornost za njihovu čitljivost u konačnici pada na nju: izblijedjela boja na stijeni u magli može odvesti neiskusnog planinara u pogrešnom smjeru. Stoga svakog proljeća, čim se snijeg povuče, obilazi staze i obnavlja oznake, provjeravajući putokaze i brojeći korake do sljedeće prekretnice.',
+        en: 'She shares the upkeep of the trail markings with the local mountaineering association, but responsibility for their legibility ultimately falls on her: a faded mark on a rock in the fog can send an inexperienced hiker in the wrong direction. So every spring, as soon as the snow recedes, she walks the trails and renews the markers, checking signposts and counting paces to the next turning point.',
+      },
+      {
+        hr: 'Najteži dio posla nije fizički napor nego trenutak kada mora nekome reći da se vrati. Skupini u sandalama, ocu s malim djetetom u naprtnjači, mladiću uvjerenom da će vrijeme izdržati — svima ponekad mora uskratiti nastavak uspona, znajući da će njezina procjena biti dočekana s nevjericom ili ljutnjom, a rijetko sa zahvalnošću.',
+        en: "The hardest part of the job isn't physical exertion but the moment she has to tell someone to turn back. A group in sandals, a father with a small child in a carrier, a young man convinced the weather will hold — she sometimes has to deny all of them the continuation of their climb, knowing her judgment will be met with disbelief or anger, and rarely with gratitude.",
+      },
+      {
+        hr: 'S druge strane, dom je i sklonište onima koje je nevrijeme zateklo na pola puta. Kad grmljavina zahvati greben, vrata ostaju otvorena bez pitanja o rezervaciji ili plaćanju: mokri, prestrašeni planinari dobivaju suhu odjeću, vruć čaj i mjesto kraj peći, a tek se nakon oluje razgovara o tome koliko će prenoćište stajati.',
+        en: 'On the other hand, the hut is also a shelter for those caught by foul weather halfway up. When thunder hits the ridge, the door stays open with no questions about reservations or payment: wet, frightened hikers get dry clothes, hot tea, and a spot by the stove, and only after the storm has passed does anyone discuss what the overnight stay will cost.',
+      },
+      {
+        hr: 'Zimi, kad se dom zatvori za redovite goste, ona ipak ostaje — sama, uz radijsku vezu i zalihe za nekoliko mjeseci. Dani se svode na čišćenje snijega s krova, provjeru instalacija i duge šetnje po smrznutom platou, dok tišina ne postane toliko gusta da, kaže, počne razgovarati naglas sama sa sobom samo da čuje ljudski glas.',
+        en: 'In winter, once the hut closes to regular guests, she stays on anyway — alone, with a radio link and supplies for several months. Her days come down to clearing snow from the roof, checking the installations, and long walks across the frozen plateau, until the silence grows so thick that, she says, she starts talking aloud to herself just to hear a human voice.',
+      },
+      {
+        hr: 'Uska suradnja s gorskom službom spašavanja dio je posla o kojem gosti rijetko razmišljaju. Ona je prva karika u lancu uzbunjivanja: čim primijeti da se netko nije vratio na vrijeme ili čuje poziv u pomoć preko radija, dužna je procijeniti hitnost i, ako je potrebno, uputiti spasilački tim prije nego što se stanje pogorša.',
+        en: "Close cooperation with the mountain rescue service is a part of the job guests rarely think about. She is the first link in the alert chain: the moment she notices someone hasn't returned on time, or hears a call for help over the radio, she has to assess the urgency and, if needed, dispatch a rescue team before the situation worsens.",
+      },
+      {
+        hr: 'Nakon petnaest godina na toj visini priznaje da joj planina nije dala mir kakav su joj prijatelji predviđali, nego nešto zahtjevnije: odgovornost koja se ne može ostaviti za vikend. Svaka odluka o zatvaranju staze, o primanju gosta bez rezervacije ili o pozivanju spašavanja nosi težinu koju dolje, u gradu, rijetko tko razumije.',
+        en: "After fifteen years at that altitude, she admits the mountain hasn't given her the peace her friends once predicted, but something more demanding: a responsibility that can't be left behind for the weekend. Every decision about closing a trail, taking in a guest without a reservation, or calling in a rescue carries a weight that, down in the city, hardly anyone understands.",
+      },
+      {
+        hr: 'Onima koji je pitaju bi li se ponovno odlučila na taj život, odgovara bez oklijevanja: da, premda bi voljela da ljudi shvate kako dom na vrhu nije romantično utočište nego ustanova koja svakog dana iznova pregovara s planinom — i katkad gubi, ali dosad joj nijedna zima nije oduzela volju da se sljedećeg proljeća ponovno popne i otvori vrata.',
+        en: "To those who ask whether she'd choose that life again, she answers without hesitation: yes, though she'd like people to understand that a hut at the summit isn't a romantic refuge but an institution that negotiates with the mountain anew every day — and sometimes loses, though so far no winter has taken away her will to climb back up and open the door again the following spring.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'planinarski dom',
+        en: 'mountain hut',
+        ex: 'Kad se prije zore probudi u planinarskom domu na tisuću i pol metara nadmorske visine, prvo što učini jest pogledati kroz prozor: je li magla legla na dolinu ili se nebo razvedrilo.',
+      },
+      {
+        hr: 'opskrba',
+        en: 'supply / provisioning',
+        ex: 'Opskrba planinarskog doma nikad nije jednostavna zadaća.',
+      },
+      { hr: 'markacija', en: 'trail marking', ex: 'hoće li markacije prema vrhu biti prohodne' },
+      {
+        hr: 'sklonište',
+        en: 'shelter',
+        ex: 'dom je i sklonište onima koje je nevrijeme zateklo na pola puta',
+      },
+      {
+        hr: 'nosač',
+        en: 'porter',
+        ex: 'Ljeti dio robe donose nosači, dio stiže žičarom do najbliže postaje',
+      },
+      { hr: 'žičara', en: 'cable car', ex: 'dio stiže žičarom do najbliže postaje' },
+      {
+        hr: 'greben',
+        en: 'ridge',
+        ex: 'je li vjetar na grebenu dovoljno jak da obeshrabri i najupornije planinare',
+      },
+      {
+        hr: 'gorska služba spašavanja',
+        en: 'mountain rescue service',
+        ex: 'Uska suradnja s gorskom službom spašavanja dio je posla o kojem gosti rijetko razmišljaju.',
+      },
+      {
+        hr: 'planinarsko društvo',
+        en: 'mountaineering association',
+        ex: 'Održavanje markacija dijeli s lokalnim planinarskim društvom',
+      },
+      {
+        hr: 'prenoćište',
+        en: 'overnight stay / lodging',
+        ex: 'a tek se nakon oluje razgovara o tome koliko će prenoćište stajati',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Koliko puta godišnje najteža roba stiže do doma helikopterom?',
+        qEn: 'How many times a year does the heaviest cargo reach the hut by helicopter?',
+        opts: [
+          'Jednom mjesečno.',
+          'Najviše dva do tri puta godišnje.',
+          'Svaki tjedan tijekom ljeta.',
+          'Samo kad počne padati snijeg.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Tko s voditeljicom dijeli odgovornost za održavanje markacija?',
+        qEn: 'Who shares responsibility for maintaining the trail markings with her?',
+        opts: [
+          'Gorska služba spašavanja.',
+          'Općinska uprava.',
+          'Lokalno planinarsko društvo.',
+          'Lokalna turistička zajednica.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što dobivaju planinari koje na pola puta zateknu nevrijeme?',
+        qEn: 'What do hikers caught by bad weather halfway up receive?',
+        opts: [
+          'Suhu odjeću, vruć čaj i mjesto kraj peći.',
+          'Besplatno noćenje uz obveznu rezervaciju.',
+          'Prijevoz helikopterom natrag u dolinu.',
+          'Poziv gorskoj službi spašavanja.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što voditeljica radi zimi, kad se dom zatvori za redovite goste?',
+        qEn: 'What does the warden do in winter, once the hut closes to regular guests?',
+        opts: [
+          'Silazi u dolinu i vraća se u proljeće.',
+          'Prima goste privatno bez rezervacije.',
+          'Zatvara dom i putuje u inozemstvo.',
+          'Ostaje sama u domu i brine se o održavanju.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Tko je, prema tekstu, prva karika u lancu uzbunjivanja gorske službe spašavanja?',
+        qEn: 'According to the text, who is the first link in the mountain rescue alert chain?',
+        opts: [
+          'Najbliža planinarska koliba.',
+          'Meteorološka služba.',
+          'Voditeljica doma.',
+          'Lokalni vodič.',
+        ],
+        correct: 2,
+      },
+    ],
+  },
+  {
+    id: 'gs_c1_22',
+    level: 'C1',
+    levelColor: '#4c1d95',
+    levelBg: '#ede9fe',
+    icon: '💡',
+    title: 'Majstor svjetla',
+    titleEn: 'The Master of Light',
+    duration: 12,
+    focus: 'kazališna rasvjeta • nevidljiv zanat • trenutak premijere',
+    intro:
+      'A portrait of a theatre lighting master — rigging above the stage, painting mood with light that is invisible only when it is perfect, and the tension of watching a premiere from the control booth.',
+    paragraphs: [
+      {
+        hr: 'Malo tko u gledalištu primijeti da postoji čovjek zadužen za to da svjetlo na pozornici izgleda kao da se samo pojavljuje. Njegov posao počinje danima prije premijere, u praznom kazalištu, kad se rasvjetni pult tek pali i reflektori vise nad pozornicom poput uspavanih ptica koje čekaju da ih netko probudi.',
+        en: 'Hardly anyone in the audience notices that there is a person responsible for making the light on stage look as if it simply appears. His work begins days before the premiere, in an empty theatre, when the lighting console is only just switched on and the spotlights hang above the stage like sleeping birds waiting for someone to wake them.',
+      },
+      {
+        hr: 'Postavljanje rasvjete iznad pozornice zahtijeva penjanje na mostove i rešetke skrivene iznad kulisa, gdje se svaki reflektor mora učvrstiti, usmjeriti i markirati vrpcom određene boje. Pogreška od nekoliko centimetara u kutu nagiba može značiti da glumac u ključnoj sceni ostane napola u sjeni, a to se na premijeri više ne smije dogoditi.',
+        en: 'Rigging the lights above the stage means climbing onto bridges and gratings hidden above the flats, where every spotlight must be fastened, aimed, and marked with tape of a particular colour. An error of a few centimetres in the tilt angle can mean an actor in a key scene is left half in shadow — something that must never happen on opening night.',
+      },
+      {
+        hr: 'Svjetlo se, tvrdi, ne postavlja nego se piše, kao što se piše rečenica: hladna plava boja slika osamljenost, topla jantarna navodi na intimu, a oštar bočni snop stvara napetost prije nego što glumac izgovori ijednu riječ. Ta je vještina nevidljiva samo kad je izvedena besprijekorno; svaka pogreška odmah postaje vidljiva svima, čak i onima koji ne razmišljaju o oblikovanju svjetla.',
+        en: "Light, he insists, isn't set but written, the way a sentence is written: a cold blue paints loneliness, a warm amber suggests intimacy, and a sharp side beam creates tension before the actor speaks a single word. This skill is invisible only when it's executed flawlessly; any mistake instantly becomes visible to everyone, even to those who never think about how light is shaped.",
+      },
+      {
+        hr: 'Najveći paradoks njegova zanata jest da ga se najviše primijeti onda kad zakaže. Kad reflektor zatreperi u krivom trenutku ili kad sjena glumčeva lica padne pogrešno, publika to odmah osjeti, čak i ako ne zna objasniti zašto joj je nešto zasmetalo. Kad sve funkcionira, njegov se rad jednostavno ne vidi.',
+        en: "The greatest paradox of his craft is that it is most noticed precisely when it fails. When a spotlight flickers at the wrong moment or a shadow falls wrong across an actor's face, the audience feels it at once, even if they can't explain what bothered them. When everything works, his work simply isn't seen.",
+      },
+      {
+        hr: 'Tjedan proba prije premijere provodi u mraku gledališta s bilježnicom na koljenima, bilježeći kôd svakog prizora: koji se reflektor pali, koji gasi, koliko sekundi traje prijelaz. Redatelj traži nijanse koje se često mijenjaju iz probe u probu, pa se čitav svjetlosni scenarij prepisuje i noć uoči premijere.',
+        en: 'He spends the week of rehearsals before the premiere in the darkness of the auditorium with a notebook on his knees, logging the code for every scene: which spotlight comes on, which goes off, how many seconds a transition lasts. The director keeps asking for nuances that shift from rehearsal to rehearsal, so the entire lighting script gets rewritten even the night before opening.',
+      },
+      {
+        hr: 'Svjetlo mora surađivati s kulisama i kostimima, a ne natjecati se s njima: previše jaka rasvjeta može poništiti pažljivo obojenu scenografiju, dok preslaba ostavlja kostime bez sjaja koji im je scenograf pomno namijenio. Zato prije svake premijere provodi sate usklađujući nijanse reflektora s bojama koje zapravo vidi tek kad se sve sastavi na pozornici.',
+        en: "Light must cooperate with the sets and costumes, not compete with them: too strong a wash can wash out carefully coloured scenery, while too weak a one leaves costumes without the shimmer the designer intended for them. So before every premiere he spends hours matching the spotlights' hues to the colours he only truly sees once everything comes together on stage.",
+      },
+      {
+        hr: 'Na dan premijere sjedi u malenoj kontrolnoj kabini iznad gledališta, s prstima na tipkama pulta i pogledom uprtim u monitor koji prikazuje pozornicu. Dok publika prati radnju, on prati vlastiti scenarij svjetla, pritišćući tipke u točno određenim trenucima, svjestan da svaka pogrešna sekunda mijenja dojam cijele scene.',
+        en: "On the day of the premiere he sits in a small control booth above the auditorium, fingers on the console's keys, eyes fixed on a monitor showing the stage. While the audience follows the plot, he follows his own script of light, pressing keys at precisely determined moments, aware that every wrong second changes the impression of the whole scene.",
+      },
+      {
+        hr: 'Trema koju osjeća na premijeri rijetko kada popušta, unatoč iskustvu od dvadesetak sezona provedenih iza rasvjetnog pulta. Svaka je predstava nova jednadžba: drukčija glumačka postava, drukčiji ritam govora, drukčija atmosfera u gledalištu koja utječe na to koliko brzo publika reagira na promjenu svjetla, a katkad i na to hoće li uopće primijetiti suptilniju nijansu koju je satima pripremao.',
+        en: 'The stage fright he feels on opening night rarely eases, despite some twenty seasons of experience behind the lighting console. Every production is a new equation: a different cast, a different rhythm of speech, a different mood in the house that affects how quickly the audience reacts to a change in the light, and sometimes even whether they notice a subtler shade at all, one he spent hours preparing.',
+      },
+      {
+        hr: 'Kad ga netko upita čime se bavi, često odgovori jednostavno da radi u kazalištu, izbjegavajući dugo objašnjenje koje bi zahtijevalo desetke pojmova nepoznatih izvan struke. Nagrada njegova posla nije aplauz upućen njemu — taj uvijek pripada glumcima — nego tišina u kojoj publika, ne znajući zašto, osjeti da je nešto na pozornici bilo istinito.',
+        en: "When someone asks what he does for a living, he often simply answers that he works in the theatre, avoiding an explanation that would require dozens of terms unknown outside the trade. The reward of his work isn't applause directed at him — that always belongs to the actors — but the silence in which the audience, without knowing why, senses that something on stage was true.",
+      },
+      {
+        hr: 'Nakon posljednje izvedbe te sezone, kad se zavjesa spusti i gledalište isprazni, ostaje sam u kabini još nekoliko minuta, gaseći reflektore jedan po jedan, kao da svaki zaslužuje pristojan pozdrav prije nego što pozornica utone u mrak do sljedeće probe, a kazalište, do jutra, opet postane samo tiha, prazna zgrada.',
+        en: "After the season's last performance, once the curtain falls and the house empties, he stays alone in the booth a few more minutes, switching off the spotlights one by one, as if each deserved a proper goodbye before the stage sinks into darkness until the next rehearsal, and the theatre, by morning, becomes just a quiet, empty building again.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'reflektor',
+        en: 'stage spotlight',
+        ex: 'reflektori vise nad pozornicom poput uspavanih ptica koje čekaju da ih netko probudi',
+      },
+      {
+        hr: 'pozornica',
+        en: 'stage',
+        ex: 'Postavljanje rasvjete iznad pozornice zahtijeva penjanje na mostove i rešetke skrivene iznad kulisa',
+      },
+      {
+        hr: 'kulise',
+        en: 'stage flats / scenery wings',
+        ex: 'Svjetlo mora surađivati s kulisama i kostimima, a ne natjecati se s njima',
+      },
+      {
+        hr: 'proba',
+        en: 'rehearsal',
+        ex: 'Tjedan proba prije premijere provodi u mraku gledališta s bilježnicom na koljenima',
+      },
+      {
+        hr: 'premijera',
+        en: 'opening night / premiere',
+        ex: 'Njegov posao počinje danima prije premijere, u praznom kazalištu',
+      },
+      { hr: 'rasvjetni pult', en: 'lighting console', ex: 'kad se rasvjetni pult tek pali' },
+      {
+        hr: 'gledalište',
+        en: 'auditorium / house',
+        ex: 'sjedi u malenoj kontrolnoj kabini iznad gledališta',
+      },
+      {
+        hr: 'scenografija',
+        en: 'stage design / scenery',
+        ex: 'previše jaka rasvjeta može poništiti pažljivo obojenu scenografiju',
+      },
+      {
+        hr: 'redatelj',
+        en: 'director',
+        ex: 'Redatelj traži nijanse koje se često mijenjaju iz probe u probu',
+      },
+      {
+        hr: 'kabina',
+        en: 'booth',
+        ex: 'ostaje sam u kabini još nekoliko minuta, gaseći reflektore jedan po jedan',
+      },
+    ],
+    quiz: [
+      {
+        q: 'Kada, prema tekstu, publika najviše primijeti rad majstora svjetla?',
+        qEn: "According to the text, when does the audience most notice the lighting master's work?",
+        opts: [
+          'Kada je rasvjeta savršeno izvedena.',
+          'Kada glumac izgovori posljednju repliku.',
+          'Kada nešto u rasvjeti zakaže.',
+          'Kada se podigne zavjesa na početku predstave.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Gdje provodi tjedan proba prije premijere?',
+        qEn: 'Where does he spend the week of rehearsals before the premiere?',
+        opts: [
+          'U mraku gledališta, s bilježnicom na koljenima.',
+          'Na pozornici, zajedno s glumcima.',
+          'U svojem uredu, daleko od kazališta.',
+          'Iza kulisa, razgovarajući s redateljem.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Kako se svjetlo, prema tekstu, treba odnositi prema kulisama i kostimima?',
+        qEn: 'According to the text, how should the light relate to the sets and costumes?',
+        opts: [
+          'Mora biti jače od boja kulisa.',
+          'Mora surađivati s njima, a ne natjecati se s njima.',
+          'Mora ostati posve neutralno, bez nijansi.',
+          'Mora se prilagoditi samo kostimima, ne i kulisama.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Gdje sjedi na dan premijere?',
+        qEn: 'Where does he sit on the day of the premiere?',
+        opts: [
+          'Na pozornici, iza kulisa.',
+          'U redateljevu uredu.',
+          'Među publikom, u gledalištu.',
+          'U maloj kontrolnoj kabini iznad gledališta.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Što osjeća na premijeri unatoč dvadesetak sezona iskustva?',
+        qEn: 'What does he feel on opening night despite some twenty seasons of experience?',
+        opts: [
+          'Potpunu ravnodušnost prema izvedbi.',
+          'Tremu koja rijetko popušta.',
+          'Sigurnost da ništa ne može poći po zlu.',
+          'Dosadu jer je sve već viđeno.',
         ],
         correct: 1,
       },
@@ -13420,6 +14756,322 @@ export const GRADED_STORIES = [
           'Poseban oblik demokracije u kojem je prizor pripadao svima podjednako',
           'Mogućnost daljnje gradnje uz obalu',
           'Turistička atraktivnost destinacije',
+        ],
+        correct: 1,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_16',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '🍽️',
+    title: 'Stol nedjeljom',
+    titleEn: 'The Sunday Table',
+    duration: 12,
+    focus: 'obiteljski obredi • nepisana pravila • erozija i postojanost',
+    intro:
+      'An essay on the Sunday family table as an institution — who calls whom, the unwritten seating order, soup as liturgy, and what quietly gets negotiated between courses.',
+    paragraphs: [
+      {
+        hr: 'Nedjeljni je stol u hrvatskim obiteljima institucija bez statuta, ali sa strožim pravilima od mnogih pisanih zakona. Nitko ga nije osnovao, nitko ne vodi zapisnik, a ipak se iz tjedna u tjedan ponavlja s gotovo liturgijskom točnošću: isti sat, isto mjesto, isti raspored ukućana oko stola koji je, čini se, oduvijek bio tu.',
+        en: 'The Sunday table in Croatian families is an institution without a charter, yet with stricter rules than many written laws. No one founded it, no one keeps minutes, and yet week after week it repeats with almost liturgical precision: the same hour, the same place, the same arrangement of household members around a table that seems to have always been there.',
+      },
+      {
+        hr: 'Poziv koji pokreće cijeli obred obično dolazi u petak navečer, i uvijek od iste osobe — najčešće majke ili bake — koja telefonom, kao vrhovna koordinatorica nevidljive mreže, provjerava dolazi li sin s obitelji, hoće li kći dovesti novog partnera i je li stric slobodan. Ta hijerarhija poziva nikada nije zapisana, ali je svima jasna.',
+        en: 'The call that sets the whole rite in motion usually comes on Friday evening, always from the same person — most often the mother or grandmother — who, by phone, like the supreme coordinator of an invisible network, checks whether the son is coming with his family, whether the daughter will bring her new partner, and whether the uncle is free. That hierarchy of calls is never written down, but everyone understands it.',
+      },
+      {
+        hr: 'Raspored za stolom nitko izričito ne propisuje, no odstupanje od njega izaziva nelagodu veću nego bilo koje otvoreno neslaganje. Otac na čelu stola, baka najbliže pećnici, djeca na kraju gdje se počini manje štete — taj se poredak prenosi generacijama i mijenja tek kad netko umre ili se preseli, a nikad zbog puke promjene raspoloženja.',
+        en: 'No one explicitly prescribes the seating order, yet departing from it causes more unease than any open disagreement would. Father at the head of the table, grandmother closest to the stove, children at the end where less gets spilled — that arrangement is passed down through generations and changes only when someone dies or moves away, never from a mere shift in mood.',
+      },
+      {
+        hr: 'Juha se ne poslužuje nego se dodjeljuje, redom utvrđenim davno prije nego što je itko od prisutnih postao svjestan da poredak uopće postoji. Prve žlice prate kratke, gotovo ritualne rečenice o cesti, o vremenu, o tome tko je stigao posljednji — uvod koji nikoga ne obvezuje, ali svima daje vremena da procijeni raspoloženje za stolom prije nego što se povede ozbiljniji razgovor.',
+        en: "Soup isn't served so much as allotted, in an order fixed long before anyone present became aware the order even existed. The first spoonfuls are accompanied by short, almost ritual remarks about the road, the weather, who arrived last — a preamble that commits no one, but gives everyone time to gauge the mood at the table before any more serious conversation begins.",
+      },
+      {
+        hr: 'Tek između jela, dok se tanjuri mijenjaju, počinje se pregovarati o onome zbog čega je ručak zapravo sazvan: hoće li baka preseliti k sinu, treba li unuku pomoći oko stanarine, je li vrijeme da se proda kuća na selu. Ta se pitanja nikad ne postavljaju izravno za vrijeme glavnog jela — bio bi to prekršaj nepisanog bontona.',
+        en: "Only between courses, as plates are changed, does the real bargaining start over what the lunch was actually convened for: whether grandmother should move in with her son, whether the grandson needs help with rent, whether it's time to sell the house in the village. Such questions are never raised directly during the main course — that would be a breach of unwritten etiquette.",
+      },
+      {
+        hr: 'Ton kojim se ta pitanja postavljaju gotovo je uvijek blaži nego što bi zahtijevala njihova važnost, jer podizanje glasa za stolom smatra se porazom, znakom da se obitelj nije uspjela dogovoriti na uobičajen, prigušen način. Sukobi se, dakle, ne rješavaju nego se odgađaju do sljedeće nedjelje, kad će ponovno doći na red uz juhu.',
+        en: "The tone in which such questions are raised is almost always gentler than their importance would demand, because raising one's voice at the table is considered a defeat, a sign the family failed to settle things in the usual, muted way. Conflicts, then, aren't resolved but postponed until next Sunday, when they'll come up again over the soup.",
+      },
+      {
+        hr: 'Nekoć, dok bi baka posluživala meso, znala je ispričati priču o nedjeljama svoje mladosti — sjećaše se stola za kojim se okupljalo dvostruko više ljudi, a razgovor trajaše do sumraka. Nitko je ne bi prekidao, jer se u toj priči, više nego u bilo kojem savjetu, skrivala poruka namijenjena onome tko ju je najviše trebao čuti.',
+        en: 'Once, while grandmother would serve the meat, she used to tell a story about the Sundays of her youth — she recalled a table where twice as many people gathered, and conversation lasted until dusk. No one would interrupt her, because in that story, more than in any advice, lay a message meant for whoever needed to hear it most.',
+      },
+      {
+        hr: 'Danas se taj obred sve češće seli u nedjeljno poslijepodne, jer jutra su rezervirana za posao koji se, unatoč nedjelji, nastavlja stizati na mobitel. Djeca odrastaju u gradovima daleko od roditeljskog stola, pa se okupljanje sužava na blagdane, a videopoziv zamjenjuje stolicu koja je nekoć uvijek bila prazna do njihova dolaska.',
+        en: "Today that rite increasingly moves to Sunday afternoon, since mornings are reserved for work that, Sunday or not, keeps arriving on the phone. Children grow up in cities far from their parents' table, so gatherings shrink to holidays, and a video call replaces the chair that used to stand empty until they arrived.",
+      },
+      {
+        hr: 'Pa ipak, i u obiteljima raspršenim po nekoliko država, nedjeljni stol opstaje kao referentna točka o koju se mjeri sve ostalo: kada se konačno okupe, raspored sjedenja, redoslijed posluživanja i onaj isti uvodni razgovor o cesti vraćaju se gotovo nepromijenjeni, kao da je stanka trajala tjedan, a ne godinu.',
+        en: 'And yet, even in families scattered across several countries, the Sunday table survives as the reference point against which everything else is measured: when they finally do gather, the seating order, the sequence of serving, and that same opening small talk about the road return almost unchanged, as if the pause had lasted a week rather than a year.',
+      },
+      {
+        hr: 'Možda upravo u toj nepromjenjivosti leži razlog zašto se obred opire vremenu bolje od mnogih institucija s pravilnicima i pečatima: nedjeljni stol ne zahtijeva vjeru u instituciju, nego samo dolazak, a dolazak, koliko god rijedak postao, uvijek iznova obnavlja ono što bi se inače tiho izgubilo, jednu obiteljsku nit koju nijedan poziv ni poruka ne mogu sami po sebi održati na životu.',
+        en: "Perhaps it is exactly in that unchangingness that the reason lies for why the rite resists time better than many institutions with bylaws and seals: the Sunday table doesn't require faith in an institution, only attendance — and attendance, however rare it becomes, renews again and again a family thread that no phone call or message can, by itself, keep alive.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'institucija',
+        en: 'institution',
+        ex: 'Nedjeljni je stol u hrvatskim obiteljima institucija bez statuta, ali sa strožim pravilima od mnogih pisanih zakona.',
+      },
+      {
+        hr: 'hijerarhija',
+        en: 'hierarchy',
+        ex: 'Ta hijerarhija poziva nikada nije zapisana, ali je svima jasna.',
+      },
+      {
+        hr: 'raspored',
+        en: 'arrangement / order',
+        ex: 'Raspored za stolom nitko izričito ne propisuje',
+      },
+      {
+        hr: 'juha',
+        en: 'soup',
+        ex: 'Juha se ne poslužuje nego se dodjeljuje, redom utvrđenim davno prije nego što je itko od prisutnih postao svjestan da poredak uopće postoji.',
+      },
+      { hr: 'bonton', en: 'etiquette', ex: 'bio bi to prekršaj nepisanog bontona' },
+      {
+        hr: 'sukob',
+        en: 'conflict',
+        ex: 'Sukobi se, dakle, ne rješavaju nego se odgađaju do sljedeće nedjelje, kad će ponovno doći na red uz juhu.',
+      },
+      {
+        hr: 'sjećati se',
+        en: 'to recall / remember',
+        ex: 'sjećaše se stola za kojim se okupljalo dvostruko više ljudi',
+      },
+      {
+        hr: 'videopoziv',
+        en: 'video call',
+        ex: 'a videopoziv zamjenjuje stolicu koja je nekoć uvijek bila prazna do njihova dolaska',
+      },
+      {
+        hr: 'referentna točka',
+        en: 'reference point',
+        ex: 'nedjeljni stol opstaje kao referentna točka o koju se mjeri sve ostalo',
+      },
+      { hr: 'obred', en: 'rite', ex: 'Danas se taj obred sve češće seli u nedjeljno poslijepodne' },
+    ],
+    quiz: [
+      {
+        q: 'Tko obično poziva na nedjeljni ručak?',
+        qEn: 'Who usually makes the call for Sunday lunch?',
+        opts: [
+          'Otac ili djed.',
+          'Majka ili baka.',
+          'Najstariji unuk.',
+          'Susjed koji organizira okupljanje.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Kada se, prema tekstu, zapravo pregovara o ozbiljnim obiteljskim pitanjima?',
+        qEn: 'According to the text, when does the real negotiating over serious family matters happen?',
+        opts: [
+          'Između jela, dok se mijenjaju tanjuri.',
+          'Za vrijeme glavnog jela.',
+          'Prije nego što itko sjedne za stol.',
+          'Tek nakon što svi odu kući.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što se, prema tekstu, smatra porazom za stolom?',
+        qEn: 'According to the text, what is considered a defeat at the table?',
+        opts: [
+          'Kašnjenje na ručak.',
+          'Sjedenje na tuđem mjestu.',
+          'Podizanje glasa tijekom razgovora.',
+          'Odbijanje juhe.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što se, prema tekstu, danas mijenja u vezi s nedjeljnim ručkom?',
+        qEn: 'According to the text, what is changing today with respect to Sunday lunch?',
+        opts: [
+          'Potpuno nestaje iz obiteljskog života.',
+          'Seli se isključivo na blagdane, bez iznimke.',
+          'Djeca preuzimaju ulogu pozivanja obitelji.',
+          'Sve se češće seli u poslijepodne, a okupljanja postaju rjeđa.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Zašto, prema zaključku teksta, obred opstaje bolje od institucija s pravilnicima?',
+        qEn: "According to the text's conclusion, why does the rite endure better than institutions with bylaws?",
+        opts: [
+          'Jer zahtijeva samo dolazak, a ne vjeru u instituciju.',
+          'Jer je zakonski reguliran obiteljskim pravom.',
+          'Jer ga podržavaju lokalne vlasti.',
+          'Jer se održava isključivo putem videopoziva.',
+        ],
+        correct: 0,
+      },
+    ],
+  },
+  {
+    id: 'gs_c2_17',
+    level: 'C2',
+    levelColor: '#9d174d',
+    levelBg: '#fce7f3',
+    icon: '✍️',
+    title: 'Rukopis',
+    titleEn: 'Handwriting',
+    duration: 12,
+    focus: 'rukom pisana riječ • tjelesno pamćenje • nestajanje vještine',
+    intro:
+      "An essay on handwriting in a typed age — the letter as physical object, a grandmother's recipe card, the signature as a last survivor, and what the hand knows that the keyboard forgets.",
+    paragraphs: [
+      {
+        hr: 'Rukopis je jedino pismo koje nosi otisak tijela koje ga je proizvelo: pritisak olovke, brzinu poteza, drhtaj ruke umorne od pisanja. Tipkani tekst, koliko god bio precizan, ne otkriva ništa o ruci koja ga je stvorila — svako je slovo identično prethodnome, dok rukopis, poput otiska prsta, ostaje nepromjenjivo osoban, čitljiv i onda kada su riječi koje nosi odavno zaboravljene.',
+        en: 'Handwriting is the only script that carries the imprint of the body that produced it: the pressure of the pen, the speed of the stroke, the tremor of a hand tired from writing. Typed text, however precise, reveals nothing about the hand that made it — every letter is identical to the last — while handwriting, like a fingerprint, remains immutably personal, legible even once the words it carries have long been forgotten.',
+      },
+      {
+        hr: 'Arhivi diljem svijeta čuvaju rukopise pisaca, znanstvenika i posve običnih ljudi, ne samo zbog sadržaja nego zbog same tvari pisanja: prekriženih riječi, mrlja tinte, žurnih kratica kojima je autor štedio vrijeme. Ti tragovi oklijevanja i predomišljanja, nevidljivi u konačnoj tiskanoj verziji, otkrivaju proces mišljenja koji tipkani dokument, s automatski izbrisanim ispravcima, više ne ostavlja iza sebe.',
+        en: 'Archives around the world preserve the manuscripts of writers, scholars, and perfectly ordinary people, not only for their content but for the very matter of the writing: crossed-out words, ink blots, hurried abbreviations by which the author saved time. These traces of hesitation and second-guessing, invisible in the final printed version, reveal a process of thinking that a typed document, with its corrections erased automatically, no longer leaves behind.',
+      },
+      {
+        hr: 'Na dnu ladice, među starim računima, često se pronađe kartica ispisana bakinim rukopisom: recept za kolač, s mrljom masti u kutu i riječju „malo“ umjesto točne mjere, jer je znala da će ruka koja ga jednom pripremi znati prepoznati što „malo“ znači. Taj listić papira vrijedi više od bilo kojeg digitalnog recepta s preciznim gramažama.',
+        en: 'At the bottom of a drawer, among old bills, one often finds a card written in a grandmother\'s hand: a cake recipe, with a grease stain in the corner and the word "a little" instead of an exact measure, because she knew the hand that would one day make it would recognise what "a little" meant. That scrap of paper is worth more than any digital recipe with precise gram amounts.',
+      },
+      {
+        hr: 'Postupno napuštanje nastave pisanog slova u osnovnim školama diljem svijeta jedan je od najtiših, a možda i najtrajnijih kulturnih gubitaka posljednjih desetljeća. Djeca danas uče tipkati prije nego što uopće savladaju vezano pismo, a mnoga odrasla generacija koja je nekoć vježbala kaligrafske vježbe u bilježnicama s linijama danas piše rukom samo kad potpisuje dokument.',
+        en: 'The gradual abandonment of cursive instruction in primary schools around the world is one of the quietest, and perhaps most lasting, cultural losses of recent decades. Children today learn to type before they even master joined-up writing, and many adults who once practised calligraphy exercises in lined notebooks now write by hand only when signing a document.',
+      },
+      {
+        hr: 'Potpis je posljednji preživjeli oblik rukopisa u životu većine odraslih ljudi: ostatak vještine svedene na nekoliko poteza koje ruka izvodi gotovo mehanički, bez svjesnog oblikovanja slova. Upravo zato što je toliko osiromašen, potpis je istovremeno i najosobniji trag koji netko ostavlja — jedini rukom napisan znak u moru tipkanih obrazaca.',
+        en: "The signature is the last surviving form of handwriting in most adults' lives: a remnant of a skill reduced to a few strokes the hand performs almost mechanically, without consciously shaping the letters. Precisely because it is so impoverished, the signature is at the same time the most personal trace a person leaves — the only handwritten mark in a sea of typed forms.",
+      },
+      {
+        hr: 'Motoričko pamćenje koje se stječe ponavljanim pisanjem rukom razlikuje se od onoga koje nastaje tipkanjem: ruka koja je stotinama puta ispisala određenu riječ pamti oblik slova u samim mišićima, dok prst koji pritišće tipku pamti samo položaj, a ne oblik. Zato se rukom napisano gradivo, pokazuju istraživanja iz kognitivne psihologije, često bolje pamti od utipkanog, kao da usporavanje ruke produljuje samo pamćenje.',
+        en: 'The muscle memory acquired through repeated handwriting differs from that formed by typing: a hand that has written a given word hundreds of times remembers the shape of the letters in the muscles themselves, while a finger pressing a key remembers only a position, not a shape. That is why material written by hand, cognitive-psychology research shows, is often better remembered than material typed in, as if the slowing of the hand alone prolonged the memory itself.',
+      },
+      {
+        hr: 'U učionici prvog razreda dijete i danas provodi sate provlačeći olovku kroz krivulje slova, ponavljajući isti potez dok mu ruka ne prestane drhtati. Taj mukotrpan proces, koji roditelji ponekad smatraju nepotrebnim u doba tipkovnica, zapravo uči dijete strpljenju koje se ne može stjecati dodirom po zaslonu.',
+        en: 'In a first-grade classroom, a child still spends hours tracing a pencil through the curves of letters, repeating the same stroke until the hand stops trembling. That laborious process, which parents sometimes consider unnecessary in the age of keyboards, actually teaches the child a patience that cannot be acquired by touching a screen.',
+      },
+      {
+        hr: 'Rukopis odraslog čovjeka koji rijetko piše rukom s vremenom postaje nesiguran, nagnut, gotovo djetinji, jer se vještina, kao i svaka druga, gubi neupotrebom. Liječnici, nekoć poznati po nečitkim receptima, danas gotovo isključivo tipkaju, pa je legendarna nečitkost njihova rukopisa postala anegdota starije generacije, a ne stvarnost mlađih kolega.',
+        en: 'The handwriting of an adult who rarely writes by hand gradually becomes unsteady, slanted, almost childlike, because the skill, like any other, is lost through disuse. Doctors, once famous for illegible prescriptions, now type almost exclusively, so the legendary illegibility of their handwriting has become an anecdote about the older generation rather than a reality among younger colleagues.',
+      },
+      {
+        hr: 'Kad netko umre, obitelj često najviše žali za time što nema dovoljno njegovih rukom napisanih riječi — čestitke, bilješke na rubu knjige, adresu naškrabanu na omotnici poslanoj prije mnogo godina. Tipkana poruka, sačuvana u oblaku, preživljava tehnički, ali ne nosi u sebi tijelo koje ju je oblikovalo, pa se čita drukčije, hladnije, kao da je napisao netko drugi.',
+        en: "When someone dies, the family often mourns most the lack of enough of their handwritten words — greeting cards, notes in the margins of books, an address scrawled on an envelope sent many years before. A typed message, preserved in the cloud, survives technically, but doesn't carry within it the body that shaped it, so it reads differently, colder, as if someone else had written it.",
+      },
+      {
+        hr: 'Unatoč svemu, rukopis se ne gasi posve: djeca i dalje ispisuju čestitke za rođendane, umjetnici crtaju skice s bilješkama uz rub, a poneki i dalje vode dnevnik olovkom, tvrdeći da misao teče drukčije kad ruka usporava misao do brzine pisanja. U toj usporenosti, možda, i leži ono što tipkovnica nikad neće moći ponuditi.',
+        en: "Despite everything, handwriting hasn't gone out entirely: children still write out birthday cards, artists sketch drawings with notes in the margin, and some still keep a diary in pencil, insisting that thought flows differently when the hand slows thought down to the speed of writing. In that slowness, perhaps, lies exactly what the keyboard will never be able to offer.",
+      },
+    ],
+    vocabulary: [
+      {
+        hr: 'rukopis',
+        en: 'handwriting',
+        ex: 'Rukopis je jedino pismo koje nosi otisak tijela koje ga je proizvelo',
+      },
+      {
+        hr: 'otisak',
+        en: 'imprint',
+        ex: 'dok rukopis, poput otiska prsta, ostaje nepromjenjivo osoban',
+      },
+      {
+        hr: 'arhiv',
+        en: 'archive',
+        ex: 'Arhivi diljem svijeta čuvaju rukopise pisaca, znanstvenika i posve običnih ljudi',
+      },
+      {
+        hr: 'vezano pismo',
+        en: 'cursive / joined-up writing',
+        ex: 'Djeca danas uče tipkati prije nego što uopće savladaju vezano pismo',
+      },
+      {
+        hr: 'potpis',
+        en: 'signature',
+        ex: 'Potpis je posljednji preživjeli oblik rukopisa u životu većine odraslih ljudi',
+      },
+      {
+        hr: 'motoričko pamćenje',
+        en: 'muscle memory',
+        ex: 'Motoričko pamćenje koje se stječe ponavljanim pisanjem rukom razlikuje se od onoga koje nastaje tipkanjem',
+      },
+      {
+        hr: 'kaligrafski',
+        en: 'calligraphic',
+        ex: 'vježbala kaligrafske vježbe u bilježnicama s linijama',
+      },
+      {
+        hr: 'nečitkost',
+        en: 'illegibility',
+        ex: 'pa je legendarna nečitkost njihova rukopisa postala anegdota starije generacije',
+      },
+      {
+        hr: 'omotnica',
+        en: 'envelope',
+        ex: 'čestitke, bilješke na rubu knjige, adresu naškrabanu na omotnici',
+      },
+      { hr: 'dnevnik', en: 'diary', ex: 'a poneki i dalje vode dnevnik olovkom' },
+    ],
+    quiz: [
+      {
+        q: 'Što piše na bakinoj kartici umjesto točne mjere sastojka?',
+        qEn: "What is written on grandmother's card instead of an exact measure of an ingredient?",
+        opts: [
+          'Riječ „malo“.',
+          'Točna mjera u gramima.',
+          'Slika gotovog kolača.',
+          'Popis sastojaka na engleskom.',
+        ],
+        correct: 0,
+      },
+      {
+        q: 'Što djeca danas nauče prije nego što savladaju vezano pismo?',
+        qEn: 'What do children today learn before they master cursive writing?',
+        opts: [
+          'Crtati velika tiskana slova.',
+          'Tipkati.',
+          'Pisati kaligrafskim perom.',
+          'Čitati naglas pred razredom.',
+        ],
+        correct: 1,
+      },
+      {
+        q: 'Zašto je potpis, prema tekstu, i dalje najosobniji trag koji netko ostavlja?',
+        qEn: 'According to the text, why is the signature still the most personal trace a person leaves?',
+        opts: [
+          'Jer ga zakon zahtijeva na svakom dokumentu.',
+          'Jer se uvijek piše kaligrafski.',
+          'Jer ga svatko piše posve jednako.',
+          'Jer je jedini rukom napisan znak u moru tipkanih obrazaca.',
+        ],
+        correct: 3,
+      },
+      {
+        q: 'Kako se, prema istraživanjima iz kognitivne psihologije spomenutima u tekstu, pamti rukom napisano gradivo u odnosu na utipkano?',
+        qEn: 'According to the cognitive-psychology research mentioned in the text, how is handwritten material remembered compared with typed material?',
+        opts: [
+          'Podjednako se pamti kao i utipkano.',
+          'Lošije se pamti od utipkanog.',
+          'Bolje se pamti.',
+          'Pamćenje ovisi isključivo o duljini teksta.',
+        ],
+        correct: 2,
+      },
+      {
+        q: 'Što se, prema tekstu, danas može reći o nekadašnjoj nečitkosti liječničkog rukopisa?',
+        qEn: "According to the text, what can be said today about the once-legendary illegibility of doctors' handwriting?",
+        opts: [
+          'I dalje je jednako raširena kao prije.',
+          'Postala je anegdota starije generacije, a ne stvarnost mlađih kolega.',
+          'Postala je zakonski problem u bolnicama.',
+          'Uvedena je posebna obuka za njezino ispravljanje.',
         ],
         correct: 1,
       },
