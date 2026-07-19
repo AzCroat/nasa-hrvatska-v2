@@ -7,6 +7,7 @@ import { CONJ_LAB_ENABLED } from '../lib/conjugation/conjugationConfig';
 import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
+import { trackSessionBuilt } from '../lib/analytics';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 // Re-exported so the content-coverage CI gate and session tests keep their
 // import path (the data moved to ../lib/sessionPools for max-lines).
@@ -397,9 +398,27 @@ export function buildSessionActivities(
     .map((o) => o.ex);
   // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard 4).
   const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
+  // Wave 1 (session catchment): the LAST fill slot is a discovery slot — picked
+  // by least-recently-served instead of difficulty-nearest, so the widened pool
+  // actually cycles through sessions over time instead of staying buried behind
+  // the difficulty sort. Session length is unchanged: discovery DISPLACES the
+  // final difficulty pick, it never adds a slot.
+  const discoveryTarget = fillTarget > activities.length + 1 ? fillTarget - 1 : fillTarget;
   for (const ex of ordered) {
-    if (activities.length >= fillTarget) break;
+    if (activities.length >= discoveryTarget) break;
     if (!usedScreens.has(ex.screen)) {
+      activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
+      usedScreens.add(ex.screen);
+    }
+  }
+  if (activities.length < fillTarget) {
+    const served = readServedMap();
+    const discovery = pool
+      .filter((ex) => !usedScreens.has(ex.screen))
+      .map((ex) => ({ ex, last: served[ex.screen] ?? '', r: rnd() }))
+      .sort((a, b) => (a.last < b.last ? -1 : a.last > b.last ? 1 : a.r - b.r))[0];
+    if (discovery) {
+      const { ex } = discovery;
       activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
       usedScreens.add(ex.screen);
     }
@@ -413,6 +432,12 @@ export function buildSessionActivities(
     ? CROATIA_POOL[1 + (dayOfMonth % (CROATIA_POOL.length - 1))]!
     : CROATIA_POOL[0]!;
   activities.push(croatiaActivity);
+
+  // Wave 1: record what this session serves (feeds the discovery slot's
+  // least-recently-served ordering) and emit the served-mix analytics event so
+  // coverage broadening is observable in production, not assumed.
+  recordServedScreens(activities.map((a) => a.screen));
+  trackSessionBuilt({ cefr: userCefr, screens: activities.map((a) => a.screen) });
 
   return activities;
 }
@@ -447,6 +472,29 @@ function loadPersistedSession(): DailySession | null {
 function persistSession(session: DailySession): void {
   try {
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch {}
+}
+
+// Wave 1: map of screen key → last date it appeared in a built session. Read by
+// the Priority-3 discovery slot (least-recently-served ordering); written on
+// every session build. Never pruned — a few hundred screen keys with date
+// strings is negligible storage.
+const SERVED_KEY = 'nh_session_served';
+
+function readServedMap(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(SERVED_KEY) || '{}') as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function recordServedScreens(screens: string[]): void {
+  try {
+    const map = readServedMap();
+    const today = localDateStr();
+    for (const s of screens) map[s] = today;
+    localStorage.setItem(SERVED_KEY, JSON.stringify(map));
   } catch {}
 }
 
@@ -651,13 +699,15 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
             (ex) => isUnlocked(ex.cefr, userCefr) && !sessionScreens.has(ex.screen),
           );
         }
-        const shuffled = [...pool];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(rnd() * (i + 1));
-          const tmp = shuffled[i] as (typeof shuffled)[0];
-          shuffled[i] = shuffled[j] as (typeof shuffled)[0];
-          shuffled[j] = tmp;
-        }
+        // Wave 1: least-recently-served ordering (was a pure shuffle). For B1+
+        // users the four guaranteed slots consume the whole fill target, so the
+        // bonus round is their main window onto the widened pool — LRS makes it
+        // actually rotate through everything instead of resampling favourites.
+        const served = readServedMap();
+        const shuffled = [...pool]
+          .map((ex) => ({ ex, last: served[ex.screen] ?? '', r: rnd() }))
+          .sort((a, b) => (a.last < b.last ? -1 : a.last > b.last ? 1 : a.r - b.r))
+          .map((o) => o.ex);
         return shuffled.slice(0, 5).map((ex) => ({
           id: 'bonus_' + ex.id,
           label: ex.label,
