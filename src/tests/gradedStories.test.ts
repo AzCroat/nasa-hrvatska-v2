@@ -59,16 +59,16 @@ describe('graded stories — structural integrity', () => {
   it('per-level coverage never regresses below the 2026-07 expansion floor', () => {
     const byLevel: Record<string, number> = {};
     for (const s of stories) byLevel[s.level] = (byLevel[s.level] || 0) + 1;
-    expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(20);
-    expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(20);
-    expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(20);
-    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(17);
-    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(16);
-    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(11);
-    expect(stories.length).toBeGreaterThanOrEqual(104);
+    expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(22);
+    expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(22);
+    expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(22);
+    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(19);
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(18);
+    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(13);
+    expect(stories.length).toBeGreaterThanOrEqual(116);
   });
 
-  // Stories tranches 1-2 (2026-07): per-level HR word-volume floors — the audit's
+  // Stories tranches 1-3 (2026-07): per-level HR word-volume floors — the audit's
   // 10,000-words-per-level program. Raise these with every tranche; they exist
   // so reading VOLUME (not just story count) can never silently regress.
   it('per-level Croatian word volume never regresses below the tranche-1 floor', () => {
@@ -79,12 +79,12 @@ describe('graded stories — structural integrity', () => {
         .reduce((a: number, b: number) => a + b, 0);
       words[s.level] = (words[s.level] ?? 0) + w;
     }
-    expect(words['A1'] ?? 0).toBeGreaterThanOrEqual(2900);
-    expect(words['A2'] ?? 0).toBeGreaterThanOrEqual(4000);
-    expect(words['B1'] ?? 0).toBeGreaterThanOrEqual(4400);
-    expect(words['B2'] ?? 0).toBeGreaterThanOrEqual(4800);
-    expect(words['C1'] ?? 0).toBeGreaterThanOrEqual(4800);
-    expect(words['C2'] ?? 0).toBeGreaterThanOrEqual(4000);
+    expect(words['A1'] ?? 0).toBeGreaterThanOrEqual(3700);
+    expect(words['A2'] ?? 0).toBeGreaterThanOrEqual(4900);
+    expect(words['B1'] ?? 0).toBeGreaterThanOrEqual(5400);
+    expect(words['B2'] ?? 0).toBeGreaterThanOrEqual(5900);
+    expect(words['C1'] ?? 0).toBeGreaterThanOrEqual(5900);
+    expect(words['C2'] ?? 0).toBeGreaterThanOrEqual(5100);
   });
 
   it('every story is complete: metadata, paragraphs with hr+en, vocab, quiz', () => {
