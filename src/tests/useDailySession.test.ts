@@ -11,7 +11,12 @@ import {
   GRAMMAR_STRUCTURE_CATEGORIES,
   CEFR_EXERCISE_POOL,
   SESSION_AUTOCOMPLETE_SCREENS,
+  CROATIA_POOL,
 } from '../hooks/useDailySession';
+
+// Wave 2: the Croatia slot rotates a widened, CEFR-gated pool — derive id/screen
+// sets from the export so these tests never drift as the pool grows.
+const CROATIA_IDS = new Set(CROATIA_POOL.map((c) => c.id));
 import type { DailySession, SessionActivity } from '../hooks/useDailySession';
 import { localDateStr } from '../lib/dateUtils';
 
@@ -56,17 +61,7 @@ describe('buildSessionActivities', () => {
 
   it('always includes exactly one Croatia activity', () => {
     const acts = buildSessionActivities('A1');
-    const croatiaIds = [
-      'cityofday',
-      'top100',
-      'grocery',
-      'transport',
-      'recipes',
-      'history',
-      'proverbs',
-      'popculture',
-    ];
-    const croatiaActs = acts.filter((a) => croatiaIds.includes(a.id));
+    const croatiaActs = acts.filter((a) => CROATIA_IDS.has(a.id));
     expect(croatiaActs).toHaveLength(1);
   });
 
@@ -101,18 +96,7 @@ describe('buildSessionActivities', () => {
     const acts = buildSessionActivities('B1');
     const recentIds = ['mcgame', 'flashcards', 'review', 'znam', 'cloze', 'typing'];
     for (const act of acts) {
-      if (
-        ![
-          'cityofday',
-          'top100',
-          'grocery',
-          'transport',
-          'recipes',
-          'history',
-          'proverbs',
-          'popculture',
-        ].includes(act.id)
-      ) {
+      if (!CROATIA_IDS.has(act.id)) {
         expect(recentIds).not.toContain(act.screen);
       }
     }
@@ -399,17 +383,7 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
 
   it('DISPLACES a vocab fill — does not lengthen the session beyond fillTarget', () => {
     // Non-Croatia activities must stay ≤ fillTarget (4) whether or not G2 fires.
-    const croatiaIds = new Set([
-      'cityofday',
-      'top100',
-      'grocery',
-      'transport',
-      'recipes',
-      'history',
-      'proverbs',
-      'popculture',
-    ]);
-    const nonCroatia = buildSessionActivities('A2').filter((a) => !croatiaIds.has(a.id));
+    const nonCroatia = buildSessionActivities('A2').filter((a) => !CROATIA_IDS.has(a.id));
     expect(nonCroatia.length).toBeLessThanOrEqual(4);
     expect(hasGrammar(nonCroatia)).toBe(true);
   });
@@ -440,17 +414,7 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     const acts = buildSessionActivities('A2');
     // P2 adds genitivedrill (grammar); G2 must not exceed the displace invariant.
     expect(acts.some((a) => a.screen === 'genitivedrill')).toBe(true);
-    const croatiaIds = new Set([
-      'cityofday',
-      'top100',
-      'grocery',
-      'transport',
-      'recipes',
-      'history',
-      'proverbs',
-      'popculture',
-    ]);
-    const nonCroatia = acts.filter((a) => !croatiaIds.has(a.id));
+    const nonCroatia = acts.filter((a) => !CROATIA_IDS.has(a.id));
     expect(nonCroatia.length).toBeLessThanOrEqual(4);
   });
 });
@@ -459,17 +423,7 @@ describe('shouldAutoCompleteOnReturn — Croatia/reference slot completion', () 
   it('REGRESSION: every always-present Croatia slot auto-completes on return (no stranding)', () => {
     // The Priority-4 Croatia slot is one of these; none self-grade on normal
     // view, so without this the session could never complete (blocking regen).
-    const croatia = [
-      'cityofday',
-      'top100',
-      'grocery',
-      'transport',
-      'recipes',
-      'history',
-      'proverbs',
-      'popculture',
-    ];
-    for (const screen of croatia) {
+    for (const screen of CROATIA_POOL.map((c) => c.screen)) {
       expect(SESSION_AUTOCOMPLETE_SCREENS.has(screen)).toBe(true);
       expect(shouldAutoCompleteOnReturn(screen, null)).toBe(true); // completes even w/o a signal
     }
@@ -536,5 +490,60 @@ describe('7a — A1 rotation expansion', () => {
     expect(new Set(ids).size).toBe(ids.length);
     const screens = CEFR_EXERCISE_POOL.map((ex) => ex.screen);
     expect(new Set(screens).size).toBe(screens.length);
+  });
+});
+
+// ── Wave 2: CEFR-gated Croatia rotation ──────────────────────────────────────
+describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
+  const gatedIds = CROATIA_POOL.filter((c) => c.cefr && c.cefr !== 'A1').map((c) => c.id);
+
+  it('has gated entries to test (pool sanity)', () => {
+    expect(gatedIds.length).toBeGreaterThan(0);
+  });
+
+  it('never serves a CEFR-gated culture entry to an A1 user', () => {
+    // Rotation is day-of-month deterministic; force the rotation branch by
+    // marking cityofday visited, then assert across a spread of builds.
+    localStorage.setItem('nh_cityofday_date', localDateStr());
+    for (let i = 0; i < 5; i++) {
+      const acts = buildSessionActivities('A1');
+      const croatia = acts.filter((a) => CROATIA_IDS.has(a.id));
+      expect(croatia).toHaveLength(1);
+      expect(gatedIds).not.toContain(croatia[0]!.id);
+    }
+  });
+
+  it('C2 rotation draws from the full pool (gated entries reachable)', () => {
+    // With cityofday visited, the served entry is rotation[dayOfMonth % len] —
+    // verify the C2-eligible rotation equals the whole pool minus cityofday by
+    // checking the served entry matches that formula.
+    localStorage.setItem('nh_cityofday_date', localDateStr());
+    const rotation = CROATIA_POOL.filter((c) => c.screen !== 'cityofday');
+    const expected = rotation[new Date().getDate() % rotation.length]!;
+    const acts = buildSessionActivities('C2');
+    const croatia = acts.filter((a) => CROATIA_IDS.has(a.id));
+    expect(croatia).toHaveLength(1);
+    expect(croatia[0]!.id).toBe(expected.id);
+  });
+
+  it('cityofday keeps first claim on the slot when not yet visited', () => {
+    localStorage.removeItem('nh_cityofday_date');
+    for (const lvl of ['A1', 'B1', 'C2']) {
+      const acts = buildSessionActivities(lvl);
+      expect(acts.find((a) => a.id === 'cityofday')).toBeTruthy();
+    }
+  });
+
+  it('every Wave-2 Croatia entry auto-completes on return (derived set)', () => {
+    for (const c of CROATIA_POOL) {
+      expect(SESSION_AUTOCOMPLETE_SCREENS.has(c.screen), c.screen).toBe(true);
+      expect(shouldAutoCompleteOnReturn(c.screen, null)).toBe(true);
+    }
+  });
+
+  it('Croatia pool ids and screens are unique and id === screen (launch contract)', () => {
+    const ids = CROATIA_POOL.map((c) => c.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const c of CROATIA_POOL) expect(c.id).toBe(c.screen);
   });
 });

@@ -95,34 +95,16 @@ const OUTSIDE_SESSION: string[] = [
   'texting',
   'tivicompare',
   'weather',
-  // ── Culture / immersion content outside CROATIA_POOL (browse-style) ──
-  'alka',
-  'baka_summer',
-  'bureaucratic',
-  'civic',
-  'crmap',
-  'croatia_today',
-  'croatiaathletes',
-  'croatianews',
-  'diaspora',
-  'easter',
-  'emergency',
-  'events',
-  'foodorder',
-  'football',
-  'basketball',
-  'gym',
-  'heritage',
-  'immersion',
-  'kafic',
-  'kings',
-  'maja',
-  'postcard',
-  'practical_croatian',
-  'restaurant',
-  'school',
-  'sibil',
-  'survival_dinner',
+  // ── Culture / immersion content outside CROATIA_POOL ──
+  // Wave 2 (2026-07) rotated 19 of these into the Croatia slot and moved
+  // alka/sibil (real graded drills) into CEFR_EXERCISE_POOL. The six that
+  // remain each have a hard blocker for a generic session slot:
+  'crmap', // Google Maps embed + external directions — not language content
+  'croatiaathletes', // English-language sports roster with outbound links only
+  'easter', // seasonal theming + quiz permanently locks after one completion
+  'heritage', // form-driven personal AI story generator — needs user setup, not servable cold
+  'immersion', // navigation hub (needs setScr), not an activity
+  'maja', // premium-gated (paywall for non-subscribers)
   // ── Animated lessons / long-form learn content (LEARN_PATH surface) ──
   'animlesson',
   'fleetinga',
@@ -238,6 +220,35 @@ describe('Wave 1 — pool registration integrity', () => {
       'wordform',
     ]) {
       expect(screens.has(s), `${s} not registered`).toBe(true);
+    }
+  });
+
+  it('the 21 Wave-2 screens are session-reachable', () => {
+    // 19 rotate through the Croatia slot; alka/sibil joined the graded pool.
+    for (const s of [
+      'emergency',
+      'foodorder',
+      'kafic',
+      'restaurant',
+      'school',
+      'survival_dinner',
+      'practical_croatian',
+      'diaspora',
+      'events',
+      'football',
+      'basketball',
+      'gym',
+      'kings',
+      'postcard',
+      'civic',
+      'croatia_today',
+      'croatianews',
+      'baka_summer',
+      'bureaucratic',
+      'alka',
+      'sibil',
+    ]) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
     }
   });
 });
