@@ -112,23 +112,18 @@ const OUTSIDE_SESSION: string[] = [
   'micro_lesson',
   'past_tense_lesson',
   'video_lesson',
-  // ── AI-driven or unbounded modes (deliberately outside; see useDailySession) ──
-  'ai_story',
-  'aiconvo',
-  'advanced_vocab',
-  'graded_input',
-  'journal',
-  'live_tutor',
-  'roleplay',
-  'speaking_sprint',
-  'storymode',
-  // ── Special-prop or utility screens a generic session launch cannot serve ──
-  'conjlab',
-  'conjpractice',
-  'listening',
-  'phoneme_practice',
-  'photo_vocab',
-  'pronunciation_assess',
+  // ── AI-driven / unbounded / utility screens ──
+  // Wave 3 (2026-07) registered graded_input, ai_story, listening, conjpractice,
+  // phoneme_practice, roleplay (CEFR pool) and speaking_sprint (production pool).
+  // Each remaining exclusion has a hard blocker for a generic session slot:
+  'aiconvo', // per-turn AI cost; the session's conversation anchor is 'dialogue' with AI one tap away
+  'advanced_vocab', // open-ended reference catalog — no bounded round or finish line
+  'journal', // personal vocab utility — no completion concept, receives no award prop
+  'live_tutor', // premium-gated at the router (paywall for non-subscribers)
+  'storymode', // completion contingent on scroll-to-end + 5 word-taps — can silently never fire; ai_story covers this need
+  'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
+  'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
+  'pronunciation_assess', // hard mic requirement (no keyboard path) + strands when all phrases skipped
   // ── Region detail pages (informational, launched from Krajevi) ──
   'region_bibinje',
   'region_hercegovina',
@@ -247,6 +242,22 @@ describe('Wave 1 — pool registration integrity', () => {
       'bureaucratic',
       'alka',
       'sibil',
+    ]) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('the 7 Wave-3 screens are session-reachable', () => {
+    // Six in the CEFR pool (graded reader, AI story, listening quiz, smart
+    // conjugation, phonemes, roleplay) + speaking_sprint in the production pool.
+    for (const s of [
+      'graded_input',
+      'ai_story',
+      'listening',
+      'conjpractice',
+      'phoneme_practice',
+      'roleplay',
+      'speaking_sprint',
     ]) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
     }

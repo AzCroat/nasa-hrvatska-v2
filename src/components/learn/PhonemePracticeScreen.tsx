@@ -4,6 +4,7 @@ import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { orderByWeakness, getWeakPhonemes } from '../../lib/pronunciationCurriculum';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 const STORAGE_KEY = 'nh_phonemes_mastered';
 
@@ -158,6 +159,16 @@ export default function PhonemePracticeScreen({
       'These 6 sounds are your secret weapon. Master them and Croats will think you studied for years! 🎯',
       800,
     );
+  }, []);
+
+  // Wave 3 (session catchment): a learner who already mastered all 6 phonemes
+  // mounts straight onto the celebration screen — no award ever fires there, so
+  // a session launch would strand at N-1/N. Signal completion explicitly for
+  // that state; a no-op when not launched from the daily session.
+  useEffect(() => {
+    if (mastered.size === PHONEMES.length) signalSessionCompleteIfActive('phoneme_practice');
+    // Mount-state check only — markMastered's award covers in-session mastery.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function markMastered(key: string) {

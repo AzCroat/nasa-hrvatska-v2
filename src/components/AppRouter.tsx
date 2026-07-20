@@ -1321,7 +1321,7 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'roleplay' && (
           <ScreenErrorBoundary key="roleplay" name="roleplay">
-            <RoleplayScreen goBack={goBack} />
+            <RoleplayScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'journal' && (
@@ -1867,14 +1867,18 @@ export default function AppRouter(props: Record<string, any>) {
             <PhotoVocabScanner
               goBack={goBack}
               level={level}
-              onSaveWords={(words: Array<{ hr: string; en: string }>) => {
-                words.forEach((w: { hr: string; en: string }) => {
-                  if (w.hr && w.en) {
+              onSaveWords={(words: Array<{ word: string; translation: string }>) => {
+                // Scanner words are { word: <hr>, translation: <en> } (VocabWord).
+                // The old { hr, en } reads were always undefined, so every save
+                // silently dropped — the lazy import erases prop types, which is
+                // why the mismatch never failed typecheck.
+                words.forEach((w: { word: string; translation: string }) => {
+                  if (w.word && w.translation) {
                     setJWords((prev: Array<{ hr: string; en: string }> | null) => [
                       ...(prev || []),
-                      { hr: w.hr, en: w.en },
+                      { hr: w.word, en: w.translation },
                     ]);
-                    addWordToSRS(w.hr);
+                    addWordToSRS(w.word);
                   }
                 });
               }}

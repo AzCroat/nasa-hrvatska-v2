@@ -273,6 +273,7 @@ describe('useDailySession — rotation memory + completion (hook)', () => {
       'speaking',
       'production_drill',
       'dictation',
+      'speaking_sprint', // Wave 3: rejoined PRODUCTION_POOL (browser speech only)
     ];
     const prod = result.current.session.activities.find((a) =>
       productionScreens.includes(a.screen),

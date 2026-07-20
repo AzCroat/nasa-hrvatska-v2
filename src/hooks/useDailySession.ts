@@ -123,9 +123,10 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'vocab-a2': 'znam',
   'vocab-b1': 'znam',
   'vocab-b2': 'znam',
-  // 'speaking' category previously mapped to 'speaking_sprint'; that surface
-  // is AI-driven and now lives only on the AI Tutor tab. Speaking category
-  // adaptive picks no longer route to a daily-session activity.
+  // 'speaking' category adaptive picks don't route to a dedicated drill here;
+  // spoken output is guaranteed by the production slot instead (PRODUCTION_POOL,
+  // which since Wave 3 includes speaking_sprint again — it uses only browser
+  // speech APIs, no AI quota).
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
@@ -983,6 +984,18 @@ const PRODUCTION_POOL: Array<{
     category: 'speaking',
     micRequired: false,
     kind: 'write',
+  },
+  {
+    id: 'speaking_sprint',
+    // Wave 3: rapid timed speaking rounds, ends with an explicit Done award.
+    // Browser SpeechRecognition + TTS only — no AI-quota endpoints — with a
+    // typed-answer fallback, so it is keyboard-safe (micRequired false).
+    label: 'Speaking Sprint',
+    screen: 'speaking_sprint',
+    cefr: 'A2',
+    category: 'speaking',
+    micRequired: false,
+    kind: 'speak',
   },
 ];
 
