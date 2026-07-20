@@ -612,6 +612,35 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'listening',
   },
+  // ── Wave 6: in-screen drills found inside "hub" screens ────────────────────
+  // Smart Review: bounded adaptive round over the user's SRS + mistake data;
+  // the no-data empty state signals session completion (Wave-6 wiring).
+  {
+    id: 'adaptive_review',
+    label: 'Smart Review',
+    screen: 'adaptive_review',
+    cefr: 'A1',
+    category: 'vocab-a2',
+  },
+  // Mistake Review: bounded flashcard round over the mistake deck; empty-log
+  // and no-master finishes signal session completion (Wave-6 wiring).
+  { id: 'mistakes', label: 'Mistake Review', screen: 'mistakes', cefr: 'A1', category: 'vocab-a2' },
+  // Top-500 frequency words: learned-word grid + 5-question quiz; per-word award.
+  {
+    id: 'frequency_track',
+    label: 'Frequency Words',
+    screen: 'frequency_track',
+    cefr: 'A1',
+    category: 'vocab-a2',
+  },
+  // Per-letter pronunciation rounds (3-question check + mark-as-practiced award).
+  {
+    id: 'pronunciation_course',
+    label: 'Pronunciation',
+    screen: 'pronunciation_course',
+    cefr: 'A1',
+    category: 'speaking',
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -735,4 +764,9 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   future_tense_lesson: 3,
   past_tense_lesson: 3,
   video_lesson: 3,
+  // Wave 6 — hub-embedded drills.
+  adaptive_review: 3,
+  mistakes: 2,
+  frequency_track: 2,
+  pronunciation_course: 2,
 };

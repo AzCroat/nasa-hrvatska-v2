@@ -24,19 +24,22 @@ import { EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 // the Wave-1 eligibility audit; per-screen wiring reviews continue in Waves 2-3.
 const OUTSIDE_SESSION: string[] = [
   // ── Navigation hubs, catalogs, pickers, dashboards ──
-  'adaptive_review',
+  // Wave 6 (2026-07) audited this group: adaptive_review, mistakes,
+  // frequency_track and pronunciation_course turned out to carry real
+  // in-screen bounded drills and joined the pool. What remains are genuine
+  // navigation/launcher surfaces — they open OTHER activities and have no
+  // in-screen round or completion concept:
   'analytics',
-  'arcade',
+  'arcade', // tile grid launching other screens (alka/map); no in-screen round
   'badges',
   'dashboard',
   'favorites',
-  'frequency_track',
   'friends',
   'grammar',
   'grammar_track',
   'grammar_unit_detail',
   'grammarmap',
-  'grammarvideos',
+  'grammarvideos', // curated YouTube link-out list; no in-screen activity
   'heritage_mode',
   'heritage_path',
   'learnpath',
@@ -44,13 +47,11 @@ const OUTSIDE_SESSION: string[] = [
   'listeningpath',
   'map',
   'mcresult',
-  'mistakes',
-  'my_words',
+  'my_words', // personal word-deck utility — drill exists but the deck is empty for most users (journal class)
   'personas',
   'practical',
   'profile',
-  'pronunciation_course',
-  'readlist',
+  'readlist', // catalog that launches ReadingScreen with parent-held state
   'storyselect',
   'welcome',
   // ── Assessment / placement flows (own lifecycle, not a daily drill) ──
@@ -99,17 +100,6 @@ const OUTSIDE_SESSION: string[] = [
   'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   'pronunciation_assess', // hard mic requirement (no keyboard path) + strands when all phrases skipped
-  // ── Region detail pages (informational, launched from Krajevi) ──
-  'region_bibinje',
-  'region_hercegovina',
-  'region_knin',
-  'region_labin',
-  'region_mostar',
-  'region_split',
-  'region_tomislavgrad',
-  'region_vinkovci',
-  'region_vukovar',
-  'region_zagreb',
   // ── App chrome / account / legal ──
   'admin',
   'contact',
@@ -282,6 +272,29 @@ describe('Wave 1 — pool registration integrity', () => {
       'future_tense_lesson',
       'past_tense_lesson',
       'video_lesson',
+    ]) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('the 14 Wave-6 screens are session-reachable', () => {
+    // 10 region pages rotate through the Croatia slot (B1-gated, auto-complete);
+    // 4 hub-embedded drills joined the graded pool.
+    for (const s of [
+      'region_bibinje',
+      'region_hercegovina',
+      'region_knin',
+      'region_labin',
+      'region_mostar',
+      'region_split',
+      'region_tomislavgrad',
+      'region_vinkovci',
+      'region_vukovar',
+      'region_zagreb',
+      'adaptive_review',
+      'mistakes',
+      'frequency_track',
+      'pronunciation_course',
     ]) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
     }

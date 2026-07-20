@@ -3,6 +3,7 @@ import { speak, getMistakes, recordMistake } from '../../data';
 import { getSR } from '../../lib/srs.ts';
 import { useStats } from '../../context/StatsContext.tsx';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
 const STYLES = `
@@ -362,6 +363,13 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
   const mistakeCount = session.filter((i) => i.type === 'mistake').length;
 
   const isEmpty = totalItems === 0;
+
+  // Wave 6 (session catchment): a user with no SRS/mistake data lands on the
+  // empty state, which never awards — signal completion so a session-launched
+  // Smart Review can't strand the day at N-1/N. No-op outside sessions.
+  useEffect(() => {
+    if (isEmpty) signalSessionCompleteIfActive('adaptive_review');
+  }, [isEmpty]);
 
   // ─── EMPTY STATE ────────────────────────────────────────────────────────────
   if (isEmpty) {

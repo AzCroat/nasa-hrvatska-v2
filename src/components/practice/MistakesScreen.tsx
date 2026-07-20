@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { H, getMistakes, clearMistake, clearAllMistakes, speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ── Flip card ──────────────────────────────────────────────────────────────────
 function FlipCard({
@@ -310,6 +311,14 @@ export default function MistakesScreen({
       setReviewIdx((i) => i + 1);
     }
   }, [reviewDeck, reviewIdx, mastered, award]);
+
+  // Wave 6 (session catchment): the finish award fires only when at least one
+  // word was mastered, and an empty mistake log renders a celebratory wall —
+  // both paths would strand a session-launched review. Signal completion on
+  // either terminal state; a no-op outside sessions.
+  useEffect(() => {
+    if (mode === 'done' || mistakes.length === 0) signalSessionCompleteIfActive('mistakes');
+  }, [mode, mistakes.length]);
 
   const handleStudyAgain = useCallback(() => {
     if (reviewIdx + 1 >= reviewDeck.length) {
