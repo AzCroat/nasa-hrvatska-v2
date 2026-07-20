@@ -139,8 +139,23 @@ const SCREEN_CEFR: Record<string, string> = {
   vocative: 'A1',
 };
 
-/** Croatia rotation pool — Priority 4 always adds one of these */
-const CROATIA_POOL: SessionActivity[] = [
+/**
+ * Croatia rotation pool — Priority 4 always adds one of these. `cefr` (optional,
+ * default A1) gates register-heavy entries so an A1 user is never handed press
+ * prose or literary narrative; the slot filters by isUnlocked before rotating.
+ *
+ * Wave 2 (session catchment): the culture/immersion screens from the Wave-1
+ * OUTSIDE_SESSION list that passed the eligibility audit now rotate here —
+ * bounded, launchable with plain goBack/award props, no premium/seasonal gates.
+ * They complete via the auto-complete-on-return contract below (derived set),
+ * exactly like the original eight. Deliberately NOT rotated in (see
+ * session-coverage.test.ts for reasons): crmap, croatiaathletes, easter,
+ * heritage, immersion, maja.
+ */
+export interface CroatiaPoolEntry extends SessionActivity {
+  cefr?: string; // minimum CEFR to be served this entry (default A1)
+}
+export const CROATIA_POOL: CroatiaPoolEntry[] = [
   { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
   { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
   { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
@@ -149,6 +164,74 @@ const CROATIA_POOL: SessionActivity[] = [
   { id: 'history', label: 'Croatian History', screen: 'history', category: 'culture' },
   { id: 'proverbs', label: 'Croatian Proverbs', screen: 'proverbs', category: 'culture' },
   { id: 'popculture', label: 'Pop Culture', screen: 'popculture', category: 'culture' },
+  // ── Wave 2 — A1: survival/practical + bounded bilingual culture ──
+  { id: 'emergency', label: 'Emergency Phrases', screen: 'emergency', category: 'practical' },
+  { id: 'foodorder', label: 'Food Ordering', screen: 'foodorder', category: 'practical' },
+  { id: 'kafic', label: 'Kafić Culture', screen: 'kafic', category: 'culture' },
+  { id: 'restaurant', label: 'Restaurant Dialogue', screen: 'restaurant', category: 'practical' },
+  { id: 'school', label: 'School Vocab', screen: 'school', category: 'culture' },
+  {
+    id: 'survival_dinner',
+    label: 'Survival Dinner',
+    screen: 'survival_dinner',
+    category: 'practical',
+  },
+  {
+    id: 'practical_croatian',
+    label: 'Practical Croatian',
+    screen: 'practical_croatian',
+    category: 'practical',
+  },
+  { id: 'diaspora', label: 'Diaspora Note', screen: 'diaspora', category: 'culture' },
+  { id: 'events', label: 'Events Calendar', screen: 'events', category: 'culture' },
+  // ── Wave 2 — A2: sport/culture vocab catalogs + light production ──
+  {
+    id: 'football',
+    label: 'Croatian Football',
+    screen: 'football',
+    category: 'culture',
+    cefr: 'A2',
+  },
+  {
+    id: 'basketball',
+    label: 'Croatian Basketball',
+    screen: 'basketball',
+    category: 'culture',
+    cefr: 'A2',
+  },
+  { id: 'gym', label: 'Gym Croatian', screen: 'gym', category: 'practical', cefr: 'A2' },
+  { id: 'kings', label: 'Kings & Dukes', screen: 'kings', category: 'culture', cefr: 'A2' },
+  { id: 'postcard', label: 'Postcard Writer', screen: 'postcard', category: 'culture', cefr: 'A2' },
+  // ── Wave 2 — B1: press / literary / official register ──
+  { id: 'civic', label: 'Civic Croatia', screen: 'civic', category: 'culture', cefr: 'B1' },
+  {
+    id: 'croatia_today',
+    label: 'Croatia Today',
+    screen: 'croatia_today',
+    category: 'culture',
+    cefr: 'B1',
+  },
+  {
+    id: 'croatianews',
+    label: 'Croatian News',
+    screen: 'croatianews',
+    category: 'culture',
+    cefr: 'B1',
+  },
+  {
+    id: 'baka_summer',
+    label: "Baka's Summer",
+    screen: 'baka_summer',
+    category: 'culture',
+    cefr: 'B1',
+  },
+  {
+    id: 'bureaucratic',
+    label: 'Official Croatian',
+    screen: 'bureaucratic',
+    category: 'practical',
+    cefr: 'B1',
+  },
 ];
 
 // Reference/immersion screens with no self-grading completion (read/scenario
@@ -424,14 +507,26 @@ export function buildSessionActivities(
     }
   }
 
-  // Priority 4: Croatia immersion — always 1 slot
+  // Priority 4: Croatia immersion — always 1 slot. Wave 2: the pool is CEFR-
+  // filtered (register-heavy entries carry a `cefr` gate) and City of the Day
+  // keeps first claim on the slot until visited; afterwards the day-of-month
+  // rotation walks the rest of the UNLOCKED pool, so the widened culture
+  // catchment surfaces without changing session length or the cityofday ritual.
   const today = localDateStr();
   const cityVisited = localStorage.getItem('nh_cityofday_date') === today;
   const dayOfMonth = new Date().getDate();
-  const croatiaActivity = cityVisited
-    ? CROATIA_POOL[1 + (dayOfMonth % (CROATIA_POOL.length - 1))]!
-    : CROATIA_POOL[0]!;
-  activities.push(croatiaActivity);
+  const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
+  const croatiaRotation = croatiaEligible.filter((c) => c.screen !== 'cityofday');
+  const croatiaActivity =
+    !cityVisited || croatiaRotation.length === 0
+      ? croatiaEligible[0]!
+      : croatiaRotation[dayOfMonth % croatiaRotation.length]!;
+  activities.push({
+    id: croatiaActivity.id,
+    label: croatiaActivity.label,
+    screen: croatiaActivity.screen,
+    category: croatiaActivity.category,
+  });
 
   // Wave 1: record what this session serves (feeds the discovery slot's
   // least-recently-served ordering) and emit the served-mix analytics event so

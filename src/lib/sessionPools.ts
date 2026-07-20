@@ -356,6 +356,22 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'nominalization',
   },
+  // ── Wave 2: the two culture-group screens that are really graded drills ────
+  // Both were stranded in OUTSIDE_SESSION's culture block but carry a full
+  // quiz + award completion signal, so they belong in the graded pool (not the
+  // auto-complete Croatia rotation). Registration only — no screen code changed.
+  // Alka: 9-question gamified vocab ride (Sinjska Alka theme), awards via
+  // useAlkaRide's onXp callback.
+  { id: 'alka', label: 'Alka Challenge', screen: 'alka', cefr: 'A1', category: 'vocab-a2' },
+  // Sibilarization (k→c, g→z, h→s) fires in dative/locative plural — the drill
+  // ends with a gc bump + award, a real completion signal.
+  {
+    id: 'sibil',
+    label: 'Sound Changes',
+    screen: 'sibil',
+    cefr: 'A2',
+    category: 'dative-locative',
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -437,4 +453,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   logicquiz: 2,
   translate_drills: 3,
   wordform: 3,
+  // Wave 2 additions — recognition game tier 2, morphophonology drill tier 3.
+  alka: 2,
+  sibil: 3,
 };
