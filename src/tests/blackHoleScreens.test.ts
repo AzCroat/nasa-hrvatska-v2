@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 
-// Read the BLACK_HOLE_SCREENS object literal from the launcher source.
-const src = readFileSync('src/hooks/useScreenLauncher.ts', 'utf8');
+// Read the BLACK_HOLE_SCREENS object literal from its data module (extracted
+// from useScreenLauncher for max-lines).
+const src = readFileSync('src/lib/blackHoleScreens.ts', 'utf8');
 const start = src.indexOf('BLACK_HOLE_SCREENS');
 const block = src.slice(start, src.indexOf('};', start));
 

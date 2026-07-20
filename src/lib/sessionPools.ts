@@ -573,6 +573,45 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'idioms',
     reference: true,
   },
+  // ── Wave 5: animated lessons / long-form learn content ─────────────────────
+  // The rotating animated-lesson slot: one route ('animlesson') serving the
+  // 45-lesson A1–C2 catalog. The session launcher picks the least-recently-
+  // served lesson unlocked at the session's CEFR (see useScreenLauncher);
+  // completion = award on the summary slide.
+  {
+    id: 'animlesson',
+    label: 'Animated Lesson',
+    screen: 'animlesson',
+    cefr: 'A1',
+    category: 'grammar-lesson',
+  },
+  // Fleeting-a / l→o drill: 18-question gated MCQ (completeExercise, 75%).
+  { id: 'fleetinga', label: 'Fleeting A', screen: 'fleetinga', cefr: 'C1', category: 'nominative' },
+  // Tabbed lesson+quiz hybrids (same class as formalregister/impersonal, Wave 4):
+  // completion via their Vježba quiz (gated 75% / 60% respectively).
+  {
+    id: 'future_tense_lesson',
+    label: 'Future Tense Lesson',
+    screen: 'future_tense_lesson',
+    cefr: 'A2',
+    category: 'future-tense',
+  },
+  {
+    id: 'past_tense_lesson',
+    label: 'Past Tense Lesson',
+    screen: 'past_tense_lesson',
+    cefr: 'A2',
+    category: 'past-tense',
+  },
+  // AI video lesson: topic pick → generated dialogue + quiz; same bounded
+  // quota-gated posture as aiListening.
+  {
+    id: 'video_lesson',
+    label: 'Video Lesson',
+    screen: 'video_lesson',
+    cefr: 'B1',
+    category: 'listening',
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -690,4 +729,10 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   tivicompare: 2,
   colorquirk: 2,
   idioms: 2,
+  // Wave 5 — lessons tier 2 (guided teaching), drills/quizzes tier 3-4.
+  animlesson: 2,
+  fleetinga: 4,
+  future_tense_lesson: 3,
+  past_tense_lesson: 3,
+  video_lesson: 3,
 };
