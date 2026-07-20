@@ -641,6 +641,41 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'speaking',
   },
+  // ── Wave 7: AI-cost screens admitted per owner decision (option 1) ─────────
+  // All endpoints are requireAuthedAI/_aiQuota-gated (300-unit daily ceiling),
+  // so per-user spend stays bounded; the owner explicitly accepted the cost.
+  // Full AI conversation with Maja: per-turn cost; awards on End & Evaluate
+  // (≥2 exchanges) or the bounded write mode's submit.
+  { id: 'aiconvo', label: 'AI Conversation', screen: 'aiconvo', cefr: 'B1', category: 'speaking' },
+  // AI grammar lesson generator (23 topics, level-aware): one generation per
+  // lesson, awards on quiz submit.
+  {
+    id: 'grammarexplainer',
+    label: 'AI Grammar Lesson',
+    screen: 'grammarexplainer',
+    cefr: 'A2',
+    category: 'grammar-lesson',
+  },
+  // Personalized micro-lesson over the user's weak words: one generation per
+  // lesson, awards on results; the no-weak-words/error phase signals session
+  // completion (Wave-7 wiring).
+  {
+    id: 'micro_lesson',
+    label: 'Micro Lesson',
+    screen: 'micro_lesson',
+    cefr: 'A2',
+    category: 'vocab-a2',
+  },
+  // Grammar X-Ray reader: tap-a-word AI analysis (opt-in, cached per word);
+  // no self-grading → reference contract (auto-complete, max one per session).
+  {
+    id: 'grammarreader',
+    label: 'Grammar X-Ray',
+    screen: 'grammarreader',
+    cefr: 'B1',
+    category: 'reading',
+    reference: true,
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -769,4 +804,9 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   mistakes: 2,
   frequency_track: 2,
   pronunciation_course: 2,
+  // Wave 7 — AI-cost admissions.
+  aiconvo: 5,
+  grammarexplainer: 3,
+  micro_lesson: 3,
+  grammarreader: 3,
 };
