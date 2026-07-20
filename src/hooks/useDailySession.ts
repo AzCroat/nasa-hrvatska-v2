@@ -233,6 +233,18 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
     category: 'practical',
     cefr: 'B1',
   },
+  // ── Wave 4: culture screens from the reference-group audit ──
+  // dialect_awareness has a rich quiz but its award fires once ever
+  // (localStorage gate), so it needs this slot's auto-complete contract;
+  // phraseofday awards on first listen and has an offline seed fallback.
+  {
+    id: 'dialect_awareness',
+    label: 'Croatian Dialects',
+    screen: 'dialect_awareness',
+    category: 'culture',
+    cefr: 'A2',
+  },
+  { id: 'phraseofday', label: 'Phrase of the Day', screen: 'phraseofday', category: 'practical' },
 ];
 
 // Reference/immersion screens with no self-grading completion (read/scenario
@@ -241,11 +253,14 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
 // viewing (the dwell-credit that used to cover that was removed 2026-06-12). So
 // the always-present Croatia slot stranded the session at N-1/N: it could never
 // complete, which also blocked the on-completion auto-regenerate. Treat
-// "launched from the session and returned" as completion for these. Derived from
-// CROATIA_POOL so it can never drift out of sync.
-export const SESSION_AUTOCOMPLETE_SCREENS: ReadonlySet<string> = new Set(
-  CROATIA_POOL.map((c) => c.screen),
-);
+// "launched from the session and returned" as completion for these. Derived
+// from CROATIA_POOL plus the Wave-4 reference-tagged pool entries (bounded
+// bilingual browse screens) so it can never drift out of sync. Graded pool
+// entries are never in this set — their completion stays quiz/award-gated.
+export const SESSION_AUTOCOMPLETE_SCREENS: ReadonlySet<string> = new Set([
+  ...CROATIA_POOL.map((c) => c.screen),
+  ...CEFR_EXERCISE_POOL.filter((e) => e.reference).map((e) => e.screen),
+]);
 
 /**
  * Whether a launched session activity should be marked done on return to Home:
@@ -488,17 +503,23 @@ export function buildSessionActivities(
   // the difficulty sort. Session length is unchanged: discovery DISPLACES the
   // final difficulty pick, it never adds a slot.
   const discoveryTarget = fillTarget > activities.length + 1 ? fillTarget - 1 : fillTarget;
+  // Wave 4: at most ONE reference (browse) entry per session, across the
+  // difficulty fill AND the discovery slot — browse content must never crowd
+  // out graded drills.
+  let referenceServed = false;
   for (const ex of ordered) {
     if (activities.length >= discoveryTarget) break;
+    if (ex.reference && referenceServed) continue;
     if (!usedScreens.has(ex.screen)) {
       activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
       usedScreens.add(ex.screen);
+      if (ex.reference) referenceServed = true;
     }
   }
   if (activities.length < fillTarget) {
     const served = readServedMap();
     const discovery = pool
-      .filter((ex) => !usedScreens.has(ex.screen))
+      .filter((ex) => !usedScreens.has(ex.screen) && !(ex.reference && referenceServed))
       .map((ex) => ({ ex, last: served[ex.screen] ?? '', r: rnd() }))
       .sort((a, b) => (a.last < b.last ? -1 : a.last > b.last ? 1 : a.r - b.r))[0];
     if (discovery) {
