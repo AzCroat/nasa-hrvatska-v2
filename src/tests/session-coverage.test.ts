@@ -83,14 +83,11 @@ const OUTSIDE_SESSION: string[] = [
   'heritage', // form-driven personal AI story generator — needs user setup, not servable cold
   'immersion', // navigation hub (needs setScr), not an activity
   'maja', // premium-gated (paywall for non-subscribers)
-  // ── Animated lessons / long-form learn content (LEARN_PATH surface) ──
-  'animlesson',
-  'fleetinga',
-  'future_tense_lesson',
-  'micro_lesson',
-  'past_tense_lesson',
-  'video_lesson',
   // ── AI-driven / unbounded / utility screens ──
+  // (Wave 5, 2026-07: the animated-lessons group dissolved — animlesson,
+  // fleetinga, future/past_tense_lesson and video_lesson joined the pool;
+  // micro_lesson moved here with its blocker.)
+  'micro_lesson', // requires ≥2 accumulated SRS mistakes — dead-ends fresh users at an error state; AI-generated per use
   // Wave 3 (2026-07) registered graded_input, ai_story, listening, conjpractice,
   // phoneme_practice, roleplay (CEFR pool) and speaking_sprint (production pool).
   // Each remaining exclusion has a hard blocker for a generic session slot:
@@ -271,6 +268,20 @@ describe('Wave 1 — pool registration integrity', () => {
       'idioms',
       'dialect_awareness',
       'phraseofday',
+    ]) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('the 5 Wave-5 screens are session-reachable', () => {
+    // animlesson serves the 45-lesson catalog via its launcher branch; the
+    // other four are self-contained lesson/drill screens.
+    for (const s of [
+      'animlesson',
+      'fleetinga',
+      'future_tense_lesson',
+      'past_tense_lesson',
+      'video_lesson',
     ]) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
     }

@@ -44,7 +44,7 @@ src/
 │   ├── AppContext.jsx          # Global state: screen nav (scr), favs, jWords, dchl*
 │   └── StatsContext.tsx        # Stats state via useReducer (statsReducer.ts)
 ├── hooks/
-│   ├── useScreenLauncher.js    # Screen navigation + BLACK_HOLE_SCREENS dwell-timer XP awards
+│   ├── useScreenLauncher.ts    # Screen navigation + dwell-timer XP awards (map in lib/blackHoleScreens.ts)
 │   ├── useSyncManager.js       # Bidirectional Firebase sync (save + load)
 │   ├── useAuth.js              # Firebase auth state
 │   ├── useAward.ts             # XP + badge award logic
@@ -121,7 +121,7 @@ ck: function(s) { return (s.vs && s.vs.includes('screenKey')) || s.lc >= N; }
 ```
 Always use `vs.includes(screenKey)` as the primary check. The `lc >= N` fallback is for users who completed the lesson before the `vs` system existed.
 
-### BLACK_HOLE_SCREENS (src/hooks/useScreenLauncher.js)
+### BLACK_HOLE_SCREENS (src/lib/blackHoleScreens.ts; dwell mechanism in src/hooks/useScreenLauncher.ts)
 Object mapping screen key → stat type (`'lc'` or `'gc'`). When a user spends 20 seconds on a screen in this map, it automatically:
 1. Adds the screen key to `stats.vs`
 2. Increments `stats.lc` or `stats.gc`

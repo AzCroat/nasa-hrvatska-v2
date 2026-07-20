@@ -7,6 +7,8 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
 import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
+import { pickSessionLesson } from '../lib/sessionLessonPick';
+import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
 import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _buildAdaptivePool } from '../lib/exerciseData';
@@ -28,60 +30,6 @@ function _sh<T>(a: T[]): T[] {
 }
 
 type VocabWord = [string, string, string?, ...string[]];
-
-// Screens in LEARN_PATH that don't self-report completion — dwell ≥20s grants credit.
-const BLACK_HOLE_SCREENS: Record<string, string> = {
-  texting: 'lc',
-  roleplay: 'lc',
-  readlist: 'lc',
-  idioms: 'lc',
-  brzalice: 'lc',
-  history: 'lc',
-  recipes: 'lc',
-  listeningpath: 'lc',
-  falsefr: 'lc',
-  dialects: 'lc',
-  listening: 'lc',
-  alphabet: 'lc',
-  techvoc: 'lc',
-  pitchaccent: 'lc',
-  grammarmap: 'gc',
-  shadowing: 'lc',
-  proverbs: 'lc',
-  bureaucratic: 'lc',
-  conjlab: 'gc',
-  conjpractice: 'gc',
-  reflexive: 'gc',
-  grammarreader: 'gc',
-  colorquirk: 'gc',
-  writing: 'lc',
-  pitch_accent: 'gc',
-  pronunciation_course: 'lc',
-  professions: 'lc',
-  bodydesc: 'lc',
-  clothes: 'lc',
-  countries: 'lc',
-  weather: 'lc',
-  civic: 'lc',
-  top100: 'lc',
-  tivicompare: 'lc',
-  lifeevents: 'lc',
-  popculture: 'lc',
-  events: 'lc',
-  cityofday: 'lc',
-  kafic: 'lc',
-  kings: 'lc',
-  school: 'lc',
-  restaurant: 'lc',
-  emergency: 'lc',
-  crmap: 'lc',
-  storyselect: 'lc',
-  foodorder: 'lc',
-  grocery: 'lc',
-  transport: 'lc',
-  grammarvideos: 'lc',
-  production_drill: 'gc',
-};
 
 interface McQuestion {
   hr: string;
@@ -777,6 +725,22 @@ export function useScreenLauncher({
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
           trackStart('speaking');
           setScr('speaking');
+        } else if (screen === 'animlesson') {
+          // Wave 5: the 'animlesson' route renders only when the parent
+          // animLesson state holds a full Lesson object, so the generic branch
+          // would land on a BLANK screen. Pick the least-recently-served lesson
+          // unlocked at the session's CEFR (policy in lib/sessionLessonPick).
+          const { getLessons } = await import('../lib/contentClient');
+          const pick = pickSessionLesson(await getLessons());
+          if (!pick) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          setAnimLesson(pick);
+          sCurEx('animlesson');
+          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          trackStart('grammar');
+          setScr(screen);
         } else {
           // Conjugation drill carries its target category in curEx so the screen
           // can pick the right form-type; screen id stays 'conjpractice' for routing.
@@ -816,6 +780,7 @@ export function useScreenLauncher({
       setMcInitQ,
       setMatchInitPool,
       setLsInitQ,
+      setAnimLesson,
       allCats,
       sSi,
       sSx,
