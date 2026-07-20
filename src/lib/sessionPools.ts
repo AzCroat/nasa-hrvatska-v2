@@ -12,6 +12,13 @@ export interface CefrPoolEntry {
   screen: string;
   cefr: string;
   category: SkillCategory;
+  /**
+   * Wave 4: bounded browse/reference screens with no self-grading completion.
+   * Reference entries complete on return-to-Home (SESSION_AUTOCOMPLETE_SCREENS
+   * derives from this flag) and the session builder serves AT MOST ONE per
+   * session so browse content never crowds out graded drills.
+   */
+  reference?: boolean;
 }
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
@@ -423,6 +430,149 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'speaking',
   },
+  // ── Wave 4a: reference-group screens with REAL quiz + award completion ─────
+  // Verified by the 35-screen eligibility audit; registration only, no screen
+  // code changed. All launch cold with goBack(+award) and finish with a guarded
+  // award (several via the ≥75%-gated completeLesson/completeExercise helpers).
+  { id: 'alphabet', label: 'Alphabet', screen: 'alphabet', cefr: 'A1', category: 'vocab-a2' },
+  { id: 'convmatch', label: 'Reply Match', screen: 'convmatch', cefr: 'A2', category: 'vocab-a2' },
+  { id: 'falsefr', label: 'False Friends', screen: 'falsefr', cefr: 'A2', category: 'vocab-a2' },
+  { id: 'phonology', label: 'Sound System', screen: 'phonology', cefr: 'A1', category: 'speaking' },
+  {
+    id: 'padezifull',
+    label: 'Full Declension',
+    screen: 'padezifull',
+    cefr: 'B1',
+    category: 'genitive',
+  },
+  {
+    id: 'aspectlesson',
+    label: 'Verb Aspect',
+    screen: 'aspect',
+    cefr: 'B1',
+    category: 'aspect-imperfective',
+  },
+  {
+    id: 'conditionallesson',
+    label: 'Conditional Mood',
+    screen: 'conditional',
+    cefr: 'B1',
+    category: 'conditional',
+  },
+  { id: 'tenses', label: 'Tense Trainer', screen: 'tenses', cefr: 'B1', category: 'past-tense' },
+  { id: 'texting', label: 'Texting Slang', screen: 'texting', cefr: 'B1', category: 'vocab-b1' },
+  {
+    id: 'formalregister',
+    label: 'Formal Register',
+    screen: 'formalregister',
+    cefr: 'B1',
+    category: 'register',
+  },
+  {
+    id: 'impersonal',
+    label: 'Impersonal Se',
+    screen: 'impersonal',
+    cefr: 'B2',
+    category: 'passive',
+  },
+  { id: 'techvoc', label: 'Tech Vocabulary', screen: 'techvoc', cefr: 'B2', category: 'vocab-b2' },
+  {
+    id: 'pitchaccent',
+    label: 'Pitch Accents',
+    screen: 'pitchaccent',
+    cefr: 'C1',
+    category: 'speaking',
+  },
+  // ── Wave 4b: bounded bilingual browse screens (reference contract) ─────────
+  // No self-grading completion — they complete on return (max one per session).
+  {
+    id: 'opposites',
+    label: 'Opposites',
+    screen: 'opposites',
+    cefr: 'A1',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'clothes',
+    label: 'Clothing Vocab',
+    screen: 'clothes',
+    cefr: 'A1',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'weather',
+    label: 'Weather Vocab',
+    screen: 'weather',
+    cefr: 'A1',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'bodydesc',
+    label: 'Body & Appearance',
+    screen: 'bodydesc',
+    cefr: 'A2',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'countries',
+    label: 'Countries',
+    screen: 'countries',
+    cefr: 'A2',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'professions',
+    label: 'Professions',
+    screen: 'professions',
+    cefr: 'A2',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'lifeevents',
+    label: 'Life Events',
+    screen: 'lifeevents',
+    cefr: 'A2',
+    category: 'vocab-a2',
+    reference: true,
+  },
+  {
+    id: 'brzalice',
+    label: 'Tongue Twisters',
+    screen: 'brzalice',
+    cefr: 'A2',
+    category: 'speaking',
+    reference: true,
+  },
+  {
+    id: 'tivicompare',
+    label: 'Ti vs Vi',
+    screen: 'tivicompare',
+    cefr: 'A2',
+    category: 'register',
+    reference: true,
+  },
+  {
+    id: 'colorquirk',
+    label: 'Color Idioms',
+    screen: 'colorquirk',
+    cefr: 'B1',
+    category: 'idioms',
+    reference: true,
+  },
+  {
+    id: 'idioms',
+    label: 'Idioms & Slang',
+    screen: 'idioms',
+    cefr: 'B1',
+    category: 'idioms',
+    reference: true,
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -514,4 +664,30 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   conjpractice: 3,
   phonemes: 2,
   roleplay: 4,
+  // Wave 4a — graded reference-group screens.
+  alphabet: 1,
+  convmatch: 2,
+  falsefr: 1,
+  phonology: 2,
+  padezifull: 3,
+  aspectlesson: 3,
+  conditionallesson: 3,
+  tenses: 3,
+  texting: 2,
+  formalregister: 3,
+  impersonal: 4,
+  techvoc: 2,
+  pitchaccent: 4,
+  // Wave 4b — reference (browse) entries, recognition tiers.
+  opposites: 1,
+  clothes: 1,
+  weather: 1,
+  bodydesc: 2,
+  countries: 2,
+  professions: 2,
+  lifeevents: 2,
+  brzalice: 2,
+  tivicompare: 2,
+  colorquirk: 2,
+  idioms: 2,
 };

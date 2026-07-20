@@ -548,3 +548,48 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
     for (const c of CROATIA_POOL) expect(c.id).toBe(c.screen);
   });
 });
+
+// ── Wave 4: reference (browse) entries ───────────────────────────────────────
+describe('Wave 4 — reference entries', () => {
+  const referenceScreens = CEFR_EXERCISE_POOL.filter((e) => e.reference).map((e) => e.screen);
+
+  it('has reference entries to test (pool sanity)', () => {
+    expect(referenceScreens.length).toBeGreaterThan(0);
+  });
+
+  it('every reference entry auto-completes on return', () => {
+    for (const s of referenceScreens) {
+      expect(SESSION_AUTOCOMPLETE_SCREENS.has(s), s).toBe(true);
+      expect(shouldAutoCompleteOnReturn(s, null)).toBe(true);
+    }
+  });
+
+  it('graded pool entries never auto-complete (reference flag is the only path in)', () => {
+    for (const e of CEFR_EXERCISE_POOL) {
+      if (e.reference) continue;
+      // Croatia-slot screens are a separate auto-complete contract; no graded
+      // pool entry shares a screen with CROATIA_POOL (checked below).
+      expect(SESSION_AUTOCOMPLETE_SCREENS.has(e.screen), e.screen).toBe(false);
+    }
+  });
+
+  it('no pool screen doubles as a Croatia-slot screen', () => {
+    const croatia = new Set(CROATIA_POOL.map((c) => c.screen));
+    for (const e of CEFR_EXERCISE_POOL) {
+      expect(croatia.has(e.screen), e.screen).toBe(false);
+    }
+  });
+
+  it('serves AT MOST ONE reference entry per session (browse never crowds drills)', () => {
+    const refSet = new Set(referenceScreens);
+    for (const lvl of ['A1', 'A2', 'B1', 'C2']) {
+      for (let i = 0; i < 10; i++) {
+        localStorage.clear();
+        const refs = buildSessionActivities(lvl).filter((a) => refSet.has(a.screen));
+        expect(refs.length, `${lvl}: ${refs.map((a) => a.screen).join(', ')}`).toBeLessThanOrEqual(
+          1,
+        );
+      }
+    }
+  });
+});

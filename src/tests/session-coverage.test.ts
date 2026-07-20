@@ -56,45 +56,23 @@ const OUTSIDE_SESSION: string[] = [
   // ── Assessment / placement flows (own lifecycle, not a daily drill) ──
   'cefrtest',
   'certificate',
+  'equivalency', // CEFR certification exam (own store, setScr-only exit) — regrouped from reference in Wave 4
   'grammar_diagnosis',
   'levelquiz',
   'placement',
-  // ── Reference / browse screens (no completion signal; black-hole dwell) ──
-  'alphabet',
-  'aspect',
-  'bodydesc',
-  'brzalice',
-  'clothes',
-  'colorquirk',
-  'conditional',
-  'convmatch',
-  'countries',
-  'dialect_awareness',
-  'dialects',
-  'equivalency',
-  'falsefr',
-  'formalregister',
-  'grammarexplainer',
-  'grammarreader',
-  'idioms',
-  'impersonal',
-  'lifeevents',
-  'opposites',
-  'padezifull',
-  'phonology',
-  'phraseofday',
-  'pitch_accent',
-  'pitchaccent',
-  'professions',
-  'reading',
-  'scenes',
-  'slang',
-  'techvoc',
-  'tenses',
-  'terms',
-  'texting',
-  'tivicompare',
-  'weather',
+  // ── Reference / browse screens ──
+  // Wave 4 (2026-07) registered 26 of the original 35: 13 with real quiz+award
+  // completion joined the graded pool, 11 bounded bilingual browse screens
+  // carry the reference auto-complete contract (max one per session), and
+  // dialect_awareness/phraseofday rotate through the Croatia slot. Each
+  // remaining exclusion has a hard blocker:
+  'dialects', // redundant reading-only twin of dialect_awareness (which is served, with quiz)
+  'grammarexplainer', // AI lesson generator — per-use generation cost + history-API internal nav
+  'grammarreader', // per-word-tap AI cost, pure exploration, no completion concept
+  'pitch_accent', // 4-lesson guided course — exceeds the 2–6 min session-slot envelope
+  'reading', // renders null without parent-held passage state (rp/rph/…); served via readlist
+  'scenes', // sprawling catalog (renders every scene); vocabscenes serves this ground interactively
+  'slang', // age-gated adult register + 150-entry sprawling catalog — not auto-servable
   // ── Culture / immersion content outside CROATIA_POOL ──
   // Wave 2 (2026-07) rotated 19 of these into the Croatia slot and moved
   // alka/sibil (real graded drills) into CEFR_EXERCISE_POOL. The six that
@@ -139,6 +117,7 @@ const OUTSIDE_SESSION: string[] = [
   'admin',
   'contact',
   'privacy',
+  'terms', // Terms of Service — legal copy, regrouped from reference in Wave 4
 ];
 
 function routableScreens(): string[] {
@@ -261,6 +240,63 @@ describe('Wave 1 — pool registration integrity', () => {
     ]) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
     }
+  });
+
+  it('the 26 Wave-4 screens are session-reachable', () => {
+    // 13 graded (quiz+award), 11 reference-tagged browse, 2 Croatia rotation.
+    for (const s of [
+      'alphabet',
+      'convmatch',
+      'falsefr',
+      'phonology',
+      'padezifull',
+      'aspect',
+      'conditional',
+      'tenses',
+      'texting',
+      'formalregister',
+      'impersonal',
+      'techvoc',
+      'pitchaccent',
+      'opposites',
+      'clothes',
+      'weather',
+      'bodydesc',
+      'countries',
+      'professions',
+      'lifeevents',
+      'brzalice',
+      'tivicompare',
+      'colorquirk',
+      'idioms',
+      'dialect_awareness',
+      'phraseofday',
+    ]) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('reference-tagged entries are exactly the Wave-4b browse set', () => {
+    // The reference flag drives auto-complete-on-return — a graded drill
+    // acquiring it by accident would skip its quiz gate. Lock the set.
+    const tagged = CEFR_EXERCISE_POOL.filter((e) => e.reference)
+      .map((e) => e.screen)
+      .sort();
+    expect(tagged).toEqual(
+      [
+        'opposites',
+        'clothes',
+        'weather',
+        'bodydesc',
+        'countries',
+        'professions',
+        'lifeevents',
+        'brzalice',
+        'tivicompare',
+        'colorquirk',
+        'idioms',
+      ].sort(),
+    );
   });
 });
 
