@@ -34,9 +34,10 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Session-Rec #1/#2: PRODUCTION_POOL is now [dialogue, writing, shadowing,
-    // production_drill, dictation]. With rnd=0 + mic-available + B1, the first
-    // eligible item is `dialogue` (label "Conversation").
+    // Session-Rec #1/#2 (+ Wave 3): PRODUCTION_POOL is [dialogue, writing,
+    // shadowing, speaking, production_drill, dictation, speaking_sprint]. With
+    // rnd=0 + mic-available + B1, the first eligible item is `dialogue`
+    // (label "Conversation").
     // Scope to the session card (as the sibling test below does for "Speaking"):
     // the Home tab's Daily Input card can also contain the substring
     // "conversation" (a listening unit's description), so an unscoped getByText
@@ -50,12 +51,13 @@ test.describe('SP4b — production slot in daily session', () => {
     page,
   }) => {
     // At B1 the conversation anchor takes `dialogue`, so the production pick is
-    // chosen from [writing, shadowing, speaking, production_drill, dictation].
-    // rnd=0.5 → index 2 → `speaking`. This proves SpeakingScreen is now a session
-    // production option (the follow-up that auto-routes it); the launcher
-    // initialises its vocab pool so it can't render blank (render path covered by
+    // chosen from [writing, shadowing, speaking, production_drill, dictation,
+    // speaking_sprint] (Wave 3 re-added speaking_sprint). rnd=0.4 → index 2 →
+    // `speaking`. This proves SpeakingScreen is now a session production option
+    // (the follow-up that auto-routes it); the launcher initialises its vocab
+    // pool so it can't render blank (render path covered by
     // pronunciation.spec.js + the verbatim launchSpeaking init reuse).
-    await mockRnd(page, 0.5);
+    await mockRnd(page, 0.4);
     await page.addInitScript(() => {
       localStorage.setItem('nh_mic_state', 'available');
       const uS = JSON.parse(localStorage.getItem('uS') || '{}');
@@ -108,9 +110,10 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Mic-denied B1 keyboard pool = [dialogue, writing, dictation]; dialogue +
-    // writing are recent → only dictation remains. shadowing + production_drill
-    // (mic-required) must NOT appear.
+    // Mic-denied B1 keyboard pool = [dialogue, writing, dictation,
+    // speaking_sprint]; dialogue + writing are recent, and rnd=0 picks the first
+    // survivor → dictation. shadowing + production_drill (mic-required) must NOT
+    // appear.
     await expect(page.getByText('Dictation')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText('Shadowing')).toHaveCount(0);
   });
