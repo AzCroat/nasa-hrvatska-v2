@@ -68,8 +68,6 @@ const OUTSIDE_SESSION: string[] = [
   // dialect_awareness/phraseofday rotate through the Croatia slot. Each
   // remaining exclusion has a hard blocker:
   'dialects', // redundant reading-only twin of dialect_awareness (which is served, with quiz)
-  'grammarexplainer', // AI lesson generator — per-use generation cost + history-API internal nav
-  'grammarreader', // per-word-tap AI cost, pure exploration, no completion concept
   'pitch_accent', // 4-lesson guided course — exceeds the 2–6 min session-slot envelope
   'reading', // renders null without parent-held passage state (rp/rph/…); served via readlist
   'scenes', // sprawling catalog (renders every scene); vocabscenes serves this ground interactively
@@ -85,14 +83,12 @@ const OUTSIDE_SESSION: string[] = [
   'immersion', // navigation hub (needs setScr), not an activity
   'maja', // premium-gated (paywall for non-subscribers)
   // ── AI-driven / unbounded / utility screens ──
-  // (Wave 5, 2026-07: the animated-lessons group dissolved — animlesson,
-  // fleetinga, future/past_tense_lesson and video_lesson joined the pool;
-  // micro_lesson moved here with its blocker.)
-  'micro_lesson', // requires ≥2 accumulated SRS mistakes — dead-ends fresh users at an error state; AI-generated per use
   // Wave 3 (2026-07) registered graded_input, ai_story, listening, conjpractice,
   // phoneme_practice, roleplay (CEFR pool) and speaking_sprint (production pool).
+  // Wave 7 (2026-07, owner decision): the AI-COST exclusions were admitted
+  // behind the quota posture — aiconvo, grammarexplainer, grammarreader
+  // (reference contract) and micro_lesson (error-phase signal wired).
   // Each remaining exclusion has a hard blocker for a generic session slot:
-  'aiconvo', // per-turn AI cost; the session's conversation anchor is 'dialogue' with AI one tap away
   'advanced_vocab', // open-ended reference catalog — no bounded round or finish line
   'journal', // personal vocab utility — no completion concept, receives no award prop
   'live_tutor', // premium-gated at the router (paywall for non-subscribers)
@@ -300,9 +296,16 @@ describe('Wave 1 — pool registration integrity', () => {
     }
   });
 
-  it('reference-tagged entries are exactly the Wave-4b browse set', () => {
+  it('the 4 Wave-7 screens are session-reachable (AI-cost admissions)', () => {
+    for (const s of ['aiconvo', 'grammarexplainer', 'micro_lesson', 'grammarreader']) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('reference-tagged entries are exactly the deliberate reference set', () => {
     // The reference flag drives auto-complete-on-return — a graded drill
-    // acquiring it by accident would skip its quiz gate. Lock the set.
+    // acquiring it by accident would skip its quiz gate. Lock the set
+    // (Wave-4b browse screens + Wave-7's grammarreader).
     const tagged = CEFR_EXERCISE_POOL.filter((e) => e.reference)
       .map((e) => e.screen)
       .sort();
@@ -319,6 +322,7 @@ describe('Wave 1 — pool registration integrity', () => {
         'tivicompare',
         'colorquirk',
         'idioms',
+        'grammarreader',
       ].sort(),
     );
   });
