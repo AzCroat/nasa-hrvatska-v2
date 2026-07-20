@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { H, speak } from '../../data';
 import { ROLEPLAY } from '../../data';
 import { CefrSoftHint } from '../shared/CefrSoftHint';
@@ -22,7 +22,13 @@ interface RpScenario {
 // you say it yourself (mic) and/or reveal + hear the model answer, then advance.
 // Previously every line — including your own — was pre-printed and merely
 // displayed, so the screen "did nothing but vocabulary."
-function RoleplayScreen({ goBack }: { goBack: () => void }) {
+function RoleplayScreen({
+  goBack,
+  award,
+}: {
+  goBack: () => void;
+  award?: (pts: number, celebrate?: boolean, activityType?: string) => void;
+}) {
   const scenarios = ROLEPLAY as RpScenario[];
   const [rpIdx, setRpIdx] = useState(0);
   const [step, setStep] = useState(0); // index of the line currently in play
@@ -35,6 +41,16 @@ function RoleplayScreen({ goBack }: { goBack: () => void }) {
   const current = lines[step]!;
   const isYour = !!current.you;
   const atEnd = step >= lines.length - 1;
+
+  // Wave 3 (session catchment): reaching a scene's last line is the completion
+  // moment — award once per scenario per mount. The award path also fires the
+  // daily-session handshake, so a session-launched role-play can complete.
+  const awardedScenes = useRef<Set<number>>(new Set());
+  useEffect(() => {
+    if (!atEnd || awardedScenes.current.has(rpIdx)) return;
+    awardedScenes.current.add(rpIdx);
+    award?.(20, false, 'speaking');
+  }, [atEnd, rpIdx, award]);
   const micBlocked = rec.state === 'denied' || rec.state === 'unsupported';
   // The recorder is mid-acquisition/active. Used to guard the Speak control so a
   // rapid double-tap (or a tap while getUserMedia is still resolving in

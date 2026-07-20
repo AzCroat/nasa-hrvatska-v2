@@ -372,6 +372,57 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'dative-locative',
   },
+  // ── Wave 3: production/AI/utility screens with real bounded completion ─────
+  // Graded reader: catalog A1–C2, reader → comprehension quiz → award on
+  // results. The daily session can now serve the extensive-reading corpus.
+  {
+    id: 'gradedreader',
+    label: 'Graded Reader',
+    screen: 'graded_input',
+    cefr: 'A1',
+    category: 'reading',
+  },
+  // AI story: one bounded personalized story (A2–B1 prompt), single quota-gated
+  // /api/maja call per story, explicit Done award. Same cost posture as
+  // aiListening (already in pool).
+  { id: 'aistory', label: 'AI Story', screen: 'ai_story', cefr: 'A2', category: 'reading' },
+  // Listening quiz: 10-question MC over the LISTEN bank. Cold launch is covered
+  // by the dedicated launcher branch (setLsInitQ) — ScreenGuard otherwise.
+  {
+    id: 'listeninggame',
+    label: 'Listening Quiz',
+    screen: 'listening',
+    cefr: 'A1',
+    category: 'listening',
+  },
+  // SR-prioritized conjugation drill (15 cells). Bare launch defaults to
+  // present-tense; completion via signalSessionCompleteIfActive('conjpractice').
+  // Already adaptive-reachable — registering closes the coverage-gate gap.
+  {
+    id: 'conjpractice',
+    label: 'Smart Conjugation',
+    screen: 'conjpractice',
+    cefr: 'A2',
+    category: 'present-tense',
+  },
+  // Phoneme practice (č/ć/š/ž/lj/nj): awards on each "I've got it"; the
+  // all-mastered mount path signals session completion explicitly (Wave 3).
+  {
+    id: 'phonemes',
+    label: 'Phoneme Practice',
+    screen: 'phoneme_practice',
+    cefr: 'A1',
+    category: 'speaking',
+  },
+  // Scripted role-play scenes (B1+): bounded lines → "Scene complete"; awards
+  // once per scenario reached-end (Wave 3 wiring — mic optional, reveal path).
+  {
+    id: 'roleplay',
+    label: 'Roleplay Scenes',
+    screen: 'roleplay',
+    cefr: 'B1',
+    category: 'speaking',
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -456,4 +507,11 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   // Wave 2 additions — recognition game tier 2, morphophonology drill tier 3.
   alka: 2,
   sibil: 3,
+  // Wave 3 additions — comprehension tiers 2-3, guided production tier 4.
+  gradedreader: 3,
+  aistory: 3,
+  listeninggame: 2,
+  conjpractice: 3,
+  phonemes: 2,
+  roleplay: 4,
 };

@@ -4,7 +4,8 @@
 // fallback), plus the follow-up that auto-routes open Speaking. Pool, in array
 // order: dialogue (A1, keyboard, converse), writing (A2, keyboard, write),
 // shadowing (A2, mic, speak), speaking (A2, mic, speak), production_drill
-// (B1, mic, speak), dictation (B1, keyboard, write).
+// (B1, mic, speak), dictation (B1, keyboard, write), speaking_sprint
+// (A2, keyboard-safe, speak — Wave 3).
 // rnd() is mocked to 0, so the selector deterministically returns the FIRST
 // surviving candidate after the CEFR / mic / exclude / recency / kind filters.
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -30,6 +31,7 @@ const PRODUCTION_SCREENS = [
   'speaking',
   'production_drill',
   'dictation',
+  'speaking_sprint',
 ];
 // The mic-required members — a mic-blocked user must never be handed one of these.
 const MIC_REQUIRED = ['shadowing', 'speaking', 'production_drill'];
@@ -347,7 +349,7 @@ describe('buildSessionActivities — conversation anchor (Session-Rec #4)', () =
 });
 
 describe('PRODUCTION_SCREEN_IDS — markDone integration surface', () => {
-  it('includes all six production screens', () => {
+  it('includes all seven production screens', () => {
     for (const screen of PRODUCTION_SCREENS) {
       expect(PRODUCTION_SCREEN_IDS.has(screen), `${screen} should be a production screen`).toBe(
         true,
@@ -358,7 +360,8 @@ describe('PRODUCTION_SCREEN_IDS — markDone integration surface', () => {
   it('excludes a non-production screen', () => {
     expect(PRODUCTION_SCREEN_IDS.has('cloze')).toBe(false);
     expect(PRODUCTION_SCREEN_IDS.has('mcgame')).toBe(false);
-    expect(PRODUCTION_SCREEN_IDS.has('speaking_sprint')).toBe(false);
+    // speaking_sprint rejoined the pool in Wave 3; aiconvo stays outside.
+    expect(PRODUCTION_SCREEN_IDS.has('aiconvo')).toBe(false);
   });
 
   it('recordProductionExercise is a function callable from markDone', () => {

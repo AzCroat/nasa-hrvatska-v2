@@ -1321,7 +1321,7 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'roleplay' && (
           <ScreenErrorBoundary key="roleplay" name="roleplay">
-            <RoleplayScreen goBack={goBack} />
+            <RoleplayScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'journal' && (
