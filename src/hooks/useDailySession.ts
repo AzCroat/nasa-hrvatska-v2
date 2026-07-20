@@ -9,10 +9,14 @@ import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
 import { trackSessionBuilt } from '../lib/analytics';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
+import { CROATIA_POOL } from '../lib/croatiaPool';
 // Re-exported so the content-coverage CI gate and session tests keep their
-// import path (the data moved to ../lib/sessionPools for max-lines).
+// import path (the data moved to ../lib/sessionPools for max-lines; the
+// Croatia rotation pool followed in Wave 6 for the same reason).
 export { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
 export type { CefrPoolEntry } from '../lib/sessionPools';
+export { CROATIA_POOL } from '../lib/croatiaPool';
+export type { CroatiaPoolEntry } from '../lib/croatiaPool';
 // Re-exported so existing consumers/tests can keep importing the production-rep
 // metric from this module (Session-Rec #6 lives in ../lib/productionMetric).
 // Counting now happens centrally in useAward (any production completion, session
@@ -139,113 +143,6 @@ const SCREEN_CEFR: Record<string, string> = {
   // case system introduced at A1.
   vocative: 'A1',
 };
-
-/**
- * Croatia rotation pool — Priority 4 always adds one of these. `cefr` (optional,
- * default A1) gates register-heavy entries so an A1 user is never handed press
- * prose or literary narrative; the slot filters by isUnlocked before rotating.
- *
- * Wave 2 (session catchment): the culture/immersion screens from the Wave-1
- * OUTSIDE_SESSION list that passed the eligibility audit now rotate here —
- * bounded, launchable with plain goBack/award props, no premium/seasonal gates.
- * They complete via the auto-complete-on-return contract below (derived set),
- * exactly like the original eight. Deliberately NOT rotated in (see
- * session-coverage.test.ts for reasons): crmap, croatiaathletes, easter,
- * heritage, immersion, maja.
- */
-export interface CroatiaPoolEntry extends SessionActivity {
-  cefr?: string; // minimum CEFR to be served this entry (default A1)
-}
-export const CROATIA_POOL: CroatiaPoolEntry[] = [
-  { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
-  { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
-  { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
-  { id: 'transport', label: 'Transport Scenario', screen: 'transport', category: 'practical' },
-  { id: 'recipes', label: 'Croatian Recipes', screen: 'recipes', category: 'culture' },
-  { id: 'history', label: 'Croatian History', screen: 'history', category: 'culture' },
-  { id: 'proverbs', label: 'Croatian Proverbs', screen: 'proverbs', category: 'culture' },
-  { id: 'popculture', label: 'Pop Culture', screen: 'popculture', category: 'culture' },
-  // ── Wave 2 — A1: survival/practical + bounded bilingual culture ──
-  { id: 'emergency', label: 'Emergency Phrases', screen: 'emergency', category: 'practical' },
-  { id: 'foodorder', label: 'Food Ordering', screen: 'foodorder', category: 'practical' },
-  { id: 'kafic', label: 'Kafić Culture', screen: 'kafic', category: 'culture' },
-  { id: 'restaurant', label: 'Restaurant Dialogue', screen: 'restaurant', category: 'practical' },
-  { id: 'school', label: 'School Vocab', screen: 'school', category: 'culture' },
-  {
-    id: 'survival_dinner',
-    label: 'Survival Dinner',
-    screen: 'survival_dinner',
-    category: 'practical',
-  },
-  {
-    id: 'practical_croatian',
-    label: 'Practical Croatian',
-    screen: 'practical_croatian',
-    category: 'practical',
-  },
-  { id: 'diaspora', label: 'Diaspora Note', screen: 'diaspora', category: 'culture' },
-  { id: 'events', label: 'Events Calendar', screen: 'events', category: 'culture' },
-  // ── Wave 2 — A2: sport/culture vocab catalogs + light production ──
-  {
-    id: 'football',
-    label: 'Croatian Football',
-    screen: 'football',
-    category: 'culture',
-    cefr: 'A2',
-  },
-  {
-    id: 'basketball',
-    label: 'Croatian Basketball',
-    screen: 'basketball',
-    category: 'culture',
-    cefr: 'A2',
-  },
-  { id: 'gym', label: 'Gym Croatian', screen: 'gym', category: 'practical', cefr: 'A2' },
-  { id: 'kings', label: 'Kings & Dukes', screen: 'kings', category: 'culture', cefr: 'A2' },
-  { id: 'postcard', label: 'Postcard Writer', screen: 'postcard', category: 'culture', cefr: 'A2' },
-  // ── Wave 2 — B1: press / literary / official register ──
-  { id: 'civic', label: 'Civic Croatia', screen: 'civic', category: 'culture', cefr: 'B1' },
-  {
-    id: 'croatia_today',
-    label: 'Croatia Today',
-    screen: 'croatia_today',
-    category: 'culture',
-    cefr: 'B1',
-  },
-  {
-    id: 'croatianews',
-    label: 'Croatian News',
-    screen: 'croatianews',
-    category: 'culture',
-    cefr: 'B1',
-  },
-  {
-    id: 'baka_summer',
-    label: "Baka's Summer",
-    screen: 'baka_summer',
-    category: 'culture',
-    cefr: 'B1',
-  },
-  {
-    id: 'bureaucratic',
-    label: 'Official Croatian',
-    screen: 'bureaucratic',
-    category: 'practical',
-    cefr: 'B1',
-  },
-  // ── Wave 4: culture screens from the reference-group audit ──
-  // dialect_awareness has a rich quiz but its award fires once ever
-  // (localStorage gate), so it needs this slot's auto-complete contract;
-  // phraseofday awards on first listen and has an offline seed fallback.
-  {
-    id: 'dialect_awareness',
-    label: 'Croatian Dialects',
-    screen: 'dialect_awareness',
-    category: 'culture',
-    cefr: 'A2',
-  },
-  { id: 'phraseofday', label: 'Phrase of the Day', screen: 'phraseofday', category: 'practical' },
-];
 
 // Reference/immersion screens with no self-grading completion (read/scenario
 // screens). The Priority-4 Croatia slot ALWAYS adds one of these, and they only
