@@ -93,10 +93,11 @@ const OUTSIDE_SESSION: string[] = [
   // (Wave 8, owner decision: maja + live_tutor joined the pool as premium-tagged
   // entries — served only when getSubscriptionStatus().isPremium; the router
   // paywall + its session-complete-on-close guard cover stale entitlements.)
-  'storymode', // completion contingent on scroll-to-end + 5 word-taps — can silently never fire; ai_story covers this need
+  // (Wave 9, owner decision: storymode gained an explicit Finish button and
+  // pronunciation_assess gained a finish-signals-completion path + the
+  // builder's micRequired gate — both joined the pool.)
   'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
-  'pronunciation_assess', // hard mic requirement (no keyboard path) + strands when all phrases skipped
   // ── App chrome / account / legal ──
   'admin',
   'contact',
@@ -309,6 +310,14 @@ describe('Wave 1 — pool registration integrity', () => {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
       expect(byScreen.get(s)?.premium, `${s} must carry the premium flag`).toBe(true);
     }
+  });
+
+  it('the 2 Wave-9 screens are session-reachable; pronunciation is mic-tagged', () => {
+    const byScreen = new Map(CEFR_EXERCISE_POOL.map((e) => [e.screen, e]));
+    for (const s of ['storymode', 'pronunciation_assess']) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+    expect(byScreen.get('pronunciation_assess')?.micRequired).toBe(true);
   });
 
   it('reference-tagged entries are exactly the deliberate reference set', () => {

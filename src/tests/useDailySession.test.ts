@@ -634,3 +634,27 @@ describe('Wave 8 — premium gate on pool draws', () => {
     }
   });
 });
+
+// ── Wave 9: mic-required entries ─────────────────────────────────────────────
+describe('Wave 9 — mic gate on pool draws', () => {
+  const micScreens = CEFR_EXERCISE_POOL.filter((e) => e.micRequired).map((e) => e.screen);
+
+  it('has mic-required entries to test (pool sanity)', () => {
+    expect(micScreens).toEqual(expect.arrayContaining(['pronunciation_assess']));
+  });
+
+  it('a mic-blocked user is NEVER served a mic-required entry', () => {
+    const micSet = new Set(micScreens);
+    for (const state of ['denied', 'unsupported']) {
+      for (let i = 0; i < 10; i++) {
+        localStorage.clear();
+        localStorage.setItem('nh_mic_state', state);
+        const acts = buildSessionActivities('C2');
+        expect(
+          acts.filter((a) => micSet.has(a.screen)),
+          state,
+        ).toEqual([]);
+      }
+    }
+  });
+});

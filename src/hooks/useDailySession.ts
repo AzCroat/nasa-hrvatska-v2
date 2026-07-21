@@ -245,8 +245,25 @@ function isGrammarStructure(category: SessionCategory): boolean {
 // Wave 8: premium-tagged pool entries (maja, live_tutor) are drawn only for
 // premium users. Read once per draw site — getSubscriptionStatus is a cheap
 // synchronous localStorage read (same builder-input pattern as fluency mode).
-function premiumAllows(ex: { premium?: boolean }, isPremium: boolean): boolean {
-  return !ex.premium || isPremium;
+// Wave 9 extends the gate to mic-required entries (pronunciation_assess):
+// skipped when readMicState() is 'denied'/'unsupported', mirroring
+// PRODUCTION_POOL's micRequired contract. Compute the context once per draw
+// site — both reads are cheap synchronous localStorage lookups.
+interface DrawCtx {
+  isPremium: boolean;
+  micBlocked: boolean;
+}
+function drawCtx(): DrawCtx {
+  const mic = readMicState();
+  return {
+    isPremium: getSubscriptionStatus().isPremium,
+    micBlocked: mic === 'denied' || mic === 'unsupported',
+  };
+}
+function entryServable(ex: { premium?: boolean; micRequired?: boolean }, ctx: DrawCtx): boolean {
+  if (ex.premium && !ctx.isPremium) return false;
+  if (ex.micRequired && ctx.micBlocked) return false;
+  return true;
 }
 
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
@@ -260,12 +277,12 @@ export function selectGuaranteedGrammar(
   usedScreens: Set<string>,
   recentScreens: string[],
 ): SessionActivity | null {
-  const isPremium = getSubscriptionStatus().isPremium;
+  const ctx = drawCtx();
   const grammar = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isGrammarStructure(ex.category) &&
       isUnlocked(ex.cefr, userCefr) &&
-      premiumAllows(ex, isPremium) &&
+      entryServable(ex, ctx) &&
       !usedScreens.has(ex.screen),
   );
   let candidates = grammar.filter((ex) => !recentScreens.includes(ex.screen));
@@ -375,11 +392,11 @@ export function buildSessionActivities(
   }
 
   // Priority 3: CEFR-appropriate fill (skip recent, exclude already queued screens)
-  const isPremium = getSubscriptionStatus().isPremium;
+  const ctx = drawCtx();
   let pool = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isUnlocked(ex.cefr, userCefr) &&
-      premiumAllows(ex, isPremium) &&
+      entryServable(ex, ctx) &&
       !recentScreens.includes(ex.screen) &&
       !usedScreens.has(ex.screen),
   );
@@ -388,9 +405,7 @@ export function buildSessionActivities(
   if (pool.length === 0) {
     pool = CEFR_EXERCISE_POOL.filter(
       (ex) =>
-        isUnlocked(ex.cefr, userCefr) &&
-        premiumAllows(ex, isPremium) &&
-        !usedScreens.has(ex.screen),
+        isUnlocked(ex.cefr, userCefr) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
     );
   }
 
@@ -717,11 +732,11 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
           }
         })();
         const recentSet = new Set(recentScreens);
-        const isPremium = getSubscriptionStatus().isPremium;
+        const ctx = drawCtx();
         let pool = CEFR_EXERCISE_POOL.filter(
           (ex) =>
             isUnlocked(ex.cefr, userCefr) &&
-            premiumAllows(ex, isPremium) &&
+            entryServable(ex, ctx) &&
             !sessionScreens.has(ex.screen) &&
             !recentSet.has(ex.screen),
         );
@@ -729,7 +744,7 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
           pool = CEFR_EXERCISE_POOL.filter(
             (ex) =>
               isUnlocked(ex.cefr, userCefr) &&
-              premiumAllows(ex, isPremium) &&
+              entryServable(ex, ctx) &&
               !sessionScreens.has(ex.screen),
           );
         }

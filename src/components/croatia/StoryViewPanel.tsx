@@ -53,6 +53,12 @@ interface StoryViewPanelProps {
   onTTSToggle: () => void;
   onNewStory: () => void;
   onBack: () => void;
+  /**
+   * Wave 9: explicit finish — fires the reading award reliably (the organic
+   * scroll-to-end + 5-word-tap award can silently never fire, which kept this
+   * screen out of the daily session). Optional so other callers are unaffected.
+   */
+  onFinish?: () => void;
 }
 
 // ── Word token component ───────────────────────────────────────────────────────
@@ -198,6 +204,7 @@ export default function StoryViewPanel({
   onTTSToggle,
   onNewStory,
   onBack,
+  onFinish,
 }: StoryViewPanelProps) {
   const accentColor = selectedCity.color;
   const photoSrc =
@@ -512,6 +519,25 @@ export default function StoryViewPanel({
 
       {/* Action buttons */}
       <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+        {onFinish && (
+          <button
+            className="b"
+            data-testid="story-finish"
+            onClick={onFinish}
+            style={{
+              flex: 1,
+              padding: '14px',
+              borderRadius: 12,
+              backgroundColor: '#15803d',
+              color: '#fff',
+              border: 'none',
+              fontWeight: 700,
+              fontSize: 15,
+            }}
+          >
+            ✓ Finish Story
+          </button>
+        )}
         <button
           className="b"
           onClick={onNewStory}
