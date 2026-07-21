@@ -1312,19 +1312,39 @@ function App() {
     if (today.getDay() !== 0) return;
     const k = 'nh_digest_' + authUser.u + '_' + today.toISOString().slice(0, 10);
     if (localStorage.getItem(k)) return;
-    localStorage.setItem(k, '1');
     const consent = localStorage.getItem('nh_analytics_consent');
-    if (consent === 'true') {
-      fetch('/api/digest', {
+    if (consent !== 'true') return;
+    // /api/digest requires the Firebase Bearer token (apiFetch attaches it) and
+    // reads {email, name, xp, lessons, streakDays, wordsLearned} for the email
+    // body. Mark as sent only AFTER the server accepts, so a failed attempt
+    // retries on the next mount instead of being silently skipped for the week.
+    let wordsLearned = 0;
+    try {
+      const sr = JSON.parse(localStorage.getItem('nh_sr') || '{}') as Record<
+        string,
+        { r?: number }
+      >;
+      wordsLearned = Object.values(sr).filter((v) => v && (v.r ?? 0) > 0).length;
+    } catch {}
+    import('./lib/apiFetch').then(({ apiFetch }) =>
+      apiFetch('/api/digest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: authUser.u,
           email: authUser.e,
           name: authUser.d || 'Learner',
+          xp: stats.xp || 0,
+          lessons: stats.lc || 0,
+          streakDays: getStreak().count || 0,
+          wordsLearned,
         }),
-      }).catch(() => {});
-    }
+      })
+        .then((r) => {
+          if (r.ok) localStorage.setItem(k, '1');
+        })
+        .catch(() => {}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
 
   // Push notifications + free annual grant + uidRef sync

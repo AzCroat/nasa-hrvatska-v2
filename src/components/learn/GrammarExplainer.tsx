@@ -340,13 +340,18 @@ export default function GrammarExplainer({
     setWritingResult(null);
     setWritingError(null);
     try {
-      const res = await apiFetch('/api/ai-chat', {
+      // /api/correct returns the parsed evaluation object ({score, corrected_text,
+      // changes, strengths, encouragement}) that this screen renders. /api/ai-chat's
+      // writeeval mode returns the JSON as an unparsed string in {text} — using it
+      // here left the feedback card permanently empty.
+      const res = await apiFetch('/api/correct', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'writeeval',
+          prompt: promptText,
+          text: writingText.trim(),
           params: { level, writingPrompt: promptText },
-          messages: [{ role: 'user', content: writingText.trim() }],
         }),
         signal: AbortSignal.timeout(25000),
       });

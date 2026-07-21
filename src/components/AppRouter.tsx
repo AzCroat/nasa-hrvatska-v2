@@ -597,7 +597,7 @@ export default function AppRouter(props: Record<string, any>) {
           <EquivalencyTestScreen
             userEligible={getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0)}
             userLessonCount={stats.lc || 0}
-            setScr={setScr}
+            onBackToProfile={() => setTab('profile')}
           />
         )}
         {
