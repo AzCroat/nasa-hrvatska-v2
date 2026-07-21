@@ -210,10 +210,7 @@ export default function ProfileScreen({
         <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: '#164e63' }}>
           {name}
         </h2>
-        <p style={{ color: '#78716c', fontSize: 14 }}>
-          Level {level}
-          {st.diff ? ` · ${st.diff.charAt(0).toUpperCase()}${st.diff.slice(1)}` : ''}
-        </p>
+        <p style={{ color: '#78716c', fontSize: 14 }}>Level {level}</p>
         {au && au.e && <p style={{ color: '#a8a29e', fontSize: 12, marginTop: 4 }}>{au.e}</p>}
       </div>
       <div

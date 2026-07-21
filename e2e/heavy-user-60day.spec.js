@@ -1202,7 +1202,9 @@ test('Block 9 (Days 33-36) — Settings: difficulty, voice, dark mode, weekly go
         }
       }
     } else {
-      bug('UX', 'Settings', 'Difficulty selector (Beginner/Intermediate/Advanced) not in Settings');
+      // Intentional since 2026-07-21 (owner decision): the manual Difficulty
+      // selector was removed — the app derives difficulty from earned CEFR.
+      ok('Difficulty selector absent — app decides difficulty (earned CEFR)');
     }
 
     // ── Voice / TTS setting
