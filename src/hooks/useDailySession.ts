@@ -8,6 +8,7 @@ import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
 import { trackSessionBuilt } from '../lib/analytics';
+import { getSubscriptionStatus } from './useSubscription';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 // Re-exported so the content-coverage CI gate and session tests keep their
@@ -241,6 +242,13 @@ function isGrammarStructure(category: SessionCategory): boolean {
   return GRAMMAR_STRUCTURE_CATEGORIES.has(category);
 }
 
+// Wave 8: premium-tagged pool entries (maja, live_tutor) are drawn only for
+// premium users. Read once per draw site — getSubscriptionStatus is a cheap
+// synchronous localStorage read (same builder-input pattern as fluency mode).
+function premiumAllows(ex: { premium?: boolean }, isPremium: boolean): boolean {
+  return !ex.premium || isPremium;
+}
+
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
 // level-appropriate (nearest CEFR to the user) and EXEMPT from the Priority-3
 // difficulty-tier sort (G4) — that sort otherwise buries case/structure drills
@@ -252,10 +260,12 @@ export function selectGuaranteedGrammar(
   usedScreens: Set<string>,
   recentScreens: string[],
 ): SessionActivity | null {
+  const isPremium = getSubscriptionStatus().isPremium;
   const grammar = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isGrammarStructure(ex.category) &&
       isUnlocked(ex.cefr, userCefr) &&
+      premiumAllows(ex, isPremium) &&
       !usedScreens.has(ex.screen),
   );
   let candidates = grammar.filter((ex) => !recentScreens.includes(ex.screen));
@@ -365,9 +375,11 @@ export function buildSessionActivities(
   }
 
   // Priority 3: CEFR-appropriate fill (skip recent, exclude already queued screens)
+  const isPremium = getSubscriptionStatus().isPremium;
   let pool = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isUnlocked(ex.cefr, userCefr) &&
+      premiumAllows(ex, isPremium) &&
       !recentScreens.includes(ex.screen) &&
       !usedScreens.has(ex.screen),
   );
@@ -375,7 +387,10 @@ export function buildSessionActivities(
   // Fallback: if recency filter leaves nothing, use full unlocked pool
   if (pool.length === 0) {
     pool = CEFR_EXERCISE_POOL.filter(
-      (ex) => isUnlocked(ex.cefr, userCefr) && !usedScreens.has(ex.screen),
+      (ex) =>
+        isUnlocked(ex.cefr, userCefr) &&
+        premiumAllows(ex, isPremium) &&
+        !usedScreens.has(ex.screen),
     );
   }
 
@@ -702,15 +717,20 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
           }
         })();
         const recentSet = new Set(recentScreens);
+        const isPremium = getSubscriptionStatus().isPremium;
         let pool = CEFR_EXERCISE_POOL.filter(
           (ex) =>
             isUnlocked(ex.cefr, userCefr) &&
+            premiumAllows(ex, isPremium) &&
             !sessionScreens.has(ex.screen) &&
             !recentSet.has(ex.screen),
         );
         if (pool.length === 0) {
           pool = CEFR_EXERCISE_POOL.filter(
-            (ex) => isUnlocked(ex.cefr, userCefr) && !sessionScreens.has(ex.screen),
+            (ex) =>
+              isUnlocked(ex.cefr, userCefr) &&
+              premiumAllows(ex, isPremium) &&
+              !sessionScreens.has(ex.screen),
           );
         }
         // Wave 1: least-recently-served ordering (was a pure shuffle). For B1+

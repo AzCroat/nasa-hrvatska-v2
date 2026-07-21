@@ -81,7 +81,6 @@ const OUTSIDE_SESSION: string[] = [
   'easter', // seasonal theming + quiz permanently locks after one completion
   'heritage', // form-driven personal AI story generator — needs user setup, not servable cold
   'immersion', // navigation hub (needs setScr), not an activity
-  'maja', // premium-gated (paywall for non-subscribers)
   // ── AI-driven / unbounded / utility screens ──
   // Wave 3 (2026-07) registered graded_input, ai_story, listening, conjpractice,
   // phoneme_practice, roleplay (CEFR pool) and speaking_sprint (production pool).
@@ -91,7 +90,9 @@ const OUTSIDE_SESSION: string[] = [
   // Each remaining exclusion has a hard blocker for a generic session slot:
   'advanced_vocab', // open-ended reference catalog — no bounded round or finish line
   'journal', // personal vocab utility — no completion concept, receives no award prop
-  'live_tutor', // premium-gated at the router (paywall for non-subscribers)
+  // (Wave 8, owner decision: maja + live_tutor joined the pool as premium-tagged
+  // entries — served only when getSubscriptionStatus().isPremium; the router
+  // paywall + its session-complete-on-close guard cover stale entitlements.)
   'storymode', // completion contingent on scroll-to-end + 5 word-taps — can silently never fire; ai_story covers this need
   'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
@@ -299,6 +300,14 @@ describe('Wave 1 — pool registration integrity', () => {
   it('the 4 Wave-7 screens are session-reachable (AI-cost admissions)', () => {
     for (const s of ['aiconvo', 'grammarexplainer', 'micro_lesson', 'grammarreader']) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+    }
+  });
+
+  it('the 2 Wave-8 premium tutors are session-reachable and premium-tagged', () => {
+    const byScreen = new Map(CEFR_EXERCISE_POOL.map((e) => [e.screen, e]));
+    for (const s of ['maja', 'live_tutor']) {
+      expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
+      expect(byScreen.get(s)?.premium, `${s} must carry the premium flag`).toBe(true);
     }
   });
 
