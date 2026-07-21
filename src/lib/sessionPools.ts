@@ -26,6 +26,12 @@ export interface CefrPoolEntry {
    * so even a stale entitlement can never strand a session.
    */
   premium?: boolean;
+  /**
+   * Wave 9: entries whose activity is impossible without a microphone. The
+   * builder skips them when readMicState() is 'denied'/'unsupported' —
+   * mirroring PRODUCTION_POOL's micRequired contract.
+   */
+  micRequired?: boolean;
 }
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
@@ -702,6 +708,20 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'speaking',
     premium: true,
   },
+  // ── Wave 9: redesigned-for-completion screens (owner decision, option 3) ───
+  // Story Mode gained an explicit Finish button (the organic scroll+tap award
+  // could silently never fire); AI cost is the approved quota posture.
+  { id: 'storymode', label: 'Story Mode', screen: 'storymode', cefr: 'A2', category: 'reading' },
+  // Pronunciation check: mic-required (builder-filtered); finishing now signals
+  // session completion even when every phrase was skipped.
+  {
+    id: 'pronunciation_assess',
+    label: 'Pronunciation Check',
+    screen: 'pronunciation_assess',
+    cefr: 'A1',
+    category: 'speaking',
+    micRequired: true,
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -838,4 +858,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   // Wave 8 — premium tutors, open production.
   maja: 5,
   live_tutor: 5,
+  // Wave 9 — redesigned-for-completion screens.
+  storymode: 3,
+  pronunciation_assess: 4,
 };

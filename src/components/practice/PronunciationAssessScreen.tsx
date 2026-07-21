@@ -6,6 +6,7 @@ import { scoreColor, scoreEmoji, scoreLabel } from '../shared/pronunciationUtils
 import { markQuest } from '../../lib/quests.js';
 import { rnd } from '../../lib/random.js';
 import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ── Assessment phrase banks per CEFR level ──────────────────────────────────
 const PHRASES = {
@@ -265,6 +266,10 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
   }, []);
 
   const handleFinish = useCallback(() => {
+    // Wave 9: finishing is completion even when every phrase was skipped
+    // (completedCount === 0 awards nothing) — signal so a session-launched
+    // check can't strand the day. No-op outside sessions.
+    signalSessionCompleteIfActive('pronunciation_assess');
     if (!xpAwarded.current && typeof award === 'function' && completedCount > 0) {
       xpAwarded.current = true;
       // 20–40 XP based on quality when acoustically scored; participation floor (20) when no

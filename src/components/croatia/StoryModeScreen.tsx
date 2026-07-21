@@ -185,6 +185,15 @@ export default function StoryModeScreen({
     return () => el.removeEventListener('scroll', check);
   }, [phase, award]);
 
+  // Wave 9: explicit finish path — same guarded award the scroll handler uses,
+  // so a session-launched story completes deterministically.
+  const finishStory = useCallback(() => {
+    if (awardFired.current) return;
+    awardFired.current = true;
+    if (typeof award === 'function') award(15, false, 'story');
+    markQuest('reading');
+  }, [award]);
+
   const generateStory = useCallback(async () => {
     if (!isOnline) {
       setError('You need an internet connection to generate stories.');
@@ -349,6 +358,7 @@ export default function StoryModeScreen({
           stopTTS();
           goBack();
         }}
+        onFinish={finishStory}
       />
     );
   }
