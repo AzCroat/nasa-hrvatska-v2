@@ -116,6 +116,13 @@ export function grantFreeAnnual(userId: string): void {
   // Monetisation is off — do not grant or renew.
   if (!FREE_ANNUAL_ENABLED) return;
 
+  // User explicitly cancelled their free annual — honor it instead of
+  // silently re-granting on next login (the flag was written but never
+  // read before, making cancellation a no-op).
+  try {
+    if (localStorage.getItem('nh_free_annual_cancelled_' + userId)) return;
+  } catch {}
+
   // Already has a valid free_annual with plenty of time left — skip.
   if (sub.source === 'free_annual' && sub.expiresAt) {
     const daysLeft = Math.ceil((new Date(sub.expiresAt).getTime() - Date.now()) / 86400000);

@@ -222,6 +222,21 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       // Log mistakes and add single-word corrections to SRS queue
       type ApiCorrection = CorrectionChange & { type?: string; errorType?: string };
       const corrections: ApiCorrection[] = data.changes || data.mistakes || [];
+      // Grammar Diagnosis reads nh_writing_mistakes for its writing-error
+      // analysis — nothing wrote it before, so that branch was always empty.
+      if (corrections.length > 0) {
+        try {
+          const wm = JSON.parse(localStorage.getItem('nh_writing_mistakes') || '[]');
+          corrections.forEach((ch) => {
+            wm.push({
+              wrong: ch.original || '',
+              correct: ch.corrected || '',
+              type: ch.errorType || ch.type || 'other',
+            });
+          });
+          localStorage.setItem('nh_writing_mistakes', JSON.stringify(wm.slice(-50)));
+        } catch {}
+      }
       corrections.forEach((ch: ApiCorrection) => {
         const orig = ch.original || '';
         const corr = (ch.corrected || '').trim();

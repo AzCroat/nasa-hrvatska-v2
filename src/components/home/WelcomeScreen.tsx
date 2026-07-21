@@ -126,7 +126,13 @@ export default function WelcomeScreen({
       localStorage.setItem('nh_goal_set', '1');
       localStorage.setItem('nh_goal_set_date', String(Date.now()));
     }
-    if (dailyMin) localStorage.setItem('nh_daily_min', String(dailyMin));
+    if (dailyMin) {
+      localStorage.setItem('nh_daily_min', String(dailyMin));
+      // Make the minutes choice actually set the measured daily XP goal
+      // (2 XP/min — the same rate GoalSetterModal's commitment options use).
+      // Previously this picker set nothing measurable.
+      localStorage.setItem('nh_daily_goal_xp', String(dailyMin * 2));
+    }
     if (localStorage.getItem('nh_heritage_region')) {
       localStorage.setItem('nh_heritage_saved', 'true');
     }

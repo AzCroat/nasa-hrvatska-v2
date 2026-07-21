@@ -254,7 +254,9 @@ export function scheduleReEngagementReminder(): void {
 
   let lastSeenRaw: string | null = null;
   try {
-    lastSeenRaw = localStorage.getItem('nh_last_seen');
+    // App.tsx writes the last-seen timestamp under 'lastSeen' (legacy key);
+    // reading the never-written 'nh_last_seen' made this always bail out.
+    lastSeenRaw = localStorage.getItem('lastSeen');
   } catch {}
   if (!lastSeenRaw) return;
 

@@ -270,7 +270,7 @@ export default function LearningPreferencesSection() {
         <div>
           <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>❤️ Always-On Hearts</div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
-            Lose lives in all practice modes, not just Challenge
+            Lose lives in the word quiz even outside Challenge mode
           </div>
         </div>
         <button
