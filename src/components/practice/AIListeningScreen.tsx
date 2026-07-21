@@ -5,6 +5,7 @@ import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { AIContentSkeleton, AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
+import { interleaveDialogue, listeningFailureFromResponse } from '../../lib/listeningSupport';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { recordTopicResult } from '../../lib/adaptive';
@@ -17,34 +18,6 @@ import {
   markListeningUnitDone,
 } from '../../lib/listeningCurriculum';
 import ListeningPathBanner from './listening/ListeningPathBanner';
-
-/**
- * Interleave dialogue lines turn-by-turn across speakers, so the rendered
- * transcript (and the TTS audio built from the same string) plays as a
- * real back-and-forth conversation instead of "all speaker A's lines,
- * then all speaker B's lines". Backend returns each speaker with a
- * `lines` array in time order; turn N for everyone goes before turn N+1.
- */
-interface DialogueSpeaker {
-  name?: string;
-  lines?: unknown[];
-}
-function interleaveDialogue(speakers: DialogueSpeaker[] | undefined | null): string {
-  if (!Array.isArray(speakers) || speakers.length === 0) return '';
-  const maxTurns = speakers.reduce(
-    (max, s) => Math.max(max, Array.isArray(s.lines) ? s.lines.length : 0),
-    0,
-  );
-  const out: string[] = [];
-  for (let i = 0; i < maxTurns; i++) {
-    for (const spk of speakers) {
-      const line = Array.isArray(spk.lines) ? spk.lines[i] : undefined;
-      if (line == null) continue;
-      out.push(`${spk.name || 'Speaker'}: ${String(line)}`);
-    }
-  }
-  return out.join('\n\n');
-}
 
 const TOPICS = [
   { key: 'cafe', emoji: '☕', hr: 'U kafiću', en: 'At the Café' },
@@ -118,6 +91,28 @@ export default function AIListeningScreen({
     [],
   );
 
+  // Home's Daily Input card advertises the user's next curriculum unit by name
+  // ("Cultural Commentary", …). Landing them on the topic-picker setup screen
+  // after that promise read as "nothing loaded" (owner report, 2026-07-21) —
+  // when the card sets the handoff flag, generate the promised unit immediately.
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (autoStarted.current) return;
+    let requested = false;
+    try {
+      requested = sessionStorage.getItem('nh_listening_autostart') === '1';
+      if (requested) sessionStorage.removeItem('nh_listening_autostart');
+    } catch {}
+    if (!requested) return;
+    autoStarted.current = true;
+    const unit = getNextListeningUnit(level);
+    if (!unit || !isOnline) return; // setup screen handles offline/complete states
+    setSelectedTopic(unit.topic);
+    setStyle(unit.style);
+    generate({ topic: unit.topic, style: unit.style });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // ── Generate content + TTS ────────────────────────────────────────────────
   // Accepts an optional (topic, style) override so the curriculum's "Start
   // recommended" CTA can generate the recommended unit in one tap without
@@ -138,7 +133,7 @@ export default function AIListeningScreen({
         { signal: AbortSignal.timeout(30000) },
       );
       if (!mountedRef.current) return;
-      if (!res.ok) throw new Error(`listening API error: ${res.status}`);
+      if (!res.ok) throw await listeningFailureFromResponse(res);
       const data = await res.json();
       setContent(data);
 
@@ -184,12 +179,14 @@ export default function AIListeningScreen({
     } catch (err) {
       if (mountedRef.current) {
         const isNetwork = err instanceof TypeError && err.message.toLowerCase().includes('fetch');
+        const userMessage = (err as { userMessage?: string })?.userMessage;
         setErrorMsg(
-          !isOnline
-            ? 'No connection — reconnect to generate listening exercises'
-            : isNetwork
-              ? 'Connection error — check your internet and try again'
-              : 'Something went wrong — please try again',
+          userMessage ||
+            (!isOnline
+              ? 'No connection — reconnect to generate listening exercises'
+              : isNetwork
+                ? 'Connection error — check your internet and try again'
+                : 'Something went wrong — please try again'),
         );
         setPhase('setup');
         // Generation-failure self-heal: a dead AI endpoint must not strand the

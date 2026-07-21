@@ -5,7 +5,10 @@ import DailyInputCard from '../components/home/DailyInputCard';
 import { isDailyInputDone } from '../lib/dailyInput';
 
 describe('DailyInputCard', () => {
-  beforeEach(() => localStorage.clear());
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
 
   it('renders the card, both input rows, and the level badge', () => {
     render(<DailyInputCard stats={{ xp: 0 }} setScr={() => {}} />);
@@ -32,6 +35,22 @@ describe('DailyInputCard', () => {
     fireEvent.click(screen.getByTestId('daily-input-reading'));
     expect(setScr).toHaveBeenCalledWith('readlist');
     expect(isDailyInputDone('reading')).toBe(true);
+  });
+
+  // The listening row advertises a specific curriculum unit by name — the tap
+  // must hand that intent to AIListeningScreen so the unit generates
+  // immediately instead of stranding the user on the topic picker (owner
+  // report 2026-07-21: "Cultural Commentary not loading anything").
+  it('opening listening sets the autostart handoff flag', () => {
+    render(<DailyInputCard stats={{ xp: 0 }} setScr={() => {}} />);
+    fireEvent.click(screen.getByTestId('daily-input-listening'));
+    expect(sessionStorage.getItem('nh_listening_autostart')).toBe('1');
+  });
+
+  it('opening reading does NOT set the listening autostart flag', () => {
+    render(<DailyInputCard stats={{ xp: 0 }} setScr={() => {}} />);
+    fireEvent.click(screen.getByTestId('daily-input-reading'));
+    expect(sessionStorage.getItem('nh_listening_autostart')).toBeNull();
   });
 
   it('shows a ✓ for an input already engaged today', () => {
