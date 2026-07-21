@@ -532,7 +532,8 @@ export default function LearningPreferencesSection() {
           <div>
             <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>🎯 Placement Test</div>
             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
-              Retake it to reset your recommended starting level.
+              Re-check your recommended level. Results can raise it — your progress and earned level
+              are never reset.
             </div>
           </div>
           <button
