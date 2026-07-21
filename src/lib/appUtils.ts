@@ -139,7 +139,22 @@ export function getStreak(): StreakData {
 }
 export function getStreakFreezes(): number {
   try {
-    return parseInt(localStorage.getItem('uFreeze') || '0', 10);
+    let f = parseInt(localStorage.getItem('uFreeze') || '0', 10);
+    if (isNaN(f) || f < 0) f = 0;
+    // Migrate freezes purchased into the legacy 'nh_streak_freezes' store
+    // (Settings → Streak Protection before 2026-07): nothing ever consumed
+    // that store, so fold it into 'uFreeze' — the store updateStreak()
+    // auto-spends when a single missed day would break the streak.
+    const legacyRaw = localStorage.getItem('nh_streak_freezes');
+    if (legacyRaw !== null) {
+      const legacy = parseInt(legacyRaw, 10);
+      if (!isNaN(legacy) && legacy > 0) {
+        f = Math.min(2, f + legacy);
+        localStorage.setItem('uFreeze', String(f));
+      }
+      localStorage.removeItem('nh_streak_freezes');
+    }
+    return f;
   } catch {
     return 0;
   }
