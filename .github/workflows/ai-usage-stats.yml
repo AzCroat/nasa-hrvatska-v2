@@ -1,0 +1,58 @@
+name: ai-usage-stats
+# One-shot workflow_dispatch — read-only SELECTs against the production
+# AI_QUOTA_DB (D1) to answer "how many people are using the AI features?".
+# Prints ONLY aggregate counts to the log — never uids or IP addresses.
+#
+# Reported:
+#   - signed-in users who made ≥1 AI call today (UTC)
+#   - anonymous IPs that made ≥1 AI call today
+#   - total AI turns consumed today
+#   - distinct signed-in users who have EVER used AI (since D1 quota storage
+#     went live — rows are one-per-subject upserts and are never deleted)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  query:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query AI usage counts (read-only)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -e
+          # Trim any whitespace in the token (paste-from-clipboard hazard).
+          CLEAN=$(echo -n "$CLOUDFLARE_API_TOKEN" | tr -d '[:space:]')
+          export CLOUDFLARE_API_TOKEN="$CLEAN"
+
+          # AI_QUOTA_DB is bound to the Pages project via the dashboard, so the
+          # database name isn't in the repo — discover it from the account.
+          DB=$(npx --yes wrangler@3 d1 list --json | node -e "
+            let d = '';
+            process.stdin.on('data', (c) => (d += c));
+            process.stdin.on('end', () => {
+              const dbs = JSON.parse(d);
+              const m = dbs.find((x) => /quota/i.test(x.name)) || dbs[0];
+              if (!m) { console.error('No D1 databases found'); process.exit(1); }
+              console.log(m.name);
+            });
+          ")
+          echo "Using D1 database: $DB"
+
+          echo '── AI usage today (UTC day) ──'
+          npx --yes wrangler@3 d1 execute "$DB" --remote --json --command "
+            SELECT
+              SUM(CASE WHEN subject LIKE 'quota:ip:%' THEN 0 ELSE 1 END) AS signed_in_users_today,
+              SUM(CASE WHEN subject LIKE 'quota:ip:%' THEN 1 ELSE 0 END) AS anon_ips_today,
+              SUM(turns) AS total_turns_today
+            FROM ai_quota WHERE window_date = date('now')"
+
+          echo '── Distinct signed-in AI users, all time ──'
+          npx --yes wrangler@3 d1 execute "$DB" --remote --json --command "
+            SELECT COUNT(*) AS distinct_ai_users_all_time
+            FROM ai_quota WHERE subject NOT LIKE 'quota:ip:%'"
