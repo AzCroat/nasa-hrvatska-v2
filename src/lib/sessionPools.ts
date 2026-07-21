@@ -19,6 +19,13 @@ export interface CefrPoolEntry {
    * session so browse content never crowds out graded drills.
    */
   reference?: boolean;
+  /**
+   * Wave 8: entries served ONLY when getSubscriptionStatus().isPremium — the
+   * builder filters at every draw site. The router additionally paywall-gates
+   * these screens, and the paywall's close handler signals session completion,
+   * so even a stale entitlement can never strand a session.
+   */
+  premium?: boolean;
 }
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
@@ -676,6 +683,25 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'reading',
     reference: true,
   },
+  // ── Wave 8: premium tutors (owner decision, option 2) ──────────────────────
+  // Both award on their end-of-session/debrief exits; router paywall-gates
+  // non-premium users and the paywall close signals session completion.
+  {
+    id: 'maja',
+    label: 'Maja AI Tutor',
+    screen: 'maja',
+    cefr: 'A2',
+    category: 'speaking',
+    premium: true,
+  },
+  {
+    id: 'live_tutor',
+    label: 'Live Tutor',
+    screen: 'live_tutor',
+    cefr: 'A2',
+    category: 'speaking',
+    premium: true,
+  },
 ];
 
 // Structural difficulty tier per session exercise type (1 = recognition …
@@ -809,4 +835,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   grammarexplainer: 3,
   micro_lesson: 3,
   grammarreader: 3,
+  // Wave 8 — premium tutors, open production.
+  maja: 5,
+  live_tutor: 5,
 };

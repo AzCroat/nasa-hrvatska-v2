@@ -1,4 +1,5 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
+import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
@@ -1839,7 +1840,13 @@ export default function AppRouter(props: Record<string, any>) {
             ) : (
               <PaywallScreen
                 featureName="Maja AI Tutor"
-                onClose={goBack}
+                onClose={() => {
+                  // Wave 8: if a stale entitlement let the session serve this
+                  // premium slot, closing the paywall must complete it — never
+                  // strand the day at N-1/N. No-op outside sessions.
+                  signalSessionCompleteIfActive('maja');
+                  goBack();
+                }}
                 onSubscribed={() => {
                   refreshSub();
                 }}
@@ -1854,7 +1861,13 @@ export default function AppRouter(props: Record<string, any>) {
             ) : (
               <PaywallScreen
                 featureName="Live Tutor"
-                onClose={goBack}
+                onClose={() => {
+                  // Wave 8: if a stale entitlement let the session serve this
+                  // premium slot, closing the paywall must complete it — never
+                  // strand the day at N-1/N. No-op outside sessions.
+                  signalSessionCompleteIfActive('live_tutor');
+                  goBack();
+                }}
                 onSubscribed={() => {
                   refreshSub();
                 }}
