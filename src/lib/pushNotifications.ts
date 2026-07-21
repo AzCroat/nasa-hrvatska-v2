@@ -274,10 +274,10 @@ export function scheduleReEngagementReminder(): void {
     title = 'Your progress is safe 🇭🇷';
     body =
       "It's been 2 weeks, but your Croatian is preserved and ready. " +
-      'Come back today — complete 2 lessons and restore your streak! +100 XP waiting.';
+      'Come back today — a few minutes brings it all back.';
     body += getGoalCTA();
   } else if (diffMs >= sevenDays) {
-    body += ' +50 XP bonus when you return today!';
+    body += ' Pick up right where you left off today!';
   }
 
   try {

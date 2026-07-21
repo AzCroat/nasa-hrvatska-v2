@@ -246,7 +246,7 @@ export default function WelcomeScreen({
                   fontWeight: 600,
                 }}
               >
-                Family groups — track progress with cousins, siblings, and Baka
+                Study clans — chase a weekly XP goal with cousins, siblings, and Baka
               </span>
             </div>
             <div style={{ display: 'flex', gap: 12 }}>
@@ -338,7 +338,8 @@ export default function WelcomeScreen({
               marginBottom: 24,
             }}
           >
-            This shapes your learning path — so every lesson fits you personally.
+            This personalizes your AI practice and recommendations — the full course is always
+            yours.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
             {GOALS.map((g) => (
