@@ -1,5 +1,6 @@
 import React from 'react';
 import { XP_BOOST_COST } from '../../lib/appUtils.js';
+import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import type { RewardsState } from './useHeroRewards';
 
 /**
@@ -143,7 +144,7 @@ export default function RewardsPanel({
             }}
           >
             <span>🛡️</span>
-            <span>Earn Streak Freeze · 200 XP</span>
+            <span>Earn Streak Freeze · {FREEZE_COST_XP} XP</span>
           </button>
           {freezeMsg && (
             <div
