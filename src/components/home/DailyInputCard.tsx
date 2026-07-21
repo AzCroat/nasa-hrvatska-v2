@@ -29,6 +29,14 @@ export default function DailyInputCard({
 
   function open(kind: InputKind, screen: string) {
     markDailyInput(kind);
+    // The listening row advertises the next curriculum unit BY NAME
+    // ("Cultural Commentary", …) — tell AIListeningScreen to generate that
+    // unit immediately instead of landing the user on the topic picker.
+    if (kind === 'listening') {
+      try {
+        sessionStorage.setItem('nh_listening_autostart', '1');
+      } catch {}
+    }
     if (sCurEx) sCurEx(screen);
     setScr(screen);
   }
