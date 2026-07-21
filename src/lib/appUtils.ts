@@ -7,7 +7,7 @@
  * Allowed deps: src/lib/dateUtils only. No data/* imports.
  */
 import type { CSSProperties } from 'react';
-import { localDateStr } from './dateUtils';
+import { localDateStr, weekKey } from './dateUtils';
 import { addDay, seedDaysFromStreak, type DaySet } from './streakDays';
 
 // ─── Active-day set (canonical streak source; union-merged across devices) ─────
@@ -177,6 +177,24 @@ export function updateStreak(
 ): StreakData & { milestone: number | null; freezeUsed?: boolean } {
   const s = getStreak();
   const today = todayOverride || localDateStr();
+  // Record weekend practice days for the Weekend Warrior badge. The object
+  // resets each ISO week (Mon–Sun), so sat+sun must land in the SAME weekend —
+  // matching the badge copy "both Saturday and Sunday in same weekend".
+  try {
+    const todayDate = new Date(today + 'T00:00:00');
+    const dow = todayDate.getDay();
+    if (dow === 6 || dow === 0) {
+      const wk = weekKey(todayDate);
+      let w: { wk?: string; sat?: boolean; sun?: boolean } = {};
+      try {
+        w = JSON.parse(localStorage.getItem('nh_weekend_days') || '{}');
+      } catch {}
+      if (w.wk !== wk) w = { wk };
+      if (dow === 6) w.sat = true;
+      else w.sun = true;
+      localStorage.setItem('nh_weekend_days', JSON.stringify(w));
+    }
+  } catch {}
   // Maintain the canonical active-day set in lockstep. Seed from the legacy
   // {count,last} the first time (migration) so no existing streak history is lost,
   // then mark today (and any freeze-bridged day) so cross-device merges reconcile
@@ -317,6 +335,7 @@ interface BadgeStats {
   footballDone?: number;
   dialectDone?: number;
   textingDone?: number;
+  vs?: string[];
 }
 interface Badge {
   id: string;
@@ -391,14 +410,21 @@ export const BADGES: Badge[] = [
     n: 'Reading Pro',
     i: '📰',
     d: 'Complete 3 reading passages',
-    r: (s) => (s.readingDone || 0) >= 3,
+    // ReadingScreen records each finished passage as a 'reading_<title>' vs
+    // marker (synced). s.readingDone kept as a fallback for any legacy data.
+    r: (s) =>
+      (s.readingDone || 0) >= 3 ||
+      (s.vs || []).filter((v: string) => typeof v === 'string' && v.startsWith('reading_'))
+        .length >= 3,
   },
   {
     id: 'amb',
     n: 'Cultural Ambassador',
     i: '🇭🇷',
     d: 'Explore HRT & media',
-    r: (s) => (s.mediaVisits || 0) >= 1,
+    // MediaTab increments nh_culture.mediaCnt on every media open (synced).
+    // s.mediaVisits kept as a fallback for any legacy data.
+    r: (s) => (s.mediaVisits || 0) >= 1 || (getCultureStats().mediaCnt || 0) >= 1,
   },
   {
     id: 'baka1',
@@ -697,24 +723,37 @@ export const BADGES: Badge[] = [
     id: 'hajduk',
     n: 'Hajduk Fan',
     i: '⚽',
-    d: 'Complete the football slang exercise',
-    r: (s) => (s.footballDone || 0) >= 1,
+    d: 'Explore the football slang section',
+    // SlangScreen records visited section ids in localStorage 'slangVisited'.
+    // Once earned, the badge id persists in stats.badges (synced), so a
+    // device-local read here is sufficient.
+    r: (s) => (s.footballDone || 0) >= 1 || _slangSectionVisited('football'),
   },
   {
     id: 'dalmatian',
     n: 'Dalmatian Soul',
     i: '🌊',
     d: 'Complete the Dalmatian dialect exercise',
-    r: (s) => (s.dialectDone || 0) >= 1,
+    // DialectAwarenessScreen records completion as the 'dialects' vs marker.
+    r: (s) => (s.dialectDone || 0) >= 1 || !!(s.vs && s.vs.includes('dialects')),
   },
   {
     id: 'zagreb',
     n: 'Zagrepčanin',
     i: '🏙️',
-    d: 'Complete the Zagreb slang exercise',
-    r: (s) => (s.textingDone || 0) >= 1,
+    d: 'Explore the Zagreb slang section',
+    r: (s) => (s.textingDone || 0) >= 1 || _slangSectionVisited('zagreb'),
   },
 ];
+
+function _slangSectionVisited(sectionId: string): boolean {
+  try {
+    const visited = JSON.parse(localStorage.getItem('slangVisited') || '[]');
+    return Array.isArray(visited) && visited.includes(sectionId);
+  } catch {
+    return false;
+  }
+}
 
 // ─── Journey milestones ───────────────────────────────────────────────────────
 interface JourneyEntry {
