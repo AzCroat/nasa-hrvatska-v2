@@ -7,6 +7,7 @@ import {
   canActivateXPBoost,
   XP_BOOST_COST,
 } from '../../lib/appUtils.js';
+import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 
 /**
  * Hero rewards state + actions — streak freezes, 2× XP boost, and streak
@@ -57,15 +58,14 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
       setFreezeMsg('Freeze slots full — max 2 stored.');
       return;
     }
-    if (st.xp >= 200) {
-      // Charge the advertised 200 XP. Previously this was only a threshold
-      // check — the freeze was granted without deducting anything, unlike the
-      // sibling Boost/Restore handlers which do charge.
-      setStats((s) => ({ ...s, xp: Math.max(0, (s.xp || 0) - 200) }));
+    if (st.xp >= FREEZE_COST_XP) {
+      // Same price as the Settings → Streak Protection purchase — one freeze
+      // costs FREEZE_COST_XP everywhere (owner decision, 2026-07-21).
+      setStats((s) => ({ ...s, xp: Math.max(0, (s.xp || 0) - FREEZE_COST_XP) }));
       earnFreeze();
       setFreezes((f) => f + 1);
       setFreezeMsg('✓ Streak freeze earned! Your streak is protected for one missed day.');
-    } else setFreezeMsg('You need 200 XP to earn a streak freeze. Keep going!');
+    } else setFreezeMsg(`You need ${FREEZE_COST_XP} XP to earn a streak freeze. Keep going!`);
   };
 
   const restoreStreak = () => {
