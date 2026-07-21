@@ -227,7 +227,14 @@ export default function Flashcards({
       .then((data) => {
         clearTimeout(timeoutId);
         if (!mountedRef.current) return;
-        const sentence = { hr: data.hr, en: data.en, note: data.note || null };
+        // Server contract: { examples: [{hr, en}, ...], note, mnemonic }
+        const ex = Array.isArray(data.examples) ? data.examples[0] : null;
+        if (!ex || !ex.hr) {
+          setAiLoading(false);
+          setAiError(true);
+          return;
+        }
+        const sentence = { hr: ex.hr, en: ex.en || '', note: data.note || null };
         evictCache(aiCacheRef);
         aiCacheRef.current[word] = sentence;
         setAiSentence(sentence);

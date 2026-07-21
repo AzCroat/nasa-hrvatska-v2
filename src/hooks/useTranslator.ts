@@ -3,6 +3,7 @@
  * Proxies through /api/translate (Cloudflare Worker) to avoid CSP issues.
  */
 import { useState, useRef } from 'react';
+import { apiFetch } from '../lib/apiFetch';
 
 export function useTranslator(): {
   tDir: string;
@@ -30,7 +31,9 @@ export function useTranslator(): {
     setTOut('');
     const [from, to] = tDir === 'en-hr' ? ['en', 'hr'] : ['hr', 'en'];
     try {
-      const r = await fetch('/api/translate', {
+      // apiFetch attaches the Firebase Bearer token — /api/translate requires it
+      // (a raw fetch got 401 'unauthenticated' on every call).
+      const r = await apiFetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: t, from, to }),
