@@ -22,6 +22,17 @@ export default [
   // Base JS rules
   js.configs.recommended,
 
+  // ESLint 10 additions we decline (same philosophy as no-empty/prefer-const below)
+  {
+    rules: {
+      // New-in-v10 recommended rule. Every hit in this codebase is the
+      // deliberate defensive idiom `let x = fallback; try { x = ... } catch
+      // { x = fallback; }` — the redundant assignment is intentional clarity,
+      // not dead code.
+      'no-useless-assignment': 'off',
+    },
+  },
+
   // Security rules — applied everywhere (src + Cloudflare functions)
   {
     files: ['src/**/*.{js,jsx}', 'functions/**/*.js'],
@@ -57,7 +68,10 @@ export default [
       },
     },
     settings: {
-      react: { version: 'detect' },
+      // Pinned (was 'detect'): eslint-plugin-react's auto-detection calls
+      // context.getFilename, which ESLint 10 removed — 'detect' crashes every
+      // lint run. Keep in sync with the react version in package.json.
+      react: { version: '18.3' },
     },
     rules: {
       // ── React core ──────────────────────────────────────────────────────

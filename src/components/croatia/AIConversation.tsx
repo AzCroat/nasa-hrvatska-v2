@@ -475,8 +475,11 @@ export default function AIConversation({
       res = await _aiPost('/api/conversation', body, { signal: ctrl.signal });
     } catch (netErr) {
       const err = netErr as Error;
-      if (err.name === 'AbortError') throw new Error('Request timed out — please try again.');
-      throw new Error('Network error — check your connection. (' + err.message + ')');
+      if (err.name === 'AbortError')
+        throw new Error('Request timed out — please try again.', { cause: netErr });
+      throw new Error('Network error — check your connection. (' + err.message + ')', {
+        cause: netErr,
+      });
     }
     if (!res.ok) {
       let errData;
@@ -578,8 +581,11 @@ export default function AIConversation({
       });
     } catch (netErr) {
       const err = netErr as Error;
-      if (err.name === 'AbortError') throw new Error('Request timed out — please try again.');
-      throw new Error('Network error — check your connection. (' + err.message + ')');
+      if (err.name === 'AbortError')
+        throw new Error('Request timed out — please try again.', { cause: netErr });
+      throw new Error('Network error — check your connection. (' + err.message + ')', {
+        cause: netErr,
+      });
     }
     try {
       data = await res.json();
