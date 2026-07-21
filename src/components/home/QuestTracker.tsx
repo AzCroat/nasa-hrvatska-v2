@@ -247,7 +247,7 @@ export default function QuestTracker({
                   fontFamily: 'var(--font-sans)',
                 }}
               >
-                EARN BONUS XP
+                COMPLETE ALL FOR +50 XP
               </div>
               <div
                 style={{
@@ -438,7 +438,7 @@ export default function QuestTracker({
                     fontFamily: 'var(--font-sans)',
                   }}
                 >
-                  +{q.xp} XP earned ✓
+                  Done ✓
                 </div>
               ) : (
                 <>
@@ -481,17 +481,6 @@ export default function QuestTracker({
                   >
                     Start →
                   </button>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      color: 'var(--subtext)',
-                      marginTop: 5,
-                      fontFamily: 'var(--font-sans)',
-                      fontWeight: 700,
-                    }}
-                  >
-                    +{q.xp} XP
-                  </div>
                 </>
               )}
             </div>

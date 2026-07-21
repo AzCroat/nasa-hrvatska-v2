@@ -185,7 +185,17 @@ export default function NotificationsSection() {
                     marginBottom: 4,
                   }}
                 >
-                  Daily reminder time
+                  In-app reminder time
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: 'var(--subtext)',
+                    marginBottom: 6,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Shown while the app is open. Push reminders arrive each morning.
                 </div>
                 <select
                   value={reminderTime}

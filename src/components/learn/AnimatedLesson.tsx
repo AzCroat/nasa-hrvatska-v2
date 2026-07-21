@@ -77,7 +77,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
   const [score, setScore] = useState(0);
   const [_done, setDone] = useState(false);
-  const [autoTTS, setAutoTTS] = useState(() => LS_GET('nh_autotts', false));
+  // Default ON to match Flashcards' reading of the same key — the two screens
+  // previously had opposite defaults, so this toggle's state contradicted
+  // actual flashcard behavior until the user flipped it once.
+  const [autoTTS, setAutoTTS] = useState(() => LS_GET('nh_autotts', true));
   const [ttsAvailable] = useState(() => typeof window !== 'undefined');
   const xpAwarded = useRef(false);
 

@@ -286,7 +286,9 @@ export default function HomeTab({
   void _setDcOpen;
 
   const longAbsence = useMemo(() => {
-    const ls = localStorage.getItem('nh_last_seen');
+    // App.tsx writes the last-seen timestamp under 'lastSeen' (legacy key);
+    // this previously read the never-written 'nh_last_seen' and always got null.
+    const ls = localStorage.getItem('lastSeen');
     if (!ls) return false;
     const parsed = parseInt(ls, 10);
     if (isNaN(parsed)) return false;

@@ -53,7 +53,15 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
   };
 
   const earnFreezeReward = () => {
+    if (freezes >= 2) {
+      setFreezeMsg('Freeze slots full — max 2 stored.');
+      return;
+    }
     if (st.xp >= 200) {
+      // Charge the advertised 200 XP. Previously this was only a threshold
+      // check — the freeze was granted without deducting anything, unlike the
+      // sibling Boost/Restore handlers which do charge.
+      setStats((s) => ({ ...s, xp: Math.max(0, (s.xp || 0) - 200) }));
       earnFreeze();
       setFreezes((f) => f + 1);
       setFreezeMsg('✓ Streak freeze earned! Your streak is protected for one missed day.');
