@@ -180,7 +180,7 @@ Firestore is initialized with `persistentMultipleTabManager()` to allow multiple
 | `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage |
 
 ### Scheduled worker (wrangler.toml)
-Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs daily at 9am UTC for streak reminder push notifications. Deployed independently via `wrangler deploy`.
+Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs an **hourly** cron and sends each user's daily streak-reminder push at their chosen local hour (`reminderTime` + `timeZone` stored with the subscription via `/api/push-subscribe`; legacy subscriptions without a preference send at 13:00 UTC). Max one push per user per day via the `lastNotified` guard. Deployed independently via `wrangler deploy` — pushing to master does NOT update it.
 
 ---
 

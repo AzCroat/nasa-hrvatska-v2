@@ -1,5 +1,8 @@
 // functions/scheduled.js
-// Cloudflare Scheduled Worker — runs daily cron to send streak reminder pushes.
+// Cloudflare Scheduled Worker — hourly cron that sends each user's daily
+// streak-reminder push at their chosen local hour (nh_reminder_time +
+// timezone, registered via /api/push-subscribe). Users without a stored
+// preference get the legacy fixed send at 13:00 UTC.
 //
 // ── Setup (one-time) ──────────────────────────────────────────────────────────
 // 1. Create KV namespace:
@@ -43,11 +46,42 @@ export default {
     }
 
     const PAGES_URL = (env.PAGES_URL || 'https://nasahrvatska.com').replace(/\/$/, '');
-    const today = new Date().toISOString().slice(0, 10);
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
+    const utcHour = now.getUTCHours();
     let sent = 0,
       skipped = 0,
+      notDue = 0,
       failed = 0,
       expired = 0;
+
+    // Per-user send-hour matching. The cron fires hourly; each subscriber is
+    // due only during the hour that matches their chosen reminder time in
+    // their own timezone. Legacy records without a stored preference keep the
+    // historical behavior: one send at 13:00 UTC (8-9 AM US Eastern).
+    function isDueThisHour(record) {
+      const targetHour =
+        typeof record.reminderTime === 'string' &&
+        /^([01]?\d|2[0-3]):[0-5]\d$/.test(record.reminderTime)
+          ? parseInt(record.reminderTime, 10)
+          : null;
+      if (targetHour === null || !record.timeZone) {
+        return utcHour === 13; // legacy fixed send hour
+      }
+      try {
+        const localHour = parseInt(
+          new Intl.DateTimeFormat('en-GB', {
+            timeZone: record.timeZone,
+            hour: 'numeric',
+            hourCycle: 'h23',
+          }).format(now),
+          10,
+        );
+        return localHour === targetHour;
+      } catch {
+        return utcHour === 13; // unknown zone — fall back to legacy hour
+      }
+    }
 
     let cursor;
     do {
@@ -66,13 +100,20 @@ export default {
 
           const { subscription, streak, name, lastPracticed, lastNotified } = raw;
 
+          // Not this user's chosen hour — try again on a later cron run.
+          if (!isDueThisHour(raw)) {
+            notDue++;
+            continue;
+          }
+
           // Skip if practiced today
           if (lastPracticed === today) {
             skipped++;
             continue;
           }
 
-          // Skip if already notified today
+          // Skip if already notified today (guarantees max one push per UTC day
+          // even though the cron now fires hourly)
           if (lastNotified === today) {
             skipped++;
             continue;
@@ -126,7 +167,7 @@ export default {
     } while (cursor);
 
     console.warn(
-      `[Scheduled] Complete — sent: ${sent}, skipped: ${skipped}, failed: ${failed}, expired: ${expired}`,
+      `[Scheduled] Complete — sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}`,
     );
   },
 };

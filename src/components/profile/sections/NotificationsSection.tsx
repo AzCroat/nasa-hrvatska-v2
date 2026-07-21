@@ -185,7 +185,7 @@ export default function NotificationsSection() {
                     marginBottom: 4,
                   }}
                 >
-                  In-app reminder time
+                  Daily reminder time
                 </div>
                 <div
                   style={{
@@ -195,7 +195,7 @@ export default function NotificationsSection() {
                     lineHeight: 1.4,
                   }}
                 >
-                  Shown while the app is open. Push reminders arrive each morning.
+                  Your daily push reminder arrives at this hour, your local time.
                 </div>
                 <select
                   value={reminderTime}
@@ -205,6 +205,26 @@ export default function NotificationsSection() {
                     try {
                       localStorage.setItem('nh_reminder_time', t);
                     } catch (_) {}
+                    // Update the server-side subscription immediately so the
+                    // scheduled worker sends at the newly chosen hour (force
+                    // bypasses the 85-day re-registration cache).
+                    if (
+                      typeof Notification !== 'undefined' &&
+                      Notification.permission === 'granted'
+                    ) {
+                      Promise.all([
+                        import('../../../lib/pushNotifications.js'),
+                        import('../../../lib/appUtils.js'),
+                      ])
+                        .then(([{ registerPushWithServer }, { getStreak }]) =>
+                          registerPushWithServer({
+                            streak: getStreak().count || 0,
+                            name: au?.d || '',
+                            force: true,
+                          }),
+                        )
+                        .catch(() => {});
+                    }
                   }}
                   style={{
                     background: 'var(--card)',

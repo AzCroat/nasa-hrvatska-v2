@@ -361,20 +361,39 @@ export async function sendTestPush(userId = ''): Promise<unknown> {
   }
 }
 
-export async function registerPushWithServer({ streak = 0, name = '' } = {}): Promise<{
+export async function registerPushWithServer({
+  streak = 0,
+  name = '',
+  force = false,
+} = {}): Promise<{
   ok: boolean;
   cached?: boolean;
 }> {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return { ok: false };
   if (Notification.permission !== 'granted') return { ok: false };
 
-  try {
-    const ts = parseInt(localStorage.getItem(_REG_TS_KEY) || '0', 10);
-    if (ts && Date.now() - ts < 85 * 24 * 60 * 60 * 1000) return { ok: true, cached: true };
-  } catch {}
+  // force=true bypasses the re-registration cache — used when the user changes
+  // their reminder time so the server learns the new hour immediately.
+  if (!force) {
+    try {
+      const ts = parseInt(localStorage.getItem(_REG_TS_KEY) || '0', 10);
+      if (ts && Date.now() - ts < 85 * 24 * 60 * 60 * 1000) return { ok: true, cached: true };
+    } catch {}
+  }
 
   const { subscription } = await initPushNotifications();
   if (!subscription) return { ok: false };
+
+  // The scheduled worker sends each user's daily push at their chosen local
+  // hour — it needs the preference and the IANA timezone to compute it.
+  let reminderTime = '20:00';
+  try {
+    reminderTime = localStorage.getItem('nh_reminder_time') || '20:00';
+  } catch {}
+  let timeZone = '';
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {}
 
   try {
     const { apiFetch } = await import('./apiFetch');
@@ -385,6 +404,8 @@ export async function registerPushWithServer({ streak = 0, name = '' } = {}): Pr
         subscription: subscription.toJSON(),
         streak: Math.max(0, Math.floor(Number(streak) || 0)),
         name: String(name || '').slice(0, 50),
+        reminderTime,
+        timeZone,
       }),
     });
     if (res.ok) {
