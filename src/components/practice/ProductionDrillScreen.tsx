@@ -1,10 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext';
 import { recordTopicResult, rateCategorySession } from '../../lib/adaptive.ts';
 import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
+
+// Bounded round size (2026-07-21, owner-flagged): the banks grew for
+// cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
+// in one run — a 43-item "lesson". Every mode now draws a shuffled
+// ROUND_SIZE subset per mount; depth rotates across runs instead of piling
+// into one sitting. Completion/scoring is per round.
+const ROUND_SIZE = 10;
 
 // ─── TRANSFORM DATA ─────────────────────────────────────────────────────────
 const TRANSFORMS = [
@@ -661,8 +668,9 @@ function ModeTransform({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = TRANSFORMS.length;
-  const item = TRANSFORMS[idx];
+  const round = useMemo(() => (sh([...TRANSFORMS]) as typeof TRANSFORMS).slice(0, ROUND_SIZE), []);
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -799,8 +807,12 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = TRANSLATE_PROD.length;
-  const item = TRANSLATE_PROD[idx];
+  const round = useMemo(
+    () => (sh([...TRANSLATE_PROD]) as typeof TRANSLATE_PROD).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -939,8 +951,12 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [shake, setShake] = useState(false);
-  const total = BUILD_SENTENCES.length;
-  const item = BUILD_SENTENCES[idx];
+  const round = useMemo(
+    () => (sh([...BUILD_SENTENCES]) as typeof BUILD_SENTENCES).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   const [placed, setPlaced] = useState<Tile[]>([]);
@@ -995,7 +1011,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
     if (idx + 1 >= total) {
       setDone(true);
     } else {
-      const nextItem = BUILD_SENTENCES[idx + 1]!;
+      const nextItem = round[idx + 1]!;
       setIdx((i) => i + 1);
       resetForItem(nextItem);
     }
@@ -1181,8 +1197,12 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong }: ModeDoneProps) 
   const [chosen, setChosen] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = ERROR_CORRECT.length;
-  const item = ERROR_CORRECT[idx];
+  const round = useMemo(
+    () => (sh([...ERROR_CORRECT]) as typeof ERROR_CORRECT).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function pick(opt: string) {
