@@ -93,7 +93,7 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
-  const { subscription, streak = 0, name = '' } = body;
+  const { subscription, streak = 0, name = '', reminderTime = '', timeZone = '' } = body;
   if (!subscription?.endpoint) {
     return new Response(JSON.stringify({ error: 'Missing subscription' }), {
       status: 400,
@@ -128,6 +128,25 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
+  // Per-user reminder scheduling: the scheduled worker (functions/scheduled.js,
+  // hourly cron) sends each user's daily push at their chosen local hour.
+  // Invalid or absent values are stored as null → worker falls back to the
+  // legacy fixed 13:00 UTC send.
+  let safeReminderTime = null;
+  if (typeof reminderTime === 'string' && /^([01]?\d|2[0-3]):[0-5]\d$/.test(reminderTime)) {
+    safeReminderTime = reminderTime;
+  }
+  let safeTimeZone = null;
+  if (typeof timeZone === 'string' && timeZone.length > 0 && timeZone.length <= 64) {
+    try {
+      // Throws on unknown IANA zone names — rejects garbage input.
+      new Intl.DateTimeFormat('en', { timeZone });
+      safeTimeZone = timeZone;
+    } catch {
+      safeTimeZone = null;
+    }
+  }
+
   const kvKey = (uid || 'anon').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64);
   const today = new Date().toISOString().slice(0, 10);
 
@@ -138,6 +157,8 @@ export async function onRequestPost({ request, env }) {
         subscription,
         streak: Math.max(0, Math.floor(Number(streak) || 0)),
         name: String(name || '').slice(0, 50),
+        reminderTime: safeReminderTime,
+        timeZone: safeTimeZone,
         lastPracticed: today, // don't notify on subscribe day
         lastNotified: null,
         updatedAt: Date.now(),
