@@ -4,7 +4,6 @@ import { useApp } from '../../context/AppContext';
 import HeritageEntrySection from './sections/HeritageEntrySection';
 import GoalFocusSection from './sections/GoalFocusSection';
 import LearningPreferencesSection from './sections/LearningPreferencesSection';
-import DifficultySection from './sections/DifficultySection';
 import GoalSelectorSection from './sections/GoalSelectorSection';
 import StreakProtectionSection from './sections/StreakProtectionSection';
 import NotificationsSection from './sections/NotificationsSection';
@@ -38,8 +37,6 @@ export default function SettingsTab({
       />
 
       <LearningPreferencesSection />
-
-      <DifficultySection />
 
       <GoalSelectorSection currentGoal={currentGoal} setCurrentGoal={setCurrentGoal} />
 
