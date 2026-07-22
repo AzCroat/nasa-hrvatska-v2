@@ -862,7 +862,7 @@ export async function onRequestPost(context) {
         signal: AbortSignal.timeout(30000),
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 600,
+          max_tokens: 1024,
           stream: true,
           system: systemPrompt,
           messages: merged,
@@ -912,7 +912,7 @@ export async function onRequestPost(context) {
       signal: AbortSignal.timeout(25000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 600,
+        max_tokens: 1024,
         system: systemPrompt,
         messages: merged,
       }),

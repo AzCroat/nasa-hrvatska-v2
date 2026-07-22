@@ -527,7 +527,20 @@ export default function MajaScreen() {
           newFacts = parsed.newFacts || {};
           emotion = parsed.emotion || 'warm';
         } catch {
-          /* use raw streamedText as reply if JSON parse fails */
+          // Invalid/truncated JSON (e.g. a reply longer than max_tokens). Salvage
+          // the reply text so the learner never sees — or hears TTS speak — the raw
+          // JSON envelope. Matches a complete "reply" value, or one cut off mid-string.
+          const full = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+          const partial = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)$/);
+          const salvaged = full?.[1] ?? partial?.[1];
+          if (salvaged != null) {
+            replyText = salvaged
+              .replace(/\\n/g, ' ')
+              .replace(/\\"/g, '"')
+              .replace(/\\\\/g, '\\')
+              .trim();
+          }
+          // else: model returned plain text (not an envelope) → streamedText is fine.
         }
 
         setConversation((prev) =>

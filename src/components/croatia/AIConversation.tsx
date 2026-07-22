@@ -705,6 +705,10 @@ export default function AIConversation({
   async function sendMessageCore(userText: string) {
     if (!userText.trim() || loading) return;
     setSendError('');
+    // Clear any opener-failure banner: the learner is starting the conversation
+    // herself, and this send retries the AI. If it fails, the catch below sets
+    // sendError instead — she is never locked out.
+    setChatError('');
     const userMsgIndex = messages.length; // index of the user message being added
     const userMsg: ConversationMessage = { role: 'user', content: userText };
     // Build context: exclude hint messages (they're UI-only, not conversation turns)

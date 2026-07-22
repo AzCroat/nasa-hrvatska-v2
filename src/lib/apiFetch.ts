@@ -34,9 +34,19 @@ async function _attachToken(options: RequestInit, forceRefresh = false): Promise
 export async function apiFetch(url: string, options: RequestInit = {}): Promise<Response> {
   await _attachToken(options);
 
-  // If caller supplies their own signal, respect it exactly — no retry wrapping
+  // If caller supplies their own signal, respect it exactly — no network-retry
+  // wrapping (that would fight caller-controlled timeouts). BUT still do a single
+  // 401 token-refresh-and-retry: long-running callers like Razgovor pass their
+  // own signal, and a Firebase ID token expires ~hourly, so without this a
+  // mid-conversation turn 401s ("Sesija je istekla") and the whole session dies.
+  // The retry reuses the caller's signal, so their timeout still governs.
   if (options.signal) {
-    return fetch(url, options);
+    const res = await fetch(url, options);
+    if (res.status === 401) {
+      await _attachToken(options, true);
+      return fetch(url, options);
+    }
+    return res;
   }
 
   // Managed path: internal timeout + retry on transient network errors
