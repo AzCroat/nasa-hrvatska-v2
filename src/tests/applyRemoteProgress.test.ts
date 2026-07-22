@@ -557,6 +557,19 @@ describe('applyRemoteProgress — additional user settings', () => {
     expect(localStorage.getItem('nh_culture')).toBe('{"bakaCnt":3}');
   });
 
+  it('restores nh_writing_mistakes from remote when local is empty', () => {
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_writing_mistakes: [{ type: 'case' }] }, setters);
+    expect(localStorage.getItem('nh_writing_mistakes')).toBe('[{"type":"case"}]');
+  });
+
+  it('does NOT overwrite local nh_writing_mistakes (remote-wins-only-when-empty)', () => {
+    localStorage.setItem('nh_writing_mistakes', '[{"type":"local"}]');
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_writing_mistakes: [{ type: 'remote' }] }, setters);
+    expect(localStorage.getItem('nh_writing_mistakes')).toBe('[{"type":"local"}]');
+  });
+
   it('restores nh_placement_done from remote', () => {
     const setters = makeSetters();
     applyRemoteProgress({ nh_placement_done: true }, setters);

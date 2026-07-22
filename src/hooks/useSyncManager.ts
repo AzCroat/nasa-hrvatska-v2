@@ -195,6 +195,25 @@ export function useSyncManager({
       pf: Math.max((safeLp.pf as number) || 0, (safePSt.pf as number) || 0),
       mv: Math.max((safeLp.mv as number) || 0, (safePSt.mv as number) || 0),
       hi: Math.max((safeLp.hi as number) || 0, (safePSt.hi as number) || 0),
+      // Production + badge-backing counters — mirror mergeStatsFromRemote so the
+      // written-back local cache never regresses them when a LOWER remote
+      // snapshot arrives. The React-state path already Math.max'd these; the
+      // cache spread ...safePSt did NOT, so a reload could rehydrate a lower
+      // srsTotal / production-rep count than the user had actually earned.
+      pr: Math.max((safeLp.pr as number) || 0, (safePSt.pr as number) || 0),
+      srsTotal: Math.max((safeLp.srsTotal as number) || 0, (safePSt.srsTotal as number) || 0),
+      mistakesMastered: Math.max(
+        (safeLp.mistakesMastered as number) || 0,
+        (safePSt.mistakesMastered as number) || 0,
+      ),
+      readingDone: Math.max(
+        (safeLp.readingDone as number) || 0,
+        (safePSt.readingDone as number) || 0,
+      ),
+      mediaVisits: Math.max(
+        (safeLp.mediaVisits as number) || 0,
+        (safePSt.mediaVisits as number) || 0,
+      ),
       // diff: take the higher CEFR level — never regress even on stale remote snapshot
       diff: (() => {
         const lo = _diffOrder[safeLp.diff as string] ?? -1;
@@ -214,6 +233,22 @@ export function useSyncManager({
         ((safeLp.rs as string[]) || []).length >= ((safePSt.rs as string[]) || []).length
           ? (safeLp.rs as string[]) || []
           : (safePSt.rs as string[]) || [],
+      // levelQuizPasses — per-key latest-wins by passedAt (mirror mergeStatsFromRemote);
+      // additive union of keys so a pass on either side is never dropped from the cache.
+      levelQuizPasses: (() => {
+        const local =
+          (safeLp.levelQuizPasses as Record<number, { score: number; passedAt: number }>) ?? {};
+        const remote =
+          (safePSt.levelQuizPasses as Record<number, { score: number; passedAt: number }>) ?? {};
+        const merged: Record<number, { score: number; passedAt: number }> = { ...local };
+        for (const key of Object.keys(remote)) {
+          const k = Number(key);
+          const rv = remote[k];
+          const lv = merged[k];
+          if (rv && (!lv || rv.passedAt > lv.passedAt)) merged[k] = rv;
+        }
+        return merged;
+      })(),
     };
 
     lP(uid, { ...fp, savedAt: fpTs || Date.now(), stats: mergedStats });
