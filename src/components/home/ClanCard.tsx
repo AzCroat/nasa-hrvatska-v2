@@ -6,9 +6,41 @@
  */
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { weekKey } from '../../lib/dateUtils';
 
 const WEEKLY_GOAL = 500;
 const MAX_SIZE = 5;
+
+/**
+ * Report this member's NEW weekly XP to the clan so the shared goal actually
+ * moves. The server ACCUMULATES (weekXP += xp), so we must send only the delta
+ * since our last report — never the cumulative total, or every remount would
+ * multiply it. Tracked per ISO week in localStorage so week rollover (which the
+ * server also resets) starts the delta fresh. Returns true if it reported.
+ */
+export async function reportClanWeeklyXP(clanId: string, uid: string): Promise<boolean> {
+  try {
+    const wk = weekKey();
+    const currentWeekXP = parseInt(localStorage.getItem('nh_week_xp_' + wk) || '0', 10) || 0;
+    let reported = 0;
+    try {
+      const rec = JSON.parse(localStorage.getItem('nh_clan_reported') || '{}');
+      if (rec.wk === wk) reported = Number(rec.reported) || 0;
+    } catch {}
+    const delta = currentWeekXP - reported;
+    if (delta <= 0) return false;
+    const res = await apiFetch('/api/clan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'xp', uid, clanId, xp: delta }),
+    });
+    if (!res.ok) return false;
+    localStorage.setItem('nh_clan_reported', JSON.stringify({ wk, reported: currentWeekXP }));
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 interface ClanMember {
   uid: string;
@@ -103,14 +135,26 @@ export default function ClanCard({ uid, displayName }: { uid?: string; displayNa
       return;
     }
     try {
-      const res = await apiFetch('/api/clan', {
+      let res = await apiFetch('/api/clan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'mine', uid }),
       });
       if (!res.ok) throw new Error();
-      const data = await res.json();
+      let data = await res.json();
       if (data.clan) {
+        // Push our new weekly XP so the shared goal + our bar reflect real
+        // progress; refetch once if we actually reported, so the freshly
+        // accumulated totals show immediately.
+        const reported = await reportClanWeeklyXP(data.clan.id, uid);
+        if (reported) {
+          res = await apiFetch('/api/clan', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'mine', uid }),
+          });
+          if (res.ok) data = await res.json();
+        }
         setClan(data.clan);
         setTotalXP(data.totalXP || 0);
         setPhase('active');
