@@ -278,6 +278,32 @@ describe('AIConversationChat — input placeholder', () => {
     expect(input.placeholder).toMatch(/Offline/);
   });
 
+  it('keeps the input ENABLED when the AI opener failed (chatError + no messages)', () => {
+    // Regression: a transient opener failure must not lock the learner out. She
+    // can still type her first message, which retries the AI. Only loading/offline
+    // disable the input.
+    render(
+      <AIConversationChat
+        {...makeProps({
+          chatError: 'The AI returned an empty response.',
+          messages: [],
+          loading: false,
+          isOnline: true,
+        })}
+      />,
+    );
+    const input = getInput() as HTMLInputElement;
+    expect(input.disabled).toBe(false);
+  });
+
+  it('still disables the input while loading or offline', () => {
+    const { unmount } = render(<AIConversationChat {...makeProps({ loading: true })} />);
+    expect((getInput() as HTMLInputElement).disabled).toBe(true);
+    unmount();
+    render(<AIConversationChat {...makeProps({ isOnline: false })} />);
+    expect((getInput() as HTMLInputElement).disabled).toBe(true);
+  });
+
   it('shows listening placeholder when listening=true', () => {
     render(<AIConversationChat {...makeProps({ listening: true, isSpeaking: false })} />);
     const input = getInput() as HTMLInputElement;

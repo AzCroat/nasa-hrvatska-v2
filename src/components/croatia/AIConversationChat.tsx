@@ -334,6 +334,16 @@ export default function AIConversationChat({
             >
               {chatError}
             </div>
+            <div
+              style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--body)',
+                marginBottom: 14,
+              }}
+            >
+              You can also just type your first message below to start — it will reconnect
+              automatically.
+            </div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
                 onClick={onRetryOpener}
@@ -604,8 +614,10 @@ export default function AIConversationChat({
           paddingBottom: 'max(14px,env(safe-area-inset-bottom))',
         }}
       >
-        {chatError && messages.length === 0 ? (
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+        {/* On an opener failure show quick retry/change buttons, but ALSO render the
+            composer below so the learner is never locked out — she can just type. */}
+        {chatError && messages.length === 0 && (
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 10 }}>
             <button
               onClick={onRetryOpener}
               style={{
@@ -641,241 +653,243 @@ export default function AIConversationChat({
               Change Scenario
             </button>
           </div>
-        ) : (
-          <>
-            {/* Interrupt banner — only visible while Maja is speaking */}
-            {isSpeaking && (
-              <button
-                onClick={onInterrupt}
-                style={{
-                  width: '100%',
-                  marginBottom: 8,
-                  padding: '11px 16px',
-                  borderRadius: 12,
-                  border: '1.5px solid var(--error-b)',
-                  background: 'var(--error-bg)',
-                  color: 'var(--error)',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-sm)',
-                  cursor: 'pointer',
-                  fontFamily: "'Outfit',sans-serif",
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  animation: 'pulse 1.5s ease-in-out infinite',
-                  lineHeight: 1.3,
-                }}
-              >
-                <span style={{ fontSize: 18 }}>✋</span>
-                Interrupt Maja
-                <span style={{ opacity: 0.65, fontWeight: 500, fontSize: 'var(--text-xs)' }}>
-                  {input.trim() ? '— tap to send now' : '— tap to stop'}
-                </span>
-              </button>
-            )}
+        )}
+        <>
+          {/* Interrupt banner — only visible while Maja is speaking */}
+          {isSpeaking && (
+            <button
+              onClick={onInterrupt}
+              style={{
+                width: '100%',
+                marginBottom: 8,
+                padding: '11px 16px',
+                borderRadius: 12,
+                border: '1.5px solid var(--error-b)',
+                background: 'var(--error-bg)',
+                color: 'var(--error)',
+                fontWeight: 700,
+                fontSize: 'var(--text-sm)',
+                cursor: 'pointer',
+                fontFamily: "'Outfit',sans-serif",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                animation: 'pulse 1.5s ease-in-out infinite',
+                lineHeight: 1.3,
+              }}
+            >
+              <span style={{ fontSize: 18 }}>✋</span>
+              Interrupt Maja
+              <span style={{ opacity: 0.65, fontWeight: 500, fontSize: 'var(--text-xs)' }}>
+                {input.trim() ? '— tap to send now' : '— tap to stop'}
+              </span>
+            </button>
+          )}
 
-            {listening && (
-              <div style={{ marginBottom: 8 }}>
-                <WaveformVisualizer active={listening} color="#0e7490" height={44} />
-              </div>
-            )}
+          {listening && (
+            <div style={{ marginBottom: 8 }}>
+              <WaveformVisualizer active={listening} color="#0e7490" height={44} />
+            </div>
+          )}
 
-            {showStarters && (
-              <div
-                style={{
-                  overflowX: 'auto',
-                  display: 'flex',
-                  gap: 7,
-                  paddingBottom: 8,
-                  paddingTop: 2,
-                  scrollbarWidth: 'none',
-                }}
-              >
-                {(
-                  (STARTERS as Record<string, string[]>)[level] ??
-                  (STARTERS as Record<string, string[]>)['B1'] ??
-                  []
-                ).map((s: string, i: number) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setInput(s);
-                      setShowStarters(false);
-                      inputRef.current?.focus();
-                    }}
-                    style={{
-                      flexShrink: 0,
-                      padding: '6px 13px',
-                      borderRadius: 20,
-                      border: '1.5px solid var(--info)',
-                      background: 'var(--info-bg)',
-                      color: 'var(--info)',
-                      fontSize: 'var(--text-sm)',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      fontFamily: "'Outfit',sans-serif",
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Input row */}
-            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                  if (sendError) onSendError();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    // Block send while Maja is speaking — user can compose but not send yet
-                    if (!isSpeaking) onSend();
-                  }
-                }}
-                placeholder={
-                  isVoiceProcessing
-                    ? 'Transcribing…'
-                    : !isOnline
-                      ? 'Offline — reconnect to continue…'
-                      : isSpeaking
-                        ? 'Compose your reply — send when Maja finishes…'
-                        : listening
-                          ? 'Listening — speak in Croatian…'
-                          : 'Piši na hrvatskom…'
-                }
-                disabled={loading || !isOnline || !!(chatError && messages.length === 0)}
-                style={{
-                  flex: 1,
-                  padding: '11px 14px',
-                  fontSize: 15,
-                  borderRadius: 12,
-                  border: `1.5px solid ${sendError ? 'var(--error-b)' : 'var(--card-b)'}`,
-                  background: 'var(--bar-bg)',
-                  outline: 'none',
-                  fontFamily: "'Outfit',sans-serif",
-                  transition: 'border-color .2s',
-                  color: 'var(--heading)',
-                }}
-              />
-              {hasSpeechAPI && (
+          {showStarters && (
+            <div
+              style={{
+                overflowX: 'auto',
+                display: 'flex',
+                gap: 7,
+                paddingBottom: 8,
+                paddingTop: 2,
+                scrollbarWidth: 'none',
+              }}
+            >
+              {(
+                (STARTERS as Record<string, string[]>)[level] ??
+                (STARTERS as Record<string, string[]>)['B1'] ??
+                []
+              ).map((s: string, i: number) => (
                 <button
-                  onClick={onToggleVoice}
-                  disabled={loading || !isOnline || isVoiceProcessing || isSpeaking}
-                  title={
-                    isVoiceProcessing
-                      ? 'Transcribing speech…'
-                      : listening
-                        ? 'Stop listening (auto-sends on silence)'
-                        : 'Speak in Croatian — VAD auto-detects when you stop'
-                  }
+                  key={i}
+                  onClick={() => {
+                    setInput(s);
+                    setShowStarters(false);
+                    inputRef.current?.focus();
+                  }}
                   style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
                     flexShrink: 0,
-                    fontSize: 18,
+                    padding: '6px 13px',
+                    borderRadius: 20,
+                    border: '1.5px solid var(--info)',
+                    background: 'var(--info-bg)',
+                    color: 'var(--info)',
+                    fontSize: 'var(--text-sm)',
+                    fontWeight: 700,
                     cursor: 'pointer',
-                    border: `2px solid ${isVoiceProcessing ? 'var(--info)' : listening ? 'var(--error)' : 'var(--card-b)'}`,
-                    background: isVoiceProcessing
-                      ? 'var(--info-bg)'
-                      : listening
-                        ? 'var(--error-bg)'
-                        : 'var(--card)',
-                    color: isVoiceProcessing
-                      ? 'var(--info)'
-                      : listening
-                        ? 'var(--error)'
-                        : 'var(--subtext)',
-                    animation:
-                      listening || isVoiceProcessing ? 'pulse 1s ease-in-out infinite' : 'none',
-                    transition: 'all .15s',
+                    fontFamily: "'Outfit',sans-serif",
+                    whiteSpace: 'nowrap',
                   }}
                 >
-                  {isVoiceProcessing ? '⏳' : '🎤'}
+                  {s}
                 </button>
-              )}
+              ))}
+            </div>
+          )}
+
+          {/* Input row */}
+          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                if (sendError) onSendError();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  // Block send while Maja is speaking — user can compose but not send yet
+                  if (!isSpeaking) onSend();
+                }
+              }}
+              placeholder={
+                isVoiceProcessing
+                  ? 'Transcribing…'
+                  : !isOnline
+                    ? 'Offline — reconnect to continue…'
+                    : isSpeaking
+                      ? 'Compose your reply — send when Maja finishes…'
+                      : listening
+                        ? 'Listening — speak in Croatian…'
+                        : 'Piši na hrvatskom…'
+              }
+              // Keep the input usable even if the AI opener failed: a transient
+              // error on the very first call must NOT lock the learner out — she
+              // can just type her first message, which retries the AI fresh
+              // (sendMessage clears chatError). Only a genuine loading/offline
+              // state disables typing.
+              disabled={loading || !isOnline}
+              style={{
+                flex: 1,
+                padding: '11px 14px',
+                fontSize: 15,
+                borderRadius: 12,
+                border: `1.5px solid ${sendError ? 'var(--error-b)' : 'var(--card-b)'}`,
+                background: 'var(--bar-bg)',
+                outline: 'none',
+                fontFamily: "'Outfit',sans-serif",
+                transition: 'border-color .2s',
+                color: 'var(--heading)',
+              }}
+            />
+            {hasSpeechAPI && (
               <button
-                aria-label={isSpeaking ? 'Waiting for Maja to finish speaking' : 'Send'}
-                title={isSpeaking ? 'Interrupt Maja first, or wait for her to finish' : undefined}
-                onClick={onSend}
-                disabled={loading || !input.trim() || !isOnline || isSpeaking}
+                onClick={onToggleVoice}
+                disabled={loading || !isOnline || isVoiceProcessing || isSpeaking}
+                title={
+                  isVoiceProcessing
+                    ? 'Transcribing speech…'
+                    : listening
+                      ? 'Stop listening (auto-sends on silence)'
+                      : 'Speak in Croatian — VAD auto-detects when you stop'
+                }
                 style={{
                   width: 44,
                   height: 44,
                   borderRadius: 12,
-                  border: 'none',
                   flexShrink: 0,
                   fontSize: 18,
-                  cursor: input.trim() && !loading && !isSpeaking ? 'pointer' : 'not-allowed',
+                  cursor: 'pointer',
+                  border: `2px solid ${isVoiceProcessing ? 'var(--info)' : listening ? 'var(--error)' : 'var(--card-b)'}`,
+                  background: isVoiceProcessing
+                    ? 'var(--info-bg)'
+                    : listening
+                      ? 'var(--error-bg)'
+                      : 'var(--card)',
+                  color: isVoiceProcessing
+                    ? 'var(--info)'
+                    : listening
+                      ? 'var(--error)'
+                      : 'var(--subtext)',
+                  animation:
+                    listening || isVoiceProcessing ? 'pulse 1s ease-in-out infinite' : 'none',
                   transition: 'all .15s',
-                  background:
-                    input.trim() && !loading && !isSpeaking
-                      ? 'linear-gradient(135deg,var(--info),#0c4a6e)'
-                      : 'var(--bar-bg)',
-                  color: input.trim() && !loading && !isSpeaking ? 'var(--card)' : 'var(--subtext)',
                 }}
               >
-                {isSpeaking && input.trim() ? '⏸' : '➤'}
+                {isVoiceProcessing ? '⏳' : '🎤'}
+              </button>
+            )}
+            <button
+              aria-label={isSpeaking ? 'Waiting for Maja to finish speaking' : 'Send'}
+              title={isSpeaking ? 'Interrupt Maja first, or wait for her to finish' : undefined}
+              onClick={onSend}
+              disabled={loading || !input.trim() || !isOnline || isSpeaking}
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                border: 'none',
+                flexShrink: 0,
+                fontSize: 18,
+                cursor: input.trim() && !loading && !isSpeaking ? 'pointer' : 'not-allowed',
+                transition: 'all .15s',
+                background:
+                  input.trim() && !loading && !isSpeaking
+                    ? 'linear-gradient(135deg,var(--info),#0c4a6e)'
+                    : 'var(--bar-bg)',
+                color: input.trim() && !loading && !isSpeaking ? 'var(--card)' : 'var(--subtext)',
+              }}
+            >
+              {isSpeaking && input.trim() ? '⏸' : '➤'}
+            </button>
+          </div>
+
+          {/* Bottom toolbar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button
+                onClick={onHint}
+                disabled={loading || messages.length === 0}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--subtext)',
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                  fontWeight: 600,
+                  padding: '2px 0',
+                  opacity: loading ? 0.4 : 1,
+                }}
+              >
+                💡 Hint
+              </button>
+              <span style={{ color: 'var(--card-b)', fontSize: 'var(--text-base)' }}>|</span>
+              <button
+                onClick={() => setShowStarters(!showStarters)}
+                style={{
+                  background: showStarters ? 'var(--info)' : 'none',
+                  border: `1.5px solid ${showStarters ? 'var(--info)' : 'var(--card-b)'}`,
+                  borderRadius: 10,
+                  fontSize: 'var(--text-sm)',
+                  padding: '2px 10px',
+                  color: showStarters ? 'var(--card)' : 'var(--subtext)',
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                  fontWeight: 600,
+                  transition: 'all .15s',
+                }}
+              >
+                💬 Phrases
               </button>
             </div>
-
-            {/* Bottom toolbar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 6 }}>
-                <button
-                  onClick={onHint}
-                  disabled={loading || messages.length === 0}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--subtext)',
-                    cursor: 'pointer',
-                    fontFamily: "'Outfit',sans-serif",
-                    fontWeight: 600,
-                    padding: '2px 0',
-                    opacity: loading ? 0.4 : 1,
-                  }}
-                >
-                  💡 Hint
-                </button>
-                <span style={{ color: 'var(--card-b)', fontSize: 'var(--text-base)' }}>|</span>
-                <button
-                  onClick={() => setShowStarters(!showStarters)}
-                  style={{
-                    background: showStarters ? 'var(--info)' : 'none',
-                    border: `1.5px solid ${showStarters ? 'var(--info)' : 'var(--card-b)'}`,
-                    borderRadius: 10,
-                    fontSize: 'var(--text-sm)',
-                    padding: '2px 10px',
-                    color: showStarters ? 'var(--card)' : 'var(--subtext)',
-                    cursor: 'pointer',
-                    fontFamily: "'Outfit',sans-serif",
-                    fontWeight: 600,
-                    transition: 'all .15s',
-                  }}
-                >
-                  💬 Phrases
-                </button>
-              </div>
-              <span
-                style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', fontWeight: 500 }}
-              >
-                {userCount} {userCount === 1 ? 'exchange' : 'exchanges'}
-                {userCount < 2 && ' · needs 2 to evaluate'}
-              </span>
-            </div>
-          </>
-        )}
+            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', fontWeight: 500 }}>
+              {userCount} {userCount === 1 ? 'exchange' : 'exchanges'}
+              {userCount < 2 && ' · needs 2 to evaluate'}
+            </span>
+          </div>
+        </>
       </div>
     </div>
   );
