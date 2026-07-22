@@ -20,6 +20,7 @@
 import { useRef, useCallback } from 'react';
 import { collection, query, orderBy, limit, getDocs, doc, setDoc } from 'firebase/firestore';
 import { getDb } from '../lib/firebase.ts';
+import { toDocId } from '../lib/userKey.ts';
 
 const MAX_MEMORIES = 5; // sessions to load per conversation
 const MAX_MEMORY_AGE_MS = 30 * 24 * 60 * 60 * 1000; // ignore sessions older than 30 days
@@ -92,7 +93,7 @@ export default function useConversationMemory() {
       const db = getDb();
       if (!db) return { memories: [], summary: null };
 
-      const col = collection(db, 'users', uid, 'conversationMemory');
+      const col = collection(db, 'users', toDocId(uid), 'conversationMemory');
       const q = query(col, orderBy('ts', 'desc'), limit(MAX_MEMORIES));
       const snap = await getDocs(q);
 
@@ -140,7 +141,7 @@ export default function useConversationMemory() {
       };
 
       // Use timestamp string as doc ID: simple, unique per user, sortable
-      const docRef = doc(collection(db, 'users', uid, 'conversationMemory'), String(ts));
+      const docRef = doc(collection(db, 'users', toDocId(uid), 'conversationMemory'), String(ts));
       await setDoc(docRef, memory);
 
       // Update in-memory cache so subsequent loadMemories() calls see the new entry

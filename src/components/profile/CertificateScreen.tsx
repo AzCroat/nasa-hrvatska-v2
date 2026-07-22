@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 import { lXP, nXP, getStreak } from '../../data';
+import { getUserCefr } from '../../lib/cefr';
+import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
 import type { Stats } from '../../types';
 
 const LEVEL_LABELS = [
@@ -12,7 +14,6 @@ const LEVEL_LABELS = [
   'Advanced',
   'Proficient',
 ];
-const CEFR_BY_LEVEL = ['', 'A1', 'A1-A2', 'A2-B1', 'B1', 'B1-B2', 'B2-C1', 'C1+'];
 
 export default function CertificateScreen({
   name,
@@ -32,7 +33,10 @@ export default function CertificateScreen({
     month: 'long',
     year: 'numeric',
   });
-  const cefrLabel = CEFR_BY_LEVEL[Math.min(level, CEFR_BY_LEVEL.length - 1)] || 'A1';
+  // The certificate is a proficiency CLAIM — derive its CEFR from the same
+  // certified source as the profile badge (getEffectiveLevelForUnlock ∘
+  // getUserCefr), not the numeric XP level, so the two can never disagree.
+  const cefrLabel = getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0));
   const levelLabel = LEVEL_LABELS[Math.min(level, LEVEL_LABELS.length - 1)] || 'Beginner';
   const xpCur = st.xp - lXP(level);
   const xpNeeded = nXP(level) - lXP(level);

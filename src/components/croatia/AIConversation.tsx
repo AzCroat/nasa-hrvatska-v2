@@ -664,9 +664,9 @@ export default function AIConversation({
 
     // Load past-session memory so Maja can greet the learner personally and
     // reference previous work.  Non-blocking: proceed without memory if it fails.
-    if (au?.uid) {
+    if (au?.u) {
       try {
-        const { summary } = await loadMemories(au.uid);
+        const { summary } = await loadMemories(au.u);
         memorySummaryRef.current = summary || null;
       } catch {
         memorySummaryRef.current = null;
@@ -976,8 +976,8 @@ export default function AIConversation({
       } catch (_) {}
 
       // Persist this session to Firestore so Maja remembers it next time
-      if (au?.uid && ev) {
-        saveMemory(au.uid, {
+      if (au?.u && ev) {
+        saveMemory(au.u, {
           level,
           scenario: scenario?.title,
           score: ev.score ?? 0,
