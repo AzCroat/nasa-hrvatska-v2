@@ -564,7 +564,7 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'placement' && (
           <PlacementTest
-            onComplete={function (level: number) {
+            onComplete={async function (level: number) {
               localStorage.setItem('placement_done', '1');
               // ALSO flag user as onboarded so Firebase sync persists this
               // across devices. buildProgressSnapshot reads `onboarded` and
@@ -577,11 +577,24 @@ export default function AppRouter(props: Record<string, any>) {
               // to land xp > 0 before the 1200ms placement timer fired.
               localStorage.setItem('nh_placement_done', 'true');
               localStorage.setItem('onboarded', 'true');
+              // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
+              // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
+              // to a Promise (breaking every `[...stats.ct]` spread and the
+              // firebase.ts arrayUnion filter → sync crash) and made
+              // `lc = Math.max(prev.lc, undefined)` = NaN. Resolve once, and fall
+              // back to no pre-credit if content can't load (offline) rather than
+              // stranding the user on the placement screen.
+              let ct: string[] = [];
+              try {
+                ct = await getPlacementCt(level);
+              } catch {
+                ct = [];
+              }
               setStats(function (prev) {
                 return {
                   ...prev,
-                  ct: getPlacementCt(level),
-                  lc: Math.max(prev.lc, getPlacementCt(level).length),
+                  ct,
+                  lc: Math.max(prev.lc, ct.length),
                 };
               });
               if (typeof award === 'function') award(25);
@@ -2100,7 +2113,7 @@ export default function AppRouter(props: Record<string, any>) {
           currentScreen === 'new-placement' && (
             <ScreenErrorBoundary key="new-placement" name="new-placement">
               <PlacementTest
-                onComplete={function (level: number) {
+                onComplete={async function (level: number) {
                   localStorage.setItem('placement_done', '1');
                   // ALSO flag user as onboarded so Firebase sync persists this
                   // across devices. buildProgressSnapshot reads `onboarded` and
@@ -2113,11 +2126,21 @@ export default function AppRouter(props: Record<string, any>) {
                   // to land xp > 0 before the 1200ms placement timer fired.
                   localStorage.setItem('nh_placement_done', 'true');
                   localStorage.setItem('onboarded', 'true');
+                  // getPlacementCt is async — must be awaited. Assigning the raw
+                  // Promise corrupted stats.ct (breaking spreads + the sync
+                  // arrayUnion filter) and made lc = Math.max(prev.lc, undefined)
+                  // = NaN. Resolve once; fall back to no pre-credit if offline.
+                  let ct: string[] = [];
+                  try {
+                    ct = await getPlacementCt(level);
+                  } catch {
+                    ct = [];
+                  }
                   setStats(function (prev) {
                     return {
                       ...prev,
-                      ct: getPlacementCt(level),
-                      lc: Math.max(prev.lc, getPlacementCt(level).length),
+                      ct,
+                      lc: Math.max(prev.lc, ct.length),
                     };
                   });
                   if (typeof award === 'function') award(25);
