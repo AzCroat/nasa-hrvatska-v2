@@ -111,13 +111,22 @@ function mcGameReducer(state: McGameState, action: McGameAction): McGameState {
         const msg = comboMessage(newStreak);
         const hasCombo = msg.length > 0;
         const showOnARoll = newCorrect === 5;
+        // Score = first-attempt correctness ONLY. A wrong answer re-queues the
+        // question (RE_QUEUE_WRONG marks it _isRetry), and it must eventually be
+        // answered correctly to empty the queue and end the game. Counting those
+        // eventual-correct retries would make score === questions.length on EVERY
+        // run — reporting a permanent, false 100% ("Savršeno! 0 missed") while the
+        // same results screen lists the words the learner actually missed, and
+        // making the 70% checkpoint gate impossible to fail. So a re-tried
+        // question never adds to score; it was, in truth, missed.
+        const earnedPoint = !question._isRetry;
 
         return {
           ...state,
           answered: true,
           selected: optionIndex,
           burst: optionIndex,
-          score: state.score + 1,
+          score: earnedPoint ? state.score + 1 : state.score,
           streak: newStreak,
           bestStreak: newBest,
           wrongStreak: 0,
