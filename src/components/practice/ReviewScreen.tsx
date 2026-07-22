@@ -125,12 +125,16 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             });
           }
           srMark(q.word[0], ok, undefined);
+          // Count every reviewed card so the SRS badges + Analytics "Reviewed"
+          // tile actually move (stats.srsTotal was read in 9 places but never
+          // incremented). Rides the full snapshot like the other badge counters.
+          setStats((prev) => ({ ...prev, srsTotal: (prev.srsTotal || 0) + 1 }));
         }
       }
     }
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [haptic]); // haptic is stable; stateRef.current is read inside, no stale closure
+  }, [haptic, setStats]); // both stable; stateRef.current is read inside, no stale closure
 
   const nextReviewETA = useMemo(() => {
     const sr = getSR();
@@ -397,6 +401,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                     });
                 }
                 srMark(q.word[0], ok, undefined);
+                setStats((prev) => ({ ...prev, srsTotal: (prev.srsTotal || 0) + 1 }));
               }}
             >
               <span style={{ opacity: 0.4, fontSize: 11, marginRight: 6 }}>{i + 1}</span>
