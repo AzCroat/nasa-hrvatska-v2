@@ -88,7 +88,12 @@ async function verifyRS256Signature(headerB64u, payloadB64u, signatureB64u, jwks
   }
 }
 
-export async function getFirebaseUid(request, projectId) {
+/**
+ * Fully verify a Firebase ID token and return its validated payload, or null.
+ * Single source of truth for token verification — getFirebaseUid and
+ * getFirebaseClaims both build on it so there is exactly one crypto path.
+ */
+export async function verifyFirebaseToken(request, projectId) {
   try {
     const auth = request.headers.get('authorization') || '';
     if (!auth.startsWith('Bearer ')) return null;
@@ -119,10 +124,30 @@ export async function getFirebaseUid(request, projectId) {
     const valid = await verifyRS256Signature(parts[0], parts[1], parts[2], jwks);
     if (!valid) return null;
 
-    return payload.user_id;
+    return payload;
   } catch (e) {
     // JWKS fetch failed (network error) — reject to avoid auth bypass
     console.error('[verifyToken] token verification failed:', e.message);
     return null;
   }
+}
+
+export async function getFirebaseUid(request, projectId) {
+  const payload = await verifyFirebaseToken(request, projectId);
+  return payload ? payload.user_id : null;
+}
+
+/**
+ * Verify the token and return the identity claims the app keys data on:
+ *   uid   — the opaque Firebase user_id (push/clan KV keys)
+ *   email — the email claim (Firestore doc IDs are email-derived app-wide)
+ * Returns null if the token is invalid.
+ */
+export async function getFirebaseClaims(request, projectId) {
+  const payload = await verifyFirebaseToken(request, projectId);
+  if (!payload) return null;
+  return {
+    uid: payload.user_id,
+    email: typeof payload.email === 'string' ? payload.email : null,
+  };
 }
