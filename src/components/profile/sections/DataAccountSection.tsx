@@ -73,9 +73,19 @@ export default function DataAccountSection() {
     if (!au || !au.u) return;
     setDeleting(true);
     try {
-      await fbDeleteAccount(au.u);
+      const res = await fbDeleteAccount(au.u);
+      // fbDeleteAccount returns {ok:false} (it does not throw) when the server
+      // could not erase the data — never sign the user out as if it succeeded,
+      // or they'll believe their data is gone when it isn't.
+      if (!res.ok) {
+        alert(res.err || 'Account deletion failed. Your data was NOT deleted. Please try again.');
+        setDeleting(false);
+        setConfirmDelete(false);
+        return;
+      }
       doOut();
-    } catch (e) {
+    } catch {
+      alert('Account deletion failed. Your data was NOT deleted. Please try again.');
       setDeleting(false);
       setConfirmDelete(false);
     }

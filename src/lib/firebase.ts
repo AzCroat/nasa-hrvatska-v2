@@ -31,7 +31,6 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  deleteDoc,
   onSnapshot,
   serverTimestamp,
   arrayUnion,
@@ -777,16 +776,41 @@ export function fbOnAuthStateChanged(cb: (user: User | null) => void): () => voi
   return onAuthStateChanged(_fbAuth, cb);
 }
 
-export async function fbDeleteAccount(userId: string): Promise<{ ok: boolean; err?: string }> {
+export async function fbDeleteAccount(_userId: string): Promise<{ ok: boolean; err?: string }> {
   if (!_fbReady) return { ok: false, err: 'Firebase not ready.' };
   try {
-    const id = toDocId(userId);
-    await Promise.allSettled([
-      deleteDoc(fsDoc(_fbDb!, 'users', id)),
-      deleteDoc(fsDoc(_fbDb!, 'profiles', id)),
-      deleteDoc(fsDoc(_fbDb!, 'srs', id)),
-    ]);
-    if (_fbAuth && _fbAuth.currentUser) await deleteUser(_fbAuth.currentUser);
+    // Erasure runs SERVER-SIDE (/api/delete-account) under admin credentials.
+    // The client cannot do this correctly: Firestore rules deny it delete on
+    // users/{id} and profiles/{id}, and deny it list/delete on the xpAudit and
+    // conversationMemory subcollections — so a client-only delete leaves PII
+    // behind while reporting success (GDPR / Play Data-Deletion violation).
+    // The server deletes those docs + subcollections, the push + clan KV, and
+    // the Auth account. Identity comes from the verified token, not the body.
+    const { _nativePost } = await import('./nativePost');
+    const res = await _nativePost('/api/delete-account', {});
+    if (!res) {
+      return { ok: false, err: 'Could not reach the server. Check your connection and try again.' };
+    }
+    let body: { ok?: boolean; authDeleted?: boolean; error?: string } = {};
+    try {
+      body = await res.json();
+    } catch {
+      /* non-JSON error body */
+    }
+    if (!res.ok || !body.ok) {
+      return { ok: false, err: friendlyError(body.error || `Delete failed (${res.status}).`) };
+    }
+    // The server normally deletes the Auth account too. If it could not (e.g.
+    // Identity Toolkit hiccup), fall back to the client SDK — the user's data is
+    // already gone, so this only cleans up the login record. Best-effort: the
+    // token may already be invalid, which is fine.
+    if (!body.authDeleted && _fbAuth && _fbAuth.currentUser) {
+      try {
+        await deleteUser(_fbAuth.currentUser);
+      } catch {
+        /* auth record already removed or requires-recent-login — data is erased */
+      }
+    }
     return { ok: true };
   } catch (e: unknown) {
     return { ok: false, err: friendlyError((e as Error).message) };
