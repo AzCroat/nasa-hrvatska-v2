@@ -21,6 +21,7 @@ import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
 import { localDateStr, weekKey } from './lib/dateUtils.js';
+import { isNative } from './lib/platform.js';
 import { repairStreak } from './lib/streak.js';
 import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
@@ -812,11 +813,9 @@ function App() {
   // reliably in Android System WebView on many tablets (HCL, Samsung, etc.).
   // The bottom nav bar is the correct UX for native apps regardless of screen width.
   useEffect(() => {
-    import('./lib/platform.js').then(({ isNative }) => {
-      if (isNative()) {
-        document.documentElement.classList.add('capacitor-native');
-      }
-    });
+    if (isNative()) {
+      document.documentElement.classList.add('capacitor-native');
+    }
   }, []);
 
   // Keep _uidRef current so usePreferences.toggleFav fires fbToggleFavorite
@@ -1352,6 +1351,19 @@ function App() {
   // registerMessagingServiceWorker() removed — firebase-messaging-sw.js merged into sw.js.
   useEffect(() => {
     if (!authUser) return;
+    if (isNative()) {
+      // Native: refresh the OS-level daily reminder (updates the streak in the
+      // message and re-arms it if the OS dropped the schedule). No-op unless the
+      // user has granted permission.
+      if (localStorage.getItem('nh_notifications_enabled') === 'true') {
+        import('./lib/nativeNotifications')
+          .then(({ scheduleNativeDailyReminder }) =>
+            scheduleNativeDailyReminder(getStreak().count || 0),
+          )
+          .catch(() => {});
+      }
+      return;
+    }
     import('./lib/pushNotifications.js').then(({ registerPushWithServer }) => {
       if (typeof Notification !== 'undefined' && Notification.permission === 'granted')
         registerPushWithServer({ streak: getStreak().count, name: name || authUser.d || '' }).catch(
