@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   shouldEnableSentryReplay,
+  isReplayConsentGranted,
   isBenignAbortRejection,
   isBenignSwLoadRejection,
 } from '../sentryHelpers';
@@ -47,6 +48,25 @@ describe('shouldEnableSentryReplay', () => {
     // In vitest jsdom, navigator.userAgent is a non-DDG string by default.
     // The function should fall back to it and return true.
     expect(shouldEnableSentryReplay()).toBe(true);
+  });
+});
+
+describe('isReplayConsentGranted', () => {
+  it('permits Replay only when consent is exactly "accepted"', () => {
+    expect(isReplayConsentGranted('accepted')).toBe(true);
+  });
+
+  it('blocks Replay when consent is absent (never set)', () => {
+    expect(isReplayConsentGranted(null)).toBe(false);
+    expect(isReplayConsentGranted(undefined)).toBe(false);
+    expect(isReplayConsentGranted('')).toBe(false);
+  });
+
+  it('blocks Replay when the user declined or the value is anything else', () => {
+    expect(isReplayConsentGranted('declined')).toBe(false);
+    expect(isReplayConsentGranted('rejected')).toBe(false);
+    expect(isReplayConsentGranted('true')).toBe(false);
+    expect(isReplayConsentGranted('Accepted')).toBe(false); // case-sensitive by design
   });
 });
 
