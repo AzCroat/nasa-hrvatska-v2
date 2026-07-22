@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import KnightToast from './KnightToast';
+import { isNative } from '../../lib/platform';
 
 interface DeferredInstallPrompt {
   prompt: () => Promise<void>;
@@ -279,8 +280,11 @@ export function AppToasts({
         </div>
       )}
 
-      {/* Subscription renewal reminder — dismissible with 24 h snooze */}
-      {!isFreeAnnual &&
+      {/* Subscription renewal reminder — dismissible with 24 h snooze.
+          Hidden in the native app: its Upgrade button opens the web/Stripe
+          paywall, which Google Play Payments policy forbids surfacing. */}
+      {!isNative() &&
+        !isFreeAnnual &&
         daysLeft != null &&
         daysLeft <= 3 &&
         (() => {
