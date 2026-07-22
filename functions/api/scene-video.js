@@ -100,15 +100,21 @@ export async function onRequestGet({ request, env }) {
 
   // Require Firebase auth — Pexels free quota is shared across all callers.
   // Without auth, a rotating-IP attacker can exhaust Pexels rate limit for real users.
+  // FAIL CLOSED: if the project id is unset we cannot verify the caller, so reject
+  // (500) rather than fall through unauthenticated — the whole point of the gate.
   const FIREBASE_PROJECT_ID = env.VITE_FIREBASE_PROJECT_ID || env.FIREBASE_PROJECT_ID || '';
-  if (FIREBASE_PROJECT_ID) {
-    const _uid = await getFirebaseUid(request, FIREBASE_PROJECT_ID);
-    if (!_uid) {
-      return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
-        status: 401,
-        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
-      });
-    }
+  if (!FIREBASE_PROJECT_ID) {
+    return new Response(JSON.stringify({ ok: false, error: 'server_misconfigured' }), {
+      status: 500,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+  const _uid = await getFirebaseUid(request, FIREBASE_PROJECT_ID);
+  if (!_uid) {
+    return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
+      status: 401,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
   }
 
   const allowed = await checkRateLimit(request, 30, env);

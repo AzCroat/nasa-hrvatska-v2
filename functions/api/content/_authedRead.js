@@ -53,15 +53,26 @@ export async function authedRead({ request, env, etag, buildBody }) {
     return new Response(null, { status: 304, headers: { ETag: `"${etag}"`, ...cors } });
   }
 
-  // Rate limit
+  // Daily read cap. AI_QUOTA_DB is a D1 database (NOT KV) — the previous code
+  // called .get()/.put() on it, which throw and were swallowed, so `count`
+  // stayed 0 and the cap never enforced. Use the D1 API against the shared
+  // ai_quota table with a `content:` subject namespace (distinct from the
+  // AI-turn `quota:` subjects), mirroring _aiQuota's upsert.
   const cap = parseInt(env.CONTENT_DAILY_CAP || '500', 10);
-  const key = `content:${uid}:${today()}`;
+  const db = env.AI_QUOTA_DB || null;
+  const subject = `content:${uid}`;
+  const wday = today();
   let count = 0;
-  try {
-    const raw = await env.AI_QUOTA_DB.get(key);
-    if (raw) count = JSON.parse(raw).count || 0;
-  } catch {
-    /* KV miss is benign */
+  if (db) {
+    try {
+      const row = await db
+        .prepare('SELECT turns, window_date FROM ai_quota WHERE subject = ?1')
+        .bind(subject)
+        .first();
+      count = row && row.window_date === wday ? row.turns || 0 : 0;
+    } catch {
+      /* D1 read failed — fail open (static, auth-gated content) */
+    }
   }
   if (count >= cap) {
     const retryAt = new Date();
@@ -77,12 +88,21 @@ export async function authedRead({ request, env, etag, buildBody }) {
     return jsonResponse(500, { error: 'server_error' }, cors);
   }
 
-  try {
-    await env.AI_QUOTA_DB.put(key, JSON.stringify({ count: count + 1 }), {
-      expirationTtl: 86_400,
-    });
-  } catch {
-    /* counter best-effort */
+  if (db) {
+    try {
+      // Upsert: +1 within the same UTC day, reset to 1 on a new day.
+      await db
+        .prepare(
+          `INSERT INTO ai_quota (subject, turns, window_date) VALUES (?1, 1, ?2)
+           ON CONFLICT(subject) DO UPDATE SET
+             turns = CASE WHEN window_date = ?2 THEN turns + 1 ELSE 1 END,
+             window_date = ?2`,
+        )
+        .bind(subject, wday)
+        .run();
+    } catch {
+      /* counter best-effort */
+    }
   }
 
   return jsonResponse(200, { ...body, etag }, { ETag: `"${etag}"`, ...cors });

@@ -73,16 +73,17 @@ export async function onRequestGet({ request, env }) {
   const raw = await kv.get(`clan:${clanId}`, { type: 'json' });
   if (!raw) return err(404, 'Clan not found', origin);
 
-  // Reset weekly XP if we're in a new week
+  // READ-ONLY: this endpoint is unauthenticated, so it must not write. If the
+  // stored week is stale, compute a reset VIEW for the response but do NOT
+  // persist it — the next authenticated POST (xp/join/leave) resets and saves.
+  // (Previously this GET did a kv.put on week rollover, letting any caller with
+  // a clanId trigger a write.)
   const wk = weekKey();
-  if (raw.weekKey !== wk) {
-    raw.weekKey = wk;
-    raw.members = (raw.members || []).map((m) => ({ ...m, weekXP: 0 }));
-    await kv.put(`clan:${clanId}`, JSON.stringify(raw));
-  }
+  const members =
+    raw.weekKey !== wk ? (raw.members || []).map((m) => ({ ...m, weekXP: 0 })) : raw.members || [];
 
-  const totalXP = (raw.members || []).reduce((s, m) => s + (m.weekXP || 0), 0);
-  return ok({ ...raw, totalXP, weeklyGoal: WEEKLY_GOAL, weekKey: wk }, origin);
+  const totalXP = members.reduce((s, m) => s + (m.weekXP || 0), 0);
+  return ok({ ...raw, members, totalXP, weeklyGoal: WEEKLY_GOAL, weekKey: wk }, origin);
 }
 
 export async function onRequestPost({ request, env }) {
