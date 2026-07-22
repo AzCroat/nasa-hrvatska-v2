@@ -1,56 +1,78 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
 
-// Read the BLACK_HOLE_SCREENS object literal from its data module (extracted
-// from useScreenLauncher for max-lines).
-const src = readFileSync('src/lib/blackHoleScreens.ts', 'utf8');
-const start = src.indexOf('BLACK_HOLE_SCREENS');
-const block = src.slice(start, src.indexOf('};', start));
+// Dwell credit (useScreenLauncher.launchPathItem) fires ONLY when a LEARN_PATH
+// item's `go` field matches a BLACK_HOLE_SCREENS key AND that key isn't handled
+// by an explicit launch branch first. LEARN_PATH is served from
+// functions/api/content/_data/learnPath.js (the client hydrates it via
+// /api/content/core — there is no bundled client LEARN_PATH), so the served
+// `go` values are the authoritative set of reachable screens. This guard makes
+// dead config (a screen reachable only via search/setScr, which runs no dwell
+// timer) a test failure instead of silent, misleading cruft.
+const servedPath = readFileSync('functions/api/content/_data/learnPath.js', 'utf8');
+const SERVED_GO = new Set(
+  [...servedPath.matchAll(/\bgo\s*:\s*['"]([a-zA-Z0-9_]+)['"]/g)].map((m) => m[1]),
+);
 
-describe('dwell-credit removal for gated screens', () => {
-  // Lessons (now self-report via completeLesson) + drills that write their own vs flag.
-  const removed = [
-    'declension',
-    'tenses',
-    'conditional',
-    'impersonal',
-    'formalregister',
-    'future_tense_lesson',
-    'aspect',
-    'wordform',
-    'diminutives',
-    'phonology',
-    'conjdrill',
-    'negation',
-    'clitic',
-    // P1 audit remediation: these route to screens that gate completion via
-    // completeExercise(...) on a comprehension pass, so dwell-credit was a gate bypass.
-    'padezi',
-    'padezifull',
-    'svojmoj',
-    'modal',
-    'vocative',
-    'aspectdrill',
-    'past_tense_lesson',
-  ];
-  it('none of the gated/self-reporting screens are dwell-credited anymore', () => {
-    for (const id of removed) {
-      expect(block.includes(`${id}:`), `${id} still dwell-credited`).toBe(false);
+// Handled by earlier branches in launchPathItem before the black-hole `else`,
+// so a key equal to one of these would be shadowed and never grant dwell credit.
+const EXPLICIT_BRANCHES = new Set([
+  'lesson',
+  'grammar',
+  'listening',
+  'speaking',
+  'mcgame',
+  'animlesson',
+]);
+
+describe('BLACK_HOLE_SCREENS reachability', () => {
+  const keys = Object.keys(BLACK_HOLE_SCREENS);
+
+  it('every dwell-credit key is launched by a served LEARN_PATH item (no dead config)', () => {
+    const dead = keys.filter((k) => !SERVED_GO.has(k));
+    expect(dead, `dead black-hole keys (no served LEARN_PATH go): ${dead.join(', ')}`).toEqual([]);
+  });
+
+  it('no key is shadowed by an explicit (non-else) launch branch', () => {
+    const shadowed = keys.filter((k) => EXPLICIT_BRANCHES.has(k));
+    expect(shadowed, `shadowed keys: ${shadowed.join(', ')}`).toEqual([]);
+  });
+
+  it('every value is lc or gc', () => {
+    for (const [k, v] of Object.entries(BLACK_HOLE_SCREENS)) {
+      expect(['lc', 'gc'], k).toContain(v);
     }
   });
 
-  it('reference/culture/vocab screens still ARE dwell-credited (not over-removed)', () => {
-    for (const id of ['weather', 'kings', 'top100', 'idioms', 'proverbs', 'recipes']) {
-      expect(block.includes(`${id}:`), id).toBe(true);
-    }
-  });
-
-  it('vs-less drills are intentionally KEPT (removal would break their completion)', () => {
-    // These do NOT gate completion behind a quiz pass (conjpractice/conjlab self-report
-    // without a pass threshold), so dwell-credit is their legitimate LEARN_PATH completion
-    // path. (vocative was moved to `removed` once it gained a real comprehension gate.)
-    for (const id of ['conjpractice', 'conjlab']) {
-      expect(block.includes(`${id}:`), id).toBe(true);
+  it('quiz-gated / self-reporting screens are NOT dwell-credited (no gate bypass)', () => {
+    // These self-report via completeLesson/completeExercise on a comprehension
+    // pass, so a dwell entry would bypass their gate. Regression guard against
+    // re-adding any of them.
+    const mustNotBeCredited = [
+      'declension',
+      'tenses',
+      'conditional',
+      'impersonal',
+      'formalregister',
+      'future_tense_lesson',
+      'aspect',
+      'wordform',
+      'diminutives',
+      'phonology',
+      'conjdrill',
+      'negation',
+      'clitic',
+      'padezi',
+      'padezifull',
+      'svojmoj',
+      'modal',
+      'vocative',
+      'aspectdrill',
+      'past_tense_lesson',
+    ];
+    for (const id of mustNotBeCredited) {
+      expect(BLACK_HOLE_SCREENS[id], `${id} must not be dwell-credited`).toBeUndefined();
     }
   });
 });

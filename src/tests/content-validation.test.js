@@ -203,6 +203,17 @@ describe('ASPECT (verb aspect object)', () => {
       expect(item.al.length).toBeGreaterThan(0);
     }
   });
+
+  it('each ASPECT quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    // Options are rendered as [a, ...al] shuffled. If `a` is duplicated inside
+    // `al`, the same choice appears twice and one correct option looks wrong —
+    // a real, user-visible content defect.
+    for (const item of ASPECT.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
+    }
+  });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -330,6 +341,14 @@ describe('PADEZI (Croatian cases)', () => {
       expect(typeof item.q).toBe('string');
       expect(typeof item.a).toBe('string');
       expect(Array.isArray(item.al)).toBe(true);
+    }
+  });
+
+  it('each PADEZI quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    for (const item of PADEZI.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
     }
   });
 });
@@ -519,6 +538,23 @@ describe('NUMCOUNT (number + noun agreement)', () => {
   it('NUMCOUNT.quiz is a non-empty array', () => {
     expect(Array.isArray(NUMCOUNT.quiz)).toBe(true);
     expect(NUMCOUNT.quiz.length).toBeGreaterThan(0);
+  });
+
+  it('each NUMCOUNT quiz item has q, a, and al fields', () => {
+    for (const item of NUMCOUNT.quiz) {
+      expect(typeof item.q).toBe('string');
+      expect(typeof item.a).toBe('string');
+      expect(Array.isArray(item.al)).toBe(true);
+      expect(item.al.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('each NUMCOUNT quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    for (const item of NUMCOUNT.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
+    }
   });
 });
 
