@@ -18,6 +18,22 @@ export function shouldEnableSentryReplay(userAgent?: string): boolean {
 }
 
 /**
+ * Session Replay records a user's interaction session (DOM mutations, clicks,
+ * navigation) — analytics-grade data collection that, unlike crash telemetry,
+ * requires the same explicit cookie consent as PostHog before it may run.
+ * Consent is stored in localStorage under 'cookie_consent_v1' (see
+ * CookieConsent.tsx / analytics.ts); Replay is only permitted once the user has
+ * actively accepted. Crash/error reporting itself stays ungated — this gate is
+ * specifically for the Replay integration.
+ *
+ * Takes the already-read consent value so the caller (src/main.tsx, at module
+ * load, before React mounts) can use its own SecurityError-safe storage reader.
+ */
+export function isReplayConsentGranted(consentValue: string | null | undefined): boolean {
+  return consentValue === 'accepted';
+}
+
+/**
  * Minimal structural view of the Sentry event fields the abort filter inspects.
  * The real Sentry `Event` is structurally assignable to it.
  */

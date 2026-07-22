@@ -30,6 +30,7 @@ import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
 import {
   shouldEnableSentryReplay,
+  isReplayConsentGranted,
   isBenignAbortRejection,
   isBenignSwLoadRejection,
 } from './lib/sentryHelpers';
@@ -133,12 +134,21 @@ if (import.meta.env.VITE_SENTRY_DSN) {
         enabled: import.meta.env.PROD,
         tracesSampleRate: 0.1,
         replaysOnErrorSampleRate: 0.1, // capture replay for 10% of error sessions to aid sync debugging
-        // DDG Mobile's WebKit content-blocker shims break Sentry Replay's DOM
-        // snapshotter (getBoundingClientRect on stubbed nodes). The shouldEnableSentryReplay
-        // helper UA-detects known-broken browsers; tracing still runs everywhere.
+        // Session Replay is analytics-grade session recording, so it runs only when
+        // BOTH conditions hold:
+        //  1. cookie consent has been accepted (isReplayConsentGranted) — parity with
+        //     PostHog, which is likewise gated on 'cookie_consent_v1'. Crash/error
+        //     reporting itself stays ungated; only Replay requires consent. A user who
+        //     accepts mid-session gets Replay on the next load (same as PostHog).
+        //  2. the browser isn't a known Replay-breaker — DDG Mobile's WebKit
+        //     content-blocker shims crash Replay's DOM snapshotter
+        //     (getBoundingClientRect on stubbed nodes). Tracing still runs everywhere.
+        // lsGet (not raw localStorage) so a storage SecurityError can't crash init.
         integrations: [
           Sentry.browserTracingIntegration(),
-          ...(shouldEnableSentryReplay() ? [Sentry.replayIntegration()] : []),
+          ...(shouldEnableSentryReplay() && isReplayConsentGranted(lsGet('cookie_consent_v1'))
+            ? [Sentry.replayIntegration()]
+            : []),
         ],
         // Filter browser-extension noise that is not actionable
         ignoreErrors: [
