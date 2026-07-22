@@ -119,12 +119,32 @@ describe('/users/{userId}', () => {
     await assertSucceeds(db.doc(`users/${docId}`).update({ xp: 0, progress: '' }));
   });
 
-  it('XP above 100,000 is rejected', async () => {
+  it('a learner PAST 100,000 XP can still sync (regression: old cap silently write-locked them)', async () => {
+    // The prior 100,000 cap rejected every write once a multi-year learner crossed
+    // it — and because users+profiles commit in one atomic batch, the progress blob
+    // died too. The cap is now 100,000,000, so real learners are never blocked.
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
-      await ctx.firestore().doc(`users/${docId}`).set({ xp: 99000, progress: '' });
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100000, progress: '' });
     });
     const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`users/${docId}`).update({ xp: 100001, progress: '' }));
+    await assertSucceeds(db.doc(`users/${docId}`).update({ xp: 150000, progress: '' }));
+  });
+
+  it('XP above the 100,000,000 anti-cheat ceiling is still rejected', async () => {
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100000000, progress: '' });
+    });
+    const db = authed(uid, email).firestore();
+    await assertFails(db.doc(`users/${docId}`).update({ xp: 100000001, progress: '' }));
+  });
+
+  it('a single-write XP jump above the 100,000 per-write backstop is rejected', async () => {
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100, progress: '' });
+    });
+    const db = authed(uid, email).firestore();
+    // delta 100,101 > 100,000 (value itself is well under the total cap)
+    await assertFails(db.doc(`users/${docId}`).update({ xp: 100201, progress: '' }));
   });
 
   it('progress blob above 200 KB is rejected', async () => {
@@ -274,9 +294,14 @@ describe('/profiles/{userId}', () => {
     await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 7, xp: 200 }));
   });
 
-  it('XP above 100,000 is rejected', async () => {
+  it('profile XP past 100,000 is now allowed (regression: old cap failed the atomic users+profiles batch)', async () => {
     const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 100001 }));
+    await assertSucceeds(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 150000 }));
+  });
+
+  it('profile XP above the 100,000,000 ceiling is still rejected', async () => {
+    const db = authed(uid, email).firestore();
+    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 100000001 }));
   });
 
   it('non-owner cannot update', async () => {
