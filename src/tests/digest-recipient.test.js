@@ -60,7 +60,10 @@ describe('/api/digest recipient safety', () => {
       env: { ...ENV },
     });
     expect(res.status).toBe(200);
-    const resendCall = fetchSpy.mock.calls.find(([u]) => String(u).includes('resend.com'));
+    // Host-anchored match (not a bare substring) — the endpoint POSTs to this exact URL.
+    const resendCall = fetchSpy.mock.calls.find(([u]) =>
+      String(u).startsWith('https://api.resend.com/'),
+    );
     expect(resendCall).toBeTruthy();
     const sentBody = JSON.parse(resendCall[1].body);
     expect(sentBody.to).toEqual(['owner@mail.com']); // token email, NOT victim@evil.com
