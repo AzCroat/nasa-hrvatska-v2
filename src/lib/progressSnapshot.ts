@@ -330,6 +330,16 @@ export function buildProgressSnapshot({
         return null;
       }
     })(),
+    // Writing-error corrections feeding Grammar Diagnosis (WritingScreen). Synced
+    // like nh_aspect_mistakes so adaptive remediation targeting follows the user
+    // across devices instead of diverging per-device.
+    nh_writing_mistakes: (() => {
+      try {
+        return JSON.parse(localStorage.getItem('nh_writing_mistakes') || 'null');
+      } catch {
+        return null;
+      }
+    })(),
     // ── Immersion-mode tracking (2026-05-20) ──────────────────────────────────
     nh_immersion_days: parseInt(localStorage.getItem('nh_immersion_days') || '0', 10) || 0,
     // ── CEFR equivalency-test certifications (2026-05-20) ─────────────────────

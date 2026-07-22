@@ -679,6 +679,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     ['nh_freq_learned', fp.nh_freq_learned],
     ['nh_grammar_diagnosis', fp.nh_grammar_diagnosis],
     ['nh_aspect_mistakes', fp.nh_aspect_mistakes],
+    ['nh_writing_mistakes', fp.nh_writing_mistakes],
   ] as const) {
     if (remote && !localStorage.getItem(k)) {
       try {
