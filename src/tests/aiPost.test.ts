@@ -59,4 +59,37 @@ describe('_aiPost', () => {
     const headers = (fetchSpy.mock.calls[0]![1] as RequestInit).headers as Record<string, string>;
     expect(headers.Authorization).toBeUndefined();
   });
+
+  // A Firebase ID token expires ~hourly and getFirebaseBearer memoizes it, so a
+  // mid-session AI call can 401 on the stale token. _aiPost must force-refresh and
+  // retry once (mirrors apiFetch) so long sessions don't fail with "session expired".
+  it('force-refreshes the token and retries once on 401', async () => {
+    const audio = (await import('../lib/audio')) as unknown as {
+      getFirebaseBearer: (f?: boolean) => Promise<string | null>;
+    };
+    vi.mocked(audio.getFirebaseBearer)
+      .mockResolvedValueOnce('stale-token')
+      .mockResolvedValueOnce('fresh-token');
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response('', { status: 401 }))
+      .mockResolvedValueOnce(new Response('{}', { status: 200 }));
+    const res = await _aiPost('/api/correct', { text: 'hi' });
+    expect(res.status).toBe(200);
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+    expect(vi.mocked(audio.getFirebaseBearer)).toHaveBeenCalledWith(true); // forced refresh
+    const secondHeaders = (fetchSpy.mock.calls[1]![1] as RequestInit).headers as Record<
+      string,
+      string
+    >;
+    expect(secondHeaders.Authorization).toBe('Bearer fresh-token');
+  });
+
+  it('does not retry on a successful (non-401) response', async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('{}', { status: 200 }));
+    await _aiPost('/api/correct', { text: 'hi' });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
 });
