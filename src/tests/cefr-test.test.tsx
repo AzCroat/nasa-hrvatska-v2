@@ -294,6 +294,41 @@ describe('CefrTest — completion + award guard', () => {
   });
 });
 
+// ── Multi-accept answers ──────────────────────────────────────────────────────
+
+describe('CefrTest — multiple accepted answers', () => {
+  // A2 Q index 1 ("She is taller than him") declares accept:[0,2]:
+  //   opts[0] 'Ona je viša od njega.' (od + genitive)
+  //   opts[2] 'Ona je viša nego on.'  (nego + nominative)
+  // Both must score as correct. With rnd=0.99 the identity shuffle keeps order.
+  function gotoA2Q2() {
+    renderCefrTest();
+    fireEvent.click(screen.getByText('A2 — Elementary'));
+    // Answer A2 Q0 (any option) then advance to Q1.
+    fireEvent.click(screen.getByText('Otišao/Otišla sam u trgovinu.'));
+    fireEvent.click(screen.getByText('Next Question →'));
+  }
+
+  it('primary answer (viša od njega) is marked correct', () => {
+    gotoA2Q2();
+    fireEvent.click(screen.getByText('Ona je viša od njega.'));
+    expect(screen.getByText('✅ Correct!')).toBeTruthy();
+  });
+
+  it('alternate accepted answer (viša nego on) is also marked correct', () => {
+    gotoA2Q2();
+    fireEvent.click(screen.getByText('Ona je viša nego on.'));
+    expect(screen.getByText('✅ Correct!')).toBeTruthy();
+  });
+
+  it('a genuinely wrong option is still marked wrong', () => {
+    gotoA2Q2();
+    // 'Ona viša njega.' (no copula) is not in accept:[0,2]
+    fireEvent.click(screen.getByText('Ona viša njega.'));
+    expect(screen.getByText('💡 Grammar tip:')).toBeTruthy();
+  });
+});
+
 // ── Navigation ────────────────────────────────────────────────────────────────
 
 describe('CefrTest — navigation', () => {

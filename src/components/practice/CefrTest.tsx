@@ -146,7 +146,8 @@ const LEVELS = {
           'Ona viša njega.',
         ],
         answer: 0,
-        tip: "Both options 0 and 2 are correct! 'Viša od + genitive' or 'viša nego + nominative'",
+        accept: [0, 2],
+        tip: "Both are correct: 'viša od njega' (od + genitive) or 'viša nego on' (nego + nominative).",
       },
       {
         q: "Fill in: 'Idem ___ posla.' (I'm going from work)",
@@ -209,7 +210,8 @@ const LEVELS = {
         q: "'I like swimming' in Croatian:",
         opts: ['Volim plivati.', 'Volim plivanje.', 'Sviđa mi se plivati.', 'Rado plivam.'],
         answer: 0,
-        tip: "'Volim + infinitive' is the most common pattern. All 4 are technically correct but option 0 is most natural.",
+        accept: [0, 1, 3],
+        tip: "'Volim plivati' (volim + infinitive) is most natural; 'Volim plivanje' (+ noun) and 'Rado plivam' also work. 'Sviđa mi se' normally takes a noun (plivanje), not an infinitive.",
       },
       {
         q: "'Last year' in Croatian:",
@@ -232,7 +234,8 @@ const LEVELS = {
           'Zagreb ona jako sviđa.',
         ],
         answer: 0,
-        tip: "'Sviđati se' pattern: place + dative pronoun + se + sviđa. Options 0 and 1 are both natural.",
+        accept: [0, 1],
+        tip: "Two natural options: 'Zagreb joj se jako sviđa' (sviđati se + dative pronoun) or 'Ona jako voli Zagreb' (voljeti + accusative).",
       },
       {
         q: "'How long have you lived here?' in Croatian:",
@@ -243,7 +246,8 @@ const LEVELS = {
           'Koliko živiš?',
         ],
         answer: 0,
-        tip: "'Koliko dugo' (how long) + present tense (not past — ongoing action). Options 0 and 2 are both good.",
+        accept: [0, 2],
+        tip: "Ongoing action → present tense (not past). 'Koliko dugo živiš ovdje?' and 'Otkad živiš tu?' both work.",
       },
       {
         q: "'I arrived yesterday' in Croatian:",
@@ -470,7 +474,8 @@ const LEVELS = {
           'Samo smo stigli na vrijeme.',
         ],
         answer: 0,
-        tip: "'Jedva' = barely/with difficulty. 'Jedva da' is also correct but slightly more emphatic.",
+        accept: [0, 2],
+        tip: "'Jedva' = barely. 'Jedva smo stigli' or the slightly more emphatic 'Jedva da smo stigli' both work.",
       },
       {
         q: "The difference between 'pitati' and 'upitati' is:",
@@ -487,7 +492,8 @@ const LEVELS = {
         q: "'Frankly speaking' — Croatian equivalent:",
         opts: ['Iskreno govoreći,', 'Iskreno rečeno,', 'Da budem iskren,', 'Na ravno,'],
         answer: 1,
-        tip: "'Iskreno rečeno' (honestly spoken) = frankly speaking. All 3 are natural; 'iskreno rečeno' is most idiomatic.",
+        accept: [0, 1, 2],
+        tip: "'Iskreno rečeno' is most idiomatic, but 'Iskreno govoreći' and 'Da budem iskren' also mean 'frankly'.",
       },
       {
         q: "'He speaks Croatian as if he were born here.' Correct Croatian:",
@@ -504,7 +510,8 @@ const LEVELS = {
         q: "'Against all odds' in Croatian:",
         opts: ['Usprkos svemu', 'Protiv svega', 'Unatoč svim preprekama', 'Bez obzira na sve'],
         answer: 2,
-        tip: "'Unatoč svim preprekama' (despite all obstacles) is the closest to 'against all odds'. Others are also valid.",
+        accept: [0, 2, 3],
+        tip: "'Unatoč svim preprekama' is closest. 'Usprkos svemu' and 'Bez obzira na sve' also convey it; 'protiv svega' means literal opposition, not 'against all odds'.",
       },
       {
         q: "'The meeting was postponed' in natural Croatian:",
@@ -515,13 +522,15 @@ const LEVELS = {
           'Sastanak se odgodio.',
         ],
         answer: 0,
-        tip: "Passive 'je odgođen' (was postponed) is natural. Option 2 (active — they postponed) is also very common.",
+        accept: [0, 2],
+        tip: "Passive 'Sastanak je odgođen' is natural, and the active 'Odgodili su sastanak' is equally common.",
       },
       {
         q: "'Not to mention...' — Croatian equivalent:",
         opts: ['Da ne govorimo o...', 'A kamoli...', 'Nekmoli...', 'Ne da kažem...'],
         answer: 1,
-        tip: "'A kamoli' = let alone / not to mention (stronger). 'Da ne govorimo o' = not to speak of. Both natural.",
+        accept: [0, 1],
+        tip: "'A kamoli' = let alone; 'Da ne govorimo o...' = not to mention. Both are natural.",
       },
       {
         q: "Which correctly uses the gerund-equivalent 'glagolski prilog'?",
@@ -814,14 +823,28 @@ function gradeMessage(pct: number) {
   return { icon: '💪', msg: "Keep practicing! You'll get there." };
 }
 
+// The set of accepted-correct option indices for a question. Most questions
+// have a single correct answer; some accept multiple grammatically-correct
+// options (declared via `accept`). Always includes `answer`.
+function acceptedSet(q: any): number[] {
+  const acc = Array.isArray(q.accept) && q.accept.length ? q.accept : [q.answer];
+  return acc.includes(q.answer) ? acc : [...acc, q.answer];
+}
+
 // Shuffle one level's questions: randomise question order AND option order,
-// storing the correct answer by value so index checks remain valid.
+// storing the correct answer(s) by value so index checks remain valid.
 function shuffleLevel(levelKey: string) {
   const raw = (LEVELS as Record<string, typeof LEVELS.A1>)[levelKey]!.questions;
   return shLocal([...raw]).map((q: any) => {
     const correctText = q.opts[q.answer];
+    const acceptTexts = acceptedSet(q).map((idx: number) => q.opts[idx]);
     const shuffledOpts = shLocal([...q.opts]);
-    return { ...q, opts: shuffledOpts, answer: shuffledOpts.indexOf(correctText) };
+    return {
+      ...q,
+      opts: shuffledOpts,
+      answer: shuffledOpts.indexOf(correctText),
+      accept: acceptTexts.map((t: string) => shuffledOpts.indexOf(t)),
+    };
   });
 }
 
@@ -863,7 +886,7 @@ export default function CefrTest({
     if (answered) return;
     setSelected(i);
     setAnswered(true);
-    if (i === activeQuestions[qIdx].answer) {
+    if (acceptedSet(activeQuestions[qIdx]).includes(i)) {
       setScore((sc) => sc + 1);
     }
   }
@@ -1038,7 +1061,8 @@ export default function CefrTest({
 
   // --- TEST SCREEN ---
   const q = activeQuestions[qIdx]!;
-  const isCorrect = selected === q.answer;
+  const accepted = acceptedSet(q);
+  const isCorrect = accepted.includes(selected);
 
   return (
     <div className="scr-wrap">
@@ -1088,12 +1112,13 @@ export default function CefrTest({
           let border = '1.5px solid var(--card-b)';
           let color = 'var(--heading)';
 
+          const optAccepted = accepted.includes(i);
           if (answered) {
-            if (i === q.answer) {
+            if (optAccepted) {
               bg = '#dcfce7';
               border = '1.5px solid #86efac';
               color = '#166534';
-            } else if (i === selected && i !== q.answer) {
+            } else if (i === selected) {
               bg = '#fee2e2';
               border = '1.5px solid #fca5a5';
               color = '#991b1b';
@@ -1134,23 +1159,20 @@ export default function CefrTest({
                   height: 24,
                   borderRadius: '50%',
                   background:
-                    answered && i === q.answer
+                    answered && optAccepted
                       ? '#86efac'
-                      : answered && i === selected && i !== q.answer
+                      : answered && i === selected
                         ? '#fca5a5'
                         : 'var(--bar-bg)',
-                  color:
-                    answered && (i === q.answer || (i === selected && i !== q.answer))
-                      ? '#fff'
-                      : 'var(--subtext)',
+                  color: answered && (optAccepted || i === selected) ? '#fff' : 'var(--subtext)',
                   fontSize: 11,
                   fontWeight: 800,
                   flexShrink: 0,
                 }}
               >
-                {answered && i === q.answer
+                {answered && optAccepted
                   ? '✓'
-                  : answered && i === selected && i !== q.answer
+                  : answered && i === selected
                     ? '✗'
                     : String.fromCharCode(65 + i)}
               </span>
