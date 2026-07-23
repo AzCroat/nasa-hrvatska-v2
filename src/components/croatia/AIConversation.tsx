@@ -703,18 +703,31 @@ export default function AIConversation({
 
   // ── Core send — accepts explicit text so voice auto-submit bypasses state lag ─
   async function sendMessageCore(userText: string) {
-    if (!userText.trim() || loading) return;
+    if (!userText.trim()) return;
+    if (loading) {
+      // A voice turn arrived while Maja is still replying (the typed send button
+      // is disabled during loading, so this only happens on the hands-free path).
+      // Don't drop it silently — tell the learner and drop the transcript into the
+      // input box so they can resend once Maja finishes.
+      setInput(userText);
+      setSendError('Wait for Maja to finish, then send again.');
+      return;
+    }
     setSendError('');
     // Clear any opener-failure banner: the learner is starting the conversation
     // herself, and this send retries the AI. If it fails, the catch below sets
     // sendError instead — she is never locked out.
     setChatError('');
-    const userMsgIndex = messages.length; // index of the user message being added
     const userMsg: ConversationMessage = { role: 'user', content: userText };
     // Build context: exclude hint messages (they're UI-only, not conversation turns)
     const contextMsgs = messages
       .filter((m) => m.role !== 'hint')
       .map((m) => ({ role: m.role, content: m.content }));
+    // Index of the user message in the NEW hint-stripped messages array — the
+    // same array the chat renders and keys corrections against. Using
+    // messages.length counted hint bubbles too, so after any Hint the "✏️ Better"
+    // correction attached to the wrong bubble (or vanished).
+    const userMsgIndex = contextMsgs.length;
     const next = [...contextMsgs, userMsg];
     setMessages((prev) => [...prev.filter((m) => m.role !== 'hint'), userMsg]);
     setInput('');
