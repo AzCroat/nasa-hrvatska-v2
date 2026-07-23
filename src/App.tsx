@@ -1023,7 +1023,7 @@ function App() {
         'grammar-ref': 'learn',
         mistakes: 'practice',
         listeningpath: 'practice',
-        grammarmap: 'practice',
+        grammarmap: 'learn', // align with _TAB_FOR_SCR.grammarmap; was 'practice' → the two maps disagreed, so the highlighted tab flipped depending on entry path
         my_words: 'practice',
         speaking_sprint: 'practice',
         ai_listening: 'practice',

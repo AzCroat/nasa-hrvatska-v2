@@ -1203,6 +1203,13 @@ export default function AppRouter(props: Record<string, any>) {
             </ScreenErrorBoundary>
           )
         }
+        {
+          // Reload / shared-link on /animlesson loses the ephemeral `animLesson`
+          // state; without this the screen rendered fully blank with no way back.
+          currentScreen === 'animlesson' && !animLesson && (
+            <ScreenGuard goBack={goBack} label="animated lesson" />
+          )
+        }
         {currentScreen === 'grammarreader' && (
           <ScreenErrorBoundary key="grammarreader" name="grammarreader">
             <GrammarReader goBack={goBack} />
@@ -2077,6 +2084,14 @@ export default function AppRouter(props: Record<string, any>) {
             />
           </ScreenErrorBoundary>
         )}
+        {
+          // Reload / shared-link on /grammar_unit_detail loses `pendingGrammarUnitId`;
+          // without this the screen rendered fully blank (it's also not in `stm`,
+          // so the tab defaults to home) with no way back.
+          currentScreen === 'grammar_unit_detail' && !pendingGrammarUnitId && (
+            <ScreenGuard goBack={goBack} label="grammar unit" />
+          )
+        }
         {currentScreen === 'listening_comprehension' && (
           <ScreenErrorBoundary key="listening_comprehension" name="listening_comprehension">
             <ListeningComprehensionScreen goBack={goBack} award={award} />
