@@ -305,7 +305,10 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       {(() => {
         const sessionStreak = getSessionStreak();
         const sessionDays = getLast7SessionDays();
-        const today = new Date().toISOString().slice(0, 10);
+        // Must be the LOCAL date to match the local-date-keyed dots from
+        // getLast7SessionDays — toISOString (UTC) landed the "today" ring on the
+        // wrong dot (or none) near midnight for users away from UTC.
+        const today = localDateStr(new Date());
         return (
           <div
             style={{
@@ -401,8 +404,23 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
         const cefr = getCEFR(st.xp || 0, st.lc || 0, st.gc || 0);
         const wordsLearned = getWordsLearned();
         const cefrScore = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;
+        // Within-band progress: measure from the CURRENT level's floor, not from 0.
+        // Using the absolute `needed` threshold overstated progress (e.g. a learner
+        // who just entered B1 at 1250 showed "36% to B2" instead of ~2%).
+        const CEFR_FLOOR: Record<string, number> = {
+          A1: 0,
+          A2: 300,
+          B1: 1200,
+          B2: 3500,
+          C1: 8000,
+          C2: 18000,
+        };
+        const floor = CEFR_FLOOR[cefr.level as string] ?? 0;
         const progress = cefr.needed
-          ? Math.min(100, Math.round((cefrScore / cefr.needed) * 100))
+          ? Math.max(
+              0,
+              Math.min(100, Math.round(((cefrScore - floor) / (cefr.needed - floor)) * 100)),
+            )
           : 100;
         // Derive which Learn Path stage matches the current CEFR level so both displays agree.
         const CEFR_TO_STAGE_IDX: Record<string, number> = {

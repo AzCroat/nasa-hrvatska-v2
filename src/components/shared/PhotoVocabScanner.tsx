@@ -302,11 +302,17 @@ export default function PhotoVocabScanner({
       const commaIdx = imageDataUrl.indexOf(',');
       const mediaType = imageDataUrl.slice(5, imageDataUrl.indexOf(';')) || 'image/jpeg';
       const imageData = imageDataUrl.slice(commaIdx + 1);
-      const data = (await apiFetch('/api/photo-vocab', {
+      // apiFetch resolves to a Response — it MUST be .json()'d. Previously the
+      // Response object was cast straight to the payload type, so `data.items`
+      // was always undefined → every scan showed "0 words found" with no Save
+      // button, and a non-2xx silently rendered the same empty results screen.
+      const res = await apiFetch('/api/photo-vocab', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageData, mediaType, level, context: context.trim() }),
-      })) as unknown as {
+      });
+      if (!res.ok) throw new Error('Scan failed (' + res.status + ')');
+      const data = (await res.json()) as {
         items?: Array<{
           hr?: string;
           en?: string;

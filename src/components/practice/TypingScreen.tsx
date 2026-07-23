@@ -124,6 +124,10 @@ export default function TypingScreen({
   // ── Finished screen ──────────────────────────────────────────────────────────
   if (tyI >= tyPool.length) {
     const xp = tyS * 5;
+    // Typing is a gated exercise: completeExercise only awards XP/credit at >=75%.
+    // Show the XP that will ACTUALLY be granted so we never promise "+40 XP" and
+    // then hand out 0 on Done. Below the gate, tell the learner what to reach.
+    const willPass = tyPool.length > 0 && tyS / tyPool.length >= 0.75;
     return (
       <div className="scr-wrap">
         {H('⌨️ Typing Practice', 'Type Croatian words with special characters', goBack)}
@@ -133,7 +137,7 @@ export default function TypingScreen({
             {tyS} / {tyPool.length}
           </h2>
           <div style={{ fontSize: 22, fontWeight: 900, color: '#d97706', marginBottom: 20 }}>
-            +{xp} XP
+            {willPass ? `+${xp} XP` : 'Reach 75% to earn XP'}
           </div>
           <button
             className="b bp"

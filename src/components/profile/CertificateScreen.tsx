@@ -275,7 +275,10 @@ export default function CertificateScreen({
               { icon: '🌍', label: 'CEFR', val: cefrLabel },
               { icon: '⭐', label: 'Total XP', val: st.xp.toLocaleString() },
               { icon: '📚', label: 'Lessons', val: st.lc },
-              { icon: '🔥', label: 'Best Streak', val: `${streak.count} days` },
+              // getStreak().count is the CURRENT streak, not a stored maximum
+              // (no all-time max is tracked anywhere), so label it honestly —
+              // otherwise a learner who broke a long streak sees "Best Streak: 0".
+              { icon: '🔥', label: 'Current Streak', val: `${streak.count} days` },
               { icon: '📝', label: 'Proficiency', val: levelLabel },
             ].map((s, i) => (
               <div

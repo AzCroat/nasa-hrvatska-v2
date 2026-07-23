@@ -131,14 +131,12 @@ export default function DialogueSim({
       if (!finishFired.current) {
         finishFired.current = true;
         if (award) {
-          const lastCorrect = freeMode
-            ? freeResult && freeResult.matched
-              ? 1
-              : 0
-            : selected === shuffledTurns[turnIdx]?.correctIdx
-              ? 1
-              : 0;
-          award((score + lastCorrect) * 6, false, 'speaking');
+          // `score` already includes the final turn: handleSelect/handleFreeSubmit
+          // incremented it on this turn's answer before Continue was tapped (a
+          // separate click, so the state has flushed). Re-adding `lastCorrect`
+          // here double-counted the last correct answer, over-awarding 6 XP and
+          // contradicting the score shown on the results screen.
+          award(score * 6, false, 'speaking');
         }
         markQuest('speak');
         // Content-Rec #9: this scenario counts toward the conversation path.
