@@ -279,19 +279,16 @@ describe('getSRScore — existing card updates', () => {
     expect(second.s).toBeGreaterThan(initialS);
   });
 
-  it('wrong answer triggers lapse path (difficulty increases, new stability is positive)', () => {
-    // FSRS-4.5 note: _nextS_forget CAN produce stability >= pre-lapse stability
-    // when R≈1 (card answered immediately after learning, 0 elapsed days).
-    // The SM-2 intuition "lapse always reduces stability" does NOT hold in FSRS-4.5.
-    // What FSRS guarantees on a lapse:
-    //   1. lapse counter increments (tested separately)
-    //   2. difficulty (d) increases (harder to learn card)
-    //   3. new stability is a valid positive number
+  it('wrong answer triggers lapse path (stability DROPS, difficulty increases)', () => {
+    // With the correct FSRS-4.5 forget weights, a lapse must REDUCE stability so
+    // the word resurfaces sooner. (The old off-spec W13 made stability grow on a
+    // lapse — that regression is what this now guards against.)
     getSRScore('laps', true, 2000);
     const beforeCard = getSR().laps;
     getSRScore('laps', false, 1000);
     const after = getSR().laps;
     expect(after.s).toBeGreaterThan(0);
+    expect(after.s).toBeLessThan(beforeCard.s); // lapse shortens the interval
     expect(after.d).toBeGreaterThan(beforeCard.d); // difficulty must increase
   });
 
@@ -1000,13 +997,10 @@ describe('FSRS scheduling math invariants', () => {
     }
   });
 
-  it('lapse increases difficulty and produces valid positive stability', () => {
-    // FSRS-4.5 note: _nextS_forget does NOT guarantee stability decreases after a lapse.
-    // When R≈1 (card answered immediately with 0 elapsed days), the formula can return
-    // stability HIGHER than before the lapse. This is correct FSRS-4.5 algorithm behavior,
-    // not a bug — the formula was trained on 700M+ Anki reviews and optimises for
-    // long-run recall accuracy, not SM-2-style interval reduction.
-    // Invariants that DO hold: difficulty increases, lapse counter increments, stability > 0.
+  it('lapse reduces stability, increases difficulty, and increments the lapse counter', () => {
+    // A mature, well-learned card (built up over several correct reviews) must
+    // still LOSE stability when failed — the interval shrinks so the word comes
+    // back soon. Guards the FSRS-4.5 forget-weight fix.
     for (let i = 0; i < 3; i++) {
       const sr = getSR();
       if (sr.lapse_test) {
@@ -1019,6 +1013,7 @@ describe('FSRS scheduling math invariants', () => {
     getSRScore('lapse_test', false, 500); // force lapse
     const afterCard = getSR().lapse_test;
     expect(afterCard.s).toBeGreaterThan(0); // valid stability
+    expect(afterCard.s).toBeLessThan(beforeCard.s); // lapse shortens the interval
     expect(afterCard.d).toBeGreaterThan(beforeCard.d); // difficulty increases
     expect(afterCard.l).toBeGreaterThan(beforeCard.l ?? 0); // lapse counter increments
   });
