@@ -3,7 +3,6 @@ import ProfileHeader from './ProfileHeader';
 import StatsTab from './StatsTab';
 import InsightsTab from './InsightsTab';
 import SettingsTab from './SettingsTab';
-import ClanCard from '../home/ClanCard';
 import EquivalencyTestCard from './EquivalencyTestCard';
 import { useApp } from '../../context/AppContext';
 import type { CefrLevel } from '../../lib/cefr';
@@ -95,13 +94,6 @@ export default function ProfileTab({
           <StatsTab onSyncNow={onSyncNow} />
           {onTakeEquivalencyTest && userEligible && (
             <EquivalencyTestCard userEligible={userEligible} onTakeTest={onTakeEquivalencyTest} />
-          )}
-          {/* ── STUDY CLAN — moved from Today tab ── */}
-          {authUser && (
-            <ClanCard
-              uid={authUser.uid}
-              displayName={authUser.displayName || authUser.email?.split('@')[0] || 'Učenik'}
-            />
           )}
         </>
       )}

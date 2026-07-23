@@ -243,18 +243,6 @@ export default function WelcomeScreen({
                 By diaspora, for diaspora — built by Croatian-Americans who know the struggle
               </span>
             </div>
-            <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
-              <span style={{ fontSize: 18 }}>👨‍👩‍👧</span>
-              <span
-                style={{
-                  fontSize: 'var(--text-sm)',
-                  color: 'rgba(255,255,255,0.75)',
-                  fontWeight: 600,
-                }}
-              >
-                Study clans — chase a weekly XP goal with cousins, siblings, and Baka
-              </span>
-            </div>
             <div style={{ display: 'flex', gap: 12 }}>
               <span style={{ fontSize: 18 }}>🇭🇷</span>
               <span

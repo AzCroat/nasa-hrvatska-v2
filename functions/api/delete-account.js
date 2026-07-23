@@ -6,7 +6,7 @@
  *   - users/{id} + its xpAudit and conversationMemory subcollections
  *     (rules deny the client both delete AND list on those subcollections)
  *   - profiles/{id}, srs/{id}
- *   - push-subscription record in KV, clan membership + roster entry in KV
+ *   - push-subscription record in KV
  *   - the Firebase Auth account itself
  *
  * Identity comes only from the verified ID token — never the request body — so
@@ -158,32 +158,7 @@ export async function onRequestPost(context) {
     }
   }
 
-  // Clan membership lives in a SEPARATE KV namespace (NH_CLANS, per clan.js) —
-  // not PUSH_SUBSCRIPTIONS. Reverse-index member:{uid}:clan → clanId, remove
-  // from roster. (An earlier version read this from the push namespace, so the
-  // clan cleanup silently found nothing.)
-  const clanKv = env.NH_CLANS || null;
-  if (clanKv) {
-    for (const memberId of new Set([uid, email].filter(Boolean))) {
-      try {
-        const clanId = await clanKv.get(`member:${memberId}:clan`);
-        if (clanId) {
-          const clan = await clanKv.get(`clan:${clanId}`, { type: 'json' });
-          if (clan && Array.isArray(clan.members)) {
-            clan.members = clan.members.filter((m) => m.uid !== memberId);
-            if (clan.members.length === 0) await clanKv.delete(`clan:${clanId}`);
-            else
-              await clanKv.put(`clan:${clanId}`, JSON.stringify(clan), {
-                expirationTtl: 365 * 86400,
-              });
-          }
-          await clanKv.delete(`member:${memberId}:clan`);
-        }
-      } catch (e) {
-        errors.push(`kv clan ${e.message}`);
-      }
-    }
-  }
+  // (Study Clan removed — no NH_CLANS roster cleanup needed.)
 
   // 4. The Firebase Auth account itself (Identity Toolkit admin batchDelete).
   let authDeleted = false;

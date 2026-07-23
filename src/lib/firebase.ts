@@ -789,7 +789,7 @@ export async function fbDeleteAccount(_userId: string): Promise<{ ok: boolean; e
     // users/{id} and profiles/{id}, and deny it list/delete on the xpAudit and
     // conversationMemory subcollections — so a client-only delete leaves PII
     // behind while reporting success (GDPR / Play Data-Deletion violation).
-    // The server deletes those docs + subcollections, the push + clan KV, and
+    // The server deletes those docs + subcollections, the push KV, and
     // the Auth account. Identity comes from the verified token, not the body.
     const { _nativePost } = await import('./nativePost');
     const res = await _nativePost('/api/delete-account', {});
