@@ -82,8 +82,14 @@ export default function DailyListeningCard({
   const [speakingLine, setSpeakingLine] = useState<string | null>(null);
   const completedKey = getCompletedKey(level);
   const checkAnswersFired = useRef(false);
+  // `checked` guards the in-session review: once the learner taps Check Answers
+  // the completion flag is written synchronously, but we must keep showing the
+  // ✓/✗ feedback (not the collapsed "come back tomorrow" card) until they tap
+  // Done. Without !checked the early return below flashes that card and the
+  // per-question feedback never appears.
   const alreadyDone =
     phase !== 'done' &&
+    !checked &&
     (() => {
       try {
         return localStorage.getItem(completedKey) === '1';
@@ -104,7 +110,10 @@ export default function DailyListeningCard({
       });
       if (!res.ok) throw new Error('API error');
       const json = await res.json();
-      if (!json.speakers?.length) throw new Error('Invalid response');
+      // Require both the dialogue AND its comprehension questions — without
+      // questions there is no Check Answers button and thus no way to finish
+      // the exercise or earn XP, leaving a dead transcript-only card.
+      if (!json.speakers?.length || !json.questions?.length) throw new Error('Invalid response');
       setData(json);
       setPhase('reading');
     } catch (e) {
@@ -140,7 +149,9 @@ export default function DailyListeningCard({
         localStorage.setItem(completedKey, '1');
       } catch {}
     }
-    setTimeout(() => setPhase('done'), 400);
+    // Stay on the reading screen so the learner can read the ✓/✗ feedback; they
+    // advance to the summary themselves via the Done button (see below). XP and
+    // completion are already recorded above, so leaving mid-review is safe.
   }, [data, answers, award, completedKey]);
 
   const speakLine = useCallback(async (text: string) => {
@@ -520,6 +531,41 @@ export default function DailyListeningCard({
               }}
             >
               Answer all {data.questions.length} questions to continue
+            </div>
+          )}
+          {checked && (
+            <div>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 800,
+                  color: score === data.questions.length ? '#16a34a' : '#0e7490',
+                  textAlign: 'center',
+                  marginBottom: 10,
+                }}
+              >
+                {score === data.questions.length
+                  ? 'Odlično! Perfect score! 🎉'
+                  : `${score}/${data.questions.length} correct — review the answers above`}
+              </div>
+              <button
+                onClick={() => setPhase('done')}
+                style={{
+                  width: '100%',
+                  height: 44,
+                  background: 'linear-gradient(135deg, #0c4a6e, #0e7490)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 12,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                  boxShadow: '0 4px 14px rgba(14,116,144,0.35)',
+                }}
+              >
+                Done →
+              </button>
             </div>
           )}
         </div>
