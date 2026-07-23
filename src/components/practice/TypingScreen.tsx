@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { H, Bar, sh, srMark, speak, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import CroatianKeyboard from '../shared/CroatianKeyboard';
@@ -99,14 +99,20 @@ export default function TypingScreen({
 }) {
   const { stats, setStats, writeDelta } = useStats();
   const { content } = useContent();
-  const V = (content?.V ?? {}) as Record<string, any[]>;
+  const V = content?.V as Record<string, any[]> | undefined;
   const finishFired = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const startTsRef = useRef(0); // tracks when current word was presented
   const consecCorrectRef = useRef(0);
   const consecWrongRef = useRef(0);
 
-  const [tyPool] = useState(() => buildPool(V));
+  // Build the pool from LIVE content. Previously this was useState(() => buildPool(V)),
+  // frozen at mount — but V (from async useContent) is empty on the first render, so
+  // the pool was permanently empty and `if (!tyPool.length) return null` rendered a
+  // blank white screen with no header/back even after content loaded. useMemo rebuilds
+  // once content arrives (V ref stabilises after load, so the pool stays fixed for the
+  // session).
+  const tyPool = useMemo(() => (V ? buildPool(V) : []), [V]);
   const [tyI, sTyI] = useState(0);
   const [tyS, sTyS] = useState(0); // correct count (perfect + close accepted)
   const [tyIn, sTyIn] = useState('');
@@ -117,7 +123,18 @@ export default function TypingScreen({
     startTsRef.current = Date.now();
   }, [tyI]);
 
-  if (!tyPool.length) return null;
+  // Content still loading (or genuinely empty) — show a header + back path instead
+  // of a blank screen the user is stranded on.
+  if (!tyPool.length) {
+    return (
+      <div className="scr-wrap">
+        {H('⌨️ Typing Practice', 'Type Croatian words with special characters', goBack)}
+        <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
+          {content ? 'No words available right now — please try again.' : 'Loading…'}
+        </div>
+      </div>
+    );
+  }
 
   const tyW = tyPool[tyI]!;
 
