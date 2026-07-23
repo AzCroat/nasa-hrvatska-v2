@@ -32,11 +32,20 @@ function err(status, msg, origin) {
   return new Response(JSON.stringify({ error: msg }), { status, headers: corsHeaders(origin) });
 }
 
+// ISO 8601 week key — MUST match the client's src/lib/dateUtils.ts weekKey()
+// exactly. The previous non-ISO version rolled over on SUNDAY while the client
+// (and all of nh_week_xp_*) rolls on MONDAY, so every Sunday the server zeroed
+// each clan member's weekXP a day early while the client still considered it the
+// prior week and never re-sent the wiped Mon-Sat total → the clan bars collapsed
+// to ~0 every Sunday.
 function weekKey() {
-  const d = new Date();
-  const startOfYear = new Date(d.getFullYear(), 0, 1);
-  const week = Math.ceil(((d - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
-  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
+  const now = new Date();
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
 }
 
 function nanoid(len = 8) {

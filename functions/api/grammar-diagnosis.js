@@ -289,7 +289,7 @@ export async function onRequestPost(context) {
   if (
     !Array.isArray(parsed.blindSpots) ||
     parsed.blindSpots.length < 1 ||
-    parsed.blindSpots.length > 3
+    parsed.blindSpots.length > 5 // prompt asks for 3-5; success path already slice(0,3)
   ) {
     console.error('grammar-diagnosis.js: blindSpots missing or out of range after validation');
     return err(502, 'parse_failed', origin);

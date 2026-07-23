@@ -570,6 +570,11 @@ export async function fbLoadProgress(uid: string): Promise<Record<string, unknow
       lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
       gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
       sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
+      // pr (production reps) IS delta-written via fbApplyDelta, so _as carries it
+      // and would clobber a higher blob value without this Math.max — the one
+      // _DELTA_NUMERIC field that was missing its load-side backstop, causing the
+      // "real fluency signal" to regress on a cache-cold read.
+      pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
       de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
       rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
       pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),
@@ -937,6 +942,8 @@ export function fbWatchProgress(
             lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
             gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
             sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
+            // pr regression backstop — see fbLoadProgress above.
+            pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
             de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
             rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
             pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),

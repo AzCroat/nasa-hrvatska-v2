@@ -166,7 +166,7 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 500,
+          max_tokens: 1024, // 500 truncated the JSON reply (croatian + english + feedback) → cut-off/garbled
           system: systemPrompt,
           messages: history,
         }),
