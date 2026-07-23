@@ -273,6 +273,18 @@ describe('DictationScreen — exact answer', () => {
     clickCheck();
     expect(screen.getByText(/✓ Correct!/)).toBeTruthy();
   });
+
+  it('omitting the internal comma (inaudible) is still fully Correct, not wrong', () => {
+    // Regression: normalise() used to strip only TRAILING punctuation, so a
+    // learner who typed every word correctly but left out the comma they cannot
+    // hear ("Dobar dan kako ste") was marked WRONG. Punctuation is now ignored.
+    renderScreen();
+    typeInInput('Dobar dan kako ste');
+    clickCheck();
+    expect(screen.getByText(/✓ Correct!/)).toBeTruthy();
+    expect(screen.getByText(/Score: 1/)).toBeTruthy();
+    expect(mockRecordTopicResult).toHaveBeenCalledWith('listening', true);
+  });
 });
 
 // ─── Close match (diacritics stripped) ───────────────────────────────────────

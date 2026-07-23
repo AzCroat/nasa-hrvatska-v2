@@ -354,10 +354,18 @@ const levelText: Record<string, string> = {
 };
 
 function normalise(s: string) {
+  // Punctuation is inaudible in dictation, so it must not gate correctness.
+  // Previously only TRAILING punctuation was stripped, so a learner who typed
+  // every word right but omitted an internal comma (e.g. "Dobar dan, kako ste?")
+  // was marked fully WRONG — not even "close". Now all punctuation is turned to
+  // spaces and whitespace is collapsed, so comma/period presence is ignored on
+  // both the input and the target.
   return s
     .trim()
     .toLowerCase()
-    .replace(/[.,!?;:]+$/, '');
+    .replace(/[.,!?;:"'“”…—–\-()]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 const DIACRITICS = ['Č', 'Ć', 'Š', 'Ž', 'Đ', 'č', 'ć', 'š', 'ž', 'đ'];
