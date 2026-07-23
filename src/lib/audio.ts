@@ -407,6 +407,11 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       dbgError('[TTS] HTMLAudio play() FAILED:', playErr);
       return false;
     }
+    // An 'error' event DURING playback (decode/media failure mid-stream) is a
+    // failure, not success — returning true here meant speak() reported 'azure'
+    // and never fell through to the Web Speech fallback or dispatched
+    // nh:tts-failed, so the user heard nothing with no "Audio unavailable" toast.
+    let playbackFailed = false;
     await new Promise<void>((resolve) => {
       a.addEventListener(
         'ended',
@@ -420,6 +425,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
         'error',
         (ev) => {
           dbgError('[TTS] HTMLAudio error event:', (ev as ErrorEvent).message || ev);
+          playbackFailed = true;
           resolve();
         },
         { once: true },
@@ -427,7 +433,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       a.addEventListener('pause', () => resolve(), { once: true });
       a.addEventListener('abort', () => resolve(), { once: true });
     });
-    return true;
+    return !playbackFailed;
   } catch (e) {
     dbgError('[TTS] speakAzure unhandled error:', e);
     return false;

@@ -312,6 +312,21 @@ export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reaso
   const { subscription } = await initPushNotifications();
   if (!subscription) return { ok: false, reason: 'subscription_failed' };
 
+  // Include the reminder preference + IANA timezone. Without them, push-subscribe
+  // defaulted reminderTime to null and (because it does a full KV overwrite)
+  // clobbered any preference the user had set via registerPushWithServer — so the
+  // scheduled worker fell back to sending every web user's daily reminder at 13:00
+  // UTC regardless of the time chosen in Settings. This is the Settings "Enable"
+  // path AND the ~daily useNotifications refresh, so the override reverted within a day.
+  let reminderTime = '20:00';
+  try {
+    reminderTime = localStorage.getItem('nh_reminder_time') || '20:00';
+  } catch {}
+  let timeZone = '';
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {}
+
   try {
     const { apiFetch } = await import('./apiFetch');
     const res = await apiFetch('/api/push-subscribe', {
@@ -320,6 +335,8 @@ export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reaso
       body: JSON.stringify({
         subscription: subscription.toJSON ? subscription.toJSON() : subscription,
         userId: String(userId || '').slice(0, 64),
+        reminderTime,
+        timeZone,
       }),
     });
     if (res.ok) {

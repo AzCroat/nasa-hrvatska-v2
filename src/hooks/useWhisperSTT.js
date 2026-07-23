@@ -212,14 +212,19 @@ export default function useWhisperSTT({
           mimeType: blob.type || 'audio/webm',
         });
 
-        // null = total transport failure (Capacitor native unreachable endpoint, etc.)
-        // !res.ok (including 503 = Whisper not configured) → fall back to Web Speech
-        if (!res || res.status === 503) {
-          // Whisper not configured or transport failed — mark unavailable and let the component fall back
+        // 503 = Whisper genuinely not configured on the server → disable for the
+        // session and fall back to Web Speech (permanent, correct).
+        if (res && res.status === 503) {
           whisperAvailRef.current = false;
           cleanup();
           return;
         }
+        // null = a TRANSIENT transport failure (native unreachable, a 5xx, or a
+        // brief network drop while navigator.onLine is still true). Previously this
+        // was conflated with the 503 case, so one hiccup silently dropped the
+        // utterance AND disabled Whisper for the rest of the session. Surface it via
+        // onError instead and keep Whisper available — the next utterance may succeed.
+        if (!res) throw new Error('Voice transcription failed — please try again.');
         if (!res.ok) throw new Error('STT error ' + res.status);
 
         whisperAvailRef.current = true;
