@@ -334,10 +334,16 @@ export async function fbSaveProgress(
   // Exclude SRS from the progress blob (it now lives in srs/{id})
   const { sr: _sr, ...dataWithoutSRS } = data;
   const _progressJson = JSON.stringify(dataWithoutSRS);
+  // Clamp to the firestore.rules profiles caps (xp ≤ 100,000,000, lc ≤ 10,000,000)
+  // as belt-and-suspenders: the profiles doc is written in the SAME atomic batch as
+  // the users progress blob, so if profileEntry.xp/lc ever exceeded the rule cap the
+  // whole commit (progress blob included) would be rejected and the account would
+  // silently stop syncing. No real learner reaches these values; this just guarantees
+  // the batch can never fail on the leaderboard field.
   const profileEntry = {
     name: (data.name as string) || '',
-    xp: _bestXP,
-    lc: _bestLC,
+    xp: Math.min(_bestXP, 100000000),
+    lc: Math.min(_bestLC, 10000000),
     streak: _bestStrk,
     level: _bestLvl,
     lastActive: _nowMs,

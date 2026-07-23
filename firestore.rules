@@ -38,16 +38,24 @@ service cloud.firestore {
     // batch (e.g. 20 lessons × 50 XP = 1000 XP). The cap was silently blocking
     // legitimate cross-device sync writes, causing divergent state across devices.
     // Anti-cheat protection: XP can never decrease (except an explicit reset to 0),
-    // total cap enforced at 100,000 XP (well above any legitimate learner), and the
-    // progress blob size is separately capped at 200 KB.
+    // total cap generously enforced, and the progress blob size is separately
+    // capped at 200 KB.
+    // 2026-07: the previous 100,000 total cap and 1,000 per-write cap were NOT
+    // "well above any legitimate learner" — at ~200 XP/day a dedicated learner
+    // reaches 100,000 in ~1.4 years, after which every save was rejected (the
+    // users+profiles write is one atomic batch, so a profiles-cap rejection took
+    // down the progress blob too), silently write-locking the account to
+    // local-only. Raised the total cap to 100,000,000 (~1,370 years) and the
+    // per-write cap to 100,000 (a large but bounded offline batch) so real users
+    // are never blocked while absurd single-write manipulation still is.
     function validXpUpdate() {
       let oldXp = resource.data.get('xp', 0);
       let newXp = request.resource.data.get('xp', oldXp);
       return newXp >= 0
         && newXp == int(newXp)
         && (newXp >= oldXp || newXp == 0)
-        && newXp <= 100000
-        && (newXp - oldXp) <= 1000;  // per-write backstop; blocks extreme offline manipulation
+        && newXp <= 100000000
+        && (newXp - oldXp) <= 100000;  // per-write backstop; blocks extreme single-write manipulation
     }
 
     // User-doc UPDATE: progress blob must be ≤ 200 KB to prevent abuse.
@@ -126,18 +134,18 @@ service cloud.firestore {
       allow create: if isOwner(userId)
         && request.resource.data.keys().hasAll(['name', 'xp', 'lc', 'streak', 'level', 'lastActive'])
         && request.resource.data.xp >= 0
-        && request.resource.data.xp <= 100000
+        && request.resource.data.xp <= 100000000
         && request.resource.data.lc >= 0
-        && request.resource.data.lc <= 10000
+        && request.resource.data.lc <= 10000000
         && (request.resource.data.level is int
             ? (request.resource.data.level >= 1 && request.resource.data.level <= 6)
             : request.resource.data.level in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
       allow update: if isOwner(userId)
         && request.resource.data.keys().hasAll(['name', 'xp', 'lc', 'streak', 'level', 'lastActive'])
         && request.resource.data.xp >= 0
-        && request.resource.data.xp <= 100000
+        && request.resource.data.xp <= 100000000
         && request.resource.data.lc >= 0
-        && request.resource.data.lc <= 10000
+        && request.resource.data.lc <= 10000000
         // level is always a number 1-6 (A1→1 … C2→6) after the CEFR mapping in fbSaveProgress.
         // Accept int in range 1-6, OR one of the canonical CEFR strings for legacy writes.
         // Rejecting arbitrary strings closes a low-value injection vector.

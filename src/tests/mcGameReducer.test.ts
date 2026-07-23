@@ -90,6 +90,83 @@ describe('useMcGameReducer', () => {
     expect(result.current[0].wrongStreak).toBe(0);
   });
 
+  it('ANSWER correct on a RE-TRIED question does NOT increment score (first-attempt scoring)', () => {
+    // Regression: score used to count every eventual-correct answer, so a quiz
+    // where every question is eventually cleared always reported 100%. A retried
+    // question (_isRetry=true) was actually missed and must not earn a point.
+    const q = makeQ({ _isRetry: true });
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: true,
+          optionIndex: 1,
+          question: q,
+          grammarTip: null,
+          persistentHeartsAfter: undefined,
+          isHeartsMode: false,
+        },
+      });
+    });
+    expect(result.current[0].score).toBe(0); // no point for a retried question
+    expect(result.current[0].streak).toBe(1); // but streak/combo still advance
+  });
+
+  it('a missed-then-cleared question yields a non-perfect final score', () => {
+    // Two questions: get the first wrong (re-queue), answer the second right,
+    // then finally answer the re-queued first right. Queue empties (game ends)
+    // but score is 1/2, not a false 2/2.
+    const q0 = makeQ({ hr: 'first', _qIdx: 0 });
+    const q1 = makeQ({ hr: 'second', _qIdx: 1 });
+    const { result } = renderHook(() => useMcGameReducer([q0, q1], 5));
+    const dispatch = (a: Parameters<(typeof result.current)[1]>[0]) =>
+      act(() => {
+        result.current[1](a);
+      });
+    // Q0 wrong → re-queue with _isRetry
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: false,
+        optionIndex: 0,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'RE_QUEUE_WRONG' });
+    // Q1 correct (first attempt) → +1
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: true,
+        optionIndex: 1,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'ADVANCE_CORRECT' });
+    // Re-tried Q0 now correct → no point
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: true,
+        optionIndex: 1,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'ADVANCE_CORRECT' });
+    expect(result.current[0].queue).toHaveLength(0); // game complete
+    expect(result.current[0].score).toBe(1); // 1/2, not a false perfect
+  });
+
   it('ANSWER wrong decrements hearts and sets shaking', () => {
     const q = makeQ();
     const { result } = renderHook(() => useMcGameReducer([q], 3));
