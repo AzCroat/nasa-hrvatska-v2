@@ -44,7 +44,11 @@ export function getHearts(): number {
   const regenCount = Math.floor(hoursPassed);
   if (regenCount > 0 && safeHearts < 5) {
     const newHearts = Math.min(5, safeHearts + regenCount);
-    const updated: HeartsState = { ...s, hearts: newHearts, lastRegen: Date.now() };
+    // Advance the regen clock by exactly the whole 4-hour blocks consumed, not to
+    // "now", so the sub-4h remainder carries over toward the next heart instead of
+    // being discarded (which would make regen slower than the advertised 1 / 4h).
+    const nextRegen = (s.lastRegen || 0) + regenCount * 14400000;
+    const updated: HeartsState = { ...s, hearts: newHearts, lastRegen: nextRegen };
     saveState(updated);
     return newHearts;
   }
@@ -56,10 +60,14 @@ export function loseHeart(): number {
   const today = todayKey();
   const current = s && s.date === today ? s.hearts : 5;
   const newHearts = Math.max(0, current - 1);
-  // When date has changed (returning user on a new day), reset lastRegen to now.
-  // Using the old lastRegen from a previous day causes getHearts() to immediately
-  // regen all hearts (20+ hours elapsed), breaking the lives system for returning users.
-  const lastRegen = s && s.date === today ? s.lastRegen || Date.now() : Date.now();
+  // Anchor the regen clock at the moment hearts first drop below full. While a
+  // user sits at 5 hearts, getHearts() never advances lastRegen (its regen branch
+  // requires hearts < 5), so it stays pinned at the day's first read. Without
+  // re-anchoring on the 5→4 drop, a heart lost hours later would be instantly
+  // refunded by the next getHearts() (which would see many hours of "elapsed"
+  // regen time). A new day (or a loss while already below 5) also resets to now /
+  // preserves the ongoing cycle respectively.
+  const lastRegen = s && s.date === today && current < 5 ? s.lastRegen || Date.now() : Date.now();
   saveState({ date: today, hearts: newHearts, lastRegen });
   return newHearts;
 }
