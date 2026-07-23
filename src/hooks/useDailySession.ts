@@ -308,7 +308,13 @@ export function buildSessionActivities(
   // path), drop orphan cards (words removed from vocabulary) so the slot is
   // only added if /review will render content. Fallback to the unfiltered
   // count when no pool is provided (e.g., unit tests).
-  const dueCount = poolWords ? getServableReviewCount(poolWords) : getDueReviews().length;
+  // Use the servable (orphan-filtered) count ONLY when poolWords is actually
+  // populated. On a cold app-open the pool is empty on the first render (content
+  // loads async) — treating that as "0 due" silently dropped the Word Review slot
+  // from the whole day's session (it's built once, keyed on userCefr). Fall back to
+  // the raw FSRS due count when the pool isn't ready, so due reviews still get a slot.
+  const dueCount =
+    poolWords && poolWords.size > 0 ? getServableReviewCount(poolWords) : getDueReviews().length;
   if (dueCount > 0) {
     activities.push({
       id: 'srsreview',
@@ -675,7 +681,13 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     if (session.completedIds.includes(srsActivity.id)) return;
     // Use the same pool-aware count buildSessionActivities now uses, so the
     // skip decision agrees with what ReviewScreen will actually serve.
-    const dueCount = poolWords ? getServableReviewCount(poolWords) : getDueReviews().length;
+    // Use the servable (orphan-filtered) count ONLY when poolWords is actually
+    // populated. On a cold app-open the pool is empty on the first render (content
+    // loads async) — treating that as "0 due" silently dropped the Word Review slot
+    // from the whole day's session (it's built once, keyed on userCefr). Fall back to
+    // the raw FSRS due count when the pool isn't ready, so due reviews still get a slot.
+    const dueCount =
+      poolWords && poolWords.size > 0 ? getServableReviewCount(poolWords) : getDueReviews().length;
     if (dueCount > 0) return;
     // Use the same setter path markDone uses (persist + history side-effects).
     setSession((prev) => {

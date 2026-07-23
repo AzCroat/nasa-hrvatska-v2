@@ -620,7 +620,7 @@ export default function AspectDrillScreen({
                 finishFired.current = true;
                 // Gated: credit (vs 'aspect') only at >=75% — closes the back-door into the
                 // AspectScreen lesson gate (PR #37), which shares the 'aspect' key.
-                completeExercise({
+                const { passed } = completeExercise({
                   key: 'aspect',
                   score,
                   total,
@@ -630,6 +630,20 @@ export default function AspectDrillScreen({
                   writeDelta,
                   award,
                 });
+                // The Aspect Drill path node (learnPath lp52) checks vsIncludes:'aspectdrill',
+                // but this screen's exercise key is 'aspect' (shared with the AspectScreen
+                // lesson gate), so the node never checked off from doing the drill. On a pass,
+                // also record the drill's own path-node key — vs only (gc is already credited
+                // by completeExercise; 'aspectdrill' is not a black-hole screen so nothing else
+                // writes it). vs is union-merged on sync, so this is additive and safe.
+                if (passed && !stats.vs?.includes('aspectdrill')) {
+                  setStats((prev) =>
+                    prev.vs?.includes('aspectdrill')
+                      ? prev
+                      : { ...prev, vs: [...(prev.vs || []), 'aspectdrill'] },
+                  );
+                  if (writeDelta) writeDelta({ vs: ['aspectdrill'] });
+                }
                 goBack();
               }}
             >
