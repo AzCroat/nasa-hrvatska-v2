@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useContent } from '../../hooks/useContent';
 import { evalCk } from '../../lib/learnPathRules';
+import { getUserCefr } from '../../lib/cefr';
+import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import LearnPathWidget from './LearnPathWidget';
@@ -151,16 +153,14 @@ export default function LearnTab({
     : 100;
   const sc = STAGE_COLORS[((currentStage?.level || 1) - 1) % STAGE_COLORS.length]!;
 
-  // CEFR level estimate from stats
-  const cefrLevel = (() => {
-    if (!st) return 'A1';
-    const { xp = 0, lc = 0, gc = 0 } = st;
-    if (xp >= 700 && lc >= 25 && gc >= 6) return 'B2';
-    if (xp >= 300 && lc >= 15 && gc >= 4) return 'B1';
-    if (xp >= 100 && lc >= 8 && gc >= 2) return 'A2';
-    return 'A1';
-  })();
-  const cefrPct = { A1: 8, A2: 33, B1: 58, B2: 83 }[cefrLevel] || 8;
+  // CEFR level — MUST use the canonical single source of truth so the Learn-tab
+  // header never contradicts the profile CEFR badge. The old hand-rolled formula
+  // (capped at B2, ignored certification, used a different weighting) could show
+  // A1 in the Learn tab while the profile showed B2 for the same user.
+  const cefrLevel = st
+    ? getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0))
+    : 'A1';
+  const cefrPct = { A1: 8, A2: 25, B1: 42, B2: 58, C1: 75, C2: 92 }[cefrLevel as string] || 8;
 
   function launchVocab(t: string): void {
     const items = sh((V as Record<string, unknown[]>)[t] || []);

@@ -200,7 +200,7 @@ export default function InsightsTab() {
         if (!weak.length) return null;
         return (
           <React.Fragment>
-            <h3 className="sh">📈 Growth Opportunities</h3>
+            <h3 className="sh">🎯 Focus Areas</h3>
             <div
               style={{
                 fontSize: 'var(--text-xs)',
@@ -209,7 +209,7 @@ export default function InsightsTab() {
                 fontWeight: 500,
               }}
             >
-              These topics are building the fastest — keep practicing!
+              These topics need the most work — a little practice goes a long way.
             </div>
             <div style={{ marginBottom: 20 }}>
               {weak.slice(0, 5).map((w) => (
@@ -242,24 +242,20 @@ export default function InsightsTab() {
                         fontSize: 'var(--text-xs)',
                         fontWeight: 600,
                         marginTop: 2,
-                        color:
-                          w.accuracy < 30
-                            ? 'var(--error)'
-                            : w.accuracy > 40
-                              ? 'var(--warning)'
-                              : 'var(--error)',
+                        // Monotonic: lower accuracy = more urgent (red → orange).
+                        color: w.accuracy < 40 ? 'var(--error)' : 'var(--warning)',
                       }}
                     >
                       {w.accuracy}% accuracy · {w.attempts} attempts
                       <span
                         style={{
                           fontSize: 10,
-                          color: 'var(--success)',
+                          color: 'var(--warning)',
                           fontWeight: 700,
                           marginLeft: 4,
                         }}
                       >
-                        ↑ improving
+                        needs work
                       </span>
                     </div>
                   </div>

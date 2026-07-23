@@ -191,6 +191,10 @@ export default function AdaptiveInsightsCard({
           weakWords,
         }),
       });
+      // Guard on resp.ok: a non-2xx with a JSON error body would otherwise parse
+      // fine, get written to the day-scoped cache, and leave the "Your Focus
+      // Today" card blank for the REST OF THE DAY even after the backend recovers.
+      if (!resp.ok) throw new Error('insights ' + resp.status);
       const data = (await resp.json()) as InsightsData;
       _saveCache(uid, data);
       setInsights(data);

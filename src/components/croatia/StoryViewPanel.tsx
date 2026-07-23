@@ -64,7 +64,7 @@ interface StoryViewPanelProps {
 // ── Word token component ───────────────────────────────────────────────────────
 function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) {
   const [state, setState] = useState('idle'); // idle | loading | shown
-  const [translation, setTranslation] = useState(null);
+  const [translation, setTranslation] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = useCallback(async () => {
@@ -81,8 +81,19 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
           params: { word },
         }),
       });
+      // /api/ai-chat mode:'translate' returns { text: '{"translation":"…","note":"…"}' }
+      // — the translation is inside the JSON string `text`, not a top-level
+      // `translation`/`reply`/`content` field (those were always undefined, so
+      // every word tap fell back to the literal "…"). Parse `text` like the
+      // sibling CroatianNewsScreen/GrammarReader do.
       const data = await res.json();
-      const tr = data.translation || data.reply || data.content || '…';
+      let tr = '…';
+      try {
+        const parsed = typeof data.text === 'string' ? JSON.parse(data.text) : data.text || {};
+        tr = parsed.translation || parsed.reply || data.translation || '…';
+      } catch {
+        tr = (typeof data.text === 'string' && data.text) || data.translation || '…';
+      }
       setTranslation(tr);
       setState('shown');
       if (timerRef.current !== null) clearTimeout(timerRef.current);
