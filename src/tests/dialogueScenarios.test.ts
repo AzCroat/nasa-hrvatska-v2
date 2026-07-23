@@ -6,8 +6,13 @@
  * never ship: a missing field or wrong answer-index here renders a broken
  * exercise, not a build error.
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { SCENARIOS } from '../components/practice/dialogueScenarios.js';
+
+// Importing the Pages Function only to read its exported scenario allowlist;
+// stub the auth helper so the module import has no side effects.
+vi.mock('../../functions/api/_requireAuth.js', () => ({ requireAuthedAI: vi.fn() }));
+import { VALID_SCENARIO_IDS } from '../../functions/api/dialogue.js';
 
 interface Turn {
   speaker: string;
@@ -76,5 +81,24 @@ describe('dialogueScenarios — structural integrity', () => {
     expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(2);
     expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(2);
     expect(scenarios.length).toBeGreaterThanOrEqual(26);
+  });
+});
+
+describe('dialogueScenarios — client/server parity', () => {
+  // Every scenario the menu offers must have a server-side AI context in
+  // dialogue.js, otherwise its "✨ AI Conversation" mode hard-fails with
+  // HTTP 400 'Invalid scenario'. Regression guard for the 16/26 breakage.
+  it('every client scenario id is a valid server scenario id', () => {
+    const serverIds = new Set(VALID_SCENARIO_IDS);
+    const missing = scenarios.map((s) => s.id).filter((id) => !serverIds.has(id));
+    expect(missing, `client scenarios with no server AI context: ${missing.join(', ')}`).toEqual(
+      [],
+    );
+  });
+
+  it('has no orphaned server scenario id (not offered to the user)', () => {
+    const clientIds = new Set(scenarios.map((s) => s.id));
+    const orphaned = VALID_SCENARIO_IDS.filter((id) => !clientIds.has(id));
+    expect(orphaned, `server scenarios not in the client menu: ${orphaned.join(', ')}`).toEqual([]);
   });
 });

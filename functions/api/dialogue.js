@@ -74,9 +74,93 @@ const SCENARIO_CONTEXTS = {
     setting: 'a Croatian family gathering',
     role: 'You are Gospođa Horvat welcoming a foreign guest. Be warm, hospitable, and traditionally Croatian. 1-2 sentences.',
   },
+  bakery: {
+    character: 'Pekarica (baker)',
+    setting: 'a bakery (pekarnica) in Croatia',
+    role: 'You are a friendly Croatian baker selling bread, burek and pastries. Warm and quick. 1-2 sentences.',
+  },
+  market: {
+    character: 'Prodavačica na tržnici (market vendor)',
+    setting: 'an open-air market (tržnica) in Croatia',
+    role: 'You are a Croatian market vendor selling fruit and vegetables. Friendly and chatty; weigh and price things. 1-2 sentences.',
+  },
+  hotel: {
+    character: 'Recepcionar (hotel receptionist)',
+    setting: 'a hotel reception on the Croatian coast',
+    role: 'You are a Croatian hotel receptionist handling check-in. Polite and efficient, using the formal V-form. 1-2 sentences.',
+  },
+  taxi: {
+    character: 'Taksist (taxi driver)',
+    setting: 'a taxi in a Croatian city',
+    role: 'You are a chatty Croatian taxi driver. Confirm the destination and make light small talk. 1-2 sentences.',
+  },
+  post_office: {
+    character: 'Poštanski službenik (postal clerk)',
+    setting: 'a post office (pošta) in Croatia',
+    role: 'You are a Croatian postal clerk helping send a package abroad. Ask about contents and weight. Polite V-form. 1-2 sentences.',
+  },
+  hairdresser: {
+    character: 'Frizerka (hairdresser)',
+    setting: 'a hair salon in Croatia',
+    role: 'You are a friendly Croatian hairdresser. Ask what cut they want and chat while you work. 1-2 sentences.',
+  },
+  apartment: {
+    character: 'Gazdarica (apartment host)',
+    setting: 'a phone call about renting a summer apartment (apartman) on the coast',
+    role: 'You are a Croatian apartment host taking a booking by phone. Discuss dates, price and details. Polite V-form. 1-2 sentences.',
+  },
+  phone_appointment: {
+    character: 'Medicinska sestra (dental receptionist)',
+    setting: 'a phone call to a dental practice in Croatia',
+    role: 'You are a Croatian dental receptionist scheduling an appointment by phone. Offer times politely in the V-form. 1-2 sentences.',
+  },
+  complaint: {
+    character: 'Službenik za reklamacije (returns clerk)',
+    setting: 'the returns desk of a Croatian shop',
+    role: 'You are a Croatian shop clerk handling a return/complaint (reklamacija). Polite but procedural — ask for the receipt and the fault. V-form. 1-2 sentences.',
+  },
+  job_interview: {
+    character: 'Poslodavac (café owner)',
+    setting: 'a job interview for a seasonal café position in Croatia',
+    role: 'You are a Croatian café owner interviewing a candidate for a seasonal job. Ask about experience and availability. Professional and warm, V-form. 1-2 sentences.',
+  },
+  bank: {
+    character: 'Bankovni službenik (bank clerk)',
+    setting: 'a bank in Croatia',
+    role: 'You are a Croatian bank clerk helping open an account. Formal register; ask for documents such as OIB and ID. V-form. 1-2 sentences.',
+  },
+  dinner_debate: {
+    character: 'Stric Ivo (opinionated uncle)',
+    setting: 'a family dinner-table debate in Croatia',
+    role: 'You are Stric Ivo, a warm but opinionated Croatian uncle debating life in Croatia over dinner. Push back playfully and invite the learner to argue their side. 1-3 sentences.',
+  },
+  stanodavac: {
+    character: 'Stanodavac (landlord)',
+    setting: 'a dispute with your landlord in Croatia',
+    role: 'You are a Croatian landlord disagreeing with your tenant over a deposit or repairs. Defensive but reasonable; make the learner assert their rights. Measured, firm register. 1-3 sentences.',
+  },
+  lijecnicki_pregled: {
+    character: 'Specijalist (specialist doctor)',
+    setting: 'a specialist medical examination in Croatia',
+    role: 'You are a Croatian specialist doctor. Ask precise questions about symptoms and discuss options in professional register. V-form. 1-3 sentences.',
+  },
+  okrugli_stol: {
+    character: 'Moderator (panel moderator)',
+    setting: 'a public round-table debate on emigration in Croatia',
+    role: 'You are the moderator of a Croatian round-table on emigration. Pose pointed questions and invite the learner to concede, counter and conclude. Formal, articulate register. 1-3 sentences.',
+  },
+  knjizevna_vecer: {
+    character: 'Književnica (the novelist)',
+    setting: 'a literary evening discussing a novel with its author',
+    role: 'You are a Croatian novelist discussing your book at a literary evening. Reflect on its themes and welcome interpretation and polite challenge. Rich, literary register. 1-3 sentences.',
+  },
 };
 
-const VALID_SCENARIO_IDS = Object.keys(SCENARIO_CONTEXTS);
+// Exported so a unit test can assert parity with the client scenario list
+// (the 10→26 content expansion previously updated the client but not this map,
+// leaving 16 scenarios' AI mode returning HTTP 400). Pages Functions ignore
+// extra named exports.
+export const VALID_SCENARIO_IDS = Object.keys(SCENARIO_CONTEXTS);
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export async function onRequestOptions({ request }) {

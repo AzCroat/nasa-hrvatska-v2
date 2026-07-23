@@ -200,8 +200,11 @@ export default function DialogueSim({
       setAiCoaching(data.coaching || null);
       setAiTurns((t) => t + 1);
     } catch {
-      setAiError('Could not connect. Check your internet and try again.');
+      setAiError('Could not reach Maja. Please try again.');
+      // Roll back the optimistic user turn but put the text back in the box so
+      // the learner can resend it rather than losing what they typed.
       setAiHistory(aiHistory);
+      setAiInput(userMsg);
     } finally {
       setAiLoading(false);
     }
