@@ -428,7 +428,20 @@ export default function ShadowingScreen({
     prevRecordingState.current = recState;
   }, [recState]);
 
-  if (!SHADOWING || SHADOWING.length === 0) return null;
+  // Content still loading (or unavailable offline) — render a header + back path
+  // instead of a blank screen. SHADOWING is empty on the first render (useContent
+  // is async) and stays empty if content can't load, so `return null` stranded the
+  // user on a blank page with no way out.
+  if (!SHADOWING || SHADOWING.length === 0) {
+    return (
+      <div className="scr-wrap">
+        {H('🗣️ Shadowing Practice', 'Listen and repeat', goBack)}
+        <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
+          {content ? 'No shadowing lines available right now — please try again.' : 'Loading…'}
+        </div>
+      </div>
+    );
+  }
   // 3b: level-aware selection. Items now carry a CEFR `level` tag — serve the
   // ~12 nearest the user's unlock level (easier→harder order) instead of the
   // whole pool in fixed order. Content cached before the deploy has no tags
