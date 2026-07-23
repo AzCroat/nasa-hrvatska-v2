@@ -22,7 +22,6 @@
 #   npm run setup:cf
 #
 # Pages KV bindings (production + preview):
-#   NH_CLANS      (title: nasa-hrvatska-clans)   — Study clan cohort data
 #   XP_VELOCITY   (title: nasa-hrvatska-xp-velocity) — Per-user XP velocity window
 #
 # To create XP_VELOCITY:

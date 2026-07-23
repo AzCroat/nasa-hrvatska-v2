@@ -139,7 +139,7 @@ export async function getFirebaseUid(request, projectId) {
 
 /**
  * Verify the token and return the identity claims the app keys data on:
- *   uid   — the opaque Firebase user_id (push/clan KV keys)
+ *   uid   — the opaque Firebase user_id (push KV keys)
  *   email — the email claim (Firestore doc IDs are email-derived app-wide)
  * Returns null if the token is invalid.
  */

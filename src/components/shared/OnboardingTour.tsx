@@ -39,11 +39,6 @@ const DIASPORA_STEPS = [
     title: 'Explore Croatia from anywhere',
     body: 'The Croatia tab is your cultural home — songs, history, recipes, cities, and live Croatian radio. Language and culture, together.',
   },
-  {
-    icon: '🔥',
-    title: 'Learn together',
-    body: "Invite family and friends to a study clan — up to five learners chasing one shared weekly XP goal. When Baka sees you learning Croatian, she'll want to join.",
-  },
 ];
 
 interface OnboardingTourProps {
