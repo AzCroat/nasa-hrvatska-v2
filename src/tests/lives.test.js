@@ -196,4 +196,55 @@ describe('lives — hearts system', () => {
     expect(ms).toBeGreaterThan(3600000 * 2.9);
     expect(ms).toBeLessThanOrEqual(3600000 * 3.1);
   });
+
+  // ── refund regression (lastRegen re-anchored on the 5→4 drop) ─────────────────
+
+  it('a heart lost while at 5 with a stale lastRegen is NOT instantly refunded', () => {
+    vi.useFakeTimers();
+    const now = Date.now();
+    vi.setSystemTime(now);
+    const today = localDateStr();
+    // Full hearts, but lastRegen pinned 10h ago (day started this morning; the
+    // user sat at 5 all day, so getHearts never advanced lastRegen).
+    localStorage.setItem(
+      'nh_hearts',
+      JSON.stringify({ date: today, hearts: 5, lastRegen: now - 10 * 3600000 }),
+    );
+    expect(loseHeart()).toBe(4);
+    // Next read must stay 4. Before the fix, getHearts() saw ~10h of "elapsed"
+    // regen and refunded straight back to 5.
+    expect(getHearts()).toBe(4);
+  });
+
+  it('multiple hearts lost late in the day stay lost (5 → 3)', () => {
+    vi.useFakeTimers();
+    const now = Date.now();
+    vi.setSystemTime(now);
+    const today = localDateStr();
+    localStorage.setItem(
+      'nh_hearts',
+      JSON.stringify({ date: today, hearts: 5, lastRegen: now - 9 * 3600000 }),
+    );
+    expect(loseHeart()).toBe(4); // anchors lastRegen to now
+    expect(loseHeart()).toBe(3); // already below 5 → keeps lastRegen, no refund
+    expect(getHearts()).toBe(3);
+  });
+
+  it('regen preserves the sub-4h remainder instead of restarting the clock at now', () => {
+    vi.useFakeTimers();
+    const now = Date.now();
+    vi.setSystemTime(now);
+    const today = localDateStr();
+    // 7h since lastRegen at 3 hearts → 1 heart regens (floor(7/4)), 3h remainder.
+    localStorage.setItem(
+      'nh_hearts',
+      JSON.stringify({ date: today, hearts: 3, lastRegen: now - 7 * 3600000 }),
+    );
+    expect(getHearts()).toBe(4);
+    // lastRegen advanced by exactly one 4h block, leaving a 3h remainder, so the
+    // next heart is ~1h away — NOT a full 4h (and NOT 0, which the old code showed).
+    const ms = getRegenTimeMs();
+    expect(ms).toBeGreaterThan(0);
+    expect(ms).toBeLessThanOrEqual(3600000 * 1.1);
+  });
 });
