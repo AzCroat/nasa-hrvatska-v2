@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { getFreezesStored, purchaseFreeze, FREEZE_COST_XP } from '../lib/streakFreeze';
 import { updateStreak, getStreakFreezes } from '../lib/appUtils';
+import { computeStreak } from '../lib/streakDays';
 
 function clearLS() {
   localStorage.clear();
@@ -149,7 +150,12 @@ describe('streakFreeze', () => {
 
     const result = updateStreak();
     expect(result.freezeUsed).toBe(true);
-    expect(result.count).toBe(6); // streak continues, bridged day counted
+    // 5-day run + the freeze-bridged missed day + today = a 7-day consecutive
+    // run. The count is derived from the canonical active-day set (which counts
+    // the bridged day), so the immediate value equals the value the next sync
+    // settles on — no post-sync "+1 with no activity" jump. (Previously this
+    // returned the pre-sync transient 6 and then jumped to 7.)
+    expect(result.count).toBe(7);
     expect(result.last).toBe(dateStr(0));
     expect(getStreakFreezes()).toBe(0); // the freeze was consumed
   });
@@ -161,7 +167,8 @@ describe('streakFreeze', () => {
     // Migration happens on the first freeze read inside updateStreak's spend path
     const result = updateStreak();
     expect(result.freezeUsed).toBe(true);
-    expect(result.count).toBe(8);
+    // 7-day run + bridged day + today = a 9-day consecutive run (set-derived).
+    expect(result.count).toBe(9);
     expect(getStreakFreezes()).toBe(0);
     expect(localStorage.getItem('nh_streak_freezes')).toBeNull();
   });
@@ -174,5 +181,21 @@ describe('streakFreeze', () => {
     expect(result.freezeUsed).toBeFalsy();
     expect(result.count).toBe(1);
     expect(getStreakFreezes()).toBe(2); // freezes untouched
+  });
+
+  // Regression guard for the "+1 with no activity after a sync" flash: the count
+  // updateStreak returns MUST equal what applyRemoteProgress re-derives from the
+  // active-day set, so the display never jumps when the next sync runs.
+  it('the freeze-updated count already equals the sync-derived count (no flash)', () => {
+    localStorage.setItem('uFreeze', '1');
+    localStorage.setItem('uStreak', JSON.stringify({ count: 5, last: dateStr(-2) }));
+
+    const result = updateStreak();
+    expect(result.freezeUsed).toBe(true);
+    const derived = computeStreak(
+      JSON.parse(localStorage.getItem('nh_streak_days') || '{}'),
+      dateStr(0),
+    ).count;
+    expect(result.count).toBe(derived); // no post-sync jump
   });
 });

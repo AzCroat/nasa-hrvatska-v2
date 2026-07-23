@@ -8,7 +8,7 @@
  */
 import type { CSSProperties } from 'react';
 import { localDateStr, weekKey } from './dateUtils';
-import { addDay, seedDaysFromStreak, type DaySet } from './streakDays';
+import { addDay, seedDaysFromStreak, computeStreak, type DaySet } from './streakDays';
 
 // ─── Active-day set (canonical streak source; union-merged across devices) ─────
 const STREAK_DAYS_KEY = 'nh_streak_days';
@@ -238,10 +238,15 @@ export function updateStreak(
   }
   let milestone: number | null = null;
   let freezeUsed = false;
+  // `advanced` = today extended an existing streak (normal next-day or a
+  // freeze-bridged day), as opposed to starting a fresh run after a break. Only
+  // an advance can hit a milestone; it's checked against the set-derived count
+  // at the bottom so the milestone matches the streak the sync will settle on.
+  let advanced = false;
   if (s.last === yesterday) {
     s.count++;
     s.last = today;
-    if (STREAK_MILESTONES.includes(s.count)) milestone = s.count;
+    advanced = true;
   } else if (s.last !== today) {
     // Only spend a freeze when exactly 1 day was missed (last practice was 2 calendar days ago).
     // A freeze cannot bridge a 2+ day gap — the streak is already broken.
@@ -251,11 +256,11 @@ export function updateStreak(
       ? Math.round((_todayDate.getTime() - _lastDate.getTime()) / 86400000)
       : 0;
     if (_daysBetween === 2 && spendFreeze()) {
-      s.count++; // the bridged day counts toward the streak
+      s.count++; // provisional; the final count is derived from the set below
       s.last = today;
       s.frozeOn = today;
       freezeUsed = true;
-      if (STREAK_MILESTONES.includes(s.count)) milestone = s.count;
+      advanced = true;
     } else {
       if (s.count >= 2) {
         try {
@@ -277,6 +282,16 @@ export function updateStreak(
   _days = addDay(_days, today);
   if (freezeUsed) _days = addDay(_days, yesterday);
   writeStreakDays(_days);
+  // Derive the cached count/last from the canonical set so the uStreak cache can
+  // never disagree with what applyRemoteProgress re-derives on the next sync.
+  // Previously the freeze branch's manual s.count++ lagged the set by one (the
+  // set counts the bridged day as part of the consecutive run), so the displayed
+  // streak jumped +1 with no new activity the moment a sync ran. Deriving here
+  // makes the immediate value equal the value the sync settles on.
+  const _derived = computeStreak(_days, today);
+  s.count = _derived.count;
+  s.last = _derived.last;
+  if (advanced && STREAK_MILESTONES.includes(s.count)) milestone = s.count;
   localStorage.setItem('uStreak', JSON.stringify(s));
   return { ...s, milestone, freezeUsed };
 }
