@@ -10,6 +10,7 @@ import type { AwardActivityType } from '../../types/index.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface ListeningQuestion {
   // /api/listening returns { q, options, correct } — `q` is the prompt and
@@ -61,7 +62,7 @@ function getDailyTopic(): string {
 }
 
 function getCompletedKey(level: string) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   return `nh_listening_done_${level}_${today}`;
 }
 

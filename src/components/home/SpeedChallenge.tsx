@@ -3,6 +3,7 @@ import { useStats } from '../../context/StatsContext';
 import { getSR, getSRScore } from '../../lib/srs.js';
 import { useContent } from '../../hooks/useContent';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 const DURATION = 60; // seconds
 const XP_CORRECT = 3;
@@ -101,7 +102,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   // Check if already played today; recompute when phase changes (e.g. after completing a round)
   const playedToday = useMemo(
     () => {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = localDateStr();
       return localStorage.getItem(LS_KEY_PLAYED) === today;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -204,7 +205,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   // Save today's play on done
   useEffect(() => {
     if (phase === 'done') {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = localDateStr();
       localStorage.setItem(LS_KEY_PLAYED, today);
     }
   }, [phase]);

@@ -4,6 +4,7 @@ import { getSR, getStreak } from '../../data';
 import AppContext from '../../context/AppContext';
 import { getStyleContextForAPI } from '../../lib/learnerStyle.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -60,7 +61,7 @@ function savePlanToCache(plan: unknown) {
 
 const DONE_KEY = 'nh_plan_done_';
 function getTodayDone() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   try {
     return new Set(JSON.parse(localStorage.getItem(DONE_KEY + today) || '[]'));
   } catch {
@@ -68,7 +69,7 @@ function getTodayDone() {
   }
 }
 function markDone(idx: number) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   try {
     const done = getTodayDone();
     done.add(idx);
@@ -212,7 +213,7 @@ export default function DailyPlanCard({
       : [];
     const goal = localStorage.getItem('nh_goal') || 'fluent';
     const streak = getStreak();
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDateStr();
     const recentActivity = {
       flashcards: parseInt(localStorage.getItem('nh_session_flashcards_' + today) || '0', 10),
       listening: parseInt(localStorage.getItem('nh_session_listening_' + today) || '0', 10),
