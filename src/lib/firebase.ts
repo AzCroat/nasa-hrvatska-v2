@@ -309,14 +309,11 @@ export async function fbSaveProgress(
   const _CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
   const _lvl =
     typeof _lvlRaw === 'number' && _lvlRaw >= 1 ? _lvlRaw : _CEFR_NUM[_lvlRaw as string] || 1;
-  const _nowMs = Date.now();
   // useSyncManager and doSyncNow write with the raw uid key ('uP_' + uid).
   // Try raw uid first, fall back to toDocId key for legacy snapshots.
   const _cachedP = (gP(uid) || gP(id)) as Record<string, unknown> | null;
   const _cachedSt =
     (_cachedP && ((_cachedP.stats || _cachedP.st) as Record<string, unknown>)) || {};
-  const _bestXP = Math.max((_st.xp as number) || 0, (_cachedSt.xp as number) || 0);
-  const _bestLC = Math.max((_st.lc as number) || 0, (_cachedSt.lc as number) || 0);
   const _cachedStrk =
     _cachedP && typeof (_cachedP.streak as Record<string, unknown>)?.count === 'number'
       ? (_cachedP.streak as Record<string, number>).count!
@@ -334,25 +331,11 @@ export async function fbSaveProgress(
   // Exclude SRS from the progress blob (it now lives in srs/{id})
   const { sr: _sr, ...dataWithoutSRS } = data;
   const _progressJson = JSON.stringify(dataWithoutSRS);
-  // Clamp to the firestore.rules profiles caps (xp ≤ 100,000,000, lc ≤ 10,000,000)
-  // as belt-and-suspenders: the profiles doc is written in the SAME atomic batch as
-  // the users progress blob, so if profileEntry.xp/lc ever exceeded the rule cap the
-  // whole commit (progress blob included) would be rejected and the account would
-  // silently stop syncing. No real learner reaches these values; this just guarantees
-  // the batch can never fail on the leaderboard field.
-  const profileEntry = {
-    name: (data.name as string) || '',
-    xp: Math.min(_bestXP, 100000000),
-    lc: Math.min(_bestLC, 10000000),
-    streak: _bestStrk,
-    level: _bestLvl,
-    lastActive: _nowMs,
-  };
   // Note: xp and lessonsCompleted are intentionally excluded from userEntry.
   // fbApplyDelta owns both top-level fields via atomic increments (increment(v)).
   // Writing absolute values here would race with another device's fbApplyDelta:
-  //   - If device B has already incremented Firestore xp/lessonsCompleted above
-  //     _bestXP/_bestLC, writing the local snapshot regresses the Firestore value.
+  //   - If device B has already incremented Firestore xp/lessonsCompleted above the
+  //     local value, writing the local snapshot regresses the Firestore value.
   //   - For xp: the monotonic validXpUpdate() rule would also cause permission-denied,
   //     failing the entire batch and losing the progress blob write.
   //   - For lessonsCompleted: no rule enforces monotonicity, so the regression is
@@ -381,7 +364,9 @@ export async function fbSaveProgress(
     await _withRetry(async () => {
       const b = writeBatch(_fbDb!);
       b.set(fsDoc(_fbDb!, 'users', id), userEntry, { merge: true });
-      b.set(fsDoc(_fbDb!, 'profiles', id), profileEntry, { merge: true });
+      // The public `profiles` leaderboard doc is no longer written — the
+      // leaderboard feature was removed (no user-facing UI, not worth the
+      // per-sync write). Only users/{id} is persisted now.
       await b.commit();
     }, 'fbSaveProgress');
     // Atomic reconciliation (stats.vs / ct / badges superset guarantee) is now

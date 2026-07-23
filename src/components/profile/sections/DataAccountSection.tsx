@@ -149,48 +149,9 @@ export default function DataAccountSection() {
           Privacy Policy & Terms
         </div>
       </button>
-      {au && au.u === (import.meta.env.VITE_ADMIN_EMAIL || '') && (
-        <button
-          className="tc"
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 14,
-            padding: '16px',
-            marginBottom: 24,
-          }}
-          onClick={() => setScr('admin')}
-        >
-          <div
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 12,
-              background: 'linear-gradient(135deg,var(--lavender),#4c1d95)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 'var(--text-lg)',
-              flexShrink: 0,
-            }}
-          >
-            🛠️
-          </div>
-          <div style={{ flex: 1, textAlign: 'left' }}>
-            <div style={{ fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--heading)' }}>
-              Admin Dashboard
-            </div>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 1 }}>
-              Platform overview & user stats
-            </div>
-          </div>
-          <div style={{ fontSize: 'var(--text-xl)', color: 'var(--subtext)', opacity: 0.8 }}>›</div>
-        </button>
-      )}
-      {!(au && au.u === (import.meta.env.VITE_ADMIN_EMAIL || '')) && (
-        <div style={{ marginBottom: 24 }} />
-      )}
+      {/* Admin Dashboard entry removed with the leaderboard (it was a top-users-by-XP
+          ranking view over the retired `profiles` collection). */}
+      <div style={{ marginBottom: 24 }} />
 
       {/* ── GDPR DATA EXPORT ── */}
       <h3 className="sh">Your Data</h3>

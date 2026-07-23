@@ -128,30 +128,13 @@ service cloud.firestore {
     // rules) — see the Phase-1 migration plan. Until then: owner-only.
     // Schema: { name, xp, lc, streak, level, lastActive }
     match /profiles/{userId} {
+      // Legacy public-leaderboard doc. The leaderboard feature was REMOVED, so
+      // the client no longer WRITES this doc (no create/update rule) — which
+      // also retires the xp/lc-cap rule whose atomic-batch rejection caused the
+      // 100k-XP sync-halt (P0). Read stays owner-only so fbExportUserData can
+      // still return any pre-existing doc for GDPR export; deletion is handled
+      // server-side by the Admin SDK (client delete stays denied).
       allow read: if isOwner(userId);
-      // CREATE: enforce same shape + XP/lc bounds as UPDATE.
-      // level validation mirrors UPDATE (int 1-6 or CEFR string for legacy writes).
-      allow create: if isOwner(userId)
-        && request.resource.data.keys().hasAll(['name', 'xp', 'lc', 'streak', 'level', 'lastActive'])
-        && request.resource.data.xp >= 0
-        && request.resource.data.xp <= 100000000
-        && request.resource.data.lc >= 0
-        && request.resource.data.lc <= 10000000
-        && (request.resource.data.level is int
-            ? (request.resource.data.level >= 1 && request.resource.data.level <= 6)
-            : request.resource.data.level in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
-      allow update: if isOwner(userId)
-        && request.resource.data.keys().hasAll(['name', 'xp', 'lc', 'streak', 'level', 'lastActive'])
-        && request.resource.data.xp >= 0
-        && request.resource.data.xp <= 100000000
-        && request.resource.data.lc >= 0
-        && request.resource.data.lc <= 10000000
-        // level is always a number 1-6 (A1→1 … C2→6) after the CEFR mapping in fbSaveProgress.
-        // Accept int in range 1-6, OR one of the canonical CEFR strings for legacy writes.
-        // Rejecting arbitrary strings closes a low-value injection vector.
-        && (request.resource.data.level is int
-            ? (request.resource.data.level >= 1 && request.resource.data.level <= 6)
-            : request.resource.data.level in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
       allow delete: if false;
     }
 

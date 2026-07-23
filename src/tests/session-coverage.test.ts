@@ -99,7 +99,6 @@ const OUTSIDE_SESSION: string[] = [
   'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
-  'admin',
   'contact',
   'privacy',
   'terms', // Terms of Service — legal copy, regrouped from reference in Wave 4

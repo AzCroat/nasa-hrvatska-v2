@@ -247,7 +247,6 @@ const GrammarDiagnosisScreen = lazyWithReload(() => import('./home/GrammarDiagno
 const MicroLessonScreen = lazyWithReload(() => import('./learn/MicroLessonScreen'));
 const LiveTutorScreen = lazyWithReload(() => import('./croatia/LiveTutorScreen'));
 const PhotoVocabScanner = lazyWithReload(() => import('./shared/PhotoVocabScanner'));
-const AdminDashboard = lazyWithReload(() => import('./admin/AdminDashboard'));
 const TermsOfService = lazyWithReload(() => import('./shared/TermsOfService'));
 const GradedInputScreen = lazyWithReload(() => import('./learn/GradedInputScreen'));
 const PronunciationCourse = lazyWithReload(() => import('./learn/PronunciationCourse'));
@@ -991,11 +990,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'terms' && (
           <ScreenErrorBoundary key="terms" name="terms">
             <TermsOfService goBack={goBack} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'admin' && (
-          <ScreenErrorBoundary key="admin" name="admin">
-            <AdminDashboard authUser={authUser} goBack={goBack} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'flashcards' &&
