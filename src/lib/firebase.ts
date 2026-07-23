@@ -509,7 +509,16 @@ async function _fbApplyDeltaImmediate(uid: string, delta: Record<string, unknown
   }
   if (!hasUpdate) return;
   try {
-    await _withRetry(() => updateDoc(fsDoc(_fbDb!, 'users', id), update), 'fbApplyDelta');
+    // NOTE: no _withRetry here. This write contains Firestore increment() ops, which
+    // are NOT idempotent. _withRetry retries on 'deadline-exceeded'/'internal' — both
+    // AMBIGUOUS-commit errors where the server may have already applied the increment
+    // before failing to ACK — so a retry would double-apply and permanently inflate
+    // xp/lc/pr. A single lost increment is harmless: the progress blob (fbSaveProgress)
+    // carries the absolute stats and fbLoadProgress reconciles with Math.max, so the
+    // next snapshot recovers it (this is already the accepted ~3s coalesce-loss window).
+    // Preferring "occasionally lose one delta" over "occasionally double-count" is the
+    // correct trade for a non-idempotent write.
+    await updateDoc(fsDoc(_fbDb!, 'users', id), update);
   } catch (e: unknown) {
     const err = e as { code?: string; message?: string };
     if (err?.code === 'not-found') {

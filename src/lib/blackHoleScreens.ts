@@ -31,13 +31,20 @@ export const BLACK_HOLE_SCREENS: Record<string, string> = {
   alphabet: 'lc',
   techvoc: 'lc',
   pitchaccent: 'lc',
-  grammarmap: 'gc',
   shadowing: 'lc',
   proverbs: 'lc',
   bureaucratic: 'lc',
-  reflexive: 'gc',
   writing: 'lc',
   pitch_accent: 'gc',
   pronunciation_course: 'lc',
-  production_drill: 'gc',
+  // grammarmap (GrammarConstellation), reflexive (ReflexiveScreen) and
+  // production_drill (ProductionDrillScreen) were REMOVED from the dwell-credit map:
+  // they are interactive drills that already self-credit gc (+ their own vs key) on
+  // completion, so the 20s dwell double-counted production_drill's gc and — because
+  // the launcher pre-wrote the dwell vs key on tap — SUPPRESSED reflexive/grammarmap's
+  // own gc credit (lost entirely if the learner finished in <20s and left). Their
+  // path nodes still complete: reflexive/grammarmap via their self-credited vs key,
+  // production_drill via its gcAtLeast/lcAtLeast fallback (its node never used a vs
+  // key). Per rule 6, black-hole dwell is for informational screens WITHOUT a
+  // built-in quiz — these have one.
 };
