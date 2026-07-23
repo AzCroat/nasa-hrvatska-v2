@@ -62,6 +62,7 @@ interface SRCard {
   b: number;
   due: number;
   nextDue: number;
+  lr?: number; // last-reviewed timestamp (ms) — used to merge cross-device by recency
   // Legacy SM-2 fields (present before migration)
   ease?: number;
   interval?: number;
@@ -294,6 +295,7 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
       b: correct ? 1 : 0,
       due,
       nextDue: due,
+      lr: now,
     };
   } else {
     _migrate(card);
@@ -327,6 +329,7 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
     card.b = Math.min(Math.max((card.b || 0) + (correct ? 1 : -2), 0), 5);
     card.due = due;
     card.nextDue = due;
+    card.lr = now;
   }
 
   sr[word] = card;

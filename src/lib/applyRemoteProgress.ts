@@ -56,14 +56,30 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   }
   if (fp.name) setName(fp.name);
 
-  // ── SRS cards — keep the card with higher repetition count ───────────────
+  // ── SRS cards — keep the MOST RECENTLY REVIEWED card ─────────────────────
+  // Merging by repetition count (`r`) silently discarded lapses: `r` only counts
+  // CORRECT answers (srs.ts), so a wrong answer on one device left `r` unchanged
+  // and could never win against another device's equal-or-higher `r` — the failed
+  // word reverted to its old "well-learned" schedule on sync and never resurfaced.
+  // Prefer whichever device reviewed the card most recently (`lr` = last-reviewed
+  // ms). Cards from before `lr` existed fall back to the old count/stability rule.
   if (fp.sr) {
     const lSR = getSR() || {};
     const mSR = { ...lSR };
     for (const w in fp.sr) {
       const r = fp.sr[w];
       const l = mSR[w];
-      if (!l || (r.r || 0) > (l.r || 0) || (!l.r && (r.s || 0) > (l.s || 0))) {
+      if (!l) {
+        mSR[w] = r;
+        continue;
+      }
+      const rLr = r.lr || 0;
+      const lLr = l.lr || 0;
+      if (rLr || lLr) {
+        // At least one side has a review timestamp → newest review wins.
+        if (rLr > lLr) mSR[w] = r;
+      } else if ((r.r || 0) > (l.r || 0) || (!l.r && (r.s || 0) > (l.s || 0))) {
+        // Legacy fallback (neither card reviewed since `lr` shipped).
         mSR[w] = r;
       }
     }

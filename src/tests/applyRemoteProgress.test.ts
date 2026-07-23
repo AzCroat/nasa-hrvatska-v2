@@ -90,6 +90,42 @@ describe('applyRemoteProgress — null/undefined guard', () => {
   });
 });
 
+describe('applyRemoteProgress — SRS cards (merge by recency)', () => {
+  beforeEach(clearLS);
+  afterEach(clearLS);
+
+  it('keeps a LAPSE that was reviewed more recently on another device', () => {
+    // Local: well-learned card, reviewed long ago (lr=1000), far-future due.
+    mockSRSData.kuca = { s: 30, d: 5, r: 5, w: 0, l: 0, b: 5, due: 9e15, lr: 1000 };
+    // Remote: the SAME card failed later on the phone (lr=2000) → low stability,
+    // soon due. Correct-count r is unchanged (5), so the OLD merge discarded it.
+    const fp = { sr: { kuca: { s: 3, d: 7, r: 5, w: 1, l: 1, b: 0, due: 1e12, lr: 2000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { s: number }).s).toBe(3); // remote lapse adopted
+    expect((mockSRSData.kuca as { l: number }).l).toBe(1);
+  });
+
+  it('keeps the LOCAL card when it was reviewed more recently than remote', () => {
+    mockSRSData.kuca = { s: 3, d: 7, r: 5, w: 1, l: 1, b: 0, due: 1e12, lr: 2000 };
+    const fp = { sr: { kuca: { s: 30, d: 5, r: 5, w: 0, l: 0, b: 5, due: 9e15, lr: 1000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { s: number }).s).toBe(3); // local (newer) kept
+  });
+
+  it('falls back to higher repetition count for legacy cards without a timestamp', () => {
+    mockSRSData.kuca = { s: 10, d: 5, r: 2, w: 0, l: 0, b: 2, due: 1e12 };
+    const fp = { sr: { kuca: { s: 5, d: 6, r: 5, w: 0, l: 0, b: 5, due: 1e12 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { r: number }).r).toBe(5); // legacy count rule preserved
+  });
+
+  it('adopts a remote card that is absent locally', () => {
+    const fp = { sr: { nova: { s: 4, d: 5, r: 1, w: 0, l: 0, b: 1, due: 1e12, lr: 5000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect(mockSRSData.nova).toBeDefined();
+  });
+});
+
 describe('applyRemoteProgress — name + onboarding', () => {
   beforeEach(clearLS);
   afterEach(clearLS);
