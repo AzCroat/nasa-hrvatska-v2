@@ -29,6 +29,21 @@ function writeStreakDays(days: DaySet): void {
   }
 }
 
+/**
+ * Backfill the canonical active-day set for a RESTORED streak (paid repair or
+ * earn-back). The streak count/last live in the `uStreak` cache, but
+ * applyRemoteProgress DERIVES the streak from `nh_streak_days` on every remote
+ * snapshot and overwrites that cache. Post-break the day-set holds only the
+ * recent day(s), so without this backfill the next Firestore sync re-derives a
+ * count of ~1 and silently wipes the restored streak (the paid repair is
+ * undone within ~2 minutes). Seeds `count` consecutive local days ending at
+ * `last` — additive union, so no existing active day is lost. No-op on bad args.
+ */
+export function restoreStreakDays(count: number, last: string): void {
+  if (!(count > 0) || !last) return;
+  writeStreakDays(seedDaysFromStreak(readStreakDays(), count, last));
+}
+
 // ─── Daily XP goal ───────────────────────────────────────────────────────────
 // Default goal — used when user hasn't completed onboarding
 export const DAILY_XP_GOAL = 50;
@@ -297,6 +312,9 @@ export function applyStreakEarnBack(): number {
   const s = getStreak();
   s.count = eb.prev;
   localStorage.setItem('uStreak', JSON.stringify(s));
+  // Backfill the canonical day-set so the next sync re-derives the restored
+  // count instead of overwriting it back to ~1 (see restoreStreakDays).
+  restoreStreakDays(eb.prev, s.last || localDateStr());
   try {
     localStorage.removeItem('nh_earn_back');
   } catch {}
