@@ -110,7 +110,10 @@ export default function GrammarDiagnosisScreen({
       const bsIdx = parseInt(bsPart.replace('bs', ''), 10);
       const qIdx = parseInt(qPart.replace('q', ''), 10);
       const drill = diagnosis.blindSpots?.[bsIdx]?.drills?.[qIdx];
-      return drill && chosen === drill.correct;
+      // `chosen` is stored as a string (String(k)); `drill.correct` is a number
+      // (server coerces it to an int). Compare as strings so a correct pick
+      // actually counts — otherwise "2" === 2 is always false and XP never fires.
+      return drill && String(chosen) === String(drill.correct);
     });
     if (anyCorrect) {
       setXpAwarded(true);
@@ -814,11 +817,14 @@ export default function GrammarDiagnosisScreen({
                                   style={{
                                     marginTop: 8,
                                     fontSize: 13,
-                                    color: chosen === drill.correct ? '#15803d' : '#D4002D',
+                                    color:
+                                      String(chosen) === String(drill.correct)
+                                        ? '#15803d'
+                                        : '#D4002D',
                                     fontWeight: 600,
                                   }}
                                 >
-                                  {chosen === drill.correct
+                                  {String(chosen) === String(drill.correct)
                                     ? '✓ Correct! Well done.'
                                     : `✗ The correct answer was: ${(drill.options ?? [])[Number(drill.correct)] ?? ''}`}
                                 </div>
