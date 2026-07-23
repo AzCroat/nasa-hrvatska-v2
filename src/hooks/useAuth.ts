@@ -288,6 +288,7 @@ export function useAuth({
             const mergedStats = {
               ...fpSt,
               xp: Math.max((lpSt.xp as number) || 0, (fpSt.xp as number) || 0),
+              spent: Math.max((lpSt.spent as number) || 0, (fpSt.spent as number) || 0),
               lc: Math.max((lpSt.lc as number) || 0, (fpSt.lc as number) || 0),
               gc: Math.max((lpSt.gc as number) || 0, (fpSt.gc as number) || 0),
               sp: Math.max((lpSt.sp as number) || 0, (fpSt.sp as number) || 0),
@@ -352,6 +353,7 @@ export function useAuth({
               const _lpSt = (localP.stats || localP.st || {}) as Record<string, unknown>;
               const _safeMerged = {
                 xp: Math.max((_lpSt.xp as number) || 0, (_fpSt.xp as number) || 0),
+                spent: Math.max((_lpSt.spent as number) || 0, (_fpSt.spent as number) || 0),
                 lc: Math.max((_lpSt.lc as number) || 0, (_fpSt.lc as number) || 0),
                 gc: Math.max((_lpSt.gc as number) || 0, (_fpSt.gc as number) || 0),
                 sp: Math.max((_lpSt.sp as number) || 0, (_fpSt.sp as number) || 0),

@@ -121,24 +121,39 @@ describe('streakFreeze', () => {
     expect(setStats).not.toHaveBeenCalled();
   });
 
-  it('setStats is called with XP deduction function', () => {
+  it('setStats increments the monotonic spent counter (earned xp untouched)', () => {
     const setStats = vi.fn();
     purchaseFreeze(100, setStats);
-    // Call the updater function to verify it deducts 50 XP
+    // The cost is recorded on `spent`, never subtracted from earned `xp` —
+    // subtracting xp would be refunded by the Math.max sync merge (the #110 bug).
     const updater = setStats.mock.calls[0][0];
-    const prev = { xp: 100, other: 5 };
+    const prev = { xp: 100, spent: 0, other: 5 };
     const next = updater(prev);
-    expect(next.xp).toBe(50);
+    expect(next.xp).toBe(100); // earned xp is NOT reduced
+    expect(next.spent).toBe(50); // cost recorded on the spent counter
     expect(next.other).toBe(5); // other fields preserved
   });
 
-  it('setStats XP deduction does not go below 0', () => {
+  it('spent accumulates across purchases', () => {
     const setStats = vi.fn();
-    purchaseFreeze(50, setStats);
+    purchaseFreeze(100, setStats);
     const updater = setStats.mock.calls[0][0];
-    const prev = { xp: 40 }; // less than FREEZE_COST
-    const next = updater(prev);
-    expect(next.xp).toBe(0); // clamped at 0
+    const next = updater({ xp: 200, spent: 50 });
+    expect(next.spent).toBe(100); // 50 already spent + 50 this purchase
+    expect(next.xp).toBe(200);
+  });
+
+  it('mirrors the spend with an authoritative Firestore delta when writeDelta is given', () => {
+    const setStats = vi.fn();
+    const writeDelta = vi.fn();
+    const result = purchaseFreeze(100, setStats, writeDelta);
+    expect(result.ok).toBe(true);
+    expect(writeDelta).toHaveBeenCalledWith({ spent: 50 });
+  });
+
+  it('does not throw when writeDelta is omitted', () => {
+    const setStats = vi.fn();
+    expect(() => purchaseFreeze(100, setStats)).not.toThrow();
   });
 
   // ── end-to-end: purchased freeze auto-applies via updateStreak ──────────────

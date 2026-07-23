@@ -26,14 +26,18 @@ interface PurchaseResult {
 export function purchaseFreeze(
   currentXP: number,
   setStats: (fn: (prev: Record<string, number>) => Record<string, number>) => void,
+  writeDelta?: (delta: { spent: number }) => void,
 ): PurchaseResult {
   const stored = getFreezesStored();
   if (stored >= 2) return { ok: false, reason: 'Already have maximum 2 freezes stored' };
   if (currentXP < FREEZE_COST)
     return { ok: false, reason: `Need ${FREEZE_COST} XP — you have ${currentXP}` };
 
-  // Deduct XP via React state setter
-  setStats((prev) => ({ ...prev, xp: Math.max(0, (prev.xp || 0) - FREEZE_COST) }));
+  // Record the cost on the monotonic `spent` counter — never reduce earned `xp`,
+  // which the Math.max sync merge would refund (the #110 bug). Spendable balance
+  // = xp - spent. Mirror the local bump with an authoritative Firestore delta.
+  setStats((prev) => ({ ...prev, spent: (prev.spent || 0) + FREEZE_COST }));
+  if (writeDelta) writeDelta({ spent: FREEZE_COST });
   earnFreeze();
   return { ok: true, stored: getStreakFreezes() };
 }

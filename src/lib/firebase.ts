@@ -397,7 +397,7 @@ export async function fbSaveProgress(
 // flush as ONE write. Writes still use Firestore increment()/arrayUnion(),
 // so cross-device atomicity is preserved (no client-side race possible —
 // the merged write sums client-local accumulator before the increment).
-const _DELTA_NUMERIC = ['xp', 'lc', 'gc', 'sp', 'pr', 'de', 'rc', 'pf', 'mv', 'hi'];
+const _DELTA_NUMERIC = ['xp', 'spent', 'lc', 'gc', 'sp', 'pr', 'de', 'rc', 'pf', 'mv', 'hi'];
 const _DELTA_ARRAYS = ['ct', 'vs', 'badges'];
 // 2026-05-22: reduced from 4 s → 1.2 s as defense against pending-delta loss
 // on hard tab close. fbSaveProgress flushes pending deltas via
@@ -561,6 +561,9 @@ export async function fbLoadProgress(uid: string): Promise<Record<string, unknow
       ..._bs,
       ..._as,
       xp: Math.max((_bs.xp as number) || 0, (_as.xp as number) || 0),
+      // spent — monotonic; delta-incremented like xp. Math.max prevents a stale
+      // blob from refunding a perk purchase. Balance = xp - spent.
+      spent: Math.max((_bs.spent as number) || 0, (_as.spent as number) || 0),
       lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
       gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
       sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
@@ -933,6 +936,9 @@ export function fbWatchProgress(
             ..._bs,
             ..._as,
             xp: Math.max((_bs.xp as number) || 0, (_as.xp as number) || 0),
+            // spent — monotonic; Math.max prevents a stale blob from refunding a
+            // perk purchase (balance = xp - spent). See fbLoadProgress above.
+            spent: Math.max((_bs.spent as number) || 0, (_as.spent as number) || 0),
             lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
             gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
             sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),

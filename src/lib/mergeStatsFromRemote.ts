@@ -45,6 +45,9 @@ export function mergeStatsFromRemote(prev: Stats, rawRemoteSt: unknown, ds: Stat
     de: Math.max(prev.de || 0, remoteSt.de || 0),
     rc: Math.max(prev.rc || 0, remoteSt.rc || 0),
     xp: Math.max(prev.xp || 0, remoteSt.xp || 0),
+    // spent — monotonic like xp; Math.max so a perk purchase can never be
+    // refunded by a stale cross-device sync. Balance = xp - spent.
+    spent: Math.max(prev.spent || 0, remoteSt.spent || 0),
     str: Math.max(prev.str || 0, remoteSt.str || 0),
     pf: Math.max(prev.pf || 0, remoteSt.pf || 0),
     mv: Math.max(prev.mv || 0, remoteSt.mv || 0),

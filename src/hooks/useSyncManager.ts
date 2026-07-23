@@ -186,6 +186,7 @@ export function useSyncManager({
     const mergedStats = {
       ...safePSt,
       xp: Math.max((safeLp.xp as number) || 0, (safePSt.xp as number) || 0),
+      spent: Math.max((safeLp.spent as number) || 0, (safePSt.spent as number) || 0),
       lc: Math.max((safeLp.lc as number) || 0, (safePSt.lc as number) || 0),
       gc: Math.max((safeLp.gc as number) || 0, (safePSt.gc as number) || 0),
       sp: Math.max((safeLp.sp as number) || 0, (safePSt.sp as number) || 0),

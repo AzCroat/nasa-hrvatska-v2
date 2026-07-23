@@ -13,6 +13,7 @@ const _isNative =
 import { lXP, nXP } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { getDailyXP, getDailyXPGoal } from '../../lib/appUtils.js';
+import { availableXp } from '../../lib/xpBalance.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import CroatianGrb from '../shared/CroatianGrb';
@@ -329,7 +330,12 @@ export default function HeroSection({
               );
             })()}
 
-            <RewardsPanel rewards={rewards} xp={st.xp} streakCount={streak.count} today={today} />
+            <RewardsPanel
+              rewards={rewards}
+              xp={availableXp(st)}
+              streakCount={streak.count}
+              today={today}
+            />
             {/* Collapse button — bottom of full hero */}
             <button
               onClick={toggleHero}
