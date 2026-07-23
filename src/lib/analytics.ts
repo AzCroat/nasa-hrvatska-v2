@@ -37,7 +37,7 @@ export function initPostHog(): void {
   }
 }
 
-function isAnalyticsConsented(): boolean {
+export function isAnalyticsConsented(): boolean {
   try {
     return localStorage.getItem('cookie_consent_v1') === 'accepted';
   } catch {

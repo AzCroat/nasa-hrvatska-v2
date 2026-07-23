@@ -27,7 +27,7 @@ import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
 import { recordActiveDayNow, getActiveDayCount } from './lib/activeDayTracker.js';
 import { getEffectiveLevelForUnlock } from './lib/cefrCertification.js';
-import { trackAppOpen } from './lib/analytics.js';
+import { trackAppOpen, isAnalyticsConsented } from './lib/analytics.js';
 import AppContext from './context/AppContext';
 import { StatsProvider } from './context/StatsContext';
 import type { Stats, AuthUser, StatsDelta } from './types/index.js';
@@ -1311,8 +1311,11 @@ function App() {
     if (today.getDay() !== 0) return;
     const k = 'nh_digest_' + authUser.u + '_' + today.toISOString().slice(0, 10);
     if (localStorage.getItem(k)) return;
-    const consent = localStorage.getItem('nh_analytics_consent');
-    if (consent !== 'true') return;
+    // Gate on the canonical consent key ('cookie_consent_v1' === 'accepted',
+    // via isAnalyticsConsented). The old check read 'nh_analytics_consent',
+    // which is written nowhere in the app — so this weekly digest email could
+    // never send for any user. Align it with the unified consent system.
+    if (!isAnalyticsConsented()) return;
     // /api/digest requires the Firebase Bearer token (apiFetch attaches it) and
     // reads {email, name, xp, lessons, streakDays, wordsLearned} for the email
     // body. Mark as sent only AFTER the server accepts, so a failed attempt
