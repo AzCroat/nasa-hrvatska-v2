@@ -21,11 +21,11 @@ function normalize(s: string) {
     .replace(/đ/g, 'd');
 }
 
-/**
- * Check a typed answer against the target.
- * Returns 'perfect' | 'diacritic' | 'close' | 'wrong'
- */
-function checkAnswer(input: string, target: string) {
+type Verdict = 'perfect' | 'diacritic' | 'close' | 'wrong';
+const VERDICT_RANK: Record<Verdict, number> = { wrong: 0, close: 1, diacritic: 2, perfect: 3 };
+
+/** Check a typed answer against a single accepted form. */
+function checkOneForm(input: string, target: string): Verdict {
   const inp = input.trim().toLowerCase();
   const tgt = target.trim().toLowerCase();
   if (inp === tgt) return 'perfect';
@@ -36,6 +36,30 @@ function checkAnswer(input: string, target: string) {
   const maxLen = Math.max(normInp.length, normTgt.length);
   if (dist <= 1 && maxLen >= 3) return 'close';
   return 'wrong';
+}
+
+/**
+ * Check a typed answer against the target.
+ * Some vocabulary entries list several accepted Croatian forms in one string
+ * joined by " / " (e.g. "dva / dvije", "on / ona", "koji / koja / koje?"). Any
+ * one of those forms is a correct answer, so we match against each and keep the
+ * best verdict — otherwise typing a single valid form is scored wrong and, worse,
+ * records a false SRS lapse.
+ * Returns 'perfect' | 'diacritic' | 'close' | 'wrong'
+ */
+function checkAnswer(input: string, target: string): Verdict {
+  const forms = target
+    .split(' / ')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const candidates = forms.length > 1 ? forms : [target];
+  let best: Verdict = 'wrong';
+  for (const form of candidates) {
+    const v = checkOneForm(input, form);
+    if (VERDICT_RANK[v] > VERDICT_RANK[best]) best = v;
+    if (best === 'perfect') break;
+  }
+  return best;
 }
 
 // ── Pool builder ──────────────────────────────────────────────────────────────
