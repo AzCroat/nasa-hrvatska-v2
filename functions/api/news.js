@@ -115,7 +115,7 @@ Include 5-6 key vocabulary items. Keep facts accurate.`;
       signal: AbortSignal.timeout(20000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 800,
+        max_tokens: 1500, // C2 needs 8-12 Croatian sentences + full EN translation; 800 truncated → article dropped
         system: systemPrompt,
         messages: [{ role: 'user', content: userContent }],
       }),

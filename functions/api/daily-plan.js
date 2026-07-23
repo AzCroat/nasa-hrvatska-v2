@@ -282,7 +282,10 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
   const VALID_PRIORITIES = ['high', 'medium'];
 
   const activities = parsed.activities.map((act) => ({
-    id: VALID_ACTIVITY_IDS.includes(act.id) ? act.id : 'flashcards',
+    // Fall back to a VALID, launchable id — 'flashcards' is deliberately NOT in
+    // VALID_ACTIVITY_IDS (can't be launched from the plan card), so using it as
+    // the fallback produced a tile that did nothing when tapped.
+    id: VALID_ACTIVITY_IDS.includes(act.id) ? act.id : 'dialogue',
     title: sanitizeParam(String(act.title || ''), 80),
     reason: sanitizeParam(String(act.reason || ''), 200),
     duration: Math.min(Math.max(Number(act.duration) || 5, 1), 30),
