@@ -23,6 +23,7 @@ import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemot
 import { localDateStr, weekKey } from './lib/dateUtils.js';
 import { isNative } from './lib/platform.js';
 import { repairStreak } from './lib/streak.js';
+import { availableXp } from './lib/xpBalance.js';
 import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
 import { recordActiveDayNow, getActiveDayCount } from './lib/activeDayTracker.js';
@@ -134,6 +135,7 @@ const ALL_CATS = [
 ];
 const DS: Stats = {
   xp: 0,
+  spent: 0,
   str: 1,
   diff: 'beginner',
   lc: 0,
@@ -1935,17 +1937,22 @@ function App() {
                     return;
                   }
                   if (action === 'repair') {
-                    const result = repairStreak(stats.xp);
+                    const result = repairStreak(availableXp(stats));
                     if (result.ok) {
+                      const _cost = result.xpCost ?? 0;
                       setStats((s) => ({
                         ...s,
-                        xp: Math.max(0, s.xp - (result.xpCost ?? 0)),
+                        // Record the spend on the monotonic `spent` counter — never
+                        // reduce earned `xp` (that would be refunded by Math.max sync).
+                        spent: (s.spent || 0) + _cost,
                         str: result.restoredCount ?? s.str,
                       }));
+                      // Authoritative, conflict-free spend increment (mirrors earns).
+                      if (_cost > 0) writeDelta({ spent: _cost });
                       setStreakRestoredCount(result.restoredCount ?? 0);
                       setTimeout(() => setStreakRestoredCount(0), 5000);
-                      // Persist the XP deduction to Firebase: doSyncNow reads _unloadRef.current
-                      // which is updated after the setStats re-render, so delay by 200ms.
+                      // Persist to Firebase: doSyncNow reads _unloadRef.current which is
+                      // updated after the setStats re-render, so delay by 200ms.
                       setTimeout(() => doSyncNow(), 200);
                     }
                     setShowStreakRepair(false);
