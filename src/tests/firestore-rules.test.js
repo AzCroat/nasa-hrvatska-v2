@@ -9,7 +9,7 @@
  *
  * What this covers:
  *  /users/{userId}          — owner read/write, XP monotonic increase, 100k cap, progress size cap
- *  /profiles/{userId}       — any-auth read, owner create+update (hasAll shape), CEFR level check
+ *  /profiles/{userId}       — owner-only read (legacy leaderboard doc); all writes denied (feature removed)
  *  /srs/{userId}            — owner-only read/write, hasAll({cards,updated}), delete for cleanup
  *  Deny-all catch-all       — arbitrary paths must be rejected
  */
@@ -270,57 +270,29 @@ describe('/profiles/{userId}', () => {
     await assertFails(db.doc(`profiles/${uid}`).get());
   });
 
-  it('owner can update profile with valid integer level (1–6)', async () => {
-    const db = authed(uid, email).firestore();
-    await assertSucceeds(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 3, xp: 200 }));
+  // The public leaderboard was REMOVED — the client no longer writes /profiles.
+  // The rule now allows read (owner-only, for GDPR export of any legacy doc) and
+  // denies ALL writes. This also retired the xp/lc-cap create/update rules whose
+  // atomic-batch rejection caused the 100k-XP sync-halt (P0).
+  it('owner can no longer create a profile (writes removed)', async () => {
+    const freshUid = 'profuser_new';
+    const freshDb = authed(freshUid, 'profnew@test.com').firestore();
+    await assertFails(freshDb.doc(`profiles/${freshUid}`).set(validProfile));
   });
 
-  it('owner can update profile with valid CEFR string level', async () => {
+  it('owner can no longer update a profile (writes removed)', async () => {
     const db = authed(uid, email).firestore();
-    await assertSucceeds(
-      db.doc(`profiles/${uid}`).update({ ...validProfile, level: 'B2', xp: 200 }),
-    );
+    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 3, xp: 200 }));
   });
 
-  it('invalid level value is rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(
-      db.doc(`profiles/${uid}`).update({ ...validProfile, level: 'invalid', xp: 200 }),
-    );
-  });
-
-  it('level 7 (out of range) is rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 7, xp: 200 }));
-  });
-
-  it('profile XP past 100,000 is now allowed (regression: old cap failed the atomic users+profiles batch)', async () => {
-    const db = authed(uid, email).firestore();
-    await assertSucceeds(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 150000 }));
-  });
-
-  it('profile XP above the 100,000,000 ceiling is still rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 100000001 }));
-  });
-
-  it('non-owner cannot update', async () => {
+  it('non-owner cannot update either', async () => {
     const db = authed('intruder', 'intruder@test.com').firestore();
     await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 200 }));
   });
 
-  it('owner can create profile with all required fields', async () => {
-    // Use a different uid so the beforeEach seed doc does not exist yet
-    const freshUid = 'profuser_new';
-    const freshDb = authed(freshUid, 'profnew@test.com').firestore();
-    await assertSucceeds(freshDb.doc(`profiles/${freshUid}`).set(validProfile));
-  });
-
-  it('create fails when required fields are missing (no streak)', async () => {
-    const freshUid = 'profuser_bad';
-    const freshDb = authed(freshUid, 'profbad@test.com').firestore();
-    const { streak: _omit, ...noStreak } = validProfile;
-    await assertFails(freshDb.doc(`profiles/${freshUid}`).set(noStreak));
+  it('client cannot delete a profile (server Admin SDK handles account deletion)', async () => {
+    const db = authed(uid, email).firestore();
+    await assertFails(db.doc(`profiles/${uid}`).delete());
   });
 });
 
