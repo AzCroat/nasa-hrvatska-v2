@@ -19,8 +19,9 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
     };
   }, []);
 
-  const para = story.paragraphs[paraIdx];
-  const totalParas = story.paragraphs.length;
+  const paragraphs: any[] = Array.isArray(story?.paragraphs) ? story.paragraphs : [];
+  const para = paragraphs[paraIdx];
+  const totalParas = paragraphs.length;
 
   function handleParaAudio() {
     speak(para.hr);
@@ -39,6 +40,64 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
       setQuizIdx((i) => i + 1);
       setQuizAnswer(null);
     }
+  }
+
+  // Guard against a malformed story (empty/missing paragraphs) — previously the
+  // unchecked story.paragraphs[paraIdx].hr access crashed the whole modal.
+  if (!para) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1000,
+          background: 'rgba(0,0,0,.6)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
+        <div
+          style={{
+            background: 'var(--bg)',
+            borderRadius: 16,
+            padding: '24px 20px',
+            maxWidth: 380,
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontSize: 15,
+              fontWeight: 700,
+              color: 'var(--heading)',
+              marginBottom: 16,
+            }}
+          >
+            Sorry — this story couldn’t be loaded.
+          </div>
+          <button
+            onClick={onClose}
+            style={{
+              padding: '10px 20px',
+              borderRadius: 12,
+              border: 'none',
+              background: '#7c3aed',
+              color: 'white',
+              fontSize: 14,
+              fontWeight: 800,
+              cursor: 'pointer',
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

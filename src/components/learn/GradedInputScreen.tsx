@@ -134,11 +134,23 @@ async function playTTS(text: string, audioRef: React.MutableRefObject<HTMLAudioE
       const a = new Audio(url);
       a.volume = 1.0; // required: low volume blocks activation on some WebViews
       audioRef.current = a;
-      a.play().catch(() => speak(text));
+      // Resolve only when playback actually finishes (or is stopped / errors), so
+      // the caller can keep the "now playing" indicator lit for the real duration
+      // instead of clearing it the instant the fetch resolves. Resolving on
+      // 'pause' also releases this promise when a newer clip stops this one.
+      await new Promise<void>((resolve) => {
+        const done = () => resolve();
+        a.onended = done;
+        a.onerror = done;
+        a.onpause = done;
+        a.play().catch(() => {
+          void speak(text).finally(done);
+        });
+      });
       return;
     }
   } catch {}
-  speak(text);
+  await speak(text);
 }
 
 // ─── List view ────────────────────────────────────────────────────────────────
@@ -378,11 +390,24 @@ export function StoryReader({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recorder.state]);
 
-  const handlePlay = useCallback(async (text: string, idx: number) => {
-    setPlayingIdx(idx);
-    await playTTS(text, audioRef);
-    setPlayingIdx(null);
-  }, []);
+  const handlePlay = useCallback(
+    async (text: string, idx: number) => {
+      // Tapping the paragraph that's already playing pauses it (toggle) rather
+      // than restarting from the top.
+      if (playingIdx === idx) {
+        audioRef.current?.pause();
+        audioRef.current = null;
+        setPlayingIdx(null);
+        return;
+      }
+      setPlayingIdx(idx);
+      await playTTS(text, audioRef);
+      // Only clear if this paragraph is still the active one — a newer tap may
+      // have taken over while this clip was playing.
+      setPlayingIdx((cur) => (cur === idx ? null : cur));
+    },
+    [playingIdx],
+  );
 
   const startRecording = useCallback(
     (paraIdx: number, paraText: string) => {
