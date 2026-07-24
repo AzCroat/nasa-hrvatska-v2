@@ -70,6 +70,12 @@ describe('BLACK_HOLE_SCREENS reachability', () => {
       'vocative',
       'aspectdrill',
       'past_tense_lesson',
+      // Interactive pronunciation quizzes that self-credit on completion — a dwell
+      // entry double-counts their lc/gc (and the launcher's pre-write suppresses the
+      // screen's own credit on <20s exits). Removed from BLACK_HOLE; guard re-adds.
+      'pitchaccent',
+      'pitch_accent',
+      'shadowing',
     ];
     for (const id of mustNotBeCredited) {
       expect(BLACK_HOLE_SCREENS[id], `${id} must not be dwell-credited`).toBeUndefined();

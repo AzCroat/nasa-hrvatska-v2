@@ -30,21 +30,20 @@ export const BLACK_HOLE_SCREENS: Record<string, string> = {
   dialects: 'lc',
   alphabet: 'lc',
   techvoc: 'lc',
-  pitchaccent: 'lc',
-  shadowing: 'lc',
   proverbs: 'lc',
   bureaucratic: 'lc',
   writing: 'lc',
-  pitch_accent: 'gc',
   pronunciation_course: 'lc',
-  // grammarmap (GrammarConstellation), reflexive (ReflexiveScreen) and
-  // production_drill (ProductionDrillScreen) were REMOVED from the dwell-credit map:
-  // they are interactive drills that already self-credit gc (+ their own vs key) on
-  // completion, so the 20s dwell double-counted production_drill's gc and — because
-  // the launcher pre-wrote the dwell vs key on tap — SUPPRESSED reflexive/grammarmap's
-  // own gc credit (lost entirely if the learner finished in <20s and left). Their
-  // path nodes still complete: reflexive/grammarmap via their self-credited vs key,
-  // production_drill via its gcAtLeast/lcAtLeast fallback (its node never used a vs
-  // key). Per rule 6, black-hole dwell is for informational screens WITHOUT a
-  // built-in quiz — these have one.
+  // grammarmap (GrammarConstellation), reflexive (ReflexiveScreen), production_drill
+  // (ProductionDrillScreen), pitchaccent (PitchAccentScreen), pitch_accent
+  // (PitchAccentMastery) and shadowing (ShadowingScreen) were REMOVED from the
+  // dwell-credit map: they are interactive quizzes/drills that already self-credit
+  // lc/gc (+ their own vs key) on completion, so the 20s dwell DOUBLE-COUNTED the
+  // stat and — because the launcher pre-writes the dwell vs key on tap — SUPPRESSED
+  // the screen's own credit (lost entirely if the learner finished in <20s and left).
+  // Their path nodes still complete via each screen's self-credited vs key
+  // (pitchaccent→'pitchaccent', pitch_accent→'pitch_accent', shadowing→'shadowing')
+  // or the ckRule's lc/gc fallback. Per rule 6, black-hole dwell is for informational
+  // screens WITHOUT a built-in quiz — these have one. dialects/history/etc. stay:
+  // they are pure reference screens with no self-credit path.
 };
