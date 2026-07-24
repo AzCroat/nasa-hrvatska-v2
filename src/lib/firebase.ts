@@ -10,6 +10,7 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInAnonymously,
   signOut as fbSignOut,
   sendPasswordResetEmail,
   onAuthStateChanged,
@@ -706,6 +707,36 @@ export async function fbLogout(): Promise<void> {
       } catch (_) {}
     })
     .catch(() => {});
+}
+
+/**
+ * Sign the user in anonymously so "Continue as Guest" gets a real Firebase uid
+ * and ID token. That token is what makes /api/content/* return 200 (no more
+ * guest 401 → empty learn path) and lets the normal auto-save + Firestore sync
+ * run, so guest progress persists and survives a reload — the whole signed-in
+ * chain works unchanged, the guest is just an authenticated user with no email.
+ *
+ * REQUIRES "Anonymous" to be enabled in Firebase console → Authentication →
+ * Sign-in method. If it's disabled (or the user is offline / Firebase isn't
+ * configured), this returns { ok: false } and the caller falls back to the
+ * legacy in-memory guest, so there is no regression from the previous behaviour.
+ */
+export async function fbSignInGuest(): Promise<{ ok: boolean; err?: string; user?: User }> {
+  if (!_fbReady || !_fbAuth) return { ok: false, err: 'not_configured' };
+  try {
+    const cred = await signInAnonymously(_fbAuth);
+    try {
+      await updateProfile(cred.user, { displayName: 'Gost' });
+    } catch {
+      /* display-name is cosmetic; the listener also falls back to 'Gost' */
+    }
+    fbLogEvent('login', { method: 'anonymous' });
+    return { ok: true, user: cred.user };
+  } catch (e: unknown) {
+    const err = e as { code?: string; message?: string };
+    console.warn('[auth] anonymous sign-in unavailable:', err.code || err.message);
+    return { ok: false, err: err.code || err.message || 'guest_failed' };
+  }
 }
 
 export async function fbLoginGoogle(): Promise<{ ok: boolean; err?: string; user?: User }> {

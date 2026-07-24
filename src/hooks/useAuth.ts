@@ -27,7 +27,7 @@ import {
   fbLoadProgress,
   fbOnAuthStateChanged,
 } from '../data';
-import { initFirebase, fbSaveProgress } from '../lib/firebase.js';
+import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
@@ -199,7 +199,11 @@ export function useAuth({
       guestRef.current = false;
 
       const k = (fbUser.email as string) || (fbUser.uid as string);
-      const dn = (fbUser.displayName as string) || k;
+      // Anonymous (guest) users have no email/displayName — show a friendly label
+      // instead of the raw uid. Their progress keys on the uid (k) as usual.
+      const dn =
+        (fbUser.displayName as string) ||
+        ((fbUser as { isAnonymous?: boolean }).isAnonymous ? 'Gost' : k);
       const user: AuthUser = { u: k, d: dn, e: k };
       const isNew = isNewReg.current;
       isNewReg.current = false;
@@ -699,11 +703,28 @@ export function useAuth({
   }
 
   // ── Guest mode ────────────────────────────────────────────────────────────
-  function doGuest(): void {
+  // Prefer a real ANONYMOUS Firebase session: it gives the guest a uid + ID
+  // token, which is what makes /api/content/* return 200 (the old tokenless
+  // guest got 401 → empty learn path) and lets the normal auto-save + Firestore
+  // sync run, so guest progress actually persists and survives a reload. On
+  // success we do nothing else here — fbOnAuthStateChanged fires with the anon
+  // user and drives setAuthUser / _syncReady / setAuthScreen('app') through the
+  // same path as any signed-in user. If anonymous auth is unavailable (disabled
+  // in the Firebase console, offline, or Firebase not configured) we fall back
+  // to the legacy in-memory guest so there is NO regression from before.
+  function enterLegacyGuest(): void {
     guestRef.current = true;
     touchSession();
     updateStreak();
     setAuthScreen('app');
+  }
+  function doGuest(): void {
+    Promise.resolve(fbSignInGuest())
+      .then((res) => {
+        if (!res || !res.ok) enterLegacyGuest();
+        // on success the auth listener takes over — see comment above.
+      })
+      .catch(() => enterLegacyGuest());
   }
 
   return {
