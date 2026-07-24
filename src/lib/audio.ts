@@ -692,12 +692,16 @@ export async function speakProsody(
       dbgError('[TTS] speakProsody HTMLAudio play() FAILED:', playErr);
       return false;
     }
+    let playbackFailed = false;
     await new Promise<void>((resolve) => {
       a.addEventListener('ended', () => resolve(), { once: true });
       a.addEventListener(
         'error',
         (ev) => {
           dbgError('[TTS] speakProsody HTMLAudio error event:', (ev as ErrorEvent).message || ev);
+          // Mirror speakAzure: a mid-playback decode/media error is a FAILURE, not
+          // success. Returning true here would report silent playback as if it worked.
+          playbackFailed = true;
           resolve();
         },
         { once: true },
@@ -705,7 +709,7 @@ export async function speakProsody(
       a.addEventListener('pause', () => resolve(), { once: true });
       a.addEventListener('abort', () => resolve(), { once: true });
     });
-    return true;
+    return !playbackFailed;
   } catch (e) {
     dbgError('[TTS] speakProsody unhandled error:', e);
     return false;

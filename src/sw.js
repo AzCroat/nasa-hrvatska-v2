@@ -248,8 +248,8 @@ onBackgroundMessage(_messaging, (payload) => {
   const { title, body, icon } = payload.notification || {};
   self.registration.showNotification(title || 'Naša Hrvatska', {
     body: body || 'Time to practice your Croatian! 🇭🇷',
-    icon: icon || '/icons/icon-192x192.png',
-    badge: '/icons/badge-72.png',
+    icon: icon || '/icon-192.png',
+    badge: '/icon-192.png',
     tag: 'nh-daily-reminder',
     renotify: true,
     data: payload.data || {},
@@ -273,8 +273,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: data.icon || '/icons/icon-192x192.png',
-      badge: data.badge || '/icons/badge-72.png',
+      icon: data.icon || '/icon-192.png',
+      badge: data.badge || '/icon-192.png',
       tag: data.tag || 'streak-reminder',
       renotify: true,
       data: notifData,
@@ -313,8 +313,8 @@ self.addEventListener('periodicsync', (event) => {
   event.waitUntil(
     self.registration.showNotification(msg.title, {
       body: msg.body,
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
       tag: 'nh-daily-reminder',
       renotify: true,
       data: { url: '/', action: 'open_lesson' },

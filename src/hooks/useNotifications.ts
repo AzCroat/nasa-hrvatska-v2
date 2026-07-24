@@ -179,8 +179,8 @@ export function scheduleStreakReminder(streakDays: number): void {
     try {
       new Notification(pickVariant(titleVariants, 'nh_8pm_title_idx'), {
         body: pickVariant(bodyVariants, 'nh_8pm_body_idx'),
-        icon: '/icons/icon-192x192.png',
-        badge: '/icons/badge-72.png',
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
         tag: 'streak-reminder',
         renotify: true,
         data: { url: '/', action: 'open_lesson' },
