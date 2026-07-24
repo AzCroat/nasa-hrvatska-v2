@@ -279,7 +279,12 @@ export async function onRequestPost(context) {
       signal: AbortSignal.timeout(25000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 800,
+        // Debrief carries majaNotes, didWell, focusNext, practiceCategories,
+        // newVocab (3-8 items each with a used_in sentence), updatedFacts,
+        // mistakePatternsUpdate + level-up fields — ~700-850 tokens at 6-8 vocab,
+        // so 800 could truncate and silently drop the whole debrief to a generic
+        // canned fallback (losing the session's real vocab/facts/level-up).
+        max_tokens: 1500,
         system: systemPrompt,
         messages: [
           {
