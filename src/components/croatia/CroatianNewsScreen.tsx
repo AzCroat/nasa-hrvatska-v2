@@ -105,6 +105,33 @@ interface NewsArticle {
   date?: string;
 }
 
+// The /api/news server emits key_vocabulary as [{hr,en}] and
+// summary_one_sentence as {hr,en} (the C2-news work). The client render uses
+// v.word / v.meaning and <em>{summary_one_sentence}</em>, so a raw server
+// article gives blank vocab chips and — because summary is an object —
+// crashes React with "Objects are not valid as a React child". Coerce server
+// articles to the internal {word,meaning}/string shape. The local
+// FALLBACK_ARTICLES are already in that shape and pass through unchanged.
+export function normalizeArticle(a: NewsArticle & Record<string, unknown>): NewsArticle {
+  const vocabRaw = (Array.isArray(a?.key_vocabulary) ? a.key_vocabulary : []) as unknown as Array<
+    Record<string, unknown>
+  >;
+  const summaryRaw = a?.summary_one_sentence as unknown;
+  return {
+    ...a,
+    key_vocabulary: vocabRaw.map((v: Record<string, unknown>) => ({
+      word: (v?.word ?? v?.hr ?? '') as string,
+      meaning: (v?.meaning ?? v?.en ?? '') as string,
+    })),
+    summary_one_sentence:
+      summaryRaw && typeof summaryRaw === 'object'
+        ? [(summaryRaw as Record<string, unknown>).hr, (summaryRaw as Record<string, unknown>).en]
+            .filter(Boolean)
+            .join(' / ')
+        : (summaryRaw as string) || '',
+  };
+}
+
 // ── Skeleton card for loading state ──────────────────────────────────────────
 function SkeletonCard() {
   return (
@@ -601,7 +628,7 @@ export default function CroatianNewsScreen({
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.articles && Array.isArray(data.articles) && data.articles.length > 0) {
-        setArticles(data.articles);
+        setArticles(data.articles.map(normalizeArticle));
       } else {
         throw new Error('No articles returned');
       }
