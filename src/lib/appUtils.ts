@@ -264,9 +264,15 @@ export function updateStreak(
     } else {
       if (s.count >= 2) {
         try {
+          // Stamp the earn-back window with the LOCAL date, not `today` — `today`
+          // is the SERVER date when this is called from useAward (updateStreak
+          // (_serverToday)), but getStreakEarnBack() validates the window against
+          // localDateStr(). A clock-skew / near-midnight straddle made the
+          // server-stamped date match neither local today nor yesterday, so the
+          // "do 1 lesson to restore your streak" prompt silently never appeared.
           localStorage.setItem(
             'nh_earn_back',
-            JSON.stringify({ prev: s.count, date: today, lc: 1 }),
+            JSON.stringify({ prev: s.count, date: localDateStr(), lc: 1 }),
           );
         } catch {}
       }
