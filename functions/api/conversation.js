@@ -563,7 +563,15 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 900, // B2/C1 responses need more room for rich JSON with correction + gloss
+        // The whole reply is a single JSON object: a multi-sentence Croatian
+        // `croatian` field + a full `english_gloss` translation (at scaffolding
+        // 2) + a 4-field `correction` object. At B2/C1 that JSON routinely ran
+        // past 900 tokens; the stream was then cut mid-object, JSON.parse failed
+        // in the message_stop handler, and the user silently got fallbackResponse
+        // (a generic line) instead of Maja's real reply — a core reason Razgovor
+        // "never worked properly". 2000 gives the JSON room to close. Streaming
+        // only emits what the model produces, so this is a ceiling, not a cost.
+        max_tokens: 2000,
         stream: true,
         system: finalSystem,
         messages: anthropicMessages,
