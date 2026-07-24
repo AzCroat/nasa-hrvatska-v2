@@ -322,9 +322,13 @@ export default function McGame({
           );
         }
 
-        const uniqueCleared = clearedIndices.current.size;
+        // Award on finalScore (first-attempt correct) — the same count McResult
+        // shows ("{score} correct × 3 XP + 5 bonus"). uniqueCleared always equals
+        // questions.length at completion (the game only ends once every question
+        // has been cleared, wrong answers re-queue), so awarding on it granted a
+        // constant max XP regardless of accuracy and contradicted the results card.
         if (typeof award === 'function')
-          award(uniqueCleared * XP_PER_CORRECT + XP_COMPLETION_BONUS, true, 'vocabulary');
+          award(finalScore * XP_PER_CORRECT + XP_COMPLETION_BONUS, true, 'vocabulary');
         markQuest('vocab');
         onComplete(questions, finalScore);
         return; // don't advance — let onComplete unmount
