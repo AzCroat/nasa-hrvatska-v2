@@ -989,8 +989,17 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
 
   function check() {
     const answer = placed.map((t: Tile) => t.w).join(' ');
-    const cleanAnswer = answer.replace(/[?.!,]$/, '').trim();
-    const cleanTarget = item!.target.replace(/[?.!,]$/, '').trim();
+    // Strip ALL punctuation (not just trailing) and collapse whitespace before
+    // comparing. The word tiles never contain punctuation, but targets do —
+    // including INTERNAL commas (e.g. "Kad budem gotov, nazvat ću te.") — so a
+    // trailing-only strip wrongly graded the correct arrangement as wrong.
+    const norm = (s: string) =>
+      s
+        .replace(/[?.!,;:]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const cleanAnswer = norm(answer);
+    const cleanTarget = norm(item!.target);
     const correct = cleanAnswer === cleanTarget;
     recordTopicResult('production', correct);
     recordTopicResult('grammar', correct);

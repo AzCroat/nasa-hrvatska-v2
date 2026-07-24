@@ -215,7 +215,7 @@ export function scheduleLocalReminder(streakDays = 0): void {
     if (isNotificationsEnabled() && Notification.permission === 'granted') {
       new Notification(msg.title, {
         body: msg.body,
-        icon: '/icons/icon-192x192.png',
+        icon: '/icon-192.png',
         tag: 'nh-daily-reminder',
         // @ts-expect-error — renotify is valid but missing from TS DOM lib
         renotify: true,
@@ -290,7 +290,7 @@ export function scheduleReEngagementReminder(): void {
     if (isNotificationsEnabled() && Notification.permission === 'granted') {
       new Notification(title, {
         body,
-        icon: '/icons/icon-192x192.png',
+        icon: '/icon-192.png',
         tag: 'nh-reengagement',
         // @ts-expect-error — renotify is valid but missing from TS DOM lib
         renotify: true,
