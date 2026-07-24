@@ -302,7 +302,7 @@ export default function PhraseOfDayScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const { level: userLevel } = useStats();
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   const [selectedCategory, setSelectedCategory] = useState('greeting');
   const [phraseData, setPhraseData] = useState<PhraseData | null>(null);

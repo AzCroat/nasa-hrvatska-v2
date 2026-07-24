@@ -121,7 +121,7 @@ export default function StoryModeScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const { level: userLevel } = useStats();
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   // Read user goal
   const userGoal = (() => {

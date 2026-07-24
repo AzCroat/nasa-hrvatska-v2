@@ -573,7 +573,7 @@ export default function CroatianNewsScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const { level: userLevelNum } = useStats();
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   const mountedRef = useRef(true);
   useEffect(

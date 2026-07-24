@@ -162,7 +162,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const finishFired = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const mountedRef = useRef(true);
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
   const { stats, setStats, writeDelta, level: userLevel } = useStats();
   const [promptIdx, setPromptIdx] = useState(() => Math.floor(rnd() * PROMPTS.length));
   const [text, setText] = useState('');

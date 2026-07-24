@@ -353,7 +353,7 @@ export default function HeritageStoryScreen({
   goBack?: () => void;
   award?: (amt: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   // Form state
   const [selectedRegion, setSelectedRegion] = useState<Region>(REGIONS[0]!);
