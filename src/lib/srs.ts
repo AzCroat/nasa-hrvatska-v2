@@ -300,7 +300,21 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
   } else {
     _migrate(card);
 
-    const lastScheduledMs = card.due - _nextInterval(card.s || 1) * 86400000;
+    // A legacy pre-FSRS card (the { r, w } counting format from the original
+    // srMark) has no `due`/`s`/`d`, and _migrate only backfills the SM-2
+    // (ease/interval) format — so `card.due` is undefined here. Left as-is,
+    // `card.due - interval` is NaN and poisons the whole schedule: newS/newD/due
+    // all become NaN, the card serializes to null, and it is then orphaned from
+    // every review queue (due != null skips the new-card branch; NaN <= now is
+    // false) — a silent, permanent scheduling loss that re-corrupts on reload.
+    // Guard it: when `due` isn't finite, treat the card as last reviewed at `lr`
+    // (or now) so the retrievability math stays finite. This also heals cards
+    // already corrupted to null by the old path on their next review.
+    const lastScheduledMs = Number.isFinite(card.due)
+      ? (card.due as number) - _nextInterval(card.s || 1) * 86400000
+      : Number.isFinite(card.lr)
+        ? (card.lr as number)
+        : now;
     const elapsedDays = Math.max(0, (now - lastScheduledMs) / 86400000);
     const R = _R(elapsedDays, card.s || 1);
     const D = card.d || 5;
