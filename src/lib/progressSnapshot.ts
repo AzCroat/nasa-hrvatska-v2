@@ -341,7 +341,20 @@ export function buildProgressSnapshot({
       }
     })(),
     // ── Immersion-mode tracking (2026-05-20) ──────────────────────────────────
-    nh_immersion_days: parseInt(localStorage.getItem('nh_immersion_days') || '0', 10) || 0,
+    // nh_immersion_days is a JSON ARRAY of local date strings (see
+    // MediaPlayerUtils.markImmersionToday), not a number. parseInt() on that
+    // array-JSON always yielded NaN → 0, so the immersion streak never synced —
+    // every device wrote 0 and the days were lost cross-device. Serialize the
+    // array so applyRemoteProgress can union-merge it (like the other day-set
+    // arrays). Non-array/corrupt values collapse to null (dropped by Firestore).
+    nh_immersion_days: (() => {
+      try {
+        const v = JSON.parse(localStorage.getItem('nh_immersion_days') || 'null');
+        return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : null;
+      } catch {
+        return null;
+      }
+    })(),
     // ── CEFR equivalency-test certifications (2026-05-20) ─────────────────────
     // Per-level pass/fail history + cooldown timestamps. Required for hard
     // CEFR gating (`isUnlocked` consults certified level when the

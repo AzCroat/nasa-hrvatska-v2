@@ -291,6 +291,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   _unionStrArr('nh_listening_track_done', fp.nh_listening_track_done);
   _unionStrArr('nh_interaction_track_done', fp.nh_interaction_track_done);
   _unionStrArr('nh_phonemes_mastered', fp.nh_phonemes_mastered);
+  // Immersion days is a growing set of local date strings, not a number — union
+  // it (a Math.max would be a type error against the array snapshot now writes).
+  // Legacy numeric remote values (from the old buggy snapshot) aren't arrays, so
+  // _unionStrArr ignores them safely.
+  _unionStrArr('nh_immersion_days', fp.nh_immersion_days);
 
   // ── UI/accessibility preferences ──────────────────────────────────────────
   // Three-state values (null | 'true' | 'false'): only write when remote is non-null
@@ -622,7 +627,8 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   _maxNum('nh_placement_vocab', fp.nh_placement_vocab);
   _maxNum('nh_placement_grammar', fp.nh_placement_grammar);
   _maxNum('nh_placement_culture', fp.nh_placement_culture);
-  _maxNum('nh_immersion_days', fp.nh_immersion_days);
+  // nh_immersion_days is now union-merged as a date-string set above (it was
+  // never a number; the old Math.max here silently no-op'd on the array).
   // Alka tournament personal best (0-9) — Math.max so it only ever increases.
   _maxNum('nh_alka_best', fp.nh_alka_best);
 
