@@ -227,7 +227,12 @@ function getDaysSinceJoin(authUser: AuthUser | null) {
 }
 function pruneStaleLocalStorage() {
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    // Local date, NOT UTC — the quest (quests.ts) and comeback (useAward.ts) keys
+    // this prune matches are written and read with localDateStr(). Using a UTC date
+    // here deletes TODAY's keys whenever UTC ≠ local (Americas evenings; Croatia
+    // 00:00–02:00), wiping quest progress and re-enabling the once-daily +50 comeback
+    // bonus. nh_pruned_ is self-consistent (written below with the same value).
+    const today = localDateStr();
     const del = [];
     // Use Object.keys for more efficient iteration
     const keys = Object.keys(localStorage);

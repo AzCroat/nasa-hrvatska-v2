@@ -1053,8 +1053,10 @@ export default function AIConversation({
         const xp = result.score >= 80 ? 18 : result.score >= 60 ? 13 : 8;
         award(xp, false, 'speaking');
         markPracticed();
-        const today = new Date().toISOString().slice(0, 10);
-        localStorage.setItem('nh_quest_grammar_' + today, '1');
+        // Route through markQuest so the key uses localDateStr() like every other
+        // quest writer/reader — a raw UTC date here left the grammar quest dot dark
+        // for users whose local date ≠ UTC (Americas evenings; Croatia 00:00–02:00).
+        markQuest('grammar');
       }
       setWritePhase('result');
     } catch (e) {
