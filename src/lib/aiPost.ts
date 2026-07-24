@@ -4,6 +4,7 @@
 
 import { getFirebaseBearer } from './audio';
 import { buildUserContext } from './userContext';
+import { API_BASE } from './platform';
 
 export interface AiPostOptions {
   skipUserContext?: boolean;
@@ -23,7 +24,13 @@ export async function _aiPost(
     const bearer = await getFirebaseBearer(forceRefresh);
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (bearer) headers.Authorization = 'Bearer ' + bearer;
-    return fetch(path, {
+    // On Capacitor native the app runs from https://localhost, which has no Pages
+    // Functions — a relative '/api/...' resolves there and 404s to the SPA-fallback
+    // HTML, so EVERY _aiPost feature (Razgovor streaming conversation, writing
+    // correction, DialogueSim, live tutor) failed with "empty response" on the
+    // native app. API_BASE is '' on web (relative, unchanged) and the live origin
+    // on native. fetch() is kept so SSE streaming still works with an absolute URL.
+    return fetch(API_BASE + path, {
       method: 'POST',
       headers,
       body: payload,
