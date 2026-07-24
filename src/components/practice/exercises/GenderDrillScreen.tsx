@@ -12,10 +12,12 @@ interface GenderEntry {
 interface Props {
   goBack: () => void;
   award: (n: number, celebrate?: boolean, activityType?: string) => void;
+  /** @deprecated Unused — gc is credited via useStats().setStats + writeDelta.
+   *  Kept so the AppRouter call site (setSt={setStats}) still typechecks. */
   setSt?: (fn: (s: any) => any) => void;
 }
 
-function GenderDrillScreen({ goBack, award, setSt }: Props) {
+function GenderDrillScreen({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   // ─── Sort by Gender state ──────────────────────────────────────────────────
   // revealedGenders: { [i]: { guess: 'm'|'f'|'n', correct: bool } }
@@ -53,15 +55,16 @@ function GenderDrillScreen({ goBack, award, setSt }: Props) {
     completionFired.current = true;
     if (typeof award === 'function') award(15, false, 'grammar');
     markQuest('grammar');
+    // Credit gc exactly once, guarded on the 'gender' vs key, with a matching
+    // authoritative writeDelta. The old unconditional setSt(gc+1) below double-
+    // counted on first completion (local +2 vs writeDelta +1) and kept adding +1
+    // per replay with no writeDelta — diverging local gc from the synced value.
     if (!stats.vs?.includes('gender')) {
       setStats((prev) => {
         if (prev.vs?.includes('gender')) return prev;
         return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'gender'] };
       });
       if (writeDelta) writeDelta({ gc: 1, vs: ['gender'] });
-    }
-    if (setSt) {
-      setSt((s: any) => ({ ...s, gc: s.gc + 1 }));
     }
     goBack();
   }
