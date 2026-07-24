@@ -219,7 +219,11 @@ export async function onRequestPost(context) {
       signal: AbortSignal.timeout(20000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 1000,
+        // The prompt asks for 3-5 blindSpots, each with a 2-sentence explanation,
+        // an example object, and 3 drills (question + 4 options). 4-5 spots is
+        // ~1100-1350 tokens, so 1000 truncated the richest diagnoses (exactly the
+        // users this feature targets) into a 502 parse_failed. Sized for 5 spots.
+        max_tokens: 2000,
         system: systemPrompt,
         messages: [{ role: 'user', content: userMessage }],
       }),

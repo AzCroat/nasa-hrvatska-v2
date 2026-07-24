@@ -652,9 +652,16 @@ export async function onRequestPost(context) {
       return err(502, 'Invalid response from AI', origin);
     }
     const raw = singleData.content?.[0]?.text || '';
-    // Try to return parsed JSON for these structured modes
+    // Try to return parsed JSON for these structured modes. Strip a ```json code
+    // fence first — without it a fenced-but-valid object fell through to the
+    // { text } fallback, so e.g. the postcard client silently showed the user's
+    // UNCORRECTED text (data.corrected_text was undefined).
+    const rawClean = raw
+      .replace(/^\s*```(?:json)?\s*/i, '')
+      .replace(/\s*```\s*$/i, '')
+      .trim();
     try {
-      const parsed = JSON.parse(raw);
+      const parsed = JSON.parse(rawClean);
       return new Response(JSON.stringify({ ...parsed, _raw: raw, model: MODEL }), {
         status: 200,
         headers: corsHeaders(origin),

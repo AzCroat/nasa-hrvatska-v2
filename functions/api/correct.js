@@ -105,7 +105,10 @@ If unsure, use "other". This field is required.`;
       signal: AbortSignal.timeout(25000),
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
+        // Input is capped at 3000 chars; the response must reproduce the full
+        // corrected_text PLUS the changes array + feedback, so 1000 truncated long
+        // essays into unparseable JSON (fake "couldn't connect"). Sized to match.
+        max_tokens: 2600,
         system: systemPrompt,
         messages: [{ role: 'user', content: text }],
       }),
