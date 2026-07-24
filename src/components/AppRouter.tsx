@@ -2165,7 +2165,7 @@ export default function AppRouter(props: Record<string, any>) {
         }
         {
           // ═══ VOCABULARY LESSON ═══
-          currentScreen === 'lesson' && (
+          currentScreen === 'lesson' && lt && (
             <ScreenErrorBoundary key="lesson" name="lesson">
               <LessonScreen
                 lt={lt}
@@ -2197,8 +2197,14 @@ export default function AppRouter(props: Record<string, any>) {
           )
         }
         {
+          // Reload / shared-link on /lesson loses `lt` (lessonTopic React state);
+          // without this guard LessonScreen rendered blank ("Lesson · Question of ?")
+          // with no way back. Mirrors the grammar_unit_detail reload guard above.
+          currentScreen === 'lesson' && !lt && <ScreenGuard goBack={goBack} label="lesson" />
+        }
+        {
           // ═══ GRAMMAR ═══
-          currentScreen === 'grammar' && (
+          currentScreen === 'grammar' && gl && (
             <ScreenErrorBoundary key="grammar" name="grammar">
               <GrammarScreen
                 gl={gl}
@@ -2217,6 +2223,13 @@ export default function AppRouter(props: Record<string, any>) {
                 setSt={setStats}
               />
             </ScreenErrorBoundary>
+          )
+        }
+        {
+          // Reload on /grammar loses `gl` (grammarLesson React state → null); guard
+          // the otherwise-blank GrammarScreen with a clear path back, as above.
+          currentScreen === 'grammar' && !gl && (
+            <ScreenGuard goBack={goBack} label="grammar lesson" />
           )
         }
         {currentScreen === 'alphabet' && (

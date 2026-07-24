@@ -278,7 +278,14 @@ export default function HeroStats({
             CEFR LEVEL
           </span>
           <span style={{ fontSize: 11, fontWeight: 900, color: 'var(--gold, #C8980A)' }}>
-            {cefr.current} → {cefr.next} &nbsp;·&nbsp; {cefr.pctInLevel}%
+            {cefr.current === cefr.next ? (
+              // Terminal level (C2) — no "→ next", show a Max badge instead of "C2 → C2".
+              <>{cefr.current} &nbsp;·&nbsp; Max</>
+            ) : (
+              <>
+                {cefr.current} → {cefr.next} &nbsp;·&nbsp; {cefr.pctInLevel}%
+              </>
+            )}
           </span>
         </div>
         <div
