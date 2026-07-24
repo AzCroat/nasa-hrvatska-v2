@@ -47,3 +47,30 @@ describe('buildAzureSsml prosody', () => {
     expect(s).toContain('hr-HR-GabrijelaNeural');
   });
 });
+
+describe('buildAzureSsml phoneme (IPA)', () => {
+  it('wraps text in an IPA <phoneme> when a valid pronunciation is given', () => {
+    const s = buildAzureSsml('Odjebi', { phoneme: 'ˈodjebi' });
+    expect(s).toContain('<phoneme alphabet="ipa" ph="ˈodjebi">Odjebi</phoneme>');
+  });
+  it('accepts IPA symbols, stress marks and syllable dots', () => {
+    const s = buildAzureSsml('Jebačina', { phoneme: 'jeˈbatʃina' });
+    expect(s).toContain('ph="jeˈbatʃina"');
+    expect(s).toContain('>Jebačina</phoneme>');
+  });
+  it('emits plain text (no phoneme tag) when none is given', () => {
+    const s = buildAzureSsml('grad', { slow: false });
+    expect(s).not.toContain('<phoneme');
+    expect(s).toContain('>grad</prosody>');
+  });
+  it('rejects an injection attempt in the phoneme (no phoneme tag emitted)', () => {
+    const s = buildAzureSsml('x', { phoneme: 'a"><inject onload="bad' });
+    expect(s).not.toContain('<phoneme');
+    expect(s).not.toContain('inject');
+    expect(s).not.toContain('onload');
+  });
+  it('rejects an over-long phoneme string', () => {
+    const s = buildAzureSsml('x', { phoneme: 'a'.repeat(200) });
+    expect(s).not.toContain('<phoneme');
+  });
+});
