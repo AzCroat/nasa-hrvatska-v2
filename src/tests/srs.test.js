@@ -203,6 +203,33 @@ describe('getSRScore — new card creation', () => {
     expect(card.due).toBe(card.nextDue);
   });
 
+  // Regression: a legacy pre-FSRS card ({ r, w } counting format) has no
+  // due/s/d. Reviewing it used to compute `undefined - interval` = NaN and
+  // corrupt the whole card (s/due became NaN → serialized to null → orphaned
+  // from every review queue = silent permanent scheduling loss). The review
+  // must now produce a finite, schedulable card.
+  it('reviewing a legacy {r,w} card produces a finite schedule (no NaN corruption)', () => {
+    saveSR({ pas: { r: 3, w: 1 } });
+    const card = getSRScore('pas', true, 2000);
+    expect(Number.isFinite(card.s)).toBe(true);
+    expect(card.s).toBeGreaterThan(0);
+    expect(Number.isFinite(card.due)).toBe(true);
+    expect(card.due).toBeGreaterThan(Date.now());
+    expect(Number.isFinite(card.d)).toBe(true);
+    // and it round-trips through storage as finite (not JSON.stringify'd to null)
+    const stored = getSR().pas;
+    expect(Number.isFinite(stored.due)).toBe(true);
+    expect(Number.isFinite(stored.s)).toBe(true);
+  });
+
+  it('heals a card already corrupted to null due/s on its next review', () => {
+    saveSR({ mir: { s: null, d: null, r: 4, w: 0, l: 0, b: 1, due: null, nextDue: null } });
+    const card = getSRScore('mir', true, 2000);
+    expect(Number.isFinite(card.s)).toBe(true);
+    expect(Number.isFinite(card.due)).toBe(true);
+    expect(card.due).toBeGreaterThan(Date.now());
+  });
+
   it('stability is positive for all four grades', () => {
     // grade 1: wrong + fast (< 5000 ms)
     const g1 = getSRScore('test_g1', false, 1000);
