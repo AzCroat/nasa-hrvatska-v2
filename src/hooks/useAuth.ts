@@ -298,6 +298,23 @@ export function useAuth({
               pf: Math.max((lpSt.pf as number) || 0, (fpSt.pf as number) || 0),
               mv: Math.max((lpSt.mv as number) || 0, (fpSt.mv as number) || 0),
               hi: Math.max((lpSt.hi as number) || 0, (fpSt.hi as number) || 0),
+              // pr + badge-backing counters — monotonic; Math.max so unsynced local
+              // progress isn't clobbered by the remote base spread (...fpSt). Mirrors
+              // mergeStatsFromRemote so this merge can't drift from the canonical rule.
+              pr: Math.max((lpSt.pr as number) || 0, (fpSt.pr as number) || 0),
+              srsTotal: Math.max((lpSt.srsTotal as number) || 0, (fpSt.srsTotal as number) || 0),
+              mistakesMastered: Math.max(
+                (lpSt.mistakesMastered as number) || 0,
+                (fpSt.mistakesMastered as number) || 0,
+              ),
+              readingDone: Math.max(
+                (lpSt.readingDone as number) || 0,
+                (fpSt.readingDone as number) || 0,
+              ),
+              mediaVisits: Math.max(
+                (lpSt.mediaVisits as number) || 0,
+                (fpSt.mediaVisits as number) || 0,
+              ),
               ct: [
                 ...new Set([...((lpSt.ct as string[]) || []), ...((fpSt.ct as string[]) || [])]),
               ],
@@ -363,6 +380,25 @@ export function useAuth({
                 pf: Math.max((_lpSt.pf as number) || 0, (_fpSt.pf as number) || 0),
                 mv: Math.max((_lpSt.mv as number) || 0, (_fpSt.mv as number) || 0),
                 hi: Math.max((_lpSt.hi as number) || 0, (_fpSt.hi as number) || 0),
+                // pr + badge-backing counters — monotonic; Math.max so unsynced local
+                // progress isn't clobbered by the remote base spread (...fpSt).
+                pr: Math.max((_lpSt.pr as number) || 0, (_fpSt.pr as number) || 0),
+                srsTotal: Math.max(
+                  (_lpSt.srsTotal as number) || 0,
+                  (_fpSt.srsTotal as number) || 0,
+                ),
+                mistakesMastered: Math.max(
+                  (_lpSt.mistakesMastered as number) || 0,
+                  (_fpSt.mistakesMastered as number) || 0,
+                ),
+                readingDone: Math.max(
+                  (_lpSt.readingDone as number) || 0,
+                  (_fpSt.readingDone as number) || 0,
+                ),
+                mediaVisits: Math.max(
+                  (_lpSt.mediaVisits as number) || 0,
+                  (_fpSt.mediaVisits as number) || 0,
+                ),
                 ct: [
                   ...new Set([
                     ...((_lpSt.ct as string[]) || []),
