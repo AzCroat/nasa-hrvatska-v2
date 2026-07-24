@@ -38,4 +38,13 @@ describe('C2 news mode', () => {
   it('endpoint still validates the full CEFR range', () => {
     expect(serverSrc.includes("['A1', 'A2', 'B1', 'B2', 'C1', 'C2']")).toBe(true);
   });
+
+  it('strips a json code fence before parsing the model payload (no silent article drop)', () => {
+    // news.js was the sole AI endpoint missing this guard: a fenced-but-valid
+    // response threw in JSON.parse → simplifyArticle returned null → the article
+    // was dropped and the News screen rendered nothing. Assert the fence-strip +
+    // that the parse now runs on the cleaned string, not the raw text.
+    expect(serverSrc).toMatch(/replace\(\/\^\\s\*```\(\?:json\)\?\\s\*\/i, ''\)/);
+    expect(serverSrc).toContain('JSON.parse(cleaned)');
+  });
 });

@@ -93,7 +93,16 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
-  const { subscription, streak = 0, name = '', reminderTime = '', timeZone = '' } = body;
+  const { subscription, reminderTime = '', timeZone = '' } = body;
+  // streak/name are OPTIONAL in the request. subscribeToPush() (the Settings
+  // "Enable" path) omits them, while registerPushWithServer() (the daily refresh)
+  // sends the real values. Because this handler does a full KV overwrite, treating
+  // an omitted field as 0/'' clobbered a previously-stored streak/name — and since
+  // both callers stamp the shared _REG_TS_KEY throttle, the correct value wasn't
+  // rewritten for up to 85 days, so streak-reminder pushes read "0-day streak".
+  // Only overwrite streak/name when the request actually carries them.
+  const hasStreak = Object.prototype.hasOwnProperty.call(body, 'streak');
+  const hasName = Object.prototype.hasOwnProperty.call(body, 'name');
   if (!subscription?.endpoint) {
     return new Response(JSON.stringify({ error: 'Missing subscription' }), {
       status: 400,
@@ -150,13 +159,29 @@ export async function onRequestPost({ request, env }) {
   const kvKey = (uid || 'anon').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64);
   const today = new Date().toISOString().slice(0, 10);
 
+  // Read the current entry so a request that omits streak/name preserves the
+  // stored value instead of zeroing it (see the hasStreak/hasName note above).
+  let existing = null;
+  try {
+    const rawExisting = await env.PUSH_SUBSCRIPTIONS.get(kvKey);
+    if (rawExisting) existing = JSON.parse(rawExisting);
+  } catch {
+    existing = null; // unreadable/corrupt entry — treat as a fresh subscription
+  }
+  const storedStreak = hasStreak
+    ? Math.max(0, Math.floor(Number(body.streak) || 0))
+    : Math.max(0, Math.floor(Number(existing?.streak) || 0));
+  const storedName = hasName
+    ? String(body.name || '').slice(0, 50)
+    : String(existing?.name || '').slice(0, 50);
+
   try {
     await env.PUSH_SUBSCRIPTIONS.put(
       kvKey,
       JSON.stringify({
         subscription,
-        streak: Math.max(0, Math.floor(Number(streak) || 0)),
-        name: String(name || '').slice(0, 50),
+        streak: storedStreak,
+        name: storedName,
         reminderTime: safeReminderTime,
         timeZone: safeTimeZone,
         lastPracticed: today, // don't notify on subscribe day

@@ -54,6 +54,29 @@ describe('/api/push-subscribe storage', () => {
     expect(subscribeSrc).toContain('reminderTime: safeReminderTime');
     expect(subscribeSrc).toContain('timeZone: safeTimeZone');
   });
+
+  it('preserves stored streak/name when the request omits them (no clobber)', () => {
+    // subscribeToPush() omits streak/name; the full-overwrite handler must fall
+    // back to the existing KV value instead of zeroing it — otherwise the
+    // streak-reminder push reads "0-day streak" until the 85-day cache expires.
+    expect(subscribeSrc).toContain("Object.prototype.hasOwnProperty.call(body, 'streak')");
+    expect(subscribeSrc).toContain("Object.prototype.hasOwnProperty.call(body, 'name')");
+    // reads the current entry before writing
+    expect(subscribeSrc).toMatch(/PUSH_SUBSCRIPTIONS\.get\(kvKey\)/);
+    // resolved values fall back to the stored entry
+    expect(subscribeSrc).toMatch(/existing\?\.streak/);
+    expect(subscribeSrc).toMatch(/existing\?\.name/);
+    expect(subscribeSrc).toContain('streak: storedStreak');
+    expect(subscribeSrc).toContain('name: storedName');
+  });
+
+  it('subscribeToPush (Settings Enable path) does not send streak — proving the preserve matters', () => {
+    // The subscribeToPush body has subscription/userId/reminderTime/timeZone but
+    // no streak/name. If this changes, the preserve logic can be revisited.
+    const sub = clientSrc.slice(clientSrc.indexOf('export async function subscribeToPush'));
+    const body = sub.slice(0, sub.indexOf('export async function sendTestPush'));
+    expect(body).not.toMatch(/streak:/);
+  });
 });
 
 describe('scheduled worker', () => {
