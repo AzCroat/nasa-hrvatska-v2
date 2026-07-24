@@ -115,7 +115,7 @@ Include 5-6 key vocabulary items. Keep facts accurate.`;
       signal: AbortSignal.timeout(20000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 1500, // C2 needs 8-12 Croatian sentences + full EN translation; 800 truncated → article dropped
+        max_tokens: 2200, // C2 needs 8-12 Croatian sentences + full EN translation + 5-6 vocab + summary; hr diacritics tokenize heavy, so 1500 could still truncate the heaviest articles → silent drop (same failure path as a missing fence-strip)
         system: systemPrompt,
         messages: [{ role: 'user', content: userContent }],
       }),
@@ -159,9 +159,17 @@ Include 5-6 key vocabulary items. Keep facts accurate.`;
   }
 
   const raw = data.content?.[0]?.text || '';
+  // Strip a ```json code fence if the model wrapped its object in one. This is
+  // the same guard every other AI endpoint applies before JSON.parse; news.js
+  // was the sole outlier, so a fenced-but-valid response threw here and the
+  // article was silently dropped (News screen then rendered nothing).
+  const cleaned = raw
+    .replace(/^\s*```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/i, '')
+    .trim();
   let parsed;
   try {
-    parsed = JSON.parse(raw);
+    parsed = JSON.parse(cleaned);
   } catch {
     console.error('news.js: simplifyArticle inner JSON parse failed:', raw.slice(0, 200));
     return null;
