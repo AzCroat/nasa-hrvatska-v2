@@ -255,7 +255,11 @@ export function stopAudio(): void {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
 }
 
-export async function speakAzure(text: string, slow?: boolean): Promise<boolean> {
+export async function speakAzure(
+  text: string,
+  slow?: boolean,
+  opts?: { phoneme?: string },
+): Promise<boolean> {
   if (!text || !text.trim()) return false;
   dbgInfo(
     `[TTS] speakAzure called | text="${text.slice(0, 40)}" slow=${!!slow} isNative=${isNative()}`,
@@ -267,7 +271,10 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
   stopAudio();
   const myGen = ++_speakGen;
   const voicePref = getVoicePreference();
-  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref;
+  const phoneme = opts?.phoneme || '';
+  // phoneme in the cache key so an IPA-corrected play never collides with the plain
+  // cached audio for the same word (matches the server-side edge cache key).
+  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme;
   const cached = _cacheGet(cacheKey);
 
   try {
@@ -283,6 +290,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       }
       const body: Record<string, unknown> = { text, slow: !!slow };
       if (voicePref !== 'auto') body.voice = voicePref;
+      if (phoneme) body.phoneme = phoneme;
       _ttsAbort = new AbortController();
       // Use timeout-aware abort signal when supported; fall back to plain abort signal.
       const timeoutSignal = (
@@ -533,10 +541,12 @@ async function _awaitVoices(): Promise<SpeechSynthesisVoice | null> {
   });
 }
 
-export async function speak(text: string): Promise<string> {
+export async function speak(text: string, opts?: { phoneme?: string }): Promise<string> {
   if (!text) return 'none';
   const t = prepTTS(text);
-  const ok = await speakAzure(t, false).catch(() => false);
+  // phoneme (IPA) override applies to the Azure path only — used for slang words the
+  // neural voice mis-segments. The Web Speech fallback can't use it (plain text).
+  const ok = await speakAzure(t, false, opts).catch(() => false);
   if (!ok) {
     // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
     // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.

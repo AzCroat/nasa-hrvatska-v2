@@ -1,5 +1,6 @@
 import React from 'react';
 import { speak } from '../../data';
+import { ipaFor } from './slangPronunciation';
 
 interface SlangVariant {
   hr: string;
@@ -79,7 +80,7 @@ export default function SlangEntryCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              speak(entry.hr);
+              speak(entry.hr, { phoneme: ipaFor(entry.hr) });
             }}
             aria-label={`Hear ${entry.hr}`}
             style={{
@@ -166,7 +167,7 @@ export default function SlangEntryCard({
                   }}
                 >
                   <button
-                    onClick={() => speak(v.hr)}
+                    onClick={() => speak(v.hr, { phoneme: ipaFor(v.hr) })}
                     aria-label={`Hear ${v.hr}`}
                     style={{
                       width: 28,
