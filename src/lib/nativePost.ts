@@ -68,117 +68,131 @@ export async function _nativePost(
 ): Promise<Response | null> {
   const endpoints = isNative() ? _NATIVE_ENDPOINTS : [''];
 
-  // Attach Firebase Bearer token so the server-side auth gate passes. Without it,
-  // authenticated endpoints return 401.
-  const bearer = await getFirebaseBearer();
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (bearer) {
-    headers.Authorization = `Bearer ${bearer}`;
-  } else {
-    dbgWarn(
-      `[nativePost] no Firebase user signed in — request to "${path}" will be unauthenticated`,
-    );
-  }
-
-  if (isNative()) {
-    // Try CapacitorHttp (native Android/iOS HTTP — bypasses WebView fetch() failures).
-    let capHttp: _CapHttp | null = null;
-    try {
-      // Dynamic import keeps @capacitor/core out of the web bundle's main chunk.
-      const capacitorModule = (await import('@capacitor/core')) as unknown as {
-        CapacitorHttp?: _CapHttp;
-      };
-      capHttp = capacitorModule.CapacitorHttp ?? null;
-      if (capHttp) dbgInfo('[nativePost] CapacitorHttp available — using native HTTP');
-    } catch {
-      dbgWarn('[nativePost] CapacitorHttp import failed — falling back to fetch()');
-    }
-
-    if (capHttp) {
-      for (const base of endpoints) {
-        const url = `${base}${path}`;
-        try {
-          dbgInfo(`[nativePost] CapacitorHttp POST → "${url}"`);
-          const capOpts: Record<string, unknown> = { url, headers, data: body };
-          if (opts?.responseType === 'blob') capOpts.responseType = 'blob';
-          const resp = await capHttp.post(capOpts);
-          dbgInfo(
-            `[nativePost] CapacitorHttp status=${resp.status}${opts?.responseType === 'blob' ? ` data-type=${typeof resp.data}` : ''}`,
-          );
-          if (resp.status >= 200 && resp.status < 300) {
-            if (opts?.responseType === 'blob') {
-              // Mirror _ttsPost in audio.ts exactly: native bridge returns binary as
-              // a base64 string; convert to Blob and build a proper Response.
-              let blob: Blob;
-              if (resp.data instanceof Blob) {
-                blob = resp.data;
-              } else if (typeof resp.data === 'string' && resp.data.length > 0) {
-                const ab = _dataUrlToArrayBuffer(`data:audio/mpeg;base64,${resp.data}`);
-                blob = new Blob([ab], { type: 'audio/mpeg' });
-              } else {
-                dbgWarn(
-                  `[nativePost] CapacitorHttp blob: unexpected data type "${typeof resp.data}" len=${String(resp.data).length} — trying next`,
-                );
-                continue;
-              }
-              // Build passthrough headers from the CapacitorHttp response
-              const outHeaders: Record<string, string> = { 'Content-Type': 'audio/mpeg' };
-              for (const name of opts?.passthroughHeaders ?? []) {
-                const val = resp.headers[name.toLowerCase()] ?? resp.headers[name] ?? '';
-                outHeaders[name] = val;
-              }
-              return new Response(blob, { status: 200, headers: new Headers(outHeaders) });
-            }
-            return _capDataToResponse(resp.status, resp.data);
-          }
-          if (resp.status >= 400 && resp.status < 500) {
-            // 4xx — bad request, don't retry other endpoints
-            if (opts?.responseType === 'blob') {
-              // Mirror _ttsPost ~183–188: return a minimal Response preserving status
-              const h: Record<string, string> = {};
-              for (const name of opts?.passthroughHeaders ?? []) {
-                h[name] = resp.headers[name.toLowerCase()] ?? resp.headers[name] ?? '';
-              }
-              return new Response('', { status: resp.status, headers: new Headers(h) });
-            }
-            return _capDataToResponse(resp.status, resp.data);
-          }
-          // 5xx: try next endpoint
-        } catch (e: unknown) {
-          const err = e as Error;
-          dbgWarn(
-            `[nativePost] CapacitorHttp → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 100)} — trying next`,
-          );
-        }
-      }
-      dbgWarn('[nativePost] CapacitorHttp: all endpoints failed');
-      return null;
-    }
-    // CapacitorHttp unavailable — fall through to fetch()
-  }
-
-  // Web (and native fallback): standard fetch()
-  for (const base of endpoints) {
-    const url = `${base}${path}`;
-    try {
-      const r = await fetch(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(body),
-        ...(opts?.signal ? { signal: opts.signal } : {}),
-      });
-      dbgInfo(`[nativePost] fetch POST → "${url}" status=${r.status}`);
-      if (r.ok) return r;
-      // 4xx from server: bad request — don't retry other endpoints
-      if (r.status >= 400 && r.status < 500) return r;
-      // 5xx or other: try next endpoint
-    } catch (e: unknown) {
-      const err = e as Error;
-      if (err?.name === 'AbortError') throw e; // propagate abort immediately
+  // Run the full transport (native CapacitorHttp + fetch fallback / web fetch)
+  // with the given bearer. Extracted into an inner function so we can retry once
+  // with a force-refreshed token on 401 — see the call site below.
+  async function send(bearer: string | null): Promise<Response | null> {
+    // Attach Firebase Bearer token so the server-side auth gate passes. Without it,
+    // authenticated endpoints return 401.
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (bearer) {
+      headers.Authorization = `Bearer ${bearer}`;
+    } else {
       dbgWarn(
-        `[nativePost] fetch → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 80)} — trying next`,
+        `[nativePost] no Firebase user signed in — request to "${path}" will be unauthenticated`,
       );
     }
+
+    if (isNative()) {
+      // Try CapacitorHttp (native Android/iOS HTTP — bypasses WebView fetch() failures).
+      let capHttp: _CapHttp | null = null;
+      try {
+        // Dynamic import keeps @capacitor/core out of the web bundle's main chunk.
+        const capacitorModule = (await import('@capacitor/core')) as unknown as {
+          CapacitorHttp?: _CapHttp;
+        };
+        capHttp = capacitorModule.CapacitorHttp ?? null;
+        if (capHttp) dbgInfo('[nativePost] CapacitorHttp available — using native HTTP');
+      } catch {
+        dbgWarn('[nativePost] CapacitorHttp import failed — falling back to fetch()');
+      }
+
+      if (capHttp) {
+        for (const base of endpoints) {
+          const url = `${base}${path}`;
+          try {
+            dbgInfo(`[nativePost] CapacitorHttp POST → "${url}"`);
+            const capOpts: Record<string, unknown> = { url, headers, data: body };
+            if (opts?.responseType === 'blob') capOpts.responseType = 'blob';
+            const resp = await capHttp.post(capOpts);
+            dbgInfo(
+              `[nativePost] CapacitorHttp status=${resp.status}${opts?.responseType === 'blob' ? ` data-type=${typeof resp.data}` : ''}`,
+            );
+            if (resp.status >= 200 && resp.status < 300) {
+              if (opts?.responseType === 'blob') {
+                // Mirror _ttsPost in audio.ts exactly: native bridge returns binary as
+                // a base64 string; convert to Blob and build a proper Response.
+                let blob: Blob;
+                if (resp.data instanceof Blob) {
+                  blob = resp.data;
+                } else if (typeof resp.data === 'string' && resp.data.length > 0) {
+                  const ab = _dataUrlToArrayBuffer(`data:audio/mpeg;base64,${resp.data}`);
+                  blob = new Blob([ab], { type: 'audio/mpeg' });
+                } else {
+                  dbgWarn(
+                    `[nativePost] CapacitorHttp blob: unexpected data type "${typeof resp.data}" len=${String(resp.data).length} — trying next`,
+                  );
+                  continue;
+                }
+                // Build passthrough headers from the CapacitorHttp response
+                const outHeaders: Record<string, string> = { 'Content-Type': 'audio/mpeg' };
+                for (const name of opts?.passthroughHeaders ?? []) {
+                  const val = resp.headers[name.toLowerCase()] ?? resp.headers[name] ?? '';
+                  outHeaders[name] = val;
+                }
+                return new Response(blob, { status: 200, headers: new Headers(outHeaders) });
+              }
+              return _capDataToResponse(resp.status, resp.data);
+            }
+            if (resp.status >= 400 && resp.status < 500) {
+              // 4xx — bad request, don't retry other endpoints
+              if (opts?.responseType === 'blob') {
+                // Mirror _ttsPost ~183–188: return a minimal Response preserving status
+                const h: Record<string, string> = {};
+                for (const name of opts?.passthroughHeaders ?? []) {
+                  h[name] = resp.headers[name.toLowerCase()] ?? resp.headers[name] ?? '';
+                }
+                return new Response('', { status: resp.status, headers: new Headers(h) });
+              }
+              return _capDataToResponse(resp.status, resp.data);
+            }
+            // 5xx: try next endpoint
+          } catch (e: unknown) {
+            const err = e as Error;
+            dbgWarn(
+              `[nativePost] CapacitorHttp → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 100)} — trying next`,
+            );
+          }
+        }
+        dbgWarn('[nativePost] CapacitorHttp: all endpoints failed');
+        return null;
+      }
+      // CapacitorHttp unavailable — fall through to fetch()
+    }
+
+    // Web (and native fallback): standard fetch()
+    for (const base of endpoints) {
+      const url = `${base}${path}`;
+      try {
+        const r = await fetch(url, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(body),
+          ...(opts?.signal ? { signal: opts.signal } : {}),
+        });
+        dbgInfo(`[nativePost] fetch POST → "${url}" status=${r.status}`);
+        if (r.ok) return r;
+        // 4xx from server: bad request — don't retry other endpoints
+        if (r.status >= 400 && r.status < 500) return r;
+        // 5xx or other: try next endpoint
+      } catch (e: unknown) {
+        const err = e as Error;
+        if (err?.name === 'AbortError') throw e; // propagate abort immediately
+        dbgWarn(
+          `[nativePost] fetch → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 80)} — trying next`,
+        );
+      }
+    }
+    return null; // all endpoints failed
   }
-  return null; // all endpoints failed
+
+  let res = await send(await getFirebaseBearer());
+  // A 401 means the memoized Firebase ID token expired (~hourly). Force-refresh
+  // once and retry — mirrors _aiPost/apiFetch. Without this, native voice STT
+  // (/api/stt), TTS (/api/tts — Maja's voice), and speaking assessment silently
+  // 401 after ~1h and the spoken turn is lost (the "flaky voice" reputation).
+  if (res && res.status === 401) {
+    res = await send(await getFirebaseBearer(true));
+  }
+  return res;
 }
