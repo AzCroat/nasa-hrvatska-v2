@@ -12,7 +12,7 @@ export default function AIStoryScreen({
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
   const mountedRef = useRef(true);
   useEffect(() => {
     mountedRef.current = true;
