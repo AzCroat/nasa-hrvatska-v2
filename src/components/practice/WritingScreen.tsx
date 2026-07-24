@@ -208,7 +208,40 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
         text: text.trim(),
         params: { level: userLevel, writingPrompt: effectivePrompt.en },
       });
-      if (!res.ok) throw new Error('API error ' + res.status);
+      if (!res.ok) {
+        // Distinguish real server states from a dead connection. A 429 (daily AI
+        // quota) or 5xx (AI service down) is NOT a connection problem, but the
+        // catch below used to tell every failure "check your connection" — the
+        // same misleading-error class fixed in DialogueSim. Throw a descriptive
+        // message per status; the catch shows it verbatim for non-network errors.
+        let errBody: Record<string, unknown> = {};
+        try {
+          errBody = await res.json();
+        } catch {
+          /* body not JSON — leave empty */
+        }
+        if (res.status === 401)
+          throw new Error(
+            'Sign in to get AI writing feedback. Tap the Profile tab to create a free account.',
+          );
+        if (res.status === 429) {
+          const resetAt = errBody['resetAt'];
+          const t =
+            typeof resetAt === 'string' || typeof resetAt === 'number'
+              ? new Date(resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              : 'midnight UTC';
+          throw new Error(`Daily AI limit reached. Quota resets at ${t} — come back tomorrow!`);
+        }
+        if (res.status >= 500)
+          throw new Error(
+            'AI correction service is temporarily unavailable. Please try again in a moment.',
+          );
+        throw new Error(
+          typeof errBody['error'] === 'string'
+            ? (errBody['error'] as string)
+            : `Request failed (${res.status})`,
+        );
+      }
       const data = await res.json();
       if (!mountedRef.current) return;
       setResult(data);
@@ -255,10 +288,17 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       applyWritingErrorsToAdaptive(corrections.map((ch) => ch.errorType));
     } catch (e) {
       if (!mountedRef.current) return;
+      // A genuine network failure rejects fetch with a TypeError (or we're
+      // offline); anything else is a descriptive Error we threw above, so show
+      // its message rather than a wrong "check your connection".
+      const isNetwork = !isOnline || e instanceof TypeError;
+      const msg = e instanceof Error ? e.message : '';
       setError(
-        !isOnline
-          ? 'No connection — please reconnect to use AI feedback.'
-          : 'Could not connect to AI correction service. Check your connection.',
+        isNetwork
+          ? !isOnline
+            ? 'No connection — please reconnect to use AI feedback.'
+            : 'Could not reach the AI correction service. Check your connection.'
+          : msg || 'Something went wrong grading your writing. Please try again.',
       );
       // AI-failure self-heal: the user DID the writing; a dead /api/correct
       // must not strand the session (mirrors DictationScreen's empty-set signal).
