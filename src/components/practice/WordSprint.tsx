@@ -60,8 +60,12 @@ function buildPool(V: Record<string, string[][]>, cats: string[], sh: ShuffleFn)
 }
 
 function makeQuestion(word: WordItem, allWords: WordItem[], sh: ShuffleFn): Question | null {
+  // Exclude on BOTH fields: this question runs in either direction, so the
+  // option values are `en` in one and `hr` in the other. Filtering on `en` alone
+  // let a same-`hr` entry through, which in the EN→HR direction rendered the
+  // correct answer TWICE (both graded correct via `opt === q.answer`).
   const wrong: WordItem[] = (
-    sh(allWords.filter((w: WordItem) => w.en !== word.en)) as WordItem[]
+    sh(allWords.filter((w: WordItem) => w.en !== word.en && w.hr !== word.hr)) as WordItem[]
   ).slice(0, 3);
   if (wrong.length < 3) return null;
   const dir = rnd() < 0.5;
