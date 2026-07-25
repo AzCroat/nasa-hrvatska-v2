@@ -11,6 +11,7 @@ import { markQuest } from '../../lib/quests.js';
 import SlangAgeGate from './SlangAgeGate';
 import SlangEntryCard from './SlangEntryCard';
 import SlangQuizPanel from './SlangQuizPanel';
+import { lsGet, lsSet, lsRemove } from '../../lib/safeStorage';
 
 export default function SlangScreen({
   goBack,
@@ -19,11 +20,14 @@ export default function SlangScreen({
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const [gated, setGated] = useState(() => localStorage.getItem('slangAgeConfirmed') !== 'true');
+  // Guarded: these run inside useState initialisers, i.e. during the first
+  // render. Reads THROW (not return null) when site data is blocked, so on such a
+  // profile the Slang screen crashed to the ErrorBoundary the moment it opened.
+  const [gated, setGated] = useState(() => lsGet('slangAgeConfirmed') !== 'true');
   const [activeSection, setActiveSection] = useState(() => {
-    const init = localStorage.getItem('slangInitSection');
+    const init = lsGet('slangInitSection');
     if (init) {
-      localStorage.removeItem('slangInitSection');
+      lsRemove('slangInitSection');
       return init;
     }
     return 'classics';
@@ -54,7 +58,9 @@ export default function SlangScreen({
   const quizXpGiven = useRef(false);
 
   function handleUnlock() {
-    localStorage.setItem('slangAgeConfirmed', 'true');
+    // Guarded: setGated(false) below is what opens the screen. A throw here meant
+    // the learner confirmed their age and the gate simply never lifted.
+    lsSet('slangAgeConfirmed', 'true');
     setGated(false);
     if (award && !xpAwarded.current) {
       xpAwarded.current = true;
@@ -69,7 +75,8 @@ export default function SlangScreen({
     if (!visitedSections.includes(id)) {
       const next = [...visitedSections, id];
       setVisitedSections(next);
-      localStorage.setItem('slangVisited', JSON.stringify(next));
+      // Guarded: the 5 XP award below was lost on a throw.
+      lsSet('slangVisited', JSON.stringify(next));
       if (award) award(5, false, 'vocabulary');
     }
   }
