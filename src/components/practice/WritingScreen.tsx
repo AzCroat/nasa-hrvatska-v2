@@ -12,6 +12,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { addWordToSRS } from '../../lib/srs.js';
+import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
 
@@ -224,11 +225,20 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           throw new Error(
             'Sign in to get AI writing feedback. Tap the Profile tab to create a free account.',
           );
-        if (res.status === 429) {
+        // A 429 is either the per-minute burst limiter or the daily ceiling.
+        // Treating both as the daily one sent learners away for the day after
+        // submitting two pieces of writing in quick succession.
+        const limit = classifyAiLimit({
+          status: res.status,
+          code: typeof errBody['error'] === 'string' ? (errBody['error'] as string) : '',
+        });
+        if (limit === 'burst')
+          throw new Error('A little too fast — wait a moment before asking for more feedback.');
+        if (limit === 'daily') {
           const resetAt = errBody['resetAt'];
           const t =
             typeof resetAt === 'string' || typeof resetAt === 'number'
-              ? new Date(resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              ? formatAiResetTime(resetAt) || 'midnight UTC'
               : 'midnight UTC';
           throw new Error(`Daily AI limit reached. Quota resets at ${t} — come back tomorrow!`);
         }

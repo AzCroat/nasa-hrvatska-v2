@@ -19,6 +19,7 @@ import { SCENARIOS, deriveWeakAreas, sceneForCat } from './ConversationScenarios
 import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
 import { stopAudio } from '../../lib/audio.ts';
+import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
 import AIConversationHeader from './AIConversationHeader';
 import AIConversationWriteSetup from './AIConversationWriteSetup';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
@@ -604,10 +605,17 @@ export default function AIConversation({
           'setup_error:The server is missing required configuration. Please contact support.',
         );
       }
-      if (msg === 'daily_quota_exceeded' || res.status === 429) {
-        const resetTime = data.resetAt
-          ? new Date(data.resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : 'midnight UTC';
+      // Two different 429s: the per-minute burst limiter and the daily ceiling.
+      // Keying on `res.status === 429` alone told a learner who sent two
+      // messages in quick succession that their day was over.
+      const limit = classifyAiLimit({ status: res.status, code: msg });
+      if (limit === 'burst') {
+        throw new Error(
+          "You're sending messages faster than Maja can answer — wait a moment and try again.",
+        );
+      }
+      if (limit === 'daily') {
+        const resetTime = formatAiResetTime(data.resetAt) || 'midnight UTC';
         throw new Error(
           `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practising!`,
         );

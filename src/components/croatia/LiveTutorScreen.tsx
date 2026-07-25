@@ -7,6 +7,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { useRecorder } from '../../hooks/useRecorder';
+import { classifyAiLimit } from '../../lib/aiLimit';
 import LiveTutorSetup from './LiveTutorSetup';
 import LiveTutorDebrief from './LiveTutorDebrief';
 import LiveTutorControls from './LiveTutorControls';
@@ -350,12 +351,18 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       } catch (err: unknown) {
         setThinking(false);
         const msg = (err as Error).message || '';
+        // The old first branch matched `'rate_limit'` — a code the server never
+        // emits; it sends `rate_limited`. The `HTTP 429` alternative only ever
+        // appears when the error body isn't JSON, because the throw above
+        // prefers `err.error`. So a burst-limited learner fell all the way
+        // through the chain to "Connection error" while perfectly online.
+        const limit = classifyAiLimit({ code: msg });
         setError(
-          msg === 'rate_limit' || msg.includes('429')
+          limit === 'burst'
             ? 'Rate limit reached — wait a moment and try again.'
             : msg === 'timeout' || msg.includes('504')
               ? 'Request timed out. Please try again.'
-              : msg === 'daily_quota_exceeded'
+              : limit === 'daily'
                 ? 'Daily AI limit reached. Resets at midnight UTC — try again tomorrow!'
                 : msg === 'not_configured'
                   ? 'AI service not available right now. Please try again later.'
