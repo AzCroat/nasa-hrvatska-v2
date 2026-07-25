@@ -172,11 +172,43 @@ describe('isChunkLoadError still matches every shape seen in production', () => 
     'error loading dynamically imported module',
     'loading chunk 42 failed',
     "importing binding name 'v' is not found",
+    'failed to load module script: expected a javascript module script but the server responded with a mime type of "text/html".',
   ])('matches %s', (msg) => {
     expect(isChunkLoadError(msg)).toBe(true);
   });
 
   it('does not match an ordinary app error', () => {
     expect(isChunkLoadError('cannot read properties of undefined')).toBe(false);
+  });
+});
+
+describe('isChunkLoadError must not fire on ordinary network failures', () => {
+  // A match does not merely report — it PURGES CACHES AND RELOADS THE PAGE.
+  // The predicate used to include the bare substring 'failed to fetch', which is
+  // the standard message for any failed fetch(). So one API request failing on a
+  // flaky connection reloaded the app mid-session AND burned a slot of the reload
+  // budget, leaving genuine stale-chunk incidents with no heal available.
+  it.each([
+    'failed to fetch', // bare TypeError from fetch() — the damaging one
+    'typeerror: failed to fetch',
+    'networkerror when attempting to fetch resource.',
+    'load failed', // Safari's fetch failure message
+    'the network connection was lost.',
+    'request timed out',
+  ])('does NOT match %s', (msg) => {
+    expect(isChunkLoadError(msg)).toBe(false);
+  });
+
+  it('does not match a message that merely mentions a mime type', () => {
+    // 'mime type' alone used to match.
+    expect(isChunkLoadError('unsupported mime type for upload')).toBe(false);
+  });
+
+  it('still matches when the fetch failure IS a module load', () => {
+    // The narrowing must not cost real detection: Chrome's dynamic-import
+    // failure is caught by its module-specific half.
+    expect(isChunkLoadError('failed to fetch dynamically imported module: /assets/x.js')).toBe(
+      true,
+    );
   });
 });

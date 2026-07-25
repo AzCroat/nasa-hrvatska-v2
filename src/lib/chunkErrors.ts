@@ -3,18 +3,35 @@
 // SW returns the SPA fallback index.html), which manifests as one of these
 // browser-specific errors. All inputs are expected to be lowercase already.
 //
-//   Chrome:       "failed to fetch" / "expected a javascript module script … mime type"
+//   Chrome:       "failed to fetch dynamically imported module: <url>"
+//                 "failed to load module script: expected a javascript module
+//                  script but the server responded with a mime type of text/html"
 //   Safari/WebKit:"importing a module script failed"
+//                 "'text/html' is not a valid javascript mime type"
 //   Firefox:      "error loading dynamically imported module"
 //   WebKit iOS:   "importing binding name 'X' is not found" (stale named import)
 //   Webpack/Vite: "loading chunk N failed"
+//
+// EVERY pattern below must be MODULE-SPECIFIC. This predicate does not merely
+// report — a match makes the caller purge caches and reload the page. Two
+// patterns used to be far too broad:
+//
+//   'failed to fetch' — the standard message for ANY failed fetch(). A single
+//     API request failing on a flaky connection matched, so window.onunhandled
+//     rejection purged the cache and force-reloaded the app mid-session. It also
+//     burned the reload budget, which is why genuine stale-chunk incidents later
+//     found it spent. It was redundant besides: Chrome's real dynamic-import
+//     message is caught by 'dynamically imported module'.
+//
+//   'mime type' — matched any message merely mentioning a MIME type. Replaced by
+//     the two full module-load phrasings above.
 export function isChunkLoadError(msg: string): boolean {
   return (
-    msg.includes('failed to fetch') ||
     msg.includes('importing a module script failed') ||
     msg.includes('dynamically imported module') ||
+    msg.includes('failed to load module script') ||
     msg.includes('expected a javascript module script') ||
-    msg.includes('mime type') ||
+    msg.includes('is not a valid javascript mime type') ||
     msg.includes('loading chunk') ||
     msg.includes('importing binding name')
   );

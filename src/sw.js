@@ -19,6 +19,20 @@ import { RangeRequestsPlugin } from 'workbox-range-requests';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 
+// ── Cache identity ───────────────────────────────────────────────────────────
+// Declared before the lifecycle handlers because the activate handler reclaims
+// caches from previous builds and needs CACHE_VER to know which is current.
+//
+// __BUILD_ID__ is injected by Vite at build time — unique timestamp per deploy.
+// Fallback guards against a misconfigured build omitting injection (ReferenceError crashes SW).
+const _BUILD_ID = typeof __BUILD_ID__ !== 'undefined' ? __BUILD_ID__ : Date.now(); // eslint-disable-line no-undef
+const CACHE_VER = 'nasa-hrvatska-v' + _BUILD_ID;
+
+// Cache-name suffixes that are BUILD-COUPLED: their entries are keyed by
+// content-hashed URLs, so once a new build is live the previous build's entries
+// can never be requested again. Safe — and necessary — to reclaim.
+const BUILD_COUPLED_SUFFIXES = ['-js', '-data', '-html'];
+
 // ── Lifecycle ────────────────────────────────────────────────────────────────
 
 // Take control immediately on install/update — no waiting for old tabs to close.
@@ -70,6 +84,42 @@ self.addEventListener('activate', (event) => {
           }
         }
       }
+
+      // Reclaim build-coupled runtime caches left behind by previous deploys.
+      // Nothing did this: cleanupOutdatedCaches() below handles only the Workbox
+      // PRECACHE, and public/sw-migration.js deliberately KEEPS every
+      // 'nasa-hrvatska-v' cache. Since CACHE_VER embeds the build id, every
+      // deploy created a fresh '-js' / '-data' / '-html' set and the old ones
+      // accumulated forever — chunk-data alone is ~700 kB and chunk-geo ~557 kB,
+      // so this grew fast and pushed the origin toward its storage quota.
+      //
+      // Deliberately NOT reclaimed here:
+      //   - 'workbox-*' — the precache holds the offline app shell and is
+      //     repopulated only during INSTALL, which does not re-run between
+      //     deploys. Deleting it broke cold-start offline navigation once
+      //     already (see the note in sw-migration.js).
+      //   - '-images' / '-audio' / '-fonts' — keyed by STABLE urls, so the
+      //     previous build's entries are still perfectly valid. Dropping them
+      //     would force a re-download of hundreds of MP3s for no benefit. Their
+      //     version suffix is pointless churn, but removing it is a rename plus
+      //     migration, not a delete, so it is left for a separate change.
+      //   - anything not prefixed 'nasa-hrvatska-v' — not ours to touch.
+      //
+      // Caches only. This handler must never reach into localStorage,
+      // sessionStorage or IndexedDB, where user progress lives.
+      try {
+        const allKeys = await caches.keys();
+        await Promise.all(
+          allKeys
+            .filter(
+              (k) =>
+                k.startsWith('nasa-hrvatska-v') &&
+                !k.startsWith(CACHE_VER) &&
+                BUILD_COUPLED_SUFFIXES.some((s) => k.endsWith(s)),
+            )
+            .map((k) => caches.delete(k)),
+        );
+      } catch {}
     })(),
   );
 });
@@ -91,11 +141,8 @@ precacheAndRoute(self.__WB_MANIFEST || []);
 cleanupOutdatedCaches();
 
 // ── Runtime caching ──────────────────────────────────────────────────────────
-
-// __BUILD_ID__ is injected by Vite at build time — unique timestamp per deploy.
-// Fallback guards against a misconfigured build omitting injection (ReferenceError crashes SW).
-const _BUILD_ID = typeof __BUILD_ID__ !== 'undefined' ? __BUILD_ID__ : Date.now(); // eslint-disable-line no-undef
-const CACHE_VER = 'nasa-hrvatska-v' + _BUILD_ID;
+// CACHE_VER and BUILD_COUPLED_SUFFIXES are declared at the top of the file, above
+// the lifecycle handlers that need them.
 
 // 1. Data chunks (vocab, grammar, exercises, lessons, scenarios, cultural, geo,
 //    stories, pitch-data, daily, songs) — StaleWhileRevalidate.
@@ -105,7 +152,17 @@ registerRoute(
   new StaleWhileRevalidate({
     cacheName: `${CACHE_VER}-data`,
     plugins: [
-      new ExpirationPlugin({ maxEntries: 3, maxAgeSeconds: 60 * 60 * 24 * 7 }),
+      // 12, not 3. vite.config.js manualChunks declares TEN data-chunk rules
+      // matching the route above; a production build of this commit emits EIGHT
+      // files that match (cultural, daily, data, exercises, geo, pitch-data,
+      // scenarios, vocabulary — grammar and songs currently fold in elsewhere).
+      // At maxEntries: 3 the cache thrashed: opening a fourth content area
+      // evicted the first, so most data chunks were absent at any moment and
+      // offline study content was effectively uncacheable while still paying
+      // every write. 12 covers all ten rules, so it holds a full build even if
+      // the folded-in chunks split out again. Safe to raise only because the
+      // activate handler now reclaims previous builds' '-data' caches.
+      new ExpirationPlugin({ maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 7 }),
       new CacheableResponsePlugin({ statuses: [200] }),
       {
         // On a cache MISS, StaleWhileRevalidate awaits the network and returns it
