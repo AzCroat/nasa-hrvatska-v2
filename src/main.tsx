@@ -350,6 +350,16 @@ window.onerror = function (message, _source, _lineno, _colno, error) {
   if (_isStaleBindingError(msg)) {
     if (_reloadWithCachePurge('nh_binding_reload')) return true; // suppress Sentry noise
   }
+  // A stale-chunk failure can surface here and not only as a rejection (a module
+  // script that fails to evaluate, an error thrown from inside a lazily-loaded
+  // chunk). Only onunhandledrejection used to attempt the heal, so those arrived
+  // in Sentry with the self-healer never invoked. Safe to do here now that
+  // isChunkLoadError is module-specific: it previously matched the bare
+  // substring 'failed to fetch', and this channel carries ordinary application
+  // errors, so any failed request would have purged the cache and reloaded.
+  if (isChunkLoadError(msg.toLowerCase())) {
+    if (_reloadWithCachePurge('nh_reload_attempt')) return true; // suppress Sentry noise
+  }
   // Non-actionable environmental IndexedDB error — the Sentry SDK already
   // captures it (downgraded in beforeSend). Skip the homegrown report so we
   // don't create a duplicate Sentry issue via /api/report-error.

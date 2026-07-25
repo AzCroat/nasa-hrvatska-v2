@@ -61,3 +61,38 @@ describe('placement CTAs survive an unwritable localStorage', () => {
     expect(localStorage.getItem('nh_level')).toBe('A1');
   });
 });
+
+// ── Screens whose first render reads localStorage ─────────────────────────────
+//
+// Reads THROW (SecurityError), not return null, when site data is blocked. Three
+// screens read bare on the render path, so on such a profile they did not
+// degrade — they crashed to the ErrorBoundary the moment they opened:
+//
+//   SlangScreen        two useState initialisers, one of which also called
+//                      removeItem to consume a one-shot deep-link section.
+//   BakaSummer         the resume-chapter and bonus-awarded initialisers.
+//   ProgressTabContent the activity-heatmap helper and the daily-goal nudge
+//                      IIFE, both evaluated inline during render.
+//
+// SlangScreen is covered end-to-end here because it renders standalone; the
+// other two need app context, and their reads are the same one-line change.
+describe('SlangScreen opens on a profile that blocks site data', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => {
+    vi.restoreAllMocks();
+    localStorage.clear();
+  });
+
+  it('renders instead of throwing when every localStorage read throws', async () => {
+    const SlangScreen = (await import('../components/practice/SlangScreen')).default;
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('SecurityError');
+    });
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('SecurityError');
+    });
+    // Before the fix the useState initialisers threw during the first render,
+    // which React surfaces as a throw out of render().
+    expect(() => render(<SlangScreen goBack={vi.fn()} award={vi.fn()} />)).not.toThrow();
+  });
+});

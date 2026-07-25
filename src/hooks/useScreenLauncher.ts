@@ -11,7 +11,8 @@ import { pickSessionLesson } from '../lib/sessionLessonPick';
 import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
 import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
-import { _getData, _buildAdaptivePool } from '../lib/exerciseData';
+import { _getData, _getVocab, _buildAdaptivePool } from '../lib/exerciseData';
+import { reportError } from '../lib/errorReporter';
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -28,8 +29,6 @@ function _sh<T>(a: T[]): T[] {
   }
   return b;
 }
-
-type VocabWord = [string, string, string?, ...string[]];
 
 interface McQuestion {
   hr: string;
@@ -172,10 +171,13 @@ export function useScreenLauncher({
         topic?: string;
       } | null;
       if (!r || !r.topic) return;
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const vocabPool = V[r.topic];
       if (!vocabPool || vocabPool.length < 2) {
+        // Only a LOADED vocabulary can prove a topic is stale. When V is empty the
+        // topic is unverifiable, and deleting the token on that basis threw away a
+        // resumable lesson the user had not finished — so bail without touching it.
+        if (Object.keys(V).length === 0) return;
         // Stale resume token referencing an unknown topic — clear it and go to learn path
         try {
           localStorage.removeItem('nh_lesson_resume');
@@ -229,14 +231,19 @@ export function useScreenLauncher({
 
   const launchCheckpoint = useCallback(
     async (levelIndex: number, levelItems: LearnPathItem[]): Promise<void> => {
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const topics = levelItems.map((it) => it.topic).filter(Boolean) as string[];
       const pool =
         topics.length > 0
           ? topics.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1])
           : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
-      if (pool.length === 0) return;
+      if (pool.length === 0) {
+        // Reported, not silent: this is a checkpoint over topics the path itself
+        // offered, so an empty pool means the vocabulary source is broken — the
+        // exact failure that went unseen while V was read off the client barrel.
+        reportError(new Error('checkpoint launch: empty vocab pool'), 'launch-empty-pool');
+        return;
+      }
       const adaptivePool = _buildAdaptivePool(pool);
       const seen = new Set<string>();
       const deduped = _sh(adaptivePool).filter((w) => {
@@ -267,8 +274,7 @@ export function useScreenLauncher({
 
   const launchLegendary = useCallback(
     async (item: LearnPathItem): Promise<void> => {
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const topicPool = item.topic ? V[item.topic] || [] : [];
       const globalPool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
       const basePool =
@@ -291,6 +297,13 @@ export function useScreenLauncher({
           { hr: w[0], en: w[1], ph: w[2], opts: _sh([w[1]].concat(wr)), correct: w[1] },
         ] as McQuestion[];
       });
+      if (qs.length === 0) {
+        // Unlike every sibling launcher this one had no empty guard, so an empty
+        // pool navigated to McGame with ZERO questions — a dead screen the user
+        // cannot finish or score. Fail without navigating, and report it.
+        reportError(new Error('legendary launch: empty question set'), 'launch-empty-pool');
+        return;
+      }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
       setMcInitQ(qs);
       sessionStorage.setItem('nh_legendary_mode', '1');
@@ -395,15 +408,20 @@ export function useScreenLauncher({
         if (!alreadyTracked && writeDelta) writeDelta({ vs: [item.id!] });
       }
       if (item.go === 'lesson') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const raw = item.topic ? V[item.topic] : undefined;
         // Fall back to global pool when topic is missing or has too little vocabulary — never silent-fail
         const pool =
           raw && raw.length >= 2
             ? raw
             : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
-        if (pool.length < 2) return;
+        if (pool.length < 2) {
+          // This is the app's primary lesson entry point (Learn Path tile, Home
+          // "continue" chip, search result). It fell back to the whole vocabulary
+          // and still came up short, so report rather than no-op invisibly.
+          reportError(new Error('path lesson launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         const items = _sh(pool);
         const topic =
           item.topic ||
@@ -463,11 +481,13 @@ export function useScreenLauncher({
         trackStart('listening');
         setScr('listening');
       } else if (item.go === 'speaking') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
         const items = _sh(pool).slice(0, 6);
-        if (items.length === 0) return;
+        if (items.length === 0) {
+          reportError(new Error('path speaking launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
         sSi(items);
         sSx(0);
@@ -479,8 +499,7 @@ export function useScreenLauncher({
         trackStart('speaking');
         setScr('speaking');
       } else if (item.go === 'mcgame') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
         const adaptivePool = _buildAdaptivePool(pool);
         const seen = new Set<string>();
@@ -495,6 +514,12 @@ export function useScreenLauncher({
             .map((x) => x[1]);
           return { hr: w[0], en: w[1], ph: w[2], opts: _sh([w[1]].concat(wr)), correct: w[1] };
         });
+        if (qs.length === 0) {
+          // launchMcGame early-returns on an empty set, so this tap was a silent
+          // no-op. Report before delegating so the dead tile is visible upstream.
+          reportError(new Error('path mcgame launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         launchMcGame(qs);
       } else if (item.go === 'animlesson' && item.lessonId) {
         const { getLessons } = await import('../lib/contentClient');
@@ -625,8 +650,20 @@ export function useScreenLauncher({
         // able to complete it — pinning the session (re-tapping "Start" just re-bails).
 
         if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
-          const _d = (await _getData()) as { V?: Record<string, string[][]> };
-          const V: Record<string, string[][]> = _d.V ?? {};
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          // Deliberately NOT _getVocab(): that helper swallows the rejection to
+          // protect click handlers that have no catch. This branch HAS one, and
+          // it distinguishes 'load-error' from 'empty-pool' and can route a
+          // stale-chunk rejection into the healer. Do not unify them.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const globalPool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
             .filter((w) => w?.[0] && w?.[1]);
@@ -706,8 +743,20 @@ export function useScreenLauncher({
           // navigating if no vocab is available — never route to an empty screen
           // (the dead-lesson class the session-routes guard protects against).
           // Unlike launchSpeaking we keep the home return-context set at the top.
-          const _d = (await _getData()) as { V?: Record<string, string[][]> };
-          const V: Record<string, string[][]> = _d.V ?? {};
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          // Deliberately NOT _getVocab(): that helper swallows the rejection to
+          // protect click handlers that have no catch. This branch HAS one, and
+          // it distinguishes 'load-error' from 'empty-pool' and can route a
+          // stale-chunk rejection into the healer. Do not unify them.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const pool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
             .filter((w) => w?.[0] && w?.[1]);
