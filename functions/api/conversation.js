@@ -500,6 +500,8 @@ export async function onRequestPost(context) {
   const anthropicMessages = [];
   for (const msg of messages.slice(-20)) {
     // cap context at 20 turns
+    // Skip non-object entries: a [null] element threw on msg.role.
+    if (!msg || typeof msg !== 'object') continue;
     const role = msg.role === 'assistant' ? 'assistant' : 'user';
     const content = sanitizeParam(String(msg.content || ''), 1000);
     if (!content) continue;

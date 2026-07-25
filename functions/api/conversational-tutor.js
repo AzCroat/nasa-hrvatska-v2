@@ -100,8 +100,17 @@ export async function onRequestPost(context) {
       });
     }
 
-    const body = await request.json();
-    const { messages, level, topic, persona, breakdownCount = 0, sessionHistory } = body;
+    // Malformed JSON must be a 400, not the outer catch's 500 (quota already spent).
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: 'invalid_json' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+    const { messages, level, topic, persona, breakdownCount = 0, sessionHistory } = body || {};
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: 'invalid_messages' }), {

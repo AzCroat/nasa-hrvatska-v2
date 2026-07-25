@@ -87,7 +87,11 @@ export async function onRequestPost(context) {
   const safeGoal = VALID_GOALS.includes(goal) ? goal : 'fluent';
 
   // Take top 5 weak words
+  // Drop non-object entries first: a [null] element threw on `w.hr` (uncaught
+  // → opaque 500, after the AI quota was already charged). maja.js:805 uses the
+  // same guard.
   const topWords = weakWords
+    .filter((w) => w && typeof w === 'object')
     .slice(0, 5)
     .map((w) => ({
       hr: sanitizeParam(String(w.hr || w.word || ''), 60),
