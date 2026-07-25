@@ -438,7 +438,14 @@ export async function onRequestPost(context) {
     if (!ct.includes('application/json')) {
       return new Response('Invalid content type', { status: 400, headers: ttsCorsHeaders(origin) });
     }
-    const body = await request.json();
+    // Malformed JSON must be a 400, not the outer catch's plain-text 500.
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response('Invalid JSON', { status: 400, headers: ttsCorsHeaders(origin) });
+    }
+    body = body || {};
     const text = body.text;
     const slow = body.slow === true;
     // 'charlotte' = ElevenLabs Charlotte voice; anything else = Azure Gabriela (default)
