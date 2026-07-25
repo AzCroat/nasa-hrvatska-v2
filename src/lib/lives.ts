@@ -70,7 +70,12 @@ export function getHearts(): number {
 export function loseHeart(): number {
   const s = getState();
   const today = todayKey();
-  const current = s && s.date === today ? s.hearts : 5;
+  // Clamp to [0,5] exactly as getHearts() does. Without it a corrupted stored
+  // value (say 99) decremented to 98 and was returned straight to the caller —
+  // McGame passes this into the reducer as the displayed heart count, so the two
+  // functions disagreed and hearts looked unlosable until they fell below 5.
+  const raw = s && s.date === today ? s.hearts : 5;
+  const current = Math.min(5, Math.max(0, Number.isFinite(raw) ? Math.floor(raw) : 5));
   const newHearts = Math.max(0, current - 1);
   // Anchor the regen clock at the moment hearts first drop below full. While a
   // user sits at 5 hearts, getHearts() never advances lastRegen (its regen branch

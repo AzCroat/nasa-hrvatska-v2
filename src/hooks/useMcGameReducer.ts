@@ -145,12 +145,18 @@ function mcGameReducer(state: McGameState, action: McGameAction): McGameState {
       // Hint glow: reveal correct option after 3 consecutive wrong answers
       const correctIdx = newWrongStreak >= 3 ? question.opts.indexOf(question.correct) : -1;
 
-      // Heart deduction (pure calculation — side effects handled by caller)
+      // Heart deduction (pure calculation — side effects handled by caller).
+      // practiceMode is checked FIRST: the toggle promises "hearts disabled", and
+      // that promise has to hold in Hearts/Challenge mode too. Previously the
+      // isHeartsMode branch came first and never consulted practiceMode, so a
+      // practising user still burned a real heart from the day's pool of 5.
       let newHearts = state.hearts;
-      if (isHeartsMode) {
+      if (state.practiceMode) {
+        newHearts = state.hearts;
+      } else if (isHeartsMode) {
         // persistentHeartsAfter is the result of loseHeart() called by the component
         newHearts = persistentHeartsAfter ?? state.hearts;
-      } else if (!state.practiceMode) {
+      } else {
         newHearts = Math.max(0, state.hearts - 1);
       }
 
