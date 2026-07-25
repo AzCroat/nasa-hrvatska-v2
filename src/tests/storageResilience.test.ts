@@ -128,3 +128,58 @@ describe('applyRemoteProgress — one failed write must not abort the restore', 
     expect(setters.setName).toHaveBeenCalledWith('Ana');
   });
 });
+
+// ── Streak / award path ───────────────────────────────────────────────────────
+//
+// updateStreak() runs on EVERY lesson completion (useAward.ts:400) and its final
+// act is persisting the streak. That write, plus earnFreeze/spendFreeze and the
+// ceremony/weekly-XP/journey writes in useAward, were all bare. On unwritable
+// storage the throw escaped the award: the streak write was lost AND every badge,
+// ceremony, freeze grant and toast queued after it was skipped. A learner in
+// Safari Private Browsing completed a lesson and silently got nothing.
+describe('streak + freeze survive an unwritable localStorage', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
+
+  function breakWrites() {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+  }
+
+  it('updateStreak does not throw out of the award path', async () => {
+    const { updateStreak } = await import('../lib/appUtils');
+    breakWrites();
+    expect(() => updateStreak('2026-07-25')).not.toThrow();
+    // Still returns a usable result so the caller can award badges off it.
+    const r = updateStreak('2026-07-25');
+    expect(typeof r.count).toBe('number');
+  });
+
+  it('earnFreeze and spendFreeze do not throw', async () => {
+    const { earnFreeze, spendFreeze } = await import('../lib/appUtils');
+    breakWrites();
+    expect(() => earnFreeze()).not.toThrow();
+    expect(() => spendFreeze()).not.toThrow();
+  });
+
+  it('a freeze purchase cannot throw after the XP has already been spent', async () => {
+    const { purchaseFreeze } = await import('../lib/streakFreeze');
+    breakWrites();
+    const setStats = vi.fn();
+    // purchaseFreeze records the 50 XP cost and THEN calls earnFreeze(). If that
+    // second step threw, the learner was charged and got no freeze.
+    expect(() => purchaseFreeze(500, setStats)).not.toThrow();
+    expect(setStats).toHaveBeenCalled();
+  });
+
+  it('applyStreakEarnBack and incrementCulture do not throw', async () => {
+    const { applyStreakEarnBack, incrementCulture } = await import('../lib/appUtils');
+    breakWrites();
+    expect(() => applyStreakEarnBack()).not.toThrow();
+    expect(() => incrementCulture('citiesViewed')).not.toThrow();
+  });
+});

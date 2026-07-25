@@ -16,6 +16,7 @@ import {
   getStreak,
   recordJourneyMilestone,
 } from '../lib/appUtils.js';
+import { lsSet } from '../lib/safeStorage';
 import { useContent } from './useContent';
 import { getActiveCampaign } from '../lib/seasonalCampaign';
 import { trackComplete } from '../lib/learnerStyle.js';
@@ -253,7 +254,7 @@ export function useAward({
         !localStorage.getItem('nh_comeback_used_' + _today)
       ) {
         _awardComebackUsed = _today;
-        localStorage.setItem('nh_comeback_used_' + _today, '1');
+        lsSet('nh_comeback_used_' + _today, '1');
         totalAmt = totalAmt + 50; // Bonus is flat, not subject to campaign multiplier
       }
       setXpA(totalAmt);
@@ -504,15 +505,15 @@ export function useAward({
         if (ms) setTimeout(() => knightSpeak(ms.mood, ms.text), 1800);
       }
       if (sr.count >= 30 && !localStorage.getItem('nh_ceremony_streak_30')) {
-        localStorage.setItem('nh_ceremony_streak_30', '1');
+        lsSet('nh_ceremony_streak_30', '1');
         setCeremonyType('streak_30');
       }
       if (sr.count >= 50 && !localStorage.getItem('nh_ceremony_streak_50')) {
-        localStorage.setItem('nh_ceremony_streak_50', '1');
+        lsSet('nh_ceremony_streak_50', '1');
         setCeremonyType('streak_50');
       }
       if (sr.count >= 100 && !localStorage.getItem('nh_ceremony_streak_100')) {
-        localStorage.setItem('nh_ceremony_streak_100', '1');
+        lsSet('nh_ceremony_streak_100', '1');
         setCeremonyType('streak_100');
       }
       if (sr.count > 0 && sr.count % 7 === 0) earnFreeze();
@@ -525,7 +526,7 @@ export function useAward({
       for (let _si = 0; _si < _stageGates.length; _si++) {
         const _sk = 'nh_stage' + (_si + 1) + '_ceremony';
         if (stats.lc >= _stageGates[_si]! && !localStorage.getItem(_sk)) {
-          localStorage.setItem(_sk, '1');
+          lsSet(_sk, '1');
           setTimeout(() => setCeremonyType('stage_' + (_si + 1)), 100);
           break;
         }
@@ -536,7 +537,7 @@ export function useAward({
       // guard but isn't one. Without it a single non-numeric value in this key
       // makes every later award re-write "NaN" — permanently killing weekly XP for
       // that week, since the poisoned value feeds straight back into this line.
-      localStorage.setItem(
+      lsSet(
         _wkKey,
         String(Math.max(0, (parseInt(localStorage.getItem(_wkKey) || '0', 10) || 0) + totalAmt)),
       );
@@ -545,13 +546,10 @@ export function useAward({
         const _dkKey = 'nh_daily_xp_' + _localDateStr();
         // Same NaN-poisoning exposure as the weekly key above (and this one has no
         // Math.max at all), so guard the parse.
-        localStorage.setItem(
-          _dkKey,
-          String((parseInt(localStorage.getItem(_dkKey) || '0', 10) || 0) + totalAmt),
-        );
+        lsSet(_dkKey, String((parseInt(localStorage.getItem(_dkKey) || '0', 10) || 0) + totalAmt));
       }
       if (!localStorage.getItem('nh_journey_first_lesson') && totalAmt > 0) {
-        localStorage.setItem('nh_journey_first_lesson', '1');
+        lsSet('nh_journey_first_lesson', '1');
         recordJourneyMilestone('first_lesson', {});
       }
       if (celebrate && curEx && curEx.startsWith('vocab_')) {
@@ -607,10 +605,7 @@ export function useAward({
           if (_lsDur > 0) {
             const _dtKey = 'nh_daily_time_' + _localDateStr();
             const _addMins = Math.max(1, Math.round(_lsDur / 60000));
-            localStorage.setItem(
-              _dtKey,
-              String(parseInt(localStorage.getItem(_dtKey) || '0', 10) + _addMins),
-            );
+            lsSet(_dtKey, String(parseInt(localStorage.getItem(_dtKey) || '0', 10) + _addMins));
           }
           if (celebrate) {
             trackLessonComplete({
