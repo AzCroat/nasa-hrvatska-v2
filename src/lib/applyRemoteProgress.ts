@@ -41,6 +41,31 @@ function todayStr(): string {
   );
 }
 
+/**
+ * Non-throwing localStorage write.
+ *
+ * This function restores a user's whole cloud snapshot as one long sequence of
+ * writes. Everything from the settings section down was already individually
+ * try-wrapped, but the earlier writes were bare — so on a storage-restricted or
+ * quota-full profile the FIRST failing write threw straight out of
+ * applyRemoteProgress and silently abandoned everything after it: SRS merge,
+ * favourites, journal, hearts, checkpoints, custom words, saved phrases, session
+ * history, weekly XP, settings and CEFR certifications. The throw is swallowed
+ * upstream (enqueueSnapshot logs it, useAuth falls back to the local-only path),
+ * so the user just saw most of their progress silently missing — and it repeated
+ * identically on every snapshot, forever.
+ *
+ * Restoring as much as possible is always better than aborting mid-way, so each
+ * write now fails independently.
+ */
+function _safeSet(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch (_) {
+    /* quota exceeded / storage blocked — skip this key, continue the restore */
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): void {
   if (!fp) return;
@@ -51,7 +76,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // ── Onboarding / name ─────────────────────────────────────────────────────
   const apSt = fp.stats || fp.st || {};
   if (fp.onboarded || fp.cp || apSt.xp > 0) {
-    localStorage.setItem('onboarded', 'true');
+    _safeSet('onboarded', 'true');
     setOnboarded(true);
   }
   if (fp.name) setName(fp.name);
@@ -123,20 +148,14 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
 
     const mergedDays = mergeDaySets(localDays, remoteDays);
     const derived = computeStreak(mergedDays, today);
-    localStorage.setItem('nh_streak_days', JSON.stringify(mergedDays));
-    localStorage.setItem(
-      'uStreak',
-      JSON.stringify({ ...lSt, count: derived.count, last: derived.last }),
-    );
+    _safeSet('nh_streak_days', JSON.stringify(mergedDays));
+    _safeSet('uStreak', JSON.stringify({ ...lSt, count: derived.count, last: derived.last }));
   }
 
   // ── Streak freeze tokens — Math.max ───────────────────────────────────────
   if (fp.freezes !== undefined) {
     const lF = parseInt(localStorage.getItem('uFreeze') || '0', 10);
-    localStorage.setItem(
-      'uFreeze',
-      String(Math.max(lF, Math.max(0, parseInt(fp.freezes, 10) || 0))),
-    );
+    _safeSet('uFreeze', String(Math.max(lF, Math.max(0, parseInt(fp.freezes, 10) || 0))));
   }
 
   // ── Favourites — dedup union keyed on hr ──────────────────────────────────
@@ -152,7 +171,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     });
     const mFv = [...favMap.values()];
     try {
-      localStorage.setItem('uFavs', JSON.stringify(mFv));
+      _safeSet('uFavs', JSON.stringify(mFv));
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === 'QuotaExceededError') {
         console.warn('[sync] localStorage quota exceeded — some progress may not persist locally');
@@ -180,7 +199,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     });
     const mJ = Array.from(jM.values());
     try {
-      localStorage.setItem('uJournal', JSON.stringify(mJ));
+      _safeSet('uJournal', JSON.stringify(mJ));
     } catch (e: unknown) {
       if (e instanceof DOMException && e.name === 'QuotaExceededError') {
         console.warn('[sync] localStorage quota exceeded — some progress may not persist locally');
@@ -204,7 +223,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     const mA = ans.map((a: boolean, i: number) => a || lA[i] || false);
     sDchlA(mA);
     sDchlSl(sel);
-    localStorage.setItem('dcDay3', JSON.stringify({ day: today, answered: mA, selected: sel }));
+    _safeSet('dcDay3', JSON.stringify({ day: today, answered: mA, selected: sel }));
   }
 
   // ── XP cooldown — only restore today's cooldown entries ──────────────────
@@ -216,7 +235,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     for (const k in fp.cooldown) {
       if (fp.cooldown[k] === today) cd[k] = fp.cooldown[k];
     }
-    localStorage.setItem('xpCooldown', JSON.stringify(cd));
+    _safeSet('xpCooldown', JSON.stringify(cd));
   }
 
   // ── Weekly XP — Math.max with stored value ────────────────────────────────
@@ -227,8 +246,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.weekXP !== undefined) {
     const wk = _weekKey();
     if (!fp.weekXPKey || fp.weekXPKey === wk) {
-      const lX = parseInt(localStorage.getItem('nh_week_xp_' + wk) || '0', 10);
-      localStorage.setItem('nh_week_xp_' + wk, String(Math.max(lX, fp.weekXP)));
+      // `|| 0`: Math.max(anything, NaN) is NaN, so without it an already-poisoned
+      // local value would keep re-writing "NaN" instead of being healed by the
+      // remote number. Matches the guard on the award-side write in useAward.
+      const lX = parseInt(localStorage.getItem('nh_week_xp_' + wk) || '0', 10) || 0;
+      _safeSet('nh_week_xp_' + wk, String(Math.max(lX, fp.weekXP)));
     }
   }
 
@@ -244,13 +266,13 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     const localOrd = CEFR_NUM[localLevel] || 0;
     // remoteOrd === 0 means fp.nh_level is not a recognised CEFR level — skip to avoid
     // writing corrupted data (e.g. a manually edited Firestore doc with an invalid value).
-    if (remoteOrd > 0 && remoteOrd >= localOrd) localStorage.setItem('nh_level', normalizedRemote);
+    if (remoteOrd > 0 && remoteOrd >= localOrd) _safeSet('nh_level', normalizedRemote);
   }
   if (fp.nh_goal) {
-    localStorage.setItem('nh_goal', fp.nh_goal);
-    localStorage.setItem('nh_goal_set', '1');
+    _safeSet('nh_goal', fp.nh_goal);
+    _safeSet('nh_goal_set', '1');
   }
-  if (fp.nh_culture) localStorage.setItem('nh_culture', fp.nh_culture);
+  if (fp.nh_culture) _safeSet('nh_culture', fp.nh_culture);
   if (fp.nh_daily_goal_xp) {
     // Explicit parseInt: fp.nh_daily_goal_xp may be a string from Firestore (JS type coercion
     // on '100' > 0 is true, but Math.max(lDgx, '100') would return NaN without parsing).
@@ -261,15 +283,15 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       // Prevents a stale lower value from one device silently overwriting a higher goal
       // the user explicitly chose on another device.
       try {
-        localStorage.setItem('nh_daily_goal_xp', String(Math.max(lDgx, remoteGoal)));
+        _safeSet('nh_daily_goal_xp', String(Math.max(lDgx, remoteGoal)));
       } catch (_) {}
     }
   }
   if (fp.nh_placement_done) {
-    localStorage.setItem('nh_placement_done', 'true');
-    localStorage.setItem('placement_done', 'true');
+    _safeSet('nh_placement_done', 'true');
+    _safeSet('placement_done', 'true');
   }
-  if (fp.nh_grammar_track_done) localStorage.setItem('nh_grammar_track_done', 'true');
+  if (fp.nh_grammar_track_done) _safeSet('nh_grammar_track_done', 'true');
 
   // ── Structured-track progress — union-merged done/mastery sets ─────────────
   // Curriculum completion (listening #1, phonemes #8, conversation #9) was
@@ -285,7 +307,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     } catch (_) {}
     const merged = [...new Set([...local, ...remote.filter((x) => typeof x === 'string')])];
     try {
-      localStorage.setItem(key, JSON.stringify(merged));
+      _safeSet(key, JSON.stringify(merged));
     } catch (_) {}
   };
   _unionStrArr('nh_listening_track_done', fp.nh_listening_track_done);

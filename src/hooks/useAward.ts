@@ -532,16 +532,22 @@ export function useAward({
       }
       const _wk = _weekKey();
       const _wkKey = 'nh_week_xp_' + _wk;
+      // `|| 0` is required: Math.max(0, NaN) === NaN, so the Math.max READS like a
+      // guard but isn't one. Without it a single non-numeric value in this key
+      // makes every later award re-write "NaN" — permanently killing weekly XP for
+      // that week, since the poisoned value feeds straight back into this line.
       localStorage.setItem(
         _wkKey,
-        String(Math.max(0, parseInt(localStorage.getItem(_wkKey) || '0', 10) + totalAmt)),
+        String(Math.max(0, (parseInt(localStorage.getItem(_wkKey) || '0', 10) || 0) + totalAmt)),
       );
       // Daily XP goal tracking — same pattern as weekly; key resets each calendar day
       if (totalAmt > 0) {
         const _dkKey = 'nh_daily_xp_' + _localDateStr();
+        // Same NaN-poisoning exposure as the weekly key above (and this one has no
+        // Math.max at all), so guard the parse.
         localStorage.setItem(
           _dkKey,
-          String(parseInt(localStorage.getItem(_dkKey) || '0', 10) + totalAmt),
+          String((parseInt(localStorage.getItem(_dkKey) || '0', 10) || 0) + totalAmt),
         );
       }
       if (!localStorage.getItem('nh_journey_first_lesson') && totalAmt > 0) {
