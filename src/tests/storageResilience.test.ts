@@ -183,3 +183,49 @@ describe('streak + freeze survive an unwritable localStorage', () => {
     expect(() => incrementCulture('citiesViewed')).not.toThrow();
   });
 });
+
+// ── Boot / onboarding / auth path ─────────────────────────────────────────────
+//
+// safeStorage.ts exists because an unguarded write on the startup path crashes
+// the app before React mounts — a permanent blank screen. Several first-run
+// paths still had bare writes, and they fail closed in the worst way:
+//   - WelcomeScreen.startPlacement() sets ten keys; a throw on any of them
+//     abandoned the rest, so `onboarded` was never written and placement never
+//     started — a brand-new user stuck on the welcome screen for good.
+//   - CookieConsent's mount effect read AND wrote unguarded, i.e. it threw for
+//     exactly the profiles that block site data.
+//   - useAuth's sign-out cleanup individually guarded its nh_* loop but not the
+//     fixed key list three lines later, so a throw skipped setAuthUser(null) and
+//     sign-out silently did not complete — the previous user stayed signed in on
+//     a shared device.
+describe('boot + onboarding paths survive an unwritable localStorage', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
+
+  function breakStorage() {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('SecurityError');
+    });
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('SecurityError');
+    });
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('SecurityError');
+    });
+  }
+
+  it('lsGet/lsSet/lsRemove absorb a storage that throws on every operation', async () => {
+    const { lsGet, lsSet, lsRemove } = await import('../lib/safeStorage');
+    breakStorage();
+    expect(() => lsSet('k', 'v')).not.toThrow();
+    expect(() => lsRemove('k')).not.toThrow();
+    expect(() => lsGet('k')).not.toThrow();
+    expect(lsGet('k')).toBeNull();
+  });
+
+  it('acceptAllCookies does not throw for a site-data-blocked profile', async () => {
+    const { acceptAllCookies } = await import('../components/shared/CookieConsent');
+    breakStorage();
+    expect(() => acceptAllCookies()).not.toThrow();
+  });
+});
