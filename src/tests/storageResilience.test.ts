@@ -229,3 +229,71 @@ describe('boot + onboarding paths survive an unwritable localStorage', () => {
     expect(() => acceptAllCookies()).not.toThrow();
   });
 });
+
+// ── Session + lesson-completion path ──────────────────────────────────────────
+//
+// The remaining unguarded writes sat in the two places that fail hardest,
+// because in each one the localStorage write is the LEAST important statement
+// in its block and everything that matters runs after it:
+//   - firebase.ts sS() is called from the auth listener immediately before the
+//     branch that hands the user to the app, so a throw stranded a
+//     successfully-authenticated user on the login screen with _syncReady still
+//     closed. cS() sits above setAuthUser(null) on both sign-out paths, and
+//     lP() sits above the setStats/applyRemoteProgress that put a freshly
+//     merged Firestore snapshot into the UI.
+//   - useNotifications markPracticed() is called one line before the setSt()
+//     that records lc / pf / rs in LessonScreen, with resultFired already
+//     latched — so a throw dropped the lesson completion permanently, and no
+//     retry was possible.
+// Quota exhaustion is the reachable case here: getItem keeps working while
+// setItem throws, so the guarded read paths do not shield these writes.
+describe('session + completion paths survive an unwritable localStorage', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
+
+  function breakWrites() {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+  }
+
+  it('sS/cS/touchSession do not throw, so sign-in and sign-out still complete', async () => {
+    const { sS, cS, touchSession } = await import('../lib/firebase');
+    // A real stored session, so touchSession reaches its write instead of
+    // early-returning on a null gS().
+    localStorage.setItem('uS', JSON.stringify({ u: 'a@b.c', d: 'Ana', lastActive: 1 }));
+    breakWrites();
+    expect(() => sS({ u: 'a@b.c', d: 'Ana' })).not.toThrow();
+    expect(() => touchSession()).not.toThrow();
+    expect(() => cS()).not.toThrow();
+  });
+
+  it('lP does not throw, so an incoming Firestore snapshot still reaches the UI', async () => {
+    const { lP } = await import('../lib/firebase');
+    breakWrites();
+    expect(() => lP('a@b.c', { stats: { xp: 500, lc: 12 } })).not.toThrow();
+  });
+
+  it('markPracticed does not throw, so the lesson completion after it still runs', async () => {
+    const { markPracticed } = await import('../hooks/useNotifications');
+    breakWrites();
+    expect(() => markPracticed()).not.toThrow();
+  });
+
+  it('checkNameDay does not throw, so scheduleStreakReminder after it still runs', async () => {
+    const { checkNameDay } = await import('../hooks/useNotifications');
+    // Reach the write: it is gated on permission === 'granted' AND today being
+    // the user's name day. 1 January is Ana/Ivan in the NAME_DAYS table.
+    const NotificationStub = function () {} as unknown as typeof Notification;
+    (NotificationStub as unknown as { permission: string }).permission = 'granted';
+    vi.stubGlobal('Notification', NotificationStub);
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2027, 0, 1, 12, 0, 0));
+    breakWrites();
+    expect(() => checkNameDay('Ana')).not.toThrow();
+    vi.useRealTimers();
+  });
+});
