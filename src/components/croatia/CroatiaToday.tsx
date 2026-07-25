@@ -18,7 +18,7 @@ const ARTICLES = [
     headline:
       'Dinamo i Hajduk pripremaju se za vječni derbi: tko će trijumfirati u proljetnom ciklusu?',
     lead: 'Nogometaši Dinama i Hajduka ovaj tjedan intenzivno treniraju uoči jedne od najprestižnijih utakmica domaćeg nogometa. Vječni derbi uvijek donosi uzbuđenje i strast diljem Hrvatske.',
-    body: `Svake sezone, kada Dinamo Zagreb i Hajduk Split dođu na teren zajedno, cijela Hrvatska zastane. Ova utakmica nije samo sport — ona je kultura, tradicija i ponos dvaju gradova koji se godinama natječu za vrh Prve HNL lige.
+    body: `Svake sezone, kada Dinamo Zagreb i Hajduk Split dođu na teren zajedno, cijela Hrvatska zastane. Ova utakmica nije samo sport — ona je kultura, tradicija i ponos dvaju gradova koji se godinama natječu za vrh Prve HNL.
 
 Dinamo Zagreb, s plavim dresovima koji se lako prepoznaju u cijeloj regiji, dolazi na utakmicu s odličnom formom. Trener je zadovoljan igrom obrambene linije, a napadači su u posljednjih pet kola zabili čak dvanaest golova. Navijači s tribina Maksimira svaki tjedan pjevaju i bodre svoju momčad.
 
@@ -62,7 +62,7 @@ Trener Hajduka rekao je na presici: "Svaka utakmica protiv Dinama posebna je za 
     lead: 'Prema podacima Ministarstva turizma, Hrvatska je prošle godine primila više turista nego ikada u svojoj povijesti. Rast je posebno vidljiv na otocima i u unutrašnjosti.',
     body: `Hrvatska turistička zajednica objavila je da je 2025. godina bila apsolutno rekordna po broju posjetitelja. Ukupno je Hrvatsku posjetilo 22,4 milijuna turista, što je osam posto više nego godinu ranije. Prihodi od turizma dosegli su 15 milijardi eura, što čini oko 20 posto bruto domaćeg proizvoda.
 
-Najveći rast zabilježen je na Dalmatinskim otocima — Hvaru, Braču i Visu — gdje su turisti sve dulje boravili, a ne samo prolazili. Kontinentalni turizam također raste, posebno u Slavoniji i Zagorju, gdje agroturizam privlači posjetitelje koji žele autentično iskustvo hrvatske kulture i gastronomije.
+Najveći rast zabilježen je na dalmatinskim otocima — Hvaru, Braču i Visu — gdje su turisti sve dulje boravili, a ne samo prolazili. Kontinentalni turizam također raste, posebno u Slavoniji i Zagorju, gdje agroturizam privlači posjetitelje koji žele autentično iskustvo hrvatske kulture i gastronomije.
 
 Ministar turizma izjavio je da vlada planira investirati u održivi turizam kako bi se smanjio pritisak na najposjećenija mjesta poput Dubrovnika i Plitvičkih jezera. Novi projekti uključuju biciklističke staze, kulturne rute i eko-objekte u manje poznatim regijama.
 
@@ -105,11 +105,11 @@ Turistički radnici ističu da sve više stranaca dolazi po drugi ili treći put
     headline:
       'Plitvička jezera slave 75 godina UNESCO zaštite: prirodna ljepota koja osvaja svijet',
     lead: 'Ove godine Plitvička jezera obilježavaju 75 godina od upisa na UNESCO-ov popis svjetske baštine. Park privlači milijune posjetitelja, ali zaštita prirode ostaje glavna briga.',
-    body: `Plitvička jezera, jedan od najljepših nacionalnih parkova u Europi, ove godine slave jubilej — 75 godina od kako su postala dio UNESCO-ove Svjetske baštine. Park, smješten u gorskoj Hrvatskoj između Karlovca i Gospića, poznat je po svom sustavu od šesnaest jezera i brojnim slapovima koji tvore jedinstvenu krajoliku sliku.
+    body: `Plitvička jezera, jedan od najljepših nacionalnih parkova u Europi, ove godine slave jubilej — 75 godina otkako su postala dio UNESCO-ove Svjetske baštine. Park, smješten u gorskoj Hrvatskoj između Karlovca i Gospića, poznat je po svom sustavu od šesnaest jezera i brojnim slapovima koji tvore jedinstvenu sliku krajolika.
 
-Direktor Nacionalnog parka izjavio je da su ove godine planirali posebne programe za posjetitelje, uključujući edukacijske šetnje s biologima i fotografskim vodičima. "Plitvice su živi organizam," rekao je, "i naša je dužnost osigurati da svake generacije mogu uživati u ovoj ljepoti."
+Direktor Nacionalnog parka izjavio je da su ove godine planirali posebne programe za posjetitelje, uključujući edukacijske šetnje s biologima i fotografskim vodičima. "Plitvice su živi organizam," rekao je, "i naša je dužnost osigurati da sve generacije mogu uživati u ovoj ljepoti."
 
-Jedno od najvećih postignuća posljednjih godina je program obnove staništa divljih životinja. Volci, medvjedi i risovi koji žive u okolnim šumama sada imaju veće zaštićene zone. Stručnjaci za zaštitu prirode kažu da je biološka raznolikost parka povećana za 12 posto u zadnjih deset godina.
+Jedno od najvećih postignuća posljednjih godina je program obnove staništa divljih životinja. Vukovi, medvjedi i risovi koji žive u okolnim šumama sada imaju veće zaštićene zone. Stručnjaci za zaštitu prirode kažu da je biološka raznolikost parka povećana za 12 posto u zadnjih deset godina.
 
 No izazovi ostaju. Klimatske promjene utječu na razinu vode u jezerima, a masovni turizam zahtijeva pametno upravljanje. Park je već uveo elektroničke ulaznice i ograničio dnevni broj posjetitelja na 8.000 kako bi sačuvao osjetljivi ekosustav.`,
     summary:
@@ -119,7 +119,7 @@ No izazovi ostaju. Klimatske promjene utječu na razinu vode u jezerima, a masov
       {
         hr: 'slapovi',
         en: 'waterfalls',
-        example: 'Brojni slapovi tvore jedinstvenu krajoliku sliku.',
+        example: 'Brojni slapovi tvore jedinstvenu sliku krajolika.',
       },
       {
         hr: 'staništa',
@@ -156,11 +156,11 @@ No izazovi ostaju. Klimatske promjene utječu na razinu vode u jezerima, a masov
     lead: 'Splitsko brodogradilište Brodosplit potpisalo je ugovor vrijedan 600 milijuna eura s norveškom kompanijom za isporuku dvaju modernih putničkih brodova. Projekt osigurava radna mjesta za stotine obitelji.',
     body: `Brodosplit, jedno od najstarijih i najpoznatijih brodogradilišta na Mediteranu, ove je nedjelje potpisalo ugovor koji se smatra jednim od najvećih u povijesti tvrtke. Norveška turistička kompanija Fjord Line naručila je dva kruzera kapaciteta 2.400 putnika svaki, a isporuka je planirana do 2029. godine.
 
-Generalni direktor Brodosplita rekao je da ugovor donosi veliku sigurnost za brodogradilište i cijeli region. "Ovo nije samo posao — ovo je poruka da Split i Hrvatska mogu graditi brodove koji plove po cijelom svijetu," rekao je na konferenciji za novinare u splitskoj luci.
+Generalni direktor Brodosplita rekao je da ugovor donosi veliku sigurnost za brodogradilište i cijelu regiju. "Ovo nije samo posao — ovo je poruka da Split i Hrvatska mogu graditi brodove koji plove po cijelom svijetu," rekao je na konferenciji za novinare u splitskoj luci.
 
 Projekt će osigurati 800 direktnih radnih mjesta i procjenjuje se da će stvoriti još 1.200 neizravnih radnih mjesta u dobavljačkim poduzećima u Dalmaciji i Herceg-Bosni. Brodosplit planira zaposliti mlade inženjere brodogradnje koji su diplomirali na Fakultetu elektrotehnike, strojarstva i brodogradnje u Splitu.
 
-Analitičari kažu da je ovaj ugovor znak da europsko brodograditeljstvo doživljava oporavak nakon teških godina. Brodosplit je u prošlosti gradio brodove za mnoge svjetske kompanije, a ovaj projekt potvrđuje da im je kvaliteta i dalje na vrhu.`,
+Analitičari kažu da je ovaj ugovor znak da europsko brodograditeljstvo doživljava oporavak nakon teških godina. Brodosplit je u prošlosti gradio brodove za mnoge svjetske kompanije, a ovaj projekt potvrđuje da mu je kvaliteta i dalje na vrhu.`,
     summary:
       "Brodosplit shipyard in Split signed a €600 million contract with Norwegian company Fjord Line to build two luxury cruise ships, each carrying 2,400 passengers, with delivery expected by 2029. The deal will create 800 direct jobs and an estimated 1,200 indirect jobs in the supplier network across Dalmatia. The shipyard plans to hire young engineers from Split's Faculty of Electrical Engineering, Mechanical Engineering and Naval Architecture.",
     vocab: [
@@ -197,14 +197,14 @@ Analitičari kažu da je ovaj ugovor znak da europsko brodograditeljstvo doživl
     category: 'Kultura',
     date: 'petak, 27. ožujka 2026.',
     headline: 'Klapa osvaja srca stranih slušatelja: tradicijska glazba postaje globalni fenomen',
-    lead: 'Klapa pjevanje, tradicijska dalmatinska glazba s višeglasnim harmonijama, privlači sve više obožavatelja izvan Hrvatske. Ansambli nastupaju diljem Europe, Australije i Amerike.',
+    lead: 'Klapsko pjevanje, tradicijska dalmatinska glazba s višeglasnim harmonijama, privlači sve više obožavatelja izvan Hrvatske. Ansambli nastupaju diljem Europe, Australije i Amerike.',
     body: `Klapa je oblik tradicijskog višeglasnog pjevanja koji potječe iz Dalmacije i koji je 2012. godine upisan na UNESCO-ov popis nematerijalne kulturne baštine čovječanstva. No tek u posljednjih nekoliko godina ova glazba doista osvaja međunarodnu publiku.
 
-Klapa Šibenik, jedan od najpriznatijih ansambala, ove je godine nastupila na festivalu world music u Berlinu pred publikom od 3.000 slušatelja, od kojih mnogi nikada nisu čuli za Hrvatsku. "Kada čujete te harmonije, ne trebate razumjeti tekst," rekla je glazbena novinarka iz Frankfurta. "Klapa vas dotakne direktno u srce."
+Klapa Šibenik, jedna od najpriznatijih klapa, ove je godine nastupila na festivalu svjetske glazbe u Berlinu pred publikom od 3.000 slušatelja, od kojih mnogi nikada nisu čuli za Hrvatsku. "Kada čujete te harmonije, ne trebate razumjeti tekst," rekla je glazbena novinarka iz Frankfurta. "Klapa vas dotakne direktno u srce."
 
-Na internetu, snimke klapskih nastupa bilježe milijune pregleda. Kanal Klapa Cambi ima više od 400.000 pratitelja na YouTubeu, a njihova izvedba pjesme 'Moj galebe' digitalna je senzacija u Japanu i Južnoj Koreji. Glazbeni producenti iz Los Angelesa kontaktirali su nekoliko ansambala zbog suradnje na crossover albumima koji kombiniraju klapa tradiciju s modernim zvukovima.
+Na internetu, snimke klapskih nastupa bilježe milijune pregleda. Kanal Klapa Cambi ima više od 400.000 pratitelja na YouTubeu, a njihova izvedba pjesme 'Moj galebe' digitalna je senzacija u Japanu i Južnoj Koreji. Glazbeni producenti iz Los Angelesa kontaktirali su nekoliko ansambala zbog suradnje na crossover albumima koji kombiniraju klapsku tradiciju s modernim zvukovima.
 
-Hrvatska turistička zajednica prepoznala je klapa pjevanje kao važan dio turističke ponude. Restorani u Splitu, Trogiru i Dubrovniku nude klapa večere, a mnogi turisti govore da je taj doživljaj najdragocjeniji uspomeni s odmora.`,
+Hrvatska turistička zajednica prepoznala je klapsko pjevanje kao važan dio turističke ponude. Restorani u Splitu, Trogiru i Dubrovniku nude klapske večeri, a mnogi turisti govore da je taj doživljaj najdragocjenija uspomena s odmora.`,
     summary:
       "Klapa — traditional Dalmatian multi-voice harmonized singing, listed on UNESCO's Intangible Cultural Heritage list since 2012 — is finding a global audience. Klapa Šibenik performed at a world music festival in Berlin for 3,000 fans, and Klapa Cambi has 400,000+ YouTube subscribers with viral reach in Japan and South Korea. LA music producers have reached out about crossover collaborations.",
     vocab: [
@@ -216,7 +216,7 @@ Hrvatska turistička zajednica prepoznala je klapa pjevanje kao važan dio turis
       {
         hr: 'ansambl',
         en: 'ensemble / group',
-        example: 'Klapa Šibenik je jedan od najpriznatijih ansambala.',
+        example: 'Klapa Šibenik jedna je od najpriznatijih klapa.',
       },
       {
         hr: 'nematerijalna',
@@ -241,7 +241,7 @@ Hrvatska turistička zajednica prepoznala je klapa pjevanje kao važan dio turis
       {
         hr: 'doživljaj',
         en: 'experience',
-        example: 'Taj doživljaj bio je najdragocjeniji s odmora.',
+        example: 'Taj doživljaj bio je najdragocjenija uspomena s odmora.',
       },
     ],
   },
@@ -251,11 +251,11 @@ Hrvatska turistička zajednica prepoznala je klapa pjevanje kao važan dio turis
     date: 'subota, 28. ožujka 2026.',
     headline: 'Split Marathon 2026: više od 12.000 trkača na ulicama povijesnog grada',
     lead: 'Splitski maraton ove je godine postavio novi rekord po broju sudionika. Trkači iz 60 zemalja trčali su kroz antičke ulice i uz obalu Jadranskog mora.',
-    body: `Dvadeset i treće izdanje Splitskog maratona odvilo se ove nedjelje u savršenim uvjetima — sunčano jutro, temperatura 14 stupnjeva i blagi povetarac s mora. Ulice oko Dioklecijanove palače i Rive bile su punjene navijačima koji su glasno bodrili trkače.
+    body: `Dvadeset i treće izdanje Splitskog maratona odvilo se ove nedjelje u savršenim uvjetima — sunčano jutro, temperatura 14 stupnjeva i blagi povetarac s mora. Ulice oko Dioklecijanove palače i Rive bile su pune navijača koji su glasno bodrili trkače.
 
-Ukupno 12.340 trkača prijavilo se na natjecanje, od čega je 4.200 trčalo punu maratonsku dionicu od 42,195 kilometara, a ostatak je sudjelovao u polumaratonu i rekreativnoj utrci. Najdalji sudionici stigli su iz Australije, Brazila i Japana. Organizatori ističu da Split Marathon sve više postaje boutique maraton poznat po iznimnoj kulisi.
+Ukupno 12.340 trkača prijavilo se na natjecanje, od čega je 4.200 trčalo punu maratonsku dionicu od 42,195 kilometara, a ostatak je sudjelovao u polumaratonu i rekreativnoj utrci. Najudaljeniji sudionici stigli su iz Australije, Brazila i Japana. Organizatori ističu da Split Marathon sve više postaje boutique maraton poznat po iznimnoj kulisi.
 
-Pobjeda na muškoj trci otišla je kenijskom atletičaru Josephu Kipchoge, koji je trčao za splitski atletski klub nakon godinu dana treniranja u Dalmaciji. Pobjednik je rekao: "Nikad nisam trčao u tako ljepom gradu. Jadransko more me daje snagu." Ženska pobjeda pripala je hrvatskoj atletičarki Ani Kovačić iz Zagreba, koja je postavila novi nacionalni rekord.
+Pobjeda na muškoj trci pripala je kenijskom atletičaru Josephu Kipchogeu, koji je trčao za splitski atletski klub nakon godinu dana treniranja u Dalmaciji. Pobjednik je rekao: "Nikad nisam trčao u tako lijepom gradu. Jadransko mi more daje snagu." Ženska pobjeda pripala je hrvatskoj atletičarki Ani Kovačić iz Zagreba, koja je postavila novi nacionalni rekord.
 
 Maraton je ujedno bio humanitarnog karaktera — prikupljeno je 45.000 eura za obnovu sportskih terena u školama diljem splitsko-dalmatinske županije.`,
     summary:
@@ -294,11 +294,11 @@ Maraton je ujedno bio humanitarnog karaktera — prikupljeno je 45.000 eura za o
     category: 'Tehnologija',
     date: 'nedjelja, 29. ožujka 2026.',
     headline:
-      'Hrvatska startup Gideon AI prikupila 18 milijuna eura: revolucija u medicinskoj dijagnostici',
-    lead: 'Zagrebački startup Gideon AI, koji razvija alate za ranu detekciju raka, prikupilo je 18 milijuna eura od europskih investitora. Osnivači su mladi liječnici i inženjeri iz Hrvatskog instituta za istraživanje mozga.',
+      'Hrvatski startup Gideon AI prikupio 18 milijuna eura: revolucija u medicinskoj dijagnostici',
+    lead: 'Zagrebački startup Gideon AI, koji razvija alate za ranu detekciju raka, prikupio je 18 milijuna eura od europskih investitora. Osnivači su mladi liječnici i inženjeri iz Hrvatskog instituta za istraživanje mozga.',
     body: `Gideon AI, tvrtka osnovana 2023. godine u Medicinskom centru Sveučilišta u Zagrebu, prošlog je tjedna objavila uspješnu investicijsku rundu Series A u kojoj je prikupila 18 milijuna eura. Vodeći investitor je Berlin Ventures, a sudjelovali su i fondovi iz Amsterdama i Stockholma.
 
-Tvrtka razvija softver temeljen na umjetnoj inteligenciji koji analizira medicinske snimke i može s velikom preciznošću prepoznati rane znakove raka pluća, dojke i debelog crijeva. U kliničkim testiranjima, Gideon AI sustav postigao je 94 posto točnost, što je više od prosjeka radiologa od 87 posto.
+Tvrtka razvija softver temeljen na umjetnoj inteligenciji koji analizira medicinske snimke i može s velikom preciznošću prepoznati rane znakove raka pluća, dojke i debelog crijeva. U kliničkim testiranjima, Gideon AI sustav postigao je točnost od 94 posto, što je više od prosjeka radiologa od 87 posto.
 
 Osnivačica dr. Petra Marić rekla je: "Naš cilj je da svaki liječnik u maloj bolnici u Slavoniji ili na otoku ima isti dijagnostički alat kao i kirurg u najboljoj klinici u Londonu. To je pitanje pravednosti u zdravlju." Tvrtka planira u idućih 18 mjeseci zaposliti 60 novih stručnjaka i proširiti se na tržišta u Njemačkoj, Austriji i Švicarskoj.
 
@@ -343,15 +343,15 @@ Hrvatska vlada pohvalila je uspjeh mlade tvrtke i najavila nove poticaje za star
     id: 7,
     category: 'Priroda',
     date: 'ponedjeljak, 30. ožujka 2026.',
-    headline: 'Berba lavande na Hvaru: otok mirise koji se pamte godinama',
+    headline: 'Berba lavande na Hvaru: otok mirisa koji se pamte godinama',
     lead: 'Svake godine krajem lipnja i početkom srpnja, brda Hvara postaju ljubičasta od lavande. Ovaj tradicijski usjev sve više privlači turiste i donosi prihode lokalnim obiteljima.',
-    body: `Hvar je oduvijek bio poznat po suncu, moru i povijesnim gradovima. No onaj tko posjeti unutrašnjost otoka u ljeto, naći će nešto posebno: beskrajne lavandine polje koja mirišu na samom rubu mora.
+    body: `Hvar je oduvijek bio poznat po suncu, moru i povijesnim gradovima. No onaj tko posjeti unutrašnjost otoka u ljeto, naći će nešto posebno: beskrajna lavandina polja koja mirišu na samom rubu mora.
 
 Lavanda se na Hvaru uzgaja već više od sto godina, a vrhunac berbe je između 24. lipnja i 10. srpnja. Obitelji koje se bave uzgojem lavande rade od zore do sumraka, ručno beru cvjetove i suše ih na suncu. Od svježe lavande destilira se eterično ulje koje ide u parfeme i kozmetičke proizvode diljem Europe i Japana.
 
 Jurica Kovačević, farmer koji s obitelji vodi plantažu u blizini Vrbanja, rekao je da je ove sezone prinos bio iznimno dobar zahvaljujući blagoj zimi i dovoljno kiše u travnju. "Lavanda je osjetljiva biljka. Previše topline ili suše može uništiti cijelu berbu. Ali ove godine, sve je savršeno," rekao je dok je punio košare.
 
-Turisti koji dolaze posebno zbog lavande sve su brojniji. Agencije u Splitu nude jednodnevne izlete s prelaskom trajektom, obilaskom plantaža i radionicama gdje posjetitelji mogu sami nabrati lavandu i napraviti mirisnu vrećicu. Lokalni producenti kažu da je lavandino ulje s Hvara prepoznato kao jedno od najkvalitetnijih na svijetu.`,
+Turisti koji dolaze posebno zbog lavande sve su brojniji. Agencije u Splitu nude jednodnevne izlete s prelaskom trajektom, obilaskom plantaža i radionicama gdje posjetitelji mogu sami nabrati lavandu i napraviti mirisnu vrećicu. Lokalni proizvođači kažu da je lavandino ulje s Hvara prepoznato kao jedno od najkvalitetnijih na svijetu.`,
     summary:
       'Every summer, the inland hills of Hvar Island turn purple with lavender in bloom. The harvest runs from late June through early July, with families hand-picking flowers and distilling essential oil for perfumes and cosmetics sold across Europe and Japan. A mild winter and spring rains made the 2026 harvest exceptional. Lavender tourism is growing, with day-trip agencies from Split offering plantation visits and oil-making workshops.',
     vocab: [
@@ -388,11 +388,11 @@ Turisti koji dolaze posebno zbog lavande sve su brojniji. Agencije u Splitu nude
     lead: 'Kauboji su odigrali sjajnu kvalifikacijsku utakmicu u Osijeku i praktički osigurali plasman na Svjetsko rukometno prvenstvo 2027. godine. Kapetan Duvnjak vodio je momčad do pobjede.',
     body: `Hrvatska rukometna reprezentacija, poznata pod nadimkom "Kauboji", nastavlja svoju tradiciju uspješnog nastupa na međunarodnoj sceni. U utakmici igranoj u Osijeku pred 8.000 navijača, Hrvatska je pobijedila Slovačku rezultatom 34:27 i gotovo sigurno osigurala plasman na Svjetsko rukometno prvenstvo 2027. koje će se igrati u Egiptu.
 
-Kapetan Domagoj Duvnjak, koji je ove sezone nadmašio sve očekivanja unatoč tome što mu je 37 godina, postigao je osam golova i raspodijelio šest asistencija. "Svaki put kada obučem dres s Kockom, osjećam istu emociju kao prvi dan," rekao je Duvnjak nakon utakmice. "Ovi navijači zaslužuju sve što dajemo."
+Kapetan Domagoj Duvnjak, koji je ove sezone nadmašio sva očekivanja unatoč tome što mu je 37 godina, postigao je osam golova i upisao šest asistencija. "Svaki put kada obučem dres s Kockom, osjećam istu emociju kao prvi dan," rekao je Duvnjak nakon utakmice. "Ovi navijači zaslužuju sve što dajemo."
 
 Mladi golman Tin Petrović privukao je pažnju europskih skauta izvrsnim nastupom — obranio je čak 14 udaraca što je omjer od 38 posto obrana, znatno iznad prosjeka za ovu razinu natjecanja. Nekoliko bundesliga klubova već je pokazalo interes za dvadesetčetverogodišnjeg Splićanina.
 
-Hrvatski rukometni savez objavio je plan za sljedeću sezonu koji uključuje više prijateljskih utakmica protiv top-ranked ekipa te tjedan intenzivnih priprema u austrijskom planinarskom centru. Cilj je ući u Egipat kao jedna od favorita za medalju.`,
+Hrvatski rukometni savez objavio je plan za sljedeću sezonu koji uključuje više prijateljskih utakmica protiv najbolje rangiranih ekipa te tjedan intenzivnih priprema u austrijskom planinskom centru. Cilj je ući u Egipat kao jedna od favorita za medalju.`,
     summary:
       'Croatia\'s handball national team ("Kauboji") effectively secured qualification for the 2027 World Championship in Egypt with a 34:27 win over Slovakia in Osijek before 8,000 fans. Captain Domagoj Duvnjak scored 8 goals and added 6 assists at age 37. Young goalkeeper Tin Petrović made 14 saves (38% save rate), attracting interest from Bundesliga clubs.',
     vocab: [
@@ -402,7 +402,7 @@ Hrvatski rukometni savez objavio je plan za sljedeću sezonu koji uključuje vi�
         example: 'Hrvatska je osigurala plasman na Svjetsko prvenstvo.',
       },
       { hr: 'kapetan', en: 'captain', example: 'Kapetan Duvnjak vodio je momčad do pobjede.' },
-      { hr: 'asistencije', en: 'assists', example: 'Raspodijelio je šest asistencija u utakmici.' },
+      { hr: 'asistencije', en: 'assists', example: 'Upisao je šest asistencija u utakmici.' },
       {
         hr: 'golman',
         en: 'goalkeeper',
@@ -417,7 +417,7 @@ Hrvatski rukometni savez objavio je plan za sljedeću sezonu koji uključuje vi�
       {
         hr: 'pripreme',
         en: 'preparations / training camp',
-        example: 'Planirane su pripreme u austrijskom planinarskom centru.',
+        example: 'Planirane su pripreme u austrijskom planinskom centru.',
       },
     ],
   },
@@ -430,9 +430,9 @@ Hrvatski rukometni savez objavio je plan za sljedeću sezonu koji uključuje vi�
     lead: 'Film "Dalmatinski blues" redatelja Ivana Peroše odabran je za glavni natjecateljski program Cannes Film Festivala 2026. To je tek treći put u povijesti da je hrvatska produkcija ušla u La Sélection Officielle.',
     body: `Hrvatska filmska zajednica proslavila je veliku vijest: film "Dalmatinski blues" redatelja Ivana Peroše odabran je za natjecanje u glavnom programu Cannes Film Festivala koji se ove godine održava od 12. do 23. svibnja. To je veliki uspjeh za domaću kinematografiju i potvrda da hrvatska filmska scena raste.
 
-Film prati priču o ribolovu jednog starog ribara iz Komiže na otoku Visu koji, suočen s nestankom tradicijskog ribolova, odlučuje naučiti svog unuka staroj tehnici. Sniman je u cijelosti na Visu, na hrvatskom jeziku s prizorima koji prikazuju svakodnevni život otočne zajednice. Producent kaže da je film tražio četiri godine rada i suradnju s Britanskim filmskim institutom.
+Film prati priču o ribolovu jednog starog ribara iz Komiže na otoku Visu koji, suočen s nestankom tradicijskog ribolova, odlučuje naučiti svog unuka staroj tehnici. Sniman je u cijelosti na Visu, na hrvatskom jeziku s prizorima koji prikazuju svakodnevni život otočne zajednice. Producent kaže da je film zahtijevao četiri godine rada i suradnju s Britanskim filmskim institutom.
 
-Ivan Peroša, 39-godišnji redatelj koji je studirao filmsku režiju u Pragu i Njujorku, rekao je da mu je najveća nagrada što je film prikazati publici koja možda nikad nije čula za Vis. "Vis je jedno od najljepših mjesta na svijetu, ali i mjesto koje umire demografski. Htio sam snimiti tu ljepotu i taj bol istovremeno," rekao je.
+Ivan Peroša, 39-godišnji redatelj koji je studirao filmsku režiju u Pragu i New Yorku, rekao je da mu je najveća nagrada to što će film vidjeti publika koja možda nikad nije čula za Vis. "Vis je jedno od najljepših mjesta na svijetu, ali i mjesto koje umire demografski. Htio sam snimiti tu ljepotu i taj bol istovremeno," rekao je.
 
 Hrvatski ministar kulture čestitao je svim sudionicima i najavio povećanje proračuna za filmsku produkciju za 30 posto u 2027. godini. Karte za cannesku premijeru u Théâtre Lumière rasprodane su za manje od sat vremena.`,
     summary:
