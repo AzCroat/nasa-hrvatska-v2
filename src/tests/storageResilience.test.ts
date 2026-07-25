@@ -297,3 +297,66 @@ describe('session + completion paths survive an unwritable localStorage', () => 
     vi.useRealTimers();
   });
 });
+
+// ── Paid actions must not charge for something that did not happen ────────────
+//
+// Two handlers took something from the learner and then persisted the result.
+// Because the persist came second and was unguarded, a storage that rejects
+// writes left them charged with nothing to show for it:
+//
+//   useHeroRewards.restoreStreak  called spendXp(200) and THEN wrote uStreak.
+//     A throw skipped the restore, the success message and the sync — 200 XP
+//     gone, streak still broken. Fixed by persisting first and withholding the
+//     charge when the write cannot stick (safeSetItem reports instead of
+//     throwing), so the failure mode is now "nothing happened, nothing spent".
+//   redeemPromoCode  wrote the used-marker and THEN called
+//     activateSubscription. A throw meant a valid code granted no Premium.
+//
+// Same shape as the freeze purchase fixed earlier (charged, then earnFreeze
+// threw) — the difference is that these two were still live.
+describe('paid actions survive an unwritable localStorage', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
+
+  function breakAllWrites() {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError');
+    });
+  }
+
+  it('redeemPromoCode does not throw, so a failure is reported instead of escaping', async () => {
+    const { redeemPromoCode } = await import('../hooks/useSubscription');
+    breakAllWrites();
+    let res: { ok: boolean; message: string } | undefined;
+    expect(() => {
+      res = redeemPromoCode('DIASPORA');
+    }).not.toThrow();
+    // It still reports a definite outcome to the caller rather than blowing up
+    // inside the redeem button's click handler.
+    expect(typeof res?.ok).toBe('boolean');
+    expect(typeof res?.message).toBe('string');
+  });
+
+  it('safeSetItem reports failure rather than throwing (what restoreStreak now gates on)', async () => {
+    const { safeSetItem } = await import('../hooks/useLocalStorage');
+    breakAllWrites();
+    let ok: boolean | undefined;
+    expect(() => {
+      ok = safeSetItem('uStreak', { count: 1, last: '2026-07-25' });
+    }).not.toThrow();
+    // restoreStreak withholds the 200 XP charge on exactly this false.
+    expect(ok).toBe(false);
+  });
+
+  it('safeSetItem returns true on a working storage, so the charge still happens', async () => {
+    const { safeSetItem } = await import('../hooks/useLocalStorage');
+    expect(safeSetItem('uStreak', { count: 1, last: '2026-07-25' })).toBe(true);
+    expect(JSON.parse(localStorage.getItem('uStreak')!)).toEqual({
+      count: 1,
+      last: '2026-07-25',
+    });
+  });
+});

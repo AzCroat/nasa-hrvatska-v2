@@ -387,6 +387,18 @@ export async function fbSaveProgress(
     return { ok: true };
   } catch (e: unknown) {
     const err = e as { code?: string; message?: string };
+    // Log the blob size on permission-denied. The validProgressSize() rule caps
+    // the `progress` field at 200 KB and rejects the whole atomic batch when it
+    // is exceeded, so an over-sized blob presents identically to an auth failure —
+    // which is how the 100k-XP sync-halt stayed invisible for so long. Having
+    // the size in the log makes that case diagnosable from a console screenshot.
+    if (err?.code === 'permission-denied') {
+      console.error(
+        '[sync] fbSaveProgress denied — progress blob is',
+        _progressJson.length,
+        'chars (rule limit 204800)',
+      );
+    }
     console.error('[sync] fbSaveProgress failed:', err?.code, err?.message);
     return {
       ok: false,

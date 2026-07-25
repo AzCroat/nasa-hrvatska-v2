@@ -7,6 +7,11 @@
 import React from 'react';
 import KnightToast from './KnightToast';
 import { isNative } from '../../lib/platform';
+// Every dismiss handler below wrote localStorage BEFORE calling its
+// setShow…(false). A throw on that write skipped the state update, so the X
+// button did nothing at all and the banner stayed on screen — and the snooze
+// button, whose only statement was the write, had no visible effect either.
+import { lsSet } from '../../lib/safeStorage';
 
 interface DeferredInstallPrompt {
   prompt: () => Promise<void>;
@@ -329,7 +334,7 @@ export function AppToasts({
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.setItem(snoozeKey, String(Date.now() + 86400000));
+                    lsSet(snoozeKey, String(Date.now() + 86400000));
                   }}
                   aria-label="Dismiss for 24 hours"
                   style={{
@@ -447,7 +452,7 @@ export function AppToasts({
             </div>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowAndroidInstall(false);
               }}
               aria-label="Dismiss"
@@ -476,7 +481,7 @@ export function AppToasts({
                   await deferredInstallPrompt.prompt();
                   deferredInstallPrompt.userChoice.then(() => {
                     setShowAndroidInstall(false);
-                    localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                    lsSet('nh_pwa_install_dismissed', 'true');
                   });
                 }
               }}
@@ -496,7 +501,7 @@ export function AppToasts({
             </button>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowAndroidInstall(false);
               }}
               style={{
@@ -551,7 +556,7 @@ export function AppToasts({
             </div>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowPwaInstall(false);
               }}
               aria-label="Dismiss"

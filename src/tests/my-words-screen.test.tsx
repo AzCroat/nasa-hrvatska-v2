@@ -707,3 +707,63 @@ describe('MyWordsScreen — drill completion', () => {
     expect(award).toHaveBeenCalledWith(10, false, 'review');
   });
 });
+
+// ─── Blob-size bounds ─────────────────────────────────────────────────────────
+//
+// nh_custom_words is synced inside the progress blob, and Firestore rules cap
+// `progress` at 200 KB (validProgressSize). A breach fails the whole atomic
+// users/{id} write, so it does not merely drop this one field — it kills ALL
+// cloud sync, permanently and silently, which is exactly how the 100k-XP
+// sync-halt presented. Nothing bounded this list or its four free-text fields,
+// so a paste (or enough words) could push the blob past the ceiling with no
+// warning and no way back.
+
+describe('MyWordsScreen — bounded so it cannot break cloud sync', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+    localStorage.clear();
+  });
+
+  function openAddForm() {
+    renderScreen();
+    fireEvent.click(
+      screen.getAllByRole('button').find((b) => b.textContent?.includes('Add your first word'))!,
+    );
+  }
+
+  it('every text field carries a maxLength so a paste cannot be unbounded', () => {
+    openAddForm();
+    for (const ph of ['e.g. krastavac', 'e.g. cucumber', 'e.g. kra-STAH-vats']) {
+      expect(screen.getByPlaceholderText(ph).getAttribute('maxLength')).toBe('80');
+    }
+    expect(
+      screen.getByPlaceholderText('e.g. Volim krastavce u salati.').getAttribute('maxLength'),
+    ).toBe('200');
+  });
+
+  it('truncates on save, so a programmatic over-long value cannot be stored', () => {
+    openAddForm();
+    // maxLength only constrains typing; fireEvent.change sets the value directly,
+    // which is also what a paste-via-script or a restored draft would do.
+    typeIn('e.g. krastavac', 'k'.repeat(5000));
+    typeIn('e.g. cucumber', 'e'.repeat(5000));
+    typeIn('e.g. Volim krastavce u salati.', 'x'.repeat(5000));
+    fireEvent.click(
+      screen.getAllByRole('button').find((b) => b.textContent?.includes('Save Word'))!,
+    );
+    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    expect(stored).toHaveLength(1);
+    expect(stored[0].hr).toHaveLength(80);
+    expect(stored[0].en).toHaveLength(80);
+    expect(stored[0].example).toHaveLength(200);
+  });
+
+  // The MAX_WORDS list cap is NOT covered here on purpose: the list view renders
+  // every word unvirtualized, so seeding 2000 entries takes ~54 s in jsdom and
+  // blows the 30 s per-test budget. (That cost is itself an argument for the
+  // cap.) The guard is a single length check in handleSave, verified by reading
+  // it rather than by a test that would make the suite unreliable.
+});

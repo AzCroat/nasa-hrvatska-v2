@@ -3,6 +3,12 @@ import { CONDITIONAL, PADEZI_FULL } from '../../functions/api/content/_data/gram
 import { DATA as WORD_FAMILIES } from '../components/practice/WordFamilies';
 import { ERROR_CORRECT } from '../components/practice/ProductionDrillScreen';
 import { UNJUMBLE } from '../data/exercises.js';
+import { PITCH_ACCENT_LESSONS } from '../data/pitchAccentContent.js';
+import * as SERVER_EXERCISES from '../../functions/api/content/_data/exercises.js';
+import * as GRAMMAR from '../../functions/api/content/_data/grammar.js';
+import * as GRAMMAR_ADVANCED from '../../functions/api/content/_data/grammarAdvanced.js';
+import * as CLIENT_EXERCISES from '../data/exercises.js';
+import * as PITCH_ACCENT from '../data/pitchAccentContent.js';
 
 /**
  * Structural guard for the answer-key bug class.
@@ -61,6 +67,118 @@ describe('answer-key integrity', () => {
   checkBank('PADEZI_FULL.quiz', PADEZI_FULL.quiz as OptQuestion[]);
   checkBank('ProductionDrill ERROR_CORRECT', ERROR_CORRECT as unknown as OptQuestion[]);
   checkBank('WordFamilies DATA', WORD_FAMILIES as unknown as OptQuestion[]);
+  PITCH_ACCENT_LESSONS.forEach((lesson: { id: string; drill?: OptQuestion[] }) => {
+    if (lesson.drill?.length) checkBank(`PITCH_ACCENT ${lesson.id}.drill`, lesson.drill);
+  });
+});
+
+/**
+ * Corpus-wide sweep of the same two invariants.
+ *
+ * The named banks above are the ones with a known history. This walks EVERY
+ * option-bearing item in the content modules so a new bank is covered the day
+ * it is authored rather than the day someone remembers to add it here. It found
+ * the pitch-accent 'grád' duplicate, which no named bank covered.
+ *
+ * Three traps, all of which produced false positives on the first pass and are
+ * deliberately avoided here:
+ *
+ *   - DO NOT case-fold. The business-register drills ship
+ *     opts ['vi','Vi','VI','tebe'] where capitalisation IS the thing being
+ *     tested (polite Vi vs plural vi). Lowercasing reports them as duplicates.
+ *   - DO NOT strip punctuation. LESSONS[42] teaches comma placement with
+ *     options that differ only in commas. Stripping reports them as duplicates.
+ *     (Both banks are graded by index, not by string, so the distinctions
+ *     survive at runtime — the content is correct and the normaliser was wrong.)
+ *   - SKIP empty option arrays. Branching-story scenes end with `choices: []`
+ *     and have no answer key by design; `[].every()` is true, so a naive walker
+ *     treats every terminal scene as a broken question.
+ */
+const OPTION_KEYS = ['opts', 'options'] as const;
+const INDEX_ANSWER_KEYS = ['correct', 'c', 'answer', 'a'] as const;
+
+function sweep(root: unknown, path: string, out: string[], depth = 0): void {
+  if (!root || typeof root !== 'object' || depth > 8) return;
+  if (Array.isArray(root)) {
+    root.forEach((v, i) => sweep(v, `${path}[${i}]`, out, depth + 1));
+    return;
+  }
+  const node = root as Record<string, unknown>;
+  const optKey = OPTION_KEYS.find(
+    (k) => Array.isArray(node[k]) && (node[k] as unknown[]).every((x) => typeof x === 'string'),
+  );
+  if (optKey) {
+    const opts = node[optKey] as string[];
+    if (opts.length > 0) {
+      if (new Set(opts).size !== opts.length) {
+        out.push(`${path}: duplicate options ${JSON.stringify(opts)}`);
+      }
+      const idxKey = INDEX_ANSWER_KEYS.find((k) => Number.isInteger(node[k]));
+      if (idxKey) {
+        const idx = node[idxKey] as number;
+        if (idx < 0 || idx >= opts.length) {
+          out.push(`${path}: ${idxKey}=${idx} out of range for ${opts.length} options`);
+        }
+      } else {
+        // Membership is asserted WITHOUT a fixed list of answer-key names. Banks
+        // name their key after the domain — GENDERDRILL uses `adj`, COLORAGREE
+        // uses `color`, LISTEN uses `en`, SENTBUILD uses `hr` — and a hard-coded
+        // list silently mis-reports every bank it does not know about (70 false
+        // positives on the first run). The real invariant is weaker but
+        // name-independent: SOME string field of the item must appear among its
+        // options, or there is no reachable answer at all.
+        const fields = Object.entries(node)
+          .filter(([, v]) => typeof v === 'string')
+          .map(([k]) => k);
+        if (fields.length && !fields.some((k) => opts.includes(node[k] as string))) {
+          out.push(
+            `${path}: no field of the item (${fields.join('/')}) is present in ${JSON.stringify(opts)}`,
+          );
+        }
+      }
+    }
+  }
+  for (const [k, v] of Object.entries(node)) {
+    if (!(OPTION_KEYS as readonly string[]).includes(k)) sweep(v, `${path}.${k}`, out, depth + 1);
+  }
+}
+
+describe('answer-key integrity — corpus sweep', () => {
+  const MODULES: Record<string, unknown> = {
+    'content/exercises': SERVER_EXERCISES,
+    'content/grammar': GRAMMAR,
+    'content/grammarAdvanced': GRAMMAR_ADVANCED,
+    'src/data/exercises': CLIENT_EXERCISES,
+    'src/data/pitchAccentContent': PITCH_ACCENT,
+  };
+
+  it('finds option-bearing items to check (guards against an empty sweep)', () => {
+    // sweep() only records failures, so a broken import or a rename would leave
+    // it silently passing over nothing. Count the items independently.
+    let count = 0;
+    const countOpts = (n: unknown, d = 0): void => {
+      if (!n || typeof n !== 'object' || d > 8) return;
+      if (Array.isArray(n)) return n.forEach((x) => countOpts(x, d + 1));
+      const o = n as Record<string, unknown>;
+      const k = OPTION_KEYS.find(
+        (key) => Array.isArray(o[key]) && (o[key] as unknown[]).every((x) => typeof x === 'string'),
+      );
+      if (k && (o[k] as string[]).length > 0) count++;
+      Object.values(o).forEach((x) => countOpts(x, d + 1));
+    };
+    Object.values(MODULES).forEach((m) => countOpts(m));
+    expect(count).toBeGreaterThan(500);
+  });
+
+  it('every option-bearing item has unique options and a reachable answer', () => {
+    const failures: string[] = [];
+    for (const [name, mod] of Object.entries(MODULES)) {
+      for (const [exp, v] of Object.entries(mod as Record<string, unknown>)) {
+        sweep(v, `${name}:${exp}`, failures);
+      }
+    }
+    expect(failures).toEqual([]);
+  });
 });
 
 /**
