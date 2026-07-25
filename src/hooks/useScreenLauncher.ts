@@ -625,8 +625,16 @@ export function useScreenLauncher({
         // able to complete it — pinning the session (re-tapping "Start" just re-bails).
 
         if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
-          const _d = (await _getData()) as { V?: Record<string, string[][]> };
-          const V: Record<string, string[][]> = _d.V ?? {};
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const globalPool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
             .filter((w) => w?.[0] && w?.[1]);
@@ -706,8 +714,16 @@ export function useScreenLauncher({
           // navigating if no vocab is available — never route to an empty screen
           // (the dead-lesson class the session-routes guard protects against).
           // Unlike launchSpeaking we keep the home return-context set at the top.
-          const _d = (await _getData()) as { V?: Record<string, string[][]> };
-          const V: Record<string, string[][]> = _d.V ?? {};
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const pool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
             .filter((w) => w?.[0] && w?.[1]);

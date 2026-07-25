@@ -38,16 +38,26 @@ vi.mock('../lib/chunkErrors', async (importOriginal) => {
   return { ...real, reloadWithCachePurge: vi.fn(() => true) };
 });
 
+// V lives behind /api/content/core, so the launcher's vocab branches read it
+// via contentClient.getContent(). Mocking only _getData (as this suite used to)
+// supplied a V that the real client barrel does NOT export — which is exactly
+// how the production 'empty-pool' regression passed CI.
+vi.mock('../lib/contentClient', () => ({
+  getContent: vi.fn(),
+  getLessons: vi.fn(async () => []),
+  getGrammar: vi.fn(async () => ({})),
+}));
+
 vi.mock('../lib/errorReporter', () => ({
   reportError: vi.fn(),
   reportBoundaryError: vi.fn(),
 }));
 
-import { _getData } from '../lib/exerciseData';
+import { getContent } from '../lib/contentClient';
 import { reloadWithCachePurge } from '../lib/chunkErrors';
 import { reportError } from '../lib/errorReporter';
 
-const mockGetData = vi.mocked(_getData);
+const mockGetContent = vi.mocked(getContent);
 const mockReload = vi.mocked(reloadWithCachePurge);
 
 // ── Hook harness ──────────────────────────────────────────────────────────────
@@ -136,7 +146,7 @@ beforeEach(() => {
 
 describe('launchSessionActivity — visible-failure contract', () => {
   it('data-chunk load failure: clears pinned markers, broadcasts load-error, does NOT navigate', async () => {
-    mockGetData.mockRejectedValue(new Error('boom'));
+    mockGetContent.mockRejectedValue(new Error('boom'));
     const params = makeParams();
     const { result } = renderHook(() => useScreenLauncher(params));
     pinSession('speaking');
@@ -153,7 +163,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
   });
 
   it('stale-chunk failure: routes into reloadWithCachePurge self-heal instead of the error strip', async () => {
-    mockGetData.mockRejectedValue(
+    mockGetContent.mockRejectedValue(
       new TypeError('Failed to fetch dynamically imported module: /assets/data-abc123.js'),
     );
     const params = makeParams();
@@ -169,7 +179,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
   });
 
   it('stale-chunk failure with reload budget spent: falls back to the visible error', async () => {
-    mockGetData.mockRejectedValue(new Error('error loading dynamically imported module'));
+    mockGetContent.mockRejectedValue(new Error('error loading dynamically imported module'));
     mockReload.mockReturnValue(false); // 2 reloads already burned this session
     const params = makeParams();
     const { result } = renderHook(() => useScreenLauncher(params));
@@ -184,7 +194,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
   });
 
   it('empty vocab pool: clears pinned markers and broadcasts empty-pool', async () => {
-    mockGetData.mockResolvedValue({ V: {} });
+    mockGetContent.mockResolvedValue({ V: {} } as never);
     const params = makeParams();
     const { result } = renderHook(() => useScreenLauncher(params));
     pinSession('speaking');
@@ -198,7 +208,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
   });
 
   it('speaking success: initialises the spoken-vocab pool and navigates (markers stay pinned)', async () => {
-    mockGetData.mockResolvedValue(VOCAB);
+    mockGetContent.mockResolvedValue(VOCAB as never);
     const params = makeParams();
     const { result } = renderHook(() => useScreenLauncher(params));
     pinSession('speaking');
@@ -217,7 +227,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
   });
 
   it('flashcards success: seeds the pool and navigates without failure noise', async () => {
-    mockGetData.mockResolvedValue(VOCAB);
+    mockGetContent.mockResolvedValue(VOCAB as never);
     const params = makeParams();
     const { result } = renderHook(() => useScreenLauncher(params));
     pinSession('flashcards');
@@ -307,5 +317,30 @@ describe('SessionCard — launch-failure error strip', () => {
       );
     });
     expect(screen.getByTestId('session-launch-error')).toBeTruthy();
+  });
+});
+
+// ── Regression guard: V must come from the source that actually has it ────────
+//
+// The production 'empty-pool' alert of 2026-07-25 was NOT an empty content
+// catalogue. Vocabulary moved server-side to /api/content/core (core.js KEYS[0]),
+// and data/content.tsx destructures V for internal use WITHOUT re-exporting it —
+// so the launcher's `(await _getData()).V` was permanently undefined, every pool
+// was empty, and flashcards / mcgame / match / speaking bailed with 'empty-pool'
+// on every attempt. This suite hid it by mocking _getData with a V the real
+// barrel does not export.
+//
+// This test pins the boundary against the REAL module: if anyone points the
+// launcher back at the client barrel for vocabulary, it fails here.
+describe('vocabulary boundary', () => {
+  it('the client data barrel does NOT export V (it is served by /api/content/core)', async () => {
+    vi.doUnmock('../lib/contentClient');
+    const barrel = (await vi.importActual('../data')) as Record<string, unknown>;
+    // Sibling exports still come from the barrel — this is not a broken import.
+    expect(Array.isArray(barrel.LISTEN)).toBe(true);
+    // V deliberately does not: reading it from here yields undefined, which is
+    // what produced the empty pools. Any launcher vocab read must use
+    // contentClient.getContent().
+    expect(barrel.V).toBeUndefined();
   });
 });
