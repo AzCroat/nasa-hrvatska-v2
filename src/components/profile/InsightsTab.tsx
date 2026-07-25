@@ -10,6 +10,11 @@ import ProgressCharts from './ProgressCharts';
 import JourneyTimeline from './JourneyTimeline';
 import LearningInsights from './LearningInsights';
 import CroatianErrorInsights from './CroatianErrorInsights';
+import { lsGet, lsSet } from '../../lib/safeStorage';
+
+// Bound on the letter-to-self note. See the textarea below for why the progress
+// blob cannot be allowed to grow without limit.
+const LETTER_MAX = 4000;
 
 const B1_RESOURCES = [
   {
@@ -73,7 +78,9 @@ export default function InsightsTab() {
   const cefr = getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0));
   const [imdOpen, setImdOpen] = useState(false);
   const [letterText, setLetterText] = useState(
-    () => localStorage.getItem('nh_letter_to_self') || '',
+    // Trim any pre-existing over-long value so a note written before the cap
+    // existed stops being re-saved at its old length on the next keystroke.
+    () => (lsGet('nh_letter_to_self') || '').slice(0, LETTER_MAX),
   );
 
   const streak = getStreak();
@@ -537,8 +544,15 @@ export default function InsightsTab() {
           value={letterText}
           onChange={(e) => {
             setLetterText(e.target.value);
-            localStorage.setItem('nh_letter_to_self', e.target.value);
+            // lsSet: this fires on every keystroke, so an unwritable storage must
+            // not throw out of the handler. maxLength: nh_letter_to_self is synced
+            // inside the progress blob, which Firestore rules cap at 200 KB — and a
+            // breach fails the whole atomic users/{id} write, killing ALL cloud
+            // sync permanently and silently. An uncapped textarea could reach that
+            // ceiling on its own with one long paste.
+            lsSet('nh_letter_to_self', e.target.value);
           }}
+          maxLength={LETTER_MAX}
           placeholder="I want to speak Croatian because..."
           style={{
             width: '100%',
