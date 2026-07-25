@@ -321,6 +321,11 @@ export default function PhraseOfDayScreen({
   const [heardIt, setHeardIt] = useState(false);
   const [readCultural, setReadCultural] = useState(false);
   const awardGiven = useRef<boolean>(false);
+  // handleHearIt built its Audio in a local variable and the component had no
+  // unmount cleanup at all, so leaving mid-playback left Croatian audio running
+  // over the next screen with no reference anywhere able to stop it.
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const mountedRef = useRef(true);
 
   function checkAward(heard: boolean, cultural: boolean) {
     if (!awardGiven.current && (heard || cultural)) {
@@ -406,6 +411,19 @@ export default function PhraseOfDayScreen({
     fetchPhrase(selectedCategory);
   }, [selectedCategory, fetchPhrase]);
 
+  // Stop playback and stop trusting post-await continuations once unmounted.
+  useEffect(() => {
+    // Re-arm on mount — StrictMode double-invokes effects in dev.
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   async function handleHearIt() {
     if (playing || !phraseData) return;
     setPlaying(true);
@@ -423,7 +441,9 @@ export default function PhraseOfDayScreen({
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      if (!mountedRef.current) return; // left the screen during the TTS fetch
       const audio = new Audio(url);
+      audioRef.current = audio;
       audio.onended = () => {
         setPlaying(false);
       };
@@ -431,6 +451,8 @@ export default function PhraseOfDayScreen({
         setPlaying(false);
       };
       await audio.play();
+      // Don't credit a listen the learner is no longer present for.
+      if (!mountedRef.current) return;
       if (!heardIt) {
         setHeardIt(true);
         checkAward(true, readCultural);

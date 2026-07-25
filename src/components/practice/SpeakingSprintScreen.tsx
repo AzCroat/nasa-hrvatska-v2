@@ -338,6 +338,7 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
   const phaseRef = useRef('setup');
+  const mountedRef = useRef(true);
 
   // Keep phaseRef in sync
   useEffect(() => {
@@ -353,7 +354,9 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       style.textContent = SPRINT_STYLES;
       document.head.appendChild(style);
     }
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       stopMic();
       if (silenceTimerRef.current !== null) clearTimeout(silenceTimerRef.current);
       if (audioRef.current) {
@@ -482,6 +485,11 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // Left the screen during the TTS fetch? The unmount cleanup has already
+      // paused audioRef and revoked the object URL, so constructing and playing a
+      // new element here left Croatian audio running over the next screen with
+      // nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       setAudioUrl(url);
       const audio = new Audio(url);

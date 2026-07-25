@@ -147,6 +147,13 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   const audioRef = useRef<{ pause: () => void; currentTime: number } | HTMLAudioElement | null>(
     null,
   );
+  // Both TTS paths below construct their Audio AFTER several awaits (fetch, blob,
+  // FileReader / MediaSource sourceopen). The unmount cleanup pauses whatever
+  // audioRef holds at that moment — but a continuation that resumes afterwards
+  // assigned a NEW element and played it, so the tutor's voice carried on over
+  // the next screen with nothing left to stop it. Same defect fixed in
+  // MajaScreen; these two paths were missed.
+  const mountedRef = useRef(true);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const apiMsgsRef = useRef<{ role: string; content: string }[]>([]); // mirrors messages but only role+content for API calls
   const milestone10Fired = useRef<boolean>(false);
@@ -416,6 +423,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       r.onload = () => resolve(r.result as string);
       r.readAsDataURL(blob);
     });
+    if (!mountedRef.current) return; // left the screen during the TTS fetch
     const audio = new Audio(url);
     audioRef.current = audio;
     await new Promise((resolve) => {
@@ -471,6 +479,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
         return;
       }
 
+      if (!mountedRef.current) return; // left the screen during the TTS fetch
       const mediaSource = new MediaSource();
       const audioEl = new Audio();
       audioRef.current = audioEl;
@@ -723,7 +732,11 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   // ── Cleanup on unmount ─────────────────────
   // Note: mic/stream cleanup is handled by useRecorder's own unmount effect.
   useEffect(() => {
+    // Re-arm on mount: React 18 StrictMode double-invokes effects in dev, so a
+    // ref only ever set false in cleanup would stay false for the real mount.
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (audioRef.current) {
         audioRef.current.pause();
       }
