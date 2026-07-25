@@ -85,6 +85,12 @@ export default function useWhisperSTT({
   // Whether Whisper is available: null=untested, true=confirmed, false=503→use Web Speech
   const whisperAvailRef = useRef(null);
 
+  // Guards the async getUserMedia path in startListening. Without it, unmounting
+  // while the mic permission / stream promise is pending left a live stream and
+  // an 80ms VAD interval installed on a dead hook — the mic indicator stayed lit
+  // and /api/stt kept receiving uploads. Mirrors useRecorder.ts's guard.
+  const mountedRef = useRef(true);
+
   // Web Audio / MediaRecorder infrastructure
   const streamRef = useRef(null);
   const audioCtxRef = useRef(null);
@@ -189,14 +195,18 @@ export default function useWhisperSTT({
   }, []);
 
   // Cleanup on unmount
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    // Re-arm on mount: React 18 StrictMode double-invokes effects in dev, so a
+    // ref only ever set false in cleanup would stay false and permanently
+    // disable the mic path locally.
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
       cleanup();
       webSpeechRef.current?.abort?.();
       webSpeechRef.current = null;
-    },
-    [cleanup],
-  );
+    };
+  }, [cleanup]);
 
   // ── Send audio to Whisper ───────────────────────────────────────────────────
   const sendToWhisper = useCallback(
@@ -448,6 +458,22 @@ export default function useWhisperSTT({
           autoGainControl: true,
         },
       });
+      // The screen can be left while the permission prompt / stream promise is
+      // pending. cleanup() already ran and found streamRef/pollRef null, so it
+      // released nothing — installing them now would leave the mic open and the
+      // VAD poll running for the lifetime of the tab.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        if (audioCtxRef.current && ctxIsOwnedRef.current) {
+          try {
+            audioCtxRef.current.close();
+          } catch {
+            /* already closed */
+          }
+          audioCtxRef.current = null;
+        }
+        return;
+      }
       streamRef.current = stream;
 
       if (ctx.state === 'suspended') await ctx.resume();
@@ -467,6 +493,12 @@ export default function useWhisperSTT({
       setIsListening(true);
       setVadLevel(0);
 
+      // Re-check: `await ctx.resume()` above is a second suspension point where
+      // the caller can unmount. Never install the poll on a dead hook.
+      if (!mountedRef.current) {
+        cleanup();
+        return;
+      }
       // Poll the analyser at POLL_INTERVAL_MS — drives the entire VAD state machine
       pollRef.current = setInterval(vadTick, POLL_INTERVAL_MS);
     } catch (e) {
@@ -494,7 +526,9 @@ export default function useWhisperSTT({
     } finally {
       isActivatingRef.current = false;
     }
-  }, [isListening, isProcessing, vadTick, startWebSpeech, stop]);
+    // `cleanup` is a useCallback with [] deps, so its identity is stable — listing
+    // it here (for the post-await unmount guard) does not re-create this callback.
+  }, [isListening, isProcessing, vadTick, startWebSpeech, stop, cleanup]);
 
   /** Manually clear permission-denied state (e.g., after user re-grants and taps Try Again). */
   const clearPermissionDenied = useCallback(() => {

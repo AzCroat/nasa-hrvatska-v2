@@ -108,6 +108,10 @@ export default function MajaScreen() {
   // ── refs ───────────────────────────────────
   const debriefXpFired = useRef<boolean>(false);
   const phaseRef = useRef<string>('idle');
+  // Guards the async getUserMedia/TTS paths. phaseRef alone is not enough: it
+  // stops updating at unmount and stays frozen at its last value, so a loop
+  // keyed only on phaseRef never self-terminates once the screen is gone.
+  const mountedRef = useRef(true);
   const recRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
@@ -150,7 +154,10 @@ export default function MajaScreen() {
 
   // cleanup on unmount
   useEffect(() => {
+    // Re-arm on mount (React 18 StrictMode double-invokes effects in dev).
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (streamAbortRef.current) {
         streamAbortRef.current.abort();
         streamAbortRef.current = null;
@@ -193,6 +200,14 @@ export default function MajaScreen() {
   const startWaveform = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Leaving the screen while the permission prompt / stream promise is
+      // pending means the unmount cleanup already ran and found mediaStreamRef
+      // null, so it stopped nothing. Assigning here would hold the mic open
+      // (indicator lit) for the lifetime of the tab.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       mediaStreamRef.current = stream;
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       audioCtxRef.current = ctx;
@@ -203,7 +218,7 @@ export default function MajaScreen() {
       analyserRef.current = analyser;
 
       const tick = () => {
-        if (!analyserRef.current || phaseRef.current !== 'listening') {
+        if (!mountedRef.current || !analyserRef.current || phaseRef.current !== 'listening') {
           stopWaveform();
           return;
         }
@@ -248,6 +263,11 @@ export default function MajaScreen() {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // The TTS fetch + FileReader above are suspension points. If the screen
+      // was left in the meantime, the unmount cleanup already paused whatever
+      // audio existed then — constructing and playing a NEW Audio here made
+      // Maja's voice play over the next screen with nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       const audio = new Audio(url);
       audio.volume = 1.0; // required: low volume blocks activation on some WebViews
