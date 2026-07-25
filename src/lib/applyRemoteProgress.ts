@@ -20,6 +20,7 @@ import { getSR, saveSR } from './srs.js';
 import { weekKey as _weekKey, localDateStr } from './dateUtils.js';
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
+import { lsGet } from './safeStorage.js';
 
 export interface RemoteProgressSetters {
   setFavs: (favs: unknown[]) => void;
@@ -123,13 +124,13 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     const today = localDateStr();
     let lSt: { count: number; last: string } = { count: 0, last: '' };
     try {
-      lSt = JSON.parse(localStorage.getItem('uStreak') || '{"count":0,"last":""}');
+      lSt = JSON.parse(lsGet('uStreak') || '{"count":0,"last":""}');
     } catch (_) {}
 
     // Local active-day set (seed from legacy uStreak when absent).
     let localDays: DaySet = {};
     try {
-      localDays = JSON.parse(localStorage.getItem('nh_streak_days') || '{}') as DaySet;
+      localDays = JSON.parse(lsGet('nh_streak_days') || '{}') as DaySet;
     } catch (_) {}
     if (Object.keys(localDays).length === 0) {
       localDays = seedDaysFromStreak(localDays, lSt.count || 0, lSt.last || '');
@@ -154,7 +155,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
 
   // ── Streak freeze tokens — Math.max ───────────────────────────────────────
   if (fp.freezes !== undefined) {
-    const lF = parseInt(localStorage.getItem('uFreeze') || '0', 10);
+    const lF = parseInt(lsGet('uFreeze') || '0', 10);
     _safeSet('uFreeze', String(Math.max(lF, Math.max(0, parseInt(fp.freezes, 10) || 0))));
   }
 
@@ -162,7 +163,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.favs) {
     let lFv: unknown[] = [];
     try {
-      lFv = JSON.parse(localStorage.getItem('uFavs') || '[]');
+      lFv = JSON.parse(lsGet('uFavs') || '[]');
     } catch (_) {}
     const favMap = new Map<string, unknown>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -184,7 +185,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.journal) {
     let lJ: unknown[] = [];
     try {
-      lJ = JSON.parse(localStorage.getItem('uJournal') || '[]');
+      lJ = JSON.parse(lsGet('uJournal') || '[]');
     } catch (_) {}
     const jM = new Map<string, unknown>();
     // Remote entries set first; local entries set second so local wins on conflict
@@ -217,7 +218,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
         : ['', '', ''];
     let lA: boolean[] = [false, false, false];
     try {
-      const ld = JSON.parse(localStorage.getItem('dcDay3') || '{}');
+      const ld = JSON.parse(lsGet('dcDay3') || '{}');
       if (ld.day === today) lA = ld.answered || lA;
     } catch (_) {}
     const mA = ans.map((a: boolean, i: number) => a || lA[i] || false);
@@ -230,7 +231,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.cooldown) {
     let cd: Record<string, string> = {};
     try {
-      cd = JSON.parse(localStorage.getItem('xpCooldown') || '{}');
+      cd = JSON.parse(lsGet('xpCooldown') || '{}');
     } catch (_) {}
     for (const k in fp.cooldown) {
       if (fp.cooldown[k] === today) cd[k] = fp.cooldown[k];
@@ -249,7 +250,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       // `|| 0`: Math.max(anything, NaN) is NaN, so without it an already-poisoned
       // local value would keep re-writing "NaN" instead of being healed by the
       // remote number. Matches the guard on the award-side write in useAward.
-      const lX = parseInt(localStorage.getItem('nh_week_xp_' + wk) || '0', 10) || 0;
+      const lX = parseInt(lsGet('nh_week_xp_' + wk) || '0', 10) || 0;
       _safeSet('nh_week_xp_' + wk, String(Math.max(lX, fp.weekXP)));
     }
   }
@@ -259,7 +260,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     // MAX comparison: never let a stale lower level from one device overwrite a
     // higher level earned on another device (e.g. Android A1 must not clobber Chrome B2).
     const CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
-    const localLevel = localStorage.getItem('nh_level') || '';
+    const localLevel = lsGet('nh_level') || '';
     // Normalize to uppercase so 'a2' from a manually-edited Firestore doc still resolves.
     const normalizedRemote = String(fp.nh_level).toUpperCase();
     const remoteOrd = CEFR_NUM[normalizedRemote] || 0;
@@ -278,7 +279,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     // on '100' > 0 is true, but Math.max(lDgx, '100') would return NaN without parsing).
     const remoteGoal = parseInt(String(fp.nh_daily_goal_xp), 10) || 0;
     if (remoteGoal > 0) {
-      const lDgx = parseInt(localStorage.getItem('nh_daily_goal_xp') || '0', 10) || 0;
+      const lDgx = parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0;
       // Math.max: whichever device set the higher daily-goal XP target wins.
       // Prevents a stale lower value from one device silently overwriting a higher goal
       // the user explicitly chose on another device.
@@ -302,7 +303,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     if (!Array.isArray(remote) || remote.length === 0) return;
     let local: string[] = [];
     try {
-      const p = JSON.parse(localStorage.getItem(key) || '[]');
+      const p = JSON.parse(lsGet(key) || '[]');
       if (Array.isArray(p)) local = p.filter((x): x is string => typeof x === 'string');
     } catch (_) {}
     const merged = [...new Set([...local, ...remote.filter((x) => typeof x === 'string')])];
@@ -321,32 +322,31 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
 
   // ── UI/accessibility preferences ──────────────────────────────────────────
   // Three-state values (null | 'true' | 'false'): only write when remote is non-null
-  if (fp.darkMode !== null && fp.darkMode !== undefined)
-    localStorage.setItem('darkMode', fp.darkMode);
-  if (fp.nh_dm_explicit) localStorage.setItem('nh_dm_explicit', '1');
+  if (fp.darkMode !== null && fp.darkMode !== undefined) _safeSet('darkMode', fp.darkMode);
+  if (fp.nh_dm_explicit) _safeSet('nh_dm_explicit', '1');
   if (fp.nh_sound_enabled !== null && fp.nh_sound_enabled !== undefined)
-    localStorage.setItem('nh_sound_enabled', fp.nh_sound_enabled);
+    _safeSet('nh_sound_enabled', fp.nh_sound_enabled);
   if (fp.nh_haptic_enabled !== null && fp.nh_haptic_enabled !== undefined)
-    localStorage.setItem('nh_haptic_enabled', fp.nh_haptic_enabled);
-  if (fp.nh_voice_pref) localStorage.setItem('nh_voice_pref', fp.nh_voice_pref);
+    _safeSet('nh_haptic_enabled', fp.nh_haptic_enabled);
+  if (fp.nh_voice_pref) _safeSet('nh_voice_pref', fp.nh_voice_pref);
   // nh_speech_rate: playback rate (0.5 | 0.75 | 1). Progress snapshot already
   // writes this; previously missed from the restore path so a device-to-device
   // sync silently dropped the user's preferred TTS speed.
   if (fp.nh_speech_rate !== null && fp.nh_speech_rate !== undefined) {
-    localStorage.setItem('nh_speech_rate', String(fp.nh_speech_rate));
+    _safeSet('nh_speech_rate', String(fp.nh_speech_rate));
   }
   // nh_font_size: null means "never explicitly set on remote device" — skip write.
   // Any non-null value (including 'medium') is an explicit user choice and should sync.
   if (fp.nh_font_size !== null && fp.nh_font_size !== undefined)
-    localStorage.setItem('nh_font_size', fp.nh_font_size);
-  if (fp.nh_reduce_motion === true) localStorage.setItem('nh_reduce_motion', 'true');
-  if (fp.nh_autotts === true) localStorage.setItem('nh_autotts', 'true');
+    _safeSet('nh_font_size', fp.nh_font_size);
+  if (fp.nh_reduce_motion === true) _safeSet('nh_reduce_motion', 'true');
+  if (fp.nh_autotts === true) _safeSet('nh_autotts', 'true');
 
   // ── Journey milestones — additive union: never discard history ────────────
   if (Array.isArray(fp.nh_journey) && fp.nh_journey.length > 0) {
     let lJ: Array<{ type: string; date: string }> = [];
     try {
-      lJ = JSON.parse(localStorage.getItem('nh_journey') || '[]');
+      lJ = JSON.parse(lsGet('nh_journey') || '[]');
     } catch (_) {}
     const seen = new Set(lJ.map((m) => m.type + '|' + m.date));
     const incoming = fp.nh_journey.filter(
@@ -355,7 +355,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     );
     if (incoming.length) {
       try {
-        localStorage.setItem('nh_journey', JSON.stringify([...lJ, ...incoming].slice(-200)));
+        _safeSet('nh_journey', JSON.stringify([...lJ, ...incoming].slice(-200)));
       } catch (_) {}
     }
   }
@@ -364,12 +364,12 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.nh_weekend_days && typeof fp.nh_weekend_days === 'object') {
     let lWD: Record<string, boolean> = {};
     try {
-      lWD = JSON.parse(localStorage.getItem('nh_weekend_days') || '{}');
+      lWD = JSON.parse(lsGet('nh_weekend_days') || '{}');
     } catch (_) {}
     const merged = { ...fp.nh_weekend_days, ...lWD }; // local wins for shared keys
     if (merged.sat || merged.sun) {
       try {
-        localStorage.setItem('nh_weekend_days', JSON.stringify(merged));
+        _safeSet('nh_weekend_days', JSON.stringify(merged));
       } catch (_) {}
     }
   }
@@ -388,25 +388,25 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   let _q2Was = false;
   let _q3Was = false;
   try {
-    _q1Was = localStorage.getItem('nh_cq_easter_uskrs_q1') === '1';
-    _q2Was = localStorage.getItem('nh_cq_easter_uskrs_q2') === '1';
-    _q3Was = localStorage.getItem('nh_cq_easter_uskrs_q3') === '1';
+    _q1Was = lsGet('nh_cq_easter_uskrs_q1') === '1';
+    _q2Was = lsGet('nh_cq_easter_uskrs_q2') === '1';
+    _q3Was = lsGet('nh_cq_easter_uskrs_q3') === '1';
   } catch (_) {}
   if (fp.nh_uskrs_kviz_done === true)
     try {
-      localStorage.setItem('nh_uskrs_kviz_done', '1');
+      _safeSet('nh_uskrs_kviz_done', '1');
     } catch (_) {}
   if (fp.nh_cq_easter_uskrs_q1 === true)
     try {
-      localStorage.setItem('nh_cq_easter_uskrs_q1', '1');
+      _safeSet('nh_cq_easter_uskrs_q1', '1');
     } catch (_) {}
   if (fp.nh_cq_easter_uskrs_q2 === true)
     try {
-      localStorage.setItem('nh_cq_easter_uskrs_q2', '1');
+      _safeSet('nh_cq_easter_uskrs_q2', '1');
     } catch (_) {}
   if (fp.nh_cq_easter_uskrs_q3 === true)
     try {
-      localStorage.setItem('nh_cq_easter_uskrs_q3', '1');
+      _safeSet('nh_cq_easter_uskrs_q3', '1');
     } catch (_) {}
   const _questNewlyDone =
     (fp.nh_cq_easter_uskrs_q1 === true && !_q1Was) ||
@@ -421,18 +421,18 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // ── Hearts — remote wins only when its lastRegen is newer ────────────────
   if (fp.nh_hearts !== null && fp.nh_hearts !== undefined) {
     try {
-      const lH = JSON.parse(localStorage.getItem('nh_hearts') || 'null');
+      const lH = JSON.parse(lsGet('nh_hearts') || 'null');
       if (!lH || (fp.nh_hearts.lastRegen || 0) > (lH.lastRegen || 0)) {
-        localStorage.setItem('nh_hearts', JSON.stringify(fp.nh_hearts));
+        _safeSet('nh_hearts', JSON.stringify(fp.nh_hearts));
       }
     } catch (_) {}
   }
 
   // ── Prestige — Math.max ───────────────────────────────────────────────────
   if (fp.nh_prestige) {
-    const lPr = parseInt(localStorage.getItem('nh_prestige') || '0', 10);
+    const lPr = parseInt(lsGet('nh_prestige') || '0', 10);
     try {
-      localStorage.setItem('nh_prestige', String(Math.max(lPr, fp.nh_prestige)));
+      _safeSet('nh_prestige', String(Math.max(lPr, fp.nh_prestige)));
     } catch (_) {}
   }
 
@@ -440,10 +440,10 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.nh_checkpoints && typeof fp.nh_checkpoints === 'object') {
     let lCk: Record<string, unknown> = {};
     try {
-      lCk = JSON.parse(localStorage.getItem('nh_checkpoints') || '{}');
+      lCk = JSON.parse(lsGet('nh_checkpoints') || '{}');
     } catch (_) {}
     try {
-      localStorage.setItem('nh_checkpoints', JSON.stringify({ ...fp.nh_checkpoints, ...lCk }));
+      _safeSet('nh_checkpoints', JSON.stringify({ ...fp.nh_checkpoints, ...lCk }));
     } catch (_) {}
   }
 
@@ -451,38 +451,35 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (Array.isArray(fp.nh_custom_words) && fp.nh_custom_words.length > 0) {
     let lCW: unknown[] = [];
     try {
-      lCW = JSON.parse(localStorage.getItem('nh_custom_words') || '[]');
+      lCW = JSON.parse(lsGet('nh_custom_words') || '[]');
     } catch (_) {}
     const cwMap = new Map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [...fp.nh_custom_words, ...lCW].map((w: any) => [w?.word || JSON.stringify(w), w]),
     );
     try {
-      localStorage.setItem('nh_custom_words', JSON.stringify([...cwMap.values()]));
+      _safeSet('nh_custom_words', JSON.stringify([...cwMap.values()]));
     } catch (_) {}
   }
 
   // ── Miscellaneous additive flags ──────────────────────────────────────────
   if (fp.nh_hearts_always_on === true)
     try {
-      localStorage.setItem('nh_hearts_always_on', 'true');
+      _safeSet('nh_hearts_always_on', 'true');
     } catch (_) {}
   if (fp.nh_used_free_repair === true)
     try {
-      localStorage.setItem('nh_used_free_repair', '1');
+      _safeSet('nh_used_free_repair', '1');
     } catch (_) {}
 
   // ── Saved phrases — union ─────────────────────────────────────────────────
   if (Array.isArray(fp.nh_saved_phrases) && fp.nh_saved_phrases.length > 0) {
     let lSP: string[] = [];
     try {
-      lSP = JSON.parse(localStorage.getItem('nh_saved_phrases') || '[]');
+      lSP = JSON.parse(lsGet('nh_saved_phrases') || '[]');
     } catch (_) {}
     try {
-      localStorage.setItem(
-        'nh_saved_phrases',
-        JSON.stringify([...new Set([...lSP, ...fp.nh_saved_phrases])]),
-      );
+      _safeSet('nh_saved_phrases', JSON.stringify([...new Set([...lSP, ...fp.nh_saved_phrases])]));
     } catch (_) {}
   }
 
@@ -490,10 +487,10 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.nh_media_done && typeof fp.nh_media_done === 'object') {
     let lMD: Record<string, unknown> = {};
     try {
-      lMD = JSON.parse(localStorage.getItem('nh_media_done') || '{}');
+      lMD = JSON.parse(lsGet('nh_media_done') || '{}');
     } catch (_) {}
     try {
-      localStorage.setItem('nh_media_done', JSON.stringify({ ...fp.nh_media_done, ...lMD }));
+      _safeSet('nh_media_done', JSON.stringify({ ...fp.nh_media_done, ...lMD }));
     } catch (_) {}
   }
 
@@ -501,41 +498,38 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (fp.nh_session_history && typeof fp.nh_session_history === 'object') {
     let lSH: Record<string, boolean> = {};
     try {
-      lSH = JSON.parse(localStorage.getItem('nh_session_history') || '{}');
+      lSH = JSON.parse(lsGet('nh_session_history') || '{}');
     } catch (_) {}
     const merged = { ...(fp.nh_session_history as Record<string, boolean>), ...lSH }; // local wins for shared keys
     try {
-      localStorage.setItem('nh_session_history', JSON.stringify(merged));
+      _safeSet('nh_session_history', JSON.stringify(merged));
     } catch (_) {}
   }
 
   // ── Earn-back streak data — remote wins if for a more recent date ────────────
   if (fp.nh_earn_back !== null && fp.nh_earn_back !== undefined) {
     try {
-      const lEB = JSON.parse(localStorage.getItem('nh_earn_back') || 'null');
+      const lEB = JSON.parse(lsGet('nh_earn_back') || 'null');
       if (
         !lEB ||
         ((fp.nh_earn_back as Record<string, unknown>).date as string) > (lEB.date as string)
       ) {
-        localStorage.setItem('nh_earn_back', JSON.stringify(fp.nh_earn_back));
+        _safeSet('nh_earn_back', JSON.stringify(fp.nh_earn_back));
       }
     } catch (_) {}
   }
 
   // ── XP boost — Math.max for both timestamps ───────────────────────────────────
   if (fp.nh_xp_boost_expires > 0) {
-    const lExp = parseInt(localStorage.getItem('nh_xp_boost_expires') || '0', 10);
+    const lExp = parseInt(lsGet('nh_xp_boost_expires') || '0', 10);
     try {
-      localStorage.setItem(
-        'nh_xp_boost_expires',
-        String(Math.max(lExp, fp.nh_xp_boost_expires as number)),
-      );
+      _safeSet('nh_xp_boost_expires', String(Math.max(lExp, fp.nh_xp_boost_expires as number)));
     } catch (_) {}
   }
   if (fp.nh_xp_boost_last_activated > 0) {
-    const lAct = parseInt(localStorage.getItem('nh_xp_boost_last_activated') || '0', 10);
+    const lAct = parseInt(lsGet('nh_xp_boost_last_activated') || '0', 10);
     try {
-      localStorage.setItem(
+      _safeSet(
         'nh_xp_boost_last_activated',
         String(Math.max(lAct, fp.nh_xp_boost_last_activated as number)),
       );
@@ -544,45 +538,42 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
 
   // ── Daily XP — write today's XP value to the correct date-keyed slot ────────
   if ((fp.nh_daily_xp_today as number) > 0 && fp.nh_daily_xp_date === today) {
-    const lDX = parseInt(localStorage.getItem('nh_daily_xp_' + today) || '0', 10);
+    const lDX = parseInt(lsGet('nh_daily_xp_' + today) || '0', 10);
     try {
-      localStorage.setItem(
-        'nh_daily_xp_' + today,
-        String(Math.max(lDX, fp.nh_daily_xp_today as number)),
-      );
+      _safeSet('nh_daily_xp_' + today, String(Math.max(lDX, fp.nh_daily_xp_today as number)));
     } catch (_) {}
   }
 
   // ── Lesson resume — remote fills a gap when local is absent ─────────────────
   if (fp.nh_lesson_resume !== null && fp.nh_lesson_resume !== undefined) {
     try {
-      const raw = localStorage.getItem('nh_lesson_resume');
+      const raw = lsGet('nh_lesson_resume');
       if (!raw || raw === 'null') {
-        localStorage.setItem('nh_lesson_resume', JSON.stringify(fp.nh_lesson_resume));
+        _safeSet('nh_lesson_resume', JSON.stringify(fp.nh_lesson_resume));
       }
     } catch (_) {}
   }
 
   // ── Last exercise — remote fills a gap in local ──────────────────────────────
-  if (fp.nh_last_ex && !localStorage.getItem('nh_last_ex')) {
+  if (fp.nh_last_ex && !lsGet('nh_last_ex')) {
     try {
-      localStorage.setItem('nh_last_ex', fp.nh_last_ex as string);
+      _safeSet('nh_last_ex', fp.nh_last_ex as string);
     } catch (_) {}
   }
-  if (fp.nh_last_ex_label && !localStorage.getItem('nh_last_ex_label')) {
+  if (fp.nh_last_ex_label && !lsGet('nh_last_ex_label')) {
     try {
-      localStorage.setItem('nh_last_ex_label', fp.nh_last_ex_label as string);
+      _safeSet('nh_last_ex_label', fp.nh_last_ex_label as string);
     } catch (_) {}
   }
 
   // ── Journey milestone flags — additive: once true, always true ───────────────
   if (fp.nh_journey_first_speaking === true)
     try {
-      localStorage.setItem('nh_journey_first_speaking', '1');
+      _safeSet('nh_journey_first_speaking', '1');
     } catch (_) {}
   if (fp.nh_journey_first_lesson === true)
     try {
-      localStorage.setItem('nh_journey_first_lesson', '1');
+      _safeSet('nh_journey_first_lesson', '1');
     } catch (_) {}
 
   // ── levelQuizPasses — per-key latest-wins by passedAt (localStorage mirror) ─
@@ -593,7 +584,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   if (remoteLQP && typeof remoteLQP === 'object') {
     let localLQP: Record<number, { score: number; passedAt: number }> = {};
     try {
-      const raw = localStorage.getItem('nh_level_quiz_passes');
+      const raw = lsGet('nh_level_quiz_passes');
       if (raw) localLQP = JSON.parse(raw);
     } catch (_) {}
     const merged: Record<number, { score: number; passedAt: number }> = { ...localLQP };
@@ -608,7 +599,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       }
     }
     try {
-      localStorage.setItem('nh_level_quiz_passes', JSON.stringify(merged));
+      _safeSet('nh_level_quiz_passes', JSON.stringify(merged));
     } catch (_) {}
   }
 
@@ -623,10 +614,10 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       try {
         if (key.startsWith('streak_')) {
           // e.g. streak_7 → nh_ceremony_streak_7
-          localStorage.setItem(`nh_ceremony_${key}`, '1');
+          _safeSet(`nh_ceremony_${key}`, '1');
         } else if (key.startsWith('stage')) {
           // e.g. stage5 → nh_stage5_ceremony
-          localStorage.setItem(`nh_${key}_ceremony`, '1');
+          _safeSet(`nh_${key}_ceremony`, '1');
         }
       } catch (_) {}
     }
@@ -638,11 +629,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // take the maximum since a later/better attempt should win.
   const _maxNum = (k: string, remote: unknown) => {
     if (remote == null) return;
-    const local = parseFloat(localStorage.getItem(k) || '0') || 0;
+    const local = parseFloat(lsGet(k) || '0') || 0;
     const r = Number(remote) || 0;
     if (r > local) {
       try {
-        localStorage.setItem(k, String(r));
+        _safeSet(k, String(r));
       } catch (_) {}
     }
   };
@@ -661,12 +652,12 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   const _strRemoteWins = (k: string, remote: unknown) => {
     if (!remote || typeof remote !== 'string') return;
     try {
-      localStorage.setItem(k, remote);
+      _safeSet(k, remote);
     } catch (_) {}
   };
   if (fp.nh_heritage_saved === true) {
     try {
-      localStorage.setItem('nh_heritage_saved', '1');
+      _safeSet('nh_heritage_saved', '1');
     } catch (_) {}
   }
   _strRemoteWins('nh_heritage_region', fp.nh_heritage_region);
@@ -676,9 +667,9 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
 
   // heritageStory: JSON state — accept remote only when local is null (otherwise
   // the active session has live state we shouldn't clobber).
-  if (fp.heritageStory && !localStorage.getItem('heritageStory')) {
+  if (fp.heritageStory && !lsGet('heritageStory')) {
     try {
-      localStorage.setItem('heritageStory', JSON.stringify(fp.heritageStory));
+      _safeSet('heritageStory', JSON.stringify(fp.heritageStory));
     } catch (_) {}
   }
 
@@ -686,20 +677,20 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // maja_persona is the user's chosen persona settings (rare edits after setup).
   // majaMemory is the multi-turn conversation memory — newer turns should win,
   // so use Math.max on .lastTurnAt when both exist.
-  if (fp.maja_persona && !localStorage.getItem('maja_persona')) {
+  if (fp.maja_persona && !lsGet('maja_persona')) {
     try {
-      localStorage.setItem('maja_persona', JSON.stringify(fp.maja_persona));
+      _safeSet('maja_persona', JSON.stringify(fp.maja_persona));
     } catch (_) {}
   }
   if (fp.majaMemory) {
     try {
-      const localRaw = localStorage.getItem('majaMemory');
+      const localRaw = lsGet('majaMemory');
       const local = localRaw ? JSON.parse(localRaw) : null;
       const remoteAt =
         (fp.majaMemory.lastTurnAt as number) || (fp.majaMemory.updatedAt as number) || 0;
       const localAt = (local?.lastTurnAt as number) || (local?.updatedAt as number) || 0;
       if (!local || remoteAt > localAt) {
-        localStorage.setItem('majaMemory', JSON.stringify(fp.majaMemory));
+        _safeSet('majaMemory', JSON.stringify(fp.majaMemory));
       }
     } catch (_) {}
   }
@@ -709,9 +700,9 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // Letter-to-self is user-typed text; preserve in-flight local typing by
   // refusing to overwrite a non-empty local value with remote.
   _strRemoteWins('nh_avatar_emoji', fp.nh_avatar_emoji);
-  if (fp.nh_letter_to_self && !localStorage.getItem('nh_letter_to_self')) {
+  if (fp.nh_letter_to_self && !lsGet('nh_letter_to_self')) {
     try {
-      localStorage.setItem('nh_letter_to_self', fp.nh_letter_to_self);
+      _safeSet('nh_letter_to_self', fp.nh_letter_to_self);
     } catch (_) {}
   }
 
@@ -725,9 +716,9 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     ['nh_aspect_mistakes', fp.nh_aspect_mistakes],
     ['nh_writing_mistakes', fp.nh_writing_mistakes],
   ] as const) {
-    if (remote && !localStorage.getItem(k)) {
+    if (remote && !lsGet(k)) {
       try {
-        localStorage.setItem(k, JSON.stringify(remote));
+        _safeSet(k, JSON.stringify(remote));
       } catch (_) {}
     }
   }
