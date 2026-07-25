@@ -579,11 +579,19 @@ export function useSyncManager({
             favs: fv,
             jWords: jw,
           });
-          // Content-equality skip: if the snapshot is byte-identical to the
-          // last one we successfully pushed, there's nothing new to sync.
-          // Pushing the same ~200KB blob every 5 min on an idle session is
-          // pure write-stream pressure for zero data benefit.
-          const sig = JSON.stringify(snap);
+          // Content-equality skip: if the snapshot is unchanged from the last
+          // one we successfully pushed, there's nothing new to sync. Pushing the
+          // same ~200KB blob every 5 min on an idle session is pure write-stream
+          // pressure for zero data benefit.
+          //
+          // buildProgressSnapshot stamps `savedAt: Date.now()` on every call, so
+          // comparing the RAW JSON made this skip a permanent no-op — savedAt
+          // differed each tick, the sig never matched, and the blob was written
+          // every 5 min regardless. Compare everything EXCEPT savedAt so an
+          // idle session actually skips. (savedAt is still written when a real
+          // change triggers the push below; it just no longer defeats the skip.)
+          const { savedAt: _savedAt, ...stableSnap } = snap as typeof snap & { savedAt?: number };
+          const sig = JSON.stringify(stableSnap);
           if (sig === _lastPeriodicSigRef.current) return;
           const result = (await fbSaveProgress(u.u, snap).catch((e: unknown) => {
             const err = e as { code?: string; message?: string };
