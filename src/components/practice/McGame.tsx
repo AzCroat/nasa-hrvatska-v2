@@ -247,8 +247,12 @@ export default function McGame({
     if (currentQ.hr) srMark(currentQ.hr, isCorrect, 0);
     if (currentQ.hr) recordTopicResult('vocabulary', isCorrect);
 
-    // Persistent hearts: call loseHeart() before dispatch so reducer receives result
-    const persistentHeartsAfter = !isCorrect && isHeartsMode ? loseHeart() : undefined;
+    // Persistent hearts: call loseHeart() before dispatch so reducer receives result.
+    // Skipped in Practice Mode — the toggle's own label promises "hearts disabled",
+    // and these are the DAILY pool (5/day, one regenerated per 4 hours), so
+    // practising used to spend the real budget and could even force a game-over.
+    const persistentHeartsAfter =
+      !isCorrect && isHeartsMode && !state.practiceMode ? loseHeart() : undefined;
 
     // ── Dispatch atomic state transition ───────────────────────────────────────
     dispatch({
@@ -281,10 +285,12 @@ export default function McGame({
       if (state.wrongStreak + 1 >= 3) {
         timersRef.current.push(setTimeout(() => dispatch({ type: 'CLEAR_GLOW' }), 1500));
       }
-      const newHearts = isHeartsMode
-        ? (persistentHeartsAfter ?? state.hearts)
-        : state.practiceMode
-          ? state.hearts
+      // Mirrors the reducer's order: practiceMode first, so Practice Mode can
+      // never reach the game-over dispatch below.
+      const newHearts = state.practiceMode
+        ? state.hearts
+        : isHeartsMode
+          ? (persistentHeartsAfter ?? state.hearts)
           : Math.max(0, state.hearts - 1);
       if (newHearts === 0) {
         timersRef.current.push(setTimeout(() => dispatch({ type: 'TRIGGER_GAME_OVER' }), 600));

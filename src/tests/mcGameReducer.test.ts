@@ -233,6 +233,55 @@ describe('useMcGameReducer', () => {
     expect(result.current[0].hearts).toBe(3); // no deduction in practice mode
   });
 
+  // The case above covers isHeartsMode: false. Hearts/Challenge mode was the gap:
+  // the reducer checked isHeartsMode FIRST and never consulted practiceMode, so a
+  // practising user still lost a heart — and McGame had already spent a real one
+  // from the daily pool of 5 before dispatching. The toggle's own label promises
+  // "hearts disabled", so the promise has to hold here too.
+  it('ANSWER wrong in practiceMode does not deduct hearts in HEARTS mode either', () => {
+    const q = makeQ();
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({ type: 'TOGGLE_PRACTICE_MODE' });
+    });
+    expect(result.current[0].practiceMode).toBe(true);
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: false,
+          optionIndex: 0,
+          question: q,
+          grammarTip: null,
+          // What the component would have passed had it called loseHeart().
+          // practiceMode must win over it.
+          persistentHeartsAfter: 2,
+          isHeartsMode: true,
+        },
+      });
+    });
+    expect(result.current[0].hearts).toBe(3);
+  });
+
+  it('ANSWER wrong in HEARTS mode without practiceMode still uses the persistent count', () => {
+    const q = makeQ();
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: false,
+          optionIndex: 0,
+          question: q,
+          grammarTip: null,
+          persistentHeartsAfter: 2,
+          isHeartsMode: true,
+        },
+      });
+    });
+    expect(result.current[0].hearts).toBe(2);
+  });
+
   it('ADVANCE_CORRECT removes first question from queue', () => {
     const qs = [makeQ({ _qIdx: 0 }), makeQ({ hr: 'pas', _qIdx: 1 })];
     const { result } = renderHook(() => useMcGameReducer(qs, 3));
