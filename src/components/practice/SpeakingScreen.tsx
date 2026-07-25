@@ -208,6 +208,10 @@ export default function SpeakingScreen({
   const recRef = useRef<any>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishFired = useRef(false);
+  // Guards the async getUserMedia paths below. Without it, leaving the screen
+  // while a mic permission/stream promise is pending left the stream assigned to
+  // a dead component — the mic indicator stayed lit until the tab was closed.
+  const mountedRef = useRef(true);
 
   // Voice recording state
   const mediaRecRef = useRef<MediaRecorder | null>(null);
@@ -253,7 +257,13 @@ export default function SpeakingScreen({
   // Cleanup on unmount — must be before early return to satisfy Rules of Hooks
 
   useEffect(() => {
+    // Re-arm on mount. React 18 StrictMode runs effects mount→unmount→mount in
+    // dev, so a ref that is only ever set false in cleanup would stay false and
+    // permanently short-circuit the guards below (see WritingScreen for the same
+    // pattern).
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
       if (recRef.current) {
         try {
@@ -368,6 +378,14 @@ export default function SpeakingScreen({
   async function startWaveform() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // The user can leave the screen while the permission prompt / stream
+      // promise is still pending. The unmount cleanup already ran and found
+      // streamRef null, so it stopped nothing — if we assigned the stream now,
+      // the mic would stay live (indicator lit) until the tab closed.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       streamRef.current = stream;
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       const audioCtx = new AudioContext();
@@ -379,6 +397,11 @@ export default function SpeakingScreen({
       analyserRef.current = analyser;
 
       function draw() {
+        // Self-terminate if the screen went away: this loop previously recursed
+        // unconditionally, so it was only stoppable via stopWaveform()'s
+        // cancelAnimationFrame and ran for the lifetime of the tab if the
+        // component unmounted after the loop had started.
+        if (!mountedRef.current) return;
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         const bars = Array.from({ length: 30 }, (_, i) => {
@@ -395,8 +418,14 @@ export default function SpeakingScreen({
   }
 
   function stopWaveform() {
+    // Null the refs after releasing so a second call (e.g. stop-then-unmount)
+    // can't re-cancel a stale frame id or re-stop dead tracks.
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop());
+    animFrameRef.current = null;
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+    }
     if (audioCtxRef.current) {
       audioCtxRef.current.close().catch(() => {});
       audioCtxRef.current = null;
@@ -630,6 +659,12 @@ export default function SpeakingScreen({
     // Start fresh stream for recording
     try {
       const recordStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Same unmount race as startWaveform: without this the MediaRecorder below
+      // would start capturing into a dead component and hold the mic open.
+      if (!mountedRef.current) {
+        recordStream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       recordStreamRef.current = recordStream;
       const recMimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
         ? 'audio/webm;codecs=opus'
