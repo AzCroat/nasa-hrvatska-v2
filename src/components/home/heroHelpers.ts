@@ -322,9 +322,13 @@ export function getCEFR(xp: number, lc: number, gc: number) {
       };
     }
   }
+  // total >= 18000 → the learner has REACHED C2 (the top band). The old fallback
+  // returned current:'C1', so the hero card capped at C1 and never showed C2 —
+  // disagreeing with StatsTab/DesktopPanel, which do reach C2. C2 is terminal, so
+  // there is no next level and the within-level bar is full.
   return {
-    current: 'C1',
+    current: 'C2',
     next: 'C2',
-    pctInLevel: Math.min(Math.round(((total - 8000) / 10000) * 100), 100),
+    pctInLevel: 100,
   };
 }
