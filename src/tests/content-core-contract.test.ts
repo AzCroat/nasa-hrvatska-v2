@@ -1,6 +1,6 @@
 /**
- * content-core-contract.test.ts — pins the three lists that describe
- * /api/content/core to each other.
+ * content-core-contract.test.ts — pins the lists that describe
+ * /api/content/core and /api/content/grammar to each other.
  *
  * WHY (2026-07-25): the day's P0 was a content-boundary drift. Vocabulary `V`
  * moved server-side, data/content.tsx stopped re-exporting it, and eight
@@ -34,8 +34,17 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import * as CORE_DATA from '../../functions/api/content/_data/core.js';
+import * as GRAMMAR_DATA from '../../functions/api/content/_data/grammar.js';
 
 const root = resolve(__dirname, '../..');
+
+/** Field names of an exported interface in src/types/content.ts. */
+function interfaceFields(name: string): string[] {
+  const src = readFileSync(resolve(root, 'src/types/content.ts'), 'utf8');
+  const block = new RegExp(`export interface ${name} \\{([\\s\\S]*?)\\n\\}`).exec(src);
+  if (!block) throw new Error(`could not locate the ${name} interface in types/content.ts`);
+  return [...block[1]!.matchAll(/^\s*([A-Z][A-Z0-9_]*)\??\s*:/gm)].map((m) => m[1]!);
+}
 
 /** KEYS array literal from the endpoint — the list it advertises. */
 function advertisedKeys(): string[] {
@@ -45,16 +54,33 @@ function advertisedKeys(): string[] {
   return [...block[1]!.matchAll(/'([A-Z][A-Z0-9_]*)'/g)].map((m) => m[1]!);
 }
 
-/** Field names of the exported `Content` interface — what the client believes. */
-function clientContractFields(): string[] {
-  const src = readFileSync(resolve(root, 'src/types/content.ts'), 'utf8');
-  const block = /export interface Content \{([\s\S]*?)\n\}/.exec(src);
-  if (!block) throw new Error('could not locate the Content interface in types/content.ts');
-  return [...block[1]!.matchAll(/^\s*([A-Z][A-Z0-9_]*)\??\s*:/gm)].map((m) => m[1]!);
+/**
+ * Field names the grammar endpoint hand-assembles into its response body.
+ *
+ * Unlike core.js this endpoint has no KEYS array — buildBody() spells out
+ * `GRAM: GRAMMAR.GRAM` fourteen times. That is MORE drift-prone, not less: a
+ * renamed export in _data/grammar.js leaves `GRAMMAR.X` undefined, JSON drops
+ * the key, and the client reads undefined with no error anywhere.
+ */
+function grammarServedPairs(): Array<{ key: string; ref: string }> {
+  const src = readFileSync(resolve(root, 'functions/api/content/grammar.js'), 'utf8');
+  const block = /data: \{([\s\S]*?)\n {4}\}/.exec(src);
+  if (!block) throw new Error('could not locate the data object in grammar.js');
+  // Capture BOTH sides. Reading only the key would miss the whole point: in
+  // `PITCH_ACCENT: GRAMMAR.PITCHACCENT` the key is perfectly fine and the
+  // reference is the typo, so a key-only check passes while the field ships
+  // undefined. (Confirmed by mutation — a key-only version of this parser did
+  // not fail on exactly that edit.)
+  return [...block[1]!.matchAll(/^\s*([A-Z][A-Z0-9_]*)\s*:\s*GRAMMAR\.([A-Z][A-Z0-9_]*)/gm)].map(
+    (m) => ({ key: m[1]!, ref: m[2]! }),
+  );
 }
 
 const KEYS = advertisedKeys();
-const FIELDS = clientContractFields();
+const FIELDS = interfaceFields('Content');
+const GRAMMAR_PAIRS = grammarServedPairs();
+const GRAMMAR_SERVED = GRAMMAR_PAIRS.map((p) => p.key);
+const GRAMMAR_FIELDS = interfaceFields('Grammar');
 
 describe('/api/content/core — the three lists agree', () => {
   it('the parsers actually found the lists (guards against a silent regex miss)', () => {
@@ -105,5 +131,45 @@ describe('/api/content/core — every key carries real content', () => {
     const roundTripped = JSON.parse(JSON.stringify(body)) as Record<string, unknown>;
     const lossy = KEYS.filter((k) => JSON.stringify(roundTripped[k]) !== JSON.stringify(body[k]));
     expect(lossy, `changed shape through JSON: ${lossy.join(', ')}`).toEqual([]);
+  });
+});
+
+describe('/api/content/grammar — the same three lists agree', () => {
+  it('the parsers actually found the lists', () => {
+    expect(GRAMMAR_SERVED.length).toBeGreaterThan(10);
+    expect(GRAMMAR_FIELDS.length).toBeGreaterThan(10);
+  });
+
+  it('every GRAMMAR.X that buildBody() references is really exported', () => {
+    const broken = GRAMMAR_PAIRS.filter(
+      ({ ref }) => (GRAMMAR_DATA as Record<string, unknown>)[ref] === undefined,
+    ).map(({ key, ref }) => `${key} -> GRAMMAR.${ref}`);
+    expect(broken, `references a non-existent export: ${broken.join(', ')}`).toEqual([]);
+  });
+
+  it('no field is wired to a differently-named export (silent mis-mapping)', () => {
+    const crossed = GRAMMAR_PAIRS.filter(({ key, ref }) => key !== ref).map(
+      ({ key, ref }) => `${key} -> GRAMMAR.${ref}`,
+    );
+    expect(crossed, `key does not match the export it reads: ${crossed.join(', ')}`).toEqual([]);
+  });
+
+  it('the Grammar type and the response body describe the same fields', () => {
+    const undelivered = GRAMMAR_FIELDS.filter((f) => !GRAMMAR_SERVED.includes(f));
+    const undeclared = GRAMMAR_SERVED.filter((k) => !GRAMMAR_FIELDS.includes(k));
+    expect(undelivered, `declared in Grammar but never sent: ${undelivered.join(', ')}`).toEqual(
+      [],
+    );
+    expect(undeclared, `sent but missing from Grammar: ${undeclared.join(', ')}`).toEqual([]);
+  });
+
+  it.each(GRAMMAR_SERVED)('%s is non-empty', (key) => {
+    const value = (GRAMMAR_DATA as Record<string, unknown>)[key];
+    expect(value, `${key} is undefined`).toBeDefined();
+    expect(typeof value, `${key} is a ${typeof value}, which does not survive JSON`).toBe('object');
+    const size = Array.isArray(value)
+      ? value.length
+      : Object.keys(value as Record<string, unknown>).length;
+    expect(size, `${key} is empty`).toBeGreaterThan(0);
   });
 });
