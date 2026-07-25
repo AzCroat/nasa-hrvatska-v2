@@ -1,4 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import React from 'react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { getHearts, loseHeart } from '../lib/lives';
 import { enqueue, flush } from '../lib/offlineAwardQueue';
 import { applyRemoteProgress } from '../lib/applyRemoteProgress';
@@ -358,5 +361,75 @@ describe('paid actions survive an unwritable localStorage', () => {
       count: 1,
       last: '2026-07-25',
     });
+  });
+});
+
+// ── Render-path reads: a screen must OPEN on a storage-blocked profile ────────
+// `localStorage.getItem` THROWS (not returns null) when cookies / site data are
+// blocked for the origin, on supervised profiles, and in some privacy modes and
+// embedded WebViews. A read inside a `useState` initialiser therefore throws
+// during render, which React escalates to the nearest ErrorBoundary — the whole
+// screen is replaced by the error card.
+//
+// Five such reads existed, in four screens:
+//   AppearanceSection  nh_font_size, nh_reduce_motion   (Settings → Appearance)
+//   SettingsTab        nh_goal                          (the Settings tab itself)
+//   WelcomeScreen      nh_heritage_gen                  (onboarding)
+//   VideoLessonScreen  nh_level                         (Practice → video lesson)
+//
+// WelcomeScreen's was not even lazy — `useState(localStorage.getItem(...))`
+// evaluates on EVERY render, not just mount.
+//
+// Two of the four files already imported safeStorage and used lsSet for their
+// WRITES while leaving the reads raw: the same defeated-guard shape fixed in
+// useAward, where the guard existed but could never run.
+describe('render-path reads survive a blocked profile', () => {
+  const boom = () => {
+    throw new DOMException('The operation is insecure.', 'SecurityError');
+  };
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.resetModules();
+  });
+
+  it('AppearanceSection renders when every read raises SecurityError', async () => {
+    vi.stubGlobal('localStorage', {
+      getItem: boom,
+      setItem: boom,
+      removeItem: boom,
+      clear: () => {},
+      key: boom,
+      length: 0,
+    } as unknown as Storage);
+    vi.doMock('../context/AppContext', () => ({
+      useApp: () => ({ darkMode: false, setDarkMode: vi.fn() }),
+    }));
+    const { default: AppearanceSection } =
+      await import('../components/profile/sections/AppearanceSection');
+    const { render } = await import('@testing-library/react');
+    // Pre-fix this threw out of render; the ErrorBoundary then replaced the
+    // Settings screen with the error card.
+    expect(() => render(React.createElement(AppearanceSection))).not.toThrow();
+  });
+
+  it('no screen reads localStorage directly inside a useState initialiser', () => {
+    // Structural guard covering all four files. The render test above proves the
+    // mechanism; this proves the shape has not come back anywhere in the set —
+    // which is how it survived the earlier passes over these same files.
+    const files = [
+      'src/components/profile/sections/AppearanceSection.tsx',
+      'src/components/profile/SettingsTab.tsx',
+      'src/components/home/WelcomeScreen.tsx',
+      'src/components/practice/VideoLessonScreen.tsx',
+    ];
+    const offenders: string[] = [];
+    for (const f of files) {
+      const src = readFileSync(resolve(__dirname, '..', '..', f), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/^\s*\/\/.*$/gm, '');
+      if (/localStorage\.(get|set|remove)Item/.test(src)) offenders.push(f);
+    }
+    expect(offenders, `raw storage access remains in: ${offenders.join(', ')}`).toEqual([]);
   });
 });

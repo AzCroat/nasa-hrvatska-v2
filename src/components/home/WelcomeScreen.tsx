@@ -81,7 +81,7 @@ export default function WelcomeScreen({
   const [goal, setGoal] = useState('');
   const [dailyMin, setDailyMin] = useState(0);
   const [showSpeakModal, setShowSpeakModal] = useState(false);
-  const [selectedGen, setSelectedGen] = useState(localStorage.getItem('nh_heritage_gen') || '');
+  const [selectedGen, setSelectedGen] = useState(lsGet('nh_heritage_gen') || '');
 
   // Focus trap refs for the speak modal
   const modalRef = useRef<HTMLDivElement | null>(null);
