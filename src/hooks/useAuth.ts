@@ -29,6 +29,7 @@ import {
 } from '../data';
 import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
+import { lsSet, lsRemove } from '../lib/safeStorage';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
 import type { AuthUser } from '../types/index.js';
@@ -496,12 +497,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        regKey,
-        JSON.stringify({ count: regData.count + 1, since: regData.since }),
-      );
+      lsSet(regKey, JSON.stringify({ count: regData.count + 1, since: regData.since }));
     } else {
-      localStorage.setItem(regKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(regKey, JSON.stringify({ count: 1, since: now }));
     }
     if (TURNSTILE_ENABLED) {
       if (!turnstileToken) {
@@ -580,12 +578,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        loginKey,
-        JSON.stringify({ count: loginData.count + 1, since: loginData.since }),
-      );
+      lsSet(loginKey, JSON.stringify({ count: loginData.count + 1, since: loginData.since }));
     } else {
-      localStorage.setItem(loginKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(loginKey, JSON.stringify({ count: 1, since: now }));
     }
     try {
       const k = authEmail.trim().toLowerCase();
@@ -692,7 +687,7 @@ export function useAuth({
       'uStreak',
       'uFreeze',
       'xpCooldown',
-    ].forEach((k) => localStorage.removeItem(k));
+    ].forEach((k) => lsRemove(k));
     ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) =>
       sessionStorage.removeItem(k),
     );

@@ -1,5 +1,6 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
 import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
+import { lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
@@ -564,7 +565,7 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'placement' && (
           <PlacementTest
             onComplete={async function (level: number) {
-              localStorage.setItem('placement_done', '1');
+              lsSet('placement_done', '1');
               // ALSO flag user as onboarded so Firebase sync persists this
               // across devices. buildProgressSnapshot reads `onboarded` and
               // `nh_placement_done` from localStorage and writes them into
@@ -574,8 +575,8 @@ export default function AppRouter(props: Record<string, any>) {
               // writes, a user who completed placement on device A would be
               // re-prompted on device B until Firebase MERGE_REMOTE happened
               // to land xp > 0 before the 1200ms placement timer fired.
-              localStorage.setItem('nh_placement_done', 'true');
-              localStorage.setItem('onboarded', 'true');
+              lsSet('nh_placement_done', 'true');
+              lsSet('onboarded', 'true');
               // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
               // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
               // to a Promise (breaking every `[...stats.ct]` spread and the
@@ -2123,7 +2124,7 @@ export default function AppRouter(props: Record<string, any>) {
             <ScreenErrorBoundary key="new-placement" name="new-placement">
               <PlacementTest
                 onComplete={async function (level: number) {
-                  localStorage.setItem('placement_done', '1');
+                  lsSet('placement_done', '1');
                   // ALSO flag user as onboarded so Firebase sync persists this
                   // across devices. buildProgressSnapshot reads `onboarded` and
                   // `nh_placement_done` from localStorage and writes them into
@@ -2133,8 +2134,8 @@ export default function AppRouter(props: Record<string, any>) {
                   // writes, a user who completed placement on device A would be
                   // re-prompted on device B until Firebase MERGE_REMOTE happened
                   // to land xp > 0 before the 1200ms placement timer fired.
-                  localStorage.setItem('nh_placement_done', 'true');
-                  localStorage.setItem('onboarded', 'true');
+                  lsSet('nh_placement_done', 'true');
+                  lsSet('onboarded', 'true');
                   // getPlacementCt is async — must be awaited. Assigning the raw
                   // Promise corrupted stats.ct (breaking spreads + the sync
                   // arrayUnion filter) and made lc = Math.max(prev.lc, undefined)
