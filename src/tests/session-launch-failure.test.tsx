@@ -28,6 +28,10 @@ import type { DailySession, SessionActivity } from '../hooks/useDailySession';
 
 vi.mock('../lib/exerciseData', () => ({
   _getData: vi.fn(),
+  // The learn-path launchers read vocabulary through _getVocab (see
+  // path-launch-vocab.test.tsx). Nothing in THIS suite exercises them, but the
+  // hook imports it, so the mock must supply it or the module is undefined.
+  _getVocab: vi.fn(async () => ({})),
   _buildAdaptivePool: (pool: unknown[]) => pool,
 }));
 
