@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../../context/AppContext';
-import { lsSet } from '../../../lib/safeStorage';
+import { lsGet, lsSet } from '../../../lib/safeStorage';
 
 /**
  * Appearance section — dark mode, font size, reduce motion. Extracted from
@@ -10,10 +10,8 @@ import { lsSet } from '../../../lib/safeStorage';
  */
 export default function AppearanceSection() {
   const { darkMode, setDarkMode } = useApp();
-  const [fontSize, setFontSize] = useState(() => localStorage.getItem('nh_font_size') || 'medium');
-  const [reduceMotion, setReduceMotion] = useState(
-    () => localStorage.getItem('nh_reduce_motion') === 'true',
-  );
+  const [fontSize, setFontSize] = useState(() => lsGet('nh_font_size') || 'medium');
+  const [reduceMotion, setReduceMotion] = useState(() => lsGet('nh_reduce_motion') === 'true');
 
   return (
     <React.Fragment>
