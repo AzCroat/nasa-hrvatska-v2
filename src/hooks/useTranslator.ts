@@ -4,6 +4,7 @@
  */
 import { useState, useRef } from 'react';
 import { apiFetch } from '../lib/apiFetch';
+import { classifyAiLimit } from '../lib/aiLimit';
 
 export function useTranslator(): {
   tDir: string;
@@ -40,12 +41,18 @@ export function useTranslator(): {
         signal: controller.signal,
       });
       const d = (await r.json()) as { translation?: string; error?: string };
+      const limit = classifyAiLimit({ status: r.status, code: d.error });
       if (d.translation) {
         setTOut(d.translation);
-      } else if (d.error === 'rate_limit' || r.status === 429) {
+      } else if (limit === 'daily') {
         setTOut(
           'Daily translation limit reached. Try again tomorrow or visit translate.google.com',
         );
+      } else if (limit === 'burst') {
+        // The old check was `d.error === 'rate_limit'` — a code the server never
+        // emits — so every 429, including the per-minute limiter, fell into the
+        // daily-limit branch and told the user to come back tomorrow.
+        setTOut('Too many translations at once — wait a minute and try again.');
       } else {
         setTOut('Translation unavailable. Try translate.google.com');
       }

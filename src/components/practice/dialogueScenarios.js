@@ -1481,7 +1481,7 @@ export const SCENARIOS = [
         en: 'Of course. Here is the referral, and the nurse will give you a leaflet with exercises. Check-up in a month.',
         opts: [
           'Puno vam hvala na strpljenju i detaljnim objašnjenjima. Vidimo se na kontroli — nadam se s boljim vijestima.',
-          'Hvala. Bok.',
+          'Hvala. Bog.',
           'Puno hvala na strpljenje i detaljne objašnjenja. Vidimo se na kontrola.',
           'Dobro, ali ako ne pomogne, vraćam se odmah sutra.',
         ],
