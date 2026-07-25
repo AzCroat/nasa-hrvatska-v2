@@ -23,7 +23,19 @@ function getState(): HeartsState | null {
 }
 
 function saveState(s: HeartsState): void {
-  localStorage.setItem(KEY, JSON.stringify(s));
+  // MUST NOT throw. getHearts() calls this unconditionally on the first read of a
+  // new day, and McGame calls getHearts() inside a useMemo — i.e. DURING RENDER.
+  // An unguarded setItem therefore threw a QuotaExceededError out of render and
+  // the ErrorBoundary replaced the entire quiz screen. In Safari Private Browsing
+  // (or any full-quota profile) getItem also returns null, so the `!s` branch is
+  // always taken and the crash happened on EVERY entry to a Hearts/Challenge quiz.
+  // loseHeart() has the same exposure in the answer-click path.
+  // Failing to persist is harmless: hearts simply fall back to the day's default.
+  try {
+    localStorage.setItem(KEY, JSON.stringify(s));
+  } catch {
+    /* storage unavailable or full — keep playing with in-memory values */
+  }
 }
 
 function todayKey(): string {
