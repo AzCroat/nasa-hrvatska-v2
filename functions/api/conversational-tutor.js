@@ -81,7 +81,7 @@ export async function onRequestPost(context) {
 
   const gate = await requireAuthedAI(context, { cost: 2, rateLimit: 30 });
   if (!gate.ok) return gate.response;
-  const { origin } = gate;
+  const { origin, isDev } = gate;
 
   const ANTHROPIC_KEY = env.ANTHROPIC_API_KEY || env.CLAUDE_API_KEY;
   if (!ANTHROPIC_KEY) {
@@ -175,10 +175,20 @@ export async function onRequestPost(context) {
 
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        return new Response(JSON.stringify({ error: 'api_error', detail: errText.slice(0, 200) }), {
-          status: 502,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-        });
+        // Gate the upstream body behind isDev — every sibling endpoint does
+        // (srs-sync, ai-chat, flash-context, dialogue, micro-lesson, conversation).
+        // Unconditionally returning it leaked Anthropic's raw error — including
+        // "invalid x-api-key" — to any signed-in user in production.
+        return new Response(
+          JSON.stringify({
+            error: 'api_error',
+            ...(isDev ? { detail: errText.slice(0, 200) } : {}),
+          }),
+          {
+            status: 502,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+          },
+        );
       }
 
       // Read body as text first — separates body-read failures from JSON parse failures
