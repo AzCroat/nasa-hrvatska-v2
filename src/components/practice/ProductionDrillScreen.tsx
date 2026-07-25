@@ -489,7 +489,9 @@ const BUILD_SENTENCES = [
 ];
 
 // ─── ERROR CORRECTION DATA ───────────────────────────────────────────────────
-const ERROR_CORRECT = [
+// Exported for src/tests/answerKeyIntegrity.test.ts (answer-membership +
+// option-uniqueness invariants).
+export const ERROR_CORRECT = [
   {
     sentence: 'Vidim jedan lijepa žena.',
     error: 'lijepa',
@@ -517,7 +519,10 @@ const ERROR_CORRECT = [
   {
     sentence: 'Nemam vremena za to raditi.',
     error: 'raditi',
-    correct: 'to',
+    // Was 'to', which is not one of the options — graded by value equality
+    // (`opt === item.correct`), so every choice turned red and no XP was awarded.
+    // The explanation below fixes the intended answer as the phrase "za to".
+    correct: 'za to',
     opts: ['nemam to', 'za to', 'to raditi'],
     explanation: 'Correct: "Nemam vremena za to." — redundant "raditi"',
     en: "I don't have time for that.",
@@ -581,7 +586,10 @@ const ERROR_CORRECT = [
   {
     sentence: 'Kad dođeš, ću ti reći sve.',
     error: 'ću',
-    correct: 'reći ću',
+    // Was 'reći ću', not among the options. The clitic cluster must sit in
+    // second position — "Kad dođeš, reći ću ti sve." — so the correct option is
+    // the full 'reći ću ti'.
+    correct: 'reći ću ti',
     opts: ['reći ću ti', 'ću ti reći', 'ti reći ću'],
     explanation: 'Klitika "ću" ne može biti na početku rečenice',
     en: "When you come, I'll tell you everything.",

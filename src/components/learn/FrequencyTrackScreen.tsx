@@ -67,7 +67,11 @@ function buildQuizQuestions(learnedSet: Set<number>): QuizQuestion[] {
   const unlearned = FREQUENCY_500.filter((w) => !learnedSet.has(w.rank));
   const pool = pickRandom(unlearned.length >= QUIZ_SIZE ? unlearned : FREQUENCY_500, QUIZ_SIZE);
   return pool.map((word) => {
-    const others = FREQUENCY_500.filter((w) => w.rank !== word.rank);
+    // Exclude by the DISPLAYED/graded field (`en`), not just the `rank` id:
+    // FREQUENCY_500 contains distinct lemmas that share a gloss (e.g.
+    // stari/star = 'old', ponovno/opet = 'again'), so a rank-only filter could
+    // hand back a distractor whose `en` equals the answer's — grading both correct.
+    const others = FREQUENCY_500.filter((w) => w.rank !== word.rank && w.en !== word.en);
     const distractors = pickRandom(others, DISTRACTORS_PER_Q).map((w) => w.en);
     const choices = [word.en, ...distractors];
     for (let i = choices.length - 1; i > 0; i--) {
