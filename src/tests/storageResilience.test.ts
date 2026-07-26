@@ -433,3 +433,49 @@ describe('render-path reads survive a blocked profile', () => {
     expect(offenders, `raw storage access remains in: ${offenders.join(', ')}`).toEqual([]);
   });
 });
+
+// ── Render-time reads outside useState initialisers ───────────────────────────
+// The previous pass over this class searched only for `useState(... localStorage
+// ...)` and concluded four screens were "the entire remaining set". That was
+// wrong: the same crash happens for ANY storage access evaluated during render,
+// and the sweep missed three other shapes.
+//
+//   TabBar          an IIFE in the component body   -> the BOTTOM NAV, so the
+//                                                      ErrorBoundary replaced
+//                                                      every screen in the app
+//   AppToasts       an IIFE inside JSX              -> app-wide toast host
+//   GoalFocusSection    a call inline in JSX        -> Settings
+//   DialectAwareness    a call inline in JSX        -> Culture screen
+//
+// TabBar also carried the persist-before-act shape: its `nh_croatia_last_visit`
+// write sat BEFORE setTab(), so a throw meant tapping Culture did nothing at all.
+// DialectAwarenessScreen had the same shape around its completion handler — the
+// read and write both preceded the XP award, the quest mark and the lesson
+// credit, so a learner could finish the quiz and receive none of them.
+describe('render-time storage access beyond useState initialisers', () => {
+  it('the app-wide chrome and the screens found in this pass are clean', () => {
+    const files = [
+      'src/components/shared/TabBar.tsx',
+      'src/components/shared/AppToasts.tsx',
+      'src/components/profile/sections/GoalFocusSection.tsx',
+      'src/components/croatia/DialectAwarenessScreen.tsx',
+    ];
+    const offenders: string[] = [];
+    for (const f of files) {
+      const src = readFileSync(resolve(__dirname, '..', '..', f), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/^\s*\/\/.*$/gm, '');
+      if (/localStorage\.(get|set|remove)Item/.test(src)) offenders.push(f);
+    }
+    expect(offenders, `raw storage access remains in: ${offenders.join(', ')}`).toEqual([]);
+  });
+
+  it('TabBar — the bottom nav — touches storage only through safeStorage', () => {
+    // Called out separately because this one file determines whether the app is
+    // usable at all: it renders on every screen, and its Culture handler gates
+    // navigation on a storage write.
+    const src = readFileSync(resolve(__dirname, '../components/shared/TabBar.tsx'), 'utf8');
+    expect(src).toMatch(/from '\.\.\/\.\.\/lib\/safeStorage'/);
+    expect(src.replace(/^\s*\/\/.*$/gm, '')).not.toMatch(/localStorage\./);
+  });
+});

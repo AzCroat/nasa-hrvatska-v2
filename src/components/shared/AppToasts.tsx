@@ -11,7 +11,7 @@ import { isNative } from '../../lib/platform';
 // setShow…(false). A throw on that write skipped the state update, so the X
 // button did nothing at all and the banner stayed on screen — and the snooze
 // button, whose only statement was the write, had no visible effect either.
-import { lsSet } from '../../lib/safeStorage';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 interface DeferredInstallPrompt {
   prompt: () => Promise<void>;
@@ -294,7 +294,7 @@ export function AppToasts({
         daysLeft <= 3 &&
         (() => {
           const snoozeKey = 'nh_renewal_snoozed';
-          const snoozedUntil = parseInt(localStorage.getItem(snoozeKey) || '0', 10);
+          const snoozedUntil = parseInt(lsGet(snoozeKey) || '0', 10);
           if (Date.now() < snoozedUntil) return null;
           return (
             <div
@@ -420,7 +420,7 @@ export function AppToasts({
       )}
 
       {/* Android / Chrome install banner */}
-      {showAndroidInstall && !localStorage.getItem('nh_pwa_install_dismissed') && (
+      {showAndroidInstall && !lsGet('nh_pwa_install_dismissed') && (
         <div
           role="status"
           aria-live="polite"

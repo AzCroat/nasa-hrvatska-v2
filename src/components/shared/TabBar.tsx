@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SearchModal from './SearchModal';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 // `label` is the ACCESSIBLE NAME (aria-label) and is kept stable on purpose:
 // several e2e specs and a11y checks select tabs by these names. These MUST match
@@ -227,7 +228,7 @@ export default function TabBar({
   const [showSearch, setShowSearch] = useState(false);
 
   const croatiaHasNew = (() => {
-    const lastVisit = localStorage.getItem('nh_croatia_last_visit');
+    const lastVisit = lsGet('nh_croatia_last_visit');
     if (!lastVisit) return true; // never visited = definitely new
     const today = new Date().toISOString().slice(0, 10);
     return lastVisit < today; // visited before today = new content available
@@ -296,10 +297,10 @@ export default function TabBar({
                 className={'nav-btn' + (isActive ? ' active' : '')}
                 onClick={() => {
                   if (t.id === 'croatia') {
-                    localStorage.setItem(
-                      'nh_croatia_last_visit',
-                      new Date().toISOString().slice(0, 10),
-                    );
+                    // Guarded: this write sits BEFORE setTab, so on a profile that
+                    // rejects storage a throw here meant the Culture tab could not
+                    // be opened at all — the tap did nothing.
+                    lsSet('nh_croatia_last_visit', new Date().toISOString().slice(0, 10));
                   }
                   setTab(t.id);
                 }}
