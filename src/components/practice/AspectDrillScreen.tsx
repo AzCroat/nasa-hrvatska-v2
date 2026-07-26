@@ -8,6 +8,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { lsSet } from '../../lib/safeStorage';
 
 interface AspectPair {
   impf: string;
@@ -252,7 +253,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.add(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }
@@ -260,7 +261,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.delete(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }

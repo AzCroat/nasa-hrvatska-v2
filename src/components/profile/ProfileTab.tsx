@@ -6,6 +6,7 @@ import SettingsTab from './SettingsTab';
 import EquivalencyTestCard from './EquivalencyTestCard';
 import { useApp } from '../../context/AppContext';
 import type { CefrLevel } from '../../lib/cefr';
+import { lsGet } from '../../lib/safeStorage';
 
 export default function ProfileTab({
   syncReady,
@@ -27,14 +28,14 @@ export default function ProfileTab({
 
   React.useEffect(() => {
     // Apply font size on mount
-    const fs = localStorage.getItem('nh_font_size') || 'medium';
+    const fs = lsGet('nh_font_size') || 'medium';
     if (fs === 'medium') {
       document.documentElement.removeAttribute('data-font');
     } else {
       document.documentElement.setAttribute('data-font', fs);
     }
     // Apply reduce motion on mount
-    const rm = localStorage.getItem('nh_reduce_motion') === 'true';
+    const rm = lsGet('nh_reduce_motion') === 'true';
     document.documentElement.classList.toggle('reduce-motion', rm);
   }, []);
 

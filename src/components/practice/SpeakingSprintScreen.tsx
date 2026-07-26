@@ -289,7 +289,7 @@ const PROMPTS = {
 const SR_SUPPORTED = isSpeechRecognitionSupported();
 
 function pickPrompt(): SprintPrompt {
-  const level = localStorage.getItem('nh_level') || 'B1';
+  const level = lsGet('nh_level') || 'B1';
   const levelKey = (
     ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1'
   ) as keyof typeof PROMPTS;
