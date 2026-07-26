@@ -47,11 +47,23 @@ import { join } from 'node:path';
  */
 
 const RENDER_TIME_HOOKS = new Set(['useMemo', 'useState', 'useReducer']);
-const DEFERRED_HOOKS = new Set([
-  'useEffect',
-  'useLayoutEffect',
-  'useCallback',
-  'useInsertionEffect',
+// Effect bodies reach an ErrorBoundary just like render does — see the comment
+// at the EFFECT_HOOKS branch below.
+const EFFECT_HOOKS = new Set(['useEffect', 'useLayoutEffect', 'useInsertionEffect']);
+// useCallback only DEFINES a function; whether its body is boundary-caught
+// depends on who calls it, so it stays deferred.
+const DEFERRED_HOOKS = new Set(['useCallback']);
+// Throws inside these are unhandled rejections / detached tasks, never an
+// ErrorBoundary — even when the call sits inside an effect.
+const ASYNC_BOUNDARIES = new Set([
+  'then',
+  'catch',
+  'finally',
+  'setTimeout',
+  'setInterval',
+  'requestAnimationFrame',
+  'addEventListener',
+  'queueMicrotask',
 ]);
 
 function declaredNameOf(node: ts.Node): string {
@@ -124,7 +136,34 @@ function scanSource(fileName: string, src: string): string[] {
         });
         return;
       }
+      if (EFFECT_HOOKS.has(name)) {
+        // Effect BODIES are boundary-caught too. React's documented exclusions
+        // are event handlers, async code, SSR and the boundary itself — effects
+        // are not on that list, so a synchronous throw in an effect body is
+        // forwarded to the nearest ErrorBoundary exactly like a render throw,
+        // one commit later. Descend through the inline callback, same as the
+        // render-time hooks above.
+        //
+        // This is a correction: an earlier pass classified effect sites as
+        // "costs one action, not the screen", which was only ever true of event
+        // handlers.
+        node.arguments.forEach((a) => {
+          if (ts.isFunctionLike(a)) ts.forEachChild(a, (c) => visit(c, true));
+          else visit(a, true);
+        });
+        return;
+      }
       if (DEFERRED_HOOKS.has(name)) {
+        node.arguments.forEach((a) => visit(a, false));
+        return;
+      }
+      // Async continuations are NOT boundary-caught: a throw there becomes an
+      // unhandled rejection and costs the one action, not the screen. Stop
+      // treating anything inside them as reachable, even within an effect.
+      // MUST be checked before the state-updater rule below — setTimeout and
+      // setInterval both match /^set[A-Z]/ and would otherwise be misread as
+      // React state setters.
+      if (ASYNC_BOUNDARIES.has(name)) {
         node.arguments.forEach((a) => visit(a, false));
         return;
       }
@@ -166,6 +205,34 @@ function scanSource(fileName: string, src: string): string[] {
       ts.forEachChild(fn, (c) => visit(c, true));
     }
   }
+
+  // ── Independent pass: React state updaters ─────────────────────────────────
+  // setX(prev => …) is invoked by React DURING the render phase, so a throw
+  // inside the updater is a render crash — regardless of where the setX() call
+  // itself sits. AspectDrillScreen calls setMistakeIds from a click handler, yet
+  // the updater body still runs while rendering.
+  //
+  // This has to be its own pass rather than part of the reachability walk: the
+  // walk deliberately does not descend into uncalled local helpers, so an
+  // updater nested inside one would be missed.
+  //
+  // Identifier callees only (bare setX(...), per React convention) so unrelated
+  // obj.setFoo() methods are not swept in, and setTimeout / setInterval are
+  // excluded explicitly — both match /^set[A-Z]/ but are async, not render.
+  (function updaterPass(node: ts.Node): void {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      /^set[A-Z]/.test(node.expression.text) &&
+      !ASYNC_BOUNDARIES.has(node.expression.text)
+    ) {
+      for (const a of node.arguments) {
+        if (ts.isFunctionLike(a)) ts.forEachChild(a, (c) => visit(c, true));
+      }
+    }
+    ts.forEachChild(node, updaterPass);
+  })(sf);
+
   return [...new Set(out)];
 }
 
@@ -198,6 +265,8 @@ describe('render-path localStorage guard', () => {
       }, []);
       const d = (() => localStorage.getItem('iife'))();
       useEffect(() => { localStorage.getItem('effect'); }, []);
+      useEffect(() => { fetch('/x').then(() => localStorage.getItem('async_in_effect')); }, []);
+      const e = () => setThing((prev) => { localStorage.setItem('updater', '1'); return prev; });
       const onClick = () => localStorage.getItem('handler');
       const safe = (() => { try { return localStorage.getItem('guarded'); } catch { return null; } })();
       return <div onClick={onClick}>{localStorage.getItem('jsx')}{a}{b}{c}{d}{safe}</div>;
@@ -211,28 +280,33 @@ describe('render-path localStorage guard', () => {
     return scanSource('sample.tsx', SAMPLE)
       .map((hit) => {
         const n = Number(/sample\.tsx:(\d+)/.exec(hit)![1]);
-        return /getItem\('([^']+)'/.exec(srcLines[n - 1]!)?.[1] ?? '?';
+        return /(?:getItem|setItem)\('([^']+)'/.exec(srcLines[n - 1]!)?.[1] ?? '?';
       })
       .sort();
   }
 
-  it('self-test: detects every render-path shape', () => {
+  it('self-test: detects every boundary-reaching shape', () => {
     // body       — bare read in the component body
     // initialiser— useState initialiser (runs during render)
     // helper_    — helper declared AND called inside a useMemo (call-graph pass)
     // iife       — (() => …)() with parentheses between arrow and call
     // jsx        — inline call in returned JSX
-    expect(flaggedKeys()).toEqual(['body', 'helper_', 'iife', 'initialiser', 'jsx'].sort());
+    // effect     — synchronous throw in a useEffect body IS boundary-caught
+    // updater    — setX(prev => …) is invoked during the render phase
+    expect(flaggedKeys()).toEqual(
+      ['body', 'effect', 'helper_', 'iife', 'initialiser', 'jsx', 'updater'].sort(),
+    );
   });
 
-  it('self-test: does NOT flag deferred or already-guarded access', () => {
+  it('self-test: does NOT flag handlers, async continuations, or guarded access', () => {
     const keys = flaggedKeys();
-    // An effect body and a click handler run after render; a try-wrapped read
-    // cannot reach an ErrorBoundary. Flagging any of these would make the guard
-    // noisy enough to be switched off.
-    expect(keys).not.toContain('effect');
+    // React does not route these to an ErrorBoundary — its documented
+    // exclusions are event handlers, async code, SSR and the boundary itself.
+    // A throw here costs the one action, not the screen, so flagging them would
+    // make the guard noisy enough to be switched off.
     expect(keys).not.toContain('handler');
-    expect(keys).not.toContain('guarded');
+    expect(keys).not.toContain('async_in_effect'); // .then() inside an effect
+    expect(keys).not.toContain('guarded'); // already inside try/catch
   });
 
   // ── The real assertion ─────────────────────────────────────────────────────

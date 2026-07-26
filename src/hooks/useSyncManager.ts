@@ -26,6 +26,7 @@ import { mergeStatsFromRemote } from '../lib/mergeStatsFromRemote.js';
 import { sanitizeStats } from '../lib/sanitizeStats.js';
 import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
 import type { Stats, AuthUser } from '../types/index.js';
+import { lsGet } from '../lib/safeStorage';
 
 /** Metadata from a Firestore progress snapshot — distinguishes cache vs server emissions. */
 export interface SyncSnapshotMeta {
@@ -333,7 +334,7 @@ export function useSyncManager({
   // ─── Backup banner ─────────────────────────────────────────────────────────
   useEffect(() => {
     if (authScreen !== 'app' || !authUser) return;
-    if (!localStorage.getItem('fbBackupConfirmed') && !localStorage.getItem('onboarded')) {
+    if (!lsGet('fbBackupConfirmed') && !lsGet('onboarded')) {
       setShowBackupBanner(true);
     }
   }, [authScreen, authUser]);

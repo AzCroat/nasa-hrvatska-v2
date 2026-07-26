@@ -14,6 +14,7 @@ import FlashcardRecallQuiz from './FlashcardRecallQuiz';
 import { knightSpeak, knightFlash } from '../../lib/knightSpeak.js';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { lsGet } from '../../lib/safeStorage';
 
 const MAX_CACHE_ENTRIES = 20;
 const QUIZ_XP_BASE = 10;
@@ -291,7 +292,7 @@ export default function Flashcards({
   // Auto-TTS on flip
   useEffect(() => {
     if (!flipped || done) return undefined;
-    const autoTTS = localStorage.getItem('nh_autotts') !== 'false';
+    const autoTTS = lsGet('nh_autotts') !== 'false';
     if (!autoTTS) return undefined;
     const word = activePool[idx] && activePool[idx][0];
     if (!word) return undefined;
