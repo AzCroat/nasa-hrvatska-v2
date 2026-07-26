@@ -822,7 +822,11 @@ interface RecentProductionEntry {
 }
 
 function _todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  // Delegates to the canonical local-date helper. This file already used
+  // localDateStr() in nine places for the session's own day-keying; this helper
+  // was the one UTC holdout, so the recent-production window boundary sat up to
+  // a day away from the learner's own day.
+  return localDateStr();
 }
 
 function _daysBetween(a: string, b: string): number {

@@ -6,6 +6,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface WordBreakdown {
   word: string;
@@ -357,7 +358,9 @@ export default function PhraseOfDayScreen({
       }
 
       try {
-        const today = new Date().toISOString().slice(0, 10);
+        // Local, not UTC: `today` seeds the phrase, so a UTC boundary rotated the
+        // phrase of the day in the middle of the afternoon for users west of UTC.
+        const today = localDateStr();
         const res = await apiFetch('/api/ai-chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

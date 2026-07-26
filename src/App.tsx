@@ -1316,7 +1316,11 @@ function App() {
     if (!authUser) return;
     const today = new Date();
     if (today.getDay() !== 0) return;
-    const k = 'nh_digest_' + authUser.u + '_' + today.toISOString().slice(0, 10);
+    // localDateStr, not toISOString: the Sunday gate above uses getDay(), which
+    // is LOCAL, so a UTC key mixes two bases. West of UTC one local Sunday spans
+    // two UTC dates (Sun 10:00 PDT → 2026-07-26, Sun 18:00 PDT → 2026-07-27), so
+    // the dedup key changed mid-Sunday and the weekly digest could send twice.
+    const k = 'nh_digest_' + authUser.u + '_' + localDateStr(today);
     if (localStorage.getItem(k)) return;
     // Gate on the canonical consent key ('cookie_consent_v1' === 'accepted',
     // via isAnalyticsConsented). The old check read 'nh_analytics_consent',
