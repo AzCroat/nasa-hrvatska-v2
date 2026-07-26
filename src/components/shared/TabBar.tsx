@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchModal from './SearchModal';
 import { lsGet, lsSet } from '../../lib/safeStorage';
+import { localDateStr } from '../../lib/dateUtils';
 
 // `label` is the ACCESSIBLE NAME (aria-label) and is kept stable on purpose:
 // several e2e specs and a11y checks select tabs by these names. These MUST match
@@ -230,8 +231,17 @@ export default function TabBar({
   const croatiaHasNew = (() => {
     const lastVisit = lsGet('nh_croatia_last_visit');
     if (!lastVisit) return true; // never visited = definitely new
-    const today = new Date().toISOString().slice(0, 10);
-    return lastVisit < today; // visited before today = new content available
+    // localDateStr, not toISOString: the dot marks "you have not opened Culture
+    // today", and "today" has to mean the user's own day. Both sides of this
+    // comparison used UTC, which is self-consistent but flips the dot at UTC
+    // midnight — late afternoon or evening for a North-American learner, i.e.
+    // mid-study-session rather than overnight.
+    //
+    // `!==` rather than `<` so a value stored by the previous UTC code cannot
+    // suppress the dot: for a user behind UTC those values can read as
+    // tomorrow's date, and `lastVisit < today` would then be false all day. Any
+    // date that is not today means Culture has not been opened today.
+    return lastVisit !== localDateStr();
   })();
 
   const activeIdx = TABS.findIndex((t) => t.id === tab);
@@ -300,7 +310,7 @@ export default function TabBar({
                     // Guarded: this write sits BEFORE setTab, so on a profile that
                     // rejects storage a throw here meant the Culture tab could not
                     // be opened at all — the tap did nothing.
-                    lsSet('nh_croatia_last_visit', new Date().toISOString().slice(0, 10));
+                    lsSet('nh_croatia_last_visit', localDateStr());
                   }
                   setTab(t.id);
                 }}
