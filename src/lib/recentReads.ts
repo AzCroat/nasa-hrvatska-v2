@@ -1,3 +1,4 @@
+import { localDateStr } from './dateUtils';
 // src/lib/recentReads.ts
 // SP7: tracks completed story IDs so the recommender can avoid recently-read
 // stories for 7 days (hard exclusion) and softly penalize them for 30 days.
@@ -27,10 +28,10 @@ export function recordStoryRead(id: string): void {
   if (!id || typeof id !== 'string') return;
   try {
     const arr = _read();
-    const today = new Date().toISOString().slice(0, 10);
-    const exists = arr.some(
-      (e) => e.id === id && new Date(e.at).toISOString().slice(0, 10) === today,
-    );
+    // Local on both sides: the "already read today" window is the learner's day,
+    // not a UTC one.
+    const today = localDateStr();
+    const exists = arr.some((e) => e.id === id && localDateStr(new Date(e.at)) === today);
     if (!exists) arr.unshift({ id, at: Date.now() });
     const capped = arr.slice(0, MAX_ENTRIES);
     localStorage.setItem(KEY, JSON.stringify(capped));
