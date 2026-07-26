@@ -459,6 +459,17 @@ describe('render-time storage access beyond useState initialisers', () => {
       'src/components/shared/AppToasts.tsx',
       'src/components/profile/sections/GoalFocusSection.tsx',
       'src/components/croatia/DialectAwarenessScreen.tsx',
+      // HomeTab, added after the TabBar pass. Four separate problems in one file:
+      //   230  hasGoalSet — bare read in the render body
+      //   235  questsDone — bare read inside a useMemo, so also render-time
+      //   292  longAbsence — bare read inside a useMemo
+      //   278/279  the daily-mastery marker, read AND written BEFORE the 50 XP
+      //            award below it, so a throw meant every quest completed and
+      //            nothing given for it
+      // The two useMemo cases are worth naming: useMemo runs during render, so a
+      // throw inside one is a render crash exactly like an inline JSX call. A
+      // sweep looking only at the component body would walk past them.
+      'src/components/home/HomeTab.tsx',
     ];
     const offenders: string[] = [];
     for (const f of files) {
