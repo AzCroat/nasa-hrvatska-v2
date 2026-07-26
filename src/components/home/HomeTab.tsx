@@ -84,6 +84,7 @@ import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
 import { hostOfDay } from './hostFamily';
 import { getServableReviewCount } from '../../lib/srs';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 const LEVEL_PALETTE = [
   {
@@ -201,7 +202,7 @@ export default function HomeTab({
     goal ||
     (() => {
       try {
-        return localStorage.getItem('nh_goal');
+        return lsGet('nh_goal');
       } catch {
         return null;
       }
@@ -227,12 +228,12 @@ export default function HomeTab({
   const showGoalModal = shouldShowGoalModal({
     syncReady: !!syncReady,
     dismissed: goalModalDismissed,
-    hasGoalSet: !!localStorage.getItem('nh_goal_set'),
+    hasGoalSet: !!lsGet('nh_goal_set'),
   });
 
   const questsDone = useMemo(() => {
     const d = localDateStr();
-    const q = (id: string) => localStorage.getItem('nh_quest_' + id + '_' + d) === '1';
+    const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
     const hasStreak = streak.count > 0;
     return {
       speak: q('speak'),
@@ -275,8 +276,10 @@ export default function HomeTab({
     String(_td.getDate()).padStart(2, '0');
   const masteryKey = `nh_daily_mastery_${today}`;
   useEffect(() => {
-    if (allQuestsDone && !localStorage.getItem(masteryKey)) {
-      localStorage.setItem(masteryKey, '1');
+    // Guarded: both of these preceded the 50 XP award below, so on a profile that
+    // rejects storage the learner completed every quest and got nothing for it.
+    if (allQuestsDone && !lsGet(masteryKey)) {
+      lsSet(masteryKey, '1');
       if (award) award(50, false, 'daily_discovery');
     }
   }, [allQuestsDone, masteryKey, award]);
@@ -289,7 +292,7 @@ export default function HomeTab({
   const longAbsence = useMemo(() => {
     // App.tsx writes the last-seen timestamp under 'lastSeen' (legacy key);
     // this previously read the never-written 'nh_last_seen' and always got null.
-    const ls = localStorage.getItem('lastSeen');
+    const ls = lsGet('lastSeen');
     if (!ls) return false;
     const parsed = parseInt(ls, 10);
     if (isNaN(parsed)) return false;
@@ -383,7 +386,7 @@ export default function HomeTab({
   const dueCount = getServableReviewCount(poolWords);
   const xpThisWeek = (() => {
     try {
-      return parseInt(localStorage.getItem('nh_week_xp_' + weekKey()) || '0', 10);
+      return parseInt(lsGet('nh_week_xp_' + weekKey()) || '0', 10);
     } catch {
       return 0;
     }
