@@ -19,6 +19,7 @@ import { knightSpeak } from '../../lib/knightSpeak.js';
 import { CelebrationScene } from '../illustrations';
 import Flashcards from '../practice/Flashcards';
 import { recordTopicResult } from '../../lib/adaptive.js';
+import { lsGet } from '../../lib/safeStorage';
 
 const CONFETTI_COLORS = [
   'var(--info-light, #38bdf8)',
@@ -90,7 +91,7 @@ export default function LessonScreen({
   const microQuizItemsSeenRef = useRef<{ hr: string; en: string }[]>([]);
 
   const microQuizEnabled =
-    typeof window !== 'undefined' && localStorage.getItem('nh_microquiz_enabled') !== 'false';
+    typeof window !== 'undefined' && lsGet('nh_microquiz_enabled') !== 'false';
 
   // Reset resultFired whenever the lesson enters 'learn' phase (new lesson or Study Again)
   useEffect(() => {

@@ -10,6 +10,7 @@ import SprintCountdownScreen from './SprintCountdownScreen';
 import SprintSpeakingPhase from './SprintSpeakingPhase';
 import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
+import { lsGet } from '../../lib/safeStorage';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -297,7 +298,7 @@ function pickPrompt(): SprintPrompt {
 }
 
 function getUserLevel() {
-  const level = localStorage.getItem('nh_level') || 'B1';
+  const level = lsGet('nh_level') || 'B1';
   return ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1';
 }
 

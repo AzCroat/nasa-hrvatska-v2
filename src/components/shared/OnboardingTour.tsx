@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { lsGet } from '../../lib/safeStorage';
 
 const GENERIC_STEPS = [
   {
@@ -46,7 +47,7 @@ interface OnboardingTourProps {
   onLaunchLesson?: () => void;
 }
 export default function OnboardingTour({ onDone, onLaunchLesson }: OnboardingTourProps) {
-  const userGoal = localStorage.getItem('nh_goal');
+  const userGoal = lsGet('nh_goal');
   const isDiaspora = userGoal === 'heritage' || userGoal === 'family';
   const STEPS = isDiaspora ? DIASPORA_STEPS : GENERIC_STEPS;
   const [step, setStep] = useState(0);
