@@ -4,6 +4,7 @@ import { getSR, getSRScore } from '../../lib/srs.js';
 import { useContent } from '../../hooks/useContent';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
+import { lsGet } from '../../lib/safeStorage';
 
 const DURATION = 60; // seconds
 const XP_CORRECT = 3;
@@ -109,7 +110,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   const playedToday = useMemo(
     () => {
       const today = localDateStr();
-      return localStorage.getItem(LS_KEY_PLAYED) === today;
+      return lsGet(LS_KEY_PLAYED) === today;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [phase], // intentional: re-check after phase transition

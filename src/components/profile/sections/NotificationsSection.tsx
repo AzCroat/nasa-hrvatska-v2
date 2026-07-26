@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { isNative } from '../../../lib/platform';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Notifications + daily-reminder-time section — extracted from SettingsTab as
@@ -21,9 +22,7 @@ export default function NotificationsSection() {
   });
   const [notifLoading, setNotifLoading] = useState(false);
   const [notifError, setNotifError] = useState('');
-  const [reminderTime, setReminderTime] = useState(
-    () => localStorage.getItem('nh_reminder_time') || '20:00',
-  );
+  const [reminderTime, setReminderTime] = useState(() => lsGet('nh_reminder_time') || '20:00');
 
   // Native: reflect the true OS notification permission in the UI on mount.
   useEffect(() => {

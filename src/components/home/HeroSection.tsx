@@ -26,6 +26,7 @@ import RewardsPanel from './RewardsPanel';
 import HeroStats from './HeroStats';
 import { useKnightSpeech } from './useKnightSpeech';
 import { useHeroRewards } from './useHeroRewards';
+import { lsGet } from '../../lib/safeStorage';
 
 interface LearnPathItem {
   id?: string;
@@ -76,7 +77,7 @@ export default function HeroSection({
 
   // Hero is always expanded by default — users can still collapse it manually
   const [heroExpanded, setHeroExpanded] = useState(() => {
-    const saved = localStorage.getItem('nh_hero_expanded');
+    const saved = lsGet('nh_hero_expanded');
     if (saved !== null) return saved === '1';
     return true; // default expanded for all users
   });

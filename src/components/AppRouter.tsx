@@ -1,6 +1,6 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
 import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
-import { lsSet } from '../lib/safeStorage';
+import { lsGet, lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
@@ -804,7 +804,7 @@ export default function AppRouter(props: Record<string, any>) {
                           onSyncNow={doSyncNow}
                           authUser={authUser}
                           comebackBonus={comebackBonus}
-                          goal={localStorage.getItem('nh_goal') || 'fluent'}
+                          goal={lsGet('nh_goal') || 'fluent'}
                           isNewUserWindow={isNewUserWindow}
                           daysSinceJoin={daysSinceJoin}
                           resumeLesson={resumeLesson}

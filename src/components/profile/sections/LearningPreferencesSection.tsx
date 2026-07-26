@@ -14,6 +14,7 @@ import {
 import { speak, getAudioDebugState } from '../../../lib/audio.ts';
 import { getEntries } from '../../../lib/debugLog.ts';
 import { useApp } from '../../../context/AppContext';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Learning Preferences cluster — extracted from SettingsTab as part of the 1a
@@ -32,17 +33,13 @@ export default function LearningPreferencesSection() {
   const [audioDebugLines, setAudioDebugLines] = useState<LogEntry[]>([]);
   const [soundOn, setSoundOn] = useState(() => isSoundEnabled());
   const [hapticOn, setHapticOn] = useState(() => isHapticEnabled());
-  const [heartsAlways, setHeartsAlways] = useState(
-    () => localStorage.getItem('nh_hearts_always_on') === 'true',
-  );
+  const [heartsAlways, setHeartsAlways] = useState(() => lsGet('nh_hearts_always_on') === 'true');
   const [voicePref, setVoicePref] = useState(() => getVoicePreference());
   const [speechRate, setSpeechRateState] = useState<SpeechRate>(() => getSpeechRate());
   const [microQuizEnabled, setMicroQuizEnabled] = useState(
-    () => localStorage.getItem('nh_microquiz_enabled') !== 'false',
+    () => lsGet('nh_microquiz_enabled') !== 'false',
   );
-  const [fluencyMode, setFluencyMode] = useState(
-    () => localStorage.getItem('nh_fluency_mode') === 'true',
-  );
+  const [fluencyMode, setFluencyMode] = useState(() => lsGet('nh_fluency_mode') === 'true');
 
   async function handleAudioTest() {
     setAudioTestStatus('testing');
