@@ -88,6 +88,7 @@ export function useAuth({
   doReset: () => Promise<void>;
   doGoogleLogin: () => Promise<void>;
   doGuest: () => void;
+  isGuest: boolean;
 } {
   // Keep callbacks in a ref so the one-time mount effect never goes stale
   const cb = useRef<AuthCallbacks>({
@@ -113,6 +114,17 @@ export function useAuth({
 
   // Guest mode — skip Firebase redirect while user is browsing without an account
   const guestRef = useRef(false);
+
+  // Same fact as guestRef, but as STATE so consumers re-render when it flips.
+  //
+  // This has to be an explicit signal rather than something callers infer from
+  // `!authUser`. A legacy guest is "authScreen === 'app' && authUser === null",
+  // but so is a brief window during a normal sign-in — and App.tsx uses this flag
+  // to decide whether to write a progress blob under the shared 'guest' key.
+  // Inferring it would mean an authenticated user could momentarily be treated as
+  // a guest and have their progress written to the wrong key, so the guest case
+  // must be stated, never guessed.
+  const [isGuest, setIsGuest] = useState(false);
 
   // Track authScreen in a ref so the auth listener (mounted once) can read the current value.
   const authScreenRef = useRef('loading');
@@ -199,6 +211,7 @@ export function useAuth({
         return;
       }
       guestRef.current = false;
+      setIsGuest(false);
 
       const k = (fbUser.email as string) || (fbUser.uid as string);
       // Anonymous (guest) users have no email/displayName — show a friendly label
@@ -667,6 +680,7 @@ export function useAuth({
       } catch {}
     }
     guestRef.current = false;
+    setIsGuest(false);
     if (watchRef.current) {
       watchRef.current();
       watchRef.current = null;
@@ -718,6 +732,7 @@ export function useAuth({
   // to the legacy in-memory guest so there is NO regression from before.
   function enterLegacyGuest(): void {
     guestRef.current = true;
+    setIsGuest(true);
     touchSession();
     updateStreak();
     setAuthScreen('app');
@@ -761,5 +776,6 @@ export function useAuth({
     doReset,
     doGoogleLogin,
     doGuest,
+    isGuest,
   };
 }

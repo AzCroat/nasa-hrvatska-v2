@@ -71,7 +71,7 @@ import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import DesktopPanel from './components/shared/DesktopPanel';
-import { lsGet, lsSet, ssGet, ssSet } from './lib/safeStorage';
+import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // All vocabulary category keys (V base keys + TOP100 keys from content.jsx).
@@ -199,6 +199,11 @@ const ICONS = {
   holidays: '🎄',
   personality: '😊',
 };
+// Identity used to key a guest's local progress blob. Guests have no account, so
+// there is no uid to key on; real keys are 'uP_' + email-or-uid, which can never
+// be the literal 'guest', so this cannot collide with an account's blob.
+const GUEST_UID = 'guest';
+
 const TAB_PATHS: Record<string, string> = {
   home: '/',
   learn: '/learn',
@@ -412,6 +417,9 @@ function App() {
   const [showFirstWords, setShowFirstWords] = useState(false);
   const [showPremiumWelcome, setShowPremiumWelcome] = useState(false);
   const [_syncReady, _setSyncReady] = useState(false);
+  // Whether a guest's locally-stored progress has been read back yet. Gates the
+  // auto-save effect so it cannot write an empty snapshot over the stored blob.
+  const [guestRestored, setGuestRestored] = useState(false);
   const [_showBackupBannerLocal, _setShowBackupBannerLocal] = useState(false); // fallback if useSyncManager not ready
 
   // ── Screen + exercise state ─────────────────────────────────────────────────
@@ -627,6 +635,7 @@ function App() {
     doReset,
     doGoogleLogin,
     doGuest: _doGuest,
+    isGuest,
   } = useAuth({
     /* eslint-disable @typescript-eslint/no-explicit-any */
     onSignedIn({
@@ -1165,10 +1174,53 @@ function App() {
   }, [emailUnverified, setEmailUnverified]);
 
   // Auto-save to localStorage on every state change (Firebase handled by useSyncManager)
+  //
+  // Guests are included deliberately. The login screen offers "Continue as Guest
+  // — progress saved on this device only", and this effect is the only thing that
+  // makes that sentence true. It used to bail on `!authUser`, and a legacy guest
+  // (anonymous Firebase sign-in unavailable — auth disabled, offline, or a
+  // Firebase outage) has authUser === null, so nothing was ever written and every
+  // reload silently discarded the whole session.
+  //
+  // Guests write to a single fixed key rather than a per-user one because they
+  // have no identity to key on. GUEST_UID must not collide with a real key: real
+  // ones are 'uP_' + email-or-uid, so 'uP_guest' is unreachable for an account.
+  // It is cleared on sign-in (see below) — several call sites locate progress by
+  // scanning for the first 'uP_' prefix match (lib/streak.ts, useNotifications),
+  // so a stale guest blob left behind could shadow the real user's.
+  // Read a returning guest's blob back before the auto-save effect below can run.
+  //
+  // `guestRestored` is state, not a ref, and that is load-bearing. Both effects
+  // run in the same commit when isGuest flips, and the auto-save closure still
+  // holds the DEFAULT stats at that point — with a ref it would flip the flag and
+  // immediately overwrite the stored blob with an empty snapshot. Because this
+  // dispatch and setGuestRestored batch together, the save effect skips this
+  // commit and re-runs on the next one with the restored stats already applied.
+  //
+  // MERGE_REMOTE is additive (Math.max / union), so re-running is harmless.
   useEffect(() => {
-    if (!authUser || authScreen !== 'app') return;
+    if (!isGuest || authScreen !== 'app' || guestRestored) return;
+    const raw = lsGet('uP_' + GUEST_UID);
+    if (raw) {
+      try {
+        const p = JSON.parse(raw);
+        const pSt = p?.stats || p?.st || {};
+        dispatch({ type: 'MERGE_REMOTE', payload: pSt, ds: DS });
+        if (p?.name) setName(p.name);
+      } catch {
+        /* corrupt blob — start the guest fresh rather than crash the app */
+      }
+    }
+    setGuestRestored(true);
+  }, [isGuest, authScreen, guestRestored]);
+
+  useEffect(() => {
+    if (authScreen !== 'app') return;
+    if (!authUser && !isGuest) return;
+    if (isGuest && !guestRestored) return;
+    const uid = authUser ? authUser.u : GUEST_UID;
     const snap = buildProgressSnapshot({
-      uid: authUser.u,
+      uid,
       name,
       stats,
       dchlA,
@@ -1177,12 +1229,30 @@ function App() {
       jWords,
     });
     try {
-      localStorage.setItem('uP_' + authUser.u, JSON.stringify(snap));
+      localStorage.setItem('uP_' + uid, JSON.stringify(snap));
     } catch (e) {
       console.warn('localStorage quota:', e);
     }
     touchSession();
-  }, [stats, currentScreen, name, authUser, authScreen, jWords, favs, dchlA, dchlSl]);
+  }, [
+    stats,
+    currentScreen,
+    name,
+    authUser,
+    isGuest,
+    guestRestored,
+    authScreen,
+    jWords,
+    favs,
+    dchlA,
+    dchlSl,
+  ]);
+
+  // Drop the guest blob once a real account takes over, so the prefix scanners
+  // mentioned above can never pick it up in preference to the real user's key.
+  useEffect(() => {
+    if (authUser) lsRemove('uP_' + GUEST_UID);
+  }, [authUser]);
 
   // Sync to Firebase on lesson/grammar completion.
   // _syncReady guard is critical: without it, a lesson completed before Firebase delivers
