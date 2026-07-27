@@ -8,7 +8,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
-import { lsSet } from '../../lib/safeStorage';
+import { lsSet, ssGet } from '../../lib/safeStorage';
 
 interface AspectPair {
   impf: string;
@@ -232,9 +232,7 @@ export default function AspectDrillScreen({
   // launches (Grad / Practice / Browse) never set it, so the cap below applies
   // only inside the daily session.
   const [inDailySession] = useState(
-    () =>
-      typeof sessionStorage !== 'undefined' &&
-      sessionStorage.getItem('nh_session_started') === 'aspectdrill',
+    () => typeof sessionStorage !== 'undefined' && ssGet('nh_session_started') === 'aspectdrill',
   );
 
   const [sessionMode, setSessionMode] = useState('drill');

@@ -71,7 +71,7 @@ import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import DesktopPanel from './components/shared/DesktopPanel';
-import { lsGet, lsSet } from './lib/safeStorage';
+import { lsGet, lsSet, ssGet, ssSet } from './lib/safeStorage';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // All vocabulary category keys (V base keys + TOP100 keys from content.jsx).
@@ -854,7 +854,7 @@ function App() {
         'badges',
         'certificate',
       ]);
-      const last = sessionStorage.getItem('nh_last_scr_' + tabForPath);
+      const last = ssGet('nh_last_scr_' + tabForPath);
       _setCurrentScreen(last && SAFE_RESTORE.has(last) ? last : 'dashboard');
       return;
     }
@@ -1155,11 +1155,11 @@ function App() {
   // Email verification banner — auto-dismiss after 8 s; show at most once per session
   useEffect(() => {
     if (!emailUnverified) return undefined;
-    if (sessionStorage.getItem('nh_ev_shown')) {
+    if (ssGet('nh_ev_shown')) {
       setEmailUnverified(false);
       return undefined;
     }
-    sessionStorage.setItem('nh_ev_shown', '1');
+    ssSet('nh_ev_shown', '1');
     const t = setTimeout(() => setEmailUnverified(false), 8000);
     return () => clearTimeout(t);
   }, [emailUnverified, setEmailUnverified]);

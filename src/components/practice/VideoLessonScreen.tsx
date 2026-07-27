@@ -3,7 +3,7 @@ import { speak } from '../../data';
 import VideoBackground from '../shared/VideoBackground';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { markQuest } from '../../lib/quests.js';
-import { lsGet } from '../../lib/safeStorage';
+import { lsGet, ssGet } from '../../lib/safeStorage';
 
 // Topic → Croatian scene video key for VideoBackground
 const TOPIC_SCENE = {
@@ -138,7 +138,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
     if (!topic) return;
     const sceneKey = (TOPIC_SCENE as Record<string, string>)[topic.key] ?? 'zagreb';
     const storageKey = `nh_scene_video_${sceneKey}`;
-    const cached = sessionStorage.getItem(storageKey);
+    const cached = ssGet(storageKey);
     if (cached) {
       setSceneVideoUrl(cached);
       return;
