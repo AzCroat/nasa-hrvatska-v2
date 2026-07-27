@@ -84,7 +84,7 @@ describe('PitchAccentScreen contract (Pattern X)', () => {
     markQuestMock.mockClear();
   });
 
-  it('fires award(grammar), markQuest(grammar), gc+1/vs:pitch-accent, writeDelta on Finish', async () => {
+  it('fires award(grammar), markQuest(grammar), gc+1/vs:pitchaccent, writeDelta on Finish', async () => {
     const { default: PitchAccentScreen } = await import('../components/practice/PitchAccentScreen');
     const { value, setStats, writeDelta, award } = makeCtx();
 
@@ -109,16 +109,16 @@ describe('PitchAccentScreen contract (Pattern X)', () => {
     const updater = setStats.mock.calls[0]![0] as (prev: Stats) => Stats;
     const next = updater({ ...value.stats });
     expect(next.gc).toBe(1);
-    expect(next.vs).toContain('pitch-accent');
+    expect(next.vs).toContain('pitchaccent');
 
     expect(writeDelta).toHaveBeenCalledWith(
-      expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['pitch-accent']) }),
+      expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['pitchaccent']) }),
     );
   });
 
-  it('is idempotent — skips setStats/writeDelta when vs already has pitch-accent', async () => {
+  it('is idempotent — skips setStats/writeDelta when vs already has pitchaccent', async () => {
     const { default: PitchAccentScreen } = await import('../components/practice/PitchAccentScreen');
-    const { value, setStats, writeDelta, award } = makeCtx(['pitch-accent']);
+    const { value, setStats, writeDelta, award } = makeCtx(['pitchaccent']);
 
     render(
       <StatsProvider value={value}>

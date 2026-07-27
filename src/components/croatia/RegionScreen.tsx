@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
 
 interface Props {
   regionKey: string;
@@ -9,6 +10,7 @@ interface Props {
 
 function RegionScreen({ regionKey, goBack }: Props) {
   const { content, loading, error } = useContent();
+  const { showEn, toggle } = useEnglishToggle();
   const [tab, setTab] = useState('overview');
   const [quizI, setQuizI] = useState(0);
   const [quizSel, setQuizSel] = useState<string | null>(null);
@@ -18,8 +20,21 @@ function RegionScreen({ regionKey, goBack }: Props) {
   // SP11d: REGIONS is async-loaded; provide safe fallback for useMemo deps until ready.
   const REGIONS = (content?.REGIONS ?? {}) as Record<string, any>;
   const r = REGIONS[regionKey];
+  // Quiz options as {en, hr} pairs so the bilingual layer survives the shuffle
+  // (answers still compare by the English value — the data's identity key).
+  // hr is undefined on stale cached content → English-only render, as before.
   const frozenOpts = useMemo(
-    () => (r ? (r.quiz as any[]).map((q: any) => sh([q.a, ...q.al])) : []),
+    () =>
+      r
+        ? (r.quiz as any[]).map((q: any) =>
+            sh(
+              [q.a, ...q.al].map((en: string, i: number) => ({
+                en,
+                hr: i === 0 ? q.aHr : q.alHr?.[i - 1],
+              })),
+            ),
+          )
+        : [],
     [r],
   );
   if (error)
@@ -81,8 +96,17 @@ function RegionScreen({ regionKey, goBack }: Props) {
         <div style={{ fontSize: 36, marginBottom: 8 }}>{r.icon || '🗺️'}</div>
         <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 4 }}>{r.title}</div>
         <div style={{ fontSize: 13, opacity: 0.85, marginBottom: 10 }}>{r.sub}</div>
-        <div style={{ fontSize: 13, lineHeight: 1.6, opacity: 0.9 }}>{r.intro}</div>
+        <div style={{ fontSize: 13, lineHeight: 1.6, opacity: 0.9 }}>
+          <BiText
+            hr={r.introHr}
+            en={r.intro}
+            showEn={showEn}
+            enStyle={{ color: 'rgba(255,255,255,.75)' }}
+          />
+        </div>
       </div>
+
+      {r.introHr && <EnglishToggleButton showEn={showEn} toggle={toggle} />}
 
       {/* Tab bar */}
       <div
@@ -112,7 +136,10 @@ function RegionScreen({ regionKey, goBack }: Props) {
       {/* OVERVIEW */}
       {tab === 'overview' && (
         <div>
-          {r.sections.map(function (s: { h: string; t: string }, i: number) {
+          {r.sections.map(function (
+            s: { h: string; hHr?: string; t: string; tHr?: string },
+            i: number,
+          ) {
             return (
               <div
                 key={i}
@@ -124,9 +151,11 @@ function RegionScreen({ regionKey, goBack }: Props) {
                 }}
               >
                 <div style={{ fontSize: 14, fontWeight: 800, color: accentColor, marginBottom: 8 }}>
-                  {s.h}
+                  {s.hHr ?? s.h}
                 </div>
-                <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--subtext)' }}>{s.t}</div>
+                <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--subtext)' }}>
+                  <BiText hr={s.tHr} en={s.t} showEn={showEn} />
+                </div>
               </div>
             );
           })}
@@ -153,7 +182,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                   >
                     <div style={{ fontSize: 18, flexShrink: 0 }}>⚡</div>
                     <div style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--heading)' }}>
-                      {f}
+                      <BiText hr={r.factsHr?.[i]} en={f} showEn={showEn} />
                     </div>
                   </div>
                 );
@@ -180,7 +209,10 @@ function RegionScreen({ regionKey, goBack }: Props) {
                 background: `linear-gradient(${accentColor},${accentColor}40)`,
               }}
             />
-            {r.timeline.map(function (t: { year: string; event: string }, i: number) {
+            {r.timeline.map(function (
+              t: { year: string; event: string; eventHr?: string },
+              i: number,
+            ) {
               return (
                 <div
                   key={i}
@@ -205,7 +237,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                       {t.year}
                     </div>
                     <div style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--heading)' }}>
-                      {t.event}
+                      <BiText hr={t.eventHr} en={t.event} showEn={showEn} />
                     </div>
                   </div>
                 </div>
@@ -222,7 +254,14 @@ function RegionScreen({ regionKey, goBack }: Props) {
             Notable figures from {r.title}
           </div>
           {r.people.map(function (
-            p: { name: string; years: string; role: string; story: string },
+            p: {
+              name: string;
+              years: string;
+              role: string;
+              roleHr?: string;
+              story: string;
+              storyHr?: string;
+            },
             i: number,
           ) {
             const open = expandedPerson === i;
@@ -265,7 +304,9 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     <div style={{ fontSize: 12, color: accentColor, fontWeight: 700 }}>
                       {p.years}
                     </div>
-                    <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{p.role}</div>
+                    <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
+                      {p.roleHr ?? p.role}
+                    </div>
                   </div>
                   <div style={{ fontSize: 16, color: 'var(--subtext)' }}>{open ? '▲' : '▼'}</div>
                 </div>
@@ -278,7 +319,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     }}
                   >
                     <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--subtext)' }}>
-                      {p.story}
+                      <BiText hr={p.storyHr} en={p.story} showEn={showEn} />
                     </div>
                   </div>
                 )}
@@ -367,12 +408,12 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     color: 'var(--heading)',
                   }}
                 >
-                  {r.quiz[quizI]!.q}
+                  <BiText hr={r.quiz[quizI]!.qHr} en={r.quiz[quizI]!.q} showEn={showEn} />
                 </div>
               </div>
-              {(frozenOpts[quizI] ?? []).map(function (opt, i) {
-                const chosen = quizSel === opt;
-                const correct = opt === r.quiz[quizI]!.a;
+              {(frozenOpts[quizI] ?? []).map(function (opt: { en: string; hr?: string }, i) {
+                const chosen = quizSel === opt.en;
+                const correct = opt.en === r.quiz[quizI]!.a;
                 const revealed = quizSel !== null;
                 let bg = 'var(--card)',
                   border = '1px solid var(--card-b)',
@@ -391,11 +432,11 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     key={i}
                     role="button"
                     tabIndex={0}
-                    onClick={() => handleQuizAnswer(opt)}
+                    onClick={() => handleQuizAnswer(opt.en)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        handleQuizAnswer(opt);
+                        handleQuizAnswer(opt.en);
                       }
                     }}
                     style={{
@@ -413,7 +454,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                   >
                     {revealed && correct && '✅ '}
                     {revealed && chosen && !correct && '❌ '}
-                    {opt}
+                    <BiText hr={opt.hr} en={opt.en} showEn={showEn} />
                   </div>
                 );
               })}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { XP_BOOST_COST } from '../../lib/appUtils.js';
+import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import type { RewardsState } from './useHeroRewards';
+import { lsGet } from '../../lib/safeStorage';
 
 /**
  * Hero rewards UI — XP-boost card, streak-freeze button, and streak-recovery
@@ -143,7 +145,7 @@ export default function RewardsPanel({
             }}
           >
             <span>🛡️</span>
-            <span>Earn Streak Freeze · 200 XP</span>
+            <span>Earn Streak Freeze · {FREEZE_COST_XP} XP</span>
           </button>
           {freezeMsg && (
             <div
@@ -165,7 +167,7 @@ export default function RewardsPanel({
       {streakCount === 0 &&
         xp >= 200 &&
         !streakRestored &&
-        !localStorage.getItem('nh_streak_restored_' + today) && (
+        !lsGet('nh_streak_restored_' + today) && (
           <div style={{ marginTop: 8 }}>
             <button
               onClick={restoreStreak}

@@ -50,7 +50,7 @@ const sampleStory = {
   level: 'A1' as const,
   focus: 'Test focus',
   icon: '📖',
-  paragraphs: [{ hr: 'Bok!', en: 'Hi!' }],
+  paragraphs: [{ hr: 'Bog!', en: 'Hi!' }],
   vocab: [],
   quiz: [],
 };

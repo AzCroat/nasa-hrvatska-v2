@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { motion } from 'framer-motion';
 import { Bar, srMark } from '../../data';
 import { markQuest } from '../../lib/quests.js';
@@ -13,6 +14,7 @@ import FlashcardRecallQuiz from './FlashcardRecallQuiz';
 import { knightSpeak, knightFlash } from '../../lib/knightSpeak.js';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { lsGet } from '../../lib/safeStorage';
 
 const MAX_CACHE_ENTRIES = 20;
 const QUIZ_XP_BASE = 10;
@@ -210,7 +212,7 @@ export default function Flashcards({
       setAiSentence(aiCacheRef.current[word]);
       return undefined;
     }
-    const level = localStorage.getItem('nh_level') || 'B1';
+    const level = getGenerationCefr(); // Content-Rec #5: earned CEFR, not stale placement
     setAiSentence(null);
     setAiLoading(true);
     setAiError(false);
@@ -226,7 +228,14 @@ export default function Flashcards({
       .then((data) => {
         clearTimeout(timeoutId);
         if (!mountedRef.current) return;
-        const sentence = { hr: data.hr, en: data.en, note: data.note || null };
+        // Server contract: { examples: [{hr, en}, ...], note, mnemonic }
+        const ex = Array.isArray(data.examples) ? data.examples[0] : null;
+        if (!ex || !ex.hr) {
+          setAiLoading(false);
+          setAiError(true);
+          return;
+        }
+        const sentence = { hr: ex.hr, en: ex.en || '', note: data.note || null };
         evictCache(aiCacheRef);
         aiCacheRef.current[word] = sentence;
         setAiSentence(sentence);
@@ -283,7 +292,7 @@ export default function Flashcards({
   // Auto-TTS on flip
   useEffect(() => {
     if (!flipped || done) return undefined;
-    const autoTTS = localStorage.getItem('nh_autotts') !== 'false';
+    const autoTTS = lsGet('nh_autotts') !== 'false';
     if (!autoTTS) return undefined;
     const word = activePool[idx] && activePool[idx][0];
     if (!word) return undefined;

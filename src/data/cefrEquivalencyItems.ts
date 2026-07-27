@@ -346,7 +346,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
   // New vocab — harder/nuanced A1 items (15 items)
   {
     q: 'Which greeting would you use when meeting someone for the first time in a formal context?',
-    o: ['Bok!', 'Dobar dan!', 'Cao!', 'Hej!'],
+    o: ['Bog!', 'Dobar dan!', 'Cao!', 'Hej!'],
     c: 1,
     skill: 'vocab',
   },
@@ -363,7 +363,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
   },
   {
     q: "Which word means 'goodbye' in a formal or neutral context?",
-    o: ['Bok', 'Doviđenja', 'Cao', 'Hej'],
+    o: ['Bog', 'Doviđenja', 'Cao', 'Hej'],
     c: 1,
     skill: 'vocab',
   },
@@ -1108,7 +1108,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     passage:
       'Konobar: Dobar dan! Što želite? Gost: Jednu kavu, molim. Konobar: Veliku ili malu? Gost: Malu, hvala. Konobar: Izvolite!',
     q: 'What greeting does the waiter use?',
-    o: ['Dobro jutro', 'Dobar dan', 'Dobra večer', 'Bok'],
+    o: ['Dobro jutro', 'Dobar dan', 'Dobra večer', 'Bog'],
     c: 1,
     skill: 'reading',
   },

@@ -305,8 +305,7 @@ describe('LearnTab smoke render', () => {
 
 describe('ProfileTab smoke render', () => {
   it('renders without crashing', async () => {
-    // ClanCard fires apiFetch('/api/clan') in a useEffect — wrap in act(async) so
-    // the state update (setPhase) settles within the act() boundary.
+    // Wrapped in act(async) so any child effects settle within the act() boundary.
     await act(async () => {
       render(
         <AppContext.Provider value={mockContextValue}>

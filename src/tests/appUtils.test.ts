@@ -216,6 +216,27 @@ describe('updateStreak', () => {
     expect(result.last).toBe('2026-04-19');
   });
 
+  it('stamps the earn-back window with the LOCAL date, not the (server) todayOverride', () => {
+    // Broken streak (4-day gap → no freeze can bridge it) so the earn-back branch fires.
+    // '2026-04-19' simulates a SERVER date differing from the device local date (clock
+    // skew / near-midnight straddle). getStreakEarnBack() validates against the LOCAL
+    // date, so the stamp must be local or the restore prompt never appears.
+    localStorage.setItem('uStreak', JSON.stringify({ count: 10, last: '2026-04-15' }));
+    updateStreak('2026-04-19');
+    const eb = JSON.parse(localStorage.getItem('nh_earn_back') || 'null');
+    expect(eb).not.toBeNull();
+    const now = new Date();
+    const localToday =
+      now.getFullYear() +
+      '-' +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(now.getDate()).padStart(2, '0');
+    expect(eb.date).toBe(localToday); // local, not the passed '2026-04-19'
+    // …and it is therefore visible to the local-date validator.
+    expect(getStreakEarnBack()).not.toBeNull();
+  });
+
   it('returns milestone 30 when streak hits 30', () => {
     localStorage.setItem('uStreak', JSON.stringify({ count: 29, last: '2026-04-18' }));
     const result = updateStreak('2026-04-19');

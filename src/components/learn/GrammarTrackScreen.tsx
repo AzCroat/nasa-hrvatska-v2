@@ -306,7 +306,7 @@ const LEVELS = [
         desc: 'Time-clause conditionals — kad/ako/čim/dok',
         screen: 'grammar_unit_detail',
         unitId: 'futur-ii',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'relative-clauses',
@@ -315,7 +315,7 @@ const LEVELS = [
         desc: 'koji/koja/koje + cases — the biggest B1→B2 leap',
         screen: 'grammar_unit_detail',
         unitId: 'relative-clauses',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'passive-voice',
@@ -324,7 +324,7 @@ const LEVELS = [
         desc: 'je napisana, bio prodan — biti + past passive participle',
         screen: 'grammar_unit_detail',
         unitId: 'passive-voice',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'participles',
@@ -333,7 +333,7 @@ const LEVELS = [
         desc: 'Past + passive participle declension and agreement',
         screen: 'grammar_unit_detail',
         unitId: 'participles',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'reported-speech',
@@ -342,7 +342,16 @@ const LEVELS = [
         desc: 'da + present clauses, embedded questions, no backshift',
         screen: 'grammar_unit_detail',
         unitId: 'reported-speech',
-        qs: 5,
+        qs: 12,
+      },
+      {
+        id: 'verbs-of-motion',
+        icon: '🚶',
+        title: 'Glagoli kretanja — Verbs of Motion',
+        desc: 'doći/dolaziti, otići/odlaziti — prefix = direction, aspect pairs',
+        screen: 'grammar_unit_detail',
+        unitId: 'verbs-of-motion',
+        qs: 12,
       },
     ],
   },
@@ -361,7 +370,7 @@ const LEVELS = [
         desc: 'bio bih došao — counterfactual past',
         screen: 'grammar_unit_detail',
         unitId: 'kondicional-ii',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'business-register',
@@ -370,7 +379,7 @@ const LEVELS = [
         desc: 'Business correspondence, advanced honorifics, polite imperatives',
         screen: 'grammar_unit_detail',
         unitId: 'business-register',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'verbal-nouns',
@@ -379,7 +388,7 @@ const LEVELS = [
         desc: 'pisanje, čitanje, putovanje — -nje gerunds',
         screen: 'grammar_unit_detail',
         unitId: 'verbal-nouns',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'reflexive-constructions',
@@ -388,7 +397,7 @@ const LEVELS = [
         desc: 'se vs sebe, reciprocals, middle voice, inherent reflexives',
         screen: 'grammar_unit_detail',
         unitId: 'reflexive-constructions',
-        qs: 5,
+        qs: 12,
       },
       {
         id: 'word-order',
@@ -397,7 +406,35 @@ const LEVELS = [
         desc: 'Clitic placement, topicalization, fronting',
         screen: 'grammar_unit_detail',
         unitId: 'word-order',
-        qs: 5,
+        qs: 12,
+      },
+    ],
+  },
+  {
+    id: 'C2',
+    label: 'C2 — Mastery',
+    color: '#9d174d',
+    bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+    border: '#fbcfe8',
+    headerBg: 'linear-gradient(135deg,#9d174d,#831843)',
+    units: [
+      {
+        id: 'verbal-adverbs',
+        icon: '🎯',
+        title: 'Glagolski prilozi — Verbal Adverbs',
+        desc: 'radeći (present) / napisavši (past) — literary participial style',
+        screen: 'grammar_unit_detail',
+        unitId: 'verbal-adverbs',
+        qs: 12,
+      },
+      {
+        id: 'literary-past-tenses',
+        icon: '📖',
+        title: 'Aorist, imperfekt i pluskvamperfekt',
+        desc: 'rekoh, bijaše, bio sam došao — the literary past tenses',
+        screen: 'grammar_unit_detail',
+        unitId: 'literary-past-tenses',
+        qs: 12,
       },
     ],
   },
@@ -558,7 +595,7 @@ export default function GrammarTrackScreen({
           Grammar Track
         </div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,.65)', marginBottom: 14 }}>
-          A1 → C1 · {LEVELS.reduce((s, l) => s + l.units.length, 0)} units · Structured grammar
+          A1 → C2 · {LEVELS.reduce((s, l) => s + l.units.length, 0)} units · Structured grammar
           progression
         </div>
 
@@ -863,7 +900,7 @@ export default function GrammarTrackScreen({
             {level.id} Complete!
           </div>
           <div style={{ fontSize: 13, color: '#059669' }}>
-            {activeLevel !== 'C1'
+            {activeLevel !== 'C2'
               ? `Move on to ${LEVELS[LEVELS.findIndex((l) => l.id === activeLevel) + 1]?.id} when ready`
               : "You've mastered Croatian grammar — Odlično!"}
           </div>
@@ -883,7 +920,7 @@ export default function GrammarTrackScreen({
         >
           <div style={{ fontSize: 32, marginBottom: 8 }}>🏆</div>
           <div style={{ fontSize: 16, fontWeight: 900, color: 'white', marginBottom: 4 }}>
-            A1 → C1 Complete!
+            A1 → C2 Complete!
           </div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,.7)' }}>
             All {LEVELS.reduce((s, l) => s + l.units.length, 0)} grammar units visited. Bravo —

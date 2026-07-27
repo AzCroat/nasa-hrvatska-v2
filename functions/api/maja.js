@@ -5,6 +5,9 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 
+// Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
+const MAX_KNOWN_FACTS = 40;
+
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
 
@@ -76,7 +79,12 @@ function buildMajaSystemPrompt(params) {
   // Sanitize knownFacts — only keep string/array primitives, no nesting beyond one level
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -125,7 +133,7 @@ function buildMajaSystemPrompt(params) {
   let sessionGuidance = '';
   if (isSessionStart) {
     if (count === 0) {
-      sessionGuidance = `This is your very first conversation with this student. Introduce yourself fully and warmly. Be curious about them. Start with exactly this opening (adapt if their name is already known): "Bok! Ja sam Maja Kovačević. Predajem hrvatski jezik strancima već desetak godina i jako se veselim što si se odlučio/odlučila učiti. A ti, kako se zoveš?" Ask: where are they from, why are they learning Croatian. Do NOT launch into a language lesson yet — just connect as people first.`;
+      sessionGuidance = `This is your very first conversation with this student. Introduce yourself fully and warmly. Be curious about them. Start with exactly this opening (adapt if their name is already known): "Bog! Ja sam Maja Kovačević. Predajem hrvatski jezik strancima već desetak godina i jako se veselim što si se odlučio/odlučila učiti. A ti, kako se zoveš?" Ask: where are they from, why are they learning Croatian. Do NOT launch into a language lesson yet — just connect as people first.`;
     } else if (lastSummary) {
       const topicHint = nextTopic
         ? ` Also let them know you have something to share about: ${nextTopic}.`
@@ -247,7 +255,12 @@ function buildFishermanSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -375,7 +388,12 @@ function buildCabbieSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -489,7 +507,12 @@ function buildSecretarySystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -623,7 +646,12 @@ function buildBakaSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -650,7 +678,7 @@ function buildBakaSystemPrompt(params) {
   let sessionGuidance = '';
   if (isSessionStart) {
     if (count === 0) {
-      sessionGuidance = `Baka Mara is meeting this person for the first time — but she immediately treats them like a long-lost grandchild. Start with warmth and curiosity: "Bok, dušo moja! Otkud ti?" Ask where they're from and whether they've eaten. She probably offers food within the first two sentences.`;
+      sessionGuidance = `Baka Mara is meeting this person for the first time — but she immediately treats them like a long-lost grandchild. Start with warmth and curiosity: "Bog, dušo moja! Otkud ti?" Ask where they're from and whether they've eaten. She probably offers food within the first two sentences.`;
     } else if (lastSummary) {
       sessionGuidance = `Baka Mara is delighted to see this person again. Warm welcome. Reference something from last time: "${lastSummary}". Probably mentions what she cooked recently.${nextTopic ? ` She wants to tell them about: ${nextTopic}.` : ''}`;
     } else {
@@ -761,6 +789,15 @@ export async function onRequestPost(context) {
   const ct = request.headers.get('content-type') || '';
   if (!ct.includes('application/json')) return err(400, 'Invalid content type', origin);
 
+  // Request-size guard — reject oversized payloads BEFORE parsing, mirroring
+  // ai-chat.js. Without it a caller could post a multi-megabyte body whose
+  // contents get folded into the upstream prompt and billed as input tokens.
+  const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+  if (contentLength > 102400) {
+    // 100KB max
+    return err(413, 'Request too large', origin);
+  }
+
   // Parse body
   let body;
   try {
@@ -862,7 +899,7 @@ export async function onRequestPost(context) {
         signal: AbortSignal.timeout(30000),
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 600,
+          max_tokens: 1024,
           stream: true,
           system: systemPrompt,
           messages: merged,
@@ -912,7 +949,7 @@ export async function onRequestPost(context) {
       signal: AbortSignal.timeout(25000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 600,
+        max_tokens: 1024,
         system: systemPrompt,
         messages: merged,
       }),

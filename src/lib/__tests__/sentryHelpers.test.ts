@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { shouldEnableSentryReplay } from '../sentryHelpers';
+import {
+  shouldEnableSentryReplay,
+  isReplayConsentGranted,
+  isBenignAbortRejection,
+  isBenignSwLoadRejection,
+} from '../sentryHelpers';
 
 describe('shouldEnableSentryReplay', () => {
   // UA samples below are real strings observed in production (DDG) or
@@ -43,5 +48,184 @@ describe('shouldEnableSentryReplay', () => {
     // In vitest jsdom, navigator.userAgent is a non-DDG string by default.
     // The function should fall back to it and return true.
     expect(shouldEnableSentryReplay()).toBe(true);
+  });
+});
+
+describe('isReplayConsentGranted', () => {
+  it('permits Replay only when consent is exactly "accepted"', () => {
+    expect(isReplayConsentGranted('accepted')).toBe(true);
+  });
+
+  it('blocks Replay when consent is absent (never set)', () => {
+    expect(isReplayConsentGranted(null)).toBe(false);
+    expect(isReplayConsentGranted(undefined)).toBe(false);
+    expect(isReplayConsentGranted('')).toBe(false);
+  });
+
+  it('blocks Replay when the user declined or the value is anything else', () => {
+    expect(isReplayConsentGranted('declined')).toBe(false);
+    expect(isReplayConsentGranted('rejected')).toBe(false);
+    expect(isReplayConsentGranted('true')).toBe(false);
+    expect(isReplayConsentGranted('Accepted')).toBe(false); // case-sensitive by design
+  });
+});
+
+describe('isBenignAbortRejection', () => {
+  const unhandled = (over: Record<string, unknown>) => ({
+    exception: { values: [{ mechanism: { type: 'onunhandledrejection' }, ...over }] },
+  });
+
+  it('is true for an AbortError-typed unhandled rejection (the DDG Mobile issue)', () => {
+    expect(isBenignAbortRejection(unhandled({ type: 'AbortError', value: 'AbortError' }))).toBe(
+      true,
+    );
+  });
+
+  it('matches AbortError named in the value even when type differs', () => {
+    expect(
+      isBenignAbortRejection(unhandled({ type: 'Error', value: 'AbortError: AbortError' })),
+    ).toBe(true);
+  });
+
+  it('does NOT drop an AbortError captured any other way (e.g. explicit capture)', () => {
+    expect(
+      isBenignAbortRejection({
+        exception: { values: [{ type: 'AbortError', mechanism: { type: 'generic' } }] },
+      }),
+    ).toBe(false);
+    // no mechanism at all → not the unhandledrejection path → keep it
+    expect(isBenignAbortRejection({ exception: { values: [{ type: 'AbortError' }] } })).toBe(false);
+  });
+
+  it('does NOT drop a real (non-abort) unhandled rejection', () => {
+    expect(
+      isBenignAbortRejection(unhandled({ type: 'TypeError', value: 'x is not a function' })),
+    ).toBe(false);
+  });
+
+  it('is false for empty / missing event shapes (never throws)', () => {
+    expect(isBenignAbortRejection(null)).toBe(false);
+    expect(isBenignAbortRejection(undefined)).toBe(false);
+    expect(isBenignAbortRejection({})).toBe(false);
+    expect(isBenignAbortRejection({ exception: { values: [] } })).toBe(false);
+  });
+});
+
+describe('isBenignSwLoadRejection', () => {
+  const unhandled = (ex: { type?: string; value?: string }) => ({
+    exception: { values: [{ ...ex, mechanism: { type: 'onunhandledrejection' } }] },
+  });
+
+  it('drops the Safari signature: SecurityError + sw.js load failed via unhandledrejection', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'SecurityError',
+          value: 'Script https://nasahrvatska.com/sw.js load failed',
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it('matches SecurityError named in the value when the type is generic', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'Error', value: 'SecurityError: Script https://x/sw.js load failed' }),
+      ),
+    ).toBe(true);
+  });
+
+  it('does NOT drop a SecurityError unrelated to sw.js', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'SecurityError', value: 'Blocked a frame with origin' }),
+      ),
+    ).toBe(false);
+  });
+
+  // This assertion previously read "does NOT drop an sw.js failure that is not a
+  // SecurityError" and expected false — it encoded the gap as correct behaviour.
+  // Safari reports the SAME environmental registration failure as a TypeError, so
+  // requiring SecurityError is why these kept paging despite this filter existing.
+  it('drops Safari TypeError variant of the same environmental failure', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'TypeError', value: 'Script https://x/sw.js load failed' }),
+      ),
+    ).toBe(true);
+    // Trailing period + the real production URL.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value: 'Script https://nasahrvatska.com/sw.js load failed.',
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it('KEEPS reporting a MIME-type failure — sw.js served as text/html is actionable', () => {
+    // Production Incident 1: sw.js served with the wrong Content-Type silently
+    // breaks the SW update flow for every user on that deploy. Widening the type
+    // check must never swallow this.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value:
+            'Script https://nasahrvatska.com/sw.js load failed: unsupported MIME type (text/html)',
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'SecurityError',
+          value: 'Failed to register a ServiceWorker: the script has an unsupported MIME type',
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop a TypeError whose message is more than the bare load failure', () => {
+    // The TypeError branch is anchored to the whole message, so a richer error
+    // that merely mentions sw.js cannot match by accident.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value: "Script https://x/sw.js load failed because scope '/' is already claimed",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop a TypeError unrelated to sw.js', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'TypeError', value: 'Script https://x/vendor.js load failed' }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop the same error captured outside unhandledrejection', () => {
+    expect(
+      isBenignSwLoadRejection({
+        exception: {
+          values: [
+            {
+              type: 'SecurityError',
+              value: 'Script https://x/sw.js load failed',
+              mechanism: { type: 'generic' },
+            },
+          ],
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it('is false for empty / missing shapes (never throws)', () => {
+    expect(isBenignSwLoadRejection(null)).toBe(false);
+    expect(isBenignSwLoadRejection({})).toBe(false);
   });
 });

@@ -1,13 +1,23 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import {
-  getFreezesStored,
-  purchaseFreeze,
-  applyFreezeIfNeeded,
-  FREEZE_COST_XP,
-} from '../lib/streakFreeze';
+import { getFreezesStored, purchaseFreeze, FREEZE_COST_XP } from '../lib/streakFreeze';
+import { updateStreak, getStreakFreezes } from '../lib/appUtils';
+import { computeStreak } from '../lib/streakDays';
 
 function clearLS() {
   localStorage.clear();
+}
+
+/** Local YYYY-MM-DD for today + offsetDays (DST-safe, matches app date helpers). */
+function dateStr(offsetDays: number): string {
+  const d = new Date();
+  if (offsetDays) d.setDate(d.getDate() + offsetDays);
+  return (
+    d.getFullYear() +
+    '-' +
+    String(d.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(d.getDate()).padStart(2, '0')
+  );
 }
 
 describe('streakFreeze', () => {
@@ -23,35 +33,53 @@ describe('streakFreeze', () => {
     expect(FREEZE_COST_XP).toBe(50);
   });
 
-  // ── getFreezesStored ────────────────────────────────────────────────────────
+  // ── getFreezesStored (canonical uFreeze store) ──────────────────────────────
 
   it('returns 0 when nothing stored', () => {
     expect(getFreezesStored()).toBe(0);
   });
 
-  it('returns stored count', () => {
-    localStorage.setItem('nh_streak_freezes', '2');
+  it('reads the canonical uFreeze store', () => {
+    localStorage.setItem('uFreeze', '2');
     expect(getFreezesStored()).toBe(2);
   });
 
-  it('clamps to max 2', () => {
+  it('returns 0 for invalid stored value', () => {
+    localStorage.setItem('uFreeze', 'bad');
+    expect(getFreezesStored()).toBe(0);
+  });
+
+  // ── legacy nh_streak_freezes migration ──────────────────────────────────────
+
+  it('migrates legacy nh_streak_freezes into uFreeze and removes the old key', () => {
+    localStorage.setItem('nh_streak_freezes', '2');
+    expect(getFreezesStored()).toBe(2);
+    expect(localStorage.getItem('uFreeze')).toBe('2');
+    expect(localStorage.getItem('nh_streak_freezes')).toBeNull();
+  });
+
+  it('caps combined legacy + uFreeze count at 2', () => {
+    localStorage.setItem('uFreeze', '1');
+    localStorage.setItem('nh_streak_freezes', '2');
+    expect(getFreezesStored()).toBe(2);
+    expect(localStorage.getItem('nh_streak_freezes')).toBeNull();
+  });
+
+  it('clamps an out-of-range legacy value to max 2', () => {
     localStorage.setItem('nh_streak_freezes', '5');
     expect(getFreezesStored()).toBe(2);
   });
 
-  it('returns 0 for invalid stored value (NaN clamped to 0)', () => {
+  it('discards an invalid legacy value without crashing', () => {
     localStorage.setItem('nh_streak_freezes', 'bad');
-    // parseInt('bad', 10) = NaN; Math.min(2, NaN) = NaN, but the function returns that directly
-    // The actual behavior: NaN is returned when invalid. Verify it is not > 0.
-    const result = getFreezesStored();
-    // NaN or 0 are both acceptable for invalid data — just verify no crash and < 1
-    expect(result < 1 || isNaN(result)).toBe(true);
+    expect(getFreezesStored()).toBe(0);
+    expect(localStorage.getItem('nh_streak_freezes')).toBeNull();
   });
 
   // ── purchaseFreeze ──────────────────────────────────────────────────────────
 
   it('fails when already at max 2 freezes', () => {
-    localStorage.setItem('nh_streak_freezes', '2');
+    localStorage.setItem('uFreeze', '2');
     const setStats = vi.fn();
     const result = purchaseFreeze(100, setStats);
     expect(result.ok).toBe(false);
@@ -67,136 +95,122 @@ describe('streakFreeze', () => {
     expect(setStats).not.toHaveBeenCalled();
   });
 
-  it('succeeds with exactly 50 XP and 0 stored', () => {
+  it('succeeds with exactly 50 XP and deposits into uFreeze', () => {
     const setStats = vi.fn();
     const result = purchaseFreeze(50, setStats);
     expect(result.ok).toBe(true);
     expect(result.stored).toBe(1);
     expect(setStats).toHaveBeenCalledOnce();
-    expect(localStorage.getItem('nh_streak_freezes')).toBe('1');
+    expect(localStorage.getItem('uFreeze')).toBe('1');
   });
 
   it('increments stored count from 1 to 2', () => {
-    localStorage.setItem('nh_streak_freezes', '1');
+    localStorage.setItem('uFreeze', '1');
     const setStats = vi.fn();
     const result = purchaseFreeze(100, setStats);
     expect(result.ok).toBe(true);
     expect(result.stored).toBe(2);
-    expect(localStorage.getItem('nh_streak_freezes')).toBe('2');
+    expect(localStorage.getItem('uFreeze')).toBe('2');
   });
 
-  it('setStats is called with XP deduction function', () => {
+  it('counts legacy freezes toward the max-2 purchase gate', () => {
+    localStorage.setItem('nh_streak_freezes', '2');
+    const setStats = vi.fn();
+    const result = purchaseFreeze(100, setStats);
+    expect(result.ok).toBe(false);
+    expect(setStats).not.toHaveBeenCalled();
+  });
+
+  it('setStats increments the monotonic spent counter (earned xp untouched)', () => {
     const setStats = vi.fn();
     purchaseFreeze(100, setStats);
-    // Call the updater function to verify it deducts 50 XP
+    // The cost is recorded on `spent`, never subtracted from earned `xp` —
+    // subtracting xp would be refunded by the Math.max sync merge (the #110 bug).
     const updater = setStats.mock.calls[0][0];
-    const prev = { xp: 100, other: 5 };
+    const prev = { xp: 100, spent: 0, other: 5 };
     const next = updater(prev);
-    expect(next.xp).toBe(50);
+    expect(next.xp).toBe(100); // earned xp is NOT reduced
+    expect(next.spent).toBe(50); // cost recorded on the spent counter
     expect(next.other).toBe(5); // other fields preserved
   });
 
-  it('setStats XP deduction does not go below 0', () => {
+  it('spent accumulates across purchases', () => {
     const setStats = vi.fn();
-    purchaseFreeze(50, setStats);
+    purchaseFreeze(100, setStats);
     const updater = setStats.mock.calls[0][0];
-    const prev = { xp: 40 }; // less than FREEZE_COST
-    const next = updater(prev);
-    expect(next.xp).toBe(0); // clamped at 0
+    const next = updater({ xp: 200, spent: 50 });
+    expect(next.spent).toBe(100); // 50 already spent + 50 this purchase
+    expect(next.xp).toBe(200);
   });
 
-  // ── applyFreezeIfNeeded ─────────────────────────────────────────────────────
-
-  it('returns applied=false when count is 0', () => {
-    const result = applyFreezeIfNeeded({ count: 0, last: '2026-01-01' });
-    expect(result.applied).toBe(false);
+  it('mirrors the spend with an authoritative Firestore delta when writeDelta is given', () => {
+    const setStats = vi.fn();
+    const writeDelta = vi.fn();
+    const result = purchaseFreeze(100, setStats, writeDelta);
+    expect(result.ok).toBe(true);
+    expect(writeDelta).toHaveBeenCalledWith({ spent: 50 });
   });
 
-  it('returns applied=false when last is today', () => {
-    // Build today string
-    const d = new Date();
-    const today =
-      d.getFullYear() +
-      '-' +
-      String(d.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(d.getDate()).padStart(2, '0');
-    const result = applyFreezeIfNeeded({ count: 5, last: today });
-    expect(result.applied).toBe(false);
-    expect(result.streakData.last).toBe(today);
+  it('does not throw when writeDelta is omitted', () => {
+    const setStats = vi.fn();
+    expect(() => purchaseFreeze(100, setStats)).not.toThrow();
   });
 
-  it('returns applied=false when last is yesterday (streak still active)', () => {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
-    const yesterday =
-      d.getFullYear() +
-      '-' +
-      String(d.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(d.getDate()).padStart(2, '0');
-    const result = applyFreezeIfNeeded({ count: 5, last: yesterday });
-    expect(result.applied).toBe(false);
+  // ── end-to-end: purchased freeze auto-applies via updateStreak ──────────────
+
+  it('a purchased freeze bridges exactly one missed day in updateStreak', () => {
+    localStorage.setItem('uStreak', JSON.stringify({ count: 5, last: dateStr(-2) }));
+    const setStats = vi.fn();
+    expect(purchaseFreeze(100, setStats).ok).toBe(true);
+
+    const result = updateStreak();
+    expect(result.freezeUsed).toBe(true);
+    // 5-day run + the freeze-bridged missed day + today = a 7-day consecutive
+    // run. The count is derived from the canonical active-day set (which counts
+    // the bridged day), so the immediate value equals the value the next sync
+    // settles on — no post-sync "+1 with no activity" jump. (Previously this
+    // returned the pre-sync transient 6 and then jumped to 7.)
+    expect(result.count).toBe(7);
+    expect(result.last).toBe(dateStr(0));
+    expect(getStreakFreezes()).toBe(0); // the freeze was consumed
   });
 
-  it('returns applied=false when no freezes stored and missed one day', () => {
-    const d = new Date();
-    d.setDate(d.getDate() - 2);
-    const dayBefore =
-      d.getFullYear() +
-      '-' +
-      String(d.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(d.getDate()).padStart(2, '0');
-    // No freezes in storage
-    const result = applyFreezeIfNeeded({ count: 5, last: dayBefore });
-    expect(result.applied).toBe(false);
-  });
-
-  it('applies freeze when 1 freeze stored and missed exactly one day', () => {
+  it('a legacy-purchased freeze also protects the streak after migration', () => {
     localStorage.setItem('nh_streak_freezes', '1');
-    const d = new Date();
-    d.setDate(d.getDate() - 2);
-    const dayBefore =
-      d.getFullYear() +
-      '-' +
-      String(d.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(d.getDate()).padStart(2, '0');
-    const result = applyFreezeIfNeeded({ count: 7, last: dayBefore });
-    expect(result.applied).toBe(true);
-    expect(result.freezesRemaining).toBe(0);
-    expect(localStorage.getItem('nh_streak_freezes')).toBe('0');
-    // streakData.last should be yesterday
-    const yd = new Date();
-    yd.setDate(yd.getDate() - 1);
-    const yesterday =
-      yd.getFullYear() +
-      '-' +
-      String(yd.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(yd.getDate()).padStart(2, '0');
-    expect(result.streakData.last).toBe(yesterday);
-    expect(result.streakData.count).toBe(7); // count preserved
+    localStorage.setItem('uStreak', JSON.stringify({ count: 7, last: dateStr(-2) }));
+
+    // Migration happens on the first freeze read inside updateStreak's spend path
+    const result = updateStreak();
+    expect(result.freezeUsed).toBe(true);
+    // 7-day run + bridged day + today = a 9-day consecutive run (set-derived).
+    expect(result.count).toBe(9);
+    expect(getStreakFreezes()).toBe(0);
+    expect(localStorage.getItem('nh_streak_freezes')).toBeNull();
   });
 
-  it('returns applied=false for null/undefined streakData', () => {
-    // @ts-expect-error intentional null test
-    const result = applyFreezeIfNeeded(null);
-    expect(result.applied).toBe(false);
+  it('a freeze cannot bridge a 2+ day gap — streak resets to 1', () => {
+    localStorage.setItem('uFreeze', '2');
+    localStorage.setItem('uStreak', JSON.stringify({ count: 9, last: dateStr(-3) }));
+
+    const result = updateStreak();
+    expect(result.freezeUsed).toBeFalsy();
+    expect(result.count).toBe(1);
+    expect(getStreakFreezes()).toBe(2); // freezes untouched
   });
 
-  it('returns applied=false when last is older than day-before-yesterday (streak too old)', () => {
-    localStorage.setItem('nh_streak_freezes', '2');
-    const d = new Date();
-    d.setDate(d.getDate() - 10);
-    const oldDate =
-      d.getFullYear() +
-      '-' +
-      String(d.getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(d.getDate()).padStart(2, '0');
-    const result = applyFreezeIfNeeded({ count: 5, last: oldDate });
-    expect(result.applied).toBe(false);
+  // Regression guard for the "+1 with no activity after a sync" flash: the count
+  // updateStreak returns MUST equal what applyRemoteProgress re-derives from the
+  // active-day set, so the display never jumps when the next sync runs.
+  it('the freeze-updated count already equals the sync-derived count (no flash)', () => {
+    localStorage.setItem('uFreeze', '1');
+    localStorage.setItem('uStreak', JSON.stringify({ count: 5, last: dateStr(-2) }));
+
+    const result = updateStreak();
+    expect(result.freezeUsed).toBe(true);
+    const derived = computeStreak(
+      JSON.parse(localStorage.getItem('nh_streak_days') || '{}'),
+      dateStr(0),
+    ).count;
+    expect(result.count).toBe(derived); // no post-sync jump
   });
 });

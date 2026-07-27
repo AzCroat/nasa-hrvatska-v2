@@ -147,18 +147,21 @@ export default function GoalSelectorSection({
           }}
         >
           {currentGoal === 'heritage'
-            ? '🇭🇷 Focuses on family vocabulary, traditions, and diaspora-specific phrases'
+            ? '🇭🇷 Tailors your AI practice, stories, and shortcuts toward family vocabulary, traditions, and diaspora life'
             : currentGoal === 'family'
-              ? '👨‍👩‍👧 Emphasizes family conversations, customs, and emotional vocabulary'
+              ? '👨‍👩‍👧 Tailors your AI practice and shortcuts toward family conversations and everyday phrases'
               : currentGoal === 'partner'
-                ? "💑 Tailored for learning your partner's language and cultural context"
+                ? "💑 Tailors your practice toward your partner's language and cultural context"
                 : currentGoal === 'travel'
-                  ? '✈️ Prioritizes practical phrases, transportation, dining, and navigation'
+                  ? '✈️ Tailors your AI practice and shortcuts toward practical phrases, transport, and dining'
                   : currentGoal === 'culture'
-                    ? '📖 Focuses on history, art, music, literature, and cultural depth'
+                    ? '📖 Tailors your recommendations toward history, art, music, and cultural depth'
                     : currentGoal === 'fluent'
-                      ? '🗣️ Full curriculum from A1 to B2+ with all grammar and vocabulary'
+                      ? '🗣️ Balances your practice across all skills — grammar, vocabulary, speaking, and writing'
                       : 'Select a goal to personalize your learning path'}
+          {['heritage', 'family', 'partner', 'travel', 'culture'].includes(currentGoal) && (
+            <span> The full course stays available with every goal.</span>
+          )}
         </div>
       )}
     </React.Fragment>

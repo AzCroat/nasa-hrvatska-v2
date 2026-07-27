@@ -22,6 +22,17 @@ export default [
   // Base JS rules
   js.configs.recommended,
 
+  // ESLint 10 additions we decline (same philosophy as no-empty/prefer-const below)
+  {
+    rules: {
+      // New-in-v10 recommended rule. Every hit in this codebase is the
+      // deliberate defensive idiom `let x = fallback; try { x = ... } catch
+      // { x = fallback; }` — the redundant assignment is intentional clarity,
+      // not dead code.
+      'no-useless-assignment': 'off',
+    },
+  },
+
   // Security rules — applied everywhere (src + Cloudflare functions)
   {
     files: ['src/**/*.{js,jsx}', 'functions/**/*.js'],
@@ -57,7 +68,10 @@ export default [
       },
     },
     settings: {
-      react: { version: 'detect' },
+      // Pinned (was 'detect'): eslint-plugin-react's auto-detection calls
+      // context.getFilename, which ESLint 10 removed — 'detect' crashes every
+      // lint run. Keep in sync with the react version in package.json.
+      react: { version: '18.3' },
     },
     rules: {
       // ── React core ──────────────────────────────────────────────────────
@@ -192,8 +206,18 @@ export default [
   // exempt — splitting would not improve maintainability. Mostly src/data/**;
   // listening/exercises.ts is the comprehension-exercise corpus extracted from
   // ListeningComprehensionScreen in 1b (data only, no logic).
+  // dialogueScenarios.js is the guided-dialogue corpus (2026-07 expansion took
+  // it past 800 lines) — same data-only class, structurally validated by
+  // src/tests/dialogueScenarios.test.ts. frequency500.ts is the corpus-frequency
+  // word list (1,250 ranks after the 2026-07 expansion), validated by
+  // src/tests/frequencyList.test.ts.
   {
-    files: ['src/data/**/*.{js,ts,tsx}', 'src/components/practice/listening/exercises.ts'],
+    files: [
+      'src/data/**/*.{js,ts,tsx}',
+      'src/components/practice/listening/exercises.ts',
+      'src/components/practice/dialogueScenarios.js',
+      'src/lib/frequency500.ts',
+    ],
     rules: { 'max-lines': 'off' },
   },
   // SP3a: grandfathered files over the 800-line threshold (audit 2026-05-16).

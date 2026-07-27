@@ -49,6 +49,6 @@ ENVIRONMENT=development
 # These are the real namespace IDs from your Cloudflare account.
 # Run `wrangler kv:namespace list` to find them.
 # Format: binding=<namespace-id>
-# Example: NH_CLANS=abc123...
+# Example: XP_VELOCITY=abc123...
 # Note: wrangler pages dev requires --kv flags, not .dev.vars, for KV bindings.
 # See: https://developers.cloudflare.com/pages/functions/bindings/

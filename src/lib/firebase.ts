@@ -10,6 +10,7 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInAnonymously,
   signOut as fbSignOut,
   sendPasswordResetEmail,
   onAuthStateChanged,
@@ -31,7 +32,6 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  deleteDoc,
   onSnapshot,
   serverTimestamp,
   arrayUnion,
@@ -45,6 +45,7 @@ import {
   isSupported as analyticsIsSupported,
 } from 'firebase/analytics';
 import { toDocId } from './userKey.js';
+import { lsSet, lsRemove } from './safeStorage.js';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -131,11 +132,16 @@ export function gP(u: string): unknown {
   }
 }
 export function sP(u: string, p: unknown): void {
-  localStorage.setItem('uP_' + u, JSON.stringify(p));
+  // Guarded: a failing local write must not skip the cloud save that follows.
+  lsSet('uP_' + u, JSON.stringify(p));
   fbSaveProgress(u, p as Record<string, unknown>).catch(() => {});
 }
 export function lP(u: string, p: unknown): void {
-  localStorage.setItem('uP_' + u, JSON.stringify(p));
+  // Guarded: callers (useSyncManager._processSnapshot, useAuth's hydrate) apply
+  // the merged remote progress to React state on the NEXT lines. A throw here
+  // meant an unwritable localStorage also blocked every incoming snapshot from
+  // reaching the UI — the cache write is the least important part of that path.
+  lsSet('uP_' + u, JSON.stringify(p));
 }
 export function gS(): unknown {
   try {
@@ -145,14 +151,19 @@ export function gS(): unknown {
   }
 }
 export function sS(s: Record<string, unknown>): void {
-  localStorage.setItem('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
+  // Guarded: called from the auth listener immediately before the branch that
+  // hands the user to the app. A throw left a successfully-authenticated user
+  // stranded on the login screen with _syncReady still closed.
+  lsSet('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
 }
 export function cS(): void {
-  localStorage.removeItem('uS');
+  // Guarded: sign-out (both the explicit signOut and the null-user listener
+  // branch) continues past this call to clear auth state and route to login.
+  lsRemove('uS');
 }
 export function touchSession(): void {
   const s = gS() as Record<string, unknown> | null;
-  if (s) localStorage.setItem('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
+  if (s) lsSet('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
 }
 export function isSessionExpired(): boolean {
   const s = gS() as { lastActive?: number } | null;
@@ -249,11 +260,43 @@ async function _withRetry<T>(fn: () => Promise<T>, label: string, maxAttempts = 
   throw lastErr; // unreachable — satisfies TypeScript
 }
 
+/**
+ * True when a snapshot carries NO real progress — zero XP/lessons/grammar/speaking,
+ * no visited screens, no favourites, no journal. Such a snapshot is what a fresh
+ * or briefly-misclassified device produces before the cloud read hydrates. Writing
+ * it would overwrite the real `progress` blob (a single string field, replaced
+ * wholesale by set+merge) with defaults — the catastrophic-wipe path. We refuse
+ * to persist it: there is nothing worth saving, and a genuine user writes the
+ * moment they earn any progress. Deliberately IGNORES `onboarded` so that merely
+ * flagging the account established (cross-device fix) can't let an un-hydrated
+ * empty snapshot through. Exported for tests.
+ */
+export function isEmptyProgressSnapshot(data: Record<string, unknown>): boolean {
+  const st = (data.stats || data.st || {}) as Record<string, unknown>;
+  const n = (v: unknown): number => (typeof v === 'number' ? v : 0);
+  const emptyArr = (a: unknown): boolean => !Array.isArray(a) || a.length === 0;
+  return (
+    n(st.xp) <= 0 &&
+    n(st.lc) <= 0 &&
+    n(st.gc) <= 0 &&
+    n(st.sp) <= 0 &&
+    emptyArr(st.vs) &&
+    emptyArr(data.favs) &&
+    emptyArr(data.journal)
+  );
+}
+
 export async function fbSaveProgress(
   uid: string,
   data: Record<string, unknown>,
-): Promise<{ ok: boolean; err?: string; code?: string }> {
+): Promise<{ ok: boolean; err?: string; code?: string; skipped?: boolean }> {
   if (!_fbReady || !_fbDb) return { ok: false, err: 'Firebase not initialized' };
+  // ── Wipe guard ────────────────────────────────────────────────────────────
+  // Never let an empty "brand-new user" snapshot overwrite (or pre-create) a
+  // document. If a returning login is briefly misclassified as new — e.g. before
+  // the cloud read hydrates, or a transient blob-less server read — its save
+  // would otherwise clobber the real progress blob. Skipping is always safe.
+  if (isEmptyProgressSnapshot(data)) return { ok: true, skipped: true };
   // Flush any pending coalesced fbApplyDelta writes before the full snapshot
   // save. Both writes target the same user document, and the snapshot blob
   // includes the incremented stats already — so without a flush, the next
@@ -278,14 +321,11 @@ export async function fbSaveProgress(
   const _CEFR_NUM: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
   const _lvl =
     typeof _lvlRaw === 'number' && _lvlRaw >= 1 ? _lvlRaw : _CEFR_NUM[_lvlRaw as string] || 1;
-  const _nowMs = Date.now();
   // useSyncManager and doSyncNow write with the raw uid key ('uP_' + uid).
   // Try raw uid first, fall back to toDocId key for legacy snapshots.
   const _cachedP = (gP(uid) || gP(id)) as Record<string, unknown> | null;
   const _cachedSt =
     (_cachedP && ((_cachedP.stats || _cachedP.st) as Record<string, unknown>)) || {};
-  const _bestXP = Math.max((_st.xp as number) || 0, (_cachedSt.xp as number) || 0);
-  const _bestLC = Math.max((_st.lc as number) || 0, (_cachedSt.lc as number) || 0);
   const _cachedStrk =
     _cachedP && typeof (_cachedP.streak as Record<string, unknown>)?.count === 'number'
       ? (_cachedP.streak as Record<string, number>).count!
@@ -303,19 +343,11 @@ export async function fbSaveProgress(
   // Exclude SRS from the progress blob (it now lives in srs/{id})
   const { sr: _sr, ...dataWithoutSRS } = data;
   const _progressJson = JSON.stringify(dataWithoutSRS);
-  const profileEntry = {
-    name: (data.name as string) || '',
-    xp: _bestXP,
-    lc: _bestLC,
-    streak: _bestStrk,
-    level: _bestLvl,
-    lastActive: _nowMs,
-  };
   // Note: xp and lessonsCompleted are intentionally excluded from userEntry.
   // fbApplyDelta owns both top-level fields via atomic increments (increment(v)).
   // Writing absolute values here would race with another device's fbApplyDelta:
-  //   - If device B has already incremented Firestore xp/lessonsCompleted above
-  //     _bestXP/_bestLC, writing the local snapshot regresses the Firestore value.
+  //   - If device B has already incremented Firestore xp/lessonsCompleted above the
+  //     local value, writing the local snapshot regresses the Firestore value.
   //   - For xp: the monotonic validXpUpdate() rule would also cause permission-denied,
   //     failing the entire batch and losing the progress blob write.
   //   - For lessonsCompleted: no rule enforces monotonicity, so the regression is
@@ -344,7 +376,9 @@ export async function fbSaveProgress(
     await _withRetry(async () => {
       const b = writeBatch(_fbDb!);
       b.set(fsDoc(_fbDb!, 'users', id), userEntry, { merge: true });
-      b.set(fsDoc(_fbDb!, 'profiles', id), profileEntry, { merge: true });
+      // The public `profiles` leaderboard doc is no longer written — the
+      // leaderboard feature was removed (no user-facing UI, not worth the
+      // per-sync write). Only users/{id} is persisted now.
       await b.commit();
     }, 'fbSaveProgress');
     // Atomic reconciliation (stats.vs / ct / badges superset guarantee) is now
@@ -353,6 +387,18 @@ export async function fbSaveProgress(
     return { ok: true };
   } catch (e: unknown) {
     const err = e as { code?: string; message?: string };
+    // Log the blob size on permission-denied. The validProgressSize() rule caps
+    // the `progress` field at 200 KB and rejects the whole atomic batch when it
+    // is exceeded, so an over-sized blob presents identically to an auth failure —
+    // which is how the 100k-XP sync-halt stayed invisible for so long. Having
+    // the size in the log makes that case diagnosable from a console screenshot.
+    if (err?.code === 'permission-denied') {
+      console.error(
+        '[sync] fbSaveProgress denied — progress blob is',
+        _progressJson.length,
+        'chars (rule limit 204800)',
+      );
+    }
     console.error('[sync] fbSaveProgress failed:', err?.code, err?.message);
     return {
       ok: false,
@@ -375,7 +421,7 @@ export async function fbSaveProgress(
 // flush as ONE write. Writes still use Firestore increment()/arrayUnion(),
 // so cross-device atomicity is preserved (no client-side race possible —
 // the merged write sums client-local accumulator before the increment).
-const _DELTA_NUMERIC = ['xp', 'lc', 'gc', 'sp', 'de', 'rc', 'pf', 'mv', 'hi'];
+const _DELTA_NUMERIC = ['xp', 'spent', 'lc', 'gc', 'sp', 'pr', 'de', 'rc', 'pf', 'mv', 'hi'];
 const _DELTA_ARRAYS = ['ct', 'vs', 'badges'];
 // 2026-05-22: reduced from 4 s → 1.2 s as defense against pending-delta loss
 // on hard tab close. fbSaveProgress flushes pending deltas via
@@ -472,7 +518,16 @@ async function _fbApplyDeltaImmediate(uid: string, delta: Record<string, unknown
   }
   if (!hasUpdate) return;
   try {
-    await _withRetry(() => updateDoc(fsDoc(_fbDb!, 'users', id), update), 'fbApplyDelta');
+    // NOTE: no _withRetry here. This write contains Firestore increment() ops, which
+    // are NOT idempotent. _withRetry retries on 'deadline-exceeded'/'internal' — both
+    // AMBIGUOUS-commit errors where the server may have already applied the increment
+    // before failing to ACK — so a retry would double-apply and permanently inflate
+    // xp/lc/pr. A single lost increment is harmless: the progress blob (fbSaveProgress)
+    // carries the absolute stats and fbLoadProgress reconciles with Math.max, so the
+    // next snapshot recovers it (this is already the accepted ~3s coalesce-loss window).
+    // Preferring "occasionally lose one delta" over "occasionally double-count" is the
+    // correct trade for a non-idempotent write.
+    await updateDoc(fsDoc(_fbDb!, 'users', id), update);
   } catch (e: unknown) {
     const err = e as { code?: string; message?: string };
     if (err?.code === 'not-found') {
@@ -530,9 +585,17 @@ export async function fbLoadProgress(uid: string): Promise<Record<string, unknow
       ..._bs,
       ..._as,
       xp: Math.max((_bs.xp as number) || 0, (_as.xp as number) || 0),
+      // spent — monotonic; delta-incremented like xp. Math.max prevents a stale
+      // blob from refunding a perk purchase. Balance = xp - spent.
+      spent: Math.max((_bs.spent as number) || 0, (_as.spent as number) || 0),
       lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
       gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
       sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
+      // pr (production reps) IS delta-written via fbApplyDelta, so _as carries it
+      // and would clobber a higher blob value without this Math.max — the one
+      // _DELTA_NUMERIC field that was missing its load-side backstop, causing the
+      // "real fluency signal" to regress on a cache-cold read.
+      pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
       de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
       rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
       pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),
@@ -669,6 +732,36 @@ export async function fbLogout(): Promise<void> {
     .catch(() => {});
 }
 
+/**
+ * Sign the user in anonymously so "Continue as Guest" gets a real Firebase uid
+ * and ID token. That token is what makes /api/content/* return 200 (no more
+ * guest 401 → empty learn path) and lets the normal auto-save + Firestore sync
+ * run, so guest progress persists and survives a reload — the whole signed-in
+ * chain works unchanged, the guest is just an authenticated user with no email.
+ *
+ * REQUIRES "Anonymous" to be enabled in Firebase console → Authentication →
+ * Sign-in method. If it's disabled (or the user is offline / Firebase isn't
+ * configured), this returns { ok: false } and the caller falls back to the
+ * legacy in-memory guest, so there is no regression from the previous behaviour.
+ */
+export async function fbSignInGuest(): Promise<{ ok: boolean; err?: string; user?: User }> {
+  if (!_fbReady || !_fbAuth) return { ok: false, err: 'not_configured' };
+  try {
+    const cred = await signInAnonymously(_fbAuth);
+    try {
+      await updateProfile(cred.user, { displayName: 'Gost' });
+    } catch {
+      /* display-name is cosmetic; the listener also falls back to 'Gost' */
+    }
+    fbLogEvent('login', { method: 'anonymous' });
+    return { ok: true, user: cred.user };
+  } catch (e: unknown) {
+    const err = e as { code?: string; message?: string };
+    console.warn('[auth] anonymous sign-in unavailable:', err.code || err.message);
+    return { ok: false, err: err.code || err.message || 'guest_failed' };
+  }
+}
+
 export async function fbLoginGoogle(): Promise<{ ok: boolean; err?: string; user?: User }> {
   if (!_fbReady || !_fbAuth) return { ok: false, err: 'Firebase not configured.' };
   try {
@@ -745,16 +838,41 @@ export function fbOnAuthStateChanged(cb: (user: User | null) => void): () => voi
   return onAuthStateChanged(_fbAuth, cb);
 }
 
-export async function fbDeleteAccount(userId: string): Promise<{ ok: boolean; err?: string }> {
+export async function fbDeleteAccount(_userId: string): Promise<{ ok: boolean; err?: string }> {
   if (!_fbReady) return { ok: false, err: 'Firebase not ready.' };
   try {
-    const id = toDocId(userId);
-    await Promise.allSettled([
-      deleteDoc(fsDoc(_fbDb!, 'users', id)),
-      deleteDoc(fsDoc(_fbDb!, 'profiles', id)),
-      deleteDoc(fsDoc(_fbDb!, 'srs', id)),
-    ]);
-    if (_fbAuth && _fbAuth.currentUser) await deleteUser(_fbAuth.currentUser);
+    // Erasure runs SERVER-SIDE (/api/delete-account) under admin credentials.
+    // The client cannot do this correctly: Firestore rules deny it delete on
+    // users/{id} and profiles/{id}, and deny it list/delete on the xpAudit and
+    // conversationMemory subcollections — so a client-only delete leaves PII
+    // behind while reporting success (GDPR / Play Data-Deletion violation).
+    // The server deletes those docs + subcollections, the push KV, and
+    // the Auth account. Identity comes from the verified token, not the body.
+    const { _nativePost } = await import('./nativePost');
+    const res = await _nativePost('/api/delete-account', {});
+    if (!res) {
+      return { ok: false, err: 'Could not reach the server. Check your connection and try again.' };
+    }
+    let body: { ok?: boolean; authDeleted?: boolean; error?: string } = {};
+    try {
+      body = await res.json();
+    } catch {
+      /* non-JSON error body */
+    }
+    if (!res.ok || !body.ok) {
+      return { ok: false, err: friendlyError(body.error || `Delete failed (${res.status}).`) };
+    }
+    // The server normally deletes the Auth account too. If it could not (e.g.
+    // Identity Toolkit hiccup), fall back to the client SDK — the user's data is
+    // already gone, so this only cleans up the login record. Best-effort: the
+    // token may already be invalid, which is fine.
+    if (!body.authDeleted && _fbAuth && _fbAuth.currentUser) {
+      try {
+        await deleteUser(_fbAuth.currentUser);
+      } catch {
+        /* auth record already removed or requires-recent-login — data is erased */
+      }
+    }
     return { ok: true };
   } catch (e: unknown) {
     return { ok: false, err: friendlyError((e as Error).message) };
@@ -872,9 +990,14 @@ export function fbWatchProgress(
             ..._bs,
             ..._as,
             xp: Math.max((_bs.xp as number) || 0, (_as.xp as number) || 0),
+            // spent — monotonic; Math.max prevents a stale blob from refunding a
+            // perk purchase (balance = xp - spent). See fbLoadProgress above.
+            spent: Math.max((_bs.spent as number) || 0, (_as.spent as number) || 0),
             lc: Math.max((_bs.lc as number) || 0, (_as.lc as number) || 0),
             gc: Math.max((_bs.gc as number) || 0, (_as.gc as number) || 0),
             sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
+            // pr regression backstop — see fbLoadProgress above.
+            pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
             de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
             rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
             pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { QWORDS } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -28,6 +29,10 @@ function QuestionWordsScreen({ goBack, award }: Props) {
 
   React.useEffect(() => {
     if (!allDone) return;
+    // Finishing the set completes the session activity even at 0 correct —
+    // award() below is gated on xpEarned > 0, which stranded the session on a
+    // zero-score run (2026-07-16 completion-matrix audit).
+    signalSessionCompleteIfActive('qwords');
     markQuest('grammar');
     setStats((s) => ({ ...s, gc: s.gc + 1 }));
     writeDelta({ gc: 1 });

@@ -1,5 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
+import { isNative } from '../../../lib/platform';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Notifications + daily-reminder-time section — extracted from SettingsTab as
@@ -11,20 +13,58 @@ export default function NotificationsSection() {
   const { au } = useApp();
   // Push notification state
   const [notifPermission, setNotifPermission] = useState(() => {
+    // On native the browser Notification API is unreliable — resolve the real
+    // OS permission asynchronously on mount (below). 'default' keeps the enable
+    // affordance visible until that check completes.
+    if (isNative()) return 'default';
     if (typeof Notification === 'undefined') return 'unsupported';
     return Notification.permission;
   });
   const [notifLoading, setNotifLoading] = useState(false);
   const [notifError, setNotifError] = useState('');
-  const [reminderTime, setReminderTime] = useState(
-    () => localStorage.getItem('nh_reminder_time') || '20:00',
-  );
+  const [reminderTime, setReminderTime] = useState(() => lsGet('nh_reminder_time') || '20:00');
+
+  // Native: reflect the true OS notification permission in the UI on mount.
+  useEffect(() => {
+    if (!isNative()) return;
+    let cancelled = false;
+    import('../../../lib/nativeNotifications').then(({ getNativeNotificationPermission }) =>
+      getNativeNotificationPermission().then((p) => {
+        if (!cancelled) setNotifPermission(p === 'prompt' ? 'default' : p);
+      }),
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleEnableNotifications = useCallback(async () => {
     if (notifLoading) return;
     setNotifLoading(true);
     setNotifError('');
     try {
+      // Native path: OS-level local notifications (Web Push does not work in the
+      // Android WebView). Request permission, then schedule the daily reminder.
+      if (isNative()) {
+        const [
+          { requestNativeNotificationPermission, scheduleNativeDailyReminder },
+          { getStreak },
+        ] = await Promise.all([
+          import('../../../lib/nativeNotifications'),
+          import('../../../lib/appUtils.js'),
+        ]);
+        const granted = await requestNativeNotificationPermission();
+        setNotifPermission(granted ? 'granted' : 'denied');
+        if (granted) {
+          try {
+            localStorage.setItem('nh_notifications_enabled', 'true');
+          } catch {}
+          await scheduleNativeDailyReminder(getStreak().count || 0);
+        } else {
+          setNotifError('Please allow notifications in your device settings to get reminders.');
+        }
+        return;
+      }
       const { subscribeToPush } = await import('../../../lib/pushNotifications.js');
       const result = await subscribeToPush(au?.u || '');
       setNotifPermission(
@@ -38,9 +78,11 @@ export default function NotificationsSection() {
         setNotifError('Could not enable notifications. Please check your browser settings.');
       }
     } catch (_err) {
-      setNotifPermission(
-        typeof Notification !== 'undefined' ? Notification.permission : 'unsupported',
-      );
+      if (!isNative()) {
+        setNotifPermission(
+          typeof Notification !== 'undefined' ? Notification.permission : 'unsupported',
+        );
+      }
       setNotifError('Notifications unavailable. Please try again or check browser permissions.');
     } finally {
       setNotifLoading(false);
@@ -187,6 +229,16 @@ export default function NotificationsSection() {
                 >
                   Daily reminder time
                 </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: 'var(--subtext)',
+                    marginBottom: 6,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Your daily push reminder arrives at this hour, your local time.
+                </div>
                 <select
                   value={reminderTime}
                   onChange={(e) => {
@@ -195,6 +247,38 @@ export default function NotificationsSection() {
                     try {
                       localStorage.setItem('nh_reminder_time', t);
                     } catch (_) {}
+                    // Native: reschedule the OS-level daily reminder at the new hour.
+                    if (isNative()) {
+                      Promise.all([
+                        import('../../../lib/nativeNotifications'),
+                        import('../../../lib/appUtils.js'),
+                      ])
+                        .then(([{ scheduleNativeDailyReminder }, { getStreak }]) =>
+                          scheduleNativeDailyReminder(getStreak().count || 0),
+                        )
+                        .catch(() => {});
+                      return;
+                    }
+                    // Web: update the server-side subscription immediately so the
+                    // scheduled worker sends at the newly chosen hour (force
+                    // bypasses the 85-day re-registration cache).
+                    if (
+                      typeof Notification !== 'undefined' &&
+                      Notification.permission === 'granted'
+                    ) {
+                      Promise.all([
+                        import('../../../lib/pushNotifications.js'),
+                        import('../../../lib/appUtils.js'),
+                      ])
+                        .then(([{ registerPushWithServer }, { getStreak }]) =>
+                          registerPushWithServer({
+                            streak: getStreak().count || 0,
+                            name: au?.d || '',
+                            force: true,
+                          }),
+                        )
+                        .catch(() => {});
+                    }
                   }}
                   style={{
                     background: 'var(--card)',

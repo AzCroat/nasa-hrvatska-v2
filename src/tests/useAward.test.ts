@@ -6,6 +6,8 @@
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 // ── Mock all external dependencies used by useAward ──────────────────────────
 
@@ -527,6 +529,97 @@ describe('useAward — award() behaviour', () => {
   });
 });
 
+describe('useAward — daily-session completion signal (bug #2/#3)', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
+  it('writes nh_session_completed when finishing the launched activity (normal award)', async () => {
+    sessionStorage.setItem('nh_session_started', 'mcgame');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setStats = vi.fn((fn: any) => fn({ ...DS }));
+    const { result } = renderHook(() => useAward({ curEx: 'mcgame', stats: { ...DS }, setStats }));
+    await act(async () => {
+      await result.current.award(50);
+    });
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('mcgame');
+  });
+
+  it('REGRESSION: signals completion even when XP is on cooldown (2nd+ run of the day)', async () => {
+    // The award()-only screens (mcgame, comparatives, qwords, genderdrill,
+    // sentbuild, listening) used to strand the session at N-1/N on a repeat run:
+    // canEarnXP returned false, award() early-returned, and nh_session_completed
+    // was never written. Finishing the activity must advance the session even
+    // when no XP pays out.
+    sessionStorage.setItem('nh_session_started', 'mcgame');
+    localStorage.setItem('xpCooldown', JSON.stringify({ mcgame: '2026-04-19' }));
+    const setStats = vi.fn();
+    const { result } = renderHook(() => useAward({ curEx: 'mcgame', stats: { ...DS }, setStats }));
+    await act(async () => {
+      await result.current.award(50);
+    });
+    // XP is gated (no stat mutation) but the session still advances.
+    expect(setStats).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('mcgame');
+  });
+
+  it('does NOT complete an activity the user did not launch (started !== curEx)', async () => {
+    sessionStorage.setItem('nh_session_started', 'flashcards');
+    localStorage.setItem('xpCooldown', JSON.stringify({ mcgame: '2026-04-19' }));
+    const setStats = vi.fn();
+    const { result } = renderHook(() => useAward({ curEx: 'mcgame', stats: { ...DS }, setStats }));
+    await act(async () => {
+      await result.current.award(50);
+    });
+    expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
+  });
+
+  it('REGRESSION (2026-07-16): a zero-XP finish still completes the session — award(0)', async () => {
+    // dictation/future/dialogue call award(score·N) at their FINISH point; a
+    // 0-correct run therefore calls award(0). The amt===0 early-return used to
+    // sit BEFORE the session handshake, so those finishes never wrote
+    // nh_session_completed — pinning Dnevna Vježba at N-1/N with no way to
+    // advance (the reported Writing/production-slot block was this class).
+    // A finish is a finish: the session is a practice flow, not a mastery gate.
+    sessionStorage.setItem('nh_session_started', 'dictation');
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'dictation', stats: { ...DS }, setStats }),
+    );
+    await act(async () => {
+      await result.current.award(0);
+    });
+    // No XP mutation for 0 — but the session advances.
+    expect(setStats).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('dictation');
+  });
+
+  it('award(0) does NOT signal when the started activity differs (accuracy preserved)', async () => {
+    sessionStorage.setItem('nh_session_started', 'flashcards');
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'dictation', stats: { ...DS }, setStats }),
+    );
+    await act(async () => {
+      await result.current.award(0);
+    });
+    expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
+  });
+
+  it('does not write the signal when no session activity is active', async () => {
+    localStorage.setItem('xpCooldown', JSON.stringify({ mcgame: '2026-04-19' }));
+    const setStats = vi.fn();
+    const { result } = renderHook(() => useAward({ curEx: 'mcgame', stats: { ...DS }, setStats }));
+    await act(async () => {
+      await result.current.award(50);
+    });
+    expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
+  });
+});
+
 describe('award — activityType / online validation', () => {
   const mockStats = {
     xp: 0,
@@ -636,5 +729,127 @@ describe('award — activityType / online validation', () => {
     });
     expect(apiFetch).not.toHaveBeenCalled();
     expect(offlineAwardQueue.enqueue).not.toHaveBeenCalled();
+  });
+});
+
+// ── Production-rep counting (Session-Rec #6, synced) ─────────────────────────
+describe('useAward — production-rep counting', () => {
+  it('counts a rep (synced pr delta + local stat + device-local bucket) on a production-screen completion', async () => {
+    const writeDelta = vi.fn();
+    let state: Record<string, unknown> = { ...DS, pr: 0 };
+    const setStats = vi.fn((fn: (s: typeof state) => typeof state) => {
+      state = fn(state);
+    });
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'writing', stats: { ...DS }, setStats, writeDelta }),
+    );
+    await act(async () => {
+      await result.current.award(5, false, 'writing');
+    });
+    // Synced atomic delta for cross-device Math.max merge.
+    expect(writeDelta).toHaveBeenCalledWith({ pr: 1 });
+    // Local stat incremented (survives the subsequent XP setStats which spreads prev).
+    expect(state.pr).toBe(1);
+    // Device-local weekly bucket (weekKey mocked to 2026-W16).
+    const reps = JSON.parse(localStorage.getItem('nh_production_reps') || '{}');
+    expect(reps.total).toBe(1);
+    expect(reps.weekCount).toBe(1);
+  });
+
+  it('does NOT count a rep for a non-production screen', async () => {
+    const writeDelta = vi.fn();
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'cloze', stats: { ...DS }, setStats: vi.fn(), writeDelta }),
+    );
+    await act(async () => {
+      await result.current.award(5, false, 'grammar');
+    });
+    expect(writeDelta).not.toHaveBeenCalledWith({ pr: 1 });
+    expect(localStorage.getItem('nh_production_reps')).toBeNull();
+  });
+});
+
+// ── Storage-blocked profile ───────────────────────────────────────────────────
+// award() persists weekly XP, daily XP, the first-lesson journey flag and daily
+// study time. Those WRITES were already guarded with lsSet, but the READS feeding
+// them were raw `localStorage.getItem`, so on a profile where getItem throws
+// (cookies / site data blocked, supervised profile, some privacy modes and
+// embedded WebViews) the read raised before the guarded write could run — and the
+// guard never got the chance to do its job.
+//
+// award() has no enclosing try, so the throw escaped it. The XP had already been
+// applied to React state by then, which meant everything after the failing read
+// was skipped: daily XP, the journey milestone, session counters, daily study
+// time, and the celebration + analytics at the end.
+describe('useAward — storage-blocked profile', () => {
+  const boom = () => {
+    throw new DOMException('The operation is insecure.', 'SecurityError');
+  };
+
+  function blockStorage() {
+    vi.stubGlobal('localStorage', {
+      getItem: boom,
+      setItem: boom,
+      removeItem: boom,
+      clear: () => {},
+      key: boom,
+      length: 0,
+    } as unknown as Storage);
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('award() does not throw when every localStorage read raises SecurityError', async () => {
+    blockStorage();
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useAward({ curEx: 'vocab_basics', stats: { ...DS }, setStats } as any),
+    );
+    await act(async () => {
+      await result.current.award(15, true, 'vocab');
+    });
+    // Reaching here at all is the assertion: pre-fix this rejected with
+    // SecurityError out of the weekly-XP read.
+    expect(setStats).toHaveBeenCalled();
+  });
+
+  it('award() still applies the XP to React state, which is what reaches Firebase', async () => {
+    blockStorage();
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useAward({ curEx: 'vocab_basics', stats: { ...DS }, setStats } as any),
+    );
+    await act(async () => {
+      await result.current.award(20, false, 'vocab');
+    });
+    // Local persistence genuinely cannot work here, but the session's XP must
+    // still land in state so the sync manager can push it to the cloud.
+    expect(setStats).toHaveBeenCalled();
+  });
+
+  it('canEarnXP falls back to "allowed" rather than throwing', () => {
+    blockStorage();
+    expect(() => canEarnXP('anything')).not.toThrow();
+    expect(canEarnXP('anything')).toBe(true);
+  });
+
+  it('markExerciseDone does not throw', () => {
+    blockStorage();
+    expect(() => markExerciseDone('anything')).not.toThrow();
+  });
+
+  it('the module reads storage through safeStorage, never raw', () => {
+    // Structural guard. This regressed once already in applyRemoteProgress
+    // precisely because raw calls were left behind next to guarded ones.
+    const src = readFileSync(resolve(__dirname, '../hooks/useAward.ts'), 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    expect(src).not.toMatch(/localStorage\.getItem/);
+    expect(src).not.toMatch(/localStorage\.setItem/);
+    expect(src).not.toMatch(/localStorage\.removeItem/);
   });
 });

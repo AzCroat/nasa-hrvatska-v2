@@ -16,3 +16,95 @@ export function shouldEnableSentryReplay(userAgent?: string): boolean {
   if (/DuckDuckGo/.test(ua)) return false;
   return true;
 }
+
+/**
+ * Session Replay records a user's interaction session (DOM mutations, clicks,
+ * navigation) — analytics-grade data collection that, unlike crash telemetry,
+ * requires the same explicit cookie consent as PostHog before it may run.
+ * Consent is stored in localStorage under 'cookie_consent_v1' (see
+ * CookieConsent.tsx / analytics.ts); Replay is only permitted once the user has
+ * actively accepted. Crash/error reporting itself stays ungated — this gate is
+ * specifically for the Replay integration.
+ *
+ * Takes the already-read consent value so the caller (src/main.tsx, at module
+ * load, before React mounts) can use its own SecurityError-safe storage reader.
+ */
+export function isReplayConsentGranted(consentValue: string | null | undefined): boolean {
+  return consentValue === 'accepted';
+}
+
+/**
+ * Minimal structural view of the Sentry event fields the abort filter inspects.
+ * The real Sentry `Event` is structurally assignable to it.
+ */
+interface AbortFilterEvent {
+  exception?: {
+    values?: Array<{
+      type?: string;
+      value?: string;
+      mechanism?: { type?: string };
+    }>;
+  };
+}
+
+/**
+ * True when a Sentry event is a benign AbortError surfaced as an *unhandled
+ * promise rejection*. `apiFetch` re-throws AbortError (src/lib/apiFetch.ts), so a
+ * fire-and-forget request aborted by SPA navigation or its own timeout escapes
+ * as an unhandled rejection — nothing user-facing broke, the request was simply
+ * cut short (common on slow iOS in-app WebKit like DuckDuckGo Mobile). Scoped to
+ * the `onunhandledrejection` mechanism so an AbortError captured any other way
+ * (e.g. an explicit Sentry.captureException, or a real synchronous throw) is
+ * still reported.
+ */
+export function isBenignAbortRejection(event: AbortFilterEvent | null | undefined): boolean {
+  const ex = event?.exception?.values?.[0];
+  if (!ex) return false;
+  const isAbort = ex.type === 'AbortError' || /\bAbortError\b/i.test(ex.value ?? '');
+  return isAbort && ex.mechanism?.type === 'onunhandledrejection';
+}
+
+/**
+ * True when a Sentry event is a benign service-worker script-load failure
+ * surfaced as an *unhandled promise rejection* — Safari's signature is
+ * `SecurityError: Script https://…/sw.js load failed` (DOMException 18),
+ * thrown when a privacy setting ("Block all cookies", some private-browsing
+ * configurations) or a transient network failure blocks the SW script fetch,
+ * typically during the browser's own periodic registration *update* check
+ * (which vite-plugin-pwa's onRegisterError does not cover). Nothing
+ * user-facing breaks — the app simply runs without offline support — so
+ * these must not page anyone. Scoped to the onunhandledrejection mechanism
+ * and to the sw.js script specifically; any other SecurityError still reports.
+ *
+ * 2026-07-25: this filter existed and the events still reached Sentry, because
+ * it required a SecurityError. Safari also reports the SAME environmental
+ * registration failure as a plain `TypeError: Script https://…/sw.js load
+ * failed`, so that variant slipped through. Widened to cover it — but
+ * NARROWLY, matching only that exact whole-message shape.
+ *
+ * Two things stay REPORTED on purpose:
+ *   - anything mentioning a MIME type. sw.js served as text/html silently
+ *     breaks the SW update flow for every user on that deploy; it is one of
+ *     this app's two documented service-worker incidents and is very much
+ *     actionable. The explicit guard below means widening the type check can
+ *     never swallow it.
+ *   - anything not arriving as an unhandled rejection, e.g. an explicit
+ *     captureException or a real synchronous throw.
+ */
+export function isBenignSwLoadRejection(event: AbortFilterEvent | null | undefined): boolean {
+  const ex = event?.exception?.values?.[0];
+  if (!ex) return false;
+  if (ex.mechanism?.type !== 'onunhandledrejection') return false;
+  const msg = ex.value ?? '';
+  // Actionable — never suppress (production Incident 1).
+  if (/mime type/i.test(msg)) return false;
+  const isSwLoad =
+    /\bsw\.js\b/.test(msg) && /load failed|failed to (fetch|load|register)/i.test(msg);
+  if (!isSwLoad) return false;
+  const isSecurity = ex.type === 'SecurityError' || /\bSecurityError\b/.test(msg);
+  // Safari's TypeError variant of the same environmental failure. Anchored to the
+  // whole message so a richer, more specific error cannot match by accident.
+  const isEnvTypeError =
+    ex.type === 'TypeError' && /^script\s+\S+\s+load failed\.?$/i.test(msg.trim());
+  return isSecurity || isEnvTypeError;
+}

@@ -4,7 +4,7 @@
 // POST /api/digest  { email, name, xp, lessons, streakDays, wordsLearned }
 
 import { checkRateLimit } from './_rateLimit.js';
-import { getFirebaseUid } from './_verifyToken.js';
+import { getFirebaseClaims } from './_verifyToken.js';
 
 function isAllowedOrigin(origin, isDev) {
   // Empty origin: PWA standalone mode (iOS/Android) and Capacitor. Auth is enforced via Firebase token.
@@ -53,11 +53,12 @@ export async function onRequestPost(ctx) {
   }
 
   // Require Firebase auth — Resend is paid + reputation risk if abused for spam.
+  // FAIL CLOSED: if the project id is unset we cannot verify the caller, so we
+  // must reject — never fall through to an unauthenticated open email relay.
   const FIREBASE_PROJECT_ID = ctx.env.VITE_FIREBASE_PROJECT_ID || ctx.env.FIREBASE_PROJECT_ID || '';
-  if (FIREBASE_PROJECT_ID) {
-    const _uid = await getFirebaseUid(ctx.request, FIREBASE_PROJECT_ID);
-    if (!_uid) return errJson('unauthorized', 401, hdrs);
-  }
+  if (!FIREBASE_PROJECT_ID) return errJson('Service not configured', 503, hdrs);
+  const claims = await getFirebaseClaims(ctx.request, FIREBASE_PROJECT_ID);
+  if (!claims || !claims.email) return errJson('unauthorized', 401, hdrs);
 
   const RESEND_KEY = ctx.env.RESEND_API_KEY;
   if (!RESEND_KEY) return errJson('Service not configured', 503, hdrs);
@@ -69,8 +70,13 @@ export async function onRequestPost(ctx) {
     return errJson('Bad request', 400, hdrs);
   }
 
-  const { email, name, xp, lessons, streakDays, wordsLearned } = body;
-  if (!email || !name) return errJson('Missing required fields', 400, hdrs);
+  // The recipient is ALWAYS the verified caller's own email — never a body
+  // field. Otherwise any signed-in account could make Resend send a branded
+  // email to any address (spam/phishing relay). The body only supplies display
+  // stats. `name` is HTML-escaped below.
+  const email = claims.email;
+  const { name, xp, lessons, streakDays, wordsLearned } = body;
+  if (!name) return errJson('Missing required fields', 400, hdrs);
   if (!EMAIL_RE.test(email) || /[\r\n\t%]/.test(email)) {
     return errJson('Invalid email address.', 400, hdrs);
   }

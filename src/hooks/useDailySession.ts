@@ -7,6 +7,24 @@ import { CONJ_LAB_ENABLED } from '../lib/conjugation/conjugationConfig';
 import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
+import { trackSessionBuilt } from '../lib/analytics';
+import { getSubscriptionStatus } from './useSubscription';
+import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
+import { CROATIA_POOL } from '../lib/croatiaPool';
+import { lsGet } from '../lib/safeStorage';
+// Re-exported so the content-coverage CI gate and session tests keep their
+// import path (the data moved to ../lib/sessionPools for max-lines; the
+// Croatia rotation pool followed in Wave 6 for the same reason).
+export { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
+export type { CefrPoolEntry } from '../lib/sessionPools';
+export { CROATIA_POOL } from '../lib/croatiaPool';
+export type { CroatiaPoolEntry } from '../lib/croatiaPool';
+// Re-exported so existing consumers/tests can keep importing the production-rep
+// metric from this module (Session-Rec #6 lives in ../lib/productionMetric).
+// Counting now happens centrally in useAward (any production completion, session
+// or Practice); markDone only handles session recency rotation.
+export { recordProductionRep, getProductionReps } from '../lib/productionMetric';
+export type { ProductionReps } from '../lib/productionMetric';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -43,6 +61,12 @@ export interface UseDailySessionReturn {
    * and any done in the last 24h). Empty array when session is incomplete.
    */
   bonusActivities: SessionActivity[];
+  /**
+   * Build a fresh curated session on demand. Called when the user explicitly
+   * chooses to keep going from the complete state (the session no longer
+   * auto-regenerates, which used to hide the completion moment).
+   */
+  startFreshSession: () => void;
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -51,14 +75,50 @@ const SESSION_KEY = 'nh_daily_session';
 const HISTORY_KEY = 'nh_session_history';
 const RECENT_KEY = 'nh_recent_exercises';
 const MINUTES_PER_ACTIVITY = 5;
+const FLUENCY_MODE_KEY = 'nh_fluency_mode';
+
+/**
+ * Opt-in "fluency mode" (Session-Rec #3) — longer, production-heavier daily
+ * sessions for learners who want to push harder. Read from localStorage so
+ * buildSessionActivities (a pure-ish builder that already reads mic/recency/
+ * city state) can consult it without threading a prop through the hook + HomeTab.
+ */
+export function readFluencyMode(): boolean {
+  try {
+    return localStorage.getItem(FLUENCY_MODE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Non-Croatia activity target for a session (Session-Rec #3). Scales with level
+ * so beginners get a lighter session and stronger learners a fuller one, and the
+ * opt-in fluency mode lengthens it further. This caps mandatory + fill slots; the
+ * always-on Croatia slot is added on top, so total activities = this + 1.
+ *   A1  → 3 (lighter — recognition + one production slot)
+ *   A2+ → 4 (standard)
+ *   fluency mode → +2 at every level (more fill on top of the production/
+ *   conversation slots the B1+ shape already guarantees)
+ * Default (mode off) keeps the long-standing 4–6 total-activity envelope.
+ */
+export function getSessionFillTarget(userCefr: string, fluencyMode: boolean): number {
+  const base = cefrRank(userCefr) >= cefrRank('A2') ? 4 : 3;
+  return fluencyMode ? base + 2 : base;
+}
 
 /** Maps adaptive SkillCategory → exercise screen id */
 const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   genitive: 'genitivedrill',
   accusative: 'accusativedrill',
-  'dative-locative': 'cloze',
-  instrumental: 'cloze',
-  vocative: 'cloze',
+  // Route each case to its dedicated drill (these components already exist and
+  // are registered in AppRouter). Previously dative-locative/instrumental/vocative
+  // all collapsed to generic 'cloze', so even when the adaptive picker chose them
+  // the learner never got a real case drill. Dative & locative share endings in
+  // Croatian, so the locative drill covers the combined 'dative-locative' category.
+  'dative-locative': 'locdrill',
+  instrumental: 'instrumental',
+  vocative: 'vocative',
   'past-tense': 'cloze',
   'future-tense': 'future',
   'aspect-imperfective': 'aspectdrill',
@@ -69,199 +129,22 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'vocab-a2': 'znam',
   'vocab-b1': 'znam',
   'vocab-b2': 'znam',
-  // 'speaking' category previously mapped to 'speaking_sprint'; that surface
-  // is AI-driven and now lives only on the AI Tutor tab. Speaking category
-  // adaptive picks no longer route to a daily-session activity.
+  // 'speaking' category adaptive picks don't route to a dedicated drill here;
+  // spoken output is guaranteed by the production slot instead (PRODUCTION_POOL,
+  // which since Wave 3 includes speaking_sprint again — it uses only browser
+  // speech APIs, no AI quota).
 };
-
-/** CEFR-annotated exercise pool for Priority 3 fill */
-export interface CefrPoolEntry {
-  id: string;
-  label: string;
-  screen: string;
-  cefr: string;
-  category: SkillCategory;
-}
-// Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
-// which tabulates this pool into a (CEFR level × skill group) matrix.
-export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
-  { id: 'flashcards', label: 'Flashcards', screen: 'flashcards', cefr: 'A1', category: 'vocab-a2' },
-  { id: 'mcgame', label: 'Quiz', screen: 'mcgame', cefr: 'A1', category: 'vocab-a2' },
-  { id: 'match', label: 'Match Pairs', screen: 'match', cefr: 'A1', category: 'vocab-a2' },
-  { id: 'review', label: 'SRS Review', screen: 'review', cefr: 'A1', category: 'vocab-a2' },
-  { id: 'znam', label: 'Translate', screen: 'znam', cefr: 'A2', category: 'vocab-a2' },
-  { id: 'qwords', label: 'Questions', screen: 'qwords', cefr: 'A2', category: 'vocab-a2' },
-  { id: 'genderdrill', label: 'Gender', screen: 'genderdrill', cefr: 'A2', category: 'vocab-a2' },
-  { id: 'cloze', label: 'Sentence Cloze', screen: 'cloze', cefr: 'A2', category: 'vocab-a2' },
-  { id: 'unjumble', label: 'Word Order', screen: 'unjumble', cefr: 'A2', category: 'word-order' },
-  { id: 'prepdrill', label: 'Prepositions', screen: 'prepdrill', cefr: 'A2', category: 'genitive' },
-  { id: 'negation', label: 'Negation', screen: 'negation', cefr: 'A2', category: 'genitive' },
-  {
-    id: 'genitivedrill',
-    label: 'Genitive Case',
-    screen: 'genitivedrill',
-    cefr: 'A2',
-    category: 'genitive',
-  },
-  {
-    id: 'nomdrill',
-    label: 'Nominative Case',
-    screen: 'nomdrill',
-    cefr: 'A1',
-    category: 'nominative',
-  },
-  {
-    id: 'locdrill',
-    label: 'Locative Case',
-    screen: 'locdrill',
-    cefr: 'B1',
-    category: 'dative-locative',
-  },
-  {
-    id: 'sentbuild',
-    label: 'Build Sentences',
-    screen: 'sentbuild',
-    cefr: 'A2',
-    category: 'word-order',
-  },
-  {
-    id: 'sentencetiles',
-    label: 'Tile Assembly',
-    screen: 'sentencetiles',
-    cefr: 'A2',
-    category: 'word-order',
-  },
-  { id: 'typing', label: 'Typing', screen: 'typing', cefr: 'A2', category: 'vocab-a2' },
-  {
-    id: 'aspectdrill',
-    label: 'Aspect Drill',
-    screen: 'aspectdrill',
-    cefr: 'B1',
-    category: 'aspect-imperfective',
-  },
-  {
-    id: 'accusativedrill',
-    label: 'Accusative Case',
-    screen: 'accusativedrill',
-    cefr: 'B1',
-    category: 'accusative',
-  },
-  { id: 'future', label: 'Future Tense', screen: 'future', cefr: 'B1', category: 'future-tense' },
-  {
-    id: 'comparatives',
-    label: 'Compare',
-    screen: 'comparatives',
-    cefr: 'B1',
-    category: 'vocab-b1',
-  },
-  { id: 'clitic', label: 'Clitic Drill', screen: 'clitic', cefr: 'B2', category: 'clitics' },
-  { id: 'dictation', label: 'Dictation', screen: 'dictation', cefr: 'B1', category: 'speaking' },
-  // B2 — advanced grammar (existing drills surfaced into the session pool).
-  { id: 'passive', label: 'Passive Voice', screen: 'passive', cefr: 'B2', category: 'passive' },
-  {
-    id: 'numcases',
-    label: 'Numbers & Cases',
-    screen: 'numcases',
-    cefr: 'B2',
-    category: 'numerals',
-  },
-  // B2 — net-new drills authored to clear the coverage floor.
-  {
-    id: 'participles',
-    label: 'Participles',
-    screen: 'participles',
-    cefr: 'B2',
-    category: 'participle',
-  },
-  {
-    id: 'subordination',
-    label: 'Subordinate Clauses',
-    screen: 'subordination',
-    cefr: 'B2',
-    category: 'subordination',
-  },
-  {
-    id: 'conditionaldrill',
-    label: 'Conditional',
-    screen: 'conditionaldrill',
-    cefr: 'B2',
-    category: 'conditional',
-  },
-  // B1 — case drills surfaced into the pool (previously routable but never in the
-  // daily session). Instrumental/dative also gave the adaptive picker only the
-  // generic cloze screen; these add dedicated at-level practice.
-  {
-    id: 'instrumental',
-    label: 'Instrumental Case',
-    screen: 'instrumental',
-    cefr: 'B1',
-    category: 'instrumental',
-  },
-  { id: 'dative', label: 'Dative Case', screen: 'dative', cefr: 'B1', category: 'dative-locative' },
-  {
-    id: 'animateacc',
-    label: 'Animate Accusative',
-    screen: 'animateacc',
-    cefr: 'B1',
-    category: 'accusative',
-  },
-  // C1 — idiomatic, discourse-level and register/style competence.
-  { id: 'idiomdrill', label: 'Idioms', screen: 'idiomdrill', cefr: 'C1', category: 'idioms' },
-  {
-    id: 'discourse',
-    label: 'Discourse Connectors',
-    screen: 'discourse',
-    cefr: 'C1',
-    category: 'discourse',
-  },
-  { id: 'register', label: 'Register', screen: 'register', cefr: 'C1', category: 'register' },
-  {
-    id: 'nominalization',
-    label: 'Nominalization',
-    screen: 'nominalization',
-    cefr: 'C1',
-    category: 'nominalization',
-  },
-  // Long-form listening — the audit's listening gap. Surfaced as CEFR-gated fill
-  // candidates so the daily session serves comprehension of connected speech, not
-  // just single sentences. 'listeningComprehension' uses the authored graded-story
-  // bank (audio + transcript + quiz, from A1); 'aiListening' generates a fresh
-  // dialogue/monologue at the user's level (B1+). Both feed recordTopicResult
-  // ('listening') so weak listening resurfaces.
-  {
-    id: 'listeningComprehension',
-    label: 'Listening',
-    screen: 'listening_comprehension',
-    cefr: 'A1',
-    category: 'listening',
-  },
-  {
-    id: 'aiListening',
-    label: 'AI Listening',
-    screen: 'ai_listening',
-    cefr: 'B1',
-    category: 'listening',
-  },
-];
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
 // pick (resolveAdaptiveActivity) so the coverage floor can't surface a locked
 // drill (e.g. B1 accusative, B2 clitics) to an A1/A2 user.
-const SCREEN_CEFR: Record<string, string> = Object.fromEntries(
-  CEFR_EXERCISE_POOL.map((e) => [e.screen, e.cefr]),
-);
-
-/** Croatia rotation pool — Priority 4 always adds one of these */
-const CROATIA_POOL: SessionActivity[] = [
-  { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
-  { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
-  { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
-  { id: 'transport', label: 'Transport Scenario', screen: 'transport', category: 'practical' },
-  { id: 'recipes', label: 'Croatian Recipes', screen: 'recipes', category: 'culture' },
-  { id: 'history', label: 'Croatian History', screen: 'history', category: 'culture' },
-  { id: 'proverbs', label: 'Croatian Proverbs', screen: 'proverbs', category: 'culture' },
-  { id: 'popculture', label: 'Pop Culture', screen: 'popculture', category: 'culture' },
-];
+const SCREEN_CEFR: Record<string, string> = {
+  ...Object.fromEntries(CEFR_EXERCISE_POOL.map((e) => [e.screen, e.cefr])),
+  // vocative (VocativeScreen) is routed by the adaptive picker but is not part of
+  // the Priority-3 fill pool, so it has no pool-derived CEFR. Part of the full
+  // case system introduced at A1.
+  vocative: 'A1',
+};
 
 // Reference/immersion screens with no self-grading completion (read/scenario
 // screens). The Priority-4 Croatia slot ALWAYS adds one of these, and they only
@@ -269,11 +152,14 @@ const CROATIA_POOL: SessionActivity[] = [
 // viewing (the dwell-credit that used to cover that was removed 2026-06-12). So
 // the always-present Croatia slot stranded the session at N-1/N: it could never
 // complete, which also blocked the on-completion auto-regenerate. Treat
-// "launched from the session and returned" as completion for these. Derived from
-// CROATIA_POOL so it can never drift out of sync.
-export const SESSION_AUTOCOMPLETE_SCREENS: ReadonlySet<string> = new Set(
-  CROATIA_POOL.map((c) => c.screen),
-);
+// "launched from the session and returned" as completion for these. Derived
+// from CROATIA_POOL plus the Wave-4 reference-tagged pool entries (bounded
+// bilingual browse screens) so it can never drift out of sync. Graded pool
+// entries are never in this set — their completion stays quiz/award-gated.
+export const SESSION_AUTOCOMPLETE_SCREENS: ReadonlySet<string> = new Set([
+  ...CROATIA_POOL.map((c) => c.screen),
+  ...CEFR_EXERCISE_POOL.filter((e) => e.reference).map((e) => e.screen),
+]);
 
 /**
  * Whether a launched session activity should be marked done on return to Home:
@@ -321,51 +207,6 @@ export function resolveAdaptiveActivity(
   return null;
 }
 
-// Structural difficulty tier per session exercise type (1 = recognition …
-// 5 = open production), mirroring exerciseMeta's scale. Used to bias the daily
-// Priority-3 fill toward the user's ability so content scales as they advance
-// (defect #1: difficulty was inert — nothing consumed difficulty tiers). Any id
-// not listed defaults to tier 3.
-const EXERCISE_DIFFICULTY: Record<string, number> = {
-  flashcards: 1,
-  mcgame: 1,
-  match: 1,
-  review: 2,
-  qwords: 2,
-  genderdrill: 2,
-  nomdrill: 2,
-  unjumble: 2,
-  negation: 2,
-  znam: 3,
-  cloze: 3,
-  prepdrill: 3,
-  genitivedrill: 3,
-  locdrill: 3,
-  sentencetiles: 3,
-  typing: 3,
-  accusativedrill: 3,
-  future: 3,
-  comparatives: 3,
-  dictation: 3,
-  sentbuild: 4,
-  aspectdrill: 4,
-  clitic: 4,
-  instrumental: 3,
-  dative: 3,
-  animateacc: 3,
-  numcases: 4,
-  passive: 4,
-  participles: 4,
-  subordination: 4,
-  conditionaldrill: 4,
-  idiomdrill: 4,
-  discourse: 4,
-  register: 4,
-  nominalization: 4,
-  listeningComprehension: 3,
-  aiListening: 4,
-};
-
 // Maps the user's CEFR level to a target difficulty tier (1–5). A stronger user
 // is biased toward harder exercise types.
 const CEFR_TIER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 };
@@ -402,6 +243,30 @@ function isGrammarStructure(category: SessionCategory): boolean {
   return GRAMMAR_STRUCTURE_CATEGORIES.has(category);
 }
 
+// Wave 8: premium-tagged pool entries (maja, live_tutor) are drawn only for
+// premium users. Read once per draw site — getSubscriptionStatus is a cheap
+// synchronous localStorage read (same builder-input pattern as fluency mode).
+// Wave 9 extends the gate to mic-required entries (pronunciation_assess):
+// skipped when readMicState() is 'denied'/'unsupported', mirroring
+// PRODUCTION_POOL's micRequired contract. Compute the context once per draw
+// site — both reads are cheap synchronous localStorage lookups.
+interface DrawCtx {
+  isPremium: boolean;
+  micBlocked: boolean;
+}
+function drawCtx(): DrawCtx {
+  const mic = readMicState();
+  return {
+    isPremium: getSubscriptionStatus().isPremium,
+    micBlocked: mic === 'denied' || mic === 'unsupported',
+  };
+}
+function entryServable(ex: { premium?: boolean; micRequired?: boolean }, ctx: DrawCtx): boolean {
+  if (ex.premium && !ctx.isPremium) return false;
+  if (ex.micRequired && ctx.micBlocked) return false;
+  return true;
+}
+
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
 // level-appropriate (nearest CEFR to the user) and EXEMPT from the Priority-3
 // difficulty-tier sort (G4) — that sort otherwise buries case/structure drills
@@ -413,10 +278,12 @@ export function selectGuaranteedGrammar(
   usedScreens: Set<string>,
   recentScreens: string[],
 ): SessionActivity | null {
+  const ctx = drawCtx();
   const grammar = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isGrammarStructure(ex.category) &&
       isUnlocked(ex.cefr, userCefr) &&
+      entryServable(ex, ctx) &&
       !usedScreens.has(ex.screen),
   );
   let candidates = grammar.filter((ex) => !recentScreens.includes(ex.screen));
@@ -442,7 +309,13 @@ export function buildSessionActivities(
   // path), drop orphan cards (words removed from vocabulary) so the slot is
   // only added if /review will render content. Fallback to the unfiltered
   // count when no pool is provided (e.g., unit tests).
-  const dueCount = poolWords ? getServableReviewCount(poolWords) : getDueReviews().length;
+  // Use the servable (orphan-filtered) count ONLY when poolWords is actually
+  // populated. On a cold app-open the pool is empty on the first render (content
+  // loads async) — treating that as "0 due" silently dropped the Word Review slot
+  // from the whole day's session (it's built once, keyed on userCefr). Fall back to
+  // the raw FSRS due count when the pool isn't ready, so due reviews still get a slot.
+  const dueCount =
+    poolWords && poolWords.size > 0 ? getServableReviewCount(poolWords) : getDueReviews().length;
   if (dueCount > 0) {
     activities.push({
       id: 'srsreview',
@@ -460,15 +333,42 @@ export function buildSessionActivities(
   );
   if (adaptiveActivity) activities.push(adaptiveActivity);
 
-  // Build usedScreens once, here, so P2.5 and P3 both dedup against it.
+  // Build usedScreens once, here, so the production slots and P3 all dedup.
   const usedScreens = new Set(activities.map((a) => a.screen));
 
-  // Priority 2.5: Production — guarantee one speaking/writing slot per session
-  // SP4b. Uses pure helper that filters by CEFR + mic state + recent exclusion.
+  // Priority 2.4: Conversation anchor at B1+ (Session-Rec #4). Spontaneous
+  // interactive output is the fluency lever recognition can't replace, so every
+  // B1+ session guarantees one conversation turn (guided Dialogue by default —
+  // zero AI cost — with the unbounded AI mode one tap away). Added BEFORE the
+  // general production slot, and recency is intentionally ignored here (we WANT
+  // conversation daily; DialogueSim rotates its own scenarios), so it never
+  // degrades into a non-conversation. A1/A2 skip this — they get a single
+  // combined output slot via P2.5 — keeping early sessions light (Rec #3 will
+  // formalise the per-level shape).
+  if (cefrRank(userCefr) >= cefrRank('B1')) {
+    const conversation = selectProductionExercise({
+      cefr: userCefr,
+      micState: readMicState(),
+      recentScreens: [],
+      excludeScreens: [...usedScreens],
+      kindBias: 'converse',
+    });
+    if (conversation && !usedScreens.has(conversation.screen)) {
+      activities.push(conversation);
+      usedScreens.add(conversation.screen);
+    }
+  }
+
+  // Priority 2.5: Production — a guaranteed active-output slot every session
+  // (Session-Rec #2). The expanded pool (Rec #1) includes keyboard modes down to
+  // A1 (`dialogue`) / A2 (`writing`), so the helper returns a slot for every A1+
+  // user in every mic state — production is no longer a sometimes-thing. Excludes
+  // screens already queued so it never double-books an earlier slot.
   const productionActivity = selectProductionExercise({
     cefr: userCefr,
     micState: readMicState(),
     recentScreens: getRecentProduction(),
+    excludeScreens: [...usedScreens],
   });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push(productionActivity);
@@ -499,9 +399,11 @@ export function buildSessionActivities(
   }
 
   // Priority 3: CEFR-appropriate fill (skip recent, exclude already queued screens)
+  const ctx = drawCtx();
   let pool = CEFR_EXERCISE_POOL.filter(
     (ex) =>
       isUnlocked(ex.cefr, userCefr) &&
+      entryServable(ex, ctx) &&
       !recentScreens.includes(ex.screen) &&
       !usedScreens.has(ex.screen),
   );
@@ -509,7 +411,8 @@ export function buildSessionActivities(
   // Fallback: if recency filter leaves nothing, use full unlocked pool
   if (pool.length === 0) {
     pool = CEFR_EXERCISE_POOL.filter(
-      (ex) => isUnlocked(ex.cefr, userCefr) && !usedScreens.has(ex.screen),
+      (ex) =>
+        isUnlocked(ex.cefr, userCefr) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
     );
   }
 
@@ -526,23 +429,66 @@ export function buildSessionActivities(
     }))
     .sort((a, b) => a.dist - b.dist || a.r - b.r)
     .map((o) => o.ex);
-  const fillTarget = 4; // target 4 activities from P1+P2+P3 before Croatia slot
+  // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard 4).
+  const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
+  // Wave 1 (session catchment): the LAST fill slot is a discovery slot — picked
+  // by least-recently-served instead of difficulty-nearest, so the widened pool
+  // actually cycles through sessions over time instead of staying buried behind
+  // the difficulty sort. Session length is unchanged: discovery DISPLACES the
+  // final difficulty pick, it never adds a slot.
+  const discoveryTarget = fillTarget > activities.length + 1 ? fillTarget - 1 : fillTarget;
+  // Wave 4: at most ONE reference (browse) entry per session, across the
+  // difficulty fill AND the discovery slot — browse content must never crowd
+  // out graded drills.
+  let referenceServed = false;
   for (const ex of ordered) {
-    if (activities.length >= fillTarget) break;
+    if (activities.length >= discoveryTarget) break;
+    if (ex.reference && referenceServed) continue;
     if (!usedScreens.has(ex.screen)) {
+      activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
+      usedScreens.add(ex.screen);
+      if (ex.reference) referenceServed = true;
+    }
+  }
+  if (activities.length < fillTarget) {
+    const served = readServedMap();
+    const discovery = pool
+      .filter((ex) => !usedScreens.has(ex.screen) && !(ex.reference && referenceServed))
+      .map((ex) => ({ ex, last: served[ex.screen] ?? '', r: rnd() }))
+      .sort((a, b) => (a.last < b.last ? -1 : a.last > b.last ? 1 : a.r - b.r))[0];
+    if (discovery) {
+      const { ex } = discovery;
       activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
       usedScreens.add(ex.screen);
     }
   }
 
-  // Priority 4: Croatia immersion — always 1 slot
+  // Priority 4: Croatia immersion — always 1 slot. Wave 2: the pool is CEFR-
+  // filtered (register-heavy entries carry a `cefr` gate) and City of the Day
+  // keeps first claim on the slot until visited; afterwards the day-of-month
+  // rotation walks the rest of the UNLOCKED pool, so the widened culture
+  // catchment surfaces without changing session length or the cityofday ritual.
   const today = localDateStr();
-  const cityVisited = localStorage.getItem('nh_cityofday_date') === today;
+  const cityVisited = lsGet('nh_cityofday_date') === today;
   const dayOfMonth = new Date().getDate();
-  const croatiaActivity = cityVisited
-    ? CROATIA_POOL[1 + (dayOfMonth % (CROATIA_POOL.length - 1))]!
-    : CROATIA_POOL[0]!;
-  activities.push(croatiaActivity);
+  const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
+  const croatiaRotation = croatiaEligible.filter((c) => c.screen !== 'cityofday');
+  const croatiaActivity =
+    !cityVisited || croatiaRotation.length === 0
+      ? croatiaEligible[0]!
+      : croatiaRotation[dayOfMonth % croatiaRotation.length]!;
+  activities.push({
+    id: croatiaActivity.id,
+    label: croatiaActivity.label,
+    screen: croatiaActivity.screen,
+    category: croatiaActivity.category,
+  });
+
+  // Wave 1: record what this session serves (feeds the discovery slot's
+  // least-recently-served ordering) and emit the served-mix analytics event so
+  // coverage broadening is observable in production, not assumed.
+  recordServedScreens(activities.map((a) => a.screen));
+  trackSessionBuilt({ cefr: userCefr, screens: activities.map((a) => a.screen) });
 
   return activities;
 }
@@ -577,6 +523,29 @@ function loadPersistedSession(): DailySession | null {
 function persistSession(session: DailySession): void {
   try {
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch {}
+}
+
+// Wave 1: map of screen key → last date it appeared in a built session. Read by
+// the Priority-3 discovery slot (least-recently-served ordering); written on
+// every session build. Never pruned — a few hundred screen keys with date
+// strings is negligible storage.
+const SERVED_KEY = 'nh_session_served';
+
+function readServedMap(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(SERVED_KEY) || '{}') as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function recordServedScreens(screens: string[]): void {
+  try {
+    const map = readServedMap();
+    const today = localDateStr();
+    for (const s of screens) map[s] = today;
+    localStorage.setItem(SERVED_KEY, JSON.stringify(map));
   } catch {}
 }
 
@@ -676,7 +645,9 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
       // Record the screen so the daily session's skip-recent filter rotates it
       // out next time (the write path that was missing for non-Practice users).
       recordRecentExercise(match.screen);
-      // SP4b: track production exercises for recent-exclusion rotation
+      // SP4b: track production exercises for recent-exclusion rotation. (The
+      // Rec-#6 production-rep COUNT lives in useAward now — the central completion
+      // point — so it captures Practice-tab production too, not just sessions.)
       if (PRODUCTION_SCREEN_IDS.has(match.screen)) {
         recordProductionExercise(match.screen);
       }
@@ -711,7 +682,13 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     if (session.completedIds.includes(srsActivity.id)) return;
     // Use the same pool-aware count buildSessionActivities now uses, so the
     // skip decision agrees with what ReviewScreen will actually serve.
-    const dueCount = poolWords ? getServableReviewCount(poolWords) : getDueReviews().length;
+    // Use the servable (orphan-filtered) count ONLY when poolWords is actually
+    // populated. On a cold app-open the pool is empty on the first render (content
+    // loads async) — treating that as "0 due" silently dropped the Word Review slot
+    // from the whole day's session (it's built once, keyed on userCefr). Fall back to
+    // the raw FSRS due count when the pool isn't ready, so due reviews still get a slot.
+    const dueCount =
+      poolWords && poolWords.size > 0 ? getServableReviewCount(poolWords) : getDueReviews().length;
     if (dueCount > 0) return;
     // Use the same setter path markDone uses (persist + history side-effects).
     setSession((prev) => {
@@ -729,17 +706,17 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
   const progress =
     session.activities.length === 0 ? 0 : session.completedIds.length / session.activities.length;
   const nextActivity = session.activities.find((a) => !session.completedIds.includes(a.id)) ?? null;
-  const tomorrowLabel = '4–6 activities tomorrow';
+  const tomorrowLabel = readFluencyMode() ? '6–8 activities tomorrow' : '4–6 activities tomorrow';
 
-  // Auto-regenerate on completion (same day). The moment every activity is done,
-  // build a brand-new set so Today's Session always offers fresh content instead
-  // of a dead-end. By now the just-completed screens are recorded (skip-recent)
-  // and the just-rated adaptive category has rescheduled, so the new set rotates
-  // to different exercises and a different grammar focus. buildSessionActivities
-  // always returns >= 1 activity (Croatia slot is unconditional), so the fresh
-  // set is never immediately complete — no render loop.
-  useEffect(() => {
-    if (!isComplete || session.activities.length === 0) return;
+  // Build a brand-new session ON DEMAND — the user taps "Start a fresh session"
+  // from the complete state. This used to run automatically in a useEffect the
+  // instant isComplete flipped true, which silently erased the "Session
+  // Complete!" moment and made the bonus-activities next-steps unreachable (the
+  // session felt endless — it just refilled). Completion is now a real, visible
+  // state; regenerating is the user's explicit choice. buildSessionActivities
+  // always returns >= 1 activity, and the just-completed screens are recorded
+  // (skip-recent) so the fresh set rotates to different exercises.
+  const startFreshSession = useCallback(() => {
     const activities = buildSessionActivities(userCefr, poolWords);
     const fresh: DailySession = {
       date: localDateStr(),
@@ -750,8 +727,7 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     };
     persistSession(fresh);
     setSession(fresh);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isComplete]);
+  }, [userCefr, poolWords]);
 
   // Bonus activities — show only when the curated daily session is complete,
   // so users who want to keep learning have specific next steps instead of a
@@ -769,24 +745,31 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
           }
         })();
         const recentSet = new Set(recentScreens);
+        const ctx = drawCtx();
         let pool = CEFR_EXERCISE_POOL.filter(
           (ex) =>
             isUnlocked(ex.cefr, userCefr) &&
+            entryServable(ex, ctx) &&
             !sessionScreens.has(ex.screen) &&
             !recentSet.has(ex.screen),
         );
         if (pool.length === 0) {
           pool = CEFR_EXERCISE_POOL.filter(
-            (ex) => isUnlocked(ex.cefr, userCefr) && !sessionScreens.has(ex.screen),
+            (ex) =>
+              isUnlocked(ex.cefr, userCefr) &&
+              entryServable(ex, ctx) &&
+              !sessionScreens.has(ex.screen),
           );
         }
-        const shuffled = [...pool];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(rnd() * (i + 1));
-          const tmp = shuffled[i] as (typeof shuffled)[0];
-          shuffled[i] = shuffled[j] as (typeof shuffled)[0];
-          shuffled[j] = tmp;
-        }
+        // Wave 1: least-recently-served ordering (was a pure shuffle). For B1+
+        // users the four guaranteed slots consume the whole fill target, so the
+        // bonus round is their main window onto the widened pool — LRS makes it
+        // actually rotate through everything instead of resampling favourites.
+        const served = readServedMap();
+        const shuffled = [...pool]
+          .map((ex) => ({ ex, last: served[ex.screen] ?? '', r: rnd() }))
+          .sort((a, b) => (a.last < b.last ? -1 : a.last > b.last ? 1 : a.r - b.r))
+          .map((o) => o.ex);
         return shuffled.slice(0, 5).map((ex) => ({
           id: 'bonus_' + ex.id,
           label: ex.label,
@@ -796,7 +779,16 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
       })()
     : [];
 
-  return { session, isComplete, progress, markDone, nextActivity, tomorrowLabel, bonusActivities };
+  return {
+    session,
+    isComplete,
+    progress,
+    markDone,
+    nextActivity,
+    tomorrowLabel,
+    bonusActivities,
+    startFreshSession,
+  };
 }
 
 // ── Mic-state persistence (SP4b) ─────────────────────────────────────────────
@@ -830,7 +822,11 @@ interface RecentProductionEntry {
 }
 
 function _todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  // Delegates to the canonical local-date helper. This file already used
+  // localDateStr() in nine places for the session's own day-keying; this helper
+  // was the one UTC holdout, so the recent-production window boundary sat up to
+  // a day away from the learner's own day.
+  return localDateStr();
 }
 
 function _daysBetween(a: string, b: string): number {
@@ -863,9 +859,26 @@ export function getRecentProduction(): string[] {
   }
 }
 
-// ── Production pool (SP4b) ───────────────────────────────────────────────────
-// Five-member pool of exercises that require active learner output.
-// micRequired === false members are eligible as fallback for mic-blocked users.
+// ── Production pool (SP4b; expanded — Session-Rec #1/#2) ──────────────────────
+// Exercises that require ACTIVE learner output, the fluency driver the daily
+// loop was missing. `micRequired === false` members are eligible as the
+// keyboard fallback for mic-blocked users — and, post Session-Rec #2, they
+// guarantee the slot is never empty at any level (see selectProductionExercise).
+//
+// `kind` classifies the output mode so Session-Rec #4 can anchor an interactive
+// CONVERSATION at B1+:
+//   • 'speak'    — spoken output, scored acoustically (mic).
+//   • 'write'    — typed free/guided output (keyboard).
+//   • 'converse' — interactive turn-taking dialogue (keyboard).
+//
+// Session-Rec #1 routes the two unbounded AI modes into the loop (reversing the
+// earlier "AI-consolidation" that confined them to the AI Tutor tab): `writing`
+// (→ /api/correct, AI-graded free production) and `dialogue` (guided scenarios
+// by default with an unbounded AI-conversation mode one tap away → /api/dialogue).
+// Both are keyboard-only and BOTH endpoints are quota-gated (requireAuthedAI +
+// _aiQuota: ≤1 unit/use, 300/user/day ceiling), so the daily-loop cost is bounded
+// — the "Balanced" posture. `dialogue` at A1 + keyboard finally gives A1 and every
+// mic-blocked user a real production slot (the old pool floored at A2/mic).
 const PRODUCTION_POOL: Array<{
   id: string;
   label: string;
@@ -873,7 +886,32 @@ const PRODUCTION_POOL: Array<{
   cefr: string;
   category: SkillCategory;
   micRequired: boolean;
+  kind: 'speak' | 'write' | 'converse';
 }> = [
+  {
+    id: 'dialogue',
+    label: 'Conversation',
+    // Guided scenarios (A1+) by default — zero AI cost — with an unbounded
+    // AI-conversation mode available in-screen. Keyboard-capable (free-text or
+    // multiple-choice turns), so it is eligible for mic-blocked users and is the
+    // lowest-CEFR production option, which is what guarantees the slot at A1.
+    screen: 'dialogue',
+    cefr: 'A1',
+    category: 'speaking',
+    micRequired: false,
+    kind: 'converse',
+  },
+  {
+    id: 'writing',
+    label: 'Writing',
+    // Free typed production, AI-corrected via /api/correct (one quota unit on
+    // submit). Keyboard-only → the universal fallback for mic-blocked users.
+    screen: 'writing',
+    cefr: 'A2',
+    category: 'speaking',
+    micRequired: false,
+    kind: 'write',
+  },
   {
     id: 'shadowing',
     label: 'Shadowing',
@@ -881,6 +919,20 @@ const PRODUCTION_POOL: Array<{
     cefr: 'A2',
     category: 'speaking',
     micRequired: true,
+    kind: 'speak',
+  },
+  {
+    id: 'speaking',
+    // Open spoken production. SpeakingScreen depends on parent-held state, so the
+    // launcher (useScreenLauncher.launchSessionActivity) initialises its vocab
+    // pool before navigating — without that init a cold session launch renders
+    // blank, which is why this was deferred from the initial fluency series.
+    label: 'Speaking',
+    screen: 'speaking',
+    cefr: 'A2',
+    category: 'speaking',
+    micRequired: true,
+    kind: 'speak',
   },
   {
     id: 'production_drill',
@@ -892,6 +944,7 @@ const PRODUCTION_POOL: Array<{
     cefr: 'B1',
     category: 'speaking',
     micRequired: true,
+    kind: 'speak',
   },
   {
     id: 'dictation',
@@ -900,6 +953,19 @@ const PRODUCTION_POOL: Array<{
     cefr: 'B1',
     category: 'speaking',
     micRequired: false,
+    kind: 'write',
+  },
+  {
+    id: 'speaking_sprint',
+    // Wave 3: rapid timed speaking rounds, ends with an explicit Done award.
+    // Browser SpeechRecognition + TTS only — no AI-quota endpoints — with a
+    // typed-answer fallback, so it is keyboard-safe (micRequired false).
+    label: 'Speaking Sprint',
+    screen: 'speaking_sprint',
+    cefr: 'A2',
+    category: 'speaking',
+    micRequired: false,
+    kind: 'speak',
   },
 ];
 
@@ -923,26 +989,49 @@ export const SESSION_SCREEN_IDS: ReadonlySet<string> = new Set<string>([
   ...PRODUCTION_POOL.map((p) => p.screen),
 ]);
 
-// ── Production exercise selector (SP4b) ──────────────────────────────────────
+// ── Production exercise selector (SP4b; expanded — Session-Rec #2) ────────────
 // Pure function — returns one SessionActivity from PRODUCTION_POOL, applying
-// CEFR / mic / recent filters. Returns null when the unlocked pool is empty
-// (e.g., A1 user with all 5 exercises locked).
+// CEFR / mic / explicit-exclude / recent filters.
+//
+// GUARANTEE (Session-Rec #2): with `dialogue` (A1, keyboard) and `writing` (A2,
+// keyboard) now in the pool, at least one member is unlocked and keyboard-safe
+// for every level A1–C2 in every mic state — so this returns non-null for any
+// A1+ user. It can still return null only when `excludeScreens` removes every
+// remaining candidate (e.g. the Rec-#4 conversation anchor already took the sole
+// option); callers treat null as "nothing left to add", never as a hard failure.
+//
+// `kindBias` (Session-Rec #4): when set, candidates whose `kind` matches are
+// preferred — the conversation anchor passes 'converse' so B1+ reliably gets an
+// interactive turn without forbidding the other modes when none is available.
 export function selectProductionExercise(opts: {
   cefr: string;
   micState: MicState;
   recentScreens: string[];
+  excludeScreens?: string[];
+  kindBias?: 'speak' | 'write' | 'converse';
 }): SessionActivity | null {
-  const { cefr, micState, recentScreens } = opts;
+  const { cefr, micState, recentScreens, excludeScreens = [], kindBias } = opts;
   // Step 1 — CEFR gate
   let pool = PRODUCTION_POOL.filter((p) => isUnlocked(p.cefr, cefr));
   // Step 2 — mic-required filter (keyboard-only when denied/unsupported)
   if (micState === 'denied' || micState === 'unsupported') {
     pool = pool.filter((p) => !p.micRequired);
   }
+  // Step 2b — hard exclude screens already queued this session (no fallback: a
+  // dup would double-book the same screen). Unlike recency this is never relaxed.
+  if (excludeScreens.length > 0) {
+    pool = pool.filter((p) => !excludeScreens.includes(p.screen));
+  }
   if (pool.length === 0) return null;
   // Step 3 — recent-exclusion (fall back to pre-filter if it empties)
   let candidates = pool.filter((p) => !recentScreens.includes(p.screen));
   if (candidates.length === 0) candidates = pool;
+  // Step 3b — kind bias (Rec #4): prefer the requested output mode when present,
+  // but never strand the slot if no member of that kind survived the filters.
+  if (kindBias) {
+    const biased = candidates.filter((p) => p.kind === kindBias);
+    if (biased.length > 0) candidates = biased;
+  }
   // Step 4 — random uniform pick
   const idx = Math.min(Math.floor(rnd() * candidates.length), candidates.length - 1);
   const picked = candidates[idx]!;

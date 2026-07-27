@@ -59,6 +59,49 @@ describe('debugLog — entry management', () => {
     expect(entries[2].msg).toContain('third');
   });
 
+  // ── Production console silence (2026-07-16) ────────────────────────────────
+  // '[DBG]' lines used to print to every user's production console — reading
+  // the console looked like continuous "bug capture". Console mirroring is now
+  // DEV-only (or explicit nh_debug='1' opt-in); the in-memory buffer is
+  // unaffected either way.
+  it('does NOT mirror to console in production builds (buffer still records)', () => {
+    vi.stubEnv('DEV', false);
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    try {
+      dbgInfo('prod message');
+      expect(info).not.toHaveBeenCalled();
+      expect(getEntries()).toHaveLength(1); // buffer unaffected
+    } finally {
+      info.mockRestore();
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it('mirrors to console in production when nh_debug opt-in is set', () => {
+    vi.stubEnv('DEV', false);
+    localStorage.setItem('nh_debug', '1');
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    try {
+      dbgInfo('diagnostic message');
+      expect(info).toHaveBeenCalledOnce();
+    } finally {
+      info.mockRestore();
+      localStorage.removeItem('nh_debug');
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it('mirrors to console in dev builds', () => {
+    // vitest runs with DEV=true by default — assert the default path mirrors.
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    try {
+      dbgInfo('dev message');
+      expect(info).toHaveBeenCalledOnce();
+    } finally {
+      info.mockRestore();
+    }
+  });
+
   it('formats Error objects with name: message', () => {
     const err = new Error('test error message');
     dbgError(err);

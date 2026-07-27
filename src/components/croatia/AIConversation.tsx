@@ -10,13 +10,16 @@ import {
   useConversationSession,
   type ConversationMessage,
 } from '../../hooks/useConversationSession';
+import { getUserCefr } from '../../lib/cefr';
 import { useWriteMode } from '../../hooks/useWriteMode';
 import { markQuest } from '../../lib/quests.js';
 import { logError, getErrorsForAPI } from '../../lib/learnerErrors.js';
+import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { SCENARIOS, deriveWeakAreas, sceneForCat } from './ConversationScenarios.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
 import { stopAudio } from '../../lib/audio.ts';
+import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
 import AIConversationHeader from './AIConversationHeader';
 import AIConversationWriteSetup from './AIConversationWriteSetup';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
@@ -266,16 +269,13 @@ export default function AIConversation({
   const [showCustom, setShowCustom] = useState(false);
 
   // ── Conversation session state (22 vars → 1 hook) ───────────────────────────
+  // The app decides (owner decision, 2026-07-21): default the conversation
+  // level from EARNED CEFR — the single source of truth — instead of the
+  // removed manual Difficulty setting (stats.diff, now a legacy placement
+  // echo). Clamped to the selectable range; user can still adjust in-screen.
   const initialLevel = (() => {
-    const diffMap = {
-      beginner: 'A1',
-      elementary: 'A2',
-      intermediate: 'B1',
-      'upper-intermediate': 'B2',
-      advanced: 'B2',
-    };
-    const cefr = appSt?.diff && diffMap[appSt.diff] ? diffMap[appSt.diff] : appSt?.diff || 'B1';
-    return ['A1', 'A2', 'B1', 'B2'].includes(cefr) ? cefr : 'B1';
+    const cefr = getUserCefr(appSt?.xp || 0, appSt?.lc || 0, appSt?.gc || 0);
+    return ['A1', 'A2', 'B1', 'B2'].includes(cefr) ? cefr : 'B2';
   })();
   const {
     phase,
@@ -476,8 +476,11 @@ export default function AIConversation({
       res = await _aiPost('/api/conversation', body, { signal: ctrl.signal });
     } catch (netErr) {
       const err = netErr as Error;
-      if (err.name === 'AbortError') throw new Error('Request timed out — please try again.');
-      throw new Error('Network error — check your connection. (' + err.message + ')');
+      if (err.name === 'AbortError')
+        throw new Error('Request timed out — please try again.', { cause: netErr });
+      throw new Error('Network error — check your connection. (' + err.message + ')', {
+        cause: netErr,
+      });
     }
     if (!res.ok) {
       let errData;
@@ -579,8 +582,11 @@ export default function AIConversation({
       });
     } catch (netErr) {
       const err = netErr as Error;
-      if (err.name === 'AbortError') throw new Error('Request timed out — please try again.');
-      throw new Error('Network error — check your connection. (' + err.message + ')');
+      if (err.name === 'AbortError')
+        throw new Error('Request timed out — please try again.', { cause: netErr });
+      throw new Error('Network error — check your connection. (' + err.message + ')', {
+        cause: netErr,
+      });
     }
     try {
       data = await res.json();
@@ -599,10 +605,17 @@ export default function AIConversation({
           'setup_error:The server is missing required configuration. Please contact support.',
         );
       }
-      if (msg === 'daily_quota_exceeded' || res.status === 429) {
-        const resetTime = data.resetAt
-          ? new Date(data.resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : 'midnight UTC';
+      // Two different 429s: the per-minute burst limiter and the daily ceiling.
+      // Keying on `res.status === 429` alone told a learner who sent two
+      // messages in quick succession that their day was over.
+      const limit = classifyAiLimit({ status: res.status, code: msg });
+      if (limit === 'burst') {
+        throw new Error(
+          "You're sending messages faster than Maja can answer — wait a moment and try again.",
+        );
+      }
+      if (limit === 'daily') {
+        const resetTime = formatAiResetTime(data.resetAt) || 'midnight UTC';
         throw new Error(
           `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practising!`,
         );
@@ -659,9 +672,9 @@ export default function AIConversation({
 
     // Load past-session memory so Maja can greet the learner personally and
     // reference previous work.  Non-blocking: proceed without memory if it fails.
-    if (au?.uid) {
+    if (au?.u) {
       try {
-        const { summary } = await loadMemories(au.uid);
+        const { summary } = await loadMemories(au.u);
         memorySummaryRef.current = summary || null;
       } catch {
         memorySummaryRef.current = null;
@@ -698,14 +711,31 @@ export default function AIConversation({
 
   // ── Core send — accepts explicit text so voice auto-submit bypasses state lag ─
   async function sendMessageCore(userText: string) {
-    if (!userText.trim() || loading) return;
+    if (!userText.trim()) return;
+    if (loading) {
+      // A voice turn arrived while Maja is still replying (the typed send button
+      // is disabled during loading, so this only happens on the hands-free path).
+      // Don't drop it silently — tell the learner and drop the transcript into the
+      // input box so they can resend once Maja finishes.
+      setInput(userText);
+      setSendError('Wait for Maja to finish, then send again.');
+      return;
+    }
     setSendError('');
-    const userMsgIndex = messages.length; // index of the user message being added
+    // Clear any opener-failure banner: the learner is starting the conversation
+    // herself, and this send retries the AI. If it fails, the catch below sets
+    // sendError instead — she is never locked out.
+    setChatError('');
     const userMsg: ConversationMessage = { role: 'user', content: userText };
     // Build context: exclude hint messages (they're UI-only, not conversation turns)
     const contextMsgs = messages
       .filter((m) => m.role !== 'hint')
       .map((m) => ({ role: m.role, content: m.content }));
+    // Index of the user message in the NEW hint-stripped messages array — the
+    // same array the chat renders and keys corrections against. Using
+    // messages.length counted hint bubbles too, so after any Hint the "✏️ Better"
+    // correction attached to the wrong bubble (or vanished).
+    const userMsgIndex = contextMsgs.length;
     const next = [...contextMsgs, userMsg];
     setMessages((prev) => [...prev.filter((m) => m.role !== 'hint'), userMsg]);
     setInput('');
@@ -922,15 +952,25 @@ export default function AIConversation({
       const ev = parseJSON(raw);
       setEvaluation(ev);
       if (ev && ev.mistakes && Array.isArray(ev.mistakes)) {
-        (ev.mistakes as Array<{ type?: string; original?: string; correction?: string }>).forEach(
-          (m) => {
-            logError(m.type || 'conversation_grammar', 'grammar', {
-              wrong: m.original,
-              correct: m.correction,
-              source: 'conversation',
-            });
-          },
-        );
+        const mistakes = ev.mistakes as Array<{
+          type?: string;
+          errorType?: string;
+          original?: string;
+          correction?: string;
+        }>;
+        mistakes.forEach((m) => {
+          logError(m.errorType || m.type || 'conversation_grammar', 'grammar', {
+            wrong: m.original,
+            correct: m.correction,
+            source: 'conversation',
+          });
+        });
+        // Content-Rec #7: close the output feedback loop — feed the conversation's
+        // grammar error-types into the adaptive scheduler so the daily session
+        // re-drills them next (previously errors were logged for insight but never
+        // fed back into practice). Shared errorType→category mapping; unmapped
+        // types are ignored.
+        applyWritingErrorsToAdaptive(mistakes.map((m) => m.errorType));
       }
       if (ev && !evalXpFired.current && typeof award === 'function') {
         evalXpFired.current = true;
@@ -961,8 +1001,8 @@ export default function AIConversation({
       } catch (_) {}
 
       // Persist this session to Firestore so Maja remembers it next time
-      if (au?.uid && ev) {
-        saveMemory(au.uid, {
+      if (au?.u && ev) {
+        saveMemory(au.u, {
           level,
           scenario: scenario?.title,
           score: ev.score ?? 0,
@@ -994,13 +1034,37 @@ export default function AIConversation({
       const result = parseJSON(raw);
       if (!result) throw new Error('Could not parse evaluation response.');
       setWriteEval(result);
+      // Content-Rec #7: close the output feedback loop for Free Write — record each
+      // correction and feed its error-type into the adaptive scheduler so the daily
+      // session re-drills it. Previously the feedback was shown then discarded, so a
+      // written mistake never resurfaced in practice. Mirrors WritingScreen.
+      const changes = (Array.isArray(result.changes) ? result.changes : []) as Array<{
+        original?: string;
+        corrected?: string;
+        note?: string;
+        errorType?: string;
+      }>;
+      changes.forEach((c) => {
+        logError(
+          c.errorType || c.note || 'writing_error',
+          c.errorType === 'vocab' ? 'vocabulary' : 'grammar',
+          {
+            wrong: c.original || '',
+            correct: (c.corrected || '').trim(),
+            source: 'ai-conversation-write',
+          },
+        );
+      });
+      applyWritingErrorsToAdaptive(changes.map((c) => c.errorType));
       if (typeof award === 'function' && !writeXpFired.current) {
         writeXpFired.current = true;
         const xp = result.score >= 80 ? 18 : result.score >= 60 ? 13 : 8;
         award(xp, false, 'speaking');
         markPracticed();
-        const today = new Date().toISOString().slice(0, 10);
-        localStorage.setItem('nh_quest_grammar_' + today, '1');
+        // Route through markQuest so the key uses localDateStr() like every other
+        // quest writer/reader — a raw UTC date here left the grammar quest dot dark
+        // for users whose local date ≠ UTC (Americas evenings; Croatia 00:00–02:00).
+        markQuest('grammar');
       }
       setWritePhase('result');
     } catch (e) {

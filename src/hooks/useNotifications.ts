@@ -4,6 +4,7 @@
 
 import { useEffect } from 'react';
 import { rnd } from '../lib/random.js';
+import { lsGet, lsSet } from '../lib/safeStorage.js';
 
 // Croatian name days (imendan) — month-day → [names]
 const NAME_DAYS: Record<string, string[]> = {
@@ -57,9 +58,13 @@ const NAME_DAYS: Record<string, string[]> = {
 const LAST_PRACTICE_KEY = 'nh_last_practice';
 const REMINDER_DISMISSED_KEY = 'nh_reminder_dismissed_today';
 
+// Guarded: called mid-completion in LessonScreen, one line before the setSt()
+// that records lc / pf / rs and the markQuest() calls. A throw here abandoned
+// the lesson completion itself — and resultFired was already latched, so it
+// could never be retried. A missed reminder timestamp is the lesser loss.
 export function markPracticed(): void {
-  localStorage.setItem(LAST_PRACTICE_KEY, Date.now().toString());
-  localStorage.setItem('nh_last_practice_time', new Date().getHours().toString());
+  lsSet(LAST_PRACTICE_KEY, Date.now().toString());
+  lsSet('nh_last_practice_time', new Date().getHours().toString());
 }
 
 export function checkNameDay(userName: string): void {
@@ -70,9 +75,11 @@ export function checkNameDay(userName: string): void {
   const names = NAME_DAYS[key] || [];
   const firstName = userName.split(' ')[0]!;
   if (!names.some((n) => n.toLowerCase() === firstName.toLowerCase())) return;
-  const dismissed = localStorage.getItem('nh_nameday_dismissed');
+  const dismissed = lsGet('nh_nameday_dismissed');
   if (dismissed === today.toDateString()) return;
-  localStorage.setItem('nh_nameday_dismissed', today.toDateString());
+  // Guarded: App.tsx calls this outside any try, immediately before
+  // scheduleStreakReminder(), from a mount effect.
+  lsSet('nh_nameday_dismissed', today.toDateString());
   try {
     new Notification(`Sretan imendan, ${firstName}! 🎉`, {
       body: `Danas je tvoj imendan (${names.join('/')}). Čestitamo! Today is your Croatian name day!`,
@@ -89,10 +96,13 @@ export function useNotifications({ userId = '' }: { userId?: string } = {}): voi
     if (!('Notification' in window)) return undefined;
 
     const todayStr = new Date().toDateString();
-    const dismissedOn = localStorage.getItem(REMINDER_DISMISSED_KEY);
+    // Guarded reads: this hook is mounted at the App root, so an unguarded
+    // getItem (which throws, not returns null, when site data is blocked) took
+    // the whole app down to the ErrorBoundary on mount.
+    const dismissedOn = lsGet(REMINDER_DISMISSED_KEY);
     if (dismissedOn === todayStr) return undefined; // already shown/dismissed today
 
-    const lastPractice = parseInt(localStorage.getItem(LAST_PRACTICE_KEY) || '0', 10);
+    const lastPractice = parseInt(lsGet(LAST_PRACTICE_KEY) || '0', 10);
     const hoursSince = (Date.now() - lastPractice) / 3600000;
 
     // Only prompt if user has practiced before (has a history) and it's been > 6 hours
@@ -100,7 +110,8 @@ export function useNotifications({ userId = '' }: { userId?: string } = {}): voi
 
     if (Notification.permission === 'granted') {
       showReminder();
-      localStorage.setItem(REMINDER_DISMISSED_KEY, todayStr);
+      // Guarded: Web Push registration follows on the next lines.
+      lsSet(REMINDER_DISMISSED_KEY, todayStr);
       // Register for server-sent Web Push (85-day guard prevents redundant calls)
       import('../lib/pushNotifications.js').then(({ subscribeToPush, registerPushWithServer }) => {
         // subscribeToPush handles permission + PushManager subscription + server registration
@@ -146,7 +157,7 @@ export function scheduleStreakReminder(streakDays: number): void {
   _streakReminderTimer = setTimeout(() => {
     _streakReminderTimer = null;
     // Check if user has practiced today before firing
-    const lastPractice = parseInt(localStorage.getItem(LAST_PRACTICE_KEY) || '0', 10);
+    const lastPractice = parseInt(lsGet(LAST_PRACTICE_KEY) || '0', 10);
     const hoursSince = (Date.now() - lastPractice) / 3600000;
     if (lastPractice > 0 && hoursSince < 20) return; // already practiced today
 
@@ -179,8 +190,8 @@ export function scheduleStreakReminder(streakDays: number): void {
     try {
       new Notification(pickVariant(titleVariants, 'nh_8pm_title_idx'), {
         body: pickVariant(bodyVariants, 'nh_8pm_body_idx'),
-        icon: '/icons/icon-192x192.png',
-        badge: '/icons/badge-72.png',
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
         tag: 'streak-reminder',
         renotify: true,
         data: { url: '/', action: 'open_lesson' },

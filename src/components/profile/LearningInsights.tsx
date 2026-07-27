@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Stats } from '../../types';
+import { lsGet } from '../../lib/safeStorage';
 
 interface WeakWord {
   word: string;
@@ -32,8 +33,8 @@ function getDailyActivity() {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const xp = parseInt(localStorage.getItem(`nh_daily_xp_${key}`) || '0', 10);
-    const mins = parseInt(localStorage.getItem(`nh_daily_time_${key}`) || '0', 10);
+    const xp = parseInt(lsGet(`nh_daily_xp_${key}`) || '0', 10);
+    const mins = parseInt(lsGet(`nh_daily_time_${key}`) || '0', 10);
     result.push({
       label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()],
       xp,

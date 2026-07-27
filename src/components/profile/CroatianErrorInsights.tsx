@@ -4,7 +4,15 @@ import { getWeakTopics } from '../../lib/adaptive.js';
 import { useApp } from '../../context/AppContext';
 
 // ── Error code → friendly explanation mapping ─────────────────────────────────
-const ERROR_META = {
+interface ErrorMetaEntry {
+  label: string;
+  desc: string;
+  example?: { wrong: string; right: string };
+  tip?: string;
+  screen: string;
+  icon: string;
+}
+const ERROR_META: Record<string, ErrorMetaEntry> = {
   reflexive_missing: {
     label: 'Missing reflexive "se/si"',
     desc: 'Reflexive verbs in Croatian require the particle se or si. It cannot be dropped.',
@@ -77,6 +85,66 @@ const ERROR_META = {
     screen: 'padezi',
     icon: '🚫',
   },
+  // ── Acoustic phoneme weaknesses (Content-Rec #8) — written by
+  // logPronunciationWeakness when a spoken attempt scores below the pass bar.
+  // Each routes to the phoneme drill grid so the exact struggled sound can be
+  // practised. Keyed as phoneme_<letter> to match weaknessPattern(). ──
+  phoneme_č: {
+    label: 'Pronouncing Č (hard CH)',
+    desc: 'Your spoken Č scored low. Č is the harder, more forward "ch" — tongue tip toward the ridge behind the upper teeth.',
+    tip: 'Like "ch" in "church", firmer than Ć. Practise: čaj, čovjek, večer.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_ć: {
+    label: 'Pronouncing Ć (soft CH)',
+    desc: 'Your spoken Ć scored low. Ć is softer and more palatal than Č — the blade of the tongue touches the hard palate, lips spread.',
+    tip: 'Like a quick "ty", softer than Č. Practise: kuća, noć, ćevapi.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_š: {
+    label: 'Pronouncing Š (SH)',
+    desc: 'Your spoken Š scored low. Tongue raised toward the ridge behind the upper teeth, air flowing over it with friction.',
+    tip: 'Like "sh" in "shoe". Practise: šuma, škola, miš.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_ž: {
+    label: 'Pronouncing Ž (ZH)',
+    desc: 'Your spoken Ž scored low. Same position as Š but voiced — add vibration in your throat.',
+    tip: 'Like "s" in "measure" or French "j" in "jour". Practise: žena, život, može.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_đ: {
+    label: 'Pronouncing Đ (soft J)',
+    desc: 'Your spoken Đ scored low. It is the voiced partner of Ć — tongue blade on the hard palate, lips spread, vocal cords on.',
+    tip: 'Like "j" in "judge" but softer — a voiced Ć. Practise: đak, nađi.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_lj: {
+    label: 'Pronouncing LJ',
+    desc: 'Your spoken LJ scored low. It is ONE liquid sound, not "l" + "j" — the tongue body presses flat against the hard palate.',
+    tip: 'Like "lli" in "million" as one sound. Practise: ljubav, ljeto, polje.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_nj: {
+    label: 'Pronouncing NJ',
+    desc: 'Your spoken NJ scored low. It is ONE nasal sound, not "n" + "j" — tongue to the palate, air through the nose.',
+    tip: 'Like "ñ" in Spanish "mañana". Practise: njega, knjiga, konj.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
+  phoneme_r: {
+    label: 'Pronouncing the rolled R',
+    desc: 'Your spoken R scored low. Croatian R is trilled — the tongue tip vibrates against the ridge behind the upper teeth, not the English curled R.',
+    tip: 'Relax the tongue and let air flutter the tip. Practise: ruka, more, srce, krk.',
+    screen: 'phoneme_practice',
+    icon: '🎙️',
+  },
 };
 
 // Category labels and colours
@@ -146,7 +214,7 @@ function ErrorCard({
   onToggle: () => void;
   onPractice: (screen: string) => void;
 }) {
-  const meta = ERROR_META[error.pattern as keyof typeof ERROR_META] || {
+  const meta: ErrorMetaEntry = ERROR_META[error.pattern] || {
     label: error.pattern.replace(/_/g, ' '),
     desc: `This pattern appeared ${error.count} time(s).`,
     icon: '⚠️',

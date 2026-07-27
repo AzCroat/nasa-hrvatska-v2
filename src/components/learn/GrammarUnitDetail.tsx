@@ -3,9 +3,23 @@
 // loaded asynchronously via contentClient.getGrammarUnit(unitId).
 // Renders intro/forms/examples/tips/drills. Inline MCQ flow — no extracted
 // shared component (refactor in SP9b if duplication grows).
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getGrammarUnit } from '../../lib/contentClient';
 import { speak } from '../../lib/audio.js';
+import { rnd } from '../../lib/random.js';
+
+// Drill options are stored answer-first for authorability; shuffle at render
+// time and track the correct answer by VALUE so position is never learnable.
+function shuffleOpts(opts: string[]): string[] {
+  const b = [...opts];
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    const t = b[i]!;
+    b[i] = b[j]!;
+    b[j] = t;
+  }
+  return b;
+}
 
 export interface GrammarUnitDetailProps {
   unitId: string;
@@ -114,6 +128,11 @@ export default function GrammarUnitDetail({
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found' | 'error'>('loading');
   const [drillIdx, setDrillIdx] = useState(0);
   const [chosen, setChosen] = useState<number | null>(null);
+  const activeDrill = unit?.drills?.[drillIdx];
+  const shuffledOpts = useMemo(
+    () => (activeDrill ? shuffleOpts(activeDrill.opts) : []),
+    [activeDrill],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -177,6 +196,7 @@ export default function GrammarUnitDetail({
 
   const drill = unit.drills[drillIdx];
   const correctIdx = typeof drill?.correct === 'number' ? drill.correct : -1;
+  const correctText = drill && correctIdx >= 0 ? drill.opts[correctIdx] : null;
 
   return (
     <div style={STYLES.wrap} data-testid="grammar-unit-detail" data-unit-id={unit.id}>
@@ -261,11 +281,11 @@ export default function GrammarUnitDetail({
             <div data-testid="drill-question" style={STYLES.drillQ}>
               {drill.q}
             </div>
-            {drill.opts.map((opt, i) => {
+            {shuffledOpts.map((opt, i) => {
               const state =
                 chosen === null
                   ? 'idle'
-                  : i === correctIdx
+                  : opt === correctText
                     ? 'correct'
                     : i === chosen
                       ? 'wrong'

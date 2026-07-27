@@ -162,11 +162,11 @@ describe('fbSaveProgress — single write to users/{id} (no reconcile double-wri
     expect(m.arrayUnion).toHaveBeenCalledWith('a', 'b');
   });
 
-  it('still writes both the users and profiles docs in the batch', async () => {
+  it('writes only the users doc (the profiles leaderboard write was removed)', async () => {
     await fbSaveProgress('user@example.com', { name: 'Test', stats: { xp: 1 } });
     const colls = m.batchSet.mock.calls.map((c) => (c[0] as { coll?: string })?.coll);
     expect(colls).toContain('users');
-    expect(colls).toContain('profiles');
+    expect(colls).not.toContain('profiles');
   });
 });
 

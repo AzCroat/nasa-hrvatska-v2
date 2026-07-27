@@ -5,10 +5,21 @@ export type { AwardActivityType };
 
 // Core stats shape — mirrors DS constant in App.jsx and sanitizeStats field list.
 export interface Stats {
+  /** Lifetime EARNED XP — monotonic, Math.max-merged across devices. Never
+   *  reduced by perk purchases (those increment `spent`). CEFR/level/badges/
+   *  progress all derive from this. Spendable balance = xp - spent. */
   xp: number;
+  /** Lifetime SPENT XP — monotonic counter for XP spent on perks (XP Boost,
+   *  Streak Freeze purchase, Streak Restore/Repair). Math.max-merged like xp so
+   *  a spend can never be refunded by a stale cross-device sync. The spendable
+   *  balance shown in perk UIs and affordability gates is `xp - spent`. */
+  spent?: number;
   lc: number;
   gc: number;
   sp: number;
+  /** Production reps — speaking/writing/conversation completions (Session-Rec #6).
+   *  Monotonic counter, Math.max-merged across devices. The real fluency signal. */
+  pr: number;
   de: number;
   rc: number;
   pf: number;
@@ -46,9 +57,12 @@ export interface AuthUser {
 
 export interface StatsDelta {
   xp?: number;
+  /** Positive XP-spend delta — atomically incremented into stats.spent. */
+  spent?: number;
   lc?: number;
   gc?: number;
   sp?: number;
+  pr?: number;
   de?: number;
   rc?: number;
   pf?: number;

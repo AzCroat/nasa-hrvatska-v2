@@ -20,10 +20,11 @@
  *   - getCertifiedLevel() — the source of truth for "what can this user do?"
  *   - Retake-cooldown logic so a failed test cannot be brute-forced.
  *   - A feature flag (CERTIFICATION_REQUIRED) controlling whether content
- *     unlocks use certified or eligible level. Defaults to FALSE so the
- *     existing UX is unchanged until equivalency test items are authored
- *     and validated. Flipping the flag to TRUE activates strict gating
- *     for every user.
+ *     unlocks use certified or eligible level. Currently TRUE (active since
+ *     2026-06-19) — strict gating is live for every user, softened only by
+ *     the one-time grandfather migration. Setting it FALSE would TURN THE
+ *     FEATURE OFF: both certified-aware helpers fall back to the eligible
+ *     (activity-derived) level, restoring the legacy XP-inflates-level UX.
  *
  * Per-test storage shape (localStorage key `nh_cefr_certifications`):
  *   {
@@ -43,7 +44,7 @@
  */
 
 import type { CefrLevel } from './cefr.js';
-import { CEFR_ORDER, cefrRank, getEffectiveLevel, levelBelow } from './cefr.js';
+import { CEFR_ORDER, cefrRank, getEffectiveLevel, getUserCefr, levelBelow } from './cefr.js';
 
 // ── Feature flag ──────────────────────────────────────────────────────────────
 //
@@ -599,9 +600,91 @@ export function getEffectiveLevelForUnlock(eligible: CefrLevel): CefrLevel {
   return getEffectiveLevel(eligible, { CERTIFICATION_REQUIRED, getCertifiedLevel });
 }
 
+/**
+ * Read xp/lc/gc from the persisted profile (uS → uP_<email> → st/stats), the
+ * same source buildUserContext uses. Returns zeros if anything is missing —
+ * which, floored against the placement nh_level in getGenerationCefr, means a
+ * missing profile never serves below what the user already gets.
+ */
+function _readProfileStats(): { xp: number; lc: number; gc: number } {
+  try {
+    if (typeof localStorage === 'undefined') return { xp: 0, lc: 0, gc: 0 };
+    const session = JSON.parse(localStorage.getItem('uS') || 'null');
+    const email = session?.u;
+    if (!email) return { xp: 0, lc: 0, gc: 0 };
+    const profile = JSON.parse(localStorage.getItem('uP_' + email) || 'null');
+    const st = profile?.stats || profile?.st || {};
+    return {
+      xp: typeof st.xp === 'number' ? st.xp : 0,
+      lc: typeof st.lc === 'number' ? st.lc : 0,
+      gc: typeof st.gc === 'number' ? st.gc : 0,
+    };
+  } catch {
+    return { xp: 0, lc: 0, gc: 0 };
+  }
+}
+
+/**
+ * The CEFR level AI content generators should produce at (Content-Rec #5 —
+ * deepen C1/C2).
+ *
+ * `nh_level` is set only at placement and by remote sync — it never advances as
+ * a learner earns their way up — so generators that read it (AI Listening,
+ * McGame, etc.) serve placement-level content to learners who have since reached
+ * C1/C2. This returns the HIGHER of the stored placement level and the learner's
+ * content-unlock level (earned + certification-aware, race-safe), so advanced
+ * learners get level-appropriate generated content while never dropping below
+ * their placement (no regression). The AI endpoints already accept C1/C2 at
+ * runtime, so this deepens C1/C2 with no authored content.
+ */
+export function getGenerationCefr(stats?: { xp?: number; lc?: number; gc?: number }): CefrLevel {
+  // When no live stats are passed, read xp/lc/gc from the persisted profile —
+  // the same source buildUserContext uses — so callers without StatsContext
+  // (McGame, Flashcards, GrammarDiagnosis, DailyPlanCard) can use this with no
+  // hook and no provider-in-test coupling.
+  const s = stats ?? _readProfileStats();
+  const earned = getContentUnlockLevel(getUserCefr(s.xp || 0, s.lc || 0, s.gc || 0));
+  let placement: CefrLevel | '' = '';
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('nh_level') : '';
+    const up = (raw || '').toUpperCase();
+    if ((CEFR_ORDER as readonly string[]).includes(up)) placement = up as CefrLevel;
+  } catch {
+    /* localStorage unavailable — fall back to the earned level */
+  }
+  if (!placement) return earned;
+  return cefrRank(placement) >= cefrRank(earned) ? placement : earned;
+}
+
 // ── One-time migration ───────────────────────────────────────────────────────
 
 const MIGRATION_FLAG_KEY = 'nh_cefr_migration_v1_done';
+
+/**
+ * Content-unlock level (Rec #4 — full activation). Like getEffectiveLevelForUnlock,
+ * but RACE-SAFE for the first load. The grandfather migration runs asynchronously
+ * (a dynamic import inside a startup effect), so until it has set MIGRATION_FLAG_KEY
+ * the certified level still defaults to A1 — gating content on that would briefly
+ * lock a returning user's content on first paint (and would break E2E, where the
+ * fixture seeds eligible XP, not certification). So until the grandfather has run
+ * we fall back to the generous `eligible` level; afterwards (and on every
+ * subsequent load) we return the certified level, so unlocking a new tier's
+ * content requires passing that tier's assessment.
+ *
+ * Net effect: content is never locked below what the user could already reach;
+ * only NEW tiers beyond the grandfathered/certified level require an assessment.
+ */
+export function getContentUnlockLevel(eligible: CefrLevel): CefrLevel {
+  if (!CERTIFICATION_REQUIRED) return eligible;
+  try {
+    if (typeof localStorage === 'undefined' || !localStorage.getItem(MIGRATION_FLAG_KEY)) {
+      return eligible; // pre-grandfather: be generous, never lock content on first load
+    }
+  } catch {
+    return eligible;
+  }
+  return getCertifiedLevel();
+}
 
 /**
  * On the user's first launch after hard CEFR gating ships, grandfather

@@ -105,7 +105,7 @@ Return ONLY valid JSON (no markdown, no code blocks):
       signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 180,
+        max_tokens: 400, // 180 truncated a 3-sentence explanation + rule + tip + example → parse_failed
         system: systemPrompt,
         messages: [{ role: 'user', content: userMsg }],
       }),

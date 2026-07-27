@@ -299,7 +299,7 @@ ${mistakeLines.length ? mistakeLines.join('\n') : 'None recorded yet — first s
   if (turnCount === 0) {
     sessionArcGuidance = `OPENING TURN (turn 0):
 This is the very first message of this conversation session.
-- Warm greeting, introduce the topic lightly: "${safeTopic === 'free' ? 'Open with a warm "Bok!" and a simple question about how they are or what they want to talk about.' : `Introduce the topic: ${topicScenarios[safeTopic]}`}"
+- Warm greeting, introduce the topic lightly: "${safeTopic === 'free' ? 'Open with a warm "Bog!" and a simple question about how they are or what they want to talk about.' : `Introduce the topic: ${topicScenarios[safeTopic]}`}"
 - Set a welcoming, low-pressure tone.
 - For A1/A2: speak very slowly and simply. This is the trust-building moment.`;
   } else if (turnCount >= sessionMax - 2) {
@@ -425,6 +425,18 @@ export async function onRequestPost(context) {
     });
   }
 
+  // Request-size guard — reject oversized payloads BEFORE parsing, mirroring
+  // ai-chat.js. Without it a caller could post a multi-megabyte body whose
+  // contents get folded into the upstream prompt and billed as input tokens.
+  const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+  if (contentLength > 102400) {
+    // 100KB max
+    return new Response(JSON.stringify({ error: 'Request too large' }), {
+      status: 413,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+
   let body;
   try {
     body = await request.json();
@@ -488,6 +500,8 @@ export async function onRequestPost(context) {
   const anthropicMessages = [];
   for (const msg of messages.slice(-20)) {
     // cap context at 20 turns
+    // Skip non-object entries: a [null] element threw on msg.role.
+    if (!msg || typeof msg !== 'object') continue;
     const role = msg.role === 'assistant' ? 'assistant' : 'user';
     const content = sanitizeParam(String(msg.content || ''), 1000);
     if (!content) continue;
@@ -563,7 +577,15 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 900, // B2/C1 responses need more room for rich JSON with correction + gloss
+        // The whole reply is a single JSON object: a multi-sentence Croatian
+        // `croatian` field + a full `english_gloss` translation (at scaffolding
+        // 2) + a 4-field `correction` object. At B2/C1 that JSON routinely ran
+        // past 900 tokens; the stream was then cut mid-object, JSON.parse failed
+        // in the message_stop handler, and the user silently got fallbackResponse
+        // (a generic line) instead of Maja's real reply — a core reason Razgovor
+        // "never worked properly". 2000 gives the JSON room to close. Streaming
+        // only emits what the model produces, so this is a ceiling, not a cost.
+        max_tokens: 2000,
         stream: true,
         system: finalSystem,
         messages: anthropicMessages,

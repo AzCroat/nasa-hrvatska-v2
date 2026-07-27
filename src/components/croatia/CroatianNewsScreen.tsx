@@ -69,7 +69,10 @@ const FALLBACK_ARTICLES = [
   },
 ];
 
-const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+// C2 added with the server's C2 news mode — authentic press register, no
+// simplification. Before this, a C2 user defaulted to B1 (double downgrade:
+// no chip here, no C2 rule server-side).
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const LC = LEVEL_COLORS as Record<string, string>;
 
 interface WordTooltip {
@@ -100,6 +103,33 @@ interface NewsArticle {
   summary_one_sentence: string;
   link: string | null;
   date?: string;
+}
+
+// The /api/news server emits key_vocabulary as [{hr,en}] and
+// summary_one_sentence as {hr,en} (the C2-news work). The client render uses
+// v.word / v.meaning and <em>{summary_one_sentence}</em>, so a raw server
+// article gives blank vocab chips and — because summary is an object —
+// crashes React with "Objects are not valid as a React child". Coerce server
+// articles to the internal {word,meaning}/string shape. The local
+// FALLBACK_ARTICLES are already in that shape and pass through unchanged.
+export function normalizeArticle(a: NewsArticle & Record<string, unknown>): NewsArticle {
+  const vocabRaw = (Array.isArray(a?.key_vocabulary) ? a.key_vocabulary : []) as unknown as Array<
+    Record<string, unknown>
+  >;
+  const summaryRaw = a?.summary_one_sentence as unknown;
+  return {
+    ...a,
+    key_vocabulary: vocabRaw.map((v: Record<string, unknown>) => ({
+      word: (v?.word ?? v?.hr ?? '') as string,
+      meaning: (v?.meaning ?? v?.en ?? '') as string,
+    })),
+    summary_one_sentence:
+      summaryRaw && typeof summaryRaw === 'object'
+        ? [(summaryRaw as Record<string, unknown>).hr, (summaryRaw as Record<string, unknown>).en]
+            .filter(Boolean)
+            .join(' / ')
+        : (summaryRaw as string) || '',
+  };
 }
 
 // ── Skeleton card for loading state ──────────────────────────────────────────
@@ -543,7 +573,7 @@ export default function CroatianNewsScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const { level: userLevelNum } = useStats();
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   const mountedRef = useRef(true);
   useEffect(
@@ -598,7 +628,7 @@ export default function CroatianNewsScreen({
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.articles && Array.isArray(data.articles) && data.articles.length > 0) {
-        setArticles(data.articles);
+        setArticles(data.articles.map(normalizeArticle));
       } else {
         throw new Error('No articles returned');
       }

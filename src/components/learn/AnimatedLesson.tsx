@@ -55,6 +55,7 @@ interface LessonSlide {
 }
 
 interface LessonData {
+  id?: string;
   title: string;
   level: string;
   duration: string;
@@ -77,7 +78,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
   const [score, setScore] = useState(0);
   const [_done, setDone] = useState(false);
-  const [autoTTS, setAutoTTS] = useState(() => LS_GET('nh_autotts', false));
+  // Default ON to match Flashcards' reading of the same key — the two screens
+  // previously had opposite defaults, so this toggle's state contradicted
+  // actual flashcard behavior until the user flipped it once.
+  const [autoTTS, setAutoTTS] = useState(() => LS_GET('nh_autotts', true));
   const [ttsAvailable] = useState(() => typeof window !== 'undefined');
   const xpAwarded = useRef(false);
 
@@ -106,11 +110,22 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slide]);
 
-  // Award XP when summary slide reached
+  // Award XP + mark completion when the summary slide is reached
   useEffect(() => {
     if (!currentSlide) return;
     if (currentSlide.type === 'summary' && !xpAwarded.current) {
       xpAwarded.current = true;
+      // Record THIS lesson's completion under a distinct 'al_<lessonId>' key.
+      // The Learn Path launcher writes vs:[item.id] on the tap that OPENS the
+      // lesson, so gating on item.id let a single tap mark the lesson complete
+      // without viewing it. The path gate now checks this key, which is written
+      // only here — once the learner has reached the summary (past the quiz).
+      const lessonId = (lesson as { id?: string }).id;
+      if (lessonId) {
+        const doneKey = 'al_' + lessonId;
+        setStats((s) => (s.vs?.includes(doneKey) ? s : { ...s, vs: [...(s.vs || []), doneKey] }));
+        if (writeDelta) writeDelta({ vs: [doneKey] });
+      }
       if (typeof award === 'function') {
         award(25, false, 'lesson');
         markQuest('grammar');

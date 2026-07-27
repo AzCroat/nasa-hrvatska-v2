@@ -143,7 +143,10 @@ export async function onRequestPost(context) {
   // If auth is available, enforce that replyEmail matches the authenticated user's email.
   // If it doesn't match (or is spoofed), use the auth email instead so the ticket
   // is reliably attributed to the real sender.
-  let replyEmail = rawReplyEmail;
+  // Coerce a non-string replyEmail away before any string method touches it — a
+  // numeric value threw on .toLowerCase() below (uncaught → 500). Dropping it is
+  // safe: the authed email is substituted immediately after.
+  let replyEmail = typeof rawReplyEmail === 'string' ? rawReplyEmail : '';
   if (authedEmail) {
     if (replyEmail && replyEmail.toLowerCase() !== authedEmail.toLowerCase()) {
       // Silently override the mismatched email with the verified auth email
@@ -161,7 +164,18 @@ export async function onRequestPost(context) {
     });
   }
 
-  if (!type || !subject || !description) {
+  // Require STRINGS, not merely truthy values. A numeric `description` (e.g.
+  // 1234567890123) passed the old falsy check and then threw on `.trim()` below,
+  // producing an opaque 500 — so the user's bug report was silently lost with a
+  // generic failure instead of a 400 telling them what was wrong.
+  if (
+    typeof type !== 'string' ||
+    typeof subject !== 'string' ||
+    typeof description !== 'string' ||
+    !type ||
+    !subject ||
+    !description
+  ) {
     return new Response(JSON.stringify({ ok: false, error: 'Missing required fields.' }), {
       status: 400,
       headers: { ...CORS(origin), 'Content-Type': 'application/json' },

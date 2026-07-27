@@ -55,7 +55,10 @@ export default function GrammarConstellation({
       setSelected(null);
       setAnswered(false);
     } else {
-      const fs = quizScore + (selected === shuffledQuiz[quizIdx]?.answer ? 1 : 0);
+      // The "Results" button only renders after `answered`, so handleAnswer has
+      // already scored the final question into quizScore. Re-adding it here
+      // double-counted a correct last answer (inflated score + extra XP).
+      const fs = quizScore;
       setFinalScore(fs);
       setMode('done');
       if (!awardCalled.current) {

@@ -36,7 +36,7 @@ export const PHRASE_OF_DAY_POOL = [
     note: 'Informal — works for hello and bye',
     ph: 'ZDRAH-voh',
   },
-  { hr: 'Bok!', en: 'Hi! / Bye!', note: 'Very casual, especially in Zagreb', ph: 'bohk' },
+  { hr: 'Bog!', en: 'Hi! / Bye!', note: 'Very casual greeting', ph: 'bohg' },
   { hr: 'Vidimo se!', en: 'See you!', note: 'Lit. "We\'ll see each other"', ph: 'VEE-dee-moh seh' },
   {
     hr: 'Čujemo se!',

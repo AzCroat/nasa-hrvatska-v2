@@ -26,6 +26,7 @@ import { mergeStatsFromRemote } from '../lib/mergeStatsFromRemote.js';
 import { sanitizeStats } from '../lib/sanitizeStats.js';
 import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
 import type { Stats, AuthUser } from '../types/index.js';
+import { lsGet } from '../lib/safeStorage';
 
 /** Metadata from a Firestore progress snapshot — distinguishes cache vs server emissions. */
 export interface SyncSnapshotMeta {
@@ -53,6 +54,20 @@ export function syncReadyResolution(
   return hasData ? 'open-after-apply' : 'open-now';
 }
 
+/**
+ * True when a Firestore emission authoritatively proves this login already has an
+ * account — a SERVER (non-cache) snapshot whose user document EXISTS, even if its
+ * progress blob hasn't hydrated yet (a delta-only doc, or a transient blob-less
+ * read). The watcher uses this to mark the account "established" so the one-time
+ * placement / onboarding popup is never shown to a returning user on a new device
+ * or browser. A genuinely new account (exists === false) is deliberately excluded,
+ * so first-run onboarding still fires exactly once. Cache emissions are excluded —
+ * they are stale/empty on a fresh or Safari/iPad device.
+ */
+export function isEstablishedAccountSignal(meta: SyncSnapshotMeta): boolean {
+  return !meta.fromCache && meta.exists;
+}
+
 interface SyncManagerParams {
   authUser: AuthUser | null;
   authScreen: string;
@@ -69,6 +84,9 @@ interface SyncManagerParams {
   syncNowRef?: React.MutableRefObject<(() => Promise<boolean>) | undefined>;
   setSyncReady?: (ready: boolean) => void;
   syncReady: boolean;
+  /** Marks the React onboarding state complete when the server confirms an
+   *  existing account — so a returning login never re-sees the onboarding tour. */
+  setOnboarded?: (v: boolean) => void;
 }
 
 interface SyncManagerResult {
@@ -94,6 +112,7 @@ export function useSyncManager({
   syncNowRef,
   setSyncReady,
   syncReady,
+  setOnboarded,
 }: SyncManagerParams): SyncManagerResult {
   const [showBackupBanner, setShowBackupBanner] = useState(false);
   const [lastSyncedAt, setLastSyncedAt] = useState<number>(0);
@@ -168,6 +187,7 @@ export function useSyncManager({
     const mergedStats = {
       ...safePSt,
       xp: Math.max((safeLp.xp as number) || 0, (safePSt.xp as number) || 0),
+      spent: Math.max((safeLp.spent as number) || 0, (safePSt.spent as number) || 0),
       lc: Math.max((safeLp.lc as number) || 0, (safePSt.lc as number) || 0),
       gc: Math.max((safeLp.gc as number) || 0, (safePSt.gc as number) || 0),
       sp: Math.max((safeLp.sp as number) || 0, (safePSt.sp as number) || 0),
@@ -177,6 +197,25 @@ export function useSyncManager({
       pf: Math.max((safeLp.pf as number) || 0, (safePSt.pf as number) || 0),
       mv: Math.max((safeLp.mv as number) || 0, (safePSt.mv as number) || 0),
       hi: Math.max((safeLp.hi as number) || 0, (safePSt.hi as number) || 0),
+      // Production + badge-backing counters — mirror mergeStatsFromRemote so the
+      // written-back local cache never regresses them when a LOWER remote
+      // snapshot arrives. The React-state path already Math.max'd these; the
+      // cache spread ...safePSt did NOT, so a reload could rehydrate a lower
+      // srsTotal / production-rep count than the user had actually earned.
+      pr: Math.max((safeLp.pr as number) || 0, (safePSt.pr as number) || 0),
+      srsTotal: Math.max((safeLp.srsTotal as number) || 0, (safePSt.srsTotal as number) || 0),
+      mistakesMastered: Math.max(
+        (safeLp.mistakesMastered as number) || 0,
+        (safePSt.mistakesMastered as number) || 0,
+      ),
+      readingDone: Math.max(
+        (safeLp.readingDone as number) || 0,
+        (safePSt.readingDone as number) || 0,
+      ),
+      mediaVisits: Math.max(
+        (safeLp.mediaVisits as number) || 0,
+        (safePSt.mediaVisits as number) || 0,
+      ),
       // diff: take the higher CEFR level — never regress even on stale remote snapshot
       diff: (() => {
         const lo = _diffOrder[safeLp.diff as string] ?? -1;
@@ -196,6 +235,22 @@ export function useSyncManager({
         ((safeLp.rs as string[]) || []).length >= ((safePSt.rs as string[]) || []).length
           ? (safeLp.rs as string[]) || []
           : (safePSt.rs as string[]) || [],
+      // levelQuizPasses — per-key latest-wins by passedAt (mirror mergeStatsFromRemote);
+      // additive union of keys so a pass on either side is never dropped from the cache.
+      levelQuizPasses: (() => {
+        const local =
+          (safeLp.levelQuizPasses as Record<number, { score: number; passedAt: number }>) ?? {};
+        const remote =
+          (safePSt.levelQuizPasses as Record<number, { score: number; passedAt: number }>) ?? {};
+        const merged: Record<number, { score: number; passedAt: number }> = { ...local };
+        for (const key of Object.keys(remote)) {
+          const k = Number(key);
+          const rv = remote[k];
+          const lv = merged[k];
+          if (rv && (!lv || rv.passedAt > lv.passedAt)) merged[k] = rv;
+        }
+        return merged;
+      })(),
     };
 
     lP(uid, { ...fp, savedAt: fpTs || Date.now(), stats: mergedStats });
@@ -279,7 +334,7 @@ export function useSyncManager({
   // ─── Backup banner ─────────────────────────────────────────────────────────
   useEffect(() => {
     if (authScreen !== 'app' || !authUser) return;
-    if (!localStorage.getItem('fbBackupConfirmed') && !localStorage.getItem('onboarded')) {
+    if (!lsGet('fbBackupConfirmed') && !lsGet('onboarded')) {
       setShowBackupBanner(true);
     }
   }, [authScreen, authUser]);
@@ -317,6 +372,21 @@ export function useSyncManager({
 
           // Apply remote data as soon as it arrives (cache OR server) for fast hydration.
           if (fp) enqueueSnapshot(fp, fpTs, uid);
+
+          // Cross-device new-user fix: the moment a SERVER snapshot confirms this
+          // login's document EXISTS, mark the account established — even if its
+          // progress blob hasn't hydrated yet (a delta-only doc or a transient
+          // blob-less read). This suppresses BOTH one-time popups for a returning
+          // user on a new device/browser: the placement redirect (reads the
+          // `onboarded` localStorage flag) and the OnboardingTour (reads the
+          // `onboarded` React state). A genuinely new account (exists === false)
+          // is untouched, so first-run onboarding still fires exactly once.
+          if (isEstablishedAccountSignal(meta)) {
+            try {
+              localStorage.setItem('onboarded', 'true');
+            } catch (_) {}
+            if (setOnboarded) setOnboarded(true);
+          }
 
           // _syncReady gates the "is this a brand-new user?" decision — the onboarding
           // tour (AppModals) and the placement redirect (App.tsx) both wait on it.
@@ -510,11 +580,19 @@ export function useSyncManager({
             favs: fv,
             jWords: jw,
           });
-          // Content-equality skip: if the snapshot is byte-identical to the
-          // last one we successfully pushed, there's nothing new to sync.
-          // Pushing the same ~200KB blob every 5 min on an idle session is
-          // pure write-stream pressure for zero data benefit.
-          const sig = JSON.stringify(snap);
+          // Content-equality skip: if the snapshot is unchanged from the last
+          // one we successfully pushed, there's nothing new to sync. Pushing the
+          // same ~200KB blob every 5 min on an idle session is pure write-stream
+          // pressure for zero data benefit.
+          //
+          // buildProgressSnapshot stamps `savedAt: Date.now()` on every call, so
+          // comparing the RAW JSON made this skip a permanent no-op — savedAt
+          // differed each tick, the sig never matched, and the blob was written
+          // every 5 min regardless. Compare everything EXCEPT savedAt so an
+          // idle session actually skips. (savedAt is still written when a real
+          // change triggers the push below; it just no longer defeats the skip.)
+          const { savedAt: _savedAt, ...stableSnap } = snap as typeof snap & { savedAt?: number };
+          const sig = JSON.stringify(stableSnap);
           if (sig === _lastPeriodicSigRef.current) return;
           const result = (await fbSaveProgress(u.u, snap).catch((e: unknown) => {
             const err = e as { code?: string; message?: string };

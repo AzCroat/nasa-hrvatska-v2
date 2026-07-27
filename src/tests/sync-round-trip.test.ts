@@ -207,6 +207,49 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
     expect(JSON.parse(localStorage.getItem('nh_session_history') || '{}')).toEqual(sessionHistory);
   });
 
+  it('structured-track progress (listening/interaction/phonemes) round-trips', () => {
+    localStorage.setItem('nh_listening_track_done', JSON.stringify(['a1_cafe', 'a1_family']));
+    localStorage.setItem('nh_interaction_track_done', JSON.stringify(['cafe', 'doctor']));
+    localStorage.setItem('nh_phonemes_mastered', JSON.stringify(['č', 'r']));
+
+    const snap = buildSnap();
+    localStorage.clear();
+    applyRemoteProgress(snap, noopSetters());
+
+    expect(
+      (JSON.parse(localStorage.getItem('nh_listening_track_done') || '[]') as string[]).sort(),
+    ).toEqual(['a1_cafe', 'a1_family']);
+    expect(
+      (JSON.parse(localStorage.getItem('nh_interaction_track_done') || '[]') as string[]).sort(),
+    ).toEqual(['cafe', 'doctor']);
+    expect(
+      (JSON.parse(localStorage.getItem('nh_phonemes_mastered') || '[]') as string[]).sort(),
+    ).toEqual(['r', 'č']);
+  });
+
+  it('structured-track progress is UNION-merged — remote never clobbers a device-local set', () => {
+    // Device A's snapshot completed cafe+doctor; Device B locally has directions.
+    // After merge, Device B must retain all three (union, no loss).
+    localStorage.setItem('nh_interaction_track_done', JSON.stringify(['cafe', 'doctor']));
+    const snap = buildSnap();
+    localStorage.clear();
+    localStorage.setItem('nh_interaction_track_done', JSON.stringify(['directions']));
+    applyRemoteProgress(snap, noopSetters());
+
+    expect(
+      (JSON.parse(localStorage.getItem('nh_interaction_track_done') || '[]') as string[]).sort(),
+    ).toEqual(['cafe', 'directions', 'doctor']);
+  });
+
+  it('an empty local track set is omitted from the snapshot (never overwrites server history)', () => {
+    // No track keys set locally → snapshot must not carry them, so a later merge
+    // from a device that HAS progress can't be clobbered by this empty device.
+    const snap = buildSnap() as Record<string, unknown>;
+    expect(snap.nh_interaction_track_done).toBeUndefined();
+    expect(snap.nh_listening_track_done).toBeUndefined();
+    expect(snap.nh_phonemes_mastered).toBeUndefined();
+  });
+
   it('nh_prestige numeric round-trip preserves value', () => {
     localStorage.setItem('nh_prestige', '3');
 

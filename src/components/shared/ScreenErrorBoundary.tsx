@@ -1,5 +1,6 @@
 import React from 'react';
 import { reportBoundaryError } from '../../lib/errorReporter';
+import { isChunkLoadError, reloadWithCachePurge } from '../../lib/chunkErrors';
 
 /** Props for ScreenErrorBoundary — exported so AppRouter.tsx can use typed JSX. */
 export interface ScreenErrorBoundaryProps {
@@ -37,6 +38,17 @@ export default class ScreenErrorBoundary extends React.Component<
     // forwards to /api/report-error via the existing sendBeacon path.
     const screenName = String(this.props.name || 'Screen');
     reportBoundaryError(error, info, screenName, this.state.retries);
+    // Stale-deploy self-heal: a React.lazy screen chunk that 404s after a
+    // deploy rejects INSIDE the lazy machinery, so it reaches this boundary —
+    // never window.onunhandledrejection where the global healer lives. "Try
+    // Again" would just re-request the same dead URL. Route it into the same
+    // cache-purge reload the rest of the app uses (report above is sendBeacon-
+    // based, so it survives the reload; budget-capped at 2 per session, after
+    // which the normal fallback card shows).
+    const msg = String(error?.message ?? error?.name ?? '').toLowerCase();
+    if (isChunkLoadError(msg)) {
+      reloadWithCachePurge('nh_reload_attempt');
+    }
   }
 
   render() {

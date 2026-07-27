@@ -131,4 +131,39 @@ describe('apiFetch — authenticated fetch wrapper', () => {
     await apiFetch('/api/test');
     expect(globalThis.fetch).toHaveBeenCalledOnce();
   });
+
+  // ── 401 token refresh on caller-signalled requests (Razgovor mid-session fix) ──
+  // Long-running callers (the AI conversation turn) pass their own AbortSignal.
+  // A Firebase ID token expires ~hourly, so a mid-session turn can 401. apiFetch
+  // must still force-refresh the token and retry once — otherwise the whole
+  // conversation dies with "Sesija je istekla".
+
+  it('force-refreshes the token and retries once when a signalled request 401s', async () => {
+    const getIdToken = vi
+      .fn()
+      .mockResolvedValueOnce('stale-token') // initial attach
+      .mockResolvedValueOnce('fresh-token'); // forced refresh after 401
+    getAuth.mockReturnValue({ currentUser: { getIdToken } });
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValueOnce(new Response('', { status: 401 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    const ctrl = new AbortController();
+    const res = await apiFetch('/api/maja', { method: 'POST', body: '{}', signal: ctrl.signal });
+    expect(getIdToken).toHaveBeenCalledWith(true); // forced refresh happened
+    expect(globalThis.fetch).toHaveBeenCalledTimes(2);
+    expect(res.status).toBe(200);
+    const secondOpts = globalThis.fetch.mock.calls[1][1];
+    expect(secondOpts.headers.Authorization).toBe('Bearer fresh-token');
+  });
+
+  it('does NOT retry a signalled request that succeeds', async () => {
+    getAuth.mockReturnValue({
+      currentUser: { getIdToken: vi.fn().mockResolvedValue('tok') },
+    });
+    globalThis.fetch = vi.fn().mockResolvedValue(new Response('{}', { status: 200 }));
+    const ctrl = new AbortController();
+    await apiFetch('/api/maja', { signal: ctrl.signal });
+    expect(globalThis.fetch).toHaveBeenCalledOnce();
+  });
 });

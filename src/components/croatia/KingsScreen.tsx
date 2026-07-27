@@ -4,6 +4,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { markQuest } from '../../lib/quests.js';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
 
 interface KingsSt {
   hi?: number;
@@ -21,6 +22,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
   const finishFired = useRef(false);
   const [kgTab, sKgTab] = useState('timeline');
   const { content, loading, error } = useContent();
+  const { showEn, toggle } = useEnglishToggle();
   if (error)
     return (
       <div className="scr-wrap">
@@ -33,6 +35,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
     title: string;
     subtitle: string;
     intro: string;
+    introHr?: string;
     quote: string;
     quoteEn: string;
     eras: any[];
@@ -69,6 +72,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
           );
         })}
       </div>
+      {KINGS.introHr && <EnglishToggleButton showEn={showEn} toggle={toggle} />}
       {kgTab === 'timeline' && (
         <React.Fragment>
           <div
@@ -79,7 +83,9 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
               background: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
             }}
           >
-            <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>{KINGS.intro}</div>
+            <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
+              <BiText hr={KINGS.introHr} en={KINGS.intro} showEn={showEn} />
+            </div>
           </div>
           {KINGS.eras.map(function (e, i) {
             return (
@@ -103,10 +109,12 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
-                    {e.title}
+                    {e.titleHr ?? e.title}
                   </div>
                 </div>
-                <p style={{ fontSize: 14, lineHeight: 1.8, color: '#44403c' }}>{e.text}</p>
+                <p style={{ fontSize: 14, lineHeight: 1.8, color: '#44403c' }}>
+                  <BiText hr={e.textHr} en={e.text} showEn={showEn} />
+                </p>
               </div>
             );
           })}
@@ -198,7 +206,9 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                 <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginBottom: 4 }}>
                   {d.title}
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{d.desc}</div>
+                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>
+                  <BiText hr={d.descHr} en={d.desc} showEn={showEn} />
+                </div>
               </button>
             );
           })}
@@ -261,7 +271,9 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                 >
                   {k.title}
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>{k.desc}</div>
+                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>
+                  <BiText hr={k.descHr} en={k.desc} showEn={showEn} />
+                </div>
               </button>
             );
           })}
@@ -290,7 +302,9 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                   {'🏙️ '}
                   {c.name} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{c.desc}</div>
+                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>
+                  <BiText hr={c.descHr} en={c.desc} showEn={showEn} />
+                </div>
               </button>
             );
           })}

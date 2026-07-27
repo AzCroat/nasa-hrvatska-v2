@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bar } from '../../data';
 import CharacterPortrait from '../family/CharacterPortrait';
+import { lsSet } from '../../lib/safeStorage';
 
 const PLACEMENT_QUESTIONS = [
   // Level 1 — A1 Survival (4 questions)
@@ -226,8 +227,10 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
     const level = calculatePlacement(lc);
     setPlacedLevel(level);
     setDone(true);
-    // Mark done immediately so a crash/close before the CTA doesn't restart the test
-    localStorage.setItem('nh_placement_done', 'true');
+    // Mark done immediately so a crash/close before the CTA doesn't restart the
+    // test. Both state setters above already ran, so a throw here only loses the
+    // marker — guarded for consistency with the CTAs below, which are worse.
+    lsSet('nh_placement_done', 'true');
   }
 
   function handleAnswer(i: number) {
@@ -318,8 +321,11 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
               margin: '0 auto',
             }}
             onClick={() => {
-              localStorage.setItem('nh_placement_done', 'true');
-              localStorage.setItem('nh_level', 'A1');
+              // Guarded: onComplete is the only thing that leaves the placement
+              // screen. A throw on either write skipped it, so this skip button
+              // did nothing at all.
+              lsSet('nh_placement_done', 'true');
+              lsSet('nh_level', 'A1');
               onComplete(1);
             }}
           >
@@ -394,7 +400,9 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
         </div>
         <button
           onClick={() => {
-            localStorage.setItem('nh_level', LEVEL_TO_CEFR[placedLevel] || 'A1');
+            // Guarded: a throw here skipped onComplete, so the finish button at
+            // the end of placement could not advance the new user into the app.
+            lsSet('nh_level', LEVEL_TO_CEFR[placedLevel] || 'A1');
             onComplete(placedLevel);
           }}
           style={{

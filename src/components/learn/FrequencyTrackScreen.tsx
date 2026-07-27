@@ -67,7 +67,11 @@ function buildQuizQuestions(learnedSet: Set<number>): QuizQuestion[] {
   const unlearned = FREQUENCY_500.filter((w) => !learnedSet.has(w.rank));
   const pool = pickRandom(unlearned.length >= QUIZ_SIZE ? unlearned : FREQUENCY_500, QUIZ_SIZE);
   return pool.map((word) => {
-    const others = FREQUENCY_500.filter((w) => w.rank !== word.rank);
+    // Exclude by the DISPLAYED/graded field (`en`), not just the `rank` id:
+    // FREQUENCY_500 contains distinct lemmas that share a gloss (e.g.
+    // stari/star = 'old', ponovno/opet = 'again'), so a rank-only filter could
+    // hand back a distractor whose `en` equals the answer's — grading both correct.
+    const others = FREQUENCY_500.filter((w) => w.rank !== word.rank && w.en !== word.en);
     const distractors = pickRandom(others, DISTRACTORS_PER_Q).map((w) => w.en);
     const choices = [word.en, ...distractors];
     for (let i = choices.length - 1; i > 0; i--) {
@@ -484,7 +488,7 @@ export default function FrequencyTrackScreen({
     <div className="scr-wrap" style={{ paddingBottom: 100, fontFamily: "'Outfit', sans-serif" }}>
       {/* ── HEADER ── */}
       {H(
-        'Top 500 Croatian Words',
+        `Top ${FREQUENCY_500.length} Croatian Words`,
         'Master the words that make up 80% of everyday Croatian speech',
         goBack,
       )}
@@ -604,7 +608,7 @@ export default function FrequencyTrackScreen({
           }}
         >
           {learnedCount >= FREQUENCY_500.length
-            ? '🎉 All 500 words learned!'
+            ? `🎉 All ${FREQUENCY_500.length} words learned!`
             : `Quiz me on due words (${FREQUENCY_500.length - learnedCount} remaining)`}
         </button>
       </div>

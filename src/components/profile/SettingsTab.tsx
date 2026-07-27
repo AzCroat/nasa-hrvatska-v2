@@ -4,13 +4,13 @@ import { useApp } from '../../context/AppContext';
 import HeritageEntrySection from './sections/HeritageEntrySection';
 import GoalFocusSection from './sections/GoalFocusSection';
 import LearningPreferencesSection from './sections/LearningPreferencesSection';
-import DifficultySection from './sections/DifficultySection';
 import GoalSelectorSection from './sections/GoalSelectorSection';
 import StreakProtectionSection from './sections/StreakProtectionSection';
 import NotificationsSection from './sections/NotificationsSection';
 import CloudSyncSection from './sections/CloudSyncSection';
 import AppearanceSection from './sections/AppearanceSection';
 import DataAccountSection from './sections/DataAccountSection';
+import { lsGet } from '../../lib/safeStorage';
 
 export default function SettingsTab({
   syncReady,
@@ -24,7 +24,7 @@ export default function SettingsTab({
   const V = (content?.V ?? {}) as Record<string, any[]>;
   // currentGoal stays lifted here: it's shared by GoalFocusSection (renders the
   // active goal's shortcuts) and GoalSelectorSection (changes it).
-  const [currentGoal, setCurrentGoal] = useState(() => localStorage.getItem('nh_goal') || '');
+  const [currentGoal, setCurrentGoal] = useState(() => lsGet('nh_goal') || '');
 
   return (
     <React.Fragment>
@@ -38,8 +38,6 @@ export default function SettingsTab({
       />
 
       <LearningPreferencesSection />
-
-      <DifficultySection />
 
       <GoalSelectorSection currentGoal={currentGoal} setCurrentGoal={setCurrentGoal} />
 

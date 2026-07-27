@@ -100,6 +100,61 @@ export const FUTUR_II = {
       explain:
         'Plural subject `oni` → `budu pročitali`. `dok ne` introduces a future time clause taking Futur II.',
     },
+    // ── 2026-07 depth expansion (+7) ──
+    {
+      q: 'Kad ____ u Zagreb, nazvat ću te. (stići, ja)',
+      qEn: 'When I have arrived in Zagreb, I will call you.',
+      opts: ['budem stigao', 'budem stići', 'stignem budem', 'bit ću stigao'],
+      correct: 0,
+      explain: 'Futur II = budem + glagolski pridjev radni: budem stigao.',
+    },
+    {
+      q: 'Ako ____ prije mene, pričekaj me. (doći, ti)',
+      qEn: 'If you have arrived before me, wait for me.',
+      opts: ['budeš došao', 'budeš doći', 'bi došao', 'budeš će doći'],
+      correct: 0,
+      explain: 'budeš + radni pridjev — nikad infinitiv iza budeš.',
+    },
+    {
+      q: 'Fem. pl.: "one ____"',
+      qEn: 'they (f.) will have come',
+      opts: ['budu došle', 'budu došli', 'bude došle', 'budu doći'],
+      correct: 0,
+      explain: 'Rod se slaže: one → došle; 3. mn. → budu.',
+    },
+    {
+      q: 'Negacija Futura II: "ako ne ____" (uspjeti, ja)',
+      qEn: 'if I have not succeeded',
+      opts: ['budem uspio', 'bih uspio', 'budem uspjeti', 'ću uspjeti'],
+      correct: 0,
+      explain: 'Negacija ide ispred budem: ako ne budem uspio.',
+    },
+    {
+      q: 'Koji veznici najčešće uvode Futur II?',
+      qEn: 'Which conjunctions most often introduce Futur II?',
+      opts: ['kad, ako, čim, dok', 'jer, budući da', 'iako, premda', 'nego, već'],
+      correct: 0,
+      explain: 'Vremenske i pogodbene rečenice: kad/ako/čim/dok + Futur II.',
+    },
+    {
+      q: 'U glavnoj rečenici uz Futur II obično stoji ____.',
+      qEn: 'The main clause alongside Futur II usually takes…',
+      opts: ['Futur I ili imperativ', 'perfekt', 'aorist', 'kondicional II'],
+      correct: 0,
+      explain: 'Kad budem imao vremena, javit ću se / javi mi se.',
+    },
+    {
+      q: 'Prevedi: "When she has finished school, she will look for a job."',
+      qEn: 'Translate into Croatian.',
+      opts: [
+        'Kad bude završila školu, tražit će posao.',
+        'Kad će završiti školu, tražit će posao.',
+        'Kad je završila školu, tražit će posao.',
+        'Kad bi završila školu, tražit će posao.',
+      ],
+      correct: 0,
+      explain: 'Zavisna rečenica: Futur II (bude završila); glavna: Futur I.',
+    },
   ],
 };
 
@@ -212,6 +267,49 @@ export const RELATIVE_CLAUSES = {
       explain:
         'Instrumental of means (implicit `s` often dropped for tools); fem. sg. ins. = `kojom`.',
     },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Djeca ____ roditelji rade večeras su kod bake.',
+      qEn: "The children whose parents are working tonight are at grandma's.",
+      opts: ['čiji', 'čija', 'čijih', 'kojih'],
+      correct: 0,
+      explain: '`čiji` se slaže s POSJEDOVANIM (roditelji, m. mn.), ne s djecom.',
+    },
+    {
+      q: 'Sve ____ je rekao bila je istina.',
+      qEn: 'Everything he said was the truth.',
+      opts: ['što', 'koje', 'koji', 'čega'],
+      correct: 0,
+      explain: 'Nakon sve / ono / ništa upotrebljava se ŠTO, ne koji.',
+    },
+    {
+      q: 'Žena ____ smo pomogli zahvalila nam je.',
+      qEn: 'The woman we helped thanked us.',
+      opts: ['kojoj', 'koju', 'koja', 'kojom'],
+      correct: 0,
+      explain: '`pomoći` traži dativ: pomogli smo ŽENI → kojoj.',
+    },
+    {
+      q: 'Selo u ____ smo odsjeli bilo je mirno.',
+      qEn: 'The village we stayed in was peaceful.',
+      opts: ['kojem', 'kojoj', 'koje', 'kojim'],
+      correct: 0,
+      explain: 'u + lokativ; selo je srednjeg roda → u kojem.',
+    },
+    {
+      q: 'Ljudi s ____ radim vrlo su ljubazni.',
+      qEn: 'The people I work with are very kind.',
+      opts: ['kojima', 'kojim', 'kojih', 'koje'],
+      correct: 0,
+      explain: 's + instrumental množine → kojima.',
+    },
+    {
+      q: 'To je najbolji film ____ sam ikad gledao.',
+      qEn: 'That is the best film I have ever watched.',
+      opts: ['koji', 'kojeg', 'kojem', 'čiji'],
+      correct: 0,
+      explain: 'Film je neživo — akuzativ = nominativ: koji (kojeg je pogreška po živosti).',
+    },
   ],
 };
 
@@ -319,6 +417,49 @@ export const PASSIVE_VOICE = {
       correct: 2,
       explain:
         '`auto` is masculine singular → `prodan` (no ending). Options A and B are wrong gender; D is active past.',
+    },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Zakon ____ prošle godine. (donijeti)',
+      qEn: 'The law was passed last year.',
+      opts: ['je donesen', 'je donio', 'se donio', 'je donesao'],
+      correct: 0,
+      explain: 'Trpni pridjev od donijeti: donesen.',
+    },
+    {
+      q: 'Večera ____ u sedam. (poslužiti, fem.)',
+      qEn: 'Dinner was served at seven.',
+      opts: ['je poslužena', 'je poslužila', 'se poslužit', 'je posluženo'],
+      correct: 0,
+      explain: 'Večera (f.) → poslužena; sročnost roda obavezna.',
+    },
+    {
+      q: 'Se-pasiv: "Ovdje ____ hrvatski."',
+      qEn: 'Croatian is spoken here.',
+      opts: ['se govori', 'je govoren', 'govori', 'se govoriti'],
+      correct: 0,
+      explain: 'Se-pasiv je običniji od trpnog pridjeva za opće tvrdnje.',
+    },
+    {
+      q: 'Trpni pridjev od "vidjeti":',
+      qEn: 'Passive participle of "vidjeti":',
+      opts: ['viđen', 'vidjen', 'viden', 'vidjevši'],
+      correct: 0,
+      explain: 'Jotacija d+j → đ: viđen.',
+    },
+    {
+      q: 'Neut. sg.: "Pismo ____ jučer." (napisati)',
+      qEn: 'The letter was written yesterday.',
+      opts: ['je napisano', 'je napisan', 'je napisana', 'su napisana'],
+      correct: 0,
+      explain: 'Pismo (n.) → napisano.',
+    },
+    {
+      q: 'Futur pasiva (m. sg.): "Ugovor ____ sutra." (potpisati)',
+      qEn: 'The contract will be signed tomorrow.',
+      opts: ['bit će potpisan', 'će potpisati', 'bit će potpisao', 'je potpisan'],
+      correct: 0,
+      explain: 'Futur pasiva: bit će + trpni pridjev.',
     },
   ],
 };
@@ -440,6 +581,54 @@ export const PARTICIPLES = {
       ],
       correct: 2,
       explain: 'Passive uses TRPNI: `je pročitana`. The others are active.',
+    },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Radni pridjev od "ići" (m. sg.):',
+      qEn: 'Active past participle of "ići":',
+      opts: ['išao', 'idio', 'išel', 'hodio'],
+      correct: 0,
+      explain: 'ići → išao, išla, išlo (nepravilan).',
+    },
+    {
+      q: 'Trpni od "otvoriti" (n. sg.):',
+      qEn: 'Passive participle of "otvoriti" (neuter):',
+      opts: ['otvoreno', 'otvorena', 'otvorit', 'otvorivši'],
+      correct: 0,
+      explain: 'otvoriti → otvoren/-a/-o; srednji rod: otvoreno.',
+    },
+    {
+      q: '"____ prozor gleda na more." (otvoriti)',
+      qEn: 'The open(ed) window looks onto the sea.',
+      opts: ['Otvoren', 'Otvorio', 'Otvorivši', 'Otvarajući'],
+      correct: 0,
+      explain: 'Atributna upotreba trpnog pridjeva: otvoren prozor.',
+    },
+    {
+      q: 'Trpni od "pojesti" (m. sg.):',
+      qEn: 'Passive participle of "pojesti":',
+      opts: ['pojeden', 'pojet', 'poješen', 'pojevši'],
+      correct: 0,
+      explain: 'pojesti → pojeden (kao jesti → jeden).',
+    },
+    {
+      q: 'Fem. sg. perfekt: "Ona je ____ cijelu noć." (raditi)',
+      qEn: 'She worked all night.',
+      opts: ['radila', 'radio', 'rađena', 'radeći'],
+      correct: 0,
+      explain: 'Radni pridjev, ženski rod: radila.',
+    },
+    {
+      q: 'Trpni pridjevi tvore se u pravilu od kojih glagola?',
+      qEn: 'Passive participles are formed from which verbs?',
+      opts: [
+        'prijelaznih (koji imaju objekt)',
+        'svih glagola bez razlike',
+        'samo svršenih',
+        'samo nesvršenih',
+      ],
+      correct: 0,
+      explain: 'Neprijelazni glagoli (doći, spavati) nemaju trpni pridjev.',
     },
   ],
 };
@@ -575,6 +764,79 @@ export const REPORTED_SPEECH = {
       correct: 1,
       explain: 'Statement clause: `da` + present, no backshift. `Mislim da nas voli`.',
     },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Direct: "Kupit ćemo stan." Reported (oni):',
+      qEn: 'Report: "We will buy a flat."',
+      opts: [
+        'Rekli su da će kupiti stan.',
+        'Rekli su da su kupili stan.',
+        'Rekli su da kupuju stan.',
+        'Rekli su da bi kupili stan.',
+      ],
+      correct: 0,
+      explain: 'Futur ostaje futur — nema pomicanja vremena.',
+    },
+    {
+      q: 'Direct: "Ne mogu doći." Reported (ona):',
+      qEn: 'Report: "I cannot come."',
+      opts: [
+        'Rekla je da ne može doći.',
+        'Rekla je da ne mogu doći.',
+        'Rekla je da neće doći.',
+        'Rekla je da nije došla.',
+      ],
+      correct: 0,
+      explain: 'Samo lice se mijenja (ja→ona): ne može.',
+    },
+    {
+      q: 'Embedded WH: "Koliko košta?" →',
+      qEn: 'Embed the question "How much does it cost?"',
+      opts: [
+        'Pitala je koliko košta.',
+        'Pitala je koliko li košta.',
+        'Pitala je da koliko košta.',
+        'Pitala je koliko da košta.',
+      ],
+      correct: 0,
+      explain: 'Upitna riječ ostaje; bez li i bez da.',
+    },
+    {
+      q: 'Reported imperative — "Nemojte kasniti!" →',
+      qEn: 'Report the command "Don\'t be late!"',
+      opts: [
+        'Zamolio nas je da ne kasnimo.',
+        'Zamolio nas je da nemojmo kasniti.',
+        'Rekao je da ne kasnite.',
+        'Rekao nam je nemojte kasniti.',
+      ],
+      correct: 0,
+      explain: 'Imperativ → da + prezent u odgovarajućem licu.',
+    },
+    {
+      q: 'Za razliku od engleskog, u hrvatskom se vremena u neupravnom govoru ____.',
+      qEn: 'Unlike English, tenses in Croatian reported speech…',
+      opts: [
+        'NE pomiču unatrag',
+        'uvijek pomiču',
+        'pretvaraju u kondicional',
+        'pretvaraju u aorist',
+      ],
+      correct: 0,
+      explain: '"Rekao je da DOLAZI" — prezent ostaje prezent.',
+    },
+    {
+      q: 'Embedded alternative question: "Dolaziš ili ne?" →',
+      qEn: 'Embed "Are you coming or not?"',
+      opts: [
+        'Pitao je dolazim li ili ne.',
+        'Pitao je da dolazim ili ne.',
+        'Pitao je hoću li da dolazim ili ne.',
+        'Pitao je dolazim ili ne.',
+      ],
+      correct: 0,
+      explain: 'Da/ne pitanje u neupravnom govoru traži li.',
+    },
   ],
 };
 
@@ -701,6 +963,54 @@ export const KONDICIONAL_II = {
       explain:
         '`Znali bismo` is Kondicional I ("we would know"). `Bili bismo znali` is Kondicional II ("we would have known").',
     },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Neut.: "Dijete ____ zaspalo da je bilo tiho."',
+      qEn: 'The child would have fallen asleep had it been quiet.',
+      opts: ['bi bilo', 'bio bi', 'bila bi', 'bi bila'],
+      correct: 0,
+      explain: 'Srednji rod: bi bilo zaspalo.',
+    },
+    {
+      q: '1. lice mn.: "Mi ____ to učinili."',
+      qEn: 'We would have done that.',
+      opts: ['bismo bili', 'bi bili', 'bismo bi', 'bili bi'],
+      correct: 0,
+      explain: '1. mn.: bismo + bili + učinili.',
+    },
+    {
+      q: 'Kondicional II izražava ____.',
+      qEn: 'Kondicional II expresses…',
+      opts: [
+        'neostvarenu prošlu mogućnost',
+        'buduću namjeru',
+        'stvarnu sadašnjost',
+        'ponavljanu radnju',
+      ],
+      correct: 0,
+      explain: 'Kontrafaktualna prošlost: što se moglo, ali nije dogodilo.',
+    },
+    {
+      q: '"Da ____ ranije, ne bismo zakasnili." (krenuti, mi)',
+      qEn: 'Had we set off earlier, we would not have been late.',
+      opts: ['smo krenuli', 'bismo krenuli', 'budemo krenuli', 'krenemo'],
+      correct: 0,
+      explain: 'U da-rečenici irealnog uvjeta za prošlost stoji PERFEKT: Da smo krenuli…',
+    },
+    {
+      q: 'Fem.: "Ja ____ ti pomogla da si me pitala."',
+      qEn: 'I (f.) would have helped you had you asked me.',
+      opts: ['bila bih', 'bio bih', 'bih bila bih', 'bila bi'],
+      correct: 0,
+      explain: 'Ženski rod, 1. jd.: bila bih pomogla.',
+    },
+    {
+      q: 'U svakodnevnom govoru Kondicional II često zamjenjuje ____.',
+      qEn: 'In everyday speech, Kondicional II is often replaced by…',
+      opts: ['Kondicional I', 'aorist', 'futur', 'imperativ'],
+      correct: 0,
+      explain: 'Govorno: "Da sam znao, došao bih" umjesto "bio bih došao".',
+    },
   ],
 };
 
@@ -792,10 +1102,10 @@ export const BUSINESS_REGISTER = {
   drills: [
     {
       q: 'Choose the correct opening for a letter to Mr. Horvat:',
-      opts: ['Bok Horvat,', 'Poštovani gospodine Horvate,', 'Dragi Horvat,', 'Gospodin Horvat,'],
+      opts: ['Bog Horvat,', 'Poštovani gospodine Horvate,', 'Dragi Horvat,', 'Gospodin Horvat,'],
       correct: 1,
       explain:
-        '`Poštovani` + vocative `gospodine Horvate`. `Bok` and `Dragi` are informal; `Gospodin Horvat` (nominative) is not an address form.',
+        '`Poštovani` + vocative `gospodine Horvate`. `Bog` and `Dragi` are informal; `Gospodin Horvat` (nominative) is not an address form.',
     },
     {
       q: 'In a formal email, which spelling of "you" is correct?',
@@ -818,10 +1128,10 @@ export const BUSINESS_REGISTER = {
     },
     {
       q: 'Which sign-off matches the most formal register?',
-      opts: ['Pozdrav,', 'Srdačan pozdrav,', 'S poštovanjem,', 'Bok,'],
+      opts: ['Pozdrav,', 'Srdačan pozdrav,', 'S poštovanjem,', 'Bog,'],
       correct: 2,
       explain:
-        '`S poštovanjem` ("Yours sincerely") is the most formal. `Pozdrav` and `Bok` are informal; `Srdačan pozdrav` is neutral business.',
+        '`S poštovanjem` ("Yours sincerely") is the most formal. `Pozdrav` and `Bog` are informal; `Srdačan pozdrav` is neutral business.',
     },
     {
       q: 'How do you address a female sales director named Marić?',
@@ -846,6 +1156,64 @@ export const BUSINESS_REGISTER = {
       correct: 1,
       explain:
         '`U privitku dostavljam…` is the standard business email phrase. Note `tražene` (passive participle) agreeing with `dokumente`.',
+    },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Oslovljavanje: "Poštovana gospođo ____," (prezime Kovač)',
+      qEn: 'Addressing Ms Kovač formally:',
+      opts: ['Kovač', 'Kovačice', 'Kovaču', 'Kovačo'],
+      correct: 0,
+      explain: 'Ženska se prezimena u pravilu ne sklanjaju: gospođo Kovač.',
+    },
+    {
+      q: 'Kako najaviti privitak u službenom e-mailu?',
+      qEn: 'How to announce an attachment in a formal email?',
+      opts: [
+        'U privitku Vam šaljem ugovor.',
+        'U attachmentu je ugovor.',
+        'Šaljem ti ugovor u prilogu.',
+        'Evo ugovora.',
+      ],
+      correct: 0,
+      explain: 'privitak + Vi-forma; anglizmi i ti-forma ne pripadaju poslovnom registru.',
+    },
+    {
+      q: 'Formalna molba za sastanak:',
+      qEn: 'A formal request for a meeting:',
+      opts: [
+        'Ljubazno Vas molim da predložite termin sastanka.',
+        'Daj mi termin.',
+        'Trebam sastanak hitno.',
+        'Može sastanak?',
+      ],
+      correct: 0,
+      explain: 'Ljubazno Vas molim + da-rečenica — uljudna služena molba.',
+    },
+    {
+      q: '"Unaprijed zahvaljujem ____ odgovoru."',
+      qEn: 'Thanking in advance for the reply:',
+      opts: ['na', 'za', 'o', 'u'],
+      correct: 0,
+      explain: 'zahvaliti NA + lokativ: zahvaljujem na odgovoru.',
+    },
+    {
+      q: 'Ispravna isprika za kasni odgovor:',
+      qEn: 'The correct apology for a late reply:',
+      opts: [
+        'Ispričavam se zbog kašnjenja s odgovorom.',
+        'Sorry na kašnjenju.',
+        'Ispričavam se na kašnjenju.',
+        'Žao mi je na odgovoru.',
+      ],
+      correct: 0,
+      explain: 'ispričati se ZBOG + genitiv.',
+    },
+    {
+      q: '"Molimo ____ da nam dostavite ponudu do petka."',
+      qEn: 'We kindly ask you to deliver the offer by Friday.',
+      opts: ['Vas', 'vas', 'Vam', 'ti'],
+      correct: 0,
+      explain: 'moliti KOGA (akuzativ) + veliko V iz poštovanja.',
     },
   ],
 };
@@ -948,6 +1316,54 @@ export const VERBAL_NOUNS = {
       correct: 2,
       explain:
         'Verbal noun governs genitive on its object → `pisanje pisma` (writing of a letter).',
+    },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Glagolska imenica od "putovati":',
+      qEn: 'Verbal noun from "putovati":',
+      opts: ['putovanje', 'putovanija', 'putnja', 'putovanost'],
+      correct: 0,
+      explain: '-ova- ostaje: putovanje.',
+    },
+    {
+      q: 'Glagolska imenica od "piti":',
+      qEn: 'Verbal noun from "piti":',
+      opts: ['pijenje', 'pitje', 'pivanje', 'pijanje'],
+      correct: 0,
+      explain: 'piti → pijenje (epentetsko j).',
+    },
+    {
+      q: '"Prije ____ provjerite podatke." (slati)',
+      qEn: 'Before sending, check the data.',
+      opts: ['slanja', 'slanje', 'šaljenja', 'slajanja'],
+      correct: 0,
+      explain: 'prije + genitiv: prije slanja.',
+    },
+    {
+      q: '"Bavim se ____ ." (prevoditi)',
+      qEn: 'I do translation (for a living).',
+      opts: ['prevođenjem', 'prevođenje', 'prevoditi', 'prevođenja'],
+      correct: 0,
+      explain: 'baviti se + instrumental: prevođenjem.',
+    },
+    {
+      q: 'Od svršenih glagola glagolske imenice ____.',
+      qEn: 'From perfective verbs, verbal nouns…',
+      opts: [
+        'su rjeđe — česti su posebni oblici (dolazak, odlazak)',
+        'se nikada ne tvore',
+        'uvijek završavaju na -nje',
+        'glase jednako kao infinitiv',
+      ],
+      correct: 0,
+      explain: 'Uz -nje postoje i imenice na -ak: dolazak, polazak, odlazak.',
+    },
+    {
+      q: '"Zabranjeno je ____ ." (pušiti)',
+      qEn: 'Smoking is forbidden.',
+      opts: ['pušenje', 'pušiti se', 'pušanje', 'pušidba'],
+      correct: 0,
+      explain: 'Standardni natpis: Zabranjeno pušenje.',
     },
   ],
 };
@@ -1073,6 +1489,49 @@ export const REFLEXIVE_CONSTRUCTIONS = {
       correct: 2,
       explain:
         '`bojati se` ("to fear") never appears without `se`. The others can be transitive without `se`.',
+    },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: '"Ovdje ____ dobro jede." — dopuni i odredi funkciju:',
+      qEn: 'One eats well here — which se-function?',
+      opts: ['se — bezlična (impersonal)', 'sebe — naglašena', 'si — dativna', 'se — uzajamna'],
+      correct: 0,
+      explain: 'Bezlično se: Ovdje se dobro jede (nema subjekta).',
+    },
+    {
+      q: '"Zovem se Ana." — se je ovdje ____.',
+      qEn: 'In "Zovem se Ana", se is…',
+      opts: ['dio inherentno povratnog glagola', 'objekt', 'oznaka uzajamnosti', 'pasivna oznaka'],
+      correct: 0,
+      explain: 'zvati se — glagol koji bez se mijenja značenje (zvati koga = call).',
+    },
+    {
+      q: '"Oni se pozdravljaju svako jutro." — funkcija se:',
+      qEn: 'They greet each other every morning — which function?',
+      opts: ['uzajamna (jedni druge)', 'prava povratna', 'bezlična', 'pasivna'],
+      correct: 0,
+      explain: 'Recipročno: pozdravljaju jedni druge.',
+    },
+    {
+      q: '"Perem ____ ruke." — što ide u prazninu?',
+      qEn: 'I wash my hands — what fills the blank?',
+      opts: ['ništa — perem ruke', 'se', 'sebe', 'sebi se'],
+      correct: 0,
+      explain: 'Uz dijelove tijela nema se: perem ruke (ili razgovorno perem si ruke).',
+    },
+    {
+      q: '"Kuća ____ gradi već dvije godine."',
+      qEn: 'The house has been being built for two years.',
+      opts: ['se', 'je', 'si', 'sebe'],
+      correct: 0,
+      explain: 'Medijalno/pasivno se: kuća se gradi.',
+    },
+    {
+      q: 'Redoslijed klitika: "Ja ____ smijala tvojoj šali." (fem.)',
+      qEn: 'Clitic order: I (f.) laughed at your joke.',
+      opts: ['sam se', 'se sam', 'sam si', 'se bih'],
+      correct: 0,
+      explain: 'Pomoćni glagol prije se: sam se (se je uvijek zadnje osim uz je).',
     },
   ],
 };
@@ -1229,21 +1688,528 @@ export const WORD_ORDER = {
       explain:
         '`li` is a yes/no question particle that opens the clitic cluster. Order here: `je li ti` = aux `je` + `li` + dat. `ti`.',
     },
+    // ── 2026-07 depth expansion (+6) ──
+    {
+      q: 'Poredaj: Marko / je / ga / vidio →',
+      qEn: 'Order the words: Marko saw him.',
+      opts: [
+        'Marko ga je vidio.',
+        'Marko je ga vidio.',
+        'Ga je Marko vidio.',
+        'Marko vidio ga je.',
+      ],
+      correct: 0,
+      explain: 'Akuzativni ga prije je — 3. jd. je ide na KRAJ klitičkog niza.',
+    },
+    {
+      q: 'Ispravno pitanje s li:',
+      qEn: 'The correct li-question:',
+      opts: ['Dolaziš li sutra?', 'Li dolaziš sutra?', 'Dolaziš sutra li?', 'Sutra li ti dolaziš?'],
+      correct: 0,
+      explain: 'li stoji odmah iza naglašenoga glagola: Dolaziš li…',
+    },
+    {
+      q: '"Jesi ____ vidio?" (nju)',
+      qEn: 'Have you seen her?',
+      opts: ['li je', 'je li', 'li ju je', 'li sebe'],
+      correct: 0,
+      explain: 'jesi + li + je (akuzativna klitika za nju): Jesi li je vidio?',
+    },
+    {
+      q: 'Nakon veznika "jer" klitike dolaze ____.',
+      qEn: 'After the conjunction "jer", clitics come…',
+      opts: ['odmah iza veznika', 'na kraj rečenice', 'ispred veznika', 'bilo gdje'],
+      correct: 0,
+      explain: '…jer sam mu rekao — veznik otvara novu klauzu, klitike su druge.',
+    },
+    {
+      q: 'Koja rečenica naglašava PRIMATELJA (Ani)?',
+      qEn: 'Which sentence emphasizes the recipient?',
+      opts: [
+        'Ani je Marko dao knjigu.',
+        'Marko je dao Ani knjigu.',
+        'Knjigu je Marko dao Ani.',
+        'Dao je Marko knjigu Ani.',
+      ],
+      correct: 0,
+      explain: 'Fronting: Ani na prvom mjestu = kontrastni topik.',
+    },
+    {
+      q: 'Klitike ne mogu stajati ____.',
+      qEn: 'Clitics can never stand…',
+      opts: [
+        'na početku rečenice',
+        'na drugom mjestu',
+        'iza prve naglašene riječi',
+        'u zavisnoj rečenici',
+      ],
+      correct: 0,
+      explain: 'Wackernagel: klitika nikad prva — ✗ "Mu sam dao…".',
+    },
   ],
 };
 
-// Aggregated array — all 10 SP9 units (5 B2 + 5 C1).
+export const VERBS_OF_MOTION = {
+  id: 'verbs-of-motion',
+  cefr: 'B2',
+  title: 'Glagoli kretanja — Prefixed Verbs of Motion',
+  subtitle: 'doći / dolaziti, otići / odlaziti — prefix = direction, -laziti = imperfective',
+  focus: 'verbs of motion, prefixes, doći dolaziti, aspect pairs, ići, direction prefixes',
+  intro:
+    'Croatian builds a whole family of motion verbs from `ići` (to go) plus a directional prefix. Each one comes as an ASPECT PAIR: a perfective verb for a single completed movement (doći — to arrive) and an imperfective partner, usually ending in -laziti, for repeated, habitual, or ongoing movement (dolaziti — to come/arrive regularly). The prefix tells you the direction; the aspect tells you whether the motion is one finished event or an ongoing/repeated one. Mastering the pair + prefix system is the key B2 step toward natural movement vocabulary.',
+  forms: [
+    { label: 'do- (arrival)', hr: 'doći / dolaziti', en: 'to arrive, come (pf / impf)' },
+    { label: 'ot- / od- (departure)', hr: 'otići / odlaziti', en: 'to leave, go away' },
+    { label: 'u- (into)', hr: 'ući / ulaziti', en: 'to enter, go in' },
+    { label: 'iz- (out of)', hr: 'izaći / izlaziti', en: 'to exit, go out' },
+    { label: 'pro- (through / past)', hr: 'proći / prolaziti', en: 'to pass, go past' },
+    { label: 'pre- (across)', hr: 'prijeći / prelaziti', en: 'to cross, go across' },
+    { label: 'obi- (around)', hr: 'obići / obilaziti', en: 'to go around, drop in on' },
+  ],
+  examples: [
+    {
+      hr: 'Vlak dolazi svaki dan u tri sata.',
+      en: 'The train arrives every day at three o’clock.',
+      note: 'Scheduled, repeated → imperfective `dolaziti`.',
+    },
+    {
+      hr: 'Došli smo kući prekasno.',
+      en: 'We arrived home too late.',
+      note: 'One completed event → perfective `doći`.',
+    },
+    {
+      hr: 'Svako jutro odlazim na posao u osam.',
+      en: 'Every morning I leave for work at eight.',
+      note: 'Habitual → imperfective `odlaziti`.',
+    },
+    { hr: 'Molim vas, uđite i sjednite!', en: 'Please, come in and sit down!' },
+    { hr: 'Prošli smo pokraj stare katedrale.', en: 'We passed by the old cathedral.' },
+    {
+      hr: 'Prelazimo cestu na pješačkom prijelazu.',
+      en: 'We cross the road at the pedestrian crossing.',
+      note: 'General habit → imperfective `prelaziti`.',
+    },
+  ],
+  tips: [
+    'The prefix carries the direction: do- = arrival, od-/ot- = departure, u- = into, iz- = out of, pro- = through/past, pre- = across, obi- = around.',
+    'Each prefixed motion verb has a perfective form (doći — one completed motion) and an imperfective partner, usually in -laziti (dolaziti — repeated/habitual/ongoing).',
+    'A perfective motion verb has no true present meaning: `dođem` points to the future or a subordinate clause, not "I am arriving now". For the ongoing present use the imperfective `dolazim`.',
+    'Direction still governs case: `u grad / na posao` (accusative = motion toward) vs `u gradu / na poslu` (locative = static location).',
+  ],
+  drills: [
+    {
+      q: 'Vlak ____ svaki dan u podne.',
+      qEn: 'The train arrives every day at noon.',
+      opts: ['dođe', 'dolazi', 'došao', 'doći'],
+      correct: 1,
+      explain: 'Habitual, repeated → imperfective `dolazi`.',
+    },
+    {
+      q: 'Jučer smo ____ kući vrlo kasno.',
+      qEn: 'Yesterday we came home very late.',
+      opts: ['dolazimo', 'dolazili', 'došli', 'dođemo'],
+      correct: 2,
+      explain: 'One completed past event → perfective `došli`.',
+    },
+    {
+      q: 'Koji glagol znači "izaći iz sobe"?',
+      qEn: 'Which verb means "to exit the room"?',
+      opts: ['ući', 'izaći', 'proći', 'obići'],
+      correct: 1,
+      explain: 'Prefix `iz-` = out of → izaći.',
+    },
+    {
+      q: 'Kad ____ ulicu, uvijek pazi na aute.',
+      qEn: 'When you cross the street, always watch for cars.',
+      opts: ['prelaziš', 'prijeđeš', 'prolaziš', 'odlaziš'],
+      correct: 0,
+      explain:
+        'General, habitual advice → imperfective `prelaziš`. Perfective `prijeđeš` marks one specific crossing.',
+    },
+    {
+      q: 'Ovog vikenda idemo ____ baku i djeda.',
+      qEn: 'This weekend we are going to visit grandma and grandpa.',
+      opts: ['proći', 'obići', 'izaći', 'ući'],
+      correct: 1,
+      explain: '`obići` (lit. "go around") also means to drop in on / visit someone.',
+    },
+    // ── 2026-07 depth expansion (+7) ──
+    {
+      q: 'Autobus je upravo ____. (otići, m.)',
+      qEn: 'The bus has just left.',
+      opts: ['otišao', 'odišao', 'otišel', 'odlazio je'],
+      correct: 0,
+      explain: 'otići → otišao (nepravilni radni pridjev).',
+    },
+    {
+      q: 'Suprotno od "ući" je ____.',
+      qEn: 'The opposite of "to enter" is…',
+      opts: ['izaći', 'prijeći', 'sići', 'naići'],
+      correct: 0,
+      explain: 'u- (unutra) ↔ iz- (van): ući / izaći.',
+    },
+    {
+      q: 'Sunce ____ svako jutro u šest. (izlaziti)',
+      qEn: 'The sun rises every morning at six.',
+      opts: ['izlazi', 'izađe', 'izlazit', 'je izašlo'],
+      correct: 0,
+      explain: 'Ponavljana radnja → nesvršeni prezent: izlazi.',
+    },
+    {
+      q: '"Silazimo" znači da idemo ____.',
+      qEn: '"Silazimo" means we are going…',
+      opts: ['prema dolje', 'prema gore', 'unutra', 'van'],
+      correct: 0,
+      explain: 's(a)- = silazno kretanje: sići/silaziti.',
+    },
+    {
+      q: 'Slučajno sam ____ na stare fotografije.',
+      qEn: 'I stumbled upon some old photographs.',
+      opts: ['naišao', 'ušao', 'izašao', 'sišao'],
+      correct: 0,
+      explain: 'naići na + akuzativ = slučajno pronaći.',
+    },
+    {
+      q: 'Rijeku možeš ____ mostom.',
+      qEn: 'You can cross the river by the bridge.',
+      opts: ['prijeći', 'proći', 'preći se', 'prelaziti se'],
+      correct: 0,
+      explain: 'pre- = s jedne strane na drugu: prijeći rijeku.',
+    },
+    {
+      q: 'Nesvršeni parnjak od "doći" je ____.',
+      qEn: 'The imperfective partner of "doći" is…',
+      opts: ['dolaziti', 'dohoditi', 'doći se', 'dođivati'],
+      correct: 0,
+      explain: 'doći (svrš.) / dolaziti (nesvrš.).',
+    },
+  ],
+};
+
+export const VERBAL_ADVERBS = {
+  id: 'verbal-adverbs',
+  cefr: 'C2',
+  title: 'Glagolski prilozi — Verbal Adverbs (Gerunds)',
+  subtitle: 'present (-ći) for simultaneous action, past (-vši) for prior action',
+  focus:
+    'verbal adverbs, gerunds, glagolski prilog sadašnji, glagolski prilog prošli, radeći, napisavši',
+  intro:
+    'Croatian has two indeclinable verbal adverbs. The PRESENT verbal adverb (glagolski prilog sadašnji) comes from IMPERFECTIVE verbs — take the 3rd-person plural present and add -ći (rade → radeći) — and expresses an action happening at the same time as the main verb ("while doing"). The PAST verbal adverb (glagolski prilog prošli) comes from PERFECTIVE verbs, with -vši/-avši (napisati → napisavši), and expresses an action completed before the main verb ("having done"). Both belong to written/literary register, and the doer of the verbal adverb must be the SAME as the subject of the main clause.',
+  forms: [
+    { label: 'raditi → present', hr: 'radeći', en: 'working / while working' },
+    { label: 'čitati → present', hr: 'čitajući', en: 'reading / while reading' },
+    { label: 'pisati → present', hr: 'pišući', en: 'writing / while writing' },
+    { label: 'biti → present', hr: 'budući', en: 'being (also lexicalized "since/because")' },
+    { label: 'napisati → past', hr: 'napisavši', en: 'having written' },
+    { label: 'doći → past', hr: 'došavši', en: 'having arrived' },
+    { label: 'reći → past', hr: 'rekavši', en: 'having said' },
+  ],
+  examples: [
+    {
+      hr: 'Radeći cijeli dan, jako se umorio.',
+      en: 'Working all day, he got very tired.',
+      note: 'Present verbal adverb — simultaneous with the main verb.',
+    },
+    {
+      hr: 'Šetajući parkom, sreli smo staru prijateljicu.',
+      en: 'While walking through the park, we met an old friend.',
+    },
+    {
+      hr: 'Napisavši pismo, izašao je iz sobe.',
+      en: 'Having written the letter, he left the room.',
+      note: 'Past verbal adverb — completed before the main action.',
+    },
+    { hr: 'Došavši kući, odmah je legao.', en: 'Having come home, he lay down at once.' },
+    {
+      hr: 'Ne znajući odgovor, radije je šutio.',
+      en: 'Not knowing the answer, he preferred to stay silent.',
+      note: 'Negated present verbal adverb.',
+    },
+    {
+      hr: 'Budući da nije bilo karata, ostali smo doma.',
+      en: 'Since there were no tickets, we stayed home.',
+      note: '`budući da` has lexicalized into a causal conjunction ("since / because").',
+    },
+  ],
+  tips: [
+    'Present verbal adverb: 3rd-person plural present minus -u, plus -ći (rade → radeći; pišu → pišući; čitaju → čitajući). Only IMPERFECTIVE verbs form it.',
+    'Past verbal adverb: from PERFECTIVE verbs, -vši on a vowel stem (napisa-vši) or -avši via the past-participle stem (rek-avši, doš-avši). It marks an action completed BEFORE the main verb.',
+    'Same-subject rule: the doer of the verbal adverb must be the subject of the main clause. If they differ, recast with a kad / dok / nakon što clause.',
+    'Both are indeclinable and belong to written/literary/formal register; in everyday speech speakers prefer a temporal clause.',
+  ],
+  drills: [
+    {
+      q: 'Glagolski prilog sadašnji od "pjevati" je ____.',
+      qEn: 'The present verbal adverb of "to sing" is ___.',
+      opts: ['pjevavši', 'pjevajući', 'pjevati', 'pjevao'],
+      correct: 1,
+      explain: 'pjevaju → drop -u → pjevajući.',
+    },
+    {
+      q: '____ knjigu, ugasio je svjetlo i zaspao.',
+      qEn: 'Having finished the book, he turned off the light and fell asleep.',
+      opts: ['Čitajući', 'Pročitavši', 'Čitati', 'Pročitati'],
+      correct: 1,
+      explain:
+        'Action completed before the main verb → past verbal adverb `pročitavši` (perfective).',
+    },
+    {
+      q: '____ kroz grad, divili smo se arhitekturi.',
+      qEn: 'Driving through the city, we admired the architecture.',
+      opts: ['Vozeći se', 'Odvezavši se', 'Voziti se', 'Vozili smo'],
+      correct: 0,
+      explain: 'Simultaneous action → present verbal adverb `vozeći se`.',
+    },
+    {
+      q: 'Glagolski prilog prošli od "reći" je ____.',
+      qEn: 'The past verbal adverb of "to say" is ___.',
+      opts: ['govoreći', 'rekavši', 'rekao', 'reći'],
+      correct: 1,
+      explain: 'Perfective `reći` → `rekavši` ("having said").',
+    },
+    {
+      q: 'Zašto je sporna rečenica "Ušavši u dvoranu, počeo je pljesak"?',
+      qEn: 'Why is the sentence problematic?',
+      opts: [
+        'Prilog je krivo tvoren',
+        'Subjekt priloga i glavne rečenice nije isti',
+        'Glagol nije svršen',
+        'Treba upotrijebiti prezent',
+      ],
+      correct: 1,
+      explain:
+        'Same-subject rule: the applause did not enter the hall. Recast: "Kad je ušao u dvoranu, počeo je pljesak."',
+    },
+    // ── 2026-07 depth expansion (+7) ──
+    {
+      q: 'Glagolski prilog sadašnji tvori se od ____.',
+      qEn: 'The present verbal adverb is formed from…',
+      opts: [
+        'nesvršenih glagola (3. mn. prezenta + -ći)',
+        'svršenih glagola',
+        'infinitiva + -vši',
+        'trpnog pridjeva',
+      ],
+      correct: 0,
+      explain: 'pjevaju + -ći → pjevajući; samo nesvršeni glagoli.',
+    },
+    {
+      q: 'Od "raditi": ____',
+      qEn: 'From "raditi":',
+      opts: ['radeći', 'radivši', 'radajući', 'radići'],
+      correct: 0,
+      explain: 'rade + -ći → radeći.',
+    },
+    {
+      q: 'Od "vidjeti" (prošli): ____',
+      qEn: 'From "vidjeti" (past verbal adverb):',
+      opts: ['vidjevši', 'videći', 'viđevši', 'vidjeći'],
+      correct: 0,
+      explain: 'vidje- + -vši → vidjevši (having seen).',
+    },
+    {
+      q: '"____ posao, otišla je kući." (završiti)',
+      qEn: 'Having finished the work, she went home.',
+      opts: ['Završivši', 'Završavajući', 'Završeći', 'Završila'],
+      correct: 0,
+      explain: 'Svršena, prethodna radnja → prilog prošli: završivši.',
+    },
+    {
+      q: '"Sjedio je ____ novine." (čitati)',
+      qEn: 'He sat reading the newspaper.',
+      opts: ['čitajući', 'pročitavši', 'čitavši', 'čitano'],
+      correct: 0,
+      explain: 'Istodobna radnja → prilog sadašnji: čitajući.',
+    },
+    {
+      q: 'Glagolski prilozi su ____.',
+      qEn: 'Verbal adverbs are…',
+      opts: ['nepromjenjivi', 'sklonjivi po padežima', 'samo u množini', 'uvijek svršeni'],
+      correct: 0,
+      explain: 'Za razliku od pridjeva, prilozi se ne sklanjaju.',
+    },
+    {
+      q: 'Stilska vrijednost glagolskih priloga:',
+      qEn: 'The stylistic value of verbal adverbs:',
+      opts: [
+        'obilježje pisanoga/formalnog stila',
+        'svakodnevni razgovorni jezik',
+        'samo dijalektalno',
+        'arhaizam izvan upotrebe',
+      ],
+      correct: 0,
+      explain: 'Česti u novinskom, znanstvenom i književnom stilu; u govoru rjeđi.',
+    },
+  ],
+};
+
+export const LITERARY_PAST_TENSES = {
+  id: 'literary-past-tenses',
+  cefr: 'C2',
+  title: 'Aorist, imperfekt i pluskvamperfekt — Literary Past Tenses',
+  subtitle: 'The past tenses of literature, proverbs, and expressive messaging',
+  focus:
+    'aorist, imperfekt, pluskvamperfekt, literary past tenses, pripovijedanje, narrative style',
+  intro:
+    'Everyday Croatian uses the perfekt for all past reference — but three further past tenses survive in literature, proverbs, and expressive speech, and a C2 reader meets them constantly. The AORIST (from perfective verbs: rekoh, dođe, pobijedih) narrates sharp, completed events and thrives today in text messages for punchy immediacy (Stigoh!). The IMPERFEKT (from imperfective verbs: bijaše, gledaše, sjeđaše) paints background states in older prose and is now practically confined to bijaše. The PLUSKVAMPERFEKT (bio sam došao / bijah došao) marks a past action completed before another past action. You need active control of the pluperfect, receptive mastery of the rest — and the aorist of biti (bih, bi, bismo…) you already use daily: it is the conditional auxiliary.',
+  forms: [
+    { label: 'Aorist: reći (ja)', hr: 'rekoh', en: 'I said' },
+    { label: 'Aorist: doći (on)', hr: 'dođe', en: 'he came' },
+    { label: 'Aorist: vidjeti (mi)', hr: 'vidjesmo', en: 'we saw' },
+    {
+      label: 'Aorist: biti',
+      hr: 'bih, bi, bi, bismo, biste, biše',
+      en: 'doubles as the conditional auxiliary',
+    },
+    { label: 'Imperfekt: biti (3. jd.)', hr: 'bijaše', en: '(he/she/it) was' },
+    { label: 'Imperfekt: gledati (3. mn.)', hr: 'gledahu', en: 'they were watching' },
+    {
+      label: 'Pluskvamperfekt',
+      hr: 'bio sam došao / bijah došao',
+      en: 'I had come (neutral / literary)',
+    },
+  ],
+  examples: [
+    {
+      hr: 'Dođoh, vidjeh, pobijedih.',
+      en: 'I came, I saw, I conquered.',
+      note: 'Aorist niže svršene radnje jednu za drugom — klasična naracija.',
+    },
+    {
+      hr: 'Stigoh! Vidimo se za pet minuta.',
+      en: 'Just arrived! See you in five minutes.',
+      note: 'Živi aorist: u porukama zvuči kratko, svježe i ekspresivno.',
+    },
+    {
+      hr: 'Bijaše jednom jedan kralj.',
+      en: 'Once upon a time there was a king.',
+      note: 'Imperfekt glagola biti — klasični početak bajke.',
+    },
+    {
+      hr: 'Starac sjeđaše kraj vatre i pripovijedaše o starim vremenima.',
+      en: 'The old man sat by the fire and told of olden times.',
+      note: 'Imperfekt za pozadinske, trajne prošle radnje — danas isključivo književno.',
+    },
+    {
+      hr: 'Kad smo stigli na kolodvor, vlak je već bio otišao.',
+      en: 'When we reached the station, the train had already left.',
+      note: 'Pluskvamperfekt: radnja dovršena PRIJE druge prošle radnje.',
+    },
+    {
+      hr: 'Sve što bijaše obećao, pokazalo se istinitim.',
+      en: 'Everything he had promised turned out to be true.',
+      note: 'Književna varijanta pluskvamperfekta s imperfektom bijah.',
+    },
+  ],
+  tips: [
+    'U govoru perfekt pokriva sve — aorist i imperfekt stilski su izbor, ne obveza. Morate ih prepoznati; upotrebljavajte ih svjesno i štedljivo.',
+    'Aorist se tvori pretežno od SVRŠENIH glagola (rekoh, dođoh), imperfekt isključivo od NESVRŠENIH (gledah, bijah).',
+    'Aorist glagola biti (bih, bi, bismo…) živi u kondicionalu — "rekao bih" povijesno sadrži aorist.',
+    'Pluskvamperfekt tvorite dvojako: perfekt glagola biti + radni pridjev (bio je otišao) ili književno imperfekt bijah + radni pridjev (bijaše otišao).',
+  ],
+  drills: [
+    {
+      q: 'Aorist od "reći" (ja):',
+      qEn: 'Aorist of "reći" (1st sg.):',
+      opts: ['rekoh', 'rekao', 'reknem', 'rečem'],
+      correct: 0,
+      explain: 'reći → rekoh, reče, rekosmo, rekoste, rekoše.',
+    },
+    {
+      q: '"____, vidjeh, pobijedih."',
+      qEn: 'I came, I saw, I conquered.',
+      opts: ['Dođoh', 'Došao', 'Dolazim', 'Dođem'],
+      correct: 0,
+      explain: 'Niz aorista: dođoh, vidjeh, pobijedih.',
+    },
+    {
+      q: 'Imperfekt od "biti" (3. jd.):',
+      qEn: 'Imperfect of "biti" (3rd sg.):',
+      opts: ['bijaše', 'bio je', 'bude', 'bi'],
+      correct: 0,
+      explain: 'bijah, bijaše… — jedini imperfekt živ u suvremenom jeziku.',
+    },
+    {
+      q: 'Aorist 3. jd.: "On ____ i sve se promijeni." (doći)',
+      qEn: 'He came and everything changed.',
+      opts: ['dođe', 'došao', 'dođoše', 'dolažaše'],
+      correct: 0,
+      explain: '3. jd. aorista: dođe (dođoše je 3. mn.).',
+    },
+    {
+      q: 'Pluskvamperfekt: "Vlak je već ____ kad smo stigli." (otići)',
+      qEn: 'The train had already left when we arrived.',
+      opts: ['bio otišao', 'otišao', 'bio otići', 'bivao otišao'],
+      correct: 0,
+      explain: 'je + bio + otišao — pretprošla radnja.',
+    },
+    {
+      q: 'Imperfekt se tvori od ____ glagola.',
+      qEn: 'The imperfect is formed from which verbs?',
+      opts: ['nesvršenih', 'svršenih', 'samo povratnih', 'modalnih'],
+      correct: 0,
+      explain: 'Trajna prošla radnja → samo nesvršeni glagoli.',
+    },
+    {
+      q: 'Aorist 3. mn.: "Svi ____ isto." (reći)',
+      qEn: 'They all said the same.',
+      opts: ['rekoše', 'rekli', 'rečahu', 'reknu'],
+      correct: 0,
+      explain: '3. mn. aorista: rekoše.',
+    },
+    {
+      q: '"Bijaše hladno jutro." — koje je ovo glagolsko vrijeme?',
+      qEn: 'Which tense is "bijaše"?',
+      opts: ['imperfekt', 'aorist', 'perfekt', 'pluskvamperfekt'],
+      correct: 0,
+      explain: 'bijaše = imperfekt glagola biti.',
+    },
+    {
+      q: 'Književna varijanta: "On ____ već sve zaboravio."',
+      qEn: 'He had already forgotten everything (literary).',
+      opts: ['bijaše', 'bi', 'bude', 'bio'],
+      correct: 0,
+      explain: 'bijaše + radni pridjev = književni pluskvamperfekt.',
+    },
+    {
+      q: 'U poruci "Stigoh!" aorist zvuči ____.',
+      qEn: 'In a text message, the aorist "Stigoh!" sounds…',
+      opts: ['kratko i ekspresivno', 'arhaično i pogrešno', 'službeno', 'nepismeno'],
+      correct: 0,
+      explain: 'Aorist je živ u SMS-registru upravo zbog kratkoće.',
+    },
+    {
+      q: 'Kondicionalno "bi" (rekao bi) povijesno je ____ glagola biti.',
+      qEn: 'The conditional auxiliary "bi" is historically the … of "biti".',
+      opts: ['aorist', 'imperfekt', 'prezent', 'particip'],
+      correct: 0,
+      explain: 'bih, bi, bismo… = aorist od biti u službi kondicionala.',
+    },
+    {
+      q: 'Aorist od "vidjeti" (mi):',
+      qEn: 'Aorist of "vidjeti" (1st pl.):',
+      opts: ['vidjesmo', 'vidimo', 'viđasmo', 'vidjeli'],
+      correct: 0,
+      explain: 'vidjeh, vidje, vidjesmo, vidjeste, vidješe.',
+    },
+  ],
+};
+
+// Aggregated array — 13 units (6 B2 + 5 C1 + 2 C2).
 export const ADVANCED_UNITS = [
   FUTUR_II,
   RELATIVE_CLAUSES,
   PASSIVE_VOICE,
   PARTICIPLES,
   REPORTED_SPEECH,
+  VERBS_OF_MOTION,
   KONDICIONAL_II,
   BUSINESS_REGISTER,
   VERBAL_NOUNS,
   REFLEXIVE_CONSTRUCTIONS,
   WORD_ORDER,
+  VERBAL_ADVERBS,
+  LITERARY_PAST_TENSES,
 ];
 
 // O(1) lookup by id for GrammarUnitDetail.

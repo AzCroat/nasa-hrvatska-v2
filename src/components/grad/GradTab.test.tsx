@@ -8,7 +8,7 @@ vi.mock('../../context/StatsContext', () => ({
   useStats: () => ({ stats: { xp: 9000, lc: 40, gc: 12 } }),
 }));
 vi.mock('../../hooks/useContent', () => ({
-  useContent: () => ({ content: { V: { greetings: [['Bok', 'Hi', 'bok']] } } }),
+  useContent: () => ({ content: { V: { greetings: [['Bog', 'Hi', 'bog']] } } }),
 }));
 vi.mock('../../hooks/useAdaptivePractice', () => ({
   useAdaptivePractice: () => ({ practiceQueue: [] }),

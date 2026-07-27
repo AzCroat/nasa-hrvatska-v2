@@ -489,7 +489,7 @@ export const PLACE = [
   },
   {
     q: 'Standard formal sign-off in a Croatian letter?',
-    o: ['Bok!', 'Vidimo se!', 'S poštovanjem,'],
+    o: ['Bog!', 'Vidimo se!', 'S poštovanjem,'],
     c: 2,
     d: 3,
     cefr: 'B2',
@@ -2565,6 +2565,128 @@ export const UNJUMBLE = [
     correct: 'Hrvatska je lijepa zemlja.',
     en: 'Croatia is a beautiful country.',
   },
+  // ── 2026-07 depth expansion (+25): clitic clusters, questions, conditionals ──
+  {
+    words: ['Ivan', 'mi', 'je', 'dao', 'knjigu'],
+    correct: 'Ivan mi je dao knjigu.',
+    en: 'Ivan gave me a book.',
+  },
+  {
+    words: ['Ona', 'se', 'zove', 'Marija'],
+    correct: 'Ona se zove Marija.',
+    en: 'Her name is Marija.',
+  },
+  {
+    words: ['Htio', 'bih', 'ča\u0161u', 'vode'],
+    correct: 'Htio bih ča\u0161u vode.',
+    en: 'I would like a glass of water.',
+  },
+  {
+    words: ['Koliko', 'to', 'ko\u0161ta'],
+    correct: 'Koliko to ko\u0161ta?',
+    en: 'How much does that cost?',
+  },
+  {
+    words: ['Gdje', 'si', 'kupio', 'taj', 'kaput'],
+    correct: 'Gdje si kupio taj kaput?',
+    en: 'Where did you buy that coat?',
+  },
+  {
+    words: ['Moja', 'sestra', '\u017eivi', 'u', 'Splitu'],
+    correct: 'Moja sestra \u017eivi u Splitu.',
+    en: 'My sister lives in Split.',
+  },
+  {
+    words: ['Vidjeli', 'smo', 'ih', 'ju\u010der'],
+    correct: 'Vidjeli smo ih ju\u010der.',
+    en: 'We saw them yesterday.',
+  },
+  {
+    words: ['Mo\u017eete', 'li', 'mi', 'pomo\u0107i'],
+    correct: 'Mo\u017eete li mi pomo\u0107i?',
+    en: 'Can you help me?',
+  },
+  {
+    words: ['Danas', 'je', 'lijepo', 'vrijeme'],
+    correct: 'Danas je lijepo vrijeme.',
+    en: 'The weather is nice today.',
+  },
+  {
+    words: ['Baka', 'nam', 'je', 'ispekla', 'kola\u010de'],
+    correct: 'Baka nam je ispekla kola\u010de.',
+    en: 'Grandma baked us cakes.',
+  },
+  {
+    words: ['Ne', 'razumijem', 'to', 'pitanje'],
+    correct: 'Ne razumijem to pitanje.',
+    en: 'I do not understand that question.',
+  },
+  {
+    words: ['Kada', 'polazi', 'vlak', 'za', 'Zagreb'],
+    correct: 'Kada polazi vlak za Zagreb?',
+    en: 'When does the train for Zagreb leave?',
+  },
+  { words: ['Drago', 'mi', 'je'], correct: 'Drago mi je.', en: 'Nice to meet you.' },
+  {
+    words: ['Javit', '\u0107u', 'ti', 'se', 'sutra'],
+    correct: 'Javit \u0107u ti se sutra.',
+    en: 'I will get in touch with you tomorrow.',
+  },
+  {
+    words: ['Ovo', 'je', 'moj', 'najbolji', 'prijatelj'],
+    correct: 'Ovo je moj najbolji prijatelj.',
+    en: 'This is my best friend.',
+  },
+  {
+    words: ['U\u010dimo', 'hrvatski', 'svaki', 'dan'],
+    correct: 'U\u010dimo hrvatski svaki dan.',
+    en: 'We study Croatian every day.',
+  },
+  {
+    words: ['Smijem', 'li', 'otvoriti', 'prozor'],
+    correct: 'Smijem li otvoriti prozor?',
+    en: 'May I open the window?',
+  },
+  {
+    words: ['Ru\u010dak', 'je', 'na', 'stolu'],
+    correct: 'Ru\u010dak je na stolu.',
+    en: 'Lunch is on the table.',
+  },
+  {
+    words: ['Oni', '\u0107e', 'do\u0107i', 've\u010deras'],
+    correct: 'Oni \u0107e do\u0107i ve\u010deras.',
+    en: 'They will come tonight.',
+  },
+  {
+    words: ['Nemoj', 'to', 'zaboraviti'],
+    correct: 'Nemoj to zaboraviti!',
+    en: 'Do not forget that!',
+  },
+  {
+    words: ['Kupila', 'sam', 'si', 'nove', 'cipele'],
+    correct: 'Kupila sam si nove cipele.',
+    en: 'I bought myself new shoes.',
+  },
+  {
+    words: ['Vlak', 'kasni', 'deset', 'minuta'],
+    correct: 'Vlak kasni deset minuta.',
+    en: 'The train is ten minutes late.',
+  },
+  {
+    words: ['Svi\u0111a', 'mi', 'se', 'ova', 'pjesma'],
+    correct: 'Svi\u0111a mi se ova pjesma.',
+    en: 'I like this song.',
+  },
+  {
+    words: ['Idemo', 'li', 'sutra', 'na', 'izlet'],
+    correct: 'Idemo li sutra na izlet?',
+    en: 'Are we going on a trip tomorrow?',
+  },
+  {
+    words: ['Sutra', 'idemo', 'na', 'more'],
+    correct: 'Sutra idemo na more.',
+    en: 'Tomorrow we are going to the seaside.',
+  },
 ];
 export const IDIOMS = [
   {
@@ -2684,6 +2806,37 @@ export const PREPS = [
   { prep: 'ispred', cases: ['Genitiv'], ex: ['Auto je ispred ku\u0107e.'], en: 'in front of' },
   { prep: 'iza', cases: ['Genitiv'], ex: ['Vrt je iza ku\u0107e.'], en: 'behind' },
   { prep: 'oko', cases: ['Genitiv'], ex: ['Oko ku\u0107e je ograda.'], en: 'around' },
+  // ── 2026-07 depth expansion (+10) ──
+  { prep: 'kroz', cases: ['Akuzativ'], ex: ['Idemo kroz park.'], en: 'through' },
+  { prep: 'preko', cases: ['Genitiv'], ex: ['Most preko rijeke.'], en: 'over / across' },
+  { prep: 'pored', cases: ['Genitiv'], ex: ['Sjedim pored prozora.'], en: 'next to / beside' },
+  {
+    prep: 'po',
+    cases: ['Lokativ', 'Akuzativ'],
+    ex: ['\u0160etam po gradu. (Lok)', 'Idem po kruh. (Akuz)'],
+    en: 'around / to fetch',
+  },
+  {
+    prep: 'za',
+    cases: ['Akuzativ', 'Instrumental'],
+    ex: ['Dar za tebe. (Akuz)', 'Sjedimo za stolom. (Instr)'],
+    en: 'for / at (the table)',
+  },
+  { prep: 'zbog', cases: ['Genitiv'], ex: ['Kasnim zbog gu\u017eve.'], en: 'because of' },
+  { prep: 'nakon', cases: ['Genitiv'], ex: ['Nakon ru\u010dka idemo van.'], en: 'after' },
+  { prep: 'prije', cases: ['Genitiv'], ex: ['Prije spavanja \u010ditam.'], en: 'before' },
+  {
+    prep: 'izme\u0111u',
+    cases: ['Genitiv'],
+    ex: ['Izme\u0111u ku\u0107e i \u0161kole.'],
+    en: 'between',
+  },
+  {
+    prep: 'unato\u010d',
+    cases: ['Dativ'],
+    ex: ['Unato\u010d ki\u0161i, idemo van.'],
+    en: 'despite',
+  },
 ];
 export const LISTEN = [
   {
@@ -2695,14 +2848,16 @@ export const LISTEN = [
       'Hello, who are you?',
       'Good morning, how old are you?',
     ],
+    level: 'A1',
   },
   {
     hr: 'Ja sam iz Hrvatske.',
     en: 'I am from Croatia.',
     opts: ['I am from Croatia.', 'I am in Croatia.', 'I love Croatia.', 'I live in Croatia.'],
+    level: 'A1',
   },
   {
-    hr: 'Koliko ko\u0161ta kava?',
+    hr: 'Koliko košta kava?',
     en: 'How much is a coffee?',
     opts: [
       'How much is a coffee?',
@@ -2710,9 +2865,10 @@ export const LISTEN = [
       'I want coffee.',
       'Do you have coffee?',
     ],
+    level: 'A1',
   },
   {
-    hr: '\u017delim naru\u010diti riblju juhu.',
+    hr: 'Želim naručiti riblju juhu.',
     en: 'I want to order fish soup.',
     opts: [
       'I want to order fish soup.',
@@ -2720,9 +2876,10 @@ export const LISTEN = [
       'The fish soup is cold.',
       'Do you have fish soup?',
     ],
+    level: 'A2',
   },
   {
-    hr: 'Gdje je najbli\u017ea ljekarna?',
+    hr: 'Gdje je najbliža ljekarna?',
     en: 'Where is the nearest pharmacy?',
     opts: [
       'Where is the nearest pharmacy?',
@@ -2730,9 +2887,10 @@ export const LISTEN = [
       'I need a doctor.',
       'Where is the nearest market?',
     ],
+    level: 'A1',
   },
   {
-    hr: 'Moja djeca u\u010de hrvatski.',
+    hr: 'Moja djeca uče hrvatski.',
     en: 'My children are learning Croatian.',
     opts: [
       'My children are learning Croatian.',
@@ -2740,14 +2898,16 @@ export const LISTEN = [
       'My family is Croatian.',
       'My children love Croatia.',
     ],
+    level: 'A2',
   },
   {
-    hr: 'Mo\u017eete li mi pomo\u0107i?',
+    hr: 'Možete li mi pomoći?',
     en: 'Can you help me?',
     opts: ['Can you help me?', 'Can I help you?', 'Do you need help?', 'Where can I find help?'],
+    level: 'A1',
   },
   {
-    hr: 'Sutra idemo na pla\u017eu.',
+    hr: 'Sutra idemo na plažu.',
     en: 'Tomorrow we go to the beach.',
     opts: [
       'Tomorrow we go to the beach.',
@@ -2755,6 +2915,7 @@ export const LISTEN = [
       'We like the beach.',
       'The beach is beautiful.',
     ],
+    level: 'A2',
   },
   {
     hr: 'Trebam kupiti kruh i mlijeko.',
@@ -2765,9 +2926,10 @@ export const LISTEN = [
       'Bread and milk are expensive.',
       'Where is the bread and milk?',
     ],
+    level: 'A2',
   },
   {
-    hr: 'On je govorio s lije\u010dnikom.',
+    hr: 'On je govorio s liječnikom.',
     en: 'He was talking with the doctor.',
     opts: [
       'He was talking with the doctor.',
@@ -2775,9 +2937,10 @@ export const LISTEN = [
       'He needs a doctor.',
       'The doctor is talking.',
     ],
+    level: 'B1',
   },
   {
-    hr: 'Hrvatska je lijepa zemlja s dugom povije\u0161\u0107u.',
+    hr: 'Hrvatska je lijepa zemlja s dugom poviješću.',
     en: 'Croatia is a beautiful country with a long history.',
     opts: [
       'Croatia is a beautiful country with a long history.',
@@ -2785,16 +2948,18 @@ export const LISTEN = [
       'Croatia has beautiful beaches.',
       'I want to visit Croatia.',
     ],
+    level: 'B1',
   },
   {
-    hr: 'Ne razumijem, mo\u017eete li ponoviti?',
-    en: 'I don\u0027t understand, can you repeat?',
+    hr: 'Ne razumijem, možete li ponoviti?',
+    en: "I don't understand, can you repeat?",
     opts: [
-      'I don\u0027t understand, can you repeat?',
+      "I don't understand, can you repeat?",
       'I understand everything.',
       'Please speak louder.',
-      'I don\u0027t speak Croatian.',
+      "I don't speak Croatian.",
     ],
+    level: 'A2',
   },
   {
     hr: 'Tražim posao u IT sektoru već tri mjeseca.',
@@ -2805,6 +2970,7 @@ export const LISTEN = [
       'I found an IT job last month.',
       "I don't want to work in IT.",
     ],
+    level: 'B1',
   },
   {
     hr: 'Po mom mišljenju, klimatske promjene su najveći problem današnjice.',
@@ -2815,6 +2981,7 @@ export const LISTEN = [
       'The weather is getting better.',
       'We need more factories.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Stanarina u Zagrebu je jako visoka za mlade.',
@@ -2825,6 +2992,7 @@ export const LISTEN = [
       'Young people own houses in Zagreb.',
       'Zagreb is the cheapest city.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Slažem se s tobom da trebamo reciklirati više.',
@@ -2835,6 +3003,7 @@ export const LISTEN = [
       'Recycling is not important.',
       'We recycle enough already.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Kolege su mi rekle da je šef jako zahtjevan.',
@@ -2845,6 +3014,7 @@ export const LISTEN = [
       'I have no colleagues.',
       'The boss left the company.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Ne mogu priuštiti taj stan bez suvlasnika.',
@@ -2855,6 +3025,7 @@ export const LISTEN = [
       "I don't need an apartment.",
       'I own a house already.',
     ],
+    level: 'B2',
   },
   {
     hr: 'Hrvatska je postala članica Europske unije 2013. godine.',
@@ -2865,6 +3036,7 @@ export const LISTEN = [
       'Croatia is not in the EU.',
       'Croatia will join the EU soon.',
     ],
+    level: 'B1',
   },
   {
     hr: 'Rekao bih da je važno znati više od jednog jezika.',
@@ -2875,6 +3047,7 @@ export const LISTEN = [
       'Languages are too difficult.',
       "I don't care about languages.",
     ],
+    level: 'B2',
   },
   {
     hr: 'Mladi sve češće biraju rad od kuće umjesto ureda.',
@@ -2885,6 +3058,272 @@ export const LISTEN = [
       'No one works from home.',
       'Working from home is banned.',
     ],
+    level: 'B2',
+  },
+  // ── 2026-07 depth expansion (+24): level-tagged, B1–C2 heavy ──
+  {
+    hr: 'Vlak polazi u osam.',
+    en: 'The train leaves at eight.',
+    opts: [
+      'The train leaves at eight.',
+      'The train arrives at eight.',
+      'The bus leaves at eight.',
+      'The train leaves at six.',
+    ],
+    level: 'A1',
+  },
+  {
+    hr: 'Danas je vani hladno.',
+    en: 'It is cold outside today.',
+    opts: [
+      'It is cold outside today.',
+      'It is warm outside today.',
+      'It was cold yesterday.',
+      'It is raining outside today.',
+    ],
+    level: 'A1',
+  },
+  {
+    hr: 'Subotom idemo na tržnicu.',
+    en: 'On Saturdays we go to the market.',
+    opts: [
+      'On Saturdays we go to the market.',
+      'On Sundays we go to church.',
+      'On Saturdays we go to the beach.',
+      'Every day we go to the market.',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Ne mogu doći na večeru.',
+    en: 'I cannot come to dinner.',
+    opts: [
+      'I cannot come to dinner.',
+      'I cannot cook dinner.',
+      'I will come to dinner.',
+      'I cannot come to lunch.',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Koliko dugo učiš hrvatski?',
+    en: 'How long have you been learning Croatian?',
+    opts: [
+      'How long have you been learning Croatian?',
+      'How well do you speak Croatian?',
+      'Why are you learning Croatian?',
+      'How long did you live in Croatia?',
+    ],
+    level: 'A2',
+  },
+  {
+    hr: 'Da imam vremena, više bih čitao.',
+    en: 'If I had time, I would read more.',
+    opts: [
+      'If I had time, I would read more.',
+      'Since I have time, I read a lot.',
+      'If I had money, I would read more.',
+      'When I have time, I will write more.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Javit ću ti se čim stignem.',
+    en: 'I will get in touch as soon as I arrive.',
+    opts: [
+      'I will get in touch as soon as I arrive.',
+      'I got in touch when I arrived.',
+      'I will call you before I leave.',
+      'Get in touch as soon as you arrive.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Iako je skupo, vrijedi svakog eura.',
+    en: 'Although it is expensive, it is worth every euro.',
+    opts: [
+      'Although it is expensive, it is worth every euro.',
+      'Because it is cheap, it is worth buying.',
+      'It is too expensive to be worth it.',
+      'Although it is cheap, it is worthless.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Moram priznati da si bio u pravu.',
+    en: 'I must admit you were right.',
+    opts: [
+      'I must admit you were right.',
+      'I refuse to admit you were right.',
+      'I must admit I was right.',
+      'You must admit I was wrong.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Upravo sam se vratio s posla.',
+    en: 'I have just returned from work.',
+    opts: [
+      'I have just returned from work.',
+      'I am just leaving for work.',
+      'I returned from work long ago.',
+      'I have just found a job.',
+    ],
+    level: 'B1',
+  },
+  {
+    hr: 'Da sam znao, nikad ne bih pristao.',
+    en: 'Had I known, I would never have agreed.',
+    opts: [
+      'Had I known, I would never have agreed.',
+      'Since I knew, I agreed at once.',
+      'Had I known, I would have agreed sooner.',
+      'I never knew what I agreed to.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Sastanak je odgođen za sljedeći tjedan.',
+    en: 'The meeting has been postponed to next week.',
+    opts: [
+      'The meeting has been postponed to next week.',
+      'The meeting was moved up to this week.',
+      'The meeting was cancelled for good.',
+      'The meeting lasted a whole week.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Nisam siguran isplati li se toliki trošak.',
+    en: 'I am not sure such an expense is worth it.',
+    opts: [
+      'I am not sure such an expense is worth it.',
+      'I am certain the expense is worth it.',
+      'I am not sure how much it costs.',
+      'Such an expense is clearly unaffordable.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Što više učim, to manje znam.',
+    en: 'The more I learn, the less I know.',
+    opts: [
+      'The more I learn, the less I know.',
+      'The more I learn, the more I know.',
+      'The less I learn, the less I know.',
+      'I learn little but know a lot.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Ponuda vrijedi dok traju zalihe.',
+    en: 'The offer is valid while stocks last.',
+    opts: [
+      'The offer is valid while stocks last.',
+      'The offer expired when stocks ran out.',
+      'The offer is valid for one day only.',
+      'Stocks last as long as the offer.',
+    ],
+    level: 'B2',
+  },
+  {
+    hr: 'Koliko god zvučalo čudno, nedostaje mi gužva.',
+    en: 'However strange it sounds, I miss the crowds.',
+    opts: [
+      'However strange it sounds, I miss the crowds.',
+      'Strangely enough, I avoid the crowds.',
+      'The crowds sound strange to me.',
+      'However strange, the crowds miss me.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Ta se tema provlači kroz cijeli njegov opus.',
+    en: 'That theme runs through his entire body of work.',
+    opts: [
+      'That theme runs through his entire body of work.',
+      'That theme appears in only one of his works.',
+      'His work avoids that theme entirely.',
+      'The theme of his work keeps changing.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Prijedlog je naišao na žestok otpor oporbe.',
+    en: 'The proposal met with fierce resistance from the opposition.',
+    opts: [
+      'The proposal met with fierce resistance from the opposition.',
+      'The proposal was warmly welcomed by the opposition.',
+      'The opposition proposed fierce measures.',
+      'The proposal quietly passed without debate.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'S obzirom na sve, prošli smo relativno dobro.',
+    en: 'All things considered, we came off relatively well.',
+    opts: [
+      'All things considered, we came off relatively well.',
+      'Considering everything, we failed badly.',
+      'We passed everything with top marks.',
+      'All things considered, it could not have gone worse.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Ne preostaje nam ništa drugo nego čekati.',
+    en: 'Nothing remains for us but to wait.',
+    opts: [
+      'Nothing remains for us but to wait.',
+      'We have many options besides waiting.',
+      'We refused to wait any longer.',
+      'Waiting is the one thing we cannot do.',
+    ],
+    level: 'C1',
+  },
+  {
+    hr: 'Njegovim odlaskom kuća osta bez duše.',
+    en: 'With his departure the house was left without a soul.',
+    opts: [
+      'With his departure the house was left without a soul.',
+      'When he arrived, the house came alive.',
+      'He left the house to save his soul.',
+      'The house was soulless before he left.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Šutnja katkad kaže više od riječi.',
+    en: 'Silence sometimes says more than words.',
+    opts: [
+      'Silence sometimes says more than words.',
+      'Words always say more than silence.',
+      'Silence never says anything at all.',
+      'Sometimes words fall silent.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Bijaše jednom jedan kralj.',
+    en: 'Once upon a time there was a king.',
+    opts: [
+      'Once upon a time there was a king.',
+      'There will one day be a king.',
+      'The king was once alone.',
+      'Once a king, always a king.',
+    ],
+    level: 'C2',
+  },
+  {
+    hr: 'Sve što rekoše, vjetar odnese.',
+    en: 'All that they said, the wind carried away.',
+    opts: [
+      'All that they said, the wind carried away.',
+      'Everything they said was written down.',
+      'The wind brought them new words.',
+      'They said nothing, and the wind was still.',
+    ],
+    level: 'C2',
   },
 ];
 export const NUMTIME = {
@@ -3202,8 +3641,18 @@ export const VOCATIVE = {
         ['Marija', 'Marijo'],
         ['mama', 'mamo'],
         ['sestra', 'sestro'],
-        ['prijateljica', 'prijateljice'],
+        ['baka', 'bako'],
         ['Ivana', 'Ivano'],
+      ],
+    },
+    {
+      pattern: 'Feminine nouns ending in -ica',
+      transform: '-ica \u2192 -ice',
+      examples: [
+        ['prijateljica', 'prijateljice'],
+        ['u\u010diteljica', 'u\u010diteljice'],
+        ['gospo\u0111ica', 'gospo\u0111ice'],
+        ['doktorica', 'doktorice'],
       ],
     },
     {
@@ -3280,6 +3729,47 @@ export const VOCATIVE = {
       q: 'When is vocative = nominative?',
       a: 'Neuter nouns (dijete, more)',
       al: ['Always masculine', 'All plurals', 'Feminine -ica nouns'],
+    },
+    // ── 2026-07 depth expansion (+12) ──
+    {
+      q: 'Addressing your (female) teacher (u\u010diteljica) =',
+      a: 'U\u010diteljice!',
+      al: ['U\u010diteljica!', 'U\u010diteljico!', 'U\u010diteljici!'],
+    },
+    { q: 'Calling Ivan =', a: 'Ivane!', al: ['Ivan!', 'Ivanu!', 'Ivana!'] },
+    { q: 'Calling your dad (tata) =', a: 'Tata!', al: ['Tato!', 'Tati!', 'Tatu!'] },
+    {
+      q: "'Miss!' (gospo\u0111ica) =",
+      a: 'Gospo\u0111ice!',
+      al: ['Gospo\u0111ica!', 'Gospo\u0111ico!', 'Gospo\u0111ici!'],
+    },
+    { q: 'Calling Petar =', a: 'Petre!', al: ['Petar!', 'Petru!', 'Petare!'] },
+    {
+      q: "'My friend!' (prijateljica, f) =",
+      a: 'Prijateljice!',
+      al: ['Prijateljica!', 'Prijateljico!', 'Prijateljici!'],
+    },
+    {
+      q: 'Addressing a waiter (konobar) =',
+      a: 'Konobaru!',
+      al: ['Konobar!', 'Konobarom!', 'Konobara!'],
+    },
+    { q: "'Grandma!' (baka) =", a: 'Bako!', al: ['Baka!', 'Baki!', 'Baku!'] },
+    {
+      q: "'Professor!' (profesor) =",
+      a: 'Profesore!',
+      al: ['Profesor!', 'Profesoru!', 'Profesora!'],
+    },
+    { q: "Exclaiming 'God!' (Bog) =", a: 'Bo\u017ee!', al: ['Bog!', 'Bogu!', 'Boga!'] },
+    {
+      q: "'Doctor!' (female \u2014 doktorica) =",
+      a: 'Doktorice!',
+      al: ['Doktorica!', 'Doktorico!', 'Doktorici!'],
+    },
+    {
+      q: "'Hey, man!' (\u010dovjek) =",
+      a: '\u010covje\u010de!',
+      al: ['\u010covjek!', '\u010covjeku!', '\u010covje\u0107e!'],
     },
   ],
   dialogues: [
@@ -3389,6 +3879,157 @@ export const PREPDRILL = [
     answer: 's',
     opts: ['s', 'iz', 'od', 'na'],
     en: 'He fell off the bed.',
+  },
+  // ── 2026-07 depth expansion (+25): temporal, causal, spatial contrasts ──
+  {
+    sentence: 'Putujem ___ Dubrovnika.',
+    answer: 'do',
+    opts: ['do', 'od', 'iz', 'na'],
+    en: 'I am travelling to Dubrovnik.',
+  },
+  {
+    sentence: 'Stigli smo ___ pet minuta.',
+    answer: 'za',
+    opts: ['za', 'na', 'u', 'po'],
+    en: 'We arrived in five minutes.',
+  },
+  {
+    sentence: 'Sastanak je ___ ru\u010dka.',
+    answer: 'nakon',
+    opts: ['nakon', 'prije', 'tijekom', 'oko'],
+    en: 'The meeting is after lunch.',
+  },
+  {
+    sentence: 'Ustajem ___ sedam sati.',
+    answer: 'prije',
+    opts: ['prije', 'nakon', 'do', 'od'],
+    en: 'I get up before seven o\u0027clock.',
+  },
+  {
+    sentence: 'Pro\u0161li smo ___ tunel.',
+    answer: 'kroz',
+    opts: ['kroz', 'preko', 'uz', 'po'],
+    en: 'We passed through the tunnel.',
+  },
+  {
+    sentence: 'Most ide ___ rijeke.',
+    answer: 'preko',
+    opts: ['preko', 'kroz', 'iznad', 'po'],
+    en: 'The bridge goes across the river.',
+  },
+  {
+    sentence: 'Sjedimo ___ prozora.',
+    answer: 'pored',
+    opts: ['pored', 'ispod', 'iznad', 'me\u0111u'],
+    en: 'We sit next to the window.',
+  },
+  {
+    sentence: 'Avion leti ___ oblaka.',
+    answer: 'iznad',
+    opts: ['iznad', 'ispod', 'pored', 'kroz'],
+    en: 'The plane flies above the clouds.',
+  },
+  {
+    sentence: 'Trgovina je ___ po\u0161te i banke.',
+    answer: 'izme\u0111u',
+    opts: ['izme\u0111u', 'pored', 'preko', 'oko'],
+    en: 'The shop is between the post office and the bank.',
+  },
+  {
+    sentence: 'Ne mogu \u017eivjeti ___ glazbe.',
+    answer: 'bez',
+    opts: ['bez', 'sa', 'od', 'osim'],
+    en: 'I cannot live without music.',
+  },
+  {
+    sentence: 'Zakasnio sam ___ gu\u017eve.',
+    answer: 'zbog',
+    opts: ['zbog', 'bez', 'osim', 'oko'],
+    en: 'I was late because of the traffic.',
+  },
+  {
+    sentence: '___ ki\u0161i, oti\u0161li smo na izlet.',
+    answer: 'Unato\u010d',
+    opts: ['Unato\u010d', 'Zbog', 'Osim', 'Prije'],
+    en: 'Despite the rain, we went on a trip.',
+  },
+  {
+    sentence: 'Idemo ___ baki.',
+    answer: 'k',
+    opts: ['k', 'kod', 'do', 'u'],
+    en: 'We are going to grandma\u0027s.',
+  },
+  {
+    sentence: 'Razgovaramo ___ planovima.',
+    answer: 'o',
+    opts: ['o', 'za', 'na', 'po'],
+    en: 'We are talking about plans.',
+  },
+  {
+    sentence: 'Hodamo ___ obali.',
+    answer: 'po',
+    opts: ['po', 'na', 'u', 'za'],
+    en: 'We walk along the shore.',
+  },
+  {
+    sentence: 'Boravim ___ prijatelja.',
+    answer: 'kod',
+    opts: ['kod', 'k', 'u', 'na'],
+    en: 'I am staying at a friend\u0027s place.',
+  },
+  {
+    sentence: 'Svi su do\u0161li ___ Marka.',
+    answer: 'osim',
+    opts: ['osim', 'bez', 'zbog', 'pored'],
+    en: 'Everyone came except Marko.',
+  },
+  {
+    sentence: 'Glasali su ___ prijedloga.',
+    answer: 'protiv',
+    opts: ['protiv', 'za', 'zbog', 'bez'],
+    en: 'They voted against the proposal.',
+  },
+  {
+    sentence: '___ ljeta \u010desto plivamo.',
+    answer: 'Tijekom',
+    opts: ['Tijekom', 'Nakon', 'Prije', 'Zbog'],
+    en: 'During the summer we often swim.',
+  },
+  {
+    sentence: 'Uzmi \u010daj ___ kave.',
+    answer: 'umjesto',
+    opts: ['umjesto', 'osim', 'bez', 'zbog'],
+    en: 'Have tea instead of coffee.',
+  },
+  {
+    sentence: 'Pas spava ___ stolom.',
+    answer: 'pod',
+    opts: ['pod', 'nad', 'pred', 'za'],
+    en: 'The dog sleeps under the table.',
+  },
+  {
+    sentence: '\u010cekam te ___ kinom.',
+    answer: 'pred',
+    opts: ['pred', 'pod', 'nad', 'za'],
+    en: 'I am waiting for you in front of the cinema.',
+  },
+  {
+    sentence: 'Sjedni ___ mene.',
+    answer: 'uz',
+    opts: ['uz', 'od', 'na', 'po'],
+    en: 'Sit next to me.',
+  },
+  {
+    sentence: 'Podijelili su slatki\u0161e ___ djecu.',
+    answer: 'me\u0111u',
+    opts: ['me\u0111u', 'izme\u0111u', 'pored', 'oko'],
+    en: 'They shared the sweets among the children.',
+  },
+  {
+    sentence: 'Kupio sam dar ___ tebe.',
+    answer: 'za',
+    opts: ['za', 'o', 'po', 'uz'],
+    en: 'I bought a gift for you.',
   },
 ];
 export const DECL = {
@@ -3764,6 +4405,11 @@ export const ORDINALS = [
   { num: 13, hr: 'trinaesti', en: 'thirteenth', loc: 'trinaestom' },
   { num: 14, hr: 'četrnaesti', en: 'fourteenth', loc: 'četrnaestom' },
   { num: 15, hr: 'petnaesti', en: 'fifteenth', loc: 'petnaestom' },
+  { num: 16, hr: '\u0161esnaesti', en: 'sixteenth', loc: '\u0161esnaestom' },
+  { num: 17, hr: 'sedamnaesti', en: 'seventeenth', loc: 'sedamnaestom' },
+  { num: 18, hr: 'osamnaesti', en: 'eighteenth', loc: 'osamnaestom' },
+  { num: 19, hr: 'devetnaesti', en: 'nineteenth', loc: 'devetnaestom' },
+  { num: 20, hr: 'dvadeseti', en: 'twentieth', loc: 'dvadesetom' },
 ];
 export const ORDQUIZ = [
   { q: 'Marko živi na _____ katu. (1st)', a: 'prvom', opts: ['prvom', 'prvi', 'prvog'] },
@@ -3808,6 +4454,58 @@ export const ORDQUIZ = [
     q: 'Vesna živi na _____ katu. (13th)',
     a: 'trinaestom',
     opts: ['trinaestom', 'trinaesti', 'trinaestog'],
+  },
+  // ── 2026-07 depth expansion (+15): dates, classes, races, fem./neut. forms ──
+  { q: 'Danas je _____ svibnja. (5th)', a: 'peti', opts: ['peti', 'petog', 'petom'] },
+  {
+    q: 'Ro\u0111endan mi je _____ o\u017eujka. (3rd)',
+    a: 'tre\u0107eg',
+    opts: ['tre\u0107eg', 'tre\u0107i', 'tre\u0107em'],
+  },
+  {
+    q: 'Ana ide u _____ razred. (4th)',
+    a: '\u010detvrti',
+    opts: ['\u010detvrti', '\u010detvrtom', '\u010detvrtog'],
+  },
+  { q: 'Sjedimo u _____ redu. (2nd)', a: 'drugom', opts: ['drugom', 'drugi', 'drugog'] },
+  {
+    q: 'Zavr\u0161io je utrku na _____ mjestu. (1st)',
+    a: 'prvom',
+    opts: ['prvom', 'prvi', 'prvog'],
+  },
+  { q: 'Ovo mi je _____ put u Hrvatskoj. (first)', a: 'prvi', opts: ['prvi', 'prvom', 'prvog'] },
+  {
+    q: 'Ured je na _____ katu. (20th)',
+    a: 'dvadesetom',
+    opts: ['dvadesetom', 'dvadeseti', 'dvadesetog'],
+  },
+  {
+    q: 'Silazimo na _____ stanici. (3rd, f)',
+    a: 'tre\u0107oj',
+    opts: ['tre\u0107oj', 'tre\u0107em', 'tre\u0107a'],
+  },
+  {
+    q: '\u017divimo u _____ ulici desno. (2nd, f)',
+    a: 'drugoj',
+    opts: ['drugoj', 'drugom', 'druga'],
+  },
+  {
+    q: 'Pobijedio je u _____ poku\u0161aju. (3rd)',
+    a: 'tre\u0107em',
+    opts: ['tre\u0107em', 'tre\u0107oj', 'tre\u0107i'],
+  },
+  { q: 'Danas je _____ sije\u010dnja. (1st)', a: 'prvi', opts: ['prvi', 'prvog', 'prvom'] },
+  { q: 'Idem u _____ smjenu. (2nd, f)', a: 'drugu', opts: ['drugu', 'drugoj', 'druga'] },
+  { q: 'On je _____ na listi. (10th)', a: 'deseti', opts: ['deseti', 'desetom', 'desetog'] },
+  {
+    q: 'Stan je na _____ katu, ispod krova. (19th)',
+    a: 'devetnaestom',
+    opts: ['devetnaestom', 'devetnaesti', 'devetnaestog'],
+  },
+  {
+    q: 'Slavimo _____ godi\u0161njicu braka. (25th)',
+    a: 'dvadeset petu',
+    opts: ['dvadeset petu', 'dvadeseti peti', 'dvadeset petoj'],
   },
 ];
 export const RELPRON = {
@@ -3860,6 +4558,63 @@ export const RELPRON = {
       q: 'To je sestra _____ sam dao poklon. (f, DAT)',
       a: 'kojoj',
       opts: ['koja', 'koju', 'kojoj'],
+    },
+    // ── 2026-07 depth expansion (+12): all cases x genders from the table ──
+    {
+      q: 'Ovo je \u017eena _____ radi u bolnici. (f, NOM)',
+      a: 'koja',
+      opts: ['koja', 'koju', 'kojoj'],
+    },
+    {
+      q: 'To je film _____ svi hvale. (m, AKU inanimate)',
+      a: 'koji',
+      opts: ['koji', 'kojeg', 'kojem'],
+    },
+    {
+      q: 'Knjiga _____ \u010ditam je odli\u010dna. (f, AKU)',
+      a: 'koju',
+      opts: ['koju', 'koja', 'kojoj'],
+    },
+    {
+      q: 'Grad u _____ \u017eivim je star. (m, LOK)',
+      a: 'kojem',
+      opts: ['kojem', 'kojeg', 'koji'],
+    },
+    {
+      q: 'Djevojka _____ sam dao knjigu je moja sestra. (f, DAT)',
+      a: 'kojoj',
+      opts: ['kojoj', 'koju', 'koje'],
+    },
+    {
+      q: 'Selo _____ posje\u0107ujemo je malo. (n, AKU)',
+      a: 'koje',
+      opts: ['koje', 'kojeg', 'kojem'],
+    },
+    {
+      q: 'Prijatelj bez _____ ne idem nikamo. (m, GEN)',
+      a: 'kojeg',
+      opts: ['kojeg', 'kojem', 'koji'],
+    },
+    {
+      q: 'Pjesma o _____ pri\u010damo je stara. (f, LOK)',
+      a: 'kojoj',
+      opts: ['kojoj', 'koje', 'koju'],
+    },
+    { q: 'Dijete _____ se smije je sretno. (n, NOM)', a: 'koje', opts: ['koje', 'koji', 'koja'] },
+    {
+      q: '\u010covjek _____ poma\u017eem je moj susjed. (m, DAT)',
+      a: 'kojem',
+      opts: ['kojem', 'kojeg', 'koji'],
+    },
+    {
+      q: 'Torba iz _____ je ispao nov\u010danik je moja. (f, GEN)',
+      a: 'koje',
+      opts: ['koje', 'kojoj', 'koju'],
+    },
+    {
+      q: 'Auto _____ \u017eelim kupiti je skup. (m, AKU inanimate)',
+      a: 'koji',
+      opts: ['koji', 'kojeg', 'kojim'],
     },
   ],
 };
@@ -4335,6 +5090,16 @@ export const COMPARE = [
   { base: 'jeftin', comp: 'jeftiniji', super: 'najjeftiniji', en: 'cheap' },
   { base: 'pametan', comp: 'pametniji', super: 'najpametniji', en: 'smart' },
   { base: 'glup', comp: 'gluplji', super: 'najgluplji', en: 'stupid' },
+  // ── 2026-07 depth expansion (+9) ──
+  { base: 'dug', comp: 'dulji', super: 'najdulji', en: 'long' },
+  { base: 'kratak', comp: 'kra\u0107i', super: 'najkra\u0107i', en: 'short' },
+  { base: 'visok', comp: 'vi\u0161i', super: 'najvi\u0161i', en: 'tall / high' },
+  { base: 'nizak', comp: 'ni\u017ei', super: 'najni\u017ei', en: 'low / short' },
+  { base: 'te\u017eak', comp: 'te\u017ei', super: 'najte\u017ei', en: 'heavy / hard' },
+  { base: '\u0161irok', comp: '\u0161iri', super: 'naj\u0161iri', en: 'wide' },
+  { base: 'dubok', comp: 'dublji', super: 'najdublji', en: 'deep' },
+  { base: 'sladak', comp: 'sla\u0111i', super: 'najsla\u0111i', en: 'sweet' },
+  { base: 'topao', comp: 'topliji', super: 'najtopliji', en: 'warm' },
 ];
 export const COMPQUIZ = [
   { q: 'Zagreb je _____ od Labina. (big)', a: 'veći', opts: ['veći', 'velik', 'najveći'] },
@@ -4368,9 +5133,81 @@ export const COMPQUIZ = [
     opts: ['skup', 'skuplji', 'najskuplji'],
   },
   {
-    q: 'Pero je _____ od olovke. (light — use: lak→lakši)',
-    a: 'lakši',
-    opts: ['lak', 'lakši', 'najlakši'],
+    q: 'Pero je _____ od olovke. (light \u2014 use: lak\u2192lak\u0161i)',
+    a: 'lak\u0161i',
+    opts: ['lak', 'lak\u0161i', 'najlak\u0161i'],
+  },
+  // ── 2026-07 depth expansion (+15): fem./neut. agreement + new adjectives ──
+  {
+    q: 'Neboder je _____ od crkve. (tall)',
+    a: 'vi\u0161i',
+    opts: ['visok', 'vi\u0161i', 'najvi\u0161i'],
+  },
+  {
+    q: 'Ovaj zadatak je _____ od pro\u0161log. (hard)',
+    a: 'te\u017ei',
+    opts: ['te\u017eak', 'te\u017ei', 'najte\u017ei'],
+  },
+  { q: 'Rijeka Sava je _____ od Krke. (long, f)', a: 'dulja', opts: ['duga', 'dulja', 'najdulja'] },
+  {
+    q: 'More je _____ ljeti. (warmest, n)',
+    a: 'najtoplije',
+    opts: ['toplo', 'toplije', 'najtoplije'],
+  },
+  {
+    q: 'Med je _____ od \u0161e\u0107era. (sweet)',
+    a: 'sla\u0111i',
+    opts: ['sladak', 'sla\u0111i', 'najsla\u0111i'],
+  },
+  {
+    q: 'Ovaj bunar je _____ u selu. (deepest)',
+    a: 'najdublji',
+    opts: ['dubok', 'dublji', 'najdublji'],
+  },
+  {
+    q: 'Put kroz \u0161umu je _____ od ceste. (short)',
+    a: 'kra\u0107i',
+    opts: ['kratak', 'kra\u0107i', 'najkra\u0107i'],
+  },
+  {
+    q: 'Ova ulica je _____ od na\u0161e. (wide, f)',
+    a: '\u0161ira',
+    opts: ['\u0161iroka', '\u0161ira', 'naj\u0161ira'],
+  },
+  {
+    q: 'Moj brat je _____ \u010dlan obitelji. (strongest)',
+    a: 'najja\u010di',
+    opts: ['jak', 'ja\u010di', 'najja\u010di'],
+  },
+  {
+    q: 'Ova kava je _____ nego ju\u010der. (worse, f)',
+    a: 'gora',
+    opts: ['lo\u0161a', 'gora', 'najgora'],
+  },
+  {
+    q: 'Zlato je _____ od srebra. (expensive, n)',
+    a: 'skuplje',
+    opts: ['skupo', 'skuplje', 'najskuplje'],
+  },
+  {
+    q: 'Tko je _____ u\u010denik u razredu? (smartest)',
+    a: 'najpametniji',
+    opts: ['pametan', 'pametniji', 'najpametniji'],
+  },
+  {
+    q: 'Vlak je _____ od autobusa. (fast)',
+    a: 'br\u017ei',
+    opts: ['brz', 'br\u017ei', 'najbr\u017ei'],
+  },
+  {
+    q: 'Danas je promet _____ nego ina\u010de. (slow)',
+    a: 'sporiji',
+    opts: ['spor', 'sporiji', 'najsporiji'],
+  },
+  {
+    q: 'Ovo je _____ pri\u010da koju znam. (most beautiful, f)',
+    a: 'najljep\u0161a',
+    opts: ['lijepa', 'ljep\u0161a', 'najljep\u0161a'],
   },
 ];
 export const FUTURE = {

@@ -7,6 +7,7 @@
  */
 
 import { localDateStr as _localDateStr } from './dateUtils.js';
+import { restoreStreakDays } from './appUtils';
 
 const STREAK_REPAIR_KEY = 'nh_streak_repair';
 const XP_COST_REPAIR = 100; // XP cost to repair one missed day
@@ -109,6 +110,10 @@ export function repairStreak(currentXP: number): RepairResult {
     streakRaw.count = restoredCount;
     streakRaw.last = today;
     localStorage.setItem('uStreak', JSON.stringify(streakRaw));
+    // Backfill the canonical day-set so applyRemoteProgress re-derives the
+    // restored count on the next sync instead of wiping it (see
+    // restoreStreakDays). Without this the paid repair is undone within ~2 min.
+    restoreStreakDays(restoredCount, today);
 
     // Record that repair was used today; mark free repair as consumed
     const repairData = JSON.parse(localStorage.getItem(STREAK_REPAIR_KEY) || '{}') as Record<

@@ -3,6 +3,7 @@ import { H, speak, getMistakes } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 interface LessonExample {
   hr: string;
@@ -120,6 +121,15 @@ export default function MicroLessonScreen({
   const awardFn = useMemo(() => (typeof award === 'function' ? award : () => {}), [award]);
 
   // Award XP exactly once when results phase is reached
+  // Wave 7 (session catchment): a user without ≥2 accumulated weak words — or
+  // an API failure — lands on the error phase, which never awards. Signal
+  // completion so a session-launched micro-lesson can't strand the day at
+  // N-1/N (the same empty-state self-heal the Croatia and review slots use).
+  // No-op outside sessions.
+  useEffect(() => {
+    if (phase === 'error') signalSessionCompleteIfActive('micro_lesson');
+  }, [phase]);
+
   useEffect(() => {
     if (phase === 'results' && lesson && !xpFiredRef.current) {
       xpFiredRef.current = true;

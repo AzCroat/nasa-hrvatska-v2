@@ -10,12 +10,25 @@ import type { AwardActivityType } from '../../types/index.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface ListeningQuestion {
+  // /api/listening returns { q, options, correct } — `q` is the prompt and
+  // `correct` is the index of the right option. (text/question/answer are kept
+  // optional for tolerance against older/other shapes.)
+  q?: string;
   text?: string;
   question?: string;
   options: string[];
-  answer: string;
+  correct?: number;
+  answer?: string;
+}
+
+/** The correct option string for a question, from the `correct` index (with a
+ *  legacy fallback to a literal `answer` field). Undefined when absent. */
+export function correctOption(q: ListeningQuestion): string | undefined {
+  if (typeof q.correct === 'number' && q.options) return q.options[q.correct];
+  return q.answer;
 }
 
 interface ListeningSpeaker {
@@ -49,7 +62,7 @@ function getDailyTopic(): string {
 }
 
 function getCompletedKey(level: string) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   return `nh_listening_done_${level}_${today}`;
 }
 
@@ -69,8 +82,14 @@ export default function DailyListeningCard({
   const [speakingLine, setSpeakingLine] = useState<string | null>(null);
   const completedKey = getCompletedKey(level);
   const checkAnswersFired = useRef(false);
+  // `checked` guards the in-session review: once the learner taps Check Answers
+  // the completion flag is written synchronously, but we must keep showing the
+  // ✓/✗ feedback (not the collapsed "come back tomorrow" card) until they tap
+  // Done. Without !checked the early return below flashes that card and the
+  // per-question feedback never appears.
   const alreadyDone =
     phase !== 'done' &&
+    !checked &&
     (() => {
       try {
         return localStorage.getItem(completedKey) === '1';
@@ -91,7 +110,10 @@ export default function DailyListeningCard({
       });
       if (!res.ok) throw new Error('API error');
       const json = await res.json();
-      if (!json.speakers?.length) throw new Error('Invalid response');
+      // Require both the dialogue AND its comprehension questions — without
+      // questions there is no Check Answers button and thus no way to finish
+      // the exercise or earn XP, leaving a dead transcript-only card.
+      if (!json.speakers?.length || !json.questions?.length) throw new Error('Invalid response');
       setData(json);
       setPhase('reading');
     } catch (e) {
@@ -112,7 +134,7 @@ export default function DailyListeningCard({
     if (!data?.questions) return;
     let correct = 0;
     data.questions.forEach((q, i) => {
-      if (answers[i] === q.answer) correct++;
+      if (answers[i] === correctOption(q)) correct++;
     });
     setScore(correct);
     setChecked(true);
@@ -127,7 +149,9 @@ export default function DailyListeningCard({
         localStorage.setItem(completedKey, '1');
       } catch {}
     }
-    setTimeout(() => setPhase('done'), 400);
+    // Stay on the reading screen so the learner can read the ✓/✗ feedback; they
+    // advance to the summary themselves via the Done button (see below). XP and
+    // completion are already recorded above, so leaving mid-review is safe.
   }, [data, answers, award, completedKey]);
 
   const speakLine = useCallback(async (text: string) => {
@@ -427,13 +451,14 @@ export default function DailyListeningCard({
                   lineHeight: 1.4,
                 }}
               >
-                {qi + 1}. {q.question}
+                {qi + 1}. {q.q ?? q.question ?? q.text}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {(q.options || []).map((opt, oi) => {
                   const isSelected = answers[qi] === opt;
-                  const isCorrect = checked && opt === q.answer;
-                  const isWrong = checked && isSelected && opt !== q.answer;
+                  const correctOpt = correctOption(q);
+                  const isCorrect = checked && opt === correctOpt;
+                  const isWrong = checked && isSelected && opt !== correctOpt;
                   return (
                     <button
                       key={oi}
@@ -506,6 +531,41 @@ export default function DailyListeningCard({
               }}
             >
               Answer all {data.questions.length} questions to continue
+            </div>
+          )}
+          {checked && (
+            <div>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 800,
+                  color: score === data.questions.length ? '#16a34a' : '#0e7490',
+                  textAlign: 'center',
+                  marginBottom: 10,
+                }}
+              >
+                {score === data.questions.length
+                  ? 'Odlično! Perfect score! 🎉'
+                  : `${score}/${data.questions.length} correct — review the answers above`}
+              </div>
+              <button
+                onClick={() => setPhase('done')}
+                style={{
+                  width: '100%',
+                  height: 44,
+                  background: 'linear-gradient(135deg, #0c4a6e, #0e7490)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 12,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                  boxShadow: '0 4px 14px rgba(14,116,144,0.35)',
+                }}
+              >
+                Done →
+              </button>
             </div>
           )}
         </div>

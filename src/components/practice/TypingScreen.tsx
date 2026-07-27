@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { H, Bar, sh, srMark, speak, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import CroatianKeyboard from '../shared/CroatianKeyboard';
@@ -21,11 +21,11 @@ function normalize(s: string) {
     .replace(/đ/g, 'd');
 }
 
-/**
- * Check a typed answer against the target.
- * Returns 'perfect' | 'diacritic' | 'close' | 'wrong'
- */
-function checkAnswer(input: string, target: string) {
+type Verdict = 'perfect' | 'diacritic' | 'close' | 'wrong';
+const VERDICT_RANK: Record<Verdict, number> = { wrong: 0, close: 1, diacritic: 2, perfect: 3 };
+
+/** Check a typed answer against a single accepted form. */
+function checkOneForm(input: string, target: string): Verdict {
   const inp = input.trim().toLowerCase();
   const tgt = target.trim().toLowerCase();
   if (inp === tgt) return 'perfect';
@@ -36,6 +36,30 @@ function checkAnswer(input: string, target: string) {
   const maxLen = Math.max(normInp.length, normTgt.length);
   if (dist <= 1 && maxLen >= 3) return 'close';
   return 'wrong';
+}
+
+/**
+ * Check a typed answer against the target.
+ * Some vocabulary entries list several accepted Croatian forms in one string
+ * joined by " / " (e.g. "dva / dvije", "on / ona", "koji / koja / koje?"). Any
+ * one of those forms is a correct answer, so we match against each and keep the
+ * best verdict — otherwise typing a single valid form is scored wrong and, worse,
+ * records a false SRS lapse.
+ * Returns 'perfect' | 'diacritic' | 'close' | 'wrong'
+ */
+function checkAnswer(input: string, target: string): Verdict {
+  const forms = target
+    .split(' / ')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const candidates = forms.length > 1 ? forms : [target];
+  let best: Verdict = 'wrong';
+  for (const form of candidates) {
+    const v = checkOneForm(input, form);
+    if (VERDICT_RANK[v] > VERDICT_RANK[best]) best = v;
+    if (best === 'perfect') break;
+  }
+  return best;
 }
 
 // ── Pool builder ──────────────────────────────────────────────────────────────
@@ -99,14 +123,20 @@ export default function TypingScreen({
 }) {
   const { stats, setStats, writeDelta } = useStats();
   const { content } = useContent();
-  const V = (content?.V ?? {}) as Record<string, any[]>;
+  const V = content?.V as Record<string, any[]> | undefined;
   const finishFired = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const startTsRef = useRef(0); // tracks when current word was presented
   const consecCorrectRef = useRef(0);
   const consecWrongRef = useRef(0);
 
-  const [tyPool] = useState(() => buildPool(V));
+  // Build the pool from LIVE content. Previously this was useState(() => buildPool(V)),
+  // frozen at mount — but V (from async useContent) is empty on the first render, so
+  // the pool was permanently empty and `if (!tyPool.length) return null` rendered a
+  // blank white screen with no header/back even after content loaded. useMemo rebuilds
+  // once content arrives (V ref stabilises after load, so the pool stays fixed for the
+  // session).
+  const tyPool = useMemo(() => (V ? buildPool(V) : []), [V]);
   const [tyI, sTyI] = useState(0);
   const [tyS, sTyS] = useState(0); // correct count (perfect + close accepted)
   const [tyIn, sTyIn] = useState('');
@@ -117,13 +147,28 @@ export default function TypingScreen({
     startTsRef.current = Date.now();
   }, [tyI]);
 
-  if (!tyPool.length) return null;
+  // Content still loading (or genuinely empty) — show a header + back path instead
+  // of a blank screen the user is stranded on.
+  if (!tyPool.length) {
+    return (
+      <div className="scr-wrap">
+        {H('⌨️ Typing Practice', 'Type Croatian words with special characters', goBack)}
+        <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
+          {content ? 'No words available right now — please try again.' : 'Loading…'}
+        </div>
+      </div>
+    );
+  }
 
   const tyW = tyPool[tyI]!;
 
   // ── Finished screen ──────────────────────────────────────────────────────────
   if (tyI >= tyPool.length) {
     const xp = tyS * 5;
+    // Typing is a gated exercise: completeExercise only awards XP/credit at >=75%.
+    // Show the XP that will ACTUALLY be granted so we never promise "+40 XP" and
+    // then hand out 0 on Done. Below the gate, tell the learner what to reach.
+    const willPass = tyPool.length > 0 && tyS / tyPool.length >= 0.75;
     return (
       <div className="scr-wrap">
         {H('⌨️ Typing Practice', 'Type Croatian words with special characters', goBack)}
@@ -133,7 +178,7 @@ export default function TypingScreen({
             {tyS} / {tyPool.length}
           </h2>
           <div style={{ fontSize: 22, fontWeight: 900, color: '#d97706', marginBottom: 20 }}>
-            +{xp} XP
+            {willPass ? `+${xp} XP` : 'Reach 75% to earn XP'}
           </div>
           <button
             className="b bp"
