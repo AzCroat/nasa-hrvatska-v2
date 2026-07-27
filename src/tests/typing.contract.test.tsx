@@ -13,7 +13,7 @@ import type { Stats, StatsContextValue } from '../types';
 vi.mock('../data', () => ({
   H: () => null,
   Bar: () => null,
-  V: { test: [['bok', 'hi']] },
+  V: { test: [['bog', 'hi']] },
   sh: <T,>(arr: T[]): T[] => arr,
   srMark: vi.fn(),
   speak: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock('../data', () => ({
 vi.mock('../hooks/useContent', () => ({
   useContent: () => ({
     content: {
-      V: { test: [['bok', 'hi']] },
+      V: { test: [['bog', 'hi']] },
       COUNTRIES: [],
       PROFESSIONS: [],
       WEATHER: {},
@@ -106,10 +106,10 @@ describe('TypingScreen contract (Pattern X) — gated completion', () => {
     markQuestMock.mockClear();
   });
 
-  // Mocked pool has one word: ['bok', 'hi']. Typing 'bok' = a perfect 1/1 = 100% pass.
+  // Mocked pool has one word: ['bog', 'hi']. Typing 'bog' = a perfect 1/1 = 100% pass.
   function finishCorrectly() {
     fireEvent.change(screen.getByPlaceholderText('Type Croatian…'), {
-      target: { value: 'bok' },
+      target: { value: 'bog' },
     });
     fireEvent.click(screen.getByText('Check Answer'));
     fireEvent.click(screen.getByText(/See Results/));

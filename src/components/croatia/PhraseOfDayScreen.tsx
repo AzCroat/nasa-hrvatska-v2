@@ -6,6 +6,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface WordBreakdown {
   word: string;
@@ -302,7 +303,7 @@ export default function PhraseOfDayScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const { level: userLevel } = useStats();
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
 
   const [selectedCategory, setSelectedCategory] = useState('greeting');
   const [phraseData, setPhraseData] = useState<PhraseData | null>(null);
@@ -321,6 +322,11 @@ export default function PhraseOfDayScreen({
   const [heardIt, setHeardIt] = useState(false);
   const [readCultural, setReadCultural] = useState(false);
   const awardGiven = useRef<boolean>(false);
+  // handleHearIt built its Audio in a local variable and the component had no
+  // unmount cleanup at all, so leaving mid-playback left Croatian audio running
+  // over the next screen with no reference anywhere able to stop it.
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const mountedRef = useRef(true);
 
   function checkAward(heard: boolean, cultural: boolean) {
     if (!awardGiven.current && (heard || cultural)) {
@@ -352,7 +358,9 @@ export default function PhraseOfDayScreen({
       }
 
       try {
-        const today = new Date().toISOString().slice(0, 10);
+        // Local, not UTC: `today` seeds the phrase, so a UTC boundary rotated the
+        // phrase of the day in the middle of the afternoon for users west of UTC.
+        const today = localDateStr();
         const res = await apiFetch('/api/ai-chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -406,6 +414,19 @@ export default function PhraseOfDayScreen({
     fetchPhrase(selectedCategory);
   }, [selectedCategory, fetchPhrase]);
 
+  // Stop playback and stop trusting post-await continuations once unmounted.
+  useEffect(() => {
+    // Re-arm on mount — StrictMode double-invokes effects in dev.
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   async function handleHearIt() {
     if (playing || !phraseData) return;
     setPlaying(true);
@@ -423,7 +444,9 @@ export default function PhraseOfDayScreen({
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      if (!mountedRef.current) return; // left the screen during the TTS fetch
       const audio = new Audio(url);
+      audioRef.current = audio;
       audio.onended = () => {
         setPlaying(false);
       };
@@ -431,6 +454,8 @@ export default function PhraseOfDayScreen({
         setPlaying(false);
       };
       await audio.play();
+      // Don't credit a listen the learner is no longer present for.
+      if (!mountedRef.current) return;
       if (!heardIt) {
         setHeardIt(true);
         checkAward(true, readCultural);
@@ -486,7 +511,7 @@ export default function PhraseOfDayScreen({
       });
       if (!res.ok) throw new Error('api_error');
       const data = await res.json();
-      const reply = data.reply || 'Bok! Hajde vježbati!';
+      const reply = data.reply || 'Bog! Hajde vježbati!';
       setChatHistory([{ role: 'maja', content: reply }]);
     } catch {
       setChatHistory([

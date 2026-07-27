@@ -1,40 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { AIContentSkeleton, AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
-import { apiFetch } from '../../lib/apiFetch.js';
+import { _aiPost } from '../../lib/aiPost';
+import { interleaveDialogue, listeningFailureFromResponse } from '../../lib/listeningSupport';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { recordTopicResult } from '../../lib/adaptive';
-
-/**
- * Interleave dialogue lines turn-by-turn across speakers, so the rendered
- * transcript (and the TTS audio built from the same string) plays as a
- * real back-and-forth conversation instead of "all speaker A's lines,
- * then all speaker B's lines". Backend returns each speaker with a
- * `lines` array in time order; turn N for everyone goes before turn N+1.
- */
-interface DialogueSpeaker {
-  name?: string;
-  lines?: unknown[];
-}
-function interleaveDialogue(speakers: DialogueSpeaker[] | undefined | null): string {
-  if (!Array.isArray(speakers) || speakers.length === 0) return '';
-  const maxTurns = speakers.reduce(
-    (max, s) => Math.max(max, Array.isArray(s.lines) ? s.lines.length : 0),
-    0,
-  );
-  const out: string[] = [];
-  for (let i = 0; i < maxTurns; i++) {
-    for (const spk of speakers) {
-      const line = Array.isArray(spk.lines) ? spk.lines[i] : undefined;
-      if (line == null) continue;
-      out.push(`${spk.name || 'Speaker'}: ${String(line)}`);
-    }
-  }
-  return out.join('\n\n');
-}
+import { useStats } from '../../context/StatsContext';
+import { getGenerationCefr } from '../../lib/cefrCertification';
+import {
+  getNextListeningUnit,
+  getListeningProgress,
+  findListeningUnit,
+  markListeningUnitDone,
+} from '../../lib/listeningCurriculum';
+import ListeningPathBanner from './listening/ListeningPathBanner';
 
 const TOPICS = [
   { key: 'cafe', emoji: '☕', hr: 'U kafiću', en: 'At the Café' },
@@ -56,7 +39,12 @@ export default function AIListeningScreen({
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const isOnline = useOnlineStatus();
+  // Destructure the boolean — useOnlineStatus returns { isOnline, backOnline }.
+  // (Previously bound to the whole object, so every `!isOnline` check was dead
+  // and the offline UI never engaged; the typed ListeningPathBanner prop
+  // surfaced it.)
+  const { isOnline } = useOnlineStatus();
+  const { stats } = useStats();
   const [phase, setPhase] = useState('setup');
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [style, setStyle] = useState('dialogue');
@@ -78,7 +66,11 @@ export default function AIListeningScreen({
   const mountedRef = useRef(true);
   const readyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const level = localStorage.getItem('nh_level') || 'B1';
+  // Content-Rec #5: generate at the learner's EARNED CEFR (certification-aware,
+  // floored at their placement), not the stale placement-only nh_level — so a
+  // learner who reached C1/C2 gets C1/C2 listening + curriculum path. The
+  // /api/listening generator already accepts C1/C2; this routes them to it.
+  const level = getGenerationCefr(stats);
 
   useEffect(
     () => () => {
@@ -99,27 +91,55 @@ export default function AIListeningScreen({
     [],
   );
 
+  // Home's Daily Input card advertises the user's next curriculum unit by name
+  // ("Cultural Commentary", …). Landing them on the topic-picker setup screen
+  // after that promise read as "nothing loaded" (owner report, 2026-07-21) —
+  // when the card sets the handoff flag, generate the promised unit immediately.
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (autoStarted.current) return;
+    let requested = false;
+    try {
+      requested = sessionStorage.getItem('nh_listening_autostart') === '1';
+      if (requested) sessionStorage.removeItem('nh_listening_autostart');
+    } catch {}
+    if (!requested) return;
+    autoStarted.current = true;
+    const unit = getNextListeningUnit(level);
+    if (!unit || !isOnline) return; // setup screen handles offline/complete states
+    setSelectedTopic(unit.topic);
+    setStyle(unit.style);
+    generate({ topic: unit.topic, style: unit.style });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // ── Generate content + TTS ────────────────────────────────────────────────
-  async function generate() {
-    if (!selectedTopic) return;
+  // Accepts an optional (topic, style) override so the curriculum's "Start
+  // recommended" CTA can generate the recommended unit in one tap without
+  // waiting for the async setState of selectedTopic/style to flush.
+  async function generate(override?: { topic?: string; style?: string }) {
+    const useTopic = override?.topic ?? selectedTopic;
+    const useStyle = override?.style ?? style;
+    if (!useTopic) return;
     setErrorMsg('');
     setPhase('loading');
 
     try {
-      const res = await apiFetch('/api/listening', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: selectedTopic, level, style }),
-        signal: AbortSignal.timeout(30000),
-      });
+      // _aiPost attaches the userContext payload (incl. active-vocab targets) so
+      // the generated listening exercise recycles the learner's words (Rec #3 p2).
+      const res = await _aiPost(
+        '/api/listening',
+        { topic: useTopic, level, style: useStyle },
+        { signal: AbortSignal.timeout(30000) },
+      );
       if (!mountedRef.current) return;
-      if (!res.ok) throw new Error(`listening API error: ${res.status}`);
+      if (!res.ok) throw await listeningFailureFromResponse(res);
       const data = await res.json();
       setContent(data);
 
       // Build TTS text
       let fullText = '';
-      if (style === 'dialogue' && data.speakers) {
+      if (useStyle === 'dialogue' && data.speakers) {
         // Interleave by line index — turn-by-turn — so the audio sounds like
         // a real back-and-forth conversation (Ana: …, Marko: …, Ana: …)
         // instead of all of Ana's lines followed by all of Marko's lines.
@@ -159,14 +179,20 @@ export default function AIListeningScreen({
     } catch (err) {
       if (mountedRef.current) {
         const isNetwork = err instanceof TypeError && err.message.toLowerCase().includes('fetch');
+        const userMessage = (err as { userMessage?: string })?.userMessage;
         setErrorMsg(
-          !isOnline
-            ? 'No connection — reconnect to generate listening exercises'
-            : isNetwork
-              ? 'Connection error — check your internet and try again'
-              : 'Something went wrong — please try again',
+          userMessage ||
+            (!isOnline
+              ? 'No connection — reconnect to generate listening exercises'
+              : isNetwork
+                ? 'Connection error — check your internet and try again'
+                : 'Something went wrong — please try again'),
         );
         setPhase('setup');
+        // Generation-failure self-heal: a dead AI endpoint must not strand the
+        // daily session (mirrors DictationScreen's empty-set signal; the award
+        // at results-time is unreachable when generation never succeeds).
+        signalSessionCompleteIfActive('ai_listening');
       }
     }
   }
@@ -241,6 +267,13 @@ export default function AIListeningScreen({
   }
 
   function goToResults() {
+    // Content-Rec #1: completing an exercise whose (level, topic, style) matches
+    // a curriculum unit marks that unit done, advancing the listening path.
+    // Free-pick combos that aren't part of the path simply don't match.
+    if (selectedTopic) {
+      const unit = findListeningUnit(level, selectedTopic, style);
+      if (unit) markListeningUnitDone(unit.id);
+    }
     setPhase('results');
   }
 
@@ -286,10 +319,29 @@ export default function AIListeningScreen({
   // ══════════════════════════════════════════════════════════════════════════
   // PHASE: SETUP
   // ══════════════════════════════════════════════════════════════════════════
-  if (phase === 'setup')
+  if (phase === 'setup') {
+    // Content-Rec #1: the structured listening path. Computed inline (cheap
+    // localStorage read) so it refreshes after "Try Another" returns here.
+    const nextUnit = getNextListeningUnit(level);
+    const prog = getListeningProgress(level);
+    function startRecommended() {
+      if (!nextUnit || !isOnline) return;
+      setSelectedTopic(nextUnit.topic);
+      setStyle(nextUnit.style);
+      generate({ topic: nextUnit.topic, style: nextUnit.style });
+    }
     return (
       <div className="scr-wrap">
         {H('🎧 AI Listening', 'Dynamically generated Croatian audio', goBack)}
+
+        {/* ── LISTENING PATH (structured curriculum, Content-Rec #1) ── */}
+        <ListeningPathBanner
+          nextUnit={nextUnit}
+          progress={prog}
+          level={level}
+          isOnline={isOnline}
+          onStart={startRecommended}
+        />
 
         {!isOnline && (
           <div
@@ -440,12 +492,13 @@ export default function AIListeningScreen({
             cursor: selectedTopic && isOnline ? 'pointer' : 'not-allowed',
           }}
           disabled={!selectedTopic || !isOnline}
-          onClick={generate}
+          onClick={() => generate()}
         >
           {!isOnline ? '📶 Offline — connect to generate' : 'Generate →'}
         </button>
       </div>
     );
+  }
 
   // ══════════════════════════════════════════════════════════════════════════
   // PHASE: LOADING

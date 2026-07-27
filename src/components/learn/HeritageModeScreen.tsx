@@ -11,6 +11,7 @@ import { speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { useApp } from '../../context/AppContext';
+import { lsGet } from '../../lib/safeStorage';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -229,9 +230,7 @@ export default function HeritageModeScreen({
   const [checkDone, setCheckDone] = useState(false);
 
   // Section 2 state
-  const [selectedDialect, setSelectedDialect] = useState(
-    () => localStorage.getItem('nh_dialect') || '',
-  );
+  const [selectedDialect, setSelectedDialect] = useState(() => lsGet('nh_dialect') || '');
 
   // Section 3 state
   const [gapRatings, setGapRatings] = useState<Record<string, number>>({});

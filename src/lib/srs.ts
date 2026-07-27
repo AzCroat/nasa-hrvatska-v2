@@ -18,6 +18,15 @@
  */
 
 // ─── FSRS-4.5 default weights (W0–W18) ───────────────────────────────────────
+// Canonical fsrs4anki v4.5 default parameters. W7–W18 were previously scrambled
+// off-spec (e.g. W13=0.9667 in the forget-stability exponent, vs the correct
+// 0.2975): that made `_nextS_forget` return a stability LARGER than the pre-lapse
+// stability for essentially every card, so a wrong answer scheduled the word
+// FURTHER out (a 30-day card failed → ~57 days) — the exact opposite of spaced
+// repetition. Restored to the published defaults so a lapse shortens the interval
+// (30-day card → ~4 days). W0–W6 were already correct and are unchanged.
+// Behavioural invariants are locked in srs.test.js (lapse shortens, recall
+// lengthens, monotone in grade) so a future weight edit can't silently regress.
 const W = [
   0.4072,
   1.1829,
@@ -26,18 +35,18 @@ const W = [
   7.2102,
   0.5316,
   1.0651,
-  0.0589, // W4–W7  difficulty / forgetting
-  1.533,
-  0.14,
-  0.9394,
-  2.1597, // W8–W11 recall / forget stability
-  0.01,
-  0.9667,
+  0.0234, // W4–W7  difficulty / forgetting
+  1.616,
   0.1544,
-  2.9898, // W12–W15
-  0.51,
-  0.41,
-  0.842, // W16–W18
+  1.0824,
+  1.9813, // W8–W11 recall / forget stability
+  0.0953,
+  0.2975,
+  2.2042,
+  0.2407, // W12–W15
+  2.9466,
+  0.5034,
+  0.6567, // W16–W18
 ];
 
 const DESIRED_RETENTION = 0.9; // 90 % target recall
@@ -53,6 +62,7 @@ interface SRCard {
   b: number;
   due: number;
   nextDue: number;
+  lr?: number; // last-reviewed timestamp (ms) — used to merge cross-device by recency
   // Legacy SM-2 fields (present before migration)
   ease?: number;
   interval?: number;
@@ -285,11 +295,26 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
       b: correct ? 1 : 0,
       due,
       nextDue: due,
+      lr: now,
     };
   } else {
     _migrate(card);
 
-    const lastScheduledMs = card.due - _nextInterval(card.s || 1) * 86400000;
+    // A legacy pre-FSRS card (the { r, w } counting format from the original
+    // srMark) has no `due`/`s`/`d`, and _migrate only backfills the SM-2
+    // (ease/interval) format — so `card.due` is undefined here. Left as-is,
+    // `card.due - interval` is NaN and poisons the whole schedule: newS/newD/due
+    // all become NaN, the card serializes to null, and it is then orphaned from
+    // every review queue (due != null skips the new-card branch; NaN <= now is
+    // false) — a silent, permanent scheduling loss that re-corrupts on reload.
+    // Guard it: when `due` isn't finite, treat the card as last reviewed at `lr`
+    // (or now) so the retrievability math stays finite. This also heals cards
+    // already corrupted to null by the old path on their next review.
+    const lastScheduledMs = Number.isFinite(card.due)
+      ? (card.due as number) - _nextInterval(card.s || 1) * 86400000
+      : Number.isFinite(card.lr)
+        ? (card.lr as number)
+        : now;
     const elapsedDays = Math.max(0, (now - lastScheduledMs) / 86400000);
     const R = _R(elapsedDays, card.s || 1);
     const D = card.d || 5;
@@ -318,6 +343,7 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
     card.b = Math.min(Math.max((card.b || 0) + (correct ? 1 : -2), 0), 5);
     card.due = due;
     card.nextDue = due;
+    card.lr = now;
   }
 
   sr[word] = card;

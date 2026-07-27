@@ -80,7 +80,9 @@ const mockMarkQuest = vi.hoisted(() => vi.fn());
 vi.mock('../lib/quests.js', () => ({ markQuest: mockMarkQuest }));
 
 // ── Online status mock ────────────────────────────────────────────────────────
-vi.mock('../hooks/useOnlineStatus', () => ({ useOnlineStatus: () => true }));
+vi.mock('../hooks/useOnlineStatus', () => ({
+  useOnlineStatus: () => ({ isOnline: true, backOnline: false }),
+}));
 
 // ── apiFetch mock ─────────────────────────────────────────────────────────────
 vi.mock('../lib/apiFetch.js', () => ({

@@ -28,8 +28,15 @@ import { initPostHog } from './lib/analytics';
 import { registerSW } from 'virtual:pwa-register';
 import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
-import { shouldEnableSentryReplay } from './lib/sentryHelpers';
+import {
+  shouldEnableSentryReplay,
+  isReplayConsentGranted,
+  isBenignAbortRejection,
+  isBenignSwLoadRejection,
+} from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
+import { lsGet } from './lib/safeStorage';
+import { shouldReloadOnControllerChange, shouldReloadOnSwUpdatedMessage } from './lib/swReload';
 
 // ─── Capacitor native: mark <html> for CSS animation overrides ────────────
 // Many CSS entrance animations start at opacity:0 with fill-mode:both.
@@ -128,12 +135,21 @@ if (import.meta.env.VITE_SENTRY_DSN) {
         enabled: import.meta.env.PROD,
         tracesSampleRate: 0.1,
         replaysOnErrorSampleRate: 0.1, // capture replay for 10% of error sessions to aid sync debugging
-        // DDG Mobile's WebKit content-blocker shims break Sentry Replay's DOM
-        // snapshotter (getBoundingClientRect on stubbed nodes). The shouldEnableSentryReplay
-        // helper UA-detects known-broken browsers; tracing still runs everywhere.
+        // Session Replay is analytics-grade session recording, so it runs only when
+        // BOTH conditions hold:
+        //  1. cookie consent has been accepted (isReplayConsentGranted) — parity with
+        //     PostHog, which is likewise gated on 'cookie_consent_v1'. Crash/error
+        //     reporting itself stays ungated; only Replay requires consent. A user who
+        //     accepts mid-session gets Replay on the next load (same as PostHog).
+        //  2. the browser isn't a known Replay-breaker — DDG Mobile's WebKit
+        //     content-blocker shims crash Replay's DOM snapshotter
+        //     (getBoundingClientRect on stubbed nodes). Tracing still runs everywhere.
+        // lsGet (not raw localStorage) so a storage SecurityError can't crash init.
         integrations: [
           Sentry.browserTracingIntegration(),
-          ...(shouldEnableSentryReplay() ? [Sentry.replayIntegration()] : []),
+          ...(shouldEnableSentryReplay() && isReplayConsentGranted(lsGet('cookie_consent_v1'))
+            ? [Sentry.replayIntegration()]
+            : []),
         ],
         // Filter browser-extension noise that is not actionable
         ignoreErrors: [
@@ -151,6 +167,19 @@ if (import.meta.env.VITE_SENTRY_DSN) {
         ],
         // Scrub PII from error reports
         beforeSend(event) {
+          // Drop benign AbortError unhandled rejections — an aborted/timed-out
+          // fetch (apiFetch re-throws AbortError) whose rejection escaped a
+          // .catch on SPA navigation. Not actionable; noisy on iOS in-app WebKit
+          // (DuckDuckGo Mobile). Scoped to the unhandledrejection mechanism so a
+          // real AbortError captured elsewhere still reports. Logic + tests live
+          // in sentryHelpers.isBenignAbortRejection.
+          if (isBenignAbortRejection(event)) return null;
+          // Drop benign Safari SW-script SecurityErrors ("Script …/sw.js load
+          // failed", DOMException 18) — a privacy setting or transient network
+          // failure blocking the SW update fetch. The app runs fine without
+          // offline support; not actionable. Logic + tests live in
+          // sentryHelpers.isBenignSwLoadRejection.
+          if (isBenignSwLoadRejection(event)) return null;
           // Downgrade non-actionable environmental IndexedDB errors (flaky device
           // storage, surfaced async from Firebase persistence) so they stop paging
           // as high-priority but are retained for frequency tracking. Logic +
@@ -204,7 +233,11 @@ if (import.meta.env.VITE_SENTRY_DSN) {
 // Only initialize PostHog if the user has already accepted analytics cookies
 // (i.e. they accepted on a previous visit). On first visit this is skipped and
 // CookieConsent will call initPostHog() when the user clicks "Accept all".
-if (localStorage.getItem('cookie_consent_v1') === 'accepted') {
+// lsGet (not raw localStorage) because this runs at MODULE LOAD, before
+// ReactDOM.createRoot — a SecurityError here (cookies/site-data blocked,
+// supervised/child profiles) would crash before React mounts, leaving a
+// permanent blank screen the ErrorBoundary can never catch.
+if (lsGet('cookie_consent_v1') === 'accepted') {
   initPostHog();
 }
 
@@ -318,6 +351,16 @@ window.onerror = function (message, _source, _lineno, _colno, error) {
   if (_isStaleBindingError(msg)) {
     if (_reloadWithCachePurge('nh_binding_reload')) return true; // suppress Sentry noise
   }
+  // A stale-chunk failure can surface here and not only as a rejection (a module
+  // script that fails to evaluate, an error thrown from inside a lazily-loaded
+  // chunk). Only onunhandledrejection used to attempt the heal, so those arrived
+  // in Sentry with the self-healer never invoked. Safe to do here now that
+  // isChunkLoadError is module-specific: it previously matched the bare
+  // substring 'failed to fetch', and this channel carries ordinary application
+  // errors, so any failed request would have purged the cache and reloaded.
+  if (isChunkLoadError(msg.toLowerCase())) {
+    if (_reloadWithCachePurge('nh_reload_attempt')) return true; // suppress Sentry noise
+  }
   // Non-actionable environmental IndexedDB error — the Sentry SDK already
   // captures it (downgraded in beforeSend). Skip the homegrown report so we
   // don't create a duplicate Sentry issue via /api/report-error.
@@ -338,9 +381,17 @@ window.onunhandledrejection = function (event) {
   // iOS in-app WKWebView containers (DuckDuckGo Mobile, FB, etc.) — third-party
   // bundled code probes native handlers; WKWebView rejects with no reply.
   if (rawMsg.includes('WKWebView API client did not respond')) return;
+  // Benign aborted/timed-out fetch (apiFetch re-throws AbortError) whose
+  // rejection escaped a .catch on SPA navigation — nothing user-facing broke.
+  // Skip the homegrown /api/report-error duplicate (the SDK drops it too).
+  if (reason?.name === 'AbortError') return;
   // Non-actionable environmental IndexedDB error (see beforeSend / window.onerror):
   // the SDK already captures+downgrades it; skip the duplicate homegrown report.
   if (isEnvironmentalIdbError(msg)) return;
+  // Benign Safari SW-script SecurityError ("Script …/sw.js load failed") —
+  // Sentry beforeSend drops the SDK capture (isBenignSwLoadRejection); skip
+  // the homegrown /api/report-error duplicate too.
+  if (msg.includes('sw.js') && (msg.includes('load failed') || msg.includes('failed to'))) return;
   reportError(reason ?? new Error('Unhandled rejection'), 'unhandledrejection');
 };
 
@@ -485,14 +536,45 @@ if (!isNative() && 'serviceWorker' in navigator) {
   // controller and need no reload.
   const hadControllerAtLoad = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('message', (event) => {
-    if (event.data?.type === 'SW_UPDATED' && hadControllerAtLoad) doReload();
+    if (
+      event.data?.type === 'SW_UPDATED' &&
+      shouldReloadOnSwUpdatedMessage({ hadControllerAtLoad })
+    )
+      doReload();
   });
 
   // Path 2 — controllerchange (backup path; fires when a new SW activates via
   // skipWaiting while this tab is open and the listener was already registered).
+  //
+  // `hadControllerAtLoad` is REQUIRED here, for the same reason Path 1 has it.
+  // `controllerchange` does not mean "a new version replaced the old one"; it
+  // means "this page's controller changed", and going from *no* controller to a
+  // controller counts. On a first install that transition is guaranteed: src/sw.js
+  // installs → skipWaiting() → activate → clients.claim(), and claim() moves this
+  // uncontrolled page to controlled, which fires controllerchange. Without the
+  // guard, every brand-new visitor reloaded the page a moment after first paint.
+  //
+  // src/sw.js already tries hard to prevent exactly that — it snapshots client IDs
+  // *before* claim() and skips first-install tabs when it sends SW_UPDATED /
+  // client.navigate(), with a comment saying "so a brand-new visitor doesn't get an
+  // immediate reload". But no amount of care on the SW side can suppress
+  // controllerchange: the browser fires it as a direct consequence of claim().
+  // This listener was overriding that protection from the client side.
+  //
+  // Who saw it: anyone with no active SW for the origin — first ever visit, fresh
+  // PWA install, new device or browser profile, or a returning user whose SW had
+  // been evicted. They got a full reload mid-boot, losing anything tapped or typed
+  // in that window and, in E2E, aborting the in-flight navigation outright
+  // (net::ERR_ABORTED on page.goto).
+  //
+  // Genuine updates are unaffected: those tabs were controlled by the old SW, so
+  // hadControllerAtLoad is true and all three reload paths still fire.
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (navigator.serviceWorker.controller?.scriptURL?.includes('firebase-messaging-sw')) return;
-    doReload();
+    const shouldReload = shouldReloadOnControllerChange({
+      hadControllerAtLoad,
+      controllerScriptURL: navigator.serviceWorker.controller?.scriptURL,
+    });
+    if (shouldReload) doReload();
   });
 
   // Path 3 — on every page load, proactively fetch and activate any new SW.

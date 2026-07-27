@@ -264,7 +264,14 @@ export type SkillCategory =
   | 'vocab-a2'
   | 'vocab-b1'
   | 'vocab-b2'
-  | 'speaking';
+  | 'speaking'
+  // Pool-only tag (Wave 3): reading-comprehension activities (graded reader,
+  // AI story). Not an adaptive-tracker topic — used for session-pool
+  // classification and the content-coverage matrix only.
+  | 'reading'
+  // Pool-only tag (Wave 5): the rotating animated-lesson slot (45-lesson
+  // catalog, topic varies per serve). Same pool-only status as 'reading'.
+  | 'grammar-lesson';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',

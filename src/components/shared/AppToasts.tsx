@@ -6,6 +6,12 @@
  */
 import React from 'react';
 import KnightToast from './KnightToast';
+import { isNative } from '../../lib/platform';
+// Every dismiss handler below wrote localStorage BEFORE calling its
+// setShow…(false). A throw on that write skipped the state update, so the X
+// button did nothing at all and the banner stayed on screen — and the snooze
+// button, whose only statement was the write, had no visible effect either.
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 interface DeferredInstallPrompt {
   prompt: () => Promise<void>;
@@ -279,13 +285,16 @@ export function AppToasts({
         </div>
       )}
 
-      {/* Subscription renewal reminder — dismissible with 24 h snooze */}
-      {!isFreeAnnual &&
+      {/* Subscription renewal reminder — dismissible with 24 h snooze.
+          Hidden in the native app: its Upgrade button opens the web/Stripe
+          paywall, which Google Play Payments policy forbids surfacing. */}
+      {!isNative() &&
+        !isFreeAnnual &&
         daysLeft != null &&
         daysLeft <= 3 &&
         (() => {
           const snoozeKey = 'nh_renewal_snoozed';
-          const snoozedUntil = parseInt(localStorage.getItem(snoozeKey) || '0', 10);
+          const snoozedUntil = parseInt(lsGet(snoozeKey) || '0', 10);
           if (Date.now() < snoozedUntil) return null;
           return (
             <div
@@ -325,7 +334,7 @@ export function AppToasts({
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.setItem(snoozeKey, String(Date.now() + 86400000));
+                    lsSet(snoozeKey, String(Date.now() + 86400000));
                   }}
                   aria-label="Dismiss for 24 hours"
                   style={{
@@ -411,7 +420,7 @@ export function AppToasts({
       )}
 
       {/* Android / Chrome install banner */}
-      {showAndroidInstall && !localStorage.getItem('nh_pwa_install_dismissed') && (
+      {showAndroidInstall && !lsGet('nh_pwa_install_dismissed') && (
         <div
           role="status"
           aria-live="polite"
@@ -443,7 +452,7 @@ export function AppToasts({
             </div>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowAndroidInstall(false);
               }}
               aria-label="Dismiss"
@@ -472,7 +481,7 @@ export function AppToasts({
                   await deferredInstallPrompt.prompt();
                   deferredInstallPrompt.userChoice.then(() => {
                     setShowAndroidInstall(false);
-                    localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                    lsSet('nh_pwa_install_dismissed', 'true');
                   });
                 }
               }}
@@ -492,7 +501,7 @@ export function AppToasts({
             </button>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowAndroidInstall(false);
               }}
               style={{
@@ -547,7 +556,7 @@ export function AppToasts({
             </div>
             <button
               onClick={() => {
-                localStorage.setItem('nh_pwa_install_dismissed', 'true');
+                lsSet('nh_pwa_install_dismissed', 'true');
                 setShowPwaInstall(false);
               }}
               aria-label="Dismiss"

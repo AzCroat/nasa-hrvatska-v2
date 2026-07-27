@@ -27,7 +27,7 @@ describe('_nativePost blob responseType', () => {
   });
 
   it('returns the raw Response (blob preserved) when responseType is blob', async () => {
-    const res = await _nativePost('/api/tts', { text: 'bok' }, { responseType: 'blob' });
+    const res = await _nativePost('/api/tts', { text: 'bog' }, { responseType: 'blob' });
     expect(res).not.toBeNull();
     expect(res!.headers.get('Content-Type')).toBe('audio/mpeg');
     const buf = await res!.arrayBuffer();

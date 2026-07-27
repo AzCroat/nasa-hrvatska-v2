@@ -21,12 +21,14 @@ import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
 import { localDateStr, weekKey } from './lib/dateUtils.js';
+import { isNative } from './lib/platform.js';
 import { repairStreak } from './lib/streak.js';
+import { availableXp } from './lib/xpBalance.js';
 import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
 import { recordActiveDayNow, getActiveDayCount } from './lib/activeDayTracker.js';
 import { getEffectiveLevelForUnlock } from './lib/cefrCertification.js';
-import { trackAppOpen } from './lib/analytics.js';
+import { trackAppOpen, isAnalyticsConsented } from './lib/analytics.js';
 import AppContext from './context/AppContext';
 import { StatsProvider } from './context/StatsContext';
 import type { Stats, AuthUser, StatsDelta } from './types/index.js';
@@ -69,6 +71,7 @@ import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import DesktopPanel from './components/shared/DesktopPanel';
+import { lsGet, lsSet, ssGet, ssSet } from './lib/safeStorage';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // All vocabulary category keys (V base keys + TOP100 keys from content.jsx).
@@ -133,12 +136,14 @@ const ALL_CATS = [
 ];
 const DS: Stats = {
   xp: 0,
+  spent: 0,
   str: 1,
   diff: 'beginner',
   lc: 0,
   pf: 0,
   gc: 0,
   sp: 0,
+  pr: 0,
   de: 0,
   rc: 0,
   authLoading: 0,
@@ -223,7 +228,12 @@ function getDaysSinceJoin(authUser: AuthUser | null) {
 }
 function pruneStaleLocalStorage() {
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    // Local date, NOT UTC — the quest (quests.ts) and comeback (useAward.ts) keys
+    // this prune matches are written and read with localDateStr(). Using a UTC date
+    // here deletes TODAY's keys whenever UTC ≠ local (Americas evenings; Croatia
+    // 00:00–02:00), wiping quest progress and re-enabling the once-daily +50 comeback
+    // bonus. nh_pruned_ is self-consistent (written below with the same value).
+    const today = localDateStr();
     const del = [];
     // Use Object.keys for more efficient iteration
     const keys = Object.keys(localStorage);
@@ -712,6 +722,7 @@ function App() {
     syncNowRef: _syncNowRef,
     setSyncReady: _setSyncReady,
     syncReady: _syncReady,
+    setOnboarded,
   });
 
   // ── Screen launchers ────────────────────────────────────────────────────────
@@ -810,11 +821,9 @@ function App() {
   // reliably in Android System WebView on many tablets (HCL, Samsung, etc.).
   // The bottom nav bar is the correct UX for native apps regardless of screen width.
   useEffect(() => {
-    import('./lib/platform.js').then(({ isNative }) => {
-      if (isNative()) {
-        document.documentElement.classList.add('capacitor-native');
-      }
-    });
+    if (isNative()) {
+      document.documentElement.classList.add('capacitor-native');
+    }
   }, []);
 
   // Keep _uidRef current so usePreferences.toggleFav fires fbToggleFavorite
@@ -845,7 +854,7 @@ function App() {
         'badges',
         'certificate',
       ]);
-      const last = sessionStorage.getItem('nh_last_scr_' + tabForPath);
+      const last = ssGet('nh_last_scr_' + tabForPath);
       _setCurrentScreen(last && SAFE_RESTORE.has(last) ? last : 'dashboard');
       return;
     }
@@ -968,7 +977,7 @@ function App() {
         kings: 'croatia',
         grocery: 'croatia',
         recipes: 'croatia',
-        roleplay: 'croatia',
+        roleplay: 'ai',
         texting: 'croatia',
         friends: 'croatia',
         foodorder: 'croatia',
@@ -993,7 +1002,7 @@ function App() {
         heritage: 'croatia',
         croatianews: 'croatia',
         phraseofday: 'croatia',
-        maja: 'croatia',
+        maja: 'ai',
         tivicompare: 'learn',
         grammarvideos: 'learn',
         grammarexplainer: 'learn',
@@ -1022,15 +1031,15 @@ function App() {
         'grammar-ref': 'learn',
         mistakes: 'practice',
         listeningpath: 'practice',
-        grammarmap: 'practice',
+        grammarmap: 'learn', // align with _TAB_FOR_SCR.grammarmap; was 'practice' → the two maps disagreed, so the highlighted tab flipped depending on entry path
         my_words: 'practice',
         speaking_sprint: 'practice',
         ai_listening: 'practice',
         ai_story: 'practice',
         grammar_diagnosis: 'learn',
         micro_lesson: 'learn',
-        personas: 'croatia',
-        live_tutor: 'croatia',
+        personas: 'ai',
+        live_tutor: 'ai',
         grammar_track: 'learn',
         listening_comprehension: 'practice',
         translate_drills: 'practice',
@@ -1146,11 +1155,11 @@ function App() {
   // Email verification banner — auto-dismiss after 8 s; show at most once per session
   useEffect(() => {
     if (!emailUnverified) return undefined;
-    if (sessionStorage.getItem('nh_ev_shown')) {
+    if (ssGet('nh_ev_shown')) {
       setEmailUnverified(false);
       return undefined;
     }
-    sessionStorage.setItem('nh_ev_shown', '1');
+    ssSet('nh_ev_shown', '1');
     const t = setTimeout(() => setEmailUnverified(false), 8000);
     return () => clearTimeout(t);
   }, [emailUnverified, setEmailUnverified]);
@@ -1292,9 +1301,9 @@ function App() {
     if (
       stats.lc === 0 &&
       stats.xp === 0 &&
-      !localStorage.getItem('placement_done') &&
-      !localStorage.getItem('nh_placement_done') &&
-      !localStorage.getItem('onboarded')
+      !lsGet('placement_done') &&
+      !lsGet('nh_placement_done') &&
+      !lsGet('onboarded')
     ) {
       const t = setTimeout(() => setScr('new-placement'), 1200);
       return () => clearTimeout(t);
@@ -1308,21 +1317,48 @@ function App() {
     if (!authUser) return;
     const today = new Date();
     if (today.getDay() !== 0) return;
-    const k = 'nh_digest_' + authUser.u + '_' + today.toISOString().slice(0, 10);
-    if (localStorage.getItem(k)) return;
-    localStorage.setItem(k, '1');
-    const consent = localStorage.getItem('nh_analytics_consent');
-    if (consent === 'true') {
-      fetch('/api/digest', {
+    // localDateStr, not toISOString: the Sunday gate above uses getDay(), which
+    // is LOCAL, so a UTC key mixes two bases. West of UTC one local Sunday spans
+    // two UTC dates (Sun 10:00 PDT → 2026-07-26, Sun 18:00 PDT → 2026-07-27), so
+    // the dedup key changed mid-Sunday and the weekly digest could send twice.
+    const k = 'nh_digest_' + authUser.u + '_' + localDateStr(today);
+    if (lsGet(k)) return;
+    // Gate on the canonical consent key ('cookie_consent_v1' === 'accepted',
+    // via isAnalyticsConsented). The old check read 'nh_analytics_consent',
+    // which is written nowhere in the app — so this weekly digest email could
+    // never send for any user. Align it with the unified consent system.
+    if (!isAnalyticsConsented()) return;
+    // /api/digest requires the Firebase Bearer token (apiFetch attaches it) and
+    // reads {email, name, xp, lessons, streakDays, wordsLearned} for the email
+    // body. Mark as sent only AFTER the server accepts, so a failed attempt
+    // retries on the next mount instead of being silently skipped for the week.
+    let wordsLearned = 0;
+    try {
+      const sr = JSON.parse(localStorage.getItem('nh_sr') || '{}') as Record<
+        string,
+        { r?: number }
+      >;
+      wordsLearned = Object.values(sr).filter((v) => v && (v.r ?? 0) > 0).length;
+    } catch {}
+    import('./lib/apiFetch').then(({ apiFetch }) =>
+      apiFetch('/api/digest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: authUser.u,
           email: authUser.e,
           name: authUser.d || 'Learner',
+          xp: stats.xp || 0,
+          lessons: stats.lc || 0,
+          streakDays: getStreak().count || 0,
+          wordsLearned,
         }),
-      }).catch(() => {});
-    }
+      })
+        .then((r) => {
+          if (r.ok) lsSet(k, '1');
+        })
+        .catch(() => {}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
 
   // Push notifications + free annual grant + uidRef sync
@@ -1330,6 +1366,19 @@ function App() {
   // registerMessagingServiceWorker() removed — firebase-messaging-sw.js merged into sw.js.
   useEffect(() => {
     if (!authUser) return;
+    if (isNative()) {
+      // Native: refresh the OS-level daily reminder (updates the streak in the
+      // message and re-arms it if the OS dropped the schedule). No-op unless the
+      // user has granted permission.
+      if (lsGet('nh_notifications_enabled') === 'true') {
+        import('./lib/nativeNotifications')
+          .then(({ scheduleNativeDailyReminder }) =>
+            scheduleNativeDailyReminder(getStreak().count || 0),
+          )
+          .catch(() => {});
+      }
+      return;
+    }
     import('./lib/pushNotifications.js').then(({ registerPushWithServer }) => {
       if (typeof Notification !== 'undefined' && Notification.permission === 'granted')
         registerPushWithServer({ streak: getStreak().count, name: name || authUser.d || '' }).catch(
@@ -1438,7 +1487,7 @@ function App() {
   // Premium welcome banner
   useEffect(() => {
     if (authScreen !== 'app' || !authUser) return undefined;
-    if (localStorage.getItem('nh_premium_welcome_shown')) return undefined;
+    if (lsGet('nh_premium_welcome_shown')) return undefined;
     const t = setTimeout(() => {
       const { isFreeAnnual } = getSubscriptionStatus();
       if (isFreeAnnual && stats.lc === 0) setShowPremiumWelcome(true);
@@ -1898,17 +1947,22 @@ function App() {
                     return;
                   }
                   if (action === 'repair') {
-                    const result = repairStreak(stats.xp);
+                    const result = repairStreak(availableXp(stats));
                     if (result.ok) {
+                      const _cost = result.xpCost ?? 0;
                       setStats((s) => ({
                         ...s,
-                        xp: Math.max(0, s.xp - (result.xpCost ?? 0)),
+                        // Record the spend on the monotonic `spent` counter — never
+                        // reduce earned `xp` (that would be refunded by Math.max sync).
+                        spent: (s.spent || 0) + _cost,
                         str: result.restoredCount ?? s.str,
                       }));
+                      // Authoritative, conflict-free spend increment (mirrors earns).
+                      if (_cost > 0) writeDelta({ spent: _cost });
                       setStreakRestoredCount(result.restoredCount ?? 0);
                       setTimeout(() => setStreakRestoredCount(0), 5000);
-                      // Persist the XP deduction to Firebase: doSyncNow reads _unloadRef.current
-                      // which is updated after the setStats re-render, so delay by 200ms.
+                      // Persist to Firebase: doSyncNow reads _unloadRef.current which is
+                      // updated after the setStats re-render, so delay by 200ms.
                       setTimeout(() => doSyncNow(), 200);
                     }
                     setShowStreakRepair(false);
@@ -2006,7 +2060,13 @@ function App() {
               {authScreen === 'app' &&
                 currentScreen !== 'welcome' &&
                 currentScreen !== 'placement' && (
-                  <TabBar tab={tab} setTab={setTab} setScr={setScr} badges={badges} />
+                  <TabBar
+                    tab={tab}
+                    setTab={setTab}
+                    setScr={setScr}
+                    launchPathItem={launchPathItem}
+                    badges={badges}
+                  />
                 )}
 
               <KnightCompanion />

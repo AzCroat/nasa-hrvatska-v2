@@ -16,6 +16,7 @@ import {
   getStreak,
   recordJourneyMilestone,
 } from '../lib/appUtils.js';
+import { lsGet, lsSet, lsRemove } from '../lib/safeStorage';
 import { useContent } from './useContent';
 import { getActiveCampaign } from '../lib/seasonalCampaign';
 import { trackComplete } from '../lib/learnerStyle.js';
@@ -34,6 +35,10 @@ import {
 import { knightSpeak } from '../lib/knightSpeak.js';
 import { apiFetch } from '../lib/apiFetch.js';
 import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
+import { PRODUCTION_SCREEN_IDS } from './useDailySession';
+import { recordProductionRep } from '../lib/productionMetric';
+import { recordListeningRep } from '../lib/listeningMetric';
+import { recordReadingRep } from '../lib/readingMetric';
 import type { AwardActivityType } from '../lib/activityXp.js';
 import type { Stats } from '../types/index.js';
 
@@ -127,7 +132,7 @@ export function resetComebackGuard() {
 }
 export function canEarnXP(exerciseId: string): boolean {
   try {
-    const cd = JSON.parse(localStorage.getItem('xpCooldown') || '{}');
+    const cd = JSON.parse(lsGet('xpCooldown') || '{}');
     return cd[exerciseId] !== _localDateStr();
   } catch {
     return true;
@@ -135,14 +140,14 @@ export function canEarnXP(exerciseId: string): boolean {
 }
 export function markExerciseDone(exerciseId: string): void {
   try {
-    const cd = JSON.parse(localStorage.getItem('xpCooldown') || '{}');
+    const cd = JSON.parse(lsGet('xpCooldown') || '{}');
     const today = _localDateStr();
     cd[exerciseId] = today;
     const clean: Record<string, string> = {};
     for (const k in cd) {
       if (cd[k] === today) clean[k] = cd[k];
     }
-    localStorage.setItem('xpCooldown', JSON.stringify(clean));
+    lsSet('xpCooldown', JSON.stringify(clean));
   } catch {}
 }
 
@@ -180,17 +185,20 @@ export function useAward({
 
   const award = useCallback(
     async (amt: number, celebrate?: boolean, activityType?: AwardActivityType) => {
-      if (!Number.isFinite(amt) || amt === 0) return;
       const _effectiveEx = curEx;
-      if (_effectiveEx && !canEarnXP(_effectiveEx)) {
-        setXpA(0);
-        setShowXP(false);
-        return;
-      }
+      // Signal daily-session completion FIRST — before the XP-cooldown gate below
+      // AND before the amt===0 early-return. The daily session is a practice FLOW
+      // decoupled from the XP economy: finishing an activity must advance the
+      // session even when XP is on cooldown (the learner already earned XP for
+      // this exercise earlier today) AND even when the finish earned zero XP
+      // (dictation/future/dialogue call award(score·N) at finish — a 0-correct
+      // run is still a FINISH, not an abandon; gating on amt>0 stranded the
+      // session at N-1/N for those runs — 2026-07-16 completion-matrix audit).
+      // completeExercise already signals unconditionally; this brings the
+      // award() path fully in line. HomeTab reads nh_session_completed on
+      // remount to distinguish a real finish from a back-press, and the
+      // started===_effectiveEx guard keeps it activity-accurate.
       if (_effectiveEx) {
-        markExerciseDone(_effectiveEx);
-        // Signal daily-session completion: only if this exercise was the active session activity.
-        // HomeTab reads this on remount to distinguish real completion from back-press.
         try {
           const started = sessionStorage.getItem('nh_session_started');
           if (started && started === _effectiveEx) {
@@ -198,16 +206,55 @@ export function useAward({
           }
         } catch {}
       }
+      if (!Number.isFinite(amt) || amt === 0) return;
+      // Session-Rec #6 (synced): count a production rep on completion of ANY
+      // production exercise — daily session OR Practice tab — keyed on the screen
+      // id. Done here, before the XP-cooldown gate, so production is counted even
+      // when XP is on cooldown (production effort is the fluency signal, decoupled
+      // from the XP economy — same rationale as the session-completion signal
+      // above). Updates the device-local weekly bucket AND the synced lifetime
+      // `stats.pr` (Math.max-merged across devices). This is the single counting
+      // site — markDone no longer counts, so session + practice share one scope.
+      if (_effectiveEx && PRODUCTION_SCREEN_IDS.has(_effectiveEx)) {
+        recordProductionRep();
+        setStats((s: Stats) => ({ ...s, pr: (s.pr || 0) + 1 }));
+        if (writeDelta) writeDelta({ pr: 1 });
+      }
+      // Content-Rec #1: count a listening rep on completion of ANY listening
+      // activity (AI Listening, Dictation, Shadowing, Daily Listening, the
+      // static listening quiz — every one awards with activityType 'listening').
+      // Keyed on activityType, before the XP-cooldown gate, so input volume is
+      // measured even when XP is on cooldown — same rationale as production reps.
+      // Device-local weekly+lifetime bucket; the synced-promotion path is
+      // documented in listeningMetric.ts.
+      if (activityType === 'listening') {
+        recordListeningRep();
+      }
+      // Content-Rec #2: count a reading rep on completion of any reading-
+      // comprehension exercise (graded ReadingScreen passage or GradedInputScreen
+      // story — both award with activityType 'reading'). Same placement rationale
+      // as the listening rep: before the XP-cooldown gate, device-local bucket.
+      if (activityType === 'reading') {
+        recordReadingRep();
+      }
+      if (_effectiveEx && !canEarnXP(_effectiveEx)) {
+        setXpA(0);
+        setShowXP(false);
+        return;
+      }
+      if (_effectiveEx) {
+        markExerciseDone(_effectiveEx);
+      }
       let totalAmt = lXPgain(amt, activeMultiplier);
       const _today = _localDateStr();
       if (
         comebackBonus &&
         amt > 0 &&
         _awardComebackUsed !== _today &&
-        !localStorage.getItem('nh_comeback_used_' + _today)
+        !lsGet('nh_comeback_used_' + _today)
       ) {
         _awardComebackUsed = _today;
-        localStorage.setItem('nh_comeback_used_' + _today, '1');
+        lsSet('nh_comeback_used_' + _today, '1');
         totalAmt = totalAmt + 50; // Bonus is flat, not subject to campaign multiplier
       }
       setXpA(totalAmt);
@@ -457,16 +504,16 @@ export function useAward({
         const ms = streakSpeeches[sr.milestone as number];
         if (ms) setTimeout(() => knightSpeak(ms.mood, ms.text), 1800);
       }
-      if (sr.count >= 30 && !localStorage.getItem('nh_ceremony_streak_30')) {
-        localStorage.setItem('nh_ceremony_streak_30', '1');
+      if (sr.count >= 30 && !lsGet('nh_ceremony_streak_30')) {
+        lsSet('nh_ceremony_streak_30', '1');
         setCeremonyType('streak_30');
       }
-      if (sr.count >= 50 && !localStorage.getItem('nh_ceremony_streak_50')) {
-        localStorage.setItem('nh_ceremony_streak_50', '1');
+      if (sr.count >= 50 && !lsGet('nh_ceremony_streak_50')) {
+        lsSet('nh_ceremony_streak_50', '1');
         setCeremonyType('streak_50');
       }
-      if (sr.count >= 100 && !localStorage.getItem('nh_ceremony_streak_100')) {
-        localStorage.setItem('nh_ceremony_streak_100', '1');
+      if (sr.count >= 100 && !lsGet('nh_ceremony_streak_100')) {
+        lsSet('nh_ceremony_streak_100', '1');
         setCeremonyType('streak_100');
       }
       if (sr.count > 0 && sr.count % 7 === 0) earnFreeze();
@@ -478,33 +525,33 @@ export function useAward({
       const _stageGates = [5, 11, 22, 34, 45];
       for (let _si = 0; _si < _stageGates.length; _si++) {
         const _sk = 'nh_stage' + (_si + 1) + '_ceremony';
-        if (stats.lc >= _stageGates[_si]! && !localStorage.getItem(_sk)) {
-          localStorage.setItem(_sk, '1');
+        if (stats.lc >= _stageGates[_si]! && !lsGet(_sk)) {
+          lsSet(_sk, '1');
           setTimeout(() => setCeremonyType('stage_' + (_si + 1)), 100);
           break;
         }
       }
       const _wk = _weekKey();
       const _wkKey = 'nh_week_xp_' + _wk;
-      localStorage.setItem(
-        _wkKey,
-        String(Math.max(0, parseInt(localStorage.getItem(_wkKey) || '0', 10) + totalAmt)),
-      );
+      // `|| 0` is required: Math.max(0, NaN) === NaN, so the Math.max READS like a
+      // guard but isn't one. Without it a single non-numeric value in this key
+      // makes every later award re-write "NaN" — permanently killing weekly XP for
+      // that week, since the poisoned value feeds straight back into this line.
+      lsSet(_wkKey, String(Math.max(0, (parseInt(lsGet(_wkKey) || '0', 10) || 0) + totalAmt)));
       // Daily XP goal tracking — same pattern as weekly; key resets each calendar day
       if (totalAmt > 0) {
         const _dkKey = 'nh_daily_xp_' + _localDateStr();
-        localStorage.setItem(
-          _dkKey,
-          String(parseInt(localStorage.getItem(_dkKey) || '0', 10) + totalAmt),
-        );
+        // Same NaN-poisoning exposure as the weekly key above (and this one has no
+        // Math.max at all), so guard the parse.
+        lsSet(_dkKey, String((parseInt(lsGet(_dkKey) || '0', 10) || 0) + totalAmt));
       }
-      if (!localStorage.getItem('nh_journey_first_lesson') && totalAmt > 0) {
-        localStorage.setItem('nh_journey_first_lesson', '1');
+      if (!lsGet('nh_journey_first_lesson') && totalAmt > 0) {
+        lsSet('nh_journey_first_lesson', '1');
         recordJourneyMilestone('first_lesson', {});
       }
       if (celebrate && curEx && curEx.startsWith('vocab_')) {
         try {
-          localStorage.removeItem('nh_lesson_resume');
+          lsRemove('nh_lesson_resume');
         } catch (_) {}
       }
       if (curEx) {
@@ -542,23 +589,17 @@ export function useAward({
           if (_scType) {
             const _scKey = 'nh_session_' + _scType + '_' + _localDateStr();
             try {
-              localStorage.setItem(
-                _scKey,
-                String(parseInt(localStorage.getItem(_scKey) || '0', 10) + 1),
-              );
+              lsSet(_scKey, String(parseInt(lsGet(_scKey) || '0', 10) + 1));
             } catch {}
           }
           try {
-            localStorage.setItem('nh_last_active', String(Date.now()));
+            lsSet('nh_last_active', String(Date.now()));
           } catch {}
           // Accumulate daily study time (minutes) for analytics chart
           if (_lsDur > 0) {
             const _dtKey = 'nh_daily_time_' + _localDateStr();
             const _addMins = Math.max(1, Math.round(_lsDur / 60000));
-            localStorage.setItem(
-              _dtKey,
-              String(parseInt(localStorage.getItem(_dtKey) || '0', 10) + _addMins),
-            );
+            lsSet(_dtKey, String(parseInt(lsGet(_dtKey) || '0', 10) + _addMins));
           }
           if (celebrate) {
             trackLessonComplete({

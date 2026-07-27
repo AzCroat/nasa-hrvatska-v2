@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, speak } from '../../data';
 import { useStats } from '../../context/StatsContext';
+import { useApp } from '../../context/AppContext';
 import { rnd } from '../../lib/random.js';
 import { markQuest } from '../../lib/quests.js';
 
@@ -8,8 +9,15 @@ import DialogueScenarioMenu from './DialogueScenarioMenu';
 import DialogueResultsScreen from './DialogueResultsScreen';
 import DialogueGuidedMode from './DialogueGuidedMode';
 import DialogueAiMode from './DialogueAiMode';
+import InteractionPathBanner from './InteractionPathBanner';
 import { SCENARIOS } from './dialogueScenarios.js';
-import { apiFetch } from '../../lib/apiFetch.js';
+import { _aiPost } from '../../lib/aiPost';
+import { shouldShowAdvancedBridge } from '../../lib/conversationLevel';
+import {
+  getNextInteractionUnit,
+  getInteractionProgress,
+  markInteractionUnitDone,
+} from '../../lib/interactionCurriculum';
 
 // Normalize Croatian diacritics for lenient free-text comparison
 function normCro(s: string) {
@@ -42,6 +50,7 @@ export default function DialogueSim({
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
   const { level: userLevel } = useStats();
+  const { setScr, sCurEx } = useApp();
   const finishFired = useRef(false);
   const [scenario, setScenario] = useState<any>(null);
   const [turnIdx, setTurnIdx] = useState(0);
@@ -122,16 +131,16 @@ export default function DialogueSim({
       if (!finishFired.current) {
         finishFired.current = true;
         if (award) {
-          const lastCorrect = freeMode
-            ? freeResult && freeResult.matched
-              ? 1
-              : 0
-            : selected === shuffledTurns[turnIdx]?.correctIdx
-              ? 1
-              : 0;
-          award((score + lastCorrect) * 6, false, 'speaking');
+          // `score` already includes the final turn: handleSelect/handleFreeSubmit
+          // incremented it on this turn's answer before Continue was tapped (a
+          // separate click, so the state has flushed). Re-adding `lastCorrect`
+          // here double-counted the last correct answer, over-awarding 6 XP and
+          // contradicting the score shown on the results screen.
+          award(score * 6, false, 'speaking');
         }
         markQuest('speak');
+        // Content-Rec #9: this scenario counts toward the conversation path.
+        markInteractionUnitDone(scenario.id);
       }
       setDone(true);
     } else {
@@ -172,26 +181,30 @@ export default function DialogueSim({
     const newHistory = [...aiHistory, { role: 'user', content: userMsg, id: Date.now() }];
     setAiHistory(newHistory);
     try {
-      const res = await apiFetch('/api/dialogue', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      // _aiPost attaches the userContext payload (incl. active-vocab targets) so
+      // the AI partner weaves in the learner's words in context (Rec #3 part 2).
+      const res = await _aiPost(
+        '/api/dialogue',
+        {
           scenario_id: scenario.id,
           userMessage: userMsg,
           // Cap to last 14 messages (7 turns) — prevents context window overflow on long sessions
           history: aiHistory.slice(-14),
           level: userLevel || 'A2',
-        }),
-        signal: AbortSignal.timeout(25000),
-      });
+        },
+        { signal: AbortSignal.timeout(25000) },
+      );
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
       setAiHistory([...newHistory, { role: 'assistant', content: data.reply, id: Date.now() + 1 }]);
       setAiCoaching(data.coaching || null);
       setAiTurns((t) => t + 1);
     } catch {
-      setAiError('Could not connect. Check your internet and try again.');
+      setAiError('Could not reach Maja. Please try again.');
+      // Roll back the optimistic user turn but put the text back in the box so
+      // the learner can resend it rather than losing what they typed.
       setAiHistory(aiHistory);
+      setAiInput(userMsg);
     } finally {
       setAiLoading(false);
     }
@@ -199,7 +212,35 @@ export default function DialogueSim({
 
   // --- MENU SCREEN ---
   if (!scenario) {
-    return <DialogueScenarioMenu scenarios={SCENARIOS} onSelect={startScenario} />;
+    const lvl = String(userLevel || 'A1');
+    // Route to the advanced (B2–C2) AIConversation scenarios (Content-Rec #4 / #9).
+    const goAdvanced = () => {
+      sCurEx?.('aiconvo');
+      setScr('aiconvo');
+    };
+    // Content-Rec #9: the structured conversation path — what to practise next.
+    const nextUnit = getNextInteractionUnit(lvl);
+    const progress = getInteractionProgress();
+    return (
+      <DialogueScenarioMenu
+        scenarios={SCENARIOS}
+        onSelect={startScenario}
+        userLevel={lvl}
+        onAdvanced={goAdvanced}
+        topBanner={
+          <InteractionPathBanner
+            nextUnit={nextUnit}
+            progress={progress}
+            showAdvancedBridge={shouldShowAdvancedBridge(lvl)}
+            onStart={() => {
+              const s = SCENARIOS.find((x: { id: string }) => x.id === nextUnit?.id);
+              if (s) startScenario(s);
+            }}
+            onAdvanced={goAdvanced}
+          />
+        }
+      />
+    );
   }
 
   const totalTurns = scenario.turns.length;
@@ -306,6 +347,9 @@ export default function DialogueSim({
             if (!finishFired.current) {
               finishFired.current = true;
               if (award) award(aiTurns * 5, false, 'speaking');
+              // Content-Rec #9: an AI conversation on this scenario also
+              // completes its conversation-path unit.
+              markInteractionUnitDone(scenario.id);
             }
             setAiDone(true);
           }}

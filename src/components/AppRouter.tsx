@@ -1,4 +1,6 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
+import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
+import { lsGet, lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
@@ -196,6 +198,7 @@ const FleetingADrill = lazyWithReload(() => import('./practice/FleetingADrill'))
 const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
 const NumbersCasesDrill = lazyWithReload(() => import('./practice/NumbersCasesDrill'));
 const ImperativeDrill = lazyWithReload(() => import('./practice/ImperativeDrill'));
+const C2StructureDrill = lazyWithReload(() => import('./practice/C2StructureDrill'));
 const ParticipleDrill = lazyWithReload(() => import('./practice/ParticipleDrill'));
 const SubordinationDrill = lazyWithReload(() => import('./practice/SubordinationDrill'));
 const ConditionalDrill = lazyWithReload(() => import('./practice/ConditionalDrill'));
@@ -245,7 +248,6 @@ const GrammarDiagnosisScreen = lazyWithReload(() => import('./home/GrammarDiagno
 const MicroLessonScreen = lazyWithReload(() => import('./learn/MicroLessonScreen'));
 const LiveTutorScreen = lazyWithReload(() => import('./croatia/LiveTutorScreen'));
 const PhotoVocabScanner = lazyWithReload(() => import('./shared/PhotoVocabScanner'));
-const AdminDashboard = lazyWithReload(() => import('./admin/AdminDashboard'));
 const TermsOfService = lazyWithReload(() => import('./shared/TermsOfService'));
 const GradedInputScreen = lazyWithReload(() => import('./learn/GradedInputScreen'));
 const PronunciationCourse = lazyWithReload(() => import('./learn/PronunciationCourse'));
@@ -283,6 +285,22 @@ const TAB_ORDER = ['home', 'learn', 'practice', 'croatia', 'profile'];
  * than rendering an empty or broken exercise screen.
  */
 function ScreenGuard({ goBack, label = 'exercise' }: { goBack: () => void; label?: string }) {
+  // A hard refresh on an exercise screen loses its launch-time data but NOT the
+  // sessionStorage launch markers (those survive reload). The launched activity
+  // can no longer be finished here, so the markers are stale. Clear them on mount:
+  // otherwise a later, unrelated drill finishing via completeExercise (which calls
+  // signalSessionCompleteIfActive() with no screen arg) would falsely complete this
+  // stranded Today's Session activity. The activity correctly stays incomplete — the
+  // user re-launches it fresh from Today. (Mirrors setTab's tab-away cleanup, which
+  // the back path can bypass via navigate(-1) after a refresh.)
+  useEffect(() => {
+    try {
+      sessionStorage.removeItem('nh_session_started');
+      sessionStorage.removeItem('nh_session_category');
+    } catch {
+      /* sessionStorage unavailable — non-fatal */
+    }
+  }, []);
   return (
     <div
       style={{
@@ -546,8 +564,8 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'placement' && (
           <PlacementTest
-            onComplete={function (level: number) {
-              localStorage.setItem('placement_done', '1');
+            onComplete={async function (level: number) {
+              lsSet('placement_done', '1');
               // ALSO flag user as onboarded so Firebase sync persists this
               // across devices. buildProgressSnapshot reads `onboarded` and
               // `nh_placement_done` from localStorage and writes them into
@@ -557,13 +575,26 @@ export default function AppRouter(props: Record<string, any>) {
               // writes, a user who completed placement on device A would be
               // re-prompted on device B until Firebase MERGE_REMOTE happened
               // to land xp > 0 before the 1200ms placement timer fired.
-              localStorage.setItem('nh_placement_done', 'true');
-              localStorage.setItem('onboarded', 'true');
+              lsSet('nh_placement_done', 'true');
+              lsSet('onboarded', 'true');
+              // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
+              // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
+              // to a Promise (breaking every `[...stats.ct]` spread and the
+              // firebase.ts arrayUnion filter → sync crash) and made
+              // `lc = Math.max(prev.lc, undefined)` = NaN. Resolve once, and fall
+              // back to no pre-credit if content can't load (offline) rather than
+              // stranding the user on the placement screen.
+              let ct: string[] = [];
+              try {
+                ct = await getPlacementCt(level);
+              } catch {
+                ct = [];
+              }
               setStats(function (prev) {
                 return {
                   ...prev,
-                  ct: getPlacementCt(level),
-                  lc: Math.max(prev.lc, getPlacementCt(level).length),
+                  ct,
+                  lc: Math.max(prev.lc, ct.length),
                 };
               });
               if (typeof award === 'function') award(25);
@@ -579,7 +610,7 @@ export default function AppRouter(props: Record<string, any>) {
           <EquivalencyTestScreen
             userEligible={getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0)}
             userLessonCount={stats.lc || 0}
-            setScr={setScr}
+            onBackToProfile={() => setTab('profile')}
           />
         )}
         {
@@ -773,7 +804,7 @@ export default function AppRouter(props: Record<string, any>) {
                           onSyncNow={doSyncNow}
                           authUser={authUser}
                           comebackBonus={comebackBonus}
-                          goal={localStorage.getItem('nh_goal') || 'fluent'}
+                          goal={lsGet('nh_goal') || 'fluent'}
                           isNewUserWindow={isNewUserWindow}
                           daysSinceJoin={daysSinceJoin}
                           resumeLesson={resumeLesson}
@@ -960,11 +991,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'terms' && (
           <ScreenErrorBoundary key="terms" name="terms">
             <TermsOfService goBack={goBack} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'admin' && (
-          <ScreenErrorBoundary key="admin" name="admin">
-            <AdminDashboard authUser={authUser} goBack={goBack} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'flashcards' &&
@@ -1172,6 +1198,13 @@ export default function AppRouter(props: Record<string, any>) {
             </ScreenErrorBoundary>
           )
         }
+        {
+          // Reload / shared-link on /animlesson loses the ephemeral `animLesson`
+          // state; without this the screen rendered fully blank with no way back.
+          currentScreen === 'animlesson' && !animLesson && (
+            <ScreenGuard goBack={goBack} label="animated lesson" />
+          )
+        }
         {currentScreen === 'grammarreader' && (
           <ScreenErrorBoundary key="grammarreader" name="grammarreader">
             <GrammarReader goBack={goBack} />
@@ -1304,7 +1337,7 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'roleplay' && (
           <ScreenErrorBoundary key="roleplay" name="roleplay">
-            <RoleplayScreen goBack={goBack} />
+            <RoleplayScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'journal' && (
@@ -1553,24 +1586,33 @@ export default function AppRouter(props: Record<string, any>) {
             <WordSprint sh={_sh} award={award} goBack={goBack} />
           </ScreenErrorBoundary>
         )}
-        {currentScreen === 'speaking' && (
-          <ScreenErrorBoundary key="speaking" name="speaking">
-            <SpeakingScreen
-              sw={sw}
-              si={si}
-              sx={sx}
-              sr={sr}
-              ssc={ssc}
-              sSr={sSr}
-              sSx={sSx}
-              sSw={sSw}
-              sSsc={sSsc}
-              goBack={goBack}
-              award={award}
-              setSt={setStats}
-            />
-          </ScreenErrorBoundary>
-        )}
+        {currentScreen === 'speaking' &&
+          (sw?.[0] ? (
+            <ScreenErrorBoundary key="speaking" name="speaking">
+              <SpeakingScreen
+                sw={sw}
+                si={si}
+                sx={sx}
+                sr={sr}
+                ssc={ssc}
+                sSr={sSr}
+                sSx={sSx}
+                sSw={sSw}
+                sSsc={sSsc}
+                goBack={goBack}
+                award={award}
+                setSt={setStats}
+              />
+            </ScreenErrorBoundary>
+          ) : (
+            // Without launch-time state (`sw`), SpeakingScreen renders `null` —
+            // a blank, back-button-less screen that pins the daily session
+            // (nh_session_started stays set, never cleared). ScreenGuard shows a
+            // recovery path AND clears the stale session markers, matching the
+            // guarded flashcards/mcgame/match/listening routes. This is the ONE
+            // parent-launch-state session exercise that previously lacked it.
+            <ScreenGuard goBack={goBack} label="speaking practice" />
+          ))}
         {currentScreen === 'speaking_sprint' && (
           <ScreenErrorBoundary key="speaking_sprint" name="speaking_sprint">
             <SpeakingSprintScreen goBack={goBack} award={award} />
@@ -1624,6 +1666,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'imperative' && (
           <ScreenErrorBoundary key="imperative" name="imperative">
             <ImperativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'c2drill' && (
+          <ScreenErrorBoundary key="c2drill" name="c2drill">
+            <C2StructureDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'neggen' && (
@@ -1808,7 +1855,13 @@ export default function AppRouter(props: Record<string, any>) {
             ) : (
               <PaywallScreen
                 featureName="Maja AI Tutor"
-                onClose={goBack}
+                onClose={() => {
+                  // Wave 8: if a stale entitlement let the session serve this
+                  // premium slot, closing the paywall must complete it — never
+                  // strand the day at N-1/N. No-op outside sessions.
+                  signalSessionCompleteIfActive('maja');
+                  goBack();
+                }}
                 onSubscribed={() => {
                   refreshSub();
                 }}
@@ -1823,7 +1876,13 @@ export default function AppRouter(props: Record<string, any>) {
             ) : (
               <PaywallScreen
                 featureName="Live Tutor"
-                onClose={goBack}
+                onClose={() => {
+                  // Wave 8: if a stale entitlement let the session serve this
+                  // premium slot, closing the paywall must complete it — never
+                  // strand the day at N-1/N. No-op outside sessions.
+                  signalSessionCompleteIfActive('live_tutor');
+                  goBack();
+                }}
                 onSubscribed={() => {
                   refreshSub();
                 }}
@@ -1836,14 +1895,18 @@ export default function AppRouter(props: Record<string, any>) {
             <PhotoVocabScanner
               goBack={goBack}
               level={level}
-              onSaveWords={(words: Array<{ hr: string; en: string }>) => {
-                words.forEach((w: { hr: string; en: string }) => {
-                  if (w.hr && w.en) {
+              onSaveWords={(words: Array<{ word: string; translation: string }>) => {
+                // Scanner words are { word: <hr>, translation: <en> } (VocabWord).
+                // The old { hr, en } reads were always undefined, so every save
+                // silently dropped — the lazy import erases prop types, which is
+                // why the mismatch never failed typecheck.
+                words.forEach((w: { word: string; translation: string }) => {
+                  if (w.word && w.translation) {
                     setJWords((prev: Array<{ hr: string; en: string }> | null) => [
                       ...(prev || []),
-                      { hr: w.hr, en: w.en },
+                      { hr: w.word, en: w.translation },
                     ]);
-                    addWordToSRS(w.hr);
+                    addWordToSRS(w.word);
                   }
                 });
               }}
@@ -2016,6 +2079,14 @@ export default function AppRouter(props: Record<string, any>) {
             />
           </ScreenErrorBoundary>
         )}
+        {
+          // Reload / shared-link on /grammar_unit_detail loses `pendingGrammarUnitId`;
+          // without this the screen rendered fully blank (it's also not in `stm`,
+          // so the tab defaults to home) with no way back.
+          currentScreen === 'grammar_unit_detail' && !pendingGrammarUnitId && (
+            <ScreenGuard goBack={goBack} label="grammar unit" />
+          )
+        }
         {currentScreen === 'listening_comprehension' && (
           <ScreenErrorBoundary key="listening_comprehension" name="listening_comprehension">
             <ListeningComprehensionScreen goBack={goBack} award={award} />
@@ -2052,8 +2123,8 @@ export default function AppRouter(props: Record<string, any>) {
           currentScreen === 'new-placement' && (
             <ScreenErrorBoundary key="new-placement" name="new-placement">
               <PlacementTest
-                onComplete={function (level: number) {
-                  localStorage.setItem('placement_done', '1');
+                onComplete={async function (level: number) {
+                  lsSet('placement_done', '1');
                   // ALSO flag user as onboarded so Firebase sync persists this
                   // across devices. buildProgressSnapshot reads `onboarded` and
                   // `nh_placement_done` from localStorage and writes them into
@@ -2063,13 +2134,23 @@ export default function AppRouter(props: Record<string, any>) {
                   // writes, a user who completed placement on device A would be
                   // re-prompted on device B until Firebase MERGE_REMOTE happened
                   // to land xp > 0 before the 1200ms placement timer fired.
-                  localStorage.setItem('nh_placement_done', 'true');
-                  localStorage.setItem('onboarded', 'true');
+                  lsSet('nh_placement_done', 'true');
+                  lsSet('onboarded', 'true');
+                  // getPlacementCt is async — must be awaited. Assigning the raw
+                  // Promise corrupted stats.ct (breaking spreads + the sync
+                  // arrayUnion filter) and made lc = Math.max(prev.lc, undefined)
+                  // = NaN. Resolve once; fall back to no pre-credit if offline.
+                  let ct: string[] = [];
+                  try {
+                    ct = await getPlacementCt(level);
+                  } catch {
+                    ct = [];
+                  }
                   setStats(function (prev) {
                     return {
                       ...prev,
-                      ct: getPlacementCt(level),
-                      lc: Math.max(prev.lc, getPlacementCt(level).length),
+                      ct,
+                      lc: Math.max(prev.lc, ct.length),
                     };
                   });
                   if (typeof award === 'function') award(25);
@@ -2085,7 +2166,7 @@ export default function AppRouter(props: Record<string, any>) {
         }
         {
           // ═══ VOCABULARY LESSON ═══
-          currentScreen === 'lesson' && (
+          currentScreen === 'lesson' && lt && (
             <ScreenErrorBoundary key="lesson" name="lesson">
               <LessonScreen
                 lt={lt}
@@ -2117,8 +2198,14 @@ export default function AppRouter(props: Record<string, any>) {
           )
         }
         {
+          // Reload / shared-link on /lesson loses `lt` (lessonTopic React state);
+          // without this guard LessonScreen rendered blank ("Lesson · Question of ?")
+          // with no way back. Mirrors the grammar_unit_detail reload guard above.
+          currentScreen === 'lesson' && !lt && <ScreenGuard goBack={goBack} label="lesson" />
+        }
+        {
           // ═══ GRAMMAR ═══
-          currentScreen === 'grammar' && (
+          currentScreen === 'grammar' && gl && (
             <ScreenErrorBoundary key="grammar" name="grammar">
               <GrammarScreen
                 gl={gl}
@@ -2137,6 +2224,13 @@ export default function AppRouter(props: Record<string, any>) {
                 setSt={setStats}
               />
             </ScreenErrorBoundary>
+          )
+        }
+        {
+          // Reload on /grammar loses `gl` (grammarLesson React state → null); guard
+          // the otherwise-blank GrammarScreen with a clear path back, as above.
+          currentScreen === 'grammar' && !gl && (
+            <ScreenGuard goBack={goBack} label="grammar lesson" />
           )
         }
         {currentScreen === 'alphabet' && (

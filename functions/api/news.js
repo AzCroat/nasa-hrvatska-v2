@@ -80,12 +80,22 @@ async function simplifyArticle(article, level, anthropicKey) {
     B1: 'Conversational Croatian. 15-word sentences max. All tenses allowed.',
     B2: 'Natural Croatian. Simplify only technical jargon.',
     C1: 'Keep close to original. Simplify only highly specialized terms.',
+    // C2 exists so the guard below never routes a C2 request to B1 (the audit's
+    // "no true C2 reading path" gap). The rule is inverted at this level: no
+    // simplification — authentic journalistic register, expanded to full length.
+    C2: 'Do NOT simplify anything. Authentic Croatian journalistic register (novinski stil).',
   };
   const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
 
   const rule = complexity[safeLevel] || complexity['B1'];
 
-  const systemPrompt = `You are a Croatian language teacher simplifying news for a ${safeLevel} learner.
+  const systemPrompt =
+    safeLevel === 'C2'
+      ? `You are a Croatian news editor writing for an educated native readership; the reader is a C2 learner training on authentic press language.
+Rewrite the story as a genuine Croatian news item (novinski stil): 8-12 sentences, standard journalistic structure (lead first), full diacritics, authentic register — keep specialized terminology, officialese, and idiomatic press collocations exactly as a Croatian daily would print them. Do NOT simplify or shorten.
+Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
+For key_vocabulary select 5-6 ADVANCED items a C2 learner should mine from press language: idioms, collocations, officialese, low-frequency lexemes — never basic words. Keep facts accurate; do not invent facts beyond the source.`
+      : `You are a Croatian language teacher simplifying news for a ${safeLevel} learner.
 Simplification rules: ${rule}
 Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
 Include 5-6 key vocabulary items. Keep facts accurate.`;
@@ -105,7 +115,7 @@ Include 5-6 key vocabulary items. Keep facts accurate.`;
       signal: AbortSignal.timeout(20000),
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 800,
+        max_tokens: 2200, // C2 needs 8-12 Croatian sentences + full EN translation + 5-6 vocab + summary; hr diacritics tokenize heavy, so 1500 could still truncate the heaviest articles → silent drop (same failure path as a missing fence-strip)
         system: systemPrompt,
         messages: [{ role: 'user', content: userContent }],
       }),
@@ -149,9 +159,17 @@ Include 5-6 key vocabulary items. Keep facts accurate.`;
   }
 
   const raw = data.content?.[0]?.text || '';
+  // Strip a ```json code fence if the model wrapped its object in one. This is
+  // the same guard every other AI endpoint applies before JSON.parse; news.js
+  // was the sole outlier, so a fenced-but-valid response threw here and the
+  // article was silently dropped (News screen then rendered nothing).
+  const cleaned = raw
+    .replace(/^\s*```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/i, '')
+    .trim();
   let parsed;
   try {
-    parsed = JSON.parse(raw);
+    parsed = JSON.parse(cleaned);
   } catch {
     console.error('news.js: simplifyArticle inner JSON parse failed:', raw.slice(0, 200));
     return null;

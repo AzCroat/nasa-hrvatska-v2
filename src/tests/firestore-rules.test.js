@@ -9,7 +9,7 @@
  *
  * What this covers:
  *  /users/{userId}          — owner read/write, XP monotonic increase, 100k cap, progress size cap
- *  /profiles/{userId}       — any-auth read, owner create+update (hasAll shape), CEFR level check
+ *  /profiles/{userId}       — owner-only read (legacy leaderboard doc); all writes denied (feature removed)
  *  /srs/{userId}            — owner-only read/write, hasAll({cards,updated}), delete for cleanup
  *  Deny-all catch-all       — arbitrary paths must be rejected
  */
@@ -119,12 +119,32 @@ describe('/users/{userId}', () => {
     await assertSucceeds(db.doc(`users/${docId}`).update({ xp: 0, progress: '' }));
   });
 
-  it('XP above 100,000 is rejected', async () => {
+  it('a learner PAST 100,000 XP can still sync (regression: old cap silently write-locked them)', async () => {
+    // The prior 100,000 cap rejected every write once a multi-year learner crossed
+    // it — and because users+profiles commit in one atomic batch, the progress blob
+    // died too. The cap is now 100,000,000, so real learners are never blocked.
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
-      await ctx.firestore().doc(`users/${docId}`).set({ xp: 99000, progress: '' });
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100000, progress: '' });
     });
     const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`users/${docId}`).update({ xp: 100001, progress: '' }));
+    await assertSucceeds(db.doc(`users/${docId}`).update({ xp: 150000, progress: '' }));
+  });
+
+  it('XP above the 100,000,000 anti-cheat ceiling is still rejected', async () => {
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100000000, progress: '' });
+    });
+    const db = authed(uid, email).firestore();
+    await assertFails(db.doc(`users/${docId}`).update({ xp: 100000001, progress: '' }));
+  });
+
+  it('a single-write XP jump above the 100,000 per-write backstop is rejected', async () => {
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await ctx.firestore().doc(`users/${docId}`).set({ xp: 100, progress: '' });
+    });
+    const db = authed(uid, email).firestore();
+    // delta 100,101 > 100,000 (value itself is well under the total cap)
+    await assertFails(db.doc(`users/${docId}`).update({ xp: 100201, progress: '' }));
   });
 
   it('progress blob above 200 KB is rejected', async () => {
@@ -250,52 +270,29 @@ describe('/profiles/{userId}', () => {
     await assertFails(db.doc(`profiles/${uid}`).get());
   });
 
-  it('owner can update profile with valid integer level (1–6)', async () => {
-    const db = authed(uid, email).firestore();
-    await assertSucceeds(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 3, xp: 200 }));
+  // The public leaderboard was REMOVED — the client no longer writes /profiles.
+  // The rule now allows read (owner-only, for GDPR export of any legacy doc) and
+  // denies ALL writes. This also retired the xp/lc-cap create/update rules whose
+  // atomic-batch rejection caused the 100k-XP sync-halt (P0).
+  it('owner can no longer create a profile (writes removed)', async () => {
+    const freshUid = 'profuser_new';
+    const freshDb = authed(freshUid, 'profnew@test.com').firestore();
+    await assertFails(freshDb.doc(`profiles/${freshUid}`).set(validProfile));
   });
 
-  it('owner can update profile with valid CEFR string level', async () => {
+  it('owner can no longer update a profile (writes removed)', async () => {
     const db = authed(uid, email).firestore();
-    await assertSucceeds(
-      db.doc(`profiles/${uid}`).update({ ...validProfile, level: 'B2', xp: 200 }),
-    );
+    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 3, xp: 200 }));
   });
 
-  it('invalid level value is rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(
-      db.doc(`profiles/${uid}`).update({ ...validProfile, level: 'invalid', xp: 200 }),
-    );
-  });
-
-  it('level 7 (out of range) is rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, level: 7, xp: 200 }));
-  });
-
-  it('XP above 100,000 is rejected', async () => {
-    const db = authed(uid, email).firestore();
-    await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 100001 }));
-  });
-
-  it('non-owner cannot update', async () => {
+  it('non-owner cannot update either', async () => {
     const db = authed('intruder', 'intruder@test.com').firestore();
     await assertFails(db.doc(`profiles/${uid}`).update({ ...validProfile, xp: 200 }));
   });
 
-  it('owner can create profile with all required fields', async () => {
-    // Use a different uid so the beforeEach seed doc does not exist yet
-    const freshUid = 'profuser_new';
-    const freshDb = authed(freshUid, 'profnew@test.com').firestore();
-    await assertSucceeds(freshDb.doc(`profiles/${freshUid}`).set(validProfile));
-  });
-
-  it('create fails when required fields are missing (no streak)', async () => {
-    const freshUid = 'profuser_bad';
-    const freshDb = authed(freshUid, 'profbad@test.com').firestore();
-    const { streak: _omit, ...noStreak } = validProfile;
-    await assertFails(freshDb.doc(`profiles/${freshUid}`).set(noStreak));
+  it('client cannot delete a profile (server Admin SDK handles account deletion)', async () => {
+    const db = authed(uid, email).firestore();
+    await assertFails(db.doc(`profiles/${uid}`).delete());
   });
 });
 

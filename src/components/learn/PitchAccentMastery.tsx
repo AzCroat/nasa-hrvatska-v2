@@ -495,8 +495,17 @@ export default function PitchAccentMastery({
       awardFired.current = true;
       if (typeof award === 'function') award(40, false, 'pronunciation');
       markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      // Write the vs key so this node (lp_pitch_mastery: ckRule vsIncludes
+      // 'pitch_accent') completes from the screen's OWN credit. Previously only the
+      // black-hole dwell wrote 'pitch_accent' — which also added a second gc, so the
+      // screen's gc + dwell gc double-counted. Dwell removed. gc bump stays gated by
+      // the awardFired ref (once per completion, as before); vs union is idempotent.
+      setStats((s) => ({
+        ...s,
+        gc: s.gc + 1,
+        vs: s.vs?.includes('pitch_accent') ? s.vs : [...(s.vs || []), 'pitch_accent'],
+      }));
+      writeDelta({ gc: 1, vs: ['pitch_accent'] });
       knightSpeak(
         'victory',
         'Nevjerojatno! You completed the Croatian Pitch Accent course. You now know something most Croatian textbooks never teach. Čestitam! 🏆',

@@ -27,12 +27,31 @@ function isSafeContour(s) {
 const SAFE_VOICE = /^[A-Za-z]{2}-[A-Za-z]{2}-[A-Za-z0-9]+$/;
 const DEFAULT_VOICE = 'hr-HR-GabrijelaNeural';
 
-export function buildAzureSsml(text, { slow = false, prosody = null, voice = DEFAULT_VOICE } = {}) {
+// Whitelisted characters for an <phoneme> IPA string: Unicode letters (covers IPA
+// symbols ʃ ʒ ɲ ʎ ɡ and the modifier-letter stress/length marks ˈ ˌ ː ˑ, all in the
+// Letter category), combining marks (\p{M} covers IPA diacritics and the tie bars
+// U+035C/U+0361), the syllable-break dot, and spaces. Anything else (esp. < > & " ')
+// is rejected so a caller can never inject markup into the ph attribute. Cap 80 chars.
+const SAFE_IPA = /^[\p{L}\p{M}. ]{1,80}$/u;
+
+export function buildAzureSsml(
+  text,
+  { slow = false, prosody = null, voice = DEFAULT_VOICE, phoneme = null } = {},
+) {
   const safeVoice = SAFE_VOICE.test(voice) ? voice : DEFAULT_VOICE;
-  const safeText = String(text).replace(
-    /[<>&"']/g,
-    (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[c],
-  );
+  const esc = (s) =>
+    String(s).replace(
+      /[<>&"']/g,
+      (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[c],
+    );
+  const safeText = esc(text);
+  // Wrap the text in an IPA <phoneme> when a valid pronunciation override is given.
+  // Azure's hr-HR voice mis-segments some low-frequency/slang words (e.g. it reads
+  // "odjebi" as "od jeb i"); an explicit IPA fixes those. Validated + escaped.
+  const inner =
+    typeof phoneme === 'string' && SAFE_IPA.test(phoneme)
+      ? `<phoneme alphabet="ipa" ph="${esc(phoneme)}">${safeText}</phoneme>`
+      : safeText;
   const attrs = [];
   if (prosody && typeof prosody === 'object') {
     if (
@@ -51,7 +70,7 @@ export function buildAzureSsml(text, { slow = false, prosody = null, voice = DEF
   } else {
     attrs.push(`rate="${slow ? '-25%' : '-8%'}"`);
   }
-  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="hr-HR"><voice name="${safeVoice}"><prosody ${attrs.join(' ')}>${safeText}</prosody></voice></speak>`;
+  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="hr-HR"><voice name="${safeVoice}"><prosody ${attrs.join(' ')}>${inner}</prosody></voice></speak>`;
 }
 
 // ── Azure TTS ─────────────────────────────────────────────────────────────────
@@ -59,8 +78,8 @@ export function buildAzureSsml(text, { slow = false, prosody = null, voice = DEF
 // Phonemically accurate for all Croatian diacritics (č, ć, š, ž, đ) and pitch accent.
 // Prosody rate: -8% normal, -25% slow mode (study pace).
 // Regional failover: tries each region in order until one succeeds.
-async function tryAzure(text, { slow, prosody }, azureKey, primaryRegion) {
-  const ssml = buildAzureSsml(text, { slow, prosody });
+async function tryAzure(text, { slow, prosody, phoneme }, azureKey, primaryRegion) {
+  const ssml = buildAzureSsml(text, { slow, prosody, phoneme });
 
   const regions = [
     primaryRegion,
@@ -419,7 +438,14 @@ export async function onRequestPost(context) {
     if (!ct.includes('application/json')) {
       return new Response('Invalid content type', { status: 400, headers: ttsCorsHeaders(origin) });
     }
-    const body = await request.json();
+    // Malformed JSON must be a 400, not the outer catch's plain-text 500.
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response('Invalid JSON', { status: 400, headers: ttsCorsHeaders(origin) });
+    }
+    body = body || {};
     const text = body.text;
     const slow = body.slow === true;
     // 'charlotte' = ElevenLabs Charlotte voice; anything else = Azure Gabriela (default)
@@ -427,6 +453,10 @@ export async function onRequestPost(context) {
     // Optional prosody object for minimal-pair pitch-accent contrasts (Azure path only).
     // Validated inside buildAzureSsml — only whitelisted values are emitted into SSML.
     const prosody = body.prosody && typeof body.prosody === 'object' ? body.prosody : null;
+    // Optional IPA pronunciation override (Azure path only). Validated + escaped
+    // inside buildAzureSsml. Used for slang/low-frequency words the neural voice
+    // mis-segments (e.g. "odjebi" → "od jeb i").
+    const phoneme = typeof body.phoneme === 'string' ? body.phoneme : null;
 
     if (typeof text !== 'string' || !text.trim() || text.length > 500) {
       return new Response('Invalid text', { status: 400, headers: ttsCorsHeaders(origin) });
@@ -436,8 +466,11 @@ export async function onRequestPost(context) {
     // Voice is included in the key so Gabriela and Charlotte audio never collide.
     // Prosody fingerprint ensures different contours don't serve each other's cached audio.
     const prosodyKey = prosody ? encodeURIComponent(JSON.stringify(prosody)) : '';
+    // phoneme is part of the key so an IPA-corrected request never collides with the
+    // plain cached audio for the same word (and vice-versa).
+    const phonemeKey = phoneme ? encodeURIComponent(phoneme) : '';
     const cacheKey = new Request(
-      `https://tts-cache.internal/v3/${voice}/${encodeURIComponent(text.slice(0, 400))}?slow=${slow}&prosody=${prosodyKey}`,
+      `https://tts-cache.internal/v3/${voice}/${encodeURIComponent(text.slice(0, 400))}?slow=${slow}&prosody=${prosodyKey}&ph=${phonemeKey}`,
       { method: 'GET' },
     );
     let edgeCache;
@@ -462,7 +495,7 @@ export async function onRequestPost(context) {
       }
       if (!buffer && AZURE_KEY) {
         try {
-          buffer = await tryAzure(text, { slow, prosody }, AZURE_KEY, PRIMARY_REGION);
+          buffer = await tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION);
         } catch {
           /* fall through */
         }
@@ -472,7 +505,7 @@ export async function onRequestPost(context) {
       // ── 1. Azure hr-HR-GabrijelaNeural (primary) ────────────────────────────
       if (AZURE_KEY) {
         try {
-          buffer = await tryAzure(text, { slow, prosody }, AZURE_KEY, PRIMARY_REGION);
+          buffer = await tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION);
         } catch {
           /* fall through */
         }

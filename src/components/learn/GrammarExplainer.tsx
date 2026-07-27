@@ -5,6 +5,7 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
+import { getUserCefr } from '../../lib/cefr.js';
 
 const TOPICS = [
   {
@@ -254,12 +255,20 @@ export default function GrammarExplainer({
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { setStats, writeDelta } = useStats();
+  const { stats: _statsForLevel, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('pick');
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  const [level, setLevel] = useState(() => {
+  // Default to the earned CEFR level. The old default read
+  // 'nh_placement_result', a key nothing ever writes, pinning every user to
+  // the 'A2' fallback. The user can still override via the level picker below.
+  const [level, setLevel] = useState<string>(() => {
     try {
-      return localStorage.getItem('nh_placement_result') || 'A2';
+      const earned = getUserCefr(
+        _statsForLevel?.xp || 0,
+        _statsForLevel?.lc || 0,
+        _statsForLevel?.gc || 0,
+      );
+      return LEVELS.includes(earned) ? earned : 'C1';
     } catch {
       return 'A2';
     }
@@ -340,13 +349,18 @@ export default function GrammarExplainer({
     setWritingResult(null);
     setWritingError(null);
     try {
-      const res = await apiFetch('/api/ai-chat', {
+      // /api/correct returns the parsed evaluation object ({score, corrected_text,
+      // changes, strengths, encouragement}) that this screen renders. /api/ai-chat's
+      // writeeval mode returns the JSON as an unparsed string in {text} — using it
+      // here left the feedback card permanently empty.
+      const res = await apiFetch('/api/correct', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'writeeval',
+          prompt: promptText,
+          text: writingText.trim(),
           params: { level, writingPrompt: promptText },
-          messages: [{ role: 'user', content: writingText.trim() }],
         }),
         signal: AbortSignal.timeout(25000),
       });

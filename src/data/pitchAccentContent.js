@@ -177,7 +177,11 @@ In everyday speech you will hear the short-falling accent constantly — it appe
       },
       {
         q: 'Which word means "hail" (weather)?',
-        opts: ['grâd', 'grȁd', 'grád', 'grád'],
+        // One option per Croatian accent, as in the pȁs/pás/pâs/pàs drill above:
+        // grâd dugosilazni (= city), grȁd kratkosilazni (= hail), grád
+        // dugouzlazni, gràd kratkouzlazni. The fourth slot previously repeated
+        // grád, so the question offered only three distinct choices.
+        opts: ['grâd', 'grȁd', 'grád', 'gràd'],
         correct: 'grȁd',
       },
     ],

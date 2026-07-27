@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getUserCefr } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { LISTEN, getSR, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { localDateStr } from '../../lib/dateUtils.js';
@@ -12,6 +13,7 @@ import { PLACES, type PlaceId } from './places';
 import { placeStats, recommendedVisit, type ModelCtx } from './gradModel';
 import GradMap from './GradMap';
 import PlaceScreen from './PlaceScreen';
+import { lsGet } from '../../lib/safeStorage';
 
 const RECENT_KEY = 'nh_recent_exercises';
 function recordRecentExercise(id: string) {
@@ -51,10 +53,10 @@ export default function GradTab({
   const { content } = useContent();
   const V = (content?.V ?? {}) as Record<string, string[][]>;
   const lc = st?.lc ?? 0;
-  const userCefr = getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0);
+  const userCefr = getContentUnlockLevel(getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0));
 
   const [view, setView] = useState<'list' | 'map'>(
-    () => (localStorage.getItem('nh_grad_view') as 'list' | 'map') || 'list',
+    () => (lsGet('nh_grad_view') as 'list' | 'map') || 'list',
   );
   const [openPlace, setOpenPlace] = useState<PlaceId | null>(null);
 
@@ -187,8 +189,8 @@ export default function GradTab({
       weakCount: Object.values(getSR() as Record<string, { w?: number }>).filter(
         (v) => (v.w || 0) > 0,
       ).length,
-      isNewUser: lc === 0 && !localStorage.getItem('nh_placement_done'),
-      userGoal: localStorage.getItem('nh_goal'),
+      isNewUser: lc === 0 && !lsGet('nh_placement_done'),
+      userGoal: lsGet('nh_goal'),
     },
     queue: practiceQueue,
   };
@@ -198,7 +200,7 @@ export default function GradTab({
   // daily quest progress (4-dot quiet row)
   const questsDone = (() => {
     const d = localDateStr();
-    const q = (id: string) => localStorage.getItem('nh_quest_' + id + '_' + d) === '1';
+    const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
     const done = [q('speak'), q('grammar'), q('master'), q('reading')].filter(Boolean).length;
     return { done, total: 4 };
   })();

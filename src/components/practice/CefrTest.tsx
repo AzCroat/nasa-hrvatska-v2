@@ -146,7 +146,8 @@ const LEVELS = {
           'Ona viša njega.',
         ],
         answer: 0,
-        tip: "Both options 0 and 2 are correct! 'Viša od + genitive' or 'viša nego + nominative'",
+        accept: [0, 2],
+        tip: "Both are correct: 'viša od njega' (od + genitive) or 'viša nego on' (nego + nominative).",
       },
       {
         q: "Fill in: 'Idem ___ posla.' (I'm going from work)",
@@ -209,7 +210,8 @@ const LEVELS = {
         q: "'I like swimming' in Croatian:",
         opts: ['Volim plivati.', 'Volim plivanje.', 'Sviđa mi se plivati.', 'Rado plivam.'],
         answer: 0,
-        tip: "'Volim + infinitive' is the most common pattern. All 4 are technically correct but option 0 is most natural.",
+        accept: [0, 1, 3],
+        tip: "'Volim plivati' (volim + infinitive) is most natural; 'Volim plivanje' (+ noun) and 'Rado plivam' also work. 'Sviđa mi se' normally takes a noun (plivanje), not an infinitive.",
       },
       {
         q: "'Last year' in Croatian:",
@@ -232,7 +234,8 @@ const LEVELS = {
           'Zagreb ona jako sviđa.',
         ],
         answer: 0,
-        tip: "'Sviđati se' pattern: place + dative pronoun + se + sviđa. Options 0 and 1 are both natural.",
+        accept: [0, 1],
+        tip: "Two natural options: 'Zagreb joj se jako sviđa' (sviđati se + dative pronoun) or 'Ona jako voli Zagreb' (voljeti + accusative).",
       },
       {
         q: "'How long have you lived here?' in Croatian:",
@@ -243,7 +246,8 @@ const LEVELS = {
           'Koliko živiš?',
         ],
         answer: 0,
-        tip: "'Koliko dugo' (how long) + present tense (not past — ongoing action). Options 0 and 2 are both good.",
+        accept: [0, 2],
+        tip: "Ongoing action → present tense (not past). 'Koliko dugo živiš ovdje?' and 'Otkad živiš tu?' both work.",
       },
       {
         q: "'I arrived yesterday' in Croatian:",
@@ -470,7 +474,8 @@ const LEVELS = {
           'Samo smo stigli na vrijeme.',
         ],
         answer: 0,
-        tip: "'Jedva' = barely/with difficulty. 'Jedva da' is also correct but slightly more emphatic.",
+        accept: [0, 2],
+        tip: "'Jedva' = barely. 'Jedva smo stigli' or the slightly more emphatic 'Jedva da smo stigli' both work.",
       },
       {
         q: "The difference between 'pitati' and 'upitati' is:",
@@ -487,7 +492,8 @@ const LEVELS = {
         q: "'Frankly speaking' — Croatian equivalent:",
         opts: ['Iskreno govoreći,', 'Iskreno rečeno,', 'Da budem iskren,', 'Na ravno,'],
         answer: 1,
-        tip: "'Iskreno rečeno' (honestly spoken) = frankly speaking. All 3 are natural; 'iskreno rečeno' is most idiomatic.",
+        accept: [0, 1, 2],
+        tip: "'Iskreno rečeno' is most idiomatic, but 'Iskreno govoreći' and 'Da budem iskren' also mean 'frankly'.",
       },
       {
         q: "'He speaks Croatian as if he were born here.' Correct Croatian:",
@@ -504,7 +510,8 @@ const LEVELS = {
         q: "'Against all odds' in Croatian:",
         opts: ['Usprkos svemu', 'Protiv svega', 'Unatoč svim preprekama', 'Bez obzira na sve'],
         answer: 2,
-        tip: "'Unatoč svim preprekama' (despite all obstacles) is the closest to 'against all odds'. Others are also valid.",
+        accept: [0, 2, 3],
+        tip: "'Unatoč svim preprekama' is closest. 'Usprkos svemu' and 'Bez obzira na sve' also convey it; 'protiv svega' means literal opposition, not 'against all odds'.",
       },
       {
         q: "'The meeting was postponed' in natural Croatian:",
@@ -515,13 +522,15 @@ const LEVELS = {
           'Sastanak se odgodio.',
         ],
         answer: 0,
-        tip: "Passive 'je odgođen' (was postponed) is natural. Option 2 (active — they postponed) is also very common.",
+        accept: [0, 2],
+        tip: "Passive 'Sastanak je odgođen' is natural, and the active 'Odgodili su sastanak' is equally common.",
       },
       {
         q: "'Not to mention...' — Croatian equivalent:",
         opts: ['Da ne govorimo o...', 'A kamoli...', 'Nekmoli...', 'Ne da kažem...'],
         answer: 1,
-        tip: "'A kamoli' = let alone / not to mention (stronger). 'Da ne govorimo o' = not to speak of. Both natural.",
+        accept: [0, 1],
+        tip: "'A kamoli' = let alone; 'Da ne govorimo o...' = not to mention. Both are natural.",
       },
       {
         q: "Which correctly uses the gerund-equivalent 'glagolski prilog'?",
@@ -558,9 +567,254 @@ const LEVELS = {
       },
     ],
   },
+  C1: {
+    label: 'C1 — Advanced',
+    color: '#f3e8ff',
+    border: '#d8b4fe',
+    text: '#6b21a8',
+    emoji: '🌳',
+    desc: 'Nuanced argument, idiom, register control and complex syntax',
+    questions: [
+      {
+        q: "Choose the correct form: 'Da sam znao, ____ ti pomogao.'",
+        opts: ['bio bih', 'bih bio sam', 'budem', 'bio sam'],
+        answer: 0,
+        tip: 'Kondicional II: bio bih pomogao — unrealized past possibility.',
+      },
+      {
+        q: "'Unatoč ____ nastavili smo put.' Fill in:",
+        opts: ['kiši', 'kiše', 'kišu', 'kišom'],
+        answer: 0,
+        tip: 'unatoč + DATIVE: unatoč kiši.',
+      },
+      {
+        q: 'Which sentence uses the verbal adverb correctly?',
+        opts: [
+          'Ušavši u sobu, upalio je svjetlo.',
+          'Ušavši u sobu, svjetlo se upalilo.',
+          'Ušao u sobu, upalivši je svjetlo.',
+          'Svjetlo je ušavši upalio u sobu.',
+        ],
+        answer: 0,
+        tip: 'Same-subject rule: the one who entered must be the one who switched on the light.',
+      },
+      {
+        q: "'Sve ____ je rekao pokazalo se točnim.'",
+        opts: ['što', 'koje', 'koji', 'čega'],
+        answer: 0,
+        tip: 'After sve/ono/ništa the relativizer is što.',
+      },
+      {
+        q: "What does 'prodavati maglu' mean?",
+        opts: [
+          'to peddle empty promises',
+          'to sell umbrellas',
+          'to forecast the weather',
+          'to speak quietly',
+        ],
+        answer: 0,
+        tip: 'Idiom: prodavati maglu = to deceive with empty talk.',
+      },
+      {
+        q: 'Pick the FORMAL request:',
+        opts: [
+          'Ljubazno Vas molim da mi dostavite ponudu.',
+          'Daj mi ponudu.',
+          'Može ponuda?',
+          'Hoću ponudu što prije.',
+        ],
+        answer: 0,
+        tip: 'Business register: Ljubazno Vas molim + da-clause.',
+      },
+      {
+        q: "'Radujem se ____.' (your arrival)",
+        opts: ['tvom dolasku', 'tvoj dolazak', 'tvog dolaska', 'tvojim dolaskom'],
+        answer: 0,
+        tip: 'radovati se + DATIVE: dolasku.',
+      },
+      {
+        q: 'Which is the se-passive?',
+        opts: [
+          'Ovdje se govori hrvatski.',
+          'On se brije svako jutro.',
+          'Marko i Ana se vole.',
+          'Bojim se mraka.',
+        ],
+        answer: 0,
+        tip: 'Impersonal/passive se: Croatian is spoken here.',
+      },
+      {
+        q: "'Kad biste imali vremena, ____ li nam se pridružiti?'",
+        opts: ['biste', 'bi', 'budete', 'bili'],
+        answer: 0,
+        tip: '2nd person plural conditional: biste li…',
+      },
+      {
+        q: "Choose the correct clitic order: 'Ja ____ dala.'",
+        opts: ['sam mu je', 'je mu sam', 'mu sam je', 'sam je mu'],
+        answer: 0,
+        tip: 'aux (sam) → dative (mu) → accusative je goes LAST: sam mu je.',
+      },
+      {
+        q: "What nuance does the aorist add in 'Stigoh!'?",
+        opts: ['punchy immediacy', 'formal politeness', 'uncertainty', 'habitual repetition'],
+        answer: 0,
+        tip: 'The living aorist in messages: short, expressive, just-now.',
+      },
+      {
+        q: "'Zahvaljujući ____, položio sam ispit.'",
+        opts: ['profesorici', 'profesorice', 'profesoricu', 'profesoricom'],
+        answer: 0,
+        tip: 'zahvaljujući + DATIVE.',
+      },
+      {
+        q: 'Pick the sentence with correct agreement:',
+        opts: [
+          'Djeca su se igrala u dvorištu.',
+          'Djeca su se igrali u dvorištu.',
+          'Djeca se igralo u dvorištu.',
+          'Djeca je igrala u dvorištu.',
+        ],
+        answer: 0,
+        tip: 'djeca + plural verb, neuter-style participle: igrala su se.',
+      },
+      {
+        q: "'To je čovjek na ____ se možeš osloniti.'",
+        opts: ['kojeg', 'koji', 'kojem', 'kojim'],
+        answer: 0,
+        tip: 'osloniti se NA + accusative; animate: na kojeg.',
+      },
+      {
+        q: 'Which word does NOT belong to formal correspondence?',
+        opts: ['fakat', 'poštovani', 's poštovanjem', 'u privitku'],
+        answer: 0,
+        tip: "'fakat' is colloquial — never in business writing.",
+      },
+    ],
+  },
+  C2: {
+    label: 'C2 — Mastery',
+    color: '#fce7f3',
+    border: '#f9a8d4',
+    text: '#9d174d',
+    emoji: '🏔️',
+    desc: 'Literary tenses, rhetoric, irony and near-native judgement',
+    questions: [
+      {
+        q: "'____, vidjeh, pobijedih.' — complete Caesar's boast:",
+        opts: ['Dođoh', 'Došao', 'Dolazim', 'Dođem'],
+        answer: 0,
+        tip: 'Aorist chain: dođoh, vidjeh, pobijedih.',
+      },
+      {
+        q: "Identify the tense: 'Bijaše hladno jutro.'",
+        opts: ['imperfekt', 'aorist', 'perfekt', 'pluskvamperfekt'],
+        answer: 0,
+        tip: 'bijaše = imperfect of biti — the one imperfect still alive.',
+      },
+      {
+        q: "'Vlak je već ____ kad smo stigli.' (pluperfect)",
+        opts: ['bio otišao', 'otišao', 'bio otići', 'bivao otišao'],
+        answer: 0,
+        tip: 'Pluskvamperfekt: je + bio + otišao.',
+      },
+      {
+        q: "What is the rhetorical effect of 'Nije baš da smo se pretrgnuli od posla'?",
+        opts: ['ironic understatement', 'sincere complaint', 'formal apology', 'literal report'],
+        answer: 0,
+        tip: 'Understatement (litota) signalling the opposite.',
+      },
+      {
+        q: "'Komu vjerovati?' uses which case of 'tko'?",
+        opts: ['dative', 'accusative', 'genitive', 'locative'],
+        answer: 0,
+        tip: 'vjerovati + dative: komu.',
+      },
+      {
+        q: 'Choose the aphorism with parallel structure:',
+        opts: [
+          'Standard je dogovor, a dijalekt je pamćenje.',
+          'Standard i dijalekt su različiti.',
+          'Dijalekti su jako zanimljivi.',
+          'Dogovor je važan za standard.',
+        ],
+        answer: 0,
+        tip: 'Parallel predication X je A, a Y je B — the aphoristic mould.',
+      },
+      {
+        q: "'Sve što bijaše obećao, pokazalo se istinitim.' — 'bijaše obećao' is:",
+        opts: ['literary pluperfect', 'aorist', 'conditional', 'future II'],
+        answer: 0,
+        tip: 'bijah + participle = the literary pluperfect variant.',
+      },
+      {
+        q: 'Which pair are NOT synonyms?',
+        opts: [
+          'iskrenost / istina',
+          'kraj / svršetak',
+          'dom / kuća (roughly)',
+          'rad / posao (roughly)',
+        ],
+        answer: 0,
+        tip: 'Honesty is a property of the speaker; truth, of the claim.',
+      },
+      {
+        q: "'Zaboravu usprkos, neka imena ostaju.' The fronted phrase expresses:",
+        opts: ['concession', 'cause', 'purpose', 'time'],
+        answer: 0,
+        tip: 'usprkos + dative, fronted for emphasis: despite oblivion.',
+      },
+      {
+        q: 'Pick the correctly built impersonal:',
+        opts: [
+          'Ovdje se dobro jede.',
+          'Ovdje se dobro jedu.',
+          'Ovdje dobro jede.',
+          'Ovdje je dobro jesti se.',
+        ],
+        answer: 0,
+        tip: 'Impersonal se + 3rd singular: dobro se jede.',
+      },
+      {
+        q: "What does 'čitatelj kao porota' exemplify?",
+        opts: ['metaphor', 'metonymy', 'hyperbole', 'onomatopoeia'],
+        answer: 0,
+        tip: 'Reader-as-jury: a metaphor mapping courtroom onto reading.',
+      },
+      {
+        q: "'Malo je proročanstava tako uredno ispunjeno.' — 'proročanstava' is:",
+        opts: [
+          'genitive plural after malo',
+          'nominative plural',
+          'accusative plural',
+          'dative plural',
+        ],
+        answer: 0,
+        tip: 'Quantifier malo + partitive genitive plural.',
+      },
+      {
+        q: "Which register does 'nikamo nisu mrdnuli' inject into formal debate?",
+        opts: ['colloquial punch', 'archaic solemnity', 'legal precision', 'scientific neutrality'],
+        answer: 0,
+        tip: 'Controlled register-mixing: colloquial verb inside formal argument.',
+      },
+      {
+        q: "'Roman s pogreškom koja mu pripada' — 'mu' refers to:",
+        opts: ['the novel', 'the author', 'the reader', 'the mistake'],
+        answer: 0,
+        tip: 'Dative clitic mu = to the novel (roman).',
+      },
+      {
+        q: "The bura 'ne oblikuje samo kamen — ona odgaja.' The figure is:",
+        opts: ['personification', 'simile', 'irony', 'euphemism'],
+        answer: 0,
+        tip: 'The wind is given a human role: it raises children.',
+      },
+    ],
+  },
 };
 
-const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2'];
+const LEVEL_KEYS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 function gradeMessage(pct: number) {
   if (pct >= 90) return { icon: '🏆', msg: "Excellent! You've mastered this level!" };
@@ -569,14 +823,28 @@ function gradeMessage(pct: number) {
   return { icon: '💪', msg: "Keep practicing! You'll get there." };
 }
 
+// The set of accepted-correct option indices for a question. Most questions
+// have a single correct answer; some accept multiple grammatically-correct
+// options (declared via `accept`). Always includes `answer`.
+function acceptedSet(q: any): number[] {
+  const acc = Array.isArray(q.accept) && q.accept.length ? q.accept : [q.answer];
+  return acc.includes(q.answer) ? acc : [...acc, q.answer];
+}
+
 // Shuffle one level's questions: randomise question order AND option order,
-// storing the correct answer by value so index checks remain valid.
+// storing the correct answer(s) by value so index checks remain valid.
 function shuffleLevel(levelKey: string) {
   const raw = (LEVELS as Record<string, typeof LEVELS.A1>)[levelKey]!.questions;
   return shLocal([...raw]).map((q: any) => {
     const correctText = q.opts[q.answer];
+    const acceptTexts = acceptedSet(q).map((idx: number) => q.opts[idx]);
     const shuffledOpts = shLocal([...q.opts]);
-    return { ...q, opts: shuffledOpts, answer: shuffledOpts.indexOf(correctText) };
+    return {
+      ...q,
+      opts: shuffledOpts,
+      answer: shuffledOpts.indexOf(correctText),
+      accept: acceptTexts.map((t: string) => shuffledOpts.indexOf(t)),
+    };
   });
 }
 
@@ -618,7 +886,7 @@ export default function CefrTest({
     if (answered) return;
     setSelected(i);
     setAnswered(true);
-    if (i === activeQuestions[qIdx].answer) {
+    if (acceptedSet(activeQuestions[qIdx]).includes(i)) {
       setScore((sc) => sc + 1);
     }
   }
@@ -793,7 +1061,8 @@ export default function CefrTest({
 
   // --- TEST SCREEN ---
   const q = activeQuestions[qIdx]!;
-  const isCorrect = selected === q.answer;
+  const accepted = acceptedSet(q);
+  const isCorrect = accepted.includes(selected);
 
   return (
     <div className="scr-wrap">
@@ -843,12 +1112,13 @@ export default function CefrTest({
           let border = '1.5px solid var(--card-b)';
           let color = 'var(--heading)';
 
+          const optAccepted = accepted.includes(i);
           if (answered) {
-            if (i === q.answer) {
+            if (optAccepted) {
               bg = '#dcfce7';
               border = '1.5px solid #86efac';
               color = '#166534';
-            } else if (i === selected && i !== q.answer) {
+            } else if (i === selected) {
               bg = '#fee2e2';
               border = '1.5px solid #fca5a5';
               color = '#991b1b';
@@ -889,23 +1159,20 @@ export default function CefrTest({
                   height: 24,
                   borderRadius: '50%',
                   background:
-                    answered && i === q.answer
+                    answered && optAccepted
                       ? '#86efac'
-                      : answered && i === selected && i !== q.answer
+                      : answered && i === selected
                         ? '#fca5a5'
                         : 'var(--bar-bg)',
-                  color:
-                    answered && (i === q.answer || (i === selected && i !== q.answer))
-                      ? '#fff'
-                      : 'var(--subtext)',
+                  color: answered && (optAccepted || i === selected) ? '#fff' : 'var(--subtext)',
                   fontSize: 11,
                   fontWeight: 800,
                   flexShrink: 0,
                 }}
               >
-                {answered && i === q.answer
+                {answered && optAccepted
                   ? '✓'
-                  : answered && i === selected && i !== q.answer
+                  : answered && i === selected
                     ? '✗'
                     : String.fromCharCode(65 + i)}
               </span>

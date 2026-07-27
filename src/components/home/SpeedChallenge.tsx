@@ -3,6 +3,8 @@ import { useStats } from '../../context/StatsContext';
 import { getSR, getSRScore } from '../../lib/srs.js';
 import { useContent } from '../../hooks/useContent';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
+import { localDateStr } from '../../lib/dateUtils';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 const DURATION = 60; // seconds
 const XP_CORRECT = 3;
@@ -76,7 +78,13 @@ function _fy<T>(arr: T[]): T[] {
 
 function buildQuestion(target: VocabWord, allVocab: VocabWord[]): Question {
   // 4 choices: 1 correct + 3 random wrong answers
-  const wrong = _fy(allVocab.filter((w) => w.en !== target.en)).slice(0, 3);
+  // Must exclude on BOTH fields. Grading compares `choice.hr === target.hr`
+  // while the button renders `choice.en`, so filtering on `en` alone let any
+  // entry sharing the target's `hr` with a different `en` through — it displayed
+  // a different translation but still graded CORRECT (18 such duplicate-`hr`
+  // entries exist in V, e.g. kada = 'bathtub' | 'when'). Excluding `hr` keeps
+  // grading sound; excluding `en` keeps the options visually unambiguous.
+  const wrong = _fy(allVocab.filter((w) => w.hr !== target.hr && w.en !== target.en)).slice(0, 3);
   const choices = _fy([target, ...wrong]);
   return { target, choices };
 }
@@ -101,8 +109,8 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   // Check if already played today; recompute when phase changes (e.g. after completing a round)
   const playedToday = useMemo(
     () => {
-      const today = new Date().toISOString().slice(0, 10);
-      return localStorage.getItem(LS_KEY_PLAYED) === today;
+      const today = localDateStr();
+      return lsGet(LS_KEY_PLAYED) === today;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [phase], // intentional: re-check after phase transition
@@ -204,8 +212,8 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   // Save today's play on done
   useEffect(() => {
     if (phase === 'done') {
-      const today = new Date().toISOString().slice(0, 10);
-      localStorage.setItem(LS_KEY_PLAYED, today);
+      const today = localDateStr();
+      lsSet(LS_KEY_PLAYED, today);
     }
   }, [phase]);
 

@@ -12,8 +12,8 @@
  *   Requires secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
  *
  * What it does:
- *   1. Creates NH_CLANS KV namespace if it does not exist
- *   2. Binds it to the nasa-hrvatska-v2 Pages project (production + preview)
+ *   1. Creates the required KV namespaces if they do not exist
+ *   2. Binds them to the nasa-hrvatska-v2 Pages project (production + preview)
  *   3. Verifies FIREBASE_PROJECT_ID env var is set on the Pages project (warns if not)
  *   4. Prints a summary of all bindings
  *
@@ -31,7 +31,6 @@ const PAGES_PROJECT = 'nasa-hrvatska-v2';
 // binding: the name used in env.BINDING_NAME inside the function
 // title:   the human-readable name in the Cloudflare dashboard
 const REQUIRED_KV = [
-  { binding: 'NH_CLANS', title: 'nasa-hrvatska-clans' },
   { binding: 'XP_VELOCITY', title: 'nasa-hrvatska-xp-velocity' },
 ];
 
@@ -162,7 +161,7 @@ function checkPageEnvVars(project) {
       console.warn(`  ✗ ${m}`);
     }
     console.warn('\nSet them in: Cloudflare Dashboard → Pages → nasa-hrvatska-v2 → Settings → Environment Variables');
-    console.warn('Required for clan auth: FIREBASE_PROJECT_ID = your Firebase project ID\n');
+    console.warn('Required for token auth: FIREBASE_PROJECT_ID = your Firebase project ID\n');
   } else {
     console.log('  ✓ All required Pages env vars are set');
   }

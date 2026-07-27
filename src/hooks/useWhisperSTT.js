@@ -62,7 +62,18 @@ function computeRms(analyser, buf) {
   return Math.sqrt(sum / buf.length);
 }
 
-export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaking }) {
+export default function useWhisperSTT({
+  onResult,
+  onInterrupt,
+  onError,
+  isSpeaking,
+  // When false, the user's voice does NOT auto-interrupt Maja while she's
+  // speaking — the mic is ignored until she finishes (or the user interrupts
+  // explicitly, e.g. by tapping). Used for lessons, where halting learner speech
+  // and background noise would otherwise cause false cut-offs. Defaults to true
+  // to preserve the hands-free barge-in behaviour for other callers.
+  allowBargeIn = true,
+}) {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [vadLevel, setVadLevel] = useState(0); // 0–1 for UI visualisation
@@ -73,6 +84,12 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
 
   // Whether Whisper is available: null=untested, true=confirmed, false=503→use Web Speech
   const whisperAvailRef = useRef(null);
+
+  // Guards the async getUserMedia path in startListening. Without it, unmounting
+  // while the mic permission / stream promise is pending left a live stream and
+  // an 80ms VAD interval installed on a dead hook — the mic indicator stayed lit
+  // and /api/stt kept receiving uploads. Mirrors useRecorder.ts's guard.
+  const mountedRef = useRef(true);
 
   // Web Audio / MediaRecorder infrastructure
   const streamRef = useRef(null);
@@ -108,6 +125,10 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
   const onInterruptRef = useRef(onInterrupt);
   const onErrorRef = useRef(onError);
   const isSpeakingRef = useRef(isSpeaking);
+  const allowBargeInRef = useRef(allowBargeIn);
+  useEffect(() => {
+    allowBargeInRef.current = allowBargeIn;
+  }, [allowBargeIn]);
   useEffect(() => {
     onResultRef.current = onResult;
   }, [onResult]);
@@ -174,14 +195,18 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
   }, []);
 
   // Cleanup on unmount
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    // Re-arm on mount: React 18 StrictMode double-invokes effects in dev, so a
+    // ref only ever set false in cleanup would stay false and permanently
+    // disable the mic path locally.
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
       cleanup();
       webSpeechRef.current?.abort?.();
       webSpeechRef.current = null;
-    },
-    [cleanup],
-  );
+    };
+  }, [cleanup]);
 
   // ── Send audio to Whisper ───────────────────────────────────────────────────
   const sendToWhisper = useCallback(
@@ -197,14 +222,19 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
           mimeType: blob.type || 'audio/webm',
         });
 
-        // null = total transport failure (Capacitor native unreachable endpoint, etc.)
-        // !res.ok (including 503 = Whisper not configured) → fall back to Web Speech
-        if (!res || res.status === 503) {
-          // Whisper not configured or transport failed — mark unavailable and let the component fall back
+        // 503 = Whisper genuinely not configured on the server → disable for the
+        // session and fall back to Web Speech (permanent, correct).
+        if (res && res.status === 503) {
           whisperAvailRef.current = false;
           cleanup();
           return;
         }
+        // null = a TRANSIENT transport failure (native unreachable, a 5xx, or a
+        // brief network drop while navigator.onLine is still true). Previously this
+        // was conflated with the 503 case, so one hiccup silently dropped the
+        // utterance AND disabled Whisper for the rest of the session. Surface it via
+        // onError instead and keep Whisper available — the next utterance may succeed.
+        if (!res) throw new Error('Voice transcription failed — please try again.');
         if (!res.ok) throw new Error('STT error ' + res.status);
 
         whisperAvailRef.current = true;
@@ -246,7 +276,14 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
         if (!speechStartRef.current) {
           speechStartRef.current = now;
         } else if (now - speechStartRef.current > MIN_SPEECH_MS) {
-          // Confirmed real speech — start recording
+          // Confirmed real speech.
+          if (isSpeakingRef.current && !allowBargeInRef.current) {
+            // Tap-only mode (lessons): do NOT let the user's voice interrupt Maja
+            // — halting learner speech / background noise would cause false
+            // cut-offs. Ignore the mic until she stops (or the user taps).
+            speechStartRef.current = null;
+            return;
+          }
           if (isSpeakingRef.current) {
             // User is speaking while Maja talks → interrupt TTS immediately
             stopAudio();
@@ -421,6 +458,22 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
           autoGainControl: true,
         },
       });
+      // The screen can be left while the permission prompt / stream promise is
+      // pending. cleanup() already ran and found streamRef/pollRef null, so it
+      // released nothing — installing them now would leave the mic open and the
+      // VAD poll running for the lifetime of the tab.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        if (audioCtxRef.current && ctxIsOwnedRef.current) {
+          try {
+            audioCtxRef.current.close();
+          } catch {
+            /* already closed */
+          }
+          audioCtxRef.current = null;
+        }
+        return;
+      }
       streamRef.current = stream;
 
       if (ctx.state === 'suspended') await ctx.resume();
@@ -440,6 +493,12 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
       setIsListening(true);
       setVadLevel(0);
 
+      // Re-check: `await ctx.resume()` above is a second suspension point where
+      // the caller can unmount. Never install the poll on a dead hook.
+      if (!mountedRef.current) {
+        cleanup();
+        return;
+      }
       // Poll the analyser at POLL_INTERVAL_MS — drives the entire VAD state machine
       pollRef.current = setInterval(vadTick, POLL_INTERVAL_MS);
     } catch (e) {
@@ -467,7 +526,9 @@ export default function useWhisperSTT({ onResult, onInterrupt, onError, isSpeaki
     } finally {
       isActivatingRef.current = false;
     }
-  }, [isListening, isProcessing, vadTick, startWebSpeech, stop]);
+    // `cleanup` is a useCallback with [] deps, so its identity is stable — listing
+    // it here (for the post-await unmount guard) does not re-create this callback.
+  }, [isListening, isProcessing, vadTick, startWebSpeech, stop, cleanup]);
 
   /** Manually clear permission-denied state (e.g., after user re-grants and taps Try Again). */
   const clearPermissionDenied = useCallback(() => {

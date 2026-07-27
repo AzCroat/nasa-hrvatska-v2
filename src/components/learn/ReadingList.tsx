@@ -1,5 +1,14 @@
 import React, { useEffect } from 'react';
 import { H, READ } from '../../data';
+import { useStats } from '../../context/StatsContext';
+import { getUserCefr } from '../../lib/cefr';
+import {
+  getNextReadingUnit,
+  getReadingProgress,
+  type ReadingUnit,
+} from '../../lib/readingCurriculum';
+import ReadingPathBanner from './ReadingPathBanner';
+import { ssRemove } from '../../lib/safeStorage';
 
 const LEVEL_META = {
   beginner: { badge: 'A1/A2', color: '#16a34a', label: 'Beginner' },
@@ -56,6 +65,7 @@ export default function ReadingList({
   sCurEx,
   goBack,
 }: ReadingListProps) {
+  const { stats } = useStats();
   // Level filter set by learn-path items (e.g. "Read a Story" shows beginner only).
   // When launched from the Learn tab directly, no filter is set and all levels show.
   let levelFilter = null;
@@ -76,7 +86,7 @@ export default function ReadingList({
     const firstPassage = filteredEntries[0]?.[1]?.[0];
     if (!firstPassage) return;
     // Clear filter so returning from reading doesn't re-trigger this
-    sessionStorage.removeItem('nh_readlist_filter');
+    ssRemove('nh_readlist_filter');
     launchPassage(firstPassage, { sRp, sRph, sRqi, sRsc, sRa, sRsl, sHw, setScr, sCurEx });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -85,9 +95,40 @@ export default function ReadingList({
   const totalPassages = filteredEntries.reduce((sum, [, passages]) => sum + passages.length, 0);
   const levelCount = filteredEntries.length;
 
+  // Content-Rec #2: the structured reading path. Progress comes from stats.vs —
+  // ReadingScreen already writes a reading_<title> key there on completion — so
+  // there is no separate progress store. Only shown in browse mode (not when a
+  // learn-path filter is auto-launching a passage).
+  const cefr = getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0);
+  const done: string[] = Array.isArray(stats.vs) ? (stats.vs as string[]) : [];
+  const nextReading: ReadingUnit | null = getNextReadingUnit(cefr, done);
+  const readingProgress = getReadingProgress(cefr, done);
+  function startRecommendedReading() {
+    if (!nextReading) return;
+    launchPassage(nextReading.passage, {
+      sRp,
+      sRph,
+      sRqi,
+      sRsc,
+      sRa,
+      sRsl,
+      sHw,
+      setScr,
+      sCurEx,
+    });
+  }
+
   return (
     <div className="scr-wrap">
       {H('📖 Reading Passages', '', goBack)}
+      {!levelFilter && (
+        <ReadingPathBanner
+          nextUnit={nextReading}
+          progress={readingProgress}
+          level={cefr}
+          onStart={startRecommendedReading}
+        />
+      )}
       <div style={{ textAlign: 'center', fontSize: 13, color: '#78716c', marginBottom: 16 }}>
         {totalPassages} passages across {levelCount} levels — choose one to read and quiz
       </div>

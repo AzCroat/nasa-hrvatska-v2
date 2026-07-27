@@ -5,6 +5,8 @@ import PronunciationScorer from '../shared/PronunciationScorer';
 import { scoreColor, scoreEmoji, scoreLabel } from '../shared/pronunciationUtils.js';
 import { markQuest } from '../../lib/quests.js';
 import { rnd } from '../../lib/random.js';
+import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ── Assessment phrase banks per CEFR level ──────────────────────────────────
 const PHRASES = {
@@ -244,10 +246,19 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
       : null;
 
   const handleScore = useCallback(
-    (result: { score: number | null }) => {
+    (result: { score: number | null; worstPhoneme?: string | null }) => {
       setScores((prev) => ({ ...prev, [currentIdx]: result.score }));
+      // Feed a weak acoustic score back into the pronunciation weakness ledger so
+      // the struggled sound resurfaces in the phoneme grid and Error Analysis
+      // (Content-Rec #8). No-op when scored well or not acoustically scored.
+      logPronunciationWeakness({
+        score: result.score,
+        worstPhoneme: result.worstPhoneme,
+        targetText: currentPhrase?.hr,
+        source: 'pron-assess',
+      });
     },
-    [currentIdx],
+    [currentIdx, currentPhrase],
   );
 
   const handleNext = useCallback(() => {
@@ -255,6 +266,10 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
   }, []);
 
   const handleFinish = useCallback(() => {
+    // Wave 9: finishing is completion even when every phrase was skipped
+    // (completedCount === 0 awards nothing) — signal so a session-launched
+    // check can't strand the day. No-op outside sessions.
+    signalSessionCompleteIfActive('pronunciation_assess');
     if (!xpAwarded.current && typeof award === 'function' && completedCount > 0) {
       xpAwarded.current = true;
       // 20–40 XP based on quality when acoustically scored; participation floor (20) when no

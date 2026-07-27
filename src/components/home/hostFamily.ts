@@ -29,7 +29,7 @@ export const HOST_WELCOME: Record<CharacterName, { hr: string; en: string; scene
     scene: 'dubrovnik-ai.webp',
   },
   ana: {
-    hr: 'Bok! Tvoja kava te čeka.',
+    hr: 'Bog! Tvoja kava te čeka.',
     en: 'Hi! Your coffee’s waiting.',
     scene: 'mostar.webp',
   },

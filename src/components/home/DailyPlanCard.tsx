@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { getSR, getStreak } from '../../data';
 import AppContext from '../../context/AppContext';
 import { getStyleContextForAPI } from '../../lib/learnerStyle.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { localDateStr } from '../../lib/dateUtils';
+import { ssGet, ssRemove } from '../../lib/safeStorage';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -59,7 +62,7 @@ function savePlanToCache(plan: unknown) {
 
 const DONE_KEY = 'nh_plan_done_';
 function getTodayDone() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   try {
     return new Set(JSON.parse(localStorage.getItem(DONE_KEY + today) || '[]'));
   } catch {
@@ -67,7 +70,7 @@ function getTodayDone() {
   }
 }
 function markDone(idx: number) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr();
   try {
     const done = getTodayDone();
     done.add(idx);
@@ -195,7 +198,7 @@ export default function DailyPlanCard({
   const [done, setDone] = useState(() => getTodayDone());
 
   const collectPayload = useCallback(() => {
-    const level = localStorage.getItem('nh_level') || 'B1';
+    const level = getGenerationCefr(); // Content-Rec #5: earned CEFR, not stale placement
     const srData = getSR();
     const srWeakWords = Object.entries(srData)
       .filter(([, v]) => v.w > 0)
@@ -211,7 +214,7 @@ export default function DailyPlanCard({
       : [];
     const goal = localStorage.getItem('nh_goal') || 'fluent';
     const streak = getStreak();
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDateStr();
     const recentActivity = {
       flashcards: parseInt(localStorage.getItem('nh_session_flashcards_' + today) || '0', 10),
       listening: parseInt(localStorage.getItem('nh_session_listening_' + today) || '0', 10),
@@ -257,9 +260,9 @@ export default function DailyPlanCard({
   // without a page refresh, sessionStorage still has the pending index — mark done.
   // Note: page refresh clears sessionStorage, so errored activities are NOT marked done.
   useEffect(() => {
-    const pending = sessionStorage.getItem('nh_plan_pending_idx');
+    const pending = ssGet('nh_plan_pending_idx');
     if (pending !== null) {
-      sessionStorage.removeItem('nh_plan_pending_idx');
+      ssRemove('nh_plan_pending_idx');
       const idx = parseInt(pending, 10);
       if (!isNaN(idx)) {
         markDone(idx);

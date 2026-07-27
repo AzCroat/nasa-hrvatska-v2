@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import StatsWidget from './StatsWidget';
 import WeakWordsPanel from './WeakWordsPanel';
 import type { Stats } from '../../types';
+import { lsGet, lsSet, lsRemove } from '../../lib/safeStorage';
 
 interface CEFRLevel {
   code: string;
@@ -123,9 +124,10 @@ function getStreakHistory() {
       String(d.getMonth() + 1).padStart(2, '0') +
       '-' +
       String(d.getDate()).padStart(2, '0');
+    // Guarded: this helper runs on the render path (it builds the activity
+    // heatmap), and reads throw when site data is blocked.
     const practiced =
-      localStorage.getItem('nh_practiced_' + key) === '1' ||
-      parseInt(localStorage.getItem('nh_daily_xp_' + key) || '0', 10) > 0;
+      lsGet('nh_practiced_' + key) === '1' || parseInt(lsGet('nh_daily_xp_' + key) || '0', 10) > 0;
     result.push({ date: d, key, practiced, isToday: i === 0 });
   }
   return result;
@@ -562,7 +564,9 @@ export default function ProgressTabContent({
 
       {/* ── ADAPTIVE DAILY GOAL NUDGE ── */}
       {(() => {
-        const dailyMin = parseInt(localStorage.getItem('nh_daily_min') || '0', 10);
+        // Guarded: this IIFE evaluates inline in the JSX below, so a throwing
+        // read took the whole Progress tab to the ErrorBoundary.
+        const dailyMin = parseInt(lsGet('nh_daily_min') || '0', 10);
         if (!dailyMin || dailyMin >= 20) return null;
         const thresholds: Record<number, number> = { 5: 40, 10: 80, 15: 120 };
         const xpTarget = thresholds[dailyMin] ?? 0;
@@ -572,8 +576,7 @@ export default function ProgressTabContent({
         const dailyAvg = weekXP / dayOfWeek;
         if (dailyAvg < xpTarget * 1.5) return null;
         const nextMin = dailyMin === 5 ? 10 : dailyMin === 10 ? 15 : 20;
-        const dismissed =
-          nudgeDismissed || localStorage.getItem('nh_goal_nudge_dismissed') === String(dailyMin);
+        const dismissed = nudgeDismissed || lsGet('nh_goal_nudge_dismissed') === String(dailyMin);
         if (dismissed) return null;
         return (
           <div
@@ -604,8 +607,11 @@ export default function ProgressTabContent({
               <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                 <button
                   onClick={() => {
-                    localStorage.setItem('nh_daily_min', String(nextMin));
-                    localStorage.removeItem('nh_goal_nudge_dismissed');
+                    // Guarded: the removeItem and the dismiss below both follow the
+                    // write, so a throw made this button a no-op — goal unchanged and
+                    // the nudge still on screen.
+                    lsSet('nh_daily_min', String(nextMin));
+                    lsRemove('nh_goal_nudge_dismissed');
                     if (setNudgeDismissed) setNudgeDismissed(true);
                   }}
                   style={{
@@ -624,7 +630,8 @@ export default function ProgressTabContent({
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.setItem('nh_goal_nudge_dismissed', String(dailyMin));
+                    // Guarded: same shape — the dismiss follows the write.
+                    lsSet('nh_goal_nudge_dismissed', String(dailyMin));
                     if (setNudgeDismissed) setNudgeDismissed(true);
                   }}
                   style={{

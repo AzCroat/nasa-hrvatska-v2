@@ -537,6 +537,9 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
 
   it('setStats is called with vs including "srsreview" on completion', () => {
     goToDone();
+    // Ignore the per-card srsTotal increments that fired during grading — isolate
+    // the completion (rc/vs) update.
+    mockSetStats.mockClear();
     const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
     fireEvent.click(btn);
     expect(mockSetStats).toHaveBeenCalled();
@@ -547,6 +550,17 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
     const result = fn({ vs: [], rc: 0 });
     expect(result.vs).toContain('srsreview');
     expect(result.rc).toBe(1);
+  });
+
+  it('increments srsTotal each time a card is graded', () => {
+    renderScreen({});
+    mockSetStats.mockClear();
+    clickCorrectOption(); // grade one card
+    const incremented = mockSetStats.mock.calls.some(([fn]) => {
+      const r = (fn as (p: { srsTotal?: number }) => { srsTotal?: number })({ srsTotal: 4 });
+      return r.srsTotal === 5;
+    });
+    expect(incremented).toBe(true);
   });
 
   it('writeDelta is called with { rc: 1, vs: ["srsreview"] } on completion', () => {
@@ -560,6 +574,7 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
     // Verify idempotency of the setStats updater function itself.
     // Navigate to done and click Continue — setStats is called once.
     goToDone();
+    mockSetStats.mockClear(); // isolate the completion update from per-card increments
     const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
     fireEvent.click(btn);
     expect(mockSetStats).toHaveBeenCalledTimes(1);

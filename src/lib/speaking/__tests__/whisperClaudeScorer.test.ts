@@ -24,7 +24,7 @@ describe('whisperClaudeScorer', () => {
     nativePostMock.mockResolvedValue(
       new Response(
         JSON.stringify({
-          transcript: 'Bok',
+          transcript: 'Bog',
           scores: { range: 0.8, accuracy: 0.8, fluency: 0.8, task: 0.8 },
           transcriptSufficiency: 0.9,
         }),
@@ -53,7 +53,7 @@ describe('whisperClaudeScorer', () => {
     nativePostMock.mockResolvedValue(
       new Response(
         JSON.stringify({
-          transcript: 'Bok',
+          transcript: 'Bog',
           scores: { range: 0.8, accuracy: 0.8, fluency: 0.8, task: 0.8 },
           transcriptSufficiency: 0.9,
         }),
@@ -66,7 +66,7 @@ describe('whisperClaudeScorer', () => {
       prompt: 'Opišite putovanje.',
     });
     expect(res).not.toBeNull();
-    expect(res!.transcript).toBe('Bok');
+    expect(res!.transcript).toBe('Bog');
     expect(res!.overall).toBeCloseTo(0.8, 5);
   });
 

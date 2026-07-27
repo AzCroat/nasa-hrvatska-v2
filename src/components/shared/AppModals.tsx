@@ -14,6 +14,7 @@ import { useCheckpoint } from '../../hooks/useCheckpoint.js';
 import { isCheckpointDue, shouldShowCheckpoint } from '../../lib/checkpointSchedule.js';
 import { CHECKPOINTS_ENABLED } from '../../lib/checkpointConfig.js';
 import { getCertificationState } from '../../lib/cefrCertification.js';
+import { isNative } from '../../lib/platform';
 import CheckpointInviteModal from '../exam/CheckpointInviteModal.js';
 import ExamRunner from '../exam/ExamRunner.js';
 import CheckpointResultScreen from '../exam/CheckpointResultScreen.js';
@@ -210,7 +211,11 @@ export function AppModals({
             }}
           />
         )}
-      {showPaywall && (
+      {/* Google Play Payments policy forbids showing purchasable digital-goods
+          pricing outside Play Billing. The paywall's checkout is web/Stripe, so
+          it must NEVER render inside the native app — hard backstop regardless
+          of which entry point set showPaywall. Web (PWA) keeps the paywall. */}
+      {showPaywall && !isNative() && (
         <PaywallScreen
           featureName={paywallFeature}
           onClose={() => setShowPaywall(false)}

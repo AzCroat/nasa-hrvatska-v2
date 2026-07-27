@@ -1,9 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext';
 import { recordTopicResult, rateCategorySession } from '../../lib/adaptive.ts';
 import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
+
+// Bounded round size (2026-07-21, owner-flagged): the banks grew for
+// cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
+// in one run — a 43-item "lesson". Every mode now draws a shuffled
+// ROUND_SIZE subset per mount; depth rotates across runs instead of piling
+// into one sitting. Completion/scoring is per round.
+const ROUND_SIZE = 10;
 
 // ─── TRANSFORM DATA ─────────────────────────────────────────────────────────
 const TRANSFORMS = [
@@ -146,6 +154,168 @@ const TRANSFORMS = [
     target: 'Kako putuješ u Dubrovnik?',
     type: 'question',
     level: 'B1',
+  },
+  // ── 2026-07 speaking-ladder expansion: A1 production + B2 top-up + C1/C2 ──
+  {
+    src: 'Ja sam Ana.',
+    instruction: 'Reci u pitanju: tko si ti?',
+    target: 'Tko si ti?',
+    type: 'question',
+    level: 'A1',
+  },
+  {
+    src: 'Pijem kavu.',
+    instruction: 'Negacija: reci suprotno',
+    target: 'Ne pijem kavu.',
+    type: 'negate',
+    level: 'A1',
+  },
+  {
+    src: 'On je ovdje.',
+    instruction: 'Negacija',
+    target: 'On nije ovdje.',
+    type: 'negate',
+    level: 'A1',
+  },
+  {
+    src: 'Imam psa.',
+    instruction: 'Negacija (pazi: imati → nemati)',
+    target: 'Nemam psa.',
+    type: 'negate',
+    level: 'A1',
+  },
+  {
+    src: 'Idem u školu.',
+    instruction: 'Reci za NJU (ona)',
+    target: 'Ide u školu.',
+    type: 'person',
+    level: 'A1',
+  },
+  {
+    src: 'Učim hrvatski.',
+    instruction: 'Reci za NAS (mi)',
+    target: 'Učimo hrvatski.',
+    type: 'person',
+    level: 'A1',
+  },
+  {
+    src: 'Ovo je knjiga.',
+    instruction: 'Pitanje: što je ovo?',
+    target: 'Što je ovo?',
+    type: 'question',
+    level: 'A1',
+  },
+  {
+    src: 'Danas je ponedjeljak.',
+    instruction: 'Reci za sutra (utorak)',
+    target: 'Sutra je utorak.',
+    type: 'transform',
+    level: 'A1',
+  },
+  {
+    src: 'Volim more.',
+    instruction: 'Reci u množini: mi',
+    target: 'Volimo more.',
+    type: 'person',
+    level: 'A1',
+  },
+  {
+    src: 'Ako budem imao vremena, doći ću.',
+    instruction: 'Reci s "kad" umjesto "ako"',
+    target: 'Kad budem imao vremena, doći ću.',
+    type: 'transform',
+    level: 'B2',
+  },
+  {
+    src: 'Pročitao sam knjigu.',
+    instruction: 'Pasiv: Knjiga…',
+    target: 'Knjiga je pročitana.',
+    type: 'passive',
+    level: 'B2',
+  },
+  {
+    src: 'Rekao je: "Dolazim sutra."',
+    instruction: 'Neupravni govor: Rekao je da…',
+    target: 'Rekao je da dolazi sutra.',
+    type: 'reported',
+    level: 'B2',
+  },
+  {
+    src: 'Grade novu školu.',
+    instruction: 'Se-pasiv',
+    target: 'Gradi se nova škola.',
+    type: 'passive',
+    level: 'B2',
+  },
+  {
+    src: 'Da sam znao, došao bih.',
+    instruction: 'Kondicional II (pojačaj: bio…)',
+    target: 'Da sam znao, bio bih došao.',
+    type: 'transform',
+    level: 'C1',
+  },
+  {
+    src: 'Dok je čitao, pio je kavu.',
+    instruction: 'Glagolski prilog sadašnji: Čitajući…',
+    target: 'Čitajući, pio je kavu.',
+    type: 'transform',
+    level: 'C1',
+  },
+  {
+    src: 'Kad je završio posao, otišao je.',
+    instruction: 'Glagolski prilog prošli: Završivši…',
+    target: 'Završivši posao, otišao je.',
+    type: 'transform',
+    level: 'C1',
+  },
+  {
+    src: 'Vlada upravlja državom.',
+    instruction: 'Pitanje: čime vlada upravlja?',
+    target: 'Čime vlada upravlja?',
+    type: 'question',
+    level: 'C1',
+  },
+  {
+    src: 'Bojim se visine.',
+    instruction: 'Reci za njih (oni)',
+    target: 'Boje se visine.',
+    type: 'person',
+    level: 'C1',
+  },
+  {
+    src: 'To je čovjek. Pomogao mi je.',
+    instruction: 'Spoji odnosnom rečenicom (koji)',
+    target: 'To je čovjek koji mi je pomogao.',
+    type: 'transform',
+    level: 'C1',
+  },
+  {
+    src: 'Rekao sam.',
+    instruction: 'Aorist (ja)',
+    target: 'Rekoh.',
+    type: 'transform',
+    level: 'C2',
+  },
+  {
+    src: 'Došao je i vidio je.',
+    instruction: 'Aorist: Dođe i…',
+    target: 'Dođe i vidje.',
+    type: 'transform',
+    level: 'C2',
+  },
+  {
+    src: 'Vlak je otišao prije našeg dolaska.',
+    instruction: 'Pluskvamperfekt: Vlak je već…',
+    target: 'Vlak je već bio otišao.',
+    type: 'transform',
+    level: 'C2',
+  },
+  {
+    src: 'Bilo je jednom jedno kraljevstvo.',
+    instruction: 'Imperfekt od biti: …',
+    target: 'Bijaše jednom jedno kraljevstvo.',
+    type: 'transform',
+    level: 'C2',
   },
 ];
 
@@ -319,7 +489,9 @@ const BUILD_SENTENCES = [
 ];
 
 // ─── ERROR CORRECTION DATA ───────────────────────────────────────────────────
-const ERROR_CORRECT = [
+// Exported for src/tests/answerKeyIntegrity.test.ts (answer-membership +
+// option-uniqueness invariants).
+export const ERROR_CORRECT = [
   {
     sentence: 'Vidim jedan lijepa žena.',
     error: 'lijepa',
@@ -347,7 +519,10 @@ const ERROR_CORRECT = [
   {
     sentence: 'Nemam vremena za to raditi.',
     error: 'raditi',
-    correct: 'to',
+    // Was 'to', which is not one of the options — graded by value equality
+    // (`opt === item.correct`), so every choice turned red and no XP was awarded.
+    // The explanation below fixes the intended answer as the phrase "za to".
+    correct: 'za to',
     opts: ['nemam to', 'za to', 'to raditi'],
     explanation: 'Correct: "Nemam vremena za to." — redundant "raditi"',
     en: "I don't have time for that.",
@@ -411,7 +586,10 @@ const ERROR_CORRECT = [
   {
     sentence: 'Kad dođeš, ću ti reći sve.',
     error: 'ću',
-    correct: 'reći ću',
+    // Was 'reći ću', not among the options. The clitic cluster must sit in
+    // second position — "Kad dođeš, reći ću ti sve." — so the correct option is
+    // the full 'reći ću ti'.
+    correct: 'reći ću ti',
     opts: ['reći ću ti', 'ću ti reći', 'ti reći ću'],
     explanation: 'Klitika "ću" ne može biti na početku rečenice',
     en: "When you come, I'll tell you everything.",
@@ -498,8 +676,9 @@ function ModeTransform({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = TRANSFORMS.length;
-  const item = TRANSFORMS[idx];
+  const round = useMemo(() => (sh([...TRANSFORMS]) as typeof TRANSFORMS).slice(0, ROUND_SIZE), []);
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -636,8 +815,12 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = TRANSLATE_PROD.length;
-  const item = TRANSLATE_PROD[idx];
+  const round = useMemo(
+    () => (sh([...TRANSLATE_PROD]) as typeof TRANSLATE_PROD).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -776,8 +959,12 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [shake, setShake] = useState(false);
-  const total = BUILD_SENTENCES.length;
-  const item = BUILD_SENTENCES[idx];
+  const round = useMemo(
+    () => (sh([...BUILD_SENTENCES]) as typeof BUILD_SENTENCES).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   const [placed, setPlaced] = useState<Tile[]>([]);
@@ -810,8 +997,17 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
 
   function check() {
     const answer = placed.map((t: Tile) => t.w).join(' ');
-    const cleanAnswer = answer.replace(/[?.!,]$/, '').trim();
-    const cleanTarget = item!.target.replace(/[?.!,]$/, '').trim();
+    // Strip ALL punctuation (not just trailing) and collapse whitespace before
+    // comparing. The word tiles never contain punctuation, but targets do —
+    // including INTERNAL commas (e.g. "Kad budem gotov, nazvat ću te.") — so a
+    // trailing-only strip wrongly graded the correct arrangement as wrong.
+    const norm = (s: string) =>
+      s
+        .replace(/[?.!,;:]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const cleanAnswer = norm(answer);
+    const cleanTarget = norm(item!.target);
     const correct = cleanAnswer === cleanTarget;
     recordTopicResult('production', correct);
     recordTopicResult('grammar', correct);
@@ -832,7 +1028,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
     if (idx + 1 >= total) {
       setDone(true);
     } else {
-      const nextItem = BUILD_SENTENCES[idx + 1]!;
+      const nextItem = round[idx + 1]!;
       setIdx((i) => i + 1);
       resetForItem(nextItem);
     }
@@ -1018,8 +1214,12 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong }: ModeDoneProps) 
   const [chosen, setChosen] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const total = ERROR_CORRECT.length;
-  const item = ERROR_CORRECT[idx];
+  const round = useMemo(
+    () => (sh([...ERROR_CORRECT]) as typeof ERROR_CORRECT).slice(0, ROUND_SIZE),
+    [],
+  );
+  const total = round.length;
+  const item = round[idx];
   if (!item) return null;
 
   function pick(opt: string) {
@@ -1292,6 +1492,9 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
   function handleDone() {
     if (!finishFired.current) {
       finishFired.current = true;
+      // handleDone had NO award/signal path — a zero-correct sub-drill finish
+      // stranded the daily session (completion-matrix audit). Signal explicitly.
+      signalSessionCompleteIfActive('production_drill');
       markQuest('grammar');
       if (!stats.vs?.includes('production')) {
         setStats((prev) => {

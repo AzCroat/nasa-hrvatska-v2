@@ -10,7 +10,9 @@ import { _aiPost } from '../../lib/aiPost';
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { addWordToSRS } from '../../lib/srs.js';
+import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
 
@@ -161,7 +163,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const finishFired = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const mountedRef = useRef(true);
-  const isOnline = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
   const { stats, setStats, writeDelta, level: userLevel } = useStats();
   const [promptIdx, setPromptIdx] = useState(() => Math.floor(rnd() * PROMPTS.length));
   const [text, setText] = useState('');
@@ -207,13 +209,77 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
         text: text.trim(),
         params: { level: userLevel, writingPrompt: effectivePrompt.en },
       });
-      if (!res.ok) throw new Error('API error ' + res.status);
+      if (!res.ok) {
+        // Distinguish real server states from a dead connection. A 429 (daily AI
+        // quota) or 5xx (AI service down) is NOT a connection problem, but the
+        // catch below used to tell every failure "check your connection" — the
+        // same misleading-error class fixed in DialogueSim. Throw a descriptive
+        // message per status; the catch shows it verbatim for non-network errors.
+        let errBody: Record<string, unknown> = {};
+        try {
+          errBody = await res.json();
+        } catch {
+          /* body not JSON — leave empty */
+        }
+        if (res.status === 401)
+          throw new Error(
+            'Sign in to get AI writing feedback. Tap the Profile tab to create a free account.',
+          );
+        // A 429 is either the per-minute burst limiter or the daily ceiling.
+        // Treating both as the daily one sent learners away for the day after
+        // submitting two pieces of writing in quick succession.
+        const limit = classifyAiLimit({
+          status: res.status,
+          code: typeof errBody['error'] === 'string' ? (errBody['error'] as string) : '',
+        });
+        if (limit === 'burst')
+          throw new Error('A little too fast — wait a moment before asking for more feedback.');
+        if (limit === 'daily') {
+          const resetAt = errBody['resetAt'];
+          const t =
+            typeof resetAt === 'string' || typeof resetAt === 'number'
+              ? formatAiResetTime(resetAt) || 'midnight UTC'
+              : 'midnight UTC';
+          throw new Error(`Daily AI limit reached. Quota resets at ${t} — come back tomorrow!`);
+        }
+        if (res.status >= 500)
+          throw new Error(
+            'AI correction service is temporarily unavailable. Please try again in a moment.',
+          );
+        throw new Error(
+          typeof errBody['error'] === 'string'
+            ? (errBody['error'] as string)
+            : `Request failed (${res.status})`,
+        );
+      }
       const data = await res.json();
       if (!mountedRef.current) return;
       setResult(data);
+      // A graded submission IS the finish for the daily session. Before this,
+      // the ONLY completion signal was the award() behind the "✨ New Prompt"
+      // button (result-gated + ≥30-words gated) — the natural gesture (read
+      // feedback → Back) never fired it, permanently pinning the session at
+      // N-1/N (reported 2026-07-16, B2 user, twice). XP/vs credit stays on the
+      // button; only session progression is unblocked here.
+      signalSessionCompleteIfActive('writing');
       // Log mistakes and add single-word corrections to SRS queue
       type ApiCorrection = CorrectionChange & { type?: string; errorType?: string };
       const corrections: ApiCorrection[] = data.changes || data.mistakes || [];
+      // Grammar Diagnosis reads nh_writing_mistakes for its writing-error
+      // analysis — nothing wrote it before, so that branch was always empty.
+      if (corrections.length > 0) {
+        try {
+          const wm = JSON.parse(localStorage.getItem('nh_writing_mistakes') || '[]');
+          corrections.forEach((ch) => {
+            wm.push({
+              wrong: ch.original || '',
+              correct: ch.corrected || '',
+              type: ch.errorType || ch.type || 'other',
+            });
+          });
+          localStorage.setItem('nh_writing_mistakes', JSON.stringify(wm.slice(-50)));
+        } catch {}
+      }
       corrections.forEach((ch: ApiCorrection) => {
         const orig = ch.original || '';
         const corr = (ch.corrected || '').trim();
@@ -232,11 +298,21 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       applyWritingErrorsToAdaptive(corrections.map((ch) => ch.errorType));
     } catch (e) {
       if (!mountedRef.current) return;
+      // A genuine network failure rejects fetch with a TypeError (or we're
+      // offline); anything else is a descriptive Error we threw above, so show
+      // its message rather than a wrong "check your connection".
+      const isNetwork = !isOnline || e instanceof TypeError;
+      const msg = e instanceof Error ? e.message : '';
       setError(
-        !isOnline
-          ? 'No connection — please reconnect to use AI feedback.'
-          : 'Could not connect to AI correction service. Check your connection.',
+        isNetwork
+          ? !isOnline
+            ? 'No connection — please reconnect to use AI feedback.'
+            : 'Could not reach the AI correction service. Check your connection.'
+          : msg || 'Something went wrong grading your writing. Please try again.',
       );
+      // AI-failure self-heal: the user DID the writing; a dead /api/correct
+      // must not strand the session (mirrors DictationScreen's empty-set signal).
+      signalSessionCompleteIfActive('writing');
     } finally {
       if (mountedRef.current) setLoading(false);
     }

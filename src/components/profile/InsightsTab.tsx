@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { getStreak } from '../../data';
 import { getWeakTopics } from '../../lib/adaptive.js';
 import { getUserCefr, cefrRank } from '../../lib/cefr';
+import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
+import FluencySnapshot from './FluencySnapshot';
 import ProgressCharts from './ProgressCharts';
 import JourneyTimeline from './JourneyTimeline';
 import LearningInsights from './LearningInsights';
 import CroatianErrorInsights from './CroatianErrorInsights';
+import { lsGet, lsSet } from '../../lib/safeStorage';
+
+// Bound on the letter-to-self note. See the textarea below for why the progress
+// blob cannot be allowed to grow without limit.
+const LETTER_MAX = 4000;
 
 const B1_RESOURCES = [
   {
@@ -64,17 +71,28 @@ export default function InsightsTab() {
   const { setScr } = useApp();
   const { stats: st } = useStats();
   // CEFR level is the single source of truth for any proficiency claim — never
-  // the numeric gamification `level`. The B1+ roadmap gates on the real CEFR.
-  const cefr = getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0);
+  // the numeric gamification `level`. Rec #4: a proficiency claim ("You have
+  // reached X") must reflect the CERTIFIED, assessment-verified level, not raw
+  // XP — so route through getEffectiveLevelForUnlock (certified when gating is
+  // active; falls back to eligible if the flag is off). The B1+ roadmap gates on it.
+  const cefr = getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0));
   const [imdOpen, setImdOpen] = useState(false);
   const [letterText, setLetterText] = useState(
-    () => localStorage.getItem('nh_letter_to_self') || '',
+    // Trim any pre-existing over-long value so a note written before the cap
+    // existed stops being re-saved at its old length on the next keystroke.
+    () => (lsGet('nh_letter_to_self') || '').slice(0, LETTER_MAX),
   );
 
   const streak = getStreak();
 
   return (
     <React.Fragment>
+      {/* ── FLUENCY SNAPSHOT (Content-Rec #10) — the fluency-building skills
+          at a glance, nudging the lightest. Consolidates the production (Rec #6),
+          listening (Rec #1) and reading (Rec #2) rep signals into one panel.
+          stats.pr is the synced production total (Math.max with device-local). ── */}
+      <FluencySnapshot cefr={cefr} setScr={setScr} syncedProductionTotal={st.pr || 0} />
+
       {/* ── CROATIAN ERROR ANALYSIS (competitive moat — no other app does this) ── */}
       <h3 className="sh">Croatian Error Analysis</h3>
       <CroatianErrorInsights />
@@ -189,7 +207,7 @@ export default function InsightsTab() {
         if (!weak.length) return null;
         return (
           <React.Fragment>
-            <h3 className="sh">📈 Growth Opportunities</h3>
+            <h3 className="sh">🎯 Focus Areas</h3>
             <div
               style={{
                 fontSize: 'var(--text-xs)',
@@ -198,7 +216,7 @@ export default function InsightsTab() {
                 fontWeight: 500,
               }}
             >
-              These topics are building the fastest — keep practicing!
+              These topics need the most work — a little practice goes a long way.
             </div>
             <div style={{ marginBottom: 20 }}>
               {weak.slice(0, 5).map((w) => (
@@ -231,24 +249,20 @@ export default function InsightsTab() {
                         fontSize: 'var(--text-xs)',
                         fontWeight: 600,
                         marginTop: 2,
-                        color:
-                          w.accuracy < 30
-                            ? 'var(--error)'
-                            : w.accuracy > 40
-                              ? 'var(--warning)'
-                              : 'var(--error)',
+                        // Monotonic: lower accuracy = more urgent (red → orange).
+                        color: w.accuracy < 40 ? 'var(--error)' : 'var(--warning)',
                       }}
                     >
                       {w.accuracy}% accuracy · {w.attempts} attempts
                       <span
                         style={{
                           fontSize: 10,
-                          color: 'var(--success)',
+                          color: 'var(--warning)',
                           fontWeight: 700,
                           marginLeft: 4,
                         }}
                       >
-                        ↑ improving
+                        needs work
                       </span>
                     </div>
                   </div>
@@ -530,8 +544,15 @@ export default function InsightsTab() {
           value={letterText}
           onChange={(e) => {
             setLetterText(e.target.value);
-            localStorage.setItem('nh_letter_to_self', e.target.value);
+            // lsSet: this fires on every keystroke, so an unwritable storage must
+            // not throw out of the handler. maxLength: nh_letter_to_self is synced
+            // inside the progress blob, which Firestore rules cap at 200 KB — and a
+            // breach fails the whole atomic users/{id} write, killing ALL cloud
+            // sync permanently and silently. An uncapped textarea could reach that
+            // ceiling on its own with one long paste.
+            lsSet('nh_letter_to_self', e.target.value);
           }}
+          maxLength={LETTER_MAX}
           placeholder="I want to speak Croatian because..."
           style={{
             width: '100%',

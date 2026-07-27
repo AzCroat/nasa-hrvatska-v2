@@ -2,10 +2,11 @@ import React, { useState, useRef, useMemo } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { NEGATION } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
-const NEGATION_QUIZ = [
+export const NEGATION_QUIZ = [
   { q: 'Ne ___ ručak. (kuhati — ja)', a: 'kuham', opts: ['kuham', 'kuhaš', 'kuha', 'kuhamo'] },
   { q: 'Ne ___ u park. (ići — ja)', a: 'idem', opts: ['idem', 'ideš', 'ide', 'idemo'] },
   { q: 'Ne ___ čaj. (piti — ja)', a: 'pijem', opts: ['pijem', 'piješ', 'pije', 'pijemo'] },
@@ -48,6 +49,37 @@ const NEGATION_QUIZ = [
   },
   { q: "'Nobody knows' = Nitko ___ zna.", a: 'ne', opts: ['ne', 'ni', 'nije', 'nema'] },
   { q: "'Nothing is ready' = Ništa ___ gotovo.", a: 'nije', opts: ['nije', 'ne', 'nema', 'nisam'] },
+  // ── 2026-07 depth expansion (+6): biti/htjeti/imati negatives, double negation ──
+  {
+    q: "'They are not home' — (oni) =",
+    a: 'Nisu kod kuće.',
+    opts: ['Nisu kod kuće.', 'Ne su kod kuće.', 'Nemaju kod kuće.', 'Nije kod kuće.'],
+  },
+  {
+    q: "'I never drink coffee' = Nikad ___ pijem kavu.",
+    a: 'ne',
+    opts: ['ne', 'ni', 'nije', 'nemam'],
+  },
+  {
+    q: "'I don't have time' =",
+    a: 'Nemam vremena.',
+    opts: ['Nemam vremena.', 'Ne imam vrijeme.', 'Nema vremena.', 'Nisam vremena.'],
+  },
+  {
+    q: "'He will not come' (on) =",
+    a: 'Neće doći.',
+    opts: ['Neće doći.', 'Ne će doći.', 'Nije doći.', 'Nema doći.'],
+  },
+  {
+    q: "'We were not there' (mi, past) =",
+    a: 'Nismo bili tamo.',
+    opts: ['Nismo bili tamo.', 'Ne smo bili tamo.', 'Nisu bili tamo.', 'Nemamo bili tamo.'],
+  },
+  {
+    q: "Double negation is required: 'Nitko ___ ništa.' (znati)",
+    a: 'ne zna',
+    opts: ['ne zna', 'zna', 'ne znam', 'nije zna'],
+  },
 ];
 
 interface Props {
@@ -62,7 +94,7 @@ function NegationScreen({ goBack, award }: Props) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const questFiredRef = useRef(false);
   // Stable shuffled quiz + options — computed once per mount
-  const shuffledQuiz = useMemo(() => sh([...NEGATION_QUIZ]), []);
+  const shuffledQuiz = useMemo(() => sh([...NEGATION_QUIZ]).slice(0, 14), []);
   const shuffledOpts = useMemo(() => shuffledQuiz.map((q) => sh([...q.opts])), [shuffledQuiz]);
 
   const answeredCount = Object.keys(answers).length;
@@ -82,6 +114,9 @@ function NegationScreen({ goBack, award }: Props) {
     }
     if (answeredCount + 1 >= shuffledQuiz.length && !questFiredRef.current) {
       questFiredRef.current = true;
+      // Zero-correct runs award() nothing — signal the finish explicitly so
+      // the daily session can never strand here (completion-matrix audit).
+      signalSessionCompleteIfActive('negation');
       markQuest('grammar');
       if (!stats.vs?.includes('negation')) {
         setStats((prev) => {

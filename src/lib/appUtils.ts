@@ -7,8 +7,13 @@
  * Allowed deps: src/lib/dateUtils only. No data/* imports.
  */
 import type { CSSProperties } from 'react';
-import { localDateStr } from './dateUtils';
-import { addDay, seedDaysFromStreak, type DaySet } from './streakDays';
+import { localDateStr, weekKey } from './dateUtils';
+import { addDay, seedDaysFromStreak, computeStreak, type DaySet } from './streakDays';
+// Non-throwing writes. updateStreak() runs on EVERY lesson completion, so an
+// unguarded setItem here (Safari Private Browsing, a full quota, a restricted
+// profile) threw straight out of the award path — losing the streak write itself
+// plus every badge, ceremony and toast queued after it.
+import { lsSet, lsRemove } from './safeStorage';
 
 // ─── Active-day set (canonical streak source; union-merged across devices) ─────
 const STREAK_DAYS_KEY = 'nh_streak_days';
@@ -27,6 +32,21 @@ function writeStreakDays(days: DaySet): void {
   } catch {
     /* quota/disabled */
   }
+}
+
+/**
+ * Backfill the canonical active-day set for a RESTORED streak (paid repair or
+ * earn-back). The streak count/last live in the `uStreak` cache, but
+ * applyRemoteProgress DERIVES the streak from `nh_streak_days` on every remote
+ * snapshot and overwrites that cache. Post-break the day-set holds only the
+ * recent day(s), so without this backfill the next Firestore sync re-derives a
+ * count of ~1 and silently wipes the restored streak (the paid repair is
+ * undone within ~2 minutes). Seeds `count` consecutive local days ending at
+ * `last` — additive union, so no existing active day is lost. No-op on bad args.
+ */
+export function restoreStreakDays(count: number, last: string): void {
+  if (!(count > 0) || !last) return;
+  writeStreakDays(seedDaysFromStreak(readStreakDays(), count, last));
 }
 
 // ─── Daily XP goal ───────────────────────────────────────────────────────────
@@ -139,19 +159,34 @@ export function getStreak(): StreakData {
 }
 export function getStreakFreezes(): number {
   try {
-    return parseInt(localStorage.getItem('uFreeze') || '0', 10);
+    let f = parseInt(localStorage.getItem('uFreeze') || '0', 10);
+    if (isNaN(f) || f < 0) f = 0;
+    // Migrate freezes purchased into the legacy 'nh_streak_freezes' store
+    // (Settings → Streak Protection before 2026-07): nothing ever consumed
+    // that store, so fold it into 'uFreeze' — the store updateStreak()
+    // auto-spends when a single missed day would break the streak.
+    const legacyRaw = localStorage.getItem('nh_streak_freezes');
+    if (legacyRaw !== null) {
+      const legacy = parseInt(legacyRaw, 10);
+      if (!isNaN(legacy) && legacy > 0) {
+        f = Math.min(2, f + legacy);
+        localStorage.setItem('uFreeze', String(f));
+      }
+      localStorage.removeItem('nh_streak_freezes');
+    }
+    return f;
   } catch {
     return 0;
   }
 }
 export function earnFreeze(): void {
   const f = getStreakFreezes();
-  localStorage.setItem('uFreeze', String(Math.min(f + 1, 2)));
+  lsSet('uFreeze', String(Math.min(f + 1, 2)));
 }
 export function spendFreeze(): boolean {
   const f = getStreakFreezes();
   if (f <= 0) return false;
-  localStorage.setItem('uFreeze', String(f - 1));
+  lsSet('uFreeze', String(f - 1));
   return true;
 }
 
@@ -162,6 +197,24 @@ export function updateStreak(
 ): StreakData & { milestone: number | null; freezeUsed?: boolean } {
   const s = getStreak();
   const today = todayOverride || localDateStr();
+  // Record weekend practice days for the Weekend Warrior badge. The object
+  // resets each ISO week (Mon–Sun), so sat+sun must land in the SAME weekend —
+  // matching the badge copy "both Saturday and Sunday in same weekend".
+  try {
+    const todayDate = new Date(today + 'T00:00:00');
+    const dow = todayDate.getDay();
+    if (dow === 6 || dow === 0) {
+      const wk = weekKey(todayDate);
+      let w: { wk?: string; sat?: boolean; sun?: boolean } = {};
+      try {
+        w = JSON.parse(localStorage.getItem('nh_weekend_days') || '{}');
+      } catch {}
+      if (w.wk !== wk) w = { wk };
+      if (dow === 6) w.sat = true;
+      else w.sun = true;
+      localStorage.setItem('nh_weekend_days', JSON.stringify(w));
+    }
+  } catch {}
   // Maintain the canonical active-day set in lockstep. Seed from the legacy
   // {count,last} the first time (migration) so no existing streak history is lost,
   // then mark today (and any freeze-bridged day) so cross-device merges reconcile
@@ -190,10 +243,15 @@ export function updateStreak(
   }
   let milestone: number | null = null;
   let freezeUsed = false;
+  // `advanced` = today extended an existing streak (normal next-day or a
+  // freeze-bridged day), as opposed to starting a fresh run after a break. Only
+  // an advance can hit a milestone; it's checked against the set-derived count
+  // at the bottom so the milestone matches the streak the sync will settle on.
+  let advanced = false;
   if (s.last === yesterday) {
     s.count++;
     s.last = today;
-    if (STREAK_MILESTONES.includes(s.count)) milestone = s.count;
+    advanced = true;
   } else if (s.last !== today) {
     // Only spend a freeze when exactly 1 day was missed (last practice was 2 calendar days ago).
     // A freeze cannot bridge a 2+ day gap — the streak is already broken.
@@ -203,23 +261,29 @@ export function updateStreak(
       ? Math.round((_todayDate.getTime() - _lastDate.getTime()) / 86400000)
       : 0;
     if (_daysBetween === 2 && spendFreeze()) {
-      s.count++; // the bridged day counts toward the streak
+      s.count++; // provisional; the final count is derived from the set below
       s.last = today;
       s.frozeOn = today;
       freezeUsed = true;
-      if (STREAK_MILESTONES.includes(s.count)) milestone = s.count;
+      advanced = true;
     } else {
       if (s.count >= 2) {
         try {
+          // Stamp the earn-back window with the LOCAL date, not `today` — `today`
+          // is the SERVER date when this is called from useAward (updateStreak
+          // (_serverToday)), but getStreakEarnBack() validates the window against
+          // localDateStr(). A clock-skew / near-midnight straddle made the
+          // server-stamped date match neither local today nor yesterday, so the
+          // "do 1 lesson to restore your streak" prompt silently never appeared.
           localStorage.setItem(
             'nh_earn_back',
-            JSON.stringify({ prev: s.count, date: today, lc: 1 }),
+            JSON.stringify({ prev: s.count, date: localDateStr(), lc: 1 }),
           );
         } catch {}
       }
       const _prevCount = s.count;
       STREAK_MILESTONES.forEach((m) => {
-        if (_prevCount >= m) localStorage.removeItem('nh_ceremony_streak_' + m);
+        if (_prevCount >= m) lsRemove('nh_ceremony_streak_' + m);
       });
       s.count = 1;
       s.last = today;
@@ -229,7 +293,17 @@ export function updateStreak(
   _days = addDay(_days, today);
   if (freezeUsed) _days = addDay(_days, yesterday);
   writeStreakDays(_days);
-  localStorage.setItem('uStreak', JSON.stringify(s));
+  // Derive the cached count/last from the canonical set so the uStreak cache can
+  // never disagree with what applyRemoteProgress re-derives on the next sync.
+  // Previously the freeze branch's manual s.count++ lagged the set by one (the
+  // set counts the bridged day as part of the consecutive run), so the displayed
+  // streak jumped +1 with no new activity the moment a sync ran. Deriving here
+  // makes the immediate value equal the value the sync settles on.
+  const _derived = computeStreak(_days, today);
+  s.count = _derived.count;
+  s.last = _derived.last;
+  if (advanced && STREAK_MILESTONES.includes(s.count)) milestone = s.count;
+  lsSet('uStreak', JSON.stringify(s));
   return { ...s, milestone, freezeUsed };
 }
 
@@ -263,7 +337,10 @@ export function applyStreakEarnBack(): number {
   if (!eb || eb.lc < 2) return 0;
   const s = getStreak();
   s.count = eb.prev;
-  localStorage.setItem('uStreak', JSON.stringify(s));
+  lsSet('uStreak', JSON.stringify(s));
+  // Backfill the canonical day-set so the next sync re-derives the restored
+  // count instead of overwriting it back to ~1 (see restoreStreakDays).
+  restoreStreakDays(eb.prev, s.last || localDateStr());
   try {
     localStorage.removeItem('nh_earn_back');
   } catch {}
@@ -281,7 +358,7 @@ export function getCultureStats(): Record<string, number> {
 export function incrementCulture(key: string): number {
   const c = getCultureStats();
   c[key] = (c[key] || 0) + 1;
-  localStorage.setItem('nh_culture', JSON.stringify(c));
+  lsSet('nh_culture', JSON.stringify(c));
   return c[key];
 }
 
@@ -302,6 +379,7 @@ interface BadgeStats {
   footballDone?: number;
   dialectDone?: number;
   textingDone?: number;
+  vs?: string[];
 }
 interface Badge {
   id: string;
@@ -376,14 +454,21 @@ export const BADGES: Badge[] = [
     n: 'Reading Pro',
     i: '📰',
     d: 'Complete 3 reading passages',
-    r: (s) => (s.readingDone || 0) >= 3,
+    // ReadingScreen records each finished passage as a 'reading_<title>' vs
+    // marker (synced). s.readingDone kept as a fallback for any legacy data.
+    r: (s) =>
+      (s.readingDone || 0) >= 3 ||
+      (s.vs || []).filter((v: string) => typeof v === 'string' && v.startsWith('reading_'))
+        .length >= 3,
   },
   {
     id: 'amb',
     n: 'Cultural Ambassador',
     i: '🇭🇷',
     d: 'Explore HRT & media',
-    r: (s) => (s.mediaVisits || 0) >= 1,
+    // MediaTab increments nh_culture.mediaCnt on every media open (synced).
+    // s.mediaVisits kept as a fallback for any legacy data.
+    r: (s) => (s.mediaVisits || 0) >= 1 || (getCultureStats().mediaCnt || 0) >= 1,
   },
   {
     id: 'baka1',
@@ -682,24 +767,37 @@ export const BADGES: Badge[] = [
     id: 'hajduk',
     n: 'Hajduk Fan',
     i: '⚽',
-    d: 'Complete the football slang exercise',
-    r: (s) => (s.footballDone || 0) >= 1,
+    d: 'Explore the football slang section',
+    // SlangScreen records visited section ids in localStorage 'slangVisited'.
+    // Once earned, the badge id persists in stats.badges (synced), so a
+    // device-local read here is sufficient.
+    r: (s) => (s.footballDone || 0) >= 1 || _slangSectionVisited('football'),
   },
   {
     id: 'dalmatian',
     n: 'Dalmatian Soul',
     i: '🌊',
     d: 'Complete the Dalmatian dialect exercise',
-    r: (s) => (s.dialectDone || 0) >= 1,
+    // DialectAwarenessScreen records completion as the 'dialects' vs marker.
+    r: (s) => (s.dialectDone || 0) >= 1 || !!(s.vs && s.vs.includes('dialects')),
   },
   {
     id: 'zagreb',
     n: 'Zagrepčanin',
     i: '🏙️',
-    d: 'Complete the Zagreb slang exercise',
-    r: (s) => (s.textingDone || 0) >= 1,
+    d: 'Explore the Zagreb slang section',
+    r: (s) => (s.textingDone || 0) >= 1 || _slangSectionVisited('zagreb'),
   },
 ];
+
+function _slangSectionVisited(sectionId: string): boolean {
+  try {
+    const visited = JSON.parse(localStorage.getItem('slangVisited') || '[]');
+    return Array.isArray(visited) && visited.includes(sectionId);
+  } catch {
+    return false;
+  }
+}
 
 // ─── Journey milestones ───────────────────────────────────────────────────────
 interface JourneyEntry {

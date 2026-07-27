@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../../context/AppContext';
+import { lsGet, lsSet } from '../../../lib/safeStorage';
 
 /**
  * Appearance section — dark mode, font size, reduce motion. Extracted from
@@ -9,10 +10,8 @@ import { useApp } from '../../../context/AppContext';
  */
 export default function AppearanceSection() {
   const { darkMode, setDarkMode } = useApp();
-  const [fontSize, setFontSize] = useState(() => localStorage.getItem('nh_font_size') || 'medium');
-  const [reduceMotion, setReduceMotion] = useState(
-    () => localStorage.getItem('nh_reduce_motion') === 'true',
-  );
+  const [fontSize, setFontSize] = useState(() => lsGet('nh_font_size') || 'medium');
+  const [reduceMotion, setReduceMotion] = useState(() => lsGet('nh_reduce_motion') === 'true');
 
   return (
     <React.Fragment>
@@ -40,7 +39,9 @@ export default function AppearanceSection() {
         onClick={() => {
           const nv = !darkMode;
           setDarkMode(nv);
-          localStorage.setItem('darkMode', nv.toString());
+          // Guarded: setDarkMode already ran so the theme still flips this
+          // session; without this the preference silently failed to persist.
+          lsSet('darkMode', nv.toString());
         }}
       >
         <div
@@ -102,7 +103,10 @@ export default function AppearanceSection() {
               key={size}
               onClick={() => {
                 setFontSize(size);
-                localStorage.setItem('nh_font_size', size);
+                // Guarded: the data-font attribute set below is what actually drives
+                // the CSS. A throw between the two left React state changed and the
+                // attribute untouched, so the size button visibly did nothing.
+                lsSet('nh_font_size', size);
                 if (size === 'medium') {
                   document.documentElement.removeAttribute('data-font');
                 } else {
@@ -151,7 +155,9 @@ export default function AppearanceSection() {
           onClick={() => {
             const v = !reduceMotion;
             setReduceMotion(v);
-            localStorage.setItem('nh_reduce_motion', v.toString());
+            // Guarded: same shape as the font-size button — the classList toggle
+            // below is what applies the setting, and a throw skipped it.
+            lsSet('nh_reduce_motion', v.toString());
             document.documentElement.classList.toggle('reduce-motion', v);
           }}
           style={{

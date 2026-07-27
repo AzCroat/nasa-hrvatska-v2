@@ -547,7 +547,10 @@ export const PADEZI_FULL = {
       answer: 'jezerima',
       caseName: 'Lokativ',
       en: 'I talk about big lakes.',
-      opts: ['jezerima', 'jezera', 'jezere', 'jezerima'],
+      // 4th option was a second copy of the correct 'jezerima'. Replaced with
+      // 'jezerama' — over-applying the feminine a-declension -ama ending to a
+      // neuter noun is a real learner error, so it is plausibly wrong.
+      opts: ['jezerima', 'jezera', 'jezere', 'jezerama'],
     },
     {
       sentence: 'Zadovoljan sam s modernim ___.',
@@ -10822,7 +10825,10 @@ export const CONDITIONAL = {
     },
     {
       q: "'She would come but she can't' — which form of 'bi'?",
-      a: 'bi (ona bi došla)',
+      // Was 'bi (ona bi došla)', which is not one of the options — the screen
+      // grades by strict value equality (ConditionalScreen `v === q.a`), so no
+      // option could ever be marked correct and the whole lesson capped at 14/15.
+      a: 'bi',
       opts: ['bih', 'bismo', 'biste', 'bi'],
     },
     {
@@ -10992,7 +10998,7 @@ export const FORMAL_REGISTER = {
     {
       q: "'Thank you (formal)' in an email:",
       a: 'Zahvaljujem Vam na...',
-      opts: ['Hvala ti!', 'Zahvaljujem Vam na...', 'Fala lijepo', 'Bok, hvala'],
+      opts: ['Hvala ti!', 'Zahvaljujem Vam na...', 'Fala lijepo', 'Bog, hvala'],
     },
     {
       q: 'Which verb form goes with Vi (formal singular)?',

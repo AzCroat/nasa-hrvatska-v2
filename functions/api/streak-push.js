@@ -37,8 +37,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
       return {
         title: pickIdx(titles, daySeed),
         body: pickIdx(bodies, daySeed + 1),
-        icon: '/icons/icon-192x192.png',
-        badge: '/icons/badge-72.png',
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
         tag: 'streak-reminder',
         renotify: true,
         data: { url: '/', action: 'open_lesson' },
@@ -65,8 +65,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
       return {
         title: pickIdx(titles, daySeed),
         body: pickIdx(bodies, daySeed + 1),
-        icon: '/icons/icon-192x192.png',
-        badge: '/icons/badge-72.png',
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
         tag: 'streak-reminder',
         renotify: true,
         data: { url: '/', action: 'open_lesson' },
@@ -92,8 +92,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
     return {
       title: pickIdx(titles, daySeed),
       body: pickIdx(bodies, daySeed + 1),
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
       tag: 'streak-reminder',
       renotify: true,
       data: { url: '/', action: 'open_lesson' },
@@ -123,8 +123,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
     return {
       title: pickIdx(titles, daySeed),
       body: pickIdx(bodies, daySeed + 1),
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
       tag: 'streak-reminder',
       renotify: true,
       data: { url: '/', action: 'open_lesson' },
@@ -154,8 +154,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
     return {
       title: pickIdx(titles, daySeed),
       body: pickIdx(bodies, daySeed + 1),
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
       tag: 'streak-reminder',
       renotify: true,
       data: { url: '/', action: 'open_lesson' },
@@ -179,14 +179,14 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
       `${namePrefix}you're building a real habit. Keep it going today.`,
       `${streak} days in! You're ${30 - streak} days from a 30-day milestone 🎯`,
       `Your Croatian is genuinely improving. One more session today!`,
-      `Research shows ${streak}+ day learners reach conversational level 3× faster. You're doing it!`,
+      `${streak} straight days of showing up — consistency is how fluency happens!`,
       `Halfway to 30 days? Almost there. Don't quit now${nameTag}! 🔥`,
     ];
     return {
       title: pickIdx(titles, daySeed),
       body: pickIdx(bodies, daySeed + 1),
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
       tag: 'streak-reminder',
       renotify: true,
       data: { url: '/', action: 'open_lesson' },
@@ -202,7 +202,7 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
     `⭐ ${streak}-day champion${nameTag}!`,
     `🏆 ${namePrefix}${streak} days — incredible!`,
     `🔥 ${streak} days of Croatian mastery${nameTag}`,
-    `⭐ ${namePrefix}you're in the top 1% of learners`,
+    `⭐ ${namePrefix}your ${streak}-day streak is still alive`,
     `🇭🇷 ${streak} days — legend${nameTag}!`,
   ];
   const bodies = [
@@ -215,8 +215,8 @@ function buildNotification(name, streak, dueSeed = 0, daysSince = 0) {
   return {
     title: pickIdx(titles, daySeed),
     body: pickIdx(bodies, daySeed + 1),
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/badge-72.png',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
     tag: 'streak-reminder',
     renotify: true,
     data: { url: '/', action: 'open_lesson' },

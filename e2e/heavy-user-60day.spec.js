@@ -369,7 +369,7 @@ test('Block 1 (Days 1-4) — Onboarding quality, home screen, first XP', async (
   }
 
   // ── Knight mascot / coach present
-  if (home.match(/vitez|knight|hrvoje|Bok|Dobrodošli/i)) ok('Knight mascot present on home');
+  if (home.match(/vitez|knight|hrvoje|Bog|Dobrodošli/i)) ok('Knight mascot present on home');
   else info('Knight mascot not visible (may be dismissed)');
 
   await ss(page, 'b1-home-complete');
@@ -894,7 +894,7 @@ test('Block 6 (Days 21-24) — AI Conversations: Maja scenario + AI Story', asyn
           await dismissAll(page);
           await ss(page, 'b6-maja-conv');
           const convText = await page.locator('#root').innerText().catch(() => '');
-          if (!convText.match(/maja|typing|message|conversation|dobar|hvaiti|bok|zdravo|pomoć|\w{10,}/i)) {
+          if (!convText.match(/maja|typing|message|conversation|dobar|hvaiti|bog|zdravo|pomoć|\w{10,}/i)) {
             bug('BUG', 'MajaAI', 'Conversation did not start after persona selection');
           } else {
             ok('Maja AI conversation started');
@@ -1202,7 +1202,9 @@ test('Block 9 (Days 33-36) — Settings: difficulty, voice, dark mode, weekly go
         }
       }
     } else {
-      bug('UX', 'Settings', 'Difficulty selector (Beginner/Intermediate/Advanced) not in Settings');
+      // Intentional since 2026-07-21 (owner decision): the manual Difficulty
+      // selector was removed — the app derives difficulty from earned CEFR.
+      ok('Difficulty selector absent — app decides difficulty (earned CEFR)');
     }
 
     // ── Voice / TTS setting

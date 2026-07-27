@@ -1,8 +1,9 @@
 /**
  * DictationScreen — behavioral contract test (Pattern X)
  *
- * DATA is hard-coded inside the component (20 sentences). We loop through all
- * of them: type any value → Check → Next → repeat → ✓ Done fires the contract.
+ * DICTATION_DATA lives in the component (60 sentences, A1–C2; 10 served per
+ * session). We loop through the session: type any value → Check → Next →
+ * repeat → ✓ Done fires the contract.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';

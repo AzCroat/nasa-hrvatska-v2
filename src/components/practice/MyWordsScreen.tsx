@@ -3,6 +3,14 @@ import { speak, srMark } from '../../data';
 
 const STORAGE_KEY = 'nh_custom_words';
 
+// nh_custom_words is synced inside the progress blob, which Firestore rules cap
+// at 200 KB — and a breach fails the whole atomic users/{id} write, so it kills
+// ALL cloud sync, permanently and silently. These bounds keep the list far below
+// that ceiling while staying well above any real vocabulary-notebook use.
+const FIELD_MAX = 80; // a word / short meaning / phonetic respelling
+const EXAMPLE_MAX = 200; // one example sentence
+const MAX_WORDS = 2000;
+
 function loadWords() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -471,12 +479,16 @@ function AddWordForm({
       setError('English meaning is required.');
       return;
     }
+    if (words.length >= MAX_WORDS) {
+      setError(`Your list is full (${MAX_WORDS} words). Delete a word to add a new one.`);
+      return;
+    }
     setError('');
     const newWord = {
-      hr: hr.trim(),
-      en: en.trim(),
-      phonetic: phonetic.trim(),
-      example: example.trim(),
+      hr: hr.trim().slice(0, FIELD_MAX),
+      en: en.trim().slice(0, FIELD_MAX),
+      phonetic: phonetic.trim().slice(0, FIELD_MAX),
+      example: example.trim().slice(0, EXAMPLE_MAX),
       addedAt: Date.now(),
     };
     const updated = [...words, newWord];
@@ -497,6 +509,7 @@ function AddWordForm({
           value={hr}
           onChange={(e) => setHr(e.target.value)}
           placeholder="e.g. krastavac"
+          maxLength={FIELD_MAX}
           autoFocus
         />
       </div>
@@ -509,6 +522,7 @@ function AddWordForm({
           value={en}
           onChange={(e) => setEn(e.target.value)}
           placeholder="e.g. cucumber"
+          maxLength={FIELD_MAX}
         />
       </div>
       <div style={S.fieldGroup}>
@@ -518,6 +532,7 @@ function AddWordForm({
           value={phonetic}
           onChange={(e) => setPhonetic(e.target.value)}
           placeholder="e.g. kra-STAH-vats"
+          maxLength={FIELD_MAX}
         />
       </div>
       <div style={S.fieldGroup}>
@@ -527,6 +542,7 @@ function AddWordForm({
           value={example}
           onChange={(e) => setExample(e.target.value)}
           placeholder="e.g. Volim krastavce u salati."
+          maxLength={EXAMPLE_MAX}
         />
       </div>
       {error ? <div style={S.errorText}>{error}</div> : null}

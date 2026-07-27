@@ -53,12 +53,18 @@ interface StoryViewPanelProps {
   onTTSToggle: () => void;
   onNewStory: () => void;
   onBack: () => void;
+  /**
+   * Wave 9: explicit finish — fires the reading award reliably (the organic
+   * scroll-to-end + 5-word-tap award can silently never fire, which kept this
+   * screen out of the daily session). Optional so other callers are unaffected.
+   */
+  onFinish?: () => void;
 }
 
 // ── Word token component ───────────────────────────────────────────────────────
 function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) {
   const [state, setState] = useState('idle'); // idle | loading | shown
-  const [translation, setTranslation] = useState(null);
+  const [translation, setTranslation] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = useCallback(async () => {
@@ -75,8 +81,19 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
           params: { word },
         }),
       });
+      // /api/ai-chat mode:'translate' returns { text: '{"translation":"…","note":"…"}' }
+      // — the translation is inside the JSON string `text`, not a top-level
+      // `translation`/`reply`/`content` field (those were always undefined, so
+      // every word tap fell back to the literal "…"). Parse `text` like the
+      // sibling CroatianNewsScreen/GrammarReader do.
       const data = await res.json();
-      const tr = data.translation || data.reply || data.content || '…';
+      let tr = '…';
+      try {
+        const parsed = typeof data.text === 'string' ? JSON.parse(data.text) : data.text || {};
+        tr = parsed.translation || parsed.reply || data.translation || '…';
+      } catch {
+        tr = (typeof data.text === 'string' && data.text) || data.translation || '…';
+      }
       setTranslation(tr);
       setState('shown');
       if (timerRef.current !== null) clearTimeout(timerRef.current);
@@ -198,6 +215,7 @@ export default function StoryViewPanel({
   onTTSToggle,
   onNewStory,
   onBack,
+  onFinish,
 }: StoryViewPanelProps) {
   const accentColor = selectedCity.color;
   const photoSrc =
@@ -512,6 +530,25 @@ export default function StoryViewPanel({
 
       {/* Action buttons */}
       <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+        {onFinish && (
+          <button
+            className="b"
+            data-testid="story-finish"
+            onClick={onFinish}
+            style={{
+              flex: 1,
+              padding: '14px',
+              borderRadius: 12,
+              backgroundColor: '#15803d',
+              color: '#fff',
+              border: 'none',
+              fontWeight: 700,
+              fontSize: 15,
+            }}
+          >
+            ✓ Finish Story
+          </button>
+        )}
         <button
           className="b"
           onClick={onNewStory}

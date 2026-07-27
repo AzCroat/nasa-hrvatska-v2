@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { getErrorLog } from '../../hooks/useErrorTracking';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface InsightsData {
   todaysFocus?: string;
@@ -15,7 +16,10 @@ const BRAND_TEAL_DIM = 'rgba(14,116,144,0.08)';
 const BRAND_TEAL_BORDER = '#0e7490';
 
 function _todayKey() {
-  return new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  // Local, not UTC: this keys the once-a-day insights cache, so a UTC boundary
+  // rotated "today's focus" at 17:00 PDT / 19:00 CDT rather than at the start of
+  // the learner's day. Most of this app's audience is diaspora in the Americas.
+  return localDateStr();
 }
 
 function _cacheKey(uid: string) {
@@ -191,6 +195,10 @@ export default function AdaptiveInsightsCard({
           weakWords,
         }),
       });
+      // Guard on resp.ok: a non-2xx with a JSON error body would otherwise parse
+      // fine, get written to the day-scoped cache, and leave the "Your Focus
+      // Today" card blank for the REST OF THE DAY even after the backend recovers.
+      if (!resp.ok) throw new Error('insights ' + resp.status);
       const data = (await resp.json()) as InsightsData;
       _saveCache(uid, data);
       setInsights(data);

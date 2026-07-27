@@ -15,7 +15,7 @@ const CATEGORY_HINTS = {
   greetings:
     'Croatian greetings change based on time of day: "Dobro jutro" (morning), "Dobar dan" (afternoon), "Dobra večer" (evening).',
   farewells:
-    '"Doviđenja" is formal; "Bok" and "Poka" are casual. Match the formality to your context.',
+    '"Doviđenja" is formal; "Bog" and "Poka" are casual. Match the formality to your context.',
   food: 'Food nouns: feminine nouns end in -a (kava, pizza), neuter nouns end in -o or -e (meso, vino).',
   verbs:
     'Croatian infinitives end in -ti or -ći. The present tense drops that ending and adds personal endings (-m, -š, -ø, -mo, -te, -ju/-e).',

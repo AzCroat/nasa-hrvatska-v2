@@ -27,8 +27,10 @@ import {
   fbLoadProgress,
   fbOnAuthStateChanged,
 } from '../data';
-import { initFirebase, fbSaveProgress } from '../lib/firebase.js';
+import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
+import { lsSet, lsRemove } from '../lib/safeStorage';
+import { API_BASE } from '../lib/platform';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
 import type { AuthUser } from '../types/index.js';
@@ -199,7 +201,11 @@ export function useAuth({
       guestRef.current = false;
 
       const k = (fbUser.email as string) || (fbUser.uid as string);
-      const dn = (fbUser.displayName as string) || k;
+      // Anonymous (guest) users have no email/displayName — show a friendly label
+      // instead of the raw uid. Their progress keys on the uid (k) as usual.
+      const dn =
+        (fbUser.displayName as string) ||
+        ((fbUser as { isAnonymous?: boolean }).isAnonymous ? 'Gost' : k);
       const user: AuthUser = { u: k, d: dn, e: k };
       const isNew = isNewReg.current;
       isNewReg.current = false;
@@ -288,6 +294,7 @@ export function useAuth({
             const mergedStats = {
               ...fpSt,
               xp: Math.max((lpSt.xp as number) || 0, (fpSt.xp as number) || 0),
+              spent: Math.max((lpSt.spent as number) || 0, (fpSt.spent as number) || 0),
               lc: Math.max((lpSt.lc as number) || 0, (fpSt.lc as number) || 0),
               gc: Math.max((lpSt.gc as number) || 0, (fpSt.gc as number) || 0),
               sp: Math.max((lpSt.sp as number) || 0, (fpSt.sp as number) || 0),
@@ -297,6 +304,23 @@ export function useAuth({
               pf: Math.max((lpSt.pf as number) || 0, (fpSt.pf as number) || 0),
               mv: Math.max((lpSt.mv as number) || 0, (fpSt.mv as number) || 0),
               hi: Math.max((lpSt.hi as number) || 0, (fpSt.hi as number) || 0),
+              // pr + badge-backing counters — monotonic; Math.max so unsynced local
+              // progress isn't clobbered by the remote base spread (...fpSt). Mirrors
+              // mergeStatsFromRemote so this merge can't drift from the canonical rule.
+              pr: Math.max((lpSt.pr as number) || 0, (fpSt.pr as number) || 0),
+              srsTotal: Math.max((lpSt.srsTotal as number) || 0, (fpSt.srsTotal as number) || 0),
+              mistakesMastered: Math.max(
+                (lpSt.mistakesMastered as number) || 0,
+                (fpSt.mistakesMastered as number) || 0,
+              ),
+              readingDone: Math.max(
+                (lpSt.readingDone as number) || 0,
+                (fpSt.readingDone as number) || 0,
+              ),
+              mediaVisits: Math.max(
+                (lpSt.mediaVisits as number) || 0,
+                (fpSt.mediaVisits as number) || 0,
+              ),
               ct: [
                 ...new Set([...((lpSt.ct as string[]) || []), ...((fpSt.ct as string[]) || [])]),
               ],
@@ -352,6 +376,7 @@ export function useAuth({
               const _lpSt = (localP.stats || localP.st || {}) as Record<string, unknown>;
               const _safeMerged = {
                 xp: Math.max((_lpSt.xp as number) || 0, (_fpSt.xp as number) || 0),
+                spent: Math.max((_lpSt.spent as number) || 0, (_fpSt.spent as number) || 0),
                 lc: Math.max((_lpSt.lc as number) || 0, (_fpSt.lc as number) || 0),
                 gc: Math.max((_lpSt.gc as number) || 0, (_fpSt.gc as number) || 0),
                 sp: Math.max((_lpSt.sp as number) || 0, (_fpSt.sp as number) || 0),
@@ -361,6 +386,25 @@ export function useAuth({
                 pf: Math.max((_lpSt.pf as number) || 0, (_fpSt.pf as number) || 0),
                 mv: Math.max((_lpSt.mv as number) || 0, (_fpSt.mv as number) || 0),
                 hi: Math.max((_lpSt.hi as number) || 0, (_fpSt.hi as number) || 0),
+                // pr + badge-backing counters — monotonic; Math.max so unsynced local
+                // progress isn't clobbered by the remote base spread (...fpSt).
+                pr: Math.max((_lpSt.pr as number) || 0, (_fpSt.pr as number) || 0),
+                srsTotal: Math.max(
+                  (_lpSt.srsTotal as number) || 0,
+                  (_fpSt.srsTotal as number) || 0,
+                ),
+                mistakesMastered: Math.max(
+                  (_lpSt.mistakesMastered as number) || 0,
+                  (_fpSt.mistakesMastered as number) || 0,
+                ),
+                readingDone: Math.max(
+                  (_lpSt.readingDone as number) || 0,
+                  (_fpSt.readingDone as number) || 0,
+                ),
+                mediaVisits: Math.max(
+                  (_lpSt.mediaVisits as number) || 0,
+                  (_fpSt.mediaVisits as number) || 0,
+                ),
                 ct: [
                   ...new Set([
                     ...((_lpSt.ct as string[]) || []),
@@ -454,12 +498,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        regKey,
-        JSON.stringify({ count: regData.count + 1, since: regData.since }),
-      );
+      lsSet(regKey, JSON.stringify({ count: regData.count + 1, since: regData.since }));
     } else {
-      localStorage.setItem(regKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(regKey, JSON.stringify({ count: 1, since: now }));
     }
     if (TURNSTILE_ENABLED) {
       if (!turnstileToken) {
@@ -468,7 +509,15 @@ export function useAuth({
         return;
       }
       try {
-        const verifyRes = await fetch('/api/turnstile/verify', {
+        // API_BASE, not a relative path: on Capacitor native this resolves to
+        // https://localhost, where Capacitor's html5mode fallback returns the
+        // bundled index.html as text/html with status 200. verifyRes.ok would
+        // then be true, .json() would throw into the .catch(() => ({})) below,
+        // verifyJson.ok would be undefined, and registration would fail with
+        // "Verification failed" — no way for a native user to create an account
+        // at all whenever VITE_TURNSTILE_SITEKEY is set in the native build.
+        // API_BASE is '' on web, so nothing changes there.
+        const verifyRes = await fetch(`${API_BASE}/api/turnstile/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: turnstileToken, action: 'signup' }),
@@ -538,12 +587,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        loginKey,
-        JSON.stringify({ count: loginData.count + 1, since: loginData.since }),
-      );
+      lsSet(loginKey, JSON.stringify({ count: loginData.count + 1, since: loginData.since }));
     } else {
-      localStorage.setItem(loginKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(loginKey, JSON.stringify({ count: 1, since: now }));
     }
     try {
       const k = authEmail.trim().toLowerCase();
@@ -650,7 +696,7 @@ export function useAuth({
       'uStreak',
       'uFreeze',
       'xpCooldown',
-    ].forEach((k) => localStorage.removeItem(k));
+    ].forEach((k) => lsRemove(k));
     ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) =>
       sessionStorage.removeItem(k),
     );
@@ -661,11 +707,28 @@ export function useAuth({
   }
 
   // ── Guest mode ────────────────────────────────────────────────────────────
-  function doGuest(): void {
+  // Prefer a real ANONYMOUS Firebase session: it gives the guest a uid + ID
+  // token, which is what makes /api/content/* return 200 (the old tokenless
+  // guest got 401 → empty learn path) and lets the normal auto-save + Firestore
+  // sync run, so guest progress actually persists and survives a reload. On
+  // success we do nothing else here — fbOnAuthStateChanged fires with the anon
+  // user and drives setAuthUser / _syncReady / setAuthScreen('app') through the
+  // same path as any signed-in user. If anonymous auth is unavailable (disabled
+  // in the Firebase console, offline, or Firebase not configured) we fall back
+  // to the legacy in-memory guest so there is NO regression from before.
+  function enterLegacyGuest(): void {
     guestRef.current = true;
     touchSession();
     updateStreak();
     setAuthScreen('app');
+  }
+  function doGuest(): void {
+    Promise.resolve(fbSignInGuest())
+      .then((res) => {
+        if (!res || !res.ok) enterLegacyGuest();
+        // on success the auth listener takes over — see comment above.
+      })
+      .catch(() => enterLegacyGuest());
   }
 
   return {

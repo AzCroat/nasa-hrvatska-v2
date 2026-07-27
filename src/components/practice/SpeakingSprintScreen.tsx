@@ -10,6 +10,7 @@ import SprintCountdownScreen from './SprintCountdownScreen';
 import SprintSpeakingPhase from './SprintSpeakingPhase';
 import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
+import { lsGet } from '../../lib/safeStorage';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -31,7 +32,7 @@ const SPRINT_STYLES = `
 `;
 
 // ─────────────────────────────────────────────
-// SPEAKING PROMPTS — 40 across CEFR levels
+// SPEAKING PROMPTS — A1–C2 ladder (42 prompts)
 // ─────────────────────────────────────────────
 const PROMPTS = {
   A1: [
@@ -180,6 +181,106 @@ const PROMPTS = {
         'Urbani život nudi raznolikost — posao, kulturu, anonimnost. Ali nosi i stres, buku i otuđenost. Ruralni život je mirniji, s jačim zajedništvom, ali ograničenijim prilikama. Idealno bi bilo kombinirati oboje — živjeti u prirodi, a imati pristup gradskim sadržajima.',
     },
   ],
+  C1: [
+    {
+      hr: 'Da možeš promijeniti jednu odluku iz prošlosti, koju bi promijenio i zašto?',
+      en: 'If you could change one past decision, which would you change and why?',
+      model_response:
+        'Iskreno, dugo bih razmišljao. Možda bih ranije počeo ozbiljno učiti jezike — da sam s tim krenuo u srednjoj školi, danas bi mi mnoga vrata bila otvorena. S druge strane, upravo su me zaobilazni putevi doveli ovamo, pa nisam siguran da bih išta dirao.',
+    },
+    {
+      hr: 'Koje su prednosti i mane života u malom mjestu naspram velikoga grada?',
+      en: 'What are the advantages and disadvantages of living in a small town versus a big city?',
+      model_response:
+        'U malom mjestu čovjek ima mir, povjerenje susjeda i more vremena koje ne gubi u prometu. S druge strane, izbor poslova i sadržaja je skučen, a anonimnosti nema — sve se zna. Grad nudi obrnuto: prilike i slobodu, ali i gužvu, skupoću i samoću u mnoštvu.',
+    },
+    {
+      hr: 'Treba li umjetna inteligencija imati ograničenja? Obrazloži svoj stav.',
+      en: 'Should artificial intelligence have limits? Justify your position.',
+      model_response:
+        'Smatram da treba, i to jasna. Tehnologija sama po sebi nije ni dobra ni loša, ali bez pravila moć se uvijek zloupotrijebi. Ograničenja ne smiju gušiti razvoj — trebaju osigurati da razvoj služi ljudima, a ne obrnuto.',
+    },
+    {
+      hr: 'Opiši osobu koja je najviše utjecala na tvoj pogled na svijet.',
+      en: 'Describe the person who most influenced your view of the world.',
+      model_response:
+        'To je bez sumnje moja baka. Nije imala visoke škole, ali je imala ono što se ne uči — mjeru. Naučila me da se o ljudima sudi po djelima, a ne po riječima, i da se najveće stvari kažu tiho. Kad god moram donijeti tešku odluku, pitam se što bi ona rekla.',
+    },
+    {
+      hr: 'Što bi u svom gradu promijenio kad bi sutra postao gradonačelnik?',
+      en: 'What would you change in your city if you became mayor tomorrow?',
+      model_response:
+        'Prvo bih se pozabavio javnim prijevozom — dok autobus vozi svakih sat vremena, svi će voziti auto. Zatim bih otvorio urede uprave i poslijepodne, jer građani ne bi smjeli uzimati godišnji da bi izvadili papir. Male stvari, ali one mijenjaju svakodnevicu.',
+    },
+    {
+      hr: 'Je li bolje biti stručnjak za jedno područje ili znati ponešto o svemu?',
+      en: 'Is it better to be an expert in one field or to know a little about everything?',
+      model_response:
+        'Ovisi o razdoblju života. Karijera se gradi dubinom — bez stručnosti si zamjenjiv. Ali svijet se mijenja tako brzo da širina postaje osiguranje: tko zna ponešto o svemu, lakše se prilagodi. Idealno je, čini mi se, biti dubok u jednom, a znatiželjan u svemu.',
+    },
+    {
+      hr: 'Kako objasniti strancu što znači riječ "inat"?',
+      en: 'How would you explain the word "inat" to a foreigner?',
+      model_response:
+        'Rekao bih mu da inat nije obični prkos. To je kad nešto napraviš baš zato što su ti rekli da ne možeš — ne zbog koristi, nego zbog principa. Iracionalno? Potpuno. Ali mnoge stvari ovdje ne bi postojale da netko nije bio dovoljno "lud" da ih napravi iz inata.',
+    },
+    {
+      hr: 'Što suvremeni način života čini našoj sposobnosti koncentracije?',
+      en: 'What is the modern way of life doing to our ability to concentrate?',
+      model_response:
+        'Bojim se da je rastače. Navikli smo na podražaje svakih nekoliko sekundi, pa nam je i deset minuta tišine postalo neizdrživo. Primijetio sam to i na sebi: knjigu koju bih prije pročitao u komadu sad čitam u zalogajima. Zato svjesno vježbam dosadu — zvuči smiješno, ali djeluje.',
+    },
+  ],
+  C2: [
+    {
+      hr: '„Tko ne poznaje svoju prošlost, osuđen je ponavljati je." Slažeš li se?',
+      en: '"Those who do not know their past are condemned to repeat it." Do you agree?',
+      model_response:
+        'Načelno da, ali s ogradom: poznavanje prošlosti nije jamstvo, nego tek preduvjet. Povijest znaju i oni koji je zloupotrebljavaju — štoviše, najbolje je znaju. Presudno je, čini mi se, ne samo pamtiti što se dogodilo, nego razumjeti kako se dogodilo: mehanizam, a ne datum.',
+    },
+    {
+      hr: 'Postoji li razlika između istine i iskrenosti?',
+      en: 'Is there a difference between truth and honesty?',
+      model_response:
+        'Golema. Istina je svojstvo tvrdnje, iskrenost je svojstvo govornika — čovjek može iskreno govoriti neistinu i ciljano govoriti istinu da bi zavarao. Zato me kod sugovornika manje zanima je li u pravu, a više je li pošten prema vlastitim sumnjama.',
+    },
+    {
+      hr: 'Obrazloži: je li jezik samo sredstvo komunikacije ili nešto više?',
+      en: 'Argue: is language merely a means of communication or something more?',
+      model_response:
+        'Kad bi jezik bio samo alat, prijevod bi bio presvlačenje, a nije — svaki jezik krije vlastitu podjelu svijeta. Na hrvatskom se "žao mi je" i "oprosti" ne daju svesti jedno na drugo; tko to osjeti, razumije da jezikom ne opisujemo stvarnost nego je sukreiramo.',
+    },
+    {
+      hr: 'Koja je uloga dosade u stvaralaštvu?',
+      en: 'What is the role of boredom in creativity?',
+      model_response:
+        'Podcijenjena i presudna. Dosada je praznina koju um ne podnosi, pa je počne sam popunjavati — a upravo se u tom popunjavanju rađaju ideje. Kultura koja je dosadu iskorijenila zabavom možda je, ne sluteći, iskorijenila i dio svoje mašte. Najbolje mi ideje dolaze u redu čekanja, ne pred ekranom.',
+    },
+    {
+      hr: 'Može li se domoljublje mjeriti? Ako da — čime?',
+      en: 'Can patriotism be measured? If so — by what?',
+      model_response:
+        'Sigurno ne glasnoćom. Ako se išta mjeri, onda je to spremnost da zemlju učiniš boljom kad te nitko ne gleda: da platiš porez, vratiš knjigu, odgojiš dijete koje neće morati otići. Domoljublje bez računa koji se plaćaju samo je folklor s himnom.',
+    },
+    {
+      hr: 'Zamisli da držiš govor budućim generacijama. Što im poručuješ u tri rečenice?',
+      en: 'Imagine addressing future generations. What do you tell them in three sentences?',
+      model_response:
+        'Naslijedili ste svijet koji nismo dovršili — na tome se ispričavamo i ne ispričavamo, jer ni nama ga nitko nije predao gotova. Čuvajte ono što se sporo gradi, a brzo ruši: povjerenje, jezik, šume. I ne vjerujte nikome tko vam nudi jednostavan odgovor na složeno pitanje — uključujući ovaj govor.',
+    },
+    {
+      hr: 'Zašto ljudi pričaju viceve o vlastitoj nesreći?',
+      en: 'Why do people tell jokes about their own misfortune?',
+      model_response:
+        'Zato što je humor posljednji oblik vlasništva: nesreću koju mogu ispričati kao vic barem dijelom posjedujem, umjesto da ona posjeduje mene. Smijeh ne poriče bol — on joj otkazuje poslušnost. Narod koji se zna šaliti na svoj račun teško je trajno poraziti.',
+    },
+    {
+      hr: 'Što bi u našem jeziku trebalo sačuvati pod svaku cijenu?',
+      en: 'What in our language should be preserved at any cost?',
+      model_response:
+        'Padeže bih branio do zadnjeg daha, ali ne zbog gramatike, nego zbog onoga što nose: mogućnost da se ista misao kaže s deset nijansi. I dijalekte — jer standard je dogovor, a dijalekt je pamćenje. Jezik koji svede sve na jedan oblik postaje praktičan i siromašan, kao hotel bez domaćina.',
+    },
+  ],
 };
 
 // ─────────────────────────────────────────────
@@ -188,17 +289,17 @@ const PROMPTS = {
 const SR_SUPPORTED = isSpeechRecognitionSupported();
 
 function pickPrompt(): SprintPrompt {
-  const level = localStorage.getItem('nh_level') || 'B1';
+  const level = lsGet('nh_level') || 'B1';
   const levelKey = (
-    ['A1', 'A2', 'B1', 'B2'].includes(level) ? level : 'B1'
+    ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1'
   ) as keyof typeof PROMPTS;
   const pool = PROMPTS[levelKey] ?? PROMPTS.B1;
   return pool[Math.floor(Math.random() * pool.length)]!;
 }
 
 function getUserLevel() {
-  const level = localStorage.getItem('nh_level') || 'B1';
-  return ['A1', 'A2', 'B1', 'B2'].includes(level) ? level : 'B1';
+  const level = lsGet('nh_level') || 'B1';
+  return ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1';
 }
 
 // ─────────────────────────────────────────────
@@ -238,6 +339,7 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
   const phaseRef = useRef('setup');
+  const mountedRef = useRef(true);
 
   // Keep phaseRef in sync
   useEffect(() => {
@@ -253,7 +355,9 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       style.textContent = SPRINT_STYLES;
       document.head.appendChild(style);
     }
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       stopMic();
       if (silenceTimerRef.current !== null) clearTimeout(silenceTimerRef.current);
       if (audioRef.current) {
@@ -382,6 +486,11 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // Left the screen during the TTS fetch? The unmount cleanup has already
+      // paused audioRef and revoked the object URL, so constructing and playing a
+      // new element here left Croatian audio running over the next screen with
+      // nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       setAudioUrl(url);
       const audio = new Audio(url);

@@ -556,7 +556,7 @@ export default function LoginScreen({
             <button
               onClick={() =>
                 window.open(
-                  'https://nasa-hrvatska.pages.dev/privacy.html#terms',
+                  'https://nasahrvatska.com/privacy.html#terms',
                   '_blank',
                   'noopener,noreferrer',
                 )
@@ -577,7 +577,7 @@ export default function LoginScreen({
             <button
               onClick={() =>
                 window.open(
-                  'https://nasa-hrvatska.pages.dev/privacy.html',
+                  'https://nasahrvatska.com/privacy.html',
                   '_blank',
                   'noopener,noreferrer',
                 )

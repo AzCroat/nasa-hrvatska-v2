@@ -76,11 +76,15 @@ import {
   consumeSessionCategoryOutcome,
 } from '../../lib/sessionCategory';
 import { getUserCefr } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import SessionCard from './SessionCard';
+import DailyGoalCard from './DailyGoalCard';
+import DailyInputCard from './DailyInputCard';
 import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
 import { hostOfDay } from './hostFamily';
 import { getServableReviewCount } from '../../lib/srs';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 const LEVEL_PALETTE = [
   {
@@ -151,7 +155,6 @@ export default function HomeTab({
   daysSinceJoin = null,
   resumeLesson = null,
   launchActivity,
-  launchStory,
 }: HomeTabProps) {
   const { setScr, doSignUp, currentScreen } = useApp();
   const { stats: st, award } = useStats();
@@ -199,7 +202,7 @@ export default function HomeTab({
     goal ||
     (() => {
       try {
-        return localStorage.getItem('nh_goal');
+        return lsGet('nh_goal');
       } catch {
         return null;
       }
@@ -225,12 +228,12 @@ export default function HomeTab({
   const showGoalModal = shouldShowGoalModal({
     syncReady: !!syncReady,
     dismissed: goalModalDismissed,
-    hasGoalSet: !!localStorage.getItem('nh_goal_set'),
+    hasGoalSet: !!lsGet('nh_goal_set'),
   });
 
   const questsDone = useMemo(() => {
     const d = localDateStr();
-    const q = (id: string) => localStorage.getItem('nh_quest_' + id + '_' + d) === '1';
+    const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
     const hasStreak = streak.count > 0;
     return {
       speak: q('speak'),
@@ -273,8 +276,10 @@ export default function HomeTab({
     String(_td.getDate()).padStart(2, '0');
   const masteryKey = `nh_daily_mastery_${today}`;
   useEffect(() => {
-    if (allQuestsDone && !localStorage.getItem(masteryKey)) {
-      localStorage.setItem(masteryKey, '1');
+    // Guarded: both of these preceded the 50 XP award below, so on a profile that
+    // rejects storage the learner completed every quest and got nothing for it.
+    if (allQuestsDone && !lsGet(masteryKey)) {
+      lsSet(masteryKey, '1');
       if (award) award(50, false, 'daily_discovery');
     }
   }, [allQuestsDone, masteryKey, award]);
@@ -285,7 +290,9 @@ export default function HomeTab({
   void _setDcOpen;
 
   const longAbsence = useMemo(() => {
-    const ls = localStorage.getItem('nh_last_seen');
+    // App.tsx writes the last-seen timestamp under 'lastSeen' (legacy key);
+    // this previously read the never-written 'nh_last_seen' and always got null.
+    const ls = lsGet('lastSeen');
     if (!ls) return false;
     const parsed = parseInt(ls, 10);
     if (isNaN(parsed)) return false;
@@ -347,7 +354,10 @@ export default function HomeTab({
     LEVEL_PALETTE[(pathData.activeLv.level - 1) % LEVEL_PALETTE.length]!;
 
   // ── Daily Session Hub ──────────────────────────────────────────────────────
-  const userCefr = getUserCefr(st.xp, st.lc, st.gc);
+  // Full activation (Rec #4): the daily session unlocks content at the CERTIFIED
+  // level (race-safe via getContentUnlockLevel), so reaching a new tier's content
+  // requires passing its assessment. Grandfathered, so no current content is lost.
+  const userCefr = getContentUnlockLevel(getUserCefr(st.xp, st.lc, st.gc));
   // Build the set of words currently in the active vocabulary pool — used to
   // count SRS reviews that /review can actually serve (orphan cards whose word
   // was later removed from a category get dropped, matching ReviewScreen's
@@ -363,12 +373,20 @@ export default function HomeTab({
     }
     return s;
   }, [content?.V]);
-  const { session, isComplete, progress, markDone, nextActivity, tomorrowLabel, bonusActivities } =
-    useDailySession(userCefr, poolWords);
+  const {
+    session,
+    isComplete,
+    progress,
+    markDone,
+    nextActivity,
+    tomorrowLabel,
+    bonusActivities,
+    startFreshSession,
+  } = useDailySession(userCefr, poolWords);
   const dueCount = getServableReviewCount(poolWords);
   const xpThisWeek = (() => {
     try {
-      return parseInt(localStorage.getItem('nh_week_xp_' + weekKey()) || '0', 10);
+      return parseInt(lsGet('nh_week_xp_' + weekKey()) || '0', 10);
     } catch {
       return 0;
     }
@@ -600,7 +618,18 @@ export default function HomeTab({
             if (sCurEx) sCurEx(act.screen);
           }
         }}
+        onStartFresh={startFreshSession}
       />
+
+      {/* ── DAILY XP GOAL — the commitment the user set at onboarding, shown on the
+          live Today tab. Previously only rendered inside the now-unmounted
+          HeroSection, so the chosen goal was invisible. ── */}
+      <DailyGoalCard xp={st.xp} />
+
+      {/* ── TODAY'S INPUT — comprehensible-input spine (Content-Rec #6): the next
+          level-appropriate listening + reading in one place, so a daily dose of
+          understandable Croatian is a first-class habit right after the session. ── */}
+      <DailyInputCard stats={st} setScr={setScr} sCurEx={sCurEx} />
 
       {/* ── WHAT TO FIX NEXT — surface the weak-areas insight on Today, where the
           "what should I do now" decision is made (it previously lived only in
@@ -614,7 +643,37 @@ export default function HomeTab({
           (Word / Phrase / City / Story). Single fixed-height container,
           all four labels visible in the tab strip, user picks what to see.
           Eliminates the scroll that previously buried Story of the Day. */}
-      <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} launchStory={launchStory} />
+      <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} />
+
+      {/* ── BROWSE THE FULL LIBRARY — off-ramp so Today isn't a one-item conveyor
+          with no path to the wider content. Opens the Learn tab's full content
+          browser via a one-shot flag consumed by LearnTab on mount. ── */}
+      <button
+        onClick={() => {
+          try {
+            sessionStorage.setItem('nh_open_browse', '1');
+          } catch {
+            /* sessionStorage unavailable — Learn tab still shows the Browse button */
+          }
+          setTab('learn');
+        }}
+        aria-label="Browse the full library of lessons, practice, and reference"
+        style={{
+          width: '100%',
+          marginTop: 16,
+          padding: '14px 16px',
+          borderRadius: 14,
+          border: '1.5px solid var(--card-b)',
+          background: 'var(--card)',
+          color: 'var(--heading)',
+          fontWeight: 800,
+          fontSize: 14,
+          cursor: 'pointer',
+          fontFamily: "'Outfit', sans-serif",
+        }}
+      >
+        📚 Browse the full library →
+      </button>
     </React.Fragment>
   );
 }

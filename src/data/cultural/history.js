@@ -4,53 +4,79 @@ export const HISTORY = {
   subtitle: 'The Croatian War of Independence (1991–1995)',
   intro:
     'The Homeland War represents the birth of modern Croatia as a free and sovereign nation. After centuries under foreign rule — from the Habsburg Empire to the Kingdom of Yugoslavia and communist Yugoslavia — Croatians finally achieved what generations had dreamed of: an independent homeland. This is the story of how a small nation stood up against overwhelming military force and won its freedom.',
+  introHr:
+    'Domovinski rat predstavlja rođenje moderne Hrvatske kao slobodne i suverene države. Nakon stoljeća pod stranom vlašću — od Habsburške Monarhije, preko Kraljevine Jugoslavije, do komunističke Jugoslavije — Hrvati su napokon ostvarili ono o čemu su generacije sanjale: neovisnu domovinu. Ovo je priča o tome kako se mali narod suprotstavio nadmoćnoj vojnoj sili i izborio svoju slobodu.',
   timeline: [
     {
       year: '1989',
       title: 'Winds of Change',
+      titleHr: 'Vjetrovi promjena',
       text: "As communism collapses across Eastern Europe, Croatia begins its journey toward democracy. Political parties are allowed for the first time in decades. The Croatian Democratic Union (HDZ) is founded, giving voice to the Croatian people\'s desire for self-determination.",
+      textHr:
+        'Dok komunizam propada diljem istočne Europe, Hrvatska započinje svoj put prema demokraciji. Prvi su put nakon više desetljeća dopuštene političke stranke. Osniva se Hrvatska demokratska zajednica (HDZ), koja daje glas želji hrvatskog naroda za samoodređenjem.',
       emoji: '🌅',
     },
     {
       year: '1990',
       title: 'First Free Elections',
+      titleHr: 'Prvi slobodni izbori',
       text: 'In the first democratic elections since World War II, Croatians overwhelmingly choose independence. Dr. Franjo Tuđman becomes the first democratically elected President. A new constitution is drafted, establishing Croatia as a sovereign nation of the Croatian people. The Croatian šahovnica (checkerboard) proudly returns as the national symbol.',
+      textHr:
+        'Na prvim demokratskim izborima od Drugoga svjetskog rata, Hrvati se u velikoj većini opredjeljuju za neovisnost. Dr. Franjo Tuđman postaje prvi demokratski izabrani predsjednik. Izrađuje se novi ustav kojim se Hrvatska uspostavlja kao suverena država hrvatskog naroda. Hrvatska šahovnica ponosno se vraća kao državni simbol.',
       emoji: '🗳️',
     },
     {
       year: '1991',
       title: 'Independence Declared',
+      titleHr: 'Proglašenje neovisnosti',
       text: "On June 25, 1991, Croatia formally declares independence from Yugoslavia. The decision reflects the will of 94% of Croatian citizens who voted for sovereignty in the May referendum. However, the Yugoslav People\'s Army (JNA) and Serbian paramilitaries refuse to accept Croatian independence and launch armed aggression.",
+      textHr:
+        '25. lipnja 1991. Hrvatska službeno proglašava neovisnost od Jugoslavije. Ta odluka odražava volju 94% hrvatskih građana koji su na svibanjskom referendumu glasovali za suverenost. No Jugoslavenska narodna armija (JNA) i srpske paravojne postrojbe odbijaju priznati hrvatsku neovisnost i pokreću oružanu agresiju.',
       emoji: '🇭🇷',
     },
     {
       year: '1991',
       title: 'The Battle of Vukovar',
+      titleHr: 'Bitka za Vukovar',
       text: "For 87 devastating days, the defenders of Vukovar — outnumbered and outgunned — hold their ground against a massive assault by the JNA and Serbian forces. The city is reduced to rubble, but its heroic resistance becomes the symbol of Croatian courage and sacrifice. Vukovar\'s defenders bought precious time for Croatia to organize its defense. The city\'s sacrifice will never be forgotten. Vukovar — grad heroj (city hero).",
+      textHr:
+        'Tijekom 87 razornih dana, branitelji Vukovara — brojčano i naoružanjem nadjačani — odolijevaju masovnom napadu JNA i srpskih snaga. Grad je pretvoren u ruševine, no njegov herojski otpor postaje simbol hrvatske hrabrosti i žrtve. Branitelji Vukovara izborili su dragocjeno vrijeme da se Hrvatska organizira za obranu. Žrtva grada nikada neće biti zaboravljena. Vukovar — grad heroj.',
       emoji: '🕯️',
     },
     {
       year: '1992',
       title: 'International Recognition',
+      titleHr: 'Međunarodno priznanje',
       text: 'On January 15, 1992, Croatia is recognized as an independent state by the European Community and the international community. Germany, under Chancellor Helmut Kohl, leads the push for recognition. The dream of Croatian statehood becomes reality in the eyes of the world.',
+      textHr:
+        '15. siječnja 1992. Hrvatsku kao neovisnu državu priznaju Europska zajednica i međunarodna zajednica. Njemačka, na čelu s kancelarom Helmutom Kohlom, predvodi zalaganje za priznanje. San o hrvatskoj državnosti postaje stvarnost u očima svijeta.',
       emoji: '🌍',
     },
     {
       year: '1992-94',
       title: 'Under Occupation',
+      titleHr: 'Pod okupacijom',
       text: "Nearly one-third of Croatian territory remains under Serbian occupation. The UN deploys peacekeeping forces, but the occupied areas — the self-proclaimed \'Republic of Serbian Krajina\' — continue to exist. Over 250,000 Croatians are expelled from their homes. The Croatian people endure, building their military and waiting for the right moment to liberate their homeland.",
+      textHr:
+        "Gotovo trećina hrvatskog državnog teritorija ostaje pod srpskom okupacijom. UN raspoređuje mirovne snage, no okupirana područja — samoproglašena 'Republika Srpska Krajina' — i dalje postoje. Više od 250.000 Hrvata protjerano je iz svojih domova. Hrvatski narod izdržava, gradi svoju vojsku i čeka pravi trenutak za oslobođenje domovine.",
       emoji: '⏳',
     },
     {
       year: '1995',
       title: 'Operacija Oluja — Operation Storm',
+      titleHr: 'Operacija Oluja',
       text: 'On August 4-7, 1995, the Croatian Army launches Operation Storm, the largest European land military operation since World War II. In just 84 hours, Croatian forces liberate the vast majority of occupied territory. The operation is a brilliant military success and restores Croatian sovereignty over nearly all of its internationally recognized borders. Church bells ring across Croatia. People weep with joy. The homeland is finally free.',
+      textHr:
+        'Od 4. do 7. kolovoza 1995. Hrvatska vojska pokreće Operaciju Oluju, najveću europsku kopnenu vojnu operaciju od Drugoga svjetskog rata. Za samo 84 sata hrvatske snage oslobađaju veliku većinu okupiranog teritorija. Operacija je briljantan vojni uspjeh i vraća hrvatski suverenitet nad gotovo cijelim međunarodno priznatim državnim područjem. Crkvena zvona zvone diljem Hrvatske. Ljudi plaču od sreće. Domovina je napokon slobodna.',
       emoji: '⚡',
     },
     {
       year: '1998',
       title: 'Peaceful Reintegration',
+      titleHr: 'Mirna reintegracija',
       text: 'The last occupied region — eastern Slavonia including Vukovar — is peacefully reintegrated into Croatia through the Erdut Agreement and UN transitional administration. Croatia is whole again. The Croatian flag flies over Vukovar for the first time since 1991.',
+      textHr:
+        'Posljednja okupirana regija — istočna Slavonija, uključujući Vukovar — mirno se reintegrira u Hrvatsku putem Erdutskog sporazuma i prijelazne uprave Ujedinjenih naroda. Hrvatska je opet cjelovita. Hrvatska zastava prvi put od 1991. ponovno se vijori nad Vukovarom.',
       emoji: '🕊️',
     },
   ],
@@ -58,32 +84,50 @@ export const HISTORY = {
     {
       name: 'Franjo Tuđman',
       role: 'First President of Croatia',
+      roleHr: 'Prvi predsjednik Hrvatske',
       desc: 'Father of the nation. Led Croatia from communist Yugoslavia to independence. His vision and determination guided the country through its darkest hours to sovereignty.',
+      descHr:
+        'Otac domovine. Doveo je Hrvatsku iz komunističke Jugoslavije do neovisnosti. Njegova vizija i odlučnost vodile su zemlju kroz njezine najteže trenutke do suverenosti.',
     },
     {
       name: 'Gojko Šušak',
       role: 'Minister of Defence',
+      roleHr: 'Ministar obrane',
       desc: 'Organized the Croatian military from virtually nothing into a force capable of defending and liberating the homeland.',
+      descHr:
+        'Organizirao je hrvatsku vojsku doslovno iz ničega, pretvorivši je u silu sposobnu braniti i osloboditi domovinu.',
     },
     {
       name: 'Blago Zadro',
       role: '3rd Battalion Commander, 204th Vukovar Brigade',
+      roleHr: 'Zapovjednik 3. bojne 204. vukovarske brigade',
       desc: "Hero of Vukovar. Led the 3rd Battalion with extraordinary courage until his death in battle. The city's broader defense was commanded by Mile Dedaković 'Jastreb'.",
+      descHr:
+        "Heroj Vukovara. Zapovijedao je 3. bojnom s izvanrednom hrabrošću sve do svoje pogibije u borbi. Cjelokupnom obranom grada zapovijedao je Mile Dedaković 'Jastreb'.",
     },
     {
       name: 'Branimir Glavaš',
       role: 'Defense of Osijek',
+      roleHr: 'Obrana Osijeka',
       desc: 'Organized the defense of Osijek in eastern Slavonia when Croatian cities came under attack.',
+      descHr:
+        'Organizirao je obranu Osijeka u istočnoj Slavoniji kada su hrvatski gradovi bili napadnuti.',
     },
     {
       name: 'Ante Gotovina',
       role: 'General — Operation Storm',
+      roleHr: 'General — Operacija Oluja',
       desc: 'Commanded the Split Military District. Key architect of the liberation of the Krajina region during Operation Storm.',
+      descHr:
+        'Zapovijedao je Splitskim vojnim okrugom. Ključni je arhitekt oslobođenja krajiškog područja tijekom Operacije Oluje.',
     },
     {
       name: 'Janko Bobetko',
       role: 'Army Chief of Staff',
+      roleHr: 'Načelnik Glavnog stožera',
       desc: 'Veteran military leader who helped shape the Croatian Army into an effective fighting force.',
+      descHr:
+        'Iskusni vojni zapovjednik koji je pomogao oblikovati Hrvatsku vojsku u učinkovitu borbenu silu.',
     },
   ],
   keyDates: [
@@ -135,31 +179,48 @@ export const KINGS = {
   subtitle: 'The Sovereign Kingdom of Croatia (c. 625\u20131102)',
   intro:
     'Long before foreign powers ruled over Croatian lands, Croatia was a sovereign kingdom \u2014 one of the oldest in Europe. The Croatian people arrived in the Balkans in the early 7th century, established their own duchies, converted to Christianity, and built a powerful medieval state that lasted nearly five centuries. The Trpimirovi\u0107 dynasty produced kings who defended Croatian territory against Bulgarians, Byzantines, Hungarians, and Venetians. This is the story of the Croatian nation before anyone else claimed authority over it.',
+  introHr:
+    'Mnogo prije nego \u0161to su strane sile zavladale hrvatskim zemljama, Hrvatska je bila suverena kraljevina \u2014 jedna od najstarijih u Europi. Hrvati su na Balkan do\u0161li po\u010detkom 7. stolje\u0107a, osnovali vlastite kne\u017eevine, primili kr\u0161\u0107anstvo i izgradili mo\u0107nu srednjovjekovnu dr\u017eavu koja je trajala gotovo pet stolje\u0107a. Dinastija Trpimirovi\u0107a dala je kraljeve koji su branili hrvatski teritorij od Bugara, Bizantinaca, Ma\u0111ara i Mle\u010dana. Ovo je pri\u010da o hrvatskom narodu prije nego \u0161to je itko drugi polagao pravo na vlast nad njim.',
   eras: [
     {
       title: 'Arrival of the Croats (c. 625\u2013800)',
+      titleHr: 'Dolazak Hrvata (oko 625. \u2013 800.)',
       emoji: '\u2693',
       text: 'The Croats (Hrvati) migrated from their original homeland in White Croatia (around present-day southern Poland and western Ukraine) to the former Roman province of Dalmatia in the early 7th century. They established themselves along the Adriatic coast and inland, organizing into tribal communities led by chieftains. The Croats were among the first Slavic peoples to convert to Christianity, with baptism beginning under Frankish influence in the late 8th century. Their territory stretched from the Adriatic Sea inland through the Dinaric Alps into the Pannonian plain.',
+      textHr:
+        'Hrvati su se po\u010detkom 7. stolje\u0107a doselili iz svoje prvobitne domovine, Bijele Hrvatske (na podru\u010dju dana\u0161nje ju\u017ene Poljske i zapadne Ukrajine), u nekada\u0161nju rimsku provinciju Dalmaciju. Naselili su se uzdu\u017e jadranske obale i u unutra\u0161njosti, organiziraju\u0107i se u plemenske zajednice predvo\u0111ene poglavicama. Hrvati su bili me\u0111u prvim slavenskim narodima koji su primili kr\u0161\u0107anstvo \u2014 kr\u0161tenje zapo\u010dinje pod frana\u010dkim utjecajem krajem 8. stolje\u0107a. Njihov teritorij protezao se od Jadranskog mora, preko Dinarida, sve do panonske nizine.',
     },
     {
       title: 'The Duchy Period (c. 800\u2013925)',
+      titleHr: 'Razdoblje kne\u017eevine (oko 800. \u2013 925.)',
       emoji: '\ud83c\udff0',
       text: 'Croatia first appears in written records as a duchy under Frankish overlordship. Duke Borna (c. 810\u2013821) was the first historically documented Croatian ruler, governing the Dalmatian duchy. His successors \u2014 Vladislav, Mislav, and then the great Trpimir I (c. 845\u2013864) \u2014 gradually expanded Croatian power and independence. Trpimir I founded the Trpimirovi\u0107 dynasty and issued the oldest known Croatian state document, the Charter of Duke Trpimir in 852, which first mentions the Croatian name in a royal document. Duke Branimir (879\u2013892) achieved a historic milestone when Pope John VIII formally recognized him as an independent ruler, effectively confirming Croatian sovereignty from both Frankish and Byzantine overlordship. Duke Muncimir continued building the state until his son would take it to its ultimate glory.',
+      textHr:
+        'Hrvatska se u pisanim izvorima prvi put spominje kao kne\u017eevina pod frana\u010dkim vrhovni\u0161tvom. Knez Borna (oko 810. \u2013 821.) prvi je povijesno potvr\u0111eni hrvatski vladar, koji je upravljao dalmatinskom kne\u017eevinom. Njegovi nasljednici \u2014 Vladislav, Mislav, a potom veliki Trpimir I. (oko 845. \u2013 864.) \u2014 postupno su \u0161irili hrvatsku mo\u0107 i neovisnost. Trpimir I. utemeljio je dinastiju Trpimirovi\u0107a i izdao najstariju poznatu ispravu hrvatske dr\u017eave, Trpimirovu darovnicu iz 852. godine, koja prva u kraljevskoj ispravi spominje hrvatsko ime. Knez Branimir (879. \u2013 892.) obilje\u017eio je povijesnu prekretnicu kada ga je papa Ivan VIII. slu\u017ebeno priznao neovisnim vladarom, \u010dime je potvr\u0111ena hrvatska suverenost i prema Francima i prema Bizantu. Knez Muncimir nastavio je graditi dr\u017eavu sve dok je njegov sin ne dovede do njezine najve\u0107e slave.',
     },
     {
       title: 'The Kingdom Established (925)',
+      titleHr: 'Osnutak kraljevstva (925.)',
       emoji: '\ud83d\udc51',
       text: 'In approximately 925, Tomislav of the Trpimirovi\u0107 dynasty became the first King of Croatia. He united Dalmatian Croatia and Pannonian Croatia into a single kingdom. Pope John X addressed him as Rex Chroatorum \u2014 King of the Croats \u2014 making Croatia one of the earliest recognized Christian kingdoms in Europe. Under Tomislav, Croatia became a formidable military power with an army reportedly numbering up to 100,000 infantry, 60,000 cavalry, and a fleet of 180 warships. He defeated the Bulgarian Empire in the Battle of the Bosnian Highlands in 926 and successfully defended Croatia against Hungarian invasions. The kingdom stretched from the Drava River in the north to the Adriatic in the south, covering most of modern Croatia and much of Bosnia.',
+      textHr:
+        'Oko 925. godine Tomislav iz dinastije Trpimirovi\u0107a postaje prvi hrvatski kralj. Ujedinio je dalmatinsku i panonsku Hrvatsku u jedinstveno kraljevstvo. Papa Ivan X. oslovljavao ga je kao Rex Chroatorum \u2014 kralja Hrvata \u2014 \u010dime je Hrvatska postala jedno od najranije priznatih kr\u0161\u0107anskih kraljevstava u Europi. Pod Tomislavom je Hrvatska postala velika vojna sila, s vojskom koja je navodno brojala do 100.000 pje\u0161aka, 60.000 konjanika i flotu od 180 ratnih brodova. Porazio je Bugarsko Carstvo u Bitki na Bosanskoj visoravni 926. godine i uspje\u0161no obranio Hrvatsku od ma\u0111arskih napada. Kraljevstvo se protezalo od rijeke Drave na sjeveru do Jadrana na jugu, obuhva\u0107aju\u0107i ve\u0107i dio dana\u0161nje Hrvatske i znatan dio Bosne.',
     },
     {
       title: 'The Golden Age (1058\u20131089)',
+      titleHr: 'Zlatno doba (1058. \u2013 1089.)',
       emoji: '\u2728',
       text: 'After a period of internal dynastic struggles following Tomislav, the kingdom reached its absolute peak under two extraordinary kings. Petar Kre\u0161imir IV (1058\u20131074) consolidated the kingdom and brought the Dalmatian coastal cities under Croatian control for the first time, earning the title King of Croatia and Dalmatia. He is considered the greatest territorial expander of the Croatian kingdom. His successor, Dmitar Zvonimir (1075\u20131089), was crowned at the Church of St. Peter and Moses in Solin on October 8, 1076, with direct papal blessing from Pope Gregory VII. Zvonimir\u0027s reign was peaceful and prosperous. He strengthened ties with the Catholic Church, modernized Croatian noble titles to match Western European standards, and brought Croatia firmly into the European political mainstream. His reign is recorded on the Ba\u0161ka Tablet \u2014 one of the oldest surviving texts in the Croatian language.',
+      textHr:
+        'Nakon razdoblja unutarnjih dinasti\u010dkih sukoba koji su uslijedili nakon Tomislava, kraljevstvo dose\u017ee svoj apsolutni vrhunac pod dvojicom izvanrednih kraljeva. Petar Kre\u0161imir IV. (1058. \u2013 1074.) u\u010dvrstio je kraljevstvo i prvi put doveo dalmatinske obalne gradove pod hrvatsku vlast, stekav\u0161i time naslov kralja Hrvatske i Dalmacije. Smatra se najve\u0107im teritorijalnim \u0161iriteljem hrvatskoga kraljevstva. Njegov nasljednik, Dmitar Zvonimir (1075. \u2013 1089.), okrunjen je u crkvi svetog Petra i Mojsija u Solinu 8. listopada 1076. godine, uz izravan papinski blagoslov pape Grgura VII. Zvonimirova je vladavina bila mirna i napredna. U\u010dvrstio je veze s Katoli\u010dkom crkvom, modernizirao hrvatske plemi\u0107ke titule prema zapadnoeuropskim uzorima i \u010dvrsto uveo Hrvatsku u europska politi\u010dka kretanja. Njegova je vladavina zabilje\u017eena na Ba\u0161\u0107anskoj plo\u010di \u2014 jednom od najstarijih sa\u010duvanih tekstova na hrvatskom jeziku.',
     },
     {
       title: 'The End of Independence (1089\u20131102)',
+      titleHr: 'Kraj neovisnosti (1089. \u2013 1102.)',
       emoji: '\ud83d\udd6f\ufe0f',
       text: 'King Zvonimir died in 1089 without a male heir. His successor, Stjepan II, was the last king of the main Trpimirovi\u0107 line. Old and frail, Stjepan II died in 1091 after less than two years on the throne. A succession crisis followed. Petar Sva\u010di\u0107, likely a former ban (viceroy) under Zvonimir, was chosen as the last native Croatian king. He fought fiercely against the Hungarian King Koloman (Coloman), who claimed the Croatian throne through Zvonimir\u0027s wife Helena (a Hungarian princess). Petar Sva\u010di\u0107 fell in battle at Gvozd Mountain in 1097 \u2014 the last Croatian king to die defending Croatian independence. By 1102, the Croatian nobles entered into the Pacta Conventa with King Koloman, creating a personal union between Croatia and Hungary. Croatia kept its own parliament (Sabor), its own ban (viceroy), and its own laws, but would not have its own king again until the dream of independence was finally realized in the 20th century.',
+      textHr:
+        'Kralj Zvonimir umro je 1089. bez mu\u0161kog nasljednika. Njegov nasljednik, Stjepan II., bio je posljednji kralj glavne loze Trpimirovi\u0107a. Star i iznemogao, Stjepan II. umro je 1091., nakon manje od dvije godine na prijestolju. Uslijedila je nasljedna kriza. Petar Sva\u010di\u0107, vjerojatno biv\u0161i ban pod Zvonimirom, izabran je za posljednjeg doma\u0107eg hrvatskog kralja. \u017destoko se borio protiv ma\u0111arskoga kralja Kolomana, koji je pravo na hrvatsko prijestolje polagao preko Zvonimirove supruge Jelene (ma\u0111arske princeze). Petar Sva\u010di\u0107 poginuo je u bici na Gvozdu 1097. godine \u2014 posljednji hrvatski kralj koji je poginuo brane\u0107i hrvatsku neovisnost. Do 1102. godine hrvatsko je plemstvo sklopilo Pacta conventa s kraljem Kolomanom, \u010dime je uspostavljena personalna unija izme\u0111u Hrvatske i Ugarske. Hrvatska je zadr\u017eala vlastiti sabor, vlastitog bana i vlastite zakone, no vlastitoga kralja ne\u0107e imati sve do 20. stolje\u0107a, kada je san o neovisnosti napokon ostvaren.',
     },
   ],
   dukes: [
@@ -168,42 +229,56 @@ export const KINGS = {
       years: 'c. 810\u2013821',
       title: 'Knez (Duke)',
       desc: 'First historically documented Croatian ruler. Governed Dalmatian Croatia under Frankish overlordship. Fought against Ljudevit Posavski of Pannonian Croatia.',
+      descHr:
+        'Prvi povijesno potvr\u0111eni hrvatski vladar. Upravljao je dalmatinskom Hrvatskom pod frana\u010dkim vrhovni\u0161tvom. Ratovao je protiv Ljudevita Posavskog, vladara panonske Hrvatske.',
     },
     {
       name: 'Vladislav',
       years: 'c. 821\u2013835',
       title: 'Knez',
       desc: 'Borna\u0027s nephew and successor. Defeated Ljudevit and briefly united the Dalmatian and Pannonian duchies.',
+      descHr:
+        'Bornin ne\u0107ak i nasljednik. Porazio je Ljudevita i nakratko ujedinio dalmatinsku i panonsku kne\u017eevinu.',
     },
     {
       name: 'Mislav',
       years: 'c. 835\u2013845',
       title: 'Knez',
       desc: 'Signed a peace treaty with Venice in 839, one of the earliest Croatian diplomatic agreements. Expanded the duchy\u0027s power.',
+      descHr:
+        'Sklopio je mirovni ugovor s Mle\u010danima 839. godine, jedan od najranijih hrvatskih diplomatskih sporazuma. Pro\u0161irio je mo\u0107 kne\u017eevine.',
     },
     {
       name: 'Trpimir I',
       years: 'c. 845\u2013864',
       title: 'Knez',
       desc: 'Founder of the Trpimirovi\u0107 dynasty. Issued the Charter of 852 \u2014 the oldest document using the Croatian name. Defeated the Bulgarian army. Built churches and monasteries. Father of the Croatian royal line.',
+      descHr:
+        'Utemeljitelj dinastije Trpimirovi\u0107a. Izdao je Darovnicu iz 852. godine \u2014 najstariju ispravu u kojoj se spominje hrvatsko ime. Porazio je bugarsku vojsku. Gradio je crkve i samostane. Otac hrvatske kraljevske loze.',
     },
     {
       name: 'Domagoj',
       years: 'c. 864\u2013876',
       title: 'Knez',
       desc: 'Of the rival Domagojevi\u0107 dynasty. Known as the \u0027Worst Duke of the Slavs\u0027 by Italian chroniclers for his aggressive naval campaigns against Venetian shipping. A fierce defender of Croatian independence.',
+      descHr:
+        'Iz suparni\u010dke dinastije Domagojevi\u0107a. Talijanski su ga kroni\u010dari nazivali \u0027najgorim knezom Slavena\u0027 zbog njegovih agresivnih pomorskih pohoda protiv mleta\u010dkog brodovlja. \u017destoki branitelj hrvatske neovisnosti.',
     },
     {
       name: 'Branimir',
       years: 'c. 879\u2013892',
       title: 'Knez',
       desc: 'Achieved papal recognition of Croatian independence from Pope John VIII in 879. This letter is considered one of the most important documents in Croatian history \u2014 international recognition of Croatian sovereignty.',
+      descHr:
+        'Ishodio je papinsko priznanje hrvatske neovisnosti od pape Ivana VIII. 879. godine. To se pismo smatra jednim od najva\u017enijih dokumenata hrvatske povijesti \u2014 me\u0111unarodnim priznanjem hrvatskog suvereniteta.',
     },
     {
       name: 'Muncimir',
       years: 'c. 892\u2013910',
       title: 'Knez',
       desc: 'Father of Tomislav. Continued building Croatian institutions and military power, preparing the ground for the kingdom.',
+      descHr:
+        'Otac Tomislava. Nastavio je izgradnju hrvatskih institucija i vojne mo\u0107i, pripremaju\u0107i teren za kraljevstvo.',
     },
   ],
   kings: [
@@ -212,6 +287,8 @@ export const KINGS = {
       years: 'c. 910\u2013928',
       title: 'Prvi Hrvatski Kralj \u2014 First Croatian King',
       desc: 'United Dalmatian and Pannonian Croatia. Pope John X called him Rex Chroatorum (King of the Croats) in 925. Defeated the Bulgarians at the Battle of the Bosnian Highlands (926). Built a powerful military with reportedly 100,000 infantry and 180 warships. Defended Croatia against Hungarian invasions. His coronation marks the founding of the Croatian Kingdom.',
+      descHr:
+        'Ujedinio je dalmatinsku i panonsku Hrvatsku. Papa Ivan X. nazvao ga je 925. godine Rex Chroatorum (kralj Hrvata). Porazio je Bugare u Bitki na Bosanskoj visoravni (926.). Izgradio je mo\u0107nu vojsku koja je navodno brojala 100.000 pje\u0161aka i 180 ratnih brodova. Branio je Hrvatsku od ma\u0111arskih navala. Njegovo krunjenje ozna\u010dava utemeljenje Hrvatskog Kraljevstva.',
       emoji: '\ud83d\udc51',
       color: '#b45309',
     },
@@ -220,6 +297,8 @@ export const KINGS = {
       years: 'c. 928\u2013935',
       title: 'Kralj',
       desc: 'Brother or son of Tomislav. Maintained the kingdom during a period of relative stability after Tomislav\u0027s military victories.',
+      descHr:
+        'Tomislavov brat ili sin. Odr\u017eao je kraljevstvo tijekom razdoblja relativne stabilnosti nakon Tomislavovih vojnih pobjeda.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -228,6 +307,8 @@ export const KINGS = {
       years: 'c. 935\u2013945',
       title: 'Kralj',
       desc: 'Continued Trpimirovi\u0107 rule. His reign saw the continuation of Croatian sovereignty and territorial integrity.',
+      descHr:
+        'Nastavio je vladavinu Trpimirovi\u0107a. Za njegove vladavine nastavlja se hrvatski suverenitet i teritorijalna cjelovitost.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -236,6 +317,8 @@ export const KINGS = {
       years: 'c. 945\u2013949',
       title: 'Kralj',
       desc: 'His short reign ended when he was killed by Ban Pribina during a period of internal power struggles.',
+      descHr:
+        'Njegova kratka vladavina okon\u010dana je kada ga je ubio ban Pribina tijekom razdoblja unutarnjih sukoba za vlast.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -244,6 +327,8 @@ export const KINGS = {
       years: 'c. 949\u2013969',
       title: 'Kralj',
       desc: 'Restored stability after the dynastic crisis. Married Jelena (Helen of Zadar), who became one of the most celebrated queens in Croatian history. Together they built churches and strengthened the kingdom.',
+      descHr:
+        'Obnovio je stabilnost nakon dinasti\u010dke krize. O\u017eenio se Jelenom (Jelenom Zadarskom), koja je postala jedna od najslavnijih kraljica u hrvatskoj povijesti. Zajedno su gradili crkve i ja\u010dali kraljevstvo.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -252,6 +337,8 @@ export const KINGS = {
       years: 'c. 969\u2013997',
       title: 'Kralj',
       desc: 'Received royal insignia from the Byzantine Emperor, confirming Croatian royal authority. First Croatian king to use the title \u0027King of Croatia and Dalmatia.\u0027 Extended Croatian control over the Dalmatian cities.',
+      descHr:
+        'Primio je kraljevske insignije od bizantskog cara, \u010dime je potvr\u0111ena hrvatska kraljevska vlast. Prvi je hrvatski kralj koji je koristio naslov \u0027kralj Hrvatske i Dalmacije\u0027. Pro\u0161irio je hrvatsku vlast nad dalmatinskim gradovima.',
       emoji: '\ud83d\udc51',
       color: '#7c3aed',
     },
@@ -260,6 +347,8 @@ export const KINGS = {
       years: 'c. 997\u20131000',
       title: 'Kralj',
       desc: 'Eldest son of Dr\u017eislav. Overthrown by his brothers with Venetian help. Venice under Doge Pietro II Orseolo used this instability to seize Dalmatian cities.',
+      descHr:
+        'Najstariji Dr\u017eislavov sin. Svrgnula su ga vlastita bra\u0107a uz mleta\u010dku pomo\u0107. Mle\u010dani su pod du\u017edem Petrom II. Orseolom iskoristili tu nestabilnost kako bi zauzeli dalmatinske gradove.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -268,6 +357,8 @@ export const KINGS = {
       years: 'c. 1000\u20131030',
       title: 'Kralj',
       desc: 'Fought to restore Croatian control over Dalmatia after Venetian expansion. Shared power with his brother Gojslav.',
+      descHr:
+        'Borio se za obnovu hrvatske vlasti nad Dalmacijom nakon mleta\u010dke ekspanzije. Vlast je dijelio sa svojim bratom Gojslavom.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -276,6 +367,8 @@ export const KINGS = {
       years: 'c. 1030\u20131058',
       title: 'Kralj',
       desc: 'Long reign during which he maintained the kingdom\u0027s borders and resisted both Byzantine and Venetian pressure on Dalmatia.',
+      descHr:
+        'Duga vladavina tijekom koje je o\u010duvao granice kraljevstva i odolijevao i bizantskom i mleta\u010dkom pritisku na Dalmaciju.',
       emoji: '\ud83d\udc51',
       color: '#0e7490',
     },
@@ -284,6 +377,8 @@ export const KINGS = {
       years: '1058\u20131074',
       title: 'Kralj \u2014 The Great',
       desc: 'The greatest territorial expander. Brought all Dalmatian cities under Croatian rule for the first time. Used the title \u0027King of Croatia and Dalmatia.\u0027 Under his reign the kingdom reached its maximum territorial extent. Considered one of the most important Croatian monarchs.',
+      descHr:
+        'Najve\u0107i teritorijalni \u0161iritelj. Prvi je put sve dalmatinske gradove doveo pod hrvatsku vlast. Koristio je naslov \u0027kralj Hrvatske i Dalmacije\u0027. Za njegove vladavine kraljevstvo je doseglo svoj najve\u0107i teritorijalni opseg. Smatra se jednim od najva\u017enijih hrvatskih vladara.',
       emoji: '\ud83d\udc51',
       color: '#b45309',
     },
@@ -292,6 +387,8 @@ export const KINGS = {
       years: '1075\u20131089',
       title: 'Kralj \u2014 The Blessed',
       desc: 'Crowned at Solin by papal legate on October 8, 1076. His oath of loyalty is preserved as a key historical document. Reign was peaceful and prosperous. Strengthened ties with the Catholic Church. Recorded on the Ba\u0161ka Tablet \u2014 one of the oldest Croatian language texts. Married Jelena (Helena), Hungarian princess. Died 1089 without male heir.',
+      descHr:
+        'Okrunjen u Solinu rukom papinskog legata 8. listopada 1076. godine. Njegova zakletva vjernosti sa\u010duvana je kao klju\u010dni povijesni dokument. Vladavina mu je bila mirna i napredna. U\u010dvrstio je veze s Katoli\u010dkom crkvom. Zabilje\u017een na Ba\u0161\u0107anskoj plo\u010di \u2014 jednom od najstarijih tekstova na hrvatskom jeziku. O\u017eenio se Jelenom, ma\u0111arskom princezom. Umro je 1089. bez mu\u0161kog nasljednika.',
       emoji: '\ud83d\udc51',
       color: '#b45309',
     },
@@ -300,6 +397,8 @@ export const KINGS = {
       years: '1089\u20131091',
       title: 'Zadnji Trpimirovi\u0107 \u2014 Last of the Line',
       desc: 'Last king from the direct Trpimirovi\u0107 dynasty. Elderly and in poor health, he ruled less than two years. His death without an heir triggered the succession crisis that would end Croatian independence.',
+      descHr:
+        'Posljednji kralj izravne loze Trpimirovi\u0107a. Star i slaba zdravlja, vladao je manje od dvije godine. Njegova smrt bez nasljednika pokrenula je nasljednu krizu koja \u0107e okon\u010dati hrvatsku neovisnost.',
       emoji: '\ud83d\udc51',
       color: '#dc2626',
     },
@@ -308,6 +407,8 @@ export const KINGS = {
       years: '1093\u20131097',
       title: 'Posljednji Hrvatski Kralj \u2014 Last Croatian King',
       desc: 'Elected by Croatian nobles as the last native king. Fought heroically against Hungarian King Koloman who claimed the Croatian throne. Fell in battle at Gvozd Mountain (Petrova Gora) in 1097. His death marks the end of sovereign Croatian rule. The mountain where he fell was later renamed Petrova Gora (\u0027Peter\u0027s Mountain\u0027) in his honor. A true martyr of Croatian independence.',
+      descHr:
+        'Izabralo ga je hrvatsko plemstvo za posljednjeg doma\u0107eg kralja. Herojski se borio protiv ma\u0111arskog kralja Kolomana, koji je polagao pravo na hrvatsko prijestolje. Poginuo je u bici na Gvozdu (Petrova gora) 1097. godine. Njegova smrt ozna\u010dava kraj suverene hrvatske vlasti. Planina na kojoj je poginuo poslije je u njegovu \u010dast preimenovana u Petrovu goru. Pravi mu\u010denik hrvatske neovisnosti.',
       emoji: '\u2694\ufe0f',
       color: '#dc2626',
     },
@@ -326,22 +427,30 @@ export const KINGS = {
     {
       name: 'Nin',
       desc: 'Earliest Croatian royal seat. Bishop Gregory of Nin championed Croatian language in church services.',
+      descHr:
+        'Najstarije hrvatsko kraljevsko sjedi\u0161te. Biskup Grgur Ninski zalagao se za hrvatski jezik u crkvenim obredima.',
     },
     {
       name: 'Biograd na Moru',
       desc: 'Royal city and coronation site. Destroyed by Venice in 1125.',
+      descHr: 'Kraljevski grad i mjesto krunidbe. Razorili su ga Mle\u010dani 1125. godine.',
     },
     {
       name: 'Knin',
       desc: 'Mountain fortress and royal seat. Strategic heart of the Croatian kingdom.',
+      descHr:
+        'Planinska utvrda i kraljevsko sjedi\u0161te. Strate\u0161ko srce hrvatskog kraljevstva.',
     },
     {
       name: 'Solin',
       desc: 'Ancient Salona. Site of Zvonimir\u0027s coronation in 1076. Heart of Croatian Christianity.',
+      descHr:
+        'Anti\u010dka Salona. Mjesto Zvonimirove krunidbe 1076. godine. Srce hrvatskog kr\u0161\u0107anstva.',
     },
     {
       name: '\u0160ibenik',
       desc: 'First city on the Adriatic founded by Croats (not Romans or Greeks).',
+      descHr: 'Prvi grad na Jadranu koji su osnovali Hrvati (a ne Rimljani ili Grci).',
     },
   ],
   vocabulary: [
