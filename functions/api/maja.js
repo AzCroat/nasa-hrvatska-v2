@@ -5,6 +5,9 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 
+// Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
+const MAX_KNOWN_FACTS = 40;
+
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
 
@@ -76,7 +79,12 @@ function buildMajaSystemPrompt(params) {
   // Sanitize knownFacts — only keep string/array primitives, no nesting beyond one level
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -247,7 +255,12 @@ function buildFishermanSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -375,7 +388,12 @@ function buildCabbieSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -489,7 +507,12 @@ function buildSecretarySystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -623,7 +646,12 @@ function buildBakaSystemPrompt(params) {
 
   const rawFacts = session?.knownFacts || {};
   const knownFactsLines = [];
-  for (const [k, v] of Object.entries(rawFacts)) {
+  // Cap the NUMBER of entries, not just each value. Per-entry limits (key 40,
+  // scalar 100, array 10x60) were already enforced below, but an unbounded entry
+  // COUNT let a caller inflate the system prompt without limit — the joined lines
+  // are spliced straight into the prompt sent upstream, so a few thousand facts
+  // become a multi-megabyte billed request. See MAX_KNOWN_FACTS.
+  for (const [k, v] of Object.entries(rawFacts).slice(0, MAX_KNOWN_FACTS)) {
     const safeKey = sanitizeParam(k, 40);
     if (!safeKey) continue;
     if (Array.isArray(v)) {
@@ -760,6 +788,15 @@ export async function onRequestPost(context) {
   // Content-type check
   const ct = request.headers.get('content-type') || '';
   if (!ct.includes('application/json')) return err(400, 'Invalid content type', origin);
+
+  // Request-size guard — reject oversized payloads BEFORE parsing, mirroring
+  // ai-chat.js. Without it a caller could post a multi-megabyte body whose
+  // contents get folded into the upstream prompt and billed as input tokens.
+  const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+  if (contentLength > 102400) {
+    // 100KB max
+    return err(413, 'Request too large', origin);
+  }
 
   // Parse body
   let body;

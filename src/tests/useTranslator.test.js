@@ -110,19 +110,34 @@ describe('useTranslator — state and fetch logic', () => {
 
   // ── doTr — rate limit ─────────────────────────────────────────────────────
 
-  it('shows rate-limit message on 429 status', async () => {
-    mockFetch({ error: 'rate_limit' }, 429);
+  // The server emits two distinct 429 codes (functions/api/_requireAuth.js):
+  // `rate_limited` for the per-minute burst limiter and `daily_quota_exceeded`
+  // for the daily ceiling. These tests previously used `rate_limit` — a code
+  // nothing ever sends — and asserted only /limit/i, which both messages
+  // matched, so the conflation went unnoticed.
+
+  it('tells a burst-limited user to wait a minute, not to come back tomorrow', async () => {
+    mockFetch({ error: 'rate_limited' }, 429);
     const { result } = renderHook(() => useTranslator());
     await setInputAndTranslate(result, 'word');
-    expect(result.current.tOut).toMatch(/limit/i);
+    expect(result.current.tOut).toMatch(/wait a minute/i);
+    expect(result.current.tOut).not.toMatch(/tomorrow/i);
     expect(result.current.tL).toBe(false);
   });
 
-  it('shows rate-limit message when response body has error: rate_limit', async () => {
-    mockFetch({ error: 'rate_limit' });
+  it('tells a daily-quota user to try again tomorrow', async () => {
+    mockFetch({ error: 'daily_quota_exceeded' }, 429);
     const { result } = renderHook(() => useTranslator());
     await setInputAndTranslate(result, 'word');
-    expect(result.current.tOut).toMatch(/limit/i);
+    expect(result.current.tOut).toMatch(/tomorrow/i);
+    expect(result.current.tL).toBe(false);
+  });
+
+  it('treats a bare 429 with no code as the burst limiter', async () => {
+    mockFetch({}, 429);
+    const { result } = renderHook(() => useTranslator());
+    await setInputAndTranslate(result, 'word');
+    expect(result.current.tOut).toMatch(/wait a minute/i);
   });
 
   // ── doTr — generic API error ──────────────────────────────────────────────

@@ -1,5 +1,6 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
 import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
+import { lsGet, lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
@@ -564,7 +565,7 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'placement' && (
           <PlacementTest
             onComplete={async function (level: number) {
-              localStorage.setItem('placement_done', '1');
+              lsSet('placement_done', '1');
               // ALSO flag user as onboarded so Firebase sync persists this
               // across devices. buildProgressSnapshot reads `onboarded` and
               // `nh_placement_done` from localStorage and writes them into
@@ -574,8 +575,8 @@ export default function AppRouter(props: Record<string, any>) {
               // writes, a user who completed placement on device A would be
               // re-prompted on device B until Firebase MERGE_REMOTE happened
               // to land xp > 0 before the 1200ms placement timer fired.
-              localStorage.setItem('nh_placement_done', 'true');
-              localStorage.setItem('onboarded', 'true');
+              lsSet('nh_placement_done', 'true');
+              lsSet('onboarded', 'true');
               // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
               // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
               // to a Promise (breaking every `[...stats.ct]` spread and the
@@ -803,7 +804,7 @@ export default function AppRouter(props: Record<string, any>) {
                           onSyncNow={doSyncNow}
                           authUser={authUser}
                           comebackBonus={comebackBonus}
-                          goal={localStorage.getItem('nh_goal') || 'fluent'}
+                          goal={lsGet('nh_goal') || 'fluent'}
                           isNewUserWindow={isNewUserWindow}
                           daysSinceJoin={daysSinceJoin}
                           resumeLesson={resumeLesson}
@@ -2123,7 +2124,7 @@ export default function AppRouter(props: Record<string, any>) {
             <ScreenErrorBoundary key="new-placement" name="new-placement">
               <PlacementTest
                 onComplete={async function (level: number) {
-                  localStorage.setItem('placement_done', '1');
+                  lsSet('placement_done', '1');
                   // ALSO flag user as onboarded so Firebase sync persists this
                   // across devices. buildProgressSnapshot reads `onboarded` and
                   // `nh_placement_done` from localStorage and writes them into
@@ -2133,8 +2134,8 @@ export default function AppRouter(props: Record<string, any>) {
                   // writes, a user who completed placement on device A would be
                   // re-prompted on device B until Firebase MERGE_REMOTE happened
                   // to land xp > 0 before the 1200ms placement timer fired.
-                  localStorage.setItem('nh_placement_done', 'true');
-                  localStorage.setItem('onboarded', 'true');
+                  lsSet('nh_placement_done', 'true');
+                  lsSet('onboarded', 'true');
                   // getPlacementCt is async — must be awaited. Assigning the raw
                   // Promise corrupted stats.ct (breaking spreads + the sync
                   // arrayUnion filter) and made lc = Math.max(prev.lc, undefined)
@@ -2165,7 +2166,7 @@ export default function AppRouter(props: Record<string, any>) {
         }
         {
           // ═══ VOCABULARY LESSON ═══
-          currentScreen === 'lesson' && (
+          currentScreen === 'lesson' && lt && (
             <ScreenErrorBoundary key="lesson" name="lesson">
               <LessonScreen
                 lt={lt}
@@ -2197,8 +2198,14 @@ export default function AppRouter(props: Record<string, any>) {
           )
         }
         {
+          // Reload / shared-link on /lesson loses `lt` (lessonTopic React state);
+          // without this guard LessonScreen rendered blank ("Lesson · Question of ?")
+          // with no way back. Mirrors the grammar_unit_detail reload guard above.
+          currentScreen === 'lesson' && !lt && <ScreenGuard goBack={goBack} label="lesson" />
+        }
+        {
           // ═══ GRAMMAR ═══
-          currentScreen === 'grammar' && (
+          currentScreen === 'grammar' && gl && (
             <ScreenErrorBoundary key="grammar" name="grammar">
               <GrammarScreen
                 gl={gl}
@@ -2217,6 +2224,13 @@ export default function AppRouter(props: Record<string, any>) {
                 setSt={setStats}
               />
             </ScreenErrorBoundary>
+          )
+        }
+        {
+          // Reload on /grammar loses `gl` (grammarLesson React state → null); guard
+          // the otherwise-blank GrammarScreen with a clear path back, as above.
+          currentScreen === 'grammar' && !gl && (
+            <ScreenGuard goBack={goBack} label="grammar lesson" />
           )
         }
         {currentScreen === 'alphabet' && (

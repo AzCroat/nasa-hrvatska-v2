@@ -71,6 +71,7 @@ import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import DesktopPanel from './components/shared/DesktopPanel';
+import { lsGet, lsSet, ssGet, ssSet } from './lib/safeStorage';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // All vocabulary category keys (V base keys + TOP100 keys from content.jsx).
@@ -853,7 +854,7 @@ function App() {
         'badges',
         'certificate',
       ]);
-      const last = sessionStorage.getItem('nh_last_scr_' + tabForPath);
+      const last = ssGet('nh_last_scr_' + tabForPath);
       _setCurrentScreen(last && SAFE_RESTORE.has(last) ? last : 'dashboard');
       return;
     }
@@ -1154,11 +1155,11 @@ function App() {
   // Email verification banner — auto-dismiss after 8 s; show at most once per session
   useEffect(() => {
     if (!emailUnverified) return undefined;
-    if (sessionStorage.getItem('nh_ev_shown')) {
+    if (ssGet('nh_ev_shown')) {
       setEmailUnverified(false);
       return undefined;
     }
-    sessionStorage.setItem('nh_ev_shown', '1');
+    ssSet('nh_ev_shown', '1');
     const t = setTimeout(() => setEmailUnverified(false), 8000);
     return () => clearTimeout(t);
   }, [emailUnverified, setEmailUnverified]);
@@ -1300,9 +1301,9 @@ function App() {
     if (
       stats.lc === 0 &&
       stats.xp === 0 &&
-      !localStorage.getItem('placement_done') &&
-      !localStorage.getItem('nh_placement_done') &&
-      !localStorage.getItem('onboarded')
+      !lsGet('placement_done') &&
+      !lsGet('nh_placement_done') &&
+      !lsGet('onboarded')
     ) {
       const t = setTimeout(() => setScr('new-placement'), 1200);
       return () => clearTimeout(t);
@@ -1316,8 +1317,12 @@ function App() {
     if (!authUser) return;
     const today = new Date();
     if (today.getDay() !== 0) return;
-    const k = 'nh_digest_' + authUser.u + '_' + today.toISOString().slice(0, 10);
-    if (localStorage.getItem(k)) return;
+    // localDateStr, not toISOString: the Sunday gate above uses getDay(), which
+    // is LOCAL, so a UTC key mixes two bases. West of UTC one local Sunday spans
+    // two UTC dates (Sun 10:00 PDT → 2026-07-26, Sun 18:00 PDT → 2026-07-27), so
+    // the dedup key changed mid-Sunday and the weekly digest could send twice.
+    const k = 'nh_digest_' + authUser.u + '_' + localDateStr(today);
+    if (lsGet(k)) return;
     // Gate on the canonical consent key ('cookie_consent_v1' === 'accepted',
     // via isAnalyticsConsented). The old check read 'nh_analytics_consent',
     // which is written nowhere in the app — so this weekly digest email could
@@ -1349,7 +1354,7 @@ function App() {
         }),
       })
         .then((r) => {
-          if (r.ok) localStorage.setItem(k, '1');
+          if (r.ok) lsSet(k, '1');
         })
         .catch(() => {}),
     );
@@ -1365,7 +1370,7 @@ function App() {
       // Native: refresh the OS-level daily reminder (updates the streak in the
       // message and re-arms it if the OS dropped the schedule). No-op unless the
       // user has granted permission.
-      if (localStorage.getItem('nh_notifications_enabled') === 'true') {
+      if (lsGet('nh_notifications_enabled') === 'true') {
         import('./lib/nativeNotifications')
           .then(({ scheduleNativeDailyReminder }) =>
             scheduleNativeDailyReminder(getStreak().count || 0),
@@ -1482,7 +1487,7 @@ function App() {
   // Premium welcome banner
   useEffect(() => {
     if (authScreen !== 'app' || !authUser) return undefined;
-    if (localStorage.getItem('nh_premium_welcome_shown')) return undefined;
+    if (lsGet('nh_premium_welcome_shown')) return undefined;
     const t = setTimeout(() => {
       const { isFreeAnnual } = getSubscriptionStatus();
       if (isFreeAnnual && stats.lc === 0) setShowPremiumWelcome(true);

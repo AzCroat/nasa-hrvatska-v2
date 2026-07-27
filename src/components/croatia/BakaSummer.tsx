@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 const CHAPTERS = [
   {
@@ -300,15 +301,14 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
 
   const [chapter, setChapter] = useState(() => {
     const maxAllowed = chaptersDone.size; // can view up to last completed + 1 (0-indexed)
-    const saved = parseInt(localStorage.getItem('nh_baka_ch') || '0', 10);
+    // Guarded: bare in a useState initialiser, i.e. during first render.
+    const saved = parseInt(lsGet('nh_baka_ch') || '0', 10);
     return Math.min(saved, maxAllowed);
   });
 
   const [showTranslation, setShowTranslation] = useState(false);
   const [showVocab, setShowVocab] = useState(false);
-  const [bonusAwarded, setBonusAwarded] = useState(
-    () => !!localStorage.getItem('nh_baka_done_bonus'),
-  );
+  const [bonusAwarded, setBonusAwarded] = useState(() => !!lsGet('nh_baka_done_bonus'));
   const chapterXpFired = useRef(new Set());
 
   // Reset translation/vocab state when chapter changes
@@ -322,7 +322,10 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
     if (chaptersDone.size === 16 && !bonusAwarded) {
       if (typeof award === 'function') award(100, false, 'heritage');
       markQuest('culture');
-      localStorage.setItem('nh_baka_done_bonus', '1');
+      // Guarded: a throw here escaped the effect (ErrorBoundary) AND skipped
+      // setBonusAwarded(true) — so the 100 XP completion bonus could be awarded
+      // a second time if the effect ever re-ran.
+      lsSet('nh_baka_done_bonus', '1');
       setBonusAwarded(true);
     }
   }, [chaptersDone, bonusAwarded, award]);
@@ -337,15 +340,18 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
     const updated = new Set(chaptersDone);
     updated.add(chapter);
     setChaptersDone(updated);
-    localStorage.setItem('nh_baka_done', JSON.stringify([...updated]));
+    // Guarded: the 20 XP award, the quest mark and the chapter advance all come
+    // after this line, and chapterXpFired is already latched above — so a throw
+    // left the chapter completed with no XP and no advance, permanently.
+    lsSet('nh_baka_done', JSON.stringify([...updated]));
     if (typeof award === 'function') award(20, false, 'heritage');
     markQuest('culture');
     if (chapter < 15) {
       const next = chapter + 1;
       setChapter(next);
-      localStorage.setItem('nh_baka_ch', String(next));
+      lsSet('nh_baka_ch', String(next));
     } else {
-      localStorage.setItem('nh_baka_ch', '15');
+      lsSet('nh_baka_ch', '15');
     }
   }
 
@@ -353,7 +359,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
     const maxAllowed = chaptersDone.size;
     if (idx >= 0 && idx <= Math.min(maxAllowed, 15)) {
       setChapter(idx);
-      localStorage.setItem('nh_baka_ch', String(idx));
+      lsSet('nh_baka_ch', String(idx));
     }
   }
 

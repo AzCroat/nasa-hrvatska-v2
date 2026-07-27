@@ -20,7 +20,20 @@ function CityLocativeScreen({ goBack, award }: Props) {
   const shuffledOpts = React.useMemo(
     () =>
       (quizCities as { nom: string; lok: string }[]).map((c2, i) => {
-        const wrong = (CITYLOC.cities[(i + 3) % CITYLOC.cities.length] ?? CITYLOC.cities[0]!).lok;
+        // `i` indexes the shuffled 8-city subset while the distractor was drawn
+        // POSITIONALLY from the full 14-city list, with no value comparison — so
+        // the two options were the identical string in ~44% of sessions (both
+        // rendered green, both graded correct). Walk forward to the first city
+        // whose locative actually differs.
+        const all = CITYLOC.cities as { nom: string; lok: string }[];
+        let wrong = c2.lok;
+        for (let step = 3; step < 3 + all.length; step++) {
+          const cand = all[(i + step) % all.length];
+          if (cand && cand.lok !== c2.lok) {
+            wrong = cand.lok;
+            break;
+          }
+        }
         return sh([c2.lok, wrong]);
       }),
     [quizCities],

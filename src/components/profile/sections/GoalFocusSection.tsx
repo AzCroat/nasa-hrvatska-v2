@@ -1,5 +1,6 @@
 import React from 'react';
 import { sh } from '../../../data';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Goal Focus cluster — extracted verbatim from SettingsTab as part of the 1a
@@ -164,7 +165,7 @@ export default function GoalFocusSection({
         })()}
 
       {/* ── PARTNER GOAL CARD ── */}
-      {localStorage.getItem('nh_goal') === 'partner' && (
+      {lsGet('nh_goal') === 'partner' && (
         <div
           style={{
             background: 'linear-gradient(135deg,rgba(249,168,37,.1),rgba(14,116,144,.08))',

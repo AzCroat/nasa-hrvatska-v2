@@ -10,6 +10,7 @@ import SprintCountdownScreen from './SprintCountdownScreen';
 import SprintSpeakingPhase from './SprintSpeakingPhase';
 import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
+import { lsGet } from '../../lib/safeStorage';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -288,7 +289,7 @@ const PROMPTS = {
 const SR_SUPPORTED = isSpeechRecognitionSupported();
 
 function pickPrompt(): SprintPrompt {
-  const level = localStorage.getItem('nh_level') || 'B1';
+  const level = lsGet('nh_level') || 'B1';
   const levelKey = (
     ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1'
   ) as keyof typeof PROMPTS;
@@ -297,7 +298,7 @@ function pickPrompt(): SprintPrompt {
 }
 
 function getUserLevel() {
-  const level = localStorage.getItem('nh_level') || 'B1';
+  const level = lsGet('nh_level') || 'B1';
   return ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1';
 }
 
@@ -338,6 +339,7 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
   const phaseRef = useRef('setup');
+  const mountedRef = useRef(true);
 
   // Keep phaseRef in sync
   useEffect(() => {
@@ -353,7 +355,9 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       style.textContent = SPRINT_STYLES;
       document.head.appendChild(style);
     }
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       stopMic();
       if (silenceTimerRef.current !== null) clearTimeout(silenceTimerRef.current);
       if (audioRef.current) {
@@ -482,6 +486,11 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // Left the screen during the TTS fetch? The unmount cleanup has already
+      // paused audioRef and revoked the object URL, so constructing and playing a
+      // new element here left Croatian audio running over the next screen with
+      // nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       setAudioUrl(url);
       const audio = new Audio(url);

@@ -26,6 +26,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { lsGet, lsSet } from '../lib/safeStorage';
 
 const STORAGE_KEY = 'nh_subscription';
 
@@ -171,8 +172,13 @@ export function redeemPromoCode(code: string): { ok: boolean; message: string } 
   const promo = PROMO_CODES[code?.toUpperCase?.()];
   if (!promo) return { ok: false, message: 'Invalid promo code.' };
   const usedKey = 'nh_promo_' + code.toUpperCase();
-  if (localStorage.getItem(usedKey)) return { ok: false, message: 'Promo already used.' };
-  localStorage.setItem(usedKey, '1');
+  // Guarded: these were the only bare calls in this file — _save, the
+  // free-annual grant and the cancel marker are all already wrapped. A throw on
+  // either (reads throw too when site data is blocked) escaped into the redeem
+  // button's handler and skipped activateSubscription on the next line, so a
+  // valid promo code granted nothing and reported no reason.
+  if (lsGet(usedKey)) return { ok: false, message: 'Promo already used.' };
+  lsSet(usedKey, '1');
   activateSubscription(promo.plan, 'promo');
   return { ok: true, message: `${promo.days} days of Premium activated!` };
 }

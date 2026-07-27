@@ -142,10 +142,21 @@ export async function onRequestPost(context) {
   const safeStyle =
     stylePreferences && stylePreferences.dataPoints >= 5
       ? {
-          preferred: (stylePreferences.preferredTypes || [])
+          // `|| []` only substitutes for null/undefined — a number or object
+          // passed here reached .slice().map() and threw an uncaught TypeError,
+          // which surfaced as an opaque 500 (the handler has no outer try) after
+          // the AI quota had already been charged. dataPoints was validated;
+          // these two were not.
+          preferred: (Array.isArray(stylePreferences.preferredTypes)
+            ? stylePreferences.preferredTypes
+            : []
+          )
             .slice(0, 3)
             .map((t) => String(t).slice(0, 30)),
-          avoided: (stylePreferences.avoidedTypes || [])
+          avoided: (Array.isArray(stylePreferences.avoidedTypes)
+            ? stylePreferences.avoidedTypes
+            : []
+          )
             .slice(0, 3)
             .map((t) => String(t).slice(0, 30)),
           dataPoints: parseInt(stylePreferences.dataPoints) || 0,

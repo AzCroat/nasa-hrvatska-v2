@@ -9,6 +9,8 @@ import {
 } from '../../lib/appUtils.js';
 import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import { availableXp } from '../../lib/xpBalance.js';
+import { safeSetItem } from '../../hooks/useLocalStorage';
+import { lsSet } from '../../lib/safeStorage';
 
 // Streak Restore cost — matches the RewardsPanel affordability gate (xp >= 200).
 const STREAK_RESTORE_COST = 200;
@@ -83,13 +85,23 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
   };
 
   const restoreStreak = () => {
-    // Record the 200-XP cost on the monotonic `spent` counter (authoritative +
-    // synced) instead of subtracting earned xp via a negative award — that
-    // subtraction was refunded by the Math.max sync merge (the #110 bug).
+    // Persist the restored streak BEFORE charging for it. These two writes were
+    // bare and sat AFTER spendXp, so on storage that rejects writes (Safari
+    // Private Browsing, a quota-exhausted profile) the learner was charged 200 XP
+    // and the throw then skipped the uStreak write, the success message and the
+    // sync — they paid and got nothing back. safeSetItem reports failure instead
+    // of throwing, so the charge can be withheld when the restore cannot stick.
+    if (!safeSetItem('uStreak', { count: 1, last: today })) {
+      setStreakRestoreMsg(
+        'Could not restore your streak — this browser is blocking storage. No XP was spent.',
+      );
+      return;
+    }
+    // The cost goes on the monotonic `spent` counter (authoritative + synced)
+    // rather than subtracting earned xp via a negative award — that subtraction
+    // was refunded by the Math.max sync merge (the #110 bug).
     spendXp(STREAK_RESTORE_COST);
-    localStorage.setItem('nh_streak_restored_' + today, '1');
-    // Write streak back to 1 using the uStreak key (same format as getStreak in data.jsx)
-    localStorage.setItem('uStreak', JSON.stringify({ count: 1, last: today }));
+    lsSet('nh_streak_restored_' + today, '1');
     // Sync with streak.js repair key so canRepairStreak() returns false this session
     try {
       const rd = JSON.parse(localStorage.getItem('nh_streak_repair') || '{}');

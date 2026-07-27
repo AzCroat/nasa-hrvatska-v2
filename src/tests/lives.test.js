@@ -247,4 +247,28 @@ describe('lives — hearts system', () => {
     expect(ms).toBeGreaterThan(0);
     expect(ms).toBeLessThanOrEqual(3600000 * 1.1);
   });
+
+  // getHearts() already clamped a corrupted stored value to [0,5]; loseHeart()
+  // did not, and its return value is what McGame hands to the reducer as the
+  // displayed heart count. So the two functions disagreed: getHearts() showed 5
+  // while loseHeart() counted down from 99, making hearts look unlosable.
+  it('loseHeart clamps a corrupted above-max stored value, like getHearts does', () => {
+    const today = localDateStr();
+    localStorage.setItem(
+      'nh_hearts',
+      JSON.stringify({ date: today, hearts: 99, lastRegen: Date.now() }),
+    );
+    expect(getHearts()).toBe(5);
+    expect(loseHeart()).toBe(4);
+    expect(getHearts()).toBe(4);
+  });
+
+  it('loseHeart tolerates a non-numeric stored heart count', () => {
+    const today = localDateStr();
+    localStorage.setItem(
+      'nh_hearts',
+      JSON.stringify({ date: today, hearts: 'lots', lastRegen: Date.now() }),
+    );
+    expect(loseHeart()).toBe(4);
+  });
 });

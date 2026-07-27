@@ -132,16 +132,20 @@ export async function onRequestPost(context) {
 
   // Sanitize errorLog — cap at 50 entries
   const safeErrorLog = Array.isArray(errorLog)
-    ? errorLog.slice(0, 50).map((e) => ({
-        type: sanitizeParam(String(e.type || ''), 40),
-        context: sanitizeParam(String(e.context || ''), 100),
-        timestamp: Number.isFinite(e.timestamp) ? e.timestamp : 0,
-      }))
+    ? errorLog
+        .filter((e) => e && typeof e === 'object') // a [null] element threw on e.type
+        .slice(0, 50)
+        .map((e) => ({
+          type: sanitizeParam(String(e.type || ''), 40),
+          context: sanitizeParam(String(e.context || ''), 100),
+          timestamp: Number.isFinite(e.timestamp) ? e.timestamp : 0,
+        }))
     : [];
 
   // Sanitize srsWeakWords — cap at 30
   const safeSrsWeakWords = Array.isArray(srsWeakWords)
     ? srsWeakWords
+        .filter((w) => w && typeof w === 'object') // a [null] element threw on w.word
         .slice(0, 30)
         .map((w) => ({
           word: sanitizeParam(String(w.word || ''), 50),

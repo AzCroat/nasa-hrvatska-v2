@@ -23,7 +23,19 @@ function getState(): HeartsState | null {
 }
 
 function saveState(s: HeartsState): void {
-  localStorage.setItem(KEY, JSON.stringify(s));
+  // MUST NOT throw. getHearts() calls this unconditionally on the first read of a
+  // new day, and McGame calls getHearts() inside a useMemo — i.e. DURING RENDER.
+  // An unguarded setItem therefore threw a QuotaExceededError out of render and
+  // the ErrorBoundary replaced the entire quiz screen. In Safari Private Browsing
+  // (or any full-quota profile) getItem also returns null, so the `!s` branch is
+  // always taken and the crash happened on EVERY entry to a Hearts/Challenge quiz.
+  // loseHeart() has the same exposure in the answer-click path.
+  // Failing to persist is harmless: hearts simply fall back to the day's default.
+  try {
+    localStorage.setItem(KEY, JSON.stringify(s));
+  } catch {
+    /* storage unavailable or full — keep playing with in-memory values */
+  }
 }
 
 function todayKey(): string {
@@ -58,7 +70,12 @@ export function getHearts(): number {
 export function loseHeart(): number {
   const s = getState();
   const today = todayKey();
-  const current = s && s.date === today ? s.hearts : 5;
+  // Clamp to [0,5] exactly as getHearts() does. Without it a corrupted stored
+  // value (say 99) decremented to 98 and was returned straight to the caller —
+  // McGame passes this into the reducer as the displayed heart count, so the two
+  // functions disagreed and hearts looked unlosable until they fell below 5.
+  const raw = s && s.date === today ? s.hearts : 5;
+  const current = Math.min(5, Math.max(0, Number.isFinite(raw) ? Math.floor(raw) : 5));
   const newHearts = Math.max(0, current - 1);
   // Anchor the regen clock at the moment hearts first drop below full. While a
   // user sits at 5 hearts, getHearts() never advances lastRegen (its regen branch

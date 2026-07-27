@@ -3,6 +3,7 @@ import { H, speak } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import LessonQuiz from './LessonQuiz';
 import { LESSON_QUIZ_BANKS } from '../../lib/lessonQuizBanks';
+import { lsGet } from '../../lib/safeStorage';
 
 interface AspectPair {
   impf: string;
@@ -24,8 +25,7 @@ interface Props {
 function AspectScreen({ goBack, award }: Props) {
   const { grammar, loading, error } = useGrammar();
   const [quiz, setQuiz] = useState(false);
-  const userLevel =
-    typeof localStorage !== 'undefined' ? localStorage.getItem('nh_level') || 'A1' : 'A1';
+  const userLevel = typeof localStorage !== 'undefined' ? lsGet('nh_level') || 'A1' : 'A1';
   const isA1 = userLevel === 'A1';
   const isPreB1 = ['A1', 'A2'].includes(userLevel);
 

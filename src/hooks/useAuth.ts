@@ -29,6 +29,8 @@ import {
 } from '../data';
 import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
+import { lsSet, lsRemove } from '../lib/safeStorage';
+import { API_BASE } from '../lib/platform';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
 import type { AuthUser } from '../types/index.js';
@@ -496,12 +498,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        regKey,
-        JSON.stringify({ count: regData.count + 1, since: regData.since }),
-      );
+      lsSet(regKey, JSON.stringify({ count: regData.count + 1, since: regData.since }));
     } else {
-      localStorage.setItem(regKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(regKey, JSON.stringify({ count: 1, since: now }));
     }
     if (TURNSTILE_ENABLED) {
       if (!turnstileToken) {
@@ -510,7 +509,15 @@ export function useAuth({
         return;
       }
       try {
-        const verifyRes = await fetch('/api/turnstile/verify', {
+        // API_BASE, not a relative path: on Capacitor native this resolves to
+        // https://localhost, where Capacitor's html5mode fallback returns the
+        // bundled index.html as text/html with status 200. verifyRes.ok would
+        // then be true, .json() would throw into the .catch(() => ({})) below,
+        // verifyJson.ok would be undefined, and registration would fail with
+        // "Verification failed" — no way for a native user to create an account
+        // at all whenever VITE_TURNSTILE_SITEKEY is set in the native build.
+        // API_BASE is '' on web, so nothing changes there.
+        const verifyRes = await fetch(`${API_BASE}/api/turnstile/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: turnstileToken, action: 'signup' }),
@@ -580,12 +587,9 @@ export function useAuth({
         setAuthLoading(false);
         return;
       }
-      localStorage.setItem(
-        loginKey,
-        JSON.stringify({ count: loginData.count + 1, since: loginData.since }),
-      );
+      lsSet(loginKey, JSON.stringify({ count: loginData.count + 1, since: loginData.since }));
     } else {
-      localStorage.setItem(loginKey, JSON.stringify({ count: 1, since: now }));
+      lsSet(loginKey, JSON.stringify({ count: 1, since: now }));
     }
     try {
       const k = authEmail.trim().toLowerCase();
@@ -692,7 +696,7 @@ export function useAuth({
       'uStreak',
       'uFreeze',
       'xpCooldown',
-    ].forEach((k) => localStorage.removeItem(k));
+    ].forEach((k) => lsRemove(k));
     ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) =>
       sessionStorage.removeItem(k),
     );

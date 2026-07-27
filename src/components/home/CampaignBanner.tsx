@@ -1,4 +1,5 @@
 import React from 'react';
+import { lsGet } from '../../lib/safeStorage';
 
 interface CampaignQuest {
   id: string;
@@ -44,7 +45,7 @@ export default function CampaignBanner({
   if (
     !activeCampaign ||
     campaignDismissed ||
-    localStorage.getItem('nh_campaign_dismissed_' + activeCampaign.id) === '1'
+    lsGet('nh_campaign_dismissed_' + activeCampaign.id) === '1'
   ) {
     return null;
   }

@@ -17,8 +17,21 @@ export async function onRequestPost(context) {
   const { origin } = gate;
   const { request, env } = context;
 
+  // Malformed JSON must be a 400, not the outer catch's 500 — the AI quota is
+  // already decremented by requireAuthedAI above, so telling the client the
+  // server broke both misleads it and silently costs the user a request.
+  let parsed;
   try {
-    const { text, from, to } = await request.json();
+    parsed = await request.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'invalid_json' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    });
+  }
+
+  try {
+    const { text, from, to } = parsed || {};
     if (typeof text !== 'string' || !text.trim() || text.length > 500) {
       return new Response(JSON.stringify({ error: 'invalid_input' }), {
         status: 400,

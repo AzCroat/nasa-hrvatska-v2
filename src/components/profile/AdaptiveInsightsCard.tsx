@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { getErrorLog } from '../../hooks/useErrorTracking';
+import { localDateStr } from '../../lib/dateUtils';
 
 interface InsightsData {
   todaysFocus?: string;
@@ -15,7 +16,10 @@ const BRAND_TEAL_DIM = 'rgba(14,116,144,0.08)';
 const BRAND_TEAL_BORDER = '#0e7490';
 
 function _todayKey() {
-  return new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  // Local, not UTC: this keys the once-a-day insights cache, so a UTC boundary
+  // rotated "today's focus" at 17:00 PDT / 19:00 CDT rather than at the start of
+  // the learner's day. Most of this app's audience is diaspora in the Americas.
+  return localDateStr();
 }
 
 function _cacheKey(uid: string) {

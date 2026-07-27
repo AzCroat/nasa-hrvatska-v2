@@ -61,7 +61,7 @@ Tvoja Baka 💙`,
 
 Jučer je bila svadba kod susjeda Ivića. Cijelo selo je plesalo kolo do ponoći! Glazba je bila tako lijepa — tamburice i harmonika.
 
-Tvoja teta Ana je donijela fritule — onaj recept koji smo ti uvijek davali za Božić. Svi su pitali za tebe. Rekla sam im da učiš hrvatski i da ćeš doći ljeti. Je li to istina?
+Tvoja teta Ana je donijela fritule — po onom receptu koji smo ti uvijek davali za Božić. Svi su pitali za tebe. Rekla sam im da učiš hrvatski i da ćeš doći ljeti. Je li to istina?
 
 Djed je nešto bolje. Hoda po vrtu svako jutro i kopa. Kaže da se bez rada ne može živjeti.
 
@@ -84,9 +84,9 @@ Tvoja Baka 💙`,
     preview: 'Danas je Praznik rada, ali djed i ja smo radili cijeli dan...',
     full: `Drago unuče,
 
-Danas je Praznik rada, ali djed i ja smo radili cijeli dan u vrtu. Tako je to na selu — odmor čeka dok posao čeka.
+Danas je Praznik rada, ali djed i ja smo radili cijeli dan u vrtu. Tako je to na selu — odmor čeka, a posao ne čeka.
 
-Posadili smo paradajz, paprike i tikvice. Zemlja je bila vlažna od jutarnje rose i mirisala je jako lijepo. Djed kaže da ove godine bit će dobar urod — nebo je jasno i vjetar je s mora.
+Posadili smo paradajz, paprike i tikvice. Zemlja je bila vlažna od jutarnje rose i mirisala je jako lijepo. Djed kaže da će ove godine biti dobar urod — nebo je jasno i vjetar je s mora.
 
 Ispekla sam pohanicu od pilećih prsa s krumpirom iz vrta. Susjedica Mara je donijela domaću rakiju od šljive. Sjedili smo vani do zalaska sunca i pričali o starim vremenima.
 
@@ -96,9 +96,9 @@ Volim te puno,
 Baka 💙`,
     words: [
       { hr: 'praznik', en: 'holiday / feast day' },
-      { hr: 'paradajz', en: 'tomato' },
+      { hr: 'paradajz', en: 'tomato (colloquial; standard Croatian: rajčica)' },
       { hr: 'urod', en: 'harvest / crop yield' },
-      { hr: 'pohanjica', en: 'breaded/fried meat' },
+      { hr: 'pohanica', en: 'breaded/fried meat' },
       { hr: 'rakija', en: 'fruit brandy (Croatian spirit)' },
       { hr: 'zalazak sunca', en: 'sunset' },
     ],
@@ -111,9 +111,9 @@ Baka 💙`,
     preview: 'Bio je Stjepanov imendan i svi su došli...',
     full: `Drago unuče,
 
-Bio je Stjepanov imendan i svi su došli na ručak. Znate li da u Hrvatskoj slavimo imendan jednako kao i rođendan? Svaki dan u godini ima svoje svece, a ti koji nose to ime slave.
+Bio je Stjepanov imendan i svi su došli na ručak. Znaš li da u Hrvatskoj slavimo imendan jednako kao i rođendan? Svaki dan u godini ima svoje svece, a oni koji nose to ime slave.
 
-Djed je Stjepan, pa je danas njegov dan. Napravio sam burek sa sirom i mesom — dvadeset kilograma tijesta! Djed je bio presretan.
+Djed je Stjepan, pa je danas njegov dan. Napravila sam burek sa sirom i mesom — dvadeset kilograma tijesta! Djed je bio presretan.
 
 Teta Vesna je dovela svoju djecu — Luku i Maju. Luka je sad visok kao djed. Maja uči engleski u školi i htjela je pričati s tobom. Rekla sam joj da ćeš doći ljeti i da možete pričati.
 
@@ -142,7 +142,7 @@ Ljeto je konačno stiglo u punoj snazi. Temperatura je prošla trideset stupnjev
 
 More je bilo toplo i prozirno. Vidjeli smo ribe kako plivaju ispod nas. Djed je ulovio jednu strigu za večeru. Nije velika, ali svježa riba iz mora nema premca.
 
-Turisti su počeli dolaziti. Ulice su pune stranih jezika — talijanski, njemački, engleski. Ponekad čujem i engleski sa hrvatskim naglaskom — to su naša djeca iz dijaspore koja su došla kući.
+Turisti su počeli dolaziti. Ulice su pune stranih jezika — talijanski, njemački, engleski. Ponekad čujem i engleski s hrvatskim naglaskom — to su naša djeca iz dijaspore koja su došla kući.
 
 Kada dođeš, idi rano ujutro na plažu. To je Hrvatska kakvu turisti ne vide.
 
@@ -154,13 +154,13 @@ Baka 💙`,
       { hr: 'uloviti', en: 'to catch (fish/animal)' },
       { hr: 'nema premca', en: 'has no equal / unbeatable' },
       { hr: 'dijaspora', en: 'diaspora (Croatians abroad)' },
-      { hr: 'naglas', en: 'accent / intonation' },
+      { hr: 'naglasak', en: 'accent / stress' },
     ],
   },
   {
     id: 'letter6',
     from: 'Baka Marija',
-    date: 'Ponedjeljak, 4. kolovoza',
+    date: 'Ponedjeljak, 5. kolovoza',
     subject: 'Dan pobjede i naša priča...',
     preview: 'Obilježavamo Dan pobjede i domovinske zahvalnosti...',
     full: `Drago unuče,
@@ -214,18 +214,18 @@ Baka 💙`,
   {
     id: 'letter8',
     from: 'Baka Marija',
-    date: 'Petak, 14. studenog',
+    date: 'Petak, 11. studenoga',
     subject: 'Martinje i mlado vino...',
     preview: 'Danas je sveti Martin — blagoslov mladog vina...',
     full: `Drago unuče,
 
 Danas je sveti Martin — 11. studeni, dan kada se mlado vino blagoslivlja i postaje "pravo" vino. U Slavoniji je to veliki praznik, ali i mi u Dalmaciji to slavimo.
 
-Otišli smo k Mirku koji je imao blagoslov vina u podrumo. Župnik je došao i pročitao molitvu. Onda smo svi probali vino zajedno. Mirisalo je na trešnje i šljive. Jako dobro.
+Otišli smo k Mirku koji je imao blagoslov vina u podrumu. Župnik je došao i pročitao molitvu. Onda smo svi probali vino zajedno. Mirisalo je na trešnje i šljive. Jako dobro.
 
-Poslije smo jeli gulaš od gusaka — to je tradicionalno za Martinje. Guska je simbol ovog praznika. Djed kaže da je to zato što je Martin pobjegao od biskupa i sakrio se u jato gusaka, koje su ga odalo.
+Poslije smo jeli gulaš od gusaka — to je tradicionalno za Martinje. Guska je simbol ovog praznika. Djed kaže da je to zato što je Martin pobjegao od biskupa i sakrio se u jato gusaka, koje su ga odale.
 
-Vidjet ćemo se za Božić, nadam se. Pripremi se na puno hrane!
+Vidjet ćemo se za Božić, nadam se. Pripremi se za puno hrane!
 
 Tvoja Baka 💙`,
     words: [
@@ -247,13 +247,13 @@ Tvoja Baka 💙`,
 
 Kuća miriše na kolače i cimet. Napravila sam orahnjaču, makovnjaču i medenjake. Djed je rekao da su medenjaci premekani, ali pojeo je pet komada — kaži mu to.
 
-Postavljamo jaslice — figurice koje smo imali otkako sam bila mala. Djed ih je svake godine pažljivo umotavao u novine i čuvao u kutiji. Sada su stare 60 godina ali savršene.
+Postavljamo jaslice — figurice koje smo imali otkako sam bila mala. Djed ih je svake godine pažljivo umotavao u novine i čuvao u kutiji. Sada su stare 60 godina, ali savršene.
 
-Za Badnjak ćemo ići na misu u ponoć. Crkva je uvijek puna. Pjevamo "Tiha noć" na hrvatskom: "Tiha noć, sveta noć, sve miruje, sve spava..." Naučiš li i ti?
+Za Badnjak ćemo ići na misu u ponoć. Crkva je uvijek puna. Pjevamo "Tiha noć" na hrvatskom: "Tiha noć, sveta noć, sve miruje, sve spava..." Hoćeš li i ti naučiti?
 
 Stavili smo tvoje ime na stol za Božić. Uvijek si s nama, makar i daleko.
 
-Sretno i radosno Božić,
+Sretan i radostan Božić,
 Baka i Djed 💙🎄`,
     words: [
       { hr: 'orahnjača', en: 'walnut roll (Christmas pastry)' },
@@ -284,7 +284,7 @@ S bezgraničnom ljubavlju,
 Tvoja Baka 💙`,
     words: [
       { hr: 'odluka', en: 'decision / resolution' },
-      { hr: 'Pokladi', en: 'Carnival / Shrovetide (before Lent)' },
+      { hr: 'Poklade', en: 'Carnival / Shrovetide (before Lent)' },
       { hr: 'napredak', en: 'progress / advancement' },
       { hr: 'generacija', en: 'generation' },
       { hr: 'svađa', en: 'argument / quarrel' },
@@ -311,11 +311,11 @@ Baka mi je rekla da učiš hrvatski. Nisam čovjek koji puno piše, ali ovo mora
 
 Naša obitelj dolazi iz Labina — malog grada na vrhu brda u Istri. Pradjed Ante je radio u ugljenokopima, kao i svi muškarci tada. Bio je težak život, ali častan. Moja majka mi je pričala da su pjevali dok su se spuštali u jamu. To je vrsta hrabrosti koju razumiješ tek kada postaneš star.
 
-1991. je počeo rat. Bio sam 43 godine. Moji sinovi — tvoj otac i stric Josip — bili su mladi. Svaki dan sam molio da rat završi prije nego što moraju ići. Završio je, Bogu hvala.
+1991. je počeo rat. Imao sam 43 godine. Moji sinovi — tvoj otac i stric Josip — bili su mladi. Svaki dan sam molio da rat završi prije nego što moraju ići. Završio je, Bogu hvala.
 
 Hrvatska je slobodna zemlja jer su mladi dali sve što su imali. Nikad to ne zaboravi.
 
-Kada dođeš, sjednut ćemo na terasu. Imam staru knjigu pisanu glagoljicom — naučit ću te prepisati svoje ime. To je naše pismo, nije ga nitko drugi imao. Naše.
+Kada dođeš, sjednut ćemo na terasu. Imam staru knjigu pisanu glagoljicom — naučit ću te prepisati tvoje ime. To je naše pismo, nije ga nitko drugi imao. Naše.
 
 S ponosom,
 Tvoj Djed Ivan 🇭🇷`,
@@ -344,11 +344,11 @@ Tvoj Djed Ivan 🇭🇷`,
     letterColor: '#064e3b',
     full: `Ej roćko,
 
-Baka mi rekla da učiš hrv. Respect! Ozbiljno, svi smo se iznenadili na dobro.
+Baka mi rekla da učiš hrv. Respect! Ozbiljno, svi smo se prijatno iznenadili.
 
 Evo što ima ovdje — Dinamo je prošle subote razbio Hajduk 3:1 na Maksimiru. Bio sam tamo s tatom i Markom. Atmosfera je bila luda, cijelo gledalište je pjevalo od prve minute. Marka su uhvatile emocije i plakao je malo — al to ostaje između nas, ok?
 
-U školi je okej, uglavnom. Imam tešku godinu, puno ispita u lipnju. Ali vikendom igramo košarku u dvorani i to je cura svega. Imam šut koji nitko ne može blokirati, što reći.
+U školi je okej, uglavnom. Imam tešku godinu, puno ispita u lipnju. Ali vikendom igramo košarku u dvorani i to je zakon. Imam šut koji nitko ne može blokirati, što reći.
 
 Jesi li gledao Vatrene ikad? Sljedeći put kad igraju, prati utakmicu pa mi piši na hrvatskom što misliš. To bi bio dobar trening za tebe i zabava za mene.
 
@@ -358,7 +358,7 @@ Luka 👊`,
     words: [
       { hr: 'roćko', en: 'buddy / bro (casual Slavonian address)' },
       { hr: 'razbiti', en: 'to crush / to thrash (in sport)' },
-      { hr: 'cura svega', en: 'the best part / the highlight (idiom)' },
+      { hr: 'zakon', en: "awesome / the best (slang; literally 'law')" },
       { hr: 'Vatreni', en: "The Blazers — nickname of Croatia's national football team" },
       { hr: 'kutak', en: 'corner / nook / spot' },
       { hr: 'unaprijed', en: 'in advance / ahead of time' },
@@ -384,9 +384,9 @@ Slušaj pažljivo — ovo je recept za sarmu koji je moja baka meni dala, a njen
 
 Uzmi kilogram mljevenog mesa — pola govedine, pola svinjetine. Dodaj šalicu riže, jedno jaje, sol, papar i puno crvene paprike u prahu. Pomiješaj sve rukama — ne žlicom, rukama. Osjeti meso.
 
-Uzmi kiseli kupus i pažljivo odvoji listove — ne cijepi ih. Stavi punu žlicu nadjeva na sredinu lista i zamotaj čvrsto. Čvrsto — inače se raspadne u loncu.
+Uzmi kiseli kupus i pažljivo odvoji listove — ne cijepaj ih. Stavi punu žlicu nadjeva na sredinu lista i zamotaj čvrsto. Čvrsto — inače se raspadne u loncu.
 
-Složi sarme u redove na dno lonca. Između redova stavi rezance slanine i malo dimljene kobasice. Prelij vodom tek toliko da pokrije. Kuhaj na laganoj vatri tri sata. Ne diži poklopac svako pet minuta — sarma treba mir da postane ono što jest.
+Složi sarme u redove na dno lonca. Između redova stavi rezance slanine i malo dimljene kobasice. Prelij vodom tek toliko da pokrije. Kuhaj na laganoj vatri tri sata. Ne diži poklopac svakih pet minuta — sarma treba mir da postane ono što jest.
 
 Kada po kući poteče miris koji te vraća kući — gotova je.
 
@@ -424,7 +424,7 @@ Cijela obitelj se skupila za večerom i pišemo zajedno. Djed Ivan drži pero �
 Sretan imendan! Na tvoj poseban dan želi ti sva obitelj zdravlje, sreću i što više vremena u Hrvatskoj.
 
 Baka kaže: "Nauči dobro jezik i dođi što prije."
-Djed kaže: "Dođi i pijmo zajedno. Imam rakiju čekam tri godine."
+Djed kaže: "Dođi i pijmo zajedno. Imam rakiju koju čekam tri godine."
 Teta Vesna kaže: "Donesi Milka čokoladu — ovdje je skuplja."
 Luka kaže: "Prati Dinamo i nauči navijati."
 Maja kaže: "Hvala što učiš — jedva čekam da razgovaramo."
@@ -433,7 +433,7 @@ A mi svi zajedno kažemo: volimo te, nedostaje nam, i svaki put kada čujemo tvo
 
 Obitelj te čeka kući.
 
-Tvoja familia 💙🇭🇷`,
+Tvoja familija 💙🇭🇷`,
     words: [
       { hr: 'imendan', en: 'name day — the feast day of your patron saint' },
       { hr: 'pero', en: 'pen / feather (old word for pen)' },

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { H, Bar } from '../../data';
+import { lsSet } from '../../lib/safeStorage';
 
 type Skill = 'vocab' | 'grammar' | 'culture';
 
@@ -154,10 +155,14 @@ export default function PlacementTest({
           ? 'Lesson 3 — Basic Conversations'
           : 'Lesson 1 — Greetings & Basics';
 
-    // Persist per-skill scores to localStorage
-    localStorage.setItem('nh_placement_vocab', String(Math.round(vocabScore * 100)));
-    localStorage.setItem('nh_placement_grammar', String(Math.round(grammarScore * 100)));
-    localStorage.setItem('nh_placement_culture', String(Math.round(cultureScore * 100)));
+    // Persist per-skill scores. Guarded because these run DURING RENDER of the
+    // results screen (the function returns JSX immediately below), so a throw
+    // here did not just lose the scores — it took the results screen to the
+    // ErrorBoundary, and the learner finished the placement test only to be
+    // shown a crash instead of their level.
+    lsSet('nh_placement_vocab', String(Math.round(vocabScore * 100)));
+    lsSet('nh_placement_grammar', String(Math.round(grammarScore * 100)));
+    lsSet('nh_placement_culture', String(Math.round(cultureScore * 100)));
 
     return (
       <div className="scr-wrap">
@@ -251,7 +256,10 @@ export default function PlacementTest({
 
           <button
             onClick={() => {
-              localStorage.setItem('nh_placement_done', 'true');
+              // Guarded: the three navigation calls below are what actually leaves
+              // the results screen. A throw here skipped all of them, so the
+              // button did nothing and the new user was stranded on their result.
+              lsSet('nh_placement_done', 'true');
               setSt((s) => ({ ...s, diff }));
               setScr('dashboard');
               setTimeout(() => setTab && setTab('learn'), 300);
@@ -300,7 +308,9 @@ export default function PlacementTest({
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: -8 }}>
         <button
           onClick={() => {
-            localStorage.setItem('nh_placement_done', 'true');
+            // Guarded for the same reason as the finish button — a throw made this
+            // skip link a no-op with no way out of the test.
+            lsSet('nh_placement_done', 'true');
             setSt((s) => ({ ...s, diff: 'beginner' }));
             setScr('dashboard');
           }}

@@ -45,6 +45,7 @@ import {
   isSupported as analyticsIsSupported,
 } from 'firebase/analytics';
 import { toDocId } from './userKey.js';
+import { lsSet, lsRemove } from './safeStorage.js';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -131,11 +132,16 @@ export function gP(u: string): unknown {
   }
 }
 export function sP(u: string, p: unknown): void {
-  localStorage.setItem('uP_' + u, JSON.stringify(p));
+  // Guarded: a failing local write must not skip the cloud save that follows.
+  lsSet('uP_' + u, JSON.stringify(p));
   fbSaveProgress(u, p as Record<string, unknown>).catch(() => {});
 }
 export function lP(u: string, p: unknown): void {
-  localStorage.setItem('uP_' + u, JSON.stringify(p));
+  // Guarded: callers (useSyncManager._processSnapshot, useAuth's hydrate) apply
+  // the merged remote progress to React state on the NEXT lines. A throw here
+  // meant an unwritable localStorage also blocked every incoming snapshot from
+  // reaching the UI — the cache write is the least important part of that path.
+  lsSet('uP_' + u, JSON.stringify(p));
 }
 export function gS(): unknown {
   try {
@@ -145,14 +151,19 @@ export function gS(): unknown {
   }
 }
 export function sS(s: Record<string, unknown>): void {
-  localStorage.setItem('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
+  // Guarded: called from the auth listener immediately before the branch that
+  // hands the user to the app. A throw left a successfully-authenticated user
+  // stranded on the login screen with _syncReady still closed.
+  lsSet('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
 }
 export function cS(): void {
-  localStorage.removeItem('uS');
+  // Guarded: sign-out (both the explicit signOut and the null-user listener
+  // branch) continues past this call to clear auth state and route to login.
+  lsRemove('uS');
 }
 export function touchSession(): void {
   const s = gS() as Record<string, unknown> | null;
-  if (s) localStorage.setItem('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
+  if (s) lsSet('uS', JSON.stringify({ ...s, lastActive: Date.now() }));
 }
 export function isSessionExpired(): boolean {
   const s = gS() as { lastActive?: number } | null;
@@ -376,6 +387,18 @@ export async function fbSaveProgress(
     return { ok: true };
   } catch (e: unknown) {
     const err = e as { code?: string; message?: string };
+    // Log the blob size on permission-denied. The validProgressSize() rule caps
+    // the `progress` field at 200 KB and rejects the whole atomic batch when it
+    // is exceeded, so an over-sized blob presents identically to an auth failure —
+    // which is how the 100k-XP sync-halt stayed invisible for so long. Having
+    // the size in the log makes that case diagnosable from a console screenshot.
+    if (err?.code === 'permission-denied') {
+      console.error(
+        '[sync] fbSaveProgress denied — progress blob is',
+        _progressJson.length,
+        'chars (rule limit 204800)',
+      );
+    }
     console.error('[sync] fbSaveProgress failed:', err?.code, err?.message);
     return {
       ok: false,

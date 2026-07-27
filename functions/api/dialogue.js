@@ -238,6 +238,8 @@ COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear gr
 
   const messages = [];
   for (const turn of safeHistory) {
+    // Skip non-object entries: a [null] element in `history` threw on turn.role.
+    if (!turn || typeof turn !== 'object') continue;
     if ((turn.role === 'user' || turn.role === 'assistant') && turn.content) {
       const content = sanitizeParam(String(turn.content), 400);
       if (content) messages.push({ role: turn.role, content });

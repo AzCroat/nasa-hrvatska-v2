@@ -75,13 +75,36 @@ export function isBenignAbortRejection(event: AbortFilterEvent | null | undefine
  * user-facing breaks — the app simply runs without offline support — so
  * these must not page anyone. Scoped to the onunhandledrejection mechanism
  * and to the sw.js script specifically; any other SecurityError still reports.
+ *
+ * 2026-07-25: this filter existed and the events still reached Sentry, because
+ * it required a SecurityError. Safari also reports the SAME environmental
+ * registration failure as a plain `TypeError: Script https://…/sw.js load
+ * failed`, so that variant slipped through. Widened to cover it — but
+ * NARROWLY, matching only that exact whole-message shape.
+ *
+ * Two things stay REPORTED on purpose:
+ *   - anything mentioning a MIME type. sw.js served as text/html silently
+ *     breaks the SW update flow for every user on that deploy; it is one of
+ *     this app's two documented service-worker incidents and is very much
+ *     actionable. The explicit guard below means widening the type check can
+ *     never swallow it.
+ *   - anything not arriving as an unhandled rejection, e.g. an explicit
+ *     captureException or a real synchronous throw.
  */
 export function isBenignSwLoadRejection(event: AbortFilterEvent | null | undefined): boolean {
   const ex = event?.exception?.values?.[0];
   if (!ex) return false;
+  if (ex.mechanism?.type !== 'onunhandledrejection') return false;
   const msg = ex.value ?? '';
+  // Actionable — never suppress (production Incident 1).
+  if (/mime type/i.test(msg)) return false;
   const isSwLoad =
     /\bsw\.js\b/.test(msg) && /load failed|failed to (fetch|load|register)/i.test(msg);
+  if (!isSwLoad) return false;
   const isSecurity = ex.type === 'SecurityError' || /\bSecurityError\b/.test(msg);
-  return isSwLoad && isSecurity && ex.mechanism?.type === 'onunhandledrejection';
+  // Safari's TypeError variant of the same environmental failure. Anchored to the
+  // whole message so a richer, more specific error cannot match by accident.
+  const isEnvTypeError =
+    ex.type === 'TypeError' && /^script\s+\S+\s+load failed\.?$/i.test(msg.trim());
+  return isSecurity || isEnvTypeError;
 }

@@ -143,10 +143,67 @@ describe('isBenignSwLoadRejection', () => {
     ).toBe(false);
   });
 
-  it('does NOT drop an sw.js failure that is not a SecurityError', () => {
+  // This assertion previously read "does NOT drop an sw.js failure that is not a
+  // SecurityError" and expected false — it encoded the gap as correct behaviour.
+  // Safari reports the SAME environmental registration failure as a TypeError, so
+  // requiring SecurityError is why these kept paging despite this filter existing.
+  it('drops Safari TypeError variant of the same environmental failure', () => {
     expect(
       isBenignSwLoadRejection(
         unhandled({ type: 'TypeError', value: 'Script https://x/sw.js load failed' }),
+      ),
+    ).toBe(true);
+    // Trailing period + the real production URL.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value: 'Script https://nasahrvatska.com/sw.js load failed.',
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it('KEEPS reporting a MIME-type failure — sw.js served as text/html is actionable', () => {
+    // Production Incident 1: sw.js served with the wrong Content-Type silently
+    // breaks the SW update flow for every user on that deploy. Widening the type
+    // check must never swallow this.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value:
+            'Script https://nasahrvatska.com/sw.js load failed: unsupported MIME type (text/html)',
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'SecurityError',
+          value: 'Failed to register a ServiceWorker: the script has an unsupported MIME type',
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop a TypeError whose message is more than the bare load failure', () => {
+    // The TypeError branch is anchored to the whole message, so a richer error
+    // that merely mentions sw.js cannot match by accident.
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({
+          type: 'TypeError',
+          value: "Script https://x/sw.js load failed because scope '/' is already claimed",
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it('does NOT drop a TypeError unrelated to sw.js', () => {
+    expect(
+      isBenignSwLoadRejection(
+        unhandled({ type: 'TypeError', value: 'Script https://x/vendor.js load failed' }),
       ),
     ).toBe(false);
   });

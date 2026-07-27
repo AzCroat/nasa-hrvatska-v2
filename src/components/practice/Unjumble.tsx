@@ -64,9 +64,20 @@ export default function Unjumble({
     );
   }
 
-  const isCorrect =
-    ujIn.replace(/[.?!]/g, '').trim().toLowerCase() ===
-    q.correct.replace(/[.?!]/g, '').trim().toLowerCase();
+  // Strip ALL punctuation and collapse whitespace, matching the two sibling
+  // tile graders (ProductionDrillScreen.check, SentenceTileScreen.norm). The
+  // word tiles never carry punctuation but `correct` does, and stripping only
+  // `.?!` left INTERNAL commas in the key — so a comma anywhere in a target
+  // would make the correct arrangement ungradeable, the same way it did in
+  // dictation. Every UNJUMBLE item is winnable today (pinned by
+  // src/tests/answerKeyIntegrity.test.ts); this keeps that true if one is added.
+  const normAnswer = (s: string) =>
+    s
+      .replace(/[?.!,;:]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  const isCorrect = normAnswer(ujIn) === normAnswer(q.correct);
 
   return (
     <div className="scr-wrap">

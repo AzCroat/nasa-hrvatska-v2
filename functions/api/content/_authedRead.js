@@ -42,6 +42,16 @@ export async function authedRead({ request, env, etag, buildBody }) {
   // authenticated request 401'd. save-progress.js already handled this with
   // the same fallback; bringing /api/content/* in line.
   const projectId = env.VITE_FIREBASE_PROJECT_ID || env.FIREBASE_PROJECT_ID || '';
+  // Fail CLOSED but HONESTLY. With no projectId the iss comparison can never
+  // match, so every signed-in user got 401 'unauthorized' for all
+  // /api/content/* and the client treated it as a bad session — which is
+  // exactly the misdiagnosis the comment above records happening once already.
+  // _requireAuth, ai-quota-status, save-progress and scene-video all return
+  // server_misconfigured for this case; bring this file in line so the real
+  // cause is greppable in logs.
+  if (!projectId) {
+    return jsonResponse(500, { error: 'server_misconfigured' }, cors);
+  }
   const uid = await getFirebaseUid(request, projectId);
   if (!uid) {
     return jsonResponse(401, { error: 'unauthorized' }, cors);

@@ -7,6 +7,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { useRecorder } from '../../hooks/useRecorder';
+import { classifyAiLimit } from '../../lib/aiLimit';
 import LiveTutorSetup from './LiveTutorSetup';
 import LiveTutorDebrief from './LiveTutorDebrief';
 import LiveTutorControls from './LiveTutorControls';
@@ -146,6 +147,13 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   const audioRef = useRef<{ pause: () => void; currentTime: number } | HTMLAudioElement | null>(
     null,
   );
+  // Both TTS paths below construct their Audio AFTER several awaits (fetch, blob,
+  // FileReader / MediaSource sourceopen). The unmount cleanup pauses whatever
+  // audioRef holds at that moment — but a continuation that resumes afterwards
+  // assigned a NEW element and played it, so the tutor's voice carried on over
+  // the next screen with nothing left to stop it. Same defect fixed in
+  // MajaScreen; these two paths were missed.
+  const mountedRef = useRef(true);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const apiMsgsRef = useRef<{ role: string; content: string }[]>([]); // mirrors messages but only role+content for API calls
   const milestone10Fired = useRef<boolean>(false);
@@ -350,12 +358,18 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       } catch (err: unknown) {
         setThinking(false);
         const msg = (err as Error).message || '';
+        // The old first branch matched `'rate_limit'` — a code the server never
+        // emits; it sends `rate_limited`. The `HTTP 429` alternative only ever
+        // appears when the error body isn't JSON, because the throw above
+        // prefers `err.error`. So a burst-limited learner fell all the way
+        // through the chain to "Connection error" while perfectly online.
+        const limit = classifyAiLimit({ code: msg });
         setError(
-          msg === 'rate_limit' || msg.includes('429')
+          limit === 'burst'
             ? 'Rate limit reached — wait a moment and try again.'
             : msg === 'timeout' || msg.includes('504')
               ? 'Request timed out. Please try again.'
-              : msg === 'daily_quota_exceeded'
+              : limit === 'daily'
                 ? 'Daily AI limit reached. Resets at midnight UTC — try again tomorrow!'
                 : msg === 'not_configured'
                   ? 'AI service not available right now. Please try again later.'
@@ -409,6 +423,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       r.onload = () => resolve(r.result as string);
       r.readAsDataURL(blob);
     });
+    if (!mountedRef.current) return; // left the screen during the TTS fetch
     const audio = new Audio(url);
     audioRef.current = audio;
     await new Promise((resolve) => {
@@ -464,6 +479,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
         return;
       }
 
+      if (!mountedRef.current) return; // left the screen during the TTS fetch
       const mediaSource = new MediaSource();
       const audioEl = new Audio();
       audioRef.current = audioEl;
@@ -716,7 +732,11 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   // ── Cleanup on unmount ─────────────────────
   // Note: mic/stream cleanup is handled by useRecorder's own unmount effect.
   useEffect(() => {
+    // Re-arm on mount: React 18 StrictMode double-invokes effects in dev, so a
+    // ref only ever set false in cleanup would stay false for the real mount.
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (audioRef.current) {
         audioRef.current.pause();
       }

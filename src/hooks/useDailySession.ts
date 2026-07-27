@@ -11,6 +11,7 @@ import { trackSessionBuilt } from '../lib/analytics';
 import { getSubscriptionStatus } from './useSubscription';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { CROATIA_POOL } from '../lib/croatiaPool';
+import { lsGet } from '../lib/safeStorage';
 // Re-exported so the content-coverage CI gate and session tests keep their
 // import path (the data moved to ../lib/sessionPools for max-lines; the
 // Croatia rotation pool followed in Wave 6 for the same reason).
@@ -468,7 +469,7 @@ export function buildSessionActivities(
   // rotation walks the rest of the UNLOCKED pool, so the widened culture
   // catchment surfaces without changing session length or the cityofday ritual.
   const today = localDateStr();
-  const cityVisited = localStorage.getItem('nh_cityofday_date') === today;
+  const cityVisited = lsGet('nh_cityofday_date') === today;
   const dayOfMonth = new Date().getDate();
   const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
   const croatiaRotation = croatiaEligible.filter((c) => c.screen !== 'cityofday');
@@ -821,7 +822,11 @@ interface RecentProductionEntry {
 }
 
 function _todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  // Delegates to the canonical local-date helper. This file already used
+  // localDateStr() in nine places for the session's own day-keying; this helper
+  // was the one UTC holdout, so the recent-production window boundary sat up to
+  // a day away from the learner's own day.
+  return localDateStr();
 }
 
 function _daysBetween(a: string, b: string): number {

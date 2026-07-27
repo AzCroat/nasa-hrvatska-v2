@@ -14,6 +14,13 @@ import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer
 import useWhisperSTT from '../../hooks/useWhisperSTT.js';
 import { isVoiceAvailable } from './majaVoice';
 import {
+  majaErrorMessage,
+  isAbortFailure,
+  MAJA_START_FALLBACK,
+  MAJA_TURN_FALLBACK,
+} from './majaErrors';
+import { reportError } from '../../lib/errorReporter';
+import {
   MAJA_STYLES,
   PERSONA_CONFIG,
   getPersona,
@@ -108,6 +115,10 @@ export default function MajaScreen() {
   // ── refs ───────────────────────────────────
   const debriefXpFired = useRef<boolean>(false);
   const phaseRef = useRef<string>('idle');
+  // Guards the async getUserMedia/TTS paths. phaseRef alone is not enough: it
+  // stops updating at unmount and stays frozen at its last value, so a loop
+  // keyed only on phaseRef never self-terminates once the screen is gone.
+  const mountedRef = useRef(true);
   const recRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
@@ -150,7 +161,10 @@ export default function MajaScreen() {
 
   // cleanup on unmount
   useEffect(() => {
+    // Re-arm on mount (React 18 StrictMode double-invokes effects in dev).
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (streamAbortRef.current) {
         streamAbortRef.current.abort();
         streamAbortRef.current = null;
@@ -193,6 +207,14 @@ export default function MajaScreen() {
   const startWaveform = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Leaving the screen while the permission prompt / stream promise is
+      // pending means the unmount cleanup already ran and found mediaStreamRef
+      // null, so it stopped nothing. Assigning here would hold the mic open
+      // (indicator lit) for the lifetime of the tab.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       mediaStreamRef.current = stream;
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       audioCtxRef.current = ctx;
@@ -203,7 +225,7 @@ export default function MajaScreen() {
       analyserRef.current = analyser;
 
       const tick = () => {
-        if (!analyserRef.current || phaseRef.current !== 'listening') {
+        if (!mountedRef.current || !analyserRef.current || phaseRef.current !== 'listening') {
           stopWaveform();
           return;
         }
@@ -248,6 +270,11 @@ export default function MajaScreen() {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // The TTS fetch + FileReader above are suspension points. If the screen
+      // was left in the meantime, the unmount cleanup already paused whatever
+      // audio existed then — constructing and playing a NEW Audio here made
+      // Maja's voice play over the next screen with nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       const audio = new Audio(url);
       audio.volume = 1.0; // required: low volume blocks activation on some WebViews
@@ -455,7 +482,13 @@ export default function MajaScreen() {
         });
         clearTimeout(streamTimeout);
 
-        if (!res.ok) throw new Error(`API ${res.status}`);
+        if (!res.ok) {
+          // Carry the status so the catch below can tell the learner WHICH
+          // failure this was. Previously this threw a bare Error and the status
+          // was lost, so a mid-conversation 429 (daily AI limit) or 401 (expired
+          // session) both surfaced as "Nešto je pošlo po krivu."
+          throw Object.assign(new Error(`API ${res.status}`), { _status: res.status });
+        }
         if (!res.body) throw new Error('Server returned no response body.');
 
         const reader = res.body.getReader();
@@ -569,7 +602,7 @@ export default function MajaScreen() {
           ttsStreamDoneRef.current = true;
           finishTTSIfDone(ttsGen);
         }
-      } catch {
+      } catch (err: unknown) {
         cancelTTSTurn();
         // Finalize any in-progress streaming bubble so it doesn't remain stuck
         setConversation((prev) =>
@@ -577,8 +610,15 @@ export default function MajaScreen() {
             i === prev.length - 1 && m.streaming ? { ...m, streaming: false } : m,
           ),
         );
+        // Razgovor had NO error reporting at all, which is why "it never worked
+        // properly" never produced a single Sentry event to work from. Aborts are
+        // excluded: the stream is deliberately aborted on teardown and on the
+        // 30s time-to-first-byte timeout.
+        if (!isAbortFailure(err)) {
+          reportError(err instanceof Error ? err : new Error('maja turn failed'), 'maja-turn');
+        }
         if (phaseRef.current !== 'debrief') {
-          setErrorMsg('Nešto je pošlo po krivu. Pokušaj ponovo.');
+          setErrorMsg(majaErrorMessage((err as ApiError)?._status, MAJA_TURN_FALLBACK));
           setPhase('error');
         }
       }
@@ -841,12 +881,10 @@ export default function MajaScreen() {
       }
     } catch (err: unknown) {
       const e = err as ApiError;
-      let msg = 'Nije moguće spojiti se s Majom. Provjeri internetsku vezu.';
-      if (e?._status === 401) msg = 'Sesija je istekla. Odjavi se i prijavi ponovo.';
-      else if (e?._status === 429) msg = 'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.';
-      else if (e?._status !== undefined && e._status >= 500)
-        msg = 'Serverska greška. Pokušaj za koji trenutak.';
-      setErrorMsg(msg);
+      if (!isAbortFailure(err)) {
+        reportError(err instanceof Error ? err : new Error('maja start failed'), 'maja-start');
+      }
+      setErrorMsg(majaErrorMessage(e?._status, MAJA_START_FALLBACK));
       setPhase('error');
       setSessionActive(false);
     }

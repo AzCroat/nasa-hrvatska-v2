@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase/auth';
+import { API_BASE } from './platform';
 
 /**
  * Wrapper around fetch that automatically includes the Firebase ID token
@@ -9,6 +10,27 @@ import { getAuth } from 'firebase/auth';
  * not aborts) with exponential backoff — but only when the caller has NOT
  * provided their own AbortSignal (to respect caller-controlled timeouts).
  */
+
+/**
+ * Resolve a relative '/api/...' path against the live origin on Capacitor native.
+ *
+ * On native the app is served from https://localhost, which has no Pages
+ * Functions: a relative '/api/...' resolves *there*, and the Capacitor local
+ * server answers with the SPA index.html — so every caller got HTTP 200 with an
+ * HTML body and failed at `res.json()`. `_aiPost` was given API_BASE for exactly
+ * this reason (see aiPost.ts), but apiFetch — the transport behind 27 endpoints
+ * and 42 call sites, including Razgovor's /api/maja, /api/translate, /api/tts,
+ * /api/srs-sync and /api/push-subscribe — was left relative, so all of them were
+ * dead in the native build.
+ *
+ * API_BASE is '' on web, so this is a no-op there: the URL string is unchanged
+ * and every existing timeout, retry and 401 path behaves identically. Absolute
+ * URLs are passed through untouched (no caller uses one today, but a future one
+ * must not be double-prefixed).
+ */
+function _resolveUrl(url: string): string {
+  return url.startsWith('/') ? API_BASE + url : url;
+}
 async function _attachToken(options: RequestInit, forceRefresh = false): Promise<void> {
   try {
     const auth = getAuth();
@@ -33,6 +55,7 @@ async function _attachToken(options: RequestInit, forceRefresh = false): Promise
 
 export async function apiFetch(url: string, options: RequestInit = {}): Promise<Response> {
   await _attachToken(options);
+  const target = _resolveUrl(url);
 
   // If caller supplies their own signal, respect it exactly — no network-retry
   // wrapping (that would fight caller-controlled timeouts). BUT still do a single
@@ -41,10 +64,10 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
   // mid-conversation turn 401s ("Sesija je istekla") and the whole session dies.
   // The retry reuses the caller's signal, so their timeout still governs.
   if (options.signal) {
-    const res = await fetch(url, options);
+    const res = await fetch(target, options);
     if (res.status === 401) {
       await _attachToken(options, true);
-      return fetch(url, options);
+      return fetch(target, options);
     }
     return res;
   }
@@ -56,7 +79,7 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
     try {
-      const response = await fetch(url, { ...options, signal: controller.signal });
+      const response = await fetch(target, { ...options, signal: controller.signal });
       clearTimeout(timeoutId);
       // On 401 with a stale token, force-refresh once and retry immediately.
       if (response.status === 401 && !_tokenRefreshed) {

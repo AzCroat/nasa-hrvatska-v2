@@ -8,6 +8,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { lsSet, ssGet } from '../../lib/safeStorage';
 
 interface AspectPair {
   impf: string;
@@ -231,9 +232,7 @@ export default function AspectDrillScreen({
   // launches (Grad / Practice / Browse) never set it, so the cap below applies
   // only inside the daily session.
   const [inDailySession] = useState(
-    () =>
-      typeof sessionStorage !== 'undefined' &&
-      sessionStorage.getItem('nh_session_started') === 'aspectdrill',
+    () => typeof sessionStorage !== 'undefined' && ssGet('nh_session_started') === 'aspectdrill',
   );
 
   const [sessionMode, setSessionMode] = useState('drill');
@@ -252,7 +251,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.add(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }
@@ -260,7 +259,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.delete(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }

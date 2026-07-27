@@ -6,6 +6,8 @@
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 // ── Mock all external dependencies used by useAward ──────────────────────────
 
@@ -764,5 +766,90 @@ describe('useAward — production-rep counting', () => {
     });
     expect(writeDelta).not.toHaveBeenCalledWith({ pr: 1 });
     expect(localStorage.getItem('nh_production_reps')).toBeNull();
+  });
+});
+
+// ── Storage-blocked profile ───────────────────────────────────────────────────
+// award() persists weekly XP, daily XP, the first-lesson journey flag and daily
+// study time. Those WRITES were already guarded with lsSet, but the READS feeding
+// them were raw `localStorage.getItem`, so on a profile where getItem throws
+// (cookies / site data blocked, supervised profile, some privacy modes and
+// embedded WebViews) the read raised before the guarded write could run — and the
+// guard never got the chance to do its job.
+//
+// award() has no enclosing try, so the throw escaped it. The XP had already been
+// applied to React state by then, which meant everything after the failing read
+// was skipped: daily XP, the journey milestone, session counters, daily study
+// time, and the celebration + analytics at the end.
+describe('useAward — storage-blocked profile', () => {
+  const boom = () => {
+    throw new DOMException('The operation is insecure.', 'SecurityError');
+  };
+
+  function blockStorage() {
+    vi.stubGlobal('localStorage', {
+      getItem: boom,
+      setItem: boom,
+      removeItem: boom,
+      clear: () => {},
+      key: boom,
+      length: 0,
+    } as unknown as Storage);
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('award() does not throw when every localStorage read raises SecurityError', async () => {
+    blockStorage();
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useAward({ curEx: 'vocab_basics', stats: { ...DS }, setStats } as any),
+    );
+    await act(async () => {
+      await result.current.award(15, true, 'vocab');
+    });
+    // Reaching here at all is the assertion: pre-fix this rejected with
+    // SecurityError out of the weekly-XP read.
+    expect(setStats).toHaveBeenCalled();
+  });
+
+  it('award() still applies the XP to React state, which is what reaches Firebase', async () => {
+    blockStorage();
+    const setStats = vi.fn();
+    const { result } = renderHook(() =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useAward({ curEx: 'vocab_basics', stats: { ...DS }, setStats } as any),
+    );
+    await act(async () => {
+      await result.current.award(20, false, 'vocab');
+    });
+    // Local persistence genuinely cannot work here, but the session's XP must
+    // still land in state so the sync manager can push it to the cloud.
+    expect(setStats).toHaveBeenCalled();
+  });
+
+  it('canEarnXP falls back to "allowed" rather than throwing', () => {
+    blockStorage();
+    expect(() => canEarnXP('anything')).not.toThrow();
+    expect(canEarnXP('anything')).toBe(true);
+  });
+
+  it('markExerciseDone does not throw', () => {
+    blockStorage();
+    expect(() => markExerciseDone('anything')).not.toThrow();
+  });
+
+  it('the module reads storage through safeStorage, never raw', () => {
+    // Structural guard. This regressed once already in applyRemoteProgress
+    // precisely because raw calls were left behind next to guarded ones.
+    const src = readFileSync(resolve(__dirname, '../hooks/useAward.ts'), 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    expect(src).not.toMatch(/localStorage\.getItem/);
+    expect(src).not.toMatch(/localStorage\.setItem/);
+    expect(src).not.toMatch(/localStorage\.removeItem/);
   });
 });

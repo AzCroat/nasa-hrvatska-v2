@@ -9,6 +9,11 @@
 import type { CSSProperties } from 'react';
 import { localDateStr, weekKey } from './dateUtils';
 import { addDay, seedDaysFromStreak, computeStreak, type DaySet } from './streakDays';
+// Non-throwing writes. updateStreak() runs on EVERY lesson completion, so an
+// unguarded setItem here (Safari Private Browsing, a full quota, a restricted
+// profile) threw straight out of the award path — losing the streak write itself
+// plus every badge, ceremony and toast queued after it.
+import { lsSet, lsRemove } from './safeStorage';
 
 // ─── Active-day set (canonical streak source; union-merged across devices) ─────
 const STREAK_DAYS_KEY = 'nh_streak_days';
@@ -176,12 +181,12 @@ export function getStreakFreezes(): number {
 }
 export function earnFreeze(): void {
   const f = getStreakFreezes();
-  localStorage.setItem('uFreeze', String(Math.min(f + 1, 2)));
+  lsSet('uFreeze', String(Math.min(f + 1, 2)));
 }
 export function spendFreeze(): boolean {
   const f = getStreakFreezes();
   if (f <= 0) return false;
-  localStorage.setItem('uFreeze', String(f - 1));
+  lsSet('uFreeze', String(f - 1));
   return true;
 }
 
@@ -278,7 +283,7 @@ export function updateStreak(
       }
       const _prevCount = s.count;
       STREAK_MILESTONES.forEach((m) => {
-        if (_prevCount >= m) localStorage.removeItem('nh_ceremony_streak_' + m);
+        if (_prevCount >= m) lsRemove('nh_ceremony_streak_' + m);
       });
       s.count = 1;
       s.last = today;
@@ -298,7 +303,7 @@ export function updateStreak(
   s.count = _derived.count;
   s.last = _derived.last;
   if (advanced && STREAK_MILESTONES.includes(s.count)) milestone = s.count;
-  localStorage.setItem('uStreak', JSON.stringify(s));
+  lsSet('uStreak', JSON.stringify(s));
   return { ...s, milestone, freezeUsed };
 }
 
@@ -332,7 +337,7 @@ export function applyStreakEarnBack(): number {
   if (!eb || eb.lc < 2) return 0;
   const s = getStreak();
   s.count = eb.prev;
-  localStorage.setItem('uStreak', JSON.stringify(s));
+  lsSet('uStreak', JSON.stringify(s));
   // Backfill the canonical day-set so the next sync re-derives the restored
   // count instead of overwriting it back to ~1 (see restoreStreakDays).
   restoreStreakDays(eb.prev, s.last || localDateStr());
@@ -353,7 +358,7 @@ export function getCultureStats(): Record<string, number> {
 export function incrementCulture(key: string): number {
   const c = getCultureStats();
   c[key] = (c[key] || 0) + 1;
-  localStorage.setItem('nh_culture', JSON.stringify(c));
+  lsSet('nh_culture', JSON.stringify(c));
   return c[key];
 }
 

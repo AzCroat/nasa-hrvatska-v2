@@ -53,6 +53,13 @@ export async function onRequestPost(context) {
   if (!gate.ok) return gate.response;
   const { origin } = gate;
 
+  // Hard-reject a missing key up front, like every other AI endpoint
+  // (correct.js, explain-error.js, listening.js, maja.js). Without this the
+  // request ran the paid STT step first, then Anthropic 401'd, and the learner
+  // was told the rubric had transiently failed ('rubric_failed', 502) — so they
+  // retried indefinitely, paying for transcription every time.
+  if (!env.ANTHROPIC_API_KEY) return err(503, 'AI_KEY_MISSING', origin);
+
   // Body + clip cap.
   let body;
   try {

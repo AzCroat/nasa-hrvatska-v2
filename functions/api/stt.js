@@ -62,7 +62,20 @@ export async function onRequestPost(context) {
         headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
       });
     }
-    const bin = atob(audioBase64);
+    // atob throws DOMException on any non-base64 payload. `typeof === 'string'`
+    // above does not make it decodable, so a malformed clip produced an opaque
+    // 500 — and the client's Web-Speech fallback keys on 503, so a 500 surfaced
+    // as a hard failure instead of degrading. assess-speaking.js:89 already
+    // wraps the same decode and returns 400 bad_audio; match it.
+    let bin;
+    try {
+      bin = atob(audioBase64);
+    } catch {
+      return new Response(JSON.stringify({ error: 'bad_audio' }), {
+        status: 400,
+        headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+      });
+    }
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     audioBuffer = bytes.buffer;

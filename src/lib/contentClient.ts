@@ -1,5 +1,6 @@
 import { readCached, writeCached, bumpValidated, isStale, isTooOldToServe } from './contentCache';
 import { getFirebaseBearer } from './audio';
+import { API_BASE } from './platform';
 import { getCurrentUid } from './firebaseUid';
 import {
   ContentAuthError,
@@ -24,6 +25,20 @@ async function namespaceUid(): Promise<string> {
 }
 
 async function fetchAuthed(path: string, etag?: string): Promise<Response> {
+  // On Capacitor native the app is served from https://localhost, which has no
+  // Pages Functions. Capacitor's WebViewLocalServer routes any path whose last
+  // segment has no dot back to the bundled index.html as text/html with status
+  // 200 (html5mode, on by default) — so a relative '/api/content/...' did not
+  // 404, it returned a web page that *looked* like a success. res.json() below
+  // then threw a raw SyntaxError, past every typed ContentError branch.
+  //
+  // That took out the whole content layer in the native build: core (the
+  // vocabulary map V, used by every vocab launch), lessons, grammar, the story
+  // and grammar-unit catalogues, and each individual story/unit.
+  //
+  // API_BASE is '' off-native, so this is a no-op on web and in E2E.
+  const url = path.startsWith('/') ? API_BASE + path : path;
+
   // First attempt — cached bearer (matches apiFetch.ts hot path).
   const bearer = await getFirebaseBearer();
   const headers: Record<string, string> = {};
@@ -35,7 +50,7 @@ async function fetchAuthed(path: string, etag?: string): Promise<Response> {
   // a request that's intercepted before fetch() runs. Letting the request
   // through preserves test contract; the bearer-race in audio.ts is fixed
   // separately so authenticated users no longer see cold-load 401s.
-  let res = await fetch(path, { method: 'GET', headers });
+  let res = await fetch(url, { method: 'GET', headers });
 
   // 2026-05-21 BUG FIX: long-running tabs sit on a 1-hour Firebase ID token;
   // when it expires, /api/content/* returns 401 even though the user is
@@ -48,7 +63,7 @@ async function fetchAuthed(path: string, etag?: string): Promise<Response> {
     if (fresh && fresh !== bearer) {
       const retryHeaders: Record<string, string> = { Authorization: 'Bearer ' + fresh };
       if (etag) retryHeaders['If-None-Match'] = `"${etag}"`;
-      res = await fetch(path, { method: 'GET', headers: retryHeaders });
+      res = await fetch(url, { method: 'GET', headers: retryHeaders });
     }
   }
   return res;

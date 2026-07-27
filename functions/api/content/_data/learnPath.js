@@ -744,7 +744,7 @@ export const LEARN_PATH = [
         name: 'Clitics: Mastery',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp53' }, { lcAtLeast: 36 }] },
+        ckRule: { anyOf: [{ lcAtLeast: 36 }] },
         go: 'clitic',
       },
       {
@@ -760,7 +760,7 @@ export const LEARN_PATH = [
         name: 'Impersonal: Mastery',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp55' }, { gcAtLeast: 8 }] },
+        ckRule: { anyOf: [{ gcAtLeast: 8 }] },
         go: 'impersonal',
       },
       {
@@ -768,7 +768,7 @@ export const LEARN_PATH = [
         name: 'Conditional: Mastery',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp56' }, { gcAtLeast: 8 }] },
+        ckRule: { anyOf: [{ gcAtLeast: 8 }] },
         go: 'conditional',
       },
       {
@@ -776,7 +776,7 @@ export const LEARN_PATH = [
         name: 'Word Formation: B2',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp57' }, { lcAtLeast: 38 }] },
+        ckRule: { anyOf: [{ lcAtLeast: 38 }] },
         go: 'wordform',
       },
       {
@@ -784,7 +784,7 @@ export const LEARN_PATH = [
         name: 'Politics Vocabulary',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp58' }, { ctIncludes: 'civic' }, { lcAtLeast: 38 }] },
+        ckRule: { anyOf: [{ ctIncludes: 'civic' }, { lcAtLeast: 38 }] },
         go: 'lesson',
         topic: 'civic',
       },
@@ -793,7 +793,7 @@ export const LEARN_PATH = [
         name: 'Arts & Culture',
         diff: 3,
         dur: '~15 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp59' }, { ctIncludes: 'arts' }, { lcAtLeast: 38 }] },
+        ckRule: { anyOf: [{ ctIncludes: 'arts' }, { lcAtLeast: 38 }] },
         go: 'lesson',
         topic: 'arts',
       },
@@ -802,7 +802,7 @@ export const LEARN_PATH = [
         name: 'Croatian History',
         diff: 3,
         dur: '~20 min',
-        ckRule: { anyOf: [{ vsIncludes: 'history' }, { vsIncludes: 'lp61' }, { lcAtLeast: 40 }] },
+        ckRule: { anyOf: [{ vsIncludes: 'history' }, { lcAtLeast: 40 }] },
         go: 'history',
       },
       {
@@ -810,7 +810,7 @@ export const LEARN_PATH = [
         name: 'Listening Mastery',
         diff: 3,
         dur: '~20 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp62' }, { lcAtLeast: 40 }] },
+        ckRule: { anyOf: [{ lcAtLeast: 40 }] },
         go: 'listeningpath',
       },
       {
@@ -821,7 +821,7 @@ export const LEARN_PATH = [
         cat: 'speaking',
         icon: '🗣️',
         desc: 'Train your spoken output — complete 3 speaking sessions to develop fluency beyond reading and writing',
-        ckRule: { anyOf: [{ vsIncludes: 'lp_speaking_b2' }, { spAtLeast: 3 }] },
+        ckRule: { anyOf: [{ spAtLeast: 3 }] },
         go: 'speaking',
       },
       {
@@ -833,7 +833,7 @@ export const LEARN_PATH = [
         icon: '✍️',
         desc: 'Move beyond recognition — transform sentences, translate to Croatian, build from word tiles, and fix real errors',
         ckRule: {
-          anyOf: [{ vsIncludes: 'lp_production_drill' }, { gcAtLeast: 7 }, { lcAtLeast: 42 }],
+          anyOf: [{ gcAtLeast: 7 }, { lcAtLeast: 42 }],
         },
         go: 'production_drill',
       },
@@ -872,7 +872,7 @@ export const LEARN_PATH = [
         name: 'Dialects: Deep Dive',
         diff: 3,
         dur: '~20 min',
-        ckRule: { anyOf: [{ vsIncludes: 'lp63' }, { lcAtLeast: 45 }] },
+        ckRule: { anyOf: [{ lcAtLeast: 45 }] },
         go: 'dialects',
       },
       {
@@ -881,7 +881,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~20 min',
         ckRule: {
-          anyOf: [{ vsIncludes: 'lp64' }, { ctIncludes: 'academic writing' }, { lcAtLeast: 45 }],
+          anyOf: [{ ctIncludes: 'academic writing' }, { lcAtLeast: 45 }],
         },
         go: 'lesson',
         topic: 'academic writing',
@@ -891,7 +891,7 @@ export const LEARN_PATH = [
         name: 'Proverbs Deep Dive',
         diff: 3,
         dur: '~20 min',
-        ckRule: { anyOf: [{ vsIncludes: 'proverbs' }, { vsIncludes: 'lp65' }, { lcAtLeast: 45 }] },
+        ckRule: { anyOf: [{ vsIncludes: 'proverbs' }, { lcAtLeast: 45 }] },
         go: 'proverbs',
       },
       {
@@ -900,11 +900,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~20 min',
         ckRule: {
-          anyOf: [
-            { vsIncludes: 'lp66' },
-            { xpAtLeast: 2000 },
-            { allOf: [{ lcAtLeast: 40 }, { gcAtLeast: 8 }] },
-          ],
+          anyOf: [{ xpAtLeast: 2000 }, { allOf: [{ lcAtLeast: 40 }, { gcAtLeast: 8 }] }],
         },
         go: 'idioms',
       },
@@ -914,12 +910,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~20 min',
         ckRule: {
-          anyOf: [
-            { vsIncludes: 'lp67' },
-            { ctIncludes: 'abstract concepts' },
-            { xpAtLeast: 2000 },
-            { gcAtLeast: 8 },
-          ],
+          anyOf: [{ ctIncludes: 'abstract concepts' }, { xpAtLeast: 2000 }, { gcAtLeast: 8 }],
         },
         go: 'lesson',
         topic: 'abstract concepts',
@@ -930,12 +921,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~20 min',
         ckRule: {
-          anyOf: [
-            { vsIncludes: 'lp68' },
-            { ctIncludes: 'academic language' },
-            { xpAtLeast: 2000 },
-            { gcAtLeast: 8 },
-          ],
+          anyOf: [{ ctIncludes: 'academic language' }, { xpAtLeast: 2000 }, { gcAtLeast: 8 }],
         },
         go: 'lesson',
         topic: 'academic language',
@@ -946,12 +932,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~20 min',
         ckRule: {
-          anyOf: [
-            { vsIncludes: 'lp69' },
-            { ctIncludes: 'law' },
-            { xpAtLeast: 2500 },
-            { gcAtLeast: 9 },
-          ],
+          anyOf: [{ ctIncludes: 'law' }, { xpAtLeast: 2500 }, { gcAtLeast: 9 }],
         },
         go: 'lesson',
         topic: 'law',
@@ -962,7 +943,7 @@ export const LEARN_PATH = [
         diff: 3,
         dur: '~15 min',
         ckRule: {
-          anyOf: [{ vsIncludes: 'lp70' }, { vsIncludes: 'pitchaccent' }, { xpAtLeast: 2500 }],
+          anyOf: [{ vsIncludes: 'pitchaccent' }, { xpAtLeast: 2500 }],
         },
         go: 'brzalice',
       },
@@ -974,7 +955,7 @@ export const LEARN_PATH = [
         cat: 'speaking',
         icon: '🎯',
         desc: "Complete 10 speaking sessions — fluent speakers don't pause to translate in their head",
-        ckRule: { anyOf: [{ vsIncludes: 'lp_speaking_c1' }, { spAtLeast: 10 }] },
+        ckRule: { anyOf: [{ spAtLeast: 10 }] },
         go: 'speaking',
       },
       {
@@ -986,11 +967,7 @@ export const LEARN_PATH = [
         icon: '🔊',
         desc: 'The final phonological frontier — 4 accent types, tonal distinctions, native-like rhythm',
         ckRule: {
-          anyOf: [
-            { vsIncludes: 'lp_pitch_mastery' },
-            { vsIncludes: 'pitch_accent' },
-            { gcAtLeast: 9 },
-          ],
+          anyOf: [{ vsIncludes: 'pitch_accent' }, { gcAtLeast: 9 }],
         },
         go: 'pitch_accent',
       },

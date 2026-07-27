@@ -945,3 +945,29 @@ describe('applyRemoteProgress — XP cooldown merge', () => {
     expect(stored['grammar_50']).toBeUndefined(); // old date → excluded
   });
 });
+
+describe('applyRemoteProgress — immersion days union (nh_immersion_days)', () => {
+  beforeEach(clearLS);
+  afterEach(clearLS);
+
+  it('unions remote immersion date-strings with local (never drops either side)', () => {
+    // Regression: the snapshot used to parseInt() this array → always 0, and the
+    // merge used Math.max, so the immersion streak never survived a device swap.
+    localStorage.setItem('nh_immersion_days', JSON.stringify(['2026-07-20', '2026-07-21']));
+    applyRemoteProgress({ nh_immersion_days: ['2026-07-21', '2026-07-22'] }, makeSetters());
+    const merged = JSON.parse(localStorage.getItem('nh_immersion_days') || '[]');
+    expect(new Set(merged)).toEqual(new Set(['2026-07-20', '2026-07-21', '2026-07-22']));
+  });
+
+  it('seeds local from remote when local is empty', () => {
+    applyRemoteProgress({ nh_immersion_days: ['2026-07-22'] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_immersion_days') || '[]')).toEqual(['2026-07-22']);
+  });
+
+  it('ignores a legacy numeric remote value without corrupting local', () => {
+    localStorage.setItem('nh_immersion_days', JSON.stringify(['2026-07-20']));
+    // Old buggy snapshots wrote a number (0) — must not clobber the local array.
+    applyRemoteProgress({ nh_immersion_days: 0 as unknown as string[] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_immersion_days') || '[]')).toEqual(['2026-07-20']);
+  });
+});

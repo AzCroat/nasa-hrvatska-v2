@@ -1,5 +1,6 @@
 // listeningSupport.ts — pure helpers for AIListeningScreen, extracted to keep
 // the screen under the 800-line cap.
+import { classifyAiLimit, formatAiResetTime } from './aiLimit';
 
 /**
  * Interleave dialogue lines turn-by-turn across speakers, so the rendered
@@ -46,12 +47,13 @@ export async function listeningFailureFromResponse(
   const failure = new Error(`listening API error: ${res.status}`) as Error & {
     userMessage?: string;
   };
-  if (errBody.error === 'daily_quota_exceeded') {
-    const resetTime = errBody.resetAt
-      ? new Date(errBody.resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      : null;
+  // Classification lives in lib/aiLimit so the two server codes are declared in
+  // exactly one place — four other call sites had drifted from them.
+  const limit = classifyAiLimit({ status: res.status, code: errBody.error });
+  if (limit === 'daily') {
+    const resetTime = formatAiResetTime(errBody.resetAt);
     failure.userMessage = `Daily AI limit reached${resetTime ? ` — resets at ${resetTime}` : ''}. Dictation and stories still work today.`;
-  } else if (errBody.error === 'rate_limited' || res.status === 429) {
+  } else if (limit === 'burst') {
     failure.userMessage = 'A little too fast — wait a minute and try again.';
   } else if (res.status >= 500) {
     failure.userMessage = 'The generator hiccuped — tap to try again.';

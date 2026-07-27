@@ -425,6 +425,18 @@ export async function onRequestPost(context) {
     });
   }
 
+  // Request-size guard — reject oversized payloads BEFORE parsing, mirroring
+  // ai-chat.js. Without it a caller could post a multi-megabyte body whose
+  // contents get folded into the upstream prompt and billed as input tokens.
+  const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+  if (contentLength > 102400) {
+    // 100KB max
+    return new Response(JSON.stringify({ error: 'Request too large' }), {
+      status: 413,
+      headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+    });
+  }
+
   let body;
   try {
     body = await request.json();
@@ -488,6 +500,8 @@ export async function onRequestPost(context) {
   const anthropicMessages = [];
   for (const msg of messages.slice(-20)) {
     // cap context at 20 turns
+    // Skip non-object entries: a [null] element threw on msg.role.
+    if (!msg || typeof msg !== 'object') continue;
     const role = msg.role === 'assistant' ? 'assistant' : 'user';
     const content = sanitizeParam(String(msg.content || ''), 1000);
     if (!content) continue;
