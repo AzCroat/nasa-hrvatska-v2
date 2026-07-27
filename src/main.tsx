@@ -36,6 +36,7 @@ import {
 } from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
 import { lsGet } from './lib/safeStorage';
+import { shouldReloadOnControllerChange, shouldReloadOnSwUpdatedMessage } from './lib/swReload';
 
 // ─── Capacitor native: mark <html> for CSS animation overrides ────────────
 // Many CSS entrance animations start at opacity:0 with fill-mode:both.
@@ -535,14 +536,45 @@ if (!isNative() && 'serviceWorker' in navigator) {
   // controller and need no reload.
   const hadControllerAtLoad = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('message', (event) => {
-    if (event.data?.type === 'SW_UPDATED' && hadControllerAtLoad) doReload();
+    if (
+      event.data?.type === 'SW_UPDATED' &&
+      shouldReloadOnSwUpdatedMessage({ hadControllerAtLoad })
+    )
+      doReload();
   });
 
   // Path 2 — controllerchange (backup path; fires when a new SW activates via
   // skipWaiting while this tab is open and the listener was already registered).
+  //
+  // `hadControllerAtLoad` is REQUIRED here, for the same reason Path 1 has it.
+  // `controllerchange` does not mean "a new version replaced the old one"; it
+  // means "this page's controller changed", and going from *no* controller to a
+  // controller counts. On a first install that transition is guaranteed: src/sw.js
+  // installs → skipWaiting() → activate → clients.claim(), and claim() moves this
+  // uncontrolled page to controlled, which fires controllerchange. Without the
+  // guard, every brand-new visitor reloaded the page a moment after first paint.
+  //
+  // src/sw.js already tries hard to prevent exactly that — it snapshots client IDs
+  // *before* claim() and skips first-install tabs when it sends SW_UPDATED /
+  // client.navigate(), with a comment saying "so a brand-new visitor doesn't get an
+  // immediate reload". But no amount of care on the SW side can suppress
+  // controllerchange: the browser fires it as a direct consequence of claim().
+  // This listener was overriding that protection from the client side.
+  //
+  // Who saw it: anyone with no active SW for the origin — first ever visit, fresh
+  // PWA install, new device or browser profile, or a returning user whose SW had
+  // been evicted. They got a full reload mid-boot, losing anything tapped or typed
+  // in that window and, in E2E, aborting the in-flight navigation outright
+  // (net::ERR_ABORTED on page.goto).
+  //
+  // Genuine updates are unaffected: those tabs were controlled by the old SW, so
+  // hadControllerAtLoad is true and all three reload paths still fire.
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (navigator.serviceWorker.controller?.scriptURL?.includes('firebase-messaging-sw')) return;
-    doReload();
+    const shouldReload = shouldReloadOnControllerChange({
+      hadControllerAtLoad,
+      controllerScriptURL: navigator.serviceWorker.controller?.scriptURL,
+    });
+    if (shouldReload) doReload();
   });
 
   // Path 3 — on every page load, proactively fetch and activate any new SW.
