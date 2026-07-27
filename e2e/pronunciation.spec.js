@@ -1078,12 +1078,20 @@ test.describe('Navigation smoke test', () => {
       await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
       await expect(page.locator('body')).not.toContainText('Something went wrong', { timeout: 5_000 });
 
-      // Wait for the React app to render meaningful content before reading textContent.
-      // In CI the SPA bundle can take an extra tick after the nav appears but before
-      // the main content hydrates, causing body.trim().length === 0 on first read.
-      await expect(page.locator('body')).not.toBeEmpty({ timeout: 5_000 });
-      const body = await page.locator('body').textContent();
-      expect(body.trim().length).toBeGreaterThan(100);
+      // Wait for the React app to render meaningful content before asserting on it.
+      // `not.toBeEmpty()` is satisfied by a SINGLE character, so it does not actually
+      // establish that the tab has hydrated — and the length check that followed it
+      // read textContent() once, into a plain value, so `toBeGreaterThan(100)` had no
+      // auto-waiting left to do. Observed on CI: bodies of 0, 20 and 53 characters
+      // failing on the first attempt and passing on retry ~2s later.
+      // expect.poll re-reads until the body is actually populated. The threshold is
+      // unchanged at >100 — this makes the existing assertion wait properly, it does
+      // not relax what is being asserted.
+      await expect
+        .poll(async () => ((await page.locator('body').textContent()) ?? '').trim().length, {
+          timeout: 10_000,
+        })
+        .toBeGreaterThan(100);
 
       const unexpected = jsErrors.filter(e =>
         !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch') && !e.includes('AbortError')
