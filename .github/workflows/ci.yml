@@ -73,6 +73,22 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs: quality
+    # 2026-07-27: added after a wedged runner left this job "in_progress" for
+    # 35+ minutes on a step that normally finishes in ~5. With no
+    # timeout-minutes it inherited GitHub's 360-minute default, so it could not
+    # fail fast and could not self-resolve: cancel_workflow_run returned 202
+    # without tearing the job down, and rerun kept returning "This workflow is
+    # already running". The run had to be freed by closing/reopening the PR to
+    # trip the concurrency group. Meanwhile the PR sat at 13/14 checks, which is
+    # exactly the state that tempts someone into merging on an incomplete
+    # signal.
+    #
+    # This TIGHTENS the gate, it does not relax it — an unbounded job is not a
+    # stricter check, it is one that can never report. Headroom is deliberate:
+    # observed durations are ~4m14s–5m13s, so 20 gives ~4x. That matches the
+    # ratio the e2e job already uses (75 for a ~16-minute suite). If the suite
+    # legitimately grows past this, raise the number — do not remove it.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
