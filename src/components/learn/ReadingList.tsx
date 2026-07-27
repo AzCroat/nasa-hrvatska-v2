@@ -8,6 +8,7 @@ import {
   type ReadingUnit,
 } from '../../lib/readingCurriculum';
 import ReadingPathBanner from './ReadingPathBanner';
+import { ssRemove } from '../../lib/safeStorage';
 
 const LEVEL_META = {
   beginner: { badge: 'A1/A2', color: '#16a34a', label: 'Beginner' },
@@ -85,7 +86,7 @@ export default function ReadingList({
     const firstPassage = filteredEntries[0]?.[1]?.[0];
     if (!firstPassage) return;
     // Clear filter so returning from reading doesn't re-trigger this
-    sessionStorage.removeItem('nh_readlist_filter');
+    ssRemove('nh_readlist_filter');
     launchPassage(firstPassage, { sRp, sRph, sRqi, sRsc, sRa, sRsl, sHw, setScr, sCurEx });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

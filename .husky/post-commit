@@ -1,2 +1,37 @@
 #!/bin/sh
-git push origin master
+# Push the branch that was actually committed to — never a different one.
+#
+# This used to be an unconditional `git push origin master`, written for the
+# direct-to-master workflow and left in place once work moved onto feature
+# branches. Three problems with that:
+#
+#   1. On a feature branch it pushed the local `master` ref, which has nothing
+#      to do with the commit just made. With master behind origin it fails
+#      "non-fast-forward" after every single commit — constant noise that
+#      trains you to ignore hook output.
+#   2. If local `master` were ever AHEAD of origin (one stray commit made while
+#      on master), the same line would push it straight to origin/master with
+#      no pull request and no CI. Per CLAUDE.md a master push is a Cloudflare
+#      production deploy, so that is an unreviewed deploy triggered by an
+#      unrelated commit.
+#   3. It looked like it implemented the CLAUDE.md rule "push immediately after
+#      every commit", but on a feature branch it never pushed the work at all.
+#      That matters here: this repo is worked on in disposable cloud containers,
+#      and anything committed-but-not-pushed is lost when one is recycled.
+#
+# Feature branches are deliberately NOT auto-pushed: commits are routinely
+# amended (signing, message fixes), and auto-pushing would turn every amend
+# into a force-push. A loud reminder is safer than a hook that force-pushes.
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "master" ]; then
+  git push origin master
+else
+  echo ""
+  echo "  post-commit: committed on '$branch' — NOT pushed."
+  echo "  This commit exists only on this machine until you run:"
+  echo ""
+  echo "      git push -u origin $branch"
+  echo ""
+fi

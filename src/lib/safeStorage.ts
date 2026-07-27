@@ -38,3 +38,39 @@ export function lsRemove(key: string): void {
     /* storage unavailable (blocked / restricted profile) — non-fatal */
   }
 }
+
+// ── sessionStorage ───────────────────────────────────────────────────────────
+// sessionStorage throws the SAME SecurityError as localStorage under every
+// condition listed above. It is the same Web Storage permission gate, not a
+// separate, safer one — a profile that blocks site data blocks both. It is easy
+// to assume otherwise because sessionStorage is per-tab and feels more
+// ephemeral.
+//
+// A `typeof sessionStorage !== 'undefined'` check does NOT help. That guards
+// against the object being absent (server-side rendering); here the object is
+// present and it is the *access* that throws. AspectDrillScreen had exactly that
+// check in a useState initialiser and still took the screen down.
+
+export function ssGet(key: string): string | null {
+  try {
+    return sessionStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+export function ssSet(key: string, value: string): void {
+  try {
+    sessionStorage.setItem(key, value);
+  } catch {
+    /* storage unavailable (blocked / restricted profile) — non-fatal */
+  }
+}
+
+export function ssRemove(key: string): void {
+  try {
+    sessionStorage.removeItem(key);
+  } catch {
+    /* storage unavailable (blocked / restricted profile) — non-fatal */
+  }
+}
