@@ -7,6 +7,13 @@ import {
   canActivateXPBoost,
   XP_BOOST_COST,
 } from '../../lib/appUtils.js';
+import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
+import { availableXp } from '../../lib/xpBalance.js';
+import { safeSetItem } from '../../hooks/useLocalStorage';
+import { lsSet } from '../../lib/safeStorage';
+
+// Streak Restore cost — matches the RewardsPanel affordability gate (xp >= 200).
+const STREAK_RESTORE_COST = 200;
 
 /**
  * Hero rewards state + actions — streak freezes, 2× XP boost, and streak
@@ -17,7 +24,17 @@ import {
  * come from the caller (the restore handler writes per-day keys + flushes sync).
  */
 export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?: () => void }) {
-  const { stats: st, setStats, award } = useStats();
+  const { stats: st, setStats, writeDelta } = useStats();
+
+  // Record an XP spend authoritatively: increment the monotonic `spent` counter
+  // locally AND via an atomic Firestore delta, then flush. Earned `xp` is never
+  // reduced (that would be refunded by the Math.max sync merge). Spendable
+  // balance = xp - spent.
+  const spendXp = (cost: number) => {
+    setStats((s) => ({ ...s, spent: (s.spent || 0) + cost }));
+    writeDelta({ spent: cost });
+    if (onSyncNow) onSyncNow();
+  };
   const [freezes, setFreezes] = useState(getStreakFreezes);
   const [freezeMsg, setFreezeMsg] = useState('');
   const [boost, setBoost] = useState(() => getXPBoost());
@@ -37,7 +54,7 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
   }, [boost.active]);
 
   const activateBoost = () => {
-    if (st.xp < XP_BOOST_COST) {
+    if (availableXp(st) < XP_BOOST_COST) {
       setBoostMsg(`Need ${XP_BOOST_COST} XP to activate boost`);
       setTimeout(() => setBoostMsg(''), 3000);
       return;
@@ -47,24 +64,44 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
       setTimeout(() => setBoostMsg(''), 3000);
       return;
     }
-    setStats((s) => ({ ...s, xp: Math.max(0, s.xp - XP_BOOST_COST) }));
+    spendXp(XP_BOOST_COST);
     activateXPBoost();
     setBoost(getXPBoost());
   };
 
   const earnFreezeReward = () => {
-    if (st.xp >= 200) {
+    if (freezes >= 2) {
+      setFreezeMsg('Freeze slots full — max 2 stored.');
+      return;
+    }
+    if (availableXp(st) >= FREEZE_COST_XP) {
+      // Same price as the Settings → Streak Protection purchase — one freeze
+      // costs FREEZE_COST_XP everywhere (owner decision, 2026-07-21).
+      spendXp(FREEZE_COST_XP);
       earnFreeze();
       setFreezes((f) => f + 1);
       setFreezeMsg('✓ Streak freeze earned! Your streak is protected for one missed day.');
-    } else setFreezeMsg('You need 200 XP to earn a streak freeze. Keep going!');
+    } else setFreezeMsg(`You need ${FREEZE_COST_XP} XP to earn a streak freeze. Keep going!`);
   };
 
   const restoreStreak = () => {
-    award && award(-200, false, 'default');
-    localStorage.setItem('nh_streak_restored_' + today, '1');
-    // Write streak back to 1 using the uStreak key (same format as getStreak in data.jsx)
-    localStorage.setItem('uStreak', JSON.stringify({ count: 1, last: today }));
+    // Persist the restored streak BEFORE charging for it. These two writes were
+    // bare and sat AFTER spendXp, so on storage that rejects writes (Safari
+    // Private Browsing, a quota-exhausted profile) the learner was charged 200 XP
+    // and the throw then skipped the uStreak write, the success message and the
+    // sync — they paid and got nothing back. safeSetItem reports failure instead
+    // of throwing, so the charge can be withheld when the restore cannot stick.
+    if (!safeSetItem('uStreak', { count: 1, last: today })) {
+      setStreakRestoreMsg(
+        'Could not restore your streak — this browser is blocking storage. No XP was spent.',
+      );
+      return;
+    }
+    // The cost goes on the monotonic `spent` counter (authoritative + synced)
+    // rather than subtracting earned xp via a negative award — that subtraction
+    // was refunded by the Math.max sync merge (the #110 bug).
+    spendXp(STREAK_RESTORE_COST);
+    lsSet('nh_streak_restored_' + today, '1');
     // Sync with streak.js repair key so canRepairStreak() returns false this session
     try {
       const rd = JSON.parse(localStorage.getItem('nh_streak_repair') || '{}');

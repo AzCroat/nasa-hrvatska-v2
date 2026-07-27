@@ -13,6 +13,7 @@ const _isNative =
 import { lXP, nXP } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { getDailyXP, getDailyXPGoal } from '../../lib/appUtils.js';
+import { availableXp } from '../../lib/xpBalance.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import CroatianGrb from '../shared/CroatianGrb';
@@ -25,6 +26,7 @@ import RewardsPanel from './RewardsPanel';
 import HeroStats from './HeroStats';
 import { useKnightSpeech } from './useKnightSpeech';
 import { useHeroRewards } from './useHeroRewards';
+import { lsGet } from '../../lib/safeStorage';
 
 interface LearnPathItem {
   id?: string;
@@ -75,7 +77,7 @@ export default function HeroSection({
 
   // Hero is always expanded by default — users can still collapse it manually
   const [heroExpanded, setHeroExpanded] = useState(() => {
-    const saved = localStorage.getItem('nh_hero_expanded');
+    const saved = lsGet('nh_hero_expanded');
     if (saved !== null) return saved === '1';
     return true; // default expanded for all users
   });
@@ -329,7 +331,12 @@ export default function HeroSection({
               );
             })()}
 
-            <RewardsPanel rewards={rewards} xp={st.xp} streakCount={streak.count} today={today} />
+            <RewardsPanel
+              rewards={rewards}
+              xp={availableXp(st)}
+              streakCount={streak.count}
+              today={today}
+            />
             {/* Collapse button — bottom of full hero */}
             <button
               onClick={toggleHero}

@@ -45,16 +45,53 @@ export function applyExamScoresToAdaptive(scores: SkillScores): void {
 
 // Phase 3b (writing): /api/correct already tags each correction with a coarse
 // `errorType`. Map those to a representative adaptive category so a written
-// mistake resurfaces that practice. The errorType is coarse (e.g. "case" doesn't
-// say which case), so each maps to a single high-frequency proxy category;
-// agreement/spelling/other have no clean category and are intentionally skipped.
+// mistake resurfaces that practice. `agreement`/`spelling`/`other` have no clean
+// category and are intentionally skipped. NOTE: `case` is handled separately (it
+// does not say WHICH case) — see CASE_CATEGORIES / nextCaseCategory below.
 const ERRORTYPE_TO_CATEGORY: Record<string, SkillCategory> = {
-  case: 'genitive',
   aspect: 'aspect-imperfective',
   tense: 'past-tense',
   word_order: 'word-order',
   vocab: 'vocab-a2',
 };
+
+// The coarse `case` errorType doesn't say which of the seven cases was wrong, so
+// it can't be pinned to one category honestly. Pinning it to `genitive` (the old
+// behaviour) made the daily session serve genitive endlessly — every dative /
+// locative / instrumental / vocative / accusative slip re-flagged GENITIVE as
+// weak-and-due, so genitive won the grammar slot forever while the other cases
+// starved. Instead we rotate the attribution across the whole case system with a
+// persisted round-robin pointer, so a learner who keeps making case errors gets
+// even coverage of all cases over successive submissions. The rotation is stable
+// WITHIN one submission (all its `case` errors resolve to the same category, so
+// the per-submission de-dupe below still holds) and advances only BETWEEN them.
+const CASE_CATEGORIES: SkillCategory[] = [
+  'genitive',
+  'accusative',
+  'dative-locative',
+  'instrumental',
+  'vocative',
+];
+const CASE_ROTATION_KEY = 'nh_case_rotation';
+
+function nextCaseCategory(): SkillCategory {
+  let idx = 0;
+  try {
+    idx = parseInt(localStorage.getItem(CASE_ROTATION_KEY) || '0', 10) || 0;
+  } catch {
+    /* storage unavailable — fall back to genitive */
+  }
+  const cat =
+    CASE_CATEGORIES[
+      ((idx % CASE_CATEGORIES.length) + CASE_CATEGORIES.length) % CASE_CATEGORIES.length
+    ]!;
+  try {
+    localStorage.setItem(CASE_ROTATION_KEY, String((idx + 1) % CASE_CATEGORIES.length));
+  } catch {
+    /* storage unavailable — pointer stays; next call repeats this case */
+  }
+  return cat;
+}
 
 // Score fed for a category that produced an error → grade 1 → due ~1 day, so it
 // resurfaces in the next daily session.
@@ -63,15 +100,25 @@ const ERROR_SCORE = 0.45;
 /**
  * Feed a writing submission's correction error-types into the adaptive scheduler.
  * De-duped per submission (each affected category reschedules once), so a writing
- * full of case errors nudges case practice without flooding the queue. Unknown /
- * unmapped error-types are ignored.
+ * full of case errors nudges practice once without flooding the queue. A `case`
+ * error is attributed to the next case in the round-robin (see nextCaseCategory);
+ * the pointer advances at most once per submission. Unknown/unmapped types ignored.
  */
 export function applyWritingErrorsToAdaptive(errorTypes: Array<string | undefined | null>): void {
   const cats = new Set<SkillCategory>();
+  let hasCaseError = false;
   for (const t of errorTypes) {
-    const mapped = t ? ERRORTYPE_TO_CATEGORY[t] : undefined;
+    if (!t) continue;
+    if (t === 'case') {
+      hasCaseError = true;
+      continue;
+    }
+    const mapped = ERRORTYPE_TO_CATEGORY[t];
     if (mapped) cats.add(mapped);
   }
+  // Resolve `case` once per submission so repeated case errors don't spin the
+  // pointer mid-submission (keeps the de-dupe: one case nudge per submission).
+  if (hasCaseError) cats.add(nextCaseCategory());
   for (const cat of cats) rateCategorySession(cat, ERROR_SCORE);
 }
 

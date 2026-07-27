@@ -15,7 +15,7 @@
 
 // Generous per-user daily ceiling — an ABUSE cap, not a paywall. AI is free for
 // all signed-in users; this only stops a runaway/compromised account. Raise freely.
-const FREE_ANNUAL_TURNS_PER_DAY = 300;
+const FREE_ANNUAL_TURNS_PER_DAY = 750;
 const ANON_IP_TURNS_PER_DAY = 15;
 
 function todayUTC() {

@@ -26,7 +26,7 @@ export default function VocativeScreen({
 }) {
   const { stats, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('rules'); // rules | dialogues | quiz | done
-  const [quizQ] = useState(() => sh(VOCATIVE.quiz));
+  const [quizQ] = useState(() => sh(VOCATIVE.quiz).slice(0, 10));
   const [qi, setQi] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);

@@ -3,9 +3,12 @@ import { H, Bar, Spk, speakSlow } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import PronunciationScorer from '../shared/PronunciationScorer';
 import { recordTopicResult } from '../../lib/adaptive.js';
+import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useRecorder } from '../../hooks/useRecorder';
+import { getUserCefr, cefrRank, isUnlocked } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -425,8 +428,36 @@ export default function ShadowingScreen({
     prevRecordingState.current = recState;
   }, [recState]);
 
-  if (!SHADOWING || SHADOWING.length === 0) return null;
-  const items = SHADOWING;
+  // Content still loading (or unavailable offline) — render a header + back path
+  // instead of a blank screen. SHADOWING is empty on the first render (useContent
+  // is async) and stays empty if content can't load, so `return null` stranded the
+  // user on a blank page with no way out.
+  if (!SHADOWING || SHADOWING.length === 0) {
+    return (
+      <div className="scr-wrap">
+        {H('🗣️ Shadowing Practice', 'Listen and repeat', goBack)}
+        <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
+          {content ? 'No shadowing lines available right now — please try again.' : 'Loading…'}
+        </div>
+      </div>
+    );
+  }
+  // 3b: level-aware selection. Items now carry a CEFR `level` tag — serve the
+  // ~12 nearest the user's unlock level (easier→harder order) instead of the
+  // whole pool in fixed order. Content cached before the deploy has no tags
+  // and keeps the original full-pool behaviour.
+  const userCefr = getContentUnlockLevel(getUserCefr(stats.xp ?? 0, stats.lc ?? 0, stats.gc ?? 0));
+  const tagged = SHADOWING.filter((s) => s?.level);
+  let items = SHADOWING;
+  if (tagged.length > 0) {
+    const unlocked = tagged.filter((s) => isUnlocked(s.level, userCefr));
+    const pool = unlocked.length >= 4 ? unlocked : tagged;
+    const r = cefrRank(userCefr);
+    items = [...pool]
+      .sort((a, b) => Math.abs(cefrRank(a.level) - r) - Math.abs(cefrRank(b.level) - r))
+      .slice(0, 12)
+      .sort((a, b) => cefrRank(a.level) - cefrRank(b.level));
+  }
 
   // Reset recording state when moving to a new item
   function advanceItem() {
@@ -603,7 +634,20 @@ export default function ShadowingScreen({
           </div>
         )}
 
-        <PronunciationScorer targetText={item.hr} onScore={(r) => setAcousticScore(r.score)} />
+        <PronunciationScorer
+          targetText={item.hr}
+          onScore={(r) => {
+            setAcousticScore(r.score);
+            // Route a weak acoustic score into the pronunciation weakness ledger
+            // (Content-Rec #8) so the struggled sound resurfaces for practice.
+            logPronunciationWeakness({
+              score: r.score,
+              worstPhoneme: r.worstPhoneme,
+              targetText: item.hr,
+              source: 'shadowing',
+            });
+          }}
+        />
 
         {/* Record My Attempt — shown before "said" */}
         {!said && (
@@ -675,7 +719,11 @@ export default function ShadowingScreen({
             <button
               className="b bp"
               onClick={() => {
-                recordTopicResult('speaking', true);
+                // Record a real speaking result, not an unconditional pass: a low
+                // acoustic score now counts as a weak attempt (Content-Rec #8).
+                // Null (mic unavailable / not acoustically scored) stays a pass so
+                // keyboard-only learners are never penalised.
+                recordTopicResult('speaking', acousticScore === null || acousticScore >= 70);
                 if (idx < items.length - 1) {
                   setIdx((i) => i + 1);
                   advanceItem();

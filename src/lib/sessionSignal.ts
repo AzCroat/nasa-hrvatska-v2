@@ -30,6 +30,25 @@
 
 const STARTED_KEY = 'nh_session_started';
 const COMPLETED_KEY = 'nh_session_completed';
+const CATEGORY_KEY = 'nh_session_category';
+
+/**
+ * Clear the "active session activity" markers so the daily session is no longer
+ * pinned to a launched-but-uncompletable activity. Called when a launch bails
+ * WITHOUT navigating (e.g. empty vocab pool) — otherwise nh_session_started stays
+ * set with no screen able to complete it, and re-tapping "Start" just re-bails,
+ * dead-ending the session. (The ScreenGuard fallback and App.tsx tab-away clear
+ * these same markers for the lost-launch-state and abandon paths.)
+ */
+export function clearActiveSessionActivity(): void {
+  if (typeof sessionStorage === 'undefined') return;
+  try {
+    sessionStorage.removeItem(STARTED_KEY);
+    sessionStorage.removeItem(CATEGORY_KEY);
+  } catch {
+    /* sessionStorage unavailable — non-fatal */
+  }
+}
 
 /**
  * Mark the active Today's Session activity complete.

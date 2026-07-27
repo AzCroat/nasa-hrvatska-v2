@@ -1,6 +1,7 @@
 // src/components/home/SessionCard.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { DailySession, SessionActivity } from '../../hooks/useDailySession';
+import { LAUNCH_FAILED_EVENT } from '../../lib/launchFailure';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -42,6 +43,11 @@ interface SessionCardProps {
   bonusActivities?: SessionActivity[];
   /** Click handler for a bonus activity — receives the activity, parent decides routing. */
   onBonusStart?: (activity: SessionActivity) => void;
+  /**
+   * Discards the completed session and builds a fresh one for today. Lets a
+   * motivated learner keep going instead of waiting for tomorrow's rebuild.
+   */
+  onStartFresh?: () => void;
 }
 
 // ── Šahovnica Croatian coat of arms crest ──
@@ -204,10 +210,21 @@ export default function SessionCard({
   learnPathItemDone = false,
   bonusActivities = [],
   onBonusStart,
+  onStartFresh,
 }: SessionCardProps) {
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
   const inProgress = completedCount > 0 && !isComplete;
+
+  // P0 (2026-07-18): a session launch must never be a silent no-op. The
+  // launcher broadcasts failures (lazy-chunk load error, empty pool); we show
+  // the error at the exact button the user tapped. Cleared on the next tap.
+  const [launchError, setLaunchError] = useState(false);
+  useEffect(() => {
+    const onFail = () => setLaunchError(true);
+    window.addEventListener(LAUNCH_FAILED_EVENT, onFail);
+    return () => window.removeEventListener(LAUNCH_FAILED_EVENT, onFail);
+  }, []);
 
   return (
     <div data-testid="session-card">
@@ -307,6 +324,28 @@ export default function SessionCard({
                 </button>
               ))}
             </div>
+          )}
+          {onStartFresh && (
+            <button
+              onClick={onStartFresh}
+              data-testid="start-fresh-session"
+              style={{
+                display: 'block',
+                width: '100%',
+                background: 'none',
+                border: '1.5px solid rgba(22,163,74,.4)',
+                borderRadius: 10,
+                padding: '10px 20px',
+                marginBottom: 10,
+                fontSize: 13,
+                fontWeight: 800,
+                color: '#15803d',
+                cursor: 'pointer',
+                fontFamily: "'Outfit',sans-serif",
+              }}
+            >
+              🔄 Start a fresh session →
+            </button>
           )}
           <div style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 500 }}>
             {tomorrowLabel}
@@ -503,9 +542,31 @@ export default function SessionCard({
 
           {/* CTA button wrapper */}
           <div style={{ padding: '14px 18px 18px', position: 'relative' }}>
+            {launchError && (
+              <div
+                data-testid="session-launch-error"
+                style={{
+                  marginBottom: 10,
+                  padding: '10px 12px',
+                  borderRadius: 10,
+                  background: 'rgba(204,0,0,.08)',
+                  border: '1px solid rgba(204,0,0,.35)',
+                  color: CROATIAN_RED,
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
+                }}
+              >
+                Couldn't start the lesson — check your connection and tap again. If it keeps
+                happening, close and reopen the app to get the latest version.
+              </div>
+            )}
             <button
               data-testid="session-begin-cta"
-              onClick={onStart}
+              onClick={() => {
+                setLaunchError(false);
+                onStart();
+              }}
               disabled={!nextActivity}
               style={{
                 width: '100%',

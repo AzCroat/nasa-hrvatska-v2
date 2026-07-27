@@ -3,6 +3,7 @@ import { speak } from '../../data';
 import VideoBackground from '../shared/VideoBackground';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { markQuest } from '../../lib/quests.js';
+import { lsGet, ssGet } from '../../lib/safeStorage';
 
 // Topic → Croatian scene video key for VideoBackground
 const TOPIC_SCENE = {
@@ -104,7 +105,7 @@ interface VideoLessonProps {
 export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
   const [phase, setPhase] = useState('setup'); // setup|loading|playing|quiz|result
   const [topic, setTopic] = useState<Topic | null>(null);
-  const [level, setLevel] = useState(() => localStorage.getItem('nh_level') || 'B1');
+  const [level, setLevel] = useState(() => lsGet('nh_level') || 'B1');
   const [content, setContent] = useState<VideoContent | null>(null);
   const [sceneVideoUrl, setSceneVideoUrl] = useState<string | null>(null);
   const [lines, setLines] = useState<DialogueLine[]>([]); // flat array of {speaker, text}
@@ -137,7 +138,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
     if (!topic) return;
     const sceneKey = (TOPIC_SCENE as Record<string, string>)[topic.key] ?? 'zagreb';
     const storageKey = `nh_scene_video_${sceneKey}`;
-    const cached = sessionStorage.getItem(storageKey);
+    const cached = ssGet(storageKey);
     if (cached) {
       setSceneVideoUrl(cached);
       return;

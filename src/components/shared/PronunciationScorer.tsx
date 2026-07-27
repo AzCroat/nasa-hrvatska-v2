@@ -27,7 +27,7 @@ interface PronunciationScorerProps {
   targetText: string;
   targetEnglish?: string;
   level?: string;
-  onScore?: (r: { spoken: string; score: number | null }) => void;
+  onScore?: (r: { spoken: string; score: number | null; worstPhoneme?: string | null }) => void;
 }
 
 interface ScoredResult {
@@ -42,6 +42,28 @@ interface CoachingResult {
   issue?: string;
   phonetic_guide?: string;
   drills?: Array<{ word: string; tip?: string }>;
+}
+
+// The single lowest-scoring phoneme across all words in an Azure assessment
+// (mirrors AzureResultPanel's worst-phoneme tip). Returns null when the response
+// carries no per-phoneme breakdown. Kept as a plain function so it's trivially
+// testable and shared by the onScore forward.
+function worstPhonemeOf(data: Record<string, unknown>): string | null {
+  const wordScores =
+    (data['word_scores'] as
+      | Array<{ phonemes?: Array<{ phoneme?: string; score?: number }> }>
+      | undefined) || [];
+  let worst: string | null = null;
+  let worstScore = Infinity;
+  for (const w of wordScores) {
+    for (const p of w.phonemes || []) {
+      if (typeof p.score === 'number' && p.phoneme && p.score < worstScore) {
+        worstScore = p.score;
+        worst = p.phoneme;
+      }
+    }
+  }
+  return worst;
 }
 
 export default function PronunciationScorer({
@@ -259,7 +281,11 @@ export default function PronunciationScorer({
       // distinct from the translation-only path: a missing-overall is not a translation match,
       // so we do NOT set recognizedViaTranslation here.
       const overallScore = typeof data['overall'] === 'number' ? data['overall'] : null;
-      if (onScore) onScore({ spoken: targetText, score: overallScore });
+      // Forward the single lowest-scoring phoneme so callers can feed it into the
+      // pronunciation weakness ledger (Content-Rec #8). This is the same worst-phoneme
+      // AzureResultPanel surfaces as a tip; here it also drives what to practise next.
+      if (onScore)
+        onScore({ spoken: targetText, score: overallScore, worstPhoneme: worstPhonemeOf(data) });
       // No numeric score → nothing to coach on (mirrors the translation-only null path).
       if (overallScore !== null) fetchCoaching(targetText, overallScore);
     } catch (fetchErr) {

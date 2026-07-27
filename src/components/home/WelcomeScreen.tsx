@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { sh, PLACE, speak } from '../../data';
 import CroatianGrb from '../shared/CroatianGrb';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 import CharacterPortrait from '../family/CharacterPortrait';
 import type { Stats, AuthUser } from '../../types';
 
@@ -80,7 +81,7 @@ export default function WelcomeScreen({
   const [goal, setGoal] = useState('');
   const [dailyMin, setDailyMin] = useState(0);
   const [showSpeakModal, setShowSpeakModal] = useState(false);
-  const [selectedGen, setSelectedGen] = useState(localStorage.getItem('nh_heritage_gen') || '');
+  const [selectedGen, setSelectedGen] = useState(lsGet('nh_heritage_gen') || '');
 
   // Focus trap refs for the speak modal
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -121,16 +122,26 @@ export default function WelcomeScreen({
 
   function startPlacement() {
     if (!name && au) setName(au.d);
+    // Guarded throughout: this is the onboarding "start" button. A single
+    // throwing write (site data blocked / quota full) used to abort the rest of
+    // the function, so `onboarded` was never set and placement never began —
+    // leaving a brand-new user permanently stuck on the welcome screen.
     if (goal) {
-      localStorage.setItem('nh_goal', goal);
-      localStorage.setItem('nh_goal_set', '1');
-      localStorage.setItem('nh_goal_set_date', String(Date.now()));
+      lsSet('nh_goal', goal);
+      lsSet('nh_goal_set', '1');
+      lsSet('nh_goal_set_date', String(Date.now()));
     }
-    if (dailyMin) localStorage.setItem('nh_daily_min', String(dailyMin));
-    if (localStorage.getItem('nh_heritage_region')) {
-      localStorage.setItem('nh_heritage_saved', 'true');
+    if (dailyMin) {
+      lsSet('nh_daily_min', String(dailyMin));
+      // Make the minutes choice actually set the measured daily XP goal
+      // (2 XP/min — the same rate GoalSetterModal's commitment options use).
+      // Previously this picker set nothing measurable.
+      lsSet('nh_daily_goal_xp', String(dailyMin * 2));
     }
-    localStorage.setItem('onboarded', 'true');
+    if (lsGet('nh_heritage_region')) {
+      lsSet('nh_heritage_saved', 'true');
+    }
+    lsSet('onboarded', 'true');
     const b = sh(PLACE.filter((x) => x.d === 1)).slice(0, 5);
     const m = sh(PLACE.filter((x) => x.d === 2)).slice(0, 5);
     const a = sh(PLACE.filter((x) => x.d === 3)).slice(0, 5);
@@ -237,18 +248,6 @@ export default function WelcomeScreen({
                 By diaspora, for diaspora — built by Croatian-Americans who know the struggle
               </span>
             </div>
-            <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
-              <span style={{ fontSize: 18 }}>👨‍👩‍👧</span>
-              <span
-                style={{
-                  fontSize: 'var(--text-sm)',
-                  color: 'rgba(255,255,255,0.75)',
-                  fontWeight: 600,
-                }}
-              >
-                Family groups — track progress with cousins, siblings, and Baka
-              </span>
-            </div>
             <div style={{ display: 'flex', gap: 12 }}>
               <span style={{ fontSize: 18 }}>🇭🇷</span>
               <span
@@ -338,7 +337,8 @@ export default function WelcomeScreen({
               marginBottom: 24,
             }}
           >
-            This shapes your learning path — so every lesson fits you personally.
+            This personalizes your AI practice and recommendations — the full course is always
+            yours.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
             {GOALS.map((g) => (
@@ -575,7 +575,7 @@ export default function WelcomeScreen({
           </button>
           <button
             onClick={() => {
-              localStorage.setItem('nh_placement_done', 'true');
+              lsSet('nh_placement_done', 'true');
               startPlacement();
             }}
             style={{
@@ -788,8 +788,8 @@ export default function WelcomeScreen({
               {goal === 'partner' ? 'Where is your partner from?' : 'Where is your family from?'}
             </label>
             <select
-              onChange={(e) => localStorage.setItem('nh_heritage_region', e.target.value)}
-              defaultValue={localStorage.getItem('nh_heritage_region') || ''}
+              onChange={(e) => lsSet('nh_heritage_region', e.target.value)}
+              defaultValue={lsGet('nh_heritage_region') || ''}
               style={{
                 width: '100%',
                 padding: '12px 14px',
@@ -894,7 +894,7 @@ export default function WelcomeScreen({
                   <button
                     key={g.id}
                     onClick={() => {
-                      localStorage.setItem('nh_heritage_gen', g.id);
+                      lsSet('nh_heritage_gen', g.id);
                       setSelectedGen(g.id);
                     }}
                     style={{

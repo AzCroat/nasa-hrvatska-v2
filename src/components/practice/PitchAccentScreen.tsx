@@ -138,16 +138,21 @@ export default function PitchAccentScreen({
                 finishFired.current = true;
                 if (typeof award === 'function') award(score * 5 + 5, false, 'grammar');
                 markQuest('grammar');
-                if (!stats.vs?.includes('pitch-accent')) {
+                // vs key MUST be 'pitchaccent' (no hyphen) to satisfy this node's
+                // ckRule (lp50: vsIncludes 'pitchaccent'). The old 'pitch-accent'
+                // token was orphaned — it never completed the path node, which then
+                // only advanced via the black-hole dwell (now removed to stop the
+                // lc(dwell)+gc(self) double-count).
+                if (!stats.vs?.includes('pitchaccent')) {
                   setStats((prev) => {
-                    if (prev.vs?.includes('pitch-accent')) return prev;
+                    if (prev.vs?.includes('pitchaccent')) return prev;
                     return {
                       ...prev,
                       gc: (prev.gc || 0) + 1,
-                      vs: [...(prev.vs || []), 'pitch-accent'],
+                      vs: [...(prev.vs || []), 'pitchaccent'],
                     };
                   });
-                  if (writeDelta) writeDelta({ gc: 1, vs: ['pitch-accent'] });
+                  if (writeDelta) writeDelta({ gc: 1, vs: ['pitchaccent'] });
                 }
                 goBack();
               }}

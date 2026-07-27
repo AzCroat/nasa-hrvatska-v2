@@ -556,7 +556,7 @@
     },
     {
       "q": "The phrase 'Nema na čemu' is the polite response to:",
-      "o": ["an apology (oprostite)", "a thank-you (hvala)", "a greeting (bok)", "a question (molim?)"],
+      "o": ["an apology (oprostite)", "a thank-you (hvala)", "a greeting (bog)", "a question (molim?)"],
       "c": 1,
       "skill": "vocab"
     },

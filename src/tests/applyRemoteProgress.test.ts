@@ -90,6 +90,42 @@ describe('applyRemoteProgress — null/undefined guard', () => {
   });
 });
 
+describe('applyRemoteProgress — SRS cards (merge by recency)', () => {
+  beforeEach(clearLS);
+  afterEach(clearLS);
+
+  it('keeps a LAPSE that was reviewed more recently on another device', () => {
+    // Local: well-learned card, reviewed long ago (lr=1000), far-future due.
+    mockSRSData.kuca = { s: 30, d: 5, r: 5, w: 0, l: 0, b: 5, due: 9e15, lr: 1000 };
+    // Remote: the SAME card failed later on the phone (lr=2000) → low stability,
+    // soon due. Correct-count r is unchanged (5), so the OLD merge discarded it.
+    const fp = { sr: { kuca: { s: 3, d: 7, r: 5, w: 1, l: 1, b: 0, due: 1e12, lr: 2000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { s: number }).s).toBe(3); // remote lapse adopted
+    expect((mockSRSData.kuca as { l: number }).l).toBe(1);
+  });
+
+  it('keeps the LOCAL card when it was reviewed more recently than remote', () => {
+    mockSRSData.kuca = { s: 3, d: 7, r: 5, w: 1, l: 1, b: 0, due: 1e12, lr: 2000 };
+    const fp = { sr: { kuca: { s: 30, d: 5, r: 5, w: 0, l: 0, b: 5, due: 9e15, lr: 1000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { s: number }).s).toBe(3); // local (newer) kept
+  });
+
+  it('falls back to higher repetition count for legacy cards without a timestamp', () => {
+    mockSRSData.kuca = { s: 10, d: 5, r: 2, w: 0, l: 0, b: 2, due: 1e12 };
+    const fp = { sr: { kuca: { s: 5, d: 6, r: 5, w: 0, l: 0, b: 5, due: 1e12 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect((mockSRSData.kuca as { r: number }).r).toBe(5); // legacy count rule preserved
+  });
+
+  it('adopts a remote card that is absent locally', () => {
+    const fp = { sr: { nova: { s: 4, d: 5, r: 1, w: 0, l: 0, b: 1, due: 1e12, lr: 5000 } } };
+    applyRemoteProgress(fp, makeSetters());
+    expect(mockSRSData.nova).toBeDefined();
+  });
+});
+
 describe('applyRemoteProgress — name + onboarding', () => {
   beforeEach(clearLS);
   afterEach(clearLS);
@@ -317,6 +353,44 @@ describe('applyRemoteProgress — quest flags (additive)', () => {
     window.removeEventListener('nh-campaign-quest-done', listener);
     expect(events).toHaveLength(1);
   });
+
+  // ── Regression: 2026-07-15 Firestore write-storm loop ──────────────────────
+  // The quest-done event must fire ONLY on a genuine false→true transition.
+  // When the flag is already '1' locally, a watcher snapshot re-delivering the
+  // same remote blob must NOT re-dispatch — the App.tsx listener turns the
+  // event into doSyncNow(), whose write re-triggers the watcher: dispatching
+  // unconditionally created a self-sustaining write loop that exhausted the
+  // Firestore client write queue (code=resource-exhausted) and re-rendered the
+  // app in a burst for any user with a completed Easter quest.
+  it('does NOT re-dispatch quest-done when the flag is already set locally', () => {
+    localStorage.setItem('nh_cq_easter_uskrs_q2', '1');
+    const events: Event[] = [];
+    const listener = (e: Event) => events.push(e);
+    window.addEventListener('nh-campaign-quest-done', listener);
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    // Simulate the watcher echo cycle: repeated applies of the same blob.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    applyRemoteProgress({ nh_cq_easter_uskrs_q2: true }, setters);
+    window.removeEventListener('nh-campaign-quest-done', listener);
+    expect(events).toHaveLength(0);
+    // Flag stays set (additive semantics unchanged).
+    expect(localStorage.getItem('nh_cq_easter_uskrs_q2')).toBe('1');
+  });
+
+  it('dispatches once for a NEW completion even when another quest is already done', () => {
+    localStorage.setItem('nh_cq_easter_uskrs_q1', '1'); // old news
+    const events: Event[] = [];
+    const listener = (e: Event) => events.push(e);
+    window.addEventListener('nh-campaign-quest-done', listener);
+    const setters = makeSetters();
+    // Remote blob carries the old q1 AND a newly-completed q3.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q1: true, nh_cq_easter_uskrs_q3: true }, setters);
+    // Echo of the same blob after flags persisted — must be silent.
+    applyRemoteProgress({ nh_cq_easter_uskrs_q1: true, nh_cq_easter_uskrs_q3: true }, setters);
+    window.removeEventListener('nh-campaign-quest-done', listener);
+    expect(events).toHaveLength(1);
+  });
 });
 
 describe('applyRemoteProgress — user settings', () => {
@@ -517,6 +591,19 @@ describe('applyRemoteProgress — additional user settings', () => {
     const setters = makeSetters();
     applyRemoteProgress({ nh_culture: '{"bakaCnt":3}' }, setters);
     expect(localStorage.getItem('nh_culture')).toBe('{"bakaCnt":3}');
+  });
+
+  it('restores nh_writing_mistakes from remote when local is empty', () => {
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_writing_mistakes: [{ type: 'case' }] }, setters);
+    expect(localStorage.getItem('nh_writing_mistakes')).toBe('[{"type":"case"}]');
+  });
+
+  it('does NOT overwrite local nh_writing_mistakes (remote-wins-only-when-empty)', () => {
+    localStorage.setItem('nh_writing_mistakes', '[{"type":"local"}]');
+    const setters = makeSetters();
+    applyRemoteProgress({ nh_writing_mistakes: [{ type: 'remote' }] }, setters);
+    expect(localStorage.getItem('nh_writing_mistakes')).toBe('[{"type":"local"}]');
   });
 
   it('restores nh_placement_done from remote', () => {
@@ -856,5 +943,31 @@ describe('applyRemoteProgress — XP cooldown merge', () => {
     const stored = JSON.parse(localStorage.getItem('xpCooldown') || '{}');
     expect(stored['vocab_100']).toBe(today); // today → included
     expect(stored['grammar_50']).toBeUndefined(); // old date → excluded
+  });
+});
+
+describe('applyRemoteProgress — immersion days union (nh_immersion_days)', () => {
+  beforeEach(clearLS);
+  afterEach(clearLS);
+
+  it('unions remote immersion date-strings with local (never drops either side)', () => {
+    // Regression: the snapshot used to parseInt() this array → always 0, and the
+    // merge used Math.max, so the immersion streak never survived a device swap.
+    localStorage.setItem('nh_immersion_days', JSON.stringify(['2026-07-20', '2026-07-21']));
+    applyRemoteProgress({ nh_immersion_days: ['2026-07-21', '2026-07-22'] }, makeSetters());
+    const merged = JSON.parse(localStorage.getItem('nh_immersion_days') || '[]');
+    expect(new Set(merged)).toEqual(new Set(['2026-07-20', '2026-07-21', '2026-07-22']));
+  });
+
+  it('seeds local from remote when local is empty', () => {
+    applyRemoteProgress({ nh_immersion_days: ['2026-07-22'] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_immersion_days') || '[]')).toEqual(['2026-07-22']);
+  });
+
+  it('ignores a legacy numeric remote value without corrupting local', () => {
+    localStorage.setItem('nh_immersion_days', JSON.stringify(['2026-07-20']));
+    // Old buggy snapshots wrote a number (0) — must not clobber the local array.
+    applyRemoteProgress({ nh_immersion_days: 0 as unknown as string[] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_immersion_days') || '[]')).toEqual(['2026-07-20']);
   });
 });

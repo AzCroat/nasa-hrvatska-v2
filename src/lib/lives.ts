@@ -23,7 +23,19 @@ function getState(): HeartsState | null {
 }
 
 function saveState(s: HeartsState): void {
-  localStorage.setItem(KEY, JSON.stringify(s));
+  // MUST NOT throw. getHearts() calls this unconditionally on the first read of a
+  // new day, and McGame calls getHearts() inside a useMemo — i.e. DURING RENDER.
+  // An unguarded setItem therefore threw a QuotaExceededError out of render and
+  // the ErrorBoundary replaced the entire quiz screen. In Safari Private Browsing
+  // (or any full-quota profile) getItem also returns null, so the `!s` branch is
+  // always taken and the crash happened on EVERY entry to a Hearts/Challenge quiz.
+  // loseHeart() has the same exposure in the answer-click path.
+  // Failing to persist is harmless: hearts simply fall back to the day's default.
+  try {
+    localStorage.setItem(KEY, JSON.stringify(s));
+  } catch {
+    /* storage unavailable or full — keep playing with in-memory values */
+  }
 }
 
 function todayKey(): string {
@@ -44,7 +56,11 @@ export function getHearts(): number {
   const regenCount = Math.floor(hoursPassed);
   if (regenCount > 0 && safeHearts < 5) {
     const newHearts = Math.min(5, safeHearts + regenCount);
-    const updated: HeartsState = { ...s, hearts: newHearts, lastRegen: Date.now() };
+    // Advance the regen clock by exactly the whole 4-hour blocks consumed, not to
+    // "now", so the sub-4h remainder carries over toward the next heart instead of
+    // being discarded (which would make regen slower than the advertised 1 / 4h).
+    const nextRegen = (s.lastRegen || 0) + regenCount * 14400000;
+    const updated: HeartsState = { ...s, hearts: newHearts, lastRegen: nextRegen };
     saveState(updated);
     return newHearts;
   }
@@ -54,12 +70,21 @@ export function getHearts(): number {
 export function loseHeart(): number {
   const s = getState();
   const today = todayKey();
-  const current = s && s.date === today ? s.hearts : 5;
+  // Clamp to [0,5] exactly as getHearts() does. Without it a corrupted stored
+  // value (say 99) decremented to 98 and was returned straight to the caller —
+  // McGame passes this into the reducer as the displayed heart count, so the two
+  // functions disagreed and hearts looked unlosable until they fell below 5.
+  const raw = s && s.date === today ? s.hearts : 5;
+  const current = Math.min(5, Math.max(0, Number.isFinite(raw) ? Math.floor(raw) : 5));
   const newHearts = Math.max(0, current - 1);
-  // When date has changed (returning user on a new day), reset lastRegen to now.
-  // Using the old lastRegen from a previous day causes getHearts() to immediately
-  // regen all hearts (20+ hours elapsed), breaking the lives system for returning users.
-  const lastRegen = s && s.date === today ? s.lastRegen || Date.now() : Date.now();
+  // Anchor the regen clock at the moment hearts first drop below full. While a
+  // user sits at 5 hearts, getHearts() never advances lastRegen (its regen branch
+  // requires hearts < 5), so it stays pinned at the day's first read. Without
+  // re-anchoring on the 5→4 drop, a heart lost hours later would be instantly
+  // refunded by the next getHearts() (which would see many hours of "elapsed"
+  // regen time). A new day (or a loss while already below 5) also resets to now /
+  // preserves the ongoing cycle respectively.
+  const lastRegen = s && s.date === today && current < 5 ? s.lastRegen || Date.now() : Date.now();
   saveState({ date: today, hearts: newHearts, lastRegen });
   return newHearts;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { speak } from '../../../lib/audio.ts';
 import AudioControls from './AudioControls';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
@@ -180,6 +181,37 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
       >
         {selectedSet.icon} {selectedSet.title} · {completedInSet}/{totalInSet} completed
       </div>
+
+      {/* 3b: connected-speech sets carry a full passage — the questions below
+          replay single sentences FROM it, so offer whole-passage playback for
+          global listening before the focused per-sentence work. No autoplay:
+          the per-question AudioControls already autoplays its sentence. */}
+      {selectedSet.passage && (
+        <div
+          style={{
+            background: 'var(--card)',
+            border: `1.5px dashed ${ld.color}`,
+            borderRadius: 14,
+            padding: '12px 16px',
+            marginBottom: 14,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
+          <div style={{ flex: 1, fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
+            🎧 Connected passage — hear the whole story, then answer sentence by sentence
+          </div>
+          <button
+            className="b bp"
+            data-testid="play-full-passage"
+            style={{ fontSize: 12, padding: '8px 14px', flexShrink: 0 }}
+            onClick={() => speak(selectedSet.passage)}
+          >
+            ▶ Full passage
+          </button>
+        </div>
+      )}
 
       {/* Question card */}
       <div

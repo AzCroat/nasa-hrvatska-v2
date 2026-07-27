@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { lsGet } from '../../lib/safeStorage';
 
 const GENERIC_STEPS = [
   {
@@ -32,17 +33,12 @@ const DIASPORA_STEPS = [
   {
     icon: '👨‍👩‍👧',
     title: 'Learn the language your family speaks',
-    body: 'Start with family words, greetings, and the phrases your grandparents use. The Learn tab follows your goal, starting with what matters most to you.',
+    body: 'Start with family words, greetings, and the phrases your grandparents use. Your goal tailors your AI practice, stories, and shortcuts toward what matters most to you.',
   },
   {
     icon: '🌊',
     title: 'Explore Croatia from anywhere',
     body: 'The Croatia tab is your cultural home — songs, history, recipes, cities, and live Croatian radio. Language and culture, together.',
-  },
-  {
-    icon: '🔥',
-    title: 'Your family is learning too',
-    body: "Add family members to your group. When Baka sees you learning Croatian, she'll want to join. Build a streak together.",
   },
 ];
 
@@ -51,7 +47,7 @@ interface OnboardingTourProps {
   onLaunchLesson?: () => void;
 }
 export default function OnboardingTour({ onDone, onLaunchLesson }: OnboardingTourProps) {
-  const userGoal = localStorage.getItem('nh_goal');
+  const userGoal = lsGet('nh_goal');
   const isDiaspora = userGoal === 'heritage' || userGoal === 'family';
   const STEPS = isDiaspora ? DIASPORA_STEPS : GENERIC_STEPS;
   const [step, setStep] = useState(0);

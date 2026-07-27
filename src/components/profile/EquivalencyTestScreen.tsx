@@ -60,8 +60,8 @@ interface EquivalencyTestScreenProps {
   userEligible: CefrLevel;
   /** User's lesson-completion count, for cooldown calc. */
   userLessonCount: number;
-  /** Navigate to a different screen (e.g., back to profile). */
-  setScr: (screen: string) => void;
+  /** Return to the Profile (Me) tab. */
+  onBackToProfile: () => void;
   /** Optional: which specific level to test. Defaults to next-from-certified. */
   overrideLevel?: CefrLevel;
 }
@@ -113,7 +113,7 @@ function formatCooldownEnd(at: number): string {
 export default function EquivalencyTestScreen({
   userEligible,
   userLessonCount,
-  setScr,
+  onBackToProfile,
   overrideLevel,
 }: EquivalencyTestScreenProps) {
   const certified = getCertifiedLevel();
@@ -204,7 +204,7 @@ export default function EquivalencyTestScreen({
             (C2 is native-equivalent fluency, measured by formal external providers).
           </p>
           <button
-            onClick={() => setScr('me')}
+            onClick={onBackToProfile}
             style={{
               padding: '12px 22px',
               background: 'linear-gradient(135deg,#0e7490,#0a5c73)',
@@ -260,7 +260,14 @@ export default function EquivalencyTestScreen({
               <li>{testSet.items.length} multiple-choice items</li>
               <li>~{testSet.minutes} minutes</li>
               <li>Mix of vocabulary, grammar, and reading comprehension</li>
-              {speaking && <li>A short speaking task (🎙️ shown for now, not yet required)</li>}
+              {speaking && (
+                <li>
+                  A short speaking task{' '}
+                  {isSpeakingGateEnforced()
+                    ? '(🎙️ required)'
+                    : '(🎙️ shown for now, not yet required)'}
+                </li>
+              )}
               <li>
                 Pass = <b>80%+</b> overall AND on every skill
               </li>
@@ -303,7 +310,7 @@ export default function EquivalencyTestScreen({
             Begin Check →
           </button>
           <button
-            onClick={() => setScr('me')}
+            onClick={onBackToProfile}
             style={{
               display: 'block',
               width: '100%',
@@ -342,7 +349,7 @@ export default function EquivalencyTestScreen({
                 : 'Retake unavailable for now.'}
           </p>
           <button
-            onClick={() => setScr('me')}
+            onClick={onBackToProfile}
             style={{
               padding: '12px 22px',
               background: 'linear-gradient(135deg,#0e7490,#0a5c73)',
@@ -429,7 +436,7 @@ export default function EquivalencyTestScreen({
             </p>
           )}
           <button
-            onClick={() => setScr('me')}
+            onClick={onBackToProfile}
             style={{
               padding: '14px 22px',
               background: 'linear-gradient(135deg,#0e7490,#0a5c73)',

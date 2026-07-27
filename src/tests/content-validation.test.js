@@ -47,7 +47,7 @@ import { ASPECT, ASPECT_PAIRS, PADEZI } from '../../functions/api/content/_data/
 // SP11d: V, PROVERBS, BRZALICE moved server-side — import from _data/.
 import { V, PROVERBS, BRZALICE } from '../../functions/api/content/_data/core.js';
 import { TRANSLATE_DRILLS } from '../data/exercises.js';
-import { V_B2 } from '../data/vocabulary.js';
+import { V_B2 } from '../../functions/api/content/_data/vocabulary.js';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -203,6 +203,17 @@ describe('ASPECT (verb aspect object)', () => {
       expect(item.al.length).toBeGreaterThan(0);
     }
   });
+
+  it('each ASPECT quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    // Options are rendered as [a, ...al] shuffled. If `a` is duplicated inside
+    // `al`, the same choice appears twice and one correct option looks wrong —
+    // a real, user-visible content defect.
+    for (const item of ASPECT.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
+    }
+  });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -330,6 +341,14 @@ describe('PADEZI (Croatian cases)', () => {
       expect(typeof item.q).toBe('string');
       expect(typeof item.a).toBe('string');
       expect(Array.isArray(item.al)).toBe(true);
+    }
+  });
+
+  it('each PADEZI quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    for (const item of PADEZI.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
     }
   });
 });
@@ -519,6 +538,23 @@ describe('NUMCOUNT (number + noun agreement)', () => {
   it('NUMCOUNT.quiz is a non-empty array', () => {
     expect(Array.isArray(NUMCOUNT.quiz)).toBe(true);
     expect(NUMCOUNT.quiz.length).toBeGreaterThan(0);
+  });
+
+  it('each NUMCOUNT quiz item has q, a, and al fields', () => {
+    for (const item of NUMCOUNT.quiz) {
+      expect(typeof item.q).toBe('string');
+      expect(typeof item.a).toBe('string');
+      expect(Array.isArray(item.al)).toBe(true);
+      expect(item.al.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('each NUMCOUNT quiz answer is distinct from its distractors (a ∉ al, options unique)', () => {
+    for (const item of NUMCOUNT.quiz) {
+      expect(item.al, `answer duplicated in distractors: ${item.q}`).not.toContain(item.a);
+      const opts = [item.a, ...item.al];
+      expect(new Set(opts).size, `duplicate option in: ${item.q}`).toBe(opts.length);
+    }
   });
 });
 
@@ -828,6 +864,73 @@ describe('LESSONS', () => {
     for (const lesson of LESSONS) {
       for (const slide of lesson.slides) {
         expect(typeof slide.type).toBe('string');
+      }
+    }
+  });
+
+  // ── 7b hardening ──────────────────────────────────────────────────────────
+  it('every lesson level is a valid CEFR level', () => {
+    const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    for (const lesson of LESSONS) {
+      expect(CEFR.has(lesson.level), `${lesson.id}: level "${lesson.level}"`).toBe(true);
+    }
+  });
+
+  it('every quiz slide has an options array and an in-range correct index', () => {
+    // Regression: six legacy lessons shipped quiz slides keyed `opts` instead of
+    // `options` — QuizSlide renders slide.options!, so those slides crashed at
+    // runtime (A1 Greetings among them). The data was normalized in 7b; this
+    // guard keeps the shape locked.
+    for (const lesson of LESSONS) {
+      for (const slide of lesson.slides) {
+        if (slide.type !== 'quiz') continue;
+        expect(Array.isArray(slide.options), `${lesson.id}: quiz missing options`).toBe(true);
+        expect(slide.options.length, `${lesson.id}: quiz options count`).toBeGreaterThanOrEqual(2);
+        expect(new Set(slide.options).size, `${lesson.id}: duplicate quiz options`).toBe(
+          slide.options.length,
+        );
+        expect(
+          Number.isInteger(slide.correct) &&
+            slide.correct >= 0 &&
+            slide.correct < slide.options.length,
+          `${lesson.id}: correct index ${slide.correct} out of range`,
+        ).toBe(true);
+        expect(typeof slide.explanation, `${lesson.id}: quiz missing explanation`).toBe('string');
+      }
+    }
+  });
+
+  it('C1/C2 floors hold (7b): C1 ≥ 8 lessons, C2 ≥ 4 lessons', () => {
+    const count = (lvl) => LESSONS.filter((l) => l.level === lvl).length;
+    expect(count('C1')).toBeGreaterThanOrEqual(8);
+    expect(count('C2')).toBeGreaterThanOrEqual(4);
+    // A2 parity (deficit #7): modal verbs + comparatives close the A2 ladder.
+    expect(count('A2')).toBeGreaterThanOrEqual(8);
+    expect(LESSONS.map((l) => l.id)).toContain('modal-verbs-a2');
+    expect(LESSONS.map((l) => l.id)).toContain('comparatives-a2');
+    const ids = LESSONS.map((l) => l.id);
+    for (const id of [
+      'aorist-imperfekt',
+      'tvorba-rijeci',
+      'word-order-emphasis',
+      'collective-numbers',
+      'pluskvamperfekt',
+      'stilske-figure',
+      'administrativni-stil',
+      'zarez-interpunkcija',
+    ]) {
+      expect(ids, `missing 7b lesson ${id}`).toContain(id);
+    }
+  });
+
+  it('every summary slide has points and every lesson ends with a summary', () => {
+    for (const lesson of LESSONS) {
+      const last = lesson.slides[lesson.slides.length - 1];
+      expect(last.type, `${lesson.id}: last slide must be summary (awards XP)`).toBe('summary');
+      for (const slide of lesson.slides) {
+        if (slide.type === 'summary') {
+          expect(Array.isArray(slide.points), `${lesson.id}: summary missing points`).toBe(true);
+        }
       }
     }
   });

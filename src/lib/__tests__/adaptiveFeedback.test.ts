@@ -81,6 +81,21 @@ describe('applyWritingErrorsToAdaptive — writing corrections (3b)', () => {
     applyWritingErrorsToAdaptive(['agreement', 'spelling', 'other', null, undefined, 'bogus']);
     expect(Object.keys(catStore())).toHaveLength(0);
   });
+
+  it('rotates case attribution across the whole case system (no genitive monopoly)', () => {
+    // Regression guard for the bug where every coarse "case" error was pinned to
+    // genitive, so the daily session served genitive endlessly. Each submission
+    // with a case error should nudge the NEXT case in the round-robin, so five
+    // successive case-error submissions cover all five scheduled cases.
+    const CASES = ['genitive', 'accusative', 'dative-locative', 'instrumental', 'vocative'];
+    for (let i = 0; i < CASES.length; i++) {
+      applyWritingErrorsToAdaptive(['case']); // separate submissions — pointer advances
+    }
+    const store = catStore();
+    for (const c of CASES) {
+      expect(store[c], `${c} should have been scheduled by the case rotation`).toBeTruthy();
+    }
+  });
 });
 
 describe('applyConversationCategoriesToAdaptive — maja-debrief (3b)', () => {

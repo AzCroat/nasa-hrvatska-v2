@@ -295,15 +295,46 @@ export default function PhotoVocabScanner({
     setPhase('loading');
     setErrorMsg('');
     try {
-      const data = (await apiFetch('/api/photo-vocab', {
+      // The endpoint contract (functions/api/photo-vocab.js): request wants
+      // { imageData: <raw base64>, mediaType, level, context } and the response
+      // is { items: [{ hr, en, pronunciation, category, example }], scene }.
+      // (The previous { image: <dataURL> } body 400'd on every scan.)
+      const commaIdx = imageDataUrl.indexOf(',');
+      const mediaType = imageDataUrl.slice(5, imageDataUrl.indexOf(';')) || 'image/jpeg';
+      const imageData = imageDataUrl.slice(commaIdx + 1);
+      // apiFetch resolves to a Response — it MUST be .json()'d. Previously the
+      // Response object was cast straight to the payload type, so `data.items`
+      // was always undefined → every scan showed "0 words found" with no Save
+      // button, and a non-2xx silently rendered the same empty results screen.
+      const res = await apiFetch('/api/photo-vocab', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageDataUrl, level, context: context.trim() }),
-      })) as unknown as ScanResult;
-      setResults(data);
+        body: JSON.stringify({ imageData, mediaType, level, context: context.trim() }),
+      });
+      if (!res.ok) throw new Error('Scan failed (' + res.status + ')');
+      const data = (await res.json()) as {
+        items?: Array<{
+          hr?: string;
+          en?: string;
+          pronunciation?: string;
+          category?: string;
+          example?: string;
+        }>;
+        scene?: string;
+      };
+      const words: VocabWord[] = (data.items || [])
+        .filter((it) => it.hr && it.en)
+        .map((it) => ({
+          word: it.hr!,
+          translation: it.en!,
+          pronunciation: it.pronunciation,
+          example: it.example,
+          note: it.category,
+        }));
+      setResults({ scene: data.scene || '', words });
       // Default: all words checked
       const initial: Record<number, boolean> = {};
-      (data.words || []).forEach((_: VocabWord, i: number) => {
+      words.forEach((_: VocabWord, i: number) => {
         initial[i] = true;
       });
       setChecked(initial);

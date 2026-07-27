@@ -4,6 +4,7 @@ import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { lsGet, lsSet } from '../../lib/safeStorage';
 
 // ─── Dialect Data ────────────────────────────────────────────────────────────
 
@@ -712,9 +713,12 @@ function QuizView({
     } else {
       setAnswers(nextAnswers);
       const score = nextAnswers.filter(Boolean).length;
-      const alreadyDone = localStorage.getItem(LS_KEY) === '1';
+      // Guarded: both of these sat before the XP award, the quest mark and the
+      // lesson-completion update. On a profile that rejects storage the learner
+      // finished the quiz and received none of them.
+      const alreadyDone = lsGet(LS_KEY) === '1';
       if (!alreadyDone) {
-        localStorage.setItem(LS_KEY, '1');
+        lsSet(LS_KEY, '1');
         if (typeof award === 'function') award(score * 10, false, 'culture');
         markQuest('culture');
         if (!stats.vs?.includes('dialects')) {
@@ -740,7 +744,7 @@ function QuizView({
   if (done) {
     const score = answers.filter(Boolean).length;
     const pct = Math.round((score / shuffledQuiz.length) * 100);
-    const alreadyDone = localStorage.getItem(LS_KEY) === '1';
+    const alreadyDone = lsGet(LS_KEY) === '1';
     return (
       <div>
         <div
@@ -1170,7 +1174,7 @@ export default function DialectAwarenessScreen({
             🧠 Take the Dialect Quiz!
           </button>
 
-          {localStorage.getItem(LS_KEY) === '1' && (
+          {lsGet(LS_KEY) === '1' && (
             <div
               style={{
                 textAlign: 'center',

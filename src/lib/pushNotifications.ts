@@ -215,7 +215,7 @@ export function scheduleLocalReminder(streakDays = 0): void {
     if (isNotificationsEnabled() && Notification.permission === 'granted') {
       new Notification(msg.title, {
         body: msg.body,
-        icon: '/icons/icon-192x192.png',
+        icon: '/icon-192.png',
         tag: 'nh-daily-reminder',
         // @ts-expect-error — renotify is valid but missing from TS DOM lib
         renotify: true,
@@ -254,7 +254,9 @@ export function scheduleReEngagementReminder(): void {
 
   let lastSeenRaw: string | null = null;
   try {
-    lastSeenRaw = localStorage.getItem('nh_last_seen');
+    // App.tsx writes the last-seen timestamp under 'lastSeen' (legacy key);
+    // reading the never-written 'nh_last_seen' made this always bail out.
+    lastSeenRaw = localStorage.getItem('lastSeen');
   } catch {}
   if (!lastSeenRaw) return;
 
@@ -274,10 +276,10 @@ export function scheduleReEngagementReminder(): void {
     title = 'Your progress is safe 🇭🇷';
     body =
       "It's been 2 weeks, but your Croatian is preserved and ready. " +
-      'Come back today — complete 2 lessons and restore your streak! +100 XP waiting.';
+      'Come back today — a few minutes brings it all back.';
     body += getGoalCTA();
   } else if (diffMs >= sevenDays) {
-    body += ' +50 XP bonus when you return today!';
+    body += ' Pick up right where you left off today!';
   }
 
   try {
@@ -288,7 +290,7 @@ export function scheduleReEngagementReminder(): void {
     if (isNotificationsEnabled() && Notification.permission === 'granted') {
       new Notification(title, {
         body,
-        icon: '/icons/icon-192x192.png',
+        icon: '/icon-192.png',
         tag: 'nh-reengagement',
         // @ts-expect-error — renotify is valid but missing from TS DOM lib
         renotify: true,
@@ -310,6 +312,21 @@ export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reaso
   const { subscription } = await initPushNotifications();
   if (!subscription) return { ok: false, reason: 'subscription_failed' };
 
+  // Include the reminder preference + IANA timezone. Without them, push-subscribe
+  // defaulted reminderTime to null and (because it does a full KV overwrite)
+  // clobbered any preference the user had set via registerPushWithServer — so the
+  // scheduled worker fell back to sending every web user's daily reminder at 13:00
+  // UTC regardless of the time chosen in Settings. This is the Settings "Enable"
+  // path AND the ~daily useNotifications refresh, so the override reverted within a day.
+  let reminderTime = '20:00';
+  try {
+    reminderTime = localStorage.getItem('nh_reminder_time') || '20:00';
+  } catch {}
+  let timeZone = '';
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {}
+
   try {
     const { apiFetch } = await import('./apiFetch');
     const res = await apiFetch('/api/push-subscribe', {
@@ -318,6 +335,8 @@ export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reaso
       body: JSON.stringify({
         subscription: subscription.toJSON ? subscription.toJSON() : subscription,
         userId: String(userId || '').slice(0, 64),
+        reminderTime,
+        timeZone,
       }),
     });
     if (res.ok) {
@@ -359,20 +378,39 @@ export async function sendTestPush(userId = ''): Promise<unknown> {
   }
 }
 
-export async function registerPushWithServer({ streak = 0, name = '' } = {}): Promise<{
+export async function registerPushWithServer({
+  streak = 0,
+  name = '',
+  force = false,
+} = {}): Promise<{
   ok: boolean;
   cached?: boolean;
 }> {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return { ok: false };
   if (Notification.permission !== 'granted') return { ok: false };
 
-  try {
-    const ts = parseInt(localStorage.getItem(_REG_TS_KEY) || '0', 10);
-    if (ts && Date.now() - ts < 85 * 24 * 60 * 60 * 1000) return { ok: true, cached: true };
-  } catch {}
+  // force=true bypasses the re-registration cache — used when the user changes
+  // their reminder time so the server learns the new hour immediately.
+  if (!force) {
+    try {
+      const ts = parseInt(localStorage.getItem(_REG_TS_KEY) || '0', 10);
+      if (ts && Date.now() - ts < 85 * 24 * 60 * 60 * 1000) return { ok: true, cached: true };
+    } catch {}
+  }
 
   const { subscription } = await initPushNotifications();
   if (!subscription) return { ok: false };
+
+  // The scheduled worker sends each user's daily push at their chosen local
+  // hour — it needs the preference and the IANA timezone to compute it.
+  let reminderTime = '20:00';
+  try {
+    reminderTime = localStorage.getItem('nh_reminder_time') || '20:00';
+  } catch {}
+  let timeZone = '';
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {}
 
   try {
     const { apiFetch } = await import('./apiFetch');
@@ -383,6 +421,8 @@ export async function registerPushWithServer({ streak = 0, name = '' } = {}): Pr
         subscription: subscription.toJSON(),
         streak: Math.max(0, Math.floor(Number(streak) || 0)),
         name: String(name || '').slice(0, 50),
+        reminderTime,
+        timeZone,
       }),
     });
     if (res.ok) {

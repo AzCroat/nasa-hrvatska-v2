@@ -255,7 +255,11 @@ export function stopAudio(): void {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
 }
 
-export async function speakAzure(text: string, slow?: boolean): Promise<boolean> {
+export async function speakAzure(
+  text: string,
+  slow?: boolean,
+  opts?: { phoneme?: string },
+): Promise<boolean> {
   if (!text || !text.trim()) return false;
   dbgInfo(
     `[TTS] speakAzure called | text="${text.slice(0, 40)}" slow=${!!slow} isNative=${isNative()}`,
@@ -267,7 +271,10 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
   stopAudio();
   const myGen = ++_speakGen;
   const voicePref = getVoicePreference();
-  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref;
+  const phoneme = opts?.phoneme || '';
+  // phoneme in the cache key so an IPA-corrected play never collides with the plain
+  // cached audio for the same word (matches the server-side edge cache key).
+  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme;
   const cached = _cacheGet(cacheKey);
 
   try {
@@ -283,6 +290,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       }
       const body: Record<string, unknown> = { text, slow: !!slow };
       if (voicePref !== 'auto') body.voice = voicePref;
+      if (phoneme) body.phoneme = phoneme;
       _ttsAbort = new AbortController();
       // Use timeout-aware abort signal when supported; fall back to plain abort signal.
       const timeoutSignal = (
@@ -407,6 +415,11 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       dbgError('[TTS] HTMLAudio play() FAILED:', playErr);
       return false;
     }
+    // An 'error' event DURING playback (decode/media failure mid-stream) is a
+    // failure, not success — returning true here meant speak() reported 'azure'
+    // and never fell through to the Web Speech fallback or dispatched
+    // nh:tts-failed, so the user heard nothing with no "Audio unavailable" toast.
+    let playbackFailed = false;
     await new Promise<void>((resolve) => {
       a.addEventListener(
         'ended',
@@ -420,6 +433,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
         'error',
         (ev) => {
           dbgError('[TTS] HTMLAudio error event:', (ev as ErrorEvent).message || ev);
+          playbackFailed = true;
           resolve();
         },
         { once: true },
@@ -427,7 +441,7 @@ export async function speakAzure(text: string, slow?: boolean): Promise<boolean>
       a.addEventListener('pause', () => resolve(), { once: true });
       a.addEventListener('abort', () => resolve(), { once: true });
     });
-    return true;
+    return !playbackFailed;
   } catch (e) {
     dbgError('[TTS] speakAzure unhandled error:', e);
     return false;
@@ -527,10 +541,12 @@ async function _awaitVoices(): Promise<SpeechSynthesisVoice | null> {
   });
 }
 
-export async function speak(text: string): Promise<string> {
+export async function speak(text: string, opts?: { phoneme?: string }): Promise<string> {
   if (!text) return 'none';
   const t = prepTTS(text);
-  const ok = await speakAzure(t, false).catch(() => false);
+  // phoneme (IPA) override applies to the Azure path only — used for slang words the
+  // neural voice mis-segments. The Web Speech fallback can't use it (plain text).
+  const ok = await speakAzure(t, false, opts).catch(() => false);
   if (!ok) {
     // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
     // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.
@@ -676,12 +692,16 @@ export async function speakProsody(
       dbgError('[TTS] speakProsody HTMLAudio play() FAILED:', playErr);
       return false;
     }
+    let playbackFailed = false;
     await new Promise<void>((resolve) => {
       a.addEventListener('ended', () => resolve(), { once: true });
       a.addEventListener(
         'error',
         (ev) => {
           dbgError('[TTS] speakProsody HTMLAudio error event:', (ev as ErrorEvent).message || ev);
+          // Mirror speakAzure: a mid-playback decode/media error is a FAILURE, not
+          // success. Returning true here would report silent playback as if it worked.
+          playbackFailed = true;
           resolve();
         },
         { once: true },
@@ -689,7 +709,7 @@ export async function speakProsody(
       a.addEventListener('pause', () => resolve(), { once: true });
       a.addEventListener('abort', () => resolve(), { once: true });
     });
-    return true;
+    return !playbackFailed;
   } catch (e) {
     dbgError('[TTS] speakProsody unhandled error:', e);
     return false;

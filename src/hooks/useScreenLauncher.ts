@@ -6,6 +6,13 @@
  */
 import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
+import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
+import { pickSessionLesson } from '../lib/sessionLessonPick';
+import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
+import { notifyLaunchFailure } from '../lib/launchFailure';
+import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
+import { _getData, _getVocab, _buildAdaptivePool } from '../lib/exerciseData';
+import { reportError } from '../lib/errorReporter';
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -22,98 +29,6 @@ function _sh<T>(a: T[]): T[] {
   }
   return b;
 }
-
-type VocabWord = [string, string, string?, ...string[]];
-
-/**
- * _buildAdaptivePool — weights vocabulary by FSRS stability so weaker words
- * appear more often in quiz pools.
- */
-function _buildAdaptivePool(pool: VocabWord[]): VocabWord[] {
-  let srData: Record<string, { due?: number; nextDue?: number }> = {};
-  try {
-    srData = JSON.parse(localStorage.getItem('nh_sr') || '{}');
-  } catch (_) {}
-  const now = Date.now();
-  const weighted: VocabWord[] = [];
-  for (const w of pool) {
-    const key = w[0];
-    const card = srData[key];
-    if (!card) {
-      weighted.push(w, w);
-      continue;
-    }
-    const msRemaining = (card.due || card.nextDue || 0) - now;
-    if (msRemaining < 0) {
-      weighted.push(w, w, w, w);
-    } else if (msRemaining < 7 * 86400000) {
-      weighted.push(w, w);
-    } else {
-      weighted.push(w);
-    }
-  }
-  return weighted;
-}
-
-let _dataCache: Record<string, unknown> | null = null;
-async function _getData(): Promise<Record<string, unknown>> {
-  if (!_dataCache) _dataCache = (await import('../data')) as Record<string, unknown>;
-  return _dataCache;
-}
-
-// Screens in LEARN_PATH that don't self-report completion — dwell ≥20s grants credit.
-const BLACK_HOLE_SCREENS: Record<string, string> = {
-  texting: 'lc',
-  roleplay: 'lc',
-  readlist: 'lc',
-  idioms: 'lc',
-  brzalice: 'lc',
-  history: 'lc',
-  recipes: 'lc',
-  listeningpath: 'lc',
-  falsefr: 'lc',
-  dialects: 'lc',
-  listening: 'lc',
-  alphabet: 'lc',
-  techvoc: 'lc',
-  pitchaccent: 'lc',
-  grammarmap: 'gc',
-  shadowing: 'lc',
-  proverbs: 'lc',
-  bureaucratic: 'lc',
-  conjlab: 'gc',
-  conjpractice: 'gc',
-  reflexive: 'gc',
-  grammarreader: 'gc',
-  colorquirk: 'gc',
-  writing: 'lc',
-  pitch_accent: 'gc',
-  pronunciation_course: 'lc',
-  professions: 'lc',
-  bodydesc: 'lc',
-  clothes: 'lc',
-  countries: 'lc',
-  weather: 'lc',
-  civic: 'lc',
-  top100: 'lc',
-  tivicompare: 'lc',
-  lifeevents: 'lc',
-  popculture: 'lc',
-  events: 'lc',
-  cityofday: 'lc',
-  kafic: 'lc',
-  kings: 'lc',
-  school: 'lc',
-  restaurant: 'lc',
-  emergency: 'lc',
-  crmap: 'lc',
-  storyselect: 'lc',
-  foodorder: 'lc',
-  grocery: 'lc',
-  transport: 'lc',
-  grammarvideos: 'lc',
-  production_drill: 'gc',
-};
 
 interface McQuestion {
   hr: string;
@@ -256,10 +171,13 @@ export function useScreenLauncher({
         topic?: string;
       } | null;
       if (!r || !r.topic) return;
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const vocabPool = V[r.topic];
       if (!vocabPool || vocabPool.length < 2) {
+        // Only a LOADED vocabulary can prove a topic is stale. When V is empty the
+        // topic is unverifiable, and deleting the token on that basis threw away a
+        // resumable lesson the user had not finished — so bail without touching it.
+        if (Object.keys(V).length === 0) return;
         // Stale resume token referencing an unknown topic — clear it and go to learn path
         try {
           localStorage.removeItem('nh_lesson_resume');
@@ -313,14 +231,19 @@ export function useScreenLauncher({
 
   const launchCheckpoint = useCallback(
     async (levelIndex: number, levelItems: LearnPathItem[]): Promise<void> => {
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const topics = levelItems.map((it) => it.topic).filter(Boolean) as string[];
       const pool =
         topics.length > 0
           ? topics.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1])
           : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
-      if (pool.length === 0) return;
+      if (pool.length === 0) {
+        // Reported, not silent: this is a checkpoint over topics the path itself
+        // offered, so an empty pool means the vocabulary source is broken — the
+        // exact failure that went unseen while V was read off the client barrel.
+        reportError(new Error('checkpoint launch: empty vocab pool'), 'launch-empty-pool');
+        return;
+      }
       const adaptivePool = _buildAdaptivePool(pool);
       const seen = new Set<string>();
       const deduped = _sh(adaptivePool).filter((w) => {
@@ -351,8 +274,7 @@ export function useScreenLauncher({
 
   const launchLegendary = useCallback(
     async (item: LearnPathItem): Promise<void> => {
-      const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-      const V: Record<string, VocabWord[]> = _d.V ?? {};
+      const V = await _getVocab();
       const topicPool = item.topic ? V[item.topic] || [] : [];
       const globalPool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
       const basePool =
@@ -375,6 +297,13 @@ export function useScreenLauncher({
           { hr: w[0], en: w[1], ph: w[2], opts: _sh([w[1]].concat(wr)), correct: w[1] },
         ] as McQuestion[];
       });
+      if (qs.length === 0) {
+        // Unlike every sibling launcher this one had no empty guard, so an empty
+        // pool navigated to McGame with ZERO questions — a dead screen the user
+        // cannot finish or score. Fail without navigating, and report it.
+        reportError(new Error('legendary launch: empty question set'), 'launch-empty-pool');
+        return;
+      }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
       setMcInitQ(qs);
       sessionStorage.setItem('nh_legendary_mode', '1');
@@ -479,15 +408,20 @@ export function useScreenLauncher({
         if (!alreadyTracked && writeDelta) writeDelta({ vs: [item.id!] });
       }
       if (item.go === 'lesson') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const raw = item.topic ? V[item.topic] : undefined;
         // Fall back to global pool when topic is missing or has too little vocabulary — never silent-fail
         const pool =
           raw && raw.length >= 2
             ? raw
             : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
-        if (pool.length < 2) return;
+        if (pool.length < 2) {
+          // This is the app's primary lesson entry point (Learn Path tile, Home
+          // "continue" chip, search result). It fell back to the whole vocabulary
+          // and still came up short, so report rather than no-op invisibly.
+          reportError(new Error('path lesson launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         const items = _sh(pool);
         const topic =
           item.topic ||
@@ -547,11 +481,13 @@ export function useScreenLauncher({
         trackStart('listening');
         setScr('listening');
       } else if (item.go === 'speaking') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
         const items = _sh(pool).slice(0, 6);
-        if (items.length === 0) return;
+        if (items.length === 0) {
+          reportError(new Error('path speaking launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
         sSi(items);
         sSx(0);
@@ -563,8 +499,7 @@ export function useScreenLauncher({
         trackStart('speaking');
         setScr('speaking');
       } else if (item.go === 'mcgame') {
-        const _d = (await _getData()) as { V?: Record<string, VocabWord[]> };
-        const V: Record<string, VocabWord[]> = _d.V ?? {};
+        const V = await _getVocab();
         const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
         const adaptivePool = _buildAdaptivePool(pool);
         const seen = new Set<string>();
@@ -579,6 +514,12 @@ export function useScreenLauncher({
             .map((x) => x[1]);
           return { hr: w[0], en: w[1], ph: w[2], opts: _sh([w[1]].concat(wr)), correct: w[1] };
         });
+        if (qs.length === 0) {
+          // launchMcGame early-returns on an empty set, so this tap was a silent
+          // no-op. Report before delegating so the dead tile is visible upstream.
+          reportError(new Error('path mcgame launch: empty vocab pool'), 'launch-empty-pool');
+          return;
+        }
         launchMcGame(qs);
       } else if (item.go === 'animlesson' && item.lessonId) {
         const { getLessons } = await import('../lib/contentClient');
@@ -700,89 +641,202 @@ export function useScreenLauncher({
   // other exercises navigate directly. Called from HomeTab's SessionCard.
   const launchSessionActivity = useCallback(
     async (screen: string, category?: string): Promise<void> => {
-      returnContextRef.current = { tab: 'home', screen: 'dashboard' };
+      try {
+        returnContextRef.current = { tab: 'home', screen: 'dashboard' };
 
-      if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
-        const _d = (await _getData()) as { V?: Record<string, string[][]> };
-        const V: Record<string, string[][]> = _d.V ?? {};
-        const globalPool = allCats
-          .flatMap((t) => (V[t] ?? []) as string[][])
-          .filter((w) => w?.[0] && w?.[1]);
+        // The caller (SessionCard.onStart) sets nh_session_started BEFORE calling us.
+        // Any early exit that does NOT navigate (e.g. empty vocab pool) calls
+        // clearActiveSessionActivity(), else nh_session_started stays set with no screen
+        // able to complete it — pinning the session (re-tapping "Start" just re-bails).
 
-        if (screen === 'flashcards') {
-          if (globalPool.length === 0) return;
-          setFcInitPool(_sh(globalPool).slice(0, 20));
-          sCurEx('flashcards');
+        if (screen === 'flashcards' || screen === 'mcgame' || screen === 'match') {
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          // Deliberately NOT _getVocab(): that helper swallows the rejection to
+          // protect click handlers that have no catch. This branch HAS one, and
+          // it distinguishes 'load-error' from 'empty-pool' and can route a
+          // stale-chunk rejection into the healer. Do not unify them.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
+          const globalPool = allCats
+            .flatMap((t) => (V[t] ?? []) as string[][])
+            .filter((w) => w?.[0] && w?.[1]);
+
+          if (screen === 'flashcards') {
+            if (globalPool.length === 0) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            setFcInitPool(_sh(globalPool).slice(0, 20));
+            sCurEx('flashcards');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('flashcards');
+            setScr('flashcards');
+          } else if (screen === 'mcgame') {
+            const qs = _sh(globalPool)
+              .slice(0, 20)
+              .flatMap((w) => {
+                const wr = _sh(globalPool.filter((x) => x[1] !== w[1]))
+                  .slice(0, 3)
+                  .map((x) => x[1])
+                  .filter((s): s is string => s != null);
+                if (wr.length < 3) return [];
+                return [
+                  {
+                    hr: w[0]!,
+                    en: w[1]!,
+                    ph: w[2] ?? '',
+                    opts: _sh([w[1]!].concat(wr)),
+                    correct: w[1]!,
+                  },
+                ];
+              });
+            if (qs.length === 0) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            setMcInitQ(qs);
+            sCurEx('mcgame');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('quiz');
+            setScr('mcgame');
+          } else {
+            const sel = _sh(globalPool).slice(0, 6);
+            if (sel.length < 2) {
+              clearActiveSessionActivity();
+              return notifyLaunchFailure('empty-pool');
+            }
+            const matchPool = _sh([
+              ...sel.map((w, i) => ({ id: `h${i}`, t: w[0], p: i, tp: 'hr' })),
+              ...sel.map((w, i) => ({ id: `e${i}`, t: w[1], p: i, tp: 'en' })),
+            ]);
+            setMatchInitPool(matchPool);
+            sCurEx('match');
+            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            trackStart('matching');
+            setScr('match');
+          }
+        } else if (screen === 'listening') {
+          const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
+          const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
+          if (pool.length === 0) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          setLsInitQ(pool);
+          sCurEx('listening');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('flashcards');
-          setScr('flashcards');
-        } else if (screen === 'mcgame') {
-          const qs = _sh(globalPool)
-            .slice(0, 20)
-            .flatMap((w) => {
-              const wr = _sh(globalPool.filter((x) => x[1] !== w[1]))
-                .slice(0, 3)
-                .map((x) => x[1])
-                .filter((s): s is string => s != null);
-              if (wr.length < 3) return [];
-              return [
-                {
-                  hr: w[0]!,
-                  en: w[1]!,
-                  ph: w[2] ?? '',
-                  opts: _sh([w[1]!].concat(wr)),
-                  correct: w[1]!,
-                },
-              ];
-            });
-          if (qs.length === 0) return;
-          setMcInitQ(qs);
-          sCurEx('mcgame');
+          trackStart('listening');
+          setScr('listening');
+        } else if (screen === 'speaking') {
+          // SpeakingScreen depends on parent-held state (speakItems/Word/Index/…);
+          // the generic branch below sets only curEx + setScr, so a cold session
+          // launch would hit the screen's `if (!sw || !sw[0]) return null` guard and
+          // render BLANK. Initialise the spoken-vocab pool here (mirroring the
+          // Practice-tab launchSpeaking path) BEFORE navigating, and bail without
+          // navigating if no vocab is available — never route to an empty screen
+          // (the dead-lesson class the session-routes guard protects against).
+          // Unlike launchSpeaking we keep the home return-context set at the top.
+          // V is NOT in the client data barrel — vocabulary moved server-side to
+          // /api/content/core (see core.js KEYS, and the note at the foot of
+          // data/content.tsx). Reading _getData().V therefore yielded {}, so every
+          // pool below was empty and the launch bailed with 'empty-pool' on every
+          // attempt. Every other vocab consumer in the app already reads
+          // content.V via useContent(); this is the non-component equivalent.
+          // getContent() can throw (offline / auth / rate-limit) — that is fine
+          // here, the outer catch turns it into a clean 'load-error'.
+          // Deliberately NOT _getVocab(): that helper swallows the rejection to
+          // protect click handlers that have no catch. This branch HAS one, and
+          // it distinguishes 'load-error' from 'empty-pool' and can route a
+          // stale-chunk rejection into the healer. Do not unify them.
+          const { getContent } = await import('../lib/contentClient');
+          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
+          const pool = allCats
+            .flatMap((t) => (V[t] ?? []) as string[][])
+            .filter((w) => w?.[0] && w?.[1]);
+          if (pool.length === 0) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          const items = _sh(pool).slice(0, 6);
+          sSi(items);
+          sSx(0);
+          sSw(items[0]);
+          sSr(null);
+          sSsc(0);
+          sCurEx('speaking');
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('quiz');
-          setScr('mcgame');
+          trackStart('speaking');
+          setScr('speaking');
+        } else if (screen === 'animlesson') {
+          // Wave 5: the 'animlesson' route renders only when the parent
+          // animLesson state holds a full Lesson object, so the generic branch
+          // would land on a BLANK screen. Pick the least-recently-served lesson
+          // unlocked at the session's CEFR (policy in lib/sessionLessonPick).
+          const { getLessons } = await import('../lib/contentClient');
+          const pick = pickSessionLesson(await getLessons());
+          if (!pick) {
+            clearActiveSessionActivity();
+            return notifyLaunchFailure('empty-pool');
+          }
+          setAnimLesson(pick);
+          sCurEx('animlesson');
+          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          trackStart('grammar');
+          setScr(screen);
         } else {
-          const sel = _sh(globalPool).slice(0, 6);
-          if (sel.length < 2) return;
-          const matchPool = _sh([
-            ...sel.map((w, i) => ({ id: `h${i}`, t: w[0], p: i, tp: 'hr' })),
-            ...sel.map((w, i) => ({ id: `e${i}`, t: w[1], p: i, tp: 'en' })),
-          ]);
-          setMatchInitPool(matchPool);
-          sCurEx('match');
+          // Conjugation drill carries its target category in curEx so the screen
+          // can pick the right form-type; screen id stays 'conjpractice' for routing.
+          const ex = screen === 'conjpractice' && category ? `conjpractice:${category}` : screen;
+          // Topic-aware cloze: the adaptive categories dative-locative / instrumental
+          // / vocative route to the generic cloze screen (no dedicated drill). Hand
+          // the requested category to ClozeEngine via sessionStorage so it serves
+          // sentences for THAT topic — the session chip promises it. We deliberately
+          // do NOT fold the category into curEx (as conjpractice does): curEx is the
+          // session-completion key compared against nh_session_started, and changing
+          // it would strand the session at N-1/N (completion never fires).
+          if (screen === 'cloze') {
+            sessionStorage.setItem('nh_cloze_topic', category ?? '');
+          }
+          sCurEx(ex);
           sessionStorage.setItem('nh_ex_start', Date.now().toString());
-          trackStart('matching');
-          setScr('match');
+          setScr(screen);
         }
-      } else if (screen === 'listening') {
-        const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
-        const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
-        if (pool.length === 0) return;
-        setLsInitQ(pool);
-        sCurEx('listening');
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
-        trackStart('listening');
-        setScr('listening');
-      } else {
-        // Conjugation drill carries its target category in curEx so the screen
-        // can pick the right form-type; screen id stays 'conjpractice' for routing.
-        const ex = screen === 'conjpractice' && category ? `conjpractice:${category}` : screen;
-        // Topic-aware cloze: the adaptive categories dative-locative / instrumental
-        // / vocative route to the generic cloze screen (no dedicated drill). Hand
-        // the requested category to ClozeEngine via sessionStorage so it serves
-        // sentences for THAT topic — the session chip promises it. We deliberately
-        // do NOT fold the category into curEx (as conjpractice does): curEx is the
-        // session-completion key compared against nh_session_started, and changing
-        // it would strand the session at N-1/N (completion never fires).
-        if (screen === 'cloze') {
-          sessionStorage.setItem('nh_cloze_topic', category ?? '');
-        }
-        sCurEx(ex);
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
-        setScr(screen);
+      } catch (err) {
+        // A launch must either navigate or visibly fail — never a silent no-op.
+        // Clear the pinned session marker so re-tapping Start can retry cleanly.
+        clearActiveSessionActivity();
+        // Catching here means window.onunhandledrejection never sees a stale-chunk
+        // rejection, so the launcher must route it to the healer itself; only if
+        // the reload budget is spent (or it's not a chunk error) fail visibly.
+        const msg = String(
+          (err as Error)?.message ?? (err as Error)?.name ?? err ?? '',
+        ).toLowerCase();
+        if (isChunkLoadError(msg) && reloadWithCachePurge('nh_reload_attempt')) return;
+        notifyLaunchFailure('load-error', err);
       }
     },
-    [setScr, sCurEx, setFcInitPool, setMcInitQ, setMatchInitPool, setLsInitQ, allCats],
+    [
+      setScr,
+      sCurEx,
+      setFcInitPool,
+      setMcInitQ,
+      setMatchInitPool,
+      setLsInitQ,
+      setAnimLesson,
+      allCats,
+      sSi,
+      sSx,
+      sSw,
+      sSr,
+      sSsc,
+    ],
   );
 
   const goBack = useCallback((): void => {

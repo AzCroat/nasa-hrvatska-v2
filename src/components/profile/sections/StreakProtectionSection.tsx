@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStats } from '../../../context/StatsContext.tsx';
 import { getFreezesStored, purchaseFreeze, FREEZE_COST_XP } from '../../../lib/streakFreeze.js';
+import { availableXp } from '../../../lib/xpBalance.js';
 
 /**
  * Streak Protection (freeze slots) — extracted from SettingsTab as part of the
@@ -14,12 +15,13 @@ export default function StreakProtectionSection({
 }: {
   onSyncNow?: () => void | Promise<boolean | void>;
 }) {
-  const { stats: statsCtx, setStats } = useStats();
+  const { stats: statsCtx, setStats, writeDelta } = useStats();
   const [freezesStored, setFreezesStored] = useState(() => getFreezesStored());
   const [freezeMsg, setFreezeMsg] = useState('');
+  const spendableXp = availableXp(statsCtx);
 
   function handleBuyFreeze() {
-    const result = purchaseFreeze(statsCtx.xp || 0, setStats as any);
+    const result = purchaseFreeze(spendableXp, setStats as any, writeDelta);
     if (result.ok) {
       setFreezesStored(result.stored ?? 0);
       setFreezeMsg(`❄️ Freeze purchased! ${result.stored ?? 0}/2 stored.`);
@@ -96,33 +98,27 @@ export default function StreakProtectionSection({
           </div>
         </div>
         <button
-          disabled={freezesStored >= 2 || (statsCtx?.xp || 0) < FREEZE_COST_XP}
+          disabled={freezesStored >= 2 || spendableXp < FREEZE_COST_XP}
           onClick={handleBuyFreeze}
           style={{
             width: '100%',
             padding: '11px',
             borderRadius: 12,
             background:
-              freezesStored >= 2 || (statsCtx?.xp || 0) < FREEZE_COST_XP
+              freezesStored >= 2 || spendableXp < FREEZE_COST_XP
                 ? 'var(--bar-bg)'
                 : 'linear-gradient(135deg,#38bdf8,#0e7490)',
-            color:
-              freezesStored >= 2 || (statsCtx?.xp || 0) < FREEZE_COST_XP
-                ? 'var(--subtext)'
-                : '#fff',
+            color: freezesStored >= 2 || spendableXp < FREEZE_COST_XP ? 'var(--subtext)' : '#fff',
             border: 'none',
             fontWeight: 700,
             fontSize: 13,
-            cursor:
-              freezesStored >= 2 || (statsCtx?.xp || 0) < FREEZE_COST_XP
-                ? 'not-allowed'
-                : 'pointer',
+            cursor: freezesStored >= 2 || spendableXp < FREEZE_COST_XP ? 'not-allowed' : 'pointer',
             fontFamily: "'Outfit',sans-serif",
           }}
         >
           {freezesStored >= 2
             ? '✓ Freeze slots full'
-            : `Buy Freeze — 50 XP (you have ${statsCtx?.xp || 0})`}
+            : `Buy Freeze — 50 XP (you have ${spendableXp})`}
         </button>
         {freezeMsg && (
           <div style={{ marginTop: 8, fontSize: 12, color: 'var(--success)', fontWeight: 700 }}>

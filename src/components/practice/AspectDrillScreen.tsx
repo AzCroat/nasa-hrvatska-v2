@@ -8,6 +8,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { lsSet, ssGet } from '../../lib/safeStorage';
 
 interface AspectPair {
   impf: string;
@@ -209,6 +210,12 @@ function gapSentence(sentence: string, target: string, _wrong: string) {
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
+// When launched as a Today's Session (Dnevna Vježba) activity, the drill is
+// capped to this many pairs so it's finishable in one sitting and actually
+// reaches its completion trigger (Finish → completeExercise →
+// signalSessionCompleteIfActive). Standalone practice keeps the full pool.
+const DAILY_PAIR_CAP = 3;
+
 export default function AspectDrillScreen({
   goBack,
   award,
@@ -219,6 +226,14 @@ export default function AspectDrillScreen({
   const { stats, setStats, writeDelta } = useStats();
   const { grammar, loading, error } = useGrammar();
   const finishFired = useRef(false);
+
+  // Read once on mount: was this screen launched by the daily session? HomeTab's
+  // session launcher writes nh_session_started = 'aspectdrill'; standalone
+  // launches (Grad / Practice / Browse) never set it, so the cap below applies
+  // only inside the daily session.
+  const [inDailySession] = useState(
+    () => typeof sessionStorage !== 'undefined' && ssGet('nh_session_started') === 'aspectdrill',
+  );
 
   const [sessionMode, setSessionMode] = useState('drill');
 
@@ -236,7 +251,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.add(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }
@@ -244,7 +259,7 @@ export default function AspectDrillScreen({
     setMistakeIds((prev) => {
       const next = new Set(prev);
       next.delete(en);
-      localStorage.setItem('nh_aspect_mistakes', JSON.stringify([...next]));
+      lsSet('nh_aspect_mistakes', JSON.stringify([...next]));
       return next;
     });
   }
@@ -252,8 +267,11 @@ export default function AspectDrillScreen({
   const allItems = useMemo(() => {
     const pairs = (grammar?.ASPECT_PAIRS ?? []) as unknown as AspectPair[];
     if (!pairs?.length) return [];
-    return sh([...pairs]);
-  }, [grammar]);
+    const shuffled = sh([...pairs]);
+    // In the daily session, serve only a short, finishable set (a fresh random
+    // few each day). Standalone drill keeps the full pool for deep practice.
+    return inDailySession ? shuffled.slice(0, DAILY_PAIR_CAP) : shuffled;
+  }, [grammar, inDailySession]);
 
   const items = useMemo(() => {
     if (mistakesOnly && mistakeIds.size > 0) {
@@ -601,7 +619,7 @@ export default function AspectDrillScreen({
                 finishFired.current = true;
                 // Gated: credit (vs 'aspect') only at >=75% — closes the back-door into the
                 // AspectScreen lesson gate (PR #37), which shares the 'aspect' key.
-                completeExercise({
+                const { passed } = completeExercise({
                   key: 'aspect',
                   score,
                   total,
@@ -611,6 +629,20 @@ export default function AspectDrillScreen({
                   writeDelta,
                   award,
                 });
+                // The Aspect Drill path node (learnPath lp52) checks vsIncludes:'aspectdrill',
+                // but this screen's exercise key is 'aspect' (shared with the AspectScreen
+                // lesson gate), so the node never checked off from doing the drill. On a pass,
+                // also record the drill's own path-node key — vs only (gc is already credited
+                // by completeExercise; 'aspectdrill' is not a black-hole screen so nothing else
+                // writes it). vs is union-merged on sync, so this is additive and safe.
+                if (passed && !stats.vs?.includes('aspectdrill')) {
+                  setStats((prev) =>
+                    prev.vs?.includes('aspectdrill')
+                      ? prev
+                      : { ...prev, vs: [...(prev.vs || []), 'aspectdrill'] },
+                  );
+                  if (writeDelta) writeDelta({ vs: ['aspectdrill'] });
+                }
                 goBack();
               }}
             >

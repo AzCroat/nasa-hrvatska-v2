@@ -210,10 +210,7 @@ export default function ProfileScreen({
         <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: '#164e63' }}>
           {name}
         </h2>
-        <p style={{ color: '#78716c', fontSize: 14 }}>
-          Level {level}
-          {st.diff ? ` · ${st.diff.charAt(0).toUpperCase()}${st.diff.slice(1)}` : ''}
-        </p>
+        <p style={{ color: '#78716c', fontSize: 14 }}>Level {level}</p>
         {au && au.e && <p style={{ color: '#a8a29e', fontSize: 12, marginTop: 4 }}>{au.e}</p>}
       </div>
       <div
@@ -333,8 +330,9 @@ export default function ProfileScreen({
             Cancel your free subscription?
           </div>
           <div style={{ fontSize: 12, color: '#78716c', marginBottom: 8, lineHeight: 1.5 }}>
-            You'll lose access to the AI Tutor, Live Tutor, Grammar Diagnosis, Photo Scanner, and
-            personalized insights immediately.
+            Naša Hrvatska is free for every learner right now, so cancelling won't take away the AI
+            Tutor, Live Tutor, Grammar Diagnosis, Photo Scanner, or your insights — and your
+            progress is always saved.
           </div>
           <div
             style={{
@@ -401,7 +399,8 @@ export default function ProfileScreen({
             textAlign: 'center',
           }}
         >
-          Subscription cancelled. Sign in again anytime to restore access.
+          Subscription record cleared. Naša Hrvatska stays free — all your features and progress
+          remain available.
         </div>
       )}
 

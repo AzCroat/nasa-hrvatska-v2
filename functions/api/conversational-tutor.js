@@ -11,7 +11,7 @@ const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 // Detect language of user's input (Croatian vs English)
 function detectLanguage(text) {
   const croatianMarkers =
-    /[čćšžđČĆŠŽĐ]|\b(ja|ti|on|ona|mi|vi|oni|sam|si|je|smo|ste|su|da|ne|što|gdje|kako|hvala|molim|dobar|dobro|bok|ne\s+razumijem|ne\s+znam)\b/i;
+    /[čćšžđČĆŠŽĐ]|\b(ja|ti|on|ona|mi|vi|oni|sam|si|je|smo|ste|su|da|ne|što|gdje|kako|hvala|molim|dobar|dobro|bok|bog|ne\s+razumijem|ne\s+znam)\b/i;
   const englishMarkers =
     /\b(I|you|the|is|are|was|were|have|has|do|does|don't|can't|what|where|how|why|please|thank|hello|yes|no|sorry|help)\b/;
   const hasCroatian = croatianMarkers.test(text);
@@ -81,7 +81,7 @@ export async function onRequestPost(context) {
 
   const gate = await requireAuthedAI(context, { cost: 2, rateLimit: 30 });
   if (!gate.ok) return gate.response;
-  const { origin } = gate;
+  const { origin, isDev } = gate;
 
   const ANTHROPIC_KEY = env.ANTHROPIC_API_KEY || env.CLAUDE_API_KEY;
   if (!ANTHROPIC_KEY) {
@@ -100,8 +100,17 @@ export async function onRequestPost(context) {
       });
     }
 
-    const body = await request.json();
-    const { messages, level, topic, persona, breakdownCount = 0, sessionHistory } = body;
+    // Malformed JSON must be a 400, not the outer catch's 500 (quota already spent).
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: 'invalid_json' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      });
+    }
+    const { messages, level, topic, persona, breakdownCount = 0, sessionHistory } = body || {};
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: 'invalid_messages' }), {
@@ -166,7 +175,7 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 500,
+          max_tokens: 1024, // 500 truncated the JSON reply (croatian + english + feedback) → cut-off/garbled
           system: systemPrompt,
           messages: history,
         }),
@@ -175,10 +184,20 @@ export async function onRequestPost(context) {
 
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        return new Response(JSON.stringify({ error: 'api_error', detail: errText.slice(0, 200) }), {
-          status: 502,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-        });
+        // Gate the upstream body behind isDev — every sibling endpoint does
+        // (srs-sync, ai-chat, flash-context, dialogue, micro-lesson, conversation).
+        // Unconditionally returning it leaked Anthropic's raw error — including
+        // "invalid x-api-key" — to any signed-in user in production.
+        return new Response(
+          JSON.stringify({
+            error: 'api_error',
+            ...(isDev ? { detail: errText.slice(0, 200) } : {}),
+          }),
+          {
+            status: 502,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+          },
+        );
       }
 
       // Read body as text first — separates body-read failures from JSON parse failures

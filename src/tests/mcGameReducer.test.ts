@@ -90,6 +90,83 @@ describe('useMcGameReducer', () => {
     expect(result.current[0].wrongStreak).toBe(0);
   });
 
+  it('ANSWER correct on a RE-TRIED question does NOT increment score (first-attempt scoring)', () => {
+    // Regression: score used to count every eventual-correct answer, so a quiz
+    // where every question is eventually cleared always reported 100%. A retried
+    // question (_isRetry=true) was actually missed and must not earn a point.
+    const q = makeQ({ _isRetry: true });
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: true,
+          optionIndex: 1,
+          question: q,
+          grammarTip: null,
+          persistentHeartsAfter: undefined,
+          isHeartsMode: false,
+        },
+      });
+    });
+    expect(result.current[0].score).toBe(0); // no point for a retried question
+    expect(result.current[0].streak).toBe(1); // but streak/combo still advance
+  });
+
+  it('a missed-then-cleared question yields a non-perfect final score', () => {
+    // Two questions: get the first wrong (re-queue), answer the second right,
+    // then finally answer the re-queued first right. Queue empties (game ends)
+    // but score is 1/2, not a false 2/2.
+    const q0 = makeQ({ hr: 'first', _qIdx: 0 });
+    const q1 = makeQ({ hr: 'second', _qIdx: 1 });
+    const { result } = renderHook(() => useMcGameReducer([q0, q1], 5));
+    const dispatch = (a: Parameters<(typeof result.current)[1]>[0]) =>
+      act(() => {
+        result.current[1](a);
+      });
+    // Q0 wrong → re-queue with _isRetry
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: false,
+        optionIndex: 0,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'RE_QUEUE_WRONG' });
+    // Q1 correct (first attempt) → +1
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: true,
+        optionIndex: 1,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'ADVANCE_CORRECT' });
+    // Re-tried Q0 now correct → no point
+    dispatch({
+      type: 'ANSWER',
+      payload: {
+        isCorrect: true,
+        optionIndex: 1,
+        question: result.current[0].queue[0],
+        grammarTip: null,
+        persistentHeartsAfter: undefined,
+        isHeartsMode: false,
+      },
+    });
+    dispatch({ type: 'ADVANCE_CORRECT' });
+    expect(result.current[0].queue).toHaveLength(0); // game complete
+    expect(result.current[0].score).toBe(1); // 1/2, not a false perfect
+  });
+
   it('ANSWER wrong decrements hearts and sets shaking', () => {
     const q = makeQ();
     const { result } = renderHook(() => useMcGameReducer([q], 3));
@@ -154,6 +231,55 @@ describe('useMcGameReducer', () => {
       });
     });
     expect(result.current[0].hearts).toBe(3); // no deduction in practice mode
+  });
+
+  // The case above covers isHeartsMode: false. Hearts/Challenge mode was the gap:
+  // the reducer checked isHeartsMode FIRST and never consulted practiceMode, so a
+  // practising user still lost a heart — and McGame had already spent a real one
+  // from the daily pool of 5 before dispatching. The toggle's own label promises
+  // "hearts disabled", so the promise has to hold here too.
+  it('ANSWER wrong in practiceMode does not deduct hearts in HEARTS mode either', () => {
+    const q = makeQ();
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({ type: 'TOGGLE_PRACTICE_MODE' });
+    });
+    expect(result.current[0].practiceMode).toBe(true);
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: false,
+          optionIndex: 0,
+          question: q,
+          grammarTip: null,
+          // What the component would have passed had it called loseHeart().
+          // practiceMode must win over it.
+          persistentHeartsAfter: 2,
+          isHeartsMode: true,
+        },
+      });
+    });
+    expect(result.current[0].hearts).toBe(3);
+  });
+
+  it('ANSWER wrong in HEARTS mode without practiceMode still uses the persistent count', () => {
+    const q = makeQ();
+    const { result } = renderHook(() => useMcGameReducer([q], 3));
+    act(() => {
+      result.current[1]({
+        type: 'ANSWER',
+        payload: {
+          isCorrect: false,
+          optionIndex: 0,
+          question: q,
+          grammarTip: null,
+          persistentHeartsAfter: 2,
+          isHeartsMode: true,
+        },
+      });
+    });
+    expect(result.current[0].hearts).toBe(2);
   });
 
   it('ADVANCE_CORRECT removes first question from queue', () => {

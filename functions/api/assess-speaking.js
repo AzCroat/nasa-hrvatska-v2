@@ -53,6 +53,13 @@ export async function onRequestPost(context) {
   if (!gate.ok) return gate.response;
   const { origin } = gate;
 
+  // Hard-reject a missing key up front, like every other AI endpoint
+  // (correct.js, explain-error.js, listening.js, maja.js). Without this the
+  // request ran the paid STT step first, then Anthropic 401'd, and the learner
+  // was told the rubric had transiently failed ('rubric_failed', 502) — so they
+  // retried indefinitely, paying for transcription every time.
+  if (!env.ANTHROPIC_API_KEY) return err(503, 'AI_KEY_MISSING', origin);
+
   // Body + clip cap.
   let body;
   try {
@@ -136,7 +143,14 @@ export async function onRequestPost(context) {
     const data = await r.json();
     const text =
       data && data.content && data.content[0] && data.content[0].text ? data.content[0].text : '';
-    const parsed = JSON.parse(text);
+    // Strip a ```json code fence if the model wrapped its object in one — every
+    // other structured endpoint does this. Without it a fenced-but-valid rubric
+    // threw in JSON.parse and 502'd rubric_failed, blocking the speaking gate.
+    const cleaned = text
+      .replace(/^\s*```(?:json)?\s*/i, '')
+      .replace(/\s*```\s*$/i, '')
+      .trim();
+    const parsed = JSON.parse(cleaned);
     const clamp = (n) => Math.max(0, Math.min(1, Number(n) || 0));
     scores = {
       range: clamp(parsed.range),

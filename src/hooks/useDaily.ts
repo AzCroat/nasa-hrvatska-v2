@@ -4,6 +4,7 @@
  * Extracted from App.jsx.
  */
 import { useState } from 'react';
+import { lsGet } from '../lib/safeStorage';
 
 function todayKey(): string {
   const d = new Date();
@@ -39,8 +40,13 @@ function loadFromMainDoc(k: string): DailyState | null {
 
 function loadDailyAnswered(): boolean[] {
   const k = todayKey();
-  // Primary: dedicated dcDay3 key (written on every answer click)
-  const saved = localStorage.getItem('dcDay3');
+  // Primary: dedicated dcDay3 key (written on every answer click).
+  // lsGet (not raw localStorage): this runs in a useState initializer on App's
+  // FIRST render — a storage SecurityError here (blocked cookies/site-data,
+  // supervised/child profiles) crashed the root render, and "Reload App"
+  // deterministically re-crashed: a permanent boot loop. (2026-07-15 audit;
+  // same class as the main.tsx/usePreferences fix in #196.)
+  const saved = lsGet('dcDay3');
   if (saved) {
     try {
       const p = JSON.parse(saved) as DailyState;
@@ -64,7 +70,8 @@ function loadDailyAnswered(): boolean[] {
 
 function loadDailySelected(): string[] {
   const k = todayKey();
-  const saved = localStorage.getItem('dcDay3');
+  // lsGet for the same boot-crash reason as loadDailyAnswered above.
+  const saved = lsGet('dcDay3');
   if (saved) {
     try {
       const p = JSON.parse(saved) as DailyState;

@@ -38,8 +38,15 @@ function buildDeclQuiz(nouns: DeclNoun[], caseNames: string[]): DeclQuestion[] {
       );
       const allDistractors = sh([...sameCaseOtherNouns, ...otherCasesThisNoun]);
       const distractors = allDistractors.slice(0, 3);
-      while (distractors.length < 3)
-        distractors.push(noun.cases[(ci + 1) % caseNames.length] ?? '');
+      // Pad only with forms that genuinely differ from the correct answer AND
+      // from each other. The old loop pushed noun.cases[(ci+1)%len] repeatedly,
+      // so a short distractor set could render the correct answer twice (both
+      // buttons graded correct) or show the same wrong form twice. Rendering
+      // fewer than 4 options is strictly better than a duplicated answer.
+      for (const cand of noun.cases as string[]) {
+        if (distractors.length >= 3) break;
+        if (cand && cand !== correct && !distractors.includes(cand)) distractors.push(cand);
+      }
       qs.push({
         noun: noun.nom,
         en: noun.en,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Heritage Learner entry-point card — extracted verbatim from SettingsTab as the
@@ -8,7 +9,7 @@ import React from 'react';
  * hoisted to one render-time const — same value within a render).
  */
 export default function HeritageEntrySection({ setScr }: { setScr: (scr: string) => void }) {
-  const active = localStorage.getItem('nh_heritage_mode') === 'true';
+  const active = lsGet('nh_heritage_mode') === 'true';
   return (
     <>
       <div className="section-hdr" style={{ marginTop: 24 }}>

@@ -485,7 +485,7 @@ test('Block 1 (Days 1-6) — First session: home screen, hero CTA, first XP', as
   else info('No Word of Day widget visible on home');
 
   // Knight mascot
-  if (home.match(/vitez|knight|hrvoje|Bok|Dobrodošli|hrv/i)) ok('Knight mascot visible');
+  if (home.match(/vitez|knight|hrvoje|Bog|Dobrodošli|hrv/i)) ok('Knight mascot visible');
   else info('Knight mascot not visible (may be dismissed)');
 
   // Navigate all tabs — confirm app is responsive

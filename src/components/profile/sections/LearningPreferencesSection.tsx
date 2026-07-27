@@ -13,6 +13,8 @@ import {
 } from '../../../lib/soundSettings.js';
 import { speak, getAudioDebugState } from '../../../lib/audio.ts';
 import { getEntries } from '../../../lib/debugLog.ts';
+import { useApp } from '../../../context/AppContext';
+import { lsGet } from '../../../lib/safeStorage';
 
 /**
  * Learning Preferences cluster — extracted from SettingsTab as part of the 1a
@@ -25,19 +27,19 @@ import { getEntries } from '../../../lib/debugLog.ts';
  * React state for the visual, exactly as before.
  */
 export default function LearningPreferencesSection() {
+  const { setScr } = useApp();
   const [audioTestStatus, setAudioTestStatus] = useState<null | 'testing' | 'ok' | 'failed'>(null);
   const [showAudioDebug, setShowAudioDebug] = useState(false);
   const [audioDebugLines, setAudioDebugLines] = useState<LogEntry[]>([]);
   const [soundOn, setSoundOn] = useState(() => isSoundEnabled());
   const [hapticOn, setHapticOn] = useState(() => isHapticEnabled());
-  const [heartsAlways, setHeartsAlways] = useState(
-    () => localStorage.getItem('nh_hearts_always_on') === 'true',
-  );
+  const [heartsAlways, setHeartsAlways] = useState(() => lsGet('nh_hearts_always_on') === 'true');
   const [voicePref, setVoicePref] = useState(() => getVoicePreference());
   const [speechRate, setSpeechRateState] = useState<SpeechRate>(() => getSpeechRate());
   const [microQuizEnabled, setMicroQuizEnabled] = useState(
-    () => localStorage.getItem('nh_microquiz_enabled') !== 'false',
+    () => lsGet('nh_microquiz_enabled') !== 'false',
   );
+  const [fluencyMode, setFluencyMode] = useState(() => lsGet('nh_fluency_mode') === 'true');
 
   async function handleAudioTest() {
     setAudioTestStatus('testing');
@@ -265,7 +267,7 @@ export default function LearningPreferencesSection() {
         <div>
           <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>❤️ Always-On Hearts</div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
-            Lose lives in all practice modes, not just Challenge
+            Lose lives in the word quiz even outside Challenge mode
           </div>
         </div>
         <button
@@ -351,6 +353,62 @@ export default function LearningPreferencesSection() {
               position: 'absolute',
               top: 3,
               left: microQuizEnabled ? 21 : 3,
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: 'white',
+              transition: 'left .2s',
+              boxShadow: '0 1px 4px rgba(0,0,0,.2)',
+            }}
+          />
+        </button>
+      </div>
+
+      {/* Fluency Mode toggle — longer, production-heavier daily sessions */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '14px 0',
+          borderBottom: '1px solid var(--card-b)',
+        }}
+      >
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>🗣️ Fluency Mode</div>
+          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
+            Longer daily sessions with more speaking, writing & conversation. For when you want to
+            push toward fluency.
+          </div>
+        </div>
+        <button
+          role="switch"
+          aria-checked={fluencyMode ? 'true' : 'false'}
+          aria-label="Fluency Mode"
+          onClick={() => {
+            const v = !fluencyMode;
+            setFluencyMode(v);
+            try {
+              localStorage.setItem('nh_fluency_mode', v ? 'true' : 'false');
+            } catch (_) {}
+          }}
+          style={{
+            width: 44,
+            height: 26,
+            borderRadius: 13,
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background .2s',
+            background: fluencyMode ? 'var(--success)' : 'var(--bar-bg)',
+            position: 'relative',
+            flexShrink: 0,
+          }}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              top: 3,
+              left: fluencyMode ? 21 : 3,
               width: 20,
               height: 20,
               borderRadius: '50%',
@@ -460,6 +518,37 @@ export default function LearningPreferencesSection() {
         </div>
         <div style={{ fontSize: 10, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.4 }}>
           📌 Applies to all Croatian audio playback (lessons, examples, story narration)
+        </div>
+      </div>
+
+      {/* Retake placement — user-initiated only. The placement/onboarding flow
+          never auto-appears for an existing account (it runs once, at first
+          sign-up); this is the deliberate way to redo it. */}
+      <div style={{ padding: '14px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>🎯 Placement Test</div>
+            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
+              Re-check your recommended level. Results can raise it — your progress and earned level
+              are never reset.
+            </div>
+          </div>
+          <button
+            onClick={() => setScr('new-placement')}
+            style={{
+              padding: '8px 14px',
+              borderRadius: 20,
+              border: 'none',
+              cursor: 'pointer',
+              background: 'var(--info)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 'var(--text-xs)',
+              flexShrink: 0,
+            }}
+          >
+            Retake
+          </button>
         </div>
       </div>
     </React.Fragment>

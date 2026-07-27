@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { weekKey } from '../../lib/dateUtils';
+import { weekKey, localDateStr } from '../../lib/dateUtils';
 
 interface BarDatum {
   value: number;
@@ -64,13 +64,16 @@ const ProgressCharts = React.memo(function ProgressCharts({
     try {
       raw = JSON.parse(localStorage.getItem('progress_history') || '[]') as RawEntry[];
     } catch (_) {}
-    const today = new Date().toISOString().slice(0, 10);
+    // Local date, NOT UTC — progress_history is written with localDateStr()
+    // (App.tsx). UTC buckets mis-align with the stored entries for users whose
+    // local date ≠ UTC, blanking today's XP and shifting the daily-gain bars.
+    const today = localDateStr();
     // Get last 30 days
     const days: HistoryEntry[] = [];
     for (let i = 29; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const date = d.toISOString().slice(0, 10);
+      const date = localDateStr(d);
       const entry = raw.find((e) => e.date === date);
       days.push({ date, xp: entry?.xp || 0, today: date === today, delta: 0 });
     }

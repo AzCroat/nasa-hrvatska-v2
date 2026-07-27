@@ -6,7 +6,7 @@
  *   2. useWhisperSTT.sendToWhisper
  *
  * For each callsite:
- *   - Success: _nativePost returns { ok:true, json:→{text:'bok'} } → transcript flows through
+ *   - Success: _nativePost returns { ok:true, json:→{text:'bog'} } → transcript flows through
  *   - Transport failure: _nativePost returns null → correct fallback fires
  *
  * Also verifies blobToBase64 helper exported from audio.ts (chunked encoder).
@@ -201,10 +201,10 @@ describe('LiveTutorScreen.transcribeAudio — _nativePost transport', () => {
   });
 
   it('calls _nativePost("/api/stt", { audioBase64, mimeType }) — NOT apiFetch', async () => {
-    // Arrange: _nativePost returns transcript 'bok'
+    // Arrange: _nativePost returns transcript 'bog'
     mockNativePostLt.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ text: 'bok' }),
+      json: async () => ({ text: 'bog' }),
     });
 
     const { default: LiveTutorScreen } = await import('../components/croatia/LiveTutorScreen');
@@ -304,12 +304,12 @@ describe('useWhisperSTT.sendToWhisper — _nativePost transport', () => {
     vi.restoreAllMocks();
   });
 
-  it('success: _nativePost returns {ok:true, json→{text:"bok"}} → onResult("bok") fires', async () => {
+  it('success: _nativePost returns {ok:true, json→{text:"bog"}} → onResult("bog") fires', async () => {
     // Wire up fresh mocks after resetModules
     vi.doMock('../lib/nativePost.js', () => ({
       _nativePost: vi.fn(async () => ({
         ok: true,
-        json: async () => ({ text: 'bok' }),
+        json: async () => ({ text: 'bog' }),
       })),
     }));
     vi.doMock('../lib/audio.ts', () => ({
@@ -451,7 +451,7 @@ describe('apiFetch /api/stt callsite guard', () => {
           status: 200,
           json: () =>
             Promise.resolve({
-              croatian: 'Bok',
+              croatian: 'Bog',
               english_gloss: 'Hi',
               comprehension_prompt: null,
               correction: null,
@@ -466,7 +466,7 @@ describe('apiFetch /api/stt callsite guard', () => {
 
     vi.doMock('../lib/apiFetch.js', () => ({ apiFetch: apiFetchMock }));
     vi.doMock('../lib/nativePost.js', () => ({
-      _nativePost: vi.fn(async () => ({ ok: true, json: async () => ({ text: 'bok' }) })),
+      _nativePost: vi.fn(async () => ({ ok: true, json: async () => ({ text: 'bog' }) })),
     }));
     vi.doMock('../lib/audio.js', () => ({
       getAudioContext: vi.fn(() => null),

@@ -142,10 +142,21 @@ export async function onRequestPost(context) {
   const safeStyle =
     stylePreferences && stylePreferences.dataPoints >= 5
       ? {
-          preferred: (stylePreferences.preferredTypes || [])
+          // `|| []` only substitutes for null/undefined — a number or object
+          // passed here reached .slice().map() and threw an uncaught TypeError,
+          // which surfaced as an opaque 500 (the handler has no outer try) after
+          // the AI quota had already been charged. dataPoints was validated;
+          // these two were not.
+          preferred: (Array.isArray(stylePreferences.preferredTypes)
+            ? stylePreferences.preferredTypes
+            : []
+          )
             .slice(0, 3)
             .map((t) => String(t).slice(0, 30)),
-          avoided: (stylePreferences.avoidedTypes || [])
+          avoided: (Array.isArray(stylePreferences.avoidedTypes)
+            ? stylePreferences.avoidedTypes
+            : []
+          )
             .slice(0, 3)
             .map((t) => String(t).slice(0, 30)),
           dataPoints: parseInt(stylePreferences.dataPoints) || 0,
@@ -282,7 +293,10 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
   const VALID_PRIORITIES = ['high', 'medium'];
 
   const activities = parsed.activities.map((act) => ({
-    id: VALID_ACTIVITY_IDS.includes(act.id) ? act.id : 'flashcards',
+    // Fall back to a VALID, launchable id — 'flashcards' is deliberately NOT in
+    // VALID_ACTIVITY_IDS (can't be launched from the plan card), so using it as
+    // the fallback produced a tile that did nothing when tapped.
+    id: VALID_ACTIVITY_IDS.includes(act.id) ? act.id : 'dialogue',
     title: sanitizeParam(String(act.title || ''), 80),
     reason: sanitizeParam(String(act.reason || ''), 200),
     duration: Math.min(Math.max(Number(act.duration) || 5, 1), 30),

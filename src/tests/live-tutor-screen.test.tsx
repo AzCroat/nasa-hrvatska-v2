@@ -621,7 +621,7 @@ describe('LiveTutorScreen — XP anti-farm cap', () => {
     const TURNS = 12;
     for (let i = 0; i < TURNS; i++) {
       await act(async () => {
-        fireEvent.change(screen.getByTestId('turn-input'), { target: { value: 'Bok' } });
+        fireEvent.change(screen.getByTestId('turn-input'), { target: { value: 'Bog' } });
       });
       await act(async () => {
         fireEvent.submit(screen.getByTestId('turn-form'));

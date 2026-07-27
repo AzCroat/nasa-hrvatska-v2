@@ -68,13 +68,29 @@ export function getMicPermissionPlatform(): MicPermissionPlatform {
   return 'desktop';
 }
 
+/**
+ * DuckDuckGo's iOS/macOS WebKit-based browser exposes
+ * `window.webkitSpeechRecognition` as a NON-FUNCTIONAL stub: constructing it
+ * succeeds, but recognition never returns results and fires `onerror` with
+ * `network` / `service-not-allowed` because the underlying speech service is
+ * not wired up in the privacy browser. Treating the stub as "supported" routes
+ * voice into a dead Web Speech path; the MediaRecorder→Whisper fallback (which
+ * DDG CAN run) never activates. Detect DDG so callers skip Web Speech.
+ * Confirmed via user report (razgovor mic dead on DuckDuckGo), 2026-07.
+ */
+export function isDuckDuckGo(userAgent?: string): boolean {
+  const ua = userAgent ?? (typeof navigator !== 'undefined' ? navigator.userAgent : '');
+  return /DuckDuckGo/i.test(ua);
+}
+
 export function isSpeechRecognitionSupported(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    !!(
-      (window as unknown as CapacitorWindow).SpeechRecognition ||
-      (window as unknown as CapacitorWindow).webkitSpeechRecognition
-    )
+  if (typeof window === 'undefined') return false;
+  // DuckDuckGo exposes a broken webkitSpeechRecognition stub — treat as absent
+  // so voice falls back to MediaRecorder→Whisper (or the keyboard).
+  if (isDuckDuckGo()) return false;
+  return !!(
+    (window as unknown as CapacitorWindow).SpeechRecognition ||
+    (window as unknown as CapacitorWindow).webkitSpeechRecognition
   );
 }
 

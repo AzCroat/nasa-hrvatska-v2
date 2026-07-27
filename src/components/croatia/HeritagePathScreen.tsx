@@ -92,7 +92,7 @@ const PASSIVE_TO_ACTIVE = [
       {
         prompt: 'How do you say goodbye to family?',
         answer: 'Ćao! / Zdravo! / Pusa!',
-        alt: ['Doviđenja!', 'Pa bok!'],
+        alt: ['Doviđenja!', 'Pa bog!'],
         note: '"Pusa!" (a kiss) is very family-specific — if your family uses it, you already know it',
       },
     ],

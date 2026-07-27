@@ -35,4 +35,26 @@ describe('_nativePost', () => {
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect((init.headers as Record<string, string>).Authorization).toBeUndefined();
   });
+
+  // Regression: a Firebase ID token expires ~hourly and getFirebaseBearer
+  // memoizes it, so native voice/STT/TTS/assessment calls used to 401 forever
+  // after ~1h. _nativePost must force-refresh the token once and retry on 401.
+  it('retries once with a force-refreshed token on 401', async () => {
+    const transport = await import('../lib/nativeTransport');
+    const bearerMock = transport.getFirebaseBearer as ReturnType<typeof vi.fn>;
+    bearerMock.mockResolvedValueOnce('stale').mockResolvedValueOnce('fresh');
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response('{}', { status: 401 }))
+      .mockResolvedValueOnce(new Response('{"ok":true}', { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const r = await _nativePost('/api/stt', { a: 1 });
+    expect(r!.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // the retry forced a token refresh and sent the new token
+    expect(bearerMock).toHaveBeenLastCalledWith(true);
+    const [, init2] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
+    expect((init2.headers as Record<string, string>).Authorization).toBe('Bearer fresh');
+  });
 });

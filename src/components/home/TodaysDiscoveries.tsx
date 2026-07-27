@@ -1,11 +1,13 @@
 // src/components/home/TodaysDiscoveries.tsx
 //
-// Single fixed-height widget that consolidates the four "of the day" cards
-// (Word / Phrase / City / Story) into one tabbed container. Replaces four
-// stacked cards on the Today tab.
+// Single fixed-height widget that consolidates the "of the day" cards
+// (Word / Phrase / City) into one tabbed container. Replaces the stacked
+// cards on the Today tab. (Story of the Day was removed here to leave a single
+// reading lesson on the Home tab — the daily "Read" row in Today's Input; the
+// graded-story catalog is still reachable from the Learn tab's Browse library.)
 //
 // 2026-05-22 visual treatment (Option A+C combined):
-//   - Color-coded per tab: word=orange, phrase=red, city=teal, story=purple.
+//   - Color-coded per tab: word=orange, phrase=red, city=teal.
 //   - Active tab gets a tinted background + colored label + scaled icon.
 //   - Sliding 4px indicator bar with colour/glow that morphs to match the
 //     active tab's accent on switch.
@@ -15,16 +17,14 @@ import React, { useState } from 'react';
 import WordOfDayCard from './WordOfDayCard';
 import PhraseOfDayCard from './PhraseOfDayCard';
 import CityOfDayCard from './CityOfDayCard';
-import { StoryOfTheDayCard } from './StoryOfTheDayCard';
 import type { WordOfDay, PhraseOfDay } from '../../lib/wordOfDay';
 
-type Tab = 'word' | 'phrase' | 'city' | 'story';
+type Tab = 'word' | 'phrase' | 'city';
 
 interface Props {
   wod: WordOfDay | null;
   pod: PhraseOfDay | null;
   setScr: (scr: unknown, ...args: unknown[]) => void;
-  launchStory?: (storyId: string) => void;
 }
 
 interface TabSpec {
@@ -44,10 +44,9 @@ const TABS: TabSpec[] = [
   { id: 'word', icon: '📝', label: 'Word', color: '217,119,6', textColor: '146,64,14' },
   { id: 'phrase', icon: '💬', label: 'Phrase', color: '204,0,0', textColor: '204,0,0' },
   { id: 'city', icon: '🏙️', label: 'City', color: '14,116,144', textColor: '14,116,144' },
-  { id: 'story', icon: '📖', label: 'Story', color: '124,58,237', textColor: '124,58,237' },
 ];
 
-export default function TodaysDiscoveries({ wod, pod, setScr, launchStory }: Props) {
+export default function TodaysDiscoveries({ wod, pod, setScr }: Props) {
   const [active, setActive] = useState<Tab>('word');
   const activeIdx = TABS.findIndex((t) => t.id === active);
   const activeSpec = TABS[activeIdx]!;
@@ -157,7 +156,7 @@ export default function TodaysDiscoveries({ wod, pod, setScr, launchStory }: Pro
             bottom: -1.5,
             left: 4, // matches paddingLeft so it aligns with the tab row
             height: 4,
-            width: 'calc((100% - 4px) / 4)',
+            width: 'calc((100% - 4px) / 3)',
             background: `rgb(${activeSpec.color})`,
             borderRadius: 2,
             transform: `translateX(${activeIdx * 100}%)`,
@@ -195,11 +194,6 @@ export default function TodaysDiscoveries({ wod, pod, setScr, launchStory }: Pro
             <EmptyState text="Loading today's phrase…" />
           ) : null}
           {active === 'city' ? <CityOfDayCard setScr={setScr} /> : null}
-          {active === 'story' && launchStory ? (
-            <StoryOfTheDayCard launchStory={launchStory} />
-          ) : active === 'story' ? (
-            <EmptyState text="Story of the day will appear here." />
-          ) : null}
         </div>
       </div>
     </div>

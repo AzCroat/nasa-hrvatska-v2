@@ -44,7 +44,7 @@ src/
 │   ├── AppContext.jsx          # Global state: screen nav (scr), favs, jWords, dchl*
 │   └── StatsContext.tsx        # Stats state via useReducer (statsReducer.ts)
 ├── hooks/
-│   ├── useScreenLauncher.js    # Screen navigation + BLACK_HOLE_SCREENS dwell-timer XP awards
+│   ├── useScreenLauncher.ts    # Screen navigation + dwell-timer XP awards (map in lib/blackHoleScreens.ts)
 │   ├── useSyncManager.js       # Bidirectional Firebase sync (save + load)
 │   ├── useAuth.js              # Firebase auth state
 │   ├── useAward.ts             # XP + badge award logic
@@ -121,7 +121,7 @@ ck: function(s) { return (s.vs && s.vs.includes('screenKey')) || s.lc >= N; }
 ```
 Always use `vs.includes(screenKey)` as the primary check. The `lc >= N` fallback is for users who completed the lesson before the `vs` system existed.
 
-### BLACK_HOLE_SCREENS (src/hooks/useScreenLauncher.js)
+### BLACK_HOLE_SCREENS (src/lib/blackHoleScreens.ts; dwell mechanism in src/hooks/useScreenLauncher.ts)
 Object mapping screen key → stat type (`'lc'` or `'gc'`). When a user spends 20 seconds on a screen in this map, it automatically:
 1. Adds the screen key to `stats.vs`
 2. Increments `stats.lc` or `stats.gc`
@@ -180,7 +180,7 @@ Firestore is initialized with `persistentMultipleTabManager()` to allow multiple
 | `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage |
 
 ### Scheduled worker (wrangler.toml)
-Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs daily at 9am UTC for streak reminder push notifications. Deployed independently via `wrangler deploy`.
+Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs an **hourly** cron and sends each user's daily streak-reminder push at their chosen local hour (`reminderTime` + `timeZone` stored with the subscription via `/api/push-subscribe`; legacy subscriptions without a preference send at 13:00 UTC). Max one push per user per day via the `lastNotified` guard. Deployed independently via `wrangler deploy` — pushing to master does NOT update it.
 
 ---
 
@@ -195,6 +195,31 @@ Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs daily at 9am UTC for
 - **Error handling**: use `errorReporter.ts` for non-fatal errors; `ErrorBoundary` component catches render crashes
 - **TypeScript**: new files in `src/lib/` and `src/hooks/` should be `.ts`/`.tsx`. Existing `.js` files are being migrated gradually — don't convert them unless that's the task.
 - **Code style**: ESLint + lint-staged enforced on commit. Run `npm run lint:fix` before committing.
+
+---
+
+## Croatian Content Authoring (owner directive, 2026-07-16)
+
+Claude has extensive Croatian-language training and authors Croatian content
+(dialogue scenarios, exercises, prompts, grammar tips) as a domain expert.
+Own the correctness — every authored line must meet native-standard Croatian:
+
+- Standard štokavski; correct case government (incl. partitive genitive after
+  quantities, `hvala na` + locative, `radovati se` + dative, `unatoč` + dative)
+- Clitic ordering (second-position clusters: `htio bih se naručiti`)
+- `sa` before s/š/z/ž, `s` otherwise; full diacritics (č ć đ š ž) everywhere
+- Register-appropriate forms (V-form politeness in service/formal contexts;
+  conditional softening `htio/htjela bih` for requests)
+- Distractor options in exercises must be *plausibly wrong* (register errors,
+  case errors, word-order errors learners actually make) — never gibberish
+- The greeting is `bog` (not `bok`) per the 2026-07 owner decision; the idiom
+  `bok uz bok` (side by side) is the one deliberate exception
+
+Do not gate content delivery on external review by default — write it right,
+self-verify against the rules above, and ship it through the normal test
+gates (structural validation lives in `src/tests/dialogueScenarios.test.ts`).
+Flag a construction to the owner only when genuinely uncertain, not as a
+blanket disclaimer.
 
 ---
 

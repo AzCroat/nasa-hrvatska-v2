@@ -190,12 +190,20 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
     sessionStorage.clear();
   });
 
-  it('returns false without calling reload when counter is already at 2', () => {
-    sessionStorage.setItem('nh_ck_test', '2');
+  // The budget record is {n, ts}, not a bare count — the timestamp is what stops
+  // a spent budget locking a long-lived tab out of the heal forever. Full
+  // coverage of the window lives in chunk-reload-budget.test.ts.
+  it('returns false without calling reload when the budget is spent inside the window', () => {
+    sessionStorage.setItem('nh_ck_test', JSON.stringify({ n: 2, ts: Date.now() }));
     expect(reloadWithCachePurge('nh_ck_test')).toBe(false);
   });
 
-  it('returns true and increments sessionStorage counter on first call', () => {
+  it('does NOT honour a legacy bare-integer cap (those tabs were stuck at it)', () => {
+    sessionStorage.setItem('nh_ck_test', '2');
+    expect(reloadWithCachePurge('nh_ck_test')).toBe(true);
+  });
+
+  it('returns true and records the first attempt', () => {
     // Mock caches so location.reload fires async (via .finally), not synchronously —
     // this lets return true execute cleanly in the jsdom test environment.
     vi.stubGlobal('caches', {
@@ -203,7 +211,9 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
       delete: vi.fn().mockResolvedValue(true),
     });
     expect(reloadWithCachePurge('nh_ck_test')).toBe(true);
-    expect(sessionStorage.getItem('nh_ck_test')).toBe('1');
+    const rec = JSON.parse(sessionStorage.getItem('nh_ck_test')!) as { n: number; ts: number };
+    expect(rec.n).toBe(1);
+    expect(typeof rec.ts).toBe('number');
   });
 
   it('returns false when sessionStorage is unavailable (catch branch)', () => {

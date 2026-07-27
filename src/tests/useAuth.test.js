@@ -7,7 +7,8 @@
  * We only test:
  *   a) doReg client-side validation guards (email, pw, match, displayName, rate limit)
  *   b) doLog client-side validation guards (email, pw, rate limit)
- *   c) doGuest — sets authScreen to 'app' synchronously
+ *   c) doGuest — attempts anon Firebase sign-in, falls back to the legacy guest
+ *      (authScreen 'app') when anonymous auth is unavailable
  *   d) Basic state setters (authError, emailUnverified)
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -37,6 +38,9 @@ vi.mock('firebase/auth', () => ({
     }),
   ),
   createUserWithEmailAndPassword: vi.fn(() => Promise.resolve({ user: {} })),
+  // Reject so doGuest exercises its legacy-guest fallback deterministically
+  // (mirrors "Anonymous auth disabled in the Firebase console").
+  signInAnonymously: vi.fn(() => Promise.reject(new Error('operation-not-allowed'))),
   updateProfile: vi.fn(() => Promise.resolve()),
   signOut: vi.fn(() => Promise.resolve()),
   sendPasswordResetEmail: vi.fn(() => Promise.resolve()),
@@ -94,18 +98,24 @@ describe('useAuth — doGuest', () => {
   beforeEach(clearLS);
   afterEach(clearLS);
 
-  it('sets authScreen to "app" immediately (no Firebase required)', () => {
+  // doGuest now first attempts an anonymous Firebase sign-in; when that is
+  // unavailable (mocked to reject here) it falls back to the legacy in-memory
+  // guest, which sets authScreen to 'app'. The fallback runs in a microtask, so
+  // these assertions await the promise settling.
+  it('falls back to the legacy guest and sets authScreen to "app" when anon auth is unavailable', async () => {
     const { result } = renderHook(() => useAuth(mkCallbacks()));
-    act(() => {
+    await act(async () => {
       result.current.doGuest();
+      await Promise.resolve();
     });
     expect(result.current.authScreen).toBe('app');
   });
 
-  it('authLoading is false after doGuest', () => {
+  it('authLoading is false after doGuest', async () => {
     const { result } = renderHook(() => useAuth(mkCallbacks()));
-    act(() => {
+    await act(async () => {
       result.current.doGuest();
+      await Promise.resolve();
     });
     expect(result.current.authLoading).toBe(false);
   });

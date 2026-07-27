@@ -40,8 +40,8 @@ vi.mock('../data', () => ({
       title: 'Test Scene',
       en: 'A test scene',
       lines: [
-        { speaker: 'Partner', text: 'Bok!', en: 'Hi!' },
-        { speaker: 'Ti', text: 'Bok, kako si?', en: 'Hi, how are you?', you: true },
+        { speaker: 'Partner', text: 'Bog!', en: 'Hi!' },
+        { speaker: 'Ti', text: 'Bog, kako si?', en: 'Hi, how are you?', you: true },
       ],
     },
   ],
@@ -62,7 +62,7 @@ describe('RoleplayScreen — interactive scripted role-play', () => {
   it("shows the partner's opening line and advances to the learner's turn", () => {
     render(<RoleplayScreen goBack={vi.fn()} />);
     // Partner line is shown (it is read/heard, not produced).
-    expect(screen.getByText(/Bok!/)).toBeTruthy();
+    expect(screen.getByText(/Bog!/)).toBeTruthy();
     fireEvent.click(screen.getByText('Next Line →'));
     expect(screen.getByTestId('roleplay-your-turn')).toBeTruthy();
   });
@@ -76,7 +76,7 @@ describe('RoleplayScreen — interactive scripted role-play', () => {
     expect(screen.queryByTestId('roleplay-answer')).toBeNull();
     fireEvent.click(screen.getByTestId('roleplay-reveal'));
     const answer = screen.getByTestId('roleplay-answer');
-    expect(answer.textContent).toContain('Bok, kako si?');
+    expect(answer.textContent).toContain('Bog, kako si?');
   });
 
   it("offers a mic Speak control on the learner's turn and records when tapped", () => {

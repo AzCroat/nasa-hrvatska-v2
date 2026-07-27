@@ -14,11 +14,20 @@ import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer
 import useWhisperSTT from '../../hooks/useWhisperSTT.js';
 import { isVoiceAvailable } from './majaVoice';
 import {
+  majaErrorMessage,
+  isAbortFailure,
+  MAJA_START_FALLBACK,
+  MAJA_TURN_FALLBACK,
+} from './majaErrors';
+import { reportError } from '../../lib/errorReporter';
+import {
   MAJA_STYLES,
   PERSONA_CONFIG,
   getPersona,
   SR_SUPPORTED,
-  SILENCE_DELAY_MS,
+  computeSilenceDelay,
+  extractStreamingReply,
+  extractSentences,
   loadMemory,
   saveMemory,
   fmtElapsed,
@@ -95,10 +104,21 @@ export default function MajaScreen() {
   const [sessionActive, setSessionActive] = useState(false);
   const [fallbackText, setFallbackText] = useState('');
   const [micDenied, setMicDenied] = useState(false);
+  // Runtime guard: some browsers (DuckDuckGo and other in-app WebKit) advertise
+  // SpeechRecognition but its service is dead — it errors with network /
+  // service-not-allowed instead of returning results. When that happens we flip
+  // srFailed and re-route voice through the MediaRecorder→Whisper path, exactly
+  // like iOS Safari. srFailedRef mirrors it for reads inside stable callbacks.
+  const [srFailed, setSrFailed] = useState(false);
+  const srFailedRef = useRef(false);
 
   // ── refs ───────────────────────────────────
   const debriefXpFired = useRef<boolean>(false);
   const phaseRef = useRef<string>('idle');
+  // Guards the async getUserMedia/TTS paths. phaseRef alone is not enough: it
+  // stops updating at unmount and stays frozen at its last value, so a loop
+  // keyed only on phaseRef never self-terminates once the screen is gone.
+  const mountedRef = useRef(true);
   const recRef = useRef<InstanceType<typeof window.SpeechRecognition> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
@@ -141,13 +161,17 @@ export default function MajaScreen() {
 
   // cleanup on unmount
   useEffect(() => {
+    // Re-arm on mount (React 18 StrictMode double-invokes effects in dev).
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
       if (streamAbortRef.current) {
         streamAbortRef.current.abort();
         streamAbortRef.current = null;
       }
       stopMicImmediate();
       stopWaveform();
+      cancelTTSTurn(); // invalidate any running streaming-TTS pump
       clearTimeout(silenceTimerRef.current ?? undefined);
       clearInterval(elapsedTimerRef.current ?? undefined);
       if (audioRef.current) {
@@ -183,6 +207,14 @@ export default function MajaScreen() {
   const startWaveform = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Leaving the screen while the permission prompt / stream promise is
+      // pending means the unmount cleanup already ran and found mediaStreamRef
+      // null, so it stopped nothing. Assigning here would hold the mic open
+      // (indicator lit) for the lifetime of the tab.
+      if (!mountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       mediaStreamRef.current = stream;
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       audioCtxRef.current = ctx;
@@ -193,7 +225,7 @@ export default function MajaScreen() {
       analyserRef.current = analyser;
 
       const tick = () => {
-        if (!analyserRef.current || phaseRef.current !== 'listening') {
+        if (!mountedRef.current || !analyserRef.current || phaseRef.current !== 'listening') {
           stopWaveform();
           return;
         }
@@ -238,6 +270,11 @@ export default function MajaScreen() {
         r.onload = () => resolve(r.result as string);
         r.readAsDataURL(blob);
       });
+      // The TTS fetch + FileReader above are suspension points. If the screen
+      // was left in the meantime, the unmount cleanup already paused whatever
+      // audio existed then — constructing and playing a NEW Audio here made
+      // Maja's voice play over the next screen with nothing able to stop it.
+      if (!mountedRef.current) return;
       audioUrlRef.current = url;
       const audio = new Audio(url);
       audio.volume = 1.0; // required: low volume blocks activation on some WebViews
@@ -280,6 +317,124 @@ export default function MajaScreen() {
     stopWaveform();
   }, [stopWaveform]);
 
+  // ── Streaming TTS queue (voice phase 2) ────────────────────────────────────
+  // Speak Maja's reply sentence-by-sentence as it streams instead of waiting for
+  // the whole reply + one big TTS request. The first sentence plays while the
+  // model is still writing the rest, collapsing multi-second dead air to ~1s.
+  // Clips play in order; the next clip is prefetched during the current one so
+  // there is no gap. A per-turn generation token invalidates a running pump when
+  // a new turn starts (or the screen tears down), so stale audio never leaks.
+  const ttsQueueRef = useRef<string[]>([]);
+  const ttsActiveRef = useRef(false);
+  const ttsStreamDoneRef = useRef(false);
+  const ttsGenRef = useRef(0);
+  const startListeningRef = useRef<() => void>(() => {});
+
+  // Fetch (but do not play) one sentence's TTS as a ready-to-play audio element.
+  const fetchClip = useCallback(async (text: string): Promise<HTMLAudioElement | null> => {
+    try {
+      const res = await ttsFetch({ text, slow: false, voice: getVoicePreference() });
+      if (!res || !res.ok) return null;
+      const blob = await res.blob();
+      // base64 data URL — blob: URLs fail silently on some Android OEM WebViews.
+      const url = await new Promise<string>((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result as string);
+        r.onerror = () => reject(new Error('read failed'));
+        r.readAsDataURL(blob);
+      });
+      const audio = new Audio(url);
+      audio.volume = 1.0; // low volume blocks activation on some WebViews
+      return audio;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  // When the reply is fully streamed AND every clip has played, resume listening.
+  const finishTTSIfDone = useCallback((gen: number) => {
+    if (gen !== ttsGenRef.current) return;
+    if (ttsActiveRef.current || ttsQueueRef.current.length || !ttsStreamDoneRef.current) return;
+    if (phaseRef.current === 'debrief' || phaseRef.current === 'error') return;
+    startListeningRef.current();
+  }, []);
+
+  const pumpTTS = useCallback(
+    async (gen: number) => {
+      if (ttsActiveRef.current) return;
+      ttsActiveRef.current = true;
+      let prefetch: Promise<HTMLAudioElement | null> | null = null;
+      try {
+        while (gen === ttsGenRef.current) {
+          const next = ttsQueueRef.current.shift();
+          if (next === undefined) break; // drained — re-kicked when more arrives
+          const clip = await (prefetch ?? fetchClip(next));
+          prefetch = null;
+          if (gen !== ttsGenRef.current) break; // superseded by a newer turn
+          // Prefetch the following sentence's audio while this one plays (no gap).
+          const following = ttsQueueRef.current[0];
+          if (following) prefetch = fetchClip(following);
+          if (!clip) continue; // TTS failed for this sentence — skip, keep going
+          if (phaseRef.current === 'debrief' || phaseRef.current === 'error') break;
+          if (phaseRef.current !== 'maja-speaking') setPhase('maja-speaking');
+          unlockAudio();
+          audioRef.current = clip;
+          await new Promise<void>((resolve) => {
+            clip.onended = () => resolve();
+            clip.onerror = () => resolve();
+            clip.play().catch(() => resolve());
+          });
+          if (audioRef.current === clip) audioRef.current = null;
+        }
+      } finally {
+        ttsActiveRef.current = false;
+      }
+      finishTTSIfDone(gen);
+    },
+    [fetchClip, finishTTSIfDone],
+  );
+
+  const enqueueSentences = useCallback(
+    (gen: number, list: string[]) => {
+      if (gen !== ttsGenRef.current || !list.length) return;
+      ttsQueueRef.current.push(...list);
+      void pumpTTS(gen);
+    },
+    [pumpTTS],
+  );
+
+  // Start a fresh TTS turn: bump the generation (invalidating any running pump),
+  // clear the queue, stop any playing clip. Returns the new generation token.
+  const beginTTSTurn = useCallback((): number => {
+    const gen = ++ttsGenRef.current;
+    ttsQueueRef.current = [];
+    ttsStreamDoneRef.current = false;
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+      } catch {
+        /* ignore */
+      }
+      audioRef.current = null;
+    }
+    return gen;
+  }, []);
+
+  // Hard-stop the queue (new turn cancelled, screen teardown, session end).
+  const cancelTTSTurn = useCallback(() => {
+    ttsGenRef.current++; // invalidate any running pump
+    ttsQueueRef.current = [];
+    ttsStreamDoneRef.current = false;
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+      } catch {
+        /* ignore */
+      }
+      audioRef.current = null;
+    }
+  }, []);
+
   // ── send message ───────────────────────────
   const sendMessage = useCallback(
     async (text: string) => {
@@ -291,6 +446,10 @@ export default function MajaScreen() {
 
       setPhase('thinking');
       setLiveTranscript('');
+
+      // Start a streaming-TTS turn; sentences are enqueued as they complete.
+      const ttsGen = beginTTSTurn();
+      let sentCursor = 0;
 
       const userMsg = { role: 'user', content: text };
       setConversation((prev) => [...prev, userMsg]);
@@ -323,7 +482,13 @@ export default function MajaScreen() {
         });
         clearTimeout(streamTimeout);
 
-        if (!res.ok) throw new Error(`API ${res.status}`);
+        if (!res.ok) {
+          // Carry the status so the catch below can tell the learner WHICH
+          // failure this was. Previously this threw a bare Error and the status
+          // was lost, so a mid-conversation 429 (daily AI limit) or 401 (expired
+          // session) both surfaced as "Nešto je pošlo po krivu."
+          throw Object.assign(new Error(`API ${res.status}`), { _status: res.status });
+        }
         if (!res.body) throw new Error('Server returned no response body.');
 
         const reader = res.body.getReader();
@@ -350,11 +515,20 @@ export default function MajaScreen() {
                 const parsed = JSON.parse(data);
                 if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
                   streamedText += parsed.delta.text;
+                  // Show Maja's words as they stream — never the raw JSON envelope.
+                  const visible = extractStreamingReply(streamedText);
                   setConversation((prev) =>
                     prev.map((m, i) =>
-                      i === prev.length - 1 && m.streaming ? { ...m, content: streamedText } : m,
+                      i === prev.length - 1 && m.streaming ? { ...m, content: visible } : m,
                     ),
                   );
+                  // Speak each sentence the moment it's complete (before the rest
+                  // of the reply has even finished generating).
+                  const seg = extractSentences(visible, sentCursor, false);
+                  if (seg.sentences.length) {
+                    sentCursor = seg.cursor;
+                    enqueueSentences(ttsGen, seg.sentences);
+                  }
                 }
               } catch {
                 continue;
@@ -386,7 +560,20 @@ export default function MajaScreen() {
           newFacts = parsed.newFacts || {};
           emotion = parsed.emotion || 'warm';
         } catch {
-          /* use raw streamedText as reply if JSON parse fails */
+          // Invalid/truncated JSON (e.g. a reply longer than max_tokens). Salvage
+          // the reply text so the learner never sees — or hears TTS speak — the raw
+          // JSON envelope. Matches a complete "reply" value, or one cut off mid-string.
+          const full = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+          const partial = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)$/);
+          const salvaged = full?.[1] ?? partial?.[1];
+          if (salvaged != null) {
+            replyText = salvaged
+              .replace(/\\n/g, ' ')
+              .replace(/\\"/g, '"')
+              .replace(/\\\\/g, '\\')
+              .trim();
+          }
+          // else: model returned plain text (not an envelope) → streamedText is fine.
         }
 
         setConversation((prev) =>
@@ -405,37 +592,72 @@ export default function MajaScreen() {
         }
 
         if (phaseRef.current !== 'debrief') {
-          setPhase('maja-speaking');
-          await playTTS(replyText);
-          if (phaseRef.current === 'maja-speaking') {
-            startListening();
-          }
+          // Flush any final sentence (the last one may have no trailing space),
+          // then mark the reply complete. The TTS queue keeps playing in the
+          // background and resumes listening once the last clip finishes; if no
+          // audio was produced at all, finishTTSIfDone falls straight through.
+          const finalVisible = extractStreamingReply(streamedText) || replyText;
+          const flush = extractSentences(finalVisible, sentCursor, true);
+          enqueueSentences(ttsGen, flush.sentences);
+          ttsStreamDoneRef.current = true;
+          finishTTSIfDone(ttsGen);
         }
-      } catch {
+      } catch (err: unknown) {
+        cancelTTSTurn();
         // Finalize any in-progress streaming bubble so it doesn't remain stuck
         setConversation((prev) =>
           prev.map((m, i) =>
             i === prev.length - 1 && m.streaming ? { ...m, streaming: false } : m,
           ),
         );
+        // Razgovor had NO error reporting at all, which is why "it never worked
+        // properly" never produced a single Sentry event to work from. Aborts are
+        // excluded: the stream is deliberately aborted on teardown and on the
+        // 30s time-to-first-byte timeout.
+        if (!isAbortFailure(err)) {
+          reportError(err instanceof Error ? err : new Error('maja turn failed'), 'maja-turn');
+        }
         if (phaseRef.current !== 'debrief') {
-          setErrorMsg('Nešto je pošlo po krivu. Pokušaj ponovo.');
+          setErrorMsg(majaErrorMessage((err as ApiError)?._status, MAJA_TURN_FALLBACK));
           setPhase('error');
         }
       }
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [conversation, session, level, name, playTTS],
+    [
+      conversation,
+      session,
+      level,
+      name,
+      beginTTSTurn,
+      enqueueSentences,
+      finishTTSIfDone,
+      cancelTTSTurn,
+    ],
   );
 
   // Voice availability: Web Speech (desktop) OR MediaRecorder→Whisper (iOS Safari,
   // which has no SpeechRecognition). Drives the banner + the iOS capture path.
+  // Can this device capture voice via MediaRecorder→Whisper (the SR-independent
+  // path)? This is what the DuckDuckGo/in-app-WebKit fallback needs.
+  const WHISPER_CAPABLE =
+    typeof navigator !== 'undefined' &&
+    !!navigator.mediaDevices?.getUserMedia &&
+    typeof MediaRecorder !== 'undefined';
+
   const VOICE_AVAILABLE = isVoiceAvailable(
     SR_SUPPORTED,
     typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia,
     typeof MediaRecorder !== 'undefined',
   );
+
+  // Effective voice mode: use the Whisper path whenever Web Speech is absent
+  // (iOS Safari) OR proved dead at runtime (DuckDuckGo stub). Keep the ref in
+  // sync so the stable startListening/effect callbacks read the latest value.
+  useEffect(() => {
+    srFailedRef.current = srFailed;
+  }, [srFailed]);
 
   // iOS / no-Web-Speech voice path: record → Whisper STT → feed the transcript to
   // Maja, exactly like AIConversation. VAD auto-stops on silence and fires onResult.
@@ -451,11 +673,25 @@ export default function MajaScreen() {
     onInterrupt: () => {},
     onError: () => {},
     isSpeaking: phase === 'maja-speaking',
+    // Lessons use an explicit tap to interrupt (see handleBargeIn / the orb),
+    // so the mic never auto-cuts Maja off on halting learner speech or noise.
+    allowBargeIn: false,
   });
   // Read iosVoice through a ref so startListening's useCallback identity stays
   // stable (it feeds the auto-listen effect) instead of churning every render.
   const iosVoiceRef = useRef(iosVoice);
   iosVoiceRef.current = iosVoice;
+
+  // Barge-in: the user taps while Maja is speaking → stop her immediately, drop
+  // the rest of the queued reply, and start capturing. Tapping is the single,
+  // universal interrupt model across every platform (the Whisper/VAD path runs
+  // with allowBargeIn:false so the mic never auto-cuts Maja off on halting
+  // learner speech or noise during a lesson).
+  const handleBargeIn = useCallback(() => {
+    if (phaseRef.current !== 'maja-speaking') return;
+    cancelTTSTurn(); // stop the current clip + clear the streaming-TTS queue
+    startListeningRef.current(); // → phase 'listening', opens/keeps the mic
+  }, [cancelTTSTurn]);
 
   // Surface a Whisper-path mic denial through the same banner as Web Speech.
   useEffect(() => {
@@ -467,7 +703,7 @@ export default function MajaScreen() {
   // Mid-conversation it stays on across turns; isSpeaking suppresses self-capture.
   useEffect(() => {
     if (
-      !SR_SUPPORTED &&
+      (!SR_SUPPORTED || srFailedRef.current) &&
       phase !== 'listening' &&
       phase !== 'maja-speaking' &&
       iosVoiceRef.current.isListening
@@ -486,11 +722,12 @@ export default function MajaScreen() {
 
     startWaveform();
 
-    if (!SR_SUPPORTED) {
-      // iOS Safari has no Web Speech API: capture via MediaRecorder → Whisper.
+    if (!SR_SUPPORTED || srFailedRef.current) {
+      // iOS Safari (no Web Speech) OR a browser whose SpeechRecognition proved
+      // dead at runtime (DuckDuckGo stub): capture via MediaRecorder → Whisper.
       // VAD auto-stops on silence and fires iosVoice.onResult → sendMessage.
       // A text input remains as a manual backup (showFallbackInput).
-      if (VOICE_AVAILABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
+      if (WHISPER_CAPABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
       return;
     }
 
@@ -503,13 +740,15 @@ export default function MajaScreen() {
 
     const resetSilenceTimer = () => {
       clearTimeout(silenceTimerRef.current ?? undefined);
+      // Adaptive: end the turn quickly when the utterance looks complete, but
+      // wait longer if the speaker seems mid-thought (see computeSilenceDelay).
       silenceTimerRef.current = setTimeout(() => {
         const captured = transcriptRef.current.trim();
         if (captured.length > 1 && phaseRef.current === 'listening') {
           stopMic();
           sendMessage(captured);
         }
-      }, SILENCE_DELAY_MS);
+      }, computeSilenceDelay(transcriptRef.current));
     };
 
     rec.onresult = (e: Event) => {
@@ -528,6 +767,29 @@ export default function MajaScreen() {
       if (re.error === 'not-allowed') {
         setMicDenied(true);
         setPhase('listening'); // fallback will show
+        return;
+      }
+      // A browser that advertises SpeechRecognition but whose service is dead
+      // (DuckDuckGo & other in-app WebKit) errors here with network /
+      // service-not-allowed / audio-capture / language-not-supported instead of
+      // ever returning a result. Don't die silently — flip to the Whisper path
+      // (proven to work in these WebViews) and keep listening.
+      if (
+        re.error === 'network' ||
+        re.error === 'service-not-allowed' ||
+        re.error === 'audio-capture' ||
+        re.error === 'language-not-supported'
+      ) {
+        stopMicImmediate();
+        setSrFailed(true);
+        srFailedRef.current = true;
+        if (
+          WHISPER_CAPABLE &&
+          phaseRef.current === 'listening' &&
+          !iosVoiceRef.current.isListening
+        ) {
+          iosVoiceRef.current.toggle();
+        }
       }
     };
 
@@ -544,7 +806,13 @@ export default function MajaScreen() {
     } catch {
       // rec already started — ignore
     }
-  }, [startWaveform, stopMic, sendMessage, VOICE_AVAILABLE]);
+  }, [startWaveform, stopMic, sendMessage, WHISPER_CAPABLE]);
+
+  // The TTS queue resumes listening via a ref (it's created before startListening
+  // is defined), so keep the ref pointed at the latest startListening.
+  useEffect(() => {
+    startListeningRef.current = startListening;
+  }, [startListening]);
 
   // ── start session ──────────────────────────
   const startSession = useCallback(async () => {
@@ -613,12 +881,10 @@ export default function MajaScreen() {
       }
     } catch (err: unknown) {
       const e = err as ApiError;
-      let msg = 'Nije moguće spojiti se s Majom. Provjeri internetsku vezu.';
-      if (e?._status === 401) msg = 'Sesija je istekla. Odjavi se i prijavi ponovo.';
-      else if (e?._status === 429) msg = 'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.';
-      else if (e?._status !== undefined && e._status >= 500)
-        msg = 'Serverska greška. Pokušaj za koji trenutak.';
-      setErrorMsg(msg);
+      if (!isAbortFailure(err)) {
+        reportError(err instanceof Error ? err : new Error('maja start failed'), 'maja-start');
+      }
+      setErrorMsg(majaErrorMessage(e?._status, MAJA_START_FALLBACK));
       setPhase('error');
       setSessionActive(false);
     }
@@ -628,6 +894,7 @@ export default function MajaScreen() {
   // ── end session ────────────────────────────
   const endSession = useCallback(async () => {
     stopMic();
+    cancelTTSTurn(); // stop any in-flight streaming-TTS playback
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
@@ -706,7 +973,7 @@ export default function MajaScreen() {
       });
       setPhase('debrief');
     }
-  }, [conversation, elapsedSecs, level, name, session, stopMic]);
+  }, [conversation, elapsedSecs, level, name, session, stopMic, cancelTTSTurn]);
 
   // ── continue conversation ──────────────────
   const handleContinue = useCallback(() => {
@@ -748,7 +1015,7 @@ export default function MajaScreen() {
   // ── derived values ─────────────────────────
   const isFirstTime = memory.sessionCount === 0;
   const showFallbackInput =
-    (!SR_SUPPORTED || micDenied) && (phase === 'listening' || sessionActive);
+    (!SR_SUPPORTED || srFailed || micDenied) && (phase === 'listening' || sessionActive);
 
   // ─────────────────────────────────────────────
   // RENDER
@@ -865,13 +1132,20 @@ export default function MajaScreen() {
               </div>
             )}
 
-            {/* ── THE ORB ── */}
-            <MajaOrb
-              phase={phase}
-              waveform={waveform}
-              liveTranscript={liveTranscript}
-              personaCfg={personaCfg}
-            />
+            {/* ── THE ORB (tap to interrupt while Maja is speaking) ── */}
+            <div
+              onClick={phase === 'maja-speaking' ? handleBargeIn : undefined}
+              role={phase === 'maja-speaking' ? 'button' : undefined}
+              aria-label={phase === 'maja-speaking' ? 'Prekini i govori' : undefined}
+              style={phase === 'maja-speaking' ? { cursor: 'pointer' } : undefined}
+            >
+              <MajaOrb
+                phase={phase}
+                waveform={waveform}
+                liveTranscript={liveTranscript}
+                personaCfg={personaCfg}
+              />
+            </div>
 
             {/* ── Error message ── */}
             {phase === 'error' && (
@@ -1016,7 +1290,8 @@ export default function MajaScreen() {
                       <span style={{ color: '#d97706', fontWeight: 600 }}>Obrađujem…</span>
                     ) : phase === 'maja-speaking' ? (
                       <span style={{ color: personaCfg.speakingColor, fontWeight: 600 }}>
-                        {personaCfg.name.split(' ')[0]} govori…
+                        {personaCfg.name.split(' ')[0]} govori…{' '}
+                        <span style={{ opacity: 0.65, fontWeight: 500 }}>· dodirni za prekid</span>
                       </span>
                     ) : null}
                   </span>

@@ -60,6 +60,9 @@ vi.mock('firebase/firestore', () => ({
 // ── quests mock ───────────────────────────────────────────────────────────────
 const mockMarkQuest = vi.hoisted(() => vi.fn());
 vi.mock('../lib/quests.js', () => ({ markQuest: mockMarkQuest }));
+vi.mock('../context/StatsContext', () => ({
+  useStats: () => ({ stats: { xp: 0, lc: 0, gc: 0 }, setStats: vi.fn() }),
+}));
 
 // ── data mock: override mistake helpers + speak; keep H from real module ──────
 const mockGetMistakes = vi.hoisted(() => vi.fn());

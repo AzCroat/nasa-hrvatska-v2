@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { H, getMistakes, clearMistake, clearAllMistakes, speak } from '../../data';
+import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ── Flip card ──────────────────────────────────────────────────────────────────
 function FlipCard({
@@ -271,6 +273,7 @@ export default function MistakesScreen({
   goBack: () => void;
   award?: (xp: number, bonus?: boolean, activityType?: string) => void;
 }) {
+  const { setStats } = useStats();
   const [mistakes, setMistakes] = useState<any[]>(() =>
     getMistakes().sort((a: any, b: any) => b.count - a.count),
   );
@@ -299,6 +302,10 @@ export default function MistakesScreen({
     setMistakes(getMistakes().sort((a: any, b: any) => b.count - a.count));
     const newMastered = mastered + 1;
     setMastered(newMastered);
+    // Mistake Crusher badge counter — persisted in stats (snapshot-synced,
+    // Math.max-merged in mergeStatsFromRemote). Was never written before,
+    // leaving the badge permanently unattainable.
+    setStats((prev) => ({ ...prev, mistakesMastered: (prev.mistakesMastered || 0) + 1 }));
     if (reviewIdx + 1 >= reviewDeck.length) {
       // Session complete
       if (award && newMastered > 0) {
@@ -309,7 +316,15 @@ export default function MistakesScreen({
     } else {
       setReviewIdx((i) => i + 1);
     }
-  }, [reviewDeck, reviewIdx, mastered, award]);
+  }, [reviewDeck, reviewIdx, mastered, award, setStats]);
+
+  // Wave 6 (session catchment): the finish award fires only when at least one
+  // word was mastered, and an empty mistake log renders a celebratory wall —
+  // both paths would strand a session-launched review. Signal completion on
+  // either terminal state; a no-op outside sessions.
+  useEffect(() => {
+    if (mode === 'done' || mistakes.length === 0) signalSessionCompleteIfActive('mistakes');
+  }, [mode, mistakes.length]);
 
   const handleStudyAgain = useCallback(() => {
     if (reviewIdx + 1 >= reviewDeck.length) {

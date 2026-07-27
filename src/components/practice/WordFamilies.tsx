@@ -16,7 +16,9 @@ function shLocal<T>(a: T[]): T[] {
   return b;
 }
 
-const DATA = [
+// Exported for src/tests/answerKeyIntegrity.test.ts (answer-membership +
+// option-uniqueness invariants).
+export const DATA = [
   {
     root: 'rad (work)',
     q: 'She works in an office. → Ona ___ u uredu.',
@@ -68,7 +70,11 @@ const DATA = [
   {
     root: 'kupiti (buy)',
     q: 'She went ___ . → Otišla je u ___.',
-    opts: ['kupovinu', 'kupac', 'kupovati', 'kupac'],
+    // 'kupac' appeared twice, degrading this to 3 real choices with two
+    // identical buttons. The tip already names the intended 4th member of the
+    // family, so the duplicate becomes 'kupovina' (nominative — plausibly wrong
+    // here because the slot after "u" requires the accusative 'kupovinu').
+    opts: ['kupovinu', 'kupac', 'kupovati', 'kupovina'],
     answer: 'kupovinu',
     en: 'She went shopping.',
     tip: 'kupiti → kupovina (shopping/purchase), kupac (buyer), kupovati (to be shopping)',

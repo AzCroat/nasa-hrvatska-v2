@@ -17,7 +17,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CharacterPortrait from '../family/CharacterPortrait';
 import { useApp } from '../../context/AppContext';
-import { dbgInfo } from '../../lib/debugLog';
 import { knightSpeak } from '../../lib/knightSpeak';
 import { coachVisual } from './coachVisual';
 
@@ -172,8 +171,10 @@ export default function KnightCompanion() {
     return () => window.removeEventListener('knight:celebrate', onCelebrate);
   }, []);
 
-  dbgInfo(`[Coach] render | screen="${currentScreen}" isHome=${isHome} flash="${flashMood}"`);
-
+  // NOTE: no render-time logging here. A dbgInfo() call in the render body
+  // shipped '[DBG] [Coach] render' to the production console on EVERY app
+  // render (hundreds of lines during the 2026-07-15 quest-sync loop) and
+  // dispatched an nh:debuglog window event each time — pure overhead.
   if (isHome) return null;
 
   // Priority: flash (silent feedback) > active bubble mood > idle.

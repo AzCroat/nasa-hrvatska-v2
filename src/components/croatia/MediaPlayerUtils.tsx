@@ -1,4 +1,5 @@
 // ── Shared constants and helpers for the Media section ────────────────────────
+import { localDateStr } from '../../lib/dateUtils.js';
 
 interface MediaItem {
   cat?: string;
@@ -70,7 +71,9 @@ export function getImmersionDays() {
   }
 }
 export function markImmersionToday() {
-  const today = new Date().toISOString().slice(0, 10);
+  // Local calendar day, not UTC — a user immersing at 9pm in UTC-7 would
+  // otherwise stamp tomorrow's date and split one evening across two "days".
+  const today = localDateStr();
   const days = getImmersionDays();
   if (!days.includes(today)) {
     days.push(today);
@@ -89,7 +92,9 @@ export function getWeekDots() {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    dots.push(days.includes(d.toISOString().slice(0, 10)));
+    // Match markImmersionToday's local-day key so the dots line up with the day
+    // the user actually studied (UTC keys drifted the week grid by a day).
+    dots.push(days.includes(localDateStr(d)));
   }
   return dots;
 }
