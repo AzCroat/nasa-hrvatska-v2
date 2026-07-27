@@ -46,6 +46,11 @@ import { join } from 'node:path';
  * unaffected on a healthy profile.
  */
 
+// Both Web Storage APIs throw the SAME SecurityError — sessionStorage is not the
+// safer one, it is the same permission gate. Guarding only localStorage left 8
+// boundary-reaching sessionStorage sites live after the localStorage sweep.
+const STORAGE_APIS = new Set(['localStorage', 'sessionStorage']);
+
 const RENDER_TIME_HOOKS = new Set(['useMemo', 'useState', 'useReducer']);
 // Effect bodies reach an ErrorBoundary just like render does — see the comment
 // at the EFFECT_HOOKS branch below.
@@ -96,7 +101,7 @@ function insideTryBlock(node: ts.Node): boolean {
 }
 
 function scanSource(fileName: string, src: string): string[] {
-  if (!src.includes('localStorage')) return [];
+  if (!src.includes('localStorage') && !src.includes('sessionStorage')) return [];
   const sf = ts.createSourceFile(fileName, src, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   const out: string[] = [];
   const localFns = new Map<string, ts.Node>();
@@ -115,11 +120,11 @@ function scanSource(fileName: string, src: string): string[] {
       if (
         ts.isPropertyAccessExpression(callee) &&
         ts.isIdentifier(callee.expression) &&
-        callee.expression.text === 'localStorage'
+        STORAGE_APIS.has(callee.expression.text)
       ) {
         if (reachable && !insideTryBlock(node)) {
           const { line } = sf.getLineAndCharacterOfPosition(node.getStart(sf));
-          out.push(`${fileName}:${line + 1} (localStorage.${callee.name.text})`);
+          out.push(`${fileName}:${line + 1} (${callee.expression.text}.${callee.name.text})`);
         }
         return;
       }
@@ -269,7 +274,9 @@ describe('render-path localStorage guard', () => {
       const e = () => setThing((prev) => { localStorage.setItem('updater', '1'); return prev; });
       const onClick = () => localStorage.getItem('handler');
       const safe = (() => { try { return localStorage.getItem('guarded'); } catch { return null; } })();
-      return <div onClick={onClick}>{localStorage.getItem('jsx')}{a}{b}{c}{d}{safe}</div>;
+      const g = sessionStorage.getItem('session_body');
+      useEffect(() => { sessionStorage.setItem('session_effect', '1'); }, []);
+      return <div onClick={onClick}>{localStorage.getItem('jsx')}{a}{b}{c}{d}{safe}{g}</div>;
     }
   `;
 
@@ -293,8 +300,21 @@ describe('render-path localStorage guard', () => {
     // jsx        — inline call in returned JSX
     // effect     — synchronous throw in a useEffect body IS boundary-caught
     // updater    — setX(prev => …) is invoked during the render phase
+    // session_body / session_effect prove the guard covers sessionStorage too —
+    // it is the same SecurityError gate, and guarding only localStorage left 8
+    // live sites behind.
     expect(flaggedKeys()).toEqual(
-      ['body', 'effect', 'helper_', 'iife', 'initialiser', 'jsx', 'updater'].sort(),
+      [
+        'body',
+        'effect',
+        'helper_',
+        'iife',
+        'initialiser',
+        'jsx',
+        'session_body',
+        'session_effect',
+        'updater',
+      ].sort(),
     );
   });
 

@@ -5,6 +5,7 @@ import AppContext from '../../context/AppContext';
 import { getStyleContextForAPI } from '../../lib/learnerStyle.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { localDateStr } from '../../lib/dateUtils';
+import { ssGet, ssRemove } from '../../lib/safeStorage';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -259,9 +260,9 @@ export default function DailyPlanCard({
   // without a page refresh, sessionStorage still has the pending index — mark done.
   // Note: page refresh clears sessionStorage, so errored activities are NOT marked done.
   useEffect(() => {
-    const pending = sessionStorage.getItem('nh_plan_pending_idx');
+    const pending = ssGet('nh_plan_pending_idx');
     if (pending !== null) {
-      sessionStorage.removeItem('nh_plan_pending_idx');
+      ssRemove('nh_plan_pending_idx');
       const idx = parseInt(pending, 10);
       if (!isNaN(idx)) {
         markDone(idx);
