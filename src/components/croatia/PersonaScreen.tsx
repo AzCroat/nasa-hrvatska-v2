@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { normalizePersonaKey } from '../../lib/personaKey';
 
 // ─────────────────────────────────────────────
 // PERSONA DATA
@@ -246,7 +247,10 @@ export default function PersonaScreen({ goBack, setScr }: Props) {
   // Load existing persona from localStorage on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('maja_persona');
+      // Same dual-encoding problem as getPersona(): a sync-restored value is
+      // JSON-encoded ('"cabbie"'), which matched no PERSONAS entry, so the
+      // screen opened with nothing selected even though a persona was saved.
+      const saved = normalizePersonaKey(localStorage.getItem('maja_persona'));
       if (saved && PERSONAS.find((p) => p.key === saved)) {
         setSelected(saved);
       }

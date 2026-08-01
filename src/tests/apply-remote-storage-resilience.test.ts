@@ -164,10 +164,16 @@ describe('applyRemoteProgress survives an unwritable / unreadable profile', () =
     expect(written.get('nh_prestige'), 'prestige never restored').toBe('3');
     expect(written.get('nh_hearts_always_on'), 'hearts setting never restored').toBe('true');
     expect(written.get('nh_last_ex'), 'last exercise never restored').toBe('flashcards');
-    // heritageStory and maja_persona are stored JSON-encoded (checked against the
-    // module, not assumed); nh_letter_to_self is stored raw.
+    // heritageStory is stored JSON-encoded (checked against the module, not
+    // assumed); nh_letter_to_self is stored raw.
     expect(written.get('heritageStory'), 'heritage story never restored').toBe('"baka"');
-    expect(written.get('maja_persona'), 'Maja persona never restored').toBe('"teacher"');
+    // maja_persona is stored RAW, and this assertion previously required the
+    // quoted form — encoding the bug rather than catching it. getPersona() looks
+    // the stored value up directly in PERSONA_CONFIG, and PersonaScreen looks it
+    // up in PERSONAS, so '"teacher"' matched neither: a learner who picked Ivo
+    // got Maja on any device that restored from sync. Asserting the raw form is
+    // what makes this test describe correct behaviour.
+    expect(written.get('maja_persona'), 'Maja persona never restored').toBe('teacher');
     expect(written.get('nh_letter_to_self'), 'letter to self never restored').toBe('Dragi ja,');
     // And the rejected key is simply absent rather than fatal.
     expect(written.has('darkMode')).toBe(false);
