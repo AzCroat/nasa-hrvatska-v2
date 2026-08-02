@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Dexie from 'dexie';
 import { H, speak, srMark, getSR } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { normalizeJournal } from '../../lib/journalEntry';
 
 interface JournalWord {
   id?: number;
@@ -25,16 +26,27 @@ async function migrateFromLocalStorage() {
   try {
     const raw = localStorage.getItem('uJournal');
     if (!raw) return;
-    const existing = await db.journal.count();
-    if (existing > 0) {
-      localStorage.removeItem('uJournal');
-      return;
-    }
-    const words = JSON.parse(raw);
-    if (Array.isArray(words) && words.length > 0) {
-      await db.journal.bulkAdd(
-        words.map((w) => ({ hr: w.hr, en: w.en, date: w.date || Date.now() })),
-      );
+
+    // This is not a one-time migration, even though it was written as one. The
+    // four other save paths (Stories, the AI-conversation tooltip and result
+    // screen, the word scanner) all still write to localStorage, so `uJournal`
+    // refills after every visit here. The old code bailed out with
+    // `if (existing > 0) { removeItem; return; }` — once Dexie held a single
+    // word, every subsequent word saved anywhere else was DELETED on the next
+    // visit to this screen without ever being imported.
+    //
+    // So: always import, skipping words already in Dexie. normalizeJournal
+    // handles the tooltip's legacy { w, t, added } entries, which the old
+    // `w.hr` mapping turned into { hr: undefined, en: undefined } rows.
+    const incoming = normalizeJournal(JSON.parse(raw));
+    if (incoming.length > 0) {
+      const known = new Set((await db.journal.toArray()).map((w: { hr: string }) => w.hr));
+      const fresh = incoming.filter((w) => !known.has(w.hr));
+      if (fresh.length > 0) {
+        await db.journal.bulkAdd(
+          fresh.map((w) => ({ hr: w.hr, en: w.en, date: w.date || Date.now() })),
+        );
+      }
     }
     localStorage.removeItem('uJournal');
   } catch (_) {}
