@@ -1,5 +1,6 @@
 // Cloudflare Pages Function — AI Error Explanation
-// When a learner gets a cloze, dictation, or flashcard wrong, explains WHY.
+// When a learner gets a cloze, dictation, flashcard or multiple-choice question
+// wrong, explains WHY.
 // Returns a pedagogically useful explanation of the grammar rule.
 
 import { requireAuthedAI } from './_requireAuth.js';
@@ -22,7 +23,15 @@ function err(status, msg, origin) {
   });
 }
 
-const VALID_TYPES = ['cloze', 'dictation', 'flashcard'];
+// 'multiple_choice' is what McGame has always sent. It was missing here, so
+// every wrong answer in the quiz — the app's most-used exercise — was rejected
+// with 400 "Invalid type" and the explanation card silently never appeared.
+// (The 400 returns above the Anthropic call, so no AI quota was spent; the
+// feature was simply dead in McGame while working in cloze, dictation and
+// review.) Keep this list in step with the `type:` sent by every _aiPost
+// caller of this endpoint — currently ClozeEngine, DictationScreen,
+// ReviewScreen and McGame.
+const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice'];
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export async function onRequestOptions({ request }) {
@@ -70,6 +79,7 @@ export async function onRequestPost(context) {
     cloze: 'fill-in-the-blank grammar exercise',
     dictation: 'listening dictation exercise',
     flashcard: 'vocabulary flashcard',
+    multiple_choice: 'multiple-choice vocabulary quiz',
   };
 
   const typeDesc = TYPE_DESCS[type];
