@@ -29,7 +29,7 @@ import {
 } from '../data';
 import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
-import { lsSet, lsRemove } from '../lib/safeStorage';
+import { lsSet, lsRemove, ssRemove } from '../lib/safeStorage';
 import { API_BASE } from '../lib/platform';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
@@ -697,7 +697,16 @@ export function useAuth({
     // Clear all per-user state so a different user on the same device starts clean.
     // Without this, the early-restore path in useAuth reads the previous user's data
     // (streak, XP, CEFR level) for up to 14 seconds after sign-out.
-    const _nhKeys = Object.keys(localStorage).filter((k) => k.startsWith('nh_'));
+    // Object.keys(localStorage) enumerates the object and therefore throws the
+    // same SecurityError as getItem on a blocked profile — and this one sat
+    // outside the per-key try/catch below, so sign-out threw before it cleared
+    // anything or reached setAuthScreen('login').
+    let _nhKeys: string[] = [];
+    try {
+      _nhKeys = Object.keys(localStorage).filter((k) => k.startsWith('nh_'));
+    } catch {
+      /* storage unavailable — nothing was persisted, so nothing to sweep */
+    }
     _nhKeys.forEach((k) => {
       try {
         localStorage.removeItem(k);
@@ -711,9 +720,7 @@ export function useAuth({
       'uFreeze',
       'xpCooldown',
     ].forEach((k) => lsRemove(k));
-    ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) =>
-      sessionStorage.removeItem(k),
-    );
+    ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) => ssRemove(k));
     setAuthUser(null);
     setSentryUser(null);
     setAuthScreen('login');
