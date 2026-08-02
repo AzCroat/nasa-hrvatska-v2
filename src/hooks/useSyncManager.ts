@@ -27,6 +27,7 @@ import { sanitizeStats } from '../lib/sanitizeStats.js';
 import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
 import type { Stats, AuthUser } from '../types/index.js';
 import { lsGet } from '../lib/safeStorage';
+import { API_BASE } from '../lib/platform';
 
 /** Metadata from a Firestore progress snapshot — distinguishes cache vs server emissions. */
 export interface SyncSnapshotMeta {
@@ -692,7 +693,18 @@ export function useSyncManager({
           data: JSON.stringify(d),
         });
         if (pl.length < 60000)
-          navigator.sendBeacon('/api/save-progress', new Blob([pl], { type: 'application/json' }));
+          // API_BASE, not a bare '/api/...': on Capacitor native the app is
+          // served from https://localhost, which has no Pages Functions, so a
+          // relative path posts the last-chance save into Capacitor's local
+          // server. Worse than a 404 — sendBeacon reports success (it only ever
+          // means "queued"), and the html5mode handler answers with index.html,
+          // so nothing surfaced. This is the close-the-app save path, and on
+          // native it silently discarded whatever had not already reached
+          // Firestore. API_BASE is '' on web, so the web URL is unchanged.
+          navigator.sendBeacon(
+            API_BASE + '/api/save-progress',
+            new Blob([pl], { type: 'application/json' }),
+          );
       } catch (_) {}
     };
     // Dedup guard: both pagehide and visibilitychange(hidden) fire together on tab close.
