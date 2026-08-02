@@ -17,6 +17,8 @@
  * added to one and forgotten in the other fails here rather than in production.
  */
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { mergeSignInStats } from '../lib/mergeSignInStats';
 import { mergeStatsFromRemote } from '../lib/mergeStatsFromRemote';
 import type { Stats } from '../types/index.js';
@@ -244,5 +246,30 @@ describe('mergeSignInStats agrees with the canonical mergeStatsFromRemote', () =
 
   it('agrees on levelQuizPasses — the other field that was missing', () => {
     expect(signIn.levelQuizPasses).toEqual(canonical.levelQuizPasses);
+  });
+});
+
+/**
+ * Single-implementation guard.
+ *
+ * The rules were extracted from useAuth so they could be tested — but useAuth
+ * had TWO hand-written copies of the same 20-field merge, and only one was
+ * replaced. The survivor (`_safeMerged`, on the navigation path) therefore kept
+ * the original omission of rs and levelQuizPasses and sat outside the drift
+ * guard above, which only ever sees mergeSignInStats. A second copy is the
+ * failure mode this whole file exists to prevent, so assert there is only one.
+ */
+describe('useAuth holds no hand-rolled copy of the merge', () => {
+  const CODE = readFileSync(resolve(process.cwd(), 'src/hooks/useAuth.ts'), 'utf8');
+
+  it('routes every stats merge through mergeSignInStats', () => {
+    expect(CODE).toContain('mergeSignInStats(');
+  });
+
+  it('contains no inline Math.max merge over a local/remote stats pair', () => {
+    // The shape both copies had: Math.max((<something>St.<field> as number) || 0, ...).
+    // Matching the ...St. accessor keeps this from flagging ordinary Math.max use.
+    const inline = CODE.match(/Math\.max\(\(\w*[Ss]t\.\w+ as number\)/g) || [];
+    expect(inline).toEqual([]);
   });
 });

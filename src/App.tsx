@@ -686,6 +686,25 @@ function App() {
         sessionStorage.clear();
       } catch {}
     },
+    // A different account took over this tab (see useAuth's divergence check).
+    // Clear the previous user's progress from memory so nothing merges into it.
+    //
+    // This is onSignedOut minus the navigation: no setScr('welcome'), because the
+    // incoming user is a real returning account and belongs in the app rather
+    // than in onboarding. resetComebackGuard() is included — the guard is
+    // per-user-per-day, so leaving it set would suppress the new user's comeback
+    // bonus. sessionStorage.clear() is included for the same reason it is on
+    // sign-out: the previous user's in-flight exercise state must not carry over.
+    onUserChanged() {
+      dispatch({ type: 'RESET', payload: DS });
+      setName('');
+      setFavs([]);
+      setJWords([]);
+      resetComebackGuard();
+      try {
+        sessionStorage.clear();
+      } catch {}
+    },
     onBeforeSignOut: async () => {
       if (_syncNowRef.current) await _syncNowRef.current();
     },
