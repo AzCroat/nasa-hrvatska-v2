@@ -50,6 +50,17 @@ const SRC = join(process.cwd(), 'src');
 // and leaves the sanctioned wrappers alone.
 const BARE_RELATIVE_API = /\bfetch\(\s*['"`]\/api\//g;
 
+// fetch() is not the only transport that can reach a Pages Function, and this
+// guard originally only knew about it — which is how useSyncManager's
+// `navigator.sendBeacon('/api/save-progress', …)` sat here unflagged.
+//
+// sendBeacon fails WORSE than fetch on native, not better. It returns a boolean
+// that only means "queued for sending", never "delivered", so there is no
+// response to inspect and no error to catch: the html5mode handler answers with
+// index.html and the caller cannot tell. That beacon is the close-the-app save,
+// so on native it silently discarded any progress not already in Firestore.
+const BARE_RELATIVE_BEACON = /sendBeacon\(\s*['"`]\/api\//g;
+
 function walk(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -84,6 +95,36 @@ describe('native API base — class guard', () => {
       }
     }
     expect(offenders).toEqual([]);
+  });
+
+  it('no source file calls sendBeacon() with a relative /api/ URL', () => {
+    const offenders: string[] = [];
+    for (const file of files) {
+      const code = readFileSync(file, 'utf8');
+      for (const m of code.matchAll(BARE_RELATIVE_BEACON)) {
+        const line = code.slice(0, m.index).split('\n').length;
+        offenders.push(`${relative(process.cwd(), file)}:${line}`);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it('both sendBeacon call sites resolve against an absolute base', () => {
+    // Presence of the base, asserted per file: the pattern check above only
+    // proves the literal '/api/...' form is gone, which a refactor into a
+    // template string would satisfy while still being relative.
+    const beaconFiles: Array<[string, RegExp]> = [
+      // The close-the-app progress save.
+      ['src/hooks/useSyncManager.ts', /sendBeacon\(\s*API_BASE \+ '\/api\/save-progress'/],
+      // errorReporter keeps its own call-time base helper rather than API_BASE —
+      // see the note in that file about the Capacitor bridge being injected
+      // asynchronously. Same result, different evaluation moment.
+      ['src/lib/errorReporter.ts', /sendBeacon\(\s*`\$\{_getNativeApiBase\(\)\}\/api\//],
+    ];
+    for (const [file, pattern] of beaconFiles) {
+      const code = readFileSync(join(process.cwd(), file), 'utf8');
+      expect(code, `${file} must resolve its beacon URL absolutely`).toMatch(pattern);
+    }
   });
 
   it('the three transports and contentClient each resolve against API_BASE', () => {
