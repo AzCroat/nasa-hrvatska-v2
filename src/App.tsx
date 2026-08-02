@@ -1226,8 +1226,22 @@ function App() {
   // commit and re-runs on the next one with the restored stats already applied.
   //
   // MERGE_REMOTE is additive (Math.max / union), so re-running is harmless.
+  //
+  // The flag must also be CLEARED when the guest session ends, which is what the
+  // first line below does. Leaving guest mode does not delete uP_guest — doOut()
+  // removes 'uP_' + uid and a legacy guest has no uid, and its nh_ sweep does not
+  // match this key either — so the blob is still on disk when the user taps
+  // "Continue as Guest" a second time. With the flag stuck at true from the first
+  // session the restore was skipped, while the save effect below saw
+  // `guestRestored === true` and immediately wrote the post-sign-out DEFAULT
+  // stats straight over the stored progress. The second guest session silently
+  // destroyed the first one.
   useEffect(() => {
-    if (!isGuest || authScreen !== 'app' || guestRestored) return;
+    if (!isGuest) {
+      setGuestRestored(false);
+      return;
+    }
+    if (authScreen !== 'app' || guestRestored) return;
     const raw = lsGet('uP_' + GUEST_UID);
     if (raw) {
       try {

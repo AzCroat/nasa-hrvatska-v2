@@ -971,3 +971,85 @@ describe('applyRemoteProgress — immersion days union (nh_immersion_days)', () 
     expect(JSON.parse(localStorage.getItem('nh_immersion_days') || '[]')).toEqual(['2026-07-20']);
   });
 });
+
+describe('applyRemoteProgress — adaptive learning data', () => {
+  beforeEach(clearLS);
+  afterEach(clearLS);
+
+  // nh_freq_learned is a number[] of frequency ranks the learner has marked
+  // known; markFrequencyWordLearned only ever pushes, nothing removes. It was
+  // merged under a blanket "accept remote only when local is null" policy shared
+  // with three unrelated keys, which reduced a growing set on every device swap.
+  it('unions remote frequency ranks with local instead of dropping them', () => {
+    localStorage.setItem('nh_freq_learned', JSON.stringify([1, 2, 3]));
+    applyRemoteProgress({ nh_freq_learned: [3, 40, 50] }, makeSetters());
+    const merged = JSON.parse(localStorage.getItem('nh_freq_learned') || '[]');
+    expect(merged).toEqual([1, 2, 3, 40, 50]);
+  });
+
+  it('does not let a smaller remote set shrink local — the reduction that lost progress', () => {
+    // Learn 50 on the phone, open the laptop where 3 are known. Under the old
+    // null-check the laptop kept its 3 and then uploaded them over the 50.
+    const fifty = Array.from({ length: 50 }, (_, i) => i + 1);
+    localStorage.setItem('nh_freq_learned', JSON.stringify(fifty));
+    applyRemoteProgress({ nh_freq_learned: [1, 2, 3] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_freq_learned') || '[]')).toHaveLength(50);
+  });
+
+  it('seeds local from remote on a first sync', () => {
+    applyRemoteProgress({ nh_freq_learned: [7, 9] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_freq_learned') || '[]')).toEqual([7, 9]);
+  });
+
+  it('ignores a non-array remote value without corrupting local', () => {
+    localStorage.setItem('nh_freq_learned', JSON.stringify([1, 2]));
+    applyRemoteProgress({ nh_freq_learned: 0 as unknown as number[] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_freq_learned') || '[]')).toEqual([1, 2]);
+  });
+
+  // nh_grammar_diagnosis carries its own generatedAt, so newest wins — the same
+  // policy majaMemory already uses. The null-check meant a diagnosis run on one
+  // device never reached another device that had ever run one.
+  it('adopts a NEWER remote grammar diagnosis over an older local one', () => {
+    localStorage.setItem(
+      'nh_grammar_diagnosis',
+      JSON.stringify({ data: { x: 'old' }, generatedAt: 1000, level: 'A2' }),
+    );
+    applyRemoteProgress(
+      { nh_grammar_diagnosis: { data: { x: 'new' }, generatedAt: 2000, level: 'B1' } },
+      makeSetters(),
+    );
+    const got = JSON.parse(localStorage.getItem('nh_grammar_diagnosis') || '{}');
+    expect(got.data.x).toBe('new');
+  });
+
+  it('keeps a NEWER local grammar diagnosis over an older remote one', () => {
+    localStorage.setItem(
+      'nh_grammar_diagnosis',
+      JSON.stringify({ data: { x: 'local' }, generatedAt: 5000, level: 'B1' }),
+    );
+    applyRemoteProgress(
+      { nh_grammar_diagnosis: { data: { x: 'stale' }, generatedAt: 1000, level: 'A2' } },
+      makeSetters(),
+    );
+    const got = JSON.parse(localStorage.getItem('nh_grammar_diagnosis') || '{}');
+    expect(got.data.x).toBe('local');
+  });
+
+  // These two keep the null-check ON PURPOSE. Asserted so a later "make it
+  // consistent" pass has to justify itself against the reason, not just the shape.
+  it('does NOT union aspect mistakes — clearMistake() deletes, so a union resurrects them', () => {
+    // Local cleared 'to write'; remote (older device) still lists it.
+    localStorage.setItem('nh_aspect_mistakes', JSON.stringify(['to read']));
+    applyRemoteProgress({ nh_aspect_mistakes: ['to read', 'to write'] }, makeSetters());
+    expect(JSON.parse(localStorage.getItem('nh_aspect_mistakes') || '[]')).toEqual(['to read']);
+  });
+
+  it('does NOT union the writing-mistake buffer — it is a capped rolling log', () => {
+    localStorage.setItem('nh_writing_mistakes', JSON.stringify([{ wrong: 'a', correct: 'b' }]));
+    applyRemoteProgress({ nh_writing_mistakes: [{ wrong: 'c', correct: 'd' }] }, makeSetters());
+    const got = JSON.parse(localStorage.getItem('nh_writing_mistakes') || '[]');
+    expect(got).toHaveLength(1);
+    expect(got[0].wrong).toBe('a');
+  });
+});
