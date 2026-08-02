@@ -44,6 +44,15 @@ interface AuthCallbacks {
     isHydrate?: boolean;
   }) => void;
   onSignedOut: () => void;
+  /**
+   * A DIFFERENT account has taken over this tab. Wipe the in-memory progress of
+   * the previous user before anything merges into it — see the call site.
+   *
+   * Deliberately not onSignedOut(): that also navigates to 'welcome', which is
+   * the onboarding screen. The incoming user is a real returning account and
+   * must land in the app, not in onboarding.
+   */
+  onUserChanged: () => void;
   applyRemoteProgress: (progress: unknown) => void;
   setSyncReady: (ready: boolean) => void;
   onBeforeSignOut?: () => Promise<void>;
@@ -56,6 +65,7 @@ const TURNSTILE_ENABLED = Boolean(
 export function useAuth({
   onSignedIn,
   onSignedOut,
+  onUserChanged,
   applyRemoteProgress,
   setSyncReady,
   onBeforeSignOut,
@@ -95,6 +105,7 @@ export function useAuth({
   const cb = useRef<AuthCallbacks>({
     onSignedIn,
     onSignedOut,
+    onUserChanged,
     applyRemoteProgress,
     setSyncReady,
     onBeforeSignOut,
@@ -102,6 +113,7 @@ export function useAuth({
   cb.current = {
     onSignedIn,
     onSignedOut,
+    onUserChanged,
     applyRemoteProgress,
     setSyncReady,
     onBeforeSignOut,
@@ -163,6 +175,10 @@ export function useAuth({
 
     const s = gS() as { u?: string; d?: string } | null;
     let earlyRestored = false;
+    // WHOSE progress is currently in React state. earlyRestored alone only says
+    // "something was restored", not "restored for this account" — see the
+    // divergence check in the auth listener below.
+    let restoredForKey: string | null = null;
     let _origLocalSavedAt = 0;
     let _origLocalFbUpdated = 0;
     if (s && s.u) {
@@ -171,6 +187,7 @@ export function useAuth({
         _origLocalSavedAt = (cached.savedAt as number) || 0;
         _origLocalFbUpdated = (cached._fbUpdated as number) || 0;
         earlyRestored = true;
+        restoredForKey = s.u;
         const user: AuthUser = { u: s.u, d: s.d || s.u, e: s.u };
         setAuthUser(user);
         setSentryUser({ id: user.u, email: user.e });
@@ -250,6 +267,31 @@ export function useAuth({
         }
         return;
       }
+
+      // A DIFFERENT account now owns this tab, while React state still holds the
+      // previous one's progress.
+      //
+      // Reachable across tabs, which is ordinary use on a shared device. Auth
+      // persists to indexedDB/localStorage (see initFirebase), so signing out and
+      // in as someone else in tab 2 broadcasts to tab 1. Tab 1 gets the null
+      // first, but the `if (earlyRestored) return` above deliberately keeps the
+      // local session — it exists to survive spurious nulls when offline — so tab
+      // 1 never resets. It then receives the NEW user here, and nothing below
+      // reset stats: `earlyRestored` was still true from tab 1's own mount, so
+      // the restore beneath was skipped and the eventual isHydrate dispatch
+      // merged the new account's stats into the OLD account's state. That merge
+      // is additive by design (Math.max, unions), so the previous user's XP,
+      // badges and visited screens landed in this account and were then written
+      // to their blob and synced to Firestore. Additive means irreversible.
+      //
+      // Compare identity, not merely "did we restore something".
+      if (restoredForKey && restoredForKey !== k) {
+        cb.current.onUserChanged();
+        earlyRestored = false;
+        _origLocalSavedAt = 0;
+        _origLocalFbUpdated = 0;
+      }
+      restoredForKey = k;
 
       const localP = gP(k) as Record<string, unknown> | null;
 
@@ -342,67 +384,15 @@ export function useAuth({
             earlyRestored = true;
             let navProgress: unknown = fp || localP;
             if (fp && localP) {
+              // Same rules as the hydrate merge above — and for the same reason
+              // it now shares mergeSignInStats rather than restating them. This
+              // block was a second hand-written copy of the identical 20-field
+              // merge; it was missed when the rules were extracted, so it still
+              // carried the original omission of rs and levelQuizPasses and sat
+              // outside the drift guard that exists to catch exactly that.
               const _fpSt = (fp.stats || fp.st || {}) as Record<string, unknown>;
               const _lpSt = (localP.stats || localP.st || {}) as Record<string, unknown>;
-              const _safeMerged = {
-                xp: Math.max((_lpSt.xp as number) || 0, (_fpSt.xp as number) || 0),
-                spent: Math.max((_lpSt.spent as number) || 0, (_fpSt.spent as number) || 0),
-                lc: Math.max((_lpSt.lc as number) || 0, (_fpSt.lc as number) || 0),
-                gc: Math.max((_lpSt.gc as number) || 0, (_fpSt.gc as number) || 0),
-                sp: Math.max((_lpSt.sp as number) || 0, (_fpSt.sp as number) || 0),
-                de: Math.max((_lpSt.de as number) || 0, (_fpSt.de as number) || 0),
-                rc: Math.max((_lpSt.rc as number) || 0, (_fpSt.rc as number) || 0),
-                str: Math.max((_lpSt.str as number) || 0, (_fpSt.str as number) || 0),
-                pf: Math.max((_lpSt.pf as number) || 0, (_fpSt.pf as number) || 0),
-                mv: Math.max((_lpSt.mv as number) || 0, (_fpSt.mv as number) || 0),
-                hi: Math.max((_lpSt.hi as number) || 0, (_fpSt.hi as number) || 0),
-                // pr + badge-backing counters — monotonic; Math.max so unsynced local
-                // progress isn't clobbered by the remote base spread (...fpSt).
-                pr: Math.max((_lpSt.pr as number) || 0, (_fpSt.pr as number) || 0),
-                srsTotal: Math.max(
-                  (_lpSt.srsTotal as number) || 0,
-                  (_fpSt.srsTotal as number) || 0,
-                ),
-                mistakesMastered: Math.max(
-                  (_lpSt.mistakesMastered as number) || 0,
-                  (_fpSt.mistakesMastered as number) || 0,
-                ),
-                readingDone: Math.max(
-                  (_lpSt.readingDone as number) || 0,
-                  (_fpSt.readingDone as number) || 0,
-                ),
-                mediaVisits: Math.max(
-                  (_lpSt.mediaVisits as number) || 0,
-                  (_fpSt.mediaVisits as number) || 0,
-                ),
-                ct: [
-                  ...new Set([
-                    ...((_lpSt.ct as string[]) || []),
-                    ...((_fpSt.ct as string[]) || []),
-                  ]),
-                ],
-                vs: [
-                  ...new Set([
-                    ...((_lpSt.vs as string[]) || []),
-                    ...((_fpSt.vs as string[]) || []),
-                  ]),
-                ],
-                badges: [
-                  ...new Set([
-                    ...((_lpSt.badges as string[]) || []),
-                    ...((_fpSt.badges as string[]) || []),
-                  ]),
-                ],
-                diff: (function () {
-                  const DO: Record<string, number> = { beginner: 0, intermediate: 1, advanced: 2 };
-                  const lo =
-                    DO[_lpSt.diff as string] !== undefined ? DO[_lpSt.diff as string]! : -1;
-                  const fo =
-                    DO[_fpSt.diff as string] !== undefined ? DO[_fpSt.diff as string]! : -1;
-                  return lo >= fo ? _lpSt.diff || _fpSt.diff : _fpSt.diff || _lpSt.diff;
-                })(),
-              };
-              navProgress = Object.assign({}, fp, { stats: Object.assign({}, _fpSt, _safeMerged) });
+              navProgress = Object.assign({}, fp, { stats: mergeSignInStats(_lpSt, _fpSt) });
             }
             cb.current.onSignedIn({ user, progress: navProgress });
           }
