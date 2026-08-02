@@ -492,14 +492,20 @@ export default function AIConversation({
       if (res.status === 401)
         throw new Error('setup_error:Please sign in to use the AI conversation feature.');
       if (res.status === 429) {
-        if (errData.error === 'rate_limit_exceeded') {
+        // The burst branch used to match 'rate_limit_exceeded', which
+        // requireAuthedAI never emits — it sends 'rate_limited'. So every
+        // burst-limited learner fell through to the daily-quota message and was
+        // told their conversation allowance was gone until midnight, when they
+        // only had to wait a few seconds. classifyAiLimit is the single source
+        // of truth for the two different 429s; match through it rather than by
+        // hand (same fix already applied in LiveTutorScreen).
+        const limit = classifyAiLimit({ status: res.status, code: errData.error });
+        if (limit === 'burst') {
           throw new Error(
             "You're sending messages too quickly. Please wait a moment and try again.",
           );
         }
-        const resetTime = errData.resetAt
-          ? new Date(errData.resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : 'midnight UTC';
+        const resetTime = formatAiResetTime(errData.resetAt) || 'midnight UTC';
         throw new Error(
           `You've reached today's AI conversation limit. Your quota resets at ${resetTime}.`,
         );

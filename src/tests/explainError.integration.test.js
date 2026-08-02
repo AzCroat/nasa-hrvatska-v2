@@ -84,3 +84,35 @@ describe('explain-error.js — integration', () => {
     expect(capturedClaudeBody.system).not.toContain('USER ERROR CONTEXT');
   });
 });
+
+/**
+ * The type allowlist must cover every `type:` its callers actually send.
+ *
+ * McGame — the app's most-used exercise — has always sent 'multiple_choice',
+ * which was missing from VALID_TYPES. Every wrong answer in the quiz was
+ * rejected with 400 "Invalid type" and the explanation card silently never
+ * appeared, while the same feature worked in cloze, dictation and review.
+ * The 400 returns above the Anthropic call, so no AI quota was spent — the
+ * feature was simply dead on that screen.
+ */
+describe('explain-error.js — type allowlist covers every caller', () => {
+  // ClozeEngine, DictationScreen, ReviewScreen, McGame.
+  const CALLER_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice'];
+
+  it.each(CALLER_TYPES)('accepts type=%s', async (type) => {
+    const res = await onRequestPost(makeReq({ ...baseBody, type }));
+    expect(res.status).toBe(200);
+  });
+
+  it('describes a multiple-choice question accurately in the prompt', async () => {
+    await onRequestPost(makeReq({ ...baseBody, type: 'multiple_choice' }));
+    // Sending 'flashcard' instead would have passed the allowlist but told the
+    // model the wrong thing about the exercise.
+    expect(capturedClaudeBody.messages[0].content).toContain('multiple-choice');
+  });
+
+  it('still rejects a type no caller sends', async () => {
+    const res = await onRequestPost(makeReq({ ...baseBody, type: 'not_a_real_type' }));
+    expect(res.status).toBe(400);
+  });
+});
