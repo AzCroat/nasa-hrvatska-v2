@@ -71,8 +71,61 @@ const RELOAD_WINDOW_MS = 30 * 60 * 1000;
  */
 const PURGE_FRAGMENTS = ['-js', '-html'];
 
-function readAttempts(storageKey: string, now: number): number {
-  const raw = sessionStorage.getItem(storageKey);
+/**
+ * Marker used to bound the heal when sessionStorage is unusable.
+ *
+ * window.name survives a same-tab reload and is NOT behind the Web Storage
+ * permission gate, so it still works on exactly the profiles that made us need a
+ * fallback. Any existing value is preserved — the stamp is appended and matched
+ * by pattern, never assigned over.
+ */
+const NO_STORE_RE = /~nh-heal:(\d+)~/;
+
+// `name` is not on typeof globalThis in this TS config; narrow accessor rather
+// than casting globalThis wholesale.
+interface NamedGlobal {
+  name?: string;
+}
+
+function readNoStoreStamp(): number | null {
+  try {
+    const m = NO_STORE_RE.exec((globalThis as NamedGlobal).name || '');
+    return m ? Number(m[1]) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeNoStoreStamp(now: number): void {
+  try {
+    const g = globalThis as NamedGlobal;
+    g.name = (g.name || '').replace(NO_STORE_RE, '') + `~nh-heal:${now}~`;
+  } catch {
+    /* window.name unavailable — the heal still runs, just unbounded-by-marker */
+  }
+}
+
+/**
+ * Attempts used so far, or 'unavailable' when storage itself cannot be read.
+ *
+ * The distinction matters. sessionStorage.getItem THROWS (it does not return
+ * null) when cookies/site-data are blocked for the origin — supervised profiles,
+ * "block all cookies", some privacy modes and embedded webviews. That throw used
+ * to escape into reloadWithCachePurge's outer catch, which returned false, and
+ * false is the "heal did not happen" signal: no cache purge, no reload, straight
+ * to the error reporter. The self-healer was silently switched off entirely for
+ * those users, who then sat on a stale bundle until they manually hard-refreshed.
+ *
+ * Conflating it with "0 attempts" would be worse than the bug: with no way to
+ * persist a count, every chunk error would reload forever.
+ */
+function readAttempts(storageKey: string, now: number): number | 'unavailable' {
+  let raw: string | null;
+  try {
+    raw = sessionStorage.getItem(storageKey);
+  } catch {
+    return 'unavailable';
+  }
   if (!raw) return 0;
   try {
     const parsed = JSON.parse(raw) as { n?: unknown; ts?: unknown };
@@ -90,12 +143,48 @@ function readAttempts(storageKey: string, now: number): number {
   return 0;
 }
 
+/**
+ * One heal per RELOAD_WINDOW_MS when the attempt count cannot be persisted.
+ * Returns false if the window's single heal has already been spent.
+ */
+function claimNoStoreHeal(now: number): boolean {
+  const last = readNoStoreStamp();
+  if (last !== null && now - last < RELOAD_WINDOW_MS) return false;
+  writeNoStoreStamp(now);
+  return true;
+}
+
 export function reloadWithCachePurge(storageKey: string): boolean {
   try {
     const now = Date.now();
     const attempts = readAttempts(storageKey, now);
+
+    // Storage blocked: heal once per window instead of not at all. One
+    // unbudgeted reload is strictly better than leaving the user on a broken
+    // bundle, and the window keeps a permanently-failing chunk from looping.
+    if (attempts === 'unavailable') {
+      if (!claimNoStoreHeal(now)) return false;
+      return purgeAndReload();
+    }
+
     if (attempts >= MAX_ATTEMPTS) return false;
-    sessionStorage.setItem(storageKey, JSON.stringify({ n: attempts + 1, ts: now }));
+    try {
+      sessionStorage.setItem(storageKey, JSON.stringify({ n: attempts + 1, ts: now }));
+    } catch {
+      // getItem succeeded but setItem threw (quota, or a profile that permits
+      // reads only). Without a recorded attempt the budget cannot advance, so
+      // fall back to the same one-per-window marker rather than reloading
+      // unbounded.
+      if (!claimNoStoreHeal(now)) return false;
+    }
+    return purgeAndReload();
+  } catch (_) {
+    return false;
+  }
+}
+
+function purgeAndReload(): boolean {
+  {
     // The purge is best-effort; the RELOAD is the part that must happen. Reading
     // Cache Storage can throw synchronously in privacy-restricted profiles, and
     // letting that escape meant the heal gave up entirely — no purge AND no
@@ -121,7 +210,5 @@ export function reloadWithCachePurge(storageKey: string): boolean {
     }
     if (!purging) globalThis.location.reload();
     return true;
-  } catch (_) {
-    return false;
   }
 }

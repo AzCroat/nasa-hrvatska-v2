@@ -216,9 +216,19 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
     expect(typeof rec.ts).toBe('number');
   });
 
-  it('returns false when sessionStorage is unavailable (catch branch)', () => {
-    // Replace the global sessionStorage with a proxy that throws on first access —
-    // this exercises the catch { return false } path in reloadWithCachePurge.
+  it('still heals once when sessionStorage is unavailable', () => {
+    // This assertion used to require `false` — i.e. it pinned the behaviour where
+    // a storage-blocked profile got NO heal at all. false is main.tsx's "heal did
+    // not happen" signal, so the purge+reload was skipped and the user was left on
+    // a stale bundle while Sentry collected the error. The test was describing the
+    // bug, not guarding against it.
+    //
+    // Correct behaviour: heal once per window, bounded by a window.name marker
+    // (window.name survives a same-tab reload and is not behind the storage
+    // permission gate). Full coverage of the one-shot, the window expiry and the
+    // read-only-storage case lives in chunk-heal-storage-blocked.test.ts.
+    const origName = globalThis.name;
+    globalThis.name = '';
     vi.stubGlobal(
       'sessionStorage',
       new Proxy(
@@ -230,6 +240,12 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
         },
       ),
     );
-    expect(reloadWithCachePurge('nh_ck_test')).toBe(false);
+    try {
+      expect(reloadWithCachePurge('nh_ck_test')).toBe(true);
+      // ...and exactly once, so a chunk that fails every time cannot loop.
+      expect(reloadWithCachePurge('nh_ck_test')).toBe(false);
+    } finally {
+      globalThis.name = origName;
+    }
   });
 });
