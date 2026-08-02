@@ -16,7 +16,7 @@ import {
   getStreak,
   recordJourneyMilestone,
 } from '../lib/appUtils.js';
-import { lsGet, lsSet, lsRemove } from '../lib/safeStorage';
+import { lsGet, lsSet, lsRemove, ssGet, ssSet, ssRemove } from '../lib/safeStorage';
 import { useContent } from './useContent';
 import { getActiveCampaign } from '../lib/seasonalCampaign';
 import { trackComplete } from '../lib/learnerStyle.js';
@@ -199,12 +199,10 @@ export function useAward({
       // remount to distinguish a real finish from a back-press, and the
       // started===_effectiveEx guard keeps it activity-accurate.
       if (_effectiveEx) {
-        try {
-          const started = sessionStorage.getItem('nh_session_started');
-          if (started && started === _effectiveEx) {
-            sessionStorage.setItem('nh_session_completed', _effectiveEx);
-          }
-        } catch {}
+        const started = ssGet('nh_session_started');
+        if (started && started === _effectiveEx) {
+          ssSet('nh_session_completed', _effectiveEx);
+        }
       }
       if (!Number.isFinite(amt) || amt === 0) return;
       // Session-Rec #6 (synced): count a production rep on completion of ANY
@@ -555,7 +553,7 @@ export function useAward({
         } catch (_) {}
       }
       if (curEx) {
-        const _lsStartTs = parseInt(sessionStorage.getItem('nh_ex_start') || '0');
+        const _lsStartTs = parseInt(ssGet('nh_ex_start') || '0');
         const _lsDur = _lsStartTs ? Date.now() - _lsStartTs : 0;
         const _lsTypeMap: Record<string, string> = {
           flash: 'flashcards',
@@ -577,7 +575,7 @@ export function useAward({
         const _lsAType = _lsTypeMap[curEx] || (curEx.startsWith('vocab_') ? 'flashcards' : null);
         if (_lsAType) {
           trackComplete(_lsAType, _lsDur);
-          sessionStorage.removeItem('nh_ex_start');
+          ssRemove('nh_ex_start');
           // Write per-type daily session counts — read by DailyPlanCard to give the AI planner context
           const _scTypeMap: Record<string, string> = {
             flashcards: 'flashcards',

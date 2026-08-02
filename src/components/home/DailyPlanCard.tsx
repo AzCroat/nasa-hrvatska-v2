@@ -5,7 +5,7 @@ import AppContext from '../../context/AppContext';
 import { getStyleContextForAPI } from '../../lib/learnerStyle.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { localDateStr } from '../../lib/dateUtils';
-import { ssGet, ssRemove } from '../../lib/safeStorage';
+import { lsGet, ssGet, ssSet, ssRemove } from '../../lib/safeStorage';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -207,20 +207,23 @@ export default function DailyPlanCard({
       .map(([w]) => w);
     let majaMemory: { mistakePatterns?: unknown[] } = {};
     try {
-      majaMemory = JSON.parse(localStorage.getItem('majaMemory') || '{}');
+      majaMemory = JSON.parse(lsGet('majaMemory') || '{}');
     } catch (_) {}
     const majaPatterns = Array.isArray(majaMemory.mistakePatterns)
       ? majaMemory.mistakePatterns.slice(0, 10)
       : [];
-    const goal = localStorage.getItem('nh_goal') || 'fluent';
+    // Unlike the cache helpers above, this block sits in no try/catch — a raw
+    // read here threw straight out of collectPayload on a storage-blocked
+    // profile, so the plan was never even requested.
+    const goal = lsGet('nh_goal') || 'fluent';
     const streak = getStreak();
     const today = localDateStr();
     const recentActivity = {
-      flashcards: parseInt(localStorage.getItem('nh_session_flashcards_' + today) || '0', 10),
-      listening: parseInt(localStorage.getItem('nh_session_listening_' + today) || '0', 10),
-      speaking: parseInt(localStorage.getItem('nh_session_speaking_' + today) || '0', 10),
-      writing: parseInt(localStorage.getItem('nh_session_writing_' + today) || '0', 10),
-      lastActive: parseInt(localStorage.getItem('nh_last_active') || '0', 10),
+      flashcards: parseInt(lsGet('nh_session_flashcards_' + today) || '0', 10),
+      listening: parseInt(lsGet('nh_session_listening_' + today) || '0', 10),
+      speaking: parseInt(lsGet('nh_session_speaking_' + today) || '0', 10),
+      writing: parseInt(lsGet('nh_session_writing_' + today) || '0', 10),
+      lastActive: parseInt(lsGet('nh_last_active') || '0', 10),
     };
     return {
       level,
@@ -276,9 +279,9 @@ export default function DailyPlanCard({
   useEffect(() => {
     function onVisible() {
       if (document.visibilityState !== 'visible') return;
-      const pending = sessionStorage.getItem('nh_plan_pending_idx');
+      const pending = ssGet('nh_plan_pending_idx');
       if (pending !== null) {
-        sessionStorage.removeItem('nh_plan_pending_idx');
+        ssRemove('nh_plan_pending_idx');
         const idx = parseInt(pending, 10);
         if (!isNaN(idx)) {
           markDone(idx);
@@ -624,9 +627,9 @@ export default function DailyPlanCard({
                 // screen errors and the user refreshes, this activity is NOT
                 // wrongly marked done. It is only committed to localStorage
                 // when the user successfully returns to the home screen.
-                sessionStorage.setItem('nh_plan_pending_idx', i.toString());
+                ssSet('nh_plan_pending_idx', i.toString());
                 if (sCurEx) sCurEx(act.id);
-                sessionStorage.setItem('nh_ex_start', Date.now().toString());
+                ssSet('nh_ex_start', Date.now().toString());
                 setScr(screen);
               }}
               disabled={!screen}

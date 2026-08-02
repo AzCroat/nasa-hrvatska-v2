@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { H } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { evalCk, type CkRule } from '../../lib/learnPathRules';
+import { lsGet, ssSet } from '../../lib/safeStorage';
 import type { Stats, LearnPathItem } from '../../types';
 import type { LevelQuizQuestion } from '../learn/LevelQuiz';
 
@@ -87,7 +88,7 @@ async function buildLevelQuizQuestions(
 // A topic is "decayed" when >40% of its reviewed words are past their due date.
 function getDecayedTopics(learnPath: ReadonlyArray<{ items: ReadonlyArray<{ topic?: string }> }>) {
   try {
-    const srData = JSON.parse(localStorage.getItem('nh_sr') || '{}');
+    const srData = JSON.parse(lsGet('nh_sr') || '{}');
     const now = Date.now();
     const decayed = new Set();
     learnPath.forEach((lv) =>
@@ -182,9 +183,7 @@ const STAGE_NAMES = [
 // Returns a Set of level indices whose checkpoint has been passed
 function getPassedCheckpoints() {
   try {
-    return new Set(
-      Object.keys(JSON.parse(localStorage.getItem('nh_checkpoints') || '{}')).map(Number),
-    );
+    return new Set(Object.keys(JSON.parse(lsGet('nh_checkpoints') || '{}')).map(Number));
   } catch {
     return new Set();
   }
@@ -225,8 +224,8 @@ export default function LearnPath({
         levelData.items as unknown as ItemWithCk[],
         V,
       );
-      sessionStorage.setItem('nh_level_quiz', JSON.stringify({ levelNumber, questions }));
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_level_quiz', JSON.stringify({ levelNumber, questions }));
+      ssSet('nh_ex_start', Date.now().toString());
       setScr('levelquiz');
     } finally {
       setQuizLaunching(false);

@@ -13,6 +13,14 @@ import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _getVocab, _buildAdaptivePool } from '../lib/exerciseData';
 import { reportError } from '../lib/errorReporter';
+// Web Storage access THROWS (SecurityError) — it does not return null — when the
+// profile blocks cookies/site data (Family Link, managed profiles, "block all
+// cookies", some embedded webviews). Every launcher below writes nh_ex_start
+// immediately BEFORE its setScr(...) call, and goBack()'s read is its literal
+// first statement, so a raw call here meant nothing opened and nothing exited:
+// the app was bricked for those profiles, not merely degraded. sessionStorage is
+// governed by the same permission gate as localStorage — see safeStorage.ts.
+import { lsGet, lsSet, lsRemove, ssGet, ssSet, ssRemove } from '../lib/safeStorage';
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -167,7 +175,7 @@ export function useScreenLauncher({
 
   const resumeLesson = useCallback(async (): Promise<void> => {
     try {
-      const r = JSON.parse(localStorage.getItem('nh_lesson_resume') || 'null') as {
+      const r = JSON.parse(lsGet('nh_lesson_resume') || 'null') as {
         topic?: string;
       } | null;
       if (!r || !r.topic) return;
@@ -179,9 +187,7 @@ export function useScreenLauncher({
         // resumable lesson the user had not finished — so bail without touching it.
         if (Object.keys(V).length === 0) return;
         // Stale resume token referencing an unknown topic — clear it and go to learn path
-        try {
-          localStorage.removeItem('nh_lesson_resume');
-        } catch (_) {}
+        lsRemove('nh_lesson_resume');
         setScr('learnpath');
         return;
       }
@@ -196,7 +202,7 @@ export function useScreenLauncher({
       sLsl(-1);
       sQi([]);
       sCurEx('vocab_' + r.topic);
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       setScr('lesson');
     } catch (_) {}
   }, [setScr, sCurEx, sLt, sLi, sLx, sLs, sLp, sLa, sLsl, sQi]);
@@ -222,7 +228,7 @@ export function useScreenLauncher({
       returnContextRef.current = { tab: tab || 'practice', screen: currentScreen || 'dashboard' };
       setMcInitQ(questions);
       sCurEx('mcgame');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('quiz');
       setScr('mcgame');
     },
@@ -261,11 +267,11 @@ export function useScreenLauncher({
           { hr: w[0], en: w[1], ph: w[2], opts: _sh([w[1]].concat(wr)), correct: w[1] },
         ] as McQuestion[];
       });
-      sessionStorage.setItem('nh_checkpoint_level', String(levelIndex));
+      ssSet('nh_checkpoint_level', String(levelIndex));
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
       setMcInitQ(qs);
       sCurEx('mcgame');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('quiz');
       setScr('mcgame');
     },
@@ -306,9 +312,9 @@ export function useScreenLauncher({
       }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
       setMcInitQ(qs);
-      sessionStorage.setItem('nh_legendary_mode', '1');
+      ssSet('nh_legendary_mode', '1');
       sCurEx('mcgame');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('quiz');
       setScr('mcgame');
     },
@@ -317,19 +323,20 @@ export function useScreenLauncher({
 
   const mcGameComplete = useCallback(
     (questions: McQuestion[], score: number, mistakes: unknown[]): void => {
-      const cpLevel = sessionStorage.getItem('nh_checkpoint_level');
+      const cpLevel = ssGet('nh_checkpoint_level');
       if (cpLevel !== null) {
         const pct = questions.length > 0 ? score / questions.length : 0;
         if (pct >= 0.7) {
           try {
-            const checkpoints = JSON.parse(
-              localStorage.getItem('nh_checkpoints') || '{}',
-            ) as Record<string, boolean>;
+            const checkpoints = JSON.parse(lsGet('nh_checkpoints') || '{}') as Record<
+              string,
+              boolean
+            >;
             checkpoints[cpLevel] = true;
-            localStorage.setItem('nh_checkpoints', JSON.stringify(checkpoints));
+            lsSet('nh_checkpoints', JSON.stringify(checkpoints));
           } catch (_) {}
         }
-        sessionStorage.removeItem('nh_checkpoint_level');
+        ssRemove('nh_checkpoint_level');
       }
       setMcResultQ(questions);
       setMcResultScore(score);
@@ -344,7 +351,7 @@ export function useScreenLauncher({
       returnContextRef.current = { tab: tab || 'practice', screen: currentScreen || 'dashboard' };
       setFcInitPool(pool);
       sCurEx('flashcards');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('flashcards');
       setScr('flashcards');
     },
@@ -356,7 +363,7 @@ export function useScreenLauncher({
       returnContextRef.current = { tab: tab || 'practice', screen: currentScreen || 'dashboard' };
       setLsInitQ(questions);
       sCurEx('listening');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('listening');
       setScr('listening');
     },
@@ -368,7 +375,7 @@ export function useScreenLauncher({
       returnContextRef.current = { tab: tab || 'practice', screen: currentScreen || 'dashboard' };
       setMatchInitPool(pool);
       sCurEx('match');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('matching');
       setScr('match');
     },
@@ -385,7 +392,7 @@ export function useScreenLauncher({
       sSr(null);
       sSsc(0);
       sCurEx('speaking');
-      sessionStorage.setItem('nh_ex_start', Date.now().toString());
+      ssSet('nh_ex_start', Date.now().toString());
       trackStart('speaking');
       setScr('speaking');
     },
@@ -437,7 +444,7 @@ export function useScreenLauncher({
         sLa(false);
         sLsl(-1);
         sQi([]);
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         trackStart('flashcards');
         setScr('lesson');
         sCurEx('vocab_' + topic);
@@ -463,7 +470,7 @@ export function useScreenLauncher({
         sGs(0);
         sGa(false);
         sGsl(-1);
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         const returnScreen =
           currentScreen && currentScreen !== 'dashboard' ? currentScreen : 'learnpath';
         returnContextRef.current = { tab: 'learn', screen: returnScreen };
@@ -477,7 +484,7 @@ export function useScreenLauncher({
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
         setLsInitQ(pool);
         sCurEx('listening');
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         trackStart('listening');
         setScr('listening');
       } else if (item.go === 'speaking') {
@@ -495,7 +502,7 @@ export function useScreenLauncher({
         sSr(null);
         sSsc(0);
         sCurEx('speaking');
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         trackStart('speaking');
         setScr('speaking');
       } else if (item.go === 'mcgame') {
@@ -526,14 +533,14 @@ export function useScreenLauncher({
         const lessons = await getLessons();
         const l = lessons.find((x) => x.id === item.lessonId);
         if (!l) return;
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
         trackStart('grammar');
         setAnimLesson(l);
         sCurEx('animlesson');
         setScr('animlesson');
       } else {
-        sessionStorage.setItem('nh_ex_start', Date.now().toString());
+        ssSet('nh_ex_start', Date.now().toString());
         // Always return to learnpath after completing any path item (black hole or direct screen).
         // This means the user only ever needs to click "Done" or "Back" — they land back on the path.
         const returnScreen =
@@ -590,9 +597,8 @@ export function useScreenLauncher({
           lpDwellRef.current = { screen: screenId, statType: bhStat, timer };
         }
         if (item.go === 'readlist') {
-          if (item.filter)
-            sessionStorage.setItem('nh_readlist_filter', JSON.stringify(item.filter));
-          else sessionStorage.removeItem('nh_readlist_filter');
+          if (item.filter) ssSet('nh_readlist_filter', JSON.stringify(item.filter));
+          else ssRemove('nh_readlist_filter');
         }
         // 'dashboard' is a milestone marker (e.g. "200 XP!"), not a navigable screen.
         // setScr('dashboard') → navigate('/') is a no-op when already on the home tab.
@@ -675,7 +681,7 @@ export function useScreenLauncher({
             }
             setFcInitPool(_sh(globalPool).slice(0, 20));
             sCurEx('flashcards');
-            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            ssSet('nh_ex_start', Date.now().toString());
             trackStart('flashcards');
             setScr('flashcards');
           } else if (screen === 'mcgame') {
@@ -703,7 +709,7 @@ export function useScreenLauncher({
             }
             setMcInitQ(qs);
             sCurEx('mcgame');
-            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            ssSet('nh_ex_start', Date.now().toString());
             trackStart('quiz');
             setScr('mcgame');
           } else {
@@ -718,7 +724,7 @@ export function useScreenLauncher({
             ]);
             setMatchInitPool(matchPool);
             sCurEx('match');
-            sessionStorage.setItem('nh_ex_start', Date.now().toString());
+            ssSet('nh_ex_start', Date.now().toString());
             trackStart('matching');
             setScr('match');
           }
@@ -731,7 +737,7 @@ export function useScreenLauncher({
           }
           setLsInitQ(pool);
           sCurEx('listening');
-          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          ssSet('nh_ex_start', Date.now().toString());
           trackStart('listening');
           setScr('listening');
         } else if (screen === 'speaking') {
@@ -771,7 +777,7 @@ export function useScreenLauncher({
           sSr(null);
           sSsc(0);
           sCurEx('speaking');
-          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          ssSet('nh_ex_start', Date.now().toString());
           trackStart('speaking');
           setScr('speaking');
         } else if (screen === 'animlesson') {
@@ -787,7 +793,7 @@ export function useScreenLauncher({
           }
           setAnimLesson(pick);
           sCurEx('animlesson');
-          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          ssSet('nh_ex_start', Date.now().toString());
           trackStart('grammar');
           setScr(screen);
         } else {
@@ -802,10 +808,10 @@ export function useScreenLauncher({
           // session-completion key compared against nh_session_started, and changing
           // it would strand the session at N-1/N (completion never fires).
           if (screen === 'cloze') {
-            sessionStorage.setItem('nh_cloze_topic', category ?? '');
+            ssSet('nh_cloze_topic', category ?? '');
           }
           sCurEx(ex);
-          sessionStorage.setItem('nh_ex_start', Date.now().toString());
+          ssSet('nh_ex_start', Date.now().toString());
           setScr(screen);
         }
       } catch (err) {
@@ -840,7 +846,7 @@ export function useScreenLauncher({
   );
 
   const goBack = useCallback((): void => {
-    const startTs = parseInt(sessionStorage.getItem('nh_ex_start') || '0');
+    const startTs = parseInt(ssGet('nh_ex_start') || '0');
     const dur = startTs ? Date.now() - startTs : 0;
     // Only mark the exercise as XP-cooldown-done if the user spent meaningful time (≥30s).
     // Calling markExerciseDone unconditionally on back-press consumed the daily XP slot
@@ -868,7 +874,7 @@ export function useScreenLauncher({
       const aType = typeMap[curEx] || (curEx.startsWith('vocab_') ? 'flashcards' : null);
       if (aType) trackAbandon(aType, dur);
     }
-    sessionStorage.removeItem('nh_ex_start');
+    ssRemove('nh_ex_start');
     sCurEx('');
 
     const ctx = returnContextRef.current;
