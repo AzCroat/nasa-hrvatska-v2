@@ -16,7 +16,7 @@ import {
   earnFreeze,
   recordJourneyMilestone,
 } from './lib/appUtils.js';
-import { touchSession, isSessionExpired, fbApplyDelta } from './lib/firebase.js';
+import { touchSession, isSessionExpired, isValidEmail, fbApplyDelta } from './lib/firebase.js';
 import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
@@ -1136,9 +1136,37 @@ function App() {
     }
   }, [authScreen]);
 
-  // Session expiry guard
+  // Session expiry guard — only for accounts that can actually sign back in.
+  //
+  // This is a shared-device security control: sign an idle user out so the next
+  // person cannot use their account. It only makes sense for an identity with a
+  // way back in. Applied to a guest it protects nothing and destroys data,
+  // because doOut() deletes every 'nh_' localStorage key (useAuth.ts ~700) —
+  // the SRS deck, streak, weekly XP, quest state.
+  //
+  // Two cohorts were being wrongly signed out:
+  //
+  //  - LEGACY GUEST (anonymous sign-in unavailable; authUser === null,
+  //    isGuest === true). sS() — the only writer of the 'uS' session record —
+  //    runs solely in the fbUser branch, and touchSession() is a no-op when no
+  //    record exists, so a legacy guest never has one. isSessionExpired()
+  //    returns true when the record is ABSENT, so this fired on its very first
+  //    tick: every legacy guest was signed out and wiped 5 minutes in,
+  //    deterministically, then again 5 minutes after that.
+  //
+  //  - ANONYMOUS GUEST (authUser set, but no email/password). They do have a
+  //    'uS' record, so they survived until the 30-minute idle threshold — and
+  //    then lost everything permanently, because signInAnonymously() mints a
+  //    NEW uid. There is no credential to sign back in with; the old Firestore
+  //    document is orphaned and the local mirror has already been deleted.
+  //
+  // isValidEmail(authUser.e) is the durable test. For a real account 'e' is the
+  // Firebase email; for an anonymous guest the listener falls back to the raw
+  // uid (useAuth.ts ~216), which is not an email. It needs no extra flag
+  // threaded through sS()/early-restore, so it stays correct across reloads.
   useEffect(() => {
     if (authScreen !== 'app') return undefined;
+    if (isGuest || !authUser || !isValidEmail(authUser.e)) return undefined;
     const iv = setInterval(
       () => {
         if (isSessionExpired()) doOut();
@@ -1147,7 +1175,7 @@ function App() {
     );
     return () => clearInterval(iv);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authScreen]);
+  }, [authScreen, isGuest, authUser]);
   // Touch session on user interaction
   useEffect(() => {
     if (authScreen !== 'app') return undefined;
