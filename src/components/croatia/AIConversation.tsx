@@ -20,6 +20,7 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
 import { stopAudio } from '../../lib/audio.ts';
 import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
+import { normalizeJournal } from '../../lib/journalEntry';
 import AIConversationHeader from './AIConversationHeader';
 import AIConversationWriteSetup from './AIConversationWriteSetup';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
@@ -851,10 +852,16 @@ export default function AIConversation({
 
   function saveWordToJournal() {
     if (!tooltip?.translation) return;
-    const entry = { w: tooltip.word, t: tooltip.translation, added: Date.now() };
+    // Write the canonical { hr, en } shape. This was the one writer using
+    // { w, t, added }, which every reader (VocabJournal, StoriesTab,
+    // AIConversationResult, useJournal) had to not-understand: they all read
+    // `.hr`, so words saved from this tooltip never appeared in the journal even
+    // before the remote merge started deleting them. normalizeJournal below
+    // still understands the old shape, so entries already stored survive.
+    const entry = { hr: tooltip.word, en: tooltip.translation, date: Date.now() };
     try {
-      const existing = JSON.parse(localStorage.getItem('uJournal') || '[]');
-      if (!existing.find((e: { w: string }) => e.w === tooltip.word)) {
+      const existing = normalizeJournal(JSON.parse(localStorage.getItem('uJournal') || '[]'));
+      if (!existing.some((e) => e.hr === tooltip.word)) {
         const updated = [...existing, entry];
         localStorage.setItem('uJournal', JSON.stringify(updated));
         setJWords(updated);

@@ -22,6 +22,7 @@ import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
 import { normalizePersonaKey } from './personaKey';
+import { mergeJournals } from './journalEntry';
 
 export interface RemoteProgressSetters {
   setFavs: (favs: unknown[]) => void;
@@ -182,24 +183,26 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     setFavs(mFv);
   }
 
-  // ── Journal — dedup union keyed on word ───────────────────────────────────
+  // ── Journal — dedup union keyed on the Croatian word ──────────────────────
+  //
+  // This keyed on `e.word` and filtered out anything without it. No writer in
+  // the app has ever produced `.word` — they write `{ hr, en }`, or `{ w, t }`
+  // from the AIConversation tooltip — so EVERY entry was dropped, the union came
+  // out empty, and that empty array was then written straight over `uJournal`
+  // and into React state below. The next progress snapshot pushed `journal: []`
+  // to Firestore, carrying the loss to the cloud and to the user's other
+  // devices. With sync on a two-minute interval, a saved word survived at most
+  // one cycle.
+  //
+  // mergeJournals normalizes both sides first, so the three historical shapes
+  // all survive, and keys on `hr` — the field every reader displays and SRS
+  // marks against.
   if (fp.journal) {
-    let lJ: unknown[] = [];
+    let lJ: unknown = [];
     try {
       lJ = JSON.parse(lsGet('uJournal') || '[]');
     } catch (_) {}
-    const jM = new Map<string, unknown>();
-    // Remote entries set first; local entries set second so local wins on conflict
-    // (preserves user notes/edits made on this device over older remote entries).
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fp.journal.forEach((e: any) => {
-      if (e?.word) jM.set(e.word, e);
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    lJ.forEach((e: any) => {
-      if (e?.word) jM.set(e.word, e);
-    });
-    const mJ = Array.from(jM.values());
+    const mJ = mergeJournals(lJ, fp.journal);
     try {
       _safeSet('uJournal', JSON.stringify(mJ));
     } catch (e: unknown) {

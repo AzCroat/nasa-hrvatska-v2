@@ -199,20 +199,58 @@ describe('applyRemoteProgress — journal merge', () => {
   beforeEach(clearLS);
   afterEach(clearLS);
 
-  it('merges journal entries dedup on word', () => {
-    localStorage.setItem('uJournal', JSON.stringify([{ word: 'kuća', translation: 'house' }]));
+  // The fixture here used to be { word, translation } — a shape NO writer in the
+  // app produces. That matched the merge's own `if (e?.word)` filter, so the
+  // test agreed with the bug and passed while every real entry was being
+  // discarded. These use the shapes the app actually writes.
+
+  it('merges entries the app really writes, dedup on the Croatian word', () => {
+    localStorage.setItem('uJournal', JSON.stringify([{ hr: 'kuća', en: 'house' }]));
     const setters = makeSetters();
     applyRemoteProgress(
       {
         journal: [
-          { word: 'kuća', translation: 'house' }, // duplicate
-          { word: 'auto', translation: 'car' },
+          { hr: 'kuća', en: 'house' }, // duplicate
+          { hr: 'auto', en: 'car' },
         ],
       },
       setters,
     );
-    const merged: unknown[] = setters.setJWords.mock.calls[0][0];
+    const merged = setters.setJWords.mock.calls[0][0] as Array<{ hr: string }>;
     expect(merged).toHaveLength(2);
+    expect(new Set(merged.map((e) => e.hr))).toEqual(new Set(['kuća', 'auto']));
+  });
+
+  it('does NOT wipe local words when the remote journal is empty', () => {
+    // The regression itself. An empty array is truthy, so this branch ran on
+    // every sync; the union came out empty and overwrote uJournal, and the next
+    // snapshot pushed journal: [] to Firestore.
+    localStorage.setItem('uJournal', JSON.stringify([{ hr: 'kuća', en: 'house' }]));
+    const setters = makeSetters();
+    applyRemoteProgress({ journal: [] }, setters);
+    const merged = setters.setJWords.mock.calls[0][0] as Array<{ hr: string }>;
+    expect(merged).toHaveLength(1);
+    expect(JSON.parse(localStorage.getItem('uJournal') || '[]')).toHaveLength(1);
+  });
+
+  it('keeps words saved by the AIConversation tooltip, which used { w, t }', () => {
+    localStorage.setItem('uJournal', JSON.stringify([{ w: 'more', t: 'sea', added: 123 }]));
+    const setters = makeSetters();
+    applyRemoteProgress({ journal: [{ hr: 'auto', en: 'car' }] }, setters);
+    const merged = setters.setJWords.mock.calls[0][0] as Array<{ hr: string; en: string }>;
+    expect(new Set(merged.map((e) => e.hr))).toEqual(new Set(['more', 'auto']));
+    expect(merged.find((e) => e.hr === 'more')?.en).toBe('sea');
+  });
+
+  it('drops only entries with no usable word', () => {
+    localStorage.setItem(
+      'uJournal',
+      JSON.stringify([{ hr: 'pas', en: 'dog' }, { en: 'orphan' }, null]),
+    );
+    const setters = makeSetters();
+    applyRemoteProgress({ journal: [] }, setters);
+    const merged = setters.setJWords.mock.calls[0][0] as Array<{ hr: string }>;
+    expect(merged.map((e) => e.hr)).toEqual(['pas']);
   });
 });
 
