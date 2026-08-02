@@ -714,13 +714,57 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     } catch (_) {}
   }
 
-  // ── Adaptive learning data — remote wins when local empty (2026-05-20) ──────
-  // These are JSON objects representing skill diagnoses and mistake tallies.
-  // Both are read-mostly and write-during-active-use, so the additive policy is:
-  // accept remote only when local is null (i.e., new device first sync).
+  // ── Adaptive learning data (2026-05-20) ────────────────────────────────────
+  // These four were originally merged with one blanket policy — "accept remote
+  // only when local is null" — on the reasoning that they are all read-mostly
+  // adaptive state. They are not the same shape, and for nh_freq_learned that
+  // policy destroyed progress.
+  //
+  // nh_freq_learned is a number[] of frequency ranks the learner has marked
+  // known. markFrequencyWordLearned only ever pushes; nothing removes. It is a
+  // GROWING SET, which the merge rules say to union — and a set that never
+  // shrinks locally can never legitimately shrink remotely either. Under the
+  // null-check it did: learn 50 words on the phone, open the laptop where you
+  // had learned 3, and the laptop's local is non-null so the remote 50 are
+  // dropped; the laptop then uploads its 3, overwriting them at the source.
+  // Whichever device synced last won and the rest was gone for good. That is a
+  // stat reduced during a remote merge, which this codebase forbids outright.
+  if (Array.isArray(fp.nh_freq_learned)) {
+    try {
+      const localRanks: unknown = JSON.parse(lsGet('nh_freq_learned') || '[]');
+      const union = new Set<number>(Array.isArray(localRanks) ? localRanks : []);
+      for (const r of fp.nh_freq_learned) if (typeof r === 'number') union.add(r);
+      _safeSet('nh_freq_learned', JSON.stringify([...union].sort((a, b) => a - b)));
+    } catch (_) {}
+  }
+
+  // nh_grammar_diagnosis is a single generated report, { data, generatedAt,
+  // level } — carrying its own timestamp, exactly like majaMemory above. Newest
+  // wins. Under the null-check a diagnosis run on one device never reached any
+  // other device that had ever run one.
+  if (fp.nh_grammar_diagnosis) {
+    try {
+      const localRaw = lsGet('nh_grammar_diagnosis');
+      const local = localRaw ? JSON.parse(localRaw) : null;
+      const remoteAt = (fp.nh_grammar_diagnosis as { generatedAt?: number }).generatedAt || 0;
+      const localAt = (local as { generatedAt?: number } | null)?.generatedAt || 0;
+      if (!local || remoteAt > localAt) {
+        _safeSet('nh_grammar_diagnosis', JSON.stringify(fp.nh_grammar_diagnosis));
+      }
+    } catch (_) {}
+  }
+
+  // The remaining two KEEP the null-check, deliberately — do not "make them
+  // additive for consistency":
+  //   nh_aspect_mistakes is the set of aspect pairs still being got wrong, and
+  //   AspectDrillScreen.clearMistake() DELETES from it on a correct answer. A
+  //   union would resurrect every mistake cleared on another device, and the
+  //   learner could never clear one for good.
+  //   nh_writing_mistakes is a rolling log capped at the last 50 corrections
+  //   (WritingScreen slice(-50)) feeding the diagnosis prompt. Repeated entries
+  //   are meaningful, so there is no id to union on, and it is a buffer rather
+  //   than progress — losing older entries is its normal behaviour.
   for (const [k, remote] of [
-    ['nh_freq_learned', fp.nh_freq_learned],
-    ['nh_grammar_diagnosis', fp.nh_grammar_diagnosis],
     ['nh_aspect_mistakes', fp.nh_aspect_mistakes],
     ['nh_writing_mistakes', fp.nh_writing_mistakes],
   ] as const) {

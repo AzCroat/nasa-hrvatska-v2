@@ -58,9 +58,7 @@ test.describe('Guest mode', () => {
     await expect
       .poll(
         async () =>
-          await page.evaluate(() =>
-            Object.keys(localStorage).filter((k) => k.startsWith('uP_')),
-          ),
+          await page.evaluate(() => Object.keys(localStorage).filter((k) => k.startsWith('uP_'))),
         { timeout: 15_000 },
       )
       .toContain('uP_guest');
@@ -69,10 +67,9 @@ test.describe('Guest mode', () => {
   test('a guest blob survives a reload and is read back', async ({ page }) => {
     await enterGuest(page);
     await expect
-      .poll(
-        async () => await page.evaluate(() => localStorage.getItem('uP_guest') !== null),
-        { timeout: 15_000 },
-      )
+      .poll(async () => await page.evaluate(() => localStorage.getItem('uP_guest') !== null), {
+        timeout: 15_000,
+      })
       .toBe(true);
 
     // Stamp a recognisable value into the stored blob, reload, and confirm the
@@ -102,5 +99,70 @@ test.describe('Guest mode', () => {
         { timeout: 15_000 },
       )
       .toBe('GuestRestoreProbe');
+  });
+
+  test('a second guest session does not wipe the first one', async ({ page }) => {
+    // The restore flag is per-App-mount state, so a page reload always clears it
+    // — which is why the reload test above passed while this path was broken.
+    // Only an in-SPA guest -> signed-out -> guest cycle keeps the flag alive, and
+    // leaving guest mode does NOT delete uP_guest: doOut() removes 'uP_' + uid
+    // and a legacy guest has no uid, and its nh_ sweep does not match this key.
+    // So the second session found a stale `guestRestored === true`, skipped the
+    // restore, and let the auto-save effect write post-sign-out DEFAULT stats
+    // straight over the stored progress.
+    await enterGuest(page);
+    await expect
+      .poll(async () => await page.evaluate(() => localStorage.getItem('uP_guest') !== null), {
+        timeout: 15_000,
+      })
+      .toBe(true);
+
+    await page.evaluate(() => {
+      const raw = JSON.parse(localStorage.getItem('uP_guest'));
+      raw.name = 'FirstGuestSession';
+      raw.stats = { ...(raw.stats || {}), xp: 420 };
+      localStorage.setItem('uP_guest', JSON.stringify(raw));
+    });
+
+    // Leave guest mode without reloading.
+    const nav = page.getByRole('navigation', { name: 'Main navigation' });
+    await nav.getByRole('button', { name: 'Me', exact: true }).click();
+    await page.locator('.profile-tab-pill').filter({ hasText: 'Settings' }).click();
+    await page
+      .getByRole('button', { name: /Sign Out/i })
+      .first()
+      .click();
+    // Two shapes reach the same place: the Settings section's button opens a
+    // confirm step, while the sidebar control signs out directly. Click the
+    // confirmation only if one actually appeared.
+    const confirmOut = page.getByRole('button', { name: /^Sign Out$/ });
+    if (
+      await confirmOut
+        .last()
+        .isVisible({ timeout: 3_000 })
+        .catch(() => false)
+    ) {
+      await confirmOut.last().click();
+    }
+
+    await expect(page.getByRole('button', { name: /Continue as Guest/ })).toBeVisible({
+      timeout: 15_000,
+    });
+
+    // Re-enter guest mode in the same page — no reload, so App never remounts.
+    await page.getByRole('button', { name: /Continue as Guest/ }).click();
+    await expect(nav).toBeVisible({ timeout: 15_000 });
+
+    // The first session's progress must still be there.
+    await expect
+      .poll(
+        async () =>
+          await page.evaluate(() => {
+            const raw = localStorage.getItem('uP_guest');
+            return raw ? (JSON.parse(raw).stats || {}).xp : null;
+          }),
+        { timeout: 15_000 },
+      )
+      .toBe(420);
   });
 });
