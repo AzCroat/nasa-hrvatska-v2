@@ -30,6 +30,7 @@ import {
 import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
 import { lsSet, lsRemove, ssRemove } from '../lib/safeStorage';
+import { mergeSignInStats } from '../lib/mergeSignInStats';
 import { API_BASE } from '../lib/platform';
 import { updateStreak } from '../lib/appUtils.js';
 import { getSR } from '../lib/srs.js';
@@ -304,55 +305,11 @@ export function useAuth({
             _origLocalFbUpdated = 0;
             const fpSt = (fp.stats || fp.st || {}) as Record<string, unknown>;
             const lpSt = ((lp && (lp.stats || lp.st)) as Record<string, unknown>) || {};
-            const mergedStats = {
-              ...fpSt,
-              xp: Math.max((lpSt.xp as number) || 0, (fpSt.xp as number) || 0),
-              spent: Math.max((lpSt.spent as number) || 0, (fpSt.spent as number) || 0),
-              lc: Math.max((lpSt.lc as number) || 0, (fpSt.lc as number) || 0),
-              gc: Math.max((lpSt.gc as number) || 0, (fpSt.gc as number) || 0),
-              sp: Math.max((lpSt.sp as number) || 0, (fpSt.sp as number) || 0),
-              de: Math.max((lpSt.de as number) || 0, (fpSt.de as number) || 0),
-              rc: Math.max((lpSt.rc as number) || 0, (fpSt.rc as number) || 0),
-              str: Math.max((lpSt.str as number) || 0, (fpSt.str as number) || 0),
-              pf: Math.max((lpSt.pf as number) || 0, (fpSt.pf as number) || 0),
-              mv: Math.max((lpSt.mv as number) || 0, (fpSt.mv as number) || 0),
-              hi: Math.max((lpSt.hi as number) || 0, (fpSt.hi as number) || 0),
-              // pr + badge-backing counters — monotonic; Math.max so unsynced local
-              // progress isn't clobbered by the remote base spread (...fpSt). Mirrors
-              // mergeStatsFromRemote so this merge can't drift from the canonical rule.
-              pr: Math.max((lpSt.pr as number) || 0, (fpSt.pr as number) || 0),
-              srsTotal: Math.max((lpSt.srsTotal as number) || 0, (fpSt.srsTotal as number) || 0),
-              mistakesMastered: Math.max(
-                (lpSt.mistakesMastered as number) || 0,
-                (fpSt.mistakesMastered as number) || 0,
-              ),
-              readingDone: Math.max(
-                (lpSt.readingDone as number) || 0,
-                (fpSt.readingDone as number) || 0,
-              ),
-              mediaVisits: Math.max(
-                (lpSt.mediaVisits as number) || 0,
-                (fpSt.mediaVisits as number) || 0,
-              ),
-              ct: [
-                ...new Set([...((lpSt.ct as string[]) || []), ...((fpSt.ct as string[]) || [])]),
-              ],
-              vs: [
-                ...new Set([...((lpSt.vs as string[]) || []), ...((fpSt.vs as string[]) || [])]),
-              ],
-              badges: [
-                ...new Set([
-                  ...((lpSt.badges as string[]) || []),
-                  ...((fpSt.badges as string[]) || []),
-                ]),
-              ],
-              diff: (function () {
-                const DO: Record<string, number> = { beginner: 0, intermediate: 1, advanced: 2 };
-                const lo = DO[lpSt.diff as string] !== undefined ? DO[lpSt.diff as string]! : -1;
-                const fo = DO[fpSt.diff as string] !== undefined ? DO[fpSt.diff as string]! : -1;
-                return lo >= fo ? lpSt.diff || fpSt.diff : fpSt.diff || lpSt.diff;
-              })(),
-            };
+            // Rules live in lib/mergeSignInStats — extracted so they can be
+            // tested. Inline here they were unreachable without mounting this
+            // hook and stubbing Firebase, which is how rs and levelQuizPasses
+            // came to be missing from the merge unnoticed.
+            const mergedStats = mergeSignInStats(lpSt, fpSt);
             lP(k, { ...fp, stats: mergedStats });
             cb.current.onSignedIn({
               user,
