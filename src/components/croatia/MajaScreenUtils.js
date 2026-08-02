@@ -1,3 +1,4 @@
+import { normalizePersonaKey } from '../../lib/personaKey';
 // Persona config, memory helpers, and utility functions for MajaScreen
 
 import { isSpeechRecognitionSupported } from '../../lib/platform.js';
@@ -105,8 +106,13 @@ export const PERSONA_CONFIG = {
 
 export function getPersona() {
   try {
-    const p = localStorage.getItem('maja_persona');
-    return PERSONA_CONFIG[p] ? p : 'teacher';
+    // Storage holds either the raw key ('cabbie', written by PersonaScreen and
+    // partners.ts) or the legacy JSON-encoded form ('"cabbie"', written by
+    // applyRemoteProgress). Looking the quoted form up in PERSONA_CONFIG missed,
+    // so anyone whose persona arrived via sync silently got Maja instead of the
+    // partner they picked. normalizePersonaKey accepts both.
+    const p = normalizePersonaKey(localStorage.getItem('maja_persona'));
+    return p && PERSONA_CONFIG[p] ? p : 'teacher';
   } catch {
     return 'teacher';
   }

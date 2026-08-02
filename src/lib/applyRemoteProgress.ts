@@ -21,6 +21,7 @@ import { weekKey as _weekKey, localDateStr } from './dateUtils.js';
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
+import { normalizePersonaKey } from './personaKey';
 
 export interface RemoteProgressSetters {
   setFavs: (favs: unknown[]) => void;
@@ -677,9 +678,16 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // maja_persona is the user's chosen persona settings (rare edits after setup).
   // majaMemory is the multi-turn conversation memory — newer turns should win,
   // so use Math.max on .lastTurnAt when both exist.
+  // Write the RAW key, not JSON.stringify. The quoted form ('"cabbie"') was
+  // looked up directly in PERSONA_CONFIG by getPersona() and in PERSONAS by
+  // PersonaScreen, so it matched nothing: a learner who had chosen Ivo silently
+  // got Maja on any device that restored from sync, with no persona shown as
+  // selected. normalizePersonaKey also tolerates a remote value that is itself
+  // still in the legacy quoted form.
   if (fp.maja_persona && !lsGet('maja_persona')) {
     try {
-      _safeSet('maja_persona', JSON.stringify(fp.maja_persona));
+      const key = normalizePersonaKey(typeof fp.maja_persona === 'string' ? fp.maja_persona : null);
+      if (key) _safeSet('maja_persona', key);
     } catch (_) {}
   }
   if (fp.majaMemory) {

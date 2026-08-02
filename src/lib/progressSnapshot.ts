@@ -11,6 +11,7 @@ import { localDateStr as _todayStr, weekKey as _weekKey } from './dateUtils.js';
 import { snapshotCertifications } from './cefrCertification.js';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
+import { normalizePersonaKey } from './personaKey';
 
 interface ProgressSnapshotParams {
   uid: string;
@@ -289,13 +290,10 @@ export function buildProgressSnapshot({
     // ── AI tutor (Maja) — persona + multi-turn memory (2026-05-20) ────────────
     // Without sync, switching devices wipes the AI tutor's "memory" of the
     // learner, which is the feature's central value proposition.
-    maja_persona: (() => {
-      try {
-        return JSON.parse(lsGet('maja_persona') || 'null');
-      } catch {
-        return null;
-      }
-    })(),
+    // JSON.parse'ing this threw on the raw form every in-app writer produces
+    // ('cabbie' is not valid JSON), so the catch returned null and the learner's
+    // chosen conversation partner was never synced to another device at all.
+    maja_persona: normalizePersonaKey(lsGet('maja_persona')),
     majaMemory: (() => {
       try {
         return JSON.parse(lsGet('majaMemory') || 'null');
