@@ -20,23 +20,49 @@
  * already shipped, reused verbatim — this is a routing fix, not new copy.
  */
 
-/** Shape both call sites throw: an Error carrying the HTTP status. */
+import { classifyAiLimit } from '../../lib/aiLimit';
+
+/**
+ * Shape both call sites throw: an Error carrying the HTTP status, and the
+ * server's error code when the body could be read.
+ */
 export interface MajaApiError extends Error {
   _status?: number;
+  _code?: string;
 }
 
 /**
- * Map an HTTP status to the learner-facing Croatian message.
+ * Map an HTTP status (and the server's error code, when we have it) to the
+ * learner-facing Croatian message.
  *
  * `fallback` is the caller's own default for "something failed but we have no
  * status" — a transport error, an aborted stream, a JSON parse failure. The two
  * call sites keep their existing distinct defaults deliberately: failing to
  * *open* a session is a connection problem, while failing mid-conversation is
  * not necessarily.
+ *
+ * The 429 branch used to be unconditional: any 429 was reported as the DAILY
+ * limit ("Pokušaj sutra"). /api/maja goes through requireAuthedAI, which
+ * answers 429 for two unrelated reasons — `rate_limited`, the per-minute burst
+ * limiter, and `daily_quota_exceeded`, the real daily ceiling. So a learner who
+ * simply typed two messages quickly was told to come back tomorrow, and the
+ * obvious response to that message (stop trying) was exactly wrong.
+ * classifyAiLimit is the single source of truth for the distinction; when no
+ * code reaches us it deliberately assumes 'burst', because guessing 'daily' is
+ * the more damaging error.
  */
-export function majaErrorMessage(status: number | undefined, fallback: string): string {
+export function majaErrorMessage(
+  status: number | undefined,
+  fallback: string,
+  code?: string,
+): string {
   if (status === 401) return 'Sesija je istekla. Odjavi se i prijavi ponovo.';
-  if (status === 429) return 'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.';
+  if (status === 429) {
+    const limit = classifyAiLimit({ status, code });
+    return limit === 'daily'
+      ? 'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.'
+      : 'Šalješ poruke prebrzo. Pričekaj trenutak i pokušaj ponovo.';
+  }
   if (status !== undefined && status >= 500) return 'Serverska greška. Pokušaj za koji trenutak.';
   return fallback;
 }

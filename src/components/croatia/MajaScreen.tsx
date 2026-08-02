@@ -68,6 +68,24 @@ interface SessionState {
 }
 interface ApiError extends Error {
   _status?: number;
+  _code?: string;
+}
+
+/**
+ * Best-effort read of the server's error code from a failed response.
+ *
+ * Returns undefined rather than throwing: both call sites are already handling
+ * a failure, and an unreadable or non-JSON body must not replace the real HTTP
+ * status with a parse error. majaErrorMessage treats a missing code as the
+ * burst limiter, which is the safe assumption.
+ */
+async function readErrorCode(res: Response): Promise<string | undefined> {
+  try {
+    const body = (await res.clone().json()) as { error?: unknown };
+    return typeof body?.error === 'string' ? body.error : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -487,7 +505,17 @@ export default function MajaScreen() {
           // failure this was. Previously this threw a bare Error and the status
           // was lost, so a mid-conversation 429 (daily AI limit) or 401 (expired
           // session) both surfaced as "Nešto je pošlo po krivu."
-          throw Object.assign(new Error(`API ${res.status}`), { _status: res.status });
+          //
+          // The status alone is not enough for a 429: requireAuthedAI returns
+          // one for the per-minute burst limiter AND for the daily ceiling, so
+          // the body's error code is what separates "wait a moment" from "come
+          // back tomorrow". Reading it is best-effort — this is the streaming
+          // path, and an unreadable body must not replace the real failure with
+          // a parse error.
+          throw Object.assign(new Error(`API ${res.status}`), {
+            _status: res.status,
+            _code: await readErrorCode(res),
+          });
         }
         if (!res.body) throw new Error('Server returned no response body.');
 
@@ -618,7 +646,13 @@ export default function MajaScreen() {
           reportError(err instanceof Error ? err : new Error('maja turn failed'), 'maja-turn');
         }
         if (phaseRef.current !== 'debrief') {
-          setErrorMsg(majaErrorMessage((err as ApiError)?._status, MAJA_TURN_FALLBACK));
+          setErrorMsg(
+            majaErrorMessage(
+              (err as ApiError)?._status,
+              MAJA_TURN_FALLBACK,
+              (err as ApiError)?._code,
+            ),
+          );
           setPhase('error');
         }
       }
@@ -854,6 +888,7 @@ export default function MajaScreen() {
       if (!res.ok) {
         const apiErr: ApiError = Object.assign(new Error(`API ${res.status}`), {
           _status: res.status,
+          _code: await readErrorCode(res),
         });
         throw apiErr;
       }
@@ -884,7 +919,7 @@ export default function MajaScreen() {
       if (!isAbortFailure(err)) {
         reportError(err instanceof Error ? err : new Error('maja start failed'), 'maja-start');
       }
-      setErrorMsg(majaErrorMessage(e?._status, MAJA_START_FALLBACK));
+      setErrorMsg(majaErrorMessage(e?._status, MAJA_START_FALLBACK, e?._code));
       setPhase('error');
       setSessionActive(false);
     }

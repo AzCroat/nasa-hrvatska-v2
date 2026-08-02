@@ -15,11 +15,31 @@ describe('majaErrorMessage', () => {
     );
   });
 
-  it('names the daily AI limit on 429 — the case that mattered most', () => {
+  it('names the daily AI limit on a 429 that really IS the daily ceiling', () => {
     // Mid-conversation this used to read as a transient glitch, so the learner
     // retried into the same wall instead of being told to come back tomorrow.
-    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK)).toBe(
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK, 'daily_quota_exceeded')).toBe(
       'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.',
+    );
+  });
+
+  it('names the BURST limiter separately — it is not the daily ceiling', () => {
+    // /api/maja goes through requireAuthedAI, which answers 429 for the
+    // per-minute limiter (`rate_limited`) as well as the daily quota. Reporting
+    // both as "Pokušaj sutra" sent a learner away for the day when they had
+    // only typed two messages quickly — and the obvious response to that
+    // message, stopping, is exactly the wrong one.
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK, 'rate_limited')).toBe(
+      'Šalješ poruke prebrzo. Pričekaj trenutak i pokušaj ponovo.',
+    );
+  });
+
+  it('assumes burst when a 429 arrives with no readable code', () => {
+    // Deliberate behaviour CHANGE: a bare 429 used to report the daily limit.
+    // classifyAiLimit defaults to burst because guessing daily is the more
+    // damaging error — it sends someone away for a day over a few seconds.
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK)).toBe(
+      'Šalješ poruke prebrzo. Pričekaj trenutak i pokušaj ponovo.',
     );
   });
 
@@ -45,7 +65,11 @@ describe('majaErrorMessage', () => {
   it('all messages carry full Croatian diacritics', () => {
     // Guard against a future edit dropping č/ć/š/ž, which is how Croatian copy
     // usually degrades.
-    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK)).toContain('Prekoračen');
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK, 'daily_quota_exceeded')).toContain(
+      'Prekoračen',
+    );
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK, 'rate_limited')).toContain('Šalješ');
+    expect(majaErrorMessage(429, MAJA_TURN_FALLBACK, 'rate_limited')).toContain('Pričekaj');
     expect(majaErrorMessage(500, MAJA_TURN_FALLBACK)).toContain('greška');
     expect(MAJA_TURN_FALLBACK).toContain('Nešto');
     expect(MAJA_START_FALLBACK).toContain('moguće');
@@ -86,6 +110,14 @@ describe('MajaScreen wiring', () => {
     // startSession already attached _status before this change, so a
     // presence-only check passed against the pre-fix code and proved nothing.
     expect(CODE.match(/_status:\s*res\.status/g)?.length).toBe(2);
+  });
+
+  it('BOTH paths attach the server error code as well', () => {
+    // The status alone cannot separate the burst limiter from the daily
+    // ceiling — both are 429 — so each throw site must also carry the body's
+    // error code, and each catch must pass it on.
+    expect(CODE.match(/_code:\s*await readErrorCode\(res\)/g)?.length).toBe(2);
+    expect(CODE.match(/\?\._code/g)?.length).toBe(2);
   });
 
   it('no hardcoded status message survives in the component', () => {

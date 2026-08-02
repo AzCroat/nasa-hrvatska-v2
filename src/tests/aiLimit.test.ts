@@ -107,11 +107,19 @@ describe('AI clients classify 429s through the helper, not by hand', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('AIConversation routes its 429 through classifyAiLimit', () => {
-    const src = readFileSync(
-      resolve(process.cwd(), 'src/components/croatia/AIConversation.tsx'),
-      'utf8',
-    );
-    expect(src).toContain('classifyAiLimit');
+  // Every client that shows a message for a 429 from a requireAuthedAI endpoint.
+  // Each of these hand-rolled the distinction at some point and got it wrong in
+  // the same direction: telling a burst-limited learner to come back tomorrow.
+  const LIMIT_AWARE = [
+    'src/components/croatia/AIConversation.tsx',
+    'src/components/croatia/LiveTutorScreen.tsx',
+    'src/components/croatia/majaErrors.ts',
+    'src/components/practice/AIStoryScreen.tsx',
+    'src/components/practice/WritingScreen.tsx',
+    'src/hooks/useTranslator.ts',
+  ];
+
+  it.each(LIMIT_AWARE)('%s classifies its 429 through the helper', (file) => {
+    expect(readFileSync(resolve(process.cwd(), file), 'utf8')).toContain('classifyAiLimit');
   });
 });
