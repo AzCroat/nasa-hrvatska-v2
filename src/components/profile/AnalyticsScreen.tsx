@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { H, getMistakes, getDueReviews, BADGES } from '../../data';
+import { H, getMistakes, getDueReviews, getSR, getStreak, BADGES } from '../../data';
 import type { Stats } from '../../types';
 
 // ── Mini bar chart ─────────────────────────────────────────────────────────────
@@ -132,13 +132,20 @@ export default function AnalyticsScreen({
   name,
 }: {
   goBack: () => void;
-  stats: Partial<Stats & { streak?: number; longestStreak?: number; vc?: number }> | null;
+  // Plain Partial<Stats>. The old signature widened this with
+  // `& { streak?: number; longestStreak?: number; vc?: number }`, which is how
+  // three fields nothing in the app ever produced type-checked cleanly for
+  // months: the screen declared the shape it wanted rather than the shape that
+  // exists, so tsc had nothing to object to. Every value below now comes from a
+  // field that is actually written somewhere.
+  stats: Partial<Stats> | null;
   name?: string;
 }) {
   const s = stats || {};
   // Not memoised — reads localStorage; must reflect current data when stats prop updates
   const mistakes = getMistakes();
   const dueWords = getDueReviews();
+  const srCards = Object.keys(getSR()).length;
 
   const earnedBadges = useMemo(() => {
     if (!s) return new Set();
@@ -155,7 +162,10 @@ export default function AnalyticsScreen({
   // XP breakdown by category (derived from stats flags)
   const categoryBreakdown = [
     { label: 'Grammar', icon: '📝', value: s.gc || 0, color: '#6366f1' },
-    { label: 'Vocabulary', icon: '📖', value: s.vc || 0, color: '#0ea5e9' },
+    // Vocabulary read `s.vc`, which nothing has ever written — so this bar sat
+    // empty while its five neighbours filled. The SRS deck is the real
+    // vocabulary measure: one card per word the learner has started.
+    { label: 'Vocabulary', icon: '📖', value: srCards, color: '#0ea5e9' },
     { label: 'Speaking', icon: '🎤', value: s.sp || 0, color: '#10b981' },
     { label: 'Reading', icon: '📰', value: s.readingDone || 0, color: '#f59e0b' },
     { label: 'History', icon: '🏛️', value: s.hi || 0, color: '#8b5cf6' },
@@ -163,9 +173,15 @@ export default function AnalyticsScreen({
   ];
   const maxCat = Math.max(...categoryBreakdown.map((c) => c.value), 1);
 
-  // Streak info
-  const streak = s.streak || 0;
-  const longestStreak = s.longestStreak || streak;
+  // Streak info — read the canonical source, not the stats mirror.
+  //
+  // useAward does copy the count onto stats, but sanitizeStats does not
+  // allowlist `streak` and mergeStatsFromRemote builds on `...ds`, where DS has
+  // no streak at all. So every Firestore snapshot reset it to undefined, and
+  // with sync running every two minutes the steady state here was 0 — this
+  // screen told a learner on a 30-day streak they had none, except for the few
+  // seconds after an XP award. localStorage held the real value the whole time.
+  const streak = getStreak().count || 0;
 
   return (
     <div className="scr-wrap">
@@ -245,6 +261,16 @@ export default function AnalyticsScreen({
         <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b', marginBottom: 14 }}>
           🔥 Streaks
         </div>
+        {/*
+          The BEST STREAK tile that sat beside this one is gone. It rendered
+          `s.longestStreak || streak`, and nothing in the app has ever tracked a
+          longest streak — so the 🏆 was always just a second copy of the current
+          streak, and since that was itself reset to 0 by every sync, the trophy
+          usually read 0 too. There is no stored value to fix it against, so the
+          honest options were to build the tracking or stop claiming the number;
+          removing it is the fix, and tracking a real best streak can be added
+          later as a feature.
+        */}
         <div style={{ display: 'flex', gap: 10 }}>
           <div
             style={{
@@ -258,21 +284,6 @@ export default function AnalyticsScreen({
           >
             <div style={{ fontSize: 26, fontWeight: 800, color: '#c2410c' }}>{streak} 🔥</div>
             <div style={{ fontSize: 11, color: '#78716c', fontWeight: 600 }}>CURRENT STREAK</div>
-          </div>
-          <div
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              background: 'linear-gradient(135deg,#fefce8,#fef9c3)',
-              borderRadius: 12,
-              padding: '14px 8px',
-              border: '1px solid #fde047',
-            }}
-          >
-            <div style={{ fontSize: 26, fontWeight: 800, color: '#b45309' }}>
-              {longestStreak} 🏆
-            </div>
-            <div style={{ fontSize: 11, color: '#78716c', fontWeight: 600 }}>BEST STREAK</div>
           </div>
         </div>
       </div>
