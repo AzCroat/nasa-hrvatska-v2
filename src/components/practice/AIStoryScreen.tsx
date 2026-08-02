@@ -3,6 +3,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import { speak } from '../../lib/audio.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
 import { getActiveVocabulary } from '../../lib/activeVocabulary';
 
 export default function AIStoryScreen({
@@ -74,12 +75,14 @@ export default function AIStoryScreen({
             'Sign in to generate AI stories. Tap the Profile tab to create a free account.',
           );
         if (res.status === 429) {
-          const t = errBody['resetAt']
-            ? new Date(errBody['resetAt']).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })
-            : 'midnight UTC';
+          // /api/maja goes through requireAuthedAI, which returns 429 for the
+          // per-minute burst limiter as well as the daily ceiling. Keying on the
+          // status alone told a learner who tapped Generate twice that their day
+          // was over. classifyAiLimit is the single source of truth.
+          if (classifyAiLimit({ status: res.status, code: errBody['error'] }) === 'burst') {
+            throw new Error('Generating too quickly — wait a moment and try again.');
+          }
+          const t = formatAiResetTime(errBody['resetAt']) || 'midnight UTC';
           throw new Error(
             `Daily AI story limit reached. Quota resets at ${t} — come back tomorrow!`,
           );
