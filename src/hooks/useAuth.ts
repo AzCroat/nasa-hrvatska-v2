@@ -29,7 +29,8 @@ import {
 } from '../data';
 import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
-import { lsSet, lsRemove, ssRemove } from '../lib/safeStorage';
+import { lsSet } from '../lib/safeStorage';
+import { clearUserScopedStorage } from '../lib/clearUserScopedStorage';
 import { mergeSignInStats } from '../lib/mergeSignInStats';
 import { API_BASE } from '../lib/platform';
 import { updateStreak } from '../lib/appUtils.js';
@@ -633,41 +634,20 @@ export function useAuth({
       watchRef.current = null;
     }
     fbLogout();
-    // Clear per-user progress blob before cS() so no stale early-restore fires
     const _outUser = authUser;
-    if (_outUser?.u) {
-      try {
-        localStorage.removeItem('uP_' + _outUser.u);
-      } catch {}
-    }
     cS();
-    // Clear all per-user state so a different user on the same device starts clean.
-    // Without this, the early-restore path in useAuth reads the previous user's data
-    // (streak, XP, CEFR level) for up to 14 seconds after sign-out.
-    // Object.keys(localStorage) enumerates the object and therefore throws the
-    // same SecurityError as getItem on a blocked profile — and this one sat
-    // outside the per-key try/catch below, so sign-out threw before it cleared
-    // anything or reached setAuthScreen('login').
-    let _nhKeys: string[] = [];
-    try {
-      _nhKeys = Object.keys(localStorage).filter((k) => k.startsWith('nh_'));
-    } catch {
-      /* storage unavailable — nothing was persisted, so nothing to sweep */
-    }
-    _nhKeys.forEach((k) => {
-      try {
-        localStorage.removeItem(k);
-      } catch {}
-    });
-    [
-      'nh_lesson_resume',
-      'nh_checkpoints',
-      'login_attempts',
-      'uStreak',
-      'uFreeze',
-      'xpCooldown',
-    ].forEach((k) => lsRemove(k));
-    ['nh_ex_start', 'nh_checkpoint_level', 'nh_readlist_filter'].forEach((k) => ssRemove(k));
+    // Clear all per-user state so a different user on the same device starts
+    // clean. Two distinct failures depend on this: the early-restore path below
+    // reads the previous user's data (streak, XP, CEFR level) for up to 14
+    // seconds after sign-out, and applyRemoteProgress UNIONS whatever survives in
+    // localStorage into the next account and pushes it to that account's
+    // Firestore document.
+    //
+    // The sweep lives in clearUserScopedStorage so this and the account-switch
+    // path in App.tsx cannot drift apart — the previous hand-maintained list here
+    // is what let `uFavs` and `uJournal` survive. The uP_<uid> blob is cleared
+    // there too, before cS(), so no stale early-restore can fire.
+    clearUserScopedStorage(_outUser?.u);
     setAuthUser(null);
     setSentryUser(null);
     setAuthScreen('login');
