@@ -38,6 +38,18 @@ interface CompleteExerciseArgs<S extends MinStats> {
   activityType?: string;
   /** Pass-through to award()'s celebrate flag (e.g. SentenceTile fires confetti). */
   celebrate?: boolean;
+  /**
+   * Pay `xp` again on a passing finish the screen has ALREADY been credited for.
+   *
+   * Default false — the gc/vs credit is always once-only, and for most screens the
+   * completion bonus is part of that one-time credit. But a handful of drills are
+   * built for repeat play (Match Pairs, Cloze's own "Play Again" button, Numbers &
+   * Time, the gender drill, the reflexive quiz) and have always paid their finish
+   * XP on EVERY run; useAward's per-day `xpCooldown` is what limits farming there,
+   * not the vs flag. Those screens opt in so routing them through this authority
+   * doesn't quietly demote a per-run bonus to a once-ever one.
+   */
+  awardOnReplay?: boolean;
 }
 
 export function completeExercise<S extends MinStats>(
@@ -69,7 +81,12 @@ export function completeExercise<S extends MinStats>(
   // gated screens require a pass; effort/passive complete on the call itself.
   const passed = policyKind === 'gated' ? passedLesson(score ?? 0, total ?? 0) : true;
   if (!passed) return { passed: false };
-  if (stats.vs?.includes(vsKey)) return { passed: true }; // already credited
+  if (stats.vs?.includes(vsKey)) {
+    // Already credited — never a second gc/vs write. See awardOnReplay above for
+    // why a few repeat-play drills still pay their finish XP here.
+    if (args.awardOnReplay && award) award(xp, args.celebrate ?? false, activityType);
+    return { passed: true };
+  }
 
   setStats((prev) => {
     if (prev.vs?.includes(vsKey)) return prev;

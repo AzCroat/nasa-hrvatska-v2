@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { H, srMark } from '../../data';
 import { knightSpeak } from '../../lib/knightSpeak.js';
-import { markQuest } from '../../lib/quests.js';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 
 // Q-4: State moved into component — App.jsx no longer owns mp/mm/msl/gph/gsc.
@@ -47,15 +47,22 @@ export default function MatchGame({
       if (mm.length + 1 === mp.length / 2 && !completionFiredRef.current) {
         completionFiredRef.current = true;
         setTimeout(() => {
-          if (typeof award === 'function') award(20, false, 'vocabulary');
-          markQuest('vocab');
-          if (!stats.vs?.includes('match')) {
-            setStats((prev) => {
-              if (prev.vs?.includes('match')) return prev;
-              return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'match'] };
-            });
-            if (writeDelta) writeDelta({ gc: 1, vs: ['match'] });
-          }
+          // `match` is an EFFORT exercise, not a gated one: the game ends only when
+          // every pair has been matched, so the score is 100% by construction and a
+          // 75% threshold could never bind. See the registry note on `match`.
+          // Routing through the completion authority is still what adds the daily-
+          // session signals this screen never sent.
+          completeExercise({
+            key: 'match',
+            xp: 20,
+            // Match Pairs is a repeat-play vocab game — its 20 XP has always been
+            // paid on every completed board (the per-day xpCooldown is the limit).
+            awardOnReplay: true,
+            stats,
+            setStats,
+            writeDelta,
+            award,
+          });
           sGph('done');
           knightSpeak(
             'celebrating',

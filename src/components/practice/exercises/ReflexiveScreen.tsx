@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import { H, speak, sh } from '../../../data';
 import { REFLEXIVE } from '../../../data';
 import { rnd } from '../../../lib/random.js';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -15,6 +15,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
   const [tab, setTab] = useState('rules');
   const [_qIdx] = useState(() => Math.floor(rnd() * REFLEXIVE.quiz.length));
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [passed, setPassed] = useState(false);
   const questFiredRef = useRef(false);
   const tabs = [
     { id: 'rules', label: 'SE Rules' },
@@ -40,16 +41,30 @@ function ReflexiveScreen({ goBack, award }: Props) {
       const correctCount = Object.keys(newAnswers).filter(
         (k) => newAnswers[Number(k)] === REFLEXIVE.quiz[Number(k)]?.a,
       ).length;
-      if (typeof award === 'function') award(correctCount * 5, false, 'grammar');
-      markQuest('grammar');
-      if (!stats.vs?.includes('reflexive')) {
-        setStats((prev) => {
-          if (prev.vs?.includes('reflexive')) return prev;
-          return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'reflexive'] };
-        });
-        if (writeDelta) writeDelta({ gc: 1, vs: ['reflexive'] });
-      }
+      // `reflexive` is registered `gated`, but this screen credited gc — and paid
+      // out the whole correctCount*5 award — on every question ANSWERED, whatever
+      // the score. The completion authority applies the declared 75% gate to both,
+      // and adds the session signals this screen never sent.
+      const res = completeExercise({
+        key: 'reflexive',
+        score: correctCount,
+        total: REFLEXIVE.quiz.length,
+        xp: correctCount * 5,
+        // The score-scaled bonus has always been paid on every completed run.
+        awardOnReplay: true,
+        stats,
+        setStats,
+        writeDelta,
+        award,
+      });
+      setPassed(res.passed);
     }
+  }
+
+  function retry() {
+    questFiredRef.current = false;
+    setAnswers({});
+    setPassed(false);
   }
 
   return (
@@ -476,6 +491,16 @@ function ReflexiveScreen({ goBack, award }: Props) {
                 {REFLEXIVE.quiz.filter((q, i) => answers[i] === q.a).length}/{REFLEXIVE.quiz.length}{' '}
                 correct
               </div>
+              {!passed && (
+                <button
+                  className="b bp"
+                  data-testid="drill-retry"
+                  style={{ width: '100%', marginTop: 12 }}
+                  onClick={retry}
+                >
+                  🔁 Try again (need 75%)
+                </button>
+              )}
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
                 ✓ Done
               </button>

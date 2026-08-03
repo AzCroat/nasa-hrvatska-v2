@@ -1,7 +1,6 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { speak, sh } from '../../data';
-import { markQuest } from '../../lib/quests.js';
-import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { recordTopicResult, rateCategorySession } from '../../lib/adaptive.ts';
 import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
@@ -666,7 +665,13 @@ function LevelBadge({ level }: LevelBadgeProps) {
 
 // ─── MODE A: TRANSFORM ───────────────────────────────────────────────────────
 interface ModeDoneProps {
-  onDone: () => void;
+  /**
+   * Called from the mode's results panel with THAT round's real score.
+   * `production` is registered `gated`, and the parent's handleDone had no score
+   * to gate on — each mode kept its own `score`/`total` in local state and only
+   * ever rendered them. Passing them up is what makes the declared gate real.
+   */
+  onDone: (score: number, total: number) => void;
   award?: (n: number, celebrate?: boolean, activityType?: string) => void;
   onCorrect?: () => void;
   onWrong?: () => void;
@@ -711,7 +716,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={onDone} style={btnStyle('#7c3aed')}>
+        <button onClick={() => onDone(score, total)} style={btnStyle('#7c3aed')}>
           Nazad na izbor
         </button>
       </div>
@@ -853,7 +858,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={onDone} style={btnStyle('#0e7490')}>
+        <button onClick={() => onDone(score, total)} style={btnStyle('#0e7490')}>
           Nazad na izbor
         </button>
       </div>
@@ -1046,7 +1051,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={onDone} style={btnStyle('#059669')}>
+        <button onClick={() => onDone(score, total)} style={btnStyle('#059669')}>
           Nazad na izbor
         </button>
       </div>
@@ -1258,7 +1263,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong }: ModeDoneProps) 
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={onDone} style={btnStyle('#d97706')}>
+        <button onClick={() => onDone(score, total)} style={btnStyle('#d97706')}>
           Nazad na izbor
         </button>
       </div>
@@ -1471,7 +1476,6 @@ interface ProductionDrillProps {
 export default function ProductionDrillScreen({ goBack, award }: ProductionDrillProps) {
   const { stats, setStats, writeDelta } = useStats();
   const [mode, setMode] = useState<string | null>(null);
-  const finishFired = useRef(false);
 
   // Adaptive session tracking — difficulty starts at 4 (free production exercises)
   const { onCorrect, onWrong, sessionSummary, reset } = useAdaptiveSession(4);
@@ -1489,21 +1493,30 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
     ? (MODE_CATEGORY[mode as keyof typeof MODE_CATEGORY] ?? 'vocab-b1')
     : 'vocab-b1';
 
-  function handleDone() {
-    if (!finishFired.current) {
-      finishFired.current = true;
-      // handleDone had NO award/signal path — a zero-correct sub-drill finish
-      // stranded the daily session (completion-matrix audit). Signal explicitly.
-      signalSessionCompleteIfActive('production_drill');
-      markQuest('grammar');
-      if (!stats.vs?.includes('production')) {
-        setStats((prev) => {
-          if (prev.vs?.includes('production')) return prev;
-          return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'production'] };
-        });
-        if (writeDelta) writeDelta({ gc: 1, vs: ['production'] });
-      }
-    }
+  function handleDone(score: number, total: number) {
+    // `production` is registered `gated`, but handleDone had no score to gate on
+    // and credited gc for any finish. Each mode now hands up its own round score;
+    // the completion authority applies the declared 75% gate and owns the quest
+    // mark, the vs write and the session signal (which a zero-correct sub-drill
+    // finish used to need explicitly — completion-matrix audit).
+    //
+    // The old mount-lifetime `finishFired` ref is gone on purpose. Each mode is a
+    // self-contained ROUND and the user returns to this picker to run another, so
+    // a once-per-mount guard would swallow every attempt after the first — a
+    // learner who missed the gate could never be credited without leaving the
+    // screen. completeExercise is idempotent on its own (`vs` check), which is the
+    // guard that actually belongs here.
+    completeExercise({
+      key: 'production',
+      score,
+      total,
+      // Per-answer award(2) is this drill's XP; there was never a completion bonus.
+      xp: 0,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
     // Rate each category based on session accuracy
     const summary = sessionSummary();
     for (const [cat, accuracy] of Object.entries(summary) as Array<[string, number]>) {

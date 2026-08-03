@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { COMPARE, COMPQUIZ } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
-import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -21,7 +20,17 @@ function ComparativesScreen({ goBack, award }: Props) {
   const correctCountRef = useRef(0);
   const finishFired = useRef(false);
   const [done, setDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const [choices, setChoices] = useState<Record<number, string>>({});
+
+  function retry() {
+    handledRef.current = new Set<number>();
+    correctCountRef.current = 0;
+    finishFired.current = false;
+    setChoices({});
+    setPassed(false);
+    setDone(false);
+  }
 
   function handleAnswer(qi: number, chosenOption: string, correctAnswer: string) {
     if (handledRef.current.has(qi)) return;
@@ -38,17 +47,24 @@ function ComparativesScreen({ goBack, award }: Props) {
     if (handledRef.current.size >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
-        // Zero-correct runs award() nothing — signal the finish explicitly so
-        // the daily session can never strand here (completion-matrix audit).
-        signalSessionCompleteIfActive('comparatives');
-        markQuest('grammar');
-        if (!stats.vs?.includes('comparatives')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('comparatives')) return prev;
-            return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'comparatives'] };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['comparatives'] });
-        }
+        // `comparatives` is registered `gated`, but this screen used to credit gc
+        // as soon as every question was ANSWERED — correctCountRef was rendered in
+        // the results panel and never consulted. Routing through the single
+        // completion authority applies the 75% gate the registry declares, and it
+        // owns the quest mark, the idempotent vs write and both session signals.
+        const res = completeExercise({
+          key: 'comparatives',
+          score: correctCountRef.current,
+          total: questions.length,
+          // The per-answer award(3) above is this drill's entire XP; there has
+          // never been a completion bonus, so a pass adds none.
+          xp: 0,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
+        setPassed(res.passed);
       }
       setDone(true);
     }
@@ -218,6 +234,16 @@ function ComparativesScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
             {correctCountRef.current}/{questions.length} correct
           </div>
+          {!passed && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginTop: 12 }}
+              onClick={retry}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             ✓ Done
           </button>

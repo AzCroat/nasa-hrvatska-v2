@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { SENTBUILD } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
-import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
@@ -18,11 +17,21 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
   const correctCountRef = useRef(0);
   const finishFired = useRef(false);
   const [done, setDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const [choices, setChoices] = useState<Record<number, string>>({});
   const shuffledOpts = React.useMemo(
     () => (questions as { en: string; hr: string; opts: string[] }[]).map((s) => sh([...s.opts])),
     [questions],
   );
+
+  function retry() {
+    handledRef.current = new Set<number>();
+    correctCountRef.current = 0;
+    finishFired.current = false;
+    setChoices({});
+    setPassed(false);
+    setDone(false);
+  }
 
   function handleAnswer(qi: number, chosenOption: string, correctAnswer: string) {
     if (handledRef.current.has(qi)) return;
@@ -42,21 +51,22 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
     if (handledRef.current.size >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
-        // Zero-correct runs award() nothing — signal the finish explicitly so
-        // the daily session can never strand here (completion-matrix audit).
-        signalSessionCompleteIfActive('sentbuild');
-        markQuest('grammar');
-        if (!stats.vs?.includes('sentence-builder')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('sentence-builder')) return prev;
-            return {
-              ...prev,
-              gc: (prev.gc || 0) + 1,
-              vs: [...(prev.vs || []), 'sentence-builder'],
-            };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['sentence-builder'] });
-        }
+        // `sentence-builder` is registered `gated`, but this screen credited gc as
+        // soon as every question was ANSWERED — correctCountRef only ever reached
+        // the results panel. The single completion authority applies the declared
+        // 75% gate and owns the quest mark and the session signals.
+        const res = completeExercise({
+          key: 'sentence-builder',
+          score: correctCountRef.current,
+          total: questions.length,
+          // Per-answer award(5) is this drill's entire XP; there is no bonus.
+          xp: 0,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
+        setPassed(res.passed);
       }
       setDone(true);
     }
@@ -164,6 +174,16 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
             {correctCountRef.current}/{questions.length} correct
           </div>
+          {!passed && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginTop: 12 }}
+              onClick={retry}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             ✓ Done
           </button>

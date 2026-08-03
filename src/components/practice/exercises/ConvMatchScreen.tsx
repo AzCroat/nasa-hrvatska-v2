@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { H, speak, sh } from '../../../data';
 import { CONVMATCH } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -18,6 +18,7 @@ function ConvMatchScreen({ goBack, award }: Props) {
   const correctCountRef = useRef(0);
   const finishFired = useRef(false);
   const [done, setDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const [choices, setChoices] = useState<Record<number, string>>({});
   const pairOffsets = React.useMemo(() => {
     const offsets: number[] = [];
@@ -38,6 +39,15 @@ function ConvMatchScreen({ goBack, award }: Props) {
     return result;
   }, []);
 
+  function retry() {
+    handledRef.current = new Set<number>();
+    correctCountRef.current = 0;
+    finishFired.current = false;
+    setChoices({});
+    setPassed(false);
+    setDone(false);
+  }
+
   function handleAnswer(
     flatIdx: number,
     chosenOption: string,
@@ -54,15 +64,24 @@ function ConvMatchScreen({ goBack, award }: Props) {
     }
     if (handledRef.current.size >= total && !finishFired.current) {
       finishFired.current = true;
-      if (typeof award === 'function') award(correctCountRef.current * 5, false, 'grammar');
-      markQuest('grammar');
-      if (!stats.vs?.includes('conv-match')) {
-        setStats((prev) => {
-          if (prev.vs?.includes('conv-match')) return prev;
-          return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'conv-match'] };
-        });
-        if (writeDelta) writeDelta({ gc: 1, vs: ['conv-match'] });
-      }
+      // `conv-match` is registered `gated`, but this screen credited gc — and paid the
+      // whole score-scaled award — as soon as every question was ANSWERED.
+      // correctCountRef only ever reached the results panel. The single completion
+      // authority applies the declared 75% gate to both, and adds the daily-session
+      // signals this screen never sent.
+      const res = completeExercise({
+        key: 'conv-match',
+        score: correctCountRef.current,
+        total: total,
+        xp: correctCountRef.current * 5,
+        // The score-scaled bonus has always been paid on every completed run.
+        awardOnReplay: true,
+        stats,
+        setStats,
+        writeDelta,
+        award,
+      });
+      setPassed(res.passed);
       setDone(true);
     }
   }
@@ -156,6 +175,16 @@ function ConvMatchScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
             {correctCountRef.current}/{total} correct
           </div>
+          {!passed && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginTop: 12 }}
+              onClick={retry}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             ✓ Done
           </button>

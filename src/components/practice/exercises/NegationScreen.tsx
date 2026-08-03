@@ -1,8 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { NEGATION } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
-import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
@@ -92,6 +91,7 @@ function NegationScreen({ goBack, award }: Props) {
   const [tab, setTab] = useState('learn');
   // answers[qi] = the option the user selected (string), or undefined
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [passed, setPassed] = useState(false);
   const questFiredRef = useRef(false);
   // Stable shuffled quiz + options — computed once per mount
   const shuffledQuiz = useMemo(() => sh([...NEGATION_QUIZ]).slice(0, 14), []);
@@ -114,18 +114,31 @@ function NegationScreen({ goBack, award }: Props) {
     }
     if (answeredCount + 1 >= shuffledQuiz.length && !questFiredRef.current) {
       questFiredRef.current = true;
-      // Zero-correct runs award() nothing — signal the finish explicitly so
-      // the daily session can never strand here (completion-matrix audit).
-      signalSessionCompleteIfActive('negation');
-      markQuest('grammar');
-      if (!stats.vs?.includes('negation')) {
-        setStats((prev) => {
-          if (prev.vs?.includes('negation')) return prev;
-          return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'negation'] };
-        });
-        if (writeDelta) writeDelta({ gc: 1, vs: ['negation'] });
-      }
+      // `negation` is registered `gated`, but this screen credited gc on
+      // `answeredCount + 1 >= length` — every question ANSWERED, not 75% correct.
+      // correctCount was computed and never read here, so answering everything
+      // wrong still earned gc + quest. `correctCount` is derived from the PREVIOUS
+      // render's `answers`, so the answer being handled right now has to be added
+      // in by hand.
+      const res = completeExercise({
+        key: 'negation',
+        score: correctCount + (isCorrect ? 1 : 0),
+        total: shuffledQuiz.length,
+        // Per-answer award(3) is the whole XP; no completion bonus ever existed.
+        xp: 0,
+        stats,
+        setStats,
+        writeDelta,
+        award,
+      });
+      setPassed(res.passed);
     }
+  }
+
+  function retry() {
+    questFiredRef.current = false;
+    setAnswers({});
+    setPassed(false);
   }
 
   return (
@@ -336,6 +349,16 @@ function NegationScreen({ goBack, award }: Props) {
               <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
                 {correctCount}/{shuffledQuiz.length} correct
               </div>
+              {!passed && (
+                <button
+                  className="b bp"
+                  data-testid="drill-retry"
+                  style={{ width: '100%', marginTop: 12 }}
+                  onClick={retry}
+                >
+                  🔁 Try again (need 75%)
+                </button>
+              )}
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
                 ✓ Done
               </button>

@@ -99,7 +99,10 @@ const RAW: Record<string, ExerciseEntry> = {
   collocations: g('gc', 'vocab', 'vocabulary'),
   boje: g('gc', 'vocab', 'vocabulary'),
   znam: g('gc', 'vocab', 'vocabulary'),
-  match: g('gc', 'vocab', 'vocabulary'),
+  // MatchGame ends only when EVERY pair is matched — the score is 100% by
+  // construction, so a 75% gate could never bind. Same reasoning as wordsprint:
+  // there is no failing finish, only an abandoned one. → effort.
+  match: e('gc', 'vocab', 'vocabulary'),
   wordsprint: e('gc', 'grammar', 'vocabulary'), // timed sprint: no pass threshold → effort
   'word-families': g('gc', 'grammar', 'grammar'),
 

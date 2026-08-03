@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useStats } from '../../../context/StatsContext.tsx';
 import { H, speak, sh } from '../../../data';
 import { GENDERDRILL } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
+import { passedLesson } from '../../../lib/lessonGate';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 
 interface GenderEntry {
@@ -50,23 +51,42 @@ function GenderDrillScreen({ goBack, award }: Props) {
   const adjDone = Object.keys(adjAnswered).length === GENDERDRILL.adjectives.length;
   const allDone = sortDone && pluralDone && adjDone;
 
+  // ─── Score across all three sections ───────────────────────────────────────
+  // `gender` is registered `gated`, but handleFinish used to fire on `allDone` —
+  // every item ANSWERED — and never compared a single answer to its correct value,
+  // so a run with zero correct answers earned the same gc + 15 XP as a perfect one.
+  // The three per-section scores were already computed for the progress line below;
+  // nothing read them. The gate is the sum over all three sections.
+  const gScore = () =>
+    Object.values(revealedGenders).filter((v) => v.correct).length +
+    Object.values(pluralAnswered).filter((v) => v.correct).length +
+    Object.values(adjAnswered).filter((v) => v.correct).length;
+  const gTotal = words.length + plurals.length + GENDERDRILL.adjectives.length;
+
   function handleFinish() {
     if (completionFired.current) return;
     completionFired.current = true;
-    if (typeof award === 'function') award(15, false, 'grammar');
-    markQuest('grammar');
-    // Credit gc exactly once, guarded on the 'gender' vs key, with a matching
-    // authoritative writeDelta. The old unconditional setSt(gc+1) below double-
-    // counted on first completion (local +2 vs writeDelta +1) and kept adding +1
-    // per replay with no writeDelta — diverging local gc from the synced value.
-    if (!stats.vs?.includes('gender')) {
-      setStats((prev) => {
-        if (prev.vs?.includes('gender')) return prev;
-        return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'gender'] };
-      });
-      if (writeDelta) writeDelta({ gc: 1, vs: ['gender'] });
-    }
+    completeExercise({
+      key: 'gender',
+      score: gScore(),
+      total: gTotal,
+      xp: 15,
+      // The flat 15 XP has always been paid on every completed run.
+      awardOnReplay: true,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
     goBack();
+  }
+
+  function retry() {
+    completionFired.current = false;
+    setRevealedGenders({});
+    setPluralAnswered({});
+    setAdjAnswered({});
+    setSelectedGenderIdx(null);
   }
 
   // ─── Gender label helpers ──────────────────────────────────────────────────
@@ -414,6 +434,21 @@ function GenderDrillScreen({ goBack, award }: Props) {
             Sort {sortScore}/{words.length} · Plural {pluralScore}/{plurals.length} · Adjective{' '}
             {adjScore}/{GENDERDRILL.adjectives.length}
           </p>
+          {!passedLesson(gScore(), gTotal) && (
+            <>
+              <p style={{ color: '#b45309', fontSize: 13, fontWeight: 700, marginTop: 8 }}>
+                {gScore()}/{gTotal} overall — 75% is needed to earn credit.
+              </p>
+              <button
+                className="b bp"
+                data-testid="drill-retry"
+                style={{ width: '100%', marginTop: 12 }}
+                onClick={retry}
+              >
+                🔁 Try again (need 75%)
+              </button>
+            </>
+          )}
           <button className="b bp" style={{ marginTop: 16 }} onClick={handleFinish}>
             Finish & Save Progress →
           </button>

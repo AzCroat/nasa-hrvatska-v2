@@ -1,86 +1,134 @@
 /**
- * negation.contract.test.tsx — Pattern Y
+ * negation.contract.test.tsx — behavioural.
  *
- * NegationScreen's award auto-fires from handleAnswer when the last question is
- * answered. Its buttons use inline styles (no .ob class), so the generic helper
- * cannot drive the MC loop; the contract is verified at the source level.
+ * HISTORY
+ * -------
+ * This file was first a source-regex spec that pinned the hand-rolled completion
+ * expression (`gc: (prev.gc||0)+1`), which comprehensionGateBypass.contract.test.ts
+ * asserts the exact opposite of for the screens it covers. It was then loosened to
+ * accept both the legacy and the migrated shape, with a header noting the gap it
+ * deliberately did not assert:
  *
- * WHY THIS FILE WAS REWRITTEN
- * ---------------------------
- * It used to assert the literal completion expression:
+ *   "`negation` is registered `gated`, but the screen credits on
+ *    `answeredCount + 1 >= shuffledQuiz.length` — every question ANSWERED, not 75%
+ *    correct. It computes `correctCount` and never reads it in the completion
+ *    branch, so answering everything wrong still earns gc + XP + quest."
  *
- *     expect(source).toMatch(/gc:\s*\(prev\.gc\s*\|\|\s*0\)\s*\+\s*1/);
- *
- * comprehensionGateBypass.contract.test.ts asserts the exact opposite for the
- * screens it covers:
- *
- *     expect(source).not.toMatch(/gc:\s*\(prev\.gc/);
- *
- * Both passed only because their file lists happen to be disjoint. They encode
- * the same policy — the registry's `gated` rule, credit only at >= 75% — and
- * disagree about what satisfies it, so this file would have failed the moment
- * NegationScreen was migrated to `completeExercise`. A test that breaks when the
- * code is corrected is worse than no test: it argues for the bug.
- *
- * The assertions below are therefore written to hold under BOTH shapes — the
- * current hand-rolled credit and the post-migration `completeExercise` call —
- * because what matters is that completion is credited once, under the screen's
- * own key, with the quest marked. How that is spelled is not the contract.
- *
- * KNOWN GAP, DELIBERATELY NOT ASSERTED HERE
- * -----------------------------------------
- * `negation` is registered `gated` (see the registry assertion below), but the
- * screen credits on `answeredCount + 1 >= shuffledQuiz.length` — every question
- * ANSWERED, not 75% correct. It computes `correctCount` and never reads it in
- * the completion branch, so answering everything wrong still earns gc + XP +
- * quest. That is one instance of the wider registry migration (40 of 47 gated
- * rows currently route through `completeExercise`), not something this file
- * should pin either way — which is precisely the mistake being corrected.
+ * That gap is now closed — the screen routes through `completeExercise` — so the
+ * test asserts it directly instead of describing it in a comment. Source regexes
+ * are gone: what matters is that a passing run is credited once and a failing run
+ * is not, however that is spelled.
  */
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { describe, it, expect } from 'vitest';
+import React from 'react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
+import { NEGATION_QUIZ } from '../components/practice/exercises/NegationScreen';
+import { answerAll, makeDrillCtx, withStats } from './helpers/mcDrill';
+import type { Stats } from '../types';
 
-const source = readFileSync(
-  join(__dirname, '../components/practice/exercises/NegationScreen.tsx'),
-  'utf8',
-);
+vi.mock('../lib/random.js', () => ({ rnd: () => 0.9999 }));
 
-/** True once the screen has been migrated to the single completion authority. */
-const usesAuthority = /completeExercise\(\{/.test(source) && /key:\s*['"]negation['"]/.test(source);
+const markQuestMock = vi.fn();
+vi.mock('../lib/quests.js', () => ({
+  markQuest: (...args: unknown[]) => markQuestMock(...args),
+}));
 
-describe('NegationScreen — contract clauses (Pattern Y)', () => {
+const OPT_BORDER = 'rgb(231, 229, 228)';
+// rnd()=0.9999 → no Fisher-Yates swaps → sh([...NEGATION_QUIZ]).slice(0,14) is the
+// first 14 items in order, options likewise.
+const ANSWERS = (NEGATION_QUIZ as { a: string }[]).slice(0, 14).map((q) => q.a);
+
+function openQuizTab(): void {
+  fireEvent.click(screen.getByText('🎯 Quiz'));
+}
+
+describe('NegationScreen — completion gate', () => {
+  beforeEach(() => {
+    markQuestMock.mockClear();
+  });
+
   it('is registered in the completion registry as a gated exercise', () => {
-    // Stable across the migration, and the thing that makes the gap above
-    // visible rather than merely absent.
     expect(EXERCISE_COMPLETION['negation']?.policy.kind).toBe('gated');
   });
 
-  it('marks the grammar quest on completion', () => {
-    // Post-migration the quest comes from the registry's questKind via
-    // completeExercise, so accept either spelling.
-    expect(usesAuthority || /markQuest\(['"]grammar['"]\)/.test(source)).toBe(true);
+  it('credits gc + vs:negation and marks the quest on a passing run', async () => {
+    const { default: NegationScreen } =
+      await import('../components/practice/exercises/NegationScreen');
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <NegationScreen goBack={vi.fn()} award={award} />));
+    openQuizTab();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    // Non-vacuity: the results panel rendered its >=80% badge.
+    expect(screen.getByText('🏆')).toBeTruthy();
+    expect(screen.queryByTestId('drill-retry')).toBeNull();
+
+    expect(markQuestMock).toHaveBeenCalledWith('grammar');
+
+    expect(setStats).toHaveBeenCalled();
+    const updater = setStats.mock.calls.at(-1)![0] as (prev: Stats) => Stats;
+    const next = updater({ ...ctx.stats });
+    expect(next.gc).toBe(1);
+    expect(next.vs).toContain('negation');
+
+    expect(writeDelta).toHaveBeenCalledWith(
+      expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['negation']) }),
+    );
   });
 
-  it('credits gc and records the "negation" vs key exactly once', () => {
-    const legacyCredit =
-      /gc:\s*\(prev\.gc\s*\|\|\s*0\)\s*\+\s*1/.test(source) &&
-      /vs:\s*\[\.\.\.\(prev\.vs\s*\|\|\s*\[\]\),\s*['"]negation['"]\]/.test(source) &&
-      /writeDelta\(\s*\{\s*gc:\s*1,\s*vs:\s*\[\s*['"]negation['"]\s*\]/.test(source);
-    expect(usesAuthority || legacyCredit).toBe(true);
+  it('credits nothing on a zero-correct run — the gap this file used to only describe', async () => {
+    const { default: NegationScreen } =
+      await import('../components/practice/exercises/NegationScreen');
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <NegationScreen goBack={vi.fn()} award={award} />));
+    openQuizTab();
+    answerAll(OPT_BORDER, ANSWERS, 'wrong');
+
+    // Non-vacuity: every question WAS answered — the finish happened.
+    expect(screen.getByTestId('drill-retry')).toBeTruthy();
+
+    expect(markQuestMock).not.toHaveBeenCalled();
+    expect(setStats).not.toHaveBeenCalled();
+    expect(writeDelta).not.toHaveBeenCalled();
+    expect(award).not.toHaveBeenCalled();
   });
 
-  it('guards against a duplicate award on replay', () => {
-    // completeExercise owns the once-only guard after migration; before it, the
-    // screen checks vs itself.
-    expect(usesAuthority || /vs\?\.includes\(['"]negation['"]\)/.test(source)).toBe(true);
-  });
-
-  it('signals daily-session completion even on a zero-correct run', () => {
+  it('signals daily-session completion even on a zero-correct run', async () => {
     // Independent of the gate: a finished activity must never strand the daily
-    // session, which is why this is signalled explicitly rather than inferred
-    // from award().
-    expect(source).toMatch(/signalSessionCompleteIfActive\(['"]negation['"]\)/);
+    // session. completeExercise signals unconditionally, before the pass check.
+    sessionStorage.setItem('nh_session_started', 'negation');
+    sessionStorage.removeItem('nh_session_completed');
+
+    const { default: NegationScreen } =
+      await import('../components/practice/exercises/NegationScreen');
+    const ctx = makeDrillCtx();
+
+    render(withStats(ctx, <NegationScreen goBack={vi.fn()} award={ctx.award} />));
+    openQuizTab();
+    answerAll(OPT_BORDER, ANSWERS, 'wrong');
+
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('negation');
+    sessionStorage.removeItem('nh_session_started');
+    sessionStorage.removeItem('nh_session_completed');
+  });
+
+  it('is idempotent — skips setStats/writeDelta when vs already has negation', async () => {
+    const { default: NegationScreen } =
+      await import('../components/practice/exercises/NegationScreen');
+    const ctx = makeDrillCtx(['negation']);
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <NegationScreen goBack={vi.fn()} award={award} />));
+    openQuizTab();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    expect(markQuestMock).not.toHaveBeenCalled();
+    expect(setStats).not.toHaveBeenCalled();
+    expect(writeDelta).not.toHaveBeenCalled();
   });
 });
