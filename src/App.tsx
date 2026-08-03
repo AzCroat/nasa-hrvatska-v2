@@ -20,7 +20,7 @@ import { touchSession, isSessionExpired, isValidEmail, fbApplyDelta } from './li
 import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
-import { localDateStr, weekKey } from './lib/dateUtils.js';
+import { localDateStr, weekKey, prevWeekKey } from './lib/dateUtils.js';
 import { isNative } from './lib/platform.js';
 import { repairStreak } from './lib/streak.js';
 import { availableXp } from './lib/xpBalance.js';
@@ -245,9 +245,16 @@ function pruneStaleLocalStorage() {
     for (const k of keys) {
       if (/^nh_quest_.+_\d{4}-\d{2}-\d{2}$/.test(k) && !k.endsWith(today)) del.push(k);
       else if (/^nh_week_xp_/.test(k)) {
-        // Keys are formatted as 'YYYY-WNN' (e.g. '2026-W17'). Only the current week's
-        // value is ever read; past weeks are unused. Delete anything that's not current week.
-        if (k.replace('nh_week_xp_', '') !== weekKey()) del.push(k);
+        // Keys are formatted as 'YYYY-WNN' (e.g. '2026-W17'). Keep the current week
+        // AND the previous one: the weekly freeze recharge below reads
+        // `nh_week_xp_<prevWeekKey()>` to decide whether the user earned XP last
+        // week. This prune previously kept only the current week, on the stated
+        // premise that "past weeks are unused" — and since it runs on
+        // requestIdleCallback while the recharge waits for auth to resolve, it
+        // usually won the race, read '0', awarded no freeze, and still wrote the
+        // once-per-week guard. Every user silently lost their weekly freeze.
+        const _wk = k.replace('nh_week_xp_', '');
+        if (_wk !== weekKey() && _wk !== prevWeekKey()) del.push(k);
       } else if (/^nh_comeback_used_\d{4}-\d{2}-\d{2}$/.test(k) && !k.endsWith(today)) del.push(k);
       else if (/^nh_pruned_\d{4}-\d{2}-\d{2}$/.test(k) && !k.endsWith(today)) del.push(k);
     }
@@ -1124,8 +1131,10 @@ function App() {
     try {
       const thisWeek = weekKey();
       if ((localStorage.getItem('nh_freeze_recharge_wk') || '') !== thisWeek) {
-        const lastWeek = weekKey(new Date(Date.now() - 7 * 86400000));
-        const lastWeekXP = parseInt(localStorage.getItem('nh_week_xp_' + lastWeek) || '0', 10);
+        // prevWeekKey() is calendar arithmetic and is the SAME helper
+        // pruneStaleLocalStorage uses to decide which week keys to keep, so the
+        // reader and the pruner cannot drift apart.
+        const lastWeekXP = parseInt(localStorage.getItem('nh_week_xp_' + prevWeekKey()) || '0', 10);
         if (lastWeekXP > 0) earnFreeze();
         localStorage.setItem('nh_freeze_recharge_wk', thisWeek);
       }
