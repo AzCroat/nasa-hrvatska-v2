@@ -42,3 +42,22 @@ export function weekKey(date: Date = new Date()): string {
   const weekNo = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
 }
+
+/**
+ * ISO week key for the week before `date`.
+ *
+ * Exists so the two places that care about "last week" cannot drift apart: the
+ * weekly freeze recharge READS `nh_week_xp_<lastWeek>`, and pruneStaleLocalStorage
+ * decides which `nh_week_xp_*` keys to KEEP. They previously disagreed — the prune
+ * kept only the current week on the stated premise that "past weeks are unused",
+ * which the recharge in the same file contradicts.
+ *
+ * Calendar arithmetic, not `Date.now() - 7 * 86400000`. Subtracting 168 real hours
+ * lands on the wrong day when a DST transition falls in between (a 23-hour local
+ * day makes it Sunday 23:xx, i.e. the week before last).
+ */
+export function prevWeekKey(date: Date = new Date()): string {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  d.setDate(d.getDate() - 7);
+  return weekKey(d);
+}

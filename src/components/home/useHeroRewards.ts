@@ -6,6 +6,7 @@ import {
   activateXPBoost,
   canActivateXPBoost,
   XP_BOOST_COST,
+  restoreStreakDays,
 } from '../../lib/appUtils.js';
 import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import { availableXp } from '../../lib/xpBalance.js';
@@ -97,6 +98,20 @@ export function useHeroRewards({ today, onSyncNow }: { today: string; onSyncNow?
       );
       return;
     }
+    // Backfill the canonical day-set. `uStreak` is only a DERIVED cache:
+    // applyRemoteProgress recomputes the streak from `nh_streak_days` on every
+    // remote snapshot and overwrites the cache with the result. This button only
+    // renders at count === 0, which means today is NOT in the day-set — so
+    // without this line the next sync (~2 min, or the next app launch) re-derives
+    // 0 and silently undoes the restore, while `spent` keeps the 200 XP because
+    // it is deliberately monotonic. The user pays and gets nothing.
+    //
+    // repairStreak (streak.ts) and applyStreakEarnBack (appUtils.ts) already do
+    // exactly this, each with a comment saying why; this third recovery path was
+    // missed, and it is the only one users can actually reach — showStreakRepair
+    // is never set true, and canRepairStreak() requires a state computeStreak
+    // cannot produce.
+    restoreStreakDays(1, today);
     // The cost goes on the monotonic `spent` counter (authoritative + synced)
     // rather than subtracting earned xp via a negative award — that subtraction
     // was refunded by the Math.max sync merge (the #110 bug).
