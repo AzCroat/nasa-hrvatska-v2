@@ -14,6 +14,7 @@ import { addDay, seedDaysFromStreak, computeStreak, type DaySet } from './streak
 // profile) threw straight out of the award path — losing the streak write itself
 // plus every badge, ceremony and toast queued after it.
 import { lsSet, lsRemove } from './safeStorage';
+import { EXERCISE_COMPLETION } from './completion/exerciseRegistry';
 
 // ─── Active-day set (canonical streak source; union-merged across devices) ─────
 const STREAK_DAYS_KEY = 'nh_streak_days';
@@ -389,6 +390,43 @@ interface Badge {
   r: (s: BadgeStats) => boolean;
 }
 
+/**
+ * How many DISTINCT exercises the learner has actually completed.
+ *
+ * The three breadth badges below (Explorer / Polyglot Practice / All-Rounder)
+ * used to count the entries in a JSON array held under the localStorage key
+ * `nh_ex_types_done`. Nothing in the app has ever written that key — only tests
+ * do — so the array was always `[]` and all three badges were unearnable no
+ * matter how much of the app a learner worked through.
+ *
+ * The fix is to derive rather than to add a fourth writer, because the set this
+ * needs is one the app already maintains and syncs: `stats.vs` is the list of
+ * completion keys, written once per screen by `completeExercise`. Intersecting
+ * it with the completion registry is what makes it a count of *exercises* —
+ * `vs` also collects the informational screens credited by the 20-second dwell
+ * timer (BLACK_HOLE_SCREENS), and reading a culture page is not an exercise
+ * type. Eleven of the sixteen dwell screens are not registry rows and drop out
+ * here; the five that are (alphabet, techvoc, dialects, falsefr, writing) are
+ * registry-declared reference exercises and legitimately count.
+ *
+ * Deriving also makes the badges retroactive and device-portable. `vs` is in
+ * buildProgressSnapshot, so a learner who already did this work — on any device,
+ * at any point in the past — earns the badges at their next XP award rather than
+ * starting a fresh local tally from zero.
+ *
+ * Note this is deliberately NOT keyed on `activityType`: the registry's 72 rows
+ * carry only 6 distinct activity types, so a type-keyed count would cap at 6 and
+ * leave the 10 and 15 badges exactly as unearnable as the dead key left them.
+ */
+function distinctExercisesDone(s: BadgeStats): number {
+  if (!Array.isArray(s.vs)) return 0;
+  const done = new Set<string>();
+  for (const key of s.vs) {
+    if (typeof key === 'string' && EXERCISE_COMPLETION[key]) done.add(key);
+  }
+  return done.size;
+}
+
 export const BADGES: Badge[] = [
   { id: 'first', n: 'First Steps', i: '🌱', d: 'Complete 1 lesson', r: (s) => (s.lc ?? 0) >= 1 },
   { id: 'x100', n: 'Rising Star', i: '⭐', d: 'Earn 100 XP', r: (s) => (s.xp ?? 0) >= 100 },
@@ -659,39 +697,21 @@ export const BADGES: Badge[] = [
     n: 'Explorer',
     i: '🔍',
     d: 'Complete 5 different exercise types',
-    r: () => {
-      try {
-        return JSON.parse(localStorage.getItem('nh_ex_types_done') || '[]').length >= 5;
-      } catch (_) {
-        return false;
-      }
-    },
+    r: (s) => distinctExercisesDone(s) >= 5,
   },
   {
     id: 'extype10',
     n: 'Polyglot Practice',
     i: '🗣️',
     d: 'Complete 10 different exercise types',
-    r: () => {
-      try {
-        return JSON.parse(localStorage.getItem('nh_ex_types_done') || '[]').length >= 10;
-      } catch (_) {
-        return false;
-      }
-    },
+    r: (s) => distinctExercisesDone(s) >= 10,
   },
   {
     id: 'extype15',
     n: 'All-Rounder',
     i: '🌟',
     d: 'Complete 15 different exercise types',
-    r: () => {
-      try {
-        return JSON.parse(localStorage.getItem('nh_ex_types_done') || '[]').length >= 15;
-      } catch (_) {
-        return false;
-      }
-    },
+    r: (s) => distinctExercisesDone(s) >= 15,
   },
   {
     id: 'earlybird',

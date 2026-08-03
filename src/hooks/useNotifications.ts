@@ -5,6 +5,8 @@
 import { useEffect } from 'react';
 import { rnd } from '../lib/random.js';
 import { lsGet, lsSet } from '../lib/safeStorage.js';
+import { sessionFirstName } from '../lib/sessionUser';
+import { getStreak } from '../lib/appUtils.js';
 
 // Croatian name days (imendan) — month-day → [names]
 const NAME_DAYS: Record<string, string[]> = {
@@ -161,15 +163,9 @@ export function scheduleStreakReminder(streakDays: number): void {
     const hoursSince = (Date.now() - lastPractice) / 3600000;
     if (lastPractice > 0 && hoursSince < 20) return; // already practiced today
 
-    // Pull user name for personalization
-    let firstName = '';
-    try {
-      const profile = JSON.parse(localStorage.getItem('nh_profile') || '{}') as {
-        name?: string;
-        displayName?: string;
-      };
-      firstName = (profile.name || profile.displayName || '').split(' ')[0]!.trim();
-    } catch (_) {}
+    // Pull user name for personalization (from the `uS` session blob — the
+    // `nh_profile` object this used to read has never been written by anything).
+    const firstName = sessionFirstName();
     const nameTag = firstName ? `, ${firstName}` : '';
     const days = streakDays || 1;
 
@@ -232,15 +228,8 @@ interface SRCard {
 // ── Build a personalized notification from the user's actual learning state ──
 function buildPersonalizedMessage(): NotificationMessage {
   try {
-    // Pull user name
-    let userName = '';
-    try {
-      const profile = JSON.parse(localStorage.getItem('nh_profile') || '{}') as {
-        name?: string;
-        displayName?: string;
-      };
-      userName = (profile.name || profile.displayName || '').split(' ')[0]!.trim();
-    } catch (_) {}
+    // Pull user name (see sessionUser.ts — `nh_profile` had no writer).
+    const userName = sessionFirstName();
     const nameTag = userName ? `, ${userName}` : '';
     const namePrefix = userName ? `${userName}, ` : '';
 
@@ -251,12 +240,12 @@ function buildPersonalizedMessage(): NotificationMessage {
       .filter(([, v]) => v && v.r && v.r > 0)
       .sort((a, b) => ((b[1].ts || 0) as number) - ((a[1].ts || 0) as number))[0];
 
-    // Pull streak
-    const streakData = JSON.parse(localStorage.getItem('nh_streak') || '{}') as {
-      count?: number;
-      days?: number;
-    };
-    const streakCount = streakData.count || streakData.days || 0;
+    // Pull streak. This read `nh_streak`, which nothing writes — the count was
+    // always 0, so every streak-aware variant below ("Your N-day streak…") was
+    // unreachable. getStreak() is the accessor the rest of the app uses, and it
+    // reads the `uStreak` cache that applyRemoteProgress keeps in step with the
+    // canonical `nh_streak_days` set.
+    const streakCount = getStreak().count || 0;
 
     // Pull SRS due count
     const dueCount = srWords.filter(([, v]) => {

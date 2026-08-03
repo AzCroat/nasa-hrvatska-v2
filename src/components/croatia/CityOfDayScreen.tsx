@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { speak } from '../../data';
 import { getCityOfDay } from '../../lib/dailyPickers';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { localDateStr } from '../../lib/dateUtils';
+import { lsSet } from '../../lib/safeStorage';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. All 4 tabs (Overview / History / Vocab / Fast Facts) populated.
@@ -102,6 +104,25 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   // resolve a city (shouldn't happen with 365 entries, but defensive).
   useEffect(() => {
     if (!city) signalSessionCompleteIfActive('cityofday');
+  }, [city]);
+  // Mark City of the Day as visited today. buildSessionActivities reads exactly
+  // this key to decide whether the single Croatia immersion slot stays claimed
+  // by cityofday or hands over to the day-of-month rotation through the rest of
+  // the culture pool (useDailySession.ts — `cityVisited = lsGet(...) === today`).
+  //
+  // Nothing wrote it, so `cityVisited` was permanently false. Today's Session is
+  // built once per day and cached, so the visible effect is confined to same-day
+  // rebuilds — but those are ordinary: finishing the session and tapping "Start
+  // a fresh session" served City of the Day a second time, on the same city, the
+  // same day, and so did a mid-day CEFR level-up. The dedupe this key exists to
+  // provide has never once fired in production.
+  //
+  // The reader's tests set the key by hand, which is why they passed throughout.
+  //
+  // Written on mount because "visited" is what the reader means: opening the
+  // screen is the ritual, and the rotation is meant to take over afterwards.
+  useEffect(() => {
+    if (city) lsSet('nh_cityofday_date', localDateStr());
   }, [city]);
   if (!city) return null;
 
