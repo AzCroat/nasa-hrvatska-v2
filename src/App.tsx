@@ -21,6 +21,7 @@ import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
 import { localDateStr, weekKey, prevWeekKey } from './lib/dateUtils.js';
+import { clearUserScopedStorage } from './lib/clearUserScopedStorage';
 import { isNative } from './lib/platform.js';
 import { repairStreak } from './lib/streak.js';
 import { availableXp } from './lib/xpBalance.js';
@@ -687,6 +688,12 @@ function App() {
       setName('');
       setFavs([]);
       setJWords([]);
+      // useAuth.doOut() already called clearUserScopedStorage with the outgoing
+      // uid. Repeating it here covers sign-outs that reach this callback by any
+      // other route (auth listener firing null, token revocation) — it is
+      // idempotent, and a missed sweep leaks the previous user's saved words into
+      // the next account's cloud document.
+      clearUserScopedStorage();
       resetComebackGuard();
       // Clear exercise session state so the next user doesn't see a stale "resume" prompt
       try {
@@ -707,6 +714,13 @@ function App() {
       setName('');
       setFavs([]);
       setJWords([]);
+      // Clearing React state is NOT sufficient on its own: applyRemoteProgress
+      // re-reads `uFavs`/`uJournal` from localStorage on the very next snapshot,
+      // unions them into the incoming account and writes the result to THAT
+      // account's Firestore document. The React reset above is what made this
+      // look handled. Same sweep as sign-out, from the same module, so the two
+      // paths cannot drift apart again.
+      clearUserScopedStorage();
       resetComebackGuard();
       try {
         sessionStorage.clear();
