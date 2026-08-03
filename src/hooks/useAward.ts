@@ -184,8 +184,25 @@ export function useAward({
   const activeMultiplier = getActiveCampaign(content?.SEASONAL_CAMPAIGNS ?? [])?.multiplier;
 
   const award = useCallback(
-    async (amt: number, celebrate?: boolean, activityType?: AwardActivityType) => {
-      const _effectiveEx = curEx;
+    async (
+      amt: number,
+      celebrate?: boolean,
+      activityType?: AwardActivityType,
+      exerciseId?: string,
+    ) => {
+      // `exerciseId` overrides curEx for callers that know which exercise they are
+      // crediting and cannot rely on curEx being current.
+      //
+      // curEx is a piece of React state, so `award` — a useCallback over [curEx, …]
+      // — captures whatever curEx was at the render that created it. A caller that
+      // schedules award() for later (the Learn-Path dwell timer fires 20s after the
+      // click) holds an award whose curEx is the value from BEFORE the launcher's
+      // own sCurEx(). Everything below keys off _effectiveEx — the XP cooldown, the
+      // production rep, the session-completion signal, the analytics — so a stale
+      // value doesn't just mislabel a metric, it writes those to the wrong exercise.
+      // Only goBack() clears curEx, so leaving an exercise by the tab bar or by
+      // browser-back leaves the previous id sitting there to be mis-credited.
+      const _effectiveEx = exerciseId ?? curEx;
       // Signal daily-session completion FIRST — before the XP-cooldown gate below
       // AND before the amt===0 early-return. The daily session is a practice FLOW
       // decoupled from the XP economy: finishing an activity must advance the
@@ -547,12 +564,12 @@ export function useAward({
         lsSet('nh_journey_first_lesson', '1');
         recordJourneyMilestone('first_lesson', {});
       }
-      if (celebrate && curEx && curEx.startsWith('vocab_')) {
+      if (celebrate && _effectiveEx && _effectiveEx.startsWith('vocab_')) {
         try {
           lsRemove('nh_lesson_resume');
         } catch (_) {}
       }
-      if (curEx) {
+      if (_effectiveEx) {
         const _lsStartTs = parseInt(ssGet('nh_ex_start') || '0');
         const _lsDur = _lsStartTs ? Date.now() - _lsStartTs : 0;
         const _lsTypeMap: Record<string, string> = {
@@ -572,7 +589,8 @@ export function useAward({
           match: 'matching',
           readlist: 'reading',
         };
-        const _lsAType = _lsTypeMap[curEx] || (curEx.startsWith('vocab_') ? 'flashcards' : null);
+        const _lsAType =
+          _lsTypeMap[_effectiveEx] || (_effectiveEx.startsWith('vocab_') ? 'flashcards' : null);
         if (_lsAType) {
           trackComplete(_lsAType, _lsDur);
           ssRemove('nh_ex_start');
@@ -604,7 +622,7 @@ export function useAward({
               xpEarned: totalAmt,
               streak: getStreak().count,
               lessonType: _lsAType,
-              lessonId: curEx,
+              lessonId: _effectiveEx,
             });
           } else {
             trackExerciseComplete({ exerciseType: _lsAType, xpEarned: totalAmt });

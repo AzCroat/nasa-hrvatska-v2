@@ -61,7 +61,12 @@ interface ScreenLauncherParams {
   sCurEx: (ex: string) => void;
   currentScreen: string;
   setStats: (fn: (prev: Stats) => Stats) => void;
-  award: (amt: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
+  award: (
+    amt: number,
+    celebrate?: boolean,
+    activityType?: AwardActivityType,
+    exerciseId?: string,
+  ) => void;
   writeDelta: (delta: StatsDelta & Record<string, unknown>) => void;
   allCats: string[];
   gc: number;
@@ -592,7 +597,17 @@ export function useScreenLauncher({
               if (bhStat === 'gc') delta.gc = 1;
               if (Object.keys(delta).length > 0) writeDelta(delta);
             }
-            award(15, undefined, 'lesson');
+            // Credit the black-hole screen BY NAME. `award` is a useCallback over
+            // [curEx, …], so the one captured here carries curEx as it was at the
+            // click — i.e. before the sCurEx(item.go) further down this same
+            // function. Without the explicit id this 20s-later award attributes
+            // itself to whatever exercise the user was in previously, which is not
+            // cosmetic: it stamps that exercise's XP cooldown (destroying its XP
+            // for the rest of the day), counts a synced production rep for it if it
+            // is a production screen, and can complete an abandoned daily-session
+            // activity. Only goBack() clears curEx, so any exit via the tab bar or
+            // browser-back leaves a stale id to be mis-credited.
+            award(15, undefined, 'lesson', screenId);
           }, 20000);
           lpDwellRef.current = { screen: screenId, statType: bhStat, timer };
         }
