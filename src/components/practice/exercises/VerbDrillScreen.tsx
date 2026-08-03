@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { VERBDRILL, VBPERSONS } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { addWordToSRS } from '../../../lib/srs.js';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
@@ -59,6 +59,7 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const awardFired = useRef(false);
 
   function handleAnswer(opt: string) {
@@ -83,15 +84,22 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
     } else {
       if (!awardFired.current) {
         awardFired.current = true;
-        if (typeof award === 'function') award(score * 3 + 10, false, 'grammar');
-        markQuest('grammar');
-        if (!stats.vs?.includes('verb-drill')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('verb-drill')) return prev;
-            return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'verb-drill'] };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['verb-drill'] });
-        }
+        // `verb-drill` is registered `gated`, but this screen paid the score-scaled
+        // award and credited gc on reaching the last question at ANY score. The
+        // completion authority applies the declared 75% gate to both.
+        const res = completeExercise({
+          key: 'verb-drill',
+          score,
+          total: questions.length,
+          xp: score * 3 + 10,
+          // The score-scaled bonus has always been paid on every completed run.
+          awardOnReplay: true,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
+        setPassed(res.passed);
       }
       setQuizDone(true);
     }
@@ -197,11 +205,31 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
         <CompletionCard
           score={score}
           total={questions.length}
-          xp={score * 3 + 10}
+          // The gate withheld the award on a sub-75% run, so don't advertise XP
+          // that was never paid — CompletionCard hides the badge at 0.
+          xp={passed ? score * 3 + 10 : 0}
           onDone={goBack}
           secondaryLabel="📖 Review Verbs"
           onSecondary={() => setMode('reference')}
         />
+        {!passed && (
+          <button
+            className="b bp"
+            data-testid="drill-retry"
+            style={{ width: '100%', marginTop: 12 }}
+            onClick={() => {
+              awardFired.current = false;
+              setQi(0);
+              setAnswered(false);
+              setSelected(null);
+              setScore(0);
+              setPassed(false);
+              setQuizDone(false);
+            }}
+          >
+            🔁 Try again (need 75%)
+          </button>
+        )}
       </div>
     );
   }

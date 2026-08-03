@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { PRONOUNCASE } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
@@ -17,11 +17,21 @@ function PronounsScreen({ goBack, award }: Props) {
   const correctCountRef = useRef(0);
   const finishFired = useRef(false);
   const [done, setDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const [choices, setChoices] = useState<Record<number, string>>({});
   const shuffledOpts = React.useMemo(
     () => (questions as { q: string; opts: string[]; a: string }[]).map((q) => sh([...q.opts])),
     [questions],
   );
+
+  function retry() {
+    handledRef.current = new Set<number>();
+    correctCountRef.current = 0;
+    finishFired.current = false;
+    setChoices({});
+    setPassed(false);
+    setDone(false);
+  }
 
   function handleAnswer(qi: number, chosenOption: string, correctAnswer: string, sentence: string) {
     if (handledRef.current.has(qi)) return;
@@ -41,14 +51,22 @@ function PronounsScreen({ goBack, award }: Props) {
     if (handledRef.current.size >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
-        markQuest('grammar');
-        if (!stats.vs?.includes('pronouns')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('pronouns')) return prev;
-            return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'pronouns'] };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['pronouns'] });
-        }
+        // `pronouns` is registered `gated`, but this screen credited gc as soon as
+        // every question was ANSWERED — correctCountRef only reached the results
+        // panel. Routing through the completion authority applies the declared 75%
+        // gate and adds the session signals this screen never sent.
+        const res = completeExercise({
+          key: 'pronouns',
+          score: correctCountRef.current,
+          total: questions.length,
+          // Per-answer award(3) is the whole XP; no completion bonus ever existed.
+          xp: 0,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
+        setPassed(res.passed);
       }
       setDone(true);
     }
@@ -191,6 +209,16 @@ function PronounsScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
             {correctCountRef.current}/{questions.length} correct
           </div>
+          {!passed && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginTop: 12 }}
+              onClick={retry}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             ✓ Done
           </button>

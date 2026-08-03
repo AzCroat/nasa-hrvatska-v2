@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { H, Bar, sh, NUMTIME } from '../../data';
-import { markQuest } from '../../lib/quests.js';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { passedLesson } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
 
 export default function NumTime({
@@ -27,6 +28,10 @@ export default function NumTime({
   const total = ntQ.length;
 
   if (!ntQ[ntI]) {
+    // `numtime` is registered `gated`, so a sub-75% run earns no gc and no XP.
+    // Compute the same verdict completeExercise will reach so the results panel
+    // never promises XP the gate is about to withhold.
+    const willPass = passedLesson(ntS, total);
     return (
       <div className="scr-wrap">
         {H('🔢 Numbers & Time', 'Practice numbers, time, and currency in Croatian', goBack)}
@@ -39,23 +44,44 @@ export default function NumTime({
             {ntS} / {total}
           </div>
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '8px 0 16px' }}>
-            +{ntS * 3 + 10} XP
+            {willPass ? `+${ntS * 3 + 10} XP` : 'Need 75% to earn credit'}
           </div>
+          {!willPass && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginBottom: 10 }}
+              onClick={() => {
+                finishFired.current = false;
+                sNtI(0);
+                sNtS(0);
+                sNtA(false);
+                sNtSl(-1);
+                sNtO(sh([ntQ[0]!.a].concat(ntQ[0]!.al)));
+              }}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button
             className="b bp"
             style={{ marginTop: 0 }}
             onClick={() => {
               if (finishFired.current) return;
               finishFired.current = true;
-              if (typeof award === 'function') award(ntS * 3 + 10, false, 'grammar');
-              markQuest('grammar');
-              if (!stats.vs?.includes('numtime')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('numtime')) return prev;
-                  return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'numtime'] };
-                });
-                if (writeDelta) writeDelta({ gc: 1, vs: ['numtime'] });
-              }
+              completeExercise({
+                key: 'numtime',
+                score: ntS,
+                total,
+                xp: ntS * 3 + 10,
+                // Replayable drill — the score-scaled bonus has always been paid
+                // on every finish, not only the first.
+                awardOnReplay: true,
+                stats,
+                setStats,
+                writeDelta,
+                award,
+              });
               goBack();
             }}
           >

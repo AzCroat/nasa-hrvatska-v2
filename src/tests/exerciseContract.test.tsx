@@ -287,6 +287,13 @@ const FULL_CONTRACT_DRILLS = [
   // All Tier 3 exercises fire award automatically via useEffect when the last
   // question is answered. However their option buttons use inline styles (no .ob)
   // so the generic helper cannot click options to advance through questions.
+  //
+  // These are skipped HERE, not untested: every one now has its own behavioural
+  // contract test that drives it with a real answer key and asserts both a
+  // passing and a failing run (src/tests/<screen>.contract.test.tsx, via the
+  // shared helper in src/tests/helpers/mcDrill.tsx). The registry-wide invariant
+  // — no `gated` key may hand-roll its credit — lives in
+  // gatedCreditSites.contract.test.ts.
   {
     name: 'GenderDrillScreen',
     path: '../components/practice/exercises/GenderDrillScreen',
@@ -355,7 +362,9 @@ const FULL_CONTRACT_DRILLS = [
     path: '../components/practice/exercises/SentenceBuilderScreen',
     vsTag: 'sentence-builder',
     skip: true,
-    skipReason: 'Drag-to-build sentence interaction; no .ob MC buttons',
+    // Not drag-to-build, as this reason used to claim — it is a plain MC list
+    // with inline-styled buttons, driven for real in sentenceBuilder.contract.test.tsx.
+    skipReason: 'Inline-style MC buttons (no .ob class); helper cannot click options',
   },
   {
     name: 'PossessivesScreen',

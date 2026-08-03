@@ -1,15 +1,23 @@
 /**
  * comparatives.contract.test.tsx — Pattern X
  *
- * ComparativesScreen fires the contract when all comparative quiz questions are answered.
- * The reference table buttons use border:none+borderBottom; quiz options use
- * #d6d3d1 = rgb(214,211,209) for the unanswered border. We click only quiz options.
+ * ComparativesScreen fires the contract when all comparative quiz questions are
+ * answered. The reference table buttons use border:none+borderBottom; quiz
+ * options use #d6d3d1 = rgb(214,211,209) for the unanswered border, which is how
+ * `answerAll` tells them apart.
+ *
+ * `comparatives` is registered `gated`, so the contract is no longer "every
+ * question was answered" but "every question was answered AND the run passed
+ * 75%". The old helper clicked option 0 of every question — roughly 1/15 correct
+ * — so it could not distinguish those, and the screen credited gc either way.
+ * Both branches are asserted below.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
-import { StatsProvider } from '../context/StatsContext';
-import type { Stats, StatsContextValue } from '../types';
+import { render, screen } from '@testing-library/react';
+import { COMPQUIZ } from '../data';
+import { answerAll, makeDrillCtx, withStats } from './helpers/mcDrill';
+import type { Stats } from '../types';
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0.9999 }));
 
@@ -18,77 +26,38 @@ vi.mock('../lib/quests.js', () => ({
   markQuest: (...args: unknown[]) => markQuestMock(...args),
 }));
 
-function makeCtx(vsOverride?: string[]) {
-  const setStats = vi.fn();
-  const writeDelta = vi.fn();
-  const award = vi.fn();
-  const stats: Stats = {
-    xp: 0,
-    lc: 0,
-    gc: 0,
-    sp: 0,
-    de: 0,
-    rc: 0,
-    pf: 0,
-    mv: 0,
-    hi: 0,
-    str: 0,
-    authLoading: 0,
-    diff: 'beginner',
-    ct: [],
-    vs: vsOverride ?? [],
-    rs: [],
-    badges: [],
-  };
-  const value: StatsContextValue = {
-    stats,
-    setStats,
-    writeDelta,
-    dispatch: vi.fn(),
-    award,
-    level: 1,
-  };
-  return { value, setStats, writeDelta, award };
-}
-
-function clickAllGrayOptionButtons(): void {
-  // Quiz option buttons have border: 2px solid rgb(214,211,209) when unanswered
-  // Reference table buttons have border: none; borderBottom: ... (no rgb(214,211,209))
-  const btns = Array.from(document.querySelectorAll('button')) as HTMLButtonElement[];
-  const grayBtns = btns.filter((b) =>
-    (b.getAttribute('style') ?? '').includes('rgb(214, 211, 209)'),
-  );
-  grayBtns.forEach((b) => fireEvent.click(b));
-}
+const OPT_BORDER = 'rgb(214, 211, 209)';
+// rnd()=0.9999 → Fisher-Yates makes no swaps → shMemo('cq', COMPQUIZ, 15) is
+// COMPQUIZ.slice(0,15) in order, and each question's options keep their order.
+const ANSWERS = (COMPQUIZ as { a: string }[]).slice(0, 15).map((q) => q.a);
 
 describe('ComparativesScreen contract (Pattern X)', () => {
   beforeEach(() => {
     markQuestMock.mockClear();
   });
 
-  it('fires award, markQuest(grammar), setStats gc+1/vs:comparatives, writeDelta', async () => {
+  it('credits gc + vs:comparatives and marks the quest on a passing run', async () => {
     const { default: ComparativesScreen } =
       await import('../components/practice/exercises/ComparativesScreen');
-    const { value, setStats, writeDelta, award } = makeCtx();
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <ComparativesScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <ComparativesScreen goBack={vi.fn()} award={award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    // Non-vacuity: the run really reached the results panel.
+    expect(screen.getByText(`${ANSWERS.length}/${ANSWERS.length} correct`)).toBeTruthy();
 
     expect(award).toHaveBeenCalled();
     const calls = award.mock.calls as [number, boolean, string][];
-    const grammarCall = calls.find((c) => c[2] === 'grammar');
-    expect(grammarCall).toBeDefined();
+    expect(calls.find((c) => c[2] === 'grammar')).toBeDefined();
 
     expect(markQuestMock).toHaveBeenCalledWith('grammar');
 
     expect(setStats).toHaveBeenCalled();
     const updater = setStats.mock.calls[0]![0] as (prev: Stats) => Stats;
-    const next = updater({ ...value.stats });
+    const next = updater({ ...ctx.stats });
     expect(next.gc).toBe(1);
     expect(next.vs).toContain('comparatives');
 
@@ -97,20 +66,40 @@ describe('ComparativesScreen contract (Pattern X)', () => {
     );
   });
 
+  it('credits nothing on a failing run — the gate the registry declares', async () => {
+    const { default: ComparativesScreen } =
+      await import('../components/practice/exercises/ComparativesScreen');
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <ComparativesScreen goBack={vi.fn()} award={award} />));
+
+    answerAll(OPT_BORDER, ANSWERS, 'wrong');
+
+    // Non-vacuity: every question WAS answered — the finish happened, only the
+    // credit is withheld. Before the migration this run earned gc + the quest.
+    expect(screen.getByText(`0/${ANSWERS.length} correct`)).toBeTruthy();
+    expect(screen.getByTestId('drill-retry')).toBeTruthy();
+
+    expect(markQuestMock).not.toHaveBeenCalled();
+    expect(setStats).not.toHaveBeenCalled();
+    expect(writeDelta).not.toHaveBeenCalled();
+    // Per-answer award(3) only fires on a correct answer, so a zero-correct run
+    // pays nothing at all.
+    expect(award).not.toHaveBeenCalled();
+  });
+
   it('is idempotent — skips setStats/writeDelta when vs already has comparatives', async () => {
     const { default: ComparativesScreen } =
       await import('../components/practice/exercises/ComparativesScreen');
-    const { value, setStats, writeDelta, award } = makeCtx(['comparatives']);
+    const ctx = makeDrillCtx(['comparatives']);
+    const { setStats, writeDelta, award } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <ComparativesScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <ComparativesScreen goBack={vi.fn()} award={award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
 
-    expect(markQuestMock).toHaveBeenCalledWith('grammar');
+    expect(markQuestMock).not.toHaveBeenCalled();
     expect(setStats).not.toHaveBeenCalled();
     expect(writeDelta).not.toHaveBeenCalled();
   });

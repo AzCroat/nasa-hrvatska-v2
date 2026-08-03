@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { H, speak, stopAudio, srMark } from '../../data';
 import { useStats } from '../../context/StatsContext';
-import { markQuest } from '../../lib/quests.js';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { passedLesson } from '../../lib/lessonGate';
 import { logError } from '../../lib/learnerErrors.js';
 import { _aiPost } from '../../lib/aiPost';
 import { rnd } from '../../lib/random.js';
@@ -670,16 +671,24 @@ export default function ClozeEngine({ goBack, award }: Props) {
     if (qi + 1 >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
-        const earned = Math.round((score / questions.length) * 30) + 10;
-        if (typeof award === 'function') award(earned, false, 'grammar');
-        markQuest('grammar');
-        if (!stats.vs?.includes('cloze')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('cloze')) return prev;
-            return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'cloze'] };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['cloze'] });
-        }
+        // `cloze` is registered `gated`, but this screen paid the score-scaled
+        // award and credited gc on reaching the last question at ANY score. The
+        // completion authority applies the declared 75% gate to both, and feeds
+        // the real accuracy to the adaptive category scheduler — cloze is one of
+        // the multi-category screens Today's Session routes `cat_*` activities to.
+        completeExercise({
+          key: 'cloze',
+          score,
+          total: questions.length,
+          xp: Math.round((score / questions.length) * 30) + 10,
+          // This screen has its own "Play Again" button and has always paid the
+          // score-scaled bonus on every passing run.
+          awardOnReplay: true,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
       }
       setDone(true);
     } else {
@@ -792,10 +801,28 @@ export default function ClozeEngine({ goBack, award }: Props) {
                 : 'Nastavi — practice makes perfect!'}
           </div>
         </div>
+        {!passedLesson(score, questions.length) && (
+          <div
+            data-testid="drill-retry-hint"
+            style={{
+              textAlign: 'center',
+              fontSize: 13,
+              fontWeight: 700,
+              color: 'var(--subtext)',
+              marginBottom: 10,
+            }}
+          >
+            Need 75% to earn credit — play again to pass.
+          </div>
+        )}
         <button
           className="b bp"
           style={{ width: '100%', fontSize: 15, padding: '14px', marginBottom: 10 }}
           onClick={() => {
+            // Clear the once-per-mount finish guard too. Without this, a run that
+            // missed the 75% gate could never be credited on a replay — the guard
+            // would swallow the second completeExercise call.
+            finishFired.current = false;
             setQi(0);
             setSelected(null);
             setScore(0);

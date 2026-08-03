@@ -1,15 +1,18 @@
 /**
  * possessives.contract.test.tsx — Pattern X
  *
- * PossessivesScreen fires the contract when all possessive pronoun quiz questions
- * are answered. shMemo limits to 10 questions; we snapshot all gray-border option
- * buttons and click them.
+ * `possessives` is registered `gated`, but the screen used to credit gc as soon
+ * as every question was ANSWERED — correctCountRef only ever reached the results
+ * panel. The old helper here clicked option 0 of every question, so it could not
+ * tell a pass from a fail and went green either way. Both branches are asserted
+ * now; see src/tests/helpers/mcDrill.tsx.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
-import { StatsProvider } from '../context/StatsContext';
-import type { Stats, StatsContextValue } from '../types';
+import { render, screen } from '@testing-library/react';
+import { POSSESS } from '../data';
+import { answerAll, makeDrillCtx, withStats } from './helpers/mcDrill';
+import type { Stats } from '../types';
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0.9999 }));
 
@@ -18,75 +21,37 @@ vi.mock('../lib/quests.js', () => ({
   markQuest: (...args: unknown[]) => markQuestMock(...args),
 }));
 
-function makeCtx(vsOverride?: string[]) {
-  const setStats = vi.fn();
-  const writeDelta = vi.fn();
-  const award = vi.fn();
-  const stats: Stats = {
-    xp: 0,
-    lc: 0,
-    gc: 0,
-    sp: 0,
-    de: 0,
-    rc: 0,
-    pf: 0,
-    mv: 0,
-    hi: 0,
-    str: 0,
-    authLoading: 0,
-    diff: 'beginner',
-    ct: [],
-    vs: vsOverride ?? [],
-    rs: [],
-    badges: [],
-  };
-  const value: StatsContextValue = {
-    stats,
-    setStats,
-    writeDelta,
-    dispatch: vi.fn(),
-    award,
-    level: 1,
-  };
-  return { value, setStats, writeDelta, award };
-}
-
-function clickAllGrayOptionButtons(): void {
-  const btns = Array.from(document.querySelectorAll('button')) as HTMLButtonElement[];
-  const grayBtns = btns.filter((b) =>
-    (b.getAttribute('style') ?? '').includes('rgb(214, 211, 209)'),
-  );
-  grayBtns.forEach((b) => fireEvent.click(b));
-}
+const OPT_BORDER = 'rgb(214, 211, 209)';
+// rnd()=0.9999 → no Fisher-Yates swaps → shMemo('pq', POSSESS.quiz, 10) is
+// POSSESS.quiz.slice(0,10) in order, options likewise.
+const ANSWERS = (POSSESS.quiz as { a: string }[]).slice(0, 10).map((q) => q.a);
 
 describe('PossessivesScreen contract (Pattern X)', () => {
   beforeEach(() => {
     markQuestMock.mockClear();
   });
 
-  it('fires award, markQuest(grammar), setStats gc+1/vs:possessives, writeDelta', async () => {
+  it('credits gc + vs:possessives and marks the quest on a passing run', async () => {
     const { default: PossessivesScreen } =
       await import('../components/practice/exercises/PossessivesScreen');
-    const { value, setStats, writeDelta, award } = makeCtx();
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <PossessivesScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <PossessivesScreen goBack={vi.fn()} award={award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    expect(screen.getByText(`${ANSWERS.length}/${ANSWERS.length} correct`)).toBeTruthy();
 
     expect(award).toHaveBeenCalled();
     const calls = award.mock.calls as [number, boolean, string][];
-    const grammarCall = calls.find((c) => c[2] === 'grammar');
-    expect(grammarCall).toBeDefined();
+    expect(calls.find((c) => c[2] === 'grammar')).toBeDefined();
 
     expect(markQuestMock).toHaveBeenCalledWith('grammar');
 
     expect(setStats).toHaveBeenCalled();
     const updater = setStats.mock.calls[0]![0] as (prev: Stats) => Stats;
-    const next = updater({ ...value.stats });
+    const next = updater({ ...ctx.stats });
     expect(next.gc).toBe(1);
     expect(next.vs).toContain('possessives');
 
@@ -95,20 +60,37 @@ describe('PossessivesScreen contract (Pattern X)', () => {
     );
   });
 
+  it('credits nothing on a failing run — the gate the registry declares', async () => {
+    const { default: PossessivesScreen } =
+      await import('../components/practice/exercises/PossessivesScreen');
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <PossessivesScreen goBack={vi.fn()} award={award} />));
+
+    answerAll(OPT_BORDER, ANSWERS, 'wrong');
+
+    // Non-vacuity: the run finished — only the credit is withheld.
+    expect(screen.getByText(`0/${ANSWERS.length} correct`)).toBeTruthy();
+    expect(screen.getByTestId('drill-retry')).toBeTruthy();
+
+    expect(markQuestMock).not.toHaveBeenCalled();
+    expect(setStats).not.toHaveBeenCalled();
+    expect(writeDelta).not.toHaveBeenCalled();
+    expect(award).not.toHaveBeenCalled();
+  });
+
   it('is idempotent — skips setStats/writeDelta when vs already has possessives', async () => {
     const { default: PossessivesScreen } =
       await import('../components/practice/exercises/PossessivesScreen');
-    const { value, setStats, writeDelta, award } = makeCtx(['possessives']);
+    const ctx = makeDrillCtx(['possessives']);
+    const { setStats, writeDelta, award } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <PossessivesScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <PossessivesScreen goBack={vi.fn()} award={award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
 
-    expect(markQuestMock).toHaveBeenCalledWith('grammar');
+    expect(markQuestMock).not.toHaveBeenCalled();
     expect(setStats).not.toHaveBeenCalled();
     expect(writeDelta).not.toHaveBeenCalled();
   });

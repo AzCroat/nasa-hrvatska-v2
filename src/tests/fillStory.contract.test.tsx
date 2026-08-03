@@ -1,15 +1,18 @@
 /**
  * fillStory.contract.test.tsx — Pattern X
  *
- * FillStoryScreen fires the contract when all story blank questions are answered.
- * All blanks render at once; we snapshot all unanswered (gray-border) option buttons
- * and click them. handledRef prevents double-counting.
+ * `fill-story` is registered `gated`, but the screen used to credit gc — and pay the
+ * whole score-scaled award — as soon as every question was ANSWERED, at any
+ * score. The old helper here clicked option 0 of every question, so it could not
+ * tell a pass from a fail and went green either way. Both branches are asserted
+ * now; see src/tests/helpers/mcDrill.tsx.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
-import { StatsProvider } from '../context/StatsContext';
-import type { Stats, StatsContextValue } from '../types';
+import { render, screen } from '@testing-library/react';
+import { FILL_STORIES } from '../data';
+import { answerAll, makeDrillCtx, withStats } from './helpers/mcDrill';
+import type { Stats } from '../types';
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0.9999 }));
 
@@ -18,76 +21,41 @@ vi.mock('../lib/quests.js', () => ({
   markQuest: (...args: unknown[]) => markQuestMock(...args),
 }));
 
-function makeCtx(vsOverride?: string[]) {
-  const setStats = vi.fn();
-  const writeDelta = vi.fn();
-  const award = vi.fn();
-  const stats: Stats = {
-    xp: 0,
-    lc: 0,
-    gc: 0,
-    sp: 0,
-    de: 0,
-    rc: 0,
-    pf: 0,
-    mv: 0,
-    hi: 0,
-    str: 0,
-    authLoading: 0,
-    diff: 'beginner',
-    ct: [],
-    vs: vsOverride ?? [],
-    rs: [],
-    badges: [],
-  };
-  const value: StatsContextValue = {
-    stats,
-    setStats,
-    writeDelta,
-    dispatch: vi.fn(),
-    award,
-    level: 1,
-  };
-  return { value, setStats, writeDelta, award };
-}
-
-function clickAllGrayOptionButtons(): void {
-  const btns = Array.from(document.querySelectorAll('button')) as HTMLButtonElement[];
-  const grayBtns = btns.filter((b) =>
-    (b.getAttribute('style') ?? '').includes('rgb(214, 211, 209)'),
-  );
-  grayBtns.forEach((b) => fireEvent.click(b));
-}
+const OPT_BORDER = 'rgb(214, 211, 209)';
+// rnd()=0.9999 → Fisher-Yates makes no swaps, so questions and their options keep
+// their source order and a positional answer key is exact.
+const ANSWERS = (FILL_STORIES as { story: { blank: string }[] }[]).flatMap((s) =>
+  s.story.map((q) => q.blank),
+);
 
 describe('FillStoryScreen contract (Pattern X)', () => {
   beforeEach(() => {
     markQuestMock.mockClear();
   });
 
-  it('fires award, markQuest(grammar), setStats gc+1/vs:fill-story, writeDelta', async () => {
+  it('credits gc + vs:fill-story and marks the quest on a passing run', async () => {
     const { default: FillStoryScreen } =
       await import('../components/practice/exercises/FillStoryScreen');
-    const { value, setStats, writeDelta, award } = makeCtx();
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta, award } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <FillStoryScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <FillStoryScreen goBack={vi.fn()} award={award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    // Non-vacuity: the run really reached the results panel with a full score.
+    expect(screen.getByText(`${ANSWERS.length}/${ANSWERS.length} correct`)).toBeTruthy();
+    expect(screen.queryByTestId('drill-retry')).toBeNull();
 
     expect(award).toHaveBeenCalled();
     const calls = award.mock.calls as [number, boolean, string][];
-    const grammarCall = calls.find((c) => c[2] === 'grammar');
-    expect(grammarCall).toBeDefined();
-    expect(grammarCall![0]).toBeGreaterThan(0);
+    expect(calls.find((c) => c[2] === 'grammar')).toBeDefined();
 
     expect(markQuestMock).toHaveBeenCalledWith('grammar');
 
     expect(setStats).toHaveBeenCalled();
-    const updater = setStats.mock.calls[0]![0] as (prev: Stats) => Stats;
-    const next = updater({ ...value.stats });
+    const updater = setStats.mock.calls.at(-1)![0] as (prev: Stats) => Stats;
+    const next = updater({ ...ctx.stats });
     expect(next.gc).toBe(1);
     expect(next.vs).toContain('fill-story');
 
@@ -96,20 +64,37 @@ describe('FillStoryScreen contract (Pattern X)', () => {
     );
   });
 
-  it('is idempotent — skips setStats/writeDelta when vs already has fill-story', async () => {
+  it('credits nothing on a failing run — the gate the registry declares', async () => {
     const { default: FillStoryScreen } =
       await import('../components/practice/exercises/FillStoryScreen');
-    const { value, setStats, writeDelta, award } = makeCtx(['fill-story']);
+    const ctx = makeDrillCtx();
+    const { setStats, writeDelta } = ctx;
 
-    render(
-      <StatsProvider value={value}>
-        <FillStoryScreen goBack={vi.fn()} award={award} />
-      </StatsProvider>,
-    );
+    render(withStats(ctx, <FillStoryScreen goBack={vi.fn()} award={ctx.award} />));
 
-    clickAllGrayOptionButtons();
+    answerAll(OPT_BORDER, ANSWERS, 'wrong');
 
-    expect(markQuestMock).toHaveBeenCalledWith('grammar');
+    // Non-vacuity: every question WAS answered — the finish happened, only the
+    // credit is withheld. This is the run that used to earn full credit.
+    expect(screen.getByText(`0/${ANSWERS.length} correct`)).toBeTruthy();
+    expect(screen.getByTestId('drill-retry')).toBeTruthy();
+
+    expect(markQuestMock).not.toHaveBeenCalled();
+    expect(setStats).not.toHaveBeenCalled();
+    expect(writeDelta).not.toHaveBeenCalled();
+  });
+
+  it('is idempotent — no second gc/vs write when vs already has fill-story', async () => {
+    const { default: FillStoryScreen } =
+      await import('../components/practice/exercises/FillStoryScreen');
+    const ctx = makeDrillCtx(['fill-story']);
+    const { setStats, writeDelta, award } = ctx;
+
+    render(withStats(ctx, <FillStoryScreen goBack={vi.fn()} award={award} />));
+
+    answerAll(OPT_BORDER, ANSWERS, 'correct');
+
+    expect(markQuestMock).not.toHaveBeenCalled();
     expect(setStats).not.toHaveBeenCalled();
     expect(writeDelta).not.toHaveBeenCalled();
   });

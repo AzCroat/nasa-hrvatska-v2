@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { POSSESS } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -16,6 +16,7 @@ function PossessivesScreen({ goBack, award }: Props) {
   const correctCountRef = useRef(0);
   const finishFired = useRef(false);
   const [done, setDone] = useState(false);
+  const [passed, setPassed] = useState(false);
   const [choices, setChoices] = useState<Record<number, string>>({});
   const shuffledOpts = React.useMemo(
     () =>
@@ -24,6 +25,15 @@ function PossessivesScreen({ goBack, award }: Props) {
       ),
     [questions],
   );
+
+  function retry() {
+    handledRef.current = new Set<number>();
+    correctCountRef.current = 0;
+    finishFired.current = false;
+    setChoices({});
+    setPassed(false);
+    setDone(false);
+  }
 
   function handleAnswer(qi: number, chosenOption: string, correctAnswer: string, spoken: string) {
     if (handledRef.current.has(qi)) return;
@@ -41,14 +51,24 @@ function PossessivesScreen({ goBack, award }: Props) {
     if (handledRef.current.size >= questions.length) {
       if (!finishFired.current) {
         finishFired.current = true;
-        markQuest('grammar');
-        if (!stats.vs?.includes('possessives')) {
-          setStats((prev) => {
-            if (prev.vs?.includes('possessives')) return prev;
-            return { ...prev, gc: (prev.gc || 0) + 1, vs: [...(prev.vs || []), 'possessives'] };
-          });
-          if (writeDelta) writeDelta({ gc: 1, vs: ['possessives'] });
-        }
+        // `possessives` is registered `gated`, but this screen credited gc as soon
+        // as every question was ANSWERED — correctCountRef only ever reached the
+        // results panel. The single completion authority applies the declared 75%
+        // gate and owns the quest mark, the vs write and the session signals
+        // (which this screen never sent at all, so a zero-correct run used to
+        // strand the daily session here).
+        const res = completeExercise({
+          key: 'possessives',
+          score: correctCountRef.current,
+          total: questions.length,
+          // Per-answer award(3) is the whole XP; no completion bonus ever existed.
+          xp: 0,
+          stats,
+          setStats,
+          writeDelta,
+          award,
+        });
+        setPassed(res.passed);
       }
       setDone(true);
     }
@@ -175,6 +195,16 @@ function PossessivesScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
             {correctCountRef.current}/{questions.length} correct
           </div>
+          {!passed && (
+            <button
+              className="b bp"
+              data-testid="drill-retry"
+              style={{ width: '100%', marginTop: 12 }}
+              onClick={retry}
+            >
+              🔁 Try again (need 75%)
+            </button>
+          )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             ✓ Done
           </button>
