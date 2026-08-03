@@ -13,6 +13,7 @@
 // not build or run the native app. Confirm firing during closed testing.
 
 import { isNative } from './platform';
+import { sessionFirstName } from './sessionUser';
 
 // Stable id so re-scheduling REPLACES the existing reminder instead of stacking.
 const DAILY_REMINDER_ID = 1001;
@@ -56,16 +57,10 @@ function reminderClock(): { hour: number; minute: number } {
 
 /** A short, streak-aware reminder message (kept self-contained — no heavy deps). */
 function reminderMessage(streakDays: number): { title: string; body: string } {
-  let firstName = '';
-  try {
-    const profile = JSON.parse(localStorage.getItem('nh_profile') || '{}') as {
-      name?: string;
-      displayName?: string;
-    };
-    firstName = (profile.name || profile.displayName || '').split(' ')[0]?.trim() || '';
-  } catch {
-    /* no name */
-  }
+  // `nh_profile` had no writer anywhere in the app, so this was always ''. The
+  // name lives in the `uS` session blob — see sessionUser.ts for why it needs
+  // filtering rather than being read straight off `d`.
+  const firstName = sessionFirstName();
   const tag = firstName ? `, ${firstName}` : '';
   if (streakDays >= 3) {
     return {
