@@ -29,7 +29,12 @@ function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin || 'https://nasahrvatska.com',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    // Required, not decorative: this endpoint calls getFirebaseClaims, so the
+    // request always carries a Bearer token. Omitting it here meant the native
+    // build's preflight was rejected and the POST never left the device — see
+    // the same note in scene-video.js. Invisible on the web, where the shared
+    // origin means no preflight happens at all.
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
 }

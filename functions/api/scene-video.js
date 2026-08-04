@@ -43,7 +43,19 @@ function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin || 'https://nasahrvatska.com',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    // `Authorization` is not optional here: this endpoint calls getFirebaseUid,
+    // so every request carries a Bearer token (apiFetch attaches it). Listing
+    // only Content-Type left the endpoint dead in the native build — the app
+    // runs at https://localhost and API_BASE points at https://nasahrvatska.com,
+    // which is cross-origin, so the WebView must preflight before it may send a
+    // non-simple header. The preflight did not name Authorization, so it failed
+    // and the real GET was never issued at all. Video Lesson scenes silently
+    // fell back to the Ken Burns still on every device.
+    //
+    // On the web this is invisible: same origin, no preflight, header sent
+    // freely. That is precisely why it survived — the failure only exists where
+    // it cannot be seen from a browser tab.
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   };
 }
 
