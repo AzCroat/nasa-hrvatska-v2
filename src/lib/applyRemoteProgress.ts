@@ -23,14 +23,9 @@ import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './
 import { lsGet } from './safeStorage.js';
 import { normalizePersonaKey } from './personaKey';
 import { mergeJournals } from './journalEntry';
-import {
-  CUSTOM_WORDS_KEY,
-  CUSTOM_WORDS_DELETED_KEY,
-  parseTombstones,
-  mergeTombstones,
-  mergeCustomWords,
-  type Tombstones,
-} from './customWords';
+import { CUSTOM_WORDS_KEY, CUSTOM_WORDS_DELETED_KEY, mergeCustomWords } from './customWords';
+import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY, mergeMediaDone } from './mediaDone';
+import { parseTombstones, mergeTombstones, type Tombstones } from './tombstones';
 
 export interface RemoteProgressSetters {
   setFavs: (favs: unknown[]) => void;
@@ -508,15 +503,29 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     } catch (_) {}
   }
 
-  // ── Media done — union (local wins on conflict) ───────────────────────────
-  if (fp.nh_media_done && typeof fp.nh_media_done === 'object') {
-    let lMD: Record<string, unknown> = {};
-    try {
-      lMD = JSON.parse(lsGet('nh_media_done') || '{}');
-    } catch (_) {}
-    try {
-      _safeSet('nh_media_done', JSON.stringify({ ...fp.nh_media_done, ...lMD }));
-    } catch (_) {}
+  // ── Media done — union by item, minus anything un-ticked ──────────────────
+  // Un-ticks travel as their own additive record, so the union stays additive
+  // and nothing is subtracted during the merge (see lib/tombstones.ts). Runs
+  // whenever EITHER side is present: a payload carrying only un-ticks still has
+  // to take effect, which the old `fp.nh_media_done`-only guard would skip.
+  {
+    const remoteTombs = parseTombstones(fp.nh_media_done_deleted);
+    const hasRemoteDone = !!fp.nh_media_done && typeof fp.nh_media_done === 'object';
+    if (hasRemoteDone || Object.keys(remoteTombs).length > 0) {
+      let lMD: unknown = {};
+      let lTombs: Tombstones = {};
+      try {
+        lMD = JSON.parse(lsGet(MEDIA_DONE_KEY) || '{}');
+      } catch (_) {}
+      try {
+        lTombs = parseTombstones(JSON.parse(lsGet(MEDIA_DONE_DELETED_KEY) || '{}'));
+      } catch (_) {}
+      const tombs = mergeTombstones(lTombs, remoteTombs);
+      try {
+        _safeSet(MEDIA_DONE_DELETED_KEY, JSON.stringify(tombs));
+        _safeSet(MEDIA_DONE_KEY, JSON.stringify(mergeMediaDone(lMD, fp.nh_media_done, tombs)));
+      } catch (_) {}
+    }
   }
 
   // ── Session history — additive union (never remove completed days) ──────────────

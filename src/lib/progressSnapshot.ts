@@ -202,6 +202,16 @@ export function buildProgressSnapshot({
         return [];
       }
     })(),
+    // Un-ticked media. Must travel with the ticks themselves: the merge unions
+    // both maps, so without this record the other device's copy restores
+    // anything the learner un-marked. See lib/tombstones.ts.
+    nh_media_done_deleted: (() => {
+      try {
+        return JSON.parse(lsGet('nh_media_done_deleted') || '{}');
+      } catch {
+        return {};
+      }
+    })(),
     nh_media_done: (() => {
       try {
         return JSON.parse(lsGet('nh_media_done') || '{}');
