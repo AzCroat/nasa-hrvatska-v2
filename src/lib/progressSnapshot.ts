@@ -197,9 +197,20 @@ export function buildProgressSnapshot({
     nh_hearts_always_on: lsGet('nh_hearts_always_on') === 'true',
     nh_saved_phrases: (() => {
       try {
-        return JSON.parse(lsGet('nh_saved_phrases') || '[]');
+        // Shape is `{ phrase: savedAt }` now; the `[]` fallback still reads any
+        // pre-migration array, which applyRemoteProgress resolves on the way in.
+        return JSON.parse(lsGet('nh_saved_phrases') || '{}');
       } catch {
-        return [];
+        return {};
+      }
+    })(),
+    // Un-saved phrases. Must travel with the bookmarks: the merge unions both
+    // maps, so without this the other device restores what was un-saved.
+    nh_saved_phrases_deleted: (() => {
+      try {
+        return JSON.parse(lsGet('nh_saved_phrases_deleted') || '{}');
+      } catch {
+        return {};
       }
     })(),
     // Un-ticked media. Must travel with the ticks themselves: the merge unions

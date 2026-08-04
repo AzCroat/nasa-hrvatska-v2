@@ -796,13 +796,16 @@ describe('applyRemoteProgress — checkpoints and custom words', () => {
   });
 
   it('merges nh_saved_phrases deduplicating', () => {
+    // Shape is now `{ phrase: savedAt }` rather than an array — the guarantee
+    // asserted here (union across devices, one entry per phrase) is unchanged;
+    // only the container is. Note this fixture always used phrase STRINGS while
+    // the screen actually stored positional indices, which is a large part of
+    // why the index bug survived so long: nothing modelled the real shape.
     localStorage.setItem('nh_saved_phrases', JSON.stringify(['Dobar dan!']));
     const setters = makeSetters();
     applyRemoteProgress({ nh_saved_phrases: ['Dobar dan!', 'Hvala!'] }, setters);
-    const stored = JSON.parse(localStorage.getItem('nh_saved_phrases') || '[]');
-    expect(stored).toHaveLength(2);
-    expect(stored).toContain('Hvala!');
-    expect(stored.filter((s: string) => s === 'Dobar dan!')).toHaveLength(1);
+    const stored = JSON.parse(localStorage.getItem('nh_saved_phrases') || '{}');
+    expect(Object.keys(stored).sort()).toEqual(['Dobar dan!', 'Hvala!']);
   });
 
   it('merges nh_media_done (local wins on conflict)', () => {
