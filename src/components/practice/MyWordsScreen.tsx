@@ -1,7 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { speak, srMark } from '../../data';
+import {
+  CUSTOM_WORDS_KEY,
+  CUSTOM_WORDS_DELETED_KEY,
+  wordKey,
+  parseTombstones,
+  mergeTombstones,
+  type CustomWord as SharedCustomWord,
+} from '../../lib/customWords';
 
-const STORAGE_KEY = 'nh_custom_words';
+const STORAGE_KEY = CUSTOM_WORDS_KEY;
 
 // nh_custom_words is synced inside the progress blob, which Firestore rules cap
 // at 200 KB — and a breach fails the whole atomic users/{id} write, so it kills
@@ -19,16 +27,29 @@ function loadWords() {
   }
 }
 
-interface CustomWord {
-  hr: string;
-  en: string;
-  phonetic?: string;
-  example?: string;
-  addedAt: number;
-}
+type CustomWord = SharedCustomWord;
 
 function saveWords(words: CustomWord[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+}
+
+/**
+ * Record that this entry was deleted, so the deletion survives a sync.
+ *
+ * Removing it from the local list is not enough on its own: applyRemoteProgress
+ * unions the local and remote lists, so the other device's copy simply put it
+ * back and the trash button appeared to do nothing. See lib/customWords.ts.
+ */
+function recordDeletion(word: CustomWord) {
+  try {
+    const existing = parseTombstones(
+      JSON.parse(localStorage.getItem(CUSTOM_WORDS_DELETED_KEY) || '{}'),
+    );
+    const merged = mergeTombstones(existing, { [wordKey(word)]: Date.now() });
+    localStorage.setItem(CUSTOM_WORDS_DELETED_KEY, JSON.stringify(merged));
+  } catch {
+    /* a lost tombstone costs a resurrected word, never the deletion itself */
+  }
 }
 
 function timeAgo(ts: number) {
@@ -387,7 +408,9 @@ function WordList({
 }) {
   const deleteWord = useCallback(
     (idx: number) => {
+      const removed = words[idx];
       const updated = words.filter((_, i) => i !== idx);
+      if (removed) recordDeletion(removed);
       setWords(updated);
       saveWords(updated);
     },
