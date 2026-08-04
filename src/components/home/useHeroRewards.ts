@@ -6,15 +6,13 @@ import {
   activateXPBoost,
   canActivateXPBoost,
   XP_BOOST_COST,
+  STREAK_RESTORE_COST,
   restoreStreakDays,
 } from '../../lib/appUtils.js';
 import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import { availableXp } from '../../lib/xpBalance.js';
 import { safeSetItem } from '../../hooks/useLocalStorage';
 import { lsSet } from '../../lib/safeStorage';
-
-// Streak Restore cost — matches the RewardsPanel affordability gate (xp >= 200).
-const STREAK_RESTORE_COST = 200;
 
 /**
  * Hero rewards state + actions — streak freezes, 2× XP boost, and streak

@@ -97,6 +97,20 @@ export const XP_BOOST_COST = 100;
 export const XP_BOOST_DURATION_MS = 30 * 60 * 1000;
 export const XP_BOOST_MULTIPLIER = 2;
 
+// ─── Streak Restore ──────────────────────────────────────────────────────────
+/**
+ * Price of recovering a broken streak.
+ *
+ * Lives here, next to XP_BOOST_COST, because the price has to be one number.
+ * It used to be written three times — a local const in useHeroRewards (what the
+ * learner is charged), a bare `xp >= 200` in the RewardsPanel visibility gate,
+ * and the literal "200 XP" in the button label. The other two rewards already
+ * shared a constant between their charge and their display; this one did not,
+ * so changing the price in the obvious place would have left the panel still
+ * gating at the old number and still advertising it while charging the new one.
+ */
+export const STREAK_RESTORE_COST = 200;
+
 export function getXPBoost(): { active: boolean; expiresAt: number; msRemaining: number } {
   try {
     const exp = parseInt(localStorage.getItem('nh_xp_boost_expires') || '0', 10);
