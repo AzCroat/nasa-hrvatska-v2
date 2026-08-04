@@ -7,11 +7,13 @@ import {
   getActionLabel,
   markImmersionToday,
 } from './MediaPlayerUtils';
+import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY } from '../../lib/mediaDone';
+import { parseTombstones, recordTombstone } from '../../lib/tombstones';
 
 // ── Completion tracking (localStorage) ───────────────────────────────────────
 function getCompletedMedia() {
   try {
-    return JSON.parse(localStorage.getItem('nh_media_done') || '{}');
+    return JSON.parse(localStorage.getItem(MEDIA_DONE_KEY) || '{}');
   } catch {
     return {};
   }
@@ -19,7 +21,33 @@ function getCompletedMedia() {
 function markMediaDone(id: string) {
   const done = getCompletedMedia();
   done[id] = Date.now();
-  localStorage.setItem('nh_media_done', JSON.stringify(done));
+  localStorage.setItem(MEDIA_DONE_KEY, JSON.stringify(done));
+}
+
+/**
+ * Record that this item was un-marked, so the un-mark survives a sync.
+ *
+ * Removing the key locally is not enough: applyRemoteProgress unions the local
+ * and remote maps, so the other device's copy simply put it back and the tick
+ * reappeared. The tombstone is itself additive, so this does not weaken the
+ * never-reduce merge rule — see lib/tombstones.ts.
+ *
+ * Marking done again stamps a fresh Date.now(), which is newer than the
+ * tombstone, so the item returns everywhere without an "undelete" record.
+ */
+function markMediaNotDone(id: string) {
+  const done = getCompletedMedia();
+  delete done[id];
+  localStorage.setItem(MEDIA_DONE_KEY, JSON.stringify(done));
+  try {
+    const tombs = parseTombstones(JSON.parse(localStorage.getItem(MEDIA_DONE_DELETED_KEY) || '{}'));
+    localStorage.setItem(
+      MEDIA_DONE_DELETED_KEY,
+      JSON.stringify(recordTombstone(tombs, id, Date.now())),
+    );
+  } catch {
+    /* a lost tombstone costs a resurrected tick, never the un-mark itself */
+  }
 }
 
 // ── Learning Mode Toggle ──────────────────────────────────────────────────────
@@ -545,11 +573,7 @@ export default function MediaCard({
             const newDone = !done;
             setDone(newDone);
             if (newDone) markMediaDone(m.name);
-            else {
-              const d = getCompletedMedia();
-              delete d[m.name];
-              localStorage.setItem('nh_media_done', JSON.stringify(d));
-            }
+            else markMediaNotDone(m.name);
           }}
           style={{
             margin: '8px 12px 12px',

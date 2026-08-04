@@ -39,20 +39,21 @@
  * would itself need merging.
  */
 
+// The deletion machinery is shared with nh_media_done — see lib/tombstones.ts,
+// which also documents what a collection must have before it can use this
+// (a stable key and a per-entry timestamp). Re-exported so existing importers
+// and tests keep working against one implementation rather than a copy.
+export {
+  parseTombstones,
+  mergeTombstones,
+  isTombstoned,
+  MAX_TOMBSTONES,
+  type Tombstones,
+} from './tombstones';
+import { isTombstoned, type Tombstones } from './tombstones';
+
 export const CUSTOM_WORDS_KEY = 'nh_custom_words';
 export const CUSTOM_WORDS_DELETED_KEY = 'nh_custom_words_deleted';
-
-/**
- * Deleted-word records: normalized key → deletion timestamp (ms).
- *
- * Bounded so the progress blob cannot grow without limit — it is capped at
- * 200 KB by Firestore rules and a breach fails the whole atomic users/{id}
- * write, killing all cloud sync. Newest deletions are kept: dropping the oldest
- * tombstone can only resurrect a word that was deleted long ago AND still exists
- * on a device that has not synced since, which is vanishingly rare next to the
- * cost of an oversized blob.
- */
-export const MAX_TOMBSTONES = 500;
 
 export interface CustomWord {
   hr: string;
@@ -61,8 +62,6 @@ export interface CustomWord {
   example?: string;
   addedAt: number;
 }
-
-export type Tombstones = Record<string, number>;
 
 /** Legacy notebook entries used `{ word, meaning }` before `{ hr, en }`. */
 interface LegacyWord {
@@ -113,37 +112,6 @@ function entryTime(w: unknown): number {
   return typeof t === 'number' && Number.isFinite(t) ? t : 0;
 }
 
-/** Parse a stored tombstone map, tolerating anything a corrupt blob might hold. */
-export function parseTombstones(raw: unknown): Tombstones {
-  const out: Tombstones = {};
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
-  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
-    const ts = typeof v === 'number' ? v : Number(v);
-    if (Number.isFinite(ts) && ts > 0) out[k] = ts;
-  }
-  return out;
-}
-
-/**
- * Union two tombstone maps, keeping the LATER deletion per key.
- *
- * Later wins because a deletion after a re-add must still take effect; taking
- * the earlier time would let a stale record be overridden by a word re-added
- * before it.
- */
-export function mergeTombstones(a: Tombstones, b: Tombstones): Tombstones {
-  const out: Tombstones = { ...a };
-  for (const [k, ts] of Object.entries(b)) {
-    if (!out[k] || ts > out[k]!) out[k] = ts;
-  }
-  const keys = Object.keys(out);
-  if (keys.length <= MAX_TOMBSTONES) return out;
-  const kept = keys.sort((x, y) => out[y]! - out[x]!).slice(0, MAX_TOMBSTONES);
-  const capped: Tombstones = {};
-  for (const k of kept) capped[k] = out[k]!;
-  return capped;
-}
-
 /**
  * Merge two word lists and apply deletions.
  *
@@ -161,9 +129,8 @@ export function mergeCustomWords(
     if (!isEntry(w)) continue;
     const key = wordKey(w);
     const addedAt = entryTime(w);
-    const deletedAt = tombs[key];
     // Deleted, and not re-added since — drop it.
-    if (deletedAt !== undefined && addedAt <= deletedAt) continue;
+    if (isTombstoned(key, addedAt, tombs)) continue;
     const seen = byKey.get(key);
     // Entries are stored exactly as found. Normalising them here (stamping a
     // default addedAt, say) would rewrite every legacy entry in the notebook and
