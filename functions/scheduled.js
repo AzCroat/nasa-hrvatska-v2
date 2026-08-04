@@ -16,8 +16,10 @@
 //      VAPID_PRIVATE_KEY — from memory/project_nasa_hrvatska_vapid.md
 //      VAPID_PUBLIC_KEY  — from same file
 //      PAGES_URL      — https://nasahrvatska.com
-// 4. Deploy this worker:
-//      wrangler deploy functions/scheduled.js
+// 4. Deployment is automatic: CI runs `wrangler deploy` for this Worker on every
+//    push to master (see the "Deploy scheduled Worker" step in ci.yml). Deploy
+//    by hand only for a rollback — `wrangler deploy` from the repo root, which
+//    reads `main` from wrangler.toml and bundles this file's imports with it.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
