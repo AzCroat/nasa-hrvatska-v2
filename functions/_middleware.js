@@ -9,7 +9,41 @@
  *
  * All requests are logged as structured JSON: { ts, level, endpoint, method, ms, status }.
  * Use `wrangler tail` or a Cloudflare Log Drain to ingest these in production.
+ *
+ * ── The limit is per fixed minute, and the cache key has to say so ────────────
+ * The counter used a key with no time component (`rl:<ip>:<path>`) and rewrote
+ * it on every increment with a fresh `max-age=60`. Expiry is computed from the
+ * response at put time, so each request pushed the entry's expiry a further 60
+ * seconds out: for anyone making requests more often than once a minute the
+ * entry never expired and the count only ever climbed. That is not 60 requests
+ * per minute, it is 60 requests *ever* for as long as you keep coming back —
+ * an ordinary session walks into a lockout it did nothing to deserve.
+ *
+ * Bucketing the key by minute fixes it at the source: each minute is a distinct
+ * key that starts at zero, so the count cannot carry across windows however the
+ * cache treats the TTL. `max-age` is now only garbage collection for keys
+ * nothing will read again. This is what the in-memory fallback below already
+ * did correctly — the two paths now agree.
+ *
+ * ── Why the 429 needs CORS headers ───────────────────────────────────────────
+ * Both 429s were returned with `Content-Type` and no `Access-Control-*`. On the
+ * web that is invisible, because the app and /api/* share an origin. In the
+ * Capacitor build the app runs at https://localhost and calls
+ * https://nasahrvatska.com/api/*, which is cross-origin: a response without
+ * `Access-Control-Allow-Origin` is not merely unreadable, the fetch *rejects*.
+ * So on native a throttle arrived as a network error rather than a 429, and
+ * callers took their generic failure branch instead of their rate-limit one.
+ *
+ * That mattered most at /api/award, whose whole job is to replace client-claimed
+ * XP with a server-validated figure. Its client (useAward.ts) falls back to the
+ * claimed amount whenever the call fails, and writes that to Firestore — so
+ * every throttled award silently became unvalidated XP. Preflights made it
+ * worse: OPTIONS counted against the same per-path budget, so a cross-origin
+ * client burned it twice as fast, and a 429 on the *preflight* took the real
+ * request with it. Preflights are now exempt.
  */
+
+import { corsHeaders, isAllowedOrigin } from './api/_helpers.js';
 
 // ── Module-level fallback map ─────────────────────────────────────────────────
 // Used when caches.default is unavailable. Per-isolate — not shared across instances.
@@ -50,13 +84,45 @@ async function getRateLimit(cache, key) {
 
 async function setRateLimit(cache, key, count) {
   const res = new Response(String(count), {
-    headers: { 'Cache-Control': 'max-age=60' },
+    // Only garbage collection now — the minute bucket in the key is what ends
+    // the window. 120s so a key outlives its own bucket rather than expiring
+    // mid-minute and handing the caller a free reset.
+    headers: { 'Cache-Control': 'max-age=120' },
   });
   await cache.put(new Request(`https://ratelimit.internal/${key}`), res);
 }
 
+/**
+ * 429 body + headers, built in one place.
+ *
+ * It was written out twice — once on the Cache API path, once on the in-memory
+ * fallback — which is exactly the shape of duplication where a fix lands on one
+ * copy and not the other.
+ *
+ * The origin is reflected only when it is one of ours. `corsHeaders` echoes
+ * whatever it is handed, and every endpoint pairs it with an `isAllowedOrigin`
+ * check for that reason; a throttle response should not be the one place that
+ * makes itself readable to any site that asks.
+ */
+function tooManyRequests(limit, origin, isDev) {
+  const allowed = isAllowedOrigin(origin, isDev) ? origin : '';
+  return new Response(
+    JSON.stringify({ error: 'Too many requests. Please wait before trying again.' }),
+    {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        'Retry-After': '60',
+        'X-RateLimit-Limit': String(limit),
+        'X-RateLimit-Remaining': '0',
+        ...corsHeaders(allowed),
+      },
+    },
+  );
+}
+
 export async function onRequest(context) {
-  const { request, next } = context;
+  const { request, next, env } = context;
   const url = new URL(request.url);
   const pathname = url.pathname;
   const start = Date.now();
@@ -64,50 +130,48 @@ export async function onRequest(context) {
   // Only apply to API routes
   if (!pathname.startsWith('/api/')) return next();
 
+  // CORS preflights are not the traffic this limit exists to shed: they carry no
+  // payload and do no downstream work. Counting them charged cross-origin
+  // clients (the native build) two requests for every one they made, and a 429
+  // on a preflight blocks the real request outright — with no CORS headers on
+  // it, the browser reports a network failure and the actual status never
+  // reaches the caller.
+  if (request.method === 'OPTIONS') return next();
+
   // Use only cf-connecting-ip — x-forwarded-for is client-controlled and spoofable.
   const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+  const origin = request.headers.get('origin') || '';
+  const isDev = env?.ENVIRONMENT !== 'production';
 
   const limit = GENERAL_RATE_LIMIT;
-  const cacheKey = `rl:${ip}:${pathname}`;
+  // The minute bucket is what makes this a per-minute limit — see the header
+  // comment. Without it the key is immortal and the count only accumulates.
+  const bucket = Math.floor(Date.now() / 60000);
+  const cacheKey = `rl:${ip}:${pathname}:${bucket}`;
 
   try {
     const cache = caches.default;
     const current = await getRateLimit(cache, cacheKey);
 
     if (current >= limit) {
-      return new Response(
-        JSON.stringify({ error: 'Too many requests. Please wait before trying again.' }),
-        {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': '60',
-            'X-RateLimit-Limit': String(limit),
-            'X-RateLimit-Remaining': '0',
-          },
-        },
-      );
+      return tooManyRequests(limit, origin, isDev);
     }
 
-    // Increment — fire and forget to avoid adding latency
+    // Increment — fire and forget to avoid adding latency. Read-then-write is
+    // not atomic, so concurrent requests can read the same count; the limit is
+    // deliberately approximate. The per-user caps in /api/award and
+    // _rateLimit.js are the exact ones.
     setRateLimit(cache, cacheKey, current + 1).catch(() => {});
   } catch {
     // Cache API unavailable — use in-memory fallback instead of failing open
     console.warn('[Middleware] Cache API unavailable — using in-memory fallback');
-    const allowed = _mwFallbackCheck(cacheKey, limit);
-    if (!allowed) {
-      return new Response(
-        JSON.stringify({ error: 'Too many requests. Please wait before trying again.' }),
-        {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': '60',
-            'X-RateLimit-Limit': String(limit),
-            'X-RateLimit-Remaining': '0',
-          },
-        },
-      );
+    // The fallback stores its own window alongside the count and resets on the
+    // same minute boundary, so it takes the UNbucketed key. Passing the bucketed
+    // one would still count correctly but would add a fresh map entry every
+    // minute per ip+path, which is churn `_mwCleanup` then has to sweep.
+    const fallbackAllowed = _mwFallbackCheck(`rl:${ip}:${pathname}`, limit);
+    if (!fallbackAllowed) {
+      return tooManyRequests(limit, origin, isDev);
     }
   }
 
