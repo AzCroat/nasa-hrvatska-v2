@@ -141,19 +141,34 @@ This is the **single source of truth** for both the CEFR badge and the Learn Pat
 ## Critical Architecture: Firebase Sync
 
 ### Firestore document paths
-- User progress: `users/{uid_sanitized}` (uid with `.#$/[]` replaced by `_`)
-- Leaderboard: `leaderboard/{uid_sanitized}`
-- Family: `families/{6-char-code}`
-- Family XP: `families/{code}.memberXP.{uid_sanitized}`
+The client touches exactly three collections, and `firestore.rules` covers all three (everything else falls to the deny-all match):
+
+| Path | Access |
+|---|---|
+| `users/{uid_sanitized}` | read/write — user progress (uid with `.#$/[]` replaced by `_`) |
+| `users/{uid}/xpAudit/{ts}` | write-only — `offlineAwardQueue.flush()` audit entries |
+| `users/{uid}/conversationMemory/{ts}` | read/write — Maja's per-session summaries |
+| `srs/{uid_sanitized}` | read/write — SRS cards, kept out of the 200 KB progress blob |
+| `profiles/{uid_sanitized}` | **read-only** — a legacy doc the client no longer writes; the read exists so `fbExportUserData` can still return it for GDPR export |
+
+There is **no `leaderboard` collection and no `families` collection.** The leaderboard feature was removed (see the comment on the `profiles` block in `firestore.rules`), which is why that block has no create/update rule. `fbJoinFamily` and `memberXP` no longer exist anywhere in `src/`. Both were documented here long after they were gone — if you are adding a Family feature, you are building it from scratch, and it needs a new rules match or every write hits deny-all.
 
 ### fbSaveProgress (src/lib/firebase.js)
-Saves to both `users/{id}` and `leaderboard/{id}` atomically. Always called via `buildProgressSnapshot()`. Writes `weekXP` from localStorage `nh_week_xp_{weekKey}`.
+Writes a single document, `users/{id}`, via `set({ merge: true })` — the array reconciliation (`stats.vs` / `ct` / `badges`) is folded into that same write rather than a follow-up `updateDoc`. Always called via `buildProgressSnapshot()`. Writes `weekXP` from localStorage `nh_week_xp_{weekKey}`.
 
-### fbJoinFamily (src/lib/firebase.js)
-Accepts `(code, uid, email, name, weekXP)`. The 5th param `weekXP` must be passed by callers so the join-time leaderboard entry has correct weekly XP.
+### CEFR on the wire — two fields, two types
+This has been documented wrongly in both directions, so be precise. **Both** representations are real:
 
-### Firestore security rules
-CEFR level crosses the network as a **string** (e.g., `"B1"`) — in `nh_level` and the leaderboard's `level`. Never write it as an integer. Note the displayed CEFR is usually *derived* (`getCEFR(xp, lc, gc)`), not stored, so syncing `xp`/`lc`/`gc` is what carries it.
+| Field | Where | Type |
+|---|---|---|
+| `nh_level` | inside the progress JSON blob | **string** — `"B1"`. Merged by CEFR rank in `applyRemoteProgress` (`CEFR_NUM` is used locally for comparison only). |
+| `level` | top-level field on `users/{id}` | **integer 1–6** — converted by `_CEFR_NUM` in `fbSaveProgress`, merged with `Math.max`. |
+
+The integer is what makes that `Math.max` meaningful, and is also why a CEFR *demotion* cannot currently propagate.
+
+`firestore.rules` has **no clause on either field**, so neither type is enforced. A wrong type is accepted silently and breaks its consumers rather than failing at the write — do not rely on the rules to catch it.
+
+The CEFR the user *sees* is usually neither: `getCEFR(xp, lc, gc)` derives it, so syncing `xp`/`lc`/`gc` is what actually carries a learner's level between devices.
 
 ### Multi-tab safety
 Firestore is initialized with `persistentMultipleTabManager()` to allow multiple browser tabs without the "exclusive access" assertion error (b815).
@@ -231,7 +246,7 @@ blanket disclaimer.
   - `stats-hydration.test.js` — merge/sanitize logic
   - `gameLogic.test.js` — McGame, hearts, XP
   - `content-validation.test.js` — LEARN_PATH integrity checks
-  - `leaderboard.test.js` — family XP logic
+  - `clearUserScopedStorage.test.ts` — what a sign-out must wipe (cross-user leak guard)
 - Firebase is **never mocked in integration tests** — real Firestore rules are tested via `verify:firestore`.
 
 ---
@@ -255,7 +270,7 @@ Before committing ANY change that touches a component, tab, screen, or navigatio
 | LearnTab / LearnPathWidget / vocab pills | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js` |
 | PracticeTab / intent tiles / game panels | `practice.spec.js`, `offline.spec.js` |
 | CultureTab / CroatiaTab | `croatia.spec.js`, `navigation.spec.js` |
-| StatsTab / Leaderboard / ProfileTab | `family.spec.js`, `profile-persist.spec.js` |
+| StatsTab / ProfileTab / Me | `me-tab.spec.js`, `profile-persist.spec.js` |
 | TabBar / navigation labels | `navigation.spec.js`, `daily-challenge-sync.spec.js`, `croatia.spec.js`, `offline.spec.js` |
 | LoginScreen / auth flow | `auth.spec.js`, `accessibility.spec.js` |
 | Any screen accessible from Practice tab | `practice.spec.js`, `offline.spec.js` |
@@ -317,7 +332,7 @@ Before committing any change:
 
 1. **Never recommend clearing localStorage or unregistering the service worker** as a fix. This destroys user progress. The only safe SW fix is DevTools → Application → Service Workers → Unregister (manual user action).
 2. **Never commit secrets** to the repo. All keys live in Cloudflare dashboard env vars.
-3. **Never write CEFR level as an integer** to Firestore — always a string (`"B1"`, not `1`). Note this is a convention the code follows, not one the rules police: `firestore.rules` has no `cefr` clause, so an integer would be accepted silently and break every string consumer (`cefrRank`, `isUnlocked`, `CEFR_TO_STAGE_IDX`) instead of failing loudly.
+3. **Never change how CEFR is typed on the wire without checking BOTH fields.** They differ, and asserting a single rule here has been wrong twice: `nh_level` (inside the progress blob) is the string `"B1"`; the top-level `level` on `users/{id}` is the integer 1–6 produced by `_CEFR_NUM` and merged with `Math.max`. Putting a string in `level` breaks that merge; putting an integer in `nh_level` breaks `cefrRank` / `isUnlocked` / `CEFR_TO_STAGE_IDX`. `firestore.rules` polices neither, so both failures are silent. See "CEFR on the wire" above.
 4. **Never reduce a stat** during a remote merge. Merges are always additive (`Math.max`, union).
 5. **Never bypass the `_syncReady` gate** in useSyncManager — it prevents saves before auth + remote load completes, which would overwrite remote progress with stale local data.
 6. **Never add a screen to LEARN_PATH without also adding it to BLACK_HOLE_SCREENS** (if it's an informational screen without a built-in quiz).

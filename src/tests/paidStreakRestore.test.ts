@@ -108,3 +108,45 @@ describe('paid streak restore — survives the sync re-derivation', () => {
     }
   });
 });
+
+/**
+ * The price is one number.
+ *
+ * It used to be three: a local const in useHeroRewards (what the learner is
+ * actually charged), a bare `xp >= 200` in the RewardsPanel visibility gate, and
+ * the literal "200 XP" in the button label. All three read 200, so nothing was
+ * broken — but the other two rewards (XP_BOOST_COST, FREEZE_COST_XP) already
+ * shared one constant between charge and display, and this one did not. Changing
+ * the price in the obvious place would have left the panel gating at the old
+ * number and advertising it while charging the new one.
+ */
+describe('streak restore price has a single source of truth', () => {
+  const read = async (f: string) => (await import('node:fs')).readFileSync(f, 'utf8');
+  const PANEL = 'src/components/home/RewardsPanel.tsx';
+
+  it('is exported once from appUtils, beside the other reward costs', async () => {
+    const { STREAK_RESTORE_COST, XP_BOOST_COST } = await import('../lib/appUtils');
+    expect(typeof STREAK_RESTORE_COST).toBe('number');
+    expect(STREAK_RESTORE_COST).toBeGreaterThan(0);
+    // Non-vacuity: the module really is the one holding the reward costs.
+    expect(typeof XP_BOOST_COST).toBe('number');
+  });
+
+  it('the charge and both display sites reference the constant', async () => {
+    expect(await read(SRC)).toMatch(/spendXp\(STREAK_RESTORE_COST\)/);
+    const panel = await read(PANEL);
+    expect(panel).toMatch(/xp >= STREAK_RESTORE_COST/); // visibility gate
+    expect(panel).toMatch(/\{STREAK_RESTORE_COST\} XP/); // button label
+  });
+
+  it('neither file hard-codes the price again', async () => {
+    // Scoped to the gate and label shapes rather than the digits alone, so the
+    // comments above them that recount the original bug keep their numbers.
+    for (const f of [SRC, PANEL]) {
+      const src = await read(f);
+      expect(`${f}: ${/xp >= \d+/.test(src)}`).toBe(`${f}: false`);
+      expect(`${f}: ${/Restore streak — \d+ XP/.test(src)}`).toBe(`${f}: false`);
+      expect(`${f}: ${/spendXp\(\d+\)/.test(src)}`).toBe(`${f}: false`);
+    }
+  });
+});

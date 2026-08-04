@@ -1,5 +1,5 @@
 import React from 'react';
-import { XP_BOOST_COST } from '../../lib/appUtils.js';
+import { XP_BOOST_COST, STREAK_RESTORE_COST } from '../../lib/appUtils.js';
 import { FREEZE_COST_XP } from '../../lib/streakFreeze.js';
 import type { RewardsState } from './useHeroRewards';
 import { lsGet } from '../../lib/safeStorage';
@@ -163,9 +163,13 @@ export default function RewardsPanel({
         </div>
       )}
 
-      {/* Streak Recovery — show when streak is 0, user has 200 XP, and hasn't restored today */}
+      {/* Streak Recovery — show when streak is 0, the learner can afford the
+          restore (xp here is availableXp, not lifetime earned), and they
+          haven't restored today. The gate and the label below both read
+          STREAK_RESTORE_COST, so they cannot drift from what useHeroRewards
+          actually charges. */}
       {streakCount === 0 &&
-        xp >= 200 &&
+        xp >= STREAK_RESTORE_COST &&
         !streakRestored &&
         !lsGet('nh_streak_restored_' + today) && (
           <div style={{ marginTop: 8 }}>
@@ -190,7 +194,7 @@ export default function RewardsPanel({
               }}
             >
               <span>🔄</span>
-              <span>Restore streak — 200 XP</span>
+              <span>Restore streak — {STREAK_RESTORE_COST} XP</span>
             </button>
             {streakRestoreMsg && (
               <div
