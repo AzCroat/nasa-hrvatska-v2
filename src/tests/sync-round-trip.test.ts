@@ -200,9 +200,14 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
 
     expect(JSON.parse(localStorage.getItem('nh_checkpoints') || '{}')).toEqual(checkpoints);
     expect(JSON.parse(localStorage.getItem('nh_custom_words') || '[]')).toEqual(customWords);
+    // Saved phrases round-trip as `{ phrase: savedAt }` now, so the set of
+    // phrases is what round-trips, not the array literal. The timestamps are
+    // deliberately not asserted: entries migrated from the old array shape are
+    // stamped MIGRATED_AT, which carries no information about when they were
+    // actually saved.
     expect(
-      (JSON.parse(localStorage.getItem('nh_saved_phrases') || '[]') as string[]).sort(),
-    ).toEqual(savedPhrases.sort());
+      Object.keys(JSON.parse(localStorage.getItem('nh_saved_phrases') || '{}')).sort(),
+    ).toEqual([...savedPhrases].sort());
     expect(JSON.parse(localStorage.getItem('nh_media_done') || '{}')).toEqual(mediaDone);
     expect(JSON.parse(localStorage.getItem('nh_session_history') || '{}')).toEqual(sessionHistory);
   });

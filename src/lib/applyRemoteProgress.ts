@@ -25,6 +25,9 @@ import { normalizePersonaKey } from './personaKey';
 import { mergeJournals } from './journalEntry';
 import { CUSTOM_WORDS_KEY, CUSTOM_WORDS_DELETED_KEY, mergeCustomWords } from './customWords';
 import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY, mergeMediaDone } from './mediaDone';
+import { SAVED_PHRASES_KEY, SAVED_PHRASES_DELETED_KEY, mergeSavedPhrases } from './savedPhrases';
+// Index -> phrase resolution for migrating the legacy saved-bookmark shape.
+import { BAKA_PHRASES as BAKA_PHRASES_KEYS } from '../data/bakaPhrases';
 import { parseTombstones, mergeTombstones, type Tombstones } from './tombstones';
 
 export interface RemoteProgressSetters {
@@ -492,15 +495,37 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       _safeSet('nh_used_free_repair', '1');
     } catch (_) {}
 
-  // ── Saved phrases — union ─────────────────────────────────────────────────
-  if (Array.isArray(fp.nh_saved_phrases) && fp.nh_saved_phrases.length > 0) {
-    let lSP: string[] = [];
-    try {
-      lSP = JSON.parse(lsGet('nh_saved_phrases') || '[]');
-    } catch (_) {}
-    try {
-      _safeSet('nh_saved_phrases', JSON.stringify([...new Set([...lSP, ...fp.nh_saved_phrases])]));
-    } catch (_) {}
+  // ── Saved phrases — union by phrase, minus anything un-saved ──────────────
+  // Both sides go through parseSavedPhrases, which migrates the legacy array of
+  // POSITIONAL INDICES to phrase keys. That matters on the remote side too: a
+  // device still running the old build keeps sending indices, and merging those
+  // as raw values would mix "slot 4" and the phrase text in one map.
+  //
+  // Runs whenever EITHER side is present — a payload carrying only un-saves
+  // still has to take effect, which the old length>0 guard would skip.
+  {
+    const remoteTombs = parseTombstones(fp.nh_saved_phrases_deleted);
+    const hasRemote =
+      (Array.isArray(fp.nh_saved_phrases) && fp.nh_saved_phrases.length > 0) ||
+      (!!fp.nh_saved_phrases && typeof fp.nh_saved_phrases === 'object');
+    if (hasRemote || Object.keys(remoteTombs).length > 0) {
+      let lSP: unknown = {};
+      let lTombs: Tombstones = {};
+      try {
+        lSP = JSON.parse(lsGet(SAVED_PHRASES_KEY) || '{}');
+      } catch (_) {}
+      try {
+        lTombs = parseTombstones(JSON.parse(lsGet(SAVED_PHRASES_DELETED_KEY) || '{}'));
+      } catch (_) {}
+      const tombs = mergeTombstones(lTombs, remoteTombs);
+      try {
+        _safeSet(SAVED_PHRASES_DELETED_KEY, JSON.stringify(tombs));
+        _safeSet(
+          SAVED_PHRASES_KEY,
+          JSON.stringify(mergeSavedPhrases(lSP, fp.nh_saved_phrases, BAKA_PHRASES_KEYS, tombs)),
+        );
+      } catch (_) {}
+    }
   }
 
   // ── Media done — union by item, minus anything un-ticked ──────────────────

@@ -12,6 +12,13 @@ import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { useApp } from '../../context/AppContext';
 import { lsGet } from '../../lib/safeStorage';
+import { BAKA_PHRASES } from '../../data/bakaPhrases';
+import {
+  SAVED_PHRASES_KEY,
+  SAVED_PHRASES_DELETED_KEY,
+  parseSavedPhrases,
+} from '../../lib/savedPhrases';
+import { parseTombstones, recordTombstone } from '../../lib/tombstones';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -159,57 +166,6 @@ const GAP_AREAS = [
   },
 ];
 
-const BAKA_PHRASES = [
-  {
-    hr: 'Nedostajete mi.',
-    en: 'I miss you (formal, to older relatives).',
-    audio: 'Nedostajete mi.',
-  },
-  {
-    hr: 'Jako sam sretan što sam ovdje.',
-    en: 'I am so happy to be here. (masculine)',
-    audio: 'Jako sam sretan što sam ovdje.',
-  },
-  {
-    hr: 'Jako sam sretna što sam ovdje.',
-    en: 'I am so happy to be here. (feminine)',
-    audio: 'Jako sam sretna što sam ovdje.',
-  },
-  {
-    hr: 'Pričajte mi o staroj domovini.',
-    en: 'Tell me about the old homeland.',
-    audio: 'Pričajte mi o staroj domovini.',
-  },
-  {
-    hr: 'Naučio sam malo hrvatskog.',
-    en: 'I learned a bit of Croatian. (masculine)',
-    audio: 'Naučio sam malo hrvatskog.',
-  },
-  {
-    hr: 'Naučila sam malo hrvatskog.',
-    en: 'I learned a bit of Croatian. (feminine)',
-    audio: 'Naučila sam malo hrvatskog.',
-  },
-  { hr: 'Još uvijek učim.', en: "I'm still learning.", audio: 'Još uvijek učim.' },
-  {
-    hr: 'Možete li ponoviti, molim?',
-    en: 'Could you repeat that, please?',
-    audio: 'Možete li ponoviti, molim?',
-  },
-  { hr: 'Sporije, molim.', en: 'Slower, please.', audio: 'Sporije, molim.' },
-  {
-    hr: 'Kako se to kaže na hrvatskom?',
-    en: 'How do you say that in Croatian?',
-    audio: 'Kako se to kaže na hrvatskom?',
-  },
-  { hr: 'Hrana je bila izvrsna.', en: 'The food was excellent.', audio: 'Hrana je bila izvrsna.' },
-  {
-    hr: 'Ponosim se svojim korijenima.',
-    en: 'I am proud of my roots.',
-    audio: 'Ponosim se svojim korijenima.',
-  },
-];
-
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function HeritageModeScreen({
@@ -235,12 +191,17 @@ export default function HeritageModeScreen({
   // Section 3 state
   const [gapRatings, setGapRatings] = useState<Record<string, number>>({});
 
-  // Section 4 state
-  const [savedPhrases, setSavedPhrases] = useState(() => {
+  // Section 4 state — keyed on the phrase itself, not its position in
+  // BAKA_PHRASES. Indices meant a learner's bookmarks silently pointed at their
+  // neighbours the moment that array was edited. parseSavedPhrases migrates any
+  // stored indices through the current array on read; see lib/savedPhrases.ts.
+  const [savedPhrases, setSavedPhrases] = useState<Record<string, number>>(() => {
     try {
-      return new Set(JSON.parse(localStorage.getItem('nh_saved_phrases') || '[]'));
+      return parseSavedPhrases(JSON.parse(localStorage.getItem(SAVED_PHRASES_KEY) || '[]'), [
+        ...BAKA_PHRASES,
+      ]);
     } catch {
-      return new Set();
+      return {};
     }
   });
   const [copyMsg, setCopyMsg] = useState('');
@@ -907,7 +868,7 @@ export default function HeritageModeScreen({
         </div>
 
         {BAKA_PHRASES.map((p, i) => {
-          const isSaved = savedPhrases.has(i);
+          const isSaved = !!savedPhrases[p.hr];
           return (
             <div
               key={i}
@@ -971,10 +932,24 @@ export default function HeritageModeScreen({
                 <button
                   onClick={() => {
                     setSavedPhrases((prev) => {
-                      const next = new Set(prev);
-                      isSaved ? next.delete(i) : next.add(i);
+                      const next = { ...prev };
+                      if (isSaved) delete next[p.hr];
+                      else next[p.hr] = Date.now();
                       try {
-                        localStorage.setItem('nh_saved_phrases', JSON.stringify([...next]));
+                        localStorage.setItem(SAVED_PHRASES_KEY, JSON.stringify(next));
+                        // Un-saving has to be recorded, not just applied: the
+                        // sync merge unions both devices' maps, so without this
+                        // the other copy puts the bookmark straight back. The
+                        // record is itself additive — see lib/tombstones.ts.
+                        if (isSaved) {
+                          const tombs = parseTombstones(
+                            JSON.parse(localStorage.getItem(SAVED_PHRASES_DELETED_KEY) || '{}'),
+                          );
+                          localStorage.setItem(
+                            SAVED_PHRASES_DELETED_KEY,
+                            JSON.stringify(recordTombstone(tombs, p.hr, Date.now())),
+                          );
+                        }
                       } catch {}
                       return next;
                     });
