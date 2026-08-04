@@ -153,7 +153,7 @@ Saves to both `users/{id}` and `leaderboard/{id}` atomically. Always called via 
 Accepts `(code, uid, email, name, weekXP)`. The 5th param `weekXP` must be passed by callers so the join-time leaderboard entry has correct weekly XP.
 
 ### Firestore security rules
-CEFR level is stored as a **string** (e.g., `"B1"`) in Firestore rules. Never write it as an integer.
+CEFR level crosses the network as a **string** (e.g., `"B1"`) — in `nh_level` and the leaderboard's `level`. Never write it as an integer. Note the displayed CEFR is usually *derived* (`getCEFR(xp, lc, gc)`), not stored, so syncing `xp`/`lc`/`gc` is what carries it.
 
 ### Multi-tab safety
 Firestore is initialized with `persistentMultipleTabManager()` to allow multiple browser tabs without the "exclusive access" assertion error (b815).
@@ -317,7 +317,7 @@ Before committing any change:
 
 1. **Never recommend clearing localStorage or unregistering the service worker** as a fix. This destroys user progress. The only safe SW fix is DevTools → Application → Service Workers → Unregister (manual user action).
 2. **Never commit secrets** to the repo. All keys live in Cloudflare dashboard env vars.
-3. **Never write CEFR level as an integer** to Firestore — always a string (`"B1"`, not `1`). Firestore security rules enforce string type.
+3. **Never write CEFR level as an integer** to Firestore — always a string (`"B1"`, not `1`). Note this is a convention the code follows, not one the rules police: `firestore.rules` has no `cefr` clause, so an integer would be accepted silently and break every string consumer (`cefrRank`, `isUnlocked`, `CEFR_TO_STAGE_IDX`) instead of failing loudly.
 4. **Never reduce a stat** during a remote merge. Merges are always additive (`Math.max`, union).
 5. **Never bypass the `_syncReady` gate** in useSyncManager — it prevents saves before auth + remote load completes, which would overwrite remote progress with stale local data.
 6. **Never add a screen to LEARN_PATH without also adding it to BLACK_HOLE_SCREENS** (if it's an informational screen without a built-in quiz).
@@ -331,7 +331,7 @@ Before committing any change:
     - The immediate `fetchIfNewer()` call on polling mount — never remove it
     - The `_unloadRef.current` fields (favs, jWords) — never strip from unload ref
 12. **The sw-migration.js cache prefix must remain a prefix match** (`nasa-hrvatska-v.`), never a hardcoded version number. Hardcoding caused ALL caches to wipe on every deploy.
-13. **Firestore sync runs every 2 minutes** for signed-in users (not just on tab close). Never revert this to beforeunload-only.
+13. **Firestore sync runs on a periodic interval** for signed-in users (not just on tab close). Never revert this to beforeunload-only. The interval is **5 minutes** (`useSyncManager.ts`) — it was widened from 2 minutes deliberately, because periodic pushes plus `fbApplyDelta` bursts outpaced the Firestore WriteStream drain and produced "queued writes" / "maximum backoff delay" warnings. localStorage is authoritative, so a cross-device freshness gap of up to 5 minutes is acceptable; do not narrow it back without re-checking that backpressure.
 
 ---
 
