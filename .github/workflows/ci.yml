@@ -279,3 +279,34 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # ── Scheduled Worker (nasa-hrvatska-scheduler) ───────────────────────────
+      # functions/scheduled.js is a SEPARATE Worker from the Pages project: it is
+      # the hourly cron that sends each learner's streak reminder. Pushing to
+      # master deployed the Pages half and left this one behind, so every change
+      # to it needed someone to remember `wrangler deploy` by hand — and the
+      # reminder fixes in #398 sat undeployed for exactly that reason. Automating
+      # it is the fix; a deploy that depends on memory is not a deploy step.
+      #
+      # Deliberately NOT filtered on whether functions/scheduled.js changed. The
+      # Worker bundles what it imports (functions/_pushKvTtl.js today), so a path
+      # filter would silently skip deploys that genuinely changed its behaviour —
+      # the same "guard that never fires" class this repo keeps getting bitten by.
+      # Redeploying an unchanged Worker is cheap and harmless.
+      #
+      # Deliberately NOT continue-on-error. A skipped deploy that still shows
+      # green is precisely how the Worker fell behind in the first place; if this
+      # cannot deploy, master should say so.
+      #
+      # Secrets set in the dashboard (CRON_SECRET, VAPID_*, PAGES_URL) survive a
+      # deploy — `wrangler deploy` replaces code and bindings, not secrets.
+      #
+      # NOTE: this needs the API token to carry "Workers Scripts: Edit". A token
+      # scoped only for Pages will fail here; widen the token rather than muting
+      # the step.
+      - name: Deploy scheduled Worker (streak-reminder cron)
+        if: github.event_name == 'push'
+        run: npx --yes wrangler@3 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

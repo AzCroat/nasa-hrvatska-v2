@@ -11,8 +11,10 @@
 #      VAPID_PRIVATE_KEY   — VAPID private key for web push signing
 #      VAPID_PUBLIC_KEY    — VAPID public key (sent to browser on subscribe)
 #      PAGES_URL           — https://nasahrvatska.com
-# 4. Deploy once: wrangler deploy
-#    (Cloudflare then runs the cron automatically — no further manual steps)
+# 4. Nothing to run by hand: CI deploys this Worker on every push to master
+#    (the "Deploy scheduled Worker" step in .github/workflows/ci.yml). A manual
+#    `wrangler deploy` from this directory still works and is equivalent, e.g.
+#    for a rollback. The API token CI uses needs "Workers Scripts: Edit".
 #
 # ── Pages Functions KV bindings (managed automatically by CI) ────────────────
 # The following KV namespaces are bound to the Pages project (not this Worker).
