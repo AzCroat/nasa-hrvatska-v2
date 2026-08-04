@@ -20,6 +20,8 @@
 //      wrangler deploy functions/scheduled.js
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
+
 export default {
   // fetch handler is required even for scheduled-only workers
   async fetch(request, _env) {
@@ -59,6 +61,36 @@ export default {
     // due only during the hour that matches their chosen reminder time in
     // their own timezone. Legacy records without a stored preference keep the
     // historical behavior: one send at 13:00 UTC (8-9 AM US Eastern).
+    // The subscriber's OWN calendar day, resolved through the IANA zone already
+    // stored for them. `lastPracticed` and `lastNotified` are compared against
+    // this rather than against the UTC date.
+    //
+    // Using UTC for both sides looked symmetrical and was wrong for most of this
+    // app's audience. A UTC day boundary lands in the evening across the
+    // Americas, and reminders are sent at the user's LOCAL hour — so a learner
+    // in Los Angeles who practises at 10:00 Monday is compared, at their 20:00
+    // reminder, against a UTC `today` that has already rolled to Tuesday. Monday
+    // never equals Tuesday, the skip never fired, and they were told their
+    // streak was at risk hours after practising. Same arithmetic let the
+    // once-per-day guard lapse at the boundary.
+    //
+    // Records with no stored zone keep the UTC date, which is what they have
+    // always been compared against.
+    function localDayFor(record) {
+      if (!record.timeZone) return today;
+      try {
+        // en-CA formats as YYYY-MM-DD, matching the stored shape exactly.
+        return new Intl.DateTimeFormat('en-CA', {
+          timeZone: record.timeZone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        }).format(now);
+      } catch {
+        return today; // unknown zone — same fallback as the send-hour match
+      }
+    }
+
     function isDueThisHour(record) {
       const targetHour =
         typeof record.reminderTime === 'string' &&
@@ -106,15 +138,18 @@ export default {
             continue;
           }
 
+          // The subscriber's own calendar day — see localDayFor.
+          const userToday = localDayFor(raw);
+
           // Skip if practiced today
-          if (lastPracticed === today) {
+          if (lastPracticed === userToday) {
             skipped++;
             continue;
           }
 
-          // Skip if already notified today (guarantees max one push per UTC day
-          // even though the cron now fires hourly)
-          if (lastNotified === today) {
+          // Skip if already notified today (guarantees max one push per local
+          // day even though the cron now fires hourly)
+          if (lastNotified === userToday) {
             skipped++;
             continue;
           }
@@ -149,8 +184,12 @@ export default {
               key.name,
               JSON.stringify({
                 ...raw,
-                lastNotified: today,
+                lastNotified: userToday,
               }),
+              // KV does not carry an expiry across a put: omitting this made the
+              // record immortal the first time a subscriber was ever pushed.
+              // See functions/_pushKvTtl.js.
+              { expirationTtl: PUSH_KV_TTL_SECONDS },
             ).catch(() => {});
             sent++;
           } else {

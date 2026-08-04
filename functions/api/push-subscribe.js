@@ -5,6 +5,7 @@
 
 import { checkRateLimit } from './_rateLimit.js';
 import { getFirebaseUid } from './_verifyToken.js';
+import { PUSH_KV_TTL_SECONDS } from '../_pushKvTtl.js';
 
 function isAllowedOrigin(origin, isDev) {
   // Empty origin: PWA standalone mode (iOS/Android) and Capacitor. Auth is enforced via Firebase token.
@@ -103,6 +104,7 @@ export async function onRequestPost({ request, env }) {
   // Only overwrite streak/name when the request actually carries them.
   const hasStreak = Object.prototype.hasOwnProperty.call(body, 'streak');
   const hasName = Object.prototype.hasOwnProperty.call(body, 'name');
+  const hasLastPracticed = Object.prototype.hasOwnProperty.call(body, 'lastPracticed');
   if (!subscription?.endpoint) {
     return new Response(JSON.stringify({ error: 'Missing subscription' }), {
       status: 400,
@@ -157,7 +159,25 @@ export async function onRequestPost({ request, env }) {
   }
 
   const kvKey = (uid || 'anon').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64);
-  const today = new Date().toISOString().slice(0, 10);
+  // The subscriber's own calendar day, resolved through the timezone this very
+  // request carries. `lastPracticed` arrives as a LOCAL date (the worker
+  // compares it in the user's zone too — see functions/scheduled.js), so
+  // defaulting or bounds-checking it against a UTC day would be off by one for
+  // everyone whose offset has already crossed midnight.
+  const today = (() => {
+    if (!safeTimeZone) return new Date().toISOString().slice(0, 10);
+    try {
+      // en-CA formats as YYYY-MM-DD, matching the stored shape.
+      return new Intl.DateTimeFormat('en-CA', {
+        timeZone: safeTimeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).format(new Date());
+    } catch {
+      return new Date().toISOString().slice(0, 10);
+    }
+  })();
 
   // Read the current entry so a request that omits streak/name preserves the
   // stored value instead of zeroing it (see the hasStreak/hasName note above).
@@ -175,6 +195,40 @@ export async function onRequestPost({ request, env }) {
     ? String(body.name || '').slice(0, 50)
     : String(existing?.name || '').slice(0, 50);
 
+  // `lastPracticed` is the field the scheduled worker uses to decide whether to
+  // send at all ("skip if practiced today") and how many days of absence to
+  // claim in the win-back copy. It used to be stamped `today` here on every
+  // write, by the server, from nothing but the fact that a registration
+  // arrived — a snapshot the worker then read as if it were live.
+  //
+  // It was not live. registerPushWithServer is throttled client-side, so after
+  // the subscribe day the stored date simply froze. `lastPracticed === today`
+  // was false from then on, so the skip never fired again and learners who
+  // practised every single day still got "your streak is at risk" that night;
+  // `daysSince` meanwhile counted up from the frozen date and told them they
+  // had been gone for weeks.
+  //
+  // The client knows the real answer — markPracticed() stamps nh_last_practice
+  // at every lesson and practice completion — so it now sends it, in UTC to
+  // match the worker's own `today`. An absent field preserves what is stored
+  // rather than re-stamping today, and only a genuinely new subscription falls
+  // back to today (which is the original intent: don't notify on signup day).
+  let storedLastPracticed = existing?.lastPracticed ?? today;
+  if (hasLastPracticed) {
+    const lp = body.lastPracticed;
+    if (typeof lp === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(lp) && !Number.isNaN(Date.parse(lp))) {
+      // Never accept a future date: it would suppress reminders indefinitely.
+      storedLastPracticed = lp > today ? today : lp;
+    }
+  }
+
+  // Preserve the worker's own "already pushed today" guard. This was reset to
+  // null on every registration, which was survivable only because registration
+  // was rare; now that the client refreshes daily, wiping it would let a user
+  // who opens the app after their reminder receive a second push the same day.
+  const storedLastNotified =
+    typeof existing?.lastNotified === 'string' ? existing.lastNotified : null;
+
   try {
     await env.PUSH_SUBSCRIPTIONS.put(
       kvKey,
@@ -184,11 +238,11 @@ export async function onRequestPost({ request, env }) {
         name: storedName,
         reminderTime: safeReminderTime,
         timeZone: safeTimeZone,
-        lastPracticed: today, // don't notify on subscribe day
-        lastNotified: null,
+        lastPracticed: storedLastPracticed,
+        lastNotified: storedLastNotified,
         updatedAt: Date.now(),
       }),
-      { expirationTtl: 60 * 60 * 24 * 90 }, // auto-expire after 90 days
+      { expirationTtl: PUSH_KV_TTL_SECONDS },
     );
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,

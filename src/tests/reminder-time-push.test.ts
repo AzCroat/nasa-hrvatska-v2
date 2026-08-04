@@ -30,7 +30,10 @@ describe('client registration payload', () => {
     expect(clientSrc).toContain('Intl.DateTimeFormat().resolvedOptions().timeZone');
   });
 
-  it('supports force re-registration (bypasses the 85-day cache)', () => {
+  it('supports force re-registration (bypasses the refresh cache)', () => {
+    // The cache was 85 days; it is now daily, because the same call is what
+    // refreshes the streak and last-practised date the worker sends from.
+    // See pushReminderChain.test.ts.
     expect(clientSrc).toMatch(/force = false/);
     expect(clientSrc).toMatch(/if \(!force\)/);
   });
@@ -95,8 +98,12 @@ describe('scheduled worker', () => {
   });
 
   it('keeps the one-push-per-day guard alongside the hourly cron', () => {
-    expect(workerSrc).toContain('lastNotified === today');
-    expect(workerSrc).toContain('lastPracticed === today');
+    // Both guards still stand; they now compare against the subscriber's own
+    // calendar day rather than the UTC one, because reminders are sent at the
+    // user's LOCAL hour and a UTC date has already rolled over by then for the
+    // Americas. See pushReminderChain.test.ts.
+    expect(workerSrc).toContain('lastNotified === userToday');
+    expect(workerSrc).toContain('lastPracticed === userToday');
   });
 });
 

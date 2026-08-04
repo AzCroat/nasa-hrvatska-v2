@@ -67,6 +67,18 @@ const REMINDER_DISMISSED_KEY = 'nh_reminder_dismissed_today';
 export function markPracticed(): void {
   lsSet(LAST_PRACTICE_KEY, Date.now().toString());
   lsSet('nh_last_practice_time', new Date().getHours().toString());
+  // Carry the same fact to the push server, which otherwise learns it a day
+  // late and sends "your streak is at risk" to people who practised hours ago.
+  // Self-throttled to one write per UTC day and fully guarded — see
+  // syncPracticeToPushServer. Dynamic import keeps the push module out of the
+  // lesson-completion path until it is actually needed.
+  try {
+    void import('../lib/pushNotifications.js')
+      .then(({ syncPracticeToPushServer }) => syncPracticeToPushServer())
+      .catch(() => {});
+  } catch (_) {
+    /* see above — a missed reminder must never abandon a lesson completion */
+  }
 }
 
 export function checkNameDay(userName: string): void {

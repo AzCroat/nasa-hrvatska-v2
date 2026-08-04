@@ -301,6 +301,53 @@ export function scheduleReEngagementReminder(): void {
 
 const _REG_TS_KEY = 'nh_push_reg_ts';
 
+/**
+ * How often registerPushWithServer is allowed to talk to the server.
+ *
+ * This was 85 days, chosen to re-register just before the 90-day KV entry
+ * expired — correct for keep-alive, and the reason the record survived at all.
+ * But the same call is the ONLY thing that refreshes the streak and
+ * last-practised date the scheduled worker sends reminders from, so those
+ * values were allowed to sit frozen for nearly three months. The worker read
+ * them as current: it stopped skipping learners who had practised, quoted a
+ * streak from weeks earlier, and told daily users they had been away for
+ * months.
+ *
+ * A day still serves the keep-alive purpose with enormous margin (one write per
+ * active subscriber per day, against a 90-day expiry) and keeps the snapshot at
+ * most a day stale, which is as fresh as a once-daily reminder can use.
+ */
+const _REG_REFRESH_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * The user's real last-practice date as `YYYY-MM-DD` in THEIR calendar, or ''
+ * if they have never practised on this device.
+ *
+ * Local, not UTC. Matching the worker's UTC `today` looks like the safe choice
+ * and is the wrong one, because that comparison is the broken half. This app's
+ * audience is largely the Americas, where a UTC day boundary falls in the
+ * evening: someone in Los Angeles who practises at 10:00 Monday is stamped
+ * Monday either way, but their 20:00 reminder fires at 04:00 UTC *Tuesday*, so
+ * a UTC-vs-UTC comparison finds Monday ≠ Tuesday and tells them their streak is
+ * at risk hours after they practised. The whole point of this field is to
+ * prevent exactly that.
+ *
+ * So the date is the learner's own, and the worker resolves its side through
+ * the IANA timezone it already stores for them. localDateStr is the project's
+ * one helper for this (CLAUDE.md; localDayBoundary.test.ts enforces it).
+ */
+function lastPracticedLocalDate(): string {
+  try {
+    const ts = parseInt(localStorage.getItem('nh_last_practice') || '0', 10);
+    if (!ts || Number.isNaN(ts)) return '';
+    const d = new Date(ts);
+    if (Number.isNaN(d.getTime())) return '';
+    return localDateStr(d);
+  } catch {
+    return '';
+  }
+}
+
 export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reason?: string }> {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
     return { ok: false, reason: 'unsupported' };
@@ -379,10 +426,10 @@ export async function sendTestPush(userId = ''): Promise<unknown> {
 }
 
 export async function registerPushWithServer({
-  streak = 0,
-  name = '',
+  streak,
+  name,
   force = false,
-} = {}): Promise<{
+}: { streak?: number; name?: string; force?: boolean } = {}): Promise<{
   ok: boolean;
   cached?: boolean;
 }> {
@@ -394,7 +441,7 @@ export async function registerPushWithServer({
   if (!force) {
     try {
       const ts = parseInt(localStorage.getItem(_REG_TS_KEY) || '0', 10);
-      if (ts && Date.now() - ts < 85 * 24 * 60 * 60 * 1000) return { ok: true, cached: true };
+      if (ts && Date.now() - ts < _REG_REFRESH_MS) return { ok: true, cached: true };
     } catch {}
   }
 
@@ -419,15 +466,27 @@ export async function registerPushWithServer({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         subscription: subscription.toJSON(),
-        streak: Math.max(0, Math.floor(Number(streak) || 0)),
-        name: String(name || '').slice(0, 50),
+        // Sent only when the caller actually supplied them. The defaults used to
+        // be 0 and '', which meant every argument-less call — useNotifications'
+        // fallback, and now the practice refresh below — overwrote a real stored
+        // streak with zero and the user's name with blank. push-subscribe.js was
+        // already written to preserve an omitted field; the client just never
+        // omitted one.
+        ...(typeof streak === 'number' ? { streak: Math.max(0, Math.floor(streak) || 0) } : {}),
+        ...(typeof name === 'string' ? { name: name.slice(0, 50) } : {}),
         reminderTime,
         timeZone,
+        // The date the worker actually decides on. Omitted rather than sent
+        // empty when this device has no practice history, so the server keeps
+        // whatever another device already recorded instead of overwriting it
+        // with a blank.
+        ...(lastPracticedLocalDate() ? { lastPracticed: lastPracticedLocalDate() } : {}),
       }),
     });
     if (res.ok) {
       try {
         localStorage.setItem(_REG_TS_KEY, String(Date.now()));
+        localStorage.setItem(_PRACTICE_SYNCED_KEY, lastPracticedLocalDate());
       } catch {}
       return { ok: true };
     }
@@ -435,5 +494,41 @@ export async function registerPushWithServer({
   } catch (e: unknown) {
     console.warn('[Push] Server registration failed:', (e as Error).message);
     return { ok: false };
+  }
+}
+
+const _PRACTICE_SYNCED_KEY = 'nh_push_practice_synced';
+
+/**
+ * Tell the server the user practised, on the day they practised.
+ *
+ * Registration runs when the app opens, so on its own it can only ever carry
+ * YESTERDAY's practice date: the user opens the app, registers, and only then
+ * completes a lesson. The evening reminder would still fire, because the date
+ * the worker holds is one day behind the one it compares against — the skip
+ * would be permanently a day late, which is the same as never working.
+ *
+ * So markPracticed() calls this, and it pushes at most one write per local day —
+ * markPracticed fires on every lesson, drill and review completion, and this
+ * must not become a request per exercise. force=true because that daily write
+ * is the entire point and the ordinary refresh guard would swallow it.
+ *
+ * Fire-and-forget and silent by design: it is called from inside lesson
+ * completion, where a throw would abandon the completion itself. A missed
+ * reminder suppression is much the lesser loss.
+ */
+export function syncPracticeToPushServer(): void {
+  try {
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    const practicedOn = lastPracticedLocalDate();
+    if (!practicedOn) return;
+    if (localStorage.getItem(_PRACTICE_SYNCED_KEY) === practicedOn) return;
+    // Stamp before the request, not after: a failure must not turn into a retry
+    // on every subsequent completion in the session. The next day's practice
+    // reopens it, and the app-open refresh remains the backstop.
+    localStorage.setItem(_PRACTICE_SYNCED_KEY, practicedOn);
+    void registerPushWithServer({ force: true }).catch(() => {});
+  } catch {
+    /* never let reminder bookkeeping break a lesson completion */
   }
 }
