@@ -184,6 +184,16 @@ export function buildProgressSnapshot({
         return [];
       }
     })(),
+    // Deleted notebook entries. Must travel with the words themselves: the merge
+    // unions both lists, so without this record the other device's copy re-adds
+    // anything the learner deleted. See lib/customWords.ts.
+    nh_custom_words_deleted: (() => {
+      try {
+        return JSON.parse(lsGet('nh_custom_words_deleted') || '{}');
+      } catch {
+        return {};
+      }
+    })(),
     nh_hearts_always_on: lsGet('nh_hearts_always_on') === 'true',
     nh_saved_phrases: (() => {
       try {

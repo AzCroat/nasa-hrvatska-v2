@@ -23,6 +23,14 @@ import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './
 import { lsGet } from './safeStorage.js';
 import { normalizePersonaKey } from './personaKey';
 import { mergeJournals } from './journalEntry';
+import {
+  CUSTOM_WORDS_KEY,
+  CUSTOM_WORDS_DELETED_KEY,
+  parseTombstones,
+  mergeTombstones,
+  mergeCustomWords,
+  type Tombstones,
+} from './customWords';
 
 export interface RemoteProgressSetters {
   setFavs: (favs: unknown[]) => void;
@@ -451,19 +459,32 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     } catch (_) {}
   }
 
-  // ── Custom words — dedup union keyed on word.word ─────────────────────────
-  if (Array.isArray(fp.nh_custom_words) && fp.nh_custom_words.length > 0) {
-    let lCW: unknown[] = [];
-    try {
-      lCW = JSON.parse(lsGet('nh_custom_words') || '[]');
-    } catch (_) {}
-    const cwMap = new Map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      [...fp.nh_custom_words, ...lCW].map((w: any) => [w?.word || JSON.stringify(w), w]),
-    );
-    try {
-      _safeSet('nh_custom_words', JSON.stringify([...cwMap.values()]));
-    } catch (_) {}
+  // ── Custom words — union by entry, minus anything deleted ─────────────────
+  // Deletions are carried by their own additive record (see lib/customWords.ts),
+  // so the union can stay additive: nothing is subtracted during the merge, a
+  // tombstone simply outranks an older copy of the same entry.
+  //
+  // Runs whenever EITHER side is present — a remote payload carrying only
+  // deletions still has to take effect locally, and the old `nh_custom_words
+  // .length > 0` guard would have skipped it.
+  {
+    const remoteWords = Array.isArray(fp.nh_custom_words) ? fp.nh_custom_words : [];
+    const remoteTombs = parseTombstones(fp.nh_custom_words_deleted);
+    if (remoteWords.length > 0 || Object.keys(remoteTombs).length > 0) {
+      let lCW: unknown[] = [];
+      let lTombs: Tombstones = {};
+      try {
+        lCW = JSON.parse(lsGet(CUSTOM_WORDS_KEY) || '[]');
+      } catch (_) {}
+      try {
+        lTombs = parseTombstones(JSON.parse(lsGet(CUSTOM_WORDS_DELETED_KEY) || '{}'));
+      } catch (_) {}
+      const tombs = mergeTombstones(lTombs, remoteTombs);
+      try {
+        _safeSet(CUSTOM_WORDS_DELETED_KEY, JSON.stringify(tombs));
+        _safeSet(CUSTOM_WORDS_KEY, JSON.stringify(mergeCustomWords(lCW, remoteWords, tombs)));
+      } catch (_) {}
+    }
   }
 
   // ── Miscellaneous additive flags ──────────────────────────────────────────
