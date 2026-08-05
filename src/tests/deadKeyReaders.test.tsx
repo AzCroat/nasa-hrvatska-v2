@@ -201,6 +201,18 @@ describe('reminder notification personalisation', () => {
   beforeEach(() => {
     shown.length = 0;
     vi.useFakeTimers();
+    // Pin the clock. Two tests below set a 23:00 reminder, and
+    // scheduleStreakReminder bails with `if (delay <= 0) return` once that hour
+    // has passed today — so between 23:00 and midnight in the runner's timezone
+    // nothing was ever scheduled and both tests failed. That is a CI gate that
+    // goes red for one hour a day and green again on a re-run, which is the
+    // worst failure mode a gate can have: it teaches people to re-run it.
+    //
+    // Built from LOCAL components on purpose. The code under test compares
+    // against `target.setHours(reminderHour, 0, 0, 0)`, which is local, so a UTC
+    // instant here would just relocate the flake to a different set of
+    // timezones rather than remove it.
+    vi.setSystemTime(new Date(2026, 0, 15, 9, 0, 0));
     class FakeNotification {
       static permission = 'granted';
       constructor(title: string, opts?: { body?: string }) {
