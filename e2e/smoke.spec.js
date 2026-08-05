@@ -146,7 +146,10 @@ test.describe('Production smoke — PWA assets', () => {
     );
     expect(src, 'index.html must reference a type="module" entry script').toBeTruthy();
 
-    const resp = await page.request.get(new URL(src, 'https://nasahrvatska.com').toString());
+    // Relative, so it resolves against the config's baseURL like every other
+    // request here. Hardcoding the production origin would silently keep testing
+    // production if this suite were ever pointed at a preview deployment.
+    const resp = await page.request.get(src);
     expect(resp.status(), `entry module ${src} must return 200`).toBe(200);
     expect(
       resp.headers()['content-type'] || '(no content-type)',
