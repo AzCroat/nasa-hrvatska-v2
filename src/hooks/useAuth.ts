@@ -26,8 +26,10 @@ import {
   fbResetPassword,
   fbLoadProgress,
   fbOnAuthStateChanged,
-} from '../data';
-import { initFirebase, fbSaveProgress, fbSignInGuest } from '../lib/firebase.js';
+  initFirebase,
+  fbSaveProgress,
+  fbSignInGuest,
+} from '../lib/firebase.js';
 import { setSentryUser } from '../lib/sentryUserContext';
 import { lsSet } from '../lib/safeStorage';
 import { clearUserScopedStorage } from '../lib/clearUserScopedStorage';
