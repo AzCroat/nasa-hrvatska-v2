@@ -51,36 +51,87 @@ jobs:
           path: playwright-smoke-report/
           retention-days: 7
 
+  # ── Alerting ────────────────────────────────────────────────────────────────
+  # HOW THIS WENT SILENT
+  # Dedup used to be `if (openSmokeFailureIssues.length === 0) create()`, and
+  # nothing ever closed an issue when production recovered. Issue #47 was filed
+  # on 2026-06-18, stayed open, and from then on every real failure found a
+  # matching open issue and said nothing. Production smoke failed on 2026-08-04
+  # and 2026-08-05 and no alert was raised, because a seven-week-old issue was
+  # holding the latch down.
+  #
+  # So dedup must never be able to turn into silence:
+  #   - a repeat failure COMMENTS on the existing issue (you learn it recurred)
+  #   - a success CLOSES the open issue, which resets the latch automatically
+  # One issue per outage, a comment per subsequent failure, closed on recovery.
   alert-on-failure:
     name: Alert on Smoke Failure
     runs-on: ubuntu-latest
     needs: smoke
     if: failure() && github.event_name == 'schedule'
     steps:
-      - name: Create GitHub issue for smoke failure
+      - name: Open or update the smoke-failure issue
         uses: actions/github-script@v7
         with:
           script: |
-            const title = `🚨 Production smoke tests failed — ${new Date().toISOString().slice(0,16)} UTC`;
-            const body = `## Production is potentially down or broken\n\n` +
-              `Smoke tests failed on scheduled run at ${new Date().toISOString()}.\n\n` +
-              `**Check immediately:**\n` +
-              `- https://nasahrvatska.com — does the site load?\n` +
-              `- [GitHub Actions run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})\n\n` +
-              `This issue was auto-created by the production smoke test workflow.`;
-            // Check if an open smoke-failure issue already exists
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'smoke-failure',
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const now = new Date().toISOString();
+            const { owner, repo } = context.repo;
+
+            const open = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', labels: 'smoke-failure',
             });
-            if (issues.data.length === 0) {
+
+            if (open.data.length === 0) {
               await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title,
-                body,
+                owner, repo,
+                title: `🚨 Production smoke tests failed — ${now.slice(0, 16)} UTC`,
+                body:
+                  `## Production is potentially down or broken\n\n` +
+                  `Smoke tests failed on scheduled run at ${now}.\n\n` +
+                  `**Check immediately:**\n` +
+                  `- https://nasahrvatska.com — does the site load?\n` +
+                  `- [GitHub Actions run](${runUrl})\n\n` +
+                  `This issue was auto-created by the production smoke test workflow. ` +
+                  `It closes itself when a scheduled run passes again.`,
                 labels: ['smoke-failure', 'bug', 'priority: critical'],
+              });
+              return;
+            }
+
+            // Still failing. Comment rather than staying quiet — the old code
+            // returned here and that is exactly how two failures went unreported.
+            for (const issue of open.data) {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: issue.number,
+                body: `Still failing as of ${now} — [run](${runUrl}).`,
+              });
+            }
+
+  resolve-on-success:
+    name: Close Smoke Failure Issue on Recovery
+    runs-on: ubuntu-latest
+    needs: smoke
+    if: success() && github.event_name == 'schedule'
+    steps:
+      - name: Close any open smoke-failure issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Without this the dedup above degrades into permanent silence the
+            // first time an issue is left open. This is the half that was missing.
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const { owner, repo } = context.repo;
+            const open = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', labels: 'smoke-failure',
+            });
+            for (const issue of open.data) {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: issue.number,
+                body: `Production smoke passed on all browsers at ${new Date().toISOString()} — [run](${runUrl}). Closing.`,
+              });
+              await github.rest.issues.update({
+                owner, repo, issue_number: issue.number,
+                state: 'closed', state_reason: 'completed',
               });
             }
