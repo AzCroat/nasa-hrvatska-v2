@@ -48,6 +48,35 @@ interface AbortFilterEvent {
 }
 
 /**
+ * True when the event arrived as an unhandled promise rejection.
+ *
+ * WHY THIS IS NOT AN EQUALITY CHECK
+ * ---------------------------------
+ * Both filters below used to compare against the bare string
+ * `'onunhandledrejection'`. The browser SDK now emits
+ * `'auto.browser.global_handlers.onunhandledrejection'`
+ * (@sentry/browser 10.x, integrations/globalhandlers.js), so every one of those
+ * comparisons was false in production and BOTH filters were dead — benign
+ * aborted fetches and benign Safari sw.js load failures all reached Sentry and
+ * paged on the high-priority channel.
+ *
+ * It went unnoticed because the tests hand-wrote the bare form as a fixture,
+ * which proves the matcher parses a shape the SDK never sends. So the suffix
+ * match below is paired with a test that reads the string out of the INSTALLED
+ * SDK — the point being that the next rename fails CI instead of going quiet.
+ *
+ * Anchored on the dot so this can only ever widen along the SDK's own
+ * `auto.<platform>.<integration>.<hook>` namespacing, and can never start
+ * matching a different hook such as `…global_handlers.onerror`.
+ */
+function isUnhandledRejection(mechanismType: string | undefined): boolean {
+  if (!mechanismType) return false;
+  return (
+    mechanismType === 'onunhandledrejection' || mechanismType.endsWith('.onunhandledrejection')
+  );
+}
+
+/**
  * True when a Sentry event is a benign AbortError surfaced as an *unhandled
  * promise rejection*. `apiFetch` re-throws AbortError (src/lib/apiFetch.ts), so a
  * fire-and-forget request aborted by SPA navigation or its own timeout escapes
@@ -61,7 +90,7 @@ export function isBenignAbortRejection(event: AbortFilterEvent | null | undefine
   const ex = event?.exception?.values?.[0];
   if (!ex) return false;
   const isAbort = ex.type === 'AbortError' || /\bAbortError\b/i.test(ex.value ?? '');
-  return isAbort && ex.mechanism?.type === 'onunhandledrejection';
+  return isAbort && isUnhandledRejection(ex.mechanism?.type);
 }
 
 /**
@@ -94,7 +123,7 @@ export function isBenignAbortRejection(event: AbortFilterEvent | null | undefine
 export function isBenignSwLoadRejection(event: AbortFilterEvent | null | undefined): boolean {
   const ex = event?.exception?.values?.[0];
   if (!ex) return false;
-  if (ex.mechanism?.type !== 'onunhandledrejection') return false;
+  if (!isUnhandledRejection(ex.mechanism?.type)) return false;
   const msg = ex.value ?? '';
   // Actionable — never suppress (production Incident 1).
   if (/mime type/i.test(msg)) return false;

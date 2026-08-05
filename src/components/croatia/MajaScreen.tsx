@@ -564,8 +564,18 @@ export default function MajaScreen() {
             }
           }
         } finally {
+          // cancel() RETURNS A PROMISE, so the synchronous try/catch this used to
+          // sit in could never catch its rejection. Cancelling the reader of a
+          // stream that was already aborted rejects with that stream's stored
+          // error (Streams spec), so a learner leaving Razgovor while Maja was
+          // still replying — the teardown effect calls streamAbortRef.abort() —
+          // raised an unhandled AbortError. That is exactly the event the
+          // isAbortFailure guard in the catch below exists to keep out of Sentry;
+          // it just never saw it, because this rejection bypassed the catch
+          // entirely and surfaced as an unhandled promise rejection.
+          // The .catch() is the actual guard; the try only covers a sync throw.
           try {
-            reader.cancel();
+            void reader.cancel().catch(() => {});
           } catch {
             /* ignore */
           }

@@ -563,9 +563,13 @@ export default function AIConversation({
       }
     } finally {
       clearTimeout(streamTimeoutId);
-      // Always release the stream lock — prevents connection exhaustion on errors
+      // Always release the stream lock — prevents connection exhaustion on errors.
+      // cancel() returns a promise, so the surrounding sync try/catch cannot catch
+      // its rejection: on an already-aborted stream it rejects with the stored
+      // AbortError and escaped as an unhandled rejection. The timeout path a few
+      // lines above already had this right (`.catch(() => {})`); this one did not.
       try {
-        reader.cancel();
+        void reader.cancel().catch(() => {});
       } catch {
         /* ignore cancel errors */
       }

@@ -528,8 +528,12 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
           await appendChunk(value);
         }
       } finally {
+        // cancel() returns a promise, so this sync try/catch cannot catch its
+        // rejection — on an already-aborted stream it rejects with the stored
+        // AbortError and escapes as an unhandled rejection. The .catch() is the
+        // real guard; the try only covers a sync throw.
         try {
-          reader.cancel();
+          void reader.cancel().catch(() => {});
         } catch {
           /* ignore */
         }
