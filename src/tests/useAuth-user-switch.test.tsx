@@ -37,7 +37,14 @@ const gP = vi.fn();
 const gS = vi.fn();
 const fbLoadProgress = vi.fn(async () => null);
 
-vi.mock('../data', () => ({
+// One mock, because there is one module. This used to be split across
+// `vi.mock('../data')` and `vi.mock('../lib/firebase.js')` — not because the
+// symbols lived in two places (all of them are defined in lib/firebase.ts) but
+// because useAuth imported nine of them through the content barrel. That barrel
+// re-exports src/data/content.tsx, which dragged the whole lesson library onto
+// the first-paint path; see src/tests/firstPaintGraph.test.ts. The import now
+// points at the module that actually defines these, so the mock follows it.
+vi.mock('../lib/firebase.js', () => ({
   gP: (...a: unknown[]) => gP(...a),
   lP: vi.fn(),
   gS: () => gS(),
@@ -55,9 +62,6 @@ vi.mock('../data', () => ({
     fireAuth = fn;
     return () => {};
   },
-}));
-
-vi.mock('../lib/firebase.js', () => ({
   initFirebase: vi.fn(),
   fbSaveProgress: vi.fn(() => Promise.resolve()),
   fbSignInGuest: vi.fn(() => Promise.resolve({ ok: false })),
