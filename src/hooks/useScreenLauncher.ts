@@ -24,6 +24,7 @@ import { lsGet, lsSet, lsRemove, ssGet, ssSet, ssRemove } from '../lib/safeStora
 import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
+import { getContent, getGrammar, getLessons } from '../lib/contentClient';
 
 // V is only needed when launching exercises — lazy import keeps chunk-data
 // out of the startup bundle. GRAM and LESSONS are fetched server-side via
@@ -214,7 +215,6 @@ export function useScreenLauncher({
 
   const launchAnimLesson = useCallback(
     async (lessonId: string): Promise<void> => {
-      const { getLessons } = await import('../lib/contentClient');
       const lessons = await getLessons();
       const l = lessons.find((x) => x.id === lessonId);
       if (l) {
@@ -454,7 +454,6 @@ export function useScreenLauncher({
         setScr('lesson');
         sCurEx('vocab_' + topic);
       } else if (item.go === 'grammar') {
-        const { getGrammar } = await import('../lib/contentClient');
         const grammar = await getGrammar();
         const GRAM = grammar.GRAM as unknown as {
           beginner: unknown[];
@@ -534,7 +533,6 @@ export function useScreenLauncher({
         }
         launchMcGame(qs);
       } else if (item.go === 'animlesson' && item.lessonId) {
-        const { getLessons } = await import('../lib/contentClient');
         const lessons = await getLessons();
         const l = lessons.find((x) => x.id === item.lessonId);
         if (!l) return;
@@ -683,7 +681,6 @@ export function useScreenLauncher({
           // protect click handlers that have no catch. This branch HAS one, and
           // it distinguishes 'load-error' from 'empty-pool' and can route a
           // stale-chunk rejection into the healer. Do not unify them.
-          const { getContent } = await import('../lib/contentClient');
           const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const globalPool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
@@ -776,7 +773,6 @@ export function useScreenLauncher({
           // protect click handlers that have no catch. This branch HAS one, and
           // it distinguishes 'load-error' from 'empty-pool' and can route a
           // stale-chunk rejection into the healer. Do not unify them.
-          const { getContent } = await import('../lib/contentClient');
           const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
           const pool = allCats
             .flatMap((t) => (V[t] ?? []) as string[][])
@@ -800,7 +796,6 @@ export function useScreenLauncher({
           // animLesson state holds a full Lesson object, so the generic branch
           // would land on a BLANK screen. Pick the least-recently-served lesson
           // unlocked at the session's CEFR (policy in lib/sessionLessonPick).
-          const { getLessons } = await import('../lib/contentClient');
           const pick = pickSessionLesson(await getLessons());
           if (!pick) {
             clearActiveSessionActivity();

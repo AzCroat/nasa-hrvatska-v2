@@ -10,6 +10,7 @@
  * NOTE: the barrel does NOT contain the vocabulary map V — see _getVocab below.
  */
 import { reportError } from './errorReporter';
+import { getContent } from './contentClient';
 
 let _dataCache: Record<string, unknown> | null = null;
 
@@ -45,7 +46,6 @@ export type VocabWord = [string, string, string?, ...string[]];
  */
 export async function _getVocab(): Promise<Record<string, VocabWord[]>> {
   try {
-    const { getContent } = await import('./contentClient');
     return ((await getContent()).V ?? {}) as Record<string, VocabWord[]>;
   } catch (err) {
     reportError(err instanceof Error ? err : new Error('vocab load failed'), 'vocab-load');

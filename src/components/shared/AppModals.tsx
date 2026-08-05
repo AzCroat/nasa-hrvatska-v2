@@ -8,7 +8,10 @@ import React, { lazy, Suspense, useState } from 'react';
 import OnboardingTour from './OnboardingTour';
 import PremiumWelcomeBanner from './PremiumWelcomeBanner';
 // speak is lazy-loaded on first use — audio.js lives in chunk-data (loaded with first screen)
-const _speakLazy = (text: string) => import('../../lib/audio.js').then((m) => m.speak(text));
+// Static: audio.js is already eager (35 static importers, reachable from the
+// entry chunk via contentClient), so the lazy wrapper deferred nothing while
+// reading as though it did. See src/tests/dualImport.test.ts.
+import { speak } from '../../lib/audio.js';
 import { trackOnboardingComplete } from '../../lib/analytics.js';
 import { useCheckpoint } from '../../hooks/useCheckpoint.js';
 import { isCheckpointDue, shouldShowCheckpoint } from '../../lib/checkpointSchedule.js';
@@ -162,7 +165,7 @@ export function AppModals({
               ].map(([hr = '', en]) => (
                 <button
                   key={hr}
-                  onClick={() => _speakLazy(hr)}
+                  onClick={() => speak(hr)}
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
