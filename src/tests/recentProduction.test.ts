@@ -1,15 +1,22 @@
 // src/tests/recentProduction.test.ts
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { getRecentProduction, recordProductionExercise } from '../hooks/useDailySession';
+import { localDateStr } from '../lib/dateUtils';
 
+// These derived UTC dates while the code under test keys on the LOCAL day
+// (_todayStr -> localDateStr). The two agree for most of the day and diverge in
+// the hours where the local date and the UTC date are different ones, so the
+// file seeded one day and asserted against another only in that window — the
+// failure looked random and was not. Delegating to the same helper production
+// uses is what makes the assertions mean what they say.
 function todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  return localDateStr();
 }
 
 function daysAgoStr(n: number): string {
   const d = new Date();
   d.setDate(d.getDate() - n);
-  return d.toISOString().slice(0, 10);
+  return localDateStr(d);
 }
 
 describe('getRecentProduction', () => {
@@ -67,7 +74,7 @@ describe('recordProductionExercise', () => {
     const parsed = JSON.parse(raw!);
     expect(parsed).toHaveLength(1);
     expect(parsed[0].screen).toBe('shadowing');
-    expect(parsed[0].date).toBe(new Date().toISOString().slice(0, 10));
+    expect(parsed[0].date).toBe(todayStr());
   });
 
   it('does not duplicate same-day re-records', () => {
