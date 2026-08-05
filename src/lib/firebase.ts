@@ -46,6 +46,7 @@ import {
 } from 'firebase/analytics';
 import { toDocId } from './userKey.js';
 import { lsSet, lsRemove } from './safeStorage.js';
+import { _nativePost } from './nativePost';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -848,7 +849,6 @@ export async function fbDeleteAccount(_userId: string): Promise<{ ok: boolean; e
     // behind while reporting success (GDPR / Play Data-Deletion violation).
     // The server deletes those docs + subcollections, the push KV, and
     // the Auth account. Identity comes from the verified token, not the body.
-    const { _nativePost } = await import('./nativePost');
     const res = await _nativePost('/api/delete-account', {});
     if (!res) {
       return { ok: false, err: 'Could not reach the server. Check your connection and try again.' };

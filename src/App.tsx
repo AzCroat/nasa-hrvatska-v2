@@ -28,7 +28,12 @@ import { availableXp } from './lib/xpBalance.js';
 import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
 import { recordActiveDayNow, getActiveDayCount } from './lib/activeDayTracker.js';
-import { getEffectiveLevelForUnlock } from './lib/cefrCertification.js';
+import { apiFetch } from './lib/apiFetch';
+import { getContent } from './lib/contentClient';
+import {
+  getEffectiveLevelForUnlock,
+  migrateGrandfatheredCertification,
+} from './lib/cefrCertification.js';
 import { trackAppOpen, isAnalyticsConsented } from './lib/analytics.js';
 import AppContext from './context/AppContext';
 import { StatsProvider } from './context/StatsContext';
@@ -855,10 +860,11 @@ function App() {
   // reflects the user's actual XP / lesson / grammar progress.
   useEffect(() => {
     if (!stats || (stats.xp == null && stats.lc == null && stats.gc == null)) return;
-    import('./lib/cefrCertification.js').then(({ migrateGrandfatheredCertification }) => {
-      const eligible = getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0);
-      migrateGrandfatheredCertification(eligible);
-    });
+    // Called directly: this module is already in App's static import graph
+    // (getEffectiveLevelForUnlock above), so the dynamic form deferred nothing —
+    // Rollup warned "dynamic import will not move module into another chunk".
+    const eligible = getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0);
+    migrateGrandfatheredCertification(eligible);
     // Intentionally depending on the three primitive fields only — adding
     // `stats` here would re-run on every identity change of the stats object
     // (every render that recreates it) and risk infinite migration calls.
@@ -1424,17 +1430,15 @@ function App() {
   // ships from /api/content/core via contentClient (cached + Bearer-gated).
   useEffect(() => {
     if (!authUser || authScreen !== 'app' || stats.lc === 0 || (stats.ct?.length ?? 0) > 0) return;
-    import('./lib/contentClient').then(({ getContent }) => {
-      getContent().then(({ LEARN_PATH }) => {
-        const recovered: string[] = [];
-        for (const lv of LEARN_PATH) {
-          for (const it of lv.items) {
-            if (it.topic && recovered.length < stats.lc) recovered.push(it.topic);
-          }
+    getContent().then(({ LEARN_PATH }) => {
+      const recovered: string[] = [];
+      for (const lv of LEARN_PATH) {
+        for (const it of lv.items) {
+          if (it.topic && recovered.length < stats.lc) recovered.push(it.topic);
         }
-        if (recovered.length > 0)
-          setStats((prev) => ({ ...prev, ct: [...new Set([...prev.ct, ...recovered])] }));
-      });
+      }
+      if (recovered.length > 0)
+        setStats((prev) => ({ ...prev, ct: [...new Set([...prev.ct, ...recovered])] }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authScreen, authUser, stats.lc, stats.ct]);
@@ -1494,24 +1498,22 @@ function App() {
       >;
       wordsLearned = Object.values(sr).filter((v) => v && (v.r ?? 0) > 0).length;
     } catch {}
-    import('./lib/apiFetch').then(({ apiFetch }) =>
-      apiFetch('/api/digest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: authUser.e,
-          name: authUser.d || 'Learner',
-          xp: stats.xp || 0,
-          lessons: stats.lc || 0,
-          streakDays: getStreak().count || 0,
-          wordsLearned,
-        }),
+    void apiFetch('/api/digest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: authUser.e,
+        name: authUser.d || 'Learner',
+        xp: stats.xp || 0,
+        lessons: stats.lc || 0,
+        streakDays: getStreak().count || 0,
+        wordsLearned,
+      }),
+    })
+      .then((r) => {
+        if (r.ok) lsSet(k, '1');
       })
-        .then((r) => {
-          if (r.ok) lsSet(k, '1');
-        })
-        .catch(() => {}),
-    );
+      .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
 

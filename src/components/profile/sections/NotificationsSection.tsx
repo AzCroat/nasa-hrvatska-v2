@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { isNative } from '../../../lib/platform';
 import { lsGet } from '../../../lib/safeStorage';
+import { getStreak } from '../../../lib/appUtils.js';
 
 /**
  * Notifications + daily-reminder-time section — extracted from SettingsTab as
@@ -46,13 +47,8 @@ export default function NotificationsSection() {
       // Native path: OS-level local notifications (Web Push does not work in the
       // Android WebView). Request permission, then schedule the daily reminder.
       if (isNative()) {
-        const [
-          { requestNativeNotificationPermission, scheduleNativeDailyReminder },
-          { getStreak },
-        ] = await Promise.all([
-          import('../../../lib/nativeNotifications'),
-          import('../../../lib/appUtils.js'),
-        ]);
+        const [{ requestNativeNotificationPermission, scheduleNativeDailyReminder }] =
+          await Promise.all([import('../../../lib/nativeNotifications')]);
         const granted = await requestNativeNotificationPermission();
         setNotifPermission(granted ? 'granted' : 'denied');
         if (granted) {
@@ -249,11 +245,8 @@ export default function NotificationsSection() {
                     } catch (_) {}
                     // Native: reschedule the OS-level daily reminder at the new hour.
                     if (isNative()) {
-                      Promise.all([
-                        import('../../../lib/nativeNotifications'),
-                        import('../../../lib/appUtils.js'),
-                      ])
-                        .then(([{ scheduleNativeDailyReminder }, { getStreak }]) =>
+                      import('../../../lib/nativeNotifications')
+                        .then(({ scheduleNativeDailyReminder }) =>
                           scheduleNativeDailyReminder(getStreak().count || 0),
                         )
                         .catch(() => {});
@@ -266,11 +259,8 @@ export default function NotificationsSection() {
                       typeof Notification !== 'undefined' &&
                       Notification.permission === 'granted'
                     ) {
-                      Promise.all([
-                        import('../../../lib/pushNotifications.js'),
-                        import('../../../lib/appUtils.js'),
-                      ])
-                        .then(([{ registerPushWithServer }, { getStreak }]) =>
+                      import('../../../lib/pushNotifications.js')
+                        .then(({ registerPushWithServer }) =>
                           registerPushWithServer({
                             streak: getStreak().count || 0,
                             name: au?.d || '',

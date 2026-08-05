@@ -1,6 +1,7 @@
 // pushNotifications.ts — Web Push Notifications
 
 import { localDateStr } from './dateUtils';
+import { apiFetch } from './apiFetch';
 
 // ── Notification timer tracking ───────────────────────────────────────────────
 const _notifTimers = new Set<ReturnType<typeof setTimeout>>();
@@ -375,7 +376,6 @@ export async function subscribeToPush(userId = ''): Promise<{ ok: boolean; reaso
   } catch {}
 
   try {
-    const { apiFetch } = await import('./apiFetch');
     const res = await apiFetch('/api/push-subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -405,7 +405,6 @@ export async function sendTestPush(userId = ''): Promise<unknown> {
     return { ok: false };
   }
   try {
-    const { apiFetch } = await import('./apiFetch');
     const res = await apiFetch('/api/push-send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -460,7 +459,6 @@ export async function registerPushWithServer({
   } catch {}
 
   try {
-    const { apiFetch } = await import('./apiFetch');
     const res = await apiFetch('/api/push-subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

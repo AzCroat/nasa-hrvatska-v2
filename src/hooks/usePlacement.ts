@@ -5,6 +5,7 @@
  * and the getPlacementCt utility that maps a level to completed-topics array.
  */
 import { useState } from 'react';
+import { getContent } from '../lib/contentClient';
 
 export function usePlacement(): {
   placementIdx: number;
@@ -28,7 +29,6 @@ export function usePlacement(): {
   // SP11e: LEARN_PATH ships from /api/content/core via contentClient. Hydration
   // is cached + Bearer-gated, so this stays cheap even after the data move.
   async function getPlacementCt(level: number): Promise<string[]> {
-    const { getContent } = await import('../lib/contentClient');
     const { LEARN_PATH } = await getContent();
     const ct: string[] = [];
     const targets = [0, 0, 5, 10, 15, 20];
