@@ -25,8 +25,12 @@
  * from the sweep. Without it, this fix repairs today's leak and permits the next.
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { clearUserScopedStorage, USER_SCOPED_LEGACY_KEYS } from '../lib/clearUserScopedStorage';
+import { readFileSync, globSync } from 'node:fs';
+import {
+  clearUserScopedStorage,
+  USER_SCOPED_LEGACY_KEYS,
+  NOT_USER_SCOPED_KEYS,
+} from '../lib/clearUserScopedStorage';
 
 /** Everything user A leaves behind on a shared device. */
 function seedUserA(): void {
@@ -152,5 +156,128 @@ describe('the sweep keeps pace with the app’s real user-scoped keys', () => {
     const swept = new Set<string>(USER_SCOPED_LEGACY_KEYS);
     const missed = [...read].filter((k) => !k.startsWith('nh_') && !swept.has(k));
     expect(missed).toEqual([]);
+  });
+});
+
+/**
+ * The check above is the one that shipped with the original fix, and it is
+ * narrower than it looked: it only sees keys `applyRemoteProgress` READS via a
+ * `lsGet('literal')`. Five user-scoped keys lived outside that window and
+ * survived a sign-out anyway — one per blind spot:
+ *
+ *   uSR               only ever read, and from srs.ts, not applyRemoteProgress
+ *   topic_accuracy    reached through `const KEY = 'topic_accuracy'`
+ *   placement_done    written by applyRemoteProgress (_safeSet), never read there
+ *   slangAgeConfirmed only touched from a component
+ *   lastSeen          only touched from App.tsx
+ *
+ * So this pass reads all of src/, follows reads AND writes, and resolves one
+ * level of const indirection. Every non-`nh_` key it finds must be classified in
+ * one of the two exported lists — a key in neither is the failure.
+ */
+describe('every non-nh_ storage key in the app is classified', () => {
+  const STORAGE_CALL =
+    /(?:localStorage\.(?:getItem|setItem|removeItem)|lsGet|lsSet|lsRemove|_safeSet)\(\s*([A-Za-z_$][\w$]*|'[^']*')/g;
+
+  function collectKeys(): Map<string, string> {
+    const files = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
+      (f) => !f.includes('/tests/') && !f.includes('.test.'),
+    );
+    const found = new Map<string, string>();
+    for (const file of files) {
+      // Strip comments first. Prose in this very file documents the calls it is
+      // describing (`lsGet('…')`), and a scanner that reads its own commentary
+      // reports keys nothing executes.
+      const src = readFileSync(file, 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      // One level of indirection: `const KEY = 'topic_accuracy'` then
+      // `localStorage.getItem(KEY)`. Without this the scan misses adaptive.ts
+      // and both auth throttles.
+      const consts = new Map<string, string>();
+      for (const m of src.matchAll(
+        /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=]+)?=\s*'([^']+)'/g,
+      ))
+        consts.set(m[1]!, m[2]!);
+      for (const m of src.matchAll(STORAGE_CALL)) {
+        const arg = m[1]!;
+        const key = arg.startsWith("'") ? arg.slice(1, -1) : consts.get(arg);
+        if (key && !found.has(key)) found.set(key, file);
+      }
+    }
+    return found;
+  }
+
+  it('the scan actually finds the keys it is supposed to police', () => {
+    // Non-vacuity, and specifically for each blind spot above: if the regex or
+    // the const resolution silently stops working, an empty "missed" list below
+    // would look like a pass.
+    const keys = collectKeys();
+    expect(keys.size).toBeGreaterThan(40);
+    for (const k of ['uSR', 'topic_accuracy', 'placement_done', 'slangAgeConfirmed', 'lastSeen'])
+      expect([...keys.keys()]).toContain(k);
+    // Proves the const-indirection branch is load-bearing, not decoration.
+    expect(keys.get('topic_accuracy')).toContain('adaptive');
+  });
+
+  it('leaves nothing unclassified', () => {
+    const classified = new Set<string>([...USER_SCOPED_LEGACY_KEYS, ...NOT_USER_SCOPED_KEYS]);
+    const unclassified = [...collectKeys()]
+      .filter(([k]) => !k.startsWith('nh_') && !classified.has(k))
+      .map(([k, file]) => `${k} (${file})`);
+    // A new non-nh_ key must be a deliberate decision: swept as user data, or
+    // listed as not-user-scoped with a reason. Neither is not an option.
+    expect(unclassified).toEqual([]);
+  });
+
+  it('the two lists do not disagree with each other', () => {
+    const swept = new Set<string>(USER_SCOPED_LEGACY_KEYS);
+    expect(NOT_USER_SCOPED_KEYS.filter((k) => swept.has(k))).toEqual([]);
+  });
+});
+
+describe('the keys that survived the previous sweep are gone', () => {
+  it('clears the SRS fallback that handed the next account the whole deck', () => {
+    // getSR() reads `uSR` when `nh_sr` is empty, so leaving it behind is not
+    // stale local state — the next user studies these cards and syncs them into
+    // their own srs/{uid} document.
+    localStorage.setItem('uSR', JSON.stringify({ kuća: { w: 3 } }));
+    localStorage.setItem('nh_sr', JSON.stringify({ more: { w: 1 } }));
+    clearUserScopedStorage('a@example.com');
+    expect(localStorage.getItem('uSR')).toBeNull();
+    expect(localStorage.getItem('nh_sr')).toBeNull();
+  });
+
+  it('clears the flags that decided the next learner never gets placed', () => {
+    localStorage.setItem('placement_done', 'true');
+    localStorage.setItem('onboarded', 'true');
+    localStorage.setItem('nh_placement_done', 'true');
+    clearUserScopedStorage('a@example.com');
+    // App.tsx routes a 0-XP learner to `new-placement` only when all three are
+    // absent, so any one surviving is enough to skip placement entirely.
+    for (const k of ['placement_done', 'onboarded', 'nh_placement_done'])
+      expect(localStorage.getItem(k)).toBeNull();
+  });
+
+  it('clears adaptive accuracy, the age gate, and the comeback timestamp', () => {
+    localStorage.setItem('topic_accuracy', JSON.stringify({ padezi: { attempts: 9, correct: 2 } }));
+    localStorage.setItem('slangAgeConfirmed', 'true');
+    localStorage.setItem('lastSeen', String(Date.now()));
+    clearUserScopedStorage('a@example.com');
+    for (const k of ['topic_accuracy', 'slangAgeConfirmed', 'lastSeen'])
+      expect(localStorage.getItem(k)).toBeNull();
+  });
+
+  it('still leaves the deliberate exclusions alone', () => {
+    // The fix must not overshoot into device-level state.
+    localStorage.setItem('darkMode', 'true');
+    localStorage.setItem('cookie_consent_v1', 'accepted');
+    localStorage.setItem('contactSubmits', JSON.stringify([1, 2]));
+    localStorage.setItem('reg_attempts', JSON.stringify({ count: 3, since: 1 }));
+    clearUserScopedStorage('a@example.com');
+    expect(localStorage.getItem('darkMode')).toBe('true');
+    expect(localStorage.getItem('cookie_consent_v1')).toBe('accepted');
+    expect(localStorage.getItem('contactSubmits')).not.toBeNull();
+    expect(localStorage.getItem('reg_attempts')).not.toBeNull();
   });
 });
