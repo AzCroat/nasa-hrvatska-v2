@@ -14,7 +14,9 @@ fs.writeFileSync('./public/version.json', JSON.stringify({ v: BUILD_ID }) + '\n'
 // (typically only in CF Pages production builds). Local dev/preview builds
 // without these vars get a no-op plugin so nothing breaks.
 const SENTRY_UPLOAD_ENABLED = !!(
-  process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT
+  process.env.SENTRY_AUTH_TOKEN &&
+  process.env.SENTRY_ORG &&
+  process.env.SENTRY_PROJECT
 );
 
 // CSP guard: Vite inlines small public/ scripts into the built index.html,
@@ -26,7 +28,7 @@ function keepPublicScriptsExternal() {
   // Read the canonical source text for each file once at plugin init time.
   const externalScripts = [
     { src: '/native-init.js', file: 'public/native-init.js' },
-    { src: '/sw-update.js',   file: 'public/sw-update.js'   },
+    { src: '/sw-update.js', file: 'public/sw-update.js' },
   ].map(({ src, file }) => ({
     src,
     // Strip JS comments and normalise whitespace so we match against the
@@ -44,15 +46,13 @@ function keepPublicScriptsExternal() {
         // substring of (or identical to) the source file content.
         // Vite strips leading // comments and trims, so we use the first
         // non-comment code line as the unique fingerprint.
-        const firstCodeLine = raw
-          .split('\n')
-          .find(l => l.trim() && !l.trim().startsWith('//'));
+        const firstCodeLine = raw.split('\n').find((l) => l.trim() && !l.trim().startsWith('//'));
         if (!firstCodeLine) continue;
         // Escape special regex chars in the fingerprint.
         const escaped = firstCodeLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').trim();
         const inlinePattern = new RegExp(
           `<script>\\s*[\\s\\S]*?${escaped}[\\s\\S]*?<\\/script>`,
-          'g'
+          'g',
         );
         result = result.replace(inlinePattern, `<script src="${src}"></script>`);
       }
@@ -100,7 +100,8 @@ export default defineConfig({
       manifest: {
         name: 'Naša Hrvatska — Our Croatia',
         short_name: 'Naša Hrvatska',
-        description: 'Interactive Croatian language learning with vocabulary, grammar, games, and cultural immersion',
+        description:
+          'Interactive Croatian language learning with vocabulary, grammar, games, and cultural immersion',
         id: '/',
         start_url: '/',
         scope: '/',
@@ -115,7 +116,7 @@ export default defineConfig({
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
-          { src: 'icon.svg', sizes: 'any', type: 'image/svg+xml' }
+          { src: 'icon.svg', sizes: 'any', type: 'image/svg+xml' },
         ],
         screenshots: [
           {
@@ -156,20 +157,20 @@ export default defineConfig({
           '**/splash/**',
           '**/screenshots/**',
         ],
-      }
-    })
+      },
+    }),
   ],
   build: {
-    target: 'es2020',              // Modern target — native async/await, smaller output
+    target: 'es2020', // Modern target — native async/await, smaller output
     outDir: 'dist',
     // 'hidden' generates source maps but omits the //# sourceMappingURL comment,
     // so browsers never download them. Sentry's plugin uploads them at build
     // time then deletes the local files (see sourcemaps.filesToDeleteAfterUpload).
     sourcemap: SENTRY_UPLOAD_ENABLED ? 'hidden' : false,
     minify: 'esbuild',
-    cssCodeSplit: true,            // CSS per chunk (avoids one monolithic stylesheet)
-    reportCompressedSize: false,   // Skip gzip-size computation at build time for faster builds
-    chunkSizeWarningLimit: 800,    // src/data.jsx (root vocab file) is ~700 KB and cannot be split without a full data-layer refactor
+    cssCodeSplit: true, // CSS per chunk (avoids one monolithic stylesheet)
+    reportCompressedSize: false, // Skip gzip-size computation at build time for faster builds
+    chunkSizeWarningLimit: 800, // src/data.jsx (root vocab file) is ~700 KB and cannot be split without a full data-layer refactor
     rollupOptions: {
       output: {
         experimentalMinChunkSize: 0, // Don't merge tiny chunks into startup bundle — prevents chunk-data becoming a static startup dep
@@ -177,8 +178,10 @@ export default defineConfig({
           // Firebase must stay as ONE chunk — the SDK uses shared internal state and
           // circular dependencies across @firebase/* packages. Splitting it causes
           // module initialization order failures (app crashes with blank screen / NO_FCP).
-          if (id.includes('node_modules/firebase') || id.includes('node_modules/@firebase')) return 'vendor-firebase';
-          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) return 'vendor-react';
+          if (id.includes('node_modules/firebase') || id.includes('node_modules/@firebase'))
+            return 'vendor-firebase';
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/'))
+            return 'vendor-react';
           if (id.includes('node_modules/@sentry')) return 'vendor-sentry';
           if (id.includes('node_modules/dexie')) return 'vendor-dexie';
           // Large agent-generated data files — each in its own lazy chunk.
@@ -191,11 +194,35 @@ export default defineConfig({
           if (id.includes('src/data/grammar')) return 'chunk-grammar';
           if (id.includes('src/data/exercises')) return 'chunk-exercises';
           if (id.includes('src/data/scenarios')) return 'chunk-scenarios';
-          if (id.includes('src/data/cultural/geography')) return 'chunk-geo';  // 557 kB 365-city file — isolated
+          if (id.includes('src/data/cultural/geography')) return 'chunk-geo'; // 557 kB 365-city file — isolated
           if (id.includes('src/data/cultural')) return 'chunk-cultural';
-          // data.jsx (root vocabulary file) + content.jsx stay in chunk-data (~700 KB).
-          // src/data.jsx alone is ~700 KB and cannot be split without a major refactor.
+          // The barrel (src/data.tsx) and its hub (src/data/content.tsx) get their
+          // OWN chunk. content.tsx statically imports vocabulary + cultural (incl.
+          // the 557 kB geography file) + exercises + scenarios, so it is the door to
+          // ~1.5 MB of lesson content and must never share a chunk with anything
+          // startup needs.
+          if (/src[/\\]data\.tsx$/.test(id) || id.includes('src/data/content'))
+            return 'chunk-content-hub';
           if (id.includes('src/data') || id.includes('src/lib/appData')) return 'chunk-data';
+          // src/lib/** claimed EXPLICITLY, and this line is the one that actually
+          // moved first paint (894 kB -> 598 kB gzipped, -33%).
+          //
+          // Why it was needed: manualChunks returned undefined for src/lib modules,
+          // so ROLLUP grouped them — and it grouped them with the content hub.
+          // src/main.tsx statically imports two of them (vite/preload-helper, then
+          // src/lib/platform.ts once the helper was moved), which made whichever
+          // chunk held content a STARTUP dependency and dragged geo + cultural +
+          // vocabulary + scenarios onto the blocking path. Diagnosed with
+          // `node scripts/whyEager.mjs`; it names the chain, and severing one edge
+          // at a time just moved the problem to the next unclaimed module. Claiming
+          // the whole directory is what stops the game.
+          //
+          // NOT a cycle, checked rather than assumed: the emitted graph is
+          // chunk-content-hub -> chunk-lib -> chunk-data, and chunk-data imports
+          // nothing. This is the same shape that caused the chunk-hooks TDZ crash
+          // noted below, so it was verified by booting the built output in a real
+          // browser (#root must actually mount), not by reading the config.
+          if (id.includes('/src/lib/')) return 'chunk-lib';
           // Context — break circular deps between croatia/practice/learn chunks
           if (id.includes('src/context')) return 'chunk-context';
           // NOTE: src/hooks intentionally has NO manual chunk — previous chunk-hooks caused
@@ -203,8 +230,8 @@ export default defineConfig({
           // now pulled into their respective lazy screen chunks by Rollup's default behavior.
           // Individual screen files (croatia/, practice/, profile/, learn/) are NOT matched here.
           // They fall through to Rollup's default — each lazy-loaded screen becomes its own chunk.
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 });
