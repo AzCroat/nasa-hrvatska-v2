@@ -143,7 +143,9 @@ describe('the chain is actually wired', () => {
 
   it('the restore migrates and applies them', () => {
     const src = read('src/lib/applyRemoteProgress.ts');
-    expect(src).toMatch(/mergeSavedPhrases\(lSP, fp\.nh_saved_phrases, BAKA_PHRASES_KEYS, tombs\)/);
+    expect(src).toMatch(
+      /mergeSavedPhrases\(lSP, fp\.nh_saved_phrases, LEGACY_SAVED_PHRASE_INDEX, tombs\)/,
+    );
     expect(src).toMatch(/parseTombstones\(fp\.nh_saved_phrases_deleted\)/);
     // The old index union is gone.
     expect(src).not.toMatch(/new Set\(\[\.\.\.lSP, \.\.\.fp\.nh_saved_phrases\]\)/);

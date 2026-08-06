@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 /**
  * Cloudflare Pages Middleware — Security, Rate Limiting & Request Logging
- * Applies to all /api/* routes.
+ * Runs on EVERY request (root-level _middleware, no _routes.json). Rate
+ * limiting + logging apply to /api/*; the missing-asset guard below applies to
+ * the immutable asset directories; everything else passes straight through.
  *
  * Primary rate limiting via Cache API.
  * Fallback: module-level in-memory circuit breaker when Cache API unavailable.
@@ -121,13 +123,60 @@ function tooManyRequests(limit, origin, isDev) {
   );
 }
 
+/**
+ * A missing immutable asset must be a 404, never a cacheable HTML page.
+ *
+ * THE INCIDENT (2026-08-04 → 08-06, issue #415)
+ * ---------------------------------------------
+ * Cloudflare Pages serves the SPA fallback — index.html, HTTP 200, text/html —
+ * for ANY path it cannot find, including /assets/<hash>.js. And _headers gives
+ * everything under /assets/* `Cache-Control: public, max-age=31536000,
+ * immutable`, because content-hashed files never change. Put together: one
+ * request for an asset the current deployment doesn't have (a deploy rollover
+ * window is enough) and an edge node caches AN HTML PAGE under a .js URL for
+ * up to a year. Every later visitor routed through that node gets HTML where
+ * the boot-path script should be; browsers refuse to execute text/html as a
+ * module, React never mounts, and the user sees a blank white screen. Smoke
+ * caught exactly this on 2026-08-06: `200 text/html …/assets/vendor-firebase-
+ * Bi-3RS3U.js` → "'text/html' is not a valid JavaScript MIME type".
+ *
+ * The fallback itself must stay — react-router page URLs depend on it — so the
+ * fix is scoped to the two immutable directories: if what would be served for
+ * an asset URL is HTML, the asset does not exist, and the only safe answer is
+ * an uncacheable 404. That is also self-healing for already-poisoned edge
+ * entries: the poisoned response still arrives here via next(), still smells
+ * of text/html, and leaves as a 404 the CDN is told not to store.
+ */
+const IMMUTABLE_ASSET_PREFIXES = ['/assets/', '/audio/'];
+
+function isHtml(response) {
+  return /text\/html/i.test(response.headers.get('content-type') || '');
+}
+
 export async function onRequest(context) {
   const { request, next, env } = context;
   const url = new URL(request.url);
   const pathname = url.pathname;
   const start = Date.now();
 
-  // Only apply to API routes
+  if (IMMUTABLE_ASSET_PREFIXES.some((p) => pathname.startsWith(p))) {
+    const response = await next();
+    if (isHtml(response)) {
+      return new Response('Not Found', {
+        status: 404,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          // no-store on BOTH the CDN and the browser: a cached copy of this
+          // response under an asset URL is the exact poison described above.
+          'Cache-Control': 'no-store',
+          'X-Content-Type-Options': 'nosniff',
+        },
+      });
+    }
+    return response;
+  }
+
+  // Only apply rate limiting + logging to API routes
   if (!pathname.startsWith('/api/')) return next();
 
   // CORS preflights are not the traffic this limit exists to shed: they carry no

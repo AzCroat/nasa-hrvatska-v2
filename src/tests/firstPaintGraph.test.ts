@@ -78,6 +78,12 @@ function eagerGraph(): Map<string, string | null> {
     }
     // Strip comments: prose quoting `from '../data'` must not count as an edge.
     src = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    // Strip `import type ... from '...'` — erased by the compiler, so it is not
+    // a runtime edge and Rollup never emits one for it. Counting them made this
+    // walker over-report: it named ExamRunner -> data/speakingTasks as eager
+    // when the bundle graph had no such edge. Inline `{ type X }` specifiers are
+    // deliberately NOT stripped — that statement still imports real values.
+    src = src.replace(/^\s*import\s+type\s[\s\S]*?from\s*['"][^'"\n]*['"]\s*;?/gm, '');
 
     // Linear scan for quoted relative specifiers, then confirm from the preceding
     // characters that it really is a static import and not `import(` or a string.
@@ -143,6 +149,29 @@ describe('the first-paint module graph', () => {
       reached,
       `These are on the first-paint path, so React cannot mount until they parse:${detail}`,
     ).toEqual([]);
+  });
+
+  it('does not statically reach ANY module in src/data', () => {
+    // The general form of the rule above, and the one that actually holds the
+    // line. The named-file list only catches the library's front door; three
+    // separate edges got past it into small leaf modules of the same chunk:
+    //
+    //   applyRemoteProgress.ts -> data/bakaPhrases.ts        (12 phrases)
+    //   checkpointExam.ts      -> data/cefrEquivalencyItems.ts
+    //   checkpointExam.ts      -> data/speakingTasks.ts
+    //
+    // Every src/data module is mapped to a content chunk by manualChunks, so ANY
+    // eager edge into that directory — however small the file — pulls a whole
+    // chunk onto the blocking path. bakaPhrases is 903 bytes and was holding
+    // 212 kB there. Reach content with `await import(...)` from the code that
+    // needs it, or copy the handful of values you need into src/lib.
+    const reached = [...graph.keys()]
+      .map((f) => f.replace(`${process.cwd()}/`, ''))
+      .filter((f) => f.startsWith('src/data/') || f === 'src/data.tsx');
+    const detail = reached
+      .map((f) => `\n  ${chainTo(graph, resolve(f)).join('\n    -> ')}`)
+      .join('\n');
+    expect(reached, `src/data modules on the first-paint path:${detail}`).toEqual([]);
   });
 
   it('useAuth takes its Firebase functions from lib/firebase, not the barrel', () => {

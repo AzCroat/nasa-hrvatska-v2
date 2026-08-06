@@ -9,8 +9,10 @@ function seededRng(seq: number[]) {
 }
 
 describe('buildCheckpointExam (B1)', () => {
-  it('produces renderable B1 questions + 2 retention from below + a speaking section', () => {
-    const exam = buildCheckpointExam(
+  // await: the item banks are code-split, so the builder is async. The exam
+  // content it produces is unchanged — only how the banks arrive.
+  it('produces renderable B1 questions + 2 retention from below + a speaking section', async () => {
+    const exam = await buildCheckpointExam(
       'B1',
       getCertificationState(),
       [],
