@@ -18,6 +18,7 @@ import {
   SAVED_PHRASES_DELETED_KEY,
   parseSavedPhrases,
 } from '../../lib/savedPhrases';
+import { LEGACY_SAVED_PHRASE_INDEX } from '../../lib/legacySavedPhraseIndex';
 import { parseTombstones, recordTombstone } from '../../lib/tombstones';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -194,12 +195,19 @@ export default function HeritageModeScreen({
   // Section 4 state — keyed on the phrase itself, not its position in
   // BAKA_PHRASES. Indices meant a learner's bookmarks silently pointed at their
   // neighbours the moment that array was edited. parseSavedPhrases migrates any
-  // stored indices through the current array on read; see lib/savedPhrases.ts.
+  // stored indices on read; see lib/savedPhrases.ts.
+  //
+  // Resolved through LEGACY_SAVED_PHRASE_INDEX — the frozen historical order —
+  // not through BAKA_PHRASES below. An index records "slot 4 as it was then", so
+  // the current list is the wrong table to read it with, and this must stay the
+  // same table applyRemoteProgress uses or the two readers would disagree about
+  // what a learner bookmarked.
   const [savedPhrases, setSavedPhrases] = useState<Record<string, number>>(() => {
     try {
-      return parseSavedPhrases(JSON.parse(localStorage.getItem(SAVED_PHRASES_KEY) || '[]'), [
-        ...BAKA_PHRASES,
-      ]);
+      return parseSavedPhrases(
+        JSON.parse(localStorage.getItem(SAVED_PHRASES_KEY) || '[]'),
+        LEGACY_SAVED_PHRASE_INDEX,
+      );
     } catch {
       return {};
     }

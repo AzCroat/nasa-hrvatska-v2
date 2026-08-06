@@ -4,7 +4,7 @@
  * Extracted from App.jsx render to keep the main JSX tree readable.
  * Every modal here is conditionally rendered; none affect the page layout.
  */
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import OnboardingTour from './OnboardingTour';
 import PremiumWelcomeBanner from './PremiumWelcomeBanner';
 // speak is lazy-loaded on first use — audio.js lives in chunk-data (loaded with first screen)
@@ -114,6 +114,15 @@ export function AppModals({
     !cpDismissed &&
     cp.phase === 'idle' &&
     shouldShowCheckpoint({ syncReady: forced || !!_syncReady, authScreen, currentScreen, due });
+
+  // The exam item banks are code-split so they stay off the startup path. Start
+  // fetching them as soon as the invite is on screen: the learner is reading it,
+  // and by the time they tap Start the chunk is there. Without this the split
+  // would be paid for as a visible pause on the tap.
+  const { prefetch } = cp;
+  useEffect(() => {
+    if (showCheckpointInvite) prefetch();
+  }, [showCheckpointInvite, prefetch]);
 
   return (
     <Suspense fallback={null}>
@@ -234,7 +243,7 @@ export function AppModals({
           level={checkpointCertifiedLevel}
           onStart={() => {
             setCpDismissed(false);
-            cp.start();
+            void cp.start();
           }}
           onSnooze={() => {
             setCpDismissed(true);
@@ -269,7 +278,7 @@ export function AppModals({
               cp.reset();
               setTab('learn');
             }}
-            onRetry={cp.start}
+            onRetry={() => void cp.start()}
           />
         </div>
       )}

@@ -27,7 +27,10 @@ import { CUSTOM_WORDS_KEY, CUSTOM_WORDS_DELETED_KEY, mergeCustomWords } from './
 import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY, mergeMediaDone } from './mediaDone';
 import { SAVED_PHRASES_KEY, SAVED_PHRASES_DELETED_KEY, mergeSavedPhrases } from './savedPhrases';
 // Index -> phrase resolution for migrating the legacy saved-bookmark shape.
-import { BAKA_PHRASES as BAKA_PHRASES_KEYS } from '../data/bakaPhrases';
+// A frozen copy of the old order, NOT src/data/bakaPhrases: resolving through
+// today's content would re-point legacy bookmarks the moment that list is
+// edited, and importing it would drag chunk-data onto the first-paint path.
+import { LEGACY_SAVED_PHRASE_INDEX } from './legacySavedPhraseIndex';
 import { parseTombstones, mergeTombstones, type Tombstones } from './tombstones';
 
 export interface RemoteProgressSetters {
@@ -522,7 +525,9 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
         _safeSet(SAVED_PHRASES_DELETED_KEY, JSON.stringify(tombs));
         _safeSet(
           SAVED_PHRASES_KEY,
-          JSON.stringify(mergeSavedPhrases(lSP, fp.nh_saved_phrases, BAKA_PHRASES_KEYS, tombs)),
+          JSON.stringify(
+            mergeSavedPhrases(lSP, fp.nh_saved_phrases, LEGACY_SAVED_PHRASE_INDEX, tombs),
+          ),
         );
       } catch (_) {}
     }
