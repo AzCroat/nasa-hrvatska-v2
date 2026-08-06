@@ -30,6 +30,12 @@
  * `chunk-data`, so a small eagerly-imported data module can re-couple the whole
  * library at bundle level even when this test is green. That is tracked
  * separately — passing here is necessary, not sufficient.
+ *
+ * For the bundle side, run `node scripts/whyEager.mjs`. It asks Rollup — rather
+ * than a regex — which import chain puts a chunk on the first-paint path, and
+ * prints the shortest one. As of 2026-08-05 the content library is still eager
+ * via a chain this test cannot see: main.tsx imports Vite's preload helper, that
+ * helper was folded into chunk-data, and chunk-data holds src/data/content.tsx.
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync, statSync } from 'node:fs';
