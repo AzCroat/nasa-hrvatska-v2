@@ -1,0 +1,27 @@
+name: Health Probe
+
+# Manual probe of the production /api/health endpoint from a GitHub runner.
+#
+# WHY THIS EXISTS: the remote Claude Code sandbox cannot reach
+# nasahrvatska.com directly (network policy), so config questions like "is
+# AZURE_TTS_KEY actually set in the Pages dashboard?" are answered by running
+# the curl from CI instead. /api/health returns PRESENCE BOOLEANS only — key
+# values are never in the response (see functions/api/health.js) — so printing
+# it in a public log is safe.
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  probe:
+    name: Probe /api/health
+    runs-on: ubuntu-latest
+    steps:
+      - name: GET /api/health
+        run: |
+          set -o pipefail
+          curl -sS --max-time 20 -w '\nHTTP %{http_code}\n' \
+            https://nasahrvatska.com/api/health | tee /tmp/health.out
+          # Pretty-print the JSON line for readability; tolerate the -w suffix.
+          head -1 /tmp/health.out | python3 -m json.tool
