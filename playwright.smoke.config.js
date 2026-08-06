@@ -13,7 +13,14 @@ export default defineConfig({
   workers: 1,
   reporter: [['html', { open: 'never', outputFolder: 'playwright-smoke-report' }], ['list']],
   use: {
-    baseURL: 'https://nasahrvatska.com',
+    // Target override, so a Cloudflare preview deployment can be smoke-tested
+    // BEFORE merge instead of finding out on production. Defaults to production,
+    // so the twice-daily scheduled run is unchanged.
+    //
+    // Every request in smoke.spec.js is relative and resolves against this, which
+    // is why the entry-module guard was changed from a hardcoded origin in #410 —
+    // otherwise pointing this at a preview would have silently kept testing prod.
+    baseURL: process.env.SMOKE_BASE_URL || 'https://nasahrvatska.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     actionTimeout: 15_000,

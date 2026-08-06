@@ -1,5 +1,6 @@
 /**
- * Production smoke tests — runs against https://nasahrvatska.com
+ * Production smoke tests — run against the deployed site (production by default,
+ * or any URL via SMOKE_BASE_URL, so a preview can be checked before merge).
  * Checks: site is up, no JS crashes, PWA assets load, security headers present.
  *
  * Runs twice daily (08:00 and 20:00 UTC) via .github/workflows/production-smoke.yml,
