@@ -1,8 +1,13 @@
 /**
  * Offline / PWA resilience tests (extended edition).
  *
- * NOTE: This file is in the playwright.config.js testIgnore list:
- *   '**/offline.spec.js'  // requires pre-cached service worker — run against production build only
+ * NOTE: This file is in the playwright.config.js testIgnore list (the entry
+ * ending in "offline.spec.js" — the glob is not written out here because the
+ * two characters star-slash inside a block comment END the comment, which
+ * turned the rest of this file into a syntax error. That is not hypothetical:
+ * it happened on 2026-07-24 (#313) and this spec was unparseable — and
+ * therefore unrunnable, even manually — for two weeks before anyone tried.
+ * e2e/ is neither linted nor type-checked, so nothing else catches it.)
  *
  * These tests will NOT run automatically in CI. They require the app to have
  * been loaded at least once in the same browser context so the service worker
@@ -22,9 +27,7 @@ import { seedAuth, blockFirebase, mockTTS, TEST_EMAIL } from './fixtures/seed-au
 /** Wait for the service worker to become active in this browser context. */
 async function waitForSW(page) {
   await page.evaluate(() =>
-    'serviceWorker' in navigator
-      ? navigator.serviceWorker.ready
-      : Promise.resolve(),
+    'serviceWorker' in navigator ? navigator.serviceWorker.ready : Promise.resolve(),
   );
 }
 
@@ -115,7 +118,7 @@ test.describe('Offline mode (PWA / service worker)', () => {
       try {
         const p = JSON.parse(localStorage.getItem('uP_' + email) || '{}');
         return (p?.st ?? p?.stats)?.xp ?? null;
-      } catch (_) {
+      } catch {
         return null;
       }
     }, TEST_EMAIL);
@@ -168,7 +171,10 @@ test.describe('Offline mode (PWA / service worker)', () => {
         !e.includes('securetoken'),
     );
 
-    expect(unexpected, `Unexpected JS errors while offline: ${unexpected.join(' | ')}`).toHaveLength(0);
+    expect(
+      unexpected,
+      `Unexpected JS errors while offline: ${unexpected.join(' | ')}`,
+    ).toHaveLength(0);
   });
 
   // ── 7. Flashcards work offline (vocabulary bundled in JS) ─────────────────
