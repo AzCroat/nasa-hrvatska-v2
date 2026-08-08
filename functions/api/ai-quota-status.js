@@ -4,6 +4,7 @@
 
 import { getFirebaseUid } from './_verifyToken.js';
 import { getQuotaStatus } from './_aiQuota.js';
+import { getBudgetStatus } from './_aiBudget.js';
 
 function isAllowedOrigin(origin, isDev) {
   // Empty origin: PWA standalone mode (iOS/Android) and Capacitor. Auth is enforced via Firebase token.
@@ -64,5 +65,11 @@ export async function onRequestGet(context) {
   }
 
   const status = await getQuotaStatus(env, uid);
-  return new Response(JSON.stringify(status), { status: 200, headers: corsHeaders(origin) });
+  // Global ledger alongside the per-user quota: spentUsd/budgetUsd is how the
+  // owner (or any signed-in client) can see the month's AI spend at a glance.
+  const month = await getBudgetStatus(env);
+  return new Response(JSON.stringify({ ...status, month }), {
+    status: 200,
+    headers: corsHeaders(origin),
+  });
 }
