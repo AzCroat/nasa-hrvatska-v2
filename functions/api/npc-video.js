@@ -57,7 +57,7 @@ export async function onRequestOptions({ request }) {
 export async function onRequestGet(context) {
   const { request, env } = context;
 
-  const gate = await requireAuthedAI(context, { cost: 3, rateLimit: 20 });
+  const gate = await requireAuthedAI(context, { cost: 25, rateLimit: 20 });
   if (!gate.ok) return gate.response;
   const { origin, isDev } = gate;
 

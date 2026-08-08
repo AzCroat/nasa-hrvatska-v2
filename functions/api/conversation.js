@@ -8,7 +8,7 @@
 // Architecture:
 //   Browser (Web Speech API STT)
 //     → POST /api/conversation  (this file, streams SSE)
-//     → Claude claude-sonnet-4-6 (streaming)
+//     → Claude claude-haiku-4-5-20251001 (streaming)
 //     → Browser parses first complete JSON chunk
 //     → Browser POSTs croatian text → /api/tts  (ElevenLabs)
 //     → Browser plays audio
@@ -21,7 +21,7 @@ import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-6';
+const MODEL = 'claude-haiku-4-5-20251001';
 
 // ── Per-session limits ─────────────────────────────────────────────────────────
 // Conversation turns are expensive (streaming + TTS per turn).
@@ -587,7 +587,7 @@ export async function onRequestPost(context) {
         // only emits what the model produces, so this is a ceiling, not a cost.
         max_tokens: 2000,
         stream: true,
-        system: finalSystem,
+        system: [{ type: 'text', text: finalSystem, cache_control: { type: 'ephemeral' } }],
         messages: anthropicMessages,
       }),
       signal: AbortSignal.timeout(30000),

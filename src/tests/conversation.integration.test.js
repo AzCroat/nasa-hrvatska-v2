@@ -12,6 +12,18 @@ vi.mock('../../functions/api/_requireAuth.js', () => ({
 
 import { onRequestPost } from '../../functions/api/conversation.js';
 
+/**
+ * The system prompt travels as the prompt-cached array shape
+ * ([{type:'text', text, cache_control:{type:'ephemeral'}}]) so repeat turns
+ * pay 0.1x input on the static prefix. Read the text out, and assert the
+ * cache marker is present — losing it would silently multiply input cost 10x.
+ */
+function systemText(body) {
+  expect(Array.isArray(body.system), 'system must be the cached-array shape').toBe(true);
+  expect(body.system[0].cache_control).toEqual({ type: 'ephemeral' });
+  return body.system[0].text;
+}
+
 let capturedClaudeBody = null;
 
 beforeEach(() => {
@@ -85,9 +97,9 @@ describe('conversation.js — Maja integration', () => {
     const res = await onRequestPost(makeReq({ ...baseBody, userContext: validContext }));
     await drain(res);
     expect(capturedClaudeBody).not.toBeNull();
-    expect(capturedClaudeBody.system).toContain('LEARNER NOTES');
-    expect(capturedClaudeBody.system).toContain('B1');
-    expect(capturedClaudeBody.system).toContain('accusative');
+    expect(systemText(capturedClaudeBody)).toContain('LEARNER NOTES');
+    expect(systemText(capturedClaudeBody)).toContain('B1');
+    expect(systemText(capturedClaudeBody)).toContain('accusative');
   });
 
   it('fallback path: stateless when userContext absent', async () => {

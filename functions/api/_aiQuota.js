@@ -13,9 +13,16 @@
  *                             ai_burst(subject, count, window_second)
  */
 
-// Generous per-user daily ceiling — an ABUSE cap, not a paywall. AI is free for
-// all signed-in users; this only stops a runaway/compromised account. Raise freely.
-const FREE_ANNUAL_TURNS_PER_DAY = 750;
+// Per-user daily ceiling — sized against the BUDGET, not just abuse.
+//
+// 2026-08-08 owner directive: total AI spend must stay under $5/month. At 750
+// turns/day a single user could burn a month's budget in a day (750 Sonnet
+// turns ≈ $15). Now: every endpoint runs Haiku 4.5 ($1/$5 per Mtok) and a
+// typical turn costs ≈ $0.002-0.004, so 150 turns/day ≈ $0.30-0.60 worst case
+// per user per day — still far beyond what a real learner uses (a heavy
+// session is ~30 turns), so no legitimate user ever hits this. Do NOT raise
+// without redoing the budget math; a global monthly governor is the next layer.
+const FREE_ANNUAL_TURNS_PER_DAY = 150;
 const ANON_IP_TURNS_PER_DAY = 15;
 
 function todayUTC() {
