@@ -133,9 +133,50 @@ self.addEventListener('message', (event) => {
   if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
+// ── SPA navigation — REGISTERED FIRST, AND THE ORDER IS THE FIX ──────────────
+// Workbox routes match first-registered-first (workbox-routing Router pushes
+// and returns the first hit). precacheAndRoute() registers a route that maps a
+// navigation to "/" onto the precached index.html (directoryIndex), CACHE-first.
+// When it was registered before this NavigationRoute, "/" never reached
+// NetworkFirst at all: every SW-controlled visit booted the INSTALL-TIME shell,
+// which after a deploy references content-hashed chunks the server no longer
+// has. That is the client half of the 2026-08 blank/stale incident (#415) —
+// the "three-level fallback" documented below was dead code for the one URL
+// that matters most.
+//
+// Three-level fallback, now real for "/" as well as deep links:
+//    (a) network (10s timeout) → fresh content
+//    (b) runtime cache hit    → last-seen version
+//    (c) precached index.html → offline SPA shell (React Router handles route client-side)
+//
+//    NavigationRoute is used instead of a request-mode matcher so Workbox correctly
+//    applies same-origin navigation semantics. API routes are excluded via denylist
+//    so /api/* calls are never intercepted as page navigations.
+registerRoute(
+  new NavigationRoute(
+    new NetworkFirst({
+      cacheName: `${CACHE_VER}-html`,
+      networkTimeoutSeconds: 10,
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [0, 200] }),
+        {
+          // When both network AND runtime cache fail (e.g. offline with cold cache),
+          // serve the Workbox-precached index.html so the SPA shell always loads.
+          // React Router then handles the deep-link URL client-side without a server round-trip.
+          handlerDidError: async () => matchPrecache('index.html'),
+        },
+      ],
+    }),
+    { denylist: [/^\/api\//] }, // never intercept API requests as page navigations
+  ),
+);
+
 // ── Workbox precache ─────────────────────────────────────────────────────────
 // vite-plugin-pwa injectManifest injects __WB_MANIFEST at build time.
 // Contains app shell: index.html, CSS, fonts, icons, offline.html.
+// Must stay AFTER the NavigationRoute above — see the order comment there.
+// Non-navigation requests (CSS, fonts, icons) still hit the precache route,
+// because NavigationRoute only matches request.mode === 'navigate'.
 
 precacheAndRoute(self.__WB_MANIFEST || []);
 cleanupOutdatedCaches();
@@ -169,9 +210,17 @@ registerRoute(
         // directly — so without this throw, a Cloudflare SPA-fallback HTML response
         // for a stale chunk would be handed to the page as a JS module (MIME crash).
         // Mirror route 2's guard so the data-chunk route fails over instead.
+        //
+        // !ok matters as much as the MIME check: since 2026-08-06 the server
+        // answers a MISSING asset with 404 (the edge-poison fix), not the HTML
+        // fallback. A 4xx is a "successful fetch" to Workbox — without the
+        // throw it is handed to the page and the import fails, even when the
+        // old chunk is sitting right here in cache. Throwing routes it to the
+        // cache fallback, which is what keeps an old shell working for the few
+        // seconds between a deploy and the SW-driven reload.
         fetchDidSucceed: async ({ response }) => {
           const ct = response?.headers?.get('content-type');
-          if (ct?.startsWith('text/html')) throw new Error('Failed to fetch');
+          if (!response?.ok || ct?.startsWith('text/html')) throw new Error('Failed to fetch');
           return response;
         },
         cacheWillUpdate: async ({ response }) => {
@@ -186,7 +235,8 @@ registerRoute(
 // 2. All other JS chunks — NetworkFirst (network, then cache fallback).
 //    Always fetches latest JS from network; cache only used when offline.
 //    This prevents stale JS being served immediately after a deploy.
-//    fetchDidSucceed: throw on HTML response so lazyWithReload catches MIME error.
+//    fetchDidSucceed: throw on HTML or non-OK (404) responses so NetworkFirst
+//    falls back to the cached copy — see the guard comment on route 1.
 //    cacheWillUpdate: never store HTML in JS cache.
 registerRoute(
   /\.js$/,
@@ -199,7 +249,7 @@ registerRoute(
       {
         fetchDidSucceed: async ({ response }) => {
           const ct = response?.headers?.get('content-type');
-          if (ct?.startsWith('text/html')) throw new Error('Failed to fetch');
+          if (!response?.ok || ct?.startsWith('text/html')) throw new Error('Failed to fetch');
           return response;
         },
         cacheWillUpdate: async ({ response }) => {
@@ -223,35 +273,9 @@ registerRoute(
   }),
 );
 
-// 4. SPA navigation — three-level fallback:
-//    (a) network (10s timeout) → fresh content
-//    (b) runtime cache hit    → last-seen version
-//    (c) precached index.html → offline SPA shell (React Router handles route client-side)
-//
-//    This ensures the app is fully usable offline even on the very first offline visit,
-//    before the runtime cache has been warmed up from a previous online navigation.
-//
-//    NavigationRoute is used instead of a request-mode matcher so Workbox correctly
-//    applies same-origin navigation semantics. API routes are excluded via denylist
-//    so /api/* calls are never intercepted as page navigations.
-registerRoute(
-  new NavigationRoute(
-    new NetworkFirst({
-      cacheName: `${CACHE_VER}-html`,
-      networkTimeoutSeconds: 10,
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [0, 200] }),
-        {
-          // When both network AND runtime cache fail (e.g. offline with cold cache),
-          // serve the Workbox-precached index.html so the SPA shell always loads.
-          // React Router then handles the deep-link URL client-side without a server round-trip.
-          handlerDidError: async () => matchPrecache('index.html'),
-        },
-      ],
-    }),
-    { denylist: [/^\/api\//] }, // never intercept API requests as page navigations
-  ),
-);
+// 4. SPA navigation — registered at the TOP of this file, before the precache,
+//    because route order decides whether "/" is served network-first or from
+//    the install-time precache. See the comment block above precacheAndRoute.
 
 // 5. Audio assets — StaleWhileRevalidate with range-request support.
 registerRoute(
