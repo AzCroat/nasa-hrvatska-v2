@@ -15,6 +15,18 @@ vi.mock('../../functions/api/_requireAuth.js', () => ({
 
 import { onRequestPost } from '../../functions/api/ai-chat.js';
 
+/**
+ * The system prompt travels as the prompt-cached array shape
+ * ([{type:'text', text, cache_control:{type:'ephemeral'}}]) so repeat turns
+ * pay 0.1x input on the static prefix. Read the text out, and assert the
+ * cache marker is present — losing it would silently multiply input cost 10x.
+ */
+function systemText(body) {
+  expect(Array.isArray(body.system), 'system must be the cached-array shape').toBe(true);
+  expect(body.system[0].cache_control).toEqual({ type: 'ephemeral' });
+  return body.system[0].text;
+}
+
 let capturedClaudeBody = null;
 
 beforeEach(() => {
@@ -71,8 +83,8 @@ describe('ai-chat.js — integration', () => {
         userContext: validContext,
       }),
     );
-    expect(capturedClaudeBody.system).toContain('B1');
-    expect(capturedClaudeBody.system).toContain('weak in accusative');
+    expect(systemText(capturedClaudeBody)).toContain('B1');
+    expect(systemText(capturedClaudeBody)).toContain('weak in accusative');
   });
 
   it('explain mode: personalized path adds tutor context prose', async () => {
@@ -83,7 +95,7 @@ describe('ai-chat.js — integration', () => {
         userContext: validContext,
       }),
     );
-    expect(capturedClaudeBody.system).toContain('TUTOR CONTEXT');
+    expect(systemText(capturedClaudeBody)).toContain('TUTOR CONTEXT');
   });
 
   it('story mode: personalized path adds story context prose', async () => {
@@ -95,7 +107,7 @@ describe('ai-chat.js — integration', () => {
         userContext: validContext,
       }),
     );
-    expect(capturedClaudeBody.system).toContain('STORY CONTEXT');
+    expect(systemText(capturedClaudeBody)).toContain('STORY CONTEXT');
   });
 
   it('untouched modes (e.g., translate) do NOT receive context prose', async () => {

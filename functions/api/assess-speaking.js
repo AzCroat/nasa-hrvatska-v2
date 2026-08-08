@@ -7,7 +7,7 @@ const MAX_AUDIO_B64 = 2_000_000; // ~90s compressed
 // Minimum word count before we consider the transcript "long enough" to score fairly.
 // This drives `transcriptSufficiency` below — a transcript-length heuristic, NOT acoustic confidence.
 const MIN_WORDS_FOR_SUFFICIENCY = 3;
-const CLAUDE_MODEL = 'claude-sonnet-4-6';
+const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 const VALID_CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 
 function sanitizeParam(value, maxLen = 200) {

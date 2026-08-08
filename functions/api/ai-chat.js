@@ -7,7 +7,7 @@ import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-6';
+const MODEL = 'claude-haiku-4-5-20251001';
 
 // SP5: Only these three modes receive userContext personalization.
 // All other modes (translate, eval, correct, convo, etc.) produce byte-identical prompts to pre-SP5.
@@ -576,7 +576,7 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1200,
-          system: systemPrompt,
+          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
           messages: [{ role: 'user', content: `Explain: ${topic}` }],
         }),
       });
@@ -629,7 +629,7 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
           model: MODEL,
           max_tokens: mode === 'story' || mode === 'heritage' ? 2000 : 1000,
-          system: systemPrompt,
+          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
           messages: [{ role: 'user', content: userContent }],
         }),
       });
@@ -718,7 +718,7 @@ export async function onRequestPost(context) {
             : mode === 'wordanalyze'
               ? 400
               : 500,
-    system: systemPrompt,
+    system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
     messages: anthropicMsgs,
   };
 

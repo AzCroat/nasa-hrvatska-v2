@@ -9,7 +9,7 @@ import { corsHeaders } from './_helpers.js';
 const MAX_KNOWN_FACTS = 40;
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-6';
+const MODEL = 'claude-haiku-4-5-20251001';
 
 // ── Security helpers ──────────────────────────────────────────────────────────
 
@@ -901,7 +901,7 @@ export async function onRequestPost(context) {
           model: MODEL,
           max_tokens: 1024,
           stream: true,
-          system: systemPrompt,
+          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
           messages: merged,
         }),
       });
@@ -950,7 +950,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 1024,
-        system: systemPrompt,
+        system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
         messages: merged,
       }),
     });

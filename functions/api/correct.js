@@ -104,7 +104,7 @@ If unsure, use "other". This field is required.`;
       },
       signal: AbortSignal.timeout(25000),
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'claude-haiku-4-5-20251001',
         // Input is capped at 3000 chars; the response must reproduce the full
         // corrected_text PLUS the changes array + feedback, so 1000 truncated long
         // essays into unparseable JSON (fake "couldn't connect"). Sized to match.
