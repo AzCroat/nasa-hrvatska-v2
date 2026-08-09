@@ -7,7 +7,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { useRecorder } from '../../hooks/useRecorder';
-import { classifyAiLimit } from '../../lib/aiLimit';
+import { classifyAiLimit, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import LiveTutorSetup from './LiveTutorSetup';
 import LiveTutorDebrief from './LiveTutorDebrief';
 import LiveTutorControls from './LiveTutorControls';
@@ -365,19 +365,21 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
         // through the chain to "Connection error" while perfectly online.
         const limit = classifyAiLimit({ code: msg });
         setError(
-          limit === 'burst'
-            ? 'Rate limit reached — wait a moment and try again.'
-            : msg === 'timeout' || msg.includes('504')
-              ? 'Request timed out. Please try again.'
-              : limit === 'daily'
-                ? 'Daily AI limit reached. Resets at midnight UTC — try again tomorrow!'
-                : msg === 'not_configured'
-                  ? 'AI service not available right now. Please try again later.'
-                  : msg === 'api_error'
-                    ? 'AI service error. Please try again in a moment.'
-                    : !navigator.onLine
-                      ? 'No internet connection — check your network and try again.'
-                      : 'Connection error. Please try again.',
+          limit === 'budget'
+            ? BUDGET_PAUSE_EN
+            : limit === 'burst'
+              ? 'Rate limit reached — wait a moment and try again.'
+              : msg === 'timeout' || msg.includes('504')
+                ? 'Request timed out. Please try again.'
+                : limit === 'daily'
+                  ? 'Daily AI limit reached. Resets at midnight UTC — try again tomorrow!'
+                  : msg === 'not_configured'
+                    ? 'AI service not available right now. Please try again later.'
+                    : msg === 'api_error'
+                      ? 'AI service error. Please try again in a moment.'
+                      : !navigator.onLine
+                        ? 'No internet connection — check your network and try again.'
+                        : 'Connection error. Please try again.',
         );
       }
     },

@@ -20,7 +20,7 @@
  * already shipped, reused verbatim — this is a routing fix, not new copy.
  */
 
-import { classifyAiLimit } from '../../lib/aiLimit';
+import { classifyAiLimit, BUDGET_PAUSE_HR } from '../../lib/aiLimit';
 
 /**
  * Shape both call sites throw: an Error carrying the HTTP status, and the
@@ -59,6 +59,7 @@ export function majaErrorMessage(
   if (status === 401) return 'Sesija je istekla. Odjavi se i prijavi ponovo.';
   if (status === 429) {
     const limit = classifyAiLimit({ status, code });
+    if (limit === 'budget') return BUDGET_PAUSE_HR;
     return limit === 'daily'
       ? 'Prekoračen dnevni limit AI razgovora. Pokušaj sutra.'
       : 'Šalješ poruke prebrzo. Pričekaj trenutak i pokušaj ponovo.';

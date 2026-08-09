@@ -62,7 +62,14 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/conversation': claudeCeiling(2000),
   '/api/conversational-tutor': claudeCeiling(1024),
   '/api/correct': claudeCeiling(2600),
-  '/api/daily-culture': claudeCeiling(400),
+  // ── SELF-METERED endpoints (ceiling 0) ────────────────────────────────────
+  // These serve mostly from caches; charging the gate per REQUEST would burn
+  // the ledger on free cache hits (a thousand cached TTS plays would cost the
+  // budget $4 of nothing). Their gate ceiling is 0 — passed through even at
+  // the cap so cached content keeps serving — and they charge their
+  // ':generate' entry internally on the cache miss that actually spends.
+  '/api/daily-culture': 0,
+  '/api/daily-culture:generate': claudeCeiling(400),
   '/api/daily-plan': claudeCeiling(700),
   '/api/dialogue': claudeCeiling(2000),
   '/api/explain-error': claudeCeiling(400),
@@ -73,7 +80,10 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/maja': claudeCeiling(1024),
   '/api/maja-debrief': claudeCeiling(1500),
   '/api/micro-lesson': claudeCeiling(1100),
-  '/api/news': claudeCeiling(2200),
+  // news fans out into FOUR simplifyArticle calls per generation — the
+  // ':generate' ceiling is 4x a single call so the ledger never understates.
+  '/api/news': 0,
+  '/api/news:generate': 4 * claudeCeiling(2200),
   '/api/photo-vocab': claudeCeiling(1024),
   '/api/pronunciation-coach': claudeCeiling(420),
   '/api/srs-sync': claudeCeiling(800),
@@ -82,7 +92,8 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/npc-video': 200_000, // D-ID avatar clip
   '/api/did-stream': 200_000, // D-ID streaming session
   '/api/flux-generate': 50_000, // Replicate image
-  '/api/tts': 4_000, // Azure neural ceiling; Edge/Google free tiers first
+  '/api/tts': 0, // self-metered: cache hits free, see SELF-METERED note above
+  '/api/tts:generate': 4_000, // Azure neural ceiling; Edge/Google free tiers first
   '/api/stt': 15_000, // Deepgram/Whisper minute
   '/api/pronunciation-assess': 15_000, // Azure pronunciation assessment
   '/api/translate': 500, // MyMemory (free) — near-zero
@@ -144,6 +155,13 @@ export async function checkAndChargeBudget(env, pathname) {
   const month = monthUTC();
   const resetAt = firstOfNextMonthUTC();
   const ceiling = ENDPOINT_CEILING_MICROUSD[pathname] ?? DEFAULT_CEILING_MICROUSD;
+
+  // Ceiling 0 = SELF-METERED (see the table): the endpoint charges its real
+  // ':generate' cost internally on cache misses. Its requests must pass even
+  // when the ledger is at the cap — refusing them would take CACHED content
+  // away from users, which spends nothing and is exactly what the "never
+  // disconnected" outcome keeps alive at the cap.
+  if (ceiling === 0) return { allowed: true, spentMicroUsd: 0, resetAt };
 
   if (db) {
     const d1 = await _d1ChargeBudget(db, month, ceiling);

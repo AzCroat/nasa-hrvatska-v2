@@ -2,6 +2,7 @@
 // Fetches real Croatian news and simplifies it to the user's CEFR level
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders as _corsHeaders } from './_helpers.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -197,7 +198,10 @@ export async function onRequestGet(context) {
     } catch {
       gateBody = {};
     }
-    if (gateBody.error === 'daily_quota_exceeded') {
+    if (
+      gateBody.error === 'daily_quota_exceeded' ||
+      gateBody.error === 'monthly_budget_exhausted'
+    ) {
       return ok(
         {
           articles: FALLBACK_ARTICLES.map((a) => ({ ...a, level: 'B1' })),
@@ -216,6 +220,39 @@ export async function onRequestGet(context) {
   const rawLevel = url.searchParams.get('level') || 'B1';
   const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
   const level = VALID_LEVELS.includes(rawLevel) ? rawLevel : 'B1';
+
+  // ── Shared generation: one simplification run per (level, 6h window) ──────
+  // A news request fans out into FOUR Claude calls (one simplifyArticle per
+  // article, max_tokens 2200 each) — the most expensive read in the app. The
+  // KV entry means the whole userbase shares one run per level per 6h window;
+  // the budget is charged only on the generating miss ('/api/news:generate',
+  // ceiling 4x a single call — this endpoint's gate ceiling is 0, see
+  // _aiBudget.js SELF_METERED).
+  const kv = env.KV || env.PUSH_SUBSCRIPTIONS || null;
+  const nowMs = Date.now();
+  const bucket = `${new Date(nowMs).toISOString().slice(0, 10)}:h${Math.floor(new Date(nowMs).getUTCHours() / 6)}`;
+  const kvKey = `news:v1:${level}:${bucket}`;
+  if (kv) {
+    try {
+      const hit = await kv.get(kvKey);
+      if (hit) return ok(JSON.parse(hit), origin);
+    } catch {
+      /* KV read failure → fall through to generation */
+    }
+  }
+
+  const budget = await checkAndChargeBudget(env, '/api/news:generate');
+  if (!budget.allowed) {
+    // Same posture as the quota fallback above: degraded, never dead.
+    return ok(
+      {
+        articles: FALLBACK_ARTICLES.map((a) => ({ ...a, level })),
+        source: 'curated',
+        timestamp: Date.now(),
+      },
+      origin,
+    );
+  }
 
   // Fetch all RSS feeds in parallel (saves ~16s vs sequential)
   const feedResults = await Promise.all(
@@ -255,7 +292,14 @@ export async function onRequestGet(context) {
 
   const articles = simplified.filter(Boolean);
 
-  return ok({ articles, source: 'live', timestamp: Date.now() }, origin);
+  const payload = { articles, source: 'live', timestamp: Date.now() };
+  if (kv && articles.length > 0) {
+    const put = kv
+      .put(kvKey, JSON.stringify(payload), { expirationTtl: 60 * 60 * 8 })
+      .catch(() => {});
+    if (context.waitUntil) context.waitUntil(put);
+  }
+  return ok(payload, origin);
 }
 
 // Fallback articles if RSS is unavailable
