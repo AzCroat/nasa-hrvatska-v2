@@ -72,7 +72,11 @@ function WaveformSVG({ bars, color, label, width = 260, height = 70 }: WaveformS
 }
 
 // Recording duration ceiling — useRecorder auto-stops via maxDurationMs.
-const MIC_DURATION = 8000; // 8s gives learners enough time to shadow longer phrases.
+// 15s: the 8s cap hard-stopped mid-word on longer shadowed sentences — a
+// learner repeating a full sentence at learner pace routinely needs >8s.
+// This is a backstop against a stuck recording, not the expected stop; the
+// user's own tap is the normal end.
+const MIC_DURATION = 15000;
 
 // ── waveform comparison panel ─────────────────────────────────────────────────
 

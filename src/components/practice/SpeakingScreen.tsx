@@ -518,7 +518,14 @@ export default function SpeakingScreen({
     setRecResult(null);
     setRecMsg('');
 
-    // Auto-stop after 12 seconds to prevent infinite listening
+    // Auto-stop after 12 seconds of NO SPEECH — a no-input guard, not an
+    // answer-length cap. With continuous=false the browser's own endpointing
+    // ends the turn once the user pauses; this timer previously stayed armed
+    // through a long answer (interimResults=false means nothing clears it
+    // until the final result) and force-stopped users mid-speech at 12s with
+    // "No speech detected", which was both a cutoff and a lie. onspeechstart
+    // fires as soon as real speech is detected — disarm the guard there and
+    // let the browser's endpointing be the only stop while speech is active.
     timeoutRef.current = setTimeout(() => {
       if (recRef.current) {
         try {
@@ -531,6 +538,9 @@ export default function SpeakingScreen({
       setRecResult('timeout');
       setRecMsg('No speech detected within 12 seconds. Try again or use self-assessment.');
     }, 12000);
+    (rec as unknown as { onspeechstart: () => void }).onspeechstart = () => {
+      if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+    };
 
     rec.onresult = (e: any) => {
       if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);

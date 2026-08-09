@@ -789,8 +789,26 @@ export default function MajaScreen() {
       silenceTimerRef.current = setTimeout(() => {
         const captured = transcriptRef.current.trim();
         if (captured.length > 1 && phaseRef.current === 'listening') {
-          stopMic();
-          sendMessage(captured);
+          // GRACEFUL end — rec.stop(), NOT stopMic(). stopMic() aborts, and
+          // abort() DISCARDS whatever the recognizer heard but hadn't emitted
+          // yet: if this timer fires during a recognizer interim stall (it
+          // re-arms on interims, not on audio), abort threw away the words the
+          // user was actually saying. stop() flushes them — they arrive as a
+          // final onresult, then onend sends the COMPLETE transcript.
+          try {
+            recRef.current?.stop();
+          } catch {
+            /* fall through to the backstop below */
+          }
+          // Backstop: some WebViews never fire onend after stop(). If we're
+          // still 'listening' after 1.2s, send what we have the old way.
+          silenceTimerRef.current = setTimeout(() => {
+            const t = transcriptRef.current.trim();
+            if (phaseRef.current === 'listening' && t.length > 1) {
+              stopMic();
+              sendMessage(t);
+            }
+          }, 1200);
         }
       }, computeSilenceDelay(transcriptRef.current));
     };
