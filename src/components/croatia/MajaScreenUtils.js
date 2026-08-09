@@ -142,8 +142,16 @@ export const DEFAULT_MEMORY = {
 // air to every turn. Instead, end the turn quickly (BASE) once the utterance
 // looks complete, but wait longer (EXTENDED) when it clearly isn't — the speaker
 // just started, or trailed off on a conjunction/filler that promises more.
-export const SILENCE_BASE_MS = 900;
-export const SILENCE_EXTENDED_MS = 1700;
+//
+// 2026-08 speech-cutoff fix: BASE was 900 ms — shorter than a normal thinking
+// pause for an L2 learner, and the timer is re-armed by INTERIM RESULTS, not by
+// acoustic energy. Chrome's recognizer routinely stalls interims >900 ms during
+// continuous speech, so the timer could fire while the user was audibly still
+// talking. 1500/2600 absorbs both the human pause and the recognizer stall;
+// the flush-on-stop fix in MajaScreen means even a mistimed fire no longer
+// LOSES words. Do not lower these without re-testing against halting speech.
+export const SILENCE_BASE_MS = 1500;
+export const SILENCE_EXTENDED_MS = 2600;
 
 // High-frequency Croatian connectors + hesitation fillers. If the utterance ends
 // on one of these, the speaker is mid-thought — give them more time.

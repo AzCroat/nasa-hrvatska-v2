@@ -5,7 +5,13 @@
  * Fallback path: Web Speech API push-to-talk (used when /api/stt returns 503 or offline)
  *
  * VAD state machine:
- *   idle → waiting (mic open) → recording (speech detected) → processing (Whisper) → waiting
+ *   idle → waiting (mic open) → recording (speech detected) → waiting
+ * Whisper transcription runs CONCURRENTLY with the state machine: ending an
+ * utterance returns the VAD to 'waiting' immediately, so words spoken while
+ * the previous utterance is being transcribed are captured as the next turn
+ * instead of being silently discarded (the pre-2026-08 'processing' state
+ * dropped 1-3s of speech after every endpoint). Results are delivered in
+ * speech order via a promise chain.
  *
  * The interrupt feature: if the user speaks while Maja's TTS is playing, the hook
  * calls stopAudio() to cancel the TTS, then calls onInterrupt() so the component
@@ -24,12 +30,35 @@ import { _nativePost } from '../lib/nativePost.js';
 import { isNative } from '../lib/platform.js';
 
 // ── VAD tuning constants ──────────────────────────────────────────────────────
+// 2026-08 speech-cutoff fix. Three of these were cutting users off mid-speech:
+//  - SILENCE_DURATION_MS was 1800: a language learner's mid-sentence thinking
+//    pause is routinely ≥2s, so the turn ended while they were composing the
+//    next clause. 2600 matches Maja's EXTENDED endpointing window.
+//  - SILENCE_THRESHOLD was 0.008: soft trailing speech (learners trail off)
+//    sat under it and was counted as silence — cut off while STILL SPEAKING.
+//    0.005 widens the exit hysteresis (enter speech at 0.015, leave at 0.005).
+//  - The recorder used to start only after MIN_SPEECH_MS of confirmed speech,
+//    clipping the first ~250-330ms of every utterance. It now starts
+//    speculatively at the FIRST threshold crossing and is discarded if the
+//    burst proves to be noise (see startRecorder/discardRecorder).
+// MAX_UTTERANCE_MS is the new hard backstop: with the lower exit threshold, a
+// noisy room could otherwise hold a recording open forever.
 const SPEECH_THRESHOLD = 0.015; // RMS above this triggers speech detection
-const SILENCE_THRESHOLD = 0.008; // RMS below this starts the silence timer
+const SILENCE_THRESHOLD = 0.005; // RMS below this starts the silence timer
 const MIN_SPEECH_MS = 250; // Ignore bursts shorter than this (noise guard)
-const SILENCE_DURATION_MS = 1800; // Silence this long → end recording, send to Whisper
+const SILENCE_DURATION_MS = 2600; // Silence this long → end recording, send to Whisper
+const MAX_UTTERANCE_MS = 60_000; // Hard cap per utterance — backstop, not endpointing
 const POLL_INTERVAL_MS = 80; // How often to sample the AnalyserNode
 const FFT_SIZE = 2048;
+
+/** Exported for tests: the endpointing invariants are pinned in speechEndpointing.test.js. */
+export const VAD_TUNING = {
+  SPEECH_THRESHOLD,
+  SILENCE_THRESHOLD,
+  MIN_SPEECH_MS,
+  SILENCE_DURATION_MS,
+  MAX_UTTERANCE_MS,
+};
 
 // Feature-detect once at module load — no point re-checking on every render
 const SUPPORTS_VAD =
@@ -97,13 +126,18 @@ export default function useWhisperSTT({
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
   const recorderRef = useRef(null);
-  const chunksRef = useRef([]);
   const pollRef = useRef(null);
 
   // VAD state machine
-  const vadStateRef = useRef('idle'); // 'idle'|'waiting'|'recording'|'processing'
+  const vadStateRef = useRef('idle'); // 'idle'|'waiting'|'recording'
   const speechStartRef = useRef(null);
   const silenceStartRef = useRef(null);
+  const recordStartRef = useRef(null); // when the current recorder began (MAX_UTTERANCE_MS backstop)
+
+  // Ordered STT delivery: utterances may transcribe concurrently with new
+  // recording, but results must reach onResult in the order they were spoken.
+  const sttChainRef = useRef(Promise.resolve());
+  const inFlightRef = useRef(0);
 
   // Web Speech API fallback
   const webSpeechRef = useRef(null);
@@ -156,7 +190,7 @@ export default function useWhisperSTT({
       }
     }
     recorderRef.current = null;
-    chunksRef.current = [];
+    recordStartRef.current = null;
     // Disconnect the MediaStreamSource from the graph — always required to release the mic
     // back to the OS and stop audio flowing through the analyser.
     if (sourceRef.current) {
@@ -209,10 +243,10 @@ export default function useWhisperSTT({
   }, [cleanup]);
 
   // ── Send audio to Whisper ───────────────────────────────────────────────────
+  // No longer owns the VAD state: the machine returned to 'waiting' the moment
+  // the recorder stopped, so the user can keep talking while this runs.
   const sendToWhisper = useCallback(
     async (blob) => {
-      setIsProcessing(true);
-      vadStateRef.current = 'processing';
       try {
         if (!navigator.onLine) throw new Error('offline');
 
@@ -246,18 +280,91 @@ export default function useWhisperSTT({
         if (e.message !== 'offline') {
           onErrorRef.current?.(e.message || 'Voice transcription failed — please try again.');
         }
-      } finally {
-        setIsProcessing(false);
-        // Resume VAD so user can speak again without re-tapping
-        if (vadStateRef.current !== 'idle' && streamRef.current) {
-          vadStateRef.current = 'waiting';
-          speechStartRef.current = null;
-          silenceStartRef.current = null;
-        }
       }
     },
     [cleanup],
   );
+
+  /**
+   * Enqueue a finished utterance for transcription. The chain keeps onResult
+   * delivery in speech order even when a short second utterance transcribes
+   * faster than a long first one; the in-flight counter drives the UI's
+   * isProcessing without gating the VAD.
+   */
+  const queueWhisper = useCallback(
+    (blob) => {
+      if (!mountedRef.current) return; // unmounted mid-flush — nothing to deliver to
+      inFlightRef.current += 1;
+      setIsProcessing(true);
+      sttChainRef.current = sttChainRef.current
+        .then(() => sendToWhisper(blob))
+        .finally(() => {
+          inFlightRef.current -= 1;
+          if (inFlightRef.current <= 0) {
+            inFlightRef.current = 0;
+            setIsProcessing(false);
+          }
+        });
+    },
+    [sendToWhisper],
+  );
+
+  // ── Recorder lifecycle ──────────────────────────────────────────────────────
+  // Chunks live in the recorder's own closure, never in a shared ref: a new
+  // speculative recorder can start while the previous one's onstop is still
+  // flushing, and neither can clobber the other's audio.
+
+  /** Start capturing NOW — called at the first threshold crossing, so the
+   *  first word is on tape before the noise-guard confirms it was speech. */
+  const startRecorder = useCallback(
+    (now) => {
+      if (!streamRef.current) return;
+      const chunks = [];
+      const mimeType = getSupportedMimeType();
+      const recorder = new MediaRecorder(streamRef.current, mimeType ? { mimeType } : {});
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
+      };
+      recorder.onstop = () => {
+        const audioBlob = new Blob(chunks, { type: mimeType || 'audio/webm' });
+        if (audioBlob.size > 500) queueWhisper(audioBlob);
+      };
+      recorder.start(100); // emit data every 100 ms
+      recorderRef.current = recorder;
+      recordStartRef.current = now;
+    },
+    [queueWhisper],
+  );
+
+  /** The burst was noise (or barge-in is disallowed): throw the tape away. */
+  const discardRecorder = useCallback(() => {
+    const r = recorderRef.current;
+    recorderRef.current = null;
+    recordStartRef.current = null;
+    if (r) {
+      r.ondataavailable = null;
+      r.onstop = null;
+      try {
+        if (r.state !== 'inactive') r.stop();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, []);
+
+  /** Real end of utterance: stop → onstop assembles the blob and queues Whisper. */
+  const finishRecorder = useCallback(() => {
+    const r = recorderRef.current;
+    recorderRef.current = null;
+    recordStartRef.current = null;
+    if (r && r.state === 'recording') {
+      try {
+        r.stop();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, []);
 
   // ── VAD polling tick (runs every POLL_INTERVAL_MS) ─────────────────────────
   const vadTick = useCallback(() => {
@@ -275,6 +382,10 @@ export default function useWhisperSTT({
       if (rms > SPEECH_THRESHOLD) {
         if (!speechStartRef.current) {
           speechStartRef.current = now;
+          // Speculative capture from the FIRST crossing — if the burst proves
+          // to be noise it is discarded below; if it proves to be speech, the
+          // first word was never clipped.
+          startRecorder(now);
         } else if (now - speechStartRef.current > MIN_SPEECH_MS) {
           // Confirmed real speech.
           if (isSpeakingRef.current && !allowBargeInRef.current) {
@@ -282,6 +393,7 @@ export default function useWhisperSTT({
             // — halting learner speech / background noise would cause false
             // cut-offs. Ignore the mic until she stops (or the user taps).
             speechStartRef.current = null;
+            discardRecorder();
             return;
           }
           if (isSpeakingRef.current) {
@@ -289,53 +401,34 @@ export default function useWhisperSTT({
             stopAudio();
             onInterruptRef.current?.();
           }
-
           vadStateRef.current = 'recording';
           silenceStartRef.current = null;
-          chunksRef.current = [];
-
-          const mimeType = getSupportedMimeType();
-          const recorder = new MediaRecorder(streamRef.current, mimeType ? { mimeType } : {});
-          recorder.ondataavailable = (e) => {
-            if (e.data && e.data.size > 0) chunksRef.current.push(e.data);
-          };
-          recorder.onstop = () => {
-            const audioBlob = new Blob(chunksRef.current, { type: mimeType || 'audio/webm' });
-            if (audioBlob.size > 500) {
-              // Send non-trivial recordings to Whisper
-              sendToWhisper(audioBlob);
-            } else {
-              // Too short to be speech — back to waiting
-              vadStateRef.current = 'waiting';
-              speechStartRef.current = null;
-            }
-          };
-          recorder.start(100); // emit data every 100 ms
-          recorderRef.current = recorder;
         }
-      } else {
-        // Below threshold — reset if it was just a noise spike, not sustained speech
-        if (speechStartRef.current && now - speechStartRef.current < MIN_SPEECH_MS) {
-          speechStartRef.current = null;
-        }
+      } else if (speechStartRef.current && now - speechStartRef.current < MIN_SPEECH_MS) {
+        // Just a noise spike, not sustained speech — throw the tape away.
+        speechStartRef.current = null;
+        discardRecorder();
       }
     } else if (state === 'recording') {
-      if (rms < SILENCE_THRESHOLD) {
-        if (!silenceStartRef.current) {
-          silenceStartRef.current = now;
-        } else if (now - silenceStartRef.current > SILENCE_DURATION_MS) {
-          // Sustained silence — stop recording and send to Whisper
-          if (recorderRef.current?.state === 'recording') {
-            recorderRef.current.stop(); // onstop → sendToWhisper
-          }
+      const startedAt = recordStartRef.current ?? now;
+      const overCap = now - startedAt > MAX_UTTERANCE_MS;
+      if (rms < SILENCE_THRESHOLD || overCap) {
+        if (!silenceStartRef.current) silenceStartRef.current = now;
+        if (overCap || now - silenceStartRef.current > SILENCE_DURATION_MS) {
+          // End of utterance. Queue it for Whisper and return to 'waiting'
+          // IMMEDIATELY — anything said while transcription runs is captured
+          // as the next turn instead of being dropped.
+          finishRecorder();
+          vadStateRef.current = 'waiting';
           speechStartRef.current = null;
+          silenceStartRef.current = null;
         }
       } else {
-        // Still speaking — reset silence timer
+        // Still speaking (anything above the exit threshold) — reset silence timer
         silenceStartRef.current = null;
       }
     }
-  }, [sendToWhisper]);
+  }, [startRecorder, discardRecorder, finishRecorder]);
 
   // ── Web Speech API fallback (used when Whisper unavailable) ────────────────
   const startWebSpeech = useCallback(() => {

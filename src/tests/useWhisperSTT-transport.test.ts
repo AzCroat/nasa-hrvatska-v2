@@ -39,10 +39,14 @@ vi.mock('../lib/nativePost.js', () => ({ _nativePost: (...a: unknown[]) => nativ
 vi.mock('../lib/apiFetch.js', () => ({ apiFetch: (...a: unknown[]) => apiFetch(...a) }));
 vi.mock('../lib/platform.js', () => ({ isNative: () => false }));
 
-// VAD constants mirrored from the hook.
+// VAD constants IMPORTED from the hook — mirroring them by hand is how this
+// file silently broke when the endpointing was retuned (1800 -> 2600 for the
+// 2026-08 speech-cutoff fix). POLL_INTERVAL stays local (not exported; the
+// simulation just needs any value >= the hook's real cadence).
+import { VAD_TUNING } from '../hooks/useWhisperSTT.js';
 const POLL_INTERVAL_MS = 80;
-const MIN_SPEECH_MS = 250;
-const SILENCE_DURATION_MS = 1800;
+const MIN_SPEECH_MS = VAD_TUNING.MIN_SPEECH_MS;
+const SILENCE_DURATION_MS = VAD_TUNING.SILENCE_DURATION_MS;
 
 /** Amplitude that computeRms turns into a value above SPEECH_THRESHOLD (0.015). */
 const LOUD = 148;
