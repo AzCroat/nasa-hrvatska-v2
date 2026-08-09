@@ -227,7 +227,7 @@ Users were being cut off mid-speech. The rules that prevent regression (pinned b
 | Variable                                 | Purpose                                     |
 | ---------------------------------------- | ------------------------------------------- |
 | `ANTHROPIC_API_KEY`                      | AI Tutor, story generation                  |
-| `AZURE_TTS_KEY` / `AZURE_TTS_REGION`     | Croatian TTS pronunciation                  |
+| `AZURE_TTS_KEY` / `AZURE_TTS_REGION`     | Azure Speech resource — ONE key covers TTS, STT **and** pronunciation assessment. The dashboard is provisioned under these `TTS_*` names; `pronunciation-assess.js` also accepts `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` (which win if ever set) so either naming works. |
 | `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK              |
 | `CRON_SECRET`                            | Auth token for scheduled worker → API calls |
 | `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Web Push notifications                      |
@@ -239,7 +239,13 @@ Users were being cut off mid-speech. The rules that prevent regression (pinned b
 
 | Variable             | Namespace ID                       | Purpose                              |
 | -------------------- | ---------------------------------- | ------------------------------------ |
-| `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage |
+| `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage — ALSO the KV fallback for rate limits, quotas, the budget ledger, and content caches (TTS audio, daily-culture, news) when a dedicated binding is absent. `tts.js` prefers `env.KV` if bound. |
+
+### D1 binding (Cloudflare Pages → Settings → Functions)
+
+| Variable      | Purpose                                                                                                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AI_QUOTA_DB` | Primary store for the per-user daily AI quota (`_aiQuota.js`) **and** the global monthly budget ledger (`_aiBudget.js`, table `ai_month_spend` — self-migrates on first use). Falls back to `PUSH_SUBSCRIPTIONS` KV when unbound; fail-closed when neither answers. |
 
 ### Scheduled worker (wrangler.toml)
 
@@ -391,7 +397,7 @@ Before committing any change:
 8. **Never force-push to master** — Cloudflare deploys are triggered by push; force-pushing can corrupt the deployment history.
 9. **Never recommend clearing localStorage, clearing site data, or any DevTools action that touches localStorage.** This destroys user progress. The ONLY safe SW troubleshooting step is: DevTools → Application → Service Workers → Unregister → Reload.
 10. **Never write data to Firestore on behalf of a user without their explicit instruction and a verified data source.** Fabricating or estimating user data and writing it to production is unauthorized.
-11. **Never regress these sync architecture guarantees** (established 2026-03-18, see project_nasa_hrvatska_sync_audit.md in memory):
+11. **Never regress these sync architecture guarantees** (established in the 2026-03-18 sync audit; this list is the canonical record of its conclusions):
     - The `!syncReady` hero gate — never add `lc===0 || xp===0` conditions back
     - The persistence fallback chain in `initFirebase()` — never revert to `.catch(()=>{})` on `browserLocalPersistence`
     - The immediate `fetchIfNewer()` call on polling mount — never remove it
