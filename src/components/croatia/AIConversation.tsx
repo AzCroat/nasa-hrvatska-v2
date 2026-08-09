@@ -19,7 +19,7 @@ import { SCENARIOS, deriveWeakAreas, sceneForCat } from './ConversationScenarios
 import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
 import { stopAudio } from '../../lib/audio.ts';
-import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
+import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { normalizeJournal } from '../../lib/journalEntry';
 import AIConversationHeader from './AIConversationHeader';
 import AIConversationWriteSetup from './AIConversationWriteSetup';
@@ -501,6 +501,7 @@ export default function AIConversation({
         // of truth for the two different 429s; match through it rather than by
         // hand (same fix already applied in LiveTutorScreen).
         const limit = classifyAiLimit({ status: res.status, code: errData.error });
+        if (limit === 'budget') throw new Error(BUDGET_PAUSE_EN);
         if (limit === 'burst') {
           throw new Error(
             "You're sending messages too quickly. Please wait a moment and try again.",
@@ -620,6 +621,7 @@ export default function AIConversation({
       // Keying on `res.status === 429` alone told a learner who sent two
       // messages in quick succession that their day was over.
       const limit = classifyAiLimit({ status: res.status, code: msg });
+      if (limit === 'budget') throw new Error(BUDGET_PAUSE_EN);
       if (limit === 'burst') {
         throw new Error(
           "You're sending messages faster than Maja can answer — wait a moment and try again.",

@@ -1,6 +1,6 @@
 // listeningSupport.ts — pure helpers for AIListeningScreen, extracted to keep
 // the screen under the 800-line cap.
-import { classifyAiLimit, formatAiResetTime } from './aiLimit';
+import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from './aiLimit';
 
 /**
  * Interleave dialogue lines turn-by-turn across speakers, so the rendered
@@ -50,7 +50,9 @@ export async function listeningFailureFromResponse(
   // Classification lives in lib/aiLimit so the two server codes are declared in
   // exactly one place — four other call sites had drifted from them.
   const limit = classifyAiLimit({ status: res.status, code: errBody.error });
-  if (limit === 'daily') {
+  if (limit === 'budget') {
+    failure.userMessage = BUDGET_PAUSE_EN;
+  } else if (limit === 'daily') {
     const resetTime = formatAiResetTime(errBody.resetAt);
     failure.userMessage = `Daily AI limit reached${resetTime ? ` — resets at ${resetTime}` : ''}. Dictation and stories still work today.`;
   } else if (limit === 'burst') {

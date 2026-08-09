@@ -12,7 +12,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { addWordToSRS } from '../../lib/srs.js';
-import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
+import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
 
@@ -232,6 +232,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           status: res.status,
           code: typeof errBody['error'] === 'string' ? (errBody['error'] as string) : '',
         });
+        if (limit === 'budget') throw new Error(BUDGET_PAUSE_EN);
         if (limit === 'burst')
           throw new Error('A little too fast — wait a moment before asking for more feedback.');
         if (limit === 'daily') {

@@ -3,7 +3,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import { speak } from '../../lib/audio.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
-import { classifyAiLimit, formatAiResetTime } from '../../lib/aiLimit';
+import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { getActiveVocabulary } from '../../lib/activeVocabulary';
 
 export default function AIStoryScreen({
@@ -79,7 +79,9 @@ export default function AIStoryScreen({
           // per-minute burst limiter as well as the daily ceiling. Keying on the
           // status alone told a learner who tapped Generate twice that their day
           // was over. classifyAiLimit is the single source of truth.
-          if (classifyAiLimit({ status: res.status, code: errBody['error'] }) === 'burst') {
+          const limit = classifyAiLimit({ status: res.status, code: errBody['error'] });
+          if (limit === 'budget') throw new Error(BUDGET_PAUSE_EN);
+          if (limit === 'burst') {
             throw new Error('Generating too quickly — wait a moment and try again.');
           }
           const t = formatAiResetTime(errBody['resetAt']) || 'midnight UTC';

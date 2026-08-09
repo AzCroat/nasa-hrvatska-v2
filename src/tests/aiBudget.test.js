@@ -80,9 +80,14 @@ describe('ceilings cannot drift below reality', () => {
       const path = `/api/${f.replace(/\.js$/, '')}`;
       const ceiling = ENDPOINT_CEILING_MICROUSD[path];
       expect(ceiling, `${path} missing from ENDPOINT_CEILING_MICROUSD`).toBeDefined();
+      // Self-metered endpoints (gate ceiling 0) charge their ':generate' entry
+      // on the cache miss that actually spends — the EFFECTIVE ceiling is that
+      // entry, and it must still dominate the endpoint's real max_tokens.
+      const effective =
+        ceiling === 0 ? (ENDPOINT_CEILING_MICROUSD[`${path}:generate`] ?? 0) : ceiling;
       expect(
-        ceiling,
-        `${path}: max_tokens=${worst} needs ceiling >= claudeCeiling(${worst}) — raise the table entry`,
+        effective,
+        `${path}: max_tokens=${worst} needs an effective ceiling >= claudeCeiling(${worst}) — raise the table (or :generate) entry`,
       ).toBeGreaterThanOrEqual(claudeCeiling(worst));
     }
   });
@@ -99,7 +104,23 @@ describe('ceilings cannot drift below reality', () => {
     for (const f of gated) {
       const path = `/api/${f.replace(/\.js$/, '')}`;
       const ceiling = ENDPOINT_CEILING_MICROUSD[path] ?? DEFAULT_CEILING_MICROUSD;
-      expect(ceiling, `${path} must carry a positive ceiling`).toBeGreaterThan(0);
+      if (ceiling === 0) {
+        // Ceiling 0 is only legal for SELF-METERED endpoints, which must (a)
+        // carry a positive ':generate' entry and (b) actually charge it in
+        // their source — otherwise 0 would mean "free", which no endpoint is.
+        expect(
+          ENDPOINT_CEILING_MICROUSD[`${path}:generate`],
+          `${path} is ceiling-0 but has no :generate entry`,
+        ).toBeGreaterThan(0);
+        // eslint-disable-next-line security/detect-non-literal-fs-filename -- repo source scan
+        const src = readFileSync(`${API_DIR}/${f}`, 'utf8');
+        expect(
+          src.includes(`checkAndChargeBudget(env, '${path}:generate')`),
+          `${path} is ceiling-0 but never charges its :generate entry internally`,
+        ).toBe(true);
+      } else {
+        expect(ceiling, `${path} must carry a positive ceiling`).toBeGreaterThan(0);
+      }
     }
   });
 
@@ -157,5 +178,16 @@ describe('the breaker', () => {
   it('fails CLOSED with no storage — the guarantee outranks the garnish', async () => {
     const res = await checkAndChargeBudget(env(null, null), '/api/ai-chat');
     expect(res.allowed).toBe(false);
+  });
+
+  it('a ceiling-0 (self-metered) request passes even AT the cap — cached content never dies', async () => {
+    const db = fakeD1(MONTHLY_BUDGET_MICROUSD); // ledger exactly full
+    const res = await checkAndChargeBudget(env(db), '/api/tts');
+    expect(res.allowed).toBe(true);
+    expect(db.state.spend).toBe(MONTHLY_BUDGET_MICROUSD); // and charged nothing
+    // ...while its :generate twin is refused at the same ledger — only the
+    // spending path is blocked, exactly the "degraded, never dead" split.
+    const gen = await checkAndChargeBudget(env(db), '/api/tts:generate');
+    expect(gen.allowed).toBe(false);
   });
 });

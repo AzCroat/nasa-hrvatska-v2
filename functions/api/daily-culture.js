@@ -7,6 +7,7 @@
 // Response is cached at the Cloudflare edge for 6 hours.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders, err } from './_helpers.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -43,6 +44,35 @@ export async function onRequestGet(context) {
   const dateStr = now.toISOString().slice(0, 10); // "2026-03-28"
   const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
   const location = LOCATIONS[dayOfYear % LOCATIONS.length];
+
+  // ── Shared generation: ONE Claude call per day, globally ───────────────────
+  // The edge cache below is per-colo, so before this KV layer every colo paid
+  // its own generation (and every request charged the budget gate). Now the
+  // whole world shares one KV entry per date; the budget is charged only on
+  // the single miss that actually generates ('/api/daily-culture:generate' —
+  // this endpoint's gate ceiling is 0, see _aiBudget.js SELF_METERED).
+  const kv = env.KV || env.PUSH_SUBSCRIPTIONS || null;
+  const kvKey = `daily:culture:${dateStr}`;
+  if (kv) {
+    try {
+      const hit = await kv.get(kvKey);
+      if (hit) {
+        return new Response(hit, {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=21600, s-maxage=21600',
+            ...corsHeaders(origin),
+          },
+        });
+      }
+    } catch {
+      /* KV read failure → fall through to generation */
+    }
+  }
+
+  const budget = await checkAndChargeBudget(env, '/api/daily-culture:generate');
+  if (!budget.allowed) return err(503, 'AI temporarily unavailable', origin);
 
   const prompt = `Today is ${dateStr}. Generate a short, engaging "Croatia Today" daily learning card for someone studying Croatian.
 
@@ -135,6 +165,14 @@ The phrase should be practical and conversational. The cultural fact should be s
   parsed.region = location.region;
   parsed.locationEmoji = location.emoji;
   parsed.date = dateStr;
+
+  // Store the day's card globally — 48h TTL covers every timezone's "today"
+  // plus stragglers, and the date in the key means tomorrow can never read it.
+  if (kv) {
+    const body = JSON.stringify(parsed);
+    const put = kv.put(kvKey, body, { expirationTtl: 60 * 60 * 48 }).catch(() => {});
+    if (context.waitUntil) context.waitUntil(put);
+  }
 
   // Cache at edge for 6 hours — same content all day globally
   return new Response(JSON.stringify(parsed), {

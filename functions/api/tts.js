@@ -5,6 +5,7 @@
 // Client falls back to Web Speech API when this endpoint returns 503.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 
 // ── Azure SSML builder ────────────────────────────────────────────────────────
@@ -482,6 +483,60 @@ export async function onRequestPost(context) {
       edgeCache = null;
     }
 
+    // ── Global KV audio cache — a phrase is generated ONCE, ever ─────────────
+    // The edge cache above is per-colo and evicts freely; this layer makes the
+    // audio for a given (text, voice, prosody, phoneme, slow) global and
+    // durable for 90 days. In a language app the same phrases repeat endlessly
+    // (lesson content is finite), so this converges provider spend toward zero
+    // and repeat latency toward a single KV read.
+    const kv = env.KV || env.PUSH_SUBSCRIPTIONS || null;
+    let kvKey = null;
+    if (kv) {
+      try {
+        const digest = await crypto.subtle.digest(
+          'SHA-256',
+          new TextEncoder().encode(`${voice}|${slow}|${prosodyKey}|${phonemeKey}|${text}`),
+        );
+        kvKey =
+          'tts:v3:' +
+          [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+        const hit = await kv.get(kvKey, { type: 'arrayBuffer' });
+        if (hit && hit.byteLength > 500) {
+          const kvResponse = new Response(hit, {
+            status: 200,
+            headers: {
+              'Content-Type': 'audio/mpeg',
+              'Cache-Control': 'public, max-age=86400',
+              ...ttsCorsHeaders(origin),
+            },
+          });
+          if (edgeCache) {
+            try {
+              edgeCache.put(cacheKey, kvResponse.clone());
+            } catch {
+              /* ignore */
+            }
+          }
+          return kvResponse;
+        }
+      } catch {
+        kvKey = null; // KV unusable → behave exactly as before this layer existed
+      }
+    }
+
+    // ── Budget: charged ONLY when we actually generate ───────────────────────
+    // /api/tts's gate ceiling is 0 (SELF_METERED in _aiBudget.js) precisely so
+    // the cache hits above stay free and keep serving even at the monthly cap.
+    // A refusal here is a 503, which the client already treats as "fall back
+    // to the browser's built-in speech synthesis" — on-device, free, instant.
+    const budget = await checkAndChargeBudget(env, '/api/tts:generate');
+    if (!budget.allowed) {
+      return new Response('TTS unavailable — budget-paused', {
+        status: 503,
+        headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': diagBackends },
+      });
+    }
+
     let buffer = null;
 
     if (voice === 'charlotte') {
@@ -575,6 +630,12 @@ export async function onRequestPost(context) {
       } catch {
         /* ignore */
       }
+    }
+    // And globally in KV — 90 days; the versioned key retires cleanly if the
+    // key scheme ever changes.
+    if (kv && kvKey) {
+      const put = kv.put(kvKey, buffer, { expirationTtl: 60 * 60 * 24 * 90 }).catch(() => {});
+      if (context.waitUntil) context.waitUntil(put);
     }
 
     return ttsResponse;

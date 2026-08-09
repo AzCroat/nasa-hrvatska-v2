@@ -4,7 +4,7 @@
  */
 import { useState, useRef } from 'react';
 import { apiFetch } from '../lib/apiFetch';
-import { classifyAiLimit } from '../lib/aiLimit';
+import { classifyAiLimit, BUDGET_PAUSE_EN } from '../lib/aiLimit';
 
 export function useTranslator(): {
   tDir: string;
@@ -44,6 +44,8 @@ export function useTranslator(): {
       const limit = classifyAiLimit({ status: r.status, code: d.error });
       if (d.translation) {
         setTOut(d.translation);
+      } else if (limit === 'budget') {
+        setTOut(BUDGET_PAUSE_EN);
       } else if (limit === 'daily') {
         setTOut(
           'Daily translation limit reached. Try again tomorrow or visit translate.google.com',
