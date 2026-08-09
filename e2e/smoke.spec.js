@@ -83,7 +83,17 @@ test.describe('Production smoke — site availability', () => {
     const diagnostics = watchAssets(page);
     await page.goto('/');
     try {
-      await expect(page.locator('#root')).not.toBeEmpty({ timeout: 20_000 });
+      // index.html ships a static boot shell (#nh-boot) inside #root, so
+      // "#root is not empty" no longer proves anything — the shell satisfies
+      // it even when the app never executes. React mounted ⇔ #root has
+      // content AND the shell is gone (React's first render replaces it).
+      await page.waitForFunction(
+        () => {
+          const root = document.getElementById('root');
+          return !!root && root.children.length > 0 && !document.getElementById('nh-boot');
+        },
+        { timeout: 20_000 },
+      );
     } catch (err) {
       // Re-thrown with the asset evidence attached: an empty root is almost
       // always a script that never loaded or never executed, and which one it
@@ -94,11 +104,14 @@ test.describe('Production smoke — site availability', () => {
 
   test('app displays content within 25 seconds', async ({ page }) => {
     await page.goto('/');
-    // Wait for React to render something — login screen OR main app
+    // Wait for React to render something — login screen OR main app. The
+    // static boot shell (#nh-boot) also has visible text, so require it gone:
+    // otherwise the shell alone would pass this within milliseconds.
     await page.waitForFunction(
       () => {
         const root = document.getElementById('root');
-        return root && root.innerText && root.innerText.trim().length > 5;
+        if (!root || document.getElementById('nh-boot')) return false;
+        return !!root.innerText && root.innerText.trim().length > 5;
       },
       { timeout: 25_000 },
     );

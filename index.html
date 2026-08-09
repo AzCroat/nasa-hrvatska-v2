@@ -109,6 +109,74 @@
     <link rel="stylesheet" href="/fonts/fonts.css" />
     <meta name="color-scheme" content="light dark" />
 
+    <!-- Pre-mount boot shell (styles + early theme). The static shell inside
+         #root below paints as soon as HTML+CSS arrive and is replaced the
+         instant React first renders — every millisecond before that used to be
+         a blank white page (src/tests/firstPaintGraph.test.ts documents the
+         incident). Inline on purpose: it must not depend on any asset the app
+         bundle carries.
+         E2E CONTRACT: the shell carries id="nh-boot". The smoke/offline/auth
+         specs treat "#root has content AND #nh-boot is gone" as proof React
+         mounted — a bare "#root is not empty" check is satisfied by this shell
+         even when the app never boots. Renaming the id without updating those
+         specs re-blinds the blank-screen smoke test; bootShell.test.ts pins
+         the pairing. -->
+    <style>
+      html[data-theme='dark'] {
+        background: #0b1120;
+      }
+      #nh-boot {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: #f4f6f9;
+        color: #164e63;
+      }
+      html[data-theme='dark'] #nh-boot {
+        background: #0b1120;
+        color: #e2e8f0;
+      }
+      /* Belt-and-suspenders: if the theme init in native-init.js ever fails,
+         follow the OS preference rather than flashing light at dark users. */
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme='light']) {
+          background: #0b1120;
+        }
+        html:not([data-theme='light']) #nh-boot {
+          background: #0b1120;
+          color: #e2e8f0;
+        }
+      }
+      .nh-boot-mark {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+      .nh-boot-spin {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 3px solid rgba(14, 116, 144, 0.25);
+        border-top-color: #0e7490;
+        animation: nh-boot-rot 0.9s linear infinite;
+      }
+      @keyframes nh-boot-rot {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .nh-boot-spin {
+          animation: none;
+        }
+      }
+    </style>
+
     <!-- Analytics (Plausible — privacy-first, no cookies) -->
     <!-- Set up at plausible.io and replace the data-domain if needed -->
     <script
@@ -129,7 +197,16 @@
     <!-- Skip to main content for keyboard/screen reader users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static boot shell — replaced by React's first render. No <h1> here
+           on purpose (auth/guest specs assert the app's own h1); keep
+           id="nh-boot" in sync with the E2E mount predicates (see the
+           comment on the boot-shell <style> block in <head>). -->
+      <div id="nh-boot" role="status" aria-label="Loading Naša Hrvatska">
+        <div class="nh-boot-mark" aria-hidden="true">Naša Hrvatska</div>
+        <div class="nh-boot-spin" aria-hidden="true"></div>
+      </div>
+    </div>
 
     <!-- SW update interceptor: runs before React mounts.
        If a new SW is already waiting, activate it and reload before

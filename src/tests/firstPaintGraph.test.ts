@@ -17,9 +17,12 @@
  * innermost hook on App's critical path, so the entire content library landed in
  * the module graph that must download, parse and execute before React mounts.
  *
- * `#root` has no static fallback in index.html, so every millisecond of that is
- * a blank white page. Production smoke twice caught `<div id="root"></div>` still
- * empty after 20 seconds.
+ * At the time `#root` had no static fallback in index.html, so every millisecond
+ * of that was a blank white page — production smoke twice caught
+ * `<div id="root"></div>` still empty after 20 seconds. index.html has since
+ * gained a static boot shell (#nh-boot, pinned by bootShell.test.ts) so the
+ * residual gap paints branded loading instead of white; this test still holds
+ * the line on the gap itself.
  *
  * WHAT THIS TEST DOES AND DOES NOT COVER
  * -------------------------------------

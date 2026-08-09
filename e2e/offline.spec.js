@@ -63,8 +63,17 @@ test.describe('Offline mode (PWA / service worker)', () => {
   test('app shell renders from SW cache when offline after initial load', async ({ page }) => {
     await goOfflineAfterCaching(page);
 
-    // App root must render (not a browser "no connection" error page)
-    await expect(page.locator('#root')).not.toBeEmpty({ timeout: 15_000 });
+    // App root must render (not a browser "no connection" error page). The
+    // SW-cached index.html includes the static boot shell (#nh-boot), so
+    // "#root not empty" would pass even if the cached JS never executed —
+    // require the shell to be replaced by React's first render.
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById('root');
+        return !!root && root.children.length > 0 && !document.getElementById('nh-boot');
+      },
+      { timeout: 15_000 },
+    );
 
     // Nav bar must be visible — earlyRestore + SW cache = authenticated offline
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
