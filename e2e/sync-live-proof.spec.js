@@ -265,8 +265,15 @@ test.describe('Live sync proof — all browsers', () => {
     // SRS: add sentinel card
     progressObj.sr = { ...(progressObj.sr || {}), [SENTINEL_SR_KEY]: { r: 1, s: RUN_ID, n: RUN_ID + 86400000 } };
 
-    // Streak: set to today
-    const today = new Date().toISOString().slice(0, 10);
+    // Streak: set to today — LOCAL date, because the app on the receiving
+    // device compares this against localDateStr(), not a UTC date.
+    const _d = new Date();
+    const today =
+      _d.getFullYear() +
+      '-' +
+      String(_d.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(_d.getDate()).padStart(2, '0');
     progressObj.streak = { count: Math.max((progressObj.streak?.count || 0), 1), last: today };
 
     // Daily challenge: mark first question answered today
