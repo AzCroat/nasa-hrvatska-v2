@@ -110,7 +110,27 @@ function firstOfNextMonthUTC() {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
 }
 
-async function _d1ChargeBudget(db, month, ceiling) {
+// Self-migrating: the ledger table is created by the code itself the first
+// time D1 answers "no such table" — the owner never runs SQL by hand.
+// (migrations/ai_month_spend.sql remains as documentation of the schema.)
+// CREATE TABLE IF NOT EXISTS is idempotent, so a race between two isolates
+// both migrating is harmless.
+const CREATE_LEDGER_SQL = `CREATE TABLE IF NOT EXISTS ai_month_spend (
+  month    TEXT    PRIMARY KEY,
+  microusd INTEGER NOT NULL DEFAULT 0
+)`;
+
+async function _d1EnsureLedger(db) {
+  try {
+    await db.prepare(CREATE_LEDGER_SQL).run();
+    return true;
+  } catch (e) {
+    console.warn('[AIBudget] ledger self-migration failed:', e?.message);
+    return false;
+  }
+}
+
+async function _d1ChargeBudget(db, month, ceiling, retried = false) {
   if (!db) return null;
   try {
     const upsert = await db
@@ -137,6 +157,10 @@ async function _d1ChargeBudget(db, month, ceiling) {
     }
     return { allowed: true, spentMicroUsd: spent };
   } catch (e) {
+    // First failure on a fresh database: create the table and retry ONCE.
+    if (!retried && /no such table/i.test(e?.message || '')) {
+      if (await _d1EnsureLedger(db)) return _d1ChargeBudget(db, month, ceiling, true);
+    }
     console.warn('[AIBudget] D1 charge failed:', e?.message);
     return null; // caller falls back to KV
   }

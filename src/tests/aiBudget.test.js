@@ -28,9 +28,15 @@ import {
 
 const API_DIR = 'functions/api';
 
-/** Minimal D1 stub implementing exactly what _aiBudget uses. */
-function fakeD1(initialSpend = 0) {
-  const state = { spend: initialSpend };
+/** Minimal D1 stub implementing exactly what _aiBudget uses. Pass
+ *  tableExists:false to behave like a FRESH database: statements against the
+ *  ledger throw "no such table" until a CREATE TABLE arrives — exercising the
+ *  self-migration path (nobody runs SQL by hand). */
+function fakeD1(initialSpend = 0, { tableExists = true } = {}) {
+  const state = { spend: initialSpend, tableExists, migrations: 0 };
+  const ensure = () => {
+    if (!state.tableExists) throw new Error('no such table: ai_month_spend');
+  };
   return {
     state,
     prepare(sql) {
@@ -39,20 +45,33 @@ function fakeD1(initialSpend = 0) {
           return {
             async first() {
               if (sql.includes('INSERT INTO ai_month_spend')) {
+                ensure();
                 state.spend += args[1];
                 return { microusd: state.spend };
               }
-              if (sql.startsWith('SELECT')) return { microusd: state.spend };
+              if (sql.startsWith('SELECT')) {
+                ensure();
+                return { microusd: state.spend };
+              }
               throw new Error(`unexpected first(): ${sql}`);
             },
             async run() {
               if (sql.includes('microusd = microusd - ')) {
+                ensure();
                 state.spend -= args[0];
                 return {};
               }
               throw new Error(`unexpected run(): ${sql}`);
             },
           };
+        },
+        async run() {
+          if (sql.includes('CREATE TABLE IF NOT EXISTS ai_month_spend')) {
+            state.tableExists = true;
+            state.migrations += 1;
+            return {};
+          }
+          throw new Error(`unexpected bare run(): ${sql}`);
         },
       };
     },
@@ -178,6 +197,14 @@ describe('the breaker', () => {
   it('fails CLOSED with no storage — the guarantee outranks the garnish', async () => {
     const res = await checkAndChargeBudget(env(null, null), '/api/ai-chat');
     expect(res.allowed).toBe(false);
+  });
+
+  it('self-migrates on a fresh database — the owner never runs SQL by hand', async () => {
+    const db = fakeD1(0, { tableExists: false });
+    const res = await checkAndChargeBudget(env(db), '/api/ai-chat');
+    expect(res.allowed).toBe(true);
+    expect(db.state.migrations).toBe(1); // CREATE TABLE ran exactly once
+    expect(db.state.spend).toBe(ENDPOINT_CEILING_MICROUSD['/api/ai-chat']); // and the charge landed
   });
 
   it('a ceiling-0 (self-metered) request passes even AT the cap — cached content never dies', async () => {

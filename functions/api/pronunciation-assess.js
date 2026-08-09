@@ -89,8 +89,17 @@ export async function onRequestPost(context) {
   const { origin } = gate;
 
   // Check env vars early — return a clear signal so the client can fall back.
-  const AZURE_KEY = env.AZURE_SPEECH_KEY;
-  const AZURE_REGION = env.AZURE_SPEECH_REGION;
+  //
+  // AZURE_TTS_KEY is accepted as a fallback ON PURPOSE: an Azure "Speech
+  // Services" resource issues ONE key that covers neural TTS, STT and
+  // pronunciation assessment alike, and this project's dashboard was
+  // provisioned under the TTS_* names (every doc said AZURE_TTS_*; only this
+  // file asked for AZURE_SPEECH_*). Accepting both names means pronunciation
+  // scoring works regardless of which name the dashboard carries — no owner
+  // dashboard-archaeology required. If a dedicated assessment key is ever
+  // added under AZURE_SPEECH_*, it still wins.
+  const AZURE_KEY = env.AZURE_SPEECH_KEY || env.AZURE_TTS_KEY;
+  const AZURE_REGION = env.AZURE_SPEECH_REGION || env.AZURE_TTS_REGION;
   if (!AZURE_KEY || !AZURE_REGION) {
     return ok({ ok: false, error: 'not_configured' }, origin);
   }
