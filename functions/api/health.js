@@ -67,6 +67,21 @@ export async function onRequestGet(context) {
   // ── Check push notifications ──────────────────────────────────────────────
   const vapid = !!(env.VAPID_PRIVATE_KEY && env.VAPID_PRIVATE_KEY.length > 10);
 
+  // ── Weekly backup recency (backup-progress.js) ────────────────────────────
+  // Week key + completion timestamp only — never document counts (user-count
+  // disclosure) and never contents. `null` means no snapshot exists yet.
+  let backup = { lastWeek: null, completedAt: null };
+  try {
+    const kv = env.BACKUP_KV || env.KV || env.PUSH_SUBSCRIPTIONS || null;
+    const lastWeek = kv ? await kv.get('backup:latest') : null;
+    if (lastWeek) {
+      const idx = JSON.parse((await kv.get(`backup:${lastWeek}:index`)) || 'null');
+      backup = { lastWeek, completedAt: idx?.completedAt || null };
+    }
+  } catch {
+    /* health must never fail because a status read did */
+  }
+
   const services = {
     tts: {
       azure: azureTts,
@@ -95,6 +110,7 @@ export async function onRequestGet(context) {
     JSON.stringify({
       ok,
       services,
+      backup,
       env: isDev ? 'development' : 'production',
       ts: Date.now(),
     }),
