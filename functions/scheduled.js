@@ -210,5 +210,31 @@ export default {
     console.warn(
       `[Scheduled] Complete — sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}`,
     );
+
+    // ── Weekly Firestore backup (owner decision, 2026-08-10) ─────────────────
+    // Fire during the whole Monday 03:00–05:59 UTC window, not one exact hour:
+    // /api/backup-progress carries its own once-per-week latch, so extra calls
+    // are cheap no-ops while a transient failure at 03:00 gets retried at
+    // 04:00 and 05:00 instead of waiting a week. Failures only log — the
+    // streak-push work above must never be affected.
+    if (now.getUTCDay() === 1 && utcHour >= 3 && utcHour <= 5) {
+      try {
+        const res = await fetch(`${PAGES_URL}/api/backup-progress`, {
+          method: 'POST',
+          headers: { 'x-cron-secret': env.CRON_SECRET },
+          signal: AbortSignal.timeout(45000),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          console.warn(
+            `[Scheduled] Weekly backup ${data.skipped ? 'already done' : 'completed'} (${data.week || '?'})`,
+          );
+        } else {
+          console.error(`[Scheduled] Weekly backup failed: status=${res.status}`, data?.error);
+        }
+      } catch (e) {
+        console.error('[Scheduled] Weekly backup error:', e?.message);
+      }
+    }
   },
 };
