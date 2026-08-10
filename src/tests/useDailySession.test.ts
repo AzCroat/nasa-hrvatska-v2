@@ -618,6 +618,47 @@ describe('Wave 8 — AI tutors serve every user', () => {
   });
 });
 
+// ── Phase 1 (fluency initiative): adaptive entries ───────────────────────────
+describe('Phase 1 — leveled-input entries are difficulty-matched at every level', () => {
+  const ADAPTIVE_IDS = CEFR_EXERCISE_POOL.filter((e) => e.adaptive).map((e) => e.id);
+
+  it('the adaptive set covers the leveled-input screens (pool sanity)', () => {
+    expect(ADAPTIVE_IDS).toEqual(
+      expect.arrayContaining([
+        'aistory',
+        'storymode',
+        'grammarreader',
+        'micro_lesson',
+        'listeningComprehension',
+        'aiListening',
+      ]),
+    );
+  });
+
+  it('a C1 session regularly serves leveled input (fixed scores ranked it away before)', async () => {
+    // vi.clearAllMocks() clears CALLS but not mockReturnValue implementations,
+    // so due-reviews/due-category values set by earlier tests would otherwise
+    // leak in and consume every fill slot — reset both to the quiet default.
+    const srs = await import('../lib/srs');
+    vi.mocked(srs.getDueReviews).mockReturnValue([]);
+    const adaptive = await import('../lib/adaptive');
+    vi.mocked(adaptive.getDueCategoryQueue).mockReturnValue([]);
+
+    // Statistical with a WIDE margin: adaptive entries now sort at distance 0
+    // for every level, so most sessions include at least one. Before this
+    // change their fixed tier-3 scores put them 2 tiers away from a C1 user
+    // and they almost never surfaced.
+    const adaptiveSet = new Set(ADAPTIVE_IDS);
+    let sessionsWithAdaptive = 0;
+    for (let i = 0; i < 30; i++) {
+      localStorage.clear();
+      const acts = buildSessionActivities('C1');
+      if (acts.some((a) => adaptiveSet.has(a.id))) sessionsWithAdaptive++;
+    }
+    expect(sessionsWithAdaptive).toBeGreaterThanOrEqual(10);
+  });
+});
+
 // ── Wave 9: mic-required entries ─────────────────────────────────────────────
 describe('Wave 9 — mic gate on pool draws', () => {
   const micScreens = CEFR_EXERCISE_POOL.filter((e) => e.micRequired).map((e) => e.screen);

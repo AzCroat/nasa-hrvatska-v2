@@ -25,6 +25,15 @@ export interface CefrPoolEntry {
    * mirroring PRODUCTION_POOL's micRequired contract.
    */
   micRequired?: boolean;
+  /**
+   * Phase 1 (fluency initiative, 2026-08): the SCREEN levels its own content
+   * to the user's CEFR (leveled readers, level-aware AI generation, per-level
+   * scene banks). For these, a fixed EXERCISE_DIFFICULTY score misleads the
+   * difficulty-nearest fill sort — a C1 user was ranked away from the app's
+   * richest input content because the entry "looked like" a tier-3 exercise.
+   * The builder treats adaptive entries as ALWAYS difficulty-matched (dist 0).
+   */
+  adaptive?: boolean;
 }
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
@@ -187,6 +196,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'listening_comprehension',
     cefr: 'A1',
     category: 'listening',
+    adaptive: true, // graded-story audio bank spans A1-C2 per level
   },
   {
     id: 'aiListening',
@@ -194,6 +204,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'ai_listening',
     cefr: 'B1',
     category: 'listening',
+    adaptive: true, // generates a dialogue at the user's level
   },
   // ── 7a: A1 rotation expansion ─────────────────────────────────────────────
   // Existing self-contained practice screens (each awards/completes on finish;
@@ -398,7 +409,14 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // AI story: one bounded personalized story (A2–B1 prompt), single quota-gated
   // /api/maja call per story, explicit Done award. Same cost posture as
   // aiListening (already in pool).
-  { id: 'aistory', label: 'AI Story', screen: 'ai_story', cefr: 'A2', category: 'reading' },
+  {
+    id: 'aistory',
+    label: 'AI Story',
+    screen: 'ai_story',
+    cefr: 'A2',
+    category: 'reading',
+    adaptive: true, // prompt tracks getUserCefr (AIStoryScreen)
+  },
   // Listening quiz: 10-question MC over the LISTEN bank. Cold launch is covered
   // by the dedicated launcher branch (setLsInitQ) — ScreenGuard otherwise.
   {
@@ -671,6 +689,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'micro_lesson',
     cefr: 'A2',
     category: 'vocab-a2',
+    adaptive: true, // /api/micro-lesson generates at the user's level
   },
   // Grammar X-Ray reader: tap-a-word AI analysis (opt-in, cached per word);
   // no self-grading → reference contract (auto-complete, max one per session).
@@ -681,6 +700,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'reading',
     reference: true,
+    adaptive: true, // reader passages are per-level buckets (GrammarReader)
   },
   // ── Wave 8: AI tutors ──────────────────────────────────────────────────────
   // Both award on their end-of-session/debrief exits. (Formerly premium-gated;
@@ -702,7 +722,14 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // ── Wave 9: redesigned-for-completion screens (owner decision, option 3) ───
   // Story Mode gained an explicit Finish button (the organic scroll+tap award
   // could silently never fire); AI cost is the approved quota posture.
-  { id: 'storymode', label: 'Story Mode', screen: 'storymode', cefr: 'A2', category: 'reading' },
+  {
+    id: 'storymode',
+    label: 'Story Mode',
+    screen: 'storymode',
+    cefr: 'A2',
+    category: 'reading',
+    adaptive: true, // scene banks are per-level (StoryModeScreen useStats)
+  },
   // Pronunciation check: mic-required (builder-filtered); finishing now signals
   // session completion even when every phrase was skipped.
   {

@@ -1,0 +1,76 @@
+name: CF Web Analytics (RUM beacon)
+
+# One-off ops workflow: inspect / disable Cloudflare Web Analytics beacon
+# auto-injection for nasahrvatska.com. The injected beacon is the ONLY reason
+# the site CSP carries script-src 'unsafe-inline' (see public/_headers, note
+# dated 2026-05-21) — we use Plausible for analytics, so the beacon is
+# redundant. Disabling injection unblocks the CSP hardening.
+#
+# Uses the existing CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets.
+# Run `recon` first (read-only). `disable-injection` PUTs auto_install=false
+# on the matching RUM site — it does NOT delete the site or its historic data.
+# Both actions end by fetching the live homepage and reporting whether the
+# beacon script is present, so the run log is the before/after evidence.
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'recon (read-only) | disable-injection (PUT auto_install=false)'
+        required: true
+        default: recon
+        type: choice
+        options:
+          - recon
+          - disable-injection
+
+jobs:
+  rum:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect / disable RUM auto-injection
+        env:
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          set -euo pipefail
+          TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
+          BASE="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/rum/site_info"
+          AUTH=(-H "Authorization: Bearer $TOK" -H "Content-Type: application/json")
+
+          echo "::group::RUM sites on this account"
+          curl -sS "${AUTH[@]}" "$BASE/list" > sites.json
+          if ! jq -e '.success==true' sites.json >/dev/null; then
+            echo "RUM list failed — the API token likely lacks Account Analytics/RUM scope:"
+            jq -c '.errors' sites.json
+            exit 1
+          fi
+          jq '.result[] | {site_tag, host: (.rules[0].host // .host // "?"), auto_install, created}' sites.json || true
+          echo "::endgroup::"
+
+          SITE_TAG=$(jq -r '[.result[] | select(((.rules[0].host // .host // "")|test("nasahrvatska")))] | first | .site_tag // empty' sites.json)
+          if [ -z "$SITE_TAG" ]; then
+            echo "No RUM site matches nasahrvatska — nothing is injecting; CSP hardening can proceed."
+          else
+            echo "Matched RUM site: $SITE_TAG"
+            CURRENT=$(jq --arg t "$SITE_TAG" '.result[] | select(.site_tag==$t)' sites.json)
+            echo "auto_install currently: $(jq -r '.auto_install' <<<"$CURRENT")"
+
+            if [ "$ACTION" = "disable-injection" ]; then
+              # PUT the site back with auto_install=false; keep host/zone fields.
+              HOST=$(jq -r '.rules[0].host // .host // "nasahrvatska.com"' <<<"$CURRENT")
+              curl -sS -X PUT "${AUTH[@]}" "$BASE/$SITE_TAG" \
+                --data "$(jq -n --arg host "$HOST" '{host: $host, auto_install: false}')" > put.json
+              jq -e '.success==true' put.json >/dev/null || { echo "PUT failed:"; jq -c '.errors' put.json; exit 1; }
+              echo "auto_install now: $(jq -r '.result.auto_install' put.json)"
+            fi
+          fi
+
+          echo "::group::Live homepage beacon check (may lag a minute after a change)"
+          BEACON_COUNT=$(curl -sS --max-time 20 https://nasahrvatska.com/ | grep -c 'cloudflareinsights\|beacon.min.js' || true)
+          echo "beacon references in served HTML: $BEACON_COUNT"
+          echo "::endgroup::"
+          if [ "$ACTION" = "disable-injection" ] && [ "$BEACON_COUNT" != "0" ]; then
+            echo "NOTE: injection change can take a minute to propagate — re-run recon to confirm 0."
+          fi

@@ -418,7 +418,12 @@ export function buildSessionActivities(
   const ordered = [...pool]
     .map((ex) => ({
       ex,
-      dist: Math.abs((EXERCISE_DIFFICULTY[ex.id] ?? 3) - targetTier),
+      // Phase 1 (fluency initiative): `adaptive` entries level their own
+      // content to the user, so they are ALWAYS difficulty-matched — a fixed
+      // score ranked the app's richest input content (leveled stories,
+      // readers, generated listening) away from exactly the advanced users
+      // it serves best.
+      dist: ex.adaptive ? 0 : Math.abs((EXERCISE_DIFFICULTY[ex.id] ?? 3) - targetTier),
       r: rnd(),
     }))
     .sort((a, b) => a.dist - b.dist || a.r - b.r)

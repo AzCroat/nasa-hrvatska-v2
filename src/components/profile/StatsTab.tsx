@@ -51,8 +51,21 @@ function getWordsLearned() {
   }
 }
 
-const STAGE_CEFR = ['A1', 'A2', 'B1', 'B1+', 'B2+', 'C1'];
-const STAGE_NAMES_PROFILE = ['Survivor', 'Settler', 'Communicator', 'Explorer', 'Hrvat!'];
+// The REAL Learn Path (functions/api/content/_data/learnPath.js) has SEVEN
+// stages. These two lists must mirror its titles 1:1 — learnPathStages.test.ts
+// pins the pairing. (Until 2026-08 this widget still showed the old 5-stage
+// path plus a locked "Stage 6" teaser, so C1/C2 users were displayed as
+// mid-path forever and the top two stages never appeared at all.)
+const STAGE_CEFR = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C2'];
+const STAGE_NAMES_PROFILE = [
+  'Survivor',
+  'Settler',
+  'Communicator',
+  'Explorer',
+  'Hrvat',
+  'Virtuoz',
+  'Majstor',
+];
 
 function getSessionStreak(): number {
   try {
@@ -423,13 +436,16 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
             )
           : 100;
         // Derive which Learn Path stage matches the current CEFR level so both displays agree.
+        // 7 stages, 6 CEFR levels: Hrvat (idx 4) is the late-B2 bridge, so B2
+        // spans Explorer+Hrvat and shows its first stage. C1 → Virtuoz,
+        // C2 → Majstor — the top of the path is reachable again.
         const CEFR_TO_STAGE_IDX: Record<string, number> = {
           A1: 0,
           A2: 1,
           B1: 2,
           B2: 3,
-          C1: 4,
-          C2: 4,
+          C1: 5,
+          C2: 6,
         };
         const cefrStageIdx = CEFR_TO_STAGE_IDX[cefr.level] ?? 0;
         return (
@@ -619,63 +635,6 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                   );
                 })}
               </div>
-
-              {/* Stage 6 teaser — show when user has reached Stage 5 (Hrvat / C1) */}
-              {cefrStageIdx >= 4 && (
-                <div
-                  style={{
-                    background: 'rgba(240,249,255,0.75)',
-                    border: '1.5px dashed rgba(0,0,0,0.05)',
-                    borderRadius: 14,
-                    padding: '14px 16px',
-                    marginTop: 10,
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: 'var(--text-2xl)' }}>🔒</span>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 'var(--text-sm)',
-                          fontWeight: 800,
-                          color: 'var(--heading)',
-                        }}
-                      >
-                        Stage 6: Naš Čovjek
-                        <span
-                          style={{
-                            fontSize: 'var(--text-xs)',
-                            fontWeight: 800,
-                            background: 'var(--info-bg)',
-                            color: 'var(--info)',
-                            borderRadius: 4,
-                            padding: '1px 4px',
-                            marginLeft: 6,
-                          }}
-                        >
-                          {STAGE_CEFR[5]}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 'var(--text-xs)',
-                          color: 'var(--subtext)',
-                          marginTop: 2,
-                        }}
-                      >
-                        Advanced fluency — Shadowing, Pitch Accent, Bureaucratic Croatian, Formal
-                        Register
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    style={{ marginTop: 8, fontSize: 'var(--text-xs)', color: 'var(--subtext)' }}
-                  >
-                    Advanced content available now in Practice → Shadowing, Pitch Accent, and Formal
-                    Register drills.
-                  </div>
-                </div>
-              )}
             </div>
           </>
         );

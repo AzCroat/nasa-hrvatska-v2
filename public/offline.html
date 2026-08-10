@@ -161,22 +161,11 @@
     </div>
   </div>
 
-  <button onclick="window.location.reload()">Try Again</button>
+  <button id="retry">Try Again</button>
   <div class="status" id="status">Checking connection…</div>
 
-  <script>
-    // Auto-retry when connection is restored
-    window.addEventListener('online', () => {
-      document.getElementById('status').textContent = 'Connection restored! Reloading…';
-      setTimeout(() => window.location.reload(), 800);
-    });
-
-    // Show current status
-    if (navigator.onLine) {
-      document.getElementById('status').textContent = 'Connection may have been restored — tap Try Again';
-    } else {
-      document.getElementById('status').textContent = 'Offline · will reload automatically when reconnected';
-    }
-  </script>
+  <!-- External on purpose — the site CSP forbids inline scripts, and the SW
+       serves this page with the CSP headers it was cached with. -->
+  <script src="/offline-init.js"></script>
 </body>
 </html>
