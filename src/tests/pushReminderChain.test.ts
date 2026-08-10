@@ -42,6 +42,10 @@ const ENDPOINT = 'https://fcm.googleapis.com/fcm/send/abc123';
 function makeKv(seed: Record<string, unknown> = {}) {
   const store = new Map<string, string>();
   const puts: Array<{ key: string; value: unknown; options?: { expirationTtl?: number } }> = [];
+  // These tests are about the PUSH chain. Pre-close the weekly-backup
+  // bootstrap latch so the worker's backup trigger (backupProgress.test.js
+  // owns that contract) never adds a fetch call to the assertions here.
+  store.set('backup:bootstrap_done', '1');
   for (const [k, v] of Object.entries(seed)) store.set(k, JSON.stringify(v));
   return {
     store,
