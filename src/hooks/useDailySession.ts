@@ -8,7 +8,6 @@ import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
 import { trackSessionBuilt } from '../lib/analytics';
-import { getSubscriptionStatus } from './useSubscription';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { lsGet } from '../lib/safeStorage';
@@ -243,26 +242,21 @@ function isGrammarStructure(category: SessionCategory): boolean {
   return GRAMMAR_STRUCTURE_CATEGORIES.has(category);
 }
 
-// Wave 8: premium-tagged pool entries (maja, live_tutor) are drawn only for
-// premium users. Read once per draw site — getSubscriptionStatus is a cheap
-// synchronous localStorage read (same builder-input pattern as fluency mode).
-// Wave 9 extends the gate to mic-required entries (pronunciation_assess):
-// skipped when readMicState() is 'denied'/'unsupported', mirroring
-// PRODUCTION_POOL's micRequired contract. Compute the context once per draw
-// site — both reads are cheap synchronous localStorage lookups.
+// Wave 9: mic-required entries (pronunciation_assess) are skipped when
+// readMicState() is 'denied'/'unsupported', mirroring PRODUCTION_POOL's
+// micRequired contract. Compute the context once per draw site — a cheap
+// synchronous localStorage lookup. (The Wave 8 premium gate was removed
+// 2026-08 with the subscription system: every entry serves every user.)
 interface DrawCtx {
-  isPremium: boolean;
   micBlocked: boolean;
 }
 function drawCtx(): DrawCtx {
   const mic = readMicState();
   return {
-    isPremium: getSubscriptionStatus().isPremium,
     micBlocked: mic === 'denied' || mic === 'unsupported',
   };
 }
-function entryServable(ex: { premium?: boolean; micRequired?: boolean }, ctx: DrawCtx): boolean {
-  if (ex.premium && !ctx.isPremium) return false;
+function entryServable(ex: { micRequired?: boolean }, ctx: DrawCtx): boolean {
   if (ex.micRequired && ctx.micBlocked) return false;
   return true;
 }

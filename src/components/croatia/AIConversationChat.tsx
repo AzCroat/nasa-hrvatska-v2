@@ -28,8 +28,6 @@ interface AIConversationChatProps {
   setInput: (v: string) => void;
   listening: boolean;
   isSpeaking: boolean;
-  npcVideoUrl: string | null;
-  npcVideoLoading: boolean;
   muted: boolean;
   setMuted: React.Dispatch<React.SetStateAction<boolean>>;
   showStarters: boolean;
@@ -65,8 +63,6 @@ export default function AIConversationChat({
   setInput,
   listening,
   isSpeaking,
-  npcVideoUrl,
-  npcVideoLoading,
   muted,
   setMuted,
   showStarters,
@@ -142,7 +138,6 @@ export default function AIConversationChat({
             name={scenario.aiName}
             size={40}
             isSpeaking={isSpeaking}
-            videoUrl={npcVideoUrl as null}
           />
           <div
             style={{
@@ -156,21 +151,6 @@ export default function AIConversationChat({
               border: '2px solid rgba(255,255,255,0.2)',
             }}
           />
-          {npcVideoLoading && !npcVideoUrl && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: -2,
-                right: -2,
-                width: 14,
-                height: 14,
-                borderRadius: '50%',
-                border: '2px solid rgba(14,116,144,.5)',
-                borderTopColor: '#67e8f9',
-                animation: 'spin 1s linear infinite',
-              }}
-            />
-          )}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div

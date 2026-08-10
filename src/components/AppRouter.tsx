@@ -1,5 +1,4 @@
 import React, { lazy, useRef, useEffect, useState } from 'react';
-import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
 import { lsGet, lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
@@ -27,7 +26,6 @@ import ScreenErrorBoundary from './shared/ScreenErrorBoundary';
 import { addWordToSRS } from '../lib/srs.js';
 const WelcomeScreen = lazyWithReload(() => import('./home/WelcomeScreen'));
 const PlacementTest = lazyWithReload(() => import('../components/auth/PlacementTest'));
-const PaywallScreen = lazyWithReload(() => import('./shared/PaywallScreen'));
 const EquivalencyTestScreen = lazyWithReload(() => import('./profile/EquivalencyTestScreen'));
 import { useApp } from '../context/AppContext';
 import { useStats } from '../context/StatsContext';
@@ -377,9 +375,6 @@ export default function AppRouter(props: Record<string, any>) {
     sCurEx,
     jWords: _jWords,
     setJWords,
-    isPremium,
-    refreshSub,
-    requirePremium: _requirePremium,
     srchQ,
     setSrchQ,
     srchR,
@@ -1850,44 +1845,12 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'maja' && (
           <ScreenErrorBoundary key="maja" name="maja">
-            {isPremium ? (
-              <MajaScreen goBack={goBack} award={award} />
-            ) : (
-              <PaywallScreen
-                featureName="Maja AI Tutor"
-                onClose={() => {
-                  // Wave 8: if a stale entitlement let the session serve this
-                  // premium slot, closing the paywall must complete it — never
-                  // strand the day at N-1/N. No-op outside sessions.
-                  signalSessionCompleteIfActive('maja');
-                  goBack();
-                }}
-                onSubscribed={() => {
-                  refreshSub();
-                }}
-              />
-            )}
+            <MajaScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'live_tutor' && (
           <ScreenErrorBoundary key="live_tutor" name="live_tutor">
-            {isPremium ? (
-              <LiveTutorScreen goBack={goBack} award={award} />
-            ) : (
-              <PaywallScreen
-                featureName="Live Tutor"
-                onClose={() => {
-                  // Wave 8: if a stale entitlement let the session serve this
-                  // premium slot, closing the paywall must complete it — never
-                  // strand the day at N-1/N. No-op outside sessions.
-                  signalSessionCompleteIfActive('live_tutor');
-                  goBack();
-                }}
-                onSubscribed={() => {
-                  refreshSub();
-                }}
-              />
-            )}
+            <LiveTutorScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'photo_vocab' && (

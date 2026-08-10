@@ -47,9 +47,6 @@ vi.mock('../lib/adaptive', () => ({
   CONJ_CATEGORIES: new Set<string>(),
   CATEGORY_MIN_CEFR: {},
 }));
-vi.mock('../hooks/useSubscription', () => ({
-  getSubscriptionStatus: () => ({ isPremium: true }),
-}));
 
 beforeEach(() => {
   localStorage.clear();

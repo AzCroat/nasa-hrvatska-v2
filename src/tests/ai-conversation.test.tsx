@@ -403,17 +403,13 @@ describe('AIConversation — duplicate logError guard', () => {
         body: makeSseStream(majaResultNoCorrection()), // turn 2 (needed for >=2 user msgs guard)
       });
 
-    // ── 2. Wire up apiFetch mock for evaluation + npc-video ─────────────────
-    // /api/npc-video → ok:false (skip video); /api/ai-chat → eval response
+    // ── 2. Wire up apiFetch mock for evaluation ─────────────────────────────
     const evalResponse = {
       score: 72,
       mistakes: [{ type: 'verb_agreement', original: WRONG_TEXT, correction: CORRECTED_TEXT }],
       feedback: 'Good effort.',
     };
     mockApiFetch.mockImplementation((url: string) => {
-      if (typeof url === 'string' && url.includes('/api/npc-video')) {
-        return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({}) });
-      }
       if (typeof url === 'string' && url.includes('/api/ai-chat')) {
         return Promise.resolve({
           ok: true,

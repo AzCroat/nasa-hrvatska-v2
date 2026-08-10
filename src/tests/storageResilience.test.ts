@@ -312,9 +312,6 @@ describe('session + completion paths survive an unwritable localStorage', () => 
 //     gone, streak still broken. Fixed by persisting first and withholding the
 //     charge when the write cannot stick (safeSetItem reports instead of
 //     throwing), so the failure mode is now "nothing happened, nothing spent".
-//   redeemPromoCode  wrote the used-marker and THEN called
-//     activateSubscription. A throw meant a valid code granted no Premium.
-//
 // Same shape as the freeze purchase fixed earlier (charged, then earnFreeze
 // threw) — the difference is that these two were still live.
 describe('paid actions survive an unwritable localStorage', () => {
@@ -329,19 +326,6 @@ describe('paid actions survive an unwritable localStorage', () => {
       throw new DOMException('QuotaExceededError');
     });
   }
-
-  it('redeemPromoCode does not throw, so a failure is reported instead of escaping', async () => {
-    const { redeemPromoCode } = await import('../hooks/useSubscription');
-    breakAllWrites();
-    let res: { ok: boolean; message: string } | undefined;
-    expect(() => {
-      res = redeemPromoCode('DIASPORA');
-    }).not.toThrow();
-    // It still reports a definite outcome to the caller rather than blowing up
-    // inside the redeem button's click handler.
-    expect(typeof res?.ok).toBe('boolean');
-    expect(typeof res?.message).toBe('string');
-  });
 
   it('safeSetItem reports failure rather than throwing (what restoreStreak now gates on)', async () => {
     const { safeSetItem } = await import('../hooks/useLocalStorage');

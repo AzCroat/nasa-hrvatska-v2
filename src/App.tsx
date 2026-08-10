@@ -49,11 +49,6 @@ import {
   checkNameDay,
   scheduleStreakReminder,
 } from './hooks/useNotifications.js';
-import {
-  useSubscription,
-  grantFreeAnnual,
-  getSubscriptionStatus,
-} from './hooks/useSubscription.js';
 import { useAppScreenState } from './hooks/useAppScreenState.js';
 import { useAward, resetComebackGuard } from './hooks/useAward.js';
 import { statsReducer } from './lib/statsReducer.js';
@@ -263,6 +258,16 @@ function pruneStaleLocalStorage() {
         if (_wk !== weekKey() && _wk !== prevWeekKey()) del.push(k);
       } else if (/^nh_comeback_used_\d{4}-\d{2}-\d{2}$/.test(k) && !k.endsWith(today)) del.push(k);
       else if (/^nh_pruned_\d{4}-\d{2}-\d{2}$/.test(k) && !k.endsWith(today)) del.push(k);
+      // Orphans of the removed subscription system (2026-08): the app never
+      // reads these again; clear them off real users' devices.
+      else if (
+        k === 'nh_subscription' ||
+        k === 'nh_premium_welcome_shown' ||
+        k === 'nh_renewal_snoozed' ||
+        /^nh_free_annual/.test(k) ||
+        /^nh_promo_/.test(k)
+      )
+        del.push(k);
     }
     del.forEach((k) => {
       try {
@@ -288,21 +293,6 @@ function pruneStaleLocalStorage() {
 
 // ── App component ────────────────────────────────────────────────────────────
 function App() {
-  const { isPremium, isFreeAnnual, daysLeft, refresh: refreshSub } = useSubscription();
-  const [showPaywall, setShowPaywall] = useState(false);
-  const [paywallFeature, setPaywallFeature] = useState('AI Tutor');
-  const requirePremium = useCallback(
-    function requirePremium(featureName: string, action: () => void) {
-      if (isPremium) {
-        action();
-        return;
-      }
-      setPaywallFeature(featureName);
-      setShowPaywall(true);
-    },
-    [isPremium, setPaywallFeature, setShowPaywall],
-  );
-
   const navigate = useNavigate();
   const location = useLocation();
   const ds = DS;
@@ -428,7 +418,6 @@ function App() {
     }
   });
   const [showFirstWords, setShowFirstWords] = useState(false);
-  const [showPremiumWelcome, setShowPremiumWelcome] = useState(false);
   const [_syncReady, _setSyncReady] = useState(false);
   // Whether a guest's locally-stored progress has been read back yet. Gates the
   // auto-save effect so it cannot write an empty snapshot over the stored blob.
@@ -684,8 +673,6 @@ function App() {
       }
       if (isNew) setScr('welcome');
       else _goPostAuth(true);
-      grantFreeAnnual(user.u);
-      refreshSub();
     },
     onSignedOut() {
       dispatch({ type: 'RESET', payload: DS });
@@ -1543,9 +1530,6 @@ function App() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser?.u]);
-  useEffect(() => {
-    if (authUser?.u) grantFreeAnnual(authUser.u);
-  }, [authUser?.u]);
 
   // Lesson resume persistence
   useEffect(() => {
@@ -1640,18 +1624,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stats.lc, stats.gc]);
 
-  // Premium welcome banner
-  useEffect(() => {
-    if (authScreen !== 'app' || !authUser) return undefined;
-    if (lsGet('nh_premium_welcome_shown')) return undefined;
-    const t = setTimeout(() => {
-      const { isFreeAnnual } = getSubscriptionStatus();
-      if (isFreeAnnual && stats.lc === 0) setShowPremiumWelcome(true);
-    }, 2500);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authScreen, authUser?.u]);
-
   // Page title
   useEffect(() => {
     document.title =
@@ -1745,10 +1717,6 @@ function App() {
       // Journal
       jWords,
       setJWords,
-      // Subscription
-      isPremium,
-      refreshSub,
-      requirePremium,
       // Search
       srchQ,
       setSrchQ,
@@ -1808,9 +1776,6 @@ function App() {
       award,
       jWords,
       setJWords,
-      isPremium,
-      refreshSub,
-      requirePremium,
       srchQ,
       setSrchQ,
       srchR,
@@ -2079,12 +2044,6 @@ function App() {
                 _syncReady={_syncReady}
                 authScreen={authScreen}
                 currentScreen={currentScreen}
-                showPaywall={showPaywall}
-                setShowPaywall={setShowPaywall}
-                paywallFeature={paywallFeature}
-                refreshSub={refreshSub}
-                showPremiumWelcome={showPremiumWelcome}
-                setShowPremiumWelcome={setShowPremiumWelcome}
                 setScr={setScr}
                 setTab={setTab}
                 checkpointCertifiedLevel={certifiedLevel}
@@ -2131,9 +2090,6 @@ function App() {
                 setShowPwaInstall={setShowPwaInstall}
                 showBackupBanner={showBackupBanner}
                 setShowBackupBanner={setShowBackupBanner}
-                isFreeAnnual={isFreeAnnual}
-                daysLeft={daysLeft}
-                setShowPaywall={setShowPaywall}
                 emailUnverified={emailUnverified}
                 setEmailUnverified={setEmailUnverified}
                 resendVerification={resendVerification}

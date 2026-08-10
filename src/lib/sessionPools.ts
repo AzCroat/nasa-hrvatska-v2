@@ -20,13 +20,6 @@ export interface CefrPoolEntry {
    */
   reference?: boolean;
   /**
-   * Wave 8: entries served ONLY when getSubscriptionStatus().isPremium — the
-   * builder filters at every draw site. The router additionally paywall-gates
-   * these screens, and the paywall's close handler signals session completion,
-   * so even a stale entitlement can never strand a session.
-   */
-  premium?: boolean;
-  /**
    * Wave 9: entries whose activity is impossible without a microphone. The
    * builder skips them when readMicState() is 'denied'/'unsupported' —
    * mirroring PRODUCTION_POOL's micRequired contract.
@@ -689,16 +682,15 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'reading',
     reference: true,
   },
-  // ── Wave 8: premium tutors (owner decision, option 2) ──────────────────────
-  // Both award on their end-of-session/debrief exits; router paywall-gates
-  // non-premium users and the paywall close signals session completion.
+  // ── Wave 8: AI tutors ──────────────────────────────────────────────────────
+  // Both award on their end-of-session/debrief exits. (Formerly premium-gated;
+  // the subscription system was removed 2026-08 — they serve every user.)
   {
     id: 'maja',
     label: 'Maja AI Tutor',
     screen: 'maja',
     cefr: 'A2',
     category: 'speaking',
-    premium: true,
   },
   {
     id: 'live_tutor',
@@ -706,7 +698,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'live_tutor',
     cefr: 'A2',
     category: 'speaking',
-    premium: true,
   },
   // ── Wave 9: redesigned-for-completion screens (owner decision, option 3) ───
   // Story Mode gained an explicit Finish button (the organic scroll+tap award
@@ -855,7 +846,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   grammarexplainer: 3,
   micro_lesson: 3,
   grammarreader: 3,
-  // Wave 8 — premium tutors, open production.
+  // Wave 8 — AI tutors, open production.
   maja: 5,
   live_tutor: 5,
   // Wave 9 — redesigned-for-completion screens.

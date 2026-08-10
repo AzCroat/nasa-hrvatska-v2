@@ -106,8 +106,6 @@ function makeProps(overrides: Record<string, unknown> = {}) {
     setInput: vi.fn(),
     listening: false,
     isSpeaking: false,
-    npcVideoUrl: null,
-    npcVideoLoading: false,
     muted: false,
     setMuted: vi.fn(),
     showStarters: false,

@@ -65,11 +65,6 @@ export interface ConversationSession {
   setListening: (v: boolean) => void;
   muted: boolean;
   setMuted: React.Dispatch<React.SetStateAction<boolean>>;
-  // NPC video
-  npcVideoUrl: string | null;
-  setNpcVideoUrl: (v: string | null) => void;
-  npcVideoLoading: boolean;
-  setNpcVideoLoading: (v: boolean) => void;
   // Speaking animation
   isSpeaking: boolean;
   setIsSpeaking: (v: boolean) => void;
@@ -97,8 +92,6 @@ export function useConversationSession(initialLevel: string): ConversationSessio
   const [showStarters, setShowStarters] = useState<boolean>(false);
   const [listening, setListening] = useState<boolean>(false);
   const [muted, setMuted] = useState<boolean>(false);
-  const [npcVideoUrl, setNpcVideoUrl] = useState<string | null>(null);
-  const [npcVideoLoading, setNpcVideoLoading] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [savedWords, setSavedWords] = useState<Set<string>>(new Set());
 
@@ -139,10 +132,6 @@ export function useConversationSession(initialLevel: string): ConversationSessio
     setListening,
     muted,
     setMuted,
-    npcVideoUrl,
-    setNpcVideoUrl,
-    npcVideoLoading,
-    setNpcVideoLoading,
     isSpeaking,
     setIsSpeaking,
     savedWords,

@@ -254,7 +254,7 @@ export function buildProgressSnapshot({
         return null;
       }
     })(),
-    // ── XP boost state (premium) ──────────────────────────────────────────────
+    // ── XP boost state (hero-rewards 2x boost, bought with XP) ────────────────
     nh_xp_boost_expires: parseInt(lsGet('nh_xp_boost_expires') || '0', 10) || 0,
     nh_xp_boost_last_activated: parseInt(lsGet('nh_xp_boost_last_activated') || '0', 10) || 0,
     // ── Today's daily XP — for daily-goal UI on fresh devices ────────────────

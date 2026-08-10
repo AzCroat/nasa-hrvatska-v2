@@ -47,18 +47,9 @@ vi.mock('../lib/adaptive', () => ({
   },
 }));
 
-// Wave 8: premium gate under test control. Default TRUE mirrors production
-// today (FREE_ANNUAL_ENABLED makes every user premium); individual tests flip
-// it to assert the free-user filter.
-let mockIsPremium = true;
-vi.mock('../hooks/useSubscription', () => ({
-  getSubscriptionStatus: () => ({ isPremium: mockIsPremium }),
-}));
-
 beforeEach(() => {
   localStorage.clear();
   vi.clearAllMocks();
-  mockIsPremium = true;
 });
 
 describe('buildSessionActivities', () => {
@@ -605,33 +596,23 @@ describe('Wave 4 — reference entries', () => {
   });
 });
 
-// ── Wave 8: premium-tagged entries ───────────────────────────────────────────
-describe('Wave 8 — premium gate on pool draws', () => {
-  const premiumScreens = CEFR_EXERCISE_POOL.filter((e) => e.premium).map((e) => e.screen);
+// ── Wave 8 tutors (formerly premium-gated; subscription system removed) ─────
+describe('Wave 8 — AI tutors serve every user', () => {
+  const TUTORS = ['maja', 'live_tutor'];
 
-  it('has premium entries to test (pool sanity)', () => {
-    expect(premiumScreens).toEqual(expect.arrayContaining(['maja', 'live_tutor']));
-  });
-
-  it('a free user is NEVER served a premium entry — sessions or bonus round', () => {
-    mockIsPremium = false;
-    const premiumSet = new Set(premiumScreens);
-    for (let i = 0; i < 20; i++) {
-      localStorage.clear();
-      const acts = buildSessionActivities('C2');
-      expect(acts.filter((a) => premiumSet.has(a.screen))).toEqual([]);
+  it('the tutors are in the pool with no premium flag left behind', () => {
+    const byScreen = new Map(CEFR_EXERCISE_POOL.map((e) => [e.screen, e]));
+    for (const s of TUTORS) {
+      expect(byScreen.has(s), s).toBe(true);
+      expect(
+        'premium' in (byScreen.get(s) as object),
+        `${s} still carries a premium flag — the subscription system is gone`,
+      ).toBe(false);
     }
-    localStorage.clear();
-    const { result } = renderHook(() => useDailySession('C2'));
-    act(() => {
-      result.current.session.activities.forEach((a) => result.current.markDone(a.id));
-    });
-    expect(result.current.isComplete).toBe(true);
-    expect(result.current.bonusActivities.filter((a) => premiumSet.has(a.screen))).toEqual([]);
   });
 
-  it('premium entries never auto-complete (graded contract preserved)', () => {
-    for (const s of premiumScreens) {
+  it('tutor entries never auto-complete (graded contract preserved)', () => {
+    for (const s of TUTORS) {
       expect(SESSION_AUTOCOMPLETE_SCREENS.has(s), s).toBe(false);
     }
   });

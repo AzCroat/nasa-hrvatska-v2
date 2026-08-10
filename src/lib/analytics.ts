@@ -179,16 +179,6 @@ export function trackLogin(method = 'email'): void {
   phCapture('login', { method });
 }
 
-export function trackPaywallShown(featureName: string): void {
-  safeLog('paywall_shown', { feature: featureName || 'unknown' });
-  phCapture('paywall_shown', { feature: featureName || 'unknown' });
-}
-
-export function trackSubscribed(plan = 'premium'): void {
-  safeLog('purchase', { item_name: plan });
-  phCapture('subscribed', { plan, days_since_install: getDaysSinceInstall() });
-}
-
 export function trackOnboardingComplete(): void {
   safeLog('tutorial_complete', {});
   phCapture('onboarding_complete', { days_since_install: getDaysSinceInstall() });

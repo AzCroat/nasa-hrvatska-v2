@@ -17,7 +17,7 @@
  *      DEFAULT ceiling — metered, never free.
  */
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import {
   MONTHLY_BUDGET_MICROUSD,
   ENDPOINT_CEILING_MICROUSD,
@@ -144,8 +144,15 @@ describe('ceilings cannot drift below reality', () => {
   });
 
   it('the expensive providers dwarf the Claude ceilings — the whale hole is closed', () => {
-    expect(ENDPOINT_CEILING_MICROUSD['/api/npc-video']).toBeGreaterThanOrEqual(200_000);
-    expect(ENDPOINT_CEILING_MICROUSD['/api/did-stream']).toBeGreaterThanOrEqual(200_000);
+    // The D-ID avatar-video endpoints (npc-video, did-stream) were REMOVED by
+    // owner decision (2026-08): ~$0.20/clip against a $5/month total budget.
+    // They must stay gone — resurrecting one without a ceiling entry would be
+    // charged only the default, understating its real cost 8x.
+    expect(existsSync('functions/api/npc-video.js')).toBe(false);
+    expect(existsSync('functions/api/did-stream.js')).toBe(false);
+    expect(ENDPOINT_CEILING_MICROUSD['/api/npc-video']).toBeUndefined();
+    expect(ENDPOINT_CEILING_MICROUSD['/api/did-stream']).toBeUndefined();
+    // Image generation (story/flashcard art) stays, priced as a whale.
     expect(ENDPOINT_CEILING_MICROUSD['/api/flux-generate']).toBeGreaterThanOrEqual(50_000);
   });
 });

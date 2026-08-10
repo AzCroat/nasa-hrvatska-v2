@@ -6,7 +6,6 @@
  */
 import React from 'react';
 import KnightToast from './KnightToast';
-import { isNative } from '../../lib/platform';
 // Every dismiss handler below wrote localStorage BEFORE calling its
 // setShow…(false). A throw on that write skipped the state update, so the X
 // button did nothing at all and the banner stayed on screen — and the snooze
@@ -36,10 +35,6 @@ interface AppToastsProps {
   setShowPwaInstall: (v: boolean) => void;
   showBackupBanner: boolean;
   setShowBackupBanner: (v: boolean) => void;
-  // Subscription
-  isFreeAnnual: boolean;
-  daysLeft: number | null;
-  setShowPaywall: (v: boolean) => void;
   // Email verification
   emailUnverified: boolean;
   setEmailUnverified: (v: boolean) => void;
@@ -64,10 +59,6 @@ export function AppToasts({
   setShowPwaInstall,
   showBackupBanner,
   setShowBackupBanner,
-  // Subscription
-  isFreeAnnual,
-  daysLeft,
-  setShowPaywall,
   // Email verification
   emailUnverified,
   setEmailUnverified,
@@ -284,81 +275,6 @@ export function AppToasts({
           </div>
         </div>
       )}
-
-      {/* Subscription renewal reminder — dismissible with 24 h snooze.
-          Hidden in the native app: its Upgrade button opens the web/Stripe
-          paywall, which Google Play Payments policy forbids surfacing. */}
-      {!isNative() &&
-        !isFreeAnnual &&
-        daysLeft != null &&
-        daysLeft <= 3 &&
-        (() => {
-          const snoozeKey = 'nh_renewal_snoozed';
-          const snoozedUntil = parseInt(lsGet(snoozeKey) || '0', 10);
-          if (Date.now() < snoozedUntil) return null;
-          return (
-            <div
-              style={{
-                position: 'fixed',
-                top: 60,
-                left: 0,
-                right: 0,
-                zIndex: 890,
-                background: 'linear-gradient(135deg,#164e63,#0e7490)',
-                color: '#fff',
-                padding: '8px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 8,
-                fontSize: 12,
-                fontWeight: 700,
-              }}
-            >
-              <span>Premium: {daysLeft}d left</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <button
-                  onClick={() => setShowPaywall(true)}
-                  style={{
-                    background: '#fff',
-                    color: '#0e7490',
-                    border: 'none',
-                    borderRadius: 20,
-                    padding: '4px 12px',
-                    fontSize: 11,
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Renew
-                </button>
-                <button
-                  onClick={() => {
-                    lsSet(snoozeKey, String(Date.now() + 86400000));
-                  }}
-                  aria-label="Dismiss for 24 hours"
-                  style={{
-                    background: 'rgba(255,255,255,.2)',
-                    border: 'none',
-                    color: '#fff',
-                    borderRadius: '50%',
-                    width: 24,
-                    height: 24,
-                    fontSize: 14,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    lineHeight: 1,
-                    flexShrink: 0,
-                  }}
-                >
-                  ×
-                </button>
-              </div>
-            </div>
-          );
-        })()}
 
       {/* Email verification banner */}
       {emailUnverified && (
