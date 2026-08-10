@@ -70,13 +70,18 @@ export async function onRequestGet(context) {
   // ── Weekly backup recency (backup-progress.js) ────────────────────────────
   // Week key + completion timestamp only — never document counts (user-count
   // disclosure) and never contents. `null` means no snapshot exists yet.
-  let backup = { lastWeek: null, completedAt: null };
+  let backup = { lastWeek: null, completedAt: null, clientLastAt: null };
   try {
     const kv = env.BACKUP_KV || env.KV || env.PUSH_SUBSCRIPTIONS || null;
-    const lastWeek = kv ? await kv.get('backup:latest') : null;
-    if (lastWeek) {
-      const idx = JSON.parse((await kv.get(`backup:${lastWeek}:index`)) || 'null');
-      backup = { lastWeek, completedAt: idx?.completedAt || null };
+    if (kv) {
+      const lastWeek = await kv.get('backup:latest');
+      if (lastWeek) {
+        const idx = JSON.parse((await kv.get(`backup:${lastWeek}:index`)) || 'null');
+        backup.lastWeek = lastWeek;
+        backup.completedAt = idx?.completedAt || null;
+      }
+      // Per-user client tee (backup-mine.js) — timestamp of the newest tee.
+      backup.clientLastAt = (await kv.get('backup:client:lastAt')) || null;
     }
   } catch {
     /* health must never fail because a status read did */

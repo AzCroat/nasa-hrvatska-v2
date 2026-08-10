@@ -28,6 +28,7 @@ import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
 import type { Stats, AuthUser } from '../types/index.js';
 import { lsGet } from '../lib/safeStorage';
 import { API_BASE } from '../lib/platform';
+import { teeBackupIfDue } from '../lib/backupTee';
 
 /** Metadata from a Firestore progress snapshot — distinguishes cache vs server emissions. */
 export interface SyncSnapshotMeta {
@@ -322,7 +323,12 @@ export function useSyncManager({
         ok?: boolean;
       };
       const success = result && result.ok !== false;
-      if (success) setLastSyncedAt(Date.now());
+      if (success) {
+        setLastSyncedAt(Date.now());
+        // Daily backup tee — fire-and-forget AFTER the authoritative save; can
+        // never affect the sync result or the _syncReady contract (backupTee.ts).
+        teeBackupIfDue(snap);
+      }
       return success;
     } finally {
       _isSavingRef.current = false;
