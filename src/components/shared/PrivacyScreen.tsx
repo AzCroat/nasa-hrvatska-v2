@@ -94,10 +94,9 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
           (speech-to-text transcription of your voice); Cloudflare, incl. Workers AI (API hosting
           and speech-to-text); Microsoft Azure Speech Services (text-to-speech and voice
           pronunciation assessment); ElevenLabs and Google Cloud Text-to-Speech (text-to-speech);
-          D-ID (generates talking-avatar video from text); Resend (support email delivery); and
-          Plausible, PostHog, and Sentry (privacy-minimized analytics and error monitoring). We do
-          not sell or rent your personal data, and we do not share it with third parties for their
-          own commercial purposes.
+          Resend (support email delivery); and Plausible, PostHog, and Sentry (privacy-minimized
+          analytics and error monitoring). We do not sell or rent your personal data, and we do not
+          share it with third parties for their own commercial purposes.
         </p>
 
         <p style={{ fontSize: 13, color: 'var(--rt-c)', lineHeight: 1.7, marginBottom: 10 }}>

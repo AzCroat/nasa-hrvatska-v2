@@ -39,15 +39,15 @@ export function portraitSrc(scenarioId: string): string {
   return `/images/portraits/${key}.webp`;
 }
 
-// ── Speaking avatar — portrait photo with live speaking ring + D-ID video ──
-// When videoUrl is provided and isSpeaking is true, shows the lip-synced video.
-// Falls back to static portrait otherwise.
+// ── Speaking avatar — portrait photo with live speaking ring ────────────────
+// (The D-ID lip-sync video variant was removed 2026-08 by owner decision:
+// avatar video cost ~$0.20/clip against a $5/month total AI budget. The
+// static portrait + speaking ring + TTS voice is the permanent presentation.)
 interface SpeakingAvatarProps {
   src: string;
   name: string;
   size?: number;
   isSpeaking?: boolean;
-  videoUrl?: string | null;
   style?: React.CSSProperties;
 }
 
@@ -56,24 +56,10 @@ export default function SpeakingAvatar({
   name,
   size = 38,
   isSpeaking = false,
-  videoUrl = null,
   style: extraStyle = undefined,
 }: SpeakingAvatarProps) {
   const [imgErr, setImgErr] = React.useState(false);
-  const [videoErr, setVideoErr] = React.useState(false);
-  const [videoEnded, setVideoEnded] = React.useState(false);
-  const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
-  // Play video when speaking starts; reset when done
-  React.useEffect(() => {
-    if (videoUrl && isSpeaking && videoRef.current && videoEnded) {
-      setVideoEnded(false);
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
-    }
-  }, [isSpeaking, videoUrl, videoEnded]);
-
-  const showVideo = videoUrl && isSpeaking && !videoEnded && !videoErr;
   const ring = isSpeaking
     ? `0 0 0 2.5px #0e7490, 0 0 0 5px rgba(14,116,144,.25), 0 0 16px rgba(14,116,144,.35)`
     : `0 0 0 2px rgba(14,116,144,.25)`;
@@ -95,45 +81,22 @@ export default function SpeakingAvatar({
         ...(extraStyle ?? {}),
       }}
     >
-      {/* D-ID lip-sync video (shown when speaking) */}
-      {videoUrl && (
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          autoPlay={isSpeaking && !videoEnded}
-          muted={false}
-          playsInline
-          onEnded={() => setVideoEnded(true)}
-          onError={() => setVideoErr(true)}
+      {!imgErr ? (
+        <img
+          src={src}
+          alt={name}
+          loading="lazy"
+          onError={() => setImgErr(true)}
           style={{
-            position: 'absolute',
             width: '100%',
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'top center',
-            display: showVideo ? 'block' : 'none',
-            borderRadius: '50%',
           }}
         />
+      ) : (
+        <span style={{ fontSize: Math.round(size * 0.45) }}>🇭🇷</span>
       )}
-      {/* Static portrait (shown when not speaking or video ended) */}
-      {!showVideo &&
-        (!imgErr ? (
-          <img
-            src={src}
-            alt={name}
-            loading="lazy"
-            onError={() => setImgErr(true)}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'top center',
-            }}
-          />
-        ) : (
-          <span style={{ fontSize: Math.round(size * 0.45) }}>🇭🇷</span>
-        ))}
     </div>
   );
 }

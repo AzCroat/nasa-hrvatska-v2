@@ -89,9 +89,10 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/srs-sync': claudeCeiling(800),
   '/api/vocab-expand': claudeCeiling(600),
   // ── Non-Claude providers ──────────────────────────────────────────────────
-  '/api/npc-video': 200_000, // D-ID avatar clip
-  '/api/did-stream': 200_000, // D-ID streaming session
-  '/api/flux-generate': 50_000, // Replicate image
+  // (npc-video / did-stream — D-ID avatar video — were REMOVED 2026-08 by
+  // owner decision: ~$0.20/clip against the $5/month total. If avatar video
+  // ever returns, it needs new entries here BEFORE the endpoint ships.)
+  '/api/flux-generate': 50_000, // Replicate image (story/flashcard art)
   '/api/tts': 0, // self-metered: cache hits free, see SELF-METERED note above
   '/api/tts:generate': 4_000, // Azure neural ceiling; Edge/Google free tiers first
   '/api/stt': 15_000, // Deepgram/Whisper minute

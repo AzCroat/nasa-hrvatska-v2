@@ -29,7 +29,6 @@ import AIConversationConvoSetup from './AIConversationConvoSetup';
 import AIConversationResult from './AIConversationResult';
 import AIConversationChat from './AIConversationChat';
 import AIWordTooltip from './AIWordTooltip';
-import { PORTRAIT_MAP } from './SpeakingAvatar';
 
 interface Scenario {
   id: string;
@@ -315,10 +314,6 @@ export default function AIConversation({
     setListening,
     muted,
     setMuted,
-    npcVideoUrl,
-    setNpcVideoUrl,
-    npcVideoLoading,
-    setNpcVideoLoading,
     isSpeaking,
     setIsSpeaking,
     savedWords,
@@ -380,7 +375,6 @@ export default function AIConversation({
 
   // ── Persistent conversation memory ─────────────────────────────────────────
   const { loadMemories, saveMemory } = useConversationMemory();
-  const npcVideoFiredRef = useRef<string | null>(null);
   const speakGenRef = useRef(0); // prevents stale animation clear
   const translationCacheRef = useRef<Record<string, { translation: string; note: string | null }>>(
     {},
@@ -663,21 +657,7 @@ export default function AIConversation({
     setMessages([]);
     setCorrections({});
     setTurnCount(0);
-    setNpcVideoUrl(null);
     setLoading(true);
-
-    if (npcVideoFiredRef.current !== scenario.id) {
-      npcVideoFiredRef.current = scenario.id;
-      setNpcVideoLoading(true);
-      const portraitKey = (PORTRAIT_MAP as Record<string, string>)[scenario.id] || 'young-woman';
-      apiFetch(`/api/npc-video?portrait=${encodeURIComponent(portraitKey)}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((d) => {
-          if (d?.ok && d.videoUrl) setNpcVideoUrl(d.videoUrl);
-        })
-        .catch(() => {})
-        .finally(() => setNpcVideoLoading(false));
-    }
 
     const weak_areas = deriveWeakAreas(stats?.ct || []);
     setWeakAreasForSession(weak_areas);
@@ -1537,8 +1517,6 @@ export default function AIConversation({
         setInput={setInput}
         listening={listening}
         isSpeaking={isSpeaking}
-        npcVideoUrl={npcVideoUrl}
-        npcVideoLoading={npcVideoLoading}
         muted={muted}
         setMuted={setMuted}
         showStarters={showStarters}

@@ -77,12 +77,11 @@ const POST_ENDPOINTS = [
   'tts',
   'assess-speaking',
   'srs-sync',
-  'did-stream',
   'flux-generate',
 ];
 
 // All endpoints that expose onRequestGet.
-const GET_ENDPOINTS = ['news', 'daily-culture', 'npc-video', 'ai-quota-status'];
+const GET_ENDPOINTS = ['news', 'daily-culture', 'ai-quota-status'];
 
 // ── Request builder ────────────────────────────────────────────────────────────
 
