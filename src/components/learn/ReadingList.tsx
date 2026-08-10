@@ -16,6 +16,7 @@ const LEVEL_META = {
   advanced: { badge: 'B1-B2', color: '#7c3aed', label: 'Advanced' },
   b2: { badge: 'B2', color: '#b45309', label: 'Upper-Intermediate' },
   c1: { badge: 'C1', color: '#dc2626', label: 'Advanced' },
+  c2: { badge: 'C2', color: '#7e22ce', label: 'Mastery' },
 };
 
 type LevelMeta = { badge: string; color: string; label: string };

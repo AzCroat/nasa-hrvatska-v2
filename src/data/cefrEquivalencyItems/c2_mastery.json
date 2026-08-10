@@ -1,0 +1,405 @@
+{
+  "description": "C2 mastery bank — maintenance checkpoints at the top level. Not an advancement test: C2 is the cap.",
+  "minutes": 20,
+  "items": [
+    {
+      "q": "What does 'dokolica' mean?",
+      "o": ["Leisure / pleasant idleness", "Boredom", "Laziness", "Fatigue"],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "The literary adjective 'poguban' most precisely means:",
+      "o": ["Beneficial", "Ruinous / disastrous", "Temporary", "Questionable"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "What does 'oštroumlje' denote?",
+      "o": ["Stubbornness", "Sharp-wittedness / acumen", "Rudeness", "Curiosity"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "The formal verb 'iziskivati' means:",
+      "o": ["To search out", "To demand / require", "To exclude", "To emphasize"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "In legal register, 'ništetan' means:",
+      "o": ["Null and void", "Insignificant", "Incomplete", "Disputed"],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "'Prijeporan' most precisely means:",
+      "o": ["Urgent", "Contentious / disputed", "Preliminary", "Transitional"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "The bookish adverb 'poglavito' means:",
+      "o": ["Occasionally", "Chiefly / principally", "Allegedly", "Recently"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "What does the frazem 'mlatiti praznu slamu' mean?",
+      "o": [
+        "To work in agriculture",
+        "To talk pointlessly / engage in futile discussion",
+        "To waste money",
+        "To punish someone unfairly"
+      ],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "What does 'ustrajnost' convey in formal register?",
+      "o": ["Perseverance", "Resistance", "Stability", "Insistence on being right"],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "'Samosvojan' describes something:",
+      "o": [
+        "Selfish",
+        "Distinctive / original, of its own kind",
+        "Self-governing",
+        "Automatic"
+      ],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "In administrative texts, 'očitovanje' is:",
+      "o": [
+        "A formal statement of one's position",
+        "An objection",
+        "A summons",
+        "A public announcement"
+      ],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "'Podrobno' means:",
+      "o": ["Briefly", "In detail / thoroughly", "Approximately", "Officially"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "What does the frazem 'doći na zelenu granu' mean?",
+      "o": [
+        "To reach prosperity / get back on one's feet",
+        "To climb a tree",
+        "To go on holiday",
+        "To change one's opinion"
+      ],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "'Zazoran' most closely means:",
+      "o": ["Transparent", "Objectionable / reprehensible", "Enviable", "Cautious"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "The noun 'preinaka' means:",
+      "o": ["Modification / alteration", "Preview", "Exaggeration", "Transfer"],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "'Nehaj' in literary register denotes:",
+      "o": ["Nonchalance / carelessness", "Courage", "Silence", "Disorder"],
+      "c": 0,
+      "skill": "vocab"
+    },
+    {
+      "q": "What does 'razmjeran' mean?",
+      "o": ["Measurable", "Proportionate", "Excessive", "Balanced in weight"],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "The frazem 'ostati kratkih rukava' means:",
+      "o": [
+        "To dress lightly",
+        "To be left empty-handed",
+        "To finish work early",
+        "To lose one's temper"
+      ],
+      "c": 1,
+      "skill": "vocab"
+    },
+    {
+      "q": "Identify the tense of 'bijaše' in 'Bijaše to davno.':",
+      "o": ["Aorist", "Imperfect (imperfekt)", "Pluperfect", "Conditional"],
+      "c": 1,
+      "skill": "grammar"
+    },
+    {
+      "q": "The aorist of 'reći' in the 1st person singular is:",
+      "o": ["rekoh", "rečem", "rekao", "reknem"],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "'Bijahu stigli prije mraka.' names which tense?",
+      "o": ["Aorist", "Imperfect", "Pluperfect (pluskvamperfekt)", "Future II"],
+      "c": 2,
+      "skill": "grammar"
+    },
+    {
+      "q": "Choose the correct past verbal adverb (glagolski prilog prošli) of 'ugledati':",
+      "o": ["ugledajući", "ugledavši", "uglednuvši", "ugledan"],
+      "c": 1,
+      "skill": "grammar"
+    },
+    {
+      "q": "Which clitic order is standard for 'Do you remember her?':",
+      "o": [
+        "Sjećaš li je se?",
+        "Sjećaš li se je?",
+        "Li se je sjećaš?",
+        "Sjećaš je li se?"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "The nominalized (administrative-style) version of 'nakon što je vlada donijela odluku' is:",
+      "o": [
+        "nakon vladina donošenja odluke",
+        "nakon što donese odluku",
+        "nakon donesenu odluku",
+        "poslije odluka donijeti"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Which sentence uses the reflexive passive correctly?",
+      "o": [
+        "Zakon se donosi u Saboru.",
+        "Zakon se donosi od Sabora.",
+        "Zakon donosi se u Saboru od zastupnika.",
+        "Sabor se donosi zakon."
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Complete: 'S obje ____ ceste rasle su topole.'",
+      "o": ["strane", "strana", "stranama", "stranu"],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "The correct comparative of 'strog' is:",
+      "o": ["strožiji", "stroži", "više strog", "strogši"],
+      "c": 1,
+      "skill": "grammar"
+    },
+    {
+      "q": "'Htio-ne htio, morat ćeš odlučiti.' This construction expresses:",
+      "o": [
+        "Concession (whether you want to or not)",
+        "A polite request",
+        "A condition",
+        "Habitual past action"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Select the correct numeral phrase for '22 books':",
+      "o": [
+        "dvadeset dvije knjige",
+        "dvadeset dva knjiga",
+        "dvadeset dvije knjiga",
+        "dvadeset dva knjige"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "The genitive plural of 'ruka' in the phrase 'iz prvih ____' is:",
+      "o": ["ruku", "ruka", "rukama", "rukiju"],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "'Da sam znao, bio bih došao.' The main clause uses:",
+      "o": [
+        "Conditional II (past conditional)",
+        "Future II",
+        "Pluperfect",
+        "Aorist"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Which relative connector is correct? 'grad ____ se divimo'",
+      "o": ["kojemu", "kojeg", "koji", "čijem"],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "'Izvješće je podneseno, a rasprava odgođena.' The omitted auxiliary in the second clause is an example of:",
+      "o": [
+        "Ellipsis (gapping), typical of formal written style",
+        "An aorist form",
+        "A grammatical error",
+        "Imperative mood"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "The correct vocative of 'gospodin predsjednik' is:",
+      "o": [
+        "gospodine predsjedniče",
+        "gospodin predsjednik",
+        "gospodinu predsjedniku",
+        "gospodine predsjednik"
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Which sentence keeps the same-subject rule for the verbal adverb?",
+      "o": [
+        "Vraćajući se kući, sreo sam susjeda.",
+        "Vraćajući se kući, kiša je počela padati.",
+        "Vraćajući se kući, ulica je bila prazna.",
+        "Vraćajući se kući, zazvonio je telefon."
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "Standard Croatian prefers which form for 'You should come'?",
+      "o": [
+        "Trebao bi doći.",
+        "Trebalo bi da dođeš.",
+        "Trebaš da dođeš.",
+        "Bi trebalo doći ti."
+      ],
+      "c": 0,
+      "skill": "grammar"
+    },
+    {
+      "q": "According to the excerpt, why is the amendment being proposed?",
+      "o": [
+        "To increase penalties for non-compliance",
+        "To remove ambiguity that produced uneven application in practice",
+        "To transfer authority to local government",
+        "To shorten administrative deadlines"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Iz obrazloženja prijedloga zakona: Predloženom se izmjenom otklanja višeznačnost postojeće odredbe članka 12., koja je u dosadašnjoj primjeni dovodila do neujednačenog postupanja nadležnih tijela. Utvrđeno je, naime, da su pojedina tijela pojam 'prikladnog roka' tumačila restriktivno, dok su druga isti pojam primjenjivala znatno šire, čime je narušeno načelo pravne sigurnosti. Preciziranjem roka na trideset dana od dana zaprimanja urednog zahtjeva osigurava se ujednačena primjena propisa te se strankama jamči predvidljivost postupka. Dodatne proračunske posljedice ne očekuju se."
+    },
+    {
+      "q": "In the excerpt, the phrase 'narušeno načelo pravne sigurnosti' conveys that:",
+      "o": [
+        "Public safety was physically endangered",
+        "The principle of legal certainty was undermined",
+        "The law was formally repealed",
+        "Courts refused to apply the provision"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Iz obrazloženja prijedloga zakona: Predloženom se izmjenom otklanja višeznačnost postojeće odredbe članka 12., koja je u dosadašnjoj primjeni dovodila do neujednačenog postupanja nadležnih tijela. Utvrđeno je, naime, da su pojedina tijela pojam 'prikladnog roka' tumačila restriktivno, dok su druga isti pojam primjenjivala znatno šire, čime je narušeno načelo pravne sigurnosti. Preciziranjem roka na trideset dana od dana zaprimanja urednog zahtjeva osigurava se ujednačena primjena propisa te se strankama jamči predvidljivost postupka. Dodatne proračunske posljedice ne očekuju se."
+    },
+    {
+      "q": "The register of the excerpt is best described as:",
+      "o": [
+        "Colloquial narrative",
+        "Administrative-legal, marked by nominalization and the reflexive passive",
+        "Literary-poetic",
+        "Journalistic commentary"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Iz obrazloženja prijedloga zakona: Predloženom se izmjenom otklanja višeznačnost postojeće odredbe članka 12., koja je u dosadašnjoj primjeni dovodila do neujednačenog postupanja nadležnih tijela. Utvrđeno je, naime, da su pojedina tijela pojam 'prikladnog roka' tumačila restriktivno, dok su druga isti pojam primjenjivala znatno šire, čime je narušeno načelo pravne sigurnosti. Preciziranjem roka na trideset dana od dana zaprimanja urednog zahtjeva osigurava se ujednačena primjena propisa te se strankama jamči predvidljivost postupka. Dodatne proračunske posljedice ne očekuju se."
+    },
+    {
+      "q": "Which past tenses carry the narration in the excerpt?",
+      "o": [
+        "Perfect only",
+        "Aorist and imperfect, in the manner of classic literary prose",
+        "Pluperfect and future II",
+        "Historical present"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uđe u kuću ne pozdravivši nikoga. Majka ga pogleda, htjede nešto reći, ali riječi joj zastadoše u grlu. Vani bijaše već mrak; samo je petrolejka bacala žućkasto svjetlo po stolu za kojim nekoć sjeđahu svi zajedno. 'Vratio si se', reče napokon otac, ne dižući pogleda s novina. U te dvije riječi stade sve: i prijekor, i olakšanje, i deset godina šutnje koje nitko od njih ne znade objasniti."
+    },
+    {
+      "q": "'Riječi joj zastadoše u grlu' means that the mother:",
+      "o": [
+        "Spoke too quickly",
+        "Could not bring herself to speak — the words caught in her throat",
+        "Whispered so no one would hear",
+        "Repeated the same words"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uđe u kuću ne pozdravivši nikoga. Majka ga pogleda, htjede nešto reći, ali riječi joj zastadoše u grlu. Vani bijaše već mrak; samo je petrolejka bacala žućkasto svjetlo po stolu za kojim nekoć sjeđahu svi zajedno. 'Vratio si se', reče napokon otac, ne dižući pogleda s novina. U te dvije riječi stade sve: i prijekor, i olakšanje, i deset godina šutnje koje nitko od njih ne znade objasniti."
+    },
+    {
+      "q": "What does the father's utterance 'Vratio si se' compress, according to the narrator?",
+      "o": [
+        "A question about the journey",
+        "Reproach, relief and ten years of silence at once",
+        "An order to leave again",
+        "Indifference and boredom"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uđe u kuću ne pozdravivši nikoga. Majka ga pogleda, htjede nešto reći, ali riječi joj zastadoše u grlu. Vani bijaše već mrak; samo je petrolejka bacala žućkasto svjetlo po stolu za kojim nekoć sjeđahu svi zajedno. 'Vratio si se', reče napokon otac, ne dižući pogleda s novina. U te dvije riječi stade sve: i prijekor, i olakšanje, i deset godina šutnje koje nitko od njih ne znade objasniti."
+    },
+    {
+      "q": "What is the author's central claim about dialects?",
+      "o": [
+        "They should be replaced by the standard language in schooling",
+        "They are not a deviation from the standard but its living hinterland and source of renewal",
+        "They survive only in written literature",
+        "They are mutually unintelligible and therefore separate languages"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uvriježilo se mišljenje da su dijalekti tek iskrivljeni oblici standardnoga jezika, njegova provincijska sjena koje se valja stidjeti. Posrijedi je, dakako, obrnuta perspektiva: standard je mlađi od dijalekata i iz njih je iznikao. Čakavski, kajkavski i štokavski nisu odstupanja od norme, nego njezino živo zaleđe — spremište ritmova, naglasaka i leksika iz kojega se standard, kad god mu ponestane daha, iznova napaja. Tko je čuo bodulsku čakavicu ili međimursku kajkavštinu, zna da se ondje ne čuva samo jezik, nego i način na koji se svijet gleda. Odumiranje dijalekta stoga nije tek jezični, nego i antropološki gubitak."
+    },
+    {
+      "q": "The metaphor 'provincijska sjena koje se valja stidjeti' is used to describe:",
+      "o": [
+        "The author's own view of dialects",
+        "A widespread but, per the author, mistaken perception of dialects",
+        "The relationship between Croatian and neighbouring languages",
+        "The status of the standard language abroad"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uvriježilo se mišljenje da su dijalekti tek iskrivljeni oblici standardnoga jezika, njegova provincijska sjena koje se valja stidjeti. Posrijedi je, dakako, obrnuta perspektiva: standard je mlađi od dijalekata i iz njih je iznikao. Čakavski, kajkavski i štokavski nisu odstupanja od norme, nego njezino živo zaleđe — spremište ritmova, naglasaka i leksika iz kojega se standard, kad god mu ponestane daha, iznova napaja. Tko je čuo bodulsku čakavicu ili međimursku kajkavštinu, zna da se ondje ne čuva samo jezik, nego i način na koji se svijet gleda. Odumiranje dijalekta stoga nije tek jezični, nego i antropološki gubitak."
+    },
+    {
+      "q": "Why does the author call the death of a dialect an 'anthropological loss'?",
+      "o": [
+        "Because dialect speakers emigrate",
+        "Because a dialect preserves a way of seeing the world, not merely a way of speaking",
+        "Because dialects are older than human settlement",
+        "Because linguists lose research material"
+      ],
+      "c": 1,
+      "skill": "reading",
+      "passage": "Uvriježilo se mišljenje da su dijalekti tek iskrivljeni oblici standardnoga jezika, njegova provincijska sjena koje se valja stidjeti. Posrijedi je, dakako, obrnuta perspektiva: standard je mlađi od dijalekata i iz njih je iznikao. Čakavski, kajkavski i štokavski nisu odstupanja od norme, nego njezino živo zaleđe — spremište ritmova, naglasaka i leksika iz kojega se standard, kad god mu ponestane daha, iznova napaja. Tko je čuo bodulsku čakavicu ili međimursku kajkavštinu, zna da se ondje ne čuva samo jezik, nego i način na koji se svijet gleda. Odumiranje dijalekta stoga nije tek jezični, nego i antropološki gubitak."
+    }
+  ]
+}

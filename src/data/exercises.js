@@ -2500,6 +2500,200 @@ export const READ = {
       ],
     },
   ],
+  // C2 — mastery texts: essayistic, literary (aorist/imperfekt), administrative,
+  // scientific-popular and columnist registers. Before this bucket the C2
+  // reading path served C1 texts only (readingCurriculum LEVEL_BUCKETS).
+  c2: [
+    {
+      title: 'Esej — Jezik i šutnja',
+      tEn: 'Essay — Language and Silence',
+      text: 'Govorimo o jeziku kao o sredstvu sporazumijevanja, a prešućujemo ono bitnije: jezik je i sredstvo prešućivanja. Svaka rečenica koju izgovorimo baca sjenu na tisuću onih koje nismo izgovorili. Kultura se, uostalom, ne prepoznaje samo po onome o čemu se govori, nego i po onome o čemu se šuti — o čemu se, štoviše, mora šutjeti da bi razgovor uopće bio moguć. Naši su stari razlikovali muk od šutnje: muk je praznina, nedostatak riječi; šutnja je punina, riječ koja je odvagana i svjesno zadržana. Tko ne razlikuje to dvoje, taj će šutnju sugovornika čitati kao slabost, a zapravo je posrijedi najviši oblik jezične zrelosti: znati kada rečenica više ne dodaje, nego oduzima.',
+      vocab: [
+        ['prešućivati', 'to pass over in silence'],
+        ['odvagan', 'weighed up, measured'],
+        ['muk', 'dead silence, hush'],
+        ['punina', 'fullness'],
+        ['posrijedi je', 'what is at issue is'],
+      ],
+      qs: [
+        {
+          q: 'What distinction do "our elders" draw in the essay?',
+          o: [
+            'Between speech and writing',
+            'Between muk (empty silence) and šutnja (deliberate, full silence)',
+            'Between dialect and standard',
+          ],
+          c: 1,
+        },
+        {
+          q: 'What does the essayist call the highest form of linguistic maturity?',
+          o: [
+            'Speaking without pauses',
+            'Knowing when a sentence subtracts rather than adds',
+            'Mastering formal register',
+          ],
+          c: 1,
+        },
+        {
+          q: 'How is culture recognised, according to the text?',
+          o: [
+            'Only by what is spoken about',
+            'Also by what is kept silent',
+            'By the size of its dictionaries',
+          ],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Ulomak — Zadnja Lađa',
+      tEn: 'Excerpt — The Last Boat',
+      text: 'Stigosmo u luku kad sunce već bijaše za otokom. Ribari vukoše mreže, galebovi kružahu nad molom, a stari svjetioničar, koji pamćaše još austrijske parobrode, sjeđaše na bitvi i gledaše nas kako silazimo. Ne reče ništa; samo kimnu glavom, kao da nas je čekao. Poslije mi pričahu da je svake večeri dolazio na isti mol, otkako mu je sin otplovio i ne vratio se. Čekaše tako godinama, ne žaleći se nikome, dok mu more, koje mu bijaše sve uzelo, ne posta jedini sugovornik. Te noći, ležeći u konobi pokraj luke, dugo slušah kako valovi biju o kamen i mišljah na sve lađe koje se ne vratiše.',
+      vocab: [
+        ['stigosmo', 'we arrived (aorist)'],
+        ['bijaše', 'was (imperfect)'],
+        ['bitva', 'mooring bollard'],
+        ['pamćaše', 'remembered (imperfect)'],
+        ['konoba', 'tavern / cellar'],
+      ],
+      qs: [
+        {
+          q: 'Which past tenses carry this narration?',
+          o: [
+            'Perfect and pluperfect',
+            'Aorist and imperfect, in the classic literary manner',
+            'Historical present',
+          ],
+          c: 1,
+        },
+        {
+          q: 'Why does the lighthouse keeper come to the pier every evening?',
+          o: [
+            'To watch the fishermen work',
+            'He has waited for his son since the day he sailed away and never returned',
+            'To greet the tourist boats',
+          ],
+          c: 1,
+        },
+        {
+          q: 'What becomes the old man\u2019s "only interlocutor"?',
+          o: ['The narrator', 'The sea', 'The fishermen'],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Iz Obrazloženja Pravilnika',
+      tEn: 'From the Explanatory Note to an Ordinance',
+      text: 'Donošenje ovoga pravilnika uvjetovano je potrebom usklađivanja podzakonskih akata s izmijenjenim zakonodavnim okvirom. Dosadašnja je praksa pokazala da neujednačeno tumačenje pojma \u201Eprimjerenoga roka\u201C dovodi do pravne nesigurnosti te do neopravdanoga produljenja postupaka. Stoga se predloženim rješenjem rok utvrđuje na trideset dana od dana zaprimanja urednoga zahtjeva, čime se osigurava predvidljivost postupanja i ujednačena primjena propisa na cijelome području nadležnosti. Nadalje, propisuje se obveza elektroničke dostave pismena kad god je to tehnički izvedivo, a iznimke se dopuštaju isključivo iz opravdanih razloga koje je podnositelj dužan obrazložiti. Dodatna financijska sredstva za provedbu nisu potrebna.',
+      vocab: [
+        ['podzakonski akt', 'secondary legislation, bylaw'],
+        ['zaprimanje', 'receipt (of a filing)'],
+        ['pismeno', 'official written document'],
+        ['izvediv', 'feasible'],
+        ['podnositelj', 'applicant, submitter'],
+      ],
+      qs: [
+        {
+          q: 'Why is the new ordinance being adopted?',
+          o: [
+            'To raise administrative fees',
+            'To align secondary legislation with an amended legal framework',
+            'To abolish electronic filing',
+          ],
+          c: 1,
+        },
+        {
+          q: 'What problem did the vague notion of a "reasonable deadline" cause?',
+          o: [
+            'Legal uncertainty and unjustified prolongation of proceedings',
+            'Excessive costs for the ministry',
+            'A shortage of qualified staff',
+          ],
+          c: 0,
+        },
+        {
+          q: 'When are exceptions to electronic delivery allowed?',
+          o: [
+            'Whenever the applicant prefers paper',
+            'Only for justified reasons the applicant must explain',
+            'Never',
+          ],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Glagoljica pod Mikroskopom',
+      tEn: 'Glagolitic Script under the Microscope',
+      text: 'Suvremena paleografija glagoljici pristupa dvojako: kao pismu i kao kulturnome kodu. Grafemska analiza pokazuje da obla glagoljica, kakvu nalazimo u najstarijim kanonskim spomenicima, počiva na trima temeljnim likovima — kružnici, trokutu i križu — što je navelo dio istraživača na tezu o promišljenoj, gotovo teološkoj kompoziciji pisma. Uglata inačica, koja se od trinaestoga stoljeća ustalila na hrvatskome prostoru, nije tek stilska mijena: prilagodba klesanju u kamen i pisanju na pergameni učinila je od nje prepoznatljiv nacionalni grafijski izraz. Baščanska ploča, premda jezično već prožeta elementima narodnoga govora, ostaje najrječitiji svjedok toga procesa — ne kao muzejski artefakt, nego kao dokaz da je pismenost na ovim prostorima od početka bila stvar samosvijesti, a ne puke administracije.',
+      vocab: [
+        ['paleografija', 'palaeography'],
+        ['grafem', 'grapheme'],
+        ['obla / uglata', 'rounded / angular (script variants)'],
+        ['klesanje', 'stone-carving'],
+        ['samosvijest', 'self-awareness'],
+      ],
+      qs: [
+        {
+          q: 'On which three basic shapes does rounded Glagolitic rest?',
+          o: ['Circle, triangle and cross', 'Square, line and dot', 'Spiral, arch and wedge'],
+          c: 0,
+        },
+        {
+          q: 'Why did the angular variant take hold in Croatia?',
+          o: [
+            'It was imposed by church decree',
+            'It suited stone-carving and parchment writing, becoming a national graphic idiom',
+            'It was easier for printers',
+          ],
+          c: 1,
+        },
+        {
+          q: 'How does the author characterise the Baška tablet?',
+          o: [
+            'As a mere museum artefact',
+            'As proof that literacy here was a matter of self-awareness, not mere administration',
+            'As a purely administrative record',
+          ],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Kolumna — O Čekanju u Redu',
+      tEn: 'Column — On Queueing',
+      text: 'Nigdje se nacionalni karakter ne ogleda tako vjerno kao u redu pred šalterom. Nijemac u redu vidi poredak, Englez instituciju, a naš čovjek — osobnu uvredu. Jer red, valja priznati, kod nas nikada nije samo red: to je pozornica na kojoj se odigrava drama dostojanstva. Uvijek se nađe netko tko \u201Esamo pita\u201C, netko koga \u201Ečekaju vani\u201C i netko tko je, gle čuda, \u201Ebio prije\u201C. A mi ostali, umjesto da se pobunimo, samo značajno podignemo obrve: negodujemo šutke, jer glasno negodovanje ne priliči, a šutke se, znamo to odavno, najslađe prezire. Kad napokon dođemo na red, službenica spusti roletu: pauza. I tu se, u tome trenutku čiste egzistencijalne ironije, rađa ono naše legendarno: \u201Ema, di ćeš ljepše\u201C.',
+      vocab: [
+        ['šalter', 'counter, service window'],
+        ['negodovati', 'to grumble, express displeasure'],
+        ['priličiti', 'to befit, be seemly'],
+        ['prezirati', 'to despise'],
+        ['roleta', 'roller blind, shutter'],
+      ],
+      qs: [
+        {
+          q: 'How does the columnist say "our man" sees a queue?',
+          o: ['As good order', 'As an institution', 'As a personal insult'],
+          c: 2,
+        },
+        {
+          q: 'What do the people in the queue do instead of protesting aloud?',
+          o: [
+            'They call the manager',
+            'They raise their eyebrows and disapprove in silence',
+            'They leave immediately',
+          ],
+          c: 1,
+        },
+        {
+          q: 'The tone of the column is best described as:',
+          o: ['Solemn and academic', 'Ironic and self-deprecating', 'Angry and accusatory'],
+          c: 1,
+        },
+      ],
+    },
+  ],
 };
 export const UNJUMBLE = [
   { words: ['Ja', 'volim', 'Hrvatsku'], correct: 'Ja volim Hrvatsku.', en: 'I love Croatia.' },

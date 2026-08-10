@@ -159,6 +159,43 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
       seconds: 60,
     },
   ],
+  // C2 — mastery maintenance: register control, synthesis, idiomatic precision.
+  // Consumed by the periodic checkpoints for C2-certified learners; before this
+  // key existed, a C2 checkpoint had no speaking section at all.
+  C2: [
+    {
+      id: 'c2-dialects',
+      prompt:
+        'Neki tvrde da standardni jezik guši dijalekte, drugi da ih upravo on čuva. Razmotrite oba stajališta i iznesite vlastito, potkrijepljeno primjerima.',
+      promptEn:
+        'Some claim the standard language stifles dialects; others that it is precisely what preserves them. Weigh both views and argue your own, with examples.',
+      seconds: 90,
+    },
+    {
+      id: 'c2-register',
+      prompt:
+        'Opišite isti događaj dvaput: najprije opušteno, kao prijatelju, a zatim kao službenu izjavu za medije. Pokažite razliku u registru.',
+      promptEn:
+        'Describe the same event twice: first casually, to a friend, then as an official statement for the press. Show the shift in register.',
+      seconds: 90,
+    },
+    {
+      id: 'c2-synthesis',
+      prompt:
+        'Sažmite glavne argumente za i protiv uvođenja četverodnevnoga radnog tjedna te procijenite koje bi skupine najviše dobile, a koje izgubile.',
+      promptEn:
+        'Summarise the main arguments for and against a four-day working week, and assess which groups would gain most and which would lose.',
+      seconds: 90,
+    },
+    {
+      id: 'c2-idioms',
+      prompt:
+        'Ispričajte zgodu iz vlastita života služeći se s barem tri frazema te objasnite zašto ste odabrali upravo njih.',
+      promptEn:
+        'Tell an anecdote from your own life using at least three idioms, and explain why you chose those in particular.',
+      seconds: 90,
+    },
+  ],
 };
 
 export function getSpeakingTasks(level: CefrLevel): SpeakingTask[] {
