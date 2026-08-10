@@ -145,6 +145,10 @@ export default defineConfig({
           '**/icon*.png',
           '**/apple-touch*.png',
           'offline.html',
+          // offline.html's behavior script — external because the CSP forbids
+          // inline scripts; must be precached with it or the offline page is
+          // inert exactly when the network is gone.
+          'offline-init.js',
         ],
         globIgnores: [
           '**/chunk-data*.js',
