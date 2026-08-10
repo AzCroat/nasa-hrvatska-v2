@@ -5,6 +5,8 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { getActiveVocabulary } from '../../lib/activeVocabulary';
+import { getUserCefr } from '../../lib/cefr';
+import { useStats } from '../../context/StatsContext';
 
 export default function AIStoryScreen({
   goBack,
@@ -14,6 +16,8 @@ export default function AIStoryScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
   const { isOnline } = useOnlineStatus();
+  const { stats } = useStats();
+  const cefrLevel = getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0);
   const mountedRef = useRef(true);
   useEffect(() => {
     mountedRef.current = true;
@@ -49,7 +53,11 @@ export default function AIStoryScreen({
 
     const wordList =
       active.targets.length > 0 ? active.targets : ['hvala', 'dobar', 'kuća', 'more', 'jesti'];
-    const message = `Write a short Croatian story (4-6 sentences) using these words naturally: ${wordList.join(', ')}. Make it about life in Croatia — could be family, food, travel, daily life. Keep it at A2-B1 level. After the story, provide an English translation. Format your response as JSON: {"story": "Croatian text", "translation": "English text", "words_used": ["word1", "word2"]}`;
+    // Level-aware since 2026-08: the prompt used to hardcode "A2-B1", so an
+    // advanced learner got beginner stories forever. Now the story tracks the
+    // canonical CEFR level (this is also what lets the session builder treat
+    // ai_story as an `adaptive` pool entry — see sessionPools.ts).
+    const message = `Write a short Croatian story (4-6 sentences) using these words naturally: ${wordList.join(', ')}. Make it about life in Croatia — could be family, food, travel, daily life. Keep it at ${cefrLevel} level (CEFR): match its typical sentence complexity, vocabulary range and grammar. After the story, provide an English translation. Format your response as JSON: {"story": "Croatian text", "translation": "English text", "words_used": ["word1", "word2"]}`;
 
     try {
       const res = await apiFetch('/api/maja', {
@@ -129,7 +137,7 @@ export default function AIStoryScreen({
     } finally {
       if (mountedRef.current) setLoading(false);
     }
-  }, [active, loading]);
+  }, [active, loading, cefrLevel]);
 
   useEffect(() => {
     generateStory();
