@@ -224,7 +224,9 @@ describe('recordSessionComplete', () => {
     const today = localDateStr();
     const d = new Date();
     d.setDate(d.getDate() - 1);
-    const yesterday = d.toISOString().slice(0, 10);
+    // localDateStr, not toISOString — mixing the two in one test makes
+    // "yesterday" collide with (or skip past) "today" in off-UTC timezones.
+    const yesterday = localDateStr(d);
     localStorage.setItem('nh_session_history', JSON.stringify({ [yesterday]: true }));
     recordSessionComplete(today);
     const history = JSON.parse(localStorage.getItem('nh_session_history') || '{}') as Record<

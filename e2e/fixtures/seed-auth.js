@@ -8,6 +8,41 @@ export const TEST_EMAIL = 'e2e@nasahrvatska.com';
 export const TEST_NAME = 'Test Učenik';
 
 /**
+ * LOCAL date as YYYY-MM-DD — the app compares seeded dates against
+ * localDateStr() (src/lib/dateUtils.ts), which is local-timezone. Seeding with
+ * toISOString() (UTC) made "today" wrong for anyone running the suite in a
+ * non-UTC timezone near midnight: a streak seeded as 5 read as broken, because
+ * the seeded date was already (or not yet) "today" locally. CI runs in UTC so
+ * this never failed there — only on developer machines.
+ */
+export function localYMD(d = new Date()) {
+  return (
+    d.getFullYear() +
+    '-' +
+    String(d.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(d.getDate()).padStart(2, '0')
+  );
+}
+
+/**
+ * ISO week key, e.g. "2026-W32" — replica of weekKey() in src/lib/dateUtils.ts
+ * (e2e fixtures cannot import the app's TS modules). Used to pre-suppress
+ * WeeklyRecapModal: its real storage key is `nh_weekly_recap_shown_<weekKey>`,
+ * but this fixture used to write `..._YYYYMMDD` — a key the app never reads —
+ * so on any Monday with seeded week-XP the recap modal could pop mid-test and
+ * block clicks (position:fixed dialog). A Monday-only CI flake, now closed.
+ */
+export function isoWeekKey(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return d.getUTCFullYear() + '-W' + String(weekNo).padStart(2, '0');
+}
+
+/**
  * Inject localStorage keys before the page loads to simulate a valid logged-in session.
  * Call this with page.addInitScript before page.goto().
  *
@@ -20,7 +55,7 @@ export const TEST_NAME = 'Test Učenik';
  *     seedAuth(page, {xp:5000})  → B2 (5000+150+125 = 5275)
  */
 export function seedAuth(page, statOverrides = {}) {
-  return page.addInitScript(({ email, name, now, today, statOverrides }) => {
+  return page.addInitScript(({ email, name, now, today, recapKey, statOverrides }) => {
     const baseStats = {
       xp: 250, lc: 10, gc: 5, sp: 3, de: 2,
       rc: 1, pf: 2, al: 1, mv: 0, hi: 0, rs: [], ct: ['greetings','numbers','restaurant','transport','family'],
@@ -47,8 +82,11 @@ export function seedAuth(page, statOverrides = {}) {
     localStorage.setItem('darkMode', 'false');
     // Mark goal as set so the GoalSetterModal never blocks tests
     localStorage.setItem('nh_goal_set', '1');
-    // Mark weekly recap as shown so WeeklyRecapModal never blocks tests
-    localStorage.setItem('nh_weekly_recap_shown_' + new Date().toISOString().slice(0, 10).replace(/-/g, '').slice(0, 8), '1');
+    // Mark weekly recap as shown so WeeklyRecapModal never blocks tests.
+    // recapKey is `nh_weekly_recap_shown_<weekKey>` — the modal's REAL storage
+    // key (WeeklyRecapModal.tsx). This line previously appended a YYYYMMDD
+    // date the app never reads, so the suppression was dead code.
+    localStorage.setItem(recapKey, '1');
     // Ensure hero is always expanded so hero stats / translate pill are accessible
     localStorage.setItem('nh_hero_expanded', '1');
     // Pre-dismiss all ceremony modals (stage + streak) so they never fire mid-test
@@ -67,7 +105,11 @@ export function seedAuth(page, statOverrides = {}) {
     email: TEST_EMAIL,
     name: TEST_NAME,
     now: Date.now(),
-    today: new Date().toISOString().slice(0, 10),
+    // LOCAL date, not toISOString() — the app compares with localDateStr().
+    // Node and the browser share the machine timezone, so computing it here
+    // is equivalent to computing it in the page.
+    today: localYMD(),
+    recapKey: 'nh_weekly_recap_shown_' + isoWeekKey(),
     statOverrides,
   });
 }

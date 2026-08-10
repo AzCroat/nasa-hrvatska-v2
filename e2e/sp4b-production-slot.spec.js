@@ -97,7 +97,14 @@ test.describe('SP4b — production slot in daily session', () => {
       // recent-exclusion drops them, leaving `dictation` as the sole keyboard
       // option. This makes the assertion meaningful: if the mic filter were
       // broken, the mic-required `shadowing` (rnd=0 first) would surface instead.
-      const today = new Date().toISOString().slice(0, 10);
+      // LOCAL date — useDailySession compares recency against localDateStr().
+      const d = new Date();
+      const today =
+        d.getFullYear() +
+        '-' +
+        String(d.getMonth() + 1).padStart(2, '0') +
+        '-' +
+        String(d.getDate()).padStart(2, '0');
       localStorage.setItem(
         'nh_recent_production',
         JSON.stringify([

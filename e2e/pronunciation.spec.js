@@ -21,7 +21,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { seedAuth, blockFirebase, mockTTS, mockContent, localYMD } from './fixtures/seed-auth.js';
 
 // Hard cap: every test in this file must finish within 12 seconds.
 // isVisible timeouts and waitForTimeout values are trimmed to match.
@@ -99,7 +99,14 @@ async function goToSpeaking(page, words) {
     const stats = {
       xp: 250, lv: 3, sc: 8, lc: 12, gc: 3, sp: 2, wc: 40,
       uid: 'test-uid', name: 'Test User', email: 'test@example.com',
-      streak: 5, lastDate: new Date().toISOString().slice(0, 10),
+      // LOCAL date (see localYMD in the fixture) — the app uses localDateStr().
+      streak: 5,
+      lastDate:
+        new Date().getFullYear() +
+        '-' +
+        String(new Date().getMonth() + 1).padStart(2, '0') +
+        '-' +
+        String(new Date().getDate()).padStart(2, '0'),
       cefr: 1,
     };
     localStorage.setItem('nh_stats', JSON.stringify(stats));
@@ -858,7 +865,7 @@ test.describe('Streak mechanics', () => {
   test('streak earn-back token visible when yesterday streak broke', async ({ page }) => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const yd = yesterday.toISOString().slice(0, 10);
+    const yd = localYMD(yesterday); // local, matching the app's localDateStr()
 
     // Use addInitScript (not evaluate) — page is still at about:blank here, so
     // page.evaluate() throws SecurityError: localStorage access denied on about:blank.
@@ -891,7 +898,15 @@ test.describe('Streak mechanics', () => {
       try {
         const stats = JSON.parse(localStorage.getItem('nh_stats') || '{}');
         stats.streak = 7;
-        stats.lastDate = new Date().toISOString().slice(0, 10);
+        // LOCAL date — the app compares against localDateStr(), and
+        // toISOString() (UTC) is a different day near midnight off-UTC.
+        const d = new Date();
+        stats.lastDate =
+          d.getFullYear() +
+          '-' +
+          String(d.getMonth() + 1).padStart(2, '0') +
+          '-' +
+          String(d.getDate()).padStart(2, '0');
         localStorage.setItem('nh_stats', JSON.stringify(stats));
       } catch (_) {}
     });
@@ -916,7 +931,15 @@ test.describe('Streak mechanics', () => {
       try {
         const stats = JSON.parse(localStorage.getItem('nh_stats') || '{}');
         stats.streak = 8;
-        stats.lastDate = new Date().toISOString().slice(0, 10);
+        // LOCAL date — the app compares against localDateStr(), and
+        // toISOString() (UTC) is a different day near midnight off-UTC.
+        const d = new Date();
+        stats.lastDate =
+          d.getFullYear() +
+          '-' +
+          String(d.getMonth() + 1).padStart(2, '0') +
+          '-' +
+          String(d.getDate()).padStart(2, '0');
         localStorage.setItem('nh_stats', JSON.stringify(stats));
       } catch (_) {}
     });

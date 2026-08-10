@@ -64,7 +64,10 @@ test.describe('Auth edge cases', () => {
     await page.waitForFunction(
       () => {
         const root = document.getElementById('root');
-        return root && root.innerText && root.innerText.trim().length > 5;
+        // #nh-boot is the static boot shell in index.html — its text must not
+        // count as "the app rendered something".
+        if (!root || document.getElementById('nh-boot')) return false;
+        return !!root.innerText && root.innerText.trim().length > 5;
       },
       { timeout: 20_000 },
     );
@@ -143,7 +146,10 @@ test.describe('Auth edge cases', () => {
     await page.waitForFunction(
       () => {
         const root = document.getElementById('root');
-        return root && root.innerText && root.innerText.trim().length > 5;
+        // #nh-boot is the static boot shell in index.html — its text must not
+        // count as "the app rendered something".
+        if (!root || document.getElementById('nh-boot')) return false;
+        return !!root.innerText && root.innerText.trim().length > 5;
       },
       { timeout: 20_000 },
     );
@@ -200,7 +206,9 @@ test.describe('Auth edge cases', () => {
       await page.waitForFunction(
         () => {
           const root = document.getElementById('root');
-          return root && root.innerText && root.innerText.trim().length > 5;
+          // Boot shell (#nh-boot) text must not count as rendered app content.
+          if (!root || document.getElementById('nh-boot')) return false;
+          return !!root.innerText && root.innerText.trim().length > 5;
         },
         { timeout: 15_000 },
       );
