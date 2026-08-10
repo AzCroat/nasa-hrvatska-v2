@@ -21,7 +21,6 @@ const AppContext = createContext<any>(null);
  *   Stats         : st/stats, setStats, level, award, sCurEx
  *   Prefs         : darkMode, setDarkMode, favs, toggleFav, isFav
  *   Journal       : jWords, setJWords
- *   Subscription  : isPremium, refreshSub, requirePremium
  *   Search        : srchQ, setSrchQ, srchR, srchOpen, setSrchOpen, doSearch
  *   Translator    : tDir, sTDir, tIn, sTIn, tOut, tL, doTr
  *   Daily         : dchlA, sDchlA, dchlSl, sDchlSl

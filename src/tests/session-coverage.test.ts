@@ -90,9 +90,9 @@ const OUTSIDE_SESSION: string[] = [
   // Each remaining exclusion has a hard blocker for a generic session slot:
   'advanced_vocab', // open-ended reference catalog — no bounded round or finish line
   'journal', // personal vocab utility — no completion concept, receives no award prop
-  // (Wave 8, owner decision: maja + live_tutor joined the pool as premium-tagged
-  // entries — served only when getSubscriptionStatus().isPremium; the router
-  // paywall + its session-complete-on-close guard cover stale entitlements.)
+  // (Wave 8, owner decision: maja + live_tutor joined the pool; the premium
+  // gate that originally covered them was removed 2026-08 with the
+  // subscription system — they serve every user.)
   // (Wave 9, owner decision: storymode gained an explicit Finish button and
   // pronunciation_assess gained a finish-signals-completion path + the
   // builder's micRequired gate — both joined the pool.)
@@ -303,11 +303,9 @@ describe('Wave 1 — pool registration integrity', () => {
     }
   });
 
-  it('the 2 Wave-8 premium tutors are session-reachable and premium-tagged', () => {
-    const byScreen = new Map(CEFR_EXERCISE_POOL.map((e) => [e.screen, e]));
+  it('the 2 Wave-8 tutors are session-reachable (subscription gate removed)', () => {
     for (const s of ['maja', 'live_tutor']) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
-      expect(byScreen.get(s)?.premium, `${s} must carry the premium flag`).toBe(true);
     }
   });
 

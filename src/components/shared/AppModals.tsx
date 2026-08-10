@@ -4,9 +4,8 @@
  * Extracted from App.jsx render to keep the main JSX tree readable.
  * Every modal here is conditionally rendered; none affect the page layout.
  */
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import OnboardingTour from './OnboardingTour';
-import PremiumWelcomeBanner from './PremiumWelcomeBanner';
 // speak is lazy-loaded on first use — audio.js lives in chunk-data (loaded with first screen)
 // Static: audio.js is already eager (35 static importers, reachable from the
 // entry chunk via contentClient), so the lazy wrapper deferred nothing while
@@ -17,14 +16,11 @@ import { useCheckpoint } from '../../hooks/useCheckpoint.js';
 import { isCheckpointDue, shouldShowCheckpoint } from '../../lib/checkpointSchedule.js';
 import { CHECKPOINTS_ENABLED } from '../../lib/checkpointConfig.js';
 import { getCertificationState } from '../../lib/cefrCertification.js';
-import { isNative } from '../../lib/platform';
 import CheckpointInviteModal from '../exam/CheckpointInviteModal.js';
 import ExamRunner from '../exam/ExamRunner.js';
 import CheckpointResultScreen from '../exam/CheckpointResultScreen.js';
 import type { CefrLevel } from '../../lib/cefr.js';
 import type { SkillKey } from '../../lib/cefrCertification.js';
-
-const PaywallScreen = lazy(() => import('./PaywallScreen'));
 
 /** Module-level constant so useCheckpoint's useCallback identity stays stable. */
 const NO_WEAK_SKILLS: SkillKey[] = [];
@@ -39,14 +35,6 @@ interface AppModalsProps {
   _syncReady: boolean;
   authScreen: string;
   currentScreen: string;
-  // Paywall
-  showPaywall: boolean;
-  setShowPaywall: (v: boolean) => void;
-  paywallFeature: string;
-  refreshSub: () => void;
-  // Premium welcome
-  showPremiumWelcome: boolean;
-  setShowPremiumWelcome: (v: boolean) => void;
   // Navigation
   setScr: (v: string) => void;
   setTab: (v: string) => void;
@@ -65,14 +53,6 @@ export function AppModals({
   _syncReady,
   authScreen,
   currentScreen,
-  // Paywall
-  showPaywall,
-  setShowPaywall,
-  paywallFeature,
-  refreshSub,
-  // Premium welcome
-  showPremiumWelcome,
-  setShowPremiumWelcome,
   // Navigation
   setScr,
   setTab,
@@ -223,21 +203,6 @@ export function AppModals({
             }}
           />
         )}
-      {/* Google Play Payments policy forbids showing purchasable digital-goods
-          pricing outside Play Billing. The paywall's checkout is web/Stripe, so
-          it must NEVER render inside the native app — hard backstop regardless
-          of which entry point set showPaywall. Web (PWA) keeps the paywall. */}
-      {showPaywall && !isNative() && (
-        <PaywallScreen
-          featureName={paywallFeature}
-          onClose={() => setShowPaywall(false)}
-          onSubscribed={() => {
-            setShowPaywall(false);
-            refreshSub();
-          }}
-        />
-      )}
-      {showPremiumWelcome && <PremiumWelcomeBanner onClose={() => setShowPremiumWelcome(false)} />}
       {showCheckpointInvite && (
         <CheckpointInviteModal
           level={checkpointCertifiedLevel}

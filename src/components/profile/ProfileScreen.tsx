@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Bar, lXP, nXP } from '../../data';
 import { fbDeleteAccount } from '../../lib/firebase.js';
-import { getSubscriptionStatus, cancelFreeAnnual } from '../../hooks/useSubscription';
 import type { Stats, AuthUser } from '../../types';
 
 const AVATAR_EMOJIS = [
@@ -46,8 +45,6 @@ export default function ProfileScreen({
 }) {
   const [deleteStep, setDeleteStep] = useState(0); // 0=idle, 1=confirm, 2=deleting
   const [deleteError, setDeleteError] = useState('');
-  const [cancelStep, setCancelStep] = useState(0); // 0=idle, 1=friction, 2=cancelled
-  const sub = getSubscriptionStatus();
   const [avatarEmoji, setAvatarEmoji] = useState(() => {
     try {
       return localStorage.getItem('nh_avatar_emoji') || '';
@@ -276,133 +273,6 @@ export default function ProfileScreen({
       >
         🚪 Sign Out
       </button>
-
-      {/* Subscription management */}
-      {sub.isFreeAnnual && cancelStep === 0 && (
-        <div
-          style={{
-            marginBottom: 8,
-            padding: '12px 16px',
-            background: 'var(--forest-light,#f0fdf4)',
-            borderRadius: 12,
-            border: '1.5px solid var(--success-b,#86efac)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--success,#16a34a)' }}>
-              ✓ Full Premium Access
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>
-              All AI features, live tutor & more — free annually
-            </div>
-          </div>
-          <button
-            onClick={() => setCancelStep(1)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#a8a29e',
-              fontSize: 11,
-              cursor: 'pointer',
-              padding: 4,
-              textDecoration: 'underline',
-            }}
-          >
-            Manage
-          </button>
-        </div>
-      )}
-      {cancelStep === 1 && (
-        <div
-          className="c"
-          style={{
-            marginBottom: 8,
-            padding: 20,
-            border: '2px solid rgba(245,158,11,.25)',
-            borderRadius: 14,
-            background: 'rgba(245,158,11,.04)',
-          }}
-        >
-          <div style={{ fontSize: 15, fontWeight: 800, color: '#92400e', marginBottom: 6 }}>
-            Cancel your free subscription?
-          </div>
-          <div style={{ fontSize: 12, color: '#78716c', marginBottom: 8, lineHeight: 1.5 }}>
-            Naša Hrvatska is free for every learner right now, so cancelling won't take away the AI
-            Tutor, Live Tutor, Grammar Diagnosis, Photo Scanner, or your insights — and your
-            progress is always saved.
-          </div>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: '#0e7490',
-              background: 'rgba(14,116,144,.08)',
-              borderRadius: 8,
-              padding: '8px 12px',
-              marginBottom: 14,
-            }}
-          >
-            💡 Pause instead? Your progress is saved. Come back anytime and your streak, vocabulary,
-            and level will be right where you left them.
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              onClick={() => setCancelStep(0)}
-              style={{
-                flex: 1,
-                padding: '10px',
-                border: '2px solid #e5e7eb',
-                borderRadius: 10,
-                background: 'var(--card)',
-                fontSize: 13,
-                fontWeight: 800,
-                cursor: 'pointer',
-                color: '#374151',
-              }}
-            >
-              Keep Access
-            </button>
-            <button
-              onClick={() => {
-                cancelFreeAnnual(au?.u || '');
-                setCancelStep(2);
-              }}
-              style={{
-                flex: 1,
-                padding: '10px',
-                border: '2px solid rgba(185,28,28,.2)',
-                borderRadius: 10,
-                background: 'none',
-                fontSize: 12,
-                fontWeight: 700,
-                cursor: 'pointer',
-                color: '#b91c1c',
-              }}
-            >
-              Cancel Anyway
-            </button>
-          </div>
-        </div>
-      )}
-      {cancelStep === 2 && (
-        <div
-          style={{
-            marginBottom: 8,
-            padding: '10px 16px',
-            background: 'var(--bar-bg)',
-            borderRadius: 10,
-            fontSize: 12,
-            color: 'var(--subtext)',
-            textAlign: 'center',
-          }}
-        >
-          Subscription record cleared. Naša Hrvatska stays free — all your features and progress
-          remain available.
-        </div>
-      )}
 
       {/* Delete Account — GDPR right to erasure */}
       <div style={{ marginTop: 12, textAlign: 'center' }}>
