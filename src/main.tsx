@@ -601,41 +601,23 @@ if (!isNative() && 'serviceWorker' in navigator) {
     });
 }
 
-// `v7_startTransition` is opted into ahead of the React Router v7 upgrade.
+// React Router 7. The v6→v7 jump was de-risked in two steps: the only
+// behavioural change this app is exposed to — router state updates wrapped in
+// React.startTransition, making location commits deferrable — was opted into
+// while still on 6.30.4 via `future={{ v7_startTransition: true }}` and soaked
+// in production first. The upgrade itself (motivated by advisories with no
+// 6.x fix, e.g. GHSA-jjmj-jmhj-qwj2) then carried no new behaviour, and the
+// now-default flag prop was removed. The app uses exactly three router
+// symbols: BrowserRouter here, and useNavigate + useLocation in App.tsx —
+// no data router, loaders, actions, fetchers or Form.
 //
-// We are on react-router-dom 6.30.4, which is the last 6.x release and is named
-// in three advisories with no 6.x fix available — GHSA-jjmj-jmhj-qwj2's affected
-// range closes at <=6.30.4. The only fix is 7.18.1, a semver-major jump.
-//
-// Six v6 `future` flags become the default in v7. Five are irrelevant to this
-// app: v7_relativeSplatPath (no splat routes), v7_fetcherPersist,
-// v7_normalizeFormMethod, v7_partialHydration and v7_skipActionErrorRevalidation
-// (no data router — no createBrowserRouter, loaders, actions, fetchers or Form).
-// The app uses exactly three router symbols: BrowserRouter here, and
-// useNavigate + useLocation in App.tsx.
-//
-// That leaves v7_startTransition as the only behavioural change the upgrade
-// actually carries. It wraps router state updates in React.startTransition, so a
-// location commit becomes deferrable and interruptible instead of synchronous.
-// App.tsx is sensitive to exactly that: setScr/setTab call navigate(), and two
-// effects keyed on location.pathname read it back to set the tab and restore
-// screens from sessionStorage. The existing comments there describe these races
-// already ("the spurious navigate('/') that setScr would emit...", "can race
-// with a user clicking a tab immediately after") — and none of it was written
-// against deferred location updates.
-//
-// Enabling the flag here, one release early, separates that timing change from
-// the version jump. If tab/screen ordering regresses it is provably this and not
-// the upgrade, and the rollback is deleting this prop rather than reverting a
-// major dependency. The flag becomes the default in v7, at which point this prop
-// is redundant and gets removed.
-//
-// Note this is a *timing* change: typecheck and unit tests pass either way. E2E
-// (38 specs deep-link via page.goto) and on-device use are what actually cover it.
+// Note the startTransition wrapping is a *timing* change: typecheck and unit
+// tests pass either way. E2E (38 specs deep-link via page.goto) and on-device
+// use are what actually cover it.
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <BrowserRouter future={{ v7_startTransition: true }}>
+      <BrowserRouter>
         <App />
       </BrowserRouter>
     </ErrorBoundary>
