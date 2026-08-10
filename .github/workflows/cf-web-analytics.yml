@@ -41,15 +41,22 @@ jobs:
 
           echo "::group::RUM sites on this account"
           curl -sS "${AUTH[@]}" "$BASE/list" > sites.json
+          RUM_OK=true
           if ! jq -e '.success==true' sites.json >/dev/null; then
-            echo "RUM list failed — the API token likely lacks Account Analytics/RUM scope:"
+            # NON-FATAL (2026-08-10): the token lacks the RUM scope (verified —
+            # run 1 died here). The CSP now blocks the beacon regardless, so
+            # this workflow's remaining value is the live beacon count below.
+            echo "RUM list failed — the API token lacks Account Analytics/RUM scope:"
             jq -c '.errors' sites.json
-            exit 1
+            RUM_OK=false
           fi
           jq '.result[] | {site_tag, host: (.rules[0].host // .host // "?"), auto_install, created}' sites.json || true
           echo "::endgroup::"
 
-          SITE_TAG=$(jq -r '[.result[] | select(((.rules[0].host // .host // "")|test("nasahrvatska")))] | first | .site_tag // empty' sites.json)
+          SITE_TAG=""
+          if [ "$RUM_OK" = "true" ]; then
+            SITE_TAG=$(jq -r '[.result[] | select(((.rules[0].host // .host // "")|test("nasahrvatska")))] | first | .site_tag // empty' sites.json)
+          fi
           if [ -z "$SITE_TAG" ]; then
             echo "No RUM site matches nasahrvatska — nothing is injecting; CSP hardening can proceed."
           else
