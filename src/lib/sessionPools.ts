@@ -253,6 +253,24 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'nominalization',
   },
+  // C2 drill-pool expansion (Phase 2, fluency initiative): verbal adverbs
+  // (glagolski prilozi — the literary gerunds) and formal-register precision
+  // (collocations, preposition government, prefix discrimination). Before
+  // these, c2drill was the only non-adaptive C2 exercise in the pool.
+  {
+    id: 'gerunddrill',
+    label: 'Glagolski prilozi',
+    screen: 'gerunddrill',
+    cefr: 'C2',
+    category: 'participle',
+  },
+  {
+    id: 'preciznost',
+    label: 'Preciznost izraza',
+    screen: 'preciznost',
+    cefr: 'C2',
+    category: 'idioms',
+  },
   // ── Wave 1: session catchment expansion (2026-07 eligibility audit) ────────
   // Screens that already met the session contract (goBack+award props, bounded
   // drill/quiz, completion signal via completeExercise or the useAward path)
@@ -795,6 +813,8 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   imperative: 3,
   neggen: 3,
   c2drill: 5,
+  gerunddrill: 5,
+  preciznost: 5,
   // Wave 1 additions — recognition games tier 2, guided drills tier 3.
   declension: 3,
   padezi: 3,

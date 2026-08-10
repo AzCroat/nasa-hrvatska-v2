@@ -197,6 +197,8 @@ const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
 const NumbersCasesDrill = lazyWithReload(() => import('./practice/NumbersCasesDrill'));
 const ImperativeDrill = lazyWithReload(() => import('./practice/ImperativeDrill'));
 const C2StructureDrill = lazyWithReload(() => import('./practice/C2StructureDrill'));
+const GerundDrill = lazyWithReload(() => import('./practice/GerundDrill'));
+const PrecisionDrill = lazyWithReload(() => import('./practice/PrecisionDrill'));
 const ParticipleDrill = lazyWithReload(() => import('./practice/ParticipleDrill'));
 const SubordinationDrill = lazyWithReload(() => import('./practice/SubordinationDrill'));
 const ConditionalDrill = lazyWithReload(() => import('./practice/ConditionalDrill'));
@@ -1666,6 +1668,16 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'c2drill' && (
           <ScreenErrorBoundary key="c2drill" name="c2drill">
             <C2StructureDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'gerunddrill' && (
+          <ScreenErrorBoundary key="gerunddrill" name="gerunddrill">
+            <GerundDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'preciznost' && (
+          <ScreenErrorBoundary key="preciznost" name="preciznost">
+            <PrecisionDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'neggen' && (

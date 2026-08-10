@@ -74,6 +74,9 @@ const RAW: Record<string, ExerciseEntry> = {
   // C2 structure drill (literary tenses / nominal style / comma) — first C2
   // grammar drill in the session pool.
   c2drill: g('gc', 'grammar', 'grammar'),
+  // C2 drill-pool expansion: verbal adverbs + formal-register precision.
+  gerunddrill: g('gc', 'grammar', 'grammar'),
+  preciznost: g('gc', 'grammar', 'grammar'),
   instrumental: g('gc', 'grammar', 'grammar'),
   locative: g('gc', 'grammar', 'grammar'),
   negation: g('gc', 'grammar', 'grammar'),
