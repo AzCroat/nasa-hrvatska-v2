@@ -217,7 +217,20 @@ export default {
     // are cheap no-ops while a transient failure at 03:00 gets retried at
     // 04:00 and 05:00 instead of waiting a week. Failures only log — the
     // streak-push work above must never be affected.
-    if (now.getUTCDay() === 1 && utcHour >= 3 && utcHour <= 5) {
+    //
+    // BOOTSTRAP: until one backup has EVER succeeded (bootstrap marker absent),
+    // fire on every hourly tick regardless of day — so the very first snapshot
+    // exists within an hour of deploy instead of waiting for next Monday, and
+    // its success is immediately visible in /api/health's `backup` block.
+    let backupDue = now.getUTCDay() === 1 && utcHour >= 3 && utcHour <= 5;
+    if (!backupDue) {
+      try {
+        backupDue = !(await env.PUSH_SUBSCRIPTIONS.get('backup:bootstrap_done'));
+      } catch {
+        /* unreadable marker → stay with the weekly window only */
+      }
+    }
+    if (backupDue) {
       try {
         const res = await fetch(`${PAGES_URL}/api/backup-progress`, {
           method: 'POST',
@@ -229,6 +242,11 @@ export default {
           console.warn(
             `[Scheduled] Weekly backup ${data.skipped ? 'already done' : 'completed'} (${data.week || '?'})`,
           );
+          // Any ok answer (fresh run OR skip) proves the pipeline works —
+          // close the bootstrap so off-window ticks stop calling.
+          try {
+            await env.PUSH_SUBSCRIPTIONS.put('backup:bootstrap_done', '1');
+          } catch {}
         } else {
           console.error(`[Scheduled] Weekly backup failed: status=${res.status}`, data?.error);
         }

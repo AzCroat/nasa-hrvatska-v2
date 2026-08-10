@@ -173,4 +173,12 @@ describe('the weekly trigger in the scheduled worker', () => {
     // failure into an automatic retry instead of a week-long gap.
     expect(src).toMatch(/getUTCDay\(\) === 1 && utcHour >= 3 && utcHour <= 5/);
   });
+
+  it('bootstraps: fires hourly until the FIRST snapshot ever succeeds', () => {
+    // Without this, the first snapshot waits up to a week after deploy — and a
+    // backup system is unverified until its first run exists.
+    expect(src).toContain("get('backup:bootstrap_done')");
+    // The marker is only written on an ok answer, inside the success branch.
+    expect(src).toContain("put('backup:bootstrap_done', '1')");
+  });
 });
