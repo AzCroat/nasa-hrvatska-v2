@@ -31,7 +31,7 @@ export function usePlacement(): {
   async function getPlacementCt(level: number): Promise<string[]> {
     const { LEARN_PATH } = await getContent();
     const ct: string[] = [];
-    const targets = [0, 0, 5, 10, 15, 20];
+    const targets = [0, 0, 5, 10, 15, 20, 25];
     const max = targets[level] || 0;
     for (const lv of LEARN_PATH) {
       for (const it of lv.items) {

@@ -36,7 +36,7 @@ export interface CheckpointExam {
 // than hand-written, so a change to either bank's API is a compile error here
 // instead of a runtime surprise inside a checkpoint.
 type Banks = {
-  getNextTestFor: typeof EquivalencyItems.getNextTestFor;
+  getCheckpointSetFor: typeof EquivalencyItems.getCheckpointSetFor;
   getSpeakingTasks: typeof SpeakingTasks.getSpeakingTasks;
 };
 
@@ -54,7 +54,7 @@ export function loadCheckpointBanks(): Promise<Banks> {
     import('../data/cefrEquivalencyItems.js'),
     import('../data/speakingTasks.js'),
   ]).then(([items, speaking]) => ({
-    getNextTestFor: items.getNextTestFor,
+    getCheckpointSetFor: items.getCheckpointSetFor,
     getSpeakingTasks: speaking.getSpeakingTasks,
   }));
   return banksPromise;
@@ -66,9 +66,9 @@ export function loadCheckpointBanks(): Promise<Banks> {
  */
 function questionsForLevel(
   level: CefrLevel,
-  getNextTestFor: Banks['getNextTestFor'],
+  getCheckpointSetFor: Banks['getCheckpointSetFor'],
 ): RunnerQuestion[] {
-  const set = getNextTestFor(level); // set.levelFrom === level tests `level` competency
+  const set = getCheckpointSetFor(level); // set.levelFrom === level tests `level` competency
   if (!set) return [];
   return set.items.map((it, i) => ({
     id: `${level}#${i}`,
@@ -98,14 +98,14 @@ export async function buildCheckpointExam(
   weakSkills: SkillKey[],
   rng: Rng,
 ): Promise<CheckpointExam> {
-  const { getNextTestFor, getSpeakingTasks } = await loadCheckpointBanks();
+  const { getCheckpointSetFor, getSpeakingTasks } = await loadCheckpointBanks();
 
   // Build lookup of every below-level + current-level question by composer id.
   const levels = CEFR_ORDER.filter((l) => cefrRank(l) <= cefrRank(level));
   const lookup = new Map<string, RunnerQuestion>();
   const itemsByLevel: ComposerBanks['itemsByLevel'] = {};
   for (const lvl of levels) {
-    const qs = questionsForLevel(lvl, getNextTestFor);
+    const qs = questionsForLevel(lvl, getCheckpointSetFor);
     qs.forEach((q) => lookup.set(q.id, q));
     itemsByLevel[lvl] = qs.map<ExamItem>((q) => ({ id: q.id, skill: q.skill, level: q.level }));
   }

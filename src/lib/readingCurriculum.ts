@@ -16,8 +16,9 @@
  * (stats.vs) in.
  *
  * Buckets map to CEFR by their reader badge (beginner=A1/A2, intermediate=B1,
- * advanced=B1-B2, b2=B2, c1=C1); advanced material is offered at both B1 and
- * B2, which is pedagogically correct for B1-B2 graded text.
+ * advanced=B1-B2, b2=B2, c1=C1, c2=C2); advanced material is offered at both
+ * B1 and B2, which is pedagogically correct for B1-B2 graded text, and the C2
+ * path runs c1 → c2 so mastery texts come after the C1 base is read.
  */
 import { READ } from '../data/exercises.js';
 
@@ -46,6 +47,7 @@ const BUCKET_BADGE: Record<string, string> = {
   advanced: 'B1-B2',
   b2: 'B2',
   c1: 'C1',
+  c2: 'C2',
 };
 
 // Which reader buckets make up each CEFR level's path, in reading order.
@@ -55,7 +57,7 @@ const LEVEL_BUCKETS: Record<string, string[]> = {
   B1: ['intermediate', 'advanced'],
   B2: ['advanced', 'b2'],
   C1: ['c1'],
-  C2: ['c1'], // no dedicated C2 reader — the hardest available bucket
+  C2: ['c1', 'c2'], // mastery texts follow the C1 base
 };
 
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];

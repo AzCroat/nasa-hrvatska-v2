@@ -51,6 +51,7 @@ const TARGETS = [
   'src/data/cefrEquivalencyItems/b1_to_b2.json',
   'src/data/cefrEquivalencyItems/b2_to_c1.json',
   'src/data/cefrEquivalencyItems/c1_to_c2.json',
+  'src/data/cefrEquivalencyItems/c2_mastery.json',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

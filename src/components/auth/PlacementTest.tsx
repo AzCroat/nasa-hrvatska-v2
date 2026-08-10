@@ -178,10 +178,59 @@ const PLACEMENT_QUESTIONS = [
     ],
     answer: 0,
   },
+
+  // Level 6 — C2 Majstor (4 questions)
+  {
+    level: 6,
+    q: '"Rekoh ti da dođeš." The form "rekoh" is:',
+    options: [
+      'Aorist (literary past tense)',
+      'Present tense',
+      'Imperfect (imperfekt)',
+      'Conditional',
+    ],
+    answer: 0,
+  },
+  {
+    level: 6,
+    q: '"Zbog nepridržavanja propisa izrečena je novčana kazna." This style is typical of:',
+    options: ['Administrative-legal register', 'Casual conversation', 'Poetry', 'Regional dialect'],
+    answer: 0,
+  },
+  {
+    level: 6,
+    q: 'The idiom "prošao je pokraj mene kao pokraj turskog groblja" means:',
+    options: [
+      'He ignored me completely',
+      'He walked through a cemetery',
+      'He was afraid of me',
+      'He was in a great hurry',
+    ],
+    answer: 0,
+  },
+  {
+    level: 6,
+    q: 'Correct second-position clitic cluster: "She would have introduced herself to them"',
+    options: [
+      'Predstavila bi im se bila.',
+      'Bila bi im se predstavila.',
+      'Bi se bila predstavila im.',
+      'Bila bi se im predstavila.',
+    ],
+    answer: 1,
+  },
 ];
 
-const LEVEL_NAMES = ['', 'A1 Survival', 'A2 Settler', 'B1 Communicator', 'B2 Explorer', 'C1 Hrvat'];
-const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1'];
+const LEVEL_NAMES = [
+  '',
+  'A1 Survival',
+  'A2 Settler',
+  'B1 Communicator',
+  'B2 Explorer',
+  'C1 Hrvat',
+  'C2 Majstor',
+];
+const LEVEL_TO_CEFR = ['', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const LEVEL_DESC = [
   '',
   "You're just starting out — let's build your foundations with greetings, numbers, and everyday words.",
@@ -189,6 +238,7 @@ const LEVEL_DESC = [
   "You can communicate — let's master verb tenses, cases, and more complex grammar.",
   "You're exploring advanced territory — conditional mood, clitics, and nuanced expressions.",
   "You're approaching native-like fluency — let's polish the finer points of Croatian.",
+  'You command the language at mastery level — literary tenses, register control, and idiomatic precision await.',
 ];
 
 function calculatePlacement(levelCorrect: Record<number, boolean[]>) {
@@ -196,7 +246,7 @@ function calculatePlacement(levelCorrect: Record<number, boolean[]>) {
   // With 4 questions per level, pass threshold = 75% (3/4 correct).
   // For levels with fewer answers (early exit), use 50% (≥ half correct).
   let placed = 1;
-  for (let lv = 1; lv <= 5; lv++) {
+  for (let lv = 1; lv <= 6; lv++) {
     const answers = levelCorrect[lv] || [];
     const correct = answers.filter(Boolean).length;
     const total = answers.length;
@@ -288,7 +338,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
               marginBottom: 6,
             }}
           >
-            20 adaptive questions — about 3-4 minutes. The test adjusts as you go and stops early if
+            24 adaptive questions — about 4-5 minutes. The test adjusts as you go and stops early if
             needed. 🧠
           </p>
           <p

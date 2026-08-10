@@ -1134,6 +1134,7 @@ import a2ToB1Raw from './cefrEquivalencyItems/a2_to_b1.json';
 import b1ToB2Raw from './cefrEquivalencyItems/b1_to_b2.json';
 import b2ToC1Raw from './cefrEquivalencyItems/b2_to_c1.json';
 import c1ToC2Raw from './cefrEquivalencyItems/c1_to_c2.json';
+import c2MasteryRaw from './cefrEquivalencyItems/c2_mastery.json';
 
 function loadFromJson(
   raw: unknown,
@@ -1198,6 +1199,25 @@ const _maybeSets: Array<[CefrLevel, CefrLevel, unknown]> = [
 for (const [from, to, raw] of _maybeSets) {
   const set = loadFromJson(raw, from, to);
   if (set) EQUIVALENCY_TESTS[from] = set;
+}
+
+// ── C2 mastery bank (maintenance, NOT advancement) ───────────────────────────
+//
+// C2 is the cap, so it deliberately stays OUT of EQUIVALENCY_TESTS: putting it
+// there would make getNextTestFor('C2') non-null and flip the Profile card's
+// topped-out state into an eternal "advance C2 → C2" CTA. It exists so the
+// periodic comprehension checkpoints (checkpointExam.ts) have current-level
+// questions and speaking material for C2-certified learners — before this bank,
+// a C2 checkpoint built with zero core questions.
+export const C2_MASTERY_SET: EquivalencyTestSet | null = loadFromJson(c2MasteryRaw, 'C2', 'C2');
+
+/**
+ * The item bank that tests competency AT `level` — for checkpoints and other
+ * current-level assessment. Identical to getNextTestFor for A1–C1; at C2 it
+ * returns the mastery bank instead of null.
+ */
+export function getCheckpointSetFor(level: CefrLevel): EquivalencyTestSet | null {
+  return EQUIVALENCY_TESTS[level] ?? (level === 'C2' ? C2_MASTERY_SET : null);
 }
 
 /**
