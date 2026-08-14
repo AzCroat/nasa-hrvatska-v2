@@ -16,6 +16,15 @@
  * blackHoleScreens.test.ts enforces both rules against the served path. A prior
  * version accumulated 28 dead/shadowed entries that this test now prevents.
  */
+/**
+ * XP paid by the dwell timer. Trimmed 15 → 5 in the XP-economy rebalance
+ * (fluency initiative #3, 2026-08-14): presence on an informational screen is
+ * worth a token amount, not a third of a graded drill — the incentive gradient
+ * must point at production. The lc/gc counter credit is unchanged (it drives
+ * Learn-Path completion and stays as designed).
+ */
+export const DWELL_XP = 5;
+
 // Screens in LEARN_PATH that don't self-report completion — dwell ≥20s grants credit.
 export const BLACK_HOLE_SCREENS: Record<string, string> = {
   texting: 'lc',

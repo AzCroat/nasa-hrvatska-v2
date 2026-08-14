@@ -3,8 +3,8 @@
  *
  * THE BUG
  * -------
- * The Learn-Path black-hole dwell timer (useScreenLauncher) awards 15 XP after 20
- * seconds on a reference screen. It scheduled that award with `setTimeout` and
+ * The Learn-Path black-hole dwell timer (useScreenLauncher)awards DWELL_XP after 20
+ * seconds on a reference screen (5 XP since the 2026-08-14 rebalance). It scheduled that award with `setTimeout` and
  * then, further down the SAME function, called `sCurEx(item.go)`.
  *
  * `award` is a `useCallback` over `[curEx, …]` whose first statement was
@@ -71,10 +71,15 @@ vi.mock('../lib/activityXp.js', () => ({
 const recordProductionRep = vi.fn();
 vi.mock('../lib/productionMetric', () => ({
   recordProductionRep: () => recordProductionRep(),
+  // Real value: useAward multiplies production-screen XP by this (2026-08-14
+  // rebalance). These tests assert attribution, not amounts, so the constant
+  // just needs to exist and be numeric.
+  PRODUCTION_XP_MULTIPLIER: 1.5,
 }));
 
 import { useAward } from '../hooks/useAward';
 import { PRODUCTION_SCREEN_IDS } from '../hooks/useDailySession';
+import { DWELL_XP } from '../lib/blackHoleScreens';
 import type { Stats } from '../types';
 
 /** The stale id a user leaves behind by exiting Speaking via the tab bar. */
@@ -130,7 +135,7 @@ describe('award() — exerciseId overrides a stale curEx', () => {
     );
 
     await act(async () => {
-      await result.current.award(15, undefined, 'lesson', DWELT);
+      await result.current.award(DWELL_XP, undefined, 'lesson', DWELT);
     });
 
     expect(cooldown()[DWELT]).toBe('2026-08-03');
@@ -147,7 +152,7 @@ describe('award() — exerciseId overrides a stale curEx', () => {
     );
 
     await act(async () => {
-      await result.current.award(15, undefined, 'lesson', DWELT);
+      await result.current.award(DWELL_XP, undefined, 'lesson', DWELT);
     });
 
     expect(recordProductionRep).not.toHaveBeenCalled();
@@ -168,7 +173,7 @@ describe('award() — exerciseId overrides a stale curEx', () => {
     );
 
     await act(async () => {
-      await result.current.award(15, undefined, 'lesson', DWELT);
+      await result.current.award(DWELL_XP, undefined, 'lesson', DWELT);
     });
 
     expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
@@ -184,7 +189,7 @@ describe('award() — exerciseId overrides a stale curEx', () => {
     );
 
     await act(async () => {
-      await result.current.award(15, undefined, 'lesson', DWELT);
+      await result.current.award(DWELL_XP, undefined, 'lesson', DWELT);
     });
 
     expect(sessionStorage.getItem('nh_session_completed')).toBe(DWELT);
@@ -214,7 +219,7 @@ describe('award() — exerciseId overrides a stale curEx', () => {
     );
 
     await act(async () => {
-      await result.current.award(15, undefined, 'lesson', DWELT);
+      await result.current.award(DWELL_XP, undefined, 'lesson', DWELT);
     });
 
     expect(setStats).not.toHaveBeenCalled();
