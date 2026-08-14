@@ -462,6 +462,23 @@ export async function onRequestPost({ request, env }) {
   try {
     const status = await sendWebPush(subscription, notification, env);
 
+    // Delivery observability (2026-08-14, VAPID re-provisioning): timestamps
+    // + last push-service status only — never counts (user-count disclosure)
+    // and never endpoints. `push:lastDeliveredAt` flips on the first 2xx from
+    // a push service, which is the provable "the reminder actually delivered"
+    // boundary; surfaced by /api/health next to the backup markers.
+    try {
+      const kv = env.PUSH_SUBSCRIPTIONS;
+      if (kv) {
+        const nowIso = new Date().toISOString();
+        await kv.put('push:lastAttemptAt', nowIso);
+        await kv.put('push:lastStatus', String(status));
+        if (status >= 200 && status < 300) await kv.put('push:lastDeliveredAt', nowIso);
+      }
+    } catch {
+      /* markers must never fail a send */
+    }
+
     // 410 Gone / 404 = subscription expired, caller should delete it
     const expired = status === 410 || status === 404;
     return new Response(JSON.stringify({ ok: !expired, expired, status }), {

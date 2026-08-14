@@ -71,6 +71,10 @@ export async function onRequestGet(context) {
   // Week key + completion timestamp only — never document counts (user-count
   // disclosure) and never contents. `null` means no snapshot exists yet.
   let backup = { lastWeek: null, completedAt: null, clientLastAt: null };
+  // Push delivery markers (streak-push.js) — timestamps + last push-service
+  // status only, never counts. lastDeliveredAt non-null = a push service has
+  // accepted at least one signed reminder since VAPID provisioning.
+  let pushDelivery = { lastAttemptAt: null, lastDeliveredAt: null, lastStatus: null };
   try {
     const kv = env.BACKUP_KV || env.KV || env.PUSH_SUBSCRIPTIONS || null;
     if (kv) {
@@ -82,6 +86,9 @@ export async function onRequestGet(context) {
       }
       // Per-user client tee (backup-mine.js) — timestamp of the newest tee.
       backup.clientLastAt = (await kv.get('backup:client:lastAt')) || null;
+      pushDelivery.lastAttemptAt = (await kv.get('push:lastAttemptAt')) || null;
+      pushDelivery.lastDeliveredAt = (await kv.get('push:lastDeliveredAt')) || null;
+      pushDelivery.lastStatus = (await kv.get('push:lastStatus')) || null;
     }
   } catch {
     /* health must never fail because a status read did */
@@ -116,6 +123,7 @@ export async function onRequestGet(context) {
       ok,
       services,
       backup,
+      pushDelivery,
       env: isDev ? 'development' : 'production',
       ts: Date.now(),
     }),
