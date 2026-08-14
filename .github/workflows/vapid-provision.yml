@@ -1,0 +1,78 @@
+# One-shot VAPID provisioning (2026-08-14).
+#
+# WHY: web push was fully built (subscribe UI, KV storage, hourly worker,
+# /api/streak-push sender) but VAPID_PRIVATE_KEY was never set on the Pages
+# environment, so no push was ever delivered. The original private key lives
+# only in an owner-side note this automation cannot read — and committing any
+# private key to the repo is forbidden — so this workflow GENERATES a fresh
+# P-256 pair at runtime, stores both halves as Pages secrets via wrangler
+# (the proven sync-cf-pages-env.yml mechanism), and prints ONLY the public
+# key. The private key never exists outside this job's memory and Cloudflare.
+#
+# Rotating the pair invalidates existing browser subscriptions — acceptable,
+# since none of them ever received a push; the client re-subscribes on next
+# launch (key-rotation handling in src/lib/pushNotifications.ts).
+#
+# Format contract: functions/api/push-send.js and streak-push.js import the
+# private key as base64url-encoded PKCS8 DER; the client and the Authorization
+# k= parameter use the base64url 65-byte uncompressed public point.
+name: Provision VAPID keys
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provision:
+    name: Generate pair + store as Pages secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Generate P-256 pair and push to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          node - <<'EOF' > /tmp/vapid.json
+          const { webcrypto: c } = require('node:crypto');
+          (async () => {
+            const kp = await c.subtle.generateKey(
+              { name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+            const b64u = (buf) => Buffer.from(buf).toString('base64')
+              .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            const pub = b64u(await c.subtle.exportKey('raw', kp.publicKey));
+            const priv = b64u(await c.subtle.exportKey('pkcs8', kp.privateKey));
+            console.log(JSON.stringify({ pub, priv }));
+          })().catch((e) => { console.error(e); process.exit(1); });
+          EOF
+          PUB=$(jq -r .pub /tmp/vapid.json)
+          PRIV=$(jq -r .priv /tmp/vapid.json)
+          [ "${#PUB}" -ge 80 ] || { echo "::error::public key too short"; exit 1; }
+          [ "${#PRIV}" -ge 150 ] || { echo "::error::private key too short"; exit 1; }
+          printf '%s' "$PRIV" | npx --yes wrangler@3 pages secret put VAPID_PRIVATE_KEY \
+            --project-name nasa-hrvatska-v2
+          printf '%s' "$PUB" | npx --yes wrangler@3 pages secret put VAPID_PUBLIC_KEY \
+            --project-name nasa-hrvatska-v2
+          rm -f /tmp/vapid.json
+          echo "VAPID_PUBLIC_KEY_BEGIN"
+          echo "$PUB"
+          echo "VAPID_PUBLIC_KEY_END"
+
+      - name: Trigger CF Pages redeploy so functions pick up the secrets
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          RESPONSE=$(curl -sf -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/pages/projects/nasa-hrvatska-v2/deployments" \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            -F "branch=master")
+          echo "$RESPONSE" | jq '.success, .result.id'

@@ -66,6 +66,31 @@ export async function initPushNotifications(): Promise<{ subscription: PushSubsc
 
     let subscription = await registration.pushManager.getSubscription();
 
+    // Key rotation (2026-08): the VAPID pair was re-provisioned server-side
+    // (vapid-provision.yml) because the original private key never reached
+    // production — no push made under the old public key was ever deliverable.
+    // A subscription created with a different applicationServerKey can never
+    // be signed by the current private key, so drop it and re-subscribe.
+    // Browsers that don't expose options.applicationServerKey keep their
+    // subscription untouched (we can't verify, and churning would re-subscribe
+    // on every launch); the daily subscribeToPush refresh re-POSTs whatever
+    // subscription this returns, so the server copy follows automatically.
+    if (subscription) {
+      const current = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+      const existingKey = subscription.options?.applicationServerKey;
+      if (existingKey) {
+        const existing = new Uint8Array(existingKey);
+        const same =
+          existing.length === current.length && existing.every((b, i) => b === current[i]);
+        if (!same) {
+          try {
+            await subscription.unsubscribe();
+          } catch {}
+          subscription = null;
+        }
+      }
+    }
+
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
