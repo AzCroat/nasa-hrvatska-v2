@@ -191,4 +191,30 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
     category: 'culture',
     cefr: 'B1',
   },
+  // ── Fluency initiative (2026-08): B2–C2 culture deep dives ──
+  // Before these, every entry above gated at B1 — an advanced learner's culture
+  // slot recycled B1 prose forever. Essays authored AT register (B2 feature
+  // journalism, C1 cultural criticism, C2 essayistic), HR-first with EN toggle;
+  // data ships Bearer-gated via /api/content/core (CULTURE_DEEP_DIVES).
+  {
+    id: 'kultura_b2',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_c1',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c2',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2',
+    category: 'culture',
+    cefr: 'C2',
+  },
 ];

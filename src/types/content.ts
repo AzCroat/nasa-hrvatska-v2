@@ -148,4 +148,17 @@ export interface Content {
   V_B2: Record<string, unknown>;
   V_C1: Record<string, unknown>;
   V_C2: Record<string, unknown>;
+  // B2-C2 culture deep dives (fluency initiative, 2026-08) — consumed by
+  // CultureDeepDiveScreen. Tier key (B2|C1|C2) -> authored bilingual essays.
+  CULTURE_DEEP_DIVES: Record<
+    string,
+    {
+      key: string;
+      emoji: string;
+      title: string;
+      titleEn: string;
+      paragraphs: { hr: string; en: string }[];
+      vocab: [string, string][];
+    }[]
+  >;
 }

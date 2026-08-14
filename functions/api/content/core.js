@@ -36,6 +36,8 @@ const KEYS = [
   'V_C1',
   // C2 mastery tier — near-native register (rhetoric, figurative usage, nuance).
   'V_C2',
+  // B2-C2 culture deep dives (fluency initiative, 2026-08).
+  'CULTURE_DEEP_DIVES',
 ];
 
 function buildBody() {

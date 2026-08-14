@@ -43,6 +43,8 @@ const TARGETS = [
   'src/data/cultural/regions.js',
   'src/data/cultural/language.js',
   'src/data/cultural/events.js',
+  'src/data/cultural/deepdives.js',
+  'functions/api/content/_data/cultural/deepdives.js',
   // CEFR equivalency item bank — A1 inline (TypeScript) + A2–C1 JSON banks.
   // Included to catch encoding-bleed (Cyrillic homoglyphs, U+00AD soft hyphens,
   // mojibake, etc.) introduced by subagent authoring of the expanded 60/60/30 sets.
