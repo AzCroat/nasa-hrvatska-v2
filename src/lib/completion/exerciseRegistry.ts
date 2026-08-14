@@ -77,6 +77,10 @@ const RAW: Record<string, ExerciseEntry> = {
   // C2 drill-pool expansion: verbal adverbs + formal-register precision.
   gerunddrill: g('gc', 'grammar', 'grammar'),
   preciznost: g('gc', 'grammar', 'grammar'),
+  // B2 drill-pool expansion: futur II, reported speech, verbs of motion.
+  futur2: g('gc', 'grammar', 'grammar'),
+  neizravni: g('gc', 'grammar', 'grammar'),
+  kretanje: g('gc', 'grammar', 'grammar'),
   instrumental: g('gc', 'grammar', 'grammar'),
   locative: g('gc', 'grammar', 'grammar'),
   negation: g('gc', 'grammar', 'grammar'),

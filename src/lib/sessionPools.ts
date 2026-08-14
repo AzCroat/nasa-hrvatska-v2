@@ -149,6 +149,31 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'conditional',
   },
+  // B2 drill-pool expansion (A1-B2 content focus, 2026-08): the three B2
+  // grammar units that were TAUGHT (grammarAdvanced animated lessons) but
+  // never DRILLED — futur II, reported speech, prefixed verbs of motion.
+  // B2 had 9 pool drills vs 30-41 at every level below.
+  {
+    id: 'futur2',
+    label: 'Futur drugi',
+    screen: 'futur2',
+    cefr: 'B2',
+    category: 'future-tense',
+  },
+  {
+    id: 'neizravni',
+    label: 'Neizravni govor',
+    screen: 'neizravni',
+    cefr: 'B2',
+    category: 'subordination',
+  },
+  {
+    id: 'kretanje',
+    label: 'Glagoli kretanja',
+    screen: 'kretanje',
+    cefr: 'B2',
+    category: 'aspect-perfective',
+  },
   // B1 — case drills surfaced into the pool (previously routable but never in the
   // daily session). Instrumental/dative also gave the adaptive picker only the
   // generic cloze screen; these add dedicated at-level practice.
@@ -815,6 +840,9 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   c2drill: 5,
   gerunddrill: 5,
   preciznost: 5,
+  futur2: 4,
+  neizravni: 4,
+  kretanje: 4,
   // Wave 1 additions — recognition games tier 2, guided drills tier 3.
   declension: 3,
   padezi: 3,

@@ -12,6 +12,7 @@ import { ssRemove } from '../../lib/safeStorage';
 
 const LEVEL_META = {
   beginner: { badge: 'A1/A2', color: '#16a34a', label: 'Beginner' },
+  a2: { badge: 'A2', color: '#0d9488', label: 'Elementary' },
   intermediate: { badge: 'B1', color: '#2563eb', label: 'Intermediate' },
   advanced: { badge: 'B1-B2', color: '#7c3aed', label: 'Advanced' },
   b2: { badge: 'B2', color: '#b45309', label: 'Upper-Intermediate' },

@@ -955,6 +955,252 @@ export const READ = {
       ],
     },
   ],
+  // A2 — dedicated bucket (A1-B2 content focus, 2026-08). Before this, A1 and
+  // A2 shared the single beginner bucket, so an A2 learner's reading path had
+  // nothing new after A1. Register: perfekt narration, simple subordination
+  // (kad/jer/ali), everyday domains. The A2 path runs beginner -> a2.
+  a2: [
+    {
+      title: 'Vikend na Sljemenu',
+      tEn: 'A Weekend on Sljeme',
+      text: 'U subotu smo se rano probudili jer smo htjeli na Sljeme. Uzeli smo ruksak, vodu i sendviče. Do vrha smo hodali dva i pol sata. Na putu smo vidjeli mnogo planinara i jednu vjevericu. Kad smo stigli na vrh, sjeli smo na klupu i jeli. Pogled na Zagreb bio je prekrasan. Poslije smo popili topli čaj u planinarskom domu. Ana je kupila razglednicu za baku. Vratili smo se autobusom jer su nas boljele noge. Navečer smo svima pokazali fotografije. Bio je to najljepši dan ovoga mjeseca.',
+      vocab: [
+        ['probuditi se', 'to wake up'],
+        ['ruksak', 'backpack'],
+        ['planinar', 'hiker'],
+        ['vjeverica', 'squirrel'],
+        ['razglednica', 'postcard'],
+      ],
+      qs: [
+        {
+          q: 'How long did they walk to the top?',
+          o: ['One hour', 'Two and a half hours', 'Four hours'],
+          c: 1,
+        },
+        {
+          q: 'Why did they return by bus?',
+          o: ['It started raining', 'Their legs hurt', 'They were late'],
+          c: 1,
+        },
+        {
+          q: 'What did Ana buy?',
+          o: ['A postcard for grandma', 'Warm tea', 'A sandwich'],
+          c: 0,
+        },
+      ],
+    },
+    {
+      title: 'Prvi Dan na Novom Poslu',
+      tEn: 'First Day at a New Job',
+      text: 'Marko je jučer počeo raditi u novoj firmi. Ustao je u šest sati i obukao najbolju košulju. Na posao je došao prerano — ured je još bio zatvoren! Čekao je petnaest minuta pred vratima. Kolegica Ivana pokazala mu je njegov stol i računalo. Svi su bili ljubazni i pili su zajedno kavu. Šef mu je objasnio prve zadatke. Marko je bio nervozan, ali je sve dobro prošlo. Za ručak su ga kolege pozvale u obližnji restoran. Navečer je nazvao mamu i rekao: „Mislim da će mi ovdje biti lijepo.”',
+      vocab: [
+        ['obući', 'to put on (clothes)'],
+        ['prerano', 'too early'],
+        ['ljubazan', 'kind, friendly'],
+        ['zadatak', 'task'],
+        ['obližnji', 'nearby'],
+      ],
+      qs: [
+        {
+          q: 'What happened when Marko arrived?',
+          o: ['The office was still closed', 'The boss was waiting', 'He was late'],
+          c: 0,
+        },
+        {
+          q: 'Who showed Marko his desk?',
+          o: ['The boss', 'His colleague Ivana', 'The receptionist'],
+          c: 1,
+        },
+        {
+          q: 'What did Marko tell his mother?',
+          o: [
+            'He wants to find another job',
+            'He thinks it will be nice there',
+            'He was late for work',
+          ],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Izgubljeni Kovčeg',
+      tEn: 'The Lost Suitcase',
+      text: 'Petra je doletjela u Zagreb iz Toronta. Na aerodromu je čekala svoj kovčeg pola sata, ali kovčeg nije došao. Otišla je na šalter i objasnila problem. Službenica je bila ljubazna i zapisala je Petrinu adresu. „Ne brinite se, kovčeg je ostao u Frankfurtu. Sutra ga dostavljamo na vašu adresu,” rekla je. Petra je bila umorna, ali sretna jer je putovnica bila u torbi. Teta ju je čekala pred izlazom s natpisom „Dobro došla!”. Sutradan ujutro zvonilo je zvono — kovčeg je stigao. Sve je bilo unutra: darovi, odjeća i kava za tetu.',
+      vocab: [
+        ['kovčeg', 'suitcase'],
+        ['šalter', 'counter, desk'],
+        ['službenica', 'clerk (female)'],
+        ['dostavljati', 'to deliver'],
+        ['natpis', 'sign'],
+      ],
+      qs: [
+        {
+          q: 'Where was the suitcase?',
+          o: ['Stolen at the airport', 'Left behind in Frankfurt', 'In Toronto'],
+          c: 1,
+        },
+        {
+          q: 'Why was Petra still happy?',
+          o: ['Her passport was in her bag', 'She got money back', 'The flight was short'],
+          c: 0,
+        },
+        {
+          q: 'When did the suitcase arrive?',
+          o: ['The same evening', 'The next morning', 'After a week'],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Rođendansko Iznenađenje',
+      tEn: 'A Birthday Surprise',
+      text: 'Lukina sestra Maja sutra slavi trideseti rođendan. Luka je organizirao iznenađenje. Cijeli je tjedan tajno zvao njezine prijatelje i naručio tortu od čokolade. U subotu poslijepodne svi su se sakrili u dnevnom boravku. Mama je ugasila svjetlo. Kad je Maja otvorila vrata, svi su viknuli: „Iznenađenje!” Maja se prvo jako uplašila, a onda se smijala do suza. Jeli su tortu, pjevali i plesali do ponoći. „Kako ste ovo organizirali bez mene?” pitala je Maja. „Bilo je teško,” rekao je Luka, „jer ti uvijek sve znaš!”',
+      vocab: [
+        ['slaviti', 'to celebrate'],
+        ['tajno', 'secretly'],
+        ['sakriti se', 'to hide'],
+        ['ugasiti', 'to turn off'],
+        ['uplašiti se', 'to get scared'],
+      ],
+      qs: [
+        {
+          q: 'Whose birthday is it?',
+          o: ["Luka's", "His sister Maja's", "Their mother's"],
+          c: 1,
+        },
+        {
+          q: 'Where did the guests hide?',
+          o: ['In the kitchen', 'In the living room', 'In the garden'],
+          c: 1,
+        },
+        {
+          q: 'How did Maja react at first?',
+          o: ['She got scared', 'She started crying', 'She left the room'],
+          c: 0,
+        },
+      ],
+    },
+    {
+      title: 'Subota na Tržnici',
+      tEn: 'Saturday at the Market',
+      text: 'Svake subote idem s djedom na tržnicu. Djed uvijek kaže: „Najbolje povrće kupuje se rano ujutro.” Danas smo kupili rajčice, krastavce i mladi krumpir. Prodavačica nas već poznaje i uvijek nam da malo peršina besplatno. Poslije povrća idemo po sir i vrhnje. Jedna gospođa prodaje domaći med — djed kupuje veliku teglu svaki mjesec. Na kraju uvijek popijemo kavu u malom kafiću pokraj tržnice. Djed čita novine, a ja gledam ljude. Doma nosimo pune vrećice. Baka nas čeka i odmah kuha ručak od svega što smo donijeli.',
+      vocab: [
+        ['tržnica', 'farmers market'],
+        ['prodavačica', 'seller (female)'],
+        ['peršin', 'parsley'],
+        ['vrhnje', 'cream'],
+        ['tegla', 'jar'],
+      ],
+      qs: [
+        {
+          q: 'What does grandpa say about vegetables?',
+          o: [
+            'The best ones are bought early in the morning',
+            'They are cheapest at noon',
+            'They are better in the shop',
+          ],
+          c: 0,
+        },
+        {
+          q: 'What does the seller give them for free?',
+          o: ['Tomatoes', 'A little parsley', 'Honey'],
+          c: 1,
+        },
+        {
+          q: 'What do they do at the end?',
+          o: ['They take the bus home', 'They drink coffee at a small café', 'They buy flowers'],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Kišni Dan u Zagrebu',
+      tEn: 'A Rainy Day in Zagreb',
+      text: 'Jutros je počela padati jaka kiša. Htjeli smo ići u park Maksimir, ali smo promijenili plan. „Idemo u muzej!” predložila je mama. U Muzeju iluzija smijali smo se cijelo vrijeme — sve slike izgledaju čudno i smiješno. Poslije muzeja ušli smo u malu slastičarnicu na Tkalčićevoj ulici. Naručila sam vruću čokoladu, a brat je jeo kremšnitu. Kroz prozor smo gledali ljude s kišobranima. Oko pet sati kiša je stala i pojavila se duga. Prošetali smo mokrim ulicama do glavnog trga. Kišni dan na kraju uopće nije bio dosadan.',
+      vocab: [
+        ['predložiti', 'to suggest'],
+        ['slastičarnica', 'pastry shop'],
+        ['kremšnita', 'custard slice'],
+        ['kišobran', 'umbrella'],
+        ['duga', 'rainbow'],
+      ],
+      qs: [
+        {
+          q: 'What was the original plan?',
+          o: ['Going to Maksimir park', 'Visiting the museum', 'Shopping'],
+          c: 0,
+        },
+        {
+          q: 'What did the brother eat?',
+          o: ['Hot chocolate', 'A custard slice', 'Ice cream'],
+          c: 1,
+        },
+        {
+          q: 'What appeared when the rain stopped?',
+          o: ['Snow', 'A rainbow', 'Fog'],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Posjet Liječniku',
+      tEn: 'A Visit to the Doctor',
+      text: 'Ivan se u ponedjeljak probudio s glavoboljom i temperaturom. Nazvao je ambulantu i naručio se za deset sati. U čekaonici je bilo mnogo ljudi. Sestra ga je pozvala poslije dvadeset minuta. „Što vas boli?” pitala je liječnica. „Boli me glava i grlo,” odgovorio je Ivan. Liječnica ga je pregledala i rekla da ima gripu. Napisala mu je recept i savjetovala: „Ostanite kod kuće, pijte puno čaja i spavajte.” Ivan je u ljekarni kupio lijekove i sirup. Tri dana je ležao i gledao filmove. U četvrtak se osjećao mnogo bolje.',
+      vocab: [
+        ['glavobolja', 'headache'],
+        ['čekaonica', 'waiting room'],
+        ['pregledati', 'to examine'],
+        ['recept', 'prescription'],
+        ['ljekarna', 'pharmacy'],
+      ],
+      qs: [
+        {
+          q: 'What were Ivan\u2019s symptoms?',
+          o: ['Headache and sore throat', 'Stomach ache', 'A broken arm'],
+          c: 0,
+        },
+        {
+          q: 'What did the doctor advise?',
+          o: ['To stay home, drink tea and sleep', 'To go to hospital', 'To exercise more'],
+          c: 0,
+        },
+        {
+          q: 'When did Ivan feel better?',
+          o: ['The same day', 'On Thursday', 'After two weeks'],
+          c: 1,
+        },
+      ],
+    },
+    {
+      title: 'Ljeto kod Bake',
+      tEn: 'Summer at Grandma\u2019s',
+      text: 'Svako ljeto provodim dva tjedna kod bake na otoku. Ujutro idemo zajedno na plažu prije velike vrućine. Baka sjedi pod suncobranom, a ja plivam i skačem s malog mola. Za ručak baka uvijek kuha ribu s blitvom. Poslijepodne svi spavaju — na otoku je tada sve tiho i zatvoreno. Navečer šetamo rivom i jedemo sladoled. Baka poznaje sve ljude u mjestu i sa svima razgovara. Prošle godine naučila me igrati karte na dalmatinski način. Kad se vraćam u grad, uvijek mi je malo tužno. Baka mi kaže: „Dođi opet, more te čeka.”',
+      vocab: [
+        ['provoditi', 'to spend (time)'],
+        ['suncobran', 'parasol'],
+        ['mol', 'pier'],
+        ['blitva', 'Swiss chard'],
+        ['riva', 'seafront promenade'],
+      ],
+      qs: [
+        {
+          q: 'When do they go to the beach?',
+          o: ['In the morning before the heat', 'At noon', 'In the evening'],
+          c: 0,
+        },
+        {
+          q: 'What does grandma always cook for lunch?',
+          o: ['Fish with Swiss chard', 'Pizza', 'Roast meat'],
+          c: 0,
+        },
+        {
+          q: 'What did grandma teach the narrator last year?',
+          o: ['To swim', 'To play cards the Dalmatian way', 'To cook fish'],
+          c: 1,
+        },
+      ],
+    },
+  ],
   intermediate: [
     {
       title: 'Ljeto u Dalmaciji',
