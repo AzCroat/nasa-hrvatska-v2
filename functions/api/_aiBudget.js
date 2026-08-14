@@ -35,9 +35,12 @@
  * fail-closed if neither answers. Table: migrations/ai_month_spend.sql.
  */
 
-// $4.00/month for metered AI calls — $1 head-room under the $5 mandate for
+// $9.00/month for metered AI calls — $1 head-room under the $10 mandate for
 // providers billed outside this ledger (Azure/Deepgram free-tier overruns).
-export const MONTHLY_BUDGET_MICROUSD = 4_000_000;
+// Raised from $4/$5 on 2026-08-14 (owner directive): the extra headroom
+// exists to buy spontaneous-conversation turns — the fluency lever — not to
+// loosen per-endpoint ceilings.
+export const MONTHLY_BUDGET_MICROUSD = 9_000_000;
 
 const HAIKU_IN = 1; // µ$/token
 const HAIKU_OUT = 5; // µ$/token
