@@ -23,8 +23,12 @@ function _scheduleTimeout(fn: () => void, delayMs: number): ReturnType<typeof se
 const NOTIF_KEY = 'nh_notifications_enabled';
 const SUB_KEY = 'nh_push_subscription';
 
+// Rotated 2026-08-14 by the vapid-provision.yml run: the original pair's
+// private key never reached the Pages environment, so no push made under the
+// old public key was ever deliverable. This is the public half of the pair
+// whose private half lives ONLY as a Cloudflare Pages secret.
 export const VAPID_PUBLIC_KEY =
-  'BAFN-xEz0NYzDK8Pn9cdKTuTFYNd_cpQQxM_nKRVwz65tzBB--dPawvo59OPkoUlh8GuvIjd1phITqLmJFpnirc';
+  'BL_i_4eSRo6v-lyDOGINh6RwCu7eRH5smLbSYBQ-61CFR_tNmdL5Wd3Yok2KYQOwKOgOFZdbGUwkqDEV6IAgHsk';
 
 function urlBase64ToUint8Array(b64: string): Uint8Array {
   const padding = '='.repeat((4 - (b64.length % 4)) % 4);
