@@ -1,6 +1,7 @@
 import React from 'react';
 import { speak } from '../../../lib/audio.ts';
 import AudioControls from './AudioControls';
+import DialoguePlayer from './DialoguePlayer';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
@@ -187,6 +188,20 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
       >
         {selectedSet.icon} {selectedSet.title} · {completedInSet}/{totalInSet} completed
       </div>
+
+      {/* Listening-depth (2026-08-14): dialogue sets play a two-voice
+          conversation — speaker A in the set narrator's voice, speaker B in
+          the OTHER native voice — before the per-line quiz. B2+ gets a
+          native-pace toggle (true 0% SSML rate vs the default study pace). */}
+      {selectedSet.dialogue && (
+        <DialoguePlayer
+          lines={selectedSet.dialogue}
+          voiceA={narrator}
+          voiceB={narrator === 'srecko' ? undefined : 'srecko'}
+          accentColor={ld.color}
+          allowNativePace={['B2', 'C1', 'C2'].includes(selectedLevel!)}
+        />
+      )}
 
       {/* 3b: connected-speech sets carry a full passage — the questions below
           replay single sentences FROM it, so offer whole-passage playback for

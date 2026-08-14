@@ -1046,6 +1046,85 @@ export const EXERCISES = {
           },
         ],
       },
+      {
+        title: 'Na tržnici — razgovor',
+        icon: '🍅',
+        // Two-voice dialogue (listening-depth, 2026-08-14): played line by line
+        // with alternating native narrators before the per-sentence quiz.
+        dialogue: [
+          { s: 'A', hr: 'Dobar dan! Izvolite?' },
+          { s: 'B', hr: 'Dobar dan. Molim vas kilogram rajčica.' },
+          { s: 'A', hr: 'Naravno. Želite li još nešto?' },
+          { s: 'B', hr: 'Imate li svježih smokava?' },
+          { s: 'A', hr: 'Imamo, jutros su stigle s otoka.' },
+          { s: 'B', hr: 'Onda pola kilograma, molim. Koliko košta sve skupa?' },
+          { s: 'A', hr: 'Šest eura i dvadeset centi.' },
+          { s: 'B', hr: 'Izvolite. Hvala vam lijepa!' },
+          { s: 'A', hr: 'Hvala vama. Dođite nam opet!' },
+        ],
+        questions: [
+          {
+            hr: 'Molim vas kilogram rajčica.',
+            en: 'A kilo of tomatoes, please.',
+            opts: [
+              'A kilo of peppers, please.',
+              'A kilo of tomatoes, please.',
+              'Half a kilo of tomatoes, please.',
+              'A bag of tomatoes, please.',
+            ],
+          },
+          {
+            hr: 'Želite li još nešto?',
+            en: 'Would you like anything else?',
+            opts: [
+              'Would you like anything else?',
+              'Do you want to try it?',
+              'Is that everything?',
+              'Would you like a bag?',
+            ],
+          },
+          {
+            hr: 'Imate li svježih smokava?',
+            en: 'Do you have fresh figs?',
+            opts: [
+              'Do you have fresh grapes?',
+              'Are the figs fresh?',
+              'Do you have fresh figs?',
+              'Do you sell dried figs?',
+            ],
+          },
+          {
+            hr: 'Imamo, jutros su stigle s otoka.',
+            en: 'We do — they arrived from the island this morning.',
+            opts: [
+              'We do — they arrived from the village this morning.',
+              'We do — they arrived from the island this morning.',
+              'We will get them from the island tomorrow.',
+              'We do — they were picked on the island yesterday.',
+            ],
+          },
+          {
+            hr: 'Koliko košta sve skupa?',
+            en: 'How much does it all cost together?',
+            opts: [
+              'How much do the figs cost?',
+              'How much does it all cost together?',
+              'Is everything so expensive?',
+              'What does a kilo cost?',
+            ],
+          },
+          {
+            hr: 'Dođite nam opet!',
+            en: 'Come see us again!',
+            opts: [
+              'Come see us again!',
+              'See you tomorrow!',
+              'Take care of yourself!',
+              'Come back for the change!',
+            ],
+          },
+        ],
+      },
     ],
   },
   B1: {
@@ -1550,6 +1629,84 @@ export const EXERCISES = {
               'Because of the breakdown, the holiday was ruined completely.',
               'Despite the breakdown, we decided to cancel the rest of the holiday.',
               'Despite the breakdown, the holiday was only average.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Dogovor za vikend',
+        icon: '🗓️',
+        dialogue: [
+          { s: 'A', hr: 'Bog, Marko! Kakvi su ti planovi za vikend?' },
+          { s: 'B', hr: 'Bog! Još ne znam. Razmišljam o izletu na Plitvice.' },
+          { s: 'A', hr: 'Odlična ideja! Smijem li se pridružiti?' },
+          { s: 'B', hr: 'Naravno! Krećemo u subotu rano ujutro.' },
+          { s: 'A', hr: 'U koliko sati točno?' },
+          { s: 'B', hr: 'U šest, da izbjegnemo gužvu na cesti.' },
+          { s: 'A', hr: 'Uh, to mi je prerano. Može u sedam?' },
+          { s: 'B', hr: 'Dobro, može. Ali onda nećemo stići prije podneva.' },
+          { s: 'A', hr: 'Nema veze. Glavno da vidimo jezera prije mraka.' },
+          { s: 'B', hr: 'Dogovoreno. Vidimo se u subotu!' },
+        ],
+        questions: [
+          {
+            hr: 'Kakvi su ti planovi za vikend?',
+            en: 'What are your plans for the weekend?',
+            opts: [
+              'What are your plans for the weekend?',
+              'What are your plans for the summer?',
+              'Do you have time this weekend?',
+              'Where are you going for the weekend?',
+            ],
+          },
+          {
+            hr: 'Razmišljam o izletu na Plitvice.',
+            en: 'I am thinking about a trip to Plitvice.',
+            opts: [
+              'I am planning to move to Plitvice.',
+              'I am thinking about a trip to Plitvice.',
+              'I have already been to Plitvice.',
+              'I dream about the Plitvice lakes.',
+            ],
+          },
+          {
+            hr: 'Smijem li se pridružiti?',
+            en: 'May I join you?',
+            opts: [
+              'Should I drive?',
+              'Can you pick me up?',
+              'May I join you?',
+              'May I invite a friend?',
+            ],
+          },
+          {
+            hr: 'U šest, da izbjegnemo gužvu na cesti.',
+            en: 'At six, so that we avoid the traffic on the road.',
+            opts: [
+              'At six, so that we avoid the traffic on the road.',
+              'At six, before the road is closed.',
+              'At seven, when there is less traffic.',
+              'At six, because the park opens early.',
+            ],
+          },
+          {
+            hr: 'Ali onda nećemo stići prije podneva.',
+            en: 'But then we will not arrive before noon.',
+            opts: [
+              'But then we will not arrive before evening.',
+              'But then we will not arrive before noon.',
+              'But then we cannot leave before noon.',
+              'But we might still arrive around noon.',
+            ],
+          },
+          {
+            hr: 'Glavno da vidimo jezera prije mraka.',
+            en: 'The main thing is that we see the lakes before dark.',
+            opts: [
+              'The main thing is that we see the lakes before dark.',
+              'I hope the lakes are open before dark.',
+              'We must leave the lakes before dark.',
+              'The lakes are most beautiful in the dark.',
             ],
           },
         ],
@@ -2082,6 +2239,157 @@ export const EXERCISES = {
           },
         ],
       },
+      {
+        title: 'Razgovor za posao',
+        icon: '💼',
+        dialogue: [
+          { s: 'A', hr: 'Dobar dan, izvolite sjesti. Recite nam nešto o svom radnom iskustvu.' },
+          {
+            s: 'B',
+            hr: 'Hvala vam. Posljednje tri godine radim u marketinškoj agenciji u Splitu.',
+          },
+          { s: 'A', hr: 'Zašto želite promijeniti posao?' },
+          { s: 'B', hr: 'Želim se razvijati u većem timu i preuzeti više odgovornosti.' },
+          { s: 'A', hr: 'Kako se nosite s rokovima i pritiskom?' },
+          { s: 'B', hr: 'Dobro organiziram vrijeme, pa rokovi za mene nisu problem.' },
+          { s: 'A', hr: 'Kada biste mogli početi raditi kod nas?' },
+          { s: 'B', hr: 'Uz otkazni rok, mogao bih početi za mjesec dana.' },
+          { s: 'A', hr: 'Odlično. Javit ćemo vam se do kraja tjedna.' },
+          { s: 'B', hr: 'Hvala vam na prilici. Doviđenja!' },
+        ],
+        questions: [
+          {
+            hr: 'Recite nam nešto o svom radnom iskustvu.',
+            en: 'Tell us something about your work experience.',
+            opts: [
+              'Tell us something about your education.',
+              'Tell us something about your work experience.',
+              'Tell us why you left your last job.',
+              'Tell us something about yourself.',
+            ],
+          },
+          {
+            hr: 'Želim se razvijati u većem timu i preuzeti više odgovornosti.',
+            en: 'I want to develop in a bigger team and take on more responsibility.',
+            opts: [
+              'I want to lead a bigger team and delegate responsibility.',
+              'I want to develop in a bigger team and take on more responsibility.',
+              'I want a bigger salary and more freedom.',
+              'I want to build a team and share responsibility.',
+            ],
+          },
+          {
+            hr: 'Kako se nosite s rokovima i pritiskom?',
+            en: 'How do you handle deadlines and pressure?',
+            opts: [
+              'How do you handle criticism and failure?',
+              'How do you feel about overtime and travel?',
+              'How do you handle deadlines and pressure?',
+              'How do you organize your working day?',
+            ],
+          },
+          {
+            hr: 'Uz otkazni rok, mogao bih početi za mjesec dana.',
+            en: 'With my notice period, I could start in a month.',
+            opts: [
+              'With my notice period, I could start in a month.',
+              'Without a notice period, I can start immediately.',
+              'Because of my notice period, I cannot start this year.',
+              'With some luck, I could start next week.',
+            ],
+          },
+          {
+            hr: 'Javit ćemo vam se do kraja tjedna.',
+            en: 'We will get back to you by the end of the week.',
+            opts: [
+              'We will get back to you by the end of the month.',
+              'We will get back to you by the end of the week.',
+              'Call us back at the end of the week.',
+              'We will let you know our decision today.',
+            ],
+          },
+          {
+            hr: 'Hvala vam na prilici.',
+            en: 'Thank you for the opportunity.',
+            opts: [
+              'Thank you for the opportunity.',
+              'Thank you for your time.',
+              'Thank you for the invitation.',
+              'Thank you for the offer.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Život na otoku',
+        icon: '🏝️',
+        // Long connected passage (listening-depth, 2026-08-14) — extended
+        // monologue at natural B2 density; per-sentence quiz below.
+        passage:
+          'Moja obitelj već tri generacije živi na malom otoku u Dalmaciji. Zimi nas je jedva dvjesto, ali ljeti se broj stanovnika udeseterostruči. Turizam nam je donio posao i novac, no promijenio je i način života. Mladi sve češće odlaze na kopno zbog škole i posla, a vraćaju se samo preko ljeta. Moj djed kaže da je otok najljepši u listopadu, kad odu i posljednji gosti. Tada se opet čuje more, a ne motori. Unatoč svemu, ne mogu zamisliti da živim negdje drugdje.',
+        questions: [
+          {
+            hr: 'Moja obitelj već tri generacije živi na malom otoku u Dalmaciji.',
+            en: 'My family has lived on a small island in Dalmatia for three generations already.',
+            opts: [
+              'My family has lived on a small island in Dalmatia for three generations already.',
+              'My family moved to a small island in Dalmatia three generations ago.',
+              'My family has owned a small hotel in Dalmatia for three generations.',
+              'Three generations of my family visit a small island in Dalmatia.',
+            ],
+          },
+          {
+            hr: 'Zimi nas je jedva dvjesto, ali ljeti se broj stanovnika udeseterostruči.',
+            en: 'In winter there are barely two hundred of us, but in summer the number of residents increases tenfold.',
+            opts: [
+              'In winter there are barely two hundred of us, but in summer the number of residents increases tenfold.',
+              'In winter there are almost two thousand of us, but in summer the island empties.',
+              'In winter barely two hundred tourists come, but in summer ten times more.',
+              'In winter two hundred of us leave, but in summer everyone returns.',
+            ],
+          },
+          {
+            hr: 'Turizam nam je donio posao i novac, no promijenio je i način života.',
+            en: 'Tourism brought us work and money, but it also changed our way of life.',
+            opts: [
+              'Tourism brought us work and money, but it also changed our way of life.',
+              'Tourism brought us work and money, and improved our way of life.',
+              'Tourism took away our work and money, and changed our way of life.',
+              'Tourism brought us guests and noise, but our way of life survived.',
+            ],
+          },
+          {
+            hr: 'Mladi sve češće odlaze na kopno zbog škole i posla, a vraćaju se samo preko ljeta.',
+            en: 'Young people leave for the mainland more and more often because of school and work, and come back only during the summer.',
+            opts: [
+              'Young people leave for the mainland more and more often because of school and work, and come back only during the summer.',
+              'Young people rarely leave for the mainland, except for school and work in the summer.',
+              'Young people move to the mainland for good because of school and work, and never come back.',
+              'Young people commute to the mainland daily for school and work, returning every evening.',
+            ],
+          },
+          {
+            hr: 'Tada se opet čuje more, a ne motori.',
+            en: 'Then you can hear the sea again, not engines.',
+            opts: [
+              'Then you can hear the sea again, not engines.',
+              'Then the sea is louder than the engines.',
+              'Then the boats finally return to the sea.',
+              'Then you can finally swim in the sea again.',
+            ],
+          },
+          {
+            hr: 'Unatoč svemu, ne mogu zamisliti da živim negdje drugdje.',
+            en: 'Despite everything, I cannot imagine living anywhere else.',
+            opts: [
+              'Despite everything, I cannot imagine living anywhere else.',
+              'Because of everything, I imagine living somewhere else.',
+              'After everything, I would gladly live somewhere else.',
+              'Despite everything, I can imagine leaving one day.',
+            ],
+          },
+        ],
+      },
     ],
   },
   C1: {
@@ -2584,6 +2892,74 @@ export const EXERCISES = {
           },
         ],
       },
+      {
+        title: 'Iseljenička pisma',
+        icon: '✉️',
+        passage:
+          'U potkrovlju smo pronašli kutiju pisama koja je prabaka slala iz Amerike početkom prošlog stoljeća. Pisala je o tvornici u kojoj je radila po dvanaest sati dnevno i o tome kako je štedjela svaki cent za povratak. Najviše me se dojmilo pismo u kojem opisuje prvi Božić daleko od doma. Priznaje da je plakala slušajući tuđe pjesme, ali dodaje kako je upravo te večeri odlučila otvoriti vlastitu pekarnicu. Da se tada vratila, kako je planirala, mi bismo danas vjerojatno živjeli u Lici. Njezina me sudbina podsjeća koliko su naši životi isprepleteni odlukama ljudi koje nikada nismo upoznali.',
+        questions: [
+          {
+            hr: 'U potkrovlju smo pronašli kutiju pisama koja je prabaka slala iz Amerike početkom prošlog stoljeća.',
+            en: 'In the attic we found a box of letters that great-grandmother sent from America at the beginning of the last century.',
+            opts: [
+              'In the attic we found a box of letters that great-grandmother sent from America at the beginning of the last century.',
+              'In the attic we found a box of letters that great-grandmother received from America at the end of the last century.',
+              'In the basement we found a box of photographs that great-grandmother brought from America a century ago.',
+              'In the attic great-grandmother kept a box of letters she never sent to America.',
+            ],
+          },
+          {
+            hr: 'Pisala je o tvornici u kojoj je radila po dvanaest sati dnevno i o tome kako je štedjela svaki cent za povratak.',
+            en: 'She wrote about the factory where she worked twelve hours a day and about how she saved every cent for the return home.',
+            opts: [
+              'She wrote about the factory where she worked twelve hours a day and about how she saved every cent for the return home.',
+              'She wrote about the factory where she worked twelve days in a row and spent every cent she earned.',
+              'She wrote about the shop where she worked twelve hours a week and saved every cent for a house.',
+              'She wrote about the factory she owned and about how she counted every cent of profit.',
+            ],
+          },
+          {
+            hr: 'Najviše me se dojmilo pismo u kojem opisuje prvi Božić daleko od doma.',
+            en: 'The letter in which she describes her first Christmas far from home impressed me the most.',
+            opts: [
+              'The letter in which she describes her first Christmas far from home impressed me the most.',
+              'The letter in which she describes her last Christmas at home saddened me the most.',
+              'The letter she wrote on her first Christmas confused me the most.',
+              'The letter describing her journey home for Christmas surprised me the most.',
+            ],
+          },
+          {
+            hr: 'Priznaje da je plakala slušajući tuđe pjesme, ali dodaje kako je upravo te večeri odlučila otvoriti vlastitu pekarnicu.',
+            en: "She admits she cried listening to other people's songs, but adds that that very evening she decided to open her own bakery.",
+            opts: [
+              "She admits she cried listening to other people's songs, but adds that that very evening she decided to open her own bakery.",
+              "She denies she cried listening to other people's songs, though that evening she closed her bakery.",
+              'She admits she cried singing her own songs, and that evening she decided to sell the bakery.',
+              'She admits she cried listening to the radio, but adds that she soon forgot her plan for a bakery.',
+            ],
+          },
+          {
+            hr: 'Da se tada vratila, kako je planirala, mi bismo danas vjerojatno živjeli u Lici.',
+            en: 'Had she returned then, as she planned, we would probably be living in Lika today.',
+            opts: [
+              'Had she returned then, as she planned, we would probably be living in Lika today.',
+              'When she returned, as she planned, we all moved to Lika.',
+              'If she returns as planned, we will probably live in Lika.',
+              'Because she never planned to return, we do not live in Lika today.',
+            ],
+          },
+          {
+            hr: 'Njezina me sudbina podsjeća koliko su naši životi isprepleteni odlukama ljudi koje nikada nismo upoznali.',
+            en: 'Her fate reminds me how much our lives are interwoven with the decisions of people we never met.',
+            opts: [
+              'Her fate reminds me how much our lives are interwoven with the decisions of people we never met.',
+              'Her fate reminds me how little our lives depend on people we never met.',
+              'Her fate warns me how our lives are complicated by the mistakes of strangers.',
+              'Her fate reminds me how our lives are shaped by relatives we know well.',
+            ],
+          },
+        ],
+      },
     ],
   },
   C2: {
@@ -3082,6 +3458,74 @@ export const EXERCISES = {
               'The results will not be presented publicly due to their sensitivity.',
               'The results were already presented at a conference last year.',
               'The conference on marine conservation has been cancelled this year.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Jezik i identitet',
+        icon: '🗣️',
+        passage:
+          'Rasprava o odnosu jezika i identiteta u hrvatskome društvu rijetko ostaje na akademskoj razini. Svaka pravopisna reforma izazove žustre polemike u kojima se jezikoslovni argumenti isprepleću s političkima. Zagovornici purizma tvrde da posuđenice osiromašuju izražajne mogućnosti hrvatskoga, dok njihovi kritičari upozoravaju da je jezik živ organizam koji se opire propisivanju. Istina je, kao i obično, negdje između: norma daje jeziku stabilnost, a govornici mu daju život. Ono što se u udžbenicima naziva iznimkom, na tržnici je pravilo. Možda je upravo ta napetost između propisanoga i govorenoga najpouzdaniji znak da je jezik doista živ.',
+        questions: [
+          {
+            hr: 'Rasprava o odnosu jezika i identiteta u hrvatskome društvu rijetko ostaje na akademskoj razini.',
+            en: 'The debate about the relationship between language and identity in Croatian society rarely stays at an academic level.',
+            opts: [
+              'The debate about the relationship between language and identity in Croatian society rarely stays at an academic level.',
+              'The debate about the relationship between language and identity in Croatian society rarely reaches an academic level.',
+              'The debate about language and identity in Croatian society usually stays among academics.',
+              'The relationship between language and identity is rarely debated in Croatian society.',
+            ],
+          },
+          {
+            hr: 'Svaka pravopisna reforma izazove žustre polemike u kojima se jezikoslovni argumenti isprepleću s političkima.',
+            en: 'Every orthographic reform provokes heated polemics in which linguistic arguments intertwine with political ones.',
+            opts: [
+              'Every orthographic reform provokes heated polemics in which linguistic arguments intertwine with political ones.',
+              'Every orthographic reform provokes quiet disagreements in which linguistic arguments defeat political ones.',
+              'Every political reform provokes heated polemics in which orthographic arguments play no part.',
+              'Every orthographic reform ends heated polemics by separating linguistic arguments from political ones.',
+            ],
+          },
+          {
+            hr: 'Zagovornici purizma tvrde da posuđenice osiromašuju izražajne mogućnosti hrvatskoga, dok njihovi kritičari upozoravaju da je jezik živ organizam koji se opire propisivanju.',
+            en: 'Advocates of purism claim that loanwords impoverish the expressive possibilities of Croatian, while their critics warn that language is a living organism that resists prescription.',
+            opts: [
+              'Advocates of purism claim that loanwords impoverish the expressive possibilities of Croatian, while their critics warn that language is a living organism that resists prescription.',
+              'Advocates of purism claim that loanwords enrich the expressive possibilities of Croatian, while their critics warn that language needs prescription.',
+              'Critics of purism claim that loanwords impoverish Croatian, while its advocates warn that language resists change.',
+              'Advocates of purism warn that language is a living organism, while their critics claim that loanwords stabilize it.',
+            ],
+          },
+          {
+            hr: 'Istina je, kao i obično, negdje između: norma daje jeziku stabilnost, a govornici mu daju život.',
+            en: 'The truth is, as usual, somewhere in between: the norm gives language stability, and speakers give it life.',
+            opts: [
+              'The truth is, as usual, somewhere in between: the norm gives language stability, and speakers give it life.',
+              'The truth is, unusually, somewhere in between: the norm gives language life, and speakers give it stability.',
+              'The truth is simple: the norm limits language, and speakers defend it.',
+              'The truth is, as usual, on both sides: the norm and the speakers fight for the language.',
+            ],
+          },
+          {
+            hr: 'Ono što se u udžbenicima naziva iznimkom, na tržnici je pravilo.',
+            en: 'What is called an exception in textbooks is the rule at the market.',
+            opts: [
+              'What is called an exception in textbooks is the rule at the market.',
+              'What is called a rule in textbooks is forbidden at the market.',
+              'What the market calls an exception is the rule in textbooks.',
+              'What textbooks allow is treated as an exception at the market.',
+            ],
+          },
+          {
+            hr: 'Možda je upravo ta napetost između propisanoga i govorenoga najpouzdaniji znak da je jezik doista živ.',
+            en: 'Perhaps precisely that tension between the prescribed and the spoken is the most reliable sign that the language is truly alive.',
+            opts: [
+              'Perhaps precisely that tension between the prescribed and the spoken is the most reliable sign that the language is truly alive.',
+              'Perhaps precisely that harmony between the prescribed and the spoken proves the language is alive.',
+              'Perhaps that tension between the prescribed and the spoken is the surest sign the language is dying.',
+              'Perhaps the absence of tension between writing and speech shows the language is truly alive.',
             ],
           },
         ],
