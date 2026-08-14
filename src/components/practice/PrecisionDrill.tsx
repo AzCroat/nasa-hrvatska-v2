@@ -4,6 +4,7 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 
 import { rnd } from '../../lib/random.js';
+import { drawDrillRun } from '../../lib/drillRun';
 function shLocal<T>(a: T[]): T[] {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -234,7 +235,7 @@ export default function PrecisionDrill({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
   const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
+    drawDrillRun(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
   );
   const total = q.length;
   const [idx, setIdx] = useState(0);
