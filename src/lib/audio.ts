@@ -258,7 +258,7 @@ export function stopAudio(): void {
 export async function speakAzure(
   text: string,
   slow?: boolean,
-  opts?: { phoneme?: string; voice?: string },
+  opts?: { phoneme?: string; voice?: string; rate?: string },
 ): Promise<boolean> {
   if (!text || !text.trim()) return false;
   dbgInfo(
@@ -275,9 +275,14 @@ export async function speakAzure(
   // one native speaker). Falls back to the stored preference as before.
   const voicePref = opts?.voice ?? getVoicePreference();
   const phoneme = opts?.phoneme || '';
-  // phoneme in the cache key so an IPA-corrected play never collides with the plain
-  // cached audio for the same word (matches the server-side edge cache key).
-  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme;
+  // opts.rate is a per-call SSML prosody-rate override (listening-depth,
+  // 2026-08-14): B2+ listening offers true native pace ('0%') on top of the
+  // default study pace (server default -8%). Server-validated percent string.
+  const rate = opts?.rate || '';
+  // phoneme + rate in the cache key so an IPA-corrected or native-pace play
+  // never collides with the plain cached audio for the same text (matches the
+  // server-side edge/KV cache keys, which include prosody).
+  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme + '|' + rate;
   const cached = _cacheGet(cacheKey);
 
   try {
@@ -294,6 +299,7 @@ export async function speakAzure(
       const body: Record<string, unknown> = { text, slow: !!slow };
       if (voicePref !== 'auto') body.voice = voicePref;
       if (phoneme) body.phoneme = phoneme;
+      if (rate) body.prosody = { rate };
       _ttsAbort = new AbortController();
       // Use timeout-aware abort signal when supported; fall back to plain abort signal.
       const timeoutSignal = (
@@ -546,7 +552,7 @@ async function _awaitVoices(): Promise<SpeechSynthesisVoice | null> {
 
 export async function speak(
   text: string,
-  opts?: { phoneme?: string; voice?: string },
+  opts?: { phoneme?: string; voice?: string; rate?: string },
 ): Promise<string> {
   if (!text) return 'none';
   const t = prepTTS(text);
