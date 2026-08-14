@@ -65,9 +65,13 @@ const OUTSIDE_SESSION: string[] = [
   // Wave 4 (2026-07) registered 26 of the original 35: 13 with real quiz+award
   // completion joined the graded pool, 11 bounded bilingual browse screens
   // carry the reference auto-complete contract (max one per session), and
-  // dialect_awareness/phraseofday rotate through the Croatia slot. Each
+  // phraseofday rotates through the Croatia slot. Each
   // remaining exclusion has a hard blocker:
-  'dialects', // redundant reading-only twin of dialect_awareness (which is served, with quiz)
+  'dialects', // reading-only dialect screen; on-demand from Learn, not session-servable
+  // dialect_awareness: REMOVED from the Croatia slot (owner decision
+  // 2026-08-14) — once-ever quiz award + text-only content made repeat
+  // serves hollow. Stays reachable on demand from the Culture tab.
+  'dialect_awareness',
   'pitch_accent', // 4-lesson guided course — exceeds the 2–6 min session-slot envelope
   'reading', // renders null without parent-held passage state (rp/rph/…); served via readlist
   'scenes', // sprawling catalog (renders every scene); vocabscenes serves this ground interactively
@@ -253,7 +257,6 @@ describe('Wave 1 — pool registration integrity', () => {
       'tivicompare',
       'colorquirk',
       'idioms',
-      'dialect_awareness',
       'phraseofday',
     ]) {
       expect(SESSION_SCREEN_IDS.has(s), `${s} not session-reachable`).toBe(true);
