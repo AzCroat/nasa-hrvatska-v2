@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H } from '../../data';
-import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { AIContentSkeleton, AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
@@ -19,18 +19,7 @@ import {
 } from '../../lib/listeningCurriculum';
 import ListeningPathBanner from './listening/ListeningPathBanner';
 
-const TOPICS = [
-  { key: 'cafe', emoji: '☕', hr: 'U kafiću', en: 'At the Café' },
-  { key: 'market', emoji: '🛒', hr: 'Na tržnici', en: 'At the Market' },
-  { key: 'family', emoji: '👨‍👩‍👧', hr: 'Obitelj', en: 'Family' },
-  { key: 'travel', emoji: '✈️', hr: 'Putovanje', en: 'Travel' },
-  { key: 'weather', emoji: '🌤️', hr: 'Vrijeme', en: 'Weather' },
-  { key: 'sports', emoji: '⚽', hr: 'Sport', en: 'Sports' },
-  { key: 'work', emoji: '💼', hr: 'Posao', en: 'Work' },
-  { key: 'weekend', emoji: '🏖️', hr: 'Vikend', en: 'Weekend' },
-  { key: 'restaurant', emoji: '🍽️', hr: 'Restoran', en: 'Restaurant' },
-  { key: 'city', emoji: '🏙️', hr: 'Grad', en: 'City' },
-];
+import { TOPICS } from './listening/aiListeningTopics';
 
 export default function AIListeningScreen({
   goBack,
@@ -44,7 +33,7 @@ export default function AIListeningScreen({
   // and the offline UI never engaged; the typed ListeningPathBanner prop
   // surfaced it.)
   const { isOnline } = useOnlineStatus();
-  const { stats } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('setup');
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [style, setStyle] = useState('dialogue');
@@ -262,11 +251,11 @@ export default function AIListeningScreen({
   }
 
   function nextQuestion() {
-    if (qIndex < content.questions.length - 1) setQIndex((i) => i + 1);
-    else goToResults();
-  }
-
-  function goToResults() {
+    if (qIndex < content.questions.length - 1) {
+      setQIndex((i) => i + 1);
+      return;
+    }
+    // Last question answered → results.
     // Content-Rec #1: completing an exercise whose (level, topic, style) matches
     // a curriculum unit marks that unit done, advancing the listening path.
     // Free-pick combos that aren't part of the path simply don't match.
@@ -274,18 +263,27 @@ export default function AIListeningScreen({
       const unit = findListeningUnit(level, selectedTopic, style);
       if (unit) markListeningUnitDone(unit.id);
     }
+    // Award exactly once per generation (ref resets on regenerate) — via the
+    // completion authority (listening-channel fix, 2026-08-14) so the session's
+    // SUCCESS path completes and cat_listening reschedules; per-run XP is
+    // unchanged (effort + awardOnReplay). The registry's 'listening' quest
+    // replaces the old markQuest('speak') mislabel.
+    if (!xpAwarded.current) {
+      xpAwarded.current = true;
+      completeExercise({
+        key: 'ai-listening',
+        score,
+        total: content?.questions?.length ?? 0,
+        xp: 10 + score * 5,
+        stats,
+        setStats,
+        writeDelta,
+        award: typeof award === 'function' ? award : undefined,
+        awardOnReplay: true,
+      });
+    }
     setPhase('results');
   }
-
-  // Award XP exactly once when results phase is entered.
-  useEffect(() => {
-    if (phase === 'results' && !xpAwarded.current) {
-      xpAwarded.current = true;
-      const xp = 10 + score * 5;
-      if (typeof award === 'function') award(xp, false, 'listening');
-      markQuest('speak');
-    }
-  }, [phase, score, award]);
 
   function resetToSetup() {
     if (audioRef.current) {

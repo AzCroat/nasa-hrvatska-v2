@@ -132,6 +132,12 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // spoken output is guaranteed by the production slot instead (PRODUCTION_POOL,
   // which since Wave 3 includes speaking_sprint again — it uses only browser
   // speech APIs, no AI quota).
+  // Listening-channel fix (2026-08-14): 'listening' routes to the authored
+  // graded-story bank (A1+, zero AI cost — NOT ai_listening, which spends
+  // quota). The screen levels its own content, and its quiz finish now runs
+  // through completeExercise, so the session-category bridge reschedules
+  // listening from real accuracy like any grammar category.
+  listening: 'listening_comprehension',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive

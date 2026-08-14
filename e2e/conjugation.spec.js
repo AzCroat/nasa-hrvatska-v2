@@ -14,6 +14,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { ALL_CATEGORIES } from '../src/lib/adaptive';
 
 test.describe('Conjugation in Today\'s Session', () => {
   test.beforeEach(async ({ page }) => {
@@ -26,33 +27,22 @@ test.describe('Conjugation in Today\'s Session', () => {
     // and promoted to the front, most-neglected first. So seed EVERY category as
     // recently practised and not due, and leave only present-tense starved (last
     // seen 30 days ago) — it becomes the sole front-of-queue adaptive topic and
-    // routes to conjpractice.
-    await page.addInitScript(() => {
+    // routes to conjpractice. The seed derives from ALL_CATEGORIES so a newly
+    // scheduled category can never sneak in as never-seen and jump the queue
+    // (the hand-listed version broke exactly that way when 'listening' was
+    // promoted, 2026-08-14).
+    await page.addInitScript((categories) => {
       const now = Date.now();
       const recent = { stability: 5, recentAccuracy: 0.9, due: now + 7 * 86400000, lastSeen: now };
-      localStorage.setItem(
-        'nh_cat_sr',
-        JSON.stringify({
-          genitive: recent,
-          accusative: recent,
-          'dative-locative': recent,
-          instrumental: recent,
-          vocative: recent,
-          'past-tense': recent,
-          'future-tense': recent,
-          'aspect-imperfective': recent,
-          'aspect-perfective': recent,
-          'aspect-negation': recent,
-          conditional: recent,
-          clitics: recent,
-          'vocab-a2': recent,
-          'vocab-b1': recent,
-          'vocab-b2': recent,
-          speaking: recent,
-          'present-tense': { stability: 1, recentAccuracy: 0.2, due: 1, lastSeen: now - 30 * 86400000 },
-        }),
-      );
-    });
+      const cats = Object.fromEntries(categories.map((c) => [c, recent]));
+      cats['present-tense'] = {
+        stability: 1,
+        recentAccuracy: 0.2,
+        due: 1,
+        lastSeen: now - 30 * 86400000,
+      };
+      localStorage.setItem('nh_cat_sr', JSON.stringify(cats));
+    }, ALL_CATEGORIES);
   });
 
   test('Home no longer shows the standalone conjugation card', async ({ page }) => {

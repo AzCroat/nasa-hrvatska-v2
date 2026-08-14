@@ -4,9 +4,13 @@ import { speak, speakSlow, stopAudio } from '../../../lib/audio.ts';
 export default function AudioControls({
   text,
   accentColor,
+  voice,
 }: {
   text: string;
   accentColor: string;
+  /** Optional narrator override (e.g. 'srecko') — listening sets alternate
+   *  native voices so learners don't imprint on a single speaker. */
+  voice?: string;
 }) {
   const [playing, setPlaying] = useState(false);
   const [slowPlaying, setSlowPlaying] = useState(false);
@@ -25,29 +29,29 @@ export default function AudioControls({
     if (!text) return;
     let cancelled = false;
     setPlaying(true);
-    speak(text).finally(() => {
+    speak(text, voice ? { voice } : undefined).finally(() => {
       if (!cancelled && mountedRef.current) setPlaying(false);
     });
     return () => {
       cancelled = true;
     };
-  }, [text]);
+  }, [text, voice]);
 
   const handleReplay = useCallback(() => {
     if (playing || slowPlaying) return;
     setPlaying(true);
-    speak(text).finally(() => {
+    speak(text, voice ? { voice } : undefined).finally(() => {
       if (mountedRef.current) setPlaying(false);
     });
-  }, [text, playing, slowPlaying]);
+  }, [text, voice, playing, slowPlaying]);
 
   const handleSlow = useCallback(() => {
     if (playing || slowPlaying) return;
     setSlowPlaying(true);
-    speakSlow(text).finally(() => {
+    speakSlow(text, voice ? { voice } : undefined).finally(() => {
       if (mountedRef.current) setSlowPlaying(false);
     });
-  }, [text, playing, slowPlaying]);
+  }, [text, voice, playing, slowPlaying]);
 
   const handleStop = useCallback(() => {
     stopAudio();

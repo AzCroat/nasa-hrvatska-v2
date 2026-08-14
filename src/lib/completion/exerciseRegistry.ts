@@ -132,6 +132,14 @@ const RAW: Record<string, ExerciseEntry> = {
   srsreview: e('rc', 'grammar', 'default'),
   'flashcards-quiz': e('lc', 'vocab', 'vocabulary'),
   'story-comprehension': e('lc', 'listening', 'listening'),
+  // Listening-channel fix (2026-08-14): both long-form listening screens now
+  // route their finish through completeExercise (they used to award XP
+  // directly), so a Today's Session slot serving them can actually complete
+  // and the cat_listening bridge consumes real quiz accuracy. Effort policy:
+  // sets/generations are replayable and always paid score-scaled XP, so the
+  // 75% gate must not bind (awardOnReplay preserves the per-run payout).
+  listening_comprehension: e('lc', 'listening', 'listening'),
+  'ai-listening': e('lc', 'listening', 'listening'),
 
   // ── Passive reference (Phase 4): read/dwell credit ──
   alphabet: p('lc'),

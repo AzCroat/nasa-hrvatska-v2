@@ -75,12 +75,14 @@ export function buildAzureSsml(
 }
 
 // ── Azure TTS ─────────────────────────────────────────────────────────────────
-// hr-HR-GabrijelaNeural: native Croatian Neural voice.
+// hr-HR-GabrijelaNeural: native Croatian Neural voice (default).
+// hr-HR-SreckoNeural: the male native Neural voice — requested via voiceName
+// by the listening-channel narrator alternation (2026-08-14).
 // Phonemically accurate for all Croatian diacritics (č, ć, š, ž, đ) and pitch accent.
 // Prosody rate: -8% normal, -25% slow mode (study pace).
 // Regional failover: tries each region in order until one succeeds.
-async function tryAzure(text, { slow, prosody, phoneme }, azureKey, primaryRegion) {
-  const ssml = buildAzureSsml(text, { slow, prosody, phoneme });
+async function tryAzure(text, { slow, prosody, phoneme, voiceName }, azureKey, primaryRegion) {
+  const ssml = buildAzureSsml(text, { slow, prosody, phoneme, voice: voiceName || undefined });
 
   const regions = [
     primaryRegion,
@@ -449,8 +451,11 @@ export async function onRequestPost(context) {
     body = body || {};
     const text = body.text;
     const slow = body.slow === true;
-    // 'charlotte' = ElevenLabs Charlotte voice; anything else = Azure Gabriela (default)
-    const voice = body.voice === 'charlotte' ? 'charlotte' : 'gabrijela';
+    // 'charlotte' = ElevenLabs Charlotte voice; 'srecko' = Azure hr-HR-SreckoNeural
+    // (male native narrator — listening sets alternate voices, 2026-08-14);
+    // anything else = Azure Gabriela (default)
+    const voice =
+      body.voice === 'charlotte' ? 'charlotte' : body.voice === 'srecko' ? 'srecko' : 'gabrijela';
     // Optional prosody object for minimal-pair pitch-accent contrasts (Azure path only).
     // Validated inside buildAzureSsml — only whitelisted values are emitted into SSML.
     const prosody = body.prosody && typeof body.prosody === 'object' ? body.prosody : null;
@@ -557,10 +562,19 @@ export async function onRequestPost(context) {
       }
     } else {
       // ── Gabriela path (default): Azure → Google Translate → Edge → Google ───
-      // ── 1. Azure hr-HR-GabrijelaNeural (primary) ────────────────────────────
+      // ── 1. Azure neural voice (primary): Gabrijela, or Srećko if requested ──
+      // NOTE: fallbacks 2–4 below only speak the default female voice; on an
+      // Azure outage a 'srecko' request degrades through the same fallback
+      // chain the default voice already accepts (audio always plays —
+      // narrator variety is pedagogy, not a correctness contract).
       if (AZURE_KEY) {
         try {
-          buffer = await tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION);
+          buffer = await tryAzure(
+            text,
+            { slow, prosody, phoneme, voiceName: voice === 'srecko' ? 'hr-HR-SreckoNeural' : null },
+            AZURE_KEY,
+            PRIMARY_REGION,
+          );
         } catch {
           /* fall through */
         }
