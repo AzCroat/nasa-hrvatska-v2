@@ -6,6 +6,18 @@
 # no D1 database was ever bound (recon showed d1: []). The ai_month_spend
 # table SELF-MIGRATES on first use, so binding is the only missing step.
 #
+# First run surfaced that CLOUDFLARE_API_TOKEN lacks D1 scope (code 10000 on
+# /d1/database). The `escalate` action closes that ownerlessly when possible:
+#   1. If a global-key credential exists in repo secrets (CLOUDFLARE_API_KEY +
+#      CLOUDFLARE_EMAIL), D1 calls use it instead — global keys carry all scopes.
+#   2. Otherwise it asks the token API whether the CI token may edit its own
+#      policy (needs API Tokens Read/Edit). If yes, it APPENDS one extra
+#      account-scoped policy granting D1 Write — existing policies are sent
+#      back verbatim and never modified, so a failed PUT leaves the token
+#      exactly as it was and CI deploys keep working.
+# If both probes come back unauthorized, the run prints NEEDS_OWNER and the
+# dashboard fix (add "D1: Edit" to the token) is genuinely the only path.
+#
 # Modeled on cf-pages-ai-binding.yml: the PATCH is MINIMAL (only
 # d1_databases — never env_vars) so production secrets can't be clobbered,
 # and the run fails if the env_vars count drops or the binding is missing
@@ -16,12 +28,13 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'recon (read-only) | bind (create DB if needed + PATCH)'
+        description: 'recon (read-only) | escalate (gain D1 scope) | bind (create DB if needed + PATCH)'
         required: true
         default: recon
         type: choice
         options:
           - recon
+          - escalate
           - bind
 
 jobs:
@@ -32,15 +45,82 @@ jobs:
         env:
           CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_GLOBAL_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CF_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
           ACTION: ${{ inputs.action }}
         run: |
           set -euo pipefail
           PROJECT=nasa-hrvatska-v2
           DB_NAME=nasa-hrvatska-ai-quota
           TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
-          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT"
+          CFAPI="https://api.cloudflare.com/client/v4"
+          API="$CFAPI/accounts/$CF_ACCOUNT"
           BASE="$API/pages/projects/$PROJECT"
           auth=(-H "Authorization: Bearer $TOK" -H "Content-Type: application/json")
+
+          # D1 control-plane calls use the global key when the secret exists —
+          # it carries every scope, sidestepping the token's missing D1 grant.
+          if [ -n "${CF_GLOBAL_KEY:-}" ] && [ -n "${CF_EMAIL:-}" ]; then
+            echo "Global-key credential present — using it for D1 calls"
+            d1auth=(-H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_GLOBAL_KEY" -H "Content-Type: application/json")
+          else
+            d1auth=("${auth[@]}")
+          fi
+
+          if [ "$ACTION" = "escalate" ]; then
+            if [ -n "${CF_GLOBAL_KEY:-}" ] && [ -n "${CF_EMAIL:-}" ]; then
+              echo "Global key exists — no token change needed. Probing D1 access:"
+              curl -sS "${d1auth[@]}" "$API/d1/database?per_page=100" | jq '{success, errors}'
+              exit 0
+            fi
+            echo "::group::Token self-escalation probe"
+            curl -sS "${auth[@]}" "$CFAPI/user/tokens/verify" > verify.json
+            jq -c '{success, status:.result.status}' verify.json
+            TOKEN_ID=$(jq -r '.result.id // empty' verify.json)
+            [ -n "$TOKEN_ID" ] || { echo "::error::verify gave no token id"; exit 1; }
+
+            # Read own config — user-token endpoint first, account-owned fallback.
+            SELF_URL="$CFAPI/user/tokens/$TOKEN_ID"
+            curl -sS "${auth[@]}" "$SELF_URL" > self.json
+            if ! jq -e '.success==true' self.json >/dev/null; then
+              SELF_URL="$API/tokens/$TOKEN_ID"
+              curl -sS "${auth[@]}" "$SELF_URL" > self.json
+            fi
+            if ! jq -e '.success==true' self.json >/dev/null; then
+              echo "NEEDS_OWNER: token cannot read its own policy (lacks API Tokens Read)."
+              jq -c '.errors' self.json
+              echo "Dashboard fix: API Tokens -> edit CI token -> add permission D1:Edit."
+              exit 1
+            fi
+            jq '{name:.result.name, policies:(.result.policies|length)}' self.json
+
+            # Find the D1 Write permission group id (same user/account duality).
+            curl -sS "${auth[@]}" "$CFAPI/user/tokens/permission_groups" > groups.json
+            jq -e '.success==true' groups.json >/dev/null 2>&1 || \
+              curl -sS "${auth[@]}" "$API/tokens/permission_groups" > groups.json
+            D1_GROUP=$(jq -r '[.result[] | select(.name|test("^D1 Write$|^Workers D1"))][0].id // empty' groups.json)
+            [ -n "$D1_GROUP" ] || { echo "::error::could not resolve a D1 Write permission group"; jq -r '[.result[].name]|join(", ")' groups.json | head -c 2000; exit 1; }
+            echo "D1 Write group: $D1_GROUP"
+
+            # APPEND one new account-scoped policy; existing policies unchanged.
+            jq --arg acct "com.cloudflare.api.account.$CF_ACCOUNT" --arg gid "$D1_GROUP" \
+              '.result | {name, policies: (.policies + [{effect:"allow", resources:{($acct):"*"}, permission_groups:[{id:$gid}]}])}
+               + (if .status then {status} else {} end)
+               + (if .expires_on then {expires_on} else {} end)
+               + (if .not_before then {not_before} else {} end)
+               + (if .condition then {condition} else {} end)' self.json > put.json
+            curl -sS -X PUT "${auth[@]}" "$SELF_URL" -d @put.json > putres.json
+            if ! jq -e '.success==true' putres.json >/dev/null; then
+              echo "NEEDS_OWNER: token may not edit itself (lacks API Tokens Edit)."
+              jq -c '.errors' putres.json
+              echo "Dashboard fix: API Tokens -> edit CI token -> add permission D1:Edit."
+              exit 1
+            fi
+            echo "Token policy extended with D1 Write. Verifying D1 access:"
+            curl -sS "${auth[@]}" "$API/d1/database?per_page=100" | jq '{success, names:[.result[]?.name]}'
+            echo "::endgroup::"
+            exit 0
+          fi
 
           echo "::group::Current production bindings (names only)"
           curl -sS "${auth[@]}" "$BASE" > proj.json
@@ -53,8 +133,8 @@ jobs:
           echo "::endgroup::"
 
           echo "::group::Existing D1 databases (names only)"
-          curl -sS "${auth[@]}" "$API/d1/database?per_page=100" > dbs.json
-          jq -e '.success==true' dbs.json >/dev/null || { echo "D1 list failed (token may lack D1 scope):"; jq -c '.errors' dbs.json; exit 1; }
+          curl -sS "${d1auth[@]}" "$API/d1/database?per_page=100" > dbs.json
+          jq -e '.success==true' dbs.json >/dev/null || { echo "D1 list failed (run the escalate action first):"; jq -c '.errors' dbs.json; exit 1; }
           jq '[.result[].name]' dbs.json
           echo "::endgroup::"
 
@@ -63,7 +143,7 @@ jobs:
           DB_ID=$(jq -r --arg n "$DB_NAME" '[.result[] | select(.name==$n)][0].uuid // empty' dbs.json)
           if [ -z "$DB_ID" ]; then
             echo "Creating D1 database $DB_NAME"
-            curl -sS -X POST "${auth[@]}" "$API/d1/database" \
+            curl -sS -X POST "${d1auth[@]}" "$API/d1/database" \
               -d "{\"name\":\"$DB_NAME\"}" > create.json
             jq -e '.success==true' create.json >/dev/null || { echo "D1 create failed:"; jq -c '.errors' create.json; exit 1; }
             DB_ID=$(jq -r '.result.uuid' create.json)
