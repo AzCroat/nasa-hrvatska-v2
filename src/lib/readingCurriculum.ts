@@ -43,6 +43,7 @@ export interface ReadingUnit {
 // Bucket → CEFR badge (authoritative, matches ReadingList LEVEL_META).
 const BUCKET_BADGE: Record<string, string> = {
   beginner: 'A1/A2',
+  a2: 'A2',
   intermediate: 'B1',
   advanced: 'B1-B2',
   b2: 'B2',
@@ -53,7 +54,7 @@ const BUCKET_BADGE: Record<string, string> = {
 // Which reader buckets make up each CEFR level's path, in reading order.
 const LEVEL_BUCKETS: Record<string, string[]> = {
   A1: ['beginner'],
-  A2: ['beginner'],
+  A2: ['beginner', 'a2'], // dedicated A2 texts follow the shared beginner base
   B1: ['intermediate', 'advanced'],
   B2: ['advanced', 'b2'],
   C1: ['c1'],
