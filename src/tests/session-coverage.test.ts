@@ -375,3 +375,29 @@ describe('Wave 1 — discovery slot', () => {
     expect(buildSessionActivities('B1').length).toBe(control);
   });
 });
+
+// Rotation fix (2026-08-14, owner report): the culture slot must never repeat
+// an entry until every other unlocked entry has been served — regardless of
+// how often the session rebuilds. The old day-of-month modulo repeated the
+// same card on every same-day rebuild and could stall visibly for users.
+describe('Croatia slot least-recently-served rotation', () => {
+  it('cycles through the whole unlocked pool before any repeat', async () => {
+    localStorage.clear();
+    localStorage.setItem('nh_cityofday_date', new Date().toLocaleDateString('sv-SE'));
+    const { buildSessionActivities } = await import('../hooks/useDailySession');
+    const { CROATIA_POOL } = await import('../lib/croatiaPool');
+    const cultureScreens = new Set(
+      CROATIA_POOL.filter((c) => c.screen !== 'cityofday').map((c) => c.screen),
+    );
+    const poolSize = cultureScreens.size;
+    const picks: string[] = [];
+    for (let i = 0; i < poolSize; i++) {
+      const acts = buildSessionActivities('C2');
+      const pick = acts.map((a) => a.screen).find((s) => cultureScreens.has(s));
+      expect(pick, `build ${i} served a culture entry`).toBeTruthy();
+      picks.push(pick!);
+    }
+    // Every unlocked culture entry served exactly once before any repeat.
+    expect(new Set(picks).size).toBe(poolSize);
+  });
+});
