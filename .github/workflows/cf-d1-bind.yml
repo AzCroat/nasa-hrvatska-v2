@@ -1,0 +1,91 @@
+# One-off ops workflow: bind the AI_QUOTA_DB D1 database to the Pages project.
+#
+# WHY (2026-08-14): _aiQuota.js (per-user daily AI quota) and _aiBudget.js
+# (global monthly budget ledger) are designed for D1 as primary with KV as
+# fallback — production has run on the KV fallback the whole time because
+# no D1 database was ever bound (recon showed d1: []). The ai_month_spend
+# table SELF-MIGRATES on first use, so binding is the only missing step.
+#
+# Modeled on cf-pages-ai-binding.yml: the PATCH is MINIMAL (only
+# d1_databases — never env_vars) so production secrets can't be clobbered,
+# and the run fails if the env_vars count drops or the binding is missing
+# afterward. Run `recon` first to inspect, then `bind`.
+name: CF Pages D1 binding
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'recon (read-only) | bind (create DB if needed + PATCH)'
+        required: true
+        default: recon
+        type: choice
+        options:
+          - recon
+          - bind
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Pages D1 binding
+        env:
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          set -euo pipefail
+          PROJECT=nasa-hrvatska-v2
+          DB_NAME=nasa-hrvatska-ai-quota
+          TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
+          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT"
+          BASE="$API/pages/projects/$PROJECT"
+          auth=(-H "Authorization: Bearer $TOK" -H "Content-Type: application/json")
+
+          echo "::group::Current production bindings (names only)"
+          curl -sS "${auth[@]}" "$BASE" > proj.json
+          jq -e '.success==true' proj.json >/dev/null || { echo "GET failed:"; jq -c '.errors' proj.json; exit 1; }
+          jq '.result.deployment_configs.production
+                | {env_var_names:((.env_vars // {})|keys|length),
+                   kv:((.kv_namespaces // {})|keys),
+                   d1:((.d1_databases // {})|keys)}' proj.json
+          BEFORE=$(jq '((.result.deployment_configs.production.env_vars) // {}) | length' proj.json)
+          echo "::endgroup::"
+
+          echo "::group::Existing D1 databases (names only)"
+          curl -sS "${auth[@]}" "$API/d1/database?per_page=100" > dbs.json
+          jq -e '.success==true' dbs.json >/dev/null || { echo "D1 list failed (token may lack D1 scope):"; jq -c '.errors' dbs.json; exit 1; }
+          jq '[.result[].name]' dbs.json
+          echo "::endgroup::"
+
+          [ "$ACTION" = "recon" ] && { echo "recon only — no changes made"; exit 0; }
+
+          DB_ID=$(jq -r --arg n "$DB_NAME" '[.result[] | select(.name==$n)][0].uuid // empty' dbs.json)
+          if [ -z "$DB_ID" ]; then
+            echo "Creating D1 database $DB_NAME"
+            curl -sS -X POST "${auth[@]}" "$API/d1/database" \
+              -d "{\"name\":\"$DB_NAME\"}" > create.json
+            jq -e '.success==true' create.json >/dev/null || { echo "D1 create failed:"; jq -c '.errors' create.json; exit 1; }
+            DB_ID=$(jq -r '.result.uuid' create.json)
+          fi
+          echo "DB id: $DB_ID"
+
+          echo "Minimal PATCH: d1_databases only, production + preview"
+          curl -sS -X PATCH "${auth[@]}" "$BASE" -d "{
+            \"deployment_configs\": {
+              \"production\": { \"d1_databases\": { \"AI_QUOTA_DB\": { \"id\": \"$DB_ID\" } } },
+              \"preview\":    { \"d1_databases\": { \"AI_QUOTA_DB\": { \"id\": \"$DB_ID\" } } }
+            }
+          }" > patch.json
+          jq -e '.success==true' patch.json >/dev/null || { echo "PATCH failed:"; jq -c '.errors' patch.json; exit 1; }
+
+          echo "Verify: binding present and env_vars untouched"
+          curl -sS "${auth[@]}" "$BASE" > after.json
+          jq -e '.result.deployment_configs.production.d1_databases.AI_QUOTA_DB' after.json >/dev/null \
+            || { echo "::error::AI_QUOTA_DB missing after PATCH"; exit 1; }
+          AFTER=$(jq '((.result.deployment_configs.production.env_vars) // {}) | length' after.json)
+          echo "env_vars count before=$BEFORE after=$AFTER"
+          [ "$AFTER" -ge "$BEFORE" ] || { echo "::error::env_vars count DROPPED — investigate immediately"; exit 1; }
+
+          echo "Redeploy so functions pick up the binding"
+          curl -sf -X POST "${auth[@]}" "$BASE/deployments" -F "branch=master" | jq '.success'
