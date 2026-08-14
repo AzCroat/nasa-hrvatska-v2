@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { stopAudio } from '../../../lib/audio.ts';
 import { recordTopicResult } from '../../../lib/adaptive';
 import { getStoryCatalog } from '../../../lib/contentClient';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
+import { useStats } from '../../../context/StatsContext';
 import type { StoryCatalogEntry } from '../../../types/content';
 import { EXERCISES } from './exercises';
 
@@ -15,6 +17,10 @@ export function useListeningQuiz(
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void,
 ) {
   const STORAGE_KEY = 'nh_listen_comp_v2';
+  // Completion authority wiring (listening-channel fix, 2026-08-14): set
+  // finishes route through completeExercise so the daily-session slot can
+  // complete and cat_listening reschedules from real accuracy.
+  const { stats, setStats, writeDelta } = useStats();
 
   function loadProgress() {
     try {
@@ -169,7 +175,19 @@ export function useListeningQuiz(
       // `score` already includes the last answer (handleAnswer incremented it before Next was clickable).
       const finalScore = score;
       const xp = Math.round((finalScore / qs.length) * 15) + 5;
-      if (award) award(xp, false, 'listening');
+      // Effort policy + awardOnReplay: the per-run score-scaled XP payout is
+      // unchanged from the old direct award() call; lc/vs credit lands once.
+      completeExercise({
+        key: 'listening_comprehension',
+        score: finalScore,
+        total: qs.length,
+        xp,
+        stats,
+        setStats,
+        writeDelta,
+        award,
+        awardOnReplay: true,
+      });
     } else {
       setQuestionIdx((i) => i + 1);
       setChosen(null);

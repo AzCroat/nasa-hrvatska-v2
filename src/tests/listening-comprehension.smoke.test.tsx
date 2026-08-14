@@ -34,10 +34,28 @@ vi.mock('../lib/contentClient', () => ({
 }));
 
 import ListeningComprehensionScreen from '../components/practice/ListeningComprehensionScreen';
+import { StatsProvider } from '../context/StatsContext';
+import type { StatsContextValue } from '../types/index.js';
+
+// The listening-channel fix (2026-08-14) routes set finishes through the
+// completion authority, so the quiz hook now reads useStats() — the smoke
+// mount needs a real StatsProvider around the screen.
+const statsValue = {
+  stats: { xp: 0, lc: 0, gc: 0, badges: [], vs: [] },
+  setStats: vi.fn(),
+  dispatch: vi.fn(),
+  award: vi.fn(),
+  level: 1,
+  writeDelta: vi.fn(),
+} as unknown as StatsContextValue;
 
 describe('ListeningComprehensionScreen — smoke / 1b safety net', () => {
   it('mounts and renders the Comprehension Track landing with CEFR level cards', () => {
-    render(<ListeningComprehensionScreen goBack={vi.fn()} award={vi.fn()} />);
+    render(
+      <StatsProvider value={statsValue}>
+        <ListeningComprehensionScreen goBack={vi.fn()} award={vi.fn()} />
+      </StatsProvider>,
+    );
     expect(screen.getByText('Comprehension Track')).toBeInTheDocument();
     // EXERCISES data must still drive the level cards after extraction.
     expect(screen.getByText('A1 — Starter')).toBeInTheDocument();
