@@ -91,6 +91,7 @@ const GymScreen = lazyWithReload(() => import('./croatia/GymScreen'));
 const HNLScreen = lazyWithReload(() => import('./croatia/HNLScreen'));
 const CroatiaAthletes = lazyWithReload(() => import('./croatia/CroatiaAthletes'));
 const RegionScreen = lazyWithReload(() => import('./croatia/RegionScreen'));
+const CultureDeepDiveScreen = lazyWithReload(() => import('./croatia/CultureDeepDiveScreen'));
 const RoleplayScreen = lazyWithReload(() => import('./croatia/RoleplayScreen'));
 const RecipesScreen = lazyWithReload(() => import('./croatia/RecipesScreen'));
 const CityOfDayScreen = lazyWithReload(() => import('./croatia/CityOfDayScreen'));
@@ -1100,6 +1101,21 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'practical' && (
           <ScreenErrorBoundary key="practical" name="practical">
             <PracticalScreen goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2' && (
+          <ScreenErrorBoundary key="kultura_b2" name="kultura_b2">
+            <CultureDeepDiveScreen tier="B2" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1' && (
+          <ScreenErrorBoundary key="kultura_c1" name="kultura_c1">
+            <CultureDeepDiveScreen tier="C1" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2' && (
+          <ScreenErrorBoundary key="kultura_c2" name="kultura_c2">
+            <CultureDeepDiveScreen tier="C2" goBack={goBack} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'region_labin' && (
