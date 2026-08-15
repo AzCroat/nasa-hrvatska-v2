@@ -185,6 +185,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'register',
   },
+  // B2 tranche 2 (2026-08-15): impersonals, indefinite pronouns, numerals.
+  {
+    id: 'bezlicne',
+    label: 'Bezlične konstrukcije',
+    screen: 'bezlicne',
+    cefr: 'B2',
+    category: 'passive',
+  },
+  {
+    id: 'neodredjene',
+    label: 'Neodređene zamjenice',
+    screen: 'neodredjene',
+    cefr: 'B2',
+    category: 'word-order',
+  },
+  {
+    id: 'slaganjebrojeva',
+    label: 'Slaganje brojeva',
+    screen: 'slaganjebrojeva',
+    cefr: 'B2',
+    category: 'numerals',
+  },
   // C1 tranche 2 (2026-08-15): se-verbs, proper-name declension, prepositions.
   {
     id: 'povratni',
