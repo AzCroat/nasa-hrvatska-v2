@@ -17,6 +17,9 @@ import { SLAGANJEBROJEVA_DRILL_DATA } from '../components/practice/SlaganjeBroje
 import { GLAGOLSKI_PRILOZI_DRILL_DATA } from '../components/practice/GlagolskiPriloziDrill';
 import { AORIST_IMPERFEKT_DRILL_DATA } from '../components/practice/AoristImperfektDrill';
 import { REKCIJA_DRILL_DATA } from '../components/practice/RekcijaDrill';
+import { VID_IMPERATIV_DRILL_DATA } from '../components/practice/VidImperativDrill';
+import { POSVOJNI_DRILL_DATA } from '../components/practice/PosvojniDrill';
+import { VREMENSKE_DRILL_DATA } from '../components/practice/VremenskeDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -75,6 +78,24 @@ const DRILLS = [
     modes: ['dativ', 'genitiv', 'prijedlozna'],
     category: 'dative-locative',
   },
+  {
+    id: 'vidimperativ',
+    data: VID_IMPERATIV_DRILL_DATA,
+    modes: ['infinitiv', 'zabrana', 'zapovijed'],
+    category: 'aspect-perfective',
+  },
+  {
+    id: 'posvojni',
+    data: POSVOJNI_DRILL_DATA,
+    modes: ['sklonidba', 'tvorba', 'uporaba'],
+    category: 'genitive',
+  },
+  {
+    id: 'vremenske',
+    data: VREMENSKE_DRILL_DATA,
+    modes: ['prijenos', 'veznici', 'vid'],
+    category: 'subordination',
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -126,8 +147,8 @@ for (const drill of DRILLS) {
 }
 
 describe('B2 drill-pool breadth', () => {
-  it('the pool now offers at least 18 non-adaptive B2 exercises (program tally: 18/30)', () => {
+  it('the pool now offers at least 21 non-adaptive B2 exercises (program tally: 21/30)', () => {
     const b2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'B2' && !e.adaptive);
-    expect(b2.length).toBeGreaterThanOrEqual(18);
+    expect(b2.length).toBeGreaterThanOrEqual(21);
   });
 });

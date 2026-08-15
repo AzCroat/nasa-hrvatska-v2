@@ -18,6 +18,9 @@ import { VIDNIJANSE_DRILL_DATA } from '../components/practice/VidNijanseDrill';
 import { POGODBENE_DRILL_DATA } from '../components/practice/PogodbeneDrill';
 import { ODREDJENOST_DRILL_DATA } from '../components/practice/OdredjenostDrill';
 import { DATUMI_DRILL_DATA } from '../components/practice/DatumiDrill';
+import { SKLONIDBA_BROJEVA_DRILL_DATA } from '../components/practice/SklonidbaBrojevaDrill';
+import { NAMJERA_DRILL_DATA } from '../components/practice/NamjeraDrill';
+import { SROCNOST_DRILL_DATA } from '../components/practice/SrocnostDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -85,6 +88,27 @@ const DRILLS = [
     category: 'numerals',
     tier: 4,
   },
+  {
+    id: 'sklonidbabrojeva',
+    data: SKLONIDBA_BROJEVA_DRILL_DATA,
+    modes: ['brojevne', 'dvatri', 'obadvoje'],
+    category: 'numerals',
+    tier: 4,
+  },
+  {
+    id: 'namjera',
+    data: NAMJERA_DRILL_DATA,
+    modes: ['daprezent', 'kakobi', 'radi'],
+    category: 'subordination',
+    tier: 4,
+  },
+  {
+    id: 'srocnost',
+    data: SROCNOST_DRILL_DATA,
+    modes: ['mjesovito', 'vecina', 'zbirne'],
+    category: 'nominative',
+    tier: 5,
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -135,9 +159,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 15/30)', () => {
-  it('the pool now offers at least 15 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 18/30)', () => {
+  it('the pool now offers at least 18 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(15);
+    expect(c1.length).toBeGreaterThanOrEqual(18);
   });
 });
