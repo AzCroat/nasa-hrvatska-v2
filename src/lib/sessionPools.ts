@@ -133,6 +133,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
+  // B2 tranche 5 (2026-08-15): irregular plurals, spatial prepositions, comparison.
+  {
+    id: 'mnozina',
+    label: 'Nepravilna množina',
+    screen: 'mnozina',
+    cefr: 'B2',
+    category: 'nominative',
+  },
+  {
+    id: 'prostorni',
+    label: 'Prostorni prijedlozi',
+    screen: 'prostorni',
+    cefr: 'B2',
+    category: 'accusative',
+  },
+  {
+    id: 'stupnjevanje',
+    label: 'Stupnjevanje',
+    screen: 'stupnjevanje',
+    cefr: 'B2',
+    category: 'nominative',
+  },
   // B2 tranche 4 (2026-08-15): aspect in commands, possessives, temporal clauses.
   {
     id: 'vidimperativ',
