@@ -83,6 +83,10 @@ const RAW: Record<string, ExerciseEntry> = {
   bezlicne: g('gc', 'grammar', 'grammar'),
   neodredjene: g('gc', 'grammar', 'grammar'),
   slaganjebrojeva: g('gc', 'grammar', 'grammar'),
+  // B2 tranche 3 (2026-08-15): verbal adverbs, narrative past tenses, rekcija.
+  glagolskiprilozi: g('gc', 'grammar', 'grammar'),
+  aoristimperfekt: g('gc', 'grammar', 'grammar'),
+  rekcija: g('gc', 'grammar', 'grammar'),
   // C1 drill-pool expansion (2026-08-14): collocations, word order, aspect nuance.
   kolokacije: g('gc', 'grammar', 'grammar'),
   // C1 tranche 2 (2026-08-15): se-verbs, name declension, prepositions.
@@ -99,6 +103,10 @@ const RAW: Record<string, ExerciseEntry> = {
   posudjenice: g('gc', 'grammar', 'grammar'),
   glasovnepromjene: g('gc', 'grammar', 'grammar'),
   administrativni: g('gc', 'grammar', 'grammar'),
+  // C2 tranche 3 (2026-08-15): orthography, connectors, colloquial register.
+  pravopis: g('gc', 'grammar', 'grammar'),
+  konektori: g('gc', 'grammar', 'grammar'),
+  razgovorni: g('gc', 'grammar', 'grammar'),
   tvorbarijeci: g('gc', 'grammar', 'grammar'),
   sinonimija: g('gc', 'grammar', 'grammar'),
   emfaza: g('gc', 'grammar', 'grammar'),
