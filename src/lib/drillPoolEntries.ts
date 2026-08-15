@@ -164,4 +164,48 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C1',
     category: 'numerals',
   },
+  // C1 tranche 4 (2026-08-15): numeral declension, purpose clauses, agreement.
+  {
+    id: 'sklonidbabrojeva',
+    label: 'Sklonidba brojeva',
+    screen: 'sklonidbabrojeva',
+    cefr: 'C1',
+    category: 'numerals',
+  },
+  {
+    id: 'namjera',
+    label: 'Izricanje namjere',
+    screen: 'namjera',
+    cefr: 'C1',
+    category: 'subordination',
+  },
+  {
+    id: 'srocnost',
+    label: 'Sročnost',
+    screen: 'srocnost',
+    cefr: 'C1',
+    category: 'nominative',
+  },
+  // C2 tranche 4 (2026-08-15): clitic clusters, academic register, punctuation.
+  {
+    id: 'enklitike',
+    label: 'Red enklitika',
+    screen: 'enklitike',
+    cefr: 'C2',
+    category: 'clitics',
+  },
+  {
+    id: 'akademski',
+    label: 'Akademski stil',
+    screen: 'akademski',
+    cefr: 'C2',
+    category: 'nominalization',
+  },
+  {
+    id: 'interpunkcija',
+    label: 'Interpunkcija',
+    screen: 'interpunkcija',
+    cefr: 'C2',
+    category: 'register',
+  },
 ];

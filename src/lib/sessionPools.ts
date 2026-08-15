@@ -133,6 +133,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
+  // B2 tranche 4 (2026-08-15): aspect in commands, possessives, temporal clauses.
+  {
+    id: 'vidimperativ',
+    label: 'Vid u zapovijedi',
+    screen: 'vidimperativ',
+    cefr: 'B2',
+    category: 'aspect-perfective',
+  },
+  {
+    id: 'posvojni',
+    label: 'Posvojni pridjevi',
+    screen: 'posvojni',
+    cefr: 'B2',
+    category: 'genitive',
+  },
+  {
+    id: 'vremenske',
+    label: 'Vremenske rečenice',
+    screen: 'vremenske',
+    cefr: 'B2',
+    category: 'subordination',
+  },
   {
     id: 'glagolskiprilozi',
     label: 'Glagolski prilozi',

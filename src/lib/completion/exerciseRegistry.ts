@@ -87,6 +87,17 @@ const RAW: Record<string, ExerciseEntry> = {
   glagolskiprilozi: g('gc', 'grammar', 'grammar'),
   aoristimperfekt: g('gc', 'grammar', 'grammar'),
   rekcija: g('gc', 'grammar', 'grammar'),
+  // Tranche 4 (2026-08-15): B2 aspect/possessives/temporals, C1 numerals/
+  // purpose/agreement, C2 clitics/academic/punctuation.
+  vidimperativ: g('gc', 'grammar', 'grammar'),
+  posvojni: g('gc', 'grammar', 'grammar'),
+  vremenske: g('gc', 'grammar', 'grammar'),
+  sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
+  namjera: g('gc', 'grammar', 'grammar'),
+  srocnost: g('gc', 'grammar', 'grammar'),
+  enklitike: g('gc', 'grammar', 'grammar'),
+  akademski: g('gc', 'grammar', 'grammar'),
+  interpunkcija: g('gc', 'grammar', 'grammar'),
   // C1 drill-pool expansion (2026-08-14): collocations, word order, aspect nuance.
   kolokacije: g('gc', 'grammar', 'grammar'),
   // C1 tranche 2 (2026-08-15): se-verbs, name declension, prepositions.
