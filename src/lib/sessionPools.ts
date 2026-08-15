@@ -4,6 +4,7 @@
  * difficulty tiers. Logic stays in useDailySession; this module is data only.
  */
 import type { SkillCategory } from './adaptive';
+import { C_LEVEL_DRILL_ENTRIES } from './drillPoolEntries';
 
 /** CEFR-annotated exercise pool for Priority 3 fill */
 export interface CefrPoolEntry {
@@ -160,52 +161,26 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
-  // C1 drill-pool expansion (fluency initiative, 2026-08-14; target 30+ per
-  // level): collocations/rekcija, information structure, aspectual nuance.
-  // C2 tranche 2 (2026-08-15): loanwords/standard, sound changes, admin register.
   {
-    id: 'posudjenice',
-    label: 'Posuđenice i standard',
-    screen: 'posudjenice',
-    cefr: 'C2',
-    category: 'register',
+    id: 'glagolskiprilozi',
+    label: 'Glagolski prilozi',
+    screen: 'glagolskiprilozi',
+    cefr: 'B2',
+    category: 'participle',
   },
   {
-    id: 'glasovnepromjene',
-    label: 'Glasovne promjene',
-    screen: 'glasovnepromjene',
-    cefr: 'C2',
-    category: 'genitive',
+    id: 'aoristimperfekt',
+    label: 'Aorist i imperfekt',
+    screen: 'aoristimperfekt',
+    cefr: 'B2',
+    category: 'past-tense',
   },
   {
-    id: 'administrativni',
-    label: 'Administrativni jezik',
-    screen: 'administrativni',
-    cefr: 'C2',
-    category: 'register',
-  },
-  // C2 drill-pool expansion (fluency initiative 2026-08-15; target 30+ per
-  // level): phraseology, productive word formation, synonymy/paronymy.
-  {
-    id: 'frazeologija',
-    label: 'Frazeologija',
-    screen: 'frazeologija',
-    cefr: 'C2',
-    category: 'idioms',
-  },
-  {
-    id: 'tvorbarijeci',
-    label: 'Tvorba riječi',
-    screen: 'tvorbarijeci',
-    cefr: 'C2',
-    category: 'nominalization',
-  },
-  {
-    id: 'sinonimija',
-    label: 'Sinonimija',
-    screen: 'sinonimija',
-    cefr: 'C2',
-    category: 'register',
+    id: 'rekcija',
+    label: 'Glagolska rekcija',
+    screen: 'rekcija',
+    cefr: 'B2',
+    category: 'dative-locative',
   },
   // B2 tranche 2 (2026-08-15): impersonals, indefinite pronouns, numerals.
   {
@@ -229,70 +204,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'numerals',
   },
-  // C1 tranche 2 (2026-08-15): se-verbs, proper-name declension, prepositions.
-  {
-    id: 'povratni',
-    label: 'Povratni glagoli',
-    screen: 'povratni',
-    cefr: 'C1',
-    category: 'register',
-  },
-  {
-    id: 'sklonidbaimena',
-    label: 'Sklonidba imena',
-    screen: 'sklonidbaimena',
-    cefr: 'C1',
-    category: 'genitive',
-  },
-  {
-    id: 'prijedlozni',
-    label: 'Prijedložni izrazi',
-    screen: 'prijedlozni',
-    cefr: 'C1',
-    category: 'genitive',
-  },
-  {
-    id: 'kolokacije',
-    label: 'Kolokacije',
-    screen: 'kolokacije',
-    cefr: 'C1',
-    category: 'register',
-  },
-  {
-    id: 'pogodbene',
-    label: 'Pogodbene rečenice',
-    screen: 'pogodbene',
-    cefr: 'C1',
-    category: 'conditional',
-  },
-  {
-    id: 'odredjenost',
-    label: 'Određeni i neodređeni vid',
-    screen: 'odredjenost',
-    cefr: 'C1',
-    category: 'nominative',
-  },
-  {
-    id: 'datumi',
-    label: 'Datumi i vrijeme',
-    screen: 'datumi',
-    cefr: 'C1',
-    category: 'numerals',
-  },
-  {
-    id: 'emfaza',
-    label: 'Red riječi',
-    screen: 'emfaza',
-    cefr: 'C1',
-    category: 'word-order',
-  },
-  {
-    id: 'vidnijanse',
-    label: 'Vid — nijanse',
-    screen: 'vidnijanse',
-    cefr: 'C1',
-    category: 'aspect-perfective',
-  },
+  ...C_LEVEL_DRILL_ENTRIES,
   {
     id: 'neizravni',
     label: 'Neizravni govor',
@@ -411,10 +323,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'nominalization',
   },
-  // C2 drill-pool expansion (Phase 2, fluency initiative): verbal adverbs
-  // (glagolski prilozi — the literary gerunds) and formal-register precision
-  // (collocations, preposition government, prefix discrimination). Before
-  // these, c2drill was the only non-adaptive C2 exercise in the pool.
   {
     id: 'gerunddrill',
     label: 'Glagolski prilozi',

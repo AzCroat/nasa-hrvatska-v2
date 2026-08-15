@@ -209,6 +209,12 @@ const PosudjeniceDrill = lazyWithReload(() => import('./practice/PosudjeniceDril
 const GlasovnePromjeneDrill = lazyWithReload(() => import('./practice/GlasovnePromjeneDrill'));
 const AdministrativniDrill = lazyWithReload(() => import('./practice/AdministrativniDrill'));
 const BezlicneDrill = lazyWithReload(() => import('./practice/BezlicneDrill'));
+const GlagolskiPriloziDrill = lazyWithReload(() => import('./practice/GlagolskiPriloziDrill'));
+const AoristImperfektDrill = lazyWithReload(() => import('./practice/AoristImperfektDrill'));
+const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
+const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
+const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
+const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
 const NeodredjeneDrill = lazyWithReload(() => import('./practice/NeodredjeneDrill'));
 const SlaganjeBrojevaDrill = lazyWithReload(() => import('./practice/SlaganjeBrojevaDrill'));
 const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
@@ -1775,6 +1781,36 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'administrativni' && (
           <ScreenErrorBoundary key="administrativni" name="administrativni">
             <AdministrativniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pravopis' && (
+          <ScreenErrorBoundary key="pravopis" name="pravopis">
+            <PravopisDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'konektori' && (
+          <ScreenErrorBoundary key="konektori" name="konektori">
+            <KonektoriDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'razgovorni' && (
+          <ScreenErrorBoundary key="razgovorni" name="razgovorni">
+            <RazgovorniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'glagolskiprilozi' && (
+          <ScreenErrorBoundary key="glagolskiprilozi" name="glagolskiprilozi">
+            <GlagolskiPriloziDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'aoristimperfekt' && (
+          <ScreenErrorBoundary key="aoristimperfekt" name="aoristimperfekt">
+            <AoristImperfektDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'rekcija' && (
+          <ScreenErrorBoundary key="rekcija" name="rekcija">
+            <RekcijaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'pogodbene' && (

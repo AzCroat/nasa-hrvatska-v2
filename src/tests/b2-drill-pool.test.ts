@@ -14,6 +14,9 @@ import { KRETANJE_DRILL_DATA } from '../components/practice/MotionVerbsDrill';
 import { BEZLICNE_DRILL_DATA } from '../components/practice/BezlicneDrill';
 import { NEODREDJENE_DRILL_DATA } from '../components/practice/NeodredjeneDrill';
 import { SLAGANJEBROJEVA_DRILL_DATA } from '../components/practice/SlaganjeBrojevaDrill';
+import { GLAGOLSKI_PRILOZI_DRILL_DATA } from '../components/practice/GlagolskiPriloziDrill';
+import { AORIST_IMPERFEKT_DRILL_DATA } from '../components/practice/AoristImperfektDrill';
+import { REKCIJA_DRILL_DATA } from '../components/practice/RekcijaDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -53,6 +56,24 @@ const DRILLS = [
     data: KRETANJE_DRILL_DATA,
     modes: ['parovi', 'prefiksi', 'rekcija'],
     category: 'aspect-perfective',
+  },
+  {
+    id: 'glagolskiprilozi',
+    data: GLAGOLSKI_PRILOZI_DRILL_DATA,
+    modes: ['tvorba', 'uporaba', 'zamjena'],
+    category: 'participle',
+  },
+  {
+    id: 'aoristimperfekt',
+    data: AORIST_IMPERFEKT_DRILL_DATA,
+    modes: ['aorist', 'imperfekt', 'uporaba'],
+    category: 'past-tense',
+  },
+  {
+    id: 'rekcija',
+    data: REKCIJA_DRILL_DATA,
+    modes: ['dativ', 'genitiv', 'prijedlozna'],
+    category: 'dative-locative',
   },
 ] as const;
 
@@ -105,8 +126,8 @@ for (const drill of DRILLS) {
 }
 
 describe('B2 drill-pool breadth', () => {
-  it('the pool now offers at least 15 non-adaptive B2 exercises (program tally: 15/30)', () => {
+  it('the pool now offers at least 18 non-adaptive B2 exercises (program tally: 18/30)', () => {
     const b2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'B2' && !e.adaptive);
-    expect(b2.length).toBeGreaterThanOrEqual(15);
+    expect(b2.length).toBeGreaterThanOrEqual(18);
   });
 });

@@ -14,6 +14,9 @@ import { SINONIMIJA_DRILL_DATA } from '../components/practice/SinonimijaDrill';
 import { POSUDJENICE_DRILL_DATA } from '../components/practice/PosudjeniceDrill';
 import { GLASOVNE_DRILL_DATA } from '../components/practice/GlasovnePromjeneDrill';
 import { ADMINISTRATIVNI_DRILL_DATA } from '../components/practice/AdministrativniDrill';
+import { PRAVOPIS_DRILL_DATA } from '../components/practice/PravopisDrill';
+import { KONEKTORI_DRILL_DATA } from '../components/practice/KonektoriDrill';
+import { RAZGOVORNI_DRILL_DATA } from '../components/practice/RazgovorniDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -52,6 +55,24 @@ const DRILLS = [
     id: 'sinonimija',
     data: SINONIMIJA_DRILL_DATA,
     modes: ['nijanse', 'paronimi', 'registar'],
+    category: 'register',
+  },
+  {
+    id: 'pravopis',
+    data: PRAVOPIS_DRILL_DATA,
+    modes: ['ijeje', 'sastavljeno', 'zarez'],
+    category: 'register',
+  },
+  {
+    id: 'konektori',
+    data: KONEKTORI_DRILL_DATA,
+    modes: ['formalno', 'nijanse', 'znacenje'],
+    category: 'discourse',
+  },
+  {
+    id: 'razgovorni',
+    data: RAZGOVORNI_DRILL_DATA,
+    modes: ['dekod', 'obrnuto', 'situacija'],
     category: 'register',
   },
 ] as const;
@@ -104,9 +125,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C2 drill-pool breadth (program tally: 9/30)', () => {
-  it('the pool now offers at least 9 C2 exercises', () => {
+describe('C2 drill-pool breadth (program tally: 12/30)', () => {
+  it('the pool now offers at least 12 C2 exercises', () => {
     const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2');
-    expect(c2.length).toBeGreaterThanOrEqual(9);
+    expect(c2.length).toBeGreaterThanOrEqual(12);
   });
 });
