@@ -3,6 +3,7 @@
 // The AI plays the NPC character; the learner plays themselves.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { reconcileBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 import { sanitizeParam } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
@@ -310,6 +311,14 @@ COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear gr
   } catch {
     console.error('dialogue.js: JSON parse failed:', rawBody.slice(0, 200));
     return err(502, 'Invalid response from AI', origin);
+  }
+
+  // Refund the worst-case pre-charge down to this call's ACTUAL cost
+  // (spontaneous-conversation unlock, 2026-08-14). Failure-safe by design.
+  try {
+    await reconcileBudget(env, '/api/dialogue', data?.usage);
+  } catch {
+    /* ceiling stays charged */
   }
 
   const raw = data?.content?.[0]?.text?.trim() || '';

@@ -106,16 +106,11 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
     cefr: 'B1',
   },
   // ── Wave 4: culture screens from the reference-group audit ──
-  // dialect_awareness has a rich quiz but its award fires once ever
-  // (localStorage gate), so it needs this slot's auto-complete contract;
+  // dialect_awareness was REMOVED from this pool (owner decision 2026-08-14):
+  // its quiz award fires once ever and the dialect content is text-only, so
+  // repeat session serves were hollow. The screen stays reachable from the
+  // Culture tab as an on-demand activity.
   // phraseofday awards on first listen and has an offline seed fallback.
-  {
-    id: 'dialect_awareness',
-    label: 'Croatian Dialects',
-    screen: 'dialect_awareness',
-    category: 'culture',
-    cefr: 'A2',
-  },
   { id: 'phraseofday', label: 'Phrase of the Day', screen: 'phraseofday', category: 'practical' },
   // ── Wave 6: Krajevi region pages ──
   // One shared RegionScreen per regionKey — bilingual (EN toggle), bounded by

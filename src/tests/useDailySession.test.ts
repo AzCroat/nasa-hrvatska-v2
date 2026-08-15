@@ -517,16 +517,23 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
   });
 
   it('C2 rotation draws from the full pool (gated entries reachable)', () => {
-    // With cityofday visited, the served entry is rotation[dayOfMonth % len] —
-    // verify the C2-eligible rotation equals the whole pool minus cityofday by
-    // checking the served entry matches that formula.
+    // LRS rotation (2026-08-14): with cityofday visited and nothing served
+    // yet, the pick is the FIRST never-served rotation entry in pool order,
+    // and successive builds walk the whole pool without repeating.
     localStorage.setItem('nh_cityofday_date', localDateStr());
     const rotation = CROATIA_POOL.filter((c) => c.screen !== 'cityofday');
-    const expected = rotation[new Date().getDate() % rotation.length]!;
     const acts = buildSessionActivities('C2');
     const croatia = acts.filter((a) => CROATIA_IDS.has(a.id));
     expect(croatia).toHaveLength(1);
-    expect(croatia[0]!.id).toBe(expected.id);
+    expect(croatia[0]!.id).toBe(rotation[0]!.id);
+    // A gated entry becomes reachable as the LRS walk reaches it.
+    const seen = new Set<string>([croatia[0]!.id]);
+    for (let i = 1; i < rotation.length; i++) {
+      const next = buildSessionActivities('C2').filter((a) => CROATIA_IDS.has(a.id))[0]!;
+      expect(seen.has(next.id), `repeat before full cycle: ${next.id}`).toBe(false);
+      seen.add(next.id);
+    }
+    expect(seen.size).toBe(rotation.length);
   });
 
   it('cityofday keeps first claim on the slot when not yet visited', () => {

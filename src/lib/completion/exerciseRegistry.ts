@@ -79,6 +79,14 @@ const RAW: Record<string, ExerciseEntry> = {
   preciznost: g('gc', 'grammar', 'grammar'),
   // B2 drill-pool expansion: futur II, reported speech, verbs of motion.
   futur2: g('gc', 'grammar', 'grammar'),
+  // C1 drill-pool expansion (2026-08-14): collocations, word order, aspect nuance.
+  kolokacije: g('gc', 'grammar', 'grammar'),
+  // C2 drill-pool expansion (2026-08-15): phraseology, word formation, synonymy.
+  frazeologija: g('gc', 'grammar', 'grammar'),
+  tvorbarijeci: g('gc', 'grammar', 'grammar'),
+  sinonimija: g('gc', 'grammar', 'grammar'),
+  emfaza: g('gc', 'grammar', 'grammar'),
+  vidnijanse: g('gc', 'grammar', 'grammar'),
   neizravni: g('gc', 'grammar', 'grammar'),
   kretanje: g('gc', 'grammar', 'grammar'),
   instrumental: g('gc', 'grammar', 'grammar'),
