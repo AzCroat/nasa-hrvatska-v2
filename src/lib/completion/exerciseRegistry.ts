@@ -89,6 +89,10 @@ const RAW: Record<string, ExerciseEntry> = {
   povratni: g('gc', 'grammar', 'grammar'),
   sklonidbaimena: g('gc', 'grammar', 'grammar'),
   prijedlozni: g('gc', 'grammar', 'grammar'),
+  // C1 tranche 3 (2026-08-15): conditionals, definiteness, dates and time.
+  pogodbene: g('gc', 'grammar', 'grammar'),
+  odredjenost: g('gc', 'grammar', 'grammar'),
+  datumi: g('gc', 'grammar', 'grammar'),
   // C2 drill-pool expansion (2026-08-15): phraseology, word formation, synonymy.
   frazeologija: g('gc', 'grammar', 'grammar'),
   // C2 tranche 2 (2026-08-15): loanwords, sound changes, admin register.

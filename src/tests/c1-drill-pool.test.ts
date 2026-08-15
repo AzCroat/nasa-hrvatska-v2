@@ -15,6 +15,9 @@ import { SKLONIDBA_DRILL_DATA } from '../components/practice/SklonidbaImenaDrill
 import { PRIJEDLOZNI_DRILL_DATA } from '../components/practice/PrijedlozniIzraziDrill';
 import { EMFAZA_DRILL_DATA } from '../components/practice/EmfazaDrill';
 import { VIDNIJANSE_DRILL_DATA } from '../components/practice/VidNijanseDrill';
+import { POGODBENE_DRILL_DATA } from '../components/practice/PogodbeneDrill';
+import { ODREDJENOST_DRILL_DATA } from '../components/practice/OdredjenostDrill';
+import { DATUMI_DRILL_DATA } from '../components/practice/DatumiDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -59,6 +62,27 @@ const DRILLS = [
     data: VIDNIJANSE_DRILL_DATA,
     modes: ['faze', 'nijansa', 'ponavljanje'],
     category: 'aspect-perfective',
+    tier: 4,
+  },
+  {
+    id: 'pogodbene',
+    data: POGODBENE_DRILL_DATA,
+    modes: ['irealne', 'potencijalne', 'realne'],
+    category: 'conditional',
+    tier: 5,
+  },
+  {
+    id: 'odredjenost',
+    data: ODREDJENOST_DRILL_DATA,
+    modes: ['oblik', 'padez', 'znacenje'],
+    category: 'nominative',
+    tier: 4,
+  },
+  {
+    id: 'datumi',
+    data: DATUMI_DRILL_DATA,
+    modes: ['datum', 'redni', 'vrijeme'],
+    category: 'numerals',
     tier: 4,
   },
 ] as const;
@@ -111,9 +135,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 12/30)', () => {
-  it('the pool now offers at least 12 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 15/30)', () => {
+  it('the pool now offers at least 15 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(12);
+    expect(c1.length).toBeGreaterThanOrEqual(15);
   });
 });
