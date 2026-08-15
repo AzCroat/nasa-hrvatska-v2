@@ -259,6 +259,27 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'register',
   },
   {
+    id: 'pogodbene',
+    label: 'Pogodbene rečenice',
+    screen: 'pogodbene',
+    cefr: 'C1',
+    category: 'conditional',
+  },
+  {
+    id: 'odredjenost',
+    label: 'Određeni i neodređeni vid',
+    screen: 'odredjenost',
+    cefr: 'C1',
+    category: 'nominative',
+  },
+  {
+    id: 'datumi',
+    label: 'Datumi i vrijeme',
+    screen: 'datumi',
+    cefr: 'C1',
+    category: 'numerals',
+  },
+  {
     id: 'emfaza',
     label: 'Red riječi',
     screen: 'emfaza',
