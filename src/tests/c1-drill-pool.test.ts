@@ -10,6 +10,9 @@
  */
 import { describe, it, expect } from 'vitest';
 import { KOLOKACIJE_DRILL_DATA } from '../components/practice/KolokacijeDrill';
+import { POVRATNI_DRILL_DATA } from '../components/practice/PovratniDrill';
+import { SKLONIDBA_DRILL_DATA } from '../components/practice/SklonidbaImenaDrill';
+import { PRIJEDLOZNI_DRILL_DATA } from '../components/practice/PrijedlozniIzraziDrill';
 import { EMFAZA_DRILL_DATA } from '../components/practice/EmfazaDrill';
 import { VIDNIJANSE_DRILL_DATA } from '../components/practice/VidNijanseDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
@@ -29,6 +32,27 @@ const DRILLS = [
     modes: ['fokus', 'stil', 'tema'],
     category: 'word-order',
     tier: 5,
+  },
+  {
+    id: 'povratni',
+    data: POVRATNI_DRILL_DATA,
+    modes: ['oblik', 'vrste', 'znacenje'],
+    category: 'register',
+    tier: 4,
+  },
+  {
+    id: 'sklonidbaimena',
+    data: SKLONIDBA_DRILL_DATA,
+    modes: ['osobna', 'titule', 'zemljopisna'],
+    category: 'genitive',
+    tier: 4,
+  },
+  {
+    id: 'prijedlozni',
+    data: PRIJEDLOZNI_DRILL_DATA,
+    modes: ['padez', 'razlike', 'slozeni'],
+    category: 'genitive',
+    tier: 4,
   },
   {
     id: 'vidnijanse',
@@ -87,9 +111,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 9/30)', () => {
-  it('the pool now offers at least 9 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 12/30)', () => {
+  it('the pool now offers at least 12 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(9);
+    expect(c1.length).toBeGreaterThanOrEqual(12);
   });
 });

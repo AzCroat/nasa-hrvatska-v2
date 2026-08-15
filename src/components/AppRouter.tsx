@@ -202,6 +202,9 @@ const GerundDrill = lazyWithReload(() => import('./practice/GerundDrill'));
 const PrecisionDrill = lazyWithReload(() => import('./practice/PrecisionDrill'));
 const FuturDrugiDrill = lazyWithReload(() => import('./practice/FuturDrugiDrill'));
 const KolokacijeDrill = lazyWithReload(() => import('./practice/KolokacijeDrill'));
+const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
+const SklonidbaImenaDrill = lazyWithReload(() => import('./practice/SklonidbaImenaDrill'));
+const PrijedlozniIzraziDrill = lazyWithReload(() => import('./practice/PrijedlozniIzraziDrill'));
 const FrazeologijaDrill = lazyWithReload(() => import('./practice/FrazeologijaDrill'));
 const TvorbaRijeciDrill = lazyWithReload(() => import('./practice/TvorbaRijeciDrill'));
 const SinonimijaDrill = lazyWithReload(() => import('./practice/SinonimijaDrill'));
@@ -1718,6 +1721,21 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'sinonimija' && (
           <ScreenErrorBoundary key="sinonimija" name="sinonimija">
             <SinonimijaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'povratni' && (
+          <ScreenErrorBoundary key="povratni" name="povratni">
+            <PovratniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'sklonidbaimena' && (
+          <ScreenErrorBoundary key="sklonidbaimena" name="sklonidbaimena">
+            <SklonidbaImenaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prijedlozni' && (
+          <ScreenErrorBoundary key="prijedlozni" name="prijedlozni">
+            <PrijedlozniIzraziDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'kolokacije' && (
