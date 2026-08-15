@@ -11,6 +11,9 @@ import { describe, it, expect } from 'vitest';
 import { FUTUR2_DRILL_DATA } from '../components/practice/FuturDrugiDrill';
 import { NEIZRAVNI_DRILL_DATA } from '../components/practice/ReportedSpeechDrill';
 import { KRETANJE_DRILL_DATA } from '../components/practice/MotionVerbsDrill';
+import { BEZLICNE_DRILL_DATA } from '../components/practice/BezlicneDrill';
+import { NEODREDJENE_DRILL_DATA } from '../components/practice/NeodredjeneDrill';
+import { SLAGANJEBROJEVA_DRILL_DATA } from '../components/practice/SlaganjeBrojevaDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -26,6 +29,24 @@ const DRILLS = [
     data: NEIZRAVNI_DRILL_DATA,
     modes: ['izjave', 'pitanja', 'zapovijedi'],
     category: 'subordination',
+  },
+  {
+    id: 'bezlicne',
+    data: BEZLICNE_DRILL_DATA,
+    modes: ['dozivljaj', 'izrazi', 'slaganje'],
+    category: 'passive',
+  },
+  {
+    id: 'neodredjene',
+    data: NEODREDJENE_DRILL_DATA,
+    modes: ['god', 'oblici', 'razdvajanje'],
+    category: 'word-order',
+  },
+  {
+    id: 'slaganjebrojeva',
+    data: SLAGANJEBROJEVA_DRILL_DATA,
+    modes: ['mali', 'veliki', 'zbirni'],
+    category: 'numerals',
   },
   {
     id: 'kretanje',
@@ -84,8 +105,8 @@ for (const drill of DRILLS) {
 }
 
 describe('B2 drill-pool breadth', () => {
-  it('the pool now offers at least 12 non-adaptive B2 exercises', () => {
+  it('the pool now offers at least 15 non-adaptive B2 exercises (program tally: 15/30)', () => {
     const b2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'B2' && !e.adaptive);
-    expect(b2.length).toBeGreaterThanOrEqual(12);
+    expect(b2.length).toBeGreaterThanOrEqual(15);
   });
 });

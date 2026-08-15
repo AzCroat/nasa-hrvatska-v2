@@ -79,6 +79,10 @@ const RAW: Record<string, ExerciseEntry> = {
   preciznost: g('gc', 'grammar', 'grammar'),
   // B2 drill-pool expansion: futur II, reported speech, verbs of motion.
   futur2: g('gc', 'grammar', 'grammar'),
+  // B2 tranche 2 (2026-08-15): impersonals, indefinite pronouns, numerals.
+  bezlicne: g('gc', 'grammar', 'grammar'),
+  neodredjene: g('gc', 'grammar', 'grammar'),
+  slaganjebrojeva: g('gc', 'grammar', 'grammar'),
   // C1 drill-pool expansion (2026-08-14): collocations, word order, aspect nuance.
   kolokacije: g('gc', 'grammar', 'grammar'),
   // C1 tranche 2 (2026-08-15): se-verbs, name declension, prepositions.
@@ -87,6 +91,10 @@ const RAW: Record<string, ExerciseEntry> = {
   prijedlozni: g('gc', 'grammar', 'grammar'),
   // C2 drill-pool expansion (2026-08-15): phraseology, word formation, synonymy.
   frazeologija: g('gc', 'grammar', 'grammar'),
+  // C2 tranche 2 (2026-08-15): loanwords, sound changes, admin register.
+  posudjenice: g('gc', 'grammar', 'grammar'),
+  glasovnepromjene: g('gc', 'grammar', 'grammar'),
+  administrativni: g('gc', 'grammar', 'grammar'),
   tvorbarijeci: g('gc', 'grammar', 'grammar'),
   sinonimija: g('gc', 'grammar', 'grammar'),
   emfaza: g('gc', 'grammar', 'grammar'),

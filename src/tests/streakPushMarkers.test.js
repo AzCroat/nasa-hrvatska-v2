@@ -109,3 +109,20 @@ describe('streak-push delivery markers', () => {
     expect(src.includes('push:count') || src.includes('deliveredCount')).toBe(false);
   });
 });
+
+describe('scheduled worker subrequest hygiene (2026-08-15)', () => {
+  it('skips colon-prefixed infra keys BY NAME, before any get()', () => {
+    const src = readFileSync('functions/scheduled.js', 'utf8');
+    expect(src).toContain("if (key.name.includes(':')) continue;");
+    // The skip must come BEFORE the per-key get() so it costs no subrequest.
+    const skipIdx = src.indexOf("key.name.includes(':')");
+    const getIdx = src.indexOf('PUSH_SUBSCRIPTIONS.get(key.name');
+    expect(skipIdx).toBeGreaterThan(0);
+    expect(skipIdx).toBeLessThan(getIdx);
+  });
+
+  it('subscription keys can never contain a colon (the sanitizer strips it)', () => {
+    const src = readFileSync('functions/api/push-subscribe.js', 'utf8');
+    expect(src).toMatch(/replace\(\/\[\^a-zA-Z0-9_-\]\/g, '_'\)/);
+  });
+});
