@@ -103,6 +103,7 @@ function ExternalCard({
           streamId={m.name}
           activeStream={activeStream}
           setActiveStream={setActiveStream}
+          webUrl={m.web}
         />
         {m.web && (
           <button

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { markImmersionToday } from './MediaPlayerUtils';
-import { API_BASE } from '../../lib/platform.ts';
+import { API_BASE, openUrl } from '../../lib/platform.ts';
 
 interface Props {
   src: string;
@@ -8,6 +8,8 @@ interface Props {
   streamId: string;
   activeStream: string | null;
   setActiveStream: (id: string | null) => void;
+  /** Station website — the escape hatch when the live stream is down. */
+  webUrl?: string;
 }
 
 export default function RadioPlayer({
@@ -16,6 +18,7 @@ export default function RadioPlayer({
   streamId,
   activeStream,
   setActiveStream,
+  webUrl,
 }: Props) {
   const isActive = activeStream === streamId;
   const [playing, setPlaying] = useState(false);
@@ -23,6 +26,9 @@ export default function RadioPlayer({
   const [error, setError] = useState(false);
   const ref = useRef<HTMLAudioElement | null>(null);
   const mounted = useRef(false);
+  // First failure retries through the proxy cache; the retry itself asks the
+  // proxy to re-probe upstreams (fresh=1) so a dead cached URL heals itself.
+  const failedOnce = useRef(false);
 
   useEffect(() => {
     if (!mounted.current) {
@@ -70,7 +76,11 @@ export default function RadioPlayer({
       setActiveStream(streamId);
       // Prefix relative stream URLs with absolute base so native WebView
       // resolves to nasahrvatska.com (not https://localhost)
-      a.src = src.startsWith('/') ? `${API_BASE}${src}` : src;
+      let target = src.startsWith('/') ? `${API_BASE}${src}` : src;
+      if (failedOnce.current && target.includes('/radio?')) {
+        target += '&fresh=1';
+      }
+      a.src = target;
       a.play().catch(() => {
         setError(true);
         setBuffering(false);
@@ -132,6 +142,7 @@ export default function RadioPlayer({
         onPause={() => setPlaying(false)}
         onWaiting={() => setBuffering(true)}
         onError={() => {
+          failedOnce.current = true;
           setError(true);
           setBuffering(false);
           setPlaying(false);
@@ -168,8 +179,28 @@ export default function RadioPlayer({
       </button>
       <div style={{ flex: 1, minWidth: 0 }}>
         {error ? (
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--error)', fontWeight: 700 }}>
-            Stream unavailable — tap to retry
+          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700 }}>
+            <span style={{ color: 'var(--error)' }}>Stream unavailable — tap ▶ to retry</span>
+            {webUrl && (
+              <>
+                {' · '}
+                <button
+                  onClick={() => openUrl(webUrl)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    color,
+                    fontWeight: 800,
+                    fontSize: 'var(--text-xs)',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  listen on the station site
+                </button>
+              </>
+            )}
           </span>
         ) : playing ? (
           <div>
