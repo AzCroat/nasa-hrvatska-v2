@@ -1,0 +1,45 @@
+# Ops diagnostic: are the live-media upstreams (HRT radio, CMC) actually
+# reachable, and does the production /radio proxy resolve each station?
+# Read-only; GitHub runners have unrestricted egress, unlike the dev sandbox.
+# Prints HTTP status + content type per URL — no user data involved.
+name: Media streams probe
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe upstream stream candidates
+        run: |
+          set -uo pipefail
+          probe() {
+            printf '%-95s' "$1"
+            curl -sS -o /dev/null -m 10 -r 0-0 -L \
+              -w "HTTP %{http_code}  type=%{content_type}\n" "$1" \
+              || echo "FAILED (connect/timeout)"
+          }
+          echo "::group::HRT (StreamTheWorld mounts)"
+          for m in PROGRAM1 PROGRAM2 PROGRAM3; do
+            probe "https://playerservices.streamtheworld.com/api/livestream-redirect/${m}.mp3"
+            probe "https://playerservices.streamtheworld.com/api/livestream-redirect/${m}AAC.aac"
+            probe "https://playerservices.streamtheworld.com/api/livestream-redirect/${m}AAC_SC"
+          done
+          echo "::endgroup::"
+          echo "::group::CMC"
+          probe "https://radio.cmc.com.hr:8443/cmc_radio"
+          probe "https://radio.cmc.com.hr/cmc_radio"
+          echo "::endgroup::"
+
+      - name: Probe production /radio proxy
+        run: |
+          set -uo pipefail
+          echo "::group::Production proxy resolution"
+          for s in hrt1 hrt2 hrt3 cmc; do
+            printf '%-10s' "$s"
+            curl -sS -o /dev/null -m 20 -w "HTTP %{http_code}  ->  %{redirect_url}\n" \
+              "https://nasahrvatska.com/radio?s=${s}&fresh=1" \
+              || echo "FAILED (connect/timeout)"
+          done
+          echo "::endgroup::"
