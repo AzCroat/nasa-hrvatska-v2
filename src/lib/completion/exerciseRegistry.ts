@@ -125,6 +125,14 @@ const RAW: Record<string, ExerciseEntry> = {
   slojevi: g('gc', 'grammar', 'grammar'),
   parniveznici: g('gc', 'grammar', 'grammar'),
   eponimi: g('gc', 'grammar', 'grammar'),
+  // Tranche 8 (2026-08-15): C1 wishes/comparisons/approximation, C2
+  // politeness/calques/verbs-of-speaking.
+  zelje: g('gc', 'grammar', 'grammar'),
+  usporedbe: g('gc', 'grammar', 'grammar'),
+  priblizno: g('gc', 'grammar', 'grammar'),
+  uljudnost: g('gc', 'grammar', 'grammar'),
+  kalkovi: g('gc', 'grammar', 'grammar'),
+  glagoligovorenja: g('gc', 'grammar', 'grammar'),
   sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
   namjera: g('gc', 'grammar', 'grammar'),
   srocnost: g('gc', 'grammar', 'grammar'),
