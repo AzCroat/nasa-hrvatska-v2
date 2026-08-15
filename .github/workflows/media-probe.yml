@@ -32,6 +32,33 @@ jobs:
           probe "https://radio.cmc.com.hr/cmc_radio"
           echo "::endgroup::"
 
+      - name: Discover CMC stream URL (both known upstreams are dead)
+        run: |
+          set -uo pipefail
+          echo "::group::CMC player pages — extract stream URLs"
+          for page in "https://cmc.com.hr/program/cmc-radio-stream/" \
+                      "https://radio.cmc.com.hr" \
+                      "https://cmc.com.hr"; do
+            echo "--- $page"
+            curl -sSL -m 15 "$page" 2>/dev/null \
+              | grep -oE 'https?://[^"'"'"' <>]+\.(mp3|aac|aacp|m3u8)[^"'"'"' <>]*|https?://[^"'"'"' <>]*(stream|radio|listen|shoutcast|icecast)[^"'"'"' <>]*' \
+              | sort -u | head -20 || echo "(no stream URLs found in page)"
+          done
+          echo "::endgroup::"
+          echo "::group::CMC educated-guess probes"
+          for u in "https://stream.cmc.com.hr/cmc_radio" \
+                   "https://cmc.stream.studio.hr/cmc" \
+                   "https://radio.cmc.com.hr:8000/cmc_radio" \
+                   "https://radio.cmc.com.hr/stream" \
+                   "https://radio.cmc.com.hr/listen" \
+                   "https://radio.cmc.com.hr:8443/stream"; do
+            printf '%-60s' "$u"
+            curl -sS -o /dev/null -m 8 -r 0-0 -L \
+              -w "HTTP %{http_code}  type=%{content_type}\n" "$u" \
+              || echo "FAILED (connect/timeout)"
+          done
+          echo "::endgroup::"
+
       - name: Probe production /radio proxy
         run: |
           set -uo pipefail
