@@ -251,6 +251,12 @@ const VrijemeIzrazDrill = lazyWithReload(() => import('./practice/VrijemeIzrazDr
 const SlojeviDrill = lazyWithReload(() => import('./practice/SlojeviDrill'));
 const ParniVezniciDrill = lazyWithReload(() => import('./practice/ParniVezniciDrill'));
 const EponimiDrill = lazyWithReload(() => import('./practice/EponimiDrill'));
+const ZeljeDrill = lazyWithReload(() => import('./practice/ZeljeDrill'));
+const UsporedbeDrill = lazyWithReload(() => import('./practice/UsporedbeDrill'));
+const PribliznoDrill = lazyWithReload(() => import('./practice/PribliznoDrill'));
+const UljudnostDrill = lazyWithReload(() => import('./practice/UljudnostDrill'));
+const KalkoviDrill = lazyWithReload(() => import('./practice/KalkoviDrill'));
+const GlagoliGovorenjaDrill = lazyWithReload(() => import('./practice/GlagoliGovorenjaDrill'));
 const NeodredjeneDrill = lazyWithReload(() => import('./practice/NeodredjeneDrill'));
 const SlaganjeBrojevaDrill = lazyWithReload(() => import('./practice/SlaganjeBrojevaDrill'));
 const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
@@ -1817,6 +1823,36 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'administrativni' && (
           <ScreenErrorBoundary key="administrativni" name="administrativni">
             <AdministrativniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zelje' && (
+          <ScreenErrorBoundary key="zelje" name="zelje">
+            <ZeljeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'usporedbe' && (
+          <ScreenErrorBoundary key="usporedbe" name="usporedbe">
+            <UsporedbeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'priblizno' && (
+          <ScreenErrorBoundary key="priblizno" name="priblizno">
+            <PribliznoDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'uljudnost' && (
+          <ScreenErrorBoundary key="uljudnost" name="uljudnost">
+            <UljudnostDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kalkovi' && (
+          <ScreenErrorBoundary key="kalkovi" name="kalkovi">
+            <KalkoviDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'glagoligovorenja' && (
+          <ScreenErrorBoundary key="glagoligovorenja" name="glagoligovorenja">
+            <GlagoliGovorenjaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'prijedlozigen' && (

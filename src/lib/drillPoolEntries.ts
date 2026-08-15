@@ -340,4 +340,48 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'idioms',
   },
+  // C1 tranche 8 (2026-08-15): wishes, comparisons, approximate quantities.
+  {
+    id: 'zelje',
+    label: 'Izricanje želja',
+    screen: 'zelje',
+    cefr: 'C1',
+    category: 'conditional',
+  },
+  {
+    id: 'usporedbe',
+    label: 'Usporedbe',
+    screen: 'usporedbe',
+    cefr: 'C1',
+    category: 'subordination',
+  },
+  {
+    id: 'priblizno',
+    label: 'Približne količine',
+    screen: 'priblizno',
+    cefr: 'C1',
+    category: 'numerals',
+  },
+  // C2 tranche 8 (2026-08-15): politeness, calques, verbs of speaking.
+  {
+    id: 'uljudnost',
+    label: 'Umijeće uljudnosti',
+    screen: 'uljudnost',
+    cefr: 'C2',
+    category: 'discourse',
+  },
+  {
+    id: 'kalkovi',
+    label: 'Kalkovi i anglizmi',
+    screen: 'kalkovi',
+    cefr: 'C2',
+    category: 'register',
+  },
+  {
+    id: 'glagoligovorenja',
+    label: 'Glagoli govorenja',
+    screen: 'glagoligovorenja',
+    cefr: 'C2',
+    category: 'discourse',
+  },
 ];

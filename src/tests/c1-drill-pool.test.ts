@@ -30,6 +30,9 @@ import { SAV_SVAKI_DRILL_DATA } from '../components/practice/SavSvakiDrill';
 import { DVOVIDNI_DRILL_DATA } from '../components/practice/DvovidniDrill';
 import { I_SKLONIDBA_DRILL_DATA } from '../components/practice/ISklonidbaDrill';
 import { VRIJEME_IZRAZ_DRILL_DATA } from '../components/practice/VrijemeIzrazDrill';
+import { ZELJE_DRILL_DATA } from '../components/practice/ZeljeDrill';
+import { USPOREDBE_DRILL_DATA } from '../components/practice/UsporedbeDrill';
+import { PRIBLIZNO_DRILL_DATA } from '../components/practice/PribliznoDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -181,6 +184,27 @@ const DRILLS = [
     category: 'genitive',
     tier: 4,
   },
+  {
+    id: 'zelje',
+    data: ZELJE_DRILL_DATA,
+    modes: ['dabar', 'kondicional', 'neka'],
+    category: 'conditional',
+    tier: 4,
+  },
+  {
+    id: 'usporedbe',
+    data: USPOREDBE_DRILL_DATA,
+    modes: ['kaosto', 'sintaksa', 'ustaljene'],
+    category: 'subordination',
+    tier: 4,
+  },
+  {
+    id: 'priblizno',
+    data: PRIBLIZNO_DRILL_DATA,
+    modes: ['izrazi', 'razlomci', 'tvorba'],
+    category: 'numerals',
+    tier: 4,
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -231,9 +255,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 27/30)', () => {
-  it('the pool now offers at least 27 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 30/30 COMPLETE)', () => {
+  it('the pool now offers at least 30 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(27);
+    expect(c1.length).toBeGreaterThanOrEqual(30);
   });
 });
