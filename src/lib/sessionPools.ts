@@ -160,6 +160,29 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
+  // C1 drill-pool expansion (fluency initiative, 2026-08-14; target 30+ per
+  // level): collocations/rekcija, information structure, aspectual nuance.
+  {
+    id: 'kolokacije',
+    label: 'Kolokacije',
+    screen: 'kolokacije',
+    cefr: 'C1',
+    category: 'register',
+  },
+  {
+    id: 'emfaza',
+    label: 'Red riječi',
+    screen: 'emfaza',
+    cefr: 'C1',
+    category: 'word-order',
+  },
+  {
+    id: 'vidnijanse',
+    label: 'Vid — nijanse',
+    screen: 'vidnijanse',
+    cefr: 'C1',
+    category: 'aspect-perfective',
+  },
   {
     id: 'neizravni',
     label: 'Neizravni govor',
@@ -841,6 +864,9 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   gerunddrill: 5,
   preciznost: 5,
   futur2: 4,
+  kolokacije: 5,
+  emfaza: 5,
+  vidnijanse: 4,
   neizravni: 4,
   kretanje: 4,
   // Wave 1 additions — recognition games tier 2, guided drills tier 3.
