@@ -3,39 +3,11 @@
  * max-lines): the CEFR-annotated Priority-3 fill pool and the structural
  * difficulty tiers. Logic stays in useDailySession; this module is data only.
  */
-import type { SkillCategory } from './adaptive';
 import { C_LEVEL_DRILL_ENTRIES } from './drillPoolEntries';
 
-/** CEFR-annotated exercise pool for Priority 3 fill */
-export interface CefrPoolEntry {
-  id: string;
-  label: string;
-  screen: string;
-  cefr: string;
-  category: SkillCategory;
-  /**
-   * Wave 4: bounded browse/reference screens with no self-grading completion.
-   * Reference entries complete on return-to-Home (SESSION_AUTOCOMPLETE_SCREENS
-   * derives from this flag) and the session builder serves AT MOST ONE per
-   * session so browse content never crowds out graded drills.
-   */
-  reference?: boolean;
-  /**
-   * Wave 9: entries whose activity is impossible without a microphone. The
-   * builder skips them when readMicState() is 'denied'/'unsupported' —
-   * mirroring PRODUCTION_POOL's micRequired contract.
-   */
-  micRequired?: boolean;
-  /**
-   * Phase 1 (fluency initiative, 2026-08): the SCREEN levels its own content
-   * to the user's CEFR (leveled readers, level-aware AI generation, per-level
-   * scene banks). For these, a fixed EXERCISE_DIFFICULTY score misleads the
-   * difficulty-nearest fill sort — a C1 user was ranked away from the app's
-   * richest input content because the entry "looked like" a tier-3 exercise.
-   * The builder treats adaptive entries as ALWAYS difficulty-matched (dist 0).
-   */
-  adaptive?: boolean;
-}
+export type { CefrPoolEntry } from './drillPoolEntries';
+import type { CefrPoolEntry } from './drillPoolEntries';
+
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
 export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
