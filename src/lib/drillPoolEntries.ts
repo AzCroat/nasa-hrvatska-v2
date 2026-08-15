@@ -252,4 +252,48 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'register',
   },
+  // C1 tranche 6 (2026-08-15): concessives, pluperfect, quantifier pronouns.
+  {
+    id: 'dopusne',
+    label: 'Dopusne rečenice',
+    screen: 'dopusne',
+    cefr: 'C1',
+    category: 'subordination',
+  },
+  {
+    id: 'pluskvamperfekt',
+    label: 'Pluskvamperfekt',
+    screen: 'pluskvamperfekt',
+    cefr: 'C1',
+    category: 'past-tense',
+  },
+  {
+    id: 'savsvaki',
+    label: 'Sav, svaki, sam',
+    screen: 'savsvaki',
+    cefr: 'C1',
+    category: 'nominative',
+  },
+  // C2 tranche 6 (2026-08-15): journalese, figurative meanings, epistemic modality.
+  {
+    id: 'novinski',
+    label: 'Novinski stil',
+    screen: 'novinski',
+    cefr: 'C2',
+    category: 'discourse',
+  },
+  {
+    id: 'prenesena',
+    label: 'Prenesena značenja',
+    screen: 'prenesena',
+    cefr: 'C2',
+    category: 'idioms',
+  },
+  {
+    id: 'modalnost',
+    label: 'Izricanje sigurnosti',
+    screen: 'modalnost',
+    cefr: 'C2',
+    category: 'conditional',
+  },
 ];

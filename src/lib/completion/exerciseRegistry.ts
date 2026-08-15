@@ -103,6 +103,17 @@ const RAW: Record<string, ExerciseEntry> = {
   velikoslovo: g('gc', 'grammar', 'grammar'),
   kratice: g('gc', 'grammar', 'grammar'),
   lektor: g('gc', 'grammar', 'grammar'),
+  // Tranche 6 (2026-08-15): B2 pronouns/cause/quantity, C1 concessives/
+  // pluperfect/quantifiers, C2 journalese/figurative/modality.
+  zamjenice: g('gc', 'grammar', 'grammar'),
+  uzrocne: g('gc', 'grammar', 'grammar'),
+  kolicina: g('gc', 'grammar', 'grammar'),
+  dopusne: g('gc', 'grammar', 'grammar'),
+  pluskvamperfekt: g('gc', 'grammar', 'grammar'),
+  savsvaki: g('gc', 'grammar', 'grammar'),
+  novinski: g('gc', 'grammar', 'grammar'),
+  prenesena: g('gc', 'grammar', 'grammar'),
+  modalnost: g('gc', 'grammar', 'grammar'),
   sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
   namjera: g('gc', 'grammar', 'grammar'),
   srocnost: g('gc', 'grammar', 'grammar'),

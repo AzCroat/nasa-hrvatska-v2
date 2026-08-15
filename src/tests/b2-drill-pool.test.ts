@@ -23,6 +23,9 @@ import { VREMENSKE_DRILL_DATA } from '../components/practice/VremenskeDrill';
 import { MNOZINA_DRILL_DATA } from '../components/practice/MnozinaDrill';
 import { PROSTORNI_DRILL_DATA } from '../components/practice/ProstorniDrill';
 import { STUPNJEVANJE_DRILL_DATA } from '../components/practice/StupnjevanjeDrill';
+import { ZAMJENICE_DRILL_DATA } from '../components/practice/ZamjeniceDrill';
+import { UZROCNE_DRILL_DATA } from '../components/practice/UzrocneDrill';
+import { KOLICINA_DRILL_DATA } from '../components/practice/KolicinaDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -117,6 +120,24 @@ const DRILLS = [
     modes: ['nepravilni', 'tvorba', 'usporedba'],
     category: 'nominative',
   },
+  {
+    id: 'zamjenice',
+    data: ZAMJENICE_DRILL_DATA,
+    modes: ['naglaseni', 'oblici', 'recenica'],
+    category: 'clitics',
+  },
+  {
+    id: 'uzrocne',
+    data: UZROCNE_DRILL_DATA,
+    modes: ['posljedica', 'razlika', 'uzrok'],
+    category: 'subordination',
+  },
+  {
+    id: 'kolicina',
+    data: KOLICINA_DRILL_DATA,
+    modes: ['brojivo', 'mjere', 'partitiv'],
+    category: 'genitive',
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -168,8 +189,8 @@ for (const drill of DRILLS) {
 }
 
 describe('B2 drill-pool breadth', () => {
-  it('the pool now offers at least 24 non-adaptive B2 exercises (program tally: 24/30)', () => {
+  it('the pool now offers at least 27 non-adaptive B2 exercises (program tally: 27/30)', () => {
     const b2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'B2' && !e.adaptive);
-    expect(b2.length).toBeGreaterThanOrEqual(24);
+    expect(b2.length).toBeGreaterThanOrEqual(27);
   });
 });
