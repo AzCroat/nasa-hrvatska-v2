@@ -45,6 +45,28 @@ jobs:
               | sort -u | head -20 || echo "(no stream URLs found in page)"
           done
           echo "::endgroup::"
+          echo "::group::CMC player JS bundles — the stream URL must live here"
+          # Run 2 found no URLs in static HTML: the player is JS-driven. Pull
+          # every script the player pages load and grep the bundles themselves.
+          for page in "https://radio.cmc.com.hr" \
+                      "https://cmc.com.hr/program/cmc-radio-stream/"; do
+            echo "--- scripts on $page"
+            curl -sSL -m 15 "$page" 2>/dev/null \
+              | grep -oE 'src="[^"]+\.js[^"]*"' | sed 's/src="//;s/"$//' | sort -u | head -12 \
+              | while read -r js; do
+                  case "$js" in
+                    http*) full="$js" ;;
+                    /*) full="https://radio.cmc.com.hr$js" ;;
+                    *) full="https://radio.cmc.com.hr/$js" ;;
+                  esac
+                  echo "  [bundle] $full"
+                  curl -sSL -m 15 "$full" 2>/dev/null \
+                    | grep -oE 'https?://[^"'"'"' <>\\]+(mp3|aac|m3u8|stream|8443|8000|cmc_radio|icecast|shoutcast|radio\.co|zeno\.fm|streaming)[^"'"'"' <>\\]*' \
+                    | sort -u | head -12 || true
+                done
+          done
+          echo "(end of bundle scan)"
+          echo "::endgroup::"
           echo "::group::CMC educated-guess probes"
           for u in "https://stream.cmc.com.hr/cmc_radio" \
                    "https://cmc.stream.studio.hr/cmc" \
