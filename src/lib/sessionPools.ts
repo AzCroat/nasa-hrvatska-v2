@@ -185,6 +185,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'register',
   },
+  // C1 tranche 2 (2026-08-15): se-verbs, proper-name declension, prepositions.
+  {
+    id: 'povratni',
+    label: 'Povratni glagoli',
+    screen: 'povratni',
+    cefr: 'C1',
+    category: 'register',
+  },
+  {
+    id: 'sklonidbaimena',
+    label: 'Sklonidba imena',
+    screen: 'sklonidbaimena',
+    cefr: 'C1',
+    category: 'genitive',
+  },
+  {
+    id: 'prijedlozni',
+    label: 'Prijedložni izrazi',
+    screen: 'prijedlozni',
+    cefr: 'C1',
+    category: 'genitive',
+  },
   {
     id: 'kolokacije',
     label: 'Kolokacije',
