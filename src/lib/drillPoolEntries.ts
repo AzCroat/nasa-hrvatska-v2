@@ -384,4 +384,27 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'discourse',
   },
+  // C2 tranche 9 (2026-08-15): proverbs, figures of speech, official documents.
+  // Completes the 30-per-level drill program (B2/C1/C2 all at 30).
+  {
+    id: 'poslovice',
+    label: 'Poslovice',
+    screen: 'poslovice',
+    cefr: 'C2',
+    category: 'idioms',
+  },
+  {
+    id: 'stilskefigure',
+    label: 'Stilske figure',
+    screen: 'stilskefigure',
+    cefr: 'C2',
+    category: 'discourse',
+  },
+  {
+    id: 'dopisi',
+    label: 'Službeni dopisi',
+    screen: 'dopisi',
+    cefr: 'C2',
+    category: 'register',
+  },
 ];
