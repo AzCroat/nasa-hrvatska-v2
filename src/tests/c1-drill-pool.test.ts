@@ -21,6 +21,9 @@ import { DATUMI_DRILL_DATA } from '../components/practice/DatumiDrill';
 import { SKLONIDBA_BROJEVA_DRILL_DATA } from '../components/practice/SklonidbaBrojevaDrill';
 import { NAMJERA_DRILL_DATA } from '../components/practice/NamjeraDrill';
 import { SROCNOST_DRILL_DATA } from '../components/practice/SrocnostDrill';
+import { TRPNI_DRILL_DATA } from '../components/practice/TrpniDrill';
+import { INFINITIV_DA_DRILL_DATA } from '../components/practice/InfinitivDaDrill';
+import { VIDSKI_PAROVI_DRILL_DATA } from '../components/practice/VidskiParoviDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -109,6 +112,27 @@ const DRILLS = [
     category: 'nominative',
     tier: 5,
   },
+  {
+    id: 'trpni',
+    data: TRPNI_DRILL_DATA,
+    modes: ['jotacija', 'tvorba', 'uporaba'],
+    category: 'participle',
+    tier: 4,
+  },
+  {
+    id: 'infinitivda',
+    data: INFINITIV_DA_DRILL_DATA,
+    modes: ['daprezent', 'izbor', 'standard'],
+    category: 'register',
+    tier: 4,
+  },
+  {
+    id: 'vidskiparovi',
+    data: VIDSKI_PAROVI_DRILL_DATA,
+    modes: ['nijansa', 'parovi', 'sekundarna'],
+    category: 'aspect-imperfective',
+    tier: 4,
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -159,9 +183,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 18/30)', () => {
-  it('the pool now offers at least 18 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 21/30)', () => {
+  it('the pool now offers at least 21 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(18);
+    expect(c1.length).toBeGreaterThanOrEqual(21);
   });
 });

@@ -92,6 +92,17 @@ const RAW: Record<string, ExerciseEntry> = {
   vidimperativ: g('gc', 'grammar', 'grammar'),
   posvojni: g('gc', 'grammar', 'grammar'),
   vremenske: g('gc', 'grammar', 'grammar'),
+  // Tranche 5 (2026-08-15): B2 plurals/prepositions/comparison, C1 participle/
+  // infinitive/aspect-pairs, C2 capitalization/abbreviations/normative traps.
+  mnozina: g('gc', 'grammar', 'grammar'),
+  prostorni: g('gc', 'grammar', 'grammar'),
+  stupnjevanje: g('gc', 'grammar', 'grammar'),
+  trpni: g('gc', 'grammar', 'grammar'),
+  infinitivda: g('gc', 'grammar', 'grammar'),
+  vidskiparovi: g('gc', 'grammar', 'grammar'),
+  velikoslovo: g('gc', 'grammar', 'grammar'),
+  kratice: g('gc', 'grammar', 'grammar'),
+  lektor: g('gc', 'grammar', 'grammar'),
   sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
   namjera: g('gc', 'grammar', 'grammar'),
   srocnost: g('gc', 'grammar', 'grammar'),

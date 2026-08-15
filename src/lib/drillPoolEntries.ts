@@ -208,4 +208,48 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'register',
   },
+  // C1 tranche 5 (2026-08-15): passive participle, infinitive vs da, aspect pairs.
+  {
+    id: 'trpni',
+    label: 'Trpni pridjev',
+    screen: 'trpni',
+    cefr: 'C1',
+    category: 'participle',
+  },
+  {
+    id: 'infinitivda',
+    label: 'Infinitiv ili da',
+    screen: 'infinitivda',
+    cefr: 'C1',
+    category: 'register',
+  },
+  {
+    id: 'vidskiparovi',
+    label: 'Vidski parovi',
+    screen: 'vidskiparovi',
+    cefr: 'C1',
+    category: 'aspect-imperfective',
+  },
+  // C2 tranche 5 (2026-08-15): capitalization, abbreviations, normative traps.
+  {
+    id: 'velikoslovo',
+    label: 'Veliko i malo slovo',
+    screen: 'velikoslovo',
+    cefr: 'C2',
+    category: 'register',
+  },
+  {
+    id: 'kratice',
+    label: 'Kratice i strana imena',
+    screen: 'kratice',
+    cefr: 'C2',
+    category: 'genitive',
+  },
+  {
+    id: 'lektor',
+    label: 'Lektorske zamke',
+    screen: 'lektor',
+    cefr: 'C2',
+    category: 'register',
+  },
 ];

@@ -20,6 +20,9 @@ import { RAZGOVORNI_DRILL_DATA } from '../components/practice/RazgovorniDrill';
 import { ENKLITIKE_DRILL_DATA } from '../components/practice/EnklitikeDrill';
 import { AKADEMSKI_DRILL_DATA } from '../components/practice/AkademskiDrill';
 import { INTERPUNKCIJA_DRILL_DATA } from '../components/practice/InterpunkcijaDrill';
+import { VELIKO_SLOVO_DRILL_DATA } from '../components/practice/VelikoSlovoDrill';
+import { KRATICE_DRILL_DATA } from '../components/practice/KraticeDrill';
+import { LEKTOR_DRILL_DATA } from '../components/practice/LektorDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -96,6 +99,24 @@ const DRILLS = [
     modes: ['crtica', 'dvotocje', 'navodnici'],
     category: 'register',
   },
+  {
+    id: 'velikoslovo',
+    data: VELIKO_SLOVO_DRILL_DATA,
+    modes: ['blagdani', 'imena', 'ustanove'],
+    category: 'register',
+  },
+  {
+    id: 'kratice',
+    data: KRATICE_DRILL_DATA,
+    modes: ['kratice', 'pisanje', 'strana'],
+    category: 'genitive',
+  },
+  {
+    id: 'lektor',
+    data: LEKTOR_DRILL_DATA,
+    modes: ['leksik', 'oblici', 'rekcija'],
+    category: 'register',
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -146,9 +167,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C2 drill-pool breadth (program tally: 15/30)', () => {
-  it('the pool now offers at least 15 C2 exercises', () => {
+describe('C2 drill-pool breadth (program tally: 18/30)', () => {
+  it('the pool now offers at least 18 C2 exercises', () => {
     const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2');
-    expect(c2.length).toBeGreaterThanOrEqual(15);
+    expect(c2.length).toBeGreaterThanOrEqual(18);
   });
 });
