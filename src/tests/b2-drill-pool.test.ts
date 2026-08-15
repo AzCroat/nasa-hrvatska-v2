@@ -26,6 +26,9 @@ import { STUPNJEVANJE_DRILL_DATA } from '../components/practice/StupnjevanjeDril
 import { ZAMJENICE_DRILL_DATA } from '../components/practice/ZamjeniceDrill';
 import { UZROCNE_DRILL_DATA } from '../components/practice/UzrocneDrill';
 import { KOLICINA_DRILL_DATA } from '../components/practice/KolicinaDrill';
+import { PRIJEDLOZI_GEN_DRILL_DATA } from '../components/practice/PrijedloziGenDrill';
+import { IMENICE_ME_DRILL_DATA } from '../components/practice/ImeniceMeDrill';
+import { PITANJA_DRILL_DATA } from '../components/practice/PitanjaDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -138,6 +141,24 @@ const DRILLS = [
     modes: ['brojivo', 'mjere', 'partitiv'],
     category: 'genitive',
   },
+  {
+    id: 'prijedlozigen',
+    data: PRIJEDLOZI_GEN_DRILL_DATA,
+    modes: ['kontrast', 'mjesto', 'padez'],
+    category: 'genitive',
+  },
+  {
+    id: 'imenicame',
+    data: IMENICE_ME_DRILL_DATA,
+    modes: ['mnozina', 'recenica', 'sklonidba'],
+    category: 'nominative',
+  },
+  {
+    id: 'pitanja',
+    data: PITANJA_DRILL_DATA,
+    modes: ['cestice', 'neizravna', 'rijeci'],
+    category: 'word-order',
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -189,8 +210,8 @@ for (const drill of DRILLS) {
 }
 
 describe('B2 drill-pool breadth', () => {
-  it('the pool now offers at least 27 non-adaptive B2 exercises (program tally: 27/30)', () => {
+  it('the pool now offers at least 30 non-adaptive B2 exercises (program tally: 30/30 COMPLETE)', () => {
     const b2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'B2' && !e.adaptive);
-    expect(b2.length).toBeGreaterThanOrEqual(27);
+    expect(b2.length).toBeGreaterThanOrEqual(30);
   });
 });

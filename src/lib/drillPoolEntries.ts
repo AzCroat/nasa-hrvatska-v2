@@ -296,4 +296,48 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'conditional',
   },
+  // C1 tranche 7 (2026-08-15): biaspectuals, i-declension, time expressions.
+  {
+    id: 'dvovidni',
+    label: 'Dvovidni glagoli',
+    screen: 'dvovidni',
+    cefr: 'C1',
+    category: 'aspect-imperfective',
+  },
+  {
+    id: 'isklonidba',
+    label: 'I-sklonidba',
+    screen: 'isklonidba',
+    cefr: 'C1',
+    category: 'instrumental',
+  },
+  {
+    id: 'vrijemeizraz',
+    label: 'Izricanje vremena',
+    screen: 'vrijemeizraz',
+    cefr: 'C1',
+    category: 'genitive',
+  },
+  // C2 tranche 7 (2026-08-15): lexical strata, correlative conjunctions, eponyms.
+  {
+    id: 'slojevi',
+    label: 'Slojevi leksika',
+    screen: 'slojevi',
+    cefr: 'C2',
+    category: 'register',
+  },
+  {
+    id: 'parniveznici',
+    label: 'Parni veznici',
+    screen: 'parniveznici',
+    cefr: 'C2',
+    category: 'discourse',
+  },
+  {
+    id: 'eponimi',
+    label: 'Frazemi s imenom',
+    screen: 'eponimi',
+    cefr: 'C2',
+    category: 'idioms',
+  },
 ];

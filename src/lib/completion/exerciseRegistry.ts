@@ -114,6 +114,17 @@ const RAW: Record<string, ExerciseEntry> = {
   novinski: g('gc', 'grammar', 'grammar'),
   prenesena: g('gc', 'grammar', 'grammar'),
   modalnost: g('gc', 'grammar', 'grammar'),
+  // Tranche 7 (2026-08-15): B2 gen-prepositions/n-stems/questions, C1
+  // biaspectuals/i-declension/time, C2 strata/correlatives/eponyms.
+  prijedlozigen: g('gc', 'grammar', 'grammar'),
+  imenicame: g('gc', 'grammar', 'grammar'),
+  pitanja: g('gc', 'grammar', 'grammar'),
+  dvovidni: g('gc', 'grammar', 'grammar'),
+  isklonidba: g('gc', 'grammar', 'grammar'),
+  vrijemeizraz: g('gc', 'grammar', 'grammar'),
+  slojevi: g('gc', 'grammar', 'grammar'),
+  parniveznici: g('gc', 'grammar', 'grammar'),
+  eponimi: g('gc', 'grammar', 'grammar'),
   sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
   namjera: g('gc', 'grammar', 'grammar'),
   srocnost: g('gc', 'grammar', 'grammar'),

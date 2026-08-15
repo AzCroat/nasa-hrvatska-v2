@@ -133,6 +133,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
+  // B2 tranche 7 (2026-08-15): genitive prepositions, n/t-stem nouns, questions.
+  {
+    id: 'prijedlozigen',
+    label: 'Prijedlozi s genitivom',
+    screen: 'prijedlozigen',
+    cefr: 'B2',
+    category: 'genitive',
+  },
+  {
+    id: 'imenicame',
+    label: 'Imenice tipa ime',
+    screen: 'imenicame',
+    cefr: 'B2',
+    category: 'nominative',
+  },
+  {
+    id: 'pitanja',
+    label: 'Umijeće pitanja',
+    screen: 'pitanja',
+    cefr: 'B2',
+    category: 'word-order',
+  },
   // B2 tranche 6 (2026-08-15): pronoun forms, cause/consequence, quantity.
   {
     id: 'zamjenice',

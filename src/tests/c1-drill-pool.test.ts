@@ -27,6 +27,9 @@ import { VIDSKI_PAROVI_DRILL_DATA } from '../components/practice/VidskiParoviDri
 import { DOPUSNE_DRILL_DATA } from '../components/practice/DopusneDrill';
 import { PLUSKVAMPERFEKT_DRILL_DATA } from '../components/practice/PluskvamperfektDrill';
 import { SAV_SVAKI_DRILL_DATA } from '../components/practice/SavSvakiDrill';
+import { DVOVIDNI_DRILL_DATA } from '../components/practice/DvovidniDrill';
+import { I_SKLONIDBA_DRILL_DATA } from '../components/practice/ISklonidbaDrill';
+import { VRIJEME_IZRAZ_DRILL_DATA } from '../components/practice/VrijemeIzrazDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -157,6 +160,27 @@ const DRILLS = [
     category: 'nominative',
     tier: 4,
   },
+  {
+    id: 'dvovidni',
+    data: DVOVIDNI_DRILL_DATA,
+    modes: ['kontekst', 'nijansa', 'prepoznaj'],
+    category: 'aspect-imperfective',
+    tier: 4,
+  },
+  {
+    id: 'isklonidba',
+    data: I_SKLONIDBA_DRILL_DATA,
+    modes: ['padezi', 'recenice', 'rod'],
+    category: 'instrumental',
+    tier: 4,
+  },
+  {
+    id: 'vrijemeizraz',
+    data: VRIJEME_IZRAZ_DRILL_DATA,
+    modes: ['izrazi', 'padezi', 'prilozi'],
+    category: 'genitive',
+    tier: 4,
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -207,9 +231,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 24/30)', () => {
-  it('the pool now offers at least 24 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 27/30)', () => {
+  it('the pool now offers at least 27 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(24);
+    expect(c1.length).toBeGreaterThanOrEqual(27);
   });
 });
