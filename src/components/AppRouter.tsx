@@ -242,6 +242,15 @@ const SavSvakiDrill = lazyWithReload(() => import('./practice/SavSvakiDrill'));
 const NovinskiDrill = lazyWithReload(() => import('./practice/NovinskiDrill'));
 const PrenesenaDrill = lazyWithReload(() => import('./practice/PrenesenaDrill'));
 const ModalnostDrill = lazyWithReload(() => import('./practice/ModalnostDrill'));
+const PrijedloziGenDrill = lazyWithReload(() => import('./practice/PrijedloziGenDrill'));
+const ImeniceMeDrill = lazyWithReload(() => import('./practice/ImeniceMeDrill'));
+const PitanjaDrill = lazyWithReload(() => import('./practice/PitanjaDrill'));
+const DvovidniDrill = lazyWithReload(() => import('./practice/DvovidniDrill'));
+const ISklonidbaDrill = lazyWithReload(() => import('./practice/ISklonidbaDrill'));
+const VrijemeIzrazDrill = lazyWithReload(() => import('./practice/VrijemeIzrazDrill'));
+const SlojeviDrill = lazyWithReload(() => import('./practice/SlojeviDrill'));
+const ParniVezniciDrill = lazyWithReload(() => import('./practice/ParniVezniciDrill'));
+const EponimiDrill = lazyWithReload(() => import('./practice/EponimiDrill'));
 const NeodredjeneDrill = lazyWithReload(() => import('./practice/NeodredjeneDrill'));
 const SlaganjeBrojevaDrill = lazyWithReload(() => import('./practice/SlaganjeBrojevaDrill'));
 const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
@@ -1808,6 +1817,51 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'administrativni' && (
           <ScreenErrorBoundary key="administrativni" name="administrativni">
             <AdministrativniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prijedlozigen' && (
+          <ScreenErrorBoundary key="prijedlozigen" name="prijedlozigen">
+            <PrijedloziGenDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'imenicame' && (
+          <ScreenErrorBoundary key="imenicame" name="imenicame">
+            <ImeniceMeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pitanja' && (
+          <ScreenErrorBoundary key="pitanja" name="pitanja">
+            <PitanjaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'dvovidni' && (
+          <ScreenErrorBoundary key="dvovidni" name="dvovidni">
+            <DvovidniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'isklonidba' && (
+          <ScreenErrorBoundary key="isklonidba" name="isklonidba">
+            <ISklonidbaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'vrijemeizraz' && (
+          <ScreenErrorBoundary key="vrijemeizraz" name="vrijemeizraz">
+            <VrijemeIzrazDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'slojevi' && (
+          <ScreenErrorBoundary key="slojevi" name="slojevi">
+            <SlojeviDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'parniveznici' && (
+          <ScreenErrorBoundary key="parniveznici" name="parniveznici">
+            <ParniVezniciDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'eponimi' && (
+          <ScreenErrorBoundary key="eponimi" name="eponimi">
+            <EponimiDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'zamjenice' && (
