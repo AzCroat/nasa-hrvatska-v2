@@ -24,6 +24,9 @@ import { SROCNOST_DRILL_DATA } from '../components/practice/SrocnostDrill';
 import { TRPNI_DRILL_DATA } from '../components/practice/TrpniDrill';
 import { INFINITIV_DA_DRILL_DATA } from '../components/practice/InfinitivDaDrill';
 import { VIDSKI_PAROVI_DRILL_DATA } from '../components/practice/VidskiParoviDrill';
+import { DOPUSNE_DRILL_DATA } from '../components/practice/DopusneDrill';
+import { PLUSKVAMPERFEKT_DRILL_DATA } from '../components/practice/PluskvamperfektDrill';
+import { SAV_SVAKI_DRILL_DATA } from '../components/practice/SavSvakiDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -133,6 +136,27 @@ const DRILLS = [
     category: 'aspect-imperfective',
     tier: 4,
   },
+  {
+    id: 'dopusne',
+    data: DOPUSNE_DRILL_DATA,
+    modes: ['nijanse', 'preoblika', 'veznici'],
+    category: 'subordination',
+    tier: 4,
+  },
+  {
+    id: 'pluskvamperfekt',
+    data: PLUSKVAMPERFEKT_DRILL_DATA,
+    modes: ['slaganje', 'tvorba', 'uporaba'],
+    category: 'past-tense',
+    tier: 4,
+  },
+  {
+    id: 'savsvaki',
+    data: SAV_SVAKI_DRILL_DATA,
+    modes: ['sam', 'sav', 'svaki'],
+    category: 'nominative',
+    tier: 4,
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -183,9 +207,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C1 drill-pool breadth (program tally: 21/30)', () => {
-  it('the pool now offers at least 21 C1 exercises', () => {
+describe('C1 drill-pool breadth (program tally: 24/30)', () => {
+  it('the pool now offers at least 24 C1 exercises', () => {
     const c1 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C1');
-    expect(c1.length).toBeGreaterThanOrEqual(21);
+    expect(c1.length).toBeGreaterThanOrEqual(24);
   });
 });

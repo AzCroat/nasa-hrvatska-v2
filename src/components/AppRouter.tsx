@@ -233,6 +233,15 @@ const VidskiParoviDrill = lazyWithReload(() => import('./practice/VidskiParoviDr
 const VelikoSlovoDrill = lazyWithReload(() => import('./practice/VelikoSlovoDrill'));
 const KraticeDrill = lazyWithReload(() => import('./practice/KraticeDrill'));
 const LektorDrill = lazyWithReload(() => import('./practice/LektorDrill'));
+const ZamjeniceDrill = lazyWithReload(() => import('./practice/ZamjeniceDrill'));
+const UzrocneDrill = lazyWithReload(() => import('./practice/UzrocneDrill'));
+const KolicinaDrill = lazyWithReload(() => import('./practice/KolicinaDrill'));
+const DopusneDrill = lazyWithReload(() => import('./practice/DopusneDrill'));
+const PluskvamperfektDrill = lazyWithReload(() => import('./practice/PluskvamperfektDrill'));
+const SavSvakiDrill = lazyWithReload(() => import('./practice/SavSvakiDrill'));
+const NovinskiDrill = lazyWithReload(() => import('./practice/NovinskiDrill'));
+const PrenesenaDrill = lazyWithReload(() => import('./practice/PrenesenaDrill'));
+const ModalnostDrill = lazyWithReload(() => import('./practice/ModalnostDrill'));
 const NeodredjeneDrill = lazyWithReload(() => import('./practice/NeodredjeneDrill'));
 const SlaganjeBrojevaDrill = lazyWithReload(() => import('./practice/SlaganjeBrojevaDrill'));
 const PovratniDrill = lazyWithReload(() => import('./practice/PovratniDrill'));
@@ -1799,6 +1808,51 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'administrativni' && (
           <ScreenErrorBoundary key="administrativni" name="administrativni">
             <AdministrativniDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zamjenice' && (
+          <ScreenErrorBoundary key="zamjenice" name="zamjenice">
+            <ZamjeniceDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'uzrocne' && (
+          <ScreenErrorBoundary key="uzrocne" name="uzrocne">
+            <UzrocneDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kolicina' && (
+          <ScreenErrorBoundary key="kolicina" name="kolicina">
+            <KolicinaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'dopusne' && (
+          <ScreenErrorBoundary key="dopusne" name="dopusne">
+            <DopusneDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pluskvamperfekt' && (
+          <ScreenErrorBoundary key="pluskvamperfekt" name="pluskvamperfekt">
+            <PluskvamperfektDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'savsvaki' && (
+          <ScreenErrorBoundary key="savsvaki" name="savsvaki">
+            <SavSvakiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'novinski' && (
+          <ScreenErrorBoundary key="novinski" name="novinski">
+            <NovinskiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prenesena' && (
+          <ScreenErrorBoundary key="prenesena" name="prenesena">
+            <PrenesenaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'modalnost' && (
+          <ScreenErrorBoundary key="modalnost" name="modalnost">
+            <ModalnostDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'mnozina' && (

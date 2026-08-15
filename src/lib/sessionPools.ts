@@ -133,6 +133,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'future-tense',
   },
+  // B2 tranche 6 (2026-08-15): pronoun forms, cause/consequence, quantity.
+  {
+    id: 'zamjenice',
+    label: 'Naglašene i nenaglašene',
+    screen: 'zamjenice',
+    cefr: 'B2',
+    category: 'clitics',
+  },
+  {
+    id: 'uzrocne',
+    label: 'Uzrok i posljedica',
+    screen: 'uzrocne',
+    cefr: 'B2',
+    category: 'subordination',
+  },
+  {
+    id: 'kolicina',
+    label: 'Izricanje količine',
+    screen: 'kolicina',
+    cefr: 'B2',
+    category: 'genitive',
+  },
   // B2 tranche 5 (2026-08-15): irregular plurals, spatial prepositions, comparison.
   {
     id: 'mnozina',
