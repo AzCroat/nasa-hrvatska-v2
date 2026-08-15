@@ -32,6 +32,9 @@ import { EPONIMI_DRILL_DATA } from '../components/practice/EponimiDrill';
 import { ULJUDNOST_DRILL_DATA } from '../components/practice/UljudnostDrill';
 import { KALKOVI_DRILL_DATA } from '../components/practice/KalkoviDrill';
 import { GLAGOLI_GOVORENJA_DRILL_DATA } from '../components/practice/GlagoliGovorenjaDrill';
+import { POSLOVICE_DRILL_DATA } from '../components/practice/PosloviceDrill';
+import { STILSKE_FIGURE_DRILL_DATA } from '../components/practice/StilskeFigureDrill';
+import { DOPISI_DRILL_DATA } from '../components/practice/DopisiDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -180,6 +183,24 @@ const DRILLS = [
     modes: ['citiranje', 'nijanse', 'registar'],
     category: 'discourse',
   },
+  {
+    id: 'poslovice',
+    data: POSLOVICE_DRILL_DATA,
+    modes: ['dopuna', 'uporaba', 'znacenje'],
+    category: 'idioms',
+  },
+  {
+    id: 'stilskefigure',
+    data: STILSKE_FIGURE_DRILL_DATA,
+    modes: ['citanje', 'prepoznaj', 'razlike'],
+    category: 'discourse',
+  },
+  {
+    id: 'dopisi',
+    data: DOPISI_DRILL_DATA,
+    modes: ['molba', 'zalba', 'zivotopis'],
+    category: 'register',
+  },
 ] as const;
 
 for (const drill of DRILLS) {
@@ -230,9 +251,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C2 drill-pool breadth (program tally: 27/30)', () => {
-  it('the pool now offers at least 27 C2 exercises', () => {
+describe('C2 drill-pool breadth (program tally: 30/30 COMPLETE)', () => {
+  it('the pool now offers at least 30 C2 exercises', () => {
     const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2');
-    expect(c2.length).toBeGreaterThanOrEqual(27);
+    expect(c2.length).toBeGreaterThanOrEqual(30);
   });
 });

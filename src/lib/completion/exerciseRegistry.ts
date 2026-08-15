@@ -133,6 +133,10 @@ const RAW: Record<string, ExerciseEntry> = {
   uljudnost: g('gc', 'grammar', 'grammar'),
   kalkovi: g('gc', 'grammar', 'grammar'),
   glagoligovorenja: g('gc', 'grammar', 'grammar'),
+  // Tranche 9 (2026-08-15): proverbs, figures, documents — program complete.
+  poslovice: g('gc', 'grammar', 'grammar'),
+  stilskefigure: g('gc', 'grammar', 'grammar'),
+  dopisi: g('gc', 'grammar', 'grammar'),
   sklonidbabrojeva: g('gc', 'grammar', 'grammar'),
   namjera: g('gc', 'grammar', 'grammar'),
   srocnost: g('gc', 'grammar', 'grammar'),
