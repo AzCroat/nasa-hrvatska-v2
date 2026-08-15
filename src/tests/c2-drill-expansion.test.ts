@@ -11,6 +11,9 @@ import { describe, it, expect } from 'vitest';
 import { FRAZEOLOGIJA_DRILL_DATA } from '../components/practice/FrazeologijaDrill';
 import { TVORBA_DRILL_DATA } from '../components/practice/TvorbaRijeciDrill';
 import { SINONIMIJA_DRILL_DATA } from '../components/practice/SinonimijaDrill';
+import { POSUDJENICE_DRILL_DATA } from '../components/practice/PosudjeniceDrill';
+import { GLASOVNE_DRILL_DATA } from '../components/practice/GlasovnePromjeneDrill';
+import { ADMINISTRATIVNI_DRILL_DATA } from '../components/practice/AdministrativniDrill';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
@@ -26,6 +29,24 @@ const DRILLS = [
     data: TVORBA_DRILL_DATA,
     modes: ['imenice', 'izrazajno', 'prefiksi'],
     category: 'nominalization',
+  },
+  {
+    id: 'posudjenice',
+    data: POSUDJENICE_DRILL_DATA,
+    modes: ['domace', 'lazni', 'parovi'],
+    category: 'register',
+  },
+  {
+    id: 'glasovnepromjene',
+    data: GLASOVNE_DRILL_DATA,
+    modes: ['jednac', 'nepija', 'sibpal'],
+    category: 'genitive',
+  },
+  {
+    id: 'administrativni',
+    data: ADMINISTRATIVNI_DRILL_DATA,
+    modes: ['dekod', 'prevedi', 'sroci'],
+    category: 'register',
   },
   {
     id: 'sinonimija',
@@ -83,9 +104,9 @@ for (const drill of DRILLS) {
   });
 }
 
-describe('C2 drill-pool breadth (program tally: 6/30)', () => {
-  it('the pool now offers at least 6 C2 exercises', () => {
+describe('C2 drill-pool breadth (program tally: 9/30)', () => {
+  it('the pool now offers at least 9 C2 exercises', () => {
     const c2 = CEFR_EXERCISE_POOL.filter((e) => e.cefr === 'C2');
-    expect(c2.length).toBeGreaterThanOrEqual(6);
+    expect(c2.length).toBeGreaterThanOrEqual(9);
   });
 });

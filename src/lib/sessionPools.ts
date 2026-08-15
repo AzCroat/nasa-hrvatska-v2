@@ -162,6 +162,28 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   },
   // C1 drill-pool expansion (fluency initiative, 2026-08-14; target 30+ per
   // level): collocations/rekcija, information structure, aspectual nuance.
+  // C2 tranche 2 (2026-08-15): loanwords/standard, sound changes, admin register.
+  {
+    id: 'posudjenice',
+    label: 'Posuđenice i standard',
+    screen: 'posudjenice',
+    cefr: 'C2',
+    category: 'register',
+  },
+  {
+    id: 'glasovnepromjene',
+    label: 'Glasovne promjene',
+    screen: 'glasovnepromjene',
+    cefr: 'C2',
+    category: 'genitive',
+  },
+  {
+    id: 'administrativni',
+    label: 'Administrativni jezik',
+    screen: 'administrativni',
+    cefr: 'C2',
+    category: 'register',
+  },
   // C2 drill-pool expansion (fluency initiative 2026-08-15; target 30+ per
   // level): phraseology, productive word formation, synonymy/paronymy.
   {

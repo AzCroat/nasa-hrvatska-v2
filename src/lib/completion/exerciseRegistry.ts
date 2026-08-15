@@ -91,6 +91,10 @@ const RAW: Record<string, ExerciseEntry> = {
   prijedlozni: g('gc', 'grammar', 'grammar'),
   // C2 drill-pool expansion (2026-08-15): phraseology, word formation, synonymy.
   frazeologija: g('gc', 'grammar', 'grammar'),
+  // C2 tranche 2 (2026-08-15): loanwords, sound changes, admin register.
+  posudjenice: g('gc', 'grammar', 'grammar'),
+  glasovnepromjene: g('gc', 'grammar', 'grammar'),
+  administrativni: g('gc', 'grammar', 'grammar'),
   tvorbarijeci: g('gc', 'grammar', 'grammar'),
   sinonimija: g('gc', 'grammar', 'grammar'),
   emfaza: g('gc', 'grammar', 'grammar'),
