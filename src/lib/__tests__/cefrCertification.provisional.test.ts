@@ -16,6 +16,7 @@ import {
   writeCertificationState,
   migrateGrandfatheredCertification,
   markProvisionalGrandfathers,
+  grantProvisionalPlacement,
   mergeRemoteCertifications,
   recordEquivalencyAttempt,
   isGrandfatherPassSignature,
@@ -283,5 +284,45 @@ describe('cross-device merge', () => {
       v: 2,
     });
     expect(getCertificationState().passes.A2?.provisional).toBe(true);
+  });
+});
+
+describe('placement grants provisional standing (Phase 5)', () => {
+  it('grants provisional passes up to the placed level and switches the gate on', () => {
+    grantProvisionalPlacement('B1');
+    const s = getCertificationState();
+    expect(isProvisionalPass(s.passes.A2)).toBe(true);
+    expect(isProvisionalPass(s.passes.B1)).toBe(true);
+    expect(s.passes.B2).toBeUndefined();
+    const gate = getVerificationGate();
+    expect(gate.required).toBe(true);
+    expect(gate.target).toBe('B1');
+    // Practice below the placed level opens; the placed level waits for a
+    // real verification. The unlock race guard is initialised by the grant.
+    expect(getContentUnlockLevel('A1')).toBe('A2');
+  });
+
+  it('A1 placement grants nothing — the entry point needs no certificate', () => {
+    grantProvisionalPlacement('A1');
+    expect(Object.keys(getCertificationState().passes)).toHaveLength(0);
+    expect(getVerificationGate().required).toBe(false);
+  });
+
+  it('never overwrites a real pass when a returning user re-takes placement', () => {
+    seedState({ A2: { ...REAL_PASS } });
+    grantProvisionalPlacement('B1');
+    const s = getCertificationState();
+    expect(isProvisionalPass(s.passes.A2)).toBe(false); // real pass kept
+    expect(isProvisionalPass(s.passes.B1)).toBe(true);
+    expect(getVerifiedLevel()).toBe('A2');
+    expect(getVerificationGate().target).toBe('B1');
+  });
+
+  it('is idempotent across repeated placements', () => {
+    grantProvisionalPlacement('A2');
+    const first = JSON.stringify(getCertificationState().passes.A2!.scores);
+    grantProvisionalPlacement('A2');
+    expect(JSON.stringify(getCertificationState().passes.A2!.scores)).toBe(first);
+    expect(Object.keys(getCertificationState().passes)).toEqual(['A2']);
   });
 });

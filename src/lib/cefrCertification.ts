@@ -974,6 +974,41 @@ export function migrateRealPassesToStatusKeys(): void {
   }
 }
 
+/**
+ * Placement grants PROVISIONAL standing (Phase 5, 2026-08-16). The placement
+ * test is a fast, receptive-only first-session estimate — the right onboarding
+ * shape, but not proof. Granting its result as provisional passes gives a
+ * genuine B1 newcomer level-appropriate content immediately while switching
+ * the verification gate on at once: the full five-skill check is what makes
+ * the level real, exactly as for grandfathered users. One honest loop for
+ * everyone.
+ *
+ * Never overwrites a REAL pass (a returning user who re-takes placement keeps
+ * every demonstrated level); re-granting provisional levels is idempotent.
+ * A1 placement grants nothing — A1 is the framework's entry point.
+ */
+export function grantProvisionalPlacement(level: CefrLevel): void {
+  if (!(CEFR_ORDER as readonly string[]).includes(level)) return;
+  const state = getCertificationState();
+  const targetRank = cefrRank(level);
+  let changed = false;
+  for (const lvl of CEFR_ORDER) {
+    if (lvl === 'A1') continue; // implicit
+    if (cefrRank(lvl) > targetRank) break;
+    const existing = state.passes[lvl];
+    if (existing && !isProvisionalPass(existing)) continue; // never overwrite a real pass
+    if (existing && existing.provisional) continue; // already provisional — idempotent
+    state.passes[lvl] = {
+      passedAt: Date.now(),
+      scores: { vocab: 0.8, grammar: 0.8, reading: 0.8 },
+      overall: 80,
+      provisional: true,
+    };
+    changed = true;
+  }
+  if (changed) writeCertificationState(state);
+}
+
 export function markProvisionalGrandfathers(): void {
   if (typeof localStorage === 'undefined') return;
   try {

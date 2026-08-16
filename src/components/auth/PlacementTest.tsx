@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Bar } from '../../data';
 import CharacterPortrait from '../family/CharacterPortrait';
 import { lsSet } from '../../lib/safeStorage';
+import { grantProvisionalPlacement } from '../../lib/cefrCertification';
+import type { CefrLevel } from '../../lib/cefr';
 
 const PLACEMENT_QUESTIONS = [
   // Level 1 — A1 Survival (4 questions)
@@ -446,6 +448,16 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
             <div style={{ fontSize: 14, opacity: 0.88, lineHeight: 1.5 }}>
               {LEVEL_DESC[placedLevel]}
             </div>
+            {placedLevel > 1 && (
+              <div
+                data-testid="placement-provisional-note"
+                style={{ fontSize: 12, opacity: 0.8, lineHeight: 1.5, marginTop: 10 }}
+              >
+                Your level starts as <b>provisional</b> — practice below it opens right away, and
+                the Level Verification (speaking, writing and listening included) makes it official
+                and unlocks it fully.
+              </div>
+            )}
           </div>
         </div>
         <button
@@ -453,6 +465,15 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
             // Guarded: a throw here skipped onComplete, so the finish button at
             // the end of placement could not advance the new user into the app.
             lsSet('nh_level', LEVEL_TO_CEFR[placedLevel] || 'A1');
+            // Phase 5 (2026-08-16): placement grants PROVISIONAL certification
+            // standing up to the placed level — appropriate content opens
+            // immediately, and the verification gate drives the full five-skill
+            // check that makes it real. Never overwrites real passes.
+            try {
+              grantProvisionalPlacement((LEVEL_TO_CEFR[placedLevel] || 'A1') as CefrLevel);
+            } catch {
+              /* certification store unavailable — placement still completes */
+            }
             onComplete(placedLevel);
           }}
           style={{
