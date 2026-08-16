@@ -105,11 +105,30 @@ jobs:
                   print(body[:2500])
           for m in re.finditer(r'<[a-zA-Z][^>]*\bdata-[^>]*>', html):
               tag = m.group(0)
-              if re.search(r'data-[a-z-]*(src|url|stream|config|player|uri)\s*=', tag, re.I):
+              if re.search(r'data-[a-z-]*(src|url|stream|config|player|uri|settings)\s*=', tag, re.I) \
+                 and re.search(r'stream|player|radio|mp3|aac|8443', tag, re.I):
                   print('----- data attribute -----')
-                  print(tag[:800])
+                  print(tag[:1200])
           if hits == 0:
               print('(no matching inline scripts)')
+          # Run 4 gap: Elementor stores widget config HTML-entity-encoded
+          # (data-settings="{&quot;streamURL&quot;:...}") and JSON escapes
+          # slashes (https:\/\/) — both evade plain URL greps. frontend.js
+          # confirms the config key is literally streamURL. Unescape, re-hunt.
+          import html as H
+          text = H.unescape(html).replace('\\/', '/')
+          print('----- unescaped hunt: stream config keys -----')
+          found = 0
+          for m in re.finditer(r'"?[a-zA-Z_]*stream[a-zA-Z_]*"?\s*[:=]\s*"[^"]{4,300}"', text, re.I):
+              found += 1
+              print(m.group(0)[:400])
+          for m in re.finditer(r'https?://[^"\s<>\']{8,250}', text):
+              u = m.group(0)
+              if re.search(r'\.(mp3|aac|aacp|m3u8)|:8443|:8000|cmc_radio|icecast|shoutcast|radio\.co|zeno\.fm|streaming|listen', u, re.I):
+                  found += 1
+                  print('[url]', u[:300])
+          if not found:
+              print('(nothing after unescape either)')
           PY
           done
           echo "::endgroup::"
