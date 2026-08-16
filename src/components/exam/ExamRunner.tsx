@@ -5,6 +5,7 @@ import type { SkillScores, SkillKey } from '../../lib/cefrCertification.js';
 import type { SpeakingScorer } from '../../lib/speaking/SpeakingScorer.js';
 import type { SpeakingTask } from '../../data/speakingTasks.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
+import { speak } from '../../lib/audio.js';
 import SpeakingTaskScreen from './SpeakingTaskScreen.js';
 
 export interface ExamRunnerProps {
@@ -139,7 +140,38 @@ export default function ExamRunner({
                 {q.passage}
               </div>
             )}
-            <div className="q-stem" lang="hr">
+            {q.audioText && (
+              // Listening item (Phase 4): the Croatian audio is PLAYED, never
+              // shown — the item tests the ear. Replays are unlimited, matching
+              // standard CEFR listening-test practice for self-paced formats.
+              <button
+                data-testid="exam-audio-play"
+                onClick={() => {
+                  void speak(q.audioText!);
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  width: '100%',
+                  padding: '14px 16px',
+                  marginBottom: 12,
+                  background: 'var(--card)',
+                  border: '1.5px solid var(--card-b)',
+                  borderRadius: 12,
+                  cursor: 'pointer',
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: 'var(--heading)',
+                }}
+              >
+                <span style={{ fontSize: 22 }}>🔊</span> Play the recording
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--subtext)' }}>
+                  (tap again to replay)
+                </span>
+              </button>
+            )}
+            <div className="q-stem" lang={q.audioText ? 'en' : 'hr'}>
               {q.prompt}
             </div>
             {q.options.map((opt, i) => (

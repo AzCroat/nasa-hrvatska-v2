@@ -42,6 +42,14 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'Describe your typical day: when you get up, what you do in the morning, afternoon and evening. Use at least five different verbs.',
       minWords: 30,
     },
+    {
+      id: 'a2-w3',
+      prompt:
+        'Napišite razglednicu s putovanja: gdje ste, kakvo je vrijeme, što ste danas vidjeli i kada se vraćate kući.',
+      promptEn:
+        'Write a postcard from a trip: where you are, what the weather is like, what you saw today, and when you are coming home.',
+      minWords: 30,
+    },
   ],
   B1: [
     {
@@ -58,6 +66,14 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'Vaš susjed svira bubnjeve svaku večer do ponoći. Napišite mu pristojnu poruku: objasnite problem, kako utječe na vas i predložite rješenje koje bi odgovaralo objema stranama.',
       promptEn:
         'Your neighbour plays the drums every evening until midnight. Write him a polite message: explain the problem, how it affects you, and propose a solution that would suit both sides.',
+      minWords: 60,
+    },
+    {
+      id: 'b1-w3',
+      prompt:
+        'Vaš grad traži prijedloge građana za uređenje starog parka. Napišite prijedlog: opišite sadašnje stanje, predložite dvije konkretne promjene i objasnite kome bi one koristile.',
+      promptEn:
+        'Your city is collecting citizens’ proposals for renovating the old park. Write a proposal: describe the current state, suggest two concrete changes, and explain who would benefit.',
       minWords: 60,
     },
   ],
@@ -78,6 +94,14 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'You ordered a product online and it arrived damaged. Write a formal complaint to the shop: describe what happened, what you have done so far, and what you expect as a resolution. Mind the formal register.',
       minWords: 90,
     },
+    {
+      id: 'b2-w3',
+      prompt:
+        'Prijavljujete se za posao u hrvatskoj tvrtki. Napišite motivacijsko pismo: predstavite se, istaknite dva relevantna iskustva i objasnite zašto želite raditi upravo ondje. Pazite na formalni ton.',
+      promptEn:
+        'You are applying for a job at a Croatian company. Write a motivation letter: introduce yourself, highlight two relevant experiences, and explain why you want to work there. Mind the formal register.',
+      minWords: 90,
+    },
   ],
   C1: [
     {
@@ -96,6 +120,14 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'The city government plans to cut free library programmes to save money. Write an open letter to the mayor opposing this: lay out the consequences of the decision, offer an alternative, and call for a public debate.',
       minWords: 120,
     },
+    {
+      id: 'c1-w3',
+      prompt:
+        'Pročitali ste tvrdnju da društvene mreže mladima štete više nego što im koriste. Napišite osvrt za studentski časopis: zauzmite jasan stav, predvidite najjači protuargument i odgovorite na njega.',
+      promptEn:
+        'You have read the claim that social media harms young people more than it benefits them. Write a piece for a student magazine: take a clear position, anticipate the strongest counter-argument, and answer it.',
+      minWords: 120,
+    },
   ],
   C2: [
     {
@@ -104,6 +136,22 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
         'Odaberite hrvatsku poslovicu koja po vašem mišljenju najbolje sažima odnos Hrvata prema obitelji. Napišite esej u kojem je tumačite, smještate u kulturni kontekst i propitujete vrijedi li još u suvremenom društvu.',
       promptEn:
         'Choose a Croatian proverb that in your view best captures Croatians’ relationship to family. Write an essay interpreting it, placing it in cultural context, and questioning whether it still holds in contemporary society.',
+      minWords: 150,
+    },
+    {
+      id: 'c2-w2',
+      prompt:
+        'Uredništvo vas je zamolilo za kritički osvrt na suvremeni hrvatski film ili roman po vašem izboru. Napišite recenziju: smjestite djelo u kontekst, ocijenite njegove domete i stilske postupke te obrazložite konačan sud.',
+      promptEn:
+        'An editorial board has asked you for a critical review of a contemporary Croatian film or novel of your choice. Write the review: place the work in context, assess its achievements and stylistic devices, and justify your final judgement.',
+      minWords: 150,
+    },
+    {
+      id: 'c2-w3',
+      prompt:
+        '„Jezik je jedina domovina.“ Napišite esej u kojem tu misao potvrđujete, osporavate ili preoblikujete, oslanjajući se na vlastito iskustvo dvojezičnosti ili života između kultura.',
+      promptEn:
+        '“Language is the only homeland.” Write an essay confirming, contesting or reshaping this thought, drawing on your own experience of bilingualism or life between cultures.',
       minWords: 150,
     },
   ],

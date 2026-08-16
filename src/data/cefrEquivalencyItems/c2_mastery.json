@@ -4,43 +4,78 @@
   "items": [
     {
       "q": "What does 'dokolica' mean?",
-      "o": ["Leisure / pleasant idleness", "Boredom", "Laziness", "Fatigue"],
+      "o": [
+        "Leisure / pleasant idleness",
+        "Boredom",
+        "Laziness",
+        "Fatigue"
+      ],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "The literary adjective 'poguban' most precisely means:",
-      "o": ["Beneficial", "Ruinous / disastrous", "Temporary", "Questionable"],
+      "o": [
+        "Beneficial",
+        "Ruinous / disastrous",
+        "Temporary",
+        "Questionable"
+      ],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'oštroumlje' denote?",
-      "o": ["Stubbornness", "Sharp-wittedness / acumen", "Rudeness", "Curiosity"],
+      "o": [
+        "Stubbornness",
+        "Sharp-wittedness / acumen",
+        "Rudeness",
+        "Curiosity"
+      ],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The formal verb 'iziskivati' means:",
-      "o": ["To search out", "To demand / require", "To exclude", "To emphasize"],
+      "o": [
+        "To search out",
+        "To demand / require",
+        "To exclude",
+        "To emphasize"
+      ],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In legal register, 'ništetan' means:",
-      "o": ["Null and void", "Insignificant", "Incomplete", "Disputed"],
+      "o": [
+        "Null and void",
+        "Insignificant",
+        "Incomplete",
+        "Disputed"
+      ],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "'Prijeporan' most precisely means:",
-      "o": ["Urgent", "Contentious / disputed", "Preliminary", "Transitional"],
+      "o": [
+        "Urgent",
+        "Contentious / disputed",
+        "Preliminary",
+        "Transitional"
+      ],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The bookish adverb 'poglavito' means:",
-      "o": ["Occasionally", "Chiefly / principally", "Allegedly", "Recently"],
+      "o": [
+        "Occasionally",
+        "Chiefly / principally",
+        "Allegedly",
+        "Recently"
+      ],
       "c": 1,
       "skill": "vocab"
     },
@@ -57,7 +92,12 @@
     },
     {
       "q": "What does 'ustrajnost' convey in formal register?",
-      "o": ["Perseverance", "Resistance", "Stability", "Insistence on being right"],
+      "o": [
+        "Perseverance",
+        "Resistance",
+        "Stability",
+        "Insistence on being right"
+      ],
       "c": 0,
       "skill": "vocab"
     },
@@ -85,7 +125,12 @@
     },
     {
       "q": "'Podrobno' means:",
-      "o": ["Briefly", "In detail / thoroughly", "Approximately", "Officially"],
+      "o": [
+        "Briefly",
+        "In detail / thoroughly",
+        "Approximately",
+        "Officially"
+      ],
       "c": 1,
       "skill": "vocab"
     },
@@ -102,25 +147,45 @@
     },
     {
       "q": "'Zazoran' most closely means:",
-      "o": ["Transparent", "Objectionable / reprehensible", "Enviable", "Cautious"],
+      "o": [
+        "Transparent",
+        "Objectionable / reprehensible",
+        "Enviable",
+        "Cautious"
+      ],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The noun 'preinaka' means:",
-      "o": ["Modification / alteration", "Preview", "Exaggeration", "Transfer"],
+      "o": [
+        "Modification / alteration",
+        "Preview",
+        "Exaggeration",
+        "Transfer"
+      ],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "'Nehaj' in literary register denotes:",
-      "o": ["Nonchalance / carelessness", "Courage", "Silence", "Disorder"],
+      "o": [
+        "Nonchalance / carelessness",
+        "Courage",
+        "Silence",
+        "Disorder"
+      ],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'razmjeran' mean?",
-      "o": ["Measurable", "Proportionate", "Excessive", "Balanced in weight"],
+      "o": [
+        "Measurable",
+        "Proportionate",
+        "Excessive",
+        "Balanced in weight"
+      ],
       "c": 1,
       "skill": "vocab"
     },
@@ -137,25 +202,45 @@
     },
     {
       "q": "Identify the tense of 'bijaše' in 'Bijaše to davno.':",
-      "o": ["Aorist", "Imperfect (imperfekt)", "Pluperfect", "Conditional"],
+      "o": [
+        "Aorist",
+        "Imperfect (imperfekt)",
+        "Pluperfect",
+        "Conditional"
+      ],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "The aorist of 'reći' in the 1st person singular is:",
-      "o": ["rekoh", "rečem", "rekao", "reknem"],
+      "o": [
+        "rekoh",
+        "rečem",
+        "rekao",
+        "reknem"
+      ],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "'Bijahu stigli prije mraka.' names which tense?",
-      "o": ["Aorist", "Imperfect", "Pluperfect (pluskvamperfekt)", "Future II"],
+      "o": [
+        "Aorist",
+        "Imperfect",
+        "Pluperfect (pluskvamperfekt)",
+        "Future II"
+      ],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct past verbal adverb (glagolski prilog prošli) of 'ugledati':",
-      "o": ["ugledajući", "ugledavši", "uglednuvši", "ugledan"],
+      "o": [
+        "ugledajući",
+        "ugledavši",
+        "uglednuvši",
+        "ugledan"
+      ],
       "c": 1,
       "skill": "grammar"
     },
@@ -194,13 +279,23 @@
     },
     {
       "q": "Complete: 'S obje ____ ceste rasle su topole.'",
-      "o": ["strane", "strana", "stranama", "stranu"],
+      "o": [
+        "strane",
+        "strana",
+        "stranama",
+        "stranu"
+      ],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "The correct comparative of 'strog' is:",
-      "o": ["strožiji", "stroži", "više strog", "strogši"],
+      "o": [
+        "strožiji",
+        "stroži",
+        "više strog",
+        "strogši"
+      ],
       "c": 1,
       "skill": "grammar"
     },
@@ -228,7 +323,12 @@
     },
     {
       "q": "The genitive plural of 'ruka' in the phrase 'iz prvih ____' is:",
-      "o": ["ruku", "ruka", "rukama", "rukiju"],
+      "o": [
+        "ruku",
+        "ruka",
+        "rukama",
+        "rukiju"
+      ],
       "c": 0,
       "skill": "grammar"
     },
@@ -245,7 +345,12 @@
     },
     {
       "q": "Which relative connector is correct? 'grad ____ se divimo'",
-      "o": ["kojemu", "kojeg", "koji", "čijem"],
+      "o": [
+        "kojemu",
+        "kojeg",
+        "koji",
+        "čijem"
+      ],
       "c": 0,
       "skill": "grammar"
     },
@@ -400,6 +505,78 @@
       "c": 1,
       "skill": "reading",
       "passage": "Uvriježilo se mišljenje da su dijalekti tek iskrivljeni oblici standardnoga jezika, njegova provincijska sjena koje se valja stidjeti. Posrijedi je, dakako, obrnuta perspektiva: standard je mlađi od dijalekata i iz njih je iznikao. Čakavski, kajkavski i štokavski nisu odstupanja od norme, nego njezino živo zaleđe — spremište ritmova, naglasaka i leksika iz kojega se standard, kad god mu ponestane daha, iznova napaja. Tko je čuo bodulsku čakavicu ili međimursku kajkavštinu, zna da se ondje ne čuva samo jezik, nego i način na koji se svijet gleda. Odumiranje dijalekta stoga nije tek jezični, nego i antropološki gubitak."
+    },
+    {
+      "q": "Listen. What does the speaker's choice of words reveal about her stance?",
+      "o": [
+        "Studied neutrality masking disapproval",
+        "Open enthusiasm",
+        "Genuine indifference",
+        "Uninformed confusion"
+      ],
+      "c": 0,
+      "skill": "listening",
+      "audioText": "Odluka je, recimo to tako, zanimljiva. Njezine će posljedice, uvjerena sam, biti dalekosežne — u kojem smjeru, o tome neka svatko prosudi sam."
+    },
+    {
+      "q": "Listen. What rhetorical device dominates this passage?",
+      "o": [
+        "Rhetorical questions",
+        "Litotes (understatement)",
+        "Enumeration",
+        "Direct address"
+      ],
+      "c": 1,
+      "skill": "listening",
+      "audioText": "Ne bih rekao da je izvedba bila loša. Ni orkestar nije bio posve neuigran, a dirigent se nije previše gubio. Nije to bilo nezanimljivo iskustvo."
+    },
+    {
+      "q": "Listen. What is the function of the archaic phrasing the speaker uses?",
+      "o": [
+        "Solemn, ceremonial elevation",
+        "Comic parody",
+        "Legal precision",
+        "Regional identification"
+      ],
+      "c": 0,
+      "skill": "listening",
+      "audioText": "U ime svih okupljenih, dopustite da izrazim duboku zahvalnost onima koji su, ne žaleći truda ni vremena, ovo djelo priveli kraju."
+    },
+    {
+      "q": "Listen. What does the speaker imply about the translation?",
+      "o": [
+        "It is accurate but lifeless",
+        "It is free but brilliant",
+        "It betrays the original's meaning",
+        "It improves on the original"
+      ],
+      "c": 0,
+      "skill": "listening",
+      "audioText": "Prijevod je besprijekorno točan: svaka riječ na svome mjestu, svaka rečenica provjerena. A ipak, ono nešto — dah izvornika — negdje se putem izgubilo."
+    },
+    {
+      "q": "Listen. Which proverb best matches the speaker's conclusion?",
+      "o": [
+        "Tko rano rani, dvije sreće grabi",
+        "Ispeci pa reci",
+        "Bez muke nema nauke",
+        "Vrana vrani oči ne vadi"
+      ],
+      "c": 1,
+      "skill": "listening",
+      "audioText": "Da je predlagatelj najprije provjerio brojke, a tek onda sazvao konferenciju za medije, uštedio bi i sebi i nama ovu neugodnost."
+    },
+    {
+      "q": "Listen. What subtle distinction is the speaker drawing?",
+      "o": [
+        "Between legality and legitimacy",
+        "Between theory and practice",
+        "Between form and colour",
+        "Between speech and writing"
+      ],
+      "c": 0,
+      "skill": "listening",
+      "audioText": "Nitko ne spori da je postupak proveden po slovu zakona. Pitanje koje ostaje glasi: je li time stekao i povjerenje javnosti — jer zakonito i opravdano nisu uvijek isto."
     }
   ]
 }
