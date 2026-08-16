@@ -150,6 +150,18 @@ This is the **single source of truth** for both the CEFR badge and the Learn Pat
 
 ---
 
+## Critical Architecture: CEFR Mastery Gate (owner directive, 2026-08-16)
+
+Progression is gated on DEMONSTRATED competency, not activity. Source of truth: `src/lib/cefrCertification.ts`.
+
+- **passes[L] means "the user holds level-L status."** A Level Check set keyed L (levelFrom L → levelTo L+1) tests L-competency and, when passed, records at **levelTo** — the status it grants. (Before 2026-08-16 the screen recorded at levelFrom while the retake gate blocked on the same key, so passing never advanced anyone; `migrateRealPassesToStatusKeys` additively repaired historical passes. Never revert to levelFrom recording.)
+- **Provisional passes**: grandfathered (migration-granted) passes carry `provisional: true` and are also detectable by the 0.8-signature (`isGrandfatherPassSignature`). They keep content access but do not count toward `getVerifiedLevel()`. While any provisional level sits above the verified level, `getVerificationGate().required` is true: `getContentUnlockLevel` caps NEW content one level below the gate target, Home shows `VerificationGateCard` (no snooze, no dismiss), and the only way forward is a real pass. Practice below the gate stays open by design.
+- **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
+- **Sections are resumable, never falsely failed**: an unfinished required section (no mic, evaluator unavailable) parks the attempt in `nh_cefr_verification_partial` (48h TTL) instead of recording a failure. Only complete attempts reach `recordEquivalencyAttempt`.
+- **Merge rules**: pass merge is additive with `writing` in the per-skill max block; a merged pass stays provisional only if BOTH sides are provisional (an old device's unmarked blob can never wash the flag off; a real pass anywhere clears it everywhere).
+- **E2E fixtures seed VERIFIED users** (real-shape passes + migration flags in `seed-auth.js` / `forceCefr.js`); the gate itself is covered by `e2e/verification-gate.spec.js`.
+- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`.
+
 ## Critical Architecture: Firebase Sync
 
 ### Firestore document paths

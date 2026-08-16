@@ -20,7 +20,7 @@ export interface CheckpointOutcome {
   demotion: { from: CefrLevel; to: CefrLevel } | null;
 }
 
-const ORDER: SkillKey[] = ['vocab', 'grammar', 'reading', 'listening', 'speaking'];
+const ORDER: SkillKey[] = ['vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing'];
 
 function presentSkills(scores: SkillScores): Array<[SkillKey, number]> {
   return ORDER.filter((k) => scores[k] !== undefined).map((k) => [k, scores[k] as number]);

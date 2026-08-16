@@ -7,7 +7,7 @@ import { useStats } from '../../context/StatsContext';
 import XPActivityCalendar from './XPActivityCalendar';
 import SkillRadar from './SkillRadar';
 import { getUserCefr, cefrRank } from '../../lib/cefr';
-import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
+import { getEffectiveLevelForUnlock, getVerificationGate } from '../../lib/cefrCertification';
 
 const CEFR_META: Record<
   string,
@@ -31,10 +31,15 @@ function getCEFR(xp: number, lc: number, gc: number) {
   const eligible = getUserCefr(xp, lc, gc);
   const level = getEffectiveLevelForUnlock(eligible); // certified when gating is active
   const meta = CEFR_META[level] ?? CEFR_META.A1!;
+  // Phase 1 mastery gate: a grandfathered level is PROVISIONAL until the user
+  // passes its verification. The badge keeps showing the held level but is
+  // honest about its standing.
+  const gate = getVerificationGate();
   return {
     level,
     ...meta,
     eligibleLevel: eligible,
+    provisional: gate.required,
     // True when practice (XP) has reached a higher band than the user has
     // certified — the UI prompts the assessment instead of implying XP advances.
     awaitingAssessment: cefrRank(eligible) > cefrRank(level),
@@ -482,8 +487,20 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                   <div
                     style={{ fontSize: 'var(--text-lg)', fontWeight: 900, color: 'var(--heading)' }}
                   >
-                    Verified Level: {cefr.level}
+                    {cefr.provisional ? `Level: ${cefr.level}` : `Verified Level: ${cefr.level}`}
                   </div>
+                  {cefr.provisional && (
+                    <div
+                      data-testid="cefr-provisional-tag"
+                      style={{
+                        fontSize: 'var(--text-xs)',
+                        color: '#b45309',
+                        fontWeight: 800,
+                      }}
+                    >
+                      ⏳ verification required
+                    </div>
+                  )}
                   <div
                     style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)', fontWeight: 600 }}
                   >

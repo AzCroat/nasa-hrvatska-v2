@@ -1,0 +1,120 @@
+// src/data/writingTasks.ts
+//
+// Written-production tasks for the CEFR Level Check (Phase 1 mastery gate,
+// 2026-08-16). A check that grants B1+ status administers ONE writing task at
+// the difficulty of the level whose competency it measures (the set's
+// levelFrom), mirroring how the speaking section is levelled. Scored via
+// /api/correct mode 'writeeval' (0–100, normalised to 0..1 by the exam
+// screen) — the same evaluator WritingScreen practice uses, so exam and
+// practice agree on what "good writing" means.
+//
+// Croatian prompt text follows the content-authoring standard (štokavski,
+// full diacritics, V-form politeness where register calls for it).
+
+import type { CefrLevel } from '../lib/cefr.js';
+
+export interface WritingTask {
+  id: string;
+  /** Task instruction shown to the learner, in Croatian. */
+  prompt: string;
+  /** English rendering of the instruction. */
+  promptEn: string;
+  /** Minimum word count before the response can be submitted. */
+  minWords: number;
+}
+
+/** Tasks keyed by the DIFFICULTY level they measure (the check's levelFrom). */
+export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
+  A2: [
+    {
+      id: 'a2-w1',
+      prompt:
+        'Napišite kratku poruku prijatelju: pozovite ga na ručak u subotu. Napišite gdje se nalazite, u koliko sati i što ćete jesti.',
+      promptEn:
+        'Write a short message to a friend: invite them to lunch on Saturday. Say where you will meet, at what time, and what you will eat.',
+      minWords: 30,
+    },
+    {
+      id: 'a2-w2',
+      prompt:
+        'Opišite svoj uobičajeni dan: kada ustajete, što radite ujutro, poslijepodne i navečer. Koristite barem pet različitih glagola.',
+      promptEn:
+        'Describe your typical day: when you get up, what you do in the morning, afternoon and evening. Use at least five different verbs.',
+      minWords: 30,
+    },
+  ],
+  B1: [
+    {
+      id: 'b1-w1',
+      prompt:
+        'Prošli ste vikend posjetili grad koji vam se jako svidio. Napišite e-poruku prijateljici: opišite što ste vidjeli, što vas je iznenadilo i zašto biste joj preporučili da i ona ode onamo.',
+      promptEn:
+        'Last weekend you visited a city you really liked. Write an email to a friend: describe what you saw, what surprised you, and why you would recommend she go there too.',
+      minWords: 60,
+    },
+    {
+      id: 'b1-w2',
+      prompt:
+        'Vaš susjed svira bubnjeve svaku večer do ponoći. Napišite mu pristojnu poruku: objasnite problem, kako utječe na vas i predložite rješenje koje bi odgovaralo objema stranama.',
+      promptEn:
+        'Your neighbour plays the drums every evening until midnight. Write him a polite message: explain the problem, how it affects you, and propose a solution that would suit both sides.',
+      minWords: 60,
+    },
+  ],
+  B2: [
+    {
+      id: 'b2-w1',
+      prompt:
+        'Sve više mladih iz Hrvatske odlazi raditi u inozemstvo. Napišite kratak osvrt: iznesite dva razloga za odlazak i dva argumenta zašto bi ostanak mogao biti bolji izbor, pa zaključite vlastitim mišljenjem.',
+      promptEn:
+        'More and more young people are leaving Croatia to work abroad. Write a short reflection: give two reasons for leaving and two arguments why staying might be the better choice, then close with your own opinion.',
+      minWords: 90,
+    },
+    {
+      id: 'b2-w2',
+      prompt:
+        'Naručili ste proizvod preko interneta, a stigao je oštećen. Napišite službenu pritužbu trgovini: opišite što se dogodilo, što ste dosad poduzeli i što očekujete kao rješenje. Pazite na formalni ton.',
+      promptEn:
+        'You ordered a product online and it arrived damaged. Write a formal complaint to the shop: describe what happened, what you have done so far, and what you expect as a resolution. Mind the formal register.',
+      minWords: 90,
+    },
+  ],
+  C1: [
+    {
+      id: 'c1-w1',
+      prompt:
+        '„Tehnologija zbližava ljude koliko ih i udaljava." Napišite argumentirani esej: razradite obje strane tvrdnje, potkrijepite ih primjerima iz vlastitog iskustva ili javnog života te oblikujte jasan zaključak.',
+      promptEn:
+        '"Technology brings people together as much as it drives them apart." Write an argumentative essay: develop both sides of the claim, support them with examples from your own experience or public life, and form a clear conclusion.',
+      minWords: 120,
+    },
+    {
+      id: 'c1-w2',
+      prompt:
+        'Gradska uprava planira ukinuti besplatne programe u knjižnicama zbog štednje. Napišite otvoreno pismo gradonačelniku u kojem se tome protivite: iznesite posljedice odluke, ponudite alternativu i pozovite na javnu raspravu.',
+      promptEn:
+        'The city government plans to cut free library programmes to save money. Write an open letter to the mayor opposing this: lay out the consequences of the decision, offer an alternative, and call for a public debate.',
+      minWords: 120,
+    },
+  ],
+  C2: [
+    {
+      id: 'c2-w1',
+      prompt:
+        'Odaberite hrvatsku poslovicu koja po vašem mišljenju najbolje sažima odnos Hrvata prema obitelji. Napišite esej u kojem je tumačite, smještate u kulturni kontekst i propitujete vrijedi li još u suvremenom društvu.',
+      promptEn:
+        'Choose a Croatian proverb that in your view best captures Croatians’ relationship to family. Write an essay interpreting it, placing it in cultural context, and questioning whether it still holds in contemporary society.',
+      minWords: 150,
+    },
+  ],
+};
+
+/** Deterministic-enough pick for exams: uses the provided rng (0..1). */
+export function pickWritingTask(
+  level: CefrLevel,
+  rng: () => number = Math.random,
+): WritingTask | null {
+  const bank = WRITING_TASKS[level];
+  if (!bank || bank.length === 0) return null;
+  return bank[Math.floor(rng() * bank.length) % bank.length] ?? null;
+}
