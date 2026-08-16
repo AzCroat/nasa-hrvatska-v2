@@ -13,6 +13,7 @@ import { PLACES, type PlaceId } from './places';
 import { placeStats, recommendedVisit, type ModelCtx } from './gradModel';
 import GradMap from './GradMap';
 import PlaceScreen from './PlaceScreen';
+import NextUpCard from '../shared/NextUpCard';
 import { lsGet } from '../../lib/safeStorage';
 
 const RECENT_KEY = 'nh_recent_exercises';
@@ -288,6 +289,10 @@ export default function GradTab({
           }}
         />
       </div>
+
+      {/* The single recommended action — a menu is never just a menu (owner
+          directive 2026-08-16; same engine as the post-completion prompt). */}
+      <NextUpCard />
 
       {view === 'map' ? (
         <GradMap rec={rec} onOpenPlace={setOpenPlace} statsByPlace={statsByPlace} />
