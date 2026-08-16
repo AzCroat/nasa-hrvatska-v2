@@ -6,3 +6,4 @@ export * from './regions.js';
 export * from './geography.js';
 export * from './media.js';
 export * from './language.js';
+export * from './deepdives.js';

@@ -135,7 +135,7 @@ Object mapping screen key → stat type (`'lc'` or `'gc'`). When a user spends 2
 
 1. Adds the screen key to `stats.vs`
 2. Increments `stats.lc` or `stats.gc`
-3. Awards 15 XP
+3. Awards 5 XP (`DWELL_XP` — trimmed from 15 in the 2026-08-14 XP rebalance: presence pays a token, production pays a premium via `PRODUCTION_XP_MULTIPLIER`)
 
 Every screen that appears in LEARN_PATH and doesn't have a quiz must be in `BLACK_HOLE_SCREENS`.
 
@@ -149,6 +149,18 @@ getCEFR(xp, lc, gc) → { level: 'A1'|'A2'|'B1'|'B2'|'C1'|'C2', ... }
 This is the **single source of truth** for both the CEFR badge and the Learn Path stage indicator. Both use `CEFR_TO_STAGE_IDX` mapping. Never derive stage from `lc` thresholds alone.
 
 ---
+
+## Critical Architecture: CEFR Mastery Gate (owner directive, 2026-08-16)
+
+Progression is gated on DEMONSTRATED competency, not activity. Source of truth: `src/lib/cefrCertification.ts`.
+
+- **passes[L] means "the user holds level-L status."** A Level Check set keyed L (levelFrom L → levelTo L+1) tests L-competency and, when passed, records at **levelTo** — the status it grants. (Before 2026-08-16 the screen recorded at levelFrom while the retake gate blocked on the same key, so passing never advanced anyone; `migrateRealPassesToStatusKeys` additively repaired historical passes. Never revert to levelFrom recording.)
+- **Provisional passes**: grandfathered (migration-granted) passes carry `provisional: true` and are also detectable by the 0.8-signature (`isGrandfatherPassSignature`). They keep content access but do not count toward `getVerifiedLevel()`. While any provisional level sits above the verified level, `getVerificationGate().required` is true: `getContentUnlockLevel` caps NEW content one level below the gate target, Home shows `VerificationGateCard` (no snooze, no dismiss), and the only way forward is a real pass. Practice below the gate stays open by design.
+- **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
+- **Sections are resumable, never falsely failed**: an unfinished required section (no mic, evaluator unavailable) parks the attempt in `nh_cefr_verification_partial` (48h TTL) instead of recording a failure. Only complete attempts reach `recordEquivalencyAttempt`.
+- **Merge rules**: pass merge is additive with `writing` in the per-skill max block; a merged pass stays provisional only if BOTH sides are provisional (an old device's unmarked blob can never wash the flag off; a real pass anywhere clears it everywhere).
+- **E2E fixtures seed VERIFIED users** (real-shape passes + migration flags in `seed-auth.js` / `forceCefr.js`); the gate itself is covered by `e2e/verification-gate.spec.js`.
+- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`.
 
 ## Critical Architecture: Firebase Sync
 
@@ -191,16 +203,16 @@ Firestore is initialized with `persistentMultipleTabManager()` to allow multiple
 
 ---
 
-## Critical Architecture: AI Cost & Availability (owner directive, 2026-08-08)
+## Critical Architecture: AI Cost & Availability (owner directive 2026-08-08; ceiling raised 2026-08-14)
 
-Two outcomes, both enforced in code: **every AI feature always answers** (cached/degraded, never dead), and **total AI spend cannot exceed $5/month**.
+Two outcomes, both enforced in code: **every AI feature always answers** (cached/degraded, never dead), and **total AI spend cannot exceed $10/month** (raised from $5 on 2026-08-14 explicitly to buy more spontaneous-conversation turns — the fluency lever — NOT to loosen per-endpoint ceilings or promote models).
 
 ### The layers (src of truth in parentheses)
 
 1. **Model policy**: ALL Claude endpoints run `claude-haiku-4-5-20251001`. The owner's cost ceiling overrides the "largest model" default — do not promote an endpoint to Sonnet/Opus without redoing the budget math in `_aiBudget.js`.
 2. **Prompt caching**: the 7 conversational call sites (ai-chat ×3, maja ×2, conversation, conversational-tutor) send `system` as the cached-array shape. Integration tests assert the `cache_control` marker — removing it silently 10×'s input cost.
-3. **Per-user quota** (`_aiQuota.js`): 150 turns/day, sized against the budget, not just abuse.
-4. **Global monthly governor** (`_aiBudget.js`; schema doc in `migrations/ai_month_spend.sql` — the table SELF-MIGRATES on first use, nobody runs SQL by hand): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $4.00 the gate answers `429 monthly_budget_exhausted`. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
+3. **Per-user quota** (`_aiQuota.js`): 300 turns/day (doubled with the 2026-08-14 budget raise), sized against the budget, not just abuse.
+4. **Global monthly governor** (`_aiBudget.js`; schema doc in `migrations/ai_month_spend.sql` — the table SELF-MIGRATES on first use, nobody runs SQL by hand): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). Conversational endpoints RECONCILE after the response (`reconcileBudget` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged), so the ledger records real spend and the budget funds ~5-10x more conversation turns than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
 5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts`, `/api/daily-culture`, `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
 6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key); news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
 7. **Client behavior**: `classifyAiLimit` (src/lib/aiLimit.ts) distinguishes `burst`/`daily`/`budget`; every AI surface renders the budget pause as a calm message (`BUDGET_PAUSE_EN`/`_HR`), never a retryable error. TTS budget-refusal is a 503 → the client falls back to on-device speech synthesis.

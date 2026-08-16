@@ -4,6 +4,8 @@ import { useStats } from '../../context/StatsContext';
 import { useApp } from '../../context/AppContext';
 import { rnd } from '../../lib/random.js';
 import { markQuest } from '../../lib/quests.js';
+import { getUserCefr, cefrRank } from '../../lib/cefr';
+import { ssGet } from '../../lib/safeStorage';
 
 import DialogueScenarioMenu from './DialogueScenarioMenu';
 import DialogueResultsScreen from './DialogueResultsScreen';
@@ -49,7 +51,16 @@ export default function DialogueSim({
 }: {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { level: userLevel } = useStats();
+  const { level: userLevel, stats } = useStats();
+  // Spontaneous-conversation default (owner directive 2026-08-14): when the
+  // DAILY SESSION launches the conversation anchor at B1+, open the AI
+  // conversation directly — the budget raise + ledger reconciliation exist to
+  // fund exactly this. Guided stays one tap away and remains the default for
+  // Practice-tab visits, A1/A2, and whenever AI limits answer 429 (the client
+  // already degrades calmly via classifyAiLimit).
+  const sessionAiFirst =
+    ssGet('nh_session_started') === 'dialogue' &&
+    cefrRank(getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0)) >= cefrRank('B1');
   const { setScr, sCurEx } = useApp();
   const finishFired = useRef(false);
   const [scenario, setScenario] = useState<any>(null);
@@ -91,7 +102,7 @@ export default function DialogueSim({
     setDone(false);
     setFreeInput('');
     setFreeResult(null);
-    setAiMode(false);
+    setAiMode(sessionAiFirst);
     setAiHistory([]);
     setAiInput('');
     setAiLoading(false);

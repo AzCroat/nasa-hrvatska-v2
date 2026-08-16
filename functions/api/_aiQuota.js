@@ -15,14 +15,15 @@
 
 // Per-user daily ceiling — sized against the BUDGET, not just abuse.
 //
-// 2026-08-08 owner directive: total AI spend must stay under $5/month. At 750
-// turns/day a single user could burn a month's budget in a day (750 Sonnet
-// turns ≈ $15). Now: every endpoint runs Haiku 4.5 ($1/$5 per Mtok) and a
-// typical turn costs ≈ $0.002-0.004, so 150 turns/day ≈ $0.30-0.60 worst case
-// per user per day — still far beyond what a real learner uses (a heavy
-// session is ~30 turns), so no legitimate user ever hits this. Do NOT raise
-// without redoing the budget math; a global monthly governor is the next layer.
-const FREE_ANNUAL_TURNS_PER_DAY = 150;
+// 2026-08-08 owner directive set total AI spend under $5/month; 2026-08-14
+// raised it to $10/month explicitly to buy more spontaneous-conversation
+// turns (the fluency lever). Every endpoint runs Haiku 4.5 ($1/$5 per Mtok)
+// and a typical turn costs ≈ $0.002-0.004, so 300 turns/day ≈ $0.60-1.20
+// worst case per user per day — still far beyond what a real learner uses
+// (a heavy session is ~30 turns), so no legitimate user ever hits this. The
+// global monthly governor (_aiBudget.js, $9 gate) remains the hard backstop.
+// Do NOT raise further without redoing the budget math.
+const FREE_ANNUAL_TURNS_PER_DAY = 300;
 const ANON_IP_TURNS_PER_DAY = 15;
 
 function todayUTC() {

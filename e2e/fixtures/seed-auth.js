@@ -89,6 +89,42 @@ export function seedAuth(page, statOverrides = {}) {
     localStorage.setItem(recapKey, '1');
     // Ensure hero is always expanded so hero stats / translate pill are accessible
     localStorage.setItem('nh_hero_expanded', '1');
+    // Phase 1 mastery gate: the fixture user is a VERIFIED learner — seed real
+    // certification passes up to their eligible band so the provisional
+    // verification gate stays off and specs keep their pre-gate meaning.
+    // (The gate itself has a dedicated spec: verification-gate.spec.js.)
+    {
+      const st = { ...baseStats, ...statOverrides };
+      const total = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;
+      const band =
+        total < 300 ? 'A1'
+        : total < 1200 ? 'A2'
+        : total < 3500 ? 'B1'
+        : total < 8000 ? 'B2'
+        : total < 18000 ? 'C1'
+        : 'C2';
+      const order = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      const passes = {};
+      for (const lvl of order.slice(1, order.indexOf(band) + 1)) {
+        // Real-pass shape (NOT the grandfather 0.8-signature): includes
+        // production skills so isProvisionalPass() is false.
+        passes[lvl] = {
+          passedAt: now,
+          scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9, writing: 0.9 },
+          overall: 90,
+        };
+      }
+      localStorage.setItem(
+        'nh_cefr_certifications',
+        JSON.stringify({ passes, attempts: [], lastFailedAt: {},
+          checkpoints: { lastCheckpointAt: null, activeDaysAtLastCheckpoint: 0,
+            consecutiveFails: {}, focusSkills: {}, demotions: [], snoozedUntil: null },
+          v: 2 }),
+      );
+      localStorage.setItem('nh_cefr_migration_v1_done', '1');
+      localStorage.setItem('nh_cefr_provisional_v1_done', '1');
+      localStorage.setItem('nh_cefr_status_shift_v1_done', '1');
+    }
     // Pre-dismiss all ceremony modals (stage + streak) so they never fire mid-test
     // and block button clicks (CeremonyModal is position:fixed zIndex:9999).
     // Stage gates: [5, 11, 22, 34, 45] lessons → stages 1–5

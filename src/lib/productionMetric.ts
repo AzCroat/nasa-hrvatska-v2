@@ -17,6 +17,16 @@ import { weekKey } from './dateUtils';
 
 const PRODUCTION_REPS_KEY = 'nh_production_reps';
 
+/**
+ * XP-economy rebalance (fluency initiative #3, 2026-08-14): active production
+ * — the PRODUCTION_POOL screens, where the learner produces Croatian — pays a
+ * 50% XP premium over recognition work. Applied centrally in useAward (the
+ * same PRODUCTION_SCREEN_IDS check that counts production reps), so no screen
+ * hand-rolls it. Sized to stay under the server-side ACTIVITY_XP_MAP caps for
+ * every production screen's realistic top payout.
+ */
+export const PRODUCTION_XP_MULTIPLIER = 1.5;
+
 export interface ProductionReps {
   total: number;
   thisWeek: number;

@@ -26,6 +26,7 @@ import { HISTORY, KINGS } from './cultural/history.js';
 import { EVENTS } from './cultural/events.js';
 import { REGIONS } from './cultural/regions.js';
 import { DIALECTS, SHADOWING } from './cultural/language.js';
+import { CULTURE_DEEP_DIVES } from './cultural/deepdives.js';
 import { CROATIAN_CITIES } from './cultural/geography.js';
 import { IDIOMS, BRZALICE } from './exercises.js';
 import {
@@ -104,6 +105,8 @@ export {
   V_B2,
   V_C1,
   V_C2,
+  // B2-C2 culture deep dives (fluency initiative) — consumed by CultureDeepDiveScreen.
+  CULTURE_DEEP_DIVES,
 };
 
 export const LEVEL_NARRATIVE = {

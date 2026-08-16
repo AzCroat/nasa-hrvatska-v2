@@ -17,6 +17,7 @@
 // Final event: { done: true, ...fullResponseObject }
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { reconcileBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 
@@ -627,6 +628,10 @@ export async function onRequestPost(context) {
   (async () => {
     let fullText = '';
     let doneSent = false; // guard: emit fallback done event if message_stop never arrives
+    // Actual token usage, accumulated from the SSE events (message_start
+    // carries input/cache counts; message_delta carries output_tokens). Used
+    // to refund the worst-case pre-charge down to the real cost at stream end.
+    let usageAcc = null;
     const reader = anthropicStream.getReader();
     let buffer = '';
 
@@ -643,6 +648,13 @@ export async function onRequestPost(context) {
         parsed = JSON.parse(data);
       } catch {
         return;
+      }
+
+      if (parsed.type === 'message_start' && parsed.message?.usage) {
+        usageAcc = { ...parsed.message.usage };
+      }
+      if (parsed.type === 'message_delta' && parsed.usage) {
+        usageAcc = { ...(usageAcc || {}), ...parsed.usage };
       }
 
       // Anthropic SSE event types we care about
@@ -737,6 +749,14 @@ export async function onRequestPost(context) {
         await writer.close();
       } catch {
         /* ignore */
+      }
+      // Refund the worst-case pre-charge down to this turn's ACTUAL cost —
+      // the spontaneous-conversation unlock (2026-08-14). Failure-safe: any
+      // error leaves the conservative ceiling charged.
+      try {
+        await reconcileBudget(env, '/api/conversation', usageAcc);
+      } catch {
+        /* ceiling stays charged */
       }
     }
   })();

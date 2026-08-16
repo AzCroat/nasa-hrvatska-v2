@@ -275,12 +275,17 @@ export type SkillCategory =
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
-// 'nominalization', 'listening') are valid SkillCategory tags used to label
+// 'nominalization') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage
-// in later phases. ('listening' surfaces long-form listening as a CEFR-gated
-// daily-session fill candidate; performance still feeds recordTopicResult.)
+// in later phases.
+// 'listening' was promoted from pool-only (listening-channel fix, 2026-08-14):
+// long-form comprehension now schedules like grammar — served by the adaptive
+// pick (CATEGORY_SCREEN_MAP routes it to the authored graded-story bank, zero
+// AI cost) and rescheduled from real quiz accuracy via the session-category
+// bridge. Appended LAST so a brand-new user's first adaptive pick is still
+// genitive (the never-seen tie keeps ALL_CATEGORIES order).
 export const ALL_CATEGORIES: SkillCategory[] = [
   'genitive',
   'accusative',
@@ -299,6 +304,7 @@ export const ALL_CATEGORIES: SkillCategory[] = [
   'vocab-b1',
   'vocab-b2',
   'speaking',
+  'listening',
 ];
 
 // Conjugation categories: drilled by the conjugation engine (flag-gated).

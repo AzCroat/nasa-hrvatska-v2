@@ -1,6 +1,7 @@
 import React from 'react';
 import { speak } from '../../../lib/audio.ts';
 import AudioControls from './AudioControls';
+import DialoguePlayer from './DialoguePlayer';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
@@ -99,6 +100,12 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
   const total = shuffledQuestions.length;
   const ld = (EXERCISES as Record<string, typeof EXERCISES.A1>)[selectedLevel!]!;
   const keyWords = extractKeyWords(q.hr);
+  // Listening-channel fix (2026-08-14): alternate the narrator per SET so
+  // learners hear more than one native speaker (odd sets → Srećko, male; even
+  // sets → the user's normal voice, Gabrijela by default). Per-set (not
+  // per-question) so a set always replays in the same voice and every sentence
+  // is TTS-generated once, ever, per voice (KV cache converges).
+  const narrator = (selectedSetIdx ?? 0) % 2 === 1 ? 'srecko' : undefined;
 
   // Completion within the set
   const completedInSet = getCompletedQuestions(selectedLevel!, selectedSetIdx!);
@@ -182,6 +189,20 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
         {selectedSet.icon} {selectedSet.title} · {completedInSet}/{totalInSet} completed
       </div>
 
+      {/* Listening-depth (2026-08-14): dialogue sets play a two-voice
+          conversation — speaker A in the set narrator's voice, speaker B in
+          the OTHER native voice — before the per-line quiz. B2+ gets a
+          native-pace toggle (true 0% SSML rate vs the default study pace). */}
+      {selectedSet.dialogue && (
+        <DialoguePlayer
+          lines={selectedSet.dialogue}
+          voiceA={narrator}
+          voiceB={narrator === 'srecko' ? undefined : 'srecko'}
+          accentColor={ld.color}
+          allowNativePace={['B2', 'C1', 'C2'].includes(selectedLevel!)}
+        />
+      )}
+
       {/* 3b: connected-speech sets carry a full passage — the questions below
           replay single sentences FROM it, so offer whole-passage playback for
           global listening before the focused per-sentence work. No autoplay:
@@ -206,7 +227,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
             className="b bp"
             data-testid="play-full-passage"
             style={{ fontSize: 12, padding: '8px 14px', flexShrink: 0 }}
-            onClick={() => speak(selectedSet.passage)}
+            onClick={() => speak(selectedSet.passage, narrator ? { voice: narrator } : undefined)}
           >
             ▶ Full passage
           </button>
@@ -258,6 +279,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           key={`${selectedLevel}-${selectedSetIdx}-${questionIdx}`}
           text={q.hr}
           accentColor={ld.color}
+          voice={narrator}
         />
 
         {/* Transcript toggle — only after answering */}

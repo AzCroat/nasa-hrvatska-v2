@@ -1,0 +1,63 @@
+# One-off ops diagnostic: why has the streak-reminder worker attempted zero
+# sends? (pushDelivery markers all-null through 2026-08-15 14:00 UTC, across
+# both the US-evening and the 13:00 UTC legacy windows.)
+#
+# Reads three facts, read-only, and prints NO user counts (a boolean
+# EXISTS/EMPTY only — the never-counts posture):
+#   1. Does the nasa-hrvatska-scheduler worker exist and what is its cron?
+#   2. Does the PUSH_SUBSCRIPTIONS namespace hold ANY subscription-shaped key
+#      (bare sanitized UID = contains no colon; every infra key has `prefix:`)?
+#   3. The current push:last* marker values.
+# KV/Workers API scopes may be missing on the CI token — each probe reports
+# its own auth failure honestly instead of failing the others.
+name: Push delivery diagnostic
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe scheduler + KV
+        env:
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -uo pipefail
+          TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
+          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT"
+          NS=4652e2388967424db09395a2be0aad81
+          auth=(-H "Authorization: Bearer $TOK")
+
+          echo "::group::1. Scheduler worker + cron"
+          curl -sS "${auth[@]}" "$API/workers/scripts/nasa-hrvatska-scheduler/schedules" > cron.json
+          if jq -e '.success==true' cron.json >/dev/null 2>&1; then
+            jq '{schedules: [.result.schedules[].cron]}' cron.json
+          else
+            echo "cron read failed (scope?):"; jq -c '.errors' cron.json
+          fi
+          echo "::endgroup::"
+
+          echo "::group::2. Subscription-shaped keys present?"
+          curl -sS "${auth[@]}" "$API/storage/kv/namespaces/$NS/keys?limit=1000" > keys.json
+          if jq -e '.success==true' keys.json >/dev/null 2>&1; then
+            SUBS=$(jq '[.result[].name | select(contains(":") | not)] | length > 0' keys.json)
+            echo "subscription_shaped_keys_exist: $SUBS"
+            echo "infra_prefixes_seen:"
+            jq -r '[.result[].name | select(contains(":")) | split(":")[0] + ":"] | unique | .[]' keys.json | head -15
+            LISTED=$(jq '.result | length' keys.json)
+            MORE=$(jq -r '.result_info.cursor // ""' keys.json)
+            [ "$LISTED" = "1000" ] && [ -n "$MORE" ] && echo "NOTE: >1000 keys — namespace is large; only first page scanned"
+          else
+            echo "KV list failed (token likely lacks Workers KV Storage read):"
+            jq -c '.errors' keys.json
+          fi
+          echo "::endgroup::"
+
+          echo "::group::3. Delivery markers"
+          for k in push:lastAttemptAt push:lastDeliveredAt push:lastStatus; do
+            V=$(curl -sS "${auth[@]}" "$API/storage/kv/namespaces/$NS/values/$k")
+            echo "$k = ${V:0:60}"
+          done
+          echo "::endgroup::"

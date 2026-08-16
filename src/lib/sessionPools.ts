@@ -3,38 +3,11 @@
  * max-lines): the CEFR-annotated Priority-3 fill pool and the structural
  * difficulty tiers. Logic stays in useDailySession; this module is data only.
  */
-import type { SkillCategory } from './adaptive';
+import { C_LEVEL_DRILL_ENTRIES } from './drillPoolEntries';
 
-/** CEFR-annotated exercise pool for Priority 3 fill */
-export interface CefrPoolEntry {
-  id: string;
-  label: string;
-  screen: string;
-  cefr: string;
-  category: SkillCategory;
-  /**
-   * Wave 4: bounded browse/reference screens with no self-grading completion.
-   * Reference entries complete on return-to-Home (SESSION_AUTOCOMPLETE_SCREENS
-   * derives from this flag) and the session builder serves AT MOST ONE per
-   * session so browse content never crowds out graded drills.
-   */
-  reference?: boolean;
-  /**
-   * Wave 9: entries whose activity is impossible without a microphone. The
-   * builder skips them when readMicState() is 'denied'/'unsupported' —
-   * mirroring PRODUCTION_POOL's micRequired contract.
-   */
-  micRequired?: boolean;
-  /**
-   * Phase 1 (fluency initiative, 2026-08): the SCREEN levels its own content
-   * to the user's CEFR (leveled readers, level-aware AI generation, per-level
-   * scene banks). For these, a fixed EXERCISE_DIFFICULTY score misleads the
-   * difficulty-nearest fill sort — a C1 user was ranked away from the app's
-   * richest input content because the entry "looked like" a tier-3 exercise.
-   * The builder treats adaptive entries as ALWAYS difficulty-matched (dist 0).
-   */
-  adaptive?: boolean;
-}
+export type { CefrPoolEntry } from './drillPoolEntries';
+import type { CefrPoolEntry } from './drillPoolEntries';
+
 // Exported for the content-coverage CI gate (src/tests/content-coverage.test.ts),
 // which tabulates this pool into a (CEFR level × skill group) matrix.
 export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
@@ -149,6 +122,163 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'conditional',
   },
+  // B2 drill-pool expansion (A1-B2 content focus, 2026-08): the three B2
+  // grammar units that were TAUGHT (grammarAdvanced animated lessons) but
+  // never DRILLED — futur II, reported speech, prefixed verbs of motion.
+  // B2 had 9 pool drills vs 30-41 at every level below.
+  {
+    id: 'futur2',
+    label: 'Futur drugi',
+    screen: 'futur2',
+    cefr: 'B2',
+    category: 'future-tense',
+  },
+  // B2 tranche 7 (2026-08-15): genitive prepositions, n/t-stem nouns, questions.
+  {
+    id: 'prijedlozigen',
+    label: 'Prijedlozi s genitivom',
+    screen: 'prijedlozigen',
+    cefr: 'B2',
+    category: 'genitive',
+  },
+  {
+    id: 'imenicame',
+    label: 'Imenice tipa ime',
+    screen: 'imenicame',
+    cefr: 'B2',
+    category: 'nominative',
+  },
+  {
+    id: 'pitanja',
+    label: 'Umijeće pitanja',
+    screen: 'pitanja',
+    cefr: 'B2',
+    category: 'word-order',
+  },
+  // B2 tranche 6 (2026-08-15): pronoun forms, cause/consequence, quantity.
+  {
+    id: 'zamjenice',
+    label: 'Naglašene i nenaglašene',
+    screen: 'zamjenice',
+    cefr: 'B2',
+    category: 'clitics',
+  },
+  {
+    id: 'uzrocne',
+    label: 'Uzrok i posljedica',
+    screen: 'uzrocne',
+    cefr: 'B2',
+    category: 'subordination',
+  },
+  {
+    id: 'kolicina',
+    label: 'Izricanje količine',
+    screen: 'kolicina',
+    cefr: 'B2',
+    category: 'genitive',
+  },
+  // B2 tranche 5 (2026-08-15): irregular plurals, spatial prepositions, comparison.
+  {
+    id: 'mnozina',
+    label: 'Nepravilna množina',
+    screen: 'mnozina',
+    cefr: 'B2',
+    category: 'nominative',
+  },
+  {
+    id: 'prostorni',
+    label: 'Prostorni prijedlozi',
+    screen: 'prostorni',
+    cefr: 'B2',
+    category: 'accusative',
+  },
+  {
+    id: 'stupnjevanje',
+    label: 'Stupnjevanje',
+    screen: 'stupnjevanje',
+    cefr: 'B2',
+    category: 'nominative',
+  },
+  // B2 tranche 4 (2026-08-15): aspect in commands, possessives, temporal clauses.
+  {
+    id: 'vidimperativ',
+    label: 'Vid u zapovijedi',
+    screen: 'vidimperativ',
+    cefr: 'B2',
+    category: 'aspect-perfective',
+  },
+  {
+    id: 'posvojni',
+    label: 'Posvojni pridjevi',
+    screen: 'posvojni',
+    cefr: 'B2',
+    category: 'genitive',
+  },
+  {
+    id: 'vremenske',
+    label: 'Vremenske rečenice',
+    screen: 'vremenske',
+    cefr: 'B2',
+    category: 'subordination',
+  },
+  {
+    id: 'glagolskiprilozi',
+    label: 'Glagolski prilozi',
+    screen: 'glagolskiprilozi',
+    cefr: 'B2',
+    category: 'participle',
+  },
+  {
+    id: 'aoristimperfekt',
+    label: 'Aorist i imperfekt',
+    screen: 'aoristimperfekt',
+    cefr: 'B2',
+    category: 'past-tense',
+  },
+  {
+    id: 'rekcija',
+    label: 'Glagolska rekcija',
+    screen: 'rekcija',
+    cefr: 'B2',
+    category: 'dative-locative',
+  },
+  // B2 tranche 2 (2026-08-15): impersonals, indefinite pronouns, numerals.
+  {
+    id: 'bezlicne',
+    label: 'Bezlične konstrukcije',
+    screen: 'bezlicne',
+    cefr: 'B2',
+    category: 'passive',
+  },
+  {
+    id: 'neodredjene',
+    label: 'Neodređene zamjenice',
+    screen: 'neodredjene',
+    cefr: 'B2',
+    category: 'word-order',
+  },
+  {
+    id: 'slaganjebrojeva',
+    label: 'Slaganje brojeva',
+    screen: 'slaganjebrojeva',
+    cefr: 'B2',
+    category: 'numerals',
+  },
+  ...C_LEVEL_DRILL_ENTRIES,
+  {
+    id: 'neizravni',
+    label: 'Neizravni govor',
+    screen: 'neizravni',
+    cefr: 'B2',
+    category: 'subordination',
+  },
+  {
+    id: 'kretanje',
+    label: 'Glagoli kretanja',
+    screen: 'kretanje',
+    cefr: 'B2',
+    category: 'aspect-perfective',
+  },
   // B1 — case drills surfaced into the pool (previously routable but never in the
   // daily session). Instrumental/dative also gave the adaptive picker only the
   // generic cloze screen; these add dedicated at-level practice.
@@ -253,10 +383,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'nominalization',
   },
-  // C2 drill-pool expansion (Phase 2, fluency initiative): verbal adverbs
-  // (glagolski prilozi — the literary gerunds) and formal-register precision
-  // (collocations, preposition government, prefix discrimination). Before
-  // these, c2drill was the only non-adaptive C2 exercise in the pool.
   {
     id: 'gerunddrill',
     label: 'Glagolski prilozi',
@@ -759,144 +885,4 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     micRequired: true,
   },
 ];
-
-// Structural difficulty tier per session exercise type (1 = recognition …
-// 5 = open production), mirroring exerciseMeta's scale. Used to bias the daily
-// Priority-3 fill toward the user's ability so content scales as they advance
-// (defect #1: difficulty was inert — nothing consumed difficulty tiers). Any id
-// not listed defaults to tier 3.
-export const EXERCISE_DIFFICULTY: Record<string, number> = {
-  flashcards: 1,
-  mcgame: 1,
-  match: 1,
-  review: 2,
-  qwords: 2,
-  genderdrill: 2,
-  nomdrill: 2,
-  unjumble: 2,
-  negation: 2,
-  znam: 3,
-  cloze: 3,
-  prepdrill: 3,
-  genitivedrill: 3,
-  locdrill: 3,
-  sentencetiles: 3,
-  typing: 3,
-  accusativedrill: 3,
-  future: 3,
-  comparatives: 3,
-  dictation: 3,
-  sentbuild: 4,
-  aspectdrill: 4,
-  clitic: 4,
-  instrumental: 3,
-  dative: 3,
-  animateacc: 3,
-  numcases: 4,
-  passive: 4,
-  participles: 4,
-  subordination: 4,
-  conditionaldrill: 4,
-  idiomdrill: 4,
-  discourse: 4,
-  register: 4,
-  nominalization: 4,
-  listeningComprehension: 3,
-  aiListening: 4,
-  // 7a additions — recognition/matching games tier 1-2, guided drills tier 2-3.
-  boje: 1,
-  wordsprint: 1,
-  numtime: 2,
-  possess: 2,
-  cityloc: 2,
-  coloragree: 2,
-  imperative: 3,
-  neggen: 3,
-  c2drill: 5,
-  gerunddrill: 5,
-  preciznost: 5,
-  // Wave 1 additions — recognition games tier 2, guided drills tier 3.
-  declension: 3,
-  padezi: 3,
-  vocative: 3,
-  ordinals: 2,
-  pronouns: 2,
-  modal: 2,
-  conjdrill: 3,
-  verbdrill: 3,
-  fillstory: 3,
-  emogender: 2,
-  profgender: 2,
-  proncontrast: 2,
-  vocabscenes: 2,
-  reflexive: 3,
-  tenseflip: 3,
-  casetransformer: 3,
-  relpron: 3,
-  svojmoj: 3,
-  diminutives: 2,
-  wordfamilies: 3,
-  collocations: 3,
-  riddles: 2,
-  logicquiz: 2,
-  translate_drills: 3,
-  wordform: 3,
-  // Wave 2 additions — recognition game tier 2, morphophonology drill tier 3.
-  alka: 2,
-  sibil: 3,
-  // Wave 3 additions — comprehension tiers 2-3, guided production tier 4.
-  gradedreader: 3,
-  aistory: 3,
-  listeninggame: 2,
-  conjpractice: 3,
-  phonemes: 2,
-  roleplay: 4,
-  // Wave 4a — graded reference-group screens.
-  alphabet: 1,
-  convmatch: 2,
-  falsefr: 1,
-  phonology: 2,
-  padezifull: 3,
-  aspectlesson: 3,
-  conditionallesson: 3,
-  tenses: 3,
-  texting: 2,
-  formalregister: 3,
-  impersonal: 4,
-  techvoc: 2,
-  pitchaccent: 4,
-  // Wave 4b — reference (browse) entries, recognition tiers.
-  opposites: 1,
-  clothes: 1,
-  weather: 1,
-  bodydesc: 2,
-  countries: 2,
-  professions: 2,
-  lifeevents: 2,
-  brzalice: 2,
-  tivicompare: 2,
-  colorquirk: 2,
-  idioms: 2,
-  // Wave 5 — lessons tier 2 (guided teaching), drills/quizzes tier 3-4.
-  animlesson: 2,
-  fleetinga: 4,
-  future_tense_lesson: 3,
-  past_tense_lesson: 3,
-  video_lesson: 3,
-  // Wave 6 — hub-embedded drills.
-  adaptive_review: 3,
-  mistakes: 2,
-  frequency_track: 2,
-  pronunciation_course: 2,
-  // Wave 7 — AI-cost admissions.
-  aiconvo: 5,
-  grammarexplainer: 3,
-  micro_lesson: 3,
-  grammarreader: 3,
-  // Wave 8 — AI tutors, open production.
-  maja: 5,
-  live_tutor: 5,
-  // Wave 9 — redesigned-for-completion screens.
-  storymode: 3,
-  pronunciation_assess: 4,
-};
+export { EXERCISE_DIFFICULTY } from './exerciseDifficulty';

@@ -8,7 +8,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
 import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
 import { pickSessionLesson } from '../lib/sessionLessonPick';
-import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
+import { BLACK_HOLE_SCREENS, DWELL_XP } from '../lib/blackHoleScreens';
 import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _getVocab, _buildAdaptivePool } from '../lib/exerciseData';
@@ -605,7 +605,12 @@ export function useScreenLauncher({
             // is a production screen, and can complete an abandoned daily-session
             // activity. Only goBack() clears curEx, so any exit via the tab bar or
             // browser-back leaves a stale id to be mis-credited.
-            award(15, undefined, 'lesson', screenId);
+            //
+            // XP rebalance (fluency initiative #3, 2026-08-14): dwell XP trimmed
+            // 15 → 5. Presence on an info screen is worth a token amount, not a
+            // third of a drill; the lc/gc counter credit above is untouched (it
+            // drives Learn-Path completion, which stays as designed).
+            award(DWELL_XP, undefined, 'lesson', screenId);
           }, 20000);
           lpDwellRef.current = { screen: screenId, statType: bhStat, timer };
         }

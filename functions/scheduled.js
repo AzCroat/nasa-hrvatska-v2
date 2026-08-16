@@ -129,6 +129,15 @@ export default {
 
       for (const key of listResult.keys) {
         try {
+          // This namespace doubles as the KV fallback for the TTS audio cache,
+          // budget/quota ledgers, backups and delivery markers — all keyed with
+          // a `prefix:` colon convention. Subscription keys are sanitized UIDs
+          // and the sanitizer STRIPS colons, so a colon in the name proves the
+          // key is infrastructure. Skipping by NAME saves a get() per key —
+          // and each get() is a subrequest, the budget this whole notification
+          // pass lives on. Without this, a growing TTS cache could exhaust the
+          // worker's subrequests before it ever reached a subscription.
+          if (key.name.includes(':')) continue;
           const raw = await env.PUSH_SUBSCRIPTIONS.get(key.name, { type: 'json' });
           if (!raw?.subscription?.endpoint) continue;
 

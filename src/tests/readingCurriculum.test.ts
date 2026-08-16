@@ -23,11 +23,29 @@ describe('readingCurriculum units', () => {
     }
   });
 
-  it('A1/A2 both draw from the beginner reader', () => {
+  it('A1 draws from beginner; A2 continues into its dedicated a2 bucket', () => {
+    // A1-B2 content focus (2026-08): A1 and A2 used to share the single
+    // beginner bucket, so an A2 learner's path had nothing new after A1.
     const a1 = getReadingUnitsForLevel('A1');
     const a2 = getReadingUnitsForLevel('A2');
-    expect(a1.map((u) => u.key)).toEqual(a2.map((u) => u.key));
     expect(a1.every((u) => u.bucket === 'beginner')).toBe(true);
+    // A2 starts with the full beginner base, then the a2 continuation.
+    expect(a2.map((u) => u.key).slice(0, a1.length)).toEqual(a1.map((u) => u.key));
+    const a2Only = a2.filter((u) => u.bucket === 'a2');
+    expect(a2Only.length).toBeGreaterThanOrEqual(8);
+    expect(a2Only.every((u) => u.badge === 'A2')).toBe(true);
+  });
+
+  it('both data copies carry the a2 bucket identically', async () => {
+    const { readFileSync } = await import('node:fs');
+    const grab = (s: string) => {
+      const i = s.indexOf('a2: [');
+      return s.slice(i, s.indexOf('\n  intermediate: [', i));
+    };
+    const client = readFileSync('src/data/exercises.js', 'utf8');
+    const server = readFileSync('functions/api/content/_data/exercises.js', 'utf8');
+    expect(client.indexOf('a2: [')).toBeGreaterThan(-1);
+    expect(grab(client)).toBe(grab(server));
   });
 
   it('units carry a stable key, title and CEFR badge', () => {

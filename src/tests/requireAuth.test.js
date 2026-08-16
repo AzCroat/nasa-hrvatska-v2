@@ -11,6 +11,7 @@ vi.mock('../../functions/api/_aiQuota.js', () => ({
 }));
 import { requireAuthedAI } from '../../functions/api/_requireAuth.js';
 import { checkAIQuota } from '../../functions/api/_aiQuota.js';
+import { MONTHLY_BUDGET_MICROUSD } from '../../functions/api/_aiBudget.js';
 
 /**
  * In-memory KV stub. The gate now ends with the global monthly budget check
@@ -81,7 +82,7 @@ describe('requireAuthedAI', () => {
     const env = {
       FIREBASE_PROJECT_ID: 'proj',
       ENVIRONMENT: 'production',
-      PUSH_SUBSCRIPTIONS: fakeKV({ [`budget:${month}`]: String(4_000_000) }),
+      PUSH_SUBSCRIPTIONS: fakeKV({ [`budget:${month}`]: String(MONTHLY_BUDGET_MICROUSD) }),
     };
     const g = await requireAuthedAI(ctx('Bearer good', env), { cost: 1, rateLimit: 20 });
     expect(g.ok).toBe(false);

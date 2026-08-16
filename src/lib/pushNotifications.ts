@@ -23,8 +23,12 @@ function _scheduleTimeout(fn: () => void, delayMs: number): ReturnType<typeof se
 const NOTIF_KEY = 'nh_notifications_enabled';
 const SUB_KEY = 'nh_push_subscription';
 
+// Rotated 2026-08-14 by the vapid-provision.yml run: the original pair's
+// private key never reached the Pages environment, so no push made under the
+// old public key was ever deliverable. This is the public half of the pair
+// whose private half lives ONLY as a Cloudflare Pages secret.
 export const VAPID_PUBLIC_KEY =
-  'BAFN-xEz0NYzDK8Pn9cdKTuTFYNd_cpQQxM_nKRVwz65tzBB--dPawvo59OPkoUlh8GuvIjd1phITqLmJFpnirc';
+  'BL_i_4eSRo6v-lyDOGINh6RwCu7eRH5smLbSYBQ-61CFR_tNmdL5Wd3Yok2KYQOwKOgOFZdbGUwkqDEV6IAgHsk';
 
 function urlBase64ToUint8Array(b64: string): Uint8Array {
   const padding = '='.repeat((4 - (b64.length % 4)) % 4);
@@ -65,6 +69,31 @@ export async function initPushNotifications(): Promise<{ subscription: PushSubsc
     const registration = await navigator.serviceWorker.ready;
 
     let subscription = await registration.pushManager.getSubscription();
+
+    // Key rotation (2026-08): the VAPID pair was re-provisioned server-side
+    // (vapid-provision.yml) because the original private key never reached
+    // production — no push made under the old public key was ever deliverable.
+    // A subscription created with a different applicationServerKey can never
+    // be signed by the current private key, so drop it and re-subscribe.
+    // Browsers that don't expose options.applicationServerKey keep their
+    // subscription untouched (we can't verify, and churning would re-subscribe
+    // on every launch); the daily subscribeToPush refresh re-POSTs whatever
+    // subscription this returns, so the server copy follows automatically.
+    if (subscription) {
+      const current = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+      const existingKey = subscription.options?.applicationServerKey;
+      if (existingKey) {
+        const existing = new Uint8Array(existingKey);
+        const same =
+          existing.length === current.length && existing.every((b, i) => b === current[i]);
+        if (!same) {
+          try {
+            await subscription.unsubscribe();
+          } catch {}
+          subscription = null;
+        }
+      }
+    }
 
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({

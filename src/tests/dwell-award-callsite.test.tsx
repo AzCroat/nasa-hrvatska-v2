@@ -15,7 +15,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
 import { useScreenLauncher } from '../hooks/useScreenLauncher';
-import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
+import { BLACK_HOLE_SCREENS, DWELL_XP } from '../lib/blackHoleScreens';
 
 vi.mock('../lib/exerciseData', () => ({
   _getData: vi.fn(async () => ({ LISTEN: [] })),
@@ -135,7 +135,7 @@ describe('Learn-Path dwell timer — award attribution', () => {
       string,
       string | undefined,
     ];
-    expect(amt).toBe(15);
+    expect(amt).toBe(DWELL_XP);
     expect(celebrate).toBeUndefined();
     expect(activityType).toBe('lesson');
     // The whole point: without this argument award() falls back to curEx (STALE)

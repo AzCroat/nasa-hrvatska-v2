@@ -258,7 +258,7 @@ export function stopAudio(): void {
 export async function speakAzure(
   text: string,
   slow?: boolean,
-  opts?: { phoneme?: string },
+  opts?: { phoneme?: string; voice?: string; rate?: string },
 ): Promise<boolean> {
   if (!text || !text.trim()) return false;
   dbgInfo(
@@ -270,11 +270,19 @@ export async function speakAzure(
   uA();
   stopAudio();
   const myGen = ++_speakGen;
-  const voicePref = getVoicePreference();
+  // opts.voice is a per-call narrator override (listening-channel fix: graded
+  // listening alternates Gabrijela/Srećko per set so learners hear more than
+  // one native speaker). Falls back to the stored preference as before.
+  const voicePref = opts?.voice ?? getVoicePreference();
   const phoneme = opts?.phoneme || '';
-  // phoneme in the cache key so an IPA-corrected play never collides with the plain
-  // cached audio for the same word (matches the server-side edge cache key).
-  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme;
+  // opts.rate is a per-call SSML prosody-rate override (listening-depth,
+  // 2026-08-14): B2+ listening offers true native pace ('0%') on top of the
+  // default study pace (server default -8%). Server-validated percent string.
+  const rate = opts?.rate || '';
+  // phoneme + rate in the cache key so an IPA-corrected or native-pace play
+  // never collides with the plain cached audio for the same text (matches the
+  // server-side edge/KV cache keys, which include prosody).
+  const cacheKey = text + '|' + (slow ? '1' : '0') + '|' + voicePref + '|' + phoneme + '|' + rate;
   const cached = _cacheGet(cacheKey);
 
   try {
@@ -291,6 +299,7 @@ export async function speakAzure(
       const body: Record<string, unknown> = { text, slow: !!slow };
       if (voicePref !== 'auto') body.voice = voicePref;
       if (phoneme) body.phoneme = phoneme;
+      if (rate) body.prosody = { rate };
       _ttsAbort = new AbortController();
       // Use timeout-aware abort signal when supported; fall back to plain abort signal.
       const timeoutSignal = (
@@ -541,11 +550,15 @@ async function _awaitVoices(): Promise<SpeechSynthesisVoice | null> {
   });
 }
 
-export async function speak(text: string, opts?: { phoneme?: string }): Promise<string> {
+export async function speak(
+  text: string,
+  opts?: { phoneme?: string; voice?: string; rate?: string },
+): Promise<string> {
   if (!text) return 'none';
   const t = prepTTS(text);
   // phoneme (IPA) override applies to the Azure path only — used for slang words the
   // neural voice mis-segments. The Web Speech fallback can't use it (plain text).
+  // voice: per-call narrator override (see speakAzure) — also Azure-path only.
   const ok = await speakAzure(t, false, opts).catch(() => false);
   if (!ok) {
     // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
@@ -716,10 +729,11 @@ export async function speakProsody(
   }
 }
 
-export async function speakSlow(text: string): Promise<string> {
+export async function speakSlow(text: string, opts?: { voice?: string }): Promise<string> {
   if (!text) return 'none';
   const t = prepTTS(text);
-  const ok = await speakAzure(t, true).catch(() => false);
+  // voice: keep the same narrator on the slow replay as the normal play.
+  const ok = await speakAzure(t, true, opts).catch(() => false);
   if (!ok) {
     // Same guard: only fall back to Web Speech when a Croatian voice is confirmed available.
     const voice = await _awaitVoices();

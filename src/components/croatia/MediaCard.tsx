@@ -474,6 +474,7 @@ export default function MediaCard({
             streamId={streamId ?? m.name}
             activeStream={activeStream}
             setActiveStream={setActiveStream}
+            webUrl={m.web}
           />
         ) : (
           hasAction && (

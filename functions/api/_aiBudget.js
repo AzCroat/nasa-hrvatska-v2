@@ -35,9 +35,12 @@
  * fail-closed if neither answers. Table: migrations/ai_month_spend.sql.
  */
 
-// $4.00/month for metered AI calls — $1 head-room under the $5 mandate for
+// $9.00/month for metered AI calls — $1 head-room under the $10 mandate for
 // providers billed outside this ledger (Azure/Deepgram free-tier overruns).
-export const MONTHLY_BUDGET_MICROUSD = 4_000_000;
+// Raised from $4/$5 on 2026-08-14 (owner directive): the extra headroom
+// exists to buy spontaneous-conversation turns — the fluency lever — not to
+// loosen per-endpoint ceilings.
+export const MONTHLY_BUDGET_MICROUSD = 9_000_000;
 
 const HAIKU_IN = 1; // µ$/token
 const HAIKU_OUT = 5; // µ$/token
@@ -213,6 +216,69 @@ export async function checkAndChargeBudget(env, pathname) {
 
   console.warn('[AIBudget] No storage backend — rejecting (fail-closed)');
   return { allowed: false, spentMicroUsd: 0, resetAt };
+}
+
+/**
+ * Actual cost of a Claude call from the API's usage object, in micro-USD.
+ * Haiku 4.5 prices: input $1/Mtok (1 µ$/tok), cache WRITES 1.25x, cache READS
+ * 0.1x, output $5/Mtok (5 µ$/tok). Returns null for a missing/empty usage —
+ * the caller then skips reconciliation and the ceiling stays charged (safe).
+ */
+export function actualClaudeCostMicroUsd(usage) {
+  if (!usage || typeof usage !== 'object') return null;
+  const n = (v) => (Number.isFinite(v) && v > 0 ? v : 0);
+  const inTok = n(usage.input_tokens);
+  const cacheWrite = n(usage.cache_creation_input_tokens);
+  const cacheRead = n(usage.cache_read_input_tokens);
+  const outTok = n(usage.output_tokens);
+  if (inTok + cacheWrite + cacheRead + outTok === 0) return null;
+  return Math.ceil(inTok * HAIKU_IN + cacheWrite * 1.25 + cacheRead * 0.1 + outTok * HAIKU_OUT);
+}
+
+/**
+ * Post-call reconciliation (spontaneous-conversation unlock, 2026-08-14):
+ * the gate PRE-charges each call's worst-case ceiling; with cached prompts a
+ * real conversational turn costs 5-10x less, so without this the $9 ledger
+ * funded ~400 turns/month while the true bill was under $1.50. After the
+ * response arrives, refund `ceiling - actual` so the ledger records money
+ * actually spent.
+ *
+ * Fail-safe by construction: refunds are only ever POSITIVE differences (a
+ * call that somehow exceeds its ceiling refunds nothing — never charge more),
+ * and any storage error just leaves the conservative pre-charge in place.
+ */
+export async function reconcileBudget(env, pathname, usage) {
+  const ceiling = ENDPOINT_CEILING_MICROUSD[pathname] ?? DEFAULT_CEILING_MICROUSD;
+  const actual = actualClaudeCostMicroUsd(usage);
+  if (actual == null || ceiling <= 0 || actual >= ceiling) return;
+  const refund = ceiling - actual;
+  const month = monthUTC();
+  const db = env.AI_QUOTA_DB || null;
+  if (db) {
+    try {
+      // MAX guards a concurrent-refund race from ever driving the ledger negative.
+      await db
+        .prepare('UPDATE ai_month_spend SET microusd = MAX(0, microusd - ?1) WHERE month = ?2')
+        .bind(refund, month)
+        .run();
+      return;
+    } catch (e) {
+      console.warn('[AIBudget] D1 reconcile failed (ceiling stays charged):', e?.message);
+    }
+  }
+  const kv = env.PUSH_SUBSCRIPTIONS || null;
+  if (kv) {
+    try {
+      const key = `budget:${month}`;
+      const raw = await kv.get(key);
+      const current = raw ? parseInt(raw, 10) || 0 : 0;
+      await kv.put(key, String(Math.max(0, current - refund)), {
+        expirationTtl: 60 * 60 * 24 * 40,
+      });
+    } catch (e) {
+      console.warn('[AIBudget] KV reconcile failed (ceiling stays charged):', e?.message);
+    }
+  }
 }
 
 /** Current month's ledger, for the status endpoint. Read-only. */

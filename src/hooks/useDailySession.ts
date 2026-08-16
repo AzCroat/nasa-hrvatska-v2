@@ -132,6 +132,12 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // spoken output is guaranteed by the production slot instead (PRODUCTION_POOL,
   // which since Wave 3 includes speaking_sprint again — it uses only browser
   // speech APIs, no AI quota).
+  // Listening-channel fix (2026-08-14): 'listening' routes to the authored
+  // graded-story bank (A1+, zero AI cost — NOT ai_listening, which spends
+  // quota). The screen levels its own content, and its quiz finish now runs
+  // through completeExercise, so the session-category bridge reschedules
+  // listening from real accuracy like any grammar category.
+  listening: 'listening_comprehension',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
@@ -469,13 +475,23 @@ export function buildSessionActivities(
   // catchment surfaces without changing session length or the cityofday ritual.
   const today = localDateStr();
   const cityVisited = lsGet('nh_cityofday_date') === today;
-  const dayOfMonth = new Date().getDate();
   const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
   const croatiaRotation = croatiaEligible.filter((c) => c.screen !== 'cityofday');
+  // Rotation fix (2026-08-14, owner report: the same culture card appeared
+  // every day): day-of-month modulo repeated a pick whenever the session
+  // rebuilt mid-day (level change / fresh session), because the modulo is a
+  // pure function of the DATE, not of what was actually served. Now: least-
+  // recently-served over the unlocked pool (same nh_session_served map the
+  // discovery slot uses, written by recordServedScreens below) — an entry
+  // cannot repeat until every other unlocked culture entry has been served,
+  // no matter how often the session rebuilds. Never-served entries go first,
+  // in pool order.
+  const servedMap = readServedMap();
+  const croatiaLRS = [...croatiaRotation].sort((a, b) =>
+    (servedMap[a.screen] ?? '').localeCompare(servedMap[b.screen] ?? ''),
+  );
   const croatiaActivity =
-    !cityVisited || croatiaRotation.length === 0
-      ? croatiaEligible[0]!
-      : croatiaRotation[dayOfMonth % croatiaRotation.length]!;
+    !cityVisited || croatiaLRS.length === 0 ? croatiaEligible[0]! : croatiaLRS[0]!;
   activities.push({
     id: croatiaActivity.id,
     label: croatiaActivity.label,

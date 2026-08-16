@@ -36,7 +36,7 @@ import { knightSpeak } from '../lib/knightSpeak.js';
 import { apiFetch } from '../lib/apiFetch.js';
 import * as offlineAwardQueue from '../lib/offlineAwardQueue.js';
 import { PRODUCTION_SCREEN_IDS } from './useDailySession';
-import { recordProductionRep } from '../lib/productionMetric';
+import { recordProductionRep, PRODUCTION_XP_MULTIPLIER } from '../lib/productionMetric';
 import { recordListeningRep } from '../lib/listeningMetric';
 import { recordReadingRep } from '../lib/readingMetric';
 import type { AwardActivityType } from '../lib/activityXp.js';
@@ -260,7 +260,15 @@ export function useAward({
       if (_effectiveEx) {
         markExerciseDone(_effectiveEx);
       }
-      let totalAmt = lXPgain(amt, activeMultiplier);
+      // XP rebalance (fluency initiative #3, 2026-08-14): production screens pay
+      // a premium — speaking a sentence must beat tapping one. Same screen-id
+      // check as the production-rep count above; applied to the base amount so
+      // campaign multipliers stack on top of it, not under it.
+      const _prodAmt =
+        _effectiveEx && PRODUCTION_SCREEN_IDS.has(_effectiveEx)
+          ? Math.round(amt * PRODUCTION_XP_MULTIPLIER)
+          : amt;
+      let totalAmt = lXPgain(_prodAmt, activeMultiplier);
       const _today = _localDateStr();
       if (
         comebackBonus &&
