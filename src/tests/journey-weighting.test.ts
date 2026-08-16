@@ -105,8 +105,13 @@ describe('weakestProductionKind', () => {
     expect(weakestProductionKind('B1')).toBeNull();
   });
 
-  it('with no data at all, biases toward speaking (both untested, speak >= write)', () => {
-    expect(weakestProductionKind('B1')).toBe('speak');
+  it('with no data at all, applies NO bias — the ledger only steers what it has measured', () => {
+    expect(weakestProductionKind('B1')).toBeNull();
+  });
+
+  it('one measured production skill is enough to steer toward the unmeasured one', () => {
+    train('B1', 'speaking', 0.9); // speaking strong, writing has zero evidence
+    expect(weakestProductionKind('B1')).toBe('write');
   });
 });
 

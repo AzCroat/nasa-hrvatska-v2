@@ -299,6 +299,12 @@ export function makeSessionSkillBoost(level: CefrLevel): (category: string) => n
  */
 export function weakestProductionKind(level: CefrLevel): 'speak' | 'write' | null {
   const p = getMasteryProfile(level);
+  // No evidence for EITHER production skill → no bias. This matters beyond
+  // philosophy: an unconditioned default bias changed which production screen
+  // fresh sessions consumed and broke the pinned mic-denied fallback (sp4b)
+  // and the adaptive-serve distribution. The ledger only steers when it has
+  // actually measured something.
+  if (p.speaking === undefined && p.writing === undefined) return null;
   const need = (m: SkillMastery | undefined): number =>
     !m || !m.tested ? 1 : m.strong ? 0 : 1 - m.score;
   const speak = need(p.speaking);
