@@ -52,6 +52,7 @@ function fireComplete() {
 beforeEach(() => {
   vi.useFakeTimers();
   sessionStorage.clear();
+  localStorage.clear();
   getNextStep.mockReturnValue({
     kind: 'discovery',
     screen: 'caseconstellation',
@@ -84,6 +85,16 @@ describe('NextStepPrompt', () => {
   });
 
   it('a session-kind step sets the session credit markers before launching', () => {
+    // The marker screen is re-derived from the persisted session record (see
+    // the CodeQL false-positive note in go()), so the record must exist.
+    localStorage.setItem(
+      'nh_daily_session',
+      JSON.stringify({
+        date: '2026-08-16',
+        activities: [{ id: 'a2', label: 'Dialogue practice', screen: 'dialogue' }],
+        completedIds: [],
+      }),
+    );
     getNextStep.mockReturnValue({
       kind: 'session',
       screen: 'dialogue',
