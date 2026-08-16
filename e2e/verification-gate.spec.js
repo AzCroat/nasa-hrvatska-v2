@@ -71,7 +71,9 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
   });
 
   test('Me tab badge is honest about the provisional level', async ({ page }) => {
-    await page.getByRole('navigation', { name: 'Main navigation' }).getByText('Me').click();
+    // testid, not getByText('Me') — substring matching also hits "Ho**me**"
+    // in the desktop nav and trips Playwright's strict mode.
+    await page.getByTestId('nav-profile').click();
     await expect(page.getByTestId('cefr-provisional-tag')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByTestId('equivalency-card-verify')).toBeVisible();
   });
