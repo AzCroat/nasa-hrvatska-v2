@@ -163,7 +163,12 @@ describe('verified level and the gate', () => {
     expect(getContentUnlockLevel('B1')).toBe('B1');
   });
 
-  it('a failed verification keeps access AND keeps the gate (no revocation, no skip)', () => {
+  it('a failed verification steps standing DOWN one level (honest rollback, 2026-08-17)', () => {
+    // SUPERSEDES the original "no revocation" contract: the owner's field
+    // report (0% writing yet still displaying the provisional level) showed
+    // that keeping an unproven level on display defeats the mastery goal.
+    // Fail = the level honestly moves one rung down; the gate re-targets
+    // there; each retake either verifies the rung or steps down again.
     seedState({ B1: { ...GF_PASS, provisional: true } });
     const res = recordEquivalencyAttempt({
       level: 'B1',
@@ -171,8 +176,10 @@ describe('verified level and the gate', () => {
       currentLessonCount: 10,
     });
     expect(res.passed).toBe(false);
-    expect(getCertifiedLevel()).toBe('B1'); // access not revoked
-    expect(getVerificationGate().required).toBe(true); // gate still on
+    expect(res.rollback).toEqual({ from: 'B1', to: 'A2' });
+    expect(getCertifiedLevel()).toBe('A2'); // standing follows the evidence
+    expect(getVerificationGate().required).toBe(true); // gate still on…
+    expect(getVerificationGate().target).toBe('A2'); // …targeting the new rung
   });
 });
 

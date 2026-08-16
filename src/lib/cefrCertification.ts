@@ -121,8 +121,16 @@ export interface CheckpointState {
   consecutiveFails: Partial<Record<CefrLevel, number>>;
   /** Carry-forward focus skills, keyed by the level they apply to. */
   focusSkills: Partial<Record<CefrLevel, SkillKey[]>>;
-  /** Demotion history. */
-  demotions: Array<{ from: CefrLevel; to: CefrLevel; at: number; reason: 'checkpoint_fail' }>;
+  /** Demotion history. Also the merge TOMBSTONES: a pass at `from` with
+   *  passedAt earlier than `at` is dead everywhere — see the sweep in
+   *  mergeRemoteCertifications (a stale device blob must not resurrect a
+   *  rolled-back level). */
+  demotions: Array<{
+    from: CefrLevel;
+    to: CefrLevel;
+    at: number;
+    reason: 'checkpoint_fail' | 'verification_fail';
+  }>;
   /** "Remind me tonight" — checkpoint suppressed until this epoch ms. */
   snoozedUntil: number | null;
 }
@@ -354,7 +362,7 @@ export function isBlockedByVerificationGate(level: CefrLevel): boolean {
  * — A1 is the floor. Does NOT touch XP, streak, or eligible level.
  */
 export function demoteOneLevel(
-  reason: 'checkpoint_fail',
+  reason: 'checkpoint_fail' | 'verification_fail',
 ): { from: CefrLevel; to: CefrLevel } | null {
   const current = getCertifiedLevel();
   const to = levelBelow(current);
@@ -524,7 +532,13 @@ export function recordEquivalencyAttempt(opts: {
   level: CefrLevel;
   scores: SkillScores;
   currentLessonCount: number;
-}): { passed: boolean; newCertified: CefrLevel; attempt: CertificationAttempt } {
+}): {
+  passed: boolean;
+  newCertified: CefrLevel;
+  attempt: CertificationAttempt;
+  /** Set when a failed verification stepped provisional standing down. */
+  rollback: { from: CefrLevel; to: CefrLevel } | null;
+} {
   const { level, scores, currentLessonCount } = opts;
   // Speaking gates certification only once enforced (date gate). Shadow mode
   // records the score for telemetry without affecting the result. When enforced,
@@ -552,14 +566,78 @@ export function recordEquivalencyAttempt(opts: {
   if (state.attempts.length > 100) {
     state.attempts = state.attempts.slice(-100);
   }
+  let rollback: { from: CefrLevel; to: CefrLevel } | null = null;
   if (passed) {
     state.passes[level] = { passedAt: Date.now(), scores, overall };
     delete state.lastFailedAt[level];
   } else {
     state.lastFailedAt[level] = Date.now();
+    rollback = rollbackProvisionalOnFail(state, level);
   }
   writeCertificationState(state);
-  return { passed, newCertified: getCertifiedLevel(), attempt };
+  return { passed, newCertified: getCertifiedLevel(), attempt, rollback };
+}
+
+/**
+ * HONEST ROLLBACK (owner directive, 2026-08-17): a FAILED verification of a
+ * provisional level steps the standing DOWN one level instead of leaving the
+ * unproven level on display. The learner keeps a fair ladder — each retake
+ * either verifies the current rung or steps down again — and the badge/gate
+ * always show what the evidence supports.
+ *
+ * Mechanics (mutates `state`; caller persists):
+ *  - Only fires when the attempted level was held PROVISIONALLY (a failed
+ *    ADVANCEMENT attempt at a real level rolls nothing back — nothing
+ *    unproven is on display in that case).
+ *  - Removes the failed provisional and every provisional ABOVE it (those
+ *    are even less demonstrated).
+ *  - Grants provisional standing one level below (grantProvisionalPlacement's
+ *    exact 0.8-signature shape, so old clients detect it) unless that level
+ *    is A1 (the implicit floor) or already holds a pass.
+ *  - Records a 'verification_fail' demotion — the merge TOMBSTONE that stops
+ *    a stale device's sync blob from resurrecting the rolled-back level.
+ */
+function rollbackProvisionalOnFail(
+  state: CertificationState,
+  level: CefrLevel,
+): { from: CefrLevel; to: CefrLevel } | null {
+  const held = state.passes[level];
+  if (!held || !isProvisionalPass(held)) return null;
+  for (const lvl of CEFR_ORDER) {
+    if (cefrRank(lvl) < cefrRank(level)) continue;
+    const p = state.passes[lvl];
+    if (p && isProvisionalPass(p)) delete state.passes[lvl];
+  }
+  const below = levelBelow(level) ?? 'A1';
+  if (below !== 'A1' && !state.passes[below]) {
+    state.passes[below] = {
+      passedAt: Date.now(),
+      scores: { vocab: 0.8, grammar: 0.8, reading: 0.8 },
+      overall: 80,
+      provisional: true,
+    };
+  }
+  state.checkpoints.demotions.push({
+    from: level,
+    to: below,
+    at: Date.now(),
+    reason: 'verification_fail',
+  });
+  return { from: level, to: below };
+}
+
+/** Most recent verification-fail rollback, or null — for honest UI copy
+ *  ("your C1 check moved your level to B2"). */
+export function getLastVerificationRollback(): {
+  from: CefrLevel;
+  to: CefrLevel;
+  at: number;
+} | null {
+  const d = getCertificationState().checkpoints.demotions;
+  for (let i = d.length - 1; i >= 0; i--) {
+    if (d[i]!.reason === 'verification_fail') return d[i]!;
+  }
+  return null;
 }
 
 // ── Sync helpers ──────────────────────────────────────────────────────────────
@@ -710,6 +788,19 @@ export function mergeRemoteCertifications(remote: CertificationState | null | un
       lc.snoozedUntil =
         lc.snoozedUntil == null ? rc.snoozedUntil : Math.max(lc.snoozedUntil, rc.snoozedUntil);
     }
+  }
+
+  // TOMBSTONE SWEEP (honest rollback, 2026-08-17): a demotion at level L kills
+  // every pass at L whose passedAt PRECEDES the demotion — in both directions.
+  // Without this, the pass-union above resurrects a rolled-back level from any
+  // stale device blob (and a remote demotion could never clear a stale local
+  // pass). A level re-earned AFTER the demotion has a later passedAt and
+  // survives — demotion never outranks new evidence. This closes the same
+  // resurrection hole for checkpoint demotions, which pre-dated the sweep.
+  for (const d of local.checkpoints.demotions) {
+    if (!d || typeof d.at !== 'number') continue;
+    const p = local.passes[d.from];
+    if (p && p.passedAt < d.at) delete local.passes[d.from];
   }
 
   writeCertificationState(local);
