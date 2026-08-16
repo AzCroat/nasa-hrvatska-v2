@@ -32,7 +32,7 @@
 
 import type { CefrLevel } from '../lib/cefr.js';
 
-export type EquivalencySkill = 'vocab' | 'grammar' | 'reading';
+export type EquivalencySkill = 'vocab' | 'grammar' | 'reading' | 'listening';
 
 export interface EquivalencyItem {
   /** Question shown to the learner. */
@@ -45,6 +45,10 @@ export interface EquivalencyItem {
   skill: EquivalencySkill;
   /** Optional reading passage that `q` refers to. */
   passage?: string;
+  /** Listening items only (Phase 4, 2026-08-16): the Croatian text spoken via
+   *  TTS. NEVER displayed — the runner renders a play button instead, so the
+   *  item tests the ear, not the eye. Required when skill === 'listening'. */
+  audioText?: string;
 }
 
 export interface EquivalencyTestSet {
@@ -1120,6 +1124,84 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     c: 2,
     skill: 'reading',
   },
+  // ── LISTENING (10 items — Phase 4, 2026-08-16) ─────────────────────────────
+  // audioText is SPOKEN via TTS and never displayed; the question tests
+  // comprehension of what was heard, at A1 pace and vocabulary.
+  {
+    q: 'Listen. What is the speaker ordering?',
+    o: ['Coffee', 'Tea', 'Water', 'Juice'],
+    c: 0,
+    skill: 'listening',
+    audioText: 'Dobar dan. Jednu kavu, molim.',
+  },
+  {
+    q: 'Listen. How many brothers does the speaker have?',
+    o: ['One', 'Two', 'Three', 'Four'],
+    c: 1,
+    skill: 'listening',
+    audioText: 'Imam dva brata i jednu sestru.',
+  },
+  {
+    q: 'Listen. Where is the speaker from?',
+    o: ['Zagreb', 'Split', 'Rijeka', 'Osijek'],
+    c: 1,
+    skill: 'listening',
+    audioText: 'Zovem se Marko i dolazim iz Splita.',
+  },
+  {
+    q: 'Listen. What time is it?',
+    o: ["Two o'clock", "Five o'clock", "Seven o'clock", "Nine o'clock"],
+    c: 2,
+    skill: 'listening',
+    audioText: 'Sada je sedam sati.',
+  },
+  {
+    q: 'Listen. What does the speaker like?',
+    o: ['Reading', 'Swimming', 'Cooking', 'Singing'],
+    c: 3,
+    skill: 'listening',
+    audioText: 'Volim pjevati. Pjevam svaki dan.',
+  },
+  {
+    q: 'Listen. What colour is the car?',
+    o: ['Red', 'Blue', 'White', 'Black'],
+    c: 0,
+    skill: 'listening',
+    audioText: 'Moj auto je crven.',
+  },
+  {
+    q: 'Listen. What is the weather like today?',
+    o: ['It is raining', 'It is sunny', 'It is snowing', 'It is windy'],
+    c: 1,
+    skill: 'listening',
+    audioText: 'Danas je sunčano i toplo.',
+  },
+  {
+    q: 'Listen. What does the speaker want to buy?',
+    o: ['Bread and milk', 'Cheese and wine', 'Apples and bananas', 'Meat and fish'],
+    c: 0,
+    skill: 'listening',
+    audioText: 'Idem u trgovinu. Trebam kruh i mlijeko.',
+  },
+  {
+    q: 'Listen. When does the shop open?',
+    o: ['At six', 'At seven', 'At eight', 'At nine'],
+    c: 2,
+    skill: 'listening',
+    audioText: 'Trgovina se otvara u osam sati ujutro.',
+  },
+  {
+    q: 'Listen. Who is Ana?',
+    o: [
+      "The speaker's mother",
+      "The speaker's sister",
+      "The speaker's friend",
+      "The speaker's teacher",
+    ],
+    c: 3,
+    skill: 'listening',
+    audioText: 'Ovo je Ana. Ona je moja učiteljica hrvatskog jezika.',
+  },
 ];
 
 // ── Item-bank index ──────────────────────────────────────────────────────────
@@ -1155,7 +1237,12 @@ function loadFromJson(
       typeof item.c !== 'number' ||
       item.c < 0 ||
       item.c > 3 ||
-      (item.skill !== 'vocab' && item.skill !== 'grammar' && item.skill !== 'reading')
+      (item.skill !== 'vocab' &&
+        item.skill !== 'grammar' &&
+        item.skill !== 'reading' &&
+        item.skill !== 'listening') ||
+      // A listening item without spoken text cannot be administered.
+      (item.skill === 'listening' && typeof item.audioText !== 'string')
     ) {
       continue; // skip malformed
     }
@@ -1165,6 +1252,7 @@ function loadFromJson(
       c: item.c as 0 | 1 | 2 | 3,
       skill: item.skill,
       passage: typeof item.passage === 'string' ? item.passage : undefined,
+      audioText: typeof item.audioText === 'string' ? item.audioText : undefined,
     });
   }
   if (items.length === 0) return null;

@@ -23,7 +23,9 @@ import type { CefrLevel } from '../lib/cefr.js';
 
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
-const VALID_SKILLS: EquivalencySkill[] = ['vocab', 'grammar', 'reading'];
+// Phase 4 (2026-08-16): 'listening' joined the certifiable skills — TTS-audio
+// comprehension items (audioText spoken, never displayed).
+const VALID_SKILLS: EquivalencySkill[] = ['vocab', 'grammar', 'reading', 'listening'];
 
 describe('Equivalency item bank — schema + invariants', () => {
   for (const level of LEVELS) {
@@ -58,7 +60,7 @@ describe('Equivalency item bank — schema + invariants', () => {
         }
       });
 
-      it('every item skill is one of vocab / grammar / reading', () => {
+      it('every item skill is one of vocab / grammar / reading / listening', () => {
         for (const item of set!.items) {
           expect(VALID_SKILLS).toContain(item.skill);
         }

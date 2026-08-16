@@ -23,6 +23,8 @@ export interface RunnerQuestion {
   options: string[];
   correctIndex: number;
   passage?: string;
+  /** Listening items: Croatian text spoken via TTS, never displayed. */
+  audioText?: string;
   level: CefrLevel;
 }
 
@@ -77,6 +79,7 @@ function questionsForLevel(
     options: [...it.o], // EquivalencyItem uses `o`, not `options`
     correctIndex: it.c,
     passage: it.passage,
+    audioText: it.audioText,
     level,
   }));
 }

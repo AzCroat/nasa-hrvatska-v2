@@ -233,6 +233,7 @@ export default function EquivalencyTestScreen({
       options: [...it.o], // it.o is the 4-option tuple on EquivalencyItem
       correctIndex: it.c,
       passage: it.passage,
+      audioText: it.audioText,
       level: testSet!.levelFrom,
     }));
   }, [testSet, partial]);
@@ -441,7 +442,12 @@ export default function EquivalencyTestScreen({
             <ul style={{ paddingLeft: 18, fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6 }}>
               {!partial && <li>{testSet.items.length} multiple-choice items</li>}
               {!partial && <li>~{testSet.minutes} minutes</li>}
-              {!partial && <li>Mix of vocabulary, grammar, and reading comprehension</li>}
+              {!partial && (
+                <li>
+                  Mix of vocabulary, grammar, reading and listening comprehension (🎧 audio plays
+                  aloud)
+                </li>
+              )}
               {needsProduction && (
                 <li>A short speaking task (🎙️ required) — you'll need a microphone</li>
               )}
@@ -689,6 +695,9 @@ export default function EquivalencyTestScreen({
             <SkillBar icon="📝" label="Grammar" score={resultScores.grammar} />
             {resultScores.reading !== undefined && (
               <SkillBar icon="📖" label="Reading" score={resultScores.reading} />
+            )}
+            {resultScores.listening !== undefined && (
+              <SkillBar icon="🎧" label="Listening" score={resultScores.listening} />
             )}
             {resultScores.speaking !== undefined && (
               <SkillBar icon="🎙️" label="Speaking" score={resultScores.speaking} />
