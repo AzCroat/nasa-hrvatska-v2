@@ -162,6 +162,15 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 - **E2E fixtures seed VERIFIED users** (real-shape passes + migration flags in `seed-auth.js` / `forceCefr.js`); the gate itself is covered by `e2e/verification-gate.spec.js`.
 - NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`.
 
+## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
+
+The user must never hit a dead end — something is ALWAYS recommended next.
+
+- **Engine**: `src/lib/nextStep.ts` — `getNextStep({userCefr, poolWords})` returns exactly ONE recommendation, never null. Priority ladder: verification gate > unfinished daily session > servable SRS due > weakest production skill (mastery ledger) > least-recently-served discovery > library fallback. Pure read-only compute; every rung degrades to the next on error.
+- **Trigger**: `completeExercise` (the single completion authority) dispatches `EXERCISE_COMPLETE_EVENT` (`src/lib/sessionSignal.ts`) on EVERY graded finish, pass or fail — that is what makes the prompt universal across ~117 practice done-screens without per-screen edits. `REQUEST_NEXT_STEP_EVENT` lets any surface summon the prompt.
+- **UI**: `src/components/shared/NextStepPrompt.tsx`, mounted once in App.tsx. Appears ~700ms after a completion as a pill above the tab bar (`data-testid="next-up-bar"`); hides on ANY navigation (the landing surface's own prompting takes over); wrapper is `pointer-events:none` so only the pill is clickable — it can never intercept taps meant for content or the tab bar. Launches via `launchSessionActivity`; kind `session` also sets `nh_session_started` + `setSessionCategory` so the daily plan is credited on return; kind `browse` uses the `nh_open_browse` one-shot handoff.
+- NEVER: make the prompt block/overlay interactive content (keep the pointer-events contract); cache a recommendation across completions (recompute at event time); return null from `getNextStep` (the browse fallback is the floor).
+
 ## Critical Architecture: Firebase Sync
 
 ### Firestore document paths
