@@ -83,16 +83,25 @@ export interface SkillScores {
    *  checkpoint composition (a speaking task is always included — see Plan 1
    *  examComposer). */
   speaking?: SkillScore;
+  /** Optional — written production. Required on B1+ verification attempts once
+   *  WRITING_ENFORCEMENT_DATE has passed (Phase 1 mastery gate, 2026-08-16). */
+  writing?: SkillScore;
 }
 
 /** Every skill a test can score. */
-export type SkillKey = 'vocab' | 'grammar' | 'reading' | 'listening' | 'speaking';
+export type SkillKey = 'vocab' | 'grammar' | 'reading' | 'listening' | 'speaking' | 'writing';
 
 export interface CertificationPass {
   passedAt: number; // epoch ms
   scores: SkillScores;
   /** Overall percentage (0..100), kept for fast UI rendering. */
   overall: number;
+  /** True for grandfathered (migration-granted) passes: the level was inherited
+   *  from activity, never demonstrated. A provisional pass keeps content access
+   *  but requires a real verification pass before further progression (Phase 1
+   *  mastery gate). Absent on every genuinely-passed test. Optional so v2 blobs
+   *  from older clients parse and merge unchanged. */
+  provisional?: true;
 }
 
 export interface CertificationAttempt {
@@ -235,6 +244,109 @@ export function getCertifiedLevel(): CefrLevel {
   return best;
 }
 
+// ── Provisional (grandfathered) passes & verification ────────────────────────
+
+/**
+ * True when a pass has the exact shape the grandfather migration wrote:
+ * the minimum passing score on precisely the three legacy skills and nothing
+ * else. Real passes essentially never look like this (a genuine attempt has
+ * per-item fractional scores, and every post-2026-07 B1+ pass carries a
+ * speaking score), and the failure modes are asymmetric by design: a false
+ * positive politely asks a legitimately-passed user to re-verify; a false
+ * negative would leave an undemonstrated level unverified forever. Used to
+ * recognise grandfather passes written by OLDER clients (before the explicit
+ * `provisional` flag existed), including ones arriving through cross-device
+ * merge.
+ */
+export function isGrandfatherPassSignature(pass: CertificationPass | undefined | null): boolean {
+  if (!pass || !pass.scores) return false;
+  const s = pass.scores;
+  return (
+    pass.overall === 80 &&
+    s.vocab === 0.8 &&
+    s.grammar === 0.8 &&
+    s.reading === 0.8 &&
+    s.listening === undefined &&
+    s.speaking === undefined &&
+    s.writing === undefined
+  );
+}
+
+/** A pass counts as provisional if explicitly flagged OR grandfather-shaped. */
+export function isProvisionalPass(pass: CertificationPass | undefined | null): boolean {
+  if (!pass) return false;
+  return pass.provisional === true || isGrandfatherPassSignature(pass);
+}
+
+/**
+ * The highest level backed by a GENUINE test pass (provisional passes do not
+ * count). 'A1' floor — the framework's entry point needs no certificate.
+ */
+export function getVerifiedLevel(): CefrLevel {
+  const state = getCertificationState();
+  let best: CefrLevel = 'A1';
+  let bestRank = -1;
+  for (const lvl of CEFR_ORDER) {
+    const p = state.passes[lvl];
+    if (p && !isProvisionalPass(p)) {
+      const r = cefrRank(lvl);
+      if (r > bestRank) {
+        bestRank = r;
+        best = lvl;
+      }
+    }
+  }
+  return best;
+}
+
+export interface VerificationGate {
+  /** True when the user holds provisional levels above their verified level. */
+  required: boolean;
+  /** Highest provisional level — the default verification target. */
+  target: CefrLevel | null;
+  /** Highest genuinely-passed level ('A1' floor). */
+  verified: CefrLevel;
+  /** Every provisional level the user may verify, highest first — the exam
+   *  screen offers the target by default and these as the honest step-down. */
+  options: CefrLevel[];
+}
+
+/**
+ * The Phase 1 mastery gate (2026-08-16). Grandfathered certificates keep the
+ * content access they granted, but they are PROVISIONAL: while any provisional
+ * level sits above the verified level, the journey locks onto verification —
+ * no starting new lessons at/above the target level and no advancement until a
+ * real pass. There is no snooze and no skip; practice below the gate stays
+ * open because that practice is what builds the mastery the test measures.
+ */
+export function getVerificationGate(): VerificationGate {
+  const verified = getVerifiedLevel();
+  const empty: VerificationGate = { required: false, target: null, verified, options: [] };
+  if (!CERTIFICATION_REQUIRED) return empty;
+  const state = getCertificationState();
+  const options: CefrLevel[] = [];
+  for (const lvl of CEFR_ORDER) {
+    const p = state.passes[lvl];
+    if (p && isProvisionalPass(p) && cefrRank(lvl) > cefrRank(verified)) {
+      options.push(lvl);
+    }
+  }
+  if (options.length === 0) return empty;
+  options.sort((a, b) => cefrRank(b) - cefrRank(a));
+  return { required: true, target: options[0] ?? null, verified, options };
+}
+
+/**
+ * True when starting a NEW lesson/exercise at `level` is blocked by the
+ * verification gate: everything at/above the gate's target waits for a real
+ * pass, everything below stays open.
+ */
+export function isBlockedByVerificationGate(level: CefrLevel): boolean {
+  const gate = getVerificationGate();
+  if (!gate.required || !gate.target) return false;
+  return cefrRank(level) >= cefrRank(gate.target);
+}
+
 /**
  * Lowers the certified level by exactly one rank by removing the top pass,
  * so `getCertifiedLevel()` returns the level below. Records the demotion and
@@ -296,7 +408,11 @@ export interface RetakeStatus {
  */
 export function canTakeEquivalencyTest(level: CefrLevel, currentLessonCount: number): RetakeStatus {
   const state = getCertificationState();
-  if (state.passes[level]) {
+  // A PROVISIONAL pass never blocks the attempt — verifying it is the whole
+  // point of the Phase 1 mastery gate. Only a genuinely demonstrated pass
+  // makes a retake pointless.
+  const existing = state.passes[level];
+  if (existing && !isProvisionalPass(existing)) {
     return { canTake: false, reason: 'already_passed' };
   }
   const lastFail = state.lastFailedAt[level];
@@ -352,9 +468,21 @@ export function isSpeakingGateEnforced(now: number = Date.now()): boolean {
   return now >= Date.parse(SPEAKING_ENFORCEMENT_DATE);
 }
 
+// Writing became a required certification skill (B1+) with the Phase 1 mastery
+// gate — the equivalency/verification exam ships a writing section in the same
+// release, so there is no shadow period: an attempt recorded on/after this date
+// at B1+ must include a writing score to pass. Existing passes are never
+// re-evaluated (same rule as speaking: only NEW attempts are gated).
+export const WRITING_ENFORCEMENT_DATE = '2026-08-16T00:00:00Z';
+
+/** True once writing gates certification (on/after WRITING_ENFORCEMENT_DATE). */
+export function isWritingGateEnforced(now: number = Date.now()): boolean {
+  return now >= Date.parse(WRITING_ENFORCEMENT_DATE);
+}
+
 export function computePassed(
   scores: SkillScores,
-  opts: { includeSpeaking?: boolean; requireSpeaking?: boolean } = {},
+  opts: { includeSpeaking?: boolean; requireSpeaking?: boolean; requireWriting?: boolean } = {},
 ): {
   passed: boolean;
   overall: number;
@@ -363,8 +491,10 @@ export function computePassed(
   // The equivalency path passes the date-gated values: shadow mode records/
   // displays speaking but excludes it from pass/fail; once enforced it counts AND
   // (requireSpeaking) a B1+ attempt with NO speaking score cannot pass — otherwise
-  // skipping speaking would be a loophole around the gate.
-  const { includeSpeaking = true, requireSpeaking = false } = opts;
+  // skipping speaking would be a loophole around the gate. Writing follows the
+  // same pattern: counted whenever present, and requireWriting makes a B1+
+  // attempt without a writing score unpassable (Phase 1 mastery gate).
+  const { includeSpeaking = true, requireSpeaking = false, requireWriting = false } = opts;
   const skillValues: number[] = [];
   skillValues.push(scores.vocab);
   skillValues.push(scores.grammar);
@@ -372,11 +502,15 @@ export function computePassed(
   if (scores.listening !== undefined) skillValues.push(scores.listening);
   const hasSpeaking = scores.speaking !== undefined;
   if (hasSpeaking && includeSpeaking) skillValues.push(scores.speaking as number);
+  const hasWriting = scores.writing !== undefined;
+  if (hasWriting) skillValues.push(scores.writing as number);
   if (skillValues.length === 0) return { passed: false, overall: 0 };
   const overall = skillValues.reduce((a, b) => a + b, 0) / skillValues.length;
   const minSkill = Math.min(...skillValues);
   const speakingMissing = requireSpeaking && !hasSpeaking;
-  const passed = !speakingMissing && overall >= PASS_THRESHOLD && minSkill >= PASS_THRESHOLD;
+  const writingMissing = requireWriting && !hasWriting;
+  const passed =
+    !speakingMissing && !writingMissing && overall >= PASS_THRESHOLD && minSkill >= PASS_THRESHOLD;
   return { passed, overall: overall * 100 };
 }
 
@@ -397,9 +531,11 @@ export function recordEquivalencyAttempt(opts: {
   // a B1+ attempt also REQUIRES a speaking score (no skipping past the gate).
   const enforced = isSpeakingGateEnforced();
   const requireSpeaking = enforced && cefrRank(level) >= cefrRank('B1');
+  const requireWriting = isWritingGateEnforced() && cefrRank(level) >= cefrRank('B1');
   const { passed, overall } = computePassed(scores, {
     includeSpeaking: enforced,
     requireSpeaking,
+    requireWriting,
   });
   const state = getCertificationState();
   const attempt: CertificationAttempt = {
@@ -457,42 +593,39 @@ export function mergeRemoteCertifications(remote: CertificationState | null | un
   if (remoteV !== 1 && remoteV !== 2) return;
   const local = getCertificationState();
 
-  // Passes — additive, prefer earlier passedAt
+  // Passes — additive, prefer earlier passedAt.
+  //
+  // Provisional rule (Phase 1 mastery gate): a merged pass stays provisional
+  // ONLY when both sides are provisional. Detection uses isProvisionalPass —
+  // explicit flag OR grandfather signature — so an unmarked blob from an older
+  // client can never wash the flag off, while a REAL pass recorded on any
+  // device clears it everywhere (additive in the user's favour, like every
+  // other merge rule here).
   if (remote.passes && typeof remote.passes === 'object') {
     for (const k of Object.keys(remote.passes) as CefrLevel[]) {
       const r = remote.passes[k];
       if (!r) continue;
       const l = local.passes[k];
       if (!l) {
-        local.passes[k] = r;
+        local.passes[k] = isProvisionalPass(r) ? { ...r, provisional: true } : r;
       } else {
         // Keep earlier pass timestamp; take the higher overall score
         // because the user demonstrably passed by that margin somewhere.
         const passedAt = Math.min(l.passedAt, r.passedAt);
         const overall = Math.max(l.overall, r.overall);
+        const maxOpt = (a: number | undefined, b: number | undefined): number | undefined =>
+          a === undefined ? b : b === undefined ? a : Math.max(a, b);
         const scores: SkillScores = {
           vocab: Math.max(l.scores.vocab, r.scores.vocab),
           grammar: Math.max(l.scores.grammar, r.scores.grammar),
-          reading:
-            l.scores.reading === undefined
-              ? r.scores.reading
-              : r.scores.reading === undefined
-                ? l.scores.reading
-                : Math.max(l.scores.reading, r.scores.reading),
-          listening:
-            l.scores.listening === undefined
-              ? r.scores.listening
-              : r.scores.listening === undefined
-                ? l.scores.listening
-                : Math.max(l.scores.listening, r.scores.listening),
-          speaking:
-            l.scores.speaking === undefined
-              ? r.scores.speaking
-              : r.scores.speaking === undefined
-                ? l.scores.speaking
-                : Math.max(l.scores.speaking, r.scores.speaking),
+          reading: maxOpt(l.scores.reading, r.scores.reading),
+          listening: maxOpt(l.scores.listening, r.scores.listening),
+          speaking: maxOpt(l.scores.speaking, r.scores.speaking),
+          writing: maxOpt(l.scores.writing, r.scores.writing),
         };
-        local.passes[k] = { passedAt, overall, scores };
+        const merged: CertificationPass = { passedAt, overall, scores };
+        if (isProvisionalPass(l) && isProvisionalPass(r)) merged.provisional = true;
+        local.passes[k] = merged;
       }
     }
   }
@@ -683,6 +816,17 @@ export function getContentUnlockLevel(eligible: CefrLevel): CefrLevel {
   } catch {
     return eligible;
   }
+  // Phase 1 mastery gate: while a provisional (grandfathered, never
+  // demonstrated) level awaits verification, NEW content at/above the gate's
+  // target is paused — every pool consumer (daily session, arcade, shadowing,
+  // AI context) inherits this cap from here. Practice below the gate stays
+  // open: that practice is what builds the mastery the verification measures.
+  // A real verification pass lifts the cap instantly (gate.required flips off).
+  const gate = getVerificationGate();
+  if (gate.required && gate.target) {
+    const below = levelBelow(gate.target);
+    return below ?? 'A1';
+  }
   return getCertifiedLevel();
 }
 
@@ -740,6 +884,9 @@ export function migrateGrandfatheredCertification(eligible: CefrLevel): void {
       passedAt: Date.now(),
       scores: { vocab: 0.8, grammar: 0.8, reading: 0.8 },
       overall: 80,
+      // Phase 1 mastery gate: grandfathered access is granted but the level is
+      // provisional until a real verification pass (see getVerificationGate).
+      provisional: true,
     };
     state.attempts.push({
       level,
@@ -757,5 +904,84 @@ export function migrateGrandfatheredCertification(eligible: CefrLevel): void {
   } catch {
     // Quota or disabled — migration will retry next launch. That's fine;
     // it's idempotent.
+  }
+}
+
+/**
+ * One-shot Phase 1 follow-up to the grandfather migration: passes written by
+ * OLDER clients predate the `provisional` flag, so mark every pass that has the
+ * grandfather signature. Runs at every launch, bails fast once done. (Merge
+ * also normalises incoming remote passes — see mergeRemoteCertifications — so
+ * an old device's unmarked blob can never wash the flag back off.)
+ */
+const PROVISIONAL_FLAG_KEY = 'nh_cefr_provisional_v1_done';
+
+/**
+ * One-shot repair of the pre-Phase-1 advancement pipeline (2026-08-16).
+ *
+ * The convention throughout this module is that passes[L] means "the user
+ * holds level-L status". The old EquivalencyTestScreen, however, recorded a
+ * passed check at the set's levelFrom — the level whose competency the check
+ * measures — not the levelTo status it grants. Combined with the retake gate
+ * blocking on the same key, this froze EVERY user at their 2026-06 level:
+ * passing a check never advanced getCertifiedLevel, and the next visit said
+ * "already passed". The screen now records at levelTo; this migration honours
+ * historical real passes by ADDITIVELY copying each one to the status key it
+ * should have granted (a real pass at key L demonstrated L-competency ⇒ also
+ * grants L+1 status). Nothing is deleted, provisional passes are untouched,
+ * and an existing real pass at the target key is never overwritten.
+ */
+const STATUS_SHIFT_FLAG_KEY = 'nh_cefr_status_shift_v1_done';
+
+export function migrateRealPassesToStatusKeys(): void {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    if (localStorage.getItem(STATUS_SHIFT_FLAG_KEY) === '1') return;
+  } catch {
+    return;
+  }
+  const state = getCertificationState();
+  let changed = false;
+  // Highest first so a chain of old passes doesn't cascade upward in one run.
+  for (let i = CEFR_ORDER.length - 1; i >= 0; i--) {
+    const from = CEFR_ORDER[i]!;
+    const p = state.passes[from];
+    if (!p || isProvisionalPass(p)) continue;
+    const to = CEFR_ORDER[i + 1];
+    if (!to) continue; // C2 has no level above
+    const existing = state.passes[to];
+    if (existing && !isProvisionalPass(existing)) continue; // never overwrite a real pass
+    state.passes[to] = { passedAt: p.passedAt, scores: { ...p.scores }, overall: p.overall };
+    changed = true;
+  }
+  if (changed) writeCertificationState(state);
+  try {
+    localStorage.setItem(STATUS_SHIFT_FLAG_KEY, '1');
+  } catch {
+    // Quota or disabled — retried next launch; idempotent.
+  }
+}
+
+export function markProvisionalGrandfathers(): void {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    if (localStorage.getItem(PROVISIONAL_FLAG_KEY) === '1') return;
+  } catch {
+    return;
+  }
+  const state = getCertificationState();
+  let changed = false;
+  for (const lvl of CEFR_ORDER) {
+    const p = state.passes[lvl];
+    if (p && !p.provisional && isGrandfatherPassSignature(p)) {
+      p.provisional = true;
+      changed = true;
+    }
+  }
+  if (changed) writeCertificationState(state);
+  try {
+    localStorage.setItem(PROVISIONAL_FLAG_KEY, '1');
+  } catch {
+    // Quota or disabled — retried next launch; idempotent.
   }
 }
