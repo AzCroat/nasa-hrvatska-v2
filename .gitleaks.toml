@@ -28,4 +28,10 @@ regexes = [
   # SonarCloud project key is a public identifier (not a token); flagged by
   # generic-api-key in ci.yml / sonar-project.properties.
   '''AzCroat_nasa-hrvatska-v2''',
+  # The calibration HMAC derivation LABEL (calibration.yml) is deliberately
+  # public — the derived token's secrecy rests entirely on the Cloudflare API
+  # token it is keyed with. generic-api-key flags the explanatory comment
+  # "HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1")" as if the label
+  # were a credential.
+  '''nh-calibration-v1''',
 ]
