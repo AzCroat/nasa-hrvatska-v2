@@ -48,6 +48,9 @@ interface SessionCardProps {
    * motivated learner keep going instead of waiting for tomorrow's rebuild.
    */
   onStartFresh?: () => void;
+  /** Phase 3 journey engine: one line explaining what today's plan targets
+   *  (from the mastery ledger). Not rendered when absent. */
+  planReason?: string | null;
 }
 
 // ── Šahovnica Croatian coat of arms crest ──
@@ -211,6 +214,7 @@ export default function SessionCard({
   bonusActivities = [],
   onBonusStart,
   onStartFresh,
+  planReason = null,
 }: SessionCardProps) {
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
@@ -417,6 +421,20 @@ export default function SessionCard({
                 >
                   ~{session.estimatedMinutes} min · {totalCount} activities
                 </div>
+                {planReason && (
+                  <div
+                    data-testid="session-plan-reason"
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: 'rgba(255,255,255,.62)',
+                      marginTop: 3,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {planReason}
+                  </div>
+                )}
               </div>
             </div>
 

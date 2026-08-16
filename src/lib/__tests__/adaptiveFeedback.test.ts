@@ -45,9 +45,12 @@ describe('applyExamScoresToAdaptive — feedback loop (3a)', () => {
     expect(Object.keys(catStore())).toHaveLength(0);
   });
 
-  it('reading/listening are no-ops (no drillable adaptive category)', () => {
+  it('reading is a no-op; listening reschedules its category (Phase 3)', () => {
+    // Phase 3: 'listening' became drillable — CATEGORY_SCREEN_MAP routes it to
+    // listening_comprehension, so a weak listening result honestly reschedules
+    // listening practice. Reading still has no drillable adaptive category.
     applyExamScoresToAdaptive({ vocab: 0.95, grammar: 0.95, reading: 0.2, listening: 0.1 });
-    expect(Object.keys(catStore())).toHaveLength(0);
+    expect(Object.keys(catStore())).toEqual(['listening']);
   });
 
   it('a weak speaking score reschedules the speaking category', () => {

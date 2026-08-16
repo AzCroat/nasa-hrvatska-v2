@@ -26,6 +26,10 @@ const SKILL_TO_CATEGORIES: Partial<Record<SkillKey, SkillCategory[]>> = {
   grammar: ['genitive', 'accusative', 'aspect-imperfective'],
   vocab: ['vocab-a2', 'vocab-b1'],
   speaking: ['speaking'],
+  // Phase 3: 'listening' routes to a real session screen now
+  // (CATEGORY_SCREEN_MAP.listening → listening_comprehension), so a weak
+  // listening result honestly reschedules listening practice.
+  listening: ['listening'],
 };
 
 /**
