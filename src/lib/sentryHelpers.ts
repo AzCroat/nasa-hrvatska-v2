@@ -1,3 +1,5 @@
+import { isChunkLoadError, wouldHealChunkError } from './chunkErrors';
+
 /**
  * Browsers known to crash Sentry Replay's DOM snapshotter via content-blocker
  * shims that return non-Element nodes from DOM queries. When this returns
@@ -136,4 +138,36 @@ export function isBenignSwLoadRejection(event: AbortFilterEvent | null | undefin
   const isEnvTypeError =
     ex.type === 'TypeError' && /^script\s+\S+\s+load failed\.?$/i.test(msg.trim());
   return isSecurity || isEnvTypeError;
+}
+
+/**
+ * Disposition for a chunk-load-failure event ("Importing a module script
+ * failed" and friends — see isChunkLoadError).
+ *
+ * These events have a self-healer (chunkErrors.reloadWithCachePurge) invoked by
+ * every error channel, but the Sentry SDK's global-handler integration captures
+ * the error BEFORE those handlers run, so `return true` there never suppressed
+ * the SDK event — a working heal still reported to Sentry on every deploy-heavy
+ * week (2026-08 weekly digest: 8 of 9 errors were exactly this, "Regressed").
+ *
+ *   'drop'            — the heal is about to purge + reload this page; the event
+ *                       is transient residue of a WORKING heal. Not actionable.
+ *   'keep-exhausted'  — the reload budget for this window is spent; this user is
+ *                       genuinely stuck on a stale bundle. The only chunk signal
+ *                       worth alerting on.
+ *   'not-chunk'       — everything else; caller proceeds normally.
+ *
+ * The budget peek is read-only (see wouldHealChunkError) — beforeSend runs
+ * before the heal charges the budget, so consuming it here would double-charge.
+ */
+export function chunkHealDisposition(
+  event: AbortFilterEvent & { message?: string },
+): 'drop' | 'keep-exhausted' | 'not-chunk' {
+  const ex = event?.exception?.values?.[0];
+  const msg = ((ex?.value ?? '') + ' ' + (event?.message ?? '')).toLowerCase();
+  if (!isChunkLoadError(msg)) return 'not-chunk';
+  // Stale named-import ("importing binding name") heals on its own budget key —
+  // mirror the split in main.tsx's window handlers.
+  const key = msg.includes('importing binding name') ? 'nh_binding_reload' : 'nh_reload_attempt';
+  return wouldHealChunkError(key) ? 'drop' : 'keep-exhausted';
 }

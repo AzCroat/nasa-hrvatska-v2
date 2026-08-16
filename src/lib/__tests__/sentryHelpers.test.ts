@@ -1,9 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   shouldEnableSentryReplay,
   isReplayConsentGranted,
   isBenignAbortRejection,
   isBenignSwLoadRejection,
+  chunkHealDisposition,
 } from '../sentryHelpers';
 
 describe('shouldEnableSentryReplay', () => {
@@ -227,5 +228,69 @@ describe('isBenignSwLoadRejection', () => {
   it('is false for empty / missing shapes (never throws)', () => {
     expect(isBenignSwLoadRejection(null)).toBe(false);
     expect(isBenignSwLoadRejection({})).toBe(false);
+  });
+});
+
+describe('chunkHealDisposition', () => {
+  // The peek reads the same sessionStorage budget the healer consumes.
+  const KEY = 'nh_reload_attempt';
+  const BINDING_KEY = 'nh_binding_reload';
+  const spend = (key: string, n: number) =>
+    sessionStorage.setItem(key, JSON.stringify({ n, ts: Date.now() }));
+
+  const chunkEvent = (value: string, type = 'TypeError') => ({
+    exception: { values: [{ type, value }] },
+  });
+
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+
+  it('drops a chunk event while the heal budget is available (working heal residue)', () => {
+    expect(chunkHealDisposition(chunkEvent('Importing a module script failed.'))).toBe('drop');
+  });
+
+  it('drops the Chrome dynamic-import variant too', () => {
+    expect(
+      chunkHealDisposition(
+        chunkEvent('Failed to fetch dynamically imported module: https://x/chunk-abc.js'),
+      ),
+    ).toBe('drop');
+  });
+
+  it('keeps a chunk event once the reload budget is exhausted (genuinely stuck user)', () => {
+    spend(KEY, 2);
+    expect(chunkHealDisposition(chunkEvent('Importing a module script failed.'))).toBe(
+      'keep-exhausted',
+    );
+  });
+
+  it('uses the binding-reload budget for stale named-import errors', () => {
+    spend(KEY, 2); // main budget spent — must NOT affect the binding path
+    expect(chunkHealDisposition(chunkEvent("Importing binding name 'X' is not found."))).toBe(
+      'drop',
+    );
+    spend(BINDING_KEY, 2);
+    expect(chunkHealDisposition(chunkEvent("Importing binding name 'X' is not found."))).toBe(
+      'keep-exhausted',
+    );
+  });
+
+  it('ignores non-chunk errors entirely', () => {
+    expect(chunkHealDisposition(chunkEvent('Cannot read properties of undefined'))).toBe(
+      'not-chunk',
+    );
+    expect(chunkHealDisposition({})).toBe('not-chunk');
+  });
+
+  it('reads message-only events (no exception envelope)', () => {
+    expect(chunkHealDisposition({ message: 'Importing a module script failed.' })).toBe('drop');
+  });
+
+  it('is read-only: peeking never charges the budget', () => {
+    for (let i = 0; i < 5; i++) {
+      chunkHealDisposition(chunkEvent('Importing a module script failed.'));
+    }
+    expect(sessionStorage.getItem(KEY)).toBeNull();
   });
 });
