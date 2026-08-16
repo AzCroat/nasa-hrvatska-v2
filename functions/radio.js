@@ -28,7 +28,15 @@ const STATIONS = {
     'https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM3AAC.aac',
     'https://playerservices.streamtheworld.com/api/livestream-redirect/PROGRAM3AAC_SC',
   ],
-  cmc: ['https://radio.cmc.com.hr:8443/cmc_radio', 'https://radio.cmc.com.hr/cmc_radio'],
+  cmc: [
+    // Real streaming host found via radio-browser.info (2026-08-16 probe):
+    // the flagship "CMC Radio" mount, HTTPS with a valid cert. The two
+    // radio.cmc.com.hr URLs are the old dead upstreams, kept as last-resort
+    // fallbacks in case the station ever moves back.
+    'https://radio-stream.cmc.com.hr:9011/live',
+    'https://radio.cmc.com.hr:8443/cmc_radio',
+    'https://radio.cmc.com.hr/cmc_radio',
+  ],
 };
 
 const GOOD_TTL_SECONDS = 6 * 60 * 60; // re-validate the winning URL every 6h
