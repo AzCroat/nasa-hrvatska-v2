@@ -1,19 +1,21 @@
 // src/components/exam/SpeakingTaskScreen.tsx
 import { useEffect, useRef, useState } from 'react';
 import type { CefrLevel } from '../../lib/cefr.js';
-import type { SpeakingScorer } from '../../lib/speaking/SpeakingScorer.js';
+import type { SpeakingScorer, SpeakingAssessment } from '../../lib/speaking/SpeakingScorer.js';
 import type { SpeakingTask } from '../../data/speakingTasks.js';
 import { useRecorder } from '../../hooks/useRecorder.js';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer.js';
 
-type Phase = 'idle' | 'assessing' | 'retry';
+type Phase = 'idle' | 'assessing' | 'retry' | 'review';
 
 export interface SpeakingTaskScreenProps {
   task: SpeakingTask;
   level: CefrLevel;
   scorer: SpeakingScorer;
-  /** Called with the overall speaking score (0..1) once assessed. */
-  onScore: (overall: number) => void;
+  /** Called with the overall speaking score (0..1) once assessed. The full
+   *  assessment (transcript + rubric) rides along so callers can keep an
+   *  audit trail; absent for stub/legacy scorers. */
+  onScore: (overall: number, assessment?: SpeakingAssessment) => void;
 }
 
 export default function SpeakingTaskScreen({
@@ -27,6 +29,13 @@ export default function SpeakingTaskScreen({
   // Typed-production fallback (mic denied/unsupported): the learner types their
   // answer and we score it with the same rubric, so they can still certify.
   const [typedAnswer, setTypedAnswer] = useState('');
+  // Transcript review (analysis-trust directive, 2026-08-16): a scored audio
+  // answer is HELD here and shown to the learner — "here's what I heard" —
+  // before the score is committed. STT mishearing becomes visible instead of
+  // silently becoming a wrong score. One re-record is allowed per task (enough
+  // to fix a mishearing, not enough to farm the grader for a better mark).
+  const [review, setReview] = useState<SpeakingAssessment | null>(null);
+  const rerecordUsedRef = useRef(false);
   // Single-assessment-per-recording guard: remember the exact Blob we already
   // scored. The recorder yields a fresh Blob per recording, so blob identity
   // is a reliable "have I handled this one yet?" key across re-renders.
@@ -77,7 +86,9 @@ export default function SpeakingTaskScreen({
         setPhase('retry'); // not scored → retry, never a failing score
         return;
       }
-      onScoreRef.current(result.overall);
+      // Don't commit the score yet — show the learner the transcript first.
+      setReview(result);
+      setPhase('review');
     })();
     return () => {
       cancelled = true;
@@ -99,7 +110,9 @@ export default function SpeakingTaskScreen({
       setPhase('retry'); // not scored → let them edit and resubmit, never a failing score
       return;
     }
-    onScoreRef.current(result.overall);
+    // Typed answers need no transcript review — the learner wrote the exact
+    // text that was scored. Commit directly, with the assessment as evidence.
+    onScoreRef.current(result.overall, result);
   }
 
   const denied = rec.state === 'denied' || rec.state === 'unsupported';
@@ -219,6 +232,65 @@ export default function SpeakingTaskScreen({
             Try again
           </button>
         </>
+      )}
+
+      {!denied && phase === 'review' && review && (
+        <div data-testid="speak-review">
+          <p className="speak-status">Here&apos;s what I heard:</p>
+          <blockquote
+            lang="hr"
+            data-testid="speak-transcript"
+            style={{
+              margin: '8px 0 12px',
+              padding: '10px 14px',
+              background: 'var(--card)',
+              border: '1.5px solid var(--card-b)',
+              borderLeft: '4px solid #0e7490',
+              borderRadius: 10,
+              fontSize: 14,
+              lineHeight: 1.6,
+              color: 'var(--heading)',
+              fontStyle: 'italic',
+            }}
+          >
+            {review.transcript || '(no words recognized)'}
+          </blockquote>
+          <button
+            className="b bp"
+            data-testid="speak-confirm"
+            onClick={() => onScoreRef.current(review.overall, review)}
+          >
+            That&apos;s what I said — submit &rarr;
+          </button>
+          {!rerecordUsedRef.current && (
+            <button
+              data-testid="speak-rerecord"
+              onClick={() => {
+                // One mishearing correction per task — enough to fix bad STT,
+                // not enough to farm the grader for a better mark.
+                rerecordUsedRef.current = true;
+                setReview(null);
+                rec.reset();
+                startRecording();
+              }}
+              style={{
+                display: 'block',
+                width: '100%',
+                marginTop: 8,
+                padding: '8px',
+                background: 'none',
+                border: 'none',
+                color: 'var(--subtext)',
+                fontSize: 12,
+                fontWeight: 600,
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+            >
+              That&apos;s not what I said — record once more
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

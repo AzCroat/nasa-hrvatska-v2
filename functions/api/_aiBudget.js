@@ -77,6 +77,12 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/dialogue': claudeCeiling(2000),
   '/api/explain-error': claudeCeiling(400),
   '/api/flash-context': claudeCeiling(300),
+  // golden-calibration runs the WHOLE golden set (5 writing evals at
+  // max_tokens 2600 + 5 speaking rubrics at 100) in one dispatch-only
+  // request, pre-charged as a single ceiling before any call runs. Keep the
+  // multipliers in sync with _goldenSet.js — goldenCalibration.test.js
+  // re-derives this sum from the set and fails the build on drift.
+  '/api/golden-calibration': 5 * claudeCeiling(2600) + 5 * claudeCeiling(100),
   '/api/grammar-diagnosis': claudeCeiling(2000),
   '/api/listening': claudeCeiling(2000),
   '/api/live-tutor-summary': claudeCeiling(500),

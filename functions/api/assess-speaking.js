@@ -2,6 +2,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { transcribeCroatian } from './_transcribe.js';
+import { speakingRubricPrompt } from './_evalPrompts.js';
 
 const MAX_AUDIO_B64 = 2_000_000; // ~90s compressed
 // Minimum word count before we consider the transcript "long enough" to score fairly.
@@ -37,14 +38,9 @@ function b64ToArrayBuffer(b64) {
   return u8.buffer;
 }
 
-const RUBRIC = (level, prompt, transcript) =>
-  `You are a strict CEFR Croatian speaking examiner. The candidate was asked (level ${level}): "${prompt}".\n` +
-  `Their spoken answer, transcribed, was: "${transcript}".\n` +
-  `Score PRODUCTIVE speaking on four criteria, each 0.0–1.0, where ${level} competence ≈ 0.8:\n` +
-  `- range: vocabulary/structures used\n- accuracy: grammatical control (cases, aspect, agreement)\n` +
-  `- fluency: flow without breakdown\n- task: relevance and completeness vs the prompt.\n` +
-  `Be rigorous: a sparse or off-topic answer scores low even if grammatical.\n` +
-  `Respond with ONLY minified JSON: {"range":0.0,"accuracy":0.0,"fluency":0.0,"task":0.0}`;
+// The rubric prompt lives in _evalPrompts.js, SHARED with golden-calibration.js
+// so the calibration run provably scores with the same rubric as production.
+const RUBRIC = speakingRubricPrompt;
 
 export async function onRequestPost(context) {
   const { request, env } = context;

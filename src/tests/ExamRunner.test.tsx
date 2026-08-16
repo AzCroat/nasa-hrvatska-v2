@@ -2,10 +2,18 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-// Stub the speaking screen so this test isolates ExamRunner's MCQ + scoring logic.
+// Stub the speaking screen so this test isolates ExamRunner's MCQ + scoring
+// logic. The stub passes a full assessment (like the real screen after the
+// transcript-review step) so the evidence path is exercised too.
+const STUB_ASSESSMENT = {
+  transcript: 'čujem te dobro',
+  scores: { range: 0.9, accuracy: 0.9, fluency: 0.9, task: 0.9 },
+  overall: 0.9,
+  transcriptSufficiency: 0.9,
+};
 vi.mock('../components/exam/SpeakingTaskScreen.js', () => ({
-  default: ({ onScore }: { onScore: (n: number) => void }) => (
-    <button data-testid="stub-speak" onClick={() => onScore(0.9)}>
+  default: ({ onScore }: { onScore: (n: number, a?: unknown) => void }) => (
+    <button data-testid="stub-speak" onClick={() => onScore(0.9, STUB_ASSESSMENT)}>
       speak
     </button>
   ),
@@ -191,6 +199,32 @@ describe('ExamRunner — mid-MCQ save & resume (owner directive 2026-08-16)', ()
     );
     expect(screen.getByTestId('stub-speak')).toBeTruthy();
     expect(screen.queryByTestId('exam-next')).toBeNull();
+  });
+
+  it('forwards speaking evidence (prompt + transcript + rubric) to onComplete', async () => {
+    // Audit trail (2026-08-16): what a speaking score was based on rides along
+    // with the scores so the caller can persist it with the attempt.
+    const onComplete = vi.fn();
+    render(
+      <ExamRunner
+        questions={[]}
+        speaking={{
+          level: 'B1',
+          tasks: [{ id: 's1', prompt: 'Opišite dan.', promptEn: 'p', seconds: 45 }],
+          scorer: { assess: vi.fn() },
+        }}
+        onComplete={onComplete}
+      />,
+    );
+    fireEvent.click(screen.getByTestId('stub-speak'));
+    await waitFor(() => expect(onComplete).toHaveBeenCalled());
+    const evidence = onComplete.mock.calls[0]![1];
+    expect(evidence.speaking).toHaveLength(1);
+    expect(evidence.speaking[0].transcript).toBe('čujem te dobro');
+    expect(evidence.speaking[0].prompt).toBe('Opišite dan.');
+    expect(evidence.speaking[0].overall).toBe(0.9);
+    // A skipped task (score 0, no assessment) contributes NO evidence — covered
+    // by the zero-skip test above completing with calls[0][1] === undefined.
   });
 
   it('renders the exit control only when onExit is provided, and fires it', () => {

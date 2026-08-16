@@ -14,13 +14,16 @@
 import React, { useState } from 'react';
 import type { CefrLevel } from '../../lib/cefr.js';
 import type { WritingTask } from '../../data/writingTasks.js';
+import type { WritingEvidence } from '../../lib/attemptEvidence.js';
 import { _aiPost } from '../../lib/aiPost';
 import { classifyAiLimit, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 
 interface Props {
   task: WritingTask;
   level: CefrLevel;
-  onScore: (score: number) => void;
+  /** `evidence` (audit trail, 2026-08-16) carries the essay as submitted plus
+   *  the evaluator's structured feedback; absent on skip (score 0, unevaluated). */
+  onScore: (score: number, evidence?: WritingEvidence) => void;
   /** Save progress and finish this section later (evaluation unavailable). */
   onDefer?: () => void;
 }
@@ -80,12 +83,46 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
           'Evaluation is unavailable right now. Your writing is not lost — retry, or finish later.',
         );
       }
-      const data = (await res.json()) as { score?: unknown };
+      const data = (await res.json()) as {
+        score?: unknown;
+        corrected_text?: unknown;
+        level_demonstrated?: unknown;
+        changes?: unknown;
+        strengths?: unknown;
+        improvements?: unknown;
+      };
       const raw = typeof data.score === 'number' ? data.score : NaN;
       if (!Number.isFinite(raw)) {
         throw new Error('Evaluation came back malformed. Retry, or finish this section later.');
       }
-      onScore(Math.max(0, Math.min(1, raw / 100)));
+      const score = Math.max(0, Math.min(1, raw / 100));
+      // Audit trail (2026-08-16): what was evaluated + what the evaluator said.
+      const strList = (v: unknown): string[] | undefined =>
+        Array.isArray(v) ? v.filter((s): s is string => typeof s === 'string') : undefined;
+      const evidence: WritingEvidence = {
+        prompt: task.promptEn,
+        text: text.trim().slice(0, 3000),
+        score,
+        ...(typeof data.corrected_text === 'string' ? { correctedText: data.corrected_text } : {}),
+        ...(typeof data.level_demonstrated === 'string'
+          ? { levelDemonstrated: data.level_demonstrated }
+          : {}),
+        ...(Array.isArray(data.changes)
+          ? {
+              changes: (data.changes as Array<Record<string, unknown>>)
+                .filter((c) => c && typeof c.original === 'string')
+                .map((c) => ({
+                  original: c.original as string,
+                  corrected: typeof c.corrected === 'string' ? c.corrected : '',
+                  ...(typeof c.note === 'string' ? { note: c.note } : {}),
+                  ...(typeof c.errorType === 'string' ? { errorType: c.errorType } : {}),
+                })),
+            }
+          : {}),
+        ...(strList(data.strengths) ? { strengths: strList(data.strengths) } : {}),
+        ...(strList(data.improvements) ? { improvements: strList(data.improvements) } : {}),
+      };
+      onScore(score, evidence);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Evaluation failed. Retry, or finish later.');
     } finally {

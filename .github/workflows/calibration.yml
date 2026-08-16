@@ -1,0 +1,51 @@
+# AI evaluator calibration — golden-set drift check (2026-08-16).
+#
+# Manual dispatch only: runs the pre-scored Croatian samples through the
+# production scoring rubrics via /api/golden-calibration and fails if two or
+# more samples score outside their expected bands (systematic drift). Each
+# run costs real (bounded, pre-charged) AI budget — ~$0.19 worst-case — which
+# is why this never runs on a schedule or on push.
+#
+# Requires the CRON_SECRET repository secret (the same value configured in
+# the Cloudflare dashboard for the scheduled worker).
+name: AI evaluator calibration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Run golden set against production evaluators
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET}" ]; then
+            echo "::error::CRON_SECRET repository secret is not configured"
+            exit 1
+          fi
+          REPORT=$(curl -sS --fail-with-body -X POST \
+            "https://nasahrvatska.com/api/golden-calibration" \
+            -H "x-cron-secret: ${CRON_SECRET}")
+          echo "$REPORT" | python3 -m json.tool
+          echo "$REPORT" > report.json
+          python3 - report.json <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          misses = [s for s in report["samples"] if s.get("evaluated") and not s.get("ok")]
+          errors = [s for s in report["samples"] if not s.get("evaluated")]
+          for s in misses:
+              print(f"::warning::{s['id']}: scored {s['got']} outside expected {s['expected']}")
+          for s in errors:
+              print(f"::warning::{s['id']}: evaluation errored ({s.get('error')})")
+          if report.get("drift"):
+              print("::error::Evaluator drift detected — 2+ golden samples out of band")
+              sys.exit(1)
+          print(f"Calibration OK: {report['withinBand']}/{report['evaluated']} within band")
+          EOF

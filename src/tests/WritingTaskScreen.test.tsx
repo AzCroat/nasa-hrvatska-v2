@@ -39,7 +39,15 @@ describe('WritingTaskScreen', () => {
   });
 
   it('a submitted answer is evaluated and the 0-100 score normalises to 0..1', async () => {
-    aiPost.mockResolvedValue({ ok: true, json: async () => ({ score: 72 }) });
+    aiPost.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        score: 72,
+        corrected_text: 'jedan dva tri…',
+        changes: [{ original: 'tri', corrected: 'tri,', note: 'zarez', errorType: 'spelling' }],
+        strengths: ['Clear word order'],
+      }),
+    });
     const onScore = vi.fn();
     render(<WritingTaskScreen task={task} level="B1" onScore={onScore} />);
     fireEvent.change(screen.getByTestId('writing-input'), {
@@ -48,6 +56,13 @@ describe('WritingTaskScreen', () => {
     fireEvent.click(screen.getByTestId('writing-submit'));
     await waitFor(() => expect(onScore).toHaveBeenCalled());
     expect(onScore.mock.calls[0]![0]).toBeCloseTo(0.72, 5);
+    // Audit trail: the essay + the evaluator's structured feedback ride along.
+    const evidence = onScore.mock.calls[0]![1];
+    expect(evidence.prompt).toBe(task.promptEn);
+    expect(evidence.text).toBe('jedan dva tri četiri pet šest sedam osam devet deset');
+    expect(evidence.correctedText).toBe('jedan dva tri…');
+    expect(evidence.changes).toHaveLength(1);
+    expect(evidence.strengths).toEqual(['Clear word order']);
   });
 
   it('an evaluation failure never scores — it surfaces retry, and skip remains open', async () => {
