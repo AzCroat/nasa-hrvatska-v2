@@ -63,7 +63,7 @@ jobs:
                   curl -sSL -m 15 "$full" 2>/dev/null \
                     | grep -oE 'https?://[^"'"'"' <>\\]+(mp3|aac|m3u8|stream|8443|8000|cmc_radio|icecast|shoutcast|radio\.co|zeno\.fm|streaming)[^"'"'"' <>\\]*' \
                     | sort -u | head -12 || true
-                done
+                done || echo "(no scripts found — page may be WAF-blocked)"
           done
           echo "(end of bundle scan)"
           echo "::endgroup::"
@@ -156,6 +156,89 @@ jobs:
             echo "$body" | head -c 600
             echo
           done
+          echo "::endgroup::"
+
+      - name: CMC via open radio directories (no CMC-site traffic)
+        run: |
+          set -uo pipefail
+          # CMC's site now WAF-blocks runner traffic (run 6: 403 block pages).
+          # The open radio directories publish stations' current stream URLs
+          # without us touching CMC infrastructure at all.
+          echo "::group::radio-browser.info API"
+          resp=""
+          for api in de1 nl1 at1 fi1; do
+            resp=$(curl -sS -m 15 -H "User-Agent: nasahrvatska-media-probe/1.0" \
+              "https://${api}.api.radio-browser.info/json/stations/search?name=cmc&countrycode=HR" \
+              2>/dev/null) && [ -n "$resp" ] && { echo "(via ${api})"; break; }
+          done || true
+          printf '%s' "$resp" > /tmp/rb.json
+          python3 - <<'PY'
+          import json
+          try:
+              sts = json.load(open('/tmp/rb.json'))
+          except Exception as e:
+              print('parse failed:', e); sts = []
+          cands = []
+          for s in sts[:10]:
+              print('%s | url=%s | resolved=%s | ok=%s | checked=%s' % (
+                  s.get('name'), s.get('url'), s.get('url_resolved'),
+                  s.get('lastcheckok'), s.get('lastchecktime')))
+              for u in (s.get('url_resolved'), s.get('url')):
+                  if u and u not in cands:
+                      cands.append(u)
+          open('/tmp/candidates.txt', 'w').write('\n'.join(cands))
+          if not sts:
+              print('(no stations returned)')
+          PY
+          echo "::endgroup::"
+          echo "::group::radio.garden search"
+          curl -sS -m 15 "https://radio.garden/api/search?q=CMC" 2>/dev/null > /tmp/rg.json || true
+          python3 - <<'PY'
+          import json, re
+          try:
+              d = json.load(open('/tmp/rg.json'))
+              hits = d.get('hits', {}).get('hits', [])
+          except Exception as e:
+              print('parse failed:', e); hits = []
+          shown = 0
+          for h in hits:
+              src = h.get('_source', {})
+              title = src.get('title', '')
+              if not re.search(r'\bcmc\b', title, re.I):
+                  continue
+              url = src.get('url', '')
+              cid = url.rsplit('/', 1)[-1] if url else ''
+              print('%s | %s | id=%s' % (title, src.get('subtitle', ''), cid))
+              if cid:
+                  open('/tmp/rg_ids.txt', 'a').write(cid + '\n')
+              shown += 1
+          if not shown:
+              print('(no CMC hits)')
+          PY
+          if [ -s /tmp/rg_ids.txt ]; then
+            while read -r cid; do
+              printf '%-50s' "radio.garden channel $cid"
+              curl -sS -o /dev/null -m 15 -w "HTTP %{http_code}  ->  %{redirect_url}\n" \
+                "https://radio.garden/api/ara/content/listen/${cid}/channel.mp3" \
+                || echo "FAILED"
+              curl -sS -o /dev/null -m 15 -w "final: HTTP %{http_code}  type=%{content_type}  url=%{url_effective}\n" \
+                -r 0-0 -L "https://radio.garden/api/ara/content/listen/${cid}/channel.mp3" \
+                || echo "FAILED (follow)"
+            done < /tmp/rg_ids.txt
+          fi
+          echo "::endgroup::"
+          echo "::group::probe directory-listed candidates"
+          if [ -s /tmp/candidates.txt ]; then
+            while read -r u; do
+              [ -n "$u" ] || continue
+              printf '%-80s' "$u"
+              curl -sS -o /dev/null -m 10 -r 0-0 -L \
+                -w "HTTP %{http_code}  type=%{content_type}\n" "$u" \
+                || echo "FAILED (connect/timeout)"
+            done < /tmp/candidates.txt
+          else
+            echo "(no candidates from directories)"
+          fi
           echo "::endgroup::"
 
       - name: CMC headless capture (run the player, sniff the audio request)
