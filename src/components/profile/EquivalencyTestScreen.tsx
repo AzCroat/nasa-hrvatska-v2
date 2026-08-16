@@ -59,6 +59,12 @@ import { pickWritingTask, type WritingTask } from '../../data/writingTasks.js';
 import { whisperClaudeScorer } from '../../lib/speaking/whisperClaudeScorer.js';
 import { applyExamScoresToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { recordExamSkillScores } from '../../lib/masteryLedger.js';
+import {
+  recordAttemptEvidence,
+  type AttemptEvidence,
+  type SpeakingEvidence,
+  type WritingEvidence,
+} from '../../lib/attemptEvidence.js';
 import ExamRunner, { type McqAcc } from '../exam/ExamRunner.js';
 import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
@@ -230,6 +236,12 @@ export default function EquivalencyTestScreen({
   const [resultPassed, setResultPassed] = useState<boolean | null>(null);
   const [resultScores, setResultScores] = useState<SkillScores | null>(null);
   const [sectionScores, setSectionScores] = useState<SkillScores | null>(partial?.scores ?? null);
+  // Audit trail (2026-08-16): the evidence behind this attempt's AI-scored
+  // sections, accumulated as sections complete and persisted with the attempt.
+  // Best-effort — a section completed in an earlier (parked) session keeps its
+  // score but its evidence stayed on that mount.
+  const evidenceRef = useRef<AttemptEvidence>({});
+  const [resultEvidence, setResultEvidence] = useState<AttemptEvidence | null>(null);
 
   const needsProduction = !!testSet && cefrRank(testSet.levelTo) >= cefrRank(PRODUCTION_FLOOR);
 
@@ -270,12 +282,20 @@ export default function EquivalencyTestScreen({
   /** Record the attempt (all required sections present) and show the result. */
   const finalizeAttempt = useCallback(
     (scores: SkillScores) => {
-      const { passed } = recordEquivalencyAttempt({
+      const { passed, attempt } = recordEquivalencyAttempt({
         level: testSet!.levelTo,
         scores,
         currentLessonCount: userLessonCount,
       });
       clearPartial();
+      // Audit trail: persist what the AI-scored sections were based on, joined
+      // to the attempt by takenAt. Local-only store; see attemptEvidence.ts.
+      recordAttemptEvidence({
+        at: attempt.takenAt,
+        level: testSet!.levelTo,
+        evidence: evidenceRef.current,
+      });
+      setResultEvidence(evidenceRef.current);
       // Feedback loop: a tested weakness reschedules its adaptive categories so
       // the daily session targets it next.
       applyExamScoresToAdaptive(scores);
@@ -319,7 +339,8 @@ export default function EquivalencyTestScreen({
 
   // Called by ExamRunner when MCQ + speaking sections finish.
   const onExamComplete = useCallback(
-    (scores: SkillScores) => {
+    (scores: SkillScores, evidence?: { speaking?: SpeakingEvidence[] }) => {
+      if (evidence?.speaking) evidenceRef.current.speaking = evidence.speaking;
       const base = sectionScores ?? ({} as Partial<SkillScores>);
       const merged = { ...base, ...scores } as SkillScores;
       advanceFrom(merged);
@@ -328,7 +349,8 @@ export default function EquivalencyTestScreen({
   );
 
   const onWritingScore = useCallback(
-    (score: number) => {
+    (score: number, evidence?: WritingEvidence) => {
+      if (evidence) evidenceRef.current.writing = evidence;
       const merged = { ...(sectionScores ?? ({} as SkillScores)), writing: score } as SkillScores;
       advanceFrom(merged);
     },
@@ -755,6 +777,69 @@ export default function EquivalencyTestScreen({
               🎙️ Speaking is shown for now and isn&apos;t required to confirm your level yet — but
               fluency means speaking, so it will become part of the Level Check soon.
             </p>
+          )}
+          {resultEvidence && (resultEvidence.speaking?.length || resultEvidence.writing) && (
+            // Audit trail (2026-08-16): the evidence the AI scores were based
+            // on — the learner (or a parent) can check the verdict, not just
+            // trust it.
+            <details
+              data-testid="attempt-evidence"
+              style={{
+                background: 'var(--card)',
+                border: '1.5px solid var(--card-b)',
+                borderRadius: 12,
+                padding: '12px 14px',
+                marginBottom: 18,
+                textAlign: 'left',
+                fontSize: 13,
+              }}
+            >
+              <summary style={{ fontWeight: 800, color: 'var(--heading)', cursor: 'pointer' }}>
+                What the evaluation was based on
+              </summary>
+              {resultEvidence.speaking?.map((s, i) => (
+                <div key={i} style={{ marginTop: 12 }}>
+                  <p style={{ fontWeight: 700, color: 'var(--heading)', marginBottom: 4 }}>
+                    🎙️ Speaking — what the system heard:
+                  </p>
+                  <p
+                    lang="hr"
+                    style={{ fontStyle: 'italic', color: 'var(--subtext)', lineHeight: 1.6 }}
+                  >
+                    “{s.transcript || '(no words recognized)'}”
+                  </p>
+                </div>
+              ))}
+              {resultEvidence.writing && (
+                <div style={{ marginTop: 12 }}>
+                  <p style={{ fontWeight: 700, color: 'var(--heading)', marginBottom: 4 }}>
+                    ✍️ Writing — the evaluator&apos;s feedback:
+                  </p>
+                  {resultEvidence.writing.changes?.slice(0, 3).map((c, i) => (
+                    <p key={i} style={{ color: 'var(--subtext)', lineHeight: 1.6 }}>
+                      <span lang="hr" style={{ textDecoration: 'line-through' }}>
+                        {c.original}
+                      </span>{' '}
+                      →{' '}
+                      <b lang="hr" style={{ color: '#16a34a' }}>
+                        {c.corrected}
+                      </b>
+                      {c.note ? ` — ${c.note}` : ''}
+                    </p>
+                  ))}
+                  {resultEvidence.writing.strengths?.[0] && (
+                    <p style={{ color: 'var(--subtext)', lineHeight: 1.6 }}>
+                      ✅ {resultEvidence.writing.strengths[0]}
+                    </p>
+                  )}
+                  {resultEvidence.writing.improvements?.[0] && (
+                    <p style={{ color: 'var(--subtext)', lineHeight: 1.6 }}>
+                      🎯 {resultEvidence.writing.improvements[0]}
+                    </p>
+                  )}
+                </div>
+              )}
+            </details>
           )}
           <button
             onClick={onBackToProfile}

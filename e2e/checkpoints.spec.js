@@ -153,6 +153,11 @@ test('full pass keeps the level', async ({ page }) => {
   await expect(page.getByTestId('speak-record')).toBeVisible({ timeout: 10_000 });
   await page.getByTestId('speak-record').click();
 
+  // Transcript review (audit trail, 2026-08-16): the screen shows what was
+  // heard and holds the score until the learner confirms it.
+  await expect(page.getByTestId('speak-confirm')).toBeVisible({ timeout: 15_000 });
+  await page.getByTestId('speak-confirm').click();
+
   // Result screen appears (pass / grace / demote — any of the three is valid).
   // Use .first() to target the result container div (not the retry button inside grace).
   await expect(page.locator('[data-testid^="result-"]').first()).toBeVisible({ timeout: 15_000 });

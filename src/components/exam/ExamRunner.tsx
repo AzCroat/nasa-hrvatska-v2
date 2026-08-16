@@ -2,16 +2,19 @@
 import { useRef, useState } from 'react';
 import type { CefrLevel } from '../../lib/cefr.js';
 import type { SkillScores, SkillKey } from '../../lib/cefrCertification.js';
-import type { SpeakingScorer } from '../../lib/speaking/SpeakingScorer.js';
+import type { SpeakingScorer, SpeakingAssessment } from '../../lib/speaking/SpeakingScorer.js';
 import type { SpeakingTask } from '../../data/speakingTasks.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
+import type { SpeakingEvidence } from '../../lib/attemptEvidence.js';
 import { speak } from '../../lib/audio.js';
 import SpeakingTaskScreen from './SpeakingTaskScreen.js';
 
 export interface ExamRunnerProps {
   questions: RunnerQuestion[];
   speaking?: { level: CefrLevel; tasks: SpeakingTask[]; scorer: SpeakingScorer };
-  onComplete: (scores: SkillScores) => void;
+  /** `evidence` (audit trail, 2026-08-16) carries what each speaking score
+   *  was based on — transcript + rubric — when the scorer provided it. */
+  onComplete: (scores: SkillScores, evidence?: { speaking?: SpeakingEvidence[] }) => void;
   /** Eyebrow label shown above the progress count. */
   title?: string;
   /** When provided, renders a close (✕) button in the top bar. */
@@ -66,6 +69,7 @@ export default function ExamRunner({
   const [acc, setAcc] = useState<Acc>(initialAcc ?? {});
   const [speakIdx, setSpeakIdx] = useState(0);
   const speakScores = useRef<number[]>([]); // accumulated across speaking tasks
+  const speakEvidence = useRef<SpeakingEvidence[]>([]); // audit trail per scored task
 
   const inMcq = idx < questions.length;
   const q = inMcq ? questions[idx]! : null;
@@ -88,7 +92,7 @@ export default function ExamRunner({
     } else if (speaking && speaking.tasks.length > 0) {
       setIdx(questions.length); // enter speaking phase
     } else {
-      onComplete(finalize(nextAcc, speakScores.current));
+      onComplete(finalize(nextAcc, speakScores.current), collectEvidence());
     }
   }
 
@@ -107,17 +111,31 @@ export default function ExamRunner({
     advanceMcq(0);
   }
 
+  function collectEvidence(): { speaking?: SpeakingEvidence[] } | undefined {
+    return speakEvidence.current.length > 0 ? { speaking: speakEvidence.current } : undefined;
+  }
+
   function advanceSpeaking() {
     if (speakIdx + 1 < (speaking?.tasks.length ?? 0)) {
       setSpeakIdx(speakIdx + 1);
       setIdx(idx + 1);
     } else {
-      onComplete(finalize(acc, speakScores.current));
+      onComplete(finalize(acc, speakScores.current), collectEvidence());
     }
   }
 
-  function onSpeakingScore(score: number) {
+  function onSpeakingScore(score: number, assessment?: SpeakingAssessment) {
     speakScores.current.push(score);
+    if (assessment) {
+      // Audit trail: keep what the score was based on. A typed fallback answer
+      // still yields an assessment; its "transcript" is the typed text.
+      speakEvidence.current.push({
+        prompt: speaking?.tasks[speakIdx]?.prompt ?? '',
+        transcript: assessment.transcript,
+        scores: assessment.scores,
+        overall: assessment.overall,
+      });
+    }
     advanceSpeaking();
   }
 

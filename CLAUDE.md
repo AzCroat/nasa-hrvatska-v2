@@ -222,7 +222,13 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 - Never raise a `max_tokens` without its `ENDPOINT_CEILING_MICROUSD` entry (the build fails, correctly).
 - Never mark an endpoint ceiling-0 unless it self-charges `checkAndChargeBudget(env, '<path>:generate')` on its spend path (tested).
 - Never charge the gate per-request for a cache-served endpoint — that burns the ledger on free hits.
-- Never bypass `requireAuthedAI` for a new AI endpoint; it is the budget's only choke point.
+- Never bypass `requireAuthedAI` for a new USER-FACING AI endpoint; it is the budget's only choke point for user traffic. The one sanctioned exception is `/api/golden-calibration` (dispatch-only, `x-cron-secret`-gated like the push endpoints): no user can reach it, and it pre-charges its ENTIRE run's ceiling via `checkAndChargeBudget` before the first Claude call, so the budget guarantee holds without the user gate.
+
+### Evaluator trust & audit trail (2026-08-16)
+
+- **Golden-set calibration**: `functions/api/_goldenSet.js` holds pre-scored Croatian samples; `/api/golden-calibration` (dispatched via the `calibration.yml` workflow, CRON_SECRET) runs them through the SAME rubric prompts production uses (`functions/api/_evalPrompts.js`, imported by `correct.js` + `assess-speaking.js` — never fork those prompts back inline) and reports band misses; 2+ misses = drift, the workflow fails. `goldenCalibration.test.js` pins set structure, auth, budget pre-charge, and prompt sharing.
+- **Attempt evidence**: `src/lib/attemptEvidence.ts` (`nh_cefr_attempt_evidence`) stores what each Level Check production score was based on (heard transcript / essay + evaluator feedback), joined to attempts by `takenAt`. **Deliberately local-only** — never add it to `buildProgressSnapshot` (tested); the synced blob carries results, not evidence.
+- **Transcript review**: exam `SpeakingTaskScreen` shows "here's what I heard" and holds the score until the learner confirms; ONE re-record per task (fix a mishearing, don't farm the grader). E2E flows must click `speak-confirm` after recording.
 
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 

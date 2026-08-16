@@ -32,4 +32,8 @@ export const StorageKeys = {
   // Gameplay
   XP_COOLDOWN: 'xpCooldown',
   JOURNEY_PREFIX: 'nh_journey_',
+
+  // Level Check audit trail (LOCAL ONLY — deliberately not synced; see
+  // src/lib/attemptEvidence.ts)
+  CEFR_ATTEMPT_EVIDENCE: 'nh_cefr_attempt_evidence',
 };

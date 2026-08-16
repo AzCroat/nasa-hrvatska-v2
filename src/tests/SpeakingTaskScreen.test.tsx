@@ -95,7 +95,10 @@ describe('SpeakingTaskScreen', () => {
     expect(stopRecording).toHaveBeenCalledTimes(1);
   });
 
-  it('on a completed recording assesses the blob and reports the overall score', async () => {
+  it('on a completed recording assesses the blob, shows the transcript, and reports the score on confirm', async () => {
+    // Transcript review (audit-trail directive, 2026-08-16): a scored audio
+    // answer shows "here's what I heard" BEFORE the score commits, so an STT
+    // mishearing is visible instead of silently becoming a wrong score.
     const scorer = scorerReturning(0.82);
     const onScore = vi.fn();
     const { rerender } = render(
@@ -104,9 +107,33 @@ describe('SpeakingTaskScreen', () => {
     // Recorder finishes with a blob.
     setRecorder('done', { audioBlob: fakeBlob });
     rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
-    await waitFor(() => expect(onScore).toHaveBeenCalledWith(0.82));
+    await waitFor(() => expect(screen.getByTestId('speak-transcript')).toBeTruthy());
+    expect(screen.getByTestId('speak-transcript').textContent).toContain('t');
+    expect(onScore).not.toHaveBeenCalled(); // held for review, not yet committed
+    fireEvent.click(screen.getByTestId('speak-confirm'));
+    expect(onScore).toHaveBeenCalledWith(0.82, expect.objectContaining({ overall: 0.82 }));
     expect(scorer.assess).toHaveBeenCalledTimes(1);
     expect(scorer.assess).toHaveBeenCalledWith(fakeBlob, { level: 'B1', prompt: task.prompt });
+  });
+
+  it('allows exactly ONE re-record from the review panel (fix a mishearing, not farm the grader)', async () => {
+    const scorer = scorerReturning(0.5);
+    const onScore = vi.fn();
+    const { rerender } = render(
+      <SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />,
+    );
+    setRecorder('done', { audioBlob: fakeBlob });
+    rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
+    await waitFor(() => expect(screen.getByTestId('speak-rerecord')).toBeTruthy());
+    fireEvent.click(screen.getByTestId('speak-rerecord'));
+    expect(reset).toHaveBeenCalled();
+    expect(startRecording).toHaveBeenCalledTimes(1);
+    // Second recording arrives — the review panel returns WITHOUT the re-record option.
+    const secondBlob = new Blob([new Uint8Array([2])], { type: 'audio/webm' });
+    setRecorder('done', { audioBlob: secondBlob });
+    rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
+    await waitFor(() => expect(screen.getByTestId('speak-confirm')).toBeTruthy());
+    expect(screen.queryByTestId('speak-rerecord')).toBeNull();
   });
 
   it('assesses only once per recording even across re-renders', async () => {
@@ -117,7 +144,7 @@ describe('SpeakingTaskScreen', () => {
     );
     setRecorder('done', { audioBlob: fakeBlob });
     rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
-    await waitFor(() => expect(onScore).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getByTestId('speak-review')).toBeTruthy());
     // An unrelated re-render with the SAME blob must NOT re-assess.
     rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
     await waitFor(() => expect(scorer.assess).toHaveBeenCalledTimes(1));
@@ -160,8 +187,12 @@ describe('SpeakingTaskScreen', () => {
       transcriptSufficiency: 0.9,
     });
 
-    // The latest onScore MUST fire (no hang); assessment ran exactly once.
-    await waitFor(() => expect(onScoreB).toHaveBeenCalledWith(0.8));
+    // The review panel MUST appear (no hang); confirming fires the LATEST
+    // onScore; assessment ran exactly once.
+    await waitFor(() => expect(screen.getByTestId('speak-confirm')).toBeTruthy());
+    fireEvent.click(screen.getByTestId('speak-confirm'));
+    expect(onScoreB).toHaveBeenCalledWith(0.8, expect.objectContaining({ overall: 0.8 }));
+    expect(onScoreA).not.toHaveBeenCalled();
     expect(assess).toHaveBeenCalledTimes(1);
   });
 
@@ -220,7 +251,11 @@ describe('SpeakingTaskScreen', () => {
       target: { value: 'Idem na posao autobusom.' },
     });
     fireEvent.click(screen.getByTestId('speak-typed-submit'));
-    await waitFor(() => expect(onScore).toHaveBeenCalledWith(0.8));
+    // Typed answers commit directly (no transcript review — the learner wrote
+    // the exact text that was scored), with the assessment along as evidence.
+    await waitFor(() =>
+      expect(onScore).toHaveBeenCalledWith(0.8, expect.objectContaining({ overall: 0.8 })),
+    );
     expect(assessText).toHaveBeenCalledTimes(1);
     // The audio scorer must NOT be used on the typed path.
     expect(assess).not.toHaveBeenCalled();
