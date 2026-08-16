@@ -70,6 +70,7 @@ import CookieConsent from './components/shared/CookieConsent';
 import CroatianGrb from './components/shared/CroatianGrb';
 import { AppToasts } from './components/shared/AppToasts';
 import { AppModals } from './components/shared/AppModals';
+import NextStepPrompt from './components/shared/NextStepPrompt';
 import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
@@ -2044,6 +2045,7 @@ function App() {
               }
             >
               <XPPopup showXP={showXP} xpA={xpA} />
+              <NextStepPrompt />
               <AppModals
                 showFirstWords={showFirstWords}
                 setShowFirstWords={setShowFirstWords}

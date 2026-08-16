@@ -33,6 +33,18 @@ const COMPLETED_KEY = 'nh_session_completed';
 const CATEGORY_KEY = 'nh_session_category';
 
 /**
+ * Fired (window CustomEvent) by completeExercise every time ANY graded
+ * exercise finishes — the app-wide "a completion just happened" bus that the
+ * constant next-step prompt (NextStepPrompt) listens on. detail:
+ * { key: string, passed: boolean }.
+ */
+export const EXERCISE_COMPLETE_EVENT = 'nh:exercise-complete';
+
+/** Fired by any surface that wants the next-step prompt to appear NOW
+ *  (e.g. a "what should I do next?" button). No detail. */
+export const REQUEST_NEXT_STEP_EVENT = 'nh:request-next-step';
+
+/**
  * Clear the "active session activity" markers so the daily session is no longer
  * pinned to a launched-but-uncompletable activity. Called when a launch bails
  * WITHOUT navigating (e.g. empty vocab pool) — otherwise nh_session_started stays

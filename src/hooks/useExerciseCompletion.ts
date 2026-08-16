@@ -11,7 +11,7 @@ import { passedLesson } from '../lib/lessonGate';
 import { markQuest } from '../lib/quests';
 import { EXERCISE_COMPLETION, type StatKind } from '../lib/completion/exerciseRegistry';
 import { consumeSessionCategoryOutcome } from '../lib/sessionCategory';
-import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
+import { signalSessionCompleteIfActive, EXERCISE_COMPLETE_EVENT } from '../lib/sessionSignal';
 import { recordExerciseOutcome } from '../lib/masteryLedger';
 
 interface MinStats {
@@ -86,6 +86,19 @@ export function completeExercise<S extends MinStats>(
 
   // gated screens require a pass; effort/passive complete on the call itself.
   const passed = policyKind === 'gated' ? passedLesson(score ?? 0, total ?? 0) : true;
+
+  // Constant next-step prompt (owner directive, 2026-08-16): every graded
+  // finish — pass or fail — announces itself so the App-mounted
+  // NextStepPrompt can offer the single best next action. Fire-and-forget;
+  // UI concerns stay out of this accounting chokepoint.
+  try {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(EXERCISE_COMPLETE_EVENT, { detail: { key, passed } }));
+    }
+  } catch {
+    /* a UI event must never break completion accounting */
+  }
+
   if (!passed) return { passed: false };
   if (stats.vs?.includes(vsKey)) {
     // Already credited — never a second gc/vs write. See awardOnReplay above for
