@@ -145,13 +145,27 @@ describe('golden-calibration endpoint', () => {
     expect(env.AI_QUOTA_DB.state.spend).toBe(0);
   });
 
-  it('503s when CRON_SECRET is not configured (never silently open)', async () => {
+  it('503s when NEITHER auth secret is configured (never silently open)', async () => {
     const res = await onRequestPost({
       request: makeRequest(SECRET),
       env: { ANTHROPIC_API_KEY: 'k', AI_QUOTA_DB: d1Stub() },
     });
     expect(res.status).toBe(503);
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('accepts the self-provisioned CALIBRATION_SECRET without CRON_SECRET', async () => {
+    // The zero-owner-action path: calibration.yml derives and installs
+    // CALIBRATION_SECRET itself; CRON_SECRET stays untouched.
+    const env = {
+      CALIBRATION_SECRET: 'derived-token',
+      ANTHROPIC_API_KEY: 'k',
+      AI_QUOTA_DB: d1Stub(),
+    };
+    const bad = await onRequestPost({ request: makeRequest('wrong'), env });
+    expect(bad.status).toBe(401);
+    const res = await onRequestPost({ request: makeRequest('derived-token'), env });
+    expect(res.status).toBe(200);
   });
 
   it('refuses at the budget cap and runs NOTHING', async () => {

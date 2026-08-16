@@ -139,11 +139,21 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   // Config guards first — grep-able failures beat confusing downstream errors.
-  if (!env.CRON_SECRET) return json(503, { error: 'cron_secret_missing' });
+  // Two accepted credentials, either sufficient:
+  //   - CRON_SECRET          — the long-standing scheduled-worker secret
+  //   - CALIBRATION_SECRET   — provisioned AUTOMATICALLY by calibration.yml
+  //     (derived in CI and installed via wrangler, the vapid-provision.yml
+  //     pattern) so the owner never has to shuttle secret values by hand.
+  if (!env.CRON_SECRET && !env.CALIBRATION_SECRET) {
+    return json(503, { error: 'calibration_secret_missing' });
+  }
   if (!env.ANTHROPIC_API_KEY) return json(503, { error: 'AI_KEY_MISSING' });
 
   const secret = request.headers.get('x-cron-secret') || '';
-  if (!timingSafeEqual(secret, env.CRON_SECRET)) return json(401, { error: 'unauthorized' });
+  const authorized =
+    (env.CRON_SECRET && timingSafeEqual(secret, env.CRON_SECRET)) ||
+    (env.CALIBRATION_SECRET && timingSafeEqual(secret, env.CALIBRATION_SECRET));
+  if (!authorized) return json(401, { error: 'unauthorized' });
 
   // Budget: pre-charge the WHOLE run's ceiling before the first Claude call.
   // A refusal here runs nothing — calibration is a diagnostic, never worth
