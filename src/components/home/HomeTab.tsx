@@ -77,6 +77,8 @@ import {
 } from '../../lib/sessionCategory';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
+import { buildPlanReason } from '../../lib/masteryLedger';
+import type { CefrLevel } from '../../lib/cefr';
 import VerificationGateCard from './VerificationGateCard';
 import SessionCard from './SessionCard';
 import DailyGoalCard from './DailyGoalCard';
@@ -576,6 +578,7 @@ export default function HomeTab({
         progress={progress}
         nextActivity={nextActivity}
         tomorrowLabel={tomorrowLabel}
+        planReason={buildPlanReason(userCefr as CefrLevel)}
         onStart={() => {
           if (nextActivity) {
             // Record the launched screen before navigation causes HomeTab to unmount.

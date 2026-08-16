@@ -9,6 +9,8 @@ import { localDateStr } from '../lib/dateUtils';
 import { rnd } from '../lib/random.js';
 import { trackSessionBuilt } from '../lib/analytics';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
+import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedger';
+import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { lsGet } from '../lib/safeStorage';
 // Re-exported so the content-coverage CI gate and session tests keep their
@@ -364,11 +366,15 @@ export function buildSessionActivities(
   // A1 (`dialogue`) / A2 (`writing`), so the helper returns a slot for every A1+
   // user in every mic state — production is no longer a sometimes-thing. Excludes
   // screens already queued so it never double-books an earlier slot.
+  // Phase 3 journey engine: bias the production slot toward the less-
+  // demonstrated of speaking vs writing (mastery ledger). kindBias is a
+  // bias-not-filter — the selector still falls back per mic state.
   const productionActivity = selectProductionExercise({
     cefr: userCefr,
     micState: readMicState(),
     recentScreens: getRecentProduction(),
     excludeScreens: [...usedScreens],
+    kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
   });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push(productionActivity);
@@ -421,6 +427,12 @@ export function buildSessionActivities(
   // already rotates day to day). Replaces the prior pure shuffle so difficulty
   // actually scales with the user (defect #1: difficulty was inert).
   const targetTier = CEFR_TIER[userCefr] ?? 3;
+  // Phase 3 journey engine: within the same difficulty distance, activities
+  // whose skill the mastery ledger marks untested/developing serve first.
+  // Deliberately a TIE-BREAK behind `dist` so the difficulty contract (a B2
+  // session contains no tier-1 games) is untouched; with an empty ledger every
+  // boost is equal and ordering degrades to the pre-Phase-3 random tiebreak.
+  const skillBoost = makeSessionSkillBoost(userCefr as CefrLevel);
   const ordered = [...pool]
     .map((ex) => ({
       ex,
@@ -430,9 +442,10 @@ export function buildSessionActivities(
       // readers, generated listening) away from exactly the advanced users
       // it serves best.
       dist: ex.adaptive ? 0 : Math.abs((EXERCISE_DIFFICULTY[ex.id] ?? 3) - targetTier),
+      boost: skillBoost(ex.category),
       r: rnd(),
     }))
-    .sort((a, b) => a.dist - b.dist || a.r - b.r)
+    .sort((a, b) => a.dist - b.dist || b.boost - a.boost || a.r - b.r)
     .map((o) => o.ex);
   // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard 4).
   const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());

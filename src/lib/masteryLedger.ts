@@ -252,6 +252,107 @@ export function recordExamSkillScores(
   }
 }
 
+// ── Phase 3: journey weighting ───────────────────────────────────────────────
+
+/**
+ * Session-pool `category` (the adaptive SkillCategory taxonomy) → ledger
+ * SkillKey. Pool entries are tagged with categories; the ledger tracks CEFR
+ * skills — this is the one piece of glue between them. Croatia-pool tags
+ * ('culture' | 'practical' | 'general') carry no skill signal → null.
+ */
+export function skillForCategory(category: string): SkillKey | null {
+  if (category === 'speaking') return 'speaking';
+  if (category === 'listening') return 'listening';
+  if (category === 'reading') return 'reading';
+  if (category.startsWith('vocab')) return 'vocab';
+  if (category === 'culture' || category === 'practical' || category === 'general') return null;
+  // Everything else in the taxonomy is the grammar curriculum (cases, tenses,
+  // aspect, clitics, word order, register, 'grammar-lesson', …).
+  return 'grammar';
+}
+
+/**
+ * One ledger read → a per-category boost function for the session fill sort.
+ * Untested skills pull hardest (1); developing skills pull by their gap
+ * (1 - score); strong skills add nothing. Used as a TIE-BREAK behind the
+ * difficulty distance, so it can never drag a too-easy/too-hard activity into
+ * a session — it only decides which same-difficulty activity serves first.
+ * With an empty ledger every boost is 1 → ties fall through to the random
+ * key, i.e. exactly the pre-Phase-3 behaviour.
+ */
+export function makeSessionSkillBoost(level: CefrLevel): (category: string) => number {
+  const profile = getMasteryProfile(level);
+  return (category: string): number => {
+    const skill = skillForCategory(category);
+    if (!skill) return 0;
+    const m = profile[skill];
+    if (!m || !m.tested) return 1;
+    if (m.score >= MASTERY_THRESHOLD) return 0;
+    return 1 - m.score;
+  };
+}
+
+/**
+ * Which production kind the P2.5 session slot should bias toward: the less-
+ * demonstrated of speaking vs writing at `level`, or null when both are
+ * strong (no bias — variety wins).
+ */
+export function weakestProductionKind(level: CefrLevel): 'speak' | 'write' | null {
+  const p = getMasteryProfile(level);
+  // No evidence for EITHER production skill → no bias. This matters beyond
+  // philosophy: an unconditioned default bias changed which production screen
+  // fresh sessions consumed and broke the pinned mic-denied fallback (sp4b)
+  // and the adaptive-serve distribution. The ledger only steers when it has
+  // actually measured something.
+  if (p.speaking === undefined && p.writing === undefined) return null;
+  const need = (m: SkillMastery | undefined): number =>
+    !m || !m.tested ? 1 : m.strong ? 0 : 1 - m.score;
+  const speak = need(p.speaking);
+  const write = need(p.writing);
+  if (speak === 0 && write === 0) return null;
+  return speak >= write ? 'speak' : 'write';
+}
+
+const SKILL_LABELS: Record<SkillKey, string> = {
+  vocab: 'vocabulary',
+  grammar: 'grammar',
+  reading: 'reading',
+  listening: 'listening',
+  speaking: 'speaking',
+  writing: 'writing',
+};
+
+/**
+ * One human line explaining today's plan, or null when the ledger has no
+ * signal yet (never fabricate a reason). Names the most-needed skill:
+ * lowest-scoring developing skill first, else the first untested one — the
+ * same priorities the boost gives the composer.
+ */
+export function buildPlanReason(level: CefrLevel): string | null {
+  const profile = getMasteryProfile(level);
+  const cells = Object.keys(profile);
+  if (cells.length === 0) return null;
+  let weakest: { skill: SkillKey; score: number } | null = null;
+  let untested: SkillKey | null = null;
+  for (const skill of LEDGER_SKILLS) {
+    const m = profile[skill];
+    if (!m || !m.tested) {
+      if (!untested) untested = skill;
+      continue;
+    }
+    if (!m.strong && (weakest === null || m.score < weakest.score)) {
+      weakest = { skill, score: m.score };
+    }
+  }
+  if (weakest) {
+    return `Today leans into ${SKILL_LABELS[weakest.skill]} — your practice says it needs the most work at ${level}.`;
+  }
+  if (untested) {
+    return `Today leans into ${SKILL_LABELS[untested]} — the least-practiced skill at ${level}.`;
+  }
+  return `All tracked skills look strong at ${level} — today keeps them sharp.`;
+}
+
 // ── Cross-device sync ────────────────────────────────────────────────────────
 
 export function snapshotMasteryLedger(): MasteryLedgerState | undefined {
