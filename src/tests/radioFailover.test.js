@@ -112,4 +112,11 @@ describe('/radio failover proxy', () => {
     expect(res.status).toBe(302);
     expect(kv.store.get('radio:good:cmc')).toContain('cmc_radio');
   });
+
+  it('cmc redirects to the live CMC Radio mount discovered 2026-08-16', async () => {
+    upstream(['https://radio-stream.cmc.com.hr:9011/live']);
+    const res = await onRequest(ctx('?s=cmc', { KV: fakeKV() }));
+    expect(res.status).toBe(302);
+    expect(res.headers.get('location')).toBe('https://radio-stream.cmc.com.hr:9011/live');
+  });
 });
