@@ -1,6 +1,8 @@
 // src/lib/speaking/whisperClaudeScorer.ts
 import { _nativePost } from '../nativePost.js';
 import { blobToBase64 } from '../audio.js';
+import { recordMasteryEvent } from '../masteryLedger.js';
+import type { CefrLevel } from '../cefr.js';
 import {
   computeSpeakingOverall,
   type SpeakingScorer,
@@ -46,10 +48,27 @@ async function postAndParse(body: Record<string, unknown>): Promise<SpeakingAsse
     if (transcriptSufficiency < MIN_TRANSCRIPT_SUFFICIENCY) return null;
 
     const scores = { range: s.range, accuracy: s.accuracy, fluency: s.fluency, task: s.task };
+    const overall = computeSpeakingOverall(scores);
+    // Phase 2 mastery ledger: every successful speaking assessment — practice
+    // or exam task — is spoken-production evidence at the assessed level.
+    // (Best-effort; a ledger failure must never turn a scored assessment into
+    // a null "not scored" result.)
+    try {
+      // recordMasteryEvent validates the level against CEFR_ORDER, so an
+      // unexpected payload value is a silent no-op, not a crash.
+      recordMasteryEvent({
+        level: body.level as CefrLevel,
+        skill: 'speaking',
+        score: overall,
+        weight: 1,
+      });
+    } catch {
+      /* ledger unavailable — the assessment itself still succeeds */
+    }
     return {
       transcript: data.transcript ?? '',
       scores,
-      overall: computeSpeakingOverall(scores),
+      overall,
       transcriptSufficiency,
     };
   } catch {

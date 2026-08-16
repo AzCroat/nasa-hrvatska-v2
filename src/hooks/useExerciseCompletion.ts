@@ -12,6 +12,7 @@ import { markQuest } from '../lib/quests';
 import { EXERCISE_COMPLETION, type StatKind } from '../lib/completion/exerciseRegistry';
 import { consumeSessionCategoryOutcome } from '../lib/sessionCategory';
 import { signalSessionCompleteIfActive } from '../lib/sessionSignal';
+import { recordExerciseOutcome } from '../lib/masteryLedger';
 
 interface MinStats {
   vs?: string[];
@@ -77,6 +78,11 @@ export function completeExercise<S extends MinStats>(
   const vsKey = entry?.vsKey ?? key;
   const questKind = args.questKind ?? entry?.questKind;
   const activityType = args.activityType ?? entry?.activityType ?? 'lesson';
+
+  // Phase 2 mastery ledger: every scored finish is EVIDENCE, pass or fail —
+  // the ledger measures ability, credit below still gates on a pass. Types
+  // without an honest skill signal ('lesson') are skipped inside the adapter.
+  recordExerciseOutcome({ activityType, score, total });
 
   // gated screens require a pass; effort/passive complete on the call itself.
   const passed = policyKind === 'gated' ? passedLesson(score ?? 0, total ?? 0) : true;

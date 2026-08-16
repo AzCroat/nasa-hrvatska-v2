@@ -17,6 +17,8 @@
  * read so existing user data is never lost.
  */
 
+import { recordSrsOutcome } from './masteryLedger';
+
 // ─── FSRS-4.5 default weights (W0–W18) ───────────────────────────────────────
 // Canonical fsrs4anki v4.5 default parameters. W7–W18 were previously scrambled
 // off-spec (e.g. W13=0.9667 in the forget-stability exponent, vs the correct
@@ -278,6 +280,9 @@ export function getSRScore(word: string, correct: boolean, timeMs: number): SRCa
   const sr = getSR();
   const now = Date.now();
   const grade = _gradeFromResult(correct, timeMs || 0);
+  // Phase 2 mastery ledger: each review answer is a small vocab-evidence
+  // event (weight 0.25 — they arrive in volume). Best-effort by design.
+  recordSrsOutcome(correct);
 
   let card = sr[word];
 

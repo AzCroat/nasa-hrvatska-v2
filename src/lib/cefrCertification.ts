@@ -789,6 +789,18 @@ export function getGenerationCefr(stats?: { xp?: number; lc?: number; gc?: numbe
   return cefrRank(placement) >= cefrRank(earned) ? placement : earned;
 }
 
+/**
+ * The level the user is currently practicing at, computed from the persisted
+ * profile with no hook/provider coupling — for callers outside React (the
+ * mastery ledger's ingestion adapters). Same stats source as
+ * getGenerationCefr, but WITHOUT the placement floor: the ledger attributes
+ * evidence to the level actually being served, which is the unlock level.
+ */
+export function getCurrentContentLevel(): CefrLevel {
+  const s = _readProfileStats();
+  return getContentUnlockLevel(getUserCefr(s.xp || 0, s.lc || 0, s.gc || 0));
+}
+
 // ── One-time migration ───────────────────────────────────────────────────────
 
 const MIGRATION_FLAG_KEY = 'nh_cefr_migration_v1_done';

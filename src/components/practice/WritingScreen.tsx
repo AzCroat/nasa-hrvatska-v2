@@ -12,6 +12,8 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { addWordToSRS } from '../../lib/srs.js';
+import { recordMasteryEvent } from '../../lib/masteryLedger';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
@@ -263,6 +265,16 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       // N-1/N (reported 2026-07-16, B2 user, twice). XP/vs credit stays on the
       // button; only session progression is unblocked here.
       signalSessionCompleteIfActive('writing');
+      // Phase 2 mastery ledger: a graded writing evaluation is strong written-
+      // production evidence at the user's practice level (weight 2).
+      if (typeof data.score === 'number') {
+        recordMasteryEvent({
+          level: getCurrentContentLevel(),
+          skill: 'writing',
+          score: Math.max(0, Math.min(1, data.score / 100)),
+          weight: 2,
+        });
+      }
       // Log mistakes and add single-word corrections to SRS queue
       type ApiCorrection = CorrectionChange & { type?: string; errorType?: string };
       const corrections: ApiCorrection[] = data.changes || data.mistakes || [];

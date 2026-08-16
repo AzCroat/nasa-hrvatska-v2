@@ -9,6 +9,7 @@ import { getStreak, getStreakFreezes } from './appUtils.js';
 import { gP } from './firebase.js';
 import { localDateStr as _todayStr, weekKey as _weekKey } from './dateUtils.js';
 import { snapshotCertifications } from './cefrCertification.js';
+import { snapshotMasteryLedger } from './masteryLedger.js';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
@@ -389,5 +390,10 @@ export function buildProgressSnapshot({
     // has no attempts yet — Firestore drops undefined so we don't write
     // empty state.
     nh_cefr_certifications: snapshotCertifications(),
+    // ── Mastery ledger (Phase 2, 2026-08-16) ──────────────────────────────────
+    // Per-(level, skill) rolling evidence from scored practice. Merge policy in
+    // masteryLedger.ts (higher-evidence cell wins — it's a measurement, not a
+    // reward). Undefined when empty so Firestore never stores an empty blob.
+    nh_mastery_ledger: snapshotMasteryLedger(),
   };
 }
