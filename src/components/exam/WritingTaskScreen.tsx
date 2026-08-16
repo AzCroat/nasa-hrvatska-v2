@@ -29,12 +29,21 @@ function countWords(t: string): number {
   return t.trim().split(/\s+/).filter(Boolean).length;
 }
 
+/** A learner can submit from this floor up — a short answer is EVALUATED and
+ *  scores what it scores. The task's minWords stays visible as the target.
+ *  (2026-08-16 field report: the old hard minWords gate meant a learner below
+ *  the level could never submit at all — trapped mid-exam, which read as "the
+ *  evaluation is broken". Skipping must always be possible; see the skip
+ *  button, which scores 0.) */
+const SUBMIT_FLOOR_WORDS = 10;
+
 export default function WritingTaskScreen({ task, level, onScore, onDefer }: Props) {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const words = countWords(text);
-  const ready = words >= task.minWords;
+  const ready = words >= SUBMIT_FLOOR_WORDS;
+  const atTarget = words >= task.minWords;
 
   async function submit() {
     if (!ready || loading) return;
@@ -118,14 +127,20 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
           alignItems: 'center',
           margin: '8px 0 12px',
           fontSize: 12,
-          color: ready ? '#16a34a' : 'var(--subtext)',
+          color: atTarget ? '#16a34a' : 'var(--subtext)',
           fontWeight: 700,
         }}
       >
         <span data-testid="writing-wordcount">
           {words} / {task.minWords} words
         </span>
-        {!ready && <span>Keep going — a few more sentences.</span>}
+        {!atTarget && (
+          <span>
+            {ready
+              ? 'Below the target — you can still submit; it scores as written.'
+              : 'Write at least a few sentences to submit.'}
+          </span>
+        )}
       </div>
       {error && (
         <div
@@ -171,6 +186,26 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
         onClick={submit}
       >
         {loading ? 'Evaluating…' : 'Submit writing →'}
+      </button>
+      <button
+        data-testid="writing-skip"
+        disabled={loading}
+        onClick={() => onScore(0)}
+        style={{
+          display: 'block',
+          width: '100%',
+          marginTop: 10,
+          padding: '10px',
+          background: 'none',
+          border: 'none',
+          color: 'var(--subtext)',
+          fontSize: 12,
+          fontWeight: 600,
+          textDecoration: 'underline',
+          cursor: 'pointer',
+        }}
+      >
+        Skip this task — it scores 0, and the check completes honestly
       </button>
     </div>
   );

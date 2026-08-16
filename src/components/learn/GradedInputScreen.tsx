@@ -415,7 +415,9 @@ export function StoryReader({
       paragraphTextRef.current = paraText;
       setRecordingIdx(paraIdx);
       // No countdown — match existing per-paragraph instant-record UX.
-      recorder.startRecording({ countdown: 0 });
+      // 60s backstop (2026-08-16 speaking audit): reading a paragraph aloud fits
+      // comfortably; a missed stop-tap must never record forever.
+      recorder.startRecording({ countdown: 0, maxDurationMs: 60_000 });
     },
     [recorder],
   );

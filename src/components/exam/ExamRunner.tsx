@@ -16,9 +16,15 @@ export interface ExamRunnerProps {
   title?: string;
   /** When provided, renders a close (✕) button in the top bar. */
   onExit?: () => void;
+  /** Resume support (2026-08-16): start mid-MCQ with prior progress. */
+  initialIdx?: number;
+  initialAcc?: McqAcc;
+  /** Fired after every MCQ advance so the caller can persist progress. */
+  onMcqProgress?: (idx: number, acc: McqAcc) => void;
 }
 
-type Acc = Partial<Record<SkillKey, { total: number; correct: number }>>;
+export type McqAcc = Partial<Record<SkillKey, { total: number; correct: number }>>;
+type Acc = McqAcc;
 
 // Human label + emoji per skill, for the skill pill.
 const SKILL_META: Record<string, { label: string; icon: string }> = {
@@ -48,11 +54,16 @@ export default function ExamRunner({
   onComplete,
   title = 'Comprehension Check',
   onExit,
+  initialIdx,
+  initialAcc,
+  onMcqProgress,
 }: ExamRunnerProps) {
   const total = questions.length + (speaking?.tasks.length ?? 0);
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useState(() =>
+    Math.min(Math.max(initialIdx ?? 0, 0), Math.max(questions.length, 0)),
+  );
   const [selected, setSelected] = useState<number | null>(null);
-  const [acc, setAcc] = useState<Acc>({});
+  const [acc, setAcc] = useState<Acc>(initialAcc ?? {});
   const [speakIdx, setSpeakIdx] = useState(0);
   const speakScores = useRef<number[]>([]); // accumulated across speaking tasks
 
@@ -62,9 +73,8 @@ export default function ExamRunner({
   const pct = total > 0 ? Math.round((step / total) * 100) : 0;
   const meta = q ? (SKILL_META[q.skill] ?? { label: q.skill, icon: '' }) : null;
 
-  function next() {
-    if (selected === null || !q) return;
-    const correct = selected === q.correctIndex ? 1 : 0;
+  function advanceMcq(correct: 0 | 1) {
+    if (!q) return;
     const prev = acc[q.skill] ?? { total: 0, correct: 0 };
     const nextAcc: Acc = {
       ...acc,
@@ -72,6 +82,7 @@ export default function ExamRunner({
     };
     setAcc(nextAcc);
     setSelected(null);
+    onMcqProgress?.(idx + 1, nextAcc);
     if (idx + 1 < questions.length) {
       setIdx(idx + 1);
     } else if (speaking && speaking.tasks.length > 0) {
@@ -79,6 +90,21 @@ export default function ExamRunner({
     } else {
       onComplete(finalize(nextAcc, speakScores.current));
     }
+  }
+
+  function next() {
+    if (selected === null || !q) return;
+    advanceMcq(selected === q.correctIndex ? 1 : 0);
+  }
+
+  // Skip = a MISSED question (owner decision, 2026-08-16): a learner sitting
+  // above their real level must be able to move through the check instead of
+  // being trapped on material they don't know. The item counts against its
+  // skill exactly like a wrong answer — the check completes, the result is
+  // honest, and the step-down path takes over.
+  function skipMcq() {
+    if (!q) return;
+    advanceMcq(0);
   }
 
   function advanceSpeaking() {
@@ -211,7 +237,23 @@ export default function ExamRunner({
                 cursor: 'pointer',
               }}
             >
-              Can&apos;t use your microphone? Skip this
+              No microphone right now? Continue — finish this section later
+            </button>
+            <button
+              data-testid="speak-skip-zero"
+              onClick={() => onSpeakingScore(0)}
+              style={{
+                marginTop: 6,
+                background: 'none',
+                border: 'none',
+                color: 'var(--subtext)',
+                fontSize: 12,
+                fontWeight: 600,
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+            >
+              Skip this task — it scores 0, and the check completes honestly
             </button>
           </div>
         )}
@@ -227,6 +269,25 @@ export default function ExamRunner({
               onClick={next}
             >
               Continue →
+            </button>
+            <button
+              data-testid="exam-skip"
+              onClick={skipMcq}
+              style={{
+                display: 'block',
+                width: '100%',
+                marginTop: 8,
+                padding: '8px',
+                background: 'none',
+                border: 'none',
+                color: 'var(--subtext)',
+                fontSize: 12,
+                fontWeight: 600,
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+            >
+              I don&apos;t know this — skip (counts as incorrect)
             </button>
           </div>
         </div>

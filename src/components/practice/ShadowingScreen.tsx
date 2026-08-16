@@ -232,12 +232,20 @@ interface RecordingPanelProps {
   countdown: number;
   audioBlob: Blob | null;
   onStart: () => void;
+  onStop: () => void;
   onPlayBack: () => void;
   onReset: () => void;
   onNailedIt: () => void;
 }
 
-function RecordingPanel({ state, countdown, onStart, onPlayBack, onReset }: RecordingPanelProps) {
+function RecordingPanel({
+  state,
+  countdown,
+  onStart,
+  onStop,
+  onPlayBack,
+  onReset,
+}: RecordingPanelProps) {
   if (state === 'denied') {
     return <MicPermissionDeniedExplainer onRetry={onReset} />;
   }
@@ -350,6 +358,25 @@ function RecordingPanel({ state, countdown, onStart, onPlayBack, onReset }: Reco
           />
           Recording…
         </span>
+        <div>
+          <button
+            data-testid="shadowing-stop"
+            onClick={onStop}
+            style={{
+              marginTop: 10,
+              background: '#dc2626',
+              border: 'none',
+              borderRadius: 10,
+              padding: '10px 22px',
+              fontSize: 14,
+              fontWeight: 800,
+              color: '#fff',
+              cursor: 'pointer',
+            }}
+          >
+            ⏹ Done — stop &amp; check
+          </button>
+        </div>
       </div>
     );
   }
@@ -417,6 +444,7 @@ export default function ShadowingScreen({
     countdown,
     audioBlob,
     startRecording: startRec,
+    stopRecording: stopRec,
     playback,
     reset: resetRecorder,
   } = useRecorder();
@@ -660,6 +688,7 @@ export default function ShadowingScreen({
             countdown={countdown}
             audioBlob={audioBlob}
             onStart={handleStartRecording}
+            onStop={stopRec}
             onPlayBack={playback}
             onReset={resetRecorder}
             onNailedIt={handleNailedIt}
