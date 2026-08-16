@@ -158,6 +158,66 @@ jobs:
           done
           echo "::endgroup::"
 
+      - name: CMC headless capture (run the player, sniff the audio request)
+        run: |
+          set -uo pipefail
+          # Static scraping is exhausted (runs 2-5): the page hides the player
+          # behind a Complianz soft cookie-wall and builds it with JS. Load the
+          # page in a real browser, accept consent, click play, and capture the
+          # network request the player actually makes. Read-only.
+          npm init -y >/dev/null 2>&1 || true
+          npm i --no-audit --no-fund playwright >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          cat > /tmp/capture.cjs <<'JS'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+            const hits = new Set();
+            page.on('request', (r) => {
+              const u = r.url();
+              if (/\.(mp3|aac|aacp|m3u8)(\?|$)|:8443|:8000|cmc_radio|icecast|shoutcast|radio\.co|zeno|streamtheworld|admin-ajax/i.test(u)
+                  && !/\.(js|css|png|jpe?g|svg|woff2?|gif|ico)(\?|$)/i.test(u)) {
+                hits.add('REQ ' + u.slice(0, 300));
+              }
+            });
+            page.on('response', (r) => {
+              const ct = (r.headers()['content-type'] || '');
+              if (/audio|mpegurl/i.test(ct)) hits.add('AUDIO-RESPONSE ' + r.url().slice(0, 300) + '  ct=' + ct);
+            });
+            try {
+              await page.goto('https://radio.cmc.com.hr', { waitUntil: 'domcontentloaded', timeout: 45000 });
+              await page.waitForTimeout(4000);
+              for (const sel of ['.cmplz-accept', 'button.cmplz-accept', '.cmplz-btn.cmplz-accept']) {
+                const el = await page.$(sel);
+                if (el) { await el.click().catch(() => {}); console.log('consent accepted via', sel); break; }
+              }
+              await page.waitForTimeout(5000);
+              const html = await page.content();
+              const cfg = html.match(/[^"'\s]{0,40}(?:streamURL|stream_url|data-settings)[^>]{0,400}/gi) || [];
+              cfg.slice(0, 10).forEach((x) => console.log('DOM:', x.slice(0, 400)));
+              const urls = html.match(/https?:[^"'\s<>\\]+/g) || [];
+              urls.filter((u) => /\.(mp3|aac|m3u8)|:8443|:8000|cmc_radio|icecast|shoutcast|zeno/i.test(u))
+                  .slice(0, 10).forEach((u) => console.log('DOM-URL:', u.slice(0, 300)));
+              const clicked = await page.evaluate(() => {
+                const cands = Array.from(document.querySelectorAll('button, [class*="play"], [id*="play"]'))
+                  .filter((e) => /play/i.test(e.className + ' ' + e.id + ' ' + (e.getAttribute('aria-label') || '')));
+                cands.slice(0, 6).forEach((e) => { try { e.click(); } catch (err) {} });
+                return cands.length;
+              });
+              console.log('play-like elements clicked:', clicked);
+              await page.waitForTimeout(15000);
+            } catch (e) {
+              console.log('capture error:', e.message);
+            }
+            console.log('--- captured network hits ---');
+            Array.from(hits).slice(0, 25).forEach((h) => console.log(h));
+            if (!hits.size) console.log('(no stream-like network traffic observed)');
+            await browser.close();
+          })();
+          JS
+          node /tmp/capture.cjs
+
       - name: Probe production /radio proxy
         run: |
           set -uo pipefail
