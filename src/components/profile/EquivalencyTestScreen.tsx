@@ -43,7 +43,7 @@
  * @see src/components/exam/WritingTaskScreen.tsx — writing section
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { cefrRank, levelBelow, type CefrLevel } from '../../lib/cefr.js';
 import {
   canTakeEquivalencyTest,
@@ -59,7 +59,7 @@ import { pickWritingTask, type WritingTask } from '../../data/writingTasks.js';
 import { whisperClaudeScorer } from '../../lib/speaking/whisperClaudeScorer.js';
 import { applyExamScoresToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { recordExamSkillScores } from '../../lib/masteryLedger.js';
-import ExamRunner from '../exam/ExamRunner.js';
+import ExamRunner, { type McqAcc } from '../exam/ExamRunner.js';
 import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
 
@@ -75,7 +75,12 @@ const PARTIAL_TTL_MS = 48 * 60 * 60 * 1000;
 interface PartialAttempt {
   toLevel: CefrLevel;
   startedAt: number;
-  scores: SkillScores;
+  /** Completed-section scores — present once the MCQ section has finished. */
+  scores?: SkillScores;
+  /** Mid-MCQ progress (2026-08-16 "save & come back" directive): the next
+   *  question index plus the per-skill tallies so far. Mutually exclusive with
+   *  `scores` — once MCQ completes, the partial is rewritten in scores shape. */
+  mcq?: { idx: number; acc: McqAcc };
 }
 
 function readPartial(toLevel: CefrLevel): PartialAttempt | null {
@@ -88,7 +93,9 @@ function readPartial(toLevel: CefrLevel): PartialAttempt | null {
       localStorage.removeItem(PARTIAL_KEY);
       return null;
     }
-    if (!p.scores || typeof p.scores.vocab !== 'number') return null;
+    const hasScores = !!p.scores && typeof p.scores.vocab === 'number';
+    const hasMcq = !!p.mcq && typeof p.mcq.idx === 'number' && !!p.mcq.acc;
+    if (!hasScores && !hasMcq) return null;
     return p;
   } catch {
     return null;
@@ -210,6 +217,10 @@ export default function EquivalencyTestScreen({
   // Resume state: sections already completed in an interrupted attempt.
   const partial = useMemo(() => (testSet ? readPartial(testSet.levelTo) : null), [testSet]);
 
+  // Stable start-of-attempt timestamp: a resumed attempt keeps its original
+  // 48h window; a fresh one starts it now (captured once, not per keystroke).
+  const startedAtRef = useRef(partial?.startedAt ?? Date.now());
+
   const initialPhase: Phase = !testSet
     ? 'result'
     : retake && !retake.canTake
@@ -223,9 +234,11 @@ export default function EquivalencyTestScreen({
   const needsProduction = !!testSet && cefrRank(testSet.levelTo) >= cefrRank(PRODUCTION_FLOOR);
 
   // Map the test set's items to ExamRunner's RunnerQuestion shape — skipped
-  // entirely when resuming an attempt whose MCQ section is already done.
+  // entirely when resuming an attempt whose MCQ section is already done. A
+  // mid-MCQ partial keeps the FULL list: the runner fast-forwards to the
+  // saved index via initialIdx/initialAcc.
   const runnerQuestions: RunnerQuestion[] = useMemo(() => {
-    if (partial) return [];
+    if (partial && !partial.mcq) return [];
     return (testSet?.items ?? []).map((it, i) => ({
       id: `${testSet!.levelFrom}#${i}`,
       skill: it.skill,
@@ -242,7 +255,7 @@ export default function EquivalencyTestScreen({
   // speaking score is already banked.
   const speaking = useMemo(() => {
     if (!testSet || !needsProduction) return undefined;
-    if (partial?.scores.speaking !== undefined) return undefined;
+    if (partial?.scores?.speaking !== undefined) return undefined;
     const tasks = getSpeakingTasks(testSet.levelFrom);
     if (tasks.length === 0) return undefined;
     return { level: testSet.levelFrom, tasks, scorer: whisperClaudeScorer };
@@ -250,7 +263,7 @@ export default function EquivalencyTestScreen({
 
   const writingTask: WritingTask | null = useMemo(() => {
     if (!testSet || !needsProduction) return null;
-    if (partial?.scores.writing !== undefined) return null;
+    if (partial?.scores?.writing !== undefined) return null;
     return pickWritingTask(testSet.levelFrom);
   }, [testSet, needsProduction, partial]);
 
@@ -332,10 +345,27 @@ export default function EquivalencyTestScreen({
     setPhase('pending');
   }, [sectionScores, testSet, partial]);
 
+  // Persist mid-MCQ progress after every answered/skipped question so "save &
+  // come back later" works from any point in the check, not just at section
+  // boundaries. Once the MCQ section completes, advanceFrom/onWritingDefer
+  // rewrite the partial in scores shape (or finalizeAttempt clears it).
+  const onMcqProgress = useCallback(
+    (idx: number, acc: McqAcc) => {
+      writePartial({
+        toLevel: testSet!.levelTo,
+        startedAt: startedAtRef.current,
+        mcq: { idx, acc },
+      });
+    },
+    [testSet],
+  );
+
   /** Begin/resume: route straight to whichever section is actually missing —
-   *  an ExamRunner with no questions AND no speaking section renders nothing. */
+   *  an ExamRunner with no questions AND no speaking section renders nothing.
+   *  A mid-MCQ partial (no scores yet) falls through to 'question'; the
+   *  runner fast-forwards via initialIdx/initialAcc. */
   const startCheck = useCallback(() => {
-    if (partial) {
+    if (partial?.scores) {
       const s = partial.scores;
       const speakingMissing = needsProduction && s.speaking === undefined;
       const writingMissing = needsProduction && s.writing === undefined;
@@ -420,11 +450,13 @@ export default function EquivalencyTestScreen({
                 fontWeight: 600,
               }}
             >
-              ✓ Your earlier answers are saved — only the remaining section
-              {partial.scores.speaking === undefined && partial.scores.writing === undefined
-                ? 's'
-                : ''}{' '}
-              will run.
+              {partial.mcq
+                ? `✓ Your earlier answers are saved — you'll continue from question ${partial.mcq.idx + 1}.`
+                : `✓ Your earlier answers are saved — only the remaining section${
+                    partial.scores?.speaking === undefined && partial.scores?.writing === undefined
+                      ? 's'
+                      : ''
+                  } will run.`}
             </div>
           )}
           <div
@@ -440,9 +472,9 @@ export default function EquivalencyTestScreen({
               What to expect
             </p>
             <ul style={{ paddingLeft: 18, fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6 }}>
-              {!partial && <li>{testSet.items.length} multiple-choice items</li>}
+              {(!partial || partial.mcq) && <li>{testSet.items.length} multiple-choice items</li>}
               {!partial && <li>~{testSet.minutes} minutes</li>}
-              {!partial && (
+              {(!partial || partial.mcq) && (
                 <li>
                   Mix of vocabulary, grammar, reading and listening comprehension (🎧 audio plays
                   aloud)
@@ -454,6 +486,14 @@ export default function EquivalencyTestScreen({
               {needsProduction && <li>A short writing task (✍️ required)</li>}
               <li>
                 Pass = <b>80%+</b> overall AND on every skill
+              </li>
+              <li>
+                Stuck on something? Every question and task can be skipped — a skip counts as
+                incorrect, so the result stays honest.
+              </li>
+              <li>
+                Need to stop mid-check? Your progress saves after every question — close with ✕ and
+                come back within 48 hours to continue where you were.
               </li>
               <li>
                 No mic right now, or evaluation unavailable? Your progress saves — finish the
@@ -590,6 +630,10 @@ export default function EquivalencyTestScreen({
           speaking={speaking}
           onComplete={onExamComplete}
           title={verificationMode ? 'Level Verification' : 'Level Check'}
+          initialIdx={partial?.mcq?.idx}
+          initialAcc={partial?.mcq?.acc}
+          onMcqProgress={onMcqProgress}
+          onExit={onBackToProfile}
         />
       </div>
     );

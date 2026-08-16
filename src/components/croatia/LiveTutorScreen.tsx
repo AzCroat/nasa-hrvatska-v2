@@ -633,7 +633,9 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       setPlaying(false);
     }
 
-    rec.startRecording({ countdown: 0 });
+    // 60s backstop (2026-08-16 speaking audit): a missed stop-tap must never
+    // record forever. The tap remains the normal end; this is the ceiling.
+    rec.startRecording({ countdown: 0, maxDurationMs: 60_000 });
   }, [isRecording, thinking, playing, rec]);
 
   // ── STT: stop recording ────────────────────
