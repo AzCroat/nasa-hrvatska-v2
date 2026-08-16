@@ -154,6 +154,35 @@ function claimNoStoreHeal(now: number): boolean {
   return true;
 }
 
+/**
+ * Read-only peek at the same budget reloadWithCachePurge consumes: true when a
+ * chunk error hitting the global handlers right now would be healed (purge +
+ * reload), false when the window's budget is already spent.
+ *
+ * Exists for Sentry's beforeSend. The SDK's global-handler integration captures
+ * a chunk error BEFORE our own window handlers run the heal, so returning true
+ * from those handlers never stopped the SDK capture — every successful heal
+ * still produced a Sentry event, and the issue re-flagged as "regressed" on
+ * every deploy-heavy week. beforeSend uses this peek to drop events the heal is
+ * about to handle while keeping budget-exhausted ones — the genuinely stuck
+ * users, which is the only signal worth alerting on. Read-only is load-bearing:
+ * beforeSend runs before the heal increments the count, so consuming budget
+ * here would double-charge every incident.
+ */
+export function wouldHealChunkError(storageKey: string): boolean {
+  try {
+    const now = Date.now();
+    const attempts = readAttempts(storageKey, now);
+    if (attempts === 'unavailable') {
+      const last = readNoStoreStamp();
+      return last === null || now - last >= RELOAD_WINDOW_MS;
+    }
+    return attempts < MAX_ATTEMPTS;
+  } catch {
+    return false;
+  }
+}
+
 export function reloadWithCachePurge(storageKey: string): boolean {
   try {
     const now = Date.now();

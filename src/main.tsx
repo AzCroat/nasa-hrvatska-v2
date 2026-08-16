@@ -33,6 +33,7 @@ import {
   isReplayConsentGranted,
   isBenignAbortRejection,
   isBenignSwLoadRejection,
+  chunkHealDisposition,
 } from './lib/sentryHelpers';
 import { isEnvironmentalIdbError, downgradeEnvironmentalIdbEvent } from './lib/idbTelemetry';
 import { lsGet } from './lib/safeStorage';
@@ -180,6 +181,20 @@ if (import.meta.env.VITE_SENTRY_DSN) {
           // offline support; not actionable. Logic + tests live in
           // sentryHelpers.isBenignSwLoadRejection.
           if (isBenignSwLoadRejection(event)) return null;
+          // Chunk-load failures: the SDK captures them before the window
+          // handlers run the self-heal, so the `return true` suppression there
+          // never stopped these events. Drop the ones the heal is about to fix
+          // (transient residue of a WORKING heal — the page purges + reloads);
+          // keep budget-exhausted ones tagged, because those are the genuinely
+          // stuck users and the only chunk signal worth alerting on. Logic +
+          // tests live in sentryHelpers.chunkHealDisposition.
+          {
+            const disposition = chunkHealDisposition(event);
+            if (disposition === 'drop') return null;
+            if (disposition === 'keep-exhausted') {
+              event.tags = { ...event.tags, chunk_heal: 'exhausted' };
+            }
+          }
           // Downgrade non-actionable environmental IndexedDB errors (flaky device
           // storage, surfaced async from Firebase persistence) so they stop paging
           // as high-priority but are retained for frequency tracking. Logic +
