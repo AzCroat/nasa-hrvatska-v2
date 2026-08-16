@@ -19,6 +19,7 @@
 import { getSR, saveSR } from './srs.js';
 import { weekKey as _weekKey, localDateStr } from './dateUtils.js';
 import { mergeRemoteCertifications } from './cefrCertification.js';
+import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
 import { normalizePersonaKey } from './personaKey';
@@ -844,5 +845,12 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // takes MAX so cooldown is honored, attempts deduped by (level, takenAt).
   if (fp.nh_cefr_certifications) {
     mergeRemoteCertifications(fp.nh_cefr_certifications);
+  }
+
+  // ── Mastery ledger — evidence-monotone merge (Phase 2, 2026-08-16) ─────────
+  // Per-cell: the side with more samples wins whole; ties break to the later
+  // update. See masteryLedger.ts for why this is deliberately NOT score-additive.
+  if (fp.nh_mastery_ledger) {
+    mergeRemoteMasteryLedger(fp.nh_mastery_ledger);
   }
 }

@@ -7,7 +7,17 @@
 // gate stays open, so the card informs and directs rather than walls off.
 
 import React from 'react';
-import type { VerificationGate } from '../../lib/cefrCertification';
+import type { VerificationGate, SkillKey } from '../../lib/cefrCertification';
+import { readinessForVerification } from '../../lib/masteryLedger';
+
+const SKILL_LABEL: Record<SkillKey, string> = {
+  vocab: 'Vocabulary',
+  grammar: 'Grammar',
+  reading: 'Reading',
+  listening: 'Listening',
+  speaking: 'Speaking',
+  writing: 'Writing',
+};
 
 interface Props {
   gate: VerificationGate;
@@ -16,6 +26,22 @@ interface Props {
 
 export default function VerificationGateCard({ gate, onStartVerification }: Props) {
   if (!gate.required || !gate.target) return null;
+  // Phase 2 mastery ledger: show what daily practice already signals, so the
+  // learner walks into the verification knowing where they stand.
+  const readiness = readinessForVerification(gate.target);
+  const readinessLine =
+    readiness.strong.length + readiness.developing.length > 0
+      ? [
+          readiness.strong.length > 0 &&
+            `strong in ${readiness.strong.map((s) => SKILL_LABEL[s]).join(', ')}`,
+          readiness.developing.length > 0 &&
+            `developing ${readiness.developing.map((s) => SKILL_LABEL[s]).join(', ')}`,
+          readiness.untested.length > 0 &&
+            `untested in ${readiness.untested.map((s) => SKILL_LABEL[s]).join(', ')}`,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      : null;
   return (
     <div
       data-testid="verification-gate-card"
@@ -47,6 +73,20 @@ export default function VerificationGateCard({ gate, onStartVerification }: Prop
         {gate.target} content is paused until you pass the verification; everything below stays
         open, and that practice is exactly the preparation.
       </p>
+      {readinessLine && (
+        <p
+          data-testid="verification-gate-readiness"
+          style={{
+            fontSize: 12,
+            lineHeight: 1.5,
+            opacity: 0.85,
+            margin: '0 0 12px',
+            fontWeight: 600,
+          }}
+        >
+          Your practice signals: {readinessLine}.
+        </p>
+      )}
       <button
         data-testid="verification-gate-cta"
         onClick={onStartVerification}

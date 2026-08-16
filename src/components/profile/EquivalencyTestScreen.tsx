@@ -58,6 +58,7 @@ import { getSpeakingTasks } from '../../data/speakingTasks.js';
 import { pickWritingTask, type WritingTask } from '../../data/writingTasks.js';
 import { whisperClaudeScorer } from '../../lib/speaking/whisperClaudeScorer.js';
 import { applyExamScoresToAdaptive } from '../../lib/adaptiveFeedback.js';
+import { recordExamSkillScores } from '../../lib/masteryLedger.js';
 import ExamRunner from '../exam/ExamRunner.js';
 import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
@@ -264,6 +265,10 @@ export default function EquivalencyTestScreen({
       // Feedback loop: a tested weakness reschedules its adaptive categories so
       // the daily session targets it next.
       applyExamScoresToAdaptive(scores);
+      // Phase 2 mastery ledger: exam sections are the strongest evidence there
+      // is — fold every scored skill in at high weight, attributed to the
+      // status level this attempt targets.
+      recordExamSkillScores(testSet!.levelTo, scores);
       setResultPassed(passed);
       setResultScores(scores);
       setPhase('result');
