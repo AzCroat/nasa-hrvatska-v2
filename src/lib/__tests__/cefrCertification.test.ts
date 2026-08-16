@@ -52,10 +52,13 @@ describe('getContentUnlockLevel — race-safe content gate (Rec #4 full activati
     expect(getContentUnlockLevel('B2')).toBe('B2');
   });
 
-  it('after grandfather migration, gates content at the certified level', () => {
+  it('after grandfather migration, gates NEW content below the provisional level (Phase 1 mastery gate)', () => {
     migrateGrandfatheredCertification('B1'); // sets the flag + grandfathers certified B1
-    // Eligible has since climbed to C1 (XP), but content stays gated at certified B1.
-    expect(getContentUnlockLevel('C1')).toBe('B1');
+    // Phase 1 (2026-08-16): grandfathered levels are PROVISIONAL — inherited
+    // from activity, never demonstrated. Until the user passes a real B1
+    // verification, new content pauses one level below the gate's target.
+    // (Pre-Phase-1 this returned 'B1'.)
+    expect(getContentUnlockLevel('C1')).toBe('A2');
   });
 
   it('migrated with no passes caps content at certified A1 (the real gate)', () => {
@@ -105,10 +108,10 @@ describe('getCertifiedLevel', () => {
     expect(getCertifiedLevel()).toBe('A2');
     recordEquivalencyAttempt({
       level: 'B1',
-      // Speaking is a required skill for B1+ certification (gate live since
-      // SPEAKING_ENFORCEMENT_DATE), mirroring the real equivalency flow which
-      // administers a speaking section from B1 up.
-      scores: { vocab: 0.85, grammar: 0.85, reading: 0.85, speaking: 0.85 },
+      // Speaking AND writing are required skills for B1+ certification
+      // (SPEAKING_ENFORCEMENT_DATE / WRITING_ENFORCEMENT_DATE), mirroring the
+      // real verification flow which administers both sections from B1 up.
+      scores: { vocab: 0.85, grammar: 0.85, reading: 0.85, speaking: 0.85, writing: 0.85 },
       currentLessonCount: 20,
     });
     expect(getCertifiedLevel()).toBe('B1');
@@ -126,8 +129,8 @@ describe('getCertifiedLevel', () => {
   it('does NOT downgrade when a higher level is passed but a lower one is failed', () => {
     recordEquivalencyAttempt({
       level: 'B1',
-      // B1+ requires speaking (enforcement gate live) — see note above.
-      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9 },
+      // B1+ requires speaking AND writing (enforcement gates live) — see above.
+      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9, writing: 0.9 },
       currentLessonCount: 10,
     });
     expect(getCertifiedLevel()).toBe('B1');
@@ -185,8 +188,8 @@ describe('recordEquivalencyAttempt', () => {
   it('stores a pass and updates certifiedLevel', () => {
     const r = recordEquivalencyAttempt({
       level: 'B1',
-      // B1+ requires speaking (enforcement gate live) — see note above.
-      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9 },
+      // B1+ requires speaking AND writing (enforcement gates live) — see above.
+      scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9, writing: 0.9 },
       currentLessonCount: 25,
     });
     expect(r.passed).toBe(true);

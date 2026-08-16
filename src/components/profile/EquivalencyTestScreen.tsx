@@ -1,59 +1,114 @@
 /**
  * src/components/profile/EquivalencyTestScreen.tsx
  *
- * CEFR Level Check runner. Renders a multi-item check for the level the
- * user is attempting to confirm, tracks per-skill scores, then records the
- * attempt + shows pass/fail with targeted feedback.
+ * CEFR Level Check runner. Renders a multi-section check — MCQ (vocab /
+ * grammar / reading), then speaking, then writing — records the attempt and
+ * shows pass/fail with targeted feedback.
  *
  * (Internal identifiers — the 'equivalency' screen key, recordEquivalencyAttempt,
  * the nh_cefr_certifications store — keep their historical names so existing
  * users' saved progress is preserved; only the user-facing copy says "Level
  * Check".)
  *
- * Entry path:
- *   - User has eligible level higher than their certified level → home/profile
- *     CTA links to setScr('equivalency'). Component reads the next test set
- *     via getNextTestFor(certifiedLevel). If there's no next test (user is
- *     already C2), shows the "all tests passed" celebration.
- *   - Retake gating: canTakeEquivalencyTest() decides if the user is in a
- *     cooldown window after a failure. If cooling down, we show why and
- *     when they can retry.
+ * PHASE 1 MASTERY GATE (2026-08-16) — two coupled repairs live here:
+ *
+ * 1. STATUS-KEY RECORDING. passes[L] throughout cefrCertification means "the
+ *    user holds level-L status", and the grandfather migration wrote keys that
+ *    way — but this screen used to record a passed check at the set's
+ *    levelFrom (the competency measured), not the levelTo status it grants,
+ *    while the retake gate blocked on the same key. Passing never advanced
+ *    anyone and the next visit said "already passed": every user was frozen.
+ *    The screen now records at levelTo, and canTakeEquivalencyTest ignores
+ *    provisional passes.
+ *
+ * 2. VERIFICATION MODE. When getVerificationGate().required, the check runs
+ *    against the user's provisional (grandfathered, never demonstrated) level:
+ *    the set that GRANTS that status (keyed levelBelow(target)). Sections are
+ *    resumable — MCQ answers and completed section scores persist locally so a
+ *    missing microphone or an unavailable AI evaluator delays completion by
+ *    hours, never causes a false failure. There is no snooze: the gate stays
+ *    until a real pass.
  *
  * UI states:
- *   - intro:  shows level being tested, item count, time estimate, "Begin"
- *   - cooldown: shows why retake is blocked + cooldown timer / lessons remaining
- *   - question: delegated to ExamRunner (MCQ runner with data-testid answer-N,
- *               exam-next, exam-progress)
- *   - result: pass/fail with per-skill bars + recommended next step
+ *   - intro:  level being tested, sections, time estimate, "Begin"
+ *   - cooldown: why retake is blocked + cooldown timer / lessons remaining
+ *   - question: ExamRunner (MCQ + speaking)
+ *   - writing: WritingTaskScreen (B1+ status checks)
+ *   - pending: some section incomplete — progress saved, finish later
+ *   - result: pass/fail with per-skill bars
  *
- * Design echoes PlacementTest.tsx so users get a familiar interaction style.
- *
- * @see src/lib/cefrCertification.ts — recording + cooldown logic
+ * @see src/lib/cefrCertification.ts — recording + cooldown + gate logic
  * @see src/data/cefrEquivalencyItems.ts — item bank
- * @see src/components/exam/ExamRunner.tsx — shared MCQ runner
+ * @see src/components/exam/ExamRunner.tsx — shared MCQ+speaking runner
+ * @see src/components/exam/WritingTaskScreen.tsx — writing section
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { cefrRank, type CefrLevel } from '../../lib/cefr.js';
+import { cefrRank, levelBelow, type CefrLevel } from '../../lib/cefr.js';
 import {
   canTakeEquivalencyTest,
   recordEquivalencyAttempt,
-  computePassed,
   getCertifiedLevel,
+  getVerificationGate,
   isSpeakingGateEnforced,
   type SkillScores,
 } from '../../lib/cefrCertification.js';
 import { getNextTestFor, type EquivalencyTestSet } from '../../data/cefrEquivalencyItems.js';
 import { getSpeakingTasks } from '../../data/speakingTasks.js';
+import { pickWritingTask, type WritingTask } from '../../data/writingTasks.js';
 import { whisperClaudeScorer } from '../../lib/speaking/whisperClaudeScorer.js';
 import { applyExamScoresToAdaptive } from '../../lib/adaptiveFeedback.js';
 import ExamRunner from '../exam/ExamRunner.js';
+import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
 
-// Speaking becomes a measured skill in the equivalency test from B1 up (A1/A2
-// speech samples are too short to score fairly). In shadow mode the score is
-// shown but does not gate — see isSpeakingGateEnforced.
-const SPEAKING_FLOOR: CefrLevel = 'B1';
+// Production sections (speaking + writing) run on every check that GRANTS B1
+// status or higher — i.e. levelTo >= B1 (A1→A2 samples are too short to score
+// fairly). Task difficulty is the set's levelFrom, like the MCQ items.
+const PRODUCTION_FLOOR: CefrLevel = 'B1';
+
+/** Saved section scores for a check interrupted before completion. */
+const PARTIAL_KEY = 'nh_cefr_verification_partial';
+const PARTIAL_TTL_MS = 48 * 60 * 60 * 1000;
+
+interface PartialAttempt {
+  toLevel: CefrLevel;
+  startedAt: number;
+  scores: SkillScores;
+}
+
+function readPartial(toLevel: CefrLevel): PartialAttempt | null {
+  try {
+    const raw = localStorage.getItem(PARTIAL_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw) as PartialAttempt;
+    if (!p || p.toLevel !== toLevel || typeof p.startedAt !== 'number') return null;
+    if (Date.now() - p.startedAt > PARTIAL_TTL_MS) {
+      localStorage.removeItem(PARTIAL_KEY);
+      return null;
+    }
+    if (!p.scores || typeof p.scores.vocab !== 'number') return null;
+    return p;
+  } catch {
+    return null;
+  }
+}
+
+function writePartial(p: PartialAttempt): void {
+  try {
+    localStorage.setItem(PARTIAL_KEY, JSON.stringify(p));
+  } catch {
+    /* storage unavailable — the check simply isn't resumable on this profile */
+  }
+}
+
+function clearPartial(): void {
+  try {
+    localStorage.removeItem(PARTIAL_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 interface EquivalencyTestScreenProps {
   /** User's eligible (activity-derived) level. Used to show context only. */
@@ -62,11 +117,11 @@ interface EquivalencyTestScreenProps {
   userLessonCount: number;
   /** Return to the Profile (Me) tab. */
   onBackToProfile: () => void;
-  /** Optional: which specific level to test. Defaults to next-from-certified. */
+  /** Optional: which specific status level to attempt. Defaults per gate/advance. */
   overrideLevel?: CefrLevel;
 }
 
-type Phase = 'intro' | 'cooldown' | 'question' | 'result';
+type Phase = 'intro' | 'cooldown' | 'question' | 'writing' | 'pending' | 'result';
 
 function SkillBar({ icon, label, score }: { icon: string; label: string; score: number }) {
   const pct = Math.round(score * 100);
@@ -116,19 +171,43 @@ export default function EquivalencyTestScreen({
   onBackToProfile,
   overrideLevel,
 }: EquivalencyTestScreenProps) {
-  const certified = getCertifiedLevel();
-  const targetLevel = overrideLevel ?? certified;
-  const testSet: EquivalencyTestSet | null = useMemo(
-    () => getNextTestFor(targetLevel),
-    [targetLevel],
-  );
+  // Gate read once on mount (same reasoning as the retake gate below).
+  const gate = useMemo(() => getVerificationGate(), []);
+  const verificationMode = gate.required;
 
-  // Retake gate read ONCE on mount — re-reading mid-test would let a user
-  // cycle the cooldown via UI navigation.
+  // Which STATUS level this attempt would grant. Verification targets the
+  // provisional level; advancement targets certified + 1 (the set keyed at
+  // certified grants the next status).
+  const defaultTarget: CefrLevel | null = useMemo(() => {
+    if (overrideLevel) return overrideLevel;
+    if (verificationMode && gate.target) return gate.target;
+    const certified = getCertifiedLevel();
+    const next = getNextTestFor(certified);
+    return next ? next.levelTo : null;
+  }, [overrideLevel, verificationMode, gate.target]);
+
+  // Step-down: a learner verifying B1 may honestly verify A2 instead.
+  const [chosenTarget, setChosenTarget] = useState<CefrLevel | null>(null);
+  const target = chosenTarget ?? defaultTarget;
+
+  // The set that GRANTS `target` status is keyed one level below it.
+  const testSet: EquivalencyTestSet | null = useMemo(() => {
+    if (!target) return null;
+    const from = levelBelow(target);
+    if (!from) return null;
+    return getNextTestFor(from);
+  }, [target]);
+
+  // Retake gate read ONCE per target — re-reading mid-test would let a user
+  // cycle the cooldown via UI navigation. Keyed by the STATUS the attempt
+  // grants (levelTo) — the same key recordEquivalencyAttempt writes.
   const retake = useMemo(
-    () => (testSet ? canTakeEquivalencyTest(testSet.levelFrom, userLessonCount) : null),
+    () => (testSet ? canTakeEquivalencyTest(testSet.levelTo, userLessonCount) : null),
     [testSet, userLessonCount],
   );
+
+  // Resume state: sections already completed in an interrupted attempt.
+  const partial = useMemo(() => (testSet ? readPartial(testSet.levelTo) : null), [testSet]);
 
   const initialPhase: Phase = !testSet
     ? 'result'
@@ -138,50 +217,52 @@ export default function EquivalencyTestScreen({
   const [phase, setPhase] = useState<Phase>(initialPhase);
   const [resultPassed, setResultPassed] = useState<boolean | null>(null);
   const [resultScores, setResultScores] = useState<SkillScores | null>(null);
+  const [sectionScores, setSectionScores] = useState<SkillScores | null>(partial?.scores ?? null);
 
-  // Map the test set's items to ExamRunner's RunnerQuestion shape.
-  // EquivalencyItem stores the 4 options in field `o` (not `options`).
-  const runnerQuestions: RunnerQuestion[] = useMemo(
-    () =>
-      (testSet?.items ?? []).map((it, i) => ({
-        id: `${testSet!.levelFrom}#${i}`,
-        skill: it.skill,
-        prompt: it.q,
-        options: [...it.o], // it.o is the 4-option tuple on EquivalencyItem
-        correctIndex: it.c,
-        passage: it.passage,
-        level: testSet!.levelFrom,
-      })),
-    [testSet],
-  );
+  const needsProduction = !!testSet && cefrRank(testSet.levelTo) >= cefrRank(PRODUCTION_FLOOR);
 
-  // Speaking section for B1+ certification. In shadow mode the result is shown
-  // and recorded but does not affect pass/fail (see isSpeakingGateEnforced).
+  // Map the test set's items to ExamRunner's RunnerQuestion shape — skipped
+  // entirely when resuming an attempt whose MCQ section is already done.
+  const runnerQuestions: RunnerQuestion[] = useMemo(() => {
+    if (partial) return [];
+    return (testSet?.items ?? []).map((it, i) => ({
+      id: `${testSet!.levelFrom}#${i}`,
+      skill: it.skill,
+      prompt: it.q,
+      options: [...it.o], // it.o is the 4-option tuple on EquivalencyItem
+      correctIndex: it.c,
+      passage: it.passage,
+      level: testSet!.levelFrom,
+    }));
+  }, [testSet, partial]);
+
+  // Speaking section for checks granting B1+ status. Skipped on resume when a
+  // speaking score is already banked.
   const speaking = useMemo(() => {
-    if (!testSet) return undefined;
-    if (cefrRank(testSet.levelFrom) < cefrRank(SPEAKING_FLOOR)) return undefined;
+    if (!testSet || !needsProduction) return undefined;
+    if (partial?.scores.speaking !== undefined) return undefined;
     const tasks = getSpeakingTasks(testSet.levelFrom);
     if (tasks.length === 0) return undefined;
     return { level: testSet.levelFrom, tasks, scorer: whisperClaudeScorer };
-  }, [testSet]);
+  }, [testSet, needsProduction, partial]);
 
-  // Called by ExamRunner when all questions have been answered.
-  const onExamComplete = useCallback(
+  const writingTask: WritingTask | null = useMemo(() => {
+    if (!testSet || !needsProduction) return null;
+    if (partial?.scores.writing !== undefined) return null;
+    return pickWritingTask(testSet.levelFrom);
+  }, [testSet, needsProduction, partial]);
+
+  /** Record the attempt (all required sections present) and show the result. */
+  const finalizeAttempt = useCallback(
     (scores: SkillScores) => {
-      // Speaking gates only once enforced (date gate); shadow mode records it
-      // without effect. When enforced, a B1+ attempt also REQUIRES a speaking
-      // score so skipping can't bypass the gate.
-      const enforced = isSpeakingGateEnforced();
-      const requireSpeaking =
-        enforced && !!testSet && cefrRank(testSet.levelFrom) >= cefrRank(SPEAKING_FLOOR);
-      const { passed } = computePassed(scores, { includeSpeaking: enforced, requireSpeaking });
-      recordEquivalencyAttempt({
-        level: testSet!.levelFrom,
+      const { passed } = recordEquivalencyAttempt({
+        level: testSet!.levelTo,
         scores,
         currentLessonCount: userLessonCount,
       });
+      clearPartial();
       // Feedback loop: a tested weakness reschedules its adaptive categories so
-      // the daily session targets it next (3a — close the loop the audit flagged).
+      // the daily session targets it next.
       applyExamScoresToAdaptive(scores);
       setResultPassed(passed);
       setResultScores(scores);
@@ -189,6 +270,80 @@ export default function EquivalencyTestScreen({
     },
     [testSet, userLessonCount],
   );
+
+  /** After a section completes, either continue to the next one, park the
+   *  attempt (required section unfinishable right now), or finalize. */
+  const advanceFrom = useCallback(
+    (merged: SkillScores) => {
+      setSectionScores(merged);
+      const speakingMissing = needsProduction && merged.speaking === undefined;
+      const writingMissing = needsProduction && merged.writing === undefined;
+      if (writingMissing && writingTask) {
+        setPhase('writing');
+        return;
+      }
+      if (speakingMissing || writingMissing) {
+        // A required production section has no score (mic skipped / evaluator
+        // unavailable). Never record this as a failure — park it.
+        writePartial({
+          toLevel: testSet!.levelTo,
+          startedAt: partial?.startedAt ?? Date.now(),
+          scores: merged,
+        });
+        setPhase('pending');
+        return;
+      }
+      finalizeAttempt(merged);
+    },
+    [needsProduction, writingTask, testSet, partial, finalizeAttempt],
+  );
+
+  // Called by ExamRunner when MCQ + speaking sections finish.
+  const onExamComplete = useCallback(
+    (scores: SkillScores) => {
+      const base = sectionScores ?? ({} as Partial<SkillScores>);
+      const merged = { ...base, ...scores } as SkillScores;
+      advanceFrom(merged);
+    },
+    [sectionScores, advanceFrom],
+  );
+
+  const onWritingScore = useCallback(
+    (score: number) => {
+      const merged = { ...(sectionScores ?? ({} as SkillScores)), writing: score } as SkillScores;
+      advanceFrom(merged);
+    },
+    [sectionScores, advanceFrom],
+  );
+
+  const onWritingDefer = useCallback(() => {
+    if (!sectionScores) return;
+    writePartial({
+      toLevel: testSet!.levelTo,
+      startedAt: partial?.startedAt ?? Date.now(),
+      scores: sectionScores,
+    });
+    setPhase('pending');
+  }, [sectionScores, testSet, partial]);
+
+  /** Begin/resume: route straight to whichever section is actually missing —
+   *  an ExamRunner with no questions AND no speaking section renders nothing. */
+  const startCheck = useCallback(() => {
+    if (partial) {
+      const s = partial.scores;
+      const speakingMissing = needsProduction && s.speaking === undefined;
+      const writingMissing = needsProduction && s.writing === undefined;
+      if (!speakingMissing && !writingMissing) {
+        finalizeAttempt(s);
+        return;
+      }
+      if (!speakingMissing && writingMissing) {
+        setPhase('writing');
+        return;
+      }
+    }
+    setPhase('question');
+  }, [partial, needsProduction, finalizeAttempt]);
 
   // No-test edge case: user is already C2 (no further test exists).
   if (!testSet) {
@@ -200,8 +355,8 @@ export default function EquivalencyTestScreen({
             You're at the top
           </h2>
           <p style={{ color: 'var(--subtext)', fontSize: 14, marginBottom: 18 }}>
-            You've confirmed C1 — the most advanced Level Check in this app. There is no C2 check
-            (C2 is native-equivalent fluency, measured by formal external providers).
+            You've confirmed the most advanced Level Check in this app. Beyond it lies
+            native-equivalent fluency, measured by formal external providers.
           </p>
           <button
             onClick={onBackToProfile}
@@ -229,7 +384,7 @@ export default function EquivalencyTestScreen({
       <div className="scr-wrap">
         <div style={{ padding: '18px 16px' }}>
           <div style={{ fontSize: 11, fontWeight: 900, color: '#cc0000', letterSpacing: '.22em' }}>
-            CEFR LEVEL CHECK
+            {verificationMode ? 'CEFR LEVEL VERIFICATION' : 'CEFR LEVEL CHECK'}
           </div>
           <h2
             style={{
@@ -239,11 +394,33 @@ export default function EquivalencyTestScreen({
               color: 'var(--heading)',
             }}
           >
-            {testSet.levelFrom} → {testSet.levelTo}
+            {verificationMode ? `Verify ${target}` : `${testSet.levelFrom} → ${testSet.levelTo}`}
           </h2>
           <p style={{ fontSize: 14, color: 'var(--subtext)', lineHeight: 1.6, marginBottom: 18 }}>
-            {testSet.description}
+            {verificationMode
+              ? `Your ${target} level was carried over from your activity — this check makes it real. Pass it and everything continues exactly where you left off, now on demonstrated ground.`
+              : testSet.description}
           </p>
+          {partial && (
+            <div
+              style={{
+                background: 'rgba(22,163,74,0.07)',
+                border: '1.5px solid rgba(22,163,74,0.25)',
+                borderRadius: 12,
+                padding: '10px 14px',
+                marginBottom: 14,
+                fontSize: 13,
+                color: '#15803d',
+                fontWeight: 600,
+              }}
+            >
+              ✓ Your earlier answers are saved — only the remaining section
+              {partial.scores.speaking === undefined && partial.scores.writing === undefined
+                ? 's'
+                : ''}{' '}
+              will run.
+            </div>
+          )}
           <div
             style={{
               background: 'var(--card)',
@@ -257,19 +434,19 @@ export default function EquivalencyTestScreen({
               What to expect
             </p>
             <ul style={{ paddingLeft: 18, fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6 }}>
-              <li>{testSet.items.length} multiple-choice items</li>
-              <li>~{testSet.minutes} minutes</li>
-              <li>Mix of vocabulary, grammar, and reading comprehension</li>
-              {speaking && (
-                <li>
-                  A short speaking task{' '}
-                  {isSpeakingGateEnforced()
-                    ? '(🎙️ required)'
-                    : '(🎙️ shown for now, not yet required)'}
-                </li>
+              {!partial && <li>{testSet.items.length} multiple-choice items</li>}
+              {!partial && <li>~{testSet.minutes} minutes</li>}
+              {!partial && <li>Mix of vocabulary, grammar, and reading comprehension</li>}
+              {needsProduction && (
+                <li>A short speaking task (🎙️ required) — you'll need a microphone</li>
               )}
+              {needsProduction && <li>A short writing task (✍️ required)</li>}
               <li>
                 Pass = <b>80%+</b> overall AND on every skill
+              </li>
+              <li>
+                No mic right now, or evaluation unavailable? Your progress saves — finish the
+                remaining section within 48 hours.
               </li>
               <li>Fail = 7-day cooldown OR 5 more lessons before retry</li>
             </ul>
@@ -287,12 +464,12 @@ export default function EquivalencyTestScreen({
             }}
           >
             <b>Real fluency only.</b> Your eligible level (<b>{userEligible}</b>) reflects activity.
-            Passing this Level Check reflects demonstrated competency at <b>{testSet.levelFrom}</b>.
-            It's an in-app proficiency check, not an accredited external certificate.
+            Passing this check demonstrates the competency that <b>{target}</b> stands on. It's an
+            in-app proficiency check, not an accredited external certificate.
           </div>
           <button
             data-testid="equivalency-begin"
-            onClick={() => setPhase('question')}
+            onClick={startCheck}
             style={{
               display: 'block',
               width: '100%',
@@ -307,8 +484,33 @@ export default function EquivalencyTestScreen({
               marginBottom: 10,
             }}
           >
-            Begin Check →
+            {partial ? 'Finish the check →' : 'Begin Check →'}
           </button>
+          {verificationMode && gate.options.length > 1 && !chosenTarget && (
+            <button
+              data-testid="equivalency-stepdown"
+              onClick={() => {
+                const lower = gate.options.find((l) => cefrRank(l) < cefrRank(target!));
+                if (lower) setChosenTarget(lower);
+              }}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '12px',
+                background: 'transparent',
+                color: 'var(--subtext)',
+                border: '1.5px solid var(--card-b)',
+                borderRadius: 12,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+                marginBottom: 10,
+              }}
+            >
+              Not ready for {target}? Verify{' '}
+              {gate.options.find((l) => cefrRank(l) < cefrRank(target!))} instead
+            </button>
+          )}
           <button
             onClick={onBackToProfile}
             style={{
@@ -324,7 +526,7 @@ export default function EquivalencyTestScreen({
               cursor: 'pointer',
             }}
           >
-            Cancel
+            {verificationMode ? 'Back (practice below your gate stays open)' : 'Cancel'}
           </button>
         </div>
       </div>
@@ -343,9 +545,9 @@ export default function EquivalencyTestScreen({
           </h2>
           <p style={{ color: 'var(--subtext)', fontSize: 14, lineHeight: 1.6, marginBottom: 18 }}>
             {retake.reason === 'already_passed'
-              ? `You've already passed the ${testSet.levelFrom} Level Check. No need to retake.`
+              ? `You've already demonstrated ${testSet.levelTo}. No need to retake.`
               : retake.cooldownUntil
-                ? `You can retake the ${testSet.levelFrom} Level Check ${formatCooldownEnd(retake.cooldownUntil)} — or sooner if you complete ${retake.lessonsRemaining} more lesson${retake.lessonsRemaining === 1 ? '' : 's'}.`
+                ? `You can retake the ${testSet.levelTo} check ${formatCooldownEnd(retake.cooldownUntil)} — or sooner if you complete ${retake.lessonsRemaining} more lesson${retake.lessonsRemaining === 1 ? '' : 's'}. That practice is the preparation, not a punishment.`
                 : 'Retake unavailable for now.'}
           </p>
           <button
@@ -368,10 +570,7 @@ export default function EquivalencyTestScreen({
     );
   }
 
-  // ── Question ────────────────────────────────────────────────────────────
-  // Delegated to ExamRunner (data-testid="answer-N", "exam-next", "exam-progress").
-  // From B1 up it also runs a speaking section; in shadow mode that score is
-  // measured and shown but does not gate certification (isSpeakingGateEnforced).
+  // ── Question (MCQ + speaking, via shared runner) ────────────────────────
   if (phase === 'question') {
     return (
       <div className="scr-wrap">
@@ -379,8 +578,63 @@ export default function EquivalencyTestScreen({
           questions={runnerQuestions}
           speaking={speaking}
           onComplete={onExamComplete}
-          title="Level Check"
+          title={verificationMode ? 'Level Verification' : 'Level Check'}
         />
+      </div>
+    );
+  }
+
+  // ── Writing section ─────────────────────────────────────────────────────
+  if (phase === 'writing' && writingTask) {
+    return (
+      <div className="scr-wrap">
+        <div style={{ padding: '18px 16px' }}>
+          <WritingTaskScreen
+            task={writingTask}
+            level={testSet.levelFrom}
+            onScore={onWritingScore}
+            onDefer={onWritingDefer}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // ── Pending (a required section couldn't be completed right now) ────────
+  if (phase === 'pending') {
+    const missingSpeaking = sectionScores?.speaking === undefined;
+    return (
+      <div className="scr-wrap">
+        <div style={{ padding: '24px 18px', textAlign: 'center' }}>
+          <div style={{ fontSize: 56 }}>{missingSpeaking ? '🎙️' : '✍️'}</div>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", margin: '10px 0 4px' }}>
+            Almost there — one section left
+          </h2>
+          <p style={{ color: 'var(--subtext)', fontSize: 14, lineHeight: 1.6, marginBottom: 18 }}>
+            Your answers so far are saved.{' '}
+            {missingSpeaking
+              ? 'Come back within 48 hours with a working microphone to finish the speaking section — only that section will run.'
+              : 'Come back within 48 hours to finish the writing section — only that section will run.'}{' '}
+            Nothing is marked as failed.
+          </p>
+          <button
+            data-testid="verification-pending-back"
+            onClick={onBackToProfile}
+            style={{
+              padding: '14px 22px',
+              background: 'linear-gradient(135deg,#0e7490,#0a5c73)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 12,
+              fontWeight: 800,
+              fontSize: 14,
+              cursor: 'pointer',
+              width: '100%',
+            }}
+          >
+            Back to Profile
+          </button>
+        </div>
       </div>
     );
   }
@@ -400,12 +654,18 @@ export default function EquivalencyTestScreen({
               color: passed ? '#16a34a' : '#dc2626',
             }}
           >
-            {passed ? `Confirmed ${testSet.levelFrom}` : 'Not yet'}
+            {passed
+              ? verificationMode
+                ? `${testSet.levelTo} verified`
+                : `Confirmed ${testSet.levelTo}`
+              : 'Not yet'}
           </h2>
           <p style={{ color: 'var(--subtext)', fontSize: 14, marginBottom: 18 }}>
             {passed
-              ? `You're now confirmed at ${testSet.levelFrom}. ${testSet.levelTo} content is unlocked.`
-              : `You need 80% on every skill to confirm your level. Keep practicing — retest after 5 more lessons or 7 days.`}
+              ? verificationMode
+                ? `Your ${testSet.levelTo} now stands on demonstrated skill. Everything unlocks again — onward.`
+                : `You've demonstrated the competency ${testSet.levelTo} stands on. ${testSet.levelTo} content is unlocked.`
+              : `You need 80% on every skill. Keep practicing — the lessons below your level are the preparation. Retest after 5 more lessons or 7 days.`}
           </p>
           <div
             style={{
@@ -427,6 +687,9 @@ export default function EquivalencyTestScreen({
             )}
             {resultScores.speaking !== undefined && (
               <SkillBar icon="🎙️" label="Speaking" score={resultScores.speaking} />
+            )}
+            {resultScores.writing !== undefined && (
+              <SkillBar icon="✍️" label="Writing" score={resultScores.writing} />
             )}
           </div>
           {resultScores.speaking !== undefined && !isSpeakingGateEnforced() && (

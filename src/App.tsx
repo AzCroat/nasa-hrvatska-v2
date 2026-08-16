@@ -33,6 +33,8 @@ import { getContent } from './lib/contentClient';
 import {
   getEffectiveLevelForUnlock,
   migrateGrandfatheredCertification,
+  markProvisionalGrandfathers,
+  migrateRealPassesToStatusKeys,
 } from './lib/cefrCertification.js';
 import { trackAppOpen, isAnalyticsConsented } from './lib/analytics.js';
 import AppContext from './context/AppContext';
@@ -852,6 +854,12 @@ function App() {
     // Rollup warned "dynamic import will not move module into another chunk".
     const eligible = getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0);
     migrateGrandfatheredCertification(eligible);
+    // Phase 1 mastery gate: passes written before the provisional flag existed
+    // get marked so the verification gate can see them. One-shot, idempotent.
+    markProvisionalGrandfathers();
+    // Phase 1 pipeline repair: historical real passes recorded at the check's
+    // levelFrom get an additive copy at the status key they actually granted.
+    migrateRealPassesToStatusKeys();
     // Intentionally depending on the three primitive fields only — adding
     // `stats` here would re-run on every identity change of the stats object
     // (every render that recreates it) and risk infinite migration calls.
