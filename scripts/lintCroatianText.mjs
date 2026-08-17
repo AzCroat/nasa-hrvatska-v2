@@ -90,6 +90,54 @@ function findBadInString(s) {
   return bad.map((m) => ({ char: m[0], codePoint: m[0].codePointAt(0).toString(16) }));
 }
 
+// ── Serbism blocklist (owner directive, 2026-08-17) ──────────────────────────
+// Standard Croatian only: HIGH-PRECISION Serbian forms that have unambiguous
+// Croatian equivalents. Word-boundary matched, case-insensitive, applied to
+// CROATIAN fields only (`en` glosses are exempt — they may legitimately
+// mention a Serbian form when teaching the contrast). Deliberately
+// conservative: ambiguous or dialect-shared words (e.g. "porodica",
+// "muzika") are NOT listed — false alarms would train people to ignore
+// the lint.
+// JS `\b` is ASCII-only — it mis-fires around č/ć/đ/š/ž (it "matched" reč
+// inside rečenica). Every rule therefore uses Unicode letter lookarounds.
+// Morphology caution: oblique forms of vrijeme are vremena/vremenu IN
+// STANDARD CROATIAN (the ije→e alternation is regular), so only the bare
+// nominative "vreme" marks ekavica; same care applies throughout.
+const sb = (core) => new RegExp(`(?<![\\p{L}])(?:${core})(?![\\p{L}])`, 'iu');
+const SERBISM_RULES = [
+  { re: sb('hleb(a|u|om|e)?'), use: 'kruh' },
+  { re: sb('vazduh(a|u|om)?'), use: 'zrak' },
+  { re: sb('hiljad(a|e|u|ama)?'), use: 'tisuća' },
+  { re: sb('pozorišt(e|a|u|em)'), use: 'kazalište' },
+  { re: sb('takođe'), use: 'također' },
+  { re: sb('uslov(a|u|e|i|ima)?'), use: 'uvjet' },
+  { re: sb('saobraćaj(a|u|em)?'), use: 'promet' },
+  { re: sb('bezbedn\\p{L}*'), use: 'siguran/sigurnost' },
+  { re: sb('obavešt\\p{L}*'), use: 'obavijest/obavještenje' },
+  // Ekavica — bare forms only; oblique cases coincide with standard Croatian:
+  { re: sb('lep|lepa|lepo|lepi'), use: 'lijep/lijepo' },
+  { re: sb('vreme'), use: 'vrijeme' },
+  { re: sb('mlek(o|a|u)'), use: 'mlijeko' },
+  { re: sb('dete'), use: 'dijete' },
+  { re: sb('čovek(a|u|om)?'), use: 'čovjek' },
+  { re: sb('reč|reči'), use: 'riječ' },
+  { re: sb('gde|ovde|negde|nigde'), use: 'gdje/ovdje/negdje/nigdje' },
+  { re: sb('uvek'), use: 'uvijek' },
+];
+
+/** English-gloss fields where a Serbian form may legitimately appear. */
+const SERBISM_EXEMPT_FIELDS = new Set(['en', 'note']);
+
+function findSerbisms(fieldName, s) {
+  if (!s || SERBISM_EXEMPT_FIELDS.has(fieldName)) return null;
+  const hits = [];
+  for (const rule of SERBISM_RULES) {
+    const m = s.match(rule.re);
+    if (m) hits.push({ word: m[0], use: rule.use });
+  }
+  return hits.length > 0 ? hits : null;
+}
+
 async function main() {
   let totalFindings = 0;
   for await (const { rel, buf } of walkTargets()) {
@@ -112,11 +160,23 @@ async function main() {
           badChars: bad,
         });
       }
+      const serbisms = findSerbisms(fieldName, content);
+      if (serbisms) {
+        const line = buf.slice(0, m.index).split('\n').length;
+        findings.push({
+          line,
+          field: fieldName,
+          snippet: content.slice(0, 80),
+          serbisms,
+        });
+      }
     }
     if (findings.length > 0) {
       console.error(`\n=== ${rel} ===`);
       for (const f of findings) {
-        const chars = f.badChars.map((b) => `${b.char} (U+${b.codePoint.toUpperCase()})`).join(', ');
+        const chars = f.badChars
+          ? f.badChars.map((b) => `${b.char} (U+${b.codePoint.toUpperCase()})`).join(', ')
+          : f.serbisms.map((s) => `Serbism "${s.word}" → use ${s.use}`).join(', ');
         console.error(`  ${rel}:${f.line}  [${f.field}]  ${chars}`);
         console.error(`    "${f.snippet.replace(/\n/g, ' ')}..."`);
       }

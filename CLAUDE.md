@@ -241,6 +241,14 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 - **Attempt evidence**: `src/lib/attemptEvidence.ts` (`nh_cefr_attempt_evidence`) stores what each Level Check production score was based on (heard transcript / essay + evaluator feedback), joined to attempts by `takenAt`. **Deliberately local-only** — never add it to `buildProgressSnapshot` (tested); the synced blob carries results, not evidence.
 - **Transcript review**: exam `SpeakingTaskScreen` shows "here's what I heard" and holds the score until the learner confirms; ONE re-record per task (fix a mishearing, don't farm the grader). E2E flows must click `speak-confirm` after recording.
 
+## Critical Architecture: Croatian Script Guard (owner directive, 2026-08-17)
+
+No Cyrillic and no Serbian variants may reach a user, ever. Three layers (pinned by `croatianGuard.test.js`):
+
+1. **Middleware chokepoint**: `functions/_middleware.js` pipes every TEXTUAL `/api` response body through `latinizeResponseBody` (`functions/api/_croatianGuard.js`) — azbuka→gajica transliteration, streaming-safe, binary untouched. No endpoint, present or future, can leak Cyrillic. Never remove this call.
+2. **Prompt rule**: the 7 Croatian-generating endpoints (ai-chat, maja, conversation, conversational-tutor, dialogue, listening, micro-lesson) append `CROATIAN_SCRIPT_RULE` to their system prompts — the only layer that prevents Serbian LEXICON/ekavica, which transliteration cannot fix. New Croatian-generating endpoints must adopt it (tested by source pin).
+3. **Static lint**: `scripts/lintCroatianText.mjs` adds a high-precision Serbism blocklist over the content files. JS `\b` is ASCII-only and mis-fires around č/ć/đ/š/ž — the rules use Unicode lookarounds. Morphology matters: oblique forms of `vrijeme` are `vremena/vremenu` IN STANDARD CROATIAN; only bare ekavica forms are flagged. Extend the list conservatively — false alarms train people to ignore the lint.
+
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 
 Users were being cut off mid-speech. The rules that prevent regression (pinned by `speechEndpointing.test.js`):

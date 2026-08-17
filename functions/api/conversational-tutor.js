@@ -3,6 +3,7 @@
 // Breakdown detection: if user struggles 3x on same concept, switch to English explanation
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { corsHeaders } from './_helpers.js';
 
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -176,7 +177,13 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1024, // 500 truncated the JSON reply (croatian + english + feedback) → cut-off/garbled
-          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
+          system: [
+            {
+              type: 'text',
+              text: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
+              cache_control: { type: 'ephemeral' },
+            },
+          ],
           messages: history,
         }),
         signal: controller.signal,

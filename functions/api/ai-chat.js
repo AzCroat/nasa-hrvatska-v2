@@ -3,6 +3,7 @@
 // systemPrompt is built server-side from mode + params to prevent prompt injection
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 
@@ -19,11 +20,14 @@ const MODE_TO_KIND = {
 };
 
 function _maybePersonalize(baseSystem, mode, body) {
-  if (!PERSONALIZED_MODES.has(mode)) return baseSystem;
+  // Croatian script guard (2026-08-17): every mode gets the language rule —
+  // Latin script, standard Croatian, never Serbian variants.
+  const withRule = baseSystem + '\n\n' + CROATIAN_SCRIPT_RULE;
+  if (!PERSONALIZED_MODES.has(mode)) return withRule;
   const userCtx = parseUserContext(body);
   const kind = MODE_TO_KIND[mode];
   const contextProse = renderContextPrompt(userCtx, kind);
-  return contextProse ? baseSystem + '\n\n' + contextProse : baseSystem;
+  return contextProse ? withRule + '\n\n' + contextProse : withRule;
 }
 
 // ── Security: sanitize user-supplied prompt parameters ────────────────────────

@@ -3,6 +3,7 @@
 // The AI plays the NPC character; the learner plays themselves.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 import { sanitizeParam } from './_helpers.js';
@@ -270,7 +271,7 @@ COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear gr
             C1: 400,
             C2: 400,
           }[safeLevel] || 280,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages,
       }),
     });
