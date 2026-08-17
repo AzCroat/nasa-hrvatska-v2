@@ -651,10 +651,18 @@ describe('Phase 1 — leveled-input entries are difficulty-matched at every leve
     const adaptive = await import('../lib/adaptive');
     vi.mocked(adaptive.getDueCategoryQueue).mockReturnValue([]);
 
-    // Statistical with a WIDE margin: adaptive entries now sort at distance 0
-    // for every level, so most sessions include at least one. Before this
-    // change their fixed tier-3 scores put them 2 tiers away from a C1 user
-    // and they almost never surfaced.
+    // Statistical with a floor FAR from the mean (2026-08-17). Session fill
+    // picks randomly among equally-recent pool entries, so per-session
+    // adaptive inclusion is genuinely stochastic: measured ≈8-15 of 30
+    // across environments, and CI's coverage-instrumented run repeatedly
+    // landed on exactly 8 while the identical suite passed uninstrumented —
+    // the old floor of 10 sat ON the distribution's mean and coin-flipped
+    // the build. At the observed worst-case rate (p≈0.27, n=30), a floor of
+    // 2 fails honestly less than once in a thousand runs while still
+    // catching the original bug class outright — the fixed tier-3 scores
+    // ranked adaptive entries away from C1 users almost ENTIRELY, producing
+    // ~0 of 30. Do not raise this floor back toward the mean without
+    // measuring the distribution first.
     const adaptiveSet = new Set(ADAPTIVE_IDS);
     let sessionsWithAdaptive = 0;
     for (let i = 0; i < 30; i++) {
@@ -662,7 +670,7 @@ describe('Phase 1 — leveled-input entries are difficulty-matched at every leve
       const acts = buildSessionActivities('C1');
       if (acts.some((a) => adaptiveSet.has(a.id))) sessionsWithAdaptive++;
     }
-    expect(sessionsWithAdaptive).toBeGreaterThanOrEqual(10);
+    expect(sessionsWithAdaptive).toBeGreaterThanOrEqual(2);
   });
 });
 
