@@ -6,8 +6,15 @@
 # run costs real (bounded, pre-charged) AI budget — ~$0.19 worst-case — which
 # is why this never runs on a schedule or on push.
 #
-# Requires the CRON_SECRET repository secret (the same value configured in
-# the Cloudflare dashboard for the scheduled worker).
+# SELF-PROVISIONING AUTH (2026-08-16, owner request — no manual secret
+# shuttling): the auth token is DERIVED at runtime as
+# HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1") — a credential this
+# repo's CI already holds for deploys. Both sides can recompute it, so no new
+# secret is stored anywhere. If the endpoint answers 401 (first ever run, or
+# the CF token was rotated), the workflow installs the derived value into the
+# Pages project as CALIBRATION_SECRET via wrangler and triggers a redeploy —
+# the exact mechanism proven by vapid-provision.yml / sync-cf-pages-env.yml —
+# then retries. The owner's CRON_SECRET is never touched.
 name: AI evaluator calibration
 
 on:
@@ -19,23 +26,71 @@ permissions:
 jobs:
   calibrate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Run golden set against production evaluators
         env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Optional override: if a CRON_SECRET repo secret is ever added it
+          # wins, and no provisioning is attempted with it.
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           set -euo pipefail
-          if [ -z "${CRON_SECRET}" ]; then
-            echo "::error::CRON_SECRET repository secret is not configured"
+          if [ -z "${CF_TOKEN}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN repository secret is not configured"
             exit 1
           fi
-          REPORT=$(curl -sS --fail-with-body -X POST \
-            "https://nasahrvatska.com/api/golden-calibration" \
-            -H "x-cron-secret: ${CRON_SECRET}")
-          echo "$REPORT" | python3 -m json.tool
-          echo "$REPORT" > report.json
-          python3 - report.json <<'EOF'
+
+          # Derive the calibration token (never printed; masked defensively).
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          else
+            TOKEN=$(printf '%s' "nh-calibration-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
+          fi
+          echo "::add-mask::${TOKEN}"
+
+          call() {
+            # Prints the HTTP status on the last line, body above it.
+            curl -sS -o /tmp/body.json -w '%{http_code}' -X POST \
+              "https://nasahrvatska.com/api/golden-calibration" \
+              -H "x-cron-secret: ${TOKEN}"
+          }
+
+          STATUS=$(call || true)
+          if [ "$STATUS" = "401" ] || [ "$STATUS" = "503" ]; then
+            if [ -n "${CRON_SECRET}" ]; then
+              echo "::error::CRON_SECRET was provided but the endpoint rejected it ($STATUS)"
+              exit 1
+            fi
+            echo "Endpoint answered $STATUS — provisioning CALIBRATION_SECRET (first run or CF token rotated)"
+            export CLOUDFLARE_API_TOKEN="${CF_TOKEN}"
+            export CLOUDFLARE_ACCOUNT_ID="${CF_ACCOUNT}"
+            printf '%s' "${TOKEN}" | npx --yes wrangler@3 pages secret put CALIBRATION_SECRET \
+              --project-name nasa-hrvatska-v2 >/dev/null
+            echo "Secret installed — triggering a Pages redeploy so functions pick it up"
+            curl -sf -X POST \
+              "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/nasa-hrvatska-v2/deployments" \
+              -H "Authorization: Bearer ${CF_TOKEN}" \
+              -F "branch=master" | python3 -c "import json,sys; d=json.load(sys.stdin); print('deploy queued:', d.get('success'))"
+            # Poll until the redeployed functions accept the token (~2-4 min).
+            for i in $(seq 1 20); do
+              sleep 30
+              STATUS=$(call || true)
+              echo "  poll $i: HTTP $STATUS"
+              [ "$STATUS" != "401" ] && [ "$STATUS" != "503" ] && break
+            done
+          fi
+
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Calibration endpoint answered HTTP $STATUS"
+            cat /tmp/body.json || true
+            exit 1
+          fi
+
+          python3 -m json.tool < /tmp/body.json
+          python3 - /tmp/body.json <<'EOF'
           import json, sys
           report = json.load(open(sys.argv[1]))
           misses = [s for s in report["samples"] if s.get("evaluated") and not s.get("ok")]

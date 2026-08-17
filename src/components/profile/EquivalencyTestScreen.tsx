@@ -235,6 +235,10 @@ export default function EquivalencyTestScreen({
   const [phase, setPhase] = useState<Phase>(initialPhase);
   const [resultPassed, setResultPassed] = useState<boolean | null>(null);
   const [resultScores, setResultScores] = useState<SkillScores | null>(null);
+  const [resultRollback, setResultRollback] = useState<{
+    from: CefrLevel;
+    to: CefrLevel;
+  } | null>(null);
   const [sectionScores, setSectionScores] = useState<SkillScores | null>(partial?.scores ?? null);
   // Audit trail (2026-08-16): the evidence behind this attempt's AI-scored
   // sections, accumulated as sections complete and persisted with the attempt.
@@ -282,11 +286,12 @@ export default function EquivalencyTestScreen({
   /** Record the attempt (all required sections present) and show the result. */
   const finalizeAttempt = useCallback(
     (scores: SkillScores) => {
-      const { passed, attempt } = recordEquivalencyAttempt({
+      const { passed, attempt, rollback } = recordEquivalencyAttempt({
         level: testSet!.levelTo,
         scores,
         currentLessonCount: userLessonCount,
       });
+      setResultRollback(rollback);
       clearPartial();
       // Audit trail: persist what the AI-scored sections were based on, joined
       // to the attempt by takenAt. Local-only store; see attemptEvidence.ts.
@@ -742,8 +747,29 @@ export default function EquivalencyTestScreen({
               ? verificationMode
                 ? `Your ${testSet.levelTo} now stands on demonstrated skill. Everything unlocks again — onward.`
                 : `You've demonstrated the competency ${testSet.levelTo} stands on. ${testSet.levelTo} content is unlocked.`
-              : `You need 80% on every skill. Keep practicing — the lessons below your level are the preparation. Retest after 5 more lessons or 7 days.`}
+              : resultRollback
+                ? `Honest read: today's check didn't support ${resultRollback.from}, so your level moved to ${resultRollback.to}. Nothing is lost — verify ${resultRollback.to}, build the weaker skills, and win ${resultRollback.from} back for real.`
+                : `You need 80% on every skill. Keep practicing — the lessons below your level are the preparation. Retest after 5 more lessons or 7 days.`}
           </p>
+          {resultRollback && (
+            <div
+              data-testid="verification-rollback-note"
+              style={{
+                background: 'rgba(204,0,0,0.06)',
+                border: '1.5px solid rgba(204,0,0,0.2)',
+                borderRadius: 12,
+                padding: '10px 14px',
+                marginBottom: 18,
+                fontSize: 13,
+                color: '#a30000',
+                lineHeight: 1.5,
+                textAlign: 'left',
+              }}
+            >
+              Your badge and content now reflect <b>{resultRollback.to}</b>. That is the level
+              today&apos;s evidence supports — and the fastest route back up is real practice at it.
+            </div>
+          )}
           <div
             style={{
               background: 'var(--card)',

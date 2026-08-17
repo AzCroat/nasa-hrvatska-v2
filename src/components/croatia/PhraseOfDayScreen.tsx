@@ -35,6 +35,77 @@ interface ChatMessage {
   content: string;
 }
 
+// ── AI response sanitization (Sentry 933936a2, 2026-08-16) ───────────────────
+// The generator sometimes returns bilingual OBJECTS ({hr, en}) where this
+// screen's shape declares strings — rendered directly, React throws "Objects
+// are not valid as a React child" and the boundary eats the whole screen.
+// Every renderable field is coerced to a string here (preferring the Croatian
+// side for Croatian fields, English for glosses), unknown fields are dropped,
+// and an unusable payload returns null so the caller falls back to the seeds.
+
+/** Coerce an AI field to text: strings pass through; {hr,en} picks a side. */
+function asText(v: unknown, prefer: 'hr' | 'en'): string {
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number') return String(v);
+  if (v && typeof v === 'object') {
+    const o = v as Record<string, unknown>;
+    const hr = typeof o.hr === 'string' ? o.hr : undefined;
+    const en = typeof o.en === 'string' ? o.en : undefined;
+    return (prefer === 'hr' ? (hr ?? en) : (en ?? hr)) ?? '';
+  }
+  return '';
+}
+
+export function sanitizePhraseData(raw: unknown): PhraseData | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const r = raw as Record<string, unknown>;
+  const phrase = asText(r.phrase, 'hr');
+  if (!phrase) return null;
+  const opt = (v: unknown, p: 'hr' | 'en'): string | undefined => {
+    const s = asText(v, p);
+    return s || undefined;
+  };
+  const data: PhraseData = {
+    phrase,
+    translation: asText(r.translation, 'en'),
+    ...(opt(r.literal, 'en') ? { literal: opt(r.literal, 'en') } : {}),
+    ...(opt(r.pronunciation_guide, 'en')
+      ? { pronunciation_guide: opt(r.pronunciation_guide, 'en') }
+      : {}),
+    ...(opt(r.when_to_use, 'en') ? { when_to_use: opt(r.when_to_use, 'en') } : {}),
+    ...(opt(r.cultural_note, 'en') ? { cultural_note: opt(r.cultural_note, 'en') } : {}),
+    ...(opt(r.focus, 'en') ? { focus: opt(r.focus, 'en') } : {}),
+  };
+  if (Array.isArray(r.example_dialogue)) {
+    const lines = r.example_dialogue
+      .map((d) => {
+        const row = (d ?? {}) as Record<string, unknown>;
+        return { speaker: asText(row.speaker, 'hr'), line: asText(row.line, 'hr') };
+      })
+      .filter((d) => d.line);
+    if (lines.length > 0) data.example_dialogue = lines;
+  }
+  if (Array.isArray(r.word_breakdown)) {
+    const words = r.word_breakdown
+      .map((w) => {
+        const row = (w ?? {}) as Record<string, unknown>;
+        const note = asText(row.note, 'en');
+        return {
+          word: asText(row.word, 'hr'),
+          meaning: asText(row.meaning, 'en'),
+          ...(note ? { note } : {}),
+        };
+      })
+      .filter((w) => w.word);
+    if (words.length > 0) data.word_breakdown = words;
+  }
+  if (Array.isArray(r.related_phrases)) {
+    const rel = r.related_phrases.map((p) => asText(p, 'hr')).filter(Boolean);
+    if (rel.length > 0) data.related_phrases = rel;
+  }
+  return data;
+}
+
 // ── Category definitions ──────────────────────────────────────────────────────
 const CATEGORIES = [
   { id: 'greeting', label: '🌅 Greeting' },
@@ -391,8 +462,11 @@ export default function PhraseOfDayScreen({
           }
         }
 
-        if (parsed && parsed.phrase) {
-          setPhraseData(parsed);
+        // Sanitize BEFORE it can reach render: bilingual {hr,en} objects in
+        // string positions crashed this screen (Sentry 933936a2).
+        const clean = sanitizePhraseData(parsed);
+        if (clean) {
+          setPhraseData(clean);
         } else {
           throw new Error('Invalid phrase data from API');
         }

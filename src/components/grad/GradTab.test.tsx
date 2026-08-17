@@ -1,9 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-vi.mock('../../context/AppContext', () => ({
-  useApp: () => ({ setScr: vi.fn(), setTab: vi.fn() }),
-}));
+vi.mock('../../context/AppContext', async () => {
+  const React = await import('react');
+  // Real context so default-importing consumers (useNextStepEngine) can
+  // useContext it; null value = engine renders from empty state.
+  const Ctx = React.createContext(null);
+  return { default: Ctx, useApp: () => ({ setScr: vi.fn(), setTab: vi.fn() }) };
+});
 vi.mock('../../context/StatsContext', () => ({
   useStats: () => ({ stats: { xp: 9000, lc: 40, gc: 12 } }),
 }));

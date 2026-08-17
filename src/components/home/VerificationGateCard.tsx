@@ -8,6 +8,7 @@
 
 import React from 'react';
 import type { VerificationGate, SkillKey } from '../../lib/cefrCertification';
+import { getLastVerificationRollback } from '../../lib/cefrCertification';
 import { readinessForVerification } from '../../lib/masteryLedger';
 
 const SKILL_LABEL: Record<SkillKey, string> = {
@@ -26,6 +27,10 @@ interface Props {
 
 export default function VerificationGateCard({ gate, onStartVerification }: Props) {
   if (!gate.required || !gate.target) return null;
+  // Honest rollback (2026-08-17): after a failed check stepped the level down,
+  // the card must SAY so — unchanged copy after a completed test reads as
+  // "your test didn't count".
+  const rollback = getLastVerificationRollback();
   // Phase 2 mastery ledger: show what daily practice already signals, so the
   // learner walks into the verification knowing where they stand.
   const readiness = readinessForVerification(gate.target);
@@ -69,9 +74,9 @@ export default function VerificationGateCard({ gate, onStartVerification }: Prop
         Make your {gate.target} real
       </div>
       <p style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.92, margin: '0 0 14px' }}>
-        Your {gate.target} was carried over from activity — mastery means demonstrating it. New{' '}
-        {gate.target} content is paused until you pass the verification; everything below stays
-        open, and that practice is exactly the preparation.
+        {rollback && rollback.to === gate.target
+          ? `Your ${rollback.from} check didn't pass, so your level honestly moved to ${gate.target}. Verify it to stand on solid ground — then win ${rollback.from} back for real.`
+          : `Your ${gate.target} was carried over from activity — mastery means demonstrating it. New ${gate.target} content is paused until you pass the verification; everything below stays open, and that practice is exactly the preparation.`}
       </p>
       {readinessLine && (
         <p
