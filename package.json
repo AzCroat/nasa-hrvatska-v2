@@ -52,7 +52,7 @@
     "@sentry/react": "~10.62.0",
     "canvas-confetti": "~1.9.4",
     "dexie": "~4.4.4",
-    "firebase": "~12.17.0",
+    "firebase": "~12.17.1",
     "framer-motion": "~13.1.0",
     "idb": "^8.0.3",
     "posthog-js": "^1.391.2",
