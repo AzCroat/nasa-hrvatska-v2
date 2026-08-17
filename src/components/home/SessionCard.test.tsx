@@ -65,18 +65,24 @@ describe('SessionCard — complete-state constant prompt (owner directive 2026-0
     nextActivity: null,
   };
 
-  it('leads with ONE commanding next exercise when the engine supplies it', () => {
+  it('leads with ONE commanding next exercise when the engine supplies it — HERO ONLY', () => {
     const onNextStart = vi.fn();
     renderCard({
       ...completeProps,
       nextStep: { label: 'Review 12 phrases with prof. Kovač', reason: 'Reviews are due now.' },
       onNextStart,
+      // Even when the parallel options exist, the guided path shows NONE of
+      // them (owner directive 2026-08-17: hero only — guided learning path).
+      bonusActivities: [{ id: 'b1', label: 'Bonus drill', screen: 'cloze', category: 'general' }],
+      onBonusStart: vi.fn(),
+      onStartFresh: vi.fn(),
     });
     const primary = screen.getByTestId('next-up-primary');
     expect(primary.textContent).toContain('Review 12 phrases');
     expect(screen.getByText('Reviews are due now.')).toBeTruthy();
-    // The old generic option list is NOT the primary any more.
     expect(screen.queryByText('Practice more →')).toBeNull();
+    expect(screen.queryByTestId('bonus-activities')).toBeNull();
+    expect(screen.queryByTestId('start-fresh-session')).toBeNull();
     fireEvent.click(primary);
     expect(onNextStart).toHaveBeenCalledTimes(1);
   });

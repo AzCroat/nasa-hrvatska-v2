@@ -337,7 +337,10 @@ export default function SessionCard({
               {wordsdue > 0 ? `📚 Review ${wordsdue} with prof. Kovač →` : 'Practice more →'}
             </button>
           )}
-          {bonusActivities.length > 0 && onBonusStart && (
+          {/* HERO ONLY (owner directive, 2026-08-17): when the engine
+              supplies the next step, the guided path IS the interface —
+              no parallel option lists competing with it. */}
+          {!nextStep && bonusActivities.length > 0 && onBonusStart && (
             <div data-testid="bonus-activities" style={{ textAlign: 'left', marginBottom: 8 }}>
               <div
                 style={{
@@ -379,7 +382,7 @@ export default function SessionCard({
               ))}
             </div>
           )}
-          {onStartFresh && (
+          {!nextStep && onStartFresh && (
             <button
               onClick={onStartFresh}
               data-testid="start-fresh-session"
