@@ -46,6 +46,7 @@
  */
 
 import { corsHeaders, isAllowedOrigin } from './api/_helpers.js';
+import { latinizeResponseBody } from './api/_croatianGuard.js';
 
 // ── Module-level fallback map ─────────────────────────────────────────────────
 // Used when caches.default is unavailable. Per-isolate — not shared across instances.
@@ -245,5 +246,10 @@ export async function onRequest(context) {
     console.log(logEntry);
   }
 
-  return response;
+  // CROATIAN SCRIPT GUARD (owner directive, 2026-08-17): this is the ONE
+  // chokepoint every /api response passes through, so it is where the
+  // guarantee lives — no Cyrillic can reach the client from any endpoint,
+  // present or future. Textual bodies only; binary (TTS audio) untouched;
+  // streaming-safe. See functions/api/_croatianGuard.js.
+  return latinizeResponseBody(response);
 }

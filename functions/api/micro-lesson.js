@@ -3,6 +3,7 @@
 // Adapts to their level and goal for maximum relevance.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -145,7 +146,9 @@ Return ONLY valid JSON (no markdown):
         model: MODEL,
         max_tokens: 1100,
         system:
-          'You are a Croatian language teacher creating a targeted micro-lesson. Return ONLY valid JSON, no markdown.',
+          'You are a Croatian language teacher creating a targeted micro-lesson. Return ONLY valid JSON, no markdown.' +
+          '\n\n' +
+          CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMsg }],
       }),
     });

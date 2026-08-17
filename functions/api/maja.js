@@ -3,6 +3,7 @@
 // Keeps the API key server-side; never exposed to the browser
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { corsHeaders } from './_helpers.js';
 
 // Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
@@ -901,7 +902,13 @@ export async function onRequestPost(context) {
           model: MODEL,
           max_tokens: 1024,
           stream: true,
-          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
+          system: [
+            {
+              type: 'text',
+              text: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
+              cache_control: { type: 'ephemeral' },
+            },
+          ],
           messages: merged,
         }),
       });
@@ -950,7 +957,13 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 1024,
-        system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
+        system: [
+          {
+            type: 'text',
+            text: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
+            cache_control: { type: 'ephemeral' },
+          },
+        ],
         messages: merged,
       }),
     });

@@ -17,6 +17,7 @@
 // Final event: { done: true, ...fullResponseObject }
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
@@ -550,7 +551,9 @@ export async function onRequestPost(context) {
   // only when the client supplies a valid userContext payload.
   const userCtx = parseUserContext(body);
   const contextProse = renderContextPrompt(userCtx, 'maja');
-  const finalSystem = contextProse ? systemPrompt + '\n\n' + contextProse : systemPrompt;
+  const finalSystemBase = contextProse ? systemPrompt + '\n\n' + contextProse : systemPrompt;
+  // Croatian script guard (2026-08-17): Latin script, standard Croatian only.
+  const finalSystem = finalSystemBase + '\n\n' + CROATIAN_SCRIPT_RULE;
 
   // ── Stream from Anthropic API ──────────────────────────────────────────────
   // We use the raw fetch + SSE approach rather than the Anthropic SDK because

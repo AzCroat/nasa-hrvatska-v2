@@ -2,6 +2,7 @@
 // Generates a complete AI Croatian listening exercise: dialogue or monologue + comprehension questions.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
 
@@ -184,7 +185,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: maxTokens,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });
