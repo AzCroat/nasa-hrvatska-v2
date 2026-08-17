@@ -51,6 +51,15 @@ interface SessionCardProps {
   /** Phase 3 journey engine: one line explaining what today's plan targets
    *  (from the mastery ledger). Not rendered when absent. */
   planReason?: string | null;
+  /**
+   * THE CONSTANT PROMPT (owner directive, 2026-08-17): after the session
+   * completes, Home must still lead with ONE commanding next exercise — the
+   * recommendation IS the interface, not a list of options. Supplied by the
+   * next-step engine; when present it becomes the complete-state primary CTA.
+   */
+  nextStep?: { label: string; reason: string } | null;
+  /** Launches the nextStep recommendation. */
+  onNextStart?: () => void;
 }
 
 // ── Šahovnica Croatian coat of arms crest ──
@@ -215,6 +224,8 @@ export default function SessionCard({
   onBonusStart,
   onStartFresh,
   planReason = null,
+  nextStep = null,
+  onNextStart,
 }: SessionCardProps) {
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
@@ -267,27 +278,69 @@ export default function SessionCard({
               </span>
             )}
           </div>
-          <button
-            onClick={onKeepPracticing}
-            style={{
-              background:
-                wordsdue > 0 ? `linear-gradient(135deg, ${CROATIAN_BLUE}, #0052cc)` : 'none',
-              border: wordsdue > 0 ? 'none' : '1.5px solid #e2e8f0',
-              borderRadius: 10,
-              padding: '10px 20px',
-              fontSize: 13,
-              fontWeight: 700,
-              color: wordsdue > 0 ? '#fff' : 'var(--subtext)',
-              cursor: 'pointer',
-              fontFamily: "'Outfit',sans-serif",
-              display: 'block',
-              width: '100%',
-              marginBottom: bonusActivities.length > 0 ? 16 : 8,
-            }}
-          >
-            {wordsdue > 0 ? `📚 Review ${wordsdue} with prof. Kovač →` : 'Practice more →'}
-          </button>
-          {bonusActivities.length > 0 && onBonusStart && (
+          {nextStep && onNextStart ? (
+            // THE CONSTANT PROMPT (owner directive, 2026-08-17): completion is
+            // never an end state — ONE commanding next exercise, same visual
+            // weight as Begin Session, chosen by the next-step engine.
+            <>
+              <button
+                data-testid="next-up-primary"
+                onClick={onNextStart}
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: 13,
+                  border: 'none',
+                  background: CROATIAN_RED,
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: 900,
+                  fontFamily: "'Outfit',sans-serif",
+                  cursor: 'pointer',
+                  letterSpacing: '.025em',
+                  boxShadow: '0 4px 16px rgba(204,0,0,.45), inset 0 1px 0 rgba(255,255,255,.15)',
+                  marginBottom: 6,
+                }}
+              >
+                ▶ Next up: {nextStep.label} →
+              </button>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: 'var(--subtext)',
+                  fontWeight: 600,
+                  marginBottom: bonusActivities.length > 0 ? 14 : 8,
+                }}
+              >
+                {nextStep.reason}
+              </div>
+            </>
+          ) : (
+            <button
+              onClick={onKeepPracticing}
+              style={{
+                background:
+                  wordsdue > 0 ? `linear-gradient(135deg, ${CROATIAN_BLUE}, #0052cc)` : 'none',
+                border: wordsdue > 0 ? 'none' : '1.5px solid #e2e8f0',
+                borderRadius: 10,
+                padding: '10px 20px',
+                fontSize: 13,
+                fontWeight: 700,
+                color: wordsdue > 0 ? '#fff' : 'var(--subtext)',
+                cursor: 'pointer',
+                fontFamily: "'Outfit',sans-serif",
+                display: 'block',
+                width: '100%',
+                marginBottom: bonusActivities.length > 0 ? 16 : 8,
+              }}
+            >
+              {wordsdue > 0 ? `📚 Review ${wordsdue} with prof. Kovač →` : 'Practice more →'}
+            </button>
+          )}
+          {/* HERO ONLY (owner directive, 2026-08-17): when the engine
+              supplies the next step, the guided path IS the interface —
+              no parallel option lists competing with it. */}
+          {!nextStep && bonusActivities.length > 0 && onBonusStart && (
             <div data-testid="bonus-activities" style={{ textAlign: 'left', marginBottom: 8 }}>
               <div
                 style={{
@@ -329,7 +382,7 @@ export default function SessionCard({
               ))}
             </div>
           )}
-          {onStartFresh && (
+          {!nextStep && onStartFresh && (
             <button
               onClick={onStartFresh}
               data-testid="start-fresh-session"

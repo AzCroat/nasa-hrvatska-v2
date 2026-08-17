@@ -87,6 +87,7 @@ import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
 import { hostOfDay } from './hostFamily';
 import { getServableReviewCount } from '../../lib/srs';
+import { useNextStepEngine } from '../../hooks/useNextStepEngine';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 
 const LEVEL_PALETTE = [
@@ -391,6 +392,17 @@ export default function HomeTab({
     startFreshSession,
   } = useDailySession(userCefr, poolWords);
   const dueCount = getServableReviewCount(poolWords);
+  // THE CONSTANT PROMPT (owner directive, 2026-08-17): when the session is
+  // complete, Home still leads with ONE commanding next exercise — computed by
+  // the same engine as every other next-step surface. Recomputed when the
+  // completion state or review queue changes; null while the session runs
+  // (its own Begin/Continue CTA is the prompt then).
+  const nextStepEngine = useNextStepEngine();
+  const completeNextStep = useMemo(
+    () => (isComplete ? nextStepEngine.computeStep() : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- recompute on completion/queue change; computeStep reads storage fresh each call
+    [isComplete, dueCount],
+  );
   const xpThisWeek = (() => {
     try {
       return parseInt(lsGet('nh_week_xp_' + weekKey()) || '0', 10);
@@ -633,6 +645,10 @@ export default function HomeTab({
           }
         }}
         onStartFresh={startFreshSession}
+        nextStep={completeNextStep}
+        onNextStart={() => {
+          if (completeNextStep) nextStepEngine.launch(completeNextStep);
+        }}
       />
 
       {/* ── DAILY XP GOAL — the commitment the user set at onboarding, shown on the

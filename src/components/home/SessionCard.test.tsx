@@ -56,3 +56,40 @@ describe('SessionCard — Reviews Due pill', () => {
     expect(screen.queryByText(/čeka ponavljanje/i)).toBeNull();
   });
 });
+
+describe('SessionCard — complete-state constant prompt (owner directive 2026-08-17)', () => {
+  const completeProps = {
+    session: { ...baseSession, completedIds: ['flashcards'] },
+    isComplete: true,
+    progress: 1,
+    nextActivity: null,
+  };
+
+  it('leads with ONE commanding next exercise when the engine supplies it — HERO ONLY', () => {
+    const onNextStart = vi.fn();
+    renderCard({
+      ...completeProps,
+      nextStep: { label: 'Review 12 phrases with prof. Kovač', reason: 'Reviews are due now.' },
+      onNextStart,
+      // Even when the parallel options exist, the guided path shows NONE of
+      // them (owner directive 2026-08-17: hero only — guided learning path).
+      bonusActivities: [{ id: 'b1', label: 'Bonus drill', screen: 'cloze', category: 'general' }],
+      onBonusStart: vi.fn(),
+      onStartFresh: vi.fn(),
+    });
+    const primary = screen.getByTestId('next-up-primary');
+    expect(primary.textContent).toContain('Review 12 phrases');
+    expect(screen.getByText('Reviews are due now.')).toBeTruthy();
+    expect(screen.queryByText('Practice more →')).toBeNull();
+    expect(screen.queryByTestId('bonus-activities')).toBeNull();
+    expect(screen.queryByTestId('start-fresh-session')).toBeNull();
+    fireEvent.click(primary);
+    expect(onNextStart).toHaveBeenCalledTimes(1);
+  });
+
+  it('falls back to the legacy Practice-more CTA when no recommendation is supplied', () => {
+    renderCard({ ...completeProps });
+    expect(screen.queryByTestId('next-up-primary')).toBeNull();
+    expect(screen.getByText('Practice more →')).toBeTruthy();
+  });
+});
