@@ -39,6 +39,9 @@ vi.mock('../context/StatsContext', () => ({
 }));
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0.9999 }));
+// Wrong answers now request a plain-English AI explanation (concept-teaching,
+// 2026-08-18) — keep it inert here; the hook is fail-soft by contract.
+vi.mock('../lib/aiPost', () => ({ _aiPost: vi.fn(() => Promise.reject(new Error('offline'))) }));
 vi.mock('../data', async (importOriginal) => {
   const actual = (await importOriginal()) as Record<string, unknown>;
   return {
@@ -53,6 +56,14 @@ import GenitiveDrill from '../components/practice/GenitiveDrill';
 /** Drive the whole drill, clicking option index `optIdx` (0 = correct, 1 = wrong) each question. */
 function runDrill(optIdx: number) {
   for (let i = 0; i < 400; i++) {
+    // Concept-teaching (2026-08-18): tap through the teaching phase first.
+    const introStart = document.querySelector(
+      '[data-testid="case-intro-start"]',
+    ) as HTMLElement | null;
+    if (introStart) {
+      fireEvent.click(introStart);
+      continue;
+    }
     const advance = screen
       .queryAllByRole('button')
       .find((b) => /next|see results/i.test(b.textContent || ''));

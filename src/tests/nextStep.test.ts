@@ -11,6 +11,9 @@ import { localDateStr } from '../lib/dateUtils';
 
 vi.mock('../lib/cefrCertification', () => ({
   getVerificationGate: vi.fn(() => ({ required: false, target: null, options: [] })),
+  // Quiet period (2026-08-18): default NOT quiet so the verification-rung
+  // tests keep their original meaning; the quiet behavior has its own test.
+  isVerificationQuiet: vi.fn(() => false),
 }));
 vi.mock('../lib/srs', () => ({
   getServableReviewCount: vi.fn(() => 0),
@@ -75,6 +78,29 @@ describe('getNextStep priority ladder', () => {
     expect(step.kind).toBe('verification');
     expect(step.screen).toBe('equivalency');
     expect(step.label).toContain('B1');
+  });
+
+  it('1b: the QUIET PERIOD stands the verification rung down — practice resumes (owner, 2026-08-18)', async () => {
+    // Right after an attempt (pass or fail), "retake the test" is the wrong
+    // recommendation: the ladder must fall through to real practice.
+    const { isVerificationQuiet } = await import('../lib/cefrCertification');
+    vi.mocked(getVerificationGate).mockReturnValue({
+      required: true,
+      target: 'B1',
+      options: ['B1'],
+    } as never);
+    vi.mocked(isVerificationQuiet).mockReturnValue(true);
+    vi.mocked(weakestProductionKind).mockReturnValue('write');
+    vi.mocked(selectProductionExercise).mockReturnValue({
+      id: 'writing_guided',
+      label: 'Guided Writing',
+      screen: 'writing_guided',
+      category: 'writing',
+    } as never);
+    const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
+    expect(step.kind).not.toBe('verification');
+    expect(step.kind).toBe('production'); // the ledger's weakest skill wins instead
+    vi.mocked(isVerificationQuiet).mockReturnValue(false);
   });
 
   it('2: an unfinished daily session recommends its next activity (with session credit id)', () => {

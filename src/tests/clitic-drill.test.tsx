@@ -95,6 +95,7 @@ import CliticDrill from '../components/practice/CliticDrill';
 function renderCliticDrill(overrides = {}) {
   const props = { goBack: vi.fn(), award: vi.fn(), ...overrides };
   const utils = render(<CliticDrill {...props} />);
+  tapThroughIntro();
   return { ...utils, props };
 }
 
@@ -139,6 +140,13 @@ function completeAllQuestions(award: ReturnType<typeof vi.fn> = vi.fn()) {
 }
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
+
+// Concept-teaching (2026-08-18): drills open with a teaching phase — tap
+// through it like a returning learner before asserting on question UI.
+function tapThroughIntro() {
+  const start = document.querySelector('[data-testid="case-intro-start"]');
+  if (start) fireEvent.click(start);
+}
 
 describe('CliticDrill — rendering', () => {
   it('renders without crashing', () => {
@@ -314,6 +322,7 @@ describe('CliticDrill — navigation', () => {
   it('goBack is called when ← Back is clicked on the done screen', () => {
     const goBack = vi.fn();
     const { container } = render(<CliticDrill goBack={goBack} award={vi.fn()} />);
+    tapThroughIntro();
     answerAllCorrectly(container);
     // Done screen: click "← Back" button
     const backBtn = container.querySelector('button.b.bp');

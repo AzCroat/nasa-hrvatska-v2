@@ -93,6 +93,16 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
       continue;
     }
 
+    // Priority 0.5 (concept-teaching, 2026-08-18): the case drills open with a
+    // teaching phase — tap through its Start button like a returning learner.
+    const introStart = document.querySelector(
+      '[data-testid="case-intro-start"]',
+    ) as HTMLElement | null;
+    if (introStart) {
+      fireEvent.click(introStart);
+      continue;
+    }
+
     const allButtons = screen.queryAllByRole('button');
 
     // Priority 1: click "Next ->", "See results", "done", or "finish" when visible.

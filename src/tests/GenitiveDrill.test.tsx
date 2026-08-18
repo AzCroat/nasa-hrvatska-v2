@@ -83,13 +83,17 @@ describe('GenitiveDrill — smoke tests', () => {
     expect(screen.getByText('📖 Genitive Case')).toBeTruthy();
   });
 
-  it('shows progress 1 / 10', () => {
+  it('opens with the concept teaching phase, then shows progress 1 / 10', () => {
     render(<GenitiveDrill goBack={vi.fn()} award={vi.fn()} />);
+    // Concept-teaching (2026-08-18): the drill teaches before it tests.
+    expect(screen.getByTestId('case-concept-intro')).toBeTruthy();
+    fireEvent.click(screen.getByTestId('case-intro-start'));
     expect(screen.getByText(/1 \/ 10/)).toBeTruthy();
   });
 
   it('advances to 2 / 10 after clicking the correct answer and Next', () => {
     const { container } = render(<GenitiveDrill goBack={vi.fn()} award={vi.fn()} />);
+    fireEvent.click(screen.getByTestId('case-intro-start'));
     // With rnd()=0.99, shuffle is identity — opts[0] === answer
     const firstOpt = container.querySelector('button.ob');
     expect(firstOpt).toBeTruthy();

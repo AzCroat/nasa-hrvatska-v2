@@ -70,6 +70,32 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     await expect(page.getByTestId('equivalency-stepdown')).toBeVisible();
   });
 
+  test('a recent attempt QUIETS the hero to the ready-date chip (owner, 2026-08-18)', async ({
+    page,
+  }) => {
+    // Re-seed with an attempt taken yesterday: the red takeover must stand
+    // down to the one-line chip — taking the test has to visibly change Home.
+    await page.addInitScript(() => {
+      const raw = localStorage.getItem('nh_cefr_certifications');
+      const state = raw ? JSON.parse(raw) : {};
+      state.attempts = [
+        {
+          level: 'B1',
+          passed: false,
+          takenAt: Date.now() - 24 * 60 * 60 * 1000,
+          scores: { vocab: 0.5, grammar: 0.5, reading: 0.5 },
+        },
+      ];
+      localStorage.setItem('nh_cefr_certifications', JSON.stringify(state));
+    });
+    await page.reload();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
+      timeout: 10_000,
+    });
+    await expect(page.getByTestId('verification-gate-chip')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('verification-gate-card')).toHaveCount(0);
+  });
+
   test('Me tab badge is honest about the provisional level', async ({ page }) => {
     // testid, not getByText('Me') — substring matching also hits "Ho**me**"
     // in the desktop nav and trips Playwright's strict mode.

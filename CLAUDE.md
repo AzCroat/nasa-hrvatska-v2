@@ -155,7 +155,8 @@ This is the **single source of truth** for both the CEFR badge and the Learn Pat
 Progression is gated on DEMONSTRATED competency, not activity. Source of truth: `src/lib/cefrCertification.ts`.
 
 - **passes[L] means "the user holds level-L status."** A Level Check set keyed L (levelFrom L → levelTo L+1) tests L-competency and, when passed, records at **levelTo** — the status it grants. (Before 2026-08-16 the screen recorded at levelFrom while the retake gate blocked on the same key, so passing never advanced anyone; `migrateRealPassesToStatusKeys` additively repaired historical passes. Never revert to levelFrom recording.)
-- **Provisional passes**: grandfathered (migration-granted) passes carry `provisional: true` and are also detectable by the 0.8-signature (`isGrandfatherPassSignature`). They keep content access but do not count toward `getVerifiedLevel()`. While any provisional level sits above the verified level, `getVerificationGate().required` is true: `getContentUnlockLevel` caps NEW content one level below the gate target, Home shows `VerificationGateCard` (no snooze, no dismiss), and the only way forward is a real pass. Practice below the gate stays open by design.
+- **Provisional passes**: grandfathered (migration-granted) passes carry `provisional: true` and are also detectable by the 0.8-signature (`isGrandfatherPassSignature`). They keep content access but do not count toward `getVerifiedLevel()`. While any provisional level sits above the verified level, `getVerificationGate().required` is true: `getContentUnlockLevel` caps NEW content one level below the gate target, Home shows `VerificationGateCard`, and the only way forward is a real pass. Practice below the gate stays open by design.
+- **Quiet period (owner directive, 2026-08-18)**: the GATE has no snooze — content stays locked — but the PROMPT honors attempts. Any verification attempt (pass or fail — `getLastAttemptAt`) quiets the hero for `VERIFICATION_QUIET_DAYS` (7): `VerificationGateCard` collapses to a one-line ready-date chip (`verification-gate-chip`) and `getNextStep`'s verification rung stands down (`isVerificationQuiet`) so the ladder falls to the mastery ledger's weakest skill — the practice that lets them pass. The full hero shows for never-attempted users and returns when quiet lapses. This exists because the rollback made the hero effectively PERMANENT for anyone who couldn't pass (a fail creates a new provisional target) — never restore the always-on hero, and never let the quiet period unlock gated CONTENT (pinned by `verificationQuietPeriod.test.tsx` + `verification-gate.spec.js`).
 - **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
 - **Sections are resumable, never falsely failed**: an unfinished required section (no mic, evaluator unavailable) parks the attempt in `nh_cefr_verification_partial` (48h TTL) instead of recording a failure. Only complete attempts reach `recordEquivalencyAttempt`.
 - **Merge rules**: pass merge is additive with `writing` in the per-skill max block; a merged pass stays provisional only if BOTH sides are provisional (an old device's unmarked blob can never wash the flag off; a real pass anywhere clears it everywhere).
@@ -285,6 +286,33 @@ No Cyrillic and no Serbian variants may reach a user, ever. Three layers (pinned
 1. **Middleware chokepoint**: `functions/_middleware.js` pipes every TEXTUAL `/api` response body through `latinizeResponseBody` (`functions/api/_croatianGuard.js`) — azbuka→gajica transliteration, streaming-safe, binary untouched. No endpoint, present or future, can leak Cyrillic. Never remove this call.
 2. **Prompt rule**: the 7 Croatian-generating endpoints (ai-chat, maja, conversation, conversational-tutor, dialogue, listening, micro-lesson) append `CROATIAN_SCRIPT_RULE` to their system prompts — the only layer that prevents Serbian LEXICON/ekavica, which transliteration cannot fix. New Croatian-generating endpoints must adopt it (tested by source pin).
 3. **Static lint**: `scripts/lintCroatianText.mjs` adds a high-precision Serbism blocklist over the content files. JS `\b` is ASCII-only and mis-fires around č/ć/đ/š/ž — the rules use Unicode lookarounds. Morphology matters: oblique forms of `vrijeme` are `vremena/vremenu` IN STANDARD CROATIAN; only bare ekavica forms are flagged. Extend the list conservatively — false alarms train people to ignore the lint.
+
+## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
+
+English speakers have no concept of grammatical case — the app must TEACH
+concepts, not just drill them (pinned by `caseConceptTeaching.test.tsx`):
+
+- **Teach before test**: every case drill (Genitive/Accusative/Dative/
+  Locative/Instrumental/Nominative/Clitic + VocativeScreen's rules phase)
+  opens with `CaseConceptIntro` — the concept card from
+  `src/data/caseConcepts.ts` (plain-English name, the question the case
+  answers, the ENGLISH BRIDGE, example + counterexample) plus the one-time
+  "Why Croatian words change" primer (he/him/his — localStorage
+  `nh_case_primer_seen`). Returning learners tap through in one second —
+  never add friction to the intro. Never remove the teaching phase to
+  "streamline" a drill: that recreates the audit finding this fixes.
+- **The English bridge is the method**: every concept anchors to something
+  the learner already says in English (he/him/his, who/whom, "the dog's
+  bone", "give HIM the book"). New grammar content must gloss every
+  technical term in plain words — never an unglossed "genitive".
+- **Wrong answers teach**: the case drills call `/api/explain-error`
+  (type `case_drill`) via the shared `useExplainError` hook +
+  `DrillExplainCard`; the endpoint's prompt now assumes NO formal grammar
+  background. Fail-soft — the static tip always remains.
+- **The primer lesson is A1**: the `cases` lesson in
+  `functions/api/content/_data/lessons.js` is `level: 'A1'` — the app's only
+  "what is a case" explanation must never again sit above the level of the
+  drills that need it (it was B1 while the drills were A1).
 
 ## Critical Architecture: AI Output Observation (owner directive, 2026-08-18)
 

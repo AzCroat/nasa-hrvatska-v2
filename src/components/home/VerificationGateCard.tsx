@@ -8,7 +8,7 @@
 
 import React from 'react';
 import type { VerificationGate, SkillKey } from '../../lib/cefrCertification';
-import { getLastVerificationRollback } from '../../lib/cefrCertification';
+import { getLastVerificationRollback, verificationQuietUntil } from '../../lib/cefrCertification';
 import { readinessForVerification } from '../../lib/masteryLedger';
 
 const SKILL_LABEL: Record<SkillKey, string> = {
@@ -27,6 +27,43 @@ interface Props {
 
 export default function VerificationGateCard({ gate, onStartVerification }: Props) {
   if (!gate.required || !gate.target) return null;
+  // QUIET PERIOD (owner directive, 2026-08-18): any verification attempt —
+  // pass or fail — quiets the hero for a week. Taking the test must visibly
+  // change this page; a red takeover that survives a completed exam reads as
+  // broken and nags children into ignoring it. The GATE stays (content above
+  // the target remains locked) — only the PROMPT stands down, to a one-line
+  // chip naming when the next check is ready. The full hero still greets a
+  // learner who has never attempted, and returns when quiet lapses.
+  const quietUntil = verificationQuietUntil();
+  if (quietUntil !== null) {
+    const readyDate = new Date(quietUntil).toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+    });
+    return (
+      <div
+        data-testid="verification-gate-chip"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '9px 14px',
+          marginBottom: 14,
+          borderRadius: 12,
+          background: 'var(--card, #fff)',
+          border: '1px solid var(--card-b, #e5e7eb)',
+          fontSize: 13,
+          color: 'var(--subtext, #64748b)',
+        }}
+      >
+        <span>📋</span>
+        <span>
+          Next <strong>{gate.target}</strong> Level Check ready {readyDate} — today&apos;s practice
+          counts toward it.
+        </span>
+      </div>
+    );
+  }
   // Honest rollback (2026-08-17): after a failed check stepped the level down,
   // the card must SAY so — unchanged copy after a completed test reads as
   // "your test didn't count".

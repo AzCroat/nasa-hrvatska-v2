@@ -71,6 +71,7 @@ import InstrumentalDrill from '../components/practice/InstrumentalDrill';
 function renderInstrumentalDrill(overrides = {}) {
   const props = { goBack: vi.fn(), award: vi.fn(), ...overrides };
   const utils = render(<InstrumentalDrill {...props} />);
+  tapThroughIntro();
   return { ...utils, props };
 }
 
@@ -84,6 +85,13 @@ function completeAllQuestions(award: ReturnType<typeof vi.fn> = vi.fn()) {
     if (nextBtn) fireEvent.click(nextBtn);
   }
   return { award };
+}
+
+// Concept-teaching (2026-08-18): drills open with a teaching phase — tap
+// through it like a returning learner before asserting on question UI.
+function tapThroughIntro() {
+  const start = document.querySelector('[data-testid="case-intro-start"]');
+  if (start) fireEvent.click(start);
 }
 
 describe('InstrumentalDrill — rendering', () => {
@@ -196,6 +204,7 @@ describe('InstrumentalDrill — navigation', () => {
   it('goBack is called when ← Back is clicked on the done screen', () => {
     const goBack = vi.fn();
     const { container } = render(<InstrumentalDrill goBack={goBack} award={vi.fn()} />);
+    tapThroughIntro();
     for (let i = 0; i < 20; i++) {
       const optBtn = container.querySelector('button.ob');
       if (!optBtn) break;

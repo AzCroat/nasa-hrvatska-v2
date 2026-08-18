@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
+import CaseConceptIntro from './CaseConceptIntro';
+import DrillExplainCard from './DrillExplainCard';
+import { useExplainError } from '../../hooks/useExplainError';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
 
@@ -386,6 +390,14 @@ export default function DativeDrill({ goBack, award }: Props) {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [passed, setPassed] = useState(false);
+  // Concept-teaching (2026-08-18): teach the concept BEFORE testing it —
+  // the AspectDrillScreen pattern. Returning learners tap straight through.
+  const [showIntro, setShowIntro] = useState(true);
+  const {
+    explain,
+    request: requestExplain,
+    reset: resetExplain,
+  } = useExplainError('case_drill', getCurrentContentLevel());
 
   const cur = q[idx]!;
   const answered = chosen !== null;
@@ -393,7 +405,13 @@ export default function DativeDrill({ goBack, award }: Props) {
   function pick(opt: string) {
     if (answered) return;
     setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
+    if (opt === cur.answer) {
+      setScore((s) => s + 1);
+    } else {
+      // Wrong answer → plain-English AI explanation (fail-soft; the static
+      // tip below is always there regardless).
+      void requestExplain(opt, cur.answer, cur.q);
+    }
   }
 
   function next() {
@@ -416,7 +434,19 @@ export default function DativeDrill({ goBack, award }: Props) {
     } else {
       setIdx((i) => i + 1);
       setChosen(null);
+      resetExplain();
     }
+  }
+
+  if (showIntro && !done) {
+    return (
+      <div className="scr-wrap">
+        {H('🤝 Dative Case', 'Indirect objects, giving, helping, liking', goBack)}
+        <div style={{ marginTop: 12 }}>
+          <CaseConceptIntro conceptId="dative" onStart={() => setShowIntro(false)} />
+        </div>
+      </div>
+    );
   }
 
   if (done) {
@@ -526,6 +556,7 @@ export default function DativeDrill({ goBack, award }: Props) {
             <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
           </div>
         )}
+        {answered && chosen !== cur.answer && <DrillExplainCard state={explain} />}
         {answered && (
           <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
             {idx + 1 >= total ? 'See results' : 'Next →'}
