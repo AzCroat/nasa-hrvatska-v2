@@ -73,6 +73,9 @@ vi.mock('../lib/adaptive.js', () => ({ recordTopicResult: vi.fn() }));
 vi.mock('../lib/adaptive.ts', () => ({
   recordTopicResult: vi.fn(),
   rateCategorySession: vi.fn(),
+  // SpeakingScreen → speakingCoach → adaptiveFeedback reads ALL_CATEGORIES at
+  // module scope (production-teaching, 2026-08-18).
+  ALL_CATEGORIES: ['genitive', 'writing'],
 }));
 vi.mock('../lib/apiFetch.js', () => ({
   apiFetch: vi.fn(() => Promise.resolve({ ok: false, json: () => Promise.resolve({}) })),

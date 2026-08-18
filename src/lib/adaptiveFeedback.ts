@@ -26,6 +26,11 @@ const SKILL_TO_CATEGORIES: Partial<Record<SkillKey, SkillCategory[]>> = {
   grammar: ['genitive', 'accusative', 'aspect-imperfective'],
   vocab: ['vocab-a2', 'vocab-b1'],
   speaking: ['speaking'],
+  // Production-teaching (2026-08-18): 'writing' now routes to the guided
+  // writing teaching screen, so a weak exam writing result honestly
+  // reschedules writing practice — the son's 0%-writing case had NO practice
+  // path back before this.
+  writing: ['writing'],
   // Phase 3: 'listening' routes to a real session screen now
   // (CATEGORY_SCREEN_MAP.listening → listening_comprehension), so a weak
   // listening result honestly reschedules listening practice.

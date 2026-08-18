@@ -11,6 +11,9 @@ import { isNative } from '../../lib/platform.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { charOverlapPct } from '../../lib/text/similarity';
+import { requestSpeakingCoach } from '../../lib/speakingCoach';
+import type { CoachResult } from '../../lib/speakingCoach';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 // ── Open-ended speaking prompt pools ──────────────────────────────────────────
 // Format: [Croatian text, English instruction, type, ?imageKey]
@@ -230,6 +233,11 @@ export default function SpeakingScreen({
 
   // AI pronunciation feedback state
   const [pronScore, setPronScore] = useState<PronScore | null>(null);
+  // Speaking coach (production-teaching, 2026-08-18): rubric + taught errors
+  // for open-ended answers. One call per prompt; fail-soft (null = no card).
+  const [coach, setCoach] = useState<CoachResult | null>(null);
+  const [coachLoading, setCoachLoading] = useState(false);
+  const coachAskedRef = useRef('');
 
   // Per-word accuracy from PronunciationScorer.
   // score is a real Azure acoustic % when available, or null when the word was only
@@ -288,6 +296,24 @@ export default function SpeakingScreen({
 
   if (!sw || !sw[0]) return null;
 
+  // One coach request per open-ended prompt: rubric feedback + taught errors,
+  // feeding the mastery ledger and adaptive loop (see lib/speakingCoach.ts).
+  async function maybeCoach(transcript: string) {
+    const promptText = sw[0] as string;
+    if (!OPEN_ENDED_TYPES.includes(sw[2] as string)) return;
+    if (coachAskedRef.current === promptText) return;
+    coachAskedRef.current = promptText;
+    setCoachLoading(true);
+    const res = await requestSpeakingCoach({
+      prompt: promptText,
+      transcript,
+      level: getCurrentContentLevel(),
+    });
+    if (!mountedRef.current) return;
+    setCoach(res);
+    setCoachLoading(false);
+  }
+
   // Reset per-word score when word changes (called on Next)
   function advanceWord() {
     recordTopicResult('speaking', sr === 'ok');
@@ -297,6 +323,9 @@ export default function SpeakingScreen({
     setListening(false);
     setCurrentWordScore(null);
     setPronScore(null);
+    setCoach(null);
+    setCoachLoading(false);
+    coachAskedRef.current = '';
     if (sx < si.length - 1) {
       const n = sx + 1;
       sSx(n);
@@ -343,6 +372,7 @@ export default function SpeakingScreen({
     const recognizedViaTranslation = !isOE && score === null;
     const acousticPass = typeof score === 'number' && score >= 60;
     const shouldAdvance = oeCompleted || recognizedViaTranslation || acousticPass;
+    if (oeCompleted) void maybeCoach(spoken);
 
     setCurrentWordScore({ spoken, score: displayScore });
     setWordScores((prev) => {
@@ -558,6 +588,7 @@ export default function SpeakingScreen({
         if (matched) {
           sSr('ok');
           sSsc((s: number) => s + 1);
+          void maybeCoach(alts[0] ?? '');
         }
         // Open-ended prompts are a PARTICIPATION signal, not an acoustic measurement —
         // never a pronunciation %. score: null = recognized/responded but not scored.
@@ -1007,6 +1038,84 @@ export default function SpeakingScreen({
         }}
         onScore={handleScorerResult}
       />
+      {isOpenEnded && coachLoading && (
+        <div
+          style={{
+            marginTop: 12,
+            padding: '12px 16px',
+            background: 'var(--card)',
+            border: '1.5px solid var(--inp-b)',
+            borderRadius: 14,
+            fontSize: 13,
+            color: 'var(--subtext)',
+          }}
+          data-testid="coach-loading"
+        >
+          🎓 Your coach is reading your answer…
+        </div>
+      )}
+      {isOpenEnded && !coachLoading && coach && (
+        <div
+          style={{
+            marginTop: 12,
+            padding: '14px 16px',
+            background: 'var(--card)',
+            border: '1.5px solid var(--inp-b)',
+            borderRadius: 14,
+            textAlign: 'left',
+          }}
+          data-testid="coach-card"
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 8,
+            }}
+          >
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
+              🎓 Coach feedback
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--success)' }}>
+              {Math.round(coach.overall * 100)}%
+            </div>
+          </div>
+          {coach.encouragement && (
+            <div style={{ fontSize: 13, color: 'var(--text)', marginBottom: 8 }}>
+              {coach.encouragement}
+            </div>
+          )}
+          {coach.errors.length > 0 && (
+            <div style={{ marginBottom: 8 }} data-testid="coach-errors">
+              {coach.errors.map((e, i) => (
+                <div key={i} style={{ fontSize: 13, marginBottom: 6, lineHeight: 1.5 }}>
+                  <span style={{ textDecoration: 'line-through', color: 'var(--subtext)' }}>
+                    {e.original}
+                  </span>{' '}
+                  → <strong>{e.corrected}</strong>
+                  {e.note && <span style={{ color: 'var(--subtext)' }}> — {e.note}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+          {coach.advice && (
+            <div
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                color: 'var(--heading)',
+                background: 'var(--bg)',
+                borderRadius: 10,
+                padding: '8px 12px',
+              }}
+              data-testid="coach-advice"
+            >
+              🎯 {coach.advice}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

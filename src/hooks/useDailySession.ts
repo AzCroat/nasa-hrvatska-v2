@@ -140,6 +140,13 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // through completeExercise, so the session-category bridge reschedules
   // listening from real accuracy like any grammar category.
   listening: 'listening_comprehension',
+  // Production-teaching (2026-08-18): 'writing' routes to the guided-writing
+  // teaching screen (A1+; study → frames → free production). This is what
+  // makes a weak writing signal — from an exam, a graded submission's
+  // error-types, or the session-category bridge — actually reschedule
+  // WRITING practice; before this the category didn't exist and written
+  // production could only win a random draw in the production slot.
+  writing: 'writing_guided',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
@@ -930,13 +937,25 @@ const PRODUCTION_POOL: Array<{
     kind: 'converse',
   },
   {
+    id: 'writing_guided',
+    label: 'Guided Writing',
+    // Teaching-first written production (2026-08-18): model text → guided
+    // frames (zero AI cost) → free production graded via /api/correct on the
+    // learner's explicit submit. A1+ — the first writing content A1 gets.
+    screen: 'writing_guided',
+    cefr: 'A1',
+    category: 'writing',
+    micRequired: false,
+    kind: 'write',
+  },
+  {
     id: 'writing',
     label: 'Writing',
     // Free typed production, AI-corrected via /api/correct (one quota unit on
     // submit). Keyboard-only → the universal fallback for mic-blocked users.
     screen: 'writing',
     cefr: 'A2',
-    category: 'speaking',
+    category: 'writing',
     micRequired: false,
     kind: 'write',
   },
@@ -977,9 +996,11 @@ const PRODUCTION_POOL: Array<{
   {
     id: 'dictation',
     label: 'Dictation',
+    // Retagged 'speaking' → 'writing' (2026-08-18): dictation is typed
+    // orthography — its accuracy signal belongs to the writing skill.
     screen: 'dictation',
     cefr: 'B1',
-    category: 'speaking',
+    category: 'writing',
     micRequired: false,
     kind: 'write',
   },
