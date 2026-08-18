@@ -428,14 +428,15 @@ Before committing ANY change that touches a component, tab, screen, or navigatio
 ```
 quality (lint + typecheck)
     ↓
-test (Vitest unit)   ←→   e2e (Playwright, 15-min timeout, 2 workers, 1 retry)
+test (Vitest unit)   +   e2e (Playwright, 75-min job timeout, Chrome full + FF/WebKit smoke)
     ↓                         ↓
-build-deploy (waits for quality + test, NOT e2e)
+build-deploy (waits for quality + test + e2e)
 ```
 
-- Build-deploy does NOT wait for E2E. A green deploy does not mean E2E passed.
-- E2E timeout is 15 minutes total. Each test has a 30s timeout + 1 retry = 60s max per test. 15 stale/hanging tests fills the budget exactly.
+- **Build-deploy WAITS for E2E** (owner decision, 2026-08-18 — deliberately reversed from the earlier race). A red Playwright run blocks the production deploy; the accepted cost is the E2E wall time (~15–35 min) added to every deploy. Never quietly remove `e2e` from build-deploy's `needs` to "speed up" a deploy.
+- The e2e JOB timeout is 75 minutes (grown suite; the long-term fix is sharding). Per-test timeout 30s + 1 retry.
 - **Tests are a production gate. Never relax CI timeouts, skip tests, or weaken assertions to make CI green.**
+- Deterministic E2E pins on the daily-session production slot live in `e2e/sp4b-production-slot.spec.js` — any PRODUCTION_POOL composition change breaks them BY DESIGN; update the pins with intent preserved (this bit the production-teaching wave, 2026-08-18).
 
 ---
 
