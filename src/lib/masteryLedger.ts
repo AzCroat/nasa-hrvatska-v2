@@ -262,6 +262,7 @@ export function recordExamSkillScores(
  */
 export function skillForCategory(category: string): SkillKey | null {
   if (category === 'speaking') return 'speaking';
+  if (category === 'writing') return 'writing';
   if (category === 'listening') return 'listening';
   if (category === 'reading') return 'reading';
   if (category.startsWith('vocab')) return 'vocab';

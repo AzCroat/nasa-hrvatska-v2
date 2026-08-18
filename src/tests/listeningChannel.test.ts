@@ -33,10 +33,14 @@ beforeEach(() => {
 });
 
 describe('listening as a scheduled adaptive category', () => {
-  it('is in ALL_CATEGORIES, appended last (genitive stays the new-user first pick)', () => {
+  it('is in ALL_CATEGORIES after the original set (genitive stays the new-user first pick)', () => {
     expect(ALL_CATEGORIES).toContain('listening');
     expect(ALL_CATEGORIES[0]).toBe('genitive');
-    expect(ALL_CATEGORIES[ALL_CATEGORIES.length - 1]).toBe('listening');
+    // The real invariant is genitive-first plus listening after every
+    // original category — "last" only held until the next promotion
+    // ('writing', production-teaching 2026-08-18, now sits behind it; its own
+    // last-position pin lives in productionTeaching.test.ts).
+    expect(ALL_CATEGORIES.indexOf('listening')).toBeGreaterThan(ALL_CATEGORIES.indexOf('vocab-b2'));
   });
 
   it('adaptive pick routes listening to the authored graded-story bank', () => {

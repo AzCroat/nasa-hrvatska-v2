@@ -54,6 +54,9 @@ const TARGETS = [
   'src/data/cefrEquivalencyItems/b2_to_c1.json',
   'src/data/cefrEquivalencyItems/c1_to_c2.json',
   'src/data/cefrEquivalencyItems/c2_mastery.json',
+  // Guided-writing curriculum (2026-08-18): authored model texts, frames and
+  // prompts — the largest single block of authored Croatian prose in src/.
+  'src/data/writingCurriculum.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

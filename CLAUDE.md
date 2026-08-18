@@ -174,6 +174,40 @@ The user must never hit a dead end — something is ALWAYS recommended next.
 - **Persistent surfaces (owner correction, 2026-08-17)**: the pill alone was NOT what the owner intended — Home and Practice must prompt AT ALL TIMES, embedded in the page, not as a transient pop-up. All surfaces share `src/hooks/useNextStepEngine.ts` (compute + launch + navKey). Practice: `NextUpCard` pinned atop GradTab (`next-up-card`). Home: `SessionCard`'s complete state is a HERO-ONLY guided path (`next-up-primary` at Begin-Session weight) — when the engine supplies a step, the bonus-activities list and start-fresh option are NOT rendered (owner: "hero only - want a guided learning path"); they exist only in the legacy no-engine fallback.
 - NEVER: make the prompt block/overlay interactive content (keep the pointer-events contract); cache a recommendation across completions (recompute at event time); return null from `getNextStep` (the browse fallback is the floor); reintroduce competing options next to the complete-state hero.
 
+## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
+
+The 2026-08-18 audit finding this section exists to keep closed: the app TESTED
+production skills but barely taught them, writing was structurally
+unschedulable, and daily speaking fed nothing back to the mastery ledger (so
+`weakestProductionKind` biased 'speak' forever without converging).
+
+- **Guided Writing** (`src/components/practice/GuidedWritingScreen.tsx` +
+  `src/data/writingCurriculum.ts`): study a native model → complete guided
+  frames (local check, zero AI) → free production against a checklist, graded
+  by the SAME `/api/correct` rubric the exam uses. Curriculum is CEFR-complete
+  A1–C2 (≥3 units/level, pinned by `writingCurriculum.test.ts`) — A1 had NO
+  writing content before. The curriculum file is in `lintCroatianText.mjs`
+  TARGETS; model texts must stay native-standard.
+- **Speaking coach** (`/api/speaking-coach` + `src/lib/speakingCoach.ts`):
+  transcript-in (no STT cost), returns the exam's four rubric criteria PLUS an
+  error list in the writing evaluator's errorType taxonomy and one concrete
+  piece of advice. Prompt lives in `_evalPrompts.js` (never fork it inline).
+  FAIL-SOFT BY CONTRACT: every failure returns null and the practice continues
+  uncoached — the coach may never block speaking practice.
+- **Closed loops** (pinned by `speakingCoach.test.js` + `productionTeaching.test.ts`):
+  rubric-graded daily speech and guided writing BOTH `recordMasteryEvent`
+  (weight 2) and push errorTypes through `applyWritingErrorsToAdaptive` — the
+  taxonomy is shared, so a spoken case error reschedules case practice exactly
+  like a written one.
+- **'writing' is a first-class SkillCategory**: appended LAST to
+  ALL_CATEGORIES (genitive stays the new-user first pick — same rule as the
+  'listening' promotion), routed via `CATEGORY_SCREEN_MAP.writing →
+  'writing_guided'`, mapped in `skillForCategory` and `SKILL_TO_CATEGORIES`.
+  Pool entries `writing_guided`/`writing`/`dictation` carry `category:
+  'writing'`. Never retag them back to 'speaking' and never remove the route —
+  that re-opens the "weak writing has no practice path" hole (the 0%-writing
+  C1 case).
+
 ## Critical Architecture: Firebase Sync
 
 ### Firestore document paths

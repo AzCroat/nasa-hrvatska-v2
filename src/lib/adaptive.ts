@@ -265,6 +265,13 @@ export type SkillCategory =
   | 'vocab-b1'
   | 'vocab-b2'
   | 'speaking'
+  // Promoted to a schedulable category (production-teaching, 2026-08-18):
+  // written production was structurally unschedulable before — both writing
+  // screens were tagged 'speaking' and no adaptive route existed, so a weak
+  // writing result had no path back into practice. CATEGORY_SCREEN_MAP routes
+  // it to the guided-writing teaching screen (A1+, one /api/correct call on
+  // the learner's explicit submit).
+  | 'writing'
   // Pool-only tag (Wave 3): reading-comprehension activities (graded reader,
   // AI story). Not an adaptive-tracker topic — used for session-pool
   // classification and the content-coverage matrix only.
@@ -305,6 +312,9 @@ export const ALL_CATEGORIES: SkillCategory[] = [
   'vocab-b2',
   'speaking',
   'listening',
+  // Appended LAST (same rule as 'listening' above): a brand-new user's first
+  // adaptive pick must stay genitive — the never-seen tie keeps list order.
+  'writing',
 ];
 
 // Conjugation categories: drilled by the conjugation engine (flag-gated).

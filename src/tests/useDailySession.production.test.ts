@@ -26,6 +26,7 @@ vi.mock('../lib/random.js', () => ({ rnd: () => 0 }));
 
 const PRODUCTION_SCREENS = [
   'dialogue',
+  'writing_guided', // production-teaching (2026-08-18): A1+ guided writing
   'writing',
   'shadowing',
   'speaking',
@@ -175,13 +176,14 @@ describe('selectProductionExercise — recent-exclusion', () => {
   });
 
   it('excludes recent screens from selection', () => {
-    // B1, mic available: normally dialogue. Exclude it → next surviving is writing.
+    // B1, mic available: normally dialogue. Exclude it → next surviving is
+    // writing_guided (first in pool order since 2026-08-18).
     const result = selectProductionExercise({
       cefr: 'B1',
       micState: 'available',
       recentScreens: ['dialogue'],
     });
-    expect(result?.screen).toBe('writing');
+    expect(result?.screen).toBe('writing_guided');
   });
 
   it('falls back to full pool when recent-exclusion empties it', () => {
@@ -195,12 +197,13 @@ describe('selectProductionExercise — recent-exclusion', () => {
   });
 
   it('mic-denied + keyboard options in recent → still returns a keyboard slot', () => {
-    // B1 mic-denied keyboard pool: [dialogue, writing, dictation]. Exclude the
-    // first two → dictation remains.
+    // B1 mic-denied keyboard pool: [dialogue, writing_guided, writing,
+    // dictation, speaking_sprint]. Exclude the first three → dictation remains
+    // first, still a keyboard slot.
     const result = selectProductionExercise({
       cefr: 'B1',
       micState: 'denied',
-      recentScreens: ['dialogue', 'writing'],
+      recentScreens: ['dialogue', 'writing_guided', 'writing'],
     });
     expect(result?.screen).toBe('dictation');
   });
@@ -213,14 +216,14 @@ describe('selectProductionExercise — excludeScreens (no double-booking)', () =
 
   it('never returns a screen in excludeScreens', () => {
     // B1 mic available: dialogue is first, but it is excluded (already queued by
-    // an earlier slot) → next surviving candidate, writing.
+    // an earlier slot) → next surviving candidate, writing_guided.
     const result = selectProductionExercise({
       cefr: 'B1',
       micState: 'available',
       recentScreens: [],
       excludeScreens: ['dialogue'],
     });
-    expect(result?.screen).toBe('writing');
+    expect(result?.screen).toBe('writing_guided');
   });
 
   it('returns null only when every candidate is excluded (callers treat as "nothing to add")', () => {

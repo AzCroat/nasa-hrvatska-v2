@@ -95,6 +95,9 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/news:generate': 4 * claudeCeiling(2200),
   '/api/photo-vocab': claudeCeiling(1024),
   '/api/pronunciation-coach': claudeCeiling(420),
+  // Transcript-in speaking coach — no STT stage (the client already has the
+  // transcript), so unlike assess-speaking there is no +15k provider ceiling.
+  '/api/speaking-coach': claudeCeiling(700),
   '/api/srs-sync': claudeCeiling(800),
   '/api/vocab-expand': claudeCeiling(600),
   // ── Non-Claude providers ──────────────────────────────────────────────────
