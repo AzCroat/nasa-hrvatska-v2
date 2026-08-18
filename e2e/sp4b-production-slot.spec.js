@@ -51,13 +51,14 @@ test.describe('SP4b — production slot in daily session', () => {
     page,
   }) => {
     // At B1 the conversation anchor takes `dialogue`, so the production pick is
-    // chosen from [writing, shadowing, speaking, production_drill, dictation,
-    // speaking_sprint] (Wave 3 re-added speaking_sprint). rnd=0.4 → index 2 →
-    // `speaking`. This proves SpeakingScreen is now a session production option
-    // (the follow-up that auto-routes it); the launcher initialises its vocab
-    // pool so it can't render blank (render path covered by
-    // pronunciation.spec.js + the verbatim launchSpeaking init reuse).
-    await mockRnd(page, 0.4);
+    // chosen from [writing_guided, writing, shadowing, speaking,
+    // production_drill, dictation, speaking_sprint] (production-teaching
+    // 2026-08-18 added writing_guided at the front). rnd=0.5 → floor(0.5*7) =
+    // index 3 → `speaking`. This proves SpeakingScreen is now a session
+    // production option (the follow-up that auto-routes it); the launcher
+    // initialises its vocab pool so it can't render blank (render path covered
+    // by pronunciation.spec.js + the verbatim launchSpeaking init reuse).
+    await mockRnd(page, 0.5);
     await page.addInitScript(() => {
       localStorage.setItem('nh_mic_state', 'available');
       const uS = JSON.parse(localStorage.getItem('uS') || '{}');
@@ -93,10 +94,12 @@ test.describe('SP4b — production slot in daily session', () => {
         profile.st = { ...(profile.st || {}), xp: 2000, lc: 0, gc: 0 };
         localStorage.setItem(profileKey, JSON.stringify(profile));
       }
-      // Seed the two keyboard AI modes (dialogue, writing) as done TODAY so
-      // recent-exclusion drops them, leaving `dictation` as the sole keyboard
-      // option. This makes the assertion meaningful: if the mic filter were
-      // broken, the mic-required `shadowing` (rnd=0 first) would surface instead.
+      // Seed the keyboard modes (dialogue, writing_guided, writing) as done
+      // TODAY so recent-exclusion drops them, leaving `dictation` as the first
+      // surviving keyboard option. This makes the assertion meaningful: if the
+      // mic filter were broken, the mic-required `shadowing` (earlier in pool
+      // order) would surface instead. writing_guided joined the pool in the
+      // production-teaching wave (2026-08-18).
       // LOCAL date — useDailySession compares recency against localDateStr().
       const d = new Date();
       const today =
@@ -109,6 +112,7 @@ test.describe('SP4b — production slot in daily session', () => {
         'nh_recent_production',
         JSON.stringify([
           { screen: 'dialogue', date: today },
+          { screen: 'writing_guided', date: today },
           { screen: 'writing', date: today },
         ]),
       );
@@ -117,10 +121,10 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Mic-denied B1 keyboard pool = [dialogue, writing, dictation,
-    // speaking_sprint]; dialogue + writing are recent, and rnd=0 picks the first
-    // survivor → dictation. shadowing + production_drill (mic-required) must NOT
-    // appear.
+    // Mic-denied B1 keyboard pool = [dialogue, writing_guided, writing,
+    // dictation, speaking_sprint]; the first three are recent, and rnd=0 picks
+    // the first survivor → dictation. shadowing + production_drill
+    // (mic-required) must NOT appear.
     await expect(page.getByText('Dictation')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText('Shadowing')).toHaveCount(0);
   });
