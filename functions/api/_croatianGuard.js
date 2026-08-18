@@ -122,6 +122,9 @@ export function latinizeCyrillic(text) {
 
 const TEXTUAL_CT = /application\/json|text\/|event-stream/i;
 
+/** Max characters of decoded body retained for the observer sample. */
+export const OBSERVE_SAMPLE_CHARS = 1536;
+
 /**
  * Wrap a Response so any Cyrillic in a TEXTUAL body is transliterated on the
  * way to the client. Binary bodies (audio, images) pass through untouched, as
@@ -129,17 +132,28 @@ const TEXTUAL_CT = /application\/json|text\/|event-stream/i;
  * TextDecoderStream handles UTF-8 sequences split across chunk boundaries.
  * (Residual gap, accepted: JSON that \u-escapes Cyrillic — our endpoints use
  * JSON.stringify, which does not escape non-ASCII.)
+ *
+ * `observe` (optional, output-observation directive 2026-08-18): called ONCE
+ * when the body finishes streaming, with { contaminated, text } where `text`
+ * is the first OBSERVE_SAMPLE_CHARS of the PRE-transliteration body. The
+ * middleware uses it to persist contamination incidents and a small random
+ * sample of live AI output for the observatory sweep. Fail-soft: an observer
+ * throw never affects the response.
  */
-export function latinizeResponseBody(response) {
+export function latinizeResponseBody(response, observe) {
   try {
     const ct = response?.headers?.get('content-type') || '';
     if (!response || !response.body || !TEXTUAL_CT.test(ct)) return response;
     let found = false;
+    let sample = '';
     const stream = response.body
       .pipeThrough(new TextDecoderStream())
       .pipeThrough(
         new TransformStream({
           transform(chunk, controller) {
+            if (observe && sample.length < OBSERVE_SAMPLE_CHARS) {
+              sample = (sample + chunk).slice(0, OBSERVE_SAMPLE_CHARS);
+            }
             if (CYRILLIC_RE.test(chunk)) {
               found = true;
               controller.enqueue(latinizeCyrillic(chunk));
@@ -152,6 +166,13 @@ export function latinizeResponseBody(response) {
               // Visibility without noise: one structured line per contaminated
               // response, greppable in wrangler tail / log drains.
               console.warn('[CroatianGuard] Cyrillic transliterated in API response');
+            }
+            if (observe) {
+              try {
+                observe({ contaminated: found, text: sample });
+              } catch {
+                /* observer must never take the response down */
+              }
             }
           },
         }),

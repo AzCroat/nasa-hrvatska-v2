@@ -1,0 +1,85 @@
+# AI output observatory — weekly sweep of sampled live AI responses
+# (output-observation directive, 2026-08-18).
+#
+# The middleware chokepoint samples what the AI endpoints actually serve
+# users (plus every Cyrillic-contamination incident); this workflow calls
+# /api/output-observatory weekly to re-screen those samples with the shared
+# Serbism/Cyrillic rules and FAILS RED on any incident or finding — so the
+# next "At the Bakery" is machine-found within a week, not family-found.
+#
+# Zero AI spend: the sweep is pure KV reads + regex.
+#
+# AUTH: same self-provisioned credential as calibration.yml — the token is
+# derived at runtime as HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1")
+# and the endpoint accepts CALIBRATION_SECRET (installed by calibration.yml's
+# first run) or CRON_SECRET. If this job ever sees 401/503, run the
+# "AI evaluator calibration" workflow once — its provisioning step installs
+# the secret for both endpoints.
+name: AI output observatory
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Sweep sampled AI output
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN}" ] && [ -z "${CRON_SECRET}" ]; then
+            echo "::error::Neither CLOUDFLARE_API_TOKEN nor CRON_SECRET is configured"
+            exit 1
+          fi
+
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          else
+            TOKEN=$(printf '%s' "nh-calibration-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
+          fi
+          echo "::add-mask::${TOKEN}"
+
+          STATUS=$(curl -sS -o /tmp/report.json -w '%{http_code}' -X POST \
+            "https://nasahrvatska.com/api/output-observatory" \
+            -H "x-cron-secret: ${TOKEN}")
+
+          if [ "${STATUS}" != "200" ]; then
+            cat /tmp/report.json || true
+            if [ "${STATUS}" = "401" ] || [ "${STATUS}" = "503" ]; then
+              echo "::error::Auth not provisioned (HTTP ${STATUS}) — dispatch the 'AI evaluator calibration' workflow once; its provisioning step installs CALIBRATION_SECRET for both endpoints."
+            else
+              echo "::error::Observatory sweep failed with HTTP ${STATUS}"
+            fi
+            exit 1
+          fi
+
+      - name: Evaluate report
+        run: |
+          python3 - /tmp/report.json <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          incidents = report.get('incidents', [])
+          samples = report.get('samples', {})
+          findings = samples.get('findings', [])
+          print(json.dumps(report, indent=2, ensure_ascii=False))
+          for i in incidents:
+              print(f"::error::Cyrillic INCIDENT served-then-transliterated at {i.get('path')} ({i.get('at')})")
+          for f in findings:
+              kind = f.get('kind')
+              detail = f" — '{f.get('match')}' (use {f.get('use')})" if kind == 'serbism' else ''
+              print(f"::warning::{kind} in sampled output from {f.get('path')}{detail}")
+          if incidents or findings:
+              print(f"::error::Output observatory found {len(incidents)} incident(s) and {len(findings)} sample finding(s)")
+              sys.exit(1)
+          print(f"Observatory clean: {samples.get('checked', 0)} samples checked, 0 findings, 0 incidents")
+          EOF
