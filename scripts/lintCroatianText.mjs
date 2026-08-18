@@ -94,39 +94,12 @@ function findBadInString(s) {
 }
 
 // ── Serbism blocklist (owner directive, 2026-08-17) ──────────────────────────
-// Standard Croatian only: HIGH-PRECISION Serbian forms that have unambiguous
-// Croatian equivalents. Word-boundary matched, case-insensitive, applied to
-// CROATIAN fields only (`en` glosses are exempt — they may legitimately
-// mention a Serbian form when teaching the contrast). Deliberately
-// conservative: ambiguous or dialect-shared words (e.g. "porodica",
-// "muzika") are NOT listed — false alarms would train people to ignore
-// the lint.
-// JS `\b` is ASCII-only — it mis-fires around č/ć/đ/š/ž (it "matched" reč
-// inside rečenica). Every rule therefore uses Unicode letter lookarounds.
-// Morphology caution: oblique forms of vrijeme are vremena/vremenu IN
-// STANDARD CROATIAN (the ije→e alternation is regular), so only the bare
-// nominative "vreme" marks ekavica; same care applies throughout.
-const sb = (core) => new RegExp(`(?<![\\p{L}])(?:${core})(?![\\p{L}])`, 'iu');
-const SERBISM_RULES = [
-  { re: sb('hleb(a|u|om|e)?'), use: 'kruh' },
-  { re: sb('vazduh(a|u|om)?'), use: 'zrak' },
-  { re: sb('hiljad(a|e|u|ama)?'), use: 'tisuća' },
-  { re: sb('pozorišt(e|a|u|em)'), use: 'kazalište' },
-  { re: sb('takođe'), use: 'također' },
-  { re: sb('uslov(a|u|e|i|ima)?'), use: 'uvjet' },
-  { re: sb('saobraćaj(a|u|em)?'), use: 'promet' },
-  { re: sb('bezbedn\\p{L}*'), use: 'siguran/sigurnost' },
-  { re: sb('obavešt\\p{L}*'), use: 'obavijest/obavještenje' },
-  // Ekavica — bare forms only; oblique cases coincide with standard Croatian:
-  { re: sb('lep|lepa|lepo|lepi'), use: 'lijep/lijepo' },
-  { re: sb('vreme'), use: 'vrijeme' },
-  { re: sb('mlek(o|a|u)'), use: 'mlijeko' },
-  { re: sb('dete'), use: 'dijete' },
-  { re: sb('čovek(a|u|om)?'), use: 'čovjek' },
-  { re: sb('reč|reči'), use: 'riječ' },
-  { re: sb('gde|ovde|negde|nigde'), use: 'gdje/ovdje/negdje/nigdje' },
-  { re: sb('uvek'), use: 'uvijek' },
-];
+// SINGLE SOURCE OF TRUTH: functions/api/_serbisms.js (output-observation
+// directive, 2026-08-18) — the same rules screen the static content here AND
+// the sampled live AI responses in /api/output-observatory. Add rules THERE.
+// Standard Croatian only, high-precision, Unicode lookarounds (JS ASCII \b
+// mis-fires around č/ć/đ/š/ž), bare-ekavica-only forms — see the module.
+import { SERBISM_RULES } from '../functions/api/_serbisms.js';
 
 /** English-gloss fields where a Serbian form may legitimately appear. */
 const SERBISM_EXEMPT_FIELDS = new Set(['en', 'note']);

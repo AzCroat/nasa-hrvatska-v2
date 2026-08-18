@@ -47,6 +47,7 @@
 
 import { corsHeaders, isAllowedOrigin } from './api/_helpers.js';
 import { latinizeResponseBody } from './api/_croatianGuard.js';
+import { ENDPOINT_CEILING_MICROUSD } from './api/_aiBudget.js';
 
 // ── Module-level fallback map ─────────────────────────────────────────────────
 // Used when caches.default is unavailable. Per-isolate — not shared across instances.
@@ -251,5 +252,62 @@ export async function onRequest(context) {
   // guarantee lives — no Cyrillic can reach the client from any endpoint,
   // present or future. Textual bodies only; binary (TTS audio) untouched;
   // streaming-safe. See functions/api/_croatianGuard.js.
-  return latinizeResponseBody(response);
+  //
+  // OUTPUT OBSERVATION (owner directive, 2026-08-18): the bakery Cyrillic
+  // incident was found by the owner in the field, not by the system. The same
+  // chokepoint now OBSERVES what AI endpoints actually serve: every
+  // contamination becomes a durable KV incident record, and a small random
+  // sample (~2%) of clean AI output is retained (truncated, 14-day TTL) for
+  // the weekly /api/output-observatory sweep. Fail-soft everywhere — an
+  // observation failure can never affect the response.
+  return latinizeResponseBody(response, buildObserver(context, pathname, status));
+}
+
+// ── Output observation (2026-08-18) ──────────────────────────────────────────
+// Which endpoints get observed: exactly the AI surface — the metered-ceiling
+// table is already the canonical list of AI endpoints (including the ceiling-0
+// cache-served ones), so membership there IS the sampling predicate. Nothing
+// non-AI (sync, content, push) is ever sampled.
+const OBS_SAMPLE_RATE = 0.02;
+const OBS_INCIDENT_TTL_S = 60 * 60 * 24 * 30; // incidents: 30 days
+const OBS_SAMPLE_TTL_S = 60 * 60 * 24 * 14; // routine samples: 14 days
+const OBS_FLUSH_TIMEOUT_MS = 20_000;
+
+function buildObserver(context, pathname, status) {
+  const env = context?.env;
+  const kv = env?.KV || env?.PUSH_SUBSCRIPTIONS;
+  if (!kv) return undefined;
+  if (!(pathname in ENDPOINT_CEILING_MICROUSD)) return undefined;
+  if (status !== 200) return undefined; // observe served content, not errors
+
+  // The observer fires at stream FLUSH — after onRequest has returned — so the
+  // KV write needs the event kept alive: register a deferred with waitUntil
+  // now, settle it from the observer. The timeout race bounds the case where
+  // the client aborts mid-stream and flush never runs.
+  let settle;
+  const done = new Promise((r) => {
+    settle = r;
+  });
+  try {
+    context.waitUntil(
+      Promise.race([done, new Promise((r) => setTimeout(r, OBS_FLUSH_TIMEOUT_MS))]),
+    );
+  } catch {
+    return undefined; // no waitUntil → a flush-time write could be cut off; skip
+  }
+
+  return ({ contaminated, text }) => {
+    const write = (async () => {
+      // Incidents ALWAYS persist; clean output is sampled.
+      if (!contaminated && Math.random() >= OBS_SAMPLE_RATE) return;
+      const at = new Date().toISOString();
+      const rand = Math.random().toString(36).slice(2, 8);
+      const slug = pathname.replace(/[^a-z0-9-]/gi, '_');
+      const key = contaminated ? `obs:i:${at}:${rand}` : `obs:s:${at.slice(0, 10)}:${slug}:${rand}`;
+      await kv.put(key, JSON.stringify({ path: pathname, at, contaminated, text }), {
+        expirationTtl: contaminated ? OBS_INCIDENT_TTL_S : OBS_SAMPLE_TTL_S,
+      });
+    })();
+    write.catch(() => {}).finally(settle);
+  };
 }

@@ -286,6 +286,29 @@ No Cyrillic and no Serbian variants may reach a user, ever. Three layers (pinned
 2. **Prompt rule**: the 7 Croatian-generating endpoints (ai-chat, maja, conversation, conversational-tutor, dialogue, listening, micro-lesson) append `CROATIAN_SCRIPT_RULE` to their system prompts — the only layer that prevents Serbian LEXICON/ekavica, which transliteration cannot fix. New Croatian-generating endpoints must adopt it (tested by source pin).
 3. **Static lint**: `scripts/lintCroatianText.mjs` adds a high-precision Serbism blocklist over the content files. JS `\b` is ASCII-only and mis-fires around č/ć/đ/š/ž — the rules use Unicode lookarounds. Morphology matters: oblique forms of `vrijeme` are `vremena/vremenu` IN STANDARD CROATIAN; only bare ekavica forms are flagged. Extend the list conservatively — false alarms train people to ignore the lint.
 
+## Critical Architecture: AI Output Observation (owner directive, 2026-08-18)
+
+The bakery Cyrillic incident was found by the owner in the field. The system
+now observes what AI endpoints ACTUALLY serve (pinned by `outputObservatory.test.js`):
+
+- **Chokepoint sampling** (`functions/_middleware.js` `buildObserver` + the
+  guard's `observe` hook): every Cyrillic contamination becomes a durable KV
+  incident (`obs:i:*`, 30d TTL) and ~2% of clean AI output is sampled
+  (`obs:s:*`, truncated to 1536 chars, 14d TTL). The sampling predicate is
+  membership in `ENDPOINT_CEILING_MICROUSD` — the ceiling table IS the
+  canonical AI-endpoint list; nothing non-AI is ever sampled. Only 200s.
+  Flush-time KV writes ride a bounded `waitUntil` race. Fail-soft everywhere.
+- **Weekly sweep** (`/api/output-observatory` + `output-observatory.yml`,
+  Mondays 06:00 UTC + dispatch): lists incidents and re-screens samples with
+  `containsCyrillic` + the shared Serbism rules; the workflow FAILS RED on any
+  incident or finding. Zero AI spend (pure KV + regex — no budget ceiling
+  needed). Auth: same CRON_SECRET/CALIBRATION_SECRET gate as golden-calibration
+  (the self-provisioned credential covers both endpoints).
+- **Serbism rules single source**: `functions/api/_serbisms.js` — imported by
+  BOTH `scripts/lintCroatianText.mjs` (static content) and the sweep (live
+  output). Add rules there, never fork; extend conservatively (the
+  123-false-positive lesson).
+
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 
 Users were being cut off mid-speech. The rules that prevent regression (pinned by `speechEndpointing.test.js`):
