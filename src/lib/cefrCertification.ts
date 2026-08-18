@@ -640,6 +640,45 @@ export function getLastVerificationRollback(): {
   return null;
 }
 
+// ── Verification quiet period (owner directive, 2026-08-18) ───────────────────
+// The gate card was a permanent red takeover: a FAILED check rolled the level
+// down to a NEW provisional target, so the hero survived the very test the
+// learner just sat ("it still shows after my children took the test"). The
+// GATE itself keeps no-snooze semantics — content stays locked — but the
+// PROMPT now honors attempts: any verification attempt (pass or fail) starts
+// a quiet period in which the hero collapses to a one-line chip and the
+// next-step engine recommends practice (the ledger's weakest skill — exactly
+// what a failed check says to do) instead of an immediate retake.
+
+/** Same scale as the retake cooldown — one week of quiet after an attempt. */
+export const VERIFICATION_QUIET_DAYS = 7;
+
+/** Most recent verification attempt timestamp across ALL levels, or null. */
+export function getLastAttemptAt(): number | null {
+  const attempts = getCertificationState().attempts;
+  let last: number | null = null;
+  for (const a of attempts) {
+    if (a && typeof a.takenAt === 'number' && (last === null || a.takenAt > last)) {
+      last = a.takenAt;
+    }
+  }
+  return last;
+}
+
+/** When the current quiet period ends (ms epoch), or null when none is active
+ *  — no attempt ever, or the last one is older than the quiet window. */
+export function verificationQuietUntil(now: number = Date.now()): number | null {
+  const last = getLastAttemptAt();
+  if (last === null) return null;
+  const until = last + VERIFICATION_QUIET_DAYS * 24 * 60 * 60 * 1000;
+  return until > now ? until : null;
+}
+
+/** True while the verification PROMPT should stay quiet (recent attempt). */
+export function isVerificationQuiet(now: number = Date.now()): boolean {
+  return verificationQuietUntil(now) !== null;
+}
+
 // ── Sync helpers ──────────────────────────────────────────────────────────────
 
 /**

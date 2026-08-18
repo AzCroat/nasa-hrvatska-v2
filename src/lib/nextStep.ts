@@ -28,7 +28,7 @@
  */
 
 import type { CefrLevel } from './cefr.js';
-import { getVerificationGate } from './cefrCertification.js';
+import { getVerificationGate, isVerificationQuiet } from './cefrCertification.js';
 import { getServableReviewCount } from './srs';
 import { weakestProductionKind, buildPlanReason } from './masteryLedger.js';
 import {
@@ -86,10 +86,14 @@ function readTodaySession(): DailySession | null {
 export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> }): NextStep {
   const { userCefr, poolWords } = opts;
 
-  // 1 — verification gate: a provisional level outranks everything.
+  // 1 — verification gate: a provisional level outranks everything — UNLESS
+  // the learner attempted a check within the quiet period (owner directive,
+  // 2026-08-18). Right after an attempt, "retake the test" is the wrong
+  // recommendation; falling through lands on the mastery ledger's weakest
+  // skill (rung 4) — the practice that will actually let them pass.
   try {
     const gate = getVerificationGate();
-    if (gate.required && gate.target) {
+    if (gate.required && gate.target && !isVerificationQuiet()) {
       return {
         kind: 'verification',
         screen: 'equivalency',
