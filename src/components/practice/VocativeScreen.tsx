@@ -4,6 +4,8 @@ import { speak } from '../../lib/audio.js';
 import { useStats } from '../../context/StatsContext';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { passedLesson } from '../../lib/lessonGate';
+import { caseConceptById, WHY_WORDS_CHANGE } from '../../data/caseConcepts';
+import { CASE_PRIMER_SEEN_KEY } from './CaseConceptIntro';
 
 // Shuffle helper
 function sh<T>(a: T[]): T[] {
@@ -41,9 +43,54 @@ export default function VocativeScreen({
 
   // ── Phase: Rules ───────────────────────────────────────────────────────────
   if (phase === 'rules') {
+    // Concept-teaching (2026-08-18): this screen already taught before
+    // testing — it now leads with the English-bridge concept card (and the
+    // one-time "why words change" primer) like the other case drills.
+    const concept = caseConceptById('vocative');
+    let primerUnseen = false;
+    try {
+      primerUnseen = localStorage.getItem(CASE_PRIMER_SEEN_KEY) !== '1';
+      if (primerUnseen) localStorage.setItem(CASE_PRIMER_SEEN_KEY, '1');
+    } catch {
+      /* storage unavailable */
+    }
     return (
       <div className="scr-wrap">
         {H('📣 Vocative Case', 'Vokativ — Direct Address', goBack)}
+
+        {primerUnseen && (
+          <div
+            className="c"
+            style={{
+              marginBottom: 12,
+              padding: '14px 16px',
+              border: '1.5px solid var(--info, #0284c7)',
+              borderRadius: 12,
+            }}
+            data-testid="case-primer"
+          >
+            <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 6 }}>
+              {WHY_WORDS_CHANGE.icon} {WHY_WORDS_CHANGE.title}
+            </div>
+            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: 'var(--subtext)' }}>
+              {WHY_WORDS_CHANGE.body}
+            </p>
+          </div>
+        )}
+        {concept && (
+          <div
+            className="c"
+            style={{ marginBottom: 12, padding: '12px 14px', borderRadius: 12 }}
+            data-testid="case-english-bridge"
+          >
+            <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 4 }}>
+              {concept.icon} {concept.title}
+            </div>
+            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.55, color: 'var(--subtext)' }}>
+              🇬🇧 {concept.englishBridge}
+            </p>
+          </div>
+        )}
 
         <div
           className="c"

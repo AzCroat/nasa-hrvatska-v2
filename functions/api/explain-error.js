@@ -31,7 +31,9 @@ function err(status, msg, origin) {
 // review.) Keep this list in step with the `type:` sent by every _aiPost
 // caller of this endpoint — currently ClozeEngine, DictationScreen,
 // ReviewScreen and McGame.
-const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice'];
+// 'case_drill' (concept-teaching, 2026-08-18): the seven case drills now
+// request plain-English explanations on wrong answers via useExplainError.
+const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice', 'case_drill'];
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export async function onRequestOptions({ request }) {
@@ -80,6 +82,7 @@ export async function onRequestPost(context) {
     dictation: 'listening dictation exercise',
     flashcard: 'vocabulary flashcard',
     multiple_choice: 'multiple-choice vocabulary quiz',
+    case_drill: 'noun-case ending exercise',
   };
 
   const typeDesc = TYPE_DESCS[type];
@@ -96,9 +99,10 @@ Correct answer: "${safeCorrect}"${safeWrong ? `\nLearner answered: "${safeWrong}
 
 Explain the grammar rule. Be specific about case, tense, or pattern.`;
 
-  const basePrompt = `You are a Croatian grammar teacher. Give a concise explanation (2-3 sentences) of why an answer is correct.
+  const basePrompt = `You are a Croatian grammar teacher for ENGLISH SPEAKERS WITH NO FORMAL GRAMMAR BACKGROUND. Give a concise explanation (2-3 sentences) of why an answer is correct.
+CRITICAL: assume the learner has never heard terms like "genitive" or "aspect". Never use a grammar term without immediately glossing it in plain words — e.g. "genitive (the 'of' form)", "accusative (the 'him' form — what the action lands on)", "dative (the 'to someone' form)". Where possible, anchor to something English does: he/him/his, who/whom, "the dog's bone", "give HIM the book". Plain words beat precision.
 Return ONLY valid JSON (no markdown, no code blocks):
-{"explanation":"2-3 sentences explaining the grammar rule","rule":"short rule name e.g. 'Accusative case' or 'Negation genitive'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`;
+{"explanation":"2-3 sentences explaining the grammar rule in plain English","rule":"short plain-English rule name e.g. 'The of-form (genitive)'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`;
 
   const systemPrompt = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
 

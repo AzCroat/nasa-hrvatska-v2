@@ -73,23 +73,34 @@ vi.mock('../data', async (importOriginal) => {
 
 import AccusativeDrill from '../components/practice/AccusativeDrill';
 
+// Concept-teaching (2026-08-18): drills open with a teaching phase — tap
+// through it like a returning learner before asserting on question UI.
+function tapThroughIntro() {
+  const start = document.querySelector('[data-testid="case-intro-start"]');
+  if (start) fireEvent.click(start);
+}
+
 describe('AccusativeDrill -- smoke tests', () => {
   it('renders without crashing', () => {
     render(<AccusativeDrill goBack={vi.fn()} award={vi.fn()} />);
+    tapThroughIntro();
   });
 
   it('shows the title "Accusative Case"', () => {
     render(<AccusativeDrill goBack={vi.fn()} award={vi.fn()} />);
+    tapThroughIntro();
     expect(screen.getByText('Accusative Case')).toBeTruthy();
   });
 
   it('shows progress 1 / 10', () => {
     render(<AccusativeDrill goBack={vi.fn()} award={vi.fn()} />);
+    tapThroughIntro();
     expect(screen.getByText(/1 \/ 10/)).toBeTruthy();
   });
 
   it('advances to 2 / 10 after clicking the correct answer and Next', () => {
     const { container } = render(<AccusativeDrill goBack={vi.fn()} award={vi.fn()} />);
+    tapThroughIntro();
     // With rnd()=0.99, shuffle is identity -- opts[0] === answer
     const firstOpt = container.querySelector('button.ob');
     expect(firstOpt).toBeTruthy();

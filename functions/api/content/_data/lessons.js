@@ -397,7 +397,11 @@ export const LESSONS = [
     title: 'The 7 Cases (Padeži)',
     subtitle: 'How and why Croatian changes noun endings',
     icon: '🏛️',
-    level: 'B1',
+    // Concept-teaching (2026-08-18): B1 → A1. This is the app's ONLY
+    // "what is a case" primer, while every case DRILL unlocks at A1 — gating
+    // the explanation two levels above the drills meant beginners were tested
+    // on a concept nothing had ever taught them.
+    level: 'A1',
     duration: '~7 min',
     color: '#b45309',
     bg: '#fffbeb',
@@ -407,6 +411,12 @@ export const LESSONS = [
         title: 'Croatian Has 7 Cases',
         body: "In Croatian, nouns, pronouns, and adjectives change their endings depending on their role in the sentence. These different forms are called cases (padeži). Instead of using separate words like 'of', 'to', 'by', Croatian changes the noun's ending. It sounds daunting — but once you understand the logic, it becomes elegant.",
         icon: '🏛️',
+      },
+      {
+        type: 'rule',
+        title: 'You Already Use Cases — in English',
+        body: "You say 'HE is here' but 'I see HIM' and 'that is HIS coat' — same person, three forms, chosen by the job the word does in the sentence. That IS a case system. English keeps it only for pronouns (he/him/his, who/whom, they/them/their); Croatian applies the same idea to every noun, by changing the ending. Each case is simply one job a word can have.",
+        highlight: 'he / him / his — you already do this',
       },
       {
         type: 'rule',
@@ -492,7 +502,11 @@ export const LESSONS = [
             en: 'I live in Zagreb.',
             note: "Locative after 'u' (static location)",
           },
-          { hr: 'Dajem knjizi.', en: 'I give to the book.', note: 'Dative: knjiga → knjizi' },
+          {
+            hr: 'Dajem knjigu sestri.',
+            en: 'I give the book to my sister.',
+            note: 'Dative: sestra → sestri (the receiver); knjiga → knjigu (the thing given)',
+          },
           {
             hr: 'Pišem olovkom.',
             en: 'I write with a pencil.',
