@@ -225,7 +225,12 @@ jobs:
   build-deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
-    needs: [quality, test]
+    # E2E added to the gate (owner decision, 2026-08-18): a red Playwright run
+    # now BLOCKS the production deploy. Before this, build-deploy raced e2e —
+    # a change that passed unit tests but broke a real user flow deployed to
+    # production while E2E was still running. The cost is ~15-35 min added
+    # deploy latency (see the e2e job's timeout note); the owner accepted it.
+    needs: [quality, test, e2e]
     steps:
       - uses: actions/checkout@v7
 
