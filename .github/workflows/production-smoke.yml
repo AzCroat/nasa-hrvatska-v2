@@ -46,8 +46,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Same per-attempt bound + one retry as ci.yml's e2e job (2026-08-19):
+      # this exact step stalled for six hours on a GitHub-side download. Each
+      # attempt gets 10 minutes via bash timeout; the job cap remains the
+      # outer bound.
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium firefox webkit
+        timeout-minutes: 22
+        run: |
+          for attempt in 1 2; do
+            if timeout 600 npx playwright install --with-deps chromium firefox webkit; then
+              exit 0
+            fi
+            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound); retrying"
+          done
+          echo "::error::Playwright install failed twice — likely a GitHub-side outage; re-run the job"
+          exit 1
 
       - name: Run smoke tests (${{ matrix.browser }})
         env:
