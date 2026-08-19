@@ -47,9 +47,11 @@ jobs:
         run: npm ci
 
       # Same per-attempt bound + one retry as ci.yml's e2e job (2026-08-19):
-      # this exact step stalled for six hours on a GitHub-side download. Each
+      # this exact step stalled for six hours on a stalled apt fetch. Each
       # attempt gets 10 minutes via bash timeout; the job cap remains the
-      # outer bound.
+      # outer bound. Between attempts, kill the orphaned apt-get that
+      # `timeout` leaves behind and clear its locks — without that the retry
+      # dies instantly on "Could not get lock" (seen live, run 32302453122).
       - name: Install Playwright browsers
         timeout-minutes: 22
         run: |
@@ -57,9 +59,13 @@ jobs:
             if timeout 600 npx playwright install --with-deps chromium firefox webkit; then
               exit 0
             fi
-            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound); retrying"
+            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound)"
+            sudo pkill -9 apt-get 2>/dev/null || true
+            sudo pkill -9 -x apt 2>/dev/null || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
+            sudo dpkg --configure -a || true
           done
-          echo "::error::Playwright install failed twice — likely a GitHub-side outage; re-run the job"
+          echo "::error::Playwright install failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
           exit 1
 
       - name: Run smoke tests (${{ matrix.browser }})
