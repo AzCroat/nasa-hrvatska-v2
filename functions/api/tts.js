@@ -81,7 +81,15 @@ export function buildAzureSsml(
 // Phonemically accurate for all Croatian diacritics (č, ć, š, ž, đ) and pitch accent.
 // Prosody rate: -8% normal, -25% slow mode (study pace).
 // Regional failover: tries each region in order until one succeeds.
-async function tryAzure(text, { slow, prosody, phoneme, voiceName }, azureKey, primaryRegion) {
+// Exported for /api/stt-calibration (2026-08-19): the STT golden run
+// synthesizes its known phrases through THIS production voice path, so the
+// calibration audio is exactly what learners hear.
+export async function tryAzure(
+  text,
+  { slow, prosody, phoneme, voiceName },
+  azureKey,
+  primaryRegion,
+) {
   const ssml = buildAzureSsml(text, { slow, prosody, phoneme, voice: voiceName || undefined });
 
   const regions = [

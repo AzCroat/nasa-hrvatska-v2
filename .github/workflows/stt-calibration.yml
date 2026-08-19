@@ -1,0 +1,84 @@
+# STT-stage calibration — golden Croatian audio through the REAL speech
+# pipeline (owner directive, 2026-08-19 — assessment gap #7).
+#
+# golden-calibration (the rubric run) feeds known TRANSCRIPTS, deliberately
+# skipping speech-to-text. This run calibrates that stage: known phrases are
+# synthesized with the app's production TTS voice and pushed through the
+# production provider chain (Deepgram nova-3 → Whisper-1); each transcript's
+# word-error rate must stay inside band. Fails red on drift (2+ samples out
+# of band) so a broken speech stage is machine-found, not child-found.
+#
+# Cost: ~$0.11 worst-case per run (6 × TTS+STT; TTS is KV-cached after the
+# first run, so repeats are ~6 STT calls ≈ $0.09). Cheap enough to run
+# monthly on schedule; dispatch any time.
+#
+# AUTH: the same self-provisioned credential as calibration.yml — HMAC-SHA256
+# of "nh-calibration-v1" keyed by CLOUDFLARE_API_TOKEN; the endpoint accepts
+# CALIBRATION_SECRET (installed by calibration.yml's provisioning) or
+# CRON_SECRET. On 401/503, dispatch "AI evaluator calibration" once — its
+# provisioning step installs the secret for every calibration endpoint.
+name: STT calibration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 6 1 * *' # monthly, 1st at 06:30 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  stt-calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Run golden audio through the production speech pipeline
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN}" ] && [ -z "${CRON_SECRET}" ]; then
+            echo "::error::Neither CLOUDFLARE_API_TOKEN nor CRON_SECRET is configured"
+            exit 1
+          fi
+
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          else
+            TOKEN=$(printf '%s' "nh-calibration-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
+          fi
+          echo "::add-mask::${TOKEN}"
+
+          STATUS=$(curl -sS -o /tmp/report.json -w '%{http_code}' -X POST \
+            "https://nasahrvatska.com/api/stt-calibration" \
+            -H "x-cron-secret: ${TOKEN}" \
+            --max-time 300)
+
+          if [ "${STATUS}" != "200" ]; then
+            cat /tmp/report.json || true
+            if [ "${STATUS}" = "401" ] || [ "${STATUS}" = "503" ]; then
+              echo "::error::Auth or provider key not provisioned (HTTP ${STATUS}) — dispatch the 'AI evaluator calibration' workflow once to install CALIBRATION_SECRET, and check AZURE_TTS_KEY / DEEPGRAM_API_KEY in the Cloudflare dashboard."
+            else
+              echo "::error::STT calibration failed with HTTP ${STATUS}"
+            fi
+            exit 1
+          fi
+
+      - name: Evaluate report
+        run: |
+          python3 - /tmp/report.json <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          print(json.dumps(report, indent=2, ensure_ascii=False))
+          for s in report.get('samples', []):
+              if not s.get('evaluated'):
+                  print(f"::warning::{s['id']}: not evaluated ({s.get('error')})")
+              elif not s.get('ok'):
+                  print(f"::warning::{s['id']}: WER {s.get('wer')} outside band {s.get('band')} — heard: \"{s.get('transcript','')[:120]}\"")
+          if report.get('drift'):
+              print('::error::STT drift detected — 2+ golden phrases transcribed outside band')
+              sys.exit(1)
+          print(f"STT calibration OK: {report.get('withinBand')}/{report.get('evaluated')} within band (band {report.get('band')})")
+          EOF
