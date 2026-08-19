@@ -158,8 +158,10 @@ export async function onRequestPost(context) {
   } catch (e) {
     console.error('backup-progress: backup failed:', e?.message);
     // No index is written on failure, so the latch stays open and the next
-    // hourly cron tick inside the backup window retries automatically.
-    return json({ ok: false, error: 'backup_failed', detail: String(e?.message || e) }, 502);
+    // hourly cron tick inside the backup window retries automatically. The
+    // failure detail goes to the tail log only — error text can embed the
+    // upstream Firestore response, which doesn't belong in an HTTP body.
+    return json({ ok: false, error: 'backup_failed' }, 502);
   }
 
   const index = { week: wk, startedAt, completedAt: new Date().toISOString(), results };
