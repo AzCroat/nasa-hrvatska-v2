@@ -56,7 +56,13 @@ describe('the static boot shell in index.html', () => {
     const rootIdx = html.indexOf('<div id="root">');
     const shellEnd = html.indexOf('</div>', html.indexOf('nh-boot-spin'));
     // Strip HTML comments first — the rule is allowed to explain itself in one.
-    const markup = html.slice(rootIdx, shellEnd).replace(/<!--[\s\S]*?-->/g, '');
+    // Looped to a fixed point: a single-pass replace can recombine fragments
+    // into a fresh "<!--" (CodeQL js/incomplete-multi-character-sanitization).
+    let markup = html.slice(rootIdx, shellEnd);
+    for (let prev = ''; prev !== markup; ) {
+      prev = markup;
+      markup = markup.replace(/<!--[\s\S]*?-->/g, '');
+    }
     expect(markup).not.toMatch(/<h1[\s>]/);
   });
 });

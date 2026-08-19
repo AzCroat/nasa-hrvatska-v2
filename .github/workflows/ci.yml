@@ -177,13 +177,50 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
+      # 2026-08-19: this install stalled on a GitHub-side download TWICE in one
+      # day — once in production-smoke (6h to the default timeout) and once
+      # here (75 min to the job cap), where it SKIPPED Build & Deploy and cost
+      # a deploy cycle. GitHub Actions has no native step retry, so each
+      # attempt is bounded with bash `timeout` and retried once on a stall;
+      # the step-level timeout-minutes is the outer bound. Healthy runs take
+      # ~2 minutes — everything past that is pure headroom.
+      # A timed-out attempt orphans the apt-get child `timeout` doesn't kill,
+      # and the orphan keeps holding the apt lock — the retry then dies
+      # instantly with "Could not get lock" (seen live, run 32302453122).
+      # So between attempts: kill orphaned apt processes and clear their locks.
       - name: Install Playwright browsers (Chrome, Firefox, WebKit)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium firefox webkit
+        timeout-minutes: 22
+        run: |
+          for attempt in 1 2; do
+            if timeout 600 npx playwright install --with-deps chromium firefox webkit; then
+              exit 0
+            fi
+            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound)"
+            sudo pkill -9 apt-get 2>/dev/null || true
+            sudo pkill -9 -x apt 2>/dev/null || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
+            sudo dpkg --configure -a || true
+          done
+          echo "::error::Playwright install failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
+          exit 1
 
       - name: Install Playwright system deps (cache hit)
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium firefox webkit
+        timeout-minutes: 22
+        run: |
+          for attempt in 1 2; do
+            if timeout 600 npx playwright install-deps chromium firefox webkit; then
+              exit 0
+            fi
+            echo "::warning::install-deps attempt ${attempt} failed or stalled (10-min bound)"
+            sudo pkill -9 apt-get 2>/dev/null || true
+            sudo pkill -9 -x apt 2>/dev/null || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
+            sudo dpkg --configure -a || true
+          done
+          echo "::error::install-deps failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
+          exit 1
 
       - name: Build for E2E (with placeholder Firebase config)
         run: npm run build
