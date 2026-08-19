@@ -22,6 +22,14 @@ jobs:
   smoke:
     name: Smoke (${{ matrix.browser }})
     runs-on: ubuntu-latest
+    # 2026-08-19: the "Install Playwright browsers" step hung for SIX HOURS on
+    # three matrix jobs (a stalled GitHub-side download) before the 360-min
+    # default killed them as "cancelled" — alarming status, wasted runner
+    # time, zero information. Cap the whole job: install ~2 min + tests ~1
+    # min in the healthy case, so 30 min is pure headroom. A timed-out job
+    # still reports "cancelled" (not "failed"), so the failure-alert issue
+    # correctly stays quiet for infra hangs.
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
