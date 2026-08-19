@@ -108,6 +108,11 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/tts': 0, // self-metered: cache hits free, see SELF-METERED note above
   '/api/tts:generate': 4_000, // Azure neural ceiling; Edge/Google free tiers first
   '/api/stt': 15_000, // Deepgram/Whisper minute
+  // STT-stage golden run (2026-08-19): 6 phrases × (Azure TTS 4k + STT 15k),
+  // whole run pre-charged before any provider call (golden-calibration
+  // pattern). No Claude calls. TTS is KV-cached, so real repeat cost is ~6
+  // STT calls; the ceiling stays worst-case honest.
+  '/api/stt-calibration': 6 * (4_000 + 15_000),
   '/api/pronunciation-assess': 15_000, // Azure pronunciation assessment
   '/api/translate': 500, // MyMemory (free) — near-zero
 };
