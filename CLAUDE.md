@@ -489,6 +489,20 @@ build-deploy (waits for quality + test + e2e)
 - The e2e JOB timeout is 75 minutes (grown suite; the long-term fix is sharding). Per-test timeout 30s + 1 retry.
 - **Tests are a production gate. Never relax CI timeouts, skip tests, or weaken assertions to make CI green.**
 - Deterministic E2E pins on the daily-session production slot live in `e2e/sp4b-production-slot.spec.js` — any PRODUCTION_POOL composition change breaks them BY DESIGN; update the pins with intent preserved (this bit the production-teaching wave, 2026-08-18).
+- **Playwright install stalls are infrastructure, not the app** (2026-08-19): `playwright install --with-deps` runs `apt-get`, and a degraded Ubuntu mirror stalled it for SIX HOURS in production-smoke and 75 minutes in ci.yml — the latter skipped Build & Deploy and cost a deploy cycle. All three install steps now bound each attempt with bash `timeout 600` and retry once; between attempts they kill orphaned apt processes and clear `/var/lib/apt/lists/lock` + the dpkg locks, because `timeout` kills the npx wrapper and NOT the apt-get child, whose surviving lock made the first retry die instantly. Mirror slowness is PER-RUNNER (the same commit installed in 40s on a fresh runner while another burned two full attempts), so the response to a double failure is re-running the job, never loosening the bound. A job that hits a timeout reports **cancelled, not failed** — the smoke failure-alert issue deliberately stays quiet for that.
+
+---
+
+## Static Analysis: Standing CodeQL Dismissals (owner triage, 2026-08-19)
+
+Alerts fixed in code that session: #70 (stack-trace exposure — `/api/backup-progress` no longer returns error `detail` in its 502 body; the detail still reaches the Cloudflare tail via `console.error`) and #69 (incomplete multi-character sanitization — `bootShell.test.ts` strips HTML comments to a fixed point).
+
+**Seven "Clear text storage of sensitive information" alerts are scanner false positives and are dismissed as such** — #55 (`GradTab.tsx`), #56 (`HomeTab.tsx`), #58 + #66 (`useDailySession.ts`), #59 (`sessionSignal.ts`), #60 (`sessionCategory.ts`), #62 (`GrammarDiagnosisScreen.tsx`). Two heuristics misfire:
+
+- Anything named `session` (`nh_session_started`, `nh_session_served`, `nh_recent_exercises`, `sessionCategory`, `sessionSignal`) is read as an **auth session token**. It is the daily LEARNING session — lesson plans, screen keys, recent-exercise ids. No credential, token, or secret is ever stored there.
+- `nh_grammar_diagnosis` (#62) trips the **medical-data** heuristic on the word "diagnosis". It caches AI-generated grammar-weakness feedback.
+
+Storing learner progress in localStorage is this app's documented architecture (localStorage is authoritative, Firestore syncs it) — there is nothing to encrypt, and the only "fix" would be renaming identifiers to dodge a scanner. Do NOT add inline `// codeql[...]` suppressions to production files for these: that pollutes seven source files to silence a heuristic the UI dismissal already records. Re-triage only if an alert's FILE or DATA changes — not because the alert reappears.
 
 ---
 
