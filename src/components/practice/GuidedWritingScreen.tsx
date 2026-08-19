@@ -113,6 +113,11 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
   const [result, setResult] = useState<GuidedWritingResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  // Field bug (owner report, 2026-08-19): a transient /api/correct outage left
+  // learners with an error and only a retry button — the flow GATED on AI
+  // availability, violating the always-answers doctrine. The session credit
+  // already self-heals; failCount makes the way forward visible.
+  const [failCount, setFailCount] = useState(0);
   const textRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -268,9 +273,24 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       );
       // Self-heal: the user DID the work; a dead grader must not strand the session.
       signalSessionCompleteIfActive('writing_guided');
+      setFailCount((c) => c + 1);
     } finally {
       if (mountedRef.current) setLoading(false);
     }
+  }
+
+  function continueWithoutFeedback() {
+    // The writing is done — feedback is enrichment, never a gate. Award the
+    // participation XP once (the score-based bonus needs a real score) and
+    // leave; the session credit already fired in the failure path.
+    if (!finishFired.current) {
+      finishFired.current = true;
+      award(5, false, 'writing');
+    }
+    // Idempotent with the failure path's self-heal; covers the offline route
+    // where no submit ever ran.
+    signalSessionCompleteIfActive('writing_guided');
+    goBack();
   }
 
   const card: React.CSSProperties = {
@@ -567,25 +587,48 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               {loading ? (
                 <AIProgressBar phase="Grading your writing…" />
               ) : (
-                <button
-                  className="b bp"
-                  onClick={submit}
-                  disabled={wordCount < unit.minWords || !isOnline}
-                  data-testid="gw-submit"
-                  style={{
-                    width: '100%',
-                    padding: '13px 0',
-                    fontSize: 15,
-                    fontWeight: 800,
-                    opacity: wordCount < unit.minWords || !isOnline ? 0.5 : 1,
-                  }}
-                >
-                  {isOnline
-                    ? wordCount < unit.minWords
-                      ? `Write ${unit.minWords - wordCount} more word${unit.minWords - wordCount === 1 ? '' : 's'}`
-                      : 'Get feedback ✨'
-                    : 'Reconnect to get feedback'}
-                </button>
+                <>
+                  {/* After a failed grading call — or offline with the writing
+                      done — the way FORWARD is primary: feedback is enrichment,
+                      never a gate (owner, 2026-08-19). */}
+                  {(failCount > 0 || (!isOnline && wordCount >= unit.minWords)) && (
+                    <button
+                      className="b bp"
+                      onClick={continueWithoutFeedback}
+                      data-testid="gw-continue-anyway"
+                      style={{
+                        width: '100%',
+                        padding: '13px 0',
+                        fontSize: 15,
+                        fontWeight: 800,
+                        marginBottom: 8,
+                      }}
+                    >
+                      Continue — your writing counts ✓
+                    </button>
+                  )}
+                  <button
+                    className={failCount > 0 ? 'b bs' : 'b bp'}
+                    onClick={submit}
+                    disabled={wordCount < unit.minWords || !isOnline}
+                    data-testid="gw-submit"
+                    style={{
+                      width: '100%',
+                      padding: '13px 0',
+                      fontSize: 15,
+                      fontWeight: failCount > 0 ? 700 : 800,
+                      opacity: wordCount < unit.minWords || !isOnline ? 0.5 : 1,
+                    }}
+                  >
+                    {isOnline
+                      ? wordCount < unit.minWords
+                        ? `Write ${unit.minWords - wordCount} more word${unit.minWords - wordCount === 1 ? '' : 's'}`
+                        : failCount > 0
+                          ? 'Try feedback again'
+                          : 'Get feedback ✨'
+                      : 'Reconnect to get feedback'}
+                  </button>
+                </>
               )}
             </>
           )}

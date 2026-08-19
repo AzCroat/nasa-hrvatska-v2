@@ -132,4 +132,26 @@ describe('GuidedWritingScreen — the three-stage ladder', () => {
     await waitFor(() => expect(signalMock).toHaveBeenCalledWith('writing_guided'));
     expect(recordMasteryEventMock).not.toHaveBeenCalled();
   });
+
+  it('a failed grading NEVER gates the flow: continue-anyway appears, awards, and exits (owner field bug, 2026-08-19)', async () => {
+    // The field report: a transient /api/correct outage left learners with an
+    // error and only a retry button. Feedback is enrichment, never a gate.
+    aiPostMock.mockResolvedValue({ ok: false, status: 502, json: async () => ({}) });
+    const goBack = vi.fn();
+    const award = vi.fn();
+    render(<GuidedWritingScreen goBack={goBack} award={award} />);
+    advanceToWrite();
+    expect(screen.queryByTestId('gw-continue-anyway')).toBeNull(); // not before a failure
+    const words = Array.from({ length: 30 }, (_, i) => `riječ${i}`).join(' ');
+    fireEvent.change(screen.getByTestId('gw-text'), { target: { value: words } });
+    fireEvent.click(screen.getByTestId('gw-submit'));
+    await waitFor(() => expect(screen.getByTestId('gw-continue-anyway')).toBeTruthy());
+    // The retry stays available but demoted; the way forward is primary.
+    expect(screen.getByTestId('gw-submit').textContent).toContain('Try feedback again');
+    fireEvent.click(screen.getByTestId('gw-continue-anyway'));
+    expect(award).toHaveBeenCalledTimes(1);
+    expect(award.mock.calls[0]![0]).toBe(5); // participation XP, no fabricated score
+    expect(goBack).toHaveBeenCalledTimes(1);
+    expect(recordMasteryEventMock).not.toHaveBeenCalled(); // never fake evidence
+  });
 });
