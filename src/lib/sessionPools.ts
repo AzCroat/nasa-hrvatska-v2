@@ -42,6 +42,26 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'nominative',
   },
+  // A1 verb + syntax (recommender audit, 2026-08-20). A1 TEACHES both —
+  // `present-tense-verbs` and `pronouns-biti` are A1 lessons — but the lowest
+  // verb drill in this pool was A2 (imperative/modal/conjdrill/verbdrill) and
+  // the lowest syntax drill was A2 (unjumble/sentbuild/sentencetiles). A1 is the
+  // only level that cannot inherit downward, so the practice simply did not
+  // exist for the entry cohort: six cases drilled, "govorim" drilled zero times.
+  {
+    id: 'presentdrill',
+    label: 'Present Tense',
+    screen: 'presentdrill',
+    cefr: 'A1',
+    category: 'present-tense',
+  },
+  {
+    id: 'wordorderdrill',
+    label: 'Word Order',
+    screen: 'wordorderdrill',
+    cefr: 'A1',
+    category: 'word-order',
+  },
   {
     id: 'locdrill',
     label: 'Locative Case',

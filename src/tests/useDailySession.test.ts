@@ -379,6 +379,13 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
       // Wave 1 catchment — vocative (A1, grammar-structure category) joined the
       // pool, so the guaranteed slot may pick it too.
       'vocative',
+      // Recommender audit (2026-08-20) — A1 gained its first verb and syntax
+      // drills. Both carry grammar-structure categories (present-tense,
+      // word-order), so the guaranteed slot may now pick either. This is the
+      // assertion's intent working as designed: an A1 user gets an A1-level
+      // grammar drill, and there are simply more of them now.
+      'presentdrill',
+      'wordorderdrill',
     ];
     const acts = buildSessionActivities('A1');
     expect(acts.some((a) => A1_GRAMMAR.includes(a.screen))).toBe(true);

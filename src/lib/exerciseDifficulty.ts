@@ -16,6 +16,11 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   genderdrill: 2,
   nomdrill: 2,
   unjumble: 2,
+  // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
+  // are guided recognition (pick the ending / pick the ordering), not open
+  // production — and they must sort early for the A1 learners they exist for.
+  presentdrill: 2,
+  wordorderdrill: 2,
   negation: 2,
   znam: 3,
   cloze: 3,
