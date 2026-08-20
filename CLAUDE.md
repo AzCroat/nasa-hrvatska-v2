@@ -175,6 +175,67 @@ The user must never hit a dead end — something is ALWAYS recommended next.
 - **Persistent surfaces (owner correction, 2026-08-17)**: the pill alone was NOT what the owner intended — Home and Practice must prompt AT ALL TIMES, embedded in the page, not as a transient pop-up. All surfaces share `src/hooks/useNextStepEngine.ts` (compute + launch + navKey). Practice: `NextUpCard` pinned atop GradTab (`next-up-card`). Home: `SessionCard`'s complete state is a HERO-ONLY guided path (`next-up-primary` at Begin-Session weight) — when the engine supplies a step, the bonus-activities list and start-fresh option are NOT rendered (owner: "hero only - want a guided learning path"); they exist only in the legacy no-engine fallback.
 - NEVER: make the prompt block/overlay interactive content (keep the pointer-events contract); cache a recommendation across completions (recompute at event time); return null from `getNextStep` (the browse fallback is the floor); reintroduce competing options next to the complete-state hero.
 
+## Critical Architecture: The Daily Session Recommender (audit, 2026-08-20)
+
+`buildSessionActivities` (src/hooks/useDailySession.ts) composes the day's plan in priority order. The slots and what each guarantees:
+
+| Slot     | What it is                                             |
+| -------- | ------------------------------------------------------ |
+| P1       | SRS review — only when the queue is genuinely servable |
+| **P1.5** | **Teach → practice coupling** (below)                  |
+| P2       | Adaptive grammar pick, CEFR-gated                      |
+| P2.4     | Conversation anchor (B1+)                              |
+| P2.5     | Production — guaranteed spoken/written output          |
+| P2.7     | Guaranteed grammar/structure, if none yet              |
+| P3       | CEFR fill, four variety passes (below)                 |
+| P4       | Croatia immersion — always exactly one                 |
+
+### Teach → practice coupling (src/lib/teachPractice.ts)
+
+A finished lesson queues the category it taught; the next session claims a slot for that category's drill; practising it clears the queue. **This is what makes a lesson lead somewhere** — before it, finishing a lesson changed nothing about what came next, which is precisely how the A1 verb hole below stayed invisible.
+
+- **Two lesson paths, both wired.** Dedicated lesson screens finish through `completeExercise`; the 45 server content lessons finish inside `AnimatedLesson` and never touch it. Wiring only the first misses every content lesson.
+- The practice-clearing call sits **before** `completeExercise`'s already-credited early return, so repeating a long-credited drill still satisfies the coupling.
+- `LESSON_TAUGHT_CATEGORY` is deliberately conservative — a lesson with no unambiguous drill (`adjective-agreement`, `basic-questions`) is left unmapped, because a wrong pairing right after a lesson is worse than nothing. Entries expire (14 days) and the queue is capped.
+- `CATEGORY_SCREEN_MAP.nominative` exists **only** for this (nominative isn't in `ALL_CATEGORIES`, so the adaptive queue never picks it). Without it the A1 `cases` lesson queues a category that can never resolve.
+
+### Per-activity reasons (src/lib/activityReason.ts)
+
+Every slot attaches one line saying why it's there, built at **session-build time** (not render, so it can't rewrite itself as the learner practises) and stored on the activity.
+
+**THE HONESTY RULE — inherited from `buildPlanReason`: never fabricate.** A reason the learner can catch being wrong is worse than no reason. Two live traps:
+
+- the adaptive store seeds `recentAccuracy` at **0.5** for never-practised categories — reporting that as "50% accurate" claims a result the learner never produced. `getCategoryStatus` returns `accuracy: null` until `lastSeen` is set.
+- the mastery ledger returns null when it has measured neither production skill — never name one as "weakest" on no evidence.
+
+Slots with no honest signal attach nothing; `withReason()` omits the key rather than writing `undefined`.
+
+### Vary by SKILL, not by screen (src/lib/skillGroups.ts)
+
+Screen-level recency reads as variety but isn't: A1's pool is case-heavy (9 of 33), so several different screens could serve a session of case drills and all pass recency. Measured: for an **active** learner (recency having thinned the pool) that was **4 case activities out of 5 graded slots, 40/40 runs**.
+
+The P3 fill runs four passes over the same difficulty-ordered list: (1) new family, not recent; (2) **new family even if recent**; (3)–(4) the original unconstrained passes. **Pass 2 is the fix** — when the only un-recent content left is a fourth case drill, repeating yesterday's vocab game is the better session; recency is the cheaper thing to give up. Session length, the difficulty contract and the one-reference cap are unchanged by construction.
+
+`SKILL_GROUP` lives in production and `content-coverage.test.ts` **imports** it, so that suite's exhaustiveness assertion guards the real map.
+
+### Degrade visibly (src/lib/authoredFallback.ts)
+
+When an AI activity can't generate it must not credit the session for work never done — but it must also never strand it at N-1/N (a real incident class). Both hold because the substitute is authored content that cannot itself fail:
+
+- failure → **no credit**; the authored equivalent is offered
+- tapping it → navigate, still no credit
+- finishing it → `completeExercise` fires the session signal, which matches on the **originally launched** screen and credits that slot
+
+`creditIfNoAuthoredFallback` lives beside the map, so a screen can't half-adopt the policy by gaining a fallback and forgetting to stop crediting. A fallback must teach the **same skill** and must not itself be AI-dependent (both asserted).
+
+### The A1 hole this audit found
+
+A1 **taught** verbs (`present-tense-verbs`, `pronouns-biti` are A1 lessons) while the lowest verb drill in the pool was A2 — and A1 is the only level that cannot inherit downward. Same for syntax. Fixed by `presentdrill` + `wordorderdrill` (A1) and `CATEGORY_EASIER_SCREEN`, which rescues a category whose mapped drill is CEFR-locked instead of dropping it for the whole level. `a1VerbSyntaxDrills.test.ts` fails if A1 ever again lacks a reachable verb or syntax drill.
+
+**Word-order content rule**: Croatian constituent order is genuinely free, so every item must target a rule that is actually FIXED (second-position clitics, `li` after its verb, `ne` before its verb, adjective before noun) and every distractor must be ungrammatical rather than merely marked. An exercise that marks real Croatian wrong teaches learners to distrust their ear.
+
+---
+
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 
 The 2026-08-18 audit finding this section exists to keep closed: the app TESTED
@@ -203,9 +264,9 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
 - **'writing' is a first-class SkillCategory**: appended LAST to
   ALL_CATEGORIES (genitive stays the new-user first pick — same rule as the
   'listening' promotion), routed via `CATEGORY_SCREEN_MAP.writing →
-  'writing_guided'`, mapped in `skillForCategory` and `SKILL_TO_CATEGORIES`.
+'writing_guided'`, mapped in `skillForCategory` and `SKILL_TO_CATEGORIES`.
   Pool entries `writing_guided`/`writing`/`dictation` carry `category:
-  'writing'`. Never retag them back to 'speaking' and never remove the route —
+'writing'`. Never retag them back to 'speaking' and never remove the route —
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
 
@@ -350,27 +411,27 @@ Users were being cut off mid-speech. The rules that prevent regression (pinned b
 
 ### Environment variables (set in Cloudflare dashboard)
 
-| Variable                                 | Purpose                                     |
-| ---------------------------------------- | ------------------------------------------- |
-| `ANTHROPIC_API_KEY`                      | AI Tutor, story generation                  |
+| Variable                                 | Purpose                                                                                                                                                                                                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ANTHROPIC_API_KEY`                      | AI Tutor, story generation                                                                                                                                                                                                                                                |
 | `AZURE_TTS_KEY` / `AZURE_TTS_REGION`     | Azure Speech resource — ONE key covers TTS, STT **and** pronunciation assessment. The dashboard is provisioned under these `TTS_*` names; `pronunciation-assess.js` also accepts `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` (which win if ever set) so either naming works. |
-| `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK              |
-| `CRON_SECRET`                            | Auth token for scheduled worker → API calls |
-| `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Web Push notifications                      |
-| `RESEND_API_KEY`                         | Contact form emails                         |
-| `DEEPGRAM_API_KEY`                       | Speech-to-text (speaking practice)          |
-| `ADMIN_EMAIL`                            | Admin-only API access                       |
+| `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK                                                                                                                                                                                                                                            |
+| `CRON_SECRET`                            | Auth token for scheduled worker → API calls                                                                                                                                                                                                                               |
+| `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Web Push notifications                                                                                                                                                                                                                                                    |
+| `RESEND_API_KEY`                         | Contact form emails                                                                                                                                                                                                                                                       |
+| `DEEPGRAM_API_KEY`                       | Speech-to-text (speaking practice)                                                                                                                                                                                                                                        |
+| `ADMIN_EMAIL`                            | Admin-only API access                                                                                                                                                                                                                                                     |
 
 ### KV namespace bindings (Cloudflare Pages → Settings → Functions)
 
-| Variable             | Namespace ID                       | Purpose                              |
-| -------------------- | ---------------------------------- | ------------------------------------ |
+| Variable             | Namespace ID                       | Purpose                                                                                                                                                                                                                             |
+| -------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage — ALSO the KV fallback for rate limits, quotas, the budget ledger, and content caches (TTS audio, daily-culture, news) when a dedicated binding is absent. `tts.js` prefers `env.KV` if bound. |
 
 ### D1 binding (Cloudflare Pages → Settings → Functions)
 
-| Variable      | Purpose                                                                                                                                                                    |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variable      | Purpose                                                                                                                                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AI_QUOTA_DB` | Primary store for the per-user daily AI quota (`_aiQuota.js`) **and** the global monthly budget ledger (`_aiBudget.js`, table `ai_month_spend` — self-migrates on first use). Falls back to `PUSH_SUBSCRIPTIONS` KV when unbound; fail-closed when neither answers. |
 
 ### Scheduled worker (wrangler.toml)
@@ -545,7 +606,9 @@ Before committing any change:
     - The immediate `fetchIfNewer()` call on polling mount — never remove it
     - The `_unloadRef.current` fields (favs, jWords) — never strip from unload ref
 12. **The sw-migration.js cache prefix must remain a prefix match** (`nasa-hrvatska-v.`), never a hardcoded version number. Hardcoding caused ALL caches to wipe on every deploy.
-13. **Firestore sync runs on a periodic interval** for signed-in users (not just on tab close). Never revert this to beforeunload-only. The interval is **5 minutes** (`useSyncManager.ts`) — it was widened from 2 minutes deliberately, because periodic pushes plus `fbApplyDelta` bursts outpaced the Firestore WriteStream drain and produced "queued writes" / "maximum backoff delay" warnings. localStorage is authoritative, so a cross-device freshness gap of up to 5 minutes is acceptable; do not narrow it back without re-checking that backpressure.
+13. **Never let a recommendation state something the app did not measure** (2026-08-20 audit). The adaptive store seeds `recentAccuracy` at 0.5 and the mastery ledger returns null on no evidence — surfacing either as a claimed result invents a number the learner never produced, and one caught lie makes every other number in the app suspect. A slot with no honest signal says nothing.
+14. **Never credit a daily-session activity the learner could not do.** When an AI activity fails, offer the authored equivalent and let finishing THAT credit the slot. Crediting on failure was the old anti-strand fix; it bought safety with a lie. The strand guarantee is preserved by the substitute being authored content that cannot fail — so never point a fallback at another AI-dependent screen, and never add a fallback to a screen without removing its credit-on-failure.
+15. **Firestore sync runs on a periodic interval** for signed-in users (not just on tab close). Never revert this to beforeunload-only. The interval is **5 minutes** (`useSyncManager.ts`) — it was widened from 2 minutes deliberately, because periodic pushes plus `fbApplyDelta` bursts outpaced the Firestore WriteStream drain and produced "queued writes" / "maximum backoff delay" warnings. localStorage is authoritative, so a cross-device freshness gap of up to 5 minutes is acceptable; do not narrow it back without re-checking that backpressure.
 
 ---
 
