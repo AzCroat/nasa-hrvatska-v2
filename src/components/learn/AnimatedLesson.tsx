@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
+import { recordLessonTaught } from '../../lib/teachPractice';
 import { useStats } from '../../context/StatsContext';
 import {
   ProgressBar,
@@ -125,6 +126,13 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
         const doneKey = 'al_' + lessonId;
         setStats((s) => (s.vs?.includes(doneKey) ? s : { ...s, vs: [...(s.vs || []), doneKey] }));
         if (writeDelta) writeDelta({ vs: [doneKey] });
+        // Teach -> practice coupling (2026-08-20). The 45 content lessons finish
+        // here rather than through completeExercise, so the queue write has to be
+        // made explicitly - without it every server-side lesson (including the A1
+        // verb lesson this coupling exists for) would teach a concept the session
+        // builder never hears about. Keyed on the RAW lesson id, which is what
+        // LESSON_TAUGHT_CATEGORY maps.
+        recordLessonTaught(lessonId);
       }
       if (typeof award === 'function') {
         award(25, false, 'lesson');

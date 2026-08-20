@@ -12,6 +12,7 @@ import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedger';
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
+import { pendingTaughtCategories } from '../lib/teachPractice';
 import { lsGet } from '../lib/safeStorage';
 // Re-exported so the content-coverage CI gate and session tests keep their
 // import path (the data moved to ../lib/sessionPools for max-lines; the
@@ -112,6 +113,13 @@ export function getSessionFillTarget(userCefr: string, fluencyMode: boolean): nu
 const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   genitive: 'genitivedrill',
   accusative: 'accusativedrill',
+  // 'nominative' is not in ALL_CATEGORIES, so the adaptive queue never picks it
+  // and this row is inert for resolveAdaptiveActivity. It exists for the teach →
+  // practice coupling: the A1 `cases` lesson teaches the case SYSTEM, and
+  // nominative is where a learner starts using it. Without a route the coupling
+  // would queue a category it could never resolve, and the lesson would once
+  // again lead nowhere.
+  nominative: 'nomdrill',
   // Route each case to its dedicated drill (these components already exist and
   // are registered in AppRouter). Previously dative-locative/instrumental/vocative
   // all collapsed to generic 'cloze', so even when the adaptive picker chose them
@@ -245,6 +253,39 @@ export function resolveAdaptiveActivity(
   return null;
 }
 
+/**
+ * Teach → practice coupling: the drill for the oldest taught-but-unpractised
+ * category, or null when there is nothing pending (the common case).
+ *
+ * Reuses the SAME resolution as the adaptive pick — CATEGORY_SCREEN_MAP, then
+ * CATEGORY_EASIER_SCREEN when the mapped drill sits above the learner's level,
+ * with a CEFR gate on whichever it lands on. That reuse is load-bearing:
+ * `present-tense` maps to `cloze` (A2), so without the easier-screen fallback an
+ * A1 learner finishing the A1 verb lesson would queue a category whose only
+ * drill they cannot open — the coupling would promise practice and silently
+ * deliver nothing, which is the exact failure it exists to prevent.
+ *
+ * Exported for tests.
+ */
+export function resolveTaughtPracticeActivity(
+  userCefr: string,
+  usedScreens: Set<string>,
+): SessionActivity | null {
+  for (const category of pendingTaughtCategories()) {
+    const candidates = [CATEGORY_SCREEN_MAP[category], CATEGORY_EASIER_SCREEN[category]].filter(
+      Boolean,
+    ) as string[];
+    for (const screen of candidates) {
+      if (usedScreens.has(screen)) continue;
+      const screenCefr = SCREEN_CEFR[screen];
+      if (screenCefr && !isUnlocked(screenCefr, userCefr)) continue;
+      const label = category.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      return { id: `taught_${category}`, label, screen, category };
+    }
+  }
+  return null;
+}
+
 // Maps the user's CEFR level to a target difficulty tier (1–5). A stronger user
 // is biased toward harder exercise types.
 const CEFR_TIER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 };
@@ -357,6 +398,18 @@ export function buildSessionActivities(
       category: 'vocab-a2',
     });
   }
+
+  // Priority 1.5: Teach → practice coupling (2026-08-20). If the learner finished
+  // a lesson and has not yet practised what it taught, that drill takes a slot
+  // BEFORE the adaptive scheduler's pick — a concept the learner just met beats a
+  // statistical estimate of where they are weakest. Before this, finishing a
+  // lesson changed nothing about the next session, which is also how the A1 verb
+  // hole stayed invisible: taught at A1, drillable only from A2.
+  const taughtActivity = resolveTaughtPracticeActivity(
+    userCefr,
+    new Set(activities.map((a) => a.screen)),
+  );
+  if (taughtActivity) activities.push(taughtActivity);
 
   // Priority 2: Adaptive grammar topic (CEFR-gated; conjugation categories route
   // to the conjugation drill when CONJ_LAB_ENABLED).
