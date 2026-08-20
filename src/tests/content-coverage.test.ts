@@ -25,57 +25,17 @@
 
 import { describe, it, expect } from 'vitest';
 import { CEFR_EXERCISE_POOL } from '../hooks/useDailySession';
-import type { SkillCategory } from '../lib/adaptive';
+import { SKILL_GROUPS, SKILL_GROUP } from '../lib/skillGroups';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 type Level = (typeof LEVELS)[number];
 
-const SKILL_GROUPS = [
-  'vocab',
-  'case',
-  'verb',
-  'syntax',
-  'speaking',
-  'listening',
-  'reading',
-] as const;
-type SkillGroup = (typeof SKILL_GROUPS)[number];
-
-// Every pool category maps to exactly one skill group. A category with no entry
-// here is a bug (the matrix would silently miscount) — asserted below.
-const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
-  'vocab-a2': 'vocab',
-  'vocab-b1': 'vocab',
-  'vocab-b2': 'vocab',
-  nominative: 'case',
-  genitive: 'case',
-  accusative: 'case',
-  'dative-locative': 'case',
-  instrumental: 'case',
-  vocative: 'case',
-  'present-tense': 'verb',
-  'past-tense': 'verb',
-  'future-tense': 'verb',
-  'aspect-imperfective': 'verb',
-  'aspect-perfective': 'verb',
-  'aspect-negation': 'verb',
-  conditional: 'verb',
-  'word-order': 'syntax',
-  clitics: 'syntax',
-  subordination: 'syntax',
-  discourse: 'syntax',
-  passive: 'verb',
-  participle: 'verb',
-  nominalization: 'verb',
-  numerals: 'case',
-  idioms: 'vocab',
-  register: 'vocab',
-  speaking: 'speaking',
-  listening: 'listening',
-  reading: 'reading',
-  // Rotating animated-lesson slot: catalog is predominantly verbal morphology.
-  'grammar-lesson': 'verb',
-};
+// SKILL_GROUPS / SKILL_GROUP moved to src/lib/skillGroups.ts (2026-08-20) when
+// the daily session needed the grouping at runtime to vary its fill by skill
+// rather than by screen. Imported rather than duplicated so the exhaustiveness
+// assertion below now guards the PRODUCTION map: a new pool category that nobody
+// grouped fails here, before it can silently miscount the matrix or slip past
+// the session's variety pass.
 
 // Minimum acceptable exercises per level. C2 omitted = exempt by design.
 const TARGET_FLOOR: Partial<Record<Level, number>> = {

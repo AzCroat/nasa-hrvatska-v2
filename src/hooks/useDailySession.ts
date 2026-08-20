@@ -13,6 +13,7 @@ import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedg
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
+import { skillGroupOf, type SkillGroup } from '../lib/skillGroups';
 import {
   reviewReason,
   taughtReason,
@@ -549,20 +550,22 @@ export function buildSessionActivities(
   // session contains no tier-1 games) is untouched; with an empty ledger every
   // boost is equal and ordering degrades to the pre-Phase-3 random tiebreak.
   const skillBoost = makeSessionSkillBoost(userCefr as CefrLevel);
-  const ordered = [...pool]
-    .map((ex) => ({
-      ex,
-      // Phase 1 (fluency initiative): `adaptive` entries level their own
-      // content to the user, so they are ALWAYS difficulty-matched — a fixed
-      // score ranked the app's richest input content (leveled stories,
-      // readers, generated listening) away from exactly the advanced users
-      // it serves best.
-      dist: ex.adaptive ? 0 : Math.abs((EXERCISE_DIFFICULTY[ex.id] ?? 3) - targetTier),
-      boost: skillBoost(ex.category),
-      r: rnd(),
-    }))
-    .sort((a, b) => a.dist - b.dist || b.boost - a.boost || a.r - b.r)
-    .map((o) => o.ex);
+  const orderFill = (list: typeof pool) =>
+    [...list]
+      .map((ex) => ({
+        ex,
+        // Phase 1 (fluency initiative): `adaptive` entries level their own
+        // content to the user, so they are ALWAYS difficulty-matched — a fixed
+        // score ranked the app's richest input content (leveled stories,
+        // readers, generated listening) away from exactly the advanced users
+        // it serves best.
+        dist: ex.adaptive ? 0 : Math.abs((EXERCISE_DIFFICULTY[ex.id] ?? 3) - targetTier),
+        boost: skillBoost(ex.category),
+        r: rnd(),
+      }))
+      .sort((a, b) => a.dist - b.dist || b.boost - a.boost || a.r - b.r)
+      .map((o) => o.ex);
+  const ordered = orderFill(pool);
   // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard 4).
   const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
   // Wave 1 (session catchment): the LAST fill slot is a discovery slot — picked
@@ -575,15 +578,60 @@ export function buildSessionActivities(
   // difficulty fill AND the discovery slot — browse content must never crowd
   // out graded drills.
   let referenceServed = false;
-  for (const ex of ordered) {
-    if (activities.length >= discoveryTarget) break;
-    if (ex.reference && referenceServed) continue;
-    if (!usedScreens.has(ex.screen)) {
-      activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
-      usedScreens.add(ex.screen);
-      if (ex.reference) referenceServed = true;
+  // Vary by SKILL, not by screen (2026-08-20). The recency filter above excludes
+  // recently-seen SCREENS, which reads as variety but is not: A1's pool is
+  // case-heavy (9 of 33 entries), so three different screens could hand a
+  // learner three case drills in a row and every one would pass recency.
+  //
+  // Two passes over the SAME difficulty-ordered list. Pass 1 takes only
+  // candidates from a skill family the session does not already contain; pass 2
+  // fills any remaining slots with no family constraint. Ordering, the reference
+  // cap and session length are all unchanged — this only decides WHICH of the
+  // equally-eligible candidates gets each slot, so the difficulty contract (a B2
+  // session contains no tier-1 games) still holds. The seed set counts EVERY
+  // activity already queued, not just fill picks: the adaptive slot and the
+  // guaranteed-grammar slot are usually the first two case drills.
+  const usedGroups = new Set(
+    activities.map((a) => skillGroupOf(a.category)).filter(Boolean) as SkillGroup[],
+  );
+  const takeFill = (ex: (typeof ordered)[number]): void => {
+    activities.push({ id: ex.id, label: ex.label, screen: ex.screen, category: ex.category });
+    usedScreens.add(ex.screen);
+    const g = skillGroupOf(ex.category);
+    if (g) usedGroups.add(g);
+    if (ex.reference) referenceServed = true;
+  };
+  // Ordered by the same difficulty rule but WITHOUT the recency filter — the
+  // widened list pass 2 draws from.
+  const orderedAll = orderFill(
+    CEFR_EXERCISE_POOL.filter(
+      (ex) =>
+        isUnlocked(ex.cefr, userCefr) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
+    ),
+  );
+  const fillPass = (list: typeof ordered, newFamilyOnly: boolean): void => {
+    for (const ex of list) {
+      if (activities.length >= discoveryTarget) break;
+      if (ex.reference && referenceServed) continue;
+      if (usedScreens.has(ex.screen)) continue;
+      if (newFamilyOnly) {
+        const g = skillGroupOf(ex.category);
+        if (g && usedGroups.has(g)) continue;
+      }
+      takeFill(ex);
     }
-  }
+  };
+  // 1 — a family the session lacks, not seen recently. The ideal pick.
+  fillPass(ordered, true);
+  // 2 — a family the session lacks, even if seen recently. This ordering is the
+  // whole fix: when the only un-recent content left is a fourth case drill,
+  // repeating yesterday's vocab game is the better session. Measured on a
+  // history-thinned A1 pool, the old order produced four case activities out of
+  // five graded slots; recency is the cheaper thing to give up.
+  fillPass(orderedAll, true);
+  // 3/4 — variety exhausted; fall back to keeping the session full length.
+  fillPass(ordered, false);
+  fillPass(orderedAll, false);
   if (activities.length < fillTarget) {
     const served = readServedMap();
     const discovery = pool
