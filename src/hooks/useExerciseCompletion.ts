@@ -13,6 +13,11 @@ import { EXERCISE_COMPLETION, type StatKind } from '../lib/completion/exerciseRe
 import { consumeSessionCategoryOutcome } from '../lib/sessionCategory';
 import { signalSessionCompleteIfActive, EXERCISE_COMPLETE_EVENT } from '../lib/sessionSignal';
 import { recordExerciseOutcome } from '../lib/masteryLedger';
+import {
+  recordLessonTaught,
+  recordCategoryPractised,
+  categoryForScreen,
+} from '../lib/teachPractice';
 
 interface MinStats {
   vs?: string[];
@@ -100,6 +105,22 @@ export function completeExercise<S extends MinStats>(
   }
 
   if (!passed) return { passed: false };
+  // Teach → practice coupling (2026-08-20). A lesson queues the category it
+  // taught so the next session claims a slot for its drill; any other finish
+  // clears the queue entry for the category it just practised.
+  //
+  // Placed BEFORE the already-credited early return on purpose: a learner
+  // repeating a drill they were credited for months ago has still practised the
+  // concept, and the coupling must clear for them too. Putting this after that
+  // return would leave the queue stuck for exactly the learners who practise
+  // most. Both calls are best-effort — the storage helpers swallow their own
+  // errors so nothing here can throw into a completion path.
+  if (activityType === 'lesson') {
+    recordLessonTaught(key);
+  } else {
+    const practised = categoryForScreen(key);
+    if (practised) recordCategoryPractised(practised);
+  }
   if (stats.vs?.includes(vsKey)) {
     // Already credited — never a second gc/vs write. See awardOnReplay above for
     // why a few repeat-play drills still pay their finish XP here.
