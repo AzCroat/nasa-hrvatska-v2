@@ -149,6 +149,18 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   writing: 'writing_guided',
 };
 
+// Lower-level equivalent for a category whose mapped drill is CEFR-locked.
+// Only for categories where a genuinely easier drill teaches the SAME concept —
+// never a substitute from a different skill. Consulted by
+// resolveAdaptiveActivity, which still CEFR-gates the fallback itself, so this
+// can never surface a locked screen; it only rescues a category that would
+// otherwise be dropped for the whole level.
+const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
+  // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
+  // `present-tense-verbs` lesson and previously had nowhere to practise them.
+  'present-tense': 'presentdrill',
+};
+
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
 // pick (resolveAdaptiveActivity) so the coverage floor can't surface a locked
 // drill (e.g. B1 accusative, B2 clitics) to an A1/A2 user.
@@ -211,12 +223,24 @@ export function resolveAdaptiveActivity(
     // surface a locked drill — e.g. B1 accusative or B2 clitics — to an A1/A2
     // user. When every eligible category is locked this returns null and the
     // guaranteed-grammar slot (G2) backfills a level-appropriate drill.
+    let resolved = screen;
     if (!isConj) {
       const screenCefr = SCREEN_CEFR[screen];
-      if (screenCefr && !isUnlocked(screenCefr, userCefr)) continue;
+      if (screenCefr && !isUnlocked(screenCefr, userCefr)) {
+        // Locked — but a category can have an easier drill teaching the SAME
+        // thing. present-tense maps to `cloze` (A2), so before this an A1 user's
+        // verb picks were silently dropped every single time and A1 could never
+        // be served verb practice at all (recommender audit, 2026-08-20). Try
+        // the lower-level equivalent before giving up on the category.
+        const easier = CATEGORY_EASIER_SCREEN[category];
+        const easierCefr = easier ? SCREEN_CEFR[easier] : undefined;
+        if (!easier || usedScreens.has(easier) || !easierCefr || !isUnlocked(easierCefr, userCefr))
+          continue;
+        resolved = easier;
+      }
     }
     const label = category.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    return { id: `cat_${category}`, label, screen, category };
+    return { id: `cat_${category}`, label, screen: resolved, category };
   }
   return null;
 }

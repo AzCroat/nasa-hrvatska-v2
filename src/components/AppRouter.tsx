@@ -193,6 +193,10 @@ const InstrumentalDrill = lazyWithReload(() => import('./practice/InstrumentalDr
 const DativeDrill = lazyWithReload(() => import('./practice/DativeDrill'));
 const GenitiveDrill = lazyWithReload(() => import('./practice/GenitiveDrill'));
 const NominativeDrill = lazyWithReload(() => import('./practice/NominativeDrill'));
+// A1 verb + syntax drills (recommender audit, 2026-08-20): A1 taught verbs and
+// word order but had no drill at its own level to practise either.
+const PresentTenseDrill = lazyWithReload(() => import('./practice/PresentTenseDrill'));
+const WordOrderDrill = lazyWithReload(() => import('./practice/WordOrderDrill'));
 const LocativeDrill = lazyWithReload(() => import('./practice/LocativeDrill'));
 const FleetingADrill = lazyWithReload(() => import('./practice/FleetingADrill'));
 const SlangScreen = lazyWithReload(() => import('./practice/SlangScreen'));
@@ -2159,6 +2163,16 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'nomdrill' && (
           <ScreenErrorBoundary key="nomdrill" name="nomdrill">
             <NominativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'presentdrill' && (
+          <ScreenErrorBoundary key="presentdrill" name="presentdrill">
+            <PresentTenseDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'wordorderdrill' && (
+          <ScreenErrorBoundary key="wordorderdrill" name="wordorderdrill">
+            <WordOrderDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'genitivedrill' && (
