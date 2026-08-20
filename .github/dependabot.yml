@@ -63,6 +63,15 @@ updates:
         versions: [">=19.0.0"]
       - dependency-name: "react-dom"
         versions: [">=19.0.0"]
+      # TypeScript 7 is the Go-based native compiler rewrite — a separately
+      # scoped migration, not a drive-by bump. Dependabot reopened it as #382
+      # from 2026-08-03 and it sat red for weeks, adding a permanently-failing
+      # check to the PR list and training the eye to ignore red. Owner decision
+      # (2026-08-20): stop proposing it. The `typescript` group above only
+      # bundles minor/patch, so majors arrive as individual PRs like this one.
+      # Remove this ignore to revisit TS 7 as its own task.
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
 
   # GitHub Actions — monthly sweep is enough
   - package-ecosystem: "github-actions"
