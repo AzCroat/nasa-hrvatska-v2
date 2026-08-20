@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H } from '../../data';
-import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { AIContentSkeleton, AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
@@ -10,6 +9,8 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { recordTopicResult } from '../../lib/adaptive';
 import { useStats } from '../../context/StatsContext';
+import { creditIfNoAuthoredFallback } from '../../lib/authoredFallback';
+import AuthoredFallbackButton from './AuthoredFallbackButton';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import {
   getNextListeningUnit,
@@ -178,10 +179,13 @@ export default function AIListeningScreen({
                 : 'Something went wrong — please try again'),
         );
         setPhase('setup');
-        // Generation-failure self-heal: a dead AI endpoint must not strand the
-        // daily session (mirrors DictationScreen's empty-set signal; the award
-        // at results-time is unreachable when generation never succeeds).
-        signalSessionCompleteIfActive('ai_listening');
+        // DEGRADE VISIBLY (2026-08-20) — rationale in lib/authoredFallback.ts.
+        // This used to credit the session here so a dead endpoint could not
+        // strand it; now the authored substitute is offered below and the credit
+        // follows THAT (its completeExercise fires the signal, which matches the
+        // originally launched screen). Credit-on-failure is kept only where no
+        // substitute exists, since there the choice is credit-or-strand.
+        creditIfNoAuthoredFallback('ai_listening');
       }
     }
   }
@@ -444,6 +448,18 @@ export default function AIListeningScreen({
               ×
             </button>
           </div>
+        )}
+
+        {/* DEGRADE VISIBLY (2026-08-20): when generation fails, offer the
+            authored equivalent rather than leaving the learner with an error and
+            a retry. Navigating does NOT credit the session — finishing the
+            substitute does, via the completion signal matching the originally
+            launched screen. */}
+        {errorMsg && (
+          <AuthoredFallbackButton
+            forScreen="ai_listening"
+            testId="ai-listening-authored-fallback"
+          />
         )}
 
         {/* Topic grid */}
