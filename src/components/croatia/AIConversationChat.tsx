@@ -383,8 +383,7 @@ export default function AIConversationChat({
 
           const isUser = m.role === 'user';
           const correction = corrections[i] as
-            | { corrected?: string; explanation?: string; note?: string; echo?: string }
-            | undefined;
+            { corrected?: string; explanation?: string; note?: string; echo?: string } | undefined;
 
           return (
             <React.Fragment key={i}>

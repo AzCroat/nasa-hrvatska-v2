@@ -358,8 +358,7 @@ export default function McGame({
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
       e.preventDefault();
       const prev = e.currentTarget.parentElement?.children[Math.max(i - 1, 0)] as
-        | HTMLElement
-        | undefined;
+        HTMLElement | undefined;
       if (prev) prev.focus();
     }
   }

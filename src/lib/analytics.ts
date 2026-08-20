@@ -53,8 +53,7 @@ function safeLog(eventName: string, params?: Record<string, unknown>): void {
 function phCapture(eventName: string, props?: Record<string, unknown>): void {
   try {
     const ph = (window as unknown as Record<string, unknown>).__posthog as
-      | { capture?: (name: string, props?: unknown) => void }
-      | undefined;
+      { capture?: (name: string, props?: unknown) => void } | undefined;
     if (ph && typeof ph.capture === 'function') {
       ph.capture(eventName, props || {});
     }

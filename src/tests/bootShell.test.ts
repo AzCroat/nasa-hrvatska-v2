@@ -59,7 +59,7 @@ describe('the static boot shell in index.html', () => {
     // Looped to a fixed point: a single-pass replace can recombine fragments
     // into a fresh "<!--" (CodeQL js/incomplete-multi-character-sanitization).
     let markup = html.slice(rootIdx, shellEnd);
-    for (let prev = ''; prev !== markup; ) {
+    for (let prev = ''; prev !== markup;) {
       prev = markup;
       markup = markup.replace(/<!--[\s\S]*?-->/g, '');
     }

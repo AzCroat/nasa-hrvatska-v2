@@ -42,12 +42,7 @@ import {
 import { localDateStr } from './dateUtils.js';
 
 export type NextStepKind =
-  | 'verification'
-  | 'session'
-  | 'srs'
-  | 'production'
-  | 'discovery'
-  | 'browse';
+  'verification' | 'session' | 'srs' | 'production' | 'discovery' | 'browse';
 
 export interface NextStep {
   kind: NextStepKind;
