@@ -472,6 +472,26 @@ export function getDueCategoryQueue(
 }
 
 /**
+ * What the scheduler actually knows about a category — for surfaces that need to
+ * EXPLAIN a recommendation rather than act on it (per-activity reasons,
+ * 2026-08-20).
+ *
+ * `lastSeen === 0` is the never-practised sentinel written by _defaultCard, and
+ * it is the reason `accuracy` is null there: the stored 0.5 is a neutral EWMA
+ * seed, not a measurement. Reporting it as "50% right" would be inventing a
+ * result the learner never produced, so callers get null and say nothing.
+ */
+export function getCategoryStatus(category: SkillCategory): {
+  seen: boolean;
+  accuracy: number | null;
+  lastSeen: number;
+} {
+  const card = _loadCats()[category];
+  if (!card || !card.lastSeen) return { seen: false, accuracy: null, lastSeen: 0 };
+  return { seen: true, accuracy: card.recentAccuracy, lastSeen: card.lastSeen };
+}
+
+/**
  * Returns the recommended difficulty tier (1–5) for a given category.
  * Used by exercise screens to filter content to the appropriate level.
  */

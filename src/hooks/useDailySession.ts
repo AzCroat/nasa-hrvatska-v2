@@ -13,6 +13,16 @@ import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedg
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
+import {
+  reviewReason,
+  taughtReason,
+  adaptiveReason,
+  productionReason,
+  conversationReason,
+  grammarSlotReason,
+  croatiaReason,
+  withReason,
+} from '../lib/activityReason';
 import { lsGet } from '../lib/safeStorage';
 // Re-exported so the content-coverage CI gate and session tests keep their
 // import path (the data moved to ../lib/sessionPools for max-lines; the
@@ -38,6 +48,14 @@ export interface SessionActivity {
   label: string;
   screen: string;
   category: SessionCategory;
+  /**
+   * One line explaining why THIS activity was chosen, built at session-build
+   * time from real signal (per-activity reasons, 2026-08-20). Optional and
+   * frequently absent by design: a slot with no honest signal says nothing
+   * rather than inventing one. Persisted with the session so the learner sees
+   * the reason it was picked this morning, not a line that rewrites itself.
+   */
+  reason?: string;
 }
 
 export interface DailySession {
@@ -396,6 +414,7 @@ export function buildSessionActivities(
       label: 'Word Review',
       screen: 'review',
       category: 'vocab-a2',
+      ...withReason(reviewReason(dueCount)),
     });
   }
 
@@ -409,7 +428,12 @@ export function buildSessionActivities(
     userCefr,
     new Set(activities.map((a) => a.screen)),
   );
-  if (taughtActivity) activities.push(taughtActivity);
+  if (taughtActivity) {
+    activities.push({
+      ...taughtActivity,
+      ...withReason(taughtReason(taughtActivity.category as SkillCategory)),
+    });
+  }
 
   // Priority 2: Adaptive grammar topic (CEFR-gated; conjugation categories route
   // to the conjugation drill when CONJ_LAB_ENABLED).
@@ -417,7 +441,12 @@ export function buildSessionActivities(
     userCefr,
     new Set(activities.map((a) => a.screen)),
   );
-  if (adaptiveActivity) activities.push(adaptiveActivity);
+  if (adaptiveActivity) {
+    activities.push({
+      ...adaptiveActivity,
+      ...withReason(adaptiveReason(adaptiveActivity.category as SkillCategory)),
+    });
+  }
 
   // Build usedScreens once, here, so the production slots and P3 all dedup.
   const usedScreens = new Set(activities.map((a) => a.screen));
@@ -440,7 +469,7 @@ export function buildSessionActivities(
       kindBias: 'converse',
     });
     if (conversation && !usedScreens.has(conversation.screen)) {
-      activities.push(conversation);
+      activities.push({ ...conversation, ...withReason(conversationReason()) });
       usedScreens.add(conversation.screen);
     }
   }
@@ -461,7 +490,10 @@ export function buildSessionActivities(
     kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
   });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
-    activities.push(productionActivity);
+    activities.push({
+      ...productionActivity,
+      ...withReason(productionReason(weakestProductionKind(userCefr as CefrLevel))),
+    });
     usedScreens.add(productionActivity.screen);
   }
 
@@ -483,7 +515,7 @@ export function buildSessionActivities(
   if (!activities.some((a) => isGrammarStructure(a.category))) {
     const grammar = selectGuaranteedGrammar(userCefr, usedScreens, recentScreens);
     if (grammar) {
-      activities.push(grammar);
+      activities.push({ ...grammar, ...withReason(grammarSlotReason()) });
       usedScreens.add(grammar.screen);
     }
   }
@@ -594,6 +626,7 @@ export function buildSessionActivities(
     label: croatiaActivity.label,
     screen: croatiaActivity.screen,
     category: croatiaActivity.category,
+    ...withReason(croatiaReason()),
   });
 
   // Wave 1: record what this session serves (feeds the discovery slot's

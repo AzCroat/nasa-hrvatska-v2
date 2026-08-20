@@ -27,6 +27,11 @@ vi.mock('../lib/srs', () => ({
 
 vi.mock('../lib/adaptive', () => ({
   getDueCategoryQueue: vi.fn(() => []),
+  // Per-activity reasons (2026-08-20) read the scheduler's view of a category to
+  // explain the adaptive pick. Unseen is the honest default for a mock with no
+  // history — it makes the reason "you haven't practised X yet" rather than
+  // inventing an accuracy.
+  getCategoryStatus: vi.fn(() => ({ seen: false, accuracy: null, lastSeen: 0 })),
   CONJ_CATEGORIES: new Set([
     'present-tense',
     'past-tense',
