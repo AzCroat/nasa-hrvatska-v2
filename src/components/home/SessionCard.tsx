@@ -632,6 +632,25 @@ export default function SessionCard({
                 happening, close and reopen the app to get the latest version.
               </div>
             )}
+            {/* Why THIS activity (per-activity reasons, 2026-08-20). Sits with
+                the CTA rather than on the chips, which are 10px and already
+                carry state glyphs. Absent whenever the slot had no honest
+                signal — see the honesty rule in lib/activityReason.ts. */}
+            {nextActivity?.reason && (
+              <div
+                data-testid="next-activity-reason"
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,.62)',
+                  lineHeight: 1.45,
+                  marginBottom: 8,
+                  textAlign: 'left',
+                }}
+              >
+                {nextActivity.reason}
+              </div>
+            )}
             <button
               data-testid="session-begin-cta"
               onClick={() => {
