@@ -11,9 +11,7 @@ import { AIProgressBar } from '../shared/SkeletonLoader';
 const webSpeechSup =
   typeof window !== 'undefined' &&
   !!(
-    /** @type {any} */ (
-      window.SpeechRecognition || /** @type {any} */ window.webkitSpeechRecognition
-    )
+    /** @type {any} */ window.SpeechRecognition || /** @type {any} */ window.webkitSpeechRecognition
   );
 const mediaRecSup =
   typeof window !== 'undefined' &&

@@ -155,7 +155,11 @@ export default function AIStoryScreen({
     if (!words || words.length === 0) return <span>{text}</span>;
     const safeWords = words.filter((w) => w != null && typeof w === 'string');
     if (safeWords.length === 0) return <span>{text}</span>;
-    const pattern = new RegExp( // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
+    // Words are escaped above; the suppression sits on its own line ABOVE the
+    // statement so prettier cannot relocate it (3.9 moved a trailing comment
+    // inside the call, which would put it below the finding and un-suppress).
+    // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
+    const pattern = new RegExp(
       `(${safeWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
       'gi',
     );

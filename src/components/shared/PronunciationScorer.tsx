@@ -51,8 +51,7 @@ interface CoachingResult {
 function worstPhonemeOf(data: Record<string, unknown>): string | null {
   const wordScores =
     (data['word_scores'] as
-      | Array<{ phonemes?: Array<{ phoneme?: string; score?: number }> }>
-      | undefined) || [];
+      Array<{ phonemes?: Array<{ phoneme?: string; score?: number }> }> | undefined) || [];
   let worst: string | null = null;
   let worstScore = Infinity;
   for (const w of wordScores) {

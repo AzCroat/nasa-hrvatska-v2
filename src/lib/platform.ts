@@ -39,11 +39,7 @@ export function isIos(): boolean {
 }
 
 export type MicPermissionPlatform =
-  | 'ios-safari'
-  | 'ios-app'
-  | 'android-browser'
-  | 'android-app'
-  | 'desktop';
+  'ios-safari' | 'ios-app' | 'android-browser' | 'android-app' | 'desktop';
 
 /**
  * Classify the runtime for routing per-OS microphone re-grant instructions.

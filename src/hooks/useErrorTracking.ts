@@ -15,11 +15,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
 export type ErrorType =
-  | 'case_error'
-  | 'aspect_error'
-  | 'vocab_miss'
-  | 'gender_error'
-  | 'pronunciation';
+  'case_error' | 'aspect_error' | 'vocab_miss' | 'gender_error' | 'pronunciation';
 
 export interface ErrorEntry {
   type: string;

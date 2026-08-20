@@ -3,14 +3,7 @@
 // React elements) and DiffSpan.tsx (which needs ErrorType).
 
 export type ErrorType =
-  | 'case'
-  | 'aspect'
-  | 'agreement'
-  | 'tense'
-  | 'word_order'
-  | 'vocab'
-  | 'spelling'
-  | 'other';
+  'case' | 'aspect' | 'agreement' | 'tense' | 'word_order' | 'vocab' | 'spelling' | 'other';
 
 export interface CorrectionChange {
   original: string;

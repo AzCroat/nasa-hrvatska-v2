@@ -6,17 +6,7 @@
 // POS: 'conj' | 'prep' | 'pron' | 'verb' | 'noun' | 'adj' | 'adv' | 'det' | 'num' | 'part' | 'interj'
 
 export type PartOfSpeech =
-  | 'conj'
-  | 'prep'
-  | 'pron'
-  | 'verb'
-  | 'noun'
-  | 'adj'
-  | 'adv'
-  | 'det'
-  | 'num'
-  | 'part'
-  | 'interj';
+  'conj' | 'prep' | 'pron' | 'verb' | 'noun' | 'adj' | 'adv' | 'det' | 'num' | 'part' | 'interj';
 
 export interface FrequencyEntry {
   rank: number;

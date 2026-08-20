@@ -11,14 +11,7 @@ export function negotiateMimeType(isTypeSupported: (m: string) => boolean): stri
 }
 
 export type RecorderState =
-  | 'idle'
-  | 'requesting'
-  | 'countdown'
-  | 'recording'
-  | 'done'
-  | 'denied'
-  | 'unsupported'
-  | 'error';
+  'idle' | 'requesting' | 'countdown' | 'recording' | 'done' | 'denied' | 'unsupported' | 'error';
 
 export interface RecorderError {
   code: string;
