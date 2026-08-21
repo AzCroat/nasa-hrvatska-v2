@@ -5,7 +5,8 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { sanitizeParam } from './_helpers.js';
-import { writingEvalSystemPrompt } from './_evalPrompts.js';
+import { writingEvalSystemPrompt, WRITING_EVAL_PROMPT } from './_evalPrompts.js';
+import { promptHeaders } from './_promptRegistry.js';
 
 export async function onRequestOptions({ request }) {
   return new Response(null, {
@@ -152,6 +153,8 @@ export async function onRequestPost(context) {
 
   return new Response(JSON.stringify(result), {
     status: 200,
-    headers: { ...headers, 'Cache-Control': 'no-store' },
+    // The prompt tag rides out on the success response only; the middleware
+    // records it against this observation and strips it before the client.
+    headers: { ...headers, 'Cache-Control': 'no-store', ...promptHeaders(WRITING_EVAL_PROMPT) },
   });
 }

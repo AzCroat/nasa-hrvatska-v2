@@ -18,11 +18,27 @@
 // needs no budget ceiling. Called weekly by output-observatory.yml, which
 // fails red on any incident or Serbism hit.
 
+// PROMPT ATTRIBUTION (2026-08-21): observations from instrumented endpoints
+// carry { promptId, promptVersion }, so the sweep no longer reports only
+// "something went wrong on /api/dialogue" — it reports which prompt, at which
+// version, and how many of its samples came back clean. That turns "did last
+// week's prompt edit cause this?" from a guess into a lookup. Records with no
+// tag are attributed to '(uninstrumented)' — the honest label; nothing is
+// inferred from the path.
+
 import { findSerbism } from './_serbisms.js';
 import { containsCyrillic } from './_croatianGuard.js';
 
 const MAX_INCIDENTS = 50;
 const MAX_SAMPLES = 200;
+const UNINSTRUMENTED = '(uninstrumented)';
+
+/** `id@version` for a stored observation, or the honest "we don't know" label. */
+function promptKeyOf(rec) {
+  return rec?.promptId && rec?.promptVersion
+    ? `${rec.promptId}@${rec.promptVersion}`
+    : UNINSTRUMENTED;
+}
 
 function timingSafeEqual(a, b) {
   const enc = new TextEncoder();
@@ -73,19 +89,32 @@ export async function onRequestPost(context) {
   // ── Incidents: every one is a finding by definition ────────────────────────
   const incidentKeys = await listAll(kv, 'obs:i:', MAX_INCIDENTS);
   const incidents = [];
+  // prompt tag → { samples, findings } across BOTH record kinds.
+  const byPrompt = new Map();
+  const tally = (tag, field) => {
+    const entry = byPrompt.get(tag) || { prompt: tag, samples: 0, findings: 0 };
+    entry[field]++;
+    byPrompt.set(tag, entry);
+  };
+
   for (const key of incidentKeys) {
     try {
       const raw = await kv.get(key);
       const rec = raw ? JSON.parse(raw) : null;
-      if (rec)
+      if (rec) {
+        const prompt = promptKeyOf(rec);
         incidents.push({
           key,
           path: rec.path,
           at: rec.at,
+          prompt,
           snippet: String(rec.text || '').slice(0, 200),
         });
+        tally(prompt, 'samples');
+        tally(prompt, 'findings');
+      }
     } catch {
-      incidents.push({ key, path: 'unreadable', at: null, snippet: '' });
+      incidents.push({ key, path: 'unreadable', at: null, prompt: UNINSTRUMENTED, snippet: '' });
     }
   }
 
@@ -103,8 +132,11 @@ export async function onRequestPost(context) {
     }
     if (!rec || typeof rec.text !== 'string') continue;
     checked++;
+    const prompt = promptKeyOf(rec);
+    tally(prompt, 'samples');
     if (containsCyrillic(rec.text)) {
-      findings.push({ key, path: rec.path, at: rec.at, kind: 'cyrillic' });
+      findings.push({ key, path: rec.path, at: rec.at, prompt, kind: 'cyrillic' });
+      tally(prompt, 'findings');
       continue;
     }
     const serb = findSerbism(rec.text);
@@ -113,18 +145,27 @@ export async function onRequestPost(context) {
         key,
         path: rec.path,
         at: rec.at,
+        prompt,
         kind: 'serbism',
         match: serb.match,
         use: serb.use,
       });
+      tally(prompt, 'findings');
     }
   }
+
+  // Worst first — a sweep is read top-down, and the prompt with findings is
+  // the one the reader is looking for.
+  const prompts = [...byPrompt.values()].sort(
+    (a, b) => b.findings - a.findings || b.samples - a.samples,
+  );
 
   const clean = incidents.length === 0 && findings.length === 0;
   return json(200, {
     at: new Date().toISOString(),
     incidents,
     samples: { stored: sampleKeys.length, checked, findings },
+    prompts,
     clean,
   });
 }

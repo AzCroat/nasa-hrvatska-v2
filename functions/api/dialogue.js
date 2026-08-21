@@ -8,14 +8,40 @@ import { reconcileBudget } from './_aiBudget.js';
 import { corsHeaders } from './_helpers.js';
 import { sanitizeParam } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
 
+// The in-character rules the NPC plays by. Scenario details (who, where, which
+// level) are per-request substitutions; everything around them is the authored
+// template, and that is what carries the version. See _promptRegistry.js.
+const DIALOGUE_PROMPT = definePrompt(
+  'dialogue-npc',
+  `You are {{character}} in {{setting}}. {{role}}
+
+The learner is studying Croatian at CEFR level {{level}}. {{levelGuidance}}{{targetLine}}
+
+RULES:
+1. ALWAYS reply ONLY in Croatian — never switch to English in your main reply
+2. Keep reply to 1-3 sentences maximum — brief and natural
+3. If the learner made a grammar mistake, naturally model the correct form in your reply (implicit correction — never lecture or point it out)
+4. If the learner's message is completely incomprehensible, respond: "Oprostite, nisam razumio/razumjela."
+5. Stay completely in character — you ARE this person in this Croatian setting
+6. Never break the 4th wall or mention being an AI
+
+After your Croatian reply, add on a new line:
+COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear grammar correction worth noting — otherwise write null]`,
+);
+
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(DIALOGUE_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -223,20 +249,14 @@ export async function onRequestPost(context) {
     ? `\n\nWhen it fits naturally, weave these Croatian words the learner is practising into your replies: ${targetVocab}.`
     : '';
 
-  const systemPrompt = `You are ${ctx.character} in ${ctx.setting}. ${ctx.role}
-
-The learner is studying Croatian at CEFR level ${safeLevel}. ${levelGuidance}${targetLine}
-
-RULES:
-1. ALWAYS reply ONLY in Croatian — never switch to English in your main reply
-2. Keep reply to 1-3 sentences maximum — brief and natural
-3. If the learner made a grammar mistake, naturally model the correct form in your reply (implicit correction — never lecture or point it out)
-4. If the learner's message is completely incomprehensible, respond: "Oprostite, nisam razumio/razumjela."
-5. Stay completely in character — you ARE this person in this Croatian setting
-6. Never break the 4th wall or mention being an AI
-
-After your Croatian reply, add on a new line:
-COACHING: [one coaching tip in English, max 80 chars, ONLY if there's a clear grammar correction worth noting — otherwise write null]`;
+  const systemPrompt = renderPrompt(DIALOGUE_PROMPT, {
+    character: ctx.character,
+    setting: ctx.setting,
+    role: ctx.role,
+    level: safeLevel,
+    levelGuidance,
+    targetLine,
+  });
 
   const messages = [];
   for (const turn of safeHistory) {

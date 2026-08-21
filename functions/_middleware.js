@@ -48,6 +48,7 @@
 import { corsHeaders, isAllowedOrigin } from './api/_helpers.js';
 import { latinizeResponseBody } from './api/_croatianGuard.js';
 import { ENDPOINT_CEILING_MICROUSD } from './api/_aiBudget.js';
+import { PROMPT_HEADER, parsePromptTag } from './api/_promptRegistry.js';
 
 // ── Module-level fallback map ─────────────────────────────────────────────────
 // Used when caches.default is unavailable. Per-isolate — not shared across instances.
@@ -260,7 +261,42 @@ export async function onRequest(context) {
   // sample (~2%) of clean AI output is retained (truncated, 14-day TTL) for
   // the weekly /api/output-observatory sweep. Fail-soft everywhere — an
   // observation failure can never affect the response.
-  return latinizeResponseBody(response, buildObserver(context, pathname, status));
+  //
+  // PROMPT INSTRUMENTATION (2026-08-21): an instrumented endpoint tags its
+  // success response with `x-nh-prompt: id@version`. Read it here, hand it to
+  // the observer so every observation records WHICH prompt produced the text,
+  // and strip it on the way out — it is our diagnostics, not the client's.
+  const promptTag = response.headers.get(PROMPT_HEADER);
+  const observed = latinizeResponseBody(
+    response,
+    buildObserver(context, pathname, status, promptTag),
+  );
+  return stripPromptHeader(observed);
+}
+
+/**
+ * Remove the diagnostics header. `latinizeResponseBody` rebuilds headers for
+ * textual bodies but returns the response untouched for binary ones, so the
+ * strip cannot live there and be complete — it belongs here, where every path
+ * converges. Fail-soft: if the response cannot be rebuilt, serving it with the
+ * header is far better than serving nothing.
+ *
+ * Exported for the test that proves the tag does not reach a client. Cloudflare
+ * Pages routes on the `onRequest*` export names only, so this is not a handler.
+ */
+export function stripPromptHeader(response) {
+  try {
+    if (!response?.headers?.has?.(PROMPT_HEADER)) return response;
+    const headers = new Headers(response.headers);
+    headers.delete(PROMPT_HEADER);
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
+  } catch {
+    return response;
+  }
 }
 
 // ── Output observation (2026-08-18) ──────────────────────────────────────────
@@ -273,7 +309,7 @@ const OBS_INCIDENT_TTL_S = 60 * 60 * 24 * 30; // incidents: 30 days
 const OBS_SAMPLE_TTL_S = 60 * 60 * 24 * 14; // routine samples: 14 days
 const OBS_FLUSH_TIMEOUT_MS = 20_000;
 
-function buildObserver(context, pathname, status) {
+function buildObserver(context, pathname, status, promptTag) {
   const env = context?.env;
   const kv = env?.KV || env?.PUSH_SUBSCRIPTIONS;
   if (!kv) return undefined;
@@ -304,7 +340,16 @@ function buildObserver(context, pathname, status) {
       const rand = Math.random().toString(36).slice(2, 8);
       const slug = pathname.replace(/[^a-z0-9-]/gi, '_');
       const key = contaminated ? `obs:i:${at}:${rand}` : `obs:s:${at.slice(0, 10)}:${slug}:${rand}`;
-      await kv.put(key, JSON.stringify({ path: pathname, at, contaminated, text }), {
+      // The tag is whatever the response carried, so it is parsed and
+      // validated rather than trusted; an unrecognisable one is recorded as
+      // absent, which reads as "uninstrumented" — never as a made-up id.
+      const parsed = parsePromptTag(promptTag);
+      const record = { path: pathname, at, contaminated, text };
+      if (parsed) {
+        record.promptId = parsed.id;
+        record.promptVersion = parsed.version;
+      }
+      await kv.put(key, JSON.stringify(record), {
         expirationTtl: contaminated ? OBS_INCIDENT_TTL_S : OBS_SAMPLE_TTL_S,
       });
     })();

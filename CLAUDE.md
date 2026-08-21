@@ -399,6 +399,50 @@ now observes what AI endpoints ACTUALLY serve (pinned by `outputObservatory.test
   output). Add rules there, never fork; extend conservatively (the
   123-false-positive lesson).
 
+## Critical Architecture: Prompt Instrumentation (2026-08-21)
+
+The observatory could say an incident happened on `/api/dialogue` but not which
+prompt produced it, so "did last week's prompt edit cause this?" was
+unanswerable — and a prompt could be reworded in a drive-by commit with nothing
+recording that it changed. Prompts ARE the teaching quality of this app; they
+now have identity. Pinned by `promptRegistry.test.js`.
+
+- **The registry** (`functions/api/_promptRegistry.js`): `definePrompt(id, text)`
+  returns `{ id, version, text, tag }` where `version` is an FNV-1a hash of the
+  text — so **the version changes automatically on any edit**. Never replace this
+  with a manual counter; a counter drifts the first time someone is in a hurry.
+  Duplicate ids **throw at module load** (two prompts under one id would merge
+  silently in every report). FNV-1a rather than SubtleCrypto because the digest
+  API is async and these are defined at module scope.
+- **The template is the unit, not the runtime string.** Endpoints assemble
+  `template + per-request context`; hashing the assembled prompt would give a
+  new "version" every request and measure nothing. Per-request values are
+  `{{placeholders}}` filled by `renderPrompt`, which substitutes via a replacer
+  function so a `$&` in learner text cannot splice the prompt. A missing
+  variable warns and renders empty — it never throws, because a throw would 500
+  a live teaching endpoint over what is always a coding error; CI catches it via
+  the "no placeholder left behind" test.
+- **The wire**: an instrumented endpoint spreads `promptHeaders(PROMPT)` into its
+  **200 response only**. `functions/_middleware.js` reads `x-nh-prompt`, passes
+  it to `buildObserver` (which records `promptId`/`promptVersion` on the KV
+  observation), and `stripPromptHeader` removes it before the response leaves.
+  The tag is parsed with `parsePromptTag`, never trusted — an unparseable tag is
+  recorded as absent, never as a made-up id.
+- **The sweep** groups incidents and sample findings by `id@version` in a
+  `prompts` roll-up. Untagged records are labelled `(uninstrumented)` — never
+  inferred from the path.
+- **Instrumented so far**: `/api/assess-speaking`, `/api/correct`,
+  `/api/dialogue`, `/api/explain-error`, `/api/speaking-coach`. Everything else
+  metered is tracked debt in `KNOWN_UNINSTRUMENTED` in `promptRegistry.test.js`
+  — a **ratchet**: the test fails if an endpoint on that list starts sending a
+  tag without being moved, and fails if a claimed-instrumented one doesn't. The
+  list can only shrink.
+- **Cache-served endpoints (`daily-culture`, `news`, `tts`) are deliberately
+  last.** Their 200 usually replays content generated hours earlier, so tagging
+  it with the CURRENT prompt version would attribute old text to a new prompt.
+  Instrumenting them means storing the version alongside the cached body — not
+  adding a header.
+
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 
 Users were being cut off mid-speech. The rules that prevent regression (pinned by `speechEndpointing.test.js`):
