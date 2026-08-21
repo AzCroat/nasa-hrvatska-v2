@@ -6,14 +6,32 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
 
+// The authored teaching prompt, registered so its version travels with every
+// answer it produces (see _promptRegistry.js). This one carries the whole
+// "explain grammar to someone who has never heard the word genitive" policy —
+// if an explanation ever comes back jargon-heavy, the observatory can say which
+// wording of this text produced it.
+const EXPLAIN_PROMPT = definePrompt(
+  'explain-error',
+  `You are a Croatian grammar teacher for ENGLISH SPEAKERS WITH NO FORMAL GRAMMAR BACKGROUND. Give a concise explanation (2-3 sentences) of why an answer is correct.
+CRITICAL: assume the learner has never heard terms like "genitive" or "aspect". Never use a grammar term without immediately glossing it in plain words — e.g. "genitive (the 'of' form)", "accusative (the 'him' form — what the action lands on)", "dative (the 'to someone' form)". Where possible, anchor to something English does: he/him/his, who/whom, "the dog's bone", "give HIM the book". Plain words beat precision.
+Return ONLY valid JSON (no markdown, no code blocks):
+{"explanation":"2-3 sentences explaining the grammar rule in plain English","rule":"short plain-English rule name e.g. 'The of-form (genitive)'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`,
+);
+
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(EXPLAIN_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -99,10 +117,7 @@ Correct answer: "${safeCorrect}"${safeWrong ? `\nLearner answered: "${safeWrong}
 
 Explain the grammar rule. Be specific about case, tense, or pattern.`;
 
-  const basePrompt = `You are a Croatian grammar teacher for ENGLISH SPEAKERS WITH NO FORMAL GRAMMAR BACKGROUND. Give a concise explanation (2-3 sentences) of why an answer is correct.
-CRITICAL: assume the learner has never heard terms like "genitive" or "aspect". Never use a grammar term without immediately glossing it in plain words — e.g. "genitive (the 'of' form)", "accusative (the 'him' form — what the action lands on)", "dative (the 'to someone' form)". Where possible, anchor to something English does: he/him/his, who/whom, "the dog's bone", "give HIM the book". Plain words beat precision.
-Return ONLY valid JSON (no markdown, no code blocks):
-{"explanation":"2-3 sentences explaining the grammar rule in plain English","rule":"short plain-English rule name e.g. 'The of-form (genitive)'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`;
+  const basePrompt = EXPLAIN_PROMPT.text;
 
   const systemPrompt = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
 

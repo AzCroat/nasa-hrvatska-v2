@@ -2,7 +2,8 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { transcribeCroatian } from './_transcribe.js';
-import { speakingRubricPrompt } from './_evalPrompts.js';
+import { speakingRubricPrompt, SPEAKING_RUBRIC_PROMPT } from './_evalPrompts.js';
+import { promptHeaders } from './_promptRegistry.js';
 
 const MAX_AUDIO_B64 = 2_000_000; // ~90s compressed
 // Minimum word count before we consider the transcript "long enough" to score fairly.
@@ -161,7 +162,7 @@ export async function onRequestPost(context) {
 
   return new Response(JSON.stringify({ transcript, scores, transcriptSufficiency }), {
     status: 200,
-    headers: CORS(origin),
+    headers: { ...CORS(origin), ...promptHeaders(SPEAKING_RUBRIC_PROMPT) },
   });
 }
 

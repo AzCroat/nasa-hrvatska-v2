@@ -18,7 +18,8 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { reconcileBudget } from './_aiBudget.js';
-import { speakingCoachSystemPrompt } from './_evalPrompts.js';
+import { speakingCoachSystemPrompt, SPEAKING_COACH_PROMPT } from './_evalPrompts.js';
+import { promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -38,7 +39,11 @@ const VALID_ERROR_TYPES = new Set([
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(SPEAKING_COACH_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {

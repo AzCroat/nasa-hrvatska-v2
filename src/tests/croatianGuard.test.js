@@ -87,9 +87,14 @@ describe('wiring pins (source-level)', () => {
   it('the middleware chokepoint applies the guard to every /api response', () => {
     const mw = readFileSync('functions/_middleware.js', 'utf8');
     expect(mw).toContain("from './api/_croatianGuard.js'");
-    // The chokepoint return — now with the output-observation observer
-    // (2026-08-18) riding along; the guard contract is unchanged.
-    expect(mw).toContain('return latinizeResponseBody(response,');
+    // The chokepoint call. Two things now ride along with it — the
+    // output-observation observer (2026-08-18) and the prompt-tag strip
+    // (2026-08-21) — so it is no longer a single-line `return`. The contract
+    // it enforces is unchanged and still pinned in two halves: the upstream
+    // response goes THROUGH the guard, and what leaves is derived from the
+    // guard's output, never from the raw upstream response.
+    expect(mw).toMatch(/const observed = latinizeResponseBody\(\s*response,/);
+    expect(mw).toMatch(/return stripPromptHeader\(observed\);/);
   });
 
   it('every Croatian-generating endpoint carries the language rule', () => {
