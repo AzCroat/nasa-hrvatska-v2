@@ -497,6 +497,15 @@ now have identity. Pinned by `promptRegistry.test.js`.
   CURRENT prompt version would attribute old text to a new prompt — a lie inside
   the exact report this exists to make trustworthy. Instrumenting them means
   storing the version alongside the cached body, not adding a header.
+- **`alsoVersion`** (`definePrompt(id, text, { alsoVersion })`): authored text the
+  template SELECTS but does not contain — per-level rule tables, persona blurbs,
+  anything looked up by key and passed in as a value. Without it a prompt looks
+  fully instrumented while an edit to "use only the 300 most common Croatian
+  words" moves nothing, because those words live in a lookup table rather than
+  the template. It changes the VERSION only; the rendered prompt is byte-for-byte
+  unaffected, and omitting it hashes exactly as before. **If you add a lookup
+  table a prompt draws from, pass it here** — a test pins the endpoints that
+  currently need it.
 - **Conditional sections** (`{{#if name}}…{{else}}…{{/if}}`, nesting allowed):
   what let branching prompts be versioned at all. Rules that keep it honest:
   - **Conditionals resolve BEFORE substitution**, and only ever remove or keep

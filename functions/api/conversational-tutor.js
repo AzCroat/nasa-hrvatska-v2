@@ -30,6 +30,13 @@ function detectConfusion(text) {
   return confusionPhrases.test(text);
 }
 
+const LEVEL_RULES = {
+  A1: 'Use ONLY the 500 most common Croatian words. Maximum 6-8 words per sentence. Present tense only. Very simple vocabulary.',
+  A2: 'Use common Croatian vocabulary (top 1000 words). Maximum 12 words per sentence. Present tense primarily, some past tense (perfekt).',
+  B1: 'Use natural Croatian with some complex structures. Multiple tenses. Include some idioms.',
+  B2: 'Speak naturally as you would to an educated Croatian speaker. Full range of grammar and vocabulary.',
+};
+
 const TUTOR_PROMPT = definePrompt(
   'conversational-tutor',
   `You are {{personaName}}, a native Croatian speaker from {{personaCity}}. {{personaDescription}}
@@ -61,17 +68,11 @@ RESPOND WITH VALID JSON ONLY:
   "comprehension_prompt": "A simple question asking learner to respond in Croatian (required, in Croatian)",
   "internal_note": "What you noticed about the learner's Croatian (for session memory)"
 }`,
+  { alsoVersion: LEVEL_RULES },
 );
 
 function buildSystemPrompt(params) {
   const { level, topic, persona, breakdownCount, sessionHistory } = params;
-
-  const levelRules = {
-    A1: 'Use ONLY the 500 most common Croatian words. Maximum 6-8 words per sentence. Present tense only. Very simple vocabulary.',
-    A2: 'Use common Croatian vocabulary (top 1000 words). Maximum 12 words per sentence. Present tense primarily, some past tense (perfekt).',
-    B1: 'Use natural Croatian with some complex structures. Multiple tenses. Include some idioms.',
-    B2: 'Speak naturally as you would to an educated Croatian speaker. Full range of grammar and vocabulary.',
-  };
 
   return renderPrompt(TUTOR_PROMPT, {
     personaName: persona?.name || 'Marija',
@@ -80,7 +81,7 @@ function buildSystemPrompt(params) {
       persona?.description || 'You are warm, patient, and love helping people learn Croatian.',
     level,
     topic: topic || 'Free conversation practice',
-    levelRules: levelRules[level] || levelRules.B1,
+    levelRules: LEVEL_RULES[level] || LEVEL_RULES.B1,
     breakdownCount,
     sessionHistory,
   });

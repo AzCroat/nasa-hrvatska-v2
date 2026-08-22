@@ -47,6 +47,21 @@ export function promptHash(text) {
 const REGISTRY = new Map();
 
 /**
+ * Stable serialisation of the extra authored fragments a prompt can draw from.
+ * Object keys are sorted so a reordered literal does not masquerade as an edit;
+ * anything unset contributes nothing, so existing versions are undisturbed.
+ */
+function versionSalt(extra) {
+  if (extra === undefined || extra === null) return '';
+  if (typeof extra === 'string') return `\u0000${extra}`;
+  if (Array.isArray(extra)) return extra.map((v) => `\u0000${String(v)}`).join('');
+  return Object.keys(extra)
+    .sort()
+    .map((k) => `\u0000${k}=${String(extra[k])}`)
+    .join('');
+}
+
+/**
  * Register an authored prompt template.
  *
  * Returns `{ id, version, text, tag }` — endpoints use `.text` where they used
@@ -57,7 +72,7 @@ const REGISTRY = new Map();
  * silently merge in every report the observatory produces, which is worse than
  * a loud failure at module load.
  */
-export function definePrompt(id, text) {
+export function definePrompt(id, text, options = {}) {
   if (!id || typeof id !== 'string') throw new Error('definePrompt: id required');
   if (typeof text !== 'string' || text.length === 0) {
     throw new Error(`definePrompt(${id}): text required`);
@@ -68,7 +83,13 @@ export function definePrompt(id, text) {
   // treatment duplicate ids get. Failing at request time would mean a broken
   // prompt reaches a learner before anyone notices.
   parseTemplate(text, id);
-  const version = promptHash(text);
+  // `alsoVersion` covers authored text the template SELECTS but does not
+  // contain — per-level rule tables, persona blurbs, anything looked up by key
+  // and passed in as a value. Without it those words are invisible to the
+  // version: a prompt would look fully instrumented while an edit to "use only
+  // the 300 most common Croatian words" moved nothing. It changes the version
+  // only; the rendered prompt is byte-for-byte unaffected.
+  const version = promptHash(text + versionSalt(options.alsoVersion));
   const entry = { id, version, text, tag: `${id}@${version}` };
   REGISTRY.set(id, entry);
   return entry;
