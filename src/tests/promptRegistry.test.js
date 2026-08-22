@@ -130,6 +130,114 @@ describe('renderPrompt', () => {
   });
 });
 
+// ── Conditional sections ─────────────────────────────────────────────────────
+//
+// Added 2026-08-22 so prompts assembled by BRANCHING code could be versioned at
+// all. Before this, a conditional clause either lived outside the template
+// (unversioned — an edit to those words moved nothing) or the whole endpoint
+// stayed uninstrumented. These pin the semantics that make the versioning
+// honest, and the failure modes that would make it dishonest.
+
+describe('renderPrompt — {{#if}} blocks', () => {
+  const P = (id, text) => definePrompt(id, text);
+
+  it('keeps the block when the value is present', () => {
+    const p = P('cond-basic', 'A{{#if x}} B{{/if}} C');
+    expect(renderPrompt(p, { x: true })).toBe('A B C');
+  });
+
+  it('drops the block when it is absent', () => {
+    const p = P('cond-drop', 'A{{#if x}} B{{/if}} C');
+    expect(renderPrompt(p, { x: false })).toBe('A C');
+  });
+
+  it('treats a MISSING key as absent, and does not warn about it', () => {
+    // For a conditional, "not provided" is a legitimate way to say "absent" —
+    // unlike a missing {{name}}, which leaves a visible hole and is a bug.
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const p = P('cond-missing', 'A{{#if x}} B{{/if}} C');
+    expect(renderPrompt(p, {})).toBe('A C');
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('supports {{else}}', () => {
+    const p = P('cond-else', '{{#if x}}yes{{else}}no{{/if}}');
+    expect(renderPrompt(p, { x: 1 })).toBe('yes');
+    expect(renderPrompt(p, { x: 0 })).toBe('no');
+  });
+
+  it('nests', () => {
+    const p = P('cond-nest', '{{#if a}}A{{#if b}}B{{else}}b{{/if}}{{/if}}');
+    expect(renderPrompt(p, { a: true, b: true })).toBe('AB');
+    expect(renderPrompt(p, { a: true, b: false })).toBe('Ab');
+    expect(renderPrompt(p, { a: false, b: true })).toBe('');
+  });
+
+  it('substitutes {{name}} INSIDE a live block, and never inside a dead one', () => {
+    const p = P('cond-subst', '{{#if show}}Hello {{who}}{{/if}}');
+    expect(renderPrompt(p, { show: true, who: 'Ana' })).toBe('Hello Ana');
+    expect(renderPrompt(p, { show: false, who: 'Ana' })).toBe('');
+  });
+
+  it('counts an EMPTY ARRAY as absent', () => {
+    // Prompts branch on lists constantly ("if they have recent errors, mention
+    // them"). A truthy [] would emit a sentence promising context that is not
+    // there — the exact kind of small lie this registry exists to prevent.
+    const p = P('cond-array', '{{#if errs}}Struggles: {{errs}}{{/if}}');
+    expect(renderPrompt(p, { errs: [] })).toBe('');
+    expect(renderPrompt(p, { errs: ['case'] })).toBe('Struggles: case');
+  });
+
+  it('counts 0 and empty string as absent', () => {
+    const p = P('cond-falsy', 'x{{#if v}}Y{{/if}}');
+    for (const v of [0, '', null, undefined, false, NaN]) {
+      expect(renderPrompt(p, { v }), String(v)).toBe('x');
+    }
+  });
+
+  it('a learner value containing {{...}} is never re-scanned as template', () => {
+    // Conditionals resolve BEFORE substitution and only ever remove authored
+    // text, so a value cannot reach the parser or open a block.
+    const p = P('cond-injection', 'said: {{text}}');
+    const hostile = '{{#if x}}INJECTED{{/if}} and {{other}}';
+    expect(renderPrompt(p, { text: hostile })).toBe(`said: ${hostile}`);
+  });
+
+  it('a learner value cannot close a block it is inside', () => {
+    const p = P('cond-injection2', '{{#if on}}[{{text}}]{{/if}}TAIL');
+    expect(renderPrompt(p, { on: true, text: '{{/if}}ESCAPED' })).toBe('[{{/if}}ESCAPED]TAIL');
+  });
+});
+
+describe('definePrompt — template validation', () => {
+  it('rejects an unclosed {{#if}} at DEFINE time, not request time', () => {
+    // A typo in authored text should fail at module load, like a duplicate id.
+    // Failing per-request would ship a broken prompt to a learner first.
+    expect(() => definePrompt('bad-unclosed', 'A{{#if x}}B')).toThrow(/unclosed/i);
+  });
+
+  it('rejects a stray {{/if}}', () => {
+    expect(() => definePrompt('bad-stray', 'A{{/if}}B')).toThrow(/stray/i);
+  });
+
+  it('rejects a stray {{else}}', () => {
+    expect(() => definePrompt('bad-else', 'A{{else}}B')).toThrow(/stray/i);
+  });
+
+  it('does not register a prompt whose template failed to parse', () => {
+    expect(() => definePrompt('bad-notregistered', '{{#if a}}')).toThrow();
+    expect(getPrompt('bad-notregistered')).toBeUndefined();
+  });
+
+  it('a conditional template still hashes by its full text', () => {
+    const a = definePrompt('cond-hash-a', '{{#if x}}one{{/if}}');
+    // Editing text inside a branch must move the version — that is the point.
+    expect(promptHash('{{#if x}}one{{/if}}')).toBe(a.version);
+    expect(promptHash('{{#if x}}two{{/if}}')).not.toBe(a.version);
+  });
+});
+
 // ── Tag round-trip ────────────────────────────────────────────────────────────
 
 describe('promptHeaders / parsePromptTag', () => {
@@ -287,6 +395,7 @@ describe('prompt instrumentation coverage', () => {
     '/api/daily-plan',
     '/api/dialogue',
     '/api/explain-error',
+    '/api/flash-context',
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
@@ -315,14 +424,16 @@ describe('prompt instrumentation coverage', () => {
   // only shrink; the tests below fail if an entry is quietly instrumented or a
   // claimed one is not.
   const KNOWN_UNINSTRUMENTED = [
-    // Assembles its prompt by BRANCHING (14 mode builders, several with
-    // conditional sections). A flat template cannot express "include this
-    // clause only sometimes", so instrumenting these needs conditional support
-    // in renderPrompt — its own task, not a drive-by.
+    // renderPrompt now supports {{#if}}, so the blocker here is no longer the
+    // template language — it is SIZE. ai-chat alone routes 14 mode builders,
+    // each its own authored prompt; conversation/conversational-tutor/maja
+    // build theirs in multi-branch helper functions. Converting them is
+    // mechanical but large, and each one is a separate prompt id to get right.
+    // flash-context came off this list first as the smallest proof the
+    // conditional support works. These are next, one endpoint at a time.
     '/api/ai-chat',
     '/api/conversation',
     '/api/conversational-tutor',
-    '/api/flash-context',
     '/api/maja',
     '/api/maja-debrief',
     // Runs BOTH registered evaluator prompts in one dispatch. A single

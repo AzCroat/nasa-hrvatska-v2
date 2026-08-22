@@ -11,7 +11,8 @@ const PHOTO_VOCAB_PROMPT = definePrompt(
   `You are a Croatian language teacher helping a {{level}} learner discover vocabulary from real life.
 
 Look at this image and identify the most useful Croatian vocabulary for a language learner.
-{{contextHint}}
+{{#if context}}Context hint: {{context}}
+{{/if}}
 Return a JSON object: {
   "items": [up to 8 most useful vocabulary items, each: {hr, en, pronunciation, category, example}],
   "scene": "one sentence describing what you see"
@@ -119,13 +120,10 @@ export async function onRequestPost(context) {
   // ── Build Claude vision request ────────────────────────────────────────────
   const textPrompt = renderPrompt(PHOTO_VOCAB_PROMPT, {
     level: safeLevel,
-    // KNOWN GAP: this clause is conditional, and a flat template cannot express
-    // "include this line only sometimes" — so the words "Context hint: " live
-    // here, OUTSIDE the versioned template. Editing THAT wording will not move
-    // the prompt version. The rest of the prompt is versioned normally. Closing
-    // this properly needs conditional support in renderPrompt; until then, do
-    // not add more prose to this string thinking it is tracked.
-    contextHint: safeContext ? `Context hint: ${safeContext}\n` : '',
+    // The whole clause, wording included, now lives inside the versioned
+    // template via {{#if context}} — edit those words and the version moves.
+    // (Until conditionals existed, "Context hint: " sat out here untracked.)
+    context: safeContext,
   });
 
   const claudeBody = {
