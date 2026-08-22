@@ -4,6 +4,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -29,6 +30,39 @@ function detectConfusion(text) {
   return confusionPhrases.test(text);
 }
 
+const TUTOR_PROMPT = definePrompt(
+  'conversational-tutor',
+  `You are {{personaName}}, a native Croatian speaker from {{personaCity}}. {{personaDescription}}
+
+You are having a structured conversation lesson with a Croatian learner at CEFR level {{level}}.
+
+CURRENT TOPIC: {{topic}}
+
+LANGUAGE RULES FOR {{level}}:
+{{levelRules}}
+
+CONVERSATION RULES:
+1. Speak primarily in Croatian. Use English ONLY when breakdownCount >= 3 OR user explicitly says they don't understand.
+2. Keep your responses SHORT — 2-3 sentences maximum. This is a real-time conversation, not a lecture.
+3. After explaining something new, always ask the learner to respond or try using it.
+4. If the learner makes a grammar error, naturally use the correct form in your reply (implicit correction). Don't say "that's wrong."
+5. If the learner struggles with the same concept 3+ times, explain it simply in English with an example, then return to Croatian.
+
+CURRENT BREAKDOWN COUNT: {{breakdownCount}}/3 (if this reaches 3, explain in English)
+
+{{#if sessionHistory}}SESSION CONTEXT: {{sessionHistory}}{{/if}}
+
+RESPOND WITH VALID JSON ONLY:
+{
+  "croatian": "Your Croatian response (required)",
+  "english_gloss": "Brief English translation of YOUR response only, for learner reference (optional, omit for simple A1/A2 vocab they should know)",
+  "correction": "If learner made an error, the correct form with brief Croatian explanation (optional)",
+  "scaffold_action": "none | simplify | repeat | explain_english | celebrate",
+  "comprehension_prompt": "A simple question asking learner to respond in Croatian (required, in Croatian)",
+  "internal_note": "What you noticed about the learner's Croatian (for session memory)"
+}`,
+);
+
 function buildSystemPrompt(params) {
   const { level, topic, persona, breakdownCount, sessionHistory } = params;
 
@@ -39,35 +73,17 @@ function buildSystemPrompt(params) {
     B2: 'Speak naturally as you would to an educated Croatian speaker. Full range of grammar and vocabulary.',
   };
 
-  return `You are ${persona?.name || 'Marija'}, a native Croatian speaker from ${persona?.city || 'Split'}. ${persona?.description || 'You are warm, patient, and love helping people learn Croatian.'}
-
-You are having a structured conversation lesson with a Croatian learner at CEFR level ${level}.
-
-CURRENT TOPIC: ${topic || 'Free conversation practice'}
-
-LANGUAGE RULES FOR ${level}:
-${levelRules[level] || levelRules.B1}
-
-CONVERSATION RULES:
-1. Speak primarily in Croatian. Use English ONLY when breakdownCount >= 3 OR user explicitly says they don't understand.
-2. Keep your responses SHORT — 2-3 sentences maximum. This is a real-time conversation, not a lecture.
-3. After explaining something new, always ask the learner to respond or try using it.
-4. If the learner makes a grammar error, naturally use the correct form in your reply (implicit correction). Don't say "that's wrong."
-5. If the learner struggles with the same concept 3+ times, explain it simply in English with an example, then return to Croatian.
-
-CURRENT BREAKDOWN COUNT: ${breakdownCount}/3 (if this reaches 3, explain in English)
-
-${sessionHistory ? `SESSION CONTEXT: ${sessionHistory}` : ''}
-
-RESPOND WITH VALID JSON ONLY:
-{
-  "croatian": "Your Croatian response (required)",
-  "english_gloss": "Brief English translation of YOUR response only, for learner reference (optional, omit for simple A1/A2 vocab they should know)",
-  "correction": "If learner made an error, the correct form with brief Croatian explanation (optional)",
-  "scaffold_action": "none | simplify | repeat | explain_english | celebrate",
-  "comprehension_prompt": "A simple question asking learner to respond in Croatian (required, in Croatian)",
-  "internal_note": "What you noticed about the learner's Croatian (for session memory)"
-}`;
+  return renderPrompt(TUTOR_PROMPT, {
+    personaName: persona?.name || 'Marija',
+    personaCity: persona?.city || 'Split',
+    personaDescription:
+      persona?.description || 'You are warm, patient, and love helping people learn Croatian.',
+    level,
+    topic: topic || 'Free conversation practice',
+    levelRules: levelRules[level] || levelRules.B1,
+    breakdownCount,
+    sessionHistory,
+  });
 }
 
 export async function onRequestOptions({ request }) {
@@ -265,7 +281,11 @@ export async function onRequestPost(context) {
       }),
       {
         status: 200,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders(origin),
+          ...promptHeaders(TUTOR_PROMPT),
+        },
       },
     );
   } catch (e) {

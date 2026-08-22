@@ -391,6 +391,7 @@ describe('prompt instrumentation coverage', () => {
   const INSTRUMENTED = [
     '/api/adaptive-insights',
     '/api/assess-speaking',
+    '/api/conversational-tutor',
     '/api/correct',
     '/api/daily-plan',
     '/api/dialogue',
@@ -399,6 +400,7 @@ describe('prompt instrumentation coverage', () => {
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
+    '/api/maja-debrief',
     '/api/micro-lesson',
     '/api/photo-vocab',
     '/api/pronunciation-coach',
@@ -429,13 +431,17 @@ describe('prompt instrumentation coverage', () => {
     // each its own authored prompt; conversation/conversational-tutor/maja
     // build theirs in multi-branch helper functions. Converting them is
     // mechanical but large, and each one is a separate prompt id to get right.
-    // flash-context came off this list first as the smallest proof the
-    // conditional support works. These are next, one endpoint at a time.
+    // Being worked through one endpoint at a time, smallest first:
+    // flash-context, then maja-debrief and conversational-tutor. What is left
+    // is the bulk — conversation is one 250-line builder that precomputes
+    // authored prose into locals (that text has to move INTO the template, not
+    // just its slots), maja has six persona builders, ai-chat fourteen mode
+    // builders. Each conversion is verified by diffing every parameter
+    // combination against the old builder; that is what makes it slow and what
+    // makes it safe.
     '/api/ai-chat',
     '/api/conversation',
-    '/api/conversational-tutor',
     '/api/maja',
-    '/api/maja-debrief',
     // Runs BOTH registered evaluator prompts in one dispatch. A single
     // `id@version` header cannot say which produced the response, and guessing
     // would be worse than saying nothing.
