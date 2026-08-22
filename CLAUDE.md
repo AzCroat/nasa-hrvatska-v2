@@ -399,6 +399,46 @@ now observes what AI endpoints ACTUALLY serve (pinned by `outputObservatory.test
   output). Add rules there, never fork; extend conservatively (the
   123-false-positive lesson).
 
+## Critical Architecture: Push Delivery Observability (2026-08-22)
+
+The streak reminder is the one feature that fails where nobody is looking —
+everything else breaks in front of a learner, who tells us. Pinned by
+`pushHealth.test.js`.
+
+**What already existed and was not enough**: `streak-push.js` writes
+`push:lastAttemptAt` / `push:lastDeliveredAt` / `push:lastStatus`, surfaced in
+`/api/health`. Those only move when a send is actually **attempted**, so a dead
+cron and a quiet night look identical. `scheduled.js` also counted
+sent/skipped/notDue/failed/expired into one `console.warn` — the ephemeral
+Cloudflare tail, which nobody reads.
+
+- **The heartbeat** (`functions/_pushRunLog.js`): `scheduled.js` writes a run
+  record on **every** hourly run — including runs where nobody was due, and runs
+  that halt on missing config (recorded as `haltedReason`, because
+  "misconfigured" and "not running" need different fixes). `push:run:last` is
+  the unexpiring liveness pointer; `push:run:at:<iso>` is 14-day history.
+  **Never make this write conditional** — an absent record must mean "the cron
+  did not fire" and nothing else, which is the whole mechanism. It is written
+  BEFORE the weekly-backup block so a slow backup cannot cost us the heartbeat,
+  and `writePushRun` is fail-soft so observability can never take a learner's
+  reminder down.
+- **The judgement** (`assessPushRuns`, pure and clock-injectable): stale
+  (>`PUSH_RUN_STALE_MINUTES`, 150 = two missed ticks of slack for best-effort
+  Cloudflare schedules), halted, all_failing, failure_rate. A **ratio is only
+  reported above `PUSH_FAIL_MIN_ATTEMPTS` (8)** — 1-of-2 is not a 50% outage,
+  and crying wolf at that sample size trains the reader to ignore the report.
+  "Every attempt failed" is caught at any sample size. Expired subscriptions are
+  **not** failures — that is normal browser attrition.
+- **The sweep**: `/api/push-health`, dispatch-only behind CRON_SECRET /
+  CALIBRATION_SECRET (same gate as output-observatory), zero AI spend, no
+  budget ceiling. Read daily by `push-health.yml`, which **fails red** on any
+  finding. It reads the `last` pointer separately from the history list because
+  KV list is eventually consistent — otherwise a just-recovered cron still
+  reports as dead.
+- **`/api/health` carries `pushDelivery.lastRunAt` but NO counts.** The counts
+  are a proxy for how many people use the app and that endpoint is
+  origin-gated, not authenticated. Keep counts behind the cron secret.
+
 ## Critical Architecture: Prompt Instrumentation (2026-08-21)
 
 The observatory could say an incident happened on `/api/dialogue` but not which
@@ -480,7 +520,7 @@ Users were being cut off mid-speech. The rules that prevent regression (pinned b
 
 ### Scheduled worker (wrangler.toml)
 
-Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs an **hourly** cron. It ALSO fires the **weekly Firestore backup** (Mondays 03–05 UTC window → `/api/backup-progress`, cron-secret auth): all `users`/`srs`/`profiles` docs snapshot to KV as restorable chunks, 90-day TTL ≈ 12 generations, once-per-week latch, no owner action ever (restore procedure documented in `backup-progress.js`). Its main job: sends each user's daily streak-reminder push at their chosen local hour (`reminderTime` + `timeZone` stored with the subscription via `/api/push-subscribe`; legacy subscriptions without a preference send at 13:00 UTC). Max one push per user per day via the `lastNotified` guard. **Deployed by CI on every push to master** (the "Deploy scheduled Worker" step in `ci.yml`, alongside the Pages deploy) — it used to require a manual `wrangler deploy`, which is how Worker-side fixes repeatedly shipped late. The API token must carry `Workers Scripts: Edit` for that step to succeed.
+Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs an **hourly** cron. It ALSO fires the **weekly Firestore backup** (Mondays 03–05 UTC window → `/api/backup-progress`, cron-secret auth): all `users`/`srs`/`profiles` docs snapshot to KV as restorable chunks, 90-day TTL ≈ 12 generations, once-per-week latch, no owner action ever (restore procedure documented in `backup-progress.js`). Its main job: sends each user's daily streak-reminder push at their chosen local hour (`reminderTime` + `timeZone` stored with the subscription via `/api/push-subscribe`; legacy subscriptions without a preference send at 13:00 UTC). Max one push per user per day via the `lastNotified` guard. **Deployed by CI on every push to master** (the "Deploy scheduled Worker" step in `ci.yml`, alongside the Pages deploy) — it used to require a manual `wrangler deploy`, which is how Worker-side fixes repeatedly shipped late. The API token must carry `Workers Scripts: Edit` for that step to succeed. Every run also writes a durable heartbeat to KV (`push:run:last` + `push:run:at:*`) — see "Push Delivery Observability" below; that write must stay unconditional.
 
 ---
 
@@ -653,6 +693,7 @@ Before committing any change:
 13. **Never let a recommendation state something the app did not measure** (2026-08-20 audit). The adaptive store seeds `recentAccuracy` at 0.5 and the mastery ledger returns null on no evidence — surfacing either as a claimed result invents a number the learner never produced, and one caught lie makes every other number in the app suspect. A slot with no honest signal says nothing.
 14. **Never credit a daily-session activity the learner could not do.** When an AI activity fails, offer the authored equivalent and let finishing THAT credit the slot. Crediting on failure was the old anti-strand fix; it bought safety with a lie. The strand guarantee is preserved by the substitute being authored content that cannot fail — so never point a fallback at another AI-dependent screen, and never add a fallback to a screen without removing its credit-on-failure.
 15. **Firestore sync runs on a periodic interval** for signed-in users (not just on tab close). Never revert this to beforeunload-only. The interval is **5 minutes** (`useSyncManager.ts`) — it was widened from 2 minutes deliberately, because periodic pushes plus `fbApplyDelta` bursts outpaced the Firestore WriteStream drain and produced "queued writes" / "maximum backoff delay" warnings. localStorage is authoritative, so a cross-device freshness gap of up to 5 minutes is acceptable; do not narrow it back without re-checking that backpressure.
+16. **Never make the scheduled worker's heartbeat write conditional** (`writePushRun` in `functions/scheduled.js`, 2026-08-22). It runs on every hourly tick _including_ runs where nobody was due, because an absent record is the ONLY positive evidence that the cron is not firing — guard it on `sent > 0` and a quiet night becomes indistinguishable from a dead cron, which is precisely the failure it exists to catch. Same rule for the `haltedReason` record on missing config: a silent early return makes "misconfigured" look like "dead". Keep the write ahead of the weekly-backup block, and keep run COUNTS out of `/api/health` — they are a usage proxy on an origin-gated endpoint.
 
 ---
 

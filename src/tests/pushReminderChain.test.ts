@@ -207,7 +207,11 @@ describe('the scheduled worker keeps the record mortal', () => {
     const kv = makeKv({ [KV_KEY]: dueRecord });
     await runCron(kv);
 
-    const put = kv.puts.at(-1)!;
+    // Target the SUBSCRIPTION key rather than the last put: the worker also
+    // writes its delivery heartbeat (functions/_pushRunLog.js) on every run, so
+    // position in `puts` is no longer a reliable way to find this write — and
+    // depending on it was always a latent trap.
+    const put = kv.puts.filter((p) => p.key === KV_KEY).at(-1)!;
     expect(put.options?.expirationTtl).toBe(PUSH_KV_TTL_SECONDS);
     expect((put.value as { lastNotified: string }).lastNotified).toBe('2026-08-04');
   });
@@ -216,7 +220,12 @@ describe('the scheduled worker keeps the record mortal', () => {
     const kv = makeKv({ [KV_KEY]: { ...dueRecord, lastPracticed: '2026-08-04' } });
     await runCron(kv);
     expect(fetch).not.toHaveBeenCalled();
-    expect(kv.puts).toHaveLength(0);
+    // Nothing was written for this SUBSCRIBER. The worker still writes its
+    // delivery heartbeat on every run — deliberately, so a quiet night is
+    // distinguishable from a dead cron (see pushHealth.test.js) — so this can
+    // no longer be a bare "nothing was put at all".
+    expect(kv.puts.filter((p) => p.key === KV_KEY)).toHaveLength(0);
+    expect(kv.puts.some((p) => p.key.startsWith('push:run:'))).toBe(true);
   });
 
   it('does not send twice on the same day', async () => {

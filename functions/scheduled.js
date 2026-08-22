@@ -23,6 +23,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
+import { buildPushRunRecord, writePushRun } from './_pushRunLog.js';
 
 export default {
   // fetch handler is required even for scheduled-only workers
@@ -41,11 +42,24 @@ export default {
     console.warn(`[Scheduled] Cron triggered: ${event.cron} at ${cronTime}`);
 
     if (!env.PUSH_SUBSCRIPTIONS) {
+      // Nothing to record into — KV IS the record. This is the one halt that
+      // stays invisible, and /api/push-health reports it as 'no_runs'.
       console.warn('[Scheduled] PUSH_SUBSCRIPTIONS KV not configured — skipping');
       return;
     }
     if (!env.CRON_SECRET) {
       console.warn('[Scheduled] CRON_SECRET not configured — skipping');
+      // Record the halt rather than returning silently: "misconfigured" and
+      // "not running at all" need different fixes, and an absent record makes
+      // them look identical.
+      await writePushRun(
+        env.PUSH_SUBSCRIPTIONS,
+        buildPushRunRecord({
+          at: cronTime,
+          cron: event.cron,
+          haltedReason: 'CRON_SECRET not configured',
+        }),
+      );
       return;
     }
 
@@ -57,7 +71,11 @@ export default {
       skipped = 0,
       notDue = 0,
       failed = 0,
-      expired = 0;
+      expired = 0,
+      // Subscription records actually read this run. Distinguishes "the cron
+      // ran and there is nobody subscribed" from "the cron ran and skipped
+      // everyone" — the first is a product fact, the second is a bug.
+      scanned = 0;
 
     // Per-user send-hour matching. The cron fires hourly; each subscriber is
     // due only during the hour that matches their chosen reminder time in
@@ -140,6 +158,7 @@ export default {
           if (key.name.includes(':')) continue;
           const raw = await env.PUSH_SUBSCRIPTIONS.get(key.name, { type: 'json' });
           if (!raw?.subscription?.endpoint) continue;
+          scanned++;
 
           const { subscription, streak, name, lastPracticed, lastNotified } = raw;
 
@@ -217,7 +236,27 @@ export default {
     } while (cursor);
 
     console.warn(
-      `[Scheduled] Complete — sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}`,
+      `[Scheduled] Complete — scanned: ${scanned}, sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}`,
+    );
+
+    // The heartbeat. Written on EVERY run — including runs where nobody was due
+    // — because that is the whole point: an absent record then means the cron
+    // did not fire, which no success marker can tell you. Written BEFORE the
+    // backup block below so a slow backup can never cost us the heartbeat, and
+    // fail-soft inside writePushRun so observability can never take a
+    // learner's reminder down. Read by /api/push-health.
+    await writePushRun(
+      env.PUSH_SUBSCRIPTIONS,
+      buildPushRunRecord({
+        at: cronTime,
+        cron: event.cron,
+        sent,
+        skipped,
+        notDue,
+        failed,
+        expired,
+        scanned,
+      }),
     );
 
     // ── Weekly Firestore backup (owner decision, 2026-08-10) ─────────────────

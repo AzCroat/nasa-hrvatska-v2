@@ -1,0 +1,98 @@
+# Push delivery health — daily check that the streak-reminder cron is alive
+# and its sends are landing (push-delivery observability, 2026-08-22).
+#
+# The streak reminder is the one feature that fails where nobody is looking:
+# everything else breaks in front of a learner, who tells us. The scheduled
+# worker now writes a heartbeat on EVERY hourly run (functions/_pushRunLog.js),
+# and this workflow reads it via /api/push-health and FAILS RED when:
+#   - no heartbeat has ever been recorded,
+#   - the newest one is older than the staleness limit (cron not firing),
+#   - the last run halted on missing config, or
+#   - sends are failing at a rate that is not ordinary attrition.
+#
+# Daily rather than hourly on purpose: the endpoint's staleness limit already
+# tolerates two missed ticks, so an hourly check would only add noise and burn
+# Actions minutes to learn the same thing.
+#
+# Zero AI spend: the sweep is pure KV reads.
+#
+# AUTH: same self-provisioned credential as calibration.yml and
+# output-observatory.yml — the token is derived at runtime as
+# HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1") and the endpoint
+# accepts CALIBRATION_SECRET (installed by calibration.yml's first run) or
+# CRON_SECRET. If this job ever sees 401/503, run the "AI evaluator
+# calibration" workflow once — its provisioning step installs the secret.
+name: Push delivery health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 7 * * *' # daily 07:30 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Sweep push delivery heartbeat
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN}" ] && [ -z "${CRON_SECRET}" ]; then
+            echo "::error::Neither CLOUDFLARE_API_TOKEN nor CRON_SECRET is configured"
+            exit 1
+          fi
+
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          else
+            TOKEN=$(printf '%s' "nh-calibration-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
+          fi
+          echo "::add-mask::${TOKEN}"
+
+          STATUS=$(curl -sS -o /tmp/push-health.json -w '%{http_code}' -X POST \
+            "https://nasahrvatska.com/api/push-health" \
+            -H "x-cron-secret: ${TOKEN}")
+
+          if [ "${STATUS}" != "200" ]; then
+            cat /tmp/push-health.json || true
+            if [ "${STATUS}" = "401" ] || [ "${STATUS}" = "503" ]; then
+              echo "::error::Auth not provisioned (HTTP ${STATUS}) — dispatch the 'AI evaluator calibration' workflow once; its provisioning step installs CALIBRATION_SECRET for these endpoints."
+            else
+              echo "::error::Push health sweep failed with HTTP ${STATUS}"
+            fi
+            exit 1
+          fi
+
+      - name: Evaluate report
+        run: |
+          python3 - /tmp/push-health.json <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          print(json.dumps(report, indent=2, ensure_ascii=False))
+          findings = report.get('findings', [])
+          window = report.get('window', {})
+          for f in findings:
+              print(f"::error::push {f.get('kind')}: {f.get('detail')}")
+          if findings:
+              print(f"::error::Push delivery health found {len(findings)} finding(s)")
+              sys.exit(1)
+          print(
+              "Push delivery healthy: last run %s (%s min ago), "
+              "%d run(s) retained, %d sent / %d failed / %d expired"
+              % (
+                  (report.get('lastRun') or {}).get('at'),
+                  report.get('ageMinutes'),
+                  window.get('runs', 0),
+                  window.get('sent', 0),
+                  window.get('failed', 0),
+                  window.get('expired', 0),
+              )
+          )
+          EOF
