@@ -3,8 +3,14 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
+
+const LISTENING_PROMPT = definePrompt(
+  'listening',
+  'You are creating Croatian language listening exercises. Return ONLY valid JSON, no markdown, no code blocks.',
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -12,7 +18,11 @@ const MODEL = 'claude-haiku-4-5-20251001';
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(LISTENING_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -135,8 +145,7 @@ export async function onRequestPost(context) {
   const targetVocab = targetVocabList(parseUserContext(body));
 
   // ── Build prompts ──
-  const systemPrompt =
-    'You are creating Croatian language listening exercises. Return ONLY valid JSON, no markdown, no code blocks.';
+  const systemPrompt = LISTENING_PROMPT.text;
 
   const styleInstructions =
     safeStyle === 'dialogue'

@@ -471,17 +471,36 @@ now have identity. Pinned by `promptRegistry.test.js`.
 - **The sweep** groups incidents and sample findings by `id@version` in a
   `prompts` roll-up. Untagged records are labelled `(uninstrumented)` — never
   inferred from the path.
-- **Instrumented so far**: `/api/assess-speaking`, `/api/correct`,
-  `/api/dialogue`, `/api/explain-error`, `/api/speaking-coach`. Everything else
-  metered is tracked debt in `KNOWN_UNINSTRUMENTED` in `promptRegistry.test.js`
-  — a **ratchet**: the test fails if an endpoint on that list starts sending a
-  tag without being moved, and fails if a claimed-instrumented one doesn't. The
-  list can only shrink.
-- **Cache-served endpoints (`daily-culture`, `news`, `tts`) are deliberately
-  last.** Their 200 usually replays content generated hours earlier, so tagging
-  it with the CURRENT prompt version would attribute old text to a new prompt.
-  Instrumenting them means storing the version alongside the cached body — not
-  adding a header.
+- **Coverage is tracked in THREE categories** in `promptRegistry.test.js`, and a
+  test asserts they partition `ENDPOINT_CEILING_MICROUSD` exactly — no endpoint
+  can hide in a gap, and none can appear twice:
+  1. `INSTRUMENTED` (15) — tags its 200. A test fails if one doesn't.
+  2. `NO_CLAUDE_PROMPT` (7) — makes no Claude call, so there is nothing to
+     version (`tts`, `stt`, `translate`, `flux-generate`, `pronunciation-assess`,
+     …). **Not debt.** A test fails if one of these starts calling Claude,
+     because it would then have an authored prompt and belong in the debt list.
+  3. `KNOWN_UNINSTRUMENTED` (11) — real remaining debt, each entry carrying its
+     reason. A test fails if one is quietly instrumented without being moved.
+- **Why the remaining 11 are not done**, so nobody re-derives it:
+  - **Branching assembly** (`ai-chat`, `conversation`, `conversational-tutor`,
+    `flash-context`, `maja`, `maja-debrief`): these build prompts with
+    conditionals — `ai-chat` alone has 14 mode builders. A flat template cannot
+    say "include this clause only sometimes". Instrumenting them needs
+    conditional support in `renderPrompt`; that is its own task, not a drive-by
+    on the busiest AI endpoint in the app.
+  - **Multi-prompt** (`golden-calibration`): runs BOTH registered evaluators in
+    one dispatch. One `id@version` header cannot say which produced the
+    response, and guessing would be worse than saying nothing.
+  - **Cache-served** (`daily-culture`, `news`): see below.
+- **Cache-served (`daily-culture`, `news`) are deliberately last.** Their 200
+  usually replays content generated hours earlier, so tagging it with the
+  CURRENT prompt version would attribute old text to a new prompt — a lie inside
+  the exact report this exists to make trustworthy. Instrumenting them means
+  storing the version alongside the cached body, not adding a header.
+- **One known gap, recorded in the code**: `photo-vocab`'s optional "Context
+  hint:" clause is conditional, so its wording lives at the call site OUTSIDE
+  the versioned template and an edit to THOSE words will not move the version.
+  The comment there says so. Same root cause as the branching group above.
 
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 

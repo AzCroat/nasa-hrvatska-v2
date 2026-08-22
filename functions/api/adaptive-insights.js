@@ -4,6 +4,18 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+
+const INSIGHTS_PROMPT = definePrompt(
+  'adaptive-insights',
+  `You are a Croatian language pedagogy expert. Analyze the learner's error patterns and return a JSON object with exactly these fields:
+- weakAreas: array of up to 3 objects {area, severity, explanation} identifying their biggest struggles
+- todaysFocus: one sentence in English telling the user what to focus on today
+- drillSuggestions: array of up to 3 objects {type, description, screen} — screen should be one of: "aspect", "declension", "flashcards", "grammar", "conjugation", "matching"
+- encouragement: one warm, specific sentence acknowledging their progress
+
+Respond with valid JSON only. No markdown. Croatian learner context: {{level}} level, {{lessonsCompleted}} lessons completed.`,
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,7 +35,11 @@ function sanitizeParam(value, maxLen = 200) {
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(INSIGHTS_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -183,13 +199,10 @@ export async function onRequestPost(context) {
   }
 
   // ── Build prompts ─────────────────────────────────────────────────────────
-  const systemPrompt =
-    `You are a Croatian language pedagogy expert. Analyze the learner's error patterns and return a JSON object with exactly these fields:\n` +
-    `- weakAreas: array of up to 3 objects {area, severity, explanation} identifying their biggest struggles\n` +
-    `- todaysFocus: one sentence in English telling the user what to focus on today\n` +
-    `- drillSuggestions: array of up to 3 objects {type, description, screen} — screen should be one of: "aspect", "declension", "flashcards", "grammar", "conjugation", "matching"\n` +
-    `- encouragement: one warm, specific sentence acknowledging their progress\n\n` +
-    `Respond with valid JSON only. No markdown. Croatian learner context: ${safeLevel} level, ${safeLessonsCompleted} lessons completed.`;
+  const systemPrompt = renderPrompt(INSIGHTS_PROMPT, {
+    level: safeLevel,
+    lessonsCompleted: safeLessonsCompleted,
+  });
 
   const userMessage =
     `Error patterns: ${JSON.stringify(safeErrorLog)}\n` +

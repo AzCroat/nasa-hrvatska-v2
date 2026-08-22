@@ -3,7 +3,27 @@
 // objects/text in the image, and returns Croatian vocabulary for what was found.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
+
+const PHOTO_VOCAB_PROMPT = definePrompt(
+  'photo-vocab',
+  `You are a Croatian language teacher helping a {{level}} learner discover vocabulary from real life.
+
+Look at this image and identify the most useful Croatian vocabulary for a language learner.
+{{contextHint}}
+Return a JSON object: {
+  "items": [up to 8 most useful vocabulary items, each: {hr, en, pronunciation, category, example}],
+  "scene": "one sentence describing what you see"
+}
+
+Rules:
+- Focus on concrete, learnable vocabulary
+- pronunciation: write it as English phonetics (e.g. "kah-VAH" for kava)
+- example: a simple sentence at {{level}} level using the word
+- If the image contains readable text (menu, sign, label), prioritize translating that text
+- Respond with valid JSON only. No markdown.`,
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,7 +43,11 @@ function sanitizeParam(value, maxLen = 200) {
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(PHOTO_VOCAB_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -93,20 +117,16 @@ export async function onRequestPost(context) {
   const safeContext = photoContext ? sanitizeParam(String(photoContext), 100) : '';
 
   // ── Build Claude vision request ────────────────────────────────────────────
-  const textPrompt =
-    `You are a Croatian language teacher helping a ${safeLevel} learner discover vocabulary from real life.\n\n` +
-    `Look at this image and identify the most useful Croatian vocabulary for a language learner.\n` +
-    (safeContext ? `Context hint: ${safeContext}\n` : '') +
-    `\nReturn a JSON object: {\n` +
-    `  "items": [up to 8 most useful vocabulary items, each: {hr, en, pronunciation, category, example}],\n` +
-    `  "scene": "one sentence describing what you see"\n` +
-    `}\n\n` +
-    `Rules:\n` +
-    `- Focus on concrete, learnable vocabulary\n` +
-    `- pronunciation: write it as English phonetics (e.g. "kah-VAH" for kava)\n` +
-    `- example: a simple sentence at ${safeLevel} level using the word\n` +
-    `- If the image contains readable text (menu, sign, label), prioritize translating that text\n` +
-    `- Respond with valid JSON only. No markdown.`;
+  const textPrompt = renderPrompt(PHOTO_VOCAB_PROMPT, {
+    level: safeLevel,
+    // KNOWN GAP: this clause is conditional, and a flat template cannot express
+    // "include this line only sometimes" — so the words "Context hint: " live
+    // here, OUTSIDE the versioned template. Editing THAT wording will not move
+    // the prompt version. The rest of the prompt is versioned normally. Closing
+    // this properly needs conditional support in renderPrompt; until then, do
+    // not add more prose to this string thinking it is tracked.
+    contextHint: safeContext ? `Context hint: ${safeContext}\n` : '',
+  });
 
   const claudeBody = {
     model: MODEL,

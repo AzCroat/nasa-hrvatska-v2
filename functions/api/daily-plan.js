@@ -3,6 +3,12 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
+
+const DAILY_PLAN_PROMPT = definePrompt(
+  'daily-plan',
+  'You are a Croatian language learning coach creating a personalized daily practice plan. Return ONLY valid JSON, no markdown.',
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -22,7 +28,11 @@ function sanitizeParam(value, maxLen = 200) {
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(DAILY_PLAN_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -164,8 +174,7 @@ export async function onRequestPost(context) {
       : null;
 
   // ── Build prompts ──
-  const systemPrompt =
-    'You are a Croatian language learning coach creating a personalized daily practice plan. Return ONLY valid JSON, no markdown.';
+  const systemPrompt = DAILY_PLAN_PROMPT.text;
 
   const learnerErrorsBlock =
     safeLearnerErrors.length > 0

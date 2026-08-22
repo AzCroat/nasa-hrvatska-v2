@@ -2,8 +2,14 @@
 // Accepts aggregated mistake data and synthesizes top 2-3 grammar blind spots with drill exercises.
 
 import { requireAuthedAI } from './_requireAuth.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
+
+const GRAMMAR_DIAG_PROMPT = definePrompt(
+  'grammar-diagnosis',
+  "You are a Croatian language learning coach analyzing a student's mistake patterns. Return ONLY valid JSON.",
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,7 +29,11 @@ function sanitizeParam(value, maxLen = 200) {
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(GRAMMAR_DIAG_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -175,8 +185,7 @@ export async function onRequestPost(context) {
   const contextProse = renderContextPrompt(userCtx, 'grammar-diagnosis');
 
   // ── Build prompts ──
-  const basePrompt =
-    "You are a Croatian language learning coach analyzing a student's mistake patterns. Return ONLY valid JSON.";
+  const basePrompt = GRAMMAR_DIAG_PROMPT.text;
 
   const systemPrompt = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
 

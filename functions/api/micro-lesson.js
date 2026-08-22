@@ -4,7 +4,13 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
+
+const MICRO_LESSON_PROMPT = definePrompt(
+  'micro-lesson',
+  'You are a Croatian language teacher creating a targeted micro-lesson. Return ONLY valid JSON, no markdown.',
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -12,7 +18,11 @@ const MODEL = 'claude-haiku-4-5-20251001';
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(MICRO_LESSON_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -145,10 +155,7 @@ Return ONLY valid JSON (no markdown):
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 1100,
-        system:
-          'You are a Croatian language teacher creating a targeted micro-lesson. Return ONLY valid JSON, no markdown.' +
-          '\n\n' +
-          CROATIAN_SCRIPT_RULE,
+        system: MICRO_LESSON_PROMPT.text + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMsg }],
       }),
     });

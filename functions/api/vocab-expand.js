@@ -5,6 +5,18 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+
+const VOCAB_PROMPT = definePrompt(
+  'vocab-expand',
+  `You are a Croatian language teacher. Generate exactly 3 example sentences for the given Croatian word, appropriate for a {{level}} level learner. Each sentence should:
+1. Show the word used naturally in context
+2. Be progressively slightly more complex
+3. Include common collocations or different grammatical cases where relevant
+
+Return valid JSON only: {"examples": [{"hr": "...", "en": "...", "note": "..."}]}
+No markdown. Make sentences feel like real Croatian speech, not textbook examples.`,
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -12,7 +24,11 @@ const MODEL = 'claude-haiku-4-5-20251001';
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(VOCAB_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -90,13 +106,7 @@ export async function onRequestPost(context) {
   }
 
   // ── Build prompts ─────────────────────────────────────────────────────────
-  const systemPrompt =
-    `You are a Croatian language teacher. Generate exactly 3 example sentences for the given Croatian word, appropriate for a ${safeLevel} level learner. Each sentence should:\n` +
-    `1. Show the word used naturally in context\n` +
-    `2. Be progressively slightly more complex\n` +
-    `3. Include common collocations or different grammatical cases where relevant\n\n` +
-    `Return valid JSON only: {"examples": [{"hr": "...", "en": "...", "note": "..."}]}\n` +
-    `No markdown. Make sentences feel like real Croatian speech, not textbook examples.`;
+  const systemPrompt = renderPrompt(VOCAB_PROMPT, { level: safeLevel });
 
   const userMessage = safeTranslation
     ? `Croatian word: ${safeWord} (meaning: ${safeTranslation})`

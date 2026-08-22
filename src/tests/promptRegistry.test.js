@@ -279,86 +279,124 @@ describe('the observatory attributes findings to prompts', () => {
 // ── The adoption ratchet ──────────────────────────────────────────────────────
 
 describe('prompt instrumentation coverage', () => {
-  // Endpoints whose authored prompt now carries a version. Each of these tags
-  // its 200 response; the middleware records it.
+  // Endpoints whose authored prompt now carries a version and tags its 200.
   const INSTRUMENTED = [
+    '/api/adaptive-insights',
     '/api/assess-speaking',
     '/api/correct',
+    '/api/daily-plan',
     '/api/dialogue',
     '/api/explain-error',
-    '/api/speaking-coach',
-  ];
-
-  // Everything metered that is NOT instrumented yet — tracked debt, listed so
-  // it stays visible. Fill one in and the ratchet below FAILS until its entry
-  // is removed, which is the point: this list can only ever shrink.
-  //
-  // The cache-served ones (daily-culture, news, tts) are deliberately last in
-  // line: their 200 usually replays content generated hours earlier, so tagging
-  // the response with the CURRENT prompt version would attribute old text to a
-  // new prompt. Instrumenting them means storing the version alongside the
-  // cached body, not adding a header.
-  const KNOWN_UNINSTRUMENTED = [
-    '/api/adaptive-insights',
-    '/api/ai-chat',
-    '/api/conversation',
-    '/api/conversational-tutor',
-    '/api/daily-culture',
-    '/api/daily-culture:generate',
-    '/api/daily-plan',
-    '/api/flash-context',
-    '/api/flux-generate',
-    '/api/golden-calibration',
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
-    '/api/maja',
-    '/api/maja-debrief',
     '/api/micro-lesson',
-    '/api/news',
-    '/api/news:generate',
     '/api/photo-vocab',
-    '/api/pronunciation-assess',
     '/api/pronunciation-coach',
+    '/api/speaking-coach',
     '/api/srs-sync',
-    '/api/stt',
-    '/api/stt-calibration',
-    '/api/translate',
-    '/api/tts',
-    '/api/tts:generate',
     '/api/vocab-expand',
   ];
 
-  it('accounts for every metered endpoint — no third state', () => {
+  // NOT debt: these make no Claude call, so there is no authored prompt to
+  // version. Listing them explicitly is the point — an unexplained absence
+  // reads as an oversight, and the next reader re-investigates all of them.
+  const NO_CLAUDE_PROMPT = [
+    '/api/flux-generate', // Replicate image generation
+    '/api/pronunciation-assess', // Azure pronunciation scoring
+    '/api/stt', // Deepgram/Whisper transcription
+    '/api/stt-calibration', // Azure TTS + STT golden run
+    '/api/translate', // MyMemory
+    '/api/tts', // Azure neural TTS
+    '/api/tts:generate',
+  ];
+
+  // Real remaining debt, each with the reason it is not yet done. This list can
+  // only shrink; the tests below fail if an entry is quietly instrumented or a
+  // claimed one is not.
+  const KNOWN_UNINSTRUMENTED = [
+    // Assembles its prompt by BRANCHING (14 mode builders, several with
+    // conditional sections). A flat template cannot express "include this
+    // clause only sometimes", so instrumenting these needs conditional support
+    // in renderPrompt — its own task, not a drive-by.
+    '/api/ai-chat',
+    '/api/conversation',
+    '/api/conversational-tutor',
+    '/api/flash-context',
+    '/api/maja',
+    '/api/maja-debrief',
+    // Runs BOTH registered evaluator prompts in one dispatch. A single
+    // `id@version` header cannot say which produced the response, and guessing
+    // would be worse than saying nothing.
+    '/api/golden-calibration',
+    // CACHE-SERVED: the 200 usually replays content generated hours earlier, so
+    // tagging with the CURRENT version would attribute old text to a new
+    // prompt. Needs the version stored beside the cached body, not a header.
+    '/api/daily-culture',
+    '/api/daily-culture:generate',
+    '/api/news',
+    '/api/news:generate',
+  ];
+
+  it('accounts for every metered endpoint — no endpoint hides in a gap', () => {
     const metered = Object.keys(ENDPOINT_CEILING_MICROUSD).sort();
-    const accounted = [...INSTRUMENTED, ...KNOWN_UNINSTRUMENTED].sort();
+    const accounted = [...INSTRUMENTED, ...NO_CLAUDE_PROMPT, ...KNOWN_UNINSTRUMENTED].sort();
     expect(accounted).toEqual(metered);
+  });
+
+  it('the three categories do not overlap', () => {
+    const all = [...INSTRUMENTED, ...NO_CLAUDE_PROMPT, ...KNOWN_UNINSTRUMENTED];
+    expect(new Set(all).size).toBe(all.length);
   });
 
   it('every endpoint claimed as instrumented actually sends the header', () => {
     for (const path of INSTRUMENTED) {
       const src = fnSrc(`api/${path.replace('/api/', '')}.js`);
       expect(src, `${path} must import promptHeaders`).toContain('promptHeaders');
-      expect(src, `${path} must spread promptHeaders into a response`).toMatch(
-        /\.\.\.promptHeaders\(/,
+      // Two call shapes are legitimate: spread into a locally-built headers
+      // object, or passed as the shared ok() helper's third argument. Both must
+      // name a REGISTERED prompt const, which is what this pins.
+      expect(src, `${path} must apply promptHeaders to a response`).toMatch(
+        /promptHeaders\([A-Z][A-Z0-9_]*\)/,
+      );
+    }
+  });
+
+  it('every endpoint claimed to make no Claude call really makes none', () => {
+    // If one of these ever starts calling Claude it acquires an authored
+    // prompt, and silently keeping it on this list would hide real debt.
+    for (const path of NO_CLAUDE_PROMPT) {
+      const file = path.replace('/api/', '').replace(/:generate$/, '');
+      let src;
+      try {
+        src = fnSrc(`api/${file}.js`);
+      } catch {
+        continue;
+      }
+      expect(src, `${path} now calls Claude — it needs a prompt, not this list`).not.toContain(
+        'api.anthropic.com',
       );
     }
   });
 
   it('no endpoint on the debt list has quietly been instrumented', () => {
-    // The ratchet: fixing one and forgetting to move it here would leave the
-    // list overstating the debt, and the next reader would re-do the work.
     for (const path of KNOWN_UNINSTRUMENTED) {
       const file = path.replace('/api/', '').replace(/:generate$/, '');
       let src;
       try {
         src = fnSrc(`api/${file}.js`);
       } catch {
-        continue; // ':generate' twins share a file; the base entry covers it
+        continue;
       }
       expect(src, `${path} now sends a prompt tag — move it to INSTRUMENTED`).not.toMatch(
         /\.\.\.promptHeaders\(/,
       );
     }
+  });
+
+  it('every registered prompt id is unique and non-empty', () => {
+    const ids = allPrompts().map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const id of ids) expect(id.length).toBeGreaterThan(0);
   });
 });
