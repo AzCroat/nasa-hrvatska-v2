@@ -4,6 +4,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 
@@ -52,10 +53,10 @@ function sanitizeCategory(cat) {
   return VALID.includes(cat) ? cat : 'greeting';
 }
 
-function ok(body, origin) {
+function ok(body, origin, extraHeaders) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin), ...extraHeaders },
   });
 }
 function err(status, msg, origin) {
@@ -66,44 +67,33 @@ function err(status, msg, origin) {
 }
 
 // ── Server-side prompt builders ──────────────────────────────────────────────
-function buildConvoPrompt(params) {
-  const rawLevel = params?.level;
-  const rawName = params?.aiName;
-  const rawRole = params?.aiRole;
-  const rawCtx = params?.context;
-  const level = sanitizeLevel(rawLevel);
-  const aiName = sanitizeParam(rawName || 'Maja', 50);
-  const aiRole = sanitizeParam(rawRole || 'native speaker', 80);
-  const context = sanitizeParam(rawCtx || '', 300);
-  const complexity = {
-    A1: 'Use ONLY simple present tense. Maximum 1-2 very short sentences. Very basic, high-frequency vocabulary only.',
-    A2: 'Use present tense primarily. 2 short sentences. Common everyday vocabulary.',
-    B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
-    B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
-    C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-    C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
-  };
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+const AC_CONVO_RULES = {
+  A1: 'Use ONLY simple present tense. Maximum 1-2 very short sentences. Very basic, high-frequency vocabulary only.',
+  A2: 'Use present tense primarily. 2 short sentences. Common everyday vocabulary.',
+  B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
+  B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
+  C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
+  C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
+};
+const AC_CONVO = definePrompt(
+  'ai-chat-convo',
+  `You are {{aiName}}, a native Croatian speaker. Role: {{aiRole}}.
+{{context}}
 
-  const complexityRule = complexity[safeLevel] || complexity['B1'];
-  return `You are ${aiName}, a native Croatian speaker. Role: ${aiRole}.
-${context}
-
-THE LEARNER IS AT LEVEL: ${safeLevel}
+THE LEARNER IS AT LEVEL: {{level}}
 Language rules for YOU:
-- ${complexityRule}
+- {{complexityRule}}
 - ALWAYS respond entirely in Croatian. Never switch to English in your replies.
 - If the learner writes in English, respond in Croatian and gently add: (Pokušaj na hrvatskom! — Try in Croatian!)
 - If the learner makes a grammar error, seamlessly use the correct form in your next sentence without commenting on the error.
 - Be warm, in-character, and always end with a natural follow-up question to keep the conversation flowing.
-- Stay completely in character. Do not explain grammar or break the fourth wall.`;
-}
+- Stay completely in character. Do not explain grammar or break the fourth wall.`,
+  { alsoVersion: { ...AC_CONVO_RULES } },
+);
 
-function buildEvalPrompt(params) {
-  const level = sanitizeLevel(params?.level);
-  const scenarioTitle = sanitizeParam(params?.scenarioTitle || 'Croatian conversation', 100);
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  return `You are an expert Croatian language teacher and applied linguist. Analyze the conversation below between a ${safeLevel} learner and an AI partner in the scenario: "${scenarioTitle}".
+const AC_EVAL = definePrompt(
+  'ai-chat-eval',
+  `You are an expert Croatian language teacher and applied linguist. Analyze the conversation below between a {{level}} learner and an AI partner in the scenario: "{{scenarioTitle}}".
 
 Return ONLY a valid JSON object with this exact structure (no markdown, no explanation, just JSON):
 {
@@ -121,11 +111,12 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no expla
 }
 
 Scoring guide: 90-100=near-native fluency, 75-89=confident learner, 60-74=communicative with errors, 40-59=basic communication, below 40=significant barriers.
-Rules: max 4 mistakes, 2-3 focus areas, score honestly. If fewer than 3 user messages, note brevity in vocabulary_feedback.`;
-}
+Rules: max 4 mistakes, 2-3 focus areas, score honestly. If fewer than 3 user messages, note brevity in vocabulary_feedback.`,
+);
 
-function buildCorrectPrompt() {
-  return `You are a Croatian language grammar checker. Given a Croatian sentence or short text from a language learner, check for grammar, case, tense, or agreement errors.
+const AC_CORRECT = definePrompt(
+  'ai-chat-correct',
+  `You are a Croatian language grammar checker. Given a Croatian sentence or short text from a language learner, check for grammar, case, tense, or agreement errors.
 
 Return ONLY a valid JSON object (no markdown):
 {"corrected": "the corrected Croatian text, or null if no errors", "note": "brief English explanation of the main error (e.g. 'wrong case: use accusative after vidim'), or null if no errors"}
@@ -133,13 +124,12 @@ Return ONLY a valid JSON object (no markdown):
 Rules:
 - Only flag real grammatical errors (wrong case endings, verb conjugation, gender agreement).
 - Ignore stylistic preferences or minor word order variations that are still correct.
-- If the text is fully correct, return null for both fields.`;
-}
+- If the text is fully correct, return null for both fields.`,
+);
 
-function buildWriteEvalPrompt(params) {
-  const { level = 'B1', writingPrompt = 'Write about yourself in Croatian' } = params;
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  return `You are an expert Croatian language teacher. Evaluate the following Croatian writing sample from a ${safeLevel} learner responding to this prompt: "${writingPrompt}"
+const AC_WRITEEVAL = definePrompt(
+  'ai-chat-writeeval',
+  `You are an expert Croatian language teacher. Evaluate the following Croatian writing sample from a {{level}} learner responding to this prompt: "{{writingPrompt}}"
 
 Return ONLY a valid JSON object (no markdown, no explanation):
 {
@@ -155,20 +145,22 @@ Return ONLY a valid JSON object (no markdown, no explanation):
 }
 
 Scoring: 90-100=excellent, 75-89=good with minor errors, 60-74=communicative with noticeable errors, 40-59=basic, below 40=significant barriers.
-Rules: max 6 changes, 2-3 improvements, score honestly. If text is very short, note this.`;
-}
+Rules: max 6 changes, 2-3 improvements, score honestly. If text is very short, note this.`,
+);
 
-function buildTranslatePrompt() {
-  return `You are a Croatian-English dictionary assistant. Translate the given Croatian word or short phrase to English.
+const AC_TRANSLATE = definePrompt(
+  'ai-chat-translate',
+  `You are a Croatian-English dictionary assistant. Translate the given Croatian word or short phrase to English.
 
 Return ONLY a valid JSON object (no markdown):
 {"translation": "the English meaning", "note": "optional brief grammar info: gender (m/f/n), irregular form, or usage note — or null"}
 
-Keep the translation concise and accurate. For verbs, give the infinitive meaning.`;
-}
+Keep the translation concise and accurate. For verbs, give the infinitive meaning.`,
+);
 
-function buildWordAnalyzePrompt() {
-  return `You are an expert Croatian linguist and grammar teacher. Analyze the given Croatian word in context.
+const AC_WORDANALYZE = definePrompt(
+  'ai-chat-wordanalyze',
+  `You are an expert Croatian linguist and grammar teacher. Analyze the given Croatian word in context.
 
 Return ONLY a valid JSON object (no markdown, no explanation):
 {
@@ -184,19 +176,19 @@ Return ONLY a valid JSON object (no markdown, no explanation):
   "examples": ["<short Croatian example sentence using the base form>", "<another example>"]
 }
 
-Rules: be accurate to standard Croatian grammar. If the word is a preposition or conjunction, set most fields to null. Always provide 2 examples.`;
-}
+Rules: be accurate to standard Croatian grammar. If the word is a preposition or conjunction, set most fields to null. Always provide 2 examples.`,
+);
 
-function buildHintPrompt() {
-  return `You are a Croatian language tutor. The student needs a quick hint to continue their conversation.
-Give 2-3 sentences in English explaining what to say next. Include 1-2 example Croatian phrases they could use with a translation. Be concise and encouraging.`;
-}
+const AC_HINT = definePrompt(
+  'ai-chat-hint',
+  `You are a Croatian language tutor. The student needs a quick hint to continue their conversation.
+Give 2-3 sentences in English explaining what to say next. Include 1-2 example Croatian phrases they could use with a translation. Be concise and encouraging.`,
+);
 
-function buildExplainPrompt(params) {
-  const { level = 'A2' } = params || {};
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'A2';
-  return `You are a world-class Croatian language teacher creating a personalized grammar lesson.
-The learner is at level: ${safeLevel}
+const AC_EXPLAIN = definePrompt(
+  'ai-chat-explain',
+  `You are a world-class Croatian language teacher creating a personalized grammar lesson.
+The learner is at level: {{level}}
 
 Return ONLY valid JSON (no markdown, no code blocks, just raw JSON) in this exact structure:
 {
@@ -219,37 +211,28 @@ Return ONLY valid JSON (no markdown, no code blocks, just raw JSON) in this exac
 
 The "table" field is optional — include it only when a conjugation or declension table would genuinely help (omit it otherwise).
 Examples must be natural Croatian sentences, not isolated words. Complexity matches the level.
-For A1/A2: simple vocabulary, present tense only. For B1: include past and future. For B2/C1: use all tenses freely.`;
-}
+For A1/A2: simple vocabulary, present tense only. For B1: include past and future. For B2/C1: use all tenses freely.`,
+);
 
-function buildStoryPrompt(params) {
-  const city = sanitizeParam(params?.city || 'Zagreb', 50);
-  const region = sanitizeParam(params?.region || 'Croatia', 50);
-  const level = sanitizeLevel(params?.level);
-  const character_name = sanitizeParam(params?.character_name || 'Marko', 40);
-  const goal_theme = params?.goal_theme ? sanitizeParam(params.goal_theme, 120) : null;
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  const complexity = {
-    A1: 'Use ONLY present tense, very short sentences (max 8 words each), and the 200 most common Croatian words. Every 3rd sentence should have an English hint in parentheses.',
-    A2: 'Use mostly present tense with occasional simple past. Short clear sentences. Common everyday vocabulary. Add English hints for any uncommon words.',
-    B1: 'Use present and past tense naturally. Conversational vocabulary. Include some cultural details. No English hints needed — context makes meaning clear.',
-    B2: 'Write like a skilled author for a native Croatian teen. All tenses, idioms welcome. Rich descriptive language. Cultural depth.',
-    C1: 'Write literary Croatian. Complex sentences, subordinate clauses, all tenses, idiomatic expressions. Rich and authentic.',
-    C2: 'Write like a published Croatian author. Use regional color, colloquialisms, literary devices. Completely authentic native-level Croatian.',
-  };
+const AC_STORY_RULES = {
+  A1: 'Use ONLY present tense, very short sentences (max 8 words each), and the 200 most common Croatian words. Every 3rd sentence should have an English hint in parentheses.',
+  A2: 'Use mostly present tense with occasional simple past. Short clear sentences. Common everyday vocabulary. Add English hints for any uncommon words.',
+  B1: 'Use present and past tense naturally. Conversational vocabulary. Include some cultural details. No English hints needed — context makes meaning clear.',
+  B2: 'Write like a skilled author for a native Croatian teen. All tenses, idioms welcome. Rich descriptive language. Cultural depth.',
+  C1: 'Write literary Croatian. Complex sentences, subordinate clauses, all tenses, idiomatic expressions. Rich and authentic.',
+  C2: 'Write like a published Croatian author. Use regional color, colloquialisms, literary devices. Completely authentic native-level Croatian.',
+};
+const AC_STORY = definePrompt(
+  'ai-chat-story',
+  `You are a master Croatian storyteller creating an immersive language learning experience.
 
-  const complexityRule = complexity[safeLevel] || complexity['B1'];
-  const goalLine = goal_theme
-    ? `\nPersonalization theme: The story should weave in themes of ${goal_theme}. Let this shape the plot, setting details, and emotional arc naturally.`
-    : '';
-  return `You are a master Croatian storyteller creating an immersive language learning experience.
+Write a vivid, emotionally engaging short story (350-450 words) set in {{city}}, {{region}}, Croatia.
+The main character's name is {{characterName}}.
+The story should feel authentic to life in {{city}} — mention real local details, food, architecture, customs where natural.{{#if goalTheme}}
+Personalization theme: The story should weave in themes of {{goalTheme}}. Let this shape the plot, setting details, and emotional arc naturally.{{/if}}
 
-Write a vivid, emotionally engaging short story (350-450 words) set in ${city}, ${region}, Croatia.
-The main character's name is ${character_name}.
-The story should feel authentic to life in ${city} — mention real local details, food, architecture, customs where natural.${goalLine}
-
-CEFR Level: ${safeLevel}
-Language rules: ${complexityRule}
+CEFR Level: {{level}}
+Language rules: {{complexityRule}}
 
 Return ONLY valid JSON (no markdown, no code blocks):
 {
@@ -267,29 +250,27 @@ Return ONLY valid JSON (no markdown, no code blocks):
 
 Include 8-12 vocabulary items (the most useful/interesting words from the story).
 Include 3 comprehension questions.
-The story must feel like literature, not a language exercise — engaging plot, real emotion, authentic Croatian life.`;
-}
+The story must feel like literature, not a language exercise — engaging plot, real emotion, authentic Croatian life.`,
+  { alsoVersion: { ...AC_STORY_RULES } },
+);
 
-function buildHeritagePrompt(params) {
-  const region = sanitizeParam(params?.region || 'Croatia', 50);
-  const family_notes = sanitizeParam(params?.family_notes || '', 400);
-  const user_name = sanitizeParam(params?.user_name || 'you', 50);
-  const ancestor_era = sanitizeParam(params?.ancestor_era || 'early 20th century', 80);
-  return `You are a Croatian cultural historian and storyteller. Create a deeply personal, emotionally resonant narrative connecting someone to their Croatian roots.
+const AC_HERITAGE = definePrompt(
+  'ai-chat-heritage',
+  `You are a Croatian cultural historian and storyteller. Create a deeply personal, emotionally resonant narrative connecting someone to their Croatian roots.
 
-User name: ${user_name}
-Their Croatian connection: ${region}
-Family notes they provided: ${family_notes || 'No specific details provided'}
-Historical era: ${ancestor_era}
+User name: {{userName}}
+Their Croatian connection: {{region}}
+Family notes they provided: {{familyNotes}}
+Historical era: {{ancestorEra}}
 
 Write a 3-part narrative (400-500 words total):
-1. "Your Land" — Paint a vivid picture of what ${region} looked, smelled, sounded like in the ${ancestor_era}. Specific, sensory, authentic.
-2. "Their Lives" — Describe the daily life of ordinary people from ${region} in that era. Work, food, festivals, language, hardships.
-3. "Your Connection" — Bridge the history to ${user_name} personally. What phrases would their ancestors have used? What does it mean to carry this heritage?
+1. "Your Land" — Paint a vivid picture of what {{region}} looked, smelled, sounded like in the {{ancestorEra}}. Specific, sensory, authentic.
+2. "Their Lives" — Describe the daily life of ordinary people from {{region}} in that era. Work, food, festivals, language, hardships.
+3. "Your Connection" — Bridge the history to {{userName}} personally. What phrases would their ancestors have used? What does it mean to carry this heritage?
 
 Return ONLY valid JSON (no markdown):
 {
-  "title": "personalized title for ${user_name}",
+  "title": "personalized title for {{userName}}",
   "parts": [
     {"heading": "Your Land", "text": "..."},
     {"heading": "Their Lives", "text": "..."},
@@ -301,41 +282,35 @@ Return ONLY valid JSON (no markdown):
   "regional_words": [
     {"hr": "regional word/dialect term", "en": "meaning", "note": "why this word is special to this region"}
   ],
-  "did_you_know": "one surprising historical fact about ${region} that most people don't know"
+  "did_you_know": "one surprising historical fact about {{region}} that most people don't know"
 }
 
 Include 4-5 ancestral phrases and 3-4 regional words.
-The tone must be warm, poetic, and personal — this should move someone to tears.`;
-}
+The tone must be warm, poetic, and personal — this should move someone to tears.`,
+);
 
-function buildPhraseOfDayPrompt(params) {
-  const category = sanitizeCategory(params?.category);
-  const level = sanitizeLevel(params?.level);
-  const seed = sanitizeParam(params?.seed || '', 20);
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  const categoryDesc = {
-    greeting:
-      'everyday Croatian greetings and farewells — include some that are uniquely Croatian or regional',
-    work: 'professional Croatian — office, business, career phrases',
-    travel: 'Croatian travel phrases — transport, hotels, asking directions, emergencies',
-    food: 'Croatian food culture — ordering, complimenting food, market shopping, restaurant phrases',
-    slang: 'authentic Croatian slang and colloquialisms — what young Croatians actually say today',
-    love: 'Croatian expressions of affection, friendship, and relationships',
-    sports: 'Croatian sports culture — football, basketball, cheering, sports talk',
-    family: 'Croatian family vocabulary and expressions — terms of endearment, family dynamics',
-  };
+const AC_PHRASE_CATS = {
+  greeting:
+    'everyday Croatian greetings and farewells — include some that are uniquely Croatian or regional',
+  work: 'professional Croatian — office, business, career phrases',
+  travel: 'Croatian travel phrases — transport, hotels, asking directions, emergencies',
+  food: 'Croatian food culture — ordering, complimenting food, market shopping, restaurant phrases',
+  slang: 'authentic Croatian slang and colloquialisms — what young Croatians actually say today',
+  love: 'Croatian expressions of affection, friendship, and relationships',
+  sports: 'Croatian sports culture — football, basketball, cheering, sports talk',
+  family: 'Croatian family vocabulary and expressions — terms of endearment, family dynamics',
+};
+const AC_PHRASE = definePrompt(
+  'ai-chat-phrase-of-day',
+  `You are a Croatian language and culture expert creating a "Phrase of the Day" for a learner at CEFR level {{level}}.
 
-  const catDesc = categoryDesc[category] || categoryDesc['greeting'];
-
-  return `You are a Croatian language and culture expert creating a "Phrase of the Day" for a learner at CEFR level ${safeLevel}.
-
-Category: ${catDesc}
-Seed for variety: ${seed}
+Category: {{categoryDesc}}
+Seed for variety: {{seed}}
 
 Choose ONE memorable, genuinely useful Croatian phrase. Prioritize phrases that:
 - Are actually used by native Croatians (not textbook Croatian)
 - Have interesting cultural context
-- Are level-appropriate: ${safeLevel}
+- Are level-appropriate: {{level}}
 - Would surprise or delight a learner
 
 Return ONLY valid JSON (no markdown):
@@ -344,8 +319,8 @@ Return ONLY valid JSON (no markdown):
   "translation": "natural English equivalent (not word-for-word)",
   "literal": "word-for-word translation if different from natural translation",
   "pronunciation_guide": "syllable-by-syllable pronunciation guide: e.g. 'do-BAR DAN'",
-  "level": "${safeLevel}",
-  "category": "${category}",
+  "level": "{{level}}",
+  "category": "{{category}}",
   "when_to_use": "1 sentence: specific situation when you'd use this",
   "cultural_note": "1-2 sentences of cultural context that makes this phrase come alive",
   "example_dialogue": [
@@ -360,76 +335,51 @@ Return ONLY valid JSON (no markdown):
   ]
 }
 
-Include 2-3 related phrases. The cultural note must be genuinely interesting, not generic.`;
-}
+Include 2-3 related phrases. The cultural note must be genuinely interesting, not generic.`,
+  { alsoVersion: { ...AC_PHRASE_CATS } },
+);
 
-function buildAdaptiveConvoPrompt(params) {
-  const level = sanitizeLevel(params?.level);
-  const aiName = sanitizeParam(params?.aiName || 'Maja', 50);
-  const aiRole = sanitizeParam(params?.aiRole || 'native speaker', 80);
-  const context = sanitizeParam(params?.context || '', 300);
-  const weak_areas = Array.isArray(params?.weak_areas)
-    ? params.weak_areas.slice(0, 5).map((a) => sanitizeParam(String(a), 50))
-    : [];
-  const topics_mastered = Array.isArray(params?.topics_mastered)
-    ? params.topics_mastered.slice(0, 10).map((t) => sanitizeParam(String(t), 50))
-    : [];
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  const complexity = {
-    A1: 'Use ONLY simple present tense. Maximum 1-2 very short sentences. Very basic vocabulary only.',
-    A2: 'Use present tense primarily. 2 short sentences. Common everyday vocabulary.',
-    B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
-    B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
-    C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-    C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
-  };
+const AC_ADAPTIVE_RULES = {
+  A1: 'Use ONLY simple present tense. Maximum 1-2 very short sentences. Very basic vocabulary only.',
+  A2: 'Use present tense primarily. 2 short sentences. Common everyday vocabulary.',
+  B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
+  B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
+  C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
+  C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
+};
+const AC_ADAPTIVE = definePrompt(
+  'ai-chat-adaptive-convo',
+  `You are {{aiName}}, a native Croatian speaker. Role: {{aiRole}}.
+{{context}}
 
-  const complexityRule = complexity[safeLevel] || complexity['B1'];
-
-  const weakAreasText =
-    weak_areas.length > 0
-      ? `\nThe learner struggles with: ${weak_areas.join(', ')}. Naturally weave opportunities to practice these into the conversation — e.g. ask questions that require them to use dative case, or construct sentences that invite past tense responses. Never comment on their grammar; just model correct usage in your own speech.`
-      : '';
-
-  const masteredText =
-    topics_mastered.length > 0
-      ? `\nThe learner has mastered: ${topics_mastered.slice(0, 5).join(', ')}. You can use these confidently in your speech.`
-      : '';
-
-  return `You are ${aiName}, a native Croatian speaker. Role: ${aiRole}.
-${context}
-
-THE LEARNER IS AT LEVEL: ${safeLevel}
+THE LEARNER IS AT LEVEL: {{level}}
 Language rules for YOU:
-- ${complexityRule}
+- {{complexityRule}}
 - ALWAYS respond entirely in Croatian. Never switch to English in your replies.
 - If the learner writes in English, respond in Croatian and gently add: (Pokušaj na hrvatskom! — Try in Croatian!)
 - If the learner makes a grammar error, seamlessly use the correct form in your next sentence without commenting.
 - Be warm, in-character, and always end with a natural follow-up question to keep conversation flowing.
-- Stay completely in character. Do not explain grammar or break the fourth wall.${weakAreasText}${masteredText}`;
-}
+- Stay completely in character. Do not explain grammar or break the fourth wall.{{#if weakAreas}}
+The learner struggles with: {{weakAreas}}. Naturally weave opportunities to practice these into the conversation — e.g. ask questions that require them to use dative case, or construct sentences that invite past tense responses. Never comment on their grammar; just model correct usage in your own speech.{{/if}}{{#if mastered}}
+The learner has mastered: {{mastered}}. You can use these confidently in your speech.{{/if}}`,
+  { alsoVersion: { ...AC_ADAPTIVE_RULES } },
+);
 
-function buildNewsSimplifyPrompt(params) {
-  const level = sanitizeLevel(params?.level);
-  const title = sanitizeParam(params?.title || '', 200);
-  const original = sanitizeParam(params?.original || '', 1000);
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  const complexity = {
-    A1: 'Use ONLY the 500 most common Croatian words. Maximum 8 words per sentence. Present tense only. No subordinate clauses.',
-    A2: 'Simple vocabulary (top 1000 Croatian words). Short sentences (max 12 words). Present tense mostly. One subordinate clause max.',
-    B1: 'Conversational Croatian. 15-word sentences max. All tenses allowed. Some compound sentences. Common idioms OK.',
-    B2: 'Natural Croatian. Full complexity of the original, but simplify any bureaucratic or highly technical language.',
-    C1: 'Keep close to original Croatian. Simplify only jargon or highly specialized terms.',
-  };
+const AC_NEWS_RULES = {
+  A1: 'Use ONLY the 500 most common Croatian words. Maximum 8 words per sentence. Present tense only. No subordinate clauses.',
+  A2: 'Simple vocabulary (top 1000 Croatian words). Short sentences (max 12 words). Present tense mostly. One subordinate clause max.',
+  B1: 'Conversational Croatian. 15-word sentences max. All tenses allowed. Some compound sentences. Common idioms OK.',
+  B2: 'Natural Croatian. Full complexity of the original, but simplify any bureaucratic or highly technical language.',
+  C1: 'Keep close to original Croatian. Simplify only jargon or highly specialized terms.',
+};
+const AC_NEWS = definePrompt(
+  'ai-chat-news-simplify',
+  `You are a Croatian language teacher simplifying a news article for a language learner at CEFR level {{level}}.
 
-  const complexityRule = complexity[safeLevel] || complexity['B1'];
+Original article title: {{title}}
+Original text: {{original}}
 
-  return `You are a Croatian language teacher simplifying a news article for a language learner at CEFR level ${safeLevel}.
-
-Original article title: ${title}
-Original text: ${original}
-
-Simplification rules: ${complexityRule}
+Simplification rules: {{complexityRule}}
 
 Return ONLY valid JSON (no markdown):
 {
@@ -443,16 +393,14 @@ Return ONLY valid JSON (no markdown):
   "summary_one_sentence": {"hr": "one Croatian sentence summarizing the story", "en": "English"}
 }
 
-Include 6-8 key vocabulary items. Keep the simplified text accurate to the original facts.`;
-}
+Include 6-8 key vocabulary items. Keep the simplified text accurate to the original facts.`,
+  { alsoVersion: { ...AC_NEWS_RULES } },
+);
 
-function buildPostcardCoachPrompt(params) {
-  const city = sanitizeParam(params?.city || 'Croatia', 50);
-  const level = sanitizeLevel(params?.level);
-  const user_name = sanitizeParam(params?.user_name || '', 50);
-  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
-  return `You are a warm, encouraging Croatian language teacher helping a student write a postcard from ${city}.
-The student is at CEFR level ${safeLevel}.${user_name ? ` Their name is ${user_name}.` : ''}
+const AC_POSTCARD = definePrompt(
+  'ai-chat-postcard',
+  `You are a warm, encouraging Croatian language teacher helping a student write a postcard from {{city}}.
+The student is at CEFR level {{level}}.{{#if userName}} Their name is {{userName}}.{{/if}}
 
 Evaluate their Croatian postcard message and provide corrections.
 
@@ -467,10 +415,204 @@ Return ONLY valid JSON (no markdown):
   "local_touch": "1 sentence: a suggestion to make it feel more authentically Croatian (cultural detail, local expression)",
   "encouragement": "warm, personal encouragement in Croatian (use their name if provided)",
   "alternative_closing": "a beautiful Croatian postcard closing phrase they could use",
-  "scene_description": "2-3 sentence vivid description of ${city} to use as image prompt for AI art generation: golden hour light, specific architectural details, atmosphere"
+  "scene_description": "2-3 sentence vivid description of {{city}} to use as image prompt for AI art generation: golden hour light, specific architectural details, atmosphere"
 }
 
-Max 5 changes. Be encouraging — postcard writing is joyful!`;
+Max 5 changes. Be encouraging — postcard writing is joyful!`,
+);
+
+function buildConvoPrompt(params) {
+  const rawLevel = params?.level;
+  const rawName = params?.aiName;
+  const rawRole = params?.aiRole;
+  const rawCtx = params?.context;
+  const level = sanitizeLevel(rawLevel);
+  const aiName = sanitizeParam(rawName || 'Maja', 50);
+  const aiRole = sanitizeParam(rawRole || 'native speaker', 80);
+  const context = sanitizeParam(rawCtx || '', 300);
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+
+  const complexityRule = AC_CONVO_RULES[safeLevel] || AC_CONVO_RULES['B1'];
+  return renderPrompt(AC_CONVO, {
+    level: safeLevel,
+    aiName,
+    aiRole,
+    context,
+    complexityRule,
+  });
+}
+
+function buildEvalPrompt(params) {
+  const level = sanitizeLevel(params?.level);
+  const scenarioTitle = sanitizeParam(params?.scenarioTitle || 'Croatian conversation', 100);
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+  return renderPrompt(AC_EVAL, {
+    level: safeLevel,
+    scenarioTitle,
+  });
+}
+
+function buildCorrectPrompt() {
+  return renderPrompt(AC_CORRECT);
+}
+
+function buildWriteEvalPrompt(params) {
+  const { level = 'B1', writingPrompt = 'Write about yourself in Croatian' } = params;
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+  return renderPrompt(AC_WRITEEVAL, {
+    level: safeLevel,
+    writingPrompt,
+  });
+}
+
+function buildTranslatePrompt() {
+  return renderPrompt(AC_TRANSLATE);
+}
+
+function buildWordAnalyzePrompt() {
+  return renderPrompt(AC_WORDANALYZE);
+}
+
+function buildHintPrompt() {
+  return renderPrompt(AC_HINT);
+}
+
+function buildExplainPrompt(params) {
+  const { level = 'A2' } = params || {};
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'A2';
+  return renderPrompt(AC_EXPLAIN, {
+    level: safeLevel,
+  });
+}
+
+function buildStoryPrompt(params) {
+  const city = sanitizeParam(params?.city || 'Zagreb', 50);
+  const region = sanitizeParam(params?.region || 'Croatia', 50);
+  const level = sanitizeLevel(params?.level);
+  const character_name = sanitizeParam(params?.character_name || 'Marko', 40);
+  const goal_theme = params?.goal_theme ? sanitizeParam(params.goal_theme, 120) : null;
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+
+  const complexityRule = AC_STORY_RULES[safeLevel] || AC_STORY_RULES['B1'];
+  return renderPrompt(AC_STORY, {
+    level: safeLevel,
+    city,
+    region,
+    characterName: character_name,
+    goalTheme: goal_theme,
+    complexityRule,
+  });
+}
+
+function buildHeritagePrompt(params) {
+  const region = sanitizeParam(params?.region || 'Croatia', 50);
+  const family_notes = sanitizeParam(params?.family_notes || '', 400);
+  const user_name = sanitizeParam(params?.user_name || 'you', 50);
+  const ancestor_era = sanitizeParam(params?.ancestor_era || 'early 20th century', 80);
+  return renderPrompt(AC_HERITAGE, {
+    region,
+    userName: user_name,
+    ancestorEra: ancestor_era,
+    familyNotes: family_notes || 'No specific details provided',
+  });
+}
+
+function buildPhraseOfDayPrompt(params) {
+  const category = sanitizeCategory(params?.category);
+  const level = sanitizeLevel(params?.level);
+  const seed = sanitizeParam(params?.seed || '', 20);
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+
+  const catDesc = AC_PHRASE_CATS[category] || AC_PHRASE_CATS['greeting'];
+
+  return renderPrompt(AC_PHRASE, {
+    level: safeLevel,
+    category,
+    seed,
+    categoryDesc: catDesc,
+  });
+}
+
+function buildAdaptiveConvoPrompt(params) {
+  const level = sanitizeLevel(params?.level);
+  const aiName = sanitizeParam(params?.aiName || 'Maja', 50);
+  const aiRole = sanitizeParam(params?.aiRole || 'native speaker', 80);
+  const context = sanitizeParam(params?.context || '', 300);
+  const weak_areas = Array.isArray(params?.weak_areas)
+    ? params.weak_areas.slice(0, 5).map((a) => sanitizeParam(String(a), 50))
+    : [];
+  const topics_mastered = Array.isArray(params?.topics_mastered)
+    ? params.topics_mastered.slice(0, 10).map((t) => sanitizeParam(String(t), 50))
+    : [];
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+
+  const complexityRule = AC_ADAPTIVE_RULES[safeLevel] || AC_ADAPTIVE_RULES['B1'];
+
+  return renderPrompt(AC_ADAPTIVE, {
+    level: safeLevel,
+    aiName,
+    aiRole,
+    context,
+    complexityRule,
+    weakAreas: weak_areas.join(', '),
+    mastered: topics_mastered.slice(0, 5).join(', '),
+  });
+}
+
+function buildNewsSimplifyPrompt(params) {
+  const level = sanitizeLevel(params?.level);
+  const title = sanitizeParam(params?.title || '', 200);
+  const original = sanitizeParam(params?.original || '', 1000);
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+
+  const complexityRule = AC_NEWS_RULES[safeLevel] || AC_NEWS_RULES['B1'];
+
+  return renderPrompt(AC_NEWS, {
+    level: safeLevel,
+    title,
+    original,
+    complexityRule,
+  });
+}
+
+function buildPostcardCoachPrompt(params) {
+  const city = sanitizeParam(params?.city || 'Croatia', 50);
+  const level = sanitizeLevel(params?.level);
+  const user_name = sanitizeParam(params?.user_name || '', 50);
+  const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
+  return renderPrompt(AC_POSTCARD, {
+    level: safeLevel,
+    city,
+    userName: user_name,
+  });
+}
+
+/**
+ * Which registered prompt a mode uses. Mirrors the switch below deliberately:
+ * the response tag must name the mode that ACTUALLY ran, so a regression in the
+ * story generator is not attributed to the translator. Modes with no prompt
+ * (default: null) get no tag, which is correct — nothing was generated.
+ */
+const MODE_PROMPTS = {
+  convo: AC_CONVO,
+  chat: AC_CONVO,
+  adaptive_convo: AC_ADAPTIVE,
+  evaluate: AC_EVAL,
+  correct: AC_CORRECT,
+  writeeval: AC_WRITEEVAL,
+  translate: AC_TRANSLATE,
+  wordanalyze: AC_WORDANALYZE,
+  hint: AC_HINT,
+  explain: AC_EXPLAIN,
+  story: AC_STORY,
+  heritage: AC_HERITAGE,
+  phrase_of_day: AC_PHRASE,
+  news_simplify: AC_NEWS,
+  postcard: AC_POSTCARD,
+};
+
+function promptForMode(mode) {
+  return MODE_PROMPTS[mode];
 }
 
 function buildSystemPrompt(mode, params) {
@@ -668,10 +810,10 @@ export async function onRequestPost(context) {
       const parsed = JSON.parse(rawClean);
       return new Response(JSON.stringify({ ...parsed, _raw: raw, model: MODEL }), {
         status: 200,
-        headers: corsHeaders(origin),
+        headers: { ...corsHeaders(origin), ...promptHeaders(promptForMode(mode)) },
       });
     } catch {
-      return ok({ text: raw, model: MODEL }, origin);
+      return ok({ text: raw, model: MODEL }, origin, promptHeaders(promptForMode(mode)));
     }
   }
 
@@ -779,5 +921,5 @@ export async function onRequestPost(context) {
     return err(500, 'AI service returned an empty response', origin);
   }
 
-  return ok({ text, model: MODEL }, origin);
+  return ok({ text, model: MODEL }, origin, promptHeaders(promptForMode(mode)));
 }
