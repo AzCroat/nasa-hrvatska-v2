@@ -3,6 +3,23 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+
+// Was uninstrumentable until renderPrompt learned {{#if}}: two of these lines
+// only appear sometimes, and a flat template cannot say "sometimes". Both
+// clauses now live INSIDE the versioned text.
+const FLASH_CONTEXT_PROMPT = definePrompt(
+  'flash-context',
+  `You are a Croatian language teacher creating rich flashcard context.
+Word: {{word}} ({{meaning}})
+Level: {{level}}
+Complexity guidance: {{complexity}}
+Times missed: {{missCount}}
+{{#if frequentlyMissed}}This word is frequently missed — make examples especially memorable and add a mnemonic.{{/if}}
+{{#if learnerErrors}}Learner struggles with: {{learnerErrors}}. Incorporate these patterns in examples.{{/if}}
+
+Return ONLY valid JSON, no markdown.`,
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -10,7 +27,11 @@ const MODEL = 'claude-haiku-4-5-20251001';
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(FLASH_CONTEXT_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -103,15 +124,15 @@ export async function onRequestPost(context) {
     : [];
 
   // ── Build prompts ──
-  const systemPrompt = `You are a Croatian language teacher creating rich flashcard context.
-Word: ${safeWord} (${safeMeaning})
-Level: ${safeLevel}
-Complexity guidance: ${complexityNote[safeLevel] || complexityNote['B1']}
-Times missed: ${safeMissCount}
-${safeMissCount > 2 ? 'This word is frequently missed — make examples especially memorable and add a mnemonic.' : ''}
-${safeLearnerErrors.length > 0 ? 'Learner struggles with: ' + safeLearnerErrors.join(', ') + '. Incorporate these patterns in examples.' : ''}
-
-Return ONLY valid JSON, no markdown.`;
+  const systemPrompt = renderPrompt(FLASH_CONTEXT_PROMPT, {
+    word: safeWord,
+    meaning: safeMeaning,
+    level: safeLevel,
+    complexity: complexityNote[safeLevel] || complexityNote['B1'],
+    missCount: safeMissCount,
+    frequentlyMissed: safeMissCount > 2,
+    learnerErrors: safeLearnerErrors.length > 0 ? safeLearnerErrors.join(', ') : '',
+  });
 
   const userMessage =
     `Create two different example sentences in Croatian for the word '${safeWord}'. ` +

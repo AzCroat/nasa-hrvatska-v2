@@ -483,11 +483,11 @@ now have identity. Pinned by `promptRegistry.test.js`.
      reason. A test fails if one is quietly instrumented without being moved.
 - **Why the remaining 11 are not done**, so nobody re-derives it:
   - **Branching assembly** (`ai-chat`, `conversation`, `conversational-tutor`,
-    `flash-context`, `maja`, `maja-debrief`): these build prompts with
-    conditionals — `ai-chat` alone has 14 mode builders. A flat template cannot
-    say "include this clause only sometimes". Instrumenting them needs
-    conditional support in `renderPrompt`; that is its own task, not a drive-by
-    on the busiest AI endpoint in the app.
+    `maja`, `maja-debrief`): the blocker is no longer the template language —
+    `renderPrompt` supports `{{#if}}` as of 2026-08-22 — it is SIZE. `ai-chat`
+    alone routes 14 mode builders, each its own authored prompt. Mechanical but
+    large; convert one endpoint at a time. `flash-context` came off this list
+    first as the smallest proof the conditional support works.
   - **Multi-prompt** (`golden-calibration`): runs BOTH registered evaluators in
     one dispatch. One `id@version` header cannot say which produced the
     response, and guessing would be worse than saying nothing.
@@ -497,10 +497,21 @@ now have identity. Pinned by `promptRegistry.test.js`.
   CURRENT prompt version would attribute old text to a new prompt — a lie inside
   the exact report this exists to make trustworthy. Instrumenting them means
   storing the version alongside the cached body, not adding a header.
-- **One known gap, recorded in the code**: `photo-vocab`'s optional "Context
-  hint:" clause is conditional, so its wording lives at the call site OUTSIDE
-  the versioned template and an edit to THOSE words will not move the version.
-  The comment there says so. Same root cause as the branching group above.
+- **Conditional sections** (`{{#if name}}…{{else}}…{{/if}}`, nesting allowed):
+  what let branching prompts be versioned at all. Rules that keep it honest:
+  - **Conditionals resolve BEFORE substitution**, and only ever remove or keep
+    authored text — they never insert a value. So a learner's text can never
+    reach the parser, open a block, or close one it sits inside. Do not reorder
+    these two passes; tests pin it.
+  - **An empty array is ABSENT.** Prompts branch on lists constantly ("if they
+    have recent errors, mention them"), and a truthy `[]` would emit a sentence
+    promising context that is not there. `0` and `''` are absent too, per JS.
+  - **A missing key is absent and does NOT warn** — for a conditional, "not
+    provided" legitimately means "absent". That differs from a missing
+    `{{name}}`, which leaves a visible hole and warns.
+  - **Malformed templates throw in `definePrompt`**, at module load, like a
+    duplicate id — never at request time, which would ship a broken prompt to a
+    learner before anyone noticed.
 
 ## Critical Architecture: Speech Endpointing (owner directive, 2026-08-08)
 
