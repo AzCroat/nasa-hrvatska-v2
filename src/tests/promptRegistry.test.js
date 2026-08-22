@@ -256,6 +256,7 @@ describe('definePrompt — alsoVersion (authored text the template SELECTS)', ()
       'api/flash-context.js',
       'api/conversational-tutor.js',
       'api/conversation.js',
+      'api/maja.js',
     ]) {
       expect(fnSrc(f), `${f} selects authored text by key — it must pass alsoVersion`).toContain(
         'alsoVersion',
@@ -455,6 +456,7 @@ describe('prompt instrumentation coverage', () => {
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
+    '/api/maja',
     '/api/maja-debrief',
     '/api/micro-lesson',
     '/api/photo-vocab',
@@ -495,7 +497,6 @@ describe('prompt instrumentation coverage', () => {
     // combination against the old builder; that is what makes it slow and what
     // makes it safe.
     '/api/ai-chat',
-    '/api/maja',
     // Runs BOTH registered evaluator prompts in one dispatch. A single
     // `id@version` header cannot say which produced the response, and guessing
     // would be worse than saying nothing.
@@ -524,11 +525,23 @@ describe('prompt instrumentation coverage', () => {
     for (const path of INSTRUMENTED) {
       const src = fnSrc(`api/${path.replace('/api/', '')}.js`);
       expect(src, `${path} must import promptHeaders`).toContain('promptHeaders');
-      // Two call shapes are legitimate: spread into a locally-built headers
-      // object, or passed as the shared ok() helper's third argument. Both must
-      // name a REGISTERED prompt const, which is what this pins.
+      // Three call shapes are legitimate: spread into a locally-built headers
+      // object, passed as the shared ok() helper's third argument, or — where
+      // the endpoint picks its prompt at RUNTIME, as maja does per persona — a
+      // resolver call. All must pass something; promptHeaders() with no
+      // argument silently emits no header at all.
+      // Either a REGISTERED prompt const, or — where the endpoint picks its
+      // prompt at runtime, as maja does per persona — a resolver CALL. A bare
+      // lowercase identifier is excluded on purpose: that is the shape of the
+      // local `ok(body, origin, prompt)` helper's own parameter, and matching
+      // it would let an endpoint that never passes a prompt pass this test.
       expect(src, `${path} must apply promptHeaders to a response`).toMatch(
-        /promptHeaders\([A-Z][A-Z0-9_]*\)/,
+        /promptHeaders\(\s*(?:[A-Z][A-Z0-9_]*|[a-z][A-Za-z0-9_]*\()/,
+      );
+      // ...and the something must be a prompt this file actually registered or
+      // imported, so the shape above cannot be satisfied by an unrelated local.
+      expect(src, `${path} must register or import a prompt`).toMatch(
+        /definePrompt\(|_PROMPT[,}\s]|PROMPT \}/,
       );
     }
   });
