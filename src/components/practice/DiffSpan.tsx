@@ -46,7 +46,15 @@ const STYLES = {
   original: {
     color: '#c0392b',
     textDecoration: 'line-through' as const,
-    opacity: 0.85,
+    // NO opacity here. It used to be 0.85, which axe-core 4.13 correctly
+    // flagged as a serious WCAG 2.1 AA failure: axe blends the foreground
+    // against the background by element opacity, so #c0392b at 0.85 over white
+    // is really #c9574b — 4.24:1, under the 4.5:1 minimum. At full opacity it
+    // is 5.44:1. (axe 4.12 scored the unblended colour and missed it, so this
+    // shipped to learners for a while.) The de-emphasis the opacity was for is
+    // already carried by the strikethrough and the semantic <del>. If you want
+    // this text fainter, darken the colour instead of fading it, and check the
+    // BLENDED result clears 4.5:1.
     marginRight: 4,
   },
   corrected: {
