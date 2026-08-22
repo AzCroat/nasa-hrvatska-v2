@@ -21,6 +21,7 @@
 // Key values are NEVER included in the response.
 
 import { isAllowedOrigin } from './_helpers.js';
+import { PUSH_RUN_LAST_KEY } from '../_pushRunLog.js';
 
 function healthCorsHeaders(origin) {
   return {
@@ -74,7 +75,19 @@ export async function onRequestGet(context) {
   // Push delivery markers (streak-push.js) — timestamps + last push-service
   // status only, never counts. lastDeliveredAt non-null = a push service has
   // accepted at least one signed reminder since VAPID provisioning.
-  let pushDelivery = { lastAttemptAt: null, lastDeliveredAt: null, lastStatus: null };
+  //
+  // lastRunAt is the scheduled worker's heartbeat (functions/_pushRunLog.js):
+  // it moves every hourly run whether or not anyone was due, so it is the only
+  // one of these that separates "cron dead" from "nobody due". The COUNTS in
+  // that record stay out of here deliberately — they are a proxy for how many
+  // people use the app, and this endpoint is origin-gated, not authenticated.
+  // /api/push-health serves them behind the cron secret.
+  let pushDelivery = {
+    lastAttemptAt: null,
+    lastDeliveredAt: null,
+    lastStatus: null,
+    lastRunAt: null,
+  };
   try {
     const kv = env.BACKUP_KV || env.KV || env.PUSH_SUBSCRIPTIONS || null;
     if (kv) {
@@ -89,6 +102,8 @@ export async function onRequestGet(context) {
       pushDelivery.lastAttemptAt = (await kv.get('push:lastAttemptAt')) || null;
       pushDelivery.lastDeliveredAt = (await kv.get('push:lastDeliveredAt')) || null;
       pushDelivery.lastStatus = (await kv.get('push:lastStatus')) || null;
+      const lastRun = JSON.parse((await kv.get(PUSH_RUN_LAST_KEY)) || 'null');
+      pushDelivery.lastRunAt = lastRun?.at || null;
     }
   } catch {
     /* health must never fail because a status read did */
