@@ -4,6 +4,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -29,24 +30,23 @@ function detectConfusion(text) {
   return confusionPhrases.test(text);
 }
 
-function buildSystemPrompt(params) {
-  const { level, topic, persona, breakdownCount, sessionHistory } = params;
+const LEVEL_RULES = {
+  A1: 'Use ONLY the 500 most common Croatian words. Maximum 6-8 words per sentence. Present tense only. Very simple vocabulary.',
+  A2: 'Use common Croatian vocabulary (top 1000 words). Maximum 12 words per sentence. Present tense primarily, some past tense (perfekt).',
+  B1: 'Use natural Croatian with some complex structures. Multiple tenses. Include some idioms.',
+  B2: 'Speak naturally as you would to an educated Croatian speaker. Full range of grammar and vocabulary.',
+};
 
-  const levelRules = {
-    A1: 'Use ONLY the 500 most common Croatian words. Maximum 6-8 words per sentence. Present tense only. Very simple vocabulary.',
-    A2: 'Use common Croatian vocabulary (top 1000 words). Maximum 12 words per sentence. Present tense primarily, some past tense (perfekt).',
-    B1: 'Use natural Croatian with some complex structures. Multiple tenses. Include some idioms.',
-    B2: 'Speak naturally as you would to an educated Croatian speaker. Full range of grammar and vocabulary.',
-  };
+const TUTOR_PROMPT = definePrompt(
+  'conversational-tutor',
+  `You are {{personaName}}, a native Croatian speaker from {{personaCity}}. {{personaDescription}}
 
-  return `You are ${persona?.name || 'Marija'}, a native Croatian speaker from ${persona?.city || 'Split'}. ${persona?.description || 'You are warm, patient, and love helping people learn Croatian.'}
+You are having a structured conversation lesson with a Croatian learner at CEFR level {{level}}.
 
-You are having a structured conversation lesson with a Croatian learner at CEFR level ${level}.
+CURRENT TOPIC: {{topic}}
 
-CURRENT TOPIC: ${topic || 'Free conversation practice'}
-
-LANGUAGE RULES FOR ${level}:
-${levelRules[level] || levelRules.B1}
+LANGUAGE RULES FOR {{level}}:
+{{levelRules}}
 
 CONVERSATION RULES:
 1. Speak primarily in Croatian. Use English ONLY when breakdownCount >= 3 OR user explicitly says they don't understand.
@@ -55,9 +55,9 @@ CONVERSATION RULES:
 4. If the learner makes a grammar error, naturally use the correct form in your reply (implicit correction). Don't say "that's wrong."
 5. If the learner struggles with the same concept 3+ times, explain it simply in English with an example, then return to Croatian.
 
-CURRENT BREAKDOWN COUNT: ${breakdownCount}/3 (if this reaches 3, explain in English)
+CURRENT BREAKDOWN COUNT: {{breakdownCount}}/3 (if this reaches 3, explain in English)
 
-${sessionHistory ? `SESSION CONTEXT: ${sessionHistory}` : ''}
+{{#if sessionHistory}}SESSION CONTEXT: {{sessionHistory}}{{/if}}
 
 RESPOND WITH VALID JSON ONLY:
 {
@@ -67,7 +67,24 @@ RESPOND WITH VALID JSON ONLY:
   "scaffold_action": "none | simplify | repeat | explain_english | celebrate",
   "comprehension_prompt": "A simple question asking learner to respond in Croatian (required, in Croatian)",
   "internal_note": "What you noticed about the learner's Croatian (for session memory)"
-}`;
+}`,
+  { alsoVersion: LEVEL_RULES },
+);
+
+function buildSystemPrompt(params) {
+  const { level, topic, persona, breakdownCount, sessionHistory } = params;
+
+  return renderPrompt(TUTOR_PROMPT, {
+    personaName: persona?.name || 'Marija',
+    personaCity: persona?.city || 'Split',
+    personaDescription:
+      persona?.description || 'You are warm, patient, and love helping people learn Croatian.',
+    level,
+    topic: topic || 'Free conversation practice',
+    levelRules: LEVEL_RULES[level] || LEVEL_RULES.B1,
+    breakdownCount,
+    sessionHistory,
+  });
 }
 
 export async function onRequestOptions({ request }) {
@@ -265,7 +282,11 @@ export async function onRequestPost(context) {
       }),
       {
         status: 200,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders(origin),
+          ...promptHeaders(TUTOR_PROMPT),
+        },
       },
     );
   } catch (e) {

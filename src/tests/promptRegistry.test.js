@@ -210,6 +210,56 @@ describe('renderPrompt — {{#if}} blocks', () => {
   });
 });
 
+describe('definePrompt — alsoVersion (authored text the template SELECTS)', () => {
+  // Several prompts pick their wording out of a lookup table by key — per-level
+  // rule sets, persona blurbs — and pass the chosen string in as a value. That
+  // text is authored, but it is not IN the template, so without this the prompt
+  // looked fully instrumented while an edit to "use only the 300 most common
+  // Croatian words" moved no version at all. Exactly the hole photo-vocab was
+  // in, one level up.
+
+  it('an edit to the selected text moves the version', () => {
+    const a = definePrompt('salt-a', 'BODY {{rules}}', { alsoVersion: { A1: 'one' } });
+    const b = definePrompt('salt-b', 'BODY {{rules}}', { alsoVersion: { A1: 'two' } });
+    expect(a.version).not.toBe(b.version);
+  });
+
+  it('leaves the RENDERED prompt untouched — versioning only', () => {
+    const p = definePrompt('salt-render', 'BODY {{rules}}', { alsoVersion: { A1: 'x' } });
+    expect(p.text).toBe('BODY {{rules}}');
+    expect(renderPrompt(p, { rules: 'chosen' })).toBe('BODY chosen');
+  });
+
+  it('omitting it hashes exactly as before, so existing versions are undisturbed', () => {
+    const p = definePrompt('salt-none', 'BODY');
+    expect(p.version).toBe(promptHash('BODY'));
+  });
+
+  it('is order-insensitive — a reordered literal is not an edit', () => {
+    const a = definePrompt('salt-ord-a', 'B', { alsoVersion: { A1: 'x', A2: 'y' } });
+    const b = definePrompt('salt-ord-b', 'B', { alsoVersion: { A2: 'y', A1: 'x' } });
+    expect(a.version).toBe(b.version);
+  });
+
+  it('accepts a string or an array too', () => {
+    expect(definePrompt('salt-str', 'B', { alsoVersion: 'x' }).version).not.toBe(
+      definePrompt('salt-str2', 'B', { alsoVersion: 'y' }).version,
+    );
+    expect(definePrompt('salt-arr', 'B', { alsoVersion: ['x'] }).version).not.toBe(
+      definePrompt('salt-arr2', 'B', { alsoVersion: ['y'] }).version,
+    );
+  });
+
+  it('the endpoints with lookup tables actually use it', () => {
+    // Guard against the next such table being added without being versioned.
+    for (const f of ['api/flash-context.js', 'api/conversational-tutor.js']) {
+      expect(fnSrc(f), `${f} selects authored text by key — it must pass alsoVersion`).toContain(
+        'alsoVersion',
+      );
+    }
+  });
+});
+
 describe('definePrompt — template validation', () => {
   it('rejects an unclosed {{#if}} at DEFINE time, not request time', () => {
     // A typo in authored text should fail at module load, like a duplicate id.
@@ -391,6 +441,7 @@ describe('prompt instrumentation coverage', () => {
   const INSTRUMENTED = [
     '/api/adaptive-insights',
     '/api/assess-speaking',
+    '/api/conversational-tutor',
     '/api/correct',
     '/api/daily-plan',
     '/api/dialogue',
@@ -399,6 +450,7 @@ describe('prompt instrumentation coverage', () => {
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
+    '/api/maja-debrief',
     '/api/micro-lesson',
     '/api/photo-vocab',
     '/api/pronunciation-coach',
@@ -429,13 +481,17 @@ describe('prompt instrumentation coverage', () => {
     // each its own authored prompt; conversation/conversational-tutor/maja
     // build theirs in multi-branch helper functions. Converting them is
     // mechanical but large, and each one is a separate prompt id to get right.
-    // flash-context came off this list first as the smallest proof the
-    // conditional support works. These are next, one endpoint at a time.
+    // Being worked through one endpoint at a time, smallest first:
+    // flash-context, then maja-debrief and conversational-tutor. What is left
+    // is the bulk — conversation is one 250-line builder that precomputes
+    // authored prose into locals (that text has to move INTO the template, not
+    // just its slots), maja has six persona builders, ai-chat fourteen mode
+    // builders. Each conversion is verified by diffing every parameter
+    // combination against the old builder; that is what makes it slow and what
+    // makes it safe.
     '/api/ai-chat',
     '/api/conversation',
-    '/api/conversational-tutor',
     '/api/maja',
-    '/api/maja-debrief',
     // Runs BOTH registered evaluator prompts in one dispatch. A single
     // `id@version` header cannot say which produced the response, and guessing
     // would be worse than saying nothing.

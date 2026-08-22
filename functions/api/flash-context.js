@@ -8,6 +8,15 @@ import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js'
 // Was uninstrumentable until renderPrompt learned {{#if}}: two of these lines
 // only appear sometimes, and a flat template cannot say "sometimes". Both
 // clauses now live INSIDE the versioned text.
+const complexityNote = {
+  A1: 'Use only present tense. Keep sentence structure simple SVO (subject-verb-object). Use only the most common everyday vocabulary.',
+  A2: 'Use only present tense. Keep sentence structure simple SVO. Vocabulary should be everyday and common.',
+  B1: 'May include past tense (perfekt) or near-future. Sentence structure can be slightly more varied.',
+  B2: 'Use richer sentence structure with connectives (jer, ali, iako, kad). All common tenses are appropriate.',
+  C1: 'Use complex sentence structure, subordinate clauses, and sophisticated vocabulary. All tenses and aspects are appropriate.',
+  C2: 'Use highly natural, idiomatic Croatian. Complex grammar, all tenses and aspects, rich vocabulary.',
+};
+
 const FLASH_CONTEXT_PROMPT = definePrompt(
   'flash-context',
   `You are a Croatian language teacher creating rich flashcard context.
@@ -19,6 +28,7 @@ Times missed: {{missCount}}
 {{#if learnerErrors}}Learner struggles with: {{learnerErrors}}. Incorporate these patterns in examples.{{/if}}
 
 Return ONLY valid JSON, no markdown.`,
+  { alsoVersion: complexityNote },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -50,15 +60,6 @@ function sanitizeLevel(level) {
 }
 
 // ── Complexity guidance by CEFR level ─────────────────────────────────────────
-
-const complexityNote = {
-  A1: 'Use only present tense. Keep sentence structure simple SVO (subject-verb-object). Use only the most common everyday vocabulary.',
-  A2: 'Use only present tense. Keep sentence structure simple SVO. Vocabulary should be everyday and common.',
-  B1: 'May include past tense (perfekt) or near-future. Sentence structure can be slightly more varied.',
-  B2: 'Use richer sentence structure with connectives (jer, ali, iako, kad). All common tenses are appropriate.',
-  C1: 'Use complex sentence structure, subordinate clauses, and sophisticated vocabulary. All tenses and aspects are appropriate.',
-  C2: 'Use highly natural, idiomatic Croatian. Complex grammar, all tenses and aspects, rich vocabulary.',
-};
 
 // ── Handler ───────────────────────────────────────────────────────────────────
 
