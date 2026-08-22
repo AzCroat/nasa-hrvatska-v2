@@ -63,10 +63,10 @@ export function corsHeaders(origin) {
   };
 }
 
-export function ok(data, origin) {
+export function ok(data, origin, extraHeaders) {
   return new Response(JSON.stringify(data), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin), ...extraHeaders },
   });
 }
 

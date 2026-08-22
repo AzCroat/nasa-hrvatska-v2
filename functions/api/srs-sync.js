@@ -4,13 +4,16 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam, ok, err } from './_helpers.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
 
 // ── System prompt ─────────────────────────────────────────────────────────────
 
-const SRS_SYSTEM_PROMPT = `Extract vocabulary and grammar patterns from this Croatian language learning conversation.
+const SRS_PROMPT = definePrompt(
+  'srs-sync',
+  `Extract vocabulary and grammar patterns from this Croatian language learning conversation.
 
 Return ONLY valid JSON:
 {
@@ -27,7 +30,9 @@ Focus on:
 - Words the learner used incorrectly or hesitated on
 - New words introduced by Maja that the learner should memorize
 - Grammar patterns where errors occurred
-- Limit to max 5 vocabulary items and 3 grammar gaps (most important only)`;
+- Limit to max 5 vocabulary items and 3 grammar gaps (most important only)`,
+);
+const SRS_SYSTEM_PROMPT = SRS_PROMPT.text;
 
 // ── Handler ───────────────────────────────────────────────────────────────────
 
@@ -180,5 +185,5 @@ export async function onRequestPost(context) {
   const sessionSummary =
     typeof parsed.sessionSummary === 'string' ? sanitizeParam(parsed.sessionSummary, 300) : '';
 
-  return ok({ vocabulary, grammarGaps, sessionSummary }, origin);
+  return ok({ vocabulary, grammarGaps, sessionSummary }, origin, promptHeaders(SRS_PROMPT));
 }

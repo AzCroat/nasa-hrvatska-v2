@@ -4,6 +4,12 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
+
+const COACH_PROMPT = definePrompt(
+  'pronunciation-coach',
+  'You are an expert Croatian pronunciation coach specializing in helping native English speakers. You give precise, phoneme-level feedback grounded in articulatory phonetics, always in plain English. Return ONLY valid JSON, no markdown fences.',
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -11,7 +17,11 @@ const MODEL = 'claude-haiku-4-5-20251001';
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(COACH_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -215,8 +225,7 @@ Return ONLY valid JSON (no markdown):
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 420,
-        system:
-          'You are an expert Croatian pronunciation coach specializing in helping native English speakers. You give precise, phoneme-level feedback grounded in articulatory phonetics, always in plain English. Return ONLY valid JSON, no markdown fences.',
+        system: COACH_PROMPT.text,
         messages: [{ role: 'user', content: userMsg }],
       }),
     });

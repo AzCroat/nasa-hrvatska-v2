@@ -4,6 +4,23 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
+import { definePrompt, promptHeaders } from './_promptRegistry.js';
+
+const SUMMARY_PROMPT = definePrompt(
+  'live-tutor-summary',
+  `You are Marija, a warm Croatian language tutor from Split. A student just finished a voice conversation session with you.
+
+Write a brief, encouraging session debrief. Be specific — reference what they actually talked about if possible. Speak as Marija directly (first person, warm, Croatian teacher voice).
+
+Return valid JSON only:
+{
+  "summary": "2-3 sentences from Marija about this specific session",
+  "strength": "one specific thing they did well",
+  "nextStep": "one concrete next step",
+  "xpEarned": number between 25-75 based on session length and engagement
+}
+No markdown.`,
+);
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,7 +40,11 @@ function sanitizeParam(value, maxLen = 200) {
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders(origin),
+      ...promptHeaders(SUMMARY_PROMPT),
+    },
   });
 }
 function err(status, msg, origin) {
@@ -115,18 +136,7 @@ export async function onRequestPost(context) {
   const xpHint = calcXp(safeDurationSecs, safeTurnCount);
 
   // ── Build prompts ─────────────────────────────────────────────────────────
-  const systemPrompt =
-    `You are Marija, a warm Croatian language tutor from Split. A student just finished a voice conversation session with you.\n\n` +
-    `Write a brief, encouraging session debrief. Be specific — reference what they actually talked about if possible. ` +
-    `Speak as Marija directly (first person, warm, Croatian teacher voice).\n\n` +
-    `Return valid JSON only:\n` +
-    `{\n` +
-    `  "summary": "2-3 sentences from Marija about this specific session",\n` +
-    `  "strength": "one specific thing they did well",\n` +
-    `  "nextStep": "one concrete next step",\n` +
-    `  "xpEarned": number between 25-75 based on session length and engagement\n` +
-    `}\n` +
-    `No markdown.`;
+  const systemPrompt = SUMMARY_PROMPT.text;
 
   const userMessage =
     `Session details:\n` +
