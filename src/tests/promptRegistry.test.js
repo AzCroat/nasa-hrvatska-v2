@@ -252,7 +252,11 @@ describe('definePrompt — alsoVersion (authored text the template SELECTS)', ()
 
   it('the endpoints with lookup tables actually use it', () => {
     // Guard against the next such table being added without being versioned.
-    for (const f of ['api/flash-context.js', 'api/conversational-tutor.js']) {
+    for (const f of [
+      'api/flash-context.js',
+      'api/conversational-tutor.js',
+      'api/conversation.js',
+    ]) {
       expect(fnSrc(f), `${f} selects authored text by key — it must pass alsoVersion`).toContain(
         'alsoVersion',
       );
@@ -441,6 +445,7 @@ describe('prompt instrumentation coverage', () => {
   const INSTRUMENTED = [
     '/api/adaptive-insights',
     '/api/assess-speaking',
+    '/api/conversation',
     '/api/conversational-tutor',
     '/api/correct',
     '/api/daily-plan',
@@ -490,7 +495,6 @@ describe('prompt instrumentation coverage', () => {
     // combination against the old builder; that is what makes it slow and what
     // makes it safe.
     '/api/ai-chat',
-    '/api/conversation',
     '/api/maja',
     // Runs BOTH registered evaluator prompts in one dispatch. A single
     // `id@version` header cannot say which produced the response, and guessing
