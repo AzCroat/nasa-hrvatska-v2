@@ -257,6 +257,7 @@ describe('definePrompt — alsoVersion (authored text the template SELECTS)', ()
       'api/conversational-tutor.js',
       'api/conversation.js',
       'api/maja.js',
+      'api/ai-chat.js',
     ]) {
       expect(fnSrc(f), `${f} selects authored text by key — it must pass alsoVersion`).toContain(
         'alsoVersion',
@@ -445,6 +446,7 @@ describe('prompt instrumentation coverage', () => {
   // Endpoints whose authored prompt now carries a version and tags its 200.
   const INSTRUMENTED = [
     '/api/adaptive-insights',
+    '/api/ai-chat',
     '/api/assess-speaking',
     '/api/conversation',
     '/api/conversational-tutor',
@@ -483,20 +485,6 @@ describe('prompt instrumentation coverage', () => {
   // only shrink; the tests below fail if an entry is quietly instrumented or a
   // claimed one is not.
   const KNOWN_UNINSTRUMENTED = [
-    // renderPrompt now supports {{#if}}, so the blocker here is no longer the
-    // template language — it is SIZE. ai-chat alone routes 14 mode builders,
-    // each its own authored prompt; conversation/conversational-tutor/maja
-    // build theirs in multi-branch helper functions. Converting them is
-    // mechanical but large, and each one is a separate prompt id to get right.
-    // Being worked through one endpoint at a time, smallest first:
-    // flash-context, then maja-debrief and conversational-tutor. What is left
-    // is the bulk — conversation is one 250-line builder that precomputes
-    // authored prose into locals (that text has to move INTO the template, not
-    // just its slots), maja has six persona builders, ai-chat fourteen mode
-    // builders. Each conversion is verified by diffing every parameter
-    // combination against the old builder; that is what makes it slow and what
-    // makes it safe.
-    '/api/ai-chat',
     // Runs BOTH registered evaluator prompts in one dispatch. A single
     // `id@version` header cannot say which produced the response, and guessing
     // would be worse than saying nothing.
