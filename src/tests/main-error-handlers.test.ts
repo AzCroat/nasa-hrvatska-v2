@@ -127,6 +127,86 @@ describe('downgradeEnvironmentalIdbEvent', () => {
     downgradeEnvironmentalIdbEvent(event);
     expect(event.level).toBe('info');
   });
+
+  // ── "Database is closing" family (production alert, 2026-08-22) ────────────
+  // Two high-priority events landed in the same second — one user, one
+  // page-hide. The IDB connection is torn down while a Firebase write is still
+  // in flight, which is what backgrounding the app looks like from inside
+  // _openDb. Firebase falls back to network/localStorage and localStorage is
+  // authoritative for progress here, so the user loses nothing and sees
+  // nothing. Non-actionable, but it was paging at full severity.
+  it('downgrades the page-hide "Database is closing" error', () => {
+    const event = {
+      level: 'error',
+      exception: { values: [{ value: 'InvalidStateError: Database is closing' }] },
+    };
+    const out = downgradeEnvironmentalIdbEvent(event);
+    expect(out.level).toBe('info');
+    expect(out.fingerprint).toEqual(['environmental-indexeddb-closing']);
+  });
+
+  it('downgrades the "connection is closing" wording too', () => {
+    const event = {
+      level: 'error',
+      exception: { values: [{ value: 'The connection is closing.' }] },
+    };
+    expect(downgradeEnvironmentalIdbEvent(event).level).toBe('info');
+  });
+
+  it('fingerprints the two families SEPARATELY', () => {
+    // One shared group would hide a spike in either. A jump in 'closing' means
+    // our unload/flush timing changed; a jump in 'server' means devices are
+    // failing. Different causes, different responses.
+    const server = {
+      level: 'error',
+      exception: { values: [{ value: 'Indexed Database server' }] },
+    };
+    const closing = { level: 'error', exception: { values: [{ value: 'Database is closing' }] } };
+    const a = downgradeEnvironmentalIdbEvent(server).fingerprint;
+    const b = downgradeEnvironmentalIdbEvent(closing).fingerprint;
+    expect(a).not.toEqual(b);
+    // The pre-existing group keeps its name so its history/baseline survives.
+    expect(a).toEqual(['environmental-indexeddb-server-error']);
+  });
+
+  it('still pages at full severity for ACTIONABLE IndexedDB errors', () => {
+    // The whole value of a narrow match: these mean OUR code or quota is wrong,
+    // and must never be swept into the environmental bucket.
+    for (const value of [
+      'QuotaExceededError: The quota has been exceeded.',
+      'VersionError: The requested version is less than the existing version.',
+      'ConstraintError: Key already exists in the object store.',
+      'NotFoundError: object store not found',
+    ]) {
+      const event = { level: 'error', exception: { values: [{ value }] } };
+      const out = downgradeEnvironmentalIdbEvent(event);
+      expect(out.level, value).toBe('error');
+      expect(out.fingerprint, value).toBeUndefined();
+    }
+  });
+
+  it('does not match a mere mention of closing something unrelated', () => {
+    const event = {
+      level: 'error',
+      exception: { values: [{ value: 'TypeError: closing tag expected' }] },
+    };
+    expect(downgradeEnvironmentalIdbEvent(event).level).toBe('error');
+  });
+});
+
+// ── The client matcher and the server ignore-list must not drift ────────────
+describe('report-error.js stays in sync with idbTelemetry', () => {
+  it('the server ignore-list carries every client-side environmental pattern', async () => {
+    const { readFileSync } = await import('node:fs');
+    const src = readFileSync('functions/api/report-error.js', 'utf8');
+    for (const pattern of [
+      'indexed database server',
+      'database is closing',
+      'connection is closing',
+    ]) {
+      expect(src, `report-error.js must ignore "${pattern}"`).toContain(`'${pattern}'`);
+    }
+  });
 });
 
 describe('_isStaleBindingError', () => {
