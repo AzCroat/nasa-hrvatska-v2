@@ -3,6 +3,8 @@
 // Authentication: x-cron-secret header must match env.CRON_SECRET (set in Cloudflare dashboard).
 // Called by the scheduled Cloudflare Worker defined in functions/scheduled.js.
 
+import { classifyPushFailure } from '../_pushFailure.js';
+
 // Deterministic variant picker — uses (streak + seed) % length so the same
 // user gets a different message each day without needing localStorage in a Worker.
 function pickIdx(arr, seed) {
@@ -459,25 +461,35 @@ export async function onRequestPost({ request, env }) {
 
   const notification = buildNotification(name, streak, 0, daysSince);
 
-  try {
-    const status = await sendWebPush(subscription, notification, env);
-
-    // Delivery observability (2026-08-14, VAPID re-provisioning): timestamps
-    // + last push-service status only — never counts (user-count disclosure)
-    // and never endpoints. `push:lastDeliveredAt` flips on the first 2xx from
-    // a push service, which is the provable "the reminder actually delivered"
-    // boundary; surfaced by /api/health next to the backup markers.
+  // Delivery observability (2026-08-14, VAPID re-provisioning): timestamps
+  // + last push-service status only — never counts (user-count disclosure)
+  // and never endpoints. Surfaced by /api/health next to the backup markers.
+  //
+  // The attempt marker is written HERE, BEFORE the send, and that placement is
+  // the point (2026-08-23). It used to be written after sendWebPush returned a
+  // status — so when the send THREW, on unconfigured VAPID keys or a signing
+  // failure, no marker was written at all and "we tried and it blew up" was
+  // indistinguishable from "we never tried". That is exactly the state the
+  // first real push outage left behind: all three markers absent, nothing to
+  // tell the two apart. `lastAttemptAt` now means attempted, full stop.
+  const markers = env.PUSH_SUBSCRIPTIONS;
+  const putMarker = async (k, v) => {
     try {
-      const kv = env.PUSH_SUBSCRIPTIONS;
-      if (kv) {
-        const nowIso = new Date().toISOString();
-        await kv.put('push:lastAttemptAt', nowIso);
-        await kv.put('push:lastStatus', String(status));
-        if (status >= 200 && status < 300) await kv.put('push:lastDeliveredAt', nowIso);
-      }
+      if (markers) await markers.put(k, v);
     } catch {
       /* markers must never fail a send */
     }
+  };
+  await putMarker('push:lastAttemptAt', new Date().toISOString());
+
+  try {
+    const status = await sendWebPush(subscription, notification, env);
+
+    // `push:lastDeliveredAt` flips on the first 2xx from a push service, which
+    // is the provable "the reminder actually delivered" boundary.
+    const nowIso = new Date().toISOString();
+    await putMarker('push:lastStatus', String(status));
+    if (status >= 200 && status < 300) await putMarker('push:lastDeliveredAt', nowIso);
 
     // 410 Gone / 404 = subscription expired, caller should delete it
     const expired = status === 410 || status === 404;
@@ -486,7 +498,20 @@ export async function onRequestPost({ request, env }) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (e) {
+    // The send never reached a push service, so there is no push-service status
+    // to record. Record the CLASSIFIED reason instead — a bounded code from
+    // _pushFailure.js, never the raw message, which for a fetch rejection can
+    // carry the subscriber's endpoint URL. `lastStatus` is therefore "the push
+    // service's status, or a failure code when the send never got one"; both
+    // are short strings and /api/health passes the field through untouched.
+    await putMarker(
+      'push:lastStatus',
+      classifyPushFailure({ httpStatus: 500, errorMessage: e.message }),
+    );
     console.error('[streak-push] sendWebPush error:', e.message);
+    // The message still goes back to the WORKER, which classifies it the same
+    // way and counts it. That hop is server-to-server behind CRON_SECRET and
+    // nothing persists it.
     return new Response(JSON.stringify({ error: e.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

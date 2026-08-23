@@ -530,6 +530,23 @@ Users were being cut off mid-speech. The rules that prevent regression (pinned b
 - **VAD hook (`useWhisperSTT.js`)**: endpoint ≥2500 ms; exit threshold must sit well below the entry threshold (hysteresis — soft trailing speech is not silence); **no 'processing' state** — utterance-end returns to `waiting` immediately and transcription runs concurrently (per-recorder chunks, ordered delivery); capture starts at the FIRST threshold crossing (no front-clip); 60s max-utterance backstop.
 - Recording caps are backstops, not endpoints: Shadowing 15s, exam tasks show "up to Xs". Never reintroduce a "no speech detected" timer that stays armed while speech is active.
 
+## Critical Architecture: Push Delivery Observability
+
+The streak reminder is the only thing this app does while nobody is watching, so it is the only failure a learner cannot report. Three layers, each answering a question the one before it could not:
+
+| Layer | File | Answers |
+| ----- | ---- | ------- |
+| Heartbeat | `functions/_pushRunLog.js` — written on EVERY run, including quiet ones | Is the cron firing? An absent record is a positive statement that it is not; no success marker can say that. |
+| Failure reasons | `functions/_pushFailure.js` — bounded code per failed attempt | WHY the sends are failing. Added 2026-08-23, when the heartbeat's first real outage reported `all_failing` and nothing recorded could distinguish a secret mismatch from unconfigured VAPID keys. |
+| Sweep | `functions/api/push-health.js` + `push-health.yml` (daily 07:30 UTC, fails red) | Anyone looking at it at all. |
+
+Rules:
+
+- **Failure reasons are CODES, never messages.** A fetch rejection embeds the URL it failed against, and a push endpoint is a per-subscriber identifier. `classifyPushFailure` maps to a closed vocabulary and `countPushFailure` coerces anything else to `unknown`, so nothing outside it can reach the 14-day KV history that an ops endpoint hands out. Never "just store `e.message`".
+- **`push:lastAttemptAt` is written BEFORE the send, not after.** Written after, a throw left all three markers absent — identical to never having tried, which is a different incident with a different fix.
+- **`ok` from `/api/streak-push` means "not expired", NOT "delivered".** The worker must also check the push service's own `status`; treating `ok` as delivery counted every push-service rejection as a send. A missing `status` still counts as accepted (older relay), so the check can never invent failures.
+- Run records are v2; `failures` is optional and absent on healthy runs. Readers must treat a missing map as "no reasons recorded", never as "no failures" — v1 records coexist for 14 days after any deploy.
+
 ## Cloudflare Pages Functions
 
 ### Environment variables (set in Cloudflare dashboard)

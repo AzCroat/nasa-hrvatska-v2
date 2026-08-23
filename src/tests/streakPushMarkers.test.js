@@ -99,6 +99,39 @@ describe('streak-push delivery markers', () => {
     expect(kv.store.get('push:lastDeliveredAt')).toBeUndefined();
   });
 
+  it('a send that THROWS still records the attempt, and says why (2026-08-23)', async () => {
+    // The gap the first real outage exposed. The attempt marker used to be
+    // written only after sendWebPush returned a status, so an unconfigured-VAPID
+    // throw left all three markers absent — identical to never having tried.
+    // The diagnostic then could not tell "we tried and it blew up" from "the
+    // cron never fired", which are different incidents with different fixes.
+    const kv = fakeKV();
+    const env = await makeVapidEnv(kv);
+    delete env.VAPID_PRIVATE_KEY; // the top suspect in that outage
+
+    const res = await onRequestPost({ request: req({ subscription: SUB, streak: 2 }), env });
+    expect(res.status).toBe(500);
+
+    expect(kv.store.get('push:lastAttemptAt')).toBeTruthy();
+    expect(kv.store.get('push:lastStatus')).toBe('vapid_unconfigured');
+    expect(kv.store.get('push:lastDeliveredAt')).toBeUndefined();
+  });
+
+  it('records a bounded code, never the thrown message, when the endpoint is junk', async () => {
+    // A push endpoint is a per-subscriber identifier, and thrown messages carry
+    // it. `lastStatus` is read back by /api/health, so only codes go in.
+    const kv = fakeKV();
+    const env = await makeVapidEnv(kv);
+    const res = await onRequestPost({
+      request: req({ subscription: { endpoint: 'not-a-url' }, streak: 1 }),
+      env,
+    });
+    expect(res.status).toBe(500);
+    const status = kv.store.get('push:lastStatus');
+    expect(status).toBe('bad_endpoint');
+    expect(status).not.toContain('not-a-url');
+  });
+
   it('health exposes the three markers, timestamps/status only — no counts', () => {
     const src = readFileSync('functions/api/health.js', 'utf8');
     for (const k of ['push:lastAttemptAt', 'push:lastDeliveredAt', 'push:lastStatus']) {

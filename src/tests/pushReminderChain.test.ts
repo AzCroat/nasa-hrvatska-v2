@@ -316,3 +316,150 @@ describe('the client sends the date rather than letting the server invent it', (
     expect(clientSrc).toMatch(/registerPushWithServer\(\{ force: true \}\)/);
   });
 });
+
+/**
+ * WHY a push failed, recorded (2026-08-23).
+ *
+ * The heartbeat's first real outage reported `all_failing` and could say
+ * nothing more: the worker's only account of a failure was a console.warn into
+ * the Cloudflare tail. These run the REAL scheduled handler against a stub relay
+ * — a grep would pass on a `failures` object that was built and never written.
+ */
+describe('the worker records why a push failed, not only that it did', () => {
+  const env = (kv: ReturnType<typeof makeKv>) => ({
+    PUSH_SUBSCRIPTIONS: kv,
+    CRON_SECRET: 'secret',
+    PAGES_URL: 'https://nasahrvatska.com',
+  });
+
+  const dueRecord = {
+    subscription: { endpoint: ENDPOINT },
+    streak: 5,
+    name: 'Ana',
+    lastPracticed: '2026-01-01',
+    lastNotified: null,
+  };
+
+  beforeEach(() => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  /** Run one cron tick with the relay stubbed to a given response. */
+  async function runWithRelay(
+    kv: ReturnType<typeof makeKv>,
+    relay: () => Promise<Response> | Response,
+  ) {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => relay()),
+    );
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-08-04T13:30:00Z'));
+    try {
+      await scheduledWorker.scheduled(
+        { cron: '0 * * * *', scheduledTime: Date.now() },
+        env(kv),
+        {} as never,
+      );
+    } finally {
+      vi.useRealTimers();
+    }
+  }
+
+  /** The heartbeat the run wrote. */
+  function heartbeat(kv: ReturnType<typeof makeKv>) {
+    return kv.puts.filter((p) => p.key === 'push:run:last').at(-1)!.value as {
+      sent: number;
+      failed: number;
+      failures?: Record<string, number>;
+    };
+  }
+
+  it('a 401 from the relay is recorded as unauthorized', async () => {
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(
+      kv,
+      () => new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401 }),
+    );
+    const run = heartbeat(kv);
+    expect(run.failed).toBe(1);
+    expect(run.failures).toEqual({ unauthorized: 1 });
+  });
+
+  it('an unconfigured-VAPID throw is recorded as the config fix it is', async () => {
+    // The top suspect in the 2026-08-23 outage, and previously indistinguishable
+    // from a secret mismatch in everything that was written down.
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(
+      kv,
+      () =>
+        new Response(JSON.stringify({ error: 'VAPID keys not configured in env' }), {
+          status: 500,
+        }),
+    );
+    expect(heartbeat(kv).failures).toEqual({ vapid_unconfigured: 1 });
+  });
+
+  it('a push-service rejection is a FAILURE, not a send', async () => {
+    // streak-push answers 200 with ok:true whenever the subscription is not
+    // expired — `ok` never meant "delivered". The worker counted that as sent,
+    // so a push service rejecting every message looked like perfect health.
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(
+      kv,
+      () =>
+        new Response(JSON.stringify({ ok: true, expired: false, status: 502 }), { status: 200 }),
+    );
+    const run = heartbeat(kv);
+    expect(run.sent).toBe(0);
+    expect(run.failed).toBe(1);
+    expect(run.failures).toEqual({ push_service_5xx: 1 });
+  });
+
+  it('a 201 from the push service is still a send', async () => {
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(
+      kv,
+      () =>
+        new Response(JSON.stringify({ ok: true, expired: false, status: 201 }), { status: 200 }),
+    );
+    const run = heartbeat(kv);
+    expect(run.sent).toBe(1);
+    expect(run.failed).toBe(0);
+    expect('failures' in run).toBe(false);
+  });
+
+  it('a relay that omits the push status is still counted as a send', async () => {
+    // Backward compatibility with a relay deployed before it reported one:
+    // a missing field must not invent a failure.
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(kv, () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    expect(heartbeat(kv).sent).toBe(1);
+  });
+
+  it('a transport failure is recorded without the endpoint that caused it', async () => {
+    // A fetch rejection routinely embeds the URL it failed against, and that
+    // URL identifies a subscriber. The code goes in; the message does not.
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(kv, () => {
+      throw new Error(`fetch failed: ${ENDPOINT}`);
+    });
+    const run = heartbeat(kv);
+    expect(run.failures).toEqual({ transport_error: 1 });
+    expect(JSON.stringify(run)).not.toContain('fcm.googleapis.com');
+    expect(JSON.stringify(run)).not.toContain(ENDPOINT);
+  });
+
+  it('an expired subscription is still expiry, not a failure', async () => {
+    const kv = makeKv({ [KV_KEY]: dueRecord });
+    await runWithRelay(
+      kv,
+      () =>
+        new Response(JSON.stringify({ ok: false, expired: true, status: 410 }), { status: 200 }),
+    );
+    const run = heartbeat(kv) as unknown as { expired: number; failed: number };
+    expect(run.expired).toBe(1);
+    expect(run.failed).toBe(0);
+  });
+});

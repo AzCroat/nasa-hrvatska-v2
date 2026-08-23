@@ -21,9 +21,24 @@
 // cron is not firing, which no success marker can give you.
 //
 // Written by functions/scheduled.js, read by functions/api/push-health.js.
+//
+// 2026-08-23: the heartbeat caught its first real outage — every attempt
+// failing, none accepted — and could not say why. Run records now carry a
+// bounded failure-reason map (functions/_pushFailure.js) and the findings below
+// name the dominant reason, so the alert points at the fix instead of at the
+// symptom.
 
-/** Schema version, so a future reader can tell old records from new. */
-export const PUSH_RUN_SCHEMA = 1;
+import { summarizePushFailures } from './_pushFailure.js';
+
+/**
+ * Schema version, so a future reader can tell old records from new.
+ *
+ * v2 (2026-08-23) adds the optional `failures` map — see _pushFailure.js. The
+ * history is retained for 14 days, so v1 records coexist with v2 ones for two
+ * weeks after any deploy; every reader below treats a missing `failures` as
+ * "no reasons recorded", never as "no failures".
+ */
+export const PUSH_RUN_SCHEMA = 2;
 
 /** Newest run, overwritten every run. The liveness check reads only this. */
 export const PUSH_RUN_LAST_KEY = 'push:run:last';
@@ -70,6 +85,9 @@ export const PUSH_FAIL_MIN_ATTEMPTS = 8;
  * deliberately a RECORDED state rather than an absent record: "misconfigured"
  * and "not running at all" need different fixes, and a silent early return
  * makes them look the same.
+ *
+ * `failures` is a bounded code -> count map from _pushFailure.js. Omitted when
+ * empty, so a healthy run's record stays byte-identical to a v1 one.
  */
 export function buildPushRunRecord({
   at,
@@ -81,7 +99,9 @@ export function buildPushRunRecord({
   expired = 0,
   scanned = 0,
   haltedReason = null,
+  failures = null,
 }) {
+  const hasFailures = failures && Object.keys(failures).length > 0;
   return {
     v: PUSH_RUN_SCHEMA,
     at,
@@ -93,6 +113,7 @@ export function buildPushRunRecord({
     expired,
     scanned,
     ...(haltedReason ? { haltedReason } : {}),
+    ...(hasFailures ? { failures } : {}),
   };
 }
 
@@ -149,6 +170,20 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
   const failureRatio = attempted > 0 ? failed / attempted : 0;
   const age = newest ? ageMinutes(newest.at, now) : null;
 
+  // Reasons across the window. Absent on v1 records and on runs that predate a
+  // deploy, so this can legitimately be empty while `failed` is not — which is
+  // why the findings below append the reasons only when there are some, rather
+  // than claiming "unknown" for history that simply never carried them.
+  const failures = {};
+  for (const r of sorted) {
+    for (const [code, n] of Object.entries(r.failures || {})) {
+      const count = Number(n);
+      if (Number.isFinite(count) && count > 0) failures[code] = (failures[code] || 0) + count;
+    }
+  }
+  const reasons = summarizePushFailures(failures);
+  const because = reasons ? ` — ${reasons}` : '';
+
   const window = {
     runs: sorted.length,
     sent,
@@ -157,6 +192,7 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
     attempted,
     // Rounded for the report; the comparison below uses the exact value.
     failureRatio: Number(failureRatio.toFixed(3)),
+    failures,
   };
 
   if (!newest) {
@@ -187,12 +223,12 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
   if (attempted > 0 && sent === 0) {
     findings.push({
       kind: 'all_failing',
-      detail: `all ${attempted} push attempt(s) in the retained window failed — not one was accepted`,
+      detail: `all ${attempted} push attempt(s) in the retained window failed — not one was accepted${because}`,
     });
   } else if (attempted >= PUSH_FAIL_MIN_ATTEMPTS && failureRatio > PUSH_FAIL_RATIO_LIMIT) {
     findings.push({
       kind: 'failure_rate',
-      detail: `${failed}/${attempted} push attempts failed (${Math.round(failureRatio * 100)}%, limit ${Math.round(PUSH_FAIL_RATIO_LIMIT * 100)}%)`,
+      detail: `${failed}/${attempted} push attempts failed (${Math.round(failureRatio * 100)}%, limit ${Math.round(PUSH_FAIL_RATIO_LIMIT * 100)}%)${because}`,
     });
   }
 
