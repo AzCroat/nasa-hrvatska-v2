@@ -451,6 +451,11 @@ describe('prompt instrumentation coverage', () => {
     '/api/conversation',
     '/api/conversational-tutor',
     '/api/correct',
+    // Cache-served, and tagged with the version stored BESIDE the cached body
+    // (functions/api/_promptCache.js) rather than the current one — the reason
+    // these two sat on the debt list until 2026-08-23.
+    '/api/daily-culture',
+    '/api/daily-culture:generate',
     '/api/daily-plan',
     '/api/dialogue',
     '/api/explain-error',
@@ -461,6 +466,8 @@ describe('prompt instrumentation coverage', () => {
     '/api/maja',
     '/api/maja-debrief',
     '/api/micro-lesson',
+    '/api/news',
+    '/api/news:generate',
     '/api/photo-vocab',
     '/api/pronunciation-coach',
     '/api/speaking-coach',
@@ -489,13 +496,6 @@ describe('prompt instrumentation coverage', () => {
     // `id@version` header cannot say which produced the response, and guessing
     // would be worse than saying nothing.
     '/api/golden-calibration',
-    // CACHE-SERVED: the 200 usually replays content generated hours earlier, so
-    // tagging with the CURRENT version would attribute old text to a new
-    // prompt. Needs the version stored beside the cached body, not a header.
-    '/api/daily-culture',
-    '/api/daily-culture:generate',
-    '/api/news',
-    '/api/news:generate',
   ];
 
   it('accounts for every metered endpoint — no endpoint hides in a gap', () => {
@@ -511,7 +511,9 @@ describe('prompt instrumentation coverage', () => {
 
   it('every endpoint claimed as instrumented actually sends the header', () => {
     for (const path of INSTRUMENTED) {
-      const src = fnSrc(`api/${path.replace('/api/', '')}.js`);
+      // ':generate' entries are the self-metered SPEND path of a cache-served
+      // endpoint, not a separate file — both halves live in the same source.
+      const src = fnSrc(`api/${path.replace('/api/', '').replace(/:generate$/, '')}.js`);
       expect(src, `${path} must import promptHeaders`).toContain('promptHeaders');
       // Three call shapes are legitimate: spread into a locally-built headers
       // object, passed as the shared ok() helper's third argument, or — where
