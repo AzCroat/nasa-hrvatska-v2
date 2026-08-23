@@ -19,14 +19,30 @@ describe('C2 news mode', () => {
     expect(/C2:\s*['"`]/.test(serverSrc)).toBe(true);
   });
 
-  it('server has the authentic-register C2 prompt branch', () => {
+  it('server has the authentic-register C2 prompt branch', async () => {
     expect(serverSrc.includes("safeLevel === 'C2'")).toBe(true);
     expect(serverSrc.includes('novinski stil')).toBe(true);
+
     // The C2 branch must keep the SAME JSON contract as every other level —
     // the client parses simplified_title/simplified_text regardless of level.
-    const c2Block = serverSrc.slice(serverSrc.indexOf("safeLevel === 'C2'"));
-    expect(c2Block.includes('"simplified_title"')).toBe(true);
-    expect(c2Block.includes('"key_vocabulary"')).toBe(true);
+    //
+    // Asserted against the REGISTERED prompt rather than a slice of the source
+    // after the ternary (2026-08-23). The prompts moved into definePrompt calls
+    // above the ternary, so the old positional slice stopped containing them —
+    // it was locating the contract by text adjacency, which was never the thing
+    // that mattered. This checks the prompt a C2 request actually runs.
+    const { promptForLevel } = await import('../../functions/api/news.js');
+    const c2 = promptForLevel('C2');
+    expect(c2.id).toBe('news-simplify-c2');
+    expect(c2.text).toContain('novinski stil');
+    expect(c2.text).toContain('"simplified_title"');
+    expect(c2.text).toContain('"key_vocabulary"');
+
+    // ...and every other level runs the other prompt, with the same contract.
+    const b1 = promptForLevel('B1');
+    expect(b1.id).toBe('news-simplify');
+    expect(b1.text).toContain('"simplified_title"');
+    expect(b1.text).toContain('"key_vocabulary"');
   });
 
   it('news screen offers the C2 level chip', () => {

@@ -4,6 +4,8 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders as _corsHeaders } from './_helpers.js';
+import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
+import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,8 +25,11 @@ function newsCorsHeaders(origin) {
   };
 }
 
-function ok(body, origin) {
-  return new Response(JSON.stringify(body), { status: 200, headers: newsCorsHeaders(origin) });
+function ok(body, origin, extraHeaders) {
+  return new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { ...newsCorsHeaders(origin), ...extraHeaders },
+  });
 }
 function err(status, msg, origin) {
   return new Response(JSON.stringify({ error: msg }), { status, headers: newsCorsHeaders(origin) });
@@ -74,32 +79,57 @@ function parseRSS(rawXml, sourceName) {
 }
 
 // Simplify one article using Claude
+const COMPLEXITY = {
+  A1: 'ONLY the 500 most common Croatian words. Max 8 words per sentence. Present tense only.',
+  A2: 'Simple vocabulary. Short sentences (max 12 words). Present tense mostly.',
+  B1: 'Conversational Croatian. 15-word sentences max. All tenses allowed.',
+  B2: 'Natural Croatian. Simplify only technical jargon.',
+  C1: 'Keep close to original. Simplify only highly specialized terms.',
+  // C2 exists so the guard below never routes a C2 request to B1 (the audit's
+  // "no true C2 reading path" gap). The rule is inverted at this level: no
+  // simplification — authentic journalistic register, expanded to full length.
+  C2: 'Do NOT simplify anything. Authentic Croatian journalistic register (novinski stil).',
+};
+
+// TWO prompts, not one with a conditional. C2 inverts the whole instruction —
+// it is a different job (write authentic press Croatian) rather than the same
+// job at a different difficulty — so they version independently: tightening the
+// A1 word cap should not move the version of the C2 register brief. The
+// resolver below picks by level, the same runtime-resolution shape maja uses
+// per persona and ai-chat uses per mode.
+const NEWS_C2 = definePrompt(
+  'news-simplify-c2',
+  `You are a Croatian news editor writing for an educated native readership; the reader is a C2 learner training on authentic press language.
+Rewrite the story as a genuine Croatian news item (novinski stil): 8-12 sentences, standard journalistic structure (lead first), full diacritics, authentic register — keep specialized terminology, officialese, and idiomatic press collocations exactly as a Croatian daily would print them. Do NOT simplify or shorten.
+Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
+For key_vocabulary select 5-6 ADVANCED items a C2 learner should mine from press language: idioms, collocations, officialese, low-frequency lexemes — never basic words. Keep facts accurate; do not invent facts beyond the source.`,
+);
+
+// The per-level rule is SELECTED by this template, not contained in it, so it
+// rides in alsoVersion — editing the B1 sentence cap moves this version.
+const NEWS_SIMPLIFY = definePrompt(
+  'news-simplify',
+  `You are a Croatian language teacher simplifying news for a {{level}} learner.
+Simplification rules: {{rule}}
+Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
+Include 5-6 key vocabulary items. Keep facts accurate.`,
+  { alsoVersion: COMPLEXITY },
+);
+
+/** Which prompt a level actually runs. Mirrors the safeLevel guard below. */
+export function promptForLevel(level) {
+  return (/^[ABC][12]$/.test(level) ? level : 'B1') === 'C2' ? NEWS_C2 : NEWS_SIMPLIFY;
+}
+
 async function simplifyArticle(article, level, anthropicKey) {
-  const complexity = {
-    A1: 'ONLY the 500 most common Croatian words. Max 8 words per sentence. Present tense only.',
-    A2: 'Simple vocabulary. Short sentences (max 12 words). Present tense mostly.',
-    B1: 'Conversational Croatian. 15-word sentences max. All tenses allowed.',
-    B2: 'Natural Croatian. Simplify only technical jargon.',
-    C1: 'Keep close to original. Simplify only highly specialized terms.',
-    // C2 exists so the guard below never routes a C2 request to B1 (the audit's
-    // "no true C2 reading path" gap). The rule is inverted at this level: no
-    // simplification — authentic journalistic register, expanded to full length.
-    C2: 'Do NOT simplify anything. Authentic Croatian journalistic register (novinski stil).',
-  };
   const safeLevel = /^[ABC][12]$/.test(level) ? level : 'B1';
 
-  const rule = complexity[safeLevel] || complexity['B1'];
+  const rule = COMPLEXITY[safeLevel] || COMPLEXITY['B1'];
 
   const systemPrompt =
     safeLevel === 'C2'
-      ? `You are a Croatian news editor writing for an educated native readership; the reader is a C2 learner training on authentic press language.
-Rewrite the story as a genuine Croatian news item (novinski stil): 8-12 sentences, standard journalistic structure (lead first), full diacritics, authentic register — keep specialized terminology, officialese, and idiomatic press collocations exactly as a Croatian daily would print them. Do NOT simplify or shorten.
-Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
-For key_vocabulary select 5-6 ADVANCED items a C2 learner should mine from press language: idioms, collocations, officialese, low-frequency lexemes — never basic words. Keep facts accurate; do not invent facts beyond the source.`
-      : `You are a Croatian language teacher simplifying news for a ${safeLevel} learner.
-Simplification rules: ${rule}
-Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
-Include 5-6 key vocabulary items. Keep facts accurate.`;
+      ? renderPrompt(NEWS_C2, {})
+      : renderPrompt(NEWS_SIMPLIFY, { level: safeLevel, rule });
 
   const userContent = `Title: ${String(article.title || '').slice(0, 200)}\nText: ${String(article.description || '').slice(0, 800)}`;
 
@@ -232,12 +262,15 @@ export async function onRequestGet(context) {
   const nowMs = Date.now();
   const bucket = `${new Date(nowMs).toISOString().slice(0, 10)}:h${Math.floor(new Date(nowMs).getUTCHours() / 6)}`;
   const kvKey = `news:v1:${level}:${bucket}`;
-  if (kv) {
+  // Replay the tag stored WITH the body — this 200 is up to 6 hours old and
+  // the live prompt may have moved since. Entries written before tagging
+  // existed carry none and are served untagged. See _promptCache.js.
+  const cached = await readCachedWithPromptTag(kv, kvKey);
+  if (cached.value) {
     try {
-      const hit = await kv.get(kvKey);
-      if (hit) return ok(JSON.parse(hit), origin);
+      return ok(JSON.parse(cached.value), origin, promptTagHeaders(cached.tag));
     } catch {
-      /* KV read failure → fall through to generation */
+      /* unparseable cache entry → fall through to generation */
     }
   }
 
@@ -292,14 +325,20 @@ export async function onRequestGet(context) {
 
   const articles = simplified.filter(Boolean);
 
+  // Every article in this payload was simplified at the SAME level, so one tag
+  // describes the whole entry — which is what makes a per-entry tag honest here
+  // rather than a summary of several different prompts.
   const payload = { articles, source: 'live', timestamp: Date.now() };
   if (kv && articles.length > 0) {
     const put = kv
-      .put(kvKey, JSON.stringify(payload), { expirationTtl: 60 * 60 * 8 })
+      .put(kvKey, JSON.stringify(payload), {
+        expirationTtl: 60 * 60 * 8,
+        ...promptCacheMetadata(promptForLevel(level)),
+      })
       .catch(() => {});
     if (context.waitUntil) context.waitUntil(put);
   }
-  return ok(payload, origin);
+  return ok(payload, origin, promptHeaders(promptForLevel(level)));
 }
 
 // Fallback articles if RSS is unavailable

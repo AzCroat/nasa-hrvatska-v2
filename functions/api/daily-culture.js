@@ -9,6 +9,8 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders, err } from './_helpers.js';
+import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
+import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -23,6 +25,30 @@ const LOCATIONS = [
   { city: 'Rovinj', region: 'Istria', emoji: '🎨' },
   { city: 'Šibenik', region: 'Dalmatia', emoji: '⛵' },
 ];
+
+// The card template. LOCATIONS is passed via alsoVersion because the template
+// SELECTS from it (by day-of-year) without containing it: swapping Šibenik for
+// Zadar changes authored content that reaches the model, and the version has to
+// move with it. Same rule as the per-level rules in ai-chat and news.
+const DC_CARD = definePrompt(
+  'daily-culture-card',
+  `Today is {{date}}. Generate a short, engaging "Croatia Today" daily learning card for someone studying Croatian.
+
+Location focus: {{city}}, {{region}} {{emoji}}
+
+Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
+{
+  "phrase": "<a useful Croatian phrase related to {{city}} or daily life there>",
+  "translation": "<English translation>",
+  "pronunciation": "<phonetic pronunciation hint for English speakers>",
+  "culturalFact": "<one fascinating, specific cultural fact about {{city}} or Croatian culture — 1-2 sentences, vivid and surprising>",
+  "tip": "<one practical Croatian language tip, grammar trick, or cultural etiquette tip — 1 sentence>",
+  "category": "<one of: Greetings, Food & Drink, Travel, Shopping, Social, Culture>"
+}
+
+The phrase should be practical and conversational. The cultural fact should be specific — not generic tourism copy. Make it feel like insider knowledge.`,
+  { alsoVersion: LOCATIONS.map((l) => `${l.city}|${l.region}|${l.emoji}`) },
+);
 
 export async function onRequestOptions({ request }) {
   const origin = request.headers.get('origin') || '';
@@ -53,42 +79,32 @@ export async function onRequestGet(context) {
   // this endpoint's gate ceiling is 0, see _aiBudget.js SELF_METERED).
   const kv = env.KV || env.PUSH_SUBSCRIPTIONS || null;
   const kvKey = `daily:culture:${dateStr}`;
-  if (kv) {
-    try {
-      const hit = await kv.get(kvKey);
-      if (hit) {
-        return new Response(hit, {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, max-age=21600, s-maxage=21600',
-            ...corsHeaders(origin),
-          },
-        });
-      }
-    } catch {
-      /* KV read failure → fall through to generation */
-    }
+  // The tag stored WITH the body, not the current one: this 200 is replaying
+  // text generated up to 48 hours ago, and the live version may have moved
+  // since. An entry written before tagging existed carries no tag and is served
+  // untagged, which is the honest answer. See _promptCache.js.
+  const cached = await readCachedWithPromptTag(kv, kvKey);
+  if (cached.value) {
+    return new Response(cached.value, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=21600, s-maxage=21600',
+        ...corsHeaders(origin),
+        ...promptTagHeaders(cached.tag),
+      },
+    });
   }
 
   const budget = await checkAndChargeBudget(env, '/api/daily-culture:generate');
   if (!budget.allowed) return err(503, 'AI temporarily unavailable', origin);
 
-  const prompt = `Today is ${dateStr}. Generate a short, engaging "Croatia Today" daily learning card for someone studying Croatian.
-
-Location focus: ${location.city}, ${location.region} ${location.emoji}
-
-Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
-{
-  "phrase": "<a useful Croatian phrase related to ${location.city} or daily life there>",
-  "translation": "<English translation>",
-  "pronunciation": "<phonetic pronunciation hint for English speakers>",
-  "culturalFact": "<one fascinating, specific cultural fact about ${location.city} or Croatian culture — 1-2 sentences, vivid and surprising>",
-  "tip": "<one practical Croatian language tip, grammar trick, or cultural etiquette tip — 1 sentence>",
-  "category": "<one of: Greetings, Food & Drink, Travel, Shopping, Social, Culture>"
-}
-
-The phrase should be practical and conversational. The cultural fact should be specific — not generic tourism copy. Make it feel like insider knowledge.`;
+  const prompt = renderPrompt(DC_CARD, {
+    date: dateStr,
+    city: location.city,
+    region: location.region,
+    emoji: location.emoji,
+  });
 
   // Block 1: network errors only
   let res;
@@ -168,9 +184,13 @@ The phrase should be practical and conversational. The cultural fact should be s
 
   // Store the day's card globally — 48h TTL covers every timezone's "today"
   // plus stragglers, and the date in the key means tomorrow can never read it.
+  // The stored value is unchanged; the prompt tag rides in KV metadata, so
+  // tomorrow's replay can name the version that actually wrote this body.
   if (kv) {
     const body = JSON.stringify(parsed);
-    const put = kv.put(kvKey, body, { expirationTtl: 60 * 60 * 48 }).catch(() => {});
+    const put = kv
+      .put(kvKey, body, { expirationTtl: 60 * 60 * 48, ...promptCacheMetadata(DC_CARD) })
+      .catch(() => {});
     if (context.waitUntil) context.waitUntil(put);
   }
 
@@ -181,6 +201,7 @@ The phrase should be practical and conversational. The cultural fact should be s
       'Content-Type': 'application/json',
       'Cache-Control': 'public, max-age=21600, s-maxage=21600',
       ...corsHeaders(origin),
+      ...promptHeaders(DC_CARD),
     },
   });
 }

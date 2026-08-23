@@ -261,6 +261,25 @@ export function promptHeaders(prompt) {
 }
 
 /**
+ * Headers carrying a tag READ BACK from somewhere, rather than a registered
+ * prompt object (2026-08-23, for cache-served endpoints).
+ *
+ * A cached 200 replays text generated hours ago. Tagging it with the CURRENT
+ * version would attribute old text to a new prompt — the precise reason
+ * daily-culture and news stayed uninstrumented while every live endpoint was
+ * tagged. The cache stores the tag that produced its body and this emits THAT.
+ *
+ * The tag comes back from KV, so it is validated the same way the middleware
+ * validates an inbound one: a stored value that is missing, malformed, or from
+ * an entry written before tagging existed emits NO header at all. An untagged
+ * response is honest — it says we do not know which prompt produced this body.
+ * A guessed one is not.
+ */
+export function promptTagHeaders(tag) {
+  return parsePromptTag(tag) ? { [PROMPT_HEADER]: tag } : {};
+}
+
+/**
  * Parse a tag back into parts. Returns null for anything malformed — the
  * middleware feeds this whatever a response carried, so it must not trust it.
  */
