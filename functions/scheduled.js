@@ -23,6 +23,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
+import { classifyPushFailure, countPushFailure, summarizePushFailures } from './_pushFailure.js';
 import { buildPushRunRecord, writePushRun } from './_pushRunLog.js';
 
 export default {
@@ -76,6 +77,10 @@ export default {
       // ran and there is nobody subscribed" from "the cron ran and skipped
       // everyone" — the first is a product fact, the second is a bug.
       scanned = 0;
+    // Bounded failure-reason -> count for this run (functions/_pushFailure.js).
+    // `failed` says how many; this says why, which is the difference between an
+    // alert that names the fix and one that only names the symptom.
+    const failures = {};
 
     // Per-user send-hour matching. The cron fires hourly; each subscriber is
     // due only during the hour that matches their chosen reminder time in
@@ -206,10 +211,21 @@ export default {
 
           const data = await res.json().catch(() => ({}));
 
+          // The push SERVICE's own status, when the relay got far enough to
+          // have one. streak-push returns `ok: !expired`, so a push service
+          // that rejected the message with a 400 or a 502 still comes back
+          // `ok: true` — and this worker used to count that as a send. A
+          // rejected message is not a delivered one; it is now classified and
+          // counted as the failure it always was. Absent (an older relay, or a
+          // response that never carried it) still counts as accepted, so this
+          // cannot invent failures out of a missing field.
+          const pushStatus = Number(data?.status);
+          const accepted = !Number.isFinite(pushStatus) || (pushStatus >= 200 && pushStatus < 300);
+
           if (data.expired) {
             await env.PUSH_SUBSCRIPTIONS.delete(key.name).catch(() => {});
             expired++;
-          } else if (res.ok && data.ok) {
+          } else if (res.ok && data.ok && accepted) {
             await env.PUSH_SUBSCRIPTIONS.put(
               key.name,
               JSON.stringify({
@@ -224,10 +240,25 @@ export default {
             sent++;
           } else {
             failed++;
-            console.warn(`[Scheduled] Push failed for ${key.name}: status=${res.status}`);
+            // Classified, not logged-and-lost. The console line below goes to
+            // the Cloudflare tail, which is ephemeral; the CODE goes into the
+            // run record, which the daily sweep reads and names.
+            const reason = classifyPushFailure({
+              httpStatus: res.status,
+              errorMessage: data?.error,
+              pushStatus: data?.status,
+            });
+            countPushFailure(failures, reason);
+            console.warn(
+              `[Scheduled] Push failed for ${key.name}: status=${res.status} reason=${reason}`,
+            );
           }
         } catch (e) {
           failed++;
+          // No response at all: a timeout, a socket error, a DNS failure. The
+          // message is NOT recorded — a fetch rejection routinely embeds the
+          // URL it failed against, and that URL identifies a subscriber.
+          countPushFailure(failures, classifyPushFailure({ httpStatus: null }));
           console.error(`[Scheduled] Error for ${key.name}:`, e.message);
         }
       }
@@ -235,8 +266,11 @@ export default {
       cursor = listResult.cursor;
     } while (cursor);
 
+    const reasonSummary = summarizePushFailures(failures);
     console.warn(
-      `[Scheduled] Complete — scanned: ${scanned}, sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}`,
+      `[Scheduled] Complete — scanned: ${scanned}, sent: ${sent}, skipped: ${skipped}, notDue: ${notDue}, failed: ${failed}, expired: ${expired}${
+        reasonSummary ? `, reasons: ${reasonSummary}` : ''
+      }`,
     );
 
     // The heartbeat. Written on EVERY run — including runs where nobody was due
@@ -256,6 +290,7 @@ export default {
         failed,
         expired,
         scanned,
+        failures,
       }),
     );
 

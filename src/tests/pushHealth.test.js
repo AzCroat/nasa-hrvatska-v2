@@ -135,6 +135,22 @@ describe('buildPushRunRecord', () => {
     });
     expect(rec.haltedReason).toBe('CRON_SECRET not configured');
   });
+
+  it('carries failure reasons when there are any (2026-08-23)', () => {
+    const rec = buildPushRunRecord({
+      at: minutesAgo(1),
+      failed: 3,
+      failures: { unauthorized: 2, push_service_5xx: 1 },
+    });
+    expect(rec.failures).toEqual({ unauthorized: 2, push_service_5xx: 1 });
+  });
+
+  it('omits the failures key entirely on a run with none', () => {
+    // A healthy run's record stays byte-identical to the v1 shape. An empty
+    // object in every record would be 14 days of noise saying nothing.
+    expect('failures' in buildPushRunRecord({ at: minutesAgo(1), sent: 4 })).toBe(false);
+    expect('failures' in buildPushRunRecord({ at: minutesAgo(1), failures: {} })).toBe(false);
+  });
 });
 
 describe('writePushRun', () => {
@@ -261,6 +277,68 @@ describe('assessPushRuns', () => {
     });
     expect(out.clean).toBe(false);
     expect(out.findings.map((f) => f.kind)).toContain('all_failing');
+  });
+
+  it('names the reason in the all_failing finding, not just the count (2026-08-23)', () => {
+    // The outage this was built for: the alert said every attempt failed and
+    // stopped there, which is a symptom. The operator needs the cause in the
+    // same line, because the alert is all they get.
+    const out = assessPushRuns(
+      [
+        buildPushRunRecord({ at: minutesAgo(5), failed: 2, failures: { unauthorized: 2 } }),
+        buildPushRunRecord({ at: minutesAgo(65), failed: 1, failures: { unauthorized: 1 } }),
+      ],
+      { now: NOW },
+    );
+    const finding = out.findings.find((f) => f.kind === 'all_failing');
+    expect(finding.detail).toContain('unauthorized x3');
+    expect(out.window.failures).toEqual({ unauthorized: 3 });
+  });
+
+  it('names reasons in the failure_rate finding too', () => {
+    const out = assessPushRuns(
+      [
+        buildPushRunRecord({
+          at: minutesAgo(5),
+          sent: 4,
+          failed: 6,
+          failures: { push_service_5xx: 4, vapid_unconfigured: 2 },
+        }),
+      ],
+      { now: NOW },
+    );
+    const finding = out.findings.find((f) => f.kind === 'failure_rate');
+    expect(finding.detail).toContain('push_service_5xx x4, vapid_unconfigured x2');
+  });
+
+  it('says nothing about reasons when the history predates them', () => {
+    // v1 records carry no `failures`. The finding must still fire on the counts
+    // and must NOT append an empty or invented reason — during the fortnight
+    // after a deploy, half the retained window looks exactly like this.
+    const v1 = [{ v: 1, at: minutesAgo(5), sent: 0, failed: 2 }];
+    const out = assessPushRuns(v1, { now: NOW });
+    const finding = out.findings.find((f) => f.kind === 'all_failing');
+    expect(finding).toBeTruthy();
+    // The reason clause is appended after the base sentence; with no reasons
+    // recorded the detail must end exactly where the base sentence ends.
+    expect(finding.detail).toBe(
+      'all 2 push attempt(s) in the retained window failed — not one was accepted',
+    );
+    expect(finding.detail).not.toMatch(/undefined|unknown|x\d/);
+    expect(out.window.failures).toEqual({});
+  });
+
+  it('merges reasons across a window where only some runs carry them', () => {
+    const mixed = [
+      { v: 1, at: minutesAgo(5), sent: 0, failed: 1 },
+      buildPushRunRecord({ at: minutesAgo(65), failed: 2, failures: { transport_error: 2 } }),
+    ];
+    const out = assessPushRuns(mixed, { now: NOW });
+    expect(out.window.failed).toBe(3);
+    expect(out.window.failures).toEqual({ transport_error: 2 });
+    expect(out.findings.find((f) => f.kind === 'all_failing').detail).toContain(
+      'transport_error x2',
+    );
   });
 
   it('does NOT report a ratio on too few attempts — 1 of 2 is not a 50% outage', () => {
