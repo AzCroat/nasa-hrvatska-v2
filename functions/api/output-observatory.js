@@ -33,8 +33,19 @@ const MAX_INCIDENTS = 50;
 const MAX_SAMPLES = 200;
 const UNINSTRUMENTED = '(uninstrumented)';
 
-/** `id@version` for a stored observation, or the honest "we don't know" label. */
+/**
+ * `id@version` for a stored observation, or the honest "we don't know" label.
+ *
+ * A record from a MULTI-PROMPT response (2026-08-24 — golden-calibration runs
+ * both evaluators in one dispatch) carries `prompts` instead of a single
+ * promptId, and groups under all its tags joined by ` + `. Without this branch
+ * it would fall through to UNINSTRUMENTED, which would be the opposite of the
+ * truth: that endpoint is instrumented, it just cannot be described by one tag.
+ */
 function promptKeyOf(rec) {
+  if (Array.isArray(rec?.prompts) && rec.prompts.length > 0) {
+    return rec.prompts.map((p) => `${p.id}@${p.version}`).join(' + ');
+  }
   return rec?.promptId && rec?.promptVersion
     ? `${rec.promptId}@${rec.promptVersion}`
     : UNINSTRUMENTED;

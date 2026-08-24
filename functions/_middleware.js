@@ -48,7 +48,7 @@
 import { corsHeaders, isAllowedOrigin } from './api/_helpers.js';
 import { latinizeResponseBody } from './api/_croatianGuard.js';
 import { ENDPOINT_CEILING_MICROUSD } from './api/_aiBudget.js';
-import { PROMPT_HEADER, parsePromptTag } from './api/_promptRegistry.js';
+import { PROMPT_HEADER, parsePromptTagList } from './api/_promptRegistry.js';
 
 // ── Module-level fallback map ─────────────────────────────────────────────────
 // Used when caches.default is unavailable. Per-isolate — not shared across instances.
@@ -343,11 +343,22 @@ function buildObserver(context, pathname, status, promptTag) {
       // The tag is whatever the response carried, so it is parsed and
       // validated rather than trusted; an unrecognisable one is recorded as
       // absent, which reads as "uninstrumented" — never as a made-up id.
-      const parsed = parsePromptTag(promptTag);
+      //
+      // Parsed as a LIST (2026-08-24): golden-calibration runs both evaluator
+      // prompts in one dispatch and sends both tags. One prompt still records
+      // promptId/promptVersion exactly as before — the shape every existing
+      // observation and the observatory's grouping already use. TWO OR MORE
+      // records `prompts` INSTEAD, deliberately: picking one of them to fill
+      // promptId would attribute the whole response to a prompt that produced
+      // only part of it, which is the dishonesty this endpoint was held back
+      // from the debt list to avoid.
+      const parsed = parsePromptTagList(promptTag);
       const record = { path: pathname, at, contaminated, text };
-      if (parsed) {
-        record.promptId = parsed.id;
-        record.promptVersion = parsed.version;
+      if (parsed.length === 1) {
+        record.promptId = parsed[0].id;
+        record.promptVersion = parsed[0].version;
+      } else if (parsed.length > 1) {
+        record.prompts = parsed;
       }
       await kv.put(key, JSON.stringify(record), {
         expirationTtl: contaminated ? OBS_INCIDENT_TTL_S : OBS_SAMPLE_TTL_S,

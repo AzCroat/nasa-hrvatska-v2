@@ -393,8 +393,17 @@ describe('the middleware records and then strips the tag', () => {
   });
 
   it('parses the tag rather than trusting it, and omits it when unparseable', () => {
-    expect(mw).toContain('parsePromptTag(promptTag)');
-    expect(mw).toMatch(/if \(parsed\) \{[\s\S]*record\.promptId/);
+    // Parsed as a LIST since 2026-08-24 (golden-calibration sends two tags).
+    // The property under test is unchanged: whatever the response carried is
+    // validated, never trusted, and an unparseable value records nothing.
+    expect(mw).toContain('parsePromptTagList(promptTag)');
+    expect(mw).toMatch(/if \(parsed\.length === 1\) \{[\s\S]*record\.promptId/);
+  });
+
+  it('records a multi-prompt response as a list, not as one arbitrary prompt', () => {
+    // Filling promptId from one of two would attribute the whole response to a
+    // prompt that produced only part of it.
+    expect(mw).toMatch(/parsed\.length > 1[\s\S]*record\.prompts = parsed/);
   });
 
   it('strips the header before the response leaves, keeping status and body', async () => {
@@ -460,6 +469,7 @@ describe('prompt instrumentation coverage', () => {
     '/api/dialogue',
     '/api/explain-error',
     '/api/flash-context',
+    '/api/golden-calibration',
     '/api/grammar-diagnosis',
     '/api/listening',
     '/api/live-tutor-summary',
@@ -491,12 +501,12 @@ describe('prompt instrumentation coverage', () => {
   // Real remaining debt, each with the reason it is not yet done. This list can
   // only shrink; the tests below fail if an entry is quietly instrumented or a
   // claimed one is not.
-  const KNOWN_UNINSTRUMENTED = [
-    // Runs BOTH registered evaluator prompts in one dispatch. A single
-    // `id@version` header cannot say which produced the response, and guessing
-    // would be worse than saying nothing.
-    '/api/golden-calibration',
-  ];
+  // EMPTY as of 2026-08-24. golden-calibration was the last entry: it runs both
+  // evaluator prompts in one dispatch, which no single `id@version` could
+  // describe, so the header learned to carry a LIST rather than the endpoint
+  // learning to guess. Keep this array — a new metered endpoint lands here
+  // until it is instrumented, and the accounting test below needs it to exist.
+  const KNOWN_UNINSTRUMENTED = [];
 
   it('accounts for every metered endpoint — no endpoint hides in a gap', () => {
     const metered = Object.keys(ENDPOINT_CEILING_MICROUSD).sort();
@@ -514,7 +524,7 @@ describe('prompt instrumentation coverage', () => {
       // ':generate' entries are the self-metered SPEND path of a cache-served
       // endpoint, not a separate file — both halves live in the same source.
       const src = fnSrc(`api/${path.replace('/api/', '').replace(/:generate$/, '')}.js`);
-      expect(src, `${path} must import promptHeaders`).toContain('promptHeaders');
+      expect(src, `${path} must import promptHeaders`).toMatch(/prompt(?:List)?Headers/);
       // Three call shapes are legitimate: spread into a locally-built headers
       // object, passed as the shared ok() helper's third argument, or — where
       // the endpoint picks its prompt at RUNTIME, as maja does per persona — a
@@ -525,8 +535,11 @@ describe('prompt instrumentation coverage', () => {
       // lowercase identifier is excluded on purpose: that is the shape of the
       // local `ok(body, origin, prompt)` helper's own parameter, and matching
       // it would let an endpoint that never passes a prompt pass this test.
+      // promptListHeaders is the multi-prompt form (golden-calibration runs two
+      // evaluators in one dispatch); it takes an ARRAY or a call producing one,
+      // so its accepted shapes include a bracket.
       expect(src, `${path} must apply promptHeaders to a response`).toMatch(
-        /promptHeaders\(\s*(?:[A-Z][A-Z0-9_]*|[a-z][A-Za-z0-9_]*\()/,
+        /prompt(?:List)?Headers\(\s*(?:\[|[A-Z][A-Z0-9_]*|[a-z][A-Za-z0-9_]*\()/,
       );
       // ...and the something must be a prompt this file actually registered or
       // imported, so the shape above cannot be satisfied by an unrelated local.
