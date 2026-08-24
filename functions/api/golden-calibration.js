@@ -20,7 +20,13 @@
 
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { GOLDEN_SET } from './_goldenSet.js';
-import { writingEvalSystemPrompt, speakingRubricPrompt } from './_evalPrompts.js';
+import {
+  writingEvalSystemPrompt,
+  speakingRubricPrompt,
+  WRITING_EVAL_PROMPT,
+  SPEAKING_RUBRIC_PROMPT,
+} from './_evalPrompts.js';
+import { promptListHeaders } from './_promptRegistry.js';
 
 const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 // Same output caps as the production endpoints the prompts are shared with.
@@ -46,11 +52,27 @@ function timingSafeEqual(a, b) {
   return diff === 0;
 }
 
-function json(status, body) {
+function json(status, body, extraHeaders) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...extraHeaders },
   });
+}
+
+/**
+ * The prompts a run ACTUALLY used, in a stable order (2026-08-24).
+ *
+ * Derived from the rows rather than hardcoded to both, because the set is a
+ * property of the golden set, not of this file: a writing-only golden set uses
+ * one evaluator, and claiming the speaking rubric also ran would be a lie the
+ * moment someone trims the samples. Errored rows still count — the prompt was
+ * sent; what failed was the response or the parse.
+ */
+export function promptsUsedBy(rows) {
+  const used = [];
+  if (rows.some((r) => r.kind === 'writing')) used.push(WRITING_EVAL_PROMPT);
+  if (rows.some((r) => r.kind !== 'writing')) used.push(SPEAKING_RUBRIC_PROMPT);
+  return used;
 }
 
 /** Strip an optional ```json fence — same tolerance as the production parsers. */
@@ -184,7 +206,11 @@ export async function onRequestPost(context) {
     drift: misses.length >= DRIFT_THRESHOLD,
     samples: rows,
   };
-  return json(200, report);
+  // BOTH evaluator prompts, not one. This report's rows come from two different
+  // prompts, so a single tag would attribute all of them to whichever was
+  // picked — the reason this endpoint sat on the debt list until the header
+  // learned to carry a list. See promptListHeaders in _promptRegistry.js.
+  return json(200, report, promptListHeaders(promptsUsedBy(rows)));
 }
 
 export async function onRequestOptions() {

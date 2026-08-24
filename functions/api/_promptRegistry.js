@@ -261,6 +261,31 @@ export function promptHeaders(prompt) {
 }
 
 /**
+ * Headers for a response produced by MORE THAN ONE prompt (2026-08-24).
+ *
+ * /api/golden-calibration runs both registered evaluator prompts — the writing
+ * evaluator and the speaking rubric — in a single dispatch, and its report
+ * contains rows from both. It was the last entry on the instrumentation debt
+ * list precisely because a single `id@version` cannot describe that response:
+ * naming one prompt would attribute the whole report to it, and naming neither
+ * would call an instrumented endpoint uninstrumented.
+ *
+ * So the header carries a comma-separated LIST, in the order given. Duplicates
+ * are collapsed (a run that used one prompt for twenty rows still used one
+ * prompt) and order is otherwise preserved, so the value is stable run to run.
+ * An empty or all-invalid list emits no header at all — same rule as the
+ * single-prompt form: silence rather than a guess.
+ */
+export function promptListHeaders(prompts) {
+  const tags = [];
+  for (const p of Array.isArray(prompts) ? prompts : []) {
+    const tag = p && p.tag;
+    if (typeof tag === 'string' && parsePromptTag(tag) && !tags.includes(tag)) tags.push(tag);
+  }
+  return tags.length > 0 ? { [PROMPT_HEADER]: tags.join(', ') } : {};
+}
+
+/**
  * Headers carrying a tag READ BACK from somewhere, rather than a registered
  * prompt object (2026-08-23, for cache-served endpoints).
  *
@@ -291,4 +316,28 @@ export function parsePromptTag(tag) {
   const version = tag.slice(at + 1);
   if (!/^[a-z0-9_.:-]+$/i.test(id) || !/^[0-9a-f]{8}$/.test(version)) return null;
   return { id, version };
+}
+
+/**
+ * Parse a header value that may carry ONE tag or a comma-separated list of
+ * them, into an array of `{ id, version }`.
+ *
+ * Malformed entries are DROPPED rather than failing the whole value: a header
+ * reading `good@aabbccdd, junk` still tells us truthfully that `good` ran, and
+ * discarding that would lose real information to protect against noise we
+ * already know how to ignore. Returns [] for anything with nothing valid in it.
+ *
+ * A single well-formed tag parses to a one-element array, so callers can treat
+ * every response uniformly instead of branching on how many prompts ran.
+ */
+export function parsePromptTagList(value) {
+  if (typeof value !== 'string') return [];
+  const out = [];
+  for (const part of value.split(',')) {
+    const parsed = parsePromptTag(part.trim());
+    if (parsed && !out.some((p) => p.id === parsed.id && p.version === parsed.version)) {
+      out.push(parsed);
+    }
+  }
+  return out;
 }

@@ -225,3 +225,56 @@ describe('/api/output-observatory — the sweep', () => {
     expect(sweepSrc).not.toContain('claude-haiku');
   });
 });
+
+describe('the sweep groups a multi-prompt observation honestly (2026-08-24)', () => {
+  it('names both prompts rather than filing the record as uninstrumented', async () => {
+    // /api/golden-calibration runs two evaluator prompts in one dispatch, so the
+    // middleware stores `prompts: [...]` instead of a single promptId. Before
+    // promptKeyOf learned that shape, such a record fell through to
+    // "(uninstrumented)" — the exact opposite of the truth.
+    const kv = mockKv({
+      'obs:s:2026-08-24:_api_golden-calibration:dddd44': {
+        path: '/api/golden-calibration',
+        at: '2026-08-24T09:00:00.000Z',
+        contaminated: false,
+        text: 'Vrijeme je lijepo.',
+        prompts: [
+          { id: 'writing-eval', version: 'aabbccdd' },
+          { id: 'speaking-rubric', version: '11223344' },
+        ],
+      },
+    });
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: { CALIBRATION_SECRET: 's3cret', PUSH_SUBSCRIPTIONS: kv },
+      }),
+    );
+    const report = await res.json();
+    const keys = report.prompts.map((p) => p.prompt ?? p.key ?? Object.values(p)[0]);
+    expect(keys).toContain('writing-eval@aabbccdd + speaking-rubric@11223344');
+    expect(keys).not.toContain('(uninstrumented)');
+  });
+
+  it('still groups a single-prompt record by its one tag', async () => {
+    const kv = mockKv({
+      'obs:s:2026-08-24:_api_correct:eeee55': {
+        path: '/api/correct',
+        at: '2026-08-24T09:00:00.000Z',
+        contaminated: false,
+        text: 'Vrijeme je lijepo.',
+        promptId: 'writing-eval',
+        promptVersion: 'aabbccdd',
+      },
+    });
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: { CALIBRATION_SECRET: 's3cret', PUSH_SUBSCRIPTIONS: kv },
+      }),
+    );
+    const report = await res.json();
+    const keys = report.prompts.map((p) => p.prompt ?? p.key ?? Object.values(p)[0]);
+    expect(keys).toContain('writing-eval@aabbccdd');
+  });
+});
