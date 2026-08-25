@@ -25,6 +25,7 @@
 import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
 import { classifyPushFailure, countPushFailure, summarizePushFailures } from './_pushFailure.js';
 import { buildPushRunRecord, writePushRun } from './_pushRunLog.js';
+import { cronSecretFor } from './_cronAuth.js';
 
 export default {
   // fetch handler is required even for scheduled-only workers
@@ -48,8 +49,13 @@ export default {
       console.warn('[Scheduled] PUSH_SUBSCRIPTIONS KV not configured — skipping');
       return;
     }
-    if (!env.CRON_SECRET) {
-      console.warn('[Scheduled] CRON_SECRET not configured — skipping');
+    // Prefer the CI-installed MANAGED_CRON_SECRET over the hand-set CRON_SECRET
+    // (functions/_cronAuth.js). Preference, not fallback order for its own sake:
+    // when the two halves have drifted it is the hand-set value that stopped
+    // matching, so reaching for it first would preserve the outage it caused.
+    const cronSecret = cronSecretFor(env);
+    if (!cronSecret) {
+      console.warn('[Scheduled] no cron secret configured — skipping');
       // Record the halt rather than returning silently: "misconfigured" and
       // "not running at all" need different fixes, and an absent record makes
       // them look identical.
@@ -58,7 +64,7 @@ export default {
         buildPushRunRecord({
           at: cronTime,
           cron: event.cron,
-          haltedReason: 'CRON_SECRET not configured',
+          haltedReason: 'no cron secret configured',
         }),
       );
       return;
@@ -198,7 +204,7 @@ export default {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'x-cron-secret': env.CRON_SECRET,
+              'x-cron-secret': cronSecret,
             },
             body: JSON.stringify({
               subscription,
@@ -317,7 +323,7 @@ export default {
       try {
         const res = await fetch(`${PAGES_URL}/api/backup-progress`, {
           method: 'POST',
-          headers: { 'x-cron-secret': env.CRON_SECRET },
+          headers: { 'x-cron-secret': cronSecret },
           signal: AbortSignal.timeout(45000),
         });
         const data = await res.json().catch(() => ({}));

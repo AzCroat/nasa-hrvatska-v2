@@ -550,6 +550,17 @@ Rules:
 - **`ok` from `/api/streak-push` means "not expired", NOT "delivered".** The worker must also check the push service's own `status`; treating `ok` as delivery counted every push-service rejection as a send. A missing `status` still counts as accepted (older relay), so the check can never invent failures.
 - Run records are v2; `failures` is optional and absent on healthy runs. Readers must treat a missing map as "no reasons recorded", never as "no failures" — v1 records coexist for 14 days after any deploy.
 
+### The cron credential is DERIVED and installed by CI — never set by hand (2026-08-25)
+
+The Worker authenticates to `/api/streak-push` and `/api/backup-progress` with a shared secret. That secret used to be typed into two independent places — a Worker secret and a Pages env var — with nothing keeping them equal; `wrangler.toml` said "Shared with scheduled worker above", which is a comment, not a mechanism. On 2026-08-23 they drifted: **79 consecutive hourly runs, 0 reminders delivered, `unauthorized` on every attempt**, and the weekly Firestore backup down beside it — silently, because nothing sweeps backups the way `push-health.yml` sweeps reminders.
+
+`functions/_cronAuth.js` is now the only definition of what a valid cron caller is, used by both halves. CI derives `MANAGED_CRON_SECRET = HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-cron-v1")` and installs it on **both** the Pages project and the Worker on every push to master, so one process writes both and they cannot disagree. Rotating the Cloudflare token re-syncs both halves on the next deploy.
+
+- **The Worker PREFERS the managed secret** (`cronSecretFor`). In a drifted configuration the hand-set value is by definition the one that stopped matching, so reaching for it first would faithfully preserve the outage.
+- **`CRON_SECRET` stays accepted** (`isAuthorizedCron` takes either) so a CI-less environment still works and deploying this could never itself be an outage. It is no longer the mechanism.
+- **Ordering in `ci.yml` is load-bearing**: the Pages half installs BEFORE `pages deploy` (a Pages secret reaches Functions through a new deployment, not the running one) and the Worker half AFTER `wrangler deploy` (`secret put` needs the script to exist). Both pinned by `cronAuth.test.js`.
+- NEVER: install only one half; derive the two halves from different labels; make either install `continue-on-error` — a silent skip re-arms the exact trap. Any NEW Pages endpoint the Worker calls must use `isAuthorizedCron`, never its own comparison.
+
 ## Cloudflare Pages Functions
 
 ### Environment variables (set in Cloudflare dashboard)

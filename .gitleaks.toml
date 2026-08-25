@@ -34,4 +34,9 @@ regexes = [
   # "HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1")" as if the label
   # were a credential.
   '''nh-calibration-v1''',
+  # Same reasoning for the cron credential's label (functions/_cronAuth.js,
+  # ci.yml). It is the MESSAGE of the HMAC, not the key — publishing it reveals
+  # nothing, and it has to be readable in both places precisely so the two can
+  # be checked against each other.
+  '''nh-cron-v1''',
 ]

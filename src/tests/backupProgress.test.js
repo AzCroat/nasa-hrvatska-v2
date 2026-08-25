@@ -168,7 +168,11 @@ describe('the weekly trigger in the scheduled worker', () => {
 
   it('calls the backup endpoint with the cron secret inside a retry window', () => {
     expect(src).toContain('/api/backup-progress');
-    expect(src).toContain("'x-cron-secret': env.CRON_SECRET");
+    // The RESOLVED credential (functions/_cronAuth.js), not env.CRON_SECRET.
+    // This call shares the reminder's header, so when the hand-set secret
+    // drifted on 2026-08-23 the weekly backup went down with it — silently,
+    // since nothing sweeps backups the way push-health sweeps reminders.
+    expect(src).toContain("'x-cron-secret': cronSecret");
     // A multi-hour window (not one exact hour) is what turns a transient
     // failure into an automatic retry instead of a week-long gap.
     expect(src).toMatch(/getUTCDay\(\) === 1 && utcHour >= 3 && utcHour <= 5/);

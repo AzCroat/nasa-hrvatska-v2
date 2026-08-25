@@ -7,7 +7,11 @@
 #      wrangler kv:namespace create PUSH_SUBSCRIPTIONS
 # 2. Copy the returned namespace ID into [[kv_namespaces]] id below
 # 3. Set env vars in Cloudflare dashboard (not here):
-#      CRON_SECRET         — any random secret string (used to auth cron → API calls)
+#      CRON_SECRET         — OPTIONAL now. Any random secret string, used to auth
+#                            cron → API calls. Kept working and still accepted,
+#                            but no longer the mechanism: see MANAGED_CRON_SECRET
+#                            below. If you set it here you must set the SAME value
+#                            on the Pages project, and nothing checks that you did.
 #      VAPID_PRIVATE_KEY   — VAPID private key for web push signing
 #      VAPID_PUBLIC_KEY    — VAPID public key (sent to browser on subscribe)
 #      PAGES_URL           — https://nasahrvatska.com
@@ -41,7 +45,21 @@
 #   AZURE_TTS_REGION      — Azure TTS region (e.g. westeurope)
 #   VAPID_PRIVATE_KEY     — Web push signing
 #   VAPID_PUBLIC_KEY      — Web push public key
-#   CRON_SECRET           — Shared with scheduled worker above
+#   CRON_SECRET           — Optional; if set, must equal the worker's (see above)
+#
+# ── MANAGED_CRON_SECRET — set by CI on BOTH sides; never set it by hand ───────
+# The worker authenticates to /api/streak-push and /api/backup-progress with a
+# shared secret. "Shared with scheduled worker above" is what this file used to
+# say about CRON_SECRET, and a comment is not a mechanism: on 2026-08-23 the two
+# values drifted, and 79 consecutive hourly runs delivered zero reminders while
+# the weekly Firestore backup failed silently beside them.
+#
+# CI now derives MANAGED_CRON_SECRET as HMAC-SHA256(CLOUDFLARE_API_TOKEN,
+# "nh-cron-v1") and installs it on the Pages project AND this Worker on every
+# push to master, so one process writes both and they cannot disagree. Rotating
+# the Cloudflare token re-syncs both halves on the next deploy. Nothing to set,
+# nothing to remember. See functions/_cronAuth.js and the two "Install managed
+# cron secret" steps in .github/workflows/ci.yml.
 #   (Workers AI binding "AI" — Whisper STT for /api/assess-speaking)
 
 name                  = "nasa-hrvatska-scheduler"

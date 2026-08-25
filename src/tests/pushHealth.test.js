@@ -512,8 +512,8 @@ describe('the scheduled worker writes the heartbeat', () => {
     expect(writeIdx).toBeLessThan(backupIdx);
   });
 
-  it('records a halt on missing CRON_SECRET instead of returning silently', () => {
-    expect(worker).toMatch(/haltedReason: 'CRON_SECRET not configured'/);
+  it('records a halt on a missing cron secret instead of returning silently', () => {
+    expect(worker).toMatch(/haltedReason: 'no cron secret configured'/);
   });
 
   it('counts the subscriptions it actually read', () => {
@@ -561,12 +561,23 @@ describe('the worker heartbeat, run for real', () => {
   });
 
   it('beats on a quiet run where every subscriber was notDue', async () => {
-    // reminderTime 25 can never match a real local hour, so nobody is ever due.
+    // A VALID hour that is deterministically not the current one.
+    //
+    // This used to say reminderTime '25:00' — "can never match a real local
+    // hour, so nobody is ever due". It does not survive isDueThisHour: the
+    // validity regex rejects 25, targetHour falls to null, and the record drops
+    // into the LEGACY branch, which is due at 13:00 UTC. The test therefore
+    // failed for one hour in every twenty-four, deploying or not, and was caught
+    // only by happening to run at 13:00 (2026-08-25).
+    //
+    // An input chosen to be invalid tests the fallback, not the thing named in
+    // the title. Pick a valid one twelve hours away instead.
+    const notDueHour = String((new Date().getUTCHours() + 12) % 24).padStart(2, '0');
     const { kv, env } = workerEnv({
       user_a: JSON.stringify({
         subscription: { endpoint: 'https://push.example/a' },
-        reminderTime: '25:00',
-        timeZone: 'Europe/Zagreb',
+        reminderTime: `${notDueHour}:00`,
+        timeZone: 'UTC',
       }),
     });
     const fetchSpy = vi
@@ -582,11 +593,14 @@ describe('the worker heartbeat, run for real', () => {
     expect(assessPushRuns([rec], { now: Date.now() }).clean).toBe(true);
   });
 
-  it('records a halt instead of vanishing when CRON_SECRET is missing', async () => {
+  it('records a halt instead of vanishing when no cron secret is configured', async () => {
     const kv = fakeKv();
     await scheduledWorker.scheduled(cronEvent, { PUSH_SUBSCRIPTIONS: kv }, {});
     const rec = await lastRunIn(kv);
-    expect(rec.haltedReason).toMatch(/CRON_SECRET/);
+    // Matched on meaning rather than on one variable's name: either credential
+    // being absent is the same halt, and the reader needs to be told which
+    // condition fired, not which identifier spelled it.
+    expect(rec.haltedReason).toMatch(/cron secret/i);
     const out = assessPushRuns([rec], { now: Date.now() });
     expect(out.clean).toBe(false);
     expect(out.findings.map((f) => f.kind)).toContain('halted');

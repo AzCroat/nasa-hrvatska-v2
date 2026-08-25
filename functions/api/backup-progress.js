@@ -32,6 +32,7 @@
 
 import { getAdminAccessToken } from './_firestoreAdmin.js';
 import { weekKeyUTC } from './_weekKey.js';
+import { isAuthorizedCron } from '../_cronAuth.js';
 
 const COLLECTIONS = ['users', 'srs', 'profiles'];
 const PAGE_SIZE = 50;
@@ -45,14 +46,6 @@ function json(body, status = 200) {
     status,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
   });
-}
-
-// Constant-time comparison (same shape as streak-push.js).
-function timingSafeEqual(a, b) {
-  if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
-  let out = 0;
-  for (let i = 0; i < a.length; i++) out |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return out === 0;
 }
 
 async function backupCollection(collection, { projectId, token, kv, wk }) {
@@ -107,9 +100,13 @@ async function backupCollection(collection, { projectId, token, kv, wk }) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Internal-only: the scheduled worker authenticates with the shared secret.
+  // Internal-only: the scheduled worker authenticates with a cron credential.
+  // Same accept rule as /api/streak-push (functions/_cronAuth.js) — and for the
+  // same reason: this endpoint shares the Worker's header, so when CRON_SECRET
+  // drifted on 2026-08-23 the weekly Firestore backup went down with the
+  // reminders, unnoticed, because nothing sweeps it.
   const secret = request.headers.get('x-cron-secret') || '';
-  if (!env.CRON_SECRET || !timingSafeEqual(secret, env.CRON_SECRET)) {
+  if (!isAuthorizedCron(secret, env)) {
     return json({ ok: false, error: 'unauthorized' }, 401);
   }
 
