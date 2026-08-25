@@ -551,6 +551,19 @@ Rules:
 - **Retention and judgement are different windows** (2026-08-25). History is kept 14 days; the DELIVERY findings judge only `PUSH_JUDGEMENT_WINDOW_HOURS` (48). They were the same number, so the sweep described history as if it were now: with the credential outage fixed and no attempt made in two days, it still reported "all 6 push attempt(s) ... failed — unauthorized x4" on two-day-old attempts. It would also have gone red a second time as sends resumed, when `attempted` crossed the 8-attempt minimum at a ratio still dominated by the old failures (6/8 = 75%). Older runs stay in the report as `history` and the workflow prints them as a **warning** — never a gate, or the window is undone. **LIVENESS (`stale`, `halted`) always reads the NEWEST run regardless of age** — a cron dead for three days has no recent runs at all, which is exactly when the alarm matters most. The finding text names the window it measured; a 48-hour verdict printed beside a 14-day count is the mismatch that makes a reader distrust every number in the report.
 - Run records are v2; `failures` is optional and absent on healthy runs. Readers must treat a missing map as "no reasons recorded", never as "no failures" — v1 records coexist for 14 days after any deploy.
 
+### The weekly Firestore backup has its own sweep (2026-08-25)
+
+`push-health.yml` swept the reminders; nothing swept the backup, which is why the 2026-08-23 credential drift took the weekly snapshot down in silence beside them. `functions/_backupRunLog.js` + `/api/backup-health` + `backup-health.yml` (daily 08:30 UTC, fails red) close it. **Two signals, and the ordering is the design:**
+
+1. **Snapshot age is primary** and measures the OUTCOME — "is there a recent restorable snapshot" — read from `backup:latest` → `backup:<wk>:index.completedAt`. It is the finding that **cannot be silenced by the attempt path never running**: if a bug meant `backupDue` never became true, no attempt record would exist and an attempt-based check would stay quiet forever. Stale after `BACKUP_STALE_DAYS` (9 = one weekly cycle + slack). A `latest` pointer whose index is unreadable counts as NO snapshot — it claims something unrestorable.
+2. **Attempt records are the diagnosis** and buy ~9 days: a Monday whose attempts all failed is known that same day instead of when staleness notices. Bounded reason codes (`classifyBackupFailure`), never messages.
+
+- **`skipped` is a SUCCESS** — the once-per-week latch answering "already done" proves the pipeline responded; the 03/04/05 window exists so a transient failure is retried, so one failure followed by a success is the system working.
+- **The record is written OUTSIDE the try**, so a throw (a 45s timeout) cannot skip it — otherwise "timed out" and "never attempted" look identical.
+- **Swept DAILY though the job is weekly** — swept weekly, a failed Monday isn't known until the next Monday, which is the delay this exists to remove.
+- No hourly heartbeat here: the push heartbeat already proves the cron fires from the same handler. That is precisely why signal 1 must not depend on attempt records.
+- NEVER: remove the staleness check and rely on attempts; count `skipped` as a failure; move the record write inside the try; make the sweep weekly.
+
 ### The cron credential is DERIVED and installed by CI — never set by hand (2026-08-25)
 
 The Worker authenticates to `/api/streak-push` and `/api/backup-progress` with a shared secret. That secret used to be typed into two independent places — a Worker secret and a Pages env var — with nothing keeping them equal; `wrangler.toml` said "Shared with scheduled worker above", which is a comment, not a mechanism. On 2026-08-23 they drifted: **79 consecutive hourly runs, 0 reminders delivered, `unauthorized` on every attempt**, and the weekly Firestore backup down beside it — silently, because nothing sweeps backups the way `push-health.yml` sweeps reminders.
