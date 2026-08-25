@@ -13,7 +13,7 @@
 // These tests pin the mechanism that makes drift impossible rather than merely
 // fixed: one derived value, written to both sides by one process, every deploy.
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -140,7 +140,11 @@ describe('what the Worker actually puts on the wire', () => {
   // scheduled handler and reads the header off the intercepted request, because
   // the outage was never in the resolver — it was in which value reached the
   // fetch call, and there are two of those call sites.
-  const cronEvent = { cron: '0 * * * *', scheduledTime: Date.now() };
+  const cronEvent = { cron: '0 * * * *', scheduledTime: Date.parse('2026-08-25T10:30:00.000Z') };
+
+  // Unconditional, so a failing assertion cannot leak a pinned clock into the
+  // rest of the file. A no-op when no test faked them.
+  afterEach(() => vi.useRealTimers());
 
   function fakeKv(records = {}) {
     const store = new Map(Object.entries(records));
@@ -186,10 +190,18 @@ describe('what the Worker actually puts on the wire', () => {
   }
 
   it('sends the MANAGED secret, not the stale hand-set one, on every call', async () => {
-    // Due at whatever hour the suite happens to run: the legacy 13:00 UTC
-    // default would make this cover the reminder call only between 13:00 and
-    // 14:00 and quietly test the backup call alone the rest of the day.
-    const dueHour = String(new Date().getUTCHours()).padStart(2, '0');
+    // PIN THE CLOCK. Deriving the due hour from the real clock is not enough:
+    // the test reads it once and the worker reads it again inside
+    // isDueThisHour, so a suite straddling an hour boundary computes '17' and
+    // is then evaluated at 18:00 — the subscriber stops being due and the
+    // reminder call never fires. That is exactly what happened at 18:00:00 UTC
+    // on 2026-08-25, and it is the same class of flake this PR's predecessor
+    // fixed elsewhere: a fixture whose coverage depends on what time CI runs.
+    //
+    // Only Date is faked; real timers still drive AbortSignal.timeout.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-08-25T10:30:00.000Z'));
+    const dueHour = '10';
     const kv = fakeKv({
       user_a: JSON.stringify({
         subscription: { endpoint: 'https://push.example/a' },
