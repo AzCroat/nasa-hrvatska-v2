@@ -1,9 +1,14 @@
 // functions/api/streak-push.js
 // Internal endpoint: sends a Web Push notification to a single push subscription.
-// Authentication: x-cron-secret header must match env.CRON_SECRET (set in Cloudflare dashboard).
+// Authentication: the x-cron-secret header must match one of the accepted cron
+// credentials (functions/_cronAuth.js) — the owner's CRON_SECRET, or the
+// MANAGED_CRON_SECRET that CI derives and installs on both the Pages project and
+// the scheduled Worker so the two halves cannot drift apart. They did drift on
+// 2026-08-23, and every reminder failed here with `unauthorized` for two days.
 // Called by the scheduled Cloudflare Worker defined in functions/scheduled.js.
 
 import { classifyPushFailure } from '../_pushFailure.js';
+import { isAuthorizedCron } from '../_cronAuth.js';
 
 // Deterministic variant picker — uses (streak + seed) % length so the same
 // user gets a different message each day without needing localStorage in a Worker.
@@ -409,24 +414,12 @@ async function sendWebPush(subscription, payload, env) {
   return res.status;
 }
 
-// Constant-time string comparison — prevents timing attacks on secret comparison.
-// Always iterates the full length regardless of match/mismatch position.
-function timingSafeEqual(a, b) {
-  const enc = new TextEncoder();
-  const aBytes = enc.encode(String(a));
-  const bBytes = enc.encode(String(b));
-  const len = Math.max(aBytes.length, bBytes.length);
-  let diff = aBytes.length === bBytes.length ? 0 : 1;
-  for (let i = 0; i < len; i++) {
-    diff |= (aBytes[i] || 0) ^ (bBytes[i] || 0);
-  }
-  return diff === 0;
-}
-
 export async function onRequestPost({ request, env }) {
-  // Internal-only: require CRON_SECRET
+  // Internal-only. Accepts the owner's hand-set CRON_SECRET or the derived
+  // MANAGED_CRON_SECRET that CI installs on both this project and the scheduled
+  // Worker every deploy — see functions/_cronAuth.js for why there are two.
   const secret = request.headers.get('x-cron-secret') || '';
-  if (!env.CRON_SECRET || !timingSafeEqual(secret, env.CRON_SECRET)) {
+  if (!isAuthorizedCron(secret, env)) {
     return new Response(JSON.stringify({ error: 'unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' },

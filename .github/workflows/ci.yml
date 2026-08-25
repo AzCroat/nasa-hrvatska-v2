@@ -306,6 +306,36 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
+      # ── Managed cron credential, half 1 of 2 (Pages) ─────────────────────────
+      # The scheduled Worker authenticates to /api/streak-push and
+      # /api/backup-progress with a shared secret that used to be typed by hand
+      # into TWO places with nothing keeping them equal. On 2026-08-23 they
+      # drifted: 79 consecutive hourly runs, 0 reminders delivered, every attempt
+      # `unauthorized`, and the weekly Firestore backup down beside it.
+      #
+      # CI now derives the value from a credential it already holds and writes
+      # BOTH sides itself, so they cannot disagree. Same derivation and the same
+      # public label as calibration.yml's self-provisioned secret — nobody ever
+      # pastes anything, and rotating the Cloudflare token re-syncs both halves
+      # on the next deploy. The owner's CRON_SECRET is never touched and stays
+      # accepted, so this can only ADD a working credential.
+      #
+      # MUST run BEFORE the Pages deploy: a Pages secret reaches Functions
+      # through a new deployment, not the running one.
+      - name: Install managed cron secret (Pages)
+        if: github.event_name == 'push'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          TOKEN=$(printf '%s' "nh-cron-v1" \
+            | openssl dgst -sha256 -hmac "${CLOUDFLARE_API_TOKEN}" -r | cut -d' ' -f1)
+          echo "::add-mask::${TOKEN}"
+          printf '%s' "${TOKEN}" | npx --yes wrangler@3 pages secret put MANAGED_CRON_SECRET \
+            --project-name nasa-hrvatska-v2 >/dev/null
+          echo "MANAGED_CRON_SECRET installed on the Pages project"
+
       - name: Deploy to Cloudflare Pages
         if: github.event_name == 'push'
         # Pass --commit-message explicitly (subject line only, stripped of non-ASCII) to avoid
@@ -352,3 +382,28 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # ── Managed cron credential, half 2 of 2 (Worker) ────────────────────────
+      # The other end of the pair installed before the Pages deploy above. Same
+      # label, same key, so the two values are equal by construction rather than
+      # by anyone remembering to keep them so.
+      #
+      # Runs AFTER the Worker deploy because `wrangler secret put` needs the
+      # script to exist — on a first-ever deploy it would otherwise fail and take
+      # a working release down with it.
+      #
+      # Deliberately NOT continue-on-error. If this cannot run, the Worker and
+      # Pages can drift again, and that failure is the whole thing being fixed —
+      # master should say so rather than deploy quietly into the same trap.
+      - name: Install managed cron secret (scheduled Worker)
+        if: github.event_name == 'push'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          TOKEN=$(printf '%s' "nh-cron-v1" \
+            | openssl dgst -sha256 -hmac "${CLOUDFLARE_API_TOKEN}" -r | cut -d' ' -f1)
+          echo "::add-mask::${TOKEN}"
+          printf '%s' "${TOKEN}" | npx --yes wrangler@3 secret put MANAGED_CRON_SECRET >/dev/null
+          echo "MANAGED_CRON_SECRET installed on nasa-hrvatska-scheduler"
