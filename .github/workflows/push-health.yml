@@ -77,19 +77,38 @@ jobs:
           report = json.load(open(sys.argv[1]))
           print(json.dumps(report, indent=2, ensure_ascii=False))
           findings = report.get('findings', [])
+          # The JUDGED window. Delivery findings look back only this far, so a
+          # fixed outage stops failing the sweep once it ages out — retention
+          # (14 days) and judgement are different jobs. Liveness is unaffected:
+          # `stale` and `halted` always read the newest run.
           window = report.get('window', {})
+          history = report.get('history', {})
           for f in findings:
               print(f"::error::push {f.get('kind')}: {f.get('detail')}")
+          # Older failures are context, never a verdict — a warning at most, and
+          # only when there is something to say.
+          if history.get('failed'):
+              print(
+                  "::warning::%d older failure(s) outside the %sh judgement window "
+                  "(retained %s days, not gating): %s"
+                  % (
+                      history.get('failed', 0),
+                      window.get('windowHours', '?'),
+                      history.get('retentionDays', '?'),
+                      history.get('failures', {}) or 'no reasons recorded',
+                  )
+              )
           if findings:
               print(f"::error::Push delivery health found {len(findings)} finding(s)")
               sys.exit(1)
           print(
               "Push delivery healthy: last run %s (%s min ago), "
-              "%d run(s) retained, %d sent / %d failed / %d expired"
+              "%d run(s) in the last %sh, %d sent / %d failed / %d expired"
               % (
                   (report.get('lastRun') or {}).get('at'),
                   report.get('ageMinutes'),
                   window.get('runs', 0),
+                  window.get('windowHours', '?'),
                   window.get('sent', 0),
                   window.get('failed', 0),
                   window.get('expired', 0),

@@ -78,6 +78,57 @@ export const PUSH_FAIL_RATIO_LIMIT = 0.34;
 export const PUSH_FAIL_MIN_ATTEMPTS = 8;
 
 /**
+ * How far back the DELIVERY findings look (2026-08-25).
+ *
+ * Retention and judgement are different jobs and were the same number, which
+ * made the sweep describe history as if it were now. Caught the moment the
+ * 2026-08-23 credential outage was fixed: with the cron healthy again and no
+ * attempt made in two days, the sweep still reported "all 6 push attempt(s) in
+ * the retained window failed — unauthorized x4". Every one of those attempts
+ * was two days old and already fixed.
+ *
+ * It would also have gone red a second time on the way out. Six historical
+ * failures sit in the 14-day window until 2026-09-06; as real sends resumed,
+ * `attempted` would cross the 8-attempt minimum while the ratio was still
+ * dominated by them (6/8 = 0.75), so a working system would have failed the
+ * sweep for days before the arithmetic cleared. An alarm that fires for a
+ * resolved problem is one its reader learns to skip.
+ *
+ * 48 hours rather than 24: sends are once per subscriber per day, so a
+ * 24-hour window can hold very few attempts, and `all_failing` fires at ANY
+ * sample size by design. Two days is enough for that to mean something and
+ * still short enough that the report describes the present.
+ *
+ * LIVENESS is unaffected — `stale` and `halted` read the newest run, which is
+ * the only correct source for "is it running right now" either way.
+ */
+export const PUSH_JUDGEMENT_WINDOW_HOURS = 48;
+
+/**
+ * Split runs into the ones the delivery findings judge and the older ones kept
+ * as context. Pure and clock-injectable.
+ *
+ * An undated run counts as RECENT. It cannot be aged out of judgement on a
+ * timestamp we cannot read — the same rule the observatory's incident filter
+ * uses, and in the same direction: when in doubt, keep it in front of the
+ * reader rather than let it disappear quietly.
+ */
+export function partitionRunsByAge(
+  runs,
+  { now = Date.now(), windowHours = PUSH_JUDGEMENT_WINDOW_HOURS } = {},
+) {
+  const cutoffMs = windowHours * 60 * 60 * 1000;
+  const recent = [];
+  const older = [];
+  for (const r of Array.isArray(runs) ? runs : []) {
+    const t = Date.parse(String(r?.at ?? ''));
+    if (!Number.isFinite(t) || now - t <= cutoffMs) recent.push(r);
+    else older.push(r);
+  }
+  return { recent, older };
+}
+
+/**
  * Build the run record. Pure — takes the counters the worker already computes
  * and returns the object both the writer and the tests agree on.
  *
@@ -162,30 +213,44 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
   const sorted = [...valid].sort((a, b) => String(b.at).localeCompare(String(a.at)));
   const newest = sorted[0] || null;
 
-  const sum = (field) => sorted.reduce((n, r) => n + (Number(r[field]) || 0), 0);
-  const sent = sum('sent');
-  const failed = sum('failed');
-  const expired = sum('expired');
+  // DELIVERY findings judge only the recent runs; liveness (below) still reads
+  // the newest run regardless of age. Retention and judgement are different
+  // jobs — see PUSH_JUDGEMENT_WINDOW_HOURS.
+  const { recent, older } = partitionRunsByAge(sorted, { now });
+
+  const sumOver = (rows, field) => rows.reduce((n, r) => n + (Number(r[field]) || 0), 0);
+  const sent = sumOver(recent, 'sent');
+  const failed = sumOver(recent, 'failed');
+  const expired = sumOver(recent, 'expired');
   const attempted = sent + failed;
   const failureRatio = attempted > 0 ? failed / attempted : 0;
   const age = newest ? ageMinutes(newest.at, now) : null;
 
-  // Reasons across the window. Absent on v1 records and on runs that predate a
-  // deploy, so this can legitimately be empty while `failed` is not — which is
-  // why the findings below append the reasons only when there are some, rather
-  // than claiming "unknown" for history that simply never carried them.
-  const failures = {};
-  for (const r of sorted) {
-    for (const [code, n] of Object.entries(r.failures || {})) {
-      const count = Number(n);
-      if (Number.isFinite(count) && count > 0) failures[code] = (failures[code] || 0) + count;
+  // Reasons across the judged runs. Absent on v1 records and on runs that
+  // predate a deploy, so this can legitimately be empty while `failed` is not —
+  // which is why the findings below append the reasons only when there are some,
+  // rather than claiming "unknown" for history that simply never carried them.
+  const failuresIn = (rows) => {
+    const out = {};
+    for (const r of rows) {
+      for (const [code, n] of Object.entries(r.failures || {})) {
+        const count = Number(n);
+        if (Number.isFinite(count) && count > 0) out[code] = (out[code] || 0) + count;
+      }
     }
-  }
+    return out;
+  };
+  const failures = failuresIn(recent);
   const reasons = summarizePushFailures(failures);
   const because = reasons ? ` — ${reasons}` : '';
 
+  // `window` is what the findings were computed from, so the numbers printed
+  // beside a finding are the numbers that produced it. Anything else — a
+  // 14-day count next to a 48-hour verdict — is the kind of mismatch that makes
+  // a reader distrust every other number in the report.
   const window = {
-    runs: sorted.length,
+    runs: recent.length,
+    windowHours: PUSH_JUDGEMENT_WINDOW_HOURS,
     sent,
     failed,
     expired,
@@ -195,12 +260,24 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
     failures,
   };
 
+  // Retained but NOT judged. Kept visible so an outage that has since been
+  // fixed is still legible in context rather than vanishing — the sweep stops
+  // crying wolf about it, it does not pretend it never happened.
+  const history = {
+    runs: older.length,
+    retentionDays: PUSH_RUN_TTL_SECONDS / (24 * 60 * 60),
+    sent: sumOver(older, 'sent'),
+    failed: sumOver(older, 'failed'),
+    expired: sumOver(older, 'expired'),
+    failures: failuresIn(older),
+  };
+
   if (!newest) {
     findings.push({
       kind: 'no_runs',
       detail: 'no push run has been recorded at all — the scheduled worker has never reported in',
     });
-    return { clean: false, findings, window, lastRun: null, ageMinutes: null };
+    return { clean: false, findings, window, history, lastRun: null, ageMinutes: null };
   }
 
   if (age === null || age > PUSH_RUN_STALE_MINUTES) {
@@ -223,14 +300,21 @@ export function assessPushRuns(runs, { now = Date.now() } = {}) {
   if (attempted > 0 && sent === 0) {
     findings.push({
       kind: 'all_failing',
-      detail: `all ${attempted} push attempt(s) in the retained window failed — not one was accepted${because}`,
+      detail: `all ${attempted} push attempt(s) in the last ${PUSH_JUDGEMENT_WINDOW_HOURS}h failed — not one was accepted${because}`,
     });
   } else if (attempted >= PUSH_FAIL_MIN_ATTEMPTS && failureRatio > PUSH_FAIL_RATIO_LIMIT) {
     findings.push({
       kind: 'failure_rate',
-      detail: `${failed}/${attempted} push attempts failed (${Math.round(failureRatio * 100)}%, limit ${Math.round(PUSH_FAIL_RATIO_LIMIT * 100)}%)${because}`,
+      detail: `${failed}/${attempted} push attempts in the last ${PUSH_JUDGEMENT_WINDOW_HOURS}h failed (${Math.round(failureRatio * 100)}%, limit ${Math.round(PUSH_FAIL_RATIO_LIMIT * 100)}%)${because}`,
     });
   }
 
-  return { clean: findings.length === 0, findings, window, lastRun: newest, ageMinutes: age };
+  return {
+    clean: findings.length === 0,
+    findings,
+    window,
+    history,
+    lastRun: newest,
+    ageMinutes: age,
+  };
 }

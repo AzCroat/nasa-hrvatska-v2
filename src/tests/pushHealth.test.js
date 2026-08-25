@@ -29,10 +29,12 @@ import {
   PUSH_RUN_STALE_MINUTES,
   PUSH_FAIL_RATIO_LIMIT,
   PUSH_FAIL_MIN_ATTEMPTS,
+  PUSH_JUDGEMENT_WINDOW_HOURS,
   buildPushRunRecord,
   writePushRun,
   ageMinutes,
   assessPushRuns,
+  partitionRunsByAge,
 } from '../../functions/_pushRunLog.js';
 import { onRequestPost as pushHealth } from '../../functions/api/push-health.js';
 import scheduledWorker from '../../functions/scheduled.js';
@@ -311,6 +313,122 @@ describe('assessPushRuns', () => {
     expect(finding.detail).toContain('push_service_5xx x4, vapid_unconfigured x2');
   });
 
+  // ── Judgement window (2026-08-25) ─────────────────────────────────────────
+  //
+  // Retention and judgement were the same 14 days, which made the sweep
+  // describe history as if it were now. Caught the moment the 2026-08-23
+  // credential outage was fixed: the cron was healthy, no attempt had been made
+  // in two days, and the sweep still reported "all 6 push attempt(s) ... failed
+  // — unauthorized x4" on attempts that were two days old and already fixed.
+
+  const hoursAgo = (h) => new Date(NOW - h * 3600000).toISOString();
+
+  describe('partitionRunsByAge', () => {
+    it('splits at the window edge, inclusive', () => {
+      const { recent, older } = partitionRunsByAge(
+        [{ at: hoursAgo(1) }, { at: hoursAgo(48) }, { at: hoursAgo(49) }],
+        { now: NOW },
+      );
+      expect(recent).toHaveLength(2);
+      expect(older).toHaveLength(1);
+    });
+
+    it('counts an undated run as RECENT', () => {
+      // Same rule as the observatory's incident filter, in the same direction:
+      // a record we cannot date must not drop out of judgement quietly.
+      for (const r of [{}, { at: null }, { at: 'not a date' }, null]) {
+        expect(partitionRunsByAge([r], { now: NOW }).recent, JSON.stringify(r)).toHaveLength(1);
+      }
+    });
+
+    it('survives a non-array input', () => {
+      expect(partitionRunsByAge(undefined)).toEqual({ recent: [], older: [] });
+    });
+  });
+
+  describe('the delivery findings judge only recent runs', () => {
+    it('does NOT report a fixed outage whose failures have aged out', () => {
+      // The exact production state on 2026-08-25: six failures from the
+      // credential drift, then two days of healthy runs with nobody due.
+      const runs = [
+        { v: 2, at: hoursAgo(50), sent: 0, failed: 6, failures: { unauthorized: 6 } },
+        { v: 2, at: hoursAgo(1), sent: 0, failed: 0, scanned: 2, notDue: 2 },
+      ];
+      const out = assessPushRuns(runs, { now: NOW });
+      expect(out.clean).toBe(true);
+      expect(out.findings).toHaveLength(0);
+      // Not hidden — moved to history, where it is context rather than a verdict.
+      expect(out.history.failed).toBe(6);
+      expect(out.history.failures).toEqual({ unauthorized: 6 });
+      expect(out.window.failed).toBe(0);
+    });
+
+    it('does NOT let aged-out failures poison the ratio as sends resume', () => {
+      // The second false alarm this prevents. Six old failures plus real sends
+      // would have crossed the 8-attempt minimum at a 6/8 = 75% ratio, failing
+      // the sweep for days while the system was working.
+      const runs = [
+        { v: 2, at: hoursAgo(60), sent: 0, failed: 6, failures: { unauthorized: 6 } },
+        { v: 2, at: hoursAgo(20), sent: 2, failed: 0 },
+        { v: 2, at: hoursAgo(1), sent: 0, failed: 0 }, // keeps the cron looking alive
+      ];
+      const out = assessPushRuns(runs, { now: NOW });
+      expect(out.clean).toBe(true);
+      expect(out.window.attempted).toBe(2);
+      expect(out.window.failureRatio).toBe(0);
+      expect(out.history.failed).toBe(6);
+    });
+
+    it('STILL fires when the failures are current', () => {
+      // The whole point is narrowing the window, not softening the alarm.
+      const out = assessPushRuns(
+        [{ v: 2, at: hoursAgo(2), sent: 0, failed: 3, failures: { unauthorized: 3 } }],
+        { now: NOW },
+      );
+      expect(out.clean).toBe(false);
+      expect(out.findings.map((f) => f.kind)).toContain('all_failing');
+      expect(out.findings[0].detail).toContain('unauthorized x3');
+    });
+
+    it('an ongoing outage stays red as it ages, because new runs keep failing', () => {
+      // A problem nobody fixed writes fresh failing runs every hour, so it can
+      // never age out of judgement — only a FIXED one does.
+      const runs = [
+        { v: 2, at: hoursAgo(60), sent: 0, failed: 4, failures: { unauthorized: 4 } },
+        { v: 2, at: hoursAgo(1), sent: 0, failed: 2, failures: { unauthorized: 2 } },
+      ];
+      const out = assessPushRuns(runs, { now: NOW });
+      expect(out.clean).toBe(false);
+      expect(out.findings.map((f) => f.kind)).toContain('all_failing');
+    });
+
+    it('names the window it actually measured', () => {
+      // A 48-hour verdict printed beside a 14-day count is the mismatch that
+      // makes a reader distrust every other number in the report.
+      const out = assessPushRuns([{ v: 2, at: hoursAgo(1), sent: 0, failed: 2 }], { now: NOW });
+      expect(out.findings[0].detail).toContain(`last ${PUSH_JUDGEMENT_WINDOW_HOURS}h`);
+      expect(out.findings[0].detail).not.toContain('retained window');
+      expect(out.window.windowHours).toBe(PUSH_JUDGEMENT_WINDOW_HOURS);
+    });
+
+    it('LIVENESS still reads the newest run regardless of age', () => {
+      // Narrowing the delivery window must not blind the staleness check — a
+      // cron that died three days ago has no recent runs at all, and that is
+      // exactly when the alarm matters most.
+      const out = assessPushRuns([{ v: 2, at: hoursAgo(72), sent: 1, failed: 0 }], { now: NOW });
+      expect(out.findings.map((f) => f.kind)).toContain('stale');
+      expect(out.clean).toBe(false);
+    });
+
+    it('a halted newest run is still reported even if it is old', () => {
+      const out = assessPushRuns(
+        [{ v: 2, at: hoursAgo(72), haltedReason: 'no cron secret configured' }],
+        { now: NOW },
+      );
+      expect(out.findings.map((f) => f.kind)).toEqual(expect.arrayContaining(['stale', 'halted']));
+    });
+  });
+
   it('says nothing about reasons when the history predates them', () => {
     // v1 records carry no `failures`. The finding must still fire on the counts
     // and must NOT append an empty or invented reason — during the fortnight
@@ -322,7 +440,7 @@ describe('assessPushRuns', () => {
     // The reason clause is appended after the base sentence; with no reasons
     // recorded the detail must end exactly where the base sentence ends.
     expect(finding.detail).toBe(
-      'all 2 push attempt(s) in the retained window failed — not one was accepted',
+      'all 2 push attempt(s) in the last 48h failed — not one was accepted',
     );
     expect(finding.detail).not.toMatch(/undefined|unknown|x\d/);
     expect(out.window.failures).toEqual({});
@@ -650,6 +768,21 @@ describe('the daily workflow fails red on a finding', () => {
 
   it('is scheduled, not dispatch-only — an unrun check is not a check', () => {
     expect(wf).toMatch(/schedule:\s*\n\s*- cron:/);
+  });
+
+  it('prints aged-out failures as a warning, never as a gate', () => {
+    // If this ever becomes ::error:: the judgement window is undone: the sweep
+    // would go red for the same resolved outage every day until its records
+    // expire, which is exactly what the window exists to stop.
+    expect(wf).toContain("history.get('failed')");
+    const line = wf.split('\n').find((l) => l.includes('older failure(s) outside'));
+    expect(line).toBeTruthy();
+    expect(line).toContain('::warning::');
+    expect(line).not.toContain('::error::');
+  });
+
+  it('reads the judged window, so the summary matches the verdict', () => {
+    expect(wf).toContain("window.get('windowHours'");
   });
 });
 
