@@ -31,6 +31,46 @@ import { containsCyrillic } from './_croatianGuard.js';
 
 const MAX_INCIDENTS = 50;
 const MAX_SAMPLES = 200;
+
+/**
+ * How recent an incident must be to FAIL the sweep (2026-08-25).
+ *
+ * Incidents live in KV for 14 days, and the sweep runs weekly — so before this,
+ * one incident failed the build for two consecutive Mondays, the second time
+ * long after it was fixed. An alert that keeps firing for a resolved problem
+ * teaches its reader to skip it, which costs far more than it saves: the whole
+ * value of this sweep is that a red run means something.
+ *
+ * Eight days is one sweep interval plus a day of slack. Every incident is fresh
+ * for exactly one sweep — the first one after it happened, which is the sweep
+ * that should escalate it — and is retained but non-gating from then on. A
+ * recurrence writes new records, which are fresh again, so a problem that is
+ * genuinely still happening still fails.
+ */
+const INCIDENT_FRESH_MS = 8 * 24 * 60 * 60 * 1000;
+
+/**
+ * Split incidents into the ones that gate the build and the ones that are
+ * history. Pure and clock-injectable so the boundary is testable without KV.
+ *
+ * An incident with a missing or unparseable `at` counts as FRESH. Ageing out is
+ * a privilege earned by a timestamp we can read; a record we cannot date must
+ * not slip past the gate merely because it is unclassifiable.
+ */
+export function partitionIncidentsByAge(
+  incidents,
+  { now = Date.now(), freshMs = INCIDENT_FRESH_MS } = {},
+) {
+  const fresh = [];
+  const retained = [];
+  for (const inc of Array.isArray(incidents) ? incidents : []) {
+    const t = Date.parse(String(inc?.at ?? ''));
+    if (!Number.isFinite(t) || now - t <= freshMs) fresh.push(inc);
+    else retained.push(inc);
+  }
+  return { fresh, retained };
+}
+
 const UNINSTRUMENTED = '(uninstrumented)';
 
 /**
@@ -171,10 +211,20 @@ export async function onRequestPost(context) {
     (a, b) => b.findings - a.findings || b.samples - a.samples,
   );
 
-  const clean = incidents.length === 0 && findings.length === 0;
+  // Only incidents from the last sweep window gate the build; older ones stay
+  // in the report so a problem nobody fixed is still visible, it just stops
+  // crying wolf every Monday until its KV entry expires.
+  const { fresh: freshIncidents, retained: retainedIncidents } = partitionIncidentsByAge(incidents);
+  const clean = freshIncidents.length === 0 && findings.length === 0;
+
   return json(200, {
     at: new Date().toISOString(),
-    incidents,
+    incidents: freshIncidents,
+    retainedIncidents: {
+      count: retainedIncidents.length,
+      freshWindowDays: INCIDENT_FRESH_MS / (24 * 60 * 60 * 1000),
+      entries: retainedIncidents,
+    },
     samples: { stored: sampleKeys.length, checked, findings },
     prompts,
     clean,

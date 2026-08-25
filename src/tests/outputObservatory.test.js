@@ -13,7 +13,15 @@ import { dirname, join } from 'node:path';
 
 import { latinizeResponseBody, OBSERVE_SAMPLE_CHARS } from '../../functions/api/_croatianGuard.js';
 import { findSerbism, SERBISM_RULES } from '../../functions/api/_serbisms.js';
-import { onRequestPost as sweep } from '../../functions/api/output-observatory.js';
+import {
+  onRequestPost as sweep,
+  partitionIncidentsByAge,
+} from '../../functions/api/output-observatory.js';
+
+const DAY = 24 * 60 * 60 * 1000;
+/** Fixtures must age with the clock, or they silently fall out of the freshness
+ *  window and start failing on a date nobody chose. */
+const agoIso = (ms) => new Date(Date.now() - ms).toISOString();
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const mwSrc = readFileSync(join(__dir, '../../functions/_middleware.js'), 'utf8');
@@ -169,9 +177,9 @@ describe('/api/output-observatory — the sweep', () => {
 
   it('reports incidents and re-screens samples with the shared rules', async () => {
     const kv = mockKv({
-      'obs:i:2026-08-18T10:00:00.000Z:aaaa11': {
+      'obs:i:recent:aaaa11': {
         path: '/api/dialogue',
-        at: '2026-08-18T10:00:00.000Z',
+        at: agoIso(2 * DAY), // fresh — this one still gates
         contaminated: true,
         text: 'Добро јутро, пекара',
       },
@@ -223,6 +231,177 @@ describe('/api/output-observatory — the sweep', () => {
   it('spends nothing: no Claude call anywhere in the sweep', () => {
     expect(sweepSrc).not.toContain('anthropic');
     expect(sweepSrc).not.toContain('claude-haiku');
+  });
+});
+
+// ── Incident age filter (2026-08-25) ──────────────────────────────────────────
+//
+// Incidents live in KV for 14 days and the sweep runs weekly, so one incident
+// used to fail the build on two consecutive Mondays — the second time long
+// after it was fixed. An alarm that keeps sounding for a resolved problem is
+// one its reader learns to skip, which costs more than it saves.
+
+describe('partitionIncidentsByAge', () => {
+  const now = Date.parse('2026-08-25T06:00:00.000Z');
+  const at = (ms) => ({ at: new Date(now - ms).toISOString() });
+
+  it('gates on an incident inside the window and retains one outside it', () => {
+    const { fresh, retained } = partitionIncidentsByAge(
+      [at(1 * DAY), at(7 * DAY), at(9 * DAY), at(13 * DAY)],
+      { now },
+    );
+    expect(fresh).toHaveLength(2);
+    expect(retained).toHaveLength(2);
+  });
+
+  it('is inclusive at exactly the boundary, exclusive one millisecond past it', () => {
+    // The window is 8 days: one weekly sweep interval plus a day of slack, so
+    // every incident is fresh for exactly the one sweep that should escalate it.
+    expect(partitionIncidentsByAge([at(8 * DAY)], { now }).fresh).toHaveLength(1);
+    expect(partitionIncidentsByAge([at(8 * DAY + 1)], { now }).fresh).toHaveLength(0);
+  });
+
+  it('counts an undateable incident as FRESH', () => {
+    // Ageing out is a privilege earned by a timestamp we can read. A record we
+    // cannot date must not slip past the gate for being unclassifiable — that
+    // would make a corrupt record the quietest kind.
+    for (const inc of [{}, { at: null }, { at: 'not a date' }, { at: 12345 }, null]) {
+      expect(partitionIncidentsByAge([inc], { now }).fresh, JSON.stringify(inc)).toHaveLength(1);
+    }
+  });
+
+  it('treats a future timestamp as fresh rather than ancient', () => {
+    // Clock skew between the edge that wrote the record and the sweep must not
+    // hand an incident a free pass.
+    expect(partitionIncidentsByAge([at(-1 * DAY)], { now }).fresh).toHaveLength(1);
+  });
+
+  it('survives a non-array input', () => {
+    expect(partitionIncidentsByAge(undefined)).toEqual({ fresh: [], retained: [] });
+    expect(partitionIncidentsByAge(null)).toEqual({ fresh: [], retained: [] });
+  });
+});
+
+describe('the sweep only gates on fresh incidents', () => {
+  const oldIncident = {
+    'obs:i:old:ffff66': {
+      path: '/api/dialogue',
+      at: agoIso(11 * DAY),
+      contaminated: true,
+      text: 'Добро јутро',
+    },
+  };
+
+  it('an incident older than the window is retained, reported, and does NOT fail the sweep', async () => {
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: { CRON_SECRET: 's3cret', PUSH_SUBSCRIPTIONS: mockKv(oldIncident) },
+      }),
+    );
+    const report = await res.json();
+    expect(report.clean).toBe(true);
+    expect(report.incidents).toHaveLength(0);
+    // Still visible: a problem nobody fixed must not vanish, it must stop crying
+    // wolf. The workflow prints these as warnings.
+    expect(report.retainedIncidents.count).toBe(1);
+    expect(report.retainedIncidents.entries[0].path).toBe('/api/dialogue');
+    expect(report.retainedIncidents.freshWindowDays).toBe(8);
+  });
+
+  it('a recurrence writes a new record, which is fresh again and fails', async () => {
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: {
+          CRON_SECRET: 's3cret',
+          PUSH_SUBSCRIPTIONS: mockKv({
+            ...oldIncident,
+            'obs:i:new:aaaa77': {
+              path: '/api/dialogue',
+              at: agoIso(1 * DAY),
+              contaminated: true,
+              text: 'Добро јутро',
+            },
+          }),
+        },
+      }),
+    );
+    const report = await res.json();
+    expect(report.clean).toBe(false);
+    expect(report.incidents).toHaveLength(1);
+    expect(report.retainedIncidents.count).toBe(1);
+  });
+
+  it('an old incident never suppresses a fresh SAMPLE finding', async () => {
+    // The age filter is about incidents only. Samples carry a 14-day TTL and are
+    // re-screened every sweep, so they are already self-limiting.
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: {
+          CRON_SECRET: 's3cret',
+          PUSH_SUBSCRIPTIONS: mockKv({
+            ...oldIncident,
+            'obs:s:x:_api_maja:bbbb88': {
+              path: '/api/maja',
+              at: agoIso(1 * DAY),
+              contaminated: false,
+              text: 'Kupio sam hleb i mlijeko',
+            },
+          }),
+        },
+      }),
+    );
+    const report = await res.json();
+    expect(report.clean).toBe(false);
+    expect(report.samples.findings).toHaveLength(1);
+  });
+
+  it('a retained incident still counts toward its prompt roll-up', async () => {
+    // Ageing out of the GATE is not ageing out of the record. "Which prompt has
+    // a history of contamination" is exactly the question the roll-up answers.
+    const res = await sweep(
+      sweepContext({
+        secret: 's3cret',
+        env: {
+          CRON_SECRET: 's3cret',
+          PUSH_SUBSCRIPTIONS: mockKv({
+            'obs:i:old:ffff99': {
+              path: '/api/dialogue',
+              at: agoIso(11 * DAY),
+              contaminated: true,
+              text: 'Добро јутро',
+              promptId: 'dialogue-turn',
+              promptVersion: 'deadbeef',
+            },
+          }),
+        },
+      }),
+    );
+    const report = await res.json();
+    expect(report.prompts).toContainEqual({
+      prompt: 'dialogue-turn@deadbeef',
+      samples: 1,
+      findings: 1,
+    });
+  });
+});
+
+describe('the workflow reads the split report', () => {
+  const wf = readFileSync(join(__dir, '../../.github/workflows/output-observatory.yml'), 'utf8');
+
+  it('fails on fresh incidents and findings only', () => {
+    expect(wf).toContain('if incidents or findings:');
+  });
+
+  it('prints retained incidents as warnings, never as an error', () => {
+    // If this block is ever turned into an ::error:: the filter is undone — the
+    // sweep would go red for the same resolved incident every Monday again.
+    expect(wf).toContain('retainedIncidents');
+    const retainedLine = wf.split('\n').find((l) => l.includes('retained') && l.includes('::'));
+    expect(retainedLine).toBeTruthy();
+    expect(retainedLine).toContain('::warning::');
   });
 });
 

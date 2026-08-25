@@ -241,3 +241,57 @@ function purgeAndReload(): boolean {
     return true;
   }
 }
+
+/**
+ * Stable Sentry fingerprint for a self-healed stale-chunk load failure.
+ * One group, so a spike is legible without the noise of per-URL variants.
+ */
+const CHUNK_FINGERPRINT = 'stale-chunk-load-selfhealed';
+
+/**
+ * Minimal structural view of the Sentry event fields we touch. Declared locally
+ * so this helper and its tests need no Sentry SDK types — the real `Event` is
+ * structurally assignable to it. Same shape as idbTelemetry's.
+ */
+export interface MinimalChunkEvent {
+  exception?: { values?: Array<{ value?: string }> };
+  message?: unknown;
+  level?: string;
+  fingerprint?: string[];
+}
+
+/** Primary error text of an event, lowercased for matching. */
+export function chunkEventMessage(event: MinimalChunkEvent): string {
+  const v = event.exception?.values?.[0]?.value;
+  if (typeof v === 'string') return v.toLowerCase();
+  if (typeof event.message === 'string') return event.message.toLowerCase();
+  return '';
+}
+
+/**
+ * Downgrade a stale-chunk load failure to 'warning' with a stable fingerprint.
+ *
+ * WHY THIS IS NOT AN ERROR. The app already self-heals these: isChunkLoadError
+ * above triggers a cache purge and reload, bounded by the attempt window. The
+ * cause is environmental — a deploy landed while a tab was open, so the HTML in
+ * memory references a chunk hash that no longer exists. Nothing in our code is
+ * wrong, and the user is recovered automatically.
+ *
+ * WHY NOT SILENCE IT. Frequency is the signal. A steady trickle is ordinary
+ * deploy churn; a spike means the healer stopped working, or a deploy left the
+ * CDN serving HTML for asset URLs (the 2026-08-04 incident that put the
+ * missing-asset guard in the middleware). Dropping these would lose the only
+ * evidence of either.
+ *
+ * 'warning' rather than the IDB family's 'info' — deliberately one notch
+ * higher. An IDB failure is invisible to the user; this one takes their screen
+ * away and reloads it mid-session. It should not page, but it should not be
+ * filed with the truly inconsequential either. Mutates and returns the event.
+ */
+export function downgradeChunkLoadEvent<T extends MinimalChunkEvent>(event: T): T {
+  if (isChunkLoadError(chunkEventMessage(event))) {
+    event.level = 'warning';
+    event.fingerprint = [CHUNK_FINGERPRINT];
+  }
+  return event;
+}
