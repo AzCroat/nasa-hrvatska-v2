@@ -11,6 +11,7 @@ import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders, err } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -47,7 +48,14 @@ Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
 }
 
 The phrase should be practical and conversational. The cultural fact should be specific — not generic tourism copy. Make it feel like insider knowledge.`,
-  { alsoVersion: LOCATIONS.map((l) => `${l.city}|${l.region}|${l.emoji}`) },
+  // LOCATIONS *and* the script rule: both are authored text this prompt draws
+  // on without containing, so both must move the version.
+  {
+    alsoVersion: [
+      ...LOCATIONS.map((l) => `${l.city}|${l.region}|${l.emoji}`),
+      CROATIAN_SCRIPT_RULE,
+    ],
+  },
 );
 
 export async function onRequestOptions({ request }) {
@@ -119,7 +127,7 @@ export async function onRequestGet(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 400,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content: prompt + '\n\n' + CROATIAN_SCRIPT_RULE }],
       }),
       signal: AbortSignal.timeout(20000),
     });

@@ -4,6 +4,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 // Was uninstrumentable until renderPrompt learned {{#if}}: two of these lines
 // only appear sometimes, and a flat template cannot say "sometimes". Both
@@ -28,7 +29,9 @@ Times missed: {{missCount}}
 {{#if learnerErrors}}Learner struggles with: {{learnerErrors}}. Incorporate these patterns in examples.{{/if}}
 
 Return ONLY valid JSON, no markdown.`,
-  { alsoVersion: complexityNote },
+  // The per-level notes *and* the script rule — both authored, both selected
+  // rather than contained, so both move this version.
+  { alsoVersion: { ...complexityNote, scriptRule: CROATIAN_SCRIPT_RULE } },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -153,7 +156,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 300,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });

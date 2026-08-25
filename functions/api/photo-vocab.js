@@ -5,6 +5,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const PHOTO_VOCAB_PROMPT = definePrompt(
   'photo-vocab',
@@ -24,6 +25,9 @@ Rules:
 - example: a simple sentence at {{level}} level using the word
 - If the image contains readable text (menu, sign, label), prioritize translating that text
 - Respond with valid JSON only. No markdown.`,
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -139,7 +143,7 @@ export async function onRequestPost(context) {
           },
           {
             type: 'text',
-            text: textPrompt,
+            text: textPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
           },
         ],
       },

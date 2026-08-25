@@ -5,10 +5,14 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const COACH_PROMPT = definePrompt(
   'pronunciation-coach',
   'You are an expert Croatian pronunciation coach specializing in helping native English speakers. You give precise, phoneme-level feedback grounded in articulatory phonetics, always in plain English. Return ONLY valid JSON, no markdown fences.',
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -225,7 +229,7 @@ Return ONLY valid JSON (no markdown):
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 420,
-        system: COACH_PROMPT.text,
+        system: COACH_PROMPT.text + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMsg }],
       }),
     });

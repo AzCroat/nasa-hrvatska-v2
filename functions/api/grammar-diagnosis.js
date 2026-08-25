@@ -5,10 +5,14 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const GRAMMAR_DIAG_PROMPT = definePrompt(
   'grammar-diagnosis',
   "You are a Croatian language learning coach analyzing a student's mistake patterns. Return ONLY valid JSON.",
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -233,7 +237,7 @@ export async function onRequestPost(context) {
         // ~1100-1350 tokens, so 1000 truncated the richest diagnoses (exactly the
         // users this feature targets) into a 502 parse_failed. Sized for 5 spots.
         max_tokens: 2000,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });

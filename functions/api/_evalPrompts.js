@@ -20,6 +20,7 @@
 // every request a different "version" and measure nothing.
 
 import { definePrompt, renderPrompt } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 /** System prompt for the writing evaluator (/api/correct). */
 export const WRITING_EVAL_PROMPT = definePrompt(
@@ -57,12 +58,23 @@ For each item in "changes", set "errorType" to exactly one of these tokens:
 - "spelling" — typo or diacritic mistake
 - "other" — anything else
 If unsure, use "other". This field is required.`,
+  // Script rule appended by writingEvalSystemPrompt below; alsoVersion so a
+  // reworded rule moves this version.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 /** Build the writing-evaluator system prompt. `safePrompt` must already be
- *  sanitized by the caller (sanitizeParam). */
+ *  sanitized by the caller (sanitizeParam).
+ *
+ *  The script rule is appended HERE rather than at the call site (2026-08-25).
+ *  This prompt has two callers — /api/correct and /api/golden-calibration —
+ *  and the calibration's whole premise is that it runs the SAME evaluator
+ *  production runs. Appending the rule in correct.js alone would have made the
+ *  calibration measure a prompt that no longer existed in production, which is
+ *  a worse failure than the Cyrillic it guards against: the drift detector
+ *  would have been the thing that drifted. */
 export function writingEvalSystemPrompt(safePrompt) {
-  return renderPrompt(WRITING_EVAL_PROMPT, { topic: safePrompt });
+  return renderPrompt(WRITING_EVAL_PROMPT, { topic: safePrompt }) + '\n\n' + CROATIAN_SCRIPT_RULE;
 }
 
 /** User prompt for the speaking rubric (/api/assess-speaking). */
