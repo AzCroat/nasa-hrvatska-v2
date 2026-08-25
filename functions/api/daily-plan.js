@@ -4,10 +4,14 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const DAILY_PLAN_PROMPT = definePrompt(
   'daily-plan',
   'You are a Croatian language learning coach creating a personalized daily practice plan. Return ONLY valid JSON, no markdown.',
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -219,7 +223,7 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 700,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });

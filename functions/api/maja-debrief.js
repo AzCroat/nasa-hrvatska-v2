@@ -5,6 +5,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 // Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
 const MAX_KNOWN_FACTS = 40;
@@ -72,6 +73,9 @@ Return ONLY a valid JSON object. No markdown. No code blocks. No explanation bef
   "suggestLevelUpTo": null,
   "levelUpMessage": null
 }`,
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -327,7 +331,7 @@ export async function onRequestPost(context) {
         // so 800 could truncate and silently drop the whole debrief to a generic
         // canned fallback (losing the session's real vocab/facts/level-up).
         max_tokens: 1500,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [
           {
             role: 'user',

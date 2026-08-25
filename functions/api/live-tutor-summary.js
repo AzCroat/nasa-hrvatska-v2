@@ -5,6 +5,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const SUMMARY_PROMPT = definePrompt(
   'live-tutor-summary',
@@ -20,6 +21,9 @@ Return valid JSON only:
   "xpEarned": number between 25-75 based on session length and engagement
 }
 No markdown.`,
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -163,7 +167,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 500,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });

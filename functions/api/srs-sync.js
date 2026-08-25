@@ -5,6 +5,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam, ok, err } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -31,6 +32,9 @@ Focus on:
 - New words introduced by Maja that the learner should memorize
 - Grammar patterns where errors occurred
 - Limit to max 5 vocabulary items and 3 grammar gaps (most important only)`,
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 const SRS_SYSTEM_PROMPT = SRS_PROMPT.text;
 
@@ -96,7 +100,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 800,
-        system: SRS_SYSTEM_PROMPT,
+        system: SRS_SYSTEM_PROMPT + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });

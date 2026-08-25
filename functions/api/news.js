@@ -6,6 +6,7 @@ import { checkAndChargeBudget } from './_aiBudget.js';
 import { corsHeaders as _corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -103,6 +104,10 @@ const NEWS_C2 = definePrompt(
 Rewrite the story as a genuine Croatian news item (novinski stil): 8-12 sentences, standard journalistic structure (lead first), full diacritics, authentic register — keep specialized terminology, officialese, and idiomatic press collocations exactly as a Croatian daily would print them. Do NOT simplify or shorten.
 Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
 For key_vocabulary select 5-6 ADVANCED items a C2 learner should mine from press language: idioms, collocations, officialese, low-frequency lexemes — never basic words. Keep facts accurate; do not invent facts beyond the source.`,
+  // Script rule appended at the call site; alsoVersion so rewording it moves
+  // this version. It matters most here: the SOURCE is real Croatian press,
+  // which can itself carry Serbian variants straight into the model's context.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 // The per-level rule is SELECTED by this template, not contained in it, so it
@@ -113,7 +118,7 @@ const NEWS_SIMPLIFY = definePrompt(
 Simplification rules: {{rule}}
 Return ONLY valid JSON: {"simplified_title":"...","simplified_title_en":"...","simplified_text":"...","simplified_text_en":"...","key_vocabulary":[{"hr":"...","en":"..."}],"summary_one_sentence":{"hr":"...","en":"..."}}
 Include 5-6 key vocabulary items. Keep facts accurate.`,
-  { alsoVersion: COMPLEXITY },
+  { alsoVersion: { ...COMPLEXITY, scriptRule: CROATIAN_SCRIPT_RULE } },
 );
 
 /** Which prompt a level actually runs. Mirrors the safeLevel guard below. */
@@ -147,7 +152,7 @@ async function simplifyArticle(article, level, anthropicKey) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 2200, // C2 needs 8-12 Croatian sentences + full EN translation + 5-6 vocab + summary; hr diacritics tokenize heavy, so 1500 could still truncate the heaviest articles → silent drop (same failure path as a missing fence-strip)
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userContent }],
       }),
     });

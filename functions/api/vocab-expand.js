@@ -6,6 +6,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const VOCAB_PROMPT = definePrompt(
   'vocab-expand',
@@ -16,6 +17,9 @@ const VOCAB_PROMPT = definePrompt(
 
 Return valid JSON only: {"examples": [{"hr": "...", "en": "...", "note": "..."}]}
 No markdown. Make sentences feel like real Croatian speech, not textbook examples.`,
+  // Script rule appended at the call site; alsoVersion so a reworded rule
+  // moves this version rather than leaving every version standing still.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -128,7 +132,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 600,
-        system: systemPrompt,
+        system: systemPrompt + '\n\n' + CROATIAN_SCRIPT_RULE,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });
