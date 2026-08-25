@@ -68,12 +68,22 @@ jobs:
           python3 - /tmp/report.json <<'EOF'
           import json, sys
           report = json.load(open(sys.argv[1]))
+          # `incidents` carries only the FRESH ones — the endpoint splits them by
+          # age (8 days = one sweep interval plus slack) so a single incident
+          # fails exactly the one sweep that should escalate it, instead of every
+          # Monday until its 14-day KV entry expires. A recurrence writes a new
+          # record, which is fresh again and fails again.
           incidents = report.get('incidents', [])
+          retained = report.get('retainedIncidents', {})
           samples = report.get('samples', {})
           findings = samples.get('findings', [])
           print(json.dumps(report, indent=2, ensure_ascii=False))
           for i in incidents:
               print(f"::error::Cyrillic INCIDENT served-then-transliterated at {i.get('path')} ({i.get('at')})")
+          # Still reported, deliberately non-gating: a problem nobody fixed stays
+          # visible without turning the sweep into noise.
+          for i in retained.get('entries', []):
+              print(f"::warning::retained incident (older than {retained.get('freshWindowDays')}d, not gating) at {i.get('path')} ({i.get('at')})")
           for f in findings:
               kind = f.get('kind')
               detail = f" — '{f.get('match')}' (use {f.get('use')})" if kind == 'serbism' else ''
@@ -81,5 +91,5 @@ jobs:
           if incidents or findings:
               print(f"::error::Output observatory found {len(incidents)} incident(s) and {len(findings)} sample finding(s)")
               sys.exit(1)
-          print(f"Observatory clean: {samples.get('checked', 0)} samples checked, 0 findings, 0 incidents")
+          print(f"Observatory clean: {samples.get('checked', 0)} samples checked, 0 findings, 0 fresh incidents ({retained.get('count', 0)} retained)")
           EOF

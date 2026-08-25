@@ -12,6 +12,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { _aiPost } from '../lib/aiPost';
+import { coerceAiText } from '../lib/aiText';
 
 export interface ExplainErrorResult {
   explanation: string;
@@ -48,7 +49,20 @@ export function useExplainError(type: string, level: string) {
         });
         if (!mountedRef.current) return;
         if (!res.ok) throw new Error('API error');
-        const data = (await res.json()) as ExplainErrorResult;
+        const raw = (await res.json()) as Record<string, unknown>;
+        // Coerce EVERY field before it reaches JSX. The ExplainErrorResult type
+        // declares four strings, but that is a compile-time claim about data
+        // this code did not produce: the model can return {hr, en} for a field
+        // the prompt asked for as a sentence, and DrillExplainCard renders
+        // these raw. React then throws "Objects are not valid as a React child
+        // (found: object with keys {hr, en})" and takes the drill down — for an
+        // explanation that is meant to be pure enrichment. See lib/aiText.ts.
+        const data: ExplainErrorResult = {
+          explanation: coerceAiText(raw.explanation),
+          rule: coerceAiText(raw.rule),
+          tip: coerceAiText(raw.tip),
+          example: coerceAiText(raw.example),
+        };
         if (mountedRef.current) setExplain(data);
       } catch {
         if (mountedRef.current) setExplain(null); // quiet — the static tip remains

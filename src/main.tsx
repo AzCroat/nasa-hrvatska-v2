@@ -26,7 +26,7 @@ import { reportError } from './lib/errorReporter.js';
 import { isNative, isAndroid } from './lib/platform.js';
 import { initPostHog } from './lib/analytics';
 import { registerSW } from 'virtual:pwa-register';
-import { isChunkLoadError, reloadWithCachePurge } from './lib/chunkErrors';
+import { isChunkLoadError, reloadWithCachePurge, downgradeChunkLoadEvent } from './lib/chunkErrors';
 import { isStaleBuild } from './lib/versionCheck';
 import {
   shouldEnableSentryReplay,
@@ -200,6 +200,13 @@ if (import.meta.env.VITE_SENTRY_DSN) {
           // as high-priority but are retained for frequency tracking. Logic +
           // tests live in sentryHelpers.downgradeEnvironmentalIdbEvent.
           downgradeEnvironmentalIdbEvent(event);
+          // Stale-chunk load failures self-heal (purge + reload, see
+          // lib/chunkErrors.ts). They were still reporting at full priority,
+          // which is why "Importing a module script failed" reads as an
+          // ongoing incident on an app whose healer is working. Retained at
+          // 'warning' so a SPIKE — healer broken, or the CDN serving HTML for
+          // asset URLs again — is still visible.
+          downgradeChunkLoadEvent(event);
           if (event.request?.url) {
             event.request.url = event.request.url.replace(/[?#].*/, '');
           }
