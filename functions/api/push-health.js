@@ -110,7 +110,12 @@ export async function onRequestPost(context) {
     staleAfterMinutes: PUSH_RUN_STALE_MINUTES,
     lastRun: assessment.lastRun,
     ageMinutes: assessment.ageMinutes,
+    // `window` is the judged window — the numbers the findings came from.
+    // `history` is the rest of the retention: kept visible, never judged, so a
+    // fixed outage stays legible without failing the sweep every day until its
+    // records expire.
     window: assessment.window,
+    history: assessment.history,
     findings: assessment.findings,
     clean: assessment.clean,
   });
