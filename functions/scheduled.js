@@ -26,6 +26,7 @@ import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
 import { classifyPushFailure, countPushFailure, summarizePushFailures } from './_pushFailure.js';
 import { buildPushRunRecord, writePushRun } from './_pushRunLog.js';
 import { cronSecretFor } from './_cronAuth.js';
+import { buildBackupRunRecord, writeBackupRun, classifyBackupFailure } from './_backupRunLog.js';
 
 export default {
   // fetch handler is required even for scheduled-only workers
@@ -320,6 +321,14 @@ export default {
       }
     }
     if (backupDue) {
+      // Every attempt is RECORDED, not only logged (2026-08-25). Before this the
+      // only account of a backup failure was a console.error into the ephemeral
+      // Cloudflare tail, which is why the 2026-08-23 credential drift took the
+      // weekly snapshot down for two days in complete silence while the same
+      // fault in the reminders was caught within a day. See _backupRunLog.js.
+      let outcome = 'failed';
+      let week = null;
+      let reason = null;
       try {
         const res = await fetch(`${PAGES_URL}/api/backup-progress`, {
           method: 'POST',
@@ -327,7 +336,11 @@ export default {
           signal: AbortSignal.timeout(45000),
         });
         const data = await res.json().catch(() => ({}));
+        week = data?.week || null;
         if (res.ok) {
+          // A skip is a SUCCESS: the once-per-week latch found this week's
+          // snapshot already written, which proves the pipeline answered.
+          outcome = data?.skipped ? 'skipped' : 'ok';
           console.warn(
             `[Scheduled] Weekly backup ${data.skipped ? 'already done' : 'completed'} (${data.week || '?'})`,
           );
@@ -337,11 +350,17 @@ export default {
             await env.PUSH_SUBSCRIPTIONS.put('backup:bootstrap_done', '1');
           } catch {}
         } else {
+          reason = classifyBackupFailure({ httpStatus: res.status, errorCode: data?.error });
           console.error(`[Scheduled] Weekly backup failed: status=${res.status}`, data?.error);
         }
       } catch (e) {
+        reason = classifyBackupFailure({ errorMessage: e?.message });
         console.error('[Scheduled] Weekly backup error:', e?.message);
       }
+      await writeBackupRun(
+        env.PUSH_SUBSCRIPTIONS,
+        buildBackupRunRecord({ at: cronTime, cron: event.cron, outcome, week, reason }),
+      );
     }
   },
 };

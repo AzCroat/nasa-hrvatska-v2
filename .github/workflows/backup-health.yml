@@ -1,0 +1,91 @@
+# Weekly Firestore backup health — daily sweep (2026-08-25).
+#
+# The backup is the only snapshot of every learner's progress, and until now it
+# was the one scheduled job with no sweep at all. On 2026-08-23 it went down
+# alongside the streak reminders — same cron credential, same `unauthorized` —
+# and while push-health.yml caught the reminders within a day, this failed in
+# complete silence.
+#
+# DAILY for a WEEKLY job on purpose: a Monday whose attempts all failed is then
+# known that same day rather than the following Monday. Snapshot staleness is
+# the backstop that fires even if the attempt path never runs at all.
+#
+# Zero AI spend: pure KV reads.
+#
+# AUTH: the shared cron credential (functions/_cronAuth.js). CI installs
+# MANAGED_CRON_SECRET on the Pages project every deploy, derived as
+# HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-cron-v1"), so this needs no secret of
+# its own; a repo CRON_SECRET still wins if one is configured.
+name: Backup health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 8 * * *' # daily 08:30 UTC — after push-health's 07:30
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Sweep backup health
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN}" ] && [ -z "${CRON_SECRET}" ]; then
+            echo "::error::Neither CLOUDFLARE_API_TOKEN nor CRON_SECRET is configured"
+            exit 1
+          fi
+
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          else
+            TOKEN=$(printf '%s' "nh-cron-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
+          fi
+          echo "::add-mask::${TOKEN}"
+
+          STATUS=$(curl -sS -o /tmp/backup-health.json -w '%{http_code}' -X POST \
+            "https://nasahrvatska.com/api/backup-health" \
+            -H "x-cron-secret: ${TOKEN}")
+
+          if [ "${STATUS}" != "200" ]; then
+            cat /tmp/backup-health.json || true
+            echo "::error::Backup health sweep failed with HTTP ${STATUS}"
+            exit 1
+          fi
+
+      - name: Evaluate report
+        run: |
+          python3 - /tmp/backup-health.json <<'EOF'
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          print(json.dumps(report, indent=2, ensure_ascii=False))
+          findings = report.get('findings', [])
+          snapshot = report.get('snapshot', {})
+          attempts = report.get('attempts', {})
+          for f in findings:
+              print(f"::error::backup {f.get('kind')}: {f.get('detail')}")
+          if findings:
+              print(f"::error::Backup health found {len(findings)} finding(s)")
+              sys.exit(1)
+          print(
+              "Backup healthy: newest snapshot %s completed %s (%s days old, limit %s); "
+              "%d attempt(s) in the last %s days, %d ok / %d failed"
+              % (
+                  snapshot.get('week'),
+                  snapshot.get('at'),
+                  snapshot.get('ageDays'),
+                  snapshot.get('staleAfterDays'),
+                  attempts.get('recent', 0),
+                  attempts.get('judgementDays'),
+                  attempts.get('succeeded', 0),
+                  attempts.get('failed', 0),
+              )
+          )
+          EOF
