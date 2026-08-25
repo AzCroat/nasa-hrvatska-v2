@@ -7,6 +7,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
+import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -22,6 +23,13 @@ const EXPLAIN_PROMPT = definePrompt(
 CRITICAL: assume the learner has never heard terms like "genitive" or "aspect". Never use a grammar term without immediately glossing it in plain words — e.g. "genitive (the 'of' form)", "accusative (the 'him' form — what the action lands on)", "dative (the 'to someone' form)". Where possible, anchor to something English does: he/him/his, who/whom, "the dog's bone", "give HIM the book". Plain words beat precision.
 Return ONLY valid JSON (no markdown, no code blocks):
 {"explanation":"2-3 sentences explaining the grammar rule in plain English","rule":"short plain-English rule name e.g. 'The of-form (genitive)'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`,
+  // The script rule is appended at request time (below) rather than written
+  // into this text, matching the eight endpoints that already do so. That
+  // leaves it OUTSIDE the versioned template, so alsoVersion carries it: edit
+  // CROATIAN_SCRIPT_RULE and this prompt's version moves with it. Without this
+  // the rule could be reworded — or removed — and every version would sit
+  // still, which is the failure mode alsoVersion exists to prevent.
+  { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
 
 function ok(body, origin) {
@@ -119,7 +127,16 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
 
   const basePrompt = EXPLAIN_PROMPT.text;
 
-  const systemPrompt = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
+  // Croatian script guard. This endpoint produced the 2026-08-21 Cyrillic
+  // incident the weekly observatory caught (explain-error@72630bad): the
+  // `example` field is Croatian, and nothing in the prompt had ever said which
+  // alphabet to write it in. The middleware's latinizeResponseBody transliterated
+  // it before the learner saw it, so nobody reported anything — which is exactly
+  // how a content defect survives. Appended at runtime, the same shape ai-chat,
+  // conversation, maja and five others already use.
+  const withScriptRule = basePrompt + '\n\n' + CROATIAN_SCRIPT_RULE;
+
+  const systemPrompt = contextProse ? withScriptRule + '\n\n' + contextProse : withScriptRule;
 
   // Block 1: fetch — catches network errors only
   let res;
