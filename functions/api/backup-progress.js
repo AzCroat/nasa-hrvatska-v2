@@ -110,11 +110,35 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: 'unauthorized' }, 401);
   }
 
+  // WHICH piece of config is missing, not merely THAT one is (2026-08-25).
+  //
+  // These three used to collapse into a single `server_misconfigured`. On its
+  // very first scheduled run the backup sweep reported "all 15 backup
+  // attempt(s) failed — server_misconfigured x15" and the code could not say
+  // which of three variables to set; the answer had to be deduced by reading
+  // this function. That is the same "it is broken" versus "it is broken
+  // BECAUSE" gap #530 closed for push failures, and it costs the most at
+  // exactly the moment someone is trying to fix an outage.
+  //
+  // The codes name ENV VARS, never values. The names are already public in
+  // wrangler.toml and CLAUDE.md, and this endpoint is behind the cron secret.
   const projectId = env.VITE_FIREBASE_PROJECT_ID || env.FIREBASE_PROJECT_ID || '';
   const saJson = env.FIREBASE_SERVICE_ACCOUNT_JSON || '';
   const kv = env.BACKUP_KV || env.KV || env.PUSH_SUBSCRIPTIONS || null;
-  if (!projectId || !saJson || !kv) {
-    return json({ ok: false, error: 'server_misconfigured' }, 500);
+  const missing = [];
+  if (!projectId) missing.push('FIREBASE_PROJECT_ID');
+  if (!saJson) missing.push('FIREBASE_SERVICE_ACCOUNT_JSON');
+  if (!kv) missing.push('BACKUP_KV|KV|PUSH_SUBSCRIPTIONS');
+  if (missing.length > 0) {
+    // One code for the recorder (the vocabulary is bounded and single-valued),
+    // chosen as the FIRST missing piece in this fixed order — and the full list
+    // in the body for whoever is looking at the response directly.
+    const code = !projectId
+      ? 'missing_project_id'
+      : !saJson
+        ? 'missing_service_account'
+        : 'missing_kv';
+    return json({ ok: false, error: code, missing }, 500);
   }
 
   let force = false;

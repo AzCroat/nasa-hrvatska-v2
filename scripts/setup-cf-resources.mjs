@@ -142,15 +142,34 @@ async function ensurePageKVBinding(accountId, projectName, project, binding, nam
 // ── Step 5: Verify required env vars are set on the Pages project ─────────────
 
 function checkPageEnvVars(project) {
-  const REQUIRED_ENV_VARS = ['FIREBASE_PROJECT_ID'];
+  // Each entry is the set of names that SATISFY one requirement — the check
+  // passes if any one of them is present.
+  //
+  // This used to be a flat list containing the bare `FIREBASE_PROJECT_ID`, and
+  // it warned on every single deploy for years about a variable the codebase
+  // deliberately does not need: every consumer reads
+  // `VITE_FIREBASE_PROJECT_ID || FIREBASE_PROJECT_ID`, and only the VITE_ name
+  // is set (see the comment in functions/api/content/_authedRead.js). A warning
+  // that is always wrong is worse than no warning — it taught us to skim this
+  // block, and while we skimmed it, the one variable that IS missing was never
+  // mentioned here at all.
+  //
+  // FIREBASE_SERVICE_ACCOUNT_JSON is that variable. Its absence is why the
+  // weekly Firestore backup has never produced a restorable snapshot, found by
+  // /api/backup-health on 2026-08-26 — fifteen consecutive config failures that
+  // this check could have named at deploy time, years earlier.
+  const REQUIRED_ENV_VARS = [
+    ['VITE_FIREBASE_PROJECT_ID', 'FIREBASE_PROJECT_ID'],
+    ['FIREBASE_SERVICE_ACCOUNT_JSON'],
+  ];
   const envs = ['production', 'preview'];
   const missing = [];
 
-  for (const envName of REQUIRED_ENV_VARS) {
+  for (const names of REQUIRED_ENV_VARS) {
     for (const env of envs) {
       const envVars = project.deployment_configs?.[env]?.env_vars || {};
-      if (!envVars[envName]) {
-        missing.push(`${env}/${envName}`);
+      if (!names.some((n) => envVars[n])) {
+        missing.push(`${env}/${names.join(' or ')}`);
       }
     }
   }
@@ -161,7 +180,10 @@ function checkPageEnvVars(project) {
       console.warn(`  ✗ ${m}`);
     }
     console.warn('\nSet them in: Cloudflare Dashboard → Pages → nasa-hrvatska-v2 → Settings → Environment Variables');
-    console.warn('Required for token auth: FIREBASE_PROJECT_ID = your Firebase project ID\n');
+    console.warn('  VITE_FIREBASE_PROJECT_ID   — Firebase project ID (token auth)');
+    console.warn(
+      '  FIREBASE_SERVICE_ACCOUNT_JSON — service-account JSON (weekly Firestore backup)\n',
+    );
   } else {
     console.log('  ✓ All required Pages env vars are set');
   }
