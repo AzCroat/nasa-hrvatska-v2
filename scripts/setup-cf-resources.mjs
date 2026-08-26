@@ -182,7 +182,12 @@ function checkPageEnvVars(project) {
     console.warn('\nSet them in: Cloudflare Dashboard → Pages → nasa-hrvatska-v2 → Settings → Environment Variables');
     console.warn('  VITE_FIREBASE_PROJECT_ID   — Firebase project ID (token auth)');
     console.warn(
-      '  FIREBASE_SERVICE_ACCOUNT_JSON — service-account JSON (weekly Firestore backup)\n',
+      '  FIREBASE_SERVICE_ACCOUNT_JSON — service-account JSON (weekly Firestore backup,\n' +
+        '    /api/delete-account, /api/backfill, Google TTS fallback).\n' +
+        '    PREFERRED: add it as the GitHub repo secret of the same name — the\n' +
+        '    "Install Firebase service account (Pages)" step in ci.yml then applies it\n' +
+        '    on every deploy, so it cannot drift and rotating it is a secret update\n' +
+        '    rather than a dashboard visit.\n',
     );
   } else {
     console.log('  ✓ All required Pages env vars are set');
