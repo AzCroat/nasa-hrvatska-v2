@@ -28,7 +28,7 @@ npm run test:e2e         # Playwright end-to-end (builds first)
 npm run lint             # ESLint (src + functions)
 npm run lint:fix         # Auto-fix ESLint issues
 npm run typecheck        # tsc --noEmit (TypeScript check without emit)
-npm run verify:firestore # Verify Firestore security rules
+npm run verify:firestore # Data-integrity probe against PRODUCTION (needs .env); NOT a rules check
 npm run cap:sync         # Build + sync Capacitor native projects
 ```
 
@@ -350,7 +350,13 @@ No Cyrillic and no Serbian variants may reach a user, ever. Three layers (pinned
 
 1. **Middleware chokepoint**: `functions/_middleware.js` pipes every TEXTUAL `/api` response body through `latinizeResponseBody` (`functions/api/_croatianGuard.js`) — azbuka→gajica transliteration, streaming-safe, binary untouched. No endpoint, present or future, can leak Cyrillic. Never remove this call.
 2. **Prompt rule**: the 7 Croatian-generating endpoints (ai-chat, maja, conversation, conversational-tutor, dialogue, listening, micro-lesson) append `CROATIAN_SCRIPT_RULE` to their system prompts — the only layer that prevents Serbian LEXICON/ekavica, which transliteration cannot fix. New Croatian-generating endpoints must adopt it (tested by source pin).
-3. **Static lint**: `scripts/lintCroatianText.mjs` adds a high-precision Serbism blocklist over the content files. JS `\b` is ASCII-only and mis-fires around č/ć/đ/š/ž — the rules use Unicode lookarounds. Morphology matters: oblique forms of `vrijeme` are `vremena/vremenu` IN STANDARD CROATIAN; only bare ekavica forms are flagged. Extend the list conservatively — false alarms train people to ignore the lint.
+3. **Static lint**: `scripts/lintCroatianText.mjs` adds a high-precision Serbism blocklist over the content files. **It runs in CI** (the quality job) as of 2026-08-26 — before that it was an npm script executed when someone remembered, which is the same "guard that never fires" class as an unconditional-write regression. JS `\b` is ASCII-only and mis-fires around č/ć/đ/š/ž — the rules use Unicode lookarounds. Morphology matters: oblique forms of `vrijeme` are `vremena/vremenu` IN STANDARD CROATIAN; only bare ekavica forms are flagged. Extend the list conservatively — false alarms train people to ignore the lint.
+
+**The two checks are not the same check** (2026-08-26). ENCODING BLEED is a defect in every string — a Cyrillic homoglyph in a deliberately wrong multiple-choice option still has to render, still breaks TTS and copy-paste. A SERBISM is a defect in every string a learner can READ as Croatian, and **that includes distractors**: a wrong answer is on screen as a clickable option, so a learner meets it whether or not they pick it. Teaching the Croatian/Serbian contrast by putting the Serbian form in front of them is the one method this app does not use — distractors must be wrong some OTHER way (case, aspect, register, word order). Only the ENGLISH fields (`en`, `note`, `subtitle`, `tip`) are exempt.
+
+`dialogueScenarios.js` is walked **structurally** rather than by regex, because only the data knows which option is correct: `opts[answer]` is Croatian, `opts[1..3]` are distractors. Before that the whole conversation bank was unlinted. `opts`/`options`/`choices` arrays in the regex targets are scanned too. When adding a TARGET, confirm the file actually exposes fields `CRO_FIELD_RE` matches — a target whose fields never match is a file you believe is covered and is not.
+
+Coverage is 41 files; **component-embedded Croatian (~134 files) is deliberately still out**, because those mix Croatian examples with English UI copy and sweeping them in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs do live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so this is unfinished, not settled.
 
 ## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
 
@@ -401,46 +407,6 @@ now observes what AI endpoints ACTUALLY serve (pinned by `outputObservatory.test
   BOTH `scripts/lintCroatianText.mjs` (static content) and the sweep (live
   output). Add rules there, never fork; extend conservatively (the
   123-false-positive lesson).
-
-## Critical Architecture: Push Delivery Observability (2026-08-22)
-
-The streak reminder is the one feature that fails where nobody is looking —
-everything else breaks in front of a learner, who tells us. Pinned by
-`pushHealth.test.js`.
-
-**What already existed and was not enough**: `streak-push.js` writes
-`push:lastAttemptAt` / `push:lastDeliveredAt` / `push:lastStatus`, surfaced in
-`/api/health`. Those only move when a send is actually **attempted**, so a dead
-cron and a quiet night look identical. `scheduled.js` also counted
-sent/skipped/notDue/failed/expired into one `console.warn` — the ephemeral
-Cloudflare tail, which nobody reads.
-
-- **The heartbeat** (`functions/_pushRunLog.js`): `scheduled.js` writes a run
-  record on **every** hourly run — including runs where nobody was due, and runs
-  that halt on missing config (recorded as `haltedReason`, because
-  "misconfigured" and "not running" need different fixes). `push:run:last` is
-  the unexpiring liveness pointer; `push:run:at:<iso>` is 14-day history.
-  **Never make this write conditional** — an absent record must mean "the cron
-  did not fire" and nothing else, which is the whole mechanism. It is written
-  BEFORE the weekly-backup block so a slow backup cannot cost us the heartbeat,
-  and `writePushRun` is fail-soft so observability can never take a learner's
-  reminder down.
-- **The judgement** (`assessPushRuns`, pure and clock-injectable): stale
-  (>`PUSH_RUN_STALE_MINUTES`, 150 = two missed ticks of slack for best-effort
-  Cloudflare schedules), halted, all_failing, failure_rate. A **ratio is only
-  reported above `PUSH_FAIL_MIN_ATTEMPTS` (8)** — 1-of-2 is not a 50% outage,
-  and crying wolf at that sample size trains the reader to ignore the report.
-  "Every attempt failed" is caught at any sample size. Expired subscriptions are
-  **not** failures — that is normal browser attrition.
-- **The sweep**: `/api/push-health`, dispatch-only behind CRON_SECRET /
-  CALIBRATION_SECRET (same gate as output-observatory), zero AI spend, no
-  budget ceiling. Read daily by `push-health.yml`, which **fails red** on any
-  finding. It reads the `last` pointer separately from the history list because
-  KV list is eventually consistent — otherwise a just-recovered cron still
-  reports as dead.
-- **`/api/health` carries `pushDelivery.lastRunAt` but NO counts.** The counts
-  are a proxy for how many people use the app and that endpoint is
-  origin-gated, not authenticated. Keep counts behind the cron secret.
 
 ## Critical Architecture: Prompt Instrumentation (2026-08-21)
 
@@ -549,6 +515,10 @@ Rules:
 - **`push:lastAttemptAt` is written BEFORE the send, not after.** Written after, a throw left all three markers absent — identical to never having tried, which is a different incident with a different fix.
 - **`ok` from `/api/streak-push` means "not expired", NOT "delivered".** The worker must also check the push service's own `status`; treating `ok` as delivery counted every push-service rejection as a send. A missing `status` still counts as accepted (older relay), so the check can never invent failures.
 - **Retention and judgement are different windows** (2026-08-25). History is kept 14 days; the DELIVERY findings judge only `PUSH_JUDGEMENT_WINDOW_HOURS` (48). They were the same number, so the sweep described history as if it were now: with the credential outage fixed and no attempt made in two days, it still reported "all 6 push attempt(s) ... failed — unauthorized x4" on two-day-old attempts. It would also have gone red a second time as sends resumed, when `attempted` crossed the 8-attempt minimum at a ratio still dominated by the old failures (6/8 = 75%). Older runs stay in the report as `history` and the workflow prints them as a **warning** — never a gate, or the window is undone. **LIVENESS (`stale`, `halted`) always reads the NEWEST run regardless of age** — a cron dead for three days has no recent runs at all, which is exactly when the alarm matters most. The finding text names the window it measured; a 48-hour verdict printed beside a 14-day count is the mismatch that makes a reader distrust every number in the report.
+- **The heartbeat write is UNCONDITIONAL.** `scheduled.js` writes a run record on every hourly run — including runs where nobody was due, and runs that halt on missing config (recorded as `haltedReason`, because "misconfigured" and "not running" need different fixes). `push:run:last` is the unexpiring liveness pointer; `push:run:at:<iso>` is 14-day history. Guarding it on `sent > 0` leaves it in the right place and still destroys the mechanism. It is written BEFORE the weekly-backup block so a slow backup cannot cost us the heartbeat, and `writePushRun` is fail-soft so observability can never take a learner's reminder down.
+- **Thresholds are set to stay believable rather than sensitive.** `PUSH_RUN_STALE_MINUTES` is 150 — two missed ticks of slack, because Cloudflare schedules are best-effort and one skipped tick is not an incident. A failure RATIO is only reported above `PUSH_FAIL_MIN_ATTEMPTS` (8): 1-of-2 is not a 50% outage, and crying wolf at that sample size trains the reader to ignore the report. "Every attempt failed" is caught at any sample size. Expired subscriptions are normal browser attrition, **not** failures.
+- **The sweep reads the `last` pointer separately from the history list**, because KV list is eventually consistent — otherwise a just-recovered cron still reports as dead.
+- **`/api/health` carries `pushDelivery.lastRunAt` but NO counts.** The counts are a proxy for how many people use the app, on an endpoint that is origin-gated rather than authenticated. Keep counts behind the cron secret.
 - Run records are v2; `failures` is optional and absent on healthy runs. Readers must treat a missing map as "no reasons recorded", never as "no failures" — v1 records coexist for 14 days after any deploy.
 
 ### The weekly Firestore backup has its own sweep (2026-08-25)
@@ -562,6 +532,7 @@ Rules:
 - **The record is written OUTSIDE the try**, so a throw (a 45s timeout) cannot skip it — otherwise "timed out" and "never attempted" look identical.
 - **Swept DAILY though the job is weekly** — swept weekly, a failed Monday isn't known until the next Monday, which is the delay this exists to remove.
 - No hourly heartbeat here: the push heartbeat already proves the cron fires from the same handler. That is precisely why signal 1 must not depend on attempt records.
+- **Config failures name WHICH variable is missing** (2026-08-26): `missing_project_id` / `missing_service_account` / `missing_kv`, plus the absent variable NAMES in the body. The old single `server_misconfigured` said an attempt failed on config but not what to set — the sweep's first real run reported it 15 times and the answer had to be read out of the source. `server_misconfigured` stays in the vocabulary because 60 days of history contains it; dropping it would coerce those records to `unknown`. Names never values, and `setup-cf-resources.mjs` checks `VITE_FIREBASE_PROJECT_ID || FIREBASE_PROJECT_ID` plus `FIREBASE_SERVICE_ACCOUNT_JSON` — it warned for years about a bare `FIREBASE_PROJECT_ID` the codebase deliberately does not need, while never mentioning the one that was actually absent.
 - NEVER: remove the staleness check and rely on attempts; count `skipped` as a failure; move the record write inside the try; make the sweep weekly.
 
 ### The cron credential is DERIVED and installed by CI — never set by hand (2026-08-25)
@@ -656,7 +627,7 @@ blanket disclaimer.
   - `gameLogic.test.js` — McGame, hearts, XP
   - `content-validation.test.js` — LEARN_PATH integrity checks
   - `clearUserScopedStorage.test.ts` — what a sign-out must wipe (cross-user leak guard)
-- Firebase is **never mocked in integration tests** — real Firestore rules are tested via `verify:firestore`.
+- Firebase is **never mocked in integration tests** — the real Firestore rules are exercised by `npm run test:emulator` (the CI "Emulator Tests" job) and `firestore-rules.yml`. `verify:firestore` is NOT that: it reads a local `.env`, authenticates as a test user and inspects PRODUCTION documents, so it cannot run in CI and is a manual data-integrity probe. Documented here because it was described as the rules check in two places, which sends anyone looking for rule coverage to the wrong file.
 - **Stochastic assertions (lesson from #490)**: never place a pass/fail floor at or near the distribution MEAN of a randomized behavior — it becomes a coin flip, and coverage instrumentation can shift the RNG stream enough to land the same suite on opposite sides in different CI jobs on the same commit. Measure the distribution, set the floor where only the regression you're guarding against can reach it (e.g. `useDailySession`'s C1 adaptive-serve floor is 2/30 against a ~27%-per-session probability: fails <1/1000 honestly, still catches the ranked-away-entirely ~0/30 regression), and document the math at the assertion. Prefer a deterministic pin when one actually pins the behavior under test — but verify it does before switching.
 
 ---
@@ -778,6 +749,7 @@ Before committing any change:
 14. **Never credit a daily-session activity the learner could not do.** When an AI activity fails, offer the authored equivalent and let finishing THAT credit the slot. Crediting on failure was the old anti-strand fix; it bought safety with a lie. The strand guarantee is preserved by the substitute being authored content that cannot fail — so never point a fallback at another AI-dependent screen, and never add a fallback to a screen without removing its credit-on-failure.
 15. **Firestore sync runs on a periodic interval** for signed-in users (not just on tab close). Never revert this to beforeunload-only. The interval is **5 minutes** (`useSyncManager.ts`) — it was widened from 2 minutes deliberately, because periodic pushes plus `fbApplyDelta` bursts outpaced the Firestore WriteStream drain and produced "queued writes" / "maximum backoff delay" warnings. localStorage is authoritative, so a cross-device freshness gap of up to 5 minutes is acceptable; do not narrow it back without re-checking that backpressure.
 16. **Never make the scheduled worker's heartbeat write conditional** (`writePushRun` in `functions/scheduled.js`, 2026-08-22). It runs on every hourly tick _including_ runs where nobody was due, because an absent record is the ONLY positive evidence that the cron is not firing — guard it on `sent > 0` and a quiet night becomes indistinguishable from a dead cron, which is precisely the failure it exists to catch. Same rule for the `haltedReason` record on missing config: a silent early return makes "misconfigured" look like "dead". Keep the write ahead of the weekly-backup block, and keep run COUNTS out of `/api/health` — they are a usage proxy on an origin-gated endpoint.
+17. **Never put a Serbian form in front of a learner, including as a distractor** (owner directive, 2026-08-26). A wrong answer is rendered on screen as a clickable option; the learner meets it whether or not they pick it, so "no Serbian variants reach a user" covers distractors too. `scripts/lintCroatianText.mjs` enforces this on every string a learner can read as Croatian — only the English fields are exempt — and it caught exactly this in freshly authored content the day the rule landed. Make distractors wrong some other way: case government, aspect, register, word order. And a distractor must be genuinely WRONG, not merely marked — an option that flags real Croatian as incorrect teaches learners to distrust their own ear.
 
 ---
 
