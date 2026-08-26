@@ -13,8 +13,14 @@ on:
   # With only push and pull_request triggers, the sole way to free the
   # `CI-refs/heads/master` concurrency group was to push another commit to
   # master — i.e. to fake a change to production in order to retry a deploy.
-  # This gives the run an honest retry button instead. It gates nothing: the
-  # same jobs run under the same conditions.
+  # This gives the run an honest retry button instead.
+  #
+  # A dispatch on master DEPLOYS, exactly as the push it stands in for does —
+  # see build-deploy's DEPLOY gate. It did not, at first: the deploy steps were
+  # gated on `event_name == 'push'`, so the first real use of this lever (the
+  # #549 merge, 2026-08-26) produced a fully green run that shipped nothing and
+  # cancelled the push run it replaced, costing a deploy cycle. A retry button
+  # that cannot retry the thing that failed is not a retry button.
   workflow_dispatch:
 
 # Cancel any in-progress run for the same branch when a new push arrives.
@@ -288,6 +294,23 @@ jobs:
     # production while E2E was still running. The cost is ~15-35 min added
     # deploy latency (see the e2e job's timeout note); the owner accepted it.
     needs: [quality, test, e2e]
+    # ── The deploy gate, defined ONCE ────────────────────────────────────────
+    # Every step below that touches Cloudflare reads this one value. It was five
+    # copies of `github.event_name == 'push'`; a single expression cannot drift
+    # from itself, and there is exactly one place to look to answer "does this
+    # run deploy?".
+    #
+    # THE REF CHECK IS LOAD-BEARING, and is why this is not simply
+    # `event_name != 'pull_request'`. `push` only ever fires on master (see the
+    # `on:` block), but workflow_dispatch can be started against ANY ref from the
+    # Actions UI — without the ref check, dispatching from a feature branch would
+    # build that branch and publish it to production under --branch=master. The
+    # trigger exists to retry master, not to offer a one-click way to ship
+    # unreviewed work.
+    #
+    # Renders as the STRING 'true'/'false' in env, hence the string comparison.
+    env:
+      DEPLOY: ${{ github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
     steps:
       - uses: actions/checkout@v7
 
@@ -320,7 +343,7 @@ jobs:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
 
       - name: Provision Cloudflare resources (idempotent)
-        if: github.event_name == 'push'
+        if: env.DEPLOY == 'true'
         run: node scripts/setup-cf-resources.mjs
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -343,7 +366,7 @@ jobs:
       # MUST run BEFORE the Pages deploy: a Pages secret reaches Functions
       # through a new deployment, not the running one.
       - name: Install managed cron secret (Pages)
-        if: github.event_name == 'push'
+        if: env.DEPLOY == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -357,7 +380,7 @@ jobs:
           echo "MANAGED_CRON_SECRET installed on the Pages project"
 
       - name: Deploy to Cloudflare Pages
-        if: github.event_name == 'push'
+        if: env.DEPLOY == 'true'
         # Pass --commit-message explicitly (subject line only, stripped of non-ASCII) to avoid
         # Cloudflare API error "Invalid commit message, it must be a valid UTF-8 string" [8000111]
         # triggered when wrangler reads the full commit body containing → / — characters.
@@ -397,7 +420,7 @@ jobs:
       # scoped only for Pages will fail here; widen the token rather than muting
       # the step.
       - name: Deploy scheduled Worker (streak-reminder cron)
-        if: github.event_name == 'push'
+        if: env.DEPLOY == 'true'
         run: npx --yes wrangler@3 deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -416,7 +439,7 @@ jobs:
       # Pages can drift again, and that failure is the whole thing being fixed —
       # master should say so rather than deploy quietly into the same trap.
       - name: Install managed cron secret (scheduled Worker)
-        if: github.event_name == 'push'
+        if: env.DEPLOY == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
