@@ -107,13 +107,48 @@ describe('/api/backup-progress', () => {
     expect(res2.status).toBe(401);
   });
 
-  it('fails closed when env is incomplete', async () => {
+  it('fails closed when env is incomplete, and names WHICH piece is missing', async () => {
+    // Split out of a single `server_misconfigured` on 2026-08-25: the backup
+    // sweep's first run reported 15 config failures and could not say which of
+    // three variables to set. A reason code that does not name the fix is only
+    // half a reason code.
     const kv = fakeKV();
     const c = ctx(kv);
     delete c.env.FIREBASE_SERVICE_ACCOUNT_JSON;
     const res = await onRequestPost(c);
     expect(res.status).toBe(500);
-    expect((await res.json()).error).toBe('server_misconfigured');
+    const body = await res.json();
+    expect(body.error).toBe('missing_service_account');
+    expect(body.missing).toEqual(['FIREBASE_SERVICE_ACCOUNT_JSON']);
+  });
+
+  it('names the project id when THAT is what is absent', async () => {
+    const kv = fakeKV();
+    const c = ctx(kv);
+    delete c.env.FIREBASE_PROJECT_ID;
+    delete c.env.VITE_FIREBASE_PROJECT_ID;
+    const res = await onRequestPost(c);
+    expect((await res.json()).error).toBe('missing_project_id');
+  });
+
+  it('reports every missing piece in the body, and the first as the code', async () => {
+    // The recorder stores one bounded code; a human curling the endpoint gets
+    // the full list, so one fix round can set everything that is absent.
+    const c = ctx(fakeKV());
+    delete c.env.FIREBASE_PROJECT_ID;
+    delete c.env.VITE_FIREBASE_PROJECT_ID;
+    delete c.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+    const body = await (await onRequestPost(c)).json();
+    expect(body.error).toBe('missing_project_id');
+    expect(body.missing).toEqual(['FIREBASE_PROJECT_ID', 'FIREBASE_SERVICE_ACCOUNT_JSON']);
+  });
+
+  it('never puts a config VALUE in the error body — only variable names', async () => {
+    const c = ctx(fakeKV());
+    c.env.FIREBASE_SERVICE_ACCOUNT_JSON = '';
+    c.env.FIREBASE_PROJECT_ID = 'secret-project-id-12345';
+    const body = await (await onRequestPost(c)).json();
+    expect(JSON.stringify(body)).not.toContain('secret-project-id-12345');
   });
 
   it('backs up every collection across pages, writes chunks + index + latest', async () => {

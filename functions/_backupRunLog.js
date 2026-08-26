@@ -85,6 +85,16 @@ export const BACKUP_JUDGEMENT_DAYS = 9;
  */
 export const BACKUP_FAIL_REASONS = Object.freeze({
   UNAUTHORIZED: 'unauthorized',
+  // Split out of `server_misconfigured` on 2026-08-25 — see backup-progress.js.
+  // The composite code said an attempt failed on configuration but not WHICH
+  // variable to set, which is the whole value of a reason code.
+  MISSING_PROJECT_ID: 'missing_project_id',
+  MISSING_SERVICE_ACCOUNT: 'missing_service_account',
+  MISSING_KV: 'missing_kv',
+  // KEPT, and must stay kept: history is retained 60 days, so records written
+  // before the split coexist with new ones for two months. Dropping it would
+  // coerce every one of them to `unknown` and erase the diagnosis we already
+  // have — the same rule the push run records follow across their v1/v2 window.
   MISCONFIGURED: 'server_misconfigured',
   TOKEN_ERROR: 'token_error',
   BACKUP_FAILED: 'backup_failed',
@@ -98,7 +108,14 @@ export const BACKUP_FAIL_REASONS = Object.freeze({
 const KNOWN_REASONS = new Set(Object.values(BACKUP_FAIL_REASONS));
 
 /** The error codes /api/backup-progress returns in its own body. */
-const ENDPOINT_CODES = new Set(['server_misconfigured', 'token_error', 'backup_failed']);
+const ENDPOINT_CODES = new Set([
+  'missing_project_id',
+  'missing_service_account',
+  'missing_kv',
+  'server_misconfigured', // pre-2026-08-25 records; still recognised on the wire
+  'token_error',
+  'backup_failed',
+]);
 
 /**
  * Map one failed attempt to a single bounded code.

@@ -122,6 +122,29 @@ describe('classifyBackupFailure', () => {
     );
   });
 
+  it('carries through the split config codes, so the report names the fix', () => {
+    // The composite `server_misconfigured` said an attempt failed on config but
+    // not which variable to set — the gap the 2026-08-25 sweep hit on its first
+    // real run.
+    for (const code of ['missing_project_id', 'missing_service_account', 'missing_kv']) {
+      expect(classifyBackupFailure({ httpStatus: 500, errorCode: code })).toBe(code);
+    }
+  });
+
+  it('STILL recognises the pre-split code, because history outlives the change', () => {
+    // Records are retained 60 days, so `server_misconfigured` entries coexist
+    // with the new codes for two months. Dropping it from the vocabulary would
+    // coerce every one of them to 'unknown' and erase a diagnosis we already
+    // have — the same rule the push run records follow across their v1/v2 window.
+    expect(classifyBackupFailure({ errorCode: 'server_misconfigured' })).toBe(
+      'server_misconfigured',
+    );
+    expect(
+      buildBackupRunRecord({ at: daysAgo(0), outcome: 'failed', reason: 'server_misconfigured' })
+        .reason,
+    ).toBe('server_misconfigured');
+  });
+
   it('falls back to status-shaped codes, never to the raw input', () => {
     expect(classifyBackupFailure({ httpStatus: 503 })).toBe('http_5xx');
     expect(classifyBackupFailure({ httpStatus: 404 })).toBe('http_4xx');
