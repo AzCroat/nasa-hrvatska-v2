@@ -69,6 +69,15 @@ jobs:
       - name: Circular dependency check
         run: npm run check:circular
 
+      # The Croatian content lint existed as an npm script and was run by hand,
+      # which means it was run when someone remembered — the same "guard that
+      # never fires" class this repo keeps getting bitten by. It screens every
+      # authored content file for encoding bleed (Cyrillic homoglyphs, soft
+      # hyphens) and for Serbian forms, using the same rules the live AI output
+      # sweep uses. Cheap, deterministic, no network.
+      - name: Croatian content lint
+        run: npm run lint:croatian
+
   test:
     name: Unit Tests
     runs-on: ubuntu-latest

@@ -23,6 +23,10 @@ export const SERBISM_RULES = [
   { re: sb('hiljad(a|e|u|ama)?'), use: 'tisuća' },
   { re: sb('pozorišt(e|a|u|em)'), use: 'kazalište' },
   { re: sb('takođe'), use: 'također' },
+  // Condolences (2026-08-26). Croatian is `sućut`; `saučešće` is the Serbian
+  // form. The -ešć- stem is what marks it — `saučesnik` (accomplice) is
+  // perfectly good Croatian and has -esn-, so it cannot collide.
+  { re: sb('saučešć(e|a|u|em)?'), use: 'sućut' },
   { re: sb('uslov(a|u|e|i|ima)?'), use: 'uvjet' },
   { re: sb('saobraćaj(a|u|em)?'), use: 'promet' },
   { re: sb('bezbedn\\p{L}*'), use: 'siguran/sigurnost' },

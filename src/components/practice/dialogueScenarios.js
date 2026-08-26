@@ -2317,12 +2317,12 @@ export const SCENARIOS = [
         en: 'Thank you for coming. I know you travelled from far away.',
         opts: [
           'Moja iskrena sućut. Nisam mogao ne doći — vaš mi je suprug bio mentor u godinama kad mi je to najviše trebalo.',
-          'Iskreno saučešće. Nisam mogao ne doći.',
+          'Moja iskrena sućut. Nisam mogao ne dolaziti — vaš mi je suprug bio mentor u godinama kad mi je to najviše trebalo.',
           'Moja iskrena sućut. Vaš suprug bio mi je mentor u godine kad mi je to trebalo.',
           'Nema na čemu, morao sam doći.',
         ],
         answer: 0,
-        tip: "Croatian is 'sućut' — 'saučešće' is the Serbian form. 'U godinama' — locative for a period of time.",
+        tip: "'ne doći' — perfective, for the single act of coming; the imperfective 'ne dolaziti' would mean habitually staying away. 'U godinama' — locative for a period of time.",
       },
       {
         speaker: 'Udovica',
