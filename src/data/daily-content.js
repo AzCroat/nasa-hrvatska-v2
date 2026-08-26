@@ -2526,5 +2526,5 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'glazbenik', en: 'musician', ph: 'GLAHZ-beh-neek', cat: 'professions' },
   { hr: 'glumac', en: 'actor (male)', ph: 'GLOO-mahts', cat: 'professions' },
   { hr: 'arhitekt', en: 'architect', ph: 'ar-hee-TEKT', cat: 'professions' },
-  { hr: 'pomorац', en: 'sailor / seafarer', ph: 'POH-moh-rahts', cat: 'professions' },
+  { hr: 'pomorac', en: 'sailor / seafarer', ph: 'POH-moh-rahts', cat: 'professions' },
 ];

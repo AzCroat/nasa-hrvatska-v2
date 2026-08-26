@@ -43,7 +43,7 @@ const HERITAGE_TRUTHS = [
   {
     icon: '🇭🇷',
     title: 'Croatia itself borrows constantly',
-    body: 'Open any Croatian newspaper and you\'ll find: "email", "streaming", "lajkati", "šerати", "selfie". The official Croatian Radio even has a list of recommended native equivalents that almost nobody uses.',
+    body: 'Open any Croatian newspaper and you\'ll find: "email", "streaming", "lajkati", "šerati", "selfie". The official Croatian Radio even has a list of recommended native equivalents that almost nobody uses.',
   },
   {
     icon: '💙',

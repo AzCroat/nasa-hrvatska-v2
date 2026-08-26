@@ -61,6 +61,21 @@ const TARGETS = [
   // Guided-writing curriculum (2026-08-18): authored model texts, frames and
   // prompts — the largest single block of authored Croatian prose in src/.
   'src/data/writingCurriculum.ts',
+  // ── 2026-08-26 sweep: everything else carrying authored Croatian ──────────
+  'src/data/cultural/geography.js',
+  'functions/api/content/_data/cultural/geography.js',
+  'src/data/exercises.js',
+  'functions/api/content/_data/cultural/regions.js',
+  'functions/api/content/_data/cultural/history.js',
+  'functions/api/content/_data/cultural/proverbs.js',
+  'functions/api/content/_data/cultural/language.js',
+  'src/data/bakaLetters.ts',
+  'src/data/content.tsx',
+  'src/data/daily-content.js',
+  'src/data/writingTasks.ts',
+  'src/data/speakingTasks.ts',
+  'src/data/pitchAccentContent.js',
+  'src/data/cultural/media.js',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.
