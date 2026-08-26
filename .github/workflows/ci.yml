@@ -5,6 +5,17 @@ on:
     branches: ['master']
   pull_request:
     branches: ['master']
+  # Manual lever (2026-08-26). Twice now a master run has been created and then
+  # never dispatched a single job — 2026-07-27 with a wedged in-progress job,
+  # and again today with a repo-wide dispatch stall. In BOTH cases the API had
+  # nothing to offer: cancel returns 409 "Cannot cancel a workflow run that has
+  # not been queued yet", rerun returns 403 "This workflow is already running".
+  # With only push and pull_request triggers, the sole way to free the
+  # `CI-refs/heads/master` concurrency group was to push another commit to
+  # master — i.e. to fake a change to production in order to retry a deploy.
+  # This gives the run an honest retry button instead. It gates nothing: the
+  # same jobs run under the same conditions.
+  workflow_dispatch:
 
 # Cancel any in-progress run for the same branch when a new push arrives.
 # Prevents E2E suites from piling up during rapid development (e.g. 6 queued runs).
