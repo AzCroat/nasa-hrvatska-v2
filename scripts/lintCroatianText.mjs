@@ -32,6 +32,10 @@ const TARGETS = [
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
+  // exercises.js was absent from this list entirely — 81 levelled exercises
+  // and 356 option arrays of authored Croatian, never once scanned. Found while
+  // verifying the distractor pass on 2026-08-26.
+  'functions/api/content/_data/exercises.js',
   'functions/api/content/_data/grammar.js',
   'functions/api/content/_data/grammarAdvanced.js',
   'functions/api/content/_data/learnPath.js',
@@ -71,7 +75,8 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 
 // Match `hr: '...'` / `hr: "..."` / `hr: \`...\``
 // and similar fields that hold Croatian text.
-const CRO_FIELD_RE = /(hr|text|paragraphs|q|a|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex)\s*:\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+const CRO_FIELD_RE =
+  /(hr|text|paragraphs|q|a|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex)\s*:\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 async function* walkTargets() {
   for (const rel of TARGETS) {
@@ -104,6 +109,25 @@ import { SERBISM_RULES } from '../functions/api/_serbisms.js';
 /** English-gloss fields where a Serbian form may legitimately appear. */
 const SERBISM_EXEMPT_FIELDS = new Set(['en', 'note']);
 
+// ── The two checks are not the same check (2026-08-26) ───────────────────────
+//
+// ENCODING BLEED is always a defect. A Cyrillic homoglyph or a soft hyphen is a
+// bug wherever it appears — including inside a deliberately WRONG multiple-choice
+// option, which still has to render and still has to be copy-pasteable.
+//
+// A SERBISM is a defect in every string a learner can READ as Croatian — and
+// that includes a distractor. Owner directive, 2026-08-26: no Serbian forms in
+// content, full stop. A wrong answer is still rendered on screen as a clickable
+// option, so a learner meets it whether or not they pick it; teaching the
+// Croatian/Serbian contrast by putting the Serbian form in front of them is the
+// one method this app does not use. Distractors must be wrong in some OTHER way
+// — case, aspect, register, word order — of which there is no shortage.
+//
+// Only the ENGLISH fields (subtitle, en, tip) are exempt, as before.
+//
+// So the passes below separate them, and the classification is structural
+// rather than regex-guessed wherever the data shape allows it.
+
 function findSerbisms(fieldName, s) {
   if (!s || SERBISM_EXEMPT_FIELDS.has(fieldName)) return null;
   const hits = [];
@@ -112,6 +136,81 @@ function findSerbisms(fieldName, s) {
     if (m) hits.push({ word: m[0], use: rule.use });
   }
   return hits.length > 0 ? hits : null;
+}
+
+// ── Pass 2: distractor arrays, ENCODING ONLY ─────────────────────────────────
+//
+// CRO_FIELD_RE never matched `opts`/`options`/`choices`, so every
+// multiple-choice array in every target file has been invisible to this lint —
+// 356 arrays in exercises.js alone. A homoglyph in a wrong answer would have
+// shipped unseen. Encoding only, for the reason above.
+const ARRAY_FIELD_RE = /(opts|options|choices|distractors)\s*:\s*\[([^\]]*)\]/g;
+const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
+
+function* arrayStrings(buf) {
+  for (const m of buf.matchAll(ARRAY_FIELD_RE)) {
+    for (const q of m[2].matchAll(QUOTED_RE)) {
+      if (q[2].length > 0) yield { field: m[1], content: q[2], index: m.index };
+    }
+  }
+}
+
+// ── Pass 3: structured targets ───────────────────────────────────────────────
+//
+// dialogueScenarios.js could not be added to TARGETS at all: a regex cannot
+// tell `opts[answer]` (correct Croatian) from `opts[1..3]` (deliberately
+// wrong), so the whole file — the app's entire authored conversation bank, 38
+// scenarios — was unlinted. Walking the real objects makes the distinction
+// exact, because `answer` names which option is the correct one.
+import { SCENARIOS } from '../src/components/practice/dialogueScenarios.js';
+
+/** kind: 'croatian'/'distractor' → both checks · 'gloss' (English) → encoding only. */
+function* dialogueStrings() {
+  for (const s of SCENARIOS) {
+    yield { loc: `${s.id}.title`, field: 'title', content: s.title, kind: 'croatian' };
+    // Subtitles are English one-liners for the menu card.
+    yield { loc: `${s.id}.subtitle`, field: 'subtitle', content: s.subtitle, kind: 'gloss' };
+    for (let i = 0; i < s.turns.length; i++) {
+      const t = s.turns[i];
+      const at = `${s.id}.turns[${i}]`;
+      yield { loc: `${at}.speaker`, field: 'speaker', content: t.speaker, kind: 'croatian' };
+      yield { loc: `${at}.line`, field: 'line', content: t.line, kind: 'croatian' };
+      yield { loc: `${at}.en`, field: 'en', content: t.en, kind: 'gloss' };
+      // Tips are English teaching notes and may NAME a Serbian form in order to
+      // contrast it — that is the lesson, not a leak.
+      yield { loc: `${at}.tip`, field: 'tip', content: t.tip, kind: 'gloss' };
+      for (let j = 0; j < t.opts.length; j++) {
+        yield {
+          loc: `${at}.opts[${j}]`,
+          field: 'opts',
+          content: t.opts[j],
+          kind: j === t.answer ? 'croatian' : 'distractor',
+        };
+      }
+    }
+  }
+}
+
+const STRUCTURED = [
+  { rel: 'src/components/practice/dialogueScenarios.js', strings: dialogueStrings },
+];
+
+function checkStructured() {
+  const out = [];
+  for (const { rel, strings } of STRUCTURED) {
+    const findings = [];
+    for (const { loc, field, content, kind } of strings()) {
+      if (typeof content !== 'string' || content.length === 0) continue;
+      const bad = findBadInString(content);
+      if (bad) findings.push({ line: loc, field, snippet: content.slice(0, 80), badChars: bad });
+      if (kind !== 'gloss') {
+        const serbisms = findSerbisms(field, content);
+        if (serbisms) findings.push({ line: loc, field, snippet: content.slice(0, 80), serbisms });
+      }
+    }
+    out.push({ rel, findings });
+  }
+  return out;
 }
 
 async function main() {
@@ -147,6 +246,18 @@ async function main() {
         });
       }
     }
+    // Distractor arrays: encoding only (see ARRAY_FIELD_RE).
+    for (const { field, content, index } of arrayStrings(buf)) {
+      const bad = findBadInString(content);
+      if (bad) {
+        findings.push({
+          line: buf.slice(0, index).split('\n').length,
+          field,
+          snippet: content.slice(0, 80),
+          badChars: bad,
+        });
+      }
+    }
     if (findings.length > 0) {
       console.error(`\n=== ${rel} ===`);
       for (const f of findings) {
@@ -159,13 +270,32 @@ async function main() {
       totalFindings += findings.length;
     }
   }
+  for (const { rel, findings } of checkStructured()) {
+    if (findings.length === 0) continue;
+    console.error(`\n=== ${rel} ===`);
+    for (const f of findings) {
+      const chars = f.badChars
+        ? f.badChars.map((b) => `${b.char} (U+${b.codePoint.toUpperCase()})`).join(', ')
+        : f.serbisms.map((s) => `Serbism "${s.word}" → use ${s.use}`).join(', ');
+      console.error(`  ${rel}  ${f.line}  [${f.field}]  ${chars}`);
+      console.error(`    "${f.snippet.replace(/\n/g, ' ')}..."`);
+    }
+    totalFindings += findings.length;
+  }
+
   if (totalFindings > 0) {
     console.error('');
-    console.error(`✖ Croatian text lint: ${totalFindings} encoding-bleed finding(s).`);
-    console.error('  Croatian standard Latin alphabet should be the only script in `hr:` fields.');
+    console.error(`✖ Croatian text lint: ${totalFindings} finding(s).`);
+    console.error('  Encoding bleed: Croatian standard Latin is the only script allowed, in');
+    console.error('  every string — a homoglyph in a wrong answer is still a bug.');
+    console.error('  Serbism: reported in every Croatian string, distractors included.');
     process.exit(1);
   } else {
-    console.log('✓ Croatian text lint: 0 encoding-bleed findings across', TARGETS.length, 'files.');
+    console.log(
+      '✓ Croatian text lint: 0 findings across',
+      TARGETS.length + STRUCTURED.length,
+      'files (' + STRUCTURED.length + ' walked structurally).',
+    );
   }
 }
 
