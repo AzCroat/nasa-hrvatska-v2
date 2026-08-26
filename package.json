@@ -53,7 +53,7 @@
     "canvas-confetti": "~1.9.4",
     "dexie": "~4.4.5",
     "firebase": "~12.17.1",
-    "framer-motion": "~13.1.0",
+    "framer-motion": "~13.1.1",
     "idb": "^8.0.3",
     "posthog-js": "^1.391.2",
     "react": "~18.3.1",
