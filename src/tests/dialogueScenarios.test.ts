@@ -77,10 +77,14 @@ describe('dialogueScenarios — structural integrity', () => {
     expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(7);
     expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(8);
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(5);
-    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(2);
-    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(2);
-    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(2);
-    expect(scenarios.length).toBeGreaterThanOrEqual(26);
+    // Raised 2 → 6 by the 2026-08-25 expansion. B2/C1/C2 sat exactly ON the old
+    // floor while A1/A2 had 7/8, so an upper-level learner exhausted every
+    // authored conversation in two sessions and then repeated. Ratcheted here
+    // so the gain cannot quietly regress — same rule as the coverage gate.
+    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(6);
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(6);
+    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(6);
+    expect(scenarios.length).toBeGreaterThanOrEqual(38);
   });
 });
 
