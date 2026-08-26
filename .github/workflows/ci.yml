@@ -379,6 +379,79 @@ jobs:
             --project-name nasa-hrvatska-v2 >/dev/null
           echo "MANAGED_CRON_SECRET installed on the Pages project"
 
+      # ── Firebase service account (Pages) ─────────────────────────────────────
+      # FIREBASE_SERVICE_ACCOUNT_JSON has never been set on the Pages project.
+      # /api/backup-health's first run (2026-08-26) reported fifteen consecutive
+      # config failures: the weekly Firestore backup has NEVER produced a
+      # restorable snapshot. The same value also gates /api/delete-account, which
+      # fails CLOSED — so a learner asking to delete their account currently gets
+      # a 500 and keeps it. And /api/backfill, and the Google TTS fallback.
+      #
+      # It was treated as a dashboard chore nobody did for years. It is not: this
+      # is the same install path the managed cron secret uses, and CI is the one
+      # place that writes Pages secrets reliably. Adding it here means the value
+      # is set once as a GitHub secret and re-applied on every deploy, and
+      # rotating it is a secret update rather than a dashboard visit.
+      #
+      # UNLIKE the cron secret, CI cannot DERIVE this one — it is a real Google
+      # credential. So the step must tolerate its absence: this repo's whole
+      # deploy would otherwise go red on a condition that predates the change and
+      # that no code can fix. Absent is a loud WARNING (visible in the run
+      # summary and in setup-cf-resources.mjs's post-deploy check), never a
+      # silent skip — a guard that says nothing is the failure mode this repo
+      # keeps rediscovering.
+      #
+      # PRESENT but uninstallable IS a failure, deliberately not
+      # continue-on-error: if we hold the credential and cannot write it, the
+      # Functions keep running on a stale or missing value, which is exactly the
+      # drift the cron work was done to end.
+      #
+      # SECRET HYGIENE (this repo is public): the value never reaches argv, a
+      # log line, or an error message. It is piped from the environment on
+      # stdin, and the shape check below prints only FIELD NAMES and booleans —
+      # names never values, the same rule the backup failure codes follow.
+      # `set -x` is never enabled in this step.
+      #
+      # MUST run BEFORE the Pages deploy, for the same reason as the cron half:
+      # a Pages secret reaches Functions through a new deployment, not the
+      # running one.
+      - name: Install Firebase service account (Pages)
+        if: env.DEPLOY == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          set -euo pipefail
+          if [ -z "${FIREBASE_SERVICE_ACCOUNT_JSON:-}" ]; then
+            echo "::warning title=Firebase service account not set::FIREBASE_SERVICE_ACCOUNT_JSON is not a GitHub secret, so it cannot be installed on the Pages project. The weekly Firestore backup produces no restorable snapshot and /api/delete-account fails closed until it is set."
+            exit 0
+          fi
+          # Shape check before install: a malformed paste installed silently is
+          # worse than nothing — it turns a clear "missing" into an obscure
+          # runtime failure next Monday. node reads the value from the
+          # environment, never from argv, and reports only which keys are absent.
+          node --input-type=module -e '
+            const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON || "";
+            let sa;
+            try { sa = JSON.parse(raw); }
+            catch { console.error("FIREBASE_SERVICE_ACCOUNT_JSON is not valid JSON"); process.exit(1); }
+            const missing = ["client_email", "private_key", "project_id"].filter((k) => !sa?.[k]);
+            if (missing.length) {
+              console.error("service account JSON is missing required field(s): " + missing.join(", "));
+              process.exit(1);
+            }
+            if (sa.type && sa.type !== "service_account") {
+              console.error("credential type is " + sa.type + ", expected service_account");
+              process.exit(1);
+            }
+            console.log("service account JSON parsed; required fields present");
+          '
+          printf '%s' "${FIREBASE_SERVICE_ACCOUNT_JSON}" \
+            | npx --yes wrangler@3 pages secret put FIREBASE_SERVICE_ACCOUNT_JSON \
+              --project-name nasa-hrvatska-v2 >/dev/null
+          echo "FIREBASE_SERVICE_ACCOUNT_JSON installed on the Pages project"
+
       - name: Deploy to Cloudflare Pages
         if: env.DEPLOY == 'true'
         # Pass --commit-message explicitly (subject line only, stripped of non-ASCII) to avoid
