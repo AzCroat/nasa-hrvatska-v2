@@ -23,7 +23,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { PUSH_KV_TTL_SECONDS } from './_pushKvTtl.js';
-import { classifyPushFailure, countPushFailure, summarizePushFailures } from './_pushFailure.js';
+import {
+  classifyPushFailure,
+  countPushFailure,
+  isVapidRejectedStatus,
+  summarizePushFailures,
+} from './_pushFailure.js';
 import { buildPushRunRecord, writePushRun } from './_pushRunLog.js';
 import { cronSecretFor } from './_cronAuth.js';
 import { buildBackupRunRecord, writeBackupRun, classifyBackupFailure } from './_backupRunLog.js';
@@ -88,6 +93,9 @@ export default {
     // `failed` says how many; this says why, which is the difference between an
     // alert that names the fix and one that only names the symptom.
     const failures = {};
+    // Subscriptions the push service refused with a 403 this run. Deliberately
+    // collected rather than deleted inline — see the prune block after the loop.
+    const pruneCandidates = [];
 
     // Per-user send-hour matching. The cron fires hourly; each subscriber is
     // due only during the hour that matches their chosen reminder time in
@@ -256,6 +264,11 @@ export default {
               pushStatus: data?.status,
             });
             countPushFailure(failures, reason);
+            // A 403 from the push service is a permanently dead subscription —
+            // but it is ALSO what a globally broken VAPID config looks like, on
+            // every subscriber at once. Collect, never delete here; the decision
+            // needs the whole run, and is made after the loop.
+            if (isVapidRejectedStatus(data?.status)) pruneCandidates.push(key.name);
             console.warn(
               `[Scheduled] Push failed for ${key.name}: status=${res.status} reason=${reason}`,
             );
@@ -272,6 +285,43 @@ export default {
 
       cursor = listResult.cursor;
     } while (cursor);
+
+    // ── Prune subscriptions the push service permanently refused ─────────────
+    // A 403 means the VAPID signature was rejected for that endpoint: the
+    // signature of a subscription created under an older VAPID key, which can
+    // never succeed again. Left in place it fails every day forever, and a
+    // failure that never resolves never ages out of the sweep's window either,
+    // so it would eventually turn a dead subscription into a red alert nobody
+    // can act on.
+    //
+    // THE GUARD IS THE DESIGN. A globally broken VAPID configuration produces
+    // exactly the same 403 on every subscription simultaneously, and deleting
+    // on that signal alone would wipe the entire subscriber base in response to
+    // a fault that a redeploy would have fixed — trading a recoverable outage
+    // for an unrecoverable one. So a 403 is only actioned when at least one
+    // OTHER send succeeded in the same run: a working send is positive proof
+    // that the VAPID keys are good and the refusal is specific to that
+    // subscriber. When nothing was sent, the candidates are left alone and the
+    // failure codes still record what happened — the sweep reports it, and
+    // tomorrow's run reconsiders with fresh evidence. Doing nothing is always
+    // recoverable; deleting is not.
+    let pruned = 0;
+    if (pruneCandidates.length > 0 && sent > 0) {
+      for (const name of pruneCandidates) {
+        await env.PUSH_SUBSCRIPTIONS.delete(name).catch(() => {});
+        pruned++;
+      }
+      console.warn(
+        `[Scheduled] Pruned ${pruned} subscription(s) permanently refused by the push service (403)`,
+      );
+    } else if (pruneCandidates.length > 0) {
+      // Named explicitly rather than passed over in silence: "we saw dead
+      // subscriptions and deliberately did not delete them" is a different
+      // state from "there were none", and only one of them is worth looking at.
+      console.warn(
+        `[Scheduled] Held ${pruneCandidates.length} VAPID-refused subscription(s): no send succeeded this run, so a global VAPID fault cannot be ruled out`,
+      );
+    }
 
     const reasonSummary = summarizePushFailures(failures);
     console.warn(
@@ -298,6 +348,7 @@ export default {
         expired,
         scanned,
         failures,
+        pruned,
       }),
     );
 

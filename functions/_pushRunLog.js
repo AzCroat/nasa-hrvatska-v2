@@ -37,8 +37,14 @@ import { summarizePushFailures } from './_pushFailure.js';
  * history is retained for 14 days, so v1 records coexist with v2 ones for two
  * weeks after any deploy; every reader below treats a missing `failures` as
  * "no reasons recorded", never as "no failures".
+ *
+ * v3 (2026-08-27) adds the optional `pruned` count — subscriptions the push
+ * service permanently refused (403) and the worker deleted. Emitted only when
+ * non-zero, so a healthy run's record is byte-identical to a v2 one; the same
+ * rule applies as for `failures`, and for the same reason: a missing field means
+ * "nothing recorded", never "it was zero and we know that".
  */
-export const PUSH_RUN_SCHEMA = 2;
+export const PUSH_RUN_SCHEMA = 3;
 
 /** Newest run, overwritten every run. The liveness check reads only this. */
 export const PUSH_RUN_LAST_KEY = 'push:run:last';
@@ -151,6 +157,7 @@ export function buildPushRunRecord({
   scanned = 0,
   haltedReason = null,
   failures = null,
+  pruned = 0,
 }) {
   const hasFailures = failures && Object.keys(failures).length > 0;
   return {
@@ -165,6 +172,7 @@ export function buildPushRunRecord({
     scanned,
     ...(haltedReason ? { haltedReason } : {}),
     ...(hasFailures ? { failures } : {}),
+    ...(pruned > 0 ? { pruned } : {}),
   };
 }
 

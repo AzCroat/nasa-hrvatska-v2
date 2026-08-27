@@ -122,6 +122,37 @@ export function classifyPushFailure({ httpStatus, errorMessage, pushStatus } = {
 }
 
 /**
+ * Does the push SERVICE's status mean this subscription can never succeed again?
+ *
+ * 404/410 already have an answer: streak-push.js reports them as `expired` and
+ * the worker deletes the record on the spot. Those are unambiguous — the push
+ * service is saying the subscription is gone.
+ *
+ * 403 is the third permanent case and had no handling at all. It means the push
+ * service refused the VAPID signature for that endpoint, which is what a
+ * subscription created under an OLDER VAPID key looks like forever after a key
+ * rotation (this app rotated on 2026-08-14). It can never succeed again; only
+ * the browser re-subscribing fixes it. Left alone it fails every single day, and
+ * because a failure that never resolves also never ages out, it drags the sweep's
+ * failure ratio down permanently — eventually tripping a red alert that describes
+ * a dead subscription rather than a problem anyone can act on.
+ *
+ * THE CRITICAL CAVEAT, which is why this returns a fact and not a decision:
+ * a globally broken VAPID configuration produces the SAME 403, on every
+ * subscription at once. Acting on this per-subscription, in the moment, would
+ * delete the entire subscriber base on a config error — an unrecoverable
+ * response to a recoverable fault. The caller must corroborate before deleting;
+ * see the prune block in functions/scheduled.js.
+ *
+ * Deliberately NOT included: 400 (a malformed payload is our bug, and the
+ * subscription is fine), 429 (rate limiting is transient by definition), and
+ * every 5xx (the push service is having a bad day, not the subscriber).
+ */
+export function isVapidRejectedStatus(pushStatus) {
+  return Number(pushStatus) === 403;
+}
+
+/**
  * Fold one code into a counts map, in place. Unknown codes are coerced to
  * `unknown` rather than trusted, so nothing outside the vocabulary can reach
  * the stored record by a caller passing a string through.
