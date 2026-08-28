@@ -5,6 +5,7 @@
 
 import { LESSONS_A1 } from './lessonsA1.js';
 import { LESSONS_A2 } from './lessonsA2.js';
+import { LESSONS_B1 } from './lessonsB1.js';
 
 // The A1 expansion (2026-08-28) lives in its own module: this file was already
 // ~6,000 lines for 45 lessons and the curriculum targets ~30 per level. LESSONS
@@ -6001,4 +6002,4 @@ const LESSONS_CORE = [
   },
 ];
 
-export const LESSONS = [...LESSONS_CORE, ...LESSONS_A1, ...LESSONS_A2];
+export const LESSONS = [...LESSONS_CORE, ...LESSONS_A1, ...LESSONS_A2, ...LESSONS_B1];

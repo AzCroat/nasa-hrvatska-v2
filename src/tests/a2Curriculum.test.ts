@@ -190,30 +190,18 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
   });
 
-  it('every A2 mapping resolves to a drill an A2 learner can actually open', () => {
-    // The point of the whole restraint. A mapping that is CEFR-locked above the
-    // level of the lesson is indistinguishable, from the learner's side, from no
-    // mapping at all — except that it consumes a queue slot on the way to
-    // nothing.
-    const RANK: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
-    const SCREEN_FOR: Record<string, string> = {
-      'dative-locative': 'locdrill',
-      instrumental: 'instrumental',
-      numerals: 'numtime',
-      'past-tense': 'cloze',
-    };
-    return import('../lib/sessionPools').then(({ CEFR_EXERCISE_POOL }) => {
-      for (const [lesson, category] of Object.entries(EXPECTED)) {
-        const screen = SCREEN_FOR[category];
-        const entry = (CEFR_EXERCISE_POOL as { screen: string; cefr: string }[]).find(
-          (e) => e.screen === screen,
-        );
-        expect(entry, `no pool entry for ${screen}`).toBeTruthy();
-        expect(
-          RANK[entry!.cefr],
-          `${lesson} → ${category} → ${screen} is gated at ${entry!.cefr}, above A2`,
-        ).toBeLessThanOrEqual(RANK.A2);
-      }
-    });
-  });
+  // WHERE THE "does it actually resolve?" ASSERTION LIVES NOW:
+  // src/tests/curriculumCouplingResolves.test.ts.
+  //
+  // A version of it used to sit here, and it was wrong. It checked the CEFR of
+  // a screen looked up in a SCREEN_FOR map written inside this file — a second
+  // source of truth that did not match the app's. It happily confirmed that
+  // `ordinals-dates → numerals` resolved via `numtime`, when in fact
+  // CATEGORY_SCREEN_MAP had no `numerals` row at all and the mapping resolved to
+  // nothing. The replacement goes through the real session builder, so it reads
+  // CATEGORY_SCREEN_MAP and CATEGORY_EASIER_SCREEN as they are; it immediately
+  // found ten dead mappings across every level, this one included.
+  //
+  // The lesson is the one this repo keeps relearning: a test that restates the
+  // production data cannot check the production data.
 });

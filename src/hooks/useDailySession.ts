@@ -146,6 +146,24 @@ const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // the learner never got a real case drill. Dative & locative share endings in
   // Croatian, so the locative drill covers the combined 'dative-locative' category.
   'dative-locative': 'locdrill',
+  // Like 'nominative' above, 'subordination' is NOT in ALL_CATEGORIES, so the
+  // adaptive queue never picks it and this row is inert for
+  // resolveAdaptiveActivity. It exists for the teach → practice coupling, and it
+  // repairs a mapping that has never resolved: `complex-sentences` (B2) has
+  // pointed at this category since the coupling shipped, with no route to
+  // follow, while eight subordination drills sat in the pool unreachable.
+  subordination: 'subordination',
+  // Five more categories that the coupling pointed at with no route to follow
+  // (found 2026-08-28 by curriculumCouplingResolves.test.ts, which walks the
+  // REAL maps instead of a copy). Ten lessons across every level queued a
+  // category that could never become an activity. Like 'nominative' and
+  // 'subordination', none of these is in ALL_CATEGORIES, so the adaptive picker
+  // is unaffected — this changes the coupling and nothing else.
+  numerals: 'numtime',
+  'word-order': 'wordorderdrill',
+  idioms: 'idioms',
+  passive: 'passive',
+  nominalization: 'nominalization',
   instrumental: 'instrumental',
   vocative: 'vocative',
   'past-tense': 'cloze',
@@ -187,6 +205,10 @@ const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
   // `present-tense-verbs` lesson and previously had nowhere to practise them.
   'present-tense': 'presentdrill',
+  // subordination maps to `subordination` (B2). The B1 relative-clause lesson
+  // needs a drill a B1 learner can actually open, and `relpron` is the one that
+  // teaches the same thing one level down.
+  subordination: 'relpron',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
