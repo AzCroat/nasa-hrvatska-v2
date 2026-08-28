@@ -61,11 +61,30 @@ describe('the spine endpoint carries shape, never content', () => {
     }
   });
 
-  it('stays small — under 40 KB for the whole spine', async () => {
-    // 45 lessons currently serialise to ~21 KB, so this has room to grow without
-    // being so loose that a slide leak slips under it.
+  it('stays small — PER ENTRY, so the bound survives the catalog growing', async () => {
+    // This was an absolute 40 KB cap sized against 45 lessons. The A1 and A2
+    // expansions took the catalog to 88 and it fired on legitimate growth —
+    // and would have fired again at every remaining level, training whoever hit
+    // it to raise the number rather than read it. A cap that gets bumped once a
+    // wave is not a guard.
+    //
+    // Per-entry is the bound that actually detects what this exists to detect.
+    // A spine row is ~490 bytes; a row that leaked its lesson body would be
+    // several KB, because a lesson averages ten slides of prose. The ratio is
+    // an order of magnitude, so 1.5 KB catches a leak decisively and needs no
+    // revisiting as levels are authored.
+    const data = await spine();
+    const bytes = Buffer.byteLength(JSON.stringify(data));
+    expect(bytes / data.length).toBeLessThan(1536);
+  });
+
+  it('stays small in absolute terms too, at the full 180-lesson target', async () => {
+    // The backstop against a regression that inflates every row equally, which
+    // a per-entry average would happily accept. Sized for the whole programme
+    // (180 entries at ~490 bytes is ~88 KB) rather than for today's catalog, so
+    // it is a real ceiling and not a running total.
     const bytes = Buffer.byteLength(JSON.stringify(await spine()));
-    expect(bytes).toBeLessThan(40 * 1024);
+    expect(bytes).toBeLessThan(150 * 1024);
   });
 
   it('carries the sequencing fields the engine needs', async () => {

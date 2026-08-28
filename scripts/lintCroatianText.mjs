@@ -34,6 +34,7 @@ const TARGETS = [
   // believes is linted and is not, which is precisely how exercises.js went 81
   // levelled exercises without ever being scanned.
   'functions/api/content/_data/lessonsA1.js',
+  'functions/api/content/_data/lessonsA2.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
@@ -269,7 +270,7 @@ function* lessonStrings() {
 
 const STRUCTURED = [
   { rel: 'src/components/practice/dialogueScenarios.js', strings: dialogueStrings },
-  { rel: 'functions/api/content/_data/lessons.js + lessonsA1.js (tables)', strings: lessonStrings },
+  { rel: 'lessons.js + lessonsA1.js + lessonsA2.js (tables)', strings: lessonStrings },
 ];
 
 function checkStructured() {

@@ -395,6 +395,17 @@ export const CURRICULUM = [
   },
 
   // ── A2 ────────────────────────────────────────────────────────────────────
+  // The expansion to 30 (2026-08-28). A2 had eight lessons and they were all
+  // about verbs and adjectives: the level that is meant to let a learner
+  // describe a past event, make a plan and give an opinion had no dative, no
+  // instrumental, no object pronouns, no plural beyond the subject form, no
+  // conjunctions past `i` — and nothing functional at all.
+  //
+  // The order runs: the case system finished (3–12), then tense and comparison
+  // (13–17), then the joining words that are what actually separates A2 from A1
+  // (18–20), then ten functional lessons that put all of it to work. A learner
+  // who stops halfway still has a usable level; that is what the ordering is
+  // for.
   {
     id: 'present',
     level: 'A2',
@@ -418,9 +429,20 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'accusative-deep',
+    id: 'object-pronouns',
     level: 'A2',
     order: 3,
+    prerequisites: ['present'],
+    objectives: [
+      'Say “I see her” without repeating the name',
+      'Use the short forms me, te, ga, je and mi, ti, mu, joj',
+      'Place them in second position, and put the dative before the accusative',
+    ],
+  },
+  {
+    id: 'accusative-deep',
+    level: 'A2',
+    order: 4,
     prerequisites: ['cases'],
     objectives: [
       'Mark the direct object — the thing the verb acts on',
@@ -429,31 +451,31 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'adjective-agreement',
+    id: 'dative-intro',
     level: 'A2',
-    order: 4,
-    prerequisites: ['gender'],
+    order: 5,
+    prerequisites: ['object-pronouns'],
     objectives: [
-      'Match an adjective to its noun in gender, number and case',
-      'Describe people and things accurately',
-      'Recognise the definite and indefinite adjective forms',
+      'Say who you gave, wrote, said or explained something to',
+      'Use the verbs that demand it: dati, reći, pomoći, vjerovati',
+      'See why “sviđa mi se” and “hladno mi je” are built the way they are',
     ],
   },
   {
-    id: 'past-tense',
+    id: 'instrumental-intro',
     level: 'A2',
-    order: 5,
-    prerequisites: ['present'],
+    order: 6,
+    prerequisites: ['accusative-deep'],
     objectives: [
-      'Talk about what happened, using the perfect tense',
-      'Build the past from the l-participle plus biti',
-      'Get the participle to agree with who is speaking',
+      'Say who you are with and what you are travelling by',
+      'Tell the means (vlakom) from the company (s bratom)',
+      'Use baviti se to talk about a regular activity',
     ],
   },
   {
     id: 'prepositions-action',
     level: 'A2',
-    order: 6,
+    order: 7,
     prerequisites: ['accusative-deep'],
     objectives: [
       'Say where something is and where it is going',
@@ -462,9 +484,108 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'adjective-agreement',
+    level: 'A2',
+    order: 8,
+    prerequisites: ['gender'],
+    objectives: [
+      'Match an adjective to its noun in gender, number and case',
+      'Describe people and things accurately',
+      'Recognise the definite and indefinite adjective forms',
+    ],
+  },
+  {
+    id: 'svoj',
+    level: 'A2',
+    order: 9,
+    prerequisites: ['possessives', 'adjective-agreement'],
+    objectives: [
+      'Say “his own” rather than “someone else’s” — a distinction English cannot make',
+      'Point a possessive back at the subject of the sentence',
+      'Stop saying moju knjigu where a Croatian says svoju',
+    ],
+  },
+  {
+    id: 'plural-cases',
+    level: 'A2',
+    order: 10,
+    prerequisites: ['plural-nouns', 'accusative-deep'],
+    objectives: [
+      'Use the plural as an object, not only as a subject',
+      'Form the genitive plural — the long -a after numbers and quantities',
+      'Cover the dative, locative and instrumental plural with one ending',
+    ],
+  },
+  {
+    id: 'quantity',
+    level: 'A2',
+    order: 11,
+    prerequisites: ['plural-cases'],
+    objectives: [
+      'Say how much and how many, and get the case right every time',
+      'Choose the genitive singular or plural by whether the thing is countable',
+      'Keep the verb singular after a quantity phrase',
+    ],
+  },
+  {
+    id: 'ordinals-dates',
+    level: 'A2',
+    order: 12,
+    prerequisites: ['numbers-time', 'adjective-agreement'],
+    objectives: [
+      'Give and understand a date in Croatian',
+      'Use ordinals as the adjectives they are',
+      'Recognise the old Slavic month names, which look nothing like the English ones',
+    ],
+  },
+  {
+    id: 'past-tense',
+    level: 'A2',
+    order: 13,
+    prerequisites: ['present'],
+    objectives: [
+      'Talk about what happened, using the perfect tense',
+      'Build the past from the l-participle plus biti',
+      'Get the participle to agree with who is speaking',
+    ],
+  },
+  {
+    id: 'past-questions-negation',
+    level: 'A2',
+    order: 14,
+    prerequisites: ['past-tense'],
+    objectives: [
+      'Ask whether something happened, and say it did not',
+      'Put the auxiliary where Croatian word order demands',
+      'Use Je li…? — the question form you will need most',
+    ],
+  },
+  {
+    id: 'adverbs',
+    level: 'A2',
+    order: 15,
+    prerequisites: ['adjective-agreement'],
+    objectives: [
+      'Describe HOW something is done, not just what it is',
+      'Build an adverb from any adjective in one step',
+      'Say how often with uvijek, često, ponekad, rijetko and nikad',
+    ],
+  },
+  {
+    id: 'comparatives-a2',
+    level: 'A2',
+    order: 16,
+    prerequisites: ['adjective-agreement'],
+    objectives: [
+      'Compare two things and name the best of many',
+      'Form comparatives regularly, and learn the handful that are irregular',
+      'Use od and nego to say "than"',
+    ],
+  },
+  {
     id: 'modal-verbs-a2',
     level: 'A2',
-    order: 7,
+    order: 17,
     prerequisites: ['present'],
     objectives: [
       'Say what you can, must, want and are allowed to do',
@@ -473,14 +594,146 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'comparatives-a2',
+    id: 'conjunctions',
     level: 'A2',
-    order: 8,
+    order: 18,
+    prerequisites: ['past-tense'],
+    objectives: [
+      'Join two sentences into one — the thing that makes A2 A2',
+      'Choose between a and ali, which English collapses into “but”',
+      'Use nego after a negative, and put the commas where Croatian wants them',
+    ],
+  },
+  {
+    id: 'relative-koji',
+    level: 'A2',
+    order: 19,
+    prerequisites: ['conjunctions'],
+    objectives: [
+      'Say “the woman who…”, “the book which…”, “the town where I live”',
+      'Take gender from the noun outside and case from the clause inside',
+      'Put the preposition in front, where Croatian requires it',
+    ],
+  },
+  {
+    id: 'indefinites',
+    level: 'A2',
+    order: 20,
+    prerequisites: ['negation'],
+    objectives: [
+      'Say someone, no one, everyone — and the same for things and places',
+      'Build the whole set from three prefixes rather than memorising twenty words',
+      'Remember that the ni- family always needs a negated verb',
+    ],
+  },
+  {
+    id: 'house-home',
+    level: 'A2',
+    order: 21,
+    prerequisites: ['locative-intro', 'prepositions-action'],
+    objectives: [
+      'Describe where you live, room by room',
+      'Place furniture and objects using the prepositions you know',
+      'Give your floor and say whether it is a kuća or a stan',
+    ],
+  },
+  {
+    id: 'body-health',
+    level: 'A2',
+    order: 22,
+    prerequisites: ['object-pronouns'],
+    objectives: [
+      'Say what hurts, using the sentence pattern where the pain is the subject',
+      'Name the parts of the body, including the ones that are always plural',
+      'Get through a visit to the doctor or the pharmacy',
+    ],
+  },
+  {
+    id: 'clothes-appearance',
+    level: 'A2',
+    order: 23,
     prerequisites: ['adjective-agreement'],
     objectives: [
-      'Compare two things and name the best of many',
-      'Form comparatives regularly, and learn the handful that are irregular',
-      'Use od and nego to say "than"',
+      'Say what you and other people are wearing',
+      'Buy clothes: try something on, ask for another size, ask for another colour',
+      'Agree colours with the thing they describe',
+    ],
+  },
+  {
+    id: 'describing-people',
+    level: 'A2',
+    order: 24,
+    prerequisites: ['clothes-appearance'],
+    objectives: [
+      'Describe what someone looks like and what they are like',
+      'Talk about hair and eyes the way a Croatian does',
+      'Ask Kakav je? for character and Koji je? for which one',
+    ],
+  },
+  {
+    id: 'work-jobs',
+    level: 'A2',
+    order: 25,
+    prerequisites: ['instrumental-intro'],
+    objectives: [
+      'Say what you do for a living and ask what someone else does',
+      'Use the female form of a job title, which is standard and not optional',
+      'Talk about the office, the hours, the salary and the holiday',
+    ],
+  },
+  {
+    id: 'school-studies',
+    level: 'A2',
+    order: 26,
+    prerequisites: ['work-jobs'],
+    objectives: [
+      'Say what you are studying, where, and for how long',
+      'Tell učiti from studirati, and učenik from student',
+      'Talk about exams, subjects, marks and homework',
+    ],
+  },
+  {
+    id: 'hobbies-free-time',
+    level: 'A2',
+    order: 27,
+    prerequisites: ['instrumental-intro'],
+    objectives: [
+      'Say what you do in your free time',
+      'Choose between igrati, svirati and igrati se — three verbs for one English word',
+      'Use the instrumental of time: subotom, vikendom, ljeti',
+    ],
+  },
+  {
+    id: 'travel-transport',
+    level: 'A2',
+    order: 28,
+    prerequisites: ['instrumental-intro'],
+    objectives: [
+      'Buy a ticket and ask when something leaves and arrives',
+      'Name every way of getting around a long, narrow country',
+      'Check into a hotel or an apartman',
+    ],
+  },
+  {
+    id: 'plans-invitations',
+    level: 'A2',
+    order: 29,
+    prerequisites: ['ordinals-dates'],
+    objectives: [
+      'Invite someone out, and accept or decline gracefully',
+      'Use the present tense for an arranged future',
+      'Fix a time and a place, and close with Vidimo se',
+    ],
+  },
+  {
+    id: 'celebrations-holidays',
+    level: 'A2',
+    order: 30,
+    prerequisites: ['ordinals-dates'],
+    objectives: [
+      'Know the Croatian calendar and what is said at each occasion',
+      'Agree sretan with what follows: Sretan Božić, Sretna Nova godina',
+      'Understand the imendan, and what to bring when invited to someone’s home',
     ],
   },
 

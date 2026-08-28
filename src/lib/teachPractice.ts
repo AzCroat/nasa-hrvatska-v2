@@ -67,6 +67,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'reflexive-verbs': 'present-tense',
   // ── verbs: other tenses ───────────────────────────────────────────────────
   'past-tense': 'past-tense',
+  // The A2 lesson on asking and denying in the past. `cloze` is A2, so unlike
+  // the vocab route this resolves for exactly the learners it is written for.
+  'past-questions-negation': 'past-tense',
   'aorist-imperfekt': 'past-tense',
   pluskvamperfekt: 'past-tense',
   tenses: 'past-tense', // TensesScreen
@@ -92,8 +95,13 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // The A1 locative lesson: locdrill is A1, so unlike the vocab route below
   // this one actually resolves for the learners the lesson is written for.
   'locative-intro': 'dative-locative',
+  // The A2 dative lesson routes to the same category: dative and locative share
+  // their singular endings, which is exactly why CATEGORY_SCREEN_MAP already
+  // sends the combined category to the locative drill.
+  'dative-intro': 'dative-locative',
   'vocative-intro': 'vocative',
   instrumental: 'instrumental',
+  'instrumental-intro': 'instrumental',
   // ── syntax / structure ────────────────────────────────────────────────────
   'word-order-emphasis': 'word-order',
   clitics: 'clitics',
@@ -107,14 +115,25 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',
   'shopping-prices': 'numerals',
+  'ordinals-dates': 'numerals',
   'idioms-register': 'idioms',
   // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
-  // plural-nouns, negation, adjectives-basic, possessives, demonstratives,
+  // A1: plural-nouns, negation, adjectives-basic, possessives, demonstratives,
   // imperative-basic, likes-preferences, family-people, countries-languages,
-  // food-drink, directions-town, weather-seasons. Each of them either has no
-  // drill at all, or only a topic-blind vocabulary game — and pairing a lesson
-  // on family words with a generic vocab round claims a connection the app
-  // cannot deliver. A wrong drill after a lesson is worse than no drill.
+  // food-drink, directions-town, weather-seasons.
+  // A2: object-pronouns, plural-cases, quantity, svoj, adverbs, conjunctions,
+  // relative-koji, indefinites, and all ten functional lessons.
+  //
+  // Each of them either has no drill at all, or only a topic-blind vocabulary
+  // game — and pairing a lesson on family words with a generic vocab round
+  // claims a connection the app cannot deliver. A wrong drill after a lesson is
+  // worse than no drill.
+  //
+  // `object-pronouns` is the one worth explaining: clitics DO have a drill, but
+  // it is B2-gated, so mapping it would queue a category an A2 learner cannot
+  // open — the coupling would resolve to nothing, silently. Same trap as
+  // `gender → vocab-a2`. Better to say nothing than to promise practice that
+  // never arrives.
 };
 
 interface TaughtEntry {
