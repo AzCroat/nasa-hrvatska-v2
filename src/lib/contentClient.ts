@@ -2,6 +2,8 @@ import { readCached, writeCached, bumpValidated, isStale, isTooOldToServe } from
 import { getFirebaseBearer } from './audio';
 import { API_BASE } from './platform';
 import { getCurrentUid } from './firebaseUid';
+import type { CurriculumEntry } from './curriculum';
+import { writeCurriculumSpine } from './curriculumProgress';
 import {
   ContentAuthError,
   ContentNotFoundError,
@@ -153,6 +155,34 @@ export async function getGrammar(): Promise<Grammar> {
 export async function getLessons(): Promise<Lesson[]> {
   const uid = await namespaceUid();
   return fetchAndCache<Lesson[]>(uid, 'lessons:all', '/api/content/lessons');
+}
+
+/**
+ * The curriculum spine — order, prerequisites and objectives, with no slides.
+ *
+ * Fetched separately from the lesson bodies on purpose: /api/content/lessons
+ * returns the whole catalog (220KB today, ~0.9MB at the 180 lessons this
+ * curriculum targets) and the sequencer only needs the shape. See
+ * functions/api/content/curriculum.js.
+ *
+ * The result is mirrored into localStorage so the SYNCHRONOUS session builder
+ * and lesson picker can read it without becoming async. Cache failures are
+ * swallowed: an absent spine is a defined state that degrades to the previous
+ * rotation policy, never to a learner being taught nothing.
+ */
+export async function getCurriculumSpine(): Promise<CurriculumEntry[]> {
+  const uid = await namespaceUid();
+  const spine = await fetchAndCache<CurriculumEntry[]>(
+    uid,
+    'curriculum:spine',
+    '/api/content/curriculum',
+  );
+  try {
+    if (Array.isArray(spine) && spine.length > 0) writeCurriculumSpine(spine);
+  } catch {
+    /* the fetch still succeeded; the mirror is an optimisation */
+  }
+  return spine;
 }
 
 export async function getContent(): Promise<Content> {
