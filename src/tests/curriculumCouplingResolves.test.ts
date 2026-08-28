@@ -28,7 +28,14 @@ vi.mock('../lib/cefrCertification', () => ({
 
 import { buildSessionActivities } from '../hooks/useDailySession';
 import { writeCurriculumSpine } from '../lib/curriculumProgress';
-import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
+import {
+  LESSON_TAUGHT_CATEGORY,
+  recordLessonTaught,
+  recordScreenPractised,
+  pendingTaughtCategories,
+  clearTaughtQueue,
+} from '../lib/teachPractice';
+import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../lib/categoryRoutes';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 const { CURRICULUM } = await import('../../functions/api/content/_data/curriculum.js');
@@ -106,6 +113,98 @@ describe('a mapped lesson leads to a drill the learner can actually open', () =>
       ).toBeTruthy();
     },
   );
+});
+
+describe('finishing that drill CLEARS the coupling', () => {
+  // THE OTHER HALF OF THE ROUND TRIP (2026-08-28).
+  //
+  // The suite above proves a mapped lesson REACHES a drill. It does not prove
+  // that doing the drill discharges the intention — and for 18 of 62 mappings
+  // it did not. Several categories share one screen (`cloze` serves past-tense
+  // and conditional; `aspectdrill` serves all three aspect categories) and
+  // `writing_guided` has no pool entry at all, while clearing was keyed on the
+  // screen's single POOL TAG. Those couplings resolved perfectly, sent the
+  // learner to the right drill, and then sat in the queue for their full
+  // 14-day TTL, re-claiming a session slot every day.
+  //
+  // It went unnoticed because reachability and clearing are separate paths:
+  // reverting the rekcija pool tag left the suite above completely green. Only
+  // mutation-testing exposed it, which is why this block walks the real
+  // record → resolve → finish → cleared cycle rather than inspecting a map.
+  it.each(MAPPED.map((e) => [e.id, e.level, LESSON_TAUGHT_CATEGORY[e.id]] as const))(
+    '%s (%s → %s) clears when its drill is finished',
+    (id) => {
+      const entry = spine.find((e) => e.id === id)!;
+      const screen = practiceFor(entry);
+      expect(
+        screen,
+        `${id} did not resolve — the suite above should have caught this`,
+      ).toBeTruthy();
+
+      clearTaughtQueue();
+      recordLessonTaught(id);
+      expect(pendingTaughtCategories(), `${id} did not queue its category`).toContain(
+        LESSON_TAUGHT_CATEGORY[id],
+      );
+
+      recordScreenPractised(screen!);
+      expect(
+        pendingTaughtCategories(),
+        `${id} is mapped to "${LESSON_TAUGHT_CATEGORY[id]}" and routes to "${screen}", but ` +
+          `finishing that screen does not clear the queue entry. The coupling will re-claim a ` +
+          `session slot every day until its 14-day TTL expires, serving the same drill over ` +
+          `and over. Usually means the screen's pool tag names a different category and no ` +
+          `route agrees with it either.`,
+      ).not.toContain(LESSON_TAUGHT_CATEGORY[id]);
+      clearTaughtQueue();
+    },
+  );
+});
+
+describe('the dedicated lesson SCREENS clear too', () => {
+  // LESSON_TAUGHT_CATEGORY deliberately holds two id spaces: server content
+  // lessons (which are spine entries, covered above) and the dedicated lesson
+  // SCREENS, which complete through completeExercise under their screen id and
+  // never appear in the spine. `MAPPED` filters on the spine, so those were
+  // outside every assertion in this file — and one of them, `tenses`, was among
+  // the 18 broken couplings. A guard that covers most of a thing looks exactly
+  // like a guard that covers the thing.
+  //
+  // These have no spine entry to feed the session builder, so the route maps
+  // supply the screen. That is production data used as INPUT to a behavioural
+  // assertion, not a restatement of it: the claim under test is that finishing
+  // the drill discharges the intention.
+  const nonSpine = Object.keys(LESSON_TAUGHT_CATEGORY).filter(
+    (id) => !spine.some((e) => e.id === id),
+  );
+
+  it('has some to check', () => {
+    expect(nonSpine.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(nonSpine)('%s clears when its drill is finished', (id) => {
+    const category = LESSON_TAUGHT_CATEGORY[id];
+    const screens = [CATEGORY_SCREEN_MAP[category], CATEGORY_EASIER_SCREEN[category]].filter(
+      Boolean,
+    ) as string[];
+    expect(
+      screens.length,
+      `${id} maps to "${category}", which has no route at all`,
+    ).toBeGreaterThan(0);
+
+    const cleared = screens.some((screen) => {
+      clearTaughtQueue();
+      recordLessonTaught(id);
+      recordScreenPractised(screen);
+      return !pendingTaughtCategories().includes(category);
+    });
+    clearTaughtQueue();
+    expect(
+      cleared,
+      `${id} is mapped to "${category}" and routes to ${screens.join(' / ')}, but finishing ` +
+        `those screens never clears the queue entry.`,
+    ).toBe(true);
+  });
 });
 
 describe('the known exception is named, not silently tolerated', () => {

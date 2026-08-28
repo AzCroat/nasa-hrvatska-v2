@@ -225,12 +225,12 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     // and the pool tag said 'dative-locative', so the queue entry would have
     // survived its full 14-day TTL and re-claimed a slot every session.
     //
-    // NOTE: this round trip does NOT hold for every mapping today — the
-    // categories routed to shared screens (cloze, aspectdrill, writing_guided)
-    // do not clear, because those screens carry one pool tag between them.
-    // That is a separate, pre-existing finding, reported to the owner rather
-    // than fixed here; it is not enshrined as a known-list because it is a
-    // defect, not a design.
+    // The round trip now holds for EVERY mapping — clearing became route-aware
+    // on 2026-08-28, which fixed the 18 that shared a screen. That is asserted
+    // for all of them in curriculumCouplingResolves.test.ts. What this test
+    // still adds is a pin on the POOL TAG specifically: route-based clearing
+    // would keep working even if the rekcija tag were reverted, so without
+    // this assertion nothing would catch that regression.
     const {
       recordLessonTaught,
       recordCategoryPractised,

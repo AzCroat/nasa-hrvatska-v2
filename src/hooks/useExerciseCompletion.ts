@@ -13,11 +13,7 @@ import { EXERCISE_COMPLETION, type StatKind } from '../lib/completion/exerciseRe
 import { consumeSessionCategoryOutcome } from '../lib/sessionCategory';
 import { signalSessionCompleteIfActive, EXERCISE_COMPLETE_EVENT } from '../lib/sessionSignal';
 import { recordExerciseOutcome } from '../lib/masteryLedger';
-import {
-  recordLessonTaught,
-  recordCategoryPractised,
-  categoryForScreen,
-} from '../lib/teachPractice';
+import { recordLessonTaught, recordScreenPractised } from '../lib/teachPractice';
 
 interface MinStats {
   vs?: string[];
@@ -118,8 +114,11 @@ export function completeExercise<S extends MinStats>(
   if (activityType === 'lesson') {
     recordLessonTaught(key);
   } else {
-    const practised = categoryForScreen(key);
-    if (practised) recordCategoryPractised(practised);
+    // Clears on the ROUTE as well as the pool tag — see recordScreenPractised.
+    // Tag-only clearing left 18 of 62 mappings stuck for their full TTL,
+    // because several categories share one screen (cloze, aspectdrill) and
+    // writing_guided has no pool entry at all.
+    recordScreenPractised(key);
   }
   if (stats.vs?.includes(vsKey)) {
     // Already credited — never a second gc/vs write. See awardOnReplay above for

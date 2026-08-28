@@ -31,6 +31,7 @@
 
 import type { SkillCategory } from './adaptive';
 import { CEFR_EXERCISE_POOL } from './sessionPools';
+import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from './categoryRoutes';
 
 /**
  * Every category the pool actually uses. Derived rather than hand-listed so it
@@ -283,6 +284,72 @@ export function recordLessonTaught(lessonKey: string, now = Date.now()): void {
 export function recordCategoryPractised(category: SkillCategory, now = Date.now()): void {
   const entries = fresh(read(), now);
   const next = entries.filter((e) => e.c !== category);
+  if (next.length !== entries.length) write(next);
+}
+
+/**
+ * Every category whose coupling drill IS this screen, according to the app's
+ * own routing. Both maps count: `CATEGORY_EASIER_SCREEN` is where the learner
+ * is actually sent when the main drill is CEFR-locked, so a coupling satisfied
+ * via the easier route must clear too.
+ */
+function categoriesRoutedTo(screenKey: string): SkillCategory[] {
+  const out = new Set<SkillCategory>();
+  for (const map of [CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN]) {
+    for (const [category, screen] of Object.entries(map)) {
+      if (screen === screenKey) out.add(category as SkillCategory);
+    }
+  }
+  return [...out];
+}
+
+/**
+ * A screen was completed — discharge every coupling it satisfies.
+ *
+ * WHY THIS IS ROUTE-BASED AND NOT TAG-BASED (2026-08-28).
+ *
+ * The obvious implementation — clear the pool tag of the screen just finished —
+ * was the implementation, and it silently failed for 18 of 62 mappings. A pool
+ * entry carries ONE category, but several categories legitimately route to the
+ * same screen: `cloze` is the drill for both 'past-tense' and 'conditional'
+ * while being tagged 'vocab-a2'; `aspectdrill` serves all three aspect
+ * categories under one tag; `writing_guided` has no pool entry at all, so no
+ * retag could ever have fixed it. In every one of those cases the coupling
+ * resolved perfectly, sent the learner to the right drill, and then never
+ * cleared — so the entry sat for its full 14-day TTL and re-claimed a session
+ * slot every single day, serving the same drill over and over.
+ *
+ * The queue is a list of INTENTIONS ("taught this, not yet practised"), and the
+ * coupling's own definition of practising X is "do the drill CATEGORY_SCREEN_MAP
+ * points at for X". So if the app's own router says the drill for X is screen S
+ * and the learner finished S, the intention is discharged by construction. This
+ * claims nothing about content or accuracy — it reads the app's routing table,
+ * not the learner's performance — so it stays on the right side of the
+ * never-state-what-you-did-not-measure rule.
+ *
+ * The pool tag is still honoured, because a screen can be reached without the
+ * coupling having sent you there, and finishing a genitive drill should clear a
+ * pending genitive intention whichever way you arrived.
+ *
+ * ONE DELIBERATE OVER-CLEAR: when two queued categories route to the SAME
+ * screen (past-tense and conditional both → cloze), finishing it clears both.
+ * That is correct rather than sloppy — the app has no other drill to offer
+ * either of them, so keeping one queued would serve that same screen again
+ * tomorrow for a category whose only drill the learner just did. The
+ * alternative is a loop.
+ *
+ * This function touches ONLY the coupling queue. The adaptive store and the
+ * mastery ledger keep recording the pool tag, which remains the honest
+ * statement about what content was practised.
+ */
+export function recordScreenPractised(screenKey: string, now = Date.now()): void {
+  const satisfied = new Set<SkillCategory>(categoriesRoutedTo(screenKey));
+  const tag = categoryForScreen(screenKey);
+  if (tag) satisfied.add(tag);
+  if (satisfied.size === 0) return;
+
+  const entries = fresh(read(), now);
+  const next = entries.filter((e) => !satisfied.has(e.c));
   if (next.length !== entries.length) write(next);
 }
 
