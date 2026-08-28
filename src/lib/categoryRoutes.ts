@@ -48,6 +48,11 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // 'subordination', none of these is in ALL_CATEGORIES, so the adaptive picker
   // is unaffected — this changes the coupling and nothing else.
   numerals: 'numtime',
+  // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
+  // pool entry now carries this category, so the route and the tag agree and
+  // the coupling lands on RekcijaDrill rather than the locative drill.
+  // `rekcija` is B2 and the lesson is C1, so no easier fallback is needed.
+  'verb-government': 'rekcija',
   // Same class again (2026-08-28): RegisterDrill is standard-vs-colloquial and
   // the C2 `razgovorni-stil` lesson is exactly that. Not in ALL_CATEGORIES, so
   // like the rows above this touches the coupling and nothing else.

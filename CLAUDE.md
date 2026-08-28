@@ -277,16 +277,40 @@ pedagogy. Design: `docs/curriculum-design.md`.
   `condensation` (order 7): before it, getting a sentence right; after it,
   choosing between sentences that are all right. Pinned by
   `c1Curriculum.test.ts`; bodies in `lessonsC1.js` (in lint TARGETS).
-- **Two C1 mappings look available and are not, and the reasons are recorded in
-  the test rather than re-derived.** `RekcijaDrill` IS verb government, but its
-  pool entry is tagged `category: 'dative-locative'`, so mapping
-  `verb-government` there hands the learner the LOCATIVE drill; retagging the
-  pool entry would change what that category means for the adaptive scheduler at
-  every level, which is its own decision. The C1 `discourse` drill covers
-  CONNECTORS (stoga, međutim, unatoč tome) while `discourse-particles` teaches
-  ATTITUDE particles (pa, ma, baš, valjda, zar) — adjacent, not the same. Both
-  drills stay reachable through the P3 CEFR fill, which walks the pool directly,
-  so an unrouted category is not an unreachable drill.
+- **`rekcija` is tagged `verb-government` (owner decision, 2026-08-28).** It was
+  `dative-locative`, which described one of its three modes (dativ / genitiv /
+  prijedlozna) and routed the drill to `locdrill`, so the C1 `verb-government`
+  lesson could not be coupled without sending the learner to the LOCATIVE drill.
+  `verb-government` is a pool-only `SkillCategory` — deliberately NOT in
+  `ALL_CATEGORIES`, like `nominative` and `subordination` — so the adaptive
+  picker is unaffected; `SKILL_GROUP` puts it under **`case`, not `verb`**,
+  which keeps the P3 variety pass byte-identical (a learner doing `rekcija` is
+  picking a case, and grouping it as a verb would let it sit beside three case
+  drills — the failure that pass exists to prevent).
+- **A COUPLING CLEARS ON THE POOL TAG, NOT ON THE ROUTE** — the two are separate
+  and both must agree. `CATEGORY_SCREEN_MAP` decides which drill the coupling
+  SENDS you to; `completeExercise` clears the queue with
+  `categoryForScreen(key)`, which is the **pool tag** of the screen you
+  finished. A mapping whose route and tag disagree resolves fine and never
+  clears, so the entry survives its full 14-day TTL and re-claims a slot every
+  session. `curriculumCouplingResolves.test.ts` only proves reachability —
+  mutation-testing the rekcija retag is what exposed the gap, because reverting
+  the tag left that suite green. `c1Curriculum.test.ts` now round-trips this
+  one mapping (lesson → queue → finish drill → cleared).
+  **KNOWN, UNFIXED (2026-08-28): 18 of 62 mappings do not clear** — every
+  `past-tense` and `conditional` mapping (routed to `cloze`, tagged `vocab-a2`),
+  every `aspect-*` mapping (routed to `aspectdrill`, tagged
+  `aspect-imperfective`), and every `writing` mapping (`writing_guided` has no
+  pool entry at all). These are shared screens carrying one tag between several
+  categories, so the fix is not another retag; it needs a decision about how a
+  multi-category screen reports what it practised. Reported to the owner, not
+  enshrined as a known-list, because it is a defect rather than a design.
+- **The C1 `discourse` mapping is still unavailable, and that one is real.** The
+  drill covers CONNECTORS (stoga, međutim, unatoč tome) while
+  `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
+  adjacent, not the same. Both drills stay reachable through the P3 CEFR fill,
+  which walks the pool directly, so an unrouted category is not an unreachable
+  drill.
 - **C2 is complete, and with it the whole curriculum (2026-08-28): 4 lessons →
   30, 45 → 180 total, 30 at every level.** C2 had one tense, one punctuation
   mark, one style topic and one genre. The gap was not "more grammar": the CEFR

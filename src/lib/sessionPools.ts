@@ -260,7 +260,12 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     label: 'Glagolska rekcija',
     screen: 'rekcija',
     cefr: 'B2',
-    category: 'dative-locative',
+    // Retagged from 'dative-locative' (owner decision, 2026-08-28). The drill's
+    // three modes are dativ / genitiv / prijedlozna — it is about which case a
+    // VERB governs, across the whole case system, not about the locative. The
+    // old tag routed it to `locdrill` and made the C1 verb-government lesson
+    // impossible to couple honestly.
+    category: 'verb-government',
   },
   // B2 tranche 2 (2026-08-15): impersonals, indefinite pronouns, numerals.
   {
