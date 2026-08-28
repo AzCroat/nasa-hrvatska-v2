@@ -287,24 +287,34 @@ pedagogy. Design: `docs/curriculum-design.md`.
   which keeps the P3 variety pass byte-identical (a learner doing `rekcija` is
   picking a case, and grouping it as a verb would let it sit beside three case
   drills — the failure that pass exists to prevent).
-- **A COUPLING CLEARS ON THE POOL TAG, NOT ON THE ROUTE** — the two are separate
-  and both must agree. `CATEGORY_SCREEN_MAP` decides which drill the coupling
-  SENDS you to; `completeExercise` clears the queue with
-  `categoryForScreen(key)`, which is the **pool tag** of the screen you
-  finished. A mapping whose route and tag disagree resolves fine and never
-  clears, so the entry survives its full 14-day TTL and re-claims a slot every
-  session. `curriculumCouplingResolves.test.ts` only proves reachability —
-  mutation-testing the rekcija retag is what exposed the gap, because reverting
-  the tag left that suite green. `c1Curriculum.test.ts` now round-trips this
-  one mapping (lesson → queue → finish drill → cleared).
-  **KNOWN, UNFIXED (2026-08-28): 18 of 62 mappings do not clear** — every
-  `past-tense` and `conditional` mapping (routed to `cloze`, tagged `vocab-a2`),
-  every `aspect-*` mapping (routed to `aspectdrill`, tagged
-  `aspect-imperfective`), and every `writing` mapping (`writing_guided` has no
-  pool entry at all). These are shared screens carrying one tag between several
-  categories, so the fix is not another retag; it needs a decision about how a
-  multi-category screen reports what it practised. Reported to the owner, not
-  enshrined as a known-list, because it is a defect rather than a design.
+- **A COUPLING CLEARS ON THE ROUTE, NOT ONLY THE POOL TAG** (2026-08-28).
+  `recordScreenPractised(screenKey)` is the single clearing entry point: it
+  discharges every queued category whose route (`CATEGORY_SCREEN_MAP` or
+  `CATEGORY_EASIER_SCREEN`) IS that screen, plus the screen's pool tag.
+  Clearing used to be tag-only, and that silently broke **18 of 62 mappings** —
+  a pool entry carries ONE category while several route to the same screen
+  (`cloze` serves past-tense and conditional under a `vocab-a2` tag;
+  `aspectdrill` serves all three aspect categories; `writing_guided` has no pool
+  entry at all, so no retag could ever have fixed it). Those couplings resolved,
+  sent the learner to the right drill, then sat for their full 14-day TTL
+  re-claiming a session slot every day.
+  **Why route-clearing is honest**: the queue holds INTENTIONS, and the
+  coupling's own definition of practising X is "do the drill the router names
+  for X". It reads the routing table, never the learner's performance, so it
+  states nothing unmeasured. **One deliberate over-clear**: two queued
+  categories routing to the same screen both clear — correct, because the app
+  has no other drill for either and keeping one queued would serve that same
+  screen again tomorrow. Only the coupling queue is touched; the adaptive store
+  and mastery ledger still record the pool tag, which stays the honest statement
+  about content practised.
+  **This was found by mutation testing, not by the suite that existed.**
+  Reverting the rekcija tag left `curriculumCouplingResolves.test.ts` fully
+  green, because reachability and clearing are separate paths. That suite now
+  round-trips EVERY mapping (record → resolve → finish → cleared), including the
+  dedicated lesson SCREENS that never appear in the spine and were outside every
+  assertion in the file — one of which, `tenses`, was among the 18.
+  `c1Curriculum.test.ts` additionally pins the rekcija POOL TAG, which
+  route-clearing would otherwise mask.
 - **The C1 `discourse` mapping is still unavailable, and that one is real.** The
   drill covers CONNECTORS (stoga, međutim, unatoč tome) while
   `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
