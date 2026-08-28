@@ -15,6 +15,7 @@ import { CROATIA_POOL } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
 import { skillGroupOf, type SkillGroup } from '../lib/skillGroups';
+import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import {
   reviewReason,
   taughtReason,
@@ -128,99 +129,6 @@ export function getSessionFillTarget(userCefr: string, fluencyMode: boolean): nu
   const base = cefrRank(userCefr) >= cefrRank('A2') ? 4 : 3;
   return fluencyMode ? base + 2 : base;
 }
-
-/** Maps adaptive SkillCategory → exercise screen id */
-const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
-  genitive: 'genitivedrill',
-  accusative: 'accusativedrill',
-  // 'nominative' is not in ALL_CATEGORIES, so the adaptive queue never picks it
-  // and this row is inert for resolveAdaptiveActivity. It exists for the teach →
-  // practice coupling: the A1 `cases` lesson teaches the case SYSTEM, and
-  // nominative is where a learner starts using it. Without a route the coupling
-  // would queue a category it could never resolve, and the lesson would once
-  // again lead nowhere.
-  nominative: 'nomdrill',
-  // Route each case to its dedicated drill (these components already exist and
-  // are registered in AppRouter). Previously dative-locative/instrumental/vocative
-  // all collapsed to generic 'cloze', so even when the adaptive picker chose them
-  // the learner never got a real case drill. Dative & locative share endings in
-  // Croatian, so the locative drill covers the combined 'dative-locative' category.
-  'dative-locative': 'locdrill',
-  // Like 'nominative' above, 'subordination' is NOT in ALL_CATEGORIES, so the
-  // adaptive queue never picks it and this row is inert for
-  // resolveAdaptiveActivity. It exists for the teach → practice coupling, and it
-  // repairs a mapping that has never resolved: `complex-sentences` (B2) has
-  // pointed at this category since the coupling shipped, with no route to
-  // follow, while eight subordination drills sat in the pool unreachable.
-  subordination: 'subordination',
-  // Five more categories that the coupling pointed at with no route to follow
-  // (found 2026-08-28 by curriculumCouplingResolves.test.ts, which walks the
-  // REAL maps instead of a copy). Ten lessons across every level queued a
-  // category that could never become an activity. Like 'nominative' and
-  // 'subordination', none of these is in ALL_CATEGORIES, so the adaptive picker
-  // is unaffected — this changes the coupling and nothing else.
-  numerals: 'numtime',
-  'word-order': 'wordorderdrill',
-  idioms: 'idioms',
-  passive: 'passive',
-  nominalization: 'nominalization',
-  instrumental: 'instrumental',
-  vocative: 'vocative',
-  'past-tense': 'cloze',
-  'future-tense': 'future',
-  'aspect-imperfective': 'aspectdrill',
-  'aspect-perfective': 'aspectdrill',
-  'aspect-negation': 'aspectdrill',
-  conditional: 'cloze',
-  clitics: 'clitic',
-  'vocab-a2': 'znam',
-  'vocab-b1': 'znam',
-  'vocab-b2': 'znam',
-  // 'speaking' category adaptive picks don't route to a dedicated drill here;
-  // spoken output is guaranteed by the production slot instead (PRODUCTION_POOL,
-  // which since Wave 3 includes speaking_sprint again — it uses only browser
-  // speech APIs, no AI quota).
-  // Listening-channel fix (2026-08-14): 'listening' routes to the authored
-  // graded-story bank (A1+, zero AI cost — NOT ai_listening, which spends
-  // quota). The screen levels its own content, and its quiz finish now runs
-  // through completeExercise, so the session-category bridge reschedules
-  // listening from real accuracy like any grammar category.
-  listening: 'listening_comprehension',
-  // Production-teaching (2026-08-18): 'writing' routes to the guided-writing
-  // teaching screen (A1+; study → frames → free production). This is what
-  // makes a weak writing signal — from an exam, a graded submission's
-  // error-types, or the session-category bridge — actually reschedule
-  // WRITING practice; before this the category didn't exist and written
-  // production could only win a random draw in the production slot.
-  writing: 'writing_guided',
-};
-
-// Lower-level equivalent for a category whose mapped drill is CEFR-locked.
-// Only for categories where a genuinely easier drill teaches the SAME concept —
-// never a substitute from a different skill. Consulted by
-// resolveAdaptiveActivity, which still CEFR-gates the fallback itself, so this
-// can never surface a locked screen; it only rescues a category that would
-// otherwise be dropped for the whole level.
-const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
-  // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
-  // `present-tense-verbs` lesson and previously had nowhere to practise them.
-  'present-tense': 'presentdrill',
-  // subordination maps to `subordination` (B2). The B1 relative-clause lesson
-  // needs a drill a B1 learner can actually open, and `relpron` is the one that
-  // teaches the same thing one level down.
-  subordination: 'relpron',
-};
-
-// Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive
-// pick (resolveAdaptiveActivity) so the coverage floor can't surface a locked
-// drill (e.g. B1 accusative, B2 clitics) to an A1/A2 user.
-const SCREEN_CEFR: Record<string, string> = {
-  ...Object.fromEntries(CEFR_EXERCISE_POOL.map((e) => [e.screen, e.cefr])),
-  // vocative (VocativeScreen) is routed by the adaptive picker but is not part of
-  // the Priority-3 fill pool, so it has no pool-derived CEFR. Part of the full
-  // case system introduced at A1.
-  vocative: 'A1',
-};
 
 // Reference/immersion screens with no self-grading completion (read/scenario
 // screens). The Priority-4 Croatia slot ALWAYS adds one of these, and they only

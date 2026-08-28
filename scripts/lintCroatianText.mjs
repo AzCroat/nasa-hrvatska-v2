@@ -38,6 +38,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsB1.js',
   'functions/api/content/_data/lessonsB2.js',
   'functions/api/content/_data/lessonsC1.js',
+  'functions/api/content/_data/lessonsC2.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
@@ -241,31 +242,51 @@ import { LESSONS } from '../functions/api/content/_data/lessons.js';
 // A labelled comparison column is the opposite case, and this app's audience is
 // a diaspora that grew up hearing both varieties mixed.
 //
-// Encoding is still checked here. Only the Serbism check is suspended, only in
-// this lesson's tables, so a homoglyph in that column still fails the build.
-// If the owner decides the contrast table should go, delete the entry — nothing
-// else depends on it.
-const CONTRASTIVE_LESSONS = new Set(['language-identity']);
+// Encoding is still checked here. Only the Serbism check is suspended, and only
+// inside these lessons, so a homoglyph still fails the build.
+// If the owner decides one of these lessons should not name the forms it names,
+// delete the entry — nothing else depends on this set.
+//
+// `dijalekti-dubinski` (C2, added 2026-08-28) is the second entry and it is a
+// DIFFERENT collision, worth stating so nobody generalises from the first.
+// Kajkavian realises the old yat as e — lep, mleko — and that is a Croatian
+// dialect form spoken across the north-west of the country, including Zagreb.
+// It is homographic with Serbian ekavica and the blocklist cannot tell them
+// apart by pattern, because there is no pattern to tell apart: the strings are
+// identical. The lesson is the app's explanation of the three-way yat reflex
+// (lijep / lep / lip), which is the single most useful diagnostic a learner has
+// for placing a speaker, and every occurrence is explicitly labelled kajkavian.
+// Flagging it as a Serbism would be the lint stating something false about
+// Croatian, which is worse than the gap it leaves.
+//
+// The scope is the whole lesson rather than its tables because the same labelled
+// contrast appears in a highlight and a summary point. That is a real cost: a
+// genuine Serbism inside this one lesson would now pass. It is accepted here and
+// should not be accepted casually — this list can only shrink.
+const CONTRASTIVE_LESSONS = new Set(['language-identity', 'dijalekti-dubinski']);
 
 function* lessonStrings() {
   for (const l of LESSONS) {
     for (let i = 0; i < (l.slides || []).length; i++) {
       const s = l.slides[i];
       const at = `${l.id}.slides[${i}]`;
+      // 'gloss' = encoding checked, Serbism check suspended. Contrastive lessons
+      // name non-standard forms as their subject matter, so every Croatian-kind
+      // string in them is glossed; encoding still fails the build everywhere.
+      const kind = CONTRASTIVE_LESSONS.has(l.id) ? 'gloss' : 'croatian';
       if (typeof s.highlight === 'string') {
-        yield { loc: `${at}.highlight`, field: 'highlight', content: s.highlight, kind: 'croatian' };
+        yield { loc: `${at}.highlight`, field: 'highlight', content: s.highlight, kind };
       }
       for (const h of Array.isArray(s.headers) ? s.headers : []) {
         yield { loc: `${at}.headers`, field: 'headers', content: h, kind: 'gloss' };
       }
-      const rowKind = CONTRASTIVE_LESSONS.has(l.id) ? 'gloss' : 'croatian';
       for (let r = 0; r < (Array.isArray(s.rows) ? s.rows : []).length; r++) {
         for (const cell of Array.isArray(s.rows[r]) ? s.rows[r] : []) {
-          yield { loc: `${at}.rows[${r}]`, field: 'rows', content: cell, kind: rowKind };
+          yield { loc: `${at}.rows[${r}]`, field: 'rows', content: cell, kind };
         }
       }
       for (const p of Array.isArray(s.points) ? s.points : []) {
-        yield { loc: `${at}.points`, field: 'points', content: p, kind: 'croatian' };
+        yield { loc: `${at}.points`, field: 'points', content: p, kind };
       }
     }
   }

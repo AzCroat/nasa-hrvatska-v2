@@ -79,11 +79,17 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   future_tense_lesson: 'future-tense',
   conditional: 'conditional',
   'unreal-conditions': 'conditional',
+  // C2 second conditional (bio bih došao) is the same mood one step further;
+  // the conditional drill is where it is practised.
+  'kondicional-drugi': 'conditional',
   // ── aspect ────────────────────────────────────────────────────────────────
   aspect: 'aspect-imperfective',
   'aspect-imperfective': 'aspect-imperfective',
   'aspect-perfective': 'aspect-perfective',
   'aspect-negation': 'aspect-negation',
+  // C2 aspect edges: the negated imperative is the lesson's central rule and is
+  // exactly what the aspect-negation drill tests.
+  'glagolski-vid-granice': 'aspect-negation',
   'motion-verbs': 'aspect-perfective',
   // B1 verb prefixes: a prefix is what makes a verb perfective, so aspectdrill
   // (B1) is practising exactly what the lesson taught.
@@ -149,12 +155,19 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'shopping-prices': 'numerals',
   'ordinals-dates': 'numerals',
   'idioms-register': 'idioms',
+  // C2 colloquial register. RegisterDrill is literally standard-vs-colloquial,
+  // and 'register' is not in ALL_CATEGORIES, so routing it (CATEGORY_SCREEN_MAP)
+  // touches the coupling and nothing the adaptive picker does.
+  'razgovorni-stil': 'register',
   // B2 formal correspondence is written production; CATEGORY_SCREEN_MAP.writing
   // routes to the guided-writing teaching screen.
   'formal-email': 'writing',
   // C1 academic writing is written production against a rubric; guided writing
   // is the teaching screen for it.
   'academic-writing': 'writing',
+  // C2 synthesis across sources is written production against a structure;
+  // guided writing is the teaching screen for it.
+  'sinteza-izvora': 'writing',
   // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
   // A1: plural-nouns, negation, adjectives-basic, possessives, demonstratives,
   // imperative-basic, likes-preferences, family-people, countries-languages,
@@ -176,6 +189,20 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // `verb-government` is the one to explain: it is about which case each VERB
   // demands, so no single case drill practises it — sending the learner to the
   // genitive drill after a lesson covering six cases would misrepresent both.
+  // C2: norma-i-uzus, pravopis-dvojbe, zarez-interpunkcija, sklonidba-iznimke,
+  // brojevi-norma, slaganje-suptilnosti, padezne-suptilnosti, pluskvamperfekt
+  // (already mapped to past-tense), glagolski-nacini, stilske-figure,
+  // ritam-recenice, ironija-podtekst, humor-jezicni, administrativni-stil,
+  // publicisticki-stil, znanstveni-stil, knjizevni-stil, stari-tekstovi,
+  // rekonstrukcija-argumenta, precizno-nijansiranje, spontani-govor,
+  // prevodjenje-strucno, uredjivanje-teksta, frazeologija-dubinska,
+  // dijalekti-dubinski, jezik-i-drustvo.
+  // `padezne-suptilnosti` is the C2 twin of verb-government — it ranges over
+  // every case, so no single case drill practises it. `precizno-nijansiranje`
+  // is the near miss worth recording: the `preciznost` drill IS precision of
+  // expression, but its pool entry is tagged category 'idioms', which routes to
+  // the idiom drill — so the mapping would deliver a different exercise from the
+  // one whose name matches. Retagging the pool entry is its own decision.
   // functional lessons. `reported-speech` is the notable one: the pool HAS a
   // reported-speech drill (`neizravni`), but it is B2, and the easier route for
   // this category is already taken by `relpron` — so mapping it would send a B1
