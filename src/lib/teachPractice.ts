@@ -121,6 +121,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'vocative-intro': 'vocative',
   instrumental: 'instrumental',
   'instrumental-intro': 'instrumental',
+  // C1 verb government — which case each verb demands. Mappable as of
+  // 2026-08-28: the `rekcija` pool entry was retagged from 'dative-locative'
+  // to 'verb-government' (owner decision), so the coupling now lands on
+  // RekcijaDrill, which teaches exactly this, instead of the locative drill.
+  'verb-government': 'verb-government',
   // ── syntax / structure ────────────────────────────────────────────────────
   'word-order-emphasis': 'word-order',
   clitics: 'clitics',
@@ -181,14 +186,14 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // argument-structure, hedging-precision, presentations, meetings-negotiation,
   // small-talk-fluency, humour-irony, abstract-topics, business-economy,
   // politics-society, language-history, literature-canon.
-  // C1: verb-government, diminutives-augmentatives, comparison-advanced,
-  // collocations, discourse-particles, accent-prosody, summarising-paraphrase,
+  // C1: diminutives-augmentatives, comparison-advanced, collocations,
+  // discourse-particles, accent-prosody, summarising-paraphrase,
   // debate-persuasion, formal-speech, translation-pitfalls,
   // proofreading-editing, media-analysis, law-administration,
   // science-technology, arts-culture, regional-varieties, diaspora-identity.
-  // `verb-government` is the one to explain: it is about which case each VERB
-  // demands, so no single case drill practises it — sending the learner to the
-  // genitive drill after a lesson covering six cases would misrepresent both.
+  // (`verb-government` was on this list until 2026-08-28 — see its entry above.
+  // It came OFF by retagging the pool, which is the only honest way a lesson
+  // moves out of this list: the drill it names now actually teaches it.)
   // C2: norma-i-uzus, pravopis-dvojbe, zarez-interpunkcija, sklonidba-iznimke,
   // brojevi-norma, slaganje-suptilnosti, padezne-suptilnosti, pluskvamperfekt
   // (already mapped to past-tense), glagolski-nacini, stilske-figure,
@@ -197,8 +202,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // rekonstrukcija-argumenta, precizno-nijansiranje, spontani-govor,
   // prevodjenje-strucno, uredjivanje-teksta, frazeologija-dubinska,
   // dijalekti-dubinski, jezik-i-drustvo.
-  // `padezne-suptilnosti` is the C2 twin of verb-government — it ranges over
-  // every case, so no single case drill practises it. `precizno-nijansiranje`
+  // `padezne-suptilnosti` stays unmapped and is NOT the same case as
+  // verb-government: it teaches the genitive of negation, the partitive and the
+  // temporal cases — case meaning where nothing governs anything — so the
+  // rekcija drill would be the wrong exercise for it, not merely a mistagged
+  // one. `precizno-nijansiranje`
   // is the near miss worth recording: the `preciznost` drill IS precision of
   // expression, but its pool entry is tagged category 'idioms', which routes to
   // the idiom drill — so the mapping would deliver a different exercise from the

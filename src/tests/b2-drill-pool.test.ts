@@ -85,7 +85,10 @@ const DRILLS = [
     id: 'rekcija',
     data: REKCIJA_DRILL_DATA,
     modes: ['dativ', 'genitiv', 'prijedlozna'],
-    category: 'dative-locative',
+    // Retagged 2026-08-28 (owner decision). The modes are the argument: dativ,
+    // genitiv and prijedlozna are three different cases, so 'dative-locative'
+    // only ever described one third of the drill.
+    category: 'verb-government',
   },
   {
     id: 'vidimperativ',

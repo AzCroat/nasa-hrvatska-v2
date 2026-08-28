@@ -203,23 +203,55 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     'clause-types': 'subordination',
     'passive-choices': 'passive',
     'academic-writing': 'writing',
+    // Mappable as of 2026-08-28: the `rekcija` pool entry was retagged from
+    // 'dative-locative' to 'verb-government' (owner decision), so the coupling
+    // now lands on RekcijaDrill — which IS verb government — instead of the
+    // locative drill. This lesson was in DELIBERATELY_UNMAPPED until then.
+    'verb-government': 'verb-government',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
+  it('finishing the verb-government drill CLEARS the coupling', async () => {
+    // Reachability is asserted centrally; this asserts the other half of the
+    // round trip, and it is the half the retag was actually about.
+    //
+    // completeExercise clears the queue with categoryForScreen(key) — the POOL
+    // TAG of the screen the learner finished. So a coupling only clears when
+    // the pool tag and the routed category agree. Before 2026-08-28 they did
+    // not for this lesson: the route would have sent the learner to `locdrill`
+    // and the pool tag said 'dative-locative', so the queue entry would have
+    // survived its full 14-day TTL and re-claimed a slot every session.
+    //
+    // NOTE: this round trip does NOT hold for every mapping today — the
+    // categories routed to shared screens (cloze, aspectdrill, writing_guided)
+    // do not clear, because those screens carry one pool tag between them.
+    // That is a separate, pre-existing finding, reported to the owner rather
+    // than fixed here; it is not enshrined as a known-list because it is a
+    // defect, not a design.
+    const {
+      recordLessonTaught,
+      recordCategoryPractised,
+      pendingTaughtCategories,
+      categoryForScreen,
+      clearTaughtQueue,
+    } = await import('../lib/teachPractice');
+    clearTaughtQueue();
+    recordLessonTaught('verb-government');
+    expect(pendingTaughtCategories()).toContain('verb-government');
+
+    const practised = categoryForScreen('rekcija');
+    expect(practised).toBe('verb-government');
+    recordCategoryPractised(practised!);
+    expect(pendingTaughtCategories()).not.toContain('verb-government');
+    clearTaughtQueue();
+  });
+
   const DELIBERATELY_UNMAPPED = [
-    // The one worth explaining, because the obvious mapping LOOKS available and
-    // is not. `RekcijaDrill` exists in the pool and is exactly this lesson's
-    // subject — but its pool entry is tagged `category: 'dative-locative'`,
-    // which routes to `locdrill`. Mapping verb-government to that category
-    // would hand a learner the locative drill after a lesson covering six
-    // cases. Retagging the pool entry would change what 'dative-locative'
-    // means for the adaptive scheduler at every level, which is its own
-    // decision and not a tidy-up. Unmapped until then.
-    'verb-government',
-    // `discourse-particles` looks mappable too: a C1 `discourse` drill sits in
+    // `discourse-particles` is the one worth explaining, because the mapping
+    // LOOKS available and is not: a C1 `discourse` drill sits in
     // the pool. It drills CONNECTORS (stoga, međutim, unatoč tome) — clause
     // joiners — while the lesson teaches attitude particles (pa, ma, baš,
     // valjda, zar). Adjacent, not the same, so no mapping. Both drills stay

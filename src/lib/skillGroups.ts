@@ -43,6 +43,13 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   genitive: 'case',
   accusative: 'case',
   'dative-locative': 'case',
+  // Grouped with the CASES, not with the verbs, and deliberately: the variety
+  // pass exists to stop a session serving four case drills in a row, and a
+  // learner doing `rekcija` is picking a case. Grouping it as 'verb' would let
+  // it appear alongside three other case drills — the exact failure the pass
+  // was built to prevent. This also keeps the pass's behaviour byte-identical
+  // to before the retag, when the entry grouped as 'case' via dative-locative.
+  'verb-government': 'case',
   instrumental: 'case',
   vocative: 'case',
   'present-tense': 'verb',

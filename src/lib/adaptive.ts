@@ -278,11 +278,19 @@ export type SkillCategory =
   | 'reading'
   // Pool-only tag (Wave 5): the rotating animated-lesson slot (45-lesson
   // catalog, topic varies per serve). Same pool-only status as 'reading'.
-  | 'grammar-lesson';
+  | 'grammar-lesson'
+  // Pool-only tag (2026-08-28, owner decision): WHICH CASE A VERB DEMANDS —
+  // bojati se + genitive, radovati se + dative, baviti se + instrumental.
+  // `RekcijaDrill` teaches exactly this and was tagged 'dative-locative',
+  // which routed it to the LOCATIVE drill and made the C1 verb-government
+  // lesson unmappable: the coupling would have resolved to the wrong
+  // exercise. Retagging is the fix, and it is deliberately pool-only — see
+  // the note below — so the adaptive picker is unaffected.
+  | 'verb-government';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
-// 'nominalization') are valid SkillCategory tags used to label
+// 'nominalization', 'verb-government') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage
