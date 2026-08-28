@@ -36,6 +36,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsA1.js',
   'functions/api/content/_data/lessonsA2.js',
   'functions/api/content/_data/lessonsB1.js',
+  'functions/api/content/_data/lessonsB2.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',

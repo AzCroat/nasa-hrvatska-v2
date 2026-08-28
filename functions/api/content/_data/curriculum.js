@@ -1082,6 +1082,21 @@ export const CURRICULUM = [
   },
 
   // ── B2 ────────────────────────────────────────────────────────────────────
+  // The expansion to 30 (2026-08-28). B2 had SIX lessons - the thinnest level
+  // in the app after C2, and the one a learner spends longest inside. The six
+  // covered clitics, the conditional, aspect in negation, complex sentences,
+  // the passive and written register. Absent: unreal conditions, so the level
+  // had the conditional MOOD but no way to say "if I had known"; verbal adverbs
+  // and participial adjectives, two of the three constructions that make
+  // written Croatian look written; secondary imperfectives, so aspect was
+  // taught in one direction only; the entire i-DECLENSION, a noun class
+  // containing stvar, noc, ljubav, rijec and misao that had never been taught
+  // at any level; and anything for ARGUMENT, though "give the advantages and
+  // disadvantages" is the level descriptor itself.
+  //
+  // The order runs: morphology (2-8), then the conditional and modality
+  // (9-12), then the joining and calibrating machinery (13-17), then argument
+  // and register (18-24), then the topical lessons that need all of it.
   {
     id: 'clitics',
     level: 'B2',
@@ -1094,20 +1109,42 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'conditional',
+    id: 'i-declension',
     level: 'B2',
     order: 2,
-    prerequisites: ['past-tense'],
+    prerequisites: ['plural-cases'],
     objectives: [
-      'Say what you would do',
-      'Make a polite request with htio bih rather than a bare demand',
-      'Build if-clauses that hold together',
+      'Decline the feminine nouns that end in a consonant: stvar, noć, ljubav, riječ',
+      'Recognise that every -ost noun belongs to this class',
+      'Stop applying the -a pattern where the accusative should not change at all',
+    ],
+  },
+  {
+    id: 'aspect-suffixes',
+    level: 'B2',
+    order: 3,
+    prerequisites: ['verb-prefixes'],
+    objectives: [
+      'Run the aspect system in reverse: make a perfective imperfective again',
+      'Recognise -ivati, -avati and -vati as imperfective markers when reading',
+      'See one root yield three verbs: pisati, zapisati, zapisivati',
+    ],
+  },
+  {
+    id: 'aspect-with-verbs',
+    level: 'B2',
+    order: 4,
+    prerequisites: ['aspect-suffixes'],
+    objectives: [
+      'Know which aspect a phase verb, a modal or a negative command demands',
+      'Use the modal choice deliberately: an activity or a result',
+      'Remember that anything repeated goes imperfective whatever the frame',
     ],
   },
   {
     id: 'aspect-negation',
     level: 'B2',
-    order: 3,
+    order: 5,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Negate correctly, and know why negation usually takes the imperfective',
@@ -1116,20 +1153,20 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'complex-sentences',
+    id: 'participial-adjectives',
     level: 'B2',
-    order: 4,
-    prerequisites: ['clitics'],
+    order: 6,
+    prerequisites: ['aspect-perfective'],
     objectives: [
-      'Join clauses with da, koji, jer and kad',
-      'Keep word order intact once a subordinate clause is attached',
-      'Say what someone else said without garbling the tense',
+      'Build the passive participle from any verb: napisan, otvoren, plaćen',
+      'Decline it as an ordinary adjective',
+      'See that it is the ingredient the passive is made from',
     ],
   },
   {
     id: 'passive-voice',
     level: 'B2',
-    order: 5,
+    order: 7,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Form the passive both ways Croatian allows',
@@ -1138,14 +1175,256 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'verbal-adverbs',
+    level: 'B2',
+    order: 8,
+    prerequisites: ['participial-adjectives'],
+    objectives: [
+      'Read the -ći and -vši forms that make written Croatian look written',
+      'Pair them correctly: imperfective gives -ći, perfective gives -vši',
+      'Keep the subject shared, and reach for dok when it is not',
+    ],
+  },
+  {
+    id: 'conditional',
+    level: 'B2',
+    order: 9,
+    prerequisites: ['past-tense'],
+    objectives: [
+      'Say what you would do',
+      'Make a polite request with htio bih rather than a bare demand',
+      'Build if-clauses that hold together',
+    ],
+  },
+  {
+    id: 'unreal-conditions',
+    level: 'B2',
+    order: 10,
+    prerequisites: ['conditional'],
+    objectives: [
+      'Say what would have happened if things had been different',
+      'Choose da for the unreal where ako marks the real',
+      'Stop producing ako bih, which marks a learner immediately',
+    ],
+  },
+  {
+    id: 'wishes-regrets',
+    level: 'B2',
+    order: 11,
+    prerequisites: ['unreal-conditions'],
+    objectives: [
+      'Express a wish and a regret: Da barem…, Trebao sam…',
+      'Separate should from should have, and could from could have',
+      'Use volio bih da for someone else and the infinitive for yourself',
+    ],
+  },
+  {
+    id: 'modal-nuance',
+    level: 'B2',
+    order: 12,
+    prerequisites: ['conditional'],
+    objectives: [
+      'Calibrate advice against obligation using the conditional',
+      'Use the modals for probability as well as necessity',
+      'Keep smjeti apart from moći — permission is not ability',
+    ],
+  },
+  {
+    id: 'complex-sentences',
+    level: 'B2',
+    order: 13,
+    prerequisites: ['clitics'],
+    objectives: [
+      'Join clauses with da, koji, jer and kad',
+      'Keep word order intact once a subordinate clause is attached',
+      'Say what someone else said without garbling the tense',
+    ],
+  },
+  {
+    id: 'concession-contrast',
+    level: 'B2',
+    order: 14,
+    prerequisites: ['complex-sentences'],
+    objectives: [
+      'Concede a point before disagreeing with it',
+      'Use the Iako…, ipak… shape that structures a Croatian argument',
+      'Remember that unatoč and usprkos take the DATIVE',
+    ],
+  },
+  {
+    id: 'prepositions-advanced',
+    level: 'B2',
+    order: 15,
+    prerequisites: ['i-declension'],
+    objectives: [
+      'Read the prepositions that take more than one case',
+      'Tell za stolom from za stol, and po kruh from po gradu',
+      'Check the case before the dictionary when a preposition seems wrong',
+    ],
+  },
+  {
+    id: 'degrees-intensity',
+    level: 'B2',
+    order: 16,
+    prerequisites: ['concession-contrast'],
+    objectives: [
+      'Say more and more, and the more… the more…',
+      'Calibrate with jedva, prilično, vrlo, izuzetno and krajnje',
+      'Use the pre- prefix to mean too: preskup, prevelik, prekasno',
+    ],
+  },
+  {
+    id: 'negation-advanced',
+    level: 'B2',
+    order: 17,
+    prerequisites: ['concession-contrast'],
+    objectives: [
+      'Deny precisely rather than wholesale',
+      'Use ni… ni…, nikakav and ne samo… nego i…',
+      'Say without doing something, which Croatian builds as a clause',
+    ],
+  },
+  {
+    id: 'argument-structure',
+    level: 'B2',
+    order: 18,
+    prerequisites: ['concession-contrast'],
+    objectives: [
+      'Give the advantages and disadvantages of an option — the level descriptor',
+      'Open on a topic with Što se tiče… and close with Sve u svemu…',
+      'Use the fixed shape u tome što, which is not guessable from its parts',
+    ],
+  },
+  {
+    id: 'hedging-precision',
+    level: 'B2',
+    order: 19,
+    prerequisites: ['argument-structure'],
+    objectives: [
+      'Say how sure you are, and how much you are claiming',
+      'Hedge with the conditional alone, without extra vocabulary',
+      'Attribute a claim rather than owning it: navodno, koliko ja znam',
+    ],
+  },
+  {
+    id: 'abstract-topics',
+    level: 'B2',
+    order: 20,
+    prerequisites: ['argument-structure'],
+    objectives: [
+      'Discuss ideas, society and values',
+      'Build abstract nouns with -ost, and know they are i-declension feminines',
+      'Carry the fixed prepositions: ovisiti O, odnositi se NA',
+    ],
+  },
+  {
     id: 'writing-registers',
     level: 'B2',
-    order: 6,
+    order: 21,
     prerequisites: ['vi-vs-ti'],
     objectives: [
       'Write an email that lands at the right level of formality',
       'Move between spoken, written and official registers deliberately',
       'Recognise which forms belong only in writing',
+    ],
+  },
+  {
+    id: 'formal-email',
+    level: 'B2',
+    order: 22,
+    prerequisites: ['writing-registers'],
+    objectives: [
+      'Write a Croatian formal email that looks like one',
+      'Use Poštovani and choose between S poštovanjem and Lijep pozdrav',
+      'Keep the V-form, capitalised, from the first word to the last',
+    ],
+  },
+  {
+    id: 'presentations',
+    level: 'B2',
+    order: 23,
+    prerequisites: ['argument-structure'],
+    objectives: [
+      'Structure a talk and signpost every turn in it',
+      'Refer to what is on screen, and close with Hvala na pažnji',
+      'Handle a question you cannot answer without losing composure',
+    ],
+  },
+  {
+    id: 'meetings-negotiation',
+    level: 'B2',
+    order: 24,
+    prerequisites: ['presentations'],
+    objectives: [
+      'Take a turn in a meeting without being rude',
+      'Propose with Predlažem da and a present-tense clause',
+      'Disagree by conceding first, and close the loop explicitly',
+    ],
+  },
+  {
+    id: 'business-economy',
+    level: 'B2',
+    order: 25,
+    prerequisites: ['meetings-negotiation'],
+    objectives: [
+      'Read and discuss the business pages',
+      'Use the native words: dobit, gubitak, gospodarstvo',
+      'Understand why the tourist season carries so much economic weight',
+    ],
+  },
+  {
+    id: 'politics-society',
+    level: 'B2',
+    order: 26,
+    prerequisites: ['abstract-topics'],
+    objectives: [
+      'Follow Croatian political reporting',
+      'Name the institutions, starting with the Sabor',
+      'Handle izbori, which has no singular and takes plural agreement',
+    ],
+  },
+  {
+    id: 'small-talk-fluency',
+    level: 'B2',
+    order: 27,
+    prerequisites: ['hedging-precision'],
+    objectives: [
+      'Hesitate in Croatian rather than in silence',
+      'Keep a conversation alive when a word will not come',
+      'React while listening, because attentive silence reads as scepticism',
+    ],
+  },
+  {
+    id: 'humour-irony',
+    level: 'B2',
+    order: 28,
+    prerequisites: ['small-talk-fluency'],
+    objectives: [
+      'Hear when a Croatian does not mean it literally',
+      'Read the ma particle and the habit of understatement',
+      'Answer self-deprecation the way it expects to be answered',
+    ],
+  },
+  {
+    id: 'language-history',
+    level: 'B2',
+    order: 29,
+    prerequisites: ['abstract-topics'],
+    objectives: [
+      'Understand why standard Croatian is shaped the way it is',
+      'Place the three dialect groups: štokavski, čakavski, kajkavski',
+      'See the ije/je alternation as the jat reflex rather than an irregularity',
+    ],
+  },
+  {
+    id: 'literature-canon',
+    level: 'B2',
+    order: 30,
+    prerequisites: ['language-history'],
+    objectives: [
+      'Choose a first Croatian book that will not defeat you',
+      'Talk about a novel: radnja, lik, prijevod',
+      'Read a page before reaching for the dictionary, not the other way round',
     ],
   },
 
