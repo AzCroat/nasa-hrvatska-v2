@@ -78,6 +78,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'future-tense': 'future-tense',
   future_tense_lesson: 'future-tense',
   conditional: 'conditional',
+  'unreal-conditions': 'conditional',
   // ── aspect ────────────────────────────────────────────────────────────────
   aspect: 'aspect-imperfective',
   'aspect-imperfective': 'aspect-imperfective',
@@ -87,6 +88,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B1 verb prefixes: a prefix is what makes a verb perfective, so aspectdrill
   // (B1) is practising exactly what the lesson taught.
   'verb-prefixes': 'aspect-perfective',
+  // B2 secondary imperfectives (-ivati / -avati): aspectdrill is the pair drill,
+  // and making a perfective imperfective again is exactly what it tests.
+  'aspect-suffixes': 'aspect-imperfective',
   // ── cases ─────────────────────────────────────────────────────────────────
   // The umbrella `cases` lesson introduces the system; nominative is where a
   // learner starts using it, and nomdrill is available from A1.
@@ -116,7 +120,13 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // CATEGORY_EASIER_SCREEN drops it to `relpron` (B1) — the drill that teaches
   // exactly relative pronouns — so it resolves for the level it is written for.
   'relative-deep': 'subordination',
+  // B2 concession: iako / premda clauses are subordination, and the B2 learner
+  // can open the main `subordination` screen rather than the easier route.
+  'concession-contrast': 'subordination',
   'passive-voice': 'passive',
+  // The B2 participial-adjective lesson builds the passive participle, which is
+  // the ingredient the passive drill is made of.
+  'participial-adjectives': 'passive',
   'verbal-nouns': 'nominalization',
   // ── vocabulary / other ────────────────────────────────────────────────────
   gender: 'vocab-a2',
@@ -126,6 +136,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'shopping-prices': 'numerals',
   'ordinals-dates': 'numerals',
   'idioms-register': 'idioms',
+  // B2 formal correspondence is written production; CATEGORY_SCREEN_MAP.writing
+  // routes to the guided-writing teaching screen.
+  'formal-email': 'writing',
   // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
   // A1: plural-nouns, negation, adjectives-basic, possessives, demonstratives,
   // imperative-basic, likes-preferences, family-people, countries-languages,
@@ -134,6 +147,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // relative-koji, indefinites, and all ten functional lessons.
   // B1: time-duration, position-placement, infinitive-vs-da, impersonal,
   // time-clauses, real-conditions, cause-purpose, reported-speech, and all ten
+  // B2: i-declension, aspect-with-verbs, verbal-adverbs, wishes-regrets,
+  // modal-nuance, prepositions-advanced, degrees-intensity, negation-advanced,
+  // argument-structure, hedging-precision, presentations, meetings-negotiation,
+  // small-talk-fluency, humour-irony, abstract-topics, business-economy,
+  // politics-society, language-history, literature-canon.
   // functional lessons. `reported-speech` is the notable one: the pool HAS a
   // reported-speech drill (`neizravni`), but it is B2, and the easier route for
   // this category is already taken by `relpron` — so mapping it would send a B1
