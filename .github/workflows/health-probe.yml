@@ -25,3 +25,29 @@ jobs:
             https://nasahrvatska.com/api/health | tee /tmp/health.out
           # Pretty-print the JSON line for readability; tolerate the -w suffix.
           head -1 /tmp/health.out | python3 -m json.tool
+
+      - name: GET /api/content/curriculum (route presence)
+        run: |
+          set -o pipefail
+          # The spine is auth-gated (authedRead), so an unauthenticated probe
+          # cannot print it. It CAN separate the two failures that matter, and
+          # neither is visible any other way:
+          #
+          #   404 — the route did not deploy. The client degrades silently by
+          #         design (no spine, no teaching slot; the session composes as
+          #         it did before), so a missing endpoint costs every learner
+          #         their daily lesson without producing a single error.
+          #   500 — server_misconfigured, the projectId trap that already 401'd
+          #         all of /api/content/* once and was misread as bad sessions.
+          #
+          # 401 is the HEALTHY answer here: deployed, and refusing anonymous
+          # callers exactly as it should.
+          code=$(curl -sS --max-time 20 -o /tmp/curr.out -w '%{http_code}' \
+            https://nasahrvatska.com/api/content/curriculum)
+          echo "HTTP $code"
+          head -c 400 /tmp/curr.out; echo
+          case "$code" in
+            401) echo "OK: spine route is deployed and auth-gated." ;;
+            200|304) echo "OK: spine served." ;;
+            *) echo "FAIL: expected 401 from the auth gate, got $code."; exit 1 ;;
+          esac
