@@ -16,11 +16,16 @@ vi.mock('../../_verifyToken.js', () => ({
   getFirebaseUid: vi.fn(async () => 'uid_test'),
 }));
 
-const { onRequestGet: getCurriculum } = await import('../curriculum.js');
-const { onRequestGet: getLesson } = await import('../lessons/[id].js');
-const { LESSONS } = await import('../_data/lessons.js');
-const { CURRICULUM } = await import('../_data/curriculum.js');
-const { ETAGS } = await import('../_data/_etags.js');
+// Static imports, not top-level await: Cloudflare's Pages Functions build
+// compiles everything under functions/ against ES2020, where top-level await is
+// unavailable. Vitest accepts it and the Pages build does not, so the local
+// suite passed while the deploy failed. vi.mock is hoisted, so static imports
+// still see the mock — the same shape every other test in this directory uses.
+import { onRequestGet as getCurriculum } from '../curriculum.js';
+import { onRequestGet as getLesson } from '../lessons/[id].js';
+import { LESSONS } from '../_data/lessons.js';
+import { CURRICULUM } from '../_data/curriculum.js';
+import { ETAGS } from '../_data/_etags.js';
 
 const env = {
   FIREBASE_PROJECT_ID: 'nh-test',
