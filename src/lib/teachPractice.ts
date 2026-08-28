@@ -91,6 +91,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B2 secondary imperfectives (-ivati / -avati): aspectdrill is the pair drill,
   // and making a perfective imperfective again is exactly what it tests.
   'aspect-suffixes': 'aspect-imperfective',
+  // C1 aspect nuance is about CHOOSING between two grammatical aspects; the
+  // perfective side is the one the lesson argues for most often, and aspectdrill
+  // (B1) is the pair drill a C1 learner opens without a gate.
+  'aspect-nuance': 'aspect-perfective',
   // ── cases ─────────────────────────────────────────────────────────────────
   // The umbrella `cases` lesson introduces the system; nominative is where a
   // learner starts using it, and nomdrill is available from A1.
@@ -123,11 +127,20 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B2 concession: iako / premda clauses are subordination, and the B2 learner
   // can open the main `subordination` screen rather than the easier route.
   'concession-contrast': 'subordination',
+  // C1 clause types names and builds every subordinate clause Croatian uses —
+  // the `subordination` screen is that inventory as a drill.
+  'clause-types': 'subordination',
   'passive-voice': 'passive',
+  // C1 passive CHOICES: participial vs se-passive vs impersonal. The passive
+  // drill is where those alternatives are contrasted.
+  'passive-choices': 'passive',
   // The B2 participial-adjective lesson builds the passive participle, which is
   // the ingredient the passive drill is made of.
   'participial-adjectives': 'passive',
   'verbal-nouns': 'nominalization',
+  // C1 condensation IS nominalization applied: compressing a clause into a
+  // phrase is exactly what the nominalization drill asks for.
+  condensation: 'nominalization',
   // ── vocabulary / other ────────────────────────────────────────────────────
   gender: 'vocab-a2',
   'numbers-time': 'numerals',
@@ -139,6 +152,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B2 formal correspondence is written production; CATEGORY_SCREEN_MAP.writing
   // routes to the guided-writing teaching screen.
   'formal-email': 'writing',
+  // C1 academic writing is written production against a rubric; guided writing
+  // is the teaching screen for it.
+  'academic-writing': 'writing',
   // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
   // A1: plural-nouns, negation, adjectives-basic, possessives, demonstratives,
   // imperative-basic, likes-preferences, family-people, countries-languages,
@@ -152,6 +168,14 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // argument-structure, hedging-precision, presentations, meetings-negotiation,
   // small-talk-fluency, humour-irony, abstract-topics, business-economy,
   // politics-society, language-history, literature-canon.
+  // C1: verb-government, diminutives-augmentatives, comparison-advanced,
+  // collocations, discourse-particles, accent-prosody, summarising-paraphrase,
+  // debate-persuasion, formal-speech, translation-pitfalls,
+  // proofreading-editing, media-analysis, law-administration,
+  // science-technology, arts-culture, regional-varieties, diaspora-identity.
+  // `verb-government` is the one to explain: it is about which case each VERB
+  // demands, so no single case drill practises it — sending the learner to the
+  // genitive drill after a lesson covering six cases would misrepresent both.
   // functional lessons. `reported-speech` is the notable one: the pool HAS a
   // reported-speech drill (`neizravni`), but it is B2, and the easier route for
   // this category is already taken by `relpron` — so mapping it would send a B1
