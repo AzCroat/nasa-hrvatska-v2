@@ -1429,6 +1429,20 @@ export const CURRICULUM = [
   },
 
   // ── C1 ────────────────────────────────────────────────────────────────────
+  //
+  // C1 had EIGHT lessons and was, before this wave, the level where the app
+  // stopped teaching and started assuming. The eight covered clitic order,
+  // word formation, the aorist, verbal nouns, collective numbers, idiom and
+  // language identity — good lessons, but the level descriptor is "can use
+  // language flexibly and effectively for social, academic and professional
+  // purposes" and there was nothing academic, nothing professional, nothing on
+  // register beyond a single idiom lesson, and no explanation anywhere of which
+  // case a verb governs — the single most common source of C1-level error.
+  //
+  // The order below has a hinge at `condensation` (7): everything before it is
+  // about getting a sentence RIGHT, everything after is about choosing between
+  // sentences that are all right. The professional/academic block (18–23) sits
+  // above the machinery it needs, and the domain block (24–27) above that.
   {
     id: 'clitics-advanced',
     level: 'C1',
@@ -1452,9 +1466,31 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'aorist-imperfekt',
+    id: 'verb-government',
     level: 'C1',
     order: 3,
+    prerequisites: ['prepositions-advanced'],
+    objectives: [
+      'Know which case each common verb demands, and stop guessing',
+      'Use the verbs whose case differs from the English preposition',
+      'Recognise that a verb changing case changes its meaning',
+    ],
+  },
+  {
+    id: 'aspect-nuance',
+    level: 'C1',
+    order: 4,
+    prerequisites: ['aspect-suffixes'],
+    objectives: [
+      'Choose an aspect where both are grammatical and only one is right',
+      'Use the imperfective for politeness, habit and attempt',
+      'Hear what a native speaker means by the aspect they chose',
+    ],
+  },
+  {
+    id: 'aorist-imperfekt',
+    level: 'C1',
+    order: 5,
     prerequisites: ['past-tense'],
     objectives: [
       'Recognise the aorist and imperfect in literature and older writing',
@@ -1465,7 +1501,7 @@ export const CURRICULUM = [
   {
     id: 'verbal-nouns',
     level: 'C1',
-    order: 4,
+    order: 6,
     prerequisites: ['passive-voice'],
     objectives: [
       'Turn a verb into a noun, the way formal Croatian prefers',
@@ -1474,9 +1510,20 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'condensation',
+    level: 'C1',
+    order: 7,
+    prerequisites: ['verbal-nouns'],
+    objectives: [
+      'Compress a subordinate clause into a phrase, and expand it back',
+      'Choose between a clause and a phrase for the register you want',
+      'Write the dense Croatian that formal prose expects',
+    ],
+  },
+  {
     id: 'tvorba-rijeci',
     level: 'C1',
-    order: 5,
+    order: 8,
     prerequisites: ['verbal-nouns'],
     objectives: [
       'Predict a word’s meaning from its prefix and suffix',
@@ -1485,9 +1532,20 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'diminutives-augmentatives',
+    level: 'C1',
+    order: 9,
+    prerequisites: ['tvorba-rijeci'],
+    objectives: [
+      'Form diminutives and augmentatives and know what they signal',
+      'Hear affection, contempt and irony in a suffix',
+      'Avoid the diminutive that turns a serious sentence comic',
+    ],
+  },
+  {
     id: 'collective-numbers',
     level: 'C1',
-    order: 6,
+    order: 10,
     prerequisites: ['numbers-nouns'],
     objectives: [
       'Count mixed groups of people, where ordinary numbers fail',
@@ -1496,9 +1554,64 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'clause-types',
+    level: 'C1',
+    order: 11,
+    prerequisites: ['complex-sentences'],
+    objectives: [
+      'Name and build every subordinate clause type Croatian uses',
+      'Pick the conjunction that carries the relation you mean',
+      'Read a long sentence by finding its clauses first',
+    ],
+  },
+  {
+    id: 'comparison-advanced',
+    level: 'C1',
+    order: 12,
+    prerequisites: ['degrees-intensity'],
+    objectives: [
+      'Compare with od, nego and the structures each one requires',
+      'Use the irregular comparatives without hesitating',
+      'Express proportion, gradual change and the superlative of a set',
+    ],
+  },
+  {
+    id: 'passive-choices',
+    level: 'C1',
+    order: 13,
+    prerequisites: ['verbal-nouns'],
+    objectives: [
+      'Choose between the participial passive, se-passive and impersonal',
+      'Know which one a Croatian writer would actually use',
+      'Avoid the English-shaped passive that marks a text as translated',
+    ],
+  },
+  {
+    id: 'collocations',
+    level: 'C1',
+    order: 14,
+    prerequisites: ['tvorba-rijeci'],
+    objectives: [
+      'Pair verbs and nouns the way Croatian pairs them',
+      'Stop translating English collocations word by word',
+      'Sound fluent by choosing the expected word, not a correct one',
+    ],
+  },
+  {
+    id: 'discourse-particles',
+    level: 'C1',
+    order: 15,
+    prerequisites: ['word-order-emphasis'],
+    objectives: [
+      'Use pa, ma, baš, valjda, zar and the rest as native speakers do',
+      'Soften, insist and signal attitude with a single small word',
+      'Hear the difference the particle makes to an otherwise identical sentence',
+    ],
+  },
+  {
     id: 'idioms-register',
     level: 'C1',
-    order: 7,
+    order: 16,
     prerequisites: ['word-order-emphasis'],
     objectives: [
       'Use idioms that native speakers actually say',
@@ -1507,17 +1620,159 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'accent-prosody',
+    level: 'C1',
+    order: 17,
+    prerequisites: ['clitics-advanced'],
+    objectives: [
+      'Understand what Croatian pitch accent is and where it falls',
+      'Distinguish the word pairs that differ only in accent',
+      'Phrase a sentence so the stresses land where a native ear expects',
+    ],
+  },
+  {
+    id: 'summarising-paraphrase',
+    level: 'C1',
+    order: 18,
+    prerequisites: ['condensation'],
+    objectives: [
+      'Summarise a Croatian text without copying its sentences',
+      'Report what a source says with the right reporting verb',
+      'Say the same thing three ways and pick the best one',
+    ],
+  },
+  {
+    id: 'academic-writing',
+    level: 'C1',
+    order: 19,
+    prerequisites: ['summarising-paraphrase'],
+    objectives: [
+      'Structure an essay the way Croatian academic writing structures one',
+      'Use the impersonal and passive conventions of scholarly prose',
+      'Cite, hedge and conclude in the register the genre demands',
+    ],
+  },
+  {
+    id: 'debate-persuasion',
+    level: 'C1',
+    order: 20,
+    prerequisites: ['argument-structure', 'discourse-particles'],
+    objectives: [
+      'Concede a point and then defeat it',
+      'Build an argument aloud, with the connectives that hold it together',
+      'Disagree strongly without being rude',
+    ],
+  },
+  {
+    id: 'formal-speech',
+    level: 'C1',
+    order: 21,
+    prerequisites: ['debate-persuasion'],
+    objectives: [
+      'Give a toast, a thank-you and a short formal address',
+      'Use the ceremonial formulas Croatian occasions expect',
+      'Open and close a speech without translating an English one',
+    ],
+  },
+  {
+    id: 'translation-pitfalls',
+    level: 'C1',
+    order: 22,
+    prerequisites: ['collocations'],
+    objectives: [
+      'Recognise the English structures that do not survive translation',
+      'Fix the calques that mark your Croatian as translated',
+      'Translate meaning rather than words, in both directions',
+    ],
+  },
+  {
+    id: 'proofreading-editing',
+    level: 'C1',
+    order: 23,
+    prerequisites: ['academic-writing'],
+    objectives: [
+      'Find your own errors in the order they are worth finding',
+      'Check agreement, case and clitic position systematically',
+      'Edit a draft into something a native speaker would sign',
+    ],
+  },
+  {
+    id: 'media-analysis',
+    level: 'C1',
+    order: 24,
+    prerequisites: ['clause-types'],
+    objectives: [
+      'Read a Croatian news article for what it does not say',
+      'Recognise the passive and nominal styles that hide an agent',
+      'Tell reporting from commentary in the language itself',
+    ],
+  },
+  {
+    id: 'law-administration',
+    level: 'C1',
+    order: 25,
+    prerequisites: ['passive-choices'],
+    objectives: [
+      'Read a contract, a form and an official decision',
+      'Decode the administrative constructions into plain Croatian',
+      'Handle the paperwork a life in Croatia actually requires',
+    ],
+  },
+  {
+    id: 'science-technology',
+    level: 'C1',
+    order: 26,
+    prerequisites: ['tvorba-rijeci'],
+    objectives: [
+      'Read technical and scientific Croatian without panic',
+      'Know when Croatian coins a word and when it borrows one',
+      'Describe a process, a measurement and a result',
+    ],
+  },
+  {
+    id: 'arts-culture',
+    level: 'C1',
+    order: 27,
+    prerequisites: ['idioms-register'],
+    objectives: [
+      'Discuss a book, a film or an exhibition in Croatian',
+      'Use the vocabulary of criticism without sounding like a review',
+      'Say why something moved you, precisely',
+    ],
+  },
+  {
+    id: 'regional-varieties',
+    level: 'C1',
+    order: 28,
+    prerequisites: ['accent-prosody'],
+    objectives: [
+      'Recognise kajkavski and čakavski when you hear them',
+      'Understand the regional words that standard Croatian does not use',
+      'Know which of your own forms belong to a region rather than the standard',
+    ],
+  },
+  {
     id: 'language-identity',
     level: 'C1',
-    order: 8,
-    prerequisites: ['idioms-register'],
+    order: 29,
+    prerequisites: ['regional-varieties'],
     objectives: [
       'Understand what distinguishes Croatian from its neighbours',
       'Recognise the lexical choices that mark a text as Croatian',
       'Navigate the subject with the care it deserves',
     ],
   },
-
+  {
+    id: 'diaspora-identity',
+    level: 'C1',
+    order: 30,
+    prerequisites: ['language-identity'],
+    objectives: [
+      'Talk about heritage, generation and belonging in Croatian',
+      'Recognise the diaspora forms that differ from the homeland standard',
+      'Answer “where are you from?” in the way the question is meant',
+    ],
+  },
   // ── C2 ────────────────────────────────────────────────────────────────────
   {
     id: 'pluskvamperfekt',

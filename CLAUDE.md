@@ -268,6 +268,25 @@ pedagogy. Design: `docs/curriculum-design.md`.
   `SCREEN_FOR` map written inside the test file rather than the app's. **A test
   that restates production data cannot check production data** — go through the
   real builder.
+- **C1 is complete (2026-08-28): 8 lessons → 30.** The level descriptor is "can
+  use the language flexibly and effectively for social, ACADEMIC and
+  PROFESSIONAL purposes" and the level contained nothing academic and nothing
+  professional at all. It also had no lesson anywhere on **verb government** —
+  which case a verb demands (`bojati se` + genitive, `radovati se` + dative) —
+  though every level had taught cases from the noun side. The hinge is at
+  `condensation` (order 7): before it, getting a sentence right; after it,
+  choosing between sentences that are all right. Pinned by
+  `c1Curriculum.test.ts`; bodies in `lessonsC1.js` (in lint TARGETS).
+- **Two C1 mappings look available and are not, and the reasons are recorded in
+  the test rather than re-derived.** `RekcijaDrill` IS verb government, but its
+  pool entry is tagged `category: 'dative-locative'`, so mapping
+  `verb-government` there hands the learner the LOCATIVE drill; retagging the
+  pool entry would change what that category means for the adaptive scheduler at
+  every level, which is its own decision. The C1 `discourse` drill covers
+  CONNECTORS (stoga, međutim, unatoč tome) while `discourse-particles` teaches
+  ATTITUDE particles (pa, ma, baš, valjda, zar) — adjacent, not the same. Both
+  drills stay reachable through the P3 CEFR fill, which walks the pool directly,
+  so an unrouted category is not an unreachable drill.
 - NEVER: give P0 its own length cap; make it a hard gate; copy the taught-category
   map into the spine; backfill completions; let an absent spine mean no lesson;
   add a `LESSON_TAUGHT_CATEGORY` row without checking it resolves at that level.
