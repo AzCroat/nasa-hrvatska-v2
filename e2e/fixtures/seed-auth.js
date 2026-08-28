@@ -55,96 +55,127 @@ export function isoWeekKey(date = new Date()) {
  *     seedAuth(page, {xp:5000})  → B2 (5000+150+125 = 5275)
  */
 export function seedAuth(page, statOverrides = {}) {
-  return page.addInitScript(({ email, name, now, today, recapKey, statOverrides }) => {
-    const baseStats = {
-      xp: 250, lc: 10, gc: 5, sp: 3, de: 2,
-      rc: 1, pf: 2, al: 1, mv: 0, hi: 0, rs: [], ct: ['greetings','numbers','restaurant','transport','family'],
-      vs: ['listening','alphabet','tenses','grammar'],
-      badges: [],
-    };
-    localStorage.setItem('uS', JSON.stringify({ u: email, lastActive: now }));
-    localStorage.setItem('uA', JSON.stringify({ [email]: { d: name, e: email } }));
-    localStorage.setItem('uP_' + email, JSON.stringify({
-      name,
-      cp: true,
-      st: { ...baseStats, ...statOverrides },
-      sr: {},
-      streak: { count: 5, last: today },
-      favs: [],
-      journal: [],
-    }));
-    // Pre-set a streak so streak count shows as 5
-    localStorage.setItem('uStreak', JSON.stringify({ count: 5, last: today }));
-    // Dismiss cookie consent dialog so it doesn't block test interactions
-    localStorage.setItem('cookie_consent_v1', 'accepted');
-    // Force light mode so dark-mode CSS overrides never produce low-contrast
-    // quest button colours that fail WCAG AA in axe scans
-    localStorage.setItem('darkMode', 'false');
-    // Mark goal as set so the GoalSetterModal never blocks tests
-    localStorage.setItem('nh_goal_set', '1');
-    // Mark weekly recap as shown so WeeklyRecapModal never blocks tests.
-    // recapKey is `nh_weekly_recap_shown_<weekKey>` — the modal's REAL storage
-    // key (WeeklyRecapModal.tsx). This line previously appended a YYYYMMDD
-    // date the app never reads, so the suppression was dead code.
-    localStorage.setItem(recapKey, '1');
-    // Ensure hero is always expanded so hero stats / translate pill are accessible
-    localStorage.setItem('nh_hero_expanded', '1');
-    // Phase 1 mastery gate: the fixture user is a VERIFIED learner — seed real
-    // certification passes up to their eligible band so the provisional
-    // verification gate stays off and specs keep their pre-gate meaning.
-    // (The gate itself has a dedicated spec: verification-gate.spec.js.)
-    {
-      const st = { ...baseStats, ...statOverrides };
-      const total = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;
-      const band =
-        total < 300 ? 'A1'
-        : total < 1200 ? 'A2'
-        : total < 3500 ? 'B1'
-        : total < 8000 ? 'B2'
-        : total < 18000 ? 'C1'
-        : 'C2';
-      const order = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-      const passes = {};
-      for (const lvl of order.slice(1, order.indexOf(band) + 1)) {
-        // Real-pass shape (NOT the grandfather 0.8-signature): includes
-        // production skills so isProvisionalPass() is false.
-        passes[lvl] = {
-          passedAt: now,
-          scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9, writing: 0.9 },
-          overall: 90,
-        };
-      }
+  return page.addInitScript(
+    ({ email, name, now, today, recapKey, statOverrides }) => {
+      const baseStats = {
+        xp: 250,
+        lc: 10,
+        gc: 5,
+        sp: 3,
+        de: 2,
+        rc: 1,
+        pf: 2,
+        al: 1,
+        mv: 0,
+        hi: 0,
+        rs: [],
+        ct: ['greetings', 'numbers', 'restaurant', 'transport', 'family'],
+        vs: ['listening', 'alphabet', 'tenses', 'grammar'],
+        badges: [],
+      };
+      localStorage.setItem('uS', JSON.stringify({ u: email, lastActive: now }));
+      localStorage.setItem('uA', JSON.stringify({ [email]: { d: name, e: email } }));
       localStorage.setItem(
-        'nh_cefr_certifications',
-        JSON.stringify({ passes, attempts: [], lastFailedAt: {},
-          checkpoints: { lastCheckpointAt: null, activeDaysAtLastCheckpoint: 0,
-            consecutiveFails: {}, focusSkills: {}, demotions: [], snoozedUntil: null },
-          v: 2 }),
+        'uP_' + email,
+        JSON.stringify({
+          name,
+          cp: true,
+          st: { ...baseStats, ...statOverrides },
+          sr: {},
+          streak: { count: 5, last: today },
+          favs: [],
+          journal: [],
+        }),
       );
-      localStorage.setItem('nh_cefr_migration_v1_done', '1');
-      localStorage.setItem('nh_cefr_provisional_v1_done', '1');
-      localStorage.setItem('nh_cefr_status_shift_v1_done', '1');
-    }
-    // Pre-dismiss all ceremony modals (stage + streak) so they never fire mid-test
-    // and block button clicks (CeremonyModal is position:fixed zIndex:9999).
-    // Stage gates: [5, 11, 22, 34, 45] lessons → stages 1–5
-    for (let i = 1; i <= 5; i++) {
-      localStorage.setItem('nh_stage' + i + '_ceremony', '1');
-    }
-    localStorage.setItem('nh_ceremony_streak_30', '1');
-    localStorage.setItem('nh_ceremony_streak_50', '1');
-    localStorage.setItem('nh_ceremony_streak_100', '1');
-  }, {
-    email: TEST_EMAIL,
-    name: TEST_NAME,
-    now: Date.now(),
-    // LOCAL date, not toISOString() — the app compares with localDateStr().
-    // Node and the browser share the machine timezone, so computing it here
-    // is equivalent to computing it in the page.
-    today: localYMD(),
-    recapKey: 'nh_weekly_recap_shown_' + isoWeekKey(),
-    statOverrides,
-  });
+      // Pre-set a streak so streak count shows as 5
+      localStorage.setItem('uStreak', JSON.stringify({ count: 5, last: today }));
+      // Dismiss cookie consent dialog so it doesn't block test interactions
+      localStorage.setItem('cookie_consent_v1', 'accepted');
+      // Force light mode so dark-mode CSS overrides never produce low-contrast
+      // quest button colours that fail WCAG AA in axe scans
+      localStorage.setItem('darkMode', 'false');
+      // Mark goal as set so the GoalSetterModal never blocks tests
+      localStorage.setItem('nh_goal_set', '1');
+      // Mark weekly recap as shown so WeeklyRecapModal never blocks tests.
+      // recapKey is `nh_weekly_recap_shown_<weekKey>` — the modal's REAL storage
+      // key (WeeklyRecapModal.tsx). This line previously appended a YYYYMMDD
+      // date the app never reads, so the suppression was dead code.
+      localStorage.setItem(recapKey, '1');
+      // Ensure hero is always expanded so hero stats / translate pill are accessible
+      localStorage.setItem('nh_hero_expanded', '1');
+      // Phase 1 mastery gate: the fixture user is a VERIFIED learner — seed real
+      // certification passes up to their eligible band so the provisional
+      // verification gate stays off and specs keep their pre-gate meaning.
+      // (The gate itself has a dedicated spec: verification-gate.spec.js.)
+      {
+        const st = { ...baseStats, ...statOverrides };
+        const total = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;
+        const band =
+          total < 300
+            ? 'A1'
+            : total < 1200
+              ? 'A2'
+              : total < 3500
+                ? 'B1'
+                : total < 8000
+                  ? 'B2'
+                  : total < 18000
+                    ? 'C1'
+                    : 'C2';
+        const order = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+        const passes = {};
+        for (const lvl of order.slice(1, order.indexOf(band) + 1)) {
+          // Real-pass shape (NOT the grandfather 0.8-signature): includes
+          // production skills so isProvisionalPass() is false.
+          passes[lvl] = {
+            passedAt: now,
+            scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.9, writing: 0.9 },
+            overall: 90,
+          };
+        }
+        localStorage.setItem(
+          'nh_cefr_certifications',
+          JSON.stringify({
+            passes,
+            attempts: [],
+            lastFailedAt: {},
+            checkpoints: {
+              lastCheckpointAt: null,
+              activeDaysAtLastCheckpoint: 0,
+              consecutiveFails: {},
+              focusSkills: {},
+              demotions: [],
+              snoozedUntil: null,
+            },
+            v: 2,
+          }),
+        );
+        localStorage.setItem('nh_cefr_migration_v1_done', '1');
+        localStorage.setItem('nh_cefr_provisional_v1_done', '1');
+        localStorage.setItem('nh_cefr_status_shift_v1_done', '1');
+      }
+      // Pre-dismiss all ceremony modals (stage + streak) so they never fire mid-test
+      // and block button clicks (CeremonyModal is position:fixed zIndex:9999).
+      // Stage gates: [5, 11, 22, 34, 45] lessons → stages 1–5
+      for (let i = 1; i <= 5; i++) {
+        localStorage.setItem('nh_stage' + i + '_ceremony', '1');
+      }
+      localStorage.setItem('nh_ceremony_streak_30', '1');
+      localStorage.setItem('nh_ceremony_streak_50', '1');
+      localStorage.setItem('nh_ceremony_streak_100', '1');
+    },
+    {
+      email: TEST_EMAIL,
+      name: TEST_NAME,
+      now: Date.now(),
+      // LOCAL date, not toISOString() — the app compares with localDateStr().
+      // Node and the browser share the machine timezone, so computing it here
+      // is equivalent to computing it in the page.
+      today: localYMD(),
+      recapKey: 'nh_weekly_recap_shown_' + isoWeekKey(),
+      statOverrides,
+    },
+  );
 }
 
 /**
@@ -152,10 +183,10 @@ export function seedAuth(page, statOverrides = {}) {
  * the real database. The app handles these failures gracefully.
  */
 export async function blockFirebase(page) {
-  await page.route('**/firestore.googleapis.com/**', route => route.abort());
-  await page.route('**/firebase.googleapis.com/**', route => route.abort());
-  await page.route('**/identitytoolkit.googleapis.com/**', route => route.abort());
-  await page.route('**/securetoken.googleapis.com/**', route => route.abort());
+  await page.route('**/firestore.googleapis.com/**', (route) => route.abort());
+  await page.route('**/firebase.googleapis.com/**', (route) => route.abort());
+  await page.route('**/identitytoolkit.googleapis.com/**', (route) => route.abort());
+  await page.route('**/securetoken.googleapis.com/**', (route) => route.abort());
 }
 
 /**
@@ -256,27 +287,33 @@ export async function clickMe(page, options) {
  * Mock the MyMemory translation API used by Quick Translate.
  */
 export async function mockTranslate(page, translatedText = 'Dobar dan') {
-  await page.route('**/api/translate', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify({ translation: translatedText }),
-  }));
+  await page.route('**/api/translate', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ translation: translatedText }),
+    }),
+  );
 }
 
 /**
  * Mock the Cloudflare Pages Functions for TTS and AI chat to avoid real API calls in tests.
  */
 export async function mockTTS(page) {
-  await page.route('**/api/tts', route => route.fulfill({
-    status: 200,
-    contentType: 'audio/mpeg',
-    body: Buffer.from([]),
-  }));
-  await page.route('**/api/ai-chat', route => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify({ text: 'Zdravo! Kako si?' }),
-  }));
+  await page.route('**/api/tts', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'audio/mpeg',
+      body: Buffer.from([]),
+    }),
+  );
+  await page.route('**/api/ai-chat', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ text: 'Zdravo! Kako si?' }),
+    }),
+  );
 }
 
 /**
@@ -342,6 +379,7 @@ export async function mockContent(page) {
     GRAMMAR_FIXTURE,
     LESSONS_FIXTURE,
     CATALOG_FIXTURE,
+    CURRICULUM_FIXTURE,
     STORIES_BY_ID,
     GRAMMAR_UNITS_BY_ID,
   } = await import('./content-fixture.js');
@@ -352,6 +390,7 @@ export async function mockContent(page) {
     ['**/api/content/grammar', GRAMMAR_FIXTURE, 'mock-grammar'],
     ['**/api/content/lessons', LESSONS_FIXTURE, 'mock-lessons'],
     ['**/api/content/catalog', CATALOG_FIXTURE, 'mock-catalog'],
+    ['**/api/content/curriculum', CURRICULUM_FIXTURE, 'mock-curriculum'],
   ];
   for (const [pattern, data, etag] of fixedRoutes) {
     await page.route(pattern, (route) =>
@@ -366,7 +405,10 @@ export async function mockContent(page) {
 
   // 2 dynamic-path endpoints: regex match the id, look it up in the map, 404 if missing
   await page.route(/\/api\/content\/stories\/([^/?]+)/, (route) => {
-    const m = route.request().url().match(/\/api\/content\/stories\/([^/?#]+)/);
+    const m = route
+      .request()
+      .url()
+      .match(/\/api\/content\/stories\/([^/?#]+)/);
     const id = m ? decodeURIComponent(m[1]) : '';
     const story = STORIES_BY_ID.get(id);
     if (!story) {
@@ -384,7 +426,10 @@ export async function mockContent(page) {
     });
   });
   await page.route(/\/api\/content\/grammar-units\/([^/?]+)/, (route) => {
-    const m = route.request().url().match(/\/api\/content\/grammar-units\/([^/?#]+)/);
+    const m = route
+      .request()
+      .url()
+      .match(/\/api\/content\/grammar-units\/([^/?#]+)/);
     const id = m ? decodeURIComponent(m[1]) : '';
     const unit = GRAMMAR_UNITS_BY_ID.get(id);
     if (!unit) {

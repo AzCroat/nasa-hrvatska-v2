@@ -18,6 +18,11 @@
 
 import { getSR, saveSR } from './srs.js';
 import { weekKey as _weekKey, localDateStr } from './dateUtils.js';
+import {
+  mergeCurriculumProgress,
+  readCurriculumProgress,
+  CURRICULUM_PROGRESS_KEY,
+} from './curriculumProgress';
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
@@ -333,6 +338,20 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   // Legacy numeric remote values (from the old buggy snapshot) aren't arrays, so
   // _unionStrArr ignores them safely.
   _unionStrArr('nh_immersion_days', fp.nh_immersion_days);
+
+  // ── Curriculum progress (Wave 1, 2026-08-28) ────────────────────────────────
+  // A map, not a string array, so it needs its own merge rather than
+  // _unionStrArr. Additive like every other: the union of lesson ids, and where
+  // both sides know a lesson the EARLIER date wins — a second device cannot
+  // postpone when you learned something, and a remote merge can never
+  // un-complete a lesson.
+  try {
+    const remoteCurriculum = fp.nh_curriculum_progress;
+    if (remoteCurriculum && typeof remoteCurriculum === 'object') {
+      const merged = mergeCurriculumProgress(readCurriculumProgress(), remoteCurriculum);
+      _safeSet(CURRICULUM_PROGRESS_KEY, JSON.stringify({ done: merged }));
+    }
+  } catch (_) {}
 
   // ── UI/accessibility preferences ──────────────────────────────────────────
   // Three-state values (null | 'true' | 'false'): only write when remote is non-null
