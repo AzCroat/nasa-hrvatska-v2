@@ -287,6 +287,39 @@ pedagogy. Design: `docs/curriculum-design.md`.
   ATTITUDE particles (pa, ma, baš, valjda, zar) — adjacent, not the same. Both
   drills stay reachable through the P3 CEFR fill, which walks the pool directly,
   so an unrouted category is not an unreachable drill.
+- **C2 is complete, and with it the whole curriculum (2026-08-28): 4 lessons →
+  30, 45 → 180 total, 30 at every level.** C2 had one tense, one punctuation
+  mark, one style topic and one genre. The gap was not "more grammar": the CEFR
+  descriptor names SYNTHESISING several sources, RECONSTRUCTING arguments and
+  DIFFERENTIATING FINER SHADES OF MEANING, and none of the three had a lesson
+  anywhere. Nor did quantity-subject agreement (the commonest advanced error),
+  the negated imperative (which OVERRIDES the aspect rule learners are taught),
+  the second conditional, four of the five functional styles Croatian
+  linguistics names, or any way to read a text written before Gaj. Five blocks,
+  hinged at `norma-i-uzus` (1) — the level opens by establishing that
+  correctness alone has stopped being the question, which every later block
+  assumes. Pinned by `c2Curriculum.test.ts`, which also carries the
+  whole-curriculum assertions: 30 per level, spine and bodies agreeing exactly,
+  no lesson spined at another level, orders unique and contiguous from 1.
+  **Measured at full scale**: 860 KB of lesson bodies against a 49.6 KB spine
+  (276 bytes/entry) — the payload split's 90% first-load claim holds at 180.
+- **`CONTRASTIVE_LESSONS` gained its second and last easy entry.** Kajkavian
+  realises yat as *e* — `lep`, `mleko` — which is a Croatian dialect form spoken
+  across the north-west including Zagreb, and is HOMOGRAPHIC with Serbian
+  ekavica. There is no pattern to distinguish them because the strings are
+  identical, so the blocklist flagged the C2 `dijalekti-dubinski` lesson for
+  teaching the three-way reflex (lijep / lep / lip) that is a learner's single
+  best diagnostic for placing a speaker. Flagging it would be the lint asserting
+  something false about Croatian. The carve-out now covers a lesson's Croatian
+  strings rather than only its table rows (the same labelled contrast appears in
+  a highlight and a summary point) — **a real cost: a genuine Serbism inside
+  those two lessons would now pass.** Encoding is still checked there, verified
+  by mutation. The list can only shrink.
+- **`CATEGORY_SCREEN_MAP`/`CATEGORY_EASIER_SCREEN`/`SCREEN_CEFR` moved to
+  `src/lib/categoryRoutes.ts`.** Pure data, no behaviour change; the hook had
+  hit its 800-line lint cap and the coupling keeps needing rows — the same
+  reason `sessionPools` and `croatiaPool` were extracted from that file before.
+  The cap was not raised and no override was added.
 - NEVER: give P0 its own length cap; make it a hard gate; copy the taught-category
   map into the spine; backfill completions; let an absent spine mean no lesson;
   add a `LESSON_TAUGHT_CATEGORY` row without checking it resolves at that level.
