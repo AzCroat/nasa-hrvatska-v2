@@ -10,9 +10,15 @@ import { gP } from './firebase.js';
 import { localDateStr as _todayStr, weekKey as _weekKey } from './dateUtils.js';
 import { snapshotCertifications } from './cefrCertification.js';
 import { snapshotMasteryLedger } from './masteryLedger.js';
+import { readCurriculumProgress } from './curriculumProgress';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
+
+/** A record, or undefined when it has no keys — see _strArrOrUndef. */
+function _mapOrUndef(m: Record<string, string>): Record<string, string> | undefined {
+  return m && Object.keys(m).length > 0 ? m : undefined;
+}
 
 interface ProgressSnapshotParams {
   uid: string;
@@ -123,6 +129,14 @@ export function buildProgressSnapshot({
     nh_listening_track_done: _strArrOrUndef('nh_listening_track_done'),
     nh_interaction_track_done: _strArrOrUndef('nh_interaction_track_done'),
     nh_phonemes_mastered: _strArrOrUndef('nh_phonemes_mastered'),
+    // ── Curriculum progress (Wave 1, 2026-08-28) ────────────────────────────
+    // lesson id → the date it was first completed. The teaching sequence reads
+    // this to decide what to teach next, so without it a learner is taught the
+    // same lesson again on every new device. A MAP rather than an array so a
+    // re-completion cannot duplicate an entry and the merge stays trivially
+    // additive. undefined when empty, so a fresh device never clobbers server
+    // history (the nh_journey pattern).
+    nh_curriculum_progress: _mapOrUndef(readCurriculumProgress()),
     nh_daily_goal_xp: parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.

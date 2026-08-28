@@ -29,7 +29,7 @@ import { cleanupStaleQuestKeys } from './lib/quests.js';
 import { getUserCefr } from './lib/cefr.js';
 import { recordActiveDayNow, getActiveDayCount } from './lib/activeDayTracker.js';
 import { apiFetch } from './lib/apiFetch';
-import { getContent } from './lib/contentClient';
+import { getContent, getCurriculumSpine } from './lib/contentClient';
 import {
   getEffectiveLevelForUnlock,
   migrateGrandfatheredCertification,
@@ -1421,6 +1421,19 @@ function App() {
   // interval here was removed 2026-05-25 — two redundant 5-min intervals
   // both calling fbSaveProgress added write-stream pressure for no benefit
   // (mutex made one a no-op, but both still attempted every 5 min).
+
+  // Warm the curriculum spine (Wave 1, 2026-08-28). The session builder and the
+  // lesson picker read the spine SYNCHRONOUSLY from a localStorage mirror, so
+  // something has to fetch it once per session. It is ~21KB of shape with no
+  // slides — deliberately not the 220KB lesson catalog — and a failure here is
+  // silent by design: with no spine the app sequences exactly as it did before
+  // the curriculum existed, which is degraded but never broken.
+  useEffect(() => {
+    if (!authUser || authScreen !== 'app') return;
+    getCurriculumSpine().catch(() => {
+      /* offline / auth / rate-limit — the previous rotation policy still teaches */
+    });
+  }, [authScreen, authUser]);
 
   // Self-healing: reconstruct ct from LEARN_PATH if lost. SP11e: LEARN_PATH
   // ships from /api/content/core via contentClient (cached + Bearer-gated).

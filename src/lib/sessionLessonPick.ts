@@ -8,6 +8,9 @@
  */
 import { isUnlocked } from './cefr';
 import { localDateStr } from './dateUtils';
+import { getNextLesson } from './curriculum';
+import { readCurriculumSpine, readCompletedLessons } from './curriculumProgress';
+import { getCertifiedLevel } from './cefrCertification';
 
 // Screen-id → last-served date, per LESSON id (the 'animlesson' screen is one
 // route serving a 45-lesson catalog). Mirrors useDailySession's
@@ -43,15 +46,60 @@ function readServedLessons(): Record<string, string> {
 }
 
 /**
- * Pick the least-recently-served lesson unlocked at the session's CEFR and
- * record the serve. Returns null when nothing is unlocked (caller should bail
- * with the empty-pool launch-failure path, never navigate to a blank screen).
+ * Pick the lesson to teach, and record the serve.
+ *
+ * CURRICULUM FIRST (Wave 1, 2026-08-28). This used to be pure rotation —
+ * least-recently-served among everything unlocked — which is how the genitive
+ * deep-dive could reach someone who had never met the concept of a case. The
+ * curriculum spine now answers the question properly: sequence and prerequisites
+ * decide, and the learner walks a syllabus rather than a shuffle.
+ *
+ * Rotation is KEPT as the fallback, not deleted. The spine is a cached fetch and
+ * can legitimately be absent — a first run, a cleared cache, an offline start —
+ * and on that path the app must behave exactly as it did before this existed
+ * rather than refusing to teach. Absence of curriculum data degrades to the old
+ * policy; it never degrades to nothing.
+ *
+ * Returns null when nothing is unlocked (caller bails with the empty-pool
+ * launch-failure path, never navigating to a blank screen).
  */
 export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | null {
   const cefr = readSessionCefr();
   const unlocked = lessons.filter((l) => isUnlocked(l.level ?? 'A1', cefr));
   if (unlocked.length === 0) return null;
   const served = readServedLessons();
+
+  // ── Curriculum first ──────────────────────────────────────────────────────
+  // The step is only honoured when its lesson is actually present and unlocked.
+  // A spine that names a lesson this client cannot serve must fall through to
+  // rotation rather than return null: the learner gets taught either way.
+  const curriculumPick = (() => {
+    try {
+      const spine = readCurriculumSpine();
+      if (spine.length === 0) return null;
+      const step = getNextLesson({
+        spine,
+        completed: readCompletedLessons(),
+        certifiedLevel: getCertifiedLevel(),
+      });
+      if (!step) return null;
+      return unlocked.find((l) => l.id === step.entry.id) ?? null;
+    } catch {
+      // Curriculum is an improvement to the pick, never a dependency of it.
+      return null;
+    }
+  })();
+
+  if (curriculumPick) {
+    try {
+      served[curriculumPick.id] = localDateStr();
+      localStorage.setItem(SESSION_SERVED_LESSONS_KEY, JSON.stringify(served));
+    } catch {
+      /* quota/private mode — rotation degrades gracefully */
+    }
+    return curriculumPick;
+  }
+
   const pick = [...unlocked].sort((a, b) => {
     const la = served[a.id] ?? '';
     const lb = served[b.id] ?? '';

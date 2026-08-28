@@ -54,6 +54,7 @@ import {
 } from '../../functions/api/content/_data/core.js';
 import * as GRAMMAR from '../../functions/api/content/_data/grammar.js';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
+import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 import { GRADED_STORIES } from '../../functions/api/content/_data/gradedStories.js';
 import { ADVANCED_UNITS } from '../../functions/api/content/_data/grammarAdvanced.js';
 
@@ -141,3 +142,27 @@ export const STORIES_BY_ID = new Map(GRADED_STORIES.map((s) => [s.id, s]));
 
 // /api/content/grammar-units/{id} — id-indexed lookup
 export const GRAMMAR_UNITS_BY_ID = new Map(ADVANCED_UNITS.map((u) => [u.id, u]));
+
+// /api/content/curriculum — the teaching spine (Wave 1). Mirrors the projection
+// in functions/api/content/curriculum.js: sequencing fields plus display
+// metadata, and NEVER slides. Without this route the P0 teaching slot never
+// fires under E2E, which would leave the one slot that changed session
+// composition completely uncovered.
+const _LESSON_BY_ID = new Map(LESSONS.map((l) => [l.id, l]));
+export const CURRICULUM_FIXTURE = CURRICULUM.filter((e) => _LESSON_BY_ID.has(e.id)).map((e) => {
+  const l = _LESSON_BY_ID.get(e.id);
+  return {
+    id: e.id,
+    level: e.level,
+    order: e.order,
+    prerequisites: e.prerequisites,
+    objectives: e.objectives,
+    title: l.title,
+    subtitle: l.subtitle,
+    icon: l.icon,
+    duration: l.duration,
+    color: l.color,
+    bg: l.bg,
+    etag: `mock-lesson-${e.id}`,
+  };
+});

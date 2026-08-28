@@ -175,6 +175,60 @@ The user must never hit a dead end — something is ALWAYS recommended next.
 - **Persistent surfaces (owner correction, 2026-08-17)**: the pill alone was NOT what the owner intended — Home and Practice must prompt AT ALL TIMES, embedded in the page, not as a transient pop-up. All surfaces share `src/hooks/useNextStepEngine.ts` (compute + launch + navKey). Practice: `NextUpCard` pinned atop GradTab (`next-up-card`). Home: `SessionCard`'s complete state is a HERO-ONLY guided path (`next-up-primary` at Begin-Session weight) — when the engine supplies a step, the bonus-activities list and start-fresh option are NOT rendered (owner: "hero only - want a guided learning path"); they exist only in the legacy no-engine fallback.
 - NEVER: make the prompt block/overlay interactive content (keep the pointer-events contract); cache a recommendation across completions (recompute at event time); return null from `getNextStep` (the browse fallback is the floor); reintroduce competing options next to the complete-state hero.
 
+## Critical Architecture: The Teaching Curriculum (owner directive, 2026-08-28)
+
+The 2026-08-28 finding this exists to keep closed: **the app tested competence it
+had never taught.** Every slot `buildSessionActivities` guaranteed was practice or
+assessment; a lesson could only reach a learner by winning a fill slot, as one
+A1-tagged pool entry (`animlesson`) among ~100, pushed down by difficulty ordering
+for anyone above A1. Selection was "least-recently-served" — rotation, not
+pedagogy. Design: `docs/curriculum-design.md`.
+
+- **The spine** (`functions/api/content/_data/curriculum.js`) carries ONLY `order`,
+  `prerequisites` and `objectives`. It deliberately does not carry a taught
+  category or a practice screen: `LESSON_TAUGHT_CATEGORY` and
+  `CATEGORY_SCREEN_MAP` already own those and are conservative on purpose. A
+  second copy would drift, and **a wrong drill after a lesson is worse than no
+  drill** — a lesson with no honest mapping gets no follow-on practice.
+- **P0 — Today's Lesson is FIRST** in every session, ahead of SRS. That ordering
+  IS the requirement (a lesson each day, before anything tests you). It is **not a
+  hard gate** — a blocker would break the never-strand contract. It **consumes a
+  fill slot, not an extra one**, so the session-length contract (A1 → 3, A2+ → 4,
+  +2 fluency) is unchanged by construction, because the fill loop caps on
+  `activities.length`. Never give it its own cap.
+- **The certification inference, NOT backfilled completions** (`src/lib/curriculum.ts`).
+  Every existing learner had zero completed lessons on ship day, so naive spine
+  order greets a certified C1 learner with A1 lesson 1. A prerequisite is satisfied
+  when completed OR when its level sits strictly below the learner's certified
+  level. Nothing is written. NEVER "fix" this by writing completion records for
+  lessons the learner never opened: that is a lie that syncs to every device and
+  can never afterwards be told apart from a real completion.
+- **There is no "go back and fill a gap" rung.** The design proposed one; it
+  cannot coexist with the inference (everything below the certified level is
+  already treated as known) and a test caught it sending a C2 learner to A1 lesson
+  1. Do not reintroduce it.
+- **The null contract**: `getNextLesson` returns null ONLY when the spine is
+  empty. That means "no curriculum data", and the caller omits the teaching slot
+  so the session composes exactly as it did before. `pickSessionLesson` keeps
+  least-recently-served rotation as its fallback for the same reason — the spine
+  is a cached fetch and can legitimately be absent. **Absence must degrade to the
+  old behaviour, never to no teaching** (pinned by `curriculumPick.test.ts`).
+- **Payload**: `/api/content/lessons` ships the whole array (220 KB at 45 lessons,
+  ~0.9 MB at 180). `/api/content/curriculum` serves shape only and
+  `/api/content/lessons/{id}` one body with its own etag — the pattern
+  `/api/content/catalog` already uses. Measured 90% first-load reduction. **Never
+  spread a lesson into the spine projection**; a test asserts no slides leak.
+- **Progress** (`nh_curriculum_progress`) is a MAP of lesson id → first completion
+  date, written at the summary slide (the only point the lesson was demonstrably
+  read, not merely opened). It syncs additively: union of ids, EARLIER date wins,
+  and a remote merge can never un-complete a lesson. Absent from the snapshot when
+  empty so a fresh device cannot clobber server history.
+- **E2E must route `/api/content/curriculum`** (`mockContent`). Without the
+  fixture the teaching slot never fires under E2E and the one change that alters
+  session composition is uncovered.
+- NEVER: give P0 its own length cap; make it a hard gate; copy the taught-category
+  map into the spine; backfill completions; let an absent spine mean no lesson.
+
 ## Critical Architecture: The Daily Session Recommender (audit, 2026-08-20)
 
 `buildSessionActivities` (src/hooks/useDailySession.ts) composes the day's plan in priority order. The slots and what each guarantees:

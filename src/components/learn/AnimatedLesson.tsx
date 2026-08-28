@@ -8,6 +8,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { recordLessonTaught } from '../../lib/teachPractice';
+import { markLessonComplete } from '../../lib/curriculumProgress';
+import { localDateStr } from '../../lib/dateUtils';
 import { useStats } from '../../context/StatsContext';
 import {
   ProgressBar,
@@ -133,6 +135,12 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
         // builder never hears about. Keyed on the RAW lesson id, which is what
         // LESSON_TAUGHT_CATEGORY maps.
         recordLessonTaught(lessonId);
+        // Curriculum progress (Wave 1, 2026-08-28). The spine sequences on
+        // COMPLETED lesson ids, so without this write the learner is served the
+        // same lesson every day and the syllabus never advances. Recorded here
+        // for the same reason the vs key is: the summary slide is the only point
+        // at which the lesson was demonstrably read, not merely opened.
+        markLessonComplete(lessonId, localDateStr());
       }
       if (typeof award === 'function') {
         award(25, false, 'lesson');

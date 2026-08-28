@@ -13,6 +13,7 @@ import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedg
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
+import { buildCurriculumSlots } from '../lib/curriculumSlot';
 import { skillGroupOf, type SkillGroup } from '../lib/skillGroups';
 import {
   reviewReason,
@@ -396,6 +397,22 @@ export function buildSessionActivities(
   poolWords?: Set<string>,
 ): SessionActivity[] {
   const activities: SessionActivity[] = [];
+
+  // ── Priority 0: TODAY'S LESSON (Wave 1, 2026-08-28) ─────────────────────────
+  // Placed FIRST — a lesson each day, before anything tests you — and followed
+  // immediately by the drill for what it taught. Consumes fill slots rather than
+  // extra ones (the fill loop caps on activities.length), so the session-length
+  // contract does not move. Empty when there is no curriculum data. Resolution,
+  // and the reasons it works this way, live in lib/curriculumSlot.
+  activities.push(
+    ...buildCurriculumSlots({
+      userCefr,
+      screenMap: CATEGORY_SCREEN_MAP,
+      easierMap: CATEGORY_EASIER_SCREEN,
+      screenCefr: SCREEN_CEFR,
+      isUnlocked,
+    }),
+  );
 
   // Priority 1: FSRS word reviews — gated on what ReviewScreen can actually
   // serve, not the raw FSRS count. When poolWords is provided (HomeTab call
