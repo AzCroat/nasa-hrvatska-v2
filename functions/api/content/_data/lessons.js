@@ -3,7 +3,12 @@
 // Pre-written lesson content for the AnimatedLesson player
 // ═══════════════════════════════════════════════════════════
 
-export const LESSONS = [
+import { LESSONS_A1 } from './lessonsA1.js';
+
+// The A1 expansion (2026-08-28) lives in its own module: this file was already
+// ~6,000 lines for 45 lessons and the curriculum targets ~30 per level. LESSONS
+// stays one flat array, so every consumer sees exactly what it saw before.
+const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   // LESSON 1: Croatian Alphabet & Pronunciation
   // ─────────────────────────────────────────────────────────
@@ -5994,3 +5999,5 @@ export const LESSONS = [
     ],
   },
 ];
+
+export const LESSONS = [...LESSONS_CORE, ...LESSONS_A1];

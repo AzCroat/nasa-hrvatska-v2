@@ -60,6 +60,11 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'modal-verbs-a2': 'present-tense',
   // Teaches biti + personal pronouns; presentdrill carries the biti items.
   'pronouns-biti': 'present-tense',
+  // A1 modals and reflexives are both present-tense conjugation in practice,
+  // and presentdrill is the A1-reachable drill for it — the same reasoning that
+  // already pairs modal-verbs-a2 with this category.
+  'modals-basic': 'present-tense',
+  'reflexive-verbs': 'present-tense',
   // ── verbs: other tenses ───────────────────────────────────────────────────
   'past-tense': 'past-tense',
   'aorist-imperfekt': 'past-tense',
@@ -80,8 +85,14 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   cases: 'nominative',
   declension: 'genitive',
   'genitive-deep': 'genitive',
+  'genitive-intro': 'genitive',
   'accusative-deep': 'accusative',
+  'accusative-intro': 'accusative',
   'dative-locative': 'dative-locative',
+  // The A1 locative lesson: locdrill is A1, so unlike the vocab route below
+  // this one actually resolves for the learners the lesson is written for.
+  'locative-intro': 'dative-locative',
+  'vocative-intro': 'vocative',
   instrumental: 'instrumental',
   // ── syntax / structure ────────────────────────────────────────────────────
   'word-order-emphasis': 'word-order',
@@ -95,7 +106,15 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',
+  'shopping-prices': 'numerals',
   'idioms-register': 'idioms',
+  // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
+  // plural-nouns, negation, adjectives-basic, possessives, demonstratives,
+  // imperative-basic, likes-preferences, family-people, countries-languages,
+  // food-drink, directions-town, weather-seasons. Each of them either has no
+  // drill at all, or only a topic-blind vocabulary game — and pairing a lesson
+  // on family words with a generic vocab round claims a connection the app
+  // cannot deliver. A wrong drill after a lesson is worse than no drill.
 };
 
 interface TaughtEntry {

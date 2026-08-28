@@ -49,10 +49,20 @@
 /** @type {ReadonlyArray<CurriculumEntry>} */
 export const CURRICULUM = [
   // ── A1 ────────────────────────────────────────────────────────────────────
-  // Sounds before words, words before sentences. `cases` sits LAST at A1: it is
-  // the primer for the case system and the bridge into A2, and every case lesson
-  // above depends on it. It is A1 by owner directive (2026-08-18) — the only
-  // "what is a case" explanation must never sit above the drills that need it.
+  // Sounds before words, words before sentences, sentences before cases.
+  //
+  // The 2026-08-28 expansion took A1 from 9 lessons to 30, and the shape of the
+  // gap is worth recording: A1 taught the alphabet, gender, verbs and the IDEA
+  // of a case, then stopped one step short of every structure a beginner needs
+  // to say anything at all. No plural, no negation, no accusative, no locative,
+  // no possessives, no adjectives — although `gender` explicitly promised that
+  // agreement was coming.
+  //
+  // `cases` sits at 16, the hinge of the level. Everything before it can be said
+  // with subject forms alone; everything after it depends on knowing what a case
+  // IS. It is A1 by owner directive (2026-08-18) — the only "what is a case"
+  // explanation must never sit above the drills that need it — and the four case
+  // lessons that follow are the reason that directive matters.
   {
     id: 'alphabet',
     level: 'A1',
@@ -98,9 +108,20 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'basic-questions',
+    id: 'plural-nouns',
     level: 'A1',
     order: 5,
+    prerequisites: ['gender'],
+    objectives: [
+      'Make any regular noun plural from its gender alone',
+      'Handle the short masculine nouns that grow: grad → gradovi',
+      'Recognise the five irregular plurals you cannot avoid: ljudi, djeca, braća, oči, uši',
+    ],
+  },
+  {
+    id: 'basic-questions',
+    level: 'A1',
+    order: 6,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Ask who, what, where, when and how much',
@@ -111,7 +132,7 @@ export const CURRICULUM = [
   {
     id: 'present-tense-verbs',
     level: 'A1',
-    order: 6,
+    order: 7,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Conjugate regular verbs in the present across all three patterns',
@@ -120,9 +141,75 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'negation',
+    level: 'A1',
+    order: 8,
+    prerequisites: ['present-tense-verbs'],
+    objectives: [
+      'Negate any verb by putting ne in front of it',
+      'Use the three fused negatives correctly: nisam, nemam, neću',
+      'Double up the way Croatian requires: Nitko ne zna, Ništa ne vidim',
+    ],
+  },
+  {
+    id: 'adjectives-basic',
+    level: 'A1',
+    order: 9,
+    prerequisites: ['gender', 'plural-nouns'],
+    objectives: [
+      'Make an adjective agree with its noun in gender and number',
+      'Use the twenty adjectives that cover most everyday description',
+      'Know why dobar becomes dobra — the vowel that disappears',
+    ],
+  },
+  {
+    id: 'possessives',
+    level: 'A1',
+    order: 10,
+    prerequisites: ['adjectives-basic'],
+    objectives: [
+      'Say my, your, his, her, our and their with the right ending',
+      'Agree the possessive with the thing OWNED, not with the owner',
+      'Ask whose something is: Čiji? Čija? Čije?',
+    ],
+  },
+  {
+    id: 'demonstratives',
+    level: 'A1',
+    order: 11,
+    prerequisites: ['adjectives-basic'],
+    objectives: [
+      'Point at things using the three-way system: ovaj, taj, onaj',
+      'Match each one to its place word: ovdje, tu, ondje',
+      'Open a sentence with Ovo je… or To je… about anything at all',
+    ],
+  },
+  {
+    id: 'family-people',
+    level: 'A1',
+    order: 12,
+    prerequisites: ['possessives'],
+    objectives: [
+      'Name everyone in your family, immediate and extended',
+      'Choose between stric and ujak — Croatian names the side of the family',
+      'Answer the question every heritage learner is asked: Odakle je tvoja obitelj?',
+    ],
+  },
+  {
+    id: 'countries-languages',
+    level: 'A1',
+    order: 13,
+    prerequisites: ['pronouns-biti'],
+    objectives: [
+      'Say which country you are from, live in, and which languages you speak',
+      'Use the separate male and female nationality forms: Hrvat, Hrvatica',
+      'Name the Croatian region your family comes from, which says far more than the country',
+    ],
+  },
+  {
     id: 'numbers-time',
     level: 'A1',
-    order: 7,
+    order: 14,
     prerequisites: ['gender'],
     objectives: [
       'Count, give your phone number and say your age',
@@ -133,7 +220,7 @@ export const CURRICULUM = [
   {
     id: 'time-calendar',
     level: 'A1',
-    order: 8,
+    order: 15,
     prerequisites: ['numbers-time'],
     objectives: [
       'Name the days, months and seasons',
@@ -144,12 +231,166 @@ export const CURRICULUM = [
   {
     id: 'cases',
     level: 'A1',
-    order: 9,
+    order: 16,
     prerequisites: ['gender'],
     objectives: [
       'Understand what a case is, using English he / him / his as the bridge',
       'Name all seven Croatian cases and the question each one answers',
       'See why the word for the same thing changes shape mid-sentence',
+    ],
+  },
+  {
+    id: 'accusative-intro',
+    level: 'A1',
+    order: 17,
+    prerequisites: ['cases'],
+    objectives: [
+      'Name what the verb acts on: Pijem kavu, Vidim brata',
+      'Ask the one question Croatian needs and English does not — is the noun alive?',
+      'Tell motion from position: Idem u grad against U gradu sam',
+    ],
+  },
+  {
+    id: 'imati-nemati',
+    level: 'A1',
+    order: 18,
+    prerequisites: ['accusative-intro'],
+    objectives: [
+      'Say what you have and what you do not have',
+      'Give your age the Croatian way: Imam trideset godina',
+      'Use ima and nema for "there is" and "there is not"',
+    ],
+  },
+  {
+    id: 'locative-intro',
+    level: 'A1',
+    order: 19,
+    prerequisites: ['cases'],
+    objectives: [
+      'Say where you are, live and work: u Zagrebu, u školi, na moru',
+      'Recognise the one case that never appears without a preposition',
+      'Answer Gdje? with a locative and Kamo? with an accusative',
+    ],
+  },
+  {
+    id: 'prepositions-place',
+    level: 'A1',
+    order: 20,
+    prerequisites: ['locative-intro'],
+    objectives: [
+      'Place anything in space: pored, blizu, ispred, iza, ispod, između',
+      'Learn each preposition together with the case it always rules',
+      'Use kod for being at someone’s place, and kod kuće for being at home',
+    ],
+  },
+  {
+    id: 'genitive-intro',
+    level: 'A1',
+    order: 21,
+    prerequisites: ['prepositions-place'],
+    objectives: [
+      'Show belonging without an apostrophe: auto moje sestre',
+      'Measure things: čaša vode, šalica kave, puno ljudi',
+      'Say where you are from and what is missing: iz Hrvatske, nema kruha',
+    ],
+  },
+  {
+    id: 'vocative-intro',
+    level: 'A1',
+    order: 22,
+    prerequisites: ['cases'],
+    objectives: [
+      'Call someone by name the way a Croatian does: Ivane, not Ivan',
+      'Address a stranger politely: gospodine, gospođo',
+      'Know which names change and which stay as they are',
+    ],
+  },
+  {
+    id: 'modals-basic',
+    level: 'A1',
+    order: 23,
+    prerequisites: ['present-tense-verbs', 'accusative-intro'],
+    objectives: [
+      'Say what you can, must, want and need to do',
+      'Build a sentence around any verb you know, using only its dictionary form',
+      'Choose between znati and moći — a learned skill or a present ability',
+    ],
+  },
+  {
+    id: 'imperative-basic',
+    level: 'A1',
+    order: 24,
+    prerequisites: ['present-tense-verbs'],
+    objectives: [
+      'Ask someone to do something, formally and informally',
+      'Tell someone not to, using nemoj rather than a plain ne',
+      'Soften any request with molim, izvolite and oprostite',
+    ],
+  },
+  {
+    id: 'reflexive-verbs',
+    level: 'A1',
+    order: 25,
+    prerequisites: ['present-tense-verbs'],
+    objectives: [
+      'Use the large family of verbs that carry se, starting with zvati se',
+      'Put se in second position, where Croatian clitics belong',
+      'Describe your daily routine, and read the impersonal se on every sign',
+    ],
+  },
+  {
+    id: 'likes-preferences',
+    level: 'A1',
+    order: 26,
+    prerequisites: ['reflexive-verbs'],
+    objectives: [
+      'Say what you like two ways: volim kavu and sviđa mi se Zagreb',
+      'Turn the sentence around so the thing liked becomes the subject',
+      'Say what you prefer: Više volim more nego planine',
+    ],
+  },
+  {
+    id: 'food-drink',
+    level: 'A1',
+    order: 27,
+    prerequisites: ['accusative-intro', 'genitive-intro'],
+    objectives: [
+      'Order in a café and read a simple menu',
+      'Ask politely with Htio bih or Htjela bih rather than a blunt Hoću',
+      'Use the accusative for what you order and the genitive for how much',
+    ],
+  },
+  {
+    id: 'shopping-prices',
+    level: 'A1',
+    order: 28,
+    prerequisites: ['numbers-time', 'accusative-intro'],
+    objectives: [
+      'Count past a hundred and say any price in euros',
+      'Apply the rule every counted noun follows: 1, then 2–4, then 5 and up',
+      'Ask what something costs and say how you will pay',
+    ],
+  },
+  {
+    id: 'directions-town',
+    level: 'A1',
+    order: 29,
+    prerequisites: ['prepositions-place', 'imperative-basic'],
+    objectives: [
+      'Ask where something is, and understand the directions you get back',
+      'Name the places in a Croatian town you will actually look for',
+      'Say how you are travelling: pješice, tramvajem, autobusom',
+    ],
+  },
+  {
+    id: 'weather-seasons',
+    level: 'A1',
+    order: 30,
+    prerequisites: ['present-tense-verbs'],
+    objectives: [
+      'Describe the weather with the subjectless pattern: Hladno je, Pada kiša',
+      'Ask what the weather is like, today and tomorrow',
+      'Name the seasons and say when something happens: ljeti, zimi, u proljeće',
     ],
   },
 

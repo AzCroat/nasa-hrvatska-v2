@@ -29,6 +29,11 @@ const REPO_ROOT = resolve(__dirname, '..');
 const TARGETS = [
   'functions/api/content/_data/scenarios.js',
   'functions/api/content/_data/lessons.js',
+  // The A1 expansion (2026-08-28) lives in its own module. Adding it here is
+  // not optional bookkeeping: a lesson file outside TARGETS is a file everyone
+  // believes is linted and is not, which is precisely how exercises.js went 81
+  // levelled exercises without ever being scanned.
+  'functions/api/content/_data/lessonsA1.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
@@ -206,8 +211,65 @@ function* dialogueStrings() {
   }
 }
 
+// ── Lesson tables, highlights and summaries ──────────────────────────────────
+//
+// lessons.js has been in TARGETS for a long time, which made it look covered.
+// It was covered only where CRO_FIELD_RE matches — `hr`, `title`, `q`, `note`.
+// It never matched a TABLE, and the tables are where a lesson keeps most of its
+// vocabulary: every `rows` cell in every lesson has been invisible. The A1
+// expansion (2026-08-28) put roughly 150 new Croatian cells in tables and found
+// the gap while mutation-testing the guard on its own content.
+//
+// Walked structurally rather than by regex for the same reason as the dialogue
+// bank: only the data knows which cell is which. A `rows` cell is Croatian a
+// learner reads, so it gets both checks; `headers` are column labels and
+// `points` are summary bullets that mix both languages, so headers take the
+// encoding check only.
+import { LESSONS } from '../functions/api/content/_data/lessons.js';
+
+// THE ONE CARVE-OUT, and it is deliberately a single lesson id rather than a
+// field name or a pattern. `language-identity` (C1) is a contrastive lesson
+// whose table has a column headed Serbian: naming the form IS the teaching,
+// exactly as the dialogue bank's English `tip` field may name one in order to
+// contrast it. The owner directive it sits against — never put a Serbian form
+// in front of a learner — was written about DISTRACTORS, where the learner
+// meets the form as a clickable answer with nothing marking it as foreign.
+// A labelled comparison column is the opposite case, and this app's audience is
+// a diaspora that grew up hearing both varieties mixed.
+//
+// Encoding is still checked here. Only the Serbism check is suspended, only in
+// this lesson's tables, so a homoglyph in that column still fails the build.
+// If the owner decides the contrast table should go, delete the entry — nothing
+// else depends on it.
+const CONTRASTIVE_LESSONS = new Set(['language-identity']);
+
+function* lessonStrings() {
+  for (const l of LESSONS) {
+    for (let i = 0; i < (l.slides || []).length; i++) {
+      const s = l.slides[i];
+      const at = `${l.id}.slides[${i}]`;
+      if (typeof s.highlight === 'string') {
+        yield { loc: `${at}.highlight`, field: 'highlight', content: s.highlight, kind: 'croatian' };
+      }
+      for (const h of Array.isArray(s.headers) ? s.headers : []) {
+        yield { loc: `${at}.headers`, field: 'headers', content: h, kind: 'gloss' };
+      }
+      const rowKind = CONTRASTIVE_LESSONS.has(l.id) ? 'gloss' : 'croatian';
+      for (let r = 0; r < (Array.isArray(s.rows) ? s.rows : []).length; r++) {
+        for (const cell of Array.isArray(s.rows[r]) ? s.rows[r] : []) {
+          yield { loc: `${at}.rows[${r}]`, field: 'rows', content: cell, kind: rowKind };
+        }
+      }
+      for (const p of Array.isArray(s.points) ? s.points : []) {
+        yield { loc: `${at}.points`, field: 'points', content: p, kind: 'croatian' };
+      }
+    }
+  }
+}
+
 const STRUCTURED = [
   { rel: 'src/components/practice/dialogueScenarios.js', strings: dialogueStrings },
+  { rel: 'functions/api/content/_data/lessons.js + lessonsA1.js (tables)', strings: lessonStrings },
 ];
 
 function checkStructured() {

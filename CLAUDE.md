@@ -226,6 +226,29 @@ pedagogy. Design: `docs/curriculum-design.md`.
 - **E2E must route `/api/content/curriculum`** (`mockContent`). Without the
   fixture the teaching slot never fires under E2E and the one change that alters
   session composition is uncovered.
+- **A1 is the first complete level (2026-08-28): 9 lessons → 30.** The nine
+  taught the alphabet, gender, verbs and the IDEA of a case, then stopped one
+  step short of every structure a beginner needs — no plural, no negation, no
+  accusative, no locative, no possessives, no adjectives (though `gender`
+  promised agreement was coming). The level now has a HINGE at `cases` (order
+  16): everything before it is sayable with subject forms alone, and
+  `accusative-intro` / `locative-intro` / `genitive-intro` / `vocative-intro`
+  all sit after it. **That ordering is pinned by `a1Curriculum.test.ts`** —
+  a reorder could recreate the 2026-08-18 finding (a case drill above the only
+  explanation of what a case is) without touching a word of content.
+  Bodies live in `functions/api/content/_data/lessonsA1.js`, spread into
+  `LESSONS`; lessons.js was already ~6k lines for 45 lessons and the programme
+  targets ~180. **A new per-level lesson file must be added to
+  `lintCroatianText.mjs` TARGETS** — a lesson file outside TARGETS is one
+  everybody believes is linted and is not.
+- **The unmapped lessons are pinned too.** Seven new `LESSON_TAUGHT_CATEGORY`
+  entries, each resolving to an A1-reachable drill; twelve left deliberately
+  unmapped, and the test asserts they STAY unmapped. Pairing `family-people`
+  with a topic-blind vocab game claims a connection the app cannot deliver.
+  Moving one into the mapped set has to be a decision, not a tidy-up. (Related:
+  `gender → vocab-a2` routes to `znam`, which is A2, so for the A1 learners that
+  lesson is written for the coupling silently resolves to nothing — same class
+  as the A1 verb hole, not fixed here.)
 - NEVER: give P0 its own length cap; make it a hard gate; copy the taught-category
   map into the spine; backfill completions; let an absent spine mean no lesson.
 
@@ -410,7 +433,27 @@ No Cyrillic and no Serbian variants may reach a user, ever. Three layers (pinned
 
 `dialogueScenarios.js` is walked **structurally** rather than by regex, because only the data knows which option is correct: `opts[answer]` is Croatian, `opts[1..3]` are distractors. Before that the whole conversation bank was unlinted. `opts`/`options`/`choices` arrays in the regex targets are scanned too. When adding a TARGET, confirm the file actually exposes fields `CRO_FIELD_RE` matches — a target whose fields never match is a file you believe is covered and is not.
 
-Coverage is 41 files; **component-embedded Croatian (~134 files) is deliberately still out**, because those mix Croatian examples with English UI copy and sweeping them in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs do live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so this is unfinished, not settled.
+**Lesson TABLES were invisible until 2026-08-28.** `lessons.js` had been in
+TARGETS for a long time, which made it look covered — but `CRO_FIELD_RE` never
+matched a `rows` array, and a table is where a lesson keeps most of its
+vocabulary. Every table cell in every lesson went unscanned. Found by
+mutation-testing the guard against the A1 expansion, which put ~150 new Croatian
+cells into tables; the file passed clean, then passed clean again with `hleb`
+injected. Lessons are now walked **structurally** (`lessonStrings`) like the
+dialogue bank: `rows` cells get both checks, `headers` encoding only, `points`
+and `highlight` both. The lesson: a target passing is not evidence of coverage —
+mutate it and watch it fail before believing it.
+
+`CONTRASTIVE_LESSONS` is the ONE Serbism carve-out, scoped to a lesson **id**
+(`language-identity`, C1) rather than a field or a pattern. That lesson's table
+has a column headed Serbian, where naming the form IS the teaching — the same
+shape as the dialogue bank's English `tip` exemption. Encoding is still checked
+there. The distractor directive it sits against was written about a learner
+meeting a Serbian form as a clickable answer with nothing marking it foreign;
+a labelled comparison column is the opposite case. If the owner decides the
+contrast table should go, delete the entry — nothing else depends on it.
+
+Coverage is 42 files plus 2 walked structurally; **component-embedded Croatian (~134 files) is deliberately still out**, because those mix Croatian examples with English UI copy and sweeping them in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs do live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so this is unfinished, not settled.
 
 ## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
 
