@@ -35,6 +35,7 @@ const TARGETS = [
   // levelled exercises without ever being scanned.
   'functions/api/content/_data/lessonsA1.js',
   'functions/api/content/_data/lessonsA2.js',
+  'functions/api/content/_data/lessonsB1.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
@@ -270,7 +271,7 @@ function* lessonStrings() {
 
 const STRUCTURED = [
   { rel: 'src/components/practice/dialogueScenarios.js', strings: dialogueStrings },
-  { rel: 'lessons.js + lessonsA1.js + lessonsA2.js (tables)', strings: lessonStrings },
+  { rel: 'lessons.js + per-level lesson files (tables)', strings: lessonStrings },
 ];
 
 function checkStructured() {

@@ -249,8 +249,28 @@ pedagogy. Design: `docs/curriculum-design.md`.
   `gender → vocab-a2` routes to `znam`, which is A2, so for the A1 learners that
   lesson is written for the coupling silently resolves to nothing — same class
   as the A1 verb hole, not fixed here.)
+- **A MAPPED LESSON MUST RESOLVE TO A REACHABLE DRILL (2026-08-28).** The
+  coupling map can be perfectly honest and still be inert: `LESSON_TAUGHT_CATEGORY`
+  names a CATEGORY, and if `CATEGORY_SCREEN_MAP` has no row for it — or the row
+  it has is CEFR-gated above the lesson's own level with no
+  `CATEGORY_EASIER_SCREEN` fallback — the learner is queued a category that never
+  becomes an activity. No error anywhere. `curriculumCouplingResolves.test.ts`
+  walks every mapping through the REAL session builder and found **ten** dead
+  mappings on its first run, across every level. Nine were repaired by routing
+  five orphan categories (`numerals`, `word-order`, `idioms`, `passive`,
+  `nominalization`) — none of which is in `ALL_CATEGORIES`, so like `nominative`
+  and `subordination` the change touches the coupling and nothing else.
+  **`gender → vocab-a2` is the one deliberate exception**: `vocab-a2` IS an
+  adaptive category, so an easier route would change what every A1 learner is
+  served, which wants its own decision. It is named in `KNOWN_UNRESOLVED` and
+  that list can only shrink.
+  The test that was supposed to catch this earlier did not, because it checked a
+  `SCREEN_FOR` map written inside the test file rather than the app's. **A test
+  that restates production data cannot check production data** — go through the
+  real builder.
 - NEVER: give P0 its own length cap; make it a hard gate; copy the taught-category
-  map into the spine; backfill completions; let an absent spine mean no lesson.
+  map into the spine; backfill completions; let an absent spine mean no lesson;
+  add a `LESSON_TAUGHT_CATEGORY` row without checking it resolves at that level.
 
 ## Critical Architecture: The Daily Session Recommender (audit, 2026-08-20)
 

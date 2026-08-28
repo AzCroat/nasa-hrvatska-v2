@@ -70,6 +70,8 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // The A2 lesson on asking and denying in the past. `cloze` is A2, so unlike
   // the vocab route this resolves for exactly the learners it is written for.
   'past-questions-negation': 'past-tense',
+  // B1 narration is past-tense production; cloze (A2) carries the items.
+  'telling-a-story': 'past-tense',
   'aorist-imperfekt': 'past-tense',
   pluskvamperfekt: 'past-tense',
   tenses: 'past-tense', // TensesScreen
@@ -82,6 +84,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'aspect-perfective': 'aspect-perfective',
   'aspect-negation': 'aspect-negation',
   'motion-verbs': 'aspect-perfective',
+  // B1 verb prefixes: a prefix is what makes a verb perfective, so aspectdrill
+  // (B1) is practising exactly what the lesson taught.
+  'verb-prefixes': 'aspect-perfective',
   // ── cases ─────────────────────────────────────────────────────────────────
   // The umbrella `cases` lesson introduces the system; nominative is where a
   // learner starts using it, and nomdrill is available from A1.
@@ -107,6 +112,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   clitics: 'clitics',
   'clitics-advanced': 'clitics',
   'complex-sentences': 'subordination',
+  // B1 relative clauses. CATEGORY_SCREEN_MAP now routes this category, and
+  // CATEGORY_EASIER_SCREEN drops it to `relpron` (B1) — the drill that teaches
+  // exactly relative pronouns — so it resolves for the level it is written for.
+  'relative-deep': 'subordination',
   'passive-voice': 'passive',
   'verbal-nouns': 'nominalization',
   // ── vocabulary / other ────────────────────────────────────────────────────
@@ -123,6 +132,13 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // food-drink, directions-town, weather-seasons.
   // A2: object-pronouns, plural-cases, quantity, svoj, adverbs, conjunctions,
   // relative-koji, indefinites, and all ten functional lessons.
+  // B1: time-duration, position-placement, infinitive-vs-da, impersonal,
+  // time-clauses, real-conditions, cause-purpose, reported-speech, and all ten
+  // functional lessons. `reported-speech` is the notable one: the pool HAS a
+  // reported-speech drill (`neizravni`), but it is B2, and the easier route for
+  // this category is already taken by `relpron` — so mapping it would send a B1
+  // learner to a relative-pronoun drill after a lesson on reporting what people
+  // said. Wrong drill, so no drill.
   //
   // Each of them either has no drill at all, or only a topic-blind vocabulary
   // game — and pairing a lesson on family words with a generic vocab round

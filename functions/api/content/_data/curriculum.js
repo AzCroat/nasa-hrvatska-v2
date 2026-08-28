@@ -738,8 +738,18 @@ export const CURRICULUM = [
   },
 
   // ── B1 ────────────────────────────────────────────────────────────────────
-  // The three case deep-dives come first: they are the spine of B1 and
-  // everything else at this level leans on them.
+  // The expansion to 30 (2026-08-28). B1's ten lessons were the remaining cases
+  // and the aspect system — the two hardest things in Croatian, taught well.
+  // What they were not was B1. The level CEFR defines as "can describe
+  // experiences, give reasons and explanations for opinions and plans, and
+  // produce connected text" had no reported speech, no time clauses, no
+  // conditions, no cause and no purpose — and one topical lesson out of ten.
+  //
+  // The order runs: the cases and aspect as before (1-12), then the machinery
+  // for joining and supposing (13-20), then ten lessons that put it to work on
+  // the situations B1 is actually measured on. `cause-purpose` is the literal
+  // "give reasons and explanations" half of the level descriptor, and until now
+  // the level contained nothing for it.
   {
     id: 'genitive-deep',
     level: 'B1',
@@ -796,9 +806,20 @@ export const CURRICULUM = [
     ],
   },
   {
-    id: 'aspect',
+    id: 'time-duration',
     level: 'B1',
     order: 6,
+    prerequisites: ['future-tense'],
+    objectives: [
+      'Say when something happened and how long it lasted',
+      'Tell prije (ago) from za (in), which mirror each other',
+      'Use the PRESENT for something still going on: Živim ovdje pet godina',
+    ],
+  },
+  {
+    id: 'aspect',
+    level: 'B1',
+    order: 7,
     prerequisites: ['past-tense'],
     objectives: [
       'Understand aspect — whether an action is complete or ongoing',
@@ -809,7 +830,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-imperfective',
     level: 'B1',
-    order: 7,
+    order: 8,
     prerequisites: ['aspect'],
     objectives: [
       'Describe habits, repeated actions and actions in progress',
@@ -820,7 +841,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-perfective',
     level: 'B1',
-    order: 8,
+    order: 9,
     prerequisites: ['aspect'],
     objectives: [
       'Describe a single completed action with a result',
@@ -829,9 +850,20 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'verb-prefixes',
+    level: 'B1',
+    order: 10,
+    prerequisites: ['aspect-perfective'],
+    objectives: [
+      'Read an unknown verb by stripping its prefix and finding the root',
+      'Recognise that the prefixes echo the prepositions: u-, iz-, do-, pre-',
+      'Grow vocabulary by families rather than one word at a time',
+    ],
+  },
+  {
     id: 'motion-verbs',
     level: 'B1',
-    order: 9,
+    order: 11,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Use ići, doći, otići and their relatives precisely',
@@ -840,14 +872,212 @@ export const CURRICULUM = [
     ],
   },
   {
+    id: 'position-placement',
+    level: 'B1',
+    order: 12,
+    prerequisites: ['verb-prefixes'],
+    objectives: [
+      'Tell sitting down from being seated — sjesti against sjediti',
+      'Choose the accusative for a change of position and the locative for a state',
+      'Use staviti for putting something and stajati for where it stands',
+    ],
+  },
+  {
+    id: 'infinitive-vs-da',
+    level: 'B1',
+    order: 13,
+    prerequisites: ['future-tense'],
+    objectives: [
+      'Separate the compulsory da (that) from the one competing with the infinitive',
+      'Use the plain infinitive after a modal, as standard Croatian does',
+      'Know when the subject changes and a full clause is required',
+    ],
+  },
+  {
+    id: 'impersonal',
+    level: 'B1',
+    order: 14,
+    prerequisites: ['infinitive-vs-da'],
+    objectives: [
+      'Say what one should do, without naming anyone',
+      'Read the modal-plus-se wording every sign and rule in Croatia uses',
+      'Add a person in the dative: Treba mi odmor, Hladno mi je',
+    ],
+  },
+  {
+    id: 'time-clauses',
+    level: 'B1',
+    order: 15,
+    prerequisites: ['time-duration'],
+    objectives: [
+      'Sequence events with kad, dok, čim, prije nego što, nakon što',
+      'Use the PRESENT in a time clause that points at the future',
+      'Let aspect carry the narrative: imperfective background, perfective event',
+    ],
+  },
+  {
+    id: 'real-conditions',
+    level: 'B1',
+    order: 16,
+    prerequisites: ['time-clauses'],
+    objectives: [
+      'Talk about conditions that may genuinely be met',
+      'Keep the if-clause in the present, exactly as English does',
+      'Recognise the budem-form Croatian uses for a future condition',
+    ],
+  },
+  {
+    id: 'cause-purpose',
+    level: 'B1',
+    order: 17,
+    prerequisites: ['real-conditions'],
+    objectives: [
+      'Give reasons and state aims — the half of B1 the level is defined by',
+      'Choose jer for a clause and zbog for a noun',
+      'Separate zbog (a cause, looking back) from radi (a purpose, looking forward)',
+    ],
+  },
+  {
+    id: 'reported-speech',
+    level: 'B1',
+    order: 18,
+    prerequisites: ['infinitive-vs-da'],
+    objectives: [
+      'Pass on what somebody said, asked or requested',
+      'Keep the tense they used — Croatian does not backshift the way English does',
+      'Shift the pronouns and time words to your own point of view',
+    ],
+  },
+  {
+    id: 'relative-deep',
+    level: 'B1',
+    order: 19,
+    prerequisites: ['reported-speech'],
+    objectives: [
+      'Say whose, where, and what — beyond the basic koji',
+      'Use što when the relative refers to a whole clause rather than a noun',
+      'Reach for ono što where English says the thing that',
+    ],
+  },
+  {
+    id: 'telling-a-story',
+    level: 'B1',
+    order: 20,
+    prerequisites: ['reported-speech', 'aspect-perfective'],
+    objectives: [
+      'Narrate an event from beginning to end',
+      'Set the scene with the imperfective and move it on with the perfective',
+      'Keep a listener in it: Stvarno? Ma daj! I što onda?',
+    ],
+  },
+  {
+    id: 'opinions-agreeing',
+    level: 'B1',
+    order: 21,
+    prerequisites: ['cause-purpose'],
+    objectives: [
+      'Say what you think and why',
+      'Agree, half-agree and disagree without it becoming a confrontation',
+      'Use imati pravo, because being right is something you have',
+    ],
+  },
+  {
     id: 'feelings-inner-life',
     level: 'B1',
-    order: 10,
+    order: 22,
     prerequisites: ['dative-locative'],
     objectives: [
       'Say how you feel with the constructions Croatian actually uses',
       'Handle the verbs where the feeling happens "to you" rather than by you',
       'Talk about hopes, worries and preferences',
+    ],
+  },
+  {
+    id: 'complaints-problems',
+    level: 'B1',
+    order: 23,
+    prerequisites: ['opinions-agreeing'],
+    objectives: [
+      'Explain what has gone wrong and ask for it to be fixed',
+      'Report the fault rather than blaming a person, as Croatian does',
+      'Stay firm and polite using the conditional: Htio bih…',
+    ],
+  },
+  {
+    id: 'bureaucracy',
+    level: 'B1',
+    order: 24,
+    prerequisites: ['impersonal'],
+    objectives: [
+      'Get through a counter at the bank, the post office or the council',
+      'Name the documents you will be asked for, starting with the OIB',
+      'Read the impersonal wording official forms and notices are written in',
+    ],
+  },
+  {
+    id: 'renting-flat',
+    level: 'B1',
+    order: 25,
+    prerequisites: ['bureaucracy'],
+    objectives: [
+      'Read a rental advert and understand what it is actually offering',
+      'Know that rooms are counted without the kitchen and bathroom',
+      'Ask the questions that matter: režije, polog, ugovor',
+    ],
+  },
+  {
+    id: 'job-interview',
+    level: 'B1',
+    order: 26,
+    prerequisites: ['opinions-agreeing'],
+    objectives: [
+      'Write a Croatian CV and covering letter',
+      'Talk about your experience with the participle agreeing with you',
+      'Answer an interview question with a reason attached',
+    ],
+  },
+  {
+    id: 'media-news',
+    level: 'B1',
+    order: 27,
+    prerequisites: ['reported-speech'],
+    objectives: [
+      'Read a headline, which usually has no verb in it',
+      'Follow a report built almost entirely on reported speech',
+      'Mark a claim as second-hand with navodno',
+    ],
+  },
+  {
+    id: 'technology-internet',
+    level: 'B1',
+    order: 28,
+    prerequisites: ['media-news'],
+    objectives: [
+      'Handle everyday digital vocabulary in Croatian',
+      'Recognise the native words — računalo, preglednik, poveznica — and where they belong',
+      'Log in, download, save and share without reaching for English',
+    ],
+  },
+  {
+    id: 'environment-nature',
+    level: 'B1',
+    order: 29,
+    prerequisites: ['opinions-agreeing'],
+    objectives: [
+      'Describe the Croatian landscape, coast and islands',
+      'Tell the bura from the jugo, which matters on the coast',
+      'Discuss the environment: okoliš, onečišćenje, zaštititi',
+    ],
+  },
+  {
+    id: 'food-cooking',
+    level: 'B1',
+    order: 30,
+    prerequisites: ['impersonal'],
+    objectives: [
+      'Read a Croatian recipe, which is pure imperative and genitive',
+      'Name the regional dishes and know which half of the country they come from',
+      'Sit down to a Croatian table without missing the expected phrases',
     ],
   },
 
