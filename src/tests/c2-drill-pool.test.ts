@@ -23,7 +23,7 @@ const DRILLS = [
     id: 'preciznost',
     data: PRECISION_DRILL_DATA,
     modes: ['glagolske', 'nijanse', 'prijedlozi'],
-    category: 'idioms',
+    category: 'precision',
   },
 ] as const;
 

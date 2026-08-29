@@ -91,6 +91,39 @@ const PROGRAMME_DRILLS: {
   { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'B1' },
   { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
   { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
+  // ── C2 ────────────────────────────────────────────────────────────────────
+  // These eight are RETAGS, not new banks — the drill already existed and was
+  // already right. They belong in this table for exactly the reason the table
+  // exists: the pool tag is what `categoryForScreen` credits and what
+  // SKILL_GROUP keys on, and route-based clearing would mask a wrong one.
+  { screen: 'pravopis', category: 'orthography', lesson: 'pravopis-dvojbe', cefr: 'C2' },
+  {
+    screen: 'interpunkcija',
+    category: 'punctuation',
+    lesson: 'zarez-interpunkcija',
+    cefr: 'C2',
+  },
+  {
+    screen: 'administrativni',
+    category: 'admin-style',
+    lesson: 'administrativni-stil',
+    cefr: 'C2',
+  },
+  { screen: 'akademski', category: 'academic-style', lesson: 'znanstveni-stil', cefr: 'C2' },
+  {
+    screen: 'novinski',
+    category: 'journalistic-style',
+    lesson: 'publicisticki-stil',
+    cefr: 'C2',
+  },
+  {
+    screen: 'stilskefigure',
+    category: 'figures-of-speech',
+    lesson: 'stilske-figure',
+    cefr: 'C2',
+  },
+  { screen: 'lektor', category: 'editing', lesson: 'uredjivanje-teksta', cefr: 'C2' },
+  { screen: 'preciznost', category: 'precision', lesson: 'precizno-nijansiranje', cefr: 'C2' },
 ];
 
 /**

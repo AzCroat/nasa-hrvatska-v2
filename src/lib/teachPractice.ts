@@ -201,6 +201,20 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   impersonal: 'impersonal',
   'time-clauses': 'time-clauses',
   'cause-purpose': 'cause-purpose',
+  // C2 tranche 1 (2026-08-29). `precizno-nijansiranje` is the entry this file
+  // recorded as the near miss worth writing down: the `preciznost` drill IS
+  // precision of expression, but its pool entry was tagged `idioms`, so the
+  // mapping would have delivered the idiom drill instead of the one whose name
+  // matched. Retagging was called its own decision; this is that decision, and
+  // seven more of exactly the same shape.
+  'pravopis-dvojbe': 'orthography',
+  'zarez-interpunkcija': 'punctuation',
+  'administrativni-stil': 'admin-style',
+  'znanstveni-stil': 'academic-style',
+  'publicisticki-stil': 'journalistic-style',
+  'stilske-figure': 'figures-of-speech',
+  'uredjivanje-teksta': 'editing',
+  'precizno-nijansiranje': 'precision',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

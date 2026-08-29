@@ -78,14 +78,14 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Administrativni jezik',
     screen: 'administrativni',
     cefr: 'C2',
-    category: 'register',
+    category: 'admin-style',
   },
   {
     id: 'pravopis',
     label: 'Pravopis',
     screen: 'pravopis',
     cefr: 'C2',
-    category: 'register',
+    category: 'orthography',
   },
   {
     id: 'konektori',
@@ -199,14 +199,14 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Akademski stil',
     screen: 'akademski',
     cefr: 'C2',
-    category: 'nominalization',
+    category: 'academic-style',
   },
   {
     id: 'interpunkcija',
     label: 'Interpunkcija',
     screen: 'interpunkcija',
     cefr: 'C2',
-    category: 'register',
+    category: 'punctuation',
   },
   // C1 tranche 5 (2026-08-15): passive participle, infinitive vs da, aspect pairs.
   {
@@ -250,7 +250,7 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Lektorske zamke',
     screen: 'lektor',
     cefr: 'C2',
-    category: 'register',
+    category: 'editing',
   },
   // C1 tranche 6 (2026-08-15): concessives, pluperfect, quantifier pronouns.
   {
@@ -280,7 +280,7 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Novinski stil',
     screen: 'novinski',
     cefr: 'C2',
-    category: 'discourse',
+    category: 'journalistic-style',
   },
   {
     id: 'prenesena',
@@ -398,7 +398,7 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Stilske figure',
     screen: 'stilskefigure',
     cefr: 'C2',
-    category: 'discourse',
+    category: 'figures-of-speech',
   },
   {
     id: 'dopisi',

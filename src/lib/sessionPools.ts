@@ -429,7 +429,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     label: 'Preciznost izraza',
     screen: 'preciznost',
     cefr: 'C2',
-    category: 'idioms',
+    category: 'precision',
   },
   // ── Wave 1: session catchment expansion (2026-07 eligibility audit) ────────
   // Screens that already met the session contract (goBack+award props, bounded

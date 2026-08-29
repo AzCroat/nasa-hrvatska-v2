@@ -334,7 +334,22 @@ export type SkillCategory =
   | 'reported-speech'
   | 'impersonal'
   | 'time-clauses'
-  | 'cause-purpose';
+  | 'cause-purpose'
+  // Pool-only tags (practice programme, C2 tranche 1, 2026-08-29). C2's gap was
+  // neither missing drills nor CEFR gating — it was CATEGORY OVERLOADING. The
+  // C-level pool has sixteen entries tagged `register` alone, and a category
+  // routes to exactly ONE screen, so fifteen of them were unreachable through
+  // the coupling and any lesson mapped to `register` got the generic C1 drill
+  // instead of the specific one. Each of these splits one excellent existing
+  // drill out under its own tag. No new content; see practiceDrillEntries.
+  | 'orthography'
+  | 'punctuation'
+  | 'admin-style'
+  | 'academic-style'
+  | 'journalistic-style'
+  | 'figures-of-speech'
+  | 'editing'
+  | 'precision';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -342,7 +357,9 @@ export type SkillCategory =
 // 'demonstratives', 'having', 'imperative', 'possessives', 'questions',
 // 'place-prepositions', 'time', 'greetings', 'reflexive-possessive',
 // 'plural-cases', 'quantity', 'comparison', 'infinitive-da', 'reported-speech',
-// 'impersonal', 'time-clauses', 'cause-purpose') are valid SkillCategory tags used to label
+// 'impersonal', 'time-clauses', 'cause-purpose', 'orthography', 'punctuation',
+// 'admin-style', 'academic-style', 'journalistic-style', 'figures-of-speech',
+// 'editing', 'precision') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage
