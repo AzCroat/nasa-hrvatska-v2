@@ -83,6 +83,18 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   impersonal: 'bezlicnob1',
   'time-clauses': 'vrijemeklauze',
   'cause-purpose': 'uzrokb1',
+  // C2 tranche 1 (2026-08-29). No new drills — each of these routes to an
+  // EXISTING C2 screen that was already the right exercise and could not be
+  // reached, because its pool tag was one of the C-level catch-alls (`register`
+  // held sixteen entries) and a category routes to one screen only.
+  orthography: 'pravopis',
+  punctuation: 'interpunkcija',
+  'admin-style': 'administrativni',
+  'academic-style': 'akademski',
+  'journalistic-style': 'novinski',
+  'figures-of-speech': 'stilskefigure',
+  editing: 'lektor',
+  precision: 'preciznost',
   // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
   // pool entry now carries this category, so the route and the tag agree and
   // the coupling lands on RekcijaDrill rather than the locative drill.

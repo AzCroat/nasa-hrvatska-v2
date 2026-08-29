@@ -88,6 +88,22 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'time-clauses': 'syntax',
   'cause-purpose': 'syntax',
   impersonal: 'verb',
+  // C2 tranche 1 (2026-08-29). Every row here PRESERVES the group the entry
+  // already had through its old catch-all tag, so the P3 variety pass behaves
+  // byte-identically to before the retag — the same rule the `rekcija` retag
+  // followed. `academic-style` therefore stays in 'verb' (it inherited that from
+  // `nominalization`) and the two style drills stay in 'syntax' (from
+  // `discourse`), which reads oddly in isolation and is deliberate: changing a
+  // grouping and a tag in one commit would make a variety regression impossible
+  // to attribute. Regrouping them is a separate decision.
+  orthography: 'vocab',
+  punctuation: 'vocab',
+  'admin-style': 'vocab',
+  'academic-style': 'verb',
+  'journalistic-style': 'syntax',
+  'figures-of-speech': 'syntax',
+  editing: 'vocab',
+  precision: 'vocab',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',

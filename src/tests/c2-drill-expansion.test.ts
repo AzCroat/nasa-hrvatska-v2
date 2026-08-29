@@ -67,7 +67,7 @@ const DRILLS = [
     id: 'administrativni',
     data: ADMINISTRATIVNI_DRILL_DATA,
     modes: ['dekod', 'prevedi', 'sroci'],
-    category: 'register',
+    category: 'admin-style',
   },
   {
     id: 'sinonimija',
@@ -79,7 +79,7 @@ const DRILLS = [
     id: 'pravopis',
     data: PRAVOPIS_DRILL_DATA,
     modes: ['ijeje', 'sastavljeno', 'zarez'],
-    category: 'register',
+    category: 'orthography',
   },
   {
     id: 'konektori',
@@ -103,13 +103,13 @@ const DRILLS = [
     id: 'akademski',
     data: AKADEMSKI_DRILL_DATA,
     modes: ['nominalizacija', 'ograda', 'pasiv'],
-    category: 'nominalization',
+    category: 'academic-style',
   },
   {
     id: 'interpunkcija',
     data: INTERPUNKCIJA_DRILL_DATA,
     modes: ['crtica', 'dvotocje', 'navodnici'],
-    category: 'register',
+    category: 'punctuation',
   },
   {
     id: 'velikoslovo',
@@ -127,13 +127,13 @@ const DRILLS = [
     id: 'lektor',
     data: LEKTOR_DRILL_DATA,
     modes: ['leksik', 'oblici', 'rekcija'],
-    category: 'register',
+    category: 'editing',
   },
   {
     id: 'novinski',
     data: NOVINSKI_DRILL_DATA,
     modes: ['dekod', 'naslovi', 'stil'],
-    category: 'discourse',
+    category: 'journalistic-style',
   },
   {
     id: 'prenesena',
@@ -193,7 +193,7 @@ const DRILLS = [
     id: 'stilskefigure',
     data: STILSKE_FIGURE_DRILL_DATA,
     modes: ['citanje', 'prepoznaj', 'razlike'],
-    category: 'discourse',
+    category: 'figures-of-speech',
   },
   {
     id: 'dopisi',

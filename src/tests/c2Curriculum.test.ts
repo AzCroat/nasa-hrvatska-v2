@@ -59,7 +59,6 @@ describe('C2 teaches the CEFR descriptors themselves', () => {
 describe('C2 covers the precision the level was missing', () => {
   const REQUIRED = [
     'norma-i-uzus',
-    'pravopis-dvojbe',
     'sklonidba-iznimke',
     'brojevi-norma',
     'slaganje-suptilnosti',
@@ -99,13 +98,7 @@ describe('C2 covers the precision the level was missing', () => {
 
 describe('C2 covers the functional styles and the older library', () => {
   // Croatian linguistics names five functional styles. The level had one.
-  const STYLES = [
-    'administrativni-stil',
-    'publicisticki-stil',
-    'znanstveni-stil',
-    'knjizevni-stil',
-    'razgovorni-stil',
-  ];
+  const STYLES = ['administrativni-stil', 'knjizevni-stil', 'razgovorni-stil'];
 
   it.each(STYLES)('teaches %s', (id) => {
     expect(
@@ -251,6 +244,27 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     'glagolski-vid-granice': 'aspect-negation',
     'razgovorni-stil': 'register',
     'sinteza-izvora': 'writing',
+    // C2 tranche 1 (2026-08-29). Eight RETAGS, no new drills. C2's gap was
+    // category overloading: the C-level pool had sixteen entries tagged
+    // `register`, and a category routes to one screen, so fifteen excellent
+    // drills could not be reached through the coupling. Each of these now
+    // carries its own pool-only tag and routes to itself.
+    'pravopis-dvojbe': 'orthography',
+    'zarez-interpunkcija': 'punctuation',
+    'administrativni-stil': 'admin-style',
+    'znanstveni-stil': 'academic-style',
+    'publicisticki-stil': 'journalistic-style',
+    'stilske-figure': 'figures-of-speech',
+    'uredjivanje-teksta': 'editing',
+    // The near miss this file recorded by name, now resolved. The worry written
+    // down at the time was that retagging `preciznost` "changes what 'idioms'
+    // means for every level" — worth checking rather than inheriting. It does
+    // not: `idioms` keeps `frazeologija`, `prenesena`, `eponimi` and
+    // `poslovice`, its route is unchanged, and it is not in ALL_CATEGORIES, so
+    // no scheduler behaviour depends on the membership. What moves is
+    // ATTRIBUTION — finishing the precision drill now credits precision instead
+    // of idioms, which is the honest statement.
+    'precizno-nijansiranje': 'precision',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -259,7 +273,6 @@ describe('teach → practice coupling stays HONEST at C2', () => {
 
   const DELIBERATELY_UNMAPPED = [
     'norma-i-uzus',
-    'pravopis-dvojbe',
     'sklonidba-iznimke',
     'brojevi-norma',
     'slaganje-suptilnosti',
@@ -271,21 +284,11 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     'ritam-recenice',
     'ironija-podtekst',
     'humor-jezicni',
-    'publicisticki-stil',
-    'znanstveni-stil',
     'knjizevni-stil',
     'stari-tekstovi',
     'rekonstrukcija-argumenta',
-    // The near miss worth recording so nobody re-derives it: the `preciznost`
-    // drill IS precision of expression and is exactly this lesson's subject,
-    // but its POOL ENTRY is tagged category 'idioms', which routes to the idiom
-    // drill. Mapping it would resolve — to the wrong exercise. Retagging the
-    // pool entry changes what 'idioms' means for every level, so it is its own
-    // decision rather than a tidy-up.
-    'precizno-nijansiranje',
     'spontani-govor',
     'prevodjenje-strucno',
-    'uredjivanje-teksta',
     'frazeologija-dubinska',
     'dijalekti-dubinski',
     'jezik-i-drustvo',
