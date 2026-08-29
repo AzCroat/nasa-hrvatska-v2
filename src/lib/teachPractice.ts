@@ -207,6 +207,16 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // mapping would have delivered the idiom drill instead of the one whose name
   // matched. Retagging was called its own decision; this is that decision, and
   // seven more of exactly the same shape.
+  // B2 tranche 1 (2026-08-29). `degrees-intensity` deliberately does NOT map to
+  // `stupnjevanje` despite the close names: that drill builds comparatives,
+  // which the A2 `comparatives-a2` lesson already owns via `komparacija`. This
+  // lesson is about GRADING — sve + comparative, the intensifier register, and
+  // pre- meaning "too" — so pairing the two would be the wrong-drill mistake.
+  'i-declension': 'i-declension',
+  'verbal-adverbs': 'verbal-adverbs',
+  'negation-advanced': 'negation-advanced',
+  'aspect-with-verbs': 'aspect-verbs',
+  'degrees-intensity': 'intensity',
   'pravopis-dvojbe': 'orthography',
   'zarez-interpunkcija': 'punctuation',
   'administrativni-stil': 'admin-style',

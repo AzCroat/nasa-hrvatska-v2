@@ -124,6 +124,16 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'lektor', category: 'editing', lesson: 'uredjivanje-teksta', cefr: 'C2' },
   { screen: 'preciznost', category: 'precision', lesson: 'precizno-nijansiranje', cefr: 'C2' },
+  // ── B2 ────────────────────────────────────────────────────────────────────
+  { screen: 'prilozib2', category: 'verbal-adverbs', lesson: 'verbal-adverbs', cefr: 'B2' },
+  {
+    screen: 'negacijab2',
+    category: 'negation-advanced',
+    lesson: 'negation-advanced',
+    cefr: 'B2',
+  },
+  { screen: 'vidglagoli', category: 'aspect-verbs', lesson: 'aspect-with-verbs', cefr: 'B2' },
+  { screen: 'intenzitet', category: 'intensity', lesson: 'degrees-intensity', cefr: 'B2' },
 ];
 
 /**
@@ -143,7 +153,14 @@ const EASIER_ROUTE_DRILLS: {
   category: SkillCategory;
   lesson: string;
   cefr: string;
-}[] = [{ screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A2' }];
+}[] = [
+  { screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A2' },
+  // Same shape at B2, and a mis-tag fixed with it: `isklonidba` (C1) IS the
+  // i-declension paradigm — it was tagged `instrumental`, which is a case, not
+  // a declension class. It keeps the primary route; the B2 lesson gets a drill
+  // a B2 learner can actually open.
+  { screen: 'isklonidbab2', category: 'i-declension', lesson: 'i-declension', cefr: 'B2' },
+];
 
 describe('every programme drill is wired consistently', () => {
   it('has drills to check', () => {
@@ -218,6 +235,28 @@ describe('a drill wired as an easier route is wired completely', () => {
     expect(primary, `${d.category}'s primary route was overwritten by the easier one`).not.toBe(
       d.screen,
     );
+  });
+
+  it.each(EASIER_ROUTE_DRILLS)('the PRIMARY route for $category is tagged $category too', (d) => {
+    // Added 2026-08-29 after a mutation showed this file could not see the
+    // thing the B2 tranche actually changed: reverting the `isklonidba` retag
+    // (i-declension -> instrumental) left all 202 assertions passing, because
+    // every row above checks the EASIER screen's tag and nothing checked the
+    // primary's. A category served by two dedicated screens must be carried by
+    // both of them, or completing the primary credits the wrong category to the
+    // adaptive store — the exact failure the pool-tag block exists to catch.
+    //
+    // This is NOT the general "routed screen equals pool tag" rule, which is
+    // false for shared screens (`cloze` serves past-tense and conditional).
+    // These two categories are each served by two DEDICATED drills.
+    const primary = CATEGORY_SCREEN_MAP[d.category];
+    const entry = CEFR_EXERCISE_POOL.find((e) => e.screen === primary);
+    expect(entry, `${d.category}'s primary route ${primary} is not in the pool`).toBeTruthy();
+    expect(
+      entry!.category,
+      `${d.category} routes to ${primary} as its primary, but that entry is tagged ` +
+        `"${entry!.category}". Finishing it would credit the wrong category.`,
+    ).toBe(d.category);
   });
 
   it.each(EASIER_ROUTE_DRILLS)('$screen is in the pool at $cefr, tagged $category', (d) => {

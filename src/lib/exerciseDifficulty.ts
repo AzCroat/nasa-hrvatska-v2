@@ -39,6 +39,14 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   bezlicnob1: 4,
   vrijemeklauze: 4,
   uzrokb1: 4,
+  // B2 tranche 1: tier 4, same as the B1 banks. These ask for a governed
+  // choice — which aspect the front verb forces, what the negation scopes over
+  // — rather than a form built from a table.
+  isklonidbab2: 4,
+  prilozib2: 4,
+  negacijab2: 4,
+  vidglagoli: 4,
+  intenzitet: 4,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

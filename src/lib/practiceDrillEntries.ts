@@ -131,4 +131,47 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'cause-purpose',
   },
+  // ── B2 ────────────────────────────────────────────────────────────────────
+  // Tranche 1, and a fourth pattern again. At A2 and B1 the matching drill sat
+  // one or two levels ABOVE the lesson and could be rescued with an easier
+  // route; at C2 the drills were present but buried under overloaded tags. B2
+  // is the level where neither move works: `isklonidba` (C1), `gerunddrill`
+  // (C2), `zelje` (C1), `modalnost` (C2) and `prijedlozni` (C1) all sit above
+  // the lesson, and CATEGORY_EASIER_SCREEN only routes DOWNWARD — there was no
+  // lower drill to fall back to. So these five are authored.
+  {
+    id: 'isklonidbab2',
+    label: 'I-declension',
+    screen: 'isklonidbab2',
+    cefr: 'B2',
+    category: 'i-declension',
+  },
+  {
+    id: 'prilozib2',
+    label: 'Verbal adverbs',
+    screen: 'prilozib2',
+    cefr: 'B2',
+    category: 'verbal-adverbs',
+  },
+  {
+    id: 'negacijab2',
+    label: 'Advanced negation',
+    screen: 'negacijab2',
+    cefr: 'B2',
+    category: 'negation-advanced',
+  },
+  {
+    id: 'vidglagoli',
+    label: 'Aspect after verbs',
+    screen: 'vidglagoli',
+    cefr: 'B2',
+    category: 'aspect-verbs',
+  },
+  {
+    id: 'intenzitet',
+    label: 'Degrees & intensity',
+    screen: 'intenzitet',
+    cefr: 'B2',
+    category: 'intensity',
+  },
 ];

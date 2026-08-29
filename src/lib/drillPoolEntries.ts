@@ -309,7 +309,7 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'I-sklonidba',
     screen: 'isklonidba',
     cefr: 'C1',
-    category: 'instrumental',
+    category: 'i-declension',
   },
   {
     id: 'vrijemeizraz',

@@ -187,6 +187,23 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     'concession-contrast': 'subordination',
     'unreal-conditions': 'conditional',
     'formal-email': 'writing',
+    // Practice programme, B2 tranche 1 (2026-08-29). All five were in
+    // DELIBERATELY_UNMAPPED below for the honest reason, and B2 is where that
+    // reason bit hardest: the drill that matched each lesson sat at C1 or C2 —
+    // `isklonidba`, `gerunddrill`, `zelje`, `modalnost`, `prijedlozni` — and
+    // CATEGORY_EASIER_SCREEN only routes DOWNWARD, so unlike A2 and B1 there
+    // was nothing lower to fall back to. Authoring the B2 drill is the only way
+    // a lesson leaves that list here.
+    'i-declension': 'i-declension',
+    'verbal-adverbs': 'verbal-adverbs',
+    'negation-advanced': 'negation-advanced',
+    'aspect-with-verbs': 'aspect-verbs',
+    // NOT mapped to `stupnjevanje` despite the close names: that drill builds
+    // comparatives, which the A2 `comparatives-a2` lesson already owns via
+    // `komparacija`. This lesson grades what is already said — sve + comparative,
+    // the intensifier register, pre- meaning "too". Pairing the two would be the
+    // wrong-drill mistake this list exists to prevent.
+    'degrees-intensity': 'intensity',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -194,14 +211,9 @@ describe('teach → practice coupling stays HONEST at B2', () => {
   });
 
   const DELIBERATELY_UNMAPPED = [
-    'i-declension',
-    'aspect-with-verbs',
-    'verbal-adverbs',
     'wishes-regrets',
     'modal-nuance',
     'prepositions-advanced',
-    'degrees-intensity',
-    'negation-advanced',
     'argument-structure',
     'hedging-precision',
     'presentations',

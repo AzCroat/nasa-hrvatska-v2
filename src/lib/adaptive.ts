@@ -349,7 +349,18 @@ export type SkillCategory =
   | 'journalistic-style'
   | 'figures-of-speech'
   | 'editing'
-  | 'precision';
+  | 'precision'
+  // Pool-only tags (practice programme, B2 tranche 1, 2026-08-29). A FOURTH
+  // pattern: at B2 the drill that matched usually sat at C1/C2 — ABOVE the
+  // lesson — and CATEGORY_EASIER_SCREEN only routes downward, so unlike A2/B1
+  // there was no lower drill to fall back to. These five are authored.
+  // `i-declension` is the exception and carries both: the C1 `isklonidba` as
+  // the primary route and the new B2 bank as the easier one.
+  | 'i-declension'
+  | 'verbal-adverbs'
+  | 'negation-advanced'
+  | 'aspect-verbs'
+  | 'intensity';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -359,7 +370,8 @@ export type SkillCategory =
 // 'plural-cases', 'quantity', 'comparison', 'infinitive-da', 'reported-speech',
 // 'impersonal', 'time-clauses', 'cause-purpose', 'orthography', 'punctuation',
 // 'admin-style', 'academic-style', 'journalistic-style', 'figures-of-speech',
-// 'editing', 'precision') are valid SkillCategory tags used to label
+// 'editing', 'precision', 'i-declension', 'verbal-adverbs', 'negation-advanced',
+// 'aspect-verbs', 'intensity') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage
