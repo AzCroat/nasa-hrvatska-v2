@@ -149,6 +149,16 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // moj/moja/moje agreement. It was tagged 'nominative', so the lesson could
     // not be coupled to the drill written for it. Retagged 2026-08-29.
     possessives: 'possessives',
+    // A1 tranche 3 (2026-08-29): the last four A1 lessons whose subject is a
+    // RULE rather than a topic. `basic-questions` is the second of the two
+    // lessons CLAUDE.md named explicitly as unmapped for want of a drill, so
+    // both are now served. `time-calendar` did not get the existing `datumi`
+    // drill — that one is C1 and is about declining ordinals, which is a
+    // different skill from reading a clock.
+    'basic-questions': 'questions',
+    'prepositions-place': 'place-prepositions',
+    'time-calendar': 'time',
+    'greetings-farewells': 'greetings',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -168,6 +178,17 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     'food-drink',
     'directions-town',
     'weather-seasons',
+    // `alphabet` is NOT topical — AlphabetScreen exists, is A1, and its quiz is
+    // exactly what the lesson teaches. It stays unmapped for a different and
+    // more interesting reason: that screen awards directly and never calls
+    // `completeExercise`, which is the only thing that reaches
+    // `recordScreenPractised`. A coupling to it would resolve, send the learner
+    // there, and then never clear — squatting a session slot for the queue
+    // entry's full 14-day TTL. Mapping it requires routing its completion
+    // through completeExercise first, which is a change to a live screen's
+    // award path and belongs to its own decision. See
+    // `couplingClearingPath.test.ts`, which is what found this.
+    'alphabet',
   ];
 
   it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {

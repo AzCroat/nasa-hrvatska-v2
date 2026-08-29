@@ -173,6 +173,15 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'imati-nemati': 'having',
   'imperative-basic': 'imperative',
   possessives: 'possessives',
+  // A1 tranche 3 (2026-08-29). `basic-questions` is one of the two lessons this
+  // file has named for months as unmapped "because no drill teaches exactly
+  // those" — that was true until the drill was written. `greetings-farewells`
+  // looks like the topical block and is not: which greeting you use is decided
+  // by the hour and by the relationship, which is a rule a drill can test.
+  'basic-questions': 'questions',
+  'prepositions-place': 'place-prepositions',
+  'time-calendar': 'time',
+  'greetings-farewells': 'greetings',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

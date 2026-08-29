@@ -328,6 +328,48 @@ pedagogy. Design: `docs/curriculum-design.md`.
   assertion in the file — one of which, `tenses`, was among the 18.
   `c1Curriculum.test.ts` additionally pins the rekcija POOL TAG, which
   route-clearing would otherwise mask.
+- **The practice programme (2026-08-29)**: the mirror of the curriculum gap.
+  With 180 lessons shipped, **117 of them teach something the app never drills**
+  — not a broken mapping, no drill at all. A drill is now a DATA BANK in
+  `src/data/drills/` plus a ~12-line lazy wrapper over `ModeDrill`
+  (`src/components/practice/ModeDrill.tsx`), because the 75 hand-written drills
+  are the same ~400-line component and paying that per drill would make the
+  content the small part of the work. The wrapper must stay lazy — a static bank
+  import into `AppRouter` puts `src/data` on the first-paint path and
+  `firstPaintGraph.test.ts` fails. The 75 existing drills are deliberately NOT
+  converted. Each new drill needs: bank + wrapper + `AppRouter` route +
+  `PRACTICE_PROGRAMME_ENTRIES` + `CATEGORY_SCREEN_MAP` + `LESSON_TAUGHT_CATEGORY`
+  + `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
+  and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
+  the thing route-based clearing masks). A1 is at 23 coupled of 30 after
+  tranche 3. Of the seven left, six are the topical block, which needs
+  topic-specific vocabulary drills rather than grammar drills; the seventh is
+  `alphabet`, blocked on the clearing path below rather than on content.
+- **A ROUTED SCREEN MUST BE ABLE TO CLEAR THE COUPLING** (2026-08-29). Third
+  break in the same mechanism, in a third place, with the two suites guarding
+  the previous two fully green: (1) no route → `curriculumCouplingResolves`;
+  (2) route resolves but clearing was tag-only → route-clearing; (3) **the
+  SCREEN itself never calls the clearing path.** The round-trip suite calls
+  `recordScreenPractised` directly — the right way to test the queue, and it
+  says nothing about whether the screen the learner lands on ever calls it.
+  `couplingClearingPath.test.ts` walks the REAL router and the REAL import
+  graph and found **three live dead ends on its first run**: `writing_guided`
+  (grades against the /api/correct rubric and awards from the score, so it never
+  touched `completeExercise` — the route for B2 `formal-email` and C1 academic
+  writing), `relpron` (awards per answer and credits `gc` itself — the B1
+  relative-clause route via `CATEGORY_EASIER_SCREEN`), and `idioms`. The first
+  two are fixed with one `recordScreenPractised` call at their genuine
+  completion point — NOT by converting them to `completeExercise`, which would
+  change a live screen's XP semantics for no gain here. **`idioms` is exempted
+  and is the real one**: `IdiomsScreen` is a reference list — tap to hear — with
+  no quiz, no score and no completion at all, so the C1 `idioms-register` lesson
+  queues a category that resolves to a screen the learner can never finish. It
+  needs an idiom DRILL at C1 (`frazeologija` exists but is C2, hence CEFR-locked
+  for exactly those learners), not a call. The exemption set carries a test that
+  every listed entry genuinely still fails, so it cannot go stale — it caught
+  its own `relpron` entry going stale within the same session.
+  NEVER: route a category to a screen without checking the screen can complete;
+  add an exemption without the reason; assume reachability implies clearing.
 - **The C1 `discourse` mapping is still unavailable, and that one is real.** The
   drill covers CONNECTORS (stoga, međutim, unatoč tome) while
   `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
@@ -969,6 +1011,7 @@ and in every case the suite was fully green beforehand:
 | That same suite, after the clearing fix | Round-trips every mapping end to end | `MAPPED` filters on the spine, so the dedicated lesson SCREENS were outside every assertion in the file. One of them, `tenses`, was the 18th broken coupling. |
 | The round-trip block itself | Records the lesson, finishes the drill, asserts cleared | It clears using the SCREEN the builder returned. `GenderDrillScreen` fires key `'gender'`, not `'genderdrill'` — so the real completion path was untested and worked only by a fallback nobody had asserted. |
 | `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
+| The whole coupling suite, after BOTH fixes | Resolution and clearing both round-tripped through the real builder | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`). |
 
 The pattern is always the same, and it is worth naming because it is invisible
 from the outside: **a guard that covers most of a thing reads exactly like a

@@ -307,12 +307,22 @@ export type SkillCategory =
   | 'having'
   | 'imperative'
   // Retagged existing A1 drill (`possess`) — see sessionPools.
-  | 'possessives';
+  | 'possessives'
+  // Pool-only tags (practice programme, A1 tranche 3, 2026-08-29). Same rule
+  // again: each was authored for one A1 lesson that led nowhere, and none is in
+  // ALL_CATEGORIES. `time` deliberately does not reuse 'numerals', which routes
+  // to the C1 dates drill — telling the time at A1 and declining ordinals at C1
+  // are not the same practice.
+  | 'questions'
+  | 'place-prepositions'
+  | 'time'
+  | 'greetings';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
 // 'nominalization', 'verb-government', 'gender', 'plural', 'negation', 'adjectives',
-// 'demonstratives', 'having', 'imperative', 'possessives') are valid SkillCategory tags used to label
+// 'demonstratives', 'having', 'imperative', 'possessives', 'questions',
+// 'place-prepositions', 'time', 'greetings') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

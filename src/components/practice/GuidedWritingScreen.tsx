@@ -25,6 +25,7 @@ import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { _aiPost } from '../../lib/aiPost';
 import { logError } from '../../lib/learnerErrors.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { recordScreenPractised } from '../../lib/teachPractice';
 import { addWordToSRS } from '../../lib/srs.js';
 import { recordMasteryEvent } from '../../lib/masteryLedger';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
@@ -219,6 +220,15 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       if (!mountedRef.current) return;
       setResult(data);
       signalSessionCompleteIfActive('writing_guided');
+      // Clear the teach → practice coupling (2026-08-29). This screen does not
+      // go through completeExercise — it grades against the /api/correct rubric
+      // and awards from the score — so it was silently missing the ONE call
+      // that discharges the queue. The B2 `formal-email` and C1 academic-writing
+      // lessons queue `writing`, which routes here; without this the learner did
+      // the writing and the entry sat re-claiming a session slot for 14 days.
+      // Only on the GRADED finish: the AI-failure and exit paths below are not
+      // practice. Found by couplingClearingPath.test.ts.
+      recordScreenPractised('writing_guided');
       if (typeof data.score === 'number') {
         // Graded free production at the UNIT's level — strong written evidence,
         // same weight WritingScreen uses.

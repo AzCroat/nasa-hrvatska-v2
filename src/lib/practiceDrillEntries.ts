@@ -36,4 +36,25 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     category: 'having',
   },
   { id: 'imperativ', label: 'Imperative', screen: 'imperativ', cefr: 'A1', category: 'imperative' },
+  // Tranche 3: the four remaining A1 lessons whose subject is a RULE rather
+  // than a topic. `vrijemea1` is deliberately separate from the existing
+  // `datumi` drill, which is C1 (ordinal declension, dates in the genitive) and
+  // so is neither reachable nor useful to a learner who has just met the days
+  // of the week.
+  { id: 'upitne', label: 'Questions', screen: 'upitne', cefr: 'A1', category: 'questions' },
+  {
+    id: 'mjesto',
+    label: 'Place prepositions',
+    screen: 'mjesto',
+    cefr: 'A1',
+    category: 'place-prepositions',
+  },
+  {
+    id: 'vrijemea1',
+    label: 'Time & calendar',
+    screen: 'vrijemea1',
+    cefr: 'A1',
+    category: 'time',
+  },
+  { id: 'pozdravi', label: 'Greetings', screen: 'pozdravi', cefr: 'A1', category: 'greetings' },
 ];

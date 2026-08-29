@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { H, speak, sh, shMemo } from '../../../data';
 import { RELPRON } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
+import { recordScreenPractised } from '../../../lib/teachPractice';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -35,6 +36,16 @@ function RelativePronounsScreen({ goBack, award }: Props) {
     }
 
     if (handledRef.current.size >= questions.length) {
+      // Clear the teach → practice coupling (2026-08-29). This screen awards per
+      // correct answer and credits `gc` itself rather than going through
+      // completeExercise, so it never reached recordScreenPractised — and it is
+      // CATEGORY_EASIER_SCREEN.subordination, the route the B1 relative-clause
+      // lesson depends on. The coupling resolved, sent the learner here, and
+      // never cleared. Adding the one call fixes that without touching the award
+      // path; converting the whole screen to completeExercise would change its
+      // XP semantics and is a separate decision. Found by
+      // couplingClearingPath.test.ts.
+      recordScreenPractised('relpron');
       markQuest('grammar');
       setStats((s) => ({ ...s, gc: s.gc + 1 }));
       writeDelta({ gc: 1 });
