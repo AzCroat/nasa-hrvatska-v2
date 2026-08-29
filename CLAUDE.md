@@ -345,7 +345,7 @@ pedagogy. Design: `docs/curriculum-design.md`.
   tranche 3. Of the seven left, six are the topical block, which needs
   topic-specific vocabulary drills rather than grammar drills; the seventh is
   `alphabet`, blocked on the clearing path below rather than on content.
-  Coupled per level after the A2 tranche: A1 23, **A2 13**, B1 13, B2 10,
+  Coupled per level after the B1 tranche: A1 23, A2 13, **B1 18**, B2 10,
   C1 12, C2 5 — all of 30.
 - **A2's hole was the A1 verb hole one level up (2026-08-29).** Four of the five
   A2 lessons drilled in that tranche already had a drill teaching exactly the
@@ -365,6 +365,20 @@ pedagogy. Design: `docs/curriculum-design.md`.
   justification as `present-tense → presentdrill`; `practiceProgrammeDrills`
   holds it in its own block, asserting the easier route exists AND that the B2
   primary route survives.
+- **B1 was the same finding with a collision on top (2026-08-29).** All five
+  lessons in the B1 tranche already had a drill — `infinitivda` (C1),
+  `neizravni` (B2), `bezlicne` (B2), `vremenske` (B2), `uzrocne` (B2) — but the
+  CEFR gate was only half of it: four of those five carry a category that is
+  ALREADY ROUTED SOMEWHERE ELSE, and three of them share `subordination`, whose
+  easier route is `relpron`. Reusing the tags would have sent three different B1
+  lessons to one screen, and `reported-speech` — which this file had recorded by
+  name as "wrong drill, so no drill" — to relative pronouns. Each new drill got
+  its own pool-only category instead, so nothing is shared or displaced and the
+  B2/C1 drills are untouched. **A drill existing at a higher level is not enough:
+  check what CATEGORY it carries and whether that category is already spoken
+  for.** `b1Curriculum.test.ts` now pins the collision explicitly — the three
+  lessons must not resolve to `subordination`, and `subordination`'s easier route
+  must stay `relpron`.
 - **A ROUTED SCREEN MUST BE ABLE TO CLEAR THE COUPLING** (2026-08-29). Third
   break in the same mechanism, in a third place, with the two suites guarding
   the previous two fully green: (1) no route → `curriculumCouplingResolves`;

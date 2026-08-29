@@ -191,6 +191,16 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'plural-cases': 'plural-cases',
   quantity: 'quantity',
   'comparatives-a2': 'comparison',
+  // B1 tranche 1 (2026-08-29). `reported-speech` is the entry this file recorded
+  // as the notable one — the pool HAS a reported-speech drill, but it is B2 and
+  // the easier route for its category was taken by `relpron`, so mapping it
+  // would have sent a B1 learner to relative pronouns. Each of these now has its
+  // own category and its own B1 drill, so nothing is shared or displaced.
+  'infinitive-vs-da': 'infinitive-da',
+  'reported-speech': 'reported-speech',
+  impersonal: 'impersonal',
+  'time-clauses': 'time-clauses',
+  'cause-purpose': 'cause-purpose',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

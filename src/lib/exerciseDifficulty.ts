@@ -32,6 +32,13 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   mnozinapadezi: 3,
   kolicinaa2: 3,
   komparacija: 3,
+  // B1 tranche 1: tier 4. These are clause-level choices — which connector,
+  // which subject, whether the tense moves — not a single form to build.
+  infda: 4,
+  prepricavanje: 4,
+  bezlicnob1: 4,
+  vrijemeklauze: 4,
+  uzrokb1: 4,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

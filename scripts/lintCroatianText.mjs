@@ -104,6 +104,11 @@ const TARGETS = [
   'src/data/drills/pluralCasesDrill.ts',
   'src/data/drills/quantityDrill.ts',
   'src/data/drills/comparisonDrill.ts',
+  'src/data/drills/infinitiveDaDrill.ts',
+  'src/data/drills/reportedSpeechDrill.ts',
+  'src/data/drills/impersonalDrill.ts',
+  'src/data/drills/timeClausesDrill.ts',
+  'src/data/drills/causePurposeDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

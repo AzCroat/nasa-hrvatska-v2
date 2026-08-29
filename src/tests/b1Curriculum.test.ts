@@ -18,6 +18,7 @@ const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
+const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
@@ -157,30 +158,46 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     'verb-prefixes': 'aspect-perfective',
     'telling-a-story': 'past-tense',
     'relative-deep': 'subordination',
+    // Practice programme, B1 tranche 1 (2026-08-29). All five were in
+    // DELIBERATELY_UNMAPPED below, and for a sharper reason than "no drill
+    // exists": each HAD a drill at B2/C1 carrying a category that was already
+    // routed somewhere else. Three of them shared `subordination`, so mapping
+    // them as they stood would have sent three different lessons to one screen.
+    // Each now has its own pool-only category and its own B1 drill.
+    'infinitive-vs-da': 'infinitive-da',
+    'reported-speech': 'reported-speech',
+    impersonal: 'impersonal',
+    'time-clauses': 'time-clauses',
+    'cause-purpose': 'cause-purpose',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  it('reported-speech is NOT mapped, though a drill for it exists', () => {
-    // `neizravni` (Neizravni govor) is exactly the right drill and it is B2. The
-    // easier route for the subordination category is already spent on `relpron`,
-    // which teaches relative pronouns — so mapping this lesson would send a B1
-    // learner to a relative-pronoun drill straight after a lesson on reporting
-    // what people said. Wrong drill, so no drill. If a B1 reported-speech drill
-    // ever ships, move it into EXPECTED.
-    expect(LESSON_TAUGHT_CATEGORY['reported-speech']).toBeUndefined();
+  it('reported-speech got its own category rather than borrowing subordination', () => {
+    // The trap this replaces, and why the fix is not simply "map it": `neizravni`
+    // is the right drill and it is B2, while the easier route for
+    // `subordination` was already spent on `relpron` — so mapping the lesson to
+    // that category would have sent a B1 learner to a relative-pronoun drill
+    // straight after a lesson on reporting what people said. Two other B1
+    // lessons (`time-clauses`, `cause-purpose`) sat behind the same category, so
+    // the collision was threefold. Each got its own pool-only category instead,
+    // which is what makes all three resolvable at once.
+    expect(LESSON_TAUGHT_CATEGORY['reported-speech']).toBe('reported-speech');
+    expect(CATEGORY_SCREEN_MAP['reported-speech']).toBe('prepricavanje');
+    // The B2 drill and the B1 route must stay distinct; collapsing them would
+    // reintroduce the collision from the other direction.
+    expect(CATEGORY_EASIER_SCREEN['subordination']).toBe('relpron');
+    for (const c of ['reported-speech', 'time-clauses', 'cause-purpose'] as const) {
+      expect(LESSON_TAUGHT_CATEGORY[c]).not.toBe('subordination');
+    }
   });
 
   const DELIBERATELY_UNMAPPED = [
     'time-duration',
     'position-placement',
-    'infinitive-vs-da',
-    'impersonal',
-    'time-clauses',
     'real-conditions',
-    'cause-purpose',
     'opinions-agreeing',
     'complaints-problems',
     'bureaucracy',
