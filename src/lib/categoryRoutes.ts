@@ -61,6 +61,13 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   imperative: 'imperativ',
   // Existing A1 drill, retagged 2026-08-29 (it was 'nominative').
   possessives: 'possess',
+  // A1 tranche 3 (2026-08-29). `time` routes to the A1 clock-and-calendar
+  // drill, NOT to `numtime`/`datumi` — the `numerals` category already owns
+  // those and they are about counting and ordinal declension.
+  questions: 'upitne',
+  'place-prepositions': 'mjesto',
+  time: 'vrijemea1',
+  greetings: 'pozdravi',
   // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
   // pool entry now carries this category, so the route and the tag agree and
   // the coupling lands on RekcijaDrill rather than the locative drill.

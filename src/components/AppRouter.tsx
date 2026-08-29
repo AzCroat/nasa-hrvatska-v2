@@ -228,6 +228,12 @@ const AdjectivesDrill = lazyWithReload(() => import('./practice/drills/Adjective
 const DemonstrativesDrill = lazyWithReload(() => import('./practice/drills/DemonstrativesDrill'));
 const ImatiDrill = lazyWithReload(() => import('./practice/drills/ImatiDrill'));
 const ImperativeA1Drill = lazyWithReload(() => import('./practice/drills/ImperativeA1Drill'));
+const QuestionsDrill = lazyWithReload(() => import('./practice/drills/QuestionsDrill'));
+const PlacePrepositionsDrill = lazyWithReload(
+  () => import('./practice/drills/PlacePrepositionsDrill'),
+);
+const TimeCalendarDrill = lazyWithReload(() => import('./practice/drills/TimeCalendarDrill'));
+const GreetingsDrill = lazyWithReload(() => import('./practice/drills/GreetingsDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2124,6 +2130,26 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'imperativ' && (
           <ScreenErrorBoundary key="imperativ" name="imperativ">
             <ImperativeA1Drill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'upitne' && (
+          <ScreenErrorBoundary key="upitne" name="upitne">
+            <QuestionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'mjesto' && (
+          <ScreenErrorBoundary key="mjesto" name="mjesto">
+            <PlacePrepositionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'vrijemea1' && (
+          <ScreenErrorBoundary key="vrijemea1" name="vrijemea1">
+            <TimeCalendarDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pozdravi' && (
+          <ScreenErrorBoundary key="pozdravi" name="pozdravi">
+            <GreetingsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

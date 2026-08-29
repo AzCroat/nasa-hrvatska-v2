@@ -95,6 +95,10 @@ const TARGETS = [
   'src/data/drills/demonstrativesDrill.ts',
   'src/data/drills/imatiDrill.ts',
   'src/data/drills/imperativeDrill.ts',
+  'src/data/drills/questionsDrill.ts',
+  'src/data/drills/placePrepositionsDrill.ts',
+  'src/data/drills/timeCalendarDrill.ts',
+  'src/data/drills/greetingsDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

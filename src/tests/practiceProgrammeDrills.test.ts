@@ -61,6 +61,15 @@ const PROGRAMME_DRILLS: {
   { screen: 'imatidrill', category: 'having', lesson: 'imati-nemati', cefr: 'A1' },
   { screen: 'imperativ', category: 'imperative', lesson: 'imperative-basic', cefr: 'A1' },
   { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
+  { screen: 'upitne', category: 'questions', lesson: 'basic-questions', cefr: 'A1' },
+  {
+    screen: 'mjesto',
+    category: 'place-prepositions',
+    lesson: 'prepositions-place',
+    cefr: 'A1',
+  },
+  { screen: 'vrijemea1', category: 'time', lesson: 'time-calendar', cefr: 'A1' },
+  { screen: 'pozdravi', category: 'greetings', lesson: 'greetings-farewells', cefr: 'A1' },
 ];
 
 describe('every programme drill is wired consistently', () => {

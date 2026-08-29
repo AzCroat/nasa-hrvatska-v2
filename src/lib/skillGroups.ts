@@ -55,6 +55,19 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   negation: 'verb',
   imperative: 'verb',
   having: 'verb',
+  // A1 tranche 3 (2026-08-29). `questions` is sentence construction — li
+  // placement and question-word order — so it groups with word-order and the
+  // clitics, not with vocabulary. `place-prepositions` is a case choice
+  // (locative vs accusative vs genitive) and groups with the cases for exactly
+  // the reason `verb-government` does. `greetings` is the one genuinely lexical
+  // member of this tranche. `time` covers the clock, the days and the months —
+  // a closed vocabulary set with one counting rule attached, and grouping it as
+  // 'case' would let it sit beside three case drills in a session, which is the
+  // monotony the variety pass exists to stop.
+  questions: 'syntax',
+  'place-prepositions': 'case',
+  time: 'vocab',
+  greetings: 'vocab',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',
