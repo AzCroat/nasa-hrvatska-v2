@@ -101,6 +101,18 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // (wrong) `instrumental` tag, so the variety pass is unchanged by the retag.
   // The three verb-side categories group as verbs; `intensity` is adverbial
   // grading and sits with vocab.
+  // C1 tranche 1 (2026-08-29). The two RETAGS preserve the group their old
+  // catch-all tag gave them, so the P3 variety pass is unchanged: `collocations`
+  // stays in 'vocab' (from register) and `prosody` in 'speaking'. Of the four
+  // authored, `advanced-comparison` is case government and groups with the
+  // cases; `word-formation` and `diminutives` are lexical; `summarising` is
+  // structural rewriting and sits with syntax.
+  collocations: 'vocab',
+  prosody: 'speaking',
+  'advanced-comparison': 'case',
+  'word-formation': 'vocab',
+  diminutives: 'vocab',
+  summarising: 'syntax',
   'i-declension': 'case',
   'verbal-adverbs': 'verb',
   'negation-advanced': 'verb',

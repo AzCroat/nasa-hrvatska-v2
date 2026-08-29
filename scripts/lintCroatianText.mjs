@@ -114,6 +114,10 @@ const TARGETS = [
   'src/data/drills/negationAdvancedDrill.ts',
   'src/data/drills/aspectVerbsDrill.ts',
   'src/data/drills/intensityDrill.ts',
+  'src/data/drills/advancedComparisonDrill.ts',
+  'src/data/drills/wordFormationDrill.ts',
+  'src/data/drills/diminutivesC1Drill.ts',
+  'src/data/drills/summarisingDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

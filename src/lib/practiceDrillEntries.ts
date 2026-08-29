@@ -174,4 +174,40 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'intensity',
   },
+  // ── C1 ────────────────────────────────────────────────────────────────────
+  // Tranche 1, and the only level where the survey's first answer was wrong in
+  // BOTH directions. Two C1 drills were reachable and merely buried under a
+  // catch-all tag, so they are retags (`kolokacije`, `pitchaccent`). Two more
+  // looked like retags and are not: `stupnjevanje` (B2) builds comparatives,
+  // which is not what `comparison-advanced` teaches, and the B1 `diminutives`
+  // screen carries no augmentative content while half the lesson is
+  // augmentatives. `tvorbarijeci` is the plain C2 gate. So four are authored.
+  {
+    id: 'usporedbec1',
+    label: 'Advanced comparison',
+    screen: 'usporedbec1',
+    cefr: 'C1',
+    category: 'advanced-comparison',
+  },
+  {
+    id: 'tvorbac1',
+    label: 'Word formation',
+    screen: 'tvorbac1',
+    cefr: 'C1',
+    category: 'word-formation',
+  },
+  {
+    id: 'deminutivi',
+    label: 'Diminutives & augmentatives',
+    screen: 'deminutivi',
+    cefr: 'C1',
+    category: 'diminutives',
+  },
+  {
+    id: 'sazimanje',
+    label: 'Summarising & paraphrase',
+    screen: 'sazimanje',
+    cefr: 'C1',
+    category: 'summarising',
+  },
 ];

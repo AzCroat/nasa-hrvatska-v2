@@ -134,6 +134,29 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'vidglagoli', category: 'aspect-verbs', lesson: 'aspect-with-verbs', cefr: 'B2' },
   { screen: 'intenzitet', category: 'intensity', lesson: 'degrees-intensity', cefr: 'B2' },
+  // ── C1 ────────────────────────────────────────────────────────────────────
+  // The first two are RETAGS of existing C1 drills; the rest are authored.
+  { screen: 'kolokacije', category: 'collocations', lesson: 'collocations', cefr: 'C1' },
+  { screen: 'pitchaccent', category: 'prosody', lesson: 'accent-prosody', cefr: 'C1' },
+  {
+    screen: 'usporedbec1',
+    category: 'advanced-comparison',
+    lesson: 'comparison-advanced',
+    cefr: 'C1',
+  },
+  { screen: 'tvorbac1', category: 'word-formation', lesson: 'tvorba-rijeci', cefr: 'C1' },
+  {
+    screen: 'deminutivi',
+    category: 'diminutives',
+    lesson: 'diminutives-augmentatives',
+    cefr: 'C1',
+  },
+  {
+    screen: 'sazimanje',
+    category: 'summarising',
+    lesson: 'summarising-paraphrase',
+    cefr: 'C1',
+  },
 ];
 
 /**

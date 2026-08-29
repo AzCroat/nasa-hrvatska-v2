@@ -47,6 +47,12 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   negacijab2: 4,
   vidglagoli: 4,
   intenzitet: 4,
+  // C1 tranche 1: tier 5, matching the other C-level drills. These ask for a
+  // register or a structural judgement, not a form.
+  usporedbec1: 5,
+  tvorbac1: 5,
+  deminutivi: 5,
+  sazimanje: 5,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

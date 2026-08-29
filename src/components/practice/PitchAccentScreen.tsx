@@ -3,6 +3,7 @@ import { H, Bar, Spk } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
 import { markQuest } from '../../lib/quests.js';
+import { recordScreenPractised } from '../../lib/teachPractice';
 
 interface PitchAccentItem {
   hr: string;
@@ -137,6 +138,15 @@ export default function PitchAccentScreen({
                 if (finishFired.current) return;
                 finishFired.current = true;
                 if (typeof award === 'function') award(score * 5 + 5, false, 'grammar');
+                // Clear the teach → practice coupling (2026-08-29). This screen
+                // awards from its own score and credits `vs` itself rather than
+                // going through completeExercise, so it never reached
+                // recordScreenPractised — the third screen found in this state,
+                // after writing_guided and relpron. It is the route for the C1
+                // `accent-prosody` lesson, which without this would resolve, send
+                // the learner here, and never clear. One call at the genuine
+                // completion point; the award path is deliberately untouched.
+                recordScreenPractised('pitchaccent');
                 markQuest('grammar');
                 // vs key MUST be 'pitchaccent' (no hyphen) to satisfy this node's
                 // ckRule (lp50: vsIncludes 'pitchaccent'). The old 'pitch-accent'
