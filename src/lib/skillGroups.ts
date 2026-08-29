@@ -39,6 +39,9 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'vocab-a2': 'vocab',
   'vocab-b1': 'vocab',
   'vocab-b2': 'vocab',
+  // Kept in 'vocab', which is where genderdrill already grouped via its old
+  // 'vocab-a2' tag — so the P3 variety pass behaves exactly as before.
+  gender: 'vocab',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',

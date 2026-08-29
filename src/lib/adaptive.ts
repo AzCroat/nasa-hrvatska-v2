@@ -286,11 +286,18 @@ export type SkillCategory =
   // lesson unmappable: the coupling would have resolved to the wrong
   // exercise. Retagging is the fix, and it is deliberately pool-only — see
   // the note below — so the adaptive picker is unaffected.
-  | 'verb-government';
+  | 'verb-government'
+  // Pool-only tag (2026-08-28, owner decision): NOUN GENDER. `genderdrill` is
+  // an A1 drill that was tagged 'vocab-a2', a category routed to `znam` (A2) —
+  // so the A1 `gender` lesson's coupling resolved to a screen its own learners
+  // could not open. The alternative fix, an easier route for 'vocab-a2', would
+  // have changed what the adaptive picker serves every A1 learner; this one is
+  // pool-only, so it does not.
+  | 'gender';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
-// 'nominalization', 'verb-government') are valid SkillCategory tags used to label
+// 'nominalization', 'verb-government', 'gender') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage
