@@ -42,6 +42,10 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // Kept in 'vocab', which is where genderdrill already grouped via its old
   // 'vocab-a2' tag — so the P3 variety pass behaves exactly as before.
   gender: 'vocab',
+  // Plural formation is noun morphology, so it varies against the cases rather
+  // than against vocabulary — a session serving a plural drill beside three
+  // case drills is the monotony the variety pass exists to prevent.
+  plural: 'case',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',

@@ -953,6 +953,46 @@ Before committing any change:
 - If uncertain about correctness, ask before committing — not after breaking CI.
 - Do not use an apology as a substitute for the verification that should have happened upfront.
 
+### MUTATION-TEST THE GUARD, OR YOU DO NOT KNOW IT GUARDS ANYTHING
+
+**A passing test suite is not evidence that a guard works. Break the thing the
+guard protects and watch it fail. If it stays green, the guard is decorative.**
+
+This is not a general principle someone thought sounded good — it is the single
+technique that found every systemic defect in the 2026-08-26→29 curriculum work,
+and in every case the suite was fully green beforehand:
+
+| The guard | What it looked like | What it actually covered |
+| --------- | ------------------- | ------------------------ |
+| `lintCroatianText.mjs` on `lessons.js` | A lesson file listed in TARGETS for months | `CRO_FIELD_RE` never matched a `rows` array. **Every table cell in every lesson was unscanned** — and a table is where a lesson keeps most of its vocabulary. Found by injecting `hleb` into a cell and watching the lint pass. |
+| `curriculumCouplingResolves.test.ts` | Walks the REAL session builder; caught 10 dead mappings on its first run | It proved a mapping REACHES a drill, never that finishing the drill CLEARS it. **18 of 62 mappings never cleared.** Found by reverting the rekcija pool tag and seeing the suite stay green. |
+| That same suite, after the clearing fix | Round-trips every mapping end to end | `MAPPED` filters on the spine, so the dedicated lesson SCREENS were outside every assertion in the file. One of them, `tenses`, was the 18th broken coupling. |
+| The round-trip block itself | Records the lesson, finishes the drill, asserts cleared | It clears using the SCREEN the builder returned. `GenderDrillScreen` fires key `'gender'`, not `'genderdrill'` — so the real completion path was untested and worked only by a fallback nobody had asserted. |
+| `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
+
+The pattern is always the same, and it is worth naming because it is invisible
+from the outside: **a guard that covers most of a thing reads exactly like a
+guard that covers the thing.** Coverage percentages do not show it. A green run
+does not show it. Only mutation does.
+
+Practical rules that fall out of this:
+
+- **Adding a file to a lint's TARGETS is not adding coverage.** Confirm the
+  matcher actually matches that file's shape. A target whose fields never match
+  is a file everybody believes is linted and is not.
+- **Reachability and clearing are separate paths.** So are launching and
+  completing, writing and reading, queueing and draining. A guard on one says
+  nothing about the other.
+- **A test that restates production data cannot check production data.** Go
+  through the real function, the real builder, the real map.
+- **Check what the code actually passes**, not what the variable is named. A
+  completion key is not always a screen id.
+- **When you fix a guard, mutate again.** Two of these were found in guards
+  written to catch the previous one.
+
+Record the mutation you ran in the commit message. "Mutation-verified: reverting
+X fails N tests" is a claim a reader can re-run; "added a test" is not.
+
 ---
 
 ## NEVER DO (hard rules from production incidents)

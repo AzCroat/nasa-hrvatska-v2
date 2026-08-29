@@ -293,11 +293,15 @@ export type SkillCategory =
   // could not open. The alternative fix, an easier route for 'vocab-a2', would
   // have changed what the adaptive picker serves every A1 learner; this one is
   // pool-only, so it does not.
-  | 'gender';
+  | 'gender'
+  // Pool-only tag (practice programme wave 1, 2026-08-29): PLURAL FORMATION.
+  // The A1 `plural-nouns` lesson had no drill at any level — the app taught the
+  // commonest noun operation in the language and never asked for it once.
+  | 'plural';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
-// 'nominalization', 'verb-government', 'gender') are valid SkillCategory tags used to label
+// 'nominalization', 'verb-government', 'gender', 'plural') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

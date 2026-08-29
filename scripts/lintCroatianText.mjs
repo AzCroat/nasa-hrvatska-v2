@@ -86,6 +86,10 @@ const TARGETS = [
   'src/data/speakingTasks.ts',
   'src/data/pitchAccentContent.js',
   'src/data/cultural/media.js',
+  // Engine-backed drill banks (practice programme, 2026-08-29). A drill is now
+  // a data file rather than a component, so this directory is where authored
+  // Croatian practice content lives from here on.
+  'src/data/drills/pluralDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.
@@ -101,7 +105,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // Match `hr: '...'` / `hr: "..."` / `hr: \`...\``
 // and similar fields that hold Croatian text.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex)\s*:\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex)\s*:\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 async function* walkTargets() {
   for (const rel of TARGETS) {
@@ -168,7 +172,17 @@ function findSerbisms(fieldName, s) {
 // CRO_FIELD_RE never matched `opts`/`options`/`choices`, so every
 // multiple-choice array in every target file has been invisible to this lint —
 // 356 arrays in exercises.js alone. A homoglyph in a wrong answer would have
-// shipped unseen. Encoding only, for the reason above.
+// shipped unseen.
+//
+// SERBISMS ARE CHECKED HERE TOO as of 2026-08-29, and the old "encoding only"
+// scope was simply older than the rule. This pass predates the 2026-08-26 owner
+// directive that a Serbian form must never reach a learner INCLUDING as a
+// distractor — a wrong answer is rendered on screen as a clickable option, so
+// the learner meets it either way. The dialogue bank got a structural walker
+// for that directive; these arrays were left behind, which meant the one place
+// a distractor actually lives was the one place the distractor rule was not
+// enforced. Found while mutation-testing a new drill bank: a Serbism injected
+// into `opts` passed clean.
 const ARRAY_FIELD_RE = /(opts|options|choices|distractors)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
@@ -348,16 +362,17 @@ async function main() {
         });
       }
     }
-    // Distractor arrays: encoding only (see ARRAY_FIELD_RE).
+    // Distractor arrays: BOTH checks (see ARRAY_FIELD_RE for why the Serbism
+    // half was missing until 2026-08-29).
     for (const { field, content, index } of arrayStrings(buf)) {
+      const line = buf.slice(0, index).split('\n').length;
       const bad = findBadInString(content);
       if (bad) {
-        findings.push({
-          line: buf.slice(0, index).split('\n').length,
-          field,
-          snippet: content.slice(0, 80),
-          badChars: bad,
-        });
+        findings.push({ line, field, snippet: content.slice(0, 80), badChars: bad });
+      }
+      const serbisms = findSerbisms(field, content);
+      if (serbisms) {
+        findings.push({ line, field, snippet: content.slice(0, 80), serbisms });
       }
     }
     if (findings.length > 0) {

@@ -164,6 +164,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // documented "the key IS a category" fallback is what makes the clear path
   // work, and it only works because the category is now named in the pool.
   gender: 'gender',
+  // A1 plural formation. `pluraldrill` is A1 and was authored FOR this lesson
+  // (practice programme wave 1) — the lesson had no drill anywhere before it.
+  'plural-nouns': 'plural',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

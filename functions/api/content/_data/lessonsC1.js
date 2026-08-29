@@ -2777,10 +2777,18 @@ export const LESSONS_C1 = [
         type: 'quiz',
         title: 'One More',
         q: 'A Dalmatian says "lipo vrime". What is the standard form?',
-        options: ['lijepo vrijeme', 'ljepo vreme', 'lepo vrijeme', 'lijepo vreme'],
+        // Distractors are PARTIAL conversions — one word done and the other
+        // left ikavian, or the wrong yat length — so each is a Croatian-internal
+        // error a learner actually makes, and the item now tests whether they
+        // converted BOTH words. The obvious wrong answers here would be the
+        // ekavian forms, and those are exactly what must never appear as a
+        // clickable option: nothing on screen marks a distractor as foreign.
+        // (Caught 2026-08-29 by extending the lint's distractor pass to
+        // Serbisms — it had been encoding-only since before that directive.)
+        options: ['lijepo vrijeme', 'lipo vrijeme', 'lijepo vrime', 'ljepo vrijeme'],
         correct: 0,
         explanation:
-          'Ikavian replaces the standard -ije-/-je- with -i-, so lipo vrime is standard lijepo vrijeme. It is a regional variety of Croatian, not an error.',
+          'Ikavian replaces the standard -ije-/-je- with -i-, so lipo vrime is standard lijepo vrijeme — BOTH words convert. It is a regional variety of Croatian, not an error.',
       },
       {
         type: 'summary',
