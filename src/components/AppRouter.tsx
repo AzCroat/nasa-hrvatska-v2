@@ -246,6 +246,13 @@ const ReportedSpeechB1Drill = lazyWithReload(
 const ImpersonalB1Drill = lazyWithReload(() => import('./practice/drills/ImpersonalB1Drill'));
 const TimeClausesDrill = lazyWithReload(() => import('./practice/drills/TimeClausesDrill'));
 const CausePurposeDrill = lazyWithReload(() => import('./practice/drills/CausePurposeDrill'));
+const IDeclensionDrill = lazyWithReload(() => import('./practice/drills/IDeclensionDrill'));
+const VerbalAdverbsDrill = lazyWithReload(() => import('./practice/drills/VerbalAdverbsDrill'));
+const NegationAdvancedDrill = lazyWithReload(
+  () => import('./practice/drills/NegationAdvancedDrill'),
+);
+const AspectVerbsDrill = lazyWithReload(() => import('./practice/drills/AspectVerbsDrill'));
+const IntensityDrill = lazyWithReload(() => import('./practice/drills/IntensityDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2212,6 +2219,31 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'uzrokb1' && (
           <ScreenErrorBoundary key="uzrokb1" name="uzrokb1">
             <CausePurposeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'isklonidbab2' && (
+          <ScreenErrorBoundary key="isklonidbab2" name="isklonidbab2">
+            <IDeclensionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prilozib2' && (
+          <ScreenErrorBoundary key="prilozib2" name="prilozib2">
+            <VerbalAdverbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'negacijab2' && (
+          <ScreenErrorBoundary key="negacijab2" name="negacijab2">
+            <NegationAdvancedDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'vidglagoli' && (
+          <ScreenErrorBoundary key="vidglagoli" name="vidglagoli">
+            <AspectVerbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'intenzitet' && (
+          <ScreenErrorBoundary key="intenzitet" name="intenzitet">
+            <IntensityDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

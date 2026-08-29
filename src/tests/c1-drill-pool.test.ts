@@ -174,7 +174,7 @@ const DRILLS = [
     id: 'isklonidba',
     data: I_SKLONIDBA_DRILL_DATA,
     modes: ['padezi', 'recenice', 'rod'],
-    category: 'instrumental',
+    category: 'i-declension',
     tier: 4,
   },
   {

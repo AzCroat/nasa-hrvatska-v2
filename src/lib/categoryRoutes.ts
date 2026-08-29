@@ -87,6 +87,16 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // EXISTING C2 screen that was already the right exercise and could not be
   // reached, because its pool tag was one of the C-level catch-alls (`register`
   // held sixteen entries) and a category routes to one screen only.
+  // B2 tranche 1 (2026-08-29). `i-declension` keeps the C1 drill as its PRIMARY
+  // route — `isklonidba` is that paradigm and was simply mis-tagged
+  // `instrumental`, which is a case, not a declension class — with the new B2
+  // bank as the easier route below it. The other four are authored B2 drills
+  // whose nearest existing match sat at C1/C2 with nothing lower to fall to.
+  'i-declension': 'isklonidba',
+  'verbal-adverbs': 'prilozib2',
+  'negation-advanced': 'negacijab2',
+  'aspect-verbs': 'vidglagoli',
+  intensity: 'intenzitet',
   orthography: 'pravopis',
   punctuation: 'interpunkcija',
   'admin-style': 'administrativni',
@@ -162,6 +172,9 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // served the A2 drill. That is the same fix `present-tense` got, and the same
   // reason.
   clitics: 'objekt',
+  // i-declension maps to `isklonidba` (C1). The B2 lesson that teaches this
+  // paradigm needs a drill a B2 learner can open.
+  'i-declension': 'isklonidbab2',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive

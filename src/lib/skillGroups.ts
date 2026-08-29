@@ -96,6 +96,16 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // `discourse`), which reads oddly in isolation and is deliberate: changing a
   // grouping and a tag in one commit would make a variety regression impossible
   // to attribute. Regrouping them is a separate decision.
+  // B2 tranche 1 (2026-08-29). `i-declension` is a noun paradigm and groups
+  // with the cases — which is also the group it already had via its old
+  // (wrong) `instrumental` tag, so the variety pass is unchanged by the retag.
+  // The three verb-side categories group as verbs; `intensity` is adverbial
+  // grading and sits with vocab.
+  'i-declension': 'case',
+  'verbal-adverbs': 'verb',
+  'negation-advanced': 'verb',
+  'aspect-verbs': 'verb',
+  intensity: 'vocab',
   orthography: 'vocab',
   punctuation: 'vocab',
   'admin-style': 'vocab',
