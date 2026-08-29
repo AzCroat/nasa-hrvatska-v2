@@ -4,6 +4,7 @@
  * difficulty tiers. Logic stays in useDailySession; this module is data only.
  */
 import { C_LEVEL_DRILL_ENTRIES } from './drillPoolEntries';
+import { PRACTICE_PROGRAMME_ENTRIES } from './practiceDrillEntries';
 
 export type { CefrPoolEntry } from './drillPoolEntries';
 import type { CefrPoolEntry } from './drillPoolEntries';
@@ -22,10 +23,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // finally be expressed: 'vocab-a2' routes to `znam`, which is A2, so the
   // coupling for an A1 lesson resolved to a screen its learners cannot open.
   { id: 'genderdrill', label: 'Gender', screen: 'genderdrill', cefr: 'A1', category: 'gender' },
-  // Authored for the A1 `plural-nouns` lesson (practice programme wave 1,
-  // 2026-08-29): 117 of the 180 curriculum lessons had no follow-on drill, and
-  // the plural — the commonest noun operation there is — was one of them.
-  { id: 'pluraldrill', label: 'Plural', screen: 'pluraldrill', cefr: 'A1', category: 'plural' },
   { id: 'cloze', label: 'Sentence Cloze', screen: 'cloze', cefr: 'A2', category: 'vocab-a2' },
   { id: 'unjumble', label: 'Word Order', screen: 'unjumble', cefr: 'A2', category: 'word-order' },
   { id: 'prepdrill', label: 'Prepositions', screen: 'prepdrill', cefr: 'A2', category: 'genitive' },
@@ -297,6 +294,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'numerals',
   },
   ...C_LEVEL_DRILL_ENTRIES,
+  ...PRACTICE_PROGRAMME_ENTRIES,
   {
     id: 'neizravni',
     label: 'Neizravni govor',
@@ -381,7 +379,11 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'vocab-a2',
   },
-  { id: 'possess', label: 'Possessives', screen: 'possess', cefr: 'A1', category: 'nominative' },
+  // Retagged from 'nominative' (2026-08-29). PossessivesScreen drills
+  // moj/moja/moje agreement — it is not a nominative drill, and the tag
+  // meant the A1 `possessives` lesson could not be coupled to the drill
+  // that already existed for it. Same class as the rekcija retag.
+  { id: 'possess', label: 'Possessives', screen: 'possess', cefr: 'A1', category: 'possessives' },
   {
     id: 'cityloc',
     label: 'City Locative',

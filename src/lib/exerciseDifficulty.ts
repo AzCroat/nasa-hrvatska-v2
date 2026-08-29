@@ -16,6 +16,11 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   genderdrill: 2,
   nomdrill: 2,
   pluraldrill: 2,
+  negacija: 2,
+  pridjevi: 2,
+  pokazne: 2,
+  imatidrill: 2,
+  imperativ: 2,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

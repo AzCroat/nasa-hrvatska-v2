@@ -34,14 +34,10 @@ describe('A1 covers the structures a beginner cannot do without', () => {
   // Each of these was ABSENT before 2026-08-28. Named individually rather than
   // counted, because "30 lessons" says nothing about whether the right 30.
   const REQUIRED = [
-    'negation',
-    'adjectives-basic',
-    'possessives',
     'accusative-intro',
     'locative-intro',
     'genitive-intro',
     'vocative-intro',
-    'imperative-basic',
     'modals-basic',
     'reflexive-verbs',
   ];
@@ -138,18 +134,34 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     // FOR this lesson. It was in DELIBERATELY_UNMAPPED until then for the
     // honest reason — no plural drill existed at any level.
     'plural-nouns': 'plural',
+    // A1 tranche 2, same story: each of these was unmapped because no drill
+    // taught it, and each now has one authored for it. The conservative
+    // non-mapping was correct while the drill did not exist; building the drill
+    // is the only honest way a lesson leaves that list. (`adjectives-basic` and
+    // `basic-questions` are the two CLAUDE.md named explicitly — the first is
+    // now mapped, the second is still waiting for its drill.)
+    negation: 'negation',
+    'adjectives-basic': 'adjectives',
+    demonstratives: 'demonstratives',
+    'imati-nemati': 'having',
+    'imperative-basic': 'imperative',
+    // Not a new drill: `possess` already existed at A1 and already drilled
+    // moj/moja/moje agreement. It was tagged 'nominative', so the lesson could
+    // not be coupled to the drill written for it. Retagged 2026-08-29.
+    possessives: 'possessives',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
+  // Shrinking, one authored drill at a time. What remains is the TOPICAL block
+  // — lessons whose subject is vocabulary rather than a structure, where the
+  // only existing partner is a topic-blind vocab game. Those need drills
+  // written for their actual topic before they can leave this list; pairing
+  // `food-drink` with a generic vocabulary round would be exactly the wrong
+  // pairing this list exists to prevent.
   const DELIBERATELY_UNMAPPED = [
-    'negation',
-    'adjectives-basic',
-    'possessives',
-    'demonstratives',
-    'imperative-basic',
     'likes-preferences',
     'family-people',
     'countries-languages',

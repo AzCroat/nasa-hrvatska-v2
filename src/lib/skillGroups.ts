@@ -46,6 +46,15 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // than against vocabulary — a session serving a plural drill beside three
   // case drills is the monotony the variety pass exists to prevent.
   plural: 'case',
+  // A1 tranche 2 (2026-08-29). Noun-phrase morphology groups with the cases;
+  // negation and the imperative are verb operations; possessives agree like
+  // adjectives, so both sit in the noun-phrase family.
+  adjectives: 'case',
+  demonstratives: 'case',
+  possessives: 'case',
+  negation: 'verb',
+  imperative: 'verb',
+  having: 'verb',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',
