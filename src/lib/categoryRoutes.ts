@@ -52,6 +52,8 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // A1, so unlike the old 'vocab-a2' route this resolves for exactly the
   // learners the lesson is written for.
   gender: 'genderdrill',
+  // A1 plural drill (practice programme wave 1, 2026-08-29).
+  plural: 'pluraldrill',
   // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
   // pool entry now carries this category, so the route and the tag agree and
   // the coupling lands on RekcijaDrill rather than the locative drill.

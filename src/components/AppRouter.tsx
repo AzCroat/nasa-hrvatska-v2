@@ -217,6 +217,12 @@ const BezlicneDrill = lazyWithReload(() => import('./practice/BezlicneDrill'));
 const GlagolskiPriloziDrill = lazyWithReload(() => import('./practice/GlagolskiPriloziDrill'));
 const AoristImperfektDrill = lazyWithReload(() => import('./practice/AoristImperfektDrill'));
 const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
+// Engine-backed drills (practice programme, 2026-08-29): a thin lazy wrapper
+// per drill over the shared ModeDrill engine, each carrying its own data bank.
+// Lazy, not static — firstPaintGraph.test.ts forbids src/data on the
+// first-paint path, and at 180 drills a static bank import would ship every
+// bank to every learner on first load. See practice/ModeDrill.tsx.
+const PluralDrill = lazyWithReload(() => import('./practice/drills/PluralDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2083,6 +2089,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'aoristimperfekt' && (
           <ScreenErrorBoundary key="aoristimperfekt" name="aoristimperfekt">
             <AoristImperfektDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pluraldrill' && (
+          <ScreenErrorBoundary key="pluraldrill" name="pluraldrill">
+            <PluralDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

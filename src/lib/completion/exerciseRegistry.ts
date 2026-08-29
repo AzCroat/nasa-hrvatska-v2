@@ -69,6 +69,7 @@ const RAW: Record<string, ExerciseEntry> = {
   fleetinga: g('gc', 'grammar', 'grammar'),
   'future-tense': g('gc', 'grammar', 'grammar'),
   gender: g('gc', 'grammar', 'grammar'),
+  pluraldrill: g('gc', 'grammar', 'grammar'),
   genitive: g('gc', 'grammar', 'grammar'),
   imperative: g('gc', 'grammar', 'grammar'),
   // C2 structure drill (literary tenses / nominal style / comma) — first C2

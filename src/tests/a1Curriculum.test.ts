@@ -34,7 +34,6 @@ describe('A1 covers the structures a beginner cannot do without', () => {
   // Each of these was ABSENT before 2026-08-28. Named individually rather than
   // counted, because "30 lessons" says nothing about whether the right 30.
   const REQUIRED = [
-    'plural-nouns',
     'negation',
     'adjectives-basic',
     'possessives',
@@ -135,6 +134,10 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     'modals-basic': 'present-tense',
     'reflexive-verbs': 'present-tense',
     'shopping-prices': 'numerals',
+    // Mapped 2026-08-29 (practice programme wave 1): `pluraldrill` was authored
+    // FOR this lesson. It was in DELIBERATELY_UNMAPPED until then for the
+    // honest reason — no plural drill existed at any level.
+    'plural-nouns': 'plural',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -142,7 +145,6 @@ describe('teach → practice coupling stays HONEST at A1', () => {
   });
 
   const DELIBERATELY_UNMAPPED = [
-    'plural-nouns',
     'negation',
     'adjectives-basic',
     'possessives',

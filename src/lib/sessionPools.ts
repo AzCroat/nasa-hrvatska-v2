@@ -22,6 +22,10 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // finally be expressed: 'vocab-a2' routes to `znam`, which is A2, so the
   // coupling for an A1 lesson resolved to a screen its learners cannot open.
   { id: 'genderdrill', label: 'Gender', screen: 'genderdrill', cefr: 'A1', category: 'gender' },
+  // Authored for the A1 `plural-nouns` lesson (practice programme wave 1,
+  // 2026-08-29): 117 of the 180 curriculum lessons had no follow-on drill, and
+  // the plural — the commonest noun operation there is — was one of them.
+  { id: 'pluraldrill', label: 'Plural', screen: 'pluraldrill', cefr: 'A1', category: 'plural' },
   { id: 'cloze', label: 'Sentence Cloze', screen: 'cloze', cefr: 'A2', category: 'vocab-a2' },
   { id: 'unjumble', label: 'Word Order', screen: 'unjumble', cefr: 'A2', category: 'word-order' },
   { id: 'prepdrill', label: 'Prepositions', screen: 'prepdrill', cefr: 'A2', category: 'genitive' },
