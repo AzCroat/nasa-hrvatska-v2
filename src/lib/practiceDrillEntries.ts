@@ -87,4 +87,48 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'comparison',
   },
+  // ── B1 ────────────────────────────────────────────────────────────────────
+  // Tranche 1, and the same finding as A2 with a twist. Every one of these five
+  // lessons had a drill already — `infinitivda` (C1), `neizravni` (B2),
+  // `bezlicne` (B2), `vremenske` (B2), `uzrocne` (B2) — but here the CEFR gate
+  // is only half the problem: four of those five are tagged with a category that
+  // is ALREADY routed somewhere else, and three share `subordination`, whose
+  // easier route is `relpron`. Reusing the tags would have sent three different
+  // lessons to one drill and `reported-speech` to relative pronouns. Each gets
+  // its own pool-only category instead; the B2/C1 drills are untouched.
+  {
+    id: 'infda',
+    label: 'Infinitive or da',
+    screen: 'infda',
+    cefr: 'B1',
+    category: 'infinitive-da',
+  },
+  {
+    id: 'prepricavanje',
+    label: 'Reported speech',
+    screen: 'prepricavanje',
+    cefr: 'B1',
+    category: 'reported-speech',
+  },
+  {
+    id: 'bezlicnob1',
+    label: 'Impersonal',
+    screen: 'bezlicnob1',
+    cefr: 'B1',
+    category: 'impersonal',
+  },
+  {
+    id: 'vrijemeklauze',
+    label: 'Time clauses',
+    screen: 'vrijemeklauze',
+    cefr: 'B1',
+    category: 'time-clauses',
+  },
+  {
+    id: 'uzrokb1',
+    label: 'Cause & purpose',
+    screen: 'uzrokb1',
+    cefr: 'B1',
+    category: 'cause-purpose',
+  },
 ];

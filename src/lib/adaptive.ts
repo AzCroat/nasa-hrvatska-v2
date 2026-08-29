@@ -324,14 +324,25 @@ export type SkillCategory =
   | 'reflexive-possessive'
   | 'plural-cases'
   | 'quantity'
-  | 'comparison';
+  | 'comparison'
+  // Pool-only tags (practice programme, B1 tranche 1, 2026-08-29). Every one of
+  // these lessons had an existing drill at B2/C1 that ALSO carried a category
+  // already routed elsewhere — three of them share `subordination`, whose easier
+  // route is `relpron`. Reusing those categories would have sent three different
+  // B1 lessons to the same drill, and one of them to relative pronouns.
+  | 'infinitive-da'
+  | 'reported-speech'
+  | 'impersonal'
+  | 'time-clauses'
+  | 'cause-purpose';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
 // 'nominalization', 'verb-government', 'gender', 'plural', 'negation', 'adjectives',
 // 'demonstratives', 'having', 'imperative', 'possessives', 'questions',
 // 'place-prepositions', 'time', 'greetings', 'reflexive-possessive',
-// 'plural-cases', 'quantity', 'comparison') are valid SkillCategory tags used to label
+// 'plural-cases', 'quantity', 'comparison', 'infinitive-da', 'reported-speech',
+// 'impersonal', 'time-clauses', 'cause-purpose') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

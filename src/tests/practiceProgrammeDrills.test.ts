@@ -80,6 +80,17 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A2' },
   { screen: 'komparacija', category: 'comparison', lesson: 'comparatives-a2', cefr: 'A2' },
+  // ── B1 ────────────────────────────────────────────────────────────────────
+  { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
+  {
+    screen: 'prepricavanje',
+    category: 'reported-speech',
+    lesson: 'reported-speech',
+    cefr: 'B1',
+  },
+  { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'B1' },
+  { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
+  { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
 ];
 
 /**

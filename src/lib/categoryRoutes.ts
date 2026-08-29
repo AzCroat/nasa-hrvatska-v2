@@ -74,6 +74,15 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'plural-cases': 'mnozinapadezi',
   quantity: 'kolicinaa2',
   comparison: 'komparacija',
+  // B1 tranche 1 (2026-08-29). None of these reuses an existing category: the
+  // drills that already taught this material are tagged `subordination`,
+  // `passive` and `register`, all of which route elsewhere and three of which
+  // would have collided on one screen.
+  'infinitive-da': 'infda',
+  'reported-speech': 'prepricavanje',
+  impersonal: 'bezlicnob1',
+  'time-clauses': 'vrijemeklauze',
+  'cause-purpose': 'uzrokb1',
   // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
   // pool entry now carries this category, so the route and the tag agree and
   // the coupling lands on RekcijaDrill rather than the locative drill.

@@ -76,6 +76,18 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'plural-cases': 'case',
   quantity: 'case',
   comparison: 'case',
+  // B1 tranche 1 (2026-08-29). Four are clause construction and group with
+  // 'syntax', beside the other subordination content they sit next to in a
+  // session. `impersonal` is grouped with the VERBS, not with syntax: what the
+  // learner is choosing there is a verb form (treba, se-constructions, the
+  // subjectless third person), and grouping it as syntax would let it appear
+  // alongside three other clause drills — the monotony the variety pass exists
+  // to prevent.
+  'infinitive-da': 'syntax',
+  'reported-speech': 'syntax',
+  'time-clauses': 'syntax',
+  'cause-purpose': 'syntax',
+  impersonal: 'verb',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',
