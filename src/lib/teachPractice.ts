@@ -154,7 +154,16 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // phrase is exactly what the nominalization drill asks for.
   condensation: 'nominalization',
   // ── vocabulary / other ────────────────────────────────────────────────────
-  gender: 'vocab-a2',
+  // The A1 gender lesson. `genderdrill` is A1 and drills exactly what the lesson
+  // teaches (sort by gender, make it plural, adjective agreement) — the pool has
+  // said so in a comment for a long time, but the coupling could not express it
+  // while the drill shared the 'vocab-a2' tag, which routes to `znam` (A2). The
+  // drill now carries its own pool-only category (owner decision, 2026-08-28).
+  //
+  // The completion key is 'gender', not 'genderdrill' — categoryForScreen's
+  // documented "the key IS a category" fallback is what makes the clear path
+  // work, and it only works because the category is now named in the pool.
+  gender: 'gender',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

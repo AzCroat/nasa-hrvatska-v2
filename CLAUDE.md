@@ -260,10 +260,23 @@ pedagogy. Design: `docs/curriculum-design.md`.
   five orphan categories (`numerals`, `word-order`, `idioms`, `passive`,
   `nominalization`) — none of which is in `ALL_CATEGORIES`, so like `nominative`
   and `subordination` the change touches the coupling and nothing else.
-  **`gender → vocab-a2` is the one deliberate exception**: `vocab-a2` IS an
-  adaptive category, so an easier route would change what every A1 learner is
-  served, which wants its own decision. It is named in `KNOWN_UNRESOLVED` and
-  that list can only shrink.
+  **`gender → vocab-a2` was the last exception and is fixed (owner decision,
+  2026-08-28); `KNOWN_UNRESOLVED` is now EMPTY.** It was NOT fixed by giving
+  `vocab-a2` an easier route — that would change what the adaptive picker serves
+  every A1 learner. `genderdrill` is an A1 drill that already matched the lesson
+  (the pool has said so in a comment for years) and was tagged `vocab-a2` only
+  for want of a better tag; it now carries its own pool-only `gender` category,
+  routed to itself, so the coupling resolves and nothing else moves. Same shape
+  as the rekcija retag. `SKILL_GROUP` keeps it in `vocab`, where it already sat,
+  so the variety pass is unchanged.
+  **One trap worth knowing**: `GenderDrillScreen` completes with key `'gender'`,
+  not `'genderdrill'`. Clearing works through `categoryForScreen`'s "the key IS a
+  category" fallback, which only fires because `gender` is now a pool category —
+  and the round-trip blocks clear using the SCREEN the builder returned, so they
+  stay green even if that path breaks. There is a dedicated assertion for the
+  real key; keep it. The set itself is kept (not deleted) with a test asserting
+  every listed entry genuinely fails to resolve, so a stale exemption cannot sit
+  there quietly covering a mapping that works.
   The test that was supposed to catch this earlier did not, because it checked a
   `SCREEN_FOR` map written inside the test file rather than the app's. **A test
   that restates production data cannot check production data** — go through the

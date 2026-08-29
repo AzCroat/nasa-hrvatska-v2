@@ -3,10 +3,11 @@
 // EVERY MAPPING MUST ACTUALLY RESOLVE (Wave 3, 2026-08-28).
 //
 // The teach → practice map can be honest and still be useless. `gender →
-// vocab-a2` is the standing example: the pairing is reasonable, but the
-// category routes to a drill gated at A2, so for the A1 learners that lesson is
-// written for it silently resolves to nothing. The learner is queued a category
-// that never becomes an activity, and no error is raised anywhere.
+// vocab-a2` was the standing example: the pairing was reasonable, but the
+// category routed to a drill gated at A2, so for the A1 learners that lesson is
+// written for it silently resolved to nothing. The learner was queued a category
+// that never became an activity, and no error was raised anywhere. It was the
+// last such mapping and was fixed on 2026-08-28; the exception set is now empty.
 //
 // The per-level suites each assert their own mappings, but they do it against a
 // hand-written copy of the screen map — which is a second source of truth, and
@@ -33,6 +34,7 @@ import {
   recordLessonTaught,
   recordScreenPractised,
   pendingTaughtCategories,
+  categoryForScreen,
   clearTaughtQueue,
 } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../lib/categoryRoutes';
@@ -46,19 +48,21 @@ const spine = CURRICULUM as Entry[];
 const lessonById = new Map((LESSONS as { id: string; title: string }[]).map((l) => [l.id, l]));
 
 /**
- * The one mapping known NOT to resolve, kept as a named exception rather than a
- * standing failure. `gender` (A1) maps to vocab-a2, which routes to `znam` (A2),
- * so for the A1 learners the lesson is written for it resolves to nothing.
+ * EMPTY as of 2026-08-28, and that is the point: the list could only shrink and
+ * it has reached zero. `gender` was the last entry — it mapped to 'vocab-a2',
+ * which routes to `znam` (A2), so for the A1 learners the lesson is written for
+ * it resolved to nothing.
  *
- * It is the only one of the original ten left unfixed, and deliberately: unlike
- * numerals, idioms, passive, nominalization and word-order, `vocab-a2` IS in
- * ALL_CATEGORIES. Giving it an easier route would change what the adaptive
- * scheduler serves every A1 learner — a real behaviour change that deserves its
- * own decision rather than arriving as a side effect of a content wave.
+ * It was NOT fixed by giving 'vocab-a2' an easier route, which would have
+ * changed what the adaptive scheduler serves every A1 learner. `genderdrill` is
+ * an A1 drill that already matched the lesson and was tagged 'vocab-a2' only
+ * because there was no better tag; it now carries its own pool-only `gender`
+ * category, so the coupling resolves and nothing else moves.
  *
- * This list can only shrink. See the test at the bottom of the file.
+ * Keep this set. A future mapping that cannot resolve belongs here with its
+ * reason rather than as a deleted assertion — but it can still only shrink.
  */
-const KNOWN_UNRESOLVED = new Set(['gender']);
+const KNOWN_UNRESOLVED = new Set<string>();
 
 /**
  * Every curriculum lesson that claims a practice category. These are the
@@ -207,23 +211,47 @@ describe('the dedicated lesson SCREENS clear too', () => {
   });
 });
 
-describe('the known exception is named, not silently tolerated', () => {
-  // `gender → vocab-a2` predates this guard and is a real instance of the bug:
-  // vocab-a2 routes to `znam`, which is A2, and `gender` is an A1 lesson. It is
-  // listed here rather than fixed because adding a vocab-a2 easier-route would
-  // change adaptive picks for every A1 session — a behaviour change that wants
-  // its own decision, not a side effect of a content wave.
-  //
-  // The test asserts the exception STILL FAILS to resolve. If someone fixes it,
-  // this goes red and the entry should be deleted — which is the point: the
-  // list can only shrink.
-  it('gender still does not resolve at A1 (documented, not fixed)', () => {
+describe('the exception list is empty, and stays honest if it is not', () => {
+  // `gender → vocab-a2` was the last standing exception and was fixed on
+  // 2026-08-28 by giving `genderdrill` its own pool-only category. What replaces
+  // the old "this still fails" assertion is a check that the set means what it
+  // says: anything listed must ACTUALLY fail to resolve, so a stale entry can
+  // never sit here quietly exempting a mapping that works.
+  it('every listed exception genuinely does not resolve', () => {
+    for (const id of KNOWN_UNRESOLVED) {
+      const entry = spine.find((e) => e.id === id);
+      expect(entry, `${id} is listed as unresolved but is not in the spine`).toBeTruthy();
+      expect(
+        practiceFor(entry!),
+        `${id} is listed in KNOWN_UNRESOLVED but now resolves — delete the entry.`,
+      ).toBeNull();
+    }
+  });
+
+  it('gender resolves at A1, where it could not before', () => {
     const entry = spine.find((e) => e.id === 'gender')!;
     expect(entry.level).toBe('A1');
-    expect(LESSON_TAUGHT_CATEGORY['gender']).toBe('vocab-a2');
-    expect(
-      practiceFor(entry),
-      'gender now resolves at A1 — good. Delete this test and the KNOWN_UNRESOLVED note.',
-    ).toBeNull();
+    expect(LESSON_TAUGHT_CATEGORY['gender']).toBe('gender');
+    expect(practiceFor(entry)).toBe('genderdrill');
+  });
+
+  it("clears on the drill's REAL completion key, which is not its screen id", () => {
+    // GenderDrillScreen calls completeExercise({ key: 'gender' }) — not
+    // 'genderdrill'. The blocks above clear using the SCREEN the builder
+    // returned, so they would stay green even if the real key path broke.
+    //
+    // It works through categoryForScreen's documented "the key IS a category"
+    // fallback, and that fallback only fires because 'gender' is now a category
+    // named in the pool. Rename either half and this is the assertion that
+    // notices; nothing else would.
+    expect(categoryForScreen('gender')).toBe('gender');
+    expect(categoryForScreen('genderdrill')).toBe('gender');
+
+    clearTaughtQueue();
+    recordLessonTaught('gender');
+    expect(pendingTaughtCategories()).toContain('gender');
+    recordScreenPractised('gender');
+    expect(pendingTaughtCategories()).not.toContain('gender');
+    clearTaughtQueue();
   });
 });
