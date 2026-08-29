@@ -68,6 +68,12 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'place-prepositions': 'mjesto',
   time: 'vrijemea1',
   greetings: 'pozdravi',
+  // A2 tranche 1 (2026-08-29). Each replaces a route that existed only at B1/B2
+  // and so could never resolve for the A2 lesson that needed it.
+  'reflexive-possessive': 'svojdrill',
+  'plural-cases': 'mnozinapadezi',
+  quantity: 'kolicinaa2',
+  comparison: 'komparacija',
   // The C1 verb-government lesson's drill (owner decision, 2026-08-28). The
   // pool entry now carries this category, so the route and the tag agree and
   // the coupling lands on RekcijaDrill rather than the locative drill.
@@ -126,6 +132,15 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // needs a drill a B1 learner can actually open, and `relpron` is the one that
   // teaches the same thing one level down.
   subordination: 'relpron',
+  // clitics maps to `clitic` (B2). The A2 `object-pronouns` lesson is where
+  // me/te/ga/joj are actually taught, and CLAUDE.md recorded that lesson as
+  // unmappable precisely because the only clitic drill was two levels above it.
+  // Unlike the rows above this one, `clitics` IS in ALL_CATEGORIES, so this
+  // also changes the adaptive picker: a learner below B2 measured weak on
+  // clitics used to have the category dropped for their whole level and is now
+  // served the A2 drill. That is the same fix `present-tense` got, and the same
+  // reason.
+  clitics: 'objekt',
 };
 
 // Screen → CEFR lookup derived from the pool. Used to CEFR-gate the adaptive

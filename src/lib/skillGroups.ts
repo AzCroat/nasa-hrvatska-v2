@@ -68,6 +68,14 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'place-prepositions': 'case',
   time: 'vocab',
   greetings: 'vocab',
+  // A2 tranche 1 (2026-08-29). Three are noun-phrase morphology and group with
+  // the cases; `comparison` is adjective morphology and groups there too, for
+  // the same reason `adjectives` does. Nothing here joins 'vocab' — every one of
+  // them is a form the learner has to build.
+  'reflexive-possessive': 'case',
+  'plural-cases': 'case',
+  quantity: 'case',
+  comparison: 'case',
   nominative: 'case',
   genitive: 'case',
   accusative: 'case',
