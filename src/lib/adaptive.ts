@@ -297,11 +297,22 @@ export type SkillCategory =
   // Pool-only tag (practice programme wave 1, 2026-08-29): PLURAL FORMATION.
   // The A1 `plural-nouns` lesson had no drill at any level — the app taught the
   // commonest noun operation in the language and never asked for it once.
-  | 'plural';
+  | 'plural'
+  // Pool-only tags (practice programme, A1 tranche 2, 2026-08-29). Each was
+  // authored for a specific A1 lesson that had no drill anywhere. None is in
+  // ALL_CATEGORIES, so the adaptive picker is untouched.
+  | 'negation'
+  | 'adjectives'
+  | 'demonstratives'
+  | 'having'
+  | 'imperative'
+  // Retagged existing A1 drill (`possess`) — see sessionPools.
+  | 'possessives';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
-// 'nominalization', 'verb-government', 'gender', 'plural') are valid SkillCategory tags used to label
+// 'nominalization', 'verb-government', 'gender', 'plural', 'negation', 'adjectives',
+// 'demonstratives', 'having', 'imperative', 'possessives') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

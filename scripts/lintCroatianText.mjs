@@ -90,6 +90,11 @@ const TARGETS = [
   // a data file rather than a component, so this directory is where authored
   // Croatian practice content lives from here on.
   'src/data/drills/pluralDrill.ts',
+  'src/data/drills/negationDrill.ts',
+  'src/data/drills/adjectivesDrill.ts',
+  'src/data/drills/demonstrativesDrill.ts',
+  'src/data/drills/imatiDrill.ts',
+  'src/data/drills/imperativeDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

@@ -167,6 +167,12 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // A1 plural formation. `pluraldrill` is A1 and was authored FOR this lesson
   // (practice programme wave 1) — the lesson had no drill anywhere before it.
   'plural-nouns': 'plural',
+  negation: 'negation',
+  'adjectives-basic': 'adjectives',
+  demonstratives: 'demonstratives',
+  'imati-nemati': 'having',
+  'imperative-basic': 'imperative',
+  possessives: 'possessives',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

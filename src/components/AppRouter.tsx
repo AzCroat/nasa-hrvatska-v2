@@ -223,6 +223,11 @@ const RekcijaDrill = lazyWithReload(() => import('./practice/RekcijaDrill'));
 // first-paint path, and at 180 drills a static bank import would ship every
 // bank to every learner on first load. See practice/ModeDrill.tsx.
 const PluralDrill = lazyWithReload(() => import('./practice/drills/PluralDrill'));
+const NegationDrill = lazyWithReload(() => import('./practice/drills/NegationDrill'));
+const AdjectivesDrill = lazyWithReload(() => import('./practice/drills/AdjectivesDrill'));
+const DemonstrativesDrill = lazyWithReload(() => import('./practice/drills/DemonstrativesDrill'));
+const ImatiDrill = lazyWithReload(() => import('./practice/drills/ImatiDrill'));
+const ImperativeA1Drill = lazyWithReload(() => import('./practice/drills/ImperativeA1Drill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2094,6 +2099,31 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'pluraldrill' && (
           <ScreenErrorBoundary key="pluraldrill" name="pluraldrill">
             <PluralDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'negacija' && (
+          <ScreenErrorBoundary key="negacija" name="negacija">
+            <NegationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pridjevi' && (
+          <ScreenErrorBoundary key="pridjevi" name="pridjevi">
+            <AdjectivesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'pokazne' && (
+          <ScreenErrorBoundary key="pokazne" name="pokazne">
+            <DemonstrativesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'imatidrill' && (
+          <ScreenErrorBoundary key="imatidrill" name="imatidrill">
+            <ImatiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'imperativ' && (
+          <ScreenErrorBoundary key="imperativ" name="imperativ">
+            <ImperativeA1Drill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

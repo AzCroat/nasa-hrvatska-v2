@@ -53,7 +53,15 @@ const PROGRAMME_DRILLS: {
   category: SkillCategory;
   lesson: string;
   cefr: string;
-}[] = [{ screen: 'pluraldrill', category: 'plural', lesson: 'plural-nouns', cefr: 'A1' }];
+}[] = [
+  { screen: 'pluraldrill', category: 'plural', lesson: 'plural-nouns', cefr: 'A1' },
+  { screen: 'negacija', category: 'negation', lesson: 'negation', cefr: 'A1' },
+  { screen: 'pridjevi', category: 'adjectives', lesson: 'adjectives-basic', cefr: 'A1' },
+  { screen: 'pokazne', category: 'demonstratives', lesson: 'demonstratives', cefr: 'A1' },
+  { screen: 'imatidrill', category: 'having', lesson: 'imati-nemati', cefr: 'A1' },
+  { screen: 'imperativ', category: 'imperative', lesson: 'imperative-basic', cefr: 'A1' },
+  { screen: 'possess', category: 'possessives', lesson: 'possessives', cefr: 'A1' },
+];
 
 describe('every programme drill is wired consistently', () => {
   it('has drills to check', () => {

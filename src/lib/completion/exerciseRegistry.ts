@@ -70,6 +70,11 @@ const RAW: Record<string, ExerciseEntry> = {
   'future-tense': g('gc', 'grammar', 'grammar'),
   gender: g('gc', 'grammar', 'grammar'),
   pluraldrill: g('gc', 'grammar', 'grammar'),
+  negacija: g('gc', 'grammar', 'grammar'),
+  pridjevi: g('gc', 'grammar', 'grammar'),
+  pokazne: g('gc', 'grammar', 'grammar'),
+  imatidrill: g('gc', 'grammar', 'grammar'),
+  imperativ: g('gc', 'grammar', 'grammar'),
   genitive: g('gc', 'grammar', 'grammar'),
   imperative: g('gc', 'grammar', 'grammar'),
   // C2 structure drill (literary tenses / nominal style / comma) — first C2
