@@ -57,4 +57,34 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     category: 'time',
   },
   { id: 'pozdravi', label: 'Greetings', screen: 'pozdravi', cefr: 'A1', category: 'greetings' },
+  // ── A2 ────────────────────────────────────────────────────────────────────
+  // Tranche 1. Four of the five sit above an existing drill that was gated one
+  // or two levels too high for the lesson that needed it (`svojmoj` B1,
+  // `clitic` B2, `kolicina` B2, `stupnjevanje` B2) — the same hole as the A1
+  // verb gap, one level up. `objekt` carries no new category: it is wired as
+  // CATEGORY_EASIER_SCREEN.clitics, which also gives every learner below B2 a
+  // clitics drill for the first time.
+  {
+    id: 'svojdrill',
+    label: 'Svoj',
+    screen: 'svojdrill',
+    cefr: 'A2',
+    category: 'reflexive-possessive',
+  },
+  { id: 'objekt', label: 'Object pronouns', screen: 'objekt', cefr: 'A2', category: 'clitics' },
+  {
+    id: 'mnozinapadezi',
+    label: 'Plural cases',
+    screen: 'mnozinapadezi',
+    cefr: 'A2',
+    category: 'plural-cases',
+  },
+  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A2', category: 'quantity' },
+  {
+    id: 'komparacija',
+    label: 'Comparison',
+    screen: 'komparacija',
+    cefr: 'A2',
+    category: 'comparison',
+  },
 ];

@@ -234,6 +234,11 @@ const PlacePrepositionsDrill = lazyWithReload(
 );
 const TimeCalendarDrill = lazyWithReload(() => import('./practice/drills/TimeCalendarDrill'));
 const GreetingsDrill = lazyWithReload(() => import('./practice/drills/GreetingsDrill'));
+const SvojDrill = lazyWithReload(() => import('./practice/drills/SvojDrill'));
+const ObjectPronounsDrill = lazyWithReload(() => import('./practice/drills/ObjectPronounsDrill'));
+const PluralCasesDrill = lazyWithReload(() => import('./practice/drills/PluralCasesDrill'));
+const QuantityDrill = lazyWithReload(() => import('./practice/drills/QuantityDrill'));
+const ComparisonDrill = lazyWithReload(() => import('./practice/drills/ComparisonDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2150,6 +2155,31 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'pozdravi' && (
           <ScreenErrorBoundary key="pozdravi" name="pozdravi">
             <GreetingsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'svojdrill' && (
+          <ScreenErrorBoundary key="svojdrill" name="svojdrill">
+            <SvojDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'objekt' && (
+          <ScreenErrorBoundary key="objekt" name="objekt">
+            <ObjectPronounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'mnozinapadezi' && (
+          <ScreenErrorBoundary key="mnozinapadezi" name="mnozinapadezi">
+            <PluralCasesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kolicinaa2' && (
+          <ScreenErrorBoundary key="kolicinaa2" name="kolicinaa2">
+            <QuantityDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'komparacija' && (
+          <ScreenErrorBoundary key="komparacija" name="komparacija">
+            <ComparisonDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

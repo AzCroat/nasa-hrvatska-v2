@@ -182,6 +182,15 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'prepositions-place': 'place-prepositions',
   'time-calendar': 'time',
   'greetings-farewells': 'greetings',
+  // A2 tranche 1 (2026-08-29). `object-pronouns` is the entry CLAUDE.md singled
+  // out as unmappable because the only clitic drill was B2; the A2 drill is
+  // wired as the easier route for the same category, so the mapping is now
+  // honest at the level the lesson is written for.
+  svoj: 'reflexive-possessive',
+  'object-pronouns': 'clitics',
+  'plural-cases': 'plural-cases',
+  quantity: 'quantity',
+  'comparatives-a2': 'comparison',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
   'collective-numbers': 'numerals',

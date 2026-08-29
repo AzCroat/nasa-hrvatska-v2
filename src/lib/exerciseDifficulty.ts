@@ -25,6 +25,13 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   mjesto: 2,
   vrijemea1: 2,
   pozdravi: 2,
+  // A2 tranche 1: tier 3, a step above the A1 banks — these ask for a case
+  // choice or a form the learner has to build, not a recognition pick.
+  svojdrill: 3,
+  objekt: 3,
+  mnozinapadezi: 3,
+  kolicinaa2: 3,
+  komparacija: 3,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

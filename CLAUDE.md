@@ -345,6 +345,26 @@ pedagogy. Design: `docs/curriculum-design.md`.
   tranche 3. Of the seven left, six are the topical block, which needs
   topic-specific vocabulary drills rather than grammar drills; the seventh is
   `alphabet`, blocked on the clearing path below rather than on content.
+  Coupled per level after the A2 tranche: A1 23, **A2 13**, B1 13, B2 10,
+  C1 12, C2 5 — all of 30.
+- **A2's hole was the A1 verb hole one level up (2026-08-29).** Four of the five
+  A2 lessons drilled in that tranche already had a drill teaching exactly the
+  right thing — `svojmoj` (B1), `clitic` (B2), `kolicina` (B2), `stupnjevanje`
+  (B2) — gated one or two levels ABOVE the lesson that needed it, so the
+  coupling could never resolve and the lesson led nowhere. A1 is the only level
+  that cannot inherit downward, which is why its hole was found first; it was
+  never the only level with one. **When a lesson looks uncoupled, check whether
+  the drill already exists at a higher level before authoring a new one** — the
+  answer changes what you build, and four of these five are new A2 banks
+  precisely because the existing drill could not be reached.
+  `objekt` is the exception: it is wired as `CATEGORY_EASIER_SCREEN.clitics`
+  rather than given its own pool-only category, because `clitics` is a real
+  `ALL_CATEGORIES` member. That row therefore ALSO changes the adaptive picker
+  — a learner below B2 measured weak on clitics had the category dropped for
+  their whole level and is now served the A2 drill. Same shape and same
+  justification as `present-tense → presentdrill`; `practiceProgrammeDrills`
+  holds it in its own block, asserting the easier route exists AND that the B2
+  primary route survives.
 - **A ROUTED SCREEN MUST BE ABLE TO CLEAR THE COUPLING** (2026-08-29). Third
   break in the same mechanism, in a third place, with the two suites guarding
   the previous two fully green: (1) no route → `curriculumCouplingResolves`;

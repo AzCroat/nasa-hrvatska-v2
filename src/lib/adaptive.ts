@@ -316,13 +316,22 @@ export type SkillCategory =
   | 'questions'
   | 'place-prepositions'
   | 'time'
-  | 'greetings';
+  | 'greetings'
+  // Pool-only tags (practice programme, A2 tranche 1, 2026-08-29). `clitics` is
+  // deliberately NOT among them: the A2 object-pronoun drill is wired as
+  // CATEGORY_EASIER_SCREEN.clitics instead, because clitics is a real
+  // ALL_CATEGORIES member whose only drill was B2-gated.
+  | 'reflexive-possessive'
+  | 'plural-cases'
+  | 'quantity'
+  | 'comparison';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
 // 'nominalization', 'verb-government', 'gender', 'plural', 'negation', 'adjectives',
 // 'demonstratives', 'having', 'imperative', 'possessives', 'questions',
-// 'place-prepositions', 'time', 'greetings') are valid SkillCategory tags used to label
+// 'place-prepositions', 'time', 'greetings', 'reflexive-possessive',
+// 'plural-cases', 'quantity', 'comparison') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

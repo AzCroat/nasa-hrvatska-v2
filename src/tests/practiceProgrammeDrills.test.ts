@@ -34,7 +34,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
-import { CATEGORY_SCREEN_MAP } from '../lib/categoryRoutes';
+import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../lib/categoryRoutes';
 import { SKILL_GROUP } from '../lib/skillGroups';
 import { LESSON_TAUGHT_CATEGORY, categoryForScreen } from '../lib/teachPractice';
 import type { SkillCategory } from '../lib/adaptive';
@@ -70,7 +70,36 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'vrijemea1', category: 'time', lesson: 'time-calendar', cefr: 'A1' },
   { screen: 'pozdravi', category: 'greetings', lesson: 'greetings-farewells', cefr: 'A1' },
+  // ── A2 ────────────────────────────────────────────────────────────────────
+  { screen: 'svojdrill', category: 'reflexive-possessive', lesson: 'svoj', cefr: 'A2' },
+  {
+    screen: 'mnozinapadezi',
+    category: 'plural-cases',
+    lesson: 'plural-cases',
+    cefr: 'A2',
+  },
+  { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A2' },
+  { screen: 'komparacija', category: 'comparison', lesson: 'comparatives-a2', cefr: 'A2' },
 ];
+
+/**
+ * `objekt` is the exception this table cannot hold, and it is worth stating
+ * rather than quietly omitting.
+ *
+ * Every row above owns its category outright: the drill is the only screen the
+ * category routes to, so pool tag and route must agree exactly. `objekt` is
+ * instead the EASIER route for `clitics`, a category that already existed, is in
+ * ALL_CATEGORIES, and keeps `clitic` (B2) as its primary route. Asserting
+ * `CATEGORY_SCREEN_MAP.clitics === 'objekt'` would be false and asserting the
+ * pool tag is unique to it would be wrong — so it gets its own block below,
+ * which checks the thing that actually matters for it.
+ */
+const EASIER_ROUTE_DRILLS: {
+  screen: string;
+  category: SkillCategory;
+  lesson: string;
+  cefr: string;
+}[] = [{ screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A2' }];
 
 describe('every programme drill is wired consistently', () => {
   it('has drills to check', () => {
@@ -128,11 +157,42 @@ describe('every programme drill is wired consistently', () => {
   });
 });
 
+describe('a drill wired as an easier route is wired completely', () => {
+  it.each(EASIER_ROUTE_DRILLS)('$screen is the easier route for $category', (d) => {
+    expect(
+      CATEGORY_EASIER_SCREEN[d.category],
+      `${d.screen} exists so that ${d.category} resolves below the level of its primary ` +
+        `route; without this row the lesson it was written for still has nowhere to go`,
+    ).toBe(d.screen);
+  });
+
+  it.each(EASIER_ROUTE_DRILLS)('$category keeps its primary route', (d) => {
+    // The easier route is a fallback, not a replacement: a B2 learner weak on
+    // clitics must still get the B2 drill.
+    const primary = CATEGORY_SCREEN_MAP[d.category];
+    expect(primary, `${d.category} lost its primary route`).toBeTruthy();
+    expect(primary, `${d.category}'s primary route was overwritten by the easier one`).not.toBe(
+      d.screen,
+    );
+  });
+
+  it.each(EASIER_ROUTE_DRILLS)('$screen is in the pool at $cefr, tagged $category', (d) => {
+    const entry = CEFR_EXERCISE_POOL.find((e) => e.screen === d.screen);
+    expect(entry, `${d.screen} is not in CEFR_EXERCISE_POOL`).toBeTruthy();
+    expect(entry!.cefr).toBe(d.cefr);
+    expect(entry!.category).toBe(d.category);
+  });
+
+  it.each(EASIER_ROUTE_DRILLS)('$lesson claims $category', (d) => {
+    expect(LESSON_TAUGHT_CATEGORY[d.lesson]).toBe(d.category);
+  });
+});
+
 describe('the programme is aimed at lessons that had no drill', () => {
   it('every programme drill serves a lesson that is now coupled', () => {
     // A drill authored for a lesson that stays unmapped would be unreachable by
     // the coupling — the exact failure this programme exists to remove.
-    for (const d of PROGRAMME_DRILLS) {
+    for (const d of [...PROGRAMME_DRILLS, ...EASIER_ROUTE_DRILLS]) {
       expect(LESSON_TAUGHT_CATEGORY[d.lesson], `${d.lesson} has no coupling`).toBeTruthy();
     }
   });

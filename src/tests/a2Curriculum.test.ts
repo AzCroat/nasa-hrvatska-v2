@@ -19,6 +19,7 @@ const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
+const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
@@ -151,25 +152,36 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     'instrumental-intro': 'instrumental',
     'ordinals-dates': 'numerals',
     'past-questions-negation': 'past-tense',
+    // Practice programme, A2 tranche 1 (2026-08-29). Every one of these was in
+    // DELIBERATELY_UNMAPPED below for the honest reason — the drill the lesson
+    // needed sat one or two levels above it and could never resolve. Authoring
+    // the A2 drill is the only way a lesson leaves that list.
+    svoj: 'reflexive-possessive',
+    'plural-cases': 'plural-cases',
+    quantity: 'quantity',
+    'comparatives-a2': 'comparison',
+    // The one this file predicted: "If a clitic drill ever ships at A2, move it
+    // into EXPECTED above." `objekt` is that drill, wired as the EASIER route
+    // for clitics so the B2 `clitic` stays the primary. See
+    // practiceProgrammeDrills.test.ts, which holds both halves.
+    'object-pronouns': 'clitics',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  it('object-pronouns is NOT mapped, because its drill is out of reach', () => {
-    // Clitics do have a drill — `clitic`, gated at B2. Mapping this lesson would
-    // queue a category an A2 learner cannot open, so the coupling would resolve
-    // to nothing and the learner would be promised practice that never arrives.
-    // That is the `gender → vocab-a2` trap; do not "fix" this by adding a row.
-    // If a clitic drill ever ships at A2, move it into EXPECTED above.
-    expect(LESSON_TAUGHT_CATEGORY['object-pronouns']).toBeUndefined();
+  it('object-pronouns resolves at the level it is taught, not at B2', () => {
+    // The trap this replaces: `clitic` is B2, so mapping the A2 lesson to the
+    // clitics category alone would queue something an A2 learner cannot open —
+    // the `gender → vocab-a2` failure. The fix is NOT to point the category at
+    // an A2 screen (that would take the B2 drill away from B2 learners) but to
+    // give it an easier route, which is what CATEGORY_EASIER_SCREEN is for.
+    expect(CATEGORY_SCREEN_MAP['clitics']).toBe('clitic');
+    expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('objekt');
   });
 
   const DELIBERATELY_UNMAPPED = [
-    'plural-cases',
-    'quantity',
-    'svoj',
     'adverbs',
     'conjunctions',
     'relative-koji',
