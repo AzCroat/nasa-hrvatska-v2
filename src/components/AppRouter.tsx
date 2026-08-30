@@ -3352,7 +3352,7 @@ export default function AppRouter(props: Record<string, any>) {
         }
         {currentScreen === 'alphabet' && (
           <ScreenErrorBoundary key="alphabet" name="alphabet">
-            <AlphabetScreen goBack={goBack} />
+            <AlphabetScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {
