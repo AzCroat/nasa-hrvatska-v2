@@ -168,6 +168,23 @@ const TARGETS = [
   'src/data/drills/regionalDrill.ts',
   'src/data/drills/identityDrill.ts',
   'src/data/drills/diasporaDrill.ts',
+  'src/data/drills/normDrill.ts',
+  'src/data/drills/declensionExceptionsDrill.ts',
+  'src/data/drills/numberNormDrill.ts',
+  'src/data/drills/agreementSubtletiesDrill.ts',
+  'src/data/drills/caseSubtletiesDrill.ts',
+  'src/data/drills/modalityDrill.ts',
+  'src/data/drills/rhythmDrill.ts',
+  'src/data/drills/ironyDrill.ts',
+  'src/data/drills/wordplayDrill.ts',
+  'src/data/drills/literaryStyleDrill.ts',
+  'src/data/drills/oldTextsDrill.ts',
+  'src/data/drills/reconstructionDrill.ts',
+  'src/data/drills/spontaneousDrill.ts',
+  'src/data/drills/specialistTranslationDrill.ts',
+  'src/data/drills/phraseologyDrill.ts',
+  'src/data/drills/dialectsDeepDrill.ts',
+  'src/data/drills/languageSocietyDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

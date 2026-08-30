@@ -462,7 +462,34 @@ export type SkillCategory =
   | 'arts'
   | 'regional'
   | 'identity'
-  | 'diaspora';
+  | 'diaspora'
+  // Pool-only tags (practice programme, C2 block, 2026-08-30 — the last of
+  // the programme): the gap between what is prescribed and what is said, the
+  // nouns that decline unlike their neighbours, quantity agreement, the
+  // subject that is not what it looks like, two correct cases meaning
+  // different things, obligation against permission, why a correct sentence
+  // can sound wrong, saying one thing and meaning another, wordplay,
+  // reading for what is not stated, texts written before Gaj, rebuilding an
+  // argument the text never states, speaking without preparation,
+  // terminology rather than dictionary, where a frazem comes from, what the
+  // three dialects actually do, and what a language choice says about you.
+  | 'norm'
+  | 'declension-exceptions'
+  | 'number-norm'
+  | 'agreement-subtleties'
+  | 'case-subtleties'
+  | 'modality'
+  | 'rhythm'
+  | 'irony'
+  | 'wordplay'
+  | 'literary-style'
+  | 'old-texts'
+  | 'reconstruction'
+  | 'spontaneous'
+  | 'specialist-translation'
+  | 'phraseology'
+  | 'dialects-deep'
+  | 'language-society';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',

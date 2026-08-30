@@ -228,6 +228,47 @@ const PROGRAMME_DRILLS: {
   { screen: 'grad', category: 'directions', lesson: 'directions-town', cefr: 'A1' },
   { screen: 'meteo', category: 'weather', lesson: 'weather-seasons', cefr: 'A1' },
   { screen: 'svidjanje', category: 'preferences', lesson: 'likes-preferences', cefr: 'A1' },
+
+  // ── C2 block (2026-08-30) ─────────────────────────────────────────────────
+  // The last seventeen of the programme. Every one is a new bank; every
+  // category is pool-only, so the adaptive picker is untouched.
+  { screen: 'norma', category: 'norm', lesson: 'norma-i-uzus', cefr: 'C2' },
+  {
+    screen: 'sklonidbaizn',
+    category: 'declension-exceptions',
+    lesson: 'sklonidba-iznimke',
+    cefr: 'C2',
+  },
+  { screen: 'brojevinorma', category: 'number-norm', lesson: 'brojevi-norma', cefr: 'C2' },
+  {
+    screen: 'slaganjec2',
+    category: 'agreement-subtleties',
+    lesson: 'slaganje-suptilnosti',
+    cefr: 'C2',
+  },
+  { screen: 'padezisupt', category: 'case-subtleties', lesson: 'padezne-suptilnosti', cefr: 'C2' },
+  { screen: 'naciniobveze', category: 'modality', lesson: 'glagolski-nacini', cefr: 'C2' },
+  { screen: 'ritam', category: 'rhythm', lesson: 'ritam-recenice', cefr: 'C2' },
+  { screen: 'ironija', category: 'irony', lesson: 'ironija-podtekst', cefr: 'C2' },
+  { screen: 'humorjezik', category: 'wordplay', lesson: 'humor-jezicni', cefr: 'C2' },
+  { screen: 'knjizevni', category: 'literary-style', lesson: 'knjizevni-stil', cefr: 'C2' },
+  { screen: 'staritekstovi', category: 'old-texts', lesson: 'stari-tekstovi', cefr: 'C2' },
+  {
+    screen: 'rekonstrukcija',
+    category: 'reconstruction',
+    lesson: 'rekonstrukcija-argumenta',
+    cefr: 'C2',
+  },
+  { screen: 'spontano', category: 'spontaneous', lesson: 'spontani-govor', cefr: 'C2' },
+  {
+    screen: 'prevodjenjestr',
+    category: 'specialist-translation',
+    lesson: 'prevodjenje-strucno',
+    cefr: 'C2',
+  },
+  { screen: 'frazemi', category: 'phraseology', lesson: 'frazeologija-dubinska', cefr: 'C2' },
+  { screen: 'dijalektic2', category: 'dialects-deep', lesson: 'dijalekti-dubinski', cefr: 'C2' },
+  { screen: 'jezikdrustvo', category: 'language-society', lesson: 'jezik-i-drustvo', cefr: 'C2' },
 ];
 
 /**
@@ -463,7 +504,7 @@ describe('coupling coverage per level does not slip', () => {
     B1: 27, // time-duration, position-placement, real-conditions
     B2: 27, // wishes-regrets, modal-nuance, prepositions-advanced
     C1: 30, // complete
-    C2: 13, // the C2 functional block is the last one outstanding
+    C2: 30, // complete
   };
 
   it.each(Object.entries(EXPECTED_COUPLED))('%s has %i coupled lessons', (level, expected) => {
