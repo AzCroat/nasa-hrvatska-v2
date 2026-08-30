@@ -259,6 +259,12 @@ const AdvancedComparisonDrill = lazyWithReload(
 const WordFormationDrill = lazyWithReload(() => import('./practice/drills/WordFormationDrill'));
 const DiminutivesC1Drill = lazyWithReload(() => import('./practice/drills/DiminutivesC1Drill'));
 const SummarisingDrill = lazyWithReload(() => import('./practice/drills/SummarisingDrill'));
+const FamilyDrill = lazyWithReload(() => import('./practice/drills/FamilyDrill'));
+const CountriesDrill = lazyWithReload(() => import('./practice/drills/CountriesDrill'));
+const FoodDrinkDrill = lazyWithReload(() => import('./practice/drills/FoodDrinkDrill'));
+const DirectionsDrill = lazyWithReload(() => import('./practice/drills/DirectionsDrill'));
+const WeatherDrill = lazyWithReload(() => import('./practice/drills/WeatherDrill'));
+const PreferencesDrill = lazyWithReload(() => import('./practice/drills/PreferencesDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2270,6 +2276,36 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'sazimanje' && (
           <ScreenErrorBoundary key="sazimanje" name="sazimanje">
             <SummarisingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'obitelj' && (
+          <ScreenErrorBoundary key="obitelj" name="obitelj">
+            <FamilyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zemlje' && (
+          <ScreenErrorBoundary key="zemlje" name="zemlje">
+            <CountriesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'hrana' && (
+          <ScreenErrorBoundary key="hrana" name="hrana">
+            <FoodDrinkDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'grad' && (
+          <ScreenErrorBoundary key="grad" name="grad">
+            <DirectionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'meteo' && (
+          <ScreenErrorBoundary key="meteo" name="meteo">
+            <WeatherDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'svidjanje' && (
+          <ScreenErrorBoundary key="svidjanje" name="svidjanje">
+            <PreferencesDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

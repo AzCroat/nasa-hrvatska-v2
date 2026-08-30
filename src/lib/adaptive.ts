@@ -373,7 +373,22 @@ export type SkillCategory =
   | 'advanced-comparison'
   | 'word-formation'
   | 'diminutives'
-  | 'summarising';
+  | 'summarising'
+  // Pool-only tags (practice programme, A1 TOPICAL block, 2026-08-29). This
+  // block was left uncoupled from the start for a good reason: the only partner
+  // on offer was a topic-blind vocabulary game, and pairing a lesson on family
+  // words with a round of random nouns claims a connection the app cannot
+  // deliver. What makes these drills honest is that the LESSONS are not
+  // topic-blind either — each is a topic plus a structure (irregular plurals
+  // with plural agreement, the country/nationality/language triple, accusative
+  // vs genitive when ordering, the subjectless sentence, the sviđati se flip),
+  // and the structure is what a drill can actually test.
+  | 'family'
+  | 'countries'
+  | 'food'
+  | 'directions'
+  | 'weather'
+  | 'preferences';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -385,7 +400,8 @@ export type SkillCategory =
 // 'admin-style', 'academic-style', 'journalistic-style', 'figures-of-speech',
 // 'editing', 'precision', 'i-declension', 'verbal-adverbs', 'negation-advanced',
 // 'aspect-verbs', 'intensity', 'collocations', 'prosody', 'advanced-comparison',
-// 'word-formation', 'diminutives', 'summarising') are valid SkillCategory tags used to label
+// 'word-formation', 'diminutives', 'summarising', 'family', 'countries', 'food',
+// 'directions', 'weather', 'preferences') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

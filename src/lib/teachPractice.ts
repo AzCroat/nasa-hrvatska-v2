@@ -219,6 +219,16 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // each governs. `diminutives-augmentatives` likewise does not map to the B1
   // `diminutives` screen, which has no augmentative content while half the
   // lesson is augmentatives — one side covered, both sides claimed.
+  // A1 topical block (2026-08-29). These six were the longest-standing entries
+  // in every DELIBERATELY_UNMAPPED list, and the reason was sound: the only
+  // partner available was a topic-blind vocabulary game. They leave the list the
+  // only honest way — a drill written for each lesson's actual subject.
+  'family-people': 'family',
+  'countries-languages': 'countries',
+  'food-drink': 'food',
+  'directions-town': 'directions',
+  'weather-seasons': 'weather',
+  'likes-preferences': 'preferences',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',

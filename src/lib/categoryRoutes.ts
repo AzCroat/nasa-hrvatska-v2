@@ -95,6 +95,13 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // C1 tranche 1 (2026-08-29). `collocations` and `prosody` route to existing C1
   // screens that were only ever unreachable because their pool tag was a
   // catch-all; the other four route to authored C1 banks.
+  // A1 topical block (2026-08-29). Topic-specific banks, each routed to itself.
+  family: 'obitelj',
+  countries: 'zemlje',
+  food: 'hrana',
+  directions: 'grad',
+  weather: 'meteo',
+  preferences: 'svidjanje',
   collocations: 'kolokacije',
   prosody: 'pitchaccent',
   'advanced-comparison': 'usporedbec1',

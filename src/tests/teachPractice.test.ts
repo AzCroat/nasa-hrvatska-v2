@@ -32,18 +32,20 @@ describe('the taught queue', () => {
   });
 
   it('ignores lessons with no unambiguous practice category', () => {
-    // adjective-agreement and family-people are deliberately unmapped — see the
+    // adjective-agreement and house-home are deliberately unmapped — see the
     // conservative-map note in teachPractice.ts. An unmapped lesson must be a
     // no-op, never a wrong pairing.
     //
-    // This used to name `basic-questions`, which stopped being an example on
-    // 2026-08-29 when the drill written for it shipped. That is the intended way
-    // off the list, and this failing is the reminder to pick a lesson that is
-    // still genuinely unmapped rather than to weaken the assertion.
-    // `family-people` is the topical block: its only possible partner is a
-    // topic-blind vocabulary game, which is the wrong pairing, not a missing one.
+    // This fixture has now turned over twice, and both times for the right
+    // reason. It named `basic-questions` until 2026-08-29, when the drill
+    // written for it shipped; it then named `family-people` until later the same
+    // day, when the A1 topical block shipped six drills authored for the six
+    // topical lessons. Building the drill is the ONLY way a lesson should leave
+    // the unmapped list, so this test failing is the reminder to pick a lesson
+    // that is still genuinely unmapped — never to weaken the assertion.
+    // `house-home` is the A2 topical block, which has no drill yet.
     recordLessonTaught('adjective-agreement');
-    recordLessonTaught('family-people');
+    recordLessonTaught('house-home');
     expect(pendingTaughtCategories()).toEqual([]);
   });
 
