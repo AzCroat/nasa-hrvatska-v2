@@ -272,6 +272,22 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'humour-irony': 'humour',
   'language-history': 'language-history',
   'literature-canon': 'literature',
+  // C1 functional block (2026-08-30). `discourse-particles` is the notable one:
+  // it was uncoupled because the `discourse` drill covers CONNECTORS while the
+  // lesson teaches ATTITUDE particles, which is a real distinction and not a
+  // wiring oversight. It now has a drill written for it.
+  'discourse-particles': 'particles',
+  'debate-persuasion': 'debate',
+  'formal-speech': 'formal-speech',
+  'translation-pitfalls': 'translation',
+  'proofreading-editing': 'proofreading',
+  'media-analysis': 'media-analysis',
+  'law-administration': 'legal',
+  'science-technology': 'science',
+  'arts-culture': 'arts',
+  'regional-varieties': 'regional',
+  'language-identity': 'identity',
+  'diaspora-identity': 'diaspora',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',

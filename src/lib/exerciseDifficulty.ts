@@ -95,6 +95,19 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   humor: 5,
   povijestjezika: 5,
   knjizevnost: 5,
+  // C1 functional block: tier 6, matching the other C1 banks.
+  cestice: 6,
+  debata: 6,
+  govor: 6,
+  prevodjenje: 6,
+  lektura: 6,
+  analizamedija: 6,
+  pravo: 6,
+  znanost: 6,
+  umjetnost: 6,
+  regionalizmi: 6,
+  identitet: 6,
+  dijaspora: 6,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open
