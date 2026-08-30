@@ -484,4 +484,101 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B2',
     category: 'literature',
   },
+
+  // ── C1, the FUNCTIONAL block (2026-08-30) ─────────────────────────────────
+  // Twelve lessons: orders 20-30 plus `discourse-particles` (15). That last one
+  // closes a gap this repo has had on record — the C1 `discourse` drill covers
+  // CONNECTORS (stoga, međutim) while the lesson teaches ATTITUDE particles
+  // (pa, ma, baš, valjda), so it could never honestly be coupled there and was
+  // left unmapped instead.
+  //
+  // Every other plausible partner is at C2 AND already claimed by a C2 lesson:
+  // `kalkovi` by nothing but tagged `register` (owned by `razgovorni-stil`),
+  // `lektor` by `uredjivanje-teksta`, `novinski` by `publicisticki-stil`,
+  // `administrativni` by `administrativni-stil`. Same finding as B2, one level
+  // up. So all twelve are authored.
+  {
+    id: 'cestice',
+    label: 'Discourse particles',
+    screen: 'cestice',
+    cefr: 'C1',
+    category: 'particles',
+  },
+  {
+    id: 'debata',
+    label: 'Debate & persuasion',
+    screen: 'debata',
+    cefr: 'C1',
+    category: 'debate',
+  },
+  {
+    id: 'govor',
+    label: 'Formal speech',
+    screen: 'govor',
+    cefr: 'C1',
+    category: 'formal-speech',
+  },
+  {
+    id: 'prevodjenje',
+    label: 'Translation traps',
+    screen: 'prevodjenje',
+    cefr: 'C1',
+    category: 'translation',
+  },
+  {
+    id: 'lektura',
+    label: 'Proofreading',
+    screen: 'lektura',
+    cefr: 'C1',
+    category: 'proofreading',
+  },
+  {
+    id: 'analizamedija',
+    label: 'Media analysis',
+    screen: 'analizamedija',
+    cefr: 'C1',
+    category: 'media-analysis',
+  },
+  {
+    id: 'pravo',
+    label: 'Legal & administrative',
+    screen: 'pravo',
+    cefr: 'C1',
+    category: 'legal',
+  },
+  {
+    id: 'znanost',
+    label: 'Science & technology',
+    screen: 'znanost',
+    cefr: 'C1',
+    category: 'science',
+  },
+  {
+    id: 'umjetnost',
+    label: 'Arts & culture',
+    screen: 'umjetnost',
+    cefr: 'C1',
+    category: 'arts',
+  },
+  {
+    id: 'regionalizmi',
+    label: 'Regional varieties',
+    screen: 'regionalizmi',
+    cefr: 'C1',
+    category: 'regional',
+  },
+  {
+    id: 'identitet',
+    label: 'Language identity',
+    screen: 'identitet',
+    cefr: 'C1',
+    category: 'identity',
+  },
+  {
+    id: 'dijaspora',
+    label: 'Diaspora & heritage',
+    screen: 'dijaspora',
+    cefr: 'C1',
+    category: 'diaspora',
+  },
 ];

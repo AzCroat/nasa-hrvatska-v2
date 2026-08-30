@@ -130,6 +130,19 @@ const PROGRAMME_DRILLS: {
     cefr: 'B2',
   },
   { screen: 'knjizevnost', category: 'literature', lesson: 'literature-canon', cefr: 'B2' },
+  // C1 functional block (2026-08-30). Twelve authored banks.
+  { screen: 'cestice', category: 'particles', lesson: 'discourse-particles', cefr: 'C1' },
+  { screen: 'debata', category: 'debate', lesson: 'debate-persuasion', cefr: 'C1' },
+  { screen: 'govor', category: 'formal-speech', lesson: 'formal-speech', cefr: 'C1' },
+  { screen: 'prevodjenje', category: 'translation', lesson: 'translation-pitfalls', cefr: 'C1' },
+  { screen: 'lektura', category: 'proofreading', lesson: 'proofreading-editing', cefr: 'C1' },
+  { screen: 'analizamedija', category: 'media-analysis', lesson: 'media-analysis', cefr: 'C1' },
+  { screen: 'pravo', category: 'legal', lesson: 'law-administration', cefr: 'C1' },
+  { screen: 'znanost', category: 'science', lesson: 'science-technology', cefr: 'C1' },
+  { screen: 'umjetnost', category: 'arts', lesson: 'arts-culture', cefr: 'C1' },
+  { screen: 'regionalizmi', category: 'regional', lesson: 'regional-varieties', cefr: 'C1' },
+  { screen: 'identitet', category: 'identity', lesson: 'language-identity', cefr: 'C1' },
+  { screen: 'dijaspora', category: 'diaspora', lesson: 'diaspora-identity', cefr: 'C1' },
   // ── B1 ────────────────────────────────────────────────────────────────────
   { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
   {
@@ -421,5 +434,53 @@ describe('every wrapper completes under the key it is routed at', () => {
       CEFR_EXERCISE_POOL.some((e) => e.screen === id),
       `"${id}" is not a screen in CEFR_EXERCISE_POOL`,
     ).toBe(true);
+  });
+});
+
+describe('coupling coverage per level does not slip', () => {
+  // WHY THIS EXISTS, and what it found on its first run.
+  //
+  // Each level's curriculum test carries a DELIBERATELY_UNMAPPED list, and those
+  // lists were being read as the record of what is uncoupled. They are not.
+  // SIX lessons have now been found uncoupled while appearing on no list at
+  // all: `feelings-inner-life` (B1), `writing-registers` (B2),
+  // `language-identity` (C1), and — caught by this very test the first time it
+  // ran — `vi-vs-ti`, `prepositions-action` and `adjective-agreement` at A2.
+  //
+  // The A2 three matter beyond the bookkeeping: the tranche that shipped the A2
+  // topical block reported "A2 reaches 26 of 30" by subtracting the length of
+  // the list from thirty. The real figure was 23. Nothing was broken by it, but
+  // a progress number that is computed from a list of judgements rather than
+  // from the map is a number nobody can trust.
+  //
+  // So this counts the map instead, and the numbers ratchet in BOTH directions:
+  // a lesson losing its mapping fails here, and a NEW lesson arriving uncoupled
+  // fails here too — the case no per-level list could ever have caught, because
+  // a list only knows about lessons somebody remembered to add to it.
+  const EXPECTED_COUPLED: Record<string, number> = {
+    A1: 29, // `alphabet` — AlphabetScreen never reaches recordScreenPractised
+    A2: 23, // 4 grammar + vi-vs-ti, prepositions-action, adjective-agreement
+    B1: 27, // time-duration, position-placement, real-conditions
+    B2: 27, // wishes-regrets, modal-nuance, prepositions-advanced
+    C1: 30, // complete
+    C2: 13, // the C2 functional block is the last one outstanding
+  };
+
+  it.each(Object.entries(EXPECTED_COUPLED))('%s has %i coupled lessons', (level, expected) => {
+    const lessons = (CURRICULUM as Entry[]).filter((e) => e.level === level);
+    const coupled = lessons.filter((e) => LESSON_TAUGHT_CATEGORY[e.id]);
+    const uncoupled = lessons.filter((e) => !LESSON_TAUGHT_CATEGORY[e.id]).map((e) => e.id);
+    expect(
+      coupled.length,
+      `${level} is ${coupled.length}/${lessons.length} coupled. Uncoupled: ${uncoupled.join(', ') || 'none'}`,
+    ).toBe(expected);
+  });
+
+  it('every level has all 30 lessons accounted for', () => {
+    // Guards the guard: if a level ever had fewer than 30 lessons the counts
+    // above could be met while content had gone missing.
+    for (const level of Object.keys(EXPECTED_COUPLED)) {
+      expect((CURRICULUM as Entry[]).filter((e) => e.level === level)).toHaveLength(30);
+    }
   });
 });

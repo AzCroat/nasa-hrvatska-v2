@@ -156,6 +156,18 @@ const TARGETS = [
   'src/data/drills/humourDrill.ts',
   'src/data/drills/languageHistoryDrill.ts',
   'src/data/drills/literatureDrill.ts',
+  'src/data/drills/particlesDrill.ts',
+  'src/data/drills/debateDrill.ts',
+  'src/data/drills/formalSpeechDrill.ts',
+  'src/data/drills/translationDrill.ts',
+  'src/data/drills/proofreadingDrill.ts',
+  'src/data/drills/mediaAnalysisDrill.ts',
+  'src/data/drills/legalDrill.ts',
+  'src/data/drills/scienceDrill.ts',
+  'src/data/drills/artsDrill.ts',
+  'src/data/drills/regionalDrill.ts',
+  'src/data/drills/identityDrill.ts',
+  'src/data/drills/diasporaDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

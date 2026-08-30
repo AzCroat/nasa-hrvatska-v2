@@ -443,7 +443,26 @@ export type SkillCategory =
   | 'smalltalk'
   | 'humour'
   | 'language-history'
-  | 'literature';
+  | 'literature'
+  // Pool-only tags (practice programme, C1 FUNCTIONAL block, 2026-08-30): the
+  // attitude particles, conceding before defeating a point, the ceremonial
+  // formulas and the dative nazdraviti takes, the calques that mark a text as
+  // translated, checking a draft in passes, who disappeared into a passive,
+  // temeljem/sukladno and the deadline, splitting a coined technical term,
+  // potresan as praise, understanding a regional variety without performing it,
+  // what marks a text as Croatian, and zavičaj.
+  | 'particles'
+  | 'debate'
+  | 'formal-speech'
+  | 'translation'
+  | 'proofreading'
+  | 'media-analysis'
+  | 'legal'
+  | 'science'
+  | 'arts'
+  | 'regional'
+  | 'identity'
+  | 'diaspora';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -462,7 +481,9 @@ export type SkillCategory =
 // 'renting', 'job-search', 'news', 'technology', 'nature', 'cooking',
 // 'argument', 'hedging', 'abstract', 'registers', 'presenting', 'meetings',
 // 'business', 'politics', 'smalltalk', 'humour', 'language-history',
-// 'literature') are valid SkillCategory tags used to label
+// 'literature', 'particles', 'debate', 'formal-speech', 'translation',
+// 'proofreading', 'media-analysis', 'legal', 'science', 'arts', 'regional',
+// 'identity', 'diaspora') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

@@ -27,6 +27,7 @@ const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
+const { CATEGORY_SCREEN_MAP } = await import('../lib/categoryRoutes');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
@@ -226,6 +227,38 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     'tvorba-rijeci': 'word-formation',
     'diminutives-augmentatives': 'diminutives',
     'summarising-paraphrase': 'summarising',
+    // The FUNCTIONAL block (2026-08-30): orders 20-30 plus discourse-particles.
+    //   discourse-particles  pa, ma, baš, valjda — and valjda is a shrug where
+    //                        vjerojatno is an estimate
+    //   debate-persuasion    concede the true part, then reject the FRAMING:
+    //                        ne radi se o X, nego o Y
+    //   formal-speech        the ceremonial formulas, and nazdraviti + DATIVE
+    //   translation-pitfalls eventualno, od strane, vršiti analizu — what marks
+    //                        a text as thought in English
+    //   proofreading-editing checking in passes, and the comma rule learners
+    //                        invert (Znam da dolaziš — no comma)
+    //   media-analysis       who disappeared into the passive; navodno against
+    //                        tobože; the near-synonym that was not chosen
+    //   law-administration   temeljem + genitive, sukladno + dative, and the rok
+    //   science-technology   splitting a coined term (toplomjer, zemljopis) and
+    //                        the decimal comma
+    //   arts-culture         potresan is praise, not a warning
+    //   regional-varieties   understand a variety; do not perform one
+    //   language-identity    what marks a text as Croatian, from the Croatian
+    //                        side only — see the note below
+    //   diaspora-identity    zavičaj, and how to talk about your own Croatian
+    'discourse-particles': 'particles',
+    'debate-persuasion': 'debate',
+    'formal-speech': 'formal-speech',
+    'translation-pitfalls': 'translation',
+    'proofreading-editing': 'proofreading',
+    'media-analysis': 'media-analysis',
+    'law-administration': 'legal',
+    'science-technology': 'science',
+    'arts-culture': 'arts',
+    'regional-varieties': 'regional',
+    'language-identity': 'identity',
+    'diaspora-identity': 'diaspora',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -267,27 +300,38 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     clearTaughtQueue();
   });
 
-  const DELIBERATELY_UNMAPPED = [
-    // `discourse-particles` is the one worth explaining, because the mapping
-    // LOOKS available and is not: a C1 `discourse` drill sits in
-    // the pool. It drills CONNECTORS (stoga, međutim, unatoč tome) — clause
-    // joiners — while the lesson teaches attitude particles (pa, ma, baš,
-    // valjda, zar). Adjacent, not the same, so no mapping. Both drills stay
-    // reachable through the P3 CEFR fill, which walks the pool directly.
-    'discourse-particles',
-    'debate-persuasion',
-    'formal-speech',
-    'translation-pitfalls',
-    'proofreading-editing',
-    'media-analysis',
-    'law-administration',
-    'science-technology',
-    'arts-culture',
-    'regional-varieties',
-    'diaspora-identity',
-  ];
+  // EMPTY. C1 is fully coupled as of 2026-08-30, and `discourse-particles` —
+  // the entry this list existed to explain — left it the only honest way. The
+  // reason recorded here was correct and is worth keeping: the C1 `discourse`
+  // drill covers CONNECTORS (stoga, međutim, unatoč tome) while the lesson
+  // teaches ATTITUDE particles (pa, ma, baš, valjda). Adjacent, not the same.
+  // The answer was a drill written for the particles, not a mapping to the
+  // connectors; both drills remain reachable through the P3 CEFR fill.
+  const DELIBERATELY_UNMAPPED: string[] = [];
 
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  it('nothing is left unmapped at C1', () => {
+    expect(DELIBERATELY_UNMAPPED).toEqual([]);
+    const uncoupled = c1Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(uncoupled, `C1 lessons with no drill: ${uncoupled.join(', ')}`).toEqual([]);
+  });
+
+  it('the language-identity drill teaches from the Croatian side only', () => {
+    // The constraint that shapes that bank, pinned so it cannot be relaxed by
+    // someone making the drill "match the lesson better".
+    //
+    // The LESSON teaches the contrast with a neighbouring standard and holds the
+    // one sanctioned CONTRASTIVE_LESSONS carve-out in lintCroatianText.mjs,
+    // because there the form is a labelled comparison column. A DRILL cannot do
+    // that: its options are clickable, so the same content would put a
+    // neighbouring standard's word in front of a learner as a live choice —
+    // which the 2026-08-26 distractor directive forbids and the carve-out was
+    // written NOT to cover.
+    //
+    // The bank therefore covers the lesson's second objective (recognise the
+    // lexical choices that mark a text as Croatian) from the Croatian side, and
+    // the Croatian lint is what enforces it — the same lint caught an ekavian
+    // distractor in the regional and language-history banks on their first runs.
+    expect(LESSON_TAUGHT_CATEGORY['language-identity']).toBe('identity');
+    expect(CATEGORY_SCREEN_MAP['identity']).toBe('identitet');
   });
 });

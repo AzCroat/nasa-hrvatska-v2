@@ -172,6 +172,23 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   humour: 'vocab',
   'language-history': 'vocab',
   literature: 'reading',
+  // C1 functional block (2026-08-30), grouped by what each drill exercises.
+  // `particles`, `debate` and `formal-speech` are spoken performance.
+  // `translation` and `proofreading` are clause-level repair, so 'syntax'.
+  // `media-analysis` and `legal` are both reading a text for what it does not
+  // say outright. The remaining five are lexical.
+  particles: 'speaking',
+  debate: 'speaking',
+  'formal-speech': 'speaking',
+  translation: 'syntax',
+  proofreading: 'syntax',
+  'media-analysis': 'reading',
+  legal: 'reading',
+  science: 'vocab',
+  arts: 'vocab',
+  regional: 'vocab',
+  identity: 'vocab',
+  diaspora: 'vocab',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',
