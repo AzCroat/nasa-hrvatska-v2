@@ -275,6 +275,16 @@ const HobbiesDrill = lazyWithReload(() => import('./practice/drills/HobbiesDrill
 const TravelDrill = lazyWithReload(() => import('./practice/drills/TravelDrill'));
 const InvitationsDrill = lazyWithReload(() => import('./practice/drills/InvitationsDrill'));
 const CelebrationsDrill = lazyWithReload(() => import('./practice/drills/CelebrationsDrill'));
+const OpinionsDrill = lazyWithReload(() => import('./practice/drills/OpinionsDrill'));
+const FeelingsDrill = lazyWithReload(() => import('./practice/drills/FeelingsDrill'));
+const ComplaintsDrill = lazyWithReload(() => import('./practice/drills/ComplaintsDrill'));
+const BureaucracyDrill = lazyWithReload(() => import('./practice/drills/BureaucracyDrill'));
+const RentingDrill = lazyWithReload(() => import('./practice/drills/RentingDrill'));
+const JobSearchDrill = lazyWithReload(() => import('./practice/drills/JobSearchDrill'));
+const NewsDrill = lazyWithReload(() => import('./practice/drills/NewsDrill'));
+const TechnologyDrill = lazyWithReload(() => import('./practice/drills/TechnologyDrill'));
+const NatureDrill = lazyWithReload(() => import('./practice/drills/NatureDrill'));
+const CookingDrill = lazyWithReload(() => import('./practice/drills/CookingDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2366,6 +2376,56 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'blagdani' && (
           <ScreenErrorBoundary key="blagdani" name="blagdani">
             <CelebrationsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'misljenje' && (
+          <ScreenErrorBoundary key="misljenje" name="misljenje">
+            <OpinionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'osjecaji' && (
+          <ScreenErrorBoundary key="osjecaji" name="osjecaji">
+            <FeelingsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zalbe' && (
+          <ScreenErrorBoundary key="zalbe" name="zalbe">
+            <ComplaintsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'salter' && (
+          <ScreenErrorBoundary key="salter" name="salter">
+            <BureaucracyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'najam' && (
+          <ScreenErrorBoundary key="najam" name="najam">
+            <RentingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zivotopis' && (
+          <ScreenErrorBoundary key="zivotopis" name="zivotopis">
+            <JobSearchDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'mediji' && (
+          <ScreenErrorBoundary key="mediji" name="mediji">
+            <NewsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'tehnologija' && (
+          <ScreenErrorBoundary key="tehnologija" name="tehnologija">
+            <TechnologyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'priroda' && (
+          <ScreenErrorBoundary key="priroda" name="priroda">
+            <NatureDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kuhanje' && (
+          <ScreenErrorBoundary key="kuhanje" name="kuhanje">
+            <CookingDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

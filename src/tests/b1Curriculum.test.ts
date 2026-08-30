@@ -169,6 +169,39 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     impersonal: 'impersonal',
     'time-clauses': 'time-clauses',
     'cause-purpose': 'cause-purpose',
+    // The TOPICAL block (2026-08-30), the ten B1 lessons whose subject reads as
+    // a topic. Each is a topic PLUS a structure, and the structure is what the
+    // drill tests:
+    //   opinions-agreeing    the obligatory `da` after every opinion frame —
+    //                        English drops "that", Croatian never drops da
+    //   feelings-inner-life  the case each reflexive emotion verb governs
+    //                        (bojati se + gen, nadati se + dat, brinuti se za)
+    //   complaints-problems  Croatian reports the FAULT, not the culprit
+    //   bureaucracy          the impersonal register every official form uses
+    //   renting-flat         rooms counted without kitchen or bathroom, and
+    //                        najamnina against režije
+    //   job-interview        the participle agreeing with the applicant, on
+    //                        every line of a životopis
+    //   media-news           the verbless headline, and reported speech with
+    //                        NO backshift
+    //   technology-internet  the native/international register split
+    //   environment-nature   the named winds, which carry consequences
+    //   food-cooking         a recipe is polite imperatives plus the genitive
+    //
+    // `feelings-inner-life` was never in the list below, which is worth noting:
+    // it was uncoupled all along without being recorded as a deliberate
+    // omission. The list is a record of judgements, not a census, so absence
+    // from it never meant a lesson was served.
+    'opinions-agreeing': 'opinions',
+    'feelings-inner-life': 'feelings',
+    'complaints-problems': 'complaints',
+    bureaucracy: 'bureaucracy',
+    'renting-flat': 'renting',
+    'job-interview': 'job-search',
+    'media-news': 'news',
+    'technology-internet': 'technology',
+    'environment-nature': 'nature',
+    'food-cooking': 'cooking',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -194,23 +227,37 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     }
   });
 
+  // Down to the three B1 GRAMMAR lessons. The topical block left this list on
+  // 2026-08-30 the only honest way — a drill authored for each lesson's actual
+  // subject.
   const DELIBERATELY_UNMAPPED = [
+    // Each of these teaches something no drill in the app covers at any level:
+    // prije against za, which mirror each other; sjesti against sjediti (and
+    // staviti against stajati), where the accusative marks the change of
+    // position and the locative the state; and the budem-form a real condition
+    // pointing at the future takes. They are the B1 grammar tranche.
     'time-duration',
     'position-placement',
     'real-conditions',
-    'opinions-agreeing',
-    'complaints-problems',
-    'bureaucracy',
-    'renting-flat',
-    'job-interview',
-    'media-news',
-    'technology-internet',
-    'environment-nature',
-    'food-cooking',
   ];
 
   it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
+    // If a real drill for one of these ever ships, move it into EXPECTED — that
+    // is the intended way off this list, and this failing is the reminder to do
+    // it deliberately rather than to weaken the assertion.
     expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  });
+
+  it('the technology drill was authored rather than borrowing techvoc', () => {
+    // The survey's one near-miss, and the reason it is not a retag. `techvoc`
+    // (B2, Tech Vocabulary) is the drill this lesson wants and sits a level
+    // above it. The A2 rescue — CATEGORY_EASIER_SCREEN — only routes DOWNWARD,
+    // and there was nothing below. Retagging `techvoc` was the other option and
+    // is worse: its tag `vocab-b2` is an ALL_CATEGORIES member routed to `znam`,
+    // so moving it would change what the adaptive picker serves for a category
+    // that has nothing to do with this lesson.
+    expect(CATEGORY_SCREEN_MAP['technology']).toBe('tehnologija');
+    expect(CATEGORY_SCREEN_MAP['vocab-b2']).toBe('znam');
   });
 });
 
