@@ -41,7 +41,7 @@ const DRILLS = [
     id: 'kolokacije',
     data: KOLOKACIJE_DRILL_DATA,
     modes: ['glagolske', 'padezi', 'registar'],
-    category: 'register',
+    category: 'collocations',
     tier: 5,
   },
   {

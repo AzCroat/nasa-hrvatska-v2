@@ -208,6 +208,24 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     // now lands on RekcijaDrill — which IS verb government — instead of the
     // locative drill. This lesson was in DELIBERATELY_UNMAPPED until then.
     'verb-government': 'verb-government',
+    // Practice programme, C1 tranche 1 (2026-08-29). Two RETAGS of C1 drills
+    // that were only unreachable because their pool tag was a catch-all
+    // (`kolokacije` under `register`, `pitchaccent` under `speaking`), and four
+    // AUTHORED banks. The two that look like retags and are not are worth
+    // recording, because the near-miss is the whole risk at this level:
+    //   * `comparison-advanced` does NOT take `stupnjevanje`, which IS reachable
+    //     from C1 — two of its three modes build comparatives, which the A2
+    //     lesson owns, while this lesson teaches the CONSTRUCTIONS and their
+    //     case government (kao vs poput, za razliku od + genitive).
+    //   * `diminutives-augmentatives` does NOT take the B1 `diminutives` screen,
+    //     which has no augmentative content at all while half the lesson is
+    //     augmentatives — one side covered, both sides claimed.
+    collocations: 'collocations',
+    'accent-prosody': 'prosody',
+    'comparison-advanced': 'advanced-comparison',
+    'tvorba-rijeci': 'word-formation',
+    'diminutives-augmentatives': 'diminutives',
+    'summarising-paraphrase': 'summarising',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -256,12 +274,7 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     // joiners — while the lesson teaches attitude particles (pa, ma, baš,
     // valjda, zar). Adjacent, not the same, so no mapping. Both drills stay
     // reachable through the P3 CEFR fill, which walks the pool directly.
-    'diminutives-augmentatives',
-    'comparison-advanced',
-    'collocations',
     'discourse-particles',
-    'accent-prosody',
-    'summarising-paraphrase',
     'debate-persuasion',
     'formal-speech',
     'translation-pitfalls',

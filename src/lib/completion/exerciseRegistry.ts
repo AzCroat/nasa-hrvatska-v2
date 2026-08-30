@@ -94,6 +94,10 @@ const RAW: Record<string, ExerciseEntry> = {
   negacijab2: g('gc', 'grammar', 'grammar'),
   vidglagoli: g('gc', 'grammar', 'grammar'),
   intenzitet: g('gc', 'grammar', 'grammar'),
+  usporedbec1: g('gc', 'grammar', 'grammar'),
+  tvorbac1: g('gc', 'grammar', 'grammar'),
+  deminutivi: g('gc', 'grammar', 'grammar'),
+  sazimanje: g('gc', 'grammar', 'grammar'),
   genitive: g('gc', 'grammar', 'grammar'),
   imperative: g('gc', 'grammar', 'grammar'),
   // C2 structure drill (literary tenses / nominal style / comma) — first C2

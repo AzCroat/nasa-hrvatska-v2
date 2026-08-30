@@ -212,6 +212,19 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // which the A2 `comparatives-a2` lesson already owns via `komparacija`. This
   // lesson is about GRADING — sve + comparative, the intensifier register, and
   // pre- meaning "too" — so pairing the two would be the wrong-drill mistake.
+  // C1 tranche 1 (2026-08-29). `comparison-advanced` deliberately does NOT map
+  // to `stupnjevanje`, which is reachable from C1: two of that drill's three
+  // modes build comparatives, which the A2 lesson already owns, while this
+  // lesson is about the CONSTRUCTIONS (kao vs poput, za razliku od) and the case
+  // each governs. `diminutives-augmentatives` likewise does not map to the B1
+  // `diminutives` screen, which has no augmentative content while half the
+  // lesson is augmentatives — one side covered, both sides claimed.
+  collocations: 'collocations',
+  'accent-prosody': 'prosody',
+  'comparison-advanced': 'advanced-comparison',
+  'tvorba-rijeci': 'word-formation',
+  'diminutives-augmentatives': 'diminutives',
+  'summarising-paraphrase': 'summarising',
   'i-declension': 'i-declension',
   'verbal-adverbs': 'verbal-adverbs',
   'negation-advanced': 'negation-advanced',

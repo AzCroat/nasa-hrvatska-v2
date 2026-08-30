@@ -253,6 +253,12 @@ const NegationAdvancedDrill = lazyWithReload(
 );
 const AspectVerbsDrill = lazyWithReload(() => import('./practice/drills/AspectVerbsDrill'));
 const IntensityDrill = lazyWithReload(() => import('./practice/drills/IntensityDrill'));
+const AdvancedComparisonDrill = lazyWithReload(
+  () => import('./practice/drills/AdvancedComparisonDrill'),
+);
+const WordFormationDrill = lazyWithReload(() => import('./practice/drills/WordFormationDrill'));
+const DiminutivesC1Drill = lazyWithReload(() => import('./practice/drills/DiminutivesC1Drill'));
+const SummarisingDrill = lazyWithReload(() => import('./practice/drills/SummarisingDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2244,6 +2250,26 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'intenzitet' && (
           <ScreenErrorBoundary key="intenzitet" name="intenzitet">
             <IntensityDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'usporedbec1' && (
+          <ScreenErrorBoundary key="usporedbec1" name="usporedbec1">
+            <AdvancedComparisonDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'tvorbac1' && (
+          <ScreenErrorBoundary key="tvorbac1" name="tvorbac1">
+            <WordFormationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'deminutivi' && (
+          <ScreenErrorBoundary key="deminutivi" name="deminutivi">
+            <DiminutivesC1Drill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'sazimanje' && (
+          <ScreenErrorBoundary key="sazimanje" name="sazimanje">
+            <SummarisingDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

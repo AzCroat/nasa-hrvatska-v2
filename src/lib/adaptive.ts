@@ -360,7 +360,20 @@ export type SkillCategory =
   | 'verbal-adverbs'
   | 'negation-advanced'
   | 'aspect-verbs'
-  | 'intensity';
+  | 'intensity'
+  // Pool-only tags (practice programme, C1 tranche 1, 2026-08-29). A MIX: C1 is
+  // the only level where both earlier moves were available and both were partly
+  // wrong. `collocations` and `prosody` are retags of C1 drills that were buried
+  // under the `register` and `speaking` catch-alls; the other four are authored,
+  // because the nearest existing drill was either C2-gated (`tvorbarijeci`) or a
+  // genuine content mismatch (`stupnjevanje` builds comparatives; the B1
+  // `diminutives` screen has no augmentative content at all).
+  | 'collocations'
+  | 'prosody'
+  | 'advanced-comparison'
+  | 'word-formation'
+  | 'diminutives'
+  | 'summarising';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -371,7 +384,8 @@ export type SkillCategory =
 // 'impersonal', 'time-clauses', 'cause-purpose', 'orthography', 'punctuation',
 // 'admin-style', 'academic-style', 'journalistic-style', 'figures-of-speech',
 // 'editing', 'precision', 'i-declension', 'verbal-adverbs', 'negation-advanced',
-// 'aspect-verbs', 'intensity') are valid SkillCategory tags used to label
+// 'aspect-verbs', 'intensity', 'collocations', 'prosody', 'advanced-comparison',
+// 'word-formation', 'diminutives', 'summarising') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

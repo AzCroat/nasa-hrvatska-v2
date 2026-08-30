@@ -683,7 +683,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     label: 'Pitch Accents',
     screen: 'pitchaccent',
     cefr: 'C1',
-    category: 'speaking',
+    category: 'prosody',
   },
   // ── Wave 4b: bounded bilingual browse screens (reference contract) ─────────
   // No self-grading completion — they complete on return (max one per session).

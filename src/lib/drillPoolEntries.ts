@@ -106,7 +106,7 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     label: 'Kolokacije',
     screen: 'kolokacije',
     cefr: 'C1',
-    category: 'register',
+    category: 'collocations',
   },
   {
     id: 'emfaza',

@@ -92,6 +92,15 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // `instrumental`, which is a case, not a declension class — with the new B2
   // bank as the easier route below it. The other four are authored B2 drills
   // whose nearest existing match sat at C1/C2 with nothing lower to fall to.
+  // C1 tranche 1 (2026-08-29). `collocations` and `prosody` route to existing C1
+  // screens that were only ever unreachable because their pool tag was a
+  // catch-all; the other four route to authored C1 banks.
+  collocations: 'kolokacije',
+  prosody: 'pitchaccent',
+  'advanced-comparison': 'usporedbec1',
+  'word-formation': 'tvorbac1',
+  diminutives: 'deminutivi',
+  summarising: 'sazimanje',
   'i-declension': 'isklonidba',
   'verbal-adverbs': 'prilozib2',
   'negation-advanced': 'negacijab2',
