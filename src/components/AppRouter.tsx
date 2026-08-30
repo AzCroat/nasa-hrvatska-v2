@@ -285,6 +285,18 @@ const NewsDrill = lazyWithReload(() => import('./practice/drills/NewsDrill'));
 const TechnologyDrill = lazyWithReload(() => import('./practice/drills/TechnologyDrill'));
 const NatureDrill = lazyWithReload(() => import('./practice/drills/NatureDrill'));
 const CookingDrill = lazyWithReload(() => import('./practice/drills/CookingDrill'));
+const ArgumentDrill = lazyWithReload(() => import('./practice/drills/ArgumentDrill'));
+const HedgingDrill = lazyWithReload(() => import('./practice/drills/HedgingDrill'));
+const AbstractDrill = lazyWithReload(() => import('./practice/drills/AbstractDrill'));
+const RegistersDrill = lazyWithReload(() => import('./practice/drills/RegistersDrill'));
+const PresentingDrill = lazyWithReload(() => import('./practice/drills/PresentingDrill'));
+const MeetingsDrill = lazyWithReload(() => import('./practice/drills/MeetingsDrill'));
+const BusinessDrill = lazyWithReload(() => import('./practice/drills/BusinessDrill'));
+const PoliticsDrill = lazyWithReload(() => import('./practice/drills/PoliticsDrill'));
+const SmalltalkDrill = lazyWithReload(() => import('./practice/drills/SmalltalkDrill'));
+const HumourDrill = lazyWithReload(() => import('./practice/drills/HumourDrill'));
+const LanguageHistoryDrill = lazyWithReload(() => import('./practice/drills/LanguageHistoryDrill'));
+const LiteratureDrill = lazyWithReload(() => import('./practice/drills/LiteratureDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2426,6 +2438,66 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'kuhanje' && (
           <ScreenErrorBoundary key="kuhanje" name="kuhanje">
             <CookingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'argumentacija' && (
+          <ScreenErrorBoundary key="argumentacija" name="argumentacija">
+            <ArgumentDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'ograde' && (
+          <ScreenErrorBoundary key="ograde" name="ograde">
+            <HedgingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'apstraktno' && (
+          <ScreenErrorBoundary key="apstraktno" name="apstraktno">
+            <AbstractDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'registri' && (
+          <ScreenErrorBoundary key="registri" name="registri">
+            <RegistersDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'izlaganje' && (
+          <ScreenErrorBoundary key="izlaganje" name="izlaganje">
+            <PresentingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'sastanci' && (
+          <ScreenErrorBoundary key="sastanci" name="sastanci">
+            <MeetingsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'poslovno' && (
+          <ScreenErrorBoundary key="poslovno" name="poslovno">
+            <BusinessDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'politika' && (
+          <ScreenErrorBoundary key="politika" name="politika">
+            <PoliticsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'caskanje' && (
+          <ScreenErrorBoundary key="caskanje" name="caskanje">
+            <SmalltalkDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'humor' && (
+          <ScreenErrorBoundary key="humor" name="humor">
+            <HumourDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'povijestjezika' && (
+          <ScreenErrorBoundary key="povijestjezika" name="povijestjezika">
+            <LanguageHistoryDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'knjizevnost' && (
+          <ScreenErrorBoundary key="knjizevnost" name="knjizevnost">
+            <LiteratureDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

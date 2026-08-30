@@ -153,6 +153,25 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   technology: 'vocab',
   nature: 'vocab',
   cooking: 'verb',
+  // B2 functional block (2026-08-30), grouped by the structure each drill
+  // tests. `abstract` is declension plus fixed prepositions, so 'case'.
+  // `argument` and `registers` are clause-level operations (the u tome što
+  // frame; the passive/nominalization pair), so 'syntax'. `hedging` turns on
+  // the conditional, so 'verb'. `presenting`, `meetings` and `smalltalk` are
+  // spoken performance, so 'speaking'. `literature` is a reading drill and is
+  // the first entry to use that group. The remaining four are lexical.
+  argument: 'syntax',
+  hedging: 'verb',
+  abstract: 'case',
+  registers: 'syntax',
+  presenting: 'speaking',
+  meetings: 'speaking',
+  business: 'vocab',
+  politics: 'vocab',
+  smalltalk: 'speaking',
+  humour: 'vocab',
+  'language-history': 'vocab',
+  literature: 'reading',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',
