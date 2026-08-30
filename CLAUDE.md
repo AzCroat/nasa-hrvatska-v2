@@ -1119,6 +1119,7 @@ and in every case the suite was fully green beforehand:
 | `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
 | The whole coupling suite, after BOTH fixes | Resolution and clearing both round-tripped through the real builder | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`). |
 | `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
+| `AlphabetScreen`'s own component tests | Render the screen, play the quiz, assert on its behaviour | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router. |
 
 The pattern is always the same, and it is worth naming because it is invisible
 from the outside: **a guard that covers most of a thing reads exactly like a
@@ -1137,6 +1138,11 @@ Practical rules that fall out of this:
   through the real function, the real builder, the real map.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
+- **A component test and a wiring test are different tests.** A test that
+  renders a screen and supplies its props proves the screen works when wired;
+  only walking the router proves it IS wired. `award` was the case — see the
+  table above — and the same split explains why `couplingClearingPath` had to
+  exist beside the round-trip suite.
 - **When you fix a guard, mutate again.** Three of these were found in guards
   written to catch the previous one — including the import-graph walk, which was
   itself written to catch the round-trip suite's blind spot.

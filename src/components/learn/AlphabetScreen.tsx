@@ -217,12 +217,27 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                 // a live screen's XP semantics for no gain here. Same call and
                 // same reasoning as `writing_guided` and `relpron`.
                 recordScreenPractised('alphabet');
+                const firstCompletion = !stats.vs?.includes('alphabet');
                 if (!awardFired.current) {
                   awardFired.current = true;
-                  if (typeof award === 'function') award(20, false, 'vocabulary');
+                  // XP ON FIRST COMPLETION ONLY, which is `completeExercise`'s
+                  // default: a repeat pays nothing unless the screen opts in via
+                  // awardOnReplay, and this one does not. `awardFired` alone is
+                  // an IN-INSTANCE ref and resets on every remount, so gating on
+                  // it would have made the alphabet quiz the one screen in the
+                  // app that pays 20 XP every time you re-enter it. That was
+                  // invisible until the prop below started arriving — the call
+                  // had been dead since the screen shipped.
+                  if (firstCompletion && typeof award === 'function') {
+                    award(20, false, 'vocabulary');
+                  }
+                  // markQuest is NOT gated the same way, deliberately: it is
+                  // date-keyed and counts per day (it promotes a tier-2 quest on
+                  // the second finish of a type today), so it is meant to be
+                  // called on each genuine completion.
                   markQuest('grammar');
                 }
-                if (!stats.vs?.includes('alphabet')) {
+                if (firstCompletion) {
                   setStats((prev) => {
                     if (prev.vs?.includes('alphabet')) return prev;
                     return {
