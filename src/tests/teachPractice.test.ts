@@ -42,28 +42,34 @@ describe('the taught queue', () => {
   // hardcoded one bought nothing but a maintenance trap and is gone.
 
   it('ignores EVERY lesson the map does not cover', () => {
-    // This assertion used to name one further lesson as its example, and the
-    // name went stale three times in two days — `basic-questions`, then
-    // `family-people`, then `house-home`, each because the drill written for it
-    // shipped. That is the right way for a lesson to leave the unmapped list,
-    // but a hand-picked fixture turns a correct change into a red test and
-    // tempts whoever is holding it into weakening the assertion instead.
+    // This assertion used to name one lesson as its example, and the name went
+    // stale three times in two days — `basic-questions`, then `family-people`,
+    // then `house-home`, each because the drill written for it shipped. That is
+    // the right way for a lesson to leave the unmapped list, but a hand-picked
+    // fixture turns a correct change into a red test and tempts whoever is
+    // holding it into weakening the assertion instead. So the inputs were
+    // derived from the map, with a guard against the derivation going vacuous.
     //
-    // Deriving the inputs from the map is not the "test that restates
-    // production data" anti-pattern: the map IS the definition of unmapped, and
-    // the BEHAVIOUR under test — recording an unmapped lesson must queue
-    // nothing — is still exercised through the real queue. It also widens
-    // coverage from one lesson to every uncovered lesson in the curriculum,
-    // which is where a bad entry would actually appear.
+    // On 2026-08-30 that guard fired, and it was right to: mapping `alphabet`
+    // made the map TOTAL over the curriculum, so there is no uncovered lesson
+    // left to feed in and a loop over an empty list asserts nothing.
+    //
+    // The BEHAVIOUR is still real — an id the map does not cover must queue
+    // nothing — so it is exercised with a synthetic id rather than deleted.
+    // That is not the hand-picked fixture removed above: it is chosen BECAUSE
+    // no lesson can ever be called that, so unlike a real lesson name it cannot
+    // go stale when the next drill ships.
+    const NOT_A_LESSON = '__no-such-lesson__';
+    expect(NOT_A_LESSON in LESSON_TAUGHT_CATEGORY).toBe(false);
+    clearTaughtQueue();
+    recordLessonTaught(NOT_A_LESSON);
+    expect(pendingTaughtCategories(), 'an unmapped id queued something').toEqual([]);
+
+    // And the derived loop stays, so a future lesson added without a mapping is
+    // covered the moment it appears. It is empty today, which is the point.
     const uncovered = (CURRICULUM as { id: string }[])
       .map((e) => e.id)
       .filter((id) => !(id in LESSON_TAUGHT_CATEGORY));
-
-    // Guard against the assertion going vacuous if the map ever became total.
-    expect(
-      uncovered.length,
-      'no uncovered lessons left — is this still testing anything?',
-    ).toBeGreaterThan(0);
 
     for (const id of uncovered) {
       clearTaughtQueue();

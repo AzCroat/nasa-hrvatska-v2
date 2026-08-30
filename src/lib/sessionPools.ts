@@ -636,7 +636,14 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // Verified by the 35-screen eligibility audit; registration only, no screen
   // code changed. All launch cold with goBack(+award) and finish with a guarded
   // award (several via the ≥75%-gated completeLesson/completeExercise helpers).
-  { id: 'alphabet', label: 'Alphabet', screen: 'alphabet', cefr: 'A1', category: 'vocab-a2' },
+  // Retagged off `vocab-a2` (2026-08-30), same shape and same reason as
+  // `genderdrill`: this is the A1 alphabet quiz, and `vocab-a2` was a
+  // for-want-of-a-better-tag label that also routes to `znam` (A2). Leaving it
+  // meant the A1 `alphabet` lesson could only be coupled to an A2 vocabulary
+  // game it cannot open — the `gender → vocab-a2` trap exactly. It now carries
+  // its own pool-only category routed to itself. SKILL_GROUP keeps it in
+  // `vocab`, where it already sat, so the P3 variety pass is unchanged.
+  { id: 'alphabet', label: 'Alphabet', screen: 'alphabet', cefr: 'A1', category: 'alphabet' },
   { id: 'convmatch', label: 'Reply Match', screen: 'convmatch', cefr: 'A2', category: 'vocab-a2' },
   { id: 'falsefr', label: 'False Friends', screen: 'falsefr', cefr: 'A2', category: 'vocab-a2' },
   { id: 'phonology', label: 'Sound System', screen: 'phonology', cefr: 'A1', category: 'speaking' },

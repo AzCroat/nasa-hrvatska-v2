@@ -192,27 +192,21 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  // Down to one. The topical block left this list on 2026-08-29 the only honest
-  // way — a drill authored for each lesson's actual subject — and what remains
-  // is not a content gap at all.
-  const DELIBERATELY_UNMAPPED = [
-    // `alphabet` is NOT topical — AlphabetScreen exists, is A1, and its quiz is
-    // exactly what the lesson teaches. It stays unmapped for a different and
-    // more interesting reason: that screen awards directly and never calls
-    // `completeExercise`, which is the only thing that reaches
-    // `recordScreenPractised`. A coupling to it would resolve, send the learner
-    // there, and then never clear — squatting a session slot for the queue
-    // entry's full 14-day TTL. Mapping it requires routing its completion
-    // through completeExercise first, which is a change to a live screen's
-    // award path and belongs to its own decision. See
-    // `couplingClearingPath.test.ts`, which is what found this.
-    'alphabet',
-  ];
-
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    // If a real drill for one of these ever ships, move it into EXPECTED — that
-    // is the intended way to remove an entry from this list, and the failure
-    // here is the reminder to do it deliberately.
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  // The DELIBERATELY_UNMAPPED list this file carried is EMPTY as of 2026-08-30,
+  // and with it the last uncoupled lesson in the curriculum. It held `alphabet`,
+  // for a reason that was half right: AlphabetScreen never reached
+  // `recordScreenPractised`, so a coupling would have resolved and then never
+  // cleared. The note said mapping it "requires routing its completion through
+  // completeExercise first" — and that was the wrong half. The sanctioned fix,
+  // already used for `writing_guided` and `relpron`, is ONE
+  // `recordScreenPractised` call at the screen's genuine completion point,
+  // which changes no award semantics at all. Its quiz was always exactly what
+  // the lesson teaches.
+  it('every A1 lesson is coupled to a drill', () => {
+    const uncoupled = a1Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(
+      uncoupled,
+      'an A1 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
+    ).toEqual([]);
   });
 });

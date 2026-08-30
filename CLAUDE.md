@@ -192,10 +192,24 @@ pedagogy. Design: `docs/curriculum-design.md`.
   drill** — a lesson with no honest mapping gets no follow-on practice.
 - **P0 — Today's Lesson is FIRST** in every session, ahead of SRS. That ordering
   IS the requirement (a lesson each day, before anything tests you). It is **not a
-  hard gate** — a blocker would break the never-strand contract. It **consumes a
-  fill slot, not an extra one**, so the session-length contract (A1 → 3, A2+ → 4,
-  +2 fluency) is unchanged by construction, because the fill loop caps on
-  `activities.length`. Never give it its own cap.
+  hard gate** — a blocker would break the never-strand contract. The fill loop
+  caps on `activities.length`, so P0's FIRST slot is absorbed rather than added;
+  never give it its own cap.
+  **The length contract is NOT fully held, and this is measured (2026-08-30):**
+  P0 pushes two slots when the taught lesson has a coupled drill — the lesson
+  and the same-session practice — and the second lands ON TOP wherever the
+  GUARANTEED slots (P2 adaptive, P2.5 production, P2.4 conversation at B1+) have
+  already spent the target. Measured growth: **A1 +1, A2 +0, B1–C2 +1**. A2 is
+  the one that absorbs both, having a 4-slot target and no conversation anchor.
+  This is pre-existing and fires for every coupled lesson; it was invisible
+  because `curriculumSessionSlot.test.ts` opened its spine on `alphabet`, the
+  single uncoupled lesson in the curriculum, so P0 pushed one slot and the
+  assertion passed. Coupling `alphabet` on 2026-08-30 surfaced it, and master
+  reproduces the same growth for any already-coupled lesson. Two documented
+  guarantees are in tension — "production is guaranteed" against "session length
+  does not move" — and resolving it means deciding which yields, a session-length
+  change for every learner. The test now pins the real per-level numbers so the
+  decision is explicit whenever someone makes it.
 - **The certification inference, NOT backfilled completions** (`src/lib/curriculum.ts`).
   Every existing learner had zero completed lessons on ship day, so naive spine
   order greets a certified C1 learner with A1 lesson 1. A prerequisite is satisfied
@@ -342,12 +356,16 @@ pedagogy. Design: `docs/curriculum-design.md`.
   + `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
   and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
   the thing route-based clearing masks).
-  **Coupled per level as of 2026-08-30: A1 29, A2 30, B1 30, B2 30, C1 30,
-  C2 30 — 179 of 180.** The one remaining is A1 `alphabet`, and it is not a
-  content gap: it HAS a screen, and `AlphabetScreen` never reaches
-  `recordScreenPractised`, so a coupling would resolve and then never clear.
-  It is blocked on the clearing path (`couplingClearingPath.test.ts`), not on
-  a drill. Do not read that figure off a comment — `practiceProgrammeDrills.test.ts`
+  **Coupled: 30 at every level — 180 of 180, complete as of 2026-08-30.** The
+  last was A1 `alphabet`, which was never a content gap: `AlphabetScreen`'s
+  quiz is exactly what the lesson teaches, and it was blocked on the CLEARING
+  PATH. It took one `recordScreenPractised('alphabet')` call at the Done button
+  plus a pool retag off `vocab-a2` (which routes to `znam` at A2 — the
+  `gender → vocab-a2` trap, so a route alone would not have worked). The note
+  that stood here said mapping it "requires routing its completion through
+  completeExercise first"; that was wrong, and the sanctioned fix already used
+  for `writing_guided` and `relpron` changes no award semantics at all.
+  Do not read that figure off a comment — `practiceProgrammeDrills.test.ts`
   derives the count per level and NAMES any uncoupled ids in its failure
   message. A hand-maintained census went stale repeatedly and once made a
   merged tranche report the wrong figure (the A2 block claimed 26 of 30; the
@@ -1100,6 +1118,7 @@ and in every case the suite was fully green beforehand:
 | The round-trip block itself | Records the lesson, finishes the drill, asserts cleared | It clears using the SCREEN the builder returned. `GenderDrillScreen` fires key `'gender'`, not `'genderdrill'` — so the real completion path was untested and worked only by a fallback nobody had asserted. |
 | `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
 | The whole coupling suite, after BOTH fixes | Resolution and clearing both round-tripped through the real builder | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`). |
+| `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
 
 The pattern is always the same, and it is worth naming because it is invisible
 from the outside: **a guard that covers most of a thing reads exactly like a
@@ -1118,8 +1137,13 @@ Practical rules that fall out of this:
   through the real function, the real builder, the real map.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
-- **When you fix a guard, mutate again.** Two of these were found in guards
-  written to catch the previous one.
+- **When you fix a guard, mutate again.** Three of these were found in guards
+  written to catch the previous one — including the import-graph walk, which was
+  itself written to catch the round-trip suite's blind spot.
+- **Mutate the guard when you ADD to what it covers, not only when you write
+  it.** The `alphabet` hole had been there since the guard shipped; it surfaced
+  only because wiring one more screen prompted a mutation of a suite that was
+  already green and already trusted.
 
 Record the mutation you ran in the commit message. "Mutation-verified: reverting
 X fails N tests" is a claim a reader can re-run; "added a test" is not.

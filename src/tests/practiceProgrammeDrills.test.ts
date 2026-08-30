@@ -303,6 +303,14 @@ const PROGRAMME_DRILLS: {
     lesson: 'prepositions-advanced',
     cefr: 'B2',
   },
+
+  // A RETAG, not a new bank (2026-08-30) — and the last lesson in the whole
+  // curriculum to be coupled. `alphabet` belongs in this table for exactly the
+  // reason the table exists: its pool tag was `vocab-a2`, which routes to
+  // `znam` at A2, so the A1 lesson could not have been coupled by adding a
+  // route alone. Route-based clearing would have masked the wrong tag; this row
+  // is what pins it.
+  { screen: 'alphabet', category: 'alphabet', lesson: 'alphabet', cefr: 'A1' },
 ];
 
 /**
@@ -533,7 +541,7 @@ describe('coupling coverage per level does not slip', () => {
   // fails here too — the case no per-level list could ever have caught, because
   // a list only knows about lessons somebody remembered to add to it.
   const EXPECTED_COUPLED: Record<string, number> = {
-    A1: 29, // `alphabet` — AlphabetScreen never reaches recordScreenPractised
+    A1: 30, // complete
     A2: 30, // complete
     B1: 30, // complete
     B2: 30, // complete

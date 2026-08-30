@@ -318,6 +318,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'wishes-regrets': 'wishes',
   'modal-nuance': 'modal-nuance',
   'prepositions-advanced': 'two-case-prepositions',
+  // The last uncoupled lesson (2026-08-30). AlphabetScreen's quiz IS what this
+  // lesson teaches; it was blocked on the clearing path, not on content.
+  alphabet: 'alphabet',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',
@@ -356,22 +359,30 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C2 synthesis across sources is written production against a structure;
   // guided writing is the teaching screen for it.
   'sinteza-izvora': 'writing',
-  // DELIBERATELY UNMAPPED — ONE lesson as of 2026-08-30, and the list is
-  // DERIVED rather than restated here. A hand-maintained census of it went
-  // stale repeatedly while the practice programme shipped, and once made a
-  // merged tranche report the wrong coverage figure, because a list of
-  // judgements is not a count of lessons. `practiceProgrammeDrills.test.ts`
-  // holds the count per level and NAMES any uncoupled ids in its failure
-  // message, so the authoritative list is one test run away and cannot drift
-  // from this map.
+  // NOTHING IS DELIBERATELY UNMAPPED ANY MORE. This map went TOTAL over the
+  // curriculum on 2026-08-30 — all 180 lessons, 30 at every level.
   //
-  //   A1 `alphabet`. It HAS a screen; AlphabetScreen never reaches
-  //   `recordScreenPractised`, so a coupling would resolve and then never
-  //   clear. Blocked on the CLEARING PATH rather than on content — see
-  //   `couplingClearingPath.test.ts` — which is why it is the only one left
-  //   after thirteen banks closed the rest.
+  // Do not restate that as a list here. A hand-maintained census went stale
+  // repeatedly while the practice programme shipped, and once made a merged
+  // tranche report the wrong coverage figure, because a list of judgements is
+  // not a count of lessons. `practiceProgrammeDrills.test.ts` derives the count
+  // per level and NAMES any uncoupled id in its failure message, so the
+  // authoritative answer is one test run away and cannot drift from this map.
   //
-  // Everything else that ever sat on this list is resolved, and every one came
+  // A NEW LESSON MUST ARRIVE WITH ITS COUPLING. The per-level curriculum tests
+  // assert their level is fully coupled, so adding a lesson without an entry
+  // here fails immediately — which is the intended prompt to decide what
+  // practises it, not an obstacle to route around.
+  //
+  //   The last one in was A1 `alphabet`, and it is worth knowing why it took
+  //   two changes rather than one. AlphabetScreen's quiz was always exactly
+  //   what the lesson teaches; it never called `recordScreenPractised`, AND its
+  //   pool entry was tagged `vocab-a2`, which routes to `znam` at A2. Adding a
+  //   route alone would have queued a category an A1 learner cannot open — the
+  //   `gender → vocab-a2` trap. Reachability, clearing and the pool tag are
+  //   three separate paths, and this lesson needed two of them fixed.
+  //
+  // Everything that ever sat on the old unmapped list is resolved, and every one came
   // off it the same honest way — by making the drill it names actually teach
   // it, never by loosening the pairing. The distinction the whole programme
   // turned on is that "no honest pairing exists" and "no drill exists yet"
