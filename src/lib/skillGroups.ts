@@ -107,6 +107,16 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // authored, `advanced-comparison` is case government and groups with the
   // cases; `word-formation` and `diminutives` are lexical; `summarising` is
   // structural rewriting and sits with syntax.
+  // A1 topical block (2026-08-29). Four are lexical and group with 'vocab'.
+  // `preferences` is the exception and groups as 'verb': its subject is the
+  // sviđati se flip — which verb form the sentence takes and what it agrees
+  // with — not the vocabulary of liking things.
+  family: 'vocab',
+  countries: 'vocab',
+  food: 'vocab',
+  directions: 'vocab',
+  weather: 'vocab',
+  preferences: 'verb',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',

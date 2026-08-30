@@ -159,25 +159,43 @@ describe('teach → practice coupling stays HONEST at A1', () => {
     'prepositions-place': 'place-prepositions',
     'time-calendar': 'time',
     'greetings-farewells': 'greetings',
+    // The TOPICAL block (2026-08-29). These six were the longest-standing
+    // entries in DELIBERATELY_UNMAPPED below, and the reason recorded there was
+    // sound at the time: the only partner on offer was a topic-blind vocabulary
+    // game, and pairing `food-drink` with a round of random nouns would have
+    // been exactly the wrong pairing this list exists to prevent.
+    //
+    // What changed is the observation that the LESSONS are not topic-blind
+    // either. Each is a topic PLUS a structure, and the structure is what a
+    // drill can honestly test:
+    //   family-people       irregular plurals taking plural verbs; possessive
+    //                       agreement with the RELATIVE, not the speaker
+    //   countries-languages the country/nationality/language triple, and
+    //                       iz + genitive against u + locative
+    //   food-drink          accusative for what you order, genitive after a
+    //                       measure word — same noun, two endings
+    //   directions-town     polite imperatives coming back at you; genitive
+    //                       position words; instrumental means of travel
+    //   weather-seasons     the subjectless sentence, which reaches far past
+    //                       the weather (kasno je, teško je)
+    //   likes-preferences   the sviđati se flip: the thing is the subject and
+    //                       the verb counts IT, not you
+    'family-people': 'family',
+    'countries-languages': 'countries',
+    'food-drink': 'food',
+    'directions-town': 'directions',
+    'weather-seasons': 'weather',
+    'likes-preferences': 'preferences',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  // Shrinking, one authored drill at a time. What remains is the TOPICAL block
-  // — lessons whose subject is vocabulary rather than a structure, where the
-  // only existing partner is a topic-blind vocab game. Those need drills
-  // written for their actual topic before they can leave this list; pairing
-  // `food-drink` with a generic vocabulary round would be exactly the wrong
-  // pairing this list exists to prevent.
+  // Down to one. The topical block left this list on 2026-08-29 the only honest
+  // way — a drill authored for each lesson's actual subject — and what remains
+  // is not a content gap at all.
   const DELIBERATELY_UNMAPPED = [
-    'likes-preferences',
-    'family-people',
-    'countries-languages',
-    'food-drink',
-    'directions-town',
-    'weather-seasons',
     // `alphabet` is NOT topical — AlphabetScreen exists, is A1, and its quiz is
     // exactly what the lesson teaches. It stays unmapped for a different and
     // more interesting reason: that screen awards directly and never calls

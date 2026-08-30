@@ -157,6 +157,14 @@ const PROGRAMME_DRILLS: {
     lesson: 'summarising-paraphrase',
     cefr: 'C1',
   },
+
+  // ── A1 topical block ──────────────────────────────────────────────────────
+  { screen: 'obitelj', category: 'family', lesson: 'family-people', cefr: 'A1' },
+  { screen: 'zemlje', category: 'countries', lesson: 'countries-languages', cefr: 'A1' },
+  { screen: 'hrana', category: 'food', lesson: 'food-drink', cefr: 'A1' },
+  { screen: 'grad', category: 'directions', lesson: 'directions-town', cefr: 'A1' },
+  { screen: 'meteo', category: 'weather', lesson: 'weather-seasons', cefr: 'A1' },
+  { screen: 'svidjanje', category: 'preferences', lesson: 'likes-preferences', cefr: 'A1' },
 ];
 
 /**

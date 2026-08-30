@@ -118,6 +118,12 @@ const TARGETS = [
   'src/data/drills/wordFormationDrill.ts',
   'src/data/drills/diminutivesC1Drill.ts',
   'src/data/drills/summarisingDrill.ts',
+  'src/data/drills/familyDrill.ts',
+  'src/data/drills/countriesDrill.ts',
+  'src/data/drills/foodDrinkDrill.ts',
+  'src/data/drills/directionsDrill.ts',
+  'src/data/drills/weatherDrill.ts',
+  'src/data/drills/preferencesDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

@@ -210,4 +210,52 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C1',
     category: 'summarising',
   },
+
+  // ── A1, the TOPICAL block (2026-08-29) ────────────────────────────────────
+  // The six lessons this programme deliberately left alone the longest, because
+  // the only available partner was a topic-blind vocabulary game. Each of these
+  // banks pairs the topic with the STRUCTURE its lesson teaches, which is what
+  // makes the coupling say something true.
+  {
+    id: 'obitelj',
+    label: 'Family & people',
+    screen: 'obitelj',
+    cefr: 'A1',
+    category: 'family',
+  },
+  {
+    id: 'zemlje',
+    label: 'Countries & languages',
+    screen: 'zemlje',
+    cefr: 'A1',
+    category: 'countries',
+  },
+  {
+    id: 'hrana',
+    label: 'Food & drink',
+    screen: 'hrana',
+    cefr: 'A1',
+    category: 'food',
+  },
+  {
+    id: 'grad',
+    label: 'Directions & town',
+    screen: 'grad',
+    cefr: 'A1',
+    category: 'directions',
+  },
+  {
+    id: 'meteo',
+    label: 'Weather & seasons',
+    screen: 'meteo',
+    cefr: 'A1',
+    category: 'weather',
+  },
+  {
+    id: 'svidjanje',
+    label: 'Likes & preferences',
+    screen: 'svidjanje',
+    cefr: 'A1',
+    category: 'preferences',
+  },
 ];
