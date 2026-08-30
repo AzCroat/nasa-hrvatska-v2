@@ -406,7 +406,24 @@ export type SkillCategory =
   | 'hobbies'
   | 'travel'
   | 'invitations'
-  | 'celebrations';
+  | 'celebrations'
+  // Pool-only tags (practice programme, B1 TOPICAL block, 2026-08-30). Same
+  // shape again: the obligatory `da` after every opinion frame, the case each
+  // reflexive emotion verb governs, reporting a fault rather than a culprit,
+  // the impersonal register of official Croatian, how rooms are counted, the
+  // participle agreeing with the applicant, the verbless headline, the native
+  // against international word layer, the named winds, and the recipe's
+  // imperative plus genitive.
+  | 'opinions'
+  | 'feelings'
+  | 'complaints'
+  | 'bureaucracy'
+  | 'renting'
+  | 'job-search'
+  | 'news'
+  | 'technology'
+  | 'nature'
+  | 'cooking';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -421,7 +438,9 @@ export type SkillCategory =
 // 'word-formation', 'diminutives', 'summarising', 'family', 'countries', 'food',
 // 'directions', 'weather', 'preferences', 'home', 'health', 'clothing',
 // 'appearance', 'jobs', 'education', 'hobbies', 'travel', 'invitations',
-// 'celebrations') are valid SkillCategory tags used to label
+// 'celebrations', 'opinions', 'feelings', 'complaints', 'bureaucracy',
+// 'renting', 'job-search', 'news', 'technology', 'nature', 'cooking') are valid
+// SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

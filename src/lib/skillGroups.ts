@@ -134,6 +134,25 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   travel: 'case',
   invitations: 'vocab',
   celebrations: 'vocab',
+  // B1 topical block (2026-08-30), grouped by the structure the drill tests
+  // rather than by the topic label — SKILL_GROUP is what the P3 variety pass
+  // reads. `feelings` is case government end to end (bojati se + genitive,
+  // nadati se + dative), so it groups with 'case', exactly as `verb-government`
+  // does. `opinions` and `news` are clause structure (the obligatory da; the
+  // verbless headline and reported speech), so 'syntax'. `complaints`,
+  // `job-search` and `cooking` turn on a verb form — the fault-reporting
+  // reflexive and the conditional, the participle agreeing with the applicant,
+  // and the recipe imperative — so 'verb'. The remaining four are lexical.
+  opinions: 'syntax',
+  feelings: 'case',
+  complaints: 'verb',
+  bureaucracy: 'vocab',
+  renting: 'vocab',
+  'job-search': 'verb',
+  news: 'syntax',
+  technology: 'vocab',
+  nature: 'vocab',
+  cooking: 'verb',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',

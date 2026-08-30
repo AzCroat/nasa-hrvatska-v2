@@ -309,4 +309,84 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'celebrations',
   },
+
+  // ── B1, the TOPICAL block (2026-08-30) ────────────────────────────────────
+  // Ten lessons, and the survey found only ONE near-miss: `techvoc` (B2,
+  // Tech Vocabulary) is the drill the `technology-internet` lesson wants and
+  // sits a level above it. It could not be rescued the A2 way either — its tag
+  // `vocab-b2` is an ALL_CATEGORIES member already routed to `znam`, so
+  // retagging it would move an adaptive category's only pool member for an
+  // unrelated reason, and CATEGORY_EASIER_SCREEN only routes DOWNWARD from a
+  // route that does not exist. So all ten are authored, and `techvoc` is
+  // untouched.
+  {
+    id: 'misljenje',
+    label: 'Opinions',
+    screen: 'misljenje',
+    cefr: 'B1',
+    category: 'opinions',
+  },
+  {
+    id: 'osjecaji',
+    label: 'Feelings',
+    screen: 'osjecaji',
+    cefr: 'B1',
+    category: 'feelings',
+  },
+  {
+    id: 'zalbe',
+    label: 'Complaints',
+    screen: 'zalbe',
+    cefr: 'B1',
+    category: 'complaints',
+  },
+  {
+    id: 'salter',
+    label: 'Paperwork',
+    screen: 'salter',
+    cefr: 'B1',
+    category: 'bureaucracy',
+  },
+  {
+    id: 'najam',
+    label: 'Renting a flat',
+    screen: 'najam',
+    cefr: 'B1',
+    category: 'renting',
+  },
+  {
+    id: 'zivotopis',
+    label: 'Job applications',
+    screen: 'zivotopis',
+    cefr: 'B1',
+    category: 'job-search',
+  },
+  {
+    id: 'mediji',
+    label: 'News & media',
+    screen: 'mediji',
+    cefr: 'B1',
+    category: 'news',
+  },
+  {
+    id: 'tehnologija',
+    label: 'Technology',
+    screen: 'tehnologija',
+    cefr: 'B1',
+    category: 'technology',
+  },
+  {
+    id: 'priroda',
+    label: 'Nature & environment',
+    screen: 'priroda',
+    cefr: 'B1',
+    category: 'nature',
+  },
+  {
+    id: 'kuhanje',
+    label: 'Cooking',
+    screen: 'kuhanje',
+    cefr: 'B1',
+    category: 'cooking',
+  },
 ];

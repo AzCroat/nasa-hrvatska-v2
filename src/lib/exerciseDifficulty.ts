@@ -71,6 +71,17 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   putovanje: 3,
   dogovor: 3,
   blagdani: 3,
+  // B1 topical block: tier 4, matching the other B1 banks.
+  misljenje: 4,
+  osjecaji: 4,
+  zalbe: 4,
+  salter: 4,
+  najam: 4,
+  zivotopis: 4,
+  mediji: 4,
+  tehnologija: 4,
+  priroda: 4,
+  kuhanje: 4,
   unjumble: 2,
   // A1 verb + syntax drills (2026-08-20). Tier 2 like nomdrill/unjumble: both
   // are guided recognition (pick the ending / pick the ordering), not open

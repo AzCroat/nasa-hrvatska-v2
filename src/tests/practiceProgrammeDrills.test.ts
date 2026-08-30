@@ -101,6 +101,17 @@ const PROGRAMME_DRILLS: {
     lesson: 'celebrations-holidays',
     cefr: 'A2',
   },
+  // B1 topical block (2026-08-30). Ten authored banks.
+  { screen: 'misljenje', category: 'opinions', lesson: 'opinions-agreeing', cefr: 'B1' },
+  { screen: 'osjecaji', category: 'feelings', lesson: 'feelings-inner-life', cefr: 'B1' },
+  { screen: 'zalbe', category: 'complaints', lesson: 'complaints-problems', cefr: 'B1' },
+  { screen: 'salter', category: 'bureaucracy', lesson: 'bureaucracy', cefr: 'B1' },
+  { screen: 'najam', category: 'renting', lesson: 'renting-flat', cefr: 'B1' },
+  { screen: 'zivotopis', category: 'job-search', lesson: 'job-interview', cefr: 'B1' },
+  { screen: 'mediji', category: 'news', lesson: 'media-news', cefr: 'B1' },
+  { screen: 'tehnologija', category: 'technology', lesson: 'technology-internet', cefr: 'B1' },
+  { screen: 'priroda', category: 'nature', lesson: 'environment-nature', cefr: 'B1' },
+  { screen: 'kuhanje', category: 'cooking', lesson: 'food-cooking', cefr: 'B1' },
   // ── B1 ────────────────────────────────────────────────────────────────────
   { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
   {
