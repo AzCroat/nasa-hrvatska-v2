@@ -229,6 +229,21 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'directions-town': 'directions',
   'weather-seasons': 'weather',
   'likes-preferences': 'preferences',
+  // A2 topical block (2026-08-29), the last ten topical lessons at A2. Five of
+  // them had a same-named screen already in the pool and none of those five
+  // could have served: `clothes`, `bodydesc`, `professions`, `countries` and
+  // `lifeevents` are reference/browse entries with no completion, so a mapping
+  // to one would resolve and then never clear.
+  'house-home': 'home',
+  'body-health': 'health',
+  'clothes-appearance': 'clothing',
+  'describing-people': 'appearance',
+  'work-jobs': 'jobs',
+  'school-studies': 'education',
+  'hobbies-free-time': 'hobbies',
+  'travel-transport': 'travel',
+  'plans-invitations': 'invitations',
+  'celebrations-holidays': 'celebrations',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',

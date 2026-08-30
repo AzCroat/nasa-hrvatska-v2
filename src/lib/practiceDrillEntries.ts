@@ -258,4 +258,55 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'preferences',
   },
+
+  // ── A2, the TOPICAL block (2026-08-29) ────────────────────────────────────
+  // Ten lessons, and a THIRD variant of "check whether the drill already
+  // exists". At A2 tranche 1 the drill existed one level up; at B1 it existed
+  // but its category was spoken for. Here five of the ten look served —
+  // `clothes`, `bodydesc`, `professions`, `countries`, `lifeevents` are all in
+  // the pool with matching names — and every one of them carries
+  // `reference: true`: a browse list with no self-grading, which auto-completes
+  // on view. Routing a coupling at one would resolve, send the learner to a
+  // word list, and never clear, which is exactly the `idioms` dead end. So all
+  // ten are authored, and the five reference screens are untouched.
+  { id: 'dom', label: 'House & home', screen: 'dom', cefr: 'A2', category: 'home' },
+  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A2', category: 'health' },
+  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A2', category: 'clothing' },
+  {
+    id: 'izgled',
+    label: 'Describing people',
+    screen: 'izgled',
+    cefr: 'A2',
+    category: 'appearance',
+  },
+  { id: 'zanimanja', label: 'Work & jobs', screen: 'zanimanja', cefr: 'A2', category: 'jobs' },
+  {
+    id: 'skola',
+    label: 'School & studying',
+    screen: 'skola',
+    cefr: 'A2',
+    category: 'education',
+  },
+  { id: 'hobiji', label: 'Free time', screen: 'hobiji', cefr: 'A2', category: 'hobbies' },
+  {
+    id: 'putovanje',
+    label: 'Travel & transport',
+    screen: 'putovanje',
+    cefr: 'A2',
+    category: 'travel',
+  },
+  {
+    id: 'dogovor',
+    label: 'Plans & invitations',
+    screen: 'dogovor',
+    cefr: 'A2',
+    category: 'invitations',
+  },
+  {
+    id: 'blagdani',
+    label: 'Celebrations',
+    screen: 'blagdani',
+    cefr: 'A2',
+    category: 'celebrations',
+  },
 ];

@@ -20,6 +20,7 @@ const { CURRICULUM, spineForLevel } =
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
+const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
@@ -165,6 +166,41 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     // for clitics so the B2 `clitic` stays the primary. See
     // practiceProgrammeDrills.test.ts, which holds both halves.
     'object-pronouns': 'clitics',
+    // The TOPICAL block (2026-08-29), the ten A2 lessons whose subject reads as
+    // a topic. They come off the unmapped list for the same reason the A1
+    // topical block did — the lesson is a topic PLUS a structure, and the
+    // structure is what a drill can honestly test:
+    //   house-home           u/na + locative against the genitive position
+    //                        words; the floor as an ordinal in the locative
+    //   body-health          boljeti, where the body part is the SUBJECT and
+    //                        the verb counts it (boli glava, bole leđa)
+    //   clothes-appearance   nositi + accusative, and the garments that have
+    //                        no singular
+    //   describing-people    Kakav? for character against Koji? for which one
+    //   work-jobs            the female job form as the standard form
+    //   school-studies       učiti / studirati / predavati, and učenik against
+    //                        student
+    //   hobbies-free-time    igrati / svirati / igrati se, and the instrumental
+    //                        of habitual time
+    //   travel-transport     the bare instrumental of means against s + company
+    //   plans-invitations    the present tense doing an arranged future
+    //   celebrations-holidays sretan agreeing with the occasion named
+    //
+    // NONE of these routes to the same-named REFERENCE screen already in the
+    // pool. `clothes`, `bodydesc`, `professions`, `countries` and `lifeevents`
+    // exist and look like ready-made partners; all five are browse lists that
+    // auto-complete on view and never reach recordScreenPractised, so a mapping
+    // to one would resolve and then never clear — the `idioms` dead end.
+    'house-home': 'home',
+    'body-health': 'health',
+    'clothes-appearance': 'clothing',
+    'describing-people': 'appearance',
+    'work-jobs': 'jobs',
+    'school-studies': 'education',
+    'hobbies-free-time': 'hobbies',
+    'travel-transport': 'travel',
+    'plans-invitations': 'invitations',
+    'celebrations-holidays': 'celebrations',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -181,25 +217,71 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('objekt');
   });
 
+  // Down to the four A2 GRAMMAR lessons. The topical block left this list on
+  // 2026-08-29 the only honest way — a drill authored for each lesson's actual
+  // subject — and what remains is a different kind of gap from the one this
+  // list was originally written about.
   const DELIBERATELY_UNMAPPED = [
+    // Each of these four teaches a structure with no drill anywhere in the app,
+    // at any level: how a Croatian adverb is built off an adjective; a and ali
+    // against nego; koji taking gender from outside the clause and case from
+    // inside; the ne-/i-/ni- indefinite series. They are the A2 grammar tranche,
+    // not a judgement that pairing them would be dishonest.
     'adverbs',
     'conjunctions',
     'relative-koji',
     'indefinites',
-    'house-home',
-    'body-health',
-    'clothes-appearance',
-    'describing-people',
-    'work-jobs',
-    'school-studies',
-    'hobbies-free-time',
-    'travel-transport',
-    'plans-invitations',
-    'celebrations-holidays',
   ];
 
   it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
+    // If a real drill for one of these ever ships, move it into EXPECTED — that
+    // is the intended way off this list, and this failing is the reminder to do
+    // it deliberately rather than to weaken the assertion.
     expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  });
+
+  it('does not couple a lesson to a reference screen', () => {
+    // The A2-specific trap, and the reason all ten topical drills are authored
+    // rather than five of them reusing a screen that was already there.
+    // `clothes`, `bodydesc`, `professions`, `countries` and `lifeevents` are
+    // pool entries with `reference: true` — browse lists that auto-complete on
+    // view, with no graded finish and so no path to recordScreenPractised. A
+    // coupling routed at one resolves, serves, and then squats its slot for the
+    // full 14-day TTL. That is the live `idioms` defect, and this asserts the
+    // shape of it cannot be reintroduced here.
+    //
+    // On its first run this found ONE live case, and it is the one already on
+    // record: `idioms`. That is worth noting rather than tidying away — the
+    // idioms dead end was found in August by walking the import graph
+    // (couplingClearingPath), and this check reaches the identical conclusion
+    // from the POOL FLAG alone, without reading a line of component source. Two
+    // independent detectors agreeing is the reason it is exempted here by name
+    // and with a cross-reference, not silenced.
+    const KNOWN_REFERENCE_ROUTE: Record<string, string> = {
+      idioms:
+        'IdiomsScreen is a reference list with no quiz — see KNOWN_NO_CLEARING_PATH ' +
+        'in couplingClearingPath.test.ts. Needs a C1 idiom drill; frazeologija is C2.',
+    };
+    const referenceScreens = new Set(
+      CEFR_EXERCISE_POOL.filter((e) => e.reference).map((e) => e.screen),
+    );
+    expect(referenceScreens.has('clothes'), 'the fixture stopped being true').toBe(true);
+    for (const category of Object.values(LESSON_TAUGHT_CATEGORY)) {
+      const screen = CATEGORY_SCREEN_MAP[category] ?? CATEGORY_EASIER_SCREEN[category];
+      if (!screen || screen in KNOWN_REFERENCE_ROUTE) continue;
+      expect(
+        referenceScreens.has(screen),
+        `${category} routes to ${screen}, which is a reference screen and cannot clear the queue`,
+      ).toBe(false);
+    }
+    // The exemption cannot go stale: if idioms ever stops being a reference
+    // entry, this fails and the entry has to be removed deliberately.
+    for (const screen of Object.keys(KNOWN_REFERENCE_ROUTE)) {
+      expect(
+        referenceScreens.has(screen),
+        `${screen} is exempted but is no longer a reference screen — drop the exemption`,
+      ).toBe(true);
+    }
   });
 
   // WHERE THE "does it actually resolve?" ASSERTION LIVES NOW:

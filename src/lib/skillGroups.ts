@@ -117,6 +117,23 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   directions: 'vocab',
   weather: 'vocab',
   preferences: 'verb',
+  // A2 topical block (2026-08-29). Three are grouped by the STRUCTURE their
+  // drill actually tests rather than by their topic label, because SKILL_GROUP
+  // is what the P3 variety pass reads: `home` and `travel` are case selection
+  // (u/na with the locative; the instrumental of means), so they group with
+  // 'case', and `health` is the boljeti construction — which verb form the
+  // sentence takes and what it agrees with — so it groups with 'verb'. The
+  // remaining seven are lexical.
+  home: 'case',
+  health: 'verb',
+  clothing: 'vocab',
+  appearance: 'vocab',
+  jobs: 'vocab',
+  education: 'vocab',
+  hobbies: 'vocab',
+  travel: 'case',
+  invitations: 'vocab',
+  celebrations: 'vocab',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',

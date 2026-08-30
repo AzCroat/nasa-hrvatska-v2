@@ -102,6 +102,20 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   directions: 'grad',
   weather: 'meteo',
   preferences: 'svidjanje',
+  // A2 topical block (2026-08-29). Each routes to its own authored bank. None
+  // routes to the same-named REFERENCE screen (`clothes`, `bodydesc`,
+  // `professions`, `countries`, `lifeevents`): those are browse lists with no
+  // completion, so a coupling at one could resolve and never clear.
+  home: 'dom',
+  health: 'zdravlje',
+  clothing: 'odjeca',
+  appearance: 'izgled',
+  jobs: 'zanimanja',
+  education: 'skola',
+  hobbies: 'hobiji',
+  travel: 'putovanje',
+  invitations: 'dogovor',
+  celebrations: 'blagdani',
   collocations: 'kolokacije',
   prosody: 'pitchaccent',
   'advanced-comparison': 'usporedbec1',

@@ -21,6 +21,8 @@ import {
 } from '../lib/teachPractice';
 import { resolveTaughtPracticeActivity } from '../hooks/useDailySession';
 
+const { CURRICULUM } = await import('../../functions/api/content/_data/curriculum.js');
+
 const DAY = 86400000;
 
 describe('the taught queue', () => {
@@ -31,22 +33,45 @@ describe('the taught queue', () => {
     expect(pendingTaughtCategories()).toEqual(['present-tense']);
   });
 
-  it('ignores lessons with no unambiguous practice category', () => {
-    // adjective-agreement and house-home are deliberately unmapped — see the
-    // conservative-map note in teachPractice.ts. An unmapped lesson must be a
-    // no-op, never a wrong pairing.
-    //
-    // This fixture has now turned over twice, and both times for the right
-    // reason. It named `basic-questions` until 2026-08-29, when the drill
-    // written for it shipped; it then named `family-people` until later the same
-    // day, when the A1 topical block shipped six drills authored for the six
-    // topical lessons. Building the drill is the ONLY way a lesson should leave
-    // the unmapped list, so this test failing is the reminder to pick a lesson
-    // that is still genuinely unmapped — never to weaken the assertion.
-    // `house-home` is the A2 topical block, which has no drill yet.
+  it('ignores the lesson CLAUDE.md names as deliberately unmapped', () => {
+    // adjective-agreement is the named example in the conservative-map note in
+    // teachPractice.ts: a lesson with no unambiguous drill stays unmapped,
+    // because a wrong pairing right after a lesson is worse than no pairing.
     recordLessonTaught('adjective-agreement');
-    recordLessonTaught('house-home');
     expect(pendingTaughtCategories()).toEqual([]);
+  });
+
+  it('ignores EVERY lesson the map does not cover', () => {
+    // This assertion used to name one further lesson as its example, and the
+    // name went stale three times in two days — `basic-questions`, then
+    // `family-people`, then `house-home`, each because the drill written for it
+    // shipped. That is the right way for a lesson to leave the unmapped list,
+    // but a hand-picked fixture turns a correct change into a red test and
+    // tempts whoever is holding it into weakening the assertion instead.
+    //
+    // Deriving the inputs from the map is not the "test that restates
+    // production data" anti-pattern: the map IS the definition of unmapped, and
+    // the BEHAVIOUR under test — recording an unmapped lesson must queue
+    // nothing — is still exercised through the real queue. It also widens
+    // coverage from one lesson to every uncovered lesson in the curriculum,
+    // which is where a bad entry would actually appear.
+    const uncovered = (CURRICULUM as { id: string }[])
+      .map((e) => e.id)
+      .filter((id) => !(id in LESSON_TAUGHT_CATEGORY));
+
+    // Guard against the assertion going vacuous if the map ever became total.
+    expect(
+      uncovered.length,
+      'no uncovered lessons left — is this still testing anything?',
+    ).toBeGreaterThan(0);
+
+    for (const id of uncovered) {
+      clearTaughtQueue();
+      recordLessonTaught(id);
+      expect(pendingTaughtCategories(), `${id} queued something despite being unmapped`).toEqual(
+        [],
+      );
+    }
   });
 
   it('practising the category clears it', () => {
