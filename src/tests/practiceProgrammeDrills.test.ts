@@ -269,6 +269,40 @@ const PROGRAMME_DRILLS: {
   { screen: 'frazemi', category: 'phraseology', lesson: 'frazeologija-dubinska', cefr: 'C2' },
   { screen: 'dijalektic2', category: 'dialects-deep', lesson: 'dijalekti-dubinski', cefr: 'C2' },
   { screen: 'jezikdrustvo', category: 'language-society', lesson: 'jezik-i-drustvo', cefr: 'C2' },
+
+  // ── The debt block (2026-08-30) ───────────────────────────────────────────
+  // The thirteen that had no drill at ANY level. Each carries a new pool-only
+  // category rather than reusing an existing one, because in every case the
+  // nearest drill was gated above the lesson AND its tag was already spoken
+  // for — the shape the A2 and B1 blocks found, three more times over.
+  { screen: 'persiranje', category: 'politeness', lesson: 'vi-vs-ti', cefr: 'A2' },
+  {
+    screen: 'prijedlozia2',
+    category: 'preposition-case',
+    lesson: 'prepositions-action',
+    cefr: 'A2',
+  },
+  {
+    screen: 'slaganjea2',
+    category: 'adjective-agreement',
+    lesson: 'adjective-agreement',
+    cefr: 'A2',
+  },
+  { screen: 'prilozia2', category: 'adverbs', lesson: 'adverbs', cefr: 'A2' },
+  { screen: 'veznici', category: 'conjunctions', lesson: 'conjunctions', cefr: 'A2' },
+  { screen: 'kojia2', category: 'relative-koji', lesson: 'relative-koji', cefr: 'A2' },
+  { screen: 'neodredjenea2', category: 'indefinites', lesson: 'indefinites', cefr: 'A2' },
+  { screen: 'trajanje', category: 'duration', lesson: 'time-duration', cefr: 'B1' },
+  { screen: 'polozaj', category: 'position', lesson: 'position-placement', cefr: 'B1' },
+  { screen: 'stvarniuvjeti', category: 'real-conditions', lesson: 'real-conditions', cefr: 'B1' },
+  { screen: 'zaljenje', category: 'wishes', lesson: 'wishes-regrets', cefr: 'B2' },
+  { screen: 'modalninijanse', category: 'modal-nuance', lesson: 'modal-nuance', cefr: 'B2' },
+  {
+    screen: 'dvopadezni',
+    category: 'two-case-prepositions',
+    lesson: 'prepositions-advanced',
+    cefr: 'B2',
+  },
 ];
 
 /**
@@ -500,9 +534,9 @@ describe('coupling coverage per level does not slip', () => {
   // a list only knows about lessons somebody remembered to add to it.
   const EXPECTED_COUPLED: Record<string, number> = {
     A1: 29, // `alphabet` — AlphabetScreen never reaches recordScreenPractised
-    A2: 23, // 4 grammar + vi-vs-ti, prepositions-action, adjective-agreement
-    B1: 27, // time-duration, position-placement, real-conditions
-    B2: 27, // wishes-regrets, modal-nuance, prepositions-advanced
+    A2: 30, // complete
+    B1: 30, // complete
+    B2: 30, // complete
     C1: 30, // complete
     C2: 30, // complete
   };

@@ -489,7 +489,27 @@ export type SkillCategory =
   | 'specialist-translation'
   | 'phraseology'
   | 'dialects-deep'
-  | 'language-society';
+  | 'language-society'
+  // Pool-only tags (practice programme, the DEBT block, 2026-08-30): the
+  // thirteen lessons that had no drill at any level. Vi against ti, which
+  // case a preposition takes, the adjective ending table, adverb formation,
+  // a against ali, the two questions that fix `koji`, the netko/nitko/svatko
+  // grid, placing an event in time, change against state, conditions that
+  // may really happen, one vowel between advice and regret, how hard a
+  // modal lands, and the prepositions whose case changes their meaning.
+  | 'politeness'
+  | 'preposition-case'
+  | 'adjective-agreement'
+  | 'adverbs'
+  | 'conjunctions'
+  | 'relative-koji'
+  | 'indefinites'
+  | 'duration'
+  | 'position'
+  | 'real-conditions'
+  | 'wishes'
+  | 'modal-nuance'
+  | 'two-case-prepositions';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',

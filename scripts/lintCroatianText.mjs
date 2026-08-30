@@ -185,6 +185,19 @@ const TARGETS = [
   'src/data/drills/phraseologyDrill.ts',
   'src/data/drills/dialectsDeepDrill.ts',
   'src/data/drills/languageSocietyDrill.ts',
+  'src/data/drills/politenessDrill.ts',
+  'src/data/drills/prepositionCaseDrill.ts',
+  'src/data/drills/adjectiveAgreementDrill.ts',
+  'src/data/drills/adverbsDrill.ts',
+  'src/data/drills/conjunctionsDrill.ts',
+  'src/data/drills/relativeKojiDrill.ts',
+  'src/data/drills/indefinitesDrill.ts',
+  'src/data/drills/durationDrill.ts',
+  'src/data/drills/positionDrill.ts',
+  'src/data/drills/realConditionsDrill.ts',
+  'src/data/drills/wishesDrill.ts',
+  'src/data/drills/modalNuanceDrill.ts',
+  'src/data/drills/twoCasePrepositionsDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

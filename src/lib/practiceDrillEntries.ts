@@ -682,4 +682,79 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C2',
     category: 'language-society',
   },
+
+  // ── The debt block (2026-08-30) ───────────────────────────────────────────
+  // The thirteen lessons the programme left uncoupled because no drill
+  // existed for them at ANY level — the remainder after the per-level blocks
+  // closed. Every category here is pool-only, so the adaptive picker is
+  // unchanged; each is new rather than a retag, because in every case the
+  // nearest existing drill was both CEFR-gated above the lesson and carrying
+  // a category already routed elsewhere.
+  {
+    id: 'persiranje',
+    label: 'Vi and ti',
+    screen: 'persiranje',
+    cefr: 'A2',
+    category: 'politeness',
+  },
+  {
+    id: 'prijedlozia2',
+    label: 'Prepositions in action',
+    screen: 'prijedlozia2',
+    cefr: 'A2',
+    category: 'preposition-case',
+  },
+  {
+    id: 'slaganjea2',
+    label: 'Adjective agreement',
+    screen: 'slaganjea2',
+    cefr: 'A2',
+    category: 'adjective-agreement',
+  },
+  { id: 'prilozia2', label: 'Adverbs', screen: 'prilozia2', cefr: 'A2', category: 'adverbs' },
+  { id: 'veznici', label: 'Conjunctions', screen: 'veznici', cefr: 'A2', category: 'conjunctions' },
+  { id: 'kojia2', label: 'The word koji', screen: 'kojia2', cefr: 'A2', category: 'relative-koji' },
+  {
+    id: 'neodredjenea2',
+    label: 'Someone, no one, everyone',
+    screen: 'neodredjenea2',
+    cefr: 'A2',
+    category: 'indefinites',
+  },
+  {
+    id: 'trajanje',
+    label: 'Time & duration',
+    screen: 'trajanje',
+    cefr: 'B1',
+    category: 'duration',
+  },
+  {
+    id: 'polozaj',
+    label: 'Position & placement',
+    screen: 'polozaj',
+    cefr: 'B1',
+    category: 'position',
+  },
+  {
+    id: 'stvarniuvjeti',
+    label: 'Real conditions',
+    screen: 'stvarniuvjeti',
+    cefr: 'B1',
+    category: 'real-conditions',
+  },
+  { id: 'zaljenje', label: 'Wishes & regrets', screen: 'zaljenje', cefr: 'B2', category: 'wishes' },
+  {
+    id: 'modalninijanse',
+    label: 'Modal nuance',
+    screen: 'modalninijanse',
+    cefr: 'B2',
+    category: 'modal-nuance',
+  },
+  {
+    id: 'dvopadezni',
+    label: 'Two-case prepositions',
+    screen: 'dvopadezni',
+    cefr: 'B2',
+    category: 'two-case-prepositions',
+  },
 ];
