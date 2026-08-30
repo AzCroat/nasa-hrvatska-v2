@@ -389,4 +389,99 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'cooking',
   },
+
+  // ── B2, the FUNCTIONAL block (2026-08-30) ─────────────────────────────────
+  // Twelve lessons — B2's whole second half, orders 18-30 minus formal-email,
+  // which was already coupled. The survey found NO reusable drill this time,
+  // and the reason is uniform rather than varied: every plausible partner is
+  // both CEFR-gated above B2 and already claimed by a C1/C2 lesson.
+  // `preciznost` (C2) is spoken for by `precizno-nijansiranje`, `register`
+  // (C1) by `razgovorni-stil`, `nominalization` (C1) by two lessons,
+  // `idiomdrill` (C1) by `idioms-register`. Retagging any of them would take
+  // a drill away from the lesson it was written for. So all twelve are
+  // authored.
+  {
+    id: 'argumentacija',
+    label: 'Argument structure',
+    screen: 'argumentacija',
+    cefr: 'B2',
+    category: 'argument',
+  },
+  {
+    id: 'ograde',
+    label: 'Hedging & precision',
+    screen: 'ograde',
+    cefr: 'B2',
+    category: 'hedging',
+  },
+  {
+    id: 'apstraktno',
+    label: 'Abstract topics',
+    screen: 'apstraktno',
+    cefr: 'B2',
+    category: 'abstract',
+  },
+  {
+    id: 'registri',
+    label: 'Writing registers',
+    screen: 'registri',
+    cefr: 'B2',
+    category: 'registers',
+  },
+  {
+    id: 'izlaganje',
+    label: 'Presentations',
+    screen: 'izlaganje',
+    cefr: 'B2',
+    category: 'presenting',
+  },
+  {
+    id: 'sastanci',
+    label: 'Meetings',
+    screen: 'sastanci',
+    cefr: 'B2',
+    category: 'meetings',
+  },
+  {
+    id: 'poslovno',
+    label: 'Business & economy',
+    screen: 'poslovno',
+    cefr: 'B2',
+    category: 'business',
+  },
+  {
+    id: 'politika',
+    label: 'Politics & society',
+    screen: 'politika',
+    cefr: 'B2',
+    category: 'politics',
+  },
+  {
+    id: 'caskanje',
+    label: 'Conversational fluency',
+    screen: 'caskanje',
+    cefr: 'B2',
+    category: 'smalltalk',
+  },
+  {
+    id: 'humor',
+    label: 'Humour & tone',
+    screen: 'humor',
+    cefr: 'B2',
+    category: 'humour',
+  },
+  {
+    id: 'povijestjezika',
+    label: 'Language history',
+    screen: 'povijestjezika',
+    cefr: 'B2',
+    category: 'language-history',
+  },
+  {
+    id: 'knjizevnost',
+    label: 'Literature',
+    screen: 'knjizevnost',
+    cefr: 'B2',
+    category: 'literature',
+  },
 ];

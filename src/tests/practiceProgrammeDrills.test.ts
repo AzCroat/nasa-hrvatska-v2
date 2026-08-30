@@ -112,6 +112,24 @@ const PROGRAMME_DRILLS: {
   { screen: 'tehnologija', category: 'technology', lesson: 'technology-internet', cefr: 'B1' },
   { screen: 'priroda', category: 'nature', lesson: 'environment-nature', cefr: 'B1' },
   { screen: 'kuhanje', category: 'cooking', lesson: 'food-cooking', cefr: 'B1' },
+  // B2 functional block (2026-08-30). Twelve authored banks.
+  { screen: 'argumentacija', category: 'argument', lesson: 'argument-structure', cefr: 'B2' },
+  { screen: 'ograde', category: 'hedging', lesson: 'hedging-precision', cefr: 'B2' },
+  { screen: 'apstraktno', category: 'abstract', lesson: 'abstract-topics', cefr: 'B2' },
+  { screen: 'registri', category: 'registers', lesson: 'writing-registers', cefr: 'B2' },
+  { screen: 'izlaganje', category: 'presenting', lesson: 'presentations', cefr: 'B2' },
+  { screen: 'sastanci', category: 'meetings', lesson: 'meetings-negotiation', cefr: 'B2' },
+  { screen: 'poslovno', category: 'business', lesson: 'business-economy', cefr: 'B2' },
+  { screen: 'politika', category: 'politics', lesson: 'politics-society', cefr: 'B2' },
+  { screen: 'caskanje', category: 'smalltalk', lesson: 'small-talk-fluency', cefr: 'B2' },
+  { screen: 'humor', category: 'humour', lesson: 'humour-irony', cefr: 'B2' },
+  {
+    screen: 'povijestjezika',
+    category: 'language-history',
+    lesson: 'language-history',
+    cefr: 'B2',
+  },
+  { screen: 'knjizevnost', category: 'literature', lesson: 'literature-canon', cefr: 'B2' },
   // ── B1 ────────────────────────────────────────────────────────────────────
   { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
   {

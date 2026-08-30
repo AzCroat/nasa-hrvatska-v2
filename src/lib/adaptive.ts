@@ -423,7 +423,27 @@ export type SkillCategory =
   | 'news'
   | 'technology'
   | 'nature'
-  | 'cooking';
+  | 'cooking'
+  // Pool-only tags (practice programme, B2 FUNCTIONAL block, 2026-08-30). The
+  // level's second half: the fixed `u tome što` frame, hedging on two
+  // independent axes, -ost nouns and the prepositions the discussion verbs
+  // demand, the passive-plus-nominalization pair that makes official Croatian
+  // look the way it does, signposting a talk, `predlažem da` + present,
+  // dobit/gubitak/gospodarstvo, Sabor and the pluralia-tantum `izbori`,
+  // hesitating aloud, the `ma` particle and understatement, the jat reflex,
+  // and how to pick a first book.
+  | 'argument'
+  | 'hedging'
+  | 'abstract'
+  | 'registers'
+  | 'presenting'
+  | 'meetings'
+  | 'business'
+  | 'politics'
+  | 'smalltalk'
+  | 'humour'
+  | 'language-history'
+  | 'literature';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -439,8 +459,10 @@ export type SkillCategory =
 // 'directions', 'weather', 'preferences', 'home', 'health', 'clothing',
 // 'appearance', 'jobs', 'education', 'hobbies', 'travel', 'invitations',
 // 'celebrations', 'opinions', 'feelings', 'complaints', 'bureaucracy',
-// 'renting', 'job-search', 'news', 'technology', 'nature', 'cooking') are valid
-// SkillCategory tags used to label
+// 'renting', 'job-search', 'news', 'technology', 'nature', 'cooking',
+// 'argument', 'hedging', 'abstract', 'registers', 'presenting', 'meetings',
+// 'business', 'politics', 'smalltalk', 'humour', 'language-history',
+// 'literature') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

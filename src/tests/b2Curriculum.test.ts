@@ -204,30 +204,88 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     // the intensifier register, pre- meaning "too". Pairing the two would be the
     // wrong-drill mistake this list exists to prevent.
     'degrees-intensity': 'intensity',
+    // The FUNCTIONAL block (2026-08-30): B2's whole second half. Each lesson is
+    // a function PLUS a structure, and the structure is what the drill tests:
+    //   argument-structure     the fixed `u tome što` frame, and Što se tiče
+    //                          + genitive
+    //   hedging-precision      two independent axes — how sure, and how much —
+    //                          plus the conditional hedging with no hedge word
+    //   abstract-topics        -ost nouns are i-declension, and ovisiti O
+    //                          against odnositi se NA
+    //   writing-registers      the passive/nominalization pair that makes
+    //                          official Croatian look the way it does
+    //   presentations          signposting every turn, and the conditional opener
+    //   meetings-negotiation   Predlažem da + PRESENT, because the subject changes
+    //   business-economy       dobit/gubitak, and gospodarstvo against ekonomija
+    //   politics-society       Sabor, and `izbori` which has no singular
+    //   small-talk-fluency     hesitating aloud instead of falling silent
+    //   humour-irony           the `ma` particle, and understatement as praise
+    //   language-history       the jat reflex, which turns a list into a rule
+    //   literature-canon       what to read first, and how to read it
+    //
+    // No drill was reusable this time, and the reason is uniform rather than
+    // varied: every plausible partner is BOTH gated above B2 and already
+    // claimed by a C1/C2 lesson — `preciznost` by `precizno-nijansiranje`,
+    // `register` by `razgovorni-stil`, `nominalization` by two lessons,
+    // `idiomdrill` by `idioms-register`. Retagging any of them would take a
+    // drill away from the lesson it was written for.
+    'argument-structure': 'argument',
+    'hedging-precision': 'hedging',
+    'abstract-topics': 'abstract',
+    'writing-registers': 'registers',
+    presentations: 'presenting',
+    'meetings-negotiation': 'meetings',
+    'business-economy': 'business',
+    'politics-society': 'politics',
+    'small-talk-fluency': 'smalltalk',
+    'humour-irony': 'humour',
+    'language-history': 'language-history',
+    'literature-canon': 'literature',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
+  // Down to the three B2 GRAMMAR lessons. The functional block left this list
+  // on 2026-08-30 the only honest way — a drill authored for each lesson's
+  // actual subject.
+  //
+  // `writing-registers` was never ON this list, which is the second time that
+  // has turned up (after `feelings-inner-life` at B1): it was uncoupled all
+  // along without being recorded as a deliberate omission. The list is a record
+  // of judgements, not a census — absence from it never meant a lesson was
+  // served, and counting it as coverage would have been wrong twice.
   const DELIBERATELY_UNMAPPED = [
+    // Each of these teaches something with no drill at any level: the split
+    // between should and should HAVE (trebao sam against trebao bih);
+    // calibrating advice against obligation, and smjeti apart from moći; and
+    // the prepositions that take more than one case, where za stolom and za
+    // stol are different sentences. They are the B2 grammar tranche.
     'wishes-regrets',
     'modal-nuance',
     'prepositions-advanced',
-    'argument-structure',
-    'hedging-precision',
-    'presentations',
-    'meetings-negotiation',
-    'small-talk-fluency',
-    'humour-irony',
-    'abstract-topics',
-    'business-economy',
-    'politics-society',
-    'language-history',
-    'literature-canon',
   ];
 
   it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
+    // If a real drill for one of these ever ships, move it into EXPECTED — that
+    // is the intended way off this list, and this failing is the reminder to do
+    // it deliberately rather than to weaken the assertion.
     expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  });
+
+  it('the functional block did not take a drill from a C1 or C2 lesson', () => {
+    // The alternative to authoring twelve banks was to retag existing ones, and
+    // this pins why that was refused. Each of these categories is the ONLY
+    // route its own lesson has; repointing one at a B2 lesson would have left
+    // the higher lesson with nothing.
+    const STILL_OWNED: Record<string, string> = {
+      precision: 'precizno-nijansiranje',
+      register: 'razgovorni-stil',
+      idioms: 'idioms-register',
+    };
+    for (const [category, owner] of Object.entries(STILL_OWNED)) {
+      expect(LESSON_TAUGHT_CATEGORY[owner], `${owner} lost ${category}`).toBe(category);
+    }
   });
 });
