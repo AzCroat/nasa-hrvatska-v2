@@ -213,7 +213,27 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   // like the rows above this touches the coupling and nothing else.
   register: 'register',
   'word-order': 'wordorderdrill',
-  idioms: 'idioms',
+  // Repointed from the reference screen to the DRILL (2026-08-30), which closes
+  // the last dead-end coupling in the app.
+  //
+  // The 2026-08-28 dead-mapping repair routed five orphan categories by name,
+  // and `idioms` had two candidates: `idioms` (B1, IdiomsScreen — a browse list,
+  // tap an idiom to hear it, no quiz and no completion) and `idiomdrill` (C1, a
+  // real graded drill on twelve figurative idioms, finishing through
+  // completeExercise). It picked the one whose id matched the category name, so
+  // the C1 `idioms-register` lesson queued a category resolving to a screen the
+  // learner could never finish — it squatted a session slot for its whole TTL.
+  //
+  // `couplingClearingPath.test.ts` caught that and it was exempted, with the
+  // recorded reason "needs an idiom DRILL at C1 (`frazeologija` exists but is
+  // C2)". That reason named the wrong candidate: `idiomdrill` was in the pool at
+  // C1 the entire time, so no drill ever had to be written. The exemption is
+  // gone with this row.
+  //
+  // `idioms` is NOT in ALL_CATEGORIES, so this touches the coupling and nothing
+  // the adaptive picker does; IdiomsScreen stays reachable through the P3 fill,
+  // which walks the pool directly.
+  idioms: 'idiomdrill',
   passive: 'passive',
   nominalization: 'nominalization',
   instrumental: 'instrumental',

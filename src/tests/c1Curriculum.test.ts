@@ -28,6 +28,7 @@ const { CURRICULUM, spineForLevel } =
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP } = await import('../lib/categoryRoutes');
+const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
@@ -333,5 +334,30 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     // distractor in the regional and language-history banks on their first runs.
     expect(LESSON_TAUGHT_CATEGORY['language-identity']).toBe('identity');
     expect(CATEGORY_SCREEN_MAP['identity']).toBe('identitet');
+  });
+
+  it('idioms-register routes to the DRILL, not the browse list of the same name', () => {
+    // The last dead-end coupling in the app, closed 2026-08-30, and the reason
+    // it lasted is worth pinning rather than just fixing.
+    //
+    // Two pool entries look like the `idioms` category: `idioms` (B1,
+    // IdiomsScreen — tap an idiom to hear it, no quiz, no completion) and
+    // `idiomdrill` (C1, twelve figurative idioms, graded, finishing through
+    // completeExercise). The 2026-08-28 dead-mapping repair routed five orphan
+    // categories by NAME and picked the one whose id matched, so this lesson
+    // queued a category the learner could never discharge.
+    //
+    // It was then exempted in couplingClearingPath with the reason "needs an
+    // idiom DRILL at C1 (`frazeologija` exists but is C2)" — which named the
+    // wrong candidate. `idiomdrill` had been sitting in the pool at C1 the whole
+    // time; nothing ever had to be authored.
+    expect(LESSON_TAUGHT_CATEGORY['idioms-register']).toBe('idioms');
+    expect(CATEGORY_SCREEN_MAP['idioms']).toBe('idiomdrill');
+    // And the drill it points at must be reachable for the C1 learners this
+    // lesson serves — the `gender → vocab-a2` trap in its other form.
+    const entry = CEFR_EXERCISE_POOL.find((e) => e.screen === 'idiomdrill');
+    expect(entry, 'idiomdrill left the pool — the coupling resolves to nothing').toBeTruthy();
+    expect(entry!.cefr, 'idiomdrill is no longer openable at C1').toBe('C1');
+    expect(entry!.reference ?? false, 'idiomdrill became a reference screen').toBe(false);
   });
 });
