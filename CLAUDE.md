@@ -418,16 +418,28 @@ pedagogy. Design: `docs/curriculum-design.md`.
   relative-clause route via `CATEGORY_EASIER_SCREEN`), and `idioms`. The first
   two are fixed with one `recordScreenPractised` call at their genuine
   completion point — NOT by converting them to `completeExercise`, which would
-  change a live screen's XP semantics for no gain here. **`idioms` is exempted
-  and is the real one**: `IdiomsScreen` is a reference list — tap to hear — with
-  no quiz, no score and no completion at all, so the C1 `idioms-register` lesson
-  queues a category that resolves to a screen the learner can never finish. It
-  needs an idiom DRILL at C1 (`frazeologija` exists but is C2, hence CEFR-locked
-  for exactly those learners), not a call. The exemption set carries a test that
-  every listed entry genuinely still fails, so it cannot go stale — it caught
-  its own `relpron` entry going stale within the same session.
+  change a live screen's XP semantics for no gain here. The third, `idioms`, was
+  exempted and **the exemption's stated reason was wrong** — see below.
+  **KNOWN_NO_CLEARING_PATH is now EMPTY (2026-08-30).** `idioms` came off it by
+  repointing the category from `idioms` (IdiomsScreen — a browse list, tap to
+  hear, no quiz and no completion) to **`idiomdrill`**, a real graded C1 drill on
+  twelve figurative idioms that finishes through `completeExercise` and had been
+  in the pool at C1 the whole time. The exemption said the fix was "an idiom
+  DRILL at C1 (`frazeologija` exists but is C2)"; it named the wrong candidate,
+  and nothing ever had to be authored. The 2026-08-28 repair had routed five
+  orphan categories BY NAME, and `idioms` was the one category with two
+  plausible screens — it picked the id that matched.
+  **An exemption can go stale two ways, and only one was covered.** The set's
+  staleness test asked whether an exempted screen had GAINED a clearing path
+  (which caught `relpron` within a single session). It never asked whether
+  anything still ROUTED there — so the moment the category was repointed, the
+  exemption guarded nothing while still asserting a live dead end, and the suite
+  stayed green. Both are now checked, plus a count assertion, because `it.each`
+  over an empty set registers no tests at all.
   NEVER: route a category to a screen without checking the screen can complete;
-  add an exemption without the reason; assume reachability implies clearing.
+  add an exemption without the reason; assume reachability implies clearing;
+  trust an exemption's recorded reason without re-checking the pool for a
+  candidate it may have missed.
 - **The C1 `discourse` mapping is still unavailable, and that one is real.** The
   drill covers CONNECTORS (stoga, međutim, unatoč tome) while
   `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
@@ -472,8 +484,8 @@ pedagogy. Design: `docs/curriculum-design.md`.
   - `vi-vs-ti` looked served by `tivicompare`, which is at the SAME level and
     named for the lesson. It is `reference: true` — a browse list with no
     graded finish — so a coupling routed at it resolves and never clears. That
-    is the live `idioms` defect, and it is gated by SHAPE rather than by CEFR,
-    which no level check would have caught.
+    was the `idioms` defect (since fixed), and it is gated by SHAPE rather than
+    by CEFR, which no level check would have caught.
   - `modal-nuance` was blocked by `naciniobveze`, the C2 modality drill
     authored in the block immediately before this one. Closing a level can
     create the collision that blocks a lower one, so the survey has to be
@@ -1119,6 +1131,7 @@ and in every case the suite was fully green beforehand:
 | `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
 | The whole coupling suite, after BOTH fixes | Resolution and clearing both round-tripped through the real builder | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`). |
 | `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
+| `couplingClearingPath`'s exemption set | Carries a staleness test, so "an exemption cannot sit here quietly covering a screen that has since been fixed" | It checked whether the exempted screen GAINED a clearing path, never whether anything still ROUTED to it. Repointing `idioms` at the real drill left a moot exemption asserting a live dead end, suite fully green. Both staleness paths are checked now — plus a count, because `it.each` over an empty set registers no tests. |
 | `AlphabetScreen`'s own component tests | Render the screen, play the quiz, assert on its behaviour | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router. |
 
 The pattern is always the same, and it is worth naming because it is invisible

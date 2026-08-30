@@ -54,20 +54,27 @@ const EXTS = ['.tsx', '.ts', '.jsx', '.js'];
  * `recordScreenPractised`. Each entry states what is actually wrong, because
  * the two are different faults with different fixes.
  *
- * This set can only shrink. It is not a suppression list: a second test below
- * asserts every entry genuinely still fails, so an exemption cannot sit here
- * quietly covering a screen that has since been fixed.
+ * THIS SET IS EMPTY as of 2026-08-30, and every dead end it ever held is fixed.
+ *
+ * It is not a suppression list. Two tests below hold it honest, and the second
+ * exists because of how the last entry left: an exemption can go stale in TWO
+ * ways, and only one of them was covered.
+ *
+ *   1. the screen GAINS a clearing path — covered from the start, and it caught
+ *      its own `relpron` entry going stale within a single session;
+ *   2. nothing ROUTES to the screen any more, so the exemption guards nothing —
+ *      NOT covered, and that is exactly what happened to `idioms`. Repointing
+ *      the category at the real drill left this file green with an exemption
+ *      that had stopped meaning anything, still recording a live dead end that
+ *      no longer existed.
  */
 const KNOWN_NO_CLEARING_PATH: Record<string, string> = {
-  // IdiomsScreen is a REFERENCE LIST — tap an idiom to hear it. No quiz, no
-  // score, no completion of any kind. The route was added in the 2026-08-28
-  // dead-mapping repair, which fixed reachability for five orphan categories
-  // and could not have seen this, because reachability and completion are
-  // separate paths. The C1 `idioms-register` lesson therefore queues a category
-  // that resolves to a screen it can never finish. The real fix is an idiom
-  // DRILL at C1 (`frazeologija` exists but is C2, so it is CEFR-locked for the
-  // learners this lesson serves).
-  idioms: 'IdiomsScreen has no quiz and no completion at all — reference content only',
+  // `idioms` was the last entry, removed 2026-08-30 by repointing the category
+  // from `idioms` (IdiomsScreen, a browse list with no completion) to
+  // `idiomdrill` — a real graded C1 drill that was in the pool the whole time.
+  // The exemption's recorded reason said the fix was "an idiom DRILL at C1
+  // (`frazeologija` exists but is C2)". It named the wrong candidate: nothing
+  // ever had to be authored. See the comment on the route in categoryRoutes.ts.
 };
 
 function resolveModule(fromDir: string, spec: string): string | null {
@@ -180,20 +187,38 @@ describe('every screen the coupling routes to can clear the coupling', () => {
 });
 
 describe('the exemptions are real', () => {
-  it.each(Object.entries(KNOWN_NO_CLEARING_PATH))(
-    '%s still genuinely lacks a clearing path',
-    (screen, reason) => {
-      const comp = componentForScreen(screen);
-      expect(comp, `no router block for exempted screen "${screen}"`).toBeTruthy();
-      const file = fileForComponent(comp!);
-      expect(file, `could not resolve the module for exempted <${comp}>`).toBeTruthy();
-      expect(
-        reachesClearingPath(file!),
-        `${screen} is exempted ("${reason}") but now DOES reach the clearing path. ` +
-          `Remove it from KNOWN_NO_CLEARING_PATH — a stale exemption hides the next regression.`,
-      ).toBe(false);
-    },
-  );
+  const entries = Object.entries(KNOWN_NO_CLEARING_PATH);
+
+  it('the set is empty, or every entry below is checked', () => {
+    // `it.each` over an empty list registers no tests, so without this the two
+    // blocks below would silently assert nothing once the set emptied. Stating
+    // the count is what makes an empty set a deliberate fact rather than a gap.
+    expect(entries.length).toBe(0);
+  });
+
+  it.each(entries)('%s still genuinely lacks a clearing path', (screen, reason) => {
+    const comp = componentForScreen(screen);
+    expect(comp, `no router block for exempted screen "${screen}"`).toBeTruthy();
+    const file = fileForComponent(comp!);
+    expect(file, `could not resolve the module for exempted <${comp}>`).toBeTruthy();
+    expect(
+      reachesClearingPath(file!),
+      `${screen} is exempted ("${reason}") but now DOES reach the clearing path. ` +
+        `Remove it from KNOWN_NO_CLEARING_PATH — a stale exemption hides the next regression.`,
+    ).toBe(false);
+  });
+
+  it.each(entries)('%s is still a screen the coupling can actually reach', (screen) => {
+    // THE SECOND WAY AN EXEMPTION GOES STALE, and the one that was uncovered
+    // until 2026-08-30. If no category routes here any more, the exemption
+    // guards nothing while still asserting a live dead end exists. `idioms` sat
+    // in exactly that state the moment its category was repointed, and this
+    // file stayed green.
+    expect(
+      ROUTED_SCREENS,
+      `${screen} is exempted but nothing routes to it — the exemption is moot. Delete it.`,
+    ).toContain(screen);
+  });
 });
 
 describe('the walker itself works', () => {
