@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { H, ALPHA, speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { recordScreenPractised } from '../../lib/teachPractice';
 import { useStats } from '../../context/StatsContext.tsx';
 
 interface AlphaQuizQuestion {
@@ -202,6 +203,20 @@ export default function AlphabetScreen({ goBack, award }: Props) {
               className="b bp"
               style={{ flex: 1 }}
               onClick={() => {
+                // Discharge the teach → practice coupling. This sits BEFORE the
+                // already-awarded guard on purpose: the queue holds an intention
+                // ("practise the alphabet"), and a learner who retakes the quiz
+                // has satisfied it whether or not the XP was banked the first
+                // time. Same ordering as completeExercise, which clears before
+                // its own already-credited early return.
+                //
+                // Deliberately NOT a conversion to completeExercise. This screen
+                // grades itself and runs its own award path (20 XP, markQuest,
+                // and its own lc/vs bookkeeping guarded against the dwell
+                // timer); routing that through the shared authority would change
+                // a live screen's XP semantics for no gain here. Same call and
+                // same reasoning as `writing_guided` and `relpron`.
+                recordScreenPractised('alphabet');
                 if (!awardFired.current) {
                   awardFired.current = true;
                   if (typeof award === 'function') award(20, false, 'vocabulary');

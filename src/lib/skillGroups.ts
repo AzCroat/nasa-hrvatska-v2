@@ -219,6 +219,7 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   wishes: 'verb',
   'modal-nuance': 'verb',
   'two-case-prepositions': 'case',
+  alphabet: 'vocab',
   collocations: 'vocab',
   prosody: 'speaking',
   'advanced-comparison': 'case',

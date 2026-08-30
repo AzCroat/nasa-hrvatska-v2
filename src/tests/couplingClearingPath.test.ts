@@ -91,7 +91,23 @@ function resolveModule(fromDir: string, spec: string): string | null {
 function reachesClearingPath(file: string, seen = new Set<string>()): boolean {
   if (seen.has(file)) return false;
   seen.add(file);
-  const src = fs.readFileSync(file, 'utf8');
+  // DECLARATIONS ARE NOT CALL SITES (2026-08-30). Found by mutation while
+  // wiring `alphabet`: deleting its `recordScreenPractised('alphabet')` call
+  // left this whole suite GREEN, because the screen still imported
+  // `lib/teachPractice` — and that module DECLARES `recordScreenPractised`, so
+  // following the import matched the declaration and reported the screen as
+  // reaching the clearing path. Removing the import as well turned it red,
+  // which isolates the cause exactly.
+  //
+  // The hole is worse than one screen: ANY screen that imports teachPractice
+  // for any reason at all would have satisfied this guard without calling
+  // anything. Stripping the declaration is the narrow fix — a module that only
+  // defines the function no longer answers the question, while every genuine
+  // call site (ModeDrill's `completeExercise(...)`, GuidedWritingScreen's
+  // direct call) still does.
+  const src = fs
+    .readFileSync(file, 'utf8')
+    .replace(/\bfunction\s+(?:completeExercise|recordScreenPractised)\s*\(/g, 'function __decl__(');
   if (/\b(completeExercise|recordScreenPractised)\s*\(/.test(src)) return true;
   const dir = path.dirname(file);
   // `import type` is erased at build time, so it is not a runtime path. Following

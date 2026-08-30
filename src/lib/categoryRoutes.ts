@@ -183,6 +183,7 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   wishes: 'zaljenje',
   'modal-nuance': 'modalninijanse',
   'two-case-prepositions': 'dvopadezni',
+  alphabet: 'alphabet',
   collocations: 'kolokacije',
   prosody: 'pitchaccent',
   'advanced-comparison': 'usporedbec1',

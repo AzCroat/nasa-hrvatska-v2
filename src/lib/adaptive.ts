@@ -509,7 +509,11 @@ export type SkillCategory =
   | 'real-conditions'
   | 'wishes'
   | 'modal-nuance'
-  | 'two-case-prepositions';
+  | 'two-case-prepositions'
+  // Pool-only tag (2026-08-30). The A1 alphabet quiz, retagged off `vocab-a2`
+  // so the A1 lesson can couple to the screen that teaches it rather than to
+  // an A2 vocabulary game.
+  | 'alphabet';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
