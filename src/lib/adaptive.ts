@@ -388,7 +388,25 @@ export type SkillCategory =
   | 'food'
   | 'directions'
   | 'weather'
-  | 'preferences';
+  | 'preferences'
+  // Pool-only tags (practice programme, A2 TOPICAL block, 2026-08-29). Same
+  // shape as the A1 block above: each lesson is a topic PLUS a structure, and
+  // the structure is what the drill tests — u/na with the locative against the
+  // genitive position words, the boljeti construction where the body part is
+  // the subject, nositi + accusative, Kakav? against Koji?, the female job
+  // form as the standard one, učiti against studirati, igrati against svirati,
+  // the instrumental of means, the present tense doing an arranged future, and
+  // sretan agreeing with the occasion.
+  | 'home'
+  | 'health'
+  | 'clothing'
+  | 'appearance'
+  | 'jobs'
+  | 'education'
+  | 'hobbies'
+  | 'travel'
+  | 'invitations'
+  | 'celebrations';
 
 // NOTE: the pool-only tags ('nominative', 'word-order', 'passive', 'numerals',
 // 'participle', 'subordination', 'idioms', 'discourse', 'register',
@@ -401,7 +419,9 @@ export type SkillCategory =
 // 'editing', 'precision', 'i-declension', 'verbal-adverbs', 'negation-advanced',
 // 'aspect-verbs', 'intensity', 'collocations', 'prosody', 'advanced-comparison',
 // 'word-formation', 'diminutives', 'summarising', 'family', 'countries', 'food',
-// 'directions', 'weather', 'preferences') are valid SkillCategory tags used to label
+// 'directions', 'weather', 'preferences', 'home', 'health', 'clothing',
+// 'appearance', 'jobs', 'education', 'hobbies', 'travel', 'invitations',
+// 'celebrations') are valid SkillCategory tags used to label
 // CEFR_EXERCISE_POOL honestly, but are deliberately NOT listed here.
 // ALL_CATEGORIES drives the adaptive scheduler/queue; omitting them keeps the
 // adaptive picker's behaviour unchanged. They are wired into scheduling/coverage

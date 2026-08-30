@@ -124,6 +124,16 @@ const TARGETS = [
   'src/data/drills/directionsDrill.ts',
   'src/data/drills/weatherDrill.ts',
   'src/data/drills/preferencesDrill.ts',
+  'src/data/drills/homeDrill.ts',
+  'src/data/drills/healthDrill.ts',
+  'src/data/drills/clothingDrill.ts',
+  'src/data/drills/appearanceDrill.ts',
+  'src/data/drills/jobsDrill.ts',
+  'src/data/drills/educationDrill.ts',
+  'src/data/drills/hobbiesDrill.ts',
+  'src/data/drills/travelDrill.ts',
+  'src/data/drills/invitationsDrill.ts',
+  'src/data/drills/celebrationsDrill.ts',
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.

@@ -32,6 +32,8 @@
 // serves past-tense and conditional), which is exactly why those couplings once
 // failed to clear.
 
+import fs from 'node:fs';
+import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../lib/categoryRoutes';
@@ -80,6 +82,25 @@ const PROGRAMME_DRILLS: {
   },
   { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A2' },
   { screen: 'komparacija', category: 'comparison', lesson: 'comparatives-a2', cefr: 'A2' },
+  // A2 topical block (2026-08-29). Ten authored banks. The pool tag matters
+  // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
+  // specific to this block: five of the ten have a same-named REFERENCE screen
+  // in the pool, so a wrong tag would be easy to write and hard to see.
+  { screen: 'dom', category: 'home', lesson: 'house-home', cefr: 'A2' },
+  { screen: 'zdravlje', category: 'health', lesson: 'body-health', cefr: 'A2' },
+  { screen: 'odjeca', category: 'clothing', lesson: 'clothes-appearance', cefr: 'A2' },
+  { screen: 'izgled', category: 'appearance', lesson: 'describing-people', cefr: 'A2' },
+  { screen: 'zanimanja', category: 'jobs', lesson: 'work-jobs', cefr: 'A2' },
+  { screen: 'skola', category: 'education', lesson: 'school-studies', cefr: 'A2' },
+  { screen: 'hobiji', category: 'hobbies', lesson: 'hobbies-free-time', cefr: 'A2' },
+  { screen: 'putovanje', category: 'travel', lesson: 'travel-transport', cefr: 'A2' },
+  { screen: 'dogovor', category: 'invitations', lesson: 'plans-invitations', cefr: 'A2' },
+  {
+    screen: 'blagdani',
+    category: 'celebrations',
+    lesson: 'celebrations-holidays',
+    cefr: 'A2',
+  },
   // ── B1 ────────────────────────────────────────────────────────────────────
   { screen: 'infda', category: 'infinitive-da', lesson: 'infinitive-vs-da', cefr: 'B1' },
   {
@@ -309,5 +330,67 @@ describe('the programme is aimed at lessons that had no drill', () => {
     for (const d of [...PROGRAMME_DRILLS, ...EASIER_ROUTE_DRILLS]) {
       expect(LESSON_TAUGHT_CATEGORY[d.lesson], `${d.lesson} has no coupling`).toBeTruthy();
     }
+  });
+});
+
+describe('every wrapper completes under the key it is routed at', () => {
+  // THE `genderdrill` TRAP, one level up (2026-08-30).
+  //
+  // `GenderDrillScreen` is routed at `genderdrill` and completes with the key
+  // `'gender'`. That mismatch worked only through `categoryForScreen`'s "the key
+  // IS a category" fallback, and it went untested for years because every suite
+  // cleared the queue using the SCREEN the builder returned rather than the key
+  // the screen actually passes.
+  //
+  // This programme has now produced 45 drills that are the SAME ~12-line
+  // wrapper, differing mainly in a hand-typed `id="..."` string that ModeDrill
+  // forwards to completeExercise as the completion key. Copy a wrapper, change
+  // the imports, forget the id, and the drill routes correctly, renders
+  // correctly, grades correctly — and clears somebody else's coupling. Nothing
+  // else in the suite looks at that string.
+  //
+  // So this reads the wrappers on disk and the router as it is, and asserts the
+  // three names agree: the completion key, the screen the route registers, and
+  // the pool entry.
+  const DRILL_DIR = path.join(__dirname, '..', 'components', 'practice', 'drills');
+  const routerSource = fs.readFileSync(
+    path.join(__dirname, '..', 'components', 'AppRouter.tsx'),
+    'utf8',
+  );
+  const wrappers = fs
+    .readdirSync(DRILL_DIR)
+    .filter((f) => f.endsWith('.tsx'))
+    .map((file) => {
+      const src = fs.readFileSync(path.join(DRILL_DIR, file), 'utf8');
+      return { file, component: file.replace(/\.tsx$/, ''), id: src.match(/\bid="([^"]+)"/)?.[1] };
+    });
+
+  it('there are wrappers to check', () => {
+    // A rename of the directory would otherwise make every assertion vacuous.
+    expect(wrappers.length).toBeGreaterThan(20);
+  });
+
+  it.each(wrappers)('$component completes as "$id"', ({ component, id }) => {
+    expect(id, `${component} passes no id= to ModeDrill`).toBeTruthy();
+
+    // The route block that renders this component must be keyed on the same
+    // string. `<Component ` is matched with the trailing space so a component
+    // whose name prefixes another's cannot borrow its route.
+    const at = routerSource.indexOf(`<${component} `);
+    expect(at, `AppRouter never renders <${component}>`).toBeGreaterThan(-1);
+    const before = routerSource.slice(0, at);
+    const routedAs = [...before.matchAll(/currentScreen === '([^']+)'/g)].pop()?.[1];
+    expect(
+      routedAs,
+      `<${component}> completes as "${id}" but is routed at "${routedAs}". The coupling ` +
+        `clears on the route, so the queue entry for "${routedAs}" would never discharge.`,
+    ).toBe(id);
+
+    // And the pool has to know the screen under that same name, or the P3 fill
+    // can never serve it and categoryForScreen credits nothing.
+    expect(
+      CEFR_EXERCISE_POOL.some((e) => e.screen === id),
+      `"${id}" is not a screen in CEFR_EXERCISE_POOL`,
+    ).toBe(true);
   });
 });
