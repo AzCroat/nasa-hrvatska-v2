@@ -309,6 +309,29 @@ const ArtsDrill = lazyWithReload(() => import('./practice/drills/ArtsDrill'));
 const RegionalDrill = lazyWithReload(() => import('./practice/drills/RegionalDrill'));
 const IdentityDrill = lazyWithReload(() => import('./practice/drills/IdentityDrill'));
 const DiasporaDrill = lazyWithReload(() => import('./practice/drills/DiasporaDrill'));
+const NormDrill = lazyWithReload(() => import('./practice/drills/NormDrill'));
+const DeclensionExceptionsDrill = lazyWithReload(
+  () => import('./practice/drills/DeclensionExceptionsDrill'),
+);
+const NumberNormDrill = lazyWithReload(() => import('./practice/drills/NumberNormDrill'));
+const AgreementSubtletiesDrill = lazyWithReload(
+  () => import('./practice/drills/AgreementSubtletiesDrill'),
+);
+const CaseSubtletiesDrill = lazyWithReload(() => import('./practice/drills/CaseSubtletiesDrill'));
+const ModalityDrill = lazyWithReload(() => import('./practice/drills/ModalityDrill'));
+const RhythmDrill = lazyWithReload(() => import('./practice/drills/RhythmDrill'));
+const IronyDrill = lazyWithReload(() => import('./practice/drills/IronyDrill'));
+const WordplayDrill = lazyWithReload(() => import('./practice/drills/WordplayDrill'));
+const LiteraryStyleDrill = lazyWithReload(() => import('./practice/drills/LiteraryStyleDrill'));
+const OldTextsDrill = lazyWithReload(() => import('./practice/drills/OldTextsDrill'));
+const ReconstructionDrill = lazyWithReload(() => import('./practice/drills/ReconstructionDrill'));
+const SpontaneousDrill = lazyWithReload(() => import('./practice/drills/SpontaneousDrill'));
+const SpecialistTranslationDrill = lazyWithReload(
+  () => import('./practice/drills/SpecialistTranslationDrill'),
+);
+const PhraseologyDrill = lazyWithReload(() => import('./practice/drills/PhraseologyDrill'));
+const DialectsDeepDrill = lazyWithReload(() => import('./practice/drills/DialectsDeepDrill'));
+const LanguageSocietyDrill = lazyWithReload(() => import('./practice/drills/LanguageSocietyDrill'));
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2570,6 +2593,91 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'dijaspora' && (
           <ScreenErrorBoundary key="dijaspora" name="dijaspora">
             <DiasporaDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'norma' && (
+          <ScreenErrorBoundary key="norma" name="norma">
+            <NormDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'sklonidbaizn' && (
+          <ScreenErrorBoundary key="sklonidbaizn" name="sklonidbaizn">
+            <DeclensionExceptionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'brojevinorma' && (
+          <ScreenErrorBoundary key="brojevinorma" name="brojevinorma">
+            <NumberNormDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'slaganjec2' && (
+          <ScreenErrorBoundary key="slaganjec2" name="slaganjec2">
+            <AgreementSubtletiesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'padezisupt' && (
+          <ScreenErrorBoundary key="padezisupt" name="padezisupt">
+            <CaseSubtletiesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'naciniobveze' && (
+          <ScreenErrorBoundary key="naciniobveze" name="naciniobveze">
+            <ModalityDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'ritam' && (
+          <ScreenErrorBoundary key="ritam" name="ritam">
+            <RhythmDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'ironija' && (
+          <ScreenErrorBoundary key="ironija" name="ironija">
+            <IronyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'humorjezik' && (
+          <ScreenErrorBoundary key="humorjezik" name="humorjezik">
+            <WordplayDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'knjizevni' && (
+          <ScreenErrorBoundary key="knjizevni" name="knjizevni">
+            <LiteraryStyleDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'staritekstovi' && (
+          <ScreenErrorBoundary key="staritekstovi" name="staritekstovi">
+            <OldTextsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'rekonstrukcija' && (
+          <ScreenErrorBoundary key="rekonstrukcija" name="rekonstrukcija">
+            <ReconstructionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'spontano' && (
+          <ScreenErrorBoundary key="spontano" name="spontano">
+            <SpontaneousDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prevodjenjestr' && (
+          <ScreenErrorBoundary key="prevodjenjestr" name="prevodjenjestr">
+            <SpecialistTranslationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'frazemi' && (
+          <ScreenErrorBoundary key="frazemi" name="frazemi">
+            <PhraseologyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'dijalektic2' && (
+          <ScreenErrorBoundary key="dijalektic2" name="dijalektic2">
+            <DialectsDeepDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'jezikdrustvo' && (
+          <ScreenErrorBoundary key="jezikdrustvo" name="jezikdrustvo">
+            <LanguageSocietyDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

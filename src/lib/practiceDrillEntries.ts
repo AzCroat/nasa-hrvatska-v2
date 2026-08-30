@@ -581,4 +581,105 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'C1',
     category: 'diaspora',
   },
+
+  // ── C2 (2026-08-30) ───────────────────────────────────────────────────────
+  // The last block of the practice programme: the seventeen C2 lessons that
+  // still taught something the app never drilled. Every category here is
+  // pool-only — none is in ALL_CATEGORIES — so the adaptive picker is
+  // unchanged and these are reachable through the coupling and the P3 fill.
+  { id: 'norma', label: 'Norm & usage', screen: 'norma', cefr: 'C2', category: 'norm' },
+  {
+    id: 'sklonidbaizn',
+    label: 'Declension exceptions',
+    screen: 'sklonidbaizn',
+    cefr: 'C2',
+    category: 'declension-exceptions',
+  },
+  {
+    id: 'brojevinorma',
+    label: 'Numbers in the norm',
+    screen: 'brojevinorma',
+    cefr: 'C2',
+    category: 'number-norm',
+  },
+  {
+    id: 'slaganjec2',
+    label: 'Agreement subtleties',
+    screen: 'slaganjec2',
+    cefr: 'C2',
+    category: 'agreement-subtleties',
+  },
+  {
+    id: 'padezisupt',
+    label: 'Case subtleties',
+    screen: 'padezisupt',
+    cefr: 'C2',
+    category: 'case-subtleties',
+  },
+  {
+    id: 'naciniobveze',
+    label: 'Modality',
+    screen: 'naciniobveze',
+    cefr: 'C2',
+    category: 'modality',
+  },
+  { id: 'ritam', label: 'Sentence rhythm', screen: 'ritam', cefr: 'C2', category: 'rhythm' },
+  { id: 'ironija', label: 'Irony & subtext', screen: 'ironija', cefr: 'C2', category: 'irony' },
+  { id: 'humorjezik', label: 'Wordplay', screen: 'humorjezik', cefr: 'C2', category: 'wordplay' },
+  {
+    id: 'knjizevni',
+    label: 'Literary style',
+    screen: 'knjizevni',
+    cefr: 'C2',
+    category: 'literary-style',
+  },
+  {
+    id: 'staritekstovi',
+    label: 'Older texts',
+    screen: 'staritekstovi',
+    cefr: 'C2',
+    category: 'old-texts',
+  },
+  {
+    id: 'rekonstrukcija',
+    label: 'Reconstructing an argument',
+    screen: 'rekonstrukcija',
+    cefr: 'C2',
+    category: 'reconstruction',
+  },
+  {
+    id: 'spontano',
+    label: 'Spontaneous speech',
+    screen: 'spontano',
+    cefr: 'C2',
+    category: 'spontaneous',
+  },
+  {
+    id: 'prevodjenjestr',
+    label: 'Specialist translation',
+    screen: 'prevodjenjestr',
+    cefr: 'C2',
+    category: 'specialist-translation',
+  },
+  {
+    id: 'frazemi',
+    label: 'Phraseology in depth',
+    screen: 'frazemi',
+    cefr: 'C2',
+    category: 'phraseology',
+  },
+  {
+    id: 'dijalektic2',
+    label: 'The three dialects',
+    screen: 'dijalektic2',
+    cefr: 'C2',
+    category: 'dialects-deep',
+  },
+  {
+    id: 'jezikdrustvo',
+    label: 'Language & society',
+    screen: 'jezikdrustvo',
+    cefr: 'C2',
+    category: 'language-society',
+  },
 ];

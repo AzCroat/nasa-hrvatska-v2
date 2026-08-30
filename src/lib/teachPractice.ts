@@ -288,6 +288,23 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'regional-varieties': 'regional',
   'language-identity': 'identity',
   'diaspora-identity': 'diaspora',
+  'norma-i-uzus': 'norm',
+  'sklonidba-iznimke': 'declension-exceptions',
+  'brojevi-norma': 'number-norm',
+  'slaganje-suptilnosti': 'agreement-subtleties',
+  'padezne-suptilnosti': 'case-subtleties',
+  'glagolski-nacini': 'modality',
+  'ritam-recenice': 'rhythm',
+  'ironija-podtekst': 'irony',
+  'humor-jezicni': 'wordplay',
+  'knjizevni-stil': 'literary-style',
+  'stari-tekstovi': 'old-texts',
+  'rekonstrukcija-argumenta': 'reconstruction',
+  'spontani-govor': 'spontaneous',
+  'prevodjenje-strucno': 'specialist-translation',
+  'frazeologija-dubinska': 'phraseology',
+  'dijalekti-dubinski': 'dialects-deep',
+  'jezik-i-drustvo': 'language-society',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',
@@ -326,60 +343,51 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C2 synthesis across sources is written production against a structure;
   // guided writing is the teaching screen for it.
   'sinteza-izvora': 'writing',
-  // DELIBERATELY UNMAPPED, and worth recording so nobody "completes" the map:
-  // A1: plural-nouns, negation, adjectives-basic, possessives, demonstratives,
-  // imperative-basic, likes-preferences, family-people, countries-languages,
-  // food-drink, directions-town, weather-seasons.
-  // A2: object-pronouns, plural-cases, quantity, svoj, adverbs, conjunctions,
-  // relative-koji, indefinites, and all ten functional lessons.
-  // B1: time-duration, position-placement, infinitive-vs-da, impersonal,
-  // time-clauses, real-conditions, cause-purpose, reported-speech, and all ten
-  // B2: i-declension, aspect-with-verbs, verbal-adverbs, wishes-regrets,
-  // modal-nuance, prepositions-advanced, degrees-intensity, negation-advanced,
-  // argument-structure, hedging-precision, presentations, meetings-negotiation,
-  // small-talk-fluency, humour-irony, abstract-topics, business-economy,
-  // politics-society, language-history, literature-canon.
-  // C1: diminutives-augmentatives, comparison-advanced, collocations,
-  // discourse-particles, accent-prosody, summarising-paraphrase,
-  // debate-persuasion, formal-speech, translation-pitfalls,
-  // proofreading-editing, media-analysis, law-administration,
-  // science-technology, arts-culture, regional-varieties, diaspora-identity.
-  // (`verb-government` was on this list until 2026-08-28 — see its entry above.
-  // It came OFF by retagging the pool, which is the only honest way a lesson
-  // moves out of this list: the drill it names now actually teaches it.)
-  // C2: norma-i-uzus, pravopis-dvojbe, zarez-interpunkcija, sklonidba-iznimke,
-  // brojevi-norma, slaganje-suptilnosti, padezne-suptilnosti, pluskvamperfekt
-  // (already mapped to past-tense), glagolski-nacini, stilske-figure,
-  // ritam-recenice, ironija-podtekst, humor-jezicni, administrativni-stil,
-  // publicisticki-stil, znanstveni-stil, knjizevni-stil, stari-tekstovi,
-  // rekonstrukcija-argumenta, precizno-nijansiranje, spontani-govor,
-  // prevodjenje-strucno, uredjivanje-teksta, frazeologija-dubinska,
-  // dijalekti-dubinski, jezik-i-drustvo.
-  // `padezne-suptilnosti` stays unmapped and is NOT the same case as
-  // verb-government: it teaches the genitive of negation, the partitive and the
-  // temporal cases — case meaning where nothing governs anything — so the
-  // rekcija drill would be the wrong exercise for it, not merely a mistagged
-  // one. `precizno-nijansiranje`
-  // is the near miss worth recording: the `preciznost` drill IS precision of
-  // expression, but its pool entry is tagged category 'idioms', which routes to
-  // the idiom drill — so the mapping would deliver a different exercise from the
-  // one whose name matches. Retagging the pool entry is its own decision.
-  // functional lessons. `reported-speech` is the notable one: the pool HAS a
-  // reported-speech drill (`neizravni`), but it is B2, and the easier route for
-  // this category is already taken by `relpron` — so mapping it would send a B1
-  // learner to a relative-pronoun drill after a lesson on reporting what people
-  // said. Wrong drill, so no drill.
+  // DELIBERATELY UNMAPPED — fourteen lessons as of 2026-08-30, and the list is
+  // DERIVED rather than restated here. A hand-maintained census of it went
+  // stale repeatedly while the practice programme shipped, and once made a
+  // merged tranche report the wrong coverage figure, because a list of
+  // judgements is not a count of lessons. `practiceProgrammeDrills.test.ts`
+  // holds the count per level and NAMES the uncoupled ids in its failure
+  // message, so the authoritative list is one test run away and cannot drift
+  // from this map.
   //
-  // Each of them either has no drill at all, or only a topic-blind vocabulary
-  // game — and pairing a lesson on family words with a generic vocab round
-  // claims a connection the app cannot deliver. A wrong drill after a lesson is
-  // worse than no drill.
+  // What belongs here is WHY each is still unmapped, because "no drill exists
+  // yet" and "no honest pairing exists" look identical from inside a list of
+  // ids — and the whole programme turned on that difference:
   //
-  // `object-pronouns` is the one worth explaining: clitics DO have a drill, but
-  // it is B2-gated, so mapping it would queue a category an A2 learner cannot
-  // open — the coupling would resolve to nothing, silently. Same trap as
-  // `gender → vocab-a2`. Better to say nothing than to promise practice that
-  // never arrives.
+  //   A1 `alphabet` (1). It HAS a screen; AlphabetScreen never reaches
+  //   `recordScreenPractised`, so a coupling would resolve and then never
+  //   clear. Blocked on the clearing path rather than on content — see
+  //   `couplingClearingPath.test.ts`.
+  //
+  //   A2 `adverbs`, `conjunctions`, `relative-koji`, `indefinites`,
+  //   `vi-vs-ti`, `prepositions-action`, `adjective-agreement` (7);
+  //   B1 `time-duration`, `position-placement`, `real-conditions` (3);
+  //   B2 `wishes-regrets`, `modal-nuance`, `prepositions-advanced` (3).
+  //   No drill teaches these at any level. Each needs an authored bank, the way
+  //   the A1, A2, B1, B2, C1 and C2 blocks got theirs. Debt, not judgement.
+  //
+  // Every judgement call that used to sit on this list is resolved, and each
+  // came off it the same honest way — by making the drill it names actually
+  // teach it, never by loosening the pairing:
+  //   `verb-government` (2026-08-28) — retagged the `rekcija` pool entry.
+  //   `object-pronouns` (2026-08-29) — clitics had a drill, B2-gated; `objekt`
+  //     gives the category an A2-reachable easier route.
+  //   `reported-speech` (2026-08-29) — recorded here by name as "wrong drill,
+  //     so no drill": `neizravni` is B2 and `subordination`'s easier route was
+  //     already taken. Fixed with its own category and its own bank.
+  //   `precizno-nijansiranje` (2026-08-29) — retagged `preciznost` off
+  //     `idioms`, which had been routing it to the idiom drill.
+  //   `padezne-suptilnosti` (2026-08-30) — the last, and the clearest case of
+  //     the distinction above. It was left unmapped because no case drill
+  //     practised "case meaning where nothing governs anything". That was true
+  //     of every case drill the app HAD; `padezisupt` was authored for exactly
+  //     it.
+  //
+  // `idioms-register` is mapped but is the one live DEAD END: `idioms` routes
+  // to IdiomsScreen, a reference list with no completion. It needs a C1 idiom
+  // drill (`frazeologija` is C2), not a remapping.
 };
 
 interface TaughtEntry {

@@ -265,36 +265,69 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     // ATTRIBUTION — finishing the precision drill now credits precision instead
     // of idioms, which is the honest statement.
     'precizno-nijansiranje': 'precision',
+    // The C2 block (2026-08-30) — the last seventeen of the practice
+    // programme, and the ones that finish it. Every one is a new authored bank
+    // with its own pool-only category, so nothing existing is displaced and the
+    // adaptive picker is byte-identical.
+    //
+    // `padezne-suptilnosti` is the one that changed its mind, and the reason is
+    // worth keeping. It was listed below as deliberately unmapped because it
+    // "ranges over every case, so no single case drill practises it" — true of
+    // every case drill the app HAD, and the conclusion drawn from that was to
+    // leave it uncoupled. The A2/B1 tranches showed why that reasoning is
+    // incomplete: the honest fix for a lesson no existing drill matches is to
+    // author the drill it needs, not to record the mismatch. `padezisupt`
+    // drills exactly what the lesson teaches — two correct cases meaning
+    // different things — and nothing else does.
+    'norma-i-uzus': 'norm',
+    'sklonidba-iznimke': 'declension-exceptions',
+    'brojevi-norma': 'number-norm',
+    'slaganje-suptilnosti': 'agreement-subtleties',
+    'padezne-suptilnosti': 'case-subtleties',
+    'glagolski-nacini': 'modality',
+    'ritam-recenice': 'rhythm',
+    'ironija-podtekst': 'irony',
+    'humor-jezicni': 'wordplay',
+    'knjizevni-stil': 'literary-style',
+    'stari-tekstovi': 'old-texts',
+    'rekonstrukcija-argumenta': 'reconstruction',
+    'spontani-govor': 'spontaneous',
+    'prevodjenje-strucno': 'specialist-translation',
+    'frazeologija-dubinska': 'phraseology',
+    'dijalekti-dubinski': 'dialects-deep',
+    'jezik-i-drustvo': 'language-society',
+    // Predates the block and is mapped in the general pass rather than a C2
+    // tranche: the pluperfect is a past tense, and `cloze` is the drill.
+    pluskvamperfekt: 'past-tense',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  const DELIBERATELY_UNMAPPED = [
-    'norma-i-uzus',
-    'sklonidba-iznimke',
-    'brojevi-norma',
-    'slaganje-suptilnosti',
-    // The C2 twin of C1's verb-government: it ranges over every case, so no
-    // single case drill practises it, and pairing it with one would
-    // misrepresent both the lesson and the drill.
-    'padezne-suptilnosti',
-    'glagolski-nacini',
-    'ritam-recenice',
-    'ironija-podtekst',
-    'humor-jezicni',
-    'knjizevni-stil',
-    'stari-tekstovi',
-    'rekonstrukcija-argumenta',
-    'spontani-govor',
-    'prevodjenje-strucno',
-    'frazeologija-dubinska',
-    'dijalekti-dubinski',
-    'jezik-i-drustvo',
-  ];
+  // There is no DELIBERATELY_UNMAPPED list here any more. It held seventeen
+  // entries until 2026-08-30 and is now empty, so the assertion is inverted:
+  // EVERY C2 lesson is coupled, and a new one must arrive with its drill.
+  //
+  // Worth stating plainly, because the empty list is the point: those seventeen
+  // were not "no honest pairing exists" — they were "no drill exists yet", and
+  // the two look identical from inside a list of ids. The distinction is what
+  // the whole programme turned on, and it is why the list shrank to nothing
+  // rather than settling somewhere above zero.
+  it('every C2 lesson is coupled to a drill', () => {
+    const uncoupled = (CURRICULUM as Entry[])
+      .filter((e) => e.level === 'C2')
+      .filter((e) => !LESSON_TAUGHT_CATEGORY[e.id])
+      .map((e) => e.id);
+    expect(
+      uncoupled,
+      'a C2 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
+    ).toEqual([]);
+  });
 
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  it('pins every C2 coupling, so a new lesson cannot slip in unasserted', () => {
+    const c2 = (CURRICULUM as Entry[]).filter((e) => e.level === 'C2').map((e) => e.id);
+    expect(c2.filter((id) => !(id in EXPECTED)).sort()).toEqual([]);
+    expect(c2).toHaveLength(30);
   });
 });

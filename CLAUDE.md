@@ -341,12 +341,18 @@ pedagogy. Design: `docs/curriculum-design.md`.
   `PRACTICE_PROGRAMME_ENTRIES` + `CATEGORY_SCREEN_MAP` + `LESSON_TAUGHT_CATEGORY`
   + `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
   and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
-  the thing route-based clearing masks). A1 is at 23 coupled of 30 after
-  tranche 3. Of the seven left, six are the topical block, which needs
-  topic-specific vocabulary drills rather than grammar drills; the seventh is
-  `alphabet`, blocked on the clearing path below rather than on content.
-  Coupled per level after the B1 tranche: A1 23, A2 13, **B1 18**, B2 10,
-  C1 12, C2 5 — all of 30.
+  the thing route-based clearing masks).
+  **Coupled per level as of 2026-08-30: A1 29, A2 23, B1 27, B2 27, C1 30,
+  C2 30 — all of 30.** Fourteen lessons remain uncoupled and every one is
+  DEBT rather than judgement: thirteen (7 at A2, 3 at B1, 3 at B2) have no
+  drill at any level and need an authored bank; the fourteenth, A1 `alphabet`,
+  has a screen that never reaches `recordScreenPractised`. Do not read that
+  list off a comment — `practiceProgrammeDrills.test.ts` derives the count per
+  level and NAMES the ids in its failure message. A hand-maintained census
+  of it went stale repeatedly and once made a merged tranche report the wrong
+  figure (the A2 block claimed 26 of 30; the real number was 23), because
+  subtracting a list of judgement calls from thirty counts the judgements, not
+  the lessons.
 - **A2's hole was the A1 verb hole one level up (2026-08-29).** Four of the five
   A2 lessons drilled in that tranche already had a drill teaching exactly the
   right thing — `svojmoj` (B1), `clitic` (B2), `kolicina` (B2), `stupnjevanje`
@@ -410,6 +416,32 @@ pedagogy. Design: `docs/curriculum-design.md`.
   adjacent, not the same. Both drills stay reachable through the P3 CEFR fill,
   which walks the pool directly, so an unrouted category is not an unreachable
   drill.
+- **The C2 block closed the last level of the practice programme (2026-08-30):
+  17 drills, C2 5 coupled → 30.** C2's uncoupled set was not a contiguous
+  topical block — it ran across seventeen of the thirty orders — so this
+  tranche is "the rest of the level". Every one is a NEW bank with its own
+  pool-only category: nothing was retagged, nothing displaced, and the
+  adaptive picker is byte-identical.
+  **`padezne-suptilnosti` is the entry worth remembering**, because it is the
+  clearest instance of the distinction the whole programme turned on. It sat on
+  `c2Curriculum.test.ts`'s DELIBERATELY_UNMAPPED list with a reason recorded
+  beside it — it teaches case meaning where nothing governs anything, so no
+  case drill practises it. That reason was TRUE, and it was still the wrong
+  conclusion: it described every case drill the app HAPPENED TO HAVE, not every
+  case drill that could exist. "No honest pairing exists" and "no drill exists
+  yet" look identical from inside a list of ids, and only the first is a
+  judgement. `padezisupt` was authored for exactly that lesson. That file's
+  unmapped list is now EMPTY and the assertion is inverted — every C2 lesson is
+  coupled, and a new one must arrive with its drill.
+  **The dialect drill inherits no carve-out.** `dijalekti-dubinski` is the
+  second `CONTRASTIVE_LESSONS` entry (kajkavian yat, homographic with Serbian
+  ekavica), and that carve-out is scoped to a LESSON id for a reason that does
+  not transfer: a drill's options are clickable, so the bare ekavian form in an
+  option list is a Serbism in front of a learner, unlabelled. `dialectsDeepDrill`
+  teaches that reflex BY NAME and never by example word — verified by mutation,
+  injecting it fails the lint — while showing the standard and čakavian members
+  in full. Third time this constraint has bitten (`regionalDrill`,
+  `languageHistoryDrill`); it is written into all three bank headers.
 - **C2 is complete, and with it the whole curriculum (2026-08-28): 4 lessons →
   30, 45 → 180 total, 30 at every level.** C2 had one tense, one punctuation
   mark, one style topic and one genre. The gap was not "more grammar": the CEFR
