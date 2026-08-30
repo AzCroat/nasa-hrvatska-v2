@@ -305,6 +305,19 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'frazeologija-dubinska': 'phraseology',
   'dijalekti-dubinski': 'dialects-deep',
   'jezik-i-drustvo': 'language-society',
+  'vi-vs-ti': 'politeness',
+  'prepositions-action': 'preposition-case',
+  'adjective-agreement': 'adjective-agreement',
+  adverbs: 'adverbs',
+  conjunctions: 'conjunctions',
+  'relative-koji': 'relative-koji',
+  indefinites: 'indefinites',
+  'time-duration': 'duration',
+  'position-placement': 'position',
+  'real-conditions': 'real-conditions',
+  'wishes-regrets': 'wishes',
+  'modal-nuance': 'modal-nuance',
+  'prepositions-advanced': 'two-case-prepositions',
   collocations: 'collocations',
   'accent-prosody': 'prosody',
   'comparison-advanced': 'advanced-comparison',
@@ -343,34 +356,27 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C2 synthesis across sources is written production against a structure;
   // guided writing is the teaching screen for it.
   'sinteza-izvora': 'writing',
-  // DELIBERATELY UNMAPPED — fourteen lessons as of 2026-08-30, and the list is
+  // DELIBERATELY UNMAPPED — ONE lesson as of 2026-08-30, and the list is
   // DERIVED rather than restated here. A hand-maintained census of it went
   // stale repeatedly while the practice programme shipped, and once made a
   // merged tranche report the wrong coverage figure, because a list of
   // judgements is not a count of lessons. `practiceProgrammeDrills.test.ts`
-  // holds the count per level and NAMES the uncoupled ids in its failure
+  // holds the count per level and NAMES any uncoupled ids in its failure
   // message, so the authoritative list is one test run away and cannot drift
   // from this map.
   //
-  // What belongs here is WHY each is still unmapped, because "no drill exists
-  // yet" and "no honest pairing exists" look identical from inside a list of
-  // ids — and the whole programme turned on that difference:
-  //
-  //   A1 `alphabet` (1). It HAS a screen; AlphabetScreen never reaches
+  //   A1 `alphabet`. It HAS a screen; AlphabetScreen never reaches
   //   `recordScreenPractised`, so a coupling would resolve and then never
-  //   clear. Blocked on the clearing path rather than on content — see
-  //   `couplingClearingPath.test.ts`.
+  //   clear. Blocked on the CLEARING PATH rather than on content — see
+  //   `couplingClearingPath.test.ts` — which is why it is the only one left
+  //   after thirteen banks closed the rest.
   //
-  //   A2 `adverbs`, `conjunctions`, `relative-koji`, `indefinites`,
-  //   `vi-vs-ti`, `prepositions-action`, `adjective-agreement` (7);
-  //   B1 `time-duration`, `position-placement`, `real-conditions` (3);
-  //   B2 `wishes-regrets`, `modal-nuance`, `prepositions-advanced` (3).
-  //   No drill teaches these at any level. Each needs an authored bank, the way
-  //   the A1, A2, B1, B2, C1 and C2 blocks got theirs. Debt, not judgement.
-  //
-  // Every judgement call that used to sit on this list is resolved, and each
-  // came off it the same honest way — by making the drill it names actually
-  // teach it, never by loosening the pairing:
+  // Everything else that ever sat on this list is resolved, and every one came
+  // off it the same honest way — by making the drill it names actually teach
+  // it, never by loosening the pairing. The distinction the whole programme
+  // turned on is that "no honest pairing exists" and "no drill exists yet"
+  // look identical from inside a list of ids, and only the first is a
+  // judgement:
   //   `verb-government` (2026-08-28) — retagged the `rekcija` pool entry.
   //   `object-pronouns` (2026-08-29) — clitics had a drill, B2-gated; `objekt`
   //     gives the category an A2-reachable easier route.
@@ -379,11 +385,16 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   //     already taken. Fixed with its own category and its own bank.
   //   `precizno-nijansiranje` (2026-08-29) — retagged `preciznost` off
   //     `idioms`, which had been routing it to the idiom drill.
-  //   `padezne-suptilnosti` (2026-08-30) — the last, and the clearest case of
-  //     the distinction above. It was left unmapped because no case drill
-  //     practised "case meaning where nothing governs anything". That was true
-  //     of every case drill the app HAD; `padezisupt` was authored for exactly
-  //     it.
+  //   `padezne-suptilnosti` (2026-08-30) — left unmapped because no case drill
+  //     practised "case meaning where nothing governs anything". True of every
+  //     case drill the app HAD; `padezisupt` was authored for exactly it.
+  //   The DEBT BLOCK (2026-08-30) — the last thirteen, 7 A2 / 3 B1 / 3 B2.
+  //     Two are worth remembering because of HOW they were blocked, not that
+  //     they were: `vi-vs-ti` looked served by `tivicompare`, which is at the
+  //     same level and named for the lesson but is `reference: true` — no
+  //     graded finish, so it could never clear; and `modal-nuance` was blocked
+  //     by `naciniobveze`, the C2 drill authored one block earlier. Closing a
+  //     level can create the collision that blocks a lower one.
   //
   // `idioms-register` is mapped but is the one live DEAD END: `idioms` routes
   // to IdiomsScreen, a reference list with no completion. It needs a C1 idiom

@@ -201,6 +201,18 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     'travel-transport': 'travel',
     'plans-invitations': 'invitations',
     'celebrations-holidays': 'celebrations',
+    // The debt block (2026-08-30). These four were the last of the A2 list, and
+    // they came off it exactly the way the note below the list said they would:
+    // a drill authored for each lesson's actual subject. Nothing here is a
+    // retag — each carries a new pool-only category, because the nearest
+    // existing drill was in every case both gated above A2 and already spoken
+    // for. `relative-koji` is the sharpest instance: `relpron` IS a relative
+    // pronoun drill, but it is B1 and it carries `subordination`, whose easier
+    // route is pinned TO `relpron` by b1Curriculum for three B2 lessons.
+    adverbs: 'adverbs',
+    conjunctions: 'conjunctions',
+    'relative-koji': 'relative-koji',
+    indefinites: 'indefinites',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
@@ -217,27 +229,19 @@ describe('teach → practice coupling stays HONEST at A2', () => {
     expect(CATEGORY_EASIER_SCREEN['clitics']).toBe('objekt');
   });
 
-  // Down to the four A2 GRAMMAR lessons. The topical block left this list on
-  // 2026-08-29 the only honest way — a drill authored for each lesson's actual
-  // subject — and what remains is a different kind of gap from the one this
-  // list was originally written about.
-  const DELIBERATELY_UNMAPPED = [
-    // Each of these four teaches a structure with no drill anywhere in the app,
-    // at any level: how a Croatian adverb is built off an adjective; a and ali
-    // against nego; koji taking gender from outside the clause and case from
-    // inside; the ne-/i-/ni- indefinite series. They are the A2 grammar tranche,
-    // not a judgement that pairing them would be dishonest.
-    'adverbs',
-    'conjunctions',
-    'relative-koji',
-    'indefinites',
-  ];
-
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    // If a real drill for one of these ever ships, move it into EXPECTED — that
-    // is the intended way off this list, and this failing is the reminder to do
-    // it deliberately rather than to weaken the assertion.
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  // The DELIBERATELY_UNMAPPED list this file carried is EMPTY as of 2026-08-30
+  // and the assertion is inverted. It held four lessons — adverbs,
+  // conjunctions, relative-koji, indefinites — each recorded as "a structure
+  // with no drill anywhere in the app, at any level ... not a judgement that
+  // pairing them would be dishonest". That distinction was the correct one, and
+  // it is why they left the list by having drills authored rather than by
+  // anyone relaxing the assertion.
+  it('every A2 lesson in this level file is coupled to a drill', () => {
+    const uncoupled = a2Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(
+      uncoupled,
+      'an A2 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
+    ).toEqual([]);
   });
 
   it('does not couple a lesson to a reference screen', () => {

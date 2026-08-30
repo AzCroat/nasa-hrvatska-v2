@@ -169,6 +169,14 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     impersonal: 'impersonal',
     'time-clauses': 'time-clauses',
     'cause-purpose': 'cause-purpose',
+    // The debt block (2026-08-30) — the last three B1 lessons. Same collision
+    // shape as the tranche above: every conditional drill in the pool carries
+    // `conditional`, which routes to `cloze` and belongs to a C2 lesson, so
+    // `real-conditions` could not reuse one. New pool-only categories
+    // throughout.
+    'time-duration': 'duration',
+    'position-placement': 'position',
+    'real-conditions': 'real-conditions',
     // The TOPICAL block (2026-08-30), the ten B1 lessons whose subject reads as
     // a topic. Each is a topic PLUS a structure, and the structure is what the
     // drill tests:
@@ -227,25 +235,17 @@ describe('teach → practice coupling stays HONEST at B1', () => {
     }
   });
 
-  // Down to the three B1 GRAMMAR lessons. The topical block left this list on
-  // 2026-08-30 the only honest way — a drill authored for each lesson's actual
-  // subject.
-  const DELIBERATELY_UNMAPPED = [
-    // Each of these teaches something no drill in the app covers at any level:
-    // prije against za, which mirror each other; sjesti against sjediti (and
-    // staviti against stajati), where the accusative marks the change of
-    // position and the locative the state; and the budem-form a real condition
-    // pointing at the future takes. They are the B1 grammar tranche.
-    'time-duration',
-    'position-placement',
-    'real-conditions',
-  ];
-
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    // If a real drill for one of these ever ships, move it into EXPECTED — that
-    // is the intended way off this list, and this failing is the reminder to do
-    // it deliberately rather than to weaken the assertion.
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  // The DELIBERATELY_UNMAPPED list this file carried is EMPTY as of 2026-08-30
+  // and the assertion is inverted. It held three lessons, each recorded as
+  // teaching "something no drill in the app covers at any level" — which is a
+  // statement about the app rather than about the lesson, and so was always
+  // going to be answered by authoring the drill.
+  it('every B1 lesson in this level file is coupled to a drill', () => {
+    const uncoupled = b1Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(
+      uncoupled,
+      'a B1 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
+    ).toEqual([]);
   });
 
   it('the technology drill was authored rather than borrowing techvoc', () => {

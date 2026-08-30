@@ -33,13 +33,13 @@ describe('the taught queue', () => {
     expect(pendingTaughtCategories()).toEqual(['present-tense']);
   });
 
-  it('ignores the lesson CLAUDE.md names as deliberately unmapped', () => {
-    // adjective-agreement is the named example in the conservative-map note in
-    // teachPractice.ts: a lesson with no unambiguous drill stays unmapped,
-    // because a wrong pairing right after a lesson is worse than no pairing.
-    recordLessonTaught('adjective-agreement');
-    expect(pendingTaughtCategories()).toEqual([]);
-  });
+  // A hand-named unmapped lesson used to be asserted here as well —
+  // `adjective-agreement`, the example the conservative-map note in
+  // teachPractice.ts happened to give. It went stale on 2026-08-30 when the
+  // drill for it shipped, which is the FOURTH time a hardcoded fixture in this
+  // block has gone red for a correct change. The derived assertion below covers
+  // the same behaviour over every uncovered lesson rather than one, so the
+  // hardcoded one bought nothing but a maintenance trap and is gone.
 
   it('ignores EVERY lesson the map does not cover', () => {
     // This assertion used to name one further lesson as its example, and the

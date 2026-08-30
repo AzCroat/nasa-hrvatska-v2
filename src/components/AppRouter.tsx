@@ -332,6 +332,23 @@ const SpecialistTranslationDrill = lazyWithReload(
 const PhraseologyDrill = lazyWithReload(() => import('./practice/drills/PhraseologyDrill'));
 const DialectsDeepDrill = lazyWithReload(() => import('./practice/drills/DialectsDeepDrill'));
 const LanguageSocietyDrill = lazyWithReload(() => import('./practice/drills/LanguageSocietyDrill'));
+const PolitenessDrill = lazyWithReload(() => import('./practice/drills/PolitenessDrill'));
+const PrepositionCaseDrill = lazyWithReload(() => import('./practice/drills/PrepositionCaseDrill'));
+const AdjectiveAgreementDrill = lazyWithReload(
+  () => import('./practice/drills/AdjectiveAgreementDrill'),
+);
+const AdverbsDrill = lazyWithReload(() => import('./practice/drills/AdverbsDrill'));
+const ConjunctionsDrill = lazyWithReload(() => import('./practice/drills/ConjunctionsDrill'));
+const RelativeKojiDrill = lazyWithReload(() => import('./practice/drills/RelativeKojiDrill'));
+const IndefinitesDrill = lazyWithReload(() => import('./practice/drills/IndefinitesDrill'));
+const DurationDrill = lazyWithReload(() => import('./practice/drills/DurationDrill'));
+const PositionDrill = lazyWithReload(() => import('./practice/drills/PositionDrill'));
+const RealConditionsDrill = lazyWithReload(() => import('./practice/drills/RealConditionsDrill'));
+const WishesDrill = lazyWithReload(() => import('./practice/drills/WishesDrill'));
+const ModalNuanceDrill = lazyWithReload(() => import('./practice/drills/ModalNuanceDrill'));
+const TwoCasePrepositionsDrill = lazyWithReload(
+  () => import('./practice/drills/TwoCasePrepositionsDrill'),
+);
 const PravopisDrill = lazyWithReload(() => import('./practice/PravopisDrill'));
 const KonektoriDrill = lazyWithReload(() => import('./practice/KonektoriDrill'));
 const RazgovorniDrill = lazyWithReload(() => import('./practice/RazgovorniDrill'));
@@ -2678,6 +2695,71 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'jezikdrustvo' && (
           <ScreenErrorBoundary key="jezikdrustvo" name="jezikdrustvo">
             <LanguageSocietyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'persiranje' && (
+          <ScreenErrorBoundary key="persiranje" name="persiranje">
+            <PolitenessDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prijedlozia2' && (
+          <ScreenErrorBoundary key="prijedlozia2" name="prijedlozia2">
+            <PrepositionCaseDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'slaganjea2' && (
+          <ScreenErrorBoundary key="slaganjea2" name="slaganjea2">
+            <AdjectiveAgreementDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'prilozia2' && (
+          <ScreenErrorBoundary key="prilozia2" name="prilozia2">
+            <AdverbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'veznici' && (
+          <ScreenErrorBoundary key="veznici" name="veznici">
+            <ConjunctionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kojia2' && (
+          <ScreenErrorBoundary key="kojia2" name="kojia2">
+            <RelativeKojiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'neodredjenea2' && (
+          <ScreenErrorBoundary key="neodredjenea2" name="neodredjenea2">
+            <IndefinitesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'trajanje' && (
+          <ScreenErrorBoundary key="trajanje" name="trajanje">
+            <DurationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'polozaj' && (
+          <ScreenErrorBoundary key="polozaj" name="polozaj">
+            <PositionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'stvarniuvjeti' && (
+          <ScreenErrorBoundary key="stvarniuvjeti" name="stvarniuvjeti">
+            <RealConditionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'zaljenje' && (
+          <ScreenErrorBoundary key="zaljenje" name="zaljenje">
+            <WishesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'modalninijanse' && (
+          <ScreenErrorBoundary key="modalninijanse" name="modalninijanse">
+            <ModalNuanceDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'dvopadezni' && (
+          <ScreenErrorBoundary key="dvopadezni" name="dvopadezni">
+            <TwoCasePrepositionsDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'rekcija' && (

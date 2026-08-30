@@ -198,6 +198,14 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     'verbal-adverbs': 'verbal-adverbs',
     'negation-advanced': 'negation-advanced',
     'aspect-with-verbs': 'aspect-verbs',
+    // The debt block (2026-08-30) — the last three B2 lessons, and the same
+    // downward-only problem as the tranche above. `zelje` (C1) and
+    // `naciniobveze` (C2) both carry categories claimed by their own lessons,
+    // and `naciniobveze` was authored in the C2 block one commit earlier —
+    // closing a level can create the collision that blocks a lower one.
+    'wishes-regrets': 'wishes',
+    'modal-nuance': 'modal-nuance',
+    'prepositions-advanced': 'two-case-prepositions',
     // NOT mapped to `stupnjevanje` despite the close names: that drill builds
     // comparatives, which the A2 `comparatives-a2` lesson already owns via
     // `komparacija`. This lesson grades what is already said — sve + comparative,
@@ -247,31 +255,24 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
   });
 
-  // Down to the three B2 GRAMMAR lessons. The functional block left this list
-  // on 2026-08-30 the only honest way — a drill authored for each lesson's
-  // actual subject.
+  // The DELIBERATELY_UNMAPPED list this file carried is EMPTY as of 2026-08-30
+  // and the assertion is inverted, so a new B2 lesson has to arrive with its
+  // drill. It held three lessons, each recorded as teaching "something with no
+  // drill at any level" — a statement about the app rather than about the
+  // lesson, and so always answerable by authoring the drill.
   //
-  // `writing-registers` was never ON this list, which is the second time that
-  // has turned up (after `feelings-inner-life` at B1): it was uncoupled all
-  // along without being recorded as a deliberate omission. The list is a record
-  // of judgements, not a census — absence from it never meant a lesson was
-  // served, and counting it as coverage would have been wrong twice.
-  const DELIBERATELY_UNMAPPED = [
-    // Each of these teaches something with no drill at any level: the split
-    // between should and should HAVE (trebao sam against trebao bih);
-    // calibrating advice against obligation, and smjeti apart from moći; and
-    // the prepositions that take more than one case, where za stolom and za
-    // stol are different sentences. They are the B2 grammar tranche.
-    'wishes-regrets',
-    'modal-nuance',
-    'prepositions-advanced',
-  ];
-
-  it.each(DELIBERATELY_UNMAPPED)('%s is left unmapped rather than mispaired', (id) => {
-    // If a real drill for one of these ever ships, move it into EXPECTED — that
-    // is the intended way off this list, and this failing is the reminder to do
-    // it deliberately rather than to weaken the assertion.
-    expect(LESSON_TAUGHT_CATEGORY[id]).toBeUndefined();
+  // Worth keeping from the note that stood here: `writing-registers` was never
+  // ON that list, the second time that turned up (after `feelings-inner-life`
+  // at B1). It was uncoupled all along without being recorded as a deliberate
+  // omission. A list of judgements is not a census, absence from it never meant
+  // a lesson was served, and the derived assertion below is what makes that
+  // class of miss impossible.
+  it('every B2 lesson in this level file is coupled to a drill', () => {
+    const uncoupled = b2Lessons.filter((l) => !LESSON_TAUGHT_CATEGORY[l.id]).map((l) => l.id);
+    expect(
+      uncoupled,
+      'a B2 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
+    ).toEqual([]);
   });
 
   it('the functional block did not take a drill from a C1 or C2 lesson', () => {

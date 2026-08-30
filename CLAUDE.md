@@ -342,17 +342,17 @@ pedagogy. Design: `docs/curriculum-design.md`.
   + `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
   and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
   the thing route-based clearing masks).
-  **Coupled per level as of 2026-08-30: A1 29, A2 23, B1 27, B2 27, C1 30,
-  C2 30 — all of 30.** Fourteen lessons remain uncoupled and every one is
-  DEBT rather than judgement: thirteen (7 at A2, 3 at B1, 3 at B2) have no
-  drill at any level and need an authored bank; the fourteenth, A1 `alphabet`,
-  has a screen that never reaches `recordScreenPractised`. Do not read that
-  list off a comment — `practiceProgrammeDrills.test.ts` derives the count per
-  level and NAMES the ids in its failure message. A hand-maintained census
-  of it went stale repeatedly and once made a merged tranche report the wrong
-  figure (the A2 block claimed 26 of 30; the real number was 23), because
-  subtracting a list of judgement calls from thirty counts the judgements, not
-  the lessons.
+  **Coupled per level as of 2026-08-30: A1 29, A2 30, B1 30, B2 30, C1 30,
+  C2 30 — 179 of 180.** The one remaining is A1 `alphabet`, and it is not a
+  content gap: it HAS a screen, and `AlphabetScreen` never reaches
+  `recordScreenPractised`, so a coupling would resolve and then never clear.
+  It is blocked on the clearing path (`couplingClearingPath.test.ts`), not on
+  a drill. Do not read that figure off a comment — `practiceProgrammeDrills.test.ts`
+  derives the count per level and NAMES any uncoupled ids in its failure
+  message. A hand-maintained census went stale repeatedly and once made a
+  merged tranche report the wrong figure (the A2 block claimed 26 of 30; the
+  real number was 23), because subtracting a list of judgement calls from
+  thirty counts the judgements, not the lessons.
 - **A2's hole was the A1 verb hole one level up (2026-08-29).** Four of the five
   A2 lessons drilled in that tranche already had a drill teaching exactly the
   right thing — `svojmoj` (B1), `clitic` (B2), `kolicina` (B2), `stupnjevanje`
@@ -442,6 +442,28 @@ pedagogy. Design: `docs/curriculum-design.md`.
   injecting it fails the lint — while showing the standard and čakavian members
   in full. Third time this constraint has bitten (`regionalDrill`,
   `languageHistoryDrill`); it is written into all three bank headers.
+- **The DEBT block finished the programme (2026-08-30): 13 drills, A2/B1/B2 all
+  → 30.** These were the thirteen the per-level blocks left behind because no
+  drill existed for them anywhere — 7 A2, 3 B1, 3 B2. Every one is a new bank
+  with a new pool-only category, and the reason none could be a retag is the
+  finding this file already records twice, met three more times: the nearest
+  existing drill was in EVERY case both CEFR-gated above the lesson and
+  carrying a category already routed elsewhere.
+  **Two shapes worth keeping**, because each is a check the reachability
+  survey has to make and neither is obvious from a screen list:
+  - `vi-vs-ti` looked served by `tivicompare`, which is at the SAME level and
+    named for the lesson. It is `reference: true` — a browse list with no
+    graded finish — so a coupling routed at it resolves and never clears. That
+    is the live `idioms` defect, and it is gated by SHAPE rather than by CEFR,
+    which no level check would have caught.
+  - `modal-nuance` was blocked by `naciniobveze`, the C2 modality drill
+    authored in the block immediately before this one. Closing a level can
+    create the collision that blocks a lower one, so the survey has to be
+    re-run against the CURRENT pool rather than the one the plan was written
+    against.
+  `a2Curriculum` and `b1Curriculum` now assert every lesson in their level file
+  is coupled — both DELIBERATELY_UNMAPPED lists are empty, and both had already
+  written down that authoring the drill was the intended way off them.
 - **C2 is complete, and with it the whole curriculum (2026-08-28): 4 lessons →
   30, 45 → 180 total, 30 at every level.** C2 had one tense, one punctuation
   mark, one style topic and one genre. The gap was not "more grammar": the CEFR
