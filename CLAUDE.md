@@ -195,21 +195,36 @@ pedagogy. Design: `docs/curriculum-design.md`.
   hard gate** — a blocker would break the never-strand contract. The fill loop
   caps on `activities.length`, so P0's FIRST slot is absorbed rather than added;
   never give it its own cap.
-  **The length contract is NOT fully held, and this is measured (2026-08-30):**
-  P0 pushes two slots when the taught lesson has a coupled drill — the lesson
-  and the same-session practice — and the second lands ON TOP wherever the
-  GUARANTEED slots (P2 adaptive, P2.5 production, P2.4 conversation at B1+) have
-  already spent the target. Measured growth: **A1 +1, A2 +0, B1–C2 +1**. A2 is
-  the one that absorbs both, having a 4-slot target and no conversation anchor.
-  This is pre-existing and fires for every coupled lesson; it was invisible
-  because `curriculumSessionSlot.test.ts` opened its spine on `alphabet`, the
-  single uncoupled lesson in the curriculum, so P0 pushed one slot and the
-  assertion passed. Coupling `alphabet` on 2026-08-30 surfaced it, and master
-  reproduces the same growth for any already-coupled lesson. Two documented
-  guarantees are in tension — "production is guaranteed" against "session length
-  does not move" — and resolving it means deciding which yields, a session-length
-  change for every learner. The test now pins the real per-level numbers so the
-  decision is explicit whenever someone makes it.
+  **The length contract is HELD when the lesson's coupled drill is itself
+  grammar/structure, and this is measured (2026-08-30).** THE ADAPTIVE PICK
+  YIELDS (owner decision): P2 is the only pre-fill slot that is both optional
+  and substitutable, so it stands down when the guarantees would otherwise
+  overrun the target. The priority is not new — P1.5's own rationale already
+  says the drill for a concept just met beats a statistical estimate of where
+  the learner is weakest.
+  **It yields ONLY when yielding saves a slot, and that condition is the whole
+  subtlety.** P2.7 forces in grammar when the session has none, and the adaptive
+  pick is usually grammar — so dropping it from a grammar-less session just
+  hands the slot to P2.7 at the SAME length with a less targeted drill. The
+  first attempt at this fix did exactly that and would have downgraded 127 of
+  180 lesson days while fixing nothing; `curriculumSessionSlot.test.ts` pins
+  against it returning.
+  **What is still +1, and why it is not a bug to squash quietly:** when the
+  coupled drill is NOT grammar/structure, the session owes a grammar slot on top
+  of the lesson, its drill, production and (B1+) conversation. Those guarantees
+  together exceed the target by one, and holding the length there would mean
+  dropping the grammar guarantee — a separate decision. Measured: grammar-coupled
+  days are +0 at every level; vocab-coupled days are +1 (A2 +0, having a 4-slot
+  target and no conversation anchor).
+  **That gap is bigger than it should be because `GRAMMAR_STRUCTURE_CATEGORIES`
+  is stale.** It is a hand-maintained set of 21 predating the ~130 pool-only
+  categories the practice programme added, so drills that plainly ARE structural
+  (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
+  `case-subtleties`) are not recognised — 127 of 180 lessons fall outside it.
+  Deriving it from `SKILL_GROUP` (case | verb | syntax) would LOSE nothing —
+  every one of the 21 is already classified that way — and gain 63. It is not
+  bundled into the length fix because it would also stop P2.7 firing on ordinary
+  non-lesson sessions, which is its own product decision.
 - **The certification inference, NOT backfilled completions** (`src/lib/curriculum.ts`).
   Every existing learner had zero completed lessons on ship day, so naive spine
   order greets a certified C1 learner with A1 lesson 1. A prerequisite is satisfied

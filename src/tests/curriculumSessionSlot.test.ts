@@ -36,7 +36,6 @@ vi.mock('../lib/cefrCertification', () => ({
 
 import { buildSessionActivities } from '../hooks/useDailySession';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
-import { recordCategoryPractised } from '../lib/teachPractice';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 // Real lesson ids, so the LESSON_TAUGHT_CATEGORY lookup exercises the real map
@@ -94,52 +93,72 @@ describe('the lesson comes first', () => {
 });
 
 describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', () => {
-  // WHAT THIS BLOCK USED TO CLAIM, AND WHY IT WAS GREEN (2026-08-30).
+  // THE CONTRACT IS HELD when the drill coupled to today's lesson is itself
+  // grammar/structure, and that is what the first block below pins. It was not
+  // held at all before 2026-08-30, and the story of how it looked held is worth
+  // keeping, because the same shape has now appeared three times in this suite.
   //
-  // It asserted session length was IDENTICAL with and without a spine, at every
-  // level. That assertion passed for two years and was never true in general —
-  // it was true of its FIXTURE. SPINE's first entry is `alphabet`, which until
-  // 2026-08-30 was the single uncoupled lesson in the whole curriculum, so P0
-  // pushed ONE slot (the lesson) and the fill loop absorbed it exactly as the
-  // contract describes. Coupling `alphabet` made P0 push TWO — the lesson and
-  // the drill for what it taught — and the assertion went red.
+  // The old assertion was "session length is IDENTICAL with and without a
+  // spine, at every level". It passed for two years and was never true in
+  // general — it was true of its FIXTURE. SPINE's first entry is `alphabet`,
+  // which until 2026-08-30 was the single UNCOUPLED lesson in the curriculum,
+  // so P0 pushed one slot and the fill loop absorbed it exactly as documented.
+  // Coupling `alphabet` made P0 push two and the assertion went red; master
+  // reproduced the same growth for any already-coupled lesson.
   //
-  // Verified against master with a spine whose first lesson was already coupled
-  // (`present-tense-verbs`): A1 4 → 5 and B1 5 → 6 there too. So the growth is
-  // PRE-EXISTING and fires for every coupled lesson; the old fixture was simply
-  // the one lesson that dodged it.
+  // THE FIX (owner decision, 2026-08-30): the adaptive pick yields. It is the
+  // only pre-fill slot that is both optional and substitutable, so it is what
+  // gives way when the guarantees would otherwise overrun `fillTarget`.
   //
-  // The mechanism: the fill loop does cap on `activities.length`, exactly as
-  // documented — but P2 (adaptive) and P2.5 (production) are GUARANTEED slots
-  // that push unconditionally before it. At A1 those two already fill the
-  // 3-slot target, so anything P0 adds beyond its first slot lands on top
-  // rather than displacing. Two documented guarantees are in tension here, and
-  // resolving it means deciding which one yields — a session-length change for
-  // every learner, which is not this commit's to make.
-  //
-  // So these now pin the REAL behaviour, including the +1, rather than a
-  // contract the code does not implement. If the tension is resolved later,
-  // these are the assertions to update, deliberately.
-  it('the lesson itself still costs a fill slot rather than an extra one', () => {
-    // P0's FIRST slot is genuinely absorbed — this half of the contract holds,
-    // and it is the half the fill loop is responsible for.
-    const without = buildSessionActivities('A1').length;
-    writeCurriculumSpine([SPINE[0]!]);
-    markLessonComplete('alphabet', '2026-08-28');
-    recordCategoryPractised('present-tense');
-    const withLessonOnly = buildSessionActivities('A1').length;
-    expect(withLessonOnly).toBeLessThanOrEqual(without + 1);
-  });
+  // It yields ONLY when yielding saves a slot — see the second block. That
+  // condition is the whole subtlety: P2.7 forces in grammar when the session
+  // has none, and the adaptive pick is usually grammar, so dropping it from a
+  // grammar-less session just hands the slot to P2.7 at the same length with a
+  // less targeted drill.
+  const GRAMMAR_COUPLED: CurriculumEntry[] = [
+    // `present-tense-verbs` couples to `present-tense`, which IS in
+    // GRAMMAR_STRUCTURE_CATEGORIES — so the session already has grammar, P2.7
+    // stands down too, and the slot is genuinely saved.
+    { ...SPINE[1]!, order: 1, prerequisites: [] },
+  ];
 
-  // MEASURED per level, not assumed. A2 is the one that absorbs BOTH P0 slots:
-  // its fill target is 4 and it has no P2.4 conversation anchor, so there is a
-  // spare for the drill to displace. A1's target is 3, and B1+ spend the spare
-  // on the conversation anchor — so both grow by one.
+  it.each(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])(
+    '%s: a grammar-coupled lesson day is exactly as long as any other day',
+    (level) => {
+      localStorage.clear();
+      const without = buildSessionActivities(level).length;
+      localStorage.clear();
+      writeCurriculumSpine(GRAMMAR_COUPLED);
+      const withSpine = buildSessionActivities(level).length;
+      expect(
+        withSpine,
+        `${level}: session went ${without} → ${withSpine}. The lesson and its coupled ` +
+          `drill must displace the adaptive pick and a fill slot, not add to them.`,
+      ).toBe(without);
+    },
+  );
+
+  // WHAT IS STILL +1, MEASURED RATHER THAN ASSUMED, so the remaining gap is a
+  // stated fact instead of a surprise.
   //
-  // Pinned as exact numbers so a change to the fill target, the guaranteed
-  // slots or P0 surfaces here as a specific diff rather than drifting.
-  const EXPECTED_GROWTH: Record<string, number> = {
+  // When the coupled drill is NOT grammar/structure — `alphabet` couples to a
+  // vocabulary drill — the session owes the learner a grammar slot on top of
+  // the lesson, its drill, production and (at B1+) conversation. Those
+  // guarantees together exceed the target by one, and no reordering fixes it:
+  // holding the length there would mean dropping the grammar guarantee, which
+  // is a separate decision from this one.
+  //
+  // This affects 127 of the 180 lessons, because GRAMMAR_STRUCTURE_CATEGORIES
+  // is a hand-maintained set of 21 that predates the ~130 pool-only categories
+  // the practice programme added — so drills that plainly ARE structural
+  // (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
+  // `case-subtleties`, …) are not recognised as such. Deriving that set from
+  // SKILL_GROUP would lose nothing (every one of the 21 is already case/verb/
+  // syntax there) and gain 63 — but it would also stop P2.7 firing on ordinary
+  // non-lesson sessions, so it is deliberately not bundled in here.
+  const EXPECTED_GROWTH_VOCAB_COUPLED: Record<string, number> = {
     A1: 1,
+    // A2's target is 4 and it has no conversation anchor, so it has the spare.
     A2: 0,
     B1: 1,
     B2: 1,
@@ -147,13 +166,13 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
     C2: 1,
   };
 
-  it.each(Object.entries(EXPECTED_GROWTH))(
-    '%s session grows by exactly %i when the taught lesson has a coupled drill',
+  it.each(Object.entries(EXPECTED_GROWTH_VOCAB_COUPLED))(
+    '%s: a vocab-coupled lesson day is +%i, because the grammar guarantee still owes a slot',
     (level, growth) => {
       localStorage.clear();
       const without = buildSessionActivities(level).length;
       localStorage.clear();
-      writeCurriculumSpine(SPINE);
+      writeCurriculumSpine([SPINE[0]!]);
       const withSpine = buildSessionActivities(level).length;
       expect(
         withSpine - without,
@@ -161,6 +180,39 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
       ).toBe(growth);
     },
   );
+
+  it('A2 keeps its adaptive pick with a spine — what conjugation.spec.js relies on', () => {
+    // e2e/conjugation.spec.js seeds an A2 user, calls mockContent (which serves
+    // the REAL curriculum spine) and seeds `present-tense` as the sole starved
+    // category so the ADAPTIVE pick resolves to the conjugation drill. If this
+    // change had made the adaptive slot yield at A2, that spec would have gone
+    // red in CI rather than here.
+    //
+    // A2 is safe by construction — a 4-slot target and no conversation anchor
+    // leave room — but "safe by construction" is exactly the kind of claim that
+    // should be an assertion rather than a paragraph.
+    for (const spine of [[SPINE[0]!], GRAMMAR_COUPLED]) {
+      localStorage.clear();
+      writeCurriculumSpine(spine);
+      expect(
+        buildSessionActivities('A2').some((a) => a.id.startsWith('cat_')),
+        'A2 lost its adaptive pick — conjugation.spec.js depends on it',
+      ).toBe(true);
+    }
+  });
+
+  it('the adaptive pick is KEPT on a vocab-coupled day, not swapped for P2.7', () => {
+    // The correction to the first attempt at this fix. Dropping the adaptive
+    // pick here would save nothing (P2.7 replaces it) and would downgrade a
+    // weakness-targeted drill to an any-grammar one. Pinned so the cheaper
+    // "just always yield" version cannot come back.
+    writeCurriculumSpine([SPINE[0]!]);
+    const acts = buildSessionActivities('B1');
+    expect(
+      acts.some((a) => a.id.startsWith('cat_')),
+      'the adaptive pick vanished from a session that had no grammar of its own',
+    ).toBe(true);
+  });
 });
 
 describe('teaching leads straight into doing', () => {
