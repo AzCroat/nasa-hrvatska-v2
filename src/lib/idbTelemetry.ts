@@ -19,6 +19,21 @@
  *    suspends the page mid-flush. Reported from production 2026-08-22 as two
  *    high-priority events in the same second — one user, one page-hide.
  *
+ *    FIREFOX WORDS THIS FAMILY DIFFERENTLY (2026-08-31), which is why it went
+ *    unmatched for nine days. Chromium and WebKit name the database in the
+ *    message; Firefox raises a bare InvalidStateError whose text is "An attempt
+ *    was made to use an object that is not, or is no longer, usable" — the same
+ *    condition (an IDBDatabase or transaction used after teardown) with none of
+ *    the words the matcher looked for. Found when CI's Firefox smoke went red on
+ *    three unrelated specs at once, all reporting that string, while every
+ *    behavioural assertion passed and Chrome's full suite was green. A
+ *    browser-specific message in a browser-agnostic matcher is invisible until
+ *    the one browser that phrases it differently happens to hit the race.
+ *
+ *    The name is matched as well as the text, because Firefox's DOMException
+ *    carries `name: 'InvalidStateError'` and callers concatenate name onto
+ *    message — belt and braces if the wording is ever reworded again.
+ *
  * Both surface ASYNCHRONOUSLY from Firebase's persistence layer (Firestore
  * persistentLocalCache / Auth indexedDBLocalPersistence), so the init-time
  * try/catch cascades in firebase.ts cannot catch them and they bubble up as
@@ -29,8 +44,10 @@
  * Matches stay deliberately narrow so ACTIONABLE IDB errors keep paging at full
  * priority: QuotaExceeded (we are actually out of space), VersionError (our
  * migration is wrong), ConstraintError (our schema is wrong). "server" appears
- * only in family 1; "closing" only in family 2. Callers pass an
- * already-lowercased msg.
+ * only in family 1; "closing" and the Firefox InvalidStateError only in family
+ * 2. None of the three actionable names contains either phrase, which is what
+ * keeps the widening safe — asserted in idbTelemetry.test.ts rather than
+ * assumed. Callers pass an already-lowercased msg.
  * KEEP IN SYNC with functions/api/report-error.js IGNORED_SENTRY_PATTERNS.
  */
 export function isEnvironmentalIdbError(msg: string): boolean {
@@ -46,7 +63,15 @@ export function isEnvironmentalIdbError(msg: string): boolean {
  */
 export function environmentalIdbKind(msg: string): 'server' | 'closing' | null {
   if (msg.includes('indexed database server')) return 'server';
-  if (msg.includes('database is closing') || msg.includes('connection is closing')) {
+  if (
+    msg.includes('database is closing') ||
+    msg.includes('connection is closing') ||
+    // Firefox's wording for the same teardown race (see family 2 above). Both
+    // the message text and the DOMException name are matched; callers build the
+    // haystack from message + name, so either one is enough on its own.
+    msg.includes('object that is not, or is no longer, usable') ||
+    msg.includes('invalidstateerror')
+  ) {
     return 'closing';
   }
   return null;

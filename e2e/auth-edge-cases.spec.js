@@ -6,6 +6,14 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, TEST_EMAIL } from './fixtures/seed-auth.js';
+// DERIVED, not restated (2026-08-31). The app already decides which IndexedDB
+// failures are environmental and non-actionable — a connection torn down
+// mid-operation by a page-hide, which every full-page goto() in this file
+// produces. Importing that decision means the spec cannot disagree with
+// production about what counts as noise, and a future narrowing of the
+// classifier tightens this filter automatically instead of leaving a stale
+// allowlist entry behind. See src/lib/idbTelemetry.ts.
+import { isEnvironmentalIdbError } from '../src/lib/idbTelemetry';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -41,7 +49,14 @@ function assertNoUnexpectedErrors(errors) {
       // dynamically import when network is blocked in headless mode. Behavioral assertions
       // (nav visible, no error boundary) catch genuine rendering failures.
       !e.message.includes('dynamically imported module') &&
-      !e.message.includes('error loading'),
+      !e.message.includes('error loading') &&
+      // Firefox CI: the IDB connection is torn down while Firebase persistence
+      // still has work in flight — every goto() below is a full page teardown.
+      // Chromium and WebKit say "Database is closing"; Firefox raises a bare
+      // InvalidStateError. Same condition, and the app classifies it as
+      // non-actionable in both cases (nothing is lost: localStorage is
+      // authoritative and Firebase degrades to network/localStorage).
+      !isEnvironmentalIdbError(`${e.message}${e.name ?? ''}`.toLowerCase()),
   );
   expect(
     unexpected.map((e) => e.message),
