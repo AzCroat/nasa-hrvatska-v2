@@ -51,7 +51,7 @@ const DATA = [
   {
     affirm: 'Imam vremena.',
     neg_prompt: "I don't have time.",
-    opts: ['Nemam vremena.', 'Nemam vreme.', 'Nemam vremenu.', 'Nemam vremenom.'],
+    opts: ['Nemam vremena.', 'Nemam vrijeme.', 'Nemam vremenu.', 'Nemam vremenom.'],
     answer: 'Nemam vremena.',
     en: "I don't have time.",
     tip: "'vrijeme' (neuter) → genitive 'vremena'. Already genitive even affirmatively (partitive use)!",

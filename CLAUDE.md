@@ -876,7 +876,15 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is 42 files plus 2 walked structurally; **component-embedded Croatian (~134 files) is deliberately still out**, because those mix Croatian examples with English UI copy and sweeping them in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs do live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so this is unfinished, not settled.
+Coverage is **258 files** plus 2 walked structurally, up from 157 on 2026-08-31.
+
+**The hand-written drills came in first, and the reason they were separable is the point.** The 101 `src/components/practice/*Drill.tsx` files predate the ModeDrill engine and are DATA wearing a `.tsx` extension — `q` / `answer` / `opts` / `tip`, the same shape as `src/data/drills/*`, which has been linted since 2026-08-29. Measured before adding: essentially no English UI prose in them. That is what distinguishes this cohort from the rest of `src/components`, which mixes Croatian examples with English copy and is still deliberately out — sweeping THOSE in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so the component tree is still unfinished, not settled.
+
+**The expansion found one real bug in its first run**: `NegationGenDrill` offered `Nemam vreme.` as a distractor. The intended error was accusative-instead-of-genitive, which in Croatian is `vrijeme` — the ekavica form made it wrong twice over and put a Serbian form in front of the learner. (The lint correctly did NOT flag `vremena`/`vremenu`/`vremenom` beside it: those are the standard Croatian oblique forms.)
+
+**`CONTRASTIVE_FILES` is the drill-level twin of `CONTRASTIVE_LESSONS`**, and it holds exactly one entry: `PosudjeniceDrill` (C2), a standard-vs-non-standard discrimination drill whose subject IS the pairs a heritage speaker mixes — tisuća/hiljada, kruh/hljeb, vlak/voz — with every item's `tip` naming the non-standard member AS non-standard. Same justification as `language-identity`: naming the form is the teaching. **This does not loosen the distractor directive** — that directive is about a learner meeting a Serbian form with nothing marking it foreign, and here the stem, the answer key and the tip all mark it. A drill that merely used `hiljada` as a throwaway distractor is still a bug and does not belong on the list. Scoped to the FILE and to Serbisms only: encoding bleed still fails the build inside it (mutation-verified — an injected Cyrillic `а` in the exempted file fails).
+
+**`croatianLintTargets.test.ts` guards the list itself**, which nothing did before. It DERIVES the drill cohort from the glob rather than restating it, so a drill authored next month cannot land outside TARGETS silently; it checks every target still exists; and it holds the carve-out honest in both directions — the entry must still exist AND still contain a form the lint would otherwise flag, or it is guarding nothing while suspending a check over the whole file.
 
 ## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
 
