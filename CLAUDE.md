@@ -229,8 +229,8 @@ pedagogy. Design: `docs/curriculum-design.md`.
   (`guarantees grammar on a FULL non-lesson session`) that sets both mocks
   itself, because coverage borrowed from a neighbour's mock leakage vanishes the
   moment someone tidies the leak.
-  **WHAT THIS COSTS:** 49 of 180 lesson days contain no grammar drill at all —
-  A1 3, A2 0, B1 4, B2 10, C1 16, C2 16. On the other 131 the lesson's own
+  **WHAT THIS COSTS:** 47 of 180 lesson days contain no grammar drill at all —
+  A1 3, A2 0, B1 2, B2 10, C1 16, C2 16. On the other 133 the lesson's own
   coupled drill is structural and supplies it, which is a better source than the
   backstop anyway. Non-lesson sessions are unchanged at every level, with and
   without a servable SRS queue (measured against the pre-change build, then
@@ -250,6 +250,25 @@ pedagogy. Design: `docs/curriculum-design.md`.
   clock, whose counting rule sits one lesson BELOW the cases primer).
   `a1Curriculum.test.ts` drives the real session builder per lesson and checks
   the exemption list in both directions plus its count.
+  **B1 WAS AUDITED THE SAME WAY, 4 → 2 (2026-08-31), AND IT NEEDED A DIFFERENT
+  METHOD.** At A1 each drill's own bank HEADER named the structure and the rows
+  contradicted it, so reading headers settled it. At B1 the headers are
+  unreliable in BOTH directions, so the ITEMS decided it, against a stated
+  criterion: a drill is structural when its FORM-PRODUCTION items (a `____` the
+  learner fills with an inflected form or a governed preposition) are a
+  substantial share of the 24-item bank. Measured — food 14/24 and home 12/24
+  are the calibration, both already `case`; `bureaucracy` 11/24 → **verb** (its
+  `sluzbeni` mode drills the impersonal: *Potrebno je priložiti*, *Zahtjev se
+  predaje*, and an item asking who the subject is — nobody); `renting` 9/24 →
+  **case** (its header undersells it — the bank drills quantity genitive *55
+  kvadrata*, participle agreement *jesu li režije uključene*, accusative plural
+  *kućne ljubimce*, locative with an ordinal *na četvrtom katu*); `nature` 7/24
+  and `technology` 4/24 stay **vocab** and are pinned with reasons. Variety
+  unchanged at B1 and B2.
+  **A BANK HEADER IS EVIDENCE, NOT AUTHORITY.** `nature`'s header names u/na and
+  the bank has three such items among ten pure glosses; `renting`'s names the
+  room-counting fact and the bank is half case morphology. Read the items before
+  moving a row.
   **THE GENERAL LESSON: a mis-grouping is invisible until the map gains a second
   consumer.** These rows were wrong for as long as they existed and nothing was
   wrong, because the variety pass cannot tell a mis-labelled family from a

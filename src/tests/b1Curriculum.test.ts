@@ -12,7 +12,16 @@
 //
 // Same contract as the A1 and A2 suites: pin SHAPE, not prose.
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// The lesson-day block at the bottom drives the REAL session builder, which
+// reads the SRS queue and the certification gate. Both are mocked to their
+// empty/unlocked state so the composition under test is the ordinary one.
+vi.mock('../lib/srs', () => ({ getDueReviews: vi.fn(() => []) }));
+vi.mock('../lib/cefrCertification', () => ({
+  getCertifiedLevel: vi.fn(() => 'B1'),
+  getContentUnlockLevel: vi.fn((l: string) => l),
+}));
 
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
@@ -20,7 +29,12 @@ const { LESSONS } = await import('../../functions/api/content/_data/lessons.js')
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
 
+const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
+  await import('../hooks/useDailySession');
+const { writeCurriculumSpine } = await import('../lib/curriculumProgress');
+
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
+type CurriculumEntry = Entry & { objectives: string[]; title: string };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
 
 const b1Spine = spineForLevel('B1') as Entry[];
@@ -286,5 +300,94 @@ describe('the subordination category now has a route', () => {
     // rather than inherited from this one.
     const { ALL_CATEGORIES } = await import('../lib/adaptive');
     expect((ALL_CATEGORIES as string[]).includes('subordination')).toBe(false);
+  });
+});
+
+describe('a B1 lesson day still teaches STRUCTURE', () => {
+  // The B1 half of the audit that corrected the A1 block (2026-08-31). Since the
+  // length contract closed, the grammar backstop yields on a lesson day, so the
+  // coupled drill is the ONLY structure that day contains — which makes each
+  // category's SKILL_GROUP row something a learner can feel.
+  //
+  // B1 had four bare days. Two were mis-grouped and are fixed; two are genuinely
+  // lexical and are recorded below. The A1 pass could be settled by reading each
+  // drill's bank HEADER, because there the headers named a structure the rows
+  // contradicted. That did not work here — the headers are unreliable in BOTH
+  // directions — so this pass went by the items:
+  //
+  //   bureaucracy  its `sluzbeni` mode drills the impersonal register rather
+  //                than naming it (Potrebno je priložiti, Zahtjev se predaje,
+  //                and an item asking who the subject is — nobody). -> 'verb'
+  //   renting      its header undersells it: the bank drills quantity genitive
+  //                (55 kvadrata, 500 eura), participle agreement (jesu li
+  //                režije uključene), accusative plural (kućne ljubimce) and
+  //                locative with an ordinal (na četvrtom katu). -> 'case'
+  //
+  // Measured: B1 bare lesson days 4 -> 2, session length unchanged at 0
+  // mismatches across all 180 lessons, and the variety pass identical at B1 and
+  // B2 (max one activity per skill family in 200 runs, worst-case count 1).
+  const LEXICAL_B1_LESSONS: Record<string, string> = {
+    // 4 of 24 items are form production; the rest are glosses. The lesson is the
+    // native/international register split (računalo vs kompjuter) and the roots
+    // the native words are built from — word-formation and register, both of
+    // which group as vocab elsewhere in this map.
+    'technology-internet': 'the native/international register split is lexical',
+    // 7 of 24 are form items and only 3 test u against na; ten are pure glosses
+    // ("Što je 'uvala'?"). Its own bank header says it outright: the structural
+    // content is smaller than the cultural content. Grouping it 'case' to win a
+    // slot would be the topic-label mistake in reverse — and A2 `home`, which IS
+    // grouped 'case' for u/na, is 12 of 24.
+    'environment-nature': 'named winds and landscape vocabulary; only 3 items test u/na',
+  };
+
+  const b1Lessons = (LESSONS as Lesson[]).filter((l) => l.level === 'B1');
+
+  const bareLessonDays = (): string[] =>
+    b1Lessons
+      .filter((l) => {
+        localStorage.clear();
+        writeCurriculumSpine([
+          {
+            id: l.id,
+            level: 'B1',
+            order: 1,
+            prerequisites: [],
+            objectives: ['x'],
+            title: l.id,
+          } as CurriculumEntry,
+        ]);
+        return !buildSessionActivities('B1').some((a) =>
+          GRAMMAR_STRUCTURE_CATEGORIES.has(a.category),
+        );
+      })
+      .map((l) => l.id);
+
+  it('every B1 lesson day contains structure, but for the recorded lexical few', () => {
+    const unexpected = bareLessonDays().filter((id) => !(id in LEXICAL_B1_LESSONS));
+    expect(
+      unexpected,
+      `these B1 lesson days now contain NO grammar drill at all: ${unexpected.join(', ')}. ` +
+        `The coupled drill is the only structure the learner meets on a lesson day, so check ` +
+        `the drill's SKILL_GROUP row against what its ITEMS test — the bank header is not ` +
+        `reliable in either direction.`,
+    ).toEqual([]);
+  });
+
+  it('and the lexical few are still genuinely lexical', () => {
+    // Both staleness directions, as in a1Curriculum: an exemption must still
+    // name a real B1 lesson, and must still actually lack grammar.
+    const bare = new Set(bareLessonDays());
+    const ids = new Set(b1Lessons.map((l) => l.id));
+    for (const [id, reason] of Object.entries(LEXICAL_B1_LESSONS)) {
+      expect(ids, `${id} is exempted here but is not a B1 lesson any more`).toContain(id);
+      expect(
+        bare.has(id),
+        `${id} is exempted ("${reason}") but its day now DOES contain grammar. Delete the entry.`,
+      ).toBe(true);
+    }
+  });
+
+  it('the exemption list stays small — two of thirty', () => {
+    expect(Object.keys(LEXICAL_B1_LESSONS).length).toBe(2);
   });
 });

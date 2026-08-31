@@ -178,11 +178,43 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // `job-search` and `cooking` turn on a verb form — the fault-reporting
   // reflexive and the conditional, the participle agreeing with the applicant,
   // and the recipe imperative — so 'verb'. The remaining four are lexical.
+  //
+  // TWO OF THOSE FOUR WERE RE-AUDITED AND MOVED (2026-08-31), by the same
+  // finding that corrected the A1 block — with one difference worth recording:
+  // at A1 the drills' own bank HEADERS already named the structure and the rows
+  // contradicted them, so reading the headers was enough. Here the headers are
+  // not reliable in either direction, so the ITEMS decided it.
+  //
+  // The criterion, stated so it is re-checkable rather than a judgement call:
+  // a drill counts as structural when its FORM-PRODUCTION items (a `____` the
+  // learner must fill with an inflected form or a governed preposition) are a
+  // substantial share of the bank AND actually test a grammatical choice.
+  // Measured over the 24-item banks:
+  //   food 14/24, home 12/24            — already 'case', the calibration
+  //   bureaucracy 11/24  -> 'verb'      — see below
+  //   renting 9/24       -> 'case'      — see below
+  //   nature 7/24        -> stays vocab — 10 of its items are pure glosses
+  //                                       ("Što je 'uvala'?"); only 3 test u/na
+  //   technology 4/24    -> stays vocab — 17% form items; the lesson is the
+  //                                       native/international register split
+  //
+  // `bureaucracy` is the impersonal register, and its `sluzbeni` mode drills the
+  // construction rather than naming it: *Potrebno je priložiti* (neuter, with
+  // nothing to agree with), *Zahtjev se predaje*, *Molba se podnosi*, and an
+  // item that asks outright who the subject is — the answer being nobody. That
+  // is the same se-construction `impersonal` is grouped 'verb' for.
+  //
+  // `renting` is the one whose header UNDERSELLS it: it is written about the
+  // room-counting fact that costs a learner money, but the bank drills quantity
+  // genitive (*55 kvadrata*, *500 eura*), participle agreement (*jesu li režije
+  // uključene*), accusative plural (*kućne ljubimce*) and locative with an
+  // ordinal (*na četvrtom katu*). A learner doing it practises case, whatever
+  // the lesson is called.
   opinions: 'syntax',
   feelings: 'case',
   complaints: 'verb',
-  bureaucracy: 'vocab',
-  renting: 'vocab',
+  bureaucracy: 'verb',
+  renting: 'case',
   'job-search': 'verb',
   news: 'syntax',
   technology: 'vocab',
