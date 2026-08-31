@@ -385,10 +385,58 @@ export function buildSessionActivities(
 
   // Priority 2: Adaptive grammar topic (CEFR-gated; conjugation categories route
   // to the conjugation drill when CONJ_LAB_ENABLED).
-  const adaptiveActivity = resolveAdaptiveActivity(
-    userCefr,
-    new Set(activities.map((a) => a.screen)),
-  );
+  //
+  // THE ADAPTIVE PICK YIELDS WHEN THE BUDGET IS SPENT (owner decision,
+  // 2026-08-30). It is the only pre-fill slot that both is optional and can be
+  // supplied by something else in the same session, so it is what gives way
+  // when the session would otherwise run over `fillTarget`.
+  //
+  // Why this one. P0 pushes TWO slots on a lesson day — the lesson and the drill
+  // for what it taught — and the fill loop can only absorb the first, because
+  // the guaranteed slots (P2.4 conversation at B1+, P2.5 production) have
+  // already spent the rest of the target. A1 and B1+ each have exactly one fill
+  // slot to give, so both ran one activity long on every lesson day; A2 has two
+  // and was already correct. Measured before this change: A1 4→5, A2 5→5,
+  // B1–C2 5→6.
+  //
+  // The priority is not new. P1.5's own rationale already states it: the drill
+  // for a concept the learner just met takes a slot BEFORE the adaptive
+  // scheduler's pick, because it beats a statistical estimate of where they are
+  // weakest. This applies the same ordering to the budget.
+  //
+  // The reservation is what keeps it from over-correcting: the pick still runs
+  // whenever there is genuinely room, which is why A2 is untouched and why a
+  // session with no curriculum spine composes exactly as it did before. What is
+  // reserved is only the slots that MUST still come after this point —
+  // production always, plus the conversation anchor at B1+. P2.7's grammar
+  // backstop is not reserved because it self-skips when the session already has
+  // grammar, which on a lesson day the coupled drill provides.
+  //
+  // The adaptive MODEL is unaffected: every coupled drill still records its
+  // outcome through completeExercise, so the scheduler keeps learning even on
+  // days it does not get a slot. It serves again as soon as there is room —
+  // once the learner finishes their level's lessons, or on any day without one.
+  // IT YIELDS ONLY WHEN YIELDING ACTUALLY SAVES A SLOT, which is the whole
+  // subtlety and was got wrong on the first attempt at this. P2.7 below forces
+  // in a grammar drill when nothing in the session is grammar yet. The adaptive
+  // pick is USUALLY grammar, so the two are alternatives, not additions: drop
+  // the adaptive pick from a session that has no grammar and P2.7 simply
+  // replaces it, same length, but with an any-level-appropriate drill instead of
+  // one aimed at a measured weakness. That is a downgrade dressed as a fix, and
+  // it would have hit the 127 of 180 lessons whose coupled drill is not itself
+  // in GRAMMAR_STRUCTURE_CATEGORIES.
+  //
+  // So the pick stands down only when the session ALREADY contains grammar —
+  // on a lesson day, that means the drill coupled to today's lesson is itself a
+  // case/verb/syntax drill. Then P2.7 skips too and the slot is genuinely saved.
+  const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
+  const reservedAfterAdaptive = 1 + (cefrRank(userCefr) >= cefrRank('B1') ? 1 : 0);
+  const roomForAdaptive = activities.length + reservedAfterAdaptive < fillTarget;
+  const sessionHasGrammar = activities.some((a) => isGrammarStructure(a.category));
+  const adaptiveActivity =
+    roomForAdaptive || !sessionHasGrammar
+      ? resolveAdaptiveActivity(userCefr, new Set(activities.map((a) => a.screen)))
+      : null;
   if (adaptiveActivity) {
     activities.push({
       ...adaptiveActivity,
@@ -513,8 +561,9 @@ export function buildSessionActivities(
       .sort((a, b) => a.dist - b.dist || b.boost - a.boost || a.r - b.r)
       .map((o) => o.ex);
   const ordered = orderFill(pool);
-  // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard 4).
-  const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
+  // Session-Rec #3: target scales with level + opt-in fluency mode (was a hard
+  // 4). Computed once at the adaptive slot above, which now needs it too.
+  //   ^ see `fillTarget` at Priority 2.
   // Wave 1 (session catchment): the LAST fill slot is a discovery slot — picked
   // by least-recently-served instead of difficulty-nearest, so the widened pool
   // actually cycles through sessions over time instead of staying buried behind
