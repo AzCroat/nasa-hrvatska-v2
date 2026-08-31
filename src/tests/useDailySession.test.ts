@@ -370,30 +370,31 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     // slot is one of the A1 case drills (case-tier 3–4). The P3 tier sort (target
     // tier 1) would push them below the recognition games; G4 exempts the
     // guaranteed slot so a case/grammar drill appears anyway.
-    const A1_GRAMMAR = [
-      'nomdrill',
-      'genitivedrill',
-      'accusativedrill',
-      'locdrill',
-      'instrumental',
-      // 7a rotation expansion — new A1 grammar-structure drills are equally
-      // valid guaranteed-slot picks.
-      'numtime',
-      'possess',
-      'cityloc',
-      // Wave 1 catchment — vocative (A1, grammar-structure category) joined the
-      // pool, so the guaranteed slot may pick it too.
-      'vocative',
-      // Recommender audit (2026-08-20) — A1 gained its first verb and syntax
-      // drills. Both carry grammar-structure categories (present-tense,
-      // word-order), so the guaranteed slot may now pick either. This is the
-      // assertion's intent working as designed: an A1 user gets an A1-level
-      // grammar drill, and there are simply more of them now.
-      'presentdrill',
-      'wordorderdrill',
-    ];
+    //
+    // DERIVED, NOT LISTED (2026-08-31). This was a hand-maintained allowlist of
+    // A1 grammar SCREENS, amended three separate times as the pool grew — the
+    // same staleness shape as the constant it was testing, and for the same
+    // reason: a list in one file cannot know about drills authored in another.
+    // Deriving GRAMMAR_STRUCTURE_CATEGORIES from SKILL_GROUP took A1's
+    // structural pool from 10 entries to 21, so the list covered barely half the
+    // candidates and the unseeded rnd tiebreak turned the assertion into a coin
+    // flip — the failure mode CLAUDE.md warns about for stochastic assertions.
+    //
+    // The intent was never the screen names. It is "the A1 user's session
+    // contains a grammar drill AUTHORED FOR A1, not a higher-tier one reached by
+    // the nearest-CEFR tiebreak" — which is what the pool's own cefr says. That
+    // property is checked here directly and cannot go stale.
+    const A1_STRUCTURAL_SCREENS = new Set(
+      CEFR_EXERCISE_POOL.filter(
+        (e) => e.cefr === 'A1' && GRAMMAR_STRUCTURE_CATEGORIES.has(e.category),
+      ).map((e) => e.screen),
+    );
+    expect(A1_STRUCTURAL_SCREENS.size, 'A1 has no structural drills of its own').toBeGreaterThan(0);
     const acts = buildSessionActivities('A1');
-    expect(acts.some((a) => A1_GRAMMAR.includes(a.screen))).toBe(true);
+    expect(
+      acts.some((a) => A1_STRUCTURAL_SCREENS.has(a.screen)),
+      `A1 session had no A1-level grammar drill: ${acts.map((a) => `${a.screen}(${a.category})`).join(', ')}`,
+    ).toBe(true);
   });
 
   it('DISPLACES a vocab fill — does not lengthen the session beyond fillTarget', () => {

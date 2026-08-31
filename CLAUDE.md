@@ -216,15 +216,43 @@ pedagogy. Design: `docs/curriculum-design.md`.
   dropping the grammar guarantee — a separate decision. Measured: grammar-coupled
   days are +0 at every level; vocab-coupled days are +1 (A2 +0, having a 4-slot
   target and no conversation anchor).
-  **That gap is bigger than it should be because `GRAMMAR_STRUCTURE_CATEGORIES`
-  is stale.** It is a hand-maintained set of 21 predating the ~130 pool-only
-  categories the practice programme added, so drills that plainly ARE structural
-  (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
-  `case-subtleties`) are not recognised — 127 of 180 lessons fall outside it.
-  Deriving it from `SKILL_GROUP` (case | verb | syntax) would LOSE nothing —
-  every one of the 21 is already classified that way — and gain 63. It is not
-  bundled into the length fix because it would also stop P2.7 firing on ordinary
-  non-lesson sessions, which is its own product decision.
+  **`GRAMMAR_STRUCTURE_CATEGORIES` IS DERIVED FROM `SKILL_GROUP`, not
+  hand-listed (2026-08-31).** It was a literal set of 21 predating the ~130
+  pool-only categories the practice programme added, so drills that plainly ARE
+  structural (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
+  `case-subtleties`) were invisible to BOTH its consumers — `sessionHasGrammar`
+  and P2.7's backstop — and 127 of 180 lesson days fell outside it. It is now the
+  `case | verb | syntax` families of `SKILL_GROUP`, which already classifies
+  every category exhaustively (`content-coverage.test.ts` fails the build on a
+  gap). The derivation LOSES NOTHING (all 21 were already grouped that way — the
+  historical list is frozen in `grammarStructureCategories.test.ts` so that claim
+  is re-runnable rather than a sentence in a commit message) and gains 63.
+  **The point is not the 63; it is that a new drill is classified ONCE.** The
+  hand-list went stale precisely because it was a second place to remember, and
+  a list in one file cannot know about drills authored in another.
+  **The one exclusion is `grammar-lesson`, and it is about the SLOT, not the
+  subject.** That tag covers `animlesson` and `grammarexplainer` — lessons, not
+  drills. P2.7 exists to guarantee a structure DRILL and P0 already opens every
+  session with a lesson, so letting the backstop serve a second lesson defeats
+  both (`grammarexplainer` is AI-dependent besides, and a guarantee that can fail
+  to generate is not one). Excluding it keeps that slot behaving exactly as
+  before.
+  **Measured effects, both of them.** Lesson days holding the length contract at
+  +0 went 53 → **115 of 180**; the remaining 65 are genuinely lexis, spoken
+  performance or reading, and legitimately owe a grammar slot. Separately, P2.7's
+  candidate pool widened at every level — **A1 10 → 21**, which is the change
+  that matters most: A1's structural pool had been case and tense drills reached
+  by the nearest-CEFR tiebreak, while the A1 drills authored for A1 lessons
+  (plural, negation, imperative, questions, possessives) carried pool-only tags
+  the list never knew about. No `reference: true` entry became eligible (asserted
+  — a browse list has no graded finish, so P2.7 would credit the slot for reading
+  a table).
+  **A derivation needs different guards than a list**, because both directions
+  fail silently: too broad and P2.7 serves a vocabulary game as "grammar", too
+  narrow and the set is back where it started. `grammarStructureCategories.test.ts`
+  pins both, plus that the exclusion's subject still exists (the stale-exemption
+  shape from `couplingClearingPath`). NEVER re-add a category to this set by
+  hand — fix its `SKILL_GROUP` row, and both consumers follow.
 - **The certification inference, NOT backfilled completions** (`src/lib/curriculum.ts`).
   Every existing learner had zero completed lessons on ship day, so naive spine
   order greets a certified C1 learner with A1 lesson 1. A prerequisite is satisfied
@@ -1148,6 +1176,7 @@ and in every case the suite was fully green beforehand:
 | `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
 | `couplingClearingPath`'s exemption set | Carries a staleness test, so "an exemption cannot sit here quietly covering a screen that has since been fixed" | It checked whether the exempted screen GAINED a clearing path, never whether anything still ROUTED to it. Repointing `idioms` at the real drill left a moot exemption asserting a live dead end, suite fully green. Both staleness paths are checked now — plus a count, because `it.each` over an empty set registers no tests. |
 | `AlphabetScreen`'s own component tests | Render the screen, play the quiz, assert on its behaviour | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router. |
+| The A1 guaranteed-grammar assertion (`useDailySession.test.ts`) | "an A1 user gets an A1 case/grammar drill, not a buried higher tier" — checked against a list of A1 grammar SCREENS | The list was hand-maintained and had been amended three separate times as the pool grew ("7a rotation expansion", "Wave 1 catchment", "Recommender audit") — the same staleness shape as the constant it was testing. Deriving `GRAMMAR_STRUCTURE_CATEGORIES` took A1's structural pool from 10 to 21, so the 12-name list covered barely half the candidates and the unseeded `rnd` tiebreak turned a passing assertion into a **coin flip**. It did not fail because the behaviour broke; it failed because it had been measuring a shrinking fraction of the right answer all along. Now derived from the pool's own `cefr`, and re-verified by disabling P2.7. |
 
 The pattern is always the same, and it is worth naming because it is invisible
 from the outside: **a guard that covers most of a thing reads exactly like a
@@ -1164,6 +1193,9 @@ Practical rules that fall out of this:
   nothing about the other.
 - **A test that restates production data cannot check production data.** Go
   through the real function, the real builder, the real map.
+- **A hand-maintained list in a test decays exactly like one in production**, and
+  it decays quietly, because a stale allowlist keeps passing at whatever rate the
+  list still covers. When the thing being listed can grow, derive the list.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
 - **A component test and a wiring test are different tests.** A test that
