@@ -39,9 +39,17 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'vocab-a2': 'vocab',
   'vocab-b1': 'vocab',
   'vocab-b2': 'vocab',
-  // Kept in 'vocab', which is where genderdrill already grouped via its old
-  // 'vocab-a2' tag — so the P3 variety pass behaves exactly as before.
-  gender: 'vocab',
+  // REGROUPED to 'case' (2026-08-31). It sat in 'vocab' for a reason that was
+  // about CONTINUITY, not classification: genderdrill had grouped there via its
+  // old 'vocab-a2' tag, and the retag deliberately changed nothing about the
+  // variety pass. That was the right call when SKILL_GROUP had one consumer.
+  // It now has two — GRAMMAR_STRUCTURE_CATEGORIES is derived from it — and
+  // under the second one "gender is vocabulary" is simply false: noun gender
+  // decides declension class and every agreement that follows from it, which is
+  // the most structural thing an A1 learner meets. Leaving it in 'vocab' meant
+  // the `gender` lesson's own drill did not count as grammar on the day it was
+  // taught.
+  gender: 'case',
   // Plural formation is noun morphology, so it varies against the cases rather
   // than against vocabulary — a session serving a plural drill beside three
   // case drills is the monotony the variety pass exists to prevent.
@@ -107,15 +115,42 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // authored, `advanced-comparison` is case government and groups with the
   // cases; `word-formation` and `diminutives` are lexical; `summarising` is
   // structural rewriting and sits with syntax.
-  // A1 topical block (2026-08-29). Four are lexical and group with 'vocab'.
-  // `preferences` is the exception and groups as 'verb': its subject is the
-  // sviđati se flip — which verb form the sentence takes and what it agrees
-  // with — not the vocabulary of liking things.
-  family: 'vocab',
-  countries: 'vocab',
-  food: 'vocab',
-  directions: 'vocab',
-  weather: 'vocab',
+  // A1 topical block. REGROUPED BY STRUCTURE (2026-08-31), which is the rule
+  // the A2 block below already followed and this one did not: these five were
+  // classified by their TOPIC LABEL — family, countries, food, directions,
+  // weather all sound like vocabulary — while each drill's own bank header
+  // describes the structure it actually tests. The banks were right and the
+  // rows were wrong, and it went unnoticed because SKILL_GROUP had a single
+  // consumer (the variety pass) where the error was invisible. Deriving
+  // GRAMMAR_STRUCTURE_CATEGORIES from it made the error load-bearing: the
+  // `food-drink` lesson's own drill teaches accusative-vs-genitive and did not
+  // count as grammar on the day it was taught.
+  //
+  // What each one actually drills, from its bank:
+  //   family     — irregular plurals with plural agreement (braća, djeca,
+  //                ljudi take a plural verb) plus possessive agreement. Noun
+  //                morphology, so 'case' beside `plural` and `possessives`.
+  //   countries  — iz + genitive for origin, u + locative for residence, plus
+  //                the Hrvat/Hrvatica gender pair. 'case'.
+  //   food       — what you ORDER is accusative, what you order a QUANTITY of
+  //                is genitive. A case drill wearing a café menu. 'case'.
+  //   directions — the polite imperatives that come back at you (idite,
+  //                skrenite) are the half the header calls hard, so 'verb',
+  //                beside `imperative`. Its third mode is genitive position
+  //                words and the instrumental of travel, so 'case' would also
+  //                be defensible; 'verb' keeps it away from the case cluster
+  //                the variety pass exists to break up.
+  //   weather    — the SUBJECTLESS sentence (Hladno je — there is no "it").
+  //                That is exactly what `impersonal` is, and `impersonal` is
+  //                grouped 'verb' for the same stated reason. 'verb'.
+  //
+  // `preferences` was already the exception here and stays 'verb': its subject
+  // is the sviđati se flip, not the vocabulary of liking things.
+  family: 'case',
+  countries: 'case',
+  food: 'case',
+  directions: 'verb',
+  weather: 'verb',
   preferences: 'verb',
   // A2 topical block (2026-08-29). Three are grouped by the STRUCTURE their
   // drill actually tests rather than by their topic label, because SKILL_GROUP

@@ -16,14 +16,27 @@
 // level depends on, or reorder the level so a case lesson lands before the only
 // explanation of what a case is.
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// The lesson-day block at the bottom drives the REAL session builder, which
+// reads the SRS queue and the certification gate. Both are mocked to their
+// empty/A1 state so the composition under test is the ordinary one.
+vi.mock('../lib/srs', () => ({ getDueReviews: vi.fn(() => []) }));
+vi.mock('../lib/cefrCertification', () => ({
+  getCertifiedLevel: vi.fn(() => 'A1'),
+  getContentUnlockLevel: vi.fn((l: string) => l),
+}));
 
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
+const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
+  await import('../hooks/useDailySession');
+const { writeCurriculumSpine } = await import('../lib/curriculumProgress');
 
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
+type CurriculumEntry = Entry & { objectives: string[]; title: string };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
 
 const a1Spine = spineForLevel('A1') as Entry[];
@@ -208,5 +221,102 @@ describe('teach → practice coupling stays HONEST at A1', () => {
       uncoupled,
       'an A1 lesson leads nowhere — author its drill, or record here why no honest pairing exists',
     ).toEqual([]);
+  });
+});
+
+describe('an A1 lesson day still teaches STRUCTURE', () => {
+  // WHY THIS EXISTS (2026-08-31). Since the session-length contract closed, the
+  // grammar backstop (P2.7) stands down on a lesson day whose budget is spent —
+  // so on those days the ONLY structure a learner meets is whatever the lesson's
+  // own coupled drill carries. That makes each A1 category's SKILL_GROUP row
+  // load-bearing in a way it never was before, and nothing was checking them.
+  //
+  // Six A1 rows were wrong when this was written: `family`, `countries`, `food`,
+  // `directions`, `weather` and `gender` were classified 'vocab' by their TOPIC
+  // LABEL, while every one of those drills teaches a structure its own bank
+  // header names — accusative-vs-genitive for the café order, the subjectless
+  // *Hladno je*, irregular plurals with plural agreement. The A2 block had been
+  // grouped by structure from the start; the A1 block had not, and the mistake
+  // was invisible while SKILL_GROUP's only consumer was the variety pass. It
+  // cost nine of thirty A1 lesson days their grammar. Regrouping took that to
+  // three, with no change to session length and none to the variety pass
+  // (measured: A1 never exceeds one activity per skill family in 200 runs,
+  // before or after).
+  //
+  // This goes through the REAL session builder rather than reading SKILL_GROUP,
+  // because the property that matters to a learner is "does the day contain
+  // structure", not "is this row spelled a particular way".
+  const LEXICAL_A1_LESSONS: Record<string, string> = {
+    // The letters and their sounds. Phonology and orthography — there is no
+    // structure here to drill, and this is lesson 1.
+    alphabet: 'the alphabet is sounds, not grammar',
+    // Rule-governed, but the rules are which greeting for which hour and ti vs
+    // Vi. That is register, which `politeness` and `register` also group as
+    // vocab. Grouping it structurally to win a slot would be the topic-label
+    // mistake in reverse.
+    'greetings-farewells': 'register and time-of-day choice, not structure',
+    // The clock, the days and the months, plus the 1 / 2–4 / 5+ counting rule.
+    // The counting rule IS numeral agreement, so 'case' is arguable — but the
+    // bank explicitly asks for no case knowledge (the lesson sits one BELOW the
+    // `cases` primer), and skillGroups.ts records the deliberate decision to
+    // keep it lexical so it cannot sit beside three case drills. Left alone.
+    'time-calendar': 'clock and calendar vocabulary; its counting rule predates the cases primer',
+  };
+
+  const lessonDaysWithoutGrammar = (): string[] =>
+    a1Lessons
+      .filter((l) => {
+        localStorage.clear();
+        writeCurriculumSpine([
+          {
+            id: l.id,
+            level: 'A1',
+            order: 1,
+            prerequisites: [],
+            objectives: ['x'],
+            title: l.id,
+          } as CurriculumEntry,
+        ]);
+        return !buildSessionActivities('A1').some((a) =>
+          GRAMMAR_STRUCTURE_CATEGORIES.has(a.category),
+        );
+      })
+      .map((l) => l.id);
+
+  it('every A1 lesson day contains structure, but for the recorded lexical few', () => {
+    const bare = lessonDaysWithoutGrammar();
+    const unexpected = bare.filter((id) => !(id in LEXICAL_A1_LESSONS));
+    expect(
+      unexpected,
+      `these A1 lesson days now contain NO grammar drill at all: ${unexpected.join(', ')}. ` +
+        `Since the backstop yields on a lesson day, the coupled drill is the only structure ` +
+        `the learner meets — so check the drill's SKILL_GROUP row actually reflects what the ` +
+        `drill teaches, rather than what its topic is called.`,
+    ).toEqual([]);
+  });
+
+  it('and the lexical few are still genuinely lexical', () => {
+    // The staleness half. A list of exemptions that is never re-checked is how
+    // `couplingClearingPath`'s exemption set came to guard nothing — so assert
+    // both directions: every entry must still name a real A1 lesson, and must
+    // still actually lack grammar. An entry that has gained a structural drill
+    // should be deleted, not left sitting here.
+    const bare = new Set(lessonDaysWithoutGrammar());
+    const ids = new Set(a1Lessons.map((l) => l.id));
+    for (const [id, reason] of Object.entries(LEXICAL_A1_LESSONS)) {
+      expect(ids, `${id} is exempted here but is not an A1 lesson any more`).toContain(id);
+      expect(
+        bare.has(id),
+        `${id} is exempted ("${reason}") but its day now DOES contain grammar. Delete the ` +
+          `entry — a stale exemption hides the next regression.`,
+      ).toBe(true);
+    }
+  });
+
+  it('the exemption list stays small — three of thirty', () => {
+    // A count, so the list cannot quietly absorb regressions one at a time.
+    // Raising this number is a decision about what A1 learners are taught, and
+    // should read like one in the diff.
+    expect(Object.keys(LEXICAL_A1_LESSONS).length).toBe(3);
   });
 });

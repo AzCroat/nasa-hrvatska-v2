@@ -229,13 +229,34 @@ pedagogy. Design: `docs/curriculum-design.md`.
   (`guarantees grammar on a FULL non-lesson session`) that sets both mocks
   itself, because coverage borrowed from a neighbour's mock leakage vanishes the
   moment someone tidies the leak.
-  **WHAT THIS COSTS, and it is a real cost:** 55 of 180 lesson days now contain
-  no grammar drill at all — A1 9, A2 0, B1 4, B2 10, C1 16, C2 16. On the other
-  125 the lesson's own coupled drill is structural and supplies it, which is a
-  better source than the backstop anyway. **The A1 figure is the one to weigh if
-  this is revisited**: A1 is the level P2.7 was built for. Non-lesson sessions
-  are unchanged at every level, with and without a servable SRS queue (measured
-  against the pre-change build, then pinned).
+  **WHAT THIS COSTS:** 49 of 180 lesson days contain no grammar drill at all —
+  A1 3, A2 0, B1 4, B2 10, C1 16, C2 16. On the other 131 the lesson's own
+  coupled drill is structural and supplies it, which is a better source than the
+  backstop anyway. Non-lesson sessions are unchanged at every level, with and
+  without a servable SRS queue (measured against the pre-change build, then
+  pinned).
+  **A1 WAS 9 OF THOSE, AND SIX WERE A CLASSIFICATION BUG, NOT A CONTENT GAP
+  (2026-08-31).** `family`, `countries`, `food`, `directions`, `weather` and
+  `gender` were grouped `vocab` in `SKILL_GROUP` by their TOPIC LABEL, while
+  each drill's own bank header names the structure it tests — accusative for
+  what you order vs genitive for a quantity of it, the subjectless `Hladno je`,
+  irregular plurals with plural agreement, `iz` + genitive vs `u` + locative.
+  The A2 block had been grouped by structure from the start and says so; the A1
+  block was not. Regrouping took A1 from 9 to **3**, at zero length cost and no
+  measurable change to the variety pass (A1 never exceeds one activity per skill
+  family in 200 runs, before or after).
+  **The remaining three are genuinely lexical and are pinned with reasons**
+  (`alphabet` — sounds; `greetings-farewells` — register; `time-calendar` — the
+  clock, whose counting rule sits one lesson BELOW the cases primer).
+  `a1Curriculum.test.ts` drives the real session builder per lesson and checks
+  the exemption list in both directions plus its count.
+  **THE GENERAL LESSON: a mis-grouping is invisible until the map gains a second
+  consumer.** These rows were wrong for as long as they existed and nothing was
+  wrong, because the variety pass cannot tell a mis-labelled family from a
+  correct one. Deriving `GRAMMAR_STRUCTURE_CATEGORIES` from the same map made
+  them load-bearing overnight. When you give a classification a new consumer,
+  re-audit the classifications — the new consumer does not just read the map, it
+  raises the standard the map has to meet.
   **`GRAMMAR_STRUCTURE_CATEGORIES` IS DERIVED FROM `SKILL_GROUP`, not
   hand-listed (2026-08-31).** It was a literal set of 21 predating the ~130
   pool-only categories the practice programme added, so drills that plainly ARE
