@@ -876,7 +876,13 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **258 files** plus 2 walked structurally, up from 157 on 2026-08-31.
+Coverage is **303 files** plus 2 walked structurally, up from 157 on 2026-08-31 in two waves.
+
+**The second wave was CENSUSED before it was added, and the census overturned the stated reason for the exclusion.** All 90 remaining candidate files in `src/` were dry-run through the lint first: they produced **one finding across 11,691 strings**, and it was a false positive. The recorded rationale — that the component tree mixes Croatian examples with English UI copy — did not describe what was actually left: **83 of the 90 carry no English UI prose at all**. The blocker was real when it was written about the tree as a whole and had stopped being true of the remainder.
+
+**45 files were added, not 90, and the difference is the `lessons.js` lesson.** Only files the lint SCANS meaningfully (≥30 strings) went in. Twelve candidates scan fewer than five strings — adding those would create exactly the false confidence this section exists to warn about. `dialogueScenarios.js` was excluded because it is already walked structurally, and test files because they are not learner-facing.
+
+**The one false positive earned a carve-out narrower than itself.** `slangData` glosses `Dušmani` as *"Enemies — from Turkish 'düşman'"*; Turkish letters sit in `BAD_CHARS_RE` because inside CROATIAN they are mojibake for š/g/i, but inside an English gloss quoting an etymon they are correct spelling. `FOREIGN_ETYMON_FIELDS` drops **only the Turkish class**, and **only in `en`/`note`**. Cyrillic and the invisible soft hyphen stay flagged everywhere including `en` — mutation-verified in both directions: Cyrillic in an `en` field still fails, and a Turkish letter in an `hr` field still fails.
 
 **The hand-written drills came in first, and the reason they were separable is the point.** The 101 `src/components/practice/*Drill.tsx` files predate the ModeDrill engine and are DATA wearing a `.tsx` extension — `q` / `answer` / `opts` / `tip`, the same shape as `src/data/drills/*`, which has been linted since 2026-08-29. Measured before adding: essentially no English UI prose in them. That is what distinguishes this cohort from the rest of `src/components`, which mixes Croatian examples with English copy and is still deliberately out — sweeping THOSE in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so the component tree is still unfinished, not settled.
 

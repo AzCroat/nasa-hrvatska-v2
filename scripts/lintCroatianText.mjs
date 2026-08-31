@@ -196,6 +196,66 @@ const TARGETS = [
   'src/components/practice/WordOrderDrill.tsx',
   'src/components/practice/ZamjeniceDrill.tsx',
   'src/components/practice/ZeljeDrill.tsx',
+  // ── 2026-08-31, second wave: the rest of the authored Croatian in src/ ────
+  // Censused before adding rather than assumed. All 90 remaining candidates
+  // were dry-run through this lint and produced ONE finding — a false positive
+  // (the Turkish etymon handled in findBadInString). The recorded reason for
+  // excluding the component tree, that it mixes Croatian with English UI copy,
+  // did not describe what was actually left: 83 of the 90 carry no English UI
+  // prose at all.
+  //
+  // These 45 are the files the lint SCANS meaningfully (>=30 strings each,
+  // 10,287 in total). Files it would barely see are deliberately NOT here: a
+  // target whose fields never match is a file everybody believes is linted and
+  // is not, which is the exercises.js / lessons.js finding this list exists to
+  // avoid repeating. dialogueScenarios.js is absent because it is already
+  // walked structurally, and test files are absent because they are not
+  // learner-facing content.
+  'src/lib/frequency500.ts',
+  'src/components/practice/listening/exercises.ts',
+  'src/components/practice/slangData.js',
+  'src/components/practice/CefrTest.tsx',
+  'src/components/learn/VocabSceneData.js',
+  'src/components/practice/ClozeEngine.tsx',
+  'src/components/croatia/BakaSummer.tsx',
+  'src/components/learn/PracticalCroatianScreen.tsx',
+  'src/components/learn/PitchAccentMastery.tsx',
+  'src/components/practice/PronunciationContrast.tsx',
+  'src/components/practice/CollocationsGame.tsx',
+  'src/components/practice/DictationScreen.tsx',
+  'src/components/croatia/ConversationScenarios.js',
+  'src/components/practice/WordFamilies.tsx',
+  'src/components/practice/ProductionDrillScreen.tsx',
+  'src/components/croatia/CroatiaToday.tsx',
+  'src/components/croatia/LifeEventsScreen.tsx',
+  'src/components/learn/ConstellationData.js',
+  'src/components/practice/SpeakingSprintScreen.tsx',
+  'src/components/practice/exercises/NegationScreen.tsx',
+  'src/components/croatia/HeritagePathScreen.tsx',
+  'src/components/auth/PlacementTest.tsx',
+  'src/components/learn/PastTenseLessonScreen.tsx',
+  'src/components/learn/FutureTenseLessonScreen.tsx',
+  'src/components/croatia/EasterScreen.tsx',
+  'src/components/learn/CaseTransformerData.js',
+  'src/components/croatia/CivicScreen.tsx',
+  'src/components/learn/GrammarTrackScreen.tsx',
+  'src/lib/lessonQuizBanks.ts',
+  'src/components/croatia/DialectAwarenessScreen.tsx',
+  'src/components/practice/PronunciationAssessScreen.tsx',
+  'src/components/home/heroData.ts',
+  'src/components/croatia/MediaTab.tsx',
+  'src/components/learn/PhonemePracticeScreen.tsx',
+  'src/components/croatia/SurvivalDinner.tsx',
+  'src/data/caseConcepts.ts',
+  'src/components/learn/TiViScreen.tsx',
+  'src/components/hrvatska/doors.ts',
+  'src/components/learn/HeritageModeScreen.tsx',
+  'src/components/croatia/AIConversation.tsx',
+  'src/components/home/heroHelpers.ts',
+  'src/components/practice/WritingScreen.tsx',
+  'src/components/croatia/KaficScreen.tsx',
+  'src/components/croatia/MediaPlayerUtils.tsx',
+  'src/hooks/useAward.ts',
   'src/data/drills/pluralDrill.ts',
   'src/data/drills/negationDrill.ts',
   'src/data/drills/adjectivesDrill.ts',
@@ -335,9 +395,26 @@ async function* walkTargets() {
   }
 }
 
-function findBadInString(s) {
+// Turkish letters sit in BAD_CHARS_RE because inside CROATIAN text they are
+// mojibake for š/g/i. Inside an ENGLISH gloss quoting a foreign etymon they are
+// correct spelling: slangData carries `en: 'Enemies — from Turkish "düşman"'`
+// beside the Croatian `Dušmani`, which is the etymology stated accurately. It
+// was the ONLY finding across all 90 remaining candidate files.
+//
+// Scoped as tightly as that warrants — the Turkish class only, in the
+// English-gloss fields only. Cyrillic and the invisible soft hyphen stay
+// flagged everywhere, `en` included, because neither is ever legitimate in any
+// field of this app. Mutation-checked: a Cyrillic homoglyph injected into an
+// `en` field still fails the build.
+const TURKISH_LETTERS_RE = /[Ţ-ţŞ-şĞ-ğİ-ı]/;
+const FOREIGN_ETYMON_FIELDS = new Set(['en', 'note']);
+
+function findBadInString(s, fieldName) {
   if (!s) return null;
-  const bad = [...s.matchAll(BAD_CHARS_RE)];
+  let bad = [...s.matchAll(BAD_CHARS_RE)];
+  if (FOREIGN_ETYMON_FIELDS.has(fieldName)) {
+    bad = bad.filter((m) => !TURKISH_LETTERS_RE.test(m[0]));
+  }
   if (bad.length === 0) return null;
   return bad.map((m) => ({ char: m[0], codePoint: m[0].codePointAt(0).toString(16) }));
 }
@@ -554,7 +631,7 @@ function checkStructured() {
     const findings = [];
     for (const { loc, field, content, kind } of strings()) {
       if (typeof content !== 'string' || content.length === 0) continue;
-      const bad = findBadInString(content);
+      const bad = findBadInString(content, field);
       if (bad) findings.push({ line: loc, field, snippet: content.slice(0, 80), badChars: bad });
       if (kind !== 'gloss') {
         const serbisms = findSerbisms(field, content);
@@ -581,7 +658,7 @@ async function main() {
       const content = m[3];
       // Skip very short non-text content
       if (content.length === 0) continue;
-      const bad = findBadInString(content);
+      const bad = findBadInString(content, fieldName);
       if (bad) {
         const line = buf.slice(0, m.index).split('\n').length;
         findings.push({
@@ -606,7 +683,7 @@ async function main() {
     // half was missing until 2026-08-29).
     for (const { field, content, index } of arrayStrings(buf)) {
       const line = buf.slice(0, index).split('\n').length;
-      const bad = findBadInString(content);
+      const bad = findBadInString(content, field);
       if (bad) {
         findings.push({ line, field, snippet: content.slice(0, 80), badChars: bad });
       }
