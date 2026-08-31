@@ -158,10 +158,16 @@ export async function onRequestPost(context) {
         // (that helper moved out of sentryHelpers.ts; this pointer was stale).
         //   'server'  — flaky/corrupted device storage, eviction, WebView bug
         //   'closing' — connection torn down mid-operation by a page-hide or
-        //               tab suspend; ordinary on mobile Safari (2026-08-22)
+        //               tab suspend; ordinary on mobile Safari (2026-08-22).
+        //               FIREFOX phrases this family as a bare InvalidStateError
+        //               ("an attempt was made to use an object that is not, or
+        //               is no longer, usable") with none of the words above, so
+        //               it went unmatched until 2026-08-31.
         'indexed database server',
         'database is closing',
         'connection is closing',
+        'object that is not, or is no longer, usable',
+        'invalidstateerror',
       ];
       const msgLower = structured.message.toLowerCase();
       const isSentryIgnored = IGNORED_SENTRY_PATTERNS.some((p) => msgLower.includes(p));

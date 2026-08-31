@@ -18,6 +18,11 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, clickMe } from './fixtures/seed-auth.js';
+// DERIVED, not restated (2026-08-31) — see the same import in
+// auth-edge-cases.spec.js. The app owns the definition of a non-actionable
+// IndexedDB teardown error; this spec's route-by-route navigation produces
+// exactly that condition on Firefox. src/lib/idbTelemetry.ts.
+import { isEnvironmentalIdbError } from '../src/lib/idbTelemetry';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -51,7 +56,11 @@ function assertNoUnexpectedErrors(errors) {
       // Firefox CI: lazy-loaded chunks (pushNotifications etc.) occasionally fail to
       // dynamically import when network is blocked in headless mode.
       !e.includes('dynamically imported module') &&
-      !e.includes('error loading'),
+      !e.includes('error loading') &&
+      // Firefox CI: IDB connection torn down mid-operation by the page teardown
+      // each navigation performs. Chromium/WebKit word it "Database is closing";
+      // Firefox raises a bare InvalidStateError. Same non-actionable condition.
+      !isEnvironmentalIdbError(e.toLowerCase()),
   );
   expect(unexpected, 'Unexpected JS errors').toHaveLength(0);
 }
