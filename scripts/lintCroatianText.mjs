@@ -89,6 +89,113 @@ const TARGETS = [
   // Engine-backed drill banks (practice programme, 2026-08-29). A drill is now
   // a data file rather than a component, so this directory is where authored
   // Croatian practice content lives from here on.
+  // ── 2026-08-31: the hand-written drill components ─────────────────────────
+  // The 75+ drills that predate the ModeDrill engine are DATA wearing a .tsx
+  // extension: q / answer / opts / tip, the same shape as src/data/drills/*
+  // which has been linted since 2026-08-29. They carry essentially no English
+  // UI prose (measured), which is what makes them separable from the rest of
+  // src/components — the reason the component tree was excluded wholesale.
+  'src/components/practice/AccusativeDrill.tsx',
+  'src/components/practice/AdministrativniDrill.tsx',
+  'src/components/practice/AkademskiDrill.tsx',
+  'src/components/practice/AnimateAccDrill.tsx',
+  'src/components/practice/AoristImperfektDrill.tsx',
+  'src/components/practice/BezlicneDrill.tsx',
+  'src/components/practice/C2StructureDrill.tsx',
+  'src/components/practice/CliticDrill.tsx',
+  'src/components/practice/ConditionalDrill.tsx',
+  'src/components/practice/ConjugationDrill.tsx',
+  'src/components/practice/ConjugationSessionDrill.tsx',
+  'src/components/practice/DativeDrill.tsx',
+  'src/components/practice/DatumiDrill.tsx',
+  'src/components/practice/DiscourseDrill.tsx',
+  'src/components/practice/DopisiDrill.tsx',
+  'src/components/practice/DopusneDrill.tsx',
+  'src/components/practice/DvovidniDrill.tsx',
+  'src/components/practice/EmfazaDrill.tsx',
+  'src/components/practice/EnklitikeDrill.tsx',
+  'src/components/practice/EponimiDrill.tsx',
+  'src/components/practice/FleetingADrill.tsx',
+  'src/components/practice/FrazeologijaDrill.tsx',
+  'src/components/practice/FuturDrugiDrill.tsx',
+  'src/components/practice/GenitiveDrill.tsx',
+  'src/components/practice/GerundDrill.tsx',
+  'src/components/practice/GlagoliGovorenjaDrill.tsx',
+  'src/components/practice/GlagolskiPriloziDrill.tsx',
+  'src/components/practice/GlasovnePromjeneDrill.tsx',
+  'src/components/practice/ISklonidbaDrill.tsx',
+  'src/components/practice/IdiomDrill.tsx',
+  'src/components/practice/ImeniceMeDrill.tsx',
+  'src/components/practice/ImperativeDrill.tsx',
+  'src/components/practice/InfinitivDaDrill.tsx',
+  'src/components/practice/InstrumentalDrill.tsx',
+  'src/components/practice/InterpunkcijaDrill.tsx',
+  'src/components/practice/KalkoviDrill.tsx',
+  'src/components/practice/KolicinaDrill.tsx',
+  'src/components/practice/KolokacijeDrill.tsx',
+  'src/components/practice/KonektoriDrill.tsx',
+  'src/components/practice/KraticeDrill.tsx',
+  'src/components/practice/LektorDrill.tsx',
+  'src/components/practice/LocativeDrill.tsx',
+  'src/components/practice/MnozinaDrill.tsx',
+  'src/components/practice/ModalnostDrill.tsx',
+  'src/components/practice/ModeDrill.tsx',
+  'src/components/practice/MotionVerbsDrill.tsx',
+  'src/components/practice/NamjeraDrill.tsx',
+  'src/components/practice/NegationGenDrill.tsx',
+  'src/components/practice/NeodredjeneDrill.tsx',
+  'src/components/practice/NominalizationDrill.tsx',
+  'src/components/practice/NominativeDrill.tsx',
+  'src/components/practice/NovinskiDrill.tsx',
+  'src/components/practice/NumbersCasesDrill.tsx',
+  'src/components/practice/OdredjenostDrill.tsx',
+  'src/components/practice/ParniVezniciDrill.tsx',
+  'src/components/practice/ParticipleDrill.tsx',
+  'src/components/practice/PassiveDrill.tsx',
+  'src/components/practice/PitanjaDrill.tsx',
+  'src/components/practice/PluskvamperfektDrill.tsx',
+  'src/components/practice/PogodbeneDrill.tsx',
+  'src/components/practice/PosloviceDrill.tsx',
+  'src/components/practice/PosudjeniceDrill.tsx',
+  'src/components/practice/PosvojniDrill.tsx',
+  'src/components/practice/PovratniDrill.tsx',
+  'src/components/practice/PravopisDrill.tsx',
+  'src/components/practice/PrecisionDrill.tsx',
+  'src/components/practice/PrenesenaDrill.tsx',
+  'src/components/practice/PrepDrill.tsx',
+  'src/components/practice/PresentTenseDrill.tsx',
+  'src/components/practice/PribliznoDrill.tsx',
+  'src/components/practice/PrijedloziGenDrill.tsx',
+  'src/components/practice/PrijedlozniIzraziDrill.tsx',
+  'src/components/practice/ProstorniDrill.tsx',
+  'src/components/practice/RazgovorniDrill.tsx',
+  'src/components/practice/RegisterDrill.tsx',
+  'src/components/practice/RekcijaDrill.tsx',
+  'src/components/practice/ReportedSpeechDrill.tsx',
+  'src/components/practice/SavSvakiDrill.tsx',
+  'src/components/practice/SinonimijaDrill.tsx',
+  'src/components/practice/SklonidbaBrojevaDrill.tsx',
+  'src/components/practice/SklonidbaImenaDrill.tsx',
+  'src/components/practice/SlaganjeBrojevaDrill.tsx',
+  'src/components/practice/SlojeviDrill.tsx',
+  'src/components/practice/SrocnostDrill.tsx',
+  'src/components/practice/StilskeFigureDrill.tsx',
+  'src/components/practice/StupnjevanjeDrill.tsx',
+  'src/components/practice/SubordinationDrill.tsx',
+  'src/components/practice/TrpniDrill.tsx',
+  'src/components/practice/TvorbaRijeciDrill.tsx',
+  'src/components/practice/UljudnostDrill.tsx',
+  'src/components/practice/UsporedbeDrill.tsx',
+  'src/components/practice/UzrocneDrill.tsx',
+  'src/components/practice/VelikoSlovoDrill.tsx',
+  'src/components/practice/VidImperativDrill.tsx',
+  'src/components/practice/VidNijanseDrill.tsx',
+  'src/components/practice/VidskiParoviDrill.tsx',
+  'src/components/practice/VremenskeDrill.tsx',
+  'src/components/practice/VrijemeIzrazDrill.tsx',
+  'src/components/practice/WordOrderDrill.tsx',
+  'src/components/practice/ZamjeniceDrill.tsx',
+  'src/components/practice/ZeljeDrill.tsx',
   'src/data/drills/pluralDrill.ts',
   'src/data/drills/negationDrill.ts',
   'src/data/drills/adjectivesDrill.ts',
@@ -245,6 +352,28 @@ import { SERBISM_RULES } from '../functions/api/_serbisms.js';
 
 /** English-gloss fields where a Serbian form may legitimately appear. */
 const SERBISM_EXEMPT_FIELDS = new Set(['en', 'note']);
+
+// ── Contrastive FILES: the drill equivalent of CONTRASTIVE_LESSONS ───────────
+//
+// `PosudjeniceDrill` (C2) is a standard-vs-non-standard discrimination drill.
+// Its whole subject is the pairs a heritage speaker mixes — tisuća/hiljada,
+// kruh/hljeb, vlak/voz — and every item's `tip` names the non-standard member
+// AS non-standard ("Hrvatski standard: tisuća (hiljada je nestandardna)").
+// The learner is not meeting an unlabelled Serbism; they are being taught to
+// tell the two apart, which is the same justification CONTRASTIVE_LESSONS
+// records for `language-identity`: naming the form IS the teaching.
+//
+// This does NOT loosen the distractor directive. That directive exists because
+// a wrong answer is rendered on screen as a clickable option with nothing
+// marking it foreign. Here the question stem, the answer key and the tip all
+// mark it. A drill that merely happened to use `hiljada` as a throwaway
+// distractor would still be a bug, and would not belong on this list.
+//
+// Scoped to the FILE and Serbisms only — encoding bleed still fails the build
+// inside these files, exactly as it does inside the contrastive lessons. The
+// cost is the same and should be accepted as reluctantly: a genuine unrelated
+// Serbism in this one file would now pass. The list can only shrink.
+const CONTRASTIVE_FILES = new Set(['src/components/practice/PosudjeniceDrill.tsx']);
 
 // ── The two checks are not the same check (2026-08-26) ───────────────────────
 //
@@ -441,6 +570,9 @@ async function main() {
   let totalFindings = 0;
   for await (const { rel, buf } of walkTargets()) {
     const findings = [];
+    // A contrastive file suspends the SERBISM half only; findBadInString (the
+    // encoding check) runs on every string regardless.
+    const serbismsOff = CONTRASTIVE_FILES.has(rel);
     for (const m of buf.matchAll(CRO_FIELD_RE)) {
       // m[1] = field name, m[3] = string contents
       // Skip English-only fields by heuristic: `en` is the English translation,
@@ -459,7 +591,7 @@ async function main() {
           badChars: bad,
         });
       }
-      const serbisms = findSerbisms(fieldName, content);
+      const serbisms = serbismsOff ? null : findSerbisms(fieldName, content);
       if (serbisms) {
         const line = buf.slice(0, m.index).split('\n').length;
         findings.push({
@@ -478,7 +610,7 @@ async function main() {
       if (bad) {
         findings.push({ line, field, snippet: content.slice(0, 80), badChars: bad });
       }
-      const serbisms = findSerbisms(field, content);
+      const serbisms = serbismsOff ? null : findSerbisms(field, content);
       if (serbisms) {
         findings.push({ line, field, snippet: content.slice(0, 80), serbisms });
       }
