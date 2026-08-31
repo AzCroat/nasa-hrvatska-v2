@@ -355,15 +355,17 @@ export function buildSessionActivities(
   // extra ones (the fill loop caps on activities.length), so the session-length
   // contract does not move. Empty when there is no curriculum data. Resolution,
   // and the reasons it works this way, live in lib/curriculumSlot.
-  activities.push(
-    ...buildCurriculumSlots({
-      userCefr,
-      screenMap: CATEGORY_SCREEN_MAP,
-      easierMap: CATEGORY_EASIER_SCREEN,
-      screenCefr: SCREEN_CEFR,
-      isUnlocked,
-    }),
-  );
+  const curriculumSlots = buildCurriculumSlots({
+    userCefr,
+    screenMap: CATEGORY_SCREEN_MAP,
+    easierMap: CATEGORY_EASIER_SCREEN,
+    screenCefr: SCREEN_CEFR,
+    isUnlocked,
+  });
+  activities.push(...curriculumSlots);
+  // Whether TODAY IS A LESSON DAY, which is what scopes the budget rule at P2.7
+  // below. See the comment there for why the rule must not apply without one.
+  const isLessonDay = curriculumSlots.length > 0;
 
   // Priority 1: FSRS word reviews — gated on what ReviewScreen can actually
   // serve, not the raw FSRS count. When poolWords is provided (HomeTab call
@@ -429,36 +431,36 @@ export function buildSessionActivities(
   // whenever there is genuinely room, which is why A2 is untouched and why a
   // session with no curriculum spine composes exactly as it did before. What is
   // reserved is only the slots that MUST still come after this point —
-  // production always, plus the conversation anchor at B1+. P2.7's grammar
-  // backstop is not reserved because it self-skips when the session already has
-  // grammar, which on a lesson day the coupled drill provides.
+  // production always, plus the conversation anchor at B1+.
   //
   // The adaptive MODEL is unaffected: every coupled drill still records its
   // outcome through completeExercise, so the scheduler keeps learning even on
   // days it does not get a slot. It serves again as soon as there is room —
   // once the learner finishes their level's lessons, or on any day without one.
-  // IT YIELDS ONLY WHEN YIELDING ACTUALLY SAVES A SLOT, which is the whole
-  // subtlety and was got wrong on the first attempt at this. P2.7 below forces
-  // in a grammar drill when nothing in the session is grammar yet. The adaptive
-  // pick is USUALLY grammar, so the two are alternatives, not additions: drop
-  // the adaptive pick from a session that has no grammar and P2.7 simply
-  // replaces it, same length, but with an any-level-appropriate drill instead of
-  // one aimed at a measured weakness. That is a downgrade dressed as a fix, and
-  // it would have hit every lesson whose coupled drill is not itself in
-  // GRAMMAR_STRUCTURE_CATEGORIES — 127 of 180 when that set was hand-listed,
-  // 65 of 180 now that it is derived from SKILL_GROUP.
   //
-  // So the pick stands down only when the session ALREADY contains grammar —
-  // on a lesson day, that means the drill coupled to today's lesson is itself a
-  // case/verb/syntax drill. Then P2.7 skips too and the slot is genuinely saved.
+  // YIELDING HERE ONLY SAVES A SLOT IF P2.7 DOES NOT TAKE IT (owner decision,
+  // 2026-08-31 — the second half of this fix). P2.7 forces in a grammar drill
+  // when nothing in the session is grammar yet, and the adaptive pick is
+  // USUALLY grammar, so the two are alternatives rather than additions. The
+  // first attempt at the length fix dropped the pick unconditionally and P2.7
+  // silently replaced it: same length, but an any-level-appropriate drill in
+  // place of one aimed at a measured weakness. The interim fix kept the pick
+  // whenever the session had no grammar, which held the downgrade off at the
+  // cost of leaving those days +1.
+  //
+  // Both now yield to the SAME budget rule, stated once below and applied at
+  // both slots: no pre-fill guarantee may push the session past `fillTarget`.
+  // That is what actually closes the +1 — and it is worth being exact about
+  // WHICH slot was over, because the composition dump contradicts the obvious
+  // reading: on a vocab-coupled lesson day P2.7 never fired at all. The extra
+  // activity was this pick. Making only the grammar guarantee yield would have
+  // changed nothing.
   const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
   const reservedAfterAdaptive = 1 + (cefrRank(userCefr) >= cefrRank('B1') ? 1 : 0);
   const roomForAdaptive = activities.length + reservedAfterAdaptive < fillTarget;
-  const sessionHasGrammar = activities.some((a) => isGrammarStructure(a.category));
-  const adaptiveActivity =
-    roomForAdaptive || !sessionHasGrammar
-      ? resolveAdaptiveActivity(userCefr, new Set(activities.map((a) => a.screen)))
-      : null;
+  const adaptiveActivity = roomForAdaptive
+    ? resolveAdaptiveActivity(userCefr, new Set(activities.map((a) => a.screen)))
+    : null;
   if (adaptiveActivity) {
     activities.push({
       ...adaptiveActivity,
@@ -528,9 +530,48 @@ export function buildSessionActivities(
   // vocab category or null, and the P3 tier sort buries grammar for A1/A2 — so a
   // session could contain zero grammar. If nothing queued so far is
   // grammar/structure, force in one level-appropriate drill (tier-sort-exempt,
-  // G4). It counts toward fillTarget, so it DISPLACES a vocab fill rather than
-  // lengthening the session.
-  if (!activities.some((a) => isGrammarStructure(a.category))) {
+  // G4).
+  //
+  // THE GUARANTEE YIELDS ON A LESSON DAY WHEN THE BUDGET IS ALREADY SPENT
+  // (owner decision, 2026-08-31). The comment here used to say the slot "counts
+  // toward fillTarget, so it DISPLACES a vocab fill rather than lengthening the
+  // session". That is true only while a fill slot remains to displace: the P3
+  // loop caps on `activities.length`, so once the earlier guarantees have
+  // reached the target there is no fill left and this slot is pure addition.
+  // On a lesson day whose coupled drill is lexis, spoken performance or
+  // reading, that is exactly the state we arrive in — and it is why closing the
+  // +1 needs BOTH this and the adaptive pick to stand down. Dropping either one
+  // alone frees a slot the other immediately takes.
+  //
+  // WHY `isLessonDay` SCOPES IT, and why the unscoped version was wrong.
+  // Written first as a plain budget rule, this stood P2.7 down on a NON-lesson
+  // session too: an SRS review plus a vocab adaptive pick plus conversation
+  // plus production also reaches the target, and that session then contained no
+  // grammar at all. Caught by `useDailySession.test.ts`'s "forces in a
+  // grammar/structure drill even when the adaptive pick is VOCAB" — a case the
+  // measurement run before shipping had missed, because it used the REAL
+  // adaptive queue, which returns a grammar category, so the grammar always
+  // came from the pick and P2.7's branch was never exercised.
+  //
+  // That day is over the target too, and pre-dates all of this — but it is a
+  // different decision with a different justification. The trade taken here is
+  // "a day whose LESSON is lexical may skip the grammar backstop"; it says
+  // nothing about a day with no lesson at all, where the backstop is the only
+  // thing standing between the learner and an all-vocabulary session. Removing
+  // it there would be scope this change has not earned.
+  //
+  // The check reads `activities.length` at THIS point, after production and the
+  // B1+ conversation anchor, so it measures the real remaining budget rather
+  // than predicting it.
+  //
+  // WHAT THIS COSTS, stated rather than buried: on 55 of the 180 lesson days
+  // the session contains no grammar drill at all (A1 9, A2 0, B1 4, B2 10,
+  // C1 16, C2 16). On the other 125 the lesson's own coupled drill is
+  // structural and supplies it — a better source than the backstop anyway. The
+  // A1 figure is the one to weigh if this is ever revisited: A1 is the level
+  // P2.7 was built for.
+  const roomForGuaranteedGrammar = !isLessonDay || activities.length < fillTarget;
+  if (roomForGuaranteedGrammar && !activities.some((a) => isGrammarStructure(a.category))) {
     const grammar = selectGuaranteedGrammar(userCefr, usedScreens, recentScreens);
     if (grammar) {
       activities.push({ ...grammar, ...withReason(grammarSlotReason()) });

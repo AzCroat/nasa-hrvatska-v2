@@ -365,6 +365,37 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     expect(hasGrammar(acts)).toBe(true);
   });
 
+  it('guarantees grammar on a FULL non-lesson session — SRS + vocab pick + production', async () => {
+    // THE SCOPE GUARD for the 2026-08-31 budget rule at P2.7, which stands the
+    // guarantee down once the earlier slots have reached `fillTarget`. That rule
+    // is deliberately scoped to LESSON days: on a day with no lesson the
+    // backstop is the only thing between the learner and an all-vocabulary
+    // session, and dropping it there is a decision this change did not take.
+    //
+    // Written as its own test because the unscoped version was caught only by
+    // ACCIDENT. The test above happened to see an `srsreview` slot — leaked from
+    // an earlier test's `mockReturnValue`, which `vi.clearAllMocks()` does not
+    // reset — and that fourth activity is exactly what pushed it to the target.
+    // Coverage that depends on mock leakage from a neighbouring test disappears
+    // the moment somebody tidies the leak. Both mocks are set explicitly here.
+    const adaptive = await import('../lib/adaptive');
+    const srs = await import('../lib/srs');
+    vi.mocked(srs.getDueReviews).mockReturnValue([{ word: 'test' }] as never);
+    vi.mocked(adaptive.getDueCategoryQueue).mockReturnValue([
+      { category: 'vocab-a2', difficulty: 1 },
+    ]);
+    for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+      localStorage.clear();
+      const acts = buildSessionActivities(level);
+      expect(
+        hasGrammar(acts),
+        `${level}: a non-lesson session reached fillTarget and lost its grammar guarantee. ` +
+          `The budget rule at P2.7 must stay scoped to lesson days (isLessonDay). Session was: ` +
+          acts.map((a) => `${a.id}[${a.category}]`).join(' | '),
+      ).toBe(true);
+    }
+  });
+
   it('the guaranteed slot is level-appropriate: an A1 user gets an A1 case/grammar drill, not a buried higher tier', () => {
     // The full case system now unlocks at A1, so an A1 user's guaranteed grammar
     // slot is one of the A1 case drills (case-tier 3–4). The P3 tier sort (target

@@ -202,20 +202,40 @@ pedagogy. Design: `docs/curriculum-design.md`.
   overrun the target. The priority is not new — P1.5's own rationale already
   says the drill for a concept just met beats a statistical estimate of where
   the learner is weakest.
-  **It yields ONLY when yielding saves a slot, and that condition is the whole
-  subtlety.** P2.7 forces in grammar when the session has none, and the adaptive
-  pick is usually grammar — so dropping it from a grammar-less session just
-  hands the slot to P2.7 at the SAME length with a less targeted drill. The
-  first attempt at this fix did exactly that and would have downgraded 127 of
-  180 lesson days while fixing nothing; `curriculumSessionSlot.test.ts` pins
-  against it returning.
-  **What is still +1, and why it is not a bug to squash quietly:** when the
-  coupled drill is NOT grammar/structure, the session owes a grammar slot on top
-  of the lesson, its drill, production and (B1+) conversation. Those guarantees
-  together exceed the target by one, and holding the length there would mean
-  dropping the grammar guarantee — a separate decision. Measured: grammar-coupled
-  days are +0 at every level; vocab-coupled days are +1 (A2 +0, having a 4-slot
-  target and no conversation anchor).
+  **THE GRAMMAR GUARANTEE YIELDS TOO, and the contract is CLOSED: 180 of 180
+  lesson days at +0, every level (owner decision, 2026-08-31).** P2.7 stands
+  down on a LESSON DAY once `activities.length` has already reached
+  `fillTarget`.
+  **BOTH must yield or neither is worth doing — this is the whole subtlety and
+  it has now been got wrong in both directions.** P2.7 forces in grammar when
+  the session has none and the adaptive pick is usually grammar, so the two are
+  ALTERNATIVES, not additions. Drop only the pick (the first attempt) and P2.7
+  silently replaces it: same length, less targeted drill. Drop only P2.7 (the
+  obvious reading of "the guarantee is the extra slot") and NOTHING happens —
+  because on a vocab-coupled day P2.7 never fired in the first place. The
+  composition dump is what settled it:
+  `curriculum_alphabet | curriculum_practice_alphabet | cat_genitive* |
+  dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
+  **Measure which slot is actually over before making one yield**;
+  `curriculumSessionSlot.test.ts` pins both single-sided versions as failures.
+  **The rule is scoped to lesson days (`isLessonDay`), and the unscoped version
+  was WRONG.** Written first as a plain budget rule it also stood P2.7 down on a
+  NON-lesson session — SRS + a vocab adaptive pick + conversation + production
+  also reaches the target — leaving that session with no grammar at all. The
+  pre-ship measurement MISSED it because it used the real adaptive queue, which
+  returns a grammar category, so P2.7's branch was never exercised; it was
+  caught by a pre-existing test, and only because that test happened to see a
+  leaked `srsreview` mock. There is now an explicit guard
+  (`guarantees grammar on a FULL non-lesson session`) that sets both mocks
+  itself, because coverage borrowed from a neighbour's mock leakage vanishes the
+  moment someone tidies the leak.
+  **WHAT THIS COSTS, and it is a real cost:** 55 of 180 lesson days now contain
+  no grammar drill at all — A1 9, A2 0, B1 4, B2 10, C1 16, C2 16. On the other
+  125 the lesson's own coupled drill is structural and supplies it, which is a
+  better source than the backstop anyway. **The A1 figure is the one to weigh if
+  this is revisited**: A1 is the level P2.7 was built for. Non-lesson sessions
+  are unchanged at every level, with and without a servable SRS queue (measured
+  against the pre-change build, then pinned).
   **`GRAMMAR_STRUCTURE_CATEGORIES` IS DERIVED FROM `SKILL_GROUP`, not
   hand-listed (2026-08-31).** It was a literal set of 21 predating the ~130
   pool-only categories the practice programme added, so drills that plainly ARE
@@ -1196,6 +1216,20 @@ Practical rules that fall out of this:
 - **A hand-maintained list in a test decays exactly like one in production**, and
   it decays quietly, because a stale allowlist keeps passing at whatever rate the
   list still covers. When the thing being listed can grow, derive the list.
+- **Measure WHICH part is wrong before changing the part that looks wrong.** The
+  session's remaining +1 looked like the grammar guarantee's doing; dumping the
+  real composition showed that slot never fired on the affected days, and the
+  extra activity was the adaptive pick. A fix aimed at the obvious culprit would
+  have changed nothing and been reported as a fix.
+- **A measurement can miss a branch the same way a test can.** The pre-ship run
+  for that change used the REAL adaptive queue, which always returns grammar, so
+  P2.7's branch never executed and "non-lesson sessions are unchanged" was
+  measured without ever exercising the code that could change them. Drive the
+  branch you are claiming is safe.
+- **Coverage borrowed from a neighbouring test's mock leakage is not coverage.**
+  `vi.clearAllMocks()` does not reset `mockReturnValue`, so a test can pass for
+  reasons set three tests earlier — and the guard evaporates when someone tidies
+  the leak. If a case matters, set its mocks in its own test.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
 - **A component test and a wiring test are different tests.** A test that
