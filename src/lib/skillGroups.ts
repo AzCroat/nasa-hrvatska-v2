@@ -107,8 +107,10 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // B2 tranche 1 (2026-08-29). `i-declension` is a noun paradigm and groups
   // with the cases — which is also the group it already had via its old
   // (wrong) `instrumental` tag, so the variety pass is unchanged by the retag.
-  // The three verb-side categories group as verbs; `intensity` is adverbial
-  // grading and sits with vocab.
+  // The three verb-side categories group as verbs. `intensity` was described
+  // here as "adverbial grading" and sat with vocab until the 2026-08-31
+  // re-audit moved it to 'case' — see the B2 functional block below for the
+  // items that decided it.
   // C1 tranche 1 (2026-08-29). The two RETAGS preserve the group their old
   // catch-all tag gave them, so the P3 variety pass is unchanged: `collocations`
   // stays in 'vocab' (from register) and `prosody` in 'speaking'. Of the four
@@ -178,11 +180,43 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // `job-search` and `cooking` turn on a verb form — the fault-reporting
   // reflexive and the conditional, the participle agreeing with the applicant,
   // and the recipe imperative — so 'verb'. The remaining four are lexical.
+  //
+  // TWO OF THOSE FOUR WERE RE-AUDITED AND MOVED (2026-08-31), by the same
+  // finding that corrected the A1 block — with one difference worth recording:
+  // at A1 the drills' own bank HEADERS already named the structure and the rows
+  // contradicted them, so reading the headers was enough. Here the headers are
+  // not reliable in either direction, so the ITEMS decided it.
+  //
+  // The criterion, stated so it is re-checkable rather than a judgement call:
+  // a drill counts as structural when its FORM-PRODUCTION items (a `____` the
+  // learner must fill with an inflected form or a governed preposition) are a
+  // substantial share of the bank AND actually test a grammatical choice.
+  // Measured over the 24-item banks:
+  //   food 14/24, home 12/24            — already 'case', the calibration
+  //   bureaucracy 11/24  -> 'verb'      — see below
+  //   renting 9/24       -> 'case'      — see below
+  //   nature 7/24        -> stays vocab — 10 of its items are pure glosses
+  //                                       ("Što je 'uvala'?"); only 3 test u/na
+  //   technology 4/24    -> stays vocab — 17% form items; the lesson is the
+  //                                       native/international register split
+  //
+  // `bureaucracy` is the impersonal register, and its `sluzbeni` mode drills the
+  // construction rather than naming it: *Potrebno je priložiti* (neuter, with
+  // nothing to agree with), *Zahtjev se predaje*, *Molba se podnosi*, and an
+  // item that asks outright who the subject is — the answer being nobody. That
+  // is the same se-construction `impersonal` is grouped 'verb' for.
+  //
+  // `renting` is the one whose header UNDERSELLS it: it is written about the
+  // room-counting fact that costs a learner money, but the bank drills quantity
+  // genitive (*55 kvadrata*, *500 eura*), participle agreement (*jesu li režije
+  // uključene*), accusative plural (*kućne ljubimce*) and locative with an
+  // ordinal (*na četvrtom katu*). A learner doing it practises case, whatever
+  // the lesson is called.
   opinions: 'syntax',
   feelings: 'case',
   complaints: 'verb',
-  bureaucracy: 'vocab',
-  renting: 'vocab',
+  bureaucracy: 'verb',
+  renting: 'case',
   'job-search': 'verb',
   news: 'syntax',
   technology: 'vocab',
@@ -195,14 +229,50 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // the conditional, so 'verb'. `presenting`, `meetings` and `smalltalk` are
   // spoken performance, so 'speaking'. `literature` is a reading drill and is
   // the first entry to use that group. The remaining four are lexical.
+  //
+  // THREE MOVED ON THE 2026-08-31 RE-AUDIT, by the same item-share criterion the
+  // B1 block records. Form-production share of each 24-item bank, against the
+  // calibration (food 14/24 and home 12/24, both 'case'; renting 9/24 was the
+  // lowest accepted):
+  //   meetings 15/24, intensity 12/24, presenting 11/24, politics 11/24,
+  //   nature 7/24 and technology 4/24 (both rejected at B1), smalltalk 7/24,
+  //   business 6/24, literature 6/24, humour 2/24, language-history 2/24.
+  //
+  // Counting was not sufficient — a `____` can be a vocabulary fill — so the
+  // four over the bar were read item by item, and only three survived:
+  //
+  //   intensity  -> 'case'   sve + comparative (*sve bolje*, *sve kraći*) and
+  //                          the *što… to* correlative. It was 'vocab' as
+  //                          "adverbial grading", but the items produce
+  //                          comparative FORMS, and `comparison` and
+  //                          `advanced-comparison` are both 'case'.
+  //   politics   -> 'case'   participle agreement with subject gender (*Sabor
+  //                          je izglasao* / *Vlada je podnijela*), locative
+  //                          (*u Saboru*), the *su održani* passive, and
+  //                          accusative government (*na izbore*, *za stranku*).
+  //   meetings   -> 'syntax' its header states the structural point outright —
+  //                          *Predlažem da* takes a da-CLAUSE with the present
+  //                          tense, not the infinitive, because the subject
+  //                          changes. That is what `infinitive-da` is 'syntax'
+  //                          for. It was 'speaking' as spoken performance, but
+  //                          the bank is a multiple-choice drill with no
+  //                          microphone, and SKILL_GROUP is read only by the
+  //                          variety pass and the grammar derivation — nothing
+  //                          about production or the mastery ledger reads it.
+  //
+  // `presenting` was the one rejected of the four: its header calls the
+  // structure "signposting", but the form items are a grab-bag (*bih*,
+  // *izlaganja*, *u tri dijela*, *ste došli*) rather than one structure being
+  // drilled, so it stays 'speaking'. `smalltalk`, `business`, `humour`,
+  // `language-history` and `literature` are all well under the bar.
   argument: 'syntax',
   hedging: 'verb',
   abstract: 'case',
   registers: 'syntax',
   presenting: 'speaking',
-  meetings: 'speaking',
+  meetings: 'syntax',
   business: 'vocab',
-  politics: 'vocab',
+  politics: 'case',
   smalltalk: 'speaking',
   humour: 'vocab',
   'language-history': 'vocab',
@@ -265,7 +335,8 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'verbal-adverbs': 'verb',
   'negation-advanced': 'verb',
   'aspect-verbs': 'verb',
-  intensity: 'vocab',
+  // Moved from 'vocab' 2026-08-31; rationale with the B2 functional block above.
+  intensity: 'case',
   orthography: 'vocab',
   punctuation: 'vocab',
   'admin-style': 'vocab',

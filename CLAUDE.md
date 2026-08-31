@@ -229,8 +229,8 @@ pedagogy. Design: `docs/curriculum-design.md`.
   (`guarantees grammar on a FULL non-lesson session`) that sets both mocks
   itself, because coverage borrowed from a neighbour's mock leakage vanishes the
   moment someone tidies the leak.
-  **WHAT THIS COSTS:** 49 of 180 lesson days contain no grammar drill at all —
-  A1 3, A2 0, B1 4, B2 10, C1 16, C2 16. On the other 131 the lesson's own
+  **WHAT THIS COSTS:** 44 of 180 lesson days contain no grammar drill at all —
+  A1 3, A2 0, B1 2, B2 7, C1 16, C2 16. On the other 136 the lesson's own
   coupled drill is structural and supplies it, which is a better source than the
   backstop anyway. Non-lesson sessions are unchanged at every level, with and
   without a servable SRS queue (measured against the pre-change build, then
@@ -250,6 +250,66 @@ pedagogy. Design: `docs/curriculum-design.md`.
   clock, whose counting rule sits one lesson BELOW the cases primer).
   `a1Curriculum.test.ts` drives the real session builder per lesson and checks
   the exemption list in both directions plus its count.
+  **B1 WAS AUDITED THE SAME WAY, 4 → 2 (2026-08-31), AND IT NEEDED A DIFFERENT
+  METHOD.** At A1 each drill's own bank HEADER named the structure and the rows
+  contradicted it, so reading headers settled it. At B1 the headers are
+  unreliable in BOTH directions, so the ITEMS decided it, against a stated
+  criterion: a drill is structural when its FORM-PRODUCTION items (a `____` the
+  learner fills with an inflected form or a governed preposition) are a
+  substantial share of the 24-item bank. Measured — food 14/24 and home 12/24
+  are the calibration, both already `case`; `bureaucracy` 11/24 → **verb** (its
+  `sluzbeni` mode drills the impersonal: *Potrebno je priložiti*, *Zahtjev se
+  predaje*, and an item asking who the subject is — nobody); `renting` 9/24 →
+  **case** (its header undersells it — the bank drills quantity genitive *55
+  kvadrata*, participle agreement *jesu li režije uključene*, accusative plural
+  *kućne ljubimce*, locative with an ordinal *na četvrtom katu*); `nature` 7/24
+  and `technology` 4/24 stay **vocab** and are pinned with reasons. Variety
+  unchanged at B1 and B2.
+  **B2 WAS THE THIRD LEG, 10 → 7 (2026-08-31), and most of its bare days are
+  HONEST.** Same criterion; four banks cleared the bar and reading them rejected
+  one. `intensity` 12/24 → **case** (*sve* + comparative, the *što… to*
+  correlative — it was `vocab` as "adverbial grading", but the items produce
+  comparative FORMS and `comparison`/`advanced-comparison` are both `case`);
+  `politics` 11/24 → **case** (participle agreement with subject gender — *Sabor
+  je izglasao* / *Vlada je podnijela* — plus *u Saboru*, the *su održani*
+  passive, *na izbore*); `meetings` 15/24 → **syntax** (its header states it:
+  *Predlažem da* takes a da-CLAUSE in the present, not the infinitive, because
+  the subject changes). `presenting` 11/24 was REJECTED despite clearing the
+  count — its header calls the structure "signposting" but the blanks share no
+  structure. **Counting finds candidates; only reading decides.**
+  **Moving `meetings` out of `speaking` is safe because SKILL_GROUP has exactly
+  two consumers** — the P3 variety pass and the grammar derivation. Nothing
+  about production, the mastery ledger or PRODUCTION_POOL reads it, and the bank
+  is a multiple-choice drill with no microphone. Check that list before moving a
+  row between families.
+  The seven B2 days that remain are production (`formal-email` couples to
+  `writing_guided`), spoken performance, reading or lexis — which is what a level
+  whose descriptor is about register and fluency should look like.
+  **C1 AND C2 MOVED NOTHING, AND THAT IS THE RESULT (2026-08-31).** Same
+  criterion; three banks across the two levels cleared the bar and all three were
+  rejected on the items. `word-formation` 11/24 and `diminutives` 10/24 are
+  DERIVATIONAL morphology — they build lexemes (*pisati → prepisati*, *ruka →
+  ručica*), not grammatical forms, so they stay lexical; `debate` 9/24 is a
+  rhetorical tactic whose blanks share no structure, rejected exactly as
+  `presenting` was. The other 29 are between 0/24 and 8/24. So all 32 bare days
+  at C1/C2 are honest: word-formation, collocations, prosody, the functional
+  styles, media analysis, dialectology and orthography are not grammar drills,
+  and a level about register and nuance should look like that.
+  **A NEGATIVE RESULT STILL NEEDS PINNING**, or the next person re-runs the
+  survey. `c1Curriculum.test.ts` and `c2Curriculum.test.ts` record all 16 + 16
+  with reasons and drive the real builder, so a drill rewritten with structural
+  content — or a row moved — fails the staleness half rather than passing
+  silently.
+  **Nine routes at C1/C2 go to hand-written screens, not ModeDrill banks, so the
+  census cannot see them** — they were read by hand. `punctuation` is the trap
+  worth remembering: the LESSON is `zarez-interpunkcija`, but
+  `InterpunkcijaDrill` is hyphen-vs-dash, quotation marks and colons —
+  typography, not the clause boundaries a comma drill would test. **Never infer
+  the drill from the lesson title.**
+  **A BANK HEADER IS EVIDENCE, NOT AUTHORITY.** `nature`'s header names u/na and
+  the bank has three such items among ten pure glosses; `renting`'s names the
+  room-counting fact and the bank is half case morphology. Read the items before
+  moving a row.
   **THE GENERAL LESSON: a mis-grouping is invisible until the map gains a second
   consumer.** These rows were wrong for as long as they existed and nothing was
   wrong, because the variety pass cannot tell a mis-labelled family from a

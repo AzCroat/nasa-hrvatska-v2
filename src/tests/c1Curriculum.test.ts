@@ -21,7 +21,14 @@
 //
 // Same contract as A1 through B2: pin SHAPE, not prose.
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// The lesson-day block at the bottom drives the REAL session builder.
+vi.mock('../lib/srs', () => ({ getDueReviews: vi.fn(() => []) }));
+vi.mock('../lib/cefrCertification', () => ({
+  getCertifiedLevel: vi.fn(() => 'C1'),
+  getContentUnlockLevel: vi.fn((l: string) => l),
+}));
 
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
@@ -30,7 +37,12 @@ const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP } = await import('../lib/categoryRoutes');
 const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
 
+const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
+  await import('../hooks/useDailySession');
+const { writeCurriculumSpine } = await import('../lib/curriculumProgress');
+
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
+type CurriculumEntry = Entry & { objectives: string[]; title: string };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
 
 const c1Spine = spineForLevel('C1') as Entry[];
@@ -359,5 +371,110 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     expect(entry, 'idiomdrill left the pool — the coupling resolves to nothing').toBeTruthy();
     expect(entry!.cefr, 'idiomdrill is no longer openable at C1').toBe('C1');
     expect(entry!.reference ?? false, 'idiomdrill became a reference screen').toBe(false);
+  });
+});
+
+describe('a C1 lesson day still teaches STRUCTURE', () => {
+  // The C1 leg of the audit that corrected A1 (9->3), B1 (4->2) and B2
+  // (10->7) on 2026-08-31. Since the length contract closed, the grammar
+  // backstop yields on a lesson day, so the coupled drill is the only structure
+  // that day contains — which makes each category's SKILL_GROUP row something a
+  // learner can feel.
+  //
+  // C1 MOVED NOTHING, and that is the result rather than a gap. The same
+  // item-share criterion was applied (a drill is structural when its
+  // FORM-PRODUCTION items are a substantial share of the 24-item bank;
+  // calibration food 14/24 and home 12/24, lowest accepted renting 9/24).
+  // Measured across this level's ModeDrill banks:
+  //   word-formation 11/24, diminutives 10/24, debate 9/24, diaspora 8/24,
+  //   formal-speech 6/24, science 5/24, particles 5/24, legal 5/24, arts 4/24,
+  //   media-analysis 2/24, regional 0/24, identity 0/24
+  //
+  // Three across C1/C2 cleared the bar and all three were rejected on the items,
+  // the same way `presenting` was at B2 — counting finds candidates, only
+  // reading decides:
+  //   word-formation 11/24  derivational morphology (pisati -> prepisati,
+  //                         upisati, opisati). It builds LEXEMES rather than
+  //                         grammatical forms.
+  //   diminutives    10/24  the same, plus the palatalisation that comes with it
+  //                         (ruka -> ručica). Word building, not agreement.
+  //   debate          9/24  a rhetorical tactic (concede the true part first).
+  //                         Its blanks are a grab-bag — određene, bih,
+  //                         djelomično, nego, cijeni — with no single structure.
+  //
+  // Nine routes across these two levels go to hand-written screens rather than
+  // ModeDrill banks, so the census cannot read them; they were checked by hand
+  // and none is structural. `punctuation` is the one worth recording: the LESSON
+  // is `zarez-interpunkcija`, but `InterpunkcijaDrill` is hyphen-vs-dash,
+  // Croatian quotation marks and colon/semicolon conventions — typography, not
+  // the clause boundaries a comma drill would test. Do not infer the drill from
+  // the lesson title.
+  const NON_STRUCTURAL_C1: Record<string, string> = {
+    'tvorba-rijeci': 'derivational morphology — builds lexemes, not grammatical forms (11/24)',
+    'diminutives-augmentatives': 'word building plus its palatalisation; not agreement (10/24)',
+    collocations: 'which words go together — lexis by definition',
+    'discourse-particles': 'attitude particles (pa, ma, baš) — spoken colouring',
+    'idioms-register': 'figurative idioms; the drill is meaning, not form',
+    'accent-prosody': 'pitch accent — a speaking drill',
+    'academic-writing': 'couples to writing_guided, the production screen',
+    'debate-persuasion': 'a rhetorical tactic; its blanks share no structure (9/24)',
+    'formal-speech': 'spoken performance (6/24)',
+    'media-analysis': 'reading a text for what it does not say outright (2/24)',
+    'law-administration': 'legal reading and its fixed vocabulary (5/24)',
+    'science-technology': 'scientific register vocabulary (5/24)',
+    'arts-culture': 'arts vocabulary (4/24)',
+    'regional-varieties': 'dialect awareness — a reading/listening topic (0/24)',
+    'language-identity': 'the Croatian/Serbian contrast, taught as comparison (0/24)',
+    'diaspora-identity': 'diaspora vocabulary and usage (8/24, all lexical)',
+  };
+
+  const bareLessonDays = (): string[] =>
+    c1Lessons
+      .filter((l) => {
+        localStorage.clear();
+        writeCurriculumSpine([
+          {
+            id: l.id,
+            level: 'C1',
+            order: 1,
+            prerequisites: [],
+            objectives: ['x'],
+            title: l.id,
+          } as CurriculumEntry,
+        ]);
+        return !buildSessionActivities('C1').some((a) =>
+          GRAMMAR_STRUCTURE_CATEGORIES.has(a.category),
+        );
+      })
+      .map((l) => l.id);
+
+  it('every C1 lesson day contains structure, but for the recorded few', () => {
+    const unexpected = bareLessonDays().filter((id) => !(id in NON_STRUCTURAL_C1));
+    expect(
+      unexpected,
+      `these C1 lesson days now contain NO grammar drill at all: ${unexpected.join(', ')}. ` +
+        `Check the drill's SKILL_GROUP row against what its ITEMS test.`,
+    ).toEqual([]);
+  });
+
+  it('and the recorded few still genuinely lack structure', () => {
+    // The staleness half, and the ONLY thing standing between this level and a
+    // silent drift: nothing here was reclassified, so this list is the entire
+    // record of the audit's negative result. If a drill is later rewritten with
+    // structural content, or its row is moved, the entry must go.
+    const bare = new Set(bareLessonDays());
+    const ids = new Set(c1Lessons.map((l) => l.id));
+    for (const [id, reason] of Object.entries(NON_STRUCTURAL_C1)) {
+      expect(ids, `${id} is listed here but is not a C1 lesson any more`).toContain(id);
+      expect(
+        bare.has(id),
+        `${id} is listed as non-structural ("${reason}") but its day now DOES contain ` +
+          `grammar. Delete the entry.`,
+      ).toBe(true);
+    }
+  });
+
+  it('the list stays at 16 of thirty', () => {
+    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(16);
   });
 });

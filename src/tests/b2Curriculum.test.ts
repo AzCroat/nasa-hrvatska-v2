@@ -18,14 +18,26 @@
 //
 // Same contract as A1, A2 and B1: pin SHAPE, not prose.
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// The lesson-day block at the bottom drives the REAL session builder.
+vi.mock('../lib/srs', () => ({ getDueReviews: vi.fn(() => []) }));
+vi.mock('../lib/cefrCertification', () => ({
+  getCertifiedLevel: vi.fn(() => 'B2'),
+  getContentUnlockLevel: vi.fn((l: string) => l),
+}));
 
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 
+const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
+  await import('../hooks/useDailySession');
+const { writeCurriculumSpine } = await import('../lib/curriculumProgress');
+
 type Entry = { id: string; level: string; order: number; prerequisites: string[] };
+type CurriculumEntry = Entry & { objectives: string[]; title: string };
 type Lesson = { id: string; level: string; slides: { type: string }[] };
 
 const b2Spine = spineForLevel('B2') as Entry[];
@@ -288,5 +300,89 @@ describe('teach → practice coupling stays HONEST at B2', () => {
     for (const [category, owner] of Object.entries(STILL_OWNED)) {
       expect(LESSON_TAUGHT_CATEGORY[owner], `${owner} lost ${category}`).toBe(category);
     }
+  });
+});
+
+describe('a B2 lesson day still teaches STRUCTURE', () => {
+  // The B2 leg of the audit that corrected A1 and B1 (2026-08-31). Since the
+  // length contract closed, the grammar backstop yields on a lesson day, so the
+  // coupled drill is the only structure that day contains.
+  //
+  // B2 had ten bare days — the largest block, and the one where most of them are
+  // HONEST. Three were mis-grouped and moved (`intensity` and `politics` to
+  // 'case', `meetings` to 'syntax'); the other seven are production, reading or
+  // lexis, which is what a level whose descriptor is about register and fluency
+  // should look like. Recorded individually rather than as a count, so a future
+  // drill rewrite that adds structure to one of them shows up here.
+  //
+  // Method note: the item-share criterion from the B1 pass put four banks over
+  // the bar, and reading them item by item rejected one. `presenting` is 11/24
+  // form items — over the line by count — but its header calls the structure
+  // "signposting" while the blanks are a grab-bag (bih, izlaganja, u tri
+  // dijela, ste došli) rather than one structure being drilled. Counting finds
+  // candidates; only reading decides.
+  const LEXICAL_B2_LESSONS: Record<string, string> = {
+    // Couples to `writing_guided`, the production screen. Written production by
+    // definition — there is no drill here to reclassify.
+    'formal-email': 'the coupled activity IS production (writing_guided)',
+    // 11/24 form items but no single structure behind them; the lesson is
+    // signposting a talk. Stays 'speaking'.
+    presentations: 'signposting a talk; the form items share no structure',
+    // 7/24, and the lesson is the phatic script of small talk.
+    'small-talk-fluency': 'phatic script, spoken performance',
+    // 6/24, 11 glosses — business vocabulary.
+    'business-economy': 'business and economic vocabulary',
+    // 2/24 — the lesson is what Croatians find funny and why it does not
+    // translate. Culture, not structure.
+    'humour-irony': 'humour is cultural, not structural',
+    // 2/24 — the history of the standard language.
+    'language-history': 'the history of the standard, a reading topic',
+    // 6/24 and grouped 'reading' — the canon and how to talk about it.
+    'literature-canon': 'a reading drill on the literary canon',
+  };
+
+  const bareLessonDays = (): string[] =>
+    b2Lessons
+      .filter((l) => {
+        localStorage.clear();
+        writeCurriculumSpine([
+          {
+            id: l.id,
+            level: 'B2',
+            order: 1,
+            prerequisites: [],
+            objectives: ['x'],
+            title: l.id,
+          } as CurriculumEntry,
+        ]);
+        return !buildSessionActivities('B2').some((a) =>
+          GRAMMAR_STRUCTURE_CATEGORIES.has(a.category),
+        );
+      })
+      .map((l) => l.id);
+
+  it('every B2 lesson day contains structure, but for the recorded few', () => {
+    const unexpected = bareLessonDays().filter((id) => !(id in LEXICAL_B2_LESSONS));
+    expect(
+      unexpected,
+      `these B2 lesson days now contain NO grammar drill at all: ${unexpected.join(', ')}. ` +
+        `Check the drill's SKILL_GROUP row against what its ITEMS test.`,
+    ).toEqual([]);
+  });
+
+  it('and the recorded few still genuinely lack structure', () => {
+    const bare = new Set(bareLessonDays());
+    const ids = new Set(b2Lessons.map((l) => l.id));
+    for (const [id, reason] of Object.entries(LEXICAL_B2_LESSONS)) {
+      expect(ids, `${id} is exempted here but is not a B2 lesson any more`).toContain(id);
+      expect(
+        bare.has(id),
+        `${id} is exempted ("${reason}") but its day now DOES contain grammar. Delete the entry.`,
+      ).toBe(true);
+    }
+  });
+
+  it('the exemption list stays at seven of thirty', () => {
+    expect(Object.keys(LEXICAL_B2_LESSONS).length).toBe(7);
   });
 });
