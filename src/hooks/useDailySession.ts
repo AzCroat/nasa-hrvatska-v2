@@ -14,7 +14,7 @@ import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
-import { skillGroupOf, type SkillGroup } from '../lib/skillGroups';
+import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import {
   reviewReason,
@@ -240,33 +240,54 @@ export function resolveTaughtPracticeActivity(
 // is biased toward harder exercise types.
 const CEFR_TIER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 5 };
 
-// Grammar/structure categories: the seven cases, verb tense/aspect, clitics, and
-// word order. Excludes vocab-*, speaking, and culture/practical. Used to (a) tell
-// whether a session already contains grammar and (b) pick the guaranteed grammar
-// slot (G2). Tags are the honest ones set on CEFR_EXERCISE_POOL (see G1).
-export const GRAMMAR_STRUCTURE_CATEGORIES: ReadonlySet<SessionCategory> = new Set<SessionCategory>([
-  'nominative',
-  'genitive',
-  'accusative',
-  'dative-locative',
-  'instrumental',
-  'vocative',
-  'present-tense',
-  'past-tense',
-  'future-tense',
-  'aspect-imperfective',
-  'aspect-perfective',
-  'aspect-negation',
-  'conditional',
-  'clitics',
-  'word-order',
-  'passive',
-  'numerals',
-  'participle',
-  'subordination',
-  'discourse',
-  'nominalization',
+/**
+ * A category whose drill teaches STRUCTURE rather than lexis. Used to (a) tell
+ * whether a session already contains grammar and (b) pick the guaranteed
+ * grammar slot (P2.7).
+ *
+ * DERIVED FROM SKILL_GROUP (2026-08-31), not hand-listed.
+ *
+ * It used to be a literal set of 21, written when the pool held roughly that
+ * many structural categories. The practice programme then added ~130 pool-only
+ * categories and nobody went back — so drills that plainly ARE structural
+ * (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
+ * `case-subtleties`) were invisible to both consumers. 127 of the 180 curriculum
+ * lessons coupled to a drill outside the set, which is what left the session
+ * length contract at +1 on those days even after the adaptive pick learned to
+ * yield.
+ *
+ * `SKILL_GROUP` already answers this question, for every category, exhaustively
+ * — `content-coverage.test.ts` fails if a pool category is missing from it. The
+ * three structural families are case | verb | syntax; the other four (vocab,
+ * speaking, listening, reading) are lexis or a modality. The derivation LOSES
+ * NOTHING: all 21 hand-listed entries were already grouped case/verb/syntax, and
+ * a test asserts that rather than trusting this comment. It gains 63.
+ *
+ * A NEW CATEGORY IS NOW CLASSIFIED ONCE, in SKILL_GROUP, and both the variety
+ * pass and the grammar guarantee follow. That is the point — the hand-list went
+ * stale precisely because it was a second place to remember.
+ *
+ * The one exclusion is `grammar-lesson`, and it is about the SLOT rather than
+ * the subject matter: that tag covers `animlesson` and `grammarexplainer`, which
+ * are lessons, not drills. P2.7 exists to guarantee a structure DRILL, and P0
+ * already puts a lesson first in every session; letting the backstop serve a
+ * second lesson would defeat both. (`grammarexplainer` is also AI-dependent,
+ * which a guarantee should not be.) Excluding it keeps that slot behaving
+ * exactly as it does today.
+ */
+const NON_DRILL_CATEGORIES: ReadonlySet<SessionCategory> = new Set<SessionCategory>([
+  'grammar-lesson',
 ]);
+
+export const GRAMMAR_STRUCTURE_CATEGORIES: ReadonlySet<SessionCategory> = new Set<SessionCategory>(
+  (Object.keys(SKILL_GROUP) as SkillCategory[]).filter((category) => {
+    const group = SKILL_GROUP[category];
+    return (
+      (group === 'case' || group === 'verb' || group === 'syntax') &&
+      !NON_DRILL_CATEGORIES.has(category)
+    );
+  }),
+);
 
 function isGrammarStructure(category: SessionCategory): boolean {
   return GRAMMAR_STRUCTURE_CATEGORIES.has(category);
@@ -423,8 +444,9 @@ export function buildSessionActivities(
   // the adaptive pick from a session that has no grammar and P2.7 simply
   // replaces it, same length, but with an any-level-appropriate drill instead of
   // one aimed at a measured weakness. That is a downgrade dressed as a fix, and
-  // it would have hit the 127 of 180 lessons whose coupled drill is not itself
-  // in GRAMMAR_STRUCTURE_CATEGORIES.
+  // it would have hit every lesson whose coupled drill is not itself in
+  // GRAMMAR_STRUCTURE_CATEGORIES — 127 of 180 when that set was hand-listed,
+  // 65 of 180 now that it is derived from SKILL_GROUP.
   //
   // So the pick stands down only when the session ALREADY contains grammar —
   // on a lesson day, that means the drill coupled to today's lesson is itself a

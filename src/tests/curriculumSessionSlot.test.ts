@@ -148,14 +148,14 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
   // holding the length there would mean dropping the grammar guarantee, which
   // is a separate decision from this one.
   //
-  // This affects 127 of the 180 lessons, because GRAMMAR_STRUCTURE_CATEGORIES
-  // is a hand-maintained set of 21 that predates the ~130 pool-only categories
-  // the practice programme added — so drills that plainly ARE structural
-  // (`adjective-agreement`, `relative-koji`, `two-case-prepositions`,
-  // `case-subtleties`, …) are not recognised as such. Deriving that set from
-  // SKILL_GROUP would lose nothing (every one of the 21 is already case/verb/
-  // syntax there) and gain 63 — but it would also stop P2.7 firing on ordinary
-  // non-lesson sessions, so it is deliberately not bundled in here.
+  // This affected 127 of the 180 lessons until 2026-08-31, and only because
+  // GRAMMAR_STRUCTURE_CATEGORIES was a hand-maintained set of 21 that predated
+  // the ~130 pool-only categories the practice programme added — so drills that
+  // plainly ARE structural (`adjective-agreement`, `relative-koji`,
+  // `two-case-prepositions`, `case-subtleties`, …) were not recognised as such.
+  // Deriving it from SKILL_GROUP's case | verb | syntax families took that to
+  // 65 of 180. What remains is genuinely lexis (vocabulary topics), spoken
+  // performance or reading — those lessons legitimately owe a grammar slot.
   const EXPECTED_GROWTH_VOCAB_COUPLED: Record<string, number> = {
     A1: 1,
     // A2's target is 4 and it has no conversation anchor, so it has the spare.
