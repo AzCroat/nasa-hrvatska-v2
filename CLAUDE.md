@@ -229,8 +229,8 @@ pedagogy. Design: `docs/curriculum-design.md`.
   (`guarantees grammar on a FULL non-lesson session`) that sets both mocks
   itself, because coverage borrowed from a neighbour's mock leakage vanishes the
   moment someone tidies the leak.
-  **WHAT THIS COSTS:** 47 of 180 lesson days contain no grammar drill at all —
-  A1 3, A2 0, B1 2, B2 10, C1 16, C2 16. On the other 133 the lesson's own
+  **WHAT THIS COSTS:** 44 of 180 lesson days contain no grammar drill at all —
+  A1 3, A2 0, B1 2, B2 7, C1 16, C2 16. On the other 136 the lesson's own
   coupled drill is structural and supplies it, which is a better source than the
   backstop anyway. Non-lesson sessions are unchanged at every level, with and
   without a servable SRS queue (measured against the pre-change build, then
@@ -265,6 +265,26 @@ pedagogy. Design: `docs/curriculum-design.md`.
   *kućne ljubimce*, locative with an ordinal *na četvrtom katu*); `nature` 7/24
   and `technology` 4/24 stay **vocab** and are pinned with reasons. Variety
   unchanged at B1 and B2.
+  **B2 WAS THE THIRD LEG, 10 → 7 (2026-08-31), and most of its bare days are
+  HONEST.** Same criterion; four banks cleared the bar and reading them rejected
+  one. `intensity` 12/24 → **case** (*sve* + comparative, the *što… to*
+  correlative — it was `vocab` as "adverbial grading", but the items produce
+  comparative FORMS and `comparison`/`advanced-comparison` are both `case`);
+  `politics` 11/24 → **case** (participle agreement with subject gender — *Sabor
+  je izglasao* / *Vlada je podnijela* — plus *u Saboru*, the *su održani*
+  passive, *na izbore*); `meetings` 15/24 → **syntax** (its header states it:
+  *Predlažem da* takes a da-CLAUSE in the present, not the infinitive, because
+  the subject changes). `presenting` 11/24 was REJECTED despite clearing the
+  count — its header calls the structure "signposting" but the blanks share no
+  structure. **Counting finds candidates; only reading decides.**
+  **Moving `meetings` out of `speaking` is safe because SKILL_GROUP has exactly
+  two consumers** — the P3 variety pass and the grammar derivation. Nothing
+  about production, the mastery ledger or PRODUCTION_POOL reads it, and the bank
+  is a multiple-choice drill with no microphone. Check that list before moving a
+  row between families.
+  The seven B2 days that remain are production (`formal-email` couples to
+  `writing_guided`), spoken performance, reading or lexis — which is what a level
+  whose descriptor is about register and fluency should look like.
   **A BANK HEADER IS EVIDENCE, NOT AUTHORITY.** `nature`'s header names u/na and
   the bank has three such items among ten pure glosses; `renting`'s names the
   room-counting fact and the bank is half case morphology. Read the items before
