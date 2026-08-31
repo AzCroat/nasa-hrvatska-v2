@@ -285,6 +285,27 @@ pedagogy. Design: `docs/curriculum-design.md`.
   The seven B2 days that remain are production (`formal-email` couples to
   `writing_guided`), spoken performance, reading or lexis — which is what a level
   whose descriptor is about register and fluency should look like.
+  **C1 AND C2 MOVED NOTHING, AND THAT IS THE RESULT (2026-08-31).** Same
+  criterion; three banks across the two levels cleared the bar and all three were
+  rejected on the items. `word-formation` 11/24 and `diminutives` 10/24 are
+  DERIVATIONAL morphology — they build lexemes (*pisati → prepisati*, *ruka →
+  ručica*), not grammatical forms, so they stay lexical; `debate` 9/24 is a
+  rhetorical tactic whose blanks share no structure, rejected exactly as
+  `presenting` was. The other 29 are between 0/24 and 8/24. So all 32 bare days
+  at C1/C2 are honest: word-formation, collocations, prosody, the functional
+  styles, media analysis, dialectology and orthography are not grammar drills,
+  and a level about register and nuance should look like that.
+  **A NEGATIVE RESULT STILL NEEDS PINNING**, or the next person re-runs the
+  survey. `c1Curriculum.test.ts` and `c2Curriculum.test.ts` record all 16 + 16
+  with reasons and drive the real builder, so a drill rewritten with structural
+  content — or a row moved — fails the staleness half rather than passing
+  silently.
+  **Nine routes at C1/C2 go to hand-written screens, not ModeDrill banks, so the
+  census cannot see them** — they were read by hand. `punctuation` is the trap
+  worth remembering: the LESSON is `zarez-interpunkcija`, but
+  `InterpunkcijaDrill` is hyphen-vs-dash, quotation marks and colons —
+  typography, not the clause boundaries a comma drill would test. **Never infer
+  the drill from the lesson title.**
   **A BANK HEADER IS EVIDENCE, NOT AUTHORITY.** `nature`'s header names u/na and
   the bank has three such items among ten pure glosses; `renting`'s names the
   room-counting fact and the bank is half case morphology. Read the items before
