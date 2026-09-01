@@ -876,7 +876,24 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **303 files** plus 2 walked structurally, up from 157 on 2026-08-31 in two waves.
+Coverage is **466 files** plus 2 walked structurally, up from 157 on 2026-08-31 in three waves.
+
+**THE THIRD WAVE FOUND THAT THE TARGET LIST HAD STOPPED BEING THE BINDING CONSTRAINT, AND NOBODY HAD MEASURED IT (2026-09-01).** Two waves of adding files had trained everyone — me included — to think of coverage as a list length. A census of every candidate outside TARGETS found **1,159 Croatian strings of which `CRO_FIELD_RE` saw 137: twelve per cent.** Adding the remaining files to the list would have bought almost nothing. The gap was the MATCHER, and it was invisible from a list precisely because a list cannot show you what it fails to match.
+
+**Two structural misses, both large, both a single character of regex:**
+
+- **The JSX separator.** `\s*:\s*` matches an object field and never an attribute, so `title="🔢 Množina"` was unreachable. That is how all **109 ModeDrill wrappers** present every string they own — and a wrapper owns the title, the subtitle and the three praise lines. They could have sat in TARGETS for months and stayed invisible: the exercises.js finding arrived at from the opposite direction. `(?::|=)` covers both, and it is **mutation-verified as load-bearing** — with JSX support removed, a Cyrillic homoglyph in a wrapper's `subtitle=` passes clean.
+- **The praise triple.** `perfect` / `good` / `more` are the lines shown when a drill ENDS, so a learner meets one on every single completion — 109 of each, and not one in a field name the regex listed. They are plausibly the most-read Croatian in the practice programme and were the least linted.
+
+The rest of the widening came from ranking the census by volume: `label` (54), `subtitle` (77 in JSX), `title` (46 in JSX), `desc` (30), `example` (15), plus `blurb`, `line`, `word`, `phrase`, `audio`, `pair`, `chant`, `content`, `full`, `mixed`, `role`. Separately, `objectives` joined the ARRAY pass: the curriculum spine holds 55 Croatian strings in bare string arrays and the lint saw **none** of them.
+
+**Widening is the dangerous direction — the 123-false-positive lesson — so it was dry-run before it was written.** Over the 303 existing targets it sees **1,408 more strings and reports zero new findings**; over all 270 remaining candidates, zero. Re-measure that way before adding a key.
+
+**Files are now chosen by COVERAGE RATIO, not string count.** The second wave's ≥30-strings rule was a proxy for "does the lint genuinely see this file"; the ratio measures it directly, which is what the exercises.js/lessons.js finding was actually about. Every file added is one the widened matcher sees at least half of, most of them all of. A file with one Croatian string at 100% is honestly, fully linted — there is no false confidence in it — whereas a file with 200 of which the matcher sees three is the trap. That reframing is what took the third wave from "32 thin files" to 164.
+
+**The exclusions carry only reasons that were checked.** I drafted a never-lint set for `_serbisms.js`, `_croatianGuard.js` and `_goldenSet.js` on the reasoning that they hold Serbian forms and deliberately error-dense samples by design — then measured: **all three produce zero findings if swept in.** The Serbian forms in the rules file live in regex literals and in `use:` fields (which hold the CROATIAN replacement), and the golden set's errors are case and agreement, not lexis. The reasoning was plausible and wrong, which is the `idioms` exemption again, so no such set was written: those three fall below the ratio bar like everything else, on a measurement rather than a story. (`_goldenSet.js` is still worth watching — a future sample authored WITH a Serbism to test the evaluator would be a legitimate finding to suppress, and that day the exemption gets written with a subject.)
+
+**The mutation run caught a real half-finished change**, which is the whole argument for doing it: `objectives` was added to the array pass while `curriculum.js` was never added to TARGETS, so a Cyrillic `а` injected into an objective passed clean — the pass had nothing to run on. Shipping a matcher extension without its file is the same defect as shipping a file without a matcher, and only mutation shows either.
 
 **The second wave was CENSUSED before it was added, and the census overturned the stated reason for the exclusion.** All 90 remaining candidate files in `src/` were dry-run through the lint first: they produced **one finding across 11,691 strings**, and it was a false positive. The recorded rationale — that the component tree mixes Croatian examples with English UI copy — did not describe what was actually left: **83 of the 90 carry no English UI prose at all**. The blocker was real when it was written about the tree as a whole and had stopped being true of the remainder.
 
@@ -1291,6 +1308,8 @@ and in every case the suite was fully green beforehand:
 | `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
 | `couplingClearingPath`'s exemption set | Carries a staleness test, so "an exemption cannot sit here quietly covering a screen that has since been fixed" | It checked whether the exempted screen GAINED a clearing path, never whether anything still ROUTED to it. Repointing `idioms` at the real drill left a moot exemption asserting a live dead end, suite fully green. Both staleness paths are checked now — plus a count, because `it.each` over an empty set registers no tests. |
 | `AlphabetScreen`'s own component tests | Render the screen, play the quiz, assert on its behaviour | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router. |
+| `lintCroatianText.mjs`, after TWO waves of expansion | 303 files in TARGETS, up from 157, every wave censused and mutation-checked | **The list had stopped being the constraint.** `CRO_FIELD_RE` matched `key: 'value'` and never `key="value"`, so the 109 ModeDrill wrappers were unreachable by construction — and `perfect`/`good`/`more`, the lines a learner reads on every completion, were in no field name it listed. Across all candidates the matcher saw **137 of 1,159** Croatian strings. A list cannot show you what it fails to match; only counting what it misses can. |
+| That same lint, mid-fix | `objectives` added to the array pass for the curriculum spine's 55 unscanned strings | The FILE was never added to TARGETS, so the new pass had nothing to run on and a Cyrillic `а` in an objective passed clean. A matcher extension and its file are one change; either alone is silent. |
 | The A1 guaranteed-grammar assertion (`useDailySession.test.ts`) | "an A1 user gets an A1 case/grammar drill, not a buried higher tier" — checked against a list of A1 grammar SCREENS | The list was hand-maintained and had been amended three separate times as the pool grew ("7a rotation expansion", "Wave 1 catchment", "Recommender audit") — the same staleness shape as the constant it was testing. Deriving `GRAMMAR_STRUCTURE_CATEGORIES` took A1's structural pool from 10 to 21, so the 12-name list covered barely half the candidates and the unseeded `rnd` tiebreak turned a passing assertion into a **coin flip**. It did not fail because the behaviour broke; it failed because it had been measuring a shrinking fraction of the right answer all along. Now derived from the pool's own `cefr`, and re-verified by disabling P2.7. |
 
 The pattern is always the same, and it is worth naming because it is invisible
@@ -1303,6 +1322,16 @@ Practical rules that fall out of this:
 - **Adding a file to a lint's TARGETS is not adding coverage.** Confirm the
   matcher actually matches that file's shape. A target whose fields never match
   is a file everybody believes is linted and is not.
+- **Measure a guard's coverage as a RATIO, not as a list length.** "303 files"
+  and "12% of the strings" were true of the same lint on the same day, and only
+  the second number said anything about what was guarded. Count what the guard
+  MISSES — a list can only ever show you what it already knows about.
+- **Check an exclusion's reason before you write it down, even when it is
+  obviously true.** The rules file and the golden set were about to be exempted
+  as "full of Serbian forms by design"; measured, both produce zero findings,
+  because the forms live in regex literals and in `use:` fields holding the
+  Croatian replacement. A plausible reason recorded beside an exemption is how
+  the `idioms` dead end survived a staleness test.
 - **Reachability and clearing are separate paths.** So are launching and
   completing, writing and reading, queueing and draining. A guard on one says
   nothing about the other.
