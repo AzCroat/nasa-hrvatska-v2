@@ -71,6 +71,64 @@ describe('the lint actually covers what it claims to', () => {
         `${uncovered.join(', ')}. Add them to TARGETS in scripts/lintCroatianText.mjs.`,
     ).toEqual([]);
   });
+
+  it('every ModeDrill wrapper is covered', () => {
+    // The OTHER half of every engine-backed drill (2026-09-01). The bank in
+    // src/data/drills/ has been linted since 2026-08-29 and the wrapper had
+    // never been: it owns the title, the subtitle and the three praise lines,
+    // and a learner reads one of those praise lines every single time they
+    // finish a drill. Derived for the same reason as the cohort above — this is
+    // the directory the practice programme grows in.
+    const wrappers = globSync('src/components/practice/drills/*.tsx');
+    expect(wrappers.length, 'the wrapper glob matched nothing — check the path').toBeGreaterThan(
+      100,
+    );
+    const uncovered = wrappers.filter((f) => !targets.has(f));
+    expect(
+      uncovered,
+      `these ModeDrill wrappers carry a title, subtitle and praise lines and are NOT ` +
+        `linted: ${uncovered.join(', ')}. Add them to TARGETS in scripts/lintCroatianText.mjs.`,
+    ).toEqual([]);
+  });
+});
+
+describe('the matcher sees the shapes the content is actually written in', () => {
+  // THE FINDING OF 2026-09-01, and the reason this block exists at all: the
+  // TARGET LIST had stopped being the binding constraint and nobody had
+  // measured it. A census of every candidate outside TARGETS found 1,159
+  // Croatian strings of which the field regex saw 137 — twelve per cent. Adding
+  // files was buying almost nothing; the matcher was the gap.
+  //
+  // Both additions below are mutation-verified in the commit, and the SEPARATOR
+  // one is the sharper result: with JSX support removed, a Cyrillic homoglyph
+  // injected into a wrapper's `subtitle=` attribute passes the lint clean.
+
+  it('matches the JSX attribute form, not just object fields', () => {
+    // `title="🔢 Množina"` is how all 109 wrappers present every string they
+    // own. `\s*:\s*` never matched an attribute, so the whole cohort could have
+    // been in TARGETS for months and stayed invisible — the exercises.js
+    // finding, arrived at from the opposite direction.
+    expect(LINT_SRC).toMatch(/\)\\s\*\(\?::\|=\)\\s\*/);
+  });
+
+  it('matches the ModeDrill praise triple', () => {
+    // perfect / good / more are the lines shown at the END of a drill. 109 of
+    // each, and the most-read Croatian in the practice programme, because a
+    // learner meets one on every single completion.
+    const fields = LINT_SRC.match(/const CRO_FIELD_RE =\s*\/\(([^)]*)\)/)![1]!.split('|');
+    for (const key of ['perfect', 'good', 'more', 'subtitle', 'label']) {
+      expect(fields, `CRO_FIELD_RE no longer matches \`${key}\``).toContain(key);
+    }
+  });
+
+  it('scans the curriculum spine objectives', () => {
+    // A bare string array, so neither the field regex nor the distractor pass
+    // reached it: 55 Croatian strings, none scanned. Worth pinning BOTH halves
+    // — the pass and the file — because shipping one without the other is
+    // precisely what the mutation run caught here.
+    expect(LINT_SRC).toMatch(/\(opts\|options\|choices\|distractors\|objectives\)/);
+    expect([...lintTargets()]).toContain('functions/api/content/_data/curriculum.js');
+  });
 });
 
 describe('the contrastive carve-out stays honest', () => {

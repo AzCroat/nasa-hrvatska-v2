@@ -365,6 +365,193 @@ const TARGETS = [
   'src/data/drills/wishesDrill.ts',
   'src/data/drills/modalNuanceDrill.ts',
   'src/data/drills/twoCasePrepositionsDrill.ts',
+  // ── 2026-09-01, third wave: the ModeDrill wrappers and the last content ──
+  // The 109 lazy wrappers in practice/drills/ are the OTHER half of every
+  // engine-backed drill: the bank in src/data/drills/ has been linted since
+  // 2026-08-29, but the wrapper owns the title, the subtitle and the three
+  // praise lines a learner reads on finishing — and those were invisible to
+  // the matcher on both counts (JSX attributes, and field names it did not
+  // list). Derived from the glob by croatianLintTargets.test.ts, so wrapper
+  // number 110 cannot land outside this list quietly.
+  'src/components/practice/drills/AbstractDrill.tsx',
+  'src/components/practice/drills/AdjectiveAgreementDrill.tsx',
+  'src/components/practice/drills/AdjectivesDrill.tsx',
+  'src/components/practice/drills/AdvancedComparisonDrill.tsx',
+  'src/components/practice/drills/AdverbsDrill.tsx',
+  'src/components/practice/drills/AgreementSubtletiesDrill.tsx',
+  'src/components/practice/drills/AppearanceDrill.tsx',
+  'src/components/practice/drills/ArgumentDrill.tsx',
+  'src/components/practice/drills/ArtsDrill.tsx',
+  'src/components/practice/drills/AspectVerbsDrill.tsx',
+  'src/components/practice/drills/BureaucracyDrill.tsx',
+  'src/components/practice/drills/BusinessDrill.tsx',
+  'src/components/practice/drills/CaseSubtletiesDrill.tsx',
+  'src/components/practice/drills/CausePurposeDrill.tsx',
+  'src/components/practice/drills/CelebrationsDrill.tsx',
+  'src/components/practice/drills/ClothingDrill.tsx',
+  'src/components/practice/drills/ComparisonDrill.tsx',
+  'src/components/practice/drills/ComplaintsDrill.tsx',
+  'src/components/practice/drills/ConjunctionsDrill.tsx',
+  'src/components/practice/drills/CookingDrill.tsx',
+  'src/components/practice/drills/CountriesDrill.tsx',
+  'src/components/practice/drills/DebateDrill.tsx',
+  'src/components/practice/drills/DeclensionExceptionsDrill.tsx',
+  'src/components/practice/drills/DemonstrativesDrill.tsx',
+  'src/components/practice/drills/DialectsDeepDrill.tsx',
+  'src/components/practice/drills/DiasporaDrill.tsx',
+  'src/components/practice/drills/DiminutivesC1Drill.tsx',
+  'src/components/practice/drills/DirectionsDrill.tsx',
+  'src/components/practice/drills/DurationDrill.tsx',
+  'src/components/practice/drills/EducationDrill.tsx',
+  'src/components/practice/drills/FamilyDrill.tsx',
+  'src/components/practice/drills/FeelingsDrill.tsx',
+  'src/components/practice/drills/FoodDrinkDrill.tsx',
+  'src/components/practice/drills/FormalSpeechDrill.tsx',
+  'src/components/practice/drills/GreetingsDrill.tsx',
+  'src/components/practice/drills/HealthDrill.tsx',
+  'src/components/practice/drills/HedgingDrill.tsx',
+  'src/components/practice/drills/HobbiesDrill.tsx',
+  'src/components/practice/drills/HomeDrill.tsx',
+  'src/components/practice/drills/HumourDrill.tsx',
+  'src/components/practice/drills/IDeclensionDrill.tsx',
+  'src/components/practice/drills/IdentityDrill.tsx',
+  'src/components/practice/drills/ImatiDrill.tsx',
+  'src/components/practice/drills/ImperativeA1Drill.tsx',
+  'src/components/practice/drills/ImpersonalB1Drill.tsx',
+  'src/components/practice/drills/IndefinitesDrill.tsx',
+  'src/components/practice/drills/InfinitiveDaDrill.tsx',
+  'src/components/practice/drills/IntensityDrill.tsx',
+  'src/components/practice/drills/InvitationsDrill.tsx',
+  'src/components/practice/drills/IronyDrill.tsx',
+  'src/components/practice/drills/JobSearchDrill.tsx',
+  'src/components/practice/drills/JobsDrill.tsx',
+  'src/components/practice/drills/LanguageHistoryDrill.tsx',
+  'src/components/practice/drills/LanguageSocietyDrill.tsx',
+  'src/components/practice/drills/LegalDrill.tsx',
+  'src/components/practice/drills/LiteraryStyleDrill.tsx',
+  'src/components/practice/drills/LiteratureDrill.tsx',
+  'src/components/practice/drills/MediaAnalysisDrill.tsx',
+  'src/components/practice/drills/MeetingsDrill.tsx',
+  'src/components/practice/drills/ModalNuanceDrill.tsx',
+  'src/components/practice/drills/ModalityDrill.tsx',
+  'src/components/practice/drills/NatureDrill.tsx',
+  'src/components/practice/drills/NegationAdvancedDrill.tsx',
+  'src/components/practice/drills/NegationDrill.tsx',
+  'src/components/practice/drills/NewsDrill.tsx',
+  'src/components/practice/drills/NormDrill.tsx',
+  'src/components/practice/drills/NumberNormDrill.tsx',
+  'src/components/practice/drills/ObjectPronounsDrill.tsx',
+  'src/components/practice/drills/OldTextsDrill.tsx',
+  'src/components/practice/drills/OpinionsDrill.tsx',
+  'src/components/practice/drills/ParticlesDrill.tsx',
+  'src/components/practice/drills/PhraseologyDrill.tsx',
+  'src/components/practice/drills/PlacePrepositionsDrill.tsx',
+  'src/components/practice/drills/PluralCasesDrill.tsx',
+  'src/components/practice/drills/PluralDrill.tsx',
+  'src/components/practice/drills/PolitenessDrill.tsx',
+  'src/components/practice/drills/PoliticsDrill.tsx',
+  'src/components/practice/drills/PositionDrill.tsx',
+  'src/components/practice/drills/PreferencesDrill.tsx',
+  'src/components/practice/drills/PrepositionCaseDrill.tsx',
+  'src/components/practice/drills/PresentingDrill.tsx',
+  'src/components/practice/drills/ProofreadingDrill.tsx',
+  'src/components/practice/drills/QuantityDrill.tsx',
+  'src/components/practice/drills/QuestionsDrill.tsx',
+  'src/components/practice/drills/RealConditionsDrill.tsx',
+  'src/components/practice/drills/ReconstructionDrill.tsx',
+  'src/components/practice/drills/RegionalDrill.tsx',
+  'src/components/practice/drills/RegistersDrill.tsx',
+  'src/components/practice/drills/RelativeKojiDrill.tsx',
+  'src/components/practice/drills/RentingDrill.tsx',
+  'src/components/practice/drills/ReportedSpeechB1Drill.tsx',
+  'src/components/practice/drills/RhythmDrill.tsx',
+  'src/components/practice/drills/ScienceDrill.tsx',
+  'src/components/practice/drills/SmalltalkDrill.tsx',
+  'src/components/practice/drills/SpecialistTranslationDrill.tsx',
+  'src/components/practice/drills/SpontaneousDrill.tsx',
+  'src/components/practice/drills/SummarisingDrill.tsx',
+  'src/components/practice/drills/SvojDrill.tsx',
+  'src/components/practice/drills/TechnologyDrill.tsx',
+  'src/components/practice/drills/TimeCalendarDrill.tsx',
+  'src/components/practice/drills/TimeClausesDrill.tsx',
+  'src/components/practice/drills/TranslationDrill.tsx',
+  'src/components/practice/drills/TravelDrill.tsx',
+  'src/components/practice/drills/TwoCasePrepositionsDrill.tsx',
+  'src/components/practice/drills/VerbalAdverbsDrill.tsx',
+  'src/components/practice/drills/WeatherDrill.tsx',
+  'src/components/practice/drills/WishesDrill.tsx',
+  'src/components/practice/drills/WordFormationDrill.tsx',
+  'src/components/practice/drills/WordplayDrill.tsx',
+  //
+  // The curriculum spine: 55 Croatian strings, NONE of which this lint saw until
+  // `objectives` joined the array pass on 2026-09-01. Adding the pass without
+  // adding the file would have been the whole exercise in miniature, and that is
+  // exactly what happened — the mutation run caught it (a Cyrillic `а` injected
+  // into an objective passed clean, because the pass had nothing to run on).
+  'functions/api/content/_data/curriculum.js',
+  //
+  // The remaining authored Croatian outside TARGETS, chosen by COVERAGE RATIO
+  // rather than by string count. The >=30-strings rule the second wave used was
+  // a proxy for "does the lint genuinely see this file"; the ratio measures it
+  // directly, which is what the exercises.js / lessons.js finding was really
+  // about. Every file below is one the widened matcher sees at least half of,
+  // and most of them all of. The comment on each is cro=Croatian strings the
+  // file holds, %=share of them the lint scans.
+  'functions/api/_sttGoldenSet.js',  // 4cro 100%
+  'functions/api/content/_data/cultural/events.js',  // 8cro 100%
+  'functions/api/content/_data/seasonalCampaigns.js',  // 1cro 100%
+  'functions/api/conversational-tutor.js',  // 2cro 50%
+  'functions/api/flux-generate.js',  // 1cro 100%
+  'functions/api/news.js',  // 10cro 70%
+  'src/components/croatia/ConversationBubble.tsx',  // 1cro 100%
+  'src/components/croatia/CroatiaAthletes.tsx',  // 7cro 100%
+  'src/components/croatia/CroatianNewsScreen.tsx',  // 9cro 78%
+  'src/components/croatia/CultureDeepDiveScreen.tsx',  // 1cro 100%
+  'src/components/croatia/DiasporaNote.tsx',  // 6cro 83%
+  'src/components/croatia/MajaDebrief.tsx',  // 1cro 100%
+  'src/components/croatia/MajaScreenUtils.js',  // 5cro 60%
+  'src/components/croatia/PhraseOfDayScreen.tsx',  // 31cro 65%
+  'src/components/croatia/SpotifySection.tsx',  // 3cro 100%
+  'src/components/croatia/StoryModeData.js',  // 2cro 100%
+  'src/components/grad/PlaceScreen.tsx',  // 6cro 100%
+  'src/components/grad/gradModel.ts',  // 1cro 100%
+  'src/components/grad/places.ts',  // 12cro 92%
+  'src/components/home/DailyCroatianSection.tsx',  // 1cro 100%
+  'src/components/home/HeroStats.tsx',  // 2cro 50%
+  'src/components/home/SpeedChallenge.tsx',  // 4cro 100%
+  'src/components/home/hostFamily.ts',  // 5cro 80%
+  'src/components/learn/GrammarExplainer.tsx',  // 4cro 50%
+  'src/components/learn/GrammarReader.tsx',  // 10cro 100%
+  'src/components/learn/GrammarVideos.tsx',  // 2cro 100%
+  'src/components/learn/LearnTab.tsx',  // 2cro 50%
+  'src/components/practice/AdaptiveReviewScreen.tsx',  // 2cro 100%
+  'src/components/practice/AspectDrillScreen.tsx',  // 6cro 67%
+  'src/components/practice/FlashcardCardBack.tsx',  // 1cro 100%
+  'src/components/practice/MapScreen.tsx',  // 1cro 100%
+  'src/components/practice/SprintFeedbackPhase.tsx',  // 1cro 100%
+  'src/components/practice/VideoLessonScreen.tsx',  // 2cro 100%
+  'src/components/practice/exerciseCatalog.ts',  // 7cro 100%
+  'src/components/practice/listening/aiListeningTopics.ts',  // 2cro 100%
+  'src/components/profile/CertificateScreen.tsx',  // 2cro 50%
+  'src/components/profile/CroatianErrorInsights.tsx',  // 29cro 52%
+  'src/components/razgovor/partners.ts',  // 22cro 100%
+  'src/components/shared/AmbientPlayer.tsx',  // 2cro 100%
+  'src/components/shared/CroatianCross.tsx',  // 1cro 100%
+  'src/components/shared/EmptyState.tsx',  // 1cro 100%
+  'src/components/shared/GrammarReference.tsx',  // 17cro 76%
+  'src/components/shared/KnightCompanion.tsx',  // 5cro 100%
+  'src/components/shared/OnboardingTour.tsx',  // 4cro 50%
+  'src/data/bakaPhrases.ts',  // 8cro 100%
+  'src/hooks/useNotifications.ts',  // 10cro 50%
+  'src/lib/aspectPairs.ts',  // 10cro 100%
+  'src/lib/conjugation/curriculum.ts',  // 9cro 67%
+  'src/lib/croatiaPool.ts',  // 2cro 100%
+  'src/lib/drillPoolEntries.ts',  // 13cro 100%
+  'src/lib/legacySavedPhraseIndex.ts',  // 8cro 100%
+  'src/lib/nextStep.ts',  // 1cro 100%
+  'src/lib/pushNotifications.ts',  // 1cro 100%
+  'src/lib/sessionPools.ts',  // 7cro 100%
+  'src/sw.js',  // 2cro 100%
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.
@@ -377,10 +564,33 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 //  ^ Cyrillic blocks (Ѐ-ӿ already covers А-я) + Romanian Ţ/ţ + Turkish Ş/ş Ğ/ğ İ/ı
 //  + U+00AD SOFT HYPHEN (invisible; breaks copy-paste and TTS in JSON item banks).
 
-// Match `hr: '...'` / `hr: "..."` / `hr: \`...\``
-// and similar fields that hold Croatian text.
+// Match `hr: '...'` / `hr: "..."` / `hr: \`...\`` — and, since 2026-09-01, the
+// JSX form `hr="..."` as well.
+//
+// THE MATCHER, NOT THE TARGET LIST, WAS THE BINDING CONSTRAINT (2026-09-01).
+// Adding files stopped buying coverage some time ago and nobody measured it. A
+// census of every candidate outside TARGETS found 1,159 Croatian strings of
+// which this regex saw 137 — TWELVE PER CENT. Two structural reasons, both
+// invisible from a target list:
+//
+//   1. THE JSX SEPARATOR. `title="🔢 Množina"` is an attribute, not an object
+//      field, so `\s*:\s*` never matched it. That is how the 109 ModeDrill
+//      wrappers present every string they own. `(?::|=)` covers both.
+//   2. THE PRAISE TRIPLE. `perfect` / `good` / `more` are the lines shown at the
+//      END of a drill — the most-read Croatian in the practice programme, since
+//      a learner sees one every single time they finish. 109 of each, and not
+//      one of them was ever in a field name this regex listed.
+//
+// The remaining additions come from the same census, ranked by volume: `label`
+// (54), `desc` (30), `example` (15), `blurb`, `line`, `word`, `phrase`, `audio`,
+// `pair`, `chant`, `content`, `full`, `mixed`, `role`, `subtitle` (77 in JSX).
+//
+// Widening is the dangerous direction — the 123-false-positive lesson — so it
+// was dry-run before it was written: over the 303 existing targets it sees 1,408
+// MORE strings and reports zero new findings, and over all 270 remaining
+// candidates it reports zero. Re-measure the same way before adding a key.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex)\s*:\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 async function* walkTargets() {
   for (const rel of TARGETS) {
@@ -497,7 +707,13 @@ function findSerbisms(fieldName, s) {
 // a distractor actually lives was the one place the distractor rule was not
 // enforced. Found while mutation-testing a new drill bank: a Serbism injected
 // into `opts` passed clean.
-const ARRAY_FIELD_RE = /(opts|options|choices|distractors)\s*:\s*\[([^\]]*)\]/g;
+//
+// `objectives` joined this pass on 2026-09-01. The curriculum spine holds 55
+// Croatian strings and the lint saw NONE of them: objectives are a bare string
+// array, so neither the field regex nor the distractor pass reached them. They
+// are the "you will be able to…" lines the spine's own field rules call
+// learner-facing, and they quote Croatian forms throughout.
+const ARRAY_FIELD_RE = /(opts|options|choices|distractors|objectives)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
 function* arrayStrings(buf) {
