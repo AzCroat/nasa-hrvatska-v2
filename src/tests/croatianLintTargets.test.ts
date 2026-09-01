@@ -106,6 +106,36 @@ describe('the contrastive carve-out stays honest', () => {
     ).toBeGreaterThan(0);
   });
 
+  it('the foreign-etymon carve-out is Turkish-only and English-field-only', () => {
+    // The second wave (2026-08-31) added 45 more files and hit exactly one
+    // false positive: `en: 'Enemies — from Turkish "düşman"'` beside the
+    // Croatian `Dušmani`. Turkish letters are in BAD_CHARS_RE because inside
+    // CROATIAN they are mojibake for š/g/i; inside an English gloss quoting an
+    // etymon they are correct spelling.
+    //
+    // Two things must stay true, and both are mutation-checked in the commit:
+    // Cyrillic in an `en` field still fails (M3), and a Turkish letter in an
+    // `hr` field still fails (M4). Pinned in source so neither can be widened
+    // by an edit that looks harmless.
+    expect(LINT_SRC).toMatch(/const TURKISH_LETTERS_RE = \/\[[^/]*\]\//);
+    expect(LINT_SRC).toMatch(/const FOREIGN_ETYMON_FIELDS = new Set\(\['en', 'note'\]\)/);
+    // The filter must subtract from the Turkish class specifically — not from
+    // the whole BAD_CHARS_RE result, which would carve Cyrillic out too.
+    expect(LINT_SRC).toMatch(/bad\.filter\(\(m\) => !TURKISH_LETTERS_RE\.test\(m\[0\]\)\)/);
+    // Cyrillic must not appear in the exempted class.
+    const turkish = LINT_SRC.match(/const TURKISH_LETTERS_RE = \/\[([^/]*)\]\//)![1]!;
+    expect(turkish, 'the Turkish exemption class must not contain Cyrillic').not.toMatch(/[Ѐ-ӿ]/);
+  });
+
+  it('every encoding call site passes a field name', () => {
+    // The carve-out is field-scoped, so a call site that forgets the field
+    // silently applies the STRICTEST behaviour — which is safe — but one that
+    // passes the wrong field would silently apply the loosest. Neither is
+    // visible at runtime, so it is asserted here: no bare call survives.
+    expect(LINT_SRC).not.toMatch(/findBadInString\(content\)/);
+    expect(LINT_SRC).not.toMatch(/findBadInString\([a-zA-Z]+\)\s*;/);
+  });
+
   it('suspends Serbisms only — encoding is never carved out', () => {
     // Mutation-verified separately (a Cyrillic homoglyph injected into the
     // exempted file still fails the build). Pinned in source here so a future
