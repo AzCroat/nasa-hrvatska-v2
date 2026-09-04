@@ -115,6 +115,57 @@ describe('the families keep separate fingerprints', () => {
   });
 });
 
+describe('the wiring in main.tsx, not just the helper', () => {
+  // A helper's unit tests prove it works WHEN CALLED. They say nothing about
+  // whether anything calls it — the split that let `award` sit dead behind a
+  // `typeof` check for the life of a screen. Walk the real init instead.
+  const mainSrc = readFileSync('src/main.tsx', 'utf8');
+
+  it('beforeSend downgrades the event', () => {
+    expect(mainSrc).toMatch(/downgradeEnvironmentalIdbEvent\(event\)/);
+  });
+
+  it('both window handlers skip the duplicate homegrown report', () => {
+    // The SDK already captures these; reporting again through /api/report-error
+    // opens a second Sentry issue for one browser event.
+    const calls = mainSrc.match(/isEnvironmentalIdbError\(/g) ?? [];
+    expect(calls.length, 'expected window.onerror AND onunhandledrejection').toBe(2);
+  });
+
+  it('every call site passes a LOWERCASED haystack', () => {
+    // environmentalIdbKind matches lowercase substrings and documents that
+    // callers lowercase first. Firefox's contribution to the haystack is the
+    // DOMException NAME — `InvalidStateError`, mixed case — so a call site that
+    // forgot .toLowerCase() would silently fail on exactly the browser this
+    // family was widened for, and on nothing else.
+    for (const call of mainSrc.match(/isEnvironmentalIdbError\([^)]*\)/g) ?? []) {
+      expect(call, `${call} is not lowercased`).toMatch(/toLowerCase\(\)|\bmsg\b/);
+    }
+    // ...and `msg` in the rejection handler must itself be the lowercased form.
+    expect(mainSrc).toMatch(/const msg = rawMsg\.toLowerCase\(\)/);
+  });
+
+  it('does NOT drop these events via ignoreErrors', () => {
+    // The whole design is downgrade-and-retain: dropping them would also drop
+    // the frequency signal that surfaces a real regression. Adding the strings
+    // to ignoreErrors would look like a tidy-up and would silently undo it.
+    const ignoreBlock = mainSrc.match(/ignoreErrors:\s*\[([\s\S]*?)\]/)![1]!;
+    for (const phrase of ['indexed database', 'is closing', 'no longer, usable', 'InvalidState']) {
+      expect(ignoreBlock, `ignoreErrors must not suppress "${phrase}"`).not.toContain(phrase);
+    }
+  });
+
+  it('points at the module the helper actually lives in', () => {
+    // This pointer has gone stale TWICE — once in report-error.js (recorded
+    // there) and once here, both because the helper moved out of sentryHelpers
+    // and the comments did not follow. A comment cannot enforce itself.
+    expect(
+      mainSrc,
+      'main.tsx still attributes an idbTelemetry helper to sentryHelpers',
+    ).not.toMatch(/sentryHelpers\.(downgradeEnvironmentalIdbEvent|isEnvironmentalIdbError)/);
+  });
+});
+
 describe('the server-side ignore list stays in sync', () => {
   // idbTelemetry.ts and report-error.js both carry a KEEP IN SYNC comment, and
   // the pointer between them has gone stale once already (recorded in
