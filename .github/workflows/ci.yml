@@ -322,6 +322,31 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The CLIENT half of Sentry is baked into the bundle HERE, at build time.
+      # main.tsx guards `Sentry.init` on VITE_SENTRY_DSN being truthy and skips
+      # the dynamic import entirely when it is empty — deliberately, so the
+      # ~40KB SDK is never parsed without a DSN, but therefore SILENTLY. An
+      # unset GitHub secret expands to "" and ships a build with no telemetry at
+      # all, with nothing in the log to say so. That is the same shape as the
+      # service account that went unset for years; it gets the same warning.
+      # (Fails nothing: a missing secret is not something this build can fix.)
+      #
+      # Tested in the shell rather than a step-level `if`: the `secrets` context
+      # is not among those available to `steps.<id>.if`, and this repo has no
+      # precedent for it. Binding the secret through `env` and testing it in
+      # `run` is the pattern the two install steps below already use, and it is
+      # known to work here. Prints the NAME only, never the value.
+      - name: Warn if the Sentry DSN is absent
+        env:
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${VITE_SENTRY_DSN:-}" ]; then
+            echo "::warning title=Sentry DSN not set::VITE_SENTRY_DSN is not a GitHub secret, so main.tsx skips Sentry.init and this build ships with NO browser error telemetry."
+          else
+            echo "VITE_SENTRY_DSN is set; the browser SDK will initialise."
+          fi
+
       - name: Build
         run: npm run build
         env:
@@ -451,6 +476,75 @@ jobs:
             | npx --yes wrangler@3 pages secret put FIREBASE_SERVICE_ACCOUNT_JSON \
               --project-name nasa-hrvatska-v2 >/dev/null
           echo "FIREBASE_SERVICE_ACCOUNT_JSON installed on the Pages project"
+
+      # ── Sentry DSN, server half (2026-09-04) ─────────────────────────────
+      #
+      # THE DEFECT THIS CLOSES: /api/report-error reads `env.SENTRY_DSN`, and
+      # nothing anywhere installed a variable by that name. sync-cf-pages-env.yml
+      # pushed `VITE_SENTRY_DSN` instead — a different key — so the relay's
+      # `if (env.SENTRY_DSN)` was permanently false and it has never forwarded a
+      # single event. It still console.errors to the Cloudflare tail, which is
+      # what made the endpoint look like it was working. Found from the outside:
+      # the Sentry project had received nothing at all.
+      #
+      # The VITE_-prefixed push was inert besides. The client bundle is built
+      # HERE (the Build step, from the GitHub secret) and shipped to Pages as
+      # prebuilt static assets — Cloudflare never rebuilds it — so a VITE_ Pages
+      # secret can never reach the browser. The two halves of Sentry come from
+      # one GitHub secret by two different routes: the client baked in at build
+      # time, the server installed onto Pages here.
+      #
+      # Same install contract as the cron secret and the service account above:
+      # ABSENT emits a ::warning and exits 0 (a condition no code change can fix
+      # should not take the whole deploy red), PRESENT-but-uninstallable FAILS
+      # (holding a credential we cannot write is the drift that work ended).
+      # Secret hygiene: piped on stdin, never argv, and no diagnostic prints the
+      # value — only its name and a length-independent boolean.
+      #
+      # MUST run BEFORE `pages deploy`: a Pages secret reaches Functions through
+      # a NEW deployment, not the running one. Pinned by sentryDsnInstall.test.js.
+      - name: Install Sentry DSN (Pages)
+        if: env.DEPLOY == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SENTRY_DSN:-}" ]; then
+            echo "::warning title=Sentry DSN not set::VITE_SENTRY_DSN is not a GitHub secret. The browser SDK is skipped at build time (main.tsx guards on it) AND /api/report-error cannot forward, so the app reports no errors anywhere until it is set."
+            exit 0
+          fi
+          # Shape check before install. A DSN that is not a URL installs happily
+          # and then fails inside forwardToSentry's `new URL(dsn)` at request
+          # time — the same "obscure runtime failure later" the service-account
+          # check exists to prevent. Reads from the environment, never argv, and
+          # reports only which PART is missing.
+          node --input-type=module -e '
+            const raw = process.env.SENTRY_DSN || "";
+            let u;
+            try { u = new URL(raw); }
+            catch { console.error("SENTRY_DSN is not a valid URL"); process.exit(1); }
+            if (u.protocol !== "https:") {
+              console.error("SENTRY_DSN protocol is " + u.protocol + ", expected https:");
+              process.exit(1);
+            }
+            // forwardToSentry derives the public key from the username and the
+            // project id from the path; a DSN missing either yields a malformed
+            // store URL that fails silently in waitUntil.
+            const missing = [];
+            if (!u.username) missing.push("public key (the user part)");
+            if (!u.pathname || u.pathname === "/") missing.push("project id (the path)");
+            if (missing.length) {
+              console.error("SENTRY_DSN is missing: " + missing.join(", "));
+              process.exit(1);
+            }
+            console.log("SENTRY_DSN parsed; host, public key and project id present");
+          '
+          printf '%s' "${SENTRY_DSN}" \
+            | npx --yes wrangler@3 pages secret put SENTRY_DSN \
+              --project-name nasa-hrvatska-v2 >/dev/null
+          echo "SENTRY_DSN installed on the Pages project"
 
       - name: Deploy to Cloudflare Pages
         if: env.DEPLOY == 'true'

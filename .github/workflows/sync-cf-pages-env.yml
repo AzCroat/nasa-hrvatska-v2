@@ -68,7 +68,16 @@ jobs:
           push_secret VITE_FIREBASE_STORAGE_BUCKET     "$STORAGE_BUCKET"
           push_secret VITE_FIREBASE_MESSAGING_SENDER_ID "$MESSAGING_SENDER_ID"
           push_secret VITE_FIREBASE_APP_ID             "$APP_ID"
-          push_secret VITE_SENTRY_DSN                  "$SENTRY_DSN"
+          # SENTRY_DSN, not VITE_SENTRY_DSN (fixed 2026-09-04). This line
+          # pushed the VITE_-prefixed name for as long as it existed, and it was
+          # wrong twice over: /api/report-error reads `env.SENTRY_DSN`, so the
+          # relay never saw a DSN and has never forwarded an event; and a VITE_
+          # Pages secret is inert regardless, because the browser bundle is built
+          # in ci.yml and deployed as prebuilt static assets — Cloudflare never
+          # rebuilds it, so nothing VITE_-prefixed on Pages can reach the client.
+          # ci.yml now installs this on every deploy; this manual workflow is
+          # kept in sync so a dispatch cannot quietly reinstate the old name.
+          push_secret SENTRY_DSN                       "$SENTRY_DSN"
           # Sentry source-map upload — build-time only, NOT VITE_-prefixed so
           # they never reach the browser bundle. Used by @sentry/vite-plugin.
           push_secret SENTRY_AUTH_TOKEN                "$SENTRY_AUTH_TOKEN"
