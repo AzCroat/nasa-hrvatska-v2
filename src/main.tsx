@@ -197,8 +197,13 @@ if (import.meta.env.VITE_SENTRY_DSN) {
           }
           // Downgrade non-actionable environmental IndexedDB errors (flaky device
           // storage, surfaced async from Firebase persistence) so they stop paging
-          // as high-priority but are retained for frequency tracking. Logic +
-          // tests live in sentryHelpers.downgradeEnvironmentalIdbEvent.
+          // as high-priority but are retained for frequency tracking. Retained
+          // rather than added to ignoreErrors ABOVE, deliberately: dropping them
+          // would also drop the frequency signal a real regression shows up in.
+          // Logic lives in lib/idbTelemetry.downgradeEnvironmentalIdbEvent, tests
+          // in idbTelemetry.test.ts. (This pointer said `sentryHelpers` until
+          // 2026-09-01 — the helper moved out of that module and the comment did
+          // not follow, the same stale pointer report-error.js records fixing.)
           downgradeEnvironmentalIdbEvent(event);
           // Stale-chunk load failures self-heal (purge + reload, see
           // lib/chunkErrors.ts). They were still reporting at full priority,
