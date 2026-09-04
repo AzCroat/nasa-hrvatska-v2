@@ -410,6 +410,7 @@ describe('contentClient.getContent', () => {
     V_B2: {},
     V_C1: {},
     V_C2: {},
+    V_LEVELS: {},
     CULTURE_DEEP_DIVES: {},
   };
 

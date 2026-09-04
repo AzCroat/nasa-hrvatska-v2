@@ -614,7 +614,6 @@ export default function AppRouter(props: Record<string, any>) {
     doSyncNow,
     lastSyncedAt,
     icons,
-    allCats,
     getWeekStats,
     isNewUserWindow,
     daysSinceJoin,
@@ -1003,7 +1002,6 @@ export default function AppRouter(props: Record<string, any>) {
                             else setScr(id);
                           }}
                           sCurEx={sCurEx}
-                          allCats={allCats}
                           sh={_sh}
                           launchPathItem={launchPathItem}
                           launchActivity={launchSessionActivity}
@@ -1032,7 +1030,6 @@ export default function AppRouter(props: Record<string, any>) {
                     <React.Suspense fallback={null}>
                       <ScreenErrorBoundary name="LearnTab">
                         <LearnTab
-                          allCats={allCats}
                           icons={icons}
                           sCurEx={sCurEx}
                           sh={_sh}
@@ -1064,7 +1061,6 @@ export default function AppRouter(props: Record<string, any>) {
                     <React.Suspense fallback={null}>
                       <ScreenErrorBoundary name="GradTab">
                         <GradTab
-                          allCats={allCats}
                           sh={_sh}
                           sCurEx={sCurEx}
                           onLaunchQuiz={launchMcGame}
@@ -1849,7 +1845,7 @@ export default function AppRouter(props: Record<string, any>) {
         )}
         {currentScreen === 'review' && (
           <ScreenErrorBoundary key="review" name="review">
-            <ReviewScreen goBack={goBack} award={award} allCats={allCats} />
+            <ReviewScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'writing' && (

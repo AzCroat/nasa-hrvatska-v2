@@ -736,6 +736,78 @@ A1 **taught** verbs (`present-tense-verbs`, `pronouns-biti` are A1 lessons) whil
 
 ---
 
+## Critical Architecture: The Vocabulary Deck (content expansion, 2026-09-04)
+
+The finding this exists to keep closed: **the app's vocabulary acquisition path
+ended at A2, whatever the learner's level.** Every review, flashcard, quiz,
+match and speaking pool was `ALL_CATS.flatMap((t) => V[t])` over a 56-name list
+hardcoded in App.tsx ("update if vocabulary.js keys change" — nobody did). The
+server payload had grown to 89 levelled categories plus 17 composed aliases;
+the list knew 56, and none of the B1 band, so **1,030 of the 2,357 core words
+were unreachable by any drill**, and the B2/C1/C2 tiers (963 + 900 + 300, shipped
+to the client for a browse screen) were never pooled at all. Home counted
+servable reviews over ALL of V while Review served the hardcoded subset, so the
+pill could promise reviews the screen then reported as "All caught up!". Found
+by a measured census, not by a test — a hardcoded list decays silently at
+exactly the rate the content it restates grows.
+
+- **The deck is DERIVED** (`src/lib/vocabPool.ts`) from the payload's `V_LEVELS`
+  — composed server-side in `_data/core.js` so the aliases are tagged too, and
+  shipped in `/api/content/core` — gated on `vocabLevel(stats)` (=
+  `getGenerationCefr`, placement-aware like McGame/Flashcards already were).
+  `vocabCategories` = categories tagged ≤ level; `vocabPool` = those words plus
+  the tiers ≤ level, deduped by lemma; `vocabPoolWords` is what Home counts
+  against; `acquisitionPool` = the learner's OWN band plus lower-band words
+  already tracked in SRS. **`allCats` survives only as a test-fixture override**
+  (`['basics']` seeds); production never passes it, and no consumer flattens a
+  category list by hand (pinned).
+- **Ordering IS the acquisition path.** `vocabPool` places the learner's own band
+  first, then lower bands descending. `getPrioritizedReviewQueue` tops a thin
+  review up with the first unseen words in pool order, so new words enter the
+  deck from the band being worked at — before, every learner at every level got
+  `greetings`. Random-sample surfaces (session flashcards/quiz/match/speaking,
+  the Practice-tab launchers) draw from `acquisitionPool`, so a C1 learner is not
+  handed a uniform sample of 4,300 words that is 55% A1–B1. Same inference the
+  curriculum uses: a band strictly below the learner is treated as known unless
+  SRS says they are still working on it. Nothing is written.
+- **A tracked card never becomes unservable.** `vocabPool` includes any word the
+  learner tracks in SRS whatever its band — the demotion case (a rolled-back
+  learner keeps reviewing what they were reviewing). Never drop a tracked word
+  for being above the learner.
+- **Absence degrades to the old width, never to nothing.** No `V_LEVELS` in the
+  payload (an old cached blob) → every V category, no tiers — at least as wide as
+  the list was. An empty own band → the whole pool, so a launch never bails
+  `empty-pool` on a classification gap. Pinned by `vocabPool.test.ts`.
+- **`Alphabet` is the ONE unlevelled key** (`V_POOL_EXCLUDED`): its "gloss" is a
+  letter name plus example, a lesson slide not a flashcard back. An unlevelled
+  key is excluded from the deck BY CONSTRUCTION, so `core.test.js` asserts every
+  V key is levelled or in that list, and that the list's entry is still unlevelled
+  and still exists — an exemption guarding nothing fails.
+- **The tiers overlap the core** (measured: V∩B2 184 lemmas, B2∩C1 72, C1∩C2 35)
+  and a lemma is served at the LOWEST band that carries it. A test asserting "no
+  B2 word at B1" was wrong on its first run for exactly this reason; assert
+  absence only for lemmas whose every source sits above the learner.
+- **`activeVocabulary.fresh` is level-aware.** It was FREQUENCY_500 only (1,250
+  words), so the contextual generators (AI story/listening/writing) could never
+  be asked to weave in a tier word. It now reads loaded content synchronously via
+  `peekContent()` (`hooks/useContent`, never fetches): below B2 the frequency
+  core leads and the band follows; at B2+ the band leads. Content absent →
+  frequency only, exactly as before.
+- **Three copies of the payload key list** must agree: `core.js` KEYS,
+  `core.test.js` ALL_KEYS, and `generate-content-etags.mjs` CORE_KEYS (the etag
+  must move when the payload does). `vocabPool.test.ts` pins all three carry
+  `V_LEVELS`, plus the E2E fixture (`content-fixture.js`) — without it the E2E
+  suite would exercise only the degrade path.
+- `vocabPoolWiring.test.tsx` drives the REAL launcher without `allCats` and reads
+  what `setFcInitPool` / `setMcInitQ` receive at A1, B1 and B2 — the wiring test
+  the derivation tests cannot replace. Mutation-verified: six mutations (launcher
+  back to flatMap, tiers dropped, ascending order, tracked-above dropped,
+  `V_LEVELS` off the payload, acquisition = whole pool) fail 1–6 tests each.
+- NEVER: reintroduce a hardcoded category list anywhere a deck is built; rank a
+  category by anything but `V_LEVELS`; gate `vocabPool` differently from
+  `vocabPoolWords` (Home and Review must agree by construction); let an absent
+  `V_LEVELS` mean an empty deck.
+
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 
 The 2026-08-18 audit finding this section exists to keep closed: the app TESTED

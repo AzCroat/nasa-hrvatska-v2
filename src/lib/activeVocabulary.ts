@@ -17,15 +17,26 @@
  *                 highest-value review.
  *   2. due      — scheduled for review now (most-overdue first).
  *   3. learning — seen but not yet stable (still being acquired).
- *   4. fresh    — high-frequency CONTENT words not yet introduced, in corpus-
- *                 frequency order. For a brand-new learner (empty SR) this makes
- *                 targets the frequency core itself — the most useful first words.
+ *   4. fresh    — words not yet introduced. Two sources, merged: the
+ *                 high-frequency CONTENT words in corpus-frequency order, and
+ *                 the learner's own vocabulary band from the level-gated deck
+ *                 (lib/vocabPool) when core content has loaded. Below B2 the
+ *                 frequency core leads — for a brand-new learner (empty SR)
+ *                 targets are the most useful first words. At B2 and above the
+ *                 band leads: the corpus list is 1,250 words deep and a C1
+ *                 learner has met them, so contextual generators would
+ *                 otherwise never reach the 2,163 words in the advanced tiers
+ *                 (the 2026-09-04 acquisition-ceiling finding). Content absent
+ *                 → frequency only, exactly as before.
  *
  * Within the weak/learning tiers, ties break toward higher corpus frequency
  * (more common = more useful to shore up first).
  */
 import { getSR } from './srs';
 import { FREQUENCY_500 } from './frequency500';
+import { peekContent } from '../hooks/useContent';
+import { acquisitionPool, vocabLevel } from './vocabPool';
+import { cefrRank, type CefrLevel } from './cefr';
 
 export interface ActiveVocabulary {
   /** Ranked target words to weave into contextual content (the headline output). */
@@ -112,11 +123,34 @@ export function getActiveVocabulary(opts: { limit?: number } = {}): ActiveVocabu
   const due = dueRows.map((x) => x.word);
   const learning = learningRows.map((x) => x.word);
 
-  const fresh: string[] = [];
+  const freqFresh: string[] = [];
   for (const e of FREQUENCY_500) {
     if (!CONTENT_POS.has(e.pos)) continue;
     if (seen.has(e.hr.toLowerCase())) continue;
-    fresh.push(e.hr);
+    freqFresh.push(e.hr);
+  }
+  let bandFresh: string[] = [];
+  let level: CefrLevel = 'A1';
+  try {
+    const src = peekContent();
+    if (src) {
+      level = vocabLevel();
+      bandFresh = acquisitionPool(src, level, { tracked: new Set(Object.keys(sr)) })
+        .map((w) => w[0]!)
+        .filter((w) => !seen.has(w.toLowerCase()));
+    }
+  } catch {
+    bandFresh = [];
+  }
+  const fresh: string[] = [];
+  const freshSeen = new Set<string>();
+  for (const w of cefrRank(level) >= cefrRank('B2')
+    ? [...bandFresh, ...freqFresh]
+    : [...freqFresh, ...bandFresh]) {
+    const k = w.toLowerCase();
+    if (freshSeen.has(k)) continue;
+    freshSeen.add(k);
+    fresh.push(w);
   }
 
   // Priority merge into the capped target list, deduped case-insensitively.

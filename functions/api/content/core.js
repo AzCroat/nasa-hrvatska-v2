@@ -4,6 +4,10 @@ import * as CORE from './_data/core.js';
 
 const KEYS = [
   'V',
+  // Level tag per V category — the client derives the level-gated review /
+  // flashcard deck from it (src/lib/vocabPool.ts). Composed in _data/core.js so
+  // the aliases are tagged too.
+  'V_LEVELS',
   'COUNTRIES',
   'PROFESSIONS',
   'WEATHER',

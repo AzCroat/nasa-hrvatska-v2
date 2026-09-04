@@ -11,6 +11,7 @@
  */
 import { reportError } from './errorReporter';
 import { getContent } from './contentClient';
+import type { VocabSource } from './vocabPool';
 
 let _dataCache: Record<string, unknown> | null = null;
 
@@ -45,8 +46,19 @@ export type VocabWord = [string, string, string?, ...string[]];
  * empty pool as a launch failure.
  */
 export async function _getVocab(): Promise<Record<string, VocabWord[]>> {
+  return ((await _getVocabSource()).V ?? {}) as Record<string, VocabWord[]>;
+}
+
+/**
+ * _getVocabSource — V plus the level tags and advanced tiers the level-gated
+ * deck (lib/vocabPool) derives from. Same never-throws contract as _getVocab;
+ * on failure the source is `{}` and every derived pool is empty, which callers
+ * already treat as a launch failure.
+ */
+export async function _getVocabSource(): Promise<VocabSource> {
   try {
-    return ((await getContent()).V ?? {}) as Record<string, VocabWord[]>;
+    const c = await getContent();
+    return { V: c.V, V_LEVELS: c.V_LEVELS, V_B2: c.V_B2, V_C1: c.V_C1, V_C2: c.V_C2 };
   } catch (err) {
     reportError(err instanceof Error ? err : new Error('vocab load failed'), 'vocab-load');
     return {};

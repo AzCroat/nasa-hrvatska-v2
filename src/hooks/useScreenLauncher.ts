@@ -11,7 +11,15 @@ import { pickSessionLesson } from '../lib/sessionLessonPick';
 import { BLACK_HOLE_SCREENS, DWELL_XP } from '../lib/blackHoleScreens';
 import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
-import { _getData, _getVocab, _buildAdaptivePool } from '../lib/exerciseData';
+import { _getData, _getVocabSource, _buildAdaptivePool } from '../lib/exerciseData';
+import type { VocabWord } from '../lib/exerciseData';
+// The level-gated vocabulary deck. Every pool below used to be
+// `allCats.flatMap((t) => V[t])` over a 56-name list hardcoded in App.tsx that
+// had fallen 40 categories behind the server (the whole B1 band), so no drill
+// could ever reach 1,030 of the core words and none reached the B2–C2 tiers.
+// `allCats` survives only as an explicit override for test fixtures.
+import { vocabPool, acquisitionPool, vocabCategories, vocabLevel } from '../lib/vocabPool';
+import type { VocabSource } from '../lib/vocabPool';
 import { reportError } from '../lib/errorReporter';
 // Web Storage access THROWS (SecurityError) — it does not return null — when the
 // profile blocks cookies/site data (Family Link, managed profiles, "block all
@@ -37,6 +45,16 @@ function _sh<T>(a: T[]): T[] {
     [b[i], b[j]] = [b[j]!, b[i]!];
   }
   return b;
+}
+
+type Row = VocabWord;
+/** Everything the learner may be served (distractors, topic fallbacks). */
+function _servable(src: VocabSource, cats?: string[]): Row[] {
+  return vocabPool(src, vocabLevel(), { cats }) as Row[];
+}
+/** What the learner should meet next (session decks, quiz questions). */
+function _acquire(src: VocabSource, cats?: string[]): Row[] {
+  return acquisitionPool(src, vocabLevel(), { cats }) as Row[];
 }
 
 interface McQuestion {
@@ -69,7 +87,8 @@ interface ScreenLauncherParams {
     exerciseId?: string,
   ) => void;
   writeDelta: (delta: StatsDelta & Record<string, unknown>) => void;
-  allCats: string[];
+  /** Test-fixture override of the derived deck; production omits it. */
+  allCats?: string[];
   gc: number;
   tab: string;
   setTab: (tab: string) => void;
@@ -185,7 +204,7 @@ export function useScreenLauncher({
         topic?: string;
       } | null;
       if (!r || !r.topic) return;
-      const V = await _getVocab();
+      const V = ((await _getVocabSource()).V ?? {}) as Record<string, Row[]>;
       const vocabPool = V[r.topic];
       if (!vocabPool || vocabPool.length < 2) {
         // Only a LOADED vocabulary can prove a topic is stale. When V is empty the
@@ -242,12 +261,13 @@ export function useScreenLauncher({
 
   const launchCheckpoint = useCallback(
     async (levelIndex: number, levelItems: LearnPathItem[]): Promise<void> => {
-      const V = await _getVocab();
+      const src = await _getVocabSource();
+      const V = (src.V ?? {}) as Record<string, Row[]>;
       const topics = levelItems.map((it) => it.topic).filter(Boolean) as string[];
       const pool =
         topics.length > 0
           ? topics.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1])
-          : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+          : _servable(src, allCats);
       if (pool.length === 0) {
         // Reported, not silent: this is a checkpoint over topics the path itself
         // offered, so an empty pool means the vocabulary source is broken — the
@@ -262,7 +282,7 @@ export function useScreenLauncher({
         seen.add(w[0]);
         return true;
       });
-      const globalPool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+      const globalPool = _servable(src, allCats);
       const qs: McQuestion[] = deduped.slice(0, 15).flatMap((w) => {
         const wr = _sh(globalPool.filter((x) => x[1] !== w[1]))
           .slice(0, 3)
@@ -285,9 +305,10 @@ export function useScreenLauncher({
 
   const launchLegendary = useCallback(
     async (item: LearnPathItem): Promise<void> => {
-      const V = await _getVocab();
+      const src = await _getVocabSource();
+      const V = (src.V ?? {}) as Record<string, Row[]>;
       const topicPool = item.topic ? V[item.topic] || [] : [];
-      const globalPool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+      const globalPool = _servable(src, allCats);
       const basePool =
         topicPool.length >= 5
           ? [...topicPool, ...globalPool.slice(0, Math.ceil(globalPool.length * 0.2))]
@@ -420,13 +441,12 @@ export function useScreenLauncher({
         if (!alreadyTracked && writeDelta) writeDelta({ vs: [item.id!] });
       }
       if (item.go === 'lesson') {
-        const V = await _getVocab();
+        const src = await _getVocabSource();
+        const V = (src.V ?? {}) as Record<string, Row[]>;
         const raw = item.topic ? V[item.topic] : undefined;
-        // Fall back to global pool when topic is missing or has too little vocabulary — never silent-fail
-        const pool =
-          raw && raw.length >= 2
-            ? raw
-            : allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+        // Fall back to the learner's acquisition deck when the topic is missing or
+        // has too little vocabulary — never silent-fail
+        const pool = raw && raw.length >= 2 ? raw : _acquire(src, allCats);
         if (pool.length < 2) {
           // This is the app's primary lesson entry point (Learn Path tile, Home
           // "continue" chip, search result). It fell back to the whole vocabulary
@@ -435,9 +455,10 @@ export function useScreenLauncher({
           return;
         }
         const items = _sh(pool);
+        const cats = vocabCategories(src, vocabLevel(), { cats: allCats });
         const topic =
           item.topic ||
-          (allCats.length > 0 ? allCats[Math.floor(Math.random() * allCats.length)] : 'greetings');
+          (cats.length > 0 ? cats[Math.floor(Math.random() * cats.length)] : 'greetings');
         const returnScreen =
           currentScreen && currentScreen !== 'dashboard' ? currentScreen : 'dashboard';
         returnContextRef.current = { tab: 'learn', screen: returnScreen };
@@ -492,8 +513,7 @@ export function useScreenLauncher({
         trackStart('listening');
         setScr('listening');
       } else if (item.go === 'speaking') {
-        const V = await _getVocab();
-        const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+        const pool = _acquire(await _getVocabSource(), allCats);
         const items = _sh(pool).slice(0, 6);
         if (items.length === 0) {
           reportError(new Error('path speaking launch: empty vocab pool'), 'launch-empty-pool');
@@ -510,8 +530,7 @@ export function useScreenLauncher({
         trackStart('speaking');
         setScr('speaking');
       } else if (item.go === 'mcgame') {
-        const V = await _getVocab();
-        const pool = allCats.flatMap((t) => V[t] || []).filter((w) => w && w[0] && w[1]);
+        const pool = _acquire(await _getVocabSource(), allCats);
         const adaptivePool = _buildAdaptivePool(pool);
         const seen = new Set<string>();
         const deduped = _sh(adaptivePool).filter((w) => {
@@ -686,10 +705,7 @@ export function useScreenLauncher({
           // protect click handlers that have no catch. This branch HAS one, and
           // it distinguishes 'load-error' from 'empty-pool' and can route a
           // stale-chunk rejection into the healer. Do not unify them.
-          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
-          const globalPool = allCats
-            .flatMap((t) => (V[t] ?? []) as string[][])
-            .filter((w) => w?.[0] && w?.[1]);
+          const globalPool = _acquire(await getContent(), allCats);
 
           if (screen === 'flashcards') {
             if (globalPool.length === 0) {
@@ -778,10 +794,7 @@ export function useScreenLauncher({
           // protect click handlers that have no catch. This branch HAS one, and
           // it distinguishes 'load-error' from 'empty-pool' and can route a
           // stale-chunk rejection into the healer. Do not unify them.
-          const V = ((await getContent()).V ?? {}) as Record<string, string[][]>;
-          const pool = allCats
-            .flatMap((t) => (V[t] ?? []) as string[][])
-            .filter((w) => w?.[0] && w?.[1]);
+          const pool = _acquire(await getContent(), allCats);
           if (pool.length === 0) {
             clearActiveSessionActivity();
             return notifyLaunchFailure('empty-pool');

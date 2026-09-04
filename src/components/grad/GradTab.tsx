@@ -3,6 +3,7 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { LISTEN, getSR, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
 import { localDateStr } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
@@ -29,7 +30,6 @@ function recordRecentExercise(id: string) {
 }
 
 interface GradTabProps {
-  allCats: string[];
   sh: <T>(arr: T[]) => T[];
   sCurEx: (id: string) => void;
   onLaunchQuiz: (items: unknown[]) => void;
@@ -40,7 +40,6 @@ interface GradTabProps {
 }
 
 export default function GradTab({
-  allCats,
   sh,
   sCurEx,
   onLaunchQuiz,
@@ -52,7 +51,6 @@ export default function GradTab({
   const { setScr } = useApp();
   const { stats: st } = useStats();
   const { content } = useContent();
-  const V = (content?.V ?? {}) as Record<string, string[][]>;
   const lc = st?.lc ?? 0;
   const userCefr = getContentUnlockLevel(getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0));
 
@@ -71,7 +69,9 @@ export default function GradTab({
   }
 
   // ── launch handlers (parity with the retired PracticeTab) ──────────────
-  const pool = allCats.flatMap((cc) => V[cc] || []);
+  // The learner's acquisition deck (lib/vocabPool): own band plus anything
+  // already tracked, so practice here meets level-appropriate words.
+  const pool = acquisitionPool(content, vocabLevel(st ?? undefined));
   function startQuiz() {
     const items = sh(pool)
       .slice(0, 20)

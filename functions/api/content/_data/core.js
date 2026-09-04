@@ -8,6 +8,7 @@
 
 import {
   V as V_RAW,
+  V_LEVELS as V_LEVELS_RAW,
   COUNTRIES,
   PROFESSIONS,
   WEATHER,
@@ -74,9 +75,48 @@ V['Grocery Shopping'] = [].concat(GROCERY.vocab, GROCERY.phrases);
 V['Alphabet'] = ALPHA.map((a) => [a[0], a[1] + ' — ' + a[2] + ' (' + a[3] + ')']);
 V['Emergency'] = [].concat(EMERGENCY.phrases, EMERGENCY.bodyParts);
 
+// CEFR tag for EVERY category the client pool can draw from (2026-09-04).
+// vocabulary.js tags the 89 raw categories; the composed aliases above were
+// unlevelled, and the client's review/flashcard deck was built from a
+// hardcoded 56-name list in App.tsx instead — which left 1,030 of the 2,357 V
+// words (the entire B1 band among them) unreachable by any drill. The client
+// now derives the deck from THIS map gated by the learner's level
+// (src/lib/vocabPool.ts), so every key here must be honest about its level.
+//   - the seven TOP100 situational sets and the five LEARN_PATH scenario
+//     aliases are survival phrases from path levels 1–2 → A1;
+//   - politics aliases civic (B1); journalism/philosophy/literature alias
+//     V_B2 categories (B2) — the pool dedupes by lemma, so an alias never
+//     doubles a word.
+// 'Alphabet' is deliberately NOT levelled: its "gloss" is a letter name plus
+// an example ("ah — auto (car)"), which is a lesson slide, not a flashcard
+// back. An unlevelled key is excluded from the pool by construction;
+// V_POOL_EXCLUDED pins that this is the only one, so a new alias cannot fall
+// out of the deck silently.
+const V_LEVELS = {
+  ...V_LEVELS_RAW,
+  'At the Airport': 'A1',
+  'At the Restaurant': 'A1',
+  'At the Doctor': 'A1',
+  'At the Beach': 'A1',
+  'At the Market': 'A1',
+  'Meeting People': 'A1',
+  Emergency: 'A1',
+  'Order Food': 'A1',
+  'Getting Around': 'A1',
+  'School Kit': 'A1',
+  'Making Friends': 'A1',
+  'Grocery Shopping': 'A1',
+  politics: 'B1',
+  journalism: 'B2',
+  philosophy: 'B2',
+  literature: 'B2',
+};
+export const V_POOL_EXCLUDED = ['Alphabet'];
+
 // === The 29 exports (SP11f: +V_B2 +V_C1 advanced-vocab tiers) ===
 export {
   V,
+  V_LEVELS,
   COUNTRIES,
   PROFESSIONS,
   WEATHER,

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useGrammar } from '../../hooks/useGrammar';
 import { useContent } from '../../hooks/useContent';
+import { useStats } from '../../context/StatsContext';
+import { vocabCategories, categoryLevel, vocabLevel } from '../../lib/vocabPool';
 
 interface GramShape {
   beginner?: unknown[];
@@ -15,58 +17,18 @@ function ErrorState({ message }: { message: string }) {
   return <div style={{ padding: 24, textAlign: 'center', color: 'var(--info)' }}>{message}</div>;
 }
 
-// CEFR mapping for vocabulary categories — mirrors DuoLingo's level-aware content labels
-const VOCAB_CEFR = {
-  greetings: 'A1',
-  numbers: 'A1',
-  family: 'A1',
-  colours: 'A1',
-  colors: 'A1',
-  body: 'A1',
-  animals: 'A1',
-  house: 'A1',
-  food: 'A2',
-  drink: 'A2',
-  travel: 'A2',
-  transport: 'A2',
-  time: 'A2',
-  nature: 'A2',
-  weather: 'A2',
-  shopping: 'A2',
-  clothing: 'A2',
-  clothes: 'A2',
-  emotions: 'A2',
-  feelings: 'A2',
-  hobbies: 'A2',
-  sports: 'A2',
-  verbs: 'B1',
-  phrases: 'B1',
-  health: 'B1',
-  work: 'B1',
-  professions: 'B1',
-  technology: 'B1',
-  tech: 'B1',
-  school: 'B1',
-  education: 'B1',
-  grammar: 'B1',
-  politics: 'B2',
-  business: 'B2',
-  law: 'B2',
-  science: 'B2',
-};
+// Vocabulary tiles carry the category's REAL level from the payload's V_LEVELS
+// (lib/vocabPool.categoryLevel). This used to be a third hand-written map that
+// disagreed with V_LEVELS on six topics and knew nothing about 71 — with a
+// word-count guess for the rest.
 const CEFR_STYLE = {
   A1: { color: 'var(--success)', bg: 'var(--success-bg)' },
   A2: { color: 'var(--info)', bg: 'var(--info-bg)' },
   B1: { color: 'var(--warning,#d97706)', bg: 'var(--warning-bg,rgba(217,119,6,.1))' },
   B2: { color: 'var(--lavender,#7c3aed)', bg: 'var(--bar-bg)' },
+  C1: { color: 'var(--lavender,#7c3aed)', bg: 'var(--bar-bg)' },
+  C2: { color: 'var(--lavender,#7c3aed)', bg: 'var(--bar-bg)' },
 };
-function getVocabCEFR(cat: string, wordCount: number) {
-  const key = (cat || '').toLowerCase();
-  if (VOCAB_CEFR[key as keyof typeof VOCAB_CEFR]) return VOCAB_CEFR[key as keyof typeof VOCAB_CEFR];
-  if (wordCount < 15) return 'A1';
-  if (wordCount < 25) return 'A2';
-  return 'B1';
-}
 
 // ─── Shared tuple types for grammar/vocab map arrays ──────────────────────────
 type GrammarTile = [string, string, string, () => void];
@@ -189,7 +151,6 @@ function Section({ title, icon, count, defaultOpen = false, children }: SectionP
 // ─── BrowseContentModal ───────────────────────────────────────────────────────
 
 interface BrowseContentModalProps {
-  allCats: string[];
   icons: Record<string, string>;
   st?: { ct?: string[]; gc?: number } | null;
   setScr: (screen: string) => void;
@@ -206,7 +167,6 @@ interface BrowseContentModalProps {
 }
 
 export default function BrowseContentModal({
-  allCats,
   icons,
   st,
   setScr,
@@ -223,9 +183,13 @@ export default function BrowseContentModal({
 }: BrowseContentModalProps) {
   const { grammar, loading, error } = useGrammar();
   const { content: coreContent, loading: coreLoading, error: coreError } = useContent();
+  const { stats } = useStats();
   if (error || coreError) return <ErrorState message="Couldn't load content - please retry." />;
   if (loading || coreLoading || !grammar || !coreContent) return <LoadingState />;
   const V = coreContent.V as Record<string, string[][]>;
+  // Every category at or below the learner's level, ascending — the same
+  // gate the review deck uses, so browse never offers a topic no drill serves.
+  const allCats = vocabCategories(coreContent, vocabLevel(stats));
   const GRAM = grammar.GRAM as unknown as GramShape;
   return (
     <div
@@ -343,12 +307,9 @@ export default function BrowseContentModal({
                         .join(' · ')}
                     </div>
                     {(() => {
-                      const cefr = getVocabCEFR(
-                        t,
-                        ((V as Record<string, string[][]>)[t] ?? []).length,
-                      );
-                      const { color, bg } =
-                        CEFR_STYLE[cefr as keyof typeof CEFR_STYLE] ?? CEFR_STYLE.A2;
+                      const cefr = categoryLevel(coreContent, t);
+                      if (!cefr) return null;
+                      const { color, bg } = CEFR_STYLE[cefr];
                       return (
                         <span
                           style={{

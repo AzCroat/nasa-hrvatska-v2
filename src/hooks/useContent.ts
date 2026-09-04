@@ -100,6 +100,16 @@ export function useContent(): UseContentResult {
   };
 }
 
+/**
+ * Synchronous read of whatever core content the hook has already loaded, or
+ * null. For non-React callers that want to be level-aware when content is
+ * present and must stay pure and sync when it is not (lib/activeVocabulary).
+ * Never triggers a fetch.
+ */
+export function peekContent(): Content | null {
+  return _content;
+}
+
 export function _resetContentHookForTests(): void {
   _content = null;
   _loading = false;

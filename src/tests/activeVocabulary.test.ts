@@ -3,6 +3,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('../lib/srs', () => ({ getSR: vi.fn(() => ({})) }));
+// Core content is usually absent in this pure module; the level-aware `fresh`
+// tier reads it through peekContent when present. Default: absent.
+const mockPeek = vi.hoisted(() => vi.fn(() => null as unknown));
+vi.mock('../hooks/useContent', () => ({ peekContent: mockPeek }));
 
 import { getSR } from '../lib/srs';
 import { getActiveVocabulary, getActiveVocabularyTargets } from '../lib/activeVocabulary';
@@ -18,6 +22,8 @@ const now = Date.now();
 
 beforeEach(() => {
   mockSR({});
+  mockPeek.mockReturnValue(null);
+  localStorage.clear();
 });
 
 describe('getActiveVocabulary — empty SR (new learner)', () => {
@@ -119,5 +125,57 @@ describe('getActiveVocabulary — robustness', () => {
     const v = getActiveVocabulary();
     expect(v.weak).toContain('good');
     expect(v.targets).toContain('good');
+  });
+});
+
+describe('getActiveVocabulary — fresh reaches past the 1,250-word corpus (2026-09-04)', () => {
+  // Before this, `fresh` was FREQUENCY_500 only, so the contextual generators
+  // (AI story / listening / writing) could never be asked to weave in a word
+  // from the B2–C2 tiers: a C1 learner's "new" vocabulary ended at rank 1,250.
+  const CONTENT = {
+    V: { greetings: [['bog', 'hello']] },
+    V_LEVELS: { greetings: 'A1' },
+    V_B2: {
+      law: [
+        ['ustav', 'constitution'],
+        ['porota', 'jury'],
+      ],
+    },
+    V_C1: {},
+    V_C2: {},
+  };
+
+  it('at B2 with content loaded, the learner’s band leads fresh (tier words first)', () => {
+    mockPeek.mockReturnValue(CONTENT);
+    localStorage.setItem('nh_level', 'B2');
+    const v = getActiveVocabulary({ limit: 4 });
+    expect(v.fresh.slice(0, 2)).toEqual(['ustav', 'porota']);
+    expect(v.targets.slice(0, 2)).toEqual(['ustav', 'porota']);
+    // …and the frequency core still follows, not replaced.
+    expect(contentWords.has(v.fresh[2] as string)).toBe(true);
+  });
+
+  it('below B2 the frequency core still leads — a new learner’s first words are the most useful ones', () => {
+    mockPeek.mockReturnValue(CONTENT);
+    localStorage.setItem('nh_level', 'A1');
+    const v = getActiveVocabulary({ limit: 5 });
+    for (const t of v.targets) expect(contentWords.has(t)).toBe(true);
+    // The band is appended, so `bog` is reachable once the core is exhausted.
+    expect(v.fresh).toContain('bog');
+  });
+
+  it('a tier word already in SRS is not fresh', () => {
+    mockPeek.mockReturnValue(CONTENT);
+    localStorage.setItem('nh_level', 'B2');
+    mockSR({ ustav: { s: 1, d: 5, l: 0, w: 0, r: 1, due: now + 100000 } });
+    const v = getActiveVocabulary({ limit: 4 });
+    expect(v.fresh).not.toContain('ustav');
+    expect(v.fresh[0]).toBe('porota');
+  });
+
+  it('content absent → frequency only, exactly as before', () => {
+    localStorage.setItem('nh_level', 'C1');
+    const v = getActiveVocabulary({ limit: 5 });
+    for (const t of v.targets) expect(contentWords.has(t)).toBe(true);
   });
 });
