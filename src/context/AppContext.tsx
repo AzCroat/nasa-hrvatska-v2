@@ -29,7 +29,7 @@ const AppContext = createContext<any>(null);
  *                   launchListening, launchMatch, launchSpeaking,
  *                   launchLegendary, launchCheckpoint
  *   Sync          : _syncReady, doSyncNow
- *   Misc          : icons, allCats, getWeekStats,
+ *   Misc          : icons, getWeekStats,
  *                   isNewUserWindow, daysSinceJoin, comebackBonus, weeklyXP
  */
 export function useApp() {

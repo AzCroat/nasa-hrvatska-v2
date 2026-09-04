@@ -78,66 +78,11 @@ import DesktopPanel from './components/shared/DesktopPanel';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
 
 // ── Module-level constants ───────────────────────────────────────────────────
-// All vocabulary category keys (V base keys + TOP100 keys from content.jsx).
-// Hardcoded to avoid importing chunk-data at startup — update if vocabulary.js keys change.
-const ALL_CATS = [
-  'greetings',
-  'numbers',
-  'family',
-  'inlaws',
-  'colors',
-  'months',
-  'directions',
-  'shopping',
-  'conjunctions',
-  'culture',
-  'daily routine',
-  'in the classroom',
-  'commands at home',
-  'fairy tales',
-  'hobbies',
-  'health',
-  'zagreb',
-  'animals',
-  'body & face',
-  'home & rooms',
-  'clothing',
-  'weather & seasons',
-  'time & calendar',
-  'transport',
-  'questions',
-  'restaurant',
-  'places',
-  'adjectives',
-  'emotions',
-  'opposites',
-  'comparatives',
-  'professions',
-  'travel',
-  'food',
-  'kafic',
-  'verbs',
-  'fruits',
-  'vegetables',
-  'sports',
-  'holidays',
-  'imendan',
-  'personality',
-  'work',
-  'opinions',
-  'environment',
-  'society',
-  'civic',
-  'life_events',
-  'easter',
-  'At the Airport',
-  'At the Restaurant',
-  'At the Doctor',
-  'At the Beach',
-  'At the Market',
-  'Meeting People',
-  'Emergency',
-];
+// The vocabulary deck used to be a 56-name category list hardcoded here ("update
+// if vocabulary.js keys change" — nobody did; it fell 40 categories behind the
+// server, the whole B1 band among them). It is now DERIVED from the payload's
+// V_LEVELS, gated by the learner's level, in src/lib/vocabPool.ts — every deck
+// consumer reads it from there and nothing here needs to know the keys.
 const DS: Stats = {
   xp: 0,
   spent: 0,
@@ -770,7 +715,6 @@ function App() {
   });
 
   // ── Screen launchers ────────────────────────────────────────────────────────
-  const allCats = ALL_CATS;
   const {
     resumeLesson,
     launchAnimLesson,
@@ -794,7 +738,6 @@ function App() {
     setStats,
     award,
     writeDelta,
-    allCats,
     gc: stats.gc,
     tab,
     setTab,
@@ -1770,7 +1713,6 @@ function App() {
       lastSyncedAt,
       // Misc
       icons: ICONS,
-      allCats,
       getWeekStats,
       isNewUserWindow,
       daysSinceJoin,
@@ -1823,7 +1765,6 @@ function App() {
       _syncReady,
       doSyncNow,
       lastSyncedAt,
-      allCats,
       getWeekStats,
       isNewUserWindow,
       daysSinceJoin,

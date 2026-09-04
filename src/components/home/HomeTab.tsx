@@ -41,7 +41,6 @@ interface HomeTabProps {
   getWeekStats: () => { strong: number };
   setTab: (tab: string) => void;
   sCurEx?: (screen: string) => void;
-  allCats?: string[];
   sh?: (arr: unknown[][]) => unknown[][];
   launchPathItem: (item: LearnPathItem) => void;
   syncReady?: boolean;
@@ -87,6 +86,7 @@ import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
 import { hostOfDay } from './hostFamily';
 import { getServableReviewCount } from '../../lib/srs';
+import { vocabPoolWords, vocabLevel } from '../../lib/vocabPool';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 
@@ -147,7 +147,6 @@ export default function HomeTab({
   getWeekStats,
   setTab,
   sCurEx,
-  allCats: _allCats,
   sh: _sh,
   launchPathItem,
   syncReady,
@@ -366,21 +365,15 @@ export default function HomeTab({
   // Recomputed per render — cheap localStorage read; flips off the moment a
   // real pass is recorded.
   const verificationGate = getVerificationGate();
-  // Build the set of words currently in the active vocabulary pool — used to
-  // count SRS reviews that /review can actually serve (orphan cards whose word
-  // was later removed from a category get dropped, matching ReviewScreen's
-  // own filter so the home pill and the session SRS slot agree with reality).
-  const poolWords = useMemo(() => {
-    const V = (content?.V ?? {}) as Record<string, unknown[][]>;
-    const s = new Set<string>();
-    for (const cat of Object.keys(V)) {
-      const rows = V[cat] || [];
-      for (const row of rows) {
-        if (Array.isArray(row) && typeof row[0] === 'string') s.add(row[0] as string);
-      }
-    }
-    return s;
-  }, [content?.V]);
+  // The set of words /review can actually serve — used to count SRS reviews so
+  // the home pill and the session SRS slot agree with reality (orphan cards
+  // whose word is in no servable category are dropped). Derived by the SAME
+  // function ReviewScreen builds its deck from (lib/vocabPool); before that the
+  // two disagreed — Home counted over every V category while Review served a
+  // 56-name hardcoded subset — so the pill could promise reviews the screen
+  // then reported as "All caught up!".
+  const vocabLvl = vocabLevel(st);
+  const poolWords = useMemo(() => vocabPoolWords(content, vocabLvl), [content, vocabLvl]);
   const {
     session,
     isComplete,
@@ -486,7 +479,6 @@ export default function HomeTab({
   void isNewUserWindow;
   void daysSinceJoin;
   void resumeLesson;
-  void _allCats;
   void _sh;
   void currentDayIdx;
   void allQuestsDone;

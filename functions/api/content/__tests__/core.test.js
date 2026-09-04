@@ -23,6 +23,7 @@ function makeContext({ auth = null } = {}) {
 
 const ALL_KEYS = [
   'V',
+  'V_LEVELS',
   'COUNTRIES',
   'PROFESSIONS',
   'WEATHER',
@@ -121,6 +122,30 @@ describe('GET /api/content/core', () => {
     expect(Array.isArray(json.data.V['philosophy'])).toBe(true);
     expect(Array.isArray(json.data.V['literature'])).toBe(true);
     expect(Array.isArray(json.data.V['politics'])).toBe(true);
+  });
+
+  it('V_LEVELS tags every pool-eligible V category with a valid level', async () => {
+    // The client deck is derived from this map (src/lib/vocabPool.ts): a V key
+    // that is neither levelled nor in V_POOL_EXCLUDED is a category no learner
+    // at any level can ever be served — the 1,030-word hole, one alias at a time.
+    getFirebaseUid.mockResolvedValueOnce('uid_test');
+    const { V_POOL_EXCLUDED } = await import('../_data/core.js');
+    const res = await onRequestGet(makeContext({ auth: 'Bearer fake' }));
+    const { V, V_LEVELS } = (await res.json()).data;
+    const CEFR = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    const unlevelled = Object.keys(V).filter((k) => !V_LEVELS[k] && !V_POOL_EXCLUDED.includes(k));
+    expect(unlevelled, `unlevelled V categories: ${unlevelled.join(', ')}`).toEqual([]);
+    const stale = Object.keys(V_LEVELS).filter((k) => !(k in V));
+    expect(stale, `V_LEVELS entries with no category: ${stale.join(', ')}`).toEqual([]);
+    for (const [k, lvl] of Object.entries(V_LEVELS)) {
+      expect(CEFR.has(lvl), `${k} → ${lvl}`).toBe(true);
+    }
+    // The exclusion must still be earning its place: an excluded key that is
+    // levelled, or absent, is an exemption guarding nothing.
+    for (const k of V_POOL_EXCLUDED) {
+      expect(V, `excluded key ${k} no longer exists`).toHaveProperty(k);
+      expect(V_LEVELS[k], `excluded key ${k} is levelled — drop the exclusion`).toBeUndefined();
+    }
   });
 
   it('ETag header matches _etags.js entry', async () => {

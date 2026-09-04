@@ -62,7 +62,6 @@ interface PendingLesson {
 }
 
 interface LearnTabProps {
-  allCats: any[];
   icons: Record<string, any>;
   sCurEx: (ex: string) => void;
   sh: (arr: any[]) => any[];
@@ -85,7 +84,6 @@ interface LearnTabProps {
 
 // Q-4: Removed dead state setters — target screens manage their own init state.
 export default function LearnTab({
-  allCats,
   icons,
   sCurEx,
   sh,
@@ -442,7 +440,6 @@ export default function LearnTab({
       {/* ── BROWSE ALL CONTENT MODAL ─────────────────────────────────────── */}
       {showBrowse && (
         <BrowseContentModal
-          allCats={allCats}
           icons={icons}
           st={st}
           setScr={setScr}

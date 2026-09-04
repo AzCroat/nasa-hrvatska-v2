@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { H, Bar, Spk, srMark, getSR, sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { getPrioritizedReviewQueue } from '../../lib/srs.js';
+import { vocabPool, vocabLevel } from '../../lib/vocabPool';
 import { useHaptic } from '../../hooks/useHaptic';
 import { markPracticed } from '../../hooks/useNotifications';
 import { markQuest } from '../../lib/quests.js';
@@ -22,6 +23,7 @@ interface AiExplanation {
 interface ReviewScreenProps {
   goBack: () => void;
   award: (n: number, celebrate?: boolean, activityType?: string) => void;
+  /** Test-fixture override of the derived deck; production omits it. */
   allCats?: string[];
 }
 
@@ -36,10 +38,17 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
   const haptic = useHaptic();
   const { stats, setStats, writeDelta } = useStats();
   const { content } = useContent();
-  const V = useMemo(() => (content?.V ?? {}) as Record<string, string[][]>, [content]);
   const finishFired = useRef(false);
-  const _cats = allCats || Object.keys(V);
-  const pool = useMemo(() => _cats.flatMap((t: string) => V[t] || []), [_cats, V]);
+  // The level-gated deck (lib/vocabPool): the same derivation HomeTab counts
+  // servable reviews against, so the pill and this screen agree by construction.
+  // Its ordering IS the acquisition path — getPrioritizedReviewQueue tops a thin
+  // review up with the first unseen words, and the learner's own band comes first.
+  const level = vocabLevel(stats);
+  const pool = useMemo(
+    () => vocabPool(content, level, { cats: allCats }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- allCats is a fixture constant
+    [content, level],
+  );
 
   const dueWords = useMemo(() => {
     return getPrioritizedReviewQueue(pool);

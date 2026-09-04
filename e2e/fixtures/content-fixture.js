@@ -50,6 +50,8 @@ import {
   SEASONAL_CAMPAIGNS,
   V_B2,
   V_C1,
+  V_C2,
+  V_LEVELS,
   LEVEL_NARRATIVE,
 } from '../../functions/api/content/_data/core.js';
 import * as GRAMMAR from '../../functions/api/content/_data/grammar.js';
@@ -88,6 +90,10 @@ export const CONTENT_FIXTURE = {
   SEASONAL_CAMPAIGNS,
   V_B2,
   V_C1,
+  V_C2,
+  // V_LEVELS drives the level-gated deck (lib/vocabPool); without it the
+  // fixture would exercise only the no-levels degrade path.
+  V_LEVELS,
   LEVEL_NARRATIVE,
 };
 

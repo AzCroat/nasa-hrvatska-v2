@@ -275,7 +275,6 @@ describe('HomeTab smoke render', () => {
             <HomeTab
               getWeekStats={() => ({ lessons: 0, grammar: 0, streak: 0, weak: 0, strong: 0 })}
               sh={(arr) => arr}
-              allCats={[]}
               dchlA={[null, null, null]}
               sDchlA={vi.fn()}
               dchlSl={[null, null, null]}
@@ -296,7 +295,7 @@ describe('LearnTab smoke render', () => {
     render(
       <AppContext.Provider value={mockContextValue}>
         <StatsProvider value={mockStatsValue}>
-          <LearnTab allCats={[]} icons={{}} sh={(arr) => arr} />
+          <LearnTab icons={{}} sh={(arr) => arr} />
         </StatsProvider>
       </AppContext.Provider>,
     );

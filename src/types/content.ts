@@ -118,6 +118,9 @@ export interface Lesson {
 // Loose Record/unknown[] per field; consumers narrow at consumption.
 export interface Content {
   V: Record<string, unknown>;
+  // CEFR tag per V category (composed server-side, aliases included). The
+  // level-gated review/flashcard deck is derived from it in lib/vocabPool.ts.
+  V_LEVELS: Record<string, string>;
   COUNTRIES: Record<string, unknown> | unknown[];
   PROFESSIONS: Record<string, unknown> | unknown[];
   WEATHER: Record<string, unknown>;

@@ -130,6 +130,7 @@ async function main() {
   // docs/superpowers/specs/2026-05-16-sp11e-final-closure-design.md.
   const CORE_KEYS = [
     'V',
+    'V_LEVELS',
     'COUNTRIES',
     'PROFESSIONS',
     'WEATHER',
