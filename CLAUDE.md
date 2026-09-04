@@ -1108,6 +1108,21 @@ The Worker authenticates to `/api/streak-push` and `/api/backup-progress` with a
 - **A shape check runs before the install** (valid JSON, `client_email`/`private_key`/`project_id` present, `type` is `service_account`). A malformed paste installed silently converts a clear "missing" into an obscure runtime failure next Monday.
 - **Secret hygiene, because this repo is public**: the value is piped on stdin, never argv; the checker reads `process.env`, never argv; every diagnostic prints field NAMES only; `set -x` is never enabled in that step. Same names-never-values rule as the backup failure codes.
 
+### Sentry had TWO halves and neither was wired (2026-09-04)
+
+Found from outside the code: the Sentry project had received **nothing at all**, ever. Two independent defects, both invisible from inside the repo.
+
+1. **The server relay read a name nothing installed.** `/api/report-error` guards on `env.SENTRY_DSN`; `sync-cf-pages-env.yml` pushed `VITE_SENTRY_DSN`. Different key, so the guard was permanently false and the relay had never forwarded one event. It still `console.error`s to the Cloudflare tail, **which is exactly what made the endpoint look healthy**. Same shape as the cron secret that drifted across a Worker secret and a Pages env var for 79 consecutive failed runs: a two-places-must-agree fact where the two places were a JS property access and a shell argument in YAML, with no type, import or test connecting them.
+2. **The `VITE_`-prefixed Pages push was inert.** The browser bundle is built in `ci.yml` and shipped to Pages as **prebuilt static assets** — Cloudflare never rebuilds it — so nothing `VITE_`-prefixed on Pages can reach the client. The client half comes from the GitHub secret at BUILD time and only from there.
+
+`ci.yml` now installs `SENTRY_DSN` (unprefixed) onto Pages on every deploy, **before `pages deploy`** — a Pages secret reaches Functions through a new deployment, not the running one. Same install contract as the cron secret and the service account: absent → `::warning` + exit 0; present-but-uninstallable → **fail**, deliberately not `continue-on-error`.
+
+- **The client half is guarded SILENTLY and that needed saying out loud.** `main.tsx` skips `Sentry.init` and never imports the SDK when the DSN is empty — correct (no DSN, no 40KB bundle) and invisible, so an unset secret ships zero telemetry with nothing in the log. It now emits the same `::warning` the service account does.
+- **A secret cannot be tested in a step-level `if`.** The `secrets` context is not among those available to `steps.<id>.if`. Such a condition does not fail loudly — it silently does not mean what it looks like. Bind through `env` and test in the shell, as both install steps already do; asserted so nobody adds one.
+- **Shape-check before installing.** `forwardToSentry` does `new URL(dsn)` and derives the public key from the username and the project id from the path, inside `waitUntil` — so a malformed DSN fails *after* the response returned, where nobody sees it.
+- Pinned by `sentryDsnInstall.test.js`, which DERIVES the expected name from `report-error.js` rather than restating it. Ten mutations verified, including reverting to the literal original bug.
+- NEVER: install the `VITE_`-prefixed name onto Pages (inert, and it invites the belief the client half is covered by the Pages env); install after `pages deploy`; let the sync workflow and `ci.yml` write this under different names.
+
 ## Cloudflare Pages Functions
 
 ### Environment variables (set in Cloudflare dashboard)
@@ -1116,6 +1131,7 @@ The Worker authenticates to `/api/streak-push` and `/api/backup-progress` with a
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ANTHROPIC_API_KEY`                      | AI Tutor, story generation                                                                                                                                                                                                                                                |
 | `AZURE_TTS_KEY` / `AZURE_TTS_REGION`     | Azure Speech resource — ONE key covers TTS, STT **and** pronunciation assessment. The dashboard is provisioned under these `TTS_*` names; `pronunciation-assess.js` also accepts `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` (which win if ever set) so either naming works. |
+| `SENTRY_DSN`                             | Server-side error relay — `/api/report-error` forwards to Sentry only when this is set. **Installed by CI from the `VITE_SENTRY_DSN` GitHub secret** (see below); it is NOT `VITE_`-prefixed, and that distinction is the whole bug it was added to fix. |
 | `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK — weekly Firestore backup, `/api/delete-account` (fails CLOSED without it), `/api/backfill`, Google TTS fallback. **Installed by CI from the GitHub secret of the same name** (see below); do not hand-set it in the dashboard.             |
 | `CRON_SECRET`                            | Auth token for scheduled worker → API calls                                                                                                                                                                                                                               |
 | `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Web Push notifications                                                                                                                                                                                                                                                    |
