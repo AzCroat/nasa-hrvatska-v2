@@ -149,6 +149,86 @@ describe('absent is warned about, malformed is a failure', () => {
   });
 });
 
+describe('the deploy ships the telemetry it was built with', () => {
+  // THE GAP THIS CLOSES (2026-09-04): with the secret set, valid, and installed
+  // for the relay, a live browser still had `window.__nhSentry === undefined`
+  // and made no request for the SDK chunk — so the DSN was falsy at runtime in
+  // whatever bundle was being served. Every layer either side of that was
+  // checkable from here; the one link in the middle, "did the DSN reach the
+  // artifact we uploaded", could only be answered by opening DevTools on
+  // production.
+  //
+  // Reproduced locally in both directions before the step was written: built
+  // WITH the DSN, it is inlined and a vendor-sentry chunk is emitted; built
+  // with an empty one, Rollup tree-shakes the whole block, so the chunk is not
+  // emitted AT ALL and no ingest host appears anywhere in dist. That second
+  // shape is exactly what the live site showed.
+  const step = CI.slice(CI.indexOf('- name: Verify the built bundle carries the Sentry DSN'));
+  const body = step.slice(0, step.indexOf('- name: Bundle size check'));
+
+  it('the step exists', () => {
+    expect(CI).toMatch(/- name: Verify the built bundle carries the Sentry DSN/);
+  });
+
+  it('asserts the OUTPUT, not the input', () => {
+    // The Build step proves the variable was PASSED. Only reading dist/ proves
+    // it was BAKED IN, and that distinction is the entire finding.
+    expect(body).toMatch(/readdirSync\(dir\)/);
+    expect(body).toMatch(/dist\/assets/);
+    expect(body).toMatch(/\.includes\(dsn\)/);
+  });
+
+  it('checks the SDK chunk was emitted as well as the DSN', () => {
+    // Two independent signals: an empty DSN tree-shakes the import away, so a
+    // missing vendor-sentry chunk is its own evidence and does not depend on
+    // the string search finding anything.
+    // Assert the DERIVATION, not the mention. Written first as a bare
+    // /vendor-sentry/ + /hasSdkChunk/ text match, it survived a mutation that
+    // replaced the whole computation with `const hasSdkChunk = true` — both
+    // strings still appeared. A guard that matches the words around a check
+    // rather than the check is the decorative kind this file exists to prevent.
+    expect(body).toMatch(
+      /const hasSdkChunk = files\.some\(\(f\) => \/vendor-sentry\/\.test\(f\)\)/,
+    );
+    expect(body).toMatch(/if \(!hasSdkChunk\)/);
+  });
+
+  it('runs AFTER the build and BEFORE the Pages deploy', () => {
+    // Before the build there is nothing to read; after the deploy the artifact
+    // is already public and the check is a post-mortem.
+    const build = CI.indexOf('- name: Build\n        run: npm run build');
+    const verify = CI.indexOf('- name: Verify the built bundle carries the Sentry DSN');
+    const deploy = CI.indexOf('pages deploy dist');
+    expect(build).toBeGreaterThan(-1);
+    expect(verify, 'verification must come after the build').toBeGreaterThan(build);
+    expect(verify, 'verification must come before the deploy').toBeLessThan(deploy);
+  });
+
+  it('FAILS when the DSN is held but did not reach the bundle', () => {
+    // Present-but-not-shipped is a broken pipeline, and shipping it restores
+    // the silent blackout this exists for. Same contract as the install steps:
+    // absent warns, present-but-wrong fails.
+    expect(body).toMatch(/if \(!carriesDsn\)/);
+    expect(body).toMatch(/process\.exit\(1\)/);
+    expect(body, 'a failure here must not be swallowed').not.toMatch(/continue-on-error/);
+  });
+
+  it('WARNS rather than failing when there is no DSN to look for', () => {
+    expect(body).toMatch(/if \[ -z "\$\{SENTRY_DSN:-\}" \]/);
+    expect(body).toMatch(/::warning title=Sentry DSN not set/);
+    expect(body).toMatch(/exit 0/);
+  });
+
+  it('never prints the DSN', () => {
+    // The bundle ships it to every browser, but a CI log is a different
+    // audience with a different retention. Counts and booleans only.
+    expect(body).toMatch(/process\.env\.SENTRY_DSN/);
+    expect(body).not.toMatch(/process\.argv/);
+    expect(body).not.toMatch(/console\.log\([^)]*\bdsn\b[^)]*\)/);
+    expect(body).not.toMatch(/echo[^\n]*\$\{?SENTRY_DSN\}?/);
+  });
+});
+
 describe('secret hygiene — this repo is public', () => {
   it('the value is piped on stdin, never passed as an argument', () => {
     // Same rule as the service account and the backup failure codes: names
