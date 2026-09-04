@@ -365,6 +365,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'B1',
     category: 'listening',
     adaptive: true, // generates a dialogue at the user's level
+    generated: true,
   },
   // ── 7a: A1 rotation expansion ─────────────────────────────────────────────
   // Existing self-contained practice screens (each awards/completes on finish;
@@ -577,12 +578,17 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // ── Wave 3: production/AI/utility screens with real bounded completion ─────
   // Graded reader: catalog A1–C2, reader → comprehension quiz → award on
   // results. The daily session can now serve the extensive-reading corpus.
+  // `adaptive` since 2026-09-04: the list opens on the learner's own level
+  // (GradedInputScreen defaults its filter to the generation CEFR when the
+  // catalog has stories there), so a fixed A1 tag no longer ranks the app's
+  // richest reading input three tiers away from a B2 learner.
   {
     id: 'gradedreader',
     label: 'Graded Reader',
     screen: 'graded_input',
     cefr: 'A1',
     category: 'reading',
+    adaptive: true, // list opens at the learner's level; catalog spans A1–C2
   },
   // AI story: one bounded personalized story (A2–B1 prompt), single quota-gated
   // /api/maja call per story, explicit Done award. Same cost posture as
@@ -594,15 +600,21 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'reading',
     adaptive: true, // prompt tracks getUserCefr (AIStoryScreen)
+    generated: true,
   },
   // Listening quiz: 10-question MC over the LISTEN bank. Cold launch is covered
   // by the dedicated launcher branch (setLsInitQ) — ScreenGuard otherwise.
+  // The bank carries a `level` on every item (A1 7 · A2 8 · B1 11 · B2 10 · C1 5
+  // · C2 4) and the launcher now serves only items at or below the learner
+  // (useScreenLauncher `_levelledListen`); before 2026-09-04 it shuffled the
+  // whole bank, so an A1 learner's "listening quiz" was mostly B1–C2 sentences.
   {
     id: 'listeninggame',
     label: 'Listening Quiz',
     screen: 'listening',
     cefr: 'A1',
     category: 'listening',
+    adaptive: true, // launcher filters the LISTEN bank to the learner's level
   },
   // SR-prioritized conjugation drill (15 cells). Bare launch defaults to
   // present-tense; completion via signalSessionCompleteIfActive('conjpractice').
@@ -820,6 +832,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'video_lesson',
     cefr: 'B1',
     category: 'listening',
+    generated: true,
   },
   // ── Wave 6: in-screen drills found inside "hub" screens ────────────────────
   // Smart Review: bounded adaptive round over the user's SRS + mistake data;
@@ -913,7 +926,12 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     screen: 'storymode',
     cefr: 'A2',
     category: 'reading',
-    adaptive: true, // scene banks are per-level (StoryModeScreen useStats)
+    adaptive: true, // the story prompt carries the user's level (StoryModeScreen)
+    // The story itself is GENERATED (_aiPost('/api/ai-chat', { mode: 'story' })),
+    // not drawn from an authored bank — the comment that stood here said "scene
+    // banks are per-level", and sessionInputSlot.test.ts's source walk caught
+    // the difference on its first run (2026-09-04). Only the city list is authored.
+    generated: true,
   },
   // Pronunciation check: mic-required (builder-filtered); finishing now signals
   // session completion even when every phrase was skipped.

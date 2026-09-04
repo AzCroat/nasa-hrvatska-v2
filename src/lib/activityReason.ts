@@ -112,6 +112,22 @@ export function grammarSlotReason(): string {
   return 'Every session includes one grammar drill.';
 }
 
+/**
+ * Why the guaranteed comprehension slot is here. `weakest` comes from the
+ * mastery ledger and is null when it has measured neither receptive skill — then
+ * the line names the guarantee, which is true regardless of evidence. It names
+ * the measured skill only when the slot actually followed it.
+ */
+export function inputSlotReason(
+  kind: 'listening' | 'reading',
+  weakest: 'listening' | 'reading' | null,
+): string {
+  if (weakest === kind) {
+    return `${kind === 'listening' ? 'Listening' : 'Reading'} is the skill your practice says needs the most work.`;
+  }
+  return 'Every session includes one listening or reading activity at your level.';
+}
+
 /** Why the Croatia slot is here (true by construction — it is a daily rotation). */
 export function croatiaReason(): string {
   return "Today's culture pick.";

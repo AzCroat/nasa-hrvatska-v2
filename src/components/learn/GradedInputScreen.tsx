@@ -7,6 +7,7 @@ import { getStoryCatalog, getStory } from '../../lib/contentClient';
 import type { StoryCatalogEntry } from '../../types/content';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { useRecorder } from '../../hooks/useRecorder';
 import { appendRecentError } from '../../lib/recentErrors';
 import { recordStoryRead } from '../../lib/recentReads';
@@ -155,7 +156,11 @@ async function playTTS(text: string, audioRef: React.MutableRefObject<HTMLAudioE
 
 // ─── List view ────────────────────────────────────────────────────────────────
 function StoryList({ onSelect, goBack }: { onSelect: (id: string) => void; goBack: () => void }) {
-  const [filter, setFilter] = useState('All');
+  // Open on the learner's own level (2026-09-04). The hero promises "texts at
+  // your level" and the list used to open on All — 177 stories, A1 first — so
+  // the daily session's reading slot ranked this screen as an A1 activity. The
+  // filter row is unchanged: every level, and All, stays one tap away.
+  const [filter, setFilter] = useState<string>(() => getGenerationCefr());
   const [catalog, setCatalog] = useState<StoryCatalogEntry[] | null>(null);
   const [loadError, setLoadError] = useState(false);
   const done = getDone();
@@ -165,7 +170,10 @@ function StoryList({ onSelect, goBack }: { onSelect: (id: string) => void; goBac
     (async () => {
       try {
         const cat = await getStoryCatalog();
-        if (!cancelled) setCatalog(cat);
+        if (cancelled) return;
+        setCatalog(cat);
+        // A level with no stories yet must not open on an empty list.
+        setFilter((f) => (f !== 'All' && !cat.some((s) => s.level === f) ? 'All' : f));
       } catch {
         if (!cancelled) setLoadError(true);
       }
