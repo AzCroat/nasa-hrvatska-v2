@@ -1110,7 +1110,9 @@ The Worker authenticates to `/api/streak-push` and `/api/backup-progress` with a
 
 ### Sentry had TWO halves and neither was wired (2026-09-04)
 
-Found from outside the code: the Sentry project had received **nothing at all**, ever. Two independent defects, both invisible from inside the repo.
+Found from outside the code: the owner reported the Sentry project was receiving **nothing at all**. Two independent defects, both invisible from inside the repo.
+
+**CORRECTION (2026-09-04, same day).** The original text here said the project had received nothing "ever", and the commit message for #601 said the same. That was a HARDENING of what the owner actually reported — "no events since the deploy", then "nothing in the project" — into a claim about all history that was never established. It matters because it made defect 1 sound like the sole and total cause, and it was not: the RELAY had genuinely never forwarded an event (that half is proved from source and stands), but the CLIENT SDK turned out to be shipping correctly the whole time. The browser showing `window.__nhSentry === undefined` was serving a **stale service-worker bundle**; a hard reload produced a live SDK against a build whose contents CI had not changed. Neither #601 nor #603 fixed the client half — there was nothing there to fix. **Say what was reported, not the strongest thing consistent with it**; the difference is invisible while you are writing it and load-bearing when someone later reasons from it.
 
 1. **The server relay read a name nothing installed.** `/api/report-error` guards on `env.SENTRY_DSN`; `sync-cf-pages-env.yml` pushed `VITE_SENTRY_DSN`. Different key, so the guard was permanently false and the relay had never forwarded one event. It still `console.error`s to the Cloudflare tail, **which is exactly what made the endpoint look healthy**. Same shape as the cron secret that drifted across a Worker secret and a Pages env var for 79 consecutive failed runs: a two-places-must-agree fact where the two places were a JS property access and a shell argument in YAML, with no type, import or test connecting them.
 2. **The `VITE_`-prefixed Pages push was inert.** The browser bundle is built in `ci.yml` and shipped to Pages as **prebuilt static assets** — Cloudflare never rebuilds it — so nothing `VITE_`-prefixed on Pages can reach the client. The client half comes from the GitHub secret at BUILD time and only from there.
@@ -1121,6 +1123,7 @@ Found from outside the code: the Sentry project had received **nothing at all**,
 - **A secret cannot be tested in a step-level `if`.** The `secrets` context is not among those available to `steps.<id>.if`. Such a condition does not fail loudly — it silently does not mean what it looks like. Bind through `env` and test in the shell, as both install steps already do; asserted so nobody adds one.
 - **Shape-check before installing.** `forwardToSentry` does `new URL(dsn)` and derives the public key from the username and the project id from the path, inside `waitUntil` — so a malformed DSN fails *after* the response returned, where nobody sees it.
 - **THE INPUT BEING SET IS NOT THE OUTPUT BEING SHIPPED (2026-09-04).** With the secret set, valid, and installed for the relay, a live browser still had `window.__nhSentry === undefined` and made **no request for the SDK chunk at all** — so the guard was falsy at runtime in whatever bundle was being served. Every layer either side was checkable from the repo (the secret from CI's log, the CSP from `_headers`, the init config from source); the one link in the middle — *did the DSN reach the artifact we uploaded* — could only be answered by opening DevTools on production. `ci.yml` now reads `dist/` after the build and fails if the DSN it was handed is not in there. Reproduced in both directions first: built WITH the DSN it is inlined and a `vendor-sentry` chunk is emitted; built with an EMPTY one, Rollup tree-shakes the block so **the chunk is not emitted at all** and no ingest host appears anywhere in `dist` — which is exactly the shape the live site showed. Absent → warning; **present-but-not-shipped → fail**, because that is a broken pipeline and shipping it restores the silent blackout.
+  **The step is right; the diagnosis that prompted it was wrong, and both halves of that are worth keeping.** The browser was serving a STALE service-worker bundle — a hard reload produced a live SDK against a build CI had not changed, so the artifact had been carrying the DSN all along and this step has never yet fired in anger. It is still the check that was missing: before it, "did the DSN reach the artifact" was answerable only from DevTools on production, which is why a stale bundle and a broken build looked identical for hours. **A guard built on a wrong diagnosis can still be the right guard** — but do not let the fix's existence stand as evidence for the defect it was reasoned from. When production and CI disagree, establish WHICH ARTIFACT the browser is running (`/version.json` carries the build id) before concluding anything about the pipeline.
 - Pinned by `sentryDsnInstall.test.js`, which DERIVES the expected name from `report-error.js` rather than restating it. Seventeen mutations verified, including reverting to the literal original bug — **and one of the new assertions was itself decorative on its first run**: written as a bare `/vendor-sentry/` text match it survived replacing the whole computation with `const hasSdkChunk = true`, because both words still appeared. Assert the DERIVATION, not the mention.
 - NEVER: install the `VITE_`-prefixed name onto Pages (inert, and it invites the belief the client half is covered by the Pages env); install after `pages deploy`; let the sync workflow and `ci.yml` write this under different names.
 
@@ -1343,6 +1346,16 @@ Practical rules that fall out of this:
   and "12% of the strings" were true of the same lint on the same day, and only
   the second number said anything about what was guarded. Count what the guard
   MISSES — a list can only ever show you what it already knows about.
+- **Report what was OBSERVED, not the strongest claim consistent with it.** "No
+  events since the deploy" became "the project had received nothing, ever" in a
+  commit message and in this file, and that hardening made one real defect look
+  like the whole cause — while the other half of the symptom turned out to be a
+  stale service-worker bundle with nothing wrong behind it. The inflation is
+  invisible as you write it and load-bearing when someone reasons from it later.
+- **When production and CI disagree, identify WHICH ARTIFACT is running first.**
+  `/version.json` carries the build id. Hours went into pipeline theories for a
+  browser that was simply serving an older bundle, and every one of those
+  theories was consistent with the evidence.
 - **Check an exclusion's reason before you write it down, even when it is
   obviously true.** The rules file and the golden set were about to be exempted
   as "full of Serbian forms by design"; measured, both produce zero findings,
