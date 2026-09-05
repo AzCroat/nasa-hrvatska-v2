@@ -1309,8 +1309,19 @@ const SVOJMOJ = {
 };
 // ═══ BASKETBALL PRACTICE ═══
 // ═══ AT THE GYM ═══
-// ═══ SCENE DESCRIPTION EXERCISES ═══ (SP11d: moved server-side; local copy kept for fallback)
-const _SCENES = [
+// ═══ SCENE DESCRIPTION EXERCISES ═══
+// The dataset behind the Practice "Describe" screen (ScenesScreen): four
+// everyday scenes, each with `qs` — a spoken Croatian question, a hint, the
+// answer and an English gloss. It is CLIENT-LOCAL and always was.
+//
+// The comment that stood here said "SP11d: moved server-side; local copy kept
+// for fallback". That was wrong: the payload key `SCENES` (/api/content/core,
+// vocabScenes.js) is a DIFFERENT dataset — the illustrated tap-a-word scenes
+// with `items`, no `qs` — that merely shares the name. ScenesScreen was written
+// against `content.SCENES` on that comment's authority and threw
+// `undefined is not an object (evaluating 'scene.qs.map')` on every open
+// (Sentry 0d68c47c, 2026-09-05). Exported under a name that cannot collide.
+export const DESCRIBE_SCENES = [
   {
     title: 'U kuhinji',
     desc: 'A family scene in the kitchen',

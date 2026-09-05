@@ -1525,6 +1525,15 @@ Practical rules that fall out of this:
   the leak. If a case matters, set its mocks in its own test.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
+- **A payload key and a local export can share a name and hold different data.**
+  `content.SCENES` (the illustrated tap-a-word set, `items`) and the client-local
+  scene-description set (`qs`) were both called SCENES; a comment said the
+  latter had "moved server-side", and `ScenesScreen` read the payload on that
+  authority and threw `scene.qs.map` on every open from the day it was created
+  (Sentry 0d68c47c, 2026-09-05). A boundary swallowed it for three weeks. When a
+  screen is pointed at `useContent`, check the SHAPE it renders against the key
+  it reads — the local export is now `DESCRIBE_SCENES`, a name that cannot
+  collide, and `scenesScreen.test.tsx` asserts the server set still lacks `qs`.
 - **A component test and a wiring test are different tests.** A test that
   renders a screen and supplies its props proves the screen works when wired;
   only walking the router proves it IS wired. `award` was the case — see the
