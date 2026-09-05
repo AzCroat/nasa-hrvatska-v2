@@ -875,6 +875,61 @@ listening and reading alternating 50/50, session length unchanged** (pinned).
   SKILL_GROUP; serve a reference entry from it; tag `generated` by feel — fix the
   screen or the derivation test, never the flag alone; make P2.8 outrank P2.7.
 
+## Critical Architecture: The Culture Slot at Level (content expansion, 2026-09-05)
+
+The finding this exists to keep closed: **the daily culture slot served an
+advanced learner beginner content on 38–39 of every 40 days.** `CROATIA_POOL`
+had 41 entries — 18 unlevelled (A1 by default), A2 5, B1 15, and ONE entry each
+at B2, C1 and C2 (the deep-dive tier pages, three essays each) — and the P4 slot
+rotated least-recently-served over everything unlocked, treating an A1 survival
+card and a C1 essay identically. Measured with the real builder over 40 culture
+days: own-level content on 1 day at B2, 1 at C1, 1 at C2. After: **20 of 40 at
+every level from A2 up** (A1 has nothing below it), pinned.
+
+- **Two fixes, and neither works alone.** Rotation alone would have served the
+  one C1 card every other day; content alone would still have reached it once
+  per 40-card cycle. (1) CONTENT: 8 essays per tier (was 3; Croatian words per
+  tier 500 → 1,200–1,350), each its own pool entry `kultura_<tier>_<key>` routed
+  to `CultureDeepDiveScreen tier essayKey` — the `region_*` shape: one shared
+  screen, one literal route per key — so a culture day is one bounded essay, not
+  the tier. The tier catalog routes (`kultura_b2` …) stay for browsing (an
+  essay's "all essays" button) and are `OUTSIDE_SESSION`, not pool entries.
+  (2) ROTATION: P4 alternates two LRS cycles — the learner's OWN TIER (entries
+  gated at exactly their level, plus `adaptive` entries that level themselves)
+  and everything below — whichever was served less recently; never-served ties
+  go to the own tier so an advanced learner's first culture day is at level.
+  Within each cycle nothing repeats until the cycle is exhausted: the owner's
+  2026-08-14 "same card every day" fix holds PER CYCLE.
+- **`adaptive` on a Croatia entry** means the screen levels itself
+  (`croatianews` → `/api/news?level=…`), so it counts as own tier for every
+  learner at or above its gate. A fixed `cefr` alone would pin it to B1.
+- **Same-day ties are real, not a test artifact.** A level change or a fresh
+  session rebuilds the plan with every served date equal to today, and the date
+  comparison cannot say which cycle went last. On a tie the slot prefers the
+  cycle with the larger share of entries not yet served that day, which walks
+  both cycles to exhaustion before anything repeats within a day. Beyond one
+  full walk on the same day every date is equal and LRS cannot order — that was
+  true before this change and real days never tie like that.
+- **The pool cannot import the data** (first-paint path), so the 24 per-essay
+  entries are hand-listed in `croatiaPool.ts`; `cultureDeepDives.test.ts`
+  DERIVES the expected list from `CULTURE_DEEP_DIVES` and checks it in both
+  directions, and every essay's route and props against the real router. An
+  essay authored without its entry, or an entry whose essay was renamed, fails
+  there rather than serving an empty screen. An unknown `essayKey` (a cached
+  payload older than the essay) falls back to the tier, never a blank screen.
+- **`croatiaReason(atLevel)`** says "Culture at your level." only when the pick
+  came from the own-tier cycle — decided by the same code, so it states nothing
+  the builder did not just do.
+- Both deep-dive copies (`src/data/cultural/deepdives.js`,
+  `functions/api/content/_data/cultural/deepdives.js`) must stay byte-identical
+  (pinned) and are in the Croatian lint TARGETS; the 15 new essays passed it at
+  0 findings. Essays are written AT register — B2 feature journalism, C1
+  cultural criticism, C2 essayistic — never as glossed vocabulary lists.
+- NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
+  essay without its pool entry and route (the derivation test names it); tag a
+  Croatia entry `adaptive` unless its screen actually reads the learner's level;
+  put the tier catalog pages back into the pool (one essay per culture day).
+
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 
 The 2026-08-18 audit finding this section exists to keep closed: the app TESTED

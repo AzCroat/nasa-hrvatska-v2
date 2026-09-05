@@ -1323,6 +1323,135 @@ export default function AppRouter(props: Record<string, any>) {
             <CultureDeepDiveScreen tier="C2" goBack={goBack} />
           </ScreenErrorBoundary>
         )}
+        {currentScreen === 'kultura_b2_kava' && (
+          <ScreenErrorBoundary key="kultura_b2_kava" name="kultura_b2_kava">
+            <CultureDeepDiveScreen tier="B2" essayKey="kava" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_fjaka' && (
+          <ScreenErrorBoundary key="kultura_b2_fjaka" name="kultura_b2_fjaka">
+            <CultureDeepDiveScreen tier="B2" essayKey="fjaka" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_nogomet' && (
+          <ScreenErrorBoundary key="kultura_b2_nogomet" name="kultura_b2_nogomet">
+            <CultureDeepDiveScreen tier="B2" essayKey="nogomet" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_nedjeljni_objed' && (
+          <ScreenErrorBoundary key="kultura_b2_nedjeljni_objed" name="kultura_b2_nedjeljni_objed">
+            <CultureDeepDiveScreen tier="B2" essayKey="nedjeljni_objed" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_sjever_jug' && (
+          <ScreenErrorBoundary key="kultura_b2_sjever_jug" name="kultura_b2_sjever_jug">
+            <CultureDeepDiveScreen tier="B2" essayKey="sjever_jug" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_veza' && (
+          <ScreenErrorBoundary key="kultura_b2_veza" name="kultura_b2_veza">
+            <CultureDeepDiveScreen tier="B2" essayKey="veza" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_advent' && (
+          <ScreenErrorBoundary key="kultura_b2_advent" name="kultura_b2_advent">
+            <CultureDeepDiveScreen tier="B2" essayKey="advent" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_b2_gostoprimstvo' && (
+          <ScreenErrorBoundary key="kultura_b2_gostoprimstvo" name="kultura_b2_gostoprimstvo">
+            <CultureDeepDiveScreen tier="B2" essayKey="gostoprimstvo" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_klapa' && (
+          <ScreenErrorBoundary key="kultura_c1_klapa" name="kultura_c1_klapa">
+            <CultureDeepDiveScreen tier="C1" essayKey="klapa" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_kanon' && (
+          <ScreenErrorBoundary key="kultura_c1_kanon" name="kultura_c1_kanon">
+            <CultureDeepDiveScreen tier="C1" essayKey="kanon" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_iseljenistvo' && (
+          <ScreenErrorBoundary key="kultura_c1_iseljenistvo" name="kultura_c1_iseljenistvo">
+            <CultureDeepDiveScreen tier="C1" essayKey="iseljenistvo" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_glagoljica' && (
+          <ScreenErrorBoundary key="kultura_c1_glagoljica" name="kultura_c1_glagoljica">
+            <CultureDeepDiveScreen tier="C1" essayKey="glagoljica" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_dubrovacka_republika' && (
+          <ScreenErrorBoundary
+            key="kultura_c1_dubrovacka_republika"
+            name="kultura_c1_dubrovacka_republika"
+          >
+            <CultureDeepDiveScreen tier="C1" essayKey="dubrovacka_republika" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_zagrebacka_skola' && (
+          <ScreenErrorBoundary key="kultura_c1_zagrebacka_skola" name="kultura_c1_zagrebacka_skola">
+            <CultureDeepDiveScreen tier="C1" essayKey="zagrebacka_skola" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_becarac' && (
+          <ScreenErrorBoundary key="kultura_c1_becarac" name="kultura_c1_becarac">
+            <CultureDeepDiveScreen tier="C1" essayKey="becarac" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c1_licitar' && (
+          <ScreenErrorBoundary key="kultura_c1_licitar" name="kultura_c1_licitar">
+            <CultureDeepDiveScreen tier="C1" essayKey="licitar" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_pravopis' && (
+          <ScreenErrorBoundary key="kultura_c2_pravopis" name="kultura_c2_pravopis">
+            <CultureDeepDiveScreen tier="C2" essayKey="pravopis" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_tri_pisma' && (
+          <ScreenErrorBoundary key="kultura_c2_tri_pisma" name="kultura_c2_tri_pisma">
+            <CultureDeepDiveScreen tier="C2" essayKey="tri_pisma" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_humor' && (
+          <ScreenErrorBoundary key="kultura_c2_humor" name="kultura_c2_humor">
+            <CultureDeepDiveScreen tier="C2" essayKey="humor" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_purizam' && (
+          <ScreenErrorBoundary key="kultura_c2_purizam" name="kultura_c2_purizam">
+            <CultureDeepDiveScreen tier="C2" essayKey="purizam" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_regionalni_identiteti' && (
+          <ScreenErrorBoundary
+            key="kultura_c2_regionalni_identiteti"
+            name="kultura_c2_regionalni_identiteti"
+          >
+            <CultureDeepDiveScreen tier="C2" essayKey="regionalni_identiteti" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_mit_o_moru' && (
+          <ScreenErrorBoundary key="kultura_c2_mit_o_moru" name="kultura_c2_mit_o_moru">
+            <CultureDeepDiveScreen tier="C2" essayKey="mit_o_moru" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_spomenici_i_sjecanje' && (
+          <ScreenErrorBoundary
+            key="kultura_c2_spomenici_i_sjecanje"
+            name="kultura_c2_spomenici_i_sjecanje"
+          >
+            <CultureDeepDiveScreen tier="C2" essayKey="spomenici_i_sjecanje" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'kultura_c2_deklaracija' && (
+          <ScreenErrorBoundary key="kultura_c2_deklaracija" name="kultura_c2_deklaracija">
+            <CultureDeepDiveScreen tier="C2" essayKey="deklaracija" goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
         {currentScreen === 'region_labin' && (
           <ScreenErrorBoundary key="region_labin" name="region_labin">
             <RegionScreen regionKey="labin" goBack={goBack} />

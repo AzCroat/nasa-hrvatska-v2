@@ -19,10 +19,13 @@ import { SESSION_AUTOCOMPLETE_SCREENS } from '../hooks/useDailySession';
 const TIERS = ['B2', 'C1', 'C2'] as const;
 
 describe('culture deep-dive data', () => {
-  it('has 3 essays per tier, each with 3 bilingual paragraphs and 5 vocab pairs', () => {
+  it('has 8 essays per tier, each with 3 bilingual paragraphs and 5 vocab pairs', () => {
+    // 3 → 8 per tier (2026-09-05, content expansion item 3): with one entry per
+    // essay, the tier IS the culture slot's own-tier cycle at B2+, and a cycle
+    // of three repeats every third day.
     for (const tier of TIERS) {
       const essays = CULTURE_DEEP_DIVES[tier];
-      expect(essays.length, tier).toBeGreaterThanOrEqual(3);
+      expect(essays.length, tier).toBeGreaterThanOrEqual(8);
       for (const e of essays) {
         expect(e.key.length, `${tier}/${e.key}`).toBeGreaterThan(2);
         expect(e.title.length, `${tier}/${e.key}`).toBeGreaterThan(3);
@@ -55,14 +58,31 @@ describe('culture deep-dive data', () => {
 });
 
 describe('culture deep-dive wiring', () => {
-  it('the Croatia slot carries one entry per tier at the right CEFR gate', () => {
+  // The pool cannot import the data (first-paint path), so its per-essay entries
+  // are hand-listed; this DERIVES the expected list from the data and checks it
+  // in both directions, so an essay authored without its entry — or an entry
+  // whose essay was renamed — fails here rather than serving an empty screen.
+  it('the Croatia slot carries exactly one entry per ESSAY at the tier gate', () => {
     for (const tier of TIERS) {
-      const id = `kultura_${tier.toLowerCase()}`;
-      const entry = CROATIA_POOL.find((e) => e.id === id);
-      expect(entry, id).toBeTruthy();
-      expect(entry!.cefr, id).toBe(tier);
-      expect(entry!.category, id).toBe('culture');
-      expect(entry!.screen, id).toBe(id);
+      const expected = CULTURE_DEEP_DIVES[tier].map(
+        (e) => `kultura_${tier.toLowerCase()}_${e.key}`,
+      );
+      const actual = CROATIA_POOL.filter((e) =>
+        e.id.startsWith(`kultura_${tier.toLowerCase()}_`),
+      ).map((e) => e.id);
+      expect(actual.sort(), tier).toEqual([...expected].sort());
+      for (const id of expected) {
+        const entry = CROATIA_POOL.find((e) => e.id === id)!;
+        expect(entry.cefr, id).toBe(tier);
+        expect(entry.category, id).toBe('culture');
+        expect(entry.screen, id).toBe(id);
+      }
+    }
+  });
+
+  it('the tier CATALOG pages are no longer pool entries (one essay per culture day)', () => {
+    for (const tier of TIERS) {
+      expect(CROATIA_POOL.find((e) => e.id === `kultura_${tier.toLowerCase()}`)).toBeUndefined();
     }
   });
 
@@ -73,17 +93,29 @@ describe('culture deep-dive wiring', () => {
     expect(gates.has('C2')).toBe(true);
   });
 
-  it('all three screens auto-complete on return (Croatia slot contract)', () => {
+  it('every essay screen auto-completes on return (Croatia slot contract)', () => {
     for (const tier of TIERS) {
-      expect(SESSION_AUTOCOMPLETE_SCREENS.has(`kultura_${tier.toLowerCase()}`), tier).toBe(true);
+      for (const e of CULTURE_DEEP_DIVES[tier]) {
+        const id = `kultura_${tier.toLowerCase()}_${e.key}`;
+        expect(SESSION_AUTOCOMPLETE_SCREENS.has(id), id).toBe(true);
+      }
     }
   });
 
-  it('AppRouter routes all three screens to CultureDeepDiveScreen', () => {
+  it('AppRouter routes every essay AND every tier catalog to CultureDeepDiveScreen', () => {
     const src = readFileSync('src/components/AppRouter.tsx', 'utf8');
     for (const tier of TIERS) {
-      expect(src).toContain(`currentScreen === 'kultura_${tier.toLowerCase()}'`);
-      expect(src).toContain(`<CultureDeepDiveScreen tier="${tier}"`);
+      const t = tier.toLowerCase();
+      expect(src).toContain(`currentScreen === 'kultura_${t}'`);
+      expect(src).toContain(`<CultureDeepDiveScreen tier="${tier}" goBack={goBack} />`);
+      for (const e of CULTURE_DEEP_DIVES[tier]) {
+        expect(src, `${tier}/${e.key} route`).toContain(
+          `currentScreen === 'kultura_${t}_${e.key}'`,
+        );
+        expect(src, `${tier}/${e.key} props`).toContain(
+          `<CultureDeepDiveScreen tier="${tier}" essayKey="${e.key}" goBack={goBack} />`,
+        );
+      }
     }
   });
 

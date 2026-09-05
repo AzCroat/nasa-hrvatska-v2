@@ -128,9 +128,13 @@ export function inputSlotReason(
   return 'Every session includes one listening or reading activity at your level.';
 }
 
-/** Why the Croatia slot is here (true by construction — it is a daily rotation). */
-export function croatiaReason(): string {
-  return "Today's culture pick.";
+/**
+ * Why the Croatia slot is here (true by construction — it is a daily rotation).
+ * `atLevel` is decided by the rotation itself (own-tier cycle vs. the rest), so
+ * naming it states nothing the builder did not just do.
+ */
+export function croatiaReason(atLevel = false): string {
+  return atLevel ? 'Culture at your level.' : "Today's culture pick.";
 }
 
 /**

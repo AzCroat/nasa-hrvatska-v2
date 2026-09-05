@@ -27,6 +27,13 @@ export interface CroatiaPoolEntry {
   // inline here to avoid a hook→data→hook import cycle.
   category: SkillCategory | 'culture' | 'practical' | 'general';
   cefr?: string; // minimum CEFR to be served this entry (default A1)
+  /**
+   * The screen levels its own content to the learner (croatianews asks
+   * /api/news?level=…), so it belongs to EVERY learner's own tier at or above
+   * its gate. The level-aware culture rotation (useDailySession P4) counts
+   * such an entry as at-level; a fixed `cefr` alone would pin it to B1.
+   */
+  adaptive?: boolean;
 }
 export const CROATIA_POOL: CroatiaPoolEntry[] = [
   { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
@@ -90,6 +97,7 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
     screen: 'croatianews',
     category: 'culture',
     cefr: 'B1',
+    adaptive: true, // /api/news?level=<learner> — at-level from B1 up
   },
   {
     id: 'baka_summer',
@@ -190,25 +198,184 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
   // Before these, every entry above gated at B1 — an advanced learner's culture
   // slot recycled B1 prose forever. Essays authored AT register (B2 feature
   // journalism, C1 cultural criticism, C2 essayistic), HR-first with EN toggle;
-  // data ships Bearer-gated via /api/content/core (CULTURE_DEEP_DIVES).
+  // ── B2–C2 culture deep dives — ONE ENTRY PER ESSAY (2026-09-05) ──────────
+  // Before: one entry per tier (kultura_b2/c1/c2) rendering the whole tier's
+  // essays, and 3 essays per tier. Measured over 40 culture days a C1 learner
+  // saw content at their own level on 1 of 40 (C2: 1 of 40) — the slot's
+  // least-recently-served rotation treated an A1 survival card and a C1 essay
+  // identically, and the tier had one card to give. Now 8 essays per tier, each
+  // its own bounded entry (the region_* shape: one shared screen, one route per
+  // key), so the own-tier cycle at B2+ is 8–9 entries long instead of 1–2. The
+  // keys are hand-listed here because this file sits on the first-paint path
+  // and cannot import src/data; cultureDeepDives.test.ts derives the list from
+  // the data and fails on any drift in either direction. The tier catalog
+  // routes (kultura_b2 …) still exist for browsing and are no longer pool
+  // entries.
   {
-    id: 'kultura_b2',
+    id: 'kultura_b2_kava',
     label: 'Kultura: Mentalitet',
-    screen: 'kultura_b2',
+    screen: 'kultura_b2_kava',
     category: 'culture',
     cefr: 'B2',
   },
   {
-    id: 'kultura_c1',
+    id: 'kultura_b2_fjaka',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_fjaka',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_nogomet',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_nogomet',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_nedjeljni_objed',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_nedjeljni_objed',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_sjever_jug',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_sjever_jug',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_veza',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_veza',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_advent',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_advent',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_b2_gostoprimstvo',
+    label: 'Kultura: Mentalitet',
+    screen: 'kultura_b2_gostoprimstvo',
+    category: 'culture',
+    cefr: 'B2',
+  },
+  {
+    id: 'kultura_c1_klapa',
     label: 'Kultura: Baština',
-    screen: 'kultura_c1',
+    screen: 'kultura_c1_klapa',
     category: 'culture',
     cefr: 'C1',
   },
   {
-    id: 'kultura_c2',
+    id: 'kultura_c1_kanon',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_kanon',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_iseljenistvo',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_iseljenistvo',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_glagoljica',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_glagoljica',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_dubrovacka_republika',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_dubrovacka_republika',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_zagrebacka_skola',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_zagrebacka_skola',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_becarac',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_becarac',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c1_licitar',
+    label: 'Kultura: Baština',
+    screen: 'kultura_c1_licitar',
+    category: 'culture',
+    cefr: 'C1',
+  },
+  {
+    id: 'kultura_c2_pravopis',
     label: 'Kultura: Identitet',
-    screen: 'kultura_c2',
+    screen: 'kultura_c2_pravopis',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_tri_pisma',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_tri_pisma',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_humor',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_humor',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_purizam',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_purizam',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_regionalni_identiteti',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_regionalni_identiteti',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_mit_o_moru',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_mit_o_moru',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_spomenici_i_sjecanje',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_spomenici_i_sjecanje',
+    category: 'culture',
+    cefr: 'C2',
+  },
+  {
+    id: 'kultura_c2_deklaracija',
+    label: 'Kultura: Identitet',
+    screen: 'kultura_c2_deklaracija',
     category: 'culture',
     cefr: 'C2',
   },
