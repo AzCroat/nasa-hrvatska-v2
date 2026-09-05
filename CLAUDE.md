@@ -875,6 +875,64 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   SKILL_GROUP; serve a reference entry from it; tag `generated` by feel — fix the
   screen or the derivation test, never the flag alone; make P2.8 outrank P2.7.
 
+## Critical Architecture: Reading Depth at B2–C2 (content expansion, 2026-09-05)
+
+The finding this exists to keep closed: **every graded story sat between 70 and
+625 Croatian words — A1 averaged 268, C2 468 — so a reader who had reached B2
+had nothing longer to read than a beginner.** No sustained argument, no serial
+with a plot carried across parts, no literary prose that asks to be read
+slowly. B2, C1 and C2 each held ~10,000 words in ~25 page-length pieces.
+
+- **35 long reads in `functions/api/content/_data/gradedStoriesLong.js`**,
+  spread into `GRADED_STORIES` at the END (the lessonsA1 split, for the same
+  reason: gradedStories.js is ~9k lines; appended so nothing indexing the array
+  moves). Same shape as every other story — paragraphs `hr`+`en`, ≥8 vocab
+  with an example, five-question quiz — plus `kind` (`serial | feature |
+opinion | literary`) and, on serial parts, `series: { id, part, of }`.
+  **Measured**: B2 12 pieces / 10,172 new words, C1 12 / 10,440, C2 11 /
+  10,183 → per-level totals **20,331 / 20,823 / 20,489** (doubled, the item's
+  first instruction). 800–1,021 Croatian words each; the English is ~20%
+  longer than the Croatian, which is why the first drafts of the features
+  came in at 600–700 and had to be lengthened — write to the Croatian count,
+  not the English.
+- **Genres at the levels the item named**: B2 is feature journalism (island
+  tourism, a railway closure, the five-o'clock tram, first-time voters, a cup
+  deposit, landlords and tenants, a village year, a community garden, a small
+  cinema) plus a three-part serial; C1 is OPINION and ANALYSIS — a thesis,
+  evidence, a counter-argument stated at its strongest, a position (a bridge,
+  who pays for the sea, AI and a small language, demography, short-term lets,
+  school reform, remote work, civility, free university, why we don't read, a
+  two-part EU balance sheet); C2 is LITERARY prose — a two-part novella
+  excerpt and nine short stories, **original work written for this app, not
+  quotations from any author** (reproducing real texts from memory risks
+  misattribution and copyright; the `intro` of each says so).
+- **Serials survive a picker that does not order by part.** The
+  story-of-the-day picker sorts by score then title and indexes by day, so
+  part 2 can be served before part 1. Every part therefore opens readable on
+  its own, its title ends "(k/n)", and its English `intro` says "Part k of n"
+  and recaps — pinned. The catalog projection (`/api/content/catalog`) does
+  NOT carry `kind`/`series`; the title and intro are what the reader sees, so
+  they carry the information.
+- **Payload**: the catalog gains 35 rows (shape only); bodies ship one at a
+  time through `/api/content/stories/{id}` with their own etag, so the 490 KB
+  of new bodies is paid per story opened, not at load. `_etags.js` is
+  generated, not committed — run `generate-content-etags.mjs` after adding.
+- **The lint caught two Cyrillic homoglyphs in this content on the day it was
+  written** (a `а` in a distractor, an `е` in `roleta`), typed by the author,
+  not pasted. That is the encoding check doing exactly what it exists for;
+  the file is in TARGETS and must stay there — spreading into a linted export
+  does not lint the file (pinned in `croatianLintTargets.test.ts`).
+- **Quiz answers must not all sit at one index.** Eleven of the first drafts
+  had every `correct` at 1; a reader who notices stops reading the options.
+  `gradedStories.test.ts` pins ≥2 distinct indices per long read, plus: ≥800
+  Croatian words, ≥7 paragraphs, ≥8 vocab, exactly 5 quiz items, B2/C1/C2 only,
+  id prefix `gs_<level>_long_`, every serial complete and consecutive at one
+  level, and the doubled word floors.
+- NEVER: lower the 20,000-word floors; author a serial part that cannot be
+  read first; attribute a literary excerpt to a real author from memory; count
+  a long read by its English; add a story file without adding it to lint
+  TARGETS.
+
 ## Critical Architecture: The Culture Slot at Level (content expansion, 2026-09-05)
 
 The finding this exists to keep closed: **the daily culture slot served an
@@ -974,12 +1032,43 @@ every level from A2 up** (A1 has nothing below it), pinned.
   (data at all six levels and genuinely different; picker never climbs;
   degrade path; the screen rendered with the REAL data at A1/B2/C2 shows that
   level and not the baseline).
+- **City of the Day carries graded Croatian for a TRANCHE, and says so (item 6,
+  geography half, 2026-09-05).** The screen was English prose plus three
+  Croatian words per city, across 364 cities, with no Croatian text field at
+  all — grading it the way HISTORY was graded is ~25,000 words per register
+  band, so the scope decision was: THREE bands, not six, and the major cities
+  first. 46 cities (the coast from Dubrovnik to Pag, Istria, Kvarner, Zagreb
+  and the north, Slavonia, Lika, Herzegovina) now carry `introHrA1` (~35 words,
+  subject forms and present tense), `introHr` (the B1 baseline, ~90, same
+  convention as HISTORY) and `introHrC1` (~145, an argued paragraph about what
+  the place MEANS, not a gloss of the English facts); 12,482 Croatian words,
+  every one written from the city's own English record so the two halves
+  cannot contradict each other. `pickGradedHr` walks down as before, so A2
+  reads A1, B2 reads B1, C2 reads C1, and the chip (`cityofday-reading-level`)
+  says "Croatian · A1", never "at your level", on those three — the honesty
+  rule costs nothing here and the alternative was writing 25,000 words twice.
+  **The pool entry is deliberately NOT `adaptive`**: `adaptive` means own-tier
+  for EVERY learner, and a culture day on an ungraded city would claim that
+  falsely. `cityOfDayGraded.test.tsx` DERIVES coverage from the data and
+  asserts the flag equals "coverage is complete", so it can be flipped neither
+  early nor forgotten late; it also asserts an ungraded city renders exactly as
+  before (no block, no chip) and that a graded city has exactly the three
+  bands and nothing half-graded. Fields were inserted by a name-keyed script
+  that emits the same one-line-per-key shape `rebuildCities.mjs` serialises
+  (which iterates `Object.entries`, so a regeneration preserves them); both
+  copies stay byte-identical (pinned). Mutation-verified, six mutations
+  (adaptive flipped early, screen never picks, chip always claims, one band
+  deleted, picker pinned to C1, server copy dropped from lint TARGETS) fail
+  1–6 tests each; positive control `hleb` in an `introHrC1` fails the lint.
+  **Remaining: 318 cities**, in tranches of this shape; the derived floor in the
+  test rises with each and never lowers.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
   put the tier catalog pages back into the pool (one essay per culture day);
   claim a rotation figure without saying which branch produced it; grade a
-  culture record with a nested level object instead of `*Hr<Level>` siblings.
+  culture record with a nested level object instead of `*Hr<Level>` siblings;
+  mark `cityofday` adaptive while any city is ungraded (the test derives it).
 
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 

@@ -40,6 +40,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsC1.js',
   'functions/api/content/_data/lessonsC2.js',
   'functions/api/content/_data/gradedStories.js',
+  'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',
   'functions/api/content/_data/vocabScenes.js',
   // exercises.js was absent from this list entirely — 81 levelled exercises

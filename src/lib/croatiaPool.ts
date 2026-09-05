@@ -49,6 +49,12 @@ export interface CroatiaPoolEntry {
 export const CITY_OF_DAY_SLOT_MAX_CEFR = 'A2';
 
 export const CROATIA_POOL: CroatiaPoolEntry[] = [
+  // NOT `adaptive` yet (2026-09-05): the screen grades its Croatian intro by the
+  // learner's level, but only a tranche of cities carries graded text
+  // (cityOfDayGraded.test.tsx derives the count). `adaptive` means "own-tier for
+  // EVERY learner", and a day on an ungraded city would claim that falsely.
+  // Flip it when coverage reaches the whole pool — the test asserts the flag
+  // and the coverage agree, so it cannot be flipped early or forgotten late.
   { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
   { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
   { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
