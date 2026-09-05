@@ -497,61 +497,61 @@ const TARGETS = [
   // about. Every file below is one the widened matcher sees at least half of,
   // and most of them all of. The comment on each is cro=Croatian strings the
   // file holds, %=share of them the lint scans.
-  'functions/api/_sttGoldenSet.js',  // 4cro 100%
-  'functions/api/content/_data/cultural/events.js',  // 8cro 100%
-  'functions/api/content/_data/seasonalCampaigns.js',  // 1cro 100%
-  'functions/api/conversational-tutor.js',  // 2cro 50%
-  'functions/api/flux-generate.js',  // 1cro 100%
-  'functions/api/news.js',  // 10cro 70%
-  'src/components/croatia/ConversationBubble.tsx',  // 1cro 100%
-  'src/components/croatia/CroatiaAthletes.tsx',  // 7cro 100%
-  'src/components/croatia/CroatianNewsScreen.tsx',  // 9cro 78%
-  'src/components/croatia/CultureDeepDiveScreen.tsx',  // 1cro 100%
-  'src/components/croatia/DiasporaNote.tsx',  // 6cro 83%
-  'src/components/croatia/MajaDebrief.tsx',  // 1cro 100%
-  'src/components/croatia/MajaScreenUtils.js',  // 5cro 60%
-  'src/components/croatia/PhraseOfDayScreen.tsx',  // 31cro 65%
-  'src/components/croatia/SpotifySection.tsx',  // 3cro 100%
-  'src/components/croatia/StoryModeData.js',  // 2cro 100%
-  'src/components/grad/PlaceScreen.tsx',  // 6cro 100%
-  'src/components/grad/gradModel.ts',  // 1cro 100%
-  'src/components/grad/places.ts',  // 12cro 92%
-  'src/components/home/DailyCroatianSection.tsx',  // 1cro 100%
-  'src/components/home/HeroStats.tsx',  // 2cro 50%
-  'src/components/home/SpeedChallenge.tsx',  // 4cro 100%
-  'src/components/home/hostFamily.ts',  // 5cro 80%
-  'src/components/learn/GrammarExplainer.tsx',  // 4cro 50%
-  'src/components/learn/GrammarReader.tsx',  // 10cro 100%
-  'src/components/learn/GrammarVideos.tsx',  // 2cro 100%
-  'src/components/learn/LearnTab.tsx',  // 2cro 50%
-  'src/components/practice/AdaptiveReviewScreen.tsx',  // 2cro 100%
-  'src/components/practice/AspectDrillScreen.tsx',  // 6cro 67%
-  'src/components/practice/FlashcardCardBack.tsx',  // 1cro 100%
-  'src/components/practice/MapScreen.tsx',  // 1cro 100%
-  'src/components/practice/SprintFeedbackPhase.tsx',  // 1cro 100%
-  'src/components/practice/VideoLessonScreen.tsx',  // 2cro 100%
-  'src/components/practice/exerciseCatalog.ts',  // 7cro 100%
-  'src/components/practice/listening/aiListeningTopics.ts',  // 2cro 100%
-  'src/components/profile/CertificateScreen.tsx',  // 2cro 50%
-  'src/components/profile/CroatianErrorInsights.tsx',  // 29cro 52%
-  'src/components/razgovor/partners.ts',  // 22cro 100%
-  'src/components/shared/AmbientPlayer.tsx',  // 2cro 100%
-  'src/components/shared/CroatianCross.tsx',  // 1cro 100%
-  'src/components/shared/EmptyState.tsx',  // 1cro 100%
-  'src/components/shared/GrammarReference.tsx',  // 17cro 76%
-  'src/components/shared/KnightCompanion.tsx',  // 5cro 100%
-  'src/components/shared/OnboardingTour.tsx',  // 4cro 50%
-  'src/data/bakaPhrases.ts',  // 8cro 100%
-  'src/hooks/useNotifications.ts',  // 10cro 50%
-  'src/lib/aspectPairs.ts',  // 10cro 100%
-  'src/lib/conjugation/curriculum.ts',  // 9cro 67%
-  'src/lib/croatiaPool.ts',  // 2cro 100%
-  'src/lib/drillPoolEntries.ts',  // 13cro 100%
-  'src/lib/legacySavedPhraseIndex.ts',  // 8cro 100%
-  'src/lib/nextStep.ts',  // 1cro 100%
-  'src/lib/pushNotifications.ts',  // 1cro 100%
-  'src/lib/sessionPools.ts',  // 7cro 100%
-  'src/sw.js',  // 2cro 100%
+  'functions/api/_sttGoldenSet.js', // 4cro 100%
+  'functions/api/content/_data/cultural/events.js', // 8cro 100%
+  'functions/api/content/_data/seasonalCampaigns.js', // 1cro 100%
+  'functions/api/conversational-tutor.js', // 2cro 50%
+  'functions/api/flux-generate.js', // 1cro 100%
+  'functions/api/news.js', // 10cro 70%
+  'src/components/croatia/ConversationBubble.tsx', // 1cro 100%
+  'src/components/croatia/CroatiaAthletes.tsx', // 7cro 100%
+  'src/components/croatia/CroatianNewsScreen.tsx', // 9cro 78%
+  'src/components/croatia/CultureDeepDiveScreen.tsx', // 1cro 100%
+  'src/components/croatia/DiasporaNote.tsx', // 6cro 83%
+  'src/components/croatia/MajaDebrief.tsx', // 1cro 100%
+  'src/components/croatia/MajaScreenUtils.js', // 5cro 60%
+  'src/components/croatia/PhraseOfDayScreen.tsx', // 31cro 65%
+  'src/components/croatia/SpotifySection.tsx', // 3cro 100%
+  'src/components/croatia/StoryModeData.js', // 2cro 100%
+  'src/components/grad/PlaceScreen.tsx', // 6cro 100%
+  'src/components/grad/gradModel.ts', // 1cro 100%
+  'src/components/grad/places.ts', // 12cro 92%
+  'src/components/home/DailyCroatianSection.tsx', // 1cro 100%
+  'src/components/home/HeroStats.tsx', // 2cro 50%
+  'src/components/home/SpeedChallenge.tsx', // 4cro 100%
+  'src/components/home/hostFamily.ts', // 5cro 80%
+  'src/components/learn/GrammarExplainer.tsx', // 4cro 50%
+  'src/components/learn/GrammarReader.tsx', // 10cro 100%
+  'src/components/learn/GrammarVideos.tsx', // 2cro 100%
+  'src/components/learn/LearnTab.tsx', // 2cro 50%
+  'src/components/practice/AdaptiveReviewScreen.tsx', // 2cro 100%
+  'src/components/practice/AspectDrillScreen.tsx', // 6cro 67%
+  'src/components/practice/FlashcardCardBack.tsx', // 1cro 100%
+  'src/components/practice/MapScreen.tsx', // 1cro 100%
+  'src/components/practice/SprintFeedbackPhase.tsx', // 1cro 100%
+  'src/components/practice/VideoLessonScreen.tsx', // 2cro 100%
+  'src/components/practice/exerciseCatalog.ts', // 7cro 100%
+  'src/components/practice/listening/aiListeningTopics.ts', // 2cro 100%
+  'src/components/profile/CertificateScreen.tsx', // 2cro 50%
+  'src/components/profile/CroatianErrorInsights.tsx', // 29cro 52%
+  'src/components/razgovor/partners.ts', // 22cro 100%
+  'src/components/shared/AmbientPlayer.tsx', // 2cro 100%
+  'src/components/shared/CroatianCross.tsx', // 1cro 100%
+  'src/components/shared/EmptyState.tsx', // 1cro 100%
+  'src/components/shared/GrammarReference.tsx', // 17cro 76%
+  'src/components/shared/KnightCompanion.tsx', // 5cro 100%
+  'src/components/shared/OnboardingTour.tsx', // 4cro 50%
+  'src/data/bakaPhrases.ts', // 8cro 100%
+  'src/hooks/useNotifications.ts', // 10cro 50%
+  'src/lib/aspectPairs.ts', // 10cro 100%
+  'src/lib/conjugation/curriculum.ts', // 9cro 67%
+  'src/lib/croatiaPool.ts', // 2cro 100%
+  'src/lib/drillPoolEntries.ts', // 13cro 100%
+  'src/lib/legacySavedPhraseIndex.ts', // 8cro 100%
+  'src/lib/nextStep.ts', // 1cro 100%
+  'src/lib/pushNotifications.ts', // 1cro 100%
+  'src/lib/sessionPools.ts', // 7cro 100%
+  'src/sw.js', // 2cro 100%
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.
@@ -589,8 +589,53 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // was dry-run before it was written: over the 303 existing targets it sees 1,408
 // MORE strings and reports zero new findings, and over all 270 remaining
 // candidates it reports zero. Re-measure the same way before adding a key.
+//
+// THE WRITING CURRICULUM WAS IN TARGETS FOR EIGHTEEN DAYS AT ~15% (2026-09-05).
+// `src/data/writingCurriculum.ts` joined the list the day it was authored, and
+// its header says "scanned by lintCroatianText.mjs — keep it clean". Measured by
+// mutation while expanding it: a Serbism in a structure `hr` was caught; the
+// same word in a MODEL text, a frame's `after`, or the connectives array passed
+// clean. Three reasons, all the same shape as the 2026-09-01 finding:
+//
+//   1. `model` / `before` / `after` were not field names the regex knew. The
+//      model is the native-standard text the learner STUDIES AND IMITATES —
+//      the load-bearing prose of the whole unit — and every one of them was
+//      unscanned.
+//   2. `connectives` / `accept` are bare string arrays (see ARRAY_FIELD_RE).
+//   3. CONCATENATION. A model is written as `'…' +\n '…' +\n '…'`, and the
+//      regex captured the FIRST literal only. 222 such joins sit across
+//      TARGETS; every continuation line was invisible. `fieldStrings` now
+//      follows `+ '…'` chains from the first match, so a field's whole value
+//      is scanned whatever its line breaks.
+//
+// Dry-run before writing, as the rule requires: the widening sees 340 more
+// strings across the 466 regex targets (93,950 → 94,290, NH_LINT_CENSUS=1) and
+// reports zero new findings. Mutation-verified in seven positions: a Serbism in
+// a model's first line, its second line, a frame `before`, a frame `after`, a
+// `connectives` entry, an `accept` entry, and a Cyrillic homoglyph on a model's
+// third line — every one fails the lint; before this change every one passed.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+
+// A `+ '…'` continuation directly after a matched literal. Sticky, so it can
+// only match at the position handed to it — never skip ahead to an unrelated
+// string.
+const CONCAT_RE = /\s*\+\s*(['"`])((?:[^\\]|\\.)*?)\1/y;
+
+/** Every literal of every recognised field, concatenation chains included. */
+function* fieldStrings(buf) {
+  for (const m of buf.matchAll(CRO_FIELD_RE)) {
+    yield { field: m[1], content: m[3], index: m.index };
+    let pos = m.index + m[0].length;
+    for (;;) {
+      CONCAT_RE.lastIndex = pos;
+      const c = CONCAT_RE.exec(buf);
+      if (!c) break;
+      yield { field: m[1], content: c[2], index: pos };
+      pos += c[0].length;
+    }
+  }
+}
 
 async function* walkTargets() {
   for (const rel of TARGETS) {
@@ -713,7 +758,12 @@ function findSerbisms(fieldName, s) {
 // array, so neither the field regex nor the distractor pass reached them. They
 // are the "you will be able to…" lines the spine's own field rules call
 // learner-facing, and they quote Croatian forms throughout.
-const ARRAY_FIELD_RE = /(opts|options|choices|distractors|objectives)\s*:\s*\[([^\]]*)\]/g;
+//
+// `connectives` and `accept` joined on 2026-09-05 (writing curriculum): the
+// useful-words panel a learner taps to insert into their own text, and the
+// alternative answers a frame accepts. Both are Croatian a learner reads.
+const ARRAY_FIELD_RE =
+  /(opts|options|choices|distractors|objectives|connectives|accept)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
 function* arrayStrings(buf) {
@@ -861,22 +911,24 @@ function checkStructured() {
 
 async function main() {
   let totalFindings = 0;
+  // Strings the regex passes actually LOOK AT. A target list cannot show what
+  // its matcher misses; this number can (the 12% finding, 2026-09-01). Printed
+  // with NH_LINT_CENSUS=1 so a matcher change is measured, not asserted.
+  let scanned = 0;
   for await (const { rel, buf } of walkTargets()) {
     const findings = [];
     // A contrastive file suspends the SERBISM half only; findBadInString (the
     // encoding check) runs on every string regardless.
     const serbismsOff = CONTRASTIVE_FILES.has(rel);
-    for (const m of buf.matchAll(CRO_FIELD_RE)) {
-      // m[1] = field name, m[3] = string contents
+    for (const { field: fieldName, content, index } of fieldStrings(buf)) {
       // Skip English-only fields by heuristic: `en` is the English translation,
       // but it CAN contain a Croatian word in the gloss (rare). Allow it.
-      const fieldName = m[1];
-      const content = m[3];
       // Skip very short non-text content
       if (content.length === 0) continue;
+      scanned++;
       const bad = findBadInString(content, fieldName);
       if (bad) {
-        const line = buf.slice(0, m.index).split('\n').length;
+        const line = buf.slice(0, index).split('\n').length;
         findings.push({
           line,
           field: fieldName,
@@ -886,7 +938,7 @@ async function main() {
       }
       const serbisms = serbismsOff ? null : findSerbisms(fieldName, content);
       if (serbisms) {
-        const line = buf.slice(0, m.index).split('\n').length;
+        const line = buf.slice(0, index).split('\n').length;
         findings.push({
           line,
           field: fieldName,
@@ -898,6 +950,7 @@ async function main() {
     // Distractor arrays: BOTH checks (see ARRAY_FIELD_RE for why the Serbism
     // half was missing until 2026-08-29).
     for (const { field, content, index } of arrayStrings(buf)) {
+      scanned++;
       const line = buf.slice(0, index).split('\n').length;
       const bad = findBadInString(content, field);
       if (bad) {
@@ -933,6 +986,9 @@ async function main() {
     totalFindings += findings.length;
   }
 
+  if (process.env.NH_LINT_CENSUS) {
+    console.log(`census: ${scanned} strings scanned across the regex targets`);
+  }
   if (totalFindings > 0) {
     console.error('');
     console.error(`✖ Croatian text lint: ${totalFindings} finding(s).`);

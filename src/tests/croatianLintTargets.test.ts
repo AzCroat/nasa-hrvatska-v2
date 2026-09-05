@@ -121,13 +121,51 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     }
   });
 
+  /** The field names ARRAY_FIELD_RE scans — derived from the source, not restated. */
+  const arrayFields = () =>
+    LINT_SRC.match(/const ARRAY_FIELD_RE =\s*\/\(([^)]*)\)/)![1]!.split('|');
+
   it('scans the curriculum spine objectives', () => {
     // A bare string array, so neither the field regex nor the distractor pass
     // reached it: 55 Croatian strings, none scanned. Worth pinning BOTH halves
     // — the pass and the file — because shipping one without the other is
     // precisely what the mutation run caught here.
-    expect(LINT_SRC).toMatch(/\(opts\|options\|choices\|distractors\|objectives\)/);
+    expect(arrayFields()).toContain('objectives');
     expect([...lintTargets()]).toContain('functions/api/content/_data/curriculum.js');
+  });
+
+  // THE FINDING OF 2026-09-05: the writing curriculum had been in TARGETS since
+  // the day it was authored (2026-08-18) and its header said "keep it clean" —
+  // and the lint saw roughly a sixth of it. Mutation settled it: a Serbism in a
+  // structure `hr` was caught; the same word in a MODEL text, a frame `after`
+  // or the connectives array passed clean. Three shapes, pinned separately
+  // because each failed on its own.
+  it('matches the writing-curriculum field names (model / before / after)', () => {
+    const fields = LINT_SRC.match(/const CRO_FIELD_RE =\s*\/\(([^)]*)\)/)![1]!.split('|');
+    for (const key of ['model', 'before', 'after']) {
+      expect(fields, `CRO_FIELD_RE no longer matches \`${key}\``).toContain(key);
+    }
+    expect([...lintTargets()]).toContain('src/data/writingCurriculum.ts');
+  });
+
+  it('scans the writing-curriculum arrays (connectives / accept)', () => {
+    for (const key of ['connectives', 'accept']) {
+      expect(arrayFields(), `ARRAY_FIELD_RE no longer matches \`${key}\``).toContain(key);
+    }
+  });
+
+  it('follows concatenated string literals, not just the first', () => {
+    // A model is written as `'…' +\n'…' +\n'…'` and the field regex captured
+    // the FIRST literal only — 222 such joins across TARGETS, every
+    // continuation line invisible. The main loop must iterate `fieldStrings`
+    // (which walks the `+ '…'` chain with a sticky CONCAT_RE), not the raw
+    // regex. Both halves pinned: the helper exists and is what the loop reads.
+    expect(LINT_SRC).toMatch(/const CONCAT_RE = \/[^\n]*\/y;/);
+    expect(LINT_SRC).toMatch(/function\* fieldStrings\(buf\)/);
+    expect(LINT_SRC).toMatch(/for \(const \{[^}]*\} of fieldStrings\(buf\)\)/);
+    expect(LINT_SRC).not.toMatch(
+      /for \(const m of buf\.matchAll\(CRO_FIELD_RE\)\) \{\n\s*\/\/ m\[1\]/,
+    );
   });
 });
 
