@@ -35,6 +35,19 @@ export interface CroatiaPoolEntry {
    */
   adaptive?: boolean;
 }
+/**
+ * OWNER DECISION (2026-09-05): City of the Day holds the culture slot's first
+ * claim for A1–A2 only. The daily plan is built once a day, before anyone has
+ * opened City of the Day, so the "first claim until visited" rule had made the
+ * slot `cityofday` on every daily build at every level and the level-aware
+ * rotation ran only on same-day rebuilds. From B1 up the slot is now that
+ * rotation on every build — own-tier essays, news, regions and history — and
+ * City of the Day is not in it at all. It stays on Home (`CityOfDayCard`) for
+ * everyone. B1 is the first level with a substantial own tier (15 B1 entries
+ * plus the self-levelling news and history).
+ */
+export const CITY_OF_DAY_SLOT_MAX_CEFR = 'A2';
+
 export const CROATIA_POOL: CroatiaPoolEntry[] = [
   { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
   { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },

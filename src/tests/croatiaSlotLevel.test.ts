@@ -32,6 +32,7 @@ vi.mock('../lib/adaptive', () => ({
 }));
 
 import { buildSessionActivities, CROATIA_POOL } from '../hooks/useDailySession';
+import { CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { localDateStr } from '../lib/dateUtils';
 import { isUnlocked } from '../lib/cefr';
 
@@ -153,8 +154,48 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
     expect(second.reason).toBe("Today's culture pick.");
   });
 
-  it('cityofday keeps first claim when not yet visited', () => {
+  it('cityofday keeps first claim when not yet visited — at A1 and A2 only', () => {
     localStorage.removeItem('nh_cityofday_date');
-    for (const l of ['A1', 'B2', 'C2']) expect(culturePick(l).id).toBe('cityofday');
+    for (const l of ['A1', 'A2']) expect(culturePick(l).id, l).toBe('cityofday');
+  });
+});
+
+// OWNER DECISION (2026-09-05). Everything above forces the rotation branch by
+// marking City of the Day visited, because the daily plan is built once a day
+// BEFORE anyone has opened it — so in production the slot was `cityofday` on
+// every daily build at every level, and the rotation measured above never
+// reached a learner except on a same-day rebuild. From B1 up the slot is now
+// the rotation on every build and City of the Day is out of it (it stays on
+// Home). These tests do NOT set the visited flag: they measure the daily build.
+describe('daily builds (City of the Day NOT visited) — the branch production actually hits', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it.each(['B1', 'B2', 'C1', 'C2'])(
+    '%s never serves cityofday and alternates from day one',
+    (level) => {
+      const own = new Set(ownTier(level).map((c) => c.id));
+      const picks = daysOf(level, 40);
+      expect(picks).not.toContain('cityofday');
+      const atLevel = picks.filter((id) => own.has(id)).length;
+      expect(atLevel, `${level}: ${picks.join(',')}`).toBeGreaterThanOrEqual(19);
+      expect(atLevel).toBeLessThanOrEqual(21);
+      expect(own.has(picks[0]!), 'first daily culture pick is at level').toBe(true);
+    },
+  );
+
+  it.each(['A1', 'A2'])(
+    '%s keeps the ritual: cityofday on every daily build until visited',
+    (level) => {
+      for (let i = 0; i < 5; i++) expect(culturePick(level).id).toBe('cityofday');
+      localStorage.setItem('nh_cityofday_date', localDateStr());
+      expect(culturePick(level).id).not.toBe('cityofday');
+    },
+  );
+
+  it('the threshold is the pool constant, and B1 is the first level with a real own tier', () => {
+    expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
+    expect(ownTier('B1').length).toBeGreaterThanOrEqual(15);
   });
 });

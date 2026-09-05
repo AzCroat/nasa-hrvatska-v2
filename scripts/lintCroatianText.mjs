@@ -639,16 +639,30 @@ const CRO_FIELD_RE =
 // string.
 const CONCAT_RE = /\s*\+\s*(['"`])((?:[^\\]|\\.)*?)\1/y;
 
+// ESCAPED STRINGS WERE INVISIBLE (2026-09-05). The regex passes scan SOURCE
+// text, and a JavaScript literal may spell any character as `\uXXXX` / `\xXX`
+// — KINGS in history.js writes every č/ć/š/ž that way (117 escapes), and a
+// Serbism or a Cyrillic homoglyph written as an escape matched nothing, because
+// the rules were looking at the letters `\`, `u`, `0`… Decoded here, once, for
+// both regex passes; the structural passes read real objects and never had the
+// problem. Mutation-verified: `hleb` and `хлеб`
+// (Cyrillic хлеб) in a KINGS textHr each fail; both passed before.
+function decodeEscapes(s) {
+  return s.replace(/\\u([0-9a-fA-F]{4})|\\x([0-9a-fA-F]{2})/g, (_, u, x) =>
+    String.fromCharCode(parseInt(u ?? x, 16)),
+  );
+}
+
 /** Every literal of every recognised field, concatenation chains included. */
 function* fieldStrings(buf) {
   for (const m of buf.matchAll(CRO_FIELD_RE)) {
-    yield { field: m[1], content: m[3], index: m.index };
+    yield { field: m[1], content: decodeEscapes(m[3]), index: m.index };
     let pos = m.index + m[0].length;
     for (;;) {
       CONCAT_RE.lastIndex = pos;
       const c = CONCAT_RE.exec(buf);
       if (!c) break;
-      yield { field: m[1], content: c[2], index: pos };
+      yield { field: m[1], content: decodeEscapes(c[2]), index: pos };
       pos += c[0].length;
     }
   }
@@ -786,7 +800,7 @@ const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 function* arrayStrings(buf) {
   for (const m of buf.matchAll(ARRAY_FIELD_RE)) {
     for (const q of m[2].matchAll(QUOTED_RE)) {
-      if (q[2].length > 0) yield { field: m[1], content: q[2], index: m.index };
+      if (q[2].length > 0) yield { field: m[1], content: decodeEscapes(q[2]), index: m.index };
     }
   }
 }

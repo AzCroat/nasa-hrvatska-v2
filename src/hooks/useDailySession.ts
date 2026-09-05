@@ -11,7 +11,7 @@ import { trackSessionBuilt } from '../lib/analytics';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedger';
 import type { CefrLevel } from '../lib/cefr';
-import { CROATIA_POOL } from '../lib/croatiaPool';
+import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
 import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
@@ -738,8 +738,16 @@ export function buildSessionActivities(
   // rotation walks the rest of the UNLOCKED pool, so the widened culture
   // catchment surfaces without changing session length or the cityofday ritual.
   const today = localDateStr();
-  const cityVisited = lsGet('nh_cityofday_date') === today;
-  const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
+  // OWNER DECISION (2026-09-05): the first-claim rule below is A1–A2 only. The
+  // plan is built once a day before anyone has opened City of the Day, so at
+  // every level the slot WAS cityofday on every daily build and the rotation
+  // ran only on same-day rebuilds. From B1 up the slot is the level-aware
+  // rotation on every build and cityofday is not in it (it stays on Home).
+  const cityInSlot = cefrRank(userCefr) <= cefrRank(CITY_OF_DAY_SLOT_MAX_CEFR);
+  const cityVisited = !cityInSlot || lsGet('nh_cityofday_date') === today;
+  const croatiaEligible = CROATIA_POOL.filter(
+    (c) => isUnlocked(c.cefr ?? 'A1', userCefr) && (cityInSlot || c.screen !== 'cityofday'),
+  );
   const croatiaRotation = croatiaEligible.filter((c) => c.screen !== 'cityofday');
   // Rotation fix (2026-08-14, owner report: the same culture card appeared
   // every day): day-of-month modulo repeated a pick whenever the session

@@ -192,6 +192,21 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     expect(!!"hrvatski: 'x'".match(re)).toBe(false);
   });
 
+  it('decodes \\uXXXX / \\xXX escapes before checking — KINGS writes its Croatian that way', () => {
+    // The regex passes scan SOURCE text; a literal may spell any character as
+    // an escape, and the rules then see `\`, `u`, `0`… instead of the letter.
+    // 117 escapes in history.js alone. Asserted by running the lint's own
+    // decoder (built from source) and by checking BOTH generators feed
+    // through it — one without the other leaves half the strings undecoded.
+    const fn = LINT_SRC.match(/function decodeEscapes\(s\) \{[\s\S]*?\n\}/)![0]!;
+    const decode = new Function(`${fn}; return decodeEscapes;`)() as (s: string) => string;
+    expect(decode('\\u0161\\u0107 i \\x68leb')).toBe('šć i hleb');
+    expect(decode('\\ud83d\\udc51')).toBe('👑'); // surrogate pairs survive
+    expect(LINT_SRC).toMatch(/content: decodeEscapes\(m\[3\]\)/);
+    expect(LINT_SRC).toMatch(/content: decodeEscapes\(c\[2\]\)/);
+    expect(LINT_SRC).toMatch(/content: decodeEscapes\(q\[2\]\)/);
+  });
+
   it('scans the bilingual *Hr ARRAYS (factsHr, alHr)', () => {
     const re = regexFromSource('ARRAY_FIELD_RE');
     for (const probe of ["factsHr: ['x', 'y']", 'alHr: ["x"]']) {
