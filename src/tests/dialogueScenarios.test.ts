@@ -76,15 +76,56 @@ describe('dialogueScenarios — structural integrity', () => {
     }, {});
     expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(7);
     expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(8);
-    expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(5);
     // Raised 2 → 6 by the 2026-08-25 expansion. B2/C1/C2 sat exactly ON the old
     // floor while A1/A2 had 7/8, so an upper-level learner exhausted every
     // authored conversation in two sessions and then repeated. Ratcheted here
     // so the gain cannot quietly regress — same rule as the coverage gate.
-    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(6);
-    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(6);
-    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(6);
-    expect(scenarios.length).toBeGreaterThanOrEqual(38);
+    // Raised again to 12 at B1+ on 2026-09-05 (content expansion item 5): the
+    // CEFR descriptors from B1 up are about REGISTER, and every upper-level
+    // scenario was V-form with a stranger or official. The new scenarios come
+    // in pairs — the same situation once formally and once with a friend or
+    // relative — so a learner meets the same act (invite, refuse, apologise,
+    // negotiate, mediate) in both registers.
+    expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(scenarios.length).toBeGreaterThanOrEqual(63);
+  });
+
+  it('B1+ carries BOTH registers: an informal (ti) scenario and a formal (Vi) one at every level', () => {
+    // Register is detected from the learner's CORRECT lines (opts[0]) — the
+    // model answers — not from the NPC, whose register is the prompt, not the
+    // lesson. A level whose every model answer is V-form teaches one register.
+    //
+    // Two traps this went through on its first run, both worth keeping:
+    //  - JS `\b` is ASCII-only, so `možeš\b` and `gospođo` never matched (the
+    //    Croatian lint documents the same). Unicode lookarounds instead.
+    //  - `te` is also the demonstrative ("te dvije točke"), so it flagged
+    //    formal C2 scenarios as informal; `Vas dvoje` in an informal family
+    //    scenario is plural, not polite. So the ti-marker is the pronoun
+    //    itself (ti/tebi/tebe/tvoj) or a 2nd-person-singular present in -š
+    //    (možeš, ljutiš, misliš — three or more letters before the š, which
+    //    excludes naš/vaš/još), and a scenario is informal when MORE of its
+    //    correct lines carry that than carry a Vi-marker; formal when it has
+    //    a Vi-marker and no ti-marker at all.
+    const word = (alts: string) => new RegExp(`(?<!\\p{L})(?:${alts})(?!\\p{L})`, 'iu');
+    const TI = word('ti|tebi|tebe|tvoj\\p{L}*|\\p{L}{3,}š');
+    const VI = word(
+      'vam|vas|vaš\\p{L}*|možete|dođite|izvolite|molim vas|hvala vam|poštovan\\p{L}*|gospođ\\p{L}*|gospodin\\p{L}*|profesor\\p{L}*',
+    );
+    const lines = (s: Scenario, re: RegExp) => s.turns.filter((t) => re.test(t.opts[0]!)).length;
+    for (const level of ['B1', 'B2', 'C1', 'C2']) {
+      const atLevel = scenarios.filter((s) => s.difficulty === level);
+      const informal = atLevel
+        .filter((s) => lines(s, TI) > 0 && lines(s, TI) > lines(s, VI))
+        .map((s) => s.id);
+      const formal = atLevel.filter((s) => lines(s, VI) > 0 && lines(s, TI) === 0).map((s) => s.id);
+      expect(informal.length, `${level} informal: ${informal.join(', ')}`).toBeGreaterThanOrEqual(
+        3,
+      );
+      expect(formal.length, `${level} formal: ${formal.join(', ')}`).toBeGreaterThanOrEqual(3);
+    }
   });
 });
 
