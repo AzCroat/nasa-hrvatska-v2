@@ -5,6 +5,11 @@
  * Each story: Croatian paragraphs, English translations, vocabulary, comprehension quiz.
  */
 
+// Reading depth at B2–C2 (item 3, 2026-09-05): long reads, serials, opinion and
+// literary prose live in their own file and are spread in at the end — same
+// shape as the lessonsA1 split, for the same reason (this file is ~9k lines).
+import { GRADED_STORIES_LONG } from './gradedStoriesLong.js';
+
 export const GRADED_STORIES = [
   // ═══════════════════════════════════════════════════════
   // A1 — Survival level, present tense, basic vocabulary
@@ -20337,4 +20342,7 @@ export const GRADED_STORIES = [
     ],
     duration: 13,
   },
+  // Long reads, serials, opinion and literary prose (B2–C2) — appended so the
+  // existing per-level order (and anything indexing the array) is unchanged.
+  ...GRADED_STORIES_LONG,
 ];

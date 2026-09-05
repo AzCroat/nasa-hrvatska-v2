@@ -217,6 +217,19 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     }
   });
 
+  it('lints the long-read story file alongside the corpus it is spread into', () => {
+    // gradedStoriesLong.js (reading depth, 2026-09-05) is spread into
+    // GRADED_STORIES; a file spread into a linted export is NOT linted by
+    // that — the regex passes walk files, not exports. Same rule as the
+    // per-level lesson files.
+    for (const file of [
+      'functions/api/content/_data/gradedStories.js',
+      'functions/api/content/_data/gradedStoriesLong.js',
+    ]) {
+      expect([...lintTargets()]).toContain(file);
+    }
+  });
+
   it('follows concatenated string literals, not just the first', () => {
     // A model is written as `'…' +\n'…' +\n'…'` and the field regex captured
     // the FIRST literal only — 222 such joins across TARGETS, every

@@ -875,6 +875,64 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   SKILL_GROUP; serve a reference entry from it; tag `generated` by feel — fix the
   screen or the derivation test, never the flag alone; make P2.8 outrank P2.7.
 
+## Critical Architecture: Reading Depth at B2–C2 (content expansion, 2026-09-05)
+
+The finding this exists to keep closed: **every graded story sat between 70 and
+625 Croatian words — A1 averaged 268, C2 468 — so a reader who had reached B2
+had nothing longer to read than a beginner.** No sustained argument, no serial
+with a plot carried across parts, no literary prose that asks to be read
+slowly. B2, C1 and C2 each held ~10,000 words in ~25 page-length pieces.
+
+- **35 long reads in `functions/api/content/_data/gradedStoriesLong.js`**,
+  spread into `GRADED_STORIES` at the END (the lessonsA1 split, for the same
+  reason: gradedStories.js is ~9k lines; appended so nothing indexing the array
+  moves). Same shape as every other story — paragraphs `hr`+`en`, ≥8 vocab
+  with an example, five-question quiz — plus `kind` (`serial | feature |
+opinion | literary`) and, on serial parts, `series: { id, part, of }`.
+  **Measured**: B2 12 pieces / 10,172 new words, C1 12 / 10,440, C2 11 /
+  10,183 → per-level totals **20,331 / 20,823 / 20,489** (doubled, the item's
+  first instruction). 800–1,021 Croatian words each; the English is ~20%
+  longer than the Croatian, which is why the first drafts of the features
+  came in at 600–700 and had to be lengthened — write to the Croatian count,
+  not the English.
+- **Genres at the levels the item named**: B2 is feature journalism (island
+  tourism, a railway closure, the five-o'clock tram, first-time voters, a cup
+  deposit, landlords and tenants, a village year, a community garden, a small
+  cinema) plus a three-part serial; C1 is OPINION and ANALYSIS — a thesis,
+  evidence, a counter-argument stated at its strongest, a position (a bridge,
+  who pays for the sea, AI and a small language, demography, short-term lets,
+  school reform, remote work, civility, free university, why we don't read, a
+  two-part EU balance sheet); C2 is LITERARY prose — a two-part novella
+  excerpt and nine short stories, **original work written for this app, not
+  quotations from any author** (reproducing real texts from memory risks
+  misattribution and copyright; the `intro` of each says so).
+- **Serials survive a picker that does not order by part.** The
+  story-of-the-day picker sorts by score then title and indexes by day, so
+  part 2 can be served before part 1. Every part therefore opens readable on
+  its own, its title ends "(k/n)", and its English `intro` says "Part k of n"
+  and recaps — pinned. The catalog projection (`/api/content/catalog`) does
+  NOT carry `kind`/`series`; the title and intro are what the reader sees, so
+  they carry the information.
+- **Payload**: the catalog gains 35 rows (shape only); bodies ship one at a
+  time through `/api/content/stories/{id}` with their own etag, so the 490 KB
+  of new bodies is paid per story opened, not at load. `_etags.js` is
+  generated, not committed — run `generate-content-etags.mjs` after adding.
+- **The lint caught two Cyrillic homoglyphs in this content on the day it was
+  written** (a `а` in a distractor, an `е` in `roleta`), typed by the author,
+  not pasted. That is the encoding check doing exactly what it exists for;
+  the file is in TARGETS and must stay there — spreading into a linted export
+  does not lint the file (pinned in `croatianLintTargets.test.ts`).
+- **Quiz answers must not all sit at one index.** Eleven of the first drafts
+  had every `correct` at 1; a reader who notices stops reading the options.
+  `gradedStories.test.ts` pins ≥2 distinct indices per long read, plus: ≥800
+  Croatian words, ≥7 paragraphs, ≥8 vocab, exactly 5 quiz items, B2/C1/C2 only,
+  id prefix `gs_<level>_long_`, every serial complete and consecutive at one
+  level, and the doubled word floors.
+- NEVER: lower the 20,000-word floors; author a serial part that cannot be
+  read first; attribute a literary excerpt to a real author from memory; count
+  a long read by its English; add a story file without adding it to lint
+  TARGETS.
+
 ## Critical Architecture: The Culture Slot at Level (content expansion, 2026-09-05)
 
 The finding this exists to keep closed: **the daily culture slot served an
