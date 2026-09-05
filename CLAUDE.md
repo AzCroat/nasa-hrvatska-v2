@@ -215,7 +215,7 @@ pedagogy. Design: `docs/curriculum-design.md`.
   because on a vocab-coupled day P2.7 never fired in the first place. The
   composition dump is what settled it:
   `curriculum_alphabet | curriculum_practice_alphabet | cat_genitive* |
-  dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
+dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   **Measure which slot is actually over before making one yield**;
   `curriculumSessionSlot.test.ts` pins both single-sided versions as failures.
   **The rule is scoped to lesson days (`isLessonDay`), and the unscoped version
@@ -258,22 +258,22 @@ pedagogy. Design: `docs/curriculum-design.md`.
   learner fills with an inflected form or a governed preposition) are a
   substantial share of the 24-item bank. Measured — food 14/24 and home 12/24
   are the calibration, both already `case`; `bureaucracy` 11/24 → **verb** (its
-  `sluzbeni` mode drills the impersonal: *Potrebno je priložiti*, *Zahtjev se
-  predaje*, and an item asking who the subject is — nobody); `renting` 9/24 →
-  **case** (its header undersells it — the bank drills quantity genitive *55
-  kvadrata*, participle agreement *jesu li režije uključene*, accusative plural
-  *kućne ljubimce*, locative with an ordinal *na četvrtom katu*); `nature` 7/24
+  `sluzbeni` mode drills the impersonal: _Potrebno je priložiti_, _Zahtjev se
+  predaje_, and an item asking who the subject is — nobody); `renting` 9/24 →
+  **case** (its header undersells it — the bank drills quantity genitive _55
+  kvadrata_, participle agreement _jesu li režije uključene_, accusative plural
+  _kućne ljubimce_, locative with an ordinal _na četvrtom katu_); `nature` 7/24
   and `technology` 4/24 stay **vocab** and are pinned with reasons. Variety
   unchanged at B1 and B2.
   **B2 WAS THE THIRD LEG, 10 → 7 (2026-08-31), and most of its bare days are
   HONEST.** Same criterion; four banks cleared the bar and reading them rejected
-  one. `intensity` 12/24 → **case** (*sve* + comparative, the *što… to*
+  one. `intensity` 12/24 → **case** (_sve_ + comparative, the _što… to_
   correlative — it was `vocab` as "adverbial grading", but the items produce
   comparative FORMS and `comparison`/`advanced-comparison` are both `case`);
-  `politics` 11/24 → **case** (participle agreement with subject gender — *Sabor
-  je izglasao* / *Vlada je podnijela* — plus *u Saboru*, the *su održani*
-  passive, *na izbore*); `meetings` 15/24 → **syntax** (its header states it:
-  *Predlažem da* takes a da-CLAUSE in the present, not the infinitive, because
+  `politics` 11/24 → **case** (participle agreement with subject gender — _Sabor
+  je izglasao_ / _Vlada je podnijela_ — plus _u Saboru_, the _su održani_
+  passive, _na izbore_); `meetings` 15/24 → **syntax** (its header states it:
+  _Predlažem da_ takes a da-CLAUSE in the present, not the infinitive, because
   the subject changes). `presenting` 11/24 was REJECTED despite clearing the
   count — its header calls the structure "signposting" but the blanks share no
   structure. **Counting finds candidates; only reading decides.**
@@ -288,8 +288,8 @@ pedagogy. Design: `docs/curriculum-design.md`.
   **C1 AND C2 MOVED NOTHING, AND THAT IS THE RESULT (2026-08-31).** Same
   criterion; three banks across the two levels cleared the bar and all three were
   rejected on the items. `word-formation` 11/24 and `diminutives` 10/24 are
-  DERIVATIONAL morphology — they build lexemes (*pisati → prepisati*, *ruka →
-  ručica*), not grammatical forms, so they stay lexical; `debate` 9/24 is a
+  DERIVATIONAL morphology — they build lexemes (_pisati → prepisati_, _ruka →
+  ručica_), not grammatical forms, so they stay lexical; `debate` 9/24 is a
   rhetorical tactic whose blanks share no structure, rejected exactly as
   `presenting` was. The other 29 are between 0/24 and 8/24. So all 32 bare days
   at C1/C2 are honest: word-formation, collocations, prosody, the functional
@@ -497,24 +497,24 @@ pedagogy. Design: `docs/curriculum-design.md`.
   `firstPaintGraph.test.ts` fails. The 75 existing drills are deliberately NOT
   converted. Each new drill needs: bank + wrapper + `AppRouter` route +
   `PRACTICE_PROGRAMME_ENTRIES` + `CATEGORY_SCREEN_MAP` + `LESSON_TAUGHT_CATEGORY`
-  + `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
-  and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
-  the thing route-based clearing masks).
-  **Coupled: 30 at every level — 180 of 180, complete as of 2026-08-30.** The
-  last was A1 `alphabet`, which was never a content gap: `AlphabetScreen`'s
-  quiz is exactly what the lesson teaches, and it was blocked on the CLEARING
-  PATH. It took one `recordScreenPractised('alphabet')` call at the Done button
-  plus a pool retag off `vocab-a2` (which routes to `znam` at A2 — the
-  `gender → vocab-a2` trap, so a route alone would not have worked). The note
-  that stood here said mapping it "requires routing its completion through
-  completeExercise first"; that was wrong, and the sanctioned fix already used
-  for `writing_guided` and `relpron` changes no award semantics at all.
-  Do not read that figure off a comment — `practiceProgrammeDrills.test.ts`
-  derives the count per level and NAMES any uncoupled ids in its failure
-  message. A hand-maintained census went stale repeatedly and once made a
-  merged tranche report the wrong figure (the A2 block claimed 26 of 30; the
-  real number was 23), because subtracting a list of judgement calls from
-  thirty counts the judgements, not the lessons.
+  - `exerciseRegistry` + `exerciseDifficulty` + `SKILL_GROUP` + lint TARGETS,
+    and a row in `practiceProgrammeDrills.test.ts` (which guards the POOL TAG —
+    the thing route-based clearing masks).
+    **Coupled: 30 at every level — 180 of 180, complete as of 2026-08-30.** The
+    last was A1 `alphabet`, which was never a content gap: `AlphabetScreen`'s
+    quiz is exactly what the lesson teaches, and it was blocked on the CLEARING
+    PATH. It took one `recordScreenPractised('alphabet')` call at the Done button
+    plus a pool retag off `vocab-a2` (which routes to `znam` at A2 — the
+    `gender → vocab-a2` trap, so a route alone would not have worked). The note
+    that stood here said mapping it "requires routing its completion through
+    completeExercise first"; that was wrong, and the sanctioned fix already used
+    for `writing_guided` and `relpron` changes no award semantics at all.
+    Do not read that figure off a comment — `practiceProgrammeDrills.test.ts`
+    derives the count per level and NAMES any uncoupled ids in its failure
+    message. A hand-maintained census went stale repeatedly and once made a
+    merged tranche report the wrong figure (the A2 block claimed 26 of 30; the
+    real number was 23), because subtracting a list of judgement calls from
+    thirty counts the judgements, not the lessons.
 - **A2's hole was the A1 verb hole one level up (2026-08-29).** Four of the five
   A2 lessons drilled in that tranche already had a drill teaching exactly the
   right thing — `svojmoj` (B1), `clitic` (B2), `kolicina` (B2), `stupnjevanje`
@@ -635,9 +635,9 @@ pedagogy. Design: `docs/curriculum-design.md`.
     create the collision that blocks a lower one, so the survey has to be
     re-run against the CURRENT pool rather than the one the plan was written
     against.
-  `a2Curriculum` and `b1Curriculum` now assert every lesson in their level file
-  is coupled — both DELIBERATELY_UNMAPPED lists are empty, and both had already
-  written down that authoring the drill was the intended way off them.
+    `a2Curriculum` and `b1Curriculum` now assert every lesson in their level file
+    is coupled — both DELIBERATELY_UNMAPPED lists are empty, and both had already
+    written down that authoring the drill was the intended way off them.
 - **C2 is complete, and with it the whole curriculum (2026-08-28): 4 lessons →
   30, 45 → 180 total, 30 at every level.** C2 had one tense, one punctuation
   mark, one style topic and one genre. The gap was not "more grammar": the CEFR
@@ -655,7 +655,7 @@ pedagogy. Design: `docs/curriculum-design.md`.
   **Measured at full scale**: 860 KB of lesson bodies against a 49.6 KB spine
   (276 bytes/entry) — the payload split's 90% first-load claim holds at 180.
 - **`CONTRASTIVE_LESSONS` gained its second and last easy entry.** Kajkavian
-  realises yat as *e* — `lep`, `mleko` — which is a Croatian dialect form spoken
+  realises yat as _e_ — `lep`, `mleko` — which is a Croatian dialect form spoken
   across the north-west including Zagreb, and is HOMOGRAPHIC with Serbian
   ekavica. There is no pattern to distinguish them because the strings are
   identical, so the blocklist flagged the C2 `dijalekti-dubinski` lesson for
@@ -824,7 +824,7 @@ listening and reading alternating 50/50, session length unchanged** (pinned).
   `selectGuaranteedInput`; the file split follows sessionPools/croatiaPool —
   useDailySession is at its 800-line cap and the cap was not raised). It obeys
   the same budget rule as P2 and P2.7: fires only while `activities.length <
-  fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
+fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   when the session already holds input. Sits AFTER the grammar guarantee, so on
   the one day-shape with a single slot left and a non-grammar adaptive pick,
   grammar wins (the owner's G2 directive); measured, that costs input on no
@@ -941,9 +941,19 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
   `src/data/writingCurriculum.ts`): study a native model → complete guided
   frames (local check, zero AI) → free production against a checklist, graded
   by the SAME `/api/correct` rubric the exam uses. Curriculum is CEFR-complete
-  A1–C2 (≥3 units/level, pinned by `writingCurriculum.test.ts`) — A1 had NO
-  writing content before. The curriculum file is in `lintCroatianText.mjs`
-  TARGETS; model texts must stay native-standard.
+  A1–C2 (**≥8 units/level** as of 2026-09-05, was 3; pinned by
+  `writingCurriculum.test.ts`) — A1 had NO writing content before. At three
+  units a level's writing was exhausted in three sessions and `pickUnit`'s
+  rotation served the same model on the fourth; each level now spans personal,
+  transactional, narrative, argumentative and formal genres. **The model must
+  pass its own checklist** (pinned): the first run of that assertion found two
+  existing C1 models SHORTER than the minimum they set the learner (95 and 89
+  words against 100) and a checklist that rejected the model's own clitic
+  order (`Brat se zove Ivan` against `zove se`) — an exemplar that fails its
+  own bar teaches the learner the bar is decorative. The curriculum file is in
+  `lintCroatianText.mjs` TARGETS; model texts must stay native-standard — and
+  see the Croatian Script Guard note on what "in TARGETS" was worth for this
+  file until 2026-09-05.
 - **Speaking coach** (`/api/speaking-coach` + `src/lib/speakingCoach.ts`):
   transcript-in (no STT cost), returns the exam's four rubric criteria PLUS an
   error list in the writing evaluator's errorType taxonomy and one concrete
@@ -1072,6 +1082,8 @@ contrast table should go, delete the entry — nothing else depends on it.
 
 Coverage is **466 files** plus 2 walked structurally, up from 157 on 2026-08-31 in three waves.
 
+**THE WRITING CURRICULUM SAT IN TARGETS FOR EIGHTEEN DAYS AT ROUGHLY ONE SIXTH (2026-09-05).** `src/data/writingCurriculum.ts` joined the list the day it was authored, its header said "scanned by lintCroatianText.mjs — keep it clean", and the 2026-09-01 census that widened the matcher did not catch it because that census ranked candidates OUTSIDE the list. Found by mutation while expanding the file: a Serbism in a structure `hr` was caught; the same word in a MODEL text, a frame's `after`, or the connectives array passed clean. Three misses, and the third is new: (1) `model` / `before` / `after` were not field names the regex knew — and the model is the native-standard text the learner studies and imitates, the load-bearing prose of the whole unit; (2) `connectives` / `accept` are bare arrays, outside `ARRAY_FIELD_RE`; (3) **CONCATENATION**: a model is written as `'…' +\n'…' +\n'…'` and the field regex captured the FIRST literal only. 222 such joins sit across TARGETS; every continuation line was invisible. `fieldStrings` now follows `+ '…'` chains from the first match. Measured before writing (`NH_LINT_CENSUS=1` prints the count of strings the passes actually look at, so this is re-runnable): 93,950 → 94,290 strings, zero new findings; mutation-verified in seven positions. **A file's own header claiming it is linted is the least reliable evidence there is** — it was written by the same person who forgot to check.
+
 **THE THIRD WAVE FOUND THAT THE TARGET LIST HAD STOPPED BEING THE BINDING CONSTRAINT, AND NOBODY HAD MEASURED IT (2026-09-01).** Two waves of adding files had trained everyone — me included — to think of coverage as a list length. A census of every candidate outside TARGETS found **1,159 Croatian strings of which `CRO_FIELD_RE` saw 137: twelve per cent.** Adding the remaining files to the list would have bought almost nothing. The gap was the MATCHER, and it was invisible from a list precisely because a list cannot show you what it fails to match.
 
 **Two structural misses, both large, both a single character of regex:**
@@ -1093,7 +1105,7 @@ The rest of the widening came from ranking the census by volume: `label` (54), `
 
 **45 files were added, not 90, and the difference is the `lessons.js` lesson.** Only files the lint SCANS meaningfully (≥30 strings) went in. Twelve candidates scan fewer than five strings — adding those would create exactly the false confidence this section exists to warn about. `dialogueScenarios.js` was excluded because it is already walked structurally, and test files because they are not learner-facing.
 
-**The one false positive earned a carve-out narrower than itself.** `slangData` glosses `Dušmani` as *"Enemies — from Turkish 'düşman'"*; Turkish letters sit in `BAD_CHARS_RE` because inside CROATIAN they are mojibake for š/g/i, but inside an English gloss quoting an etymon they are correct spelling. `FOREIGN_ETYMON_FIELDS` drops **only the Turkish class**, and **only in `en`/`note`**. Cyrillic and the invisible soft hyphen stay flagged everywhere including `en` — mutation-verified in both directions: Cyrillic in an `en` field still fails, and a Turkish letter in an `hr` field still fails.
+**The one false positive earned a carve-out narrower than itself.** `slangData` glosses `Dušmani` as _"Enemies — from Turkish 'düşman'"_; Turkish letters sit in `BAD_CHARS_RE` because inside CROATIAN they are mojibake for š/g/i, but inside an English gloss quoting an etymon they are correct spelling. `FOREIGN_ETYMON_FIELDS` drops **only the Turkish class**, and **only in `en`/`note`**. Cyrillic and the invisible soft hyphen stay flagged everywhere including `en` — mutation-verified in both directions: Cyrillic in an `en` field still fails, and a Turkish letter in an `hr` field still fails.
 
 **The hand-written drills came in first, and the reason they were separable is the point.** The 101 `src/components/practice/*Drill.tsx` files predate the ModeDrill engine and are DATA wearing a `.tsx` extension — `q` / `answer` / `opts` / `tip`, the same shape as `src/data/drills/*`, which has been linted since 2026-08-29. Measured before adding: essentially no English UI prose in them. That is what distinguishes this cohort from the rest of `src/components`, which mixes Croatian examples with English copy and is still deliberately out — sweeping THOSE in wholesale is how a lint earns the false-positive reputation that gets it ignored. Real bugs live there (`šerati` in `DiasporaNote.tsx`, fixed 2026-08-26), so the component tree is still unfinished, not settled.
 
@@ -1315,8 +1327,8 @@ Found from outside the code: the owner reported the Sentry project was receiving
 
 - **The client half is guarded SILENTLY and that needed saying out loud.** `main.tsx` skips `Sentry.init` and never imports the SDK when the DSN is empty — correct (no DSN, no 40KB bundle) and invisible, so an unset secret ships zero telemetry with nothing in the log. It now emits the same `::warning` the service account does.
 - **A secret cannot be tested in a step-level `if`.** The `secrets` context is not among those available to `steps.<id>.if`. Such a condition does not fail loudly — it silently does not mean what it looks like. Bind through `env` and test in the shell, as both install steps already do; asserted so nobody adds one.
-- **Shape-check before installing.** `forwardToSentry` does `new URL(dsn)` and derives the public key from the username and the project id from the path, inside `waitUntil` — so a malformed DSN fails *after* the response returned, where nobody sees it.
-- **THE INPUT BEING SET IS NOT THE OUTPUT BEING SHIPPED (2026-09-04).** With the secret set, valid, and installed for the relay, a live browser still had `window.__nhSentry === undefined` and made **no request for the SDK chunk at all** — so the guard was falsy at runtime in whatever bundle was being served. Every layer either side was checkable from the repo (the secret from CI's log, the CSP from `_headers`, the init config from source); the one link in the middle — *did the DSN reach the artifact we uploaded* — could only be answered by opening DevTools on production. `ci.yml` now reads `dist/` after the build and fails if the DSN it was handed is not in there. Reproduced in both directions first: built WITH the DSN it is inlined and a `vendor-sentry` chunk is emitted; built with an EMPTY one, Rollup tree-shakes the block so **the chunk is not emitted at all** and no ingest host appears anywhere in `dist` — which is exactly the shape the live site showed. Absent → warning; **present-but-not-shipped → fail**, because that is a broken pipeline and shipping it restores the silent blackout.
+- **Shape-check before installing.** `forwardToSentry` does `new URL(dsn)` and derives the public key from the username and the project id from the path, inside `waitUntil` — so a malformed DSN fails _after_ the response returned, where nobody sees it.
+- **THE INPUT BEING SET IS NOT THE OUTPUT BEING SHIPPED (2026-09-04).** With the secret set, valid, and installed for the relay, a live browser still had `window.__nhSentry === undefined` and made **no request for the SDK chunk at all** — so the guard was falsy at runtime in whatever bundle was being served. Every layer either side was checkable from the repo (the secret from CI's log, the CSP from `_headers`, the init config from source); the one link in the middle — _did the DSN reach the artifact we uploaded_ — could only be answered by opening DevTools on production. `ci.yml` now reads `dist/` after the build and fails if the DSN it was handed is not in there. Reproduced in both directions first: built WITH the DSN it is inlined and a `vendor-sentry` chunk is emitted; built with an EMPTY one, Rollup tree-shakes the block so **the chunk is not emitted at all** and no ingest host appears anywhere in `dist` — which is exactly the shape the live site showed. Absent → warning; **present-but-not-shipped → fail**, because that is a broken pipeline and shipping it restores the silent blackout.
   **The step is right; the diagnosis that prompted it was wrong, and both halves of that are worth keeping.** The browser was serving a STALE service-worker bundle — a hard reload produced a live SDK against a build CI had not changed, so the artifact had been carrying the DSN all along and this step has never yet fired in anger. It is still the check that was missing: before it, "did the DSN reach the artifact" was answerable only from DevTools on production, which is why a stale bundle and a broken build looked identical for hours. **A guard built on a wrong diagnosis can still be the right guard** — but do not let the fix's existence stand as evidence for the defect it was reasoned from. When production and CI disagree, establish WHICH ARTIFACT the browser is running (`/version.json` carries the build id) before concluding anything about the pipeline.
 - Pinned by `sentryDsnInstall.test.js`, which DERIVES the expected name from `report-error.js` rather than restating it. Seventeen mutations verified, including reverting to the literal original bug — **and one of the new assertions was itself decorative on its first run**: written as a bare `/vendor-sentry/` text match it survived replacing the whole computation with `const hasSdkChunk = true`, because both words still appeared. Assert the DERIVATION, not the mention.
 - NEVER: install the `VITE_`-prefixed name onto Pages (inert, and it invites the belief the client half is covered by the Pages env); install after `pages deploy`; let the sync workflow and `ci.yml` write this under different names.
@@ -1329,8 +1341,8 @@ Found from outside the code: the owner reported the Sentry project was receiving
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ANTHROPIC_API_KEY`                      | AI Tutor, story generation                                                                                                                                                                                                                                                |
 | `AZURE_TTS_KEY` / `AZURE_TTS_REGION`     | Azure Speech resource — ONE key covers TTS, STT **and** pronunciation assessment. The dashboard is provisioned under these `TTS_*` names; `pronunciation-assess.js` also accepts `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` (which win if ever set) so either naming works. |
-| `SENTRY_DSN`                             | Server-side error relay — `/api/report-error` forwards to Sentry only when this is set. **Installed by CI from the `VITE_SENTRY_DSN` GitHub secret** (see below); it is NOT `VITE_`-prefixed, and that distinction is the whole bug it was added to fix. |
-| `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK — weekly Firestore backup, `/api/delete-account` (fails CLOSED without it), `/api/backfill`, Google TTS fallback. **Installed by CI from the GitHub secret of the same name** (see below); do not hand-set it in the dashboard.             |
+| `SENTRY_DSN`                             | Server-side error relay — `/api/report-error` forwards to Sentry only when this is set. **Installed by CI from the `VITE_SENTRY_DSN` GitHub secret** (see below); it is NOT `VITE_`-prefixed, and that distinction is the whole bug it was added to fix.                  |
+| `FIREBASE_SERVICE_ACCOUNT_JSON`          | Server-side Firebase Admin SDK — weekly Firestore backup, `/api/delete-account` (fails CLOSED without it), `/api/backfill`, Google TTS fallback. **Installed by CI from the GitHub secret of the same name** (see below); do not hand-set it in the dashboard.            |
 | `CRON_SECRET`                            | Auth token for scheduled worker → API calls                                                                                                                                                                                                                               |
 | `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Web Push notifications                                                                                                                                                                                                                                                    |
 | `RESEND_API_KEY`                         | Contact form emails                                                                                                                                                                                                                                                       |
@@ -1511,19 +1523,19 @@ This is not a general principle someone thought sounded good — it is the singl
 technique that found every systemic defect in the 2026-08-26→29 curriculum work,
 and in every case the suite was fully green beforehand:
 
-| The guard | What it looked like | What it actually covered |
-| --------- | ------------------- | ------------------------ |
-| `lintCroatianText.mjs` on `lessons.js` | A lesson file listed in TARGETS for months | `CRO_FIELD_RE` never matched a `rows` array. **Every table cell in every lesson was unscanned** — and a table is where a lesson keeps most of its vocabulary. Found by injecting `hleb` into a cell and watching the lint pass. |
-| `curriculumCouplingResolves.test.ts` | Walks the REAL session builder; caught 10 dead mappings on its first run | It proved a mapping REACHES a drill, never that finishing the drill CLEARS it. **18 of 62 mappings never cleared.** Found by reverting the rekcija pool tag and seeing the suite stay green. |
-| That same suite, after the clearing fix | Round-trips every mapping end to end | `MAPPED` filters on the spine, so the dedicated lesson SCREENS were outside every assertion in the file. One of them, `tenses`, was the 18th broken coupling. |
-| The round-trip block itself | Records the lesson, finishes the drill, asserts cleared | It clears using the SCREEN the builder returned. `GenderDrillScreen` fires key `'gender'`, not `'genderdrill'` — so the real completion path was untested and worked only by a fallback nobody had asserted. |
-| `a2Curriculum.test.ts` (the original) | Asserted every A2 coupling resolved | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist. |
-| The whole coupling suite, after BOTH fixes | Resolution and clearing both round-tripped through the real builder | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`). |
-| `couplingClearingPath.test.ts` itself | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test. |
-| `couplingClearingPath`'s exemption set | Carries a staleness test, so "an exemption cannot sit here quietly covering a screen that has since been fixed" | It checked whether the exempted screen GAINED a clearing path, never whether anything still ROUTED to it. Repointing `idioms` at the real drill left a moot exemption asserting a live dead end, suite fully green. Both staleness paths are checked now — plus a count, because `it.each` over an empty set registers no tests. |
-| `AlphabetScreen`'s own component tests | Render the screen, play the quiz, assert on its behaviour | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router. |
-| `lintCroatianText.mjs`, after TWO waves of expansion | 303 files in TARGETS, up from 157, every wave censused and mutation-checked | **The list had stopped being the constraint.** `CRO_FIELD_RE` matched `key: 'value'` and never `key="value"`, so the 109 ModeDrill wrappers were unreachable by construction — and `perfect`/`good`/`more`, the lines a learner reads on every completion, were in no field name it listed. Across all candidates the matcher saw **137 of 1,159** Croatian strings. A list cannot show you what it fails to match; only counting what it misses can. |
-| That same lint, mid-fix | `objectives` added to the array pass for the curriculum spine's 55 unscanned strings | The FILE was never added to TARGETS, so the new pass had nothing to run on and a Cyrillic `а` in an objective passed clean. A matcher extension and its file are one change; either alone is silent. |
+| The guard                                                       | What it looked like                                                                                                 | What it actually covered                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `lintCroatianText.mjs` on `lessons.js`                          | A lesson file listed in TARGETS for months                                                                          | `CRO_FIELD_RE` never matched a `rows` array. **Every table cell in every lesson was unscanned** — and a table is where a lesson keeps most of its vocabulary. Found by injecting `hleb` into a cell and watching the lint pass.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `curriculumCouplingResolves.test.ts`                            | Walks the REAL session builder; caught 10 dead mappings on its first run                                            | It proved a mapping REACHES a drill, never that finishing the drill CLEARS it. **18 of 62 mappings never cleared.** Found by reverting the rekcija pool tag and seeing the suite stay green.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| That same suite, after the clearing fix                         | Round-trips every mapping end to end                                                                                | `MAPPED` filters on the spine, so the dedicated lesson SCREENS were outside every assertion in the file. One of them, `tenses`, was the 18th broken coupling.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| The round-trip block itself                                     | Records the lesson, finishes the drill, asserts cleared                                                             | It clears using the SCREEN the builder returned. `GenderDrillScreen` fires key `'gender'`, not `'genderdrill'` — so the real completion path was untested and worked only by a fallback nobody had asserted.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `a2Curriculum.test.ts` (the original)                           | Asserted every A2 coupling resolved                                                                                 | It checked a `SCREEN_FOR` map written **inside the test file**. It confirmed a `numerals` route that did not exist.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| The whole coupling suite, after BOTH fixes                      | Resolution and clearing both round-tripped through the real builder                                                 | Every assertion calls `recordScreenPractised` itself. Nothing checked whether the SCREEN does. Three live routes — `writing_guided`, `relpron`, `idioms` — never called it, so the learner did the work and the queue never cleared. Found by walking the router and the import graph (`couplingClearingPath.test.ts`).                                                                                                                                                                                                                                                                                                                                            |
+| `couplingClearingPath.test.ts` itself                           | Walks the REAL router and the REAL import graph; caught three live dead ends on its first run                       | It matched `recordScreenPractised(` anywhere in the import graph — and `lib/teachPractice` DECLARES that function. **Any screen importing teachPractice for any reason passed without calling anything.** Found while wiring `alphabet`: deleting its call left the suite green; deleting the import as well turned it red, which isolated the cause. Declarations are now stripped before the call test.                                                                                                                                                                                                                                                          |
+| `couplingClearingPath`'s exemption set                          | Carries a staleness test, so "an exemption cannot sit here quietly covering a screen that has since been fixed"     | It checked whether the exempted screen GAINED a clearing path, never whether anything still ROUTED to it. Repointing `idioms` at the real drill left a moot exemption asserting a live dead end, suite fully green. Both staleness paths are checked now — plus a count, because `it.each` over an empty set registers no tests.                                                                                                                                                                                                                                                                                                                                   |
+| `AlphabetScreen`'s own component tests                          | Render the screen, play the quiz, assert on its behaviour                                                           | They pass `award` THEMSELVES, which is correct for a component test and says nothing about the wiring. AppRouter rendered `<AlphabetScreen goBack={goBack} />` with no `award`, so `if (typeof award === 'function')` was false and the 20 XP call was **dead for the life of the screen**. A dead branch behind a typeof check is indistinguishable from a deliberate optional dependency. Found by mutation: deleting the prop from AppRouter left the component test green. `routerAwardProp.test.ts` now walks the real router.                                                                                                                                |
+| `lintCroatianText.mjs`, after TWO waves of expansion            | 303 files in TARGETS, up from 157, every wave censused and mutation-checked                                         | **The list had stopped being the constraint.** `CRO_FIELD_RE` matched `key: 'value'` and never `key="value"`, so the 109 ModeDrill wrappers were unreachable by construction — and `perfect`/`good`/`more`, the lines a learner reads on every completion, were in no field name it listed. Across all candidates the matcher saw **137 of 1,159** Croatian strings. A list cannot show you what it fails to match; only counting what it misses can.                                                                                                                                                                                                              |
+| That same lint, mid-fix                                         | `objectives` added to the array pass for the curriculum spine's 55 unscanned strings                                | The FILE was never added to TARGETS, so the new pass had nothing to run on and a Cyrillic `а` in an objective passed clean. A matcher extension and its file are one change; either alone is silent.                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | The A1 guaranteed-grammar assertion (`useDailySession.test.ts`) | "an A1 user gets an A1 case/grammar drill, not a buried higher tier" — checked against a list of A1 grammar SCREENS | The list was hand-maintained and had been amended three separate times as the pool grew ("7a rotation expansion", "Wave 1 catchment", "Recommender audit") — the same staleness shape as the constant it was testing. Deriving `GRAMMAR_STRUCTURE_CATEGORIES` took A1's structural pool from 10 to 21, so the 12-name list covered barely half the candidates and the unseeded `rnd` tiebreak turned a passing assertion into a **coin flip**. It did not fail because the behaviour broke; it failed because it had been measuring a shrinking fraction of the right answer all along. Now derived from the pool's own `cefr`, and re-verified by disabling P2.7. |
 
 The pattern is always the same, and it is worth naming because it is invisible
