@@ -41,7 +41,16 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
   { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
   { id: 'transport', label: 'Transport Scenario', screen: 'transport', category: 'practical' },
   { id: 'recipes', label: 'Croatian Recipes', screen: 'recipes', category: 'culture' },
-  { id: 'history', label: 'Croatian History', screen: 'history', category: 'culture' },
+  {
+    id: 'history',
+    label: 'Croatian History',
+    screen: 'history',
+    category: 'culture',
+    // The Homeland War timeline carries graded Croatian at every level
+    // (introHr/textHr + *HrA1/A2/B2/C1/C2, read through lib/gradedHr by the
+    // same CEFR the session builder uses), so it is own-tier for everyone.
+    adaptive: true,
+  },
   { id: 'proverbs', label: 'Croatian Proverbs', screen: 'proverbs', category: 'culture' },
   { id: 'popculture', label: 'Pop Culture', screen: 'popculture', category: 'culture' },
   // ── Wave 2 — A1: survival/practical + bounded bilingual culture ──

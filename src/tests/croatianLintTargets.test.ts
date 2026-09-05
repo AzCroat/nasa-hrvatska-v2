@@ -154,6 +154,54 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     }
   });
 
+  // THE BILINGUAL `*Hr` LAYER (2026-09-05, item 6). The culture data marks its
+  // Croatian half by SUFFIX — introHr, textHr, titleHr, descHr, roleHr,
+  // storyHr, eventHr, tHr, hHr, qHr, aHr, and the arrays factsHr / alHr: 1,156
+  // field occurrences, none a name the regex listed, and `hr` is case-sensitive
+  // so it never matched the `Hr` inside them. history.js and regions.js had been
+  // in TARGETS since the first wave. Found by mutation: `hleb` in a `textHr`
+  // passed clean while the same word in a drill `q` was caught.
+  //
+  // Asserted by BUILDING the regexes from the lint's own source and running
+  // them, not by looking for the text of the alternative — a mention in a
+  // comment would satisfy a text match and guard nothing.
+  const regexFromSource = (name: string): RegExp => {
+    const lit = LINT_SRC.match(new RegExp(`const ${name} =\\s*(\\/.*\\/[a-z]*);`))![1]!;
+    return new Function(`return ${lit}`)() as RegExp;
+  };
+
+  it('matches every bilingual *Hr field, including the graded siblings (textHrA1 … textHrC2)', () => {
+    const re = regexFromSource('CRO_FIELD_RE');
+    for (const probe of [
+      "textHr: 'x'",
+      'introHr:\n    "x"',
+      "titleHr: 'x'",
+      "descHr: 'x'",
+      "roleHr: 'x'",
+      "storyHr: 'x'",
+      "eventHr: 'x'",
+      "tHr: 'x'",
+      "qHr: 'x'",
+      "textHrA1: 'x'",
+      "textHrB2: 'x'",
+      "introHrC2: 'x'",
+    ]) {
+      expect(!!probe.match(re), `CRO_FIELD_RE misses ${JSON.stringify(probe)}`).toBe(true);
+    }
+    // and the suffix rule stays a suffix rule — a lowercase `hr` prefix is not it
+    expect(!!"hrvatski: 'x'".match(re)).toBe(false);
+  });
+
+  it('scans the bilingual *Hr ARRAYS (factsHr, alHr)', () => {
+    const re = regexFromSource('ARRAY_FIELD_RE');
+    for (const probe of ["factsHr: ['x', 'y']", 'alHr: ["x"]']) {
+      expect(!!probe.match(re), `ARRAY_FIELD_RE misses ${JSON.stringify(probe)}`).toBe(true);
+    }
+    for (const file of ['src/data/cultural/history.js', 'src/data/cultural/regions.js']) {
+      expect([...lintTargets()]).toContain(file);
+    }
+  });
+
   it('follows concatenated string literals, not just the first', () => {
     // A model is written as `'…' +\n'…' +\n'…'` and the field regex captured
     // the FIRST literal only — 222 such joins across TARGETS, every

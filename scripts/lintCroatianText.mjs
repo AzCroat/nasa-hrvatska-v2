@@ -614,8 +614,25 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // a model's first line, its second line, a frame `before`, a frame `after`, a
 // `connectives` entry, an `accept` entry, and a Cyrillic homoglyph on a model's
 // third line — every one fails the lint; before this change every one passed.
+//
+// THE BILINGUAL `*Hr` LAYER WAS NEVER SCANNED (2026-09-05, content expansion
+// item 6). The culture data marks its Croatian half by SUFFIX — `introHr`,
+// `textHr`, `titleHr`, `descHr`, `roleHr`, `storyHr`, `eventHr`, `tHr`, `hHr`,
+// `qHr`, `aHr`, plus the arrays `factsHr` and `alHr` — 1,156 field occurrences
+// across history.js, regions.js, events.js and the Krajevi quiz layer. Not one
+// is a name this regex listed, and the regex is case-sensitive, so `hr` could
+// not match the `Hr` inside them. history.js and regions.js have sat in TARGETS
+// since the first wave and were scanned only where a lesson-style field name
+// happened to appear. Found by mutation while grading the history timeline:
+// `hleb` in a `textHr` passed clean; the same word in a drill's `q` was caught.
+// `[a-zA-Z]*Hr[ABC]?[12]?` covers the whole suffix family INCLUDING the graded
+// siblings the history screen now reads (textHrA1 … textHrC2), and the array
+// pass gains `[a-zA-Z]*Hr`. Measured first, as the rule requires: 95,315 →
+// 96,799 strings scanned, zero new findings; mutation-verified in seven
+// positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,
+// a factsHr entry, an alHr entry) — every one fails now, every one passed before.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|[a-zA-Z]*Hr[ABC]?[12]?)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 // A `+ '…'` continuation directly after a matched literal. Sticky, so it can
 // only match at the position handed to it — never skip ahead to an unrelated
@@ -763,7 +780,7 @@ function findSerbisms(fieldName, s) {
 // useful-words panel a learner taps to insert into their own text, and the
 // alternative answers a frame accepts. Both are Croatian a learner reads.
 const ARRAY_FIELD_RE =
-  /(opts|options|choices|distractors|objectives|connectives|accept)\s*:\s*\[([^\]]*)\]/g;
+  /(opts|options|choices|distractors|objectives|connectives|accept|[a-zA-Z]*Hr)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
 function* arrayStrings(buf) {
