@@ -593,10 +593,24 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
   });
 
   it('cityofday keeps first claim on the slot when not yet visited', () => {
+    // OWNER DECISION (2026-09-05): first claim is A1–A2 only. From B1 up the
+    // slot is the level-aware rotation on every daily build and City of the Day
+    // is not in it at all (it stays on Home) — see croatiaSlotLevel.test.ts.
     localStorage.removeItem('nh_cityofday_date');
-    for (const lvl of ['A1', 'B1', 'C2']) {
+    for (const lvl of ['A1', 'A2']) {
       const acts = buildSessionActivities(lvl);
-      expect(acts.find((a) => a.id === 'cityofday')).toBeTruthy();
+      expect(
+        acts.find((a) => a.id === 'cityofday'),
+        lvl,
+      ).toBeTruthy();
+    }
+    for (const lvl of ['B1', 'C2']) {
+      const acts = buildSessionActivities(lvl);
+      expect(
+        acts.find((a) => a.id === 'cityofday'),
+        lvl,
+      ).toBeFalsy();
+      expect(acts.filter((a) => CROATIA_IDS.has(a.id))).toHaveLength(1); // slot still filled
     }
   });
 
