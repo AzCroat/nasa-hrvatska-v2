@@ -1,27 +1,41 @@
 import React from 'react';
-import { H, speak } from '../../../data';
-import { useContent } from '../../../hooks/useContent';
+import { H, speak, DESCRIBE_SCENES } from '../../../data';
 
 interface Props {
   goBack: () => void;
 }
 
+interface SceneQuestion {
+  q: string;
+  hint?: string;
+  a?: string;
+  en: string;
+}
+interface DescribeScene {
+  title: string;
+  desc: string;
+  qs: SceneQuestion[];
+}
+
+// The "Describe the Scene" catalog. Its data is DESCRIBE_SCENES, a client-local
+// export — NOT `content.SCENES`, which is the illustrated tap-a-word set from
+// /api/content/core and has no `qs`. The screen read the latter from the day it
+// was created and crashed on every open (Sentry 0d68c47c, 2026-09-05); the
+// payload key and the local export merely shared a name. See the note beside
+// DESCRIBE_SCENES in data/content.tsx.
 function ScenesScreen({ goBack }: Props) {
-  const { content, loading } = useContent();
-  if (loading || !content)
-    return <div className="scr-wrap">{H('🖼️ Describe the Scene', 'Loading…', goBack)}</div>;
-  const SCENES = (content.SCENES ?? []) as any[];
+  const scenes = DESCRIBE_SCENES as DescribeScene[];
   return (
     <div className="scr-wrap">
       {H('🖼️ Describe the Scene', 'Answer questions about everyday situations', goBack)}
-      {SCENES.map(function (scene: any, si: number) {
+      {scenes.map(function (scene, si) {
         return (
           <div key={si} className="c" style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
               {scene.title}
             </div>
             <div style={{ fontSize: 12, color: '#78716c', marginBottom: 10 }}>{scene.desc}</div>
-            {scene.qs.map(function (q: any, qi: number) {
+            {scene.qs.map(function (q, qi) {
               return (
                 <div key={qi} style={{ marginBottom: 10 }}>
                   <div

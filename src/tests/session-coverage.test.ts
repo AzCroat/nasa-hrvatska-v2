@@ -75,6 +75,12 @@ const OUTSIDE_SESSION: string[] = [
   'pitch_accent', // 4-lesson guided course — exceeds the 2–6 min session-slot envelope
   'reading', // renders null without parent-held passage state (rp/rph/…); served via readlist
   'scenes', // sprawling catalog (renders every scene); vocabscenes serves this ground interactively
+  // The three deep-dive TIER catalogs (2026-09-05): the culture slot now serves
+  // one essay per entry (kultura_<tier>_<key>); the tier pages render every
+  // essay and are reached from an essay's "all essays" button.
+  'kultura_b2',
+  'kultura_c1',
+  'kultura_c2',
   'slang', // age-gated adult register + 150-entry sprawling catalog — not auto-servable
   // ── Culture / immersion content outside CROATIA_POOL ──
   // Wave 2 (2026-07) rotated 19 of these into the Croatia slot and moved

@@ -751,17 +751,52 @@ export function buildSessionActivities(
   // no matter how often the session rebuilds. Never-served entries go first,
   // in pool order.
   const servedMap = readServedMap();
-  const croatiaLRS = [...croatiaRotation].sort((a, b) =>
-    (servedMap[a.screen] ?? '').localeCompare(servedMap[b.screen] ?? ''),
+  const lrs = (list: typeof croatiaRotation) =>
+    [...list].sort((a, b) => (servedMap[a.screen] ?? '').localeCompare(servedMap[b.screen] ?? ''));
+  // LEVEL-AWARE ROTATION (content expansion item 3, 2026-09-05). Plain LRS over
+  // everything unlocked treated an A1 survival card and a C1 essay identically,
+  // and above B1 the pool had one card per tier — measured over 40 culture days
+  // a C1 learner saw own-level content on 1 (C2: 1). The rotation now ALTERNATES
+  // between two LRS cycles: the learner's OWN TIER (entries gated exactly at
+  // their level, plus `adaptive` entries that level themselves) and everything
+  // below it. Whichever cycle was served less recently goes next; never-served
+  // ties break to the own tier, so an advanced learner's first culture day is
+  // at level. Within each cycle nothing repeats until the cycle is exhausted —
+  // the 2026-08-14 "same card every day" fix holds per cycle. A1 has no lower
+  // cycle and A2–B1 already had most of their content at level, so the change
+  // is largest exactly where the gap was: B2–C2 go from ≤1/40 to ~20/40.
+  const ownTier = croatiaRotation.filter(
+    (c) => (c.cefr ?? 'A1') === userCefr || (c.adaptive && isUnlocked(c.cefr ?? 'A1', userCefr)),
   );
+  const lowerTier = croatiaRotation.filter((c) => !ownTier.includes(c));
+  const newest = (list: typeof croatiaRotation) =>
+    list.reduce((m, c) => ((servedMap[c.screen] ?? '') > m ? servedMap[c.screen]! : m), '');
+  // Same-day tie (a level change or a fresh session rebuilds the plan): the
+  // dates cannot say which cycle went last, so prefer the cycle with the larger
+  // share of entries NOT yet served today. That walks both cycles to exhaustion
+  // before anything repeats within a day — the 2026-08-14 contract — and on
+  // real consecutive days the date comparison alone strictly alternates.
+  const unservedShare = (list: typeof croatiaRotation, day: string) =>
+    list.filter((c) => (servedMap[c.screen] ?? '') !== day).length / list.length;
+  const pickCycle = (): typeof croatiaRotation => {
+    if (ownTier.length === 0) return lowerTier;
+    if (lowerTier.length === 0) return ownTier;
+    const own = newest(ownTier);
+    const low = newest(lowerTier);
+    if (own !== low) return own < low ? ownTier : lowerTier;
+    return unservedShare(ownTier, own) >= unservedShare(lowerTier, own) ? ownTier : lowerTier;
+  };
+  const cycle = pickCycle();
+  const croatiaLRS = lrs(cycle.length ? cycle : croatiaRotation);
   const croatiaActivity =
     !cityVisited || croatiaLRS.length === 0 ? croatiaEligible[0]! : croatiaLRS[0]!;
+  const atLevel = ownTier.includes(croatiaActivity);
   activities.push({
     id: croatiaActivity.id,
     label: croatiaActivity.label,
     screen: croatiaActivity.screen,
     category: croatiaActivity.category,
-    ...withReason(croatiaReason()),
+    ...withReason(croatiaReason(atLevel)),
   });
 
   // Wave 1: record what this session serves (feeds the discovery slot's

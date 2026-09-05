@@ -560,24 +560,36 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
     }
   });
 
-  it('C2 rotation draws from the full pool (gated entries reachable)', () => {
-    // LRS rotation (2026-08-14): with cityofday visited and nothing served
-    // yet, the pick is the FIRST never-served rotation entry in pool order,
-    // and successive builds walk the whole pool without repeating.
+  it('C2 rotation reaches the whole pool, with no repeat inside either cycle', () => {
+    // LRS rotation (2026-08-14) made the slot walk the pool without repeating.
+    // Level-aware rotation (2026-09-05) keeps that guarantee PER CYCLE: the
+    // own-tier cycle (C2 essays + self-levelling entries) and the lower cycle
+    // alternate, and nothing repeats until its own cycle is exhausted. Every
+    // gated entry is therefore still reachable — one full walk of the pool
+    // visits every entry exactly once — and the own tier now leads instead of
+    // arriving ~40 builds in. Pinned in croatiaSlotLevel.test.ts in more detail.
+    // (Beyond one full walk on the SAME day every date is equal and LRS cannot
+    // order — true before this change too; real days never tie like that.)
     localStorage.setItem('nh_cityofday_date', localDateStr());
     const rotation = CROATIA_POOL.filter((c) => c.screen !== 'cityofday');
-    const acts = buildSessionActivities('C2');
-    const croatia = acts.filter((a) => CROATIA_IDS.has(a.id));
-    expect(croatia).toHaveLength(1);
-    expect(croatia[0]!.id).toBe(rotation[0]!.id);
-    // A gated entry becomes reachable as the LRS walk reaches it.
-    const seen = new Set<string>([croatia[0]!.id]);
+    const own = rotation.filter((c) => c.cefr === 'C2' || c.adaptive);
+    const lower = rotation.filter((c) => !own.includes(c));
+    const first = buildSessionActivities('C2').filter((a) => CROATIA_IDS.has(a.id));
+    expect(first).toHaveLength(1);
+    expect(own.map((c) => c.id)).toContain(first[0]!.id); // own tier leads
+    const seen = new Set<string>([first[0]!.id]);
+    const cycleSeen = { own: new Set<string>([first[0]!.id]), lower: new Set<string>() };
     for (let i = 1; i < rotation.length; i++) {
       const next = buildSessionActivities('C2').filter((a) => CROATIA_IDS.has(a.id))[0]!;
-      expect(seen.has(next.id), `repeat before full cycle: ${next.id}`).toBe(false);
+      const cyc = own.some((c) => c.id === next.id) ? 'own' : 'lower';
+      const set = cycleSeen[cyc];
+      expect(set.has(next.id), `repeat inside ${cyc} cycle: ${next.id}`).toBe(false);
+      set.add(next.id);
       seen.add(next.id);
     }
-    expect(seen.size).toBe(rotation.length);
+    expect(seen.size).toBe(rotation.length); // every gated entry reached
+    expect(cycleSeen.own.size).toBe(own.length); // …and each cycle walked in full
+    expect(cycleSeen.lower.size).toBe(lower.length);
   });
 
   it('cityofday keeps first claim on the slot when not yet visited', () => {

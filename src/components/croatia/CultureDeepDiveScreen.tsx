@@ -2,6 +2,7 @@ import React from 'react';
 import { H } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
+import { useApp } from '../../context/AppContext';
 
 // B2–C2 culture deep dives (fluency initiative, 2026-08). Before this screen,
 // every CROATIA_POOL entry gated at B1 or below, so an advanced learner's daily
@@ -40,17 +41,28 @@ interface Essay {
 
 interface Props {
   tier: 'B2' | 'C1' | 'C2';
+  /**
+   * One essay (2026-09-05): the daily session's culture slot now serves ONE
+   * essay per entry (kultura_<tier>_<key> routes) so a culture day is a bounded
+   * 3–5 minute read, not the whole tier. Absent → the tier catalog (kultura_<tier>).
+   */
+  essayKey?: string;
   goBack: () => void;
 }
 
-export default function CultureDeepDiveScreen({ tier, goBack }: Props) {
+export default function CultureDeepDiveScreen({ tier, essayKey, goBack }: Props) {
   const { content, loading, error } = useContent();
+  const { setScr } = useApp();
   const { showEn, toggle } = useEnglishToggle();
   const meta = TIER_META[tier]!;
 
   // Optional-chained: stale cached content from before this deploy has no
   // CULTURE_DEEP_DIVES key.
-  const essays: Essay[] = (content?.CULTURE_DEEP_DIVES?.[tier] as Essay[] | undefined) ?? [];
+  const allEssays: Essay[] = (content?.CULTURE_DEEP_DIVES?.[tier] as Essay[] | undefined) ?? [];
+  // An unknown key (a cached payload older than the essay) falls back to the
+  // whole tier rather than an empty screen — the slot must never strand.
+  const one = essayKey ? allEssays.find((e) => e.key === essayKey) : undefined;
+  const essays: Essay[] = one ? [one] : allEssays;
 
   if (error)
     return (
@@ -126,6 +138,15 @@ export default function CultureDeepDiveScreen({ tier, goBack }: Props) {
           </div>
         </div>
       ))}
+      {one && allEssays.length > 1 && (
+        <button
+          className="b"
+          style={{ marginTop: 14, width: '100%' }}
+          onClick={() => setScr(`kultura_${tier.toLowerCase()}`)}
+        >
+          📚 Svi eseji · All {tier} essays ({allEssays.length})
+        </button>
+      )}
     </div>
   );
 }
