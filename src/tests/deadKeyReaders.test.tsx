@@ -42,6 +42,11 @@ vi.mock('../lib/pushNotifications.js', () => ({
   registerPushWithServer: vi.fn(async () => undefined),
 }));
 vi.mock('../lib/srs', () => ({ getDueReviews: vi.fn(() => []) }));
+// CityOfDayScreen reads the learner's level (graded Croatian intro) through
+// useStats, which throws outside StatsProvider; this file renders it bare.
+vi.mock('../context/StatsContext', () => ({
+  useStats: () => ({ stats: { xp: 0, lc: 0, gc: 0 } }),
+}));
 vi.mock('../lib/adaptive', () => ({
   getDueCategoryQueue: vi.fn(() => []),
   CONJ_CATEGORIES: new Set<string>(),

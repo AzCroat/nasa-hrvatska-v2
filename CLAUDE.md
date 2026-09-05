@@ -1032,12 +1032,43 @@ every level from A2 up** (A1 has nothing below it), pinned.
   (data at all six levels and genuinely different; picker never climbs;
   degrade path; the screen rendered with the REAL data at A1/B2/C2 shows that
   level and not the baseline).
+- **City of the Day carries graded Croatian for a TRANCHE, and says so (item 6,
+  geography half, 2026-09-05).** The screen was English prose plus three
+  Croatian words per city, across 364 cities, with no Croatian text field at
+  all — grading it the way HISTORY was graded is ~25,000 words per register
+  band, so the scope decision was: THREE bands, not six, and the major cities
+  first. 46 cities (the coast from Dubrovnik to Pag, Istria, Kvarner, Zagreb
+  and the north, Slavonia, Lika, Herzegovina) now carry `introHrA1` (~35 words,
+  subject forms and present tense), `introHr` (the B1 baseline, ~90, same
+  convention as HISTORY) and `introHrC1` (~145, an argued paragraph about what
+  the place MEANS, not a gloss of the English facts); 12,482 Croatian words,
+  every one written from the city's own English record so the two halves
+  cannot contradict each other. `pickGradedHr` walks down as before, so A2
+  reads A1, B2 reads B1, C2 reads C1, and the chip (`cityofday-reading-level`)
+  says "Croatian · A1", never "at your level", on those three — the honesty
+  rule costs nothing here and the alternative was writing 25,000 words twice.
+  **The pool entry is deliberately NOT `adaptive`**: `adaptive` means own-tier
+  for EVERY learner, and a culture day on an ungraded city would claim that
+  falsely. `cityOfDayGraded.test.tsx` DERIVES coverage from the data and
+  asserts the flag equals "coverage is complete", so it can be flipped neither
+  early nor forgotten late; it also asserts an ungraded city renders exactly as
+  before (no block, no chip) and that a graded city has exactly the three
+  bands and nothing half-graded. Fields were inserted by a name-keyed script
+  that emits the same one-line-per-key shape `rebuildCities.mjs` serialises
+  (which iterates `Object.entries`, so a regeneration preserves them); both
+  copies stay byte-identical (pinned). Mutation-verified, six mutations
+  (adaptive flipped early, screen never picks, chip always claims, one band
+  deleted, picker pinned to C1, server copy dropped from lint TARGETS) fail
+  1–6 tests each; positive control `hleb` in an `introHrC1` fails the lint.
+  **Remaining: 318 cities**, in tranches of this shape; the derived floor in the
+  test rises with each and never lowers.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
   put the tier catalog pages back into the pool (one essay per culture day);
   claim a rotation figure without saying which branch produced it; grade a
-  culture record with a nested level object instead of `*Hr<Level>` siblings.
+  culture record with a nested level object instead of `*Hr<Level>` siblings;
+  mark `cityofday` adaptive while any city is ungraded (the test derives it).
 
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 

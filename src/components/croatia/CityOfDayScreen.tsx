@@ -4,6 +4,10 @@ import { getCityOfDay } from '../../lib/dailyPickers';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { localDateStr } from '../../lib/dateUtils';
 import { lsSet } from '../../lib/safeStorage';
+import { useStats } from '../../context/StatsContext';
+import { getUserCefr } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { pickGradedHr } from '../../lib/gradedHr';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. All 4 tabs (Overview / History / Vocab / Fast Facts) populated.
@@ -91,6 +95,18 @@ type CityLike = {
 
 function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   const [tab, setTab] = useState('overview');
+  const { stats } = useStats();
+  // GRADED CROATIAN (content expansion item 6, geography half). The same
+  // expression HomeTab hands the session builder, so the level this screen
+  // reads is the level the culture slot reasons about — they agree by
+  // construction. Cities carry `introHrA1` / `introHr` (B1) / `introHrC1`;
+  // pickGradedHr walks DOWN to the nearest band and reports which it served, so
+  // an A2 learner reads A1 and the chip says "Croatian · A1", never "at your
+  // level". Ungraded cities (coverage is a tranche, not the whole pool) render
+  // exactly as before: no block, no chip.
+  const learnerLevel = getContentUnlockLevel(
+    getUserCefr(stats?.xp ?? 0, stats?.lc ?? 0, stats?.gc ?? 0),
+  );
   // Direct client-side pool — 365 cities with full data (intro, history,
   // vocab, facts, didYouKnow). Always populated, no auth dependency, no
   // hydration race. Same daily picker.
@@ -134,6 +150,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   const safeIntro = city.intro || `${city.name} is a city in ${city.region || 'Croatia'}.`;
   const safeHistory = city.history || '';
   const safeDidYouKnow = city.didYouKnow || '';
+  const gradedHr = pickGradedHr(city, 'introHr', learnerLevel);
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: '📖' },
@@ -272,6 +289,69 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
           >
             {safeIntro}
           </div>
+          {gradedHr && (
+            <div
+              data-testid="cityofday-graded-hr"
+              style={{
+                marginBottom: 16,
+                padding: '14px 16px',
+                background: 'var(--card)',
+                borderRadius: 14,
+                border: '1px solid rgba(0,0,0,.07)',
+                boxShadow: '0 1px 4px rgba(0,0,0,.05)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 8,
+                  marginBottom: 8,
+                }}
+              >
+                <span
+                  data-testid="cityofday-reading-level"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    border: '1.5px solid var(--card-b)',
+                    background: 'var(--card)',
+                    borderRadius: 100,
+                    padding: '5px 12px',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: '#991b1b',
+                  }}
+                >
+                  {/* Names the level only when it IS the learner's — an A2 or B2
+                      learner reads the band below and the chip says which. */}
+                  {gradedHr.atLevel
+                    ? `Croatian at your level · ${gradedHr.level}`
+                    : `Croatian · ${gradedHr.level}`}
+                </span>
+                <button
+                  type="button"
+                  aria-label={`Play audio for the Croatian text about ${city.name}`}
+                  onClick={function () {
+                    speak(gradedHr.text);
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: 18,
+                    padding: 4,
+                  }}
+                >
+                  🔊
+                </button>
+              </div>
+              <div lang="hr" style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--heading)' }}>
+                {gradedHr.text}
+              </div>
+            </div>
+          )}
           <div
             style={{
               marginBottom: 16,
