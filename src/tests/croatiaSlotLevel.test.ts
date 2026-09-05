@@ -87,6 +87,18 @@ describe('the pool now has an own tier to serve at every level', () => {
       expect(ownTier(l).map((c) => c.id)).toContain('croatianews');
     expect(ownTier('A2').map((c) => c.id)).not.toContain('croatianews'); // still B1-gated
   });
+
+  it('history grades its own Croatian (item 6) and counts as own tier at EVERY level', () => {
+    // A1-gated + adaptive: the screen reads the learner's level through
+    // lib/gradedHr, so for a C2 learner the Homeland War timeline is C2 prose,
+    // not the B1 baseline everyone used to get — and the slot may say so.
+    expect(byId.get('history')!.adaptive).toBe(true);
+    for (const l of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+      expect(
+        ownTier(l).map((c) => c.id),
+        l,
+      ).toContain('history');
+  });
 });
 
 describe('the rotation alternates own tier and lower, LRS within each', () => {

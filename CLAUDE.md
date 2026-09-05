@@ -925,10 +925,51 @@ every level from A2 up** (A1 has nothing below it), pinned.
   (pinned) and are in the Croatian lint TARGETS; the 15 new essays passed it at
   0 findings. Essays are written AT register — B2 feature journalism, C1
   cultural criticism, C2 essayistic — never as glossed vocabulary lists.
+- **WHAT THE "20 OF 40" MEASURES, STATED PRECISELY (2026-09-05, found while
+  doing item 6).** The daily plan is built ONCE per day and persisted
+  (`nh_daily_session`, invalidated only by a date or CEFR change), and it is
+  built before anyone has opened City of the Day that day — so `cityVisited` is
+  false at build time and **the culture slot is `cityofday` on every daily
+  build, for every learner, at every level** (`croatiaEligible[0]`, the "first
+  claim" rule, unchanged since the slot existed). The rotation above — LRS,
+  the two-cycle alternation, "20 of 40 at level" — runs only on a SAME-DAY
+  rebuild: a mid-day CEFR change, or "Start a fresh session" from the complete
+  state (which the owner's hero-only directive hides whenever the engine has a
+  step). `croatiaSlotLevel.test.ts` sets `nh_cityofday_date` to today to reach
+  that branch; that is the branch it measures. The first-claim rule is the
+  documented "cityofday ritual" and was NOT changed here — whether an advanced
+  learner's daily slot should alternate City of the Day with own-tier content
+  is an owner decision, recorded as open. City of the Day itself is English
+  prose plus three Croatian words per city (364 cities, no Croatian text field),
+  which is why levelling it is a content job measured in tens of thousands of
+  words, not a rotation fix.
+- **History carries graded Croatian at every level (item 6, 2026-09-05).**
+  `HISTORY.introHr` / `timeline[].textHr` were one register (≈B1) served to
+  everyone. Each now has siblings `*HrA1`, `*HrA2`, `*HrB2`, `*HrC1`, `*HrC2`
+  — A1/A2 short simple sentences, B2 reportage with dates and figures, C1
+  analysis (causes, interpretations, what stays contested), C2 essayistic; 8
+  entries + intro, ~4,100 new Croatian words, HISTORY payload 10.5 → 37 KB on a
+  1.4 MB core. The bare field STAYS the B1 text, so nothing that already read it
+  changes. `src/lib/gradedHr.ts` (`pickGradedHr`) walks DOWN from the learner's
+  level to the nearest text and finally to the bare field — it never serves a
+  level above the learner and reports which level it served, so the screen's
+  chip says "Croatian at your level · C1" only when that is true and
+  "Croatian · B1" on a payload older than the grading. The screen derives its
+  level with the SAME expression HomeTab hands the session builder
+  (`getContentUnlockLevel(getUserCefr(…))`, pinned at source), and the pool
+  entry is `adaptive`, so `history` is own-tier at every level by the same
+  definition the slot uses. Field names end in `Hr` + level ON PURPOSE — see the
+  Croatian Script Guard note on the `*Hr` blind spot; a nested `{ A1: … }`
+  object would be invisible to the lint. Pinned by `historyGraded.test.tsx`
+  (data at all six levels and genuinely different; picker never climbs;
+  degrade path; the screen rendered with the REAL data at A1/B2/C2 shows that
+  level and not the baseline).
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
-  put the tier catalog pages back into the pool (one essay per culture day).
+  put the tier catalog pages back into the pool (one essay per culture day);
+  claim a rotation figure without saying which branch produced it; grade a
+  culture record with a nested level object instead of `*Hr<Level>` siblings.
 
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 
@@ -1125,6 +1166,8 @@ contrast table should go, delete the entry — nothing else depends on it.
 Coverage is **466 files** plus 2 walked structurally, up from 157 on 2026-08-31 in three waves.
 
 **THE WRITING CURRICULUM SAT IN TARGETS FOR EIGHTEEN DAYS AT ROUGHLY ONE SIXTH (2026-09-05).** `src/data/writingCurriculum.ts` joined the list the day it was authored, its header said "scanned by lintCroatianText.mjs — keep it clean", and the 2026-09-01 census that widened the matcher did not catch it because that census ranked candidates OUTSIDE the list. Found by mutation while expanding the file: a Serbism in a structure `hr` was caught; the same word in a MODEL text, a frame's `after`, or the connectives array passed clean. Three misses, and the third is new: (1) `model` / `before` / `after` were not field names the regex knew — and the model is the native-standard text the learner studies and imitates, the load-bearing prose of the whole unit; (2) `connectives` / `accept` are bare arrays, outside `ARRAY_FIELD_RE`; (3) **CONCATENATION**: a model is written as `'…' +\n'…' +\n'…'` and the field regex captured the FIRST literal only. 222 such joins sit across TARGETS; every continuation line was invisible. `fieldStrings` now follows `+ '…'` chains from the first match. Measured before writing (`NH_LINT_CENSUS=1` prints the count of strings the passes actually look at, so this is re-runnable): 93,950 → 94,290 strings, zero new findings; mutation-verified in seven positions. **A file's own header claiming it is linted is the least reliable evidence there is** — it was written by the same person who forgot to check.
+
+**THE BILINGUAL `*Hr` LAYER WAS NEVER SCANNED (2026-09-05, item 6).** The culture data marks its Croatian half by SUFFIX — `introHr`, `textHr`, `titleHr`, `descHr`, `roleHr`, `storyHr`, `eventHr`, `tHr`, `hHr`, `qHr`, `aHr`, and the arrays `factsHr` / `alHr`: **1,156 field occurrences** across history.js, regions.js, events.js and the Krajevi quiz layer. Not one is a name `CRO_FIELD_RE` listed, and the regex is case-sensitive, so `hr` could not match the `Hr` inside them. history.js and regions.js have been in TARGETS since the first wave and were scanned only where a lesson-style field name (`title`, `name`, `text`) happened to occur — the English half, mostly. Found the same way as the writing curriculum: by mutation while expanding the file. `hleb` in a `textHr` passed clean; the same word in a drill's `q` was caught (positive control — always run one, or a green mutation proves nothing about the rule). `[a-zA-Z]*Hr[ABC]?[12]?` now covers the whole suffix family INCLUDING the graded siblings the history screen reads (`textHrA1` … `textHrC2`), and the array pass gains `[a-zA-Z]*Hr`. Measured first: 95,315 → 96,799 strings scanned, zero new findings; mutation-verified in seven positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr, a factsHr entry, an alHr entry). `croatianLintTargets.test.ts` pins it by BUILDING both regexes from the lint's source and running them against probes — a text match on the alternative would be satisfied by this paragraph. **A convention is not coverage**: `povijest-bilingual.test.ts` had been asserting for weeks that every `*Hr` field is non-empty and diacritic-bearing, which read as "the Croatian layer is checked" — it checked presence, never content. One known residue, deliberately not fixed here: KINGS writes its Croatian as JavaScript unicode escapes (`š` for š), and the lint scans raw source, so an escaped Serbism or homoglyph is invisible in any escaped string anywhere in TARGETS.
 
 **THE THIRD WAVE FOUND THAT THE TARGET LIST HAD STOPPED BEING THE BINDING CONSTRAINT, AND NOBODY HAD MEASURED IT (2026-09-01).** Two waves of adding files had trained everyone — me included — to think of coverage as a list length. A census of every candidate outside TARGETS found **1,159 Croatian strings of which `CRO_FIELD_RE` saw 137: twelve per cent.** Adding the remaining files to the list would have bought almost nothing. The gap was the MATCHER, and it was invisible from a list precisely because a list cannot show you what it fails to match.
 

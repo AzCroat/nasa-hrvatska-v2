@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { useStats } from '../../context/StatsContext';
+import { getUserCefr } from '../../lib/cefr';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { pickGradedHr } from '../../lib/gradedHr';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
 
 interface HistoryHero {
@@ -17,12 +21,15 @@ interface HistoryTimelineEntry {
   titleHr?: string;
   text: string;
   textHr?: string;
+  // Graded siblings (textHrA1 … textHrC2) — read through pickGradedHr, never by name.
+  [graded: string]: unknown;
 }
 interface HistoryShape {
   title: string;
   subtitle: string;
   intro: string;
   introHr?: string;
+  [graded: string]: unknown;
   quote: string;
   quote2: string;
   timeline: HistoryTimelineEntry[];
@@ -244,13 +251,48 @@ function HimnaPlayer() {
 function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
   const { content, loading, error } = useContent();
   const { showEn, toggle } = useEnglishToggle();
+  const { stats } = useStats();
   if (error) return <ErrorState message="Couldn't load content - please retry." />;
   if (loading || !content) return <LoadingState />;
   const HISTORY = content.HISTORY as unknown as HistoryShape;
+  // GRADED CROATIAN (content expansion item 6). The same expression HomeTab hands
+  // the session builder, so the level this screen reads is the level the
+  // culture slot counted it as own-tier for — the two agree by construction.
+  const learnerLevel = getContentUnlockLevel(
+    getUserCefr(stats?.xp ?? 0, stats?.lc ?? 0, stats?.gc ?? 0),
+  );
+  const intro = pickGradedHr(HISTORY, 'introHr', learnerLevel);
   return (
     <div className="scr-wrap">
       {H('🇭🇷 ' + HISTORY.title, HISTORY.subtitle, goBack)}
-      {HISTORY.introHr && <EnglishToggleButton showEn={showEn} toggle={toggle} />}
+      {HISTORY.introHr && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <EnglishToggleButton showEn={showEn} toggle={toggle} />
+          {intro && (
+            <span
+              data-testid="history-reading-level"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                border: '1.5px solid var(--card-b)',
+                background: 'var(--card)',
+                borderRadius: 100,
+                padding: '5px 12px',
+                fontSize: 12,
+                fontWeight: 700,
+                color: '#991b1b',
+                marginBottom: 14,
+              }}
+            >
+              {/* Names the level only when it IS the learner's — a stale payload
+                  without graded fields serves the B1 baseline and says so. */}
+              {intro.atLevel
+                ? `Croatian at your level · ${intro.level}`
+                : `Croatian · ${intro.level}`}
+            </span>
+          )}
+        </div>
+      )}
       <div
         className="c"
         style={{
@@ -260,7 +302,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
         }}
       >
         <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
-          <BiText hr={HISTORY.introHr} en={HISTORY.intro} showEn={showEn} />
+          <BiText hr={intro?.text} en={HISTORY.intro} showEn={showEn} />
         </div>
       </div>
       <div
@@ -302,7 +344,11 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
               </div>
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.7, color: '#44403c' }}>
-              <BiText hr={e.textHr} en={e.text} showEn={showEn} />
+              <BiText
+                hr={pickGradedHr(e, 'textHr', learnerLevel)?.text}
+                en={e.text}
+                showEn={showEn}
+              />
             </p>
           </div>
         );
