@@ -39,4 +39,11 @@ regexes = [
   # nothing, and it has to be readable in both places precisely so the two can
   # be checked against each other.
   '''nh-cron-v1''',
+  # Culture-essay SCREEN IDS (src/components/AppRouter.tsx, src/lib/croatiaPool.ts).
+  # Each essay route is `<ScreenErrorBoundary key="kultura_c2_deklaracija" …>`, and
+  # generic-api-key keys on the React attribute NAME `key`; the longer essay ids
+  # clear its entropy floor (the older `region_*` ids sit just under it — 15 of
+  # the 24 tripped it on 2026-09-05). A screen id is a route, not a credential.
+  # Scoped to the exact id shape: tier prefix + lowercase snake_case, nothing else.
+  '''^kultura_(?:a1|a2|b1|b2|c1|c2)_[a-z_]+$''',
 ]
