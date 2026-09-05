@@ -974,6 +974,48 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
 
+## Critical Architecture: Dialogue Register Pairs (content expansion, 2026-09-05)
+
+The finding this exists to keep closed: **from B1 up, every guided dialogue was
+V-form with a stranger or an official** — 5–6 scenarios per level, all formal —
+while the CEFR descriptors from B1 up are ABOUT register. A learner could finish
+the whole upper path without once addressing a friend, a sibling or a parent in
+Croatian. `dialogueScenarios.js` now holds **12 per level at B1–C2** (63 total,
+was 38), and the 25 new scenarios come in **pairs**: the same speech act —
+invite, ask a favour, cancel, raise a problem, negotiate, apologise, decline,
+persuade, break bad news, mediate, disagree, correct — once formally and once
+with a friend or relative, so the learner sees exactly what changes between
+registers (the pronoun, the imperative, the closing) and what does not (the
+case endings, which is where the distractors live).
+
+- **Both registers are pinned per level** (`dialogueScenarios.test.ts`): at
+  least three informal and three formal scenarios at each of B1–C2, detected
+  from the learner's CORRECT lines (`opts[0]`), not from the NPC — the NPC's
+  register is the prompt, the model answer is the lesson. **The first draft of
+  that guard was decorative**: JS `\b` is ASCII-only, so `možeš` never matched
+  and `gospođo` was invisible, and `te` caught the demonstrative — moving the
+  three new informal B1 scenarios out tripped the level floor and left the
+  register test green. It now uses Unicode lookarounds and a MAJORITY rule
+  (informal = most correct lines carry a ti-marker; formal = most carry a
+  Vi-marker and none a ti-marker), and the same mutation fails it on its own.
+- **Client/server parity is not optional.** Every scenario id must have an
+  entry in `functions/api/dialogue.js` `SCENARIO_CONTEXTS` or its "✨ AI
+  Conversation" mode 400s; the parity test names the missing id. The `role`
+  string names the register the NPC holds ("Informal ti" / "V-form") so the
+  AI mode matches the guided mode.
+- **The correct option is ALWAYS index 0** in source; `DialogueGuidedMode`
+  shuffles at render. Distractors are wrong by CASE, CLITIC ORDER, AGREEMENT or
+  REGISTER — never by being Serbian (the lint walks this file structurally and
+  checks distractors too) and never by marking real Croatian wrong. A "wrong
+  register" distractor is real Croatian in the wrong room ("Hvala Vam" to a
+  friend), which is exactly the error the pair exists to teach.
+- Ordering within a level follows source order (concrete → social), which the
+  interaction path (`interactionCurriculum.ts`) inherits; the new pairs sit
+  after the existing scenarios at their level.
+- NEVER: add a scenario without its server context; put the correct option
+  anywhere but index 0; make a distractor wrong by being Serbian or by being
+  a merely-marked variant a native would say.
+
 ## Critical Architecture: Firebase Sync
 
 ### Firestore document paths
