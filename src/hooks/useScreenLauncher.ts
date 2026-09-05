@@ -19,6 +19,7 @@ import type { VocabWord } from '../lib/exerciseData';
 // could ever reach 1,030 of the core words and none reached the B2–C2 tiers.
 // `allCats` survives only as an explicit override for test fixtures.
 import { vocabPool, acquisitionPool, vocabCategories, vocabLevel } from '../lib/vocabPool';
+import { isUnlocked } from '../lib/cefr';
 import type { VocabSource } from '../lib/vocabPool';
 import { reportError } from '../lib/errorReporter';
 // Web Storage access THROWS (SecurityError) — it does not return null — when the
@@ -48,6 +49,20 @@ function _sh<T>(a: T[]): T[] {
 }
 
 type Row = VocabWord;
+/**
+ * The LISTEN bank at or below the learner's level. Every item carries a
+ * `level`; before 2026-09-04 both launch sites shuffled the whole bank, so an A1
+ * learner's Listening Quiz was mostly B1–C2 sentences. Falls back to the whole
+ * bank when the levelled slice is too thin for a quiz — a launch must never
+ * bail on a classification gap. Exported for the wiring test.
+ */
+export function _levelledListen(bank: unknown[], level = vocabLevel()): unknown[] {
+  const ok = bank.filter((q) => {
+    const lv = (q as { level?: string } | null)?.level;
+    return !lv || isUnlocked(lv, level);
+  });
+  return ok.length >= 4 ? ok : bank;
+}
 /** Everything the learner may be served (distractors, topic fallbacks). */
 function _servable(src: VocabSource, cats?: string[]): Row[] {
   return vocabPool(src, vocabLevel(), { cats }) as Row[];
@@ -504,7 +519,7 @@ export function useScreenLauncher({
         sCurEx('grammar');
       } else if (item.go === 'listening') {
         const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
-        const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
+        const pool = Array.isArray(LISTEN) ? _sh(_levelledListen(LISTEN)).slice(0, 10) : [];
         if (pool.length === 0) return;
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
         setLsInitQ(pool);
@@ -763,7 +778,7 @@ export function useScreenLauncher({
           }
         } else if (screen === 'listening') {
           const { LISTEN } = (await _getData()) as { LISTEN: unknown[] };
-          const pool = Array.isArray(LISTEN) ? _sh(LISTEN).slice(0, 10) : [];
+          const pool = Array.isArray(LISTEN) ? _sh(_levelledListen(LISTEN)).slice(0, 10) : [];
           if (pool.length === 0) {
             clearActiveSessionActivity();
             return notifyLaunchFailure('empty-pool');

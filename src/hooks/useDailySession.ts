@@ -27,6 +27,11 @@ import {
   withReason,
 } from '../lib/activityReason';
 import { lsGet } from '../lib/safeStorage';
+import { selectGuaranteedInput, inputKindOf } from '../lib/inputSlot';
+import { readServedMap, SERVED_KEY } from '../lib/sessionServed';
+// Re-exported so tests keep one import path for the session's guaranteed slots.
+export { selectGuaranteedInput } from '../lib/inputSlot';
+export type { InputKind } from '../lib/inputSlot';
 // Re-exported so the content-coverage CI gate and session tests keep their
 // import path (the data moved to ../lib/sessionPools for max-lines; the
 // Croatia rotation pool followed in Wave 6 for the same reason).
@@ -579,6 +584,29 @@ export function buildSessionActivities(
     }
   }
 
+  // Priority 2.8: Guaranteed comprehension — one listening OR reading activity
+  // per session (content expansion item 2, 2026-09-04). See selectGuaranteedInput
+  // for the census that motivated it. Rules, all inherited from the slots above:
+  //   * it takes a FILL slot, never adds one — the check reads activities.length
+  //     against fillTarget at this point, the same budget rule P2 and P2.7 obey,
+  //     so the 180/180 lesson-day length contract and every non-lesson length
+  //     are unchanged by construction;
+  //   * it stands down when the session already contains input (a curriculum
+  //     coupling to a reading drill, an SRS-free day whose adaptive pick was
+  //     listening) — a guarantee, not an addition;
+  //   * it sits AFTER the grammar guarantee, so on the one day-shape where only
+  //     one slot remains and the adaptive pick was not grammar, grammar wins.
+  //     That is the owner's earlier G2 directive; measured, it costs input on
+  //     no non-lesson day at any level (see sessionInputSlot.test.ts).
+  if (activities.length < fillTarget && !activities.some((a) => inputKindOf(a.category))) {
+    const input = selectGuaranteedInput(userCefr, usedScreens, recentScreens, drawCtx());
+    if (input) {
+      const { kind: _kind, ...activity } = input;
+      activities.push(activity);
+      usedScreens.add(input.screen);
+    }
+  }
+
   // Priority 3: CEFR-appropriate fill (skip recent, exclude already queued screens)
   const ctx = drawCtx();
   let pool = CEFR_EXERCISE_POOL.filter(
@@ -778,20 +806,10 @@ function persistSession(session: DailySession): void {
   } catch {}
 }
 
-// Wave 1: map of screen key → last date it appeared in a built session. Read by
-// the Priority-3 discovery slot (least-recently-served ordering); written on
-// every session build. Never pruned — a few hundred screen keys with date
-// strings is negligible storage.
-const SERVED_KEY = 'nh_session_served';
-
-function readServedMap(): Record<string, string> {
-  try {
-    return JSON.parse(localStorage.getItem(SERVED_KEY) || '{}') as Record<string, string>;
-  } catch {
-    return {};
-  }
-}
-
+// Wave 1: the served map (screen key → last date it appeared in a built
+// session) lives in lib/sessionServed — the discovery slot and the P2.8
+// comprehension slot both read it, and the slot moved out of this file for
+// max-lines.
 function recordServedScreens(screens: string[]): void {
   try {
     const map = readServedMap();

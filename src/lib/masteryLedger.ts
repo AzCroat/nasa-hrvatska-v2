@@ -314,6 +314,24 @@ export function weakestProductionKind(level: CefrLevel): 'speak' | 'write' | nul
   return speak >= write ? 'speak' : 'write';
 }
 
+/**
+ * Which comprehension kind the guaranteed input slot (P2.8) should bias toward:
+ * the less-demonstrated of listening vs reading at `level`, or null when the
+ * ledger has measured neither (no bias — the slot alternates) or both are
+ * strong. Same null rule as weakestProductionKind, for the same reason: the
+ * ledger only steers when it has actually measured something.
+ */
+export function weakestReceptiveKind(level: CefrLevel): 'listening' | 'reading' | null {
+  const p = getMasteryProfile(level);
+  if (p.listening === undefined && p.reading === undefined) return null;
+  const need = (m: SkillMastery | undefined): number =>
+    !m || !m.tested ? 1 : m.strong ? 0 : 1 - m.score;
+  const listen = need(p.listening);
+  const read = need(p.reading);
+  if (listen === 0 && read === 0) return null;
+  return listen >= read ? 'listening' : 'reading';
+}
+
 const SKILL_LABELS: Record<SkillKey, string> = {
   vocab: 'vocabulary',
   grammar: 'grammar',

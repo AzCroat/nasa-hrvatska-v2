@@ -808,6 +808,73 @@ exactly the rate the content it restates grows.
   `vocabPoolWords` (Home and Review must agree by construction); let an absent
   `V_LEVELS` mean an empty deck.
 
+## Critical Architecture: The Comprehension Slot (content expansion, 2026-09-04)
+
+The finding this exists to keep closed: **the session guaranteed every skill it
+tests except comprehension.** Grammar (P2.7), production (P2.5) and conversation
+at B1+ (P2.4) each had a slot; listening and reading competed in the P3 fill
+among 50–300 eligible entries, and `adaptive` only put them level with every
+other difficulty-matched drill. Measured over 300 non-lesson sessions per level:
+the share containing ANY listening or reading was **A1 10 · A2 19 · B1 13 · B2 11
+· C1 27 · C2 10 per cent**, and listening alone 4–5% at B1/B2/C2 — a listening
+activity roughly once every three weeks. After the slot: **100% at every level,
+listening and reading alternating 50/50, session length unchanged** (pinned).
+
+- **P2.8 — one listening OR reading activity per session** (`src/lib/inputSlot.ts`,
+  `selectGuaranteedInput`; the file split follows sessionPools/croatiaPool —
+  useDailySession is at its 800-line cap and the cap was not raised). It obeys
+  the same budget rule as P2 and P2.7: fires only while `activities.length <
+  fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
+  when the session already holds input. Sits AFTER the grammar guarantee, so on
+  the one day-shape with a single slot left and a non-grammar adaptive pick,
+  grammar wins (the owner's G2 directive); measured, that costs input on no
+  non-lesson day at any level.
+- **KIND alternates by what was served less recently** (`nh_session_served`, now
+  read from `src/lib/sessionServed.ts` by both the discovery slot and this one),
+  unless the mastery ledger has measured a weaker receptive skill
+  (`weakestReceptiveKind`, the twin of `weakestProductionKind`, same null rule).
+  Same-day dates tie (a same-day fresh session gets the other kind — intended).
+- **Input means the MODALITY categories `listening`/`reading`, NOT the SKILL_GROUP
+  families of those names.** The families answer "what does this vary against"
+  and rightly hold `legal` ("Što je rješenje?"), `literature`, `media-analysis`
+  as reading for the variety pass. As comprehension INPUT a terminology bank is a
+  drill; the first draft used the families and at B2 chose the literature drill
+  over the graded reader every reading day. `inputKindOf` is the one definition;
+  the modality set is pinned by id.
+- **Authored before generated** (`generated?: boolean` on the pool entry — the
+  P2.4 zero-AI-by-default posture; AI variants stay reachable via P3 fill). The
+  flag is DERIVED, not trusted: `sessionInputSlot.test.ts` walks the real router
+  to each input screen's component and requires `generated` ⇔ it calls a Claude
+  endpoint (endpoints read from `_aiBudget.js`'s ceiling table minus the
+  non-Claude speech/translation/image entries) for its CONTENT. **That walk caught
+  `storymode` on its first run**: its pool comment said "scene banks are
+  per-level"; the screen calls `_aiPost('/api/ai-chat', { mode: 'story' })`. Only
+  the city list is authored. One auxiliary exemption, `grammarreader` (tap-a-word
+  analysis over authored passages), pinned to the endpoint it must still call.
+- **Two input screens now level themselves and carry `adaptive` honestly.** The
+  LISTEN bank has a `level` on all 45 items; both launch sites shuffled the whole
+  bank, so an A1 learner's Listening Quiz was mostly B1–C2 sentences —
+  `_levelledListen` filters to ≤ level (whole-bank fallback under 4 items).
+  `GradedInputScreen` opens on the learner's level instead of All (177 stories,
+  A1 first), falling back to All when a level has no stories; its filter row is
+  unchanged. Never tag an entry `adaptive` on the strength of a screen that does
+  not actually level its content — the flag means dist 0 in the fill sort.
+- **WHAT THIS COSTS, stated:** the A2 discovery slot. Discovery fires only when
+  TWO fill slots remain after the guarantees; A2 had that headroom and B1+ never
+  did. In default mode the widened pool's window is now the LRS bonus round at
+  every level; fluency mode (+2) still has the headroom and the mechanism is
+  asserted there (`session-coverage.test.ts`). Reference entries are excluded
+  from the slot outright (a guarantee of input is a graded finish, not a browse
+  list — the P2.7 exclusion in the other direction).
+- Mutation-verified, nine mutations: slot never fires (16 fail), slot ignores the
+  budget (2), generated no longer sorts last (4), reference allowed (1), storymode
+  flag dropped (2), alternation removed (3), LISTEN filter dropped from the
+  session branch (2), inputKindOf back to skill families (3), graded reader opens
+  on All (2).
+- NEVER: let the slot add length (keep the `< fillTarget` check); define input by
+  SKILL_GROUP; serve a reference entry from it; tag `generated` by feel — fix the
+  screen or the derivation test, never the flag alone; make P2.8 outrank P2.7.
+
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 
 The 2026-08-18 audit finding this section exists to keep closed: the app TESTED

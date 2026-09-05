@@ -350,12 +350,17 @@ describe('Wave 1 — pool registration integrity', () => {
 import { buildSessionActivities } from '../hooks/useDailySession';
 
 describe('Wave 1 — discovery slot', () => {
-  it('serves the least-recently-served unlocked exercise (A2 has fill headroom)', () => {
-    // B1+ default sessions have no Priority-3 headroom (the four guaranteed
-    // slots consume the fill target) — their window onto the widened pool is
-    // the LRS bonus round. A1/A2 sessions DO have a fill slot, and discovery
-    // must hand it to the least-recently-served exercise.
+  it('serves the least-recently-served unlocked exercise (fluency mode has fill headroom)', () => {
+    // Discovery fires only when TWO fill slots remain after the guarantees (it
+    // displaces the last difficulty pick, never the only one). B1+ default
+    // sessions never had that headroom; A2 did until 2026-09-04, when the
+    // guaranteed comprehension slot (P2.8) took its second fill slot — a
+    // measured, recorded cost of guaranteeing input every session (see
+    // sessionInputSlot.test.ts and CLAUDE.md). In default mode the widened
+    // pool's window is now the LRS bonus round at every level; fluency mode
+    // (+2) still has the headroom, so the MECHANISM is asserted there.
     localStorage.clear();
+    localStorage.setItem('nh_fluency_mode', 'true');
     const served: Record<string, string> = {};
     for (const e of CEFR_EXERCISE_POOL) {
       if (e.screen !== 'vocabscenes') served[e.screen] = '2026-01-01';
