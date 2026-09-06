@@ -1032,36 +1032,66 @@ every level from A2 up** (A1 has nothing below it), pinned.
   (data at all six levels and genuinely different; picker never climbs;
   degrade path; the screen rendered with the REAL data at A1/B2/C2 shows that
   level and not the baseline).
-- **City of the Day carries graded Croatian for a TRANCHE, and says so (item 6,
-  geography half, 2026-09-05).** The screen was English prose plus three
-  Croatian words per city, across 364 cities, with no Croatian text field at
-  all — grading it the way HISTORY was graded is ~25,000 words per register
-  band, so the scope decision was: THREE bands, not six, and the major cities
-  first. 46 cities (the coast from Dubrovnik to Pag, Istria, Kvarner, Zagreb
-  and the north, Slavonia, Lika, Herzegovina) now carry `introHrA1` (~35 words,
-  subject forms and present tense), `introHr` (the B1 baseline, ~90, same
-  convention as HISTORY) and `introHrC1` (~145, an argued paragraph about what
-  the place MEANS, not a gloss of the English facts); 12,482 Croatian words,
-  every one written from the city's own English record so the two halves
-  cannot contradict each other. `pickGradedHr` walks down as before, so A2
-  reads A1, B2 reads B1, C2 reads C1, and the chip (`cityofday-reading-level`)
-  says "Croatian · A1", never "at your level", on those three — the honesty
-  rule costs nothing here and the alternative was writing 25,000 words twice.
-  **The pool entry is deliberately NOT `adaptive`**: `adaptive` means own-tier
-  for EVERY learner, and a culture day on an ungraded city would claim that
-  falsely. `cityOfDayGraded.test.tsx` DERIVES coverage from the data and
-  asserts the flag equals "coverage is complete", so it can be flipped neither
-  early nor forgotten late; it also asserts an ungraded city renders exactly as
-  before (no block, no chip) and that a graded city has exactly the three
-  bands and nothing half-graded. Fields were inserted by a name-keyed script
-  that emits the same one-line-per-key shape `rebuildCities.mjs` serialises
-  (which iterates `Object.entries`, so a regeneration preserves them); both
-  copies stay byte-identical (pinned). Mutation-verified, six mutations
-  (adaptive flipped early, screen never picks, chip always claims, one band
-  deleted, picker pinned to C1, server copy dropped from lint TARGETS) fail
-  1–6 tests each; positive control `hleb` in an `introHrC1` fails the lint.
-  **Remaining: 318 cities**, in tranches of this shape; the derived floor in the
-  test rises with each and never lowers.
+- **City of the Day carries graded Croatian for ALL 364 cities (item 6,
+  geography half, 2026-09-05 → complete 2026-09-06).** The screen was English
+  prose plus three Croatian words per city, across 364 cities, with no Croatian
+  text field at all — grading it the way HISTORY was graded is ~25,000 words
+  per register band, so the scope decision was THREE bands, not six. Every city
+  now has `introHrA1` (~40 words, subject forms and present tense), `introHr`
+  (the B1 baseline, ~100, same convention as HISTORY) and `introHrC1` (~160, an
+  argued paragraph about what the place MEANS, not a gloss of the English
+  facts): **107,666 Croatian words**, every one written from the city's own
+  English record so the two halves cannot contradict each other (the authoring
+  brief allowed the record plus sea/region/town-or-island geography and nothing
+  else; the tranche reports name each place a record was internally
+  inconsistent and which line was followed). `pickGradedHr` walks down as
+  before, so A2 reads A1, B2 reads B1, C2 reads C1, and the chip
+  (`cityofday-reading-level`) says "Croatian · A1", never "at your level", on
+  those three.
+  **WHERE THE TEXT LIVES, AND WHY IT MOVED.** The 46-city tranche put the
+  fields on the city record in geography.js. That was wrong at scale for a
+  reason invisible at 46: geography.js is spread into `/api/content/core`
+  (`_data/core.js`) — the payload every client fetches — and feeds the Home
+  card, so the full corpus would have added ~0.6 MB to core for a screen that
+  reads client data anyway. The corpus is now `src/data/cultural/geographyHr.js`
+  (`CITY_INTRO_HR`, keyed by `name`), in its own vite chunk `chunk-geo-hr`
+  (710 KB raw / 237 KB gzip; the rule must precede the `geography` substring
+  rule or it is swallowed — pinned), excluded from SW precache by the existing
+  `chunk-geo*` glob (precache unchanged at 21 entries / 681 KiB), imported ONLY
+  by `CityOfDayScreen` (the Home card and core.js must not — pinned). It is
+  client-only: nothing serves it, so there is no functions/ copy. Both
+  geography.js copies are back to their pre-tranche bytes (`chunk-geo` hash
+  unchanged).
+  **The pool entry is NOT `adaptive`, and the reason changed with completion.**
+  At 46 the reason was partial coverage. At 364 the reason is the bands: the
+  slot serves City of the Day at A1–A2 (`CITY_OF_DAY_SLOT_MAX_CEFR`), an A2
+  learner reads the A1 text, and `croatiaReason`'s "Culture at your level."
+  would be false for them. `cityOfDayGraded.test.tsx` DERIVES the rule —
+  adaptive ⇔ every slot-served level has its OWN band — so authoring an
+  `introHrA2` for every city flips the expectation and the failure message
+  says why. It also asserts: every city has an entry and every entry names a
+  real city (a renamed city silently loses its Croatian); the city RECORD
+  carries no `introHr*` (the core-payload rule, mechanically); exactly three
+  bands per entry; the whole-corpus floor of 90,000 words; and the screen at
+  all six levels plus the degrade path (an unknown name renders as before).
+  Mutation-verified on the full corpus, seven mutations (entry deleted, orphan
+  key, field put back on the record, vite rule order swapped, Home card
+  importing the module, adaptive flipped, one C1 band shortened) each fail
+  1–5 tests; positive control `hleb` inside an `introHrC1` fails the lint and
+  names the line (a first attempt injected it into the indentation Prettier
+  puts before the string and proved nothing — check WHERE a mutation landed
+  before reading its result). Lint census 99,478 → 100,570 strings: +1,092 =
+  364 × 3, so every band is scanned.
+  **How it was authored:** eight parallel agents, one 40-city tranche each,
+  under one brief (bands, word ranges, facts-only, the Serbism blocklist, the
+  homoglyph warning, self-verification with the band script and
+  `_serbisms.js`). Every tranche reported `problems 0` and 0 Serbism hits
+  before merge; one agent caught a Cyrillic `е` it had typed, exactly the
+  defect the encoding check exists for. `rebuildCities.mjs` is unaffected —
+  the module is not in geography.js.
+  NEVER: put `introHr*` back on the city record; import `geographyHr` from
+  anything but `CityOfDayScreen`; mark `cityofday` adaptive without an A2
+  band on every city; add a fourth band without re-deriving the rule.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
