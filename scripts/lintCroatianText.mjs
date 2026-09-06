@@ -74,6 +74,7 @@ const TARGETS = [
   'src/data/writingCurriculum.ts',
   // ── 2026-08-26 sweep: everything else carrying authored Croatian ──────────
   'src/data/cultural/geography.js',
+  'src/data/cultural/geographyHr.js',
   'functions/api/content/_data/cultural/geography.js',
   'src/data/exercises.js',
   'functions/api/content/_data/cultural/regions.js',
