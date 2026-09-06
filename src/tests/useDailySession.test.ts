@@ -571,8 +571,13 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
     // (Beyond one full walk on the SAME day every date is equal and LRS cannot
     // order — true before this change too; real days never tie like that.)
     localStorage.setItem('nh_cityofday_date', localDateStr());
-    const rotation = CROATIA_POOL.filter((c) => c.screen !== 'cityofday');
-    const own = rotation.filter((c) => c.cefr === 'C2' || c.adaptive);
+    // OWNER DECISION (2026-09-06): from B1 up City of the Day is an ordinary
+    // rotation entry (lower cycle at C2 — it has no C2 band), so the walk
+    // covers the WHOLE pool at C2, cityofday included.
+    const rotation = CROATIA_POOL;
+    const own = rotation.filter(
+      (c) => c.cefr === 'C2' || c.adaptive || c.ownAtLevels?.includes('C2'),
+    );
     const lower = rotation.filter((c) => !own.includes(c));
     const first = buildSessionActivities('C2').filter((a) => CROATIA_IDS.has(a.id));
     expect(first).toHaveLength(1);
@@ -592,10 +597,12 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
     expect(cycleSeen.lower.size).toBe(lower.length);
   });
 
-  it('cityofday keeps first claim on the slot when not yet visited', () => {
+  it('cityofday keeps first claim on the slot when not yet visited — A1–A2 only', () => {
     // OWNER DECISION (2026-09-05): first claim is A1–A2 only. From B1 up the
-    // slot is the level-aware rotation on every daily build and City of the Day
-    // is not in it at all (it stays on Home) — see croatiaSlotLevel.test.ts.
+    // slot is the level-aware rotation on every daily build; since 2026-09-06
+    // City of the Day is one entry IN that rotation, not a daily first claim —
+    // so "not visited" must not force it at B1+. Pinned in detail (share over
+    // 40 days, own/lower cycle, reason) in croatiaSlotLevel.test.ts.
     localStorage.removeItem('nh_cityofday_date');
     for (const lvl of ['A1', 'A2']) {
       const acts = buildSessionActivities(lvl);
@@ -604,7 +611,9 @@ describe('Wave 2 — Croatia slot CEFR gating and rotation', () => {
         lvl,
       ).toBeTruthy();
     }
-    for (const lvl of ['B1', 'C2']) {
+    for (const lvl of ['B2', 'C2']) {
+      // B2/C2: cityofday sits in the LOWER cycle and the first daily pick is
+      // own tier, so an unvisited City of the Day does not claim the slot.
       const acts = buildSessionActivities(lvl);
       expect(
         acts.find((a) => a.id === 'cityofday'),

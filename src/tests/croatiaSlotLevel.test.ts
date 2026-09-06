@@ -34,17 +34,23 @@ vi.mock('../lib/adaptive', () => ({
 import { buildSessionActivities, CROATIA_POOL } from '../hooks/useDailySession';
 import { CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { localDateStr } from '../lib/dateUtils';
-import { isUnlocked } from '../lib/cefr';
+import { isUnlocked, cefrRank } from '../lib/cefr';
 
 const IDS = new Set(CROATIA_POOL.map((c) => c.id));
 const byId = new Map(CROATIA_POOL.map((c) => [c.id, c]));
-const rotation = CROATIA_POOL.filter((c) => c.screen !== 'cityofday');
+// OWNER DECISION (2026-09-06): City of the Day is a rotation entry from B1 up;
+// at A1–A2 the first-claim ritual serves it, so it stays out of that rotation.
+const cityFirstClaim = (level: string) => cefrRank(level) <= cefrRank(CITY_OF_DAY_SLOT_MAX_CEFR);
+const rotationFor = (level: string) =>
+  CROATIA_POOL.filter((c) => !cityFirstClaim(level) || c.screen !== 'cityofday');
 
 function ownTier(level: string) {
-  return rotation.filter(
+  return rotationFor(level).filter(
     (c) =>
       isUnlocked(c.cefr ?? 'A1', level) &&
-      ((c.cefr ?? 'A1') === level || (c.adaptive && isUnlocked(c.cefr ?? 'A1', level))),
+      ((c.cefr ?? 'A1') === level ||
+        (c.adaptive && isUnlocked(c.cefr ?? 'A1', level)) ||
+        Boolean(c.ownAtLevels?.includes(level))),
   );
 }
 function culturePick(level: string) {
@@ -128,7 +134,9 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
 
   it('nothing repeats inside a cycle until the cycle is exhausted (C1)', () => {
     const own = ownTier('C1');
-    const lower = rotation.filter((c) => isUnlocked(c.cefr ?? 'A1', 'C1') && !own.includes(c));
+    const lower = rotationFor('C1').filter(
+      (c) => isUnlocked(c.cefr ?? 'A1', 'C1') && !own.includes(c),
+    );
     const picks = daysOf('C1', 2 * lower.length);
     const ownPicks = picks.filter((id) => own.some((c) => c.id === id));
     const lowerPicks = picks.filter((id) => lower.some((c) => c.id === id));
@@ -140,7 +148,7 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
   });
 
   it('A1 has no lower cycle and rotates exactly as before (plain LRS over everything)', () => {
-    const eligible = rotation.filter((c) => isUnlocked(c.cefr ?? 'A1', 'A1'));
+    const eligible = rotationFor('A1').filter((c) => isUnlocked(c.cefr ?? 'A1', 'A1'));
     const picks = daysOf('A1', eligible.length);
     expect(new Set(picks).size).toBe(eligible.length);
   });
@@ -164,24 +172,78 @@ describe('the rotation alternates own tier and lower, LRS within each', () => {
 // marking City of the Day visited, because the daily plan is built once a day
 // BEFORE anyone has opened it — so in production the slot was `cityofday` on
 // every daily build at every level, and the rotation measured above never
-// reached a learner except on a same-day rebuild. From B1 up the slot is now
-// the rotation on every build and City of the Day is out of it (it stays on
-// Home). These tests do NOT set the visited flag: they measure the daily build.
+// reached a learner except on a same-day rebuild. From B1 up the slot is the
+// rotation on every build. These tests do NOT set the visited flag: they
+// measure the daily build.
+//
+// OWNER DECISION (2026-09-06): with graded Croatian on every city, City of the
+// Day is BACK IN that B1+ rotation — as one least-recently-served entry, never
+// a daily first claim. Own tier where it has the learner's band (B1, C1 —
+// `ownAtLevels`), lower tier elsewhere (B2, C2 read the band below). Measured
+// with the real builder over 40 daily builds: cityofday 2/40 at B1 and C1
+// (own cycle, "Culture at your level."), 1/40 at B2 and C2 (lower cycle,
+// "Today's culture pick."); own-level share unchanged at 20/40 everywhere.
 describe('daily builds (City of the Day NOT visited) — the branch production actually hits', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
   it.each(['B1', 'B2', 'C1', 'C2'])(
-    '%s never serves cityofday and alternates from day one',
+    '%s serves cityofday as a rotation entry (1–3 of 40), alternates from day one, own-level ≈ half',
     (level) => {
       const own = new Set(ownTier(level).map((c) => c.id));
       const picks = daysOf(level, 40);
-      expect(picks).not.toContain('cityofday');
+      const cityDays = picks.filter((id) => id === 'cityofday').length;
+      expect(cityDays, `${level}: ${picks.join(',')}`).toBeGreaterThanOrEqual(1);
+      expect(cityDays, 'a rotation entry, not the daily ritual').toBeLessThanOrEqual(3);
       const atLevel = picks.filter((id) => own.has(id)).length;
       expect(atLevel, `${level}: ${picks.join(',')}`).toBeGreaterThanOrEqual(19);
       expect(atLevel).toBeLessThanOrEqual(21);
       expect(own.has(picks[0]!), 'first daily culture pick is at level').toBe(true);
+      for (let i = 1; i < picks.length; i++) {
+        expect(own.has(picks[i]!), `day ${i}`).toBe(!own.has(picks[i - 1]!));
+      }
+    },
+  );
+
+  it.each(['B1', 'B2', 'C1', 'C2'])(
+    '%s — the cityofday pick claims "at your level" exactly when the entry has that band',
+    (level) => {
+      const entry = byId.get('cityofday')!;
+      const ownHere = Boolean(entry.ownAtLevels?.includes(level));
+      const today = localDateStr();
+      const todayMs = new Date(`${today}T12:00:00`).getTime();
+      // walk until cityofday is served (bounded by one full walk of both cycles)
+      const span = 2 * rotationFor(level).length + 2;
+      let served: { id: string; reason?: string } | undefined;
+      for (let i = 0; i < span && !served; i++) {
+        const pick = culturePick(level) as { id: string; reason?: string };
+        if (pick.id === 'cityofday') served = pick;
+        const map = JSON.parse(localStorage.getItem('nh_session_served') || '{}') as Record<
+          string,
+          string
+        >;
+        const stamp = new Date(todayMs - (span - 1 - i) * 86400000).toISOString().slice(0, 10);
+        for (const k of Object.keys(map)) if (map[k] === today) map[k] = stamp;
+        localStorage.setItem('nh_session_served', JSON.stringify(map));
+      }
+      expect(served, `${level}: cityofday never served in ${span} days`).toBeTruthy();
+      expect(served!.reason).toBe(ownHere ? 'Culture at your level.' : "Today's culture pick.");
+      expect(ownHere).toBe(level === 'B1' || level === 'C1');
+    },
+  );
+
+  it.each(['B1', 'C2'])(
+    '%s — the visited flag no longer matters: the 40-day series is identical with and without it',
+    (level) => {
+      // At A1–A2 "not visited" forces City of the Day (the ritual). From B1 up
+      // it is a rotation entry, so an unvisited City of the Day must not claim
+      // the slot — the series must be the same either way.
+      const without = daysOf(level, 40);
+      localStorage.clear();
+      localStorage.setItem('nh_cityofday_date', localDateStr());
+      const withFlag = daysOf(level, 40);
+      expect(without).toEqual(withFlag);
     },
   );
 
@@ -197,5 +259,10 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
   it('the threshold is the pool constant, and B1 is the first level with a real own tier', () => {
     expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
     expect(ownTier('B1').length).toBeGreaterThanOrEqual(15);
+    // cityofday is in the B1+ rotation, and own tier only where it has the band
+    expect(rotationFor('B1').map((c) => c.id)).toContain('cityofday');
+    expect(rotationFor('A2').map((c) => c.id)).not.toContain('cityofday');
+    expect(ownTier('B1').map((c) => c.id)).toContain('cityofday');
+    expect(ownTier('B2').map((c) => c.id)).not.toContain('cityofday');
   });
 });
