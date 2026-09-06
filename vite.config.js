@@ -198,6 +198,10 @@ export default defineConfig({
           if (id.includes('src/data/grammar')) return 'chunk-grammar';
           if (id.includes('src/data/exercises')) return 'chunk-exercises';
           if (id.includes('src/data/scenarios')) return 'chunk-scenarios';
+          // Graded Croatian intros for City of the Day (~90k words) — its own
+          // chunk, imported only by CityOfDayScreen; must precede the geography
+          // rule below because 'geographyHr' contains 'geography'.
+          if (id.includes('src/data/cultural/geographyHr')) return 'chunk-geo-hr';
           if (id.includes('src/data/cultural/geography')) return 'chunk-geo'; // 557 kB 365-city file — isolated
           if (id.includes('src/data/cultural')) return 'chunk-cultural';
           // The barrel (src/data.tsx) and its hub (src/data/content.tsx) get their
