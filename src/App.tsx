@@ -246,6 +246,7 @@ function App() {
   const ds = DS;
 
   // Bootstrap + TTS failure toast (must be before useAward declares setTtsFailedToast)
+  const [ttsFailedMsg, setTtsFailedMsg] = useState('');
   useEffect(() => {
     const t = setTimeout(() => import('./data').then((m) => m.bootstrapMistakesFromSRS()), 500);
     // Defer localStorage cleanup to idle time — don't block app startup
@@ -254,9 +255,14 @@ function App() {
     } else {
       setTimeout(pruneStaleLocalStorage, 2000);
     }
-    const onTtsFailed = () => {
+    const onTtsFailed = (e: Event) => {
+      // audio.ts puts the learner-facing reason on the event (2026-09-06) so
+      // the toast can say WHY — a quota, a budget pause, a dropped connection —
+      // instead of a bare "Audio unavailable" that nobody could act on.
+      const detail = (e as CustomEvent<{ message?: string } | undefined>).detail;
+      setTtsFailedMsg(typeof detail?.message === 'string' ? detail.message : '');
       setTtsFailedToast(true);
-      setTimeout(() => setTtsFailedToast(false), 2500);
+      setTimeout(() => setTtsFailedToast(false), 4500);
     };
     window.addEventListener('nh:tts-failed', onTtsFailed);
     return () => {
@@ -2019,6 +2025,7 @@ function App() {
                 earnBackPrompt={earnBackPrompt}
                 streakRestoredCount={streakRestoredCount}
                 ttsFailedToast={ttsFailedToast}
+                ttsFailedMessage={ttsFailedMsg}
                 streakRepairAvailable={showStreakRepair}
                 onRepairStreak={(action: string) => {
                   if (action === 'dismiss') {

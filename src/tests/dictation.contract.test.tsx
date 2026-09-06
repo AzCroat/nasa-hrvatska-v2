@@ -7,14 +7,20 @@
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { StatsProvider } from '../context/StatsContext';
 import type { Stats, StatsContextValue } from '../types';
 
 vi.mock('../data', () => ({
   H: () => null,
   Bar: () => null,
-  speak: vi.fn(),
+}));
+// Heard gate (2026-09-06): typing unlocks only after the sentence has played.
+vi.mock('../lib/audio', () => ({
+  speak: vi.fn(async () => 'azure'),
+  speakSlow: vi.fn(async () => 'azure'),
+  getLastTtsFailure: () => null,
+  describeTtsFailure: () => 'desc',
 }));
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0.5 }));
@@ -59,12 +65,19 @@ function makeCtx(vsOverride?: string[]) {
   return { value, setStats, writeDelta, award };
 }
 
-function driveToDone(): void {
+async function driveToDone(): Promise<void> {
   for (let i = 0; i < 80; i++) {
     const doneBtn = screen.queryByText(/Done/);
     if (doneBtn) return;
     const checkBtn = screen.queryByText(/Check/);
     if (checkBtn) {
+      // Hear the sentence first — the gate keeps the input locked until then.
+      fireEvent.click(screen.getByTestId('dictation-play'));
+      await waitFor(() =>
+        expect(screen.getByTestId('dictation-play').getAttribute('data-audio-status')).toBe(
+          'played',
+        ),
+      );
       const input = screen.getByPlaceholderText(/Type what you heard/);
       fireEvent.change(input, { target: { value: 'x' } });
       fireEvent.click(checkBtn);
@@ -94,7 +107,7 @@ describe('DictationScreen contract (Pattern X)', () => {
       </StatsProvider>,
     );
 
-    driveToDone();
+    await driveToDone();
     fireEvent.click(screen.getByText(/Done/));
 
     expect(award).toHaveBeenCalledOnce();
@@ -125,7 +138,7 @@ describe('DictationScreen contract (Pattern X)', () => {
       </StatsProvider>,
     );
 
-    driveToDone();
+    await driveToDone();
     fireEvent.click(screen.getByText(/Done/));
 
     expect(award).toHaveBeenCalled();

@@ -682,6 +682,45 @@ async function _awaitVoices(): Promise<SpeechSynthesisVoice | null> {
   });
 }
 
+/**
+ * Shared tail of speak()/speakSlow(): fallback, failure record, event, report.
+ * `ok` is speakAzure's verdict; on false, `_lastTtsFailure` says why.
+ */
+async function _completeSpeak(t: string, ok: boolean, synthRate: number): Promise<string> {
+  if (ok) {
+    _lastTtsFailure = null;
+    return 'azure';
+  }
+  const primary = _lastTtsFailure;
+  // A newer play replaced this one mid-flight. That is the learner tapping
+  // again, not a failure: no fallback voice (it would speak OVER the newer
+  // play), no toast, no report.
+  if (primary?.cause === 'superseded') return 'superseded';
+  // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
+  // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.
+  // Wait for voices to load (Android WebView loads them asynchronously after startup).
+  const voice = await _awaitVoices();
+  if (window.speechSynthesis && voice) {
+    await speakSynth(t, synthRate);
+    return 'synth';
+  }
+  const failure: TtsFailure = {
+    ...(primary ?? { cause: 'playback' }),
+    cause: 'no_fallback_voice',
+    underlying: primary?.cause ?? 'playback',
+  };
+  _lastTtsFailure = failure;
+  _reportTtsFailure(failure, t.length);
+  // `message` rides on the event so the app-level toast can say WHY without
+  // importing this module into the first-paint graph.
+  window.dispatchEvent(
+    new CustomEvent('nh:tts-failed', {
+      detail: { ...failure, message: describeTtsFailure(failure) },
+    }),
+  );
+  return 'failed';
+}
+
 export async function speak(
   text: string,
   opts?: { phoneme?: string; voice?: string; rate?: string },
@@ -692,32 +731,7 @@ export async function speak(
   // neural voice mis-segments. The Web Speech fallback can't use it (plain text).
   // voice: per-call narrator override (see speakAzure) — also Azure-path only.
   const ok = await speakAzure(t, false, opts).catch(() => _noteFailure({ cause: 'playback' }));
-  if (!ok) {
-    const primary = _lastTtsFailure;
-    // A newer play replaced this one mid-flight. That is the learner tapping
-    // again, not a failure: no fallback voice (it would speak OVER the newer
-    // play), no toast, no report.
-    if (primary?.cause === 'superseded') return 'superseded';
-    // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
-    // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.
-    // Wait for voices to load (Android WebView loads them asynchronously after startup).
-    const voice = await _awaitVoices();
-    if (window.speechSynthesis && voice) {
-      await speakSynth(t, 0.85);
-      return 'synth';
-    }
-    const failure: TtsFailure = {
-      ...(primary ?? { cause: 'playback' }),
-      cause: 'no_fallback_voice',
-      underlying: primary?.cause ?? 'playback',
-    };
-    _lastTtsFailure = failure;
-    _reportTtsFailure(failure, t.length);
-    window.dispatchEvent(new CustomEvent('nh:tts-failed', { detail: failure }));
-    return 'failed';
-  }
-  _lastTtsFailure = null;
-  return 'azure';
+  return _completeSpeak(t, ok, 0.85);
 }
 
 /** POST to /api/tts with an explicit prosody descriptor (pitch, contour, rate).
@@ -878,18 +892,8 @@ export async function speakSlow(text: string, opts?: { voice?: string }): Promis
   if (!text) return 'none';
   const t = prepTTS(text);
   // voice: keep the same narrator on the slow replay as the normal play.
-  const ok = await speakAzure(t, true, opts).catch(() => false);
-  if (!ok) {
-    // Same guard: only fall back to Web Speech when a Croatian voice is confirmed available.
-    const voice = await _awaitVoices();
-    if (window.speechSynthesis && voice) {
-      await speakSynth(t, 0.65);
-      return 'synth';
-    }
-    window.dispatchEvent(new CustomEvent('nh:tts-failed'));
-    return 'failed';
-  }
-  return 'azure';
+  const ok = await speakAzure(t, true, opts).catch(() => _noteFailure({ cause: 'playback' }));
+  return _completeSpeak(t, ok, 0.65);
 }
 
 export function getAudioContext(): AudioContext | null {

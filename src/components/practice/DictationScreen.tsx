@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { H, Bar, speak } from '../../data';
+import { H, Bar } from '../../data';
+import { useHeardGate } from '../../hooks/useHeardGate';
+import AudioFailureNotice from '../shared/AudioFailureNotice';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
@@ -397,6 +399,10 @@ export default function DictationScreen({ goBack, award }: Props) {
   const [closeMatch, setCloseMatch] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [aiExplain, setAiExplain] = useState<null | 'loading' | Record<string, string>>(null);
+  // Heard gate (2026-09-06): "type what you hear" cannot be checked before the
+  // sentence has played. An unplayable sentence is skipped WITHOUT scoring.
+  const gate = useHeardGate();
+  const [skipped, setSkipped] = useState(0);
 
   const fetchExplanation = useCallback(
     async (wrong: string, correctText: string, level: string) => {
@@ -426,6 +432,7 @@ export default function DictationScreen({ goBack, award }: Props) {
   );
 
   const total = qs.length;
+  const answeredTotal = total - skipped;
 
   // Defensive: if questions never materialise (data-load race or filter wipes
   // the set), don't strand a Today's Session activity here — signal the
@@ -437,8 +444,31 @@ export default function DictationScreen({ goBack, award }: Props) {
 
   if (!qs.length) return null;
 
+  if (idx >= total && answeredTotal === 0) {
+    // Every sentence failed to play: nothing was administered, so nothing is
+    // scored, awarded or credited (never credit work the learner could not do).
+    return (
+      <div className="scr-wrap">
+        {H('🎧 Dictation', 'Listen and type what you hear', goBack)}
+        <div style={{ textAlign: 'center', padding: '32px 16px' }} data-testid="dictation-no-audio">
+          <div style={{ fontSize: 52, marginBottom: 8 }}>🔇</div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+            No audio today
+          </div>
+          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 24 }}>
+            None of the sentences could be played, so nothing was scored and nothing was credited.
+            Come back when audio is working.
+          </div>
+          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (idx >= total) {
-    const pct = score / total;
+    const pct = score / answeredTotal;
     const xp = score * 8;
     return (
       <div className="scr-wrap">
@@ -448,7 +478,7 @@ export default function DictationScreen({ goBack, award }: Props) {
             {pct >= 0.8 ? '🏆' : pct >= 0.6 ? '⭐' : '💪'}
           </div>
           <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
-            {score} / {total} correct
+            {score} / {answeredTotal} correct
           </div>
           <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
             {pct >= 0.8
@@ -488,7 +518,7 @@ export default function DictationScreen({ goBack, award }: Props) {
   const q = qs[idx];
 
   function handleCheck() {
-    if (!input.trim()) return;
+    if (!input.trim() || !gate.heard) return;
     const norm = normalise(input);
     const target = normalise(q.text);
     const isExact = norm === target;
@@ -507,6 +537,13 @@ export default function DictationScreen({ goBack, award }: Props) {
     setCorrect(false);
     setCloseMatch(false);
     setAiExplain(null);
+    gate.reset();
+  }
+
+  // The recording could not be played: move on without scoring the sentence.
+  function skipUnheard() {
+    setSkipped((n) => n + 1);
+    handleNext();
   }
 
   function insertDiacritic(ch: string) {
@@ -564,12 +601,32 @@ export default function DictationScreen({ goBack, award }: Props) {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onClick={() => speak(q.text)}
+          onClick={() => {
+            void gate.play(q.text);
+          }}
           title="Play audio"
+          data-testid="dictation-play"
+          data-audio-status={gate.status}
         >
           ▶
         </button>
-        <div style={{ fontSize: 12, color: '#78716c', marginTop: 6 }}>Tap to listen</div>
+        <div style={{ fontSize: 12, color: '#78716c', marginTop: 6 }}>
+          {gate.status === 'playing'
+            ? 'Playing…'
+            : gate.heard
+              ? 'Tap to listen again'
+              : 'Tap to listen — typing unlocks once the sentence has played'}
+        </div>
+        {gate.status === 'failed' && (
+          <AudioFailureNotice
+            testId="dictation-audio-failed"
+            failure={gate.failure}
+            onRetry={() => {
+              void gate.play(q.text);
+            }}
+            onSkip={skipUnheard}
+          />
+        )}
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
@@ -598,8 +655,9 @@ export default function DictationScreen({ goBack, award }: Props) {
         data-testid="dictation-input"
         type="text"
         value={input}
+        disabled={!gate.heard}
         onChange={(e) => {
-          if (!checked) setInput(e.target.value);
+          if (!checked && gate.heard) setInput(e.target.value);
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !checked) handleCheck();
@@ -730,7 +788,7 @@ export default function DictationScreen({ goBack, award }: Props) {
           className="b bp"
           style={{ width: '100%', marginTop: 16 }}
           onClick={handleCheck}
-          disabled={!input.trim()}
+          disabled={!input.trim() || !gate.heard}
         >
           Check ✓
         </button>

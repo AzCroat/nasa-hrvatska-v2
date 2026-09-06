@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bar, speak, speakSlow, sh } from '../../data';
+import { Bar, sh } from '../../data';
+import { useHeardGate } from '../../hooks/useHeardGate';
+import AudioFailureNotice from '../shared/AudioFailureNotice';
 import ScreenHeader from '../shared/ScreenHeader';
 import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
@@ -48,26 +50,51 @@ export default function ListeningScreen({
   const [selected, setSelected] = useState(-1);
   const [options, setOptions] = useState(() => (questions.length > 0 ? sh(questions[0].opts) : []));
   const [replayed, setReplayed] = useState(false);
+  // Heard gate (2026-09-06): the audio IS the question here — nothing is
+  // answerable, skippable or scored until the sentence has actually played.
+  // An unplayable item is skipped WITHOUT scoring (it never counted).
+  const gate = useHeardGate();
+  const [skipped, setSkipped] = useState(0);
 
   const total = questions.length;
+  const answeredTotal = total - skipped;
+
+  if (idx >= total && answeredTotal === 0)
+    return (
+      <div className="scr-wrap">
+        <div style={{ textAlign: 'center', paddingTop: 40 }} data-testid="listening-no-audio">
+          <div style={{ fontSize: 64, marginBottom: 8 }}>🔇</div>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63', marginBottom: 4 }}>
+            No audio today
+          </h2>
+          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+            None of the sentences could be played, so nothing was scored and nothing was credited.
+            Come back when audio is working.
+          </div>
+          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
+            Back
+          </button>
+        </div>
+      </div>
+    );
 
   if (idx >= total)
     return (
       <div className="scr-wrap">
         <div style={{ textAlign: 'center', paddingTop: 40 }}>
           <div style={{ fontSize: 64, marginBottom: 8 }}>
-            {score >= total * 0.8 ? '🏆' : score >= total * 0.6 ? '⭐' : '💪'}
+            {score >= answeredTotal * 0.8 ? '🏆' : score >= answeredTotal * 0.6 ? '⭐' : '💪'}
           </div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63', marginBottom: 4 }}>
             Listening Complete!
           </h2>
           <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
-            {score} / {total}
+            {score} / {answeredTotal}
           </div>
           <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
-            {score === total
+            {score === answeredTotal
               ? 'Perfect ear! You caught every sentence.'
-              : score >= Math.ceil(total * 0.7)
+              : score >= Math.ceil(answeredTotal * 0.7)
                 ? 'Great listening! Keep it up.'
                 : 'Try again — focus on the first word of each sentence.'}
           </div>
@@ -81,6 +108,8 @@ export default function ListeningScreen({
               if (finishFired.current) return;
               finishFired.current = true;
               markQuest('speak');
+              // answeredTotal > 0 here — the all-skipped case rendered its own
+              // screen above and credits nothing.
               if (typeof award === 'function') award(score * 4 + 10, false, 'listening');
               if (!stats.vs?.includes('listening')) {
                 setStats((prev) => {
@@ -104,7 +133,7 @@ export default function ListeningScreen({
   const isCorrect = options[selected] === correct;
 
   function handleAnswer(oi: number) {
-    if (answered) return;
+    if (answered || !gate.heard) return;
     setSelected(oi);
     setAnswered(true);
     const _correct = options[oi] === correct;
@@ -125,6 +154,13 @@ export default function ListeningScreen({
     } else {
       setIdx(total);
     }
+    gate.reset();
+  }
+
+  // The recording could not be played: move on without scoring the item.
+  function skipUnheard() {
+    setSkipped((n) => n + 1);
+    next();
   }
 
   return (
@@ -140,21 +176,47 @@ export default function ListeningScreen({
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
           <button
             aria-label="Play sentence audio"
+            data-testid="listening-play"
+            data-audio-status={gate.status}
             className="b bp"
             style={{ fontSize: 16, padding: '14px 24px' }}
-            onClick={() => speak(q.hr)}
+            onClick={() => {
+              void gate.play(q.hr);
+            }}
           >
-            <span aria-hidden="true">🔊</span> Play
+            <span aria-hidden="true">🔊</span>{' '}
+            {gate.status === 'playing' ? 'Playing…' : gate.heard ? 'Play again' : 'Play'}
           </button>
           <button
             aria-label="Play sentence slowly"
+            data-testid="listening-play-slow"
             className="b bg"
             style={{ fontSize: 13, padding: '14px 16px' }}
-            onClick={() => speakSlow(q.hr)}
+            onClick={() => {
+              void gate.playSlow(q.hr);
+            }}
           >
             <span aria-hidden="true">🐢</span> Slow
           </button>
         </div>
+        {gate.status === 'idle' && (
+          <div
+            data-testid="listening-hint"
+            style={{ fontSize: 12, color: '#78716c', marginTop: 10 }}
+          >
+            Play the sentence to unlock the answers.
+          </div>
+        )}
+        {gate.status === 'failed' && (
+          <AudioFailureNotice
+            testId="listening-audio-failed"
+            failure={gate.failure}
+            onRetry={() => {
+              void gate.play(q.hr);
+            }}
+            onSkip={skipUnheard}
+          />
+        )}
       </div>
 
       {/* Options */}
@@ -165,6 +227,8 @@ export default function ListeningScreen({
             className={
               'ob ' + (answered ? (o === correct ? 'ok' : selected === oi ? 'no' : '') : '')
             }
+            disabled={!gate.heard}
+            aria-disabled={!gate.heard}
             onClick={() => handleAnswer(oi)}
           >
             {o}
@@ -219,7 +283,7 @@ export default function ListeningScreen({
           <button
             aria-label="Listen to sentence again"
             onClick={() => {
-              speak(q.hr);
+              void gate.play(q.hr);
               setReplayed(true);
             }}
             style={{

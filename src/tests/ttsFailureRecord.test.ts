@@ -154,3 +154,23 @@ describe('a superseded play is not a failure', () => {
     expect(superseded).toHaveLength(0);
   });
 });
+
+describe('speakSlow shares the contract', () => {
+  it('a slow play that fails records the cause, carries the message on the event, and reports', async () => {
+    const { speakSlow } = await import('../lib/audio');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => jsonResponse(429, { error: 'daily_quota_exceeded' })),
+    );
+    const events: CustomEvent[] = [];
+    const onFail = (e: Event) => events.push(e as CustomEvent);
+    window.addEventListener('nh:tts-failed', onFail);
+    const r = await speakSlow('Polako.');
+    window.removeEventListener('nh:tts-failed', onFail);
+    expect(r).toBe('failed');
+    expect(getLastTtsFailure()?.underlying).toBe('daily_quota');
+    expect(events).toHaveLength(1);
+    // The app-level toast reads this and says WHY, without importing audio.ts.
+    expect(events[0]!.detail.message).toMatch(/midnight UTC/);
+  });
+});

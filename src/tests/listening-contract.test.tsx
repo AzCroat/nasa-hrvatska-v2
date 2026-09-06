@@ -12,7 +12,7 @@
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { StatsProvider } from '../context/StatsContext';
 import type { Stats, StatsContextValue } from '../types';
 
@@ -31,18 +31,24 @@ vi.mock('../lib/knightSpeak.js', () => ({
   knightFlash: vi.fn(),
 }));
 
-// -- data mock: stub speak/speakSlow/sh; pass Bar through ---------------------
+// -- data mock: stub sh; pass Bar through ------------------------------------
 vi.mock('../data', async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...(actual as object),
-    speak: vi.fn(),
-    speakSlow: vi.fn(),
     // sh = shuffle; with rnd()===0.9999, Fisher-Yates is already a no-op,
     // but we override anyway to guarantee opts[0] stays the correct answer.
     sh: (arr: unknown[]) => [...arr],
   };
 });
+
+// -- audio mock: the heard gate (2026-09-06) plays through lib/audio ----------
+vi.mock('../lib/audio', () => ({
+  speak: vi.fn(async () => 'azure'),
+  speakSlow: vi.fn(async () => 'azure'),
+  getLastTtsFailure: () => null,
+  describeTtsFailure: () => 'desc',
+}));
 
 // -- recordTopicResult mock ---------------------------------------------------
 vi.mock('../lib/adaptive.js', () => ({
@@ -100,6 +106,11 @@ function makeCtx(vsAlreadyDone = false) {
 async function completeListeningQuiz() {
   const total = QUESTIONS.length;
   for (let i = 0; i < total; i++) {
+    // Hear the sentence first — answers stay locked until it has played.
+    fireEvent.click(screen.getByTestId('listening-play'));
+    await waitFor(() =>
+      expect(screen.getByTestId('listening-play').getAttribute('data-audio-status')).toBe('played'),
+    );
     // Click the first option button (correct answer = opts[0])
     const optBtns = document.querySelectorAll('button.ob');
     if (optBtns.length > 0) {

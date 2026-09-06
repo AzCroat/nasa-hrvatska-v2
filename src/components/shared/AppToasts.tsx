@@ -24,6 +24,8 @@ interface AppToastsProps {
   earnBackPrompt: { prev: number } | null;
   streakRestoredCount: number;
   ttsFailedToast: boolean;
+  /** Why the audio failed, in one learner-facing sentence (from audio.ts). */
+  ttsFailedMessage?: string;
   // Streak repair
   streakRepairAvailable: boolean;
   onRepairStreak: ((action: string) => void) | null;
@@ -48,6 +50,7 @@ export function AppToasts({
   earnBackPrompt,
   streakRestoredCount,
   ttsFailedToast,
+  ttsFailedMessage,
   // Streak repair
   streakRepairAvailable,
   onRepairStreak,
@@ -200,10 +203,13 @@ export function AppToasts({
             fontWeight: 600,
             pointerEvents: 'none',
             animation: 'slideUp .3s ease',
-            whiteSpace: 'nowrap',
+            maxWidth: '88vw',
+            textAlign: 'center',
+            lineHeight: 1.4,
           }}
+          data-testid="tts-failed-toast"
         >
-          🔇 Audio unavailable
+          🔇 {ttsFailedMessage || 'Audio unavailable'}
         </div>
       )}
 
