@@ -397,9 +397,9 @@ describe('Croatia slot least-recently-served rotation', () => {
     localStorage.setItem('nh_cityofday_date', new Date().toLocaleDateString('sv-SE'));
     const { buildSessionActivities } = await import('../hooks/useDailySession');
     const { CROATIA_POOL } = await import('../lib/croatiaPool');
-    const cultureScreens = new Set(
-      CROATIA_POOL.filter((c) => c.screen !== 'cityofday').map((c) => c.screen),
-    );
+    // OWNER DECISION (2026-09-06): from B1 up City of the Day is an ordinary
+    // rotation entry, so at C2 the whole pool — cityofday included — is one walk.
+    const cultureScreens = new Set(CROATIA_POOL.map((c) => c.screen));
     const poolSize = cultureScreens.size;
     const picks: string[] = [];
     for (let i = 0; i < poolSize; i++) {

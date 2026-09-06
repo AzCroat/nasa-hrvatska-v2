@@ -34,28 +34,49 @@ export interface CroatiaPoolEntry {
    * such an entry as at-level; a fixed `cefr` alone would pin it to B1.
    */
   adaptive?: boolean;
+  /**
+   * The screen serves the learner's OWN level exactly at these levels and a
+   * lower band elsewhere — the shape of City of the Day, which carries graded
+   * Croatian in three bands (A1 / B1 / C1): a B1 learner reads B1 (own tier),
+   * a B2 learner reads B1 (lower tier, and the slot must not say "at your
+   * level"). `adaptive` cannot express that — it means own tier at EVERY
+   * unlocked level — so this names the levels precisely. Derived from the
+   * data by cityOfDayGraded.test.tsx: a level is listed iff every city has a
+   * band for it.
+   */
+  ownAtLevels?: readonly string[];
 }
 /**
- * OWNER DECISION (2026-09-05): City of the Day holds the culture slot's first
- * claim for A1–A2 only. The daily plan is built once a day, before anyone has
+ * OWNER DECISION (2026-09-05): City of the Day holds the culture slot's FIRST
+ * CLAIM for A1–A2 only. The daily plan is built once a day, before anyone has
  * opened City of the Day, so the "first claim until visited" rule had made the
  * slot `cityofday` on every daily build at every level and the level-aware
- * rotation ran only on same-day rebuilds. From B1 up the slot is now that
- * rotation on every build — own-tier essays, news, regions and history — and
- * City of the Day is not in it at all. It stays on Home (`CityOfDayCard`) for
- * everyone. B1 is the first level with a substantial own tier (15 B1 entries
- * plus the self-levelling news and history).
+ * rotation ran only on same-day rebuilds. From B1 up the slot is that rotation
+ * on every build; A1–A2 keep the ritual. It stays on Home (`CityOfDayCard`)
+ * for everyone. B1 is the first level with a substantial own tier (15 B1
+ * entries plus the self-levelling news and history).
+ *
+ * OWNER DECISION (2026-09-06): now that every city carries graded Croatian,
+ * City of the Day is BACK IN the B1+ rotation — as one rotation entry served
+ * least-recently like the rest, never as a daily first claim. It sits in the
+ * own-tier cycle at the levels that have their own band (`ownAtLevels`) and in
+ * the lower cycle elsewhere, so the "Culture at your level." reason stays true.
  */
 export const CITY_OF_DAY_SLOT_MAX_CEFR = 'A2';
 
 export const CROATIA_POOL: CroatiaPoolEntry[] = [
   // NOT `adaptive` (2026-09-06): the screen grades its Croatian intro by the
   // learner's level, but with THREE bands (A1 / B1 / C1) an A2 learner reads
-  // the A1 text — and City of the Day sits in the slot for A1–A2. `adaptive`
-  // would make croatiaReason say "Culture at your level." to that A2 learner,
-  // which is false. cityOfDayGraded.test.tsx derives the rule: adaptive only
-  // when every level the slot can serve this screen to has its OWN band.
-  { id: 'cityofday', label: 'City of the Day', screen: 'cityofday', category: 'culture' },
+  // the A1 text and a B2 learner reads B1, so "own tier at every level" would
+  // be false. `ownAtLevels` names the levels where it IS true; the test derives
+  // the list from the data (a level is listed iff every city has that band).
+  {
+    id: 'cityofday',
+    label: 'City of the Day',
+    screen: 'cityofday',
+    category: 'culture',
+    ownAtLevels: ['A1', 'B1', 'C1'],
+  },
   { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
   { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },
   { id: 'transport', label: 'Transport Scenario', screen: 'transport', category: 'practical' },

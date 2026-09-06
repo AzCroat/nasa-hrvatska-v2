@@ -1008,9 +1008,30 @@ every level from A2 up** (A1 has nothing below it), pinned.
   the self-levelling news and history); A1–A2 keep the ritual unchanged. The
   daily-build branch is now measured directly: `croatiaSlotLevel.test.ts` has a
   block that does NOT set the visited flag and asserts, at B1–C2 over 40 daily
-  builds, no `cityofday`, own-level 19–21 of 40, at level from day one.
+  builds, own-level 19–21 of 40, at level from day one.
   NEVER re-derive the "20 of 40" figure from the visited-flag branch alone
   again — measure the daily build.
+  **OWNER DECISION (2026-09-06): City of the Day is BACK IN the B1+ rotation**,
+  now that every city carries graded Croatian — as ONE least-recently-served
+  entry in whichever cycle it belongs to, never a daily first claim (A1–A2
+  keep the ritual; `CITY_OF_DAY_SLOT_MAX_CEFR` still says so). The cycle it
+  joins is decided by a new pool field, `ownAtLevels: ['A1','B1','C1']` — the
+  levels at which the screen serves the learner's OWN band. `adaptive` could
+  not say this (it means own tier at every unlocked level, and a B2 learner
+  reads the B1 text), and `cefr` could not either (it pins one level). The
+  own-tier filter in P4 reads it beside the other two. Measured with the real
+  builder over 40 daily builds: cityofday **2 of 40 at B1 and C1** (own cycle,
+  reason "Culture at your level." — true, they read their own band) and **1 of
+  40 at B2 and C2** (lower cycle, "Today's culture pick."); own-level share
+  unchanged at 20 of 40 everywhere; at B1 and C1 it is the FIRST culture day
+  (never-served ties go in pool order and it is entry 0 — fine, and at level).
+  `cityOfDayGraded.test.tsx` DERIVES `ownAtLevels` from the data (a level is
+  listed iff every city has that band) and `adaptive` from whether that is all
+  six; `croatiaSlotLevel.test.ts` pins the 1–3 of 40, the reason per level, and
+  that the visited flag no longer changes a B1+ series at all. Mutation-verified
+  (five: field removed, rotation exclusion restored, first claim at every level,
+  own-tier filter ignoring the field, field claiming B2) each fail 3–6 tests.
+  This closes the last open recommendation of the 2026-09 content census.
 - **History carries graded Croatian at every level (item 6, 2026-09-05).**
   `HISTORY.introHr` / `timeline[].textHr` were one register (≈B1) served to
   everyone. Each now has siblings `*HrA1`, `*HrA2`, `*HrB2`, `*HrC1`, `*HrC2`
@@ -1062,13 +1083,14 @@ every level from A2 up** (A1 has nothing below it), pinned.
   client-only: nothing serves it, so there is no functions/ copy. Both
   geography.js copies are back to their pre-tranche bytes (`chunk-geo` hash
   unchanged).
-  **The pool entry is NOT `adaptive`, and the reason changed with completion.**
-  At 46 the reason was partial coverage. At 364 the reason is the bands: the
-  slot serves City of the Day at A1–A2 (`CITY_OF_DAY_SLOT_MAX_CEFR`), an A2
-  learner reads the A1 text, and `croatiaReason`'s "Culture at your level."
-  would be false for them. `cityOfDayGraded.test.tsx` DERIVES the rule —
-  adaptive ⇔ every slot-served level has its OWN band — so authoring an
-  `introHrA2` for every city flips the expectation and the failure message
+  **The pool entry is NOT `adaptive`; it carries `ownAtLevels` instead.** At 46
+  the reason was partial coverage. At 364 the reason is the bands: a B2 learner
+  reads B1 and an A2 learner reads A1, so "own tier at every level" is false
+  while "own tier at A1, B1, C1" is exactly true — and that is what the field
+  says (see the culture-slot section for the rotation it feeds).
+  `cityOfDayGraded.test.tsx` DERIVES both from the data — `ownAtLevels` = the
+  levels every city has a band for; adaptive ⇔ that is all six — so authoring
+  an `introHrA2` for every city changes the expectation and the failure message
   says why. It also asserts: every city has an entry and every entry names a
   real city (a renamed city silently loses its Croatian); the city RECORD
   carries no `introHr*` (the core-payload rule, mechanically); exactly three
@@ -1090,15 +1112,17 @@ every level from A2 up** (A1 has nothing below it), pinned.
   defect the encoding check exists for. `rebuildCities.mjs` is unaffected —
   the module is not in geography.js.
   NEVER: put `introHr*` back on the city record; import `geographyHr` from
-  anything but `CityOfDayScreen`; mark `cityofday` adaptive without an A2
-  band on every city; add a fourth band without re-deriving the rule.
+  anything but `CityOfDayScreen`; mark `cityofday` adaptive, or add a level to
+  `ownAtLevels`, without that band on every city; add a fourth band without
+  re-deriving the rule.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
   put the tier catalog pages back into the pool (one essay per culture day);
   claim a rotation figure without saying which branch produced it; grade a
   culture record with a nested level object instead of `*Hr<Level>` siblings;
-  mark `cityofday` adaptive while any city is ungraded (the test derives it).
+  make `cityofday` a daily first claim above A2 again, or claim own tier for it
+  at a level without its own band (`ownAtLevels` is derived from the data).
 
 ## Critical Architecture: Production Teaching (owner directive, 2026-08-18)
 

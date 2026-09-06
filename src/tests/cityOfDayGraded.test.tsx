@@ -32,7 +32,7 @@ import { CROATIAN_CITIES } from '../data/cultural/geography.js';
 import { CITY_INTRO_HR } from '../data/cultural/geographyHr.js';
 import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { pickGradedHr, gradedField } from '../lib/gradedHr';
-import { CEFR_ORDER, cefrRank } from '../lib/cefr';
+import { CEFR_ORDER } from '../lib/cefr';
 
 type City = Record<string, unknown> & { name: string };
 type Rec = Record<string, unknown>;
@@ -64,25 +64,32 @@ describe('City of the Day — graded Croatian coverage (derived)', () => {
     }
   });
 
-  it('the pool flag follows the bands: adaptive only if every slot-served level has its OWN band', () => {
-    // `adaptive` makes croatiaReason say "Culture at your level." City of the
-    // Day is served by the slot at levels ≤ CITY_OF_DAY_SLOT_MAX_CEFR (A1–A2);
-    // with A1/B1/C1 bands an A2 learner reads A1, so the claim would be false.
-    // Derived, so adding an A2 band flips the expectation and names why.
-    const served = CEFR_ORDER.filter((l) => cefrRank(l) <= cefrRank(CITY_OF_DAY_SLOT_MAX_CEFR));
-    const ownBandEverywhere = served.every((l) =>
+  it('the pool entry names its own-tier levels from the bands, and is adaptive only if that is every level', () => {
+    // OWNER DECISION (2026-09-06): City of the Day is back in the B1+ rotation.
+    // The slot says "Culture at your level." for an own-tier pick, so the entry
+    // may claim own tier ONLY at levels where every city has that band; with
+    // A1/B1/C1 bands a B2 learner reads B1 and the claim would be false there.
+    // `ownAtLevels` is DERIVED here from the data: authoring an A2 band for
+    // every city changes the expectation and the failure message names it.
+    const bandLevels = CEFR_ORDER.filter((l) =>
       names.every((n) => typeof hr[n]?.[gradedField('introHr', l)] === 'string'),
     );
     const entry = CROATIA_POOL.find((c) => c.id === 'cityofday')!;
     expect(
+      [...(entry.ownAtLevels ?? [])],
+      'ownAtLevels must equal the fully-banded levels',
+    ).toEqual(bandLevels);
+    const everyLevel = bandLevels.length === CEFR_ORDER.length;
+    expect(
       Boolean(entry.adaptive),
-      ownBandEverywhere
-        ? 'every slot-served level has its own band — mark cityofday adaptive'
-        : `levels ${served.join('/')} are slot-served but not all have their own band — cityofday must not be adaptive`,
-    ).toBe(ownBandEverywhere);
-    // and the premise this test reasons from, stated:
-    expect(served).toEqual(['A1', 'A2']);
-    expect(ownBandEverywhere).toBe(false);
+      everyLevel
+        ? 'every level has its own band — ownAtLevels is redundant, mark cityofday adaptive'
+        : `levels ${CEFR_ORDER.filter((l) => !bandLevels.includes(l)).join('/')} lack their own band — cityofday must not be adaptive`,
+    ).toBe(everyLevel);
+    // the premise stated, so a silent band change cannot pass unnoticed
+    expect(bandLevels).toEqual(['A1', 'B1', 'C1']);
+    // and the first-claim ritual is unchanged by the rotation decision
+    expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
   });
 
   it('the two geography copies are byte-identical', () => {
