@@ -4,6 +4,7 @@
 import { getVoicePreference, getSpeechRate } from './soundSettings';
 import { isNative, isIos } from './platform';
 import { dbgInfo, dbgWarn, dbgError } from './debugLog';
+import { reportError } from './errorReporter';
 import { _nativePost } from './nativePost.js';
 // Transport primitives now live in ./nativeTransport (extracted to break the
 // audio.ts ↔ nativePost.ts import cycle). Imported here for internal use and
@@ -60,6 +61,130 @@ export async function ttsFetch(
   signal?: AbortSignal,
 ): Promise<Response | null> {
   return _ttsPost(body, signal ?? new AbortController().signal);
+}
+
+// ── TTS failure record (2026-09-06) ────────────────────────────────────────
+// A Level Check's listening section played nothing and the learner had no way
+// to know why, and neither did we: speakAzure() returned a bare `false` for a
+// 429 quota refusal, a 503 budget pause, a network drop and a decode error
+// alike, speak() then dispatched a nameless `nh:tts-failed`, and nothing left
+// the device. Every failure now records WHAT failed so a surface can say it
+// and so it reaches Sentry (rate-limited per cause). A superseded play — the
+// learner tapped again while the first was still fetching — is NOT a failure
+// and no longer falls back or toasts.
+export type TtsFailureCause =
+  | 'superseded'
+  | 'client_rate_limited'
+  | 'network'
+  | 'unauthenticated'
+  | 'forbidden'
+  | 'rate_limited'
+  | 'daily_quota'
+  | 'monthly_budget'
+  | 'budget_paused'
+  | 'invalid_text'
+  | 'provider_unavailable'
+  | 'server_error'
+  | 'playback'
+  | 'no_fallback_voice';
+
+export interface TtsFailure {
+  cause: TtsFailureCause;
+  /** HTTP status of the /api/tts response, when there was one. */
+  status?: number;
+  /** Server error code from a JSON body (e.g. daily_quota_exceeded). */
+  code?: string;
+  /** The X-TTS-Backends diagnostic header, when present. */
+  backends?: string;
+  /** When the fallback voice was also missing: what the primary path hit. */
+  underlying?: TtsFailureCause;
+}
+
+let _lastTtsFailure: TtsFailure | null = null;
+function _noteFailure(f: TtsFailure): false {
+  _lastTtsFailure = f;
+  return false;
+}
+
+/** The most recent TTS failure, or null if the last attempt succeeded. */
+export function getLastTtsFailure(): TtsFailure | null {
+  return _lastTtsFailure;
+}
+
+/** Classify a non-OK /api/tts response by status + body. */
+function _classifyHttpFailure(status: number, body: string, backends: string): TtsFailure {
+  let code: string | undefined;
+  try {
+    const j = JSON.parse(body) as { error?: unknown };
+    if (typeof j?.error === 'string') code = j.error;
+  } catch {
+    /* plain-text body */
+  }
+  const base = { status, code, backends };
+  if (status === 401) return { ...base, cause: 'unauthenticated' };
+  if (status === 403) return { ...base, cause: 'forbidden' };
+  if (status === 429) {
+    if (code === 'daily_quota_exceeded') return { ...base, cause: 'daily_quota' };
+    if (code === 'monthly_budget_exhausted') return { ...base, cause: 'monthly_budget' };
+    return { ...base, cause: 'rate_limited' };
+  }
+  if (status === 400) return { ...base, cause: 'invalid_text' };
+  if (status === 503) {
+    return {
+      ...base,
+      cause: body.includes('budget-paused') ? 'budget_paused' : 'provider_unavailable',
+    };
+  }
+  return { ...base, cause: 'server_error' };
+}
+
+/** One learner-facing sentence per cause. Never blames the learner for a
+ *  server-side condition; names the condition so it can be acted on. */
+export function describeTtsFailure(f: TtsFailure | null): string {
+  const cause = f?.underlying ?? f?.cause;
+  switch (cause) {
+    case 'daily_quota':
+      return "Today's AI allowance is used up, so new audio can't be generated until midnight UTC.";
+    case 'monthly_budget':
+    case 'budget_paused':
+      return "This month's AI allowance is used up — new audio returns on the 1st.";
+    case 'rate_limited':
+    case 'client_rate_limited':
+      return 'Too many audio requests in a row — wait a moment and try again.';
+    case 'unauthenticated':
+    case 'forbidden':
+      return 'Your sign-in needs refreshing before audio can play — reload the page and try again.';
+    case 'network':
+      return "The audio couldn't be downloaded — check your connection and try again.";
+    case 'provider_unavailable':
+    case 'server_error':
+      return 'The voice service is temporarily unavailable — try again in a minute.';
+    case 'playback':
+      return "Your browser couldn't play the audio — check the device isn't muted and try again.";
+    case 'invalid_text':
+      return "This recording couldn't be generated.";
+    default:
+      return "The audio couldn't be played.";
+  }
+}
+
+// Sentry: at most N reports per cause per session — one silent afternoon of
+// failures should reach us; a thousand identical events should not.
+const _reportedCauses = new Map<string, number>();
+const _REPORT_CAP_PER_CAUSE = 3;
+function _reportTtsFailure(f: TtsFailure, textLen: number): void {
+  try {
+    const key = f.underlying ? `${f.cause}<${f.underlying}` : f.cause;
+    const n = _reportedCauses.get(key) ?? 0;
+    if (n >= _REPORT_CAP_PER_CAUSE) return;
+    _reportedCauses.set(key, n + 1);
+    reportError(
+      new Error(`tts_failed:${key}`),
+      `tts cause=${key} status=${f.status ?? '-'} code=${f.code ?? '-'} backends=${f.backends ?? '-'} textLen=${textLen}`,
+    );
+  } catch {
+    /* reporting must never break audio */
+  }
 }
 
 let _au = false;
@@ -294,7 +419,7 @@ export async function speakAzure(
     } else {
       if (!_ttsAllowed()) {
         dbgWarn('[TTS] rate limit — request blocked');
-        return false;
+        return _noteFailure({ cause: 'client_rate_limited' });
       }
       const body: Record<string, unknown> = { text, slow: !!slow };
       if (voicePref !== 'auto') body.voice = voicePref;
@@ -315,20 +440,22 @@ export async function speakAzure(
       _ttsAbort = null;
       if (_speakGen !== myGen) {
         dbgWarn('[TTS] generation mismatch after fetch — aborting');
-        return false;
+        return _noteFailure({ cause: 'superseded' });
       }
       if (!r || !r.ok) {
         const backends = r?.headers.get('x-tts-backends') || 'none';
         const rb = r ? await r.text().catch(() => '') : 'no response (all endpoints failed)';
         dbgError(`[TTS] HTTP ${r?.status ?? 'N/A'} backends=${backends} — ${rb.slice(0, 200)}`);
-        return false;
+        return _noteFailure(
+          r ? _classifyHttpFailure(r.status, rb, backends) : { cause: 'network', backends },
+        );
       }
       const backends = r.headers.get('x-tts-backends') || 'unknown';
       freshBlob = await r.blob();
       dbgInfo(
         `[TTS] blob received size=${freshBlob.size} type="${freshBlob.type}" backends=${backends}`,
       );
-      if (_speakGen !== myGen) return false;
+      if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
       // Always use base64 data URLs — universally supported across all browsers and
       // native WebView implementations (blob: URLs fail on some Android OEM builds).
       // AudioContext path uses freshBlob.arrayBuffer() directly for the fresh case.
@@ -359,15 +486,15 @@ export async function speakAzure(
         if (_ctx.state !== 'running') {
           throw new Error(`AudioContext not running after resume (state="${_ctx.state}")`);
         }
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         // For fresh blobs: read arrayBuffer() directly from the in-memory Blob.
         // For cached plays: decode the data: URL ourselves using atob() — do NOT use
         // fetch(data: URL) because that API is unreliable on some Android WebView versions
         // and may return an empty body or throw a TypeError.
         const ab = freshBlob ? await freshBlob.arrayBuffer() : _dataUrlToArrayBuffer(url);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         const decoded = await _ctx.decodeAudioData(ab);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         const src = _ctx.createBufferSource();
         src.buffer = decoded;
         // SP8e: apply user's playback-rate preference (default 1.0).
@@ -390,7 +517,7 @@ export async function speakAzure(
         return true;
       } catch (e) {
         dbgError('[TTS] AudioContext path FAILED — falling through to HTMLAudio:', e);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         // Fall through to HTMLAudio fallback
       }
     } else {
@@ -400,7 +527,7 @@ export async function speakAzure(
     // HTMLAudio path — primary on Android WebView; fallback elsewhere.
     // Do NOT call a.load() — it triggers a second resource load that Chrome
     // interrupts the pending play() with an AbortError.
-    if (_speakGen !== myGen) return false;
+    if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
     dbgInfo(`[TTS] trying HTMLAudio path — persistent=${_htmlAudio !== null}`);
     // Reuse the persistent element unlocked in uA() to avoid the Android WebView
     // per-element autoplay restriction. new Audio() instances don't inherit activation
@@ -422,7 +549,7 @@ export async function speakAzure(
       dbgInfo('[TTS] HTMLAudio play() started');
     } catch (playErr) {
       dbgError('[TTS] HTMLAudio play() FAILED:', playErr);
-      return false;
+      return _noteFailure({ cause: _speakGen !== myGen ? 'superseded' : 'playback' });
     }
     // An 'error' event DURING playback (decode/media failure mid-stream) is a
     // failure, not success — returning true here meant speak() reported 'azure'
@@ -450,10 +577,15 @@ export async function speakAzure(
       a.addEventListener('pause', () => resolve(), { once: true });
       a.addEventListener('abort', () => resolve(), { once: true });
     });
-    return !playbackFailed;
+    return playbackFailed ? _noteFailure({ cause: 'playback' }) : true;
   } catch (e) {
     dbgError('[TTS] speakAzure unhandled error:', e);
-    return false;
+    // An AbortError is either OUR abort (a newer play superseded this one via
+    // stopAudio) or the 15 s fetch timeout — a network failure, not playback.
+    if ((e as Error)?.name === 'AbortError') {
+      return _noteFailure({ cause: _speakGen !== myGen ? 'superseded' : 'network' });
+    }
+    return _noteFailure({ cause: _speakGen !== myGen ? 'superseded' : 'playback' });
   }
 }
 
@@ -559,8 +691,13 @@ export async function speak(
   // phoneme (IPA) override applies to the Azure path only — used for slang words the
   // neural voice mis-segments. The Web Speech fallback can't use it (plain text).
   // voice: per-call narrator override (see speakAzure) — also Azure-path only.
-  const ok = await speakAzure(t, false, opts).catch(() => false);
+  const ok = await speakAzure(t, false, opts).catch(() => _noteFailure({ cause: 'playback' }));
   if (!ok) {
+    const primary = _lastTtsFailure;
+    // A newer play replaced this one mid-flight. That is the learner tapping
+    // again, not a failure: no fallback voice (it would speak OVER the newer
+    // play), no toast, no report.
+    if (primary?.cause === 'superseded') return 'superseded';
     // Only use Web Speech fallback when a Croatian/South-Slavic voice is available.
     // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.
     // Wait for voices to load (Android WebView loads them asynchronously after startup).
@@ -569,9 +706,17 @@ export async function speak(
       await speakSynth(t, 0.85);
       return 'synth';
     }
-    window.dispatchEvent(new CustomEvent('nh:tts-failed'));
+    const failure: TtsFailure = {
+      ...(primary ?? { cause: 'playback' }),
+      cause: 'no_fallback_voice',
+      underlying: primary?.cause ?? 'playback',
+    };
+    _lastTtsFailure = failure;
+    _reportTtsFailure(failure, t.length);
+    window.dispatchEvent(new CustomEvent('nh:tts-failed', { detail: failure }));
     return 'failed';
   }
+  _lastTtsFailure = null;
   return 'azure';
 }
 
@@ -655,11 +800,11 @@ export async function speakProsody(
         if (_ctx.state !== 'running') {
           throw new Error(`AudioContext not running after resume (state="${_ctx.state}")`);
         }
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         const ab = freshBlob ? await freshBlob.arrayBuffer() : _dataUrlToArrayBuffer(url);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         const decoded = await _ctx.decodeAudioData(ab);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
         const src = _ctx.createBufferSource();
         src.buffer = decoded;
         src.playbackRate.value = getSpeechRate();
@@ -681,7 +826,7 @@ export async function speakProsody(
         return true;
       } catch (e) {
         dbgError('[TTS] speakProsody AudioContext path FAILED — falling through to HTMLAudio:', e);
-        if (_speakGen !== myGen) return false;
+        if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
       }
     }
 

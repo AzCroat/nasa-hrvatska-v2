@@ -18,6 +18,18 @@ import { isAllowedOrigin, corsHeaders } from './_helpers.js';
  * Returns { ok:true, uid, origin, isDev } on success, or { ok:false, response }.
  * AI is FREE for all signed-in users — the quota bounds each user, the budget
  * bounds the SUM. Clients treat `monthly_budget_exhausted` as "serve cached".
+ *
+ * `cost: 0` SKIPS the per-user quota (burst + daily) entirely — for
+ * CACHE-SERVED endpoints (/api/tts, /api/news, /api/daily-culture), which
+ * must charge the learner's quota only on the path that actually GENERATES
+ * (they call checkAIQuota themselves after their cache misses). Until
+ * 2026-09-06 every one of them charged the quota at the gate, BEFORE the
+ * cache lookup, so a free cache hit cost a "turn": TTS alone — one call per
+ * word tapped, per flashcard, per dialogue line — walked a heavy learner to
+ * the 300/day ceiling, after which every audio request in the app 429'd for
+ * the rest of the UTC day, including the Level Check's listening section.
+ * The budget gate below stays: it is ceiling-0 for these paths (SELF-METERED
+ * in _aiBudget.js) so it passes even at the cap, exactly as before.
  */
 export async function requireAuthedAI(context, { cost = 1, rateLimit = 20 } = {}) {
   const { request, env } = context;
@@ -40,12 +52,14 @@ export async function requireAuthedAI(context, { cost = 1, rateLimit = 20 } = {}
   const uid = await getFirebaseUid(request, projectId);
   if (!uid) return fail(401, 'unauthenticated');
 
-  const quota = await checkAIQuota(request, env, uid, cost);
-  if (!quota.allowed) {
-    return fail(429, 'daily_quota_exceeded', {
-      message: 'Daily AI limit reached. Resets at midnight UTC.',
-      resetAt: quota.resetAt,
-    });
+  if (cost > 0) {
+    const quota = await checkAIQuota(request, env, uid, cost);
+    if (!quota.allowed) {
+      return fail(429, 'daily_quota_exceeded', {
+        message: 'Daily AI limit reached. Resets at midnight UTC.',
+        resetAt: quota.resetAt,
+      });
+    }
   }
 
   // Last, after every per-request check has passed: charge this call's

@@ -8,6 +8,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
+import { checkAIQuota } from './_aiQuota.js';
 import { corsHeaders, err } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
@@ -66,7 +67,10 @@ export async function onRequestOptions({ request }) {
 export async function onRequestGet(context) {
   const { env } = context;
 
-  const gate = await requireAuthedAI(context, { cost: 1, rateLimit: 20 });
+  // cost: 0 — the learner's quota is charged below, only on the one miss per
+  // day that generates. The cached card is free for the budget and must be
+  // free for the quota (the /api/tts finding, 2026-09-06).
+  const gate = await requireAuthedAI(context, { cost: 0, rateLimit: 20 });
   if (!gate.ok) return gate.response;
   const { origin } = gate;
 
@@ -102,6 +106,19 @@ export async function onRequestGet(context) {
         ...promptTagHeaders(cached.tag),
       },
     });
+  }
+
+  // Per-user quota, charged only here — the generating miss.
+  const quota = await checkAIQuota(context.request, env, gate.uid, 1);
+  if (!quota.allowed) {
+    return new Response(
+      JSON.stringify({
+        error: 'daily_quota_exceeded',
+        message: 'Daily AI limit reached. Resets at midnight UTC.',
+        resetAt: quota.resetAt,
+      }),
+      { status: 429, headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) } },
+    );
   }
 
   const budget = await checkAndChargeBudget(env, '/api/daily-culture:generate');

@@ -57,4 +57,27 @@ describe('_nativePost', () => {
     const [, init2] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
     expect((init2.headers as Record<string, string>).Authorization).toBe('Bearer fresh');
   });
+
+  // 2026-09-06: a 5xx used to be swallowed into `null` once every endpoint had
+  // been tried — on the web that is after ONE endpoint — so a 503
+  // "budget-paused" from /api/tts was indistinguishable from a dropped
+  // connection and the client filed both as a network failure.
+  it('returns the last 5xx response when every endpoint has been tried (null only when none answered)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('TTS unavailable — budget-paused', { status: 503 })),
+    );
+    const r = await _nativePost('/api/tts', { text: 'x' }, { responseType: 'blob' });
+    expect(r).not.toBeNull();
+    expect(r!.status).toBe(503);
+    expect(await r!.text()).toContain('budget-paused');
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        throw new TypeError('Failed to fetch');
+      }),
+    );
+    expect(await _nativePost('/api/tts', { text: 'x' })).toBeNull();
+  });
 });

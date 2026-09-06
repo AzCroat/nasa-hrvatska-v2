@@ -6,6 +6,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
+import { checkAIQuota } from './_aiQuota.js';
 import { corsHeaders } from './_helpers.js';
 
 // ── Azure SSML builder ────────────────────────────────────────────────────────
@@ -421,7 +422,13 @@ export async function onRequestOptions({ request }) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  const gate = await requireAuthedAI(context, { cost: 1, rateLimit: 60 });
+  // cost: 0 — auth + per-IP rate limit here; the learner's daily quota is
+  // charged BELOW, only on the generating miss. A cache hit (edge or KV) is
+  // free for the budget and must be free for the quota too: charging it here
+  // is what let a day of ordinary practice exhaust the 300/day ceiling and
+  // silence every audio request afterwards (found 2026-09-06 when a Level
+  // Check's listening section played nothing).
+  const gate = await requireAuthedAI(context, { cost: 0, rateLimit: 60 });
   if (!gate.ok) return gate.response;
   const { origin } = gate;
 
@@ -535,6 +542,30 @@ export async function onRequestPost(context) {
       } catch {
         kvKey = null; // KV unusable → behave exactly as before this layer existed
       }
+    }
+
+    // ── Per-user quota: charged ONLY when we actually generate ──────────────
+    // Same shape as the budget below. A learner who has spent their daily
+    // turns still hears every phrase anyone has ever generated; only a NEW
+    // phrase is refused. The 429 body carries the same code the other AI
+    // endpoints use so the client can name the reason instead of "unavailable".
+    const quota = await checkAIQuota(request, env, gate.uid, 1);
+    if (!quota.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: 'daily_quota_exceeded',
+          message: 'Daily AI limit reached. Resets at midnight UTC.',
+          resetAt: quota.resetAt,
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            ...ttsCorsHeaders(origin),
+            'X-TTS-Backends': diagBackends,
+          },
+        },
+      );
     }
 
     // ── Budget: charged ONLY when we actually generate ───────────────────────
