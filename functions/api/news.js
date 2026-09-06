@@ -3,6 +3,7 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
+import { checkAIQuota } from './_aiQuota.js';
 import { corsHeaders as _corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
@@ -223,7 +224,11 @@ export async function onRequestGet(context) {
   const ANTHROPIC_KEY = env.ANTHROPIC_API_KEY;
   const origin = request.headers.get('origin') || request.headers.get('referer') || '';
 
-  const gate = await requireAuthedAI(context, { cost: 4, rateLimit: 10 });
+  // cost: 0 — the learner's quota is charged below, only on the generating
+  // miss (4 Claude calls). A cached read is free for the budget and must be
+  // free for the quota: at the gate it cost every reader 4 turns for a
+  // 6-hour-old KV entry (the /api/tts finding, 2026-09-06).
+  const gate = await requireAuthedAI(context, { cost: 0, rateLimit: 10 });
   // For news, quota-429 serves curated fallback rather than a hard error.
   // Other gate failures (403, 401, 500) are returned as-is.
   if (!gate.ok) {
@@ -277,6 +282,19 @@ export async function onRequestGet(context) {
     } catch {
       /* unparseable cache entry → fall through to generation */
     }
+  }
+
+  // Per-user quota, charged only here — the generating miss.
+  const quota = await checkAIQuota(request, env, gate.uid, 4);
+  if (!quota.allowed) {
+    return ok(
+      {
+        articles: FALLBACK_ARTICLES.map((a) => ({ ...a, level })),
+        source: 'curated',
+        timestamp: Date.now(),
+      },
+      origin,
+    );
   }
 
   const budget = await checkAndChargeBudget(env, '/api/news:generate');

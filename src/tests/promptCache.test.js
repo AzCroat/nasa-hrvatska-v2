@@ -26,6 +26,12 @@ vi.mock('../../functions/api/_aiBudget.js', () => ({
   checkAndChargeBudget: async () => ({ allowed: true }),
   ENDPOINT_CEILING_MICROUSD: {},
 }));
+// The per-user quota moved from the gate to the generating miss (2026-09-06),
+// so the generation paths under test now consult it directly; this env has no
+// quota storage, and the real check fails closed.
+vi.mock('../../functions/api/_aiQuota.js', () => ({
+  checkAIQuota: async () => ({ allowed: true, remaining: 299, resetAt: 'x' }),
+}));
 
 const { onRequestGet: dailyCulture } = await import('../../functions/api/daily-culture.js');
 const { onRequestGet: news } = await import('../../functions/api/news.js');

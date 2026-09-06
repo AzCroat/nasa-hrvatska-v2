@@ -15,8 +15,12 @@
 //   (c) Native HTTP: uses CapacitorHttp.post() (dynamic import of @capacitor/core)
 //       on native to bypass WebView fetch() failures (SSL/OEM network policy);
 //       falls back to fetch() if CapacitorHttp is unavailable.
-//   (d) Failover: on 5xx, try the next endpoint; on 4xx, return immediately;
-//       returns null only on total transport failure so callers can fall through.
+//   (d) Failover: on 5xx, try the next endpoint; on 4xx, return immediately.
+//       When every endpoint has been tried, the LAST 5xx response is returned
+//       (2026-09-06) so the caller can read its status and body — a 503
+//       "budget-paused" from /api/tts used to come back as `null`, identical to
+//       a dropped connection, and the client filed both as "network". `null`
+//       now means exactly what it says: no endpoint answered at all.
 import { getFirebaseBearer, isNative, _dataUrlToArrayBuffer } from './nativeTransport.js';
 import { dbgInfo, dbgWarn } from './debugLog';
 
@@ -98,6 +102,7 @@ export async function _nativePost(
       }
 
       if (capHttp) {
+        let lastServerError: Response | null = null;
         for (const base of endpoints) {
           const url = `${base}${path}`;
           try {
@@ -146,7 +151,8 @@ export async function _nativePost(
               }
               return _capDataToResponse(resp.status, resp.data);
             }
-            // 5xx: try next endpoint
+            // 5xx: remember it, try next endpoint
+            lastServerError = _capDataToResponse(resp.status, resp.data);
           } catch (e: unknown) {
             const err = e as Error;
             dbgWarn(
@@ -155,12 +161,13 @@ export async function _nativePost(
           }
         }
         dbgWarn('[nativePost] CapacitorHttp: all endpoints failed');
-        return null;
+        return lastServerError;
       }
       // CapacitorHttp unavailable — fall through to fetch()
     }
 
     // Web (and native fallback): standard fetch()
+    let lastServerError: Response | null = null;
     for (const base of endpoints) {
       const url = `${base}${path}`;
       try {
@@ -174,7 +181,8 @@ export async function _nativePost(
         if (r.ok) return r;
         // 4xx from server: bad request — don't retry other endpoints
         if (r.status >= 400 && r.status < 500) return r;
-        // 5xx or other: try next endpoint
+        // 5xx or other: remember it, try next endpoint
+        lastServerError = r;
       } catch (e: unknown) {
         const err = e as Error;
         if (err?.name === 'AbortError') throw e; // propagate abort immediately
@@ -183,7 +191,7 @@ export async function _nativePost(
         );
       }
     }
-    return null; // all endpoints failed
+    return lastServerError; // null only when no endpoint answered at all
   }
 
   let res = await send(await getFirebaseBearer());

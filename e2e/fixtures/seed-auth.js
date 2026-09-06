@@ -299,12 +299,41 @@ export async function mockTranslate(page, translatedText = 'Dobar dan') {
 /**
  * Mock the Cloudflare Pages Functions for TTS and AI chat to avoid real API calls in tests.
  */
+/**
+ * A valid, silent PCM WAV of `ms` milliseconds (8 kHz, mono, 16-bit). The TTS
+ * mock used to answer with an EMPTY body, which the client could neither
+ * decode nor play, so under E2E every speak() ended in the 'failed' branch —
+ * fine while nothing depended on audio actually playing. The exam's listening
+ * gate (2026-09-06) does: answers unlock only after a successful play, so the
+ * fixture must hand the browser something it can play to the end.
+ */
+export function silentWav(ms = 60) {
+  const sampleRate = 8000;
+  const samples = Math.max(1, Math.round((sampleRate * ms) / 1000));
+  const dataBytes = samples * 2;
+  const buf = Buffer.alloc(44 + dataBytes);
+  buf.write('RIFF', 0);
+  buf.writeUInt32LE(36 + dataBytes, 4);
+  buf.write('WAVE', 8);
+  buf.write('fmt ', 12);
+  buf.writeUInt32LE(16, 16); // PCM chunk size
+  buf.writeUInt16LE(1, 20); // PCM
+  buf.writeUInt16LE(1, 22); // mono
+  buf.writeUInt32LE(sampleRate, 24);
+  buf.writeUInt32LE(sampleRate * 2, 28); // byte rate
+  buf.writeUInt16LE(2, 32); // block align
+  buf.writeUInt16LE(16, 34); // bits per sample
+  buf.write('data', 36);
+  buf.writeUInt32LE(dataBytes, 40);
+  return buf; // sample bytes are zero = silence
+}
+
 export async function mockTTS(page) {
   await page.route('**/api/tts', (route) =>
     route.fulfill({
       status: 200,
-      contentType: 'audio/mpeg',
-      body: Buffer.from([]),
+      contentType: 'audio/wav',
+      body: silentWav(),
     }),
   );
   await page.route('**/api/ai-chat', (route) =>

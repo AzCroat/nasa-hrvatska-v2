@@ -85,7 +85,7 @@ test.beforeEach(async ({ page }) => {
     // 99 active days → well past the 5-day trigger threshold.
     localStorage.setItem('nh_active_days', JSON.stringify({ lastDay: '2000-01-01', count: 99 }));
     // Force the feature on and bypass the syncReady gate for test environments.
-    (window).__NH_CHECKPOINTS_FORCE__ = true;
+    window.__NH_CHECKPOINTS_FORCE__ = true;
   });
 
   // 5. Stub the speaking assessment endpoint so no real audio/Whisper/Claude is hit.
@@ -145,6 +145,13 @@ test('full pass keeps the level', async ({ page }) => {
     }
     const isSpeaking = await speakBtn.isVisible();
     if (isSpeaking) break;
+    // A listening item locks its answers until the recording has PLAYED
+    // (2026-09-06) — play it first; the TTS mock serves a real silent WAV.
+    const playBtn = page.getByTestId('exam-audio-play');
+    if (await playBtn.isVisible()) {
+      await playBtn.click();
+      await expect(answerBtn).toBeEnabled({ timeout: 15_000 });
+    }
     await answerBtn.click();
     await page.getByTestId('exam-next').click();
   }

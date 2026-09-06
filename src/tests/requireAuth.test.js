@@ -70,6 +70,17 @@ describe('requireAuthedAI', () => {
     expect(checkAIQuota).toHaveBeenCalledWith(expect.anything(), expect.anything(), 'uid-1', 2);
   });
 
+  it('cost 0 skips the per-user quota entirely — for cache-served endpoints that charge on generation (2026-09-06)', async () => {
+    // The quota is not consulted at all: /api/tts, /api/news and
+    // /api/daily-culture call checkAIQuota themselves after their cache misses.
+    // (No mockResolvedValueOnce here on purpose — a queued value that the code
+    // correctly never consumes would leak into the next test.)
+    const g = await requireAuthedAI(ctx('Bearer good'), { cost: 0, rateLimit: 60 });
+    expect(g.ok).toBe(true);
+    expect(g.uid).toBe('uid-1');
+    expect(checkAIQuota).not.toHaveBeenCalled();
+  });
+
   it('429 when over quota', async () => {
     checkAIQuota.mockResolvedValueOnce({ allowed: false, remaining: 0, resetAt: 'x' });
     const g = await requireAuthedAI(ctx('Bearer good'), { cost: 1, rateLimit: 20 });

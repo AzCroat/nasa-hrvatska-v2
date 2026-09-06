@@ -166,6 +166,81 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 - **Demotions are merge tombstones**: `mergeRemoteCertifications` ends with a sweep deleting any pass at a demotion's `from` level whose `passedAt` precedes the demotion `at` — in both directions, for BOTH `verification_fail` and `checkpoint_fail`. This is the sanctioned, deliberate exception to "merges never reduce": the demotion EVENT is additive and user-visible; without the sweep any stale device blob resurrects a rolled-back level. A pass re-earned AFTER the demotion has a later `passedAt` and always survives — new evidence outranks tombstones.
 - NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getEffectiveLevelForUnlock`.
 
+## Critical Architecture: Audio Is Load-Bearing (owner directive, 2026-09-06)
+
+The field report this exists to keep closed: **the owner's B2 Level Check
+listening section played nothing**, and the check was scored — and rolled their
+level back — on items they never heard. "We can't have any issues like this
+going forward, not in a test, or on the site." Four defects lay on that one
+path, each invisible from the others; all four are fixed and pinned.
+
+1. **Cache hits charged the learner's AI quota.** `/api/tts` called
+   `requireAuthedAI({ cost: 1 })` BEFORE its edge/KV cache lookup, so every tap
+   on a speaker icon, every flashcard, every dialogue line cost one of the
+   300 daily "turns" that `_aiQuota.js` sized for CLAUDE conversation — even
+   when the audio had been generated months ago and cost the budget nothing.
+   A day of ordinary practice could reach the ceiling; from then until
+   midnight UTC every audio request 429'd, Level Check included. `/api/news`
+   (cost 4 per 6-hour-old cached read) and `/api/daily-culture` had the same
+   shape. **The rule now mirrors the budget's:** the gate takes `cost: 0`
+   (auth + per-IP rate limit only; `requireAuthedAI` skips the quota entirely
+   at cost 0) and each endpoint calls `checkAIQuota` itself on the path that
+   GENERATES, before `checkAndChargeBudget`. Quota first, so a refused learner
+   is told "daily limit", not "budget paused". Pinned by
+   `cachedEndpointQuota.test.js`, which drives the three REAL handlers.
+   NEVER charge a per-user quota at the gate of a cache-served endpoint; a new
+   one must take `cost: 0` and charge on its miss.
+2. **A 5xx came back as `null`.** `_nativePost` swallowed server errors into
+   "no endpoint answered" once every endpoint had been tried — on the web
+   that is after one — so a 503 `budget-paused` was indistinguishable from a
+   dropped connection. It now returns the LAST 5xx response; `null` means
+   exactly that nothing answered.
+3. **Every failure was nameless and left no trace.** `speakAzure` returned a
+   bare `false` for a quota 429, a budget 503, a network drop and a decode
+   error alike; `speak()` dispatched an empty `nh:tts-failed`; nothing reached
+   Sentry. `audio.ts` now records a `TtsFailure` (`cause`, `status`, `code`,
+   `backends`, `underlying`) on every path — `getLastTtsFailure()`,
+   `describeTtsFailure()` for one honest learner-facing sentence per cause,
+   the failure as the event's `detail`, and `reportError` to Sentry capped at
+   three per cause per session. **A superseded play is not a failure**: a
+   second tap while the first was still fetching used to make the FIRST call
+   fall through to the Web Speech fallback (speaking OVER the second) or
+   toast "Audio unavailable" while audio was playing. `speak()` now returns
+   `'superseded'` — no fallback, no event, no report.
+4. **The exam scored what was never heard.** `ExamRunner` fired `speak()` and
+   ignored the result, so a listening item with dead audio was answered blind
+   and counted like any other — the one place a silent failure changes a
+   learner's STANDING. The check's own contract ("sections are resumable,
+   never falsely failed") now covers listening: answers, Continue AND skip
+   are locked until the recording has played to the end at least once
+   (`data-audio-status`); a failure shows an inline card naming the cause
+   (`exam-audio-failed`) with Try again and Save & exit (the existing partial
+   mechanism parks the attempt at that item); a skip of an unheard item is
+   impossible because "I don't know this" is not the state a learner who
+   cannot hear is in. Pinned by `ExamRunner.test.tsx` (the checkpoint exam
+   shares the runner). The E2E TTS mock served an EMPTY body, which the client
+   could neither decode nor play — fine while nothing depended on audio, fatal
+   once the gate did; `mockTTS` now serves a real silent WAV (`silentWav`) and
+   `checkpoints.spec.js` plays each listening item before answering.
+
+**What was NOT established:** which of the refusal paths fired for the owner
+that day. Nothing recorded it — that is defect 3 — so the fix covers the class
+rather than one instance, and the next occurrence will name itself in Sentry
+as `tts_failed:<cause>`.
+
+**Still open, deliberately (practice, not certification):** ~80 practice
+surfaces call `speak()` fire-and-forget and grade the answer regardless
+(ListeningScreen, DictationScreen, DailyListeningCard, the graded reader,
+GenderDrill, ConvMatch …). They affect XP, not standing, and the failure is now
+named and reported wherever it happens; gating each on playback is a follow-up,
+not a tidy-up.
+
+- NEVER: charge the per-user quota before a cache lookup; return `null` from
+  a transport helper for a response that arrived; dispatch `nh:tts-failed` or
+  fall back to Web Speech for a superseded play; score an assessment item
+  whose audio the learner has not heard; let the E2E TTS mock serve
+  unplayable bytes (the gate depends on a real play).
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.
