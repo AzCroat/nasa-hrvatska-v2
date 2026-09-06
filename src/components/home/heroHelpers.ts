@@ -4,6 +4,8 @@
 
 import type { Stats } from '../../types';
 import { HERO_SCENES, CONTEXTUAL_POOL } from './heroData';
+import { cefrRank, getUserCefr, type CefrLevel } from '../../lib/cefr';
+import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
 
 export interface HeroScene {
   img: string;
@@ -300,35 +302,46 @@ export function getMascotMessage({
   return msgs[new Date().getDay() % msgs.length]!;
 }
 
-// CEFR derived from the same formula as StatsTab so both screens always agree.
+// The hero's CEFR bar is a PROFICIENCY CLAIM, so `current` is the CERTIFIED
+// level — the same resolver StatsTab and DesktopPanel use — and the XP formula
+// only measures progress WITHIN that level's band. Until 2026-09-06 this read the
+// ELIGIBLE band straight off the XP total, so a learner whose failed B2 check had
+// rolled their standing down to B1 still saw "C1 → C2" on Home while the Me tab
+// said B1. When practice has outrun the certified level, the bar is full and
+// `awaitingAssessment` is set: the next level is earned by a Level Check, not
+// by more XP, and HeroStats says so instead of printing a percentage.
 
-export function getCEFR(xp: number, lc: number, gc: number) {
+const CEFR_BANDS: ReadonlyArray<{
+  current: CefrLevel;
+  next: CefrLevel;
+  floor: number;
+  threshold: number;
+}> = [
+  { current: 'A1', next: 'A2', floor: 0, threshold: 300 },
+  { current: 'A2', next: 'B1', floor: 300, threshold: 1200 },
+  { current: 'B1', next: 'B2', floor: 1200, threshold: 3500 },
+  { current: 'B2', next: 'C1', floor: 3500, threshold: 8000 },
+  { current: 'C1', next: 'C2', floor: 8000, threshold: 18000 },
+];
+
+export function getCEFR(
+  xp: number,
+  lc: number,
+  gc: number,
+): { current: CefrLevel; next: CefrLevel; pctInLevel: number; awaitingAssessment: boolean } {
   const total = (xp || 0) + (lc || 0) * 15 + (gc || 0) * 25;
-  const BANDS = [
-    { current: 'A1', next: 'A2', threshold: 300 },
-    { current: 'A2', next: 'B1', threshold: 1200 },
-    { current: 'B1', next: 'B2', threshold: 3500 },
-    { current: 'B2', next: 'C1', threshold: 8000 },
-    { current: 'C1', next: 'C2', threshold: 18000 },
-  ];
-  for (let i = 0; i < BANDS.length; i++) {
-    const band = BANDS[i]!;
-    if (total < band.threshold) {
-      const prev = i === 0 ? 0 : BANDS[i - 1]!.threshold;
-      return {
-        current: band.current,
-        next: band.next,
-        pctInLevel: Math.min(Math.round(((total - prev) / (band.threshold - prev)) * 100), 99),
-      };
-    }
-  }
-  // total >= 18000 → the learner has REACHED C2 (the top band). The old fallback
-  // returned current:'C1', so the hero card capped at C1 and never showed C2 —
-  // disagreeing with StatsTab/DesktopPanel, which do reach C2. C2 is terminal, so
-  // there is no next level and the within-level bar is full.
-  return {
-    current: 'C2',
-    next: 'C2',
-    pctInLevel: 100,
-  };
+  const eligible = getUserCefr(xp || 0, lc || 0, gc || 0);
+  const current = getEffectiveLevelForUnlock(eligible);
+  const band = CEFR_BANDS.find((b) => b.current === current);
+  // C2 is terminal: there is no next level and the within-level bar is full.
+  // (An earlier version's fallback returned 'C1' here, so the hero never showed C2.)
+  if (!band) return { current: 'C2', next: 'C2', pctInLevel: 100, awaitingAssessment: false };
+  const awaitingAssessment = cefrRank(eligible) > cefrRank(current);
+  const pctInLevel = awaitingAssessment
+    ? 100
+    : Math.max(
+        0,
+        Math.min(Math.round(((total - band.floor) / (band.threshold - band.floor)) * 100), 99),
+      );
+  return { current, next: band.next, pctInLevel, awaitingAssessment };
 }

@@ -24,7 +24,7 @@ export default function HeroStats({
   xpCur: number;
   xpNeeded: number;
   level: number;
-  cefr: { current: string; next: string; pctInLevel: number };
+  cefr: { current: string; next: string; pctInLevel: number; awaitingAssessment?: boolean };
   lc: number;
   xp: number;
   wsMastered?: number;
@@ -277,10 +277,19 @@ export default function HeroStats({
           >
             CEFR LEVEL
           </span>
-          <span style={{ fontSize: 11, fontWeight: 900, color: 'var(--gold, #C8980A)' }}>
+          <span
+            data-testid="hero-cefr-level"
+            style={{ fontSize: 11, fontWeight: 900, color: 'var(--gold, #C8980A)' }}
+          >
             {cefr.current === cefr.next ? (
               // Terminal level (C2) — no "→ next", show a Max badge instead of "C2 → C2".
               <>{cefr.current} &nbsp;·&nbsp; Max</>
+            ) : cefr.awaitingAssessment ? (
+              // Practice has reached a higher band than the learner has certified.
+              // XP does not advance the level — a Level Check does — so no percentage.
+              <>
+                {cefr.current} → {cefr.next} &nbsp;·&nbsp; Level Check
+              </>
             ) : (
               <>
                 {cefr.current} → {cefr.next} &nbsp;·&nbsp; {cefr.pctInLevel}%

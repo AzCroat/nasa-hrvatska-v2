@@ -1,7 +1,9 @@
 import React from 'react';
 import { useStats } from '../../context/StatsContext';
+import { getUserCefr, type CefrLevel } from '../../lib/cefr';
+import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
 
-const CEFR_LABELS = {
+const CEFR_LABELS: Record<CefrLevel, string> = {
   A1: 'Beginner',
   A2: 'Elementary',
   B1: 'Intermediate',
@@ -10,16 +12,15 @@ const CEFR_LABELS = {
   C2: 'Proficient',
 };
 
-// Same formula as HeroSection and StatsTab — all three must stay in sync.
-// total = xp + lessons*15 + grammar*25 → A1<300, A2<1200, B1<3500, B2<8000, C1<18000
-function getCEFR(xp: number, lc: number, gc: number) {
-  const total = (xp || 0) + (lc || 0) * 15 + (gc || 0) * 25;
-  if (total < 300) return 'A1';
-  if (total < 1200) return 'A2';
-  if (total < 3500) return 'B1';
-  if (total < 8000) return 'B2';
-  if (total < 18000) return 'C1';
-  return 'C2';
+// The badge is a PROFICIENCY CLAIM, so it shows the CERTIFIED level — the same
+// resolver the Me tab's CEFR card uses (StatsTab getCEFR). Until 2026-09-06 this
+// panel ran its own copy of the XP formula and showed the ELIGIBLE band, so a
+// learner whose failed B2 check had honestly rolled their standing down to B1
+// still saw "C1 · Advanced" in the corner while the Me tab said B1. XP does not
+// advance a level here; a passed Level Check does. See the convention block at
+// the top of src/lib/cefr.ts.
+function getCEFR(xp: number, lc: number, gc: number): CefrLevel {
+  return getEffectiveLevelForUnlock(getUserCefr(xp || 0, lc || 0, gc || 0));
 }
 
 export default function DesktopPanel() {
@@ -31,8 +32,9 @@ export default function DesktopPanel() {
 
   return (
     <aside className="desktop-panel" aria-label="Progress sidebar">
-      {/* CEFR level badge — uses same XP-based formula as Today and Me tabs */}
+      {/* CEFR level badge — the certified level, same resolver as the Me tab */}
       <div
+        data-testid="desktop-cefr-badge"
         style={{
           background: 'var(--card)',
           border: '1px solid var(--border)',
