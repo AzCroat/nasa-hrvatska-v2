@@ -10,6 +10,8 @@ import { markQuest } from '../../lib/quests.js';
 import { recordLessonTaught } from '../../lib/teachPractice';
 import { markLessonComplete } from '../../lib/curriculumProgress';
 import { localDateStr } from '../../lib/dateUtils';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
   ProgressBar,
@@ -18,6 +20,7 @@ import {
   ExampleSlide,
   TableSlide,
   QuizSlide,
+  CheckSlide,
   SummarySlide,
 } from './LessonSlides';
 
@@ -80,6 +83,11 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
   const [score, setScore] = useState(0);
+  // Mastery check (lib/lessonCheck, 2026-09-07): answers by item index, in
+  // SOURCE option order; `attempt` reshuffles presentation and remounts the
+  // check on a retake.
+  const [checkAnswers, setCheckAnswers] = useState<Record<number, number>>({});
+  const [attempt, setAttempt] = useState(0);
   const [_done, setDone] = useState(false);
   // Default ON to match Flashcards' reading of the same key — the two screens
   // previously had opposite defaults, so this toggle's state contradicted
@@ -92,12 +100,24 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const totalSlides = slides.length;
   const currentSlide = slides[slide];
 
-  // Count quiz slides for score display
-  const quizSlides = slides.reduce<number[]>((acc, s, i) => {
-    if (s.type === 'quiz') acc.push(i);
-    return acc;
-  }, []);
-  const quizTotal = quizSlides.length;
+  // THE GATE. A lesson is complete when its mastery check is PASSED (≥75%),
+  // not when its summary is reached. Older cached payloads without a check
+  // slide are gated on their formative quiz slides — absence degrades to the
+  // strictest thing the data supports, never to "read it and you're done".
+  const gate = lessonGate(slides);
+  const gateCorrect =
+    gate.kind === 'check'
+      ? countCorrect(gate.items, checkAnswers)
+      : gate.kind === 'quiz'
+        ? score
+        : 0;
+  const passed = lessonPassed(gate, gateCorrect);
+  const checkAllAnswered =
+    gate.kind !== 'check' || gate.items.every((_, i) => checkAnswers[i] !== undefined);
+  // One session-flow signal per failed attempt: the daily session is a practice
+  // FLOW (sessionSignal.ts), so a finished-but-failed check must not strand it
+  // at N-1/N — while the lesson itself records NOTHING and is served again.
+  const failSignalledAttempt = useRef(-1);
 
   // Auto-TTS on slide change
   useEffect(() => {
@@ -113,10 +133,20 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slide]);
 
-  // Award XP + mark completion when the summary slide is reached
+  // Award XP + mark completion when the summary slide is reached WITH A PASS.
+  // On a fail nothing below runs: no XP, no gc, no al_ key, no curriculum
+  // completion, no taught-queue entry — the spine serves this lesson again.
   useEffect(() => {
     if (!currentSlide) return;
-    if (currentSlide.type === 'summary' && !xpAwarded.current) {
+    if (currentSlide.type !== 'summary') return;
+    if (!passed) {
+      if (failSignalledAttempt.current !== attempt) {
+        failSignalledAttempt.current = attempt;
+        signalSessionCompleteIfActive('animlesson');
+      }
+      return;
+    }
+    if (!xpAwarded.current) {
       xpAwarded.current = true;
       // Record THIS lesson's completion under a distinct 'al_<lessonId>' key.
       // The Learn Path launcher writes vs:[item.id] on the tap that OPENS the
@@ -150,7 +180,34 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slide]);
+  }, [slide, passed]);
+
+  function handleCheckAnswer(itemIndex: number, sourceOptionIndex: number) {
+    setCheckAnswers((prev) =>
+      prev[itemIndex] === undefined ? { ...prev, [itemIndex]: sourceOptionIndex } : prev,
+    );
+  }
+
+  // Reset every gated answer and start a new attempt. The formative quiz
+  // slides are reset too, because on an older payload they ARE the gate.
+  function resetAttempt() {
+    setCheckAnswers({});
+    setQuizAnswers({});
+    setQuizResults({});
+    setScore(0);
+    setAttempt((a) => a + 1);
+  }
+
+  function retakeCheck() {
+    resetAttempt();
+    const start = gateStartSlide(gate);
+    if (start !== null) setSlide(start);
+  }
+
+  function reviewLesson() {
+    resetAttempt();
+    setSlide(totalSlides > 1 ? 1 : 0);
+  }
 
   function handleToggleTTS() {
     setAutoTTS((prev: boolean) => {
@@ -190,10 +247,15 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // Guard: if lesson or slides are missing (e.g. state cleared before screen unmounted), bail gracefully
   if (!lesson || !currentSlide) return null;
 
-  // Can we go next? For quiz slides, require answer checked before advancing
+  // Can we go next? For quiz slides, require answer checked before advancing;
+  // for the check slide, every item answered; on a FAILED summary the Next
+  // button becomes the retake.
   const isQuiz = currentSlide.type === 'quiz';
+  const isCheck = currentSlide.type === 'check';
+  const isSummary = currentSlide.type === 'summary';
   const quizRevealed = quizResults[slide] !== undefined;
-  const canGoNext = !isQuiz || quizRevealed;
+  const failedSummary = isSummary && !passed;
+  const canGoNext = isCheck ? checkAllAnswered : !isQuiz || quizRevealed;
   const isLastSlide = slide === totalSlides - 1;
 
   // ── Render slide content ─────────────────────────────────
@@ -226,14 +288,32 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
           />
         );
 
+      case 'check':
+        return gate.kind === 'check' ? (
+          <CheckSlide
+            key={attempt}
+            items={gate.items}
+            lesson={lesson!}
+            attempt={attempt}
+            answers={checkAnswers}
+            onAnswer={handleCheckAnswer}
+          />
+        ) : (
+          <div style={{ color: 'var(--subtext)', padding: 24 }}>This check has no questions.</div>
+        );
+
       case 'summary':
         return (
           <SummarySlide
             slide={cs}
             lesson={lesson!}
-            score={score}
-            quizTotal={quizTotal}
+            score={gateCorrect}
+            quizTotal={gate.total}
             xpAwarded={xpAwarded.current ? 1 : 0}
+            passed={passed}
+            gateKind={gate.kind}
+            onRetake={retakeCheck}
+            onReview={reviewLesson}
           />
         );
 
@@ -342,7 +422,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       <ProgressBar current={slide + 1} total={totalSlides} color={lesson.color} />
 
       {/* ── Slide Content (animated) ── */}
-      <div key={slide} style={{ animation: 'slideIn 0.3s ease forwards' }}>
+      <div key={`${slide}-${attempt}`} style={{ animation: 'slideIn 0.3s ease forwards' }}>
         {renderSlide(currentSlide)}
       </div>
 
@@ -362,6 +442,24 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       >
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           {/* Quiz check reminder — inside fixed nav so it's always visible */}
+          {isCheck && !checkAllAnswered && (
+            <div
+              data-testid="lesson-check-locked"
+              style={{
+                marginBottom: 8,
+                padding: '7px 12px',
+                background: lesson.bg,
+                borderRadius: 10,
+                border: '1px solid ' + lesson.color + '33',
+                fontSize: 'var(--text-xs)',
+                color: lesson.color,
+                fontWeight: 700,
+                textAlign: 'center',
+              }}
+            >
+              Answer every question to see your result
+            </div>
+          )}
           {isQuiz && !quizRevealed && quizAnswers[slide] !== undefined && (
             <div
               style={{
@@ -426,9 +524,12 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
 
             {/* Next */}
             <button
-              onClick={goNext}
+              onClick={failedSummary ? retakeCheck : goNext}
               disabled={!canGoNext}
-              aria-label={isLastSlide ? 'Finish lesson' : 'Next slide'}
+              data-testid="lesson-nav-next"
+              aria-label={
+                failedSummary ? 'Retake the check' : isLastSlide ? 'Finish lesson' : 'Next slide'
+              }
               style={{
                 flex: 1,
                 padding: '13px 16px',
@@ -444,7 +545,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                 opacity: canGoNext ? 1 : 0.5,
               }}
             >
-              {isLastSlide ? 'Finish ✓' : 'Next →'}
+              {failedSummary ? '↻ Retake check' : isLastSlide ? 'Finish ✓' : 'Next →'}
             </button>
           </div>
         </div>

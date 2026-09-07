@@ -915,6 +915,32 @@ function* lessonStrings() {
       for (const p of Array.isArray(s.points) ? s.points : []) {
         yield { loc: `${at}.points`, field: 'points', content: p, kind };
       }
+      // Quiz and mastery-check EXPLANATIONS (2026-09-07). The regex passes see
+      // a quiz slide's `q` and `options`, and a check item's too — same field
+      // names — but `explanation` was never a field name either pass knew, so
+      // the sentence a learner reads on EVERY answered question was unscanned
+      // for as long as quiz slides have existed. English prose quoting Croatian,
+      // exactly like `points`: both checks. Check items are also walked here in
+      // full so their coverage does not depend on the regex passes matching a
+      // nested array literal (measured: they do — this is belt and braces on
+      // the one slide whose verdict changes a learner's standing).
+      if (s.type === 'quiz' && typeof s.explanation === 'string') {
+        yield { loc: `${at}.explanation`, field: 'explanation', content: s.explanation, kind };
+      }
+      if (s.type === 'check') {
+        const items = Array.isArray(s.items) ? s.items : [];
+        for (let k = 0; k < items.length; k++) {
+          const it = items[k] || {};
+          const where = `${at}.items[${k}]`;
+          if (typeof it.q === 'string') yield { loc: `${where}.q`, field: 'q', content: it.q, kind };
+          for (const o of Array.isArray(it.options) ? it.options : []) {
+            yield { loc: `${where}.options`, field: 'options', content: o, kind };
+          }
+          if (typeof it.explanation === 'string') {
+            yield { loc: `${where}.explanation`, field: 'explanation', content: it.explanation, kind };
+          }
+        }
+      }
     }
   }
 }
