@@ -485,6 +485,32 @@ retained on the path to fluency."
   partial re-check; let re-checks crowd out the weekly mix; un-pass a lesson
   on a failed re-check; make the produce step a gate on the lesson's credit.
 
+### Testing out of a lesson (owner recommendation 4, 2026-09-07)
+
+A returning or heritage learner had to page through every slide of a lesson
+they already knew to reach its check. The check IS the standard for "you know
+this", so `AnimatedLesson` offers it up front (`lesson-test-out`, intro slide
+only, only when the lesson HAS a check and has not already been completed).
+
+- **ONE BAR, NOT TWO.** Passing out of order completes the lesson exactly as
+  passing in order does — 25 XP, `gc`, the `al_` key, the curriculum spine AND
+  the retention ladder — at the same `LESSON_PASS_THRESHOLD`. A stricter
+  threshold for the same six questions would be arbitrary and unexplainable,
+  and guessing 5 of 6 four-option items is a 0.4% event.
+- **A FAILED TEST-OUT IS NOT A FAILED LESSON.** It is the answer to "should I
+  read this?": it records NOTHING (no XP, no completion, and no cards or
+  ladder — those belong to lessons actually learned) and its primary action,
+  in BOTH the summary's own button and the bottom nav, is the LESSON, not
+  another attempt at the check. The two controls are one decision; the first
+  draft changed only the summary and the nav still said "Retake check", which
+  a test caught.
+- **The offer is once per opening** (`testOutUsed`): after a failed test-out
+  the learner has answered the question it asks, and re-offering it on the
+  intro slide they were just dropped onto invites a loop.
+- Mutation-verified, four mutations: a test-out pass recording nothing (2
+  tests fail), a failed test-out offering a retake (1), the offer surviving a
+  completed lesson (1), the offer reappearing after a failed test-out (1).
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.
