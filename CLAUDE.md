@@ -1148,12 +1148,18 @@ dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   add an exemption without the reason; assume reachability implies clearing;
   trust an exemption's recorded reason without re-checking the pool for a
   candidate it may have missed.
-- **The C1 `discourse` mapping is still unavailable, and that one is real.** The
-  drill covers CONNECTORS (stoga, međutim, unatoč tome) while
-  `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
-  adjacent, not the same. Both drills stay reachable through the P3 CEFR fill,
-  which walks the pool directly, so an unrouted category is not an unreachable
-  drill.
+- **The C1 `discourse` mapping was the one honest hole, and it was closed by
+  AUTHORING, not by routing (2026-08-30).** The `discourse` drill covers
+  CONNECTORS (stoga, međutim, unatoč tome) while the lesson teaches ATTITUDE
+  particles (pa, ma, baš, valjda, zar) — adjacent, not the same, so pointing
+  the coupling at it would have been the wrong drill rather than no drill. The
+  C1 functional block wrote `particlesDrill` for exactly that lesson;
+  `discourse-particles → particles → cestice` now resolves and clears like any
+  other. **This is the `padezne-suptilnosti` shape again**: "no honest pairing
+  exists" and "no drill exists yet" read identically from inside a list of ids,
+  and only the first is a judgement. Both drills also stay reachable through
+  the P3 CEFR fill, which walks the pool directly, so an unrouted category was
+  never an unreachable drill.
 - **The C2 block closed the last level of the practice programme (2026-08-30):
   17 drills, C2 5 coupled → 30.** C2's uncoupled set was not a contiguous
   topical block — it ran across seventeen of the thirty orders — so this
@@ -2002,29 +2008,38 @@ now have identity. Pinned by `promptRegistry.test.js`.
 - **Coverage is tracked in THREE categories** in `promptRegistry.test.js`, and a
   test asserts they partition `ENDPOINT_CEILING_MICROUSD` exactly — no endpoint
   can hide in a gap, and none can appear twice:
-  1. `INSTRUMENTED` (15) — tags its 200. A test fails if one doesn't.
+  1. `INSTRUMENTED` (26) — tags its 200. A test fails if one doesn't.
   2. `NO_CLAUDE_PROMPT` (7) — makes no Claude call, so there is nothing to
      version (`tts`, `stt`, `translate`, `flux-generate`, `pronunciation-assess`,
      …). **Not debt.** A test fails if one of these starts calling Claude,
      because it would then have an authored prompt and belong in the debt list.
-  3. `KNOWN_UNINSTRUMENTED` (11) — real remaining debt, each entry carrying its
-     reason. A test fails if one is quietly instrumented without being moved.
-- **Why the remaining 11 are not done**, so nobody re-derives it:
+  3. `KNOWN_UNINSTRUMENTED` (**0** as of 2026-08-24) — real remaining debt, each
+     entry carrying its reason. A test fails if one is quietly instrumented
+     without being moved. **Keep the empty array**: a new metered endpoint lands
+     there until it is instrumented, and the partition test needs it to exist.
+- **The debt list emptied, and each of the three blockers was answered by a
+  MECHANISM rather than by relaxing the rule** — worth recording, because each
+  looked like a reason instrumentation could not apply:
   - **Branching assembly** (`ai-chat`, `conversation`, `conversational-tutor`,
-    `maja`, `maja-debrief`): the blocker is no longer the template language —
-    `renderPrompt` supports `{{#if}}` as of 2026-08-22 — it is SIZE. `ai-chat`
-    alone routes 14 mode builders, each its own authored prompt. Mechanical but
-    large; convert one endpoint at a time. `flash-context` came off this list
-    first as the smallest proof the conditional support works.
-  - **Multi-prompt** (`golden-calibration`): runs BOTH registered evaluators in
-    one dispatch. One `id@version` header cannot say which produced the
-    response, and guessing would be worse than saying nothing.
-  - **Cache-served** (`daily-culture`, `news`): see below.
-- **Cache-served (`daily-culture`, `news`) are deliberately last.** Their 200
-  usually replays content generated hours earlier, so tagging it with the
-  CURRENT prompt version would attribute old text to a new prompt — a lie inside
-  the exact report this exists to make trustworthy. Instrumenting them means
-  storing the version alongside the cached body, not adding a header.
+    `maja`, `maja-debrief`) was blocked on the template language until
+    `renderPrompt` gained `{{#if}}` (2026-08-22, rules below), then on SIZE —
+    `ai-chat` alone routes 14 mode builders, each its own authored prompt. That
+    was mechanical, done one endpoint at a time; `flash-context` came off first
+    as the smallest proof the conditional support works.
+  - **Multi-prompt** (`golden-calibration`) runs BOTH registered evaluators in
+    one dispatch, which no single `id@version` could honestly describe. The
+    HEADER learned to carry a comma-separated LIST (`promptListHeaders` /
+    `parsePromptTagList`, layer 9 of the AI-cost section) instead of the
+    endpoint learning to guess; two or more tags are recorded as `prompts: [...]`
+    and never as _the_ prompt.
+  - **Cache-served** (`daily-culture`, `news`, plus their `:generate` halves)
+    could not tag a 200 that usually replays content generated hours earlier —
+    the CURRENT version would attribute old text to a new prompt, a lie inside
+    the exact report this exists to make trustworthy. `_promptCache.js` stores
+    the version in KV metadata **beside** the body, so a cache hit is tagged
+    with the prompt that actually produced it and an entry written before
+    tagging is served untagged rather than guessed (layer 7). Any future cached
+    AI content must do the same.
 - **`alsoVersion`** (`definePrompt(id, text, { alsoVersion })`): authored text the
   template SELECTS but does not contain — per-level rule tables, persona blurbs,
   anything looked up by key and passed in as a value. Without it a prompt looks
