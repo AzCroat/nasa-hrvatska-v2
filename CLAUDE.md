@@ -228,18 +228,55 @@ that day. Nothing recorded it — that is defect 3 — so the fix covers the cla
 rather than one instance, and the next occurrence will name itself in Sentry
 as `tts_failed:<cause>`.
 
-**Still open, deliberately (practice, not certification):** ~80 practice
-surfaces call `speak()` fire-and-forget and grade the answer regardless
-(ListeningScreen, DictationScreen, DailyListeningCard, the graded reader,
-GenderDrill, ConvMatch …). They affect XP, not standing, and the failure is now
-named and reported wherever it happens; gating each on playback is a follow-up,
-not a tidy-up.
+**The practice half (same day).** The first report here said "~80 practice
+surfaces" needed the same gate. That number was the count of components that
+both call `speak()` and grade — a grep, not a census — and the census
+overturned it: **only two practice screens are AUDIO-FIRST**, where the
+Croatian is hidden and the recording is the whole question — the Listening
+quiz (`ListeningScreen`) and Dictation. Every other match shows the Croatian
+text beside a speaker icon (Sound Contrast, Alphabet, the listening-comprehension
+QuestionView prints the sentence above its AudioControls, Pitch Accent's quiz is
+text, the graded reader shows the paragraph), so a failed play there costs the
+sound and nothing else; and `AIListeningScreen` already says "Audio unavailable
+— transcript only" and offers the transcript. Both audio-first screens now use
+`useHeardGate` (`src/hooks/useHeardGate.ts`) — one item's audio state:
+`play`/`playSlow` resolve to speak()'s result, `heard` is true only after a
+play that ended, `reset` re-locks on advance, a superseded play defers to the
+newer one, and a play resolving after a reset cannot unlock the NEXT item —
+and `AudioFailureNotice` (`src/components/shared/`), which names the cause and
+offers Try again plus a skip that does NOT score. **A skipped item leaves the
+denominator**, and a session in which nothing could be played renders its own
+"No audio today" screen that awards and credits nothing (NEVER rule 14:
+never credit work the learner could not do). The site-wide toast
+(`AppToasts`, `tts-failed-toast`) now shows the cause sentence audio.ts puts on
+the event's `detail.message` — carried on the event precisely so App.tsx need
+not import audio.ts into the first-paint graph — and stays 4.5 s instead of
+2.5. `speakSlow` shares `speak()`'s tail (`_completeSpeak`) so the slow button
+records, reports and names failures identically. Pinned by
+`useHeardGate.test.tsx`, `listeningGate.test.tsx`, the gate block in
+`dictation.test.tsx`, `ttsToastMessage.test.tsx`; the existing contract tests
+now hear each sentence before answering, because that is what a learner must
+do. **Report the census, not the grep**: the "~80" would have sent the next
+person gating seventy screens where the text was on screen all along.
+**The E2E audit for this change missed a spec on its first pass** and CI
+caught it: `practice.spec.js` clicked the Dictation input directly, and the
+audit had grepped for test ids and the exam's button labels, not for the
+input's PLACEHOLDER — the string the spec actually used. When a change locks
+or hides a control, grep the specs for every user-visible string on that
+control (placeholder, title, aria-label, text), not for the identifiers you
+just added; the spec that breaks is the one written before your identifiers
+existed.
 
 - NEVER: charge the per-user quota before a cache lookup; return `null` from
   a transport helper for a response that arrived; dispatch `nh:tts-failed` or
   fall back to Web Speech for a superseded play; score an assessment item
   whose audio the learner has not heard; let the E2E TTS mock serve
-  unplayable bytes (the gate depends on a real play).
+  unplayable bytes (the gate depends on a real play); add an audio-first
+  practice screen (Croatian hidden, recording is the question) without
+  `useHeardGate`, or let a skipped-unheard item stay in a score's denominator;
+  gate a TEXT-first screen on playback (the text is the question there, and a
+  locked answer behind a failed speaker icon would strand a learner who can
+  read it).
 
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
