@@ -70,11 +70,15 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     await expect(page.getByTestId('equivalency-stepdown')).toBeVisible();
   });
 
-  test('a recent attempt QUIETS the hero to the ready-date chip (owner, 2026-08-18)', async ({
+  test('an attempt with no practice since takes the gate OFF Home — no hero, no chip (owner, 2026-09-07)', async ({
     page,
   }) => {
-    // Re-seed with an attempt taken yesterday: the red takeover must stand
-    // down to the one-line chip — taking the test has to visibly change Home.
+    // Re-seed with an attempt recorded at the fixture's own XP (1500): nothing
+    // has been earned since, so the top of Home must show NOTHING for the gate
+    // — not the red takeover and not the one-line "ready on <date>" chip the
+    // 2026-08-18 fix left there. Taking the test has to visibly change Home,
+    // and a calendar date must not bring the prompt back: this attempt is
+    // thirty days old.
     await page.addInitScript(() => {
       const raw = localStorage.getItem('nh_cefr_certifications');
       const state = raw ? JSON.parse(raw) : {};
@@ -82,8 +86,9 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
         {
           level: 'B1',
           passed: false,
-          takenAt: Date.now() - 24 * 60 * 60 * 1000,
+          takenAt: Date.now() - 30 * 24 * 60 * 60 * 1000,
           scores: { vocab: 0.5, grammar: 0.5, reading: 0.5 },
+          xp: 1500,
         },
       ];
       localStorage.setItem('nh_cefr_certifications', JSON.stringify(state));
@@ -92,8 +97,43 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 10_000,
     });
-    await expect(page.getByTestId('verification-gate-chip')).toBeVisible({ timeout: 20_000 });
+    // The session card proves Home has rendered past the gate slot.
+    await expect(page.getByTestId('session-card')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByTestId('verification-gate-card')).toHaveCount(0);
+    await expect(page.getByTestId('verification-gate-chip')).toHaveCount(0);
+    // The check is still one tap away on the Me tab for anyone who wants it sooner.
+    await page.getByTestId('nav-profile').click();
+    await expect(page.getByTestId('equivalency-card-verify')).toBeVisible({ timeout: 15_000 });
+  });
+
+  test('the hero RETURNS once VERIFICATION_RETURN_XP has been earned since the attempt', async ({
+    page,
+  }) => {
+    // Same attempt, recorded 400 XP ago (fixture xp 1500, baseline 1100): the
+    // learning is done, so the prompt is back — an hour after the attempt,
+    // because it waits for work, not for a date.
+    await page.addInitScript(() => {
+      const raw = localStorage.getItem('nh_cefr_certifications');
+      const state = raw ? JSON.parse(raw) : {};
+      state.attempts = [
+        {
+          level: 'B1',
+          passed: false,
+          takenAt: Date.now() - 60 * 60 * 1000,
+          scores: { vocab: 0.5, grammar: 0.5, reading: 0.5 },
+          xp: 1100,
+        },
+      ];
+      localStorage.setItem('nh_cefr_certifications', JSON.stringify(state));
+    });
+    await page.reload();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
+      timeout: 10_000,
+    });
+    const card = page.getByTestId('verification-gate-card');
+    await expect(card).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('verification-gate-returning')).toContainText('400 XP');
+    await expect(page.getByTestId('verification-gate-chip')).toHaveCount(0);
   });
 
   test('Me tab badge is honest about the provisional level', async ({ page }) => {

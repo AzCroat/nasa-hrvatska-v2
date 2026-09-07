@@ -572,6 +572,7 @@ export default function HomeTab({
       {/* ── VERIFICATION GATE (Phase 1 mastery gate — no snooze, no dismiss) ── */}
       <VerificationGateCard
         gate={verificationGate}
+        currentXp={st.xp}
         onStartVerification={() => setScr('equivalency')}
       />
 

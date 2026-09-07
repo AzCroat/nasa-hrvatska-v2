@@ -97,9 +97,12 @@ describe('getNextStep priority ladder', () => {
       screen: 'writing_guided',
       category: 'writing',
     } as never);
-    const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
+    const step = getNextStep({ userCefr: 'B1', poolWords: POOL, xp: 4200 });
     expect(step.kind).not.toBe('verification');
     expect(step.kind).toBe('production'); // the ledger's weakest skill wins instead
+    // The quiet period is measured in XP earned since the attempt (2026-09-07),
+    // so the engine must hand the helper the live total — not call it bare.
+    expect(isVerificationQuiet).toHaveBeenCalledWith(4200);
     vi.mocked(isVerificationQuiet).mockReturnValue(false);
   });
 

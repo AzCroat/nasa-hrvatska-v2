@@ -78,17 +78,25 @@ function readTodaySession(): DailySession | null {
  * The single recommendation. Never returns null — a user with nothing due,
  * nothing pending and no ledger still gets the library.
  */
-export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> }): NextStep {
-  const { userCefr, poolWords } = opts;
+export function getNextStep(opts: {
+  userCefr: string;
+  poolWords?: Set<string>;
+  /** Live `stats.xp` — the verification quiet period is measured in XP earned
+   *  since the last attempt. Omitted/0 reads as "not yet known", which keeps
+   *  the rung quiet rather than recommending a retake on an unhydrated total. */
+  xp?: number;
+}): NextStep {
+  const { userCefr, poolWords, xp } = opts;
 
   // 1 — verification gate: a provisional level outranks everything — UNLESS
-  // the learner attempted a check within the quiet period (owner directive,
-  // 2026-08-18). Right after an attempt, "retake the test" is the wrong
-  // recommendation; falling through lands on the mastery ledger's weakest
-  // skill (rung 4) — the practice that will actually let them pass.
+  // the learner attempted a check and has not yet earned VERIFICATION_RETURN_XP
+  // since (owner directives, 2026-08-18 + 2026-09-07). Right after an attempt,
+  // "retake the test" is the wrong recommendation; falling through lands on
+  // the mastery ledger's weakest skill (rung 4) — the practice that will
+  // actually let them pass, and the practice that brings the rung back.
   try {
     const gate = getVerificationGate();
-    if (gate.required && gate.target && !isVerificationQuiet()) {
+    if (gate.required && gate.target && !isVerificationQuiet(xp ?? 0)) {
       return {
         kind: 'verification',
         screen: 'equivalency',
