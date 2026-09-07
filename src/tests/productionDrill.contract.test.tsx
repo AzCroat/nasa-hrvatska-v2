@@ -28,8 +28,20 @@ vi.mock('../lib/quests.js', () => ({
   markQuest: (...args: unknown[]) => markQuestMock(...args),
 }));
 
-/** ROUND_SIZE in ProductionDrillScreen. */
-const ROUND = 10;
+/**
+ * The round is at most ROUND_SIZE (10) and, since 2026-09-07, at most the
+ * number of TRANSFORMS at or below the learner's level — so its length is
+ * derived by playing until the reveal button is gone, not restated here. The
+ * suite seeds B1 because that is the level the pool gates this drill at (29 of
+ * the 43 transforms are servable there, so a full 10-item round still runs).
+ */
+const MAX_ROUND = 10;
+
+function hasButton(text: string): boolean {
+  return (Array.from(document.querySelectorAll('button')) as HTMLButtonElement[]).some(
+    (b) => (b.textContent ?? '').trim() === text,
+  );
+}
 
 function clickText(text: string): void {
   const btn = (Array.from(document.querySelectorAll('button')) as HTMLButtonElement[]).find(
@@ -43,10 +55,13 @@ function clickText(text: string): void {
 function playTransform(verdict: '✓ Točno' | '✗ Pogrešno'): void {
   // MODES[0] is 'transform' and carries the production-drill-submit testid.
   fireEvent.click(screen.getByTestId('production-drill-submit'));
-  for (let i = 0; i < ROUND; i++) {
+  let played = 0;
+  while (played < MAX_ROUND && hasButton('Otkrij odgovor')) {
     clickText('Otkrij odgovor');
     clickText(verdict);
+    played++;
   }
+  expect(played).toBe(MAX_ROUND);
   // Non-vacuity: the round really ended and rendered its results panel.
   expect(screen.getByText('Nazad na izbor')).toBeTruthy();
   clickText('Nazad na izbor');
@@ -55,6 +70,8 @@ function playTransform(verdict: '✓ Točno' | '✗ Pogrešno'): void {
 describe('ProductionDrillScreen — completion gate', () => {
   beforeEach(() => {
     markQuestMock.mockClear();
+    // The pool gates this drill at B1; the banks are now served at level.
+    localStorage.setItem('nh_level', 'B1');
   });
 
   it('credits gc + vs:production and marks the quest on an all-correct round', async () => {

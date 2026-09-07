@@ -21,7 +21,7 @@
  *   - speak mocked — no real TTS in jsdom
  *   - recordTopicResult mocked from adaptive.ts (not .js — component imports .ts directly)
  */
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
@@ -75,6 +75,14 @@ vi.mock('../data', async (importOriginal) => {
     speak: mockSpeak,
     sh: (arr: unknown[]) => arr, // identity — Build tiles in deterministic order
   };
+});
+
+// The pool gates this drill at B1, and since 2026-09-07 each mode serves its
+// bank at or below the learner's level — so the fixture states a level. At B1
+// the 43 transforms cut to 29 and TRANSFORMS[0] ('Idem u školu.', A2) is still
+// the first item the identity shuffle yields, which is what these tests assert.
+beforeEach(() => {
+  localStorage.setItem('nh_level', 'B1');
 });
 
 // ── StatsContext mock ─────────────────────────────────────────────────────────

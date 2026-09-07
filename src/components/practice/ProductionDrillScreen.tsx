@@ -4,6 +4,9 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { recordTopicResult, rateCategorySession } from '../../lib/adaptive.ts';
 import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
+import { levelledBank } from '../../lib/levelledBank';
+import { getGenerationCefr } from '../../lib/cefrCertification';
+import type { CefrLevel } from '../../lib/cefr';
 
 // Bounded round size (2026-07-21, owner-flagged): the banks grew for
 // cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
@@ -675,13 +678,26 @@ interface ModeDoneProps {
   award?: (n: number, celebrate?: boolean, activityType?: string) => void;
   onCorrect?: () => void;
   onWrong?: () => void;
+  /**
+   * The learner's level. TRANSFORMS and TRANSLATE_PROD carry a per-item CEFR
+   * `level` that nothing read: the 2026-07-21 round cap introduced
+   * `sh([...BANK]).slice(0, ROUND_SIZE)`, which bounded the LENGTH and left the
+   * level authored, shipped and ignored — so at B1 (the pool gate) 14 of the 43
+   * transforms and 8 of the 30 translations were above the learner. BUILD_SENTENCES
+   * and ERROR_CORRECT carry no level at all, so there is nothing to filter there;
+   * that is a content gap, recorded rather than papered over.
+   */
+  level: CefrLevel;
 }
-function ModeTransform({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
+function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const round = useMemo(() => (sh([...TRANSFORMS]) as typeof TRANSFORMS).slice(0, ROUND_SIZE), []);
+  const round = useMemo(
+    () => (sh(levelledBank(TRANSFORMS, level)) as typeof TRANSFORMS).slice(0, ROUND_SIZE),
+    [level],
+  );
   const total = round.length;
   const item = round[idx];
   if (!item) return null;
@@ -815,14 +831,14 @@ function ModeTransform({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
 }
 
 // ─── MODE B: TRANSLATE ───────────────────────────────────────────────────────
-function ModeTranslate({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
+function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const round = useMemo(
-    () => (sh([...TRANSLATE_PROD]) as typeof TRANSLATE_PROD).slice(0, ROUND_SIZE),
-    [],
+    () => (sh(levelledBank(TRANSLATE_PROD, level)) as typeof TRANSLATE_PROD).slice(0, ROUND_SIZE),
+    [level],
   );
   const total = round.length;
   const item = round[idx];
@@ -1476,6 +1492,9 @@ interface ProductionDrillProps {
 export default function ProductionDrillScreen({ goBack, award }: ProductionDrillProps) {
   const { stats, setStats, writeDelta } = useStats();
   const [mode, setMode] = useState<string | null>(null);
+  // Live stats, not the persisted profile: a learner who levelled up this
+  // session should not be held at yesterday's band for the rest of it.
+  const level = getGenerationCefr(stats);
 
   // Adaptive session tracking — difficulty starts at 4 (free production exercises)
   const { onCorrect, onWrong, sessionSummary, reset } = useAdaptiveSession(4);
@@ -1654,6 +1673,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
 
         {mode === 'transform' && (
           <ModeTransform
+            level={level}
             onDone={handleDone}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
@@ -1662,6 +1682,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
         )}
         {mode === 'translate' && (
           <ModeTranslate
+            level={level}
             onDone={handleDone}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
@@ -1670,6 +1691,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
         )}
         {mode === 'build' && (
           <ModeBuild
+            level={level}
             onDone={handleDone}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
@@ -1678,6 +1700,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
         )}
         {mode === 'error' && (
           <ModeErrorCorrect
+            level={level}
             onDone={handleDone}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}

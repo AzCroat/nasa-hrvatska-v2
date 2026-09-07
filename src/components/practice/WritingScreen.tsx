@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { H } from '../../data';
 import { AIProgressBar } from '../shared/SkeletonLoader';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { rnd } from '../../lib/random.js';
 import { useStats } from '../../context/StatsContext';
+import { levelledBank } from '../../lib/levelledBank';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { logError } from '../../lib/learnerErrors.js';
 import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { _aiPost } from '../../lib/aiPost';
@@ -167,7 +169,14 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const mountedRef = useRef(true);
   const { isOnline } = useOnlineStatus();
   const { stats, setStats, writeDelta, level: userLevel } = useStats();
-  const [promptIdx, setPromptIdx] = useState(() => Math.floor(rnd() * PROMPTS.length));
+  // The 20 prompts carry a CEFR `level` (A2 5 · B1 6 · B2 5 · C1 4) that was
+  // read ONLY to colour the badge beside them: the pick was a random index over
+  // the whole bank, so an A2 learner drew a prompt above their level 15 times
+  // in 20. This screen is the keyboard-only production fallback, so it is what
+  // a mic-blocked learner gets at every level. The bank has nothing at A1, and
+  // levelledBank's floor serves the whole bank there, exactly as before.
+  const prompts = useMemo(() => levelledBank(PROMPTS, getGenerationCefr(stats)), [stats]);
+  const [promptIdx, setPromptIdx] = useState(() => Math.floor(rnd() * prompts.length));
   const [text, setText] = useState('');
   const [submittedText, setSubmittedText] = useState('');
   const [result, setResult] = useState<WritingResult | null>(null);
@@ -177,7 +186,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const [customTopic, setCustomTopic] = useState('');
   const [ttsLoading, setTtsLoading] = useState(false);
 
-  const prompt = PROMPTS[promptIdx] ?? PROMPTS[0]!;
+  const prompt = prompts[promptIdx] ?? prompts[0]!;
   const effectivePrompt =
     mode === 'free'
       ? {
@@ -338,7 +347,8 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
     setError('');
     setCustomTopic('');
     setPromptIdx(function (cur) {
-      const next = Math.floor(rnd() * (PROMPTS.length - 1));
+      if (prompts.length < 2) return cur;
+      const next = Math.floor(rnd() * (prompts.length - 1));
       return next >= cur ? next + 1 : next;
     });
   }

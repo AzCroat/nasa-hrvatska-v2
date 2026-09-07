@@ -4,6 +4,8 @@ import { TRANSLATE_DRILLS, C1_DRILLS } from '../../data/exercises.js';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
+import { levelledBank } from '../../lib/levelledBank';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 
 const CEFR_COLORS = { A2: '#16a34a', B1: '#d97706', B2: '#7c3aed', C1: '#be123c' };
 const CEFR_BG = {
@@ -22,13 +24,19 @@ export default function TranslateDrillsScreen({
 }) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
+  // The bank is 64 items levelled A2 11 / B1 12 / B2 26 / C1 15, and nothing
+  // read the level: at the B1 gate this pool entry carries, 41 of the 64 sat
+  // above the learner. `levelledBank` cuts it to what they can read; below its
+  // floor (A1, where the bank has nothing at all) the whole bank is served, as
+  // it was before — the honest fix for that level is content, not a filter.
+  const level = getGenerationCefr(stats);
   const drills = useMemo(
     () =>
-      sh([...TRANSLATE_DRILLS, ...C1_DRILLS]).map((d) => ({
+      sh(levelledBank([...TRANSLATE_DRILLS, ...C1_DRILLS], level)).map((d) => ({
         ...d,
         opts: sh([...(d as { opts: string[] }).opts]),
       })),
-    [],
+    [level],
   );
   const [idx, setIdx] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null); // option string user tapped
