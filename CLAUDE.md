@@ -353,6 +353,65 @@ fails after this ships, the FIRST thing to read is Sentry for that tag.
   for a server condition; call `_aiPost` for feedback with a signal that
   disables the default timeout unless you supply your own.
 
+## Critical Architecture: Taught In Depth, Then Tested (owner directive, 2026-09-07)
+
+The census this exists to keep closed: **the app tested competence it had
+taught in one template, and never checked the teaching took.** All 180
+animated lessons were the same shape — 1 intro, ~4 rules, ~1.5 tables, ~1.2
+example slides, 2 quiz questions, 1 summary — with **~28 words of Croatian
+example prose per lesson (5,124 across the product)** and C2 THINNER than A1
+(3.2 example sentences to 7.5). And `AnimatedLesson` recorded a lesson
+complete — 25 XP, `gc + 1`, the `al_<id>` path key, `markLessonComplete` so
+the spine advanced — on ARRIVAL at the summary slide. The two quiz slides had
+to be answered, not answered correctly; `score` was display-only. The 75% gate
+every hand-built lesson screen used (`lessonGate.ts`, `LessonQuiz`) had never
+been wired to the one lesson family the daily session's teaching slot serves.
+
+- **The mastery check** (`src/lib/lessonCheck.ts`, pure): every lesson ends
+  with a `check` slide — ≥ `MIN_CHECK_ITEMS` (6) four-option items placed
+  immediately before the summary — and completion requires
+  `lessonPassed(gate, correct)` at the SHARED `LESSON_PASS_THRESHOLD` (0.75):
+  5/6 passes, 4/6 does not. `lessonGate(slides)` resolves `check` → the
+  formative `quiz` slides (an older cached payload without a check) → `none`
+  (nothing to test; no shipped lesson, pinned). **Absence degrades to the
+  strictest thing the data supports, never to "read it and you're done."**
+  Options are presented in a seeded per-attempt shuffle (`shuffledOrder`) and
+  answers are kept in SOURCE order, so a retake is a retake, not a memory test
+  of positions.
+- **On a fail NOTHING is recorded** — no XP, no `gc`, no `al_` key, no
+  curriculum completion, no taught-queue entry — the summary renders "Not yet"
+  (`lesson-check-failed`) with the score, the threshold, and two ways forward
+  (`lesson-check-retake`, `lesson-check-review`); the nav's last button becomes
+  the retake. The ONE thing a fail does is `signalSessionCompleteIfActive` once
+  per attempt, because the daily session is a practice FLOW (`sessionSignal.ts`)
+  and a finished-but-failed check must not strand it at N-1/N — the spine
+  simply serves the same lesson again tomorrow. Pinned by
+  `animatedLessonGate.test.tsx` (drives the REAL screen; mutation-verified:
+  un-gating completion fails 3, unlocking Next on the check fails 1, a retake
+  that keeps the attempt fails 2, a summary ignoring `passed` fails 5).
+- **The depth contract is DATA and it is one definition**:
+  `scripts/lessonDepthRules.mjs` (per lesson: exactly one check of ≥ 6 items,
+  correct indices over ≥ 3 positions, 4 distinct options, an explanation each;
+  ≥ 8 example items; Croatian example words ≥ A1/A2 50 · B1/B2 65 · C1/C2 80 —
+  **floors that scale with level because depth should**; a rule slide titled
+  "Common Mistakes" whose `highlight` appears verbatim in its body; ≥ 1
+  formative quiz). `scripts/lessonDepthCheck.mjs <level|core|all>` is the
+  author's dry run; `src/tests/lessonDepth.test.ts` is the build gate and ALSO
+  ties the data to the renderer — `lessonGate()` must resolve every shipped
+  lesson to `check`, because a malformed check silently degrades to quiz
+  gating and nothing else would say.
+- **The lint walks check items structurally** (`lessonStrings`: `q`,
+  `options`, `explanation`, both checks) and — found while doing it — now walks
+  quiz `explanation`s, which no regex pass had ever matched: the sentence a
+  learner reads on EVERY answered question, unscanned for as long as quiz
+  slides existed. Widened and measured before writing: 355 explanations, zero
+  findings. Pinned by `croatianLintTargets.test.ts`.
+- NEVER: record a lesson complete on reaching the summary; let a fail write
+  XP, `gc`, `al_`, the curriculum map or the taught queue; drop the
+  fail-attempt session signal (that strands the flow); add a check slide with
+  fewer than six items or an answer key that sits at one position; lower a
+  word floor; define a depth rule in the test or the script alone.
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.
