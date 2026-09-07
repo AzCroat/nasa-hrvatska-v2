@@ -3461,7 +3461,7 @@ export const LESSONS_B2 = [
           ['Poštovani gospodine Horvat,', 'named, formal'],
           ['Poštovani svi,', 'to a group'],
           ['Dragi Ivane,', 'someone you know, semi-formal'],
-          ['Bok Ana,', 'a colleague you are close to'],
+          ['Bog Ana,', 'a colleague you are close to'],
         ],
       },
       {
@@ -3578,16 +3578,16 @@ export const LESSONS_B2 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'You are emailing someone you have never met, at an institution. How do you open?',
-        options: ['Bok,', 'Dragi,', 'Poštovani,', 'Hej,'],
+        options: ['Bog,', 'Dragi,', 'Poštovani,', 'Hej,'],
         correct: 2,
         explanation:
-          '"Poštovani" is the standard formal opener and works without knowing the recipient. "Dragi" is for someone you know and "Bok" is casual.',
+          '"Poštovani" is the standard formal opener and works without knowing the recipient. "Dragi" is for someone you know and "Bog" is casual.',
       },
       {
         type: 'quiz',
         title: 'One More',
         q: 'Which is the usual close for ordinary professional email?',
-        options: ['S poštovanjem,', 'Lijep pozdrav,', 'Bok,', 'Zbogom,'],
+        options: ['S poštovanjem,', 'Lijep pozdrav,', 'Bog,', 'Zbogom,'],
         correct: 1,
         explanation:
           '"Lijep pozdrav" is what Croatians actually use in day-to-day professional email. "S poštovanjem" is a notch more formal and belongs in a letter to an institution.',

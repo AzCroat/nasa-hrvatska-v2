@@ -2321,7 +2321,7 @@ export const LESSONS_C1 = [
           ['grȁd', 'hail', 'grȃd', 'city'],
           ['lȕk', 'onion', 'lȗk', 'bow, arch'],
           ['pȁs', 'dog', 'pȃs', 'waist, belt'],
-          ['sȁm', 'alone', 'sȃm', 'I am (dialectal)'],
+          ['sam', 'I am (clitic, no accent)', 'sȃm', 'alone (long falling)'],
         ],
       },
       {

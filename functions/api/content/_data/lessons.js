@@ -2468,20 +2468,20 @@ const LESSONS_CORE = [
       {
         type: 'table',
         title: 'Future Auxiliaries — Full Table',
-        headers: ['Person', 'Auxiliary', 'Short form (ići)', 'Long form'],
+        headers: ['Person', 'Auxiliary', 'With ići (no clipping)', 'Long form'],
         rows: [
-          ['ja', 'ću', 'ić ću', 'ja ću ići'],
-          ['ti', 'ćeš', 'ić ćeš', 'ti ćeš ići'],
-          ['on / ona', 'će', 'ić će', 'on/ona će ići'],
-          ['mi', 'ćemo', 'ić ćemo', 'mi ćemo ići'],
-          ['vi', 'ćete', 'ić ćete', 'vi ćete ići'],
-          ['oni / one', 'će', 'ić će', 'oni/one će ići'],
+          ['ja', 'ću', 'ići ću', 'ja ću ići'],
+          ['ti', 'ćeš', 'ići ćeš', 'ti ćeš ići'],
+          ['on / ona', 'će', 'ići će', 'on/ona će ići'],
+          ['mi', 'ćemo', 'ići ćemo', 'mi ćemo ići'],
+          ['vi', 'ćete', 'ići ćete', 'vi ćete ići'],
+          ['oni / one', 'će', 'ići će', 'oni/one će ići'],
         ],
       },
       {
         type: 'rule',
         title: 'No Gender Difference — Ever',
-        body: "In the past tense, 'radio sam' (m.) vs 'radila sam' (f.) differ. In the future, 'radit ću' is identical for male and female speakers. A man says 'ić ću' and a woman says 'ić ću' — no change. This gender-neutrality applies to every verb in every person. Memorize the six auxiliaries and you're done.",
+        body: "In the past tense, 'radio sam' (m.) vs 'radila sam' (f.) differ. In the future, 'radit ću' is identical for male and female speakers. A man says 'ići ću' and a woman says 'ići ću' — no change. (Only a -ti infinitive clips before the auxiliary: radit ću; a -ći verb keeps its full form: ići ću, doći ću.) This gender-neutrality applies to every verb in every person. Memorize the six auxiliaries and you're done.",
         highlight: 'No gender distinction in future tense',
       },
       {
@@ -2491,7 +2491,7 @@ const LESSONS_CORE = [
           {
             hr: 'Sutra ću ići na more.',
             en: 'Tomorrow I will go to the sea.',
-            note: 'Short: ić ću | Long: ću ići',
+            note: 'ići ću (a -ći verb never clips) | Long: ću ići',
           },
           {
             hr: 'Što ćeš raditi vikend?',
@@ -4482,7 +4482,6 @@ const LESSONS_CORE = [
         headers: ['Preposition', 'Meaning', 'Example'],
         rows: [
           ['s / sa', 'with (accompaniment)', 's prijateljem (with a friend)'],
-          ['između', 'between', 'između stolova (between tables)'],
           ['pred', 'in front of', 'pred kućom (in front of the house)'],
           ['za', 'behind, after', 'za uglom (behind the corner)'],
           ['nad', 'above, over', 'nad gradom (above the city)'],
@@ -4583,7 +4582,7 @@ const LESSONS_CORE = [
         points: [
           'Means/tool (no preposition): pisati olovkom, putovati vlakom, platiti karticom',
           's/sa + instrumental = with someone: s Anom, s prijateljem',
-          'Other prepositions: između, pred, nad, pod, za, među + instrumental',
+          'Other prepositions: pred, nad, pod, za, među + instrumental (između takes the genitive: između stolova)',
           'Profession with biti (formal): Ona je liječnicom.',
           'Endings: fem. -om, masc. -om, neut. -em (soft stems: -om → varies)',
         ],
@@ -4954,7 +4953,7 @@ const LESSONS_CORE = [
           {
             hr: 'Dao mu ga je.',
             en: "He gave it to him. (explicit 'it')",
-            note: "je = 'is'/identity; comes after ga",
+            note: 'je = past auxiliary; it sits LAST in the cluster, after ga',
           },
           { hr: 'Rekla mu je.', en: 'She told him.', note: 'je = aux (she has told)' },
           {
@@ -5548,7 +5547,7 @@ const LESSONS_CORE = [
       },
       {
         type: 'table',
-        title: '30 Essential Croatian Proverbs — Cultural Keys',
+        title: 'Essential Croatian Proverbs — Cultural Keys',
         headers: ['Croatian', 'Literal', 'English Equivalent'],
         rows: [
           ['Bolje ikad nego nikad.', 'Better sometime than never.', 'Better late than never.'],
@@ -5700,7 +5699,7 @@ const LESSONS_CORE = [
           'Discourse markers: znači, eto, pa, baš, ajde — use them, sound natural',
           'Diminutives (-ić/-ica/-ce) signal warmth and informality — use generously',
           "Idioms: 'Svaka čast!' / 'Nije mu sve doma' / 'Pala mu mrak na oči'",
-          '30 Croatian proverbs encode the culture — knowing 10 makes you culturally fluent',
+          'Proverbs encode the culture — knowing a handful makes you culturally fluent',
           'Read news, watch HRT, listen to podcasts — register is learned through exposure',
         ],
       },
@@ -8511,7 +8510,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Nominalization — Turning Verbs into Nouns',
-        body: 'Formal Croatian heavily uses "verbal nouns" — converting verbs into nouns using the suffixes -anje, -enje, or -enje. This creates an impersonal, bureaucratic tone. Examples: zapošljavanje (employment, from zapošljavati), obrazovanje (education, from obrazovati), odobravanje (approval, from odobravati), provođenje (implementation, from provoditi), financiranje (financing, from financirati). A sentence like "Provodi se postupak odobravanja financiranja projekta" packs four nominalizations and is perfectly normal in official Croatian.',
+        body: 'Formal Croatian heavily uses "verbal nouns" — converting verbs into nouns using the suffixes -anje, -enje or -jenje. This creates an impersonal, bureaucratic tone. Examples: zapošljavanje (employment, from zapošljavati), obrazovanje (education, from obrazovati), odobravanje (approval, from odobravati), provođenje (implementation, from provoditi), financiranje (financing, from financirati). A sentence like "Provodi se postupak odobravanja financiranja projekta" packs four nominalizations and is perfectly normal in official Croatian.',
         highlight: '-anje / -enje = nominalization suffix',
       },
       {

@@ -2353,7 +2353,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Commas Are Not Optional',
-        body: 'Croatian puts a comma before ali, a, nego, jer, iako and before a clause that follows the main one. Radim, ali nisam umoran. Ne idem, jer pada kiša. Iako je kasno, idemo. The rule that covers most cases: if the second half could stand as its own sentence, it gets a comma.',
+        body: 'Croatian puts a comma before the contrast words ali, a, nego and već: Radim, ali nisam umoran. A dependent clause that FOLLOWS the main clause takes no comma: Ne idem van jer pada kiša. Kažem ti da dolazim. When the dependent clause comes FIRST, a comma closes it off: Iako je kasno, idemo. Ako pada kiša, ne idem. The rule that covers most cases: comma before a contrast, comma after a clause that has been moved to the front.',
         highlight: 'Radim, ali nisam umoran.',
       },
       {
@@ -2536,11 +2536,11 @@ export const LESSONS_A2 = [
         type: 'summary',
         title: 'Conjunctions — Key Takeaways',
         points: [
-          'i, pa, ili, a, ali, jer, zato što, iako, ako, dok, kad',
+          'i, pa, ili, a, ali, jer, zato što, iako, ako',
           'a sets two things side by side; ali marks a real obstacle',
           'After a negative, use nego or već — not ali',
           'jer cannot open a sentence; zato što can',
-          'Commas go before ali, a, nego, jer, iako',
+          'Commas go before ali, a, nego; a fronted iako/ako clause is closed with a comma; no comma before a following jer',
           'Connecting sentences is what separates A2 from A1',
         ],
       },

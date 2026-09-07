@@ -551,7 +551,7 @@ export const LESSONS_B1 = [
         rows: [
           ['sjesti', 'sjediti', 'sit down / be sitting'],
           ['leći', 'ležati', 'lie down / be lying'],
-          ['stati', 'stajati', 'stand up, stop / be standing'],
+          ['stati', 'stajati', 'stop, come to a stand / be standing'],
           ['staviti', 'stajati (stoji)', 'put / be placed'],
           ['objesiti', 'visjeti', 'hang up / be hanging'],
           ['sakriti', 'skrivati se', 'hide (something) / be hiding'],
@@ -3550,9 +3550,9 @@ export const LESSONS_B1 = [
         title: 'A Viewing',
         items: [
           {
-            hr: 'Zovem u vezi oglasa za stan.',
+            hr: 'Zovem u vezi s oglasom za stan.',
             en: 'I am calling about the advert for the flat.',
-            note: 'u vezi + genitive',
+            note: 'u vezi s + instrumental',
           },
           {
             hr: 'Je li stan još slobodan?',

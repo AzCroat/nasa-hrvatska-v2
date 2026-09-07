@@ -579,10 +579,14 @@ export const LESSONS_C2 = [
           ['čovjek', 'plural is ljudi', 'Suppletive — a different root entirely'],
           [
             'dijete',
-            'plural is djeca, and it is feminine singular in agreement',
-            'Collective; djeca je došla',
+            'plural is djeca — declines like a feminine singular and takes adjectives that way (dobra djeca), but a verb goes PLURAL',
+            'Collective; dobra djeca su došla',
           ],
-          ['brat', 'plural braća, agreeing as feminine singular', 'Same collective pattern'],
+          [
+            'brat',
+            'plural braća — feminine-singular form, plural verb: moja braća su došla',
+            'Same collective pattern',
+          ],
           ['pas', 'genitive psa — the a drops', 'Fleeting a'],
           ['sat', 'sati (hours) vs satovi (clocks/lessons)', 'Two plurals, two meanings'],
           ['oko / uho', 'oči / uši — old dual, feminine', 'The body-part pairs kept the dual'],
@@ -597,7 +601,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Place Names Have Their Own Habits',
-        body: 'Some Croatian place names are plural in form and take plural agreement: Karlovci, Vinkovci, Bjelovar is singular but Duga Resa is two words that both decline. Foreign cities usually adapt: u Londonu, iz Pariza, prema Berlinu. Some resist and stay uninflected: u Oslu is standard, but u Peruu and u Marokku follow the ordinary masculine pattern. When in doubt, look it up rather than guess — this is a lookup problem, not a rule problem.',
+        body: 'Some Croatian place names are plural in form and take plural agreement: Karlovci, Vinkovci — Vinkovci su lijepi. A two-word name declines in both parts: u Dugoj Resi, iz Slavonskog Broda. Foreign cities usually adapt: u Londonu, iz Pariza, prema Berlinu. Some resist and stay uninflected: u Oslu is standard, but u Peruu and u Maroku follow the ordinary masculine pattern. When in doubt, look it up rather than guess — this is a lookup problem, not a rule problem.',
         highlight: 'u Londonu, iz Pariza, prema Berlinu',
       },
       {
@@ -617,7 +621,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Djeca su otišla, ali braća su ostala.',
             en: 'The children left, but the brothers stayed.',
-            note: 'Both collectives; both take plural neuter agreement here in modern usage',
+            note: 'Both collectives: feminine-singular form, but the verb goes plural (su otišla, su ostala)',
           },
         ],
       },
@@ -6068,7 +6072,7 @@ export const LESSONS_C2 = [
             note: 'Formal email: V-form, standard, full diacritics',
           },
           {
-            hr: 'Bok, šaljem ti onaj dokument, javi ako nešto fali.',
+            hr: 'Bog, šaljem ti onaj dokument, javi ako nešto fali.',
             en: 'Hi, I am sending you that document, let me know if anything is missing.',
             note: 'Colleague on ti; relaxed but still fully written',
           },
@@ -6173,7 +6177,7 @@ export const LESSONS_C2 = [
           {
             q: 'Which is right for a first email to a professor you have not met?',
             options: [
-              'Bok, šaljem ti rad.',
+              'Bog, šaljem ti rad.',
               'Poštovani profesore, u privitku Vam šaljem rad.',
               'Postovani profesore, u privitku vam saljem rad.',
               'Ej, evo rada.',
@@ -6186,7 +6190,7 @@ export const LESSONS_C2 = [
             q: 'Where is a message-register form out of place?',
             options: [
               'evo saljem, javi — in a text to a friend',
-              'Bok, šaljem ti dokument — to a colleague on ti',
+              'Bog, šaljem ti dokument — to a colleague on ti',
               'Postovani, saljem dokumentaciju — in a formal email',
               'Poštovani, u privitku dostavljam — in a formal email',
             ],
