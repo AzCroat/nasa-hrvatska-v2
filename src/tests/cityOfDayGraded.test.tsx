@@ -1,43 +1,66 @@
 /**
  * cityOfDayGraded.test.tsx — graded Croatian on City of the Day
- * (content expansion item 6, geography half, 2026-09-05/06).
+ * (content expansion item 6, geography half, 2026-09-05/06; split per band
+ * 2026-09-07).
  *
  * City of the Day was English prose plus three Croatian words per city, for
  * 364 cities, with no Croatian text field at all. Every city now has a Croatian
  * intro in THREE bands — `introHrA1`, `introHr` (the B1 baseline, same
- * convention as HISTORY) and `introHrC1` — in `src/data/cultural/geographyHr.js`
- * (its own lazy chunk; NOT on the city record, which is spread into the core
- * payload). The screen picks by the learner's level through lib/gradedHr, which
- * walks DOWN to the nearest band: A2 reads A1, B2 reads B1, C2 reads C1, and the
- * chip names the band it actually served rather than claiming "at your level".
+ * convention as HISTORY) and `introHrC1` — each in its OWN module under
+ * `src/data/cultural/cityHr/`, dynamically imported by the screen so a learner
+ * downloads the band they read and no other. `resolveCityHrBand` walks DOWN to
+ * the nearest SHIPPED band: A2 reads A1, B2 reads B1, C2 reads C1, and the chip
+ * names the band it actually served rather than claiming "at your level".
  *
  * Pinned here, each of which failed on its own during the build:
  *  - COVERAGE is derived, never restated: every city in CROATIAN_CITIES has an
  *    entry, no entry names a city that does not exist (a renamed city would
  *    silently lose its Croatian), and the pool flag `adaptive` follows a rule
  *    derived from the bands — not from a number someone typed.
+ *  - the SPLIT: `CITY_HR_BANDS` equals the band files on disk (Vite needs a
+ *    literal import path per band, so that list is hand-written and decays like
+ *    any hand-written list); every band file is in the lint TARGETS; each gets
+ *    its own `chunk-geo-hr-*` chunk, whose prefix is what the service worker's
+ *    `chunk-geo*` precache exclusion matches; and NOTHING statically imports a
+ *    band, which would put the whole corpus back in the screen's chunk graph.
  *  - the DATA: every city has all three bands, genuinely different, lengths that
  *    rise with the band, real Croatian, no stray band names.
  *  - the SCREEN: a component test with a REAL graded city at every level,
  *    because a picker nobody calls would pass the data pins; plus the
  *    degrade path (a city with no entry renders as before).
- *  - the two geography copies stay byte-identical, and the graded module is in
- *    the lint TARGETS (a module outside them is unlinted Croatian).
+ *  - the two geography copies stay byte-identical.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import React from 'react';
 import { CROATIAN_CITIES } from '../data/cultural/geography.js';
-import { CITY_INTRO_HR } from '../data/cultural/geographyHr.js';
+import { readdirSync } from 'node:fs';
+import { CITY_INTRO_HR_A1 } from '../data/cultural/cityHr/A1.js';
+import { CITY_INTRO_HR_B1 } from '../data/cultural/cityHr/B1.js';
+import { CITY_INTRO_HR_C1 } from '../data/cultural/cityHr/C1.js';
 import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
-import { pickGradedHr, gradedField } from '../lib/gradedHr';
+import { gradedField } from '../lib/gradedHr';
+import { CITY_HR_BANDS, resolveCityHrBand, loadCityHrBand } from '../lib/cityIntroHr';
 import { CEFR_ORDER } from '../lib/cefr';
 
 type City = Record<string, unknown> & { name: string };
 type Rec = Record<string, unknown>;
 const cities = CROATIAN_CITIES as City[];
-const hr = CITY_INTRO_HR as Record<string, Rec>;
+/**
+ * The corpus is one module PER BAND now, so the data assertions below rebuild
+ * the merged view they were written against. That merge is also the check that
+ * the split is complete: a city missing from one band file shows up here as a
+ * missing band, in the same assertion that has always covered it.
+ */
+const BAND_MODULES: Record<string, Record<string, Rec>> = {
+  A1: CITY_INTRO_HR_A1 as Record<string, Rec>,
+  B1: CITY_INTRO_HR_B1 as Record<string, Rec>,
+  C1: CITY_INTRO_HR_C1 as Record<string, Rec>,
+};
+const hr: Record<string, Rec> = {};
+for (const mod of Object.values(BAND_MODULES))
+  for (const [city, rec] of Object.entries(mod)) hr[city] = { ...(hr[city] ?? {}), ...rec };
 const names = cities.map((c) => c.name);
 const BANDS = ['A1', 'B1', 'C1'] as const;
 const words = (s: unknown) =>
@@ -98,25 +121,48 @@ describe('City of the Day — graded Croatian coverage (derived)', () => {
     expect(a).toBe(b);
   });
 
-  it('the graded module is in the Croatian lint TARGETS and in its own vite chunk', () => {
-    const lint = readFileSync('scripts/lintCroatianText.mjs', 'utf8');
-    expect(lint).toContain("'src/data/cultural/geographyHr.js'");
-    const vite = readFileSync('vite.config.js', 'utf8');
-    const hrRule = vite.indexOf("'src/data/cultural/geographyHr'");
-    const geoRule = vite.indexOf("'src/data/cultural/geography')");
-    expect(hrRule).toBeGreaterThan(-1);
-    // the substring rule for geography would swallow geographyHr if it came first
-    expect(hrRule).toBeLessThan(geoRule);
-    expect(vite).toMatch(/geographyHr'\)\)\s*return 'chunk-geo-hr'/);
+  it('CITY_HR_BANDS names exactly the band modules that exist on disk', () => {
+    // Vite needs a literal path per dynamic import, so the list is hand-written
+    // — which means it decays like any hand-written list. Derive the truth from
+    // the directory: a band authored without being listed never loads, and a
+    // band listed without being authored resolves to an import that throws.
+    const onDisk = readdirSync('src/data/cultural/cityHr')
+      .filter((f) => /^[A-C][12]\.js$/.test(f))
+      .map((f) => f.replace('.js', ''))
+      .sort((a, b) => CEFR_ORDER.indexOf(a as never) - CEFR_ORDER.indexOf(b as never));
+    expect([...CITY_HR_BANDS], 'CITY_HR_BANDS vs the files').toEqual(onDisk);
+    expect(Object.keys(BAND_MODULES).sort()).toEqual([...onDisk].sort());
   });
 
-  it('only CityOfDayScreen imports the graded module (the Home card and core must not)', () => {
+  it('every band module is in the Croatian lint TARGETS and gets its own vite chunk', () => {
+    const lint = readFileSync('scripts/lintCroatianText.mjs', 'utf8');
+    for (const b of CITY_HR_BANDS)
+      expect(lint, `${b} band outside TARGETS is unlinted Croatian`).toContain(
+        `'src/data/cultural/cityHr/${b}.js'`,
+      );
+    const vite = readFileSync('vite.config.js', 'utf8');
+    // The `chunk-geo-hr-` prefix is what keeps these out of the SW precache,
+    // which matches `**/chunk-geo*.js` — an auto-named chunk would be precached.
+    expect(vite).toMatch(/cityHr\\\/\(\[A-C\]\[12\]\)/);
+    expect(vite).toMatch(/return `chunk-geo-hr-\$\{band\[1\]\.toLowerCase\(\)\}`/);
+    const sw = readFileSync('vite.config.js', 'utf8');
+    expect(sw).toContain("'**/chunk-geo*.js'");
+  });
+
+  it('nothing STATICALLY imports the corpus — the screen loads one band, the card and core neither', () => {
     const card = readFileSync('src/components/home/CityOfDayCard.tsx', 'utf8');
-    expect(card).not.toContain('geographyHr');
+    expect(card).not.toContain('cityHr');
     const core = readFileSync('functions/api/content/_data/core.js', 'utf8');
-    expect(core).not.toContain('geographyHr');
+    expect(core).not.toContain('cityHr');
     const scr = readFileSync('src/components/croatia/CityOfDayScreen.tsx', 'utf8');
-    expect(scr).toContain("from '../../data/cultural/geographyHr.js'");
+    // A static import would put every band back in the screen's chunk graph,
+    // which is the 710-KB-for-240-KB shape the split exists to end.
+    expect(scr).not.toMatch(/^import .*cityHr/m);
+    expect(scr).toContain('loadCityHrBand');
+    // and the only dynamic imports of a band are the loader's own literals
+    const loader = readFileSync('src/lib/cityIntroHr.ts', 'utf8');
+    for (const b of CITY_HR_BANDS)
+      expect(loader).toContain(`import('../data/cultural/cityHr/${b}.js')`);
   });
 });
 
@@ -161,14 +207,23 @@ describe('City of the Day — graded data', () => {
     expect(words(joined)).toBeGreaterThanOrEqual(90000);
   });
 
-  it('the picker walks down to the nearest band on a three-band record', () => {
-    const c = hr[names[0]!]!;
-    expect(pickGradedHr(c, 'introHr', 'A1')).toMatchObject({ level: 'A1', atLevel: true });
-    expect(pickGradedHr(c, 'introHr', 'A2')).toMatchObject({ level: 'A1', atLevel: false });
-    expect(pickGradedHr(c, 'introHr', 'B1')).toMatchObject({ level: 'B1', atLevel: true });
-    expect(pickGradedHr(c, 'introHr', 'B2')).toMatchObject({ level: 'B1', atLevel: false });
-    expect(pickGradedHr(c, 'introHr', 'C1')).toMatchObject({ level: 'C1', atLevel: true });
-    expect(pickGradedHr(c, 'introHr', 'C2')).toMatchObject({ level: 'C1', atLevel: false });
+  it('the band resolver walks down to the nearest SHIPPED band, never above', () => {
+    // Same rule pickGradedHr applied per record; with one module per band it
+    // has to be answered from the shipped set instead, and the answer must be
+    // identical — that equivalence is what makes the split behaviour-preserving.
+    expect(resolveCityHrBand('A1')).toBe('A1');
+    expect(resolveCityHrBand('A2')).toBe('A1');
+    expect(resolveCityHrBand('B1')).toBe('B1');
+    expect(resolveCityHrBand('B2')).toBe('B1');
+    expect(resolveCityHrBand('C1')).toBe('C1');
+    expect(resolveCityHrBand('C2')).toBe('C1');
+    // an unknown level reads the baseline, claiming nothing
+    expect(resolveCityHrBand('')).toBe('B1');
+    for (const l of CEFR_ORDER)
+      expect(
+        CEFR_ORDER.indexOf(resolveCityHrBand(l)),
+        `${l} must never be served a band above it`,
+      ).toBeLessThanOrEqual(CEFR_ORDER.indexOf(l));
   });
 });
 
@@ -216,27 +271,41 @@ describe('CityOfDayScreen', () => {
     ['B2', 'B1', false],
     ['C1', 'C1', true],
     ['C2', 'C1', false],
-  ] as const)('at %s renders the %s band and the chip is honest about it', (l, band, atLevel) => {
-    mockLevel = l;
-    render(<CityOfDayScreen goBack={vi.fn()} />);
-    expect(screen.getByText(String(dubrovnikHr[gradedField('introHr', band)]))).toBeInTheDocument();
-    for (const other of BANDS) {
-      if (other !== band)
-        expect(screen.queryByText(String(dubrovnikHr[gradedField('introHr', other)]))).toBeNull();
-    }
-    expect(screen.getByTestId('cityofday-reading-level').textContent).toBe(
-      atLevel ? `Croatian at your level · ${band}` : `Croatian · ${band}`,
-    );
-    // the English intro still renders — the Croatian is added, not swapped in
-    expect(screen.getByText(String(dubrovnik.intro))).toBeInTheDocument();
-  });
+  ] as const)(
+    'at %s renders the %s band and the chip is honest about it',
+    async (l, band, atLevel) => {
+      mockLevel = l;
+      render(<CityOfDayScreen goBack={vi.fn()} />);
+      // The band arrives through a dynamic import, so this waits — the screen
+      // paints first and the Croatian follows, which is the whole point of the
+      // split. `findByText` failing here means the band never loaded at all.
+      expect(
+        await screen.findByText(String(dubrovnikHr[gradedField('introHr', band)])),
+      ).toBeInTheDocument();
+      for (const other of BANDS) {
+        if (other !== band)
+          expect(screen.queryByText(String(dubrovnikHr[gradedField('introHr', other)]))).toBeNull();
+      }
+      expect(screen.getByTestId('cityofday-reading-level').textContent).toBe(
+        atLevel ? `Croatian at your level · ${band}` : `Croatian · ${band}`,
+      );
+      // the English intro still renders — the Croatian is added, not swapped in
+      expect(screen.getByText(String(dubrovnik.intro))).toBeInTheDocument();
+    },
+  );
 
-  it('a city with no graded entry renders exactly as before: no Croatian block, no chip', () => {
+  it('a city with no graded entry renders exactly as before: no Croatian block, no chip', async () => {
     // Every real city has an entry now, so the degrade path is driven with a
     // city whose name the map cannot know — the shape a renamed city would take.
     mockLevel = 'B1';
     mockCity = { ...dubrovnik, name: 'Nepostojeći Grad' };
     render(<CityOfDayScreen goBack={vi.fn()} />);
+    // "loaded and absent", not "not loaded yet" — those look identical at the
+    // first paint, so settle the band first. Awaiting the loader resolves the
+    // same module the component awaits (one module cache), and waitFor covers
+    // the render that follows its promise.
+    await loadCityHrBand('B1');
+    await waitFor(() => expect(screen.getByText(String(dubrovnik.intro))).toBeInTheDocument());
     expect(screen.queryByTestId('cityofday-graded-hr')).toBeNull();
     expect(screen.queryByTestId('cityofday-reading-level')).toBeNull();
     expect(screen.getByText(String(dubrovnik.intro))).toBeInTheDocument();

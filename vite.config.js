@@ -201,6 +201,12 @@ export default defineConfig({
           // Graded Croatian intros for City of the Day (~90k words) — its own
           // chunk, imported only by CityOfDayScreen; must precede the geography
           // rule below because 'geographyHr' contains 'geography'.
+          // One chunk per BAND (2026-09-07): the learner loads only the band
+          // they read. The `chunk-geo-hr-` prefix is load-bearing — the service
+          // worker's `**/chunk-geo*.js` precache exclusion covers these by
+          // construction, which an auto-named chunk would not be.
+          const band = id.match(/src\/data\/cultural\/cityHr\/([A-C][12])\.js/);
+          if (band) return `chunk-geo-hr-${band[1].toLowerCase()}`;
           if (id.includes('src/data/cultural/geographyHr')) return 'chunk-geo-hr';
           if (id.includes('src/data/cultural/geography')) return 'chunk-geo'; // 557 kB 365-city file — isolated
           if (id.includes('src/data/cultural')) return 'chunk-cultural';

@@ -1728,17 +1728,44 @@ every level from A2 up** (A1 has nothing below it), pinned.
   before, so A2 reads A1, B2 reads B1, C2 reads C1, and the chip
   (`cityofday-reading-level`) says "Croatian · A1", never "at your level", on
   those three.
+  **ONE MODULE PER BAND (2026-09-07).** The corpus was a single
+  `geographyHr.js` holding every band, statically imported by the screen — so a
+  learner downloaded all of it to read one: **710 KB raw / 234 KB gzip for
+  ~240 KB of use**, and ~1.6 MB once the missing three bands were authored.
+  Each band is now its own module under `src/data/cultural/cityHr/` and
+  `src/lib/cityIntroHr.ts` dynamically imports the resolved one, so the payload
+  is **A1 91 KB / 28 KB gzip · B1 242 / 89 · C1 368 / 142** — smaller for every
+  learner than the single module was, and it is what makes six bands
+  affordable at all. Three things are load-bearing and each is pinned:
+  the `chunk-geo-hr-<band>` NAME (the SW precache exclusion matches
+  `**/chunk-geo*.js`; an auto-named dynamic chunk would be precached — measured
+  unchanged at 21 entries / 681 KiB); the ENTRY SHAPE stays
+  `{ city: { introHrA1: '…' } }` rather than `{ city: '…' }`, because the lint
+  matches Croatian by FIELD NAME and a bare city-name key would make the whole
+  corpus invisible to it (mutation-verified: `hleb` in a band string fails the
+  lint); and `CITY_HR_BANDS` is hand-listed only because Vite needs a literal
+  path per dynamic import — the test DERIVES the truth from the directory, so a
+  band authored without being listed, or listed without being authored, fails.
+  `resolveCityHrBand` answers over the SHIPPED bands what `pickGradedHr`
+  answered per record, and the equivalence is asserted: never let it climb.
+  The screen paints before the band arrives, so the Croatian block is briefly
+  absent — the same state an ungraded city renders, deliberately, rather than
+  blocking first paint on the corpus. Mutation-verified, five: an unlisted band
+  file, a resolver that climbs, the vite rule removed, a band dropped from
+  TARGETS, and the screen reverting to a static import — each fails 1–5 tests.
+
   **WHERE THE TEXT LIVES, AND WHY IT MOVED.** The 46-city tranche put the
   fields on the city record in geography.js. That was wrong at scale for a
   reason invisible at 46: geography.js is spread into `/api/content/core`
   (`_data/core.js`) — the payload every client fetches — and feeds the Home
   card, so the full corpus would have added ~0.6 MB to core for a screen that
-  reads client data anyway. The corpus is now `src/data/cultural/geographyHr.js`
-  (`CITY_INTRO_HR`, keyed by `name`), in its own vite chunk `chunk-geo-hr`
-  (710 KB raw / 237 KB gzip; the rule must precede the `geography` substring
-  rule or it is swallowed — pinned), excluded from SW precache by the existing
-  `chunk-geo*` glob (precache unchanged at 21 entries / 681 KiB), imported ONLY
-  by `CityOfDayScreen` (the Home card and core.js must not — pinned). It is
+  reads client data anyway. The corpus is now `src/data/cultural/cityHr/<band>.js`
+  (one module per band, keyed by `name`; it began as a single `geographyHr.js`
+  and was split the next day — see above), each in its own vite chunk
+  `chunk-geo-hr-<band>`, excluded from SW precache by the existing `chunk-geo*`
+  glob (precache unchanged at 21 entries / 681 KiB), reached ONLY through
+  `lib/cityIntroHr`'s dynamic import from `CityOfDayScreen` (the Home card and
+  core.js must not — pinned). It is
   client-only: nothing serves it, so there is no functions/ copy. Both
   geography.js copies are back to their pre-tranche bytes (`chunk-geo` hash
   unchanged).
@@ -1770,10 +1797,12 @@ every level from A2 up** (A1 has nothing below it), pinned.
   before merge; one agent caught a Cyrillic `е` it had typed, exactly the
   defect the encoding check exists for. `rebuildCities.mjs` is unaffected —
   the module is not in geography.js.
-  NEVER: put `introHr*` back on the city record; import `geographyHr` from
-  anything but `CityOfDayScreen`; mark `cityofday` adaptive, or add a level to
-  `ownAtLevels`, without that band on every city; add a fourth band without
-  re-deriving the rule.
+  NEVER: put `introHr*` back on the city record; statically import a band
+  module from anywhere (the split is undone the moment one does); key a band
+  entry by city name alone instead of by an `introHr*` field; name a band chunk
+  outside the `chunk-geo` prefix; mark `cityofday` adaptive, or add a level to
+  `ownAtLevels`, without that band on every city; add a band without listing it
+  in `CITY_HR_BANDS` and in the lint TARGETS.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
