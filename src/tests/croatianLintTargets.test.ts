@@ -154,6 +154,21 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     }
   });
 
+  // THE SPEAKING CURRICULUM (2026-09-07) is the writing curriculum's twin and
+  // brought the same shape with it: prose in `model`, phrases under `hr`, and
+  // ONE bare Croatian array, `usefulPhrases`. The file went into TARGETS and the
+  // key into ARRAY_FIELD_RE in the same change, because either alone is silent —
+  // a matcher extension without its file has nothing to run on, and a file whose
+  // array shape the matcher misses is a file everyone believes is linted.
+  // Mutation-verified both ways: `hleb` in a usefulPhrases entry is caught, and
+  // with the key removed from the regex the same word passes clean.
+  it('scans the speaking curriculum, arrays included (usefulPhrases)', () => {
+    expect([...lintTargets()]).toContain('src/data/speakingCurriculum.ts');
+    expect(arrayFields(), 'ARRAY_FIELD_RE no longer matches `usefulPhrases`').toContain(
+      'usefulPhrases',
+    );
+  });
+
   // THE BILINGUAL `*Hr` LAYER (2026-09-05, item 6). The culture data marks its
   // Croatian half by SUFFIX — introHr, textHr, titleHr, descHr, roleHr,
   // storyHr, eventHr, tHr, hHr, qHr, aHr, and the arrays factsHr / alHr: 1,156

@@ -34,10 +34,12 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Session-Rec #1/#2 (+ Wave 3): PRODUCTION_POOL is [dialogue, writing,
-    // shadowing, speaking, production_drill, dictation, speaking_sprint]. With
-    // rnd=0 + mic-available + B1, the first eligible item is `dialogue`
-    // (label "Conversation").
+    // Session-Rec #1/#2 (+ Wave 3): PRODUCTION_POOL is [dialogue,
+    // writing_guided, speaking_guided, writing, shadowing, speaking,
+    // production_drill, dictation, speaking_sprint] (guided speaking joined at
+    // index 2 on 2026-09-07). With rnd=0 + mic-available + B1, the first
+    // eligible item is still `dialogue` (label "Conversation") — this pin is
+    // about the FIRST item, so an insertion after it does not move it.
     // Scope to the session card (as the sibling test below does for "Speaking"):
     // the Home tab's Daily Input card can also contain the substring
     // "conversation" (a listening unit's description), so an unscoped getByText
@@ -51,10 +53,13 @@ test.describe('SP4b — production slot in daily session', () => {
     page,
   }) => {
     // At B1 the conversation anchor takes `dialogue`, so the production pick is
-    // chosen from [writing_guided, writing, shadowing, speaking,
-    // production_drill, dictation, speaking_sprint] (production-teaching
-    // 2026-08-18 added writing_guided at the front). rnd=0.5 → floor(0.5*7) =
-    // index 3 → `speaking`. This proves SpeakingScreen is now a session
+    // chosen from [writing_guided, speaking_guided, writing, shadowing,
+    // speaking, production_drill, dictation, speaking_sprint]
+    // (production-teaching 2026-08-18 added writing_guided at the front; guided
+    // speaking joined behind it 2026-09-07). rnd=0.5 → floor(0.5*8) = index 4 →
+    // `speaking`, the same answer the seven-item pool gave at index 3, because
+    // the inserted item sits before the pick and the midpoint moved with it.
+    // This proves SpeakingScreen is now a session
     // production option (the follow-up that auto-routes it); the launcher
     // initialises its vocab pool so it can't render blank (render path covered
     // by pronunciation.spec.js + the verbatim launchSpeaking init reuse).
@@ -77,6 +82,10 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByTestId('session-card').getByText('Speaking')).toBeVisible({
       timeout: 15_000,
     });
+    // `getByText` is a SUBSTRING match, and "Guided Speaking" contains
+    // "Speaking" — so without this the test would keep passing if the pick ever
+    // became `speaking_guided`, while silently testing a different screen.
+    await expect(page.getByTestId('session-card').getByText('Guided Speaking')).toHaveCount(0);
   });
 
   test('mic-denied user gets a keyboard production slot; mic-required exercises are filtered out', async ({
@@ -94,12 +103,16 @@ test.describe('SP4b — production slot in daily session', () => {
         profile.st = { ...(profile.st || {}), xp: 2000, lc: 0, gc: 0 };
         localStorage.setItem(profileKey, JSON.stringify(profile));
       }
-      // Seed the keyboard modes (dialogue, writing_guided, writing) as done
-      // TODAY so recent-exclusion drops them, leaving `dictation` as the first
-      // surviving keyboard option. This makes the assertion meaningful: if the
-      // mic filter were broken, the mic-required `shadowing` (earlier in pool
-      // order) would surface instead. writing_guided joined the pool in the
-      // production-teaching wave (2026-08-18).
+      // Seed the keyboard modes (dialogue, writing_guided, speaking_guided,
+      // writing) as done TODAY so recent-exclusion drops them, leaving
+      // `dictation` as the first surviving keyboard option. This makes the
+      // assertion meaningful: if the mic filter were broken, the mic-required
+      // `shadowing` (earlier in pool order) would surface instead.
+      // writing_guided joined the pool in the production-teaching wave
+      // (2026-08-18); speaking_guided joined it on 2026-09-07 and has to be
+      // seeded here too, or IT becomes the first survivor and the pin below
+      // fails — which is the pool-composition break this spec is designed to
+      // have (CLAUDE.md: update the pins with intent preserved).
       // LOCAL date — useDailySession compares recency against localDateStr().
       const d = new Date();
       const today =
@@ -113,6 +126,7 @@ test.describe('SP4b — production slot in daily session', () => {
         JSON.stringify([
           { screen: 'dialogue', date: today },
           { screen: 'writing_guided', date: today },
+          { screen: 'speaking_guided', date: today },
           { screen: 'writing', date: today },
         ]),
       );
@@ -121,11 +135,12 @@ test.describe('SP4b — production slot in daily session', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Mic-denied B1 keyboard pool = [dialogue, writing_guided, writing,
-    // dictation, speaking_sprint]; the first three are recent, and rnd=0 picks
-    // the first survivor → dictation. shadowing + production_drill
+    // Mic-denied B1 keyboard pool = [dialogue, writing_guided, speaking_guided,
+    // writing, dictation, speaking_sprint]; the first four are recent, and
+    // rnd=0 picks the first survivor → dictation. shadowing + production_drill
     // (mic-required) must NOT appear.
     await expect(page.getByText('Dictation')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText('Shadowing')).toHaveCount(0);
+    await expect(page.getByText('Guided Speaking')).toHaveCount(0);
   });
 });

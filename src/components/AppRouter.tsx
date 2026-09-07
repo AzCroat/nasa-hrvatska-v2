@@ -183,6 +183,7 @@ const ShadowingScreen = lazyWithReload(() => import('./practice/ShadowingScreen'
 const ReviewScreen = lazyWithReload(() => import('./practice/ReviewScreen'));
 const WritingScreen = lazyWithReload(() => import('./practice/WritingScreen'));
 const GuidedWritingScreen = lazyWithReload(() => import('./practice/GuidedWritingScreen'));
+const GuidedSpeakingScreen = lazyWithReload(() => import('./practice/GuidedSpeakingScreen'));
 const ListeningPath = lazyWithReload(() => import('./practice/ListeningPath'));
 const AspectDrillScreen = lazyWithReload(() => import('./practice/AspectDrillScreen'));
 const TranslateDrillsScreen = lazyWithReload(() => import('./practice/TranslateDrillsScreen'));
@@ -1992,6 +1993,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'writing_guided' && (
           <ScreenErrorBoundary key="writing_guided" name="writing_guided">
             <GuidedWritingScreen goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'speaking_guided' && (
+          <ScreenErrorBoundary key="speaking_guided" name="speaking_guided">
+            <GuidedSpeakingScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'listeningpath' && (

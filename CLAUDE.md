@@ -1738,6 +1738,97 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
 
+## Critical Architecture: Guided Speaking, and the Coach Nobody Could Reach (2026-09-07)
+
+The finding: **the 2026-08-18 production-teaching fix wired the speaking coach
+to a screen state nothing produces, and it has been dead ever since.**
+
+- `SpeakingScreen` carries three open-ended prompt pools (8 + 5 + 5 = 18 items),
+  three rendering branches for them, and `maybeCoach` — which fires only when
+  `sw[2]` is `question-response` | `picture-description` | `dialogue-completion`.
+  **Every path that fills that screen's item list passes `acquisitionPool` VOCAB
+  ROWS**: the Practice-tab `launchSpeaking`, the daily-session branch, the
+  learn-path branch, the Me-tab goal shortcut. A vocab row's third element is a
+  gloss, never a prompt type. The commit that added the pools (`d51e9de1`,
+  2026-04-25) touched two component files and **no launcher**.
+- Consequence: `requestSpeakingCoach` was never called from practice, so
+  `recordMasteryEvent({ skill: 'speaking' })` fired ONLY from the Level Check
+  and the checkpoints — assessments. Daily speech wrote no speaking evidence at
+  all, which is verbatim the finding the 2026-08-18 audit set out to fix. It was
+  answered by writing a correct, tested library and pointing it at a state that
+  cannot occur. `speakingCoach.test.js` proved the library records mastery;
+  nothing proved a learner could reach the library. **The component-test /
+  wiring-test split, in the one place it costs a whole skill.**
+- The 18 prompts are also unlevelled — one pool for A1 through C2, so the path,
+  had it worked, would have asked a beginner "Što misliš o klimatskim
+  promjenama?". **The levelling is the symptom; the dead wiring is the defect**
+  — and reporting only the symptom (which the first survey did) would have sent
+  the next person to sort 18 prompts into six buckets on a screen nobody reaches.
+
+**Guided Speaking** (`src/data/speakingCurriculum.ts`, 48 units at 8 per level;
+`GuidedSpeakingScreen`; `PRODUCTION_POOL` id `speaking_guided`, A1+, keyboard-safe)
+is the writing curriculum's twin and a REACHABLE entry point to the coach:
+LISTEN (model + TTS) → REHEARSE (say the load-bearing phrases) → SPEAK (free
+production against a checklist, ONE `/api/speaking-coach` call on submit — the
+same one-call profile as Guided Writing's `/api/correct`).
+
+- **The transcript is free.** Browser `SpeechRecognition` produces it (zero AI
+  cost, no STT charge — the coach is transcript-in by design), with a TYPED
+  fallback that counts identically, so a mic-blocked learner is not shut out of
+  the only rubric-graded speaking practice in the app. jsdom has no recogniser,
+  so the tests exercise that learner's device by default.
+- **LISTEN is TEXT-FIRST and must never gate on playback.** The Croatian is on
+  screen; a failed play names its cause and the stage advances anyway (the audio
+  directive's own rule — the heard-gate belongs to audio-FIRST screens only).
+- **REHEARSE teaches and never blocks.** `phraseMatches` gives partial credit and
+  the Next button is always present: the recogniser is not the judge, and
+  refusing a learner over a dropped diacritic punishes the microphone.
+- **Fail-soft, and the fail path records NOTHING it did not earn.** A coach
+  failure names the cause, offers a retry and offers the way forward, and fires
+  `signalSessionCompleteIfActive` (the learner DID speak — a dead coach must not
+  strand the session at N-1/N). It does NOT clear the coupling and does NOT
+  award, because there is no score. Only the graded finish calls
+  `recordScreenPractised('speaking_guided')` — this screen grades and awards
+  itself, so it never reaches `completeExercise` (the `writing_guided` /
+  `relpron` shape, pinned by `couplingClearingPath`).
+- **The guard is `speakingCoachReachable.test.ts`**, and its assertion is
+  deliberately NOT "GuidedSpeakingScreen calls the coach" — a test naming one
+  screen goes stale the moment the screen is renamed. It walks the REAL
+  `PRODUCTION_POOL` (now exported for exactly this), the REAL router and the REAL
+  import graph and asserts SOME session-launchable speak screen reaches
+  `requestSpeakingCoach`, that one of them works without a microphone, and that
+  one is available at A1. Declarations are stripped before the call test — the
+  `alphabet` hole again, where importing the module satisfied the guard.
+- **Two hand-maintained lists went stale the moment the pool grew**, and both are
+  now derived: `useDailySession.production.test.ts`'s `PRODUCTION_SCREENS` /
+  `MIC_REQUIRED` (three assertions silently began exercising a scenario they no
+  longer described — the "exclude every candidate" test excluded all but the new
+  one and then asserted null), and the pool prose in that file's header comment.
+- **`usefulPhrases` joined the lint's `ARRAY_FIELD_RE`** in the same change as the
+  file joined TARGETS. Either alone is silent — the matcher extension has nothing
+  to run on, or the array shape is invisible. Mutation-verified both directions.
+- The curriculum's own guards inherit the writing curriculum's two hard-won
+  rules: **the model must pass its own checklist** (an exemplar that misses its
+  own bar teaches the bar is decorative) and **every named structure must be
+  findable in the model** — verbatim, or an ellipsis pattern whose segments
+  appear in order. Eight structures failed the second on its first run and were
+  rewritten against the model.
+- Mutation-verified, eight mutations, each fails 1–7 tests: the pool entry
+  removed, the coach call removed from the screen, the route removed from
+  AppRouter, the coupling cleared on a FAILED grade, the rehearse stage gated on
+  the recogniser, an award on a failed grade, a model that fails its own
+  checklist, a structure absent from its model.
+- **NOT done here, and it is real:** `SpeakingScreen`'s 18 prompts and their
+  three rendering branches are still in the file, inert. Removing ~250 lines from
+  a live 1,170-line screen is its own change with its own E2E audit; it is dead
+  code, not a live defect, and it is recorded rather than quietly left.
+- NEVER: add a speaking surface that grades without a reachable launch path
+  (walk the pool → router → import graph, not the library's own tests); gate the
+  LISTEN or REHEARSE stage on audio or on the recogniser; clear the coupling or
+  award XP on a failed grade; charge an STT endpoint for a transcript the browser
+  already produced; add a Croatian array field without adding it to
+  `ARRAY_FIELD_RE` and mutating to prove it.
+
 ## Critical Architecture: Dialogue Register Pairs (content expansion, 2026-09-05)
 
 The finding this exists to keep closed: **from B1 up, every guided dialogue was

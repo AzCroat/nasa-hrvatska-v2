@@ -1205,7 +1205,13 @@ export function getRecentProduction(): string[] {
 // _aiQuota: ≤1 unit/use, 300/user/day ceiling), so the daily-loop cost is bounded
 // — the "Balanced" posture. `dialogue` at A1 + keyboard finally gives A1 and every
 // mic-blocked user a real production slot (the old pool floored at A2/mic).
-const PRODUCTION_POOL: Array<{
+/**
+ * Exported (2026-09-07) so `speakingCoachReachable.test.ts` can walk the REAL
+ * pool rather than restate it — a test that restates production data cannot
+ * check production data, which is how `a2Curriculum.test.ts` once confirmed a
+ * route that did not exist. Read-only: nothing outside this module mutates it.
+ */
+export const PRODUCTION_POOL: Array<{
   id: string;
   label: string;
   screen: string;
@@ -1238,6 +1244,23 @@ const PRODUCTION_POOL: Array<{
     category: 'writing',
     micRequired: false,
     kind: 'write',
+  },
+  {
+    id: 'speaking_guided',
+    label: 'Guided Speaking',
+    // Teaching-first SPOKEN production (2026-09-07): model → rehearsal phrases
+    // (zero AI cost) → free speech graded by /api/speaking-coach on the
+    // learner's explicit submit. The twin of writing_guided, and the first
+    // reachable caller of the coach — the open-ended branch of `speaking` that
+    // was supposed to call it is unreachable from every launch path (see
+    // src/data/speakingCurriculum.ts). Keyboard-capable: the transcript can be
+    // typed when there is no microphone, so it is eligible for mic-blocked
+    // users and carries micRequired false.
+    screen: 'speaking_guided',
+    cefr: 'A1',
+    category: 'speaking',
+    micRequired: false,
+    kind: 'speak',
   },
   {
     id: 'writing',

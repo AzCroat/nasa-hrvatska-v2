@@ -72,6 +72,11 @@ const TARGETS = [
   // Guided-writing curriculum (2026-08-18): authored model texts, frames and
   // prompts — the largest single block of authored Croatian prose in src/.
   'src/data/writingCurriculum.ts',
+  // Guided-speaking curriculum (2026-09-07): spoken models, rehearsal phrases
+  // and phrase panels. `usefulPhrases` joined ARRAY_FIELD_RE in the same change
+  // — a bare Croatian array is the shape that hid `connectives` in the writing
+  // curriculum for eighteen days.
+  'src/data/speakingCurriculum.ts',
   // ── 2026-08-26 sweep: everything else carrying authored Croatian ──────────
   'src/data/cultural/geography.js',
   'src/data/cultural/geographyHr.js',
@@ -796,7 +801,7 @@ function findSerbisms(fieldName, s) {
 // useful-words panel a learner taps to insert into their own text, and the
 // alternative answers a frame accepts. Both are Croatian a learner reads.
 const ARRAY_FIELD_RE =
-  /(opts|options|choices|distractors|objectives|connectives|accept|[a-zA-Z]*Hr)\s*:\s*\[([^\]]*)\]/g;
+  /(opts|options|choices|distractors|objectives|connectives|accept|usefulPhrases|[a-zA-Z]*Hr)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
 function* arrayStrings(buf) {
