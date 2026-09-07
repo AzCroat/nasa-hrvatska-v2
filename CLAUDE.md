@@ -511,6 +511,46 @@ only, only when the lesson HAS a check and has not already been completed).
   tests fail), a failed test-out offering a retake (1), the offer surviving a
   completed lesson (1), the offer reappearing after a failed test-out (1).
 
+## Critical Architecture: Wrong Answers Explain Themselves (owner recommendation 7, 2026-09-07)
+
+The gap: a wrong answer in the practice programme showed the item's `tip` — the
+SAME line the learner sees when they get it RIGHT. It states the rule; it never
+says what THEY chose or why it does not fit. `/api/explain-error` does say that,
+and it reached **10 of ~170 practice screens**: the seven case drills plus three
+others. The 109 ModeDrill-backed drills — the entire practice programme built
+this month — had nothing.
+
+- **The obvious fix would have been a cost bug.** Wiring `useExplainError` into
+  `ModeDrill` puts a Claude call on EVERY wrong answer across 109 drills, which
+  against a $10/month ceiling and a 300-turn daily quota is the cache-served-
+  endpoint mistake in a new place: a per-learner charge on the commonest event
+  in the app.
+- **Three layers, cheapest first** (the same shape rec #6 established for word
+  taps): (1) the item's authored `tip`, already rendered; (2) `answerContrast`
+  — a rule-based comparison of the two forms, free, offline, instant, and the
+  piece that was actually missing; (3) the AI explanation, behind
+  `wrong-answer-why`, fired only when the learner presses it and spent once.
+- **`src/lib/answerContrast.ts` inherits the morphology module's honesty rule.**
+  It reports every reading each form permits (capped at 3, so the panel is not
+  six lines of hedging) and never picks one. Its `headline` appears in exactly
+  two situations and is ABSENT otherwise: the two endings share no case reading
+  at all ("those two endings can never be the same case" — the mistake a case
+  drill exists to catch), or they permit exactly the same cases, where saying
+  "wrong case" would be FALSE and it says the difference is elsewhere. A
+  multi-word option returns null outright: the ending rules say nothing about
+  word order or clitic position, and claiming otherwise is fabrication.
+- **One edit in the engine, 109 screens.** `WrongAnswerHelp` is mounted once in
+  `ModeDrill`, on `answered && chosen !== cur.answer`. The drill itself imports
+  no AI module — the cost stays behind the button (pinned by source).
+- Pinned by `wrongAnswerHelp.test.tsx` (16). Mutation-verified, five mutations,
+  each fails 1–5 tests: the AI call fired automatically, a multi-word option
+  given a contrast, overlapping cases reported as a case error, the panel shown
+  on a correct answer, the panel unmounted from the engine.
+- NEVER: fire the explanation without the learner asking; state a case error
+  when both endings permit the case; build a contrast from a multi-word option;
+  import an AI module into `ModeDrill`; add a fourth layer that costs a turn by
+  default.
+
 ## Critical Architecture: Tap Any Word (owner recommendation 6, 2026-09-07)
 
 The gap: tapping a word already worked — `GrammarReader` — but **every single
