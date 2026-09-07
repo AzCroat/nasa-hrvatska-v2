@@ -1429,6 +1429,35 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   A1 first), falling back to All when a level has no stories; its filter row is
   unchanged. Never tag an entry `adaptive` on the strength of a screen that does
   not actually level its content — the flag means dist 0 in the fill sort.
+  **DICTATION HAD THE IDENTICAL DEFECT AND WAS OUTSIDE THIS CHANGE (2026-09-07).**
+  That work fixed the two LISTEN LAUNCH SITES; `DictationScreen` builds its own
+  round inside the component (`shLocal(DICTATION_DATA).slice(0, 10)`), so it was
+  never looked at. All 80 items carry a `level` (A1 11 · A2 11 · B1 10 · B2 10 ·
+  C1 20 · C2 18) and the file contained **no reference to `level` at all** apart
+  from the badge: a 10-item round held on average **8.6 sentences above an A1
+  learner, 7.3 above A2, 6.0 above B1**. It is the worse case of the two, because
+  dictation is one of the app's only two AUDIO-FIRST screens — the Croatian is
+  hidden and the recording IS the question — so an above-level sentence there is
+  not a stretch, it is unanswerable, and the learner is scored on it.
+  `_levelledDictation` mirrors `_levelledListen` (≤ level, whole-bank fallback
+  under 4, unlevelled items kept) and the round now passes the LIVE stats
+  (`getGenerationCefr(stats)`), which the screen already had. **The fallback is
+  not load-bearing on today's bank** — every level has ≥ 10 at or below, pinned
+  in both directions, so levelling never shortens a round. Two things
+  deliberately NOT done: the `!lv ||` unlevelled clause is not copied, because
+  `cefrRank` reads an unknown level as A1 and the clause is therefore unreachable
+  (a test drives the mechanism instead, and the copy survived mutation); and the
+  pool entries are NOT retagged `adaptive`, because the B1 gate is about the TASK
+  — writing unaided what you hear — not about the sentences, and `adaptive` moves
+  the entry in the fill sort, which is a composition change needing its own
+  measurement. Pinned by `dictationLevel.test.tsx` (12), which walks the whole
+  round off the badge rather than reading the first one — the raw bank opens with
+  four A1 items, so a first-badge assertion would pass unfiltered. The badge's
+  colour map also gained C1/C2, which it had never had (`levelColor[q.level]`
+  was `undefined` for 38 of the 80 sentences). Mutation-verified, five mutations
+  each failing 1–2 tests: the filter removed, the `stats` argument dropped, the
+  thin-bank fallback removed, an unlevelled item excluded, the two colours
+  removed.
 - **WHAT THIS COSTS, stated:** the A2 discovery slot. Discovery fires only when
   TWO fill slots remain after the guarantees; A2 had that headroom and B1+ never
   did. In default mode the widened pool's window is now the LRS bonus round at
