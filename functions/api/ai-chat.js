@@ -7,6 +7,7 @@ import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -743,6 +744,7 @@ export async function onRequestPost(context) {
     } catch {
       return err(500, 'Generation failed', origin);
     }
+    await reconcileSafely(env, '/api/ai-chat', explainData?.usage);
     const raw = explainData.content?.[0]?.text || '';
     try {
       const parsed = JSON.parse(raw);
@@ -797,6 +799,7 @@ export async function onRequestPost(context) {
     } catch {
       return err(502, 'Invalid response from AI', origin);
     }
+    await reconcileSafely(env, '/api/ai-chat', singleData?.usage);
     const raw = singleData.content?.[0]?.text || '';
     // Try to return parsed JSON for these structured modes. Strip a ```json code
     // fence first — without it a fenced-but-valid object fell through to the
@@ -915,6 +918,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/ai-chat', data?.usage);
   const text = data?.content?.[0]?.text?.trim() || '';
   if (!text) {
     console.error('Anthropic empty response, stop_reason:', data?.stop_reason);

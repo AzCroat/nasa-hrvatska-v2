@@ -34,6 +34,13 @@ vi.mock('../hooks/useRecorder', () => ({
   useRecorder: () => recorderState.current,
 }));
 
+// The scorer's recorded reason for a null (owner, 2026-09-07). The screen
+// reads it to name the cause instead of implying learner fault.
+const lastFailure = vi.hoisted(() => ({ current: null as Record<string, unknown> | null }));
+vi.mock('../lib/speaking/whisperClaudeScorer.js', () => ({
+  getLastSpeakingScoreFailure: () => lastFailure.current,
+}));
+
 import SpeakingTaskScreen from '../components/exam/SpeakingTaskScreen.js';
 
 const task = {
@@ -194,6 +201,50 @@ describe('SpeakingTaskScreen', () => {
     expect(onScoreB).toHaveBeenCalledWith(0.8, expect.objectContaining({ overall: 0.8 }));
     expect(onScoreA).not.toHaveBeenCalled();
     expect(assess).toHaveBeenCalledTimes(1);
+  });
+
+  it('a null assessment NAMES its cause — a budget pause is not "you mumbled" (owner, 2026-09-07)', async () => {
+    // The scorer records why it returned null; the screen must say that, not
+    // imply learner fault, and must say nothing counts against them.
+    lastFailure.current = {
+      kind: 'budget',
+      status: 429,
+      code: 'monthly_budget_exhausted',
+      retryable: false,
+      message: "This month's AI allowance is used up — live AI returns on the 1st.",
+    };
+    const scorer = scorerReturning(null);
+    const onScore = vi.fn();
+    const { rerender } = render(
+      <SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />,
+    );
+    setRecorder('done', { audioBlob: fakeBlob });
+    rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={onScore} />);
+    const retry = await screen.findByTestId('speak-retry');
+    expect(retry.getAttribute('data-failure-kind')).toBe('budget');
+    expect(retry.textContent).toMatch(/allowance is used up/);
+    expect(retry.textContent).toMatch(/nothing counts against you/);
+    expect(retry.textContent).not.toMatch(/couldn't score that clearly/);
+    expect(onScore).not.toHaveBeenCalled();
+    lastFailure.current = null;
+  });
+
+  it('a genuinely thin answer keeps the old wording (insufficient is the learner’s to fix)', async () => {
+    lastFailure.current = {
+      kind: 'insufficient',
+      retryable: true,
+      message: 'We heard too little to score fairly.',
+    };
+    const scorer = scorerReturning(null);
+    const { rerender } = render(
+      <SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={vi.fn()} />,
+    );
+    setRecorder('done', { audioBlob: fakeBlob });
+    rerender(<SpeakingTaskScreen task={task} level="B1" scorer={scorer} onScore={vi.fn()} />);
+    const retry = await screen.findByTestId('speak-retry');
+    expect(retry.getAttribute('data-failure-kind')).toBe('insufficient');
+    expect(retry.textContent).toMatch(/couldn't score that clearly/);
+    lastFailure.current = null;
   });
 
   it('on a null assessment shows retry and never reports a (failing) score', async () => {

@@ -5,6 +5,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const DAILY_PLAN_PROMPT = definePrompt(
   'daily-plan',
@@ -266,6 +267,7 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/daily-plan', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('daily-plan.js: Anthropic returned empty response');

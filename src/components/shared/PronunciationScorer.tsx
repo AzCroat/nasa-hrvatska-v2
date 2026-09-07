@@ -7,6 +7,7 @@ import { _nativePost } from '../../lib/nativePost.js';
 import { isNative } from '../../lib/platform.js';
 import { similarityPct } from '../../lib/text/similarity';
 import { useRecorder } from '../../hooks/useRecorder';
+import { failureFromStatus, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 // Azure-preferred MIME negotiation order — format-sensitive for pronunciation assessment.
 // Backend STT is Cloudflare Workers AI Whisper (functions/api/assess-speaking.js),
@@ -81,6 +82,9 @@ export default function PronunciationScorer({
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [azureResult, setAzureResult] = useState<Record<string, unknown> | null>(null);
   const [mode, setMode] = useState<'auto' | 'webspeech' | 'azure'>('auto');
+  // Why detailed (Azure) scoring was not available for the last attempt, when
+  // the component fell back to on-device recognition. Never blocks practice.
+  const [serviceNotice, setServiceNotice] = useState<string | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recRef = useRef<any>(null); // SpeechRecognition — not in lib.dom.d.ts until TS 6
@@ -267,11 +271,23 @@ export default function PronunciationScorer({
       const data = (await res.json()) as Record<string, unknown>;
 
       if (!res.ok || !data['ok']) {
-        // Azure not configured or unavailable — fall back to Web Speech API mode.
+        // Azure not configured or unavailable — fall back to Web Speech API
+        // mode, and SAY SO (owner directive, 2026-09-07): this used to be a
+        // silent mode switch, so a budget pause, a signed-out session and an
+        // Azure outage all looked like "the app just listened differently".
+        const failure = failureFromStatus(
+          res.status,
+          typeof data['error'] === 'string' ? (data['error'] as string) : '',
+          typeof data['resetAt'] === 'string' ? (data['resetAt'] as string) : undefined,
+          data['ok'],
+        );
+        reportAiFailure('pronunciation-assess', failure);
+        setServiceNotice(failure.message);
         setMode('webspeech');
         startWebSpeech();
         return;
       }
+      setServiceNotice(null);
 
       setAzureResult(data);
       setState('scored');
@@ -289,16 +305,15 @@ export default function PronunciationScorer({
       if (overallScore !== null) fetchCoaching(targetText, overallScore);
     } catch (fetchErr) {
       clearTimeout(tid);
-      console.warn(
-        'PronunciationScorer: Azure assess failed, falling back to Web Speech:',
-        fetchErr instanceof Error ? fetchErr.message : String(fetchErr),
-      );
+      const failure = failureFromError(fetchErr);
+      reportAiFailure('pronunciation-assess', failure);
       // Graceful fallback: try Web Speech API. If unsupported, show error and reset.
       if (webSpeechSupported) {
+        setServiceNotice(failure.message);
         setMode('webspeech');
         startWebSpeech();
       } else {
-        setSrErrorMsg('Pronunciation assessment unavailable. Please try again.');
+        setSrErrorMsg(failure.message);
         setState('idle');
       }
     }
@@ -389,6 +404,24 @@ export default function PronunciationScorer({
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div style={{ marginTop: 12 }}>
+      {serviceNotice && (
+        <div
+          data-testid="pronunciation-service-notice"
+          role="status"
+          style={{
+            marginBottom: 8,
+            fontSize: 12,
+            color: '#92400e',
+            background: '#fef3c7',
+            border: '1px solid #fcd34d',
+            borderRadius: 8,
+            padding: '6px 10px',
+          }}
+        >
+          Detailed pronunciation scoring is unavailable: {serviceNotice} Using on-device recognition
+          for now.
+        </div>
+      )}
       {/* ── IDLE ── */}
       {state === 'idle' && (
         <>

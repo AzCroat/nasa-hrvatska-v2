@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { H } from '../../data';
 import { speak } from '../../lib/audio.js';
-import { apiFetch } from '../../lib/apiFetch.js';
 import { _aiPost } from '../../lib/aiPost';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr } from '../../lib/cefr.js';
@@ -295,7 +295,13 @@ export default function GrammarExplainer({
         mode: 'explain',
         params: { topic: selectedTopic.title, level },
       });
-      if (!res.ok) throw new Error('API error ' + res.status);
+      if (!res.ok) {
+        const failure = await failureFromResponse(res);
+        reportAiFailure('grammar-explainer-lesson', failure);
+        setError(failure.message);
+        setPhase('pick');
+        return;
+      }
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setLesson(data);
@@ -353,23 +359,30 @@ export default function GrammarExplainer({
       // changes, strengths, encouragement}) that this screen renders. /api/ai-chat's
       // writeeval mode returns the JSON as an unparsed string in {text} — using it
       // here left the feedback card permanently empty.
-      const res = await apiFetch('/api/correct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mode: 'writeeval',
-          prompt: promptText,
-          text: writingText.trim(),
-          params: { level, writingPrompt: promptText },
-        }),
-        signal: AbortSignal.timeout(25000),
+      //
+      // Through _aiPost like every other /api/correct caller (2026-09-07): this
+      // was the one caller on apiFetch, so it sent no userContext and rendered a
+      // budget pause as the literal string "API error 429". Failures are now
+      // named through lib/aiFailure like the rest of the writing surfaces.
+      const res = await _aiPost('/api/correct', {
+        mode: 'writeeval',
+        prompt: promptText,
+        text: writingText.trim(),
+        params: { level, writingPrompt: promptText },
       });
-      if (!res.ok) throw new Error('API error ' + res.status);
+      if (!res.ok) {
+        const failure = await failureFromResponse(res);
+        reportAiFailure('grammar-explainer-writing', failure);
+        setWritingError(failure.message);
+        return;
+      }
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setWritingResult(data);
     } catch (e) {
-      setWritingError((e instanceof Error ? e.message : null) || 'Failed to evaluate writing');
+      const failure = failureFromError(e);
+      reportAiFailure('grammar-explainer-writing', failure);
+      setWritingError(failure.message);
     } finally {
       setWritingLoading(false);
     }

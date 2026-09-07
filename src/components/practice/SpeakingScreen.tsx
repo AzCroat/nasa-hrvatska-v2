@@ -13,6 +13,7 @@ import { recordTopicResult } from '../../lib/adaptive.js';
 import { charOverlapPct } from '../../lib/text/similarity';
 import { requestSpeakingCoach } from '../../lib/speakingCoach';
 import type { CoachResult } from '../../lib/speakingCoach';
+import type { AiFailure } from '../../lib/aiFailure';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 // ── Open-ended speaking prompt pools ──────────────────────────────────────────
@@ -237,7 +238,12 @@ export default function SpeakingScreen({
   // for open-ended answers. One call per prompt; fail-soft (null = no card).
   const [coach, setCoach] = useState<CoachResult | null>(null);
   const [coachLoading, setCoachLoading] = useState(false);
+  // Why the coach did not answer (owner directive, 2026-09-07): the card used
+  // to render NOTHING on any failure — the learner was promised coaching, the
+  // spinner ran, then silence. Now the cause is named and can be retried.
+  const [coachFailure, setCoachFailure] = useState<AiFailure | null>(null);
   const coachAskedRef = useRef('');
+  const coachTranscriptRef = useRef('');
 
   // Per-word accuracy from PronunciationScorer.
   // score is a real Azure acoustic % when available, or null when the word was only
@@ -303,15 +309,28 @@ export default function SpeakingScreen({
     if (!OPEN_ENDED_TYPES.includes(sw[2] as string)) return;
     if (coachAskedRef.current === promptText) return;
     coachAskedRef.current = promptText;
+    coachTranscriptRef.current = transcript;
     setCoachLoading(true);
+    setCoachFailure(null);
     const res = await requestSpeakingCoach({
       prompt: promptText,
       transcript,
       level: getCurrentContentLevel(),
     });
     if (!mountedRef.current) return;
-    setCoach(res);
+    if (res && res.ok) {
+      setCoach(res.data);
+    } else if (res) {
+      setCoach(null);
+      setCoachFailure(res.failure);
+    }
     setCoachLoading(false);
+  }
+
+  /** Try again after a named failure — same prompt, same transcript. */
+  function retryCoach() {
+    coachAskedRef.current = '';
+    void maybeCoach(coachTranscriptRef.current);
   }
 
   // Reset per-word score when word changes (called on Next)
@@ -324,6 +343,7 @@ export default function SpeakingScreen({
     setCurrentWordScore(null);
     setPronScore(null);
     setCoach(null);
+    setCoachFailure(null);
     setCoachLoading(false);
     coachAskedRef.current = '';
     if (sx < si.length - 1) {
@@ -1052,6 +1072,35 @@ export default function SpeakingScreen({
           data-testid="coach-loading"
         >
           🎓 Your coach is reading your answer…
+        </div>
+      )}
+      {isOpenEnded && !coachLoading && !coach && coachFailure && (
+        <div
+          style={{
+            marginTop: 12,
+            padding: '12px 16px',
+            background: 'var(--card)',
+            border: '1.5px solid var(--inp-b)',
+            borderRadius: 14,
+            fontSize: 13,
+            color: 'var(--text)',
+            textAlign: 'left',
+          }}
+          data-testid="coach-failed"
+          data-failure-kind={coachFailure.kind}
+          role="status"
+        >
+          <div style={{ fontWeight: 800, color: 'var(--heading)', marginBottom: 4 }}>
+            🎓 Coaching unavailable
+          </div>
+          <div style={{ color: 'var(--subtext)', marginBottom: coachFailure.retryable ? 8 : 0 }}>
+            {coachFailure.message}
+          </div>
+          {coachFailure.retryable && (
+            <button className="b bs" data-testid="coach-retry" onClick={retryCoach}>
+              Try again
+            </button>
+          )}
         </div>
       )}
       {isOpenEnded && !coachLoading && coach && (

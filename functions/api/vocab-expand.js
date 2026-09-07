@@ -7,6 +7,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const VOCAB_PROMPT = definePrompt(
   'vocab-expand',
@@ -171,6 +172,7 @@ export async function onRequestPost(context) {
     return ok({ examples: [], cached: false }, origin);
   }
 
+  await reconcileSafely(env, '/api/vocab-expand', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('vocab-expand.js: Anthropic returned empty response');

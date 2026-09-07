@@ -7,6 +7,8 @@ import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { sanitizeParam } from './_helpers.js';
 import { writingEvalSystemPrompt, WRITING_EVAL_PROMPT } from './_evalPrompts.js';
 import { promptHeaders } from './_promptRegistry.js';
+import { parseModelJson } from './_modelJson.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 export async function onRequestOptions({ request }) {
   return new Response(null, {
@@ -137,17 +139,20 @@ export async function onRequestPost(context) {
     });
   }
 
-  const rawText = data.content?.[0]?.text || '{}';
+  await reconcileSafely(env, '/api/correct', data?.usage);
+  const rawText = data.content?.[0]?.text || '';
 
-  // Parse Claude's JSON payload. If it is malformed we must NOT invent a score —
-  // a fabricated number (e.g. a hardcoded 60) shown as the user's real result is
-  // worse than an honest failure. Return a non-200 so the client surfaces a
-  // "couldn't connect" error instead of a fake evaluation.
-  let result;
-  try {
-    result = JSON.parse(rawText);
-  } catch {
-    console.error('[correct] JSON parse failed on Claude payload:', rawText.slice(0, 200));
+  // Parse Claude's JSON payload through the SHARED tolerant parser (fences,
+  // leading prose, trailing remarks — see _modelJson.js). Until 2026-09-07 this
+  // was a bare JSON.parse, the only structured endpoint without fence
+  // tolerance, so a fenced-but-valid evaluation 502'd as eval_unparseable and
+  // the learner read "couldn't connect" — while the golden calibration, which
+  // stripped fences itself, stayed green. If nothing parses we must NOT invent
+  // a score — a fabricated number shown as the user's real result is worse
+  // than an honest failure. Return a non-200 with a named code.
+  const result = parseModelJson(rawText);
+  if (!result || typeof result.score !== 'number' || typeof result.corrected_text !== 'string') {
+    console.error('[correct] no usable evaluation in Claude payload:', rawText.slice(0, 200));
     return new Response(JSON.stringify({ error: 'eval_unparseable' }), { status: 502, headers });
   }
 

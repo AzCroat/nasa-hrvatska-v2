@@ -19,6 +19,7 @@
 // drift verdict) — no user data is involved anywhere in this path.
 
 import { checkAndChargeBudget } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 import { GOLDEN_SET } from './_goldenSet.js';
 import {
   writingEvalSystemPrompt,
@@ -75,14 +76,6 @@ export function promptsUsedBy(rows) {
   return used;
 }
 
-/** Strip an optional ```json fence — same tolerance as the production parsers. */
-function stripFence(text) {
-  return String(text || '')
-    .replace(/^\s*```(?:json)?\s*/i, '')
-    .replace(/\s*```\s*$/i, '')
-    .trim();
-}
-
 async function callClaude(env, { system, user, maxTokens }) {
   const body = {
     model: CLAUDE_MODEL,
@@ -103,7 +96,12 @@ async function callClaude(env, { system, user, maxTokens }) {
   if (!r.ok) throw new Error(`anthropic_http_${r.status}`);
   const data = await r.json();
   const text = data?.content?.[0]?.text || '';
-  return JSON.parse(stripFence(text));
+  // The SAME parser production uses (_modelJson.js) — a drift detector more
+  // tolerant than the endpoints it measures would miss exactly the failures
+  // learners meet (2026-09-07: /api/correct had no fence tolerance at all).
+  const parsed = parseModelJson(text);
+  if (!parsed) throw new Error('eval_unparseable');
+  return parsed;
 }
 
 /** Run one golden sample through its production rubric. Returns the report row. */

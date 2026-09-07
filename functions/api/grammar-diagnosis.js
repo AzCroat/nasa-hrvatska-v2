@@ -6,6 +6,8 @@ import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { parseModelJson } from './_modelJson.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const GRAMMAR_DIAG_PROMPT = definePrompt(
   'grammar-diagnosis',
@@ -280,6 +282,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/grammar-diagnosis', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('grammar-diagnosis.js: Anthropic returned empty response');
@@ -289,11 +292,8 @@ export async function onRequestPost(context) {
   // ── Parse response ──
   let parsed;
   try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
+    parsed = parseModelJson(raw);
+    if (!parsed) throw new Error('no JSON in model reply');
   } catch {
     console.error('grammar-diagnosis.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);

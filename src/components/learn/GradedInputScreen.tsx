@@ -12,6 +12,13 @@ import { useRecorder } from '../../hooks/useRecorder';
 import { appendRecentError } from '../../lib/recentErrors';
 import { recordStoryRead } from '../../lib/recentReads';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
+import {
+  failureFromResponse,
+  failureFromError,
+  failureFromStatus,
+  reportAiFailure,
+  type AiFailure,
+} from '../../lib/aiFailure';
 
 // Map CEFR story level to TOPIC_ALLOWLIST entry for recent-error logging.
 // Graded stories test vocabulary comprehension, so vocab-{level} is the
@@ -326,16 +333,51 @@ function StoryList({ onSelect, goBack }: { onSelect: (id: string) => void; goBac
 }
 
 // ─── Pronunciation assessment helper ─────────────────────────────────────────
+// A failed assessment carries a NAMED cause (owner directive, 2026-09-07): this
+// used to throw a bare 'Assessment failed' and the screen rendered "check your
+// connection" for a signed-out learner, a budget pause and an Azure 502 alike.
+// It also had no timeout, so a hung request left the paragraph stuck forever.
+const ASSESS_TIMEOUT_MS = 20_000;
+
+class AssessError extends Error {
+  failure: AiFailure;
+  constructor(failure: AiFailure) {
+    super(failure.message);
+    this.failure = failure;
+  }
+}
+
 async function assessPronunciation(audioBlob: Blob, referenceText: string) {
   const audioBase64 = await blobToBase64(audioBlob);
-  const res = await _nativePost('/api/pronunciation-assess', {
-    audioBase64,
-    referenceText,
-    locale: 'hr-HR',
-    audioMimeType: audioBlob.type || 'audio/webm',
-  });
-  if (!res || !res.ok) throw new Error('Assessment failed');
-  return res.json();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ASSESS_TIMEOUT_MS);
+  let res: Response | null;
+  try {
+    res = await _nativePost(
+      '/api/pronunciation-assess',
+      {
+        audioBase64,
+        referenceText,
+        locale: 'hr-HR',
+        audioMimeType: audioBlob.type || 'audio/webm',
+      },
+      { signal: controller.signal },
+    );
+  } catch (e) {
+    throw new AssessError(failureFromError(e));
+  } finally {
+    clearTimeout(timer);
+  }
+  if (!res || !res.ok) throw new AssessError(await failureFromResponse(res));
+  const data = (await res.json()) as Record<string, unknown>;
+  // The endpoint answers 200 { ok:false, error:'not_configured' } when Azure
+  // is absent — a success status that is not a result.
+  if (data && data['ok'] === false) {
+    throw new AssessError(
+      failureFromStatus(200, typeof data['error'] === 'string' ? data['error'] : 'server'),
+    );
+  }
+  return data as unknown as AssessResult;
 }
 
 // ─── Reader view ──────────────────────────────────────────────────────────────
@@ -381,11 +423,14 @@ export function StoryReader({
     (async () => {
       try {
         const result = await assessPronunciation(blob, paraText);
-        if (!cancelled) setAssessResults((r) => ({ ...r, [paraIdx]: result }));
-      } catch (_e) {
         if (!cancelled) {
-          setAssessError('Assessment unavailable — check your connection and try again.');
+          setAssessError(null);
+          setAssessResults((r) => ({ ...r, [paraIdx]: result }));
         }
+      } catch (e) {
+        const failure = e instanceof AssessError ? e.failure : failureFromError(e);
+        reportAiFailure('graded-reader-pronunciation', failure);
+        if (!cancelled) setAssessError(failure.message);
       }
       if (!cancelled) {
         setRecordingIdx(null);
@@ -569,6 +614,8 @@ export function StoryReader({
       {/* Generic assessment error (network, API, mic-unsupported) */}
       {assessError && recorder.state !== 'denied' && (
         <div
+          data-testid="reader-assess-failed"
+          role="alert"
           style={{
             background: '#fee2e2',
             border: '1px solid #fca5a5',

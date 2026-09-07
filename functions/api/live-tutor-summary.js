@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const SUMMARY_PROMPT = definePrompt(
   'live-tutor-summary',
@@ -206,6 +207,7 @@ export async function onRequestPost(context) {
     return staticFallback(safeDurationSecs, safeTurnCount, origin);
   }
 
+  await reconcileSafely(env, '/api/live-tutor-summary', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('live-tutor-summary.js: Anthropic returned empty response');

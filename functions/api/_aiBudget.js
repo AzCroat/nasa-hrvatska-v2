@@ -295,6 +295,29 @@ export async function reconcileBudget(env, pathname, usage) {
   }
 }
 
+/**
+ * reconcileBudget that can never throw into a handler — the one-liner every
+ * non-streaming Claude endpoint calls right after it has parsed the API
+ * envelope (2026-09-07). Until then only three of twenty-four Claude
+ * endpoints reconciled, so the other twenty-one charged their worst-case
+ * ceiling PERMANENTLY: /api/correct booked $0.025 per essay against a real
+ * cost of ~$0.005, /api/explain-error $0.014 per wrong answer against
+ * ~$0.002. At 5x over-counting the $9 ledger could be spent by mid-month, and
+ * from then until the 1st every live evaluation — writing feedback, the
+ * speaking coach, the Level Check's own scoring — answered
+ * `monthly_budget_exhausted`. The budget guarantee stands (the pre-charge is
+ * still the ceiling); this makes the ledger record what was spent.
+ * `reconcileEndpoints.test.js` derives the set of Claude callers from source
+ * and fails on any that does not reconcile or carry a stated exemption.
+ */
+export async function reconcileSafely(env, pathname, usage) {
+  try {
+    await reconcileBudget(env, pathname, usage);
+  } catch {
+    /* ceiling stays charged — safe */
+  }
+}
+
 /** Current month's ledger, for the status endpoint. Read-only. */
 export async function getBudgetStatus(env) {
   const db = env.AI_QUOTA_DB || null;

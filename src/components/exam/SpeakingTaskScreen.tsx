@@ -5,8 +5,26 @@ import type { SpeakingScorer, SpeakingAssessment } from '../../lib/speaking/Spea
 import type { SpeakingTask } from '../../data/speakingTasks.js';
 import { useRecorder } from '../../hooks/useRecorder.js';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer.js';
+import { getLastSpeakingScoreFailure } from '../../lib/speaking/whisperClaudeScorer.js';
+import type { AiFailure } from '../../lib/aiFailure.js';
 
 type Phase = 'idle' | 'assessing' | 'retry' | 'review';
+
+/**
+ * The sentence shown when an assessment came back unscored (owner directive,
+ * 2026-09-07). A null from the scorer used to read, always, as "We couldn't
+ * score that clearly" — learner fault — when the cause was usually a budget
+ * pause, a signed-out session, an STT outage or a rubric 502. The scorer now
+ * records the cause; only a genuinely thin answer keeps the old wording.
+ */
+function retryMessage(failure: AiFailure | null, typed: boolean): string {
+  if (!failure || failure.kind === 'insufficient') {
+    return typed
+      ? "We couldn't score that clearly. Edit your answer and try again."
+      : "We couldn't score that clearly. Let's try once more.";
+  }
+  return `${failure.message} Your answer was not scored — nothing counts against you.`;
+}
 
 export interface SpeakingTaskScreenProps {
   task: SpeakingTask;
@@ -35,6 +53,7 @@ export default function SpeakingTaskScreen({
   // silently becoming a wrong score. One re-record is allowed per task (enough
   // to fix a mishearing, not enough to farm the grader for a better mark).
   const [review, setReview] = useState<SpeakingAssessment | null>(null);
+  const [failure, setFailure] = useState<AiFailure | null>(null);
   const rerecordUsedRef = useRef(false);
   // Single-assessment-per-recording guard: remember the exact Blob we already
   // scored. The recorder yields a fresh Blob per recording, so blob identity
@@ -83,6 +102,7 @@ export default function SpeakingTaskScreen({
       });
       if (cancelled) return;
       if (result === null) {
+        setFailure(getLastSpeakingScoreFailure());
         setPhase('retry'); // not scored → retry, never a failing score
         return;
       }
@@ -107,6 +127,7 @@ export default function SpeakingTaskScreen({
       prompt: promptRef.current,
     });
     if (result === null) {
+      setFailure(getLastSpeakingScoreFailure());
       setPhase('retry'); // not scored → let them edit and resubmit, never a failing score
       return;
     }
@@ -136,8 +157,13 @@ export default function SpeakingTaskScreen({
             </p>
           ) : phase === 'retry' ? (
             <>
-              <p className="speak-status" data-testid="speak-retry">
-                We couldn&apos;t score that clearly. Edit your answer and try again.
+              <p
+                className="speak-status"
+                data-testid="speak-retry"
+                data-failure-kind={failure?.kind ?? 'insufficient'}
+                role="alert"
+              >
+                {retryMessage(failure, true)}
               </p>
               <button className="b bp" onClick={() => setPhase('idle')}>
                 Try again
@@ -219,8 +245,13 @@ export default function SpeakingTaskScreen({
 
       {!denied && phase === 'retry' && (
         <>
-          <p className="speak-status" data-testid="speak-retry">
-            We couldn&apos;t score that clearly. Let&apos;s try once more.
+          <p
+            className="speak-status"
+            data-testid="speak-retry"
+            data-failure-kind={failure?.kind ?? 'insufficient'}
+            role="alert"
+          >
+            {retryMessage(failure, false)}
           </p>
           <button
             className="b bp"

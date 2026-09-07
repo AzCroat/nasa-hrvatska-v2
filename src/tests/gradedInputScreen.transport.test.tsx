@@ -205,7 +205,7 @@ describe('assessPronunciation — correct keys via _nativePost (Task 4)', () => 
 
     // If nativePost was called with null result, error message should appear
     if (mockNativePost.mock.calls.length > 0) {
-      expect(screen.getByText(/Assessment unavailable|check your connection/i)).toBeInTheDocument();
+      expect(screen.getByTestId('reader-assess-failed')).toHaveTextContent(/No connection/);
     }
     // If not triggered in this cycle, at minimum the component rendered without crashing
   });

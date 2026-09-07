@@ -280,6 +280,79 @@ existed.
   locked answer behind a failed speaker icon would strand a learner who can
   read it).
 
+## Critical Architecture: Feedback Must Work Every Time (owner directive, 2026-09-07)
+
+"Feedback on writing or any feedback provided on speech MUST work EVERY TIME.
+It hasn't worked yet." The census (every surface that promises feedback on
+writing or speech, traced end to end) found four classes of defect, none
+visible from the others, and the golden calibration green throughout.
+
+1. **The writing evaluator could not read a fenced reply.** `/api/correct`
+   parsed the model's JSON with a bare `JSON.parse` — the ONE structured
+   endpoint with no fence tolerance — so a ```json-fenced or prose-wrapped
+   evaluation was a 502 `eval_unparseable` and the learner read "temporarily
+   unavailable". Three sibling endpoints stripped fences with their own regex;
+   `golden-calibration.js` stripped them with a fourth, under a comment saying
+   "same tolerance as the production parsers", which was false for the parser
+   that mattered. **`functions/api/_modelJson.js` (`parseModelJson`) is now the
+   one parser** — exact, fence-stripped, then the outermost `{…}`/`[…]` span;
+   null, never a throw or a fabricated score — used by `correct`,
+   `assess-speaking`, `speaking-coach`, `explain-error`, `pronunciation-coach`,
+   `grammar-diagnosis` AND the calibration, so the drift detector is exactly as
+   tolerant as production (pinned by `modelJson.test.js`: no private fence
+   regex may return). A drift detector more tolerant than what it measures
+   cannot see this class of failure.
+2. **The budget ledger booked ~5x real spend.** Only 3 of 24 Claude endpoints
+   reconciled their worst-case pre-charge to actual usage; `/api/correct`
+   booked $0.025 per essay against ~$0.005, `/api/explain-error` $0.014 per
+   wrong answer. At that rate the $9 month could be "spent" mid-month, after
+   which every live evaluation — writing feedback, the speaking coach, the
+   Level Check's own scoring — answered `monthly_budget_exhausted` until the
+   1st, by design. **Every non-streaming Claude endpoint now calls
+   `reconcileSafely(env, '<ceiling key>', data?.usage)`** right after parsing
+   the API envelope (`reconcileEndpoints.test.js` DERIVES the caller set from
+   source; exemptions with reasons: `conversation` reconciles its own SSE
+   usage, `news` fans out four calls under one 4x pre-charge, `golden-
+   calibration` pre-charges a whole run). The cap itself is unchanged.
+3. **Client failures were nameless, silent, or blamed the learner.** The
+   speaking coach returned `null` for everything and the card rendered
+   NOTHING; the exam scorer folded a budget pause into "We couldn't score that
+   clearly"; the grammar explainer showed "API error 429"; the graded reader
+   said "check your connection" to a signed-out learner; the live tutor's mic
+   vanished with no banner; Maja's Whisper path had `onError: () => {}`; the
+   pronunciation scorer silently switched to on-device recognition; nothing
+   reached Sentry. **`src/lib/aiFailure.ts` is the one classifier**
+   (`failureFromResponse` / `failureFromStatus` / `failureFromError` →
+   `AiFailure { kind, retryable, message }`, one sentence per kind in the
+   app's voice, `reportAiFailure` capped 3 per surface+kind and never for the
+   learner's own limits). `requestSpeakingCoach` returns `{ok,data}|{ok:false,
+   failure}` and `SpeakingScreen` renders `coach-failed` with Try again;
+   `whisperClaudeScorer` keeps the null contract but records WHY
+   (`getLastSpeakingScoreFailure`) and `SpeakingTaskScreen` says the cause
+   with "nothing counts against you" — only `insufficient` keeps the old
+   wording. `feedbackSurfaces.test.ts` pins every surface's wiring by source;
+   `whisperClaudeScorer.test.ts` drives the real scorer (the screen test mocks
+   it, so a scorer that forgot the cause passed everything else — found by
+   mutation).
+4. **No timeout on the writing path.** `_aiPost` had none and no writing
+   surface passes a signal, so a hung `/api/correct` spun "Grading your
+   writing…" forever. `AI_POST_TIMEOUT_MS` (35 s) turns that into a named
+   `timeout` with a retry; callers with their own signal are untouched.
+
+**What was NOT established:** which of these fired for the owner. Nothing
+recorded it — that is defect 3 — so the fix covers the class and the next
+occurrence names itself in Sentry as `ai_feedback_failed:<surface>:<kind>`.
+The production ledger value was not readable from here; if feedback still
+fails after this ships, the FIRST thing to read is Sentry for that tag.
+
+- NEVER: parse a model reply with a private fence regex or a bare
+  `JSON.parse` (use `parseModelJson`); add a Claude endpoint without
+  `reconcileSafely` or a stated exemption; return a bare `null`/`false` from a
+  feedback path without recording a named cause; render nothing on a feedback
+  failure; show a learner a raw status ("API error 429"); imply learner fault
+  for a server condition; call `_aiPost` for feedback with a signal that
+  disables the default timeout unless you supply your own.
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.
@@ -1375,7 +1448,7 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 1. **Model policy**: ALL Claude endpoints run `claude-haiku-4-5-20251001`. The owner's cost ceiling overrides the "largest model" default — do not promote an endpoint to Sonnet/Opus without redoing the budget math in `_aiBudget.js`.
 2. **Prompt caching**: the 7 conversational call sites (ai-chat ×3, maja ×2, conversation, conversational-tutor) send `system` as the cached-array shape. Integration tests assert the `cache_control` marker — removing it silently 10×'s input cost.
 3. **Per-user quota** (`_aiQuota.js`): 300 turns/day (doubled with the 2026-08-14 budget raise), sized against the budget, not just abuse.
-4. **Global monthly governor** (`_aiBudget.js`; schema doc in `migrations/ai_month_spend.sql` — the table SELF-MIGRATES on first use, nobody runs SQL by hand): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). Conversational endpoints RECONCILE after the response (`reconcileBudget` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged), so the ledger records real spend and the budget funds ~5-10x more conversation turns than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
+4. **Global monthly governor** (`_aiBudget.js`; schema doc in `migrations/ai_month_spend.sql` — the table SELF-MIGRATES on first use, nobody runs SQL by hand): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). EVERY non-streaming Claude endpoint RECONCILES after the response (`reconcileSafely` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged; until 2026-09-07 only three did, and the other twenty-one booked ~5x real cost — see "Feedback Must Work Every Time"), so the ledger records real spend and the budget funds ~5-10x more calls than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
 5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts`, `/api/daily-culture`, `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
 6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key); news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
 7. **Prompt version on cached content** (`_promptCache.js`): a cache-served 200 replays text generated hours ago, so it is tagged with the version stored **beside** the body in KV metadata — never the current one, which would attribute old text to a new prompt. The stored VALUE stays byte-identical (that is why metadata, not an envelope), and an entry written before tagging carries no tag and is served **untagged** rather than guessed. Applies to `/api/daily-culture` and `/api/news`; any future cached AI content must do the same.

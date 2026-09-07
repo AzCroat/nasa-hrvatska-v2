@@ -3,6 +3,12 @@ import type { AwardActivityType } from '../../types/index.js';
 import { H } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { apiFetch } from '../../lib/apiFetch.js';
+import {
+  failureFromResponse,
+  failureFromStatus,
+  failureFromError,
+  reportAiFailure,
+} from '../../lib/aiFailure';
 
 const CITIES = [
   {
@@ -272,15 +278,32 @@ export default function PostcardScreen({
           },
         }),
       });
-      if (!res.ok) throw new Error('API error ' + res.status);
+      if (!res.ok) {
+        // Name the cause (owner directive, 2026-09-07): a signed-out session,
+        // a budget pause and a server 502 all read as "check your connection".
+        const failure = await failureFromResponse(res);
+        reportAiFailure('postcard-correction', failure);
+        setError(failure.message);
+        setLoading(false);
+        return;
+      }
       const data = await res.json();
+      if (typeof data.corrected_text !== 'string') {
+        // The server fell back to { text: raw } because the model's JSON was
+        // unusable — showing the learner's own text as "corrected" is a lie.
+        const failure = failureFromStatus(200, 'parse_failed');
+        reportAiFailure('postcard-correction', failure);
+        setError(failure.message);
+        setLoading(false);
+        return;
+      }
       setCorrection(data);
-      setCorrectedText(data.corrected_text || userText.trim());
+      setCorrectedText(data.corrected_text);
       setStep(2);
     } catch (e) {
-      setError(
-        'Could not reach the AI correction service. Please check your connection and try again.',
-      );
+      const failure = failureFromError(e);
+      reportAiFailure('postcard-correction', failure);
+      setError(failure.message);
     }
     setLoading(false);
   }

@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 // Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
 const MAX_KNOWN_FACTS = 40;
@@ -1024,6 +1025,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/maja', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('maja.js: Anthropic returned empty response');

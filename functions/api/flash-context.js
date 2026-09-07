@@ -5,6 +5,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 // Was uninstrumentable until renderPrompt learned {{#if}}: two of these lines
 // only appear sometimes, and a flat template cannot say "sometimes". Both
@@ -201,6 +202,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/flash-context', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('flash-context.js: Anthropic returned empty response');

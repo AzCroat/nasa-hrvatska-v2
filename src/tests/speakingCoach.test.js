@@ -88,7 +88,7 @@ describe('requestSpeakingCoach — the closed loop', () => {
       transcript: 'ja idem u škola svaki dan i učim puno',
       level: 'B1',
     });
-    expect(res).toEqual(GOOD_PAYLOAD);
+    expect(res).toEqual({ ok: true, data: GOOD_PAYLOAD });
     // Mastery: rubric-graded speech is weight-2 evidence — the signal whose
     // absence made weakestProductionKind bias 'speak' forever (2026-08-18 audit).
     expect(recordMasteryEventMock).toHaveBeenCalledWith({
@@ -104,27 +104,53 @@ describe('requestSpeakingCoach — the closed loop', () => {
     expect(wm[0].correct).toBe('idem u školu');
   });
 
-  it('a quota/budget refusal is SILENT — returns null, records nothing', async () => {
-    aiPostMock.mockResolvedValue({ ok: false, status: 429, json: async () => ({}) });
+  it('a budget refusal is NAMED — { ok:false, failure.kind budget }, records nothing (owner, 2026-09-07)', async () => {
+    // Before: a bare null, and the screen rendered nothing — the learner was
+    // promised coaching, watched a spinner, then got silence.
+    aiPostMock.mockResolvedValue({
+      ok: false,
+      status: 429,
+      json: async () => ({ error: 'monthly_budget_exhausted' }),
+    });
     const res = await requestSpeakingCoach({
       prompt: 'p',
       transcript: 'one two three four five six',
       level: 'A2',
     });
-    expect(res).toBeNull();
+    expect(res).toEqual(expect.objectContaining({ ok: false }));
+    expect(res.failure.kind).toBe('budget');
+    expect(res.failure.retryable).toBe(false);
+    expect(res.failure.message).toMatch(/allowance/);
     expect(recordMasteryEventMock).not.toHaveBeenCalled();
     expect(applyErrorsMock).not.toHaveBeenCalled();
   });
 
-  it('a network failure is SILENT — returns null', async () => {
+  it('a network failure is NAMED and retryable — { ok:false, failure.kind network }', async () => {
     aiPostMock.mockRejectedValue(new TypeError('fetch failed'));
     const res = await requestSpeakingCoach({
       prompt: 'p',
       transcript: 'one two three four five six',
       level: 'A2',
     });
-    expect(res).toBeNull();
+    expect(res.ok).toBe(false);
+    expect(res.failure.kind).toBe('network');
+    expect(res.failure.retryable).toBe(true);
     expect(recordMasteryEventMock).not.toHaveBeenCalled();
+  });
+
+  it('a 502 with an unusable-reply code says so, and says it clears on retry', async () => {
+    aiPostMock.mockResolvedValue({
+      ok: false,
+      status: 502,
+      json: async () => ({ error: 'parse_failed' }),
+    });
+    const res = await requestSpeakingCoach({
+      prompt: 'p',
+      transcript: 'one two three four five six',
+      level: 'A2',
+    });
+    expect(res.failure.kind).toBe('unusable_reply');
+    expect(res.failure.retryable).toBe(true);
   });
 
   it('too-short transcripts are never sent (below the participation threshold)', async () => {
@@ -135,14 +161,15 @@ describe('requestSpeakingCoach — the closed loop', () => {
     expect(transcriptWorthCoaching('idem u školu svaki dan')).toBe(true);
   });
 
-  it('a malformed payload records nothing (no fabricated evidence)', async () => {
+  it('a malformed payload records nothing (no fabricated evidence) and is named unusable', async () => {
     aiPostMock.mockResolvedValue({ ok: true, json: async () => ({ nonsense: true }) });
     const res = await requestSpeakingCoach({
       prompt: 'p',
       transcript: 'one two three four five six',
       level: 'B1',
     });
-    expect(res).toBeNull();
+    expect(res.ok).toBe(false);
+    expect(res.failure.kind).toBe('unusable_reply');
     expect(recordMasteryEventMock).not.toHaveBeenCalled();
   });
 });

@@ -8,6 +8,7 @@ import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { useRecorder } from '../../hooks/useRecorder';
 import { classifyAiLimit, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import LiveTutorSetup from './LiveTutorSetup';
 import LiveTutorDebrief from './LiveTutorDebrief';
 import LiveTutorControls from './LiveTutorControls';
@@ -123,6 +124,8 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   const rec = useRecorder();
   const isRecording = rec.state === 'recording';
   const [useFallbackInput, setUseFallbackInput] = useState(false);
+  // One sentence naming why the last recording produced no transcript.
+  const [sttNotice, setSttNotice] = useState<string | null>(null);
   const [textInput, setTextInput] = useState('');
   // 'unknown' | 'prompt' | 'granted' | 'denied' | 'unavailable'
   const [micPermission, setMicPermission] = useState('unknown');
@@ -600,8 +603,15 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
         );
         if (!res) throw new Error('stt_transport_failed');
         clearTimeout(tid);
-        // Non-2xx (e.g. 503 when STT keys not configured) → fall back to text input
+        // Non-2xx (e.g. 503 when STT keys not configured) → fall back to text
+        // input — and SAY WHY (owner directive, 2026-09-07). Before this the
+        // mic button simply vanished and a text box appeared with no
+        // explanation: both fallback banners were gated on the mic PERMISSION
+        // state, which this path never touches.
         if (!res.ok) {
+          const failure = await failureFromResponse(res);
+          reportAiFailure('live-tutor-stt', failure);
+          setSttNotice(failure.message);
           setUseFallbackInput(true);
           setPhase('none');
           return;
@@ -610,12 +620,17 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
         // API returns { text: "..." } — NOT { transcript: "..." }
         const transcript = data.text?.trim();
         if (transcript) {
+          setSttNotice(null);
           await sendToTutor(transcript, breakdownCount, sessionHistory);
         } else {
+          setSttNotice("We didn't catch any words — try again, a little closer to the mic.");
           setPhase('none'); // no speech detected, re-enable mic
         }
-      } catch {
+      } catch (e) {
         clearTimeout(tid);
+        const failure = failureFromError(e);
+        reportAiFailure('live-tutor-stt', failure);
+        setSttNotice(failure.message);
         setPhase('none');
       }
     },
@@ -1247,6 +1262,45 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
               startRecording();
             }}
           />
+        </div>
+      )}
+
+      {/* ── Transcription failed / heard nothing — the cause, named ── */}
+      {sttNotice && (
+        <div
+          data-testid="live-tutor-stt-notice"
+          role="status"
+          style={{
+            margin: '0 16px 8px',
+            padding: '10px 14px',
+            borderRadius: 10,
+            background: 'rgba(245,158,11,.08)',
+            border: '1px solid rgba(245,158,11,.35)',
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <span>🎙️</span>
+          <span style={{ flex: 1 }}>
+            {sttNotice}
+            {useFallbackInput ? ' You can type your Croatian below.' : ''}
+          </span>
+          <button
+            onClick={() => setSttNotice(null)}
+            aria-label="Dismiss"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--subtext)',
+              cursor: 'pointer',
+              fontSize: 14,
+            }}
+          >
+            ✕
+          </button>
         </div>
       )}
 

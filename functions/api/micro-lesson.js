@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const MICRO_LESSON_PROMPT = definePrompt(
   'micro-lesson',
@@ -198,6 +199,7 @@ Return ONLY valid JSON (no markdown):
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/micro-lesson', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) return err(502, 'Empty response from AI', origin);
 

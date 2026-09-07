@@ -8,6 +8,8 @@ import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { parseModelJson } from './_modelJson.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -195,16 +197,14 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/explain-error', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) return err(502, 'Empty response from AI', origin);
 
   let parsed;
   try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
+    parsed = parseModelJson(raw);
+    if (!parsed) throw new Error('no JSON in model reply');
   } catch {
     console.error('explain-error.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);

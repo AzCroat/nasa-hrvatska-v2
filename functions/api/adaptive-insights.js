@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const INSIGHTS_PROMPT = definePrompt(
   'adaptive-insights',
@@ -263,6 +264,7 @@ export async function onRequestPost(context) {
     return staticFallback(origin);
   }
 
+  await reconcileSafely(env, '/api/adaptive-insights', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('adaptive-insights.js: Anthropic returned empty response');
