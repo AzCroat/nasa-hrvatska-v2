@@ -326,7 +326,9 @@ visible from the others, and the golden calibration green throughout.
    `AiFailure { kind, retryable, message }`, one sentence per kind in the
    app's voice, `reportAiFailure` capped 3 per surface+kind and never for the
    learner's own limits). `requestSpeakingCoach` returns `{ok,data}|{ok:false,
-   failure}` and `SpeakingScreen` renders `coach-failed` with Try again;
+   failure}` and the coach surface renders `coach-failed` with Try again (that
+   was `SpeakingScreen` when this was written; the card was unreachable, and
+   the pin moved to `GuidedSpeakingScreen` when the dead branch was removed);
    `whisperClaudeScorer` keeps the null contract but records WHY
    (`getLastSpeakingScoreFailure`) and `SpeakingTaskScreen` says the cause
    with "nothing counts against you" — only `insufficient` keeps the old
@@ -1905,10 +1907,42 @@ same one-call profile as Guided Writing's `/api/correct`).
   AppRouter, the coupling cleared on a FAILED grade, the rehearse stage gated on
   the recogniser, an award on a failed grade, a model that fails its own
   checklist, a structure absent from its model.
-- **NOT done here, and it is real:** `SpeakingScreen`'s 18 prompts and their
-  three rendering branches are still in the file, inert. Removing ~250 lines from
-  a live 1,170-line screen is its own change with its own E2E audit; it is dead
-  code, not a live defect, and it is recorded rather than quietly left.
+- **THE DEAD CODE IS GONE (2026-09-07, later the same day).** The entry here
+  said "18 prompts and their three rendering branches are still in the file,
+  inert… ~250 lines"; the removal came to **451 lines, 1,170 → 719**, because
+  the pools were only the visible half — `maybeCoach`, `retryCoach`, five
+  pieces of coach state, three coach cards, the prompt-context card, and the
+  `isOE` branches inside `handleScorerResult` and `rec.onresult` all existed
+  solely to serve a `sw[2]` value no launcher produces. `SpeakingPracticePanel`
+  went too: it suppressed the phonetic hint for exactly those three prompt
+  types, a guard that could never fire. What remains is what the screen has
+  always actually been — pronunciation practice — and the heading is now that
+  constant rather than a ternary whose other arm was unreachable.
+  **THE REMOVAL STRENGTHENED THE REACHABILITY GUARD, WHICH WAS PARTLY MASKED BY
+  THE VERY SCREEN IT WAS WRITTEN ABOUT.** Measured both ways by deleting
+  `GuidedSpeakingScreen`'s coach call: on the old tree
+  `speakingCoachReachable.test.ts` failed **2 of 6**, on the new tree **3 of
+  6** — and the one that changed is the headline assertion, "at least one SPEAK
+  screen the session can launch actually calls the coach". `SpeakingScreen` is
+  in `PRODUCTION_POOL` as a `speak` screen and did call `requestSpeakingCoach`,
+  so it satisfied that clause while being the exact thing the guard exists to
+  forbid. Only the mic-free and A1 clauses were holding the line. **A guard can
+  be satisfied by the defect it was written to catch**; deleting the defect is
+  what makes it mean what it says.
+  `feedbackSurfaces.test.ts`'s speech pin moved with it: it named
+  `SpeakingScreen`'s `coach-failed` / `coach-retry`, written by the feedback
+  census that morning — hours before the dead-wiring finding — so it had been
+  pinning a card no learner could render. It now names
+  `GuidedSpeakingScreen`'s `gs-coach-failed` (the retry being `gs-submit`,
+  which survives a failure), plus a second assertion that `SpeakingScreen` does
+  NOT claim a coach it no longer has. Mutation-verified: a stale `coach-failed`
+  reintroduced into `SpeakingScreen` fails 1; the guided coach call removed
+  fails 6 across the four suites. Lint census 1,524 → 1,507 strings outside
+  TARGETS (SpeakingScreen 19 → 2), residue 508 → 491.
+  E2E audit: the specs assert "Pronunciation Practice", which is what the
+  heading now always is; no spec referenced "Speaking Practice", any `coach-*`
+  test id, or any of the removed prompts — greps run for every user-visible
+  string on the deleted branches, not only the identifiers.
 - NEVER: add a speaking surface that grades without a reachable launch path
   (walk the pool → router → import graph, not the library's own tests); gate the
   LISTEN or REHEARSE stage on audio or on the recogniser; clear the coupling or
@@ -2072,7 +2106,7 @@ Measured: **1,869 Croatian strings outside TARGETS, of which the widened matcher
 
 **The ratchet is enforced, not remembered.** `croatianLintTargets.test.ts` calls the census and fails if any file the matcher already sees at least half of is neither in TARGETS nor in `CENSUS_EXEMPT` — so a component authored next month with Croatian in a matched field cannot land outside coverage silently. `CENSUS_EXEMPT` holds three entries, each with its reason, checked in BOTH staleness directions (the `couplingClearingPath` lesson): `dialogueScenarios.js` (walked structurally), `_serbisms.js` and `_croatianGuard.js` (the Serbian forms are their subject matter — the two exclusions this file predicted, now measured rather than assumed).
 
-**The residue is characterised, not ignored**, and bounded by a test at 500 strings. Setting `dialogueScenarios.js` aside, roughly **400 Croatian strings remain at about 10% coverage**, concentrated in three shapes that each need a different answer than "add the file": Croatian embedded in **AI system prompts** (`maja.js` 24, `dialogue.js` 20, `conversation.js` 18 — measured separately: only 12 diacritic-bearing quoted spans across five endpoints, zero findings, so a prompt-aware pass would be a mechanism for twelve strings); Croatian in **bare positional arrays** (`SpeakingScreen.tsx`'s 19 — the dead prompt pools, which no field name can match); and files **guarded elsewhere by design** (`croatianMorphology`/`croatianIrregulars` are checked in-test, deliberately, because their Croatian sits under case keys like `Nsg` that `CRO_FIELD_RE` cannot match — adding them to TARGETS would be the false-confidence trap).
+**The residue is characterised, not ignored**, and bounded by a test at 500 strings. Setting `dialogueScenarios.js` aside, roughly **400 Croatian strings remain at about 10% coverage**, concentrated in three shapes that each need a different answer than "add the file": Croatian embedded in **AI system prompts** (`maja.js` 24, `dialogue.js` 20, `conversation.js` 18 — measured separately: only 12 diacritic-bearing quoted spans across five endpoints, zero findings, so a prompt-aware pass would be a mechanism for twelve strings); Croatian in **bare positional arrays** (`SpeakingScreen.tsx`'s 19 — the dead prompt pools, which no field name can match; **those 19 are now 2, the pools having been deleted**, so this shape is nearly closed and the residue is 491); and files **guarded elsewhere by design** (`croatianMorphology`/`croatianIrregulars` are checked in-test, deliberately, because their Croatian sits under case keys like `Nsg` that `CRO_FIELD_RE` cannot match — adding them to TARGETS would be the false-confidence trap).
 
 **THE WRITING CURRICULUM SAT IN TARGETS FOR EIGHTEEN DAYS AT ROUGHLY ONE SIXTH (2026-09-05).** `src/data/writingCurriculum.ts` joined the list the day it was authored, its header said "scanned by lintCroatianText.mjs — keep it clean", and the 2026-09-01 census that widened the matcher did not catch it because that census ranked candidates OUTSIDE the list. Found by mutation while expanding the file: a Serbism in a structure `hr` was caught; the same word in a MODEL text, a frame's `after`, or the connectives array passed clean. Three misses, and the third is new: (1) `model` / `before` / `after` were not field names the regex knew — and the model is the native-standard text the learner studies and imitates, the load-bearing prose of the whole unit; (2) `connectives` / `accept` are bare arrays, outside `ARRAY_FIELD_RE`; (3) **CONCATENATION**: a model is written as `'…' +\n'…' +\n'…'` and the field regex captured the FIRST literal only. 222 such joins sit across TARGETS; every continuation line was invisible. `fieldStrings` now follows `+ '…'` chains from the first match. Measured before writing (`NH_LINT_CENSUS=1` prints the count of strings the passes actually look at, so this is re-runnable): 93,950 → 94,290 strings, zero new findings; mutation-verified in seven positions. **A file's own header claiming it is linted is the least reliable evidence there is** — it was written by the same person who forgot to check.
 
