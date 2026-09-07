@@ -258,6 +258,14 @@ records, reports and names failures identically. Pinned by
 now hear each sentence before answering, because that is what a learner must
 do. **Report the census, not the grep**: the "~80" would have sent the next
 person gating seventy screens where the text was on screen all along.
+**The E2E audit for this change missed a spec on its first pass** and CI
+caught it: `practice.spec.js` clicked the Dictation input directly, and the
+audit had grepped for test ids and the exam's button labels, not for the
+input's PLACEHOLDER — the string the spec actually used. When a change locks
+or hides a control, grep the specs for every user-visible string on that
+control (placeholder, title, aria-label, text), not for the identifiers you
+just added; the spec that breaks is the one written before your identifiers
+existed.
 
 - NEVER: charge the per-user quota before a cache lookup; return `null` from
   a transport helper for a response that arrived; dispatch `nh:tts-failed` or

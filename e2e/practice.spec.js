@@ -167,6 +167,12 @@ test.describe('DictationScreen', () => {
     await openSobaExercise(page, 'Izgovor', 'Dictation');
     await expect(page.getByText('🎧 Dictation')).toBeVisible({ timeout: 8_000 });
     const input = page.locator('input[placeholder="Type what you heard..."]');
+    // Heard gate (2026-09-06): "type what you hear" is locked until the
+    // sentence has played. The TTS mock serves a real silent WAV, so playing
+    // it unlocks the input exactly as it does for a learner.
+    await expect(input).toBeDisabled();
+    await page.getByTestId('dictation-play').click();
+    await expect(input).toBeEnabled({ timeout: 15_000 });
     await input.click();
     await page.locator('button').filter({ hasText: /^Č$/ }).click();
     await expect(input).toHaveValue('Č');
