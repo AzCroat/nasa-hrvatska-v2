@@ -13,10 +13,20 @@
 //   B1  min 78  p10 91  median 99  p90 103 max 105
 //   C1  min 116 p10 147 median 160 p90 167 max 170
 //
-// The three NEW bands interpolate that ladder. They must sit strictly between
-// their neighbours at every city, because the whole claim of a graded corpus is
-// that reading up the ladder is reading more — a B2 text shorter than its own
-// B1 would be a level badge on a simpler text.
+// The three NEW bands interpolate that ladder. THE BINDING CONSTRAINT IS
+// PER-CITY, not the global range: a band must sit strictly between its own
+// city's neighbours, because the whole claim of a graded corpus is that reading
+// up the ladder is reading more — a B2 text shorter than its own B1 would be a
+// level badge on a simpler text.
+//
+// The global ranges below are a SANITY NET around that, and the first draft got
+// them wrong in a way worth recording. B2 was written [115,145] and C1 allows
+// 116, so a city whose C1 is 116 words needed a B2 that was both >= 115 and
+// <= 115 — a one-word window, and four cities were inside 40 of it. Measured,
+// the per-city windows are all >= 34 words wide (tightest: Dubrovnik B2 82-115,
+// Split 83-118), so the ladder was never the problem; the global band was.
+// Ranges are now wide enough that they can never contradict a real ladder, and
+// `windowFor` hands an author the actual window for the city in front of them.
 
 /** Field name carrying each band. B1 keeps the BARE name (gradedHr's baseline). */
 export const BAND_FIELD = {
@@ -38,7 +48,7 @@ export const BAND_RULES = {
       'Short simple sentences. Subject forms and the present tense; no cases beyond the nominative and the most basic accusative. Say where the place is, what it is, one thing you can see or do there.',
   },
   A2: {
-    words: [55, 80],
+    words: [45, 100],
     brief:
       'Still simple, but a paragraph rather than a list: past tense allowed, the common prepositions with their cases (u/na + locative, iz/do + genitive), a because-clause. Everyday register — what a visitor notices first.',
   },
@@ -48,7 +58,7 @@ export const BAND_RULES = {
       'The baseline register HISTORY established. Connected prose with subordinate clauses, dates and numbers, a sense of what the place is known for. Neutral and factual.',
   },
   B2: {
-    words: [115, 145],
+    words: [80, 165],
     brief:
       'Reportage. Concrete detail with figures and dates, a contrast or a tension named (what has changed, what is disputed, what the season does to the place), participles and the passive where they read naturally.',
   },
@@ -58,11 +68,38 @@ export const BAND_RULES = {
       'An argued paragraph about what the place MEANS — not a gloss of the English facts. A claim, evidence for it, and a qualification. Analytical register.',
   },
   C2: {
-    words: [185, 235],
+    words: [180, 245],
     brief:
       'Essayistic. The place as an instance of something larger — a pattern in Croatian settlement, memory, economy or landscape — with the counter-reading acknowledged. Nominalisation, embedded clauses, precise lexis; never ornament for its own sake.',
   },
 };
+
+/**
+ * The word window for `band` at one city, given the bands it already has:
+ * strictly between the nearest authored neighbour below and the nearest above,
+ * intersected with the global sanity range. This is what an author should be
+ * given — "55 to 80 words" is a corpus statistic, "longer than this city's 41
+ * and shorter than its 96" is the rule they can actually satisfy.
+ */
+export function windowFor(band, ladder) {
+  const i = BAND_ORDER.indexOf(band);
+  let [lo, hi] = BAND_RULES[band].words;
+  for (let j = i - 1; j >= 0; j--) {
+    const t = ladder[BAND_ORDER[j]];
+    if (typeof t === 'string') {
+      lo = Math.max(lo, wordsIn(t) + 1);
+      break;
+    }
+  }
+  for (let j = i + 1; j < BAND_ORDER.length; j++) {
+    const t = ladder[BAND_ORDER[j]];
+    if (typeof t === 'string') {
+      hi = Math.min(hi, wordsIn(t) - 1);
+      break;
+    }
+  }
+  return [lo, hi];
+}
 
 /** Bands whose text ships today; the rest are the authoring target. */
 export const SHIPPED_BANDS = ['A1', 'B1', 'C1'];
