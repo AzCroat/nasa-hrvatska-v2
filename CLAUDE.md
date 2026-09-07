@@ -1422,9 +1422,11 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   the city list is authored. One auxiliary exemption, `grammarreader` (tap-a-word
   analysis over authored passages), pinned to the endpoint it must still call.
 - **Two input screens now level themselves and carry `adaptive` honestly.** The
-  LISTEN bank has a `level` on all 45 items; both launch sites shuffled the whole
+  LISTEN bank has a `level` on all 45 items; its launch sites shuffled the whole
   bank, so an A1 learner's Listening Quiz was mostly B1–C2 sentences —
   `_levelledListen` filters to ≤ level (whole-bank fallback under 4 items).
+  **This entry said "both launch sites" and there were THREE** — see the sweep
+  below; `GradTab`'s own Listening button was never in that count.
   `GradedInputScreen` opens on the learner's level instead of All (177 stories,
   A1 first), falling back to All when a level has no stories; its filter row is
   unchanged. Never tag an entry `adaptive` on the strength of a screen that does
@@ -1458,6 +1460,62 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   each failing 1–2 tests: the filter removed, the `stats` argument dropped, the
   thin-bank fallback removed, an unlevelled item excluded, the two colours
   removed.
+  **THEN THE CLASS WAS SWEPT, AND THERE WERE FOUR MORE (2026-09-07).** Fixing
+  Dictation the way LISTEN had been fixed left nothing that could see the sixth
+  bank, so instead of a fifth per-screen fix the whole class was derived. Two
+  properties made every instance invisible from every other: the level is on the
+  DATA, so a bank looks levelled from the inside whatever its consumer does; and
+  `shuffle(BANK).slice(0, N)` is an ordinary line that simply never mentions the
+  field. Measured, at each screen's own gate level:
+
+  | bank | items | above the learner, per round, BEFORE |
+  | --- | --- | --- |
+  | LISTEN via `GradTab.startListening` (A1) | 45 | 6.8 of 8 |
+  | `TRANSLATE_DRILLS` + `C1_DRILLS` (B1) | 64 | 41 of 64 |
+  | `TRANSFORMS` (B1) | 43 | 3.3 of 10 |
+  | `TRANSLATE_PROD` (B1) | 30 | 2.7 of 10 |
+  | WritingScreen `PROMPTS` (A2) | 20 | 0.8 of 1 |
+
+  Three findings worth keeping. **The LISTEN fix said "both launch sites" and
+  there were three** — `GradTab`'s Practice-tab button hands `launchListening`
+  its own `sh(LISTEN).slice(0, 8)`, and `launchListening` takes what it is
+  given; the filter goes BEFORE the slice, since filtering after it shortens the
+  round instead of aiming it. **`WritingScreen` is the same defect in a shape no
+  shuffle-and-slice search would find** — a random INDEX over all 20 prompts,
+  with `level` read only to colour the badge beside them, on the keyboard-only
+  production screen a mic-blocked learner gets at every level. **The
+  `ProductionDrillScreen` banks were made unlevelled BY the fix that bounded
+  them**: the 2026-07-21 owner-flagged change capped a 43-item sitting to
+  `ROUND_SIZE`, which is where `sh([...BANK]).slice(0, 10)` came from. Its other
+  two modes (`BUILD_SENTENCES`, `ERROR_CORRECT`) carry no `level` at all — a
+  content gap, recorded rather than papered over.
+  `src/lib/levelledBank.ts` is now the ONE rule (`_levelledListen` and
+  `_levelledDictation` survive as named wrappers over it), and
+  `levelledBankReads.test.ts` DERIVES the levelled banks from source and
+  requires every SELECTING use — shuffle, slice or random index — to reach it,
+  with one exemption (`MEDIA` in `MediaTab`, a browse catalogue) checked in both
+  staleness directions. **Two derivation traps, each of which made the guard
+  decorative until fixed:** a NAME COLLISION (`SpeakingSprintScreen` also
+  declares `PROMPTS`, as an object keyed BY level — already correct, and
+  reported as three violations by a name-only match), so a bank is (file, name);
+  and BARREL RE-EXPORT — scoping importers by module PATH dropped `GradTab`,
+  which is exactly where the unfixed LISTEN site lived, and dropped
+  `useScreenLauncher`, which never imports the name at all (it comes from
+  `_getData()`). Comment stripping is load-bearing in the dangerous direction:
+  prose mentioning the helper near a raw shuffle would read as compliance, so
+  the strip is driven by its own test rather than trusted to the corpus.
+  Mutation-verified, eight: each of the five fixes reverted fails 2–6 tests, an
+  exemption over a vanished use fails 2, a name-only scope fails 2, and
+  unstripped comments fail 2.
+  **Two stale test pins came with it, both the shape this file warns about**:
+  `productionDrill.contract.test.tsx` hardcoded `const ROUND = 10` restating
+  `ROUND_SIZE` (the round is now also bounded by what is servable, so the loop
+  derives its length and the fixture states the B1 gate), and
+  `production-drill-screen.test.tsx` asserted a specific A2 sentence from an
+  unfiltered bank while mocking stats at A1.
+  NEVER: fix one of these screens without re-running the derivation; add a
+  levelled bank whose consumer picks from it without `levelledBank`; scope a
+  source-derived guard by module path when a barrel re-exports the name.
 - **WHAT THIS COSTS, stated:** the A2 discovery slot. Discovery fires only when
   TWO fill slots remain after the guarantees; A2 had that headroom and B1+ never
   did. In default mode the widened pool's window is now the LRS bonus round at

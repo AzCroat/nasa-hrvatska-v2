@@ -4,6 +4,7 @@ import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { LISTEN, getSR, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
+import { levelledBank } from '../../lib/levelledBank';
 import { localDateStr } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
@@ -96,7 +97,12 @@ export default function GradTab({
     onLaunchMatch(initPool);
   }
   function startListening() {
-    onLaunchListen(sh(LISTEN).slice(0, 8));
+    // THE THIRD LISTEN LAUNCH SITE. The 2026-09-04 fix levelled the session and
+    // learn-path launchers and recorded "both launch sites"; this one — the
+    // Practice tab's own button — was never in that count, so it went on
+    // handing an A1 learner a bank that is 84% B1-C2. Filter BEFORE the slice:
+    // filtering after it would shorten the round instead of aiming it.
+    onLaunchListen(sh(levelledBank(LISTEN as { level?: string }[], vocabLevel(st))).slice(0, 8));
   }
   function startSpeaking() {
     onLaunchSpeaking(sh(pool).slice(0, 6));

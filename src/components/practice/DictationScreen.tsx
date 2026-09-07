@@ -8,8 +8,8 @@ import { rnd } from '../../lib/random.js';
 import { _aiPost } from '../../lib/aiPost';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
-import { isUnlocked } from '../../lib/cefr';
 import { getGenerationCefr } from '../../lib/cefrCertification';
+import { levelledBank } from '../../lib/levelledBank';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -361,18 +361,17 @@ type DictationItem = { text: string; en: string; level: string };
  * Falls back to the whole bank when the levelled slice is too thin for a round
  * — a launch must never bail on a classification gap. It does not fire on
  * today's bank (A1, the tightest level, has 11 at or below), and a test says so
- * in both directions. An unlevelled item is kept at every level, because
- * `cefrRank` reads an unknown level as A1: absence degrades to servable, it
- * never excludes. (`_levelledListen` writes that as an explicit `!lv ||`
- * clause, which the same rule makes unreachable — the test here drives the
- * mechanism rather than restating it.)
+ * in both directions.
+ *
+ * The rule itself lives in `lib/levelledBank` — five banks had this defect and
+ * fixing them one screen at a time is what let the next one stay invisible.
+ * This wrapper survives as the screen's named entry point.
  */
 export function _levelledDictation(
   bank: DictationItem[],
   level = getGenerationCefr(),
 ): DictationItem[] {
-  const ok = bank.filter((q) => isUnlocked(q.level, level));
-  return ok.length >= 4 ? ok : bank;
+  return levelledBank(bank, level);
 }
 
 const levelColor: Record<string, string> = {

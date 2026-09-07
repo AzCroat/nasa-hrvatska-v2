@@ -19,7 +19,6 @@ import type { VocabWord } from '../lib/exerciseData';
 // could ever reach 1,030 of the core words and none reached the B2–C2 tiers.
 // `allCats` survives only as an explicit override for test fixtures.
 import { vocabPool, acquisitionPool, vocabCategories, vocabLevel } from '../lib/vocabPool';
-import { isUnlocked } from '../lib/cefr';
 import type { VocabSource } from '../lib/vocabPool';
 import { reportError } from '../lib/errorReporter';
 // Web Storage access THROWS (SecurityError) — it does not return null — when the
@@ -34,6 +33,7 @@ import { markExerciseDone } from './useAward.js';
 import type { Stats, StatsDelta } from '../types/index.js';
 import type { AwardActivityType } from '../lib/activityXp.js';
 import { getContent, getGrammar, getLessons } from '../lib/contentClient';
+import { levelledBank } from '../lib/levelledBank';
 
 // V is only needed when launching exercises — lazy import keeps chunk-data
 // out of the startup bundle. GRAM and LESSONS are fetched server-side via
@@ -57,11 +57,7 @@ type Row = VocabWord;
  * bail on a classification gap. Exported for the wiring test.
  */
 export function _levelledListen(bank: unknown[], level = vocabLevel()): unknown[] {
-  const ok = bank.filter((q) => {
-    const lv = (q as { level?: string } | null)?.level;
-    return !lv || isUnlocked(lv, level);
-  });
-  return ok.length >= 4 ? ok : bank;
+  return levelledBank(bank as { level?: string }[], level);
 }
 /** Everything the learner may be served (distractors, topic fallbacks). */
 function _servable(src: VocabSource, cats?: string[]): Row[] {
