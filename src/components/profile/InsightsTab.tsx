@@ -11,6 +11,7 @@ import JourneyTimeline from './JourneyTimeline';
 import LearningInsights from './LearningInsights';
 import CroatianErrorInsights from './CroatianErrorInsights';
 import ConceptMapCard from './ConceptMapCard';
+import LessonAcquisitionCard from './LessonAcquisitionCard';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 
 // Bound on the letter-to-self note. See the textarea below for why the progress
@@ -102,6 +103,11 @@ export default function InsightsTab() {
           carries its own heading rather than sitting under an `sh` that would
           be left stranded over an empty space. ── */}
       <ConceptMapCard setScr={setScr} />
+
+      {/* ── HOW THE LESSONS LANDED (2026-09-07) — the ACQUISITION axis, beside
+          the concept map's RETENTION axis: did it land the first time, vs did it
+          stay. Renders nothing until a lesson check has actually been taken. ── */}
+      <LessonAcquisitionCard />
 
       {/* ── CROATIAN ERROR ANALYSIS (competitive moat — no other app does this) ── */}
       <h3 className="sh" style={{ marginTop: 24 }}>

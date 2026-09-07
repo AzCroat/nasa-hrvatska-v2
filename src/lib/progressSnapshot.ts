@@ -12,6 +12,7 @@ import { snapshotCertifications } from './cefrCertification.js';
 import { snapshotMasteryLedger } from './masteryLedger.js';
 import { readCurriculumProgress } from './curriculumProgress';
 import { retentionOrUndef } from './lessonRetention';
+import { attemptsOrUndef } from './lessonAttempts';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
@@ -145,6 +146,11 @@ export function buildProgressSnapshot({
     // recorded miss — the schedule IS the progress here. undefined when empty,
     // so a fresh device never clobbers server history (the nh_journey pattern).
     nh_lesson_retention: retentionOrUndef(),
+    // Acquisition signal (lib/lessonAttempts, 2026-09-07): whether each lesson's
+    // mastery check passed on the FIRST reading, and which items were missed.
+    // Synced so the record follows the learner across devices like the rest of
+    // their own learning data; undefined when empty, same reason as above.
+    nh_lesson_attempts: attemptsOrUndef(),
     nh_daily_goal_xp: parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.

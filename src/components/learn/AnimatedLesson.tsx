@@ -12,6 +12,7 @@ import { markLessonComplete } from '../../lib/curriculumProgress';
 import { localDateStr } from '../../lib/dateUtils';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { recordMasteryPass } from '../../lib/lessonRetention';
+import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
@@ -144,6 +145,9 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const passed = lessonPassed(gate, gateCorrect);
   const checkAllAnswered =
     gate.kind !== 'check' || gate.items.every((_, i) => checkAnswers[i] !== undefined);
+  // One acquisition record per attempt (lib/lessonAttempts) — a diagnostic that
+  // credits nothing, written on the pass AND the fail.
+  const attemptRecorded = useRef<number>(-1);
   // One session-flow signal per failed attempt: the daily session is a practice
   // FLOW (sessionSignal.ts), so a finished-but-failed check must not strand it
   // at N-1/N — while the lesson itself records NOTHING and is served again.
@@ -169,6 +173,27 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   useEffect(() => {
     if (!currentSlide) return;
     if (currentSlide.type !== 'summary') return;
+    // Acquisition signal (2026-09-07). Recorded on BOTH branches, once per
+    // attempt, because a first-attempt FAIL is the only evidence the app has
+    // that a lesson did not teach — and the fail path is exactly where nothing
+    // was being written. This is a diagnostic, not credit: it cannot award,
+    // complete, schedule or queue anything (see lib/lessonAttempts), so the
+    // mastery gate's "on a fail NOTHING is recorded" rule is untouched.
+    // A test-out attempt is taken BEFORE reading the lesson, so it is tagged as
+    // such and excluded from the first-attempt signal rather than counted as a
+    // lesson that taught badly.
+    if (lessonId && gate.kind === 'check' && attemptRecorded.current !== attempt) {
+      attemptRecorded.current = attempt;
+      recordCheckAttempt(lessonId, {
+        score: gateCorrect,
+        total: gate.total,
+        passed,
+        kind: testingOut ? 'testout' : 'lesson',
+        missed: gate.items
+          .map((it, i) => (checkAnswers[i] === it.correct ? -1 : i))
+          .filter((i) => i >= 0),
+      });
+    }
     if (!passed) {
       if (failSignalledAttempt.current !== attempt) {
         failSignalledAttempt.current = attempt;
