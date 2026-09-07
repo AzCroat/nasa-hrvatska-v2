@@ -1,11 +1,11 @@
 // src/tests/useDailySession.production.test.ts
 // Production-slot behaviour after Session-Rec #1 (AI modes routed into the pool)
 // and Session-Rec #2 (a GUARANTEED production slot every session with a keyboard
-// fallback), plus the follow-up that auto-routes open Speaking. Pool, in array
-// order: dialogue (A1, keyboard, converse), writing (A2, keyboard, write),
-// shadowing (A2, mic, speak), speaking (A2, mic, speak), production_drill
-// (B1, mic, speak), dictation (B1, keyboard, write), speaking_sprint
-// (A2, keyboard-safe, speak — Wave 3).
+// fallback), plus the follow-up that auto-routes open Speaking. The pool itself
+// is imported rather than described here — the prose list that used to sit in
+// this comment, and the two arrays below it, both went stale when a screen was
+// inserted, which is how three assertions came to exercise a scenario they no
+// longer described.
 // rnd() is mocked to 0, so the selector deterministically returns the FIRST
 // surviving candidate after the CEFR / mic / exclude / recency / kind filters.
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -19,23 +19,23 @@ import {
   readFluencyMode,
   recordProductionRep,
   getProductionReps,
+  PRODUCTION_POOL,
 } from '../hooks/useDailySession';
 import { CEFR_ORDER, cefrRank } from '../lib/cefr';
 
 vi.mock('../lib/random.js', () => ({ rnd: () => 0 }));
 
-const PRODUCTION_SCREENS = [
-  'dialogue',
-  'writing_guided', // production-teaching (2026-08-18): A1+ guided writing
-  'writing',
-  'shadowing',
-  'speaking',
-  'production_drill',
-  'dictation',
-  'speaking_sprint',
-];
+// DERIVED, not restated (2026-09-07). These were two hand-written lists that
+// went stale the moment `speaking_guided` joined the pool: three assertions
+// began exercising a scenario they no longer described (the "exclude every
+// candidate" test excluded all but the new one, and then asserted null). A
+// hand-maintained list in a test decays exactly like one in production — and
+// quietly, because it keeps passing at whatever rate the list still covers.
+const PRODUCTION_SCREENS = PRODUCTION_POOL.map((p) => p.screen);
 // The mic-required members — a mic-blocked user must never be handed one of these.
-const MIC_REQUIRED = ['shadowing', 'speaking', 'production_drill'];
+const MIC_REQUIRED = PRODUCTION_POOL.filter((p) => p.micRequired).map((p) => p.screen);
+/** Keyboard-safe members in pool order — what a mic-blocked learner can be served. */
+const KEYBOARD_SCREENS = PRODUCTION_POOL.filter((p) => !p.micRequired).map((p) => p.screen);
 
 describe('readMicState', () => {
   beforeEach(() => {
@@ -197,15 +197,15 @@ describe('selectProductionExercise — recent-exclusion', () => {
   });
 
   it('mic-denied + keyboard options in recent → still returns a keyboard slot', () => {
-    // B1 mic-denied keyboard pool: [dialogue, writing_guided, writing,
-    // dictation, speaking_sprint]. Exclude the first three → dictation remains
-    // first, still a keyboard slot.
-    const result = selectProductionExercise({
-      cefr: 'B1',
-      micState: 'denied',
-      recentScreens: ['dialogue', 'writing_guided', 'writing'],
-    });
-    expect(result?.screen).toBe('dictation');
+    // Exclude the first three keyboard members IN POOL ORDER; whatever survives
+    // must still be a keyboard slot. The INTENT is the guarantee, not which
+    // screen happens to sit fourth — pinning that made this assertion stale the
+    // moment a keyboard screen was inserted above it.
+    const recentScreens = KEYBOARD_SCREENS.slice(0, 3);
+    const result = selectProductionExercise({ cefr: 'B1', micState: 'denied', recentScreens });
+    expect(result, `nothing left after excluding ${recentScreens.join(', ')}`).toBeTruthy();
+    expect(MIC_REQUIRED).not.toContain(result!.screen);
+    expect(recentScreens).not.toContain(result!.screen);
   });
 });
 

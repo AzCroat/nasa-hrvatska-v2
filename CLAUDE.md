@@ -1148,12 +1148,18 @@ dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   add an exemption without the reason; assume reachability implies clearing;
   trust an exemption's recorded reason without re-checking the pool for a
   candidate it may have missed.
-- **The C1 `discourse` mapping is still unavailable, and that one is real.** The
-  drill covers CONNECTORS (stoga, međutim, unatoč tome) while
-  `discourse-particles` teaches ATTITUDE particles (pa, ma, baš, valjda, zar) —
-  adjacent, not the same. Both drills stay reachable through the P3 CEFR fill,
-  which walks the pool directly, so an unrouted category is not an unreachable
-  drill.
+- **The C1 `discourse` mapping was the one honest hole, and it was closed by
+  AUTHORING, not by routing (2026-08-30).** The `discourse` drill covers
+  CONNECTORS (stoga, međutim, unatoč tome) while the lesson teaches ATTITUDE
+  particles (pa, ma, baš, valjda, zar) — adjacent, not the same, so pointing
+  the coupling at it would have been the wrong drill rather than no drill. The
+  C1 functional block wrote `particlesDrill` for exactly that lesson;
+  `discourse-particles → particles → cestice` now resolves and clears like any
+  other. **This is the `padezne-suptilnosti` shape again**: "no honest pairing
+  exists" and "no drill exists yet" read identically from inside a list of ids,
+  and only the first is a judgement. Both drills also stay reachable through
+  the P3 CEFR fill, which walks the pool directly, so an unrouted category was
+  never an unreachable drill.
 - **The C2 block closed the last level of the practice programme (2026-08-30):
   17 drills, C2 5 coupled → 30.** C2's uncoupled set was not a contiguous
   topical block — it ran across seventeen of the thirty orders — so this
@@ -1732,6 +1738,97 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
 
+## Critical Architecture: Guided Speaking, and the Coach Nobody Could Reach (2026-09-07)
+
+The finding: **the 2026-08-18 production-teaching fix wired the speaking coach
+to a screen state nothing produces, and it has been dead ever since.**
+
+- `SpeakingScreen` carries three open-ended prompt pools (8 + 5 + 5 = 18 items),
+  three rendering branches for them, and `maybeCoach` — which fires only when
+  `sw[2]` is `question-response` | `picture-description` | `dialogue-completion`.
+  **Every path that fills that screen's item list passes `acquisitionPool` VOCAB
+  ROWS**: the Practice-tab `launchSpeaking`, the daily-session branch, the
+  learn-path branch, the Me-tab goal shortcut. A vocab row's third element is a
+  gloss, never a prompt type. The commit that added the pools (`d51e9de1`,
+  2026-04-25) touched two component files and **no launcher**.
+- Consequence: `requestSpeakingCoach` was never called from practice, so
+  `recordMasteryEvent({ skill: 'speaking' })` fired ONLY from the Level Check
+  and the checkpoints — assessments. Daily speech wrote no speaking evidence at
+  all, which is verbatim the finding the 2026-08-18 audit set out to fix. It was
+  answered by writing a correct, tested library and pointing it at a state that
+  cannot occur. `speakingCoach.test.js` proved the library records mastery;
+  nothing proved a learner could reach the library. **The component-test /
+  wiring-test split, in the one place it costs a whole skill.**
+- The 18 prompts are also unlevelled — one pool for A1 through C2, so the path,
+  had it worked, would have asked a beginner "Što misliš o klimatskim
+  promjenama?". **The levelling is the symptom; the dead wiring is the defect**
+  — and reporting only the symptom (which the first survey did) would have sent
+  the next person to sort 18 prompts into six buckets on a screen nobody reaches.
+
+**Guided Speaking** (`src/data/speakingCurriculum.ts`, 48 units at 8 per level;
+`GuidedSpeakingScreen`; `PRODUCTION_POOL` id `speaking_guided`, A1+, keyboard-safe)
+is the writing curriculum's twin and a REACHABLE entry point to the coach:
+LISTEN (model + TTS) → REHEARSE (say the load-bearing phrases) → SPEAK (free
+production against a checklist, ONE `/api/speaking-coach` call on submit — the
+same one-call profile as Guided Writing's `/api/correct`).
+
+- **The transcript is free.** Browser `SpeechRecognition` produces it (zero AI
+  cost, no STT charge — the coach is transcript-in by design), with a TYPED
+  fallback that counts identically, so a mic-blocked learner is not shut out of
+  the only rubric-graded speaking practice in the app. jsdom has no recogniser,
+  so the tests exercise that learner's device by default.
+- **LISTEN is TEXT-FIRST and must never gate on playback.** The Croatian is on
+  screen; a failed play names its cause and the stage advances anyway (the audio
+  directive's own rule — the heard-gate belongs to audio-FIRST screens only).
+- **REHEARSE teaches and never blocks.** `phraseMatches` gives partial credit and
+  the Next button is always present: the recogniser is not the judge, and
+  refusing a learner over a dropped diacritic punishes the microphone.
+- **Fail-soft, and the fail path records NOTHING it did not earn.** A coach
+  failure names the cause, offers a retry and offers the way forward, and fires
+  `signalSessionCompleteIfActive` (the learner DID speak — a dead coach must not
+  strand the session at N-1/N). It does NOT clear the coupling and does NOT
+  award, because there is no score. Only the graded finish calls
+  `recordScreenPractised('speaking_guided')` — this screen grades and awards
+  itself, so it never reaches `completeExercise` (the `writing_guided` /
+  `relpron` shape, pinned by `couplingClearingPath`).
+- **The guard is `speakingCoachReachable.test.ts`**, and its assertion is
+  deliberately NOT "GuidedSpeakingScreen calls the coach" — a test naming one
+  screen goes stale the moment the screen is renamed. It walks the REAL
+  `PRODUCTION_POOL` (now exported for exactly this), the REAL router and the REAL
+  import graph and asserts SOME session-launchable speak screen reaches
+  `requestSpeakingCoach`, that one of them works without a microphone, and that
+  one is available at A1. Declarations are stripped before the call test — the
+  `alphabet` hole again, where importing the module satisfied the guard.
+- **Two hand-maintained lists went stale the moment the pool grew**, and both are
+  now derived: `useDailySession.production.test.ts`'s `PRODUCTION_SCREENS` /
+  `MIC_REQUIRED` (three assertions silently began exercising a scenario they no
+  longer described — the "exclude every candidate" test excluded all but the new
+  one and then asserted null), and the pool prose in that file's header comment.
+- **`usefulPhrases` joined the lint's `ARRAY_FIELD_RE`** in the same change as the
+  file joined TARGETS. Either alone is silent — the matcher extension has nothing
+  to run on, or the array shape is invisible. Mutation-verified both directions.
+- The curriculum's own guards inherit the writing curriculum's two hard-won
+  rules: **the model must pass its own checklist** (an exemplar that misses its
+  own bar teaches the bar is decorative) and **every named structure must be
+  findable in the model** — verbatim, or an ellipsis pattern whose segments
+  appear in order. Eight structures failed the second on its first run and were
+  rewritten against the model.
+- Mutation-verified, eight mutations, each fails 1–7 tests: the pool entry
+  removed, the coach call removed from the screen, the route removed from
+  AppRouter, the coupling cleared on a FAILED grade, the rehearse stage gated on
+  the recogniser, an award on a failed grade, a model that fails its own
+  checklist, a structure absent from its model.
+- **NOT done here, and it is real:** `SpeakingScreen`'s 18 prompts and their
+  three rendering branches are still in the file, inert. Removing ~250 lines from
+  a live 1,170-line screen is its own change with its own E2E audit; it is dead
+  code, not a live defect, and it is recorded rather than quietly left.
+- NEVER: add a speaking surface that grades without a reachable launch path
+  (walk the pool → router → import graph, not the library's own tests); gate the
+  LISTEN or REHEARSE stage on audio or on the recogniser; clear the coupling or
+  award XP on a failed grade; charge an STT endpoint for a transcript the browser
+  already produced; add a Croatian array field without adding it to
+  `ARRAY_FIELD_RE` and mutating to prove it.
+
 ## Critical Architecture: Dialogue Register Pairs (content expansion, 2026-09-05)
 
 The finding this exists to keep closed: **from B1 up, every guided dialogue was
@@ -2002,29 +2099,38 @@ now have identity. Pinned by `promptRegistry.test.js`.
 - **Coverage is tracked in THREE categories** in `promptRegistry.test.js`, and a
   test asserts they partition `ENDPOINT_CEILING_MICROUSD` exactly — no endpoint
   can hide in a gap, and none can appear twice:
-  1. `INSTRUMENTED` (15) — tags its 200. A test fails if one doesn't.
+  1. `INSTRUMENTED` (26) — tags its 200. A test fails if one doesn't.
   2. `NO_CLAUDE_PROMPT` (7) — makes no Claude call, so there is nothing to
      version (`tts`, `stt`, `translate`, `flux-generate`, `pronunciation-assess`,
      …). **Not debt.** A test fails if one of these starts calling Claude,
      because it would then have an authored prompt and belong in the debt list.
-  3. `KNOWN_UNINSTRUMENTED` (11) — real remaining debt, each entry carrying its
-     reason. A test fails if one is quietly instrumented without being moved.
-- **Why the remaining 11 are not done**, so nobody re-derives it:
+  3. `KNOWN_UNINSTRUMENTED` (**0** as of 2026-08-24) — real remaining debt, each
+     entry carrying its reason. A test fails if one is quietly instrumented
+     without being moved. **Keep the empty array**: a new metered endpoint lands
+     there until it is instrumented, and the partition test needs it to exist.
+- **The debt list emptied, and each of the three blockers was answered by a
+  MECHANISM rather than by relaxing the rule** — worth recording, because each
+  looked like a reason instrumentation could not apply:
   - **Branching assembly** (`ai-chat`, `conversation`, `conversational-tutor`,
-    `maja`, `maja-debrief`): the blocker is no longer the template language —
-    `renderPrompt` supports `{{#if}}` as of 2026-08-22 — it is SIZE. `ai-chat`
-    alone routes 14 mode builders, each its own authored prompt. Mechanical but
-    large; convert one endpoint at a time. `flash-context` came off this list
-    first as the smallest proof the conditional support works.
-  - **Multi-prompt** (`golden-calibration`): runs BOTH registered evaluators in
-    one dispatch. One `id@version` header cannot say which produced the
-    response, and guessing would be worse than saying nothing.
-  - **Cache-served** (`daily-culture`, `news`): see below.
-- **Cache-served (`daily-culture`, `news`) are deliberately last.** Their 200
-  usually replays content generated hours earlier, so tagging it with the
-  CURRENT prompt version would attribute old text to a new prompt — a lie inside
-  the exact report this exists to make trustworthy. Instrumenting them means
-  storing the version alongside the cached body, not adding a header.
+    `maja`, `maja-debrief`) was blocked on the template language until
+    `renderPrompt` gained `{{#if}}` (2026-08-22, rules below), then on SIZE —
+    `ai-chat` alone routes 14 mode builders, each its own authored prompt. That
+    was mechanical, done one endpoint at a time; `flash-context` came off first
+    as the smallest proof the conditional support works.
+  - **Multi-prompt** (`golden-calibration`) runs BOTH registered evaluators in
+    one dispatch, which no single `id@version` could honestly describe. The
+    HEADER learned to carry a comma-separated LIST (`promptListHeaders` /
+    `parsePromptTagList`, layer 9 of the AI-cost section) instead of the
+    endpoint learning to guess; two or more tags are recorded as `prompts: [...]`
+    and never as _the_ prompt.
+  - **Cache-served** (`daily-culture`, `news`, plus their `:generate` halves)
+    could not tag a 200 that usually replays content generated hours earlier —
+    the CURRENT version would attribute old text to a new prompt, a lie inside
+    the exact report this exists to make trustworthy. `_promptCache.js` stores
+    the version in KV metadata **beside** the body, so a cache hit is tagged
+    with the prompt that actually produced it and an entry written before
+    tagging is served untagged rather than guessed (layer 7). Any future cached
+    AI content must do the same.
 - **`alsoVersion`** (`definePrompt(id, text, { alsoVersion })`): authored text the
   template SELECTS but does not contain — per-level rule tables, persona blurbs,
   anything looked up by key and passed in as a value. Without it a prompt looks
