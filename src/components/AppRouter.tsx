@@ -438,6 +438,7 @@ const GrammarExplainer = lazyWithReload(() => import('./learn/GrammarExplainer')
 const CaseTransformer = lazyWithReload(() => import('./learn/CaseTransformer'));
 const VocabScenes = lazyWithReload(() => import('./learn/VocabScenes'));
 const AnimatedLesson = lazyWithReload(() => import('./learn/AnimatedLesson'));
+const RetentionCheckScreen = lazyWithReload(() => import('./learn/RetentionCheckScreen'));
 const GrammarReader = lazyWithReload(() => import('./learn/GrammarReader'));
 const KaficScreen = lazyWithReload(() => import('./croatia/KaficScreen'));
 const DiasporaNote = lazyWithReload(() => import('./croatia/DiasporaNote'));
@@ -1536,6 +1537,11 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'vocabscenes' && (
           <ScreenErrorBoundary key="vocabscenes" name="vocabscenes">
             <VocabScenes goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'lessonreview' && (
+          <ScreenErrorBoundary key="lessonreview" name="lessonreview">
+            <RetentionCheckScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {

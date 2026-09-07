@@ -4,13 +4,16 @@
 // built entirely in React with animations and live TTS.
 // ═══════════════════════════════════════════════════════════
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { recordLessonTaught } from '../../lib/teachPractice';
 import { markLessonComplete } from '../../lib/curriculumProgress';
 import { localDateStr } from '../../lib/dateUtils';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { recordMasteryPass } from '../../lib/lessonRetention';
+import { readCurriculumSpine } from '../../lib/curriculumProgress';
+import LessonProduceStep from './LessonProduceStep';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
@@ -88,6 +91,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // check on a retake.
   const [checkAnswers, setCheckAnswers] = useState<Record<number, number>>({});
   const [attempt, setAttempt] = useState(0);
+  const [produceDone, setProduceDone] = useState(false);
   const [_done, setDone] = useState(false);
   // Default ON to match Flashcards' reading of the same key — the two screens
   // previously had opposite defaults, so this toggle's state contradicted
@@ -96,6 +100,18 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [ttsAvailable] = useState(() => typeof window !== 'undefined');
   const xpAwarded = useRef(false);
 
+  const lessonId = (lesson as { id?: string } | null)?.id;
+  // The lesson BODY carries no objectives — they live on the curriculum spine,
+  // cached locally by the same fetch the session builder reads. Absent spine
+  // (never fetched, or a lesson outside it) simply means no brief line.
+  const objectives = useMemo<string[]>(() => {
+    if (!lessonId) return [];
+    try {
+      return readCurriculumSpine().find((e) => e.id === lessonId)?.objectives ?? [];
+    } catch {
+      return [];
+    }
+  }, [lessonId]);
   const slides = lesson?.slides || [];
   const totalSlides = slides.length;
   const currentSlide = slides[slide];
@@ -153,7 +169,6 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       // lesson, so gating on item.id let a single tap mark the lesson complete
       // without viewing it. The path gate now checks this key, which is written
       // only here — once the learner has reached the summary (past the quiz).
-      const lessonId = (lesson as { id?: string }).id;
       if (lessonId) {
         const doneKey = 'al_' + lessonId;
         setStats((s) => (s.vs?.includes(doneKey) ? s : { ...s, vs: [...(s.vs || []), doneKey] }));
@@ -171,6 +186,20 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
         // for the same reason the vs key is: the summary slide is the only point
         // at which the lesson was demonstrably read, not merely opened.
         markLessonComplete(lessonId, localDateStr());
+        // Retention (2026-09-07). A pass is the START of remembering, not the
+        // end: this schedules the lesson's first re-check and turns every item
+        // missed on the way to the pass into an FSRS card. Without it the
+        // mastery check is one-shot and nothing ever asks again.
+        if (gate.kind === 'check') {
+          recordMasteryPass(lessonId, {
+            score: gateCorrect,
+            total: gate.total,
+            results: gate.items.map((it, i) => ({
+              idx: i,
+              correct: checkAnswers[i] === it.correct,
+            })),
+          });
+        }
       }
       if (typeof award === 'function') {
         award(25, false, 'lesson');
@@ -304,17 +333,36 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
 
       case 'summary':
         return (
-          <SummarySlide
-            slide={cs}
-            lesson={lesson!}
-            score={gateCorrect}
-            quizTotal={gate.total}
-            xpAwarded={xpAwarded.current ? 1 : 0}
-            passed={passed}
-            gateKind={gate.kind}
-            onRetake={retakeCheck}
-            onReview={reviewLesson}
-          />
+          <>
+            <SummarySlide
+              slide={cs}
+              lesson={lesson!}
+              score={gateCorrect}
+              quizTotal={gate.total}
+              xpAwarded={xpAwarded.current ? 1 : 0}
+              passed={passed}
+              gateKind={gate.kind}
+              onRetake={retakeCheck}
+              onReview={reviewLesson}
+            />
+            {/* USE IT NOW (2026-09-07). Only after a PASS, and only when the
+                lesson is identifiable: recognition is where learners plateau,
+                so the summary is where the app asks for production. The step
+                is additive by contract — the pass is already recorded, so a
+                dead evaluator costs nothing but the extra. */}
+            {passed && lessonId && !produceDone && (
+              <div style={{ marginTop: 20, textAlign: 'left' }}>
+                <LessonProduceStep
+                  lessonId={lessonId}
+                  lessonTitle={lesson!.title}
+                  level={lesson!.level}
+                  objectives={objectives}
+                  award={award}
+                  onDone={() => setProduceDone(true)}
+                />
+              </div>
+            )}
+          </>
         );
 
       default:

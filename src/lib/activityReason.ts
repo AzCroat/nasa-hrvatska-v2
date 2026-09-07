@@ -67,6 +67,28 @@ export function reviewReason(dueCount: number): string | null {
 }
 
 /**
+ * Why the retention slot is here (2026-09-07). Every branch states a COUNT the
+ * scheduler actually holds — the honesty rule: a reason the learner can catch
+ * being wrong is worse than no reason.
+ */
+export function retentionReason(a: {
+  rechecks: number;
+  cards: number;
+  cumulative: boolean;
+}): string {
+  if (a.cumulative) return 'Your weekly mix — questions from every lesson you have passed.';
+  if (a.rechecks > 0 && a.cards > 0) {
+    return `Time to re-check ${a.rechecks === 1 ? 'a lesson' : `${a.rechecks} lessons`}, plus ${a.cards} question${a.cards === 1 ? '' : 's'} you missed before.`;
+  }
+  if (a.rechecks > 0) {
+    return a.rechecks === 1
+      ? 'A lesson you passed is due for a retention check.'
+      : `${a.rechecks} lessons you passed are due for a retention check.`;
+  }
+  return `${a.cards} question${a.cards === 1 ? '' : 's'} you missed before ${a.cards === 1 ? 'is' : 'are'} due again.`;
+}
+
+/**
  * Why the teach → practice slot is here. The queue stores the category, not
  * which lesson queued it, so the line names the concept rather than inventing a
  * lesson title.

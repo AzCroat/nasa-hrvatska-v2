@@ -13,6 +13,7 @@ import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedg
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { pendingTaughtCategories } from '../lib/teachPractice';
+import { selectRetentionSlot } from '../lib/retentionSlot';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
 import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
@@ -393,6 +394,12 @@ export function buildSessionActivities(
       ...withReason(reviewReason(dueCount)),
     });
   }
+
+  // Priority 1.2: LESSON RETENTION (2026-09-07) — re-checks of passed lessons,
+  // items missed before, and the weekly cumulative mix. Policy and rationale
+  // in lib/retentionSlot; nothing due means no slot at all.
+  const retentionSlot = selectRetentionSlot();
+  if (retentionSlot) activities.push(retentionSlot);
 
   // Priority 1.5: Teach → practice coupling (2026-08-20). If the learner finished
   // a lesson and has not yet practised what it taught, that drill takes a slot
@@ -1316,6 +1323,7 @@ export const PRODUCTION_SCREEN_IDS: ReadonlySet<string> = new Set(
  */
 export const SESSION_SCREEN_IDS: ReadonlySet<string> = new Set<string>([
   'review', // Priority 1 SRS slot (hardcoded in buildSessionActivities)
+  'lessonreview', // Priority 1.2 retention slot (hardcoded, same as above)
   ...(Object.values(CATEGORY_SCREEN_MAP).filter(Boolean) as string[]),
   ...CEFR_EXERCISE_POOL.map((e) => e.screen),
   ...CROATIA_POOL.map((c) => c.screen),

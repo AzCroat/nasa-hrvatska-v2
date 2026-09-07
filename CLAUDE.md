@@ -412,6 +412,79 @@ been wired to the one lesson family the daily session's teaching slot serves.
   fewer than six items or an answer key that sits at one position; lower a
   word floor; define a depth rule in the test or the script alone.
 
+## Critical Architecture: Lesson Retention (owner directive, 2026-09-07)
+
+The gap this closes: **the app taught, tested once, and never asked again.**
+The mastery check (`lessonCheck.ts`) is one-shot — once a lesson was passed
+nothing re-tested it, every item missed on the way to the pass was discarded
+at the summary, and the FSRS engine held VOCABULARY only. A learner could pass
+all 180 lessons and never meet a grammar question twice. The owner's standing
+concern, from the verification gate: "make sure the progress made is being
+retained on the path to fluency."
+
+- **One store, three mechanisms** (`src/lib/lessonRetention.ts`,
+  `nh_lesson_retention`): (1) RE-CHECKS — a passed lesson returns after
+  `RETENTION_INTERVALS` 3, 10, 30, then every 90 days, with a DIFFERENT sample
+  of its check items (missed ones first, the rest rotated by check count);
+  (2) ITEM CARDS — every missed check item becomes a card scheduled by the
+  SAME FSRS the word deck uses (`srs.sm2`), so a grammar slip decays and
+  resurfaces exactly like a forgotten word; **only a miss creates a card**;
+  (3) THE WEEKLY CUMULATIVE — from `CUMULATIVE_MIN_LESSONS` (5) passed, every
+  7 days a mixed check samples across every passed lesson, because
+  single-topic checks cannot see interference errors (the accusative bleeding
+  into the genitive) and a mix can.
+- **A failed re-check resets the ladder to stage 0, returns the lesson
+  TOMORROW, and re-queues its coupled drill** through `recordLessonTaught` —
+  the existing teach→practice queue already knows which drill teaches it. A
+  lesson is NEVER un-passed (`passedAt` is written once); the ladder is the
+  only thing that moves. A cumulative never touches a ladder: it can only pull
+  one FORWARD, and only on two or more misses from that lesson — one slip in a
+  mixed quiz is not a signal.
+- **THE ORDER OF CLAIM ON A SITTING IS LOAD-BEARING, and the first draft had
+  it wrong.** Re-checks were built first; two due re-checks are 12 items, the
+  whole sitting, so on any day both were due **the weekly cumulative silently
+  did not run**. A weekly signal that a busy week can cancel is not a weekly
+  signal. Order is now cumulative → cards → **whole re-checks only**: a
+  re-check's verdict moves a ladder, so it is served as a complete
+  `MIN_CHECK_ITEMS` sample or not at all — a truncated one would grade a
+  lesson on whatever happened to fit. A crowded-out re-check is still due
+  tomorrow. Found by a test, pinned by name.
+- **One screen for all three** (`RetentionCheckScreen`, route `lessonreview`):
+  the session slot, the next-step engine and any future card need ONE thing to
+  point at. It reports results **per lesson AND per part** — a mixed sitting
+  must not reset a ladder on two unrelated questions. Completion goes through
+  `completeExercise` so the session flow, the ledger and the prompt see it as
+  any other graded finish.
+- **Three surfaces, all wired**: P1.2 in `buildSessionActivities`
+  (`lib/retentionSlot.ts` — the file split follows inputSlot/croatiaPool;
+  useDailySession is at its 800-line cap and the cap was not raised), placed
+  beside the SRS word slot because decay is time-sensitive; the `retention`
+  rung in `getNextStep` between SRS and production; and the honest reason line
+  in `activityReason.ts`, every branch stating a count the scheduler actually
+  holds.
+- **PRODUCE AFTER YOU PASS** (`LessonProduceStep`, on the passed summary):
+  the lesson tested recognition and then handed the learner a multiple-choice
+  drill; nothing ever asked them to WRITE the structure. Two or three
+  sentences against the lesson's own spine objectives, graded by the SAME
+  `/api/correct` rubric the Level Check and Guided Writing use, feeding the
+  same mastery ledger and error taxonomy. **Fail-soft by contract**: the pass
+  is already recorded when this renders, so a dead evaluator names its cause
+  and the learner keeps everything — this step can only ADD.
+- **Syncs additively** (the four-point change): snapshot, remote apply,
+  `mergeLessonRetention`, types. A lesson known to either device stays known;
+  where both know one the LATER check wins the ladder and the EARLIER pass
+  date is kept; a card the other device answered more recently wins. An older
+  remote record can never roll a ladder back.
+- Mutation-verified, seven mutations: the pass not recording retention (1
+  fails), a failed re-check not resetting (2), the cumulative claiming last
+  again (1), the session slot removed (1), the next-step rung removed (1), a
+  correct answer also creating a card (4), the merge always preferring remote
+  (1).
+- NEVER: re-test a lesson with the same sample twice; create a card for
+  anything but a miss; let a cumulative advance or reset a ladder; serve a
+  partial re-check; let re-checks crowd out the weekly mix; un-pass a lesson
+  on a failed re-check; make the produce step a gate on the lesson's credit.
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.

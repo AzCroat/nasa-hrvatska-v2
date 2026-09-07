@@ -156,6 +156,7 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   future: 3,
   comparatives: 3,
   dictation: 3,
+  lessonreview: 2,
   sentbuild: 4,
   aspectdrill: 4,
   clitic: 4,

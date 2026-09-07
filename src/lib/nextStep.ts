@@ -16,6 +16,10 @@
  *      plan before anything new.
  *   3. srs          — servable reviews are due (spaced repetition decays by
  *      the hour; reviews-when-due beat new content).
+ *   3.5 retention   — a passed lesson is due for its re-check, an item missed
+ *      before is due again, or the weekly mix is up (lib/lessonRetention).
+ *      Beside the word reviews and above discretionary practice for the same
+ *      reason: what is decaying outranks what is merely next.
  *   4. production   — the mastery ledger says speaking or writing is the
  *      weakest evidenced skill: train fluency where it lags.
  *   5. discovery    — the least-recently-served adaptive exercise (breadth).
@@ -30,6 +34,7 @@
 import type { CefrLevel } from './cefr.js';
 import { getVerificationGate, isVerificationQuiet } from './cefrCertification.js';
 import { getServableReviewCount } from './srs';
+import { retentionStatus } from './lessonRetention';
 import { weakestProductionKind, buildPlanReason } from './masteryLedger.js';
 import {
   resolveAdaptiveActivity,
@@ -42,7 +47,7 @@ import {
 import { localDateStr } from './dateUtils.js';
 
 export type NextStepKind =
-  'verification' | 'session' | 'srs' | 'production' | 'discovery' | 'browse';
+  'verification' | 'session' | 'srs' | 'retention' | 'production' | 'discovery' | 'browse';
 
 export interface NextStep {
   kind: NextStepKind;
@@ -142,6 +147,28 @@ export function getNextStep(opts: {
     } catch {
       /* srs unreadable — fall through */
     }
+  }
+
+  // 3.5 — lesson retention: re-checks, missed items, the weekly mix.
+  try {
+    const ret = retentionStatus();
+    if (ret.any) {
+      const label = ret.cumulativeDue
+        ? 'Take this week’s mixed review'
+        : ret.rechecks.length > 0
+          ? 'Re-check a lesson you passed'
+          : `Retry ${ret.cardsDue} question${ret.cardsDue === 1 ? '' : 's'} you missed`;
+      return {
+        kind: 'retention',
+        screen: 'lessonreview',
+        label,
+        reason: ret.cumulativeDue
+          ? 'A mix from every lesson you have passed — this is what catches what is slipping.'
+          : 'Passing once is not remembering — this is the check that makes it stick.',
+      };
+    }
+  } catch {
+    /* retention store unreadable — fall through */
   }
 
   // 4 — weakest evidenced production skill (the fluency lever).
