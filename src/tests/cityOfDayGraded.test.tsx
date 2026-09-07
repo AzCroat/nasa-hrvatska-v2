@@ -43,6 +43,7 @@ import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { gradedField } from '../lib/gradedHr';
 import { CITY_HR_BANDS, resolveCityHrBand, loadCityHrBand } from '../lib/cityIntroHr';
 import { CEFR_ORDER } from '../lib/cefr';
+import { BAND_RULES, checkCity, wordsIn } from '../../scripts/cityHrBandRules.mjs';
 
 type City = Record<string, unknown> & { name: string };
 type Rec = Record<string, unknown>;
@@ -177,18 +178,29 @@ describe('City of the Day — graded data', () => {
     }
   });
 
-  it('register rises with band: A1 short and simple, B1 a paragraph, C1 substantial', () => {
+  it('every city meets the band contract — word range and a strictly rising ladder', () => {
+    // The contract is DATA in scripts/cityHrBandRules.mjs, shared with the
+    // author's dry run (`node scripts/cityHrBandCheck.mjs`). Stating the
+    // thresholds here instead would be the lesson-depth mistake: two
+    // definitions, one of them enforced.
+    const failures: string[] = [];
     for (const n of names) {
-      const r = hr[n]!;
-      const a1 = words(r.introHrA1);
-      const b1 = words(r.introHr);
-      const c1 = words(r.introHrC1);
-      expect(a1, `${n} A1 stays short`).toBeLessThanOrEqual(55);
-      expect(b1, `${n} B1 is a paragraph`).toBeGreaterThanOrEqual(60);
-      expect(c1, `${n} C1 is substantial`).toBeGreaterThanOrEqual(100);
-      expect(a1, `${n} A1 < B1`).toBeLessThan(b1);
-      expect(b1, `${n} B1 < C1`).toBeLessThan(c1);
+      const bands: Record<string, unknown> = {};
+      for (const b of BANDS) bands[b] = hr[n]![gradedField('introHr', b)];
+      failures.push(...(checkCity(n, bands) as string[]));
     }
+    expect(failures.slice(0, 10), `${failures.length} band-contract failures`).toEqual([]);
+  });
+
+  it('the contract covers every band the ladder names, with ranges that do not overlap out of order', () => {
+    // A rules file that forgot a band would let that band ship unchecked.
+    for (const b of BANDS) {
+      expect(BAND_RULES[b as keyof typeof BAND_RULES], `${b} has no rule`).toBeTruthy();
+      const [lo, hi] = (BAND_RULES as Record<string, { words: [number, number] }>)[b]!.words;
+      expect(hi).toBeGreaterThan(lo);
+    }
+    // and the shared word counter agrees with the local one the file already had
+    expect(wordsIn('jedan dva tri')).toBe(words('jedan dva tri'));
   });
 
   it('every entry uses ONLY the three bands (no half-graded A2/B2/C2 siblings)', () => {
