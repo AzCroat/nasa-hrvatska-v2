@@ -5,37 +5,9 @@
 import React, { useEffect, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
 
-export interface LessonMeta {
-  color: string;
-  bg: string;
-  icon?: string;
-  title?: string;
-  [key: string]: unknown;
-}
-
-export interface SlideItem {
-  hr: string;
-  en?: string;
-  note?: string;
-  [key: string]: unknown;
-}
-
-export interface BaseSlide {
-  type?: string;
-  title?: string;
-  body?: string;
-  icon?: string;
-  highlight?: string;
-  items?: SlideItem[];
-  headers?: string[];
-  rows?: string[][];
-  q?: string;
-  options?: string[];
-  correct?: number;
-  explanation?: string;
-  points?: string[];
-  [key: string]: unknown;
-}
+// Shared shapes live in lessonSlideTypes.ts; re-exported so existing imports hold.
+export type { LessonMeta, SlideItem, BaseSlide } from './lessonSlideTypes';
+import type { BaseSlide, LessonMeta, SlideItem } from './lessonSlideTypes';
 
 // ── Progress bar ──────────────────────────────────────────────────────────────
 

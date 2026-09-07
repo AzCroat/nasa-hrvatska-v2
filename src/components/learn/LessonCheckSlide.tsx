@@ -4,7 +4,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { shuffledOrder, type LessonCheckItem } from '../../lib/lessonCheck';
-import type { LessonMeta } from './LessonSlides';
+import type { LessonMeta } from './lessonSlideTypes';
 
 // ── Mastery check slide ───────────────────────────────────────────────────────
 //

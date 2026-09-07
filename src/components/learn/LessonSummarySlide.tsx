@@ -4,7 +4,7 @@
 // lint cap; the cap was not raised.
 
 import React from 'react';
-import type { BaseSlide, LessonMeta } from './LessonSlides';
+import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
 
 // ── Summary slide ─────────────────────────────────────────────────────────────
 //
