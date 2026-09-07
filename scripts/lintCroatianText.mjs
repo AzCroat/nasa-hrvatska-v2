@@ -93,6 +93,70 @@ const TARGETS = [
   'src/data/speakingTasks.ts',
   'src/data/pitchAccentContent.js',
   'src/data/cultural/media.js',
+  // ── 2026-09-07 fourth wave: measured by COVERAGE RATIO, not list length ──
+  // A census of every candidate outside this list found 1,869 Croatian strings
+  // of which the widened matcher already sees 69% (it was 12% before the
+  // 2026-09-01 widening — the matcher, not the list, had been the constraint).
+  // These 54 files are the ones it sees at least half of; a full sweep of all
+  // of them reports ZERO findings, so this buys a RATCHET against future edits,
+  // not a bug fix today. The only files it excludes are dialogueScenarios.js
+  // (walked structurally already) and _serbisms.js / _croatianGuard.js, whose
+  // subject matter IS the Serbian forms — the two exclusions CLAUDE.md
+  // predicted, now measured rather than assumed.
+  'functions/api/_sttGoldenSet.js', // 4 Croatian strings, 100% seen
+  'functions/api/content/_data/cultural/events.js', // 7 Croatian strings, 100% seen
+  'functions/api/conversational-tutor.js', // 2 Croatian strings, 50% seen
+  'functions/api/news.js', // 12 Croatian strings, 75% seen
+  'src/components/croatia/ConversationBubble.tsx', // 1 Croatian strings, 100% seen
+  'src/components/croatia/CroatiaAthletes.tsx', // 7 Croatian strings, 100% seen
+  'src/components/croatia/CroatianNewsScreen.tsx', // 8 Croatian strings, 75% seen
+  'src/components/croatia/CultureDeepDiveScreen.tsx', // 1 Croatian strings, 100% seen
+  'src/components/croatia/DiasporaNote.tsx', // 7 Croatian strings, 86% seen
+  'src/components/croatia/HNLScreen.tsx', // 20 Croatian strings, 50% seen
+  'src/components/croatia/MajaDebrief.tsx', // 1 Croatian strings, 100% seen
+  'src/components/croatia/MajaScreenUtils.js', // 4 Croatian strings, 75% seen
+  'src/components/croatia/PhraseOfDayScreen.tsx', // 36 Croatian strings, 67% seen
+  'src/components/croatia/SpotifySection.tsx', // 3 Croatian strings, 100% seen
+  'src/components/croatia/StoryModeData.js', // 2 Croatian strings, 100% seen
+  'src/components/grad/gradModel.ts', // 1 Croatian strings, 100% seen
+  'src/components/grad/places.ts', // 12 Croatian strings, 92% seen
+  'src/components/grad/PlaceScreen.tsx', // 6 Croatian strings, 100% seen
+  'src/components/home/DailyCroatianSection.tsx', // 1 Croatian strings, 100% seen
+  'src/components/home/HeroStats.tsx', // 2 Croatian strings, 50% seen
+  'src/components/home/hostFamily.ts', // 5 Croatian strings, 80% seen
+  'src/components/home/SpeedChallenge.tsx', // 4 Croatian strings, 100% seen
+  'src/components/learn/GrammarReader.tsx', // 10 Croatian strings, 100% seen
+  'src/components/learn/GrammarVideos.tsx', // 2 Croatian strings, 100% seen
+  'src/components/learn/LearnTab.tsx', // 2 Croatian strings, 50% seen
+  'src/components/practice/AdaptiveReviewScreen.tsx', // 2 Croatian strings, 100% seen
+  'src/components/practice/AspectDrillScreen.tsx', // 7 Croatian strings, 86% seen
+  'src/components/practice/exerciseCatalog.ts', // 7 Croatian strings, 100% seen
+  'src/components/practice/FlashcardCardBack.tsx', // 1 Croatian strings, 100% seen
+  'src/components/practice/listening/aiListeningTopics.ts', // 2 Croatian strings, 100% seen
+  'src/components/practice/MapScreen.tsx', // 1 Croatian strings, 100% seen
+  'src/components/practice/SprintFeedbackPhase.tsx', // 1 Croatian strings, 100% seen
+  'src/components/practice/VideoLessonScreen.tsx', // 2 Croatian strings, 100% seen
+  'src/components/profile/CertificateScreen.tsx', // 2 Croatian strings, 50% seen
+  'src/components/profile/CroatianErrorInsights.tsx', // 32 Croatian strings, 56% seen
+  'src/components/razgovor/partners.ts', // 22 Croatian strings, 100% seen
+  'src/components/shared/AmbientPlayer.tsx', // 1 Croatian strings, 100% seen
+  'src/components/shared/CroatianCross.tsx', // 1 Croatian strings, 100% seen
+  'src/components/shared/EmptyState.tsx', // 1 Croatian strings, 100% seen
+  'src/components/shared/GrammarReference.tsx', // 21 Croatian strings, 76% seen
+  'src/components/shared/KnightCompanion.tsx', // 6 Croatian strings, 83% seen
+  'src/components/shared/OnboardingTour.tsx', // 4 Croatian strings, 50% seen
+  'src/data/bakaPhrases.ts', // 9 Croatian strings, 100% seen
+  'src/hooks/useNotifications.ts', // 8 Croatian strings, 63% seen
+  'src/lib/aspectPairs.ts', // 6 Croatian strings, 100% seen
+  'src/lib/conjugation/curriculum.ts', // 7 Croatian strings, 86% seen
+  'src/lib/croatianClosedClass.ts', // 2 Croatian strings, 100% seen
+  'src/lib/croatiaPool.ts', // 2 Croatian strings, 100% seen
+  'src/lib/drillPoolEntries.ts', // 13 Croatian strings, 100% seen
+  'src/lib/legacySavedPhraseIndex.ts', // 9 Croatian strings, 100% seen
+  'src/lib/nextStep.ts', // 1 Croatian strings, 100% seen
+  'src/lib/pushNotifications.ts', // 1 Croatian strings, 100% seen
+  'src/lib/sessionPools.ts', // 7 Croatian strings, 100% seen
+  'src/sw.js', // 2 Croatian strings, 100% seen
   // Engine-backed drill banks (practice programme, 2026-08-29). A drill is now
   // a data file rather than a component, so this directory is where authored
   // Croatian practice content lives from here on.
