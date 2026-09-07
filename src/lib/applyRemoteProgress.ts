@@ -24,6 +24,7 @@ import {
   CURRICULUM_PROGRESS_KEY,
 } from './curriculumProgress';
 import { mergeRemoteCertifications } from './cefrCertification.js';
+import { mergeLessonRetention, readRetention, writeRetention } from './lessonRetention';
 import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
@@ -350,6 +351,17 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     if (remoteCurriculum && typeof remoteCurriculum === 'object') {
       const merged = mergeCurriculumProgress(readCurriculumProgress(), remoteCurriculum);
       _safeSet(CURRICULUM_PROGRESS_KEY, JSON.stringify({ done: merged }));
+    }
+  } catch (_) {}
+
+  // ── Lesson retention (2026-09-07) ──────────────────────────────────────────
+  // Additive like every other merge: a lesson known to either device stays
+  // known and is never un-passed, the LATER check wins that lesson's ladder
+  // (new evidence outranks old), the earlier pass date is kept, and a card the
+  // other device answered more recently wins. See mergeLessonRetention.
+  try {
+    if (fp.nh_lesson_retention && typeof fp.nh_lesson_retention === 'object') {
+      writeRetention(mergeLessonRetention(readRetention(), fp.nh_lesson_retention));
     }
   } catch (_) {}
 

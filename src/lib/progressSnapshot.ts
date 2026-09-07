@@ -11,6 +11,7 @@ import { localDateStr as _todayStr, weekKey as _weekKey } from './dateUtils.js';
 import { snapshotCertifications } from './cefrCertification.js';
 import { snapshotMasteryLedger } from './masteryLedger.js';
 import { readCurriculumProgress } from './curriculumProgress';
+import { retentionOrUndef } from './lessonRetention';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
@@ -137,6 +138,13 @@ export function buildProgressSnapshot({
     // additive. undefined when empty, so a fresh device never clobbers server
     // history (the nh_journey pattern).
     nh_curriculum_progress: _mapOrUndef(readCurriculumProgress()),
+    // ── Lesson retention (2026-09-07) ────────────────────────────────────────
+    // When each passed lesson is next due for a re-check, which check items the
+    // learner has missed, and when the weekly mix last ran. Without it a second
+    // device re-checks lessons that were checked yesterday and forgets every
+    // recorded miss — the schedule IS the progress here. undefined when empty,
+    // so a fresh device never clobbers server history (the nh_journey pattern).
+    nh_lesson_retention: retentionOrUndef(),
     nh_daily_goal_xp: parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.

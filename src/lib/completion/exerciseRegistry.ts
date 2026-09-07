@@ -323,6 +323,12 @@ const RAW: Record<string, ExerciseEntry> = {
   shadowing: e('lc', 'speaking', 'speaking'),
   writing: e('lc', 'grammar', 'grammar'),
   dictation: e('lc', 'listening', 'listening'),
+  // Lesson Review (retention, 2026-09-07): the sitting that re-checks passed
+  // lessons, replays missed items and runs the weekly mix. Effort, not gated:
+  // the SCHEDULER already grades it per lesson (lib/lessonRetention) — gating
+  // the screen too would deny credit for the very sitting that recorded the
+  // misses, which is the work we want repeated.
+  lessonreview: e('gc', 'grammar', 'grammar'),
   listening: e('lc', 'listening', 'listening'),
   'pitch-accent': e('gc', 'grammar', 'grammar'),
   'pronunciation-contrast': e('gc', 'grammar', 'grammar'),

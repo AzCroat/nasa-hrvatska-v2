@@ -13,11 +13,18 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-vi.mock('../lib/srs.js', () => ({ getSR: vi.fn(() => ({})), saveSR: vi.fn() }));
+// The retention store schedules its item cards with the REAL FSRS (srs.sm2),
+// so this file's long-standing srs stub has to carry it too — a stub that
+// omits it would make the sync tests pass for the wrong reason.
+vi.mock('../lib/srs.js', async (importOriginal) => {
+  const actual = (await importOriginal()) as Record<string, unknown>;
+  return { ...actual, getSR: vi.fn(() => ({})), saveSR: vi.fn() };
+});
 
 import { buildProgressSnapshot } from '../lib/progressSnapshot';
 import { applyRemoteProgress } from '../lib/applyRemoteProgress';
 import { markLessonComplete, readCurriculumProgress } from '../lib/curriculumProgress';
+import { recordMasteryPass, readRetention } from '../lib/lessonRetention';
 import type { Stats } from '../types';
 
 const STATS = {
@@ -121,5 +128,52 @@ describe('a full round trip preserves everything both sides knew', () => {
       alphabet: '2026-08-01',
       gender: '2026-08-02',
     });
+  });
+});
+
+// ── Lesson retention on the wire (2026-09-07) ────────────────────────────────
+// The SCHEDULE is the progress here: without it a second device re-checks
+// lessons that were checked yesterday and forgets every recorded miss.
+describe('lesson retention syncs like every other progress store', () => {
+  it('the snapshot carries the schedule, and omits it entirely when empty', () => {
+    expect(snapshot().nh_lesson_retention).toBeUndefined();
+    recordMasteryPass('plural', {
+      score: 5,
+      total: 6,
+      results: [{ idx: 1, correct: false }],
+      at: '2026-09-01',
+    });
+    const blob = snapshot().nh_lesson_retention as { lessons: Record<string, unknown> };
+    expect(Object.keys(blob.lessons)).toEqual(['plural']);
+  });
+
+  it('the remote apply merges additively — a lesson is never un-passed', () => {
+    recordMasteryPass('plural', { score: 6, total: 6, results: [], at: '2026-09-01' });
+    applyRemoteProgress(
+      {
+        nh_lesson_retention: {
+          v: 1,
+          lessons: {
+            gender: {
+              passedAt: '2026-08-01',
+              stage: 2,
+              due: '2026-10-01',
+              checks: 3,
+              last: { at: '2026-09-05', score: 6, total: 6, kind: 'retention' },
+            },
+          },
+          items: {},
+          cumulative: { lastAt: null, count: 0 },
+        },
+      },
+      noopSetters,
+    );
+    expect(Object.keys(readRetention().lessons).sort()).toEqual(['gender', 'plural']);
+  });
+
+  it('a malformed remote blob cannot destroy the local schedule', () => {
+    recordMasteryPass('plural', { score: 6, total: 6, results: [], at: '2026-09-01' });
+    applyRemoteProgress({ nh_lesson_retention: { lessons: 'nonsense' } }, noopSetters);
+    expect(readRetention().lessons['plural']).toBeTruthy();
   });
 });
