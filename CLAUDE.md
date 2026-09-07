@@ -511,6 +511,68 @@ only, only when the lesson HAS a check and has not already been completed).
   tests fail), a failed test-out offering a retake (1), the offer surviving a
   completed lesson (1), the offer reappearing after a failed test-out (1).
 
+## Critical Architecture: Did The Teaching Take? (owner request, 2026-09-07)
+
+The gap: `scripts/lessonDepthRules.mjs` enforces that a lesson is BUILT well —
+six check items, four options each, an answer key spread over three positions,
+Croatian example-word floors that scale with level. It enforces nothing about
+whether the lesson TEACHES well, because **structure is not comprehension**. A
+lesson can satisfy every rule in that file and still lose the learner, and
+nothing in the product would have said so. Worse, the evidence was being thrown
+away: the mastery gate's "on a fail NOTHING is recorded" rule meant the one
+event that proves a lesson did not teach left no trace at all.
+
+- **`src/lib/lessonAttempts.ts` (`nh_lesson_attempts`) records every finished
+  check, pass AND fail** — date, score, total, and the source-order indices of
+  the items missed. The first-attempt outcome is the signal: the learner has
+  read the lesson, once, and is answering questions written about what they just
+  read. Which ITEM they missed says where it went wrong.
+- **IT IS A DIAGNOSTIC AND MUST NEVER BECOME CREDIT.** The gate's rule is
+  untouched: a failed check still writes no XP, no `gc`, no `al_` key, no
+  curriculum completion, no taught-queue entry, no retention ladder. This is a
+  separate key that the stats reducer, the session builder, the spine and the
+  retention store never read. That separation is the whole reason writing from
+  the fail path is safe at all — pinned by a test that fails the check and
+  asserts every one of those stayed empty.
+- **TEST-OUT ATTEMPTS ARE EXCLUDED, and that is the subtle part.** The test-out
+  offer (rec #4, same day) is taken BEFORE reading the lesson, by definition.
+  Counting it as a first attempt would poison the metric in one direction:
+  every lesson a confident learner tested out of and failed would read as
+  "teaches badly" when they had not been taught yet. Attempts carry
+  `kind: 'lesson' | 'testout'`; `lessonQuality` filters to `lesson` and reports
+  test-outs separately. A test-out-only lesson is ABSENT from the report, not a
+  miss.
+- **A lesson never attempted is absent, not a zero** — "not taught yet" and
+  "taught badly" are different facts (NEVER DO 13).
+- **The cap keeps the EARLIEST attempts** (`MAX_ATTEMPTS_PER_LESSON` 10). A
+  learner grinding a lesson for the eleventh time says nothing new; the first
+  attempt is the entire signal, so it is the one that must survive both the cap
+  and the merge.
+- **Syncs additively** (the four-point change): snapshot, remote apply,
+  `mergeLessonAttempts`, absent-when-empty. Attempts are HISTORY, so the merge
+  UNIONS them by (at, kind, score, total) and orders oldest-first — a device
+  that saw the first attempt contributes it even when the other device has later
+  ones. **Aggregating across LEARNERS is what would answer "which lessons teach
+  badly" at the product level, and this file deliberately does not do it.** That
+  is a separate decision about reading other people's data.
+- **The readout ships with the store** (`LessonAcquisitionCard`, Me tab), because
+  a measurement nothing renders is the decorative-guard failure this file keeps
+  rediscovering. It sits beside the concept map on the OTHER AXIS: the concept
+  map is RETENTION (did it stay), this is ACQUISITION (did it land first time).
+- Pinned by `lessonAttempts.test.tsx` (19), driving the REAL screen, the REAL
+  store and both sync points. Mutation-verified, six mutations, each fails 1–5
+  tests: recording only on a pass, test-outs tagged as taught, `lessonQuality`
+  ignoring kind, the cap keeping the latest, the merge dropping the other
+  device's first attempt, and the per-attempt guard removed.
+  **The sixth SURVIVED the suite as first written** — the double-count test
+  navigated forward on the summary, which does not re-run an effect keyed on
+  `[slide, passed]`. It now steps BACK to the check and forward again, which is
+  the navigation a learner actually performs and the one the guard exists for.
+- NEVER: let this store write XP, `gc`, `al_`, the curriculum map, the taught
+  queue or the retention ladder; count a test-out as a taught attempt; drop the
+  earliest attempt to make room for a later one; report a lesson never attempted
+  as a failure; aggregate across learners without a deliberate decision.
+
 ## Critical Architecture: Wrong Answers Explain Themselves (owner recommendation 7, 2026-09-07)
 
 The gap: a wrong answer in the practice programme showed the item's `tip` — the

@@ -25,6 +25,7 @@ import {
 } from './curriculumProgress';
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeLessonRetention, readRetention, writeRetention } from './lessonRetention';
+import { readAttempts, writeAttempts, mergeLessonAttempts } from './lessonAttempts';
 import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
@@ -362,6 +363,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   try {
     if (fp.nh_lesson_retention && typeof fp.nh_lesson_retention === 'object') {
       writeRetention(mergeLessonRetention(readRetention(), fp.nh_lesson_retention));
+    }
+    if (fp.nh_lesson_attempts && typeof fp.nh_lesson_attempts === 'object') {
+      // Attempts are HISTORY: the merge unions them and keeps the EARLIEST,
+      // because the first attempt is the entire signal.
+      writeAttempts(mergeLessonAttempts(readAttempts(), fp.nh_lesson_attempts));
     }
   } catch (_) {}
 
