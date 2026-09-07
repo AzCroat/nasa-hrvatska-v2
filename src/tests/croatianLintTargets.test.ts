@@ -349,3 +349,73 @@ describe('the contrastive carve-out stays honest', () => {
     expect(LINT_SRC).not.toMatch(/serbismsOff\s*\?\s*null\s*:\s*findBadInString/);
   });
 });
+
+// ── THE COVERAGE RATCHET (fourth wave, 2026-09-07) ──────────────────────────
+//
+// Three waves of adding files had trained everyone to think of coverage as a
+// LIST LENGTH, and the 2026-09-01 census showed why that is wrong: "303 files
+// in TARGETS" and "12% of the Croatian strings" were both true of the same lint
+// on the same day, and only the second number said anything about what was
+// guarded. That census was a one-off run by hand.
+//
+// `scripts/croatianLintCensus.mjs` makes it a mechanism. It walks every file
+// outside TARGETS, counts the Croatian strings, counts how many the lint's OWN
+// matchers (built from the lint's source, so they cannot drift) would yield,
+// and reports the ratio. This test turns that measurement into a ratchet: any
+// file the matcher already sees at least half of must either be IN TARGETS or
+// carry a recorded reason.
+//
+// The fourth wave added 54 such files (466 → 525) and reported ZERO findings.
+// That is the honest result: it bought a guard against future edits, not a bug
+// fix today. The residue it leaves is characterised rather than ignored — see
+// the assertion below.
+describe('the coverage ratchet', () => {
+  it('every file the matcher already sees is either linted or exempted with a reason', async () => {
+    const { unratchetedFiles } = await import('../../scripts/croatianLintCensus.mjs');
+    const left = await unratchetedFiles();
+    expect(
+      left.map((r: { rel: string; croatian: number; ratio: number }) => r.rel),
+      `These files carry Croatian the lint's matcher would see, and are neither in ` +
+        `TARGETS nor in CENSUS_EXEMPT. Add them to TARGETS (cheap — the matcher already ` +
+        `works on them) or record why not:\n` +
+        left
+          .map(
+            (r: { rel: string; croatian: number; ratio: number }) =>
+              `  ${r.rel} (${r.croatian} strings, ${(r.ratio * 100).toFixed(0)}% seen)`,
+          )
+          .join('\n'),
+    ).toEqual([]);
+  }, 30_000);
+
+  it('every census exemption still exists and is still outside TARGETS', async () => {
+    // Both staleness directions, the lesson from `couplingClearingPath`: an
+    // exemption whose subject was deleted guards nothing, and one whose subject
+    // has since been added to TARGETS asserts a gap that is already closed.
+    const { CENSUS_EXEMPT } = await import('../../scripts/croatianLintCensus.mjs');
+    const targets = new Set(lintTargets());
+    expect(CENSUS_EXEMPT.size).toBeGreaterThan(0);
+    for (const [rel, reason] of CENSUS_EXEMPT) {
+      expect(existsSync(rel), `exempted file no longer exists: ${rel}`).toBe(true);
+      expect(targets.has(rel), `${rel} is exempted AND in TARGETS — drop the exemption`).toBe(
+        false,
+      );
+      expect(reason.length, `exemption for ${rel} has no stated reason`).toBeGreaterThan(30);
+    }
+  }, 30_000);
+
+  it('the residue outside the ratchet is small and concentrated', async () => {
+    // What the fourth wave deliberately LEFT: ~400 strings at ~10% coverage
+    // once dialogueScenarios (walked structurally) is set aside, concentrated
+    // in Croatian embedded in AI system prompts, in bare positional arrays
+    // (SpeakingScreen's dead prompt pools), and in files guarded elsewhere
+    // (croatianMorphology/croatianIrregulars are checked IN-TEST by design).
+    // Pinned as a bound so the residue cannot quietly grow into the next
+    // lessons.js while everyone believes the tree is covered.
+    const { censusRows, CENSUS_EXEMPT } = await import('../../scripts/croatianLintCensus.mjs');
+    const rows: Array<{ rel: string; croatian: number }> = await censusRows();
+    const residue = rows
+      .filter((r) => !CENSUS_EXEMPT.has(r.rel))
+      .reduce((n, r) => n + r.croatian, 0);
+    expect(residue, 'unlinted Croatian outside TARGETS has grown').toBeLessThanOrEqual(500);
+  }, 30_000);
+});
