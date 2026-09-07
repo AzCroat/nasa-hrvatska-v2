@@ -81,7 +81,7 @@ interface Props {
 }
 
 export default function AnimatedLesson({ lesson, goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [slide, setSlide] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
@@ -92,6 +92,19 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [checkAnswers, setCheckAnswers] = useState<Record<number, number>>({});
   const [attempt, setAttempt] = useState(0);
   const [produceDone, setProduceDone] = useState(false);
+  // TEST OUT (2026-09-07). A returning or heritage learner who already knows a
+  // structure had to page through every slide to reach the check. The check IS
+  // the standard for "you know this", so it is offered up front — one bar, not
+  // two: passing it out of order completes the lesson exactly as passing it in
+  // order does (XP, gc, the al_ key, the curriculum spine, the retention
+  // schedule). FAILING it is not a failed lesson; it is the answer to "should I
+  // read this?", so it drops the learner into the lesson from the top and
+  // records NOTHING — cards and ladders belong to lessons actually learned.
+  const [testingOut, setTestingOut] = useState(false);
+  // Offered ONCE per opening. After a failed test-out the learner has already
+  // answered "do I know this?" — putting the button back on the intro slide
+  // they were just dropped onto invites a loop and is noise.
+  const [testOutUsed, setTestOutUsed] = useState(false);
   const [_done, setDone] = useState(false);
   // Default ON to match Flashcards' reading of the same key — the two screens
   // previously had opposite defaults, so this toggle's state contradicted
@@ -112,6 +125,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       return [];
     }
   }, [lessonId]);
+  const alreadyComplete = !!lessonId && !!stats?.vs?.includes('al_' + lessonId);
   const slides = lesson?.slides || [];
   const totalSlides = slides.length;
   const currentSlide = slides[slide];
@@ -227,6 +241,31 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     setAttempt((a) => a + 1);
   }
 
+  /** Offered only on the intro slide of a lesson that HAS a mastery check and
+   *  has not already been completed — there is nothing to test out of twice. */
+  const canTestOut =
+    !testingOut &&
+    !testOutUsed &&
+    gate.kind === 'check' &&
+    currentSlide?.type === 'intro' &&
+    !!lessonId &&
+    !alreadyComplete;
+
+  function startTestOut() {
+    setTestingOut(true);
+    setTestOutUsed(true);
+    const start = gateStartSlide(gate);
+    if (start !== null) setSlide(start);
+  }
+
+  /** A failed test-out sends the learner into the lesson from the beginning —
+   *  that IS the outcome they asked for by taking the check first. */
+  function startLessonFromTestOut() {
+    setTestingOut(false);
+    resetAttempt();
+    setSlide(0);
+  }
+
   function retakeCheck() {
     resetAttempt();
     const start = gateStartSlide(gate);
@@ -291,7 +330,44 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   function renderSlide(cs: LessonSlide) {
     switch (cs.type) {
       case 'intro':
-        return <IntroSlide slide={cs} lesson={lesson!} />;
+        return (
+          <>
+            <IntroSlide slide={cs} lesson={lesson!} />
+            {canTestOut && (
+              <div style={{ textAlign: 'center', marginTop: 18 }}>
+                <button
+                  data-testid="lesson-test-out"
+                  onClick={startTestOut}
+                  style={{
+                    background: 'none',
+                    border: '1px solid var(--card-b)',
+                    borderRadius: 12,
+                    padding: '10px 16px',
+                    color: 'var(--heading)',
+                    fontSize: 'var(--text-sm)',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  Already know this? Take the check
+                </button>
+                <p
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--subtext)',
+                    margin: '8px auto 0',
+                    maxWidth: 320,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Pass it and the lesson is complete. Miss it and you start the lesson — nothing is
+                  recorded either way until you pass.
+                </p>
+              </div>
+            )}
+          </>
+        );
 
       case 'rule':
         return <RuleSlide slide={cs} lesson={lesson!} />;
@@ -342,7 +418,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
               xpAwarded={xpAwarded.current ? 1 : 0}
               passed={passed}
               gateKind={gate.kind}
-              onRetake={retakeCheck}
+              testedOut={testingOut}
+              onRetake={testingOut ? startLessonFromTestOut : retakeCheck}
               onReview={reviewLesson}
             />
             {/* USE IT NOW (2026-09-07). Only after a PASS, and only when the
@@ -572,11 +649,17 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
 
             {/* Next */}
             <button
-              onClick={failedSummary ? retakeCheck : goNext}
+              onClick={failedSummary ? (testingOut ? startLessonFromTestOut : retakeCheck) : goNext}
               disabled={!canGoNext}
               data-testid="lesson-nav-next"
               aria-label={
-                failedSummary ? 'Retake the check' : isLastSlide ? 'Finish lesson' : 'Next slide'
+                failedSummary
+                  ? testingOut
+                    ? 'Take the lesson'
+                    : 'Retake the check'
+                  : isLastSlide
+                    ? 'Finish lesson'
+                    : 'Next slide'
               }
               style={{
                 flex: 1,
@@ -593,7 +676,13 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                 opacity: canGoNext ? 1 : 0.5,
               }}
             >
-              {failedSummary ? '↻ Retake check' : isLastSlide ? 'Finish ✓' : 'Next →'}
+              {failedSummary
+                ? testingOut
+                  ? '📚 Take the lesson'
+                  : '↻ Retake check'
+                : isLastSlide
+                  ? 'Finish ✓'
+                  : 'Next →'}
             </button>
           </div>
         </div>

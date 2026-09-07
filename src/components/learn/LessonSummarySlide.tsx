@@ -21,6 +21,7 @@ export function SummarySlide({
   xpAwarded,
   passed = true,
   gateKind = 'quiz',
+  testedOut = false,
   onRetake,
   onReview,
 }: {
@@ -31,6 +32,10 @@ export function SummarySlide({
   xpAwarded: number;
   passed?: boolean;
   gateKind?: 'check' | 'quiz' | 'none';
+  /** The learner took the check BEFORE the lesson (test-out). A failure then is
+   *  not a failed lesson — it is the answer to "should I read this?" — so the
+   *  wording and the primary action are the lesson, not another attempt. */
+  testedOut?: boolean;
   onRetake?: () => void;
   onReview?: () => void;
 }) {
@@ -47,7 +52,7 @@ export function SummarySlide({
             fontFamily: "'Playfair Display', serif",
           }}
         >
-          Not yet
+          {testedOut ? 'Worth a read' : 'Not yet'}
         </h2>
         <p
           style={{
@@ -102,7 +107,7 @@ export function SummarySlide({
           style={{ width: '100%', marginBottom: 10, background: lesson.color }}
           onClick={onRetake}
         >
-          ↻ Retake the check
+          {testedOut ? '📚 Take the lesson' : '↻ Retake the check'}
         </button>
         <button
           data-testid="lesson-check-review"

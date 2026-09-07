@@ -36,6 +36,8 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
 import { drawDrillRun } from '../../lib/drillRun';
+import WrongAnswerHelp from '../shared/WrongAnswerHelp';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 /** One question in a mode-tagged bank. */
 export interface ModeDrillItem {
@@ -238,6 +240,22 @@ export default function ModeDrill({
           >
             💡 {cur.tip}
           </div>
+        )}
+        {/* Rec #7, 2026-09-07: the tip above is the same line a learner sees
+            when they get it RIGHT — it states the rule and never says what they
+            chose or why it does not fit. This adds that, free, for all 109
+            engine-backed drills at once. The AI explanation sits behind a
+            button inside it rather than firing on every wrong answer, which at
+            this call site would be a per-learner cost on the commonest event in
+            the app. */}
+        {answered && chosen !== cur.answer && (
+          <WrongAnswerHelp
+            chosen={chosen!}
+            answer={cur.answer}
+            context={cur.q}
+            type="drill"
+            level={getCurrentContentLevel()}
+          />
         )}
         {answered && (
           <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>

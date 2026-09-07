@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { H, READ } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { LocalOnlySheet } from './LocalMorphology';
 
 interface TextItem {
   id: string;
@@ -25,7 +26,8 @@ interface WordAnalysis {
 }
 interface ActiveWord {
   word: string;
-  data: WordAnalysis;
+  /** null until the AI has been asked — the sheet opens on the local reading. */
+  data: WordAnalysis | null;
 }
 
 // ─── Level style map ──────────────────────────────────────────────────────────
@@ -242,12 +244,19 @@ function AnalysisSheet({
   word,
   data,
   onClose,
+  onExplain,
+  explaining,
 }: {
   word: string;
   data: WordAnalysis | null;
   onClose: () => void;
+  onExplain?: () => void;
+  explaining?: boolean;
 }) {
-  if (!data) return null;
+  // The sheet used to render nothing without an AI answer. It now opens on the
+  // local reading (LocalOnlySheet), so a tap always shows something.
+  const local = { word, onClose, explaining: !!explaining, ...(onExplain ? { onExplain } : {}) };
+  if (!data) return <LocalOnlySheet {...local} />;
   const posColor = data.pos
     ? (POS_COLOR as Record<string, string>)[data.pos] || '#6b7280'
     : '#6b7280';
@@ -731,17 +740,28 @@ export default function GrammarReader({ goBack }: { goBack: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const inFlightRef = useRef(false);
 
+  // A tap is now FREE and instant: the sheet opens on the rule-based reading
+  // (lib/croatianMorphology) and the Claude call becomes a second, deliberate
+  // step. Before this every tap cost one AI turn, needed a network, and showed
+  // nothing at all when either was unavailable.
   const handleWordTap = useCallback(
+    (word: string) => {
+      const key = stripPunct(word);
+      if (!key) return;
+      setError(null);
+      setActiveWord({ word, data: cache[key] ?? null });
+    },
+    [cache],
+  );
+
+  const explainInSentence = useCallback(
     async (word: string) => {
       const key = stripPunct(word);
       if (!key) return;
-
-      // Show cached result immediately
       if (cache[key]) {
         setActiveWord({ word, data: cache[key] });
         return;
       }
-
       if (inFlightRef.current || loading) return;
       inFlightRef.current = true;
       setLoading(key);
@@ -768,7 +788,9 @@ export default function GrammarReader({ goBack }: { goBack: () => void }) {
         setCache((prev) => ({ ...prev, [key]: parsed }));
         setActiveWord({ word, data: parsed });
       } catch (e) {
-        setError('Could not analyze word. Try again.');
+        // The local reading is already on screen, so this is genuinely optional
+        // extra — say so rather than presenting it as a broken screen.
+        setError('Couldn’t read the sentence just now. The endings above still hold.');
       } finally {
         setLoading(null);
         inFlightRef.current = false;
@@ -821,6 +843,8 @@ export default function GrammarReader({ goBack }: { goBack: () => void }) {
           word={activeWord.word}
           data={activeWord.data}
           onClose={() => setActiveWord(null)}
+          onExplain={() => explainInSentence(activeWord.word)}
+          explaining={loading !== null}
         />
       )}
     </>

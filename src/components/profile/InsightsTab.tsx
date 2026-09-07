@@ -10,6 +10,7 @@ import ProgressCharts from './ProgressCharts';
 import JourneyTimeline from './JourneyTimeline';
 import LearningInsights from './LearningInsights';
 import CroatianErrorInsights from './CroatianErrorInsights';
+import ConceptMapCard from './ConceptMapCard';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 
 // Bound on the letter-to-self note. See the textarea below for why the progress
@@ -93,8 +94,19 @@ export default function InsightsTab() {
           stats.pr is the synced production total (Math.max with device-local). ── */}
       <FluencySnapshot cefr={cefr} setScr={setScr} syncedProductionTotal={st.pr || 0} />
 
+      {/* ── THE CONCEPT MAP (Rec #5) — per-concept standing derived from the
+          retention ladder. Sits directly under the fluency snapshot because it
+          is the same question one level down: the snapshot says which SKILL is
+          light, this says which CONCEPT is slipping and where to practise it.
+          Renders nothing until a first lesson has been passed — which is why it
+          carries its own heading rather than sitting under an `sh` that would
+          be left stranded over an empty space. ── */}
+      <ConceptMapCard setScr={setScr} />
+
       {/* ── CROATIAN ERROR ANALYSIS (competitive moat — no other app does this) ── */}
-      <h3 className="sh">Croatian Error Analysis</h3>
+      <h3 className="sh" style={{ marginTop: 24 }}>
+        Croatian Error Analysis
+      </h3>
       <CroatianErrorInsights />
 
       {/* ── LEARNING INSIGHTS ── */}

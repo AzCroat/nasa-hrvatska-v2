@@ -485,6 +485,188 @@ retained on the path to fluency."
   partial re-check; let re-checks crowd out the weekly mix; un-pass a lesson
   on a failed re-check; make the produce step a gate on the lesson's credit.
 
+### Testing out of a lesson (owner recommendation 4, 2026-09-07)
+
+A returning or heritage learner had to page through every slide of a lesson
+they already knew to reach its check. The check IS the standard for "you know
+this", so `AnimatedLesson` offers it up front (`lesson-test-out`, intro slide
+only, only when the lesson HAS a check and has not already been completed).
+
+- **ONE BAR, NOT TWO.** Passing out of order completes the lesson exactly as
+  passing in order does — 25 XP, `gc`, the `al_` key, the curriculum spine AND
+  the retention ladder — at the same `LESSON_PASS_THRESHOLD`. A stricter
+  threshold for the same six questions would be arbitrary and unexplainable,
+  and guessing 5 of 6 four-option items is a 0.4% event.
+- **A FAILED TEST-OUT IS NOT A FAILED LESSON.** It is the answer to "should I
+  read this?": it records NOTHING (no XP, no completion, and no cards or
+  ladder — those belong to lessons actually learned) and its primary action,
+  in BOTH the summary's own button and the bottom nav, is the LESSON, not
+  another attempt at the check. The two controls are one decision; the first
+  draft changed only the summary and the nav still said "Retake check", which
+  a test caught.
+- **The offer is once per opening** (`testOutUsed`): after a failed test-out
+  the learner has answered the question it asks, and re-offering it on the
+  intro slide they were just dropped onto invites a loop.
+- Mutation-verified, four mutations: a test-out pass recording nothing (2
+  tests fail), a failed test-out offering a retake (1), the offer surviving a
+  completed lesson (1), the offer reappearing after a failed test-out (1).
+
+## Critical Architecture: Wrong Answers Explain Themselves (owner recommendation 7, 2026-09-07)
+
+The gap: a wrong answer in the practice programme showed the item's `tip` — the
+SAME line the learner sees when they get it RIGHT. It states the rule; it never
+says what THEY chose or why it does not fit. `/api/explain-error` does say that,
+and it reached **10 of ~170 practice screens**: the seven case drills plus three
+others. The 109 ModeDrill-backed drills — the entire practice programme built
+this month — had nothing.
+
+- **The obvious fix would have been a cost bug.** Wiring `useExplainError` into
+  `ModeDrill` puts a Claude call on EVERY wrong answer across 109 drills, which
+  against a $10/month ceiling and a 300-turn daily quota is the cache-served-
+  endpoint mistake in a new place: a per-learner charge on the commonest event
+  in the app.
+- **Three layers, cheapest first** (the same shape rec #6 established for word
+  taps): (1) the item's authored `tip`, already rendered; (2) `answerContrast`
+  — a rule-based comparison of the two forms, free, offline, instant, and the
+  piece that was actually missing; (3) the AI explanation, behind
+  `wrong-answer-why`, fired only when the learner presses it and spent once.
+- **`src/lib/answerContrast.ts` inherits the morphology module's honesty rule.**
+  It reports every reading each form permits (capped at 3, so the panel is not
+  six lines of hedging) and never picks one. Its `headline` appears in exactly
+  two situations and is ABSENT otherwise: the two endings share no case reading
+  at all ("those two endings can never be the same case" — the mistake a case
+  drill exists to catch), or they permit exactly the same cases, where saying
+  "wrong case" would be FALSE and it says the difference is elsewhere. A
+  multi-word option returns null outright: the ending rules say nothing about
+  word order or clitic position, and claiming otherwise is fabrication.
+- **One edit in the engine, 109 screens.** `WrongAnswerHelp` is mounted once in
+  `ModeDrill`, on `answered && chosen !== cur.answer`. The drill itself imports
+  no AI module — the cost stays behind the button (pinned by source).
+- Pinned by `wrongAnswerHelp.test.tsx` (16). Mutation-verified, five mutations,
+  each fails 1–5 tests: the AI call fired automatically, a multi-word option
+  given a contrast, overlapping cases reported as a case error, the panel shown
+  on a correct answer, the panel unmounted from the engine.
+- NEVER: fire the explanation without the learner asking; state a case error
+  when both endings permit the case; build a contrast from a multi-word option;
+  import an AI module into `ModeDrill`; add a fourth layer that costs a turn by
+  default.
+
+## Critical Architecture: Tap Any Word (owner recommendation 6, 2026-09-07)
+
+The gap: tapping a word already worked — `GrammarReader` — but **every single
+tap was one Claude call.** It cost the AI budget, it charged the 300-turn daily
+quota, it needed a network, it took a second, and when any of those was
+unavailable the sheet rendered NOTHING (`if (!data) return null`). Meanwhile
+"which case is this, and why" is the hard problem for English speakers, and the
+app's own Concept Teaching directive says so.
+
+- **`src/lib/croatianMorphology.ts` computes it with rules** — zero AI, zero
+  network, synchronous. `decline(lemma, gender?)` returns the seven-case
+  singular and plural; `analyzeForm(surface)` returns every reading the ending
+  permits. Split across `croatianMorphologyTypes` (shared vocabulary),
+  `croatianIrregulars` (13 attested paradigms) and `croatianClosedClass`
+  (pronouns, enclitics, 37 prepositions with the case each governs) because the
+  engine hit the 800-line cap. **The cap was not raised**, and the types file
+  exists so the two DATA modules can be typed without importing the engine that
+  imports them — madge counts a type-only import exactly like any other
+  (the `lessonSlideTypes` cycle).
+- **CANDIDATES, NEVER ONE ANSWER, and that is the whole design.** `knjige` is
+  the genitive singular AND the nominative plural AND the accusative plural, and
+  nothing decides between them without the sentence. The module lists all of
+  them. A learner told only "genitive singular" has been told something wrong
+  most of the time — that is NEVER DO 13 applied to grammar. Disambiguating from
+  context is what the AI path is for, and it survives as an explicit second
+  step behind a button (`explain-in-sentence`), so the sheet always opens on
+  something true and the Claude call is made only when asked for.
+- **Four rules that each produce a WRONG CROATIAN FORM when got wrong**, all
+  found by writing the paradigms out by hand rather than deriving them:
+  - The fleeting `a` stated generally ("an a between two consonants in the last
+    syllable") turns `grad` into `grd`, `sat` into `st`, `znak` into `znk`. That
+    statement describes which words CAN have one, not which DO — it is lexical.
+    The rule is scoped to polysyllabic `-ac`/`-ak`; `pas` and `otac` (which also
+    loses its `t`) are listed as irregular instead.
+  - **Sibilarization reaches the `-i` and `-ima` plurals and NOT the genitive or
+    accusative plural**: `učenici`, `učenicima`, but `učenika` and `učenike`.
+    One plural stem for all of them emits `učenica`, a different word.
+  - A neuter noun's own nominative ending declares its stem class: `-e` is soft
+    (`morem`, `poljem`, `suncem`). Reading softness off the final CONSONANT
+    gives `morom`, because `r` is not soft.
+  - The feminine genitive plural breaks a final cluster with an `a`:
+    `sestara`, `djevojaka`. Without it the rules emit `sestra` — the nominative
+    singular, a wrong form in front of a learner.
+  `c` is soft for the instrumental (`stricem`) and hard for the vocative
+  (`striče`), so those are two separate predicates on purpose.
+- **A computed table says it is computed** (`attested: false`, rendered as "from
+  the regular pattern"). Only the irregular list is asserted.
+- **The Croatian in these modules is guarded IN THE TEST, not by TARGETS.**
+  `CRO_FIELD_RE` matches names like `hr`, `q`, `title`; every Croatian string
+  here sits under a case key (`Nsg`, `Gpl`) or is generated at call time. Adding
+  the files to TARGETS would be exactly the trap this file warns about — a file
+  everybody believes is linted and is not. `croatianMorphology.test.ts` runs the
+  SHARED `findSerbism` and `containsCyrillic` over 400+ produced strings
+  instead, and both positive controls were verified (a Cyrillic `е` in a form
+  fails 2 tests; `hleb` in a note fails 1).
+- Pinned by `croatianMorphology.test.ts` (47 — every expected form written out
+  in full, because a test that recomputes the paradigm only proves the function
+  agrees with itself) and `localMorphologyWiring.test.tsx` (11 — the tap handler
+  makes no request, the sheet renders the ENGINE's readings, the AI call lives
+  behind the button). Mutation-verified, six mutations, each fails 1–4 tests:
+  the general fleeting-a rule, the sibilarized stem in the genitive plural,
+  neuter softness off the consonant, the epenthesis dropped, one reading instead
+  of every reading, and the tap going straight back to the AI call.
+- NEVER: name a single case for an ambiguous ending; present a computed
+  paradigm as attested; make a word tap cost an AI turn; return null from the
+  word sheet when the AI is unavailable; add these files to the lint TARGETS
+  instead of extending the in-test guard; raise the 800-line cap to keep the
+  engine in one file.
+
+## Critical Architecture: The Concept Map (owner recommendation 5, 2026-09-07)
+
+The gap this closes: **"which of these things do I actually know, and which are
+slipping?" was not answerable anywhere in the app.** The Me tab showed a CEFR
+badge, XP, a streak and per-skill percentages — all aggregates. A learner could
+not see that their genitive was solid while their aspect was falling over, which
+is precisely the information that says what to do next. It only became
+answerable when the retention store (same day) began recording the LAST RESULT
+of every check and where each lesson sits on its re-check ladder.
+
+- **`src/lib/conceptMap.ts` is the derivation** — pure, synchronous, takes the
+  spine from its caller so nothing here reaches lesson data on the first-paint
+  path. Five states, each from something the app MEASURED: `solid` (passed and
+  held through a re-check), `passed` (passed, not yet re-checked — one pass is
+  evidence, and it is not yet evidence of RETENTION), `due` (a re-check has come
+  round), `shaky` (last check below the pass mark, or missed items the scheduler
+  wants back), `untaught` (in the spine, never passed). **There is deliberately
+  no tier above `solid`** — the app has no measurement that would distinguish
+  one, and inventing it is NEVER DO 13.
+- **`untaught` is counted and never listed as a weakness.** Not knowing
+  something you have not been taught is not a gap, and a "needs work" list
+  seeded with 150 lessons nobody has reached is not a next step.
+- **An OPEN MISS is a missed item the scheduler says is DUE**, not merely one
+  that has a card. A card exists only because an item was missed and it never
+  disappears, so "has a card" means "was ever wrong, once, forever". Being due
+  is the same test `retentionStatus` uses to fill the review queue, so the card
+  and the queue can never disagree about what needs work.
+- **The practice button resolves through the coupling's own two maps**
+  (`LESSON_TAUGHT_CATEGORY` → `CATEGORY_SCREEN_MAP` → `CATEGORY_EASIER_SCREEN`),
+  in that order, so a concept the card says is one tap from its drill genuinely
+  is. A lesson the coupling deliberately leaves unmapped gets NO button rather
+  than a wrong one — the coupling's rule, unchanged: a wrong drill is worse than
+  no drill.
+- **The card renders NOTHING before a first pass** and carries its own heading
+  rather than sitting under an `sh` that would be stranded over empty space.
+- Pinned by `conceptMap.test.tsx`, which drives the real store, the real route
+  maps and the real card, and checks the Me-tab mount by source (a component
+  test that supplies its own props cannot see whether the app is wired to it).
+  Mutation-verified, six mutations, each fails 1–4 tests: untaught listed as a
+  weakness, one pass counted as solid, `openMisses` counting every card ever
+  created, an unmapped lesson given a default drill, the summary line speaking
+  before anything is learned, the card unmounted from the Me tab.
+- NEVER: add a state the retention store cannot evidence; list `untaught` as a
+  weakness; define an open miss as "has a card"; route a concept's practice
+  button through anything but the coupling's maps; render the card, or a heading
+  for it, when nothing has been passed.
+
 ## Critical Architecture: Constant Next-Step Prompting (owner directive, 2026-08-16)
 
 The user must never hit a dead end — something is ALWAYS recommended next.
