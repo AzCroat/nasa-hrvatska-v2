@@ -8,6 +8,8 @@ import { rnd } from '../../lib/random.js';
 import { _aiPost } from '../../lib/aiPost';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { isUnlocked } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -342,17 +344,52 @@ export const DICTATION_DATA = [
   },
 ];
 
+type DictationItem = { text: string; en: string; level: string };
+
+/**
+ * The dictation bank at or below the learner's level.
+ *
+ * Every item has carried a `level` since the bank was written and NOTHING read
+ * it: the round was `shLocal(DICTATION_DATA).slice(0, 10)` over all 80 items
+ * (A1 11 · A2 11 · B1 10 · B2 10 · C1 20 · C2 18), so a 10-item round held on
+ * average 8.6 sentences above an A1 learner, 7.3 above A2, 6.0 above B1. This
+ * is the LISTEN bank's defect (`_levelledListen`, 2026-09-04) in the second
+ * audio-first screen — and dictation is the harder case, because the Croatian
+ * is hidden and the recording IS the question, so an above-level sentence is
+ * not a stretch, it is unanswerable.
+ *
+ * Falls back to the whole bank when the levelled slice is too thin for a round
+ * — a launch must never bail on a classification gap. It does not fire on
+ * today's bank (A1, the tightest level, has 11 at or below), and a test says so
+ * in both directions. An unlevelled item is kept at every level, because
+ * `cefrRank` reads an unknown level as A1: absence degrades to servable, it
+ * never excludes. (`_levelledListen` writes that as an explicit `!lv ||`
+ * clause, which the same rule makes unreachable — the test here drives the
+ * mechanism rather than restating it.)
+ */
+export function _levelledDictation(
+  bank: DictationItem[],
+  level = getGenerationCefr(),
+): DictationItem[] {
+  const ok = bank.filter((q) => isUnlocked(q.level, level));
+  return ok.length >= 4 ? ok : bank;
+}
+
 const levelColor: Record<string, string> = {
   A1: '#dcfce7',
   A2: '#dbeafe',
   B1: '#fef3c7',
   B2: '#f3e8ff',
+  C1: '#ffe4e6',
+  C2: '#e2e8f0',
 };
 const levelText: Record<string, string> = {
   A1: '#166534',
   A2: '#1d4ed8',
   B1: '#92400e',
   B2: '#6b21a8',
+  C1: '#9f1239',
+  C2: '#334155',
 };
 
 function normalise(s: string) {
@@ -390,7 +427,9 @@ export default function DictationScreen({ goBack, award }: Props) {
     },
     [],
   );
-  const [qs] = useState(() => shLocal(DICTATION_DATA).slice(0, 10));
+  const [qs] = useState(() =>
+    shLocal(_levelledDictation(DICTATION_DATA, getGenerationCefr(stats))).slice(0, 10),
+  );
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [input, setInput] = useState('');
