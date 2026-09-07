@@ -8,7 +8,11 @@
 
 import React from 'react';
 import type { VerificationGate, SkillKey } from '../../lib/cefrCertification';
-import { getLastVerificationRollback, verificationQuietUntil } from '../../lib/cefrCertification';
+import {
+  getLastVerificationRollback,
+  verificationQuietStatus,
+  VERIFICATION_RETURN_XP,
+} from '../../lib/cefrCertification';
 import { readinessForVerification } from '../../lib/masteryLedger';
 
 const SKILL_LABEL: Record<SkillKey, string> = {
@@ -22,52 +26,36 @@ const SKILL_LABEL: Record<SkillKey, string> = {
 
 interface Props {
   gate: VerificationGate;
+  /** Live `stats.xp` — the quiet period is measured in XP earned since the
+   *  last attempt, so the card needs the current total. */
+  currentXp: number;
   onStartVerification: () => void;
 }
 
-export default function VerificationGateCard({ gate, onStartVerification }: Props) {
+export default function VerificationGateCard({ gate, currentXp, onStartVerification }: Props) {
   if (!gate.required || !gate.target) return null;
-  // QUIET PERIOD (owner directive, 2026-08-18): any verification attempt —
-  // pass or fail — quiets the hero for a week. Taking the test must visibly
-  // change this page; a red takeover that survives a completed exam reads as
-  // broken and nags children into ignoring it. The GATE stays (content above
-  // the target remains locked) — only the PROMPT stands down, to a one-line
-  // chip naming when the next check is ready. The full hero still greets a
-  // learner who has never attempted, and returns when quiet lapses.
-  const quietUntil = verificationQuietUntil();
-  if (quietUntil !== null) {
-    const readyDate = new Date(quietUntil).toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric',
-    });
-    return (
-      <div
-        data-testid="verification-gate-chip"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '9px 14px',
-          marginBottom: 14,
-          borderRadius: 12,
-          background: 'var(--card, #fff)',
-          border: '1px solid var(--card-b, #e5e7eb)',
-          fontSize: 13,
-          color: 'var(--subtext, #64748b)',
-        }}
-      >
-        <span>📋</span>
-        <span>
-          Next <strong>{gate.target}</strong> Level Check ready {readyDate} — today&apos;s practice
-          counts toward it.
-        </span>
-      </div>
-    );
-  }
+  // QUIET PERIOD (owner directives, 2026-08-18 + 2026-09-07): any verification
+  // attempt — pass or fail — takes the prompt OFF Home entirely until the
+  // learner has EARNED VERIFICATION_RETURN_XP since. Nothing is rendered while
+  // quiet: not the hero, not the one-line chip the first fix left behind
+  // ("why is it still at the top of my home page?"). Taking the test must
+  // visibly change this page, and a check that comes back after a stretch of
+  // learning is a retention check — the reason the prompt exists at all. The
+  // GATE stays (content above the target remains locked) and the Me tab's
+  // card still offers the check to anyone who wants it sooner. The full hero
+  // still greets a learner who has never attempted.
+  const quiet = verificationQuietStatus(currentXp);
+  if (quiet.quiet) return null;
   // Honest rollback (2026-08-17): after a failed check stepped the level down,
   // the card must SAY so — unchanged copy after a completed test reads as
   // "your test didn't count".
   const rollback = getLastVerificationRollback();
+  // Returning after learning: name the practice that brought the prompt back,
+  // measured — never a claim the app did not count.
+  const returningLine =
+    quiet.since && quiet.earnedSince >= VERIFICATION_RETURN_XP
+      ? `You've earned ${quiet.earnedSince} XP of practice since your last check — time to confirm it stuck.`
+      : null;
   // Phase 2 mastery ledger: show what daily practice already signals, so the
   // learner walks into the verification knowing where they stand.
   const readiness = readinessForVerification(gate.target);
@@ -115,6 +103,20 @@ export default function VerificationGateCard({ gate, onStartVerification }: Prop
           ? `Your ${rollback.from} check didn't pass, so your level honestly moved to ${gate.target}. Verify it to stand on solid ground — then win ${rollback.from} back for real.`
           : `Your ${gate.target} was carried over from activity — mastery means demonstrating it. New ${gate.target} content is paused until you pass the verification; everything below stays open, and that practice is exactly the preparation.`}
       </p>
+      {returningLine && (
+        <p
+          data-testid="verification-gate-returning"
+          style={{
+            fontSize: 12,
+            lineHeight: 1.5,
+            opacity: 0.85,
+            margin: '0 0 12px',
+            fontWeight: 600,
+          }}
+        >
+          {returningLine}
+        </p>
+      )}
       {readinessLine && (
         <p
           data-testid="verification-gate-readiness"

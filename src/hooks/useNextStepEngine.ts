@@ -69,7 +69,7 @@ export function useNextStepEngine(): NextStepEngine {
   const computeStep = useCallback((): NextStep | null => {
     try {
       const cefr = getContentUnlockLevel(getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0));
-      return getNextStep({ userCefr: cefr, poolWords });
+      return getNextStep({ userCefr: cefr, poolWords, xp: st?.xp ?? 0 });
     } catch {
       return null; // recommendation unavailable — surface renders nothing
     }

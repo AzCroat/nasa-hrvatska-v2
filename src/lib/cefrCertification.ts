@@ -110,6 +110,12 @@ export interface CertificationAttempt {
   takenAt: number;
   scores: SkillScores;
   overall: number;
+  /** The learner's total XP when the attempt was recorded (2026-09-07). The
+   *  verification prompt returns only after `VERIFICATION_RETURN_XP` has been
+   *  EARNED past this baseline — learning, not calendar time. Absent on
+   *  attempts recorded before the field existed; `verificationQuietStatus`
+   *  backfills the latest such attempt once with the XP it first sees. */
+  xp?: number;
 }
 
 export interface CheckpointState {
@@ -532,6 +538,11 @@ export function recordEquivalencyAttempt(opts: {
   level: CefrLevel;
   scores: SkillScores;
   currentLessonCount: number;
+  /** The learner's XP at the moment of the attempt — the baseline the
+   *  verification quiet period measures learning from (see
+   *  `verificationQuietStatus`). Optional only for legacy callers/tests; the
+   *  exam screen always passes it. */
+  currentXp?: number;
 }): {
   passed: boolean;
   newCertified: CefrLevel;
@@ -539,7 +550,7 @@ export function recordEquivalencyAttempt(opts: {
   /** Set when a failed verification stepped provisional standing down. */
   rollback: { from: CefrLevel; to: CefrLevel } | null;
 } {
-  const { level, scores, currentLessonCount } = opts;
+  const { level, scores, currentLessonCount, currentXp } = opts;
   // Speaking gates certification only once enforced (date gate). Shadow mode
   // records the score for telemetry without affecting the result. When enforced,
   // a B1+ attempt also REQUIRES a speaking score (no skipping past the gate).
@@ -561,6 +572,11 @@ export function recordEquivalencyAttempt(opts: {
   };
   // Stash lessonCount-at-attempt on the record for cooldown calculation.
   (attempt as unknown as { lc: number }).lc = currentLessonCount;
+  // Stash XP-at-attempt: the quiet period ends after LEARNING, not time, and
+  // learning is measured as XP earned since this moment.
+  if (typeof currentXp === 'number' && Number.isFinite(currentXp) && currentXp >= 0) {
+    attempt.xp = currentXp;
+  }
   state.attempts.push(attempt);
   // Cap attempt history at the most recent 100 to keep storage bounded.
   if (state.attempts.length > 100) {
@@ -640,43 +656,106 @@ export function getLastVerificationRollback(): {
   return null;
 }
 
-// ── Verification quiet period (owner directive, 2026-08-18) ───────────────────
+// ── Verification quiet period (owner directives, 2026-08-18 and 2026-09-07) ──
 // The gate card was a permanent red takeover: a FAILED check rolled the level
 // down to a NEW provisional target, so the hero survived the very test the
 // learner just sat ("it still shows after my children took the test"). The
-// GATE itself keeps no-snooze semantics — content stays locked — but the
-// PROMPT now honors attempts: any verification attempt (pass or fail) starts
-// a quiet period in which the hero collapses to a one-line chip and the
-// next-step engine recommends practice (the ledger's weakest skill — exactly
-// what a failed check says to do) instead of an immediate retake.
+// 2026-08-18 fix quieted the hero for seven CALENDAR days and left a one-line
+// "ready on <date>" chip at the top of Home. The owner's 2026-09-07 report
+// closed the rest of it: after a failed B2 check the chip was still the first
+// thing on the page ("why is it still at the top of my home page?"), and a
+// calendar timer measures nothing about learning — the prompt is meant to
+// come back "after a certain amount of learning time so that we can always
+// make sure that the progress made is being retained on the path to fluency."
+//
+// So the quiet period is now measured in LEARNING, not days: an attempt
+// records the learner's XP, and the prompt returns only once
+// VERIFICATION_RETURN_XP has been EARNED since. While quiet, Home shows
+// NOTHING for the gate — no hero, no chip — and the next-step engine's
+// verification rung stands down. The GATE itself keeps no-snooze semantics
+// (content above the target stays locked), and the Me tab's verification
+// card is always available for a learner who wants to retake sooner.
 
-/** Same scale as the retake cooldown — one week of quiet after an attempt. */
-export const VERIFICATION_QUIET_DAYS = 7;
+/**
+ * XP that must be EARNED after an attempt before the verification prompt
+ * returns to Home. 7 × DAILY_XP_GOAL (appUtils, 50): a week of practice at the
+ * default daily goal — the same scale as the calendar week it replaces, but
+ * counted in work done rather than time elapsed. Kept as a literal here
+ * because this module sits on the first-paint path and must not pull in
+ * appUtils; `verificationQuietPeriod.test.tsx` pins the equality.
+ */
+export const VERIFICATION_RETURN_XP = 350;
 
-/** Most recent verification attempt timestamp across ALL levels, or null. */
-export function getLastAttemptAt(): number | null {
+/** The most recent verification attempt across ALL levels, or null. */
+export function getLatestAttempt(): CertificationAttempt | null {
   const attempts = getCertificationState().attempts;
-  let last: number | null = null;
+  let last: CertificationAttempt | null = null;
   for (const a of attempts) {
-    if (a && typeof a.takenAt === 'number' && (last === null || a.takenAt > last)) {
-      last = a.takenAt;
+    if (a && typeof a.takenAt === 'number' && (last === null || a.takenAt > last.takenAt)) {
+      last = a;
     }
   }
   return last;
 }
 
-/** When the current quiet period ends (ms epoch), or null when none is active
- *  — no attempt ever, or the last one is older than the quiet window. */
-export function verificationQuietUntil(now: number = Date.now()): number | null {
-  const last = getLastAttemptAt();
-  if (last === null) return null;
-  const until = last + VERIFICATION_QUIET_DAYS * 24 * 60 * 60 * 1000;
-  return until > now ? until : null;
+/** Most recent verification attempt timestamp across ALL levels, or null. */
+export function getLastAttemptAt(): number | null {
+  return getLatestAttempt()?.takenAt ?? null;
 }
 
-/** True while the verification PROMPT should stay quiet (recent attempt). */
-export function isVerificationQuiet(now: number = Date.now()): boolean {
-  return verificationQuietUntil(now) !== null;
+export interface VerificationQuietStatus {
+  /** True while the verification PROMPT must stay off Home. */
+  quiet: boolean;
+  /** XP earned since the latest attempt (0 when never attempted). */
+  earnedSince: number;
+  /** XP still to earn before the prompt returns (0 when not quiet). */
+  remaining: number;
+  /** The attempt the window is measured from, or null when never attempted. */
+  since: CertificationAttempt | null;
+}
+
+/**
+ * Where the learner stands in the quiet period, measured from `currentXp`
+ * (the live `stats.xp`).
+ *
+ * - Never attempted → not quiet: the hero greets first-timers as before.
+ * - The latest attempt carries an `xp` baseline → quiet until `currentXp`
+ *   has grown by VERIFICATION_RETURN_XP past it.
+ * - The latest attempt PREDATES the baseline field → it is backfilled ONCE
+ *   with the first positive XP this function sees, so the count starts from
+ *   the moment this rule reached the device rather than from an unknown
+ *   past. Recorded so a stale device cannot restart the count (the merge
+ *   keeps a baseline once either side has one).
+ * - `currentXp` not yet known (0 / not a number — the pre-hydration render)
+ *   → quiet, and no backfill, so the hero can never flash on a zero it would
+ *   otherwise measure everything against.
+ */
+export function verificationQuietStatus(currentXp: number): VerificationQuietStatus {
+  const last = getLatestAttempt();
+  if (!last) return { quiet: false, earnedSince: 0, remaining: 0, since: null };
+  const xpKnown = typeof currentXp === 'number' && Number.isFinite(currentXp) && currentXp > 0;
+  if (!xpKnown) {
+    return { quiet: true, earnedSince: 0, remaining: VERIFICATION_RETURN_XP, since: last };
+  }
+  let baseline = typeof last.xp === 'number' && Number.isFinite(last.xp) ? last.xp : null;
+  if (baseline === null) {
+    baseline = currentXp;
+    const state = getCertificationState();
+    const target = state.attempts.find((a) => a.level === last.level && a.takenAt === last.takenAt);
+    if (target) {
+      target.xp = currentXp;
+      writeCertificationState(state);
+    }
+  }
+  const earnedSince = Math.max(0, currentXp - baseline);
+  const remaining = Math.max(0, VERIFICATION_RETURN_XP - earnedSince);
+  return { quiet: remaining > 0, earnedSince, remaining, since: last };
+}
+
+/** True while the verification PROMPT should stay quiet — the learner has
+ *  attempted a check and not yet earned VERIFICATION_RETURN_XP since. */
+export function isVerificationQuiet(currentXp: number): boolean {
+  return verificationQuietStatus(currentXp).quiet;
 }
 
 // ── Sync helpers ──────────────────────────────────────────────────────────────
@@ -757,17 +836,23 @@ export function mergeRemoteCertifications(remote: CertificationState | null | un
     }
   }
 
-  // attempts — union by (level, takenAt)
+  // attempts — union by (level, takenAt). The same attempt seen twice keeps
+  // the local copy but ADOPTS a quiet-period XP baseline the other copy has
+  // and it lacks (a legacy attempt backfilled on one device must not have its
+  // count restarted by a blob written before the backfill).
   if (Array.isArray(remote.attempts)) {
-    const seen = new Set<string>();
-    const out: CertificationAttempt[] = [];
+    const byKey = new Map<string, CertificationAttempt>();
     for (const a of [...local.attempts, ...remote.attempts]) {
       if (!a || typeof a !== 'object') continue;
       const k = a.level + '@' + a.takenAt;
-      if (seen.has(k)) continue;
-      seen.add(k);
-      out.push(a);
+      const kept = byKey.get(k);
+      if (!kept) {
+        byKey.set(k, a);
+      } else if (typeof kept.xp !== 'number' && typeof a.xp === 'number') {
+        kept.xp = a.xp;
+      }
     }
+    const out = [...byKey.values()];
     out.sort((a, b) => a.takenAt - b.takenAt);
     local.attempts = out.slice(-100);
   }
