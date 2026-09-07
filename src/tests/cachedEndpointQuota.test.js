@@ -30,6 +30,7 @@ vi.mock('../../functions/api/_aiQuota.js', () => ({
   checkAIQuota: vi.fn(async () => ({ allowed: true, remaining: 299, resetAt: 'x' })),
 }));
 vi.mock('../../functions/api/_aiBudget.js', () => ({
+  reconcileSafely: async () => {},
   checkAndChargeBudget: vi.fn(async () => ({ allowed: false, spentMicroUsd: 0, resetAt: 'y' })),
   // news.js / daily-culture.js import nothing else from here at module scope.
 }));

@@ -92,4 +92,53 @@ describe('_aiPost', () => {
     await _aiPost('/api/correct', { text: 'hi' });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
+
+  // Feedback MUST work every time (owner, 2026-09-07): a hung /api/correct
+  // used to spin "Grading your writing…" forever because no writing surface
+  // passes a signal. A default timeout turns a dead connection into a named
+  // 'timeout' failure with a Try again.
+  it('aborts a hung request after AI_POST_TIMEOUT_MS when the caller gave no signal', async () => {
+    vi.useFakeTimers();
+    try {
+      const { AI_POST_TIMEOUT_MS } = await import('../lib/aiPost');
+      vi.spyOn(globalThis, 'fetch').mockImplementation(
+        (_url, init) =>
+          new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener('abort', () => {
+              const e = new Error('aborted');
+              e.name = 'AbortError';
+              reject(e);
+            });
+          }),
+      );
+      const p = _aiPost('/api/correct', { text: 'hi' });
+      const outcome = p.then(
+        () => 'resolved',
+        (e: Error) => e.name,
+      );
+      await vi.advanceTimersByTimeAsync(AI_POST_TIMEOUT_MS + 10);
+      expect(await outcome).toBe('AbortError');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("respects the caller's own signal and adds no timeout of its own", async () => {
+    vi.useFakeTimers();
+    try {
+      const { AI_POST_TIMEOUT_MS } = await import('../lib/aiPost');
+      let sawSignal: AbortSignal | null | undefined;
+      vi.spyOn(globalThis, 'fetch').mockImplementation((_url, init) => {
+        sawSignal = init?.signal;
+        return new Promise<Response>(() => {}); // never resolves — streaming
+      });
+      const controller = new AbortController();
+      void _aiPost('/api/conversation', { text: 'hi' }, { signal: controller.signal });
+      await vi.advanceTimersByTimeAsync(AI_POST_TIMEOUT_MS * 2);
+      expect(sawSignal).toBe(controller.signal);
+      expect(controller.signal.aborted).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

@@ -299,6 +299,24 @@ describe('the contrastive carve-out stays honest', () => {
     expect(turkish, 'the Turkish exemption class must not contain Cyrillic').not.toMatch(/[Ѐ-ӿ]/);
   });
 
+  it('walks quiz explanations and every field of a mastery-check item structurally', () => {
+    // 2026-09-07: `explanation` was never a field name either regex pass knew,
+    // so the sentence a learner reads on EVERY answered quiz question was
+    // unscanned for as long as quiz slides existed (355 of them, zero findings
+    // when the walk was widened — measured before writing). The mastery check
+    // is the one slide whose verdict changes a learner's standing, so its q /
+    // options / explanation are walked in full rather than left to the regex
+    // passes matching a nested array literal. Pinned by source, mutation-
+    // verified: `hleb` in a check option and a Cyrillic `е` in a quiz
+    // explanation each fail the lint with this walk and pass without it.
+    const walk = LINT_SRC.match(/function\* lessonStrings\(\)[\s\S]*?\n\}\n/)![0]!;
+    expect(walk).toMatch(/s\.type === 'quiz' && typeof s\.explanation === 'string'/);
+    expect(walk).toMatch(/s\.type === 'check'/);
+    expect(walk).toMatch(/field: 'options', content: o, kind/);
+    expect(walk).toMatch(/field: 'explanation', content: it\.explanation, kind/);
+    expect(walk).toMatch(/field: 'q', content: it\.q, kind/);
+  });
+
   it('every encoding call site passes a field name', () => {
     // The carve-out is field-scoped, so a call site that forgets the field
     // silently applies the STRICTEST behaviour — which is safe — but one that

@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const MODEL = 'claude-haiku-4-5-20251001';
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -246,6 +247,7 @@ export async function onRequestPost(context) {
           headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
         });
       }
+      await reconcileSafely(env, '/api/conversational-tutor', data?.usage);
       raw = data.content?.[0]?.text || '';
     } finally {
       clearTimeout(timeout);

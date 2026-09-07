@@ -21,6 +21,7 @@ import { reconcileBudget } from './_aiBudget.js';
 import { speakingCoachSystemPrompt, SPEAKING_COACH_PROMPT } from './_evalPrompts.js';
 import { promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -166,11 +167,8 @@ export async function onRequestPost(context) {
 
   let parsed;
   try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
+    parsed = parseModelJson(raw);
+    if (!parsed) throw new Error('no JSON in model reply');
   } catch {
     console.error('speaking-coach.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);

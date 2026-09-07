@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders, sanitizeParam, ok, err } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -141,6 +142,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/srs-sync', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('srs-sync.js: Anthropic returned empty response');

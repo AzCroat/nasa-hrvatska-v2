@@ -6,6 +6,7 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const PHOTO_VOCAB_PROMPT = definePrompt(
   'photo-vocab',
@@ -199,6 +200,7 @@ export async function onRequestPost(context) {
     return ok({ items: [], scene: 'Could not analyze image.' }, origin);
   }
 
+  await reconcileSafely(env, '/api/photo-vocab', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('photo-vocab.js: Anthropic returned empty response');

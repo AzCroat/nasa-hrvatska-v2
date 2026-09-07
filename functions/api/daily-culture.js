@@ -7,7 +7,7 @@
 // Response is cached at the Cloudflare edge for 6 hours.
 
 import { requireAuthedAI } from './_requireAuth.js';
-import { checkAndChargeBudget } from './_aiBudget.js';
+import { checkAndChargeBudget, reconcileSafely } from './_aiBudget.js';
 import { checkAIQuota } from './_aiQuota.js';
 import { corsHeaders, err } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
@@ -186,6 +186,7 @@ export async function onRequestGet(context) {
     return err(502, 'AI unavailable', origin);
   }
 
+  await reconcileSafely(env, '/api/daily-culture:generate', data?.usage);
   const raw = data.content?.[0]?.text || '';
 
   // Parse JSON — strip any accidental markdown fences

@@ -715,7 +715,13 @@ export default function MajaScreen() {
       }
     },
     onInterrupt: () => {},
-    onError: () => {},
+    // A transcription failure on the Whisper path must reach the learner
+    // (owner directive, 2026-09-07): this was `() => {}` — they spoke, nothing
+    // happened, and no message explained why. useWhisperSTT already supplies
+    // a learner-facing sentence.
+    onError: (msg: string) => {
+      if (msg) setErrorMsg(msg);
+    },
     isSpeaking: phase === 'maja-speaking',
     // Lessons use an explicit tap to interrupt (see handleBargeIn / the orb),
     // so the mic never auto-cuts Maja off on halting learner speech or noise.

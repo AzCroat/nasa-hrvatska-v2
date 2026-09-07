@@ -4,6 +4,8 @@ import { corsHeaders } from './_helpers.js';
 import { transcribeCroatian } from './_transcribe.js';
 import { speakingRubricPrompt, SPEAKING_RUBRIC_PROMPT } from './_evalPrompts.js';
 import { promptHeaders } from './_promptRegistry.js';
+import { parseModelJson } from './_modelJson.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const MAX_AUDIO_B64 = 2_000_000; // ~90s compressed
 // Minimum word count before we consider the transcript "long enough" to score fairly.
@@ -138,16 +140,14 @@ export async function onRequestPost(context) {
     });
     if (!r.ok) return err(502, 'rubric_failed', origin);
     const data = await r.json();
+    await reconcileSafely(env, '/api/assess-speaking', data?.usage);
     const text =
       data && data.content && data.content[0] && data.content[0].text ? data.content[0].text : '';
-    // Strip a ```json code fence if the model wrapped its object in one — every
-    // other structured endpoint does this. Without it a fenced-but-valid rubric
-    // threw in JSON.parse and 502'd rubric_failed, blocking the speaking gate.
-    const cleaned = text
-      .replace(/^\s*```(?:json)?\s*/i, '')
-      .replace(/\s*```\s*$/i, '')
-      .trim();
-    const parsed = JSON.parse(cleaned);
+    // The SHARED tolerant parser (_modelJson.js): fences, leading prose,
+    // trailing remarks. A fenced-but-valid rubric used to throw in JSON.parse
+    // and 502 rubric_failed, blocking the speaking gate.
+    const parsed = parseModelJson(text);
+    if (!parsed) throw new Error('no JSON in rubric reply');
     const clamp = (n) => Math.max(0, Math.min(1, Number(n) || 0));
     scores = {
       range: clamp(parsed.range),

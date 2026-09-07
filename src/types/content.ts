@@ -90,6 +90,9 @@ export interface Grammar {
 }
 
 // SP11c: lesson list shape. slides[] is the IP body.
+// Slide types: intro | rule | table | example | quiz | check | summary. `check`
+// (2026-09-07) is the mastery check — `items: LessonCheckItem[]`, see
+// src/lib/lessonCheck.ts — and is what gates a lesson's completion.
 export interface LessonSlide {
   type: string;
   title?: string;

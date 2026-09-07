@@ -22,6 +22,7 @@ import {
 import { WRITING_EVAL_PROMPT, SPEAKING_RUBRIC_PROMPT } from '../../functions/api/_evalPrompts.js';
 
 vi.mock('../../functions/api/_aiBudget.js', () => ({
+  reconcileSafely: async () => {},
   checkAndChargeBudget: async () => ({ allowed: true }),
   ENDPOINT_CEILING_MICROUSD: {},
 }));

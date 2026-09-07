@@ -6,6 +6,7 @@ import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
+import { reconcileSafely } from './_aiBudget.js';
 
 const LISTENING_PROMPT = definePrompt(
   'listening',
@@ -237,6 +238,7 @@ export async function onRequestPost(context) {
     return err(502, 'Invalid response from AI', origin);
   }
 
+  await reconcileSafely(env, '/api/listening', data?.usage);
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) {
     console.error('listening.js: Anthropic returned empty response');

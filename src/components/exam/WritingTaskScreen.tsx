@@ -17,6 +17,7 @@ import type { WritingTask } from '../../data/writingTasks.js';
 import type { WritingEvidence } from '../../lib/attemptEvidence.js';
 import { _aiPost } from '../../lib/aiPost';
 import { classifyAiLimit, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
+import { failureFromStatus, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 interface Props {
   task: WritingTask;
@@ -79,9 +80,14 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
             "Today's AI evaluations are used up. Your answers are saved — finish this section tomorrow.",
           );
         }
-        throw new Error(
-          'Evaluation is unavailable right now. Your writing is not lost — retry, or finish later.',
+        // Name the cause (owner directive, 2026-09-07): a burst limit, an
+        // unusable evaluator reply and a server outage read identically here.
+        const failure = failureFromStatus(
+          res.status,
+          typeof errBody['error'] === 'string' ? (errBody['error'] as string) : '',
         );
+        reportAiFailure('level-check-writing', failure);
+        throw new Error(`${failure.message} Your writing is not lost — retry, or finish later.`);
       }
       const data = (await res.json()) as {
         score?: unknown;
@@ -124,7 +130,13 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
       };
       onScore(score, evidence);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Evaluation failed. Retry, or finish later.');
+      if (e instanceof Error && e.message) {
+        setError(e.message);
+      } else {
+        const failure = failureFromError(e);
+        reportAiFailure('level-check-writing', failure);
+        setError(`${failure.message} Retry, or finish later.`);
+      }
     } finally {
       setLoading(false);
     }

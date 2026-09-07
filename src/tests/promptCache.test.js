@@ -23,6 +23,7 @@ vi.mock('../../functions/api/_requireAuth.js', () => ({
   requireAuthedAI: async () => ({ ok: true, origin: 'https://nasahrvatska.com' }),
 }));
 vi.mock('../../functions/api/_aiBudget.js', () => ({
+  reconcileSafely: async () => {},
   checkAndChargeBudget: async () => ({ allowed: true }),
   ENDPOINT_CEILING_MICROUSD: {},
 }));

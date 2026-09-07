@@ -164,6 +164,57 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Knjige su na stolu.',
+            en: 'The books are on the table.',
+            note: 'knjiga → knjige: feminine -a → -e',
+          },
+          {
+            hr: 'Prijatelji dolaze u subotu.',
+            en: 'Friends are coming on Saturday.',
+            note: 'prijatelj → prijatelji: masculine + -i',
+          },
+          {
+            hr: 'Sela u Zagorju su mala i lijepa.',
+            en: 'The villages in Zagorje are small and beautiful.',
+            note: 'selo → sela, and the adjectives rhyme with it',
+          },
+          {
+            hr: 'Sinovi rade u Njemačkoj.',
+            en: 'The sons work in Germany.',
+            note: 'sin → sinovi: a short masculine noun grows',
+          },
+          {
+            hr: 'Vojnici stoje ispred crkve.',
+            en: 'The soldiers are standing in front of the church.',
+            note: 'vojnik → vojnici: k softens to c before -i',
+          },
+          {
+            hr: 'Muževi kuhaju ručak.',
+            en: 'The husbands are cooking lunch.',
+            note: 'muž → muževi: -evi after a soft consonant',
+          },
+          {
+            hr: 'Djeca se igraju u parku.',
+            en: 'The children are playing in the park.',
+            note: 'djeca — irregular, with a plural verb',
+          },
+          {
+            hr: 'Bole me uši od hladnoće.',
+            en: 'My ears hurt from the cold.',
+            note: 'uho → uši: one of the five irregulars',
+          },
+          {
+            hr: 'Ljudi ovdje govore polako.',
+            en: 'People here speak slowly.',
+            note: 'ljudi — the plural of čovjek',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'What is the plural of "sestra" (sister)?',
@@ -185,6 +236,77 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           '"Grad" is a one-syllable masculine noun, so it grows to "gradovi" rather than taking a bare -i. "Grad su" leaves the noun singular under a plural verb, and "gradove" is an object form, not a subject form.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'Three errors come up again and again. First, adding -i to a feminine noun the way English adds -s to everything: "sestri" is not the plural of sestra — it is sestre. Second, treating a neuter plural as a feminine singular because it ends in -a: sela is many villages, so it is Sela su mala, never "Sela je mala". Third, forgetting that short masculine nouns grow: "gradi", "sini" and "stoli" do not exist — it is gradovi, sinovi, stolovi.',
+        highlight: 'Sela su mala',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ su na stolu." (The letters are on the table — "pismo" is neuter.)',
+            options: ['Pismi', 'Pisme', 'Pisma', 'Pismovi'],
+            correct: 2,
+            explanation:
+              'A neuter noun in -o takes -a in the plural: pismo → pisma. "Pismi" borrows the masculine ending, "pisme" the feminine one, and "pismovi" the growth pattern that belongs only to short masculine nouns.',
+          },
+          {
+            q: 'Complete: "___ su veliki." (The tables are big — "stol" is a short masculine noun.)',
+            options: ['Stoli', 'Stolovi', 'Stole', 'Stola'],
+            correct: 1,
+            explanation:
+              'One-syllable masculine nouns add -ov- before the -i: stol → stolovi. A bare "stoli" is the commonest learner error; "stole" and "stola" are not subject forms at all.',
+          },
+          {
+            q: 'Which sentence is correct?',
+            options: [
+              'Vojniki su u gradu.',
+              'Vojnikovi su u gradu.',
+              'Vojnik su u gradu.',
+              'Vojnici su u gradu.',
+            ],
+            correct: 3,
+            explanation:
+              'Before the plural -i a final k becomes c: vojnik → vojnici. "Vojniki" skips the sound change, "vojnikovi" applies the short-noun growth to a two-syllable noun, and "vojnik su" leaves the noun singular under a plural verb.',
+          },
+          {
+            q: 'What is wrong with "Djeca je u školi."?',
+            options: [
+              'djeca should be djece',
+              'je should be su — djeca takes a plural verb',
+              'u školi should be u školu',
+              'Nothing — the sentence is correct',
+            ],
+            correct: 1,
+            explanation:
+              '"Djeca" looks singular but means "children", and it takes a plural verb: Djeca su u školi. The noun and the locative are both already right.',
+          },
+          {
+            q: 'What is the plural of "čovjek" (person)?',
+            options: ['čovjeci', 'čovjekovi', 'ljudi', 'ljude'],
+            correct: 2,
+            explanation:
+              '"Čovjek" has a completely different word for its plural: ljudi. "Čovjeci" and "čovjekovi" apply regular patterns to a noun that does not follow them, and "ljude" is an object form.',
+          },
+          {
+            q: 'What is the plural of "muž" (husband)?',
+            options: ['muževi', 'muži', 'mužovi', 'muža'],
+            correct: 0,
+            explanation:
+              '"Muž" is a short masculine noun ending in a soft consonant, so it grows with -ev-: muževi. "Mužovi" uses the hard-consonant -ov-, "muži" skips the growth, and "muža" is a singular object form.',
+          },
+          {
+            q: 'Which sentence correctly puts "More je toplo." into the plural?',
+            options: ['Mora su topla.', 'More su topla.', 'Mori su topli.', 'Mora su tople.'],
+            correct: 0,
+            explanation:
+              'Neuter -e becomes -a in the plural, the verb becomes su, and the adjective takes the neuter plural -a as well: Mora su topla. "Tople" is the feminine plural ending, and "mori" is not a form of more.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -341,6 +463,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Ne radim nedjeljom.',
+            en: 'I do not work on Sundays.',
+            note: 'ne + verb, as separate words',
+          },
+          {
+            hr: 'Nismo umorni, možemo ići dalje.',
+            en: 'We are not tired, we can go on.',
+            note: 'biti fuses: nismo',
+          },
+          {
+            hr: 'Nemaju vremena za kavu.',
+            en: 'They do not have time for coffee.',
+            note: 'nemaju — fused, and vremena in the genitive',
+          },
+          {
+            hr: 'Neće doći na utakmicu.',
+            en: 'He will not come to the match.',
+            note: 'neće — the fused negative of htjeti',
+          },
+          {
+            hr: 'Nikad ne jedem meso.',
+            en: 'I never eat meat.',
+            note: 'nikad + ne — both are required',
+          },
+          {
+            hr: 'Nigdje nema parkinga u centru.',
+            en: 'There is no parking anywhere in the centre.',
+            note: 'nigdje + nema, and the genitive parkinga',
+          },
+          {
+            hr: 'Ne, hvala, ne pušim.',
+            en: 'No thank you, I do not smoke.',
+            note: 'the first ne answers, the second negates',
+          },
+          {
+            hr: 'Nije hladno, samo pada kiša.',
+            en: 'It is not cold, it is just raining.',
+            note: 'nije with a subjectless weather sentence',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I do not have a brother"?',
@@ -357,6 +525,77 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'A negative word such as "nitko" requires the verb to be negated too, so "nitko ne zna" is the only grammatical option. "Netko ne zna" is a real Croatian sentence, but it means "somebody does not know" — a different statement.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, keeping "ne" separate from the three verbs that fuse: "ne sam", "ne imam" and "ne hoću" are wrong — the forms are nisam, nemam, neću. Second, dropping the "ne" after nitko, ništa or nikad because English forbids a double negative: "Nitko zna" is not a sentence — it must be Nitko ne zna. Third, the opposite error, gluing "ne" to verbs that do not fuse: "neznam" and "nerazumijem" written as one word — every other verb keeps ne separate: ne znam, ne razumijem.',
+        highlight: 'Nitko ne zna',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ umoran danas." (I am not tired today.)',
+            options: ['Nisam', 'Ne sam', 'Nemam', 'Neću'],
+            correct: 0,
+            explanation:
+              '"Biti" fuses with the negation: nisam. "Ne sam" splits a verb that never splits, "nemam" negates having and "neću" negates wanting.',
+          },
+          {
+            q: 'Complete: "Oni ___ auto." (They do not have a car.)',
+            options: ['ne imaju', 'nisu', 'nemaju', 'neće'],
+            correct: 2,
+            explanation:
+              '"Imati" is one of the three fused verbs, so the third person plural is nemaju. "Ne imaju" is the unfused error, and "nisu" and "neće" belong to biti and htjeti.',
+          },
+          {
+            q: 'Which sentence is correct?',
+            options: ['Ništa vidim.', 'Ne ništa vidim.', 'Ništa ne vidim.', 'Vidim ne ništa.'],
+            correct: 2,
+            explanation:
+              'A negative word such as "ništa" requires "ne" directly before the verb: Ništa ne vidim. Leaving the verb positive is ungrammatical, and "ne" cannot attach to "ništa" or trail after the verb.',
+          },
+          {
+            q: 'What is wrong with "Ja neznam gdje je pošta."?',
+            options: [
+              'gdje should be kamo',
+              'je should be su',
+              'Nothing is wrong',
+              'neznam should be two words: ne znam',
+            ],
+            correct: 3,
+            explanation:
+              'Only biti, imati and htjeti fuse with the negation. "Znati" keeps "ne" as a separate word: ne znam. "Gdje je pošta" is correct — the post office is not moving, so gdje is right.',
+          },
+          {
+            q: 'What does "Nema kruha." mean?',
+            options: [
+              'He does not eat bread.',
+              'There is no bread.',
+              'The bread is not good.',
+              'I do not want bread.',
+            ],
+            correct: 1,
+            explanation:
+              'In the third person "nema" does the job of "there is no", and what is missing takes the genitive: kruha. Nothing in the sentence refers to eating, quality or wanting.',
+          },
+          {
+            q: 'Which is the correct negative of "hoću" (I want)?',
+            options: ['ne hoću', 'nehoću', 'neću', 'nisam hoću'],
+            correct: 2,
+            explanation:
+              '"Htjeti" fuses with the negation into neću. "Ne hoću" keeps a separation this verb does not allow, and "nisam hoću" stacks two verbs where one is needed.',
+          },
+          {
+            q: 'Someone asks "Imaš li vremena?" (Do you have time?). Which one-word answer means "I do not"?',
+            options: ['Ne imam.', 'Nisam.', 'Nemam.', 'Nemaš.'],
+            correct: 2,
+            explanation:
+              'The question uses "imati", so the answer is its fused negative in the first person: Nemam. "Nisam" answers a question about being, and "nemaš" is the second person — it would tell the asker what THEY lack.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -471,6 +710,57 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Ovo je moj novi auto.',
+            en: 'This is my new car.',
+            note: 'masculine long form in front of the noun',
+          },
+          {
+            hr: 'Juha je vruća.',
+            en: 'The soup is hot.',
+            note: 'juha is feminine, so vruć → vruća',
+          },
+          {
+            hr: 'Stari grad je lijep.',
+            en: 'The old town is beautiful.',
+            note: 'stari before the noun, lijep after je',
+          },
+          {
+            hr: 'Kava je jako dobra.',
+            en: 'The coffee is very good.',
+            note: 'dobar loses its a: dobra',
+          },
+          {
+            hr: 'Hladno pivo, molim.',
+            en: 'A cold beer, please.',
+            note: 'pivo is neuter, so hladno',
+          },
+          {
+            hr: 'Ulice su uske i stare.',
+            en: 'The streets are narrow and old.',
+            note: 'feminine plural → -e on both adjectives',
+          },
+          {
+            hr: 'Stanovi u centru su skupi.',
+            en: 'Flats in the centre are expensive.',
+            note: 'masculine plural → -i',
+          },
+          {
+            hr: 'Sela su tiha i mala.',
+            en: 'The villages are quiet and small.',
+            note: 'neuter plural → -a, rhyming with sela',
+          },
+          {
+            hr: 'Djeca su sretna.',
+            en: 'The children are happy.',
+            note: 'djeca takes the -a ending: sretan → sretna',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "a new book"? ("knjiga" is feminine.)',
@@ -487,6 +777,72 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           '"More" is neuter — it ends in -e — so the adjective takes the neuter ending -o: toplo. "Topao" is the masculine form, "topla" the feminine and "topli" the masculine plural.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, leaving the adjective in its dictionary form for every noun, as English does: "velik kuća" — kuća is feminine, so it is velika kuća. Second, keeping the fleeting a when an ending is added: "dobara", "dobaro" — the vowel drops the moment anything follows: dobra, dobro. Third, reading the neuter plural as feminine singular because it ends in -a: velika sela is right (neuter plural), while "velike sela" borrows the feminine plural ending and is wrong.',
+        highlight: 'velika kuća',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Ovo je ___ soba." (This is a small room — "soba" is feminine.)',
+            options: ['mali', 'mala', 'malo', 'male'],
+            correct: 1,
+            explanation:
+              'A feminine singular noun takes the -a ending: mala soba. "Mali" is masculine, "malo" is neuter and "male" is the feminine PLURAL.',
+          },
+          {
+            q: 'Complete: "Pivo je ___." (The beer is cold — "pivo" is neuter.)',
+            options: ['hladan', 'hladna', 'hladni', 'hladno'],
+            correct: 3,
+            explanation:
+              '"Pivo" ends in -o and is neuter, so the adjective takes -o: hladno. "Hladan" is masculine, "hladna" feminine and "hladni" masculine plural — and note that the fleeting a has dropped in all three ending forms.',
+          },
+          {
+            q: 'Which is correct?',
+            options: ['Dobra ideja.', 'Dobar ideja.', 'Dobro ideja.', 'Dobara ideja.'],
+            correct: 0,
+            explanation:
+              '"Ideja" is feminine, so the adjective takes -a, and "dobar" drops its fleeting a before the ending: dobra ideja. "Dobara" keeps a vowel that must vanish, and "dobar" / "dobro" are the wrong genders.',
+          },
+          {
+            q: 'What is wrong with "Gradovi su veliki i lijepe."?',
+            options: [
+              'gradovi should be gradi',
+              'lijepe should be lijepi — masculine plural',
+              'veliki should be velika',
+              'Nothing is wrong',
+            ],
+            correct: 1,
+            explanation:
+              '"Gradovi" is masculine plural, so both adjectives take -i: veliki i lijepi. "Lijepe" is the feminine plural ending. The noun itself is right — grad grows to gradovi.',
+          },
+          {
+            q: 'What does "sretan" (happy) become in front of a feminine noun?',
+            options: ['sretana', 'sretno', 'sretni', 'sretna'],
+            correct: 3,
+            explanation:
+              '"Sretan" has a fleeting a, so it drops the vowel and adds the feminine -a: sretna. "Sretana" keeps the vowel, and "sretno" / "sretni" are the neuter and masculine plural forms.',
+          },
+          {
+            q: 'Complete: "Moja sestra je ___." (My sister is young.)',
+            options: ['mlad', 'mladi', 'mlada', 'mlado'],
+            correct: 2,
+            explanation:
+              'The adjective agrees with "sestra", which is feminine: mlada. Your own gender never matters — only the gender of the noun being described.',
+          },
+          {
+            q: 'Complete: "Sela su ___." (The villages are small.)',
+            options: ['mali', 'male', 'mala', 'malo'],
+            correct: 2,
+            explanation:
+              '"Sela" is a neuter plural, and the neuter plural adjective ends in -a to match it: Sela su mala. "Male" is feminine plural, "mali" masculine plural and "malo" neuter singular.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -617,6 +973,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Tvoja kava je na stolu.',
+            en: 'Your coffee is on the table.',
+            note: 'kava is feminine → tvoja',
+          },
+          {
+            hr: 'Njezin muž radi u bolnici.',
+            en: 'Her husband works at the hospital.',
+            note: 'female owner, masculine thing → njezin',
+          },
+          {
+            hr: 'Naše selo je blizu mora.',
+            en: 'Our village is near the sea.',
+            note: 'selo is neuter → naše',
+          },
+          {
+            hr: 'Njihova djeca uče engleski.',
+            en: 'Their children are learning English.',
+            note: 'djeca takes the -a form → njihova',
+          },
+          {
+            hr: 'Vaši roditelji su jako ljubazni.',
+            en: 'Your parents are very kind.',
+            note: 'masculine plural → vaši; polite vaš',
+          },
+          {
+            hr: 'Moje sestre žive u Rijeci.',
+            en: 'My sisters live in Rijeka.',
+            note: 'feminine plural → moje',
+          },
+          {
+            hr: 'Njegov auto je star, ali dobar.',
+            en: 'His car is old but good.',
+            note: 'male owner, masculine thing → njegov',
+          },
+          {
+            hr: 'Gdje je tvoj brat? — Kod kuće.',
+            en: 'Where is your brother? — At home.',
+            note: 'brat is masculine → tvoj',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "my sister"? ("sestra" is feminine.)',
@@ -633,6 +1035,82 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Njegov" marks a male owner, and the ending then follows "sestra", which is feminine — so "njegova sestra". "Njezina" would mean a woman\'s sister and "njihova" would mean several people\'s sister.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, choosing the ending by the OWNER: a woman writes "moja brat" because she is female — but brat is masculine, so it is moj brat whoever is speaking. Second, using njegov for a female owner: her book is njezina knjiga, not "njegova knjiga" — njegov marks a male owner. Third, mixing a masculine plural ending with a feminine noun: "moji sestre" — a feminine plural takes -e on both words: moje sestre.',
+        highlight: 'moj brat whoever is speaking',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Ovo je ___ pismo." (This is my letter — "pismo" is neuter.)',
+            options: ['moj', 'moja', 'moje', 'moji'],
+            correct: 2,
+            explanation:
+              'The possessive agrees with the thing owned, and "pismo" is neuter, so it takes -e: moje pismo. "Moj" is masculine, "moja" feminine and "moji" masculine plural.',
+          },
+          {
+            q: 'Complete: "___ obitelj je velika." (Our family is big — "obitelj" is feminine.)',
+            options: ['Naš', 'Naša', 'Naše', 'Naši'],
+            correct: 1,
+            explanation:
+              '"Obitelj" ends in a consonant but is feminine, so the possessive takes -a: naša obitelj. The consonant ending tempts learners into the masculine "naš" — the gender of the noun decides, not its last letter.',
+          },
+          {
+            q: 'Which sentence is correct? (Her car is new.)',
+            options: [
+              'Njezin auto je nov.',
+              'Njezina auto je nov.',
+              'Njezino auto je nov.',
+              'Njezini auto je nov.',
+            ],
+            correct: 0,
+            explanation:
+              '"Njezin" marks a female owner, and the ending then follows "auto", which is masculine: njezin auto. The -a, -o and -i endings would need a feminine, neuter or plural noun.',
+          },
+          {
+            q: 'What is wrong with "Tvoji sestra je ovdje."?',
+            options: [
+              'je should be su',
+              'sestra should be sestru',
+              'Nothing is wrong',
+              'tvoji should be tvoja',
+            ],
+            correct: 3,
+            explanation:
+              '"Sestra" is feminine singular, so the possessive must be tvoja. "Tvoji" is the masculine plural form and cannot sit in front of one sister. The verb and the noun are already correct.',
+          },
+          {
+            q: 'A woman is talking about her own brother. What does she say?',
+            options: ['njezin brat', 'moj brat', 'moja brat', 'njegov brat'],
+            correct: 1,
+            explanation:
+              'Her own brother is "my brother", and "brat" is masculine, so it is moj brat — her gender changes nothing. "Njezin brat" would be some other woman\'s brother, and "moja brat" matches the owner instead of the noun.',
+          },
+          {
+            q: 'How do you ask "Whose book is this?" ("knjiga" is feminine.)',
+            options: [
+              'Čiji je ovo knjiga?',
+              'Čija je ovo knjiga?',
+              'Čije je ovo knjiga?',
+              'Čiji je ova knjiga?',
+            ],
+            correct: 1,
+            explanation:
+              '"Čiji" agrees with the thing asked about, and "knjiga" is feminine: čija. The neutral "ovo je" then works exactly as it does in "Ovo je knjiga".',
+          },
+          {
+            q: 'Complete: "Ovo je ___ kuća." (This is their house.)',
+            options: ['njihov kuća', 'njegova kuća', 'njihove kuća', 'njihova kuća'],
+            correct: 3,
+            explanation:
+              '"Their" is njihov, and "kuća" is feminine, so it takes -a: njihova kuća. "Njegova" would mean one man owns it, and "njihove" is the feminine plural ending in front of a singular noun.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -758,6 +1236,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Ova kava je jako dobra.',
+            en: 'This coffee is very good.',
+            note: 'ova agrees with kava (feminine)',
+          },
+          {
+            hr: 'Taj restoran je skup.',
+            en: 'That restaurant is expensive.',
+            note: 'taj — the one you mentioned, or near you',
+          },
+          {
+            hr: 'Ono selo je jako staro.',
+            en: 'That village over there is very old.',
+            note: 'neuter onaj → ono',
+          },
+          {
+            hr: 'Ovi ljudi su moji prijatelji.',
+            en: 'These people are my friends.',
+            note: 'masculine plural → ovi',
+          },
+          {
+            hr: 'Te knjige su nove.',
+            en: 'Those books are new.',
+            note: 'feminine plural → te',
+          },
+          {
+            hr: 'To je moj otac.',
+            en: 'That is my father.',
+            note: 'to je — the neuter workhorse',
+          },
+          {
+            hr: 'Je li ovo tvoj auto?',
+            en: 'Is this your car?',
+            note: 'ovo stays neuter in a question too',
+          },
+          {
+            hr: 'Tamo je more, a ovdje je grad.',
+            en: 'The sea is over there, and the town is here.',
+            note: 'tamo and ovdje — the two ends of the scale',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'You are holding a book and want to say "This is a good book". Which is correct?',
@@ -774,6 +1298,77 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'Something near the LISTENER takes the "taj" family, and "olovka" is feminine, so it is "ta olovka". "Ova olovka" would mean the pen is in your own hand and "ona olovka" that it is away from both of you.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, using ovaj or ova to open a "this is…" sentence: the opener is always the neuter — Ovo je knjiga, not "Ovaj je knjiga". Second, translating every English "that" as onaj: if the thing is near the listener or was just mentioned, it is taj — Taj film je dobar. Third, forgetting agreement in front of a noun: "ovaj knjiga" — knjiga is feminine, so it is ova knjiga.',
+        highlight: 'Ovo je knjiga',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ stol je nov." (This table, right next to me, is new.)',
+            options: ['Ovo', 'Ova', 'Ovaj', 'Ovi'],
+            correct: 2,
+            explanation:
+              'In front of a noun the demonstrative agrees with it, and "stol" is masculine singular: ovaj stol. "Ovo" is only for the sentence opener "this is…", "ova" is feminine and "ovi" is plural.',
+          },
+          {
+            q: 'Which word opens "This is…" about anything at all, whatever the gender of what follows?',
+            options: ['ovaj', 'ova', 'ovo', 'ovi'],
+            correct: 2,
+            explanation:
+              'The neuter "ovo" stands in for "this thing" and never changes: Ovo je knjiga, Ovo je moj brat. The other three agree with a noun that follows them directly.',
+          },
+          {
+            q: 'Your friend is holding a book. Which sentence correctly says "Pass me that book"?',
+            options: [
+              'Daj mi ta knjigu.',
+              'Daj mi tu knjigu.',
+              'Daj mi to knjigu.',
+              'Daj mi taj knjigu.',
+            ],
+            correct: 1,
+            explanation:
+              'Something near the listener takes the "taj" family; "knjiga" is feminine and here an object, so both words take -u: tu knjigu. "Ta" is the subject form, and "to" / "taj" are the wrong genders.',
+          },
+          {
+            q: 'What is wrong with "Onaj kuća je velika."?',
+            options: [
+              'velika should be velik',
+              'je should be su',
+              'Nothing is wrong',
+              'onaj should be ona',
+            ],
+            correct: 3,
+            explanation:
+              '"Kuća" is feminine, so the far demonstrative must be "ona": Ona kuća je velika. The adjective and the verb already agree correctly.',
+          },
+          {
+            q: 'Your friend points at a mountain far from both of you. Complete: "___ planina je visoka." ("planina" is feminine.)',
+            options: ['Ova', 'Ta', 'Ona', 'Ono'],
+            correct: 2,
+            explanation:
+              'Away from both speaker and listener is the "onaj" family, and the feminine form is ona: Ona planina. "Ova" would put it beside you, "ta" beside your friend, and "ono" is neuter.',
+          },
+          {
+            q: 'Which place word pairs with "taj"?',
+            options: ['ovdje', 'tu', 'ondje', 'odavde'],
+            correct: 1,
+            explanation:
+              'The three-way split runs through the place words too: ovaj – ovdje, taj – tu, onaj – ondje (or tamo). "Odavde" means "from here" and belongs to a different set.',
+          },
+          {
+            q: 'Complete: "___ sela su mala." (Those villages over there are small — "selo" is neuter.)',
+            options: ['Ona', 'Ono', 'Oni', 'One'],
+            correct: 0,
+            explanation:
+              'A neuter plural takes -a, so the far demonstrative is ona sela — the same form as the feminine singular, which is why it trips people up. "Ono" is neuter singular, "oni" masculine plural and "one" feminine plural.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -914,6 +1509,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Kupujem kruh i mlijeko.',
+            en: 'I am buying bread and milk.',
+            note: 'masculine not alive and neuter → both unchanged',
+          },
+          {
+            hr: 'Svako jutro pijem čaj.',
+            en: 'Every morning I drink tea.',
+            note: 'čaj — masculine, not alive',
+          },
+          {
+            hr: 'Volim svoju sestru.',
+            en: 'I love my sister.',
+            note: 'sestra → sestru, and svoju follows it',
+          },
+          {
+            hr: 'Vidim psa u parku.',
+            en: 'I see a dog in the park.',
+            note: 'pas is alive → psa (the a drops out)',
+          },
+          {
+            hr: 'Čekamo prijatelja ispred kina.',
+            en: 'We are waiting for a friend in front of the cinema.',
+            note: 'prijatelj is alive → prijatelja',
+          },
+          {
+            hr: 'Idem na tržnicu.',
+            en: 'I am going to the market.',
+            note: 'motion → accusative: tržnicu',
+          },
+          {
+            hr: 'Gledamo utakmicu na televiziji.',
+            en: 'We are watching the match on television.',
+            note: 'utakmica → utakmicu; na televiziji is position',
+          },
+          {
+            hr: 'Učim hrvatsku gramatiku.',
+            en: 'I am learning Croatian grammar.',
+            note: 'the adjective takes -u as well',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I am drinking water"? ("voda" is feminine.)',
@@ -930,6 +1571,77 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Brat" is masculine and alive, so it takes -a: brata. The possessive moves with it, giving "moga brata". Leaving the noun as "brat" would be the non-living pattern, which does not apply to a person.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, leaving a feminine noun in its dictionary form: "Pijem kava" — the object takes -u: Pijem kavu. Second, giving every masculine noun the -a: "Vidim auta", "Čitam romana" — only LIVING masculine nouns change; a car and a novel stay as they are: Vidim auto, Čitam roman. Third, using the locative for motion: "Idem u gradu" says you are already in town; going there is Idem u grad.',
+        highlight: 'Pijem kavu',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Jedem ___." (I am eating soup — "juha" is feminine.)',
+            options: ['juha', 'juhu', 'juhe', 'juhi'],
+            correct: 1,
+            explanation:
+              'A feminine noun in -a takes -u as the object: juha → juhu. "Juha" is the subject form, and "juhe" and "juhi" belong to other cases.',
+          },
+          {
+            q: 'Complete: "Vidim ___." (I see a dog — "pas" is masculine and alive.)',
+            options: ['pas', 'pasa', 'psa', 'psu'],
+            correct: 2,
+            explanation:
+              'A living masculine noun adds -a, and "pas" also drops its fleeting a: psa. "Pas" is the subject form, "pasa" keeps a vowel that must vanish, and "psu" is another case.',
+          },
+          {
+            q: 'Which sentence is correct? (I am looking at the sea — "more" is neuter.)',
+            options: ['Gledam more.', 'Gledam mora.', 'Gledam moru.', 'Gledam morem.'],
+            correct: 0,
+            explanation:
+              'Neuter nouns never change in the accusative: Gledam more. "Mora", "moru" and "morem" are real forms of the word, but they belong to other cases.',
+          },
+          {
+            q: 'What is wrong with "Čekam moj prijatelj."?',
+            options: [
+              'čekam should be čekaju',
+              'moj should be moja',
+              'Nothing is wrong',
+              'prijatelj should be prijatelja, and moj should move with it to moga',
+            ],
+            correct: 3,
+            explanation:
+              '"Prijatelj" is masculine and alive, so as an object it takes -a, and the possessive follows: Čekam moga prijatelja. The verb is already right, and "moja" is the wrong gender.',
+          },
+          {
+            q: 'After "u" or "na", the accusative answers which question?',
+            options: [
+              'Gdje? — where something is',
+              'Kamo? — where something is going',
+              'Odakle? — where something is from',
+              'Kada? — when something happens',
+            ],
+            correct: 1,
+            explanation:
+              'The accusative after u / na marks motion TOWARDS somewhere, which is the question "Kamo?". "Gdje?" is answered by the locative, and "Odakle?" by iz plus the genitive.',
+          },
+          {
+            q: 'Complete: "Sutra idemo ___." (Tomorrow we are going to the seaside.)',
+            options: ['na moru', 'na more', 'na mora', 'u moru'],
+            correct: 1,
+            explanation:
+              'Going somewhere takes the accusative, and neuter "more" does not change: na more. "Na moru" is the locative and describes being there already, and "u moru" would mean in the water.',
+          },
+          {
+            q: 'Complete: "Kupujem ___." (I am buying a new bag — "nova torba".)',
+            options: ['nova torba', 'novu torbu', 'nove torbe', 'novoj torbi'],
+            correct: 1,
+            explanation:
+              'The whole phrase moves together: the feminine noun takes -u and so does its adjective — novu torbu. Changing only the noun, or leaving both as they are, is the commonest slip.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1055,6 +1767,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Imam psa i mačku.',
+            en: 'I have a dog and a cat.',
+            note: 'psa (alive) and mačka → mačku',
+          },
+          {
+            hr: 'Imaš li kartu za tramvaj?',
+            en: 'Do you have a ticket for the tram?',
+            note: 'karta → kartu',
+          },
+          {
+            hr: 'Moj brat ima trideset dvije godine.',
+            en: 'My brother is thirty-two.',
+            note: 'age is something you have',
+          },
+          {
+            hr: 'Nemamo mlijeka, idem u dućan.',
+            en: 'We have no milk, I am going to the shop.',
+            note: 'what you lack takes the genitive: mlijeka',
+          },
+          {
+            hr: 'Ima li slobodnih mjesta?',
+            en: 'Are there any free seats?',
+            note: 'ima li + genitive',
+          },
+          {
+            hr: 'Danas nema nastave.',
+            en: 'There is no class today.',
+            note: 'nema + genitive: nastave',
+          },
+          {
+            hr: 'Imate li sobu za dvoje?',
+            en: 'Do you have a room for two?',
+            note: 'V-form; soba → sobu',
+          },
+          {
+            hr: 'U Zagrebu ima puno tramvaja.',
+            en: 'In Zagreb there are a lot of trams.',
+            note: 'ima stays singular for many things',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I have a sister"?',
@@ -1071,6 +1829,82 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'Croatian treats age as something you HAVE, so the question is "Koliko imaš godina?" — how many years do you have. Building it around "biti" or around "star" is a direct translation from English and does not work here.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, keeping the dictionary form after imam: "Imam sestra" — what you have is an object: Imam sestru. Second, translating age with biti: "Ja sam trideset" — Croatian has its years: Imam trideset godina. Third, writing the negative as two words: "ne imam" — imati fuses into nemam, and after it the thing missing takes the genitive: Nemam vremena.',
+        highlight: 'Imam trideset godina',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Imam ___." (I have a brother.)',
+            options: ['brat', 'brata', 'bratu', 'brate'],
+            correct: 1,
+            explanation:
+              'What you have is an object, and "brat" is masculine and alive, so it takes -a: Imam brata. "Brat" is the subject form, "bratu" another case and "brate" the form for calling him.',
+          },
+          {
+            q: 'Complete: "Danas ___ kruha." (There is no bread today.)',
+            options: ['nije', 'nemam', 'nema', 'ne ima'],
+            correct: 2,
+            explanation:
+              '"There is no" is the third-person nema, followed by the genitive. "Nemam" would mean I personally have none, "nije" negates being, and "ne ima" splits a verb that fuses.',
+          },
+          {
+            q: 'Which is the correct polite way to ask someone their age?',
+            options: [
+              'Koliko imate godina?',
+              'Koliko ste godina?',
+              'Kako ste star?',
+              'Koliko imate godine?',
+            ],
+            correct: 0,
+            explanation:
+              'Age is something you have, so the question uses imati with the V-form: Koliko imate godina? Building it on biti or on "star" copies English, and "godine" is the wrong form after koliko — it needs the genitive plural godina.',
+          },
+          {
+            q: 'What is wrong with "Ima li mjesto?" (Is there room?)',
+            options: [
+              'ima should be imam',
+              'li should come first',
+              'Nothing is wrong',
+              'mjesto should be mjesta — ima li takes the genitive',
+            ],
+            correct: 3,
+            explanation:
+              'When "ima" means "there is", the thing that exists takes the genitive: Ima li mjesta? "Ima li" is the right order and the right person — only the noun ending is off.',
+          },
+          {
+            q: 'What does "Nema problema!" mean?',
+            options: [
+              'There is a problem.',
+              'No problem!',
+              'I do not have a problem.',
+              'Do not make problems!',
+            ],
+            correct: 1,
+            explanation:
+              '"Nema" is the existence word in the negative — there is no problem — and "problema" is its genitive. It is the everyday way to say "no problem".',
+          },
+          {
+            q: 'Complete: "Moja sestra ___ dvoje djece." (My sister has two children.)',
+            options: ['imam', 'ima', 'imaju', 'imate'],
+            correct: 1,
+            explanation:
+              '"Moja sestra" is one person, third person singular, so the verb is ima. "Imam" is I, "imaju" is they and "imate" is you (plural or polite).',
+          },
+          {
+            q: 'Complete: "___ li auto?" (Do you have a car? — to a friend.)',
+            options: ['Imaš', 'Ima', 'Imam', 'Imate'],
+            correct: 0,
+            explanation:
+              'A friend is addressed with the "ti" form: Imaš li auto? "Imate" is the polite or plural form, "ima" is he or she, and "imam" would ask whether I have one.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1173,6 +2007,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Radim u uredu u centru grada.',
+            en: 'I work in an office in the city centre.',
+            note: 'ured → uredu (masculine -u); grada is a genitive',
+          },
+          {
+            hr: 'Djeca su u parku.',
+            en: 'The children are in the park.',
+            note: 'park → parku',
+          },
+          {
+            hr: 'Sjedimo u kavani i pijemo kavu.',
+            en: 'We are sitting in a café and drinking coffee.',
+            note: 'kavana → kavani; kavu is the object',
+          },
+          {
+            hr: 'Ključevi su u torbi.',
+            en: 'The keys are in the bag.',
+            note: 'torba → torbi',
+          },
+          {
+            hr: 'Stanujemo na otoku.',
+            en: 'We live on an island.',
+            note: 'otok → otoku; islands take na',
+          },
+          {
+            hr: 'Razgovaramo o vremenu.',
+            en: 'We are talking about the weather.',
+            note: 'o + locative: vrijeme → vremenu',
+          },
+          {
+            hr: 'Baka je u vrtu.',
+            en: 'Grandma is in the garden.',
+            note: 'vrt → vrtu',
+          },
+          {
+            hr: 'Na stolu je pismo za tebe.',
+            en: 'There is a letter for you on the table.',
+            note: 'na stolu — position, so the locative',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Also "About"',
         body: 'The preposition "o" plus the locative means "about" in the sense of a topic. Govorimo o filmu. (We are talking about the film.) Razmišljam o tebi. (I am thinking about you.) Što misliš o tome? (What do you think about that?) It is the same ending you already know, doing a completely different job.',
@@ -1195,6 +2075,77 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'Motion takes the accusative, and "grad" is masculine and not alive, so it does not change: Idem u grad. "U gradu" is the locative and describes where you already are.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, using the accusative for where you ARE: "Živim u Zagreb", "U školu sam" — position takes the locative: Živim u Zagrebu, U školi sam. Second, choosing the preposition from English: "na Zagrebu", or "u moru" when you mean at the seaside (that says you are in the water) — the pairing is fixed: u Zagrebu, na moru. Third, forgetting the k → c change before -i: "u banki" — banka becomes u banci.',
+        highlight: 'Živim u Zagrebu',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Radim ___." (I work at a school — "škola" is feminine.)',
+            options: ['u školu', 'u školi', 'u škola', 'u škole'],
+            correct: 1,
+            explanation:
+              'Being somewhere takes the locative, and a feminine noun swaps -a for -i: u školi. "U školu" is the accusative for going there, and "škola" / "škole" are other cases.',
+          },
+          {
+            q: 'Complete: "Knjige su ___." (The books are on the table.)',
+            options: ['na stol', 'na stolu', 'na stola', 'u stolu'],
+            correct: 1,
+            explanation:
+              'A masculine noun takes -u in the locative: na stolu. "Na stol" would be motion onto the table, "stola" is the genitive, and "u stolu" would put the books inside it.',
+          },
+          {
+            q: 'Which sentence is correct? (I live in Split.)',
+            options: ['Živim u Split.', 'Živim u Splita.', 'Živim u Splitu.', 'Živim na Splitu.'],
+            correct: 2,
+            explanation:
+              '"Split" is masculine, so the locative is Splitu, and cities take u: Živim u Splitu. "U Split" is the accusative of motion, "Splita" the genitive, and "na" is not the preposition cities use.',
+          },
+          {
+            q: 'What is wrong with "Idem u gradu."?',
+            options: [
+              'u should be na',
+              'idem should be ide',
+              'Nothing is wrong',
+              'gradu should be grad — motion takes the accusative',
+            ],
+            correct: 3,
+            explanation:
+              '"Idem" is motion, so the accusative follows: Idem u grad. "U gradu" is the locative and only works when you are already there — U gradu sam.',
+          },
+          {
+            q: 'Which question word expects a locative answer?',
+            options: ['Kamo?', 'Gdje?', 'Odakle?', 'Kada?'],
+            correct: 1,
+            explanation:
+              '"Gdje?" asks where something IS, and the answer takes the locative: Gdje si? — U kući sam. "Kamo?" asks where something is going and expects the accusative.',
+          },
+          {
+            q: 'Complete: "Govorimo ___." (We are talking about the film.)',
+            options: ['o film', 'o filma', 'o filmu', 'u filmu'],
+            correct: 2,
+            explanation:
+              '"O" plus the locative means "about", and the masculine "film" takes -u: o filmu. "O film" has no ending, "filma" is the genitive, and "u filmu" would mean in the film.',
+          },
+          {
+            q: 'Which statement about the locative is true?',
+            options: [
+              'It never appears without a preposition',
+              'It marks the direct object of a verb',
+              'It follows only verbs of motion',
+              'It never changes the noun',
+            ],
+            correct: 0,
+            explanation:
+              'The locative is the one case that only ever follows a preposition — u, na, o, po, pri. The direct object is the accusative, motion takes the accusative, and the locative changes every noun that enters it.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1325,6 +2276,47 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Pošta je između banke i ljekarne.',
+            en: 'The post office is between the bank and the pharmacy.',
+            note: 'između + genitive, twice',
+          },
+          {
+            hr: 'Parkiram iza zgrade.',
+            en: 'I park behind the building.',
+            note: 'iza + genitive: zgrade',
+          },
+          {
+            hr: 'Lampa je iznad stola.',
+            en: 'The lamp is above the table.',
+            note: 'iznad + genitive: stola',
+          },
+          {
+            hr: 'Danas sam kod bake.',
+            en: "Today I am at grandma's.",
+            note: 'kod + genitive: bake',
+          },
+          {
+            hr: 'Idem s bratom na utakmicu.',
+            en: 'I am going to the match with my brother.',
+            note: 's + instrumental; na + accusative for motion',
+          },
+          {
+            hr: 'Vlak ide od Zagreba do Rijeke.',
+            en: 'The train goes from Zagreb to Rijeka.',
+            note: 'od … do + genitive',
+          },
+          {
+            hr: 'Škola je blizu naše kuće.',
+            en: 'The school is near our house.',
+            note: 'blizu + genitive, and the possessive follows',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I am at home"?',
@@ -1346,6 +2338,89 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           '"Pored" always takes the genitive, and the genitive of the feminine "banka" is "banke". The other options give the subject form, the locative and the accusative respectively — none of which this preposition allows.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, switching case with a genitive preposition as if it were u or na: "ispred kuću" — the genitive group never changes, whether you are there or going there: ispred kuće. Second, reaching for "u" to say you are at home: "Idem u kuću" means you are walking into a building; going home is Idem kući, and being there is kod kuće. Third, writing "sa" everywhere: "sa bratom", "sa mamom" — sa is only for the next word starting with s, š, z or ž: s bratom, s mamom, but sa sestrom. The one fixed exception is sa mnom (with me).',
+        highlight: 'kod kuće',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Auto je ___ kuće." (The car is in front of the house.)',
+            options: ['ispred', 'na', 'u', 'iznad'],
+            correct: 0,
+            explanation:
+              '"In front of" is ispred, and it takes the genitive — which is why the sentence already has kuće. "Na" and "u" would need a locative, and "iznad" means above.',
+          },
+          {
+            q: 'Complete: "Mačka spava ___." (The cat is sleeping under the table.)',
+            options: ['ispod stol', 'ispod stolu', 'ispod stola', 'ispod stolom'],
+            correct: 2,
+            explanation:
+              '"Ispod" belongs to the genitive group, and the genitive of the masculine "stol" is stola. "Stolu" is the locative and "stolom" the instrumental — neither follows ispod.',
+          },
+          {
+            q: "Which sentence is correct? (I am going to the doctor's.)",
+            options: [
+              'Idem kod doktor.',
+              'Idem kod doktora.',
+              'Idem kod doktoru.',
+              'Idem u doktora.',
+            ],
+            correct: 1,
+            explanation:
+              '"At the place of" a person is kod plus the genitive: kod doktora. It does not change for motion. "U doktora" mixes the wrong preposition with the right ending.',
+          },
+          {
+            q: 'Complete: "Idem ___ sestrom u kino." (I am going to the cinema with my sister.)',
+            options: ['s', 'sa', 'so', 'iz'],
+            correct: 1,
+            explanation:
+              '"With" is s, but before a word beginning with s, š, z or ž it becomes sa for ease of pronunciation: sa sestrom. Plain "s sestrom" is the form Croatian avoids, and "iz" means from.',
+          },
+          {
+            q: 'What is wrong with "Kavana je pored banku."?',
+            options: [
+              'pored should be na',
+              'je should be su',
+              'Nothing is wrong',
+              'banku should be banke — pored takes the genitive',
+            ],
+            correct: 3,
+            explanation:
+              '"Pored" always rules the genitive, and the genitive of "banka" is banke. "Banku" is the accusative, which no genitive preposition allows.',
+          },
+          {
+            q: 'What does "Kod kuće sam." mean?',
+            options: [
+              'I am going home.',
+              'I am at home.',
+              'I am in front of the house.',
+              'I am near the house.',
+            ],
+            correct: 1,
+            explanation:
+              '"Kod kuće" is the set phrase for being at home. Going home is a different phrase, idem kući — the two are worth learning as a pair.',
+          },
+          {
+            q: 'Complete: "Sjedim između ___." (I am sitting between my brother and sister.)',
+            options: ['brat i sestra', 'brata i sestru', 'brata i sestre', 'bratom i sestrom'],
+            correct: 2,
+            explanation:
+              '"Između" takes the genitive for BOTH nouns: brata i sestre. Mixing in an accusative ("sestru") or leaving the subject forms is the usual slip, and "bratom i sestrom" is the instrumental that goes with s / sa.',
+          },
+          {
+            q: 'Complete: "Živim ___." (I live near the sea.)',
+            options: ['blizu more', 'blizu mora', 'blizu moru', 'blizu morem'],
+            correct: 1,
+            explanation:
+              '"Blizu" is in the genitive group, and neuter "more" takes -a there: blizu mora. "Moru" is the locative (na moru) and "morem" the instrumental.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1462,6 +2537,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Ovo je auto moga brata.',
+            en: "This is my brother's car.",
+            note: 'belonging — brat → brata, owner second',
+          },
+          {
+            hr: 'Kupujem kilogram jabuka i litru mlijeka.',
+            en: 'I am buying a kilo of apples and a litre of milk.',
+            note: 'quantity — jabuka (plural), mlijeka',
+          },
+          {
+            hr: 'Centar grada je pun turista.',
+            en: 'The city centre is full of tourists.',
+            note: 'grada — masculine -a; pun + genitive',
+          },
+          {
+            hr: 'Nema mjesta u tramvaju.',
+            en: 'There is no room on the tram.',
+            note: 'absence — mjesto → mjesta',
+          },
+          {
+            hr: 'Vraćam se poslije posla.',
+            en: 'I come back after work.',
+            note: 'poslije + genitive: posla',
+          },
+          {
+            hr: 'Iz Rijeke sam, ali živim u Osijeku.',
+            en: 'I am from Rijeka, but I live in Osijek.',
+            note: 'iz + genitive against u + locative',
+          },
+          {
+            hr: 'Prije ručka pijemo kavu.',
+            en: 'Before lunch we drink coffee.',
+            note: 'prije + genitive: ručka',
+          },
+          {
+            hr: 'Boja mora je danas tamnoplava.',
+            en: 'The colour of the sea is dark blue today.',
+            note: 'more → mora: neuter -a',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "a cup of coffee"? ("kava" is feminine.)',
@@ -1483,6 +2604,79 @@ export const LESSONS_A1 = [
         correct: 3,
         explanation:
           '"Iz" always takes the genitive, and the genitive of "Hrvatska" is "Hrvatske". The other endings are the subject form, the accusative and the locative — the locative "u Hrvatskoj" is right for living there, not for coming from there.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, putting the owner first, as English does: "moje sestre auto" — Croatian puts the owner second: auto moje sestre. Second, using the accusative after a quantity: "čaša vodu" — what is measured takes the genitive: čaša vode. Third, using the locative after iz: "iz Hrvatskoj" — iz always takes the genitive, iz Hrvatske; u Hrvatskoj is where you live, not where you are from.',
+        highlight: 'auto moje sestre',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Ovo je kuća ___." (This is my grandmother\'s house — "moja baka".)',
+            options: ['moja baka', 'moju baku', 'moje bake', 'mojoj baki'],
+            correct: 2,
+            explanation:
+              'The owner goes second and takes the genitive, and the possessive moves with it: kuća moje bake. "Moju baku" is the accusative and "mojoj baki" another case entirely.',
+          },
+          {
+            q: 'Complete: "Molim vas, šalicu ___." (A cup of tea, please — "čaj" is masculine.)',
+            options: ['čaj', 'čaja', 'čaju', 'čajem'],
+            correct: 1,
+            explanation:
+              'After a quantity word the thing measured takes the genitive, and a masculine noun takes -a: šalicu čaja. "Čaj" would be right for ordering the tea itself, not for measuring it.',
+          },
+          {
+            q: 'Which sentence is correct? (There is no sugar.)',
+            options: ['Nema šećer.', 'Nema šećera.', 'Nema šećeru.', 'Nije šećera.'],
+            correct: 1,
+            explanation:
+              'Absence takes the genitive: nema šećera. "Šećer" is the subject form, "šećeru" the locative, and "nije" negates being rather than existence.',
+          },
+          {
+            q: 'What is wrong with "Kava bez mlijeko, molim."?',
+            options: [
+              'bez should be s',
+              'kava should be kave',
+              'Nothing is wrong',
+              'mlijeko should be mlijeka — bez takes the genitive',
+            ],
+            correct: 3,
+            explanation:
+              '"Bez" (without) is one of the many prepositions that rule the genitive, and the neuter "mlijeko" takes -a: bez mlijeka. Changing the preposition would change the meaning, and "kave" would make the coffee itself a genitive for no reason.',
+          },
+          {
+            q: 'Which job is the genitive doing in "puno ljudi" (a lot of people)?',
+            options: ['belonging', 'quantity', 'absence', 'motion towards'],
+            correct: 1,
+            explanation:
+              '"Puno" is a word of quantity, so what is counted goes into the genitive — the same pattern as čaša vode and šalica kave. Motion towards is the accusative, not the genitive at all.',
+          },
+          {
+            q: 'Complete: "Vidimo se poslije ___." (See you after work — "posao".)',
+            options: ['posao', 'poslu', 'posla', 'poslom'],
+            correct: 2,
+            explanation:
+              '"Poslije" takes the genitive, and "posao" becomes posla (the -ao ending contracts). "Poslu" is the locative you know from na poslu, and "poslom" is the instrumental.',
+          },
+          {
+            q: 'Complete: "Moji roditelji su iz ___." (My parents are from Germany — "Njemačka".)',
+            options: ['Njemačka', 'Njemačku', 'Njemačkoj', 'Njemačke'],
+            correct: 3,
+            explanation:
+              '"Iz" takes the genitive, and an adjective-shaped country name takes -e there: iz Njemačke. "U Njemačkoj" is the locative for living there, and "Njemačku" is the accusative for going there.',
+          },
+          {
+            q: 'What is the genitive of "grad" (city)?',
+            options: ['gradu', 'grada', 'gradom', 'grade'],
+            correct: 1,
+            explanation:
+              'Masculine nouns take -a in the genitive: grad → grada, as in centar grada. "Gradu" is the locative, "gradom" the instrumental and "grade" the vocative.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1599,6 +2793,67 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Marko, gdje si?',
+            en: 'Marko, where are you?',
+            note: 'names in -o stay unchanged',
+          },
+          {
+            hr: 'Hvala vam, doktore!',
+            en: 'Thank you, doctor!',
+            note: 'doktor → doktore',
+          },
+          {
+            hr: 'Mama, jesi li kod kuće?',
+            en: 'Mum, are you at home?',
+            note: 'in everyday speech mama stays mama',
+          },
+          {
+            hr: 'Bože, kako je vruće!',
+            en: 'God, how hot it is!',
+            note: 'Bog → Bože: g softens to ž',
+          },
+          {
+            hr: 'Dobro jutro, profesore.',
+            en: 'Good morning, professor.',
+            note: 'profesor → profesore',
+          },
+          {
+            hr: 'Sretan rođendan, brate!',
+            en: 'Happy birthday, brother!',
+            note: 'brat → brate',
+          },
+          {
+            hr: 'Gospođo Horvat, izvolite.',
+            en: 'Mrs Horvat, here you are.',
+            note: 'gospođa → gospođo; surnames stay unchanged',
+          },
+          {
+            hr: 'Luka, dođi na ručak!',
+            en: 'Luka, come to lunch!',
+            note: 'male names in -a stay as they are',
+          },
+          {
+            hr: 'Hvala ti, Petre, na pomoći.',
+            en: 'Thank you for the help, Petar.',
+            note: 'Petar → Petre: the a drops before -e',
+          },
+          {
+            hr: 'Gospodine Kovač, imate li trenutak?',
+            en: 'Mr Kovač, do you have a moment?',
+            note: 'gospodine changes, the surname does not',
+          },
+          {
+            hr: 'Bako, kad je ručak?',
+            en: 'Grandma, when is lunch?',
+            note: 'baka → bako: feminine -a → -o',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'You want to call out to your friend Ivan. What do you say?',
@@ -1615,6 +2870,79 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Gospodin" ends in a hard consonant, so the vocative is "gospodine". "Gospodinu" is the dative and "gospodo" addresses a group of gentlemen rather than one man.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, using the plain form to call someone: "Ivan, dođi!" reads his name off a list — calling him is Ivane, dođi! Second, adding -e after a soft consonant: "prijatelje" — soft consonants take -u: prijatelju. Third, over-applying the feminine -o to first names: "Ano", "Marijo" sound old-fashioned or literary; in everyday speech Ana and Marija stay as they are, while common nouns do change: gospođo, majko.',
+        highlight: 'prijatelju',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___, dođi ovamo!" (Brother, come here! — "brat".)',
+            options: ['Brat', 'Brate', 'Bratu', 'Brata'],
+            correct: 1,
+            explanation:
+              '"Brat" ends in a hard consonant, so calling him adds -e: brate! "Bratu" and "brata" are other cases, and the bare "brat" is not how you address someone.',
+          },
+          {
+            q: 'Complete: "Hvala, ___!" (Thank you, Josip!)',
+            options: ['Josip', 'Josipe', 'Josipu', 'Josipo'],
+            correct: 1,
+            explanation:
+              'A masculine name in a hard consonant takes -e: Josipe! "Josipu" is the dative, and "Josipo" applies the feminine ending to a male name.',
+          },
+          {
+            q: 'Which sentence is correct? (Calling to your friend Hrvoje.)',
+            options: ['Hrvoje, čekaj!', 'Hrvoju, čekaj!', 'Hrvojo, čekaj!', 'Hrvoja, čekaj!'],
+            correct: 0,
+            explanation:
+              'Masculine names already ending in a vowel do not change when called: Hrvoje! Adding -u, -o or -a invents an ending the name does not take.',
+          },
+          {
+            q: 'What is wrong with "Oprostite, gospodin, gdje je pošta?"',
+            options: [
+              'oprostite should be oprosti',
+              'gdje should be kamo',
+              'Nothing is wrong',
+              'gospodin should be gospodine',
+            ],
+            correct: 3,
+            explanation:
+              'You are addressing the man directly, so "gospodin" must be in the vocative: gospodine. "Oprostite" is correctly polite, and "gdje" is right because the post office is not moving.',
+          },
+          {
+            q: 'How do you politely address a woman you do not know?',
+            options: ['gospođa', 'gospođo', 'gospođe', 'gospođu'],
+            correct: 1,
+            explanation:
+              'A feminine noun in -a takes -o when you call to it: gospođo. "Gospođe" is the genitive (or a plural) and "gospođu" the accusative — neither addresses anyone.',
+          },
+          {
+            q: 'What happens to "junak" (hero) when you call out to one?',
+            options: ['junake', 'junaku', 'junače', 'junaci'],
+            correct: 2,
+            explanation:
+              'A final k softens to č before the vocative -e: junače! "Junake" skips the sound change, "junaku" uses the soft-consonant ending on a hard one, and "junaci" is the plural.',
+          },
+          {
+            q: 'Which of these names stays exactly the same when you call to it?',
+            options: ['Ivan', 'Marko', 'Petar', 'Tomislav'],
+            correct: 1,
+            explanation:
+              '"Marko" ends in a vowel, so it is already comfortable to call out and does not change. The other three end in a hard consonant and take -e: Ivane, Petre, Tomislave.',
+          },
+          {
+            q: 'What is the vocative of "prijatelj" (friend)?',
+            options: ['prijatelje', 'prijatelju', 'prijateljo', 'prijatelja'],
+            correct: 1,
+            explanation:
+              '"Prijatelj" ends in the soft consonant lj, so it takes -u rather than -e: prijatelju! "Prijatelje" fights the tongue, "prijateljo" is a feminine ending, and "prijatelja" is the accusative or genitive.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1738,6 +3066,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Želim naučiti kuhati.',
+            en: 'I want to learn to cook.',
+            note: 'želim + infinitive (two of them here)',
+          },
+          {
+            hr: 'Moramo kupiti kruh prije ručka.',
+            en: 'We have to buy bread before lunch.',
+            note: 'moramo + infinitive; kruh is the object',
+          },
+          {
+            hr: 'Možeš li doći sutra?',
+            en: 'Can you come tomorrow?',
+            note: 'možeš li — the question form',
+          },
+          {
+            hr: 'Ne mogu naći ključeve.',
+            en: 'I cannot find the keys.',
+            note: 'ne stays separate from mogu',
+          },
+          {
+            hr: 'Trebamo kartu grada.',
+            en: 'We need a map of the city.',
+            note: 'trebati + a plain object',
+          },
+          {
+            hr: 'Djeca moraju ići u školu.',
+            en: 'Children have to go to school.',
+            note: 'moraju — the oni form',
+          },
+          {
+            hr: 'Htio bih platiti, molim.',
+            en: 'I would like to pay, please.',
+            note: 'a man speaking; the polite request form',
+          },
+          {
+            hr: 'Znam voziti, ali danas ne mogu.',
+            en: 'I know how to drive, but today I cannot.',
+            note: 'znati = a skill; moći = able right now',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Moći or Znati?',
         body: 'English uses "can" for both ability and permission, so both come out as "can swim" and "can go". Croatian splits them. "Znati" is a skill you learned: Znam plivati. (I can swim — I know how.) "Moći" is being able to right now: Ne mogu plivati, boli me rame. (I cannot swim, my shoulder hurts.) Choosing the wrong one is understandable but noticeable.',
@@ -1760,6 +3134,89 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'For a skill you have acquired, Croatian uses "znati": Znam plivati. "Mogu plivati" is also correct Croatian, but it means you are able to swim right now — in this pool, today.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, conjugating both verbs: "moram idem", "želim učim" — only the modal changes, and the second verb stays in the infinitive: moram ići, želim učiti. Second, using moći for a learned skill: "Mogu plivati" answers whether you are able to right now; a skill you have is Znam plivati. Third, ordering with "hoću": Hoću kavu is grammatical but blunt — the polite form is Htio bih or Htjela bih kavu.',
+        highlight: 'moram ići',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Želim ___ hrvatski." (I want to learn Croatian.)',
+            options: ['učim', 'učiti', 'uči', 'učio'],
+            correct: 1,
+            explanation:
+              'After a modal the second verb stays in the infinitive: želim učiti. "Učim" conjugates it a second time, "uči" is an imperative and "učio" a past form.',
+          },
+          {
+            q: 'Complete: "Oni ___ raditi u subotu." (They have to work on Saturday.)',
+            options: ['mora', 'moram', 'moraju', 'morate'],
+            correct: 2,
+            explanation:
+              '"Oni" is the third person plural, so the modal is moraju. "Mora" is he or she, "moram" is I, and "morate" is you (plural or polite).',
+          },
+          {
+            q: 'Which sentence is correct? (Could you repeat that? — politely.)',
+            options: [
+              'Možete li ponoviti?',
+              'Možete li ponovite?',
+              'Možete ponovite li?',
+              'Možeš li ponovite?',
+            ],
+            correct: 0,
+            explanation:
+              'The polite V-form is možete, "li" follows it directly, and the second verb is the infinitive ponoviti. Conjugating "ponovite" or moving "li" breaks the pattern, and "možeš" is not polite to a stranger.',
+          },
+          {
+            q: 'What is wrong with "Ne znam doći sutra, radim." (I cannot come tomorrow, I am working.)',
+            options: [
+              'doći should be dođem',
+              'radim should be raditi',
+              'Nothing is wrong',
+              'znam should be mogu — this is about being able, not a skill',
+            ],
+            correct: 3,
+            explanation:
+              'Coming tomorrow is not a learned skill, so "znati" is the wrong verb — it is about ability in the circumstances: Ne mogu doći sutra. The infinitive "doći" and the separate "radim" are already right.',
+          },
+          {
+            q: 'What does "Može!" mean on its own?',
+            options: [
+              'It is possible that he comes.',
+              'Sure, fine by me.',
+              'He must.',
+              'I need it.',
+            ],
+            correct: 1,
+            explanation:
+              '"Može!" is the everyday way to say "sure" or "go ahead" — an agreement, not a statement about someone else. It is one of the most useful single words in the language.',
+          },
+          {
+            q: 'Complete: "___ pomoć." (I need help.)',
+            options: ['Trebam', 'Trebaš', 'Trebamo', 'Trebati'],
+            correct: 0,
+            explanation:
+              '"Trebati" can take a plain object, and the first person is trebam: Trebam pomoć. "Trebaš" is you, "trebamo" is we, and the bare infinitive cannot stand as the main verb.',
+          },
+          {
+            q: 'A woman is ordering politely. Which does she say?',
+            options: ['Hoću kavu.', 'Htio bih kavu.', 'Htjela bih kavu.', 'Htjela bi kavu.'],
+            correct: 2,
+            explanation:
+              'The polite request is the conditional, and a woman uses the feminine form: Htjela bih kavu. "Htio bih" is what a man says, "hoću" is blunt, and "bi" is the wrong form for "I".',
+          },
+          {
+            q: 'Which form of "moći" goes with "ja"?',
+            options: ['možem', 'mogu', 'može', 'možu'],
+            correct: 1,
+            explanation:
+              '"Moći" is slightly irregular: the "ja" form is mogu, which "oni" shares. "Možem" and "možu" apply the regular pattern to a verb that does not follow it, and "može" is he or she.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -1875,6 +3332,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Čitaj polako, molim te.',
+            en: 'Read slowly, please.',
+            note: 'čitaju → čitaj: the -aju verbs take -j',
+          },
+          {
+            hr: 'Pišite jasno, molim vas.',
+            en: 'Write clearly, please.',
+            note: 'pišu → pišite: the polite form',
+          },
+          {
+            hr: 'Dođi na kavu u pet.',
+            en: 'Come for coffee at five.',
+            note: 'doći → dođi, to a friend',
+          },
+          {
+            hr: 'Krenimo, kasno je.',
+            en: "Let's go, it is late.",
+            note: '-imo = let us',
+          },
+          {
+            hr: 'Nemoj kasniti!',
+            en: "Don't be late!",
+            note: 'nemoj + infinitive',
+          },
+          {
+            hr: 'Nemojte zaboraviti kartu.',
+            en: "Don't forget the ticket.",
+            note: 'nemojte — plural or polite',
+          },
+          {
+            hr: 'Pričekajte trenutak, molim vas.',
+            en: 'Please wait a moment.',
+            note: '-ite softened with molim vas',
+          },
+          {
+            hr: 'Budi tiho, dijete spava.',
+            en: 'Be quiet, the child is sleeping.',
+            note: 'biti → budi',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'You are asking a stranger to sit down. Which is right?',
@@ -1891,6 +3394,84 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'A negative instruction is built with "nemoj" plus the infinitive: Nemoj zaboraviti! "Ne zaboravi" is heard, but "nemoj + infinitive" is the standard pattern and always safe.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, conjugating the verb after nemoj: "Nemoj zaboraviš" — nemoj takes the infinitive: Nemoj zaboraviti. Second, using the singular with a stranger: "Sjedni" to a customer or an older person sounds curt — the polite form is Sjednite. Third, using a present-tense statement as a request: "Daš mi vode" tells someone what they do; asking them is the imperative, Daj mi vode.',
+        highlight: 'Nemoj zaboraviti',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ mi sol, molim te." (Pass me the salt, please — to a friend.)',
+            options: ['Daj', 'Daš', 'Dati', 'Dajte'],
+            correct: 0,
+            explanation:
+              '"Daju" ends in -aju, so the imperative is daj. "Daš" is a statement, "dati" the infinitive, and "dajte" the polite form — which clashes with the friendly "molim te".',
+          },
+          {
+            q: 'Complete: "___ ravno, gospodine." (Go straight on, sir.)',
+            options: ['Idi', 'Idite', 'Ideš', 'Ići'],
+            correct: 1,
+            explanation:
+              'A stranger addressed as "gospodine" gets the polite -ite form: Idite ravno. "Idi" is for a friend, "ideš" is a statement and "ići" the infinitive.',
+          },
+          {
+            q: 'Which sentence is correct? (Do not worry — said politely.)',
+            options: [
+              'Nemojte se brinete.',
+              'Ne brinuti se.',
+              'Nemojte se brinuti.',
+              'Nemoj se brinuti, gospodine.',
+            ],
+            correct: 2,
+            explanation:
+              '"Nemojte" plus the infinitive: Nemojte se brinuti. Conjugating "brinete" after nemojte is wrong, a bare infinitive is not a request, and the singular "nemoj" does not match a polite "gospodine".',
+          },
+          {
+            q: 'What is wrong with "Nemoj kasniš!"?',
+            options: [
+              'nemoj should be ne',
+              'nemoj should be nemojte',
+              'Nothing is wrong',
+              'kasniš should be kasniti — nemoj takes the infinitive',
+            ],
+            correct: 3,
+            explanation:
+              '"Nemoj" is always followed by the infinitive: Nemoj kasniti! "Ne kasniš" would be a statement that you are not late, and switching to "nemojte" only changes who you are talking to.',
+          },
+          {
+            q: 'What does "Izvolite" mean?',
+            options: ['Sorry', 'Here you are / go ahead', 'Thank you', 'Goodbye'],
+            correct: 1,
+            explanation:
+              '"Izvolite" is the polite "here you are" or "go ahead" — a waiter says it to open, a host says it handing you something. Sorry is oprostite, and thank you is hvala.',
+          },
+          {
+            q: 'Complete: "___ hrvatski!" (Let\'s speak Croatian!)',
+            options: ['Govorite', 'Govori', 'Govorimo', 'Govoriti'],
+            correct: 2,
+            explanation:
+              '"Let us" is the -imo form: govorimo! "Govorite" tells a group to speak, "govori" tells one person, and "govoriti" is the infinitive.',
+          },
+          {
+            q: 'What is the imperative of "pisati" (to write) for one person?',
+            options: ['pisaj', 'piši', 'pišite', 'piše'],
+            correct: 1,
+            explanation:
+              'The "oni" form is pišu; drop the -u and add -i: piši! "Pisaj" builds from the infinitive instead of the stem, "pišite" is the plural or polite form, and "piše" is a statement.',
+          },
+          {
+            q: 'Which phrase softens a request to a stranger?',
+            options: ['molim te', 'molim vas', 'daj', 'hoću'],
+            correct: 1,
+            explanation:
+              '"Molim vas" is the polite "please" that goes with the V-form. "Molim te" is for a friend, "daj" is itself a bare imperative, and "hoću" is a blunt "I want".',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2000,6 +3581,57 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Moj otac se zove Ivan.',
+            en: 'My father is called Ivan.',
+            note: 'se follows the first phrase, moj otac',
+          },
+          {
+            hr: 'Kad se budiš vikendom?',
+            en: 'When do you wake up at the weekend?',
+            note: 'kad opens, so se comes second',
+          },
+          {
+            hr: 'Ona se boji pasa.',
+            en: 'She is afraid of dogs.',
+            note: 'bojati se + genitive',
+          },
+          {
+            hr: 'Sjećamo se ljeta na otoku.',
+            en: 'We remember the summer on the island.',
+            note: 'sjećati se + genitive',
+          },
+          {
+            hr: 'Kolodvor se nalazi u centru.',
+            en: 'The station is in the centre.',
+            note: 'nalaziti se — to be located',
+          },
+          {
+            hr: 'Djeca se igraju u dvorištu.',
+            en: 'The children are playing in the yard.',
+            note: 'igrati se — to play',
+          },
+          {
+            hr: 'Ovdje se govori hrvatski.',
+            en: 'Croatian is spoken here.',
+            note: 'impersonal se',
+          },
+          {
+            hr: 'Vidimo se sutra!',
+            en: 'See you tomorrow!',
+            note: 'vidjeti se — literally "we see each other"',
+          },
+          {
+            hr: 'Kako se to piše?',
+            en: 'How is that spelled?',
+            note: 'impersonal se after kako',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'It Also Means "One" or "People"',
         body: 'A third use, and a very common one on signs and in instructions: "se" makes a sentence impersonal, the way English uses "you", "one" or the passive. Kako se to kaže na hrvatskom? (How do you say that in Croatian?) Ovdje se ne puši. (No smoking here — literally "here one does not smoke".) Gdje se kupuju karte? (Where does one buy tickets?) You will read this form constantly.',
@@ -2022,6 +3654,94 @@ export const LESSONS_A1 = [
         correct: 0,
         explanation:
           'This is the impersonal "se" — "how does one say" — and it sits in second position after the question word "kako". The other options are forms of "biti" and do not belong here.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, putting se first: "Se zovem Ana" — a clitic can never open a sentence: Zovem se Ana. Second, gluing se to the verb when something else comes first: "Kako zoveš se?" — se goes to second position, so it is Kako se zoveš? Third, changing se for the person on the model of English myself / yourself, inventing forms like "zovem me" and "zoveš te" — se is the same for everyone: zovem se, zoveš se.',
+        highlight: 'Zovem se Ana',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Kako ___ zove tvoj brat?" (What is your brother called?)',
+            options: ['se', 'si', 'je', 'sam'],
+            correct: 0,
+            explanation:
+              '"Zvati se" carries se, and se sits in second position after "kako". The other options are forms of "biti", which has no place in this sentence.',
+          },
+          {
+            q: 'Complete: "Ujutro ___ tuširam." (In the morning I shower.)',
+            options: ['me', 'sam', 'se', 'si'],
+            correct: 2,
+            explanation:
+              '"Tuširati se" keeps se for every person — it never becomes "me" for I. "Ujutro" opens the sentence, so se comes right after it.',
+          },
+          {
+            q: 'Which sentence is correct? (I feel well.)',
+            options: [
+              'Se osjećam dobro.',
+              'Osjećam se dobro.',
+              'Osjećam dobro se.',
+              'Dobro osjećam se.',
+            ],
+            correct: 1,
+            explanation:
+              'Se takes second position, immediately after whatever opens the sentence: Osjećam se dobro. It cannot come first, and it cannot trail at the end.',
+          },
+          {
+            q: 'What is wrong with "Zašto smiješ se?"',
+            options: [
+              'smiješ should be smijem',
+              'se should be si',
+              'Nothing is wrong',
+              'se should come right after zašto: Zašto se smiješ?',
+            ],
+            correct: 3,
+            explanation:
+              'When a question word opens the sentence, se follows it, not the verb: Zašto se smiješ? The verb form is right for "you", and se never changes to "si".',
+          },
+          {
+            q: 'What does "Ovdje se ne puši." mean?',
+            options: [
+              'I do not smoke here.',
+              'No smoking here.',
+              'He does not smoke here.',
+              'Do not smoke!',
+            ],
+            correct: 1,
+            explanation:
+              'This is the impersonal se — "here one does not smoke" — the wording you read on signs. Nobody in particular is the subject, which is exactly what the impersonal form does.',
+          },
+          {
+            q: 'Complete: "Djeca ___ u parku." (The children are playing in the park.)',
+            options: ['igraju se', 'se igraju', 'igra se', 'igrate se'],
+            correct: 1,
+            explanation:
+              '"Djeca" opens the sentence, so se comes immediately after it and then the plural verb: Djeca se igraju. Putting se after the verb pushes it out of second position, and "igra" / "igrate" are the wrong persons.',
+          },
+          {
+            q: 'What is "se" doing in "Kako se to kaže?" (How do you say that?)',
+            options: [
+              'reflexive — the thing says itself',
+              'impersonal — how does one say it',
+              'it marks the past tense',
+              'it makes the question polite',
+            ],
+            correct: 1,
+            explanation:
+              'This is the impersonal use: "how is that said", with no particular subject. Se has nothing to do with tense or politeness.',
+          },
+          {
+            q: 'Complete: "Mi ___ vraćamo kući u šest." (We get back home at six.)',
+            options: ['se', 'nas', 'si', 'smo'],
+            correct: 0,
+            explanation:
+              '"Vraćati se" keeps se for "we" as for everyone else, and it sits after "mi". "Nas" is the English "ourselves" instinct, and "smo" is a form of biti.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2127,6 +3847,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Sviđa mi se tvoj auto.',
+            en: 'I like your car.',
+            note: 'one thing → sviđa',
+          },
+          {
+            hr: 'Sviđaju joj se ove cipele.',
+            en: 'She likes these shoes.',
+            note: 'joj = to her; cipele is plural → sviđaju',
+          },
+          {
+            hr: 'Sviđa nam se ovaj restoran.',
+            en: 'We like this restaurant.',
+            note: 'nam = to us',
+          },
+          {
+            hr: 'Voliš li sport?',
+            en: 'Do you like sport?',
+            note: 'voljeti + a plain object',
+          },
+          {
+            hr: 'Moja baka voli more.',
+            en: 'My grandmother loves the sea.',
+            note: 'voli — third person',
+          },
+          {
+            hr: 'Više volim kavu nego čaj.',
+            en: 'I prefer coffee to tea.',
+            note: 'nego joins the two things compared',
+          },
+          {
+            hr: 'Ne volim zimu, prehladno je.',
+            en: 'I do not like winter, it is too cold.',
+            note: 'zima → zimu in the accusative',
+          },
+          {
+            hr: 'Sviđa li vam se Hrvatska?',
+            en: 'Do you like Croatia?',
+            note: 'vam — polite; li makes the question',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Preferring, and Not Liking',
         body: '"Više volim" is how you say you prefer something: Više volim čaj. (I prefer tea.) To compare two things, join them with "nego": Više volim čaj nego kavu. For dislike, "ne volim" is the ordinary negative, and "mrzim" means to hate — strong, and used more freely than English "hate", though still not something to say about a person you have just met.',
@@ -2154,6 +3920,89 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Filmovi" is plural and it is the subject of the sentence, so the verb must be plural too: sviđaju. "Volim hrvatske filmove" would also be correct Croatian, but it uses the other verb and the other sentence pattern entirely.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, making yourself the subject of sviđati se: "Sviđam ovaj film" — the film is the subject and you are mi: Sviđa mi se ovaj film. Second, ignoring the plural: "Sviđa mi se filmovi" — several things need sviđaju: Sviđaju mi se filmovi. Third, using the accusative after sviđati se: "Sviđa mi se ovu pjesmu" — the thing liked is the subject and stays in its dictionary form: ova pjesma.',
+        highlight: 'Sviđa mi se ovaj film',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ mi se Dubrovnik." (I like Dubrovnik.)',
+            options: ['Sviđa', 'Sviđaju', 'Sviđam', 'Sviđaš'],
+            correct: 0,
+            explanation:
+              'Dubrovnik is one thing and it is the subject, so the verb is singular: sviđa. "Sviđaju" is for several things, and "sviđam" / "sviđaš" make a person the subject, which this verb does not do.',
+          },
+          {
+            q: 'Complete: "Sviđaju ___ se hrvatske pjesme." (She likes Croatian songs.)',
+            options: ['mu', 'joj', 'ju', 'nju'],
+            correct: 1,
+            explanation:
+              '"To her" is the little word joj. "Mu" is to him, and "ju" / "nju" are object forms meaning "her", not "to her".',
+          },
+          {
+            q: 'Which sentence is correct? (We like this house.)',
+            options: [
+              'Sviđamo se ova kuća.',
+              'Sviđa nam se ovu kuću.',
+              'Sviđa nam se ova kuća.',
+              'Sviđaju nam se ova kuća.',
+            ],
+            correct: 2,
+            explanation:
+              'The house is the subject, so it stays "ova kuća" and the verb is singular; we appear as nam. "Sviđamo" makes us the subject, "ovu kuću" is an accusative the pattern never uses, and "sviđaju" is plural for one house.',
+          },
+          {
+            q: 'What is wrong with "Volim kava i čaj."?',
+            options: [
+              'volim should be sviđa',
+              'i should be nego',
+              'Nothing is wrong',
+              'kava should be kavu — voljeti takes the accusative',
+            ],
+            correct: 3,
+            explanation:
+              '"Voljeti" works like English: the thing loved is a plain object, so the feminine "kava" takes -u: Volim kavu i čaj. "Čaj" is masculine and not alive, so it is already right.',
+          },
+          {
+            q: 'What does "Više volim more nego planine." mean?',
+            options: [
+              'I love the sea and the mountains.',
+              'I prefer the sea to the mountains.',
+              'I like the mountains more than the sea.',
+              'I do not like the sea.',
+            ],
+            correct: 1,
+            explanation:
+              '"Više volim X nego Y" is "I prefer X to Y". The thing before nego is the one preferred — here, the sea.',
+          },
+          {
+            q: 'Complete: "Voli li tvoj brat ___?" (Does your brother like football? — "nogomet".)',
+            options: ['nogomet', 'nogometa', 'nogometu', 'nogometom'],
+            correct: 0,
+            explanation:
+              '"Voljeti" takes the accusative, and "nogomet" is masculine and not alive, so it does not change: Voli li tvoj brat nogomet? The other forms belong to other cases.',
+          },
+          {
+            q: 'Which little word means "to us"?',
+            options: ['mi', 'nam', 'vam', 'im'],
+            correct: 1,
+            explanation:
+              '"Nam" is to us: Sviđa nam se. "Mi" is to me, "vam" to you (plural or polite) and "im" to them.',
+          },
+          {
+            q: 'Complete: "Sviđaju ___ ovi gradovi." (They like these cities.)',
+            options: ['ih se', 'im se', 'se im', 'mu se'],
+            correct: 1,
+            explanation:
+              '"To them" is im, and it comes before se in the cluster: Sviđaju im se. "Ih" is the object form "them", the order "se im" is wrong, and "mu" is to him.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2301,6 +4150,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Moj stric živi u Zadru.',
+            en: 'My uncle lives in Zadar.',
+            note: "stric — father's brother",
+          },
+          {
+            hr: 'Ujak i ujna dolaze u nedjelju.',
+            en: 'My uncle and aunt are coming on Sunday.',
+            note: "ujak — mother's brother; ujna is his wife",
+          },
+          {
+            hr: 'Baka i djed imaju petero unuka.',
+            en: 'Grandma and grandpa have five grandchildren.',
+            note: 'unuk → unuka after a number',
+          },
+          {
+            hr: 'Moja kći ima šest godina.',
+            en: 'My daughter is six.',
+            note: 'kći — feminine, so moja',
+          },
+          {
+            hr: 'Njegova žena je učiteljica.',
+            en: 'His wife is a teacher.',
+            note: 'žena also means wife',
+          },
+          {
+            hr: 'Naša djeca govore hrvatski i engleski.',
+            en: 'Our children speak Croatian and English.',
+            note: 'djeca + a plural verb',
+          },
+          {
+            hr: 'Sestrična mi živi u Australiji.',
+            en: 'My cousin lives in Australia.',
+            note: 'mi does the work of "my" here',
+          },
+          {
+            hr: 'Tata kuha, a mama čita novine.',
+            en: 'Dad is cooking and mum is reading the paper.',
+            note: 'mama and tata — normal adult words',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'Your mother’s brother is visiting. What do you call him?',
@@ -2317,6 +4212,84 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           'A feminine plural takes -e on both the possessive and the noun: moje sestre. "Moja" is feminine singular and "moji" is masculine plural.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, using one word for uncle: "moj stric" for your mother\'s brother — the word itself names the side: ujak on your mother\'s side, stric on your father\'s. Second, treating braća and djeca as singular because they end in -a: "Moja braća je" — they take a plural verb: Moja braća su ovdje. Third, matching the possessive to yourself: "moja brat" — it agrees with the relative: moj brat, moja sestra.',
+        highlight: 'Moja braća su ovdje',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Moj ___ je tatin brat." (My uncle is my dad\'s brother.)',
+            options: ['ujak', 'stric', 'tetak', 'djed'],
+            correct: 1,
+            explanation:
+              'Your father\'s brother is stric; ujak is your mother\'s brother. "Tetak" is an aunt\'s husband and "djed" a grandfather.',
+          },
+          {
+            q: 'Complete: "Imam dvije ___." (I have two daughters — "kći".)',
+            options: ['kći', 'kćeri', 'kćere', 'kćerku'],
+            correct: 1,
+            explanation:
+              'After dvije the form is kćeri: Imam dvije kćeri. "Kći" is the bare singular, "kćere" is not a form of the word, and "kćerku" is a singular object.',
+          },
+          {
+            q: 'Which sentence is correct? (My children are learning Croatian.)',
+            options: [
+              'Moja djeca uče hrvatski.',
+              'Moje djeca uče hrvatski.',
+              'Moja djeca uči hrvatski.',
+              'Moji djeca uče hrvatski.',
+            ],
+            correct: 0,
+            explanation:
+              '"Djeca" takes the -a form of the possessive (moja) and a plural verb (uče). "Moje" and "moji" are the wrong endings, and "uči" is singular.',
+          },
+          {
+            q: 'What is wrong with "Moja braća je u Zagrebu."?',
+            options: [
+              'braća should be brati',
+              'moja should be moji',
+              'Nothing is wrong',
+              'je should be su — braća takes a plural verb',
+            ],
+            correct: 3,
+            explanation:
+              '"Braća" looks singular but means brothers, and it takes a plural verb: Moja braća su u Zagrebu. The possessive "moja" is correct, and "brati" is not a Croatian plural.',
+          },
+          {
+            q: 'Which words do adults use for their own parents in everyday speech?',
+            options: ['majka i otac', 'mama i tata', 'gospođa i gospodin', 'baka i djed'],
+            correct: 1,
+            explanation:
+              'Unlike English, "mama" and "tata" are the normal adult words. "Majka" and "otac" are formal or written, and "baka i djed" are grandparents.',
+          },
+          {
+            q: 'Complete: "Koliko imaš ___?" (How many children do you have?)',
+            options: ['djeca', 'djece', 'dijete', 'djecu'],
+            correct: 1,
+            explanation:
+              'After "koliko" the noun takes the genitive: djece. "Djeca" is the subject form, "dijete" is one child, and "djecu" is the accusative.',
+          },
+          {
+            q: 'What is the plural of "brat"?',
+            options: ['brati', 'bratovi', 'braća', 'brate'],
+            correct: 2,
+            explanation:
+              '"Brat" has an irregular plural: braća. "Brati" and "bratovi" apply regular patterns it does not follow, and "brate" is the form for calling to him.',
+          },
+          {
+            q: '"Jesi li udana?" is a question you ask…',
+            options: ['a man', 'a woman', 'a child', 'anyone at all'],
+            correct: 1,
+            explanation:
+              '"Udana" is the word for a married woman; a married man is oženjen, so you would ask him "Jesi li oženjen?".',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2422,6 +4395,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Moj tata je Hrvat, a mama je Talijanka.',
+            en: 'My dad is Croatian and my mum is Italian.',
+            note: 'male and female nationality forms',
+          },
+          {
+            hr: 'Živimo u Njemačkoj već deset godina.',
+            en: 'We have lived in Germany for ten years.',
+            note: 'u + locative: -oj on an adjective-shaped name',
+          },
+          {
+            hr: 'Ona je iz Amerike, ali govori hrvatski.',
+            en: 'She is from America, but she speaks Croatian.',
+            note: 'iz + genitive: Amerike',
+          },
+          {
+            hr: 'Učim njemački i talijanski.',
+            en: 'I am learning German and Italian.',
+            note: 'languages are lower case',
+          },
+          {
+            hr: 'Moji su iz Slavonije, iz malog sela.',
+            en: 'My family are from Slavonia, from a small village.',
+            note: 'the region, and the genitive twice',
+          },
+          {
+            hr: 'Jeste li vi Kanađanin?',
+            en: 'Are you Canadian?',
+            note: 'to a man, politely',
+          },
+          {
+            hr: 'Odakle ste? — Iz Australije.',
+            en: 'Where are you from? — From Australia.',
+            note: 'the polite form of the question',
+          },
+          {
+            hr: 'Govorite li engleski?',
+            en: 'Do you speak English?',
+            note: 'V-form + a lower-case language',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Talking About Croatian Regions',
         body: 'For anyone with family roots here, the region often matters more than the country. Dalmacija (the coast and islands), Slavonija (the eastern plains), Istra (the peninsula in the north-west), Zagorje (the hills north of Zagreb), Lika, Kvarner, Podravina. Saying "moji su iz Slavonije" tells a Croatian far more than "moji su iz Hrvatske" — and it is almost always the follow-up question.',
@@ -2444,6 +4463,94 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Iz" takes the genitive, so the country becomes "Hrvatske". "U Hrvatskoj" is the locative and answers where you LIVE, not where you are from.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, using the country or the language for the person: "Ja sam Hrvatska", "Ja sam hrvatski" — the person is Hrvat or Hrvatica. Second, capitalising the language as English does: "Govorim Hrvatski" — languages are lower case: hrvatski. Third, mixing the two endings: "iz Hrvatskoj", "u Hrvatske" — iz takes the genitive Hrvatske, and u takes the locative Hrvatskoj.',
+        highlight: 'Hrvat or Hrvatica',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Moj muž je ___." (My husband is German.)',
+            options: ['Njemačka', 'Nijemac', 'njemački', 'Njemica'],
+            correct: 1,
+            explanation:
+              'A German man is Nijemac. "Njemačka" is the country, "njemački" the language, and "Njemica" a German woman.',
+          },
+          {
+            q: 'Complete: "Živim u ___." (I live in Canada — "Kanada".)',
+            options: ['Kanada', 'Kanadu', 'Kanadi', 'Kanade'],
+            correct: 2,
+            explanation:
+              'Living somewhere is u plus the locative, and a feminine noun in -a takes -i: u Kanadi. "Kanade" is the genitive (iz Kanade) and "Kanadu" the accusative for going there.',
+          },
+          {
+            q: 'Which sentence is correct?',
+            options: [
+              'Govorim Engleski i Hrvatski.',
+              'Govorim engleski i hrvatski.',
+              'Govorim Englez i Hrvat.',
+              'Govorim engleska i hrvatska.',
+            ],
+            correct: 1,
+            explanation:
+              'Languages are lower-case adjectives in -ski: engleski, hrvatski. Capitals belong to the country and the person, "Englez i Hrvat" names people rather than languages, and the -ska forms are the countries.',
+          },
+          {
+            q: 'What is wrong with "Moja sestra je iz Italiju."?',
+            options: [
+              'iz should be u',
+              'moja should be moj',
+              'Nothing is wrong',
+              'Italiju should be Italije — iz takes the genitive',
+            ],
+            correct: 3,
+            explanation:
+              '"Iz" always takes the genitive: iz Italije. "Italiju" is the accusative, which would follow "u" for going there. "Moja sestra" is already correct.',
+          },
+          {
+            q: 'A woman from Australia introduces herself. Which is right?',
+            options: [
+              'Ja sam Australac.',
+              'Ja sam Australka.',
+              'Ja sam Australija.',
+              'Ja sam australski.',
+            ],
+            correct: 1,
+            explanation:
+              'The nationality has a female form: Australka. "Australac" is a man, "Australija" is the country, and "australski" is the adjective for things Australian.',
+          },
+          {
+            q: 'Complete: "Moji su iz ___." (My family are from Dalmatia — "Dalmacija".)',
+            options: ['Dalmacija', 'Dalmaciju', 'Dalmaciji', 'Dalmacije'],
+            correct: 3,
+            explanation:
+              'After "iz" the region takes the genitive, and a feminine noun in -a takes -e: iz Dalmacije. "Dalmaciji" is the locative for living there.',
+          },
+          {
+            q: 'Which word is the language of Italy?',
+            options: ['Talijan', 'Italija', 'talijanski', 'Talijanka'],
+            correct: 2,
+            explanation:
+              'The language is the lower-case adjective in -ski: talijanski. "Talijan" and "Talijanka" are an Italian man and woman, and "Italija" is the country.',
+          },
+          {
+            q: '"Odakle si?" asks…',
+            options: [
+              'where you live',
+              'where you are from',
+              'where you are going',
+              'what you speak',
+            ],
+            correct: 1,
+            explanation:
+              '"Odakle" means "from where", so the answer starts with iz plus the genitive: Iz Kanade sam. Where you live would be "Gdje živiš?".',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2565,6 +4672,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Htio bih juhu i salatu.',
+            en: 'I would like soup and salad.',
+            note: 'both feminine → -u',
+          },
+          {
+            hr: 'Jedete li ribu?',
+            en: 'Do you eat fish?',
+            note: 'riba → ribu; V-form',
+          },
+          {
+            hr: 'Molim vas dvije kave i čašu vode.',
+            en: 'Two coffees and a glass of water, please.',
+            note: 'vode — the genitive after čašu',
+          },
+          {
+            hr: 'Za doručak jedem kruh i sir.',
+            en: 'For breakfast I eat bread and cheese.',
+            note: 'masculine, not alive — unchanged',
+          },
+          {
+            hr: 'Pijemo crno vino uz ribu.',
+            en: 'We drink red wine with fish.',
+            note: 'uz + accusative: ribu',
+          },
+          {
+            hr: 'Imate li sladoled od čokolade?',
+            en: 'Do you have chocolate ice cream?',
+            note: 'od + genitive: čokolade',
+          },
+          {
+            hr: 'Komad kolača, molim.',
+            en: 'A piece of cake, please.',
+            note: 'quantity → genitive: kolača',
+          },
+          {
+            hr: 'Malo soli, molim.',
+            en: 'A little salt, please.',
+            note: 'malo + genitive: soli',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Coffee Is Not a Drink, It Is an Appointment',
         body: 'When a Croatian says "Idemo na kavu", the coffee is beside the point — it means an hour or two of sitting and talking. Turning down an invitation to kava reads as turning down the company. "Idemo na kavu?" is one of the most useful sentences you can learn, and "Može!" is the answer.',
@@ -2587,6 +4740,89 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           'You are asking for the glass, so "čaša" becomes the accusative "čašu"; what fills it takes the genitive, so "voda" becomes "vode". Two different jobs, two different endings.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, ordering with the dictionary form: "Htio bih kava", "Jednu kava" — what you order takes the accusative: kavu. Second, using the accusative after a quantity: "čaša vodu", "šalica kavu" — what fills the glass takes the genitive: čašu vode, šalicu kave. Third, mixing up the speaker\'s gender in the conditional: a woman says Htjela bih, a man Htio bih.',
+        highlight: 'čašu vode',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Htjela bih ___." (I would like soup — "juha".)',
+            options: ['juha', 'juhu', 'juhe', 'juhi'],
+            correct: 1,
+            explanation:
+              'What you order is an object, so the feminine "juha" takes -u: juhu. "Juhe" is the genitive you would use after a quantity word, and "juhi" is another case.',
+          },
+          {
+            q: 'Complete: "Molim vas, komad ___." (A piece of bread, please — "kruh".)',
+            options: ['kruh', 'kruha', 'kruhu', 'kruhom'],
+            correct: 1,
+            explanation:
+              '"Komad" is a quantity word, so what follows takes the genitive: komad kruha. "Kruh" would be right for ordering bread on its own, not for a piece of it.',
+          },
+          {
+            q: 'A man is ordering. Which sentence is correct? (I would like tea with milk.)',
+            options: [
+              'Htio bih čaj s mlijekom.',
+              'Htio bih čaja s mlijeko.',
+              'Htjela bih čaj s mlijekom.',
+              'Htio bih čaju sa mlijekom.',
+            ],
+            correct: 0,
+            explanation:
+              '"Čaj" is masculine and not alive, so it stays as it is, and "with milk" is s plus the instrumental: s mlijekom. "Htjela bih" is what a woman says, and the other two have the wrong endings on both nouns.',
+          },
+          {
+            q: 'What is wrong with "Čašu vodu, molim."?',
+            options: [
+              'vodu should be vode — what fills the glass takes the genitive',
+              'čašu should be čaša',
+              'molim should be molite',
+              'Nothing is wrong',
+            ],
+            correct: 0,
+            explanation:
+              'You are asking for the glass (accusative čašu), but the water that fills it is measured, so it takes the genitive: Čašu vode, molim. Two jobs, two endings.',
+          },
+          {
+            q: 'What is "Idemo na kavu?" really?',
+            options: [
+              'an order for coffee',
+              'a question about the price',
+              'an invitation to sit and talk',
+              'a request for the bill',
+            ],
+            correct: 2,
+            explanation:
+              '"Going for a coffee" in Croatia means an hour or two of company — the coffee is beside the point. "Može!" is the answer.',
+          },
+          {
+            q: 'Complete: "Kava s ___, molim." (Coffee with milk, please — "mlijeko".)',
+            options: ['mlijeko', 'mlijeka', 'mlijeku', 'mlijekom'],
+            correct: 3,
+            explanation:
+              '"S" (with) takes the instrumental, and the neuter "mlijeko" becomes mlijekom. "Mlijeka" is the genitive you would use after bez (without).',
+          },
+          {
+            q: 'How does a waiter usually open?',
+            options: ['Izvolite?', 'Račun?', 'Može?', 'Hvala?'],
+            correct: 0,
+            explanation:
+              '"Izvolite?" is the waiter\'s "what can I get you?". "Račun" is what you ask for at the end, and "može" and "hvala" are answers, not openings.',
+          },
+          {
+            q: 'Complete: "Malo ___, molim." (A little salt, please — "sol".)',
+            options: ['sol', 'soli', 'solu', 'solom'],
+            correct: 1,
+            explanation:
+              '"Malo" is a quantity word, so the salt takes the genitive: malo soli. "Sol" is the bare form and "solom" the instrumental.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2705,6 +4941,57 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Ova majica košta dvadeset eura.',
+            en: 'This T-shirt costs twenty euros.',
+            note: '20 → genitive plural: eura',
+          },
+          {
+            hr: 'Dva kilograma krumpira, molim.',
+            en: 'Two kilos of potatoes, please.',
+            note: 'dva kilograma — the 2–4 form; krumpira genitive',
+          },
+          {
+            hr: 'Imate li sitno?',
+            en: 'Do you have change?',
+            note: 'sitno = small change',
+          },
+          {
+            hr: 'Jedna kava košta dva eura.',
+            en: 'One coffee costs two euros.',
+            note: 'jedna — singular; dva eura — the 2–4 form',
+          },
+          {
+            hr: 'Tri karte za Split, molim.',
+            en: 'Three tickets to Split, please.',
+            note: 'tri karte — feminine after 2–4 takes -e',
+          },
+          {
+            hr: 'Košta sto pedeset eura.',
+            en: 'It costs a hundred and fifty euros.',
+            note: 'compound number, then genitive plural',
+          },
+          {
+            hr: 'Plaćate karticom ili gotovinom?',
+            en: 'Are you paying by card or in cash?',
+            note: 'instrumental for the means',
+          },
+          {
+            hr: 'Kupujem kruh u pekarnici.',
+            en: 'I buy bread at the bakery.',
+            note: 'pekarnica → pekarnici',
+          },
+          {
+            hr: 'Imam samo pedeset centi.',
+            en: 'I only have fifty cents.',
+            note: '50 → genitive plural: centi',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Where You Shop',
         body: 'A few words to recognise: "dućan" and "trgovina" are both shops, "supermarket" is what you expect, and "tržnica" is the open-air market where most Croatians still buy fruit and vegetables. "Pekarnica" is a bakery, "ljekarna" a pharmacy, "kiosk" the little stand selling newspapers and tickets.',
@@ -2727,6 +5014,84 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           '"Koliko" asks how much and "košta" is the verb to cost, giving "Koliko ovo košta?". "Što" asks what and "kako" asks how — neither fits a question about an amount.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, keeping the noun singular after every number, the way English says "five euro" on a price tag: "pet euro" — from five upwards it is the genitive plural: pet eura. Second, using the 5+ ending after 2, 3 and 4 with feminine nouns: "tri kava" — 2 to 4 take the special form: tri kave, dvije kave. Third, looking at the whole number instead of the last digit: 21 follows one — dvadeset jedan euro, not "dvadeset jedan eura".',
+        highlight: 'pet eura',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Košta deset ___." (It costs ten euros.)',
+            options: ['euro', 'eura', 'euri', 'eure'],
+            correct: 1,
+            explanation:
+              'From five upwards the counted noun takes the genitive plural: deset eura. "Euro" is the singular for one, and "euri" / "eure" are not the forms a number takes.',
+          },
+          {
+            q: 'Complete: "Dvadeset jedan ___." (Twenty-one euros.)',
+            options: ['euro', 'eura', 'euri', 'eurima'],
+            correct: 0,
+            explanation:
+              'Only the LAST digit matters, and it is one, so the noun stays singular: dvadeset jedan euro. "Eura" would follow a 2–4 or a 5+ ending.',
+          },
+          {
+            q: 'Which sentence is correct? (Three coffees, please.)',
+            options: [
+              'Tri kava, molim.',
+              'Tri kave, molim.',
+              'Tri kavu, molim.',
+              'Tri kavi, molim.',
+            ],
+            correct: 1,
+            explanation:
+              'After 2, 3 and 4 a feminine noun takes the special -e form: tri kave. "Kava" is the bare singular, "kavu" the accusative of one coffee, and "kavi" another case.',
+          },
+          {
+            q: 'What is wrong with "Koliko košta ova torba? — Sedam euro."?',
+            options: [
+              'sedam should be sedmi',
+              'košta should be koštaju',
+              'Nothing is wrong',
+              'euro should be eura — after seven, the genitive plural',
+            ],
+            correct: 3,
+            explanation:
+              'Seven is in the 5+ group, so the noun takes the genitive plural: sedam eura. The question is already right — "torba" is one thing, so "košta" is singular.',
+          },
+          {
+            q: 'How do you say 2000?',
+            options: ['dvije tisuće', 'dva tisuća', 'dvjesto', 'dvadeset tisuća'],
+            correct: 0,
+            explanation:
+              '"Tisuća" is feminine, so two of them is dvije tisuće — the 2–4 form. "Dva tisuća" uses the masculine two, "dvjesto" is 200 and "dvadeset tisuća" is 20,000.',
+          },
+          {
+            q: 'Where do you go to buy medicine?',
+            options: ['pekarnica', 'tržnica', 'ljekarna', 'kiosk'],
+            correct: 2,
+            explanation:
+              '"Ljekarna" is the pharmacy. "Pekarnica" is a bakery, "tržnica" the open-air market, and "kiosk" the stand for newspapers and tickets.',
+          },
+          {
+            q: 'Complete: "Plaćam ___." (I am paying by card — "kartica".)',
+            options: ['kartica', 'karticu', 'karticom', 'kartici'],
+            correct: 2,
+            explanation:
+              'The means of paying takes the instrumental: karticom, just like gotovinom. "Karticu" is the accusative and "kartici" another case.',
+          },
+          {
+            q: 'Complete: "Kilogram ___, molim." (A kilo of apples, please — "jabuka".)',
+            options: ['jabuke', 'jabuka', 'jabuku', 'jabukama'],
+            correct: 1,
+            explanation:
+              'A quantity of many things takes the genitive PLURAL, which for "jabuka" is jabuka — the same letters as the singular. "Jabuke" would be a kilo of one apple, and "jabuku" is the accusative.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2839,6 +5204,52 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Oprostite, gdje je pošta? — Pored banke, na uglu.',
+            en: 'Excuse me, where is the post office? — Next to the bank, on the corner.',
+            note: 'pored + genitive; na uglu locative',
+          },
+          {
+            hr: 'Prijeđite ulicu i idite lijevo.',
+            en: 'Cross the street and go left.',
+            note: 'two polite imperatives',
+          },
+          {
+            hr: 'Muzej je na trgu, blizu crkve.',
+            en: 'The museum is on the square, near the church.',
+            note: 'na trgu locative; blizu + genitive',
+          },
+          {
+            hr: 'Idem na posao tramvajem.',
+            en: 'I go to work by tram.',
+            note: 'tramvajem — instrumental, no preposition',
+          },
+          {
+            hr: 'Kolodvor je daleko, idite autobusom.',
+            en: 'The station is far, take the bus.',
+            note: 'autobusom — the means of travel',
+          },
+          {
+            hr: 'Koji tramvaj ide do glavnog trga?',
+            en: 'Which tram goes to the main square?',
+            note: 'do + genitive: glavnog trga',
+          },
+          {
+            hr: 'Nastavite ravno do kina.',
+            en: 'Carry on straight ahead as far as the cinema.',
+            note: 'nastavite — polite; do + genitive',
+          },
+          {
+            hr: 'Bolnica je preko puta parka.',
+            en: 'The hospital is across from the park.',
+            note: 'preko puta + genitive: parka',
+          },
+        ],
+      },
+      {
         type: 'rule',
         title: 'Getting Around',
         body: 'Useful when the answer is "not near": "pješice" is on foot, "tramvajem" by tram, "autobusom" by bus, "autom" by car, "vlakom" by train. Those endings are the instrumental, marking the means of doing something — the same case as "plaćam karticom". Zagreb runs on trams, and "Koji tramvaj ide do centra?" is a question worth having ready.',
@@ -2866,6 +5277,84 @@ export const LESSONS_A1 = [
         correct: 2,
         explanation:
           '"Pored" always takes the genitive, and the genitive of the feminine "tržnica" is "tržnice". The other endings are the subject form, the locative and the accusative.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, giving the singular imperative to a stranger: "Skreni lijevo" — the polite reply is Skrenite lijevo. Second, using the wrong case after a position word: "pored pošta", "blizu crkva" — these take the genitive: pored pošte, blizu crkve. Third, adding a preposition to say how you travel, as English does: "s tramvajem", "u autobus" — the means of travel is the bare instrumental: tramvajem, autobusom.',
+        highlight: 'Skrenite lijevo',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "Oprostite, gdje je ___?" (Excuse me, where is the station? — "kolodvor".)',
+            options: ['kolodvora', 'kolodvor', 'kolodvoru', 'kolodvorom'],
+            correct: 1,
+            explanation:
+              'After "gdje je" the place is the subject, so it stays in its dictionary form: kolodvor. "Kolodvora" is the genitive, "kolodvoru" the locative and "kolodvorom" the instrumental.',
+          },
+          {
+            q: 'Complete: "Idem u školu ___." (I go to school by bus — "autobus".)',
+            options: ['autobus', 'autobusa', 'autobusom', 'u autobusu'],
+            correct: 2,
+            explanation:
+              'The means of travel is the instrumental with no preposition: autobusom. "U autobusu" says where you are sitting, not how you travel, and the other two are the wrong cases.',
+          },
+          {
+            q: 'Which sentence is correct? (Turn right — said politely to a stranger.)',
+            options: ['Skreni desno.', 'Skrenite desno.', 'Skreneš desno.', 'Skrenuti desno.'],
+            correct: 1,
+            explanation:
+              'Directions come back in the polite -ite form: Skrenite desno. "Skreni" is for a friend, "skreneš" is a statement and "skrenuti" the infinitive.',
+          },
+          {
+            q: 'What is wrong with "Ljekarna je blizu pošta."?',
+            options: [
+              'blizu should be na',
+              'ljekarna should be ljekarnu',
+              'Nothing is wrong',
+              'pošta should be pošte — blizu takes the genitive',
+            ],
+            correct: 3,
+            explanation:
+              '"Blizu" belongs to the genitive group, and the feminine "pošta" becomes pošte. The subject "ljekarna" is right as it is.',
+          },
+          {
+            q: 'What does "Idite ravno pa skrenite lijevo." mean?',
+            options: [
+              'Turn left, then go straight on',
+              'Go straight on, then turn left',
+              'Go straight on, then turn right',
+              'Cross the street and turn left',
+            ],
+            correct: 1,
+            explanation:
+              '"Idite ravno" is go straight on, "pa" is and then, and "skrenite lijevo" is turn left. Right would be desno, and crossing would be prijeđite.',
+          },
+          {
+            q: 'Complete: "Muzej je ___." (The museum is on the corner — "ugao".)',
+            options: ['na ugao', 'na uglu', 'u uglu', 'na ugla'],
+            correct: 1,
+            explanation:
+              'A street corner is na plus the locative: na uglu (the a drops out). "Na ugao" is motion towards it, "u uglu" is the inside corner of a room, and "ugla" is the genitive.',
+          },
+          {
+            q: 'What does "Je li daleko?" mean?',
+            options: ['Is it near?', 'Is it open?', 'Is it expensive?', 'Is it far?'],
+            correct: 3,
+            explanation:
+              '"Daleko" means far, so the question asks whether it is far. Near would be "blizu", and the usual answer is a number of minutes — pet minuta pješice.',
+          },
+          {
+            q: 'Complete: "Pet minuta ___." (Five minutes on foot.)',
+            options: ['pješice', 'pješaka', 'na noge', 'nogom'],
+            correct: 0,
+            explanation:
+              '"On foot" is the single word pješice. "Pješaka" means pedestrians, and "na noge" / "nogom" are word-for-word translations that Croatian does not use for walking somewhere.',
+          },
+        ],
       },
       {
         type: 'summary',
@@ -2987,6 +5476,57 @@ export const LESSONS_A1 = [
         ],
       },
       {
+        type: 'example',
+        title: 'More Examples in Context',
+        items: [
+          {
+            hr: 'Danas je oblačno i hladno.',
+            en: 'Today it is cloudy and cold.',
+            note: 'no subject — two neuter adjectives and je',
+          },
+          {
+            hr: 'Sutra pada snijeg.',
+            en: 'Tomorrow it will snow.',
+            note: 'the present does the job of English "will"',
+          },
+          {
+            hr: 'U proljeće je Zagreb prekrasan.',
+            en: 'In spring Zagreb is beautiful.',
+            note: 'u proljeće — spring takes u',
+          },
+          {
+            hr: 'Zimi je u Lici jako hladno.',
+            en: 'In winter it is very cold in Lika.',
+            note: 'zimi; u Lici — k → c in the locative',
+          },
+          {
+            hr: 'Kakvo je vrijeme u Splitu? — Sunčano i vjetrovito.',
+            en: 'What is the weather like in Split? — Sunny and windy.',
+            note: 'a subjectless answer',
+          },
+          {
+            hr: 'Ljeti idemo na more svake godine.',
+            en: 'In summer we go to the seaside every year.',
+            note: 'ljeti — one word for "in summer"',
+          },
+          {
+            hr: 'U jesen često pada kiša.',
+            en: 'In autumn it often rains.',
+            note: 'u jesen — autumn takes u',
+          },
+          {
+            hr: 'Vruće je, idemo na plažu!',
+            en: "It is hot, let's go to the beach!",
+            note: 'vruće je — the neuter pattern',
+          },
+          {
+            hr: 'Kasno je i mračno je.',
+            en: 'It is late and it is dark.',
+            note: 'the same pattern beyond weather',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "It is raining"?',
@@ -3003,6 +5543,84 @@ export const LESSONS_A1 = [
         correct: 1,
         explanation:
           'Summer and winter have their own single-word forms: ljeti and zimi. Spring and autumn are the ones that use a preposition — u proljeće, u jesen.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, inserting a subject for the English "it": "Ono je hladno" — the weather has no subject, so it is simply Hladno je (and "To je hladno" says that some THING is cold). Second, translating "it is raining" with biti: "Kiša je" — the rain falls: Pada kiša. Third, using "u" with summer and winter: "u ljeto", "u zima" — those two have their own single words, ljeti and zimi; u goes only with proljeće and jesen.',
+        highlight: 'Hladno je',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Complete: "___ je danas." (It is warm today.)',
+            options: ['Topao', 'Topla', 'Toplo', 'Topli'],
+            correct: 2,
+            explanation:
+              'A weather sentence has no subject, and the adjective takes the neuter -o: Toplo je. "Topao", "topla" and "topli" would each need a noun of that gender to agree with.',
+          },
+          {
+            q: 'Complete: "___ kiša." (It is raining.)',
+            options: ['Pada', 'Je', 'Ima', 'Padaju'],
+            correct: 0,
+            explanation:
+              'Croatian says the rain falls: Pada kiša. "Kiša je" identifies something as rain, "ima kiša" is not a pattern, and "padaju" is plural for one noun.',
+          },
+          {
+            q: 'Which sentence is correct? (What is the weather like?)',
+            options: [
+              'Kakvo je vrijeme?',
+              'Kakav je vrijeme?',
+              'Kakva je vrijeme?',
+              'Kakvo vrijeme je?',
+            ],
+            correct: 0,
+            explanation:
+              '"Vrijeme" is neuter, so the question word is kakvo, and the little "je" must sit in second position: Kakvo je vrijeme? "Kakav" and "kakva" are the wrong genders, and "Kakvo vrijeme je" pushes je to the end.',
+          },
+          {
+            q: 'What is wrong with "Danas je hladan i pada kiša."?',
+            options: [
+              'danas should be sutra',
+              'pada should be padaju',
+              'Nothing is wrong',
+              'hladan should be hladno — the weather sentence takes the neuter',
+            ],
+            correct: 3,
+            explanation:
+              'With no subject, the adjective takes the neuter form: Danas je hladno. "Hladan" is masculine and would need a masculine noun. "Pada kiša" is already right.',
+          },
+          {
+            q: 'What does "ljeti" mean?',
+            options: ['in spring', 'in summer', 'in autumn', 'in winter'],
+            correct: 1,
+            explanation:
+              '"Ljeti" is the single-word form for "in summer"; "zimi" is its winter twin. Spring and autumn use u instead: u proljeće, u jesen.',
+          },
+          {
+            q: 'Complete: "___ pada puno kiše." (In autumn it rains a lot.)',
+            options: ['Jesen', 'U jesen', 'Jesenom', 'Jeseni'],
+            correct: 1,
+            explanation:
+              'Autumn takes the preposition: u jesen. A bare "jesen" names the season without saying "in", and "jesenom" / "jeseni" are the wrong forms for a time phrase here.',
+          },
+          {
+            q: 'What does "Kasno je." mean?',
+            options: ['He is late.', 'It is late.', 'The evening.', 'It is cold.'],
+            correct: 1,
+            explanation:
+              'The subjectless pattern goes beyond weather: Kasno je is "it is late". "He is late" would need a subject and a different word — kasni.',
+          },
+          {
+            q: 'Complete: "Pada ___." (It is snowing — "snijeg".)',
+            options: ['snijeg', 'snijega', 'snijegu', 'snijegom'],
+            correct: 0,
+            explanation:
+              'The snow is the SUBJECT of "pada", so it stays in its dictionary form: Pada snijeg. The other forms are other cases and cannot be the subject.',
+          },
+        ],
       },
       {
         type: 'summary',
