@@ -27,7 +27,7 @@ export const CITY_INTRO_HR_B2 = {
   },
   Rijeka: {
     introHrB2:
-      "Malo je europskih gradova mijenjalo državu tako često kao Rijeka. Nakon Prvoga svjetskog rata na nju su polagale pravo i Italija i Jugoslavija, a 1919. godine grad je zauzela privatna vojska pjesnika Gabrielea D'Annunzija i proglasila Regentstvo Kvarnera, državicu koja je Mussoliniju poslužila kao uzor za marš na Rim. Italija je grad službeno pripojila 1924., nakon 1945. pripao je Jugoslaviji, a od 1991. Hrvatskoj. Ista se luka istodobno zvala Fiume, Sankt Veit am Flaum i Reka. Ono što se u tim promjenama nije prekinulo jest karneval, najveći u Hrvatskoj i četvrti u Europi, koji se održava od 1449. godine, te hodočašće na Trsat, staro sedam stoljeća. Godine 2020. grad je bio Europska prijestolnica kulture.",
+      "Malo je europskih gradova mijenjalo državu tako često kao Rijeka. Nakon Prvoga svjetskog rata na nju su polagale pravo i Italija i Jugoslavija, a 1919. godine grad je zauzela privatna vojska pjesnika Gabrielea D'Annunzija i proglasila Regentstvo Kvarnera, državicu koja je Mussoliniju poslužila kao uzor za marš na Rim. Italija je grad službeno pripojila 1924., nakon 1945. pripao je Jugoslaviji, a od 1991. Hrvatskoj. Ista se luka istodobno zvala Fiume, Sankt Veit am Flaum i Rijeka. Ono što se u tim promjenama nije prekinulo jest karneval, najveći u Hrvatskoj i četvrti u Europi, koji se održava od 1449. godine, te hodočašće na Trsat, staro sedam stoljeća. Godine 2020. grad je bio Europska prijestolnica kulture.",
   },
   Pula: {
     introHrB2:
@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_B2 = {
   },
   Drvenik: {
     introHrB2:
-      'Drvenik leži na južnom kraju Makarske rivijere i njegova je uloga stoljećima ista: prijelaz. Trajekti za Sućuraj na Hvaru i oni za Trpanj na Pelješcu polaze upravo odavde, pa je za većinu ljudi Drvenik red vozila, kratko čekanje i konoba u kojoj se prije ukrcaja jede riba ili janjetina. Ovdje se obalna cesta okreće prema otocima, pa je gospodarska uloga mjesta vezana uz red plovidbe više nego uz plažu. Nasuprot obali leže Drvenik Veli i Drvenik Mali, dva tiha i uglavnom nenaseljena otočića s mirnim sidrištima koja nautičari cijene. Nastaje pritom paradoks koji ljeto samo pojačava: iako se do njih taksi-brodom stiže u nekoliko minuta, ubrajaju se među najmanje posjećene otoke dalmatinske obale, dok tisuće putnika prolaze pokraj njih prema poznatijim odredištima. Ljeti se pritom sve odvija po redu vožnje: dolazak, čekanje i ukrcaj, pa se mjesto puni i prazni nekoliko puta na dan.',
+      'Gospodarski život Drvenika ne određuje plaža nego red plovidbe. Linije za Sućuraj i za Trpanj polaze upravo odavde, pa se mjesto tijekom dana puni i prazni onako kako brodovi dolaze i odlaze; između dvaju polazaka ulice su gotovo prazne. U tome je i napetost koju ljeto samo pojačava: kroz Drvenik prođe mnogo više ljudi nego što ih u njemu ostane, jer je za većinu putnika riječ o postaji na putu prema otocima. Prostora za rast pritom gotovo i nema. Padine Biokova spuštaju se do same obale i naselju ostavljaju tek uzak pojas, pa se Drvenik nije mogao širiti u dubinu. Dvije se pomorske uloge tako drže jedna uz drugu: u Donjoj i Gornjoj Vali vezani su domaći brodovi, okrenuti mjestu, dok se na trajektnom pristaništu ukrcava promet okrenut otocima. Konobe u kojima se poslužuju riba i janjetina žive od istoga onoga prometa koji se u mjestu ne zaustavlja.',
   },
   Slano: {
     introHrB2:

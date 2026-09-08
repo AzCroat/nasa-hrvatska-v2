@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Drvenik: {
     introHrA2:
-      'Drvenik je malo mjesto na obali južno od Makarske. Ljudi ovamo najčešće dolaze zbog trajekta: odavde brodovi voze u Sućuraj na Hvaru i u Trpanj na Pelješcu. Dok čekaju ukrcaj, putnici sjede u konobama i jedu ribu ili janjetinu. Nasuprot obali leže dva otočića, Drvenik Veli i Drvenik Mali. Na njima gotovo nitko ne živi, a more je mirno, pa nautičari ondje rado sidre svoje brodove. Iako su otočići vrlo blizu, na njima je i ljeti tiho.',
+      'U Drvenik većina ljudi dolazi zbog trajekta. Odavde brodovi voze u Sućuraj na Hvaru i u Trpanj na Pelješcu, pa se ljeti prije ukrcaja stvara red automobila. Dok čekaju, putnici sjede u konobi i jedu ribu ili janjetinu. Mjesto ima dvije male luke, Donju i Gornju Valu, u kojima stoje domaći brodovi. Iznad kuća strmo se diže Biokovo, pa je naselje stisnuto između planine i mora. Kanal je prema Hvaru ovdje najuži, pa prijelaz traje kratko. Zato ljudi Drvenik pamte kao luku, a ne kao ljetovalište.',
   },
   Slano: {
     introHrA2:

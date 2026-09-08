@@ -1720,14 +1720,30 @@ every level from A2 up** (A1 has nothing below it), pinned.
   now has `introHrA1` (~40 words, subject forms and present tense), `introHr`
   (the B1 baseline, ~100, same convention as HISTORY) and `introHrC1` (~160, an
   argued paragraph about what the place MEANS, not a gloss of the English
-  facts): **107,666 Croatian words**, every one written from the city's own
-  English record so the two halves cannot contradict each other (the authoring
-  brief allowed the record plus sea/region/town-or-island geography and nothing
-  else; the tranche reports name each place a record was internally
-  inconsistent and which line was followed). `pickGradedHr` walks down as
-  before, so A2 reads A1, B2 reads B1, C2 reads C1, and the chip
-  (`cityofday-reading-level`) says "Croatian · A1", never "at your level", on
-  those three.
+  facts): **107,666 Croatian words**. The authoring brief allowed the record
+  plus sea/region/town-or-island geography and nothing else, and the tranche
+  reports name each place a record was internally inconsistent and which line
+  was followed.
+  **THE FACTS-ONLY RULE WAS THE BRIEF, NOT WHAT SHIPPED, and this entry used to
+  claim otherwise (corrected 2026-09-08).** It said every word was "written from
+  the city's own English record so the two halves cannot contradict each other".
+  The six-band authoring pass put twenty-three agents through those same records
+  and **six of them independently found shipped bands asserting facts the record
+  does not carry**: Senj's 1618 dispersal date and Nehaj built from demolished
+  churches, Krk's St Lucy at Jurandvor, Rab's Kandarola and *rapska torta*, Rab
+  A1/B1's sandy beaches, Krapina's museum dug into the hill and its proximity to
+  Zagreb, Ogulin's Mt Klek and the river Dobra, Sisak's brick fortress,
+  Motovun/Grožnjan's "a few hundred inhabitants", Mali Lošinj's *brodovlasnici*,
+  Mlini's carts of flour to Dubrovnik, Plitvice's water-colour sentence. Every
+  one is plausibly TRUE of the real place; that is not the point. Mali Lošinj
+  shows the cost — the record calls the dolphin station Europe's LARGEST and the
+  shipped Croatian calls it the OLDEST, two superlatives about one institution on
+  one screen. Say what was done, not the strongest claim consistent with it; the
+  agents refusing to propagate these while rewriting the very sentences they sat
+  in is what kept the new bands clean.
+  `pickGradedHr` walks down as before — with all six bands shipped that walk is
+  now the identity, so the chip
+  (`cityofday-reading-level`) can say "at your level" everywhere.
   **ONE MODULE PER BAND (2026-09-07).** The corpus was a single
   `geographyHr.js` holding every band, statically imported by the screen — so a
   learner downloaded all of it to read one: **710 KB raw / 234 KB gzip for
@@ -1769,11 +1785,14 @@ every level from A2 up** (A1 has nothing below it), pinned.
   client-only: nothing serves it, so there is no functions/ copy. Both
   geography.js copies are back to their pre-tranche bytes (`chunk-geo` hash
   unchanged).
-  **The pool entry is NOT `adaptive`; it carries `ownAtLevels` instead.** At 46
-  the reason was partial coverage. At 364 the reason is the bands: a B2 learner
-  reads B1 and an A2 learner reads A1, so "own tier at every level" is false
-  while "own tier at A1, B1, C1" is exactly true — and that is what the field
-  says (see the culture-slot section for the rotation it feeds).
+  **The pool entry is now `adaptive`, and `ownAtLevels` is gone (2026-09-08).**
+  It carried `ownAtLevels: ['A1','B1','C1']` for as long as only three bands
+  existed: a B2 learner read B1 and an A2 learner read A1, so "own tier at every
+  level" was false while "own tier at A1, B1, C1" was exactly true. All six
+  bands ship now, which is what `adaptive` means, so the narrower field would
+  understate it and carrying both would invite them to drift. The culture-slot
+  rotation was RE-MEASURED rather than assumed: own-level share holds at 19–21
+  of 40 daily builds at every level (see the culture-slot section).
   `cityOfDayGraded.test.tsx` DERIVES both from the data — `ownAtLevels` = the
   levels every city has a band for; adaptive ⇔ that is all six — so authoring
   an `introHrA2` for every city changes the expectation and the failure message
@@ -1797,12 +1816,41 @@ every level from A2 up** (A1 has nothing below it), pinned.
   before merge; one agent caught a Cyrillic `е` it had typed, exactly the
   defect the encoding check exists for. `rebuildCities.mjs` is unaffected —
   the module is not in geography.js.
+  **ALL SIX BANDS SHIP (2026-09-08): +163,122 words, 270,796 in total.** A2
+  30,860, B2 52,018, C2 80,244 across the same 364 cities, so a learner at any
+  level reads a text written FOR that level instead of walking down. A learner
+  downloads ONE band: 28K gzip at A1 through 194K at C2, against 1.4 MB for the
+  whole corpus — the per-band split is what makes six affordable. Precache
+  measured unchanged at 21 entries / 681.41 KiB.
+  **THE DUPLICATE RULE WAS DECORATIVE, AND THE WHOLE FIRST DRAFT WAS DEFECTIVE.**
+  The contract forbade a band DUPLICATING another, which is satisfied by a band
+  that reuses a long PASSAGE and pads the rest. Measured across the finished
+  corpus: 137 of 364 cities shared a run of 20+ consecutive words with a shipped
+  band, 24 shared 40+, worst 90; among the new bands themselves 191 cities
+  shared 11+. Every check said `problems 0` throughout. ONE of twenty-three
+  authoring agents caught it, by measuring longest common word-runs unprompted;
+  the other twenty-two reported clean in good faith because the check they were
+  given could not see it. `longestSharedRun` + `MAX_SHARED_RUN` (12) now live in
+  `cityHrBandRules.mjs` and `checkCity` compares EVERY pair at a city — that
+  turned `problems 0` into 817, and 974 spans were rewritten. Two properties of
+  the measurement, both found by agents: it reports one run PER PAIR, so
+  clearing the longest exposes the next underneath (one pair had three stacked
+  at 18/16/14, and the fix lists understated the work by about a sixth); and 12
+  is a threshold, not a boundary — several agents went to 10 and found whole
+  copied clauses sitting legally at 11. The rewrites are not paraphrases: each
+  offending band was given a DIFFERENT proposition from the same record facts,
+  because swapping synonyms clears the check while leaving the defect.
+  **The 17 pre-existing shipped B1~C1 overlaps are repaired** (worst 17 words),
+  held out of the authoring pass only because the agents were at that moment
+  rewriting against that very text; the carve-out survives at 0 as a ratchet.
   NEVER: put `introHr*` back on the city record; statically import a band
   module from anywhere (the split is undone the moment one does); key a band
   entry by city name alone instead of by an `introHr*` field; name a band chunk
   outside the `chunk-geo` prefix; mark `cityofday` adaptive, or add a level to
   `ownAtLevels`, without that band on every city; add a band without listing it
-  in `CITY_HR_BANDS` and in the lint TARGETS.
+  in `CITY_HR_BANDS` and in the lint TARGETS; let a band reuse a passage of
+  another band at the same city — a whole-text duplicate check does not catch
+  it, and neither does anything else.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
@@ -2140,6 +2188,41 @@ Measured: **1,869 Croatian strings outside TARGETS, of which the widened matcher
 **THE WRITING CURRICULUM SAT IN TARGETS FOR EIGHTEEN DAYS AT ROUGHLY ONE SIXTH (2026-09-05).** `src/data/writingCurriculum.ts` joined the list the day it was authored, its header said "scanned by lintCroatianText.mjs — keep it clean", and the 2026-09-01 census that widened the matcher did not catch it because that census ranked candidates OUTSIDE the list. Found by mutation while expanding the file: a Serbism in a structure `hr` was caught; the same word in a MODEL text, a frame's `after`, or the connectives array passed clean. Three misses, and the third is new: (1) `model` / `before` / `after` were not field names the regex knew — and the model is the native-standard text the learner studies and imitates, the load-bearing prose of the whole unit; (2) `connectives` / `accept` are bare arrays, outside `ARRAY_FIELD_RE`; (3) **CONCATENATION**: a model is written as `'…' +\n'…' +\n'…'` and the field regex captured the FIRST literal only. 222 such joins sit across TARGETS; every continuation line was invisible. `fieldStrings` now follows `+ '…'` chains from the first match. Measured before writing (`NH_LINT_CENSUS=1` prints the count of strings the passes actually look at, so this is re-runnable): 93,950 → 94,290 strings, zero new findings; mutation-verified in seven positions. **A file's own header claiming it is linted is the least reliable evidence there is** — it was written by the same person who forgot to check.
 
 **THE BILINGUAL `*Hr` LAYER WAS NEVER SCANNED (2026-09-05, item 6).** The culture data marks its Croatian half by SUFFIX — `introHr`, `textHr`, `titleHr`, `descHr`, `roleHr`, `storyHr`, `eventHr`, `tHr`, `hHr`, `qHr`, `aHr`, and the arrays `factsHr` / `alHr`: **1,156 field occurrences** across history.js, regions.js, events.js and the Krajevi quiz layer. Not one is a name `CRO_FIELD_RE` listed, and the regex is case-sensitive, so `hr` could not match the `Hr` inside them. history.js and regions.js have been in TARGETS since the first wave and were scanned only where a lesson-style field name (`title`, `name`, `text`) happened to occur — the English half, mostly. Found the same way as the writing curriculum: by mutation while expanding the file. `hleb` in a `textHr` passed clean; the same word in a drill's `q` was caught (positive control — always run one, or a green mutation proves nothing about the rule). `[a-zA-Z]*Hr[ABC]?[12]?` now covers the whole suffix family INCLUDING the graded siblings the history screen reads (`textHrA1` … `textHrC2`), and the array pass gains `[a-zA-Z]*Hr`. Measured first: 95,315 → 96,799 strings scanned, zero new findings; mutation-verified in seven positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr, a factsHr entry, an alHr entry). `croatianLintTargets.test.ts` pins it by BUILDING both regexes from the lint's source and running them against probes — a text match on the alternative would be satisfied by this paragraph. **A convention is not coverage**: `povijest-bilingual.test.ts` had been asserting for weeks that every `*Hr` field is non-empty and diacritic-bearing, which read as "the Croatian layer is checked" — it checked presence, never content. **The escape residue is closed (owner request, same day).** KINGS writes its Croatian as JavaScript unicode escapes (`š` for š — 117 escapes in history.js, more in language.js, scenarios.js, exercises.js, grammar.js), and the regex passes scan raw source, so a Serbism or Cyrillic homoglyph spelled as an escape matched nothing. `decodeEscapes` now runs on every literal BOTH regex generators yield (`fieldStrings` first match, its concatenation chain, and `arrayStrings`) before either check; the structural passes read real objects and never had the problem. Mutation-verified: `hleb` and Cyrillic `хлеб` written as escapes in a KINGS `textHr` each fail; both passed before. `croatianLintTargets.test.ts` builds the decoder from the lint's source and runs it, and pins all three call sites — one generator decoding and the other not is half the strings still invisible.
+**THE JSON-QUOTED KEY WAS INVISIBLE, AND IT HID A LIVE SERBISM (2026-09-08).**
+`CRO_FIELD_RE` required the field NAME to be a bare identifier — `hr:` — so
+`{"hr":"reka Una"}` never matched: after `hr` came `"`, not the separator.
+`geography.js` writes every `vocab` entry that way, and it has been in TARGETS
+since the first wave. So a bare ekavica form (`reka`; Croatian is `rijeka`) sat
+in an `hr` field, in a covered file, in a field name the regex lists — and the
+lint reported 0 findings across 527 files. **This is the third distinct way the
+same class has appeared**: the file was there, the field name was there, and
+first the RULE was missing, then — once added — the KEY QUOTING still hid it.
+Diagnosing it took a positive control: injecting `hleb` into that same field
+still passed, which is what proved the field unscanned rather than the rule
+absent. My first written diagnosis ("the file is covered, the field is matched,
+the word is not in the rules") was wrong on the middle clause, and only the
+mutation showed it. Dry-run before writing, per the 123-false-positive rule:
+**115,679 → 123,047 strings scanned, +7,368, exactly two findings and no false
+positives** (the same Serbism in both geography copies). Mutation-verified both
+directions: the old matcher with the Serbism present reports clean, the new one
+catches it. The optional quote goes AFTER the alternation group on purpose —
+`croatianLintTargets.test.ts` derives the field list by matching the regex's
+opening `/(`, so a prefix there silently breaks the derivation.
+The `rijeka` rule itself is NOT built with `sb`, because it also has to exclude
+a trailing HYPHEN: `GlagolskiPriloziDrill` cites the stem of `rekao` as
+`osnova reka- + -vši`, and a hyphen is not a letter, so the obvious form flags a
+correct Croatian grammar drill. `reci` is deliberately unmatched (it is the
+imperative of `reći`), which lets Serbian `na reci` through — the same
+conservative trade the `vreme` rule makes.
+**The rule then found a factual error nobody was looking for.** Rijeka's record
+named the city's CROATIAN form as `Reka`; the Croatian name is Rijeka and Reka
+is the Slovene form, so the record labelled a bare ekavica form as the learner's
+own language, and three Croatian bands reproduced it faithfully. Record and
+bands corrected together.
+NEVER: assume a field is scanned because its NAME is in the regex and its FILE
+is in TARGETS — the quoting, the separator and the escaping each have to match
+too, and only a positive control on that exact field tells you which.
+
 
 **THE THIRD WAVE FOUND THAT THE TARGET LIST HAD STOPPED BEING THE BINDING CONSTRAINT, AND NOBODY HAD MEASURED IT (2026-09-01).** Two waves of adding files had trained everyone — me included — to think of coverage as a list length. A census of every candidate outside TARGETS found **1,159 Croatian strings of which `CRO_FIELD_RE` saw 137: twelve per cent.** Adding the remaining files to the list would have bought almost nothing. The gap was the MATCHER, and it was invisible from a list precisely because a list cannot show you what it fails to match.
 

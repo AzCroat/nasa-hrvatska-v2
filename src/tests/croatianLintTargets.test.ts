@@ -103,12 +103,21 @@ describe('the matcher sees the shapes the content is actually written in', () =>
   // one is the sharper result: with JSX support removed, a Cyrillic homoglyph
   // injected into a wrapper's `subtitle=` attribute passes the lint clean.
 
-  it('matches the JSX attribute form, not just object fields', () => {
+  it('matches the JSX attribute form and the JSON-quoted key, not just bare object fields', () => {
     // `title="🔢 Množina"` is how all 109 wrappers present every string they
     // own. `\s*:\s*` never matched an attribute, so the whole cohort could have
     // been in TARGETS for months and stayed invisible — the exercises.js
     // finding, arrived at from the opposite direction.
-    expect(LINT_SRC).toMatch(/\)\\s\*\(\?::\|=\)\\s\*/);
+    //
+    // The optional quote AFTER the field name is the second half of the same
+    // lesson (2026-09-08). `geography.js` writes its vocab entries as JSON —
+    // `{"hr":"reka Una"}` — so the key is `"hr"` and the matcher, which
+    // required `hr` to be followed by the separator, saw `"` and stopped. A
+    // live ekavica form sat in an `hr` field, in a file in TARGETS since the
+    // first wave, in a field name the regex lists. Neither the file nor the
+    // field nor the rule was missing; the KEY QUOTING was. Widening it made
+    // 7,368 more strings visible for two findings and no false positives.
+    expect(LINT_SRC).toMatch(/\)\['"`\]\?\\s\*\(\?::\|=\)\\s\*/);
   });
 
   it('matches the ModeDrill praise triple', () => {
@@ -327,9 +336,9 @@ describe('the contrastive carve-out stays honest', () => {
     const walk = LINT_SRC.match(/function\* lessonStrings\(\)[\s\S]*?\n\}\n/)![0]!;
     expect(walk).toMatch(/s\.type === 'quiz' && typeof s\.explanation === 'string'/);
     expect(walk).toMatch(/s\.type === 'check'/);
-    expect(walk).toMatch(/field: 'options', content: o, kind/);
-    expect(walk).toMatch(/field: 'explanation', content: it\.explanation, kind/);
-    expect(walk).toMatch(/field: 'q', content: it\.q, kind/);
+    expect(walk).toMatch(/field: 'options',\s*content: o,/);
+    expect(walk).toMatch(/field: 'explanation',\s*content: it\.explanation,/);
+    expect(walk).toMatch(/field: 'q',\s*content: it\.q,/);
   });
 
   it('every encoding call site passes a field name', () => {

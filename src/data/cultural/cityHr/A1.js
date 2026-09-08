@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Drvenik: {
     introHrA1:
-      'Drvenik je malo selo na moru južno od Makarske. Iz Drvenika idu trajekti na otoke. Jedan trajekt vozi na Hvar, a drugi na Pelješac. Blizu obale su dva mala otoka. Na njima gotovo nitko ne živi. More je tu mirno i čisto.',
+      'Drvenik je malo selo na moru južno od Makarske. Ovdje završava Makarska rivijera. Iz Drvenika idu trajekti na otok Hvar i na Pelješac. Iza sela je visoka planina Biokovo. Selo ima dvije male luke za brodove. U konobi ljudi jedu ribu i janjetinu.',
   },
   Slano: {
     introHrA1:
@@ -991,7 +991,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Vir: {
     introHrA1:
-      'Vir je otok na sjeveru Dalmacije. S kopnom ga spaja most iz 1976. godine. Prije je na otoku bilo malo ljudi i mnogo ovaca. Poslije mosta ljudi su sagradili mnogo kuća za odmor. Danas ima više od 30 000 kuća. Plaže su lijepe.',
+      'Vir je otok na sjeveru Dalmacije. S kopnom ga spaja most iz 1976. godine. Prije je na otoku bilo malo ljudi i mnogo ovaca. Poslije mosta ljudi su sagradili mnogo kuća za odmor. Danas ima više od 30.000 kuća. Plaže su lijepe.',
   },
   'Sveti Lovreč': {
     introHrA1:
@@ -1219,7 +1219,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Karojba: {
     introHrA1:
-      'Karojba je malo selo u srednjoj Istri. Selo je blizu Motovuna, iznad doline rijeke Mirne. Blizu sela je velika šuma. U šumi rastu tartufi. Ljudi sa psima traže tartufe. Oko sela su kameni zidovi i mala polja. Karojba je središte općine.',
+      'Karojba je malo selo u srednjoj Istri. Selo je blizu Motovuna, iznad doline rijeke Mirne. Blizu sela je velika šuma. U šumi rastu tartufi. Ljudi s psima traže tartufe. Oko sela su kameni zidovi i mala polja. Karojba je središte općine.',
   },
   Lupoglav: {
     introHrA1:

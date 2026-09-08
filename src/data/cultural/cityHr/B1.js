@@ -399,7 +399,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Vela Luka': {
     introHr:
-      'Vela Luka je najveće mjesto na otoku Korčuli, smješteno u dugoj i zaštićenoj uvali na zapadnom kraju otoka. Uvala je jedno od najboljih prirodnih sidrišta na Jadranu, pa je mjesto omiljeno među nautičarima. Razvila se kao ribarski i trgovački grad, dopuna utvrđenoj Korčuli na istočnom vrhu otoka. Oko mjesta su maslinici, a proizvodi se bijelo vino pošip, korčulanska sorta. Iznad mjesta je Vela spila, jedno od najstarijih nalazišta ljudskog boravka u Hrvatskoj: nalazi sežu 20 000 godina u prošlost, a keramičke figurice stare 17 500 godina među najstarijom su pečenom keramikom u Europi. Svake se godine ovdje izvodi i kumpanjija, ples s mačevima.',
+      'Vela Luka je najveće mjesto na otoku Korčuli, smješteno u dugoj i zaštićenoj uvali na zapadnom kraju otoka. Uvala je jedno od najboljih prirodnih sidrišta na Jadranu, pa je mjesto omiljeno među nautičarima. Razvila se kao ribarski i trgovački grad, dopuna utvrđenoj Korčuli na istočnom vrhu otoka. Oko mjesta su maslinici, a proizvodi se bijelo vino pošip, korčulanska sorta. Iznad mjesta je Vela spila, jedno od najstarijih nalazišta ljudskog boravka u Hrvatskoj: nalazi sežu 20.000 godina u prošlost, a keramičke figurice stare 17.500 godina među najstarijom su pečenom keramikom u Europi. Svake se godine ovdje izvodi i kumpanjija, ples s mačevima.',
   },
   Lastovo: {
     introHr:
@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Drvenik: {
     introHr:
-      'Drvenik je malo obalno mjesto južno od Makarske, na južnom kraju Makarske rivijere. Njegova je glavna uloga oduvijek bila prijelaz prema otocima: iz Drvenika plove trajekti za Sućuraj na Hvaru i za Trpanj na poluotoku Pelješcu. Nasuprot obali leže dva otočića, Drvenik Veli i Drvenik Mali. Oni su tihi i uglavnom nenaseljeni, a nautičari ih vole zbog mirnih sidrišta i čistoga mora. Iako se do njih taksi-brodom stiže u nekoliko minuta, među najmanje su posjećenim otocima dalmatinske obale. U tradicionalnim konobama u Drveniku poslužuju se dalmatinski morski specijaliteti i janjetina.',
+      'Drvenik je malo obalno mjesto južno od Makarske, na južnom kraju Makarske rivijere. Njegova je uloga oduvijek bila ista: prijelaz prema otocima. Selo leži ondje gdje obalna cesta dolazi do najužega dijela Hvarskoga kanala, pa odavde trajekti plove u Sućuraj, na istočni vrh Hvara, i u Trpanj na Pelješcu. Zbog toga se Drvenik prije svega opisuje kao trajektna luka, a tek onda kao ljetovalište. Iza naselja strmo se dižu padine Biokova, tako da mjestu ostaje samo uzak pojas između planine i mora. Dvije male luke, Donja i Gornja Vala, zaklon su domaćim brodovima, a u tradicionalnim se konobama poslužuju dalmatinska riba i janjetina.',
   },
   Slano: {
     introHr:
@@ -699,7 +699,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Udbina: {
     introHr:
-      'Udbina je mali lički grad na visoravni Krbavskog polja, jednog od najvećih krških polja u Hrvatskoj — ravnog, vjetrovitog i povijesno važnog. Ovdje se 9. rujna 1493. odigrala Krbavska bitka, najteži vojni poraz u hrvatskoj povijesti: osmanska je vojska gotovo uništila hrvatsko plemstvo, a poginulo je oko 10 000 hrvatskih vojnika i većina plemićkog staleža. Poraz je otvorio Liku i Slavoniju osmanskom osvajanju, pa se to mjesto pamti kao „hrvatsko Kosovo“, a 9. rujna jedan je od najtužnijih datuma hrvatske povijesti. Nakon bitke papa Aleksandar VI. nazvao je Hrvate „predziđem kršćanstva“. Vojna prisutnost stoljećima obilježava visoravan — danas je u Udbini baza Hrvatskog ratnog zrakoplovstva.',
+      'Udbina je mali lički grad na visoravni Krbavskog polja, jednog od najvećih krških polja u Hrvatskoj — ravnog, vjetrovitog i povijesno važnog. Ovdje se 9. rujna 1493. odigrala Krbavska bitka, najteži vojni poraz u hrvatskoj povijesti: osmanska je vojska gotovo uništila hrvatsko plemstvo, a poginulo je oko 10.000 hrvatskih vojnika i većina plemićkog staleža. Poraz je otvorio Liku i Slavoniju osmanskom osvajanju, pa se to mjesto pamti kao „hrvatsko Kosovo“, a 9. rujna jedan je od najtužnijih datuma hrvatske povijesti. Nakon bitke papa Aleksandar VI. nazvao je Hrvate „predziđem kršćanstva“. Vojna prisutnost stoljećima obilježava visoravan — danas je u Udbini baza Hrvatskog ratnog zrakoplovstva.',
   },
   'Donji Lapac': {
     introHr:
@@ -811,7 +811,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Vukovar: {
     introHr:
-      'Vukovar je 1991. postao svjetski simbol hrvatskog otpora: 1800 branitelja držalo je grad 87 dana protiv 36 000 pripadnika jugoslavenskih snaga. Bitka za Vukovar, od kolovoza do studenoga 1991., bila je najteže razaranje jednoga grada u Europi od Drugoga svjetskog rata — grad je bio razoren 80 posto. Nakon pada grada na farmi Ovčara pogubljeno je više od 200 hrvatskih zarobljenika. Vodotoranj je za opsade primio više od 600 izravnih pogodaka, a ipak je ostao stajati. Hrvatska je odlučila ostaviti ga neobnovljenim, izrešetanog granatama, kao trajni spomenik; danas je najposjećenije memorijalno mjesto u Hrvatskoj.',
+      'Vukovar je 1991. postao svjetski simbol hrvatskog otpora: 1800 branitelja držalo je grad 87 dana protiv 36.000 pripadnika jugoslavenskih snaga. Bitka za Vukovar, od kolovoza do studenoga 1991., bila je najteže razaranje jednoga grada u Europi od Drugoga svjetskog rata — grad je bio razoren 80 posto. Nakon pada grada na farmi Ovčara pogubljeno je više od 200 hrvatskih zarobljenika. Vodotoranj je za opsade primio više od 600 izravnih pogodaka, a ipak je ostao stajati. Hrvatska je odlučila ostaviti ga neobnovljenim, izrešetanog granatama, kao trajni spomenik; danas je najposjećenije memorijalno mjesto u Hrvatskoj.',
   },
   Daruvar: {
     introHr:
@@ -827,7 +827,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Osor: {
     introHr:
-      'Osor je sićušno selo od pedesetak stanovnika na uskom kanalu između otoka Cresa i Lošinja — a nekoć je bio rimski i bizantski grad s 20 000 stanovnika. Rimski Apsorus bio je glavni grad kvarnerskih otoka u rimsko i bizantsko doba, grad koji se mogao mjeriti sa Salonom, a propao je nakon pada Rima. Ruševine su danas razasute po cijelom selu, uz sačuvane srednjovjekovne građevine iznenađujuće za tako malo mjesto. Osorski biskup Gaudencije hrvatski je zaštitnik glazbe. Svakog ljeta festival Osorske glazbene večeri koristi rimske ruševine kao koncertnu pozornicu: orkestri sviraju na otvorenom, okruženi rimskim zidinama, a publika je brojnija od stalnih stanovnika tisuću puta.',
+      'Osor je sićušno selo od pedesetak stanovnika na uskom kanalu između otoka Cresa i Lošinja — a nekoć je bio rimski i bizantski grad s 20.000 stanovnika. Rimski Apsorus bio je glavni grad kvarnerskih otoka u rimsko i bizantsko doba, grad koji se mogao mjeriti sa Salonom, a propao je nakon pada Rima. Ruševine su danas razasute po cijelom selu, uz sačuvane srednjovjekovne građevine iznenađujuće za tako malo mjesto. Osorski biskup Gaudencije hrvatski je zaštitnik glazbe. Svakog ljeta festival Osorske glazbene večeri koristi rimske ruševine kao koncertnu pozornicu: orkestri sviraju na otvorenom, okruženi rimskim zidinama, a publika je brojnija od stalnih stanovnika tisuću puta.',
   },
   'Kneževi Vinogradi': {
     introHr:
@@ -863,7 +863,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Punat: {
     introHr:
-      'Punat je mali grad u unutrašnjem zaljevu otoka Krka, čija je zaštićena luka stoljećima bila najpouzdanije krčko pristanište. Marina Punat, otvorena 1964., najstarija je marina u Hrvatskoj i jedna od najvećih na Jadranu, s više od 850 vezova. Punat je bio ribarsko selo pod knezovima Frankopanima i poslije pod Venecijom. Na otočiću Košljunu franjevci od 15. stoljeća vode samostan koji su osnovali benediktinci; u njemu se čuva više od 30 000 knjiga, uključujući inkunabule i rukopise iz 15. stoljeća, te etnografska zbirka krčkih nošnji i predmeta iz 18. do 20. stoljeća. U Puntu se i danas ručno grade drvene gajete, tradicionalne ribarske brodice.',
+      'Punat je mali grad u unutrašnjem zaljevu otoka Krka, čija je zaštićena luka stoljećima bila najpouzdanije krčko pristanište. Marina Punat, otvorena 1964., najstarija je marina u Hrvatskoj i jedna od najvećih na Jadranu, s više od 850 vezova. Punat je bio ribarsko selo pod knezovima Frankopanima i poslije pod Venecijom. Na otočiću Košljunu franjevci od 15. stoljeća vode samostan koji su osnovali benediktinci; u njemu se čuva više od 30.000 knjiga, uključujući inkunabule i rukopise iz 15. stoljeća, te etnografska zbirka krčkih nošnji i predmeta iz 18. do 20. stoljeća. U Puntu se i danas ručno grade drvene gajete, tradicionalne ribarske brodice.',
   },
   Omišalj: {
     introHr:
@@ -895,7 +895,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Kaštel Sućurac': {
     introHr:
-      'Kaštel Sućurac najistočniji je od sedam Kaštela, utvrđenih mjesta uz zaljev između Trogira i Splita, koja su splitski plemići gradili da obrane posjede od osmanskih upada; po njima se zaljev zove Kaštelanski. Sućurac je najstariji od sedam: splitski ga je nadbiskup utvrdio 1392. kao ljetnu rezidenciju, a ime mu dolazi od svetog Jurja, stegnutog u Sućurac. Sedam sela — Sućurac, Gomilica, Kambelovac, Lukšić, Stari, Novi i Štafilić — činilo je obrambeni lanac, a od 1962. spojena su u jedan grad s oko 38 000 stanovnika. Jezgra i stara luka čuvaju izvorni renesansni plan.',
+      'Kaštel Sućurac najistočniji je od sedam Kaštela, utvrđenih mjesta uz zaljev između Trogira i Splita, koja su splitski plemići gradili da obrane posjede od osmanskih upada; po njima se zaljev zove Kaštelanski. Sućurac je najstariji od sedam: splitski ga je nadbiskup utvrdio 1392. kao ljetnu rezidenciju, a ime mu dolazi od svetog Jurja, stegnutog u Sućurac. Sedam sela — Sućurac, Gomilica, Kambelovac, Lukšić, Stari, Novi i Štafilić — činilo je obrambeni lanac, a od 1962. spojena su u jedan grad s oko 38.000 stanovnika. Jezgra i stara luka čuvaju izvorni renesansni plan.',
   },
   Marina: {
     introHr:
@@ -991,7 +991,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Vir: {
     introHr:
-      'Vir je otok uz obalu sjeverne Dalmacije, s Privlakom povezan jednim mostom. Stoljećima je bio praktički nenaseljen: služio je kao pašnjak za privlačke ovce, a zadarski plemići sagradili su u 15. stoljeću utvrdu Kaštelinu. Sve se promijenilo 1976., kad je sagrađen most i ublaženi zakoni o vlasništvu zemlje: do 2010. na Viru je sagrađeno više od 30 000 kuća, pa je postao najgušće izgrađeni hrvatski otok, iako stalno ima manje od 3500 stanovnika. Ta se pojava proučava kao primjer neregulirane gradnje i najekstremniji slučaj hrvatske apartmanizacije. Uvale s plitkom vodom ipak ostaju privlačne.',
+      'Vir je otok uz obalu sjeverne Dalmacije, s Privlakom povezan jednim mostom. Stoljećima je bio praktički nenaseljen: služio je kao pašnjak za privlačke ovce, a zadarski plemići sagradili su u 15. stoljeću utvrdu Kaštelinu. Sve se promijenilo 1976., kad je sagrađen most i ublaženi zakoni o vlasništvu zemlje: do 2010. na Viru je sagrađeno više od 30.000 kuća, pa je postao najgušće izgrađeni hrvatski otok, iako stalno ima manje od 3500 stanovnika. Ta se pojava proučava kao primjer neregulirane gradnje i najekstremniji slučaj hrvatske apartmanizacije. Uvale s plitkom vodom ipak ostaju privlačne.',
   },
   'Sveti Lovreč': {
     introHr:
@@ -1219,7 +1219,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Karojba: {
     introHr:
-      'Karojba je malo selo u srednjoj Istri, jugozapadno od Motovuna, na grebenu iznad južne strane doline Mirne, i sjedište je Općine Karojba. Spominje se od srednjega vijeka kao poljodjelsko selo pod mletačkom Istrom. Okolne šume bile su pod strogim propisima Republike, jer je Motovunska šuma davala hrastovinu za jarbole i rebra brodova u venecijanskom Arsenalu. Ta je šuma danas jedno od najbogatijih staništa bijelih tartufa u Europi; tu je 1999. Giancarlo Zigante sa psom pronašao bijeli tartuf težak 1,31 kilograma, upisan u Guinnessovu knjigu kao najveći na svijetu. Gospodarstvo Karojbe danas spaja poljodjelstvo, lov na tartufe i manji turizam.',
+      'Karojba je malo selo u srednjoj Istri, jugozapadno od Motovuna, na grebenu iznad južne strane doline Mirne, i sjedište je Općine Karojba. Spominje se od srednjega vijeka kao poljodjelsko selo pod mletačkom Istrom. Okolne šume bile su pod strogim propisima Republike, jer je Motovunska šuma davala hrastovinu za jarbole i rebra brodova u venecijanskom Arsenalu. Ta je šuma danas jedno od najbogatijih staništa bijelih tartufa u Europi; tu je 1999. Giancarlo Zigante s psom pronašao bijeli tartuf težak 1,31 kilograma, upisan u Guinnessovu knjigu kao najveći na svijetu. Gospodarstvo Karojbe danas spaja poljodjelstvo, lov na tartufe i manji turizam.',
   },
   Lupoglav: {
     introHr:
@@ -1423,7 +1423,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Konavle: {
     introHr:
-      'Konavle su najjužniji kraj Hrvatske, duga krška dolina koja se pruža od dubrovačkih predgrađa do granice s Crnom Gorom. To nije jedno naselje, nego povijesna regija sela, vinograda i pašnjaka s vlastitom nošnjom, govorom i identitetom. Dubrovačka Republika kupila je Konavle u dva navrata, 1419. od bosanskog kralja Stjepana Ostojića i 1426. od obitelji Pavlović, za oko 12 000 dukata i godišnji danak, i one su četiri stoljeća bile njezino najvažnije poljoprivredno zaleđe. Konavoska nošnja s crveno-crnim vezom među najpoznatijima je u Hrvatskoj. U Domovinskom ratu 1991. velik dio Konavala bio je okupiran i spaljen, a oslobođen je do jeseni 1992.',
+      'Konavle su najjužniji kraj Hrvatske, duga krška dolina koja se pruža od dubrovačkih predgrađa do granice s Crnom Gorom. To nije jedno naselje, nego povijesna regija sela, vinograda i pašnjaka s vlastitom nošnjom, govorom i identitetom. Dubrovačka Republika kupila je Konavle u dva navrata, 1419. od bosanskog kralja Stjepana Ostojića i 1426. od obitelji Pavlović, za oko 12.000 dukata i godišnji danak, i one su četiri stoljeća bile njezino najvažnije poljoprivredno zaleđe. Konavoska nošnja s crveno-crnim vezom među najpoznatijima je u Hrvatskoj. U Domovinskom ratu 1991. velik dio Konavala bio je okupiran i spaljen, a oslobođen je do jeseni 1992.',
   },
   Pridvorje: {
     introHr:
