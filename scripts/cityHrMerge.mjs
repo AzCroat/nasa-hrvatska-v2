@@ -39,7 +39,13 @@ const nameSet = new Set(names);
 /** city → band → text, merged across every tranche file in the directory. */
 const authored = {};
 let files = 0;
-for (const f of readdirSync(dir).filter((f) => f.endsWith('.json') && !f.startsWith('tranche-'))) {
+// Only `out-*.json` is authored output. This was once "any .json that is not a
+// tranche file", which silently parsed anything else in the directory AS a
+// tranche: the per-tranche `FIX.json` written for the overlap repair pass was
+// read as authored cities and reported as two spurious "names no real city"
+// lines. An input filter defined by exclusion accepts whatever nobody thought
+// to exclude.
+for (const f of readdirSync(dir).filter((f) => /^out-.*\.json$/.test(f))) {
   files++;
   const data = JSON.parse(readFileSync(join(dir, f), 'utf8'));
   for (const [city, bands] of Object.entries(data)) {
@@ -78,7 +84,9 @@ for (const [city, bands] of Object.entries(authored)) {
   }
 }
 
-console.log(`\ntranche files ${files}  cities authored ${Object.keys(authored).length}/${names.length}`);
+console.log(
+  `\ntranche files ${files}  cities authored ${Object.keys(authored).length}/${names.length}`,
+);
 for (const b of NEW_BANDS) {
   const have = names.filter((n) => typeof authored[n]?.[b] === 'string');
   const w = have.map((n) => wordsIn(authored[n][b])).sort((x, y) => x - y);
