@@ -104,6 +104,53 @@ export function windowFor(band, ladder) {
 /** Bands whose text ships today; the rest are the authoring target. */
 export const SHIPPED_BANDS = ['A1', 'B1', 'C1'];
 
+/**
+ * The longest run of identical consecutive words two texts share.
+ *
+ * WHY THIS EXISTS, and why the no-duplicate rule above was not enough. That
+ * rule compares whole texts, so it catches only a band copied entire. The real
+ * failure mode is a band that reuses a PASSAGE and pads: measured over the
+ * first full authoring pass, 137 of 364 cities shared a 20+ word run with a
+ * shipped band and 24 shared 40+, the worst being 90 consecutive words — every
+ * one of them `problems 0` under the whole-text check. A C2 that is its own C1
+ * plus a hundred words is precisely the "level badge on a text written for
+ * another level" the ladder rule exists to prevent, and it is invisible to
+ * every other check here.
+ *
+ * Comparison is on lowercased, punctuation-stripped words, so requoting a
+ * phrase with different punctuation does not hide it.
+ */
+export function longestSharedRun(a, b) {
+  const norm = (s) =>
+    String(s ?? '')
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+      .split(/\s+/)
+      .filter(Boolean);
+  const A = norm(a);
+  const B = norm(b);
+  let best = 0;
+  const prev = new Array(B.length + 1).fill(0);
+  for (let i = 1; i <= A.length; i++) {
+    let diag = 0;
+    for (let j = 1; j <= B.length; j++) {
+      const tmp = prev[j];
+      prev[j] = A[i - 1] === B[j - 1] ? diag + 1 : 0;
+      if (prev[j] > best) best = prev[j];
+      diag = tmp;
+    }
+  }
+  return best;
+}
+
+/**
+ * A shared run at or above this is a copied clause, not a coincidence. Set from
+ * the one tranche that measured itself and rewrote to clear it: it reached a
+ * worst case of 11, so 12 is achievable everywhere with a little slack. Ordinary
+ * fixed phrases ("u drugoj polovici devetnaestog stoljeća") run 5-6 words.
+ */
+export const MAX_SHARED_RUN = 12;
+
 export const wordsIn = (s) =>
   String(s ?? '')
     .trim()
@@ -160,6 +207,31 @@ export function checkCity(city, bands) {
     const t = String(bands[b]).trim();
     if (seen.has(t)) problems.push(`${city}: ${b} duplicates ${seen.get(t)}`);
     seen.set(t, b);
+  }
+  // ...and no band may reuse a PASSAGE of another. The check above compares
+  // whole texts and is satisfied by a band that copies eighty words and adds
+  // fifty; see `longestSharedRun`. Every pair present is compared, so this
+  // covers new-against-shipped and new-against-new alike.
+  for (let i = 0; i < present.length; i++) {
+    for (let j = i + 1; j < present.length; j++) {
+      const lo = present[i];
+      const hi = present[j];
+      const run = longestSharedRun(bands[lo], bands[hi]);
+      if (run < MAX_SHARED_RUN) continue;
+      // A pair of ALREADY-SHIPPED bands is the same defect in live text, found
+      // by this rule on the day it was written: 17 pairs across the corpus,
+      // worst 17 words, against 90 in the pass this rule was written for. It is
+      // PREFIXED rather than suppressed, so it stays counted and visible; the
+      // build gate asserts the exact set, so fixing one fails the count and the
+      // entry has to go. It is not silenced and it is not an excuse — it is a
+      // measured residue that could not be fixed in the same pass, because the
+      // authoring agents were at that moment rewriting new bands AGAINST this
+      // text and moving it would have invalidated their work.
+      const pre = SHIPPED_BANDS.includes(lo) && SHIPPED_BANDS.includes(hi) ? '[pre-existing] ' : '';
+      problems.push(
+        `${pre}${city}: ${hi} shares a ${run}-word run with ${lo} (max ${MAX_SHARED_RUN - 1})`,
+      );
+    }
   }
   return problems;
 }
