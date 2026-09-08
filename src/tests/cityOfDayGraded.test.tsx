@@ -5,12 +5,14 @@
  *
  * City of the Day was English prose plus three Croatian words per city, for
  * 364 cities, with no Croatian text field at all. Every city now has a Croatian
- * intro in THREE bands — `introHrA1`, `introHr` (the B1 baseline, same
- * convention as HISTORY) and `introHrC1` — each in its OWN module under
- * `src/data/cultural/cityHr/`, dynamically imported by the screen so a learner
- * downloads the band they read and no other. `resolveCityHrBand` walks DOWN to
- * the nearest SHIPPED band: A2 reads A1, B2 reads B1, C2 reads C1, and the chip
- * names the band it actually served rather than claiming "at your level".
+ * intro in ALL SIX bands — `introHrA1`, `introHrA2`, `introHr` (the B1
+ * baseline, same convention as HISTORY), `introHrB2`, `introHrC1` and
+ * `introHrC2` — each in its OWN module under `src/data/cultural/cityHr/`,
+ * dynamically imported by the screen so a learner downloads the band they read
+ * and no other. `resolveCityHrBand` walks DOWN to the nearest SHIPPED band;
+ * with all six shipped that walk is the identity, and the chip can honestly say
+ * "at your level" everywhere. Drop a band module and the walk returns (A2 would
+ * read A1 again) and the chip stops claiming it — which is what these pin.
  *
  * Pinned here, each of which failed on its own during the build:
  *  - COVERAGE is derived, never restated: every city in CROATIAN_CITIES has an
@@ -23,8 +25,10 @@
  *    its own `chunk-geo-hr-*` chunk, whose prefix is what the service worker's
  *    `chunk-geo*` precache exclusion matches; and NOTHING statically imports a
  *    band, which would put the whole corpus back in the screen's chunk graph.
- *  - the DATA: every city has all three bands, genuinely different, lengths that
- *    rise with the band, real Croatian, no stray band names.
+ *  - the DATA: every city has all six bands, genuinely different, lengths that
+ *    rise with the band, no band reusing a PASSAGE of another (the whole-text
+ *    duplicate check was satisfied by a band that copied 90 words and padded),
+ *    real Croatian, no stray band names.
  *  - the SCREEN: a component test with a REAL graded city at every level,
  *    because a picker nobody calls would pass the data pins; plus the
  *    degrade path (a city with no entry renders as before).
@@ -36,9 +40,6 @@ import { readFileSync } from 'node:fs';
 import React from 'react';
 import { CROATIAN_CITIES } from '../data/cultural/geography.js';
 import { readdirSync } from 'node:fs';
-import { CITY_INTRO_HR_A1 } from '../data/cultural/cityHr/A1.js';
-import { CITY_INTRO_HR_B1 } from '../data/cultural/cityHr/B1.js';
-import { CITY_INTRO_HR_C1 } from '../data/cultural/cityHr/C1.js';
 import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { gradedField } from '../lib/gradedHr';
 import { CITY_HR_BANDS, resolveCityHrBand, loadCityHrBand } from '../lib/cityIntroHr';
@@ -54,28 +55,38 @@ const cities = CROATIAN_CITIES as City[];
  * the split is complete: a city missing from one band file shows up here as a
  * missing band, in the same assertion that has always covered it.
  */
-const BAND_MODULES: Record<string, Record<string, Rec>> = {
-  A1: CITY_INTRO_HR_A1 as Record<string, Rec>,
-  B1: CITY_INTRO_HR_B1 as Record<string, Rec>,
-  C1: CITY_INTRO_HR_C1 as Record<string, Rec>,
-};
+// DERIVED from CITY_HR_BANDS, not listed. This was three static imports and a
+// hand-written BANDS tuple, which is the decay shape this repo keeps finding:
+// authoring a fourth band left the list at three, so `bandLevels` reported
+// three, and the derivation that decides `adaptive` silently measured the test's
+// own list instead of the corpus. Importing what the production list names makes
+// a band listed-but-unauthored fail here (the import throws), while the
+// `CITY_HR_BANDS names exactly the modules on disk` test below catches the
+// other direction, authored-but-unlisted.
+const BAND_MODULES: Record<string, Record<string, Rec>> = {};
+for (const b of CITY_HR_BANDS) {
+  const m = (await import(`../data/cultural/cityHr/${b}.js`)) as Record<string, unknown>;
+  BAND_MODULES[b] = m[`CITY_INTRO_HR_${b}`] as Record<string, Rec>;
+}
 const hr: Record<string, Rec> = {};
 for (const mod of Object.values(BAND_MODULES))
   for (const [city, rec] of Object.entries(mod)) hr[city] = { ...(hr[city] ?? {}), ...rec };
 const names = cities.map((c) => c.name);
-const BANDS = ['A1', 'B1', 'C1'] as const;
+const BANDS = CITY_HR_BANDS;
 
 /**
- * Pairs of SHIPPED bands that share a passage (see `MAX_SHARED_RUN`). Measured,
- * not estimated: 17 across the corpus, worst 17 words. They predate the rule —
- * it was written for the A2/B2/C2 authoring pass, where the worst case was 90 —
- * and could not be repaired in that pass, because the authoring agents were at
- * that moment rewriting new bands against this very text.
+ * Pairs of SHIPPED bands that share a passage (see `MAX_SHARED_RUN`).
  *
- * Pinned EXACTLY so it can only shrink deliberately: repair one and this fails
- * until the number is lowered, introduce one and it fails too.
+ * There were 17 when the copied-passage rule was written, worst 17 words. They
+ * predated the rule and were held out of the A2/B2/C2 authoring pass, because
+ * the agents were at that moment rewriting new bands AGAINST that very text.
+ * All 17 were repaired by hand once the new corpus was clean, so this is now 0
+ * and the carve-out survives as a ratchet rather than as an allowance.
+ *
+ * Pinned EXACTLY, in both directions: let a new one appear and this fails, and
+ * it can only be raised deliberately.
  */
-const PRE_EXISTING_SHIPPED_OVERLAPS = 17;
+const PRE_EXISTING_SHIPPED_OVERLAPS = 0;
 const words = (s: unknown) =>
   String(s ?? '')
     .trim()
@@ -111,11 +122,16 @@ describe('City of the Day — graded Croatian coverage (derived)', () => {
       names.every((n) => typeof hr[n]?.[gradedField('introHr', l)] === 'string'),
     );
     const entry = CROATIA_POOL.find((c) => c.id === 'cityofday')!;
+    const everyLevel = bandLevels.length === CEFR_ORDER.length;
+    // Once every level is banded, `adaptive` says exactly what `ownAtLevels`
+    // would restate, and carrying both invites them to drift apart. Below that,
+    // the field must name precisely the banded levels.
     expect(
       [...(entry.ownAtLevels ?? [])],
-      'ownAtLevels must equal the fully-banded levels',
-    ).toEqual(bandLevels);
-    const everyLevel = bandLevels.length === CEFR_ORDER.length;
+      everyLevel
+        ? 'every level is banded — drop ownAtLevels and let adaptive say it'
+        : 'ownAtLevels must equal the fully-banded levels',
+    ).toEqual(everyLevel ? [] : bandLevels);
     expect(
       Boolean(entry.adaptive),
       everyLevel
@@ -123,7 +139,7 @@ describe('City of the Day — graded Croatian coverage (derived)', () => {
         : `levels ${CEFR_ORDER.filter((l) => !bandLevels.includes(l)).join('/')} lack their own band — cityofday must not be adaptive`,
     ).toBe(everyLevel);
     // the premise stated, so a silent band change cannot pass unnoticed
-    expect(bandLevels).toEqual(['A1', 'B1', 'C1']);
+    expect(bandLevels).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
     // and the first-claim ritual is unchanged by the rotation decision
     expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
   });
@@ -226,10 +242,13 @@ describe('City of the Day — graded data', () => {
     expect(wordsIn('jedan dva tri')).toBe(words('jedan dva tri'));
   });
 
-  it('every entry uses ONLY the three bands (no half-graded A2/B2/C2 siblings)', () => {
+  it('every entry carries every band, and no field outside them', () => {
+    // Was "only the three bands"; all six ship now. Both directions matter: a
+    // stray field means a half-graded record, and a MISSING one means a city
+    // that silently loses its Croatian at that level.
+    const want = BANDS.map((b) => gradedField('introHr', b)).sort();
     for (const n of names) {
-      const extra = Object.keys(hr[n]!).filter((k) => !/^introHr(A1|C1)?$/.test(k));
-      expect(extra, `${n}`).toEqual([]);
+      expect(Object.keys(hr[n]!).sort(), `${n}`).toEqual(want);
     }
   });
 
@@ -238,20 +257,21 @@ describe('City of the Day — graded data', () => {
     const joined = all.join(' ');
     expect(/[čćđšž]/.test(joined)).toBe(true);
     expect(/Ä|Å¡|Å¾|Ä‡|â€|[Ѐ-ӿ]/.test(joined)).toBe(false);
-    // the whole-corpus floor: three bands × 364 cities is a real reading corpus
-    expect(words(joined)).toBeGreaterThanOrEqual(90000);
+    // The whole-corpus floor. Six bands × 364 cities measured at 270,796 words
+    // (A1 14,594 · A2 30,860 · B1 35,586 · B2 52,018 · C1 57,494 · C2 80,244);
+    // the floor sits below that so ordinary edits do not trip it, and far above
+    // the three-band corpus so deleting a band cannot pass unnoticed.
+    expect(words(joined)).toBeGreaterThanOrEqual(240000);
   });
 
   it('the band resolver walks down to the nearest SHIPPED band, never above', () => {
     // Same rule pickGradedHr applied per record; with one module per band it
     // has to be answered from the shipped set instead, and the answer must be
     // identical — that equivalence is what makes the split behaviour-preserving.
-    expect(resolveCityHrBand('A1')).toBe('A1');
-    expect(resolveCityHrBand('A2')).toBe('A1');
-    expect(resolveCityHrBand('B1')).toBe('B1');
-    expect(resolveCityHrBand('B2')).toBe('B1');
-    expect(resolveCityHrBand('C1')).toBe('C1');
-    expect(resolveCityHrBand('C2')).toBe('C1');
+    // All six bands ship, so every level now reads its OWN band. The walk is
+    // still the rule and still the thing under test: drop a band module and
+    // these become the walk again (A2 to A1, B2 to B1), never upward.
+    for (const l of CEFR_ORDER) expect(resolveCityHrBand(l)).toBe(l);
     // an unknown level reads the baseline, claiming nothing
     expect(resolveCityHrBand('')).toBe('B1');
     for (const l of CEFR_ORDER)
@@ -301,11 +321,11 @@ describe('CityOfDayScreen', () => {
 
   it.each([
     ['A1', 'A1', true],
-    ['A2', 'A1', false],
+    ['A2', 'A2', true],
     ['B1', 'B1', true],
-    ['B2', 'B1', false],
+    ['B2', 'B2', true],
     ['C1', 'C1', true],
-    ['C2', 'C1', false],
+    ['C2', 'C2', true],
   ] as const)(
     'at %s renders the %s band and the chip is honest about it',
     async (l, band, atLevel) => {

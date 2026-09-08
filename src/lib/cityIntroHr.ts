@@ -25,7 +25,7 @@ import { CEFR_ORDER, type CefrLevel } from './cefr';
 import { gradedField, GRADED_BASE_LEVEL, type GradedPick } from './gradedHr';
 
 /** The bands that have a module under `data/cultural/cityHr/`. */
-export const CITY_HR_BANDS: readonly CefrLevel[] = ['A1', 'B1', 'C1'];
+export const CITY_HR_BANDS: readonly CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 /** One city's entry: an object carrying the band's `introHr*` field. */
 export type CityHrEntries = Record<string, Record<string, unknown>>;
@@ -62,9 +62,21 @@ export async function loadCityHrBand(
         const m = await import('../data/cultural/cityHr/A1.js');
         return { band, entries: m.CITY_INTRO_HR_A1 as CityHrEntries };
       }
+      case 'A2': {
+        const m = await import('../data/cultural/cityHr/A2.js');
+        return { band, entries: m.CITY_INTRO_HR_A2 as CityHrEntries };
+      }
+      case 'B2': {
+        const m = await import('../data/cultural/cityHr/B2.js');
+        return { band, entries: m.CITY_INTRO_HR_B2 as CityHrEntries };
+      }
       case 'C1': {
         const m = await import('../data/cultural/cityHr/C1.js');
         return { band, entries: m.CITY_INTRO_HR_C1 as CityHrEntries };
+      }
+      case 'C2': {
+        const m = await import('../data/cultural/cityHr/C2.js');
+        return { band, entries: m.CITY_INTRO_HR_C2 as CityHrEntries };
       }
       default: {
         const m = await import('../data/cultural/cityHr/B1.js');

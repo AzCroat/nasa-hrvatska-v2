@@ -80,8 +80,11 @@ const TARGETS = [
   // ── 2026-08-26 sweep: everything else carrying authored Croatian ──────────
   'src/data/cultural/geography.js',
   'src/data/cultural/cityHr/A1.js',
+  'src/data/cultural/cityHr/A2.js',
   'src/data/cultural/cityHr/B1.js',
+  'src/data/cultural/cityHr/B2.js',
   'src/data/cultural/cityHr/C1.js',
+  'src/data/cultural/cityHr/C2.js',
   'functions/api/content/_data/cultural/geography.js',
   'src/data/exercises.js',
   'functions/api/content/_data/cultural/regions.js',
@@ -1003,12 +1006,18 @@ function* lessonStrings() {
         for (let k = 0; k < items.length; k++) {
           const it = items[k] || {};
           const where = `${at}.items[${k}]`;
-          if (typeof it.q === 'string') yield { loc: `${where}.q`, field: 'q', content: it.q, kind };
+          if (typeof it.q === 'string')
+            yield { loc: `${where}.q`, field: 'q', content: it.q, kind };
           for (const o of Array.isArray(it.options) ? it.options : []) {
             yield { loc: `${where}.options`, field: 'options', content: o, kind };
           }
           if (typeof it.explanation === 'string') {
-            yield { loc: `${where}.explanation`, field: 'explanation', content: it.explanation, kind };
+            yield {
+              loc: `${where}.explanation`,
+              field: 'explanation',
+              content: it.explanation,
+              kind,
+            };
           }
         }
       }
