@@ -8780,7 +8780,7 @@ const LESSONS_CORE = [
         rows: [
           ['train', 'vlak', 'voz', 'Croatian term historically prior'],
           ['thousand', 'tisuća', 'hiljada', 'tisuća from Old Slavic'],
-          ['week', 'tjedan', 'nedelja', 'nedelja = Sunday in Croatian (nedjeljom)'],
+          ['week', 'tjedan', 'nedelja', 'Croatian nedjelja (-dje-) = Sunday, not week'],
           ['airplane', 'zrakoplov', 'avion', 'zrakoplov = air-boat, native compound'],
           ['university', 'sveučilište', 'univerzitet', 'sveučilište = all-learning-place'],
           ['hospital', 'bolnica', 'bolnica', 'same in both (not all words differ)'],

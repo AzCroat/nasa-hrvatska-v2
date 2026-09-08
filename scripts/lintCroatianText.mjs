@@ -709,7 +709,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,
 // a factsHr entry, an alHr entry) — every one fails now, every one passed before.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|target|sentence|explanation|error|correct|src|instruction|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 // A `+ '…'` continuation directly after a matched literal. Sticky, so it can
 // only match at the position handed to it — never skip ahead to an unrelated
@@ -871,7 +871,7 @@ function findSerbisms(fieldName, s) {
 // useful-words panel a learner taps to insert into their own text, and the
 // alternative answers a frame accepts. Both are Croatian a learner reads.
 const ARRAY_FIELD_RE =
-  /(opts|options|choices|distractors|objectives|connectives|accept|usefulPhrases|[a-zA-Z]*Hr)\s*:\s*\[([^\]]*)\]/g;
+  /(opts|options|choices|distractors|objectives|connectives|accept|usefulPhrases|words|[a-zA-Z]*Hr)\s*:\s*\[([^\]]*)\]/g;
 const QUOTED_RE = /(['"`])((?:[^\\]|\\.)*?)\1/g;
 
 function* arrayStrings(buf) {

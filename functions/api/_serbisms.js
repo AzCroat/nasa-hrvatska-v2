@@ -84,6 +84,28 @@ export const SERBISM_RULES = [
   // `vreme` rule above makes.
   { re: /(?<![\p{L}])(?:rek(a|e|u|om|ama))(?![\p{L}-])/iu, use: 'rijeka' },
   { re: sb('gde|ovde|negde|nigde'), use: 'gdje/ovdje/negdje/nigdje' },
+  // `nedelja` (2026-09-08). The word this app's own C1 contrastive lesson names
+  // as THE example of Croatian/Serbian lexical divergence — tjedan vs nedelja —
+  // and it was not in these rules, so a learner-facing `nedeljom` anywhere
+  // outside that lesson would have passed.
+  //
+  // The stem is the whole precision argument and it needs no enumeration:
+  // Croatian realises this yat as -dje- in every form (nedjelja, nedjeljom,
+  // nedjeljni, nedjeljiv), and `ponedjeljak` has a letter before the stem, so
+  // the lookbehind rejects it. There is no standard Croatian word beginning
+  // `nedelj-`. Probed in both directions before writing: the five ekavica forms
+  // match, the five Croatian ones and `ponedjeljak` do not.
+  //
+  // `use` names both replacements because the Serbian word is two false friends
+  // at once: it means WEEK (Croatian `tjedan`) and is the near-twin of Croatian
+  // `nedjelja`, which means Sunday.
+  //
+  // Dry-run over the repo: ZERO findings. The only two occurrences are inside
+  // the `language-identity` carve-out — one in a table row the structural walk
+  // glosses, one in a `body`, which is not a field either regex pass matches.
+  // This is a ratchet against future content, not a bug caught today; say which
+  // it is (the fourth-wave lesson).
+  { re: sb('nedelj\\p{L}*'), use: 'tjedan (week) / nedjelja (Sunday)' },
   { re: sb('uvek'), use: 'uvijek' },
 ];
 

@@ -348,6 +348,60 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     expect(CATEGORY_SCREEN_MAP['identity']).toBe('identitet');
   });
 
+  it('the contrast table names a Serbian form ONLY in the Serbian column', async () => {
+    // The carve-out above buys the lesson the right to print Serbian forms, and
+    // it pays for it by turning the Croatian lint OFF over the whole lesson.
+    // Nothing then checks WHICH cell a Serbian form lands in — and on
+    // 2026-09-08 the week row's Note read
+    //
+    //   'nedelja = Sunday in Croatian (nedjeljom)'
+    //
+    // which tells the learner the ekavica spelling is their own language.
+    // Croatian Sunday is `nedjelja`. The Serbian column was right, the prose
+    // beside it was wrong, and a lint that is deliberately blind here could
+    // never have said so.
+    //
+    // This is the checkable half of that: inside the table, a form the shared
+    // blocklist flags may sit under the header `Serbian` and nowhere else.
+    // Measured against the corrected data — the only two hits are `hiljada` and
+    // `nedelja`, both in column 2. It is deliberately STRICTER than the defect
+    // (a Note saying "Serbian uses nedelja" would be honest and would still
+    // fail): in the one place the lint is switched off, a rule that needs no
+    // judgement is worth more than one that reads prose.
+    //
+    // Scoped to this lesson. `dijalekti-dubinski`, the other carve-out entry,
+    // prints the same strings as KAJKAVIAN — a Croatian dialect the blocklist
+    // cannot tell from ekavica because the strings are identical — in a column
+    // headed Kajkavian and in prose. Extending this there would assert
+    // something false about Croatian, which is the reason that carve-out exists.
+    const { findSerbism } = await import('../../functions/api/_serbisms.js');
+    const lesson = LESSONS.find((l: { id: string }) => l.id === 'language-identity')!;
+    const table = (lesson.slides as { type: string; headers?: string[]; rows?: string[][] }[]).find(
+      (s) => s.type === 'table' && (s.headers || []).includes('Serbian'),
+    )!;
+    expect(table, 'the Croatian/Serbian pairs table is gone').toBeTruthy();
+    const serbianCol = table.headers!.indexOf('Serbian');
+
+    const misplaced: string[] = [];
+    for (const row of table.rows!) {
+      row.forEach((cell, col) => {
+        if (col === serbianCol) return;
+        const hit = findSerbism(cell);
+        if (hit) misplaced.push(`${table.headers![col]}: "${cell}" (${hit.match})`);
+      });
+    }
+    expect(
+      misplaced,
+      `Serbian form outside the Serbian column:\n  ${misplaced.join('\n  ')}`,
+    ).toEqual([]);
+
+    // And the corrected cell itself, so nobody restores the claim it replaced.
+    const week = table.rows!.find((r) => r[0] === 'week')!;
+    expect(week[1]).toBe('tjedan');
+    expect(week[3]).toMatch(/nedjelja/);
+    expect(week[3]).not.toMatch(/nedelja/);
+  });
+
   it('idioms-register routes to the DRILL, not the browse list of the same name', () => {
     // The last dead-end coupling in the app, closed 2026-08-30, and the reason
     // it lasted is worth pinning rather than just fixing.
