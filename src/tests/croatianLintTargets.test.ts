@@ -157,6 +157,27 @@ describe('the matcher sees the shapes the content is actually written in', () =>
     expect([...lintTargets()]).toContain('src/data/writingCurriculum.ts');
   });
 
+  // THE FINDING OF 2026-09-08: ProductionDrillScreen had been in TARGETS, and
+  // the Croatian in three of its four modes was unscanned — `target`, `words`,
+  // `sentence`, `error`, `correct`, `src`, `instruction` were in no field list.
+  // Found by a positive control while levelling two of those banks: `hleb` in a
+  // BUILD_SENTENCES `target` passed clean, and so did a Cyrillic homoglyph in an
+  // ERROR_CORRECT `sentence`. `opts` and `explanation` were already covered,
+  // which is what made the file look scanned.
+  it('matches the production-drill field names', () => {
+    const fields = LINT_SRC.match(/const CRO_FIELD_RE =\s*\/\(([^)]*)\)/)![1]!.split('|');
+    for (const key of ['target', 'sentence', 'error', 'correct', 'src', 'instruction']) {
+      expect(fields, `CRO_FIELD_RE no longer matches \`${key}\``).toContain(key);
+    }
+    expect([...lintTargets()]).toContain('src/components/practice/ProductionDrillScreen.tsx');
+  });
+
+  it('scans the build-a-sentence word arrays', () => {
+    // BUILD_SENTENCES holds its Croatian as a bare `words: [...]` array — the
+    // tiles the learner drags. No field name can reach those.
+    expect(arrayFields(), 'ARRAY_FIELD_RE no longer matches `words`').toContain('words');
+  });
+
   it('scans the writing-curriculum arrays (connectives / accept)', () => {
     for (const key of ['connectives', 'accept']) {
       expect(arrayFields(), `ARRAY_FIELD_RE no longer matches \`${key}\``).toContain(key);

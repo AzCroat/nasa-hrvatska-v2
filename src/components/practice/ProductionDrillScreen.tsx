@@ -412,81 +412,111 @@ const TRANSLATE_PROD = [
 ];
 
 // ─── BUILD SENTENCES DATA ────────────────────────────────────────────────────
-const BUILD_SENTENCES = [
+// Exported for src/tests/productionDrillLevels.test.ts, which pins that every
+// item carries a level and that A2 — the lowest level this screen is offered at
+// — has at least a full round's worth at or below it.
+export const BUILD_SENTENCES = [
   {
     words: ['Sutra', 'idem', 'u', 'Zagreb', 'vlakom'],
     target: 'Sutra idem u Zagreb vlakom.',
     en: 'Tomorrow I am going to Zagreb by train.',
+    level: 'A2',
   },
   {
     words: ['Nisam', 'još', 'naučio', 'sve', 'padeže'],
     target: 'Nisam još naučio sve padeže.',
     en: "I haven't learned all cases yet.",
+    level: 'B1',
   },
   {
     words: ['Moja', 'sestra', 'živi', 'u', 'Splitu'],
     target: 'Moja sestra živi u Splitu.',
     en: 'My sister lives in Split.',
+    level: 'A1',
   },
   {
     words: ['Volim', 'plivati', 'u', 'moru', 'ljeti'],
     target: 'Volim plivati u moru ljeti.',
     en: 'I love swimming in the sea in summer.',
+    level: 'A2',
   },
   {
     words: ['Jesi', 'li', 'već', 'jeo', 'danas'],
     target: 'Jesi li već jeo danas?',
     en: 'Have you already eaten today?',
+    level: 'A2',
   },
   {
     words: ['Kad', 'budem', 'gotov', 'nazvat', 'ću', 'te'],
     target: 'Kad budem gotov, nazvat ću te.',
     en: "When I'm done, I'll call you.",
+    level: 'B2',
   },
   {
     words: ['Ne', 'sviđa', 'mi', 'se', 'to'],
     target: 'Ne sviđa mi se to.',
     en: "I don't like that.",
+    level: 'A2',
   },
   {
-    words: ['Hvala', 'ti', 'puno', 'za', 'pomoć'],
-    target: 'Hvala ti puno za pomoć.',
+    words: ['Hvala', 'ti', 'puno', 'na', 'pomoći'],
+    target: 'Hvala ti puno na pomoći.',
     en: 'Thank you very much for your help.',
+    level: 'A2',
   },
   {
     words: ['Gdje', 'si', 'bio', 'jučer', 'navečer'],
     target: 'Gdje si bio jučer navečer?',
     en: 'Where were you yesterday evening?',
+    level: 'A2',
   },
   {
     words: ['Djeca', 'se', 'igraju', 'u', 'parku'],
     target: 'Djeca se igraju u parku.',
     en: 'The children are playing in the park.',
+    level: 'A2',
   },
   {
     words: ['Moram', 'kupiti', 'kruh', 'i', 'mlijeko'],
     target: 'Moram kupiti kruh i mlijeko.',
     en: 'I need to buy bread and milk.',
+    level: 'A1',
   },
   {
     words: ['Ovo', 'je', 'najljepša', 'plaža', 'na', 'otoku'],
     target: 'Ovo je najljepša plaža na otoku.',
     en: 'This is the most beautiful beach on the island.',
+    level: 'B1',
   },
   {
     words: ['Nikada', 'nisam', 'bio', 'u', 'Osijeku'],
     target: 'Nikada nisam bio u Osijeku.',
     en: 'I have never been to Osijek.',
+    level: 'A2',
   },
   {
     words: ['Što', 'ćeš', 'raditi', 'ovog', 'vikenda'],
     target: 'Što ćeš raditi ovog vikenda?',
     en: 'What will you do this weekend?',
+    level: 'B1',
   },
   {
     words: ['On', 'govori', 'bolje', 'od', 'mene'],
     target: 'On govori bolje od mene.',
     en: 'He speaks better than me.',
+    level: 'B1',
+  },
+  {
+    words: ['Danas', 'je', 'lijepo', 'vrijeme', 'vani'],
+    target: 'Danas je lijepo vrijeme vani.',
+    en: 'The weather is nice outside today.',
+    level: 'A2',
+  },
+  {
+    words: ['Idemo', 'na', 'kavu', 'u', 'pet', 'sati'],
+    target: 'Idemo na kavu u pet sati.',
+    en: 'We are going for coffee at five.',
+    level: 'A2',
   },
 ];
 
@@ -501,6 +531,7 @@ export const ERROR_CORRECT = [
     opts: ['lijepu', 'lijep', 'lijepo'],
     explanation: 'Akuzativ ženskog roda: jedna lijepa → jednu lijepu ženu',
     en: 'I see a beautiful woman.',
+    level: 'A2',
   },
   {
     sentence: 'Idem u škola svaki dan.',
@@ -509,6 +540,7 @@ export const ERROR_CORRECT = [
     opts: ['školu', 'škole', 'školom'],
     explanation: 'Nakon "u" s kretanjem: akuzativ → školu',
     en: 'I go to school every day.',
+    level: 'A1',
   },
   {
     sentence: 'On je vratio se kasno.',
@@ -517,6 +549,7 @@ export const ERROR_CORRECT = [
     opts: ['se vratio', 'vratio se', 'se je vratio'],
     explanation: 'Klitika "se" stoji ispred pomoćnog glagola: vratio se → se vratio',
     en: 'He returned late.',
+    level: 'B1',
   },
   {
     sentence: 'Nemam vremena za to raditi.',
@@ -528,6 +561,7 @@ export const ERROR_CORRECT = [
     opts: ['nemam to', 'za to', 'to raditi'],
     explanation: 'Correct: "Nemam vremena za to." — redundant "raditi"',
     en: "I don't have time for that.",
+    level: 'B1',
   },
   {
     sentence: 'Učio sam svaki dana.',
@@ -536,6 +570,7 @@ export const ERROR_CORRECT = [
     opts: ['dan', 'dana', 'danu'],
     explanation: '"Svaki" + nominativ/akuzativ = svaki dan',
     en: 'I studied every day.',
+    level: 'A2',
   },
   {
     sentence: 'Puno sam gladna.',
@@ -544,6 +579,7 @@ export const ERROR_CORRECT = [
     opts: ['Jako', 'Puno', 'Mnogo'],
     explanation: '"Puno" mjeri količinu, "jako/vrlo" mjeri intenzitet pridjeva',
     en: 'I am very hungry.',
+    level: 'B1',
   },
   {
     sentence: 'On je otišla na more.',
@@ -552,6 +588,7 @@ export const ERROR_CORRECT = [
     opts: ['otišao', 'otišla', 'otišlo'],
     explanation: 'Muški rod: on je otišao (ne otišla)',
     en: 'He went to the seaside.',
+    level: 'A2',
   },
   {
     sentence: 'Razgovaram s moj prijatelj.',
@@ -560,6 +597,7 @@ export const ERROR_CORRECT = [
     opts: ['mojim', 'moj', 'moje'],
     explanation: 'Instrumental: s mojim prijateljem',
     en: 'I am talking with my friend.',
+    level: 'A2',
   },
   {
     sentence: 'Pišem pisma svaki tjedan za godinu.',
@@ -568,6 +606,7 @@ export const ERROR_CORRECT = [
     opts: ['već godinu dana', 'za godinu', 'kroz godinu'],
     explanation: '"Za godinu" = in one year; "već godinu dana" = for a year',
     en: 'I have been writing letters every week for a year.',
+    level: 'B2',
   },
   {
     sentence: 'Daj mi jedan vode, molim.',
@@ -576,6 +615,7 @@ export const ERROR_CORRECT = [
     opts: ['malo', 'jedan', 'jednu'],
     explanation: 'Voda je nebrojiva — "malo vode", ne "jedan vode"',
     en: 'Give me some water, please.',
+    level: 'B1',
   },
   {
     sentence: 'Nije mi dopada taj film.',
@@ -584,6 +624,7 @@ export const ERROR_CORRECT = [
     opts: ['svidio', 'dopada', 'sviđa'],
     explanation: 'Prošlo: "Nije mi se svidio taj film."',
     en: "I didn't like that film.",
+    level: 'B1',
   },
   {
     sentence: 'Kad dođeš, ću ti reći sve.',
@@ -595,6 +636,7 @@ export const ERROR_CORRECT = [
     opts: ['reći ću ti', 'ću ti reći', 'ti reći ću'],
     explanation: 'Klitika "ću" ne može biti na početku rečenice',
     en: "When you come, I'll tell you everything.",
+    level: 'B1',
   },
   {
     sentence: 'Treba mi da učim više.',
@@ -603,6 +645,7 @@ export const ERROR_CORRECT = [
     opts: ['učiti', 'da učim', 'učenje'],
     explanation: '"Trebam + infinitiv": Trebam učiti više.',
     en: 'I need to study more.',
+    level: 'B1',
   },
   {
     sentence: 'Svi znaju on.',
@@ -611,6 +654,7 @@ export const ERROR_CORRECT = [
     opts: ['njega', 'on', 'mu'],
     explanation: 'Akuzativ lične zamjenice: svi znaju njega',
     en: 'Everyone knows him.',
+    level: 'A2',
   },
   {
     sentence: 'Živim ovdje od pet godina.',
@@ -619,6 +663,52 @@ export const ERROR_CORRECT = [
     opts: ['već', 'od', 'za'],
     explanation: '"Od pet godina" = since 5 years ago; "već pet godina" = for five years',
     en: 'I have lived here for five years.',
+    level: 'B2',
+  },
+  {
+    sentence: 'Imam dvadeset godine.',
+    error: 'godine',
+    correct: 'godina',
+    opts: ['godina', 'godine', 'godinu'],
+    explanation: 'Poslije brojeva od pet nadalje ide genitiv množine: dvadeset godina',
+    en: 'I am twenty years old.',
+    level: 'A2',
+  },
+  {
+    sentence: 'Vidimo se u subota.',
+    error: 'subota',
+    correct: 'subotu',
+    opts: ['subotu', 'subote', 'suboti'],
+    explanation: 'Dani u tjednu traže akuzativ: u subotu, u petak',
+    en: 'See you on Saturday.',
+    level: 'A2',
+  },
+  {
+    sentence: 'Ona ima dugu kosa.',
+    error: 'kosa',
+    correct: 'kosu',
+    opts: ['kosu', 'kose', 'kosom'],
+    explanation: 'Pridjev i imenica stoje u istom padežu: dugu kosu',
+    en: 'She has long hair.',
+    level: 'A2',
+  },
+  {
+    sentence: 'Idem kod doktor.',
+    error: 'doktor',
+    correct: 'doktora',
+    opts: ['doktora', 'doktoru', 'doktorom'],
+    explanation: '"Kod" uvijek traži genitiv: kod doktora, kod bake',
+    en: 'I am going to the doctor.',
+    level: 'A2',
+  },
+  {
+    sentence: 'Sa mojom sestrom idem u grad.',
+    error: 'Sa',
+    correct: 'S',
+    opts: ['S', 'Sa', 'Za'],
+    explanation: '"Sa" samo ispred s, š, z, ž — inače "s": s mojom sestrom',
+    en: 'I am going to town with my sister.',
+    level: 'A2',
   },
 ];
 
@@ -684,8 +774,11 @@ interface ModeDoneProps {
    * `sh([...BANK]).slice(0, ROUND_SIZE)`, which bounded the LENGTH and left the
    * level authored, shipped and ignored — so at B1 (the pool gate) 14 of the 43
    * transforms and 8 of the 30 translations were above the learner. BUILD_SENTENCES
-   * and ERROR_CORRECT carry no level at all, so there is nothing to filter there;
-   * that is a content gap, recorded rather than papered over.
+   * and ERROR_CORRECT carried no level at ALL, which that pass recorded as a
+   * content gap rather than papering over; both are levelled now, and each
+   * gained A2 items so the filter never shortens an A2 round below ROUND_SIZE.
+   * A2 is the floor that matters: the Practice catalog labels this screen A2+
+   * and PRODUCTION_POOL gates it at B1.
    */
   level: CefrLevel;
 }
@@ -974,15 +1067,15 @@ interface BuildItem {
   target: string;
   en: string;
 }
-function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
+function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [shake, setShake] = useState(false);
   const round = useMemo(
-    () => (sh([...BUILD_SENTENCES]) as typeof BUILD_SENTENCES).slice(0, ROUND_SIZE),
-    [],
+    () => (sh(levelledBank(BUILD_SENTENCES, level)) as typeof BUILD_SENTENCES).slice(0, ROUND_SIZE),
+    [level],
   );
   const total = round.length;
   const item = round[idx];
@@ -1230,14 +1323,14 @@ function ModeBuild({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
 }
 
 // ─── MODE D: ERROR CORRECTION ────────────────────────────────────────────────
-function ModeErrorCorrect({ onDone, award, onCorrect, onWrong }: ModeDoneProps) {
+function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const round = useMemo(
-    () => (sh([...ERROR_CORRECT]) as typeof ERROR_CORRECT).slice(0, ROUND_SIZE),
-    [],
+    () => (sh(levelledBank(ERROR_CORRECT, level)) as typeof ERROR_CORRECT).slice(0, ROUND_SIZE),
+    [level],
   );
   const total = round.length;
   const item = round[idx];
