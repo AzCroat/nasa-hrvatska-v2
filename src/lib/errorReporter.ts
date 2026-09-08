@@ -16,9 +16,26 @@ function _getNativeApiBase(): string {
   return '';
 }
 
-export function reportError(error: unknown, context?: string): void {
+/**
+ * WHAT the error was about — a content resource key, a screen key, an id.
+ * Read off the error itself so call sites do not have to thread it: the
+ * content errors already carry one (`ContentOfflineError.resourceKey`,
+ * `ContentNotFoundError.id`).
+ *
+ * Bounded and sanitized here as well as on the server, because this is the
+ * value that becomes a Sentry TAG: content ids only, never learner text.
+ */
+export function resourceOf(error: unknown): string {
+  if (!error || typeof error !== 'object') return '';
+  const e = error as { resourceKey?: unknown; id?: unknown };
+  const raw = typeof e.resourceKey === 'string' ? e.resourceKey : e.id;
+  if (typeof raw !== 'string') return '';
+  return raw.replace(/[^A-Za-z0-9/_.:@-]/g, '').slice(0, 100);
+}
+
+export function reportError(error: unknown, context?: string, resource?: string): void {
   if (import.meta.env.DEV) {
-    console.error('[reportError]', context, error);
+    console.error('[reportError]', context, resource ?? '', error);
     return;
   }
   try {
@@ -28,6 +45,9 @@ export function reportError(error: unknown, context?: string): void {
       message: err.message ?? String(error),
       stack: err.stack?.slice(0, 1500) ?? '',
       context: context ?? '',
+      // Explicit argument wins; otherwise take it off the error. Absent stays
+      // absent — an empty tag is worse than no tag.
+      resource: resource ?? resourceOf(error),
       url: window.location.href,
       ts: Date.now(),
     };

@@ -55,7 +55,16 @@ export class ContentRateLimitError extends Error {
 }
 
 export class ContentOfflineError extends Error {
-  constructor() {
+  /**
+   * WHICH content could not be reached — `story:gs_a1_1`, `lessons:all`,
+   * `core:all`. Carried because the Sentry report for this error (2026-09-08,
+   * event e9fe27bb) said only `offline_no_cache` and there was no way to tell
+   * a dead network from one broken resource.
+   *
+   * The MESSAGE deliberately stays the bare code so Sentry keeps grouping
+   * these together; the key travels as a tag (see reportError's `resource`).
+   */
+  constructor(public resourceKey = '') {
     super('offline_no_cache');
     this.name = 'ContentOfflineError';
   }

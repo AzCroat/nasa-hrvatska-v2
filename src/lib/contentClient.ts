@@ -84,7 +84,7 @@ async function fetchAndCache<T>(uid: string, resourceKey: string, path: string):
     res = await fetchAuthed(path, cached?.etag);
   } catch {
     if (cached && !isTooOldToServe(cached)) return cached.body as T;
-    throw new ContentOfflineError();
+    throw new ContentOfflineError(resourceKey);
   }
 
   if (res.status === 304 && cached) {

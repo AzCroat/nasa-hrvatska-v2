@@ -22,8 +22,11 @@ import { checkRateLimit } from './_rateLimit.js';
 const _seen = new Map();
 const DEDUP_WINDOW_MS = 60_000; // 1 minute per unique message
 
-function isDuplicate(message) {
-  const key = String(message).slice(0, 120);
+function isDuplicate(message, resource = '') {
+  // Keyed on message + resource: an offline learner hits several resources at
+  // once and each is a distinct fact, while the SAME resource failing on a
+  // loop is the storm this guard exists for.
+  const key = String(message).slice(0, 120) + '|' + String(resource).slice(0, 100);
   const last = _seen.get(key) || 0;
   if (Date.now() - last < DEDUP_WINDOW_MS) return true;
   _seen.set(key, Date.now());
@@ -75,6 +78,10 @@ async function forwardToSentry(dsn, payload) {
       tags: {
         context: String(payload.context || '').slice(0, 100),
         source: 'report-error-worker',
+        // Only when the error names one. Cardinality is bounded by the content
+        // catalogue (a few hundred ids), which is what makes this a tag —
+        // "is one story always failing?" is a query, not a needle hunt.
+        ...(payload.resource ? { resource: String(payload.resource).slice(0, 100) } : {}),
       },
       request: payload.url ? { url: String(payload.url).slice(0, 200) } : undefined,
     };
@@ -123,14 +130,23 @@ export async function onRequestPost(context) {
   try {
     const body = await request.json();
     const { message = '', stack = '', context: ctx = '', url = '', ts = 0 } = body;
+    // WHAT the error was about (a content resource key such as `story:gs_a1_1`).
+    // This endpoint is public and unauthenticated and the value becomes a Sentry
+    // TAG, so it is re-sanitized here rather than trusted from the client:
+    // content-id characters only, hard length cap. Anything else is dropped
+    // entirely — an empty tag is worse than no tag.
+    const resource = String(body.resource || '')
+      .replace(/[^A-Za-z0-9/_.:@-]/g, '')
+      .slice(0, 100);
 
     // Dedup guard — prevents log storms from a single error repeating rapidly
-    if (!isDuplicate(message)) {
+    if (!isDuplicate(message, resource)) {
       const structured = {
         type: 'client_error',
         message: String(message).slice(0, 500),
         stack: String(stack).slice(0, 1500),
         context: String(ctx).slice(0, 100),
+        resource,
         url: String(url)
           .replace(/[?#].*/, '')
           .slice(0, 200),
