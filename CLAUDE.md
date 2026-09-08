@@ -166,7 +166,37 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 - **Honest rollback (owner directive, 2026-08-17)**: a FAILED verification of a provisional level steps standing DOWN one level (`rollbackProvisionalOnFail` inside `recordEquivalencyAttempt`): the failed provisional and every provisional above it are removed, provisional standing is granted one level below (grandfather 0.8-signature shape) unless A1/occupied, and a `verification_fail` demotion is recorded. A failed ADVANCEMENT attempt (no provisional held) rolls nothing back. The badge follows automatically — it reads `getCertifiedLevel()` when gating is on.
   **"THE BADGE" WAS ONE OF THREE, AND ONLY ONE FOLLOWED (field report, 2026-09-06).** A learner whose failed B2 check had honestly rolled them to B1 — the Me tab said B1 — still saw "C1 · Advanced" in the upper-right desktop badge. `DesktopPanel` and the hero card's CEFR bar (`heroHelpers.getCEFR` → `HeroStats`) each carried their OWN copy of the XP band formula with a comment saying "same formula as StatsTab — all three must stay in sync"; they were in sync with each other and with nothing that mattered, because StatsTab had moved to the certified level and they had not. A comment asserting three copies agree is the same non-mechanism as `wrangler.toml`'s "Shared with scheduled worker above". All three now resolve through `getEffectiveLevelForUnlock` (the convention block at the top of `src/lib/cefr.ts` says a badge is a proficiency claim); the hero bar measures XP progress only WITHIN the certified band and, when practice has outrun the certified level, says "Level Check" instead of a percentage, because XP does not advance a level and a bar creeping toward 99% forever would say it does. `cefrBadgeCertified.test.tsx` drives the REAL rollback (`recordEquivalencyAttempt` on a provisional B2) and renders both surfaces, guards the other direction (certified at the XP band still shows it), and pins all three files to the one resolver by source — because a fourth copy would pass every rendering test at whatever rate its thresholds still matched. Mutation-verified: each surface reverted to the raw formula fails 3 tests. E2E fixtures seed VERIFIED users (certified == eligible), so no spec moved.
 - **Demotions are merge tombstones**: `mergeRemoteCertifications` ends with a sweep deleting any pass at a demotion's `from` level whose `passedAt` precedes the demotion `at` — in both directions, for BOTH `verification_fail` and `checkpoint_fail`. This is the sanctioned, deliberate exception to "merges never reduce": the demotion EVENT is additive and user-visible; without the sweep any stale device blob resurrects a rolled-back level. A pass re-earned AFTER the demotion has a later `passedAt` and always survives — new evidence outranks tombstones.
-- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getEffectiveLevelForUnlock`.
+- **THE THREE SURFACES AGREED ON A NUMBER THAT WAS NOT TRUE (field report,
+  2026-09-08): "it shows C1, I'm not C1."** The 2026-09-06 fix above made
+  DesktopPanel, the hero bar and StatsTab resolve through one function. It never
+  asked what that function returns. `getEffectiveLevelForUnlock` →
+  `getCertifiedLevel()` counts **provisional** passes, and
+  `migrateGrandfatheredCertification` writes a provisional pass for **every level
+  up to the learner's XP-derived level**. So a learner whose XP once touched the
+  C1 band held a provisional C1 and every badge in the app said "C1 · Advanced"
+  for a level nothing had measured — NEVER-DO 13 on the most visible number in
+  the product. **Making three wrong numbers consistent is not fixing them**, and
+  the first fix's own tests passed throughout because they asserted the certified
+  level was displayed, which it was.
+  **The fix is a SPLIT, and both halves are load-bearing** (owner decision):
+  `getDisplayLevel(eligible)` (new, in `cefrCertification.ts`) returns
+  `getVerifiedLevel()` — real passes only — and the six DISPLAY surfaces read it
+  (DesktopPanel, heroHelpers, StatsTab, CertificateScreen, InsightsTab,
+  LearnTab). **Content unlock is untouched**: `getContentUnlockLevel` still reads
+  the certified level, provisional included, so a grandfathered learner keeps
+  every door they had while the badge stops claiming a level for them. A claim
+  and a door are different questions. `getEffectiveLevelForUnlock` survives as
+  the checkpoint system's "which exam do I offer" input — it is NOT a display
+  helper.
+  What this costs, stated: every grandfathered learner's displayed level drops to
+  what they have demonstrated (A1 for anyone who has never taken a check) until
+  they pass one. The hero bar then says "Level Check" instead of a percentage,
+  which is the prompt working. E2E fixtures seed REAL passes, so no spec moved.
+  Mutation-verified, three: a display surface reverted to the unlock resolver
+  fails 4; `getDisplayLevel` returning certified fails 4; and the DANGEROUS
+  direction — `getContentUnlockLevel` switched to verified, which would lock
+  grandfathered learners out of content they have — fails 2.
+- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getDisplayLevel`; point a badge at `getEffectiveLevelForUnlock` or `getCertifiedLevel` (they count provisional passes); point content unlock at `getDisplayLevel` (that takes away access the learner already has).
 
 ## Critical Architecture: Audio Is Load-Bearing (owner directive, 2026-09-06)
 
@@ -313,7 +343,7 @@ visible from the others, and the golden calibration green throughout.
    the API envelope (`reconcileEndpoints.test.js` DERIVES the caller set from
    source; exemptions with reasons: `conversation` reconciles its own SSE
    usage, `news` fans out four calls under one 4x pre-charge, `golden-
-   calibration` pre-charges a whole run). The cap itself is unchanged.
+calibration` pre-charges a whole run). The cap itself is unchanged.
 3. **Client failures were nameless, silent, or blamed the learner.** The
    speaking coach returned `null` for everything and the card rendered
    NOTHING; the exam scorer folded a budget pause into "We couldn't score that
@@ -326,7 +356,7 @@ visible from the others, and the golden calibration green throughout.
    `AiFailure { kind, retryable, message }`, one sentence per kind in the
    app's voice, `reportAiFailure` capped 3 per surface+kind and never for the
    learner's own limits). `requestSpeakingCoach` returns `{ok,data}|{ok:false,
-   failure}` and the coach surface renders `coach-failed` with Try again (that
+failure}` and the coach surface renders `coach-failed` with Try again (that
    was `SpeakingScreen` when this was written; the card was unreachable, and
    the pin moved to `GuidedSpeakingScreen` when the dead branch was removed);
    `whisperClaudeScorer` keeps the null contract but records WHY
@@ -658,8 +688,8 @@ app's own Concept Teaching directive says so.
   - The feminine genitive plural breaks a final cluster with an `a`:
     `sestara`, `djevojaka`. Without it the rules emit `sestra` — the nominative
     singular, a wrong form in front of a learner.
-  `c` is soft for the instrumental (`stricem`) and hard for the vocative
-  (`striče`), so those are two separate predicates on purpose.
+    `c` is soft for the instrumental (`stricem`) and hard for the vocative
+    (`striče`), so those are two separate predicates on purpose.
 - **A computed table says it is computed** (`attested: false`, rendered as "from
   the regular pattern"). Only the irregular list is asserted.
 - **The Croatian in these modules is guarded IN THE TEST, not by TARGETS.**
@@ -1470,13 +1500,13 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   `shuffle(BANK).slice(0, N)` is an ordinary line that simply never mentions the
   field. Measured, at each screen's own gate level:
 
-  | bank | items | above the learner, per round, BEFORE |
-  | --- | --- | --- |
-  | LISTEN via `GradTab.startListening` (A1) | 45 | 6.8 of 8 |
-  | `TRANSLATE_DRILLS` + `C1_DRILLS` (B1) | 64 | 41 of 64 |
-  | `TRANSFORMS` (B1) | 43 | 3.3 of 10 |
-  | `TRANSLATE_PROD` (B1) | 30 | 2.7 of 10 |
-  | WritingScreen `PROMPTS` (A2) | 20 | 0.8 of 1 |
+  | bank                                     | items | above the learner, per round, BEFORE |
+  | ---------------------------------------- | ----- | ------------------------------------ |
+  | LISTEN via `GradTab.startListening` (A1) | 45    | 6.8 of 8                             |
+  | `TRANSLATE_DRILLS` + `C1_DRILLS` (B1)    | 64    | 41 of 64                             |
+  | `TRANSFORMS` (B1)                        | 43    | 3.3 of 10                            |
+  | `TRANSLATE_PROD` (B1)                    | 30    | 2.7 of 10                            |
+  | WritingScreen `PROMPTS` (A2)             | 20    | 0.8 of 1                             |
 
   Three findings worth keeping. **The LISTEN fix said "both launch sites" and
   there were three** — `GradTab`'s Practice-tab button hands `launchListening`
@@ -1518,6 +1548,7 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   NEVER: fix one of these screens without re-running the derivation; add a
   levelled bank whose consumer picks from it without `levelledBank`; scope a
   source-derived guard by module path when a barrel re-exports the name.
+
 - **WHAT THIS COSTS, stated:** the A2 discovery slot. Discovery fires only when
   TWO fill slots remain after the guarantees; A2 had that headroom and B1+ never
   did. In default mode the widened pool's window is now the LRS bonus round at
@@ -1730,10 +1761,10 @@ every level from A2 up** (A1 has nothing below it), pinned.
   The six-band authoring pass put twenty-three agents through those same records
   and **six of them independently found shipped bands asserting facts the record
   does not carry**: Senj's 1618 dispersal date and Nehaj built from demolished
-  churches, Krk's St Lucy at Jurandvor, Rab's Kandarola and *rapska torta*, Rab
+  churches, Krk's St Lucy at Jurandvor, Rab's Kandarola and _rapska torta_, Rab
   A1/B1's sandy beaches, Krapina's museum dug into the hill and its proximity to
   Zagreb, Ogulin's Mt Klek and the river Dobra, Sisak's brick fortress,
-  Motovun/Grožnjan's "a few hundred inhabitants", Mali Lošinj's *brodovlasnici*,
+  Motovun/Grožnjan's "a few hundred inhabitants", Mali Lošinj's _brodovlasnici_,
   Mlini's carts of flour to Dubrovnik, Plitvice's water-colour sentence. Every
   one is plausibly TRUE of the real place; that is not the point. Mali Lošinj
   shows the cost — the record calls the dolphin station Europe's LARGEST and the
@@ -1851,6 +1882,7 @@ every level from A2 up** (A1 has nothing below it), pinned.
   in `CITY_HR_BANDS` and in the lint TARGETS; let a band reuse a passage of
   another band at the same city — a whole-text duplicate check does not catch
   it, and neither does anything else.
+
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
@@ -2065,9 +2097,50 @@ case endings, which is where the distractors live).
 - Ordering within a level follows source order (concrete → social), which the
   interaction path (`interactionCurriculum.ts`) inherits; the new pairs sit
   after the existing scenarios at their level.
+- **AND IT LEFT THE BEGINNER LEVELS BEHIND (2026-09-08): A1 7 → 12, A2 8 → 12,
+  63 → 72.** The argument above — B1+ is about register — was right, and taking
+  four levels to 12 while A1/A2 stayed at 7 and 8 gave **the two levels with
+  the most learners ~60% of the conversation practice of every level above
+  them**. That is the same imbalance this section records fixing in the other
+  direction three weeks earlier, and the floors said so: A1/A2 had never been
+  raised since they were written, while B1+ was raised twice.
+  **The register finding is measured, not asserted: across all 15 A1/A2
+  scenarios and their 72 turns, ZERO correct lines carried a ti-marker.** Every
+  model answer a beginner had ever been shown was addressed to a waiter, a
+  clerk, a driver or an official — and this app's learners are the diaspora,
+  whose first real Croatian is with a grandmother, a cousin, a family friend.
+  **The nine new ones are NOT register pairs, and copying that method here
+  would have been wrong**: a pair contrasts one speech act performed two ways,
+  which needs enough language to vary it. At A1/A2 the register simply follows
+  the person — `kod_bake`, `o_meni`, `poziv_na_kavu`, `vikend_razgovor`,
+  `rodbina` are "ti"; `ne_razumijem`, `kod_susjede`, `kvar_u_stanu` are "Vi" —
+  and `telefonski_poziv` switches MID-CALL from the friend's mother to the
+  friend, which is the one register fact a beginner most needs. They also move
+  the beginner levels off pure commercial transactions: asking someone to
+  repeat and slow down (the A1 CEFR descriptor is literally conditional on it,
+  and nothing taught the learner to ask), a phone call, saying who you are and
+  where you are from, a stairwell chat, reporting a fault.
+  The register floor now runs over **all six levels**, and the three
+  adjustments needed to reach it were made in the CONTENT after measuring, not
+  by loosening the detector.
+- **A ZWJ EMOJI IN A TITLE WAS RENDERING DECAPITATED, AND HAD BEEN SINCE
+  2026-09-05.** `DialogueScenarioMenu` drew the card icon with
+  `title.split(' ')[0]` and the heading with `title.slice(2)` — two UTF-16 CODE
+  UNITS, which is exactly one emoji only for the simple ones. `👨‍👩‍👧 Upoznavanje
+roditelja` therefore showed the family emoji whole in the icon slot and again,
+  beheaded, at the front of its heading (`‍👩‍👧 Upoznavanje roditelja`). A ZWJ
+  sequence contains no space, so ONE split serves both. Found only because a new
+  scenario used the same emoji shape, and confirmed by running both derivations
+  over the real titles rather than by reading the code.
+  The guard is two assertions and **the first draft of one of them was
+  decorative**: "the icon contains an emoji" is satisfied by a title written
+  with no space (`👵Kod bake` → icon `👵Kod`, heading `bake`), and it survived
+  the mutation. It now also asserts the icon contains no letters or digits.
 - NEVER: add a scenario without its server context; put the correct option
   anywhere but index 0; make a distractor wrong by being Serbian or by being
-  a merely-marked variant a native would say.
+  a merely-marked variant a native would say; split an emoji off a title by
+  code units; leave a level at a floor another level has been raised past
+  (check all six before declaring a coverage item done).
 
 ## Critical Architecture: Firebase Sync
 
@@ -2222,7 +2295,6 @@ bands corrected together.
 NEVER: assume a field is scanned because its NAME is in the regex and its FILE
 is in TARGETS — the quoting, the separator and the escaping each have to match
 too, and only a positive control on that exact field tells you which.
-
 
 **THE THIRD WAVE FOUND THAT THE TARGET LIST HAD STOPPED BEING THE BINDING CONSTRAINT, AND NOBODY HAD MEASURED IT (2026-09-01).** Two waves of adding files had trained everyone — me included — to think of coverage as a list length. A census of every candidate outside TARGETS found **1,159 Croatian strings of which `CRO_FIELD_RE` saw 137: twelve per cent.** Adding the remaining files to the list would have bought almost nothing. The gap was the MATCHER, and it was invisible from a list precisely because a list cannot show you what it fails to match.
 

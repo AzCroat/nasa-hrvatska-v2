@@ -94,11 +94,18 @@ export default function DialogueScenarioMenu({
               onClick={() => onSelect(s)}
               style={{ textAlign: 'left', padding: '14px', position: 'relative' }}
             >
+              {/* The icon is the leading emoji, the heading is everything after
+                  it. Both must split on the SPACE: `slice(2)` counted UTF-16
+                  code units, which is 2 for a plain emoji but far more for a
+                  ZWJ sequence — so the shipped 👨‍👩‍👧 scenario rendered its
+                  family emoji whole in the icon and again decapitated in the
+                  heading ("‍👩‍👧 Upoznavanje roditelja"). A ZWJ sequence contains
+                  no space, so one split serves both. */}
               <div style={{ fontSize: 24, marginBottom: 6 }}>{s.title.split(' ')[0]}</div>
               <div
                 style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)', lineHeight: 1.3 }}
               >
-                {s.title.slice(2)}
+                {s.title.split(' ').slice(1).join(' ')}
               </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
                 {s.subtitle}

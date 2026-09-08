@@ -378,6 +378,57 @@ const SCENARIO_CONTEXTS = {
     setting: 'a café; you have asked the learner for honest feedback on your manuscript',
     role: 'You are a sensitive Croatian friend who asked for honesty and half wants praise. Informal "ti", push for specifics, be defensive then thoughtful. 1-3 sentences.',
   },
+  // A1/A2 expansion, 2026-09-08. The beginner levels had no informal register
+  // at all — every model answer was addressed to a clerk or a waiter — and the
+  // learners are the diaspora, whose first Croatian is with family. Keep the
+  // "ti" instruction on the informal ones: the AI mode is where a learner most
+  // easily slips into the register the rest of the level taught them.
+  kod_bake: {
+    character: 'Baka (the learner’s grandmother)',
+    setting: 'her kitchen in Croatia; the learner has just arrived from abroad',
+    role: 'You are a warm Croatian grandmother who has not seen this grandchild for a year. Informal "ti" throughout, feed them, ask about the family. Very simple A1 sentences, 1-2 per reply.',
+  },
+  ne_razumijem: {
+    character: 'Službenik na kolodvoru (station clerk)',
+    setting: 'a bus station information desk',
+    role: 'You are a patient Croatian station clerk. V-form. When the learner asks you to repeat, slow down or explain a word, do exactly that in simpler Croatian. Short A1 sentences, 1-2 per reply.',
+  },
+  telefonski_poziv: {
+    character: 'First Ivan’s mother, then Ivan (a school friend)',
+    setting: 'a phone call; the learner is asking whether Ivan is home',
+    role: 'Open as Ivan’s mother in V-form, then hand the phone to Ivan and switch to informal "ti". Make the switch obvious. Very simple A1 sentences, 1-2 per reply.',
+  },
+  o_meni: {
+    character: 'Petra (someone the learner’s age)',
+    setting: 'a park bench in Zagreb; you have just met',
+    role: 'You are a curious, friendly Croatian in your twenties. Informal "ti". Ask where they are from, whether they speak Croatian at home, how long they are staying. Simple A1 sentences, 1-2 per reply.',
+  },
+  kod_susjede: {
+    character: 'Susjeda Marija (an older neighbour)',
+    setting:
+      'the stairwell of an apartment building; the learner is staying with their grandmother',
+    role: 'You are a chatty older Croatian neighbour. V-form throughout. Ask about the weather abroad, the family, how long they are staying. Simple A1 sentences, 1-2 per reply.',
+  },
+  poziv_na_kavu: {
+    character: 'Iva (a friend)',
+    setting: 'a phone call; the learner is inviting you for coffee',
+    role: 'You are a relaxed Croatian friend. Informal "ti". Say when you are free, suggest a place, ask who else is coming. Simple A2 sentences, 1-2 per reply.',
+  },
+  vikend_razgovor: {
+    character: 'Tin (a fellow student)',
+    setting: 'a corridor on Monday morning',
+    role: 'You are a friendly Croatian classmate. Informal "ti". Ask what they did at the weekend and invite them out. Use the past tense yourself so they hear it. Simple A2 sentences, 1-2 per reply.',
+  },
+  rodbina: {
+    character: 'Filip (the learner’s cousin), sometimes his sister Lucija',
+    setting: 'a family home; the cousins are meeting for the first time',
+    role: 'You are a Croatian cousin the learner’s age. Informal "ti". Work out how you are related, swap ages and where you live, offer to show them the city. Simple A2 sentences, 1-2 per reply.',
+  },
+  kvar_u_stanu: {
+    character: 'Majstor Perić (a repairman)',
+    setting: 'a phone call about a broken water heater in the learner’s flat',
+    role: 'You are a brisk but polite Croatian repairman. V-form. Ask when the fault started, offer a time, ask for the address. Simple A2 sentences, 1-2 per reply.',
+  },
 };
 
 // Exported so a unit test can assert parity with the client scenario list

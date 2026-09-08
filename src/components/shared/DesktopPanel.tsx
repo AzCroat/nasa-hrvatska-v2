@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr, type CefrLevel } from '../../lib/cefr';
-import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
+import { getDisplayLevel } from '../../lib/cefrCertification';
 
 const CEFR_LABELS: Record<CefrLevel, string> = {
   A1: 'Beginner',
@@ -20,7 +20,7 @@ const CEFR_LABELS: Record<CefrLevel, string> = {
 // advance a level here; a passed Level Check does. See the convention block at
 // the top of src/lib/cefr.ts.
 function getCEFR(xp: number, lc: number, gc: number): CefrLevel {
-  return getEffectiveLevelForUnlock(getUserCefr(xp || 0, lc || 0, gc || 0));
+  return getDisplayLevel(getUserCefr(xp || 0, lc || 0, gc || 0));
 }
 
 export default function DesktopPanel() {

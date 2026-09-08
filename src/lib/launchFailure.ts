@@ -24,6 +24,17 @@ export function notifyLaunchFailure(reason: LaunchFailureReason, detail?: unknow
     /* non-browser env */
   }
   try {
+    // No `resource` argument on purpose. reportError reads it off the error
+    // itself (ContentOfflineError.resourceKey / ContentNotFoundError.id), so
+    // every reporting call site gets it, not just this one — and this file
+    // does not have to import a second symbol from errorReporter.
+    //
+    // That second import is not a style point: TEN suites mock
+    // '../lib/errorReporter' with a factory listing only the functions they
+    // use, so importing `resourceOf` here made it undefined under those mocks,
+    // and the throw landed inside this very try — silently suppressing the
+    // report the try exists to guarantee. session-launch-failure.test.tsx
+    // caught it. Keep the lookup on the reporter's side of the boundary.
     reportError(
       detail instanceof Error ? detail : new Error(`launch failure: ${reason}`),
       'session-launch',

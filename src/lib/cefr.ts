@@ -9,15 +9,27 @@
  * be inflated by dwell time, so almost nothing should consume it directly — it is
  * the INPUT to the two certified-aware helpers in cefrCertification.ts:
  *
- *   • PROFICIENCY CLAIMS → `getEffectiveLevelForUnlock(eligible)`. The certified,
- *     assessment-verified, synced, grandfathered level. Use for anything the user
- *     reads as truth about their ability: the CEFR badge, "you have reached X",
- *     certificates.
+ *   • PROFICIENCY CLAIMS → `getDisplayLevel(eligible)`. The VERIFIED level: levels
+ *     the learner actually passed a check for, provisional (grandfathered) passes
+ *     excluded. Use for anything the user reads as truth about their ability: the
+ *     CEFR badge, the hero bar, "you have reached X", certificates.
+ *     This used to be `getEffectiveLevelForUnlock`, and that was wrong in a way
+ *     that took two field reports to see (2026-09-06, 2026-09-08): the unlock
+ *     level counts provisional passes, and the grandfather migration writes one
+ *     for every level up to the learner's XP-derived level — so a learner whose
+ *     XP once touched C1 was shown "C1 · Advanced" for a level nobody had
+ *     measured. A claim and a door are different questions; keep them apart.
  *
- *   • CONTENT UNLOCK → `getContentUnlockLevel(eligible)`. Also the certified level,
- *     but RACE-SAFE: until the one-time grandfather migration has run it falls back
- *     to eligible so first-load content is never wrongly locked. Use for what the
- *     user can practice: daily-session selection, Grad recommendations, isUnlocked.
+ *   • CONTENT UNLOCK → `getContentUnlockLevel(eligible)`. The certified level —
+ *     provisional passes INCLUDED, deliberately, so grandfathered learners keep
+ *     the content they already had — and RACE-SAFE: until the one-time grandfather
+ *     migration has run it falls back to eligible so first-load content is never
+ *     wrongly locked. Use for what the user can practice: daily-session selection,
+ *     Grad recommendations, isUnlocked.
+ *
+ *   • `getEffectiveLevelForUnlock(eligible)` is the certified level without the
+ *     race guard. It is NOT a display helper — the checkpoint system uses it to
+ *     decide which exam to offer.
  *
  * Rule of thumb: pass the raw eligible level into the appropriate helper; don't
  * consume `getUserCefr` directly for a user-facing claim or a content gate.

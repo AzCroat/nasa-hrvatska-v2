@@ -949,6 +949,34 @@ export function getEffectiveLevelForUnlock(eligible: CefrLevel): CefrLevel {
 }
 
 /**
+ * The level to DISPLAY as a proficiency claim — the badge, the hero bar, the
+ * Me tab card, the certificate, the "you have reached X" copy.
+ *
+ * THIS IS NOT THE UNLOCK LEVEL, AND THE DIFFERENCE IS THE WHOLE POINT
+ * (owner decision, 2026-09-08). `getEffectiveLevelForUnlock` returns the
+ * CERTIFIED level, which counts provisional passes — and
+ * `migrateGrandfatheredCertification` writes a provisional pass for every
+ * level up to the learner's XP-derived level. So a learner whose XP once
+ * reached C1 held a provisional C1 and every badge in the app said "C1 ·
+ * Advanced" for a level they had never demonstrated. The 2026-09-06 fix made
+ * all three badge surfaces agree with each other; it never asked whether the
+ * number they agreed on was true. It was not.
+ *
+ * A badge is a claim about the learner, so it reads the VERIFIED level —
+ * real passes only. Content unlock deliberately keeps using the certified
+ * level (`getContentUnlockLevel`), so nobody loses access to anything they
+ * already had: the display gets honest, the door stays open. That split is
+ * the entire change; collapsing the two back into one function re-opens
+ * NEVER-DO 13 on the most visible number in the app.
+ *
+ * Flag off → `eligible`, exactly as the unlock twin does.
+ */
+export function getDisplayLevel(eligible: CefrLevel): CefrLevel {
+  if (!CERTIFICATION_REQUIRED) return eligible;
+  return getVerifiedLevel();
+}
+
+/**
  * Read xp/lc/gc from the persisted profile (uS → uP_<email> → st/stats), the
  * same source buildUserContext uses. Returns zeros if anything is missing —
  * which, floored against the placement nh_level in getGenerationCefr, means a

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useContent } from '../../hooks/useContent';
 import { evalCk } from '../../lib/learnPathRules';
 import { getUserCefr } from '../../lib/cefr';
-import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
+import { getDisplayLevel } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import LearnPathWidget from './LearnPathWidget';
@@ -155,9 +155,7 @@ export default function LearnTab({
   // header never contradicts the profile CEFR badge. The old hand-rolled formula
   // (capped at B2, ignored certification, used a different weighting) could show
   // A1 in the Learn tab while the profile showed B2 for the same user.
-  const cefrLevel = st
-    ? getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0))
-    : 'A1';
+  const cefrLevel = st ? getDisplayLevel(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0)) : 'A1';
   const cefrPct = { A1: 8, A2: 25, B1: 42, B2: 58, C1: 75, C2: 92 }[cefrLevel as string] || 8;
 
   function launchVocab(t: string): void {

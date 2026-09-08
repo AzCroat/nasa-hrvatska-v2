@@ -5,7 +5,7 @@
 import type { Stats } from '../../types';
 import { HERO_SCENES, CONTEXTUAL_POOL } from './heroData';
 import { cefrRank, getUserCefr, type CefrLevel } from '../../lib/cefr';
-import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
+import { getDisplayLevel } from '../../lib/cefrCertification';
 
 export interface HeroScene {
   img: string;
@@ -331,7 +331,7 @@ export function getCEFR(
 ): { current: CefrLevel; next: CefrLevel; pctInLevel: number; awaitingAssessment: boolean } {
   const total = (xp || 0) + (lc || 0) * 15 + (gc || 0) * 25;
   const eligible = getUserCefr(xp || 0, lc || 0, gc || 0);
-  const current = getEffectiveLevelForUnlock(eligible);
+  const current = getDisplayLevel(eligible);
   const band = CEFR_BANDS.find((b) => b.current === current);
   // C2 is terminal: there is no next level and the within-level bar is full.
   // (An earlier version's fallback returned 'C1' here, so the hero never showed C2.)

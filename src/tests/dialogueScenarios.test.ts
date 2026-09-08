@@ -6,6 +6,7 @@
  * never ship: a missing field or wrong answer-index here renders a broken
  * exercise, not a build error.
  */
+import { readFileSync } from 'node:fs';
 import { describe, it, expect, vi } from 'vitest';
 import { SCENARIOS } from '../components/practice/dialogueScenarios.js';
 
@@ -74,8 +75,13 @@ describe('dialogueScenarios — structural integrity', () => {
       acc[s.difficulty] = (acc[s.difficulty] || 0) + 1;
       return acc;
     }, {});
-    expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(7);
-    expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(8);
+    // A1/A2 raised 7/8 → 12 on 2026-09-08. The 2026-09-05 expansion took B1+
+    // to 12 each and left the beginner levels where they were, so the two
+    // levels with the most learners had ~60% of the conversation practice of
+    // every level above them — the exact imbalance this block records being
+    // fixed in the other direction three weeks earlier.
+    expect(byLevel['A1'] ?? 0).toBeGreaterThanOrEqual(12);
+    expect(byLevel['A2'] ?? 0).toBeGreaterThanOrEqual(12);
     // Raised 2 → 6 by the 2026-08-25 expansion. B2/C1/C2 sat exactly ON the old
     // floor while A1/A2 had 7/8, so an upper-level learner exhausted every
     // authored conversation in two sessions and then repeated. Ratcheted here
@@ -90,10 +96,10 @@ describe('dialogueScenarios — structural integrity', () => {
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(12);
     expect(byLevel['C1'] ?? 0).toBeGreaterThanOrEqual(12);
     expect(byLevel['C2'] ?? 0).toBeGreaterThanOrEqual(12);
-    expect(scenarios.length).toBeGreaterThanOrEqual(63);
+    expect(scenarios.length).toBeGreaterThanOrEqual(72);
   });
 
-  it('B1+ carries BOTH registers: an informal (ti) scenario and a formal (Vi) one at every level', () => {
+  it('EVERY level carries BOTH registers: informal (ti) scenarios and formal (Vi) ones', () => {
     // Register is detected from the learner's CORRECT lines (opts[0]) — the
     // model answers — not from the NPC, whose register is the prompt, not the
     // lesson. A level whose every model answer is V-form teaches one register.
@@ -109,13 +115,23 @@ describe('dialogueScenarios — structural integrity', () => {
     //    excludes naš/vaš/još), and a scenario is informal when MORE of its
     //    correct lines carry that than carry a Vi-marker; formal when it has
     //    a Vi-marker and no ti-marker at all.
+    //
+    // Extended from B1+ to ALL SIX levels on 2026-09-08. Measured first: across
+    // all 15 A1/A2 scenarios and their 72 turns, ZERO correct lines carried a
+    // ti-marker — every model answer a beginner had ever been shown addressed a
+    // waiter, a clerk or an official. The nine new beginner scenarios are not
+    // register PAIRS (that is the B1+ method, and A1/A2 cannot yet vary one act
+    // two ways); the register simply follows the person, and telefonski_poziv
+    // switches mid-call from the friend's mother to the friend. That mixed one
+    // reads as informal here only because two of its five correct lines are to
+    // Ivan and one to his mother — which is exactly what it teaches.
     const word = (alts: string) => new RegExp(`(?<!\\p{L})(?:${alts})(?!\\p{L})`, 'iu');
     const TI = word('ti|tebi|tebe|tvoj\\p{L}*|\\p{L}{3,}š');
     const VI = word(
       'vam|vas|vaš\\p{L}*|možete|dođite|izvolite|molim vas|hvala vam|poštovan\\p{L}*|gospođ\\p{L}*|gospodin\\p{L}*|profesor\\p{L}*',
     );
     const lines = (s: Scenario, re: RegExp) => s.turns.filter((t) => re.test(t.opts[0]!)).length;
-    for (const level of ['B1', 'B2', 'C1', 'C2']) {
+    for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
       const atLevel = scenarios.filter((s) => s.difficulty === level);
       const informal = atLevel
         .filter((s) => lines(s, TI) > 0 && lines(s, TI) > lines(s, VI))
@@ -126,6 +142,42 @@ describe('dialogueScenarios — structural integrity', () => {
       );
       expect(formal.length, `${level} formal: ${formal.join(', ')}`).toBeGreaterThanOrEqual(3);
     }
+  });
+});
+
+describe('dialogueScenarios — the menu can split every title', () => {
+  // DialogueScenarioMenu renders the leading emoji as the card icon and the
+  // rest as the heading. It used `title.slice(2)` for the heading — 2 UTF-16
+  // CODE UNITS, which is exactly one emoji only for the simple ones. A ZWJ
+  // sequence is far longer, so the shipped B1 scenario '👨‍👩‍👧 Upoznavanje
+  // roditelja' drew the family emoji whole in the icon slot and again,
+  // decapitated, at the front of its heading. Found while adding a scenario
+  // with the same emoji shape; verified by running both derivations over the
+  // real titles rather than by reading the code.
+  //
+  // A ZWJ sequence contains no space, so splitting on the space is correct for
+  // every emoji. Pinned by source because a component test that supplies its
+  // own title cannot see which derivation the app is wired to.
+  const MENU_SRC = readFileSync('src/components/practice/DialogueScenarioMenu.tsx', 'utf8');
+
+  it('every title is an emoji, a space, then the heading', () => {
+    for (const s of scenarios) {
+      const [icon, ...rest] = s.title.split(' ');
+      // The icon must be emoji and NOTHING else. A first draft only asked that
+      // it CONTAIN an emoji, which a title written without the space satisfies
+      // ('👵Kod bake' → icon '👵Kod', heading 'bake') — it survived the mutation
+      // and was therefore guarding nothing.
+      expect(/\p{Extended_Pictographic}/u.test(icon!), `${s.id} icon: ${icon}`).toBe(true);
+      expect(/[\p{L}\p{N}]/u.test(icon!), `${s.id} icon has text in it: ${icon}`).toBe(false);
+      expect(rest.join(' '), `${s.id} heading`).toBeTruthy();
+      // The heading must not carry a fragment of the icon.
+      expect(/\p{Extended_Pictographic}|‍/u.test(rest.join(' ')), `${s.id} heading`).toBe(false);
+    }
+  });
+
+  it('the menu splits the title on the space, never by code units', () => {
+    expect(MENU_SRC).toContain("s.title.split(' ').slice(1).join(' ')");
+    expect(MENU_SRC).not.toMatch(/title\.slice\(/);
   });
 });
 

@@ -126,7 +126,13 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                 background: learnedRef.current.has(l[0]) ? 'rgba(22,163,74,.05)' : 'var(--card)',
               }}
               onClick={() => {
-                speak(l[2] ?? '');
+                // The letter NAME first, then the example word. This screen is
+                // titled "Alphabet and Pronunciation" and used to speak only
+                // the example, so tapping B played "baka" and the letter itself
+                // was never pronounced anywhere in the app. The quiz keeps
+                // speaking the word alone on purpose — there the letter IS the
+                // answer, and naming it would give it away.
+                speak([l[4], l[2]].filter(Boolean).join('. '));
                 markLearned(l[0] ?? '');
               }}
             >
@@ -146,7 +152,9 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   {learnedRef.current.has(l[0]) ? ' ✓' : ''}
                 </span>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>{l[1]}</div>
+                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>
+                    {l[4]} <span style={{ fontWeight: 400, color: '#78716c' }}>({l[1]})</span>
+                  </div>
                   <div style={{ fontSize: 13 }}>
                     {l[2]} <span style={{ color: '#78716c', fontSize: 11 }}>({l[3]})</span>
                   </div>
