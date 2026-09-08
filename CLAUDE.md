@@ -166,7 +166,37 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 - **Honest rollback (owner directive, 2026-08-17)**: a FAILED verification of a provisional level steps standing DOWN one level (`rollbackProvisionalOnFail` inside `recordEquivalencyAttempt`): the failed provisional and every provisional above it are removed, provisional standing is granted one level below (grandfather 0.8-signature shape) unless A1/occupied, and a `verification_fail` demotion is recorded. A failed ADVANCEMENT attempt (no provisional held) rolls nothing back. The badge follows automatically — it reads `getCertifiedLevel()` when gating is on.
   **"THE BADGE" WAS ONE OF THREE, AND ONLY ONE FOLLOWED (field report, 2026-09-06).** A learner whose failed B2 check had honestly rolled them to B1 — the Me tab said B1 — still saw "C1 · Advanced" in the upper-right desktop badge. `DesktopPanel` and the hero card's CEFR bar (`heroHelpers.getCEFR` → `HeroStats`) each carried their OWN copy of the XP band formula with a comment saying "same formula as StatsTab — all three must stay in sync"; they were in sync with each other and with nothing that mattered, because StatsTab had moved to the certified level and they had not. A comment asserting three copies agree is the same non-mechanism as `wrangler.toml`'s "Shared with scheduled worker above". All three now resolve through `getEffectiveLevelForUnlock` (the convention block at the top of `src/lib/cefr.ts` says a badge is a proficiency claim); the hero bar measures XP progress only WITHIN the certified band and, when practice has outrun the certified level, says "Level Check" instead of a percentage, because XP does not advance a level and a bar creeping toward 99% forever would say it does. `cefrBadgeCertified.test.tsx` drives the REAL rollback (`recordEquivalencyAttempt` on a provisional B2) and renders both surfaces, guards the other direction (certified at the XP band still shows it), and pins all three files to the one resolver by source — because a fourth copy would pass every rendering test at whatever rate its thresholds still matched. Mutation-verified: each surface reverted to the raw formula fails 3 tests. E2E fixtures seed VERIFIED users (certified == eligible), so no spec moved.
 - **Demotions are merge tombstones**: `mergeRemoteCertifications` ends with a sweep deleting any pass at a demotion's `from` level whose `passedAt` precedes the demotion `at` — in both directions, for BOTH `verification_fail` and `checkpoint_fail`. This is the sanctioned, deliberate exception to "merges never reduce": the demotion EVENT is additive and user-visible; without the sweep any stale device blob resurrects a rolled-back level. A pass re-earned AFTER the demotion has a later `passedAt` and always survives — new evidence outranks tombstones.
-- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getEffectiveLevelForUnlock`.
+- **THE THREE SURFACES AGREED ON A NUMBER THAT WAS NOT TRUE (field report,
+  2026-09-08): "it shows C1, I'm not C1."** The 2026-09-06 fix above made
+  DesktopPanel, the hero bar and StatsTab resolve through one function. It never
+  asked what that function returns. `getEffectiveLevelForUnlock` →
+  `getCertifiedLevel()` counts **provisional** passes, and
+  `migrateGrandfatheredCertification` writes a provisional pass for **every level
+  up to the learner's XP-derived level**. So a learner whose XP once touched the
+  C1 band held a provisional C1 and every badge in the app said "C1 · Advanced"
+  for a level nothing had measured — NEVER-DO 13 on the most visible number in
+  the product. **Making three wrong numbers consistent is not fixing them**, and
+  the first fix's own tests passed throughout because they asserted the certified
+  level was displayed, which it was.
+  **The fix is a SPLIT, and both halves are load-bearing** (owner decision):
+  `getDisplayLevel(eligible)` (new, in `cefrCertification.ts`) returns
+  `getVerifiedLevel()` — real passes only — and the six DISPLAY surfaces read it
+  (DesktopPanel, heroHelpers, StatsTab, CertificateScreen, InsightsTab,
+  LearnTab). **Content unlock is untouched**: `getContentUnlockLevel` still reads
+  the certified level, provisional included, so a grandfathered learner keeps
+  every door they had while the badge stops claiming a level for them. A claim
+  and a door are different questions. `getEffectiveLevelForUnlock` survives as
+  the checkpoint system's "which exam do I offer" input — it is NOT a display
+  helper.
+  What this costs, stated: every grandfathered learner's displayed level drops to
+  what they have demonstrated (A1 for anyone who has never taken a check) until
+  they pass one. The hero bar then says "Level Check" instead of a percentage,
+  which is the prompt working. E2E fixtures seed REAL passes, so no spec moved.
+  Mutation-verified, three: a display surface reverted to the unlock resolver
+  fails 4; `getDisplayLevel` returning certified fails 4; and the DANGEROUS
+  direction — `getContentUnlockLevel` switched to verified, which would lock
+  grandfathered learners out of content they have — fails 2.
+- NEVER: reintroduce a snooze/skip on the verification gate; record a check at levelFrom; add a SkillScores field without extending the merge block AND `computePassed`; write grandfather passes without `provisional: true`; remove the tombstone sweep or record a demotion without pushing to `checkpoints.demotions`; display a CEFR level to the learner from the raw XP formula (`getUserCefr` alone) anywhere — every badge goes through `getDisplayLevel`; point a badge at `getEffectiveLevelForUnlock` or `getCertifiedLevel` (they count provisional passes); point content unlock at `getDisplayLevel` (that takes away access the learner already has).
 
 ## Critical Architecture: Audio Is Load-Bearing (owner directive, 2026-09-06)
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getStreak } from '../../data';
 import { getWeakTopics } from '../../lib/adaptive.js';
 import { getUserCefr, cefrRank } from '../../lib/cefr';
-import { getEffectiveLevelForUnlock } from '../../lib/cefrCertification';
+import { getDisplayLevel } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import FluencySnapshot from './FluencySnapshot';
@@ -75,9 +75,9 @@ export default function InsightsTab() {
   // CEFR level is the single source of truth for any proficiency claim — never
   // the numeric gamification `level`. Rec #4: a proficiency claim ("You have
   // reached X") must reflect the CERTIFIED, assessment-verified level, not raw
-  // XP — so route through getEffectiveLevelForUnlock (certified when gating is
+  // XP — so route through getDisplayLevel (certified when gating is
   // active; falls back to eligible if the flag is off). The B1+ roadmap gates on it.
-  const cefr = getEffectiveLevelForUnlock(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0));
+  const cefr = getDisplayLevel(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0));
   const [imdOpen, setImdOpen] = useState(false);
   const [letterText, setLetterText] = useState(
     // Trim any pre-existing over-long value so a note written before the cap
