@@ -66,6 +66,23 @@ export const SERBISM_RULES = [
   { re: sb('dete'), use: 'dijete' },
   { re: sb('čovek(a|u|om)?'), use: 'čovjek' },
   { re: sb('reč|reči'), use: 'riječ' },
+  // `rijeka`. The commonest ekavica noun of them all, and it was missing: a
+  // City of the Day vocab entry read `{ hr: 'reka Una' }` in a file that has
+  // been in the lint's TARGETS since the first wave, in a field the matcher
+  // does match. The file was covered, the field was matched, and the WORD was
+  // not in these rules — the "list was never the constraint, the matcher was"
+  // finding in a third place.
+  //
+  // Not built with `sb`, because this one also needs to exclude a trailing
+  // HYPHEN. `GlagolskiPriloziDrill` cites the stem of `rekao` as `osnova
+  // reka- + -vši`, and a hyphen is not a letter, so the plain form flags a
+  // correct Croatian grammar drill. Dry-run over the repo: with the hyphen
+  // excluded this matches the two geography copies and nothing else.
+  //
+  // `reci` is deliberately absent — it is the imperative of `reći`. That lets
+  // Serbian `na reci` through, which is the same conservative trade the
+  // `vreme` rule above makes.
+  { re: /(?<![\p{L}])(?:rek(a|e|u|om|ama))(?![\p{L}-])/iu, use: 'rijeka' },
   { re: sb('gde|ovde|negde|nigde'), use: 'gdje/ovdje/negdje/nigdje' },
   { re: sb('uvek'), use: 'uvijek' },
 ];

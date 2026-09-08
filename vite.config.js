@@ -198,10 +198,15 @@ export default defineConfig({
           if (id.includes('src/data/grammar')) return 'chunk-grammar';
           if (id.includes('src/data/exercises')) return 'chunk-exercises';
           if (id.includes('src/data/scenarios')) return 'chunk-scenarios';
-          // Graded Croatian intros for City of the Day (~90k words) — its own
-          // chunk, imported only by CityOfDayScreen; must precede the geography
-          // rule below because 'geographyHr' contains 'geography'.
-          if (id.includes('src/data/cultural/geographyHr')) return 'chunk-geo-hr';
+          // Graded Croatian intros for City of the Day, one chunk per BAND, so a
+          // learner downloads only the band they read (all six are ~1.4 MB; the
+          // widest single band is ~525 KB). Imported only by CityOfDayScreen,
+          // through `lib/cityIntroHr`'s dynamic import. The `chunk-geo-hr-`
+          // prefix is load-bearing — the service worker's `**/chunk-geo*.js`
+          // precache exclusion covers these by construction, which an
+          // auto-named chunk would not be. Must precede the `geography` rule.
+          const band = id.match(/src\/data\/cultural\/cityHr\/([A-C][12])\.js/);
+          if (band) return `chunk-geo-hr-${band[1].toLowerCase()}`;
           if (id.includes('src/data/cultural/geography')) return 'chunk-geo'; // 557 kB 365-city file — isolated
           if (id.includes('src/data/cultural')) return 'chunk-cultural';
           // The barrel (src/data.tsx) and its hub (src/data/content.tsx) get their

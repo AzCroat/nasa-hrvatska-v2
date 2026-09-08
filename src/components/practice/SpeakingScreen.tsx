@@ -11,103 +11,6 @@ import { isNative } from '../../lib/platform.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { charOverlapPct } from '../../lib/text/similarity';
-import { requestSpeakingCoach } from '../../lib/speakingCoach';
-import type { CoachResult } from '../../lib/speakingCoach';
-import type { AiFailure } from '../../lib/aiFailure';
-import { getCurrentContentLevel } from '../../lib/cefrCertification';
-
-// ── Open-ended speaking prompt pools ──────────────────────────────────────────
-// Format: [Croatian text, English instruction, type, ?imageKey]
-export const QUESTION_RESPONSE_PROMPTS: string[][] = [
-  ['Što si radio/radila prošlog vikenda?', 'What did you do last weekend?', 'question-response'],
-  ['Kako provodiš slobodno vrijeme?', 'How do you spend your free time?', 'question-response'],
-  [
-    'Koji je tvoj omiljeni godišnji odmor i zašto?',
-    'What is your favorite holiday and why?',
-    'question-response',
-  ],
-  ['Opiši svoju idealnu karijeru.', 'Describe your ideal career.', 'question-response'],
-  [
-    'Što misliš o klimatskim promjenama?',
-    'What do you think about climate change?',
-    'question-response',
-  ],
-  ['Opišite grad u kojemu živite.', 'Describe the city where you live.', 'question-response'],
-  [
-    'Koja je tvoja najdraža knjiga i zašto?',
-    'What is your favorite book and why?',
-    'question-response',
-  ],
-  [
-    'Kako bi opisao/opisala svog najboljeg prijatelja?',
-    'How would you describe your best friend?',
-    'question-response',
-  ],
-];
-
-export const PICTURE_DESCRIPTION_PROMPTS: string[][] = [
-  [
-    'Opišite ovu sliku na hrvatskom. Što vidite?',
-    'Describe this image in Croatian. What do you see?',
-    'picture-description',
-    'dubrovnik-ai',
-  ],
-  [
-    'Što se događa na ovoj slici? Opišite detaljno.',
-    'What is happening in this image? Describe in detail.',
-    'picture-description',
-    'dalmatian-coast',
-  ],
-  [
-    'Opišite prirodu na ovoj fotografiji.',
-    'Describe the nature in this photograph.',
-    'picture-description',
-    'plitvice',
-  ],
-  [
-    'Što vidite u ovom gradu? Koji detalji vam privlače pažnju?',
-    'What do you see in this city? What details catch your attention?',
-    'picture-description',
-    'zagreb',
-  ],
-  [
-    'Opišite hranu na ovoj slici. Što prepoznajete?',
-    'Describe the food in this image. What do you recognize?',
-    'picture-description',
-    'croatian-food',
-  ],
-];
-
-export const DIALOGUE_COMPLETION_PROMPTS: string[][] = [
-  [
-    'A: "Hej, kako si?"\nB: "Super, hvala. A ti?"',
-    'Continue: A asks "Hey, how are you?" B responds "Great, thanks. And you?"',
-    'dialogue-completion',
-  ],
-  [
-    'A: "Što ćeš raditi ovog vikenda?"\nB: "Idem na more. A ti?"',
-    'Continue: A asks about weekend plans, B says going to the sea.',
-    'dialogue-completion',
-  ],
-  [
-    'A: "Jesi li gledao/gledala taj film?"\nB: "Da, bio je odličan! Što ti misliš?"',
-    'Continue: A asks about a film, B says it was great.',
-    'dialogue-completion',
-  ],
-  [
-    'A: "Gdje si bio/bila na odmoru?"\nB: "U Splitu. Predivno je tamo!"',
-    'Continue: A asks about vacation, B says Split was wonderful.',
-    'dialogue-completion',
-  ],
-  [
-    'A: "Kako ti se sviđa ovaj restoran?"\nB: "Hrana je izvrsna, ali malo skupo."',
-    'Continue: A asks about the restaurant, B says food is great but expensive.',
-    'dialogue-completion',
-  ],
-];
-
-// All open-ended prompt type identifiers
-const OPEN_ENDED_TYPES = ['question-response', 'picture-description', 'dialogue-completion'];
 
 const SPEAKING_TIPS = [
   {
@@ -234,17 +137,6 @@ export default function SpeakingScreen({
 
   // AI pronunciation feedback state
   const [pronScore, setPronScore] = useState<PronScore | null>(null);
-  // Speaking coach (production-teaching, 2026-08-18): rubric + taught errors
-  // for open-ended answers. One call per prompt; fail-soft (null = no card).
-  const [coach, setCoach] = useState<CoachResult | null>(null);
-  const [coachLoading, setCoachLoading] = useState(false);
-  // Why the coach did not answer (owner directive, 2026-09-07): the card used
-  // to render NOTHING on any failure — the learner was promised coaching, the
-  // spinner ran, then silence. Now the cause is named and can be retried.
-  const [coachFailure, setCoachFailure] = useState<AiFailure | null>(null);
-  const coachAskedRef = useRef('');
-  const coachTranscriptRef = useRef('');
-
   // Per-word accuracy from PronunciationScorer.
   // score is a real Azure acoustic % when available, or null when the word was only
   // recognized (translation-only) / the prompt was open-ended (participation, not acoustic).
@@ -302,37 +194,6 @@ export default function SpeakingScreen({
 
   if (!sw || !sw[0]) return null;
 
-  // One coach request per open-ended prompt: rubric feedback + taught errors,
-  // feeding the mastery ledger and adaptive loop (see lib/speakingCoach.ts).
-  async function maybeCoach(transcript: string) {
-    const promptText = sw[0] as string;
-    if (!OPEN_ENDED_TYPES.includes(sw[2] as string)) return;
-    if (coachAskedRef.current === promptText) return;
-    coachAskedRef.current = promptText;
-    coachTranscriptRef.current = transcript;
-    setCoachLoading(true);
-    setCoachFailure(null);
-    const res = await requestSpeakingCoach({
-      prompt: promptText,
-      transcript,
-      level: getCurrentContentLevel(),
-    });
-    if (!mountedRef.current) return;
-    if (res && res.ok) {
-      setCoach(res.data);
-    } else if (res) {
-      setCoach(null);
-      setCoachFailure(res.failure);
-    }
-    setCoachLoading(false);
-  }
-
-  /** Try again after a named failure — same prompt, same transcript. */
-  function retryCoach() {
-    coachAskedRef.current = '';
-    void maybeCoach(coachTranscriptRef.current);
-  }
-
   // Reset per-word score when word changes (called on Next)
   function advanceWord() {
     recordTopicResult('speaking', sr === 'ok');
@@ -342,10 +203,6 @@ export default function SpeakingScreen({
     setListening(false);
     setCurrentWordScore(null);
     setPronScore(null);
-    setCoach(null);
-    setCoachFailure(null);
-    setCoachLoading(false);
-    coachAskedRef.current = '';
     if (sx < si.length - 1) {
       const n = sx + 1;
       sSx(n);
@@ -376,23 +233,18 @@ export default function SpeakingScreen({
   // previously users had to also tap "I Said It Correctly!" as a second step.
   // score is null when recognized only via English translation (no acoustic score).
   function handleScorerResult({ spoken, score }: { spoken: string; score: number | null }) {
-    const promptType = sw[2] as string | undefined;
-    const isOE = OPEN_ENDED_TYPES.includes(promptType ?? '');
-
     // ── Genuine DISPLAYED value ──────────────────────────────────────────────
-    // The only legitimate pronunciation % is a real Azure acoustic number. Everything else
-    // (translation-only recognition, open-ended completion) is stored as null — recognized /
-    // participated, but NOT acoustically scored. We never fabricate a number for display.
-    const displayScore: number | null = isOE ? null : score;
+    // The only legitimate pronunciation % is a real Azure acoustic number.
+    // Translation-only recognition is stored as null — recognized, but NOT
+    // acoustically scored. We never fabricate a number for display.
+    const displayScore: number | null = score;
 
     // ── Internal flow-control decision (NOT a displayed score) ───────────────
-    // Advance when: real Azure score is good enough (>=60), OR recognized via translation
-    // (score === null on a word prompt), OR an open-ended prompt was completed (>=5 words).
-    const oeCompleted = isOE && spoken.split(/\s+/).filter(Boolean).length >= 5;
-    const recognizedViaTranslation = !isOE && score === null;
+    // Advance when the real Azure score is good enough (>=60), or the word was
+    // recognized via its English translation (score === null).
+    const recognizedViaTranslation = score === null;
     const acousticPass = typeof score === 'number' && score >= 60;
-    const shouldAdvance = oeCompleted || recognizedViaTranslation || acousticPass;
-    if (oeCompleted) void maybeCoach(spoken);
+    const shouldAdvance = recognizedViaTranslation || acousticPass;
 
     setCurrentWordScore({ spoken, score: displayScore });
     setWordScores((prev) => {
@@ -598,30 +450,6 @@ export default function SpeakingScreen({
       stopWaveform();
       if (!e.results || !e.results.length) return;
       const alts = Array.from(e.results[0]).map((r: any) => r.transcript.toLowerCase().trim());
-      const isOpenEnded = OPEN_ENDED_TYPES.includes(sw[2] as string);
-      if (isOpenEnded) {
-        // Open-ended prompts: any response of 5+ words counts as success
-        const wordCount = (alts[0] ?? '').split(/\s+/).filter(Boolean).length;
-        const matched = wordCount >= 5;
-        setRecResult(matched ? 'match' : 'nomatch');
-        setListening(false);
-        if (matched) {
-          sSr('ok');
-          sSsc((s: number) => s + 1);
-          void maybeCoach(alts[0] ?? '');
-        }
-        // Open-ended prompts are a PARTICIPATION signal, not an acoustic measurement —
-        // never a pronunciation %. score: null = recognized/responded but not scored.
-        setPronScore({
-          score: null,
-          match_quality: matched ? 'close' : 'off',
-          phonetic_tips: [],
-          encouragement: matched
-            ? 'Odlično! Great response! / Izvrsno!'
-            : 'Try to say more — at least a full sentence.',
-        });
-        return;
-      }
       const target = (sw[0] as string).toLowerCase().trim();
       // Generous matching: exact, contains, or at least 60% character overlap
       // (charOverlapPct returns 0..100; >= 60 reproduces the old levenshteinClose threshold)
@@ -837,185 +665,11 @@ export default function SpeakingScreen({
     );
   }
 
-  // ── Prompt-type context card ───────────────────────────────────────────────
-  const promptType = sw[2] as string | undefined;
-  const isOpenEnded = OPEN_ENDED_TYPES.includes(promptType ?? '');
-
-  function renderPromptContext() {
-    if (!isOpenEnded) return null;
-
-    if (promptType === 'question-response') {
-      return (
-        <div
-          style={{
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            padding: '14px 16px',
-            marginBottom: 16,
-            textAlign: 'left',
-          }}
-        >
-          <div
-            style={{
-              fontSize: 'var(--text-xs)',
-              fontWeight: 800,
-              color: 'var(--subtext)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: 6,
-            }}
-          >
-            💬 Answer this question:
-          </div>
-          <div
-            style={{
-              fontSize: 'var(--text-xl)',
-              fontWeight: 800,
-              color: 'var(--heading)',
-              fontFamily: "'Playfair Display',serif",
-              lineHeight: 1.4,
-              marginBottom: 6,
-            }}
-          >
-            {sw[0]}
-          </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)' }}>{sw[1]}</div>
-        </div>
-      );
-    }
-
-    if (promptType === 'picture-description') {
-      const imageKey = sw[3] as string | undefined;
-      const imageSrc = imageKey ? `/images/scenes/${imageKey}.webp` : null;
-      return (
-        <div
-          style={{
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            padding: '14px 16px',
-            marginBottom: 16,
-            textAlign: 'left',
-          }}
-        >
-          <div
-            style={{
-              fontSize: 'var(--text-xs)',
-              fontWeight: 800,
-              color: 'var(--subtext)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: 8,
-            }}
-          >
-            🖼️ Describe this picture:
-          </div>
-          {imageSrc ? (
-            <img
-              src={imageSrc}
-              alt={imageKey ?? 'scene'}
-              loading="lazy"
-              style={{
-                width: '100%',
-                maxHeight: 200,
-                objectFit: 'cover',
-                borderRadius: 10,
-                marginBottom: 8,
-                display: 'block',
-              }}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                const fallback = e.currentTarget.nextElementSibling as HTMLElement | null;
-                if (fallback) fallback.style.display = 'block';
-              }}
-            />
-          ) : null}
-          <div
-            style={{
-              display: 'none',
-              fontSize: 'var(--text-sm)',
-              color: 'var(--subtext)',
-              fontStyle: 'italic',
-              marginBottom: 8,
-            }}
-          >
-            Scene: {imageKey ?? 'Croatia'}
-          </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)' }}>{sw[1]}</div>
-        </div>
-      );
-    }
-
-    if (promptType === 'dialogue-completion') {
-      const lines = (sw[0] as string).split('\n');
-      return (
-        <div
-          style={{
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            padding: '14px 16px',
-            marginBottom: 16,
-            textAlign: 'left',
-          }}
-        >
-          <div
-            style={{
-              fontSize: 'var(--text-xs)',
-              fontWeight: 800,
-              color: 'var(--subtext)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: 8,
-            }}
-          >
-            🗣️ Complete this dialogue:
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
-            {lines.map((line, i) => (
-              <div
-                key={i}
-                style={{
-                  fontSize: 'var(--text-base)',
-                  fontWeight: 700,
-                  color: 'var(--heading)',
-                  fontFamily: "'Playfair Display',serif",
-                  lineHeight: 1.5,
-                }}
-              >
-                {line}
-              </div>
-            ))}
-          </div>
-          <div
-            style={{
-              fontSize: 'var(--text-sm)',
-              color: 'var(--info)',
-              fontWeight: 700,
-              borderTop: '1px solid var(--card-b)',
-              paddingTop: 8,
-              marginTop: 4,
-            }}
-          >
-            Your turn → speak the next line in Croatian
-          </div>
-          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 4 }}>
-            {sw[1]}
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  }
-
   // ── Main speaking screen ───────────────────────────────────────────────────
   return (
     <div className="scr-wrap">
-      {H(isOpenEnded ? '🗣️ Speaking Practice' : '🎤 Pronunciation Practice', '', goBack)}
+      {H('🎤 Pronunciation Practice', '', goBack)}
       <Bar v={sx + 1} mx={si.length} color="var(--success)" h={6} />
-      {renderPromptContext()}
       {permissionDenied && (
         <MicPermissionDeniedExplainer
           onRetry={() => {
@@ -1058,113 +712,6 @@ export default function SpeakingScreen({
         }}
         onScore={handleScorerResult}
       />
-      {isOpenEnded && coachLoading && (
-        <div
-          style={{
-            marginTop: 12,
-            padding: '12px 16px',
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            fontSize: 13,
-            color: 'var(--subtext)',
-          }}
-          data-testid="coach-loading"
-        >
-          🎓 Your coach is reading your answer…
-        </div>
-      )}
-      {isOpenEnded && !coachLoading && !coach && coachFailure && (
-        <div
-          style={{
-            marginTop: 12,
-            padding: '12px 16px',
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            fontSize: 13,
-            color: 'var(--text)',
-            textAlign: 'left',
-          }}
-          data-testid="coach-failed"
-          data-failure-kind={coachFailure.kind}
-          role="status"
-        >
-          <div style={{ fontWeight: 800, color: 'var(--heading)', marginBottom: 4 }}>
-            🎓 Coaching unavailable
-          </div>
-          <div style={{ color: 'var(--subtext)', marginBottom: coachFailure.retryable ? 8 : 0 }}>
-            {coachFailure.message}
-          </div>
-          {coachFailure.retryable && (
-            <button className="b bs" data-testid="coach-retry" onClick={retryCoach}>
-              Try again
-            </button>
-          )}
-        </div>
-      )}
-      {isOpenEnded && !coachLoading && coach && (
-        <div
-          style={{
-            marginTop: 12,
-            padding: '14px 16px',
-            background: 'var(--card)',
-            border: '1.5px solid var(--inp-b)',
-            borderRadius: 14,
-            textAlign: 'left',
-          }}
-          data-testid="coach-card"
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 8,
-            }}
-          >
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
-              🎓 Coach feedback
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--success)' }}>
-              {Math.round(coach.overall * 100)}%
-            </div>
-          </div>
-          {coach.encouragement && (
-            <div style={{ fontSize: 13, color: 'var(--text)', marginBottom: 8 }}>
-              {coach.encouragement}
-            </div>
-          )}
-          {coach.errors.length > 0 && (
-            <div style={{ marginBottom: 8 }} data-testid="coach-errors">
-              {coach.errors.map((e, i) => (
-                <div key={i} style={{ fontSize: 13, marginBottom: 6, lineHeight: 1.5 }}>
-                  <span style={{ textDecoration: 'line-through', color: 'var(--subtext)' }}>
-                    {e.original}
-                  </span>{' '}
-                  → <strong>{e.corrected}</strong>
-                  {e.note && <span style={{ color: 'var(--subtext)' }}> — {e.note}</span>}
-                </div>
-              ))}
-            </div>
-          )}
-          {coach.advice && (
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                color: 'var(--heading)',
-                background: 'var(--bg)',
-                borderRadius: 10,
-                padding: '8px 12px',
-              }}
-              data-testid="coach-advice"
-            >
-              🎯 {coach.advice}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

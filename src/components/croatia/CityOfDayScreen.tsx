@@ -7,14 +7,16 @@ import { lsSet } from '../../lib/safeStorage';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
-import { pickGradedHr } from '../../lib/gradedHr';
+import { loadCityHrBand, pickCityIntroHr, type CityHrEntries } from '../../lib/cityIntroHr';
+import type { CefrLevel } from '../../lib/cefr';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. All 4 tabs (Overview / History / Vocab / Fast Facts) populated.
 import { CROATIAN_CITIES } from '../../data/cultural/geography.js';
-// Graded Croatian intros, keyed by city name — a separate module in its own
-// lazy chunk so the core payload and the Home card never pay for it.
-import { CITY_INTRO_HR } from '../../data/cultural/geographyHr.js';
+// Graded Croatian intros live in `data/cultural/cityHr/<band>.js`, ONE MODULE
+// PER BAND, and are loaded dynamically below: the learner downloads the band
+// they read and no other. A static import of the whole corpus is what made the
+// screen pay 710 KB for ~240 KB of use (2026-09-07) — never reintroduce one.
 
 // Normalize city name to lookup key — strip diacritics, lowercase, collapse spaces
 // Handles: Šibenik→sibenik, Varaždin→varazdin, Korčula→korcula, Poreč→porec,
@@ -102,14 +104,26 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   // GRADED CROATIAN (content expansion item 6, geography half). The same
   // expression HomeTab hands the session builder, so the level this screen
   // reads is the level the culture slot reasons about — they agree by
-  // construction. Cities carry `introHrA1` / `introHr` (B1) / `introHrC1`;
-  // pickGradedHr walks DOWN to the nearest band and reports which it served, so
-  // an A2 learner reads A1 and the chip says "Croatian · A1", never "at your
-  // level". Ungraded cities (coverage is a tranche, not the whole pool) render
-  // exactly as before: no block, no chip.
+  // construction. `resolveCityHrBand` walks DOWN to the nearest band that
+  // SHIPS and reports it, so a learner one level above a band reads that band
+  // and the chip says "Croatian · B1", never "at your level". A city with no
+  // entry renders exactly as it did before grading: no block, no chip.
   const learnerLevel = getContentUnlockLevel(
     getUserCefr(stats?.xp ?? 0, stats?.lc ?? 0, stats?.gc ?? 0),
   );
+  // The band arrives a moment after the screen does — deliberately, so the
+  // page paints without waiting on the corpus. Until then the Croatian block
+  // is simply absent, which is the same state an ungraded city renders.
+  const [hrBand, setHrBand] = useState<{ band: CefrLevel; entries: CityHrEntries } | null>(null);
+  useEffect(() => {
+    let live = true;
+    void loadCityHrBand(learnerLevel).then((r) => {
+      if (live) setHrBand(r);
+    });
+    return () => {
+      live = false;
+    };
+  }, [learnerLevel]);
   // Direct client-side pool — 365 cities with full data (intro, history,
   // vocab, facts, didYouKnow). Always populated, no auth dependency, no
   // hydration race. Same daily picker.
@@ -153,11 +167,9 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   const safeIntro = city.intro || `${city.name} is a city in ${city.region || 'Croatia'}.`;
   const safeHistory = city.history || '';
   const safeDidYouKnow = city.didYouKnow || '';
-  const gradedHr = pickGradedHr(
-    (CITY_INTRO_HR as Record<string, Record<string, unknown>>)[city.name],
-    'introHr',
-    learnerLevel,
-  );
+  const gradedHr = hrBand
+    ? pickCityIntroHr(hrBand.entries, city.name, hrBand.band, learnerLevel)
+    : null;
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: '📖' },

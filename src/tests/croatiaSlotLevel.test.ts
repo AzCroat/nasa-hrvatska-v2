@@ -210,7 +210,10 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
     '%s — the cityofday pick claims "at your level" exactly when the entry has that band',
     (level) => {
       const entry = byId.get('cityofday')!;
-      const ownHere = Boolean(entry.ownAtLevels?.includes(level));
+      // Own tier where the screen serves the learner's OWN band. That was
+      // `ownAtLevels` while only A1/B1/C1 existed; with all six authored the
+      // entry is `adaptive`, which means own tier at every unlocked level.
+      const ownHere = Boolean(entry.adaptive) || Boolean(entry.ownAtLevels?.includes(level));
       const today = localDateStr();
       const todayMs = new Date(`${today}T12:00:00`).getTime();
       // walk until cityofday is served (bounded by one full walk of both cycles)
@@ -229,7 +232,10 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
       }
       expect(served, `${level}: cityofday never served in ${span} days`).toBeTruthy();
       expect(served!.reason).toBe(ownHere ? 'Culture at your level.' : "Today's culture pick.");
-      expect(ownHere).toBe(level === 'B1' || level === 'C1');
+      // Every B1+ level now reads its own band, so the claim is true at all of
+      // them. It was B1/C1 only while B2 read B1 and C2 read C1; drop a band
+      // module and this must go back to naming levels.
+      expect(ownHere).toBe(true);
     },
   );
 
@@ -259,10 +265,17 @@ describe('daily builds (City of the Day NOT visited) — the branch production a
   it('the threshold is the pool constant, and B1 is the first level with a real own tier', () => {
     expect(CITY_OF_DAY_SLOT_MAX_CEFR).toBe('A2');
     expect(ownTier('B1').length).toBeGreaterThanOrEqual(15);
-    // cityofday is in the B1+ rotation, and own tier only where it has the band
+    // cityofday is in the B1+ rotation, and — now that every level has its own
+    // band — in the OWN tier at each of them. The B2 exclusion below was the
+    // point of `ownAtLevels`: a B2 learner then read the B1 text, so claiming
+    // own tier would have been false. It is true now, and the corpus is what
+    // makes it true.
     expect(rotationFor('B1').map((c) => c.id)).toContain('cityofday');
     expect(rotationFor('A2').map((c) => c.id)).not.toContain('cityofday');
-    expect(ownTier('B1').map((c) => c.id)).toContain('cityofday');
-    expect(ownTier('B2').map((c) => c.id)).not.toContain('cityofday');
+    for (const l of ['B1', 'B2', 'C1', 'C2'])
+      expect(
+        ownTier(l).map((c) => c.id),
+        `own tier at ${l}`,
+      ).toContain('cityofday');
   });
 });

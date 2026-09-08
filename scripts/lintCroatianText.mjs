@@ -79,7 +79,13 @@ const TARGETS = [
   'src/data/speakingCurriculum.ts',
   // ── 2026-08-26 sweep: everything else carrying authored Croatian ──────────
   'src/data/cultural/geography.js',
-  'src/data/cultural/geographyHr.js',
+  'src/App.tsx',
+  'src/data/cultural/cityHr/A1.js',
+  'src/data/cultural/cityHr/A2.js',
+  'src/data/cultural/cityHr/B1.js',
+  'src/data/cultural/cityHr/B2.js',
+  'src/data/cultural/cityHr/C1.js',
+  'src/data/cultural/cityHr/C2.js',
   'functions/api/content/_data/cultural/geography.js',
   'src/data/exercises.js',
   'functions/api/content/_data/cultural/regions.js',
@@ -703,7 +709,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,
 // a factsHr entry, an alHr entry) — every one fails now, every one passed before.
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|[a-zA-Z]*Hr[ABC]?[12]?)\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 // A `+ '…'` continuation directly after a matched literal. Sticky, so it can
 // only match at the position handed to it — never skip ahead to an unrelated
@@ -1001,12 +1007,18 @@ function* lessonStrings() {
         for (let k = 0; k < items.length; k++) {
           const it = items[k] || {};
           const where = `${at}.items[${k}]`;
-          if (typeof it.q === 'string') yield { loc: `${where}.q`, field: 'q', content: it.q, kind };
+          if (typeof it.q === 'string')
+            yield { loc: `${where}.q`, field: 'q', content: it.q, kind };
           for (const o of Array.isArray(it.options) ? it.options : []) {
             yield { loc: `${where}.options`, field: 'options', content: o, kind };
           }
           if (typeof it.explanation === 'string') {
-            yield { loc: `${where}.explanation`, field: 'explanation', content: it.explanation, kind };
+            yield {
+              loc: `${where}.explanation`,
+              field: 'explanation',
+              content: it.explanation,
+              kind,
+            };
           }
         }
       }

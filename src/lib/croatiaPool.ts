@@ -75,7 +75,14 @@ export const CROATIA_POOL: CroatiaPoolEntry[] = [
     label: 'City of the Day',
     screen: 'cityofday',
     category: 'culture',
-    ownAtLevels: ['A1', 'B1', 'C1'],
+    // ADAPTIVE as of the six-band corpus (2026-09-08). `ownAtLevels` existed
+    // because only A1/B1/C1 had their own text, so a B2 learner read B1 and the
+    // entry was own-tier at three levels out of six. Every level now has its own
+    // band, which is exactly what `adaptive` means — the screen reads the
+    // learner's level and serves their own band — so the narrower field would
+    // now understate it. `cityOfDayGraded.test.tsx` DERIVES both from the data
+    // and fails if this disagrees with the bands on disk.
+    adaptive: true,
   },
   { id: 'top100', label: 'Top 100 Phrases', screen: 'top100', category: 'vocab-a2' },
   { id: 'grocery', label: 'Grocery Scenario', screen: 'grocery', category: 'practical' },

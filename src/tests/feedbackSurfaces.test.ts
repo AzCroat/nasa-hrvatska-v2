@@ -47,11 +47,30 @@ describe('writing feedback surfaces', () => {
 });
 
 describe('speech feedback surfaces', () => {
+  /**
+   * This pin used to name `SpeakingScreen`, and it was pinning a card no
+   * learner could reach: that screen's coach fired only for `sw[2]` values no
+   * launcher produces (the dead-wiring finding of 2026-09-07, later the same
+   * day as the feedback census that wrote this assertion). Removing the dead
+   * branch broke the pin, which is the pin doing its job in the only way it
+   * still could — by naming the file it was pointed at. It now names the
+   * REACHABLE coach surface, and asserts the same three things about it.
+   */
   it('the daily speaking coach renders the cause with a retry, never silence', () => {
-    const src = read('components/practice/SpeakingScreen.tsx');
-    expect(src).toContain('data-testid="coach-failed"');
-    expect(src).toContain('data-testid="coach-retry"');
+    const src = read('components/practice/GuidedSpeakingScreen.tsx');
+    expect(src).toContain('data-testid="gs-coach-failed"');
+    // The retry IS the submit control: it survives a failure, so pressing it
+    // again asks the coach again with the same transcript.
+    expect(src).toContain('data-testid="gs-submit"');
     expect(src).toMatch(/setCoachFailure\(res\.failure\)/);
+  });
+
+  it('the screen that lost its coach card no longer claims to have one', () => {
+    // The other half of the move: `SpeakingScreen` is pronunciation practice
+    // now, and a stale `coach-failed` there would be a promise nothing keeps.
+    const src = read('components/practice/SpeakingScreen.tsx');
+    expect(src).not.toContain('coach-failed');
+    expect(src).not.toContain('requestSpeakingCoach');
   });
 
   it('the exam speaking task reads the scorer’s recorded cause', () => {
