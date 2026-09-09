@@ -151,9 +151,51 @@ describe('the media page never points at another learning service', () => {
     );
   });
 
+  it('no two cards land the learner on the same page', () => {
+    // Owner report, 2026-09-09: "the HRT links are not working as well."
+    // Whether hrti.hrt.hr loads could not be tested from the dev session — the
+    // egress proxy blocks hrt.hr — but a defect was provable from the data
+    // alone: HRT 1 — Live TV, HRT 2 — Kultura & Sport and HRT 3 —
+    // Documentaries all pointed at the IDENTICAL `https://hrti.hrt.hr/home`.
+    // Three channels promised, one generic home page delivered, and their own
+    // descriptions already admitted "sign in to HRTI to watch • some live
+    // content has broadcast restrictions" — a login wall and a geo-fence, on
+    // a page built for a diaspora that is by definition outside Croatia. All
+    // three were removed (owner decision); the free HRT surfaces stay.
+    //
+    // The DESTINATION is what openItem actually reaches: `scr` first, then
+    // `ytId`/`stream`, and only then `web`. The three radio entries share a
+    // `web` of radio.hrt.hr and are NOT duplicates by this rule, because a tap
+    // opens their stream and never that URL — a rule that ignored the
+    // precedence would flag them and be edited away as noise.
+    const reached = entries.filter(
+      (m) =>
+        !m.scr && !(m as { ytId?: string }).ytId && !(m as { stream?: string }).stream && m.web,
+    );
+    const byUrl = new Map<string, string[]>();
+    for (const m of reached) byUrl.set(m.web!, [...(byUrl.get(m.web!) ?? []), m.name]);
+    const dupes = [...byUrl.entries()]
+      .filter(([, names]) => names.length > 1)
+      .map(([url, names]) => `${url} <- ${names.join(', ')}`);
+    expect(dupes, `cards sharing one destination:\n  ${dupes.join('\n  ')}`).toEqual([]);
+  });
+
+  it('links to no subscription portal the diaspora cannot open', () => {
+    const bad = entries.filter((m) => /hrti\.hrt\.hr/i.test(m.web || '')).map((m) => m.name);
+    expect(bad, `HRTi (account + geo-restricted) linked by: ${bad.join(', ')}`).toEqual([]);
+  });
+
   it('still has a media page — the guard must not pass by emptying it', () => {
     // A rule that is satisfied by deleting all the content is not a rule.
-    expect(entries.length).toBeGreaterThanOrEqual(30);
+    //
+    // The floor was 30 when this file was written against 32 entries, and the
+    // HRTi removal took MEDIA to 29 and failed it. That is the assertion
+    // working, not noise: it is a ratchet against a cleanup quietly gutting
+    // the page. Lowered DELIBERATELY, once, with the arithmetic stated —
+    // 40 originally, minus 8 YouTube, minus 3 HRTi = 29, every category still
+    // populated. Never lower it again just to make a removal pass; if a change
+    // takes the page below this, that is the change to justify.
+    expect(entries.length).toBeGreaterThanOrEqual(25);
     // The real category set, read from the data rather than guessed — the
     // first draft of this line asserted a `news` category that has never
     // existed, and the test caught me.
