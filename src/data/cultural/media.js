@@ -161,7 +161,6 @@ export const MEDIA = [
   {
     name: 'Thompson',
     desc: 'Patriotic Croatian rock • Marko Perković Thompson',
-    web: 'https://www.youtube.com/results?search_query=thompson+moja+zemlja+croatian',
     ytId: 'w-bFLUdT0P0',
     icon: '🇭🇷',
     color: '#b91c1c',
@@ -173,7 +172,6 @@ export const MEDIA = [
   {
     name: 'Oliver Dragojević',
     desc: 'Legendary Dalmatian singer • timeless classics',
-    web: 'https://www.youtube.com/results?search_query=Oliver+Dragojevic+cesarica+official',
     ytId: '9P_K0MBHuW8',
     icon: '🎤',
     color: '#0369a1',
@@ -185,23 +183,12 @@ export const MEDIA = [
   {
     name: 'Gibonni',
     desc: 'Modern Dalmatian pop & rock',
-    web: 'https://www.youtube.com/results?search_query=Gibonni+best+songs+Croatian+lyrics',
     ytId: '1Q5FiMMPBGw',
     icon: '🎸',
     color: '#059669',
     cat: 'music',
     level: 'B1',
     tip: "Gibonni's lyrics use beautiful metaphors and intermediate vocabulary. Find a song you love and dissect every line.",
-  },
-  {
-    name: 'Hrvatska Glazba Mix',
-    desc: 'Wide Croatian music mix on YouTube',
-    web: 'https://www.youtube.com/results?search_query=hrvatska+glazba+mix+2024+narodna',
-    icon: '🎵',
-    color: '#db2777',
-    cat: 'music',
-    level: 'A1',
-    tip: 'Expose yourself to a broad range of styles — folk, pop, dalmatian, slavonian. Each region has its own musical vocabulary.',
   },
   // ─── FILM & SERIES ───────────────────────────────────────────────────────────
   {
@@ -214,61 +201,16 @@ export const MEDIA = [
     level: 'B1',
     tip: 'Start with short films (5-15 min). Watch once with English subs for story, then again with Croatian subs for language. Brilliant free resource.',
   },
-  {
-    name: 'Hrvatski Filmovi',
-    desc: 'Full Croatian feature films on YouTube',
-    web: 'https://www.youtube.com/results?search_query=hrvatski+film+s+prijevodom+cijeli+film',
-    icon: '🎥',
-    color: '#dc2626',
-    cat: 'film',
-    level: 'B2',
-    tip: 'Feature films expose you to natural conversation, regional dialects and slang. At B2, try watching the first 10 min without subtitles.',
-  },
   // ytId: "Što je Hrvatska?" HRT travel documentary episode — Croatia 365 series
   {
     name: 'Što je Hrvatska?',
     desc: 'Discover Croatia — travel & culture series',
-    web: 'https://www.youtube.com/results?search_query=sto+je+hrvatska+dokumentarac+hrt',
     ytId: 'aFsVGT-LHQY',
     icon: '🏔️',
     color: '#0e7490',
     cat: 'film',
     level: 'A2',
     tip: 'Travel documentaries use visual context to help you understand without every word. Ideal bridge from A2 to B1 listening comprehension.',
-  },
-  {
-    name: 'Kvart Priča',
-    desc: 'Zagreb neighborhoods — documentary series',
-    web: 'https://www.youtube.com/results?search_query=kvart+prica+zagreb+dokumentarac',
-    icon: '🏙️',
-    color: '#7c3aed',
-    cat: 'film',
-    level: 'B1',
-    tip: 'Real people talking about their neighborhoods in natural, unscripted Croatian. This is authentic speech — invaluable at B1+.',
-  },
-  // ytId: Easy Croatian episode 1 — street interviews with Croatian subtitles (official Easy Croatian channel)
-  {
-    name: 'Easy Croatian',
-    desc: 'Street interviews with subtitles • YouTube',
-    web: 'https://www.youtube.com/c/EasyCroatian',
-    ytId: 'RjD2JHmSIp8',
-    icon: '🎙️',
-    color: '#16a34a',
-    cat: 'film',
-    level: 'A2',
-    tip: 'Short street interviews (5-10 min) with full Croatian and English subtitles. You hear real people, not actors. Start here for authentic speech.',
-  },
-  // ytId: Basic Croatian phrases lesson (Learn Croatian with CroatianABC)
-  {
-    name: 'Croatian Learning — YouTube',
-    desc: 'Croatian language tutorials & lessons',
-    web: 'https://www.youtube.com/results?search_query=learn+croatian+language+lessons+youtube',
-    ytId: 'c1nJBbBS9aA',
-    icon: '📚',
-    color: '#0284c7',
-    cat: 'film',
-    level: 'A1',
-    tip: "Structured video lessons reinforce what you learn in the app. Use YouTube to see grammar explained visually when a concept isn't clicking.",
   },
   // ─── SPORT ───────────────────────────────────────────────────────────────────
   {
@@ -316,7 +258,6 @@ export const MEDIA = [
   {
     name: 'Basketball Legends',
     desc: 'Dražen, Kukoč, Rađa, Bogdanović',
-    web: 'https://www.youtube.com/results?search_query=croatian+basketball+legends+dražen+petrovic+kukoc+highlights',
     ytId: 'cQALdp0iCv8',
     icon: '🏆',
     color: '#ea580c',
@@ -346,18 +287,6 @@ export const MEDIA = [
     tip: 'Follow these players to stay connected to Croatian basketball culture while learning — their school websites and ESPN pages are full of Croatian-language content opportunities.',
   },
   // ─── PODCASTS & LEARNING ─────────────────────────────────────────────────────
-  // ytId: Slow Croatian for Learners — beginner-friendly episode
-  {
-    name: 'Slow Croatian Podcast',
-    desc: 'Slow, clear Croatian speech for learners',
-    web: 'https://www.youtube.com/results?search_query=slow+croatian+podcast+for+learners',
-    ytId: '7CWBT8s6t9I',
-    icon: '🎙️',
-    color: '#16a34a',
-    cat: 'podcast',
-    level: 'A2',
-    tip: 'Podcasts recorded slowly for learners are gold. Even 10 minutes a day builds listening stamina dramatically over weeks.',
-  },
   {
     name: 'HRT Podcast Arhiva',
     desc: 'Croatian radio podcasts on demand',
@@ -372,33 +301,12 @@ export const MEDIA = [
   {
     name: 'Priče Za Laku Noć',
     desc: 'Croatian bedtime stories — YouTube',
-    web: 'https://www.youtube.com/results?search_query=price+za+laku+noc+hrvatska',
     ytId: 'RmkLbNe0JQo',
     icon: '🌙',
     color: '#7c3aed',
     cat: 'podcast',
     level: 'A1',
     tip: "Children's bedtime stories use simple, clear vocabulary read at perfect speed for beginners. Listening before sleep is proven to boost retention.",
-  },
-  {
-    name: 'Croatian History Podcast',
-    desc: 'Croatian history in podcast format',
-    web: 'https://www.youtube.com/results?search_query=hrvatska+povijest+podcast',
-    icon: '🏛️',
-    color: '#b45309',
-    cat: 'podcast',
-    level: 'B2',
-    tip: 'History podcasts use past tense extensively — the perfect practice ground for Croatian perfective/imperfective past tense in natural context.',
-  },
-  {
-    name: 'Jezik i Komunikacija',
-    desc: 'Croatian language tips & explanations',
-    web: 'https://www.youtube.com/results?search_query=hrvatska+gramatika+objasnjenje+youtube',
-    icon: '💬',
-    color: '#0369a1',
-    cat: 'podcast',
-    level: 'B1',
-    tip: 'Watch native speakers explain Croatian grammar in Croatian. At B1+ this is incredibly useful — you learn the language through the language itself.',
   },
   // ─── CULTURE ─────────────────────────────────────────────────────────────────
   {
