@@ -42,7 +42,7 @@ export default function EquivalencyTestCard({
   // Phase 1 mastery gate: a provisional (grandfathered) level outranks every
   // other state on this card — verification is the only path forward.
   const gate = getVerificationGate();
-  if (gate.required && gate.target) {
+  if (gate.required && gate.nextCheck) {
     return (
       <button
         data-testid="equivalency-card-verify"
@@ -75,12 +75,12 @@ export default function EquivalencyTestCard({
             lineHeight: 1.25,
           }}
         >
-          Your {gate.target} needs to be demonstrated.
+          Your {gate.target} needs to be demonstrated — starting at {gate.nextCheck}.
         </div>
         <div style={{ fontSize: 13, opacity: 0.95, lineHeight: 1.5, marginBottom: 10 }}>
           It was carried over from activity. Pass the verification — vocabulary, grammar, reading
-          {cefrRank(gate.target) >= cefrRank('B1') ? ', speaking and writing' : ''} — and it becomes
-          real.
+          {cefrRank(gate.nextCheck) >= cefrRank('B1') ? ', speaking and writing' : ''} — and it
+          becomes real.
         </div>
         <div
           style={{
@@ -93,7 +93,7 @@ export default function EquivalencyTestCard({
             fontWeight: 800,
           }}
         >
-          Verify {gate.target} →
+          Verify {gate.nextCheck} →
         </div>
       </button>
     );

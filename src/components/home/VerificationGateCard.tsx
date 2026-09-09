@@ -33,7 +33,7 @@ interface Props {
 }
 
 export default function VerificationGateCard({ gate, currentXp, onStartVerification }: Props) {
-  if (!gate.required || !gate.target) return null;
+  if (!gate.required || !gate.target || !gate.nextCheck) return null;
   // QUIET PERIOD (owner directives, 2026-08-18 + 2026-09-07): any verification
   // attempt — pass or fail — takes the prompt OFF Home entirely until the
   // learner has EARNED VERIFICATION_RETURN_XP since. Nothing is rendered while
@@ -58,7 +58,8 @@ export default function VerificationGateCard({ gate, currentXp, onStartVerificat
       : null;
   // Phase 2 mastery ledger: show what daily practice already signals, so the
   // learner walks into the verification knowing where they stand.
-  const readiness = readinessForVerification(gate.target);
+  // Readiness is measured for the check actually being offered.
+  const readiness = readinessForVerification(gate.nextCheck);
   const readinessLine =
     readiness.strong.length + readiness.developing.length > 0
       ? [
@@ -96,12 +97,17 @@ export default function VerificationGateCard({ gate, currentXp, onStartVerificat
         LEVEL VERIFICATION REQUIRED
       </div>
       <div style={{ fontSize: 19, fontWeight: 800, lineHeight: 1.35, marginBottom: 8 }}>
-        Make your {gate.target} real
+        Make your {gate.nextCheck} real
       </div>
       <p style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.92, margin: '0 0 14px' }}>
-        {rollback && rollback.to === gate.target
-          ? `Your ${rollback.from} check didn't pass, so your level honestly moved to ${gate.target}. Verify it to stand on solid ground — then win ${rollback.from} back for real.`
-          : `Your ${gate.target} was carried over from activity — mastery means demonstrating it. New ${gate.target} content is paused until you pass the verification; everything below stays open, and that practice is exactly the preparation.`}
+        {rollback && rollback.to === gate.nextCheck
+          ? `Your ${rollback.from} check didn't pass, so your level honestly moved to ${gate.nextCheck}. Verify it to stand on solid ground — then win ${rollback.from} back for real.`
+          : gate.nextCheck === gate.target
+            ? `Your ${gate.target} was carried over from activity — mastery means demonstrating it. New ${gate.target} content is paused until you pass the verification; everything below stays open, and that practice is exactly the preparation.`
+            : // The stack case: standing was carried over up to `target`, and the
+              // ladder is climbed from the bottom. Saying "make your C1 real" to
+              // someone verified at A1 was the 2026-09-09 field report.
+              `Your standing was carried over from activity, up to ${gate.target} — mastery means demonstrating it, one level at a time. Start with ${gate.nextCheck}: pass it and the next one opens. New ${gate.target} content is paused meanwhile; everything below stays open, and that practice is exactly the preparation.`}
       </p>
       {returningLine && (
         <p

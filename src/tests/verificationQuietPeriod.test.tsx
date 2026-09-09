@@ -34,6 +34,7 @@ import {
   mergeRemoteCertifications,
   getCertificationState,
   type CertificationState,
+  type VerificationGate,
 } from '../lib/cefrCertification';
 import { DAILY_XP_GOAL } from '../lib/appUtils';
 import VerificationGateCard from '../components/home/VerificationGateCard';
@@ -56,7 +57,18 @@ function seedState({ attempts = [] as SeedAttempt[] } = {}) {
   );
 }
 
-const GATE = { required: true, target: 'B2', verified: 'B1', options: ['B2'] } as never;
+// Typed, NOT `as never`. The cast this replaced is why adding `nextCheck` to
+// VerificationGate did not fail typecheck — it failed at render, as two tests
+// that could not find the card. A fixture cast to `never` is a fixture the
+// compiler cannot keep in step with the type it stands in for.
+// One-level stack here, so the rung to climb IS the top of it.
+const GATE: VerificationGate = {
+  required: true,
+  target: 'B2',
+  nextCheck: 'B2',
+  verified: 'B1',
+  options: ['B2'],
+};
 
 beforeEach(() => localStorage.clear());
 

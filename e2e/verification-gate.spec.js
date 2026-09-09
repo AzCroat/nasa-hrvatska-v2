@@ -56,7 +56,10 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     const card = page.getByTestId('verification-gate-card');
     await expect(card).toBeVisible({ timeout: 20_000 });
     await expect(card).toContainText('LEVEL VERIFICATION REQUIRED');
+    // The card still names the standing being protected (B1, the top of the
+    // stack and what gates content) while offering the rung below it.
     await expect(card).toContainText('B1');
+    await expect(card).toContainText('A2');
     // No snooze / dismiss: the card's only button is the verification CTA.
     await expect(card.getByRole('button')).toHaveCount(1);
   });
@@ -64,10 +67,18 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
   test('gate CTA routes into the Level Verification intro', async ({ page }) => {
     await page.getByTestId('verification-gate-cta').click();
     await expect(page.getByText('CEFR LEVEL VERIFICATION')).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByText('Verify B1').first()).toBeVisible();
+    // A2, not B1. The fixture holds provisional A2 + B1 with NOTHING verified,
+    // and since 2026-09-09 the gate offers the next RUNG (`nextCheck`, the
+    // bottom of the stack) rather than its top. Offering B1 to a learner
+    // verified at A1 was the field report: the badge said A1 and the gate said
+    // C1 on the same screen, four levels apart.
+    await expect(page.getByText('Verify A2').first()).toBeVisible();
     await expect(page.getByTestId('equivalency-begin')).toBeVisible();
-    // Step-down path is offered (A2 is also provisional).
-    await expect(page.getByTestId('equivalency-stepdown')).toBeVisible();
+    // NO step-down: A2 is already the bottom of this stack, so there is nothing
+    // to step down TO. That button now renders only when a lower rung exists —
+    // before, it showed whenever the stack had depth and its onClick found no
+    // lower option, which after the split is precisely when it does nothing.
+    await expect(page.getByTestId('equivalency-stepdown')).toHaveCount(0);
   });
 
   test('an attempt with no practice since takes the gate OFF Home — no hero, no chip (owner, 2026-09-07)', async ({
