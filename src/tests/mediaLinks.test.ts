@@ -29,6 +29,7 @@
  * NAMES stay banned in every field including the tip: there is no context in
  * which this app recommends one by name.
  */
+import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 import { MEDIA, POPCULTURE } from '../data/cultural/media.js';
 
@@ -120,17 +121,34 @@ describe('the media page never points at another learning service', () => {
     }
   });
 
-  it('POPCULTURE is a different shape — never strip its `web`', () => {
-    // Scoped separately BECAUSE the first attempt at this cleanup ran a regex
-    // over the whole file and stripped eight URLs out of POPCULTURE too.
-    // MediaTab falls back to an embed when `web` is gone; PopCultureScreen
-    // opens `p.web` directly and never reads `ytId`, so the same edit there
-    // turns all ten buttons into `window.open(undefined)`. Whether that screen
-    // should keep its YouTube links is an open question for the owner — this
-    // only pins that it must not be half-emptied by accident.
+  it('POPCULTURE carries no outbound link at all', () => {
+    // Every one of the ten entries was a YouTube link, six of them a search
+    // results page, so "remove all YouTube links" empties this screen's links
+    // entirely (owner directive, 2026-09-09). The cards stay as reference —
+    // who these artists are is what a diaspora learner comes here for.
+    //
+    // Scoped SEPARATELY from MEDIA because the shapes differ, and the first
+    // attempt at the media cleanup proved why: it ran a regex over the whole
+    // file and stripped eight URLs out of POPCULTURE as a side effect.
+    // MediaTab falls back to an embed when `web` is gone; PopCultureScreen had
+    // no fallback, so the same edit there would have shipped ten buttons
+    // calling window.open(undefined).
     expect(POPCULTURE.length).toBeGreaterThanOrEqual(10);
-    const dead = (POPCULTURE as MediaEntry[]).filter((p) => !p.web).map((p) => p.name);
-    expect(dead, `PopCultureScreen entries with no destination: ${dead.join(', ')}`).toEqual([]);
+    const linked = (POPCULTURE as MediaEntry[]).filter((p) => p.web).map((p) => p.name);
+    expect(linked, `PopCulture entries still linking out: ${linked.join(', ')}`).toEqual([]);
+    // The screen must not render them as controls that do nothing.
+    // Comments stripped first: that file EXPLAINS this trap in prose naming
+    // window.open, and a raw text match is satisfied by the explanation —
+    // caught on this assertion's first run, which is the same failure mode
+    // offlineResourceKey.test.ts records for the launchFailure pin.
+    const src = readFileSync('src/components/croatia/PopCultureScreen.tsx', 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
+      .replace(/\/\/.*$/gm, '');
+    expect(src, 'PopCultureScreen still opens an outbound link').not.toMatch(/window\.open/);
+    expect(src, 'PopCulture cards are buttons again — a control that does nothing').not.toMatch(
+      /<button/,
+    );
   });
 
   it('still has a media page — the guard must not pass by emptying it', () => {

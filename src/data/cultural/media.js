@@ -356,66 +356,56 @@ export const POPCULTURE = [
   {
     name: 'Baby Lasagna',
     desc: 'Eurovision star! Gen-Z favorite',
-    web: 'https://www.youtube.com/watch?v=drmJPqWmGbY',
     ytId: 'drmJPqWmGbY',
     icon: '⭐',
   },
   {
     name: 'Gibonni',
     desc: 'Legendary singer from Split',
-    web: 'https://www.youtube.com/results?search_query=gibonni+najbolje+pjesme',
     ytId: '1Q5FiMMPBGw',
     icon: '🎵',
   },
   {
     name: 'Oliver Dragojević',
     desc: 'The voice of Dalmatia',
-    web: 'https://www.youtube.com/results?search_query=oliver+dragojevic+cesarica',
     ytId: '9P_K0MBHuW8',
     icon: '🎵',
   },
   {
     name: 'Severina',
     desc: 'Croatian pop queen',
-    web: 'https://www.youtube.com/results?search_query=severina+hitovi',
     icon: '🎵',
   },
   {
     name: 'Prljavo Kazalište',
     desc: 'Iconic Croatian rock',
-    web: 'https://www.youtube.com/results?search_query=prljavo+kazaliste',
     icon: '🎸',
   },
   {
     name: 'Magazin',
     desc: 'Popular pop band',
-    web: 'https://www.youtube.com/results?search_query=magazin+bend',
     icon: '🎵',
   },
   {
     name: 'Hladno Pivo',
     desc: 'Punk/rock from Zagreb',
-    web: 'https://www.youtube.com/results?search_query=hladno+pivo+hitovi',
     icon: '🎸',
   },
   {
     name: 'Daleka Obala',
     desc: 'Split rock legends',
-    web: 'https://www.youtube.com/results?search_query=daleka+obala',
     icon: '🎸',
   },
   // ytId: Let 3 "Mama ŠČ!" — Eurovision 2023 official
   {
     name: 'Let 3',
     desc: 'Art-rock, Eurovision 2023',
-    web: 'https://www.youtube.com/watch?v=5KD5-Zi4VJ0',
     ytId: '5KD5-Zi4VJ0',
     icon: '🤘',
   },
   {
     name: 'Supertalent HR',
     desc: 'Croatian Got Talent',
-    web: 'https://www.youtube.com/results?search_query=supertalent+hrvatska',
     icon: '📺',
   },
 ];
