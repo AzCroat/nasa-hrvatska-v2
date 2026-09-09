@@ -86,7 +86,25 @@ export type TtsFailureCause =
   | 'provider_unavailable'
   | 'server_error'
   | 'playback'
+  | 'empty_audio'
   | 'no_fallback_voice';
+
+/**
+ * Mirror of `MIN_AUDIO_BYTES` in functions/api/tts.js — the smallest response
+ * either side will call audio.
+ *
+ * TWO PLACES THAT MUST AGREE, so they are pinned equal by a test that reads
+ * both from source rather than restating either. This repo has been bitten
+ * twice by exactly that shape with no mechanism behind it: the cron secret
+ * that drifted across a Worker secret and a Pages env var for 79 failed runs,
+ * and wrangler.toml's "Shared with scheduled worker above", which was a
+ * comment, not a mechanism.
+ *
+ * The client keeps its own guard rather than trusting the server's: an edge
+ * or CDN entry cached BEFORE the server guard existed is still servable, and
+ * this is the check that stops it decoding to silence and reporting success.
+ */
+export const MIN_AUDIO_BYTES = 500;
 
 export interface TtsFailure {
   cause: TtsFailureCause;
@@ -163,6 +181,10 @@ export function describeTtsFailure(f: TtsFailure | null): string {
       return "Your browser couldn't play the audio — check the device isn't muted and try again.";
     case 'invalid_text':
       return "This recording couldn't be generated.";
+    case 'empty_audio':
+      // The server answered 200 with a body too small to be speech. Said
+      // plainly rather than as "playback", which would blame the device.
+      return 'The voice service returned an empty recording — try again in a minute.';
     default:
       return "The audio couldn't be played.";
   }
@@ -456,6 +478,15 @@ export async function speakAzure(
         `[TTS] blob received size=${freshBlob.size} type="${freshBlob.type}" backends=${backends}`,
       );
       if (_speakGen !== myGen) return _noteFailure({ cause: 'superseded' });
+      // A 200 is not proof of audio. The server now refuses to serve a body
+      // this small, but a stale edge/CDN entry cached before that guard — or
+      // any future backend that answers 200 with nothing — would otherwise
+      // decode to silence and report SUCCESS, which is precisely the failure
+      // that leaves a learner with no sound and no explanation.
+      if (freshBlob.size < MIN_AUDIO_BYTES) {
+        dbgError(`[TTS] body too small to be speech: ${freshBlob.size}b`);
+        return _noteFailure({ cause: 'empty_audio', status: 200, backends });
+      }
       // Always use base64 data URLs — universally supported across all browsers and
       // native WebView implementations (blob: URLs fail on some Android OEM builds).
       // AudioContext path uses freshBlob.arrayBuffer() directly for the fresh case.

@@ -29,6 +29,31 @@ function isSafeContour(s) {
 const SAFE_VOICE = /^[A-Za-z]{2}-[A-Za-z]{2}-[A-Za-z0-9]+$/;
 const DEFAULT_VOICE = 'hr-HR-GabrijelaNeural';
 
+/**
+ * The smallest response this endpoint will call audio (2026-09-09).
+ *
+ * The number is not new — the KV cache READ has distrusted a hit under 500
+ * bytes since it was written. It was applied in exactly one of the three
+ * places that needed it, and the serve path guarded only `if (!buffer)`.
+ * An empty ArrayBuffer is TRUTHY, so a backend that answered 200 with nothing
+ * in it (Google Translate TTS returns a token/consent body to datacenter IPs;
+ * ElevenLabs was checked for `res.ok` and nothing else) produced a 200
+ * `audio/mpeg` with no audio: no 5xx, no named cause, no toast, no Sentry
+ * event, and silence on the device. That is the one failure shape the
+ * 2026-09-06 audio directive did not close, because every path it covered
+ * ANNOUNCED itself.
+ *
+ * A real hr-HR utterance is several KB; 500 bytes cannot hold a word. Below
+ * it the chain keeps trying, and if nothing better arrives the endpoint 503s
+ * with a named reason so the client falls back to Web Speech and RECORDS why.
+ */
+const MIN_AUDIO_BYTES = 500;
+
+/** A backend result only counts as audio if there is audio in it. */
+function isPlayableAudio(buffer) {
+  return !!buffer && buffer.byteLength >= MIN_AUDIO_BYTES;
+}
+
 // Whitelisted characters for an <phoneme> IPA string: Unicode letters (covers IPA
 // symbols ʃ ʒ ɲ ʎ ɡ and the modifier-letter stress/length marks ˈ ˌ ː ˑ, all in the
 // Letter category), combining marks (\p{M} covers IPA diacritics and the tie bars
@@ -521,7 +546,7 @@ export async function onRequestPost(context) {
           'tts:v3:' +
           [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
         const hit = await kv.get(kvKey, { type: 'arrayBuffer' });
-        if (hit && hit.byteLength > 500) {
+        if (isPlayableAudio(hit)) {
           const kvResponse = new Response(hit, {
             status: 200,
             headers: {
@@ -592,7 +617,7 @@ export async function onRequestPost(context) {
           /* fall through to Azure */
         }
       }
-      if (!buffer && AZURE_KEY) {
+      if (!isPlayableAudio(buffer) && AZURE_KEY) {
         try {
           buffer = await tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION);
         } catch {
@@ -620,7 +645,7 @@ export async function onRequestPost(context) {
       }
 
       // ── 2. Google Translate TTS hr (free, HTTP, no key required) ───────────
-      if (!buffer) {
+      if (!isPlayableAudio(buffer)) {
         try {
           buffer = await tryGoogleTranslateTTS(text, slow);
         } catch {
@@ -629,7 +654,7 @@ export async function onRequestPost(context) {
       }
 
       // ── 3. Microsoft Edge hr-HR-GabrijelaNeural (WebSocket backup) ──────────
-      if (!buffer) {
+      if (!isPlayableAudio(buffer)) {
         try {
           buffer = await tryEdgeTTS(text, slow, env.EDGE_TTS_TOKEN || null);
         } catch {
@@ -638,7 +663,7 @@ export async function onRequestPost(context) {
       }
 
       // ── 4. Google hr-HR-Wavenet-B (backup if service account configured) ────
-      if (!buffer && GOOGLE_SA_JSON) {
+      if (!isPlayableAudio(buffer) && GOOGLE_SA_JSON) {
         try {
           buffer = await tryGoogle(text, slow, GOOGLE_SA_JSON);
         } catch {
@@ -648,7 +673,12 @@ export async function onRequestPost(context) {
     }
 
     // ── 503 → client falls back to Web Speech API ────────────────────────────
-    if (!buffer) {
+    if (!isPlayableAudio(buffer)) {
+      // `buffer` may be a non-empty object here and still be unusable: an empty
+      // ArrayBuffer is truthy, which is exactly how a 200 with no audio in it
+      // used to reach the learner as silence. Name the byte count in the
+      // reason so the next occurrence is diagnosable from the response alone.
+      const emptyNote = buffer ? `,empty(${buffer.byteLength}b)` : '';
       const whyFailed =
         voice === 'charlotte'
           ? [
@@ -661,7 +691,7 @@ export async function onRequestPost(context) {
               'edge-failed',
               GOOGLE_SA_JSON ? 'google-failed' : 'google-not-configured',
             ].join(',');
-      return new Response(`TTS unavailable — ${whyFailed}`, {
+      return new Response(`TTS unavailable — ${whyFailed}${emptyNote}`, {
         status: 503,
         headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': diagBackends },
       });
@@ -687,6 +717,9 @@ export async function onRequestPost(context) {
     // And globally in KV — 90 days; the versioned key retires cleanly if the
     // key scheme ever changes.
     if (kv && kvKey) {
+      // Guarded by the same threshold: an unplayable blob written here would
+      // sit in KV for 90 days, and the read guard would skip it on every hit —
+      // paying the generation cost forever while never serving a sound.
       const put = kv.put(kvKey, buffer, { expirationTtl: 60 * 60 * 24 * 90 }).catch(() => {});
       if (context.waitUntil) context.waitUntil(put);
     }

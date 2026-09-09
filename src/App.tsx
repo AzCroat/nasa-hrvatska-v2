@@ -71,6 +71,7 @@ import CroatianGrb from './components/shared/CroatianGrb';
 import { AppToasts } from './components/shared/AppToasts';
 import { AppModals } from './components/shared/AppModals';
 import NextStepPrompt from './components/shared/NextStepPrompt';
+import DebugOverlay from './components/shared/DebugOverlay';
 import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
@@ -2008,6 +2009,10 @@ function App() {
             >
               <XPPopup showXP={showXP} xpA={xpA} />
               <NextStepPrompt />
+              {/* Renders nothing unless localStorage nh_debug === '1'. Mounted
+                  because audio.ts's [Audio]/[TTS] trace had no reader on a
+                  phone — see DebugOverlay's header. */}
+              <DebugOverlay />
               <AppModals
                 showFirstWords={showFirstWords}
                 setShowFirstWords={setShowFirstWords}
