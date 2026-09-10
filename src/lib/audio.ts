@@ -60,7 +60,43 @@ export async function ttsFetch(
   body: Record<string, unknown>,
   signal?: AbortSignal,
 ): Promise<Response | null> {
-  return _ttsPost(body, signal ?? new AbortController().signal);
+  const r = await _ttsPost(body, signal ?? new AbortController().signal);
+  if (r && r.ok) {
+    // Clear on success, so a surface can never read a stale failure left by an
+    // earlier screen and report it as this play's cause.
+    _lastTtsFailure = null;
+    return r;
+  }
+  // IT RECORDED NOTHING, AND TWELVE SURFACES DEPENDED ON IT (2026-09-10).
+  // The 2026-09-06 directive gave every failure a name — but it wired that to
+  // `speakAzure`, and `ttsFetch` is the OTHER path to the same endpoint: the
+  // one used by AI Listening, Maja, the live tutor, the news reader, story
+  // mode, the graded reader, Writing, Speaking Sprint and Phrase of the Day.
+  // It returned `Response | null` and set nothing, so `getLastTtsFailure()`
+  // was null on every one of those screens and Sentry heard nothing at all.
+  //
+  // That is why the owner's report came back as the DEFAULT sentence, "The
+  // audio couldn't be played." — `describeTtsFailure(null)` matches no case.
+  // Yesterday's fix pointed AIListeningScreen at a recorder this path never
+  // writes to, so the screen could not name a cause however hard it asked.
+  // Same shape as the speaking coach wired to a state no launcher produces: a
+  // correct library, pointed at something that does not happen.
+  const backends = r?.headers.get('x-tts-backends') || 'none';
+  // Read the error body from a CLONE so the caller still receives an unread
+  // Response — several of them inspect it after this returns.
+  const rb = r
+    ? await r
+        .clone()
+        .text()
+        .catch(() => '')
+    : 'no response (all endpoints failed)';
+  dbgError(`[TTS] fetch HTTP ${r?.status ?? 'N/A'} backends=${backends} — ${rb.slice(0, 200)}`);
+  const failure: TtsFailure = r
+    ? _classifyHttpFailure(r.status, rb, backends)
+    : { cause: 'network', backends };
+  _noteFailure(failure);
+  _reportTtsFailure(failure, typeof body.text === 'string' ? body.text.length : 0);
+  return r;
 }
 
 // ── TTS failure record (2026-09-06) ────────────────────────────────────────
