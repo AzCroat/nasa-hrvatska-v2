@@ -160,6 +160,23 @@ describe('the request is shaped the way the service requires', () => {
   });
 });
 
+describe('the public client token is allowlisted, and the two places agree', () => {
+  it('gitleaks allowlists the EXACT constant the endpoint uses', () => {
+    // Measured, not assumed: `generic-api-key` flags this line (identifier says
+    // TOKEN, 32 hex chars, entropy 3.6167 over the 3.5 floor), so without the
+    // allowlist the secret scan fails the build on a value that is public
+    // client config by design — same class as the Firebase web API keys.
+    //
+    // DERIVED from tts.js rather than restated here. This is a
+    // two-places-must-agree fact, the shape that took the cron secret down for
+    // 79 consecutive runs behind a comment claiming the halves were shared: if
+    // Microsoft rotates the id and only the constant is updated, the allowlist
+    // silently stops covering it and CI goes red on a confusing finding.
+    const token = TTS.match(/const EDGE_TRUSTED_CLIENT_TOKEN = '([0-9A-F]{32})';/)[1];
+    expect(readFileSync('.gitleaks.toml', 'utf8')).toContain(token);
+  });
+});
+
 describe('a failed chain names which backend died', () => {
   it('the 503 diagnostic header carries the failure list, not the config list', () => {
     // The client reads X-TTS-Backends into the Sentry breadcrumb and drops the
