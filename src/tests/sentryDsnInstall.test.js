@@ -26,6 +26,21 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 
 const CI = readFileSync('.github/workflows/ci.yml', 'utf8');
+
+/**
+ * The body of ONE step: bounded at the next `- name:`, comments stripped.
+ *
+ * These assertions used to slice through to 'Deploy to Cloudflare Pages',
+ * which swallowed anything inserted in between. On 2026-09-09 the Azure Speech
+ * install landed there, and its own comment — "it is deliberately not
+ * continue-on-error" — failed the not-continue-on-error assertion below. The
+ * neighbour was correct and the slice was wrong: a guard must describe ITS
+ * step, and prose about a rule must not read as a violation of it.
+ */
+function stepBody(step) {
+  const next = step.indexOf('\n      - name:', 1);
+  return (next > 0 ? step.slice(0, next) : step).replace(/^\s*#.*$/gm, '');
+}
 const SYNC = readFileSync('.github/workflows/sync-cf-pages-env.yml', 'utf8');
 const RELAY = readFileSync('functions/api/report-error.js', 'utf8');
 const MAIN = readFileSync('src/main.tsx', 'utf8');
@@ -105,7 +120,7 @@ describe('absent is warned about, malformed is a failure', () => {
     // be SILENT either: a silent skip is the failure mode this repo keeps
     // rediscovering. Warn, exit 0.
     const step = CI.slice(CI.indexOf('- name: Install Sentry DSN (Pages)'));
-    const body = step.slice(0, step.indexOf('- name: Deploy to Cloudflare Pages'));
+    const body = stepBody(step);
     expect(body).toMatch(/::warning title=Sentry DSN not set/);
     expect(body).toMatch(/exit 0/);
     expect(body, 'an absent-secret skip must not be continue-on-error').not.toMatch(
@@ -142,7 +157,7 @@ describe('absent is warned about, malformed is a failure', () => {
     // malformed DSN fails after the response has already been returned, where
     // nobody sees it. Catch it at install time instead.
     const step = CI.slice(CI.indexOf('- name: Install Sentry DSN (Pages)'));
-    const body = step.slice(0, step.indexOf('- name: Deploy to Cloudflare Pages'));
+    const body = stepBody(step);
     expect(body).toMatch(/new URL\(raw\)/);
     expect(body).toMatch(/u\.username/);
     expect(body).toMatch(/u\.pathname/);
@@ -234,7 +249,7 @@ describe('secret hygiene — this repo is public', () => {
     // Same rule as the service account and the backup failure codes: names
     // never values. argv is visible in process listings and in any `set -x`.
     const step = CI.slice(CI.indexOf('- name: Install Sentry DSN (Pages)'));
-    const body = step.slice(0, step.indexOf('- name: Deploy to Cloudflare Pages'));
+    const body = stepBody(step);
     expect(body).toMatch(/printf '%s' "\$\{SENTRY_DSN\}"\s*\\?\s*\n?\s*\| npx/);
     // The node shape check must read the environment, not argv.
     expect(body).toMatch(/process\.env\.SENTRY_DSN/);
