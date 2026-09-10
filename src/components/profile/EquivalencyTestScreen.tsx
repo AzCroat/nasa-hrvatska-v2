@@ -192,6 +192,14 @@ export default function EquivalencyTestScreen({
 }: EquivalencyTestScreenProps) {
   // Gate read once on mount (same reasoning as the retake gate below).
   const gate = useMemo(() => getVerificationGate(), []);
+  /** The highest provisional level strictly below the one being offered, if any. */
+  const stepDownTarget = useMemo(
+    () =>
+      gate.nextCheck
+        ? (gate.options.find((l) => cefrRank(l) < cefrRank(gate.nextCheck!)) ?? null)
+        : null,
+    [gate],
+  );
   const verificationMode = gate.required;
 
   // Which STATUS level this attempt would grant. Verification targets the
@@ -199,11 +207,13 @@ export default function EquivalencyTestScreen({
   // certified grants the next status).
   const defaultTarget: CefrLevel | null = useMemo(() => {
     if (overrideLevel) return overrideLevel;
-    if (verificationMode && gate.target) return gate.target;
+    // The rung to climb, not the top of the grandfathered stack — see
+    // `nextCheck` on VerificationGate.
+    if (verificationMode && gate.nextCheck) return gate.nextCheck;
     const certified = getCertifiedLevel();
     const next = getNextTestFor(certified);
     return next ? next.levelTo : null;
-  }, [overrideLevel, verificationMode, gate.target]);
+  }, [overrideLevel, verificationMode, gate.nextCheck]);
 
   // Step-down: a learner verifying B1 may honestly verify A2 instead.
   const [chosenTarget, setChosenTarget] = useState<CefrLevel | null>(null);
@@ -570,13 +580,19 @@ export default function EquivalencyTestScreen({
           >
             {partial ? 'Finish the check →' : 'Begin Check →'}
           </button>
-          {verificationMode && gate.options.length > 1 && !chosenTarget && (
+          {/*
+            Shown only when a LOWER rung actually exists. The gate now offers
+            `nextCheck`, the bottom of the provisional stack, so on the ordinary
+            grandfathered path there is nothing below it and this button would
+            render as a control whose onClick finds no `lower` and does nothing.
+            The condition it replaced (`options.length > 1`) was true whenever
+            the stack had depth, which after the 2026-09-09 split is exactly
+            when the button is useless.
+          */}
+          {verificationMode && !chosenTarget && stepDownTarget && (
             <button
               data-testid="equivalency-stepdown"
-              onClick={() => {
-                const lower = gate.options.find((l) => cefrRank(l) < cefrRank(target!));
-                if (lower) setChosenTarget(lower);
-              }}
+              onClick={() => setChosenTarget(stepDownTarget)}
               style={{
                 display: 'block',
                 width: '100%',

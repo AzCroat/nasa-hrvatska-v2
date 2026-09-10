@@ -318,6 +318,30 @@ export interface VerificationGate {
   required: boolean;
   /** Highest provisional level — the default verification target. */
   target: CefrLevel | null;
+  /**
+   * The check to OFFER: the LOWEST provisional level above the verified one —
+   * the next rung the learner can actually climb.
+   *
+   * Split from `target` on 2026-09-09 after a field report. `target` is the
+   * top of the grandfathered stack, and every surface that offers an exam was
+   * reading it: a learner whose verified level is A1 (nobody has ever passed a
+   * check) but whose XP once touched the C1 band was shown "Make your C1 real"
+   * on Home, beside a badge that correctly said A1. Two numbers, same screen,
+   * four levels apart.
+   *
+   * Offering C1 to an A1-verified learner is not a step, it is a cliff — and
+   * a failed check triggers `rollbackProvisionalOnFail`, so the app would hand
+   * them an exam they cannot pass and then demote them for failing it. The
+   * ladder is climbed one rung at a time: pass this one, `verified` rises, and
+   * the next call returns the rung above.
+   *
+   * `target` is UNCHANGED and still gates CONTENT (`isBlockedByVerificationGate`,
+   * and `getContentUnlockLevel`'s cap one level below it). Pointing the content
+   * gate at `nextCheck` would cap a grandfathered C1 learner's new content at
+   * A1 — the access regression CLAUDE.md names as the dangerous direction.
+   * A claim, a door, and a next step are three questions.
+   */
+  nextCheck: CefrLevel | null;
   /** Highest genuinely-passed level ('A1' floor). */
   verified: CefrLevel;
   /** Every provisional level the user may verify, highest first — the exam
@@ -335,7 +359,13 @@ export interface VerificationGate {
  */
 export function getVerificationGate(): VerificationGate {
   const verified = getVerifiedLevel();
-  const empty: VerificationGate = { required: false, target: null, verified, options: [] };
+  const empty: VerificationGate = {
+    required: false,
+    target: null,
+    nextCheck: null,
+    verified,
+    options: [],
+  };
   if (!CERTIFICATION_REQUIRED) return empty;
   const state = getCertificationState();
   const options: CefrLevel[] = [];
@@ -347,7 +377,15 @@ export function getVerificationGate(): VerificationGate {
   }
   if (options.length === 0) return empty;
   options.sort((a, b) => cefrRank(b) - cefrRank(a));
-  return { required: true, target: options[0] ?? null, verified, options };
+  // `options` is highest-first, so the top of the stack gates content and the
+  // BOTTOM of it is the next rung to climb. See `nextCheck` on the interface.
+  return {
+    required: true,
+    target: options[0] ?? null,
+    nextCheck: options[options.length - 1] ?? null,
+    verified,
+    options,
+  };
 }
 
 /**

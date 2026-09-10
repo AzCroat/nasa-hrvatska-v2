@@ -617,6 +617,65 @@ jobs:
               --project-name nasa-hrvatska-v2 >/dev/null
           echo "SENTRY_DSN installed on the Pages project"
 
+      # ── Azure Speech (TTS) ───────────────────────────────────────────────────
+      # Owner report, 2026-09-09: "Audio did not play. Has not once yet." The
+      # AI-generated listening screen produced its lesson and its word list on
+      # the same tap, so auth, the daily quota and the monthly budget were all
+      # healthy — only the TTS backend chain returned nothing.
+      #
+      # AZURE_TTS_KEY is the FIRST backend in that chain and the only one that
+      # is a real Croatian neural voice; without it /api/tts falls through to
+      # Google Translate TTS, which answers a consent/token body to datacenter
+      # IPs. It was a dashboard-only variable, and this repo has already learned
+      # once what that means: FIREBASE_SERVICE_ACCOUNT_JSON had NEVER been set,
+      # for years, because it was filed as a dashboard chore while CI had
+      # already proven it can write Pages secrets.
+      #
+      # Same contract as the three install steps above: ABSENT is a warning and
+      # exit 0 (it predates this step and no code can fix it), PRESENT but
+      # uninstallable FAILS, and it is deliberately not continue-on-error.
+      # Secret hygiene as everywhere here: piped on stdin never argv, the
+      # checker reads process.env, diagnostics print NAMES only, no `set -x`.
+      - name: Install Azure Speech credentials (Pages)
+        if: env.DEPLOY == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          AZURE_TTS_KEY: ${{ secrets.AZURE_TTS_KEY }}
+          AZURE_TTS_REGION: ${{ secrets.AZURE_TTS_REGION }}
+        run: |
+          set -euo pipefail
+          if [ -z "${AZURE_TTS_KEY:-}" ]; then
+            echo "::warning title=Azure Speech key not set::AZURE_TTS_KEY is not a GitHub secret. /api/tts loses its Croatian neural voice and falls through to keyless fallbacks that a Cloudflare datacenter IP is often refused by, so audio can fail everywhere with no other symptom. Set AZURE_TTS_KEY (and optionally AZURE_TTS_REGION) in GitHub secrets."
+            exit 0
+          fi
+          # Shape check before install: a key with whitespace in it is a paste
+          # accident, and installing it converts a clear "missing" into an
+          # obscure 401 from Azure at request time. Deliberately loose on
+          # length — Azure has shipped both 32-char and 84-char keys and
+          # rejecting a valid one would be worse than the gap.
+          node --input-type=module -e '
+            const k = process.env.AZURE_TTS_KEY || "";
+            if (/\s/.test(k)) { console.error("AZURE_TTS_KEY contains whitespace"); process.exit(1); }
+            if (k.length < 20) { console.error("AZURE_TTS_KEY is implausibly short"); process.exit(1); }
+            const r = process.env.AZURE_TTS_REGION || "";
+            if (r && !/^[a-z0-9-]+$/.test(r)) {
+              console.error("AZURE_TTS_REGION is not a region slug");
+              process.exit(1);
+            }
+            console.log("AZURE_TTS_KEY shape ok" + (r ? "; region provided" : "; region defaults to westeurope"));
+          '
+          printf '%s' "${AZURE_TTS_KEY}" \
+            | npx --yes wrangler@3 pages secret put AZURE_TTS_KEY \
+              --project-name nasa-hrvatska-v2 >/dev/null
+          echo "AZURE_TTS_KEY installed on the Pages project"
+          if [ -n "${AZURE_TTS_REGION:-}" ]; then
+            printf '%s' "${AZURE_TTS_REGION}" \
+              | npx --yes wrangler@3 pages secret put AZURE_TTS_REGION \
+                --project-name nasa-hrvatska-v2 >/dev/null
+            echo "AZURE_TTS_REGION installed on the Pages project"
+          fi
+
       - name: Deploy to Cloudflare Pages
         if: env.DEPLOY == 'true'
         # Pass --commit-message explicitly (subject line only, stripped of non-ASCII) to avoid

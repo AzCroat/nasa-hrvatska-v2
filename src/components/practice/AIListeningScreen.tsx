@@ -6,7 +6,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
 import { interleaveDialogue, listeningFailureFromResponse } from '../../lib/listeningSupport';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch } from '../../lib/audio.js';
+import { unlockAudio, ttsFetch, getLastTtsFailure, describeTtsFailure } from '../../lib/audio.js';
 import { recordTopicResult } from '../../lib/adaptive';
 import { useStats } from '../../context/StatsContext';
 import { creditIfNoAuthoredFallback } from '../../lib/authoredFallback';
@@ -601,7 +601,7 @@ export default function AIListeningScreen({
                 fontStyle: 'italic',
               }}
             >
-              Audio unavailable — transcript only
+              {describeTtsFailure(getLastTtsFailure())} Transcript only.
             </div>
           )}
 
