@@ -44,7 +44,18 @@ export interface AiFailure {
   resetAt?: string;
 }
 
-const UNUSABLE_CODES = new Set(['eval_unparseable', 'parse_failed', 'rubric_failed']);
+// A reply that arrived and cannot be used — the retry genuinely clears it, so
+// the learner is told that rather than "the service is unavailable". The last
+// two joined when the speaking coach's six indistinguishable 502s were given
+// codes (2026-09-10): an empty completion and a non-JSON envelope are the
+// model misbehaving, not the service being down.
+const UNUSABLE_CODES = new Set([
+  'eval_unparseable',
+  'parse_failed',
+  'rubric_failed',
+  'empty_reply',
+  'upstream_not_json',
+]);
 const STT_CODES = new Set(['stt_failed', 'stt_not_configured', 'bad_audio']);
 
 /** The sentence for a kind, in the app's one voice. */
@@ -94,15 +105,27 @@ export async function failureFromResponse(res: Response | null): Promise<AiFailu
   let code = '';
   let resetAt: string | undefined;
   let bodyOk: unknown;
+  let nonJson = false;
   try {
     const body = (await res.json()) as { error?: unknown; resetAt?: unknown; ok?: unknown };
     if (body && typeof body.error === 'string') code = body.error;
     if (body && typeof body.resetAt === 'string') resetAt = body.resetAt;
     bodyOk = body?.ok;
   } catch {
-    /* non-JSON body */
+    // NOT SILENT (2026-09-10). Every error this app's endpoints return is
+    // `{ error: '<code>' }`, so a body that will not parse means the response
+    // did NOT come from one of our handlers — it is Cloudflare's own error
+    // page for a Function that threw or never returned. Swallowing that made
+    // the two cases indistinguishable in Sentry: an
+    // `ai_feedback_failed:speaking-coach:server status=502` with no `code=`
+    // was consistent with SIX different `err(502, …)` returns in the endpoint
+    // AND with the endpoint never running at all, and nothing recorded said
+    // which. Naming it turns the absence of a code into a fact rather than a
+    // gap. It does not change the KIND — a 5xx is still `server` — so no
+    // learner-facing message moves.
+    nonJson = true;
   }
-  return failureFromStatus(res.status, code, resetAt, bodyOk);
+  return failureFromStatus(res.status, code || (nonJson ? 'non_json_body' : ''), resetAt, bodyOk);
 }
 
 /** Classify from a status + code the caller already has in hand. */

@@ -43,35 +43,58 @@ export async function requireAuthedAI(context, { cost = 1, rateLimit = 20 } = {}
 
   if (!isAllowedOrigin(origin, isDev)) return fail(403, 'forbidden');
 
-  const underLimit = await checkRateLimit(request, rateLimit, env);
-  if (!underLimit) return fail(429, 'rate_limited');
+  // EVERY CHECK BELOW DOES I/O, AND A THROW USED TO ESCAPE THE ENDPOINT
+  // ENTIRELY (2026-09-10). `checkRateLimit` (Cache API), `getFirebaseUid`
+  // (JWKS fetch), `checkAIQuota` and `checkAndChargeBudget` (D1/KV) can all
+  // reject, and no caller wraps this function — so a transient failure in any
+  // of them left the Function with an unhandled rejection and the learner with
+  // Cloudflare's own error page: a 5xx whose body is HTML, carrying none of
+  // the named `{ error: … }` codes every handler in this repo returns.
+  //
+  // That is indistinguishable in Sentry from the endpoint deliberately
+  // refusing, which is exactly the ambiguity a `speaking-coach:server
+  // status=502` with no code left us in. It is now a NAMED, JSON, fail-closed
+  // refusal that the client already classifies and can retry. It does not
+  // change any decision the gate makes — only what a broken dependency looks
+  // like from outside.
+  try {
+    return await runGate();
+  } catch (e) {
+    console.error('_requireAuth: gate dependency threw:', e?.message);
+    return fail(503, 'gate_unavailable');
+  }
 
-  const projectId = env.VITE_FIREBASE_PROJECT_ID || env.FIREBASE_PROJECT_ID || '';
-  if (!projectId) return fail(500, 'server_misconfigured'); // fail-closed: never silently open
+  async function runGate() {
+    const underLimit = await checkRateLimit(request, rateLimit, env);
+    if (!underLimit) return fail(429, 'rate_limited');
 
-  const uid = await getFirebaseUid(request, projectId);
-  if (!uid) return fail(401, 'unauthenticated');
+    const projectId = env.VITE_FIREBASE_PROJECT_ID || env.FIREBASE_PROJECT_ID || '';
+    if (!projectId) return fail(500, 'server_misconfigured'); // fail-closed: never silently open
 
-  if (cost > 0) {
-    const quota = await checkAIQuota(request, env, uid, cost);
-    if (!quota.allowed) {
-      return fail(429, 'daily_quota_exceeded', {
-        message: 'Daily AI limit reached. Resets at midnight UTC.',
-        resetAt: quota.resetAt,
+    const uid = await getFirebaseUid(request, projectId);
+    if (!uid) return fail(401, 'unauthenticated');
+
+    if (cost > 0) {
+      const quota = await checkAIQuota(request, env, uid, cost);
+      if (!quota.allowed) {
+        return fail(429, 'daily_quota_exceeded', {
+          message: 'Daily AI limit reached. Resets at midnight UTC.',
+          resetAt: quota.resetAt,
+        });
+      }
+    }
+
+    // Last, after every per-request check has passed: charge this call's
+    // worst-case cost against the global monthly ledger. Budget is the one
+    // gate that speaks for ALL users at once.
+    const budget = await checkAndChargeBudget(env, new URL(request.url).pathname);
+    if (!budget.allowed) {
+      return fail(429, 'monthly_budget_exhausted', {
+        message: 'Monthly AI budget reached. Live generation resumes next month.',
+        resetAt: budget.resetAt,
       });
     }
-  }
 
-  // Last, after every per-request check has passed: charge this call's
-  // worst-case cost against the global monthly ledger. Budget is the one
-  // gate that speaks for ALL users at once.
-  const budget = await checkAndChargeBudget(env, new URL(request.url).pathname);
-  if (!budget.allowed) {
-    return fail(429, 'monthly_budget_exhausted', {
-      message: 'Monthly AI budget reached. Live generation resumes next month.',
-      resetAt: budget.resetAt,
-    });
+    return { ok: true, uid, origin, isDev };
   }
-
-  return { ok: true, uid, origin, isDev };
 }
