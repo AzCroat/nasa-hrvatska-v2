@@ -55,6 +55,31 @@ function isPlayableAudio(buffer) {
   return !!buffer && buffer.byteLength >= MIN_AUDIO_BYTES;
 }
 
+/**
+ * The longest text this endpoint will speak (2026-09-10).
+ *
+ * IT WAS 500, AND THAT MADE THE AI LISTENING SCREEN STRUCTURALLY INCAPABLE OF
+ * PRODUCING AUDIO. That screen generates a narrator passage or an interleaved
+ * dialogue (the generator runs at max_tokens 1500–2600) and sends the WHOLE
+ * thing in one request, so it was always over the cap and always answered 400.
+ * Not a voice-chain failure at all — the request never reached a backend.
+ * Owner, once the failure could finally name itself: "This recording couldn't
+ * be generated." — which is exactly what `invalid_text` (a 400) says.
+ *
+ * 3000 covers the longest passage the generator produces with headroom, and is
+ * still a bound: the endpoint is per-user quota-gated and budget-gated, and
+ * the free Edge voice is charged per request rather than per character. Keep
+ * it a fixed cap — an unbounded one turns a single request into an unbounded
+ * synthesis bill the moment a metered backend is configured.
+ */
+const MAX_TTS_CHARS = 3000;
+
+/** Hex SHA-256 — the identity of a TTS request, used by BOTH cache layers. */
+async function sha256Hex(s) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 // Whitelisted characters for an <phoneme> IPA string: Unicode letters (covers IPA
 // symbols ʃ ʒ ɲ ʎ ɡ and the modifier-letter stress/length marks ˈ ˌ ː ˑ, all in the
 // Letter category), combining marks (\p{M} covers IPA diacritics and the tie bars
@@ -584,7 +609,7 @@ export async function onRequestPost(context) {
     // mis-segments (e.g. "odjebi" → "od jeb i").
     const phoneme = typeof body.phoneme === 'string' ? body.phoneme : null;
 
-    if (typeof text !== 'string' || !text.trim() || text.length > 500) {
+    if (typeof text !== 'string' || !text.trim() || text.length > MAX_TTS_CHARS) {
       return new Response('Invalid text', { status: 400, headers: ttsCorsHeaders(origin) });
     }
 
@@ -595,15 +620,38 @@ export async function onRequestPost(context) {
     // phoneme is part of the key so an IPA-corrected request never collides with the
     // plain cached audio for the same word (and vice-versa).
     const phonemeKey = phoneme ? encodeURIComponent(phoneme) : '';
-    const cacheKey = new Request(
-      `https://tts-cache.internal/v3/${voice}/${encodeURIComponent(text.slice(0, 400))}?slow=${slow}&prosody=${prosodyKey}&ph=${phonemeKey}`,
-      { method: 'GET' },
-    );
+    // ONE identity string for BOTH cache layers, hashed once.
+    //
+    // The edge key used to be the first 400 CHARACTERS of the text. That was
+    // survivable while the cap was 500; raising it to MAX_TTS_CHARS would make
+    // it a live collision — two different listening passages that open with the
+    // same 400 characters (a shared dialogue opening, a repeated scene-setting
+    // line) would serve each other's audio, which is a learner hearing the
+    // wrong recording with no error anywhere. Raising the cap and fixing this
+    // key are one change; doing only the first would trade a 400 for silence.
+    //
+    // The KV half already hashed the FULL text and its key format is unchanged,
+    // so the durable 90-day cache survives this deploy intact. Only the edge
+    // key moves (v3 → v4), and that layer is transient by design.
+    const identity = `${voice}|${slow}|${prosodyKey}|${phonemeKey}|${text}`;
+    let identityHash = null;
+    try {
+      identityHash = await sha256Hex(identity);
+    } catch {
+      identityHash = null; // digest unavailable → behave as if uncached
+    }
+    const cacheKey = identityHash
+      ? new Request(`https://tts-cache.internal/v4/${identityHash}`, { method: 'GET' })
+      : null;
     let edgeCache;
     try {
-      edgeCache = caches.default;
-      const cached = await edgeCache.match(cacheKey);
-      if (cached) return cached;
+      // No hash → no key → no edge caching, rather than caching under a key
+      // that cannot distinguish two different texts.
+      edgeCache = cacheKey ? caches.default : null;
+      if (edgeCache) {
+        const cached = await edgeCache.match(cacheKey);
+        if (cached) return cached;
+      }
     } catch {
       edgeCache = null;
     }
@@ -616,15 +664,14 @@ export async function onRequestPost(context) {
     // and repeat latency toward a single KV read.
     const kv = env.KV || env.PUSH_SUBSCRIPTIONS || null;
     let kvKey = null;
-    if (kv) {
+    if (kv && identityHash) {
       try {
-        const digest = await crypto.subtle.digest(
-          'SHA-256',
-          new TextEncoder().encode(`${voice}|${slow}|${prosodyKey}|${phonemeKey}|${text}`),
-        );
-        kvKey =
-          'tts:v3:' +
-          [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+        // The SAME identity string the edge key now hashes, so the two layers
+        // cannot disagree about what counts as the same request. The key
+        // FORMAT is unchanged from when this digest was computed inline here,
+        // which is what keeps the durable 90-day cache valid across this
+        // deploy — only the edge key moved.
+        kvKey = 'tts:v3:' + identityHash;
         const hit = await kv.get(kvKey, { type: 'arrayBuffer' });
         if (isPlayableAudio(hit)) {
           const kvResponse = new Response(hit, {

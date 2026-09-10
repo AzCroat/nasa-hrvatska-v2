@@ -126,7 +126,16 @@ describe('narrator variety (source pins)', () => {
     expect(src).toContain("body.voice === 'srecko'");
     expect(src).toContain('hr-HR-SreckoNeural');
     // The voice is part of both cache identities, so narrators never collide.
-    expect(src).toMatch(/tts-cache\.internal\/v3\/\$\{voice\}/);
+    //
+    // ASSERTED AS THE PROPERTY, NOT THE KEY FORMAT (2026-09-10). This used to
+    // match `tts-cache.internal/v3/${voice}` — the literal edge key. When that
+    // key moved to a hash of the full request identity (the 400-character
+    // truncation became a collision risk once the text cap was raised for
+    // listening passages), this failed against code where the property it
+    // cares about was still perfectly true. A test that restates production's
+    // shape breaks on a refactor and says nothing about the invariant; both
+    // cache layers now derive from `identity`, so pin THAT.
+    expect(src).toMatch(/const identity = `\$\{voice\}\|/);
     expect(src).toMatch(/\$\{voice\}\|\$\{slow\}/);
   });
 
