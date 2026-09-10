@@ -1,6 +1,7 @@
 // Cloudflare Pages Function — TTS Proxy
 // Two voice paths:
-//   gabrijela (default): Azure hr-HR-GabrijelaNeural → Google Translate → Edge TTS → Google Cloud
+//   gabrijela (default): Azure hr-HR-GabrijelaNeural → Edge hr-HR-GabrijelaNeural
+//                        → Google Translate → Google Cloud hr-HR-Wavenet
 //   charlotte (opt-in):  ElevenLabs Charlotte eleven_multilingual_v2 → Azure hr-HR-GabrijelaNeural
 // Client falls back to Web Speech API when this endpoint returns 503.
 
@@ -241,10 +242,78 @@ async function tryGoogleTranslateTTS(text, slow) {
 }
 
 // ── Microsoft Edge TTS ────────────────────────────────────────────────────────
-// hr-HR-GabrijelaNeural via Edge browser's speech synthesis endpoint.
-// Kept as backup — WebSocket from Cloudflare Workers can be unreliable.
+// hr-HR-GabrijelaNeural via Edge browser's read-aloud endpoint — the SAME
+// Croatian neural voice Azure serves, free and with no account.
+//
+// 2026-09-10: THIS BACKEND HAS NEVER RUN. It began `if (!edgeTtsToken) return
+// null` against `env.EDGE_TTS_TOKEN`, which was never set — so the chain's only
+// keyless source of a real Croatian voice skipped itself on every request, and
+// with AZURE_TTS_KEY also unset (confirmed from the deploy log that day) the
+// whole endpoint was left with Google Translate's robotic voice, which refuses
+// datacenter IPs, and a Google Cloud path that needs the TTS API enabled.
+// Owner: "Audio did not play. Has not once yet."
+//
+// `trustedclienttoken` IS NOT A SECRET. It is the fixed public client id
+// compiled into the Edge browser and published in every open-source edge-tts
+// implementation; it identifies no account, carries no billing and grants no
+// private access. Gating a free voice behind it as though it were a credential
+// is what kept this dark. An env override remains for the day Microsoft rotates
+// it, so the constant can be replaced without a deploy.
+const EDGE_TRUSTED_CLIENT_TOKEN = '6A5AA1D4EAFF4E9FB37E23D68491D6F4';
+const EDGE_GEC_VERSION = '1-130.0.2849.68';
+
+/**
+ * The `Sec-MS-GEC` value the read-aloud endpoint has required since 2024:
+ * SHA-256 of (Windows file-time ticks rounded down to 5 minutes) + the trusted
+ * client token, uppercase hex. Without it the socket is refused, which would
+ * look exactly like "the backup is still not working".
+ *
+ * BigInt because ticks — 100-nanosecond intervals since 1601 — are ~1.34e17,
+ * well past Number.MAX_SAFE_INTEGER (9.0e15), so the arithmetic is outside the
+ * range where a Number is guaranteed exact.
+ *
+ * STATED HONESTLY, because the first draft of this comment claimed the Number
+ * path produced a wrong token and a test disproved it: measured over 30,000
+ * instants spanning ~95 years, the two paths agree on every one. They agree
+ * because each tick is a multiple of 3e9 (hence of 2^9) while the ulp at this
+ * magnitude is only 16–32 — a correctness argument that is true, non-obvious,
+ * and would have to be re-derived by anyone touching the line. BigInt removes
+ * the need for it. It is insurance, not a fix.
+ */
+export async function edgeSecMsGec(token, nowMs = Date.now()) {
+  const SECONDS_1601_TO_1970 = 11644473600n;
+  let ticks = BigInt(Math.floor(nowMs / 1000)) + SECONDS_1601_TO_1970;
+  ticks -= ticks % 300n; // round down to the 5-minute window
+  ticks *= 10000000n; // seconds -> 100-ns intervals
+  const bytes = new TextEncoder().encode(`${ticks}${token}`);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)]
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+    .toUpperCase();
+}
+
+/**
+ * The X-Timestamp the read-aloud service expects is JavaScript's own
+ * `Date.prototype.toString()` shape ("Wed Sep 10 2026 14:03:02 GMT+0000
+ * (Coordinated Universal Time)"), NOT ISO-8601 — which is what this function
+ * used to send, untested, for as long as it never ran. Every open-source
+ * client sends the JS shape because that is what the Edge browser sends.
+ */
+function edgeTimestamp(nowMs = Date.now()) {
+  const d = new Date(nowMs);
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const mons = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const p2 = (n) => String(n).padStart(2, '0');
+  return (
+    `${days[d.getUTCDay()]} ${mons[d.getUTCMonth()]} ${p2(d.getUTCDate())} ${d.getUTCFullYear()} ` +
+    `${p2(d.getUTCHours())}:${p2(d.getUTCMinutes())}:${p2(d.getUTCSeconds())} ` +
+    `GMT+0000 (Coordinated Universal Time)`
+  );
+}
+
 async function tryEdgeTTS(text, slow, edgeTtsToken) {
-  if (!edgeTtsToken) return null; // No token configured — skip this provider
+  const token = edgeTtsToken || EDGE_TRUSTED_CLIENT_TOKEN;
   const voice = 'hr-HR-GabrijelaNeural';
   const rate = slow ? '-25%' : '-8%';
   const safeText = text.replace(
@@ -253,90 +322,101 @@ async function tryEdgeTTS(text, slow, edgeTtsToken) {
   );
   const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='hr-HR'><voice name='${voice}'><prosody rate='${rate}'>${safeText}</prosody></voice></speak>`;
   const connId = crypto.randomUUID().replace(/-/g, '').toUpperCase();
-  const wsUrl = `wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?trustedclienttoken=${edgeTtsToken}&ConnectionId=${connId}`;
+  const gec = await edgeSecMsGec(token);
+  // https, not wss: a Worker opens an OUTBOUND socket by asking fetch() for the
+  // 101 and reading `response.webSocket`. See the transport note below.
+  const url =
+    `https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1` +
+    `?TrustedClientToken=${token}` +
+    `&Sec-MS-GEC=${gec}` +
+    `&Sec-MS-GEC-Version=${EDGE_GEC_VERSION}` +
+    `&ConnectionId=${connId}`;
+
+  // THE TRANSPORT WAS THE SECOND HALF OF THIS BACKEND NEVER WORKING. It used
+  // `new WebSocket(url)` — the browser constructor. A Cloudflare Worker opens
+  // an outbound socket by requesting the upgrade through fetch() and taking
+  // `response.webSocket`; the constructor is a browser API and cannot carry the
+  // Origin/User-Agent headers this service checks either. Untestable from here
+  // (the dev sandbox's egress proxy blocks speech.platform.bing.com), so it is
+  // written to the documented Workers mechanism and every failure is NAMED in
+  // the 503 rather than swallowed.
+  const res = await fetch(url, {
+    headers: {
+      Upgrade: 'websocket',
+      Pragma: 'no-cache',
+      'Cache-Control': 'no-cache',
+      Origin: 'chrome-extension://jdiccldimpdaibmpdkjnbmckianbfold',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
+        'Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0',
+    },
+  });
+  const ws = res.webSocket;
+  if (!ws) throw new Error(`edge-tts no upgrade (${res.status})`);
+  ws.accept();
 
   return new Promise((resolve, reject) => {
-    let ws;
     const chunks = [];
-    try {
-      ws = new WebSocket(wsUrl);
-    } catch (e) {
-      return reject(e);
-    }
-
-    const timeout = setTimeout(() => {
+    let settled = false;
+    const finish = (fn, arg) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
       try {
         ws.close();
       } catch (closeErr) {
         void closeErr;
       }
-      reject(new Error('edge-tts timeout'));
-    }, 12000);
-
-    ws.addEventListener('open', () => {
-      const now = new Date().toISOString().replace(/Z$/, '000Z');
-      const reqId = crypto.randomUUID().replace(/-/g, '').toUpperCase();
-      ws.send(
-        `X-Timestamp:${now}\r\nContent-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n` +
-          `{"context":{"synthesis":{"audio":{"metadataoptions":{"sentenceBoundaryEnabled":"false","wordBoundaryEnabled":"true"},"outputFormat":"audio-24khz-48kbitrate-mono-mp3"}}}}`,
-      );
-      ws.send(
-        `X-RequestId:${reqId}\r\nContent-Type:application/ssml+xml\r\nX-Timestamp:${now}\r\nPath:ssml\r\n\r\n${ssml}`,
-      );
-    });
+      fn(arg);
+    };
+    const timeout = setTimeout(() => finish(reject, new Error('edge-tts timeout')), 12000);
 
     ws.addEventListener('message', (event) => {
       if (typeof event.data === 'string') {
         if (event.data.includes('Path:turn.end')) {
-          clearTimeout(timeout);
-          ws.close();
-          if (chunks.length === 0) {
-            reject(new Error('edge-tts no audio'));
-            return;
-          }
-          const totalLen = chunks.reduce((s, c) => s + c.byteLength, 0);
-          const merged = new Uint8Array(totalLen);
+          if (chunks.length === 0) return finish(reject, new Error('edge-tts no audio'));
+          const total = chunks.reduce((s, c) => s + c.byteLength, 0);
+          const merged = new Uint8Array(total);
           let offset = 0;
           for (const chunk of chunks) {
             merged.set(new Uint8Array(chunk), offset);
             offset += chunk.byteLength;
           }
-          resolve(merged.buffer);
+          finish(resolve, merged.buffer);
         }
-      } else {
-        // Binary frame — Cloudflare Workers deliver WebSocket binary as ArrayBuffer.
-        // Parse the 2-byte header to find where audio data starts.
-        let ab;
-        if (event.data instanceof ArrayBuffer) {
-          ab = event.data;
-        } else if (event.data && typeof event.data.arrayBuffer === 'function') {
-          // Fallback for Blob-like objects (shouldn't occur in Workers but guard anyway)
-          event.data
-            .arrayBuffer()
-            .then((buf) => {
-              const view = new DataView(buf);
-              const headerLen = view.getUint16(0);
-              const audioStart = 2 + headerLen;
-              if (buf.byteLength > audioStart) chunks.push(buf.slice(audioStart));
-            })
-            .catch(() => {});
-          return;
-        }
-        if (!ab) return;
-        const view = new DataView(ab);
-        const headerLen = view.getUint16(0);
-        const audioStart = 2 + headerLen;
-        if (ab.byteLength > audioStart) chunks.push(ab.slice(audioStart));
+        return;
       }
+      // Binary frame: a 2-byte big-endian header length, then that many bytes
+      // of headers, then the mp3 slice.
+      const ab = event.data instanceof ArrayBuffer ? event.data : null;
+      if (!ab || ab.byteLength < 2) return;
+      const audioStart = 2 + new DataView(ab).getUint16(0);
+      if (ab.byteLength > audioStart) chunks.push(ab.slice(audioStart));
     });
 
-    ws.addEventListener('error', (e) => {
-      clearTimeout(timeout);
-      reject(e);
-    });
-    ws.addEventListener('close', () => {
-      clearTimeout(timeout);
-    });
+    ws.addEventListener('error', (e) =>
+      finish(reject, e instanceof Error ? e : new Error('edge-tts socket error')),
+    );
+    ws.addEventListener('close', () =>
+      finish(reject, new Error(`edge-tts closed early (${chunks.length} chunks)`)),
+    );
+
+    const ts = edgeTimestamp();
+    const reqId = crypto.randomUUID().replace(/-/g, '').toUpperCase();
+    try {
+      ws.send(
+        `X-Timestamp:${ts}\r\nContent-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n` +
+          `{"context":{"synthesis":{"audio":{"metadataoptions":{"sentenceBoundaryEnabled":"false","wordBoundaryEnabled":"false"},"outputFormat":"audio-24khz-48kbitrate-mono-mp3"}}}}`,
+      );
+      // The trailing Z after a non-ISO timestamp is not a typo — it is what the
+      // Edge browser sends, and every working client reproduces it.
+      ws.send(
+        `X-RequestId:${reqId}\r\nContent-Type:application/ssml+xml\r\nX-Timestamp:${ts}Z\r\nPath:ssml\r\n\r\n${ssml}`,
+      );
+    } catch (e) {
+      finish(reject, e);
+    }
   });
 }
 
@@ -469,8 +549,8 @@ export async function onRequestPost(context) {
     [
       AZURE_KEY ? 'azure' : null,
       ELEVENLABS_KEY ? 'elevenlabs' : null,
-      'gtranslate',
       'edge',
+      'gtranslate',
       GOOGLE_SA_JSON ? 'google' : null,
     ]
       .filter(Boolean)
@@ -644,19 +724,24 @@ export async function onRequestPost(context) {
         }
       }
 
-      // ── 2. Google Translate TTS hr (free, HTTP, no key required) ───────────
+      // ── 2. Microsoft Edge hr-HR-GabrijelaNeural (free, no account) ─────────
+      // AHEAD of Google Translate since 2026-09-10: it is the same Croatian
+      // NEURAL voice Azure serves, where Google Translate's is robotic — and
+      // Google Translate is the backend that answers a datacenter IP with a
+      // consent body rather than audio. Ordering the good free voice behind
+      // the bad one only mattered once the good one could run at all.
       if (!isPlayableAudio(buffer)) {
         try {
-          buffer = await tryGoogleTranslateTTS(text, slow);
+          buffer = await tryEdgeTTS(text, slow, env.EDGE_TTS_TOKEN || null);
         } catch {
           /* fall through */
         }
       }
 
-      // ── 3. Microsoft Edge hr-HR-GabrijelaNeural (WebSocket backup) ──────────
+      // ── 3. Google Translate TTS hr (free, HTTP, no key required) ───────────
       if (!isPlayableAudio(buffer)) {
         try {
-          buffer = await tryEdgeTTS(text, slow, env.EDGE_TTS_TOKEN || null);
+          buffer = await tryGoogleTranslateTTS(text, slow);
         } catch {
           /* fall through */
         }
@@ -687,13 +772,19 @@ export async function onRequestPost(context) {
             ].join(',')
           : [
               AZURE_KEY ? 'azure-failed' : 'azure-not-configured',
-              'gtranslate-failed',
               'edge-failed',
+              'gtranslate-failed',
               GOOGLE_SA_JSON ? 'google-failed' : 'google-not-configured',
             ].join(',');
       return new Response(`TTS unavailable — ${whyFailed}${emptyNote}`, {
         status: 503,
-        headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': diagBackends },
+        // The FAILED list, not the configured one. `_classifyHttpFailure` reads
+        // this header into the Sentry breadcrumb and drops the body except for
+        // the budget check, so on the configured list a silent afternoon
+        // reported `backends=azure,edge,gtranslate` — the same string a healthy
+        // deploy sends. Sending what actually failed makes the next occurrence
+        // name its own cause instead of needing the owner to reproduce it.
+        headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': `${whyFailed}${emptyNote}` },
       });
     }
 

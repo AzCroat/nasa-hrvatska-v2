@@ -39,6 +39,19 @@ regexes = [
   # nothing, and it has to be readable in both places precisely so the two can
   # be checked against each other.
   '''nh-cron-v1''',
+  # The Microsoft Edge read-aloud TRUSTED CLIENT TOKEN (functions/api/tts.js,
+  # src/tests/edgeTtsVoice.test.js). Same class as the Firebase web API keys
+  # above: public client config by design. It is the fixed client id compiled
+  # into the Edge browser and published in every open-source edge-tts
+  # implementation — it identifies no account, carries no billing and grants no
+  # private access. generic-api-key flags it because the identifier says TOKEN
+  # and 32 hex chars clear the 3.5 entropy floor (measured: 3.6167).
+  #
+  # Treating it as a credential is precisely what kept the app's only free
+  # Croatian neural voice switched off (2026-09-10) — it sat behind an unset
+  # `EDGE_TTS_TOKEN` and therefore never ran once. Allowlisted as the exact
+  # literal, so any other high-entropy hex is still caught.
+  '''6A5AA1D4EAFF4E9FB37E23D68491D6F4''',
   # Culture-essay SCREEN IDS (src/components/AppRouter.tsx, src/lib/croatiaPool.ts).
   # Each essay route is `<ScreenErrorBoundary key="kultura_c2_deklaracija" …>`, and
   # generic-api-key keys on the React attribute NAME `key`; the longer essay ids
