@@ -24,7 +24,7 @@
  * cause names itself.
  */
 import { readFileSync } from 'node:fs';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { describeTtsFailure } from '../lib/audio';
 
 /**
@@ -73,8 +73,19 @@ const ENV = {};
 let onRequestPost;
 beforeEach(async () => {
   vi.resetModules();
+  // HERMETIC, and it was not on the first run. With no key configured the
+  // chain still reaches the KEYLESS backends — Edge and Google Translate —
+  // and CI's runner has real network, so the passage below was genuinely
+  // synthesized and the handler returned 200 where this sandbox (whose proxy
+  // blocks the voice host) returned 503. A unit test that behaves differently
+  // depending on whether the runner can reach Microsoft is not a unit test;
+  // it is slow, flaky, and it charges an external service on every CI run.
+  // Stubbing fetch makes every keyless backend fail, so the 503 is the
+  // handler's own decision rather than the network's.
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
   ({ onRequestPost } = await import('../../functions/api/tts.js'));
 });
+afterEach(() => vi.unstubAllGlobals());
 
 describe('the length cap admits a real listening passage', () => {
   it('the reported sentence is what a 400 produces — the trail back to the cap', () => {
@@ -95,7 +106,7 @@ describe('the length cap admits a real listening passage', () => {
     expect(TTS, 'the 500-character cap is back').not.toMatch(/text\.length > 500/);
   });
 
-  it('REJECTS a passage of the length AI Listening actually sends — before the fix', async () => {
+  it('ACCEPTS a passage of the length AI Listening actually sends', async () => {
     // ~1,400 characters: a mid-length B1 narrator passage. Under the old cap
     // this was a 400 every single time.
     const passage = 'Ana svako jutro šeta uz more i gleda brodove kako polaze. '.repeat(24);
