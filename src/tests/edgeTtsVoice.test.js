@@ -51,8 +51,16 @@ describe('the backend is no longer gated behind a flag that never needed to exis
   });
 
   it('is reached from the chain, and ahead of Google Translate', () => {
-    const edge = TTS.indexOf('buffer = await tryEdgeTTS(');
-    const gtrans = TTS.indexOf('buffer = await tryGoogleTranslateTTS(');
+    // Matched on the BACKEND NAME rather than the call expression: the chain
+    // moved to `attempt(name, fn)` when successes started being named
+    // (2026-09-10), and a pin on `buffer = await tryEdgeTTS(` then reported
+    // "the chain never calls tryEdgeTTS" about a chain that calls it.
+    // SCOPED TO THE CHAIN. A bare indexOf over the whole file finds the
+    // function DEFINITIONS, which sit in the opposite order to the calls — so
+    // the first rewrite of this assertion failed against a correct chain.
+    const chain = TTS.slice(TTS.indexOf('let servedBy = null;'));
+    const edge = chain.indexOf('tryEdgeTTS(');
+    const gtrans = chain.indexOf('tryGoogleTranslateTTS(');
     expect(edge, 'the chain never calls tryEdgeTTS').toBeGreaterThan(-1);
     expect(gtrans).toBeGreaterThan(-1);
     // A real neural voice must not sit behind the robotic one that also refuses

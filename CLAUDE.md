@@ -310,6 +310,85 @@ existed.
   locked answer behind a failed speaker icon would strand a learner who can
   read it).
 
+### The four days audio never played once, and what actually fixed it (2026-09-10)
+
+**A CORRECTION FIRST, because the section above overstates itself.** It says
+"Every failure now records WHAT failed" and "audio.ts now records a
+`TtsFailure` on every path". That was true of `speakAzure` and false of the
+app. There are **two** client paths to `/api/tts`, and only one was
+instrumented:
+
+| path                                       | who uses it                                                                                                                                                                                |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `speak()` / `speakSlow()` → `speakAzure()` | flashcards, drills, the exam runner — instrumented 2026-09-06                                                                                                                              |
+| `ttsFetch()`                               | AI Listening, Maja, the live tutor, the news reader, Story Mode, Heritage Story, the graded reader, Writing, Speaking Sprint, Phrase of the Day — **twelve call sites, recording nothing** |
+
+`ttsFetch` returned `Response | null` and set no failure, so
+`getLastTtsFailure()` was null on every one of those screens and
+`_reportTtsFailure` was never reached — **no Sentry event has ever come from
+any of them.** Owner report: "The audio couldn't be played. Transcript only."
+— which is `describeTtsFailure`'s DEFAULT branch, i.e. what it returns for
+null. The screen asked for the cause and got nothing. It now classifies with
+the same `_classifyHttpFailure`, notes and reports; the error body is read
+from a `clone()` so callers still receive an unread Response; a success clears
+the record so no surface reports another screen's stale failure as its own.
+
+**THE ACTUAL BLOCKER WAS A LENGTH CHECK, NOT THE VOICE CHAIN.** `/api/tts`
+capped `text.length > 500`. `AIListeningScreen` sends a whole generated
+passage or interleaved dialogue (`max_tokens` 1500–2600) in ONE request, so it
+was always a 400 — that screen was **structurally incapable of producing audio
+for as long as it existed**, and the request never reached a backend at all.
+Cap is now `MAX_TTS_CHARS` (3000): enough for the longest passage, still
+bounded, because an unbounded cap is an unbounded synthesis bill the moment a
+per-character backend is configured. **Raising it and fixing the edge cache key
+are ONE change** — that key was the first 400 CHARACTERS of the text, survivable
+at 500 and a live collision at 3000 (two passages sharing an opening serve each
+other's audio, with no error anywhere). Both layers now hash one `identity`
+string; the DURABLE KV key format is deliberately unchanged so 90 days of cached
+audio survives.
+
+**Two dead backends were also fixed on the way, and neither needed a key.**
+`tryEdgeTTS` — `hr-HR-GabrijelaNeural`, the same Croatian neural voice Azure
+serves, free and account-less — had **never executed once**: it opened
+`if (!edgeTtsToken) return null` against an unset `EDGE_TTS_TOKEN`, though
+`trustedclienttoken` is the fixed PUBLIC client id compiled into the Edge
+browser, not a credential; and it called `new WebSocket(url)`, a browser API a
+Worker cannot use (a Worker asks `fetch()` for the 101 and reads
+`response.webSocket`, which is also the only form that can send the
+Origin/User-Agent headers the service checks). It now also sends `Sec-MS-GEC`
+(required since 2024; absent, the socket is refused) and the JS-shaped
+`X-Timestamp` with its trailing `Z`. **Gitleaks flags that public constant**
+(`generic-api-key`, entropy 3.6167) — allowlisted as the exact literal, with
+the value DERIVED from `tts.js` by a test so a rotation cannot silently
+un-cover it.
+
+**Successes are named too, now** (`servedBy`): the fresh 200 set NO
+`X-TTS-Backends` and the KV hit set the CONFIGURED list, so "is the voice
+working" and "WHICH voice is working" were different questions and only the
+first was answerable. Every backend runs through `attempt(name, fn)`, which
+credits a name only for PLAYABLE audio; a cache hit says `kv-cache`, never a
+provider it cannot know. The 503 carries the FAILED list for the same reason.
+
+**THE PROCESS LESSON, which cost four rounds.** Three of them reasoned about
+which BACKEND was failing, because that is where a "no audio" report points —
+and the request was dying at a length check. What settled it was one line of
+owner-reported error text read against the code that produces it. **Build the
+diagnostic first and let the cause name itself**; a wrong-but-plausible
+hypothesis absorbs unlimited effort, and every round of it asked the owner for
+something ("set this key") that was never the problem. Related: the CI run that
+first proved Edge synthesizes a full passage was a unit test of mine that
+accidentally hit the real network — it returned 200 where the dev sandbox
+(whose proxy blocks the voice host) returned 503. **A test whose result depends
+on the runner's network is not a unit test**; it is stubbed now.
+
+- NEVER: instrument one path to an endpoint and describe the endpoint as
+  covered — enumerate the callers; add a `/api/tts` caller that does not record
+  a named failure; cap `text` below what the AI generators actually produce;
+  key a cache on a PREFIX of the text; change the durable KV key format without
+  intending to regenerate every cached phrase; credit a `servedBy` for a
+  backend that returned nothing playable; let a cache hit name a provider; put
+  a live network call in a unit test.
+
 ## Critical Architecture: Feedback Must Work Every Time (owner directive, 2026-09-07)
 
 "Feedback on writing or any feedback provided on speech MUST work EVERY TIME.

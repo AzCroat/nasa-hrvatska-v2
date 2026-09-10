@@ -679,6 +679,11 @@ export async function onRequestPost(context) {
             headers: {
               'Content-Type': 'audio/mpeg',
               'Cache-Control': 'public, max-age=86400',
+              // Says CACHE, not a backend name. This audio was generated at
+              // some point in the last 90 days and the store does not record
+              // by what, so naming a provider here would be a guess presented
+              // as a fact — the same class as reporting the configured list.
+              'X-TTS-Backends': 'kv-cache',
               ...ttsCorsHeaders(origin),
             },
           });
@@ -734,22 +739,33 @@ export async function onRequestPost(context) {
     }
 
     let buffer = null;
+    // WHICH backend actually spoke. Until now nothing recorded it: the fresh
+    // 200 set no X-TTS-Backends at all and the KV hit set the CONFIGURED list,
+    // so "the voice is working" and "which voice is working" were different
+    // questions and only the first was answerable. That gap is why the 2026-09-10
+    // evidence that Edge synthesizes a full passage had to be INFERRED by
+    // elimination from a CI test failure rather than read off a response.
+    let servedBy = null;
+    /** Run one backend; on playable audio, record its name. */
+    const attempt = async (name, fn) => {
+      if (isPlayableAudio(buffer)) return;
+      try {
+        buffer = await fn();
+      } catch {
+        return; // fall through to the next backend
+      }
+      if (isPlayableAudio(buffer)) servedBy = name;
+    };
 
     if (voice === 'charlotte') {
       // ── Charlotte path: ElevenLabs first, Azure Gabriela as fallback ────────
       if (ELEVENLABS_KEY) {
-        try {
-          buffer = await tryElevenLabs(text, slow, ELEVENLABS_KEY);
-        } catch {
-          /* fall through to Azure */
-        }
+        await attempt('elevenlabs', () => tryElevenLabs(text, slow, ELEVENLABS_KEY));
       }
-      if (!isPlayableAudio(buffer) && AZURE_KEY) {
-        try {
-          buffer = await tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION);
-        } catch {
-          /* fall through */
-        }
+      if (AZURE_KEY) {
+        await attempt('azure', () =>
+          tryAzure(text, { slow, prosody, phoneme }, AZURE_KEY, PRIMARY_REGION),
+        );
       }
     } else {
       // ── Gabriela path (default): Azure → Google Translate → Edge → Google ───
@@ -759,16 +775,14 @@ export async function onRequestPost(context) {
       // chain the default voice already accepts (audio always plays —
       // narrator variety is pedagogy, not a correctness contract).
       if (AZURE_KEY) {
-        try {
-          buffer = await tryAzure(
+        await attempt('azure', () =>
+          tryAzure(
             text,
             { slow, prosody, phoneme, voiceName: voice === 'srecko' ? 'hr-HR-SreckoNeural' : null },
             AZURE_KEY,
             PRIMARY_REGION,
-          );
-        } catch {
-          /* fall through */
-        }
+          ),
+        );
       }
 
       // ── 2. Microsoft Edge hr-HR-GabrijelaNeural (free, no account) ─────────
@@ -777,30 +791,14 @@ export async function onRequestPost(context) {
       // Google Translate is the backend that answers a datacenter IP with a
       // consent body rather than audio. Ordering the good free voice behind
       // the bad one only mattered once the good one could run at all.
-      if (!isPlayableAudio(buffer)) {
-        try {
-          buffer = await tryEdgeTTS(text, slow, env.EDGE_TTS_TOKEN || null);
-        } catch {
-          /* fall through */
-        }
-      }
+      await attempt('edge', () => tryEdgeTTS(text, slow, env.EDGE_TTS_TOKEN || null));
 
       // ── 3. Google Translate TTS hr (free, HTTP, no key required) ───────────
-      if (!isPlayableAudio(buffer)) {
-        try {
-          buffer = await tryGoogleTranslateTTS(text, slow);
-        } catch {
-          /* fall through */
-        }
-      }
+      await attempt('gtranslate', () => tryGoogleTranslateTTS(text, slow));
 
       // ── 4. Google hr-HR-Wavenet-B (backup if service account configured) ────
-      if (!isPlayableAudio(buffer) && GOOGLE_SA_JSON) {
-        try {
-          buffer = await tryGoogle(text, slow, GOOGLE_SA_JSON);
-        } catch {
-          /* fall through */
-        }
+      if (GOOGLE_SA_JSON) {
+        await attempt('google', () => tryGoogle(text, slow, GOOGLE_SA_JSON));
       }
     }
 
@@ -840,6 +838,10 @@ export async function onRequestPost(context) {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Cache-Control': 'public, max-age=86400',
+        // The backend that ACTUALLY spoke, not the configured list. A success
+        // is as worth naming as a failure: it is what tells us which voice the
+        // learner is hearing, and therefore what breaks if it goes away.
+        'X-TTS-Backends': servedBy || 'unknown',
         ...ttsCorsHeaders(origin),
       },
     });
