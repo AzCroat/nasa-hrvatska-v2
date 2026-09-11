@@ -1,5 +1,6 @@
 /**
- * routeRenderSweep.test.tsx — every routable screen must survive being opened.
+ * routeRenderSweep.test.tsx — every routable screen must survive being opened
+ * COLD, with no content payload loaded.
  *
  * THE BUG CLASS THIS EXISTS FOR. `ScenesScreen` read `scene.qs.map` against a
  * payload whose items carry `items`, so it threw on EVERY open from the day it
@@ -21,26 +22,30 @@
  * been bitten by twice (AlphabetScreen's `award`, the speaking coach's
  * unreachable state).
  *
- * WHAT IT CANNOT SEE, stated so the next reader does not over-trust it: a
+ * COLD IS HALF THE JOB, and the half that could not have caught ScenesScreen.
+ * With no payload loaded, `content?.SCENES ?? []` is empty and the bad
+ * dereference is never reached. `contentShapeSweep.test.tsx` is the other
+ * half: the same sweep with the REAL `/api/content/core` payload in the hook.
+ * Cold still matters on its own — first paint, offline, and a failed content
+ * fetch are all real states a learner meets.
+ *
+ * WHAT NEITHER CAN SEE, stated so the next reader does not over-trust them: a
  * screen that renders fine and is WRONG. The audio bug never threw — it
- * returned a 400. Silent wrongness needs Sentry or a field report; this
- * catches the class that crashes.
+ * returned a 400. Silent wrongness needs Sentry or a field report; these catch
+ * the class that crashes.
  */
 // Firebase reaches for IndexedDB on init, and jsdom has none — the rejection
 // is unhandled and Vitest warns it can cause false positives across the whole
 // run. A test that pollutes the suite it lives in is not acceptable, so the
 // sweep brings the real shim the repo already depends on.
 import 'fake-indexeddb/auto';
-import React from 'react';
+// Type-only now: rendering moved to the shared harness, so nothing here
+// touches the React runtime.
+import type React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, cleanup } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
-
-/** Every `currentScreen === '<key>'` branch the real router dispatches on. */
-const ROUTER_SRC = readFileSync('src/components/AppRouter.tsx', 'utf8');
-export const ROUTE_KEYS = [
-  ...new Set([...ROUTER_SRC.matchAll(/ScreenErrorBoundary key="([a-z0-9_]+)"/g)].map((m) => m[1])),
-].sort();
+import { ROUTE_KEYS, ROUTER_SRC, installMatchMedia, openRoute } from './helpers/routeSweepHarness';
 
 describe('the sweep knows what it is sweeping', () => {
   it('derives the route list from the router, never a hand-written copy', () => {
@@ -60,41 +65,8 @@ describe('the sweep knows what it is sweeping', () => {
   });
 });
 
-// ── The sweep itself ────────────────────────────────────────────────────────
-// A permissive stand-in for every value the router pulls off its two contexts
-// and its props. Anything a screen reads resolves to something inert rather
-// than undefined, so a crash means the SCREEN is wrong — not that the harness
-// starved it. Unknown keys return a no-op function, which is safe to call and
-// safe to render as a child.
-function makeCtx(currentScreen: string): Record<string, unknown> {
-  const base: Record<string, unknown> = {
-    currentScreen,
-    stats: { xp: 0, lc: 0, gc: 0, badges: [], vs: [], ct: [] },
-    setStats: () => {},
-    level: 'A1',
-    award: () => {},
-    authUser: { uid: 'u1', email: 'a@b.c' },
-    name: 'Test',
-    favs: [],
-    jWords: [],
-    tab: 'home',
-    srchQ: '',
-    srchR: [],
-    srchOpen: false,
-    dchlA: [],
-  };
-  return new Proxy(base, {
-    get(t, p: string) {
-      if (p in t) return t[p];
-      if (typeof p === 'symbol') return undefined;
-      // Arrays and objects are read far more often than they are called;
-      // a function satisfies both `x()` and `{x}` without throwing.
-      return () => {};
-    },
-    has: () => true,
-  });
-}
-
+// The context mocks cannot move into the harness: `vi.mock` is hoisted per
+// test FILE. The harness sets `globalThis.__sweepCtx`; these read it.
 vi.mock('../context/AppContext', async (orig) => {
   const real = (await orig()) as Record<string, unknown>;
   return { ...real, useApp: () => (globalThis as Record<string, unknown>).__sweepCtx };
@@ -107,22 +79,7 @@ vi.mock('../context/StatsContext', async (orig) => {
   };
 });
 
-// jsdom ships no matchMedia, and PhotoVocabScanner reads it on mount. That is
-// a HARNESS gap, not a defect — every real browser has it — so the polyfill
-// lets the screen actually be exercised instead of being exempted. Exempting
-// it would have recorded a permanent "known failure" for a screen that works.
-if (!window.matchMedia) {
-  window.matchMedia = ((q: string) => ({
-    matches: false,
-    media: q,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => false,
-  })) as unknown as typeof window.matchMedia;
-}
+installMatchMedia();
 
 let AppRouter: React.ComponentType<Record<string, unknown>>;
 beforeEach(async () => {
@@ -132,35 +89,11 @@ afterEach(() => {
   (globalThis as Record<string, unknown>).__sweepCtx = undefined;
 });
 
-/** Render the REAL router at one key. Returns null when clean, else the cause. */
-async function openRoute(key: string): Promise<string | null> {
-  (globalThis as Record<string, unknown>).__sweepCtx = makeCtx(key);
-  const ctx = makeCtx(key) as Record<string, unknown>;
-  try {
-    render(<AppRouter {...ctx} />);
-  } catch (e) {
-    return `threw during render: ${(e as Error)?.message?.slice(0, 120)}`;
-  }
-  // Screens are lazy(); give the chunk a chance to resolve and throw.
-  try {
-    await waitFor(() => expect(document.body.textContent).not.toBe(''), { timeout: 2000 });
-  } catch {
-    /* an empty screen is not a crash */
-  }
-  const text = (document.body.textContent || '').trim();
-  if (screen.queryByTestId('screen-error-boundary')) return 'boundary engaged';
-  // COVERAGE, not just verdicts. A route that renders NOTHING has not been
-  // exercised, and counting it as "clean" is the decorative-guard failure this
-  // repo keeps rediscovering: the sweep would report 419 passes for screens it
-  // never ran. Reported separately so the ratio is visible.
-  return text.length === 0 ? 'EMPTY (not exercised)' : null;
-}
-
 describe('opening a route does not crash the screen', () => {
   it('sweeps every route key through the real router', async () => {
     const broken: { key: string; why: string }[] = [];
     for (const key of ROUTE_KEYS) {
-      const why = await openRoute(key);
+      const why = await openRoute(AppRouter, key);
       if (why) broken.push({ key, why });
       cleanup();
     }
