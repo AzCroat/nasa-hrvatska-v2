@@ -1,0 +1,91 @@
+# Sentry — top unresolved issues, ranked by event count.
+#
+# WHY THIS EXISTS (2026-09-11). Every real defect found in the 2026-09-10 audio
+# and feedback work came from a Sentry event or an owner field report; none
+# came from reading code. A route sweep of all 421 screens found ZERO crashes,
+# which is the useful negative result: the remaining P0/P1 issues are silent
+# wrongness, and silent wrongness leaves its only trace in Sentry.
+#
+# The credential to read that already lives in CI (ai-usage-stats.yml uses it
+# for release health), so the list was reachable all along — it was just never
+# asked for. This turns "paste me the top 20" into a button, and the report is
+# re-runnable rather than a one-off hand-copy that goes stale.
+#
+# READ-ONLY. It lists issues; it never resolves, assigns, deletes or mutates.
+name: Sentry Top Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: 'Stats period (e.g. 24h, 14d, 90d)'
+        required: false
+        default: '14d'
+      limit:
+        description: 'How many issues to list'
+        required: false
+        default: '20'
+
+permissions:
+  contents: read
+
+jobs:
+  top-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List unresolved issues by event count
+        env:
+          # Bound through env, never argv: this repo is public and a token on a
+          # command line reaches the process table and any `set -x` output.
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          PERIOD: ${{ inputs.period }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          set -eu
+          # No `set -x` anywhere in this step — it would echo the token.
+          TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN}" | tr -d '[:space:]')
+          ORG=$(printf '%s' "${SENTRY_ORG}" | tr -d '[:space:]')
+          PROJ=$(printf '%s' "${SENTRY_PROJECT}" | tr -d '[:space:]')
+
+          # ABSENT IS A CLEAR MESSAGE, NOT A CONFUSING 404. Same contract the
+          # secret-install steps use: say which name is missing, by NAME.
+          MISSING=""
+          [ -n "$TOKEN" ] || MISSING="$MISSING SENTRY_AUTH_TOKEN"
+          [ -n "$ORG" ] || MISSING="$MISSING SENTRY_ORG"
+          [ -n "$PROJ" ] || MISSING="$MISSING SENTRY_PROJECT"
+          if [ -n "$MISSING" ]; then
+            echo "::error title=Sentry secrets missing::Set these repo secrets:$MISSING"
+            exit 1
+          fi
+
+          echo "── Top $LIMIT unresolved issues, last $PERIOD, by event count ──"
+          echo
+
+          # `sort=freq` is the ranking that answers "what is hurting the most
+          # people", which is what a P0/P1 triage needs — not the newest.
+          curl -sfS -G "https://sentry.io/api/0/projects/$ORG/$PROJ/issues/" \
+            -H "Authorization: Bearer $TOKEN" \
+            --data-urlencode "query=is:unresolved" \
+            --data-urlencode "statsPeriod=$PERIOD" \
+            --data-urlencode "sort=freq" \
+            --data-urlencode "limit=$LIMIT" \
+            | jq -r '
+                if length == 0 then
+                  "No unresolved issues in this window."
+                else
+                  .[] | [
+                    "events=" + (.count|tostring),
+                    "users=" + ((.userCount // 0)|tostring),
+                    "level=" + (.level // "-"),
+                    "lastSeen=" + (.lastSeen // "-"),
+                    "",
+                    "  " + (.metadata.type // .title // "(untitled)"),
+                    "  " + ((.metadata.value // "") | .[0:160]),
+                    "  culprit: " + (.culprit // "-"),
+                    "  " + (.permalink // "-"),
+                    ""
+                  ] | join("\n")
+                end
+              '
