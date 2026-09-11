@@ -121,7 +121,7 @@ export async function onRequestPost(context) {
     });
   } catch (fetchErr) {
     console.error('speaking-coach.js: network error:', fetchErr.message);
-    return err(502, 'Service temporarily unavailable', origin);
+    return err(502, 'upstream_network', origin);
   }
 
   let rawBody;
@@ -129,7 +129,7 @@ export async function onRequestPost(context) {
     rawBody = await res.text();
   } catch (bodyErr) {
     console.error('speaking-coach.js: failed to read response body:', bodyErr.message);
-    return err(502, 'Service temporarily unavailable', origin);
+    return err(502, 'upstream_body_unreadable', origin);
   }
 
   if (!res.ok) {
@@ -142,7 +142,7 @@ export async function onRequestPost(context) {
     console.error('speaking-coach.js: API error', res.status, errMsg);
     return err(
       res.status >= 500 ? 502 : res.status,
-      isDev ? errMsg || 'API error: HTTP ' + res.status : 'AI service error',
+      isDev ? errMsg || 'API error: HTTP ' + res.status : 'upstream_error',
       origin,
     );
   }
@@ -152,7 +152,7 @@ export async function onRequestPost(context) {
     data = JSON.parse(rawBody);
   } catch {
     console.error('speaking-coach.js: JSON parse failed:', rawBody.slice(0, 200));
-    return err(502, 'Invalid response from AI', origin);
+    return err(502, 'upstream_not_json', origin);
   }
 
   // Reconcile the pre-charged ceiling down to actual usage (never charges more).
@@ -163,7 +163,7 @@ export async function onRequestPost(context) {
   }
 
   const raw = data?.content?.[0]?.text?.trim() || '';
-  if (!raw) return err(502, 'Empty response from AI', origin);
+  if (!raw) return err(502, 'empty_reply', origin);
 
   let parsed;
   try {
