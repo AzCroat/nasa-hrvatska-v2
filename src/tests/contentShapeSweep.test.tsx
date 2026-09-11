@@ -34,8 +34,10 @@ import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vite
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import * as CORE from '../../functions/api/content/_data/core.js';
+import * as GRAMMAR from '../../functions/api/content/_data/grammar.js';
 import { ROUTE_KEYS, installMatchMedia, openRoute } from './helpers/routeSweepHarness';
 import { useContent, peekContent, _resetContentHookForTests } from '../hooks/useContent';
+import { useGrammar, _resetGrammarHookForTests } from '../hooks/useGrammar';
 
 /**
  * The served key list, DERIVED from the endpoint rather than restated. A
@@ -53,11 +55,34 @@ const KEYS: string[] = (() => {
 const PAYLOAD: Record<string, unknown> = {};
 for (const k of KEYS) PAYLOAD[k] = (CORE as Record<string, unknown>)[k];
 
+/**
+ * CORE IS ONE OF EIGHT FETCH PATHS, and priming only it would have been this
+ * repo's own recurring mistake — "instrument one path to an endpoint and
+ * describe the endpoint as covered" (the 2026-09-10 TTS finding, where
+ * `speakAzure` was instrumented and twelve `ttsFetch` call sites were not).
+ * `/api/content/grammar` has the SAME risk profile as core: its type declares
+ * all fourteen exports as `Record<string, unknown>` / `unknown[]`, so the
+ * shape inside a key is unchecked by construction, and 24 screens read it.
+ * Its keys are spelled inline in `buildBody` rather than in a KEYS array, so
+ * they are derived from that block — still from source, never restated.
+ */
+const GRAMMAR_SRC = readFileSync('functions/api/content/grammar.js', 'utf8');
+const GRAMMAR_KEYS: string[] = [
+  ...GRAMMAR_SRC.slice(
+    GRAMMAR_SRC.indexOf('function buildBody()'),
+    GRAMMAR_SRC.indexOf('export async function'),
+  ).matchAll(/^\s*([A-Z0-9_]+): GRAMMAR\.[A-Z0-9_]+,/gm),
+].map((m) => m[1]);
+
+const GRAMMAR_PAYLOAD: Record<string, unknown> = {};
+for (const k of GRAMMAR_KEYS) GRAMMAR_PAYLOAD[k] = (GRAMMAR as Record<string, unknown>)[k];
+
 vi.mock('../lib/contentClient', async (orig) => {
   const real = (await orig()) as Record<string, unknown>;
   return {
     ...real,
     getContent: () => Promise.resolve((globalThis as Record<string, unknown>).__corePayload),
+    getGrammar: () => Promise.resolve((globalThis as Record<string, unknown>).__grammarPayload),
   };
 });
 
@@ -87,6 +112,17 @@ describe('the payload under test is the one the endpoint serves', () => {
     expect(missing, `served keys absent from the data module: ${missing.join(', ')}`).toEqual([]);
   });
 
+  it('derives the grammar key list from grammar.js too', () => {
+    // Core is one of EIGHT fetch paths. Priming only it and calling the sweep
+    // "content-loaded" would be the one-path-of-many mistake this repo keeps
+    // making; grammar is the largest of the rest at 24 consumer screens.
+    expect(GRAMMAR_KEYS.length).toBeGreaterThanOrEqual(14);
+    expect(GRAMMAR_KEYS).toContain('PADEZI');
+    expect(GRAMMAR_KEYS).toContain('VERBS');
+    const missing = GRAMMAR_KEYS.filter((k) => GRAMMAR_PAYLOAD[k] === undefined);
+    expect(missing, `grammar keys absent from the data module: ${missing.join(', ')}`).toEqual([]);
+  });
+
   it('carries the shape the historical bug turned on', () => {
     // Not decoration: if SCENES entries ever stop carrying `items`, the
     // positive control below stops meaning anything and this says so.
@@ -103,20 +139,34 @@ describe('the payload under test is the one the endpoint serves', () => {
 
 function Probe(): React.ReactElement {
   const { content } = useContent();
-  return <div data-testid="probe">{content ? 'loaded' : 'cold'}</div>;
+  const { grammar } = useGrammar();
+  return (
+    <div data-testid="probe">
+      {content ? 'core-loaded' : 'core-cold'}/{grammar ? 'grammar-loaded' : 'grammar-cold'}
+    </div>
+  );
 }
 
 let AppRouter: React.ComponentType<Record<string, unknown>>;
+/** Set only when the probe actually observed grammar in the hook. */
+let _grammarPrimed = false;
 
 beforeAll(async () => {
   (globalThis as Record<string, unknown>).__corePayload = PAYLOAD;
+  (globalThis as Record<string, unknown>).__grammarPayload = GRAMMAR_PAYLOAD;
   _resetContentHookForTests();
-  // Prime the hook's MODULE-level state once. Every screen rendered afterwards
-  // sees the payload synchronously, which is the state a returning learner is
-  // actually in — the hook caches across mounts by design.
+  _resetGrammarHookForTests();
+  // Prime BOTH hooks' MODULE-level state once. Every screen rendered
+  // afterwards sees the payloads synchronously, which is the state a returning
+  // learner is actually in — the hooks cache across mounts by design.
   (globalThis as Record<string, unknown>).__sweepCtx = { currentScreen: 'home', stats: {} };
-  render(<Probe />);
+  const { getByTestId } = render(<Probe />);
   await waitFor(() => expect(peekContent()).not.toBeNull(), { timeout: 5000 });
+  // useGrammar exposes no peek, so the probe's own text is the signal.
+  await waitFor(() => expect(getByTestId('probe').textContent).toBe('core-loaded/grammar-loaded'), {
+    timeout: 5000,
+  });
+  _grammarPrimed = getByTestId('probe').textContent?.includes('grammar-loaded') ?? false;
   cleanup();
 });
 
@@ -133,6 +183,11 @@ describe('opening a route with the real payload does not crash the screen', () =
     // same green — testing the `?? []` fallbacks and nothing else.
     expect(peekContent()).not.toBeNull();
     expect((peekContent() as unknown as Record<string, unknown>).SCENES).toBeDefined();
+    // And grammar — asserted separately, because a sweep that primed core and
+    // silently failed to prime grammar would report the same green while
+    // testing 24 screens' `?? {}` fallbacks instead of their real shapes.
+    expect((globalThis as Record<string, unknown>).__grammarPayload).toBeDefined();
+    expect(_grammarPrimed, 'the grammar payload never reached the hook').toBe(true);
   });
 
   it('sweeps every route key through the real router', async () => {
