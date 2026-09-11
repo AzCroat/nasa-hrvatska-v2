@@ -96,6 +96,40 @@ jobs:
             exit 1
           fi
 
+          # HOW BAD IS IT, BEFORE WHAT IS IT. Session health is the denominator
+          # any issue count needs — "412 events" means one thing against 400
+          # sessions and another against 40,000 — and it reads through
+          # release-health scope, which is a DIFFERENT permission from issue
+          # reads. So it is printed first and unconditionally: when the issue
+          # stream is refused this is what the run still knows, instead of the
+          # report being a dead end.
+          echo "── Session health, last $PERIOD ──"
+          ST=$(call "https://sentry.io/api/0/organizations/$ORG/sessions/" \
+            --data-urlencode "project=$PROJ_ID" \
+            --data-urlencode "field=sum(session)" \
+            --data-urlencode "field=count_unique(user)" \
+            --data-urlencode "groupBy=session.status" \
+            --data-urlencode "statsPeriod=$PERIOD")
+          if [ "$ST" = "200" ]; then
+            jq -r '
+              # `add` over an empty list is null, and a window with no
+              # sessions is a real case (a fresh project, a short period).
+              # Without the `// {}` this threw, and under pipefail that takes
+              # the whole report red for a project that is simply quiet.
+              ([.groups[] | {(.by["session.status"]): .totals["sum(session)"]}] | add // {}) as $s
+              | ($s | to_entries | map(.value) | add // 0) as $tot
+              | ($s.crashed // 0) as $cr
+              | ($s.errored // 0) as $er
+              | "sessions=\($tot)  healthy=\($s.healthy // 0)  errored=\($er)  crashed=\($cr)  abnormal=\($s.abnormal // 0)",
+                (if $tot > 0
+                   then "crash_free=\((100 - ($cr * 100 / $tot)) * 100 | round / 100)%  error_free=\((100 - (($cr + $er) * 100 / $tot)) * 100 | round / 100)%"
+                   else "no sessions in this window" end)
+            ' "$BODY"
+          else
+            echo "session health unavailable: $ST ($(detail))"
+          fi
+          echo
+
           # `sort=freq` is the ranking that answers "what is hurting the most
           # people", which is what a P0/P1 triage needs — not the newest.
           #

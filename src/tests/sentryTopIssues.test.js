@@ -77,6 +77,31 @@ describe('a refusal goes red, and names itself', () => {
   });
 });
 
+describe('a refused issue stream still reports what it can', () => {
+  it('reads session health BEFORE the issues, so a refusal is not a dead end', () => {
+    // This is the situation the report is actually in (2026-09-11): the token
+    // reads release health but not issues. Session health also answers the
+    // question an issue count cannot on its own — "412 events" means one
+    // thing against 400 sessions and another against 40,000.
+    const sessions = CODE.indexOf('/sessions/');
+    const issues = CODE.indexOf('/issues/');
+    expect(sessions, 'session health is not read at all').toBeGreaterThan(-1);
+    expect(sessions, 'session health is read after the issues it must outlive').toBeLessThan(
+      issues,
+    );
+    expect(CODE).toMatch(/groupBy=session\.status/);
+  });
+
+  it('a refused health read degrades — it must not take the report red', () => {
+    // Under pipefail the reflex is to exit on every non-200. Here that would
+    // be wrong: health is supporting evidence, and losing it must not cost
+    // the list. The issues fetch is the only thing that gates the exit code.
+    const slice = CODE.slice(CODE.indexOf('/sessions/'), CODE.indexOf('/issues/'));
+    expect(slice).toMatch(/session health unavailable/);
+    expect(slice, 'a missing health read now fails the whole report').not.toMatch(/exit 1/);
+  });
+});
+
 describe('the token cannot reach a log line', () => {
   it('is bound through env and never passed on a command line', () => {
     // This repo is public. Same rule as the cron-secret, service-account and
