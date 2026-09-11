@@ -23,6 +23,26 @@
 # explicit status check on every call, and the body kept and read.
 name: Sentry Top Issues
 
+# TRIGGERS, AND WHY THERE ARE THREE (2026-09-11).
+#
+# `workflow_dispatch` from the API started coming back `action_required` —
+# queued, zero jobs, awaiting a human approval that only the repo UI can give.
+# Every API route out of that is closed: the approve endpoint is for fork PRs
+# only, `rerun` answers "cannot be retried through the API", and
+# `repository_dispatch` is refused by this session's proxy. PUSH-triggered runs
+# are NOT gated, which is the asymmetry these triggers exploit — a report that
+# can only be produced by asking the owner to click is a report that does not
+# get produced.
+#
+# `push` on master makes every merge print a fresh triage, which is also when
+# it is most useful. `schedule` makes it a standing report rather than a button
+# someone must remember — the same posture as push-health and backup-health.
+# `workflow_dispatch` stays for on-demand runs with a custom window.
+#
+# THE EXIT CODE DIFFERS BY EVENT, deliberately. On dispatch, an unreadable
+# issue stream is the whole point of the run and must go RED. On push it is
+# informational riding along with a deploy, so it warns and exits 0 — a
+# telemetry read has no business turning a green deploy red.
 on:
   workflow_dispatch:
     inputs:
@@ -34,6 +54,12 @@ on:
         description: 'How many issues to list'
         required: false
         default: '20'
+  push:
+    branches: [master]
+  schedule:
+    # 07:10 UTC daily — offset off the hour so it does not pile onto the
+    # push-health (07:30) and backup-health (08:30) sweeps.
+    - cron: '10 7 * * *'
 
 permissions:
   contents: read
@@ -78,8 +104,10 @@ jobs:
           HAS_ISSUES_VAR: ${{ vars.SENTRY_ISSUES_TOKEN != '' }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-          PERIOD: ${{ inputs.period }}
-          LIMIT: ${{ inputs.limit }}
+          # `inputs` is empty on push/schedule, so the defaults live here too.
+          PERIOD: ${{ inputs.period || '14d' }}
+          LIMIT: ${{ inputs.limit || '20' }}
+          EVENT: ${{ github.event_name }}
         run: |
           set -eu -o pipefail
           # No `set -x` anywhere in this step — it would echo the token.
@@ -134,7 +162,12 @@ jobs:
               -H "Authorization: Bearer $TOKEN" "$@" || echo 000
           }
           # Names and statuses only — never the org slug, never the token.
-          detail() { jq -r '.detail // .error // empty' "$BODY" 2>/dev/null | head -c 200; }
+          # `|| true` is load-bearing: jq exits 5 when $BODY holds an array
+          # (a list endpoint) rather than an object, and a failing command
+          # substitution inside an ASSIGNMENT aborts the script under `set -e`
+          # — silently, before anything is printed. Found by dry-run, not by
+          # reading: the probe below leaves $BODY holding a list.
+          detail() { jq -r '.detail // .error // empty' "$BODY" 2>/dev/null | head -c 200 || true; }
 
           # The project id, which is also the reachability probe: this is the
           # exact call ai-usage-stats.yml makes, so a failure HERE says the
@@ -207,6 +240,11 @@ jobs:
               --data-urlencode "sort=freq" \
               --data-urlencode "limit=$LIMIT")
             if [ "$ST" != "200" ]; then
+              # The probe below reuses $BODY, so the reason for THIS refusal
+              # has to be taken now. Without it the final message described
+              # whichever endpoint the probe happened to touch last.
+              SECOND="$ST ($(detail))"
+
               # CAPABILITY PROBE (2026-09-11). Four credential changes in a
               # row each ended at this same sentence, because "403 You do not
               # have permission" is ALL Sentry says for a missing scope, a
@@ -260,8 +298,16 @@ jobs:
               else
                 REMEDY="SENTRY_ISSUES_TOKEN was used and still cannot read issues, so the TOKEN ITSELF lacks event:read — regenerate it in Sentry with event:read (plus project:read, org:read)."
               fi
-              echo "::error title=Sentry issues unreadable::org stream $FIRST; project stream $ST ($(detail)). $TOKEN_NAME reaches the org and resolved the project, so this is a SCOPE, not a slug or a bad token: issue reads need event:read. $REMEDY"
-              exit 1
+              MSG="org stream $FIRST; project stream $SECOND. $TOKEN_NAME reaches the org and resolved the project, so this is a SCOPE, not a slug or a bad token: issue reads need event:read. $REMEDY"
+              # RED on dispatch (the run exists to produce the list); a WARNING
+              # when riding along with a push or the daily schedule, because a
+              # telemetry read must never turn a green deploy red.
+              if [ "${EVENT:-workflow_dispatch}" = "workflow_dispatch" ]; then
+                echo "::error title=Sentry issues unreadable::$MSG"
+                exit 1
+              fi
+              echo "::warning title=Sentry issues unreadable::$MSG"
+              exit 0
             fi
           fi
 
