@@ -102,6 +102,38 @@ describe('a refused issue stream still reports what it can', () => {
   });
 });
 
+describe('a refusal reports what the token CAN reach', () => {
+  it('probes the endpoints instead of repeating one sentence', () => {
+    // WHY (2026-09-11): four credential changes in a row ended at the same
+    // "403 You do not have permission", because that is all Sentry says for a
+    // missing scope, an invisible project and an org policy alike. Asking for
+    // a fifth change while the report still cannot tell them apart is the
+    // wrong-but-plausible-hypothesis loop, and it spends the owner's time.
+    expect(CODE).toMatch(/What this token can reach/);
+    expect(CODE).toMatch(/probe\(\) \{/);
+    // The discriminator no re-paste can reveal: /auth/ answers 200 for a USER
+    // auth token and 401/403 for an ORGANIZATION token, whose fixed scope set
+    // never includes event:read.
+    expect(CODE).toMatch(/api\/0\/auth\//);
+    expect(CODE).toMatch(/user token.*org token/);
+    // Both issue routes are probed, so "can it read ANY issues" and "can it
+    // read THIS project's issues" stop being the same question.
+    expect(CODE).toMatch(/no project filter/);
+  });
+
+  it('prints statuses and fixed path shapes, never slugs or bodies', () => {
+    const probe = CODE.slice(
+      CODE.indexOf('What this token can reach'),
+      CODE.indexOf('NAME THE REMEDY'),
+    );
+    expect(probe, 'the probe echoes the org slug').not.toMatch(/echo[^\n]*\$ORG/);
+    expect(probe, 'the probe dumps a response body').not.toMatch(/cat "\$BODY"/);
+    // Labels are literal; the slugs are substituted out of what is displayed.
+    expect(probe).toMatch(/<org>/);
+    expect(probe).toMatch(/<proj>/);
+  });
+});
+
 describe('the token cannot reach a log line', () => {
   it('is bound through env and never passed on a command line', () => {
     // This repo is public. Same rule as the cron-secret, service-account and
