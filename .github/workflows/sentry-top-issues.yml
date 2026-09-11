@@ -84,24 +84,15 @@ jobs:
           # can be broken by granting it.
           SENTRY_ISSUES_TOKEN: ${{ secrets.SENTRY_ISSUES_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          # WHY THE NAMES, AND WHY ONLY THE NAMES (2026-09-11). The owner added
-          # SENTRY_ISSUES_TOKEN and the next run still printed it EMPTY — so the
-          # run told them to add a secret they had already added, which is a
-          # report lying about the thing it exists to report. A repo Actions
-          # secret can be invisible to a job for five different reasons and the
-          # remedy differs for each: added under the Dependabot or Codespaces
-          # tab (separate stores), added as an ENVIRONMENT secret (needs
-          # `environment:` on the job), added as a VARIABLE, a name typo, or an
-          # org secret not granted to this repo. `toJSON(secrets)` is the only
-          # thing that can tell them apart from inside the job.
-          # ONLY `keys[]` is ever printed — names, never values, the same rule
-          # the backup-health codes and the secret-install steps follow. The
-          # values do reach the runner's env, exactly as the four above already
-          # do, and nothing echoes them.
-          SECRET_NAMES_JSON: ${{ toJSON(secrets) }}
-          # A boolean, not the value: a variable is not secret, but printing
-          # one would still be a value where a name belongs.
-          HAS_ISSUES_VAR: ${{ vars.SENTRY_ISSUES_TOKEN != '' }}
+          # NO `toJSON(secrets)` HERE, DELIBERATELY (removed 2026-09-11).
+          # It was added to answer one question — "which secret NAMES can
+          # Actions see" — and it answered it: SENTRY_ISSUES_TOKEN was in no
+          # store this job can read. Reading the ENTIRE secrets context is a
+          # textbook exfiltration shape, it is the most likely reason this
+          # workflow (alone among the repo's workflows, on the same push)
+          # started coming back `action_required`, and it has no business
+          # living permanently in a PUBLIC repo. A diagnostic that has served
+          # its purpose is debt, not coverage.
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           # `inputs` is empty on push/schedule, so the defaults live here too.
@@ -121,20 +112,8 @@ jobs:
           if [ -z "$TOKEN" ]; then
             TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN:-}" | tr -d '[:space:]')
             TOKEN_NAME=SENTRY_AUTH_TOKEN
-            VISIBLE=$(printf '%s' "${SECRET_NAMES_JSON:-{\}}" | jq -r 'keys[]' 2>/dev/null | tr '\n' ' ')
             echo "note: SENTRY_ISSUES_TOKEN is not visible to this job — falling back to SENTRY_AUTH_TOKEN."
-            echo "note: secret NAMES this workflow can see: ${VISIBLE:-(none)}"
-            case " $VISIBLE " in
-              *" SENTRY_ISSUES_TOKEN "*)
-                # Named but empty: the secret exists and holds an empty string.
-                ISSUES_HINT="SENTRY_ISSUES_TOKEN is visible to this job but EMPTY — re-enter its value (an empty paste saves silently)." ;;
-              *)
-                if [ "${HAS_ISSUES_VAR:-false}" = "true" ]; then
-                  ISSUES_HINT="SENTRY_ISSUES_TOKEN exists as a VARIABLE, not a secret. Move it to Settings → Secrets and variables → Actions → the Secrets tab."
-                else
-                  ISSUES_HINT="SENTRY_ISSUES_TOKEN is not among the names above, so Actions cannot see it. It is a repository ACTIONS secret that is needed — not Dependabot, not Codespaces (separate stores), not an Environment secret (this job declares no environment), and an org secret must grant this repo access."
-                fi ;;
-            esac
+            ISSUES_HINT="SENTRY_ISSUES_TOKEN is not readable by Actions. It must be a repository ACTIONS secret — not Dependabot, not Codespaces (separate stores), not an Environment secret (this job declares no environment)."
             echo "note: $ISSUES_HINT"
           fi
           ORG=$(printf '%s' "${SENTRY_ORG}" | tr -d '[:space:]')
