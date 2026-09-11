@@ -12,6 +12,15 @@
 # re-runnable rather than a one-off hand-copy that goes stale.
 #
 # READ-ONLY. It lists issues; it never resolves, assigns, deletes or mutates.
+#
+# THE FIRST VERSION OF THIS FILE REPORTED SUCCESS ON A 403, and both halves of
+# that are worth keeping. `curl -sfS … | jq` under a bare `set -e`: `-f`
+# THREW THE RESPONSE BODY AWAY (so Sentry's own one-line reason never
+# printed — the `ttsFetch` returns-null shape, where a response that arrived
+# is indistinguishable from one that did not), and `set -e` does not fail a
+# step on a non-final pipeline stage, so the run went GREEN with no list in
+# it. A report that cannot fail is not a report. Hence `pipefail`, an
+# explicit status check on every call, and the body kept and read.
 name: Sentry Top Issues
 
 on:
@@ -43,7 +52,7 @@ jobs:
           PERIOD: ${{ inputs.period }}
           LIMIT: ${{ inputs.limit }}
         run: |
-          set -eu
+          set -eu -o pipefail
           # No `set -x` anywhere in this step — it would echo the token.
           TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN}" | tr -d '[:space:]')
           ORG=$(printf '%s' "${SENTRY_ORG}" | tr -d '[:space:]')
@@ -60,32 +69,82 @@ jobs:
             exit 1
           fi
 
-          echo "── Top $LIMIT unresolved issues, last $PERIOD, by event count ──"
-          echo
+          BODY=$(mktemp)
+          # Body KEPT on every status, so the failure can name itself. Sentry
+          # answers a scope refusal with `{"detail": "…"}` — one sentence that
+          # says which of "bad token", "wrong org", "missing scope" it is.
+          # Deliberately no `-f`: that discards exactly that sentence.
+          call() {
+            url="$1"; shift
+            curl -sS -o "$BODY" -w '%{http_code}' -G "$url" \
+              -H "Authorization: Bearer $TOKEN" "$@" || echo 000
+          }
+          # Names and statuses only — never the org slug, never the token.
+          detail() { jq -r '.detail // .error // empty' "$BODY" 2>/dev/null | head -c 200; }
+
+          # The project id, which is also the reachability probe: this is the
+          # exact call ai-usage-stats.yml makes, so a failure HERE says the
+          # credential itself is the problem rather than the issues scope.
+          ST=$(call "https://sentry.io/api/0/organizations/$ORG/projects/")
+          if [ "$ST" != "200" ]; then
+            echo "::error title=Sentry unreachable::GET /organizations/<org>/projects/ returned $ST — $(detail)"
+            exit 1
+          fi
+          PROJ_ID=$(jq -r --arg p "$PROJ" '.[] | select(.slug == $p) | .id' "$BODY" | head -n1)
+          if [ -z "$PROJ_ID" ]; then
+            echo "::error title=Sentry project not visible::The token can list the org but not the project named by SENTRY_PROJECT."
+            exit 1
+          fi
 
           # `sort=freq` is the ranking that answers "what is hurting the most
           # people", which is what a P0/P1 triage needs — not the newest.
-          curl -sfS -G "https://sentry.io/api/0/projects/$ORG/$PROJ/issues/" \
-            -H "Authorization: Bearer $TOKEN" \
+          #
+          # ORG-SCOPED FIRST. The legacy project-scoped route
+          # (/projects/<org>/<proj>/issues/) answered 403 for this token on
+          # 2026-09-11; the org issue stream is the current one and is what
+          # the UI itself calls. The legacy route is kept as a fallback rather
+          # than deleted — an older token may be scoped the other way round,
+          # and trying both costs one request on a path that already failed.
+          ST=$(call "https://sentry.io/api/0/organizations/$ORG/issues/" \
             --data-urlencode "query=is:unresolved" \
+            --data-urlencode "project=$PROJ_ID" \
             --data-urlencode "statsPeriod=$PERIOD" \
             --data-urlencode "sort=freq" \
-            --data-urlencode "limit=$LIMIT" \
-            | jq -r '
-                if length == 0 then
-                  "No unresolved issues in this window."
-                else
-                  .[] | [
-                    "events=" + (.count|tostring),
-                    "users=" + ((.userCount // 0)|tostring),
-                    "level=" + (.level // "-"),
-                    "lastSeen=" + (.lastSeen // "-"),
-                    "",
-                    "  " + (.metadata.type // .title // "(untitled)"),
-                    "  " + ((.metadata.value // "") | .[0:160]),
-                    "  culprit: " + (.culprit // "-"),
-                    "  " + (.permalink // "-"),
-                    ""
-                  ] | join("\n")
-                end
-              '
+            --data-urlencode "limit=$LIMIT")
+          if [ "$ST" != "200" ]; then
+            FIRST="$ST ($(detail))"
+            ST=$(call "https://sentry.io/api/0/projects/$ORG/$PROJ/issues/" \
+              --data-urlencode "query=is:unresolved" \
+              --data-urlencode "statsPeriod=$PERIOD" \
+              --data-urlencode "sort=freq" \
+              --data-urlencode "limit=$LIMIT")
+            if [ "$ST" != "200" ]; then
+              echo "::error title=Sentry issues unreadable::org stream $FIRST; project stream $ST ($(detail)). The token reaches the org but not its issues — that is a SCOPE, not a slug: issue reads need event:read."
+              exit 1
+            fi
+          fi
+
+          # The header sits AFTER the last thing that can fail. Printed before,
+          # a refused run announced "Top 20 unresolved issues" and then an
+          # error — a heading for a list that does not exist.
+          echo "── Top $LIMIT unresolved issues, last $PERIOD, by event count ──"
+          echo
+
+          jq -r '
+              if length == 0 then
+                "No unresolved issues in this window."
+              else
+                .[] | [
+                  "events=" + (.count|tostring),
+                  "users=" + ((.userCount // 0)|tostring),
+                  "level=" + (.level // "-"),
+                  "lastSeen=" + (.lastSeen // "-"),
+                  "",
+                  "  " + (.metadata.type // .title // "(untitled)"),
+                  "  " + ((.metadata.value // "") | .[0:160]),
+                  "  culprit: " + (.culprit // "-"),
+                  "  " + (.permalink // "-"),
+                  ""
+                ] | join("\n")
+              end
+            ' "$BODY"
