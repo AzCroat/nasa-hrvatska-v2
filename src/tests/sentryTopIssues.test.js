@@ -116,7 +116,17 @@ describe('the token cannot reach a log line', () => {
     // rediscovering (offlineResourceKey, PopCultureScreen, emptyAudio, and the
     // Azure step that broke sentryDsnInstall's slice).
     expect(CODE).not.toMatch(/set -x/);
-    expect(CODE, 'the token is echoed').not.toMatch(/echo[^\n]*SENTRY_AUTH_TOKEN/);
+    // NAMES ARE ALLOWED, EXPANSIONS ARE NOT, and the first draft of this
+    // forbade both — it went red the moment the refusal message started
+    // naming SENTRY_AUTH_TOKEN as the secret that stays untouched, which is
+    // exactly the "names never values" rule being obeyed. A guard that
+    // forbids the remedy is not a stricter guard, it is a wrong one. So it
+    // matches a `$`-expansion only, and `$TOKEN_NAME` (a name) is fine while
+    // `$TOKEN` (the value) is not.
+    expect(CODE, 'a token VALUE is echoed').not.toMatch(/echo[^\n]*\$\{?SENTRY_\w*TOKEN/);
+    expect(CODE, 'the resolved token is echoed').not.toMatch(
+      /echo[^\n]*\$\{?TOKEN\}?(?![_A-Za-z0-9])/,
+    );
   });
 
   it('prints statuses and names, never the org slug or the body verbatim', () => {
@@ -126,6 +136,25 @@ describe('the token cannot reach a log line', () => {
     expect(CODE).toMatch(/head -c 200/);
     expect(CODE, 'the raw error body is dumped').not.toMatch(/cat "\$BODY"/);
     expect(CODE, 'the org slug is printed').not.toMatch(/echo[^\n]*\$ORG/);
+  });
+
+  it('takes a dedicated issues token so granting the scope cannot break uploads', () => {
+    // SENTRY_AUTH_TOKEN is shared with verify-sentry-sourcemaps.yml, which
+    // needs release/artifact-bundle write. Telling someone to REPLACE it with
+    // an issues-scoped token breaks source-map upload silently — discovered
+    // months later, at the worst moment, on an unreadable stack trace. The
+    // optional secret keeps the grant additive.
+    expect(CODE).toMatch(/SENTRY_ISSUES_TOKEN: \$\{\{ secrets\.SENTRY_ISSUES_TOKEN \}\}/);
+    expect(CODE, 'the preferred token is not tried first').toMatch(
+      /TOKEN=\$\(printf '%s' "\$\{SENTRY_ISSUES_TOKEN:-\}"/,
+    );
+    // `set -u` aborts on an unset variable, and the whole point of this one is
+    // that it is normally unset — so both reads must carry the `:-` default
+    // or the step dies before it can say anything useful.
+    expect(CODE).toMatch(/"\$\{SENTRY_AUTH_TOKEN:-\}"/);
+    // The refusal must name the remedy, not just the symptom.
+    expect(CODE).toMatch(/Add a repo secret SENTRY_ISSUES_TOKEN/);
+    expect(CODE).toMatch(/event:read/);
   });
 
   it('names a missing secret by NAME, never by value', () => {

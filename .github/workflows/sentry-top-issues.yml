@@ -46,6 +46,17 @@ jobs:
         env:
           # Bound through env, never argv: this repo is public and a token on a
           # command line reaches the process table and any `set -x` output.
+          # ISSUE READS NEED A SCOPE THE SOURCE-MAP TOKEN DOES NOT HAVE.
+          # SENTRY_AUTH_TOKEN is shared with verify-sentry-sourcemaps.yml and
+          # ai-usage-stats.yml, which need `project:releases` / `project:write`
+          # to upload artifact bundles. REPLACING it with an issues-scoped
+          # token would break source-map upload silently — a thing nobody
+          # notices until the next stack trace is unreadable, months later.
+          # So the issues token is a SEPARATE, OPTIONAL secret and this is the
+          # only consumer of it; absent, the shared one is tried and the run
+          # says exactly what to add. Additive, and nothing that works today
+          # can be broken by granting it.
+          SENTRY_ISSUES_TOKEN: ${{ secrets.SENTRY_ISSUES_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
@@ -54,7 +65,14 @@ jobs:
         run: |
           set -eu -o pipefail
           # No `set -x` anywhere in this step — it would echo the token.
-          TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN}" | tr -d '[:space:]')
+          # `${X:-}` because `set -u` would otherwise abort on the unset
+          # optional secret before the missing-secret message can be printed.
+          TOKEN=$(printf '%s' "${SENTRY_ISSUES_TOKEN:-}" | tr -d '[:space:]')
+          TOKEN_NAME=SENTRY_ISSUES_TOKEN
+          if [ -z "$TOKEN" ]; then
+            TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN:-}" | tr -d '[:space:]')
+            TOKEN_NAME=SENTRY_AUTH_TOKEN
+          fi
           ORG=$(printf '%s' "${SENTRY_ORG}" | tr -d '[:space:]')
           PROJ=$(printf '%s' "${SENTRY_PROJECT}" | tr -d '[:space:]')
 
@@ -153,7 +171,11 @@ jobs:
               --data-urlencode "sort=freq" \
               --data-urlencode "limit=$LIMIT")
             if [ "$ST" != "200" ]; then
-              echo "::error title=Sentry issues unreadable::org stream $FIRST; project stream $ST ($(detail)). The token reaches the org but not its issues — that is a SCOPE, not a slug: issue reads need event:read."
+              # NAME THE REMEDY, not just the symptom. The project resolved a
+              # moment ago, so org slug, project slug and credential are all
+              # fine and only the scope is missing — say which secret to add
+              # rather than leaving a reader to guess between three causes.
+              echo "::error title=Sentry issues unreadable::org stream $FIRST; project stream $ST ($(detail)). $TOKEN_NAME reaches the org and resolved the project, so this is a SCOPE, not a slug or a bad token: issue reads need event:read. Add a repo secret SENTRY_ISSUES_TOKEN holding a Sentry token with event:read (plus project:read, org:read) — this workflow is its only consumer, so SENTRY_AUTH_TOKEN keeps uploading source maps untouched."
               exit 1
             fi
           fi
