@@ -152,9 +152,45 @@ describe('the token cannot reach a log line', () => {
     // that it is normally unset — so both reads must carry the `:-` default
     // or the step dies before it can say anything useful.
     expect(CODE).toMatch(/"\$\{SENTRY_AUTH_TOKEN:-\}"/);
-    // The refusal must name the remedy, not just the symptom.
-    expect(CODE).toMatch(/Add a repo secret SENTRY_ISSUES_TOKEN/);
+    // The refusal must name the remedy, not just the symptom. This used to
+    // pin one literal sentence; that went stale the moment the remedy became
+    // conditional on WHICH token was used, and a stale pin is how a guard
+    // starts failing for a reason unrelated to what it guards. It now asserts
+    // the property: every branch names the secret, and the refusal carries
+    // whichever branch applied.
+    const hints = CODE.match(/SENTRY_ISSUES_TOKEN [a-z]/g) ?? [];
+    expect(hints.length, 'no branch of the remedy names the secret').toBeGreaterThanOrEqual(3);
+    expect(CODE).toMatch(/\$REMEDY/);
     expect(CODE).toMatch(/event:read/);
+  });
+
+  it('reads the secret NAME list but can never print its values', () => {
+    // `toJSON(secrets)` holds every secret VALUE. It is in the job env for one
+    // reason — to answer "which names can Actions see" — and only `keys[]` may
+    // ever reach a log line. A bare echo of it would dump the lot, which is
+    // strictly worse than the problem it was added to diagnose.
+    expect(CODE).toMatch(/SECRET_NAMES_JSON: \$\{\{ toJSON\(secrets\) \}\}/);
+    expect(CODE).toMatch(/jq -r 'keys\[\]'/);
+    expect(CODE, 'the secret VALUES are echoed').not.toMatch(/echo[^\n]*\$\{?SECRET_NAMES_JSON/);
+    expect(CODE, 'the secret values are dumped').not.toMatch(/cat[^\n]*SECRET_NAMES_JSON/);
+    // A variable is not secret, but a value still does not belong in a log
+    // where a name would do — so the workflow takes a boolean, not the value.
+    expect(CODE).toMatch(/HAS_ISSUES_VAR: \$\{\{ vars\.SENTRY_ISSUES_TOKEN != '' \}\}/);
+  });
+
+  it('the fallback announces itself and diagnoses WHY', () => {
+    // THE DEFECT THIS CLOSES (2026-09-11): the owner added
+    // SENTRY_ISSUES_TOKEN, the run still read it empty, fell back SILENTLY,
+    // and then told them to add the secret they had just added. A report that
+    // misstates its own cause is worse than one that says nothing.
+    expect(CODE).toMatch(/is not visible to this job/);
+    // Three distinguishable causes, because the remedy differs for each.
+    expect(CODE).toMatch(/but EMPTY/);
+    expect(CODE).toMatch(/exists as a VARIABLE, not a secret/);
+    expect(CODE).toMatch(/not among the names above/);
+    // …and the final refusal must carry the diagnosis, not the flat advice.
+    expect(CODE).toMatch(/REMEDY="\$ISSUES_HINT"/);
+    expect(CODE).toMatch(/\$REMEDY/);
   });
 
   it('names a missing secret by NAME, never by value', () => {
