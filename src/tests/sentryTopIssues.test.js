@@ -233,6 +233,49 @@ describe('the token cannot reach a log line', () => {
   });
 });
 
+describe('it can actually be triggered, and never reddens a deploy', () => {
+  it('runs on push and on a schedule, not only on demand', () => {
+    // API dispatches began returning `action_required` — queued, zero jobs,
+    // awaiting a UI approval. Every API route out is closed (approve is
+    // fork-PR only, rerun is refused, repository_dispatch is proxy-blocked),
+    // while PUSH runs are not gated. A report that can only be produced by
+    // asking the owner to click is a report that does not get produced.
+    expect(CODE).toMatch(/push:\s*\n\s*branches: \[master\]/);
+    expect(CODE).toMatch(/schedule:/);
+    expect(CODE).toMatch(/cron: '10 7 \* \* \*'/);
+  });
+
+  it('supplies the window defaults that `inputs` cannot give on push', () => {
+    // `inputs` is empty for push/schedule, so an un-defaulted PERIOD would
+    // send `statsPeriod=` and query nothing.
+    expect(CODE).toMatch(/PERIOD: \$\{\{ inputs\.period \|\| '14d' \}\}/);
+    expect(CODE).toMatch(/LIMIT: \$\{\{ inputs\.limit \|\| '20' \}\}/);
+  });
+
+  it('is RED on dispatch and a WARNING on push', () => {
+    // On dispatch the list is the whole point, so a refusal must fail. On
+    // push it rides along with a deploy, and a telemetry read has no business
+    // turning a green deploy red.
+    expect(CODE).toMatch(/EVENT: \$\{\{ github\.event_name \}\}/);
+    expect(CODE).toMatch(/if \[ "\$\{EVENT:-workflow_dispatch\}" = "workflow_dispatch" \]/);
+    expect(CODE).toMatch(/::warning title=Sentry issues unreadable/);
+  });
+
+  it('cannot die silently inside an assignment', () => {
+    // FOUND BY DRY-RUN, NOT BY READING. jq exits 5 when $BODY holds an array
+    // rather than an object — which the probe guarantees, since it leaves
+    // $BODY on a list endpoint — and a failing command substitution inside an
+    // ASSIGNMENT aborts under `set -e`, before anything is printed.
+    expect(CODE).toMatch(/head -c 200 \|\| true/);
+    // And the refusal's own reason must be captured BEFORE the probe reuses
+    // $BODY, or the message describes whichever endpoint the probe hit last.
+    const secondAt = CODE.indexOf('SECOND="$ST ($(detail))"');
+    const probeAt = CODE.indexOf('What this token can reach');
+    expect(secondAt, 'the refusal reason is not captured').toBeGreaterThan(-1);
+    expect(secondAt, 'the probe clobbers $BODY before the reason is read').toBeLessThan(probeAt);
+  });
+});
+
 describe('it is dispatchable and touches no deploy', () => {
   it('runs only on demand', () => {
     expect(CODE).toMatch(/on:\s*\n\s*workflow_dispatch:/);
