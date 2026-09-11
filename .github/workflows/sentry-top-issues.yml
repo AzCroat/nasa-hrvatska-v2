@@ -207,6 +207,47 @@ jobs:
               --data-urlencode "sort=freq" \
               --data-urlencode "limit=$LIMIT")
             if [ "$ST" != "200" ]; then
+              # CAPABILITY PROBE (2026-09-11). Four credential changes in a
+              # row each ended at this same sentence, because "403 You do not
+              # have permission" is ALL Sentry says for a missing scope, a
+              # project the token's user cannot see, and an org policy alike.
+              # Asking for a fifth change while the report still cannot tell
+              # those apart is the wrong-but-plausible-hypothesis loop the
+              # audio work cost four rounds to learn.
+              #
+              # So: walk the endpoints and print a status per path. Statuses
+              # and fixed path shapes only — the org and project slugs are
+              # substituted out, and no body is printed beyond `detail`.
+              # `/api/0/auth/` is the discriminator that matters: it answers
+              # 200 for a USER auth token and 401/403 for an ORGANIZATION auth
+              # token, whose scope set is fixed and never includes event:read.
+              # That is the one fact no amount of re-pasting can reveal.
+              echo "── What this token can reach ──"
+              probe() {
+                label="$1"; shift
+                st=$(call "$@")
+                printf '  %-46s %s%s\n' "$label" "$st" \
+                  "$([ "$st" = "200" ] || printf ' — %s' "$(detail)")"
+              }
+              probe "GET /auth/  (200 = user token, 401/403 = org token)" \
+                "https://sentry.io/api/0/auth/"
+              probe "GET /organizations/<org>/" \
+                "https://sentry.io/api/0/organizations/$ORG/"
+              probe "GET /organizations/<org>/projects/" \
+                "https://sentry.io/api/0/organizations/$ORG/projects/"
+              probe "GET /projects/<org>/<proj>/" \
+                "https://sentry.io/api/0/projects/$ORG/$PROJ/"
+              probe "GET /organizations/<org>/issues/  (no project filter)" \
+                "https://sentry.io/api/0/organizations/$ORG/issues/" \
+                --data-urlencode "statsPeriod=1h" --data-urlencode "limit=1"
+              probe "GET /projects/<org>/<proj>/issues/" \
+                "https://sentry.io/api/0/projects/$ORG/$PROJ/issues/" \
+                --data-urlencode "limit=1"
+              probe "GET /organizations/<org>/releases/" \
+                "https://sentry.io/api/0/organizations/$ORG/releases/" \
+                --data-urlencode "per_page=1"
+              echo
+
               # NAME THE REMEDY, not just the symptom. The project resolved a
               # moment ago, so org slug, project slug and credential are all
               # fine and only the scope is missing — say which secret to add
