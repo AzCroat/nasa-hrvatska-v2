@@ -34,9 +34,7 @@ import 'fake-indexeddb/auto';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/react';
-import { readFileSync, writeFileSync } from 'node:fs';
-
-const SWEEP_OUT = '/tmp/route-sweep.json';
+import { readFileSync } from 'node:fs';
 
 /** Every `currentScreen === '<key>'` branch the real router dispatches on. */
 const ROUTER_SRC = readFileSync('src/components/AppRouter.tsx', 'utf8');
@@ -168,20 +166,12 @@ describe('opening a route does not crash the screen', () => {
     }
     const crashed = broken.filter((b) => b.why === 'boundary engaged');
     const empty = broken.filter((b) => b.why !== 'boundary engaged').map((b) => b.key);
-    writeFileSync(
-      SWEEP_OUT,
-      JSON.stringify(
-        {
-          total: ROUTE_KEYS.length,
-          exercised: ROUTE_KEYS.length - empty.length,
-          crashed,
-          emptyCount: empty.length,
-          empty,
-        },
-        null,
-        2,
-      ),
-    );
+    // NO ARTIFACT FILE. This used to write the result set to a fixed path in
+    // the OS temp dir, which CodeQL correctly flagged on PR #639: a predictable
+    // temp filename is the symlink/TOCTOU pattern, and a test should not be
+    // leaving side-effect files behind at all. It was a scaffold for reading
+    // results while the sweep was being built; the assertions below now carry
+    // the same information in their failure messages, so it bought nothing.
     // THE ASSERTION. A screen that throws on open is a total, silent outage of
     // that feature: the boundary renders a card and the learner's only signal
     // is that nothing works.
