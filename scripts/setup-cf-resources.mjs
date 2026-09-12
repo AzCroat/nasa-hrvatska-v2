@@ -158,9 +158,24 @@ function checkPageEnvVars(project) {
   // weekly Firestore backup has never produced a restorable snapshot, found by
   // /api/backup-health on 2026-08-26 — fifteen consecutive config failures that
   // this check could have named at deploy time, years earlier.
+  // AZURE_TTS_KEY joined this list on 2026-09-12, and the reason is exactly the
+  // paragraph above. CI warns when it is not a GITHUB secret, which is a
+  // different fact from whether it is set ON THE PAGES PROJECT — the dashboard
+  // can hold it directly. So the warning was ambiguous and the silence of this
+  // checker was not evidence either way, because the variable was not mentioned
+  // here at all. That ambiguity is what let `tryEdgeTTS` sit dark for months
+  // beside an Azure key nobody could confirm.
+  //
+  // THE NAME IS EXACT ON PURPOSE. `tts.js` reads `env.AZURE_TTS_KEY` and
+  // nothing else; `pronunciation-assess.js` accepts `AZURE_SPEECH_KEY ||
+  // AZURE_TTS_KEY`. A dashboard holding only AZURE_SPEECH_KEY therefore gives
+  // working pronunciation scoring and a TTS chain with no Azure — which looks
+  // like "Azure is configured" from every angle except the one that matters.
+  // Do not widen this entry to accept the Speech name.
   const REQUIRED_ENV_VARS = [
     ['VITE_FIREBASE_PROJECT_ID', 'FIREBASE_PROJECT_ID'],
     ['FIREBASE_SERVICE_ACCOUNT_JSON'],
+    ['AZURE_TTS_KEY'],
   ];
   const envs = ['production', 'preview'];
   const missing = [];
@@ -188,6 +203,16 @@ function checkPageEnvVars(project) {
         '    "Install Firebase service account (Pages)" step in ci.yml then applies it\n' +
         '    on every deploy, so it cannot drift and rotating it is a secret update\n' +
         '    rather than a dashboard visit.\n',
+    );
+    console.warn(
+      '  AZURE_TTS_KEY (+ optional AZURE_TTS_REGION) — the Croatian neural voice for\n' +
+        '    /api/tts. Without it the chain falls to Edge TTS (same voice, keyless) and\n' +
+        '    then to backends that refuse datacenter IPs, so audio can degrade or fail\n' +
+        '    with no other symptom. NOTE: `tts.js` reads AZURE_TTS_KEY only —\n' +
+        '    AZURE_SPEECH_KEY satisfies /api/pronunciation-assess but NOT text-to-speech.\n' +
+        '    PREFERRED: add it as the GitHub repo secret of the same name; the\n' +
+        '    "Install Azure Speech credentials (Pages)" step in ci.yml then applies it\n' +
+        '    on every deploy.\n',
     );
   } else {
     console.log('  ✓ All required Pages env vars are set');
