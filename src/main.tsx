@@ -126,12 +126,15 @@ if (import.meta.env.VITE_SENTRY_DSN) {
       Sentry.init({
         dsn: import.meta.env.VITE_SENTRY_DSN,
         environment: import.meta.env.MODE,
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        release:
-          typeof (globalThis as any).__BUILD_ID__ !== 'undefined'
-            ? (globalThis as any).__BUILD_ID__
-            : import.meta.env.VITE_APP_VERSION,
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+        // BARE IDENTIFIER, NOT `globalThis.__BUILD_ID__` — see vite-env.d.ts.
+        // Read off globalThis this was permanently `undefined`, and a Sentry
+        // client with no release DISCARDS every session before an envelope is
+        // built (`sendSession`: "Discarded session because of missing or
+        // non-string release", warned only in DEBUG builds). Measured in the
+        // real artifact: 0 session envelopes before, 2 after.
+        // `VITE_APP_VERSION` is set nowhere and is left out rather than kept
+        // as a fallback that has never held a value.
+        release: typeof __BUILD_ID__ !== 'undefined' ? __BUILD_ID__ : undefined,
         // Only send errors in production; silence in dev
         enabled: import.meta.env.PROD,
         tracesSampleRate: 0.1,
@@ -428,12 +431,13 @@ window.onunhandledrejection = function (event) {
 // the running code is stale → force a clean update. Comparing against the running
 // build (not a sessionStorage snapshot) is what catches a returning user who
 // booted a stale cached bundle. Decision is unit-tested via isStaleBuild().
-const _RUNNING_BUILD =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  typeof (globalThis as any).__BUILD_ID__ !== 'undefined'
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      String((globalThis as any).__BUILD_ID__)
-    : null;
+// BARE IDENTIFIER — see vite-env.d.ts. Read off globalThis this was always
+// `undefined`, so `_RUNNING_BUILD` was always null, and `isStaleBuild` returns
+// false on a null running build BY DESIGN ("if either side is unknown we can't
+// safely conclude staleness"). The seamless auto-update therefore never fired
+// once: a returning user on a stale cached bundle stayed on it silently, which
+// is the exact failure this block was written to catch.
+const _RUNNING_BUILD = typeof __BUILD_ID__ !== 'undefined' ? String(__BUILD_ID__) : null;
 const _VER_RELOAD_KEY = 'nh_ver_reload';
 let _pendingVersionUpdate = false;
 
