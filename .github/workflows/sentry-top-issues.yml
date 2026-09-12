@@ -303,6 +303,34 @@ jobs:
               }
               probe "GET /auth/  (200 = user token, 401/403 = org token)" \
                 "https://sentry.io/api/0/auth/"
+
+              # THE SCOPES THE TOKEN ACTUALLY CARRIES (2026-09-12).
+              #
+              # "403 You do not have permission" is all Sentry says for a
+              # missing scope, and after a scope is ADDED it is also all it says
+              # if the GitHub secret still holds a DIFFERENT token — the two are
+              # indistinguishable from the refusal alone, which is the same
+              # narrower-question trap as the sessions `interval` and the
+              # AZURE_TTS_KEY deploy log. `/auth/` answers it directly: it
+              # returns the authenticated token's own scope list, so the report
+              # can say whether `event:read` is present on the credential THIS
+              # JOB IS USING rather than inferring it from a refusal.
+              #
+              # Scope NAMES only. The token is never printed — same rule as
+              # everywhere else in this file, and `$BODY` is not dumped.
+              ST=$(call "https://sentry.io/api/0/auth/")
+              if [ "$ST" = "200" ]; then
+                SCOPES=$(jq -r '(.scopes // []) | join(" ")' "$BODY" 2>/dev/null || true)
+                printf '  %-46s %s\n' "token scopes" "${SCOPES:-(none reported)}"
+                case " $SCOPES " in
+                  *" event:read "*)
+                    echo "  → event:read IS present; a 403 above is NOT a scope problem." ;;
+                  *)
+                    echo "  → event:read is ABSENT from the token this job used." ;;
+                esac
+              else
+                echo "  token scopes unavailable: $ST ($(detail))"
+              fi
               probe "GET /organizations/<org>/" \
                 "https://sentry.io/api/0/organizations/$ORG/"
               probe "GET /organizations/<org>/projects/" \
