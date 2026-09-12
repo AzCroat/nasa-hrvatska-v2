@@ -10,7 +10,7 @@
 //   services: {
 //     tts:  { azure: bool, google: bool, edge: bool, anyTts: bool },
 //     stt:  { deepgram: bool, openai: bool, anyStt: bool },
-//     ai:   { anthropic: bool, openai: bool, anyAI: bool },
+//     ai:   { anthropic: bool, anyAI: bool },   // no `openai`: STT-only key
 //     push: { vapid: bool }
 //   },
 //   env: string,
@@ -63,7 +63,6 @@ export async function onRequestGet(context) {
 
   // ── Check AI services ─────────────────────────────────────────────────────
   const anthropicAI = !!(env.ANTHROPIC_API_KEY && env.ANTHROPIC_API_KEY.length > 10);
-  const openaiAI = !!(env.OPENAI_API_KEY && env.OPENAI_API_KEY.length > 10);
 
   // ── Check push notifications ──────────────────────────────────────────────
   const vapid = !!(env.VAPID_PRIVATE_KEY && env.VAPID_PRIVATE_KEY.length > 10);
@@ -121,10 +120,25 @@ export async function onRequestGet(context) {
       openai: openaiStt,
       anyStt: deepgramStt || openaiStt,
     },
+    // NO `openai` HERE, AND `anyAI` IS ANTHROPIC ALONE (2026-09-12).
+    //
+    // OPENAI_API_KEY is real, but it is a WHISPER STT credential — it is read
+    // by `_transcribe.js` and `/api/stt` and nowhere else. There is no OpenAI
+    // chat/completions call anywhere in functions/, so reporting an `ai.openai`
+    // service claimed one that does not exist.
+    //
+    // The live consequence was in `anyAI`, which feeds this endpoint's
+    // top-level `ok`: with ANTHROPIC_API_KEY unset and OPENAI_API_KEY set,
+    // `anyAI` was true and /api/health reported ok:true while every AI feature
+    // — tutor, stories, writing feedback, the Level Check's own scoring — was
+    // answering 503 AI_KEY_MISSING. A health check that reports healthy during
+    // a total outage is the push-health `ok` bug again: a field that answers a
+    // NARROWER question than the one it appears to answer.
+    //
+    // The key is still reported where it is genuinely used: `stt.openai`.
     ai: {
       anthropic: anthropicAI,
-      openai: openaiAI,
-      anyAI: anthropicAI || openaiAI,
+      anyAI: anthropicAI,
     },
     push: {
       vapid,
