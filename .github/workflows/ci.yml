@@ -347,6 +347,28 @@ jobs:
             echo "VITE_SENTRY_DSN is set; the browser SDK will initialise."
           fi
 
+      # Absent is a WARNING, not a failure: no code change here can conjure a
+      # key, and taking the deploy red for a condition that predates this step
+      # would be worse. But it must be SAID — the whole reason both of these
+      # went unnoticed is that their consumers treat absence as the graceful
+      # path, so nothing anywhere emitted a sound.
+      - name: Warn if the analytics keys are absent
+        env:
+          VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${VITE_POSTHOG_KEY:-}" ]; then
+            echo "::warning title=PostHog key absent::VITE_POSTHOG_KEY is not a GitHub secret, so initPostHog() stays gated off and this build ships with NO product analytics."
+          else
+            echo "VITE_POSTHOG_KEY is set; PostHog will initialise."
+          fi
+          if [ -z "${VITE_FIREBASE_MEASUREMENT_ID:-}" ]; then
+            echo "::warning title=Firebase measurementId absent::VITE_FIREBASE_MEASUREMENT_ID is not a GitHub secret, so getAnalytics() is never constructed and every fbLogEvent is a silent no-op."
+          else
+            echo "VITE_FIREBASE_MEASUREMENT_ID is set; Firebase Analytics will initialise."
+          fi
+
       - name: Build
         run: npm run build
         env:
@@ -357,6 +379,20 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          # ── BOTH ANALYTICS PATHS WERE DEAD UNTIL 2026-09-12 ──
+          # Read in src/ and passed by NO build step, so both were `undefined`
+          # in every shipped bundle, and both consumers guard on them — so the
+          # features were silently ABSENT rather than broken:
+          #   initPostHog()  `if (VITE_POSTHOG_KEY && PROD)` → never true; no
+          #     posthog chunk was even emitted, exactly as vendor-sentry was
+          #     not emitted when the DSN was empty.
+          #   firebase.ts    `if (FIREBASE_CONFIG.measurementId)` → never true,
+          #     so getAnalytics() was never constructed and every fbLogEvent
+          #     was a no-op.
+          # `viteEnvReachesBuild.test.ts` now fails the build if any VITE_ var
+          # read in src/ is missing from this list.
+          VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
 
       # ── The deploy must SHIP the telemetry it was built with (2026-09-04) ──
       #
