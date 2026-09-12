@@ -775,10 +775,15 @@ describe('badge earning path', () => {
     vi.useRealTimers();
   });
 
-  it('dispatches knight:badge event for badge with unknown id', async () => {
+  it('SPEAKS a generic celebration for a badge with no authored speech', async () => {
+    // WAS: asserted a `knight:badge` dispatch. Nothing has ever listened for
+    // that event, so the assertion proved the event fired and nothing more —
+    // while the learner got silence for any badge without an authored speech
+    // (the large majority of them). The fallback now speaks.
     vi.useFakeTimers();
     const dispatched: string[] = [];
-    window.addEventListener('knight:badge', () => dispatched.push('knight:badge'));
+    const onBadge = () => dispatched.push('knight:badge');
+    window.addEventListener('knight:badge', onBadge);
 
     const badgeMock = [
       { id: 'unknown_badge_xyz', n: 'Unknown', d: 'Unknown badge', r: () => true },
@@ -787,21 +792,32 @@ describe('badge earning path', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (appUtilsMod as any).BADGES = badgeMock;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const setStats = vi.fn((fn: any) => fn({ ...DS }));
-    const { result } = renderHook(() =>
-      useAward({ curEx: 'badge_test_002', stats: { ...DS }, setStats }),
-    );
-    await act(async () => {
-      await result.current.award(10);
-    });
-    act(() => {
-      vi.runAllTimers();
-    });
-    expect(dispatched).toContain('knight:badge');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (appUtilsMod as any).BADGES = [];
-    vi.useRealTimers();
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const setStats = vi.fn((fn: any) => fn({ ...DS }));
+      const { result } = renderHook(() =>
+        useAward({ curEx: 'badge_test_002', stats: { ...DS }, setStats }),
+      );
+      await act(async () => {
+        await result.current.award(10);
+      });
+      act(() => {
+        vi.runAllTimers();
+      });
+      expect(knightSpeak).toHaveBeenCalledWith('celebrating', expect.stringContaining('Unknown'));
+      expect(dispatched, 'the dead knight:badge event is back').not.toContain('knight:badge');
+    } finally {
+      // TEARDOWN IN `finally`: it used to sit after the assertion, so when that
+      // assertion failed the mocked BADGES (r: () => true) stayed installed and
+      // every later award earned it — which left `_pendingBadge` non-null and
+      // silently broke the unrelated `knight:celebrate` test two describes
+      // later. One stale assertion, two red tests, and the second looked like a
+      // separate regression.
+      window.removeEventListener('knight:badge', onBadge);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (appUtilsMod as any).BADGES = [];
+      vi.useRealTimers();
+    }
   });
 });
 

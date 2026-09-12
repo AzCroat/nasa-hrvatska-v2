@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { stopAudio } from '../../../lib/audio.ts';
 import { recordTopicResult } from '../../../lib/adaptive';
+// `getSRScore` directly rather than `srMark` from the `data` barrel: srMark is
+// a one-line delegate to it (`getSRScore(word, correct, timeMs ?? 4000)`) and
+// importing the barrel would pull the whole content graph into a practice hook.
+import { getSRScore } from '../../../lib/srs';
 import { getStoryCatalog } from '../../../lib/contentClient';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
@@ -206,15 +210,40 @@ export function useListeningQuiz(
     setMissedQuestions([]);
   }
 
+  /**
+   * Add the words this learner MISSED to spaced repetition.
+   *
+   * THIS USED TO DO NOTHING, and told the learner it had. It dispatched
+   * `nh:add-weak-words` to an "app-level handler if available" that has never
+   * existed — no listener for that event anywhere in src/, at any point in the
+   * repo's history. Meanwhile `WeakWordsPanel` disables its button and swaps
+   * the label to "✓ Added to flashcard review" unconditionally on click. So the
+   * learner pressed it, was told their weak words were queued for review, and
+   * nothing was written: the one action in the quiz that turns a mistake into
+   * future practice was the one action that did not work.
+   *
+   * Worse than a silent failure — a false confirmation. The app stated
+   * something that had not happened, which is the honesty rule this codebase
+   * applies to recommendations, applied here to an outcome.
+   *
+   * `correct: false` on purpose: these are MISSES. That both creates a card and
+   * pulls an existing one forward, which is what a word you just got wrong
+   * should do — `addWordToSRS` would no-op on a word already in the deck, so a
+   * repeat mistake would change nothing. Same call VocabJournal makes via
+   * `srMark(word.hr, false)`; 4000 ms is srMark's own default.
+   */
   function handleAddToFlashcards(words: any[]) {
-    // Dispatch event to app-level handler if available
-    try {
-      window.dispatchEvent(
-        new CustomEvent('nh:add-weak-words', {
-          detail: { words, source: 'listening-comprehension', level: selectedLevel },
-        }),
-      );
-    } catch {}
+    if (!Array.isArray(words)) return;
+    for (const w of words) {
+      const hr = typeof w === 'string' ? w : w?.hr;
+      if (typeof hr === 'string' && hr.trim()) {
+        try {
+          getSRScore(hr.trim(), false, 4000);
+        } catch {
+          /* one bad word must not cost the rest of the batch */
+        }
+      }
+    }
   }
 
   return {
