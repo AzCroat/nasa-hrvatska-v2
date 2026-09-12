@@ -204,14 +204,47 @@ describe('zero sessions is diagnosed, not just reported', () => {
     ).toBe(0);
   });
 
-  it('an empty result is reported as undetermined, never as zero', () => {
-    // The other half of the same defect. Even with `interval` pinned above, a
-    // query that resolves to nothing must not assert an absence — say what
-    // was not resolvable and point at the field that CAN answer yes or no.
+  it('neither read renders an empty result as a zero', () => {
+    // THE SAME LIE ONE LEVEL DOWN, and it survived the fix above. With
+    // `interval` pinned the 90d read now answers 200 — and
+    // `.groups[0].totals["sum(session)"] // 0` renders an EMPTY `groups`
+    // array as `0`. The first production run after that fix printed
+    // `sessions_90d_ungrouped=0`, which I could not tell from a real zero,
+    // because the `// 0` had eaten the distinction the whole block exists to
+    // preserve. "No rows" and "zero sessions" are different facts (NEVER
+    // DO 13); the row count is what separates them, so both reads print it
+    // and both name the no-rows case in words.
+    for (const [label, start, end] of [
+      // Anchored at the REQUEST, not at the rendered field name — the field
+      // name appears inside the jq's else-branch, i.e. after the no-rows
+      // line, so a slice starting there cannot see it. Caught by this
+      // assertion failing, which is the assertion working.
+      ['90d', 'statsPeriod=90d', '90d sessions unavailable'],
+      ['14d', 'session.status', 'session health unavailable'],
+    ]) {
+      const i = CODE.indexOf(start);
+      expect(i, `${label} read not found`).toBeGreaterThan(-1);
+      const slice = CODE.slice(i, CODE.indexOf(end));
+      expect(slice, `${label}: no row count, so an empty result reads as zero`).toMatch(
+        /groups \| length/,
+      );
+      expect(slice, `${label}: an empty result is not named as undetermined`).toMatch(
+        /returned NO ROWS/,
+      );
+      expect(slice, `${label}: the row count is not shown`).toMatch(/rows=/);
+    }
+  });
+
+  it('never states an absence of sessions as a finished fact', () => {
+    // Expressed as a PROPERTY, not as the one remedy sentence. The first
+    // version of this pinned the literal `sessions not resolvable from this
+    // query`, and that wording was correct for exactly one commit — once the
+    // read could tell no-rows from a real zero it became two different
+    // sentences, and the pin went stale the moment the code got better than
+    // it. What must never come back is the CLAIM.
     expect(CODE, 'an empty query result is stated as an absence of sessions').not.toMatch(
       /no sessions in this window/,
     );
-    expect(CODE).toMatch(/sessions not resolvable from this query/);
   });
 
   it('degrades instead of failing the report', () => {
