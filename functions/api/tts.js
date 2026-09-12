@@ -272,11 +272,30 @@ async function tryGoogleTranslateTTS(text, slow) {
 //
 // 2026-09-10: THIS BACKEND HAS NEVER RUN. It began `if (!edgeTtsToken) return
 // null` against `env.EDGE_TTS_TOKEN`, which was never set — so the chain's only
-// keyless source of a real Croatian voice skipped itself on every request, and
-// with AZURE_TTS_KEY also unset (confirmed from the deploy log that day) the
-// whole endpoint was left with Google Translate's robotic voice, which refuses
-// datacenter IPs, and a Google Cloud path that needs the TTS API enabled.
+// keyless source of a real Croatian voice skipped itself on every request.
 // Owner: "Audio did not play. Has not once yet."
+//
+// CORRECTED 2026-09-12. This note used to continue "and with AZURE_TTS_KEY also
+// unset (confirmed from the deploy log that day) the whole endpoint was left
+// with Google Translate's robotic voice". THAT WAS NOT ESTABLISHED AND IS NOT
+// TRUE TODAY. The deploy log shows only whether AZURE_TTS_KEY is a GITHUB
+// SECRET; it cannot see the Cloudflare dashboard, which is where CLAUDE.md's
+// env table says the TTS_* names live and where the key actually is.
+// `setup-cf-resources.mjs` now reads the Pages project's real env vars on every
+// deploy and reports AZURE_TTS_KEY present in BOTH production and preview
+// (2026-09-12). Whether it was set on 2026-09-10 is not established either way
+// — no evidence was ever gathered that could answer it, which is the point.
+//
+// So Azure was most likely serving all along, and the Edge finding above stands
+// on its own: it is read straight from this function's own source, not inferred
+// from a log. The other documented causes of that day's silence — the 500-char
+// cap that made AIListeningScreen structurally incapable of producing audio,
+// the prefix cache key, the uninstrumented `ttsFetch` path — do not need a
+// missing Azure key to explain anything.
+//
+// The lesson is the one this file keeps relearning: a log that answers a
+// NARROWER question than the one you are asking is not evidence for the wider
+// one. Read the source that can answer it, or build the check that can.
 //
 // `trustedclienttoken` IS NOT A SECRET. It is the fixed public client id
 // compiled into the Edge browser and published in every open-source edge-tts
