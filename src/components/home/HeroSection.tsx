@@ -75,6 +75,25 @@ export default function HeroSection({
   const { content: coreContent } = useContent();
   const LEVEL_NARRATIVE = (coreContent?.LEVEL_NARRATIVE ?? {}) as Record<string, string[]>;
 
+  /**
+   * The learner's goal title for their current level — CLAMPED to the last rung.
+   *
+   * `lvl()` runs to 10 (thresholds 0…3500 in appUtils) and every narrative
+   * ladder is 6 rungs (partner 5), so a plain `[level - 1]` dropped every
+   * learner past level 6 back to the generic "Learning" — at 1200 XP, which is
+   * an ordinary amount of practice, not an edge case. Clamping holds the
+   * ladder's own terminal rung ('Naš Čovjek', or 'Part of the Family' for
+   * partner) instead of taking the title away from the people furthest along.
+   *
+   * "Learning" survives for a goal with NO ladder — an unset goal, or a cached
+   * payload older than a new goal id. That is the honest answer there.
+   */
+  const levelNarrative = (() => {
+    const rungs = LEVEL_NARRATIVE[userGoal ?? ''];
+    if (!Array.isArray(rungs) || rungs.length === 0) return 'Learning';
+    return rungs[Math.min(Math.max(level, 1), rungs.length) - 1] || 'Learning';
+  })();
+
   // Hero is always expanded by default — users can still collapse it manually
   const [heroExpanded, setHeroExpanded] = useState(() => {
     const saved = lsGet('nh_hero_expanded');
@@ -236,7 +255,7 @@ export default function HeroSection({
                     letterSpacing: '.02em',
                   }}
                 >
-                  {LEVEL_NARRATIVE[userGoal ?? '']?.[level - 1] || 'Learning'}
+                  {levelNarrative}
                 </span>
               </span>
             </div>

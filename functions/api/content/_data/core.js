@@ -166,6 +166,18 @@ export const LEVEL_NARRATIVE = {
     'Native Flow',
     'Naš Čovjek',
   ],
+  // `elders` ("Za bake i djedove") is a first-class onboarding goal — WelcomeScreen
+  // branches on it in ten places and writes it to `nh_goal` — and it had NO entry
+  // here, so that learner's hero badge read the generic "Learning" at every level,
+  // from level 1, forever, while every other goal got a title. Added 2026-09-12.
+  elders: [
+    'First Words',
+    'Saying Hello',
+    'Kitchen Table',
+    'Listening Closely',
+    'Their Stories',
+    'Naš Čovjek',
+  ],
   travel: [
     'Survival Mode',
     'Getting Around',
