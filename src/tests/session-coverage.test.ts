@@ -111,7 +111,10 @@ const OUTSIDE_SESSION: string[] = [
   // ── App chrome / account / legal ──
   'contact',
   'privacy',
-  'terms', // Terms of Service — legal copy, regrouped from reference in Wave 4
+  // 'terms' removed 2026-09-12 with its route: the in-app TermsOfService screen
+  // was unreachable (nothing ever set that screen) and its copy had drifted from
+  // the canonical public/terms.html. The stale-exclusion assertion below is what
+  // requires this line to go when the route does.
 ];
 
 function routableScreens(): string[] {

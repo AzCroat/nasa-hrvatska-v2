@@ -555,11 +555,7 @@ export default function LoginScreen({
             By continuing you agree to our{' '}
             <button
               onClick={() =>
-                window.open(
-                  'https://nasahrvatska.com/privacy.html#terms',
-                  '_blank',
-                  'noopener,noreferrer',
-                )
+                window.open('https://nasahrvatska.com/terms.html', '_blank', 'noopener,noreferrer')
               }
               style={{
                 background: 'none',
