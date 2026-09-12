@@ -33,6 +33,29 @@ const WF = readFileSync('.github/workflows/sentry-top-issues.yml', 'utf8');
  */
 const CODE = WF.replace(/^\s*#.*$/gm, '');
 
+/**
+ * Every `call` to the sessions endpoint, one string per invocation, sliced
+ * from the URL to the end of its backslash-continued command. Derived rather
+ * than counted: a third sessions read added next month is picked up here, and
+ * a hand-written "there are two" would pass at whatever rate it still covered.
+ */
+function sessionCalls(code) {
+  const out = [];
+  const url = '/sessions/';
+  let i = code.indexOf(url);
+  while (i !== -1) {
+    const lines = code.slice(i).split('\n');
+    const cmd = [];
+    for (const line of lines) {
+      cmd.push(line);
+      if (!line.trimEnd().endsWith('\\')) break;
+    }
+    out.push(cmd.join('\n'));
+    i = code.indexOf(url, i + url.length);
+  }
+  return out;
+}
+
 describe('the Sentry triage report is read-only', () => {
   it('lists issues and never mutates them', () => {
     // A token that can resolve, assign, merge or delete issues is one typo
@@ -131,6 +154,79 @@ describe('a refusal reports what the token CAN reach', () => {
     // Labels are literal; the slugs are substituted out of what is displayed.
     expect(probe).toMatch(/<org>/);
     expect(probe).toMatch(/<proj>/);
+  });
+});
+
+describe('zero sessions is diagnosed, not just reported', () => {
+  it('reads the project itself, which says whether sessions ever arrived', () => {
+    // "sessions=0" alone cannot tell "the browser SDK is not delivering" from
+    // "the query is shaped wrong", and the CODE says sessions should flow:
+    // browserSessionIntegration is in the SDK defaults, an `integrations`
+    // ARRAY merges with those defaults rather than replacing them, beforeSend
+    // only filters ERROR events, and nothing sets autoSessionTracking: false,
+    // a tunnel or a custom transport. The project endpoint settles it, and
+    // this token already reaches it.
+    expect(CODE).toMatch(/Ingestion health/);
+    expect(CODE).toMatch(/hasSessions/);
+    expect(CODE).toMatch(/firstEvent/);
+    // A second, differently shaped read: no groupBy, 90 days. If both come
+    // back empty the absence is real rather than an artefact of the first.
+    expect(CODE).toMatch(/sessions_90d_ungrouped/);
+    expect(CODE).toMatch(/statsPeriod=90d/);
+  });
+
+  it('reports an ABSENT field as absent, never as false', () => {
+    // A field the serializer does not return must not be rendered `false`.
+    // "no sessions" for a field that was never there is a fabricated
+    // measurement — the failure this repo keeps writing down.
+    expect(CODE).toMatch(/if has\("hasSessions"\) then \.hasSessions else "absent" end/);
+    expect(CODE, 'an absent field would read as false').not.toMatch(/\.hasSessions \/\/ false/);
+  });
+
+  it('every sessions read carries an interval', () => {
+    // THE DEFECT THIS PINS, and it produced a fabricated measurement I
+    // reported to the owner half a dozen times. Sentry's sessions endpoint
+    // REQUIRES `interval`. Without it the 90d ungrouped read answers
+    // `400 Your interval and date range would create too many results` and
+    // the 14d grouped read answers **200 with an empty groups array** — which
+    // reads exactly like "this project has had no sessions in fourteen days".
+    // It never had. `hasSessions=true` on the project settles it.
+    //
+    // Derived, not restated: EVERY sessions call must carry it, because the
+    // two reads exist to corroborate each other and one malformed read
+    // silently turns a corroboration into a repetition.
+    const calls = sessionCalls(CODE);
+    expect(calls.length, 'the sessions endpoint is not read at all').toBeGreaterThanOrEqual(2);
+    const missing = calls.filter((c) => !/--data-urlencode "interval=/.test(c));
+    expect(
+      missing.length,
+      `sessions read(s) with no interval — these return 400 or an empty 200:\n${missing.join('\n---\n')}`,
+    ).toBe(0);
+  });
+
+  it('an empty result is reported as undetermined, never as zero', () => {
+    // The other half of the same defect. Even with `interval` pinned above, a
+    // query that resolves to nothing must not assert an absence — say what
+    // was not resolvable and point at the field that CAN answer yes or no.
+    expect(CODE, 'an empty query result is stated as an absence of sessions').not.toMatch(
+      /no sessions in this window/,
+    );
+    expect(CODE).toMatch(/sessions not resolvable from this query/);
+  });
+
+  it('degrades instead of failing the report', () => {
+    // Ingestion health is supporting evidence. Losing it must not cost the
+    // list, exactly as with session health.
+    // Anchored on CODE, not on comment text: `CODE` has comments stripped, so
+    // an anchor that only exists in a comment yields -1 and slices to the end
+    // of the file — which contains every `exit 1` in the script. Caught by the
+    // assertion failing, which is the assertion working.
+    const slice = CODE.slice(
+      CODE.indexOf('Ingestion health'),
+      CODE.indexOf('echo "── Session health'),
+    );
+    expect(slice).toMatch(/project detail unavailable/);
+    expect(slice, 'a missing probe now fails the whole report').not.toMatch(/exit 1/);
   });
 });
 
