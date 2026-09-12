@@ -318,18 +318,30 @@ jobs:
               #
               # Scope NAMES only. The token is never printed — same rule as
               # everywhere else in this file, and `$BODY` is not dumped.
+              # ABSENT FIELD ≠ ABSENT SCOPE, and the first version of this block
+              # got that wrong on its own first run: `/auth/` answered 200 with
+              # no `scopes` key, and it printed "event:read is ABSENT from the
+              # token this job used" — asserting a fact it had not measured, on
+              # the same day two other instances of that exact shape were fixed
+              # in this file. A missing key is UNDETERMINED. It is reported as
+              # such, and only a scopes list that is genuinely present and
+              # genuinely lacks the scope is called absent.
               ST=$(call "https://sentry.io/api/0/auth/")
-              if [ "$ST" = "200" ]; then
+              if [ "$ST" != "200" ]; then
+                echo "  token scopes unavailable: $ST ($(detail))"
+              elif ! jq -e 'has("scopes")' "$BODY" >/dev/null 2>&1; then
+                printf '  %-46s %s\n' "token scopes" "(not reported by /auth/ for this token)"
+                echo "  → UNDETERMINED from here: this endpoint did not return a scope list,"
+                echo "    so nothing above says whether event:read is on the token."
+              else
                 SCOPES=$(jq -r '(.scopes // []) | join(" ")' "$BODY" 2>/dev/null || true)
-                printf '  %-46s %s\n' "token scopes" "${SCOPES:-(none reported)}"
+                printf '  %-46s %s\n' "token scopes" "${SCOPES:-(empty list)}"
                 case " $SCOPES " in
                   *" event:read "*)
                     echo "  → event:read IS present; a 403 above is NOT a scope problem." ;;
                   *)
-                    echo "  → event:read is ABSENT from the token this job used." ;;
+                    echo "  → event:read is absent from this token's reported scopes." ;;
                 esac
-              else
-                echo "  token scopes unavailable: $ST ($(detail))"
               fi
               probe "GET /organizations/<org>/" \
                 "https://sentry.io/api/0/organizations/$ORG/"
