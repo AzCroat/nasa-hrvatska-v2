@@ -54,7 +54,10 @@ const BADGE_SPEECHES: Record<string, { mood: string; text: string }> = {
     mood: 'celebrating',
     text: 'Tisuću XP! A thousand points of Croatian locked in your brain. 🏆',
   },
-  x2k: { mood: 'celebrating', text: "Dva tisuće XP! You're thinking in Croatian now. Odlično! 🎓" },
+  x2k: {
+    mood: 'celebrating',
+    text: "Dvije tisuće XP! You're thinking in Croatian now. Odlično! 🎓",
+  },
   x5k: {
     mood: 'celebrating',
     text: '5,000 XP — Champion status! Croatia itself would applaud. 🥇',
@@ -388,7 +391,12 @@ export function useAward({
           if (speech) {
             knightSpeak(speech.mood, speech.text);
           } else {
-            window.dispatchEvent(new CustomEvent('knight:badge'));
+            // GENERIC FALLBACK. This branch used to dispatch `knight:badge`,
+            // which NOTHING has ever listened for — so a badge without an
+            // authored speech produced total silence from the coach. Measured:
+            // 22 of the app's badges have a speech, so the dead branch was the
+            // one taken by the large majority of them.
+            knightSpeak('celebrating', `${badge.n}! Svaka čast — nastavi tako. 🏅`);
           }
         }, 1200);
       }
@@ -475,7 +483,9 @@ export function useAward({
         setTimeout(() => {
           const speech = BADGE_SPEECHES[strBadge.id];
           if (speech) knightSpeak(speech.mood, speech.text);
-          else window.dispatchEvent(new CustomEvent('knight:badge'));
+          // Same dead `knight:badge` fallback as the badge path above — a
+          // streak badge with no authored speech celebrated in silence too.
+          else knightSpeak('celebrating', `${strBadge.n}! Svaka čast — nastavi tako. 🏅`);
         }, 1200);
         if (writeDelta) writeDelta({ badges: [strBadge.id] });
       }
