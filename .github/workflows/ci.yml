@@ -356,6 +356,7 @@ jobs:
         env:
           VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
           VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          VITE_TURNSTILE_SITEKEY: ${{ secrets.VITE_TURNSTILE_SITEKEY }}
         run: |
           set -euo pipefail
           if [ -z "${VITE_POSTHOG_KEY:-}" ]; then
@@ -367,6 +368,11 @@ jobs:
             echo "::warning title=Firebase measurementId absent::VITE_FIREBASE_MEASUREMENT_ID is not a GitHub secret, so getAnalytics() is never constructed and every fbLogEvent is a silent no-op."
           else
             echo "VITE_FIREBASE_MEASUREMENT_ID is set; Firebase Analytics will initialise."
+          fi
+          if [ -z "${VITE_TURNSTILE_SITEKEY:-}" ]; then
+            echo "::warning title=Signup bot gate off::VITE_TURNSTILE_SITEKEY is not a GitHub secret, so the Turnstile widget never renders; with TURNSTILE_SECRET_KEY also unset the server verify returns skipped:true. Signup has NO bot check."
+          else
+            echo "VITE_TURNSTILE_SITEKEY is set; the signup bot gate will render."
           fi
 
       - name: Build
@@ -393,6 +399,12 @@ jobs:
           # read in src/ is missing from this list.
           VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
           VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          # The signup bot gate. Read via OPTIONAL CHAINING
+          # (`import.meta.env?.VITE_TURNSTILE_SITEKEY`), which is how it escaped
+          # the first version of viteEnvReachesBuild.test.ts. Unset, the widget
+          # never renders AND /api/turnstile/verify returns {ok:true,skipped:true}
+          # — both halves feature-flagged off, so signup has no bot check at all.
+          VITE_TURNSTILE_SITEKEY: ${{ secrets.VITE_TURNSTILE_SITEKEY }}
 
       # ── The deploy must SHIP the telemetry it was built with (2026-09-04) ──
       #
