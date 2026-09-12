@@ -427,6 +427,40 @@ jobs:
               );
               process.exit(1);
             }
+
+            // ── The RELEASE must reach the bundle too (2026-09-12) ──
+            //
+            // A DSN and an SDK chunk are not enough. Vite `define` substitutes
+            // the bare IDENTIFIER `__BUILD_ID__`; main.tsx used to read
+            // `globalThis.__BUILD_ID__`, a member expression that is NOT
+            // substituted and is permanently undefined. A Sentry client with no
+            // release DISCARDS every session inside sendSession before an
+            // envelope is built, and `isStaleBuild` treats a null running build
+            // as "cannot conclude" and never reloads. So the bundle looked
+            // perfectly healthy — DSN present, SDK present — while shipping zero
+            // session telemetry and a dead auto-update, for the life of the code.
+            //
+            // version.json is written by vite.config from the SAME BUILD_ID, so
+            // its value appearing in the bundle is exactly the proof that the
+            // substitution happened. Derived, not restated: no literal here.
+            const deployed = JSON.parse(readFileSync("dist/version.json", "utf8"))?.v;
+            if (!deployed) {
+              console.error("dist/version.json carries no build id — vite.config did not write it.");
+              process.exit(1);
+            }
+            const carriesRelease = files.some((f) =>
+              readFileSync(dir + "/" + f, "utf8").includes(`release:"${deployed}"`)
+            );
+            console.log("release baked into bundle: " + carriesRelease);
+            if (!carriesRelease) {
+              console.error(
+                "The build id in dist/version.json does not appear as the Sentry `release` in " +
+                  "any bundle chunk. Read `__BUILD_ID__` as a BARE identifier — a member " +
+                  "expression survives `define` untouched, and a release-less client silently " +
+                  "discards every session."
+              );
+              process.exit(1);
+            }
           '
 
       - name: Bundle size check
