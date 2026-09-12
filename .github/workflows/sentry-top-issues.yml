@@ -199,7 +199,15 @@ jobs:
             --data-urlencode "interval=1d" \
             --data-urlencode "statsPeriod=90d")
           if [ "$ST" = "200" ]; then
-            jq -r '"  sessions_90d_ungrouped=\(.groups[0].totals["sum(session)"] // 0)"' "$BODY" 2>/dev/null || echo "  (90d sessions did not parse)"
+            # `// 0` ON AN EMPTY `groups` ARRAY IS THE SAME LIE ONE LEVEL
+            # DOWN. With `interval` fixed this read now answers 200, and
+            # `.groups[0]...  // 0` renders NO ROWS as `0` — exactly the
+            # conflation the whole block above exists to end. Row count first,
+            # then the total, and NO ROWS says so in words.
+            jq -r 'if (.groups | length) == 0
+                     then "  90d: the query returned NO ROWS — undetermined, not zero"
+                     else "  sessions_90d_ungrouped=\(.groups[0].totals["sum(session)"] // 0)  rows=\(.groups | length)"
+                   end' "$BODY" 2>/dev/null || echo "  (90d sessions did not parse)"
           else
             echo "  90d sessions unavailable: $ST ($(detail))"
           fi
@@ -230,10 +238,13 @@ jobs:
               | ($s | to_entries | map(.value) | add // 0) as $tot
               | ($s.crashed // 0) as $cr
               | ($s.errored // 0) as $er
-              | "sessions=\($tot)  healthy=\($s.healthy // 0)  errored=\($er)  crashed=\($cr)  abnormal=\($s.abnormal // 0)",
+              | (.groups | length) as $rows
+              | "sessions=\($tot)  healthy=\($s.healthy // 0)  errored=\($er)  crashed=\($cr)  abnormal=\($s.abnormal // 0)  rows=\($rows)",
                 (if $tot > 0
                    then "crash_free=\((100 - ($cr * 100 / $tot)) * 100 | round / 100)%  error_free=\((100 - (($cr + $er) * 100 / $tot)) * 100 | round / 100)%"
-                   else "sessions not resolvable from this query — see hasSessions above" end)
+                 elif $rows == 0
+                   then "the query returned NO ROWS — undetermined, not zero"
+                   else "a real zero: \($rows) row(s) returned, every status at 0" end)
             ' "$BODY"
           else
             echo "session health unavailable: $ST ($(detail))"
