@@ -318,6 +318,28 @@ jobs:
               #
               # Scope NAMES only. The token is never printed — same rule as
               # everywhere else in this file, and `$BODY` is not dumped.
+              # WHICH KIND OF TOKEN IS THIS? (2026-09-12)
+              #
+              # The scope has now been added twice and the stream still answers
+              # 403, so the question is no longer "is the scope on the token"
+              # but "can this token CARRY that scope at all". Sentry's
+              # ORGANIZATION auth tokens (`sntrys_`) have a fixed scope set that
+              # does not include `event:read` and never can — the UI does not
+              # offer it — while USER auth tokens (`sntryu_`, or the legacy
+              # 64-hex personal tokens) can. If this is an org token, no amount
+              # of editing scopes will ever work and the remedy is a different
+              # KIND of credential, not another edit.
+              #
+              # A CLASS, NOT A VALUE. The case matches a fixed prefix and echoes
+              # a fixed label; `$TOKEN` is never expanded into output, so this
+              # obeys the same names-never-values rule as the rest of the file.
+              case "$TOKEN" in
+                sntrys_*) echo "  token kind: ORGANIZATION auth token — CANNOT hold event:read." ;;
+                sntryu_*) echo "  token kind: user auth token — can hold event:read." ;;
+                "")       echo "  token kind: (empty)" ;;
+                *)        echo "  token kind: legacy/personal format — can hold event:read." ;;
+              esac
+
               # ABSENT FIELD ≠ ABSENT SCOPE, and the first version of this block
               # got that wrong on its own first run: `/auth/` answered 200 with
               # no `scopes` key, and it printed "event:read is ABSENT from the
