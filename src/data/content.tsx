@@ -76,7 +76,9 @@ import * as _scenarios from './scenarios.js';
 //   _cultural: HISTORY, EVENTS, PROVERBS, KINGS, REGIONS, DIALECTS, SHADOWING, CROATIAN_CITIES
 //   _exercises: IDIOMS, BRZALICE
 //   _scenarios: FOODORDER, TRANSPORT, GROCERY, RECIPES, PRACTICAL
-// Plus SCENES (local) and LEVEL_NARRATIVE (local) — deleted below.
+// Plus SCENES (local) and LEVEL_NARRATIVE (local) — both deleted; the server
+// copies are the only ones. (The local scene-DESCRIPTION set survives under the
+// non-colliding name DESCRIBE_SCENES — see the note on it below.)
 // SP11e: V composition, getProverbOfDay, getCityOfDay, getHistFact, and the
 // LEARN_PATH array all moved server-side. V_B2/PROVERBS/CROATIAN_CITIES/
 // FOODORDER no longer destructured here — their only remaining consumers
@@ -1954,54 +1956,10 @@ class _ErrorBoundary extends React.Component {
 // section heading visible for orientation while reading this file.
 
 // SEASONAL_CAMPAIGNS, getActiveCampaign — imported from ../lib/appUtils.js
-// SP11d: LEVEL_NARRATIVE moved server-side. Local copy kept (renamed _LEVEL_NARRATIVE)
-// for fallback during the migration window; consumers use useContent().LEVEL_NARRATIVE.
-const _LEVEL_NARRATIVE = {
-  heritage: [
-    'First Words',
-    'Finding Your Voice',
-    'Reconnecting',
-    'Bridging Worlds',
-    'Coming Home',
-    'Naš Čovjek',
-    'Naš Čovjek',
-  ],
-  family: [
-    'Hello Family',
-    'Family Stories',
-    'Conversations',
-    'Deep Talks',
-    'Native Flow',
-    'Naš Čovjek',
-    'Naš Čovjek',
-  ],
-  travel: [
-    'Survival Mode',
-    'Getting Around',
-    "Local's Path",
-    'Off the Map',
-    'Croatian Soul',
-    'Naš Čovjek',
-    'Naš Čovjek',
-  ],
-  culture: [
-    'First Steps',
-    'Culture Seeker',
-    'Insider',
-    'Deep Diver',
-    'Living Croatia',
-    'Naš Čovjek',
-    'Naš Čovjek',
-  ],
-  fluent: ['Beginner', 'Elementary', 'Intermediate', 'Upper-Int', 'Advanced', 'Fluent', 'Fluent'],
-  partner: [
-    'Curious Spouse',
-    'Family Observer',
-    'Dinner Table Survivor',
-    'Welcome Addition',
-    'Part of the Family',
-  ],
-};
+// SP11d: LEVEL_NARRATIVE moved server-side; consumers read
+// useContent().LEVEL_NARRATIVE. The local `_LEVEL_NARRATIVE` fallback copy kept
+// "for the migration window" was deleted 2026-09-12 — it was non-exported and
+// had zero references, so nothing could ever have fallen back to it.
 // recordJourneyMilestone, getJourneyMilestones — imported from ../lib/appUtils.js
 
 // SP11d + SP11e: 27 high-IP exports moved server-side. Consumers use
