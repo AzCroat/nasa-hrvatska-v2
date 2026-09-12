@@ -50,16 +50,38 @@ function stripComments(src: string): string {
   return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
 }
 
-/** Every VITE_ var the client actually reads. */
+/**
+ * Every VITE_ var the client actually reads.
+ *
+ * THE FIRST VERSION OF THIS MATCHED `import.meta.env.` ONLY, and missed a real
+ * orphan within hours of shipping: `useAuth.ts` and `LoginScreen.tsx` read
+ * `import.meta.env?.VITE_TURNSTILE_SITEKEY` with OPTIONAL CHAINING, and the
+ * `?` breaks a regex expecting a bare dot. The guard passed while the variable
+ * it should have named gated the signup bot check — a guard that covers most
+ * of a thing reads exactly like one that covers the thing.
+ *
+ * So the access forms are enumerated rather than assumed: `.X`, `?.X`, and the
+ * bracket forms `["X"]` / `?.["X"]`. `envAccessForms` below drives all of them
+ * as a positive control, because a widened regex that silently stops matching
+ * is the same failure in the other direction.
+ */
+const ENV_READ_RE = [
+  /import\.meta\.env\s*\??\.\s*(VITE_[A-Z0-9_]+)/g,
+  /import\.meta\.env\s*\??\.?\[\s*['"`](VITE_[A-Z0-9_]+)['"`]\s*\]/g,
+];
+
+function readsIn(src: string): string[] {
+  const out = new Set<string>();
+  for (const re of ENV_READ_RE) {
+    for (const m of stripComments(src).matchAll(re)) out.add(m[1]);
+  }
+  return [...out];
+}
+
 const READS: string[] = (() => {
   const found = new Set<string>();
-  for (const f of sourceFiles('src')) {
-    for (const m of stripComments(readFileSync(f, 'utf8')).matchAll(
-      /import\.meta\.env\.(VITE_[A-Z0-9_]+)/g,
-    )) {
-      found.add(m[1]);
-    }
-  }
+  for (const f of sourceFiles('src'))
+    for (const v of readsIn(readFileSync(f, 'utf8'))) found.add(v);
   return [...found].sort();
 })();
 
@@ -75,10 +97,24 @@ const PASSED: string[] = (() => {
 })();
 
 describe('the two sets are real', () => {
+  it('matches every access form, not just the bare dot', () => {
+    // The positive control for the widening. The `?.` case is not academic —
+    // it is how the signup bot-gate sitekey is read, and the first version of
+    // this file missed it entirely.
+    expect(readsIn('const a = import.meta.env.VITE_ONE;')).toEqual(['VITE_ONE']);
+    expect(readsIn('const b = import.meta.env?.VITE_TWO;')).toEqual(['VITE_TWO']);
+    expect(readsIn("const c = import.meta.env['VITE_THREE'];")).toEqual(['VITE_THREE']);
+    expect(readsIn('const d = import.meta.env?.["VITE_FOUR"];')).toEqual(['VITE_FOUR']);
+    // And prose must still not count as a read.
+    expect(readsIn('// import.meta.env.VITE_NOPE is not read here')).toEqual([]);
+  });
+
   it('finds the reads in src/', () => {
     expect(READS.length).toBeGreaterThanOrEqual(7);
     expect(READS).toContain('VITE_SENTRY_DSN');
     expect(READS).toContain('VITE_FIREBASE_API_KEY');
+    // Read through optional chaining; the regex that missed it shipped green.
+    expect(READS).toContain('VITE_TURNSTILE_SITEKEY');
   });
 
   it('finds the vars the production Build step passes', () => {
