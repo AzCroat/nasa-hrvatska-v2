@@ -74,15 +74,29 @@ describe('anyAI reflects only a real AI provider', () => {
     // SHOULD count it — and this failing is the prompt to revisit, rather than
     // a guard quietly enforcing a rule whose reason has expired.
     //
-    // SCHEME-ANCHORED on purpose. Matching the bare host would also accept
-    // `https://api.openai.com.attacker.com/v1/chat` — CodeQL flagged exactly
-    // that (alert 75), and it is right: with no scheme, arbitrary hosts can
-    // precede the pattern. Including `https://` is also simply what the source
-    // text contains.
+    // LITERAL SUBSTRING SEARCH, NOT A REGEX, and that is the point.
+    //
+    // The first version matched a bare host and CodeQL was right to flag it
+    // (alert 75): `https://api.openai.com.attacker.com/v1/chat` satisfied it.
+    // Adding the scheme fixed that and CodeQL flagged it AGAIN (alert 76) —
+    // this time a false positive, because its query assumes the pattern is
+    // tested AGAINST A URL, where `^`/`$` anchors are the remedy. Here the
+    // subject is a whole SOURCE FILE and the URL is the needle, so anchoring
+    // is impossible by construction: `^` would require the call to be the
+    // first thing in the file.
+    //
+    // The honest resolution is not a dismissal — it is that a regex was never
+    // needed. `includes()` says exactly what is meant, has no pattern
+    // semantics to get wrong, and cannot match a lookalike host.
     //
     // WHAT IT DOES NOT PROVE: a URL assembled from parts (`base + '/v1/chat'`)
     // evades it. This is a tripwire for the common shape, not exhaustive
     // detection — the honest limit, stated rather than implied.
+    const OPENAI_GENERATION_URLS = [
+      'https://api.openai.com/v1/chat', // covers /v1/chat/completions
+      'https://api.openai.com/v1/responses',
+      'https://api.openai.com/v1/completions',
+    ];
     const files = [];
     (function walk(d) {
       // eslint-disable-next-line security/detect-non-literal-fs-filename -- test scans repo sources
@@ -93,10 +107,11 @@ describe('anyAI reflects only a real AI provider', () => {
         else if (p.endsWith('.js') && !p.includes('__tests__')) files.push(p);
       }
     })('functions');
-    const chatCallers = files.filter((f) =>
+    const chatCallers = files.filter((f) => {
       // eslint-disable-next-line security/detect-non-literal-fs-filename -- test scans repo sources
-      /https:\/\/api\.openai\.com\/v1\/(chat|responses|completions)/.test(readFileSync(f, 'utf8')),
-    );
+      const src = readFileSync(f, 'utf8');
+      return OPENAI_GENERATION_URLS.some((u) => src.includes(u));
+    });
     expect(
       chatCallers,
       'something now calls OpenAI for generation — anyAI should count it again',
