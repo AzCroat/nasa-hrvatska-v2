@@ -183,11 +183,20 @@ jobs:
             echo "  project detail unavailable: $ST ($(detail))"
           fi
           # A second sessions read with NO groupBy over a much longer window.
-          # If the 14d grouped read and this both come back empty, the absence
-          # is real rather than an artefact of how the first one was shaped.
+          #
+          # `interval` IS REQUIRED AND ITS ABSENCE IS NOT AN ABSENCE OF DATA.
+          # Without it this read answered `400 Your interval and date range
+          # would create too many results`, and the 14d read answered 200 with
+          # an EMPTY groups array — which I read, and reported to the owner
+          # repeatedly, as "zero sessions in 14 days". It was never that:
+          # `hasSessions=true` on the project says Sentry has session data and
+          # always did. A malformed query that returns empty is indistinguishable
+          # from an empty result unless you ask something that can only answer
+          # yes or no — which is exactly what the project field did.
           ST=$(call "https://sentry.io/api/0/organizations/$ORG/sessions/" \
             --data-urlencode "project=$PROJ_ID" \
             --data-urlencode "field=sum(session)" \
+            --data-urlencode "interval=1d" \
             --data-urlencode "statsPeriod=90d")
           if [ "$ST" = "200" ]; then
             jq -r '"  sessions_90d_ungrouped=\(.groups[0].totals["sum(session)"] // 0)"' "$BODY" 2>/dev/null || echo "  (90d sessions did not parse)"
@@ -209,6 +218,7 @@ jobs:
             --data-urlencode "field=sum(session)" \
             --data-urlencode "field=count_unique(user)" \
             --data-urlencode "groupBy=session.status" \
+            --data-urlencode "interval=1d" \
             --data-urlencode "statsPeriod=$PERIOD")
           if [ "$ST" = "200" ]; then
             jq -r '
@@ -223,7 +233,7 @@ jobs:
               | "sessions=\($tot)  healthy=\($s.healthy // 0)  errored=\($er)  crashed=\($cr)  abnormal=\($s.abnormal // 0)",
                 (if $tot > 0
                    then "crash_free=\((100 - ($cr * 100 / $tot)) * 100 | round / 100)%  error_free=\((100 - (($cr + $er) * 100 / $tot)) * 100 | round / 100)%"
-                   else "no sessions in this window" end)
+                   else "sessions not resolvable from this query — see hasSessions above" end)
             ' "$BODY"
           else
             echo "session health unavailable: $ST ($(detail))"
