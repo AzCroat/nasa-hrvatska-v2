@@ -340,6 +340,26 @@ jobs:
                 *)        echo "  token kind: legacy/personal format — can hold event:read." ;;
               esac
 
+              # DID THE SECRET ACTUALLY CHANGE? (2026-09-12)
+              #
+              # The token is a USER token, so it CAN hold event:read, and the
+              # scope has been added twice, and the stream still refuses. The
+              # remaining explanation is that the value in the GitHub secret is
+              # not the token that was edited — and nothing in this report could
+              # distinguish "secret updated" from "secret untouched", because
+              # every line describes what the token can REACH, which is
+              # identical either way.
+              #
+              # A FINGERPRINT ANSWERS IT ACROSS RUNS: 8 hex characters of the
+              # SHA-256 of the token. It is stable, so comparing this line
+              # between two runs says whether the credential changed; and it is
+              # not reversible — 8 of 64 hex characters of a digest over a
+              # high-entropy secret identifies nothing. The token is PIPED into
+              # the hash and never written to stdout, so the names-never-values
+              # rule holds exactly as before.
+              FP=$(printf '%s' "$TOKEN" | sha256sum | cut -c1-8)
+              echo "  token fingerprint: $FP  (same value across runs = the secret did not change)"
+
               # ABSENT FIELD ≠ ABSENT SCOPE, and the first version of this block
               # got that wrong on its own first run: `/auth/` answered 200 with
               # no `scopes` key, and it printed "event:read is ABSENT from the
