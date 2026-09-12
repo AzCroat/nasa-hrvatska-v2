@@ -162,6 +162,40 @@ jobs:
             exit 1
           fi
 
+          # INGESTION HEALTH — added 2026-09-12, because "sessions=0" on its own
+          # cannot tell "the browser SDK is not delivering" from "my query is
+          # wrong", and the code says sessions SHOULD flow: the SDK's own
+          # defaults carry browserSessionIntegration, an `integrations` ARRAY
+          # merges with those defaults rather than replacing them, `beforeSend`
+          # only filters ERROR events, and nothing sets autoSessionTracking:
+          # false, a tunnel or a custom transport. Reading the project itself
+          # settles it — and it is an endpoint this token already reaches.
+          #
+          # `firstEvent` and `hasSessions` are ABSENT-aware on purpose: a field
+          # the serializer does not return must read "absent", never "false".
+          # Reporting "no sessions" for a field that was never there is the
+          # fabricated-measurement failure this repo keeps writing down.
+          echo "── Ingestion health ──"
+          ST=$(call "https://sentry.io/api/0/projects/$ORG/$PROJ/")
+          if [ "$ST" = "200" ]; then
+            jq -r '"  platform=\(.platform // "-")  firstEvent=\(.firstEvent // "never")  hasSessions=\(if has("hasSessions") then .hasSessions else "absent" end)  hasMinifiedStackTrace=\(if has("hasMinifiedStackTrace") then .hasMinifiedStackTrace else "absent" end)"' "$BODY" 2>/dev/null || echo "  (project detail did not parse)"
+          else
+            echo "  project detail unavailable: $ST ($(detail))"
+          fi
+          # A second sessions read with NO groupBy over a much longer window.
+          # If the 14d grouped read and this both come back empty, the absence
+          # is real rather than an artefact of how the first one was shaped.
+          ST=$(call "https://sentry.io/api/0/organizations/$ORG/sessions/" \
+            --data-urlencode "project=$PROJ_ID" \
+            --data-urlencode "field=sum(session)" \
+            --data-urlencode "statsPeriod=90d")
+          if [ "$ST" = "200" ]; then
+            jq -r '"  sessions_90d_ungrouped=\(.groups[0].totals["sum(session)"] // 0)"' "$BODY" 2>/dev/null || echo "  (90d sessions did not parse)"
+          else
+            echo "  90d sessions unavailable: $ST ($(detail))"
+          fi
+          echo
+
           # HOW BAD IS IT, BEFORE WHAT IS IT. Session health is the denominator
           # any issue count needs — "412 events" means one thing against 400
           # sessions and another against 40,000 — and it reads through

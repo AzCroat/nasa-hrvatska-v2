@@ -134,6 +134,48 @@ describe('a refusal reports what the token CAN reach', () => {
   });
 });
 
+describe('zero sessions is diagnosed, not just reported', () => {
+  it('reads the project itself, which says whether sessions ever arrived', () => {
+    // "sessions=0" alone cannot tell "the browser SDK is not delivering" from
+    // "the query is shaped wrong", and the CODE says sessions should flow:
+    // browserSessionIntegration is in the SDK defaults, an `integrations`
+    // ARRAY merges with those defaults rather than replacing them, beforeSend
+    // only filters ERROR events, and nothing sets autoSessionTracking: false,
+    // a tunnel or a custom transport. The project endpoint settles it, and
+    // this token already reaches it.
+    expect(CODE).toMatch(/Ingestion health/);
+    expect(CODE).toMatch(/hasSessions/);
+    expect(CODE).toMatch(/firstEvent/);
+    // A second, differently shaped read: no groupBy, 90 days. If both come
+    // back empty the absence is real rather than an artefact of the first.
+    expect(CODE).toMatch(/sessions_90d_ungrouped/);
+    expect(CODE).toMatch(/statsPeriod=90d/);
+  });
+
+  it('reports an ABSENT field as absent, never as false', () => {
+    // A field the serializer does not return must not be rendered `false`.
+    // "no sessions" for a field that was never there is a fabricated
+    // measurement — the failure this repo keeps writing down.
+    expect(CODE).toMatch(/if has\("hasSessions"\) then \.hasSessions else "absent" end/);
+    expect(CODE, 'an absent field would read as false').not.toMatch(/\.hasSessions \/\/ false/);
+  });
+
+  it('degrades instead of failing the report', () => {
+    // Ingestion health is supporting evidence. Losing it must not cost the
+    // list, exactly as with session health.
+    // Anchored on CODE, not on comment text: `CODE` has comments stripped, so
+    // an anchor that only exists in a comment yields -1 and slices to the end
+    // of the file — which contains every `exit 1` in the script. Caught by the
+    // assertion failing, which is the assertion working.
+    const slice = CODE.slice(
+      CODE.indexOf('Ingestion health'),
+      CODE.indexOf('echo "── Session health'),
+    );
+    expect(slice).toMatch(/project detail unavailable/);
+    expect(slice, 'a missing probe now fails the whole report').not.toMatch(/exit 1/);
+  });
+});
+
 describe('the token cannot reach a log line', () => {
   it('is bound through env and never passed on a command line', () => {
     // This repo is public. Same rule as the cron-secret, service-account and
