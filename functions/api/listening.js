@@ -7,6 +7,10 @@ import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, targetVocabList } from './_userContext.js';
 import { reconcileSafely } from './_aiBudget.js';
+// The generated Croatian is synthesised in ONE /api/tts request, so it has to
+// fit under that endpoint's cap. Both numbers live in _ttsLimits.js so they
+// cannot drift; see the note there for why the budget is derived, not typed.
+import { TTS_TEXT_BUDGET } from './_ttsLimits.js';
 
 const LISTENING_PROMPT = definePrompt(
   'listening',
@@ -157,6 +161,12 @@ export async function onRequestPost(context) {
     `Create a Croatian language listening exercise about '${safeTopic}' at CEFR level ${safeLevel} as a ${safeStyle}. ` +
     `The exercise should be ${styleInstructions} ` +
     `Use vocabulary appropriate for CEFR ${safeLevel}. ` +
+    // The spoken Croatian is synthesised in ONE /api/tts request, which refuses
+    // text past MAX_TTS_CHARS. Stated in characters because that is the unit
+    // the cap is enforced in; stated at all because nothing else bounds it.
+    `IMPORTANT: the Croatian spoken text (the narrator field, or all speaker ` +
+    `lines combined) must total NO MORE THAN ${TTS_TEXT_BUDGET} characters. ` +
+    `Stay well within that — a listening exercise is a short passage, not an essay. ` +
     (targetVocab
       ? `When it fits naturally, feature these Croatian words the learner is practising: ${targetVocab}. `
       : '') +

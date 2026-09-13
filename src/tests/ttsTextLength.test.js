@@ -26,6 +26,11 @@
 import { readFileSync } from 'node:fs';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { describeTtsFailure } from '../lib/audio';
+// THE CONSTANTS ARE IMPORTED, NOT REGEXED OUT OF tts.js. They moved to
+// _ttsLimits.js when /api/listening gained the same dependency, and a
+// `TTS.match(/const MAX_TTS_CHARS = (\d+);/)` would have thrown on null
+// rather than reporting anything useful about the move.
+import { MAX_TTS_CHARS, TTS_TEXT_BUDGET } from '../../functions/api/_ttsLimits.js';
 
 /**
  * Comments stripped — but NOT the `//` inside a URL. The naive
@@ -97,7 +102,7 @@ describe('the length cap admits a real listening passage', () => {
   });
 
   it('the cap is a named constant well above a generated passage', () => {
-    const cap = Number(TTS.match(/const MAX_TTS_CHARS = (\d+);/)[1]);
+    const cap = MAX_TTS_CHARS;
     expect(cap).toBeGreaterThanOrEqual(2000);
     // Still BOUNDED. An unbounded cap turns one request into an unbounded
     // synthesis bill the moment a per-character backend is configured.
@@ -132,7 +137,7 @@ describe('the length cap admits a real listening passage', () => {
       waitUntil: () => {},
     });
     expect(empty.status).toBe(400);
-    const cap = Number(TTS.match(/const MAX_TTS_CHARS = (\d+);/)[1]);
+    const cap = MAX_TTS_CHARS;
     const tooLong = await onRequestPost({
       request: ttsRequest('a'.repeat(cap + 1)),
       env: ENV,
@@ -165,5 +170,61 @@ describe('the edge cache key cannot collide once long text is allowed', () => {
   it('no hash means no caching, never caching under an ambiguous key', () => {
     expect(TTS).toMatch(/edgeCache = cacheKey \? caches\.default : null;/);
     expect(TTS).toMatch(/if \(kv && identityHash\)/);
+  });
+});
+
+/**
+ * THE HALF THE ORIGINAL FIX DID NOT COVER (2026-09-12).
+ *
+ * Raising the cap 500 → 3000 made the common passage work, and the assertion
+ * written for it proves the endpoint accepts a ~1,400-character sample. That is
+ * a PROXY for the real question, not an answer to it: nothing bounded what
+ * `/api/listening` actually generates. The prompt asked for a monologue
+ * "speaking naturally and continuously" or 8–12 dialogue exchanges and stated
+ * no length at all, so the only ceiling was `max_tokens` — counted in tokens,
+ * covering the whole JSON envelope, and at 2600 worth several thousand
+ * characters of Croatian. "3000 covers the longest passage the generator
+ * produces" was never measured, and `tts_failed:invalid_text` was still
+ * arriving in the week of 2026-09-04.
+ *
+ * A generator and a validator that must agree about a number, with nothing
+ * connecting them — the cron-secret shape, in characters.
+ */
+describe('the generator is bounded by the cap it has to satisfy', () => {
+  const LISTENING = strip(readFileSync('functions/api/listening.js', 'utf8'));
+
+  it('the budget is DERIVED from the cap, not typed beside it', () => {
+    const LIMITS = strip(readFileSync('functions/api/_ttsLimits.js', 'utf8'));
+    expect(LIMITS).toMatch(/TTS_TEXT_BUDGET\s*=\s*Math\.floor\(MAX_TTS_CHARS/);
+    // A budget at or above the cap bounds nothing.
+    expect(TTS_TEXT_BUDGET).toBeLessThan(MAX_TTS_CHARS);
+    // ...and one near zero would make every passage useless.
+    expect(TTS_TEXT_BUDGET).toBeGreaterThan(1000);
+  });
+
+  it('the listening prompt states that budget to the model', () => {
+    expect(LISTENING, 'the listening prompt no longer bounds the Croatian it asks for').toMatch(
+      /TTS_TEXT_BUDGET/,
+    );
+    expect(LISTENING).toMatch(/NO MORE THAN/);
+  });
+
+  it('listening reads the shared limit rather than its own copy', () => {
+    // Two files agreeing by coincidence is what this whole change removes.
+    expect(LISTENING).toMatch(/from '\.\/_ttsLimits\.js'/);
+    expect(LISTENING, 'a second hardcoded cap appeared').not.toMatch(/=\s*3000\b/);
+  });
+
+  it('a passage at the stated budget is still accepted by /api/tts', async () => {
+    // The two ends meet: what the generator is allowed to produce must be what
+    // the endpoint will speak. Asserted end to end rather than by comparing
+    // two numbers, because the cap is enforced on the TRIMMED string.
+    const passage = 'a'.repeat(TTS_TEXT_BUDGET);
+    const res = await onRequestPost({
+      request: ttsRequest(passage),
+      env: ENV,
+      waitUntil: () => {},
+    });
+    expect(res.status, 'a passage at the generator budget is refused as invalid text').toBe(503);
   });
 });

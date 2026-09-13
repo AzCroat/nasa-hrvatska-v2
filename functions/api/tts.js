@@ -8,6 +8,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { checkAIQuota } from './_aiQuota.js';
+import { MAX_TTS_CHARS } from './_ttsLimits.js';
 import { corsHeaders } from './_helpers.js';
 
 // ── Azure SSML builder ────────────────────────────────────────────────────────
@@ -55,24 +56,12 @@ function isPlayableAudio(buffer) {
   return !!buffer && buffer.byteLength >= MIN_AUDIO_BYTES;
 }
 
-/**
- * The longest text this endpoint will speak (2026-09-10).
- *
- * IT WAS 500, AND THAT MADE THE AI LISTENING SCREEN STRUCTURALLY INCAPABLE OF
- * PRODUCING AUDIO. That screen generates a narrator passage or an interleaved
- * dialogue (the generator runs at max_tokens 1500–2600) and sends the WHOLE
- * thing in one request, so it was always over the cap and always answered 400.
- * Not a voice-chain failure at all — the request never reached a backend.
- * Owner, once the failure could finally name itself: "This recording couldn't
- * be generated." — which is exactly what `invalid_text` (a 400) says.
- *
- * 3000 covers the longest passage the generator produces with headroom, and is
- * still a bound: the endpoint is per-user quota-gated and budget-gated, and
- * the free Edge voice is charged per request rather than per character. Keep
- * it a fixed cap — an unbounded one turns a single request into an unbounded
- * synthesis bill the moment a metered backend is configured.
- */
-const MAX_TTS_CHARS = 3000;
+// The longest text this endpoint will speak lives in _ttsLimits.js, because
+// /api/listening must GENERATE Croatian that fits under the same number and a
+// constant with two consumers belongs in one place. The history (it was 500,
+// which made AI Listening structurally incapable of producing audio) is
+// recorded there.
+export { MAX_TTS_CHARS } from './_ttsLimits.js';
 
 /** Hex SHA-256 — the identity of a TTS request, used by BOTH cache layers. */
 async function sha256Hex(s) {
