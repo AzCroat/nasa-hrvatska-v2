@@ -94,11 +94,31 @@ export async function openRoute(
     return `threw during render: ${(e as Error)?.message?.slice(0, 120)}`;
   }
   // Screens are lazy(); give the chunk a chance to resolve and throw.
-  try {
-    await waitFor(() => expect(document.body.textContent).not.toBe(''), { timeout: 2000 });
-  } catch {
-    /* an empty screen is not a crash */
-  }
+  //
+  // TWO WAITS, BECAUSE "EMPTY" HAD TWO CAUSES AND ONLY ONE IS INTERESTING
+  // (2026-09-13). A single 2s window made this sweep fail roughly one full-suite
+  // run in four, always naming `accusativedrill` — which is simply the FIRST
+  // route in the sweep and therefore pays the lazy loader's cold start. Under
+  // 539 files running in parallel that occasionally exceeded 2s, and a slow
+  // chunk was recorded identically to a screen that renders nothing.
+  //
+  // PROVEN, not inferred: with the window set to 1ms, 412 of 422 routes report
+  // EMPTY. The verdict was measuring the clock, not the screen.
+  //
+  // Widening the single window would have been the wrong fix — it hides a slow
+  // resolve behind a bigger number and still cannot tell the two apart. Only a
+  // route that LOOKS empty pays the second, longer wait, so the fast path stays
+  // fast and a genuinely gated route (currently just `reading`) is the only one
+  // that spends it.
+  const settled = async (timeout: number) => {
+    try {
+      await waitFor(() => expect(document.body.textContent).not.toBe(''), { timeout });
+      return true;
+    } catch {
+      return false; /* an empty screen is not a crash */
+    }
+  };
+  if (!(await settled(2000))) await settled(15000);
   const text = (document.body.textContent || '').trim();
   if (screen.queryByTestId('screen-error-boundary')) return 'boundary engaged';
   // COVERAGE, not just verdicts. A route that renders NOTHING has not been
