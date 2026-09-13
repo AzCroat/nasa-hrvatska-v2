@@ -1,11 +1,37 @@
 import React, { useState } from 'react';
 
+/**
+ * All seven goals, in onboarding's order. This list held FOUR — `family`,
+ * `elders` and `partner` were absent — so the three people-shaped goals, the
+ * ones this app's diaspora learners actually pick, could not be chosen here at
+ * all. The three new entries take onboarding's wording; the four that were
+ * already here keep their own, which is why `goalListsAgree.test.ts` pins the ID
+ * SET and deliberately not the copy.
+ */
 const GOALS = [
   {
     id: 'heritage',
     icon: '🇭🇷',
     label: 'Connect with my heritage',
     sub: 'Rediscover my Croatian roots',
+  },
+  {
+    id: 'family',
+    icon: '👨‍👩‍👧',
+    label: 'Speak with family',
+    sub: 'Talk to parents, grandparents, relatives',
+  },
+  {
+    id: 'elders',
+    icon: '👴👵',
+    label: 'Za bake i djedove',
+    sub: 'Connect with elderly relatives before time runs out',
+  },
+  {
+    id: 'partner',
+    icon: '💑',
+    label: 'My partner is Croatian',
+    sub: 'Navigate family gatherings, impress their parents',
   },
   { id: 'fluent', icon: '🗣️', label: 'Become fluent', sub: 'Hold real conversations' },
   { id: 'travel', icon: '✈️', label: 'Travel to Croatia', sub: 'Navigate & explore confidently' },

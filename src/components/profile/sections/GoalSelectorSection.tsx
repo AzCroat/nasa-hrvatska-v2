@@ -8,9 +8,27 @@ import React, { useState } from 'react';
  * open/closed dropdown UI state. The GOALS list lives here as its sole consumer.
  * Behavior-identical to the prior inline block.
  */
+/**
+ * All seven goals onboarding offers, in onboarding's order.
+ *
+ * `elders` and `partner` were MISSING, and this is the one screen where a
+ * learner changes their mind. A learner who chose either at onboarding opened
+ * this picker, saw five options and none of them theirs — and picking any of the
+ * five overwrote `nh_goal` with no way back, because the list that could set it
+ * again is the one they had already left. `partner` is not decorative:
+ * `GoalFocusSection` renders partner-specific shortcuts off `nh_goal ===
+ * 'partner'`, and `LEVEL_NARRATIVE` has a six-rung narrative for both.
+ *
+ * `goalListsAgree.test.ts` pins the ID SET across all three pickers. Copy is
+ * deliberately NOT pinned — this list carries no `sub` and the modal words
+ * `heritage` differently on purpose — but a goal that exists in one picker and
+ * not another is a learner who cannot get back to their own answer.
+ */
 const GOALS = [
   { id: 'heritage', icon: '🇭🇷', label: 'My heritage & roots' },
   { id: 'family', icon: '👨‍👩‍👧', label: 'Speak with family' },
+  { id: 'elders', icon: '👴👵', label: 'Za bake i djedove' },
+  { id: 'partner', icon: '💑', label: 'My partner is Croatian' },
   { id: 'travel', icon: '✈️', label: 'Travel to Croatia' },
   { id: 'culture', icon: '📖', label: 'Love the culture' },
   { id: 'fluent', icon: '🗣️', label: 'Become fluent' },
