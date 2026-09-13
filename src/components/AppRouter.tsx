@@ -756,70 +756,80 @@ export default function AppRouter(props: Record<string, any>) {
         style={{ height: '100%' }}
       >
         {currentScreen === 'welcome' && (
-          <WelcomeScreen
-            name={name}
-            au={authUser}
-            st={stats}
-            setScr={setScr}
-            setName={setName}
-            setPlacementQ={setPlacementQ}
-            setPlacementIdx={setPlacementIdx}
-            setPlacementScore={setPlacementScore}
-            setPlacementAnswers={setPlacementAnswers}
-            setPlacementXp={setPlacementXp}
-          />
+          <ScreenErrorBoundary key="welcome" name="welcome">
+            <WelcomeScreen
+              name={name}
+              au={authUser}
+              st={stats}
+              setScr={setScr}
+              setName={setName}
+              setPlacementQ={setPlacementQ}
+              setPlacementIdx={setPlacementIdx}
+              setPlacementScore={setPlacementScore}
+              setPlacementAnswers={setPlacementAnswers}
+              setPlacementXp={setPlacementXp}
+            />
+          </ScreenErrorBoundary>
         )}
         {currentScreen === 'placement' && (
-          <PlacementTest
-            onComplete={async function (level: number) {
-              lsSet('placement_done', '1');
-              // ALSO flag user as onboarded so Firebase sync persists this
-              // across devices. buildProgressSnapshot reads `onboarded` and
-              // `nh_placement_done` from localStorage and writes them into
-              // the Firebase profile; applyRemoteProgress on a new device
-              // sets localStorage from those fields, which short-circuits
-              // the App.tsx:1303 placement-trigger check. Without these two
-              // writes, a user who completed placement on device A would be
-              // re-prompted on device B until Firebase MERGE_REMOTE happened
-              // to land xp > 0 before the 1200ms placement timer fired.
-              lsSet('nh_placement_done', 'true');
-              lsSet('onboarded', 'true');
-              // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
-              // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
-              // to a Promise (breaking every `[...stats.ct]` spread and the
-              // firebase.ts arrayUnion filter → sync crash) and made
-              // `lc = Math.max(prev.lc, undefined)` = NaN. Resolve once, and fall
-              // back to no pre-credit if content can't load (offline) rather than
-              // stranding the user on the placement screen.
-              let ct: string[] = [];
-              try {
-                ct = await getPlacementCt(level);
-              } catch {
-                ct = [];
-              }
-              setStats(function (prev) {
-                return {
-                  ...prev,
-                  ct,
-                  lc: Math.max(prev.lc, ct.length),
-                };
-              });
-              if (typeof award === 'function') award(25);
-              setShowFirstWords(true);
-              setTab('learn');
-            }}
-            onCancel={function () {
-              setTab('learn');
-            }}
-          />
+          <ScreenErrorBoundary key="placement" name="placement">
+            <PlacementTest
+              onComplete={async function (level: number) {
+                lsSet('placement_done', '1');
+                // ALSO flag user as onboarded so Firebase sync persists this
+                // across devices. buildProgressSnapshot reads `onboarded` and
+                // `nh_placement_done` from localStorage and writes them into
+                // the Firebase profile; applyRemoteProgress on a new device
+                // sets localStorage from those fields, which short-circuits
+                // the App.tsx:1303 placement-trigger check. Without these two
+                // writes, a user who completed placement on device A would be
+                // re-prompted on device B until Firebase MERGE_REMOTE happened
+                // to land xp > 0 before the 1200ms placement timer fired.
+                lsSet('nh_placement_done', 'true');
+                lsSet('onboarded', 'true');
+                // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
+                // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
+                // to a Promise (breaking every `[...stats.ct]` spread and the
+                // firebase.ts arrayUnion filter → sync crash) and made
+                // `lc = Math.max(prev.lc, undefined)` = NaN. Resolve once, and fall
+                // back to no pre-credit if content can't load (offline) rather than
+                // stranding the user on the placement screen.
+                let ct: string[] = [];
+                try {
+                  ct = await getPlacementCt(level);
+                } catch {
+                  ct = [];
+                }
+                setStats(function (prev) {
+                  return {
+                    ...prev,
+                    ct,
+                    lc: Math.max(prev.lc, ct.length),
+                  };
+                });
+                if (typeof award === 'function') award(25);
+                setShowFirstWords(true);
+                setTab('learn');
+              }}
+              onCancel={function () {
+                setTab('learn');
+              }}
+            />
+          </ScreenErrorBoundary>
         )}
         {currentScreen === 'equivalency' && (
-          <EquivalencyTestScreen
-            userEligible={getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0)}
-            userLessonCount={stats.lc || 0}
-            userXp={stats.xp || 0}
-            onBackToProfile={() => setTab('profile')}
-          />
+          <ScreenErrorBoundary
+            key="equivalency"
+            name="equivalency"
+            goBack={() => setTab('profile')}
+          >
+            <EquivalencyTestScreen
+              userEligible={getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0)}
+              userLessonCount={stats.lc || 0}
+              userXp={stats.xp || 0}
+              onBackToProfile={() => setTab('profile')}
+            />
+          </ScreenErrorBoundary>
         )}
         {
           // ═══ DASHBOARD ═══
