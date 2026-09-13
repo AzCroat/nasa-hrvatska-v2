@@ -202,6 +202,85 @@ const normTiles = (s: string) =>
     .trim()
     .toLowerCase();
 
+/**
+ * THE PRACTICE PROGRAMME — 109 banks, ~2,600 items, previously unguarded.
+ *
+ * Found by injecting a defect into each body of assessed content and running
+ * the whole suite to see which ones noticed. Lessons were caught by
+ * `content-validation`, dialogues by `dialogueScenarios`, graded stories by
+ * `gradedStories` — and the drill banks by nothing at all. They are the
+ * LARGEST and most recently authored body of graded content in the app, and
+ * the corpus sweep above covers five modules, none of them these.
+ *
+ * A guard for this class already existed and read as covering it. That is the
+ * "coverage is a ratio, not a list" lesson applied to an answer key: the file
+ * names real shipped violations — an unwinnable CONDITIONAL item, duplicate
+ * options in PADEZI_FULL and WordFamilies — while 2,600 items sat outside it.
+ *
+ * NOTHING IS BROKEN TODAY; all 109 banks pass. This is the ratchet.
+ *
+ * Checked STRICTLY rather than through `sweep`: ModeDrillItem always names its
+ * key `answer`, so unlike the name-independent sweep above this can assert the
+ * answer field specifically, instead of the weaker "some string field appears
+ * among the options".
+ */
+describe('drill banks — answer-key integrity', () => {
+  const MODULES = import.meta.glob('../data/drills/*.ts', { eager: true }) as Record<
+    string,
+    Record<string, unknown>
+  >;
+
+  type DrillItem = { q?: unknown; opts: string[]; answer?: unknown };
+  const items: Array<{ where: string; it: DrillItem }> = [];
+  for (const [file, mod] of Object.entries(MODULES)) {
+    for (const [exp, val] of Object.entries(mod)) {
+      if (!Array.isArray(val)) continue;
+      val.forEach((raw, i) => {
+        const it = raw as DrillItem;
+        if (it && typeof it === 'object' && Array.isArray(it.opts))
+          items.push({ where: `${file.split('/').pop()}:${exp}[${i}]`, it });
+      });
+    }
+  }
+
+  it('finds the banks and their items', () => {
+    // Without this the three assertions below pass over an empty array — the
+    // decorative-guard failure this repo keeps meeting. The figures are
+    // cross-checked against CLAUDE.md's own "109 ModeDrill-backed drills".
+    const banks = new Set(Object.keys(MODULES));
+    expect(banks.size, 'the drill glob matched nothing — check the path').toBeGreaterThanOrEqual(
+      100,
+    );
+    expect(items.length).toBeGreaterThan(2000);
+  });
+
+  it('every item declares an answer present among its own options', () => {
+    // Graded by strict value equality, so an answer absent from `opts` makes
+    // the item literally unwinnable: no option ever turns green.
+    const bad = items
+      .filter(({ it }) => typeof it.answer === 'string' && !it.opts.includes(it.answer))
+      .map(
+        ({ where, it }) =>
+          `${where}: answer ${JSON.stringify(it.answer)} not in ${JSON.stringify(it.opts)}`,
+      );
+    expect(bad).toEqual([]);
+  });
+
+  it('every item has distinct options', () => {
+    // A duplicated correct answer renders two winning buttons; a duplicated
+    // distractor silently makes a 4-choice question a 3-choice one.
+    const bad = items
+      .filter(({ it }) => new Set(it.opts).size !== it.opts.length)
+      .map(({ where, it }) => `${where}: ${JSON.stringify(it.opts)}`);
+    expect(bad).toEqual([]);
+  });
+
+  it('every item offers a real choice', () => {
+    const bad = items.filter(({ it }) => it.opts.length < 2).map(({ where }) => where);
+    expect(bad).toEqual([]);
+  });
+});
+
 describe('UNJUMBLE tile winnability', () => {
   it('is a non-empty array', () => {
     expect(Array.isArray(UNJUMBLE)).toBe(true);
