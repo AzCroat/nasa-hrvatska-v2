@@ -122,7 +122,25 @@ export function buildProgressSnapshot({
     nh_goal: lsGet('nh_goal') || '',
     nh_culture: lsGet('nh_culture') || '',
     nh_placement_done: lsGet('nh_placement_done') === 'true' || lsGet('placement_done') === 'true',
-    nh_grammar_track_done: lsGet('nh_grammar_track_done') === 'true',
+    // ONE KEY, TWO SHAPES — and the flag was the wrong one. GrammarTrackScreen
+    // writes a JSON ARRAY of completed unit ids here (`PROGRESS_KEY + 'done'`),
+    // 51 units across six levels; this line read the same key as a boolean, so
+    // `'["a1-questions"]' === 'true'` was false and the snapshot could only ever
+    // send `false`. The grammar track's progress has therefore never synced —
+    // every new device started the track from zero — and `applyRemoteProgress`
+    // wrote the literal `'true'` back into the key, which `getProgress()` parses
+    // to a boolean and the screen's header renders as `NaN%`.
+    //
+    // The comparison worth noting: `listeningCurriculum.ts` says in its own
+    // header that its progress mirrors `nh_grammar_track_done` — and it syncs as
+    // an array, correctly, right below. The copy got it right and the original
+    // never did.
+    //
+    // Same treatment as the other growing id sets now (`_unionStrArr` on the way
+    // in). A legacy `true`/`false` still sitting on the wire is not an array, so
+    // the apply ignores it exactly as it ignores the old numeric
+    // `nh_immersion_days` — which also closes the clobber path.
+    nh_grammar_track_done: _strArrOrUndef('nh_grammar_track_done'),
     // ── Structured-track progress — device-local done/mastery sets, union-merged
     // across devices (Content-Rec #1 listening, #8 phonemes, #9 conversation).
     // These curricula stored completion only on-device; syncing them means a

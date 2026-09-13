@@ -104,7 +104,10 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
     localStorage.setItem('nh_goal', 'fluent');
     localStorage.setItem('nh_culture', 'heritage');
     localStorage.setItem('nh_placement_done', 'true');
-    localStorage.setItem('nh_grammar_track_done', 'true');
+    // The real shape: GrammarTrackScreen writes the completed unit ids here.
+    // Seeded as `'true'` until 2026-09-13, which is a value only the sync layer
+    // itself ever wrote — so the round trip was between the bug and itself.
+    localStorage.setItem('nh_grammar_track_done', JSON.stringify(['a1-questions']));
     localStorage.setItem('nh_daily_goal_xp', '30');
 
     const snap = buildSnap();
@@ -115,7 +118,7 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
     expect(localStorage.getItem('nh_goal')).toBe('fluent');
     expect(localStorage.getItem('nh_culture')).toBe('heritage');
     expect(localStorage.getItem('nh_placement_done')).toBe('true');
-    expect(localStorage.getItem('nh_grammar_track_done')).toBe('true');
+    expect(JSON.parse(localStorage.getItem('nh_grammar_track_done')!)).toEqual(['a1-questions']);
     expect(localStorage.getItem('nh_daily_goal_xp')).toBe('30');
   });
 

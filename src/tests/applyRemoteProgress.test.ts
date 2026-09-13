@@ -651,10 +651,31 @@ describe('applyRemoteProgress — additional user settings', () => {
     expect(localStorage.getItem('placement_done')).toBe('true');
   });
 
-  it('restores nh_grammar_track_done from remote', () => {
+  /**
+   * This test used to assert `{ nh_grammar_track_done: true }` wrote `'true'`.
+   * It passed for as long as it existed and proved nothing: `true` is a value
+   * only the sync layer itself ever produced, and the key actually holds
+   * GrammarTrackScreen's array of completed unit ids. The test restated the
+   * sync layer's own mistake back to it.
+   */
+  it('unions the completed grammar units from remote', () => {
     const setters = makeSetters();
+    localStorage.setItem('nh_grammar_track_done', JSON.stringify(['a1-gender']));
+    applyRemoteProgress({ nh_grammar_track_done: ['a1-questions', 'a1-gender'] }, setters);
+    expect(JSON.parse(localStorage.getItem('nh_grammar_track_done')!).sort()).toEqual([
+      'a1-gender',
+      'a1-questions',
+    ]);
+  });
+
+  it('ignores the legacy boolean rather than writing it over the units', () => {
+    // A document written by the old snapshot still carries a boolean here. The
+    // clobber this prevents: `'true'` in place of the array makes `getProgress()`
+    // return a boolean, `done.length` undefined, and the track header `NaN%`.
+    const setters = makeSetters();
+    localStorage.setItem('nh_grammar_track_done', JSON.stringify(['a1-gender']));
     applyRemoteProgress({ nh_grammar_track_done: true }, setters);
-    expect(localStorage.getItem('nh_grammar_track_done')).toBe('true');
+    expect(JSON.parse(localStorage.getItem('nh_grammar_track_done')!)).toEqual(['a1-gender']);
   });
 
   it('restores nh_dm_explicit from remote', () => {

@@ -313,7 +313,9 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     _safeSet('nh_placement_done', 'true');
     _safeSet('placement_done', 'true');
   }
-  if (fp.nh_grammar_track_done) _safeSet('nh_grammar_track_done', 'true');
+  // `nh_grammar_track_done` is NOT a flag — see the note in progressSnapshot.ts.
+  // It holds the array of completed unit ids, and this line used to write the
+  // literal 'true' over it. It is unioned with the other growing id sets below.
 
   // ── Structured-track progress — union-merged done/mastery sets ─────────────
   // Curriculum completion (listening #1, phonemes #8, conversation #9) was
@@ -335,6 +337,11 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   _unionStrArr('nh_listening_track_done', fp.nh_listening_track_done);
   _unionStrArr('nh_interaction_track_done', fp.nh_interaction_track_done);
   _unionStrArr('nh_phonemes_mastered', fp.nh_phonemes_mastered);
+  // The Grammar Track's own done-set, which `listeningCurriculum` above was
+  // modelled on. A legacy remote value here is the boolean the old snapshot
+  // sent; `_unionStrArr` ignores a non-array, so it can no longer overwrite the
+  // learner's units with `'true'`.
+  _unionStrArr('nh_grammar_track_done', fp.nh_grammar_track_done);
   // Immersion days is a growing set of local date strings, not a number — union
   // it (a Math.max would be a type error against the array snapshot now writes).
   // Legacy numeric remote values (from the old buggy snapshot) aren't arrays, so
