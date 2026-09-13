@@ -30,6 +30,9 @@ import {
   clearUserScopedStorage,
   USER_SCOPED_LEGACY_KEYS,
   NOT_USER_SCOPED_KEYS,
+  USER_SCOPED_SESSION_KEYS,
+  NOT_USER_SCOPED_SESSION_KEYS,
+  DEVICE_SESSION_KEYS,
 } from '../lib/clearUserScopedStorage';
 
 /** Everything user A leaves behind on a shared device. */
@@ -233,6 +236,195 @@ describe('every non-nh_ storage key in the app is classified', () => {
   it('the two lists do not disagree with each other', () => {
     const swept = new Set<string>(USER_SCOPED_LEGACY_KEYS);
     expect(NOT_USER_SCOPED_KEYS.filter((k) => swept.has(k))).toEqual([]);
+  });
+});
+
+/**
+ * THE SESSIONSTORAGE HALF WAS NEVER DERIVED, AND IT READ AS COVERED.
+ *
+ * Everything above this point polices localStorage: a prefix sweep plus a list
+ * the scan above keeps honest. sessionStorage was six literals in
+ * USER_SCOPED_SESSION_KEYS with nothing counting what it missed — the list-length
+ * trap, one file below the place that documents it.
+ *
+ * Fifteen live keys sat outside those six, and every one of them is
+ * `nh_`-prefixed, which is precisely why the gap survived: the prefix sweep runs
+ * over `localStorage` only, so the names read as covered. Two moved CREDIT
+ * between accounts on a MOUNT — `nh_plan_pending_idx` (DailyPlanCard, on Home,
+ * the incoming learner's first screen) and `nh_grammar_unit_pending` +
+ * `nh_grammar_unit_completed` (GrammarTrackScreen) — writing a done-marker into
+ * the next account's localStorage and from there to their Firestore document.
+ *
+ * The sweep is now the same prefix rule as localStorage, so this scan's job is
+ * the mirror image of the one above: find every sessionStorage key the app
+ * touches and require it to be classified.
+ */
+describe('every sessionStorage key in the app is classified', () => {
+  /**
+   * `ss*` are the wrappers in lib/safeStorage; raw `sessionStorage.*` calls are
+   * still scattered through the components. `reloadWithCachePurge` and
+   * `wouldHealChunkError` are here because their key arrives as a PARAMETER —
+   * `chunkErrors.ts` never names it — so a scan that only reads the storage call
+   * cannot see `nh_reload_attempt` or `nh_binding_reload` at all, and those are
+   * two of the three keys that must NOT be swept.
+   *
+   * The `[\w$]*` prefix on the helper names is load-bearing and was found by
+   * this test failing: main.tsx calls the local wrapper `_reloadWithCachePurge`,
+   * and `\b` does not match between `_` and `r`, so a word-boundary match saw
+   * four of the five call sites and missed the only one that names
+   * `nh_binding_reload`.
+   */
+  const SESSION_CALL =
+    /(?:sessionStorage\.(?:getItem|setItem|removeItem)|\bss(?:Get|Set|Remove)|[\w$]*(?:reloadWithCachePurge|wouldHealChunkError))\(\s*([A-Za-z_$][\w$]*|'[^']*'|`[^`]*`)/g;
+
+  /** A template-literal key contributes its static prefix: `nh_story_img_${…}`. */
+  const literal = (raw: string): string | undefined => {
+    if (raw.startsWith("'")) return raw.slice(1, -1);
+    if (raw.startsWith('`')) {
+      const body = raw.slice(1, -1);
+      const stop = body.indexOf('${');
+      return stop === -1 ? body : body.slice(0, stop);
+    }
+    return undefined;
+  };
+
+  function collectSessionKeys(): Map<string, string> {
+    const files = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
+      (f) =>
+        !f.includes('/tests/') &&
+        !f.includes('.test.') &&
+        // The two generic wrappers take the key as a parameter; scanning them
+        // yields the parameter NAME, never a key.
+        !f.endsWith('safeStorage.ts') &&
+        !f.endsWith('chunkErrors.ts') &&
+        // …and the sweep itself, which removes keys it is handed.
+        !f.endsWith('clearUserScopedStorage.ts'),
+    );
+    const found = new Map<string, string>();
+    for (const file of files) {
+      // Comments first, for the same reason as the localStorage scan: the prose
+      // in these files names the very keys it describes.
+      const src = readFileSync(file, 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      const consts = new Map<string, string>();
+      for (const m of src.matchAll(
+        /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=]+)?=\s*(['`][^'`]*['`])/g,
+      )) {
+        const v = literal(m[2]!);
+        if (v) consts.set(m[1]!, v);
+      }
+      for (const m of src.matchAll(SESSION_CALL)) {
+        const key = literal(m[1]!) ?? consts.get(m[1]!);
+        if (key && !found.has(key)) found.set(key, file);
+      }
+    }
+    return found;
+  }
+
+  it('the scan finds the keys it is supposed to police, including the hidden shapes', () => {
+    const keys = [...collectSessionKeys().keys()];
+    expect(keys.length).toBeGreaterThan(15);
+    // One per shape that hid a key, so a silent regression in any branch of the
+    // scanner shows up here rather than as an empty "unclassified" list:
+    //   plain literal · const indirection · `'prefix' + x` · template prefix ·
+    //   threaded parameter.
+    for (const k of [
+      'nh_plan_pending_idx',
+      'nh_ver_reload',
+      'nh_last_scr_',
+      'nh_story_img_',
+      'nh_reload_attempt',
+    ])
+      expect(keys).toContain(k);
+  });
+
+  it('leaves nothing unclassified', () => {
+    // `nh_` is the sweep; anything outside it must be a recorded decision.
+    const classified = new Set<string>([
+      ...USER_SCOPED_SESSION_KEYS,
+      ...NOT_USER_SCOPED_SESSION_KEYS,
+    ]);
+    const unclassified = [...collectSessionKeys()]
+      .filter(([k]) => !k.startsWith('nh_') && !classified.has(k))
+      .map(([k, file]) => `${k} (${file})`);
+    expect(unclassified).toEqual([]);
+  });
+
+  it('the exemptions are honest in both directions', () => {
+    // An exemption for a key nothing touches guards nothing while suspending the
+    // rule — the `idioms` failure. Checked as a set so an empty list cannot make
+    // this register no assertions at all.
+    const touched = new Set(collectSessionKeys().keys());
+    expect(DEVICE_SESSION_KEYS.length).toBeGreaterThan(0);
+    expect(DEVICE_SESSION_KEYS.filter((k) => !touched.has(k))).toEqual([]);
+    expect(NOT_USER_SCOPED_SESSION_KEYS.filter((k) => !touched.has(k))).toEqual([]);
+    // The lists must not contradict one another.
+    expect(DEVICE_SESSION_KEYS.filter((k) => USER_SCOPED_SESSION_KEYS.includes(k))).toEqual([]);
+  });
+});
+
+describe('an account change cannot hand the next learner credit', () => {
+  it('drops the daily-plan pending index', () => {
+    // DailyPlanCard's mount effect turns this into markDone(idx) — on Home, the
+    // first screen the incoming learner sees. It is written when an activity is
+    // OPENED, so user A merely tapping one and signing out ticked it off B's plan.
+    sessionStorage.setItem('nh_plan_pending_idx', '3');
+    clearUserScopedStorage('a@example.com');
+    expect(sessionStorage.getItem('nh_plan_pending_idx')).toBeNull();
+  });
+
+  it('drops the grammar-unit completion handoff', () => {
+    // GrammarTrackScreen's mount effect: completed === 'true' && pending →
+    // markDone(pending), which is a unit ticked off in the next account.
+    sessionStorage.setItem('nh_grammar_unit_completed', 'true');
+    sessionStorage.setItem('nh_grammar_unit_pending', 'a1-questions');
+    clearUserScopedStorage('a@example.com');
+    expect(sessionStorage.getItem('nh_grammar_unit_completed')).toBeNull();
+    expect(sessionStorage.getItem('nh_grammar_unit_pending')).toBeNull();
+  });
+
+  it('drops the rest of the outgoing learner’s session state', () => {
+    // Not credit, but still one account's state rendered to another: a resumed
+    // flashcard position, a generated level quiz, the tab the previous user was
+    // last on.
+    for (const k of ['nh_flash_resume', 'nh_level_quiz', 'nh_last_scr_learn', 'nh_cloze_topic'])
+      sessionStorage.setItem(k, 'x');
+    clearUserScopedStorage('a@example.com');
+    for (const k of ['nh_flash_resume', 'nh_level_quiz', 'nh_last_scr_learn', 'nh_cloze_topic'])
+      expect(sessionStorage.getItem(k)).toBeNull();
+  });
+
+  /**
+   * The overshoot this fix nearly shipped. These three counters cap consecutive
+   * reloads per session; resetting them on sign-out buys a tab on a stale bundle
+   * two more reloads, then two more.
+   *
+   * NAMED, NOT ITERATED. The first draft looped over DEVICE_SESSION_KEYS and was
+   * decorative: deleting `nh_reload_attempt` from that list left the suite green,
+   * because the test simply stopped testing the key it no longer contained. A
+   * test that draws its cases from the list under test cannot police the list.
+   */
+  const RELOAD_BREAKERS = ['nh_ver_reload', 'nh_reload_attempt', 'nh_binding_reload'];
+
+  it.each(RELOAD_BREAKERS)('keeps %s — it is about the build, not the learner', (k) => {
+    sessionStorage.setItem(k, '{"n":2}');
+    clearUserScopedStorage('a@example.com');
+    expect(sessionStorage.getItem(k)).toBe('{"n":2}');
+  });
+
+  it('and those three are exactly the exemptions', () => {
+    // So a fourth exemption has to be argued for here too, rather than added to
+    // the list and inheriting this file's silence.
+    expect([...DEVICE_SESSION_KEYS].sort()).toEqual([...RELOAD_BREAKERS].sort());
+  });
+
+  it('still clears the markers the original list covered', () => {
+    sessionStorage.setItem('nh_session_started', 'speaking');
+    sessionStorage.setItem('nh_ex_start', '123');
+    clearUserScopedStorage();
+    expect(sessionStorage.getItem('nh_session_started')).toBeNull();
+    expect(sessionStorage.getItem('nh_ex_start')).toBeNull();
   });
 });
 

@@ -44,6 +44,13 @@
  * be classified either here or in NOT_USER_SCOPED_KEYS below. Neither list is a
  * place to forget things any more: a new key that is in neither fails the test.
  *
+ * ALL OF THAT WAS ABOUT localStorage, AND THAT IS THE NEXT THING THAT WAS WRONG.
+ * sessionStorage was swept by a hand-written list of six with nothing counting
+ * what it missed — the list-length trap, sitting immediately below the paragraph
+ * that describes it. Fifteen live keys were outside it and two of them carried
+ * CREDIT into the next account. Both halves are derived now; see
+ * DEVICE_SESSION_KEYS below for what that found and what must NOT be swept.
+ *
  * THE `uSR` TRAP — READ THIS BEFORE TRIMMING EITHER LIST
  * -----------------------------------------------------
  * This list used to justify an omission with: "dead registry entries like
@@ -160,15 +167,82 @@ export const NOT_USER_SCOPED_KEYS: readonly string[] = [
   'uP_',
 ];
 
-/** sessionStorage markers that must not survive an account change. */
-export const USER_SCOPED_SESSION_KEYS: readonly string[] = [
-  'nh_ex_start',
-  'nh_checkpoint_level',
-  'nh_readlist_filter',
-  'nh_session_started',
-  'nh_session_category',
-  'nh_session_completed',
+/**
+ * sessionStorage: the SAME `nh_` prefix rule as localStorage, minus the keys
+ * below.
+ *
+ * THIS HALF WAS A HAND-MAINTAINED LIST OF SIX, AND IT LOOKED COVERED.
+ * localStorage is swept by prefix plus a derived list that reads all of `src/`;
+ * sessionStorage was six literals nothing counted. Fifteen keys sat outside
+ * them, every one `nh_`-prefixed — which is why nobody looked: the prefix
+ * sweep runs over `localStorage` only, so a name that reads as covered was not.
+ *
+ * Two of the fifteen did not merely go stale, they moved CREDIT between
+ * accounts, and both fire on a mount rather than on some rare path:
+ *
+ *   nh_plan_pending_idx   DailyPlanCard writes it when the learner opens a plan
+ *                         activity and marks that activity DONE when the card
+ *                         next mounts. The card is on Home — the first screen
+ *                         the incoming learner sees — so user A opening an
+ *                         activity and signing out ticked it off B's plan, into
+ *                         B's localStorage and up to B's Firestore document.
+ *                         The launch site's own comment shows the author
+ *                         reasoning about exactly one way a pending index can
+ *                         wrongly credit ("cleared on page refresh, so if the
+ *                         target screen errors … NOT wrongly marked done"); an
+ *                         account change is a second way, and it does not
+ *                         refresh.
+ *   nh_grammar_unit_*     the same shape on GrammarTrackScreen's mount effect:
+ *                         `completed` + `pending` → markDone(pending).
+ *
+ * That is NEVER-DO 14 — crediting work the learner could not have done — in the
+ * one place where the work was not merely undone but someone else's.
+ *
+ * So the list is no longer the mechanism. The prefix is, and what remains is an
+ * EXEMPTION list: adding a key here is a decision on the record, and the guard
+ * test checks it in both staleness directions.
+ */
+export const DEVICE_SESSION_KEYS: readonly string[] = [
+  // The version-mismatch reload counter (main.tsx `_VER_RELOAD_KEY`), capped at
+  // 2 consecutive reloads per session so a stale bundle can never loop. It
+  // describes THIS TAB's relationship to the deployed build, not the learner.
+  // Clearing it on sign-out would re-arm the loop it exists to break — a
+  // sign-out on a stale build would buy two more reloads, then two more.
+  'nh_ver_reload',
+  // The chunk-error attempt counters `chunkErrors.ts` reads and writes
+  // (`reloadWithCachePurge` / `wouldHealChunkError`), same cap, same reason.
+  // These two are the reason this file measures before it sweeps: they reach
+  // sessionStorage as a PARAMETER, threaded from five call sites, so a scan for
+  // key-shaped literals at the storage call cannot see them. A prefix sweep
+  // written without looking would have quietly weakened the loop breaker on
+  // three keys while fixing a leak on two.
+  'nh_reload_attempt',
+  'nh_binding_reload',
 ];
+
+/**
+ * Non-`nh_` sessionStorage keys, classified so the guard test can tell "decided"
+ * from "nobody has looked at it yet" — the same role NOT_USER_SCOPED_KEYS plays
+ * for localStorage.
+ */
+export const NOT_USER_SCOPED_SESSION_KEYS: readonly string[] = [
+  // Legacy service-worker reload guards. main.tsx only ever REMOVES these (they
+  // blocked SW updates after 3 reloads in an older scheme) and nothing in the
+  // app writes them, so there is nothing one account can leave for another.
+  'sw-reload-count',
+  'sw-reloaded-at',
+];
+
+/**
+ * User-scoped sessionStorage keys that do NOT start with `nh_` and so are missed
+ * by the prefix sweep — the sessionStorage twin of USER_SCOPED_LEGACY_KEYS.
+ *
+ * Empty today: every session key the app writes is `nh_`-prefixed. It is kept
+ * (rather than deleted) so a future key outside the prefix has an obvious home,
+ * and the guard test asserts it stays honest rather than iterating it — an
+ * `it.each` over an empty array registers no tests at all.
+ */
+export const USER_SCOPED_SESSION_KEYS: readonly string[] = [];
 
 /** Dexie database backing the vocabulary journal screen. */
 const JOURNAL_DB = 'NasaHrvatska';
@@ -178,6 +252,14 @@ function removeLocal(key: string): void {
     localStorage.removeItem(key);
   } catch {
     /* storage blocked (SecurityError) — nothing was persisted to clear */
+  }
+}
+
+function removeSession(key: string): void {
+  try {
+    sessionStorage.removeItem(key);
+  } catch {
+    /* sessionStorage sits behind the same permission gate */
   }
 }
 
@@ -204,13 +286,15 @@ export function clearUserScopedStorage(uid?: string): void {
 
   USER_SCOPED_LEGACY_KEYS.forEach(removeLocal);
 
-  USER_SCOPED_SESSION_KEYS.forEach((k) => {
-    try {
-      sessionStorage.removeItem(k);
-    } catch {
-      /* sessionStorage sits behind the same permission gate */
-    }
-  });
+  let sessionKeys: string[] = [];
+  try {
+    sessionKeys = Object.keys(sessionStorage).filter(
+      (k) => k.startsWith('nh_') && !DEVICE_SESSION_KEYS.includes(k),
+    );
+  } catch {
+    /* sessionStorage sits behind the same permission gate as localStorage */
+  }
+  [...sessionKeys, ...USER_SCOPED_SESSION_KEYS].forEach(removeSession);
 
   // The journal screen mirrors `uJournal` into IndexedDB, so clearing only
   // localStorage would still show the previous user their predecessor's words.
