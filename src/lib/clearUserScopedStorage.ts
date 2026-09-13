@@ -184,8 +184,7 @@ export const NOT_USER_SCOPED_KEYS: readonly string[] = [
  *                         activity and marks that activity DONE when the card
  *                         next mounts. The card is on Home — the first screen
  *                         the incoming learner sees — so user A opening an
- *                         activity and signing out ticked it off B's plan, into
- *                         B's localStorage and up to B's Firestore document.
+ *                         activity and signing out ticked it off B's plan.
  *                         The launch site's own comment shows the author
  *                         reasoning about exactly one way a pending index can
  *                         wrongly credit ("cleared on page refresh, so if the
@@ -197,6 +196,29 @@ export const NOT_USER_SCOPED_KEYS: readonly string[] = [
  *
  * That is NEVER-DO 14 — crediting work the learner could not have done — in the
  * one place where the work was not merely undone but someone else's.
+ *
+ * SCOPE, STATED EXACTLY, BECAUSE THE FIRST DRAFT OF THIS PARAGRAPH OVERSTATED
+ * IT. Both markers are written and read entirely on the device: `markDone`
+ * writes `nh_plan_done_<date>` and `nh_grammar_track_done`, and NEITHER reaches
+ * Firestore — the first is not in `buildProgressSnapshot` at all, and the second
+ * is shadowed there by a boolean of the same name (see below). So this is one
+ * learner's device showing another learner credit they did not earn, not a
+ * cross-account cloud write like the `uFavs` leak above. The distinction is the
+ * difference between "wrong on this device until it is re-derived" and
+ * "permanent, on every device, and un-undoable", and the earlier wording claimed
+ * the second.
+ *
+ * FOUND WHILE CHECKING THAT CLAIM, AND NOT FIXED HERE: `nh_grammar_track_done`
+ * holds a JSON ARRAY of completed unit ids (GrammarTrackScreen `PROGRESS_KEY +
+ * 'done'`), while `buildProgressSnapshot` reads the same key as
+ * `lsGet(...) === 'true'` and `applyRemoteProgress` writes the literal `'true'`
+ * back into it. One key, two shapes: the grammar track's real progress has
+ * therefore never synced, and were the flag ever true on the wire the apply
+ * would overwrite the array with `'true'`, which `getProgress()` parses to a
+ * boolean and the header renders as `NaN%`. It cannot fire from current code —
+ * the snapshot can only ever send `false`, because `'["a1-questions"]' ===
+ * 'true'` is false — so it is a dead field shadowing a live one, which is a sync
+ * four-point change and belongs in its own commit, not in a leak fix.
  *
  * So the list is no longer the mechanism. The prefix is, and what remains is an
  * EXEMPTION list: adding a key here is a decision on the record, and the guard

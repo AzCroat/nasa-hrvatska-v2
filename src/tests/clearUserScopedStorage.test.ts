@@ -253,7 +253,10 @@ describe('every non-nh_ storage key in the app is classified', () => {
  * between accounts on a MOUNT — `nh_plan_pending_idx` (DailyPlanCard, on Home,
  * the incoming learner's first screen) and `nh_grammar_unit_pending` +
  * `nh_grammar_unit_completed` (GrammarTrackScreen) — writing a done-marker into
- * the next account's localStorage and from there to their Firestore document.
+ * the next account's localStorage. Device-local, NOT a cloud write: neither
+ * done-marker reaches Firestore, and the difference from the `uFavs` leak above
+ * matters, so see the scope paragraph in clearUserScopedStorage.ts rather than
+ * reading this as the same severity.
  *
  * The sweep is now the same prefix rule as localStorage, so this scan's job is
  * the mirror image of the one above: find every sessionStorage key the app
