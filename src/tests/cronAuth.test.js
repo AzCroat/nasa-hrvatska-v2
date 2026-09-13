@@ -282,6 +282,63 @@ describe('CI installs the same value on both sides', () => {
   it('never hard-codes a secret — only the public label', () => {
     expect(ciSrc).not.toMatch(/MANAGED_CRON_SECRET\s*[:=]\s*['"][^'"$]{8,}/);
   });
+
+  /**
+   * A STEP THAT CANNOT FAIL IS NOT A GATE.
+   *
+   * All three of these carry a comment saying they are "deliberately NOT
+   * continue-on-error", and the reason is written beside each: a skipped
+   * install that still shows green is precisely how the Worker and Pages
+   * halves drifted apart for 79 consecutive failed runs, with the weekly
+   * Firestore backup down beside them.
+   *
+   * Their three siblings — the Firebase service account, the Sentry DSN and
+   * the Azure Speech credentials — each already have a test asserting exactly
+   * this. These three did not, so the claim rested on the comment, which is
+   * the non-mechanism this whole file exists to replace. Nothing has drifted;
+   * this is the ratchet.
+   */
+  const stepBody = (name) => {
+    const start = ciSrc.indexOf(`      - name: ${name}`);
+    expect(start, `the CI step "${name}" was renamed — this guard is now blind`).toBeGreaterThan(
+      -1,
+    );
+    // Sliced to the NEXT step at the same indent, so the scan cannot spill
+    // into a neighbour that legitimately tolerates failure (Lighthouse does).
+    const next = ciSrc.indexOf('\n      - name:', start + 10);
+    return ciSrc.slice(start, next === -1 ? undefined : next);
+  };
+
+  it.each([
+    'Install managed cron secret (Pages)',
+    'Deploy scheduled Worker (streak-reminder cron)',
+    'Install managed cron secret (scheduled Worker)',
+  ])('%s cannot be skipped silently', (name) => {
+    // THE YAML KEY, NOT THE WORDS. The first version of this asserted the step
+    // body did not CONTAIN 'continue-on-error' and failed on correct code —
+    // because each of these steps explains in a COMMENT that it is
+    // "deliberately NOT continue-on-error". Prose reading exactly like the
+    // setting it describes is the trap this repo keeps meeting, met here by the
+    // guard written about it.
+    expect(
+      stepBody(name),
+      'this step became continue-on-error — a failure here now shows green, ' +
+        'which is the drift the managed cron secret exists to end',
+    ).not.toMatch(/^\s*continue-on-error\s*:/m);
+  });
+
+  it('the extractor really is scoped to one step', () => {
+    // Positive control. Lighthouse IS continue-on-error a few steps earlier, so
+    // if the slice over-ran, the assertions above would be reading the wrong
+    // text and would still pass.
+    expect(stepBody('Deploy scheduled Worker (streak-reminder cron)')).not.toContain('Lighthouse');
+    // ...and the matcher must actually FIRE on a real setting: Lighthouse
+    // carries one, so a regex that had stopped matching would show up here
+    // rather than as three permanently-green assertions.
+    expect(stepBody('Lighthouse CI'), 'the key matcher no longer matches a real key').toMatch(
+      /^\s*continue-on-error\s*:/m,
+    );
+  });
 });
 
 describe('the label is public on purpose', () => {
