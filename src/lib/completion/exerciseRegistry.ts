@@ -55,6 +55,44 @@ const RAW: Record<string, ExerciseEntry> = {
   diminutives: g('lc', 'grammar', 'lesson'),
   phonology: g('lc', 'grammar', 'lesson'),
 
+  // ── NINE DRILLS THAT CALLED completeExercise AND WERE NOT IN THIS MAP ──────
+  // An unregistered key does not throw. It takes the defaults — `gated`, `gc`,
+  // and activityType `'lesson'` — and TWO of those three are silently wrong:
+  //
+  //   questKind is undefined, so `markQuest` is never called and the daily
+  //   grammar quest does not tick for these drills while it ticks for their
+  //   ~250 siblings;
+  //   activityType `'lesson'` is not a key of `ACTIVITY_TO_SKILL`, so
+  //   `recordExerciseOutcome` returns early and the MASTERY LEDGER LEARNS
+  //   NOTHING from them — no evidence for the weakest-skill rung of
+  //   `getNextStep`, the concept map, or the adaptive pick.
+  //
+  // `statKind` defaulted to `'gc'`, which is what the house convention uses
+  // for a graded drill (vocabulary drills included — see `collocations`), so
+  // these rows pin `'gc'` DELIBERATELY: the CEFR score is `xp + lc*15 + gc*25`
+  // and moving a drill between counters would change every existing learner's
+  // derived level. That is a product decision, not a bug fix.
+  //
+  // TWO ARE THE NEAR-MISS NAME AGAIN — the `gender`/`genderdrill` trap. The map
+  // already had `conditional` and `formalregister`, both LESSONS carrying
+  // activityType `'lesson'`; the drills pass `conditionaldrill` and `register`.
+  // A row that looks present is not a row that matches.
+  //
+  // activityType is DERIVED from the app's own classification rather than
+  // guessed: the drill's pool category -> `SKILL_GROUP` -> case/verb/syntax is
+  // grammar, vocab is vocabulary. That matters — `idioms` and `register` are
+  // `vocab`, so tagging all nine `'grammar'` would have fed the ledger
+  // mis-attributed evidence, which is worse than the none it had.
+  conditionaldrill: g('gc', 'grammar', 'grammar'), // category conditional -> verb
+  discourse: g('gc', 'grammar', 'grammar'), // discourse -> syntax
+  idiomdrill: g('gc', 'vocab', 'vocabulary'), // idioms -> vocab
+  nominalization: g('gc', 'grammar', 'grammar'), // nominalization -> verb
+  participles: g('gc', 'grammar', 'grammar'), // participle -> verb
+  'present-tense': g('gc', 'grammar', 'grammar'), // present-tense -> verb
+  register: g('gc', 'vocab', 'vocabulary'), // register -> vocab
+  subordination: g('gc', 'grammar', 'grammar'), // subordination -> syntax
+  'word-order': g('gc', 'grammar', 'grammar'), // word-order -> syntax
+
   // ── Gated score-bearing grammar drills (Phases 1–2) ──
   accusative: g('gc', 'grammar', 'grammar'),
   animateacc: g('gc', 'grammar', 'grammar'),
