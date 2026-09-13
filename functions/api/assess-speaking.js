@@ -138,7 +138,16 @@ export async function onRequestPost(context) {
         ],
       }),
     });
-    if (!r.ok) return err(502, 'rubric_failed', origin);
+    // `upstream_error`, NOT `rubric_failed`. Both paths in this block returned
+    // `rubric_failed`, so a 502 could not say whether Anthropic refused the
+    // request or answered something unparseable. It also said the wrong thing to
+    // the learner: `rubric_failed` is in the client's UNUSABLE_CODES, whose
+    // sentence is "The evaluator returned an unusable answer" — and on a non-2xx
+    // there IS no answer. An unrecognised code classifies as kind `server`,
+    // whose sentence ("temporarily unavailable") is the true one here.
+    // `rubric_failed` stays on the catch below, which is the case it describes,
+    // so UNUSABLE_CODES needs no change.
+    if (!r.ok) return err(502, 'upstream_error', origin);
     const data = await r.json();
     await reconcileSafely(env, '/api/assess-speaking', data?.usage);
     const text =

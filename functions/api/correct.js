@@ -90,7 +90,12 @@ export async function onRequestPost(context) {
     });
   } catch (fetchErr) {
     console.error('[correct] network error calling Anthropic:', fetchErr.message);
-    return new Response(JSON.stringify({ error: 'Service temporarily unavailable' }), {
+    // NAMED, not 'Service temporarily unavailable' — that string was returned by
+    // this path AND by the unreadable-body path below, so a 502 from the writing
+    // evaluator could not be attributed to either. Same vocabulary
+    // `speaking-coach.js` already uses, and an unrecognised code still classifies
+    // as kind `server`, so the learner's sentence does not move.
+    return new Response(JSON.stringify({ error: 'upstream_network' }), {
       status: 502,
       headers,
     });
@@ -102,7 +107,7 @@ export async function onRequestPost(context) {
     rawBody = await response.text();
   } catch (bodyErr) {
     console.error('[correct] failed to read Anthropic response body:', bodyErr.message);
-    return new Response(JSON.stringify({ error: 'Service temporarily unavailable' }), {
+    return new Response(JSON.stringify({ error: 'upstream_body_unreadable' }), {
       status: 502,
       headers,
     });
