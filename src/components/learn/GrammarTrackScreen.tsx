@@ -442,9 +442,18 @@ const LEVELS = [
 
 const PROGRESS_KEY = 'nh_grammar_track_';
 
-function getProgress() {
+function getProgress(): string[] {
   try {
-    return JSON.parse(localStorage.getItem(PROGRESS_KEY + 'done') || '[]');
+    const parsed = JSON.parse(localStorage.getItem(PROGRESS_KEY + 'done') || '[]');
+    // MUST stay an array check, not a bare parse. Until this was fixed the sync
+    // layer read this key as a boolean and wrote the literal `'true'` back into
+    // it, so a synced device could hold `true` here: `JSON.parse` returns the
+    // boolean, `done.length` is then `undefined`, and the header renders `NaN%`
+    // while `markDone`'s `.includes` throws into its own catch and records
+    // nothing. The write side is fixed, but a device that already took that
+    // value keeps it, so this degrades to "no units done" rather than to a
+    // broken screen.
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string') : [];
   } catch {
     return [];
   }
@@ -472,7 +481,7 @@ interface Level {
 
 function markDone(unitId: string): void {
   try {
-    const done = getProgress() as string[];
+    const done = getProgress();
     if (!done.includes(unitId)) {
       localStorage.setItem(PROGRESS_KEY + 'done', JSON.stringify([...done, unitId]));
     }
