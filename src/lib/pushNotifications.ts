@@ -213,10 +213,12 @@ export function scheduleLocalReminder(streakDays = 0): void {
   if (!isNotificationsEnabled()) return;
   if (Notification.permission !== 'granted') return;
 
-  let lastPractice: string | null = null;
-  try {
-    lastPractice = localStorage.getItem('nh_last_practice_date');
-  } catch {}
+  // `nh_last_practice_date` was read here and is written by NOTHING, so this
+  // guard was never once true: the reminder was scheduled every day, including
+  // days the learner had already practised. `lastPracticedLocalDate()` below
+  // derives the same fact from `nh_last_practice`, the timestamp markPracticed
+  // actually writes, using the local-date rule this file already documents.
+  const lastPractice = lastPracticedLocalDate();
   const today = localDateStr();
   if (lastPractice === today) return;
 

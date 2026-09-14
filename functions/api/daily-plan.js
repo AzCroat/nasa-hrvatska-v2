@@ -74,22 +74,28 @@ function sanitizeStringArray(arr, maxItems, maxItemLen) {
     .filter(Boolean);
 }
 
-function sanitizeRecentActivity(raw) {
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
-    return { flashcards: 0, listening: 0, speaking: 0, writing: 0, lastActive: 0 };
-  }
-  const clamp = (v) => {
-    const n = Number(v);
-    return Number.isFinite(n) && n >= 0 ? Math.min(Math.floor(n), 9999) : 0;
-  };
-  return {
-    flashcards: clamp(raw.flashcards),
-    listening: clamp(raw.listening),
-    speaking: clamp(raw.speaking),
-    writing: clamp(raw.writing),
-    lastActive: clamp(raw.lastActive),
-  };
-}
+// `recentActivity` is GONE, and the reason is that it was never real.
+//
+// The client filled its four counters from `nh_session_flashcards_<date>`,
+// `nh_session_listening_<date>`, `nh_session_speaking_<date>` and
+// `nh_session_writing_<date>` — four keys NOTHING in the app has ever written.
+// Every request therefore carried `{flashcards:0, listening:0, speaking:0,
+// writing:0}`, and the user message stated those zeros to the model as fact:
+// every learner, every day, told the planner they had done nothing in all four
+// modalities. The fifth field was a raw epoch timestamp (`nh_last_active`) the
+// model cannot use and which `streak` already expresses.
+//
+// It is removed rather than repaired because the app records no honest source
+// for two of the four: `xpCooldown` holds exactly the exercise ids completed
+// today, but the exercise registry classifies them as grammar / vocab /
+// speaking / listening / culture — there is no `writing` kind and no
+// `flashcards` kind, so any mapping would be invented. This app's rule for that
+// case is settled (NEVER DO 13, and activityReason's honesty rule): a signal
+// with no honest source says NOTHING. The plan keeps every input that is
+// genuinely measured — level, goal, streak, weakest SRS words, Maja mistake
+// patterns, persistent learner errors and the style profile.
+//
+// A field left on the wire by a stale client bundle is simply ignored.
 
 // ── Handler ───────────────────────────────────────────────────────────────────
 
@@ -123,7 +129,7 @@ export async function onRequestPost(context) {
     return err(400, 'Invalid JSON in request body', origin);
   }
 
-  const { level, srWeakWords, majaPatterns, recentActivity, goal, streak } = body;
+  const { level, srWeakWords, majaPatterns, goal, streak } = body;
   const learnerErrors = body.learnerErrors || [];
   const stylePreferences = body.stylePreferences || null;
 
@@ -133,7 +139,6 @@ export async function onRequestPost(context) {
   const safeStreak = sanitizeStreak(streak);
   const safeSrWeakWords = sanitizeStringArray(srWeakWords, 8, 60);
   const safeMajaPatterns = sanitizeStringArray(majaPatterns, 10, 100);
-  const safeRecentActivity = sanitizeRecentActivity(recentActivity);
 
   // Sanitize learnerErrors — each entry expected: { pattern, category, count }
   const safeLearnerErrors = Array.isArray(learnerErrors)
@@ -203,7 +208,6 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
     `Create a personalized 15-minute daily Croatian practice plan for a ${safeLevel} learner with goal '${safeGoal}' (${safeStreak} day streak). ` +
     `Their weakest SRS words: ${safeSrWeakWords.join(', ') || 'none yet'}. ` +
     `Maja mistake patterns: ${safeMajaPatterns.join(', ') || 'none'}. ` +
-    `Recent activity counts: ${JSON.stringify(safeRecentActivity)}.` +
     learnerErrorsBlock +
     styleBlock +
     ` Return JSON: { greeting: 'short encouraging Croatian greeting to the user (5-10 words)', activities: [ { id: string (one of: srsreview=spaced-repetition card review, aiconvo=AI listening/conversation practice, live_tutor=AI speaking session with tutor Marija, writing=written composition practice, grammar_diagnosis=grammar gap analysis, dialogue=conversational dialogue with Maja, shadowing=pronunciation shadowing drill, aspectdrill=verb aspect perfective/imperfective drill), title: string, reason: string (why this specifically today, 1 sentence — be specific if addressing a persistent error), duration: number (minutes, 3-7), priority: 'high'|'medium' } ], motivational_note: 'one encouraging sentence about their progress', focus_topic: 'one grammar/vocab area to focus on today', theme: 'one sentence connecting all activities to a single grammar or vocab thread, e.g. Today\\'s thread: perfective aspect in past tense' } — exactly 3 activities totaling ~15 minutes.`;

@@ -217,19 +217,15 @@ export default function DailyPlanCard({
     // profile, so the plan was never even requested.
     const goal = lsGet('nh_goal') || 'fluent';
     const streak = getStreak();
-    const today = localDateStr();
-    const recentActivity = {
-      flashcards: parseInt(lsGet('nh_session_flashcards_' + today) || '0', 10),
-      listening: parseInt(lsGet('nh_session_listening_' + today) || '0', 10),
-      speaking: parseInt(lsGet('nh_session_speaking_' + today) || '0', 10),
-      writing: parseInt(lsGet('nh_session_writing_' + today) || '0', 10),
-      lastActive: parseInt(lsGet('nh_last_active') || '0', 10),
-    };
+    // `recentActivity` used to be collected here from four `nh_session_*_<date>`
+    // keys that nothing has ever written, so the plan endpoint was told
+    // {flashcards:0, listening:0, speaking:0, writing:0} by every learner on
+    // every request — see the note in functions/api/daily-plan.js for why it is
+    // removed rather than repaired. Everything still sent below is measured.
     return {
       level,
       srWeakWords,
       majaPatterns,
-      recentActivity,
       goal,
       streak: streak.count ?? streak,
     };
