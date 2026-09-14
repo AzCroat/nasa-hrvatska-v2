@@ -26,7 +26,7 @@
  */
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { render, renderHook } from '@testing-library/react';
-import { readFileSync } from 'node:fs';
+import { readFileSync, globSync } from 'node:fs';
 import { BADGES } from '../lib/appUtils';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 import { sessionFirstName } from '../lib/sessionUser';
@@ -274,7 +274,149 @@ describe('reminder notification personalisation', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// The regression guard
+// The derived guard
+//
+// THE HAND-SCOPED VERSION MISSED SEVEN MORE OF ITS OWN CLASS (2026-09-14).
+// Below this block sat a guard over THREE named files and THREE named keys. It
+// could not see, and never would have seen:
+//
+//   nh_activity_log        the 12-week heat map's "most precise" source. Every
+//                          other source is a presence marker of 1, so all three
+//                          intensity bands collapsed to the lightest and the
+//                          tooltip's `N XP` branch was unreachable — measured at
+//                          42 active days, one shade, zero XP figures.
+//   nh_session_flashcards_ the four `recentActivity` counters in the
+//   nh_session_listening_  /api/daily-plan payload. Every learner told the
+//   nh_session_speaking_   planning model "0 flashcards, 0 listening, 0
+//   nh_session_writing_    speaking, 0 writing" on every request, forever.
+//   nh_last_practice_date  scheduleLocalReminder's "already practised today"
+//                          guard, which was therefore never once true.
+//   nh_practiced_          a dead first disjunct in the 14-day activity strip.
+//
+// A list of files decays exactly like the constants it polices, and it decays
+// quietly, because it keeps passing at whatever rate the list still covers.
+// This sweep is DERIVED from the whole of src/ instead: every `nh_` key read
+// through a storage accessor must have a writer, or a named exemption.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('no key is read that nothing writes', () => {
+  const stripComments = (s: string) =>
+    s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+
+  const sourceFiles = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
+    (f) => !/[\\/](tests|__tests__)[\\/]/.test(f),
+  );
+  const SRC = new Map(sourceFiles.map((f) => [f, stripComments(readFileSync(f, 'utf8'))]));
+
+  /** `const FOO = 'nh_bar'` anywhere in src — a key written through a constant. */
+  const CONST_KEY = new Map<string, string>();
+  for (const s of SRC.values())
+    for (const m of s.matchAll(
+      /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=\n]+)?=\s*'(nh_[^']*)'/g,
+    ))
+      CONST_KEY.set(m[1]!, m[2]!);
+
+  const WRITE_ACCESSOR =
+    /\b(?:setItem|lsSet|ssSet|_safeSet|_unionStrArr|_maxNum)\(\s*([^,)]{1,90})/g;
+  const READ_ACCESSOR = /\b(?:getItem|lsGet|ssGet|lsGetRaw)\(\s*('nh_[^']*')\s*(\+?)/g;
+
+  const written = new Set<string>();
+  const writtenPrefixes = new Set<string>();
+  for (const s of SRC.values())
+    for (const m of s.matchAll(WRITE_ACCESSOR)) {
+      const a = m[1]!.trim();
+      let k;
+      if ((k = a.match(/^'(nh_[^']*)'\s*\+/))) writtenPrefixes.add(k[1]!);
+      else if ((k = a.match(/^'(nh_[^']*)'/))) written.add(k[1]!);
+      else if ((k = a.match(/^`(nh_[^`${]*)\$\{/))) writtenPrefixes.add(k[1]!);
+      else if ((k = a.match(/^`(nh_[^`${]*)`/))) written.add(k[1]!);
+      else if ((k = a.match(/^([A-Za-z_$][\w$]*)\s*\+/)) && CONST_KEY.has(k[1]!))
+        writtenPrefixes.add(CONST_KEY.get(k[1]!)!);
+      else if ((k = a.match(/^([A-Za-z_$][\w$]*)/)) && CONST_KEY.has(k[1]!))
+        written.add(CONST_KEY.get(k[1]!)!);
+    }
+
+  // `_safeSet(`nh_${key}_ceremony`)` in applyRemoteProgress interpolates at
+  // position 3, so its "prefix" is the bare `nh_`. Left in, ONE such write makes
+  // every key in the app look covered and the whole sweep vacuous — which is
+  // precisely how a guard ends up reporting clean forever. A suffix-shaped key
+  // family carries no prefix evidence, so it contributes none.
+  const VACUOUS_PREFIX = 'nh_';
+  writtenPrefixes.delete(VACUOUS_PREFIX);
+
+  const hasWriter = (key: string) =>
+    written.has(key) ||
+    [...writtenPrefixes].some((p) => key.startsWith(p)) ||
+    // A concat read (`lsGet('nh_daily_xp_' + date)`) yields a PREFIX, satisfied
+    // by any key or prefix written beneath it.
+    [...written].some((w) => w.startsWith(key));
+
+  /** key → the files that read it. */
+  const reads = new Map<string, string[]>();
+  for (const [f, s] of SRC)
+    for (const m of s.matchAll(READ_ACCESSOR)) {
+      const key = m[1]!.slice(1, -1);
+      reads.set(key, [...(reads.get(key) ?? []), f]);
+    }
+
+  /**
+   * Keys read on purpose with no in-app writer. Both staleness directions are
+   * checked below: an entry must still be READ, and must still have NO writer.
+   */
+  const NO_WRITER_BY_DESIGN: Record<string, string> = {
+    nh_debug:
+      'set by hand in DevTools to turn on on-device console mirroring — an app writer would defeat the point of an off-by-default diagnostic',
+    nh_streak_freezes:
+      'a legacy store (Settings → Streak Protection, pre-2026-07) read once and deleted by the uFreeze migration in getStreakFreezes — writing it again would resurrect a store nothing consumes',
+  };
+
+  it('the derivation is real', () => {
+    expect(SRC.size).toBeGreaterThan(400);
+    expect(reads.size).toBeGreaterThan(80);
+    expect(written.size).toBeGreaterThan(100);
+    expect(writtenPrefixes.size).toBeGreaterThan(5);
+  });
+
+  it('no accepted prefix matches every key', () => {
+    // The mutation that would silence this whole file, pinned: any prefix at or
+    // below `nh_` covers the entire namespace.
+    for (const p of writtenPrefixes) expect(p.length).toBeGreaterThan(VACUOUS_PREFIX.length);
+  });
+
+  it('non-vacuity: the matcher resolves a key that IS written and one that is not', () => {
+    expect(hasWriter('nh_goal')).toBe(true);
+    expect(hasWriter('nh_daily_xp_')).toBe(true);
+    expect(hasWriter('nh_no_such_key_anywhere')).toBe(false);
+  });
+
+  it('every nh_ key read in src has a writer', () => {
+    const orphans = [...reads]
+      .filter(([k]) => !hasWriter(k) && !(k in NO_WRITER_BY_DESIGN))
+      .map(([k, files]) => `${k} — read by ${[...new Set(files)].join(', ')}`);
+    expect(
+      orphans,
+      'These reads return their default forever: no crash, no Sentry event, the ' +
+        'feature above them simply does nothing.\n' +
+        orphans.map((o) => `  - ${o}`).join('\n'),
+    ).toEqual([]);
+  });
+
+  it('every exemption is still read somewhere', () => {
+    const unread = Object.keys(NO_WRITER_BY_DESIGN).filter((k) => !reads.has(k));
+    expect(unread, 'an exemption for a key nobody reads guards nothing').toEqual([]);
+  });
+
+  it('every exemption still lacks a writer', () => {
+    const fixed = Object.keys(NO_WRITER_BY_DESIGN).filter((k) => hasWriter(k));
+    expect(fixed, 'this key gained a writer — take it off the list').toEqual([]);
+  });
+
+  it('the exemption list is not silently emptied', () => {
+    expect(Object.keys(NO_WRITER_BY_DESIGN)).toHaveLength(2);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The original regression guard, for the three keys named at the top
 // ─────────────────────────────────────────────────────────────────────────────
 describe('no writer-less key is read again', () => {
   const sources = [

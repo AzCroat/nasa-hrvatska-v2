@@ -126,8 +126,12 @@ function getStreakHistory() {
       String(d.getDate()).padStart(2, '0');
     // Guarded: this helper runs on the render path (it builds the activity
     // heatmap), and reads throw when site data is blocked.
-    const practiced =
-      lsGet('nh_practiced_' + key) === '1' || parseInt(lsGet('nh_daily_xp_' + key) || '0', 10) > 0;
+    // `nh_practiced_<date>` was the first half of this test and nothing has ever
+    // written it, so only the second half was ever load-bearing. It is dropped
+    // rather than left in place: a dead disjunct reads as a second source of
+    // truth and is not one. `nh_daily_xp_<date>` is written by useAward on every
+    // award and is not pruned, so the 14-day strip is unchanged.
+    const practiced = parseInt(lsGet('nh_daily_xp_' + key) || '0', 10) > 0;
     result.push({ date: d, key, practiced, isToday: i === 0 });
   }
   return result;

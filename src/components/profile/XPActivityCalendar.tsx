@@ -19,14 +19,34 @@ export default function XPActivityCalendar({ st }: { st?: Partial<Stats> }) {
   const activeDays = useMemo<Record<string, number>>(() => {
     const result: Record<string, number> = {}; // dateStr → xp (or 1 if unknown)
     try {
-      // Source 1: nh_activity_log — most precise, stores dateStr → xp
-      const log = JSON.parse(localStorage.getItem('nh_activity_log') || '{}') as Record<
-        string,
-        unknown
-      >;
-      Object.entries(log).forEach(([d, xp]) => {
-        result[d] = (result[d] || 0) + (typeof xp === 'number' ? xp : 1);
-      });
+      // Source 1: nh_daily_xp_<date> — the XP the app actually recorded that day.
+      //
+      // This read used to be `nh_activity_log`, described here as "most precise,
+      // stores dateStr → xp". NOTHING HAS EVER WRITTEN THAT KEY, so every other
+      // source fell through to its presence marker of 1 and the calendar's whole
+      // intensity axis was dead: measured over a 42-active-day history whose real
+      // daily XP ran 12–300, all 42 cells rendered at the lightest of the three
+      // shades cellColor defines, and the tooltip's `N XP` branch (which needs
+      // > 1) was unreachable — every day said "Studied ✓". The two darker bands
+      // could not be reached by any amount of practice.
+      //
+      // The number was on the device the whole time: useAward writes
+      // `nh_daily_xp_<localDate>` on every award, pruneStaleLocalStorage leaves it
+      // alone (so the full 84-day window survives), and LearningInsights already
+      // reads it per day. Source 4 below even MATCHED these keys and threw the
+      // value away, because it is a presence scan.
+      //
+      // Nothing here invents a number: a day with no recorded XP is still marked
+      // active by the presence sources at 1, exactly as before, so this changes
+      // the shade of a day and never whether it counts as active.
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!k) continue;
+        const m = k.match(/^nh_daily_xp_(\d{4}-\d{2}-\d{2})$/);
+        if (!m || !m[1]) continue;
+        const xp = parseInt(localStorage.getItem(k) || '0', 10);
+        if (Number.isFinite(xp) && xp > 0) result[m[1]] = xp;
+      }
       // Source 2: xpCooldown — { exerciseId: 'YYYY-MM-DD' } — proves activity on that date
       const cd = JSON.parse(localStorage.getItem('xpCooldown') || '{}') as Record<string, unknown>;
       Object.values(cd).forEach((dateStr) => {
