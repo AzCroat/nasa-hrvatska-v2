@@ -357,8 +357,12 @@ const RAW: Record<string, ExerciseEntry> = {
   conjpractice: g('gc', 'grammar', 'grammar'),
 
   // ── Effort: productive tasks (no MCQ correctness) — credited on genuine finish (Phase 4) ──
-  speaking: e('sp', 'speaking', 'speaking'),
-  shadowing: e('lc', 'speaking', 'speaking'),
+  // questKind `speak`, not `speaking`: the quest in DAILY_QUESTS is `speak`, and
+  // markQuest writes nh_quest_<id>_<date> for any string it is handed, so the
+  // near-miss wrote a key nothing reads. activityType stays 'speaking' — that is
+  // award()'s vocabulary, a different namespace.
+  speaking: e('sp', 'speak', 'speaking'),
+  shadowing: e('lc', 'speak', 'speaking'),
   writing: e('lc', 'grammar', 'grammar'),
   dictation: e('lc', 'listening', 'listening'),
   // Lesson Review (retention, 2026-09-07): the sitting that re-checks passed

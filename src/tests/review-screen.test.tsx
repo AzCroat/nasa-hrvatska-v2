@@ -459,12 +459,15 @@ describe('ReviewScreen — done mode', () => {
     expect(award).toHaveBeenCalledWith(15, false, 'review');
   });
 
-  it('"Continue →" calls markQuest("master") and markQuest("review")', () => {
+  // `master` alone. The `markQuest('review')` this used to require named no
+  // quest — a dead write beside the real one — so the assertion pinned it in
+  // place. See questIdsExist.test.ts.
+  it('"Continue →" calls markQuest("master") and nothing that names no quest', () => {
     goToDone();
     const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
     fireEvent.click(btn);
     expect(mockMarkQuest).toHaveBeenCalledWith('master');
-    expect(mockMarkQuest).toHaveBeenCalledWith('review');
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('review');
   });
 
   it('"Continue →" calls markPracticed()', () => {

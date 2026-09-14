@@ -342,15 +342,18 @@ describe('FlashcardRecallQuiz — completion contract', () => {
     expect(skipped).toBe(false);
   });
 
-  it('markQuest("flashcards") called exactly once on completion', () => {
+  // `vocab`, not `flashcards`. This assertion used to PIN THE DEFECT: no quest
+  // with id `flashcards` has ever existed, so it checked that the call happened
+  // and never that it credited anything — markQuest writes
+  // nh_quest_<id>_<date> for any string. See questIdsExist.test.ts.
+  it('markQuest("vocab") called exactly once on completion', () => {
     const onComplete = vi.fn();
     const pool = makePool(3);
     render(<FlashcardRecallQuiz pool={pool} knownCount={3} onComplete={onComplete} />);
     completeAllQuestions(3);
-    const flashcardsCalls = mockMarkQuest.mock.calls.filter(
-      (c: unknown[]) => c[0] === 'flashcards',
-    );
-    expect(flashcardsCalls.length).toBe(1);
+    const vocabCalls = mockMarkQuest.mock.calls.filter((c: unknown[]) => c[0] === 'vocab');
+    expect(vocabCalls.length).toBe(1);
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('flashcards');
   });
 
   it('writeDelta called with vs:["flashcards-quiz"] on completion', () => {
@@ -557,13 +560,13 @@ describe('Flashcards — full integration with fake timers', () => {
     expect((xp - 10) % 5).toBe(0);
   });
 
-  it('markQuest("flashcards") called after quiz completion', () => {
+  it('markQuest("vocab") called after quiz completion', () => {
     const { container } = renderFlashcards();
     flipAllWithFakeTimers(container, 5);
     act(() => {
       fireEvent.click(screen.getByTestId('quiz-start-btn'));
     });
     answerAllQuizQuestions(5);
-    expect(mockMarkQuest).toHaveBeenCalledWith('flashcards');
+    expect(mockMarkQuest).toHaveBeenCalledWith('vocab');
   });
 });
