@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
-import { LISTEN, getSR, getDueReviews } from '../../data';
+import { LISTEN, getSR, getDueReviews, getStreak, DAILY_QUESTS } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
 import { levelledBank } from '../../lib/levelledBank';
-import { localDateStr } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import { useAdaptivePractice } from '../../hooks/useAdaptivePractice';
@@ -16,6 +15,8 @@ import { placeStats, recommendedVisit, type ModelCtx } from './gradModel';
 import GradMap from './GradMap';
 import PlaceScreen from './PlaceScreen';
 import NextUpCard from '../shared/NextUpCard';
+import QuestTracker from '../home/QuestTracker';
+import { questsDoneToday, STREAK_QUEST_IDS } from '../../lib/questState';
 import { lsGet } from '../../lib/safeStorage';
 
 const RECENT_KEY = 'nh_recent_exercises';
@@ -204,12 +205,14 @@ export default function GradTab({
 
   const rec = recommendedVisit(ctx);
 
-  // daily quest progress (4-dot quiet row)
+  // Daily quests. The dot row used to count a HARDCODED FOUR — speak, grammar,
+  // master, reading — of the fourteen a learner can complete, which is why
+  // finishing the other ten moved nothing visible. Both the row and the board
+  // below now read one map (lib/questState), so they cannot disagree.
+  const questsDoneMap = questsDoneToday(DAILY_QUESTS, (getStreak()?.count ?? 0) > 0);
   const questsDone = (() => {
-    const d = localDateStr();
-    const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
-    const done = [q('speak'), q('grammar'), q('master'), q('reading')].filter(Boolean).length;
-    return { done, total: 4 };
+    const ids = Object.keys(questsDoneMap).filter((id) => !STREAK_QUEST_IDS.includes(id));
+    return { done: ids.filter((id) => questsDoneMap[id]).length, total: ids.length };
   })();
 
   if (openPlace) {
@@ -422,6 +425,29 @@ export default function GradTab({
             </span>
             {questsDone.done} of {questsDone.total} dnevnih zadataka
           </div>
+
+          {/* ── DAILY QUESTS ─────────────────────────────────────────────
+              QuestTracker was written for Home and has not been MOUNTED since
+              the Phase 6 Grad redesign — nothing imported it, so its cards,
+              colours, tier-progression and Start buttons were unreachable while
+              the quests themselves kept being marked. It lives here now, under
+              the row it expands, because this is where quests already surface
+              and Home is a hero-only guided path by owner directive.
+
+              `onQuestStart` goes through the REAL launchers where a screen needs
+              one. `perfect` routes to `flashcards`, whose route renders
+              ScreenGuard unless a launcher has seeded fcInitPool — so a plain
+              setScr there would have put "Start →" on a dead end. Same for the
+              Listening Quest and the LISTEN bank. */}
+          <QuestTracker
+            questsDone={questsDoneMap}
+            allQuestsDone={questsDone.done === questsDone.total}
+            onQuestStart={(_id, screen) => {
+              if (screen === 'flashcards') startFlashcards();
+              else if (screen === 'listening') startListening();
+              else setScr(screen);
+            }}
+          />
 
           {/* ── PLACES LIST ──────────────────────────────────────────── */}
           <div

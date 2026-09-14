@@ -15,25 +15,25 @@
  *                questions and no tick at all. Fixed to `vocab`.
  *   review       ReviewScreen marked it beside a valid `master` on the next line,
  *                so it was a dead write rather than a lost tick. Removed.
- *   listening    STILL AN ORPHAN, deliberately — see KNOWN_ORPHANS below.
+ *   listening    THE QUEST NOW EXISTS (owner decision, 2026-09-14). Seven paths
+ *                marked it — five registry rows plus DictationScreen and
+ *                ShadowingScreen — and two MORE screens were still on the old
+ *                mislabel: ListeningScreen and DailyListeningCard both awarded
+ *                activityType 'listening' and marked `speak`. All nine now
+ *                credit the Listening Quest.
  *
- * WHAT A QUEST KEY IS ACTUALLY WORTH, measured rather than assumed, because the
- * first version of this file got it wrong in the learner's favour and would have
- * shipped a change that quietly cost them. `QuestTracker` — the card board with
- * the colours and the "Start →" buttons — HAS NOT BEEN MOUNTED since the Phase 6
- * Grad redesign (595a0121). Nothing imports it. Exactly two surfaces read these
- * keys today:
+ * WHAT A QUEST KEY IS WORTH — measure this before changing the quest list, because
+ * an earlier draft of this file did not and would have shipped a change that cost
+ * the learner. `QuestTracker` had NOT BEEN MOUNTED since the Phase 6 Grad redesign
+ * (595a0121); nothing imported it, so adding a quest rendered no card anywhere and
+ * its only live effect was to raise an invisible XP bar. Owner decision,
+ * 2026-09-14: the board is mounted again, in GradTab under the progress row it
+ * expands. Three things now read these keys, and each is pinned below:
  *
- *   GradTab            "N of 4 dnevnih zadataka", counting a hardcoded four:
- *                      speak, grammar, master, reading.
- *   HomeTab            `allQuestsDone` → the +50 Daily Mastery award, requiring
- *                      all fourteen non-streak quests in DAILY_QUESTS.
- *
- * So DAILY_QUESTS is read by ONE live consumer, and it is an XP gate rather than
- * a board. That is why `listening` is recorded here instead of being invented:
- * adding a quest renders no card anywhere, and its only live effect would be to
- * make an already-rare bonus require one more thing, with nothing on screen
- * saying so.
+ *   GradTab    the progress row AND the board, both over `questsDoneToday`. The
+ *              row used to count a hardcoded FOUR of the fourteen.
+ *   HomeTab    `allQuestsDone` → the +50 Daily Mastery award.
+ *   App        the per-quest XP payout — see `questPayout.test.ts`.
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync } from 'node:fs';
@@ -70,24 +70,12 @@ function markedIds(): Map<string, Set<string>> {
 }
 
 /**
- * Ids that reach markQuest and name no quest, with the reason each is still
- * here. Checked in BOTH staleness directions, with the count pinned.
- *
- * `listening` is a PRODUCT DECISION, not an oversight to tidy away. On
- * 2026-08-14 the listening screens were correctly moved off markQuest('speak')
- * — listening is not speaking — onto `questKind: 'listening'`, and
- * AIListeningScreen's comment still calls it "the registry's 'listening' quest".
- * No such quest was ever added, so the change swapped a WRONG tick for NO tick
- * and the Listening Quiz, AI Listening, Dictation and Shadowing have credited
- * nothing since. Closing it means either adding a quest to DAILY_QUESTS — whose
- * only live reader is the Daily Mastery XP gate, so that silently raises a bar
- * nothing renders — or giving the quest board a home again. Both are the owner's
- * call.
+ * Ids that reach markQuest and name no quest. EMPTY, and it stays empty: the one
+ * entry it ever held (`listening`) was closed by adding the quest and giving the
+ * board a home, rather than by deleting the markers. Kept as a named set so a
+ * future orphan has to be recorded deliberately instead of slipping in.
  */
-const KNOWN_ORPHANS: Record<string, string> = {
-  listening:
-    'no Listening quest exists; adding one only raises the invisible Daily Mastery bar while QuestTracker stays unmounted — owner decision (see the file header)',
-};
+const KNOWN_ORPHANS: Record<string, string> = {};
 
 describe('the derivation is real', () => {
   const marked = markedIds();
@@ -141,8 +129,27 @@ describe('every id that reaches markQuest names a real quest', () => {
       expect(marked.has(id), `nothing marks ${id} any more — take it off the list`).toBe(true);
       expect(DEFINED.has(id), `${id} is a quest now — take it off the list`).toBe(false);
     }
-    // `it.each` over an empty set registers nothing; a count keeps this honest.
-    expect(Object.keys(KNOWN_ORPHANS)).toHaveLength(1);
+    // Asserted rather than iterated: a loop over an empty set registers nothing,
+    // so the count is what says the list is empty ON PURPOSE.
+    expect(Object.keys(KNOWN_ORPHANS)).toHaveLength(0);
+  });
+
+  it('every listening path credits the Listening Quest', () => {
+    // The whole point of adding the quest. Nine paths: five registry rows, the
+    // two screens that marked `listening` into the void, and the two that were
+    // still on the old `speak` mislabel.
+    const marked = markedIds();
+    expect(DEFINED.has('listening')).toBe(true);
+    const where = [...(marked.get('listening') ?? [])];
+    expect(where.length).toBeGreaterThan(3);
+    for (const f of [
+      'src/components/practice/ListeningScreen.tsx',
+      'src/components/home/DailyListeningCard.tsx',
+      'src/components/practice/DictationScreen.tsx',
+      'src/components/practice/ShadowingScreen.tsx',
+    ]) {
+      expect(where, `${f} no longer credits the Listening Quest`).toContain(f);
+    }
   });
 });
 
@@ -183,32 +190,110 @@ describe('every quest on the board can actually be completed', () => {
       expect(DEFINED.has(id)).toBe(true);
       expect(marked.has(id), `${id} gained a marker — it is no longer computed`).toBe(false);
     }
-    expect(readFileSync('src/components/home/HomeTab.tsx', 'utf8')).toMatch(
-      /streak_alive'\s*\?\s*hasStreak/,
+    expect(readFileSync('src/lib/questState.ts', 'utf8')).toMatch(
+      /STREAK_QUEST_IDS\.includes\(q\.id\)\s*\?\s*hasStreak/,
     );
   });
 });
 
-describe('the quest list and the completion map are one list', () => {
-  it('HomeTab derives questsDone from DAILY_QUESTS', () => {
-    // It was a hand-written object of sixteen keys that happened to match. Since
-    // `allQuestsDone` iterates THIS object and gates the +50 award, a quest added
-    // to DAILY_QUESTS and not here drops silently out of the gate — and one added
-    // here and not there is counted for a quest that does not exist.
-    const home = strip(readFileSync('src/components/home/HomeTab.tsx', 'utf8'));
-    expect(home).toMatch(/for \(const quest of DAILY_QUESTS\)/);
+describe('one completion map, and a board that is actually mounted', () => {
+  const home = strip(readFileSync('src/components/home/HomeTab.tsx', 'utf8'));
+  const grad = strip(readFileSync('src/components/grad/GradTab.tsx', 'utf8'));
+
+  it('every surface reads the shared derivation', () => {
+    // HomeTab hand-wrote an object of sixteen keys and GradTab counted its own
+    // hardcoded four, so "which quests are done" had three answers. One now.
+    for (const [name, src] of [
+      ['HomeTab', home],
+      ['GradTab', grad],
+      ['App', strip(readFileSync('src/App.tsx', 'utf8'))],
+    ] as const) {
+      expect(src, `${name} no longer uses questsDoneToday`).toMatch(/questsDoneToday\(/);
+    }
     expect(home).not.toMatch(/speak2:\s*q\('speak2'\)/);
+    expect(grad).not.toMatch(/q\('speak'\),\s*q\('grammar'\)/);
   });
 
-  it('GradTab counts quests that exist', () => {
-    // The other live reader, and a THIRD hardcoded list: the four-dot row. It is
-    // deliberately four of the fourteen, so this checks the ids are real rather
-    // than that the set is complete.
-    const grad = strip(readFileSync('src/components/grad/GradTab.tsx', 'utf8'));
-    const at = grad.indexOf("const done = [q('");
-    expect(at, 'the four-dot row no longer looks like this — re-derive it').toBeGreaterThan(-1);
-    const ids = [...grad.slice(at, at + 200).matchAll(/q\('([^']+)'\)/g)].map((m) => m[1]!);
-    expect(ids.length).toBeGreaterThan(2);
-    for (const id of ids) expect(DEFINED.has(id), `GradTab counts '${id}', not a quest`).toBe(true);
+  it('the board is mounted', () => {
+    // The defect this closes: QuestTracker existed, was complete, and was
+    // imported by nothing. A component test would have passed throughout.
+    expect(grad).toMatch(/import QuestTracker from/);
+    expect(grad).toMatch(/<QuestTracker/);
+  });
+
+  it('the progress row counts every quest the board shows', () => {
+    // Both read questsDoneMap, so the row cannot say "3 of 4" over a board of
+    // fifteen cards again.
+    expect(grad).toMatch(/questsDoneMap\[id\]/);
+    expect(grad).toMatch(/questsDone=\{questsDoneMap\}/);
+  });
+});
+
+describe('every quest card is fully wired', () => {
+  const tracker = strip(readFileSync('src/components/home/QuestTracker.tsx', 'utf8'));
+  const router = strip(readFileSync('src/components/AppRouter.tsx', 'utf8'));
+  const grad = strip(readFileSync('src/components/grad/GradTab.tsx', 'utf8'));
+
+  /** Top-level keys and string values of an object literal, read with brace depth. */
+  const mapOf = (name: string) => {
+    const i = tracker.indexOf(`const ${name}`);
+    expect(i, `${name} is gone — this guard is blind`).toBeGreaterThan(-1);
+    const open = tracker.indexOf('{', i);
+    let k = open;
+    let d = 0;
+    while (k < tracker.length) {
+      const c = tracker[k];
+      if (c === '{') d++;
+      else if (c === '}' && --d === 0) break;
+      k++;
+    }
+    const body = tracker.slice(open, k);
+    return {
+      keys: [...body.matchAll(/^\s{2}(\w+):/gm)].map((m) => m[1]!),
+      values: [...body.matchAll(/^\s{2}\w+:\s*'([^']+)'/gm)].map((m) => m[1]!),
+    };
+  };
+
+  it('the derivation reads both maps', () => {
+    expect(mapOf('QUEST_COLORS').keys.length).toBeGreaterThan(10);
+    expect(mapOf('QUEST_SCREEN_MAP').values.length).toBeGreaterThan(10);
+  });
+
+  it('every quest has its own colour and its own destination', () => {
+    // Both lookups fall back (`|| QUEST_COLORS.master`, `?? 'learnpath'`), so a
+    // missing entry does not crash — it silently gives the new quest another
+    // quest's identity.
+    expect([...DEFINED].filter((id) => !mapOf('QUEST_COLORS').keys.includes(id))).toEqual([]);
+    expect([...DEFINED].filter((id) => !mapOf('QUEST_SCREEN_MAP').keys.includes(id))).toEqual([]);
+  });
+
+  it('no Start button lands on a screen that needs launch state', () => {
+    // `perfect` routes to `flashcards`, whose route renders ScreenGuard unless a
+    // launcher seeded fcInitPool — a plain setScr there is a dead end. GradTab
+    // therefore sends those through the real launchers, so this checks each
+    // ScreenGuard-fronted destination HAS one.
+    const launched = grad.slice(
+      grad.indexOf('onQuestStart={'),
+      grad.indexOf('onQuestStart={') + 420,
+    );
+    const dead: string[] = [];
+    for (const dest of new Set(mapOf('QUEST_SCREEN_MAP').values)) {
+      const at = router.indexOf(`currentScreen === '${dest}'`);
+      if (at === -1) {
+        dead.push(`${dest} (no such route)`);
+        continue;
+      }
+      if (!/<ScreenGuard/.test(router.slice(at, at + 500))) continue;
+      if (!new RegExp(`'${dest}'`).test(launched)) dead.push(`${dest} (ScreenGuard, no launcher)`);
+    }
+    expect(dead, 'a quest Start button must land on a usable screen').toEqual([]);
+  });
+
+  it('non-vacuity: the ScreenGuard check can see one, and it is launcher-backed', () => {
+    const at = router.indexOf("currentScreen === 'flashcards'");
+    expect(at).toBeGreaterThan(-1);
+    expect(/<ScreenGuard/.test(router.slice(at, at + 500))).toBe(true);
+    expect(grad).toMatch(/screen === 'flashcards'\) startFlashcards\(\)/);
+    expect(grad).toMatch(/screen === 'listening'\) startListening\(\)/);
   });
 });

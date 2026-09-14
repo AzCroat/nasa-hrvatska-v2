@@ -149,8 +149,15 @@ describe('ListeningScreen -- Exercise Contract', () => {
     expect(award.mock.calls[0]![0]).toBeGreaterThan(0);
     expect(award.mock.calls[0]![2]).toBe('listening');
 
-    // 2. markQuest called with 'speak' (listening counts toward speak quest)
-    expect(markQuestMock).toHaveBeenCalledWith('speak');
+    // 2. markQuest called with 'listening'.
+    //
+    // This said `'speak'`, with the parenthetical "(listening counts toward speak
+    // quest)" — the mislabel written down as if it were the contract, two lines
+    // under the assertion that the activity type is 'listening'. The 2026-08-14
+    // change moved the other listening screens off it and there was no Listening
+    // Quest to move this one to; there is now.
+    expect(markQuestMock).toHaveBeenCalledWith('listening');
+    expect(markQuestMock).not.toHaveBeenCalledWith('speak');
 
     // 3. setStats called at least once
     expect(setStats).toHaveBeenCalled();

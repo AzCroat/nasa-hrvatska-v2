@@ -53,6 +53,7 @@ import {
 } from './hooks/useNotifications.js';
 import { useAppScreenState } from './hooks/useAppScreenState.js';
 import { useAward, resetComebackGuard } from './hooks/useAward.js';
+import { questsDoneToday, unpaidQuests, markQuestPaid } from './lib/questState';
 import { statsReducer } from './lib/statsReducer.js';
 import { usePwaInstall } from './hooks/usePwaInstall.js';
 import { usePlacement } from './hooks/usePlacement.js';
@@ -1339,6 +1340,45 @@ function App() {
     window.addEventListener('nh-campaign-quest-done', onQuestDone);
     return () => window.removeEventListener('nh-campaign-quest-done', onQuestDone);
   }, [_syncReady, authUser, authScreen, doSyncNow]);
+
+  // Daily-quest XP — the quests have carried an `xp` value since they were
+  // written (20 to 55 each) and NOT ONE HAS EVER BEEN PAID. HomeTab summed them
+  // into `_questXP` and discarded it with `void`, so the number on every card was
+  // decorative and only the +50 Daily Mastery bonus ever reached a learner.
+  // Owner decision, 2026-09-14: pay them, once per quest per day.
+  //
+  // It lives HERE, not on the surface that renders the board, because a quest is
+  // marked wherever the learner happens to be — a drill on Practice, a lesson on
+  // Learn, a culture screen. Paying from a tab would mean the XP waited until
+  // they visited that tab. `markQuest` already dispatches `knight:quest-done` on
+  // every mark, so that is the trigger; the paid-marker makes it idempotent, and
+  // the mount call catches quests completed before this shipped today.
+  useEffect(() => {
+    if (authScreen !== 'app') return undefined;
+    const payQuestXp = () => {
+      // `await import`, not a static one: App is on the first-paint path, so a
+      // top-level `DAILY_QUESTS` here drags the whole content library onto it
+      // (firstPaintGraph.test.ts). This runs on an event, never at first paint.
+      void import('./data')
+        .then(({ DAILY_QUESTS }) => {
+          const done = questsDoneToday(DAILY_QUESTS, (getStreak()?.count ?? 0) > 0);
+          for (const q of unpaidQuests(DAILY_QUESTS, done)) {
+            // Marker BEFORE the award, like the Daily Mastery guard beside it: a
+            // repeated award is worse than a missed one, and on a storage-blocked
+            // profile no quest can be marked done in the first place, so there is
+            // nothing to pay twice.
+            markQuestPaid(q.id);
+            award(q.xp, false, 'default');
+          }
+        })
+        .catch(() => {
+          /* a missed quest payout must never take the app down */
+        });
+    };
+    payQuestXp();
+    window.addEventListener('knight:quest-done', payQuestXp);
+    return () => window.removeEventListener('knight:quest-done', payQuestXp);
+  }, [authScreen, award]);
 
   // Immersion streak XP — award 5 XP when user engages with media on a new day
   useEffect(() => {

@@ -107,7 +107,11 @@ export default function ListeningScreen({
             onClick={() => {
               if (finishFired.current) return;
               finishFired.current = true;
-              markQuest('speak');
+              // `listening`, not `speak` — this screen awards activityType 'listening'
+              // and credits vs:['listening']. It was the last pair of screens left
+              // behind by the 2026-08-14 move off the speak mislabel, and until the
+              // Listening Quest existed there was nothing correct to move them to.
+              markQuest('listening');
               // answeredTotal > 0 here — the all-skipped case rendered its own
               // screen above and credits nothing.
               if (typeof award === 'function') award(score * 4 + 10, false, 'listening');

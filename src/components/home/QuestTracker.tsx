@@ -105,6 +105,16 @@ const QUEST_COLORS = {
     shadow: 'rgba(124,58,237,.35)',
     border: 'rgba(124,58,237,.22)',
   },
+  // Rose. Not violet (speak) and not teal (master) — my first pick was teal,
+  // which collided with Master on a board where both cards are visible at once.
+  // 7.88:1 against #fff, comfortably over the 4.5 AA floor the Practice tab's axe
+  // scan enforces.
+  listening: {
+    bg: '#9d174d',
+    text: '#fff',
+    shadow: 'rgba(157,23,77,.35)',
+    border: 'rgba(157,23,77,.22)',
+  },
   streak: {
     bg: '#c2410c',
     text: '#fff',
@@ -139,6 +149,10 @@ const QUEST_SCREEN_MAP = {
   vocab: 'learnpath',
   vocab2: 'learnpath',
   write: 'writing',
+  // The authored Listening Quiz. GradTab launches it through startListening(),
+  // which seeds the levelled LISTEN bank — the bare `listening` route renders
+  // ScreenGuard without it.
+  listening: 'listening',
   streak: 'learnpath',
   streak_alive: 'learnpath',
   perfect: 'flashcards',
@@ -149,8 +163,8 @@ const QUEST_SCREEN_MAP = {
  * - For each paired quest (tier-1 + tier-2), show:
  *     - tier-2 card (as an "upgrade" challenge) when tier-1 is complete
  *     - tier-1 card when tier-1 is not yet complete
- * - Unpaired quests (write, streak, streak_alive, perfect) always show
- * This keeps the grid compact (max 10 cards) and reveals rewards naturally.
+ * - Unpaired quests (write, listening, streak, streak_alive, perfect) always show
+ * This keeps the grid compact (max 11 cards) and reveals rewards naturally.
  */
 function buildVisibleQuests(questsDone: Record<string, boolean>): QuestItem[] {
   const shown: QuestItem[] = [];
