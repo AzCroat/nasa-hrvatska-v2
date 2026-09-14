@@ -320,8 +320,11 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
               markPracticed();
               haptic.award();
               if (typeof award === 'function') award(score * 5 + 5, false, 'review');
+              // `master` is the SRS-review quest and is the one that counts. The
+              // `markQuest('review')` that sat here wrote nh_quest_review_<date>,
+              // a key no quest owns and nothing reads — harmless only because the
+              // line above it did the real work.
               markQuest('master');
-              markQuest('review');
               if (!stats.vs?.includes('srsreview')) {
                 setStats((prev) => {
                   if (prev.vs?.includes('srsreview')) return prev;

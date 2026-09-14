@@ -234,28 +234,27 @@ export default function HomeTab({
     hasGoalSet: !!lsGet('nh_goal_set'),
   });
 
+  // DERIVED FROM `DAILY_QUESTS`, not restated. This was a hand-written object of
+  // sixteen keys that happened to match the quest list exactly — and `QuestTracker`
+  // renders from DAILY_QUESTS while `allQuestsDone` below iterates THIS object, so
+  // a quest added to one and not the other either renders a card whose completion
+  // nothing tracks, or is silently excluded from the Daily Mastery bonus. Two
+  // lists that must agree, with nothing making them.
+  //
+  // `streak` / `streak_alive` are the one exception and are handled by name: they
+  // are not marked by anything (no `markQuest('streak')` exists anywhere) but are
+  // computed from the live streak count, which is why the derived sweep in
+  // `questIdsExist.test.ts` exempts exactly those two.
   const questsDone = useMemo(() => {
     const d = localDateStr();
     const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
     const hasStreak = streak.count > 0;
-    return {
-      speak: q('speak'),
-      speak2: q('speak2'),
-      grammar: q('grammar'),
-      grammar2: q('grammar2'),
-      master: q('master'),
-      master2: q('master2'),
-      reading: q('reading'),
-      reading2: q('reading2'),
-      culture: q('culture'),
-      culture2: q('culture2'),
-      vocab: q('vocab'),
-      vocab2: q('vocab2'),
-      write: q('write'),
-      streak: hasStreak,
-      streak_alive: hasStreak,
-      perfect: q('perfect'),
-    };
+    const out: Record<string, boolean> = {};
+    for (const quest of DAILY_QUESTS) {
+      out[quest.id] =
+        quest.id === 'streak' || quest.id === 'streak_alive' ? hasStreak : q(quest.id);
+    }
+    return out;
   }, [streak]);
 
   // Exclude streak/streak_alive from the "all done" check

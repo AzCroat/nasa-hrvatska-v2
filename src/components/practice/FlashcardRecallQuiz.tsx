@@ -121,7 +121,10 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
 
   function finishQuiz(finalScore: number) {
     // Contract clauses
-    markQuest('flashcards');
+    // `vocab`, not `flashcards`: no quest with that id has ever existed, so a
+    // finished recall quiz credited nothing. This is a five-question vocabulary
+    // recall quiz, which is exactly what the Vocab Quest asks for.
+    markQuest('vocab');
     if (!stats?.vs?.includes('flashcards-quiz')) {
       if (setStats) {
         setStats((prev: any) => {
