@@ -129,7 +129,9 @@ export default function WelcomeScreen({
     if (goal) {
       lsSet('nh_goal', goal);
       lsSet('nh_goal_set', '1');
-      lsSet('nh_goal_set_date', String(Date.now()));
+      // `nh_goal_set_date` was written here and read by nothing, anywhere, and
+      // was not in the sync snapshot either — so it could not even serve a
+      // future reader on another device.
     }
     if (dailyMin) {
       lsSet('nh_daily_min', String(dailyMin));

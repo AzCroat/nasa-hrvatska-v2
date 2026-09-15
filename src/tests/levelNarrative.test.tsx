@@ -149,9 +149,13 @@ function badgeFor(goal: string | undefined, level: number): string {
  * file-wide `id:` scrape would drag those in and make this test fail for
  * reasons that have nothing to do with goals.
  *
- * GoalSetterModal's CONNECTIONS list (diaspora / curious) is deliberately NOT
- * here: that answer is stored as `connection`, not `nh_goal`, and never reaches
- * this badge.
+ * GoalSetterModal used to carry a second list, CONNECTIONS (diaspora / family /
+ * curious), excluded here because that answer was stored as `connection` rather
+ * than `nh_goal`. It was removed on 2026-09-15 — nothing in the app ever read
+ * `nh_connection` — so the two assertions naming those ids went with it. An
+ * assertion that an id is absent, over ids that no longer exist anywhere,
+ * passes for the wrong reason and guards nothing; `elders_baka` below still
+ * does the real work of proving the GOALS slice does not scrape the whole file.
  */
 const GOAL_PICKERS = [
   'src/components/home/WelcomeScreen.tsx',
@@ -186,11 +190,10 @@ describe('the derivations are real', () => {
     expect(PICKABLE_GOALS).toContain('partner');
     // The goal that had no ladder at all.
     expect(PICKABLE_GOALS).toContain('elders');
-    // ...and the connection answers must NOT be swept in as goals.
-    expect(PICKABLE_GOALS).not.toContain('diaspora');
-    expect(PICKABLE_GOALS).not.toContain('curious');
-    // Nor the per-goal follow-up ids further down WelcomeScreen.
+    // ...and NOT the per-goal follow-up ids further down WelcomeScreen, which
+    // is what proves the slice reads the GOALS block and not the whole file.
     expect(PICKABLE_GOALS).not.toContain('elders_baka');
+    expect(PICKABLE_GOALS).not.toContain('partner_native');
   });
 
   it('reads the level ceiling out of lvl()', () => {

@@ -1,5 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { API_BASE } from './platform';
+import { reportSyncFailure } from './syncTelemetry';
 
 /**
  * Wrapper around fetch that automatically includes the Firebase ID token
@@ -31,7 +32,21 @@ import { API_BASE } from './platform';
 function _resolveUrl(url: string): string {
   return url.startsWith('/') ? API_BASE + url : url;
 }
-async function _attachToken(options: RequestInit, forceRefresh = false): Promise<void> {
+/**
+ * A token failure here is NOT a no-op: the request goes out unauthenticated,
+ * the endpoint answers 401, the 401 retry mints the same failing token, and the
+ * learner is told their session expired. This is the transport behind 27
+ * endpoints and 42 call sites.
+ *
+ * Until 2026-09-15 it recorded nothing. `console.error` reaches nobody, and the
+ * `nh:auth-token-error` event it dispatched has NEVER had a listener — so the
+ * failure was invisible in exactly the way `audio.ts`'s bare `false` and
+ * `aiFailure`'s bare `null` were. The event stays (a surface may legitimately
+ * want to prompt re-authentication) but it now carries the URL it failed for:
+ * `detail.url` was hardcoded to `''`, so the one field that says WHICH call
+ * died could only ever be the empty string.
+ */
+async function _attachToken(options: RequestInit, forceRefresh = false, url = ''): Promise<void> {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -45,16 +60,20 @@ async function _attachToken(options: RequestInit, forceRefresh = false): Promise
   } catch (tokenErr: unknown) {
     const err = tokenErr as Error | undefined;
     console.error('[apiFetch] Failed to get auth token:', err?.message);
+    reportSyncFailure('token', tokenErr, {
+      cause: 'token_failed',
+      detail: `url=${url} refresh=${forceRefresh}`,
+    });
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
-        new CustomEvent('nh:auth-token-error', { detail: { url: '', error: err?.message } }),
+        new CustomEvent('nh:auth-token-error', { detail: { url, error: err?.message } }),
       );
     }
   }
 }
 
 export async function apiFetch(url: string, options: RequestInit = {}): Promise<Response> {
-  await _attachToken(options);
+  await _attachToken(options, false, url);
   const target = _resolveUrl(url);
 
   // If caller supplies their own signal, respect it exactly — no network-retry
@@ -66,7 +85,7 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
   if (options.signal) {
     const res = await fetch(target, options);
     if (res.status === 401) {
-      await _attachToken(options, true);
+      await _attachToken(options, true, url);
       return fetch(target, options);
     }
     return res;
@@ -84,7 +103,7 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
       // On 401 with a stale token, force-refresh once and retry immediately.
       if (response.status === 401 && !_tokenRefreshed) {
         _tokenRefreshed = true;
-        await _attachToken(options, true);
+        await _attachToken(options, true, url);
         continue;
       }
       return response;

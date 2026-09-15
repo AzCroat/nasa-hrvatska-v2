@@ -657,9 +657,15 @@ describe('trackComplete exercise session tracking', () => {
     expect(localStorage.getItem('nh_session_quiz_2026-04-19')).toBeNull();
   });
 
-  it('writes nh_last_active to localStorage', async () => {
+  it('does NOT write nh_last_active — nothing reads it', async () => {
+    // This asserted the write, and only the write. Its one reader,
+    // `/api/daily-plan`, had already dropped the field deliberately ("a raw
+    // epoch timestamp the model cannot use and which `streak` already
+    // expresses"), so the test went on passing over a value nothing consumed —
+    // a call checked for having HAPPENED, never for having an EFFECT. Inverted
+    // rather than deleted, so the dead write cannot quietly come back.
     await runAward('flash', 10);
-    expect(localStorage.getItem('nh_last_active')).not.toBeNull();
+    expect(localStorage.getItem('nh_last_active')).toBeNull();
   });
 
   it('calls trackLessonComplete when celebrate=true and exercise type is known', async () => {

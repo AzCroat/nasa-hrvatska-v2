@@ -17,6 +17,7 @@
  */
 
 import { getSR, saveSR } from './srs.js';
+import { mergeCultureStats } from './appUtils.js';
 import { weekKey as _weekKey, localDateStr } from './dateUtils.js';
 import {
   mergeCurriculumProgress,
@@ -294,7 +295,22 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     _safeSet('nh_goal', fp.nh_goal);
     _safeSet('nh_goal_set', '1');
   }
-  if (fp.nh_culture) _safeSet('nh_culture', fp.nh_culture);
+  if (fp.nh_culture) {
+    // MERGED, not overwritten. A straight `_safeSet` here reduced every culture
+    // counter whenever the remote device had seen less — NEVER DO 4 on a blob
+    // that has carried live counters (mediaCnt, bakaCnt, regionCnt) for as long
+    // as it has existed, and which now also carries the distinct-item markers the
+    // city and proverb badges are counted from.
+    let lCul: Record<string, number> = {};
+    let rCul: Record<string, number> = {};
+    try {
+      lCul = JSON.parse(lsGet('nh_culture') || '{}');
+    } catch (_) {}
+    try {
+      rCul = typeof fp.nh_culture === 'string' ? JSON.parse(fp.nh_culture) : {};
+    } catch (_) {}
+    _safeSet('nh_culture', JSON.stringify(mergeCultureStats(lCul, rCul)));
+  }
   if (fp.nh_daily_goal_xp) {
     // Explicit parseInt: fp.nh_daily_goal_xp may be a string from Firestore (JS type coercion
     // on '100' > 0 is true, but Math.max(lDgx, '100') would return NaN without parsing).

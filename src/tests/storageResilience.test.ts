@@ -109,14 +109,23 @@ describe('applyRemoteProgress — one failed write must not abort the restore', 
     const setters = makeSetters();
     expect(() =>
       applyRemoteProgress(
-        { onboarded: true, stats: { xp: 100 }, nh_goal: 'travel', nh_culture: 'dalmatia' },
+        {
+          onboarded: true,
+          stats: { xp: 100 },
+          nh_goal: 'travel',
+          // A real culture blob: this key holds a JSON object of counters, and
+          // the fixture seeded the string 'dalmatia'. It passed only because the
+          // sync layer used to copy the value across verbatim; now it parses and
+          // merges, so the shape has to be the one the app actually stores.
+          nh_culture: JSON.stringify({ mediaCnt: 2 }),
+        },
         setters,
       ),
     ).not.toThrow();
 
     // Fields written AFTER the failing one must still be present.
     expect(localStorage.getItem('nh_goal')).toBe('travel');
-    expect(localStorage.getItem('nh_culture')).toBe('dalmatia');
+    expect(JSON.parse(localStorage.getItem('nh_culture')!)).toEqual({ mediaCnt: 2 });
   });
 
   it('completes without throwing when storage is entirely unwritable', () => {
