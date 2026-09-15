@@ -626,9 +626,11 @@ export function useAward({
               lsSet(_scKey, String(parseInt(lsGet(_scKey) || '0', 10) + 1));
             } catch {}
           }
-          try {
-            lsSet('nh_last_active', String(Date.now()));
-          } catch {}
+          // `nh_last_active` was written here on every award. Its only reader
+          // was `/api/daily-plan`, which removed it deliberately ("a raw epoch
+          // timestamp the model cannot use and which `streak` already
+          // expresses") — leaving the write behind with nothing to consume it,
+          // and a test asserting only that the write happened.
           // Accumulate daily study time (minutes) for analytics chart
           if (_lsDur > 0) {
             const _dtKey = 'nh_daily_time_' + _localDateStr();

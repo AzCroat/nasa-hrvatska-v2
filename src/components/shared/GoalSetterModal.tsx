@@ -49,35 +49,38 @@ const COMMITMENTS = [
   { id: 60, icon: '🔥', label: '30 minutes/day', sub: 'Serious · 60 XP daily goal', xp: 60 },
 ];
 
-const CONNECTIONS = [
-  { id: 'diaspora', icon: '🌍', label: 'I have Croatian heritage', sub: 'Family roots in Croatia' },
-  {
-    id: 'family',
-    icon: '❤️',
-    label: 'Partner or family member',
-    sub: 'Learning for someone I love',
-  },
-  {
-    id: 'curious',
-    icon: '🌟',
-    label: 'Just curious & passionate',
-    sub: 'Fell in love with Croatia',
-  },
-];
-
+/**
+ * THERE WAS A THIRD STEP AND IT ASKED FOR SOMETHING NOBODY USED.
+ *
+ * "What's your connection to Croatia?", subtitled "Helps us tailor your
+ * cultural content", offered diaspora / family / curious and wrote the answer
+ * to `nh_connection` — a key read by NOTHING, anywhere in the app, and not in
+ * the sync snapshot either. `onComplete` passed it along to a callback
+ * (`() => setGoalModalDismissed(true)`) that ignores its argument entirely.
+ *
+ * That is worse than a dead key: it is a promise made to the learner in the
+ * UI copy that the app does not keep — NEVER DO 13 pointed the other way,
+ * where the app claims it will USE something it then discards. And it asked
+ * a question step 1 had already asked: goal `heritage` ("Connect with my
+ * heritage / Rediscover my Croatian roots") against connection `diaspora`
+ * ("I have Croatian heritage / Family roots in Croatia"); goal
+ * `family`/`partner` against connection `family` ("Partner or family
+ * member"). `nh_goal` IS genuinely consumed — by StoryModeScreen and
+ * MediaPlayerUtils among others, which is to say by the cultural content the
+ * third step claimed to tailor.
+ *
+ * Owner decision, 2026-09-15: remove the step. Nothing is lost, because the
+ * distinction already lives in a key the app actually reads, and onboarding
+ * costs one tap less.
+ */
 interface GoalSetterModalProps {
-  onComplete: (data: {
-    goal: string | null;
-    xp: string | number | null;
-    connection: string | null;
-  }) => void;
+  onComplete: (data: { goal: string | null; xp: string | number | null }) => void;
 }
 
 export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
-  const [step, setStep] = useState(0); // 0=goal, 1=commitment, 2=connection
+  const [step, setStep] = useState(0); // 0=goal, 1=commitment
   const [goal, setGoal] = useState<string | null>(null);
   const [xp, setXp] = useState<string | number | null>(null);
-  const [connection, setConnection] = useState<string | null>(null);
 
   const steps: Array<{
     q: string;
@@ -107,14 +110,8 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
       selected: xp,
       onSelect: (v) => setXp(v),
     },
-    {
-      q: "What's your connection to Croatia?",
-      sub: 'Helps us tailor your cultural content',
-      options: CONNECTIONS,
-      selected: connection,
-      onSelect: (v) => setConnection(String(v)),
-    },
   ];
+  const LAST = steps.length - 1;
 
   const cur = steps[step]!;
   const canNext = cur.selected !== null;
@@ -127,17 +124,12 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
         localStorage.setItem('nh_goal_set', '1');
       } catch (_) {}
       setStep(1);
-    } else if (step === 1) {
+    } else {
+      // Final step — save the commitment and close.
       try {
         if (xp !== null) localStorage.setItem('nh_daily_goal_xp', String(xp));
       } catch (_) {}
-      setStep(2);
-    } else {
-      // Final step — save remaining fields and close
-      try {
-        if (connection) localStorage.setItem('nh_connection', connection);
-      } catch (_) {}
-      onComplete({ goal, xp, connection });
+      onComplete({ goal, xp });
     }
   };
 
@@ -166,9 +158,11 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
           animation: 'slide-up .35s cubic-bezier(0.34,1.56,0.64,1) both',
         }}
       >
-        {/* Progress dots */}
+        {/* Progress dots — one per step, DERIVED. This was the literal
+            `[0, 1, 2]`, a third place that had to agree with the step list and
+            nothing making it. */}
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 24 }}>
-          {[0, 1, 2].map((i) => (
+          {steps.map((_, i) => (
             <div
               key={i}
               style={{
@@ -264,7 +258,7 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
             letterSpacing: '.01em',
           }}
         >
-          {step < 2 ? 'Continue →' : "Let's Start Learning! 🇭🇷"}
+          {step < LAST ? 'Continue →' : "Let's Start Learning! 🇭🇷"}
         </button>
       </div>
     </div>
