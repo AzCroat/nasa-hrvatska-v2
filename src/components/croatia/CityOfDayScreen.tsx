@@ -4,6 +4,7 @@ import { getCityOfDay } from '../../lib/dailyPickers';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { localDateStr } from '../../lib/dateUtils';
 import { lsSet } from '../../lib/safeStorage';
+import { recordCultureItem } from '../../lib/appUtils';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
@@ -155,7 +156,14 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   // Written on mount because "visited" is what the reader means: opening the
   // screen is the ritual, and the rotation is meant to take over afterwards.
   useEffect(() => {
-    if (city) lsSet('nh_cityofday_date', localDateStr());
+    if (!city) return;
+    lsSet('nh_cityofday_date', localDateStr());
+    // The two city badges — "Explored 5 Croatian cities" and "Discovered 15" —
+    // read `nh_culture.cityCnt`, and NOTHING HAS EVER WRITTEN IT: the counter
+    // appeared only inside those two predicates and in a test that set it by
+    // hand. A learner could open all 365 cities and earn neither. Recorded by
+    // NAME so the count is distinct cities, which is what the badge claims.
+    recordCultureItem('city', String(city.name ?? ''));
   }, [city]);
   if (!city) return null;
 

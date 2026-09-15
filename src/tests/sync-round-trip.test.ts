@@ -17,6 +17,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { applyRemoteProgress, type RemoteProgressSetters } from '../lib/applyRemoteProgress.js';
 import { buildProgressSnapshot } from '../lib/progressSnapshot.js';
+import type * as AppUtils from '../lib/appUtils.js';
 
 vi.mock('../lib/srs.js', () => ({
   getSR: () => ({}),
@@ -27,10 +28,18 @@ vi.mock('../lib/firebase.js', () => ({
   gP: () => null,
 }));
 
-vi.mock('../lib/appUtils.js', () => ({
-  getStreak: () => ({ count: 0, last: '' }),
-  getStreakFreezes: () => 0,
-}));
+// The REAL `mergeCultureStats` — applyRemoteProgress merges the culture blob
+// rather than overwriting it (NEVER DO 4), and a stub here would make this
+// round-trip assert against a merge the app does not use. Only the two streak
+// helpers are stubbed, which is what this file mocked the module for.
+vi.mock('../lib/appUtils.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof AppUtils>();
+  return {
+    ...actual,
+    getStreak: () => ({ count: 0, last: '' }),
+    getStreakFreezes: () => 0,
+  };
+});
 
 vi.mock('../lib/cefrCertification.js', () => ({
   snapshotCertifications: () => ({ certified: 'A1', migrationFlag: false }),
@@ -102,7 +111,15 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
   it('user settings (level/goal/culture/track/daily-goal) round-trip', () => {
     localStorage.setItem('nh_level', 'B1');
     localStorage.setItem('nh_goal', 'fluent');
-    localStorage.setItem('nh_culture', 'heritage');
+    // A REAL culture blob. This seeded the string 'heritage' — copied from the
+    // nh_goal line above it — which is a value nothing has ever written to this
+    // key: it holds a JSON object of counters. The old overwrite round-tripped
+    // any string, so the fixture's shape never mattered and the assertion was
+    // between the sync layer and itself.
+    localStorage.setItem(
+      'nh_culture',
+      JSON.stringify({ mediaCnt: 3, 'city:Zagreb': 1, cityCnt: 1 }),
+    );
     localStorage.setItem('nh_placement_done', 'true');
     // The real shape: GrammarTrackScreen writes the completed unit ids here.
     // Seeded as `'true'` until 2026-09-13, which is a value only the sync layer
@@ -116,7 +133,11 @@ describe('sync round-trip — 17-key expansion (8c0df4f)', () => {
 
     expect(localStorage.getItem('nh_level')).toBe('B1');
     expect(localStorage.getItem('nh_goal')).toBe('fluent');
-    expect(localStorage.getItem('nh_culture')).toBe('heritage');
+    expect(JSON.parse(localStorage.getItem('nh_culture')!)).toEqual({
+      mediaCnt: 3,
+      'city:Zagreb': 1,
+      cityCnt: 1,
+    });
     expect(localStorage.getItem('nh_placement_done')).toBe('true');
     expect(JSON.parse(localStorage.getItem('nh_grammar_track_done')!)).toEqual(['a1-questions']);
     expect(localStorage.getItem('nh_daily_goal_xp')).toBe('30');

@@ -377,6 +377,66 @@ export function incrementCulture(key: string): number {
   return c[key];
 }
 
+/**
+ * Record that a DISTINCT culture item was explored, and return how many distinct
+ * items of that kind the learner has now seen.
+ *
+ * WHY NOT `incrementCulture`. That counts OPENS: five taps on one media item make
+ * `mediaCnt` 5, and the badge then says "Explored 5 Croatian media items" about
+ * one item. For cities and proverbs the badge text is explicit — "Explored 5
+ * Croatian cities", "Read 3 Croatian proverbs" — so counting opens would claim
+ * something the app did not measure (NEVER DO 13).
+ *
+ * The seen items are stored as `kind:id` markers INSIDE the same `nh_culture`
+ * blob, with the value 1. That keeps `getCultureStats()` a Record<string,number>,
+ * needs no new storage key, and rides the existing sync (progressSnapshot ->
+ * applyRemoteProgress) with nothing to add. `<kind>Cnt` is then the number of
+ * markers, so the count can never disagree with the set it came from.
+ */
+export function recordCultureItem(kind: string, itemId: string): number {
+  const c = getCultureStats();
+  const marker = kind + ':' + String(itemId);
+  if (!c[marker]) c[marker] = 1;
+  c[kind + 'Cnt'] = countCultureMarkers(c, kind);
+  lsSet('nh_culture', JSON.stringify(c));
+  return c[kind + 'Cnt']!;
+}
+
+/** How many `kind:` markers a culture blob holds. */
+function countCultureMarkers(c: Record<string, number>, kind: string): number {
+  return Object.keys(c).filter((k) => k.startsWith(kind + ':')).length;
+}
+
+/**
+ * Additive merge for the culture blob.
+ *
+ * `applyRemoteProgress` used to OVERWRITE `nh_culture` with the remote string,
+ * which reduces every counter whenever the remote device has seen less — NEVER
+ * DO 4, "never reduce a stat during a remote merge", on a blob that has held
+ * three live counters for as long as it has existed. Markers are stored as 1, so
+ * a per-key Math.max is exactly a union of the seen sets; the distinct counts are
+ * then RECOMPUTED from that union rather than maxed, because a count carried over
+ * from a device whose markers did not come with it would claim items this learner
+ * cannot show.
+ */
+export function mergeCultureStats(
+  local: Record<string, number>,
+  remote: Record<string, number>,
+): Record<string, number> {
+  const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) && v > 0 ? v : 0);
+  const out: Record<string, number> = {};
+  for (const k of new Set([...Object.keys(local || {}), ...Object.keys(remote || {})])) {
+    out[k] = Math.max(num(local?.[k]), num(remote?.[k]));
+  }
+  const kinds = new Set(
+    Object.keys(out)
+      .filter((k) => k.includes(':'))
+      .map((k) => k.slice(0, k.indexOf(':'))),
+  );
+  for (const kind of kinds) out[kind + 'Cnt'] = countCultureMarkers(out, kind);
+  return out;
+}
+
 // ─── Badges ───────────────────────────────────────────────────────────────────
 interface BadgeStats {
   lc?: number;

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { recordCultureItem } from '../../lib/appUtils';
 
 interface Props {
   goBack: () => void;
@@ -28,6 +29,16 @@ export default function ProverbsScreen({ goBack }: Props) {
   if (loading || !content)
     return <div className="scr-wrap">{H('🌟 Hrvatske Poslovice', 'Loading…', goBack)}</div>;
   const PROVERBS = content.PROVERBS as unknown as Proverb[];
+  // The `proverb` badge — "Read 3 Croatian proverbs" — reads
+  // `nh_culture.proverbCnt`, which NOTHING HAS EVER WRITTEN: the counter existed
+  // only in that predicate and in a test that set it by hand, so the badge was
+  // unearnable. This screen is a browse list whose one interaction is tapping a
+  // proverb to hear it, so that tap is the read. Recorded by the Croatian text,
+  // which is the proverb's natural id, so three taps on ONE proverb stay one.
+  const hear = (p: Proverb) => {
+    speak(p.hr);
+    recordCultureItem('proverb', p.hr);
+  };
   return (
     <div className="scr-wrap">
       {H('🌟 Hrvatske Poslovice', 'Croatian Proverbs — Tap to hear', goBack)}
@@ -38,11 +49,11 @@ export default function ProverbsScreen({ goBack }: Props) {
           role="button"
           tabIndex={0}
           style={{ marginBottom: 10, cursor: 'pointer' }}
-          onClick={() => speak(p.hr)}
+          onClick={() => hear(p)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              speak(p.hr);
+              hear(p);
             }
           }}
           aria-label={'Hear proverb: ' + p.hr}
