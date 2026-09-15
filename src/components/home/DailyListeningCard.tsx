@@ -144,7 +144,9 @@ export default function DailyListeningCard({
         XP_REWARD * (0.5 + (correct / Math.max(data.questions.length, 1)) * 0.5),
       );
       if (award) award(xp, false, 'listening');
-      markQuest('speak');
+      // `listening`, not `speak`: this card awards activityType 'listening'.
+      // Same leftover as ListeningScreen — see that file.
+      markQuest('listening');
       try {
         localStorage.setItem(completedKey, '1');
       } catch {}

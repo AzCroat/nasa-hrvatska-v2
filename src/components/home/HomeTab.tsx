@@ -61,7 +61,7 @@ import { evalCk } from '../../lib/learnPathRules';
 import { getActiveCampaign } from '../../lib/seasonalCampaign';
 import { getWordOfDay, getPhraseOfDay } from '../../lib/wordOfDay.js';
 import TodaysDiscoveries from './TodaysDiscoveries';
-import { weekKey, localDateStr } from '../../lib/dateUtils.js';
+import { weekKey } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import { safeGetItem } from '../../hooks/useLocalStorage';
@@ -89,6 +89,7 @@ import { getServableReviewCount } from '../../lib/srs';
 import { vocabPoolWords, vocabLevel } from '../../lib/vocabPool';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine';
 import { lsGet, lsSet } from '../../lib/safeStorage';
+import { questsDoneToday } from '../../lib/questState';
 
 const LEVEL_PALETTE = [
   {
@@ -234,28 +235,9 @@ export default function HomeTab({
     hasGoalSet: !!lsGet('nh_goal_set'),
   });
 
-  // DERIVED FROM `DAILY_QUESTS`, not restated. This was a hand-written object of
-  // sixteen keys that happened to match the quest list exactly — and `QuestTracker`
-  // renders from DAILY_QUESTS while `allQuestsDone` below iterates THIS object, so
-  // a quest added to one and not the other either renders a card whose completion
-  // nothing tracks, or is silently excluded from the Daily Mastery bonus. Two
-  // lists that must agree, with nothing making them.
-  //
-  // `streak` / `streak_alive` are the one exception and are handled by name: they
-  // are not marked by anything (no `markQuest('streak')` exists anywhere) but are
-  // computed from the live streak count, which is why the derived sweep in
-  // `questIdsExist.test.ts` exempts exactly those two.
-  const questsDone = useMemo(() => {
-    const d = localDateStr();
-    const q = (id: string) => lsGet('nh_quest_' + id + '_' + d) === '1';
-    const hasStreak = streak.count > 0;
-    const out: Record<string, boolean> = {};
-    for (const quest of DAILY_QUESTS) {
-      out[quest.id] =
-        quest.id === 'streak' || quest.id === 'streak_alive' ? hasStreak : q(quest.id);
-    }
-    return out;
-  }, [streak]);
+  // ONE definition, in lib/questState — this was a hand-written object of sixteen
+  // keys, and GradTab counted its own hardcoded four. See that module's header.
+  const questsDone = useMemo(() => questsDoneToday(DAILY_QUESTS, streak.count > 0), [streak]);
 
   // Exclude streak/streak_alive from the "all done" check
   const allQuestsDone = Object.entries(questsDone)

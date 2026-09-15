@@ -250,6 +250,24 @@ const DAILY_QUESTS = [
     desc: 'Submit a written exercise',
     xp: 25,
   },
+  // THIS QUEST DID NOT EXIST WHILE SEVEN COMPLETION PATHS MARKED IT. On
+  // 2026-08-14 the listening screens were moved off `markQuest('speak')` —
+  // correctly, since listening is not speaking — onto `questKind: 'listening'`,
+  // and AIListeningScreen's comment still calls it "the registry's 'listening'
+  // quest". No quest was added, and markQuest writes nh_quest_<id>_<date> for any
+  // string, so the key was written and nothing read it: the change swapped a
+  // WRONG tick for NO tick, and the Listening Quiz, AI Listening, Dictation and
+  // Shadowing credited nothing from then until now.
+  //
+  // Standalone (no tier-2 pair), like `write` — TIER2_MAP is untouched.
+  {
+    id: 'listening',
+    tier: 1,
+    icon: '🎧',
+    name: 'Listening Quest',
+    desc: 'Complete 1 listening exercise',
+    xp: 20,
+  },
   {
     id: 'streak',
     tier: 1,
