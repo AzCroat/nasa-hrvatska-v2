@@ -92,6 +92,27 @@ describe('a quest is paid once, and only once', () => {
     ]);
   });
 
+  it('never pays the streak pair, which is status and not a completion', () => {
+    // THE DEFECT E2E CAUGHT, pinned. `streak` and `streak_alive` are both
+    // `streak.count > 0` — true from YESTERDAY's practice — so paying them gave
+    // every returning learner 20 XP on app open for doing nothing today, and
+    // `streak_alive` ("Practice anything today") paid before they had.
+    // progress-integrity.spec.js reported it as "expected 250, received 270".
+    //
+    // The unit tests missed it because they almost all ran with hasStreak false,
+    // which is exactly why this one does not.
+    const done = questsDoneToday(QUESTS, true);
+    for (const id of STREAK_QUEST_IDS) expect(done[id]).toBe(true);
+    expect(unpaidQuests(QUESTS, done)).toEqual([]);
+  });
+
+  it('pays earned quests on a device that also holds a streak', () => {
+    // The other direction: excluding the pair must not suppress everything else.
+    markQuest('vocab');
+    const owed = unpaidQuests(QUESTS, questsDoneToday(QUESTS, true)).map((q) => q.id);
+    expect(owed).toEqual(['vocab']);
+  });
+
   it('pays the tier-2 quest markQuest promotes on the second completion', () => {
     // markQuest auto-marks tier 2 on the second tier-1 mark of the day. That
     // promotion is a completion like any other and must be paid.

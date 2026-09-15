@@ -61,6 +61,15 @@ export function questsDoneToday(
  * The paid marker shares the `nh_quest_` prefix on purpose, so App's existing
  * prune rule (`^nh_quest_.+_\d{4}-\d{2}-\d{2}$`) clears it with the rest of the
  * day's quest keys and no second rule has to remember it.
+ *
+ * THE STREAK PAIR IS NEVER PAID, and E2E caught me on this. `streak` and
+ * `streak_alive` are STATUS, not completions: both are `streak.count > 0`, which
+ * is true from YESTERDAY's practice, so paying them handed every returning
+ * learner 20 XP on app open for doing nothing today — `streak_alive`'s own
+ * description is "Practice anything today", and it paid before they had.
+ * `progress-integrity.spec.js` found it as "expected 250, received 270" on a
+ * seeded fixture; the unit tests missed it because they mostly ran with
+ * hasStreak false. A quest is paid for work the learner did, and nothing else.
  */
 export function unpaidQuests(
   quests: readonly Quest[],
@@ -70,6 +79,7 @@ export function unpaidQuests(
   const out: Array<{ id: string; xp: number }> = [];
   for (const q of quests) {
     if (!questsDone[q.id]) continue;
+    if (STREAK_QUEST_IDS.includes(q.id)) continue;
     if (lsGet(PAID_PREFIX + q.id + '_' + d) === '1') continue;
     if (typeof q.xp === 'number' && q.xp > 0) out.push({ id: q.id, xp: q.xp });
   }
