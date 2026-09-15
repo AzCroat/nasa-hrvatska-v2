@@ -29,6 +29,7 @@ import type { Stats, AuthUser } from '../types/index.js';
 import { lsGet } from '../lib/safeStorage';
 import { API_BASE } from '../lib/platform';
 import { teeBackupIfDue } from '../lib/backupTee';
+import { reportSyncFailure } from '../lib/syncTelemetry';
 
 /** Metadata from a Firestore progress snapshot — distinguishes cache vs server emissions. */
 export interface SyncSnapshotMeta {
@@ -270,7 +271,12 @@ export function useSyncManager({
       if (fpTs > 0 && fpTs === _lastMergedFbTs.current) return;
       _mergeQueueRef.current = _mergeQueueRef.current
         .then(() => _processSnapshot(fp, fpTs, uid))
-        .catch((err) => console.error('[sync] snapshot merge error:', err));
+        .catch((err) => {
+          // A remote snapshot that cannot be applied is progress lost on the
+          // READ side — no save-path guard would ever see it.
+          console.error('[sync] snapshot merge error:', err);
+          reportSyncFailure('merge', err, { cause: 'merge_failed' });
+        });
     },
     [],
   );
@@ -317,12 +323,29 @@ export function useSyncManager({
           console.warn(
             '[sync] localStorage quota exceeded — some progress may not persist locally',
           );
+          // The authoritative store could not be written. Of every failure in
+          // this file this is the only one that loses progress on THIS device.
+          reportSyncFailure('local', e, { cause: 'local_quota' });
         }
       }
-      const result = (await fbSaveProgress(u.u, snap).catch(() => ({ ok: false }))) as {
-        ok?: boolean;
-      };
+      // The code was discarded here: `.catch(() => ({ ok: false }))` collapsed a
+      // rules rejection, a revoked token and a tunnel into one boolean, and the
+      // caller only ever saw the boolean. `fbSaveProgress` returns `{ ok:false,
+      // code }` for a Firestore refusal and THROWS for anything below it, so
+      // both shapes have to reach the classifier.
+      const result = (await fbSaveProgress(u.u, snap).catch((e: unknown) => {
+        const err = e as { code?: string; message?: string };
+        return { ok: false, code: err?.code, err: err?.message };
+      })) as { ok?: boolean; code?: string; err?: string };
       const success = result && result.ok !== false;
+      if (!success) {
+        // consecutive stays 1: this fires on a completion, and a single offline
+        // save is not an incident — localStorage is authoritative and the
+        // periodic push carries it. The periodic path owns the streak count.
+        reportSyncFailure('save', result, {
+          detail: `blob=${JSON.stringify(snap).length}`,
+        });
+      }
       if (success) {
         setLastSyncedAt(Date.now());
         // Daily backup tee — fire-and-forget AFTER the authoritative save; can
@@ -614,6 +637,14 @@ export function useSyncManager({
             if (_syncFailCount.current >= 2) {
               console.warn('[sync] periodic push failed', _syncFailCount.current, 'times');
             }
+            // This is the only sync path that knows how long the failure has
+            // lasted, so it is the one that reports a sustained `unavailable`
+            // (PERSISTENT_UNAVAILABLE ticks = half an hour of a foregrounded
+            // session unable to write). Every other cause reports on the first.
+            reportSyncFailure('periodic', result, {
+              consecutive: _syncFailCount.current,
+              detail: `blob=${sig.length}`,
+            });
           }
         } finally {
           _isSavingRef.current = false;
@@ -685,8 +716,13 @@ export function useSyncManager({
             console.warn(
               '[sync] localStorage quota exceeded — some progress may not persist locally',
             );
+            reportSyncFailure('local-unload', e, { cause: 'local_quota' });
           }
         }
+        // The Firebase half stays silent DELIBERATELY: this fires as the page
+        // is closing and is expected to lose that race. Its localStorage half
+        // above is reported, because that half is what makes the next launch
+        // correct.
         if (pushToFirebase) fbSaveProgress(u.u, snap).catch(() => {});
       } catch (_) {}
     };
