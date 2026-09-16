@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import PassGateNotice from '../shared/PassGateNotice';
+import { passedLesson } from '../../lib/lessonGate';
 import { H, Bar, Spk } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
@@ -72,6 +74,36 @@ export default function PitchAccentScreen({
   const PITCH_ACCENT = grammar.PITCH_ACCENT as unknown as PitchAccentItem[];
   if (!PITCH_ACCENT || PITCH_ACCENT.length === 0) return null;
   const items = PITCH_ACCENT;
+
+  // Gate credit on the SHARED threshold (owner decision, 2026-09-16). This
+  // screen wrote vs:['pitchaccent'] — the ckRule key for lp50 — plus gc + 1 and
+  // XP from the Finish button with no reference to the score. `pitchaccent` is
+  // NOT dwell-credited (the black-hole entry was removed to stop a double-count),
+  // so nothing else was gating it either.
+  const passedGate = passedLesson(score, items.length);
+
+  if (done && !passedGate) {
+    return (
+      <div className="scr-wrap">
+        {H('🎵 Pitch Accent', 'Master Croatian pitch stress', goBack)}
+        <div style={{ paddingTop: 32 }}>
+          <PassGateNotice
+            score={score}
+            total={items.length}
+            hint="Listen for where the pitch rises, not just where the stress falls."
+            onRetry={() => {
+              setIdx(0);
+              setAnswered(false);
+              setSelected(null);
+              setScore(0);
+              setDone(false);
+            }}
+            onLeave={goBack}
+          />
+        </div>
+      </div>
+    );
+  }
 
   if (done) {
     const pct = Math.round((score / items.length) * 100);
