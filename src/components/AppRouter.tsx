@@ -4,6 +4,7 @@ import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { getUserCefr } from '../lib/cefr.js';
+import { getGenerationCefr } from '../lib/cefrCertification';
 // On Android WebView (Capacitor), Framer Motion entry animations can stall
 // leaving elements permanently at opacity:0. Skip entry animation on native.
 // Capacitor Android: https://localhost with NO port. Dev server always has a port.
@@ -3153,7 +3154,7 @@ export default function AppRouter(props: Record<string, any>) {
           <ScreenErrorBoundary key="photo_vocab" name="photo_vocab">
             <PhotoVocabScanner
               goBack={goBack}
-              level={level}
+              level={getGenerationCefr(stats)}
               onSaveWords={(words: Array<{ word: string; translation: string }>) => {
                 // Scanner words are { word: <hr>, translation: <en> } (VocabWord).
                 // The old { hr, en } reads were always undefined, so every save
@@ -3555,7 +3556,7 @@ export default function AppRouter(props: Record<string, any>) {
                 name={name}
                 level={level}
                 st={stats}
-                authUser={authUser}
+                au={authUser}
                 goBack={goBack}
                 doOut={doOut}
                 setScr={setScr}
