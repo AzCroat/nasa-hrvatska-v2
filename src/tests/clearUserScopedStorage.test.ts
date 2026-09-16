@@ -250,7 +250,9 @@ describe('every non-nh_ storage key in the app is classified', () => {
  * Fifteen live keys sat outside those six, and every one of them is
  * `nh_`-prefixed, which is precisely why the gap survived: the prefix sweep runs
  * over `localStorage` only, so the names read as covered. Two moved CREDIT
- * between accounts on a MOUNT — `nh_plan_pending_idx` (DailyPlanCard, on Home,
+ * between accounts on a MOUNT — `nh_plan_pending_idx` (DailyPlanCard — since
+ * DELETED as unreachable, so that vector is gone; kept here as the record of
+ * what the scan is for, on Home,
  * the incoming learner's first screen) and `nh_grammar_unit_pending` +
  * `nh_grammar_unit_completed` (GrammarTrackScreen) — writing a done-marker into
  * the next account's localStorage. Device-local, NOT a cloud write: neither
@@ -333,7 +335,11 @@ describe('every sessionStorage key in the app is classified', () => {
     //   plain literal · const indirection · `'prefix' + x` · template prefix ·
     //   threaded parameter.
     for (const k of [
-      'nh_plan_pending_idx',
+      // Plain literal. This was `nh_plan_pending_idx` (DailyPlanCard) until that
+      // component was deleted as unreachable — a positive control that lives in
+      // the corpus dies with the corpus, so prefer one in a file the app
+      // actually reaches.
+      'nh_ex_start',
       'nh_ver_reload',
       'nh_last_scr_',
       'nh_story_img_',
