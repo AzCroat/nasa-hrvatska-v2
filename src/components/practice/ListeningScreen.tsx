@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Bar, sh } from '../../data';
 import { useHeardGate } from '../../hooks/useHeardGate';
 import AudioFailureNotice from '../shared/AudioFailureNotice';
+import PassGateNotice from '../shared/PassGateNotice';
+import { passedLesson } from '../../lib/lessonGate';
 import ScreenHeader from '../shared/ScreenHeader';
 import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
@@ -74,6 +76,42 @@ export default function ListeningScreen({
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
             Back
           </button>
+        </div>
+      </div>
+    );
+
+  // Gate credit on the SHARED threshold (owner decision, 2026-09-16). This
+  // screen wrote vs:['listening'] — the ckRule key for its LEARN_PATH node —
+  // plus lc + 1 and XP on the Finish button, with no reference to the score, so
+  // 0 of 8 still completed the node and still paid 10 XP. `listening` is NOT in
+  // BLACK_HOLE_SCREENS, so unlike the dwell-credited screens there was no design
+  // intent behind that; the score was display-only. The rule is
+  // `completeExercise`'s, not a new one: on a fail NOTHING is recorded.
+  // `answeredTotal` is the denominator on purpose — a skipped-unheard item
+  // leaves it (the audio directive), so a learner is never judged on a sentence
+  // that would not play.
+  const passed = passedLesson(score, answeredTotal);
+
+  if (idx >= total && !passed)
+    return (
+      <div className="scr-wrap">
+        <div style={{ paddingTop: 40 }}>
+          <PassGateNotice
+            score={score}
+            total={answeredTotal}
+            hint="Focus on the first word of each sentence."
+            onRetry={() => {
+              setIdx(0);
+              setScore(0);
+              setSkipped(0);
+              setAnswered(false);
+              setSelected(-1);
+              setReplayed(false);
+              gate.reset();
+              setOptions(questions[0] ? sh(questions[0].opts) : []);
+            }}
+            onLeave={goBack}
+          />
         </div>
       </div>
     );

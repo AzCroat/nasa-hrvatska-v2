@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PassGateNotice from '../shared/PassGateNotice';
+import { passedLesson } from '../../lib/lessonGate';
 import { H, Bar, Spk, speakSlow } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import PronunciationScorer from '../shared/PronunciationScorer';
@@ -438,6 +440,10 @@ export default function ShadowingScreen({
   const [showWaveform, setShowWaveform] = useState(false);
   /** Real acoustic score from PronunciationScorer (Azure path gives 0-100; Web Speech gives similarity). Null until scorer fires. */
   const [acousticScore, setAcousticScore] = useState<number | null>(null);
+  // Session totals for the pass gate. Only acoustically SCORED items count.
+  const scoredItems = useRef(0);
+  const scoredOk = useRef(0);
+  const [gateFailed, setGateFailed] = useState(false);
 
   const {
     state: recState,
@@ -498,6 +504,35 @@ export default function ShadowingScreen({
     setSaid(false);
     setPlays(0);
     setAcousticScore(null);
+  }
+
+  if (done && gateFailed) {
+    return (
+      <div className="scr-wrap">
+        {H('🗣️ Shadowing', 'Listen and repeat', goBack)}
+        <div style={{ paddingTop: 32 }}>
+          <PassGateNotice
+            score={scoredOk.current}
+            total={scoredItems.current}
+            hint="Match the rhythm before the sounds — shadow the whole phrase, not word by word."
+            onRetry={() => {
+              scoredItems.current = 0;
+              scoredOk.current = 0;
+              setGateFailed(false);
+              setIdx(0);
+              setSaid(false);
+              setPlays(0);
+              setDone(false);
+              setReps(0);
+              resetRecorder();
+              setShowWaveform(false);
+              setAcousticScore(null);
+            }}
+            onLeave={goBack}
+          />
+        </div>
+      </div>
+    );
   }
 
   if (done) {
@@ -562,6 +597,27 @@ export default function ShadowingScreen({
               className="b bp"
               onClick={() => {
                 if (finishFired.current) return;
+                // Gate credit on the SHARED threshold (owner decision,
+                // 2026-09-16) — but ONLY over items the acoustic scorer
+                // actually scored. This screen had no session score at all: it
+                // paid `items.length * 3 + 5` XP and wrote vs:['shadowing'] (the
+                // ckRule key for its LEARN_PATH node) as a function of how many
+                // sentences EXISTED, never of how the learner did.
+                //
+                // `scoredItems === 0` PASSES on purpose, and that is the whole
+                // subtlety. The scorer is fail-soft by contract — no mic, Azure
+                // down, no Web Speech — and the app's standing rule is that a
+                // learner is never failed for their microphone. So this gates
+                // the learners it can measure and blocks nobody it cannot. The
+                // 70 bar is the one the line above already uses for the
+                // speaking ledger, not a new number.
+                if (
+                  scoredItems.current > 0 &&
+                  !passedLesson(scoredOk.current, scoredItems.current)
+                ) {
+                  setGateFailed(true);
+                  return;
+                }
                 finishFired.current = true;
                 if (typeof award === 'function') award(items.length * 3 + 5, false, 'listening');
                 markQuest('listening');
@@ -757,6 +813,15 @@ export default function ShadowingScreen({
                 // Null (mic unavailable / not acoustically scored) stays a pass so
                 // keyboard-only learners are never penalised.
                 recordTopicResult('speaking', acousticScore === null || acousticScore >= 70);
+                // Accumulate the SESSION's acoustic result for the pass gate
+                // below. Only items the scorer actually scored count — a null
+                // never enters the denominator, so a learner whose mic or
+                // scorer never fired is measured on nothing and blocked by
+                // nothing. Same rule as the line above, one scope wider.
+                if (acousticScore !== null) {
+                  scoredItems.current += 1;
+                  if (acousticScore >= 70) scoredOk.current += 1;
+                }
                 if (idx < items.length - 1) {
                   setIdx((i) => i + 1);
                   advanceItem();
