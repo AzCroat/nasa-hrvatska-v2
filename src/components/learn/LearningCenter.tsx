@@ -30,7 +30,20 @@
 import React, { useMemo, useState } from 'react';
 import { searchLearningIndex, lessonsByLevel, type LearningEntry } from '../../lib/learningIndex';
 import { useLearningIndex } from '../../hooks/useLearningIndex';
+import type { CefrLevel } from '../../lib/cefr';
 import { readCompletedLessons } from '../../lib/curriculumProgress';
+import { useContent } from '../../hooks/useContent';
+import { useStats } from '../../context/StatsContext';
+import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
+import {
+  flashcardPool,
+  quizItems,
+  matchPool,
+  listeningItems,
+  speakingItems,
+  type Shuffle,
+  type VocabRow,
+} from '../../lib/practiceLaunch';
 import ReferenceDesk from './ReferenceDesk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
@@ -43,10 +56,40 @@ const KIND_LABEL: Record<LearningEntry['kind'], string> = {
   tool: 'Reference tool',
 };
 
+/**
+ * Screens that render a `ScreenGuard` unless a launcher has seeded their state.
+ * Opening one with a bare `setScr` lands the learner on the "start this
+ * properly" dead end — which is exactly what this screen's first version did.
+ *
+ * DERIVED IN THE TEST, NOT TRUSTED HERE: `learningCenterLaunch.test.ts` reads
+ * the REAL router, finds every pooled screen whose route can fall through to
+ * ScreenGuard, and requires each to have an entry below — and each entry to
+ * correspond to a genuinely guarded screen. Both directions, because a stale
+ * entry guards nothing while a missing one is a dead end.
+ */
+export const LAUNCH_PAYLOAD: Record<
+  string,
+  (ctx: { pool: VocabRow[]; level: CefrLevel; sh: Shuffle }) => unknown[] | Promise<unknown[]>
+> = {
+  flashcards: ({ pool, sh }) => flashcardPool(pool, sh),
+  mcgame: ({ pool, sh }) => quizItems(pool, sh),
+  match: ({ pool, sh }) => matchPool(pool, sh),
+  speaking: ({ pool, sh }) => speakingItems(pool, sh),
+  listening: async ({ level, sh }) => {
+    // The LISTEN bank lives in the content barrel; importing it at module scope
+    // would drag chunk-data into this screen's chunk for a button most visits
+    // never press. Same lazy shape `useSearch` uses for the vocabulary index.
+    const { LISTEN } = (await import('../../data')) as { LISTEN: { level?: string }[] };
+    return listeningItems(LISTEN, level, sh);
+  },
+};
+
 interface LearningCenterProps {
   goBack: () => void;
   launchAnimLesson: (lessonId: string) => void;
-  onOpenScreen: (screen: string) => void;
+  /** A payload is supplied for the screens above; the rest open cold. */
+  onOpenScreen: (screen: string, payload?: unknown[]) => void;
+  sh: Shuffle;
 }
 
 function Row({
@@ -125,8 +168,12 @@ export default function LearningCenter({
   goBack,
   launchAnimLesson,
   onOpenScreen,
+  sh,
 }: LearningCenterProps): React.ReactElement {
   const { index, spineReady } = useLearningIndex();
+  const { content } = useContent();
+  const { stats: st } = useStats();
+  const [launchError, setLaunchError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [openLevel, setOpenLevel] = useState<string | null>('A1');
   const [mode, setMode] = useState<'syllabus' | 'reference'>('syllabus');
@@ -139,6 +186,30 @@ export default function LearningCenter({
   const results = useMemo(() => searchLearningIndex(index, query, { limit: 40 }), [index, query]);
   const syllabus = useMemo(() => lessonsByLevel(index), [index]);
 
+  async function openScreen(screen: string): Promise<void> {
+    const build = LAUNCH_PAYLOAD[screen];
+    if (!build) {
+      onOpenScreen(screen);
+      return;
+    }
+    // A guarded screen needs its state seeded first. If the deck is empty we do
+    // NOT navigate: sending the learner to the guard and calling it an exercise
+    // is the dead end this whole change exists to remove.
+    const level = vocabLevel(st ?? undefined);
+    const pool = acquisitionPool(content, level) as VocabRow[];
+    try {
+      const payload = await build({ pool, level, sh });
+      if (!payload || payload.length === 0) {
+        setLaunchError('There are no words ready for that yet — try a lesson first.');
+        return;
+      }
+      setLaunchError(null);
+      onOpenScreen(screen, payload);
+    } catch {
+      setLaunchError('That could not be opened just now. Please try again.');
+    }
+  }
+
   function open(entry: LearningEntry): void {
     // One arm per target kind, exhaustively: the union is discriminated so a new
     // kind cannot be added without the compiler stopping here, which is how the
@@ -146,7 +217,7 @@ export default function LearningCenter({
     if (entry.target.kind === 'lesson') {
       launchAnimLesson(entry.target.lessonId);
     } else if (entry.target.kind === 'screen') {
-      onOpenScreen(entry.target.screen);
+      void openScreen(entry.target.screen);
     } else {
       // A reference panel lives on this screen, so "opening" it means showing
       // the desk at that panel rather than navigating away. Clearing the query
@@ -203,6 +274,15 @@ export default function LearningCenter({
           boxSizing: 'border-box',
         }}
       />
+
+      {launchError && (
+        <p
+          data-testid="lc-launch-error"
+          style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', marginBottom: 10 }}
+        >
+          {launchError}
+        </p>
+      )}
 
       {searching ? (
         <div data-testid="lc-results">

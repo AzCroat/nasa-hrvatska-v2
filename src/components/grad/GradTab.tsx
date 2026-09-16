@@ -4,7 +4,13 @@ import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { LISTEN, getSR, getDueReviews, getStreak, DAILY_QUESTS } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
-import { levelledBank } from '../../lib/levelledBank';
+import {
+  flashcardPool,
+  quizItems,
+  matchPool,
+  listeningItems,
+  speakingItems,
+} from '../../lib/practiceLaunch';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import { useAdaptivePractice } from '../../hooks/useAdaptivePractice';
@@ -74,39 +80,29 @@ export default function GradTab({
   // The learner's acquisition deck (lib/vocabPool): own band plus anything
   // already tracked, so practice here meets level-appropriate words.
   const pool = acquisitionPool(content, vocabLevel(st ?? undefined));
+  // The payload builders moved to lib/practiceLaunch so the Learning Center can
+  // open these same five screens correctly. They are ScreenGuard-protected: a
+  // bare setScr lands on the "start this properly" dead end, which is what the
+  // Center's phase-2 rows did. One definition, two callers.
   function startQuiz() {
-    const items = sh(pool)
-      .slice(0, 20)
-      .map((w) => {
-        const wr = sh(pool.filter((x) => x[1] !== w[1]))
-          .slice(0, 3)
-          .map((x) => x[1]);
-        return { hr: w[0], en: w[1], ph: w[2], opts: sh([w[1]].concat(wr)), correct: w[1] };
-      });
-    onLaunchQuiz(items);
+    onLaunchQuiz(quizItems(pool, sh));
   }
   function startFlashcards() {
-    onLaunchFlash(sh(pool).slice(0, 20));
+    onLaunchFlash(flashcardPool(pool, sh));
   }
   function startMatch() {
-    const sel = sh(pool).slice(0, 6);
-    const initPool = sh(
-      sel
-        .map((w, i) => ({ id: 'h' + i, t: w[0], p: i, tp: 'hr' }))
-        .concat(sel.map((w, i) => ({ id: 'e' + i, t: w[1], p: i, tp: 'en' }))),
-    );
-    onLaunchMatch(initPool);
+    onLaunchMatch(matchPool(pool, sh));
   }
   function startListening() {
     // THE THIRD LISTEN LAUNCH SITE. The 2026-09-04 fix levelled the session and
     // learn-path launchers and recorded "both launch sites"; this one — the
     // Practice tab's own button — was never in that count, so it went on
-    // handing an A1 learner a bank that is 84% B1-C2. Filter BEFORE the slice:
-    // filtering after it would shorten the round instead of aiming it.
-    onLaunchListen(sh(levelledBank(LISTEN as { level?: string }[], vocabLevel(st))).slice(0, 8));
+    // handing an A1 learner a bank that is 84% B1-C2. The filter stays BEFORE
+    // the slice inside listeningItems.
+    onLaunchListen(listeningItems(LISTEN as { level?: string }[], vocabLevel(st), sh));
   }
   function startSpeaking() {
-    onLaunchSpeaking(sh(pool).slice(0, 6));
+    onLaunchSpeaking(speakingItems(pool, sh));
   }
   function startReview() {
     setScr('review');

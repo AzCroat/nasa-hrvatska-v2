@@ -23,6 +23,14 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import React from 'react';
 
+vi.mock('../context/StatsContext', () => ({
+  useStats: () => ({ stats: { xp: 0, lc: 0, gc: 0 }, dispatch: vi.fn(), setStats: vi.fn() }),
+}));
+vi.mock('../hooks/useContent', () => ({
+  useContent: () => ({ content: null }),
+  peekContent: () => null,
+}));
+
 vi.mock('../lib/contentClient', () => ({
   // The Center seeds from the cached spine; this proves it never needs the
   // network to work, and keeps the suite off it.
@@ -216,7 +224,14 @@ function renderCenter() {
   const launchAnimLesson = vi.fn();
   const onOpenScreen = vi.fn();
   const goBack = vi.fn();
-  render(React.createElement(LearningCenter, { goBack, launchAnimLesson, onOpenScreen }));
+  render(
+    React.createElement(LearningCenter, {
+      goBack,
+      launchAnimLesson,
+      onOpenScreen,
+      sh: <T,>(a: T[]) => a,
+    }),
+  );
   return { launchAnimLesson, onOpenScreen, goBack };
 }
 
@@ -376,9 +391,18 @@ describe('looking something up costs nothing', () => {
     const imports = [...src.matchAll(/^import[^;]+from '([^']+)';/gm)].map((m) => m[1]!);
     for (const spec of imports) {
       expect(spec, `${spec} can write progress`).not.toMatch(
-        /useAward|statsReducer|StatsContext|completeExercise|progressSnapshot|firebase/,
+        /useAward|statsReducer|completeExercise|progressSnapshot|firebase/,
       );
     }
+    // StatsContext IS imported, and deliberately: phase 4 reads the learner's
+    // level to hand a guarded screen a deck at that level. Reading is not
+    // crediting, so the rule is about the WRITE path — the Center must never
+    // dispatch or award. Checked on the code, comments stripped, because this
+    // file's own prose discusses awarding.
+    const code = src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    expect(code).not.toMatch(
+      /\bdispatch\s*\(|\baward\s*\(|markLessonComplete|recordScreenPractised/,
+    );
     // The one progress module it may touch is READ-only at this call site.
     expect(src).toContain('readCompletedLessons');
     expect(src).not.toMatch(/markLessonComplete|recordScreenPractised|awardXP/);

@@ -38,8 +38,20 @@ import type { CurriculumEntry } from '../lib/curriculum';
  * absent: both are spread INTO `CEFR_EXERCISE_POOL`, so naming them here would
  * double every one of their rows. The derivation test knows that and checks it.
  */
+/**
+ * `animlesson` is a pool entry pointing at the animated-lesson RENDERER, not at
+ * a destination. Its route shows a ScreenGuard unless the parent holds a full
+ * Lesson object, and there is no payload the Center could hand it that the 180
+ * lesson rows do not already express better — each of those opens a NAMED
+ * lesson through `launchAnimLesson`. Listing it as a screen row would offer
+ * "Animated Lesson" as a thing to open and dead-end on it.
+ */
+const NOT_A_DESTINATION = new Set(['animlesson']);
+
 function screenCatalogues(): Array<{ id: string; label: string; screen: string }> {
-  return [...CEFR_EXERCISE_POOL, ...CROATIA_POOL, ...PRODUCTION_POOL];
+  return [...CEFR_EXERCISE_POOL, ...CROATIA_POOL, ...PRODUCTION_POOL].filter(
+    (e) => !NOT_A_DESTINATION.has(e.screen),
+  );
 }
 
 /**

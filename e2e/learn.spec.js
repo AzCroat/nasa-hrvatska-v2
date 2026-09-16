@@ -151,6 +151,22 @@ test.describe('Learn tab', () => {
       await expect(page.getByTestId('rd-open-genitive')).toBeVisible();
     });
 
+    test('opening Flashcards reaches the exercise, not the "start it properly" guard', async ({
+      page,
+    }) => {
+      // The phase-2 defect: the Center opened every row with a bare setScr, and
+      // `flashcards` renders ScreenGuard unless a launcher seeded fcInitPool. So
+      // this row showed "Session refreshed" — and ScreenGuard clears
+      // nh_session_started on mount, stranding any daily session in progress.
+      await openCenter(page);
+      await page.getByTestId('lc-search').fill('flashcards');
+      const row = page.locator('[data-testid="lc-row"][data-kind="drill"]').first();
+      await expect(row).toBeVisible({ timeout: 10_000 });
+      await row.click();
+      await expect(page.getByTestId('learning-center')).toBeHidden({ timeout: 15_000 });
+      await expect(page.getByText('Session refreshed')).toHaveCount(0);
+    });
+
     test('opening a lesson from search navigates without error', async ({ page }) => {
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));

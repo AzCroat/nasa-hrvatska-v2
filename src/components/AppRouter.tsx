@@ -3381,7 +3381,21 @@ export default function AppRouter(props: Record<string, any>) {
               <LearningCenter
                 goBack={goBack}
                 launchAnimLesson={launchAnimLesson}
-                onOpenScreen={(screen: string) => {
+                sh={_sh}
+                onOpenScreen={(screen: string, payload?: unknown[]) => {
+                  // A payload means the screen is ScreenGuard-protected and must
+                  // be entered through its real launcher — a bare setScr lands on
+                  // the "start this properly" dead end. Deliberately NOT
+                  // launchSessionActivity, which clears nh_session_started on a
+                  // failed launch: looking something up must never disturb a
+                  // daily session the learner has already begun.
+                  if (payload) {
+                    if (screen === 'flashcards') return launchFlashcards(payload);
+                    if (screen === 'mcgame') return launchMcGame(payload as never);
+                    if (screen === 'match') return launchMatch(payload);
+                    if (screen === 'listening') return launchListening(payload);
+                    if (screen === 'speaking') return launchSpeaking(payload);
+                  }
                   setScr(screen);
                   sCurEx(screen);
                 }}
