@@ -127,7 +127,6 @@ const TARGETS = [
   'src/components/grad/gradModel.ts', // 1 Croatian strings, 100% seen
   'src/components/grad/places.ts', // 12 Croatian strings, 92% seen
   'src/components/grad/PlaceScreen.tsx', // 6 Croatian strings, 100% seen
-  'src/components/home/DailyCroatianSection.tsx', // 1 Croatian strings, 100% seen
   'src/components/home/HeroStats.tsx', // 2 Croatian strings, 50% seen
   'src/components/home/hostFamily.ts', // 5 Croatian strings, 80% seen
   'src/components/home/SpeedChallenge.tsx', // 4 Croatian strings, 100% seen
@@ -145,15 +144,11 @@ const TARGETS = [
   'src/components/profile/CertificateScreen.tsx', // 2 Croatian strings, 50% seen
   'src/components/profile/CroatianErrorInsights.tsx', // 32 Croatian strings, 56% seen
   'src/components/razgovor/partners.ts', // 22 Croatian strings, 100% seen
-  'src/components/shared/AmbientPlayer.tsx', // 1 Croatian strings, 100% seen
-  'src/components/shared/CroatianCross.tsx', // 1 Croatian strings, 100% seen
-  'src/components/shared/EmptyState.tsx', // 1 Croatian strings, 100% seen
   'src/components/shared/GrammarReference.tsx', // 21 Croatian strings, 76% seen
   'src/components/shared/KnightCompanion.tsx', // 6 Croatian strings, 83% seen
   'src/components/shared/OnboardingTour.tsx', // 4 Croatian strings, 50% seen
   'src/data/bakaPhrases.ts', // 9 Croatian strings, 100% seen
   'src/hooks/useNotifications.ts', // 8 Croatian strings, 63% seen
-  'src/lib/aspectPairs.ts', // 6 Croatian strings, 100% seen
   'src/lib/conjugation/curriculum.ts', // 7 Croatian strings, 86% seen
   'src/lib/croatianClosedClass.ts', // 2 Croatian strings, 100% seen
   'src/lib/croatiaPool.ts', // 2 Croatian strings, 100% seen
@@ -593,7 +588,6 @@ const TARGETS = [
   'src/components/grad/PlaceScreen.tsx', // 6cro 100%
   'src/components/grad/gradModel.ts', // 1cro 100%
   'src/components/grad/places.ts', // 12cro 92%
-  'src/components/home/DailyCroatianSection.tsx', // 1cro 100%
   'src/components/home/HeroStats.tsx', // 2cro 50%
   'src/components/home/SpeedChallenge.tsx', // 4cro 100%
   'src/components/home/hostFamily.ts', // 5cro 80%
@@ -612,15 +606,11 @@ const TARGETS = [
   'src/components/profile/CertificateScreen.tsx', // 2cro 50%
   'src/components/profile/CroatianErrorInsights.tsx', // 29cro 52%
   'src/components/razgovor/partners.ts', // 22cro 100%
-  'src/components/shared/AmbientPlayer.tsx', // 2cro 100%
-  'src/components/shared/CroatianCross.tsx', // 1cro 100%
-  'src/components/shared/EmptyState.tsx', // 1cro 100%
   'src/components/shared/GrammarReference.tsx', // 17cro 76%
   'src/components/shared/KnightCompanion.tsx', // 5cro 100%
   'src/components/shared/OnboardingTour.tsx', // 4cro 50%
   'src/data/bakaPhrases.ts', // 8cro 100%
   'src/hooks/useNotifications.ts', // 10cro 50%
-  'src/lib/aspectPairs.ts', // 10cro 100%
   'src/lib/conjugation/curriculum.ts', // 9cro 67%
   'src/lib/croatiaPool.ts', // 2cro 100%
   'src/lib/drillPoolEntries.ts', // 13cro 100%
