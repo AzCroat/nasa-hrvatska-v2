@@ -43,8 +43,25 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { LESSON_PASS_THRESHOLD, passedLesson } from '../lib/lessonGate';
 
+/**
+ * Strip comments AND collapse whitespace runs to a single space.
+ *
+ * THE COLLAPSE IS LOAD-BEARING, and CI taught me so. These assertions pin
+ * source text, and Prettier runs on commit — so the tree the suite is run
+ * against locally is NOT the tree that gets committed. Prettier reflowed
+ *
+ *   if (scoredItems.current > 0 && !passedLesson(scoredOk.current, …)) {
+ *
+ * across three lines, and two single-line regexes that had just passed went
+ * red on the first CI run. A source pin that depends on where the formatter
+ * chose to break a line tests the formatter, not the code. Matching against
+ * whitespace-normalised source removes the dependency entirely.
+ */
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    .replace(/\s+/g, ' ');
 
 /** The five screens and the LEARN_PATH key each one writes. */
 const GATED = [
@@ -134,7 +151,7 @@ describe('every one of the five gates on the shared threshold', () => {
     ],
     [
       'src/components/practice/ShadowingScreen.tsx',
-      /if \(scoredItems\.current > 0 && !passedLesson\(/,
+      /if \( ?scoredItems\.current > 0 && !passedLesson\(/,
     ],
   ];
 
