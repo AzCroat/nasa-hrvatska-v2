@@ -365,8 +365,6 @@ export default function DialogueSim({
             setAiDone(true);
           }}
           onBack={goBack}
-          finishFired={finishFired}
-          award={award}
         />
       ) : (
         <DialogueGuidedMode

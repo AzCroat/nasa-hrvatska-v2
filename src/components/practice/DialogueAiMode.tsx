@@ -14,8 +14,6 @@ interface Props {
   onSend: () => void;
   onFinish: () => void;
   onBack: () => void;
-  finishFired: React.MutableRefObject<boolean>;
-  award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 export default function DialogueAiMode({
   scenario,
@@ -30,8 +28,6 @@ export default function DialogueAiMode({
   onSend,
   onFinish,
   onBack,
-  finishFired,
-  award,
 }: Props) {
   return (
     <div>

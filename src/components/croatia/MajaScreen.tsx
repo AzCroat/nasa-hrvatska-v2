@@ -1044,24 +1044,40 @@ export default function MajaScreen() {
     }
   }, [conversation, elapsedSecs, level, name, session, stopMic, cancelTTSTurn]);
 
+  // ── commit the debrief's XP, exactly once per conversation ──
+  // THE ONLY PLACE THE DEBRIEF PAYS. Both ways out of the debrief call it, so
+  // taking one cannot cost the learner what the other would have given.
+  const commitDebriefXp = useCallback(() => {
+    if (!debrief || debriefXpFired.current) return;
+    debriefXpFired.current = true;
+    if (typeof award === 'function') award(debrief.xpEarned ?? 30, false, 'speaking');
+    markQuest('culture');
+  }, [debrief, award]);
+
   // ── continue conversation ──────────────────
   const handleContinue = useCallback(() => {
+    // The debrief button beside this one is labelled "+N XP · Natrag", and this
+    // one ENDS the same conversation just as finally — it clears `debrief` and
+    // `conversation` and starts a fresh one. Paying only on the other button
+    // meant a learner who chose to keep talking forfeited the XP the screen had
+    // just told them they earned, and the culture quest with it.
+    commitDebriefXp();
+    // The next conversation earns its own XP — this latch is per conversation,
+    // not per mount, and `handleContinue` is the only path that keeps the mount
+    // alive across two of them.
+    debriefXpFired.current = false;
     setDebrief(null);
     setConversation([]);
     setElapsedSecs(0);
     setPhase('idle');
     setSessionActive(false);
-  }, []);
+  }, [commitDebriefXp]);
 
   // ── debrief back (award XP) ────────────────
   const handleDebriefBack = useCallback(() => {
-    if (debrief && !debriefXpFired.current) {
-      debriefXpFired.current = true;
-      if (typeof award === 'function') award(debrief.xpEarned ?? 30, false, 'speaking');
-      markQuest('culture');
-    }
+    commitDebriefXp();
     goBack();
-  }, [debrief, award, goBack]);
+  }, [commitDebriefXp, goBack]);
 
   // ── fallback send ──────────────────────────
   const handleFallbackSend = useCallback(() => {
@@ -1157,7 +1173,6 @@ export default function MajaScreen() {
             durationSecs={debrief.durationSecs ?? elapsedSecs}
             onContinue={handleContinue}
             onBack={handleDebriefBack}
-            award={award}
           />
         )}
 
