@@ -107,6 +107,14 @@ const OUTSIDE_SESSION: string[] = [
   // pronunciation_assess gained a finish-signals-completion path + the
   // builder's micRequired gate — both joined the pool.)
   'conjlab', // hub — completes only after entering an inner drill; conjpractice serves conjugation in-session
+  // The Learning Center is the app's LOOKUP surface, and the one screen that
+  // must never be session-reachable. The session decides what a learner does
+  // next; the Center exists for the question the scheduler cannot answer
+  // ("teach me X, now"). Serving it as an activity would credit a slot for
+  // opening a search box, which is the reading-a-table-as-a-lesson failure the
+  // `reference: true` rule already guards against elsewhere. It has no bounded
+  // round and no finish line by design.
+  'learning_center',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

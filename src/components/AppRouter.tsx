@@ -431,6 +431,7 @@ const CertificateScreen = lazyWithReload(() => import('./profile/CertificateScre
 const MistakesScreen = lazyWithReload(() => import('./practice/MistakesScreen'));
 const AnalyticsScreen = lazyWithReload(() => import('./profile/AnalyticsScreen'));
 const GrammarReference = lazyWithReload(() => import('./shared/GrammarReference'));
+const LearningCenter = lazyWithReload(() => import('./learn/LearningCenter'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
 const SurvivalDinner = lazyWithReload(() => import('./croatia/SurvivalDinner'));
@@ -3370,6 +3371,24 @@ export default function AppRouter(props: Record<string, any>) {
             <AnalyticsScreen goBack={goBack} stats={stats} name={name} />
           </ScreenErrorBoundary>
         )}
+        {
+          // ═══ LEARNING CENTER ═══
+          // Look-up, not scheduling: search + the whole syllabus. Opens content
+          // through the same launch path the browse modal uses, so nothing about
+          // completion or credit changes by virtue of arriving from here.
+          currentScreen === 'learning_center' && (
+            <ScreenErrorBoundary key="learning_center" name="learning_center">
+              <LearningCenter
+                goBack={goBack}
+                launchAnimLesson={launchAnimLesson}
+                onOpenScreen={(screen: string) => {
+                  setScr(screen);
+                  sCurEx(screen);
+                }}
+              />
+            </ScreenErrorBoundary>
+          )
+        }
         {
           // ═══ GRAMMAR REFERENCE ═══
           currentScreen === 'grammar-ref' && (

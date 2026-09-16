@@ -1,0 +1,300 @@
+/**
+ * LearningCenter — look something up, at any time.
+ *
+ * The app schedules superbly and, until this screen, looked up nothing: every
+ * teaching asset reached a learner only when the scheduler handed it over. A
+ * learner who wanted the genitive RIGHT NOW, because they had just got it wrong
+ * in conversation, had three hand-listed doors that between them opened 26 of
+ * the 180 lessons.
+ *
+ * This screen is the lookup half. It renders whatever `useLearningIndex`
+ * derives from the app's own catalogues — no list of content lives here — in two
+ * modes: SEARCH while there is a query, and the SYLLABUS (every lesson, by level
+ * and spine order) when there is not.
+ *
+ * TWO RULES IT HOLDS:
+ *
+ *   * LOOKING SOMETHING UP IS NOT CREDIT. This component awards nothing,
+ *     completes nothing and records nothing. It opens content through exactly
+ *     the launch path the browse modal already used (`launchAnimLesson` for a
+ *     lesson, setScr + setCurEx for a screen), so a thing opened from here
+ *     behaves precisely as the same thing opened from anywhere else — no new
+ *     completion semantics are introduced by the existence of a search box.
+ *
+ *   * NOTHING IS GATED. Any of the 180 lessons opens at any level;
+ *     `launchAnimLesson` has always been ungated and that is what makes "at any
+ *     time" true. A learner reaching above their level is looking something up,
+ *     not claiming to have learned it — the CEFR badge is unaffected, because
+ *     this screen never writes.
+ */
+import React, { useMemo, useState } from 'react';
+import { searchLearningIndex, lessonsByLevel, type LearningEntry } from '../../lib/learningIndex';
+import { useLearningIndex } from '../../hooks/useLearningIndex';
+import { readCompletedLessons } from '../../lib/curriculumProgress';
+
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+
+const KIND_LABEL: Record<LearningEntry['kind'], string> = {
+  lesson: 'Lesson',
+  drill: 'Practice',
+  reference: 'Reference',
+};
+
+interface LearningCenterProps {
+  goBack: () => void;
+  launchAnimLesson: (lessonId: string) => void;
+  onOpenScreen: (screen: string) => void;
+}
+
+function Row({
+  entry,
+  done,
+  onOpen,
+}: {
+  entry: LearningEntry;
+  done: boolean;
+  onOpen: () => void;
+}): React.ReactElement {
+  return (
+    <button
+      className="c"
+      data-testid="lc-row"
+      data-kind={entry.kind}
+      onClick={onOpen}
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        padding: '12px 14px',
+        marginBottom: 8,
+        textAlign: 'left',
+        cursor: 'pointer',
+        border: '1px solid var(--card-b)',
+        fontFamily: "'Outfit',sans-serif",
+      }}
+    >
+      <span style={{ fontSize: 20, flexShrink: 0, width: 24, textAlign: 'center' }}>
+        {entry.icon || (entry.kind === 'lesson' ? '📘' : '🎯')}
+      </span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span
+          style={{
+            display: 'block',
+            fontSize: 14,
+            fontWeight: 800,
+            color: 'var(--heading)',
+            lineHeight: 1.25,
+          }}
+        >
+          {done && (
+            <span aria-label="completed" title="Completed" style={{ color: 'var(--success)' }}>
+              ✓{' '}
+            </span>
+          )}
+          {entry.title}
+        </span>
+        <span
+          style={{
+            display: 'block',
+            fontSize: 11,
+            color: 'var(--subtext)',
+            marginTop: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {KIND_LABEL[entry.kind]}
+          {entry.subtitle ? ` · ${entry.subtitle}` : ''}
+        </span>
+      </span>
+      {entry.level && (
+        <span className={`cefr cefr-${entry.level.toLowerCase()}`} style={{ flexShrink: 0 }}>
+          {entry.level}
+        </span>
+      )}
+    </button>
+  );
+}
+
+export default function LearningCenter({
+  goBack,
+  launchAnimLesson,
+  onOpenScreen,
+}: LearningCenterProps): React.ReactElement {
+  const { index, spineReady } = useLearningIndex();
+  const [query, setQuery] = useState('');
+  const [openLevel, setOpenLevel] = useState<string | null>('A1');
+
+  // Read once per mount: the Center never writes progress, so it cannot go stale
+  // under its own feet, and re-reading localStorage per render would be waste.
+  const completed = useMemo(() => readCompletedLessons(), []);
+
+  const results = useMemo(() => searchLearningIndex(index, query, { limit: 40 }), [index, query]);
+  const syllabus = useMemo(() => lessonsByLevel(index), [index]);
+
+  function open(entry: LearningEntry): void {
+    if (entry.target.kind === 'lesson') launchAnimLesson(entry.target.lessonId);
+    else onOpenScreen(entry.target.screen);
+  }
+
+  const searching = query.trim().length > 0;
+
+  return (
+    <div className="scr-wrap" data-testid="learning-center" style={{ paddingBottom: 80 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+        <button
+          onClick={goBack}
+          className="b bg"
+          style={{ fontSize: 13, padding: '6px 12px' }}
+          data-testid="lc-back"
+        >
+          ← Back
+        </button>
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 20,
+            fontWeight: 900,
+            fontFamily: "'Playfair Display',serif",
+            color: 'var(--heading)',
+          }}
+        >
+          📚 Learning Center
+        </h2>
+      </div>
+
+      <input
+        type="search"
+        data-testid="lc-search"
+        aria-label="Search lessons, drills and references"
+        placeholder="Search anything… padeži, genitive, aspect, verbs"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '12px 16px',
+          borderRadius: 12,
+          border: '1.5px solid var(--card-b)',
+          background: 'var(--card)',
+          color: 'var(--text)',
+          fontSize: 14,
+          fontFamily: "'Outfit',sans-serif",
+          marginBottom: 14,
+          boxSizing: 'border-box',
+        }}
+      />
+
+      {searching ? (
+        <div data-testid="lc-results">
+          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
+            {results.length === 0
+              ? `No results for "${query.trim()}"`
+              : `${results.length} result${results.length === 1 ? '' : 's'}`}
+          </div>
+          {results.length === 0 && (
+            <p
+              data-testid="lc-empty"
+              style={{ color: 'var(--subtext)', fontSize: 13, lineHeight: 1.6 }}
+            >
+              Try a grammar term (<em>genitive</em>, <em>padeži</em>, <em>aspect</em>), a topic (
+              <em>food</em>, <em>travel</em>) or a skill (<em>listening</em>, <em>writing</em>).
+            </p>
+          )}
+          {results.map((e) => (
+            <Row
+              key={e.key}
+              entry={e}
+              done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+              onOpen={() => open(e)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div data-testid="lc-syllabus">
+          <div className="section-hdr" style={{ marginBottom: 10 }}>
+            <div className="section-hdr-icon" style={{ background: 'rgba(14,116,144,.12)' }}>
+              🗂️
+            </div>
+            <div className="section-hdr-text">
+              <div className="section-hdr-title">The whole syllabus</div>
+              <div className="section-hdr-sub">
+                {spineReady
+                  ? `${syllabus.length} lessons · open any of them, at any level`
+                  : 'Lessons are still loading — search works already'}
+              </div>
+            </div>
+          </div>
+
+          {LEVELS.map((lvl) => {
+            const rows = syllabus.filter((e) => e.level === lvl);
+            if (rows.length === 0) return null;
+            const doneCount = rows.filter(
+              (e) => e.target.kind === 'lesson' && completed.has(e.target.lessonId),
+            ).length;
+            const isOpen = openLevel === lvl;
+            return (
+              <div key={lvl} style={{ marginBottom: 10 }}>
+                <button
+                  data-testid={`lc-level-${lvl}`}
+                  onClick={() => setOpenLevel(isOpen ? null : lvl)}
+                  aria-expanded={isOpen}
+                  className="c"
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '12px 14px',
+                    cursor: 'pointer',
+                    border: '1px solid var(--card-b)',
+                    fontFamily: "'Outfit',sans-serif",
+                  }}
+                >
+                  <span className={`cefr cefr-${lvl.toLowerCase()}`}>{lvl}</span>
+                  <span
+                    style={{
+                      flex: 1,
+                      textAlign: 'left',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: 'var(--heading)',
+                    }}
+                  >
+                    {rows.length} lessons
+                  </span>
+                  <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
+                    {doneCount}/{rows.length} done
+                  </span>
+                  <span
+                    style={{
+                      color: 'var(--subtext)',
+                      fontSize: 16,
+                      transform: isOpen ? 'rotate(180deg)' : 'none',
+                      transition: 'transform .2s',
+                    }}
+                  >
+                    ▾
+                  </span>
+                </button>
+                {isOpen && (
+                  <div style={{ marginTop: 8 }}>
+                    {rows.map((e) => (
+                      <Row
+                        key={e.key}
+                        entry={e}
+                        done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+                        onOpen={() => open(e)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

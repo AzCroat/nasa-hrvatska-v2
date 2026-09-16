@@ -69,6 +69,63 @@ test.describe('Learn tab', () => {
     });
   });
 
+  // ── LEARNING CENTER ────────────────────────────────────────────────────
+  // The lookup door. Everything else on this tab answers "what next"; this is
+  // the only surface that answers "teach me X, now". Navigation is by testid
+  // rather than by copy, per the project's Playwright conventions.
+  test.describe('Learning Center', () => {
+    async function openCenter(page) {
+      await page.getByTestId('open-learning-center').click();
+      await expect(page.getByTestId('learning-center')).toBeVisible({ timeout: 15_000 });
+    }
+
+    test('the Learn tab offers a way to look something up', async ({ page }) => {
+      await expect(page.getByTestId('open-learning-center')).toBeVisible();
+    });
+
+    test('opens on the whole syllabus, every level browsable', async ({ page }) => {
+      await openCenter(page);
+      await expect(page.getByTestId('lc-syllabus')).toBeVisible();
+      // Every level, including ones above the seeded learner: lookup is ungated.
+      for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
+        await expect(page.getByTestId(`lc-level-${lvl}`)).toBeVisible();
+      }
+    });
+
+    test('searching "padeži" surfaces case material', async ({ page }) => {
+      await openCenter(page);
+      await page.getByTestId('lc-search').fill('padeži');
+      await expect(page.getByTestId('lc-results')).toBeVisible({ timeout: 10_000 });
+      await expect(page.getByTestId('lc-row').first()).toBeVisible();
+      // The owner's own example, and the reason this screen exists: the query
+      // must reach LESSONS, not only the one drill screen it used to find.
+      await expect(page.locator('[data-testid="lc-row"][data-kind="lesson"]').first())
+        .toBeVisible({ timeout: 10_000 });
+    });
+
+    test('the diacritic-free spelling searches the same', async ({ page }) => {
+      await openCenter(page);
+      await page.getByTestId('lc-search').fill('padezi');
+      await expect(page.getByTestId('lc-row').first()).toBeVisible({ timeout: 10_000 });
+    });
+
+    test('opening a lesson from search navigates without error', async ({ page }) => {
+      const errors = [];
+      page.on('pageerror', (e) => errors.push(e.message));
+      await openCenter(page);
+      await page.getByTestId('lc-search').fill('genitive');
+      const lessonRow = page.locator('[data-testid="lc-row"][data-kind="lesson"]').first();
+      await expect(lessonRow).toBeVisible({ timeout: 10_000 });
+      await lessonRow.click();
+      // The Center must be gone — the lesson took over the screen.
+      await expect(page.getByTestId('learning-center')).toBeHidden({ timeout: 15_000 });
+      const unexpected = errors.filter(
+        (e) => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),
+      );
+      expect(unexpected).toHaveLength(0);
+    });
+  });
+
   test.describe('Back navigation', () => {
     test('clicking Grammar Ref button navigates to grammar reference', async ({ page }) => {
       await page.getByText('📖 Ref').waitFor({ state: 'visible', timeout: 8_000 });

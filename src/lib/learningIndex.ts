@@ -1,5 +1,5 @@
 /**
- * learningIndex — the derivation behind the Learning Centre's lookup.
+ * learningIndex — the derivation behind the Learning Center's lookup.
  *
  * THE GAP THIS CLOSES (2026-09-16). The app schedules superbly and looks up
  * nothing. Every teaching asset reaches a learner only when the scheduler hands
@@ -22,7 +22,7 @@
  *
  * THE RULE, THEREFORE: this index is DERIVED and never hand-listed. Lessons come
  * from the curriculum spine, screens from the session pool. Authoring a lesson or
- * a drill puts it in the Learning Centre the same day, with no second place to
+ * a drill puts it in the Learning Center the same day, with no second place to
  * remember — and `learningIndex.test.ts` fails the build if either catalogue
  * grows an entry this derivation cannot see.
  *

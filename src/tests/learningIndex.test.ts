@@ -1,5 +1,5 @@
 /**
- * learningIndex.test.ts — the Learning Centre's index is DERIVED, and every row
+ * learningIndex.test.ts — the Learning Center's index is DERIVED, and every row
  * in it can be opened.
  *
  * WHAT THIS GUARDS, AND WHY THE EXISTING SUITES DO NOT.
@@ -15,7 +15,7 @@
  * So the assertions below never restate a list of ids. They walk the app's own
  * catalogues — the curriculum spine and the three session pools — and require the
  * derivation to reach every entry in them. Authoring a lesson or a drill puts it
- * in the Learning Centre with no second place to remember; authoring one the
+ * in the Learning Center with no second place to remember; authoring one the
  * derivation cannot see fails the build here, and the failure message names it.
  *
  * The other half is openability. An index that lists something unreachable is the
@@ -33,7 +33,7 @@
  *     router: about twenty are infrastructure (dashboard, profile, privacy) and
  *     correctly absent, but the rest are genuine teaching content that no pool
  *     lists — `grammar_track`, `readlist`, `slang`, `pitch_accent`, `scenes`,
- *     `conjlab` among them. They are missing from the Learning Centre because
+ *     `conjlab` among them. They are missing from the Learning Center because
  *     they are missing from every catalogue the app keeps, which is a content-
  *     organisation gap and not an index one. Fixing it means pooling them, and
  *     that changes what the daily session can serve — a separate decision with
@@ -128,7 +128,7 @@ describe('the index is derived from the app’s own catalogues', () => {
       index.filter((e) => e.target.kind === 'lesson').map((e) => e.target.lessonId),
     );
     const missing = servedSpine.map((l) => l.id).filter((id) => !indexed.has(id));
-    expect(missing, `lessons absent from the Learning Centre: ${missing.join(', ')}`).toEqual([]);
+    expect(missing, `lessons absent from the Learning Center: ${missing.join(', ')}`).toEqual([]);
     // A floor, so a source that silently empties cannot pass by reaching "all zero".
     expect(indexed.size).toBe(servedSpine.length);
     expect(indexed.size).toBeGreaterThanOrEqual(180);
@@ -141,7 +141,7 @@ describe('the index is derived from the app’s own catalogues', () => {
     const missing = [...new Set(allPools.map((p) => p.screen))].filter((s) => !indexed.has(s));
     expect(
       missing,
-      `pooled screens absent from the Learning Centre: ${missing.join(', ')}`,
+      `pooled screens absent from the Learning Center: ${missing.join(', ')}`,
     ).toEqual([]);
     expect(indexed.size).toBeGreaterThanOrEqual(370);
   });
