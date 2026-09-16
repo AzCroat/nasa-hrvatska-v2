@@ -31,6 +31,7 @@ import React, { useMemo, useState } from 'react';
 import { searchLearningIndex, lessonsByLevel, type LearningEntry } from '../../lib/learningIndex';
 import { useLearningIndex } from '../../hooks/useLearningIndex';
 import { readCompletedLessons } from '../../lib/curriculumProgress';
+import ReferenceDesk from './ReferenceDesk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 
@@ -38,6 +39,8 @@ const KIND_LABEL: Record<LearningEntry['kind'], string> = {
   lesson: 'Lesson',
   drill: 'Practice',
   reference: 'Reference',
+  concept: 'What it is',
+  tool: 'Reference tool',
 };
 
 interface LearningCenterProps {
@@ -126,6 +129,8 @@ export default function LearningCenter({
   const { index, spineReady } = useLearningIndex();
   const [query, setQuery] = useState('');
   const [openLevel, setOpenLevel] = useState<string | null>('A1');
+  const [mode, setMode] = useState<'syllabus' | 'reference'>('syllabus');
+  const [deskOpenId, setDeskOpenId] = useState<string | null>(null);
 
   // Read once per mount: the Center never writes progress, so it cannot go stale
   // under its own feet, and re-reading localStorage per render would be waste.
@@ -135,8 +140,21 @@ export default function LearningCenter({
   const syllabus = useMemo(() => lessonsByLevel(index), [index]);
 
   function open(entry: LearningEntry): void {
-    if (entry.target.kind === 'lesson') launchAnimLesson(entry.target.lessonId);
-    else onOpenScreen(entry.target.screen);
+    // One arm per target kind, exhaustively: the union is discriminated so a new
+    // kind cannot be added without the compiler stopping here, which is how the
+    // reference arm was caught when it landed rather than silently no-op-ing.
+    if (entry.target.kind === 'lesson') {
+      launchAnimLesson(entry.target.lessonId);
+    } else if (entry.target.kind === 'screen') {
+      onOpenScreen(entry.target.screen);
+    } else {
+      // A reference panel lives on this screen, so "opening" it means showing
+      // the desk at that panel rather than navigating away. Clearing the query
+      // is deliberate: the answer is now on screen, not in the result list.
+      setQuery('');
+      setMode('reference');
+      setDeskOpenId(entry.target.refId);
+    }
   }
 
   const searching = query.trim().length > 0;
@@ -212,88 +230,130 @@ export default function LearningCenter({
           ))}
         </div>
       ) : (
-        <div data-testid="lc-syllabus">
-          <div className="section-hdr" style={{ marginBottom: 10 }}>
-            <div className="section-hdr-icon" style={{ background: 'rgba(14,116,144,.12)' }}>
-              🗂️
-            </div>
-            <div className="section-hdr-text">
-              <div className="section-hdr-title">The whole syllabus</div>
-              <div className="section-hdr-sub">
-                {spineReady
-                  ? `${syllabus.length} lessons · open any of them, at any level`
-                  : 'Lessons are still loading — search works already'}
-              </div>
-            </div>
+        <React.Fragment>
+          {/* Two standing modes when nothing is being searched: the SYLLABUS
+              (which lesson comes where) and the REFERENCE desk (what a thing is
+              and what its forms are). They answer different questions, so they
+              are peers rather than one nested inside the other. */}
+          <div
+            role="tablist"
+            aria-label="Learning Center view"
+            style={{ display: 'flex', gap: 8, marginBottom: 14 }}
+          >
+            {(
+              [
+                ['syllabus', '\ud83d\uddc2\ufe0f Syllabus'],
+                ['reference', '\ud83d\udcd6 Reference'],
+              ] as const
+            ).map(([m, label]) => (
+              <button
+                key={m}
+                role="tab"
+                aria-selected={mode === m}
+                data-testid={`lc-mode-${m}`}
+                onClick={() => setMode(m)}
+                className="b"
+                style={{
+                  flex: 1,
+                  fontSize: 12,
+                  fontWeight: 800,
+                  padding: '8px 10px',
+                  border: '1.5px solid var(--card-b)',
+                  background: mode === m ? 'var(--accent)' : 'transparent',
+                  color: mode === m ? '#fff' : 'var(--subtext)',
+                }}
+              >
+                {label}
+              </button>
+            ))}
           </div>
-
-          {LEVELS.map((lvl) => {
-            const rows = syllabus.filter((e) => e.level === lvl);
-            if (rows.length === 0) return null;
-            const doneCount = rows.filter(
-              (e) => e.target.kind === 'lesson' && completed.has(e.target.lessonId),
-            ).length;
-            const isOpen = openLevel === lvl;
-            return (
-              <div key={lvl} style={{ marginBottom: 10 }}>
-                <button
-                  data-testid={`lc-level-${lvl}`}
-                  onClick={() => setOpenLevel(isOpen ? null : lvl)}
-                  aria-expanded={isOpen}
-                  className="c"
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '12px 14px',
-                    cursor: 'pointer',
-                    border: '1px solid var(--card-b)',
-                    fontFamily: "'Outfit',sans-serif",
-                  }}
-                >
-                  <span className={`cefr cefr-${lvl.toLowerCase()}`}>{lvl}</span>
-                  <span
-                    style={{
-                      flex: 1,
-                      textAlign: 'left',
-                      fontSize: 13,
-                      fontWeight: 800,
-                      color: 'var(--heading)',
-                    }}
-                  >
-                    {rows.length} lessons
-                  </span>
-                  <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
-                    {doneCount}/{rows.length} done
-                  </span>
-                  <span
-                    style={{
-                      color: 'var(--subtext)',
-                      fontSize: 16,
-                      transform: isOpen ? 'rotate(180deg)' : 'none',
-                      transition: 'transform .2s',
-                    }}
-                  >
-                    ▾
-                  </span>
-                </button>
-                {isOpen && (
-                  <div style={{ marginTop: 8 }}>
-                    {rows.map((e) => (
-                      <Row
-                        key={e.key}
-                        entry={e}
-                        done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
-                        onOpen={() => open(e)}
-                      />
-                    ))}
+          {mode === 'reference' ? (
+            <ReferenceDesk initialOpenId={deskOpenId} />
+          ) : (
+            <div data-testid="lc-syllabus">
+              <div className="section-hdr" style={{ marginBottom: 10 }}>
+                <div className="section-hdr-icon" style={{ background: 'rgba(14,116,144,.12)' }}>
+                  🗂️
+                </div>
+                <div className="section-hdr-text">
+                  <div className="section-hdr-title">The whole syllabus</div>
+                  <div className="section-hdr-sub">
+                    {spineReady
+                      ? `${syllabus.length} lessons · open any of them, at any level`
+                      : 'Lessons are still loading — search works already'}
                   </div>
-                )}
+                </div>
               </div>
-            );
-          })}
-        </div>
+
+              {LEVELS.map((lvl) => {
+                const rows = syllabus.filter((e) => e.level === lvl);
+                if (rows.length === 0) return null;
+                const doneCount = rows.filter(
+                  (e) => e.target.kind === 'lesson' && completed.has(e.target.lessonId),
+                ).length;
+                const isOpen = openLevel === lvl;
+                return (
+                  <div key={lvl} style={{ marginBottom: 10 }}>
+                    <button
+                      data-testid={`lc-level-${lvl}`}
+                      onClick={() => setOpenLevel(isOpen ? null : lvl)}
+                      aria-expanded={isOpen}
+                      className="c"
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: '12px 14px',
+                        cursor: 'pointer',
+                        border: '1px solid var(--card-b)',
+                        fontFamily: "'Outfit',sans-serif",
+                      }}
+                    >
+                      <span className={`cefr cefr-${lvl.toLowerCase()}`}>{lvl}</span>
+                      <span
+                        style={{
+                          flex: 1,
+                          textAlign: 'left',
+                          fontSize: 13,
+                          fontWeight: 800,
+                          color: 'var(--heading)',
+                        }}
+                      >
+                        {rows.length} lessons
+                      </span>
+                      <span style={{ fontSize: 11, color: 'var(--subtext)' }}>
+                        {doneCount}/{rows.length} done
+                      </span>
+                      <span
+                        style={{
+                          color: 'var(--subtext)',
+                          fontSize: 16,
+                          transform: isOpen ? 'rotate(180deg)' : 'none',
+                          transition: 'transform .2s',
+                        }}
+                      >
+                        ▾
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <div style={{ marginTop: 8 }}>
+                        {rows.map((e) => (
+                          <Row
+                            key={e.key}
+                            entry={e}
+                            done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+                            onOpen={() => open(e)}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </React.Fragment>
       )}
     </div>
   );

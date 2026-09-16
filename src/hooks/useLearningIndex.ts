@@ -28,6 +28,7 @@ import { getCurriculumSpine } from '../lib/contentClient';
 import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { PRODUCTION_POOL } from './useDailySession';
+import { referenceSources } from '../lib/referenceDesk';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 /**
@@ -76,7 +77,16 @@ export function useLearningIndex(): LearningIndexState {
   }, [spine.length]);
 
   const index = useMemo(
-    () => buildLearningIndex({ lessons: spine, screens: screenCatalogues() }),
+    () =>
+      buildLearningIndex({
+        lessons: spine,
+        screens: screenCatalogues(),
+        // The reference desk's panels. Derived from CASE_CONCEPTS plus the two
+        // instruments, so a new concept card reaches search with no second
+        // registration — and every one of them has a panel to open, which is
+        // what let them into the index at all.
+        references: referenceSources(),
+      }),
     [spine],
   );
 

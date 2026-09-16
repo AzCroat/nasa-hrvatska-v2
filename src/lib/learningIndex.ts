@@ -45,8 +45,16 @@
  * graph (see firstPaintGraph.test.ts). Callers inject the catalogues instead.
  */
 
-/** What a row in the index is. `reference` is a browse list, not a graded drill. */
-export type LearningEntryKind = 'lesson' | 'drill' | 'reference';
+/**
+ * What a row in the index IS.
+ *
+ * `reference` is a pool browse-list screen (no graded finish); `concept` is one
+ * of the case concept cards; `tool` is a reference instrument like the live
+ * declension table. Note that `kind` says what a row IS and `target.kind` says
+ * HOW to open it — a `reference` row opens as a `screen`, a `concept` row opens
+ * on the reference desk. Different questions, deliberately separate fields.
+ */
+export type LearningEntryKind = 'lesson' | 'drill' | 'reference' | 'concept' | 'tool';
 
 /**
  * How to open a row. Both arms are wired in the app today — that is the whole
@@ -54,7 +62,9 @@ export type LearningEntryKind = 'lesson' | 'drill' | 'reference';
  * change, never before.
  */
 export type LearningTarget =
-  { kind: 'lesson'; lessonId: string } | { kind: 'screen'; screen: string };
+  | { kind: 'lesson'; lessonId: string }
+  | { kind: 'screen'; screen: string }
+  | { kind: 'reference'; refId: string };
 
 export interface LearningEntry {
   /** Unique across the index. `${target kind}:${id}`. */
@@ -98,9 +108,29 @@ export interface ScreenSource {
   reference?: boolean;
 }
 
+/**
+ * A reference-desk panel: a case concept card, or an instrument like the live
+ * declension table.
+ *
+ * These were held OUT of the index in phase 1 under its own rule — content whose
+ * route does not exist yet stays out until the route lands — because the desk did
+ * not exist and a row that opens nothing is the dead-route defect this index was
+ * built to avoid. The desk exists now, so they go in.
+ */
+export interface ReferenceSource {
+  id: string;
+  kind: 'concept' | 'tool';
+  title: string;
+  subtitle?: string;
+  icon?: string;
+  /** Extra terms this panel should answer to (a case's Croatian name, say). */
+  keywords?: readonly string[];
+}
+
 export interface LearningIndexSources {
   lessons?: readonly LessonSource[];
   screens?: readonly ScreenSource[];
+  references?: readonly ReferenceSource[];
 }
 
 /**
@@ -214,6 +244,24 @@ function makeText(parts: ReadonlyArray<string | undefined>): string {
 export function buildLearningIndex(sources: LearningIndexSources): LearningEntry[] {
   const entries: LearningEntry[] = [];
 
+  // Reference panels are built FIRST so that, on an equal score, "what IS the
+  // genitive" sorts above a drill that merely practises it. A learner searching
+  // a case name is usually asking the concept question.
+  for (const r of sources.references ?? []) {
+    if (!r || !r.id) continue;
+    const keywords = [words(r.id), ...(r.keywords ?? [])];
+    entries.push({
+      key: `reference:${r.id}`,
+      kind: r.kind,
+      title: r.title,
+      ...(r.subtitle ? { subtitle: r.subtitle } : {}),
+      ...(r.icon ? { icon: r.icon } : {}),
+      keywords,
+      target: { kind: 'reference', refId: r.id },
+      text: makeText([r.title, r.subtitle, ...keywords]),
+    });
+  }
+
   for (const l of sources.lessons ?? []) {
     if (!l || !l.id) continue;
     const title = l.title || words(l.id);
@@ -265,6 +313,26 @@ export function buildLearningIndex(sources: LearningIndexSources): LearningEntry
 }
 
 const LEVEL_ORDER: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4, C2: 5 };
+
+/**
+ * Tie-break by what a row IS, before anything else.
+ *
+ * A learner typing a bare case name — "genitiv", "padeži" — is asking what the
+ * thing IS, so the concept card must come before a drill that merely practises
+ * it, and before the lesson that teaches it at length. Without this the order
+ * fell out of the CEFR tie-break, and because a concept card carries no level it
+ * sorted BELOW every levelled drill: searching "genitiv" put "Genitive Case"
+ * (a drill) above the card explaining what the genitive is. Building the
+ * reference rows first did not help, because the sort is not stable against a
+ * differing tie-break key — measured, not assumed.
+ */
+const KIND_RANK: Record<LearningEntryKind, number> = {
+  concept: 0,
+  lesson: 1,
+  tool: 2,
+  drill: 3,
+  reference: 4,
+};
 
 /** Expand a folded term with its thesaurus group, so "padezi" also searches "case". */
 function expand(term: string): string[] {
@@ -335,6 +403,9 @@ export function searchLearningIndex(
 
   scored.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
+    const ka = KIND_RANK[a.entry.kind] ?? 9;
+    const kb = KIND_RANK[b.entry.kind] ?? 9;
+    if (ka !== kb) return ka - kb;
     const la = LEVEL_ORDER[a.entry.level ?? ''] ?? 99;
     const lb = LEVEL_ORDER[b.entry.level ?? ''] ?? 99;
     if (la !== lb) return la - lb;

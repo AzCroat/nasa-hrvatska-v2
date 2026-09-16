@@ -265,7 +265,11 @@ describe('the Center, rendered against the real catalogues', () => {
     const { launchAnimLesson, onOpenScreen } = renderCenter();
     search('genitive');
     const rows = screen.getAllByTestId('lc-row');
-    const drill = rows.find((r) => r.getAttribute('data-kind') !== 'lesson');
+    // Select the DRILL kind explicitly. "Not a lesson" was enough while there
+    // were three kinds; the reference desk added `concept` and `tool`, whose
+    // rows open a panel on this screen rather than navigating, so the loose
+    // selector silently started testing a different path.
+    const drill = rows.find((r) => r.getAttribute('data-kind') === 'drill');
     expect(drill, 'a genitive search must surface practice as well as lessons').toBeTruthy();
     fireEvent.click(drill!);
     expect(onOpenScreen).toHaveBeenCalledTimes(1);
@@ -278,6 +282,31 @@ describe('the Center, rendered against the real catalogues', () => {
     const kinds = new Set(screen.getAllByTestId('lc-row').map((r) => r.getAttribute('data-kind')));
     expect(kinds.has('lesson')).toBe(true);
     expect(kinds.size).toBeGreaterThan(1);
+  });
+
+  it('opens a REFERENCE row on the desk, in place, navigating nowhere', () => {
+    const { launchAnimLesson, onOpenScreen } = renderCenter();
+    search('genitiv');
+    const concept = screen
+      .getAllByTestId('lc-row')
+      .find((r) => r.getAttribute('data-kind') === 'concept');
+    expect(concept, 'a Croatian case name must reach its concept card').toBeTruthy();
+    fireEvent.click(concept!);
+    // The answer appears here rather than on another screen, so neither launcher
+    // may fire — a reference panel is not a navigation.
+    expect(launchAnimLesson).not.toHaveBeenCalled();
+    expect(onOpenScreen).not.toHaveBeenCalled();
+    expect(screen.getByTestId('reference-desk')).toBeTruthy();
+    expect(screen.getByTestId('rd-open-genitive')).toBeTruthy();
+  });
+
+  it('offers the reference desk as a standing mode, not only via search', () => {
+    renderCenter();
+    fireEvent.click(screen.getByTestId('lc-mode-reference'));
+    expect(screen.getByTestId('reference-desk')).toBeTruthy();
+    expect(screen.queryByTestId('lc-syllabus')).toBeNull();
+    fireEvent.click(screen.getByTestId('lc-mode-syllabus'));
+    expect(screen.getByTestId('lc-syllabus')).toBeTruthy();
   });
 
   it('says so plainly when nothing matches', () => {
@@ -328,10 +357,16 @@ describe('looking something up costs nothing', () => {
     const before = JSON.stringify(localStorage);
     const { launchAnimLesson } = renderCenter();
     search('genitive');
-    fireEvent.click(screen.getAllByTestId('lc-row')[0]!);
+    // Open one of each kind that navigates, then browse the syllabus and open a
+    // lesson from there. Explicit kinds rather than "the first row": the result
+    // order is a ranking decision and must not silently steer this test.
+    const rows = () => screen.getAllByTestId('lc-row');
+    fireEvent.click(rows().find((r) => r.getAttribute('data-kind') === 'drill')!);
+    fireEvent.click(rows().find((r) => r.getAttribute('data-kind') === 'lesson')!);
     search('');
+    fireEvent.click(screen.getByTestId('lc-mode-syllabus'));
     fireEvent.click(screen.getByTestId('lc-level-B1'));
-    fireEvent.click(screen.getAllByTestId('lc-row')[0]!);
+    fireEvent.click(rows()[0]!);
     expect(launchAnimLesson).toHaveBeenCalled();
     expect(JSON.stringify(localStorage)).toBe(before);
   });
