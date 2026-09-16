@@ -4,6 +4,8 @@ import { fbExportUserData } from '../../../lib/firebase.js';
 import { isNative } from '../../../lib/platform.ts';
 import { useApp } from '../../../context/AppContext';
 import { useStats } from '../../../context/StatsContext.tsx';
+import { isAnalyticsConsented } from '../../../lib/analytics';
+import { acceptAllCookies, withdrawAnalyticsConsent } from '../../shared/CookieConsent';
 
 /**
  * Data & Account + Danger Zone — help/privacy/admin links, GDPR export, sign
@@ -20,6 +22,8 @@ export default function DataAccountSection() {
   const [deleting, setDeleting] = useState(false);
   const [exportDone, setExportDone] = useState(false);
   const [exporting, setExporting] = useState(false);
+  // Read once on mount: the consent key only changes through this control.
+  const [analyticsOn, setAnalyticsOn] = useState(() => isAnalyticsConsented());
 
   async function exportData() {
     if (isNative()) {
@@ -155,6 +159,69 @@ export default function DataAccountSection() {
 
       {/* ── GDPR DATA EXPORT ── */}
       <h3 className="sh">Your Data</h3>
+
+      {/* ── ANALYTICS CONSENT ──
+          The control PrivacyScreen calls "cookie settings" and promises can be
+          used to withdraw consent at any time. Before it existed, the only
+          writer of 'accepted' (acceptAllCookies) had no caller, so consent was
+          unreachable and every gate on it was permanently off. */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 12,
+          padding: '14px 0',
+          borderBottom: '1px solid var(--card-b)',
+          marginBottom: 12,
+        }}
+      >
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>📈 Product analytics</div>
+          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', marginTop: 2 }}>
+            {analyticsOn
+              ? 'On — anonymous usage events show us which lessons work. Switch off any time.'
+              : 'Off — no analytics events are sent. Switch on to help improve the app.'}
+          </div>
+        </div>
+        <button
+          role="switch"
+          aria-checked={analyticsOn ? 'true' : 'false'}
+          aria-label="Product analytics"
+          data-testid="analytics-consent-toggle"
+          onClick={() => {
+            const next = !analyticsOn;
+            setAnalyticsOn(next);
+            if (next) acceptAllCookies();
+            else withdrawAnalyticsConsent();
+          }}
+          style={{
+            width: 44,
+            height: 26,
+            borderRadius: 13,
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background .2s',
+            background: analyticsOn ? 'var(--success)' : 'var(--bar-bg)',
+            position: 'relative',
+            flexShrink: 0,
+          }}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              top: 3,
+              left: analyticsOn ? 21 : 3,
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: 'white',
+              transition: 'left .2s',
+              boxShadow: '0 1px 4px rgba(0,0,0,.2)',
+            }}
+          />
+        </button>
+      </div>
       <button
         className="tc"
         style={{

@@ -362,12 +362,12 @@ jobs:
           if [ -z "${VITE_POSTHOG_KEY:-}" ]; then
             echo "::warning title=PostHog key absent::VITE_POSTHOG_KEY is not a GitHub secret, so initPostHog() stays gated off and this build ships with NO product analytics."
           else
-            echo "VITE_POSTHOG_KEY is set; PostHog will initialise."
+            echo "VITE_POSTHOG_KEY is set; PostHog initialises for learners who switch Product analytics on in Settings (consent gate: cookie_consent_v1 === 'accepted'). The key alone does not start it."
           fi
           if [ -z "${VITE_FIREBASE_MEASUREMENT_ID:-}" ]; then
             echo "::warning title=Firebase measurementId absent::VITE_FIREBASE_MEASUREMENT_ID is not a GitHub secret, so getAnalytics() is never constructed and every fbLogEvent is a silent no-op."
           else
-            echo "VITE_FIREBASE_MEASUREMENT_ID is set; Firebase Analytics will initialise."
+            echo "VITE_FIREBASE_MEASUREMENT_ID is set; Firebase Analytics initialises, and safeLog() still emits events only for learners who switch Product analytics on in Settings."
           fi
           if [ -z "${VITE_TURNSTILE_SITEKEY:-}" ]; then
             echo "::warning title=Signup bot gate off::VITE_TURNSTILE_SITEKEY is not a GitHub secret, so the Turnstile widget never renders; with TURNSTILE_SECRET_KEY also unset the server verify returns skipped:true. Signup has NO bot check."

@@ -12,29 +12,64 @@
 import { fbLogEvent } from './firebase';
 import { localDateStr } from './dateUtils';
 
+type PostHogLike = {
+  opt_in_capturing?: () => void;
+  opt_out_capturing?: () => void;
+};
+
+/** The PostHog instance initPostHog() parked on window, if it has loaded. */
+function loadedPostHog(): PostHogLike | undefined {
+  try {
+    return (window as unknown as { __posthog?: PostHogLike }).__posthog;
+  } catch {
+    return undefined;
+  }
+}
+
 /**
  * initPostHog — initialise PostHog product analytics.
- * Called from main.tsx on load (if consent already given) and from
- * CookieConsent when the user clicks "Accept all".
+ * Called from main.tsx on load (if consent was given on a previous visit) and
+ * from acceptAllCookies(), which the Settings consent control calls.
  * Dynamically imports posthog-js so the ~30 KB bundle is never parsed
  * when VITE_POSTHOG_KEY is absent.
  */
 export function initPostHog(): void {
-  if (import.meta.env.VITE_POSTHOG_KEY && import.meta.env.PROD) {
-    import('posthog-js').then(({ default: posthog }) => {
-      posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
-        api_host: 'https://us.i.posthog.com',
-        person_profiles: 'identified_only',
-        capture_pageview: true,
-        capture_pageleave: true,
-        autocapture: false, // manual events only — no accidental PII
-        disable_session_recording: true,
-        persistence: 'localStorage+cookie',
-      });
-      // Make posthog accessible for funnel analytics throughout the app
-      (window as Window & { __posthog?: typeof posthog }).__posthog = posthog;
-    });
+  if (!(import.meta.env.VITE_POSTHOG_KEY && import.meta.env.PROD)) return;
+  // Re-entrant. The Settings consent control can turn analytics back on in the
+  // SAME session after a withdrawal, and calling posthog.init() a second time
+  // on one instance is not the library's intended API — opting back in is.
+  const already = loadedPostHog();
+  if (already) {
+    already.opt_in_capturing?.();
+    return;
   }
+  import('posthog-js').then(({ default: posthog }) => {
+    posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'identified_only',
+      capture_pageview: true,
+      capture_pageleave: true,
+      autocapture: false, // manual events only — no accidental PII
+      disable_session_recording: true,
+      persistence: 'localStorage+cookie',
+    });
+    // Make posthog accessible for funnel analytics throughout the app
+    (window as Window & { __posthog?: typeof posthog }).__posthog = posthog;
+  });
+}
+
+/**
+ * stopPostHog — stop a loaded PostHog from capturing.
+ *
+ * The withdrawal half of the consent control. PrivacyScreen promises consent
+ * can be withdrawn "at any time", so it has to take effect in THIS session:
+ * safeLog() re-reads the key on every event, and this opts the already-loaded
+ * SDK out. It uses the library's own opt-out rather than dropping the
+ * `window.__posthog` reference, so a later opt-in is a one-line reversal
+ * instead of a second init().
+ */
+export function stopPostHog(): void {
+  loadedPostHog()?.opt_out_capturing?.();
 }
 
 export function isAnalyticsConsented(): boolean {
