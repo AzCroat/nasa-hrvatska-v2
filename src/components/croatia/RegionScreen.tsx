@@ -40,12 +40,18 @@ function RegionScreen({ regionKey, goBack }: Props) {
   if (error)
     return (
       <div className="scr-wrap" style={{ padding: 24 }}>
+        <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
+          ← Back
+        </button>
         Couldn&apos;t load — please retry.
       </div>
     );
   if (loading || !content || !r)
     return (
       <div className="scr-wrap" style={{ padding: 24 }}>
+        <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
+          ← Back
+        </button>
         Loading…
       </div>
     );
@@ -83,6 +89,9 @@ function RegionScreen({ regionKey, goBack }: Props) {
 
   return (
     <div className="scr-wrap">
+      <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
+        ← Back
+      </button>
       {/* Header */}
       <div
         style={{

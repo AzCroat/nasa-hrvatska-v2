@@ -309,6 +309,9 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
 
   return (
     <div className="scr-wrap">
+      <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
+        ← Back
+      </button>
       {/* Header */}
       <div
         style={{

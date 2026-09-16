@@ -24,7 +24,6 @@ interface Props {
   durationSecs: number;
   onContinue: () => void;
   onBack: () => void;
-  award?: (xp: number) => void;
 }
 
 function fmtDuration(secs: number): string {
@@ -39,7 +38,6 @@ export default function DebriefScreen({
   durationSecs,
   onContinue,
   onBack,
-  award,
 }: Props) {
   const cardStyle = (borderColor: string): React.CSSProperties => ({
     background: 'var(--card)',
