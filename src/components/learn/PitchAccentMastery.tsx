@@ -13,6 +13,8 @@ import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import CharacterPortrait from '../family/CharacterPortrait';
 import { PITCH_ACCENT_LESSONS } from '../../data/pitchAccentContent.js';
+import PassGateNotice from '../shared/PassGateNotice';
+import { passedLesson } from '../../lib/lessonGate';
 
 // Map accent id → rich lesson data
 const LESSON_BY_ACCENT = {
@@ -430,7 +432,7 @@ export default function PitchAccentMastery({
   award?: (pts: number, celebrate?: boolean, activityType?: string) => void;
 }) {
   const { setStats, writeDelta } = useStats();
-  const [phase, setPhase] = useState('intro'); // intro | lesson | practical | done
+  const [phase, setPhase] = useState('intro'); // intro | lesson | practical | done | gate-failed
   const [accentIdx, setAccentIdx] = useState(0);
   const [lessonPhase, setLessonPhase] = useState('theory'); // theory | examples | pairs | quiz
   const [quizIdx, setQuizIdx] = useState(0);
@@ -439,6 +441,9 @@ export default function PitchAccentMastery({
   const [quizScore, setQuizScore] = useState(0);
   const [_completedAccents, setCompletedAccents] = useState(new Set());
   const awardFired = useRef(false);
+  // Cumulative across all four accent quizzes — `quizScore` resets per accent.
+  const courseCorrect = useRef(0);
+  const courseTotal = useRef(0);
 
   const accent = ACCENTS[accentIdx]!;
 
@@ -451,6 +456,13 @@ export default function PitchAccentMastery({
   }, []);
 
   function nextAccent() {
+    // Accumulate the COURSE score. `quizScore` is per-accent and is reset three
+    // lines below, so before this there was no cumulative measure at all — which
+    // is why `finishCourse` paid a flat 40 XP and wrote the `pitch_accent` path
+    // key regardless of how the four quizzes went. Counted here, at the one
+    // place an accent's quiz is finished (`nextQuiz` is the only caller).
+    courseCorrect.current += quizScore;
+    courseTotal.current += accent.quiz.length;
     setCompletedAccents((prev) => new Set([...prev, accent.id]));
     if (accentIdx < ACCENTS.length - 1) {
       setAccentIdx((i) => i + 1);
@@ -491,6 +503,14 @@ export default function PitchAccentMastery({
   }
 
   function finishCourse() {
+    // Gate credit on the SHARED threshold (owner decision, 2026-09-16), against
+    // the CUMULATIVE course score rather than the last accent's — the four
+    // quizzes are the only thing this course measures, and `quizScore` alone
+    // would judge a whole course on its final section.
+    if (!passedLesson(courseCorrect.current, courseTotal.current)) {
+      setPhase('gate-failed');
+      return;
+    }
     if (!awardFired.current) {
       awardFired.current = true;
       if (typeof award === 'function') award(40, false, 'pronunciation');
@@ -514,6 +534,34 @@ export default function PitchAccentMastery({
     }
     setPhase('done');
   }
+
+  // ── GATE FAILED ────────────────────────────────────────────────────────────
+  // The course quizzes did not reach the shared threshold, so nothing is
+  // recorded. Retry restarts the accents AND the cumulative counters, so a
+  // second run is judged on its own answers rather than on both attempts.
+  if (phase === 'gate-failed')
+    return (
+      <div className="scr-wrap" style={{ paddingTop: 32 }}>
+        <PassGateNotice
+          score={courseCorrect.current}
+          total={courseTotal.current}
+          hint="Re-read the four accent lessons — the minimal pairs are the fastest way in."
+          onRetry={() => {
+            courseCorrect.current = 0;
+            courseTotal.current = 0;
+            setAccentIdx(0);
+            setCompletedAccents(new Set());
+            setLessonPhase('theory');
+            setQuizIdx(0);
+            setQuizSelected(-1);
+            setQuizAnswered(false);
+            setQuizScore(0);
+            setPhase('lesson');
+          }}
+          onLeave={goBack}
+        />
+      </div>
+    );
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (phase === 'intro')

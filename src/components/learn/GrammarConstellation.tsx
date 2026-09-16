@@ -7,6 +7,8 @@ import { ConstellationBackground } from './ConstellationPieces';
 import ConstellationExploreMode from './ConstellationExploreMode';
 import ConstellationQuizMode from './ConstellationQuizMode';
 import ConstellationDoneMode from './ConstellationDoneMode';
+import PassGateNotice from '../shared/PassGateNotice';
+import { passedLesson } from '../../lib/lessonGate';
 
 export default function GrammarConstellation({
   goBack,
@@ -61,6 +63,12 @@ export default function GrammarConstellation({
       const fs = quizScore;
       setFinalScore(fs);
       setMode('done');
+      // Gate credit on the SHARED threshold (owner decision, 2026-09-16). This
+      // wrote vs:['grammarmap'] — the ckRule key for its LEARN_PATH node — plus
+      // gc + 1 and XP with no reference to the score, and `grammarmap` is NOT
+      // dwell-credited, so nothing gated it. On a fail NOTHING is recorded,
+      // which is `completeExercise`'s rule rather than a second definition.
+      if (!passedLesson(fs, shuffledQuiz.length)) return;
       if (!awardCalled.current) {
         awardCalled.current = true;
         if (typeof award === 'function') award(fs * 10, false, 'grammar');
@@ -120,7 +128,17 @@ export default function GrammarConstellation({
           />
         )}
 
-        {mode === 'done' && (
+        {mode === 'done' && !passedLesson(finalScore, shuffledQuiz.length) && (
+          <PassGateNotice
+            score={finalScore}
+            total={shuffledQuiz.length}
+            hint="Review the cases, then take the quiz again."
+            onRetry={startQuiz}
+            onLeave={goBack}
+          />
+        )}
+
+        {mode === 'done' && passedLesson(finalScore, shuffledQuiz.length) && (
           <ConstellationDoneMode
             finalScore={finalScore}
             onReviewCases={() => setMode('explore')}
