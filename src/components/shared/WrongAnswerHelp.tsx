@@ -9,6 +9,14 @@
 //   2. the rule-based contrast — free, offline, instant
 //   3. the AI explanation, behind a button the learner presses
 //
+// A FOURTH THING, and it is not a layer: the way back to the TEACHING. The
+// three layers above all explain the ITEM. A learner who has just got the same
+// structure wrong twice does not want a better gloss of one question, they want
+// the lesson — and until the Learning Center existed there was nowhere to send
+// them. `lessonsTeachingScreen` runs the teach→practice coupling backwards, so
+// the drill names the lesson that taught it; the button is absent when the maps
+// cannot name one, rather than opening a search and hoping.
+//
 // Layer 3 is deliberately NOT automatic. A Claude call on every wrong answer
 // across the practice programme is a per-learner cost on the commonest event in
 // the app, against a $10/month ceiling and a 300-turn daily quota. Pressing
@@ -16,6 +24,8 @@
 
 import React, { useState } from 'react';
 import { contrastAnswers } from '../../lib/answerContrast';
+import { lessonsTeachingScreen, requestLessonLookup } from '../../lib/lessonLookup';
+import { useApp } from '../../context/AppContext';
 import { useExplainError } from '../../hooks/useExplainError';
 import DrillExplainCard from '../practice/DrillExplainCard';
 
@@ -29,6 +39,11 @@ interface Props {
   /** The explain-error `type` tag, e.g. 'case_drill'. */
   type?: string;
   level?: string;
+  /**
+   * The drill's own screen id. Used ONLY to name the lesson that teaches it; a
+   * drill that does not pass one simply gets no "Learn this" link.
+   */
+  screen?: string;
 }
 
 export default function WrongAnswerHelp({
@@ -37,14 +52,24 @@ export default function WrongAnswerHelp({
   context,
   type = 'drill',
   level = 'B1',
+  screen,
 }: Props) {
   const contrast = React.useMemo(() => contrastAnswers(chosen, answer), [chosen, answer]);
   const { explain, request } = useExplainError(type, level);
   const [asked, setAsked] = useState(false);
+  const { setScr } = useApp();
+  const teaching = React.useMemo(() => (screen ? lessonsTeachingScreen(screen) : []), [screen]);
 
   const ask = () => {
     setAsked(true);
     void request(chosen, answer, context);
+  };
+
+  // Hand the lesson(s) to the Learning Center, which owns the launcher. Looking
+  // something up is not credit and never was: this navigates and writes nothing.
+  const learn = () => {
+    requestLessonLookup(teaching);
+    setScr('learning_center');
   };
 
   return (
@@ -102,6 +127,29 @@ export default function WrongAnswerHelp({
         </button>
       )}
       {asked && <DrillExplainCard state={explain} />}
+
+      {teaching.length > 0 && (
+        <div style={{ marginTop: 8 }}>
+          <button
+            data-testid="wrong-answer-learn"
+            data-lessons={teaching.join(',')}
+            onClick={learn}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--subtext)',
+              fontSize: 12,
+              fontWeight: 700,
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              padding: 0,
+            }}
+          >
+            {teaching.length === 1 ? 'Learn this properly' : 'Lessons that teach this'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

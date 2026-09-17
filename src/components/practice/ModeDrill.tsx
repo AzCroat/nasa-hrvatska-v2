@@ -255,6 +255,7 @@ export default function ModeDrill({
             context={cur.q}
             type="drill"
             level={getCurrentContentLevel()}
+            screen={id}
           />
         )}
         {answered && (

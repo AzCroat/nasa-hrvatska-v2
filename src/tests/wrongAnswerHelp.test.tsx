@@ -22,6 +22,21 @@ vi.mock('../lib/aiPost', () => ({ _aiPost: (...a: unknown[]) => aiPost(...a) }))
 
 import { contrastAnswers } from '../lib/answerContrast';
 import WrongAnswerHelp from '../components/shared/WrongAnswerHelp';
+import AppContext from '../context/AppContext';
+
+/**
+ * The panel reads `useApp()` for navigation, because its "learn this" link has
+ * to reach the Learning Center and neither it nor `ModeDrill` is handed a
+ * navigator. In production it is always inside the provider; here it needs one.
+ */
+const setScr = vi.fn();
+function renderPanel(ui: React.ReactElement) {
+  return render(
+    <AppContext.Provider value={{ setScr, currentScreen: 'genitivdrill' } as never}>
+      {ui}
+    </AppContext.Provider>,
+  );
+}
 
 beforeEach(() => {
   aiPost.mockReset();
@@ -78,7 +93,7 @@ describe('the contrast is derived and never invents a difference', () => {
 
 describe('the panel', () => {
   it('shows the contrast with NO AI call', () => {
-    render(<WrongAnswerHelp chosen="gradu" answer="gradom" context="Idem s ____." />);
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="Idem s ____." />);
     expect(screen.getByTestId('answer-contrast')).toBeTruthy();
     expect(screen.getByTestId('contrast-chosen').textContent).toContain('gradu');
     expect(screen.getByTestId('contrast-answer').textContent).toContain('gradom');
@@ -86,7 +101,7 @@ describe('the panel', () => {
   });
 
   it('the AI explanation fires ONLY when the learner asks for it', async () => {
-    render(<WrongAnswerHelp chosen="gradu" answer="gradom" context="Idem s ____." />);
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="Idem s ____." />);
     expect(aiPost).not.toHaveBeenCalled();
     fireEvent.click(screen.getByTestId('wrong-answer-why'));
     await waitFor(() => expect(aiPost).toHaveBeenCalledTimes(1));
@@ -98,21 +113,21 @@ describe('the panel', () => {
   });
 
   it('the button is spent once — one wrong answer cannot be re-charged by tapping', () => {
-    render(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
     fireEvent.click(screen.getByTestId('wrong-answer-why'));
     expect(screen.queryByTestId('wrong-answer-why')).toBeNull();
   });
 
   it('an AI failure leaves the free contrast standing', async () => {
     aiPost.mockRejectedValue(new Error('offline'));
-    render(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
     fireEvent.click(screen.getByTestId('wrong-answer-why'));
     await waitFor(() => expect(aiPost).toHaveBeenCalled());
     expect(screen.getByTestId('answer-contrast')).toBeTruthy();
   });
 
   it('a pair the rules cannot read still offers the AI route', () => {
-    render(<WrongAnswerHelp chosen="zove se Ivan" answer="se zove Ivan" context="c" />);
+    renderPanel(<WrongAnswerHelp chosen="zove se Ivan" answer="se zove Ivan" context="c" />);
     expect(screen.queryByTestId('answer-contrast')).toBeNull();
     expect(screen.getByTestId('wrong-answer-why')).toBeTruthy();
   });

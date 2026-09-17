@@ -18,10 +18,19 @@
 // same two maps the session's teach→practice coupling uses, so a concept the
 // card says is one tap from practice genuinely is. A concept with no honest
 // drill gets no button rather than a wrong one.
+//
+// THE SECOND ACTION, added when the Learning Center made it possible: re-read
+// the lesson. A row that says "Slipping" was offering practice and nothing
+// else, which answers "drill it again" but not "remind me how this works" —
+// and for a concept that is slipping the second question is usually the real
+// one. Every row here IS a lesson, so no derivation is needed: it hands the id
+// to the Center, which owns the launcher. Reading is not credit; this writes
+// nothing, exactly as the Practise button awards nothing by existing.
 
 import React, { useMemo, useState } from 'react';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import { buildConceptMap, conceptSummaryLine, type ConceptEntry } from '../../lib/conceptMap';
+import { requestLessonLookup } from '../../lib/lessonLookup';
 import type { CurriculumEntry } from '../../lib/curriculum';
 
 /** How many weaknesses to list before the "show all" toggle. A wall of 40 rows
@@ -210,6 +219,18 @@ function ConceptRow({ entry, setScr }: { entry: ConceptEntry; setScr: (s: string
       >
         {style.label}
       </span>
+      <button
+        className="b"
+        data-testid="concept-learn"
+        data-lesson={entry.lessonId}
+        onClick={() => {
+          requestLessonLookup([entry.lessonId]);
+          setScr('learning_center');
+        }}
+        style={{ padding: '6px 10px', fontSize: 12, whiteSpace: 'nowrap' }}
+      >
+        Re-read
+      </button>
       {entry.practiceScreen && (
         <button
           className="b bp"
