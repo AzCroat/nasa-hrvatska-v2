@@ -86,6 +86,19 @@ function deriveBanks(): Bank[] {
 const SELECTS = /\bsh\(|\bshLocal\(|\.slice\(|\brnd\(\)|Math\.random\(\)/;
 /** Reaching the shared rule, directly or through a screen's named wrapper. */
 const LEVELLED = /levelledBank|_levelled|unitsForLevel|ForLevel\(/;
+/**
+ * Helpers that take a WHOLE bank and do the levelling and the picking inside.
+ *
+ * `GradTab` used to read `sh(levelledBank(LISTEN, …)).slice(0, 8)` inline. When
+ * the Learning Center needed to open the same screen correctly, that expression
+ * moved into `lib/practiceLaunch.listeningItems` so the two callers could share
+ * one definition — and the call site stopped containing a shuffle or a slice,
+ * so this derivation stopped seeing it at all. A bank passed to such a helper is
+ * still a selecting use; it is just a compliant one. Counting it here keeps the
+ * call site in scope, and the assertion further down pins the helper itself, so
+ * the indirection cannot become a place where levelling quietly stops.
+ */
+const LEVELLING_HELPER = /\blisteningItems\(/;
 
 interface Use {
   bank: string;
@@ -112,12 +125,12 @@ function deriveSelectingUses(banks: Bank[]): Use[] {
         const before = src.slice(Math.max(0, m.index - 40), m.index);
         if (/const +$|const +[A-Z_0-9]* *(?::[^=]*)?= *$/.test(before)) continue; // the declaration
         const w = src.slice(Math.max(0, m.index - 180), m.index + 180);
-        if (!SELECTS.test(w)) continue;
+        if (!SELECTS.test(w) && !LEVELLING_HELPER.test(w)) continue;
         uses.push({
           bank: b.bank,
           file: rel,
           line: src.slice(0, m.index).split('\n').length,
-          levelled: LEVELLED.test(w),
+          levelled: LEVELLED.test(w) || LEVELLING_HELPER.test(w),
         });
       }
     }
@@ -181,6 +194,22 @@ describe('the levelled banks are derived, not listed', () => {
     // file, and this file held the third, then-unfixed LISTEN launch site.
     const grad = uses.filter((u) => u.bank === 'LISTEN' && u.file.includes('GradTab'));
     expect(grad.length).toBeGreaterThan(0);
+    expect(grad.every((u) => u.levelled)).toBe(true);
+  });
+
+  it('pins the levelling helper itself, so the indirection cannot go hollow', () => {
+    // Counting `listeningItems(BANK, …)` as compliant is only honest while that
+    // helper really levels. Without this, emptying its body would satisfy every
+    // assertion above — the call site would still read as compliant and the
+    // bank would be served unfiltered.
+    const helper = FILES.find(([rel]) => rel.endsWith('lib/practiceLaunch.ts'));
+    expect(helper, 'practiceLaunch.ts not found').toBeTruthy();
+    const body = helper![1];
+    const fn = body.slice(body.indexOf('export function listeningItems'));
+    expect(fn).toContain('levelledBank(');
+    // and the filter must precede the slice, or it shortens the round instead
+    // of aiming it — the rule the 2026-09-07 sweep established.
+    expect(fn.indexOf('levelledBank(')).toBeLessThan(fn.indexOf('.slice('));
   });
 });
 
