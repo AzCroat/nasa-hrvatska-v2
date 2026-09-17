@@ -122,3 +122,42 @@ describe('the transport', () => {
     expect(src).toMatch(/setTimeout\(\(\) => controller\.abort\(\), AI_POST_TIMEOUT_MS\)/);
   });
 });
+
+// THE WIDEST FEEDBACK SURFACE IN THE APP WAS NOT IN THIS CENSUS.
+//
+// The 2026-09-07 sweep covered the writing evaluator, the speaking coach, the
+// exam scorer, the graded reader and the live tutor. It did not cover
+// `useExplainError` — the wrong-answer explainer — which since rec #7 is
+// mounted under all 109 engine-backed drills through `ModeDrill`. It failed
+// exactly the way this file exists to abolish: `catch { setExplain(null) }`
+// under a header claiming failures "resolve to a quiet fallback line", with no
+// such line anywhere. Found by the owner, not by this suite (2026-09-17,
+// Objektne zamjenice).
+describe('the drill wrong-answer explainer', () => {
+  it('classifies and reports instead of setting a bare null', () => {
+    const src = read('hooks/useExplainError.ts');
+    expect(src).toMatch(/failureFromResponse\(res\)/);
+    expect(src).toMatch(/failureFromError\(e\)/);
+    expect(src).toMatch(/reportAiFailure\('drill-explain-error'/);
+    // The original defect, by its exact shape: a catch that swallows the cause.
+    const code = src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    expect(code).not.toMatch(/catch\s*\{\s*if\s*\([^)]*\)\s*setExplain\(null\)/);
+  });
+
+  it('renders the failure rather than nothing', () => {
+    const src = read('components/practice/DrillExplainCard.tsx');
+    expect(src).toMatch(/isExplainFailed\(state\)/);
+    expect(src).toMatch(/drill-explain-failed/);
+    // The classifier's sentence, not a hand-written one that would drift.
+    expect(src).toMatch(/\{f\.message\}/);
+    // And a retry only where a retry can help.
+    expect(src).toMatch(/f\.retryable/);
+  });
+
+  it('is wired to a retry by its one mount site', () => {
+    // A retry the panel never passes is a dead branch — the AlphabetScreen
+    // `award` shape. Checked at the mount, not in the card's own test.
+    const src = read('components/shared/WrongAnswerHelp.tsx');
+    expect(src).toMatch(/<DrillExplainCard state=\{explain\} onRetry=\{ask\} \/>/);
+  });
+});

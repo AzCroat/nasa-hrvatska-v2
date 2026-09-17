@@ -7,12 +7,35 @@
 // drill into it: call request() in the wrong-answer branch, render
 // <DrillExplainCard state={...} /> under the feedback panel.
 //
-// Fail-soft: quota/network/auth failures resolve to a quiet fallback line —
-// an explanation is enrichment, never a blocker.
+// FAIL-SOFT IS NOT FAIL-SILENT, and for a long time this said one and did the
+// other (owner report, 2026-09-17, on the Objektne zamjenice drill: "Didn't
+// load explanation of answer I got incorrect when selected").
+//
+// The header used to claim failures "resolve to a quiet fallback line". There
+// was no line. The catch set `null`, `DrillExplainCard` returns null on null,
+// and `WrongAnswerHelp` had already hidden the button (spent once) — so the
+// learner pressed "Explain this one to me", the control vanished, and nothing
+// ever arrived. That is the feedback directive's NEVER twice over: a bare null
+// from a feedback path with no named cause, and nothing rendered on failure.
+//
+// `lib/aiFailure` is the classifier the 2026-09-07 census built for exactly
+// this and wired into the speaking coach, the exam scorer, the graded reader
+// and the rest. It never reached the DRILL explainer, which since rec #7 sits
+// under all 109 engine-backed drills — the widest feedback surface in the app.
+//
+// An explanation is still enrichment and never a blocker: the static tip and
+// the free contrast stay put, and the failure is a card beside them, not
+// instead of them.
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { _aiPost } from '../lib/aiPost';
 import { coerceAiText } from '../lib/aiText';
+import {
+  failureFromError,
+  failureFromResponse,
+  reportAiFailure,
+  type AiFailure,
+} from '../lib/aiFailure';
 
 export interface ExplainErrorResult {
   explanation: string;
@@ -21,7 +44,16 @@ export interface ExplainErrorResult {
   example: string;
 }
 
-export type ExplainState = ExplainErrorResult | 'loading' | null;
+/** A failure the learner is told about, rather than silence. */
+export interface ExplainFailed {
+  failed: AiFailure;
+}
+
+export type ExplainState = ExplainErrorResult | 'loading' | ExplainFailed | null;
+
+export function isExplainFailed(s: ExplainState): s is ExplainFailed {
+  return !!s && typeof s === 'object' && 'failed' in s;
+}
 
 export function useExplainError(type: string, level: string) {
   const [explain, setExplain] = useState<ExplainState>(null);
@@ -48,7 +80,14 @@ export function useExplainError(type: string, level: string) {
           level: level || 'B1',
         });
         if (!mountedRef.current) return;
-        if (!res.ok) throw new Error('API error');
+        if (!res || !res.ok) {
+          // Classified from the RESPONSE, so a daily-quota refusal and a paused
+          // budget read as themselves rather than as one "unavailable".
+          const failure = await failureFromResponse(res);
+          reportAiFailure('drill-explain-error', failure);
+          if (mountedRef.current) setExplain({ failed: failure });
+          return;
+        }
         const raw = (await res.json()) as Record<string, unknown>;
         // Coerce EVERY field before it reaches JSX. The ExplainErrorResult type
         // declares four strings, but that is a compile-time claim about data
@@ -64,8 +103,11 @@ export function useExplainError(type: string, level: string) {
           example: coerceAiText(raw.example),
         };
         if (mountedRef.current) setExplain(data);
-      } catch {
-        if (mountedRef.current) setExplain(null); // quiet — the static tip remains
+      } catch (e) {
+        if (!mountedRef.current) return;
+        const failure = failureFromError(e);
+        reportAiFailure('drill-explain-error', failure);
+        setExplain({ failed: failure });
       }
     },
     [type, level],
