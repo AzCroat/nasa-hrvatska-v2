@@ -93,10 +93,36 @@ export async function ttsFetch(
   dbgError(`[TTS] fetch HTTP ${r?.status ?? 'N/A'} backends=${backends} — ${rb.slice(0, 200)}`);
   const failure: TtsFailure = r
     ? _classifyHttpFailure(r.status, rb, backends)
-    : { cause: 'network', backends };
+    : { cause: _timedOut(signal) ? 'timeout' : 'network', backends };
   _noteFailure(failure);
   _reportTtsFailure(failure, typeof body.text === 'string' ? body.text.length : 0);
   return r;
+}
+
+/**
+ * A TIMEOUT IS NOT A DROPPED CONNECTION, and until this existed they were the
+ * same word (Sentry `tts_failed:network`, 2026-09-17, /ai_listening).
+ *
+ * Both arrive here as a null Response, because `_nativePost` returns null when
+ * no endpoint answered — and a fetch aborted by `AbortSignal.timeout()` never
+ * produced a response either. So the one event we had could not say whether
+ * the synthesis ran out of time or the learner's connection died, which are
+ * different problems with different fixes. That is defect 2 of the audio
+ * directive in a new place: a distinct condition collapsed into a vaguer one.
+ *
+ * The SIGNAL still knows. `AbortSignal.timeout()` aborts with a DOMException
+ * named `TimeoutError`; a manual `controller.abort()` uses `AbortError`
+ * (verified, not assumed — the two names are what separate the cases). So the
+ * caller that supplied the signal asks it, rather than `_nativePost` growing a
+ * second return channel that every one of its callers would have to learn.
+ */
+function _timedOut(signal: AbortSignal | undefined): boolean {
+  // No `signal.aborted` check: `reason` is undefined until a signal aborts
+  // (verified), so testing it first guards nothing — and a line that reads
+  // like a guard while changing no outcome is the thing this file keeps
+  // finding. Mutation-checked: removing that test changed no result, which is
+  // how it was identified as redundant rather than load-bearing.
+  return (signal?.reason as { name?: string } | undefined)?.name === 'TimeoutError';
 }
 
 // ── TTS failure record (2026-09-06) ────────────────────────────────────────
@@ -112,6 +138,7 @@ export type TtsFailureCause =
   | 'superseded'
   | 'client_rate_limited'
   | 'network'
+  | 'timeout'
   | 'unauthenticated'
   | 'forbidden'
   | 'rate_limited'
@@ -210,6 +237,11 @@ export function describeTtsFailure(f: TtsFailure | null): string {
       return 'Your sign-in needs refreshing before audio can play — reload the page and try again.';
     case 'network':
       return "The audio couldn't be downloaded — check your connection and try again.";
+    case 'timeout':
+      // Deliberately NOT the network sentence: nothing is wrong with their
+      // connection, the recording took too long to make. Telling them to check
+      // it would send them to fix something that is not broken.
+      return 'The recording took too long to prepare — try again in a moment.';
     case 'provider_unavailable':
     case 'server_error':
       return 'The voice service is temporarily unavailable — try again in a minute.';
@@ -505,7 +537,9 @@ export async function speakAzure(
         const rb = r ? await r.text().catch(() => '') : 'no response (all endpoints failed)';
         dbgError(`[TTS] HTTP ${r?.status ?? 'N/A'} backends=${backends} — ${rb.slice(0, 200)}`);
         return _noteFailure(
-          r ? _classifyHttpFailure(r.status, rb, backends) : { cause: 'network', backends },
+          r
+            ? _classifyHttpFailure(r.status, rb, backends)
+            : { cause: _timedOut(abortSignal) ? 'timeout' : 'network', backends },
         );
       }
       const backends = r.headers.get('x-tts-backends') || 'unknown';
