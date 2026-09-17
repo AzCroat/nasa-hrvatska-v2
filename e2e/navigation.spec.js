@@ -47,7 +47,9 @@ test.describe('Tab navigation', () => {
     // 20s allows for lazy-chunk load on Firefox/WebKit in parallel CI.
     await page.waitForURL('/learn', { timeout: 20_000 });
     // Tab content visible confirms React rendered the tab
-    await expect(page.getByText('Your Path')).toBeVisible({ timeout: 10_000 });
+    // Readiness anchor: the retired Learn path widget's 'Your Path' header is
+    // gone; this testid is the surface's own stable handle.
+    await expect(page.getByTestId('open-learning-center')).toBeVisible({ timeout: 10_000 });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
   });

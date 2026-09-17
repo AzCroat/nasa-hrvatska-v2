@@ -130,6 +130,25 @@ describe('the unpooled-screen catalogue stays true', () => {
     expect(strip(asm)).toMatch(/\.\.\.UNPOOLED_SCREENS\.map\(/);
   });
 
+  it('the Learn tab keeps its own door to the full path', () => {
+    // CI-FOUND, and the sharpest illustration of the limit stated in the file
+    // header. Retiring LearnPathWidget deleted the app's ONLY
+    // `setScr('learnpath')` inside the Learn TAB — the screen's other doors are
+    // a Home quest tile, a flashcard result screen, HeritageMode and
+    // Me → Profile, so no reachability check fired. `screenTabs.ts` says
+    // `learnpath: 'learn'`: the tab that OWNS the screen had stopped offering
+    // it, and six E2E specs found that out before any unit test did.
+    //
+    // Pinned to LearnTab by name rather than to `src/components/learn/`,
+    // because HeritageModeScreen lives in that directory and already carries a
+    // `setScr('learnpath')` — a directory-wide check would have passed
+    // throughout the regression it is written to catch.
+    const tabs = strip(readFileSync('src/lib/screenTabs.ts', 'utf8'));
+    expect(tabs).toMatch(/learnpath:\s*'learn'/);
+    const doors = (nav.get('learnpath') ?? []).filter((f) => f.endsWith('LearnTab.tsx'));
+    expect(doors, 'LearnTab offers no way to open the full path').not.toEqual([]);
+  });
+
   it('the retired modal is really gone, so nothing re-adds a second door', () => {
     // If it came back, this catalogue's entries would have two doors and the
     // staleness check above would start failing for the wrong reason.

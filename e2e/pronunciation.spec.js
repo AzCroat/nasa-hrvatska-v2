@@ -1027,8 +1027,12 @@ test.describe('LearnPath sequential flow', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
   });
 
-  test('My Path section is visible', async ({ page }) => {
-    await expect(page.getByText('Your Path')).toBeVisible({ timeout: 10_000 });
+  // The Learn path WIDGET was retired; the `learnpath` SCREEN it linked to is
+  // what this block has always been about, so these tests now open the screen
+  // through the link that survived the widget rather than asserting its header.
+  test('the full path opens from the Learn tab', async ({ page }) => {
+    await page.getByTestId('open-learn-path').click();
+    await expect(page.getByText(/level\s+\d+/i).first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('path items render without crashing', async ({ page }) => {
@@ -1062,7 +1066,8 @@ test.describe('LearnPath sequential flow', () => {
     });
     await page.reload();
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText('Your Path')).toBeVisible({ timeout: 10_000 });
+    await page.getByTestId('open-learn-path').click();
+    await expect(page.getByText(/level\s+\d+/i).first()).toBeVisible({ timeout: 10_000 });
 
     // Listening item should NOT be locked
     const lockedListening = page.getByText(/Listening.*locked|locked.*Listening/i);

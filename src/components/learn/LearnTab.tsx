@@ -390,6 +390,33 @@ export default function LearnTab({
         </button>
       )}
 
+      {/* ── THE FULL PATH ────────────────────────────────────────────────
+          The one door LearnPathWidget owned. Retiring the widget retired the
+          list it rendered, not the `learnpath` SCREEN — which still holds the
+          stage map, the lock rules and the Level Quiz CTA, and whose home tab
+          is this one (`screenTabs.ts` says `learnpath: 'learn'`). Its other
+          doors are a quest tile on Home and Me → Profile → Learning Path; a
+          learner looking for their path looks HERE, so the link stays.
+          Ungated on `nextItem`: someone who has finished every item still has
+          a path to look at. */}
+      <button
+        onClick={() => setScr('learnpath')}
+        data-testid="open-learn-path"
+        className="b"
+        style={{
+          width: '100%',
+          marginBottom: 16,
+          fontSize: 12,
+          fontWeight: 800,
+          padding: '10px 12px',
+          border: '1.5px solid var(--card-b)',
+          background: 'transparent',
+          color: 'var(--subtext)',
+        }}
+      >
+        View full path — {totalDone}/{totalItems} lessons
+      </button>
+
       {pendingLesson && (
         <div
           style={{
