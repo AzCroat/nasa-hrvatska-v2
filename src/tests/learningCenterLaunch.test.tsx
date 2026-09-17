@@ -134,6 +134,11 @@ let poolRows: unknown[] = VOCAB;
 vi.mock('../lib/vocabPool', () => ({
   acquisitionPool: () => poolRows,
   vocabLevel: () => 'A1',
+  // The index assembles vocabulary rows too, since the Center took over the
+  // retired browse modal's category browsing. Empty here: this file is about
+  // the SCREEN launch path, and real categories would add rows its searches
+  // would then have to step around.
+  vocabCategories: () => [],
 }));
 
 const LearningCenter = (await import('../components/learn/LearningCenter')).default;
@@ -145,6 +150,7 @@ function renderCenter() {
       goBack: vi.fn(),
       launchAnimLesson: vi.fn(),
       onOpenScreen,
+      onOpenVocab: vi.fn(),
       sh: <T,>(a: T[]) => a,
     }),
   );

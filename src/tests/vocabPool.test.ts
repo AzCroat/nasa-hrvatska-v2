@@ -266,10 +266,10 @@ describe('the wiring — the derivation is what production reads', () => {
     ['src/components/practice/ReviewScreen.tsx', /vocabPool\(content, level/],
     ['src/components/home/HomeTab.tsx', /vocabPoolWords\(content, vocabLvl\)/],
     ['src/components/grad/GradTab.tsx', /acquisitionPool\(content, vocabLevel\(/],
-    [
-      'src/components/learn/BrowseContentModal.tsx',
-      /vocabCategories\(coreContent, vocabLevel\(stats\)\)/,
-    ],
+    // BrowseContentModal was here until it was retired; the Learning Center's
+    // assembler took over its vocabulary browsing and derives the categories
+    // the same way, which is the property this row exists to hold.
+    ['src/hooks/useLearningIndex.ts', /vocabCategories\(content as never, vocabLevel\(/],
     ['src/hooks/useScreenLauncher.ts', /acquisitionPool\(src, vocabLevel\(\)/],
   ])('%s builds its deck from lib/vocabPool', (file, call) => {
     const src = read(file);

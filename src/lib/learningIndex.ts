@@ -54,7 +54,7 @@
  * HOW to open it — a `reference` row opens as a `screen`, a `concept` row opens
  * on the reference desk. Different questions, deliberately separate fields.
  */
-export type LearningEntryKind = 'lesson' | 'drill' | 'reference' | 'concept' | 'tool';
+export type LearningEntryKind = 'lesson' | 'drill' | 'reference' | 'concept' | 'tool' | 'vocab';
 
 /**
  * How to open a row. Both arms are wired in the app today — that is the whole
@@ -64,7 +64,13 @@ export type LearningEntryKind = 'lesson' | 'drill' | 'reference' | 'concept' | '
 export type LearningTarget =
   | { kind: 'lesson'; lessonId: string }
   | { kind: 'screen'; screen: string }
-  | { kind: 'reference'; refId: string };
+  | { kind: 'reference'; refId: string }
+  // A named vocabulary category. The ONLY door to a chosen category used to be
+  // BrowseContentModal's tiles: the app's other vocab launcher picks a topic at
+  // RANDOM, so retiring that modal without this would have removed the ability
+  // to study a specific topic at all — a quieter loss than an unreachable
+  // screen, and one a screen-level diff does not show.
+  | { kind: 'vocab'; topic: string };
 
 export interface LearningEntry {
   /** Unique across the index. `${target kind}:${id}`. */
@@ -131,6 +137,16 @@ export interface LearningIndexSources {
   lessons?: readonly LessonSource[];
   screens?: readonly ScreenSource[];
   references?: readonly ReferenceSource[];
+  /** Vocabulary categories the learner's level unlocks, in pool order. */
+  vocab?: readonly VocabSource[];
+}
+
+/** A vocabulary category, as `vocabCategories` yields it. */
+export interface VocabSource {
+  /** The V key, e.g. `food`. Also what `launchVocab` takes. */
+  topic: string;
+  /** How many words it holds, when known — shown as the subtitle. */
+  count?: number;
 }
 
 /**
@@ -230,6 +246,11 @@ function words(s: string): string {
   return s.replace(/[-_]+/g, ' ');
 }
 
+/** `food-drink` → `Food Drink`. Vocabulary keys carry no authored label. */
+function titleCase(s: string): string {
+  return s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
+}
+
 function makeText(parts: ReadonlyArray<string | undefined>): string {
   return foldCroatian(parts.filter(Boolean).join(' ')).replace(/\s+/g, ' ').trim();
 }
@@ -309,6 +330,24 @@ export function buildLearningIndex(sources: LearningIndexSources): LearningEntry
     entries.push(entry);
   }
 
+  // Vocabulary categories. Appended last so a search for a word-list topic
+  // still puts a LESSON about it first — the row answers "let me study these
+  // words", not "teach me this".
+  for (const v of sources.vocab ?? []) {
+    if (!v || !v.topic) continue;
+    const title = titleCase(words(v.topic));
+    entries.push({
+      key: `vocab:${v.topic}`,
+      kind: 'vocab',
+      title,
+      subtitle: v.count ? `${v.count} words` : 'Vocabulary',
+      icon: '🗂️',
+      keywords: [words(v.topic), 'vocabulary'],
+      target: { kind: 'vocab', topic: v.topic },
+      text: makeText([title, words(v.topic), 'vocabulary', 'words', 'vocab']),
+    });
+  }
+
   return entries;
 }
 
@@ -330,8 +369,9 @@ const KIND_RANK: Record<LearningEntryKind, number> = {
   concept: 0,
   lesson: 1,
   tool: 2,
-  drill: 3,
-  reference: 4,
+  vocab: 3,
+  drill: 4,
+  reference: 5,
 };
 
 /** Expand a folded term with its thesaurus group, so "padezi" also searches "case". */

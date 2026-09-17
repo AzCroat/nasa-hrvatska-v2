@@ -650,17 +650,10 @@ export default function HomeTab({
       <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} />
 
       {/* ── BROWSE THE FULL LIBRARY — off-ramp so Today isn't a one-item conveyor
-          with no path to the wider content. Opens the Learn tab's full content
-          browser via a one-shot flag consumed by LearnTab on mount. ── */}
+          with no path to the wider content. Opens the Learning Center, which
+          replaced the Learn tab's hardcoded browse modal. ── */}
       <button
-        onClick={() => {
-          try {
-            sessionStorage.setItem('nh_open_browse', '1');
-          } catch {
-            /* sessionStorage unavailable — Learn tab still shows the Browse button */
-          }
-          setTab('learn');
-        }}
+        onClick={() => setScr('learning_center')}
         aria-label="Browse the full library of lessons, practice, and reference"
         style={{
           width: '100%',

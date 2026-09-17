@@ -76,19 +76,21 @@ export function useNextStepEngine(): NextStepEngine {
   }, [st, poolWords]);
 
   const setScr = ctx?.setScr;
-  const setTab = ctx?.setTab;
   const launchSessionActivity = ctx?.launchSessionActivity;
 
   const launch = useCallback(
     (s: NextStep) => {
       try {
         if (s.kind === 'browse') {
-          try {
-            sessionStorage.setItem('nh_open_browse', '1');
-          } catch {
-            /* one-shot handoff only */
-          }
-          setTab?.('learn');
+          // The Learning Center IS the browse surface now. This used to set a
+          // one-shot flag that opened `BrowseContentModal` on the Learn tab;
+          // that modal is retired, and the Center covers everything it reached
+          // (see lib/unpooledScreens for the seven screens that needed
+          // rehoming first). Navigating directly also drops a whole class of
+          // failure: a sessionStorage write that throws used to strand this
+          // rung on the Learn tab with nothing opened, and this rung is the
+          // FLOOR of getNextStep — it must never be the one that does nothing.
+          setScr?.('learning_center');
           return;
         }
         if (s.kind === 'verification') {
@@ -126,7 +128,7 @@ export function useNextStepEngine(): NextStepEngine {
         /* navigation failed — the user still has the normal UI */
       }
     },
-    [setScr, setTab, launchSessionActivity],
+    [setScr, launchSessionActivity],
   );
 
   return {

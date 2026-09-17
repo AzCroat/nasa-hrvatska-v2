@@ -110,11 +110,14 @@ test.describe('Accessibility — WCAG 2.1 AA (authenticated routes)', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // Wait for lazy-loaded content (learning path) before axe scan
-    await page.waitForFunction(
-      () => document.body.textContent?.includes('Your Path'),
-      { timeout: 20_000 },
-    ).catch(() => {});
+    // Wait for lazy-loaded content before the axe scan. This used to wait for
+    // "Your Path", the header above the Learn-path widget; that widget and its
+    // header were retired with the browse modal, so the wait now anchors on the
+    // Learning Center door — which is the Learn tab's first interactive element
+    // and is present whenever the tab has rendered.
+    await page
+      .waitForSelector('[data-testid="open-learning-center"]', { timeout: 20_000 })
+      .catch(() => {});
     await waitForSettle(page);
 
     const violations = await runAxe(page, 'Learn /learn');
