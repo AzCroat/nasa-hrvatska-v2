@@ -23,7 +23,7 @@ const GRAMMAR_TOPICS = [
       {
         name: 'Dative (Dativ)',
         desc: 'Indirect object — to whom / for whom. Prepositions: prema, k/ka.',
-        example: 'Dajem knjgu prijatelju. — I give the book to a friend.',
+        example: 'Dajem knjigu prijatelju. — I give the book to a friend.',
         tip: 'Clitics: mi, ti, mu, joj, nam, vam, im.',
       },
       {
@@ -72,9 +72,9 @@ const GRAMMAR_TOPICS = [
       },
       {
         name: 'Future I (Futur I)',
-        desc: 'Future actions. Formed with ću/ćeš/će... + infinitive (or shortened form).',
-        example: 'Govorit ću. / Govoriću. — I will speak.',
-        tip: "Short form: govorit ću. In speech often merged: Govorit'ću.",
+        desc: 'Future actions. Formed with ću/ćeš/će... + the infinitive.',
+        example: 'Govorit ću. — I will speak. / Ja ću govoriti. — I will speak.',
+        tip: 'Croatian writes this as TWO words. Infinitive first drops its final -i (govoriti → govorit ću); auxiliary first keeps it whole (ja ću govoriti).',
       },
       {
         name: 'Conditional (Kondicional)',
