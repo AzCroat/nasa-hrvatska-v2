@@ -20,6 +20,7 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
+import { SCREEN_TAB, RESTORE_SAFE_SCREENS } from '../lib/screenTabs';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import React from 'react';
 
@@ -193,12 +194,17 @@ describe('the Center is reachable in the real app', () => {
     expect(learnTab).toContain("setScr('learning_center')");
   });
 
-  it('is registered in BOTH screen→tab maps and BOTH restore-safe sets', () => {
-    // App.tsx carries two of each, and a comment beside one records that they
-    // once disagreed and flipped the highlighted tab depending on entry path.
-    const app = readFileSync('src/App.tsx', 'utf8');
-    expect([...app.matchAll(/learning_center: 'learn'/g)]).toHaveLength(2);
-    expect([...app.matchAll(/'learning_center',/g)]).toHaveLength(2);
+  it('is registered as restore-safe and filed under the Learn tab', () => {
+    // This used to assert `learning_center` appeared TWICE in App.tsx — it was
+    // enforcing the DUPLICATION rather than the fact. App.tsx carried two
+    // screen→tab maps and two restore-safe sets, and a comment beside one
+    // recorded that they had already drifted once. They are one definition each
+    // in lib/screenTabs now, so the count is one and the INVARIANT is what gets
+    // checked instead. `screenTabs.test.ts` guards the general rule that every
+    // restore-safe screen has a tab.
+    expect(RESTORE_SAFE_SCREENS.has('learning_center')).toBe(true);
+    expect(SCREEN_TAB['learning_center']).toBe('learn');
+    expect(readFileSync('src/App.tsx', 'utf8')).toContain("from './lib/screenTabs'");
   });
 });
 
