@@ -126,7 +126,7 @@ export default function WrongAnswerHelp({
           Explain this one to me
         </button>
       )}
-      {asked && <DrillExplainCard state={explain} />}
+      {asked && <DrillExplainCard state={explain} onRetry={ask} />}
 
       {teaching.length > 0 && (
         <div style={{ marginTop: 8 }}>

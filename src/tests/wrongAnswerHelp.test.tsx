@@ -163,3 +163,77 @@ describe('ModeDrill is where it is mounted — all 109 engine drills at once', (
     expect(wrappers.length).toBeGreaterThan(100);
   });
 });
+
+// ───────────────────────────────────────────────────────────────────────────
+// A FEEDBACK FAILURE MUST SAY SOMETHING (owner report, 2026-09-17)
+// ───────────────────────────────────────────────────────────────────────────
+//
+// "Objektne zamjenice — Didn't load explanation of answer I got incorrect when
+// selected." The hook set `null` on every failure, DrillExplainCard returned
+// null for null, and the button had already been spent — so pressing "Explain
+// this one to me" removed the control and produced nothing, forever.
+//
+// The feedback directive forbids both halves of that: no bare null from a
+// feedback path without a named cause, and never render nothing on a failure.
+// `lib/aiFailure` is the classifier built for it; it had reached the speaking
+// coach, exam scorer and graded reader but never the DRILL explainer, which
+// sits under all 109 engine-backed drills.
+describe('a failed explanation says what happened', () => {
+  it('names the cause instead of rendering nothing', async () => {
+    aiPost.mockResolvedValue(
+      new Response(JSON.stringify({ error: 'monthly_budget_exhausted' }), { status: 503 }),
+    );
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    fireEvent.click(screen.getByTestId('wrong-answer-why'));
+    const card = await screen.findByTestId('drill-explain-failed');
+    expect(card.textContent?.trim().length).toBeGreaterThan(10);
+    // Not the silence the owner met.
+    expect(screen.queryByTestId('drill-explain-card')).toBeNull();
+  });
+
+  it('offers a retry for a failure a retry can clear', async () => {
+    aiPost.mockResolvedValue(new Response('boom', { status: 500 }));
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    fireEvent.click(screen.getByTestId('wrong-answer-why'));
+    await screen.findByTestId('drill-explain-failed');
+    const retry = screen.getByTestId('drill-explain-retry');
+
+    // And the retry genuinely re-requests — a button that renders and does
+    // nothing would be the same defect wearing a different face.
+    aiPost.mockResolvedValue(
+      new Response(
+        JSON.stringify({ explanation: 'Because the verb takes the genitive.', rule: 'Genitive' }),
+        { status: 200, headers: { 'content-type': 'application/json' } },
+      ),
+    );
+    fireEvent.click(retry);
+    await screen.findByTestId('drill-explain-card');
+  });
+
+  it('does NOT offer a retry for the learner’s own daily limit', async () => {
+    // Retrying cannot clear it, so offering the button would be a lie about
+    // what pressing it does.
+    //
+    // The CODE is the real one (`daily_quota_exceeded`) read out of
+    // `classifyAiLimit`, not one invented here. The first draft used
+    // `daily_limit`, which that function does not know, so it fell through to
+    // the 429 default of `burst` — retryable, and rightly so. A test written
+    // from memory pins the memory.
+    aiPost.mockResolvedValue(
+      new Response(JSON.stringify({ error: 'daily_quota_exceeded' }), { status: 429 }),
+    );
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    fireEvent.click(screen.getByTestId('wrong-answer-why'));
+    await screen.findByTestId('drill-explain-failed');
+    expect(screen.queryByTestId('drill-explain-retry')).toBeNull();
+  });
+
+  it('leaves the free layers standing — an explanation is enrichment', async () => {
+    aiPost.mockRejectedValue(new TypeError('Failed to fetch'));
+    renderPanel(<WrongAnswerHelp chosen="gradu" answer="gradom" context="c" />);
+    fireEvent.click(screen.getByTestId('wrong-answer-why'));
+    await screen.findByTestId('drill-explain-failed');
+    // The rule-based contrast costs nothing and must survive an AI failure.
+    expect(screen.getByTestId('answer-contrast')).toBeTruthy();
+  });
+});
