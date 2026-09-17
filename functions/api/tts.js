@@ -8,7 +8,7 @@
 import { requireAuthedAI } from './_requireAuth.js';
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { checkAIQuota } from './_aiQuota.js';
-import { MAX_TTS_CHARS } from './_ttsLimits.js';
+import { MAX_TTS_CHARS, GTRANSLATE_MAX_CHARS } from './_ttsLimits.js';
 import { corsHeaders } from './_helpers.js';
 
 // ── Azure SSML builder ────────────────────────────────────────────────────────
@@ -226,10 +226,14 @@ async function tryElevenLabs(text, slow, apiKey) {
 // Simple HTTP GET; returns audio/mpeg. Works reliably from Cloudflare Workers.
 // Capped at 200 chars — sufficient for all vocabulary words and short phrases.
 async function tryGoogleTranslateTTS(text, slow) {
-  const trimmed = text.slice(0, 200);
+  // REFUSE rather than truncate. Slicing to the cap and returning the audio
+  // made this backend claim a success it had not delivered — see
+  // GTRANSLATE_MAX_CHARS. Returning null lets the chain reach a backend that
+  // can speak the whole passage.
+  if (text.length > GTRANSLATE_MAX_CHARS) return null;
   const url =
     `https://translate.google.com/translate_tts` +
-    `?ie=UTF-8&q=${encodeURIComponent(trimmed)}&tl=hr&client=gtx` +
+    `?ie=UTF-8&q=${encodeURIComponent(text)}&tl=hr&client=gtx` +
     `&ttsspeed=${slow ? '0.3' : '1'}`;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);

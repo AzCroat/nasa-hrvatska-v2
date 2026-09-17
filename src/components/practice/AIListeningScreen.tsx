@@ -138,17 +138,17 @@ export default function AIListeningScreen({
         fullText = data.narrator || '';
       }
 
-      const ttsRes = await ttsFetch(
-        {
-          text: fullText.trim(),
-          slow: speed < 1,
-          voice: getVoicePreference(),
-        },
-        AbortSignal.timeout(20000),
-      );
+      // No signal: ttsFetch applies TTS_FETCH_TIMEOUT_MS, which is sized
+      // against the server's own backend chain. The 20s this used to pass was
+      // shorter than that chain, so it abandoned work still in flight.
+      const ttsRes = await ttsFetch({
+        text: fullText.trim(),
+        slow: speed < 1,
+        voice: getVoicePreference(),
+      });
       if (!mountedRef.current) return;
       if (!ttsRes || !ttsRes.ok) {
-        if (mountedRef.current) setAudioSource('unavailable');
+        setAudioSource('unavailable');
       } else {
         const blob = await ttsRes.blob();
         // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
