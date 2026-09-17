@@ -132,3 +132,97 @@ describe('ttsFetch records a named cause', () => {
     ).toBeNull();
   });
 });
+
+// ───────────────────────────────────────────────────────────────────────────
+// A TIMEOUT IS NOT A DROPPED CONNECTION (Sentry tts_failed:network, 2026-09-17)
+// ───────────────────────────────────────────────────────────────────────────
+//
+// The event that prompted this: `cause=network status=- code=- backends=none`
+// on /ai_listening. Every one of those fields is what a NULL Response
+// produces, and two different things produce a null Response — the synthesis
+// ran out of time, or the connection died. The tag could not say which, so the
+// one piece of evidence we had did not narrow anything.
+//
+// It matters here more than elsewhere because AI Listening is one of the app's
+// two AUDIO-FIRST screens and posts a whole generated passage (up to
+// TTS_TEXT_BUDGET) in a single request under a 20s budget, so "took too long"
+// is a live possibility rather than a theoretical one. This does NOT change
+// that budget — it makes the next occurrence say which case it was.
+describe('a timeout is named as one, not reported as a dead connection', () => {
+  /** What `AbortSignal.timeout()` actually rejects with. */
+  function timedOutSignal(): AbortSignal {
+    const c = new AbortController();
+    c.abort(new DOMException('The operation timed out.', 'TimeoutError'));
+    return c.signal;
+  }
+
+  it('records `timeout` when the caller’s signal timed out', async () => {
+    // A transport failure: fetch rejects, so no Response ever exists.
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new DOMException('The operation timed out.', 'TimeoutError'),
+    );
+    await ttsFetch({ text: 'Dobar dan' }, timedOutSignal());
+    expect(getLastTtsFailure()?.cause).toBe('timeout');
+  });
+
+  it('still records `network` when the signal did NOT time out', async () => {
+    // The other half, and the one that keeps the fix honest: a genuine drop
+    // must not start reading as a timeout just because both return null.
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new TypeError('Failed to fetch'),
+    );
+    await ttsFetch({ text: 'Dobar dan' });
+    expect(getLastTtsFailure()?.cause).toBe('network');
+  });
+
+  it('a MANUAL abort never reaches the classification at all', async () => {
+    // The two DOMException names are what separate the cases —
+    // `controller.abort()` uses AbortError, `AbortSignal.timeout()` uses
+    // TimeoutError — and that difference has a second consequence worth
+    // pinning: `_nativePost` RE-THROWS an AbortError ("propagate abort
+    // immediately") rather than returning null, so a caller cancelling is not
+    // a failure and records nothing. Only a TimeoutError falls through to the
+    // null return, which is precisely why it was arriving as `network`.
+    const c = new AbortController();
+    c.abort();
+    expect((c.signal.reason as { name?: string })?.name).toBe('AbortError');
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new DOMException('Aborted.', 'AbortError'),
+    );
+    await expect(ttsFetch({ text: 'Dobar dan' }, c.signal)).rejects.toThrow();
+    // Not silently relabelled as a timeout on the way out.
+    expect(getLastTtsFailure()?.cause).not.toBe('timeout');
+  });
+
+  it('says the recording was slow, NOT that the connection is bad', () => {
+    // Sending a learner to check a connection that is fine is advice about a
+    // problem they do not have.
+    const msg = describeTtsFailure({ cause: 'timeout' });
+    expect(msg).toMatch(/too long/i);
+    expect(msg).not.toMatch(/connection/i);
+    // And it must not fall through to the default sentence, which is the
+    // nameless one this whole area exists to abolish.
+    expect(msg).not.toBe("The audio couldn't be played.");
+  });
+});
+
+// Both null-Response sites must ask the signal. `ttsFetch`'s is driven above;
+// `speak()`'s builds its own `AbortSignal.timeout(15000)` internally, so no
+// behaviour test can reach it without burning fifteen real seconds — and an
+// untested second site is exactly how one of two copies silently reverts.
+// Derived from the source, not restated: find every place a null response is
+// turned into a cause, and require each to go through the helper.
+describe('every null-response site asks whether it timed out', () => {
+  it('has no bare `network` classification left', async () => {
+    const { readFileSync } = await import('node:fs');
+    const src = readFileSync('src/lib/audio.ts', 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/[^\n]*/g, '');
+    // The shape of a classification: `: { cause: <something>, backends }`.
+    const sites = [...src.matchAll(/:\s*\{\s*cause:\s*([^,}]+),\s*backends\s*\}/g)];
+    expect(sites.length).toBe(2);
+    for (const m of sites) {
+      expect(m[1]).toContain('_timedOut');
+    }
+  });
+});
