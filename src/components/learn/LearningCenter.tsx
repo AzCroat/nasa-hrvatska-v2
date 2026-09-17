@@ -171,7 +171,7 @@ export default function LearningCenter({
   sh,
 }: LearningCenterProps): React.ReactElement {
   const { index, spineReady } = useLearningIndex();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const { stats: st } = useStats();
   const [launchError, setLaunchError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
@@ -195,6 +195,24 @@ export default function LearningCenter({
     // A guarded screen needs its state seeded first. If the deck is empty we do
     // NOT navigate: sending the learner to the guard and calling it an exercise
     // is the dead end this whole change exists to remove.
+    //
+    // "NOT LOADED YET" AND "EMPTY" ARE DIFFERENT FACTS, and saying the wrong one
+    // is NEVER-DO 13 — a message stating something the app never measured. The
+    // vocabulary arrives from /api/content/core after first paint, so a learner
+    // who opens the Center and taps Flashcards straight away has a null
+    // `content` and an empty pool for a reason that has nothing to do with
+    // their deck. Telling them to "try a lesson first" would be false advice.
+    // CI caught this: the same tap passed locally on a warm machine and failed
+    // on a loaded runner, which is the race a real learner meets on a slow
+    // connection.
+    if (!content) {
+      setLaunchError(
+        contentLoading
+          ? 'Still loading your words — try that again in a moment.'
+          : 'Your word list could not be loaded. Check your connection and try again.',
+      );
+      return;
+    }
     const level = vocabLevel(st ?? undefined);
     const pool = acquisitionPool(content, level) as VocabRow[];
     try {

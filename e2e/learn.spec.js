@@ -86,6 +86,11 @@ test.describe('Learn tab', () => {
     test('opens on the whole syllabus, every level browsable', async ({ page }) => {
       await openCenter(page);
       await expect(page.getByTestId('lc-syllabus')).toBeVisible();
+      // The spine is a cached fetch that arrives AFTER first paint — the Center
+      // says "Lessons are still loading, search works already" until it does.
+      // The first version of this asserted on the default 5s and passed locally
+      // while failing on a loaded CI runner: a race in the test, not the app.
+      await expect(page.getByTestId('lc-level-A1')).toBeVisible({ timeout: 20_000 });
       // Every level, including ones above the seeded learner: lookup is ungated.
       for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
         await expect(page.getByTestId(`lc-level-${lvl}`)).toBeVisible();
@@ -162,8 +167,15 @@ test.describe('Learn tab', () => {
       await page.getByTestId('lc-search').fill('flashcards');
       const row = page.locator('[data-testid="lc-row"][data-kind="drill"]').first();
       await expect(row).toBeVisible({ timeout: 10_000 });
-      await row.click();
-      await expect(page.getByTestId('learning-center')).toBeHidden({ timeout: 15_000 });
+      // The vocabulary arrives from /api/content/core after first paint, so an
+      // immediate tap is refused with "still loading" — correctly, and that is
+      // its own unit test. Retry the tap until the deck is there rather than
+      // sleeping: this is what a learner does, and it keeps the assertion about
+      // the LAUNCH rather than about timing.
+      await expect(async () => {
+        await row.click();
+        await expect(page.getByTestId('learning-center')).toBeHidden({ timeout: 3_000 });
+      }).toPass({ timeout: 30_000 });
       await expect(page.getByText('Session refreshed')).toHaveCount(0);
     });
 

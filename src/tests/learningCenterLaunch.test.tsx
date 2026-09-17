@@ -121,9 +121,10 @@ describe('every guarded screen is either launched properly or not listed', () =>
 vi.mock('../context/StatsContext', () => ({
   useStats: () => ({ stats: { xp: 0, lc: 0, gc: 0 }, dispatch: vi.fn(), setStats: vi.fn() }),
 }));
+let contentState: { content: unknown; loading: boolean } = { content: {}, loading: false };
 vi.mock('../hooks/useContent', () => ({
-  useContent: () => ({ content: null }),
-  peekContent: () => null,
+  useContent: () => contentState,
+  peekContent: () => contentState.content,
 }));
 
 vi.mock('../lib/contentClient', () => ({ getCurriculumSpine: vi.fn(async () => []) }));
@@ -153,6 +154,7 @@ function renderCenter() {
 describe('opening a guarded screen from the Center', () => {
   beforeEach(() => {
     poolRows = VOCAB;
+    contentState = { content: {}, loading: false };
     localStorage.clear();
   });
   afterEach(cleanup);
@@ -182,7 +184,37 @@ describe('opening a guarded screen from the Center', () => {
     expect(onOpenScreen.mock.calls[0]![1]).toBeUndefined();
   });
 
-  it('refuses to navigate when the deck is empty, and says why', async () => {
+  it('distinguishes "still loading" from "your deck is empty"', async () => {
+    // Two different facts, and saying the wrong one is NEVER-DO 13 — a message
+    // stating something the app never measured. The vocabulary arrives after
+    // first paint, so a learner who taps Flashcards immediately has an empty
+    // pool for a reason that has nothing to do with their deck; telling them to
+    // "try a lesson first" would be false advice. CI caught exactly this: the
+    // tap passed locally on a warm machine and failed on a loaded runner.
+    contentState = { content: null, loading: true };
+    const { onOpenScreen } = renderCenter();
+    fireEvent.change(screen.getByTestId('lc-search'), { target: { value: 'flashcards' } });
+    fireEvent.click(
+      screen.getAllByTestId('lc-row').find((r) => r.getAttribute('data-kind') === 'drill')!,
+    );
+    await waitFor(() => expect(screen.getByTestId('lc-launch-error')).toBeTruthy());
+    expect(screen.getByTestId('lc-launch-error').textContent).toMatch(/loading/i);
+    expect(screen.getByTestId('lc-launch-error').textContent).not.toMatch(/try a lesson/i);
+    expect(onOpenScreen).not.toHaveBeenCalled();
+  });
+
+  it('says the content failed when it is not loading and never arrived', async () => {
+    contentState = { content: null, loading: false };
+    renderCenter();
+    fireEvent.change(screen.getByTestId('lc-search'), { target: { value: 'flashcards' } });
+    fireEvent.click(
+      screen.getAllByTestId('lc-row').find((r) => r.getAttribute('data-kind') === 'drill')!,
+    );
+    await waitFor(() => expect(screen.getByTestId('lc-launch-error')).toBeTruthy());
+    expect(screen.getByTestId('lc-launch-error').textContent).toMatch(/connection/i);
+  });
+
+  it('refuses to navigate when the deck is genuinely empty, and says why', async () => {
     poolRows = [];
     const { onOpenScreen } = renderCenter();
     fireEvent.change(screen.getByTestId('lc-search'), { target: { value: 'flashcards' } });
