@@ -414,3 +414,68 @@ describe('looking something up costs nothing', () => {
     expect(src).not.toMatch(/markLessonComplete|recordScreenPractised|awardXP/);
   });
 });
+
+// ───────────────────────────────────────────────────────────────────────────
+// THE HANDOFF: opened FROM somewhere, on a lesson
+// ───────────────────────────────────────────────────────────────────────────
+//
+// Two surfaces that cannot launch a lesson — the wrong-answer panel and the
+// concept map's rows — hand one to this screen and navigate. The Center owns
+// `launchAnimLesson`, so it is the only place that can finish the journey.
+// `lessonLookup.test.tsx` holds the derivation and the handoff itself; what is
+// pinned here is that the Center ACTS on it.
+const { requestLessonLookup, consumeLessonLookup } = await import('../lib/lessonLookup');
+
+describe('a lesson handed over from elsewhere', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+    // The focus list renders index rows, so the spine has to be seeded exactly
+    // as the render suite above seeds it — without it the block honestly says
+    // "Loading…" and the assertion would be measuring an unseeded fixture.
+    writeCurriculumSpine(servedSpine as never);
+  });
+  afterEach(() => {
+    cleanup();
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  it('opens the lesson directly when there is exactly one', () => {
+    requestLessonLookup(['genitive-intro']);
+    const { launchAnimLesson } = renderCenter();
+    expect(launchAnimLesson).toHaveBeenCalledWith('genitive-intro');
+    // Consumed: a remount must not re-open a lesson the learner backed out of.
+    expect(consumeLessonLookup()).toBeNull();
+  });
+
+  it('lists them and opens nothing when the maps name several', () => {
+    // Naming one of three would be a claim the coupling maps do not support.
+    requestLessonLookup(['clitics', 'clitics-advanced', 'object-pronouns']);
+    const { launchAnimLesson } = renderCenter();
+    expect(launchAnimLesson).not.toHaveBeenCalled();
+    expect(screen.getByTestId('lc-focus')).toBeTruthy();
+    expect(screen.getByTestId('lc-focus').textContent).toContain('Lessons that teach this');
+  });
+
+  it('can be dismissed back to the whole Center', () => {
+    requestLessonLookup(['clitics', 'clitics-advanced']);
+    renderCenter();
+    fireEvent.click(screen.getByTestId('lc-focus-clear'));
+    expect(screen.queryByTestId('lc-focus')).toBeNull();
+    expect(screen.getByTestId('lc-search')).toBeTruthy();
+  });
+
+  it('opens as normal when nothing was handed over', () => {
+    const { launchAnimLesson } = renderCenter();
+    expect(launchAnimLesson).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('lc-focus')).toBeNull();
+  });
+
+  it('still writes no progress on the way through', () => {
+    const before = JSON.stringify(localStorage);
+    requestLessonLookup(['genitive-intro']);
+    renderCenter();
+    expect(JSON.stringify(localStorage)).toBe(before);
+  });
+});

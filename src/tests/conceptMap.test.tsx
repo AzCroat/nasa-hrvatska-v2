@@ -33,6 +33,7 @@ import {
 import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../lib/categoryRoutes';
 import { localDateStr } from '../lib/dateUtils';
+import { consumeLessonLookup } from '../lib/lessonLookup';
 
 const TODAY = '2026-09-07';
 const spine = (...ids: string[]): SpineLike[] =>
@@ -328,6 +329,30 @@ describe('the card', () => {
     expect(row.getAttribute('data-state')).toBe('shaky');
     fireEvent.click(within(row).getByTestId('concept-practice'));
     expect(setScr).toHaveBeenCalledWith(practiceFor(id)!.screen);
+  });
+
+  it('offers the LESSON back, on every row, drill or no drill', () => {
+    // A row saying "Slipping" answered "drill it again" and not "remind me how
+    // this works" — and for a slipping concept the second is usually the real
+    // question. Every row here IS a lesson, so this needs no derivation and is
+    // honest even where no drill is routed.
+    const id = 'no-such-lesson';
+    recordMasteryPass(id, {
+      score: 6,
+      total: 6,
+      results: [],
+      at: addDays(localDateStr(), -RETENTION_INTERVALS[0]!),
+    });
+    const setScr = vi.fn();
+    const before = JSON.stringify(localStorage);
+    render(<ConceptMapCard setScr={setScr} spine={spineEntries(id)} />);
+    const row = screen.getByTestId('concept-row');
+    expect(within(row).queryByTestId('concept-practice')).toBeNull();
+    fireEvent.click(within(row).getByTestId('concept-learn'));
+    expect(setScr).toHaveBeenCalledWith('learning_center');
+    expect(consumeLessonLookup()).toEqual([id]);
+    // Reading is not credit, exactly as Practise awards nothing by existing.
+    expect(JSON.stringify(localStorage)).toBe(before);
   });
 
   it('a concept with no honest drill is listed WITHOUT a practice button', () => {

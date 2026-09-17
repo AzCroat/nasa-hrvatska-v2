@@ -44,6 +44,7 @@ import {
   type Shuffle,
   type VocabRow,
 } from '../../lib/practiceLaunch';
+import { consumeLessonLookup } from '../../lib/lessonLookup';
 import ReferenceDesk from './ReferenceDesk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
@@ -178,12 +179,34 @@ export default function LearningCenter({
   const [openLevel, setOpenLevel] = useState<string | null>('A1');
   const [mode, setMode] = useState<'syllabus' | 'reference'>('syllabus');
   const [deskOpenId, setDeskOpenId] = useState<string | null>(null);
+  // A surface that cannot launch a lesson (the wrong-answer panel, a concept
+  // row) hands one here and navigates. Consumed ATOMICALLY in the initialiser,
+  // so a remount cannot re-open a lesson the learner has already backed out of.
+  const [focus, setFocus] = useState<string[] | null>(() => consumeLessonLookup());
 
   // Read once per mount: the Center never writes progress, so it cannot go stale
   // under its own feet, and re-reading localStorage per render would be waste.
   const completed = useMemo(() => readCompletedLessons(), []);
 
+  // ONE lesson is what the learner asked for, so open it rather than showing a
+  // single-row list they must tap again — the concept-teaching rule about not
+  // adding friction to the way in. SEVERAL is the `objekt` case, where the maps
+  // name three lessons and picking one would be a claim they do not support;
+  // those are listed and the learner chooses.
+  React.useEffect(() => {
+    if (focus && focus.length === 1) {
+      const only = focus[0]!;
+      setFocus(null);
+      launchAnimLesson(only);
+    }
+  }, [focus, launchAnimLesson]);
+
   const results = useMemo(() => searchLearningIndex(index, query, { limit: 40 }), [index, query]);
+  const focusRows = useMemo(() => {
+    if (!focus || focus.length < 2) return [];
+    const want = new Set(focus);
+    return index.filter((e) => e.target.kind === 'lesson' && want.has(e.target.lessonId));
+  }, [index, focus]);
   const syllabus = useMemo(() => lessonsByLevel(index), [index]);
 
   async function openScreen(screen: string): Promise<void> {
@@ -302,7 +325,43 @@ export default function LearningCenter({
         </p>
       )}
 
-      {searching ? (
+      {focus && focus.length > 1 ? (
+        <div data-testid="lc-focus">
+          <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
+            {focusRows.length > 0
+              ? 'Lessons that teach this'
+              : spineReady
+                ? 'Those lessons could not be found.'
+                : 'Loading…'}
+          </div>
+          {focusRows.map((e) => (
+            <Row
+              key={e.key}
+              entry={e}
+              done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+              onOpen={() => open(e)}
+            />
+          ))}
+          <button
+            data-testid="lc-focus-clear"
+            onClick={() => setFocus(null)}
+            style={{
+              marginTop: 10,
+              background: 'none',
+              border: 'none',
+              color: 'var(--subtext)',
+              fontSize: 12,
+              fontWeight: 700,
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              padding: 0,
+            }}
+          >
+            Show everything
+          </button>
+        </div>
+      ) : searching ? (
         <div data-testid="lc-results">
           <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8, fontWeight: 700 }}>
             {results.length === 0
