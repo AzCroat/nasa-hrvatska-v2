@@ -190,17 +190,27 @@ export async function blockFirebase(page) {
 }
 
 /**
- * Launch a vocabulary lesson via the Browse modal.
+ * Launch a NAMED vocabulary category from the Learning Center.
  *
- * The Quick Vocab pills were removed from the Learn surface in the Ucenje
- * redesign (Phase 5); vocabulary now lives in BrowseContentModal's Vocabulary
- * section (open by default), where each category is a `button.tc`. Assumes the
- * page is already on /learn with the calm surface loaded ("Your Path" visible).
+ * Three homes in order: the Quick Vocab pills on the Learn surface (removed in
+ * the Ucenje redesign), BrowseContentModal's Vocabulary section, and — since
+ * the modal was retired — the Learning Center, where each category is an
+ * `lc-row` of kind `vocab`.
+ *
+ * This is the app's ONLY path to a vocabulary topic the learner CHOSE
+ * (`launchPathItem` picks one at random), so this fixture doubles as the
+ * end-to-end pin on that rehoming — which is why it searches for a category
+ * by name instead of clicking whichever row happens to come first.
+ *
+ * Assumes the page is already on /learn with the calm surface loaded.
  */
-export async function startVocabLesson(page) {
-  await page.getByRole('button', { name: /Browse all lessons/ }).click();
-  await page.getByText('Browse All Content').waitFor({ state: 'visible', timeout: 10_000 });
-  await page.locator('#learn-section-vocabulary button.tc').first().click();
+export async function startVocabLesson(page, topic = 'greetings') {
+  await page.getByTestId('open-learning-center').click();
+  await page.getByTestId('learning-center').waitFor({ state: 'visible', timeout: 15_000 });
+  await page.getByTestId('lc-search').fill(topic);
+  const row = page.locator('[data-testid="lc-row"][data-kind="vocab"]').first();
+  await row.waitFor({ state: 'visible', timeout: 15_000 });
+  await row.click();
 }
 
 /**

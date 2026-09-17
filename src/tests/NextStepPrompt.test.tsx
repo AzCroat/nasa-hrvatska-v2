@@ -124,7 +124,13 @@ describe('NextStepPrompt', () => {
     expect(launchSessionActivity).not.toHaveBeenCalled();
   });
 
-  it('a browse step hands off to the Learn tab library', () => {
+  it('a browse step opens the Learning Center', () => {
+    // It used to set a one-shot `nh_open_browse` flag and switch to the Learn
+    // tab, where BrowseContentModal consumed it. That modal is retired and the
+    // Center is the browse surface. Navigating directly also removes a failure
+    // this rung could not afford: a sessionStorage write that throws used to
+    // leave the learner on the Learn tab with nothing opened, and `browse` is
+    // the FLOOR of getNextStep — the rung that must never do nothing.
     getNextStep.mockReturnValue({
       kind: 'browse',
       screen: '',
@@ -134,8 +140,8 @@ describe('NextStepPrompt', () => {
     renderWith();
     fireComplete();
     fireEvent.click(screen.getByTestId('next-up-bar'));
-    expect(sessionStorage.getItem('nh_open_browse')).toBe('1');
-    expect(setTab).toHaveBeenCalledWith('learn');
+    expect(setScr).toHaveBeenCalledWith('learning_center');
+    expect(sessionStorage.getItem('nh_open_browse')).toBeNull();
   });
 
   it('any navigation dismisses the prompt (the landing surface takes over)', () => {

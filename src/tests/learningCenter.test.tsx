@@ -235,6 +235,7 @@ function renderCenter() {
       goBack,
       launchAnimLesson,
       onOpenScreen,
+      onOpenVocab: vi.fn(),
       sh: <T,>(a: T[]) => a,
     }),
   );

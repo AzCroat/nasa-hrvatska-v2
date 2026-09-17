@@ -29,6 +29,10 @@ import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
 import { CROATIA_POOL } from '../lib/croatiaPool';
 import { PRODUCTION_POOL } from './useDailySession';
 import { referenceSources } from '../lib/referenceDesk';
+import { UNPOOLED_SCREENS } from '../lib/unpooledScreens';
+import { vocabCategories, vocabLevel } from '../lib/vocabPool';
+import { useContent } from './useContent';
+import { useStats } from '../context/StatsContext';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 /**
@@ -49,9 +53,14 @@ import type { CurriculumEntry } from '../lib/curriculum';
 const NOT_A_DESTINATION = new Set(['animlesson']);
 
 function screenCatalogues(): Array<{ id: string; label: string; screen: string }> {
-  return [...CEFR_EXERCISE_POOL, ...CROATIA_POOL, ...PRODUCTION_POOL].filter(
-    (e) => !NOT_A_DESTINATION.has(e.screen),
-  );
+  return [
+    ...CEFR_EXERCISE_POOL,
+    ...CROATIA_POOL,
+    ...PRODUCTION_POOL,
+    // Routed, reachable, and in no pool — browsable rather than schedulable.
+    // Their only door used to be BrowseContentModal; see lib/unpooledScreens.
+    ...UNPOOLED_SCREENS.map((u) => ({ id: u.screen, label: u.label, screen: u.screen })),
+  ].filter((e) => !NOT_A_DESTINATION.has(e.screen));
 }
 
 /**
@@ -88,6 +97,20 @@ export function useLearningIndex(): LearningIndexState {
     };
   }, [spine.length]);
 
+  const { content } = useContent();
+  const { stats } = useStats();
+  const vocabTopics = useMemo(() => {
+    const V = (content?.V ?? null) as never;
+    if (!content) return [];
+    const cats = vocabCategories(content as never, vocabLevel(stats ?? undefined));
+    return cats.map((topic) => ({
+      topic,
+      count: Array.isArray((V as Record<string, unknown[]>)?.[topic])
+        ? (V as Record<string, unknown[]>)[topic]!.length
+        : undefined,
+    }));
+  }, [content, stats]);
+
   const index = useMemo(
     () =>
       buildLearningIndex({
@@ -98,8 +121,13 @@ export function useLearningIndex(): LearningIndexState {
         // registration — and every one of them has a panel to open, which is
         // what let them into the index at all.
         references: referenceSources(),
+        // The learner's own vocabulary categories, level-gated exactly as every
+        // other deck is (`vocabCategories` + `vocabLevel`) — NOT a hardcoded
+        // key list, which is the defect that made the browse modal decay and is
+        // forbidden outright by the vocabulary-deck directive.
+        vocab: vocabTopics,
       }),
-    [spine],
+    [spine, vocabTopics],
   );
 
   return { index, spineReady: spine.length > 0 };

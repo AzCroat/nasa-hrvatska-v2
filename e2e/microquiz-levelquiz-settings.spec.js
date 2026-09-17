@@ -110,8 +110,10 @@ test.describe('FIX-16 — LearnPath: Level Quiz CTA', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // LearnPathWidget renders "View full path — N/M lessons" inside LearnTab.
-    const openPath = page.getByText(/view full path/i).first();
+    // LearnTab renders "View full path — N/M lessons". It used to sit at the
+    // foot of LearnPathWidget; when that widget was retired the link stayed,
+    // because it is the Learn tab's only door to the `learnpath` screen.
+    const openPath = page.getByTestId('open-learn-path');
     await openPath.waitFor({ state: 'visible', timeout: 10_000 });
     await openPath.click();
   }

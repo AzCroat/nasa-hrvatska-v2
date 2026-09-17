@@ -2,6 +2,7 @@ import React, { lazy, useRef, useEffect, useState } from 'react';
 import { lsGet, lsSet } from '../lib/safeStorage';
 import { AnimatePresence, motion, type TargetAndTransition } from 'framer-motion';
 import { useSwipeBack } from '../hooks/useSwipeBack.js';
+import { useContent as useLcContent } from '../hooks/useContent';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { getUserCefr } from '../lib/cefr.js';
 import { getGenerationCefr } from '../lib/cefrCertification';
@@ -623,6 +624,7 @@ export default function AppRouter(props: Record<string, any>) {
     comebackBonus,
     weeklyXP: _weeklyXP,
   } = ctx;
+  const { content: lcContent } = useLcContent();
 
   // Direct props: high-frequency lesson/exercise screen state
   const {
@@ -3398,6 +3400,24 @@ export default function AppRouter(props: Record<string, any>) {
                   }
                   setScr(screen);
                   sCurEx(screen);
+                }}
+                onOpenVocab={(topic: string) => {
+                  // The modal's `launchVocab`, rehomed. A CHOSEN category was
+                  // reachable only from that modal — `launchPathItem` picks a
+                  // topic at random — so this is what keeps "study THESE words"
+                  // possible now the modal is gone.
+                  const V = (lcContent?.V ?? {}) as Record<string, unknown[]>;
+                  const items = _sh((V[topic] ?? []) as never[]);
+                  if (items.length < 2) return;
+                  sLt(topic);
+                  sLi(items as never);
+                  sLx(0);
+                  sLs(0);
+                  sLp('learn');
+                  sLa(false);
+                  sLsl(-1);
+                  setScr('lesson');
+                  sCurEx('vocab_' + topic);
                 }}
               />
             </ScreenErrorBoundary>

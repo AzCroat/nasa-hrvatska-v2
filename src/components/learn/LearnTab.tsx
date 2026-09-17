@@ -5,8 +5,6 @@ import { getUserCefr } from '../../lib/cefr';
 import { getDisplayLevel } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
-import LearnPathWidget from './LearnPathWidget';
-import BrowseContentModal from './BrowseContentModal';
 import CharacterPortrait from '../family/CharacterPortrait';
 
 const LESSON_TIPS = {
@@ -103,25 +101,10 @@ export default function LearnTab({
   launchPathItem,
   launchAnimLesson,
 }: LearnTabProps) {
-  const { setScr, setTab } = useApp();
+  const { setScr } = useApp();
   const { stats: st } = useStats();
   const { content } = useContent();
-  const V = (content?.V ?? {}) as Record<string, unknown[]>;
   const LEARN_PATH = content?.LEARN_PATH ?? [];
-  // Open the full-library browse modal immediately when arriving from the Today
-  // tab's "Browse the full library" off-ramp. One-shot sessionStorage flag,
-  // consumed atomically on mount (LearnTab remounts on each tab switch).
-  const [showBrowse, setShowBrowse] = useState(() => {
-    try {
-      if (sessionStorage.getItem('nh_open_browse')) {
-        sessionStorage.removeItem('nh_open_browse');
-        return true;
-      }
-    } catch {
-      /* sessionStorage unavailable — fall through */
-    }
-    return false;
-  });
   const [pendingLesson, setPendingLesson] = useState<PendingLesson | null>(null);
 
   // ── PATH PROGRESS ──────────────────────────────────────────────────────
@@ -156,21 +139,6 @@ export default function LearnTab({
   // (capped at B2, ignored certification, used a different weighting) could show
   // A1 in the Learn tab while the profile showed B2 for the same user.
   const cefrLevel = st ? getDisplayLevel(getUserCefr(st.xp || 0, st.lc || 0, st.gc || 0)) : 'A1';
-  const cefrPct = { A1: 8, A2: 25, B1: 42, B2: 58, C1: 75, C2: 92 }[cefrLevel as string] || 8;
-
-  function launchVocab(t: string): void {
-    const items = sh((V as Record<string, unknown[]>)[t] || []);
-    if (!items.length) return;
-    sLt(t);
-    sLi(items);
-    sLx(0);
-    sLs(0);
-    sLp('learn');
-    sLa(false);
-    sLsl(-1);
-    setScr('lesson');
-    sCurEx('vocab_' + t);
-  }
 
   function handleLaunchPathItem(lesson: Record<string, unknown>): void {
     const tipKey = Object.keys(LESSON_TIPS).find((k) =>
@@ -422,75 +390,32 @@ export default function LearnTab({
         </button>
       )}
 
-      {/* ── YOUR PATH ───────────────────────────────────────────────────── */}
-      <div className="section-hdr" style={{ marginTop: 20 }}>
-        <div className="section-hdr-icon" style={{ background: 'rgba(99,102,241,.12)' }}>
-          🗺️
-        </div>
-        <div className="section-hdr-text">
-          <div className="section-hdr-title">Your Path</div>
-          <div className="section-hdr-sub">A1 → C1 · {totalItems} lessons</div>
-        </div>
-      </div>
-      <LearnPathWidget
-        sc={sc}
-        currentStage={currentStage as any}
-        currentStageDone={currentStageDone}
-        overallPct={overallPct}
-        stagePct={stagePct}
-        totalDone={totalDone}
-        totalItems={totalItems}
-        nextItem={nextItem}
-        cefrLevel={cefrLevel}
-        cefrPct={cefrPct}
-        setScr={setScr}
-        setTab={setTab}
-        st={st}
-        handleLaunchPathItem={handleLaunchPathItem}
-      />
-
-      {/* ── BROWSE ALL CONTENT BUTTON ────────────────────────────────────── */}
+      {/* ── THE FULL PATH ────────────────────────────────────────────────
+          The one door LearnPathWidget owned. Retiring the widget retired the
+          list it rendered, not the `learnpath` SCREEN — which still holds the
+          stage map, the lock rules and the Level Quiz CTA, and whose home tab
+          is this one (`screenTabs.ts` says `learnpath: 'learn'`). Its other
+          doors are a quest tile on Home and Me → Profile → Learning Path; a
+          learner looking for their path looks HERE, so the link stays.
+          Ungated on `nextItem`: someone who has finished every item still has
+          a path to look at. */}
       <button
-        onClick={() => setShowBrowse(true)}
+        onClick={() => setScr('learnpath')}
+        data-testid="open-learn-path"
+        className="b"
         style={{
           width: '100%',
-          marginTop: 20,
-          padding: '14px',
-          borderRadius: 14,
-          border: '2px solid var(--accent)',
+          marginBottom: 16,
+          fontSize: 12,
+          fontWeight: 800,
+          padding: '10px 12px',
+          border: '1.5px solid var(--card-b)',
           background: 'transparent',
           color: 'var(--subtext)',
-          fontWeight: 700,
-          fontSize: 14,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          fontFamily: "'Outfit',sans-serif",
         }}
       >
-        📚 Browse all lessons & tools →
+        View full path — {totalDone}/{totalItems} lessons
       </button>
-
-      {/* ── BROWSE ALL CONTENT MODAL ─────────────────────────────────────── */}
-      {showBrowse && (
-        <BrowseContentModal
-          icons={icons}
-          st={st}
-          setScr={setScr}
-          sCurEx={sCurEx}
-          sGl={sGl}
-          sGp={sGp}
-          sGx={sGx}
-          sGs={sGs}
-          sGa={sGa}
-          sGsl={sGsl}
-          launchVocab={launchVocab}
-          launchAnimLesson={launchAnimLesson}
-          onClose={() => setShowBrowse(false)}
-        />
-      )}
 
       {pendingLesson && (
         <div

@@ -6,19 +6,21 @@ test.describe('Learn tab', () => {
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
-    // BrowseContentModal consumes useGrammar()+useContent(); without the content
-    // mocks /api/content/* 404s under `vite preview` and the modal stays in
-    // LoadingState (its header never renders).
+    // The Learning Center consumes useContent(); without the content mocks
+    // /api/content/* 404s under `vite preview` and the index never fills.
     await mockContent(page);
     // Navigate directly to /learn to avoid post-auth navigate('/') race on tab click.
     await page.goto('/learn');
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText('Your Path')).toBeVisible({ timeout: 20_000 });
+    // The readiness anchor used to be 'Your Path', the header above the Learn
+    // path widget. That widget is retired; this testid is the surface's own
+    // stable handle and does not depend on copy.
+    await expect(page.getByTestId('open-learning-center')).toBeVisible({ timeout: 20_000 });
   });
 
   test.describe('Calm surface', () => {
-    test('renders Your Path heading', async ({ page }) => {
-      await expect(page.getByText('Your Path')).toBeVisible();
+    test('offers the full path, which the retired widget used to own', async ({ page }) => {
+      await expect(page.getByTestId('open-learn-path')).toBeVisible();
     });
 
     test('shows the Profesor Kovac tutor hero', async ({ page }) => {
@@ -29,38 +31,41 @@ test.describe('Learn tab', () => {
       await expect(page.getByText('📖 Ref')).toBeVisible();
     });
 
-    test('shows the Browse all link', async ({ page }) => {
-      await expect(page.getByRole('button', { name: /Browse all lessons/ })).toBeVisible();
-    });
   });
 
-  test.describe('Browse catalog (relocated entry points)', () => {
-    async function openBrowse(page) {
-      await page.getByRole('button', { name: /Browse all lessons/ }).click();
-      await expect(page.getByText('Browse All Content')).toBeVisible({ timeout: 10_000 });
+  // ── THE SCREENS THE RETIRED MODAL WAS THE ONLY DOOR TO ───────────────────
+  // These three asserted BrowseContentModal's sections. The modal is gone; the
+  // screens it alone reached were rehomed into the Learning Center's index as
+  // `lib/unpooledScreens`. The COVERAGE is what mattered — that those entry
+  // points are still reachable — so they were repointed at the new door rather
+  // than deleted with the old one.
+  test.describe('Relocated entry points (Learning Center)', () => {
+    async function find(page, query) {
+      await page.getByTestId('open-learning-center').click();
+      await expect(page.getByTestId('learning-center')).toBeVisible({ timeout: 15_000 });
+      await page.getByTestId('lc-search').fill(query);
+      await expect(page.getByTestId('lc-row').first()).toBeVisible({ timeout: 10_000 });
     }
 
-    test('Learning Paths & Tracks holds the relocated tracks', async ({ page }) => {
-      await openBrowse(page);
-      // 'Learning Paths & Tracks' is open by default — content shows without toggling.
-      await expect(page.getByText('AI Micro-Lesson')).toBeVisible({ timeout: 8_000 });
-      await expect(page.getByText('Grammar Track A1→C2')).toBeVisible();
+    test('the grammar tracks are reachable', async ({ page }) => {
+      await find(page, 'grammar track');
+      await expect(page.getByText('Grammar Track A1→C2')).toBeVisible({ timeout: 8_000 });
     });
 
-    test('Pronunciation Lab holds the relocated pronunciation tools', async ({ page }) => {
-      await openBrowse(page);
-      // 'Pronunciation Lab' is open by default — content shows without toggling.
-      await expect(page.getByText('Pronunciation Course')).toBeVisible({ timeout: 8_000 });
-      await expect(page.getByText('Pitch Accent')).toBeVisible();
+    test('the pronunciation tools are reachable', async ({ page }) => {
+      await find(page, 'pitch accent');
+      // `exact` matters: the pooled C1 drill is 'Pitch Accents' and the
+      // rehomed unpooled screen is 'Pitch Accent'. A substring match resolves
+      // to both and, worse, would pass on the pooled row alone — which is not
+      // the one this test exists to check.
+      await expect(page.getByText('Pitch Accent', { exact: true })).toBeVisible({ timeout: 8_000 });
     });
 
-    test('launching a relocated track navigates without error', async ({ page }) => {
+    test('launching a relocated screen navigates without error', async ({ page }) => {
       const errors = [];
       page.on('pageerror', e => errors.push(e.message));
-      await openBrowse(page);
-      // Section open by default — the track tile is present without toggling.
-      await page.getByText('AI Micro-Lesson').waitFor({ state: 'visible', timeout: 8_000 });
-      await page.getByText('AI Micro-Lesson').click();
+      await find(page, 'grammar track');
+      await page.getByText('Grammar Track A1→C2').click();
       await page.waitForTimeout(500);
       const unexpected = errors.filter(
         e => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),

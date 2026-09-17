@@ -55,6 +55,7 @@ const KIND_LABEL: Record<LearningEntry['kind'], string> = {
   reference: 'Reference',
   concept: 'What it is',
   tool: 'Reference tool',
+  vocab: 'Word list',
 };
 
 /**
@@ -90,6 +91,8 @@ interface LearningCenterProps {
   launchAnimLesson: (lessonId: string) => void;
   /** A payload is supplied for the screens above; the rest open cold. */
   onOpenScreen: (screen: string, payload?: unknown[]) => void;
+  /** Opens a NAMED vocabulary category — the modal's `launchVocab`, rehomed. */
+  onOpenVocab: (topic: string) => void;
   sh: Shuffle;
 }
 
@@ -169,6 +172,7 @@ export default function LearningCenter({
   goBack,
   launchAnimLesson,
   onOpenScreen,
+  onOpenVocab,
   sh,
 }: LearningCenterProps): React.ReactElement {
   const { index, spineReady } = useLearningIndex();
@@ -259,6 +263,11 @@ export default function LearningCenter({
       launchAnimLesson(entry.target.lessonId);
     } else if (entry.target.kind === 'screen') {
       void openScreen(entry.target.screen);
+    } else if (entry.target.kind === 'vocab') {
+      // The topic a learner CHOSE. The app's other vocabulary launcher picks
+      // one at random, so this row is the only way to study a named category
+      // now that the browse modal is gone.
+      onOpenVocab(entry.target.topic);
     } else {
       // A reference panel lives on this screen, so "opening" it means showing
       // the desk at that panel rather than navigating away. Clearing the query
