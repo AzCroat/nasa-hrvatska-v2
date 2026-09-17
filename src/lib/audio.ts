@@ -60,7 +60,15 @@ export async function ttsFetch(
   body: Record<string, unknown>,
   signal?: AbortSignal,
 ): Promise<Response | null> {
-  const r = await _ttsPost(body, signal ?? new AbortController().signal);
+  // A caller's own signal wins; otherwise the shared budget applies. Guarded
+  // the same way speak() guards it, for runtimes without AbortSignal.timeout.
+  const effective =
+    signal ??
+    (AbortSignal as unknown as { timeout?: (ms: number) => AbortSignal }).timeout?.(
+      TTS_FETCH_TIMEOUT_MS,
+    ) ??
+    new AbortController().signal;
+  const r = await _ttsPost(body, effective);
   if (r && r.ok) {
     // Clear on success, so a surface can never read a stale failure left by an
     // earlier screen and report it as this play's cause.
@@ -93,7 +101,7 @@ export async function ttsFetch(
   dbgError(`[TTS] fetch HTTP ${r?.status ?? 'N/A'} backends=${backends} — ${rb.slice(0, 200)}`);
   const failure: TtsFailure = r
     ? _classifyHttpFailure(r.status, rb, backends)
-    : { cause: _timedOut(signal) ? 'timeout' : 'network', backends };
+    : { cause: _timedOut(effective) ? 'timeout' : 'network', backends };
   _noteFailure(failure);
   _reportTtsFailure(failure, typeof body.text === 'string' ? body.text.length : 0);
   return r;
@@ -124,6 +132,36 @@ function _timedOut(signal: AbortSignal | undefined): boolean {
   // how it was identified as redundant rather than load-bearing.
   return (signal?.reason as { name?: string } | undefined)?.name === 'TimeoutError';
 }
+
+/**
+ * How long ANY ttsFetch caller waits for /api/tts.
+ *
+ * IT WAS 20s, AND THE SERVER'S OWN CHAIN IS LONGER THAN THAT. /api/tts tries
+ * its backends in SEQUENCE, each with its own timeout — Azure (5s token + 8s
+ * synthesis, per region), Edge 12s, Google Translate 8s, Google 10s — so the
+ * client was abandoning work the server had not finished attempting. A learner
+ * whose first backend was slow got `tts_failed:timeout` even though audio was
+ * still coming (owner report + Sentry 6a279c7c, 2026-09-17, /ai_listening).
+ *
+ * AI Listening is the worst case: it posts a WHOLE generated passage (up to
+ * TTS_TEXT_BUDGET) in one request, so it is the caller least likely to be
+ * served by the fast path and most likely to need the later backends.
+ *
+ * IT LIVES HERE, NOT ON THAT SCREEN, BECAUSE THE OTHER ELEVEN CALLERS HAD NO
+ * TIMEOUT AT ALL. `ttsFetch` defaulted to `new AbortController().signal`, which
+ * never aborts — so Maja, the live tutor, the news reader, Story Mode, Heritage
+ * Story, the graded reader, Writing, Speaking Sprint and Phrase of the Day
+ * could each wait forever on a hung request, with no cause recorded because
+ * nothing ever rejected. Only AI Listening passed a signal, and its 20s was
+ * the one that was too SHORT. Defaulting here fixes both halves at once.
+ *
+ * NOT A ROUND NUMBER PICKED BY FEEL: `listeningTtsBudget.test.ts` reads the
+ * per-backend timeouts out of functions/api/tts.js, sums the ones that can
+ * speak long text, and fails if this value does not exceed them. Add a backend
+ * or raise a timeout and that test says so — the cron-secret lesson applied to
+ * a pair of numbers that must agree across the client/server boundary.
+ */
+export const TTS_FETCH_TIMEOUT_MS = 45000;
 
 // ── TTS failure record (2026-09-06) ────────────────────────────────────────
 // A Level Check's listening section played nothing and the learner had no way

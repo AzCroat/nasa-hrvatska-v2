@@ -30,3 +30,20 @@ export const MAX_TTS_CHARS = 3000;
  * overshooting a stated budget, which it will.
  */
 export const TTS_TEXT_BUDGET = Math.floor(MAX_TTS_CHARS * 0.6);
+
+/**
+ * The most text Google Translate's unofficial endpoint can speak.
+ *
+ * It is not a policy choice — it is what that service accepts. The backend
+ * used to `slice()` to this and return the audio anyway, and the chain credits
+ * any playable buffer as success (`isPlayableAudio` checks byte LENGTH), so a
+ * 1,800-character passage came back as a recording of its first 200 characters
+ * presented as complete. On AI Listening, where the recording IS the question,
+ * that is a learner quizzed on content they were never played.
+ *
+ * Refusing is the honest behaviour: the chain then moves to a backend that can
+ * speak the whole thing. The cap only ever mattered once /api/tts started
+ * accepting long text (MAX_TTS_CHARS 500 -> 3000, 2026-09-10); until then no
+ * caller could exceed it, which is why the truncation sat here harmlessly.
+ */
+export const GTRANSLATE_MAX_CHARS = 200;
