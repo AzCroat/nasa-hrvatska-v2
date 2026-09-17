@@ -348,15 +348,52 @@ function expand(term: string): string[] {
   return out;
 }
 
+/** JS `\b` word characters. A hardcoded class — the only regex on this path. */
+const WORD_CHAR = /[A-Za-z0-9_]/;
+const isWordChar = (c: string | undefined): boolean => !!c && WORD_CHAR.test(c);
+
+/**
+ * Does `needle` occur in `haystack` at a word boundary?
+ *
+ * This replaces `new RegExp('\\b' + escape(term)).test(title)`, which CodeQL and
+ * Semgrep both flag as a non-literal RegExp (ReDoS). Measured before changing
+ * it: the finding was NOT exploitable — every metacharacter was escaped, so the
+ * worst input compiled to `\b` plus a literal, which has no quantifier to
+ * backtrack on and ran in 0.01–0.06 ms. Reporting it as a vulnerability fixed
+ * would be false.
+ *
+ * It was worth removing anyway, for a cost the scanner did not mention: the
+ * pattern was rebuilt per entry per synonym, which measured **608 RegExp
+ * compilations for a single query** over a 305-row index and would be about
+ * 1,100 per keystroke at the full 566. A literal scan does the same job with
+ * none, and cannot be flagged again.
+ *
+ * Semantics are JS `\b` exactly, not an approximation: a boundary sits at `i`
+ * when the character classes of `haystack[i-1]` and `needle[0]` differ, with
+ * start-of-string counting as a non-word character.
+ */
+export function matchesAtWordStart(haystack: string, needle: string): boolean {
+  if (!needle) return false;
+  const needleStartsWord = isWordChar(needle[0]);
+  let i = haystack.indexOf(needle);
+  while (i !== -1) {
+    if (isWordChar(i > 0 ? haystack[i - 1] : undefined) !== needleStartsWord) return true;
+    i = haystack.indexOf(needle, i + 1);
+  }
+  return false;
+}
+
 /** Best score any of a term's synonyms achieves against one entry. 0 = no match. */
 function scoreTerm(entry: LearningEntry, term: string): number {
   let best = 0;
+  // Hoisted: the folded title does not depend on the synonym, and folding it
+  // per synonym per entry was the other half of the same waste.
+  const title = foldCroatian(entry.title);
   for (const t of expand(term)) {
-    const title = foldCroatian(entry.title);
     let s = 0;
     if (title === t) s = 100;
     else if (title.startsWith(t)) s = 60;
-    else if (new RegExp(`\\b${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(title)) s = 40;
+    else if (matchesAtWordStart(title, t)) s = 40;
     else if (title.includes(t)) s = 25;
     else if (entry.text.includes(t)) s = 10;
     if (s > best) best = s;

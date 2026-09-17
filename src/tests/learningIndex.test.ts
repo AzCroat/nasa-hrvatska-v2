@@ -46,6 +46,7 @@ import { containsCyrillic } from '../../functions/api/_croatianGuard.js';
 import {
   GRAMMAR_SYNONYMS,
   buildLearningIndex,
+  matchesAtWordStart,
   searchLearningIndex,
   lessonsByLevel,
   foldCroatian,
@@ -303,6 +304,78 @@ describe('the lookup a learner actually performs', () => {
     const hits = searchLearningIndex(index, 'genitive', { limit: 40, kind: 'lesson' });
     expect(hits.length).toBeGreaterThan(0);
     expect(hits.every((h) => h.kind === 'lesson')).toBe(true);
+  });
+});
+
+describe('word-boundary matching without a dynamic regex', () => {
+  // `new RegExp('\\b' + escape(term))` was flagged by Semgrep and CodeQL as a
+  // non-literal RegExp. Measured before changing it: NOT exploitable — every
+  // metacharacter was escaped, so the worst input compiled to `\b` plus a
+  // literal, which has nothing to backtrack on (0.01-0.06ms on inputs like
+  // `(a+)+$`). It was removed for a cost the scanners did not mention: 608
+  // RegExp compilations for ONE query over a 305-row index.
+
+  it('agrees with JS \\b on every shape that matters', () => {
+    // A DIRECT parity check. The first version of this test asserted
+    // `expect({hay, needle, …}).toBeTruthy()` — always true for an object — and
+    // then made one weak conditional claim. It passed against a deliberately
+    // broken helper. Compare the two verdicts instead, on every shape.
+    const esc = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const cases: Array<[string, string]> = [
+      ['genitive case', 'case'], // after a space
+      ['genitive case', 'genitive'], // at the start
+      ['the genitive-deep lesson', 'deep'], // after a hyphen
+      ['genitive', 'itive'], // mid-word: NOT a boundary
+      ['abcabc', 'bc'], // mid-word twice: still not
+      ['abcabc', 'abc'], // first occurrence IS at the start
+      ['a1 b2', 'b2'],
+      ['x (genitive)', 'genitive'], // after a paren
+      ['nothing here', 'zzz'], // absent
+      ['case', 'case'], // whole string
+      ['snake_case word', 'case'], // underscore IS a word char to \\b
+      ['end.', '.'], // needle starts with a NON-word char
+      ['a-b', '-b'], // ditto, boundary on the other side
+      ['', 'x'],
+      ['x', ''], // empty needle
+    ];
+    for (const [hay, needle] of cases) {
+      const viaRegex = needle === '' ? false : new RegExp(`\\b${esc(needle)}`).test(hay);
+      expect(matchesAtWordStart(hay, needle), `"${needle}" in "${hay}"`).toBe(viaRegex);
+    }
+  });
+
+  it('builds NO regex from a search term, so the finding cannot return', () => {
+    // The source check strips comments first, and that is load-bearing: this
+    // module's own note explains what it replaced and contains the words
+    // `new RegExp` — the same shape that made two earlier guards in this series
+    // decorative. Prose about a thing is not a use of it.
+    const raw = readFileSync('src/lib/learningIndex.ts', 'utf8');
+    const code = raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    expect(raw, 'the comment that would defeat a naive check').toContain('new RegExp');
+    expect(code, 'no dynamic RegExp may be built on the search path').not.toContain('new RegExp');
+    expect(code).not.toMatch(/RegExp\s*\(/);
+  });
+
+  it('compiles no regex at all while running a real query', () => {
+    // Behavioural twin of the source check: 608 compilations per query is what
+    // this removed, and a helper that quietly reintroduced one would pass the
+    // grep above if it lived in another module.
+    const idx = buildLearningIndex({ lessons: servedSpine, screens: allPools });
+    const Orig = globalThis.RegExp;
+    let built = 0;
+    // @ts-expect-error test instrumentation
+    globalThis.RegExp = new Proxy(Orig, {
+      construct(t, a) {
+        built++;
+        return new (t as never)(...(a as []));
+      },
+    });
+    try {
+      searchLearningIndex(idx, 'genitive', { limit: 25 });
+    } finally {
+      globalThis.RegExp = Orig;
+    }
+    expect(built, 'a search must not compile regexes').toBe(0);
   });
 });
 
