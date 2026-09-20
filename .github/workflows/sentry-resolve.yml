@@ -1,0 +1,328 @@
+# Sentry — resolve (or ignore) named issues.
+#
+# WHY THIS EXISTS (2026-09-20). `sentry-top-issues.yml` is READ-ONLY by
+# design and says so in its header: "It lists issues; it never resolves,
+# assigns, deletes or mutates." That is the right posture for a report that
+# runs on every push and on a daily schedule. But it left the other half of
+# the triage loop — marking a fixed issue fixed — as two clicks in a UI that
+# nobody in a terminal can reach, so issues stayed open after their fix
+# shipped and the next week's report re-listed defects that no longer exist.
+# A triage list nobody can close is a list that stops being read.
+#
+# This is that second half, and it is deliberately a SEPARATE FILE rather
+# than a flag on the report. The report's triggers are push and schedule; a
+# mutating step must never ride along with those. Keeping the two apart makes
+# "does this workflow change anything in Sentry" answerable from the trigger
+# block alone, which is pinned by `sentryResolve.test.js`.
+#
+# WHAT IT WILL NOT DO. It resolves issues in ONE project — the one named by
+# SENTRY_PROJECT — and refuses any id belonging to another project in the
+# same org, because an issue id is an opaque number and a typo in one is
+# indistinguishable from a deliberate choice. It never deletes, never
+# assigns, never merges, and never bulk-mutates a QUERY: every issue is named
+# explicitly by the person who dispatched the run.
+name: Sentry Resolve Issues
+
+# ONE TRIGGER, AND THAT IS THE SAFETY PROPERTY. No push, no schedule, no
+# repository_dispatch. A human names the issues and presses the button; there
+# is no path by which this runs on its own. `sentryResolve.test.js` fails if a
+# second trigger is ever added, because every other guard in this file is
+# downstream of nothing firing unattended.
+on:
+  workflow_dispatch:
+    inputs:
+      issues:
+        description: 'Issue ids or short ids, comma- or space-separated (e.g. 6279413882, NASA-HRVATSKA-4X)'
+        required: true
+      status:
+        description: 'What to set them to'
+        required: false
+        default: resolvedInNextRelease
+        type: choice
+        options:
+          # `resolvedInNextRelease` is the DEFAULT on purpose: a recurrence on
+          # the build that was supposed to fix it reopens the issue by itself,
+          # where a plain resolve waits for a human to notice. The weekly
+          # digest has a "Regressed" column that only fills in if the issue
+          # was resolved in the first place — so resolving is what turns the
+          # next report into evidence the fix held.
+          - resolvedInNextRelease
+          - resolved
+          - ignored
+      dry_run:
+        description: 'Report what would change, write nothing'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set issue status in Sentry
+        env:
+          # EVERY VALUE ARRIVES THROUGH `env`, NEVER `${{ }}` INSIDE `run`.
+          # A dispatch input interpolated into the script body is executed as
+          # shell by the runner before bash ever sees it — the standard
+          # Actions script-injection shape, and the one place where a public
+          # repo's dispatch button becomes a code-execution primitive. Pinned:
+          # the test fails if any `${{ … }}` appears inside a `run:` block.
+          SENTRY_ISSUES_TOKEN: ${{ secrets.SENTRY_ISSUES_TOKEN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          ISSUES_IN: ${{ inputs.issues }}
+          STATUS_IN: ${{ inputs.status }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -eu -o pipefail
+          # No `set -x` anywhere in this step — it would echo the token.
+
+          # Same credential chain as sentry-top-issues.yml, and the same
+          # reason: SENTRY_AUTH_TOKEN is shared with the source-map upload and
+          # must not be swapped for an issues-scoped one. `${X:-}` because
+          # `set -u` would abort on the unset optional secret before the
+          # missing-secret message could print.
+          TOKEN=$(printf '%s' "${SENTRY_ISSUES_TOKEN:-}" | tr -d '[:space:]')
+          TOKEN_NAME=SENTRY_ISSUES_TOKEN
+          FALLBACK_HINT=""
+          if [ -z "$TOKEN" ]; then
+            TOKEN=$(printf '%s' "${SENTRY_AUTH_TOKEN:-}" | tr -d '[:space:]')
+            TOKEN_NAME=SENTRY_AUTH_TOKEN
+            FALLBACK_HINT="SENTRY_ISSUES_TOKEN is not readable by Actions. It must be a repository ACTIONS secret — not Dependabot, not Codespaces (separate stores), not an Environment secret (this job declares no environment)."
+            echo "note: SENTRY_ISSUES_TOKEN not visible to this job — falling back to SENTRY_AUTH_TOKEN."
+          fi
+          ORG=$(printf '%s' "${SENTRY_ORG}" | tr -d '[:space:]')
+          PROJ=$(printf '%s' "${SENTRY_PROJECT}" | tr -d '[:space:]')
+
+          MISSING=""
+          [ -n "$TOKEN" ] || MISSING="$MISSING SENTRY_AUTH_TOKEN"
+          [ -n "$ORG" ] || MISSING="$MISSING SENTRY_ORG"
+          [ -n "$PROJ" ] || MISSING="$MISSING SENTRY_PROJECT"
+          if [ -n "$MISSING" ]; then
+            echo "::error title=Sentry secrets missing::Set these repo secrets:$MISSING"
+            exit 1
+          fi
+
+          case "$(printf '%s' "${DRY_RUN:-false}" | tr '[:upper:]' '[:lower:]')" in
+            true|yes|1) DRY=1; echo "DRY RUN — nothing will be written." ;;
+            *) DRY=0 ;;
+          esac
+
+          # THE PAYLOAD IS CHOSEN FROM A CLOSED SET, not built from the input.
+          # `type: choice` already constrains the UI, but the `inputs` context
+          # is also settable by the dispatch API, so the only statuses that can
+          # reach Sentry are the three written out here.
+          #
+          # `resolvedInNextRelease` IS NOT A STATUS — it is `resolved` plus a
+          # statusDetails flag. Sending it as a bare status string is accepted
+          # by some Sentry versions and silently ignored by others, which is
+          # the worst of both: a 200 that did not do what was asked. Hence the
+          # explicit statusDetails, and hence the read-back below.
+          case "${STATUS_IN:-resolvedInNextRelease}" in
+            resolved)              PAYLOAD='{"status":"resolved"}'; WANT=resolved ;;
+            resolvedInNextRelease) PAYLOAD='{"status":"resolved","statusDetails":{"inNextRelease":true}}'; WANT=resolved ;;
+            ignored)               PAYLOAD='{"status":"ignored"}'; WANT=ignored ;;
+            *)
+              echo "::error title=Unknown status::'${STATUS_IN}' is not one of: resolved, resolvedInNextRelease, ignored."
+              exit 1 ;;
+          esac
+
+          # Commas, semicolons and whitespace all separate, because the ids get
+          # pasted out of a UI, a permalink or a chat message and each uses a
+          # different one.
+          IDS=$(printf '%s' "${ISSUES_IN:-}" | tr ',;' '  ' | tr -s '[:space:]' '\n' | sed '/^$/d')
+          if [ -z "$IDS" ]; then
+            echo "::error title=No issues given::The 'issues' input held no ids."
+            exit 1
+          fi
+
+          # VALIDATE BEFORE THE FIRST WRITE, NOT PER ITEM. An id that fails
+          # here is a typo in a list a human just typed, and discovering it
+          # after three of five issues are already resolved leaves the run
+          # half-applied with no record of which half.
+          for ID in $IDS; do
+            case "$ID" in
+              *[!A-Za-z0-9_-]*)
+                echo "::error title=Bad issue id::item '$(printf '%.32s' "$ID")' of the issues list is not an issue id — expected digits or a short id like NASA-HRVATSKA-4X. Nothing was written."
+                exit 1 ;;
+            esac
+          done
+
+          BODY=$(mktemp)
+          # Body KEPT on every status so a refusal can name itself; Sentry
+          # answers a scope refusal with one `{"detail": "…"}` sentence.
+          # Deliberately no `-f`, which discards exactly that sentence.
+          api() {
+            m="$1"; u="$2"; shift 2
+            curl -sS -X "$m" -o "$BODY" -w '%{http_code}' \
+              -H "Authorization: Bearer $TOKEN" \
+              -H 'Content-Type: application/json' "$u" "$@" || echo 000
+          }
+          # `|| true`: jq exits 5 when $BODY holds a list rather than an object,
+          # and a failing substitution inside an assignment aborts the script
+          # under `set -e` — silently, before anything prints. Learned in
+          # sentry-top-issues.yml; the same shape applies here.
+          detail() { jq -r '.detail // .error // empty' "$BODY" 2>/dev/null | head -c 200 || true; }
+
+          # Reachability probe FIRST, and it is the same call the read-only
+          # report makes. A failure here means the credential, org slug or
+          # project slug is wrong — NOT that the token lacks write scope — and
+          # separating those two is the whole reason this runs before any PUT.
+          ST=$(api GET "https://sentry.io/api/0/organizations/$ORG/projects/")
+          if [ "$ST" != "200" ]; then
+            echo "::error title=Sentry unreachable::GET /organizations/<org>/projects/ returned $ST — $(detail)"
+            exit 1
+          fi
+          if ! jq -e --arg p "$PROJ" 'any(.[]; .slug == $p)' "$BODY" >/dev/null 2>&1; then
+            echo "::error title=Sentry project not visible::The token can list the org but not the project named by SENTRY_PROJECT."
+            exit 1
+          fi
+
+          # A short id (NASA-HRVATSKA-4X) is what the Sentry UI shows on the
+          # issue page; the numeric id is what the API takes and what the
+          # permalink ends in. Accept both rather than making a human convert.
+          numeric_id() {
+            raw="$1"
+            case "$raw" in
+              ''|*[!0-9]*) ;;
+              *) printf '%s' "$raw"; return 0 ;;
+            esac
+            st=$(api GET "https://sentry.io/api/0/organizations/$ORG/shortids/$raw/")
+            [ "$st" = "200" ] || return 1
+            jq -r '.groupId // .group.id // empty' "$BODY" 2>/dev/null || true
+          }
+
+          # The org route is the current one and is what the UI calls; the bare
+          # /issues/<id>/ route is legacy and still live. Trying both costs one
+          # request on a path that already failed, and an older token may be
+          # scoped the other way round — same reasoning as the report's two
+          # issue streams.
+          get_issue() {
+            gid="$1"
+            st=$(api GET "https://sentry.io/api/0/organizations/$ORG/issues/$gid/")
+            [ "$st" = "200" ] || st=$(api GET "https://sentry.io/api/0/issues/$gid/")
+            printf '%s' "$st"
+          }
+          put_issue() {
+            gid="$1"
+            st=$(api PUT "https://sentry.io/api/0/organizations/$ORG/issues/$gid/" -d "$PAYLOAD")
+            case "$st" in
+              200|202) ;;
+              *) st=$(api PUT "https://sentry.io/api/0/issues/$gid/" -d "$PAYLOAD") ;;
+            esac
+            printf '%s' "$st"
+          }
+
+          CHANGED=0; ALREADY=0; FAILED=0; SKIPPED=0; WRITE_REFUSED=0
+          echo
+          for ID in $IDS; do
+            echo "── $ID ──"
+            GID=$(numeric_id "$ID" || true)
+            if [ -z "$GID" ]; then
+              echo "  NOT FOUND: no issue in this org has that id or short id."
+              FAILED=$((FAILED + 1)); continue
+            fi
+
+            ST=$(get_issue "$GID")
+            if [ "$ST" != "200" ]; then
+              echo "  unreadable: $ST — $(detail)"
+              FAILED=$((FAILED + 1)); continue
+            fi
+
+            # ECHO WHAT IS ABOUT TO BE TOUCHED. An issue id is unreadable six
+            # months later; the title and culprit are what make this run's log
+            # an audit trail rather than a list of numbers.
+            jq -r '"  " + (.metadata.type // .title // "(untitled)"),
+                   "  culprit: " + (.culprit // "-"),
+                   "  events=" + ((.count // 0)|tostring) + "  users=" + ((.userCount // 0)|tostring) + "  lastSeen=" + (.lastSeen // "-"),
+                   "  " + (.permalink // "-")' "$BODY" 2>/dev/null || true
+
+            # THE PROJECT GUARD. Issue ids are opaque and org-wide, so a
+            # mistyped digit lands on a real issue in a different project and
+            # every call above it succeeds. Refusing anything outside
+            # SENTRY_PROJECT is what keeps a typo a no-op instead of a silent
+            # mutation somewhere nobody is looking.
+            OWNER=$(jq -r '.project.slug // ""' "$BODY" 2>/dev/null || true)
+            if [ "$OWNER" != "$PROJ" ]; then
+              echo "  REFUSED: belongs to project '${OWNER:-unknown}', not the configured one."
+              FAILED=$((FAILED + 1)); continue
+            fi
+
+            WAS=$(jq -r '.status // "unknown"' "$BODY" 2>/dev/null || true)
+            WAS_NEXT=$(jq -r 'if (.statusDetails.inNextRelease // false) then "yes" else "no" end' "$BODY" 2>/dev/null || true)
+            echo "  status: $WAS (inNextRelease=$WAS_NEXT)"
+
+            if [ "$WAS" = "$WANT" ]; then
+              # Not a change, and saying so matters: reporting "resolved 2
+              # issues" when both were already resolved is the app's own
+              # honesty rule applied to its tooling.
+              echo "  already $WANT — no write."
+              ALREADY=$((ALREADY + 1)); continue
+            fi
+            if [ "$DRY" = "1" ]; then
+              echo "  would set: $WAS -> ${STATUS_IN}"
+              SKIPPED=$((SKIPPED + 1)); continue
+            fi
+
+            ST=$(put_issue "$GID")
+            case "$ST" in
+              200|202) ;;
+              *)
+                echo "  write refused: $ST — $(detail)"
+                # Counted apart from every other failure, because this is the
+                # ONE kind that a token scope can explain. See the remedy below.
+                WRITE_REFUSED=$((WRITE_REFUSED + 1)); FAILED=$((FAILED + 1)); continue ;;
+            esac
+
+            # A 200 ON THE PUT IS NOT EVIDENCE THE STATUS CHANGED, and this is
+            # the rule the whole repo is built on: confirm the mutation
+            # LANDED before reading its result. Sentry accepts an unknown
+            # statusDetails key without complaint, so the only honest proof is
+            # reading the issue back.
+            ST=$(get_issue "$GID")
+            if [ "$ST" != "200" ]; then
+              echo "  wrote, but could not read back to confirm: $ST — $(detail)"
+              FAILED=$((FAILED + 1)); continue
+            fi
+            NOW=$(jq -r '.status // "unknown"' "$BODY" 2>/dev/null || true)
+            NOW_NEXT=$(jq -r 'if (.statusDetails.inNextRelease // false) then "yes" else "no" end' "$BODY" 2>/dev/null || true)
+            if [ "$NOW" != "$WANT" ]; then
+              echo "  NOT APPLIED: asked for $WANT, reads back as $NOW."
+              FAILED=$((FAILED + 1)); continue
+            fi
+            # Reported, not asserted. Older Sentry versions answer
+            # `resolvedInNextRelease` as the status and newer ones answer
+            # `resolved` with the flag, so the flag is printed as observed
+            # rather than required — claiming it was set when the field says
+            # otherwise would be the fabricated measurement this repo keeps
+            # finding.
+            echo "  OK: $WAS -> $NOW (inNextRelease=$NOW_NEXT)"
+            CHANGED=$((CHANGED + 1))
+          done
+
+          echo
+          echo "changed=$CHANGED  already=$ALREADY  would-change=$SKIPPED  failed=$FAILED  (token: $TOKEN_NAME)"
+          if [ "$FAILED" -gt 0 ]; then
+            # NAME THE REMEDY THAT MATCHES THE FAILURE. The first version of
+            # this block printed the event:write remedy for EVERY failure, so a
+            # mistyped issue id answered "regenerate your token" — a report
+            # lying about its own cause, which is the exact defect
+            # sentry-top-issues.yml's header was written about. Found by
+            # running the guard paths against a stubbed API, not by reading.
+            #
+            # A scope can only explain a refused WRITE. Everything else here —
+            # an id that does not exist, an issue in another project, a status
+            # that did not stick — happened on a call that succeeded, so the
+            # credential is demonstrably fine and saying otherwise sends the
+            # next person to re-issue a token that was never the problem.
+            if [ "$WRITE_REFUSED" -gt 0 ]; then
+              HINT="${FALLBACK_HINT:-$WRITE_REFUSED write(s) were refused. The project probe passed, so this is a SCOPE: issue writes need event:write (plus project:read, org:read). Regenerate SENTRY_ISSUES_TOKEN with it — organization auth tokens (sntrys_) cannot carry that scope, user tokens (sntryu_) can.}"
+            else
+              HINT="No write was refused, so this is NOT a credential or scope problem — read the per-issue lines above for which ids failed and why."
+            fi
+            echo "::error title=Sentry issues not all updated::$FAILED of the named issues were not set to ${STATUS_IN}. $HINT"
+            exit 1
+          fi
