@@ -141,6 +141,44 @@ describe('sentry-resolve.yml — a workflow that writes', () => {
     expect([...handled].sort()).toEqual([...offered].sort());
   });
 
+  it('asks once whether the token can read issues at all, before the loop', () => {
+    // ADDED AFTER THE FIRST REAL DISPATCH (2026-09-21). The PR said the first
+    // real run would be the actual test, and it was: the project probe passed
+    // and then the issue came back 403, because SENTRY_ISSUES_TOKEN does not
+    // exist and the SENTRY_AUTH_TOKEN it falls back to has never carried
+    // event:read. Without a pre-flight ask, a systemic refusal is reported as
+    // N per-issue failures — the symptom N times, the cause nowhere.
+    const body = runBlocks(src).join('\n');
+    const probe = body.indexOf('/issues/?limit=1');
+    expect(probe).toBeGreaterThan(-1);
+    // Before the processing loop, or it is not a pre-flight. Anchored on the
+    // counter init rather than on `for ID in $IDS`: there are TWO such loops
+    // (the id-charset validation runs early too) and the first draft of this
+    // assertion matched the wrong one, failing correct code.
+    expect(probe).toBeLessThan(body.indexOf('CHANGED=0;'));
+    // And it must EXIT, not merely print — checked INSIDE the probe's own
+    // case block. The first draft matched `exit 1` within 600 characters of
+    // the probe, which a later unrelated `exit 1` satisfied: the mutation that
+    // turned the probe into a warning passed it. Decorative, and only the
+    // mutation said so.
+    const block = body.slice(probe, body.indexOf('esac', probe));
+    expect(block).toMatch(/401\|403\)/);
+    expect(block).toMatch(/exit 1/);
+  });
+
+  it('treats a refused READ as the scope problem it is', () => {
+    // THE SAME DEFECT AS M6, MIRRORED, AND IT SHIPPED. Scoping the remedy to
+    // refused WRITES made a refused READ answer "this is NOT a credential or
+    // scope problem" — which the first real run printed verbatim under a 403.
+    // Over-correcting a message that blamed the token for everything into one
+    // that exonerates it for everything is not a fix.
+    const body = runBlocks(src).join('\n');
+    expect(body).toMatch(/AUTH_REFUSED=\$\(\(AUTH_REFUSED \+ 1\)\)/);
+    expect(body).toMatch(/elif \[ "\$AUTH_REFUSED" -gt 0 \]/);
+    // The exonerating branch may only be reached when nothing was refused.
+    expect(body).toMatch(/Nothing was refused 401\/403, so this is NOT a credential/);
+  });
+
   it('only names the scope remedy when a write was actually refused', () => {
     // FOUND BY RUNNING IT, NOT BY READING IT. The first version printed
     // "regenerate your token with event:write" for every failure, so a
