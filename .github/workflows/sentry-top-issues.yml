@@ -130,6 +130,7 @@ jobs:
             exit 1
           fi
 
+          ACCESS_VERDICT=unknown
           BODY=$(mktemp)
           # Body KEPT on every status, so the failure can name itself. Sentry
           # answers a scope refusal with `{"detail": "…"}` — one sentence that
@@ -411,8 +412,20 @@ jobs:
               # the two causes, and it has never been read. Scope NAMES only —
               # same names-never-values rule as the rest of the file.
               #
-              # If event:read is absent HERE, stop editing tokens: the remedy
-              # is the account's role, or a token from an account that has it.
+              # WHAT `access` ACTUALLY MEASURES, corrected 2026-09-21 after its
+              # first real run. It is the EFFECTIVE access of this REQUEST —
+              # the token's scopes intersected with what its owner may do — so
+              # a missing event:read proves the CREDENTIAL AS A WHOLE lacks it
+              # and does NOT by itself say which of the two sides is short. The
+              # first version of this block asserted the account, which is the
+              # same fabricated certainty this file keeps correcting.
+              #
+              # It still ends the guessing, because it is a POSITIVE reading
+              # rather than an inference from a refusal, and one look settles
+              # the rest: compare this list against the scopes shown on the
+              # token whose fingerprint is printed above. event:read checked
+              # there but missing here = the ACCOUNT's role. Unchecked there =
+              # the token in the secret is not the one that was edited.
               ST=$(call "https://sentry.io/api/0/organizations/$ORG/")
               if [ "$ST" != "200" ]; then
                 echo "  org access unavailable: $ST ($(detail))"
@@ -422,14 +435,21 @@ jobs:
                 echo "  org access: (not reported by this endpoint) — UNDETERMINED"
               else
                 ACCESS=$(jq -r '(.access // []) | join(" ")' "$BODY" 2>/dev/null || true)
-                printf '  %-46s %s\n' "your access IN THIS ORG" "${ACCESS:-(empty list)}"
+                printf '  %-46s %s\n' "this credential's EFFECTIVE access in the org" "${ACCESS:-(empty list)}"
                 case " $ACCESS " in
                   *" event:read "*)
-                    echo "  → your ACCOUNT holds event:read here, so a 403 above is the TOKEN's scopes." ;;
+                    ACCESS_VERDICT=has
+                    echo "  → event:read IS in the effective access, so the 403 is NOT about scope."
+                    echo "    Look elsewhere: project membership, or an org-level restriction." ;;
                   *)
-                    echo "  → your ACCOUNT does NOT hold event:read in this org. No token can exceed"
-                    echo "    its owner, so re-scoping or re-pasting one CANNOT fix this. The remedy"
-                    echo "    is the account's org role (Member or above), not another credential." ;;
+                    ACCESS_VERDICT=missing
+                    echo "  → event:read is ABSENT from the effective access. That is measured, not"
+                    echo "    inferred from the 403 — and it is why the issue streams refuse."
+                    echo "    WHICH SIDE is short needs one look: open the token whose fingerprint"
+                    echo "    is above and read its scopes. event:read checked there but absent"
+                    echo "    here means the ACCOUNT's org role is the limit and no credential"
+                    echo "    change can fix it. Unchecked there means the token in the secret is"
+                    echo "    not the one that was edited." ;;
                 esac
               fi
               probe "GET /organizations/<org>/projects/" \
@@ -454,7 +474,14 @@ jobs:
               # The remedy depends on WHICH token was used. Telling someone to
               # "add SENTRY_ISSUES_TOKEN" when they just added it — and the job
               # simply cannot see it — is the report lying about its own cause.
-              if [ -n "$ISSUES_HINT" ]; then
+              # THE SUMMARY MUST NOT CONTRADICT THE BLOCK ABOVE IT. Its first
+              # real run printed "regenerate SENTRY_ISSUES_TOKEN" directly
+              # beneath a verdict saying no token change can help — the report
+              # arguing with itself in consecutive lines, which is the defect
+              # this whole file exists to avoid. The measured verdict wins.
+              if [ "$ACCESS_VERDICT" = "missing" ]; then
+                REMEDY="MEASURED above: event:read is absent from this credential's EFFECTIVE access in the org. Before changing any secret, open the token with the fingerprint above and read its scopes — if event:read is checked there, the limit is the ACCOUNT's org role and no credential change can fix it."
+              elif [ -n "$ISSUES_HINT" ]; then
                 REMEDY="$ISSUES_HINT"
               else
                 REMEDY="SENTRY_ISSUES_TOKEN was used and still cannot read issues, so the TOKEN ITSELF lacks event:read — regenerate it in Sentry with event:read (plus project:read, org:read)."

@@ -125,55 +125,71 @@ describe('a refused issue stream still reports what it can', () => {
   });
 });
 
-describe('a refusal separates the ACCOUNT from the TOKEN', () => {
+describe("a refusal measures the credential's effective access", () => {
   // THE QUESTION NOBODY ASKED ACROSS FOUR CREDENTIAL CHANGES (2026-09-21).
   // #644 records them — add a secret, re-add it under Actions, add event:read
   // to the shared token, create a user auth token — and every one ended at the
-  // identical 403. Every one of those changes the TOKEN. None could help if
-  // the limit is on the ACCOUNT, and the evidence fits that exactly: the
-  // credential sees the org, resolves the project, reads releases, and is
-  // refused on both issue streams.
+  // identical 403. Every one of those changes the TOKEN, and none could help if
+  // the limit is on the ACCOUNT.
   //
-  // A token cannot grant more than its owner holds, so `/organizations/<org>/`'s
-  // `access` array — the scopes the USER has in the org — is the one comparison
-  // that tells the two causes apart. These pin that it is read, that it is read
-  // on the refusal path, and that both verdicts exist.
-  it('reads the org-level access the AUTHENTICATED USER holds', () => {
-    expect(CODE).toMatch(/your access IN THIS ORG/);
+  // `/organizations/<org>/`'s `access` is the EFFECTIVE access of the request:
+  // the token's scopes intersected with what its owner may do. So it proves
+  // whether the CREDENTIAL AS A WHOLE holds event:read — a positive reading
+  // rather than an inference from a refusal — without by itself saying which
+  // side is short. The first version of this block asserted the ACCOUNT, which
+  // overstated it; these pin the corrected claim.
+  const ANCHOR = 'EFFECTIVE access in the org';
+
+  it('reads the effective access, and says it is effective', () => {
+    expect(CODE).toMatch(/EFFECTIVE access in the org/);
     expect(CODE).toMatch(/\(\.access \/\/ \[\]\) \| join/);
+    // It must NOT go back to claiming the account outright.
+    expect(CODE).not.toMatch(/your ACCOUNT does NOT hold/);
   });
 
   it('reads it on the refusal path, where the diagnosis is needed', () => {
     const probe = CODE.indexOf('What this token can reach');
-    const access = CODE.indexOf('your access IN THIS ORG');
+    const access = CODE.indexOf(ANCHOR);
     const header = CODE.indexOf('Top $LIMIT unresolved issues');
     expect(probe).toBeGreaterThan(-1);
-    expect(header).toBeGreaterThan(-1);
     expect(access).toBeGreaterThan(probe);
     // BOUNDED ABOVE TOO. `access > probe` alone is satisfied by moving the
     // read to the end of the file, where it never runs on a refusal — the
-    // mutation proved it. The success header marks the end of the refusal
-    // branch, so the read has to sit before it.
+    // mutation proved it. The success header ends the refusal branch.
     expect(access).toBeLessThan(header);
   });
 
-  it('names BOTH verdicts, so the reader is never left to infer one', () => {
-    const slice = CODE.slice(CODE.indexOf('your access IN THIS ORG'));
-    // Account holds it -> the token is the problem.
-    expect(slice).toMatch(/ACCOUNT holds event:read/);
-    // Account does not -> stop editing tokens. This is the branch that ends
-    // the loop, so it must say so in those terms.
-    expect(slice).toMatch(/ACCOUNT does NOT hold event:read/);
-    expect(slice).toMatch(/CANNOT fix this/);
+  it('names both readings, and sends the ambiguous one to a single check', () => {
+    const slice = CODE.slice(CODE.indexOf(ANCHOR));
+    expect(slice).toMatch(/event:read IS in the effective access/);
+    expect(slice).toMatch(/event:read is ABSENT from the effective access/);
+    // The absent case must point at the ONE comparison that resolves it
+    // rather than naming a cause it has not measured. SCOPED TO THAT CASE'S
+    // OWN BLOCK: a bare /fingerprint/ over the rest of the file is satisfied
+    // by the REMEDY string further down, and the mutation that stripped these
+    // echo lines passed it.
+    const absent = slice.indexOf('event:read is ABSENT from the effective access');
+    const arm = slice.slice(absent, slice.indexOf('esac', absent));
+    expect(arm).toMatch(/fingerprint/);
+    expect(arm).toMatch(/read its scopes/);
   });
 
   it('treats an absent access list as undetermined, never as absent scope', () => {
-    // The rule this file already learned twice: a field the serializer does
-    // not return is UNDETERMINED. Reporting "no access" for a key that was
-    // never there is the fabricated measurement NEVER-DO 13 forbids.
-    const slice = CODE.slice(CODE.indexOf('your access IN THIS ORG') - 600);
+    const slice = CODE.slice(CODE.indexOf(ANCHOR) - 900);
     expect(slice).toMatch(/has\("access"\)/);
     expect(slice).toMatch(/UNDETERMINED/);
+  });
+
+  it('never lets the summary contradict the measured verdict', () => {
+    // Its first real run printed "regenerate SENTRY_ISSUES_TOKEN" directly
+    // beneath a verdict saying no token change can help — the report arguing
+    // with itself in consecutive lines.
+    expect(CODE).toMatch(/ACCESS_VERDICT=missing/);
+    const remedy = CODE.indexOf('REMEDY=');
+    expect(remedy).toBeGreaterThan(-1);
+    const tail = CODE.slice(remedy - 300);
+    expect(tail).toMatch(/if \[ "\$ACCESS_VERDICT" = "missing" \]/);
+    expect(tail).toMatch(/MEASURED above/);
   });
 });
 
