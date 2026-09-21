@@ -387,6 +387,51 @@ jobs:
               fi
               probe "GET /organizations/<org>/" \
                 "https://sentry.io/api/0/organizations/$ORG/"
+
+              # IS THIS A ROLE PROBLEM RATHER THAN A SCOPE PROBLEM? (2026-09-21)
+              #
+              # THE QUESTION NOBODY ASKED ACROSS FOUR CREDENTIAL CHANGES. #644
+              # records them: add a secret, re-add it under Actions, add
+              # event:read to the shared token, create a user auth token —
+              # every one ended at the identical 403. Every one of those
+              # changes the TOKEN. None of them could help if the limit is on
+              # the ACCOUNT, and the evidence fits that reading exactly: the
+              # credential sees the org, resolves the project and reads
+              # releases, and is refused on both issue streams.
+              #
+              # A Sentry token can never grant more than its owner has. An
+              # account whose org role sits below Member (Billing, or a
+              # restricted custom role) reads organizations and projects and
+              # is refused issues — which is this shape precisely, and which
+              # no amount of re-scoping or re-pasting can move.
+              #
+              # `/organizations/<org>/` returns `access`: the scopes the
+              # AUTHENTICATED USER holds in this org, as opposed to the ones
+              # the token asked for. That is the one comparison that separates
+              # the two causes, and it has never been read. Scope NAMES only —
+              # same names-never-values rule as the rest of the file.
+              #
+              # If event:read is absent HERE, stop editing tokens: the remedy
+              # is the account's role, or a token from an account that has it.
+              ST=$(call "https://sentry.io/api/0/organizations/$ORG/")
+              if [ "$ST" != "200" ]; then
+                echo "  org access unavailable: $ST ($(detail))"
+              elif ! jq -e 'has("access")' "$BODY" >/dev/null 2>&1; then
+                # ABSENT IS UNDETERMINED, NEVER FALSE. The same rule the
+                # scopes read above already learned the hard way.
+                echo "  org access: (not reported by this endpoint) — UNDETERMINED"
+              else
+                ACCESS=$(jq -r '(.access // []) | join(" ")' "$BODY" 2>/dev/null || true)
+                printf '  %-46s %s\n' "your access IN THIS ORG" "${ACCESS:-(empty list)}"
+                case " $ACCESS " in
+                  *" event:read "*)
+                    echo "  → your ACCOUNT holds event:read here, so a 403 above is the TOKEN's scopes." ;;
+                  *)
+                    echo "  → your ACCOUNT does NOT hold event:read in this org. No token can exceed"
+                    echo "    its owner, so re-scoping or re-pasting one CANNOT fix this. The remedy"
+                    echo "    is the account's org role (Member or above), not another credential." ;;
+                esac
+              fi
               probe "GET /organizations/<org>/projects/" \
                 "https://sentry.io/api/0/organizations/$ORG/projects/"
               probe "GET /projects/<org>/<proj>/" \
