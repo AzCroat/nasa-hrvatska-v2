@@ -181,6 +181,27 @@ jobs:
             exit 1
           fi
 
+          # CAN THIS TOKEN READ ISSUES AT ALL? Asked ONCE, before the loop.
+          #
+          # ADDED AFTER THE FIRST REAL RUN (2026-09-21), which is the run this
+          # file's own PR said would be the actual test. It was: the project
+          # probe above passed, then every issue came back `403 You do not have
+          # permission` — because SENTRY_ISSUES_TOKEN does not exist and the
+          # SENTRY_AUTH_TOKEN it falls back to has never carried event:read.
+          # sentry-top-issues.yml has been warning exactly this on every push
+          # and every daily run; it warns rather than fails, so nobody saw it.
+          #
+          # Without this, that systemic refusal is reported N times as N
+          # per-issue failures, which describes the symptom and buries the
+          # cause. One call, asked before anything else, turns "five issues
+          # failed" into "this credential cannot read issues".
+          ST=$(api GET "https://sentry.io/api/0/organizations/$ORG/issues/?limit=1&statsPeriod=1h")
+          case "$ST" in
+            401|403)
+              echo "::error title=Sentry issues unreadable::The token reaches the org and resolved the project, but the issue stream answered $ST ($(detail)). Issue READS need event:read and writes need event:write; this credential has neither, so nothing here can run. ${FALLBACK_HINT:-Regenerate SENTRY_ISSUES_TOKEN in Sentry with event:read + event:write (plus project:read, org:read). Organization auth tokens (sntrys_) cannot carry those scopes; user tokens (sntryu_) can.}"
+              exit 1 ;;
+          esac
+
           # A short id (NASA-HRVATSKA-4X) is what the Sentry UI shows on the
           # issue page; the numeric id is what the API takes and what the
           # permalink ends in. Accept both rather than making a human convert.
@@ -216,7 +237,7 @@ jobs:
             printf '%s' "$st"
           }
 
-          CHANGED=0; ALREADY=0; FAILED=0; SKIPPED=0; WRITE_REFUSED=0
+          CHANGED=0; ALREADY=0; FAILED=0; SKIPPED=0; WRITE_REFUSED=0; AUTH_REFUSED=0
           echo
           for ID in $IDS; do
             echo "── $ID ──"
@@ -229,6 +250,13 @@ jobs:
             ST=$(get_issue "$GID")
             if [ "$ST" != "200" ]; then
               echo "  unreadable: $ST — $(detail)"
+              # A 401/403 HERE IS A SCOPE PROBLEM, and the first version of the
+              # remedy below said the opposite in as many words. Fixing the
+              # over-broad message (every failure blamed the token) I scoped the
+              # remedy to refused WRITES — which made a refused READ report
+              # "this is NOT a credential or scope problem". Same defect,
+              # mirrored, shipped, and caught by the first real dispatch.
+              case "$ST" in 401|403) AUTH_REFUSED=$((AUTH_REFUSED + 1)) ;; esac
               FAILED=$((FAILED + 1)); continue
             fi
 
@@ -320,8 +348,10 @@ jobs:
             # next person to re-issue a token that was never the problem.
             if [ "$WRITE_REFUSED" -gt 0 ]; then
               HINT="${FALLBACK_HINT:-$WRITE_REFUSED write(s) were refused. The project probe passed, so this is a SCOPE: issue writes need event:write (plus project:read, org:read). Regenerate SENTRY_ISSUES_TOKEN with it — organization auth tokens (sntrys_) cannot carry that scope, user tokens (sntryu_) can.}"
+            elif [ "$AUTH_REFUSED" -gt 0 ]; then
+              HINT="${FALLBACK_HINT:-$AUTH_REFUSED issue read(s) were refused 401/403. That is a SCOPE: issue reads need event:read. Regenerate SENTRY_ISSUES_TOKEN with event:read + event:write.}"
             else
-              HINT="No write was refused, so this is NOT a credential or scope problem — read the per-issue lines above for which ids failed and why."
+              HINT="Nothing was refused 401/403, so this is NOT a credential or scope problem — read the per-issue lines above for which ids failed and why."
             fi
             echo "::error title=Sentry issues not all updated::$FAILED of the named issues were not set to ${STATUS_IN}. $HINT"
             exit 1
