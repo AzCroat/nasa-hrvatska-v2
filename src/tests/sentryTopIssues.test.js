@@ -125,6 +125,58 @@ describe('a refused issue stream still reports what it can', () => {
   });
 });
 
+describe('a refusal separates the ACCOUNT from the TOKEN', () => {
+  // THE QUESTION NOBODY ASKED ACROSS FOUR CREDENTIAL CHANGES (2026-09-21).
+  // #644 records them — add a secret, re-add it under Actions, add event:read
+  // to the shared token, create a user auth token — and every one ended at the
+  // identical 403. Every one of those changes the TOKEN. None could help if
+  // the limit is on the ACCOUNT, and the evidence fits that exactly: the
+  // credential sees the org, resolves the project, reads releases, and is
+  // refused on both issue streams.
+  //
+  // A token cannot grant more than its owner holds, so `/organizations/<org>/`'s
+  // `access` array — the scopes the USER has in the org — is the one comparison
+  // that tells the two causes apart. These pin that it is read, that it is read
+  // on the refusal path, and that both verdicts exist.
+  it('reads the org-level access the AUTHENTICATED USER holds', () => {
+    expect(CODE).toMatch(/your access IN THIS ORG/);
+    expect(CODE).toMatch(/\(\.access \/\/ \[\]\) \| join/);
+  });
+
+  it('reads it on the refusal path, where the diagnosis is needed', () => {
+    const probe = CODE.indexOf('What this token can reach');
+    const access = CODE.indexOf('your access IN THIS ORG');
+    const header = CODE.indexOf('Top $LIMIT unresolved issues');
+    expect(probe).toBeGreaterThan(-1);
+    expect(header).toBeGreaterThan(-1);
+    expect(access).toBeGreaterThan(probe);
+    // BOUNDED ABOVE TOO. `access > probe` alone is satisfied by moving the
+    // read to the end of the file, where it never runs on a refusal — the
+    // mutation proved it. The success header marks the end of the refusal
+    // branch, so the read has to sit before it.
+    expect(access).toBeLessThan(header);
+  });
+
+  it('names BOTH verdicts, so the reader is never left to infer one', () => {
+    const slice = CODE.slice(CODE.indexOf('your access IN THIS ORG'));
+    // Account holds it -> the token is the problem.
+    expect(slice).toMatch(/ACCOUNT holds event:read/);
+    // Account does not -> stop editing tokens. This is the branch that ends
+    // the loop, so it must say so in those terms.
+    expect(slice).toMatch(/ACCOUNT does NOT hold event:read/);
+    expect(slice).toMatch(/CANNOT fix this/);
+  });
+
+  it('treats an absent access list as undetermined, never as absent scope', () => {
+    // The rule this file already learned twice: a field the serializer does
+    // not return is UNDETERMINED. Reporting "no access" for a key that was
+    // never there is the fabricated measurement NEVER-DO 13 forbids.
+    const slice = CODE.slice(CODE.indexOf('your access IN THIS ORG') - 600);
+    expect(slice).toMatch(/has\("access"\)/);
+    expect(slice).toMatch(/UNDETERMINED/);
+  });
+});
+
 describe('a refusal reports what the token CAN reach', () => {
   it('probes the endpoints instead of repeating one sentence', () => {
     // WHY (2026-09-11): four credential changes in a row ended at the same
