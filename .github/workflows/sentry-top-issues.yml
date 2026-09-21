@@ -130,6 +130,29 @@ jobs:
             exit 1
           fi
 
+          # SILENT WHILE THE CREDENTIAL IS THE ONE ALREADY KNOWN TO BE BLOCKED
+          # (owner decision, 2026-09-21: "make it silent until the credential
+          # changes").
+          #
+          # This report has warned on every push and every daily run since it
+          # was written, for a condition that cannot be fixed from CI: the
+          # credential's effective access in the org is
+          # `org:read project:releases project:read`, with no event:read, so
+          # both issue streams answer 403. #644 records four credential changes
+          # already attempted, all ending at the same refusal. A warning that
+          # fires forever and that nothing in this pipeline can act on is not a
+          # signal; it is wallpaper, and it trains people to ignore the runs
+          # that do matter.
+          #
+          # IT IS SILENCED BY FINGERPRINT, NOT BY A FLAG, so it cannot outlive
+          # its reason. The fingerprint is 8 hex of SHA-256 over the token —
+          # already printed by this file, not reversible, and it changes the
+          # moment the secret does. So the day a different credential is
+          # installed, or the day this one gains event:read, the report speaks
+          # again on its own with nobody remembering to re-enable it. That is
+          # the difference between silencing a known condition and disabling a
+          # check.
+          KNOWN_BLOCKED_FP=fbe4e23e
           ACCESS_VERDICT=unknown
           BODY=$(mktemp)
           # Body KEPT on every status, so the failure can name itself. Sentry
@@ -490,6 +513,19 @@ jobs:
               # RED on dispatch (the run exists to produce the list); a WARNING
               # when riding along with a push or the daily schedule, because a
               # telemetry read must never turn a green deploy red.
+              # BOTH conditions, deliberately. The fingerprint alone would stay
+              # silent if this same token later gained the scope; the measured
+              # access alone would stay silent for a DIFFERENT credential that
+              # happens to be short too — and that one would be news.
+              if [ "$FP" = "$KNOWN_BLOCKED_FP" ] && [ "$ACCESS_VERDICT" = "missing" ]; then
+                echo
+                echo "── Known blocked, staying quiet ──"
+                echo "  The credential ($FP) is the one already known to lack event:read, and"
+                echo "  its effective access still shows it. Nothing here can change that, so"
+                echo "  this run raises no warning. The full diagnosis is above."
+                echo "  This silence ends by itself when the token changes or gains the scope."
+                exit 0
+              fi
               if [ "${EVENT:-workflow_dispatch}" = "workflow_dispatch" ]; then
                 echo "::error title=Sentry issues unreadable::$MSG"
                 exit 1

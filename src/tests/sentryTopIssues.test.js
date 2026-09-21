@@ -125,6 +125,38 @@ describe('a refused issue stream still reports what it can', () => {
   });
 });
 
+describe('a known-blocked credential is silenced, not the check', () => {
+  // OWNER DECISION 2026-09-21: "make it silent until the credential changes".
+  // This report warned on every push and every daily run for a condition CI
+  // cannot fix. A warning that fires forever, that nothing in the pipeline can
+  // act on, is wallpaper — it trains people to ignore the runs that matter.
+  //
+  // The silence is scoped by FINGERPRINT so it cannot outlive its reason: a new
+  // secret has a new fingerprint and the report speaks again by itself. These
+  // pin that it is a narrow silence and not a disabled check.
+  it('is keyed to a specific credential, not a flag', () => {
+    expect(CODE).toMatch(/KNOWN_BLOCKED_FP=[0-9a-f]{8}/);
+    expect(CODE).toMatch(/\[ "\$FP" = "\$KNOWN_BLOCKED_FP" \]/);
+  });
+
+  it('requires BOTH the credential and the measured access to match', () => {
+    // The fingerprint alone would stay silent if this token later GAINED the
+    // scope; the access alone would silence a DIFFERENT short credential,
+    // which would be news.
+    expect(CODE).toMatch(
+      /\[ "\$FP" = "\$KNOWN_BLOCKED_FP" \] && \[ "\$ACCESS_VERDICT" = "missing" \]/,
+    );
+  });
+
+  it('still warns when the condition does not match', () => {
+    // Both the warning and the dispatch error must survive below the gate —
+    // silencing one known credential must not remove the check itself.
+    const after = CODE.slice(CODE.indexOf('KNOWN_BLOCKED_FP" ] &&'));
+    expect(after).toMatch(/::error title=Sentry issues unreadable/);
+    expect(after).toMatch(/::warning title=Sentry issues unreadable/);
+  });
+});
+
 describe("a refusal measures the credential's effective access", () => {
   // THE QUESTION NOBODY ASKED ACROSS FOUR CREDENTIAL CHANGES (2026-09-21).
   // #644 records them — add a secret, re-add it under Actions, add event:read
