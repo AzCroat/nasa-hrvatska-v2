@@ -701,6 +701,51 @@ the five bails lose `'path'` -> 3; the pill never returns -> 2.
 E2E audit: specs reference only `session-begin-cta`, whose behaviour is
 unchanged. No spec touches the strip or any next-up test id.
 
+### 16. The push trigger worked — and #699's headline was wrong — 2026-09-22
+
+Two results, and the second is a correction to something already merged.
+
+**THE FIX IS PROVEN.** #699 said plainly that its own green PR did NOT
+demonstrate anything, because the `pull_request` triggers already existed and
+the new `push` ones could not fire until master moved: "the first real evidence
+is a CodeQL run appearing with `event: push` on master afterwards." There are
+now three — `23852142` (#699's own merge), `48b5b159` (#700) and `fbbb4c8f`
+(#701). Confirmed by querying the API for `event: push`, not by reading a green
+tick.
+
+**AND THE MEASUREMENT BEHIND ITS TITLE WAS OVERSTATED.** The commit is titled
+"Code scanning never ran on a master push — 2,245 runs, zero of them". The same
+API query now returns **185 runs with `event: push`**, on the same
+`workflow_id`, the oldest dating to 2026-03-28. So "never" is false. What
+happened:
+
+2026-03-18 f917ee34 adds codeql.yml AND security.yml WITH
+`push: branches: [main, master]`
+2026-03-28 2393a1b8 REMOVES the push trigger from both, deliberately,
+with a stated reason: "CodeQL is a slow scan (5-15 min),
+schedule-only (weekly) + PR is sufficient; push was generating
+emails on every master commit"
+→ master went unscanned-on-push for SIX MONTHS, until #699
+
+The defect was real and the fix is right. The headline was not: the scan had
+run on master pushes for nine days, and 0-of-1,122 was true of the runs
+SAMPLED, not of all history. **This is the file's own most-repeated rule landing
+on the file's own author again** — report what was observed, not the strongest
+claim consistent with it — and this time it is in a commit message on master,
+where it cannot be edited.
+
+**THE PART THAT CHANGES WHAT THE NEXT PERSON SHOULD DO.** #699 read as adding a
+trigger nobody had thought of. It is a RE-INTRODUCTION that reverses a
+considered decision, and the reason for that decision still exists: a push
+trigger notifies on every failing master run. Anyone who meets that annoyance
+will reach for exactly the edit `2393a1b8` made. Two things make that different
+now: `codeqlPushTrigger.test.js` fails the build if either push trigger is
+removed (verified — 5 tests, and its mutation set already covers both
+workflows), and the trade is the right way round, because a security finding on
+the branch we DEPLOY is precisely the thing worth an email.
+
+No code change. The correction is the deliverable.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
