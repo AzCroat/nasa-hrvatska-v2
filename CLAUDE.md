@@ -2733,20 +2733,50 @@ Before committing ANY change that touches a component, tab, screen, or navigatio
 
 ### Spec-to-component mapping (always check these pairs):
 
-| If you change...                         | Check these spec files                                                                     |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| HomeTab / HeroSection / QuestTracker     | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
-| LearnTab / LearnPathWidget / vocab pills | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js`                           |
-| PracticeTab / intent tiles / game panels | `practice.spec.js`, `offline.spec.js`                                                      |
-| CultureTab / CroatiaTab                  | `croatia.spec.js`, `navigation.spec.js`                                                    |
-| StatsTab / ProfileTab / Me               | `me-tab.spec.js`, `profile-persist.spec.js`                                                |
-| TabBar / navigation labels               | `navigation.spec.js`, `daily-challenge-sync.spec.js`, `croatia.spec.js`, `offline.spec.js` |
-| LoginScreen / auth flow                  | `auth.spec.js`, `accessibility.spec.js`                                                    |
-| Any screen accessible from Practice tab  | `practice.spec.js`, `offline.spec.js`                                                      |
+**The COMPONENT NAMES here are the real ones, checked against `AppRouter.tsx`.**
+Four of the eight rows used to name components that do not exist — `PracticeTab`,
+`CultureTab`, `CroatiaTab` (which were never the names) and `LearnPathWidget`
+(retired in #690). A mapping table whose left column cannot be grepped sends the
+reader looking for a file that was never there, which is worse than no table.
+`navTable.test.ts` now derives this column from the router and fails on drift.
 
-### Nav tab names (never get these wrong):
+| If you change...                            | Check these spec files                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `HomeTab` / HeroSection / QuestTracker      | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
+| `LearnTab` / Learning Center / vocab pills  | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js`                           |
+| `GradTab` (the Practice tab) / game panels  | `practice.spec.js`, `offline.spec.js`                                                      |
+| `HrvatskaTab` (the Croatia tab)             | `croatia.spec.js`, `navigation.spec.js`                                                    |
+| `RazgovorTab` (the AI Tutor tab)            | `navigation.spec.js`                                                                       |
+| `StatsTab` / `ProfileTab` / the Me surface  | `me-tab.spec.js`, `profile-persist.spec.js`                                                |
+| `TabBar` / `Sidebar` / navigation labels    | `navigation.spec.js`, `daily-challenge-sync.spec.js`, `croatia.spec.js`, `offline.spec.js` |
+| `LoginScreen` / auth flow                   | `auth.spec.js`, `accessibility.spec.js`                                                    |
+| Any screen accessible from the Practice tab | `practice.spec.js`, `offline.spec.js`                                                      |
 
-`Today` | `Learn` | `Practice` | `Culture` | `Me`
+### Nav tab names (derived from the code, pinned by `navTable.test.ts`):
+
+**Bottom bar (`TabBar.tsx`, what a phone shows) — five:**
+
+`Today` | `Learn` | `Practice` | `AI Tutor` | `Croatia`
+
+**Desktop rail (`Sidebar.tsx`) — the same five plus one:**
+
+`Today` | `Learn` | `Practice` | `AI Tutor` | `Croatia` | `Me`
+
+`Me` IS NOT IN THE BOTTOM BAR. On a phone it is reached from the app header
+(`AppHeader`'s `onProfile`), not from a tab. A spec that clicks a `Me` tab
+passes on desktop and fails on mobile.
+
+THIS LINE WAS WRONG FOR FIVE MONTHS AND IS WHY THE TEST EXISTS. It used to
+read `Today | Learn | Practice | Culture | Me`, under a heading that said
+"never get these wrong". It was CORRECT when written on 2026-04-04 —
+`TabBar.jsx` really did say `Culture` that day. Then the code moved three
+times and the prose did not: `Croatia` replaced `Culture` on 2026-04-26, an
+`AI Tutor` tab was added on 2026-05-20, and `Me` left the bottom bar for the
+header on 2026-06-18. Nobody wrote a false claim and nobody skipped a check —
+there was simply nothing capable of noticing, which is this file's own
+most-repeated lesson (`a hand-maintained list decays exactly like one in
+production`) landing on the file itself. Derived and pinned now, so the next
+rename fails CI instead of misleading a reader for another five months.
 
 ### The rule in plain English:
 
