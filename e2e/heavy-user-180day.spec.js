@@ -12,7 +12,7 @@
  * Highly engaged user profile:
  *   - 45-60 min daily sessions, 6-7 days/week
  *   - Systematic progression through all CEFR levels A1 → B2
- *   - Uses every feature: SRS, streaks, badges, leaderboard, AI, speaking
+ *   - Uses every feature: SRS, streaks, badges, AI, speaking
  *   - Experiences streak loss + recovery mechanic around Day 90
  *   - Advances difficulty: Beginner → Intermediate (Day 60) → Advanced (Day 120)
  *   - Full vocabulary mastery across all topic categories
@@ -42,7 +42,7 @@
  *   Block 12 (Days 67-72): Advanced grammar — Aspect Drill, Word Order, CEFR B1
  *   Block 13 (Days 73-78): Croatia deep dive — Media, Stories, regional content
  *   Block 14 (Days 79-84): Streak milestone — 60 days, freeze mechanic, goal tracking
- *   Block 15 (Days 85-90): Community & leaderboard — rank, XP race, social
+ *   Block 15 (Days 85-90): Sustained XP push — practice volume at speed
  *
  * PHASE 4 — Advanced Features (Days 91–120)
  *   Block 16 (Days  91- 96): Streak break + recovery — lose streak, repair with XP
@@ -56,7 +56,7 @@
  *   Block 22 (Days 127-132): CEFR B1+ grammar sprint — all complex drills
  *   Block 23 (Days 133-138): Croatia — all 4 sub-tabs + regional deep dive
  *   Block 24 (Days 139-144): Speaking Sprint + Shadowing intensive
- *   Block 25 (Days 145-150): Weekly league — rank tracking, XP competition
+ *   Block 25 (Days 145-150): 120-day checkpoint — XP, streak and level audit
  *
  * PHASE 6 — Mastery & Regression (Days 151–180)
  *   Block 26 (Days 151-156): Full vocabulary audit — all categories, SRS status
@@ -1016,17 +1016,8 @@ test('Block 10 (Days 55-60) — 30-day milestone: profile stats, badges, streak 
   // Level progress bar
   if (profileText.match(/level|next.*level|xp.*next/i)) ok('Level progress indicator visible');
 
-  // Leaderboard
-  const leaderboardBtn = page.locator('button, a').filter({ hasText: /leaderboard|league|rank/i }).first();
-  if (await leaderboardBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-    await leaderboardBtn.click().catch(() => {});
-    await page.waitForTimeout(800);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (lbText.match(/rank|xp|league|user|player/i)) ok('Leaderboard has entries');
-    else info('Leaderboard loaded but no entries visible');
-    await ss(page, 'b10-leaderboard');
-    await exitScreen(page);
-  } else info('Leaderboard button not found on profile');
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1271,48 +1262,19 @@ test('Block 14 (Days 79-84) — Streak milestone: 60 days, freeze mechanic, week
   }
 });
 
-test('Block 15 (Days 85-90) — Community: leaderboard rank, XP race, social', async ({ page }) => {
+test('Block 15 (Days 85-90) — Sustained XP push: practice volume at speed', async ({ page }) => {
   attachErrorListeners(page, 'Block15');
   await login(page);
 
-  // ── Leaderboard deep dive
-  await goTab(page, 'Profile');
-  const leaderboardBtn = page.locator('button, a').filter({ hasText: /leaderboard|league|rank/i }).first();
-  if (await leaderboardBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leaderboardBtn.click().catch(() => {});
-    await page.waitForTimeout(1000);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (lbText.match(/rank|#\d+|xp|league|week|gold|silver|bronze/i)) {
-      ok('Leaderboard with ranking data visible');
-      await ss(page, 'b15-leaderboard');
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 
-      // Check user position
-      const rankMatch = lbText.match(/#?\s*(\d+)\s*(rank|place|position)?/i);
-      if (rankMatch) ok(`User rank visible: #${rankMatch[1]}`);
-
-      // Check weekly XP display
-      if (lbText.match(/this week|\d+\s*xp.*week|weekly/i)) ok('Weekly XP shown on leaderboard');
-    } else bug('UX', 'Leaderboard', 'Leaderboard loaded but no ranking data visible');
-    await exitScreen(page);
-  } else info('Leaderboard button not found (may be in a different location)');
-
-  // ── Weekly league system
-  await goTab(page, 'Profile');
-  const leagueText = await page.locator('#root').innerText().catch(() => '');
-  for (const league of ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']) {
-    if (leagueText.match(new RegExp(league, 'i'))) {
-      ok(`Weekly league visible: ${league}`);
-      break;
-    }
-  }
-
-  // ── XP accumulation race
-  // Do intensive practice to earn XP for leaderboard
+  // ── XP accumulation: sustained practice volume
   await goTab(page, 'Practice');
   const quizLaunched = await clickQuickGame(page, 'Quiz');
   if (quizLaunched) {
-    const answered = await runQuiz(page, 'LeaderboardRace', 15);
-    ok(`Leaderboard XP race — Quiz: ${answered} questions`);
+    const answered = await runQuiz(page, 'XPPush', 15);
+    ok(`XP push — Quiz: ${answered} questions`);
     await exitScreen(page);
   }
 
@@ -1320,11 +1282,11 @@ test('Block 15 (Days 85-90) — Community: leaderboard rank, XP race, social', a
   const flashLaunched = await clickQuickGame(page, 'Flashcards');
   if (flashLaunched) {
     const rated = await runFlashcards(page, 8);
-    ok(`Leaderboard XP race — Flashcards: ${rated} rated`);
+    ok(`XP push — Flashcards: ${rated} rated`);
     await exitScreen(page);
   }
 
-  // Check if XP updated on leaderboard
+  // Check the XP total moved
   await goTab(page, 'Profile');
   const xp = await readXP(page);
   info(`XP after Phase 2 (Day ~90): ${xp}`);
@@ -1758,7 +1720,7 @@ test('Block 24 (Days 139-144) — Speaking Sprint + Shadowing intensive', async 
   }
 });
 
-test('Block 25 (Days 145-150) — Weekly league: rank tracking, XP competition', async ({ page }) => {
+test('Block 25 (Days 145-150) — 120-day checkpoint: XP, streak and level audit', async ({ page }) => {
   attachErrorListeners(page, 'Block25');
   await login(page);
   await goTab(page, 'Profile');
@@ -1769,27 +1731,10 @@ test('Block 25 (Days 145-150) — Weekly league: rank tracking, XP competition',
   const level = await readLevel(page);
   info(`120-day check — XP: ${xp}, Streak: ${streak}, Level: ${level}`);
 
-  // Weekly league position
-  const profileText = await page.locator('#root').innerText().catch(() => '');
-  const leagueMatch = profileText.match(/(bronze|silver|gold|platinum|diamond)\s*league/i);
-  if (leagueMatch) ok(`Currently in ${leagueMatch[1]} league`);
-  else info('League tier not directly visible in profile text');
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 
-  // Leaderboard with this week's rank
-  const lbBtn = page.locator('button, a').filter({ hasText: /leaderboard|league/i }).first();
-  if (await lbBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-    await lbBtn.click().catch(() => {});
-    await page.waitForTimeout(800);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    const rankMatch = lbText.match(/#(\d+)|rank.*(\d+)|(\d+).*rank/i);
-    if (rankMatch) ok(`Leaderboard rank: #${rankMatch[1] || rankMatch[2] || rankMatch[3]}`);
-    const thisWeekXP = lbText.match(/this week.*(\d+)\s*xp|(\d+)\s*xp.*week/i);
-    if (thisWeekXP) ok(`This week's XP on leaderboard: ${thisWeekXP[1] || thisWeekXP[2]}`);
-    await ss(page, 'b25-leaderboard-120day');
-    await exitScreen(page);
-  }
-
-  // Max XP earning session — compete on leaderboard
+  // Max XP earning session
   for (let i = 0; i < 2; i++) {
     await goTab(page, 'Practice');
     const quizLaunched = await clickQuickGame(page, 'Quiz');

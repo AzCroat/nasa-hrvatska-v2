@@ -78,7 +78,6 @@ test.describe('Me tab (Profile)', () => {
 
     // Insights tab renders at minimum one of these content markers
     const insightsMarkers = [
-      page.getByText(/Leaderboard/i).first(),
       page.getByText(/Friends/i).first(),
       page.getByText(/AI/i).first(),
       page.getByText(/Recommendations/i).first(),

@@ -1101,21 +1101,8 @@ test('Block 7 (Days 19-21) — Profile: stats, badges, heatmap, journal, mistake
     bug('UX', 'Profile', 'Journal button not found on profile');
   }
 
-  // ── LEADERBOARD / WEEKLY LEAGUE
-  await goTab(page, 'Profile');
-  const leaderBtn = page.locator('button').filter({ hasText: /leaderboard|league|ranking|weekly/i }).first();
-  if (await leaderBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leaderBtn.click();
-    await page.waitForTimeout(1000);
-    await ss(page, 'b7-leaderboard');
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (!lbText.match(/rank|league|XP|player|user|\w{4,}/i)) {
-      bug('BUG', 'Leaderboard', 'Leaderboard screen blank');
-    } else ok('Leaderboard screen loaded');
-    await exitScreen(page);
-  } else {
-    info('Leaderboard not directly visible from Profile');
-  }
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probe lived here until 2026-09-22.)
 
   // ── GDPR / EXPORT DATA
   await goTab(page, 'Profile');

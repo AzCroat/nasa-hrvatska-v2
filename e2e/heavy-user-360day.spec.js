@@ -33,7 +33,7 @@
  *   Block 9  (Days  81-90): Vocabulary expansion, Food/Family/Travel SRS
  *   Block 10 (Days  91-100): AI Tutor — grammar clarification sessions
  *   Block 11 (Days 101-110): Difficulty → Intermediate, adjusted content
- *   Block 12 (Days 111-120): 120-day milestone, badges, leaderboard
+ *   Block 12 (Days 111-120): 120-day milestone, badges, XP audit
  *
  * PHASE 3 — Intermediate Immersion (Days 121–180, Blocks 13–18)
  *   Block 13 (Days 121-130): Shadowing intensive begins
@@ -55,7 +55,7 @@
  *   Block 25 (Days 241-250): Shadowing + Speaking Sprint intensive week
  *   Block 26 (Days 251-260): Croatia Stories — advanced reading
  *   Block 27 (Days 261-270): AI Tutor — free conversation, corrections
- *   Block 28 (Days 271-280): Weekly leagues, leaderboard, social features
+ *   Block 28 (Days 271-280): Sustained XP push at 280 days
  *   Block 29 (Days 281-290): Settings mastery, notifications, voice config
  *   Block 30 (Days 291-300): 300-day milestone — full immersion day
  *
@@ -740,16 +740,8 @@ test('Block 6 (Days 51-60) — 60-day milestone: SRS habit, streak, badge check'
     await exitScreen(page);
   } else info('SRS button not visible');
 
-  // Leaderboard check
-  const lbBtn = page.locator('button, a').filter({ hasText: /leaderboard|league|rank|top/i }).first();
-  if (await lbBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await lbBtn.click().catch(() => {});
-    await page.waitForTimeout(1200);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (lbText.match(/rank|#\d|position|league|xp/i)) ok('Leaderboard loaded with data');
-    else info('Leaderboard visible but data sparse');
-    await exitScreen(page);
-  } else info('Leaderboard not accessible from profile');
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 
   await ss(page, 'b06-complete');
 });
@@ -994,7 +986,7 @@ test('Block 11 (Days 101-110) — Difficulty → Intermediate, adjusted content'
   await ss(page, 'b11-complete');
 });
 
-test('Block 12 (Days 111-120) — 120-day milestone: badges, leaderboard, XP audit', async ({ page }) => {
+test('Block 12 (Days 111-120) — 120-day milestone: badges, XP audit', async ({ page }) => {
   attachErrorListeners(page, 'Block12');
   await login(page);
   await goTab(page, 'Profile');
@@ -1017,17 +1009,8 @@ test('Block 12 (Days 111-120) — 120-day milestone: badges, leaderboard, XP aud
     info(`Badge mentions in profile: ${badgeCount}`);
   } else bug('UX', 'Profile', 'No badge/achievement section found');
 
-  // Leaderboard
-  const lbBtn = page.locator('button, a').filter({ hasText: /leaderboard|league|rank|top/i }).first();
-  if (await lbBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await lbBtn.click().catch(() => {});
-    await page.waitForTimeout(1200);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (lbText.match(/rank|#\d|position|league/i)) ok('Leaderboard shows rank data');
-    else info('Leaderboard visible but rank data sparse');
-    await ss(page, 'b12-leaderboard');
-    await exitScreen(page);
-  }
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 
   // Final SRS + quiz combo
   await goTab(page, 'Practice');
@@ -1672,45 +1655,25 @@ test('Block 27 (Days 261-270) — AI Tutor: free conversation, correction focus'
   await ss(page, 'b27-complete');
 });
 
-test('Block 28 (Days 271-280) — Weekly leagues, leaderboard, social features', async ({ page }) => {
+test('Block 28 (Days 271-280) — Sustained XP push at 280 days', async ({ page }) => {
   attachErrorListeners(page, 'Block28');
   await login(page);
   await goTab(page, 'Profile');
 
-  // League / leaderboard
-  const leagueBtn = page.locator('button, a').filter({ hasText: /league|leaderboard|rank|top|compete/i }).first();
-  if (await leagueBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leagueBtn.click().catch(() => {});
-    await page.waitForTimeout(1500);
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (lbText.match(/rank|#\d|position|xp|league/i)) {
-      ok('Leaderboard/league loaded with data');
-      await ss(page, 'b28-leaderboard');
-      // Check for weekly cycle indicator
-      if (lbText.match(/week|weekly|reset|ends in/i)) ok('Weekly cycle indicator visible in league');
-      else info('No weekly cycle indicator found');
-    } else bug('UX', 'Leaderboard', 'Leaderboard visible but no rank data');
-    await exitScreen(page);
-  } else bug('NAV', 'Leaderboard', 'Leaderboard/league button not found on profile');
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probes lived here until 2026-09-22.)
 
-  // XP race — do a quick practice session to earn XP
+  // XP push — a quick practice session to earn XP
   await goTab(page, 'Practice');
   const xpBefore = await readXP(page);
   await clickQuickGame(page, 'Multiple Choice');
-  await runQuiz(page, 'LeagueXPPush', 12);
+  await runQuiz(page, 'XPPush', 12);
   await exitScreen(page);
   const xpAfter = await readXP(page);
   if (xpBefore !== null && xpAfter !== null && xpAfter > xpBefore)
-    ok(`League XP push: +${xpAfter - xpBefore} XP earned`);
+    ok(`XP push: +${xpAfter - xpBefore} XP earned`);
 
-  // Return to leaderboard — check if rank updated
   await goTab(page, 'Profile');
-  if (await leagueBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leagueBtn.click().catch(() => {});
-    await page.waitForTimeout(1200);
-    await ss(page, 'b28-leaderboard-after-xp');
-    await exitScreen(page);
-  }
 
   await ss(page, 'b28-complete');
 });

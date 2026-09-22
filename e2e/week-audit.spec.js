@@ -774,9 +774,9 @@ test('Day 6 — Immersion: Maja AI, Live Tutor, Shadowing, AI Story', async ({ p
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// DAY 7 — Profile: stats, badges, settings, leaderboard, mistakes
+// DAY 7 — Profile: stats, badges, settings, mistakes
 // ═══════════════════════════════════════════════════════════════════════════
-test('Day 7 — Profile: stats, badges, settings, leaderboard, mistakes', async ({ page }) => {
+test('Day 7 — Profile: stats, badges, settings, mistakes', async ({ page }) => {
   attachErrorListeners(page, 'Day7');
   await login(page);
   await goTab(page, 'Profile');
@@ -808,19 +808,8 @@ test('Day 7 — Profile: stats, badges, settings, leaderboard, mistakes', async 
     bug('BUG', 'Profile', 'Settings button not found on profile');
   }
 
-  // ── Leaderboard ───────────────────────────────────────────────────────────
-  await goTab(page, 'Profile');
-  const lbBtn = page.locator('button, a').filter({ hasText: /leaderboard/i }).first();
-  if (await lbBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-    await lbBtn.click();
-    await page.waitForTimeout(1000);
-    await dismissAll(page);
-    await ss(page, 'day7-leaderboard');
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (!lbText.match(/rank|xp|week|league/i)) bug('BUG', 'Leaderboard', 'Leaderboard not showing rankings');
-    else ok('Leaderboard loaded');
-    await exitScreen(page);
-  }
+  // (The public leaderboard was removed in #290 — endpoint, components and
+  // Firestore writes. Its probe lived here until 2026-09-22.)
 
   // ── My Mistakes ───────────────────────────────────────────────────────────
   await goTab(page, 'Profile');
