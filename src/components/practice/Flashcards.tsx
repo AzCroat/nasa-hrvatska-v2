@@ -1,4 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {
+  failureFromResponse,
+  failureFromStatus,
+  failureFromError,
+  reportAiFailure,
+} from '../../lib/aiFailure';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import { motion } from 'framer-motion';
 import { Bar, srMark } from '../../data';
@@ -53,7 +59,14 @@ async function fetchCardImage(
       body: JSON.stringify({ type: 'vocab', word, meaning }),
       signal,
     });
-    if (!r.ok) return null;
+    if (!r.ok) {
+      // The image is DECORATION — the word, the meaning and the memory hook are
+      // all on the card without it, so `null` is the right learner-facing
+      // answer and stays. What was missing is the RECORD: a flux endpoint dead
+      // for a month looked exactly like a vocabulary set nobody flipped.
+      reportAiFailure('flashcard-image', await failureFromResponse(r));
+      return null;
+    }
     const { imageUrl } = await r.json();
     if (imageUrl) {
       evictCache(cacheRef);
@@ -63,7 +76,10 @@ async function fetchCardImage(
       } catch {}
     }
     return imageUrl || null;
-  } catch {
+  } catch (e) {
+    // An abort is the learner advancing the card, not a failure.
+    if ((e as Error | undefined)?.name !== 'AbortError')
+      reportAiFailure('flashcard-image', failureFromError(e));
     return null;
   }
 }
@@ -241,8 +257,18 @@ export default function Flashcards({
         setAiSentence(sentence);
         setAiLoading(false);
       })
-      .catch(() => {
+      .catch((e) => {
         clearTimeout(timeoutId);
+        // "Example unavailable" is already honest and the card is complete
+        // without it, so the COPY is unchanged. The report is what was absent:
+        // nothing distinguished "nobody flipped a card" from "flash-context has
+        // answered 429 for a week". An abort here is the learner advancing or
+        // the 20s timeout firing on teardown, so it is not reported.
+        if ((e as Error | undefined)?.name !== 'AbortError')
+          reportAiFailure(
+            'flashcard-context',
+            typeof e === 'number' ? failureFromStatus(e) : failureFromError(e),
+          );
         if (!mountedRef.current) return;
         setAiLoading(false);
         setAiError(true);

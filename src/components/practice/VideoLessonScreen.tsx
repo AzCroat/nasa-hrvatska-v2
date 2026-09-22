@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { speak } from '../../data';
 import VideoBackground from '../shared/VideoBackground';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
 import { lsGet, ssGet } from '../../lib/safeStorage';
 
@@ -169,7 +170,19 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
         body: JSON.stringify({ topic: topic.key, level, style: 'dialogue' }),
       });
       if (!mountedRef.current) return;
-      if (!res.ok) throw new Error(`API error ${res.status}`);
+      if (!res.ok) {
+        // THE COMMENT IN THE CATCH BELOW WAS TRUE OF THE CATCH AND FALSE OF THE
+        // SCREEN. Routing the catch through `failureFromError` cannot see a
+        // STATUS — this line threw `API error 429`, an ordinary Error, so
+        // failureFromError fell to its default and a quota cap read "the
+        // service is temporarily unavailable. Try again in a moment." The
+        // status has to be classified where it exists, which is here.
+        const f = await failureFromResponse(res);
+        reportAiFailure('video-lesson', f);
+        setErrorMsg(f.message);
+        setPhase('setup');
+        return;
+      }
       const data = await res.json();
       if (!mountedRef.current) return;
       setContent(data);
@@ -202,13 +215,14 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
       setShowTranscript(false);
     } catch (e) {
       if (!mountedRef.current) return;
-      const isNetwork =
-        !navigator.onLine || (e instanceof Error && e.message === 'Failed to fetch');
-      setErrorMsg(
-        isNetwork
-          ? "Couldn't reach the server. Check your connection and try again."
-          : 'Something went wrong generating this lesson. Please try again.',
-      );
+      // Transport only — a refusal that ARRIVED is classified above, where its
+      // status is still in hand. This USED to split network-vs-everything-else
+      // with a hand-rolled navigator.onLine check; failureFromError already
+      // distinguishes network, timeout and server, so that check was redundant
+      // as well as incomplete.
+      const f = failureFromError(e);
+      reportAiFailure('video-lesson', f);
+      setErrorMsg(f.message);
       setPhase('setup');
     }
   }

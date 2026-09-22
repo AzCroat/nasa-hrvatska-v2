@@ -50,29 +50,27 @@ import { ENDPOINT_CEILING_MICROUSD } from '../../functions/api/_aiBudget.js';
 
 const ROOT = join(__dirname, '..', '..');
 
-/** Files that call an AI endpoint but do not yet name the cause. ONLY SHRINKS. */
+/**
+ * Files that call an AI endpoint but do not route it through a named cause.
+ * ONLY SHRINKS — it went 10 -> 2 on 2026-09-22 and both survivors are VERIFIED
+ * CORRECT rather than debt. There is no remaining entry whose reason is "not
+ * done yet"; a new one may only be added with a reason that survives reading
+ * the file, and the staleness test below fails if it is fixed and left here.
+ */
 const KNOWN_UNCLASSIFIED: Record<string, string> = {
-  // Fail-soft BY CONTRACT: the item's authored tip stays on screen, so a failed
-  // explanation costs the extra help and nothing else. Deliberate, not debt.
-  'src/components/practice/ClozeEngine.tsx': 'explain-error is fail-soft; the tip remains',
-  'src/components/practice/DictationScreen.tsx': 'explain-error is fail-soft; the tip remains',
-  'src/components/practice/McGame.tsx': 'explain-error is fail-soft; the tip remains',
-  'src/components/practice/ReviewScreen.tsx': 'explain-error is fail-soft; the tip remains',
-  // Real debt, found by the 2026-09-22 derivation. Each needs its failure path
-  // read before it is changed — see the header on reflexive fixes.
-  'src/components/croatia/CroatianNewsScreen.tsx': 'debt: news/ai-chat failures not named',
-  'src/components/croatia/HeritageStoryScreen.tsx': 'debt: ai-chat failure not named',
-  'src/components/croatia/MajaScreen.tsx': 'debt: maja/maja-debrief failures not named',
-  'src/components/croatia/PhraseOfDayScreen.tsx': 'debt: ai-chat/maja failures not named',
-  'src/components/croatia/StoryModeScreen.tsx': 'debt: ai-chat failure not named',
-  'src/components/croatia/StoryViewPanel.tsx': 'debt: ai-chat failure not named',
-  'src/components/learn/GrammarReader.tsx': 'debt: ai-chat failure not named',
-  'src/components/practice/Flashcards.tsx': 'debt: flash-context/flux-generate not named',
-  'src/components/practice/SpeakingScreen.tsx': 'debt: pronunciation-coach failure not named',
-  'src/components/practice/StoryScreens.tsx': 'debt: flux-generate failure not named',
-  'src/components/practice/VideoLessonScreen.tsx': 'debt: listening failure not named',
-  'src/components/profile/VocabJournal.tsx': 'debt: vocab-expand failure not named',
-  'src/components/shared/PhotoVocabScanner.tsx': 'debt: photo-vocab failure not named',
+  // GrammarReader was listed as debt on 2026-09-22 and that was WRONG. It says
+  // "Couldn't read the sentence just now. The endings above still hold." — the
+  // local morphology reading is already on screen and the AI is an explicit
+  // second step (owner rec #6), so this is the designed degrade, honestly
+  // worded. Re-reading the file corrected the label.
+  'src/components/learn/GrammarReader.tsx':
+    'AI is an optional second step; the local reading stays on screen and the copy says so',
+  // VERIFIED CORRECT, not debt: the fallback is `{ score: null }` — explicitly
+  // UNSCORED — so the progress bar resolves instead of spinning forever and the
+  // app claims no measurement it did not make (NEVER-DO 13). The coach is
+  // fail-soft by contract and may never block speaking practice.
+  'src/components/practice/SpeakingScreen.tsx':
+    'coach is fail-soft by contract; the fallback score is null, never fabricated',
 };
 
 const ENDPOINTS = Object.keys(ENDPOINT_CEILING_MICROUSD).filter((e) => !e.includes(':generate'));
@@ -113,8 +111,18 @@ const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const callsEndpoint = (body: string, ep: string) =>
   new RegExp(`(?:_aiPost|apiFetch|fetch|ttsFetch)\\s*\\(\\s*['"\`]${escapeRegExp(ep)}`).test(body);
 
+/**
+ * What counts as naming the cause. `majaErrorMessage` is on this list because
+ * MajaScreen classifies through a LOCAL helper (`croatia/majaErrors.ts`) that
+ * wraps the shared `classifyAiLimit` and answers in Croatian — right for a
+ * Croatian-language conversation, where an English sentence would break
+ * immersion mid-turn. The first version of this pattern matched only
+ * classifiers used in the SAME file, so Maja read as unclassified when it is
+ * one of the better-handled surfaces in the app. A guard that cannot see a
+ * classifier one module away reports working code as debt.
+ */
 const CLASSIFIES =
-  /failureFrom(?:Response|Status|Error)|classifyAiLimit|describeTtsFailure|getLastTtsFailure|useExplainError/;
+  /failureFrom(?:Response|Status|Error)|classifyAiLimit|describeTtsFailure|getLastTtsFailure|useExplainError|majaErrorMessage/;
 
 interface Caller {
   file: string;
@@ -172,7 +180,10 @@ describe('every AI surface names the cause of a refusal', () => {
   it('the ratchet only tightens', () => {
     // A count, because `it.each` over an empty set registers no tests and a
     // silently emptied list would look like success.
-    expect(Object.keys(KNOWN_UNCLASSIFIED).length).toBeLessThanOrEqual(17);
-    expect(callers.filter((c) => c.classifies).length).toBeGreaterThanOrEqual(18);
+    // Both floors are AT the measured values, not slack above them: 35 callers,
+    // 33 classifying, 2 exempt. A ratchet with headroom is not a ratchet — it
+    // is permission for the next two surfaces to land unclassified.
+    expect(Object.keys(KNOWN_UNCLASSIFIED).length).toBeLessThanOrEqual(2);
+    expect(callers.filter((c) => c.classifies).length).toBeGreaterThanOrEqual(33);
   });
 });

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { H, Bar, Spk, srMark, getSR, sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { getPrioritizedReviewQueue } from '../../lib/srs.js';
@@ -404,11 +405,18 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                     type: 'flashcard',
                     level: 'B1',
                   })
-                    .then((r) => (r.ok ? r.json() : null))
+                    .then(async (r) => {
+                      // Fail-soft: the authored tip remains and this only ADDS,
+                      // so `null` stays. Only the record is new.
+                      if (r.ok) return r.json();
+                      reportAiFailure('review-explain', await failureFromResponse(r));
+                      return null;
+                    })
                     .then((d) => {
                       setAiExplain(d?.explanation ? d : null);
                     })
-                    .catch(() => {
+                    .catch((e) => {
+                      reportAiFailure('review-explain', failureFromError(e));
                       setAiExplain(null);
                     });
                 }

@@ -139,6 +139,16 @@ describe('the fixed surfaces classify through lib/aiFailure', () => {
     'src/components/home/DailyListeningCard.tsx',
     'src/components/practice/DialogueSim.tsx',
     'src/components/home/GrammarDiagnosisScreen.tsx',
+    // Added 2026-09-22 when the class was closed (35 callers, 33 classifying).
+    // ClozeEngine belongs here specifically for the connection-blaming
+    // assertion below: it answered EVERY explain-error failure with "Could not
+    // load explanation. Check your connection.", so a learner at their daily
+    // AI ceiling was sent to check their router. StoryViewPanel is the harder
+    // case — it never checked `res.ok`, so a refusal's empty body fell through
+    // the parser and rendered as `kruh → …`, an ellipsis shown as the word's
+    // MEANING rather than as a failure at all.
+    'src/components/practice/ClozeEngine.tsx',
+    'src/components/croatia/StoryViewPanel.tsx',
   ];
 
   it.each(FIXED)('%s classifies and reports its refusals', (f) => {
@@ -186,8 +196,19 @@ describe('the fixed surfaces classify through lib/aiFailure', () => {
     // `PronunciationScorer` says "Check your connection" for the Web Speech
     // recogniser's OWN `code === 'network'`, which is accurate, and several
     // screens render an offline notice gated on navigator.onLine.
+    //
+    // COMMENTS ARE STRIPPED, and that is load-bearing in the honest direction:
+    // the fix for ClozeEngine QUOTES the sentence it removed, so an unstripped
+    // match reports the file that was repaired as still carrying the defect —
+    // the same trap the CodeQL trigger work hit, where prose naming an action
+    // dragged an unrelated workflow into the subject. Learner-facing copy is
+    // never in a comment, so nothing real is lost. Mutation-verified: the
+    // sentence restored to LIVE code in either file still fails.
     for (const f of FIXED) {
-      const src = readFileSync(f, 'utf8');
+      const src = readFileSync(f, 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\/.*$/gm, '');
       expect(src, `${f} blames the connection for a server condition`).not.toMatch(
         /internet access|check your connection/i,
       );

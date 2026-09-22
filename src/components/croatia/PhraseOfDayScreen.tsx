@@ -4,6 +4,8 @@ import { H } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import { majaErrorMessage, MAJA_START_FALLBACK, MAJA_TURN_FALLBACK } from './majaErrors';
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
@@ -54,6 +56,26 @@ function asText(v: unknown, prefer: 'hr' | 'en'): string {
     return (prefer === 'hr' ? (hr ?? en) : (en ?? hr)) ?? '';
   }
   return '';
+}
+
+/**
+ * Carry the status AND the server's error code off a refusal, which is the
+ * shape `majaErrorMessage` reads. Without the code a 429 cannot be told apart
+ * from a budget pause or a burst limit, and classifyAiLimit deliberately
+ * guesses 'burst' — the less damaging error — rather than telling a learner to
+ * come back tomorrow when they merely typed twice quickly.
+ */
+async function majaError(res: Response): Promise<Error & { _status: number; _code?: string }> {
+  let code: string | undefined;
+  try {
+    const body = (await res.clone().json()) as { error?: unknown };
+    if (body && typeof body.error === 'string') code = body.error;
+  } catch {
+    /* a body we cannot read is not a code we can claim */
+  }
+  const f = await failureFromResponse(res);
+  reportAiFailure('phrase-of-day-chat', f);
+  return Object.assign(new Error('maja_refused'), { _status: res.status, _code: code });
 }
 
 export function sanitizePhraseData(raw: unknown): PhraseData | null {
@@ -446,7 +468,16 @@ export default function PhraseOfDayScreen({
           }),
         });
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          // The fallback itself is correct — a curated phrase is real content,
+          // so the learner loses nothing. What was missing is WHICH limit: the
+          // line said only "(AI unavailable)", so a learner one tap from their
+          // daily ceiling and a learner with a dead connection read the same
+          // five words and neither could act on them.
+          const f = await failureFromResponse(res);
+          reportAiFailure('phrase-of-day', f);
+          throw Object.assign(new Error('phrase_of_day_refused'), { _aiFailure: f });
+        }
         const data = await res.json();
 
         // The backend returns parsed JSON directly for phrase_of_day mode
@@ -468,11 +499,23 @@ export default function PhraseOfDayScreen({
         if (clean) {
           setPhraseData(clean);
         } else {
-          throw new Error('Invalid phrase data from API');
+          // The call SUCCEEDED and the reply was unreadable. Classifying this
+          // as a transport failure would say "the service is unavailable",
+          // which is false — it answered.
+          throw Object.assign(new Error('phrase_of_day_unreadable'), {
+            _aiFailure: { message: "today's generated phrase came back unreadable." },
+          });
         }
-      } catch {
+      } catch (e) {
         // Fall back to seed data
-        setError('Using curated phrase (AI unavailable)');
+        const f =
+          (e as { _aiFailure?: { message: string } })._aiFailure ??
+          (() => {
+            const g = failureFromError(e);
+            reportAiFailure('phrase-of-day', g);
+            return g;
+          })();
+        setError(`Using curated phrase — ${f.message}`);
         setPhraseData(
           (SEED_PHRASES as unknown as Record<string, PhraseData>)[category] ||
             (SEED_PHRASES.greeting as unknown as PhraseData),
@@ -583,15 +626,21 @@ export default function PhraseOfDayScreen({
           persona: 'teacher',
         }),
       });
-      if (!res.ok) throw new Error('api_error');
+      if (!res.ok) throw await majaError(res);
       const data = await res.json();
       const reply = data.reply || 'Bog! Hajde vježbati!';
       setChatHistory([{ role: 'maja', content: reply }]);
-    } catch {
+    } catch (e) {
+      // WAS: a canned teaching line in Maja's voice, indistinguishable from a
+      // real turn. So a learner whose monthly budget had paused typed replies
+      // into a conversation that had never started, and nothing on screen said
+      // so. `majaErrorMessage` is the app's existing Croatian classifier for
+      // exactly this endpoint — reused, not forked.
+      const err = e as { _status?: number; _code?: string };
       setChatHistory([
         {
           role: 'maja',
-          content: `Hajde vježbati! Pokušaj upotrijebiti frazu: "${phraseData.phrase}" u rečenici.`,
+          content: majaErrorMessage(err._status, MAJA_START_FALLBACK, err._code),
         },
       ]);
     } finally {
@@ -621,14 +670,17 @@ export default function PhraseOfDayScreen({
           persona: 'teacher',
         }),
       });
-      if (!res.ok) throw new Error('api_error');
+      if (!res.ok) throw await majaError(res);
       const data = await res.json();
       const reply = data.reply || 'Bravo! Nastavi!';
       setChatHistory((h) => [...h, { role: 'maja', content: reply }]);
-    } catch {
+    } catch (e) {
+      // WAS: "Oprosti, nešto je pošlo po krivu. Pokušaj opet!" for every cause
+      // — a retry instruction that cannot work until the cap resets.
+      const err = e as { _status?: number; _code?: string };
       setChatHistory((h) => [
         ...h,
-        { role: 'maja', content: 'Oprosti, nešto je pošlo po krivu. Pokušaj opet!' },
+        { role: 'maja', content: majaErrorMessage(err._status, MAJA_TURN_FALLBACK, err._code) },
       ]);
     } finally {
       setChatLoading(false);

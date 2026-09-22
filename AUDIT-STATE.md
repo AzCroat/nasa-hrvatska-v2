@@ -5,8 +5,8 @@ It exists because findings that live in a conversation die with it. This file
 is the only durable record of what has been checked, what it found, and — the
 part that actually matters — **what has not been checked yet.**
 
-Owner directive, 2026-09-22: *"There are no new sessions. All work must be
-linked to any prior work. You can never lose anything."* The mechanism for that
+Owner directive, 2026-09-22: _"There are no new sessions. All work must be
+linked to any prior work. You can never lose anything."_ The mechanism for that
 is this file plus CLAUDE.md, both committed. Nothing is "remembered"; it is
 written down or it does not exist. Never cite a session boundary as a reason
 anything was lost — append here instead, before the work is done, not after.
@@ -28,6 +28,7 @@ anything was lost — append here instead, before the work is done, not after.
 ## Sweeps completed
 
 ### 1. Router prop wiring — 2026-09-22 — NO DEFECTS
+
 `/tmp` script walked `AppRouter.tsx`, resolved each lazy/static import to its
 file, extracted the **default export's** destructured props, and diffed against
 what the router actually passes.
@@ -47,6 +48,7 @@ what the router actually passes.
   `PracticalCroatianScreen.stats` (`void stats;`, explicitly discarded).
 
 **TOOL BUGS FOUND WHILE DOING THIS — both produced confident false findings:**
+
 1. Matching a JSX element with `<Name(\s[^>]*?)?>` **truncates at the first
    `>`**, and `setTab={(id: string) => {…}}` contains one. That reported all 12
    of `HomeTab`'s props as unpassed when every one is passed. Scan with real
@@ -56,15 +58,17 @@ what the router actually passes.
    That produced 54 findings of which 42 were inner components.
 
 ### 2. Crash-on-open — 2026-09-22 — ALREADY COVERED, GREEN
+
 `routeRenderSweep.test.tsx` + `contentShapeSweep.test.tsx`: **2 files, 8 tests,
 passing.** Renders every route through the REAL router, cold and with the live
 `/api/content/core` payload, asserting `ScreenErrorBoundary` never engages.
 This is the `ScenesScreen` class (threw on every open for three weeks behind a
 boundary, Sentry 0d68c47c) and it is closed.
-**What it cannot see, in its own words:** *"a screen that renders fine and is
-WRONG. The audio bug never threw — it returned a 400."*
+**What it cannot see, in its own words:** _"a screen that renders fine and is
+WRONG. The audio bug never threw — it returned a 400."_
 
 ### 3. Unreachable library code — 2026-09-22 — NO DEFECTS
+
 Every `export` from `src/lib/**` and `src/hooks/**` checked for a non-test
 consumer. This is the speaking-coach class (correct, tested, reachable by
 nobody, dead for months).
@@ -224,8 +228,8 @@ Please wait a minute.", "Invalid email address."), not machine codes, so
 rendering them is correct.
 
 **(b) Copy that blames the learner's connection** — one real defect:
-`GrammarDiagnosisScreen` told EVERY failure *"Try again when you have internet
-access."* A quota 429 or a budget 503 is a server condition, so a learner who
+`GrammarDiagnosisScreen` told EVERY failure _"Try again when you have internet
+access."_ A quota 429 or a budget 503 is a server condition, so a learner who
 had hit the daily AI limit was sent to check their router. CLAUDE.md forbids
 this by name — "imply learner fault for a server condition" — and records the
 same shape elsewhere ("the graded reader said 'check your connection' to a
@@ -236,6 +240,7 @@ Mutation-verified, two: the "internet access" copy restored fails 1; the
 classifier dropped fails 1.
 
 **Verified CORRECT and deliberately left alone** (all four looked like hits):
+
 - `AIConversation.tsx:476` — "check your connection" fires only from the
   transport's own `catch`; `!res.ok` is classified separately through
   `classifyAiLimit`, with 401 / budget / burst distinguished.
@@ -407,8 +412,8 @@ an impossible activity count fails the plan test.
 
 ### 12. "Fixed once, never again" — the AI-refusal class, ratcheted — 2026-09-22
 
-Owner: *"let's make sure when we fix something it's fixed once and never needed
-to be fixed again."* Applied to today's own work, which did NOT meet that bar.
+Owner: _"let's make sure when we fix something it's fixed once and never needed
+to be fixed again."_ Applied to today's own work, which did NOT meet that bar.
 
 **THE THREE FIXES WERE PINNED BY A HAND-WRITTEN LIST OF FOUR FILES.** So was the
 2026-09-07 census before them (`feedbackSurfaces.test.ts`, one inline path per
@@ -437,10 +442,10 @@ fix can be worse than none — `AIConversation`'s AbortError branch already read
 evaluator took too long" on a conversation screen.
 
 Mutation-verified, four, each confirmed landed:
-  M12  a NEW unclassified surface appears        -> 1  (the scenario it exists for)
-  M13  classification stripped from a fixed file -> 2
-  M14  an exempted file fixed but left listed    -> 1  (both staleness directions)
-  M15  ANTI-VACUITY: call pattern stops matching -> 3
+M12 a NEW unclassified surface appears -> 1 (the scenario it exists for)
+M13 classification stripped from a fixed file -> 2
+M14 an exempted file fixed but left listed -> 1 (both staleness directions)
+M15 ANTI-VACUITY: call pattern stops matching -> 3
 
 **TOOL BUG #8:** I copied `// eslint-disable-next-line
 security/detect-non-literal-fs-filename` from a sibling test; that rule is not
@@ -448,14 +453,101 @@ configured for this path, so the comment referenced a non-existent rule and
 failed lint. A disable comment copied without checking the rule applies is dead
 weight at best and a lint failure at worst.
 
+### 13. The class closed: 33 of 35 AI callers name the cause — 2026-09-22
+
+Sweep 12 built the ratchet and left 13 surfaces as recorded debt. This sweep
+closed them. Derived count now: **35 callers, 33 classify, 2 exempt** — and
+both survivors are VERIFIED CORRECT rather than debt, so `KNOWN_UNCLASSIFIED`
+no longer contains a single entry whose reason is "not done yet".
+
+**THE FIXES SPLIT INTO THREE KINDS, and conflating them would have been the
+reflexive-fix error sweep 12 warned about.**
+
+1. **A refusal rendered as an ANSWER** — the worst of the three, and it was in
+   `StoryViewPanel`'s word tap. `res.ok` was never checked, and the gate answers
+   `{ error: 'monthly_budget_exhausted' }` with no `text` field, so the parse
+   fell through to its default and the learner read `kruh → …` — an ellipsis
+   presented as the word's meaning. NEVER-DO 13 on a word sheet. Now classified,
+   reported, and the tooltip drops `nowrap` for the failure case because a
+   sentence on one unbreakable line runs off both edges of a phone.
+2. **A retry instruction that could not work** — `PhraseOfDayScreen`'s two Maja
+   practice paths answered every cause with "Oprosti, nešto je pošlo po krivu.
+   Pokušaj opet!", and the session-start path fabricated a canned teaching line
+   in MAJA'S OWN VOICE, indistinguishable from a real turn: a learner whose
+   budget had paused typed replies into a conversation that had never started.
+   Both now route through `majaErrorMessage` — the app's EXISTING Croatian
+   classifier for exactly `/api/maja`, reused rather than forked, so the copy is
+   already in the right language for a Croatian conversation.
+   `ClozeEngine` was the same shape in English and worse: "Could not load
+   explanation. Check your connection." sent a learner at their daily ceiling to
+   check their router, which CLAUDE.md forbids by name.
+3. **Honest copy, no record** — `Flashcards` ("Example unavailable"), the two
+   `flux-generate` illustration paths, `VocabJournal`'s examples, `McGame` and
+   `ReviewScreen`. **The learner-facing copy is unchanged in all six**, because
+   it was already correct and the content does not depend on the call. What was
+   missing is the REPORT: an endpoint refusing every call for a month looked
+   exactly like a feature nobody used. `reportAiFailure` only.
+   **Aborts are excluded** — flashcard context aborts on every card advance and
+   `failureFromError` maps AbortError to `timeout`, so reporting it would have
+   filed normal teardown as an incident (the `isAbortFailure` lesson).
+
+**Two files came OFF the debt list by being read rather than changed**, which is
+the half of this work that produces no diff: `GrammarReader` (the local
+morphology reading stays on screen and the copy says so — the AI is an explicit
+second step) and `SpeakingScreen` (`{ score: null }`, explicitly unscored, never
+fabricated). Sweep 12 had listed both as debt. Reading the file corrected the
+label; a batch fix would have replaced two correct degrades with worse ones.
+
+**The ratchet floors now sit AT the measured values** (2 exempt, 33 classifying)
+rather than above them. A ratchet with headroom is not a ratchet — it is
+permission for the next two surfaces to land unclassified.
+
+**I FIXED A SURFACE THIS MORNING AND WROTE A COMMENT SAYING IT NOW
+DISTINGUISHED A QUOTA 429 FROM A BUDGET 503. IT DID NOT.** `VideoLessonScreen`
+threw `new Error('API error ' + res.status)` on `!res.ok` and classified only in
+the CATCH, through `failureFromError` — which never sees a status, is not a
+TypeError, and falls through to `server`. So a learner at their daily ceiling
+read "The evaluation service is temporarily unavailable. Try again in a
+moment.": the exact retry-that-cannot-work this whole class is about, now
+wearing the shared vocabulary. The comment I left asserted the fix; only reading
+the two functions together showed the assertion was about the catch block and
+not about the screen.
+
+**The tell was a LINT WARNING, not a test.** `failureFromResponse` was imported
+and unused — I had reached for it, then classified in the wrong place. Every
+test passed, the ratchet counted the file as classifying (it matches on the
+import and the call, which is the honest thing for it to match on, and cannot
+know WHERE in the flow the call sits), and `--max-warnings=0` is what caught it.
+**A status has to be classified where the status still exists.** Re-audited all
+fourteen touched surfaces afterwards: every other one classifies on the
+response. The four `throw new Error('TTS failed')` sites are correct as they
+stand — `ttsFetch` records the named failure internally (2026-09-10), so the
+record exists before the throw.
+
+Mutation-verified, four, each confirmed landed:
+M16 a fixed surface reverts to an unnamed failure -> 2
+M17 an exemption left listed after its subject is fixed -> 1
+M18 ANTI-VACUITY: the call pattern stops matching -> 3
+
+M19 connection-blaming restored to LIVE code in a pinned file -> 1 (the
+assertion now strips comments, because ClozeEngine's fix QUOTES the sentence it
+deleted and an unstripped match reported the repaired file as still broken — the
+CodeQL-trigger trap, in a second place)
+
+**TOOL BUG #10:** my insertion anchor was `function sanitizePhraseData`, which
+matched INSIDE `export function sanitizePhraseData` — so the helper landed
+between `export` and the declaration, silently moving the export onto the new
+function. `tsc` passed and one unit file failed with "sanitizePhraseData is not
+a function". An anchor that is a substring of a longer declaration splits it.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
 
-- [ ] **13 AI surfaces still do not name a refusal's cause** — listed with
-      reasons in `aiSurfaceClassifies.test.ts`'s KNOWN_UNCLASSIFIED. Fix one at
-      a time, reading each failure path first; the ratchet stops NEW ones.
+- [x] ~~13 AI surfaces still do not name a refusal's cause~~ — CLOSED, sweep 13. 33 of 35 callers classify; the 2 remaining entries in
+      KNOWN_UNCLASSIFIED are verified-correct degrades, not debt. The ratchet
+      stops new ones and its floors sit at the measured values.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
@@ -468,8 +560,8 @@ None of them crash, so no sweep above can see any of them.
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
 - [~] **Day-one path**: the LESSON half is checked (sweep 7, covered). Still
-      open: placement -> first drill -> audio -> feedback on a zero-state
-      account.
+  open: placement -> first drill -> audio -> feedback on a zero-state
+  account.
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and

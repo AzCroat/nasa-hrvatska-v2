@@ -4,6 +4,7 @@ import { H } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch } from '../../lib/audio.js';
@@ -625,15 +626,29 @@ export default function CroatianNewsScreen({
     setUsingFallback(false);
     try {
       const res = await apiFetch(`/api/news?level=${level}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        // The fallback below is a GOOD degrade — the reader still gets
+        // articles — but "could not fetch live news" says nothing about when
+        // live news returns. The budget pause says "back on the 1st"; a quota
+        // says "resets at midnight". Same fallback, an honest reason with it.
+        const f = await failureFromResponse(res);
+        reportAiFailure('croatian-news', f);
+        setError(`${f.message} Showing sample articles.`);
+        setArticles(FALLBACK_ARTICLES);
+        setUsingFallback(true);
+        setLoading(false);
+        return;
+      }
       const data = await res.json();
       if (data.articles && Array.isArray(data.articles) && data.articles.length > 0) {
         setArticles(data.articles.map(normalizeArticle));
       } else {
         throw new Error('No articles returned');
       }
-    } catch {
-      setError('Could not fetch live news. Showing sample articles.');
+    } catch (e) {
+      const f = failureFromError(e);
+      reportAiFailure('croatian-news', f);
+      setError(`${f.message} Showing sample articles.`);
       setArticles(FALLBACK_ARTICLES);
       setUsingFallback(true);
     } finally {

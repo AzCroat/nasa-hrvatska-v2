@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import type { McQuestion } from '../../hooks/useMcGameReducer';
 import { srMark, recordMistake } from '../../data';
@@ -236,11 +237,20 @@ export default function McGame({
         type: 'multiple_choice',
         level: getGenerationCefr(), // Content-Rec #5: earned CEFR, not stale placement
       })
-        .then((r) => (r.ok ? r.json() : null))
+        .then(async (r) => {
+          // The authored tip is already on screen and this card only ever ADDS,
+          // so `null` — rendering nothing extra — stays the right learner-facing
+          // answer. The report is the part that was missing: an explain-error
+          // refusing every call left no trace anywhere.
+          if (r.ok) return r.json();
+          reportAiFailure('mcgame-explain', await failureFromResponse(r));
+          return null;
+        })
         .then((d) => {
           setAiExplain(d?.explanation ? d : null);
         })
-        .catch(() => {
+        .catch((e) => {
+          reportAiFailure('mcgame-explain', failureFromError(e));
           setAiExplain(null);
         });
     }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import Dexie from 'dexie';
 import { H, speak, srMark, getSR } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
@@ -116,8 +117,16 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
           await db.journal.update(id, { examples: data.examples });
           loadWords();
         }
+      } else {
+        // The WORD IS SAVED either way — examples are an enrichment fetched
+        // fire-and-forget after the journal entry is already in IndexedDB, so
+        // there is nothing to tell the learner and no copy changes here. The
+        // `catch (_) {}` was the problem: a vocab-expand that had been refusing
+        // for a month produced no signal anywhere.
+        reportAiFailure('vocab-journal-expand', await failureFromResponse(res));
       }
-    } catch (_) {
+    } catch (e) {
+      reportAiFailure('vocab-journal-expand', failureFromError(e));
     } finally {
       setFetchingExamples((prev) => {
         const n = { ...prev };
