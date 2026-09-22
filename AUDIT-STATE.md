@@ -291,11 +291,24 @@ SPA fallback (index.html, 200), so `/api/content/*` "succeeds" with HTML that
 fails to parse — the walk runs with NO CONTENT AT ALL, which is itself a
 degraded path.
 
-**ONE QUESTION THIS CANNOT ANSWER, for the owner:** if anonymous auth is
-DISABLED in the Firebase console, every guest becomes a legacy guest and the
-no-lesson behaviour is real in production. That is a console setting, not
-readable from the repo. The fix for that case would differ from the one drafted
-here.
+**CLOSED BY THE OWNER, 2026-09-22, ON THE REAL DEPLOYMENT.** They opened the
+Cloudflare branch preview as a guest: the first activity was **the genitive
+TEACHING LESSON**, followed by the genitive drill. P0 works, the spine arrives,
+the coupling serves the lesson and then its practice. There is no defect, and
+the revert above was correct.
+
+**THE LABEL IS WHY IT LOOKED OTHERWISE, and it is a real trap.** A curriculum
+lesson slot is labelled with the LESSON'S OWN TITLE
+(`curriculumSlot.ts:137`, `label: step.entry.title`, screen `animlesson`), so a
+genitive lesson renders as "Genitive" — visually IDENTICAL to `cat_genitive`,
+the drill. Reading a session card's labels cannot tell a lesson from a drill;
+only the `screen`/`id` can. My local probe produced the drill (no content at
+all), and I then read the owner's two-word confirmation as agreeing with the
+drill reading rather than asking which it was — fitting their evidence to my
+hypothesis. **Never diagnose session composition from labels; dump `id` and
+`screen`.**
+
+NEVER re-open this without evidence naming the `id`/`screen`, not the label.
 
 ### 10. Work that grades but never credits — 2026-09-22 — CLEAN
 
@@ -353,6 +366,7 @@ None of them crash, so no sweep above can see any of them.
       (`content?.K` and `(content ?? {}).K`). The uncovered case is a key
       PRESENT with an OLDER shape, which needs an old payload snapshot the repo
       does not keep. Stated rather than faked.
-- [ ] **Anonymous-auth setting in the Firebase console** (owner, not repo): if
-      disabled, every guest is a legacy guest — see sweep 9.
+- [x] ~~**Anonymous-auth / guest lesson question**~~ — CLOSED by the owner on
+      the real deployment: a guest's first activity is the genitive TEACHING
+      LESSON, then its drill. No defect. See sweep 9.
 - [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.
