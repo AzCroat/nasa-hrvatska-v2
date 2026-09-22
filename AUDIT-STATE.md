@@ -329,12 +329,13 @@ None of them crash, so no sweep above can see any of them.
 
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10.)
-- [ ] LOW: `AIConversation:476/593` throw `'Network error — check your
-      connection. (' + err.message + ')'`, rendered by `setSendError` at :768 —
-      so a learner can read `(TypeError: Failed to fetch)`. The SENTENCE is
-      accurate (it fires only when the transport threw; quota refusals are
-      classified correctly on a separate path); only the parenthetical is
-      developer detail. Rides the next push that already changes these files.
+- [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
+      sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
+      The AbortError branch is untouched: its wording was already correct and
+      context-appropriate, and reclassifying it through `failureFromError` would
+      have swapped a right sentence for one that says "evaluator" in a
+      conversation screen. Mutation-verified (M9: the parenthetical restored
+      fails 1).
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
 - [~] **Day-one path**: the LESSON half is checked (sweep 7, covered). Still

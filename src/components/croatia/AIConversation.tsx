@@ -473,9 +473,10 @@ export default function AIConversation({
       const err = netErr as Error;
       if (err.name === 'AbortError')
         throw new Error('Request timed out — please try again.', { cause: netErr });
-      throw new Error('Network error — check your connection. (' + err.message + ')', {
-        cause: netErr,
-      });
+      // The raw transport message used to be appended in parentheses, so a
+      // learner read "check your connection. (TypeError: Failed to fetch)".
+      // `cause` still carries it for diagnostics without putting it on screen.
+      throw new Error('Network error — check your connection.', { cause: netErr });
     }
     if (!res.ok) {
       let errData;
@@ -590,9 +591,10 @@ export default function AIConversation({
       const err = netErr as Error;
       if (err.name === 'AbortError')
         throw new Error('Request timed out — please try again.', { cause: netErr });
-      throw new Error('Network error — check your connection. (' + err.message + ')', {
-        cause: netErr,
-      });
+      // The raw transport message used to be appended in parentheses, so a
+      // learner read "check your connection. (TypeError: Failed to fetch)".
+      // `cause` still carries it for diagnostics without putting it on screen.
+      throw new Error('Network error — check your connection.', { cause: netErr });
     }
     try {
       data = await res.json();

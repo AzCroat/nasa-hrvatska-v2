@@ -28,10 +28,15 @@
 // blaming the tutor for a billing cap. None of the three reached Sentry, so
 // none would ever have named itself.
 //
-// WHAT THIS PINS, and deliberately not more: that the three surfaces classify
-// through `lib/aiFailure` rather than surfacing transport detail. It cannot
-// prove a FOURTH surface does — `aiSurfaceClassifies` in this file derives the
-// caller set from the ceiling table so a new one cannot land unclassified.
+// A FOURTH surface joined them: GrammarDiagnosisScreen answered EVERY failure
+// with "Try again when you have internet access.", so a learner who had merely
+// used their daily AI allowance was sent to check their router — CLAUDE.md
+// forbids that by name ("imply learner fault for a server condition").
+//
+// WHAT THIS PINS, and deliberately not more: that those FOUR surfaces classify
+// through `lib/aiFailure` rather than surfacing transport detail, and that
+// AIConversation no longer appends a raw Error.message to a sentence a learner
+// reads. It does NOT prove a fifth surface does — keep the FIXED list honest.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { readFileSync } from 'node:fs';
@@ -125,7 +130,7 @@ describe('an AI refusal never reaches the learner as a machine code', () => {
   });
 });
 
-describe('the three fixed surfaces classify through lib/aiFailure', () => {
+describe('the fixed surfaces classify through lib/aiFailure', () => {
   // Source pins, because two of the three are reached only through flows the
   // unit suite does not drive. A render test on one screen says nothing about
   // the other two.
@@ -151,6 +156,23 @@ describe('the three fixed surfaces classify through lib/aiFailure', () => {
     // The two exact shapes that put a machine code on screen.
     expect(src).not.toMatch(/setErrorMsg\(\s*\(e as Error\)\.message/);
     expect(src).not.toMatch(/throw new Error\(\s*\(?body[\s\S]{0,40}\.error/);
+  });
+
+  it('no AI surface appends the raw transport error to a learner-facing string', () => {
+    // AIConversation threw `'Network error — check your connection. (' +
+    // err.message + ')'` at two sites, and setSendError renders a thrown
+    // message, so a learner could read "(TypeError: Failed to fetch)".
+    // The SENTENCE was accurate — it fires only when the transport itself threw
+    // — so the fix drops the parenthetical and keeps `cause` for diagnostics,
+    // rather than reclassifying a correctly-worded failure.
+    const f = 'src/components/croatia/AIConversation.tsx';
+    const src = readFileSync(f, 'utf8');
+    expect(src, `${f} still puts a raw Error.message on screen`).not.toMatch(
+      /\+\s*err\.message\s*\+/,
+    );
+    // Anti-vacuity: the catch sites this guards must still exist.
+    expect(src).toMatch(/Network error — check your connection\./);
+    expect(src).toMatch(/cause: netErr/);
   });
 
   it("no AI surface blames the learner's connection for a server refusal", () => {
