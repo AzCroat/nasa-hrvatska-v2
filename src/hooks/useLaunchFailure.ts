@@ -23,7 +23,11 @@
  * content gap and has nothing to do with the network.
  */
 import { useEffect, useState, useCallback } from 'react';
-import { LAUNCH_FAILED_EVENT, type LaunchFailureReason } from '../lib/launchFailure';
+import {
+  LAUNCH_FAILED_EVENT,
+  type LaunchFailureReason,
+  type LaunchFailureScope,
+} from '../lib/launchFailure';
 
 export interface LaunchFailureState {
   reason: LaunchFailureReason | null;
@@ -31,13 +35,17 @@ export interface LaunchFailureState {
   clear: () => void;
 }
 
-export function useLaunchFailure(): LaunchFailureState {
+export function useLaunchFailure(scope: LaunchFailureScope = 'session'): LaunchFailureState {
   const [reason, setReason] = useState<LaunchFailureReason | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
     const onFail = (e: Event) => {
-      const r = (e as CustomEvent)?.detail?.reason;
+      const d = (e as CustomEvent)?.detail ?? {};
+      // An event with no scope predates the field; treat it as 'session',
+      // which is where every broadcaster lived when it was written.
+      if ((d.scope ?? 'session') !== scope) return;
+      const r = d.reason;
       // An unrecognised reason still means the launch failed. Falling back to
       // 'load-error' shows the retry wording, which is the safer of the two:
       // it never claims there is no content when there may be.
@@ -45,7 +53,7 @@ export function useLaunchFailure(): LaunchFailureState {
     };
     window.addEventListener(LAUNCH_FAILED_EVENT, onFail);
     return () => window.removeEventListener(LAUNCH_FAILED_EVENT, onFail);
-  }, []);
+  }, [scope]);
 
   const clear = useCallback(() => setReason(null), []);
   return { reason, clear };

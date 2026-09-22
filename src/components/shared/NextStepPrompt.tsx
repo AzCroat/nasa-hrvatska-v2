@@ -35,11 +35,19 @@ export default function NextStepPrompt() {
   const [step, setStep] = useState<NextStep | null>(null);
   // THE PILL CLEARED ITSELF BEFORE LAUNCHING, so a failed launch removed the
   // fork and restored the "← Back" dead end this component exists to abolish —
-  // the learner tapped, the pill vanished, and nothing happened. Keeping the
-  // step and showing the cause in place is the smallest fix that preserves the
-  // pointer-events contract: the wrapper stays pointer-events:none and only
-  // this same button is clickable.
+  // the learner tapped, the pill vanished, and nothing happened.
+  //
+  // It still hides on tap, deliberately. The first fix simply kept the step and
+  // let the navKey effect dismiss it, which broke this component's documented
+  // contract ("hides on ANY navigation") in a way an existing test caught: with
+  // the step retained, hiding depends on the launch CHANGING navKey, so a
+  // recommendation for the screen the learner is already on would leave the
+  // pill stuck there for good. Instead it hides as before and COMES BACK
+  // carrying the cause, which needs no assumption about what the launch did.
   const { reason: launchError, clear: clearLaunchError } = useLaunchFailure();
+  // The step to retry when it comes back. A ref, not state: restoring it must
+  // not itself re-render or race the hide.
+  const lastStep = useRef<NextStep | null>(null);
   const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Listen for completions. Recompute the recommendation at FIRE time (state
@@ -73,14 +81,15 @@ export default function NextStepPrompt() {
     }
   }, [navKey]);
 
-  if (!step) return null;
+  // Visible while there is a recommendation OR a failure to explain.
+  const shown = step ?? (launchError ? lastStep.current : null);
+  if (!shown) return null;
 
   function go() {
-    const s = step!;
-    // Do NOT clear the step here. A successful launch navigates and the navKey
-    // effect above dismisses the pill; a FAILED one leaves it in place so the
-    // learner still has somewhere to tap.
+    const s = shown!;
+    lastStep.current = s;
     clearLaunchError();
+    setStep(null);
     launch(s);
   }
 
@@ -131,7 +140,7 @@ export default function NextStepPrompt() {
               textOverflow: 'ellipsis',
             }}
           >
-            {launchError ? "That didn't start" : `Next up: ${step.label}`}
+            {launchError ? "That didn't start" : `Next up: ${shown.label}`}
           </span>
           <span
             style={{
@@ -145,7 +154,7 @@ export default function NextStepPrompt() {
               textOverflow: 'ellipsis',
             }}
           >
-            {launchError ? LAUNCH_FAILURE_COPY[launchError] : step.reason}
+            {launchError ? LAUNCH_FAILURE_COPY[launchError] : shown.reason}
           </span>
         </span>
       </button>

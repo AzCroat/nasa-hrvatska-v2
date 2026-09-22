@@ -282,7 +282,7 @@ export function useScreenLauncher({
         // Reported, not silent: this is a checkpoint over topics the path itself
         // offered, so an empty pool means the vocabulary source is broken — the
         // exact failure that went unseen while V was read off the client barrel.
-        notifyLaunchFailure('empty-pool', new Error('checkpoint launch: empty vocab pool'));
+        notifyLaunchFailure('empty-pool', new Error('checkpoint launch: empty vocab pool'), 'path');
         return;
       }
       const adaptivePool = _buildAdaptivePool(pool);
@@ -343,7 +343,11 @@ export function useScreenLauncher({
         // Unlike every sibling launcher this one had no empty guard, so an empty
         // pool navigated to McGame with ZERO questions — a dead screen the user
         // cannot finish or score. Fail without navigating, and report it.
-        notifyLaunchFailure('empty-pool', new Error('legendary launch: empty question set'));
+        notifyLaunchFailure(
+          'empty-pool',
+          new Error('legendary launch: empty question set'),
+          'path',
+        );
         return;
       }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
@@ -461,7 +465,11 @@ export function useScreenLauncher({
           // This is the app's primary lesson entry point (Learn Path tile, Home
           // "continue" chip, search result). It fell back to the whole vocabulary
           // and still came up short, so report rather than no-op invisibly.
-          notifyLaunchFailure('empty-pool', new Error('path lesson launch: empty vocab pool'));
+          notifyLaunchFailure(
+            'empty-pool',
+            new Error('path lesson launch: empty vocab pool'),
+            'path',
+          );
           return;
         }
         const items = _sh(pool);
@@ -526,7 +534,11 @@ export function useScreenLauncher({
         const pool = _acquire(await _getVocabSource(), allCats);
         const items = _sh(pool).slice(0, 6);
         if (items.length === 0) {
-          notifyLaunchFailure('empty-pool', new Error('path speaking launch: empty vocab pool'));
+          notifyLaunchFailure(
+            'empty-pool',
+            new Error('path speaking launch: empty vocab pool'),
+            'path',
+          );
           return;
         }
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
@@ -557,7 +569,11 @@ export function useScreenLauncher({
         if (qs.length === 0) {
           // launchMcGame early-returns on an empty set, so this tap was a silent
           // no-op. Report before delegating so the dead tile is visible upstream.
-          notifyLaunchFailure('empty-pool', new Error('path mcgame launch: empty vocab pool'));
+          notifyLaunchFailure(
+            'empty-pool',
+            new Error('path mcgame launch: empty vocab pool'),
+            'path',
+          );
           return;
         }
         launchMcGame(qs);

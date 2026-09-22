@@ -79,6 +79,8 @@ import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
 import DesktopPanel from './components/shared/DesktopPanel';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
+import { LAUNCH_FAILED_EVENT } from './lib/launchFailure';
+import { LAUNCH_FAILURE_COPY } from './components/shared/LaunchFailureNotice';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // The vocabulary deck used to be a 56-name category list hardcoded here ("update
@@ -250,6 +252,7 @@ function App() {
 
   // Bootstrap + TTS failure toast (must be before useAward declares setTtsFailedToast)
   const [ttsFailedMsg, setTtsFailedMsg] = useState('');
+  const [launchFailedMsg, setLaunchFailedMsg] = useState('');
   useEffect(() => {
     const t = setTimeout(() => import('./data').then((m) => m.bootstrapMistakesFromSRS()), 500);
     // Defer localStorage cleanup to idle time — don't block app startup
@@ -267,10 +270,28 @@ function App() {
       setTtsFailedToast(true);
       setTimeout(() => setTtsFailedToast(false), 4500);
     };
+    // THE FLOOR FOR LAUNCHES WITH NO INLINE SURFACE (2026-09-22). The
+    // session/next-step surfaces each render a strip at the button tapped;
+    // the Learn Path tiles and the checkpoint entry render nothing, and five
+    // of their bails used to `reportError` and return — reported to Sentry,
+    // invisible to the learner. Scope keeps the two apart so nobody is told
+    // twice.
+    const onLaunchFailed = (e: Event) => {
+      const d = (e as CustomEvent<{ reason?: string; scope?: string } | undefined>).detail;
+      if (d?.scope !== 'path') return;
+      setLaunchFailedMsg(
+        d.reason === 'empty-pool'
+          ? LAUNCH_FAILURE_COPY['empty-pool']
+          : LAUNCH_FAILURE_COPY['load-error'],
+      );
+      setTimeout(() => setLaunchFailedMsg(''), 5000);
+    };
     window.addEventListener('nh:tts-failed', onTtsFailed);
+    window.addEventListener(LAUNCH_FAILED_EVENT, onLaunchFailed);
     return () => {
       clearTimeout(t);
       window.removeEventListener('nh:tts-failed', onTtsFailed);
+      window.removeEventListener(LAUNCH_FAILED_EVENT, onLaunchFailed);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -1811,6 +1832,7 @@ function App() {
                 streakRestoredCount={streakRestoredCount}
                 ttsFailedToast={ttsFailedToast}
                 ttsFailedMessage={ttsFailedMsg}
+                launchFailedMessage={launchFailedMsg}
                 streakRepairAvailable={showStreakRepair}
                 onRepairStreak={(action: string) => {
                   if (action === 'dismiss') {

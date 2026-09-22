@@ -669,6 +669,35 @@ GrammarTrackScreen and the Learn Path tiles — different launchers. That is wha
 exposed the five bails above, so the over-broad first draft paid for itself
 before being replaced by `useNextStepEngine|onNextStart`.
 
+**THE FIRST VERSION OF THE PILL FIX WAS WRONG, AND THE FULL SUITE CAUGHT IT —
+not my new tests, which all passed.** I kept the step on tap and let the
+existing navKey effect dismiss the pill, which broke the component's documented
+contract ("hides on ANY navigation"): with the step retained, HIDING now
+depended on the launch CHANGING navKey, so a recommendation for the screen the
+learner is already on would strand the pill there permanently. A pre-existing
+test (`NextStepPrompt.test.tsx`, "tapping the bar launches ... and hides") is
+what said so. The pill now hides on tap exactly as before and COMES BACK
+carrying the cause — which needs no assumption about what the launch did. **My
+own new tests were written against my own wrong model and were green
+throughout**; this is the argument for running the whole suite and not only the
+files you touched.
+
+**A STALE ASSERTION CAME WITH THE SCOPE FIELD.** `session-launch-failure.test.ts`
+asserts the event detail EXACTLY (`toEqual([{ reason: 'load-error' }])`), so
+adding `scope` broke three of its cases. Updated in the same commit, and the
+exactness is kept deliberately: it is what caught the field being added, and a
+launcher that silently started emitting `'path'` for a session launch would send
+those failures to the toast and leave the card blank.
+
+**THE FLOOR IS IN** (same commit): `notifyLaunchFailure` now takes a
+`scope` — `'session'` for the inline-strip surfaces, `'path'` for the Learn Path
+tiles and checkpoint entry, which have none. App.tsx listens for `'path'` and
+AppToasts renders `launch-failed-toast`. Scope is what keeps a learner from
+being told twice, and the launcher is the only thing that knows which family it
+is. So the open item from this sweep is CLOSED rather than carried.
+Mutations: scope filter removed -> 4 fail; App.tsx stops listening -> 4;
+the five bails lose `'path'` -> 3; the pill never returns -> 2.
+
 E2E audit: specs reference only `session-begin-cta`, whose behaviour is
 unchanged. No spec touches the strip or any next-up test id.
 
@@ -709,9 +738,6 @@ None of them crash, so no sweep above can see any of them.
 - [x] ~~**Anonymous-auth / guest lesson question**~~ — CLOSED by the owner on
       the real deployment: a guest's first activity is the genitive TEACHING
       LESSON, then its drill. No defect. See sweep 9.
-- [ ] **No renderer for the five non-next-step launch bails** (sweep 15):
-      checkpoint, legendary, path lesson, path speaking, path mcgame now
-      BROADCAST their empty pool, but the Learn Path tiles and the checkpoint
-      entry render nothing. One app-level listener would be the floor for all
-      of them at once.
+- [x] ~~No renderer for the five non-next-step launch bails~~ — CLOSED in the
+      same sweep: `scope: 'path'` + App.tsx listener + `launch-failed-toast`.
 - [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.

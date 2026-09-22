@@ -204,7 +204,13 @@ describe('the pill survives a failed launch instead of vanishing', () => {
     expect(pill.textContent).not.toMatch(/connection/i);
   });
 
-  it('tapping again retries and clears the failure', () => {
+  it('tapping again retries, hiding the pill, and a second failure brings it back', () => {
+    // The pill hides on tap — that is its documented contract and an existing
+    // NextStepPrompt test pins it. The fix is not that it STAYS; it is that it
+    // COMES BACK carrying the cause, which needs no assumption about whether
+    // the launch navigated. (Keeping the step instead made hiding depend on the
+    // launch changing navKey, so a recommendation for the screen the learner is
+    // already on would strand the pill there.)
     showPill();
     fireEvent.click(screen.getByTestId('next-up-bar'));
     act(() => {
@@ -215,9 +221,20 @@ describe('the pill survives a failed launch instead of vanishing', () => {
     expect(screen.getByTestId('next-up-bar').getAttribute('data-launch-failure')).toBe(
       'load-error',
     );
+
     fireEvent.click(screen.getByTestId('next-up-bar'));
-    expect(screen.getByTestId('next-up-bar').getAttribute('data-launch-failure')).toBeNull();
     expect(mockLaunch).toHaveBeenCalledTimes(2);
+    expect(screen.queryByTestId('next-up-bar'), 'the retry did not hide the pill').toBeNull();
+
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent(LAUNCH_FAILED_EVENT, { detail: { reason: 'empty-pool' } }),
+      );
+    });
+    const back = screen.getByTestId('next-up-bar');
+    expect(back.getAttribute('data-launch-failure')).toBe('empty-pool');
+    // ...and it still knows WHICH step to retry.
+    expect(back.textContent).toMatch(/nothing to practise/i);
   });
 
   it('the wrapper still refuses pointer events (the NEVER rule)', () => {
@@ -338,5 +355,67 @@ describe('every empty-pool bail goes through notifyLaunchFailure', () => {
       expect(LAUNCHER, `${name} no longer broadcasts its empty pool`).toMatch(
         new RegExp(`notifyLaunchFailure\\(\\s*'empty-pool',\\s*new Error\\('${name}`),
       );
+  });
+});
+
+// ── The floor: a launch with no inline surface still says something ──────────
+//
+// Scope keeps the two families apart so nobody is told twice: the session /
+// next-step surfaces render an inline strip at the button tapped, and the Learn
+// Path tiles and checkpoint entry — which have none — get a toast from App.tsx.
+import AppToasts from '../components/shared/AppToasts';
+import { notifyLaunchFailure } from '../lib/launchFailure';
+
+const TOAST_PROPS = {
+  comebackBonus: false,
+  freezeUsedToast: false,
+  earnBackPrompt: null,
+  streakRestoredCount: 0,
+  ttsFailedToast: false,
+  streakRepairAvailable: false,
+  onRepairStreak: null,
+  showAndroidInstall: false,
+  setShowAndroidInstall: vi.fn(),
+  deferredInstallPrompt: null,
+  showPwaInstall: false,
+  setShowPwaInstall: vi.fn(),
+  showBackupBanner: false,
+  setShowBackupBanner: vi.fn(),
+  emailUnverified: false,
+  setEmailUnverified: vi.fn(),
+  resendVerification: vi.fn(),
+};
+
+describe('a path launch with no inline surface still reaches the learner', () => {
+  it('AppToasts renders the message it is given, and nothing without one', () => {
+    const { rerender } = render(<AppToasts {...(TOAST_PROPS as never)} />);
+    expect(screen.queryByTestId('launch-failed-toast')).toBeNull();
+    rerender(
+      <AppToasts
+        {...(TOAST_PROPS as never)}
+        launchFailedMessage={LAUNCH_FAILURE_COPY['empty-pool']}
+      />,
+    );
+    expect(screen.getByTestId('launch-failed-toast').textContent).toBe(
+      LAUNCH_FAILURE_COPY['empty-pool'],
+    );
+  });
+
+  it('scope separates the two families — a path failure does not light the session strips', () => {
+    // Without the scope filter the Learn Path toast and the Practice-tab strip
+    // would both fire for one tap.
+    render(<NextUpCard />);
+    act(() => notifyLaunchFailure('empty-pool', undefined, 'path'));
+    expect(screen.queryByTestId('next-up-card-error')).toBeNull();
+    act(() => notifyLaunchFailure('empty-pool'));
+    expect(screen.getByTestId('next-up-card-error')).toBeTruthy();
+  });
+
+  it('App.tsx listens for the path scope and passes a message through (source pin)', () => {
+    // App.tsx cannot be rendered in this repo; the wiring is pinned instead.
+    const app = strip(readFileSync('src/App.tsx', 'utf8'));
+    expect(app).toMatch(/addEventListener\(LAUNCH_FAILED_EVENT/);
+    expect(app, 'App.tsx no longer filters on the path scope').toMatch(/scope !== 'path'/);
+    expect(app).toMatch(/launchFailedMessage=\{launchFailedMsg\}/);
   });
 });
