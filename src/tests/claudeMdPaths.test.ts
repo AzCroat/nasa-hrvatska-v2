@@ -212,6 +212,33 @@ describe('the removed leaderboard is gone from the prose too', () => {
     expect(existsSync(join(root, 'functions/api/league.js'))).toBe(false);
   });
 
+  it('no E2E spec probes for them either', () => {
+    // The audit specs hunted for a Leaderboard/league button for a year after
+    // #290 removed it. Most degraded to `info()`, but two reported the absence
+    // of a deliberately removed feature as a DEFECT — one of them aborting the
+    // rest of its test — and `sync-live-proof` wrote to a `leaderboard`
+    // collection that firestore.rules denies, without checking the status, so
+    // it failed silently on every run. A false bug in an audit report is worse
+    // than no audit.
+    //
+    // Comments are stripped first: the removals left explanatory notes that
+    // name the feature, and matching those would make this assertion pass for
+    // the wrong reason — the same trap the Croatian lint's comment-stripping
+    // exists for.
+    const specs = readdirSync(join(root, 'e2e')).filter((f) => f.endsWith('.spec.js'));
+    expect(specs.length).toBeGreaterThan(20);
+    const offenders: string[] = [];
+    for (const f of specs) {
+      const code = readFileSync(join(root, 'e2e', f), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/(^|[^:])\/\/.*$/gm, '$1');
+      if (/leaderboard|weekly league/i.test(code)) offenders.push(f);
+    }
+    expect(offenders, `specs still probe the removed leaderboard: ${offenders.join(', ')}`).toEqual(
+      [],
+    );
+  });
+
   it('CLAUDE.md does not name them as if they shipped', () => {
     const overview = DOC.slice(0, DOC.indexOf('## Development Commands'));
     expect(overview).not.toMatch(/\bleagues\b/);

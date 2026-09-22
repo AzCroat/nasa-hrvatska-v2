@@ -292,9 +292,10 @@ test.describe('Live sync proof — all browsers', () => {
     if (writeResp.status !== 200) {
       throw new Error(`Firestore write failed ${writeResp.status}: ${JSON.stringify(writeResp.body).slice(0, 400)}`);
     }
-    await firestorePatch(idToken, 'leaderboard', DOC_ID,
-      { xp: { integerValue: String(TARGET_XP) }, lc: { integerValue: String(TARGET_LC) } },
-      ['xp', 'lc']);
+    // (A write to a `leaderboard` collection stood here. The feature was
+    // removed in #290 and firestore.rules has no create/update rule for it, so
+    // the write fell to deny-all — and unlike the one above, its status was
+    // never checked, so it had been failing silently on every run.)
 
     console.log(`\n  Written to Firebase:`);
     console.log(`    XP:       ${currentXP} → ${TARGET_XP}`);

@@ -449,66 +449,12 @@ test.describe('UX Audit — Full user journey on nasahrvatska.com', () => {
     }
   });
 
-  test('8. Family leaderboard — join EPLJRC family', async ({ page }) => {
-    page.on('pageerror', err => jsErrors.push({ msg: err.message }));
-
-    await loginAndWait(page, true);
-    await dismissModals(page);
-
-    // Click FAMILY button at bottom of sidebar
-    const familyBtn = page.locator('text=FAMILY').or(page.locator('button').filter({ hasText: /family/i })).first();
-    if (!await familyBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      // Try via profile
-      const profileNav = page.locator('text=Profile').first();
-      if (await profileNav.isVisible().catch(() => false)) {
-        await profileNav.click();
-        await page.waitForTimeout(500);
-      }
-      const lbBtn = page.locator('button').filter({ hasText: /leaderboard|family/i }).first();
-      if (!await lbBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-        logIssue('UX', 'Family Leaderboard', 'Cannot find family/leaderboard button');
-        return;
-      }
-      await lbBtn.click();
-    } else {
-      await familyBtn.click();
-    }
-
-    await page.waitForTimeout(1500);
-    await screenshot(page, '08-family-screen');
-
-    const txt = await page.locator('#root').innerText().catch(() => '');
-
-    if (txt.match(/create.*family|join.*family|no family/i)) {
-      // Try joining EPLJRC
-      const joinTab = page.locator('button').filter({ hasText: /join family/i }).first();
-      if (await joinTab.isVisible({ timeout: 2000 }).catch(() => false)) {
-        await joinTab.click();
-        await page.waitForTimeout(500);
-        const codeInput = page.locator('input[maxlength="6"]').or(page.locator('input[placeholder*="code" i]')).first();
-        if (await codeInput.isVisible({ timeout: 2000 }).catch(() => false)) {
-          await codeInput.fill('EPLJRC');
-          const joinBtn = page.locator('button').filter({ hasText: /join family/i }).last();
-          await joinBtn.click();
-          await page.waitForTimeout(3000);
-          await screenshot(page, '08-after-join');
-          const after = await page.locator('#root').innerText().catch(() => '');
-          if (after.match(/Jeff|Klara|Tomislav|Nadalina/)) {
-            console.log('  ✅ Joined family — members visible');
-            const xpVals = [...after.matchAll(/(\d+)\s*XP/g)].map(m => parseInt(m[1]));
-            console.log(`  📊 Family XP values: ${xpVals.join(', ')}`);
-            if (xpVals.every(v => v === 0)) logIssue('BUG', 'Family XP', 'All family members showing 0 XP');
-          } else if (after.match(/error|failed|invalid|not found/i)) {
-            logIssue('BUG', 'Join Family', 'Error returned when joining family code EPLJRC');
-          }
-        }
-      }
-    } else if (txt.match(/Jeff|Klara|Tomislav/)) {
-      console.log('  ✅ Already in family — members visible');
-      const xpVals = [...txt.matchAll(/(\d+)\s*XP/g)].map(m => parseInt(m[1]));
-      console.log(`  📊 Family XP: ${xpVals.join(', ')}`);
-    }
-  });
+  // Test 8 was 'Family leaderboard — join EPLJRC family'. The Family feature
+  // and the public leaderboard were both removed in #290 (fbJoinFamily,
+  // memberXP, the families collection and the Firestore rules for it are all
+  // gone). The test could no longer find a button, logged a UX issue for the
+  // absence of a deliberately removed feature, and returned — so every
+  // assertion after that point had been dead since the removal.
 
   test('9. Logout → re-login — progress retained', async ({ page }) => {
     page.on('pageerror', err => jsErrors.push({ msg: err.message }));

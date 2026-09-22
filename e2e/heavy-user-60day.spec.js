@@ -12,7 +12,7 @@
  *   - 30-45 min sessions, 5-6 times per week
  *   - Covers vocabulary, grammar, cultural content, AI features
  *   - Progresses through CEFR levels A1 → B1
- *   - Uses SRS review, streaks, badges, leaderboard
+ *   - Uses SRS review, streaks, badges
  *   - Tests error recovery and cross-feature state persistence
  *
  * Structure (15 blocks × 4 days = 60 days):
@@ -23,13 +23,13 @@
  *   Block 5  (Days 17-20): Croatia tab — all sub-tabs deep dive
  *   Block 6  (Days 21-24): AI & Conversations — Maja AI, AI Story
  *   Block 7  (Days 25-28): Speaking & Listening intensive
- *   Block 8  (Days 29-32): Profile & Community — stats, badges, leaderboard
+ *   Block 8  (Days 29-32): Profile & Community — stats, badges, journal
  *   Block 9  (Days 33-36): Settings mastery — all options
  *   Block 10 (Days 37-40): SRS & mistakes — spaced repetition deep dive
  *   Block 11 (Days 41-44): Vocabulary expansion — 5+ categories
  *   Block 12 (Days 45-48): Advanced grammar — CEFR B1+, complex drills
  *   Block 13 (Days 49-52): Streak & habit building — daily goals, milestones
- *   Block 14 (Days 53-56): XP milestones + badge collection + leaderboard
+ *   Block 14 (Days 53-56): XP milestones + badge collection
  *   Block 15 (Days 57-60): Power user stress test — all features, regression
  */
 
@@ -1061,7 +1061,7 @@ test('Block 7 (Days 25-28) — Speaking & Listening intensive', async ({ page })
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// BLOCK 8 — Days 29-32: Profile & Community — stats, badges, heatmap, leaderboard
+// BLOCK 8 — Days 29-32: Profile & Community — stats, badges, heatmap, journal
 // ══════════════════════════════════════════════════════════════════════════════
 test('Block 8 (Days 29-32) — Profile & Community: stats, badges, heatmap, journal', async ({ page }) => {
   attachErrorListeners(page, 'Block8');
@@ -1143,22 +1143,8 @@ test('Block 8 (Days 29-32) — Profile & Community: stats, badges, heatmap, jour
     bug('UX', 'Profile', 'Journal / Vocab Journal button not found on profile');
   }
 
-  // ── LEADERBOARD / WEEKLY LEAGUE
-  await goTab(page, 'Profile');
-  await dismissAll(page);
-  const leaderBtn = page.locator('button').filter({ hasText: /leaderboard|league|ranking|weekly/i }).first();
-  if (await leaderBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leaderBtn.click();
-    await page.waitForTimeout(1000);
-    await ss(page, 'b8-leaderboard');
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (!lbText.match(/rank|league|XP|player|user|leader|\w{4,}/i)) {
-      bug('BUG', 'Leaderboard', 'Leaderboard screen blank');
-    } else ok('Leaderboard screen loaded');
-    await exitScreen(page);
-  } else {
-    info('Leaderboard not directly visible from Profile root');
-  }
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probe lived here until 2026-09-22.)
 
   // ── XP readable
   const xp = await readXP(page);
@@ -1545,9 +1531,9 @@ test('Block 13 (Days 49-52) — Streak & habit: daily goals, XP accumulation', a
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// BLOCK 14 — Days 53-56: XP milestones, badge collection, leaderboard position
+// BLOCK 14 — Days 53-56: XP milestones, badge collection
 // ══════════════════════════════════════════════════════════════════════════════
-test('Block 14 (Days 53-56) — XP milestones, badges, leaderboard', async ({ page }) => {
+test('Block 14 (Days 53-56) — XP milestones, badges', async ({ page }) => {
   attachErrorListeners(page, 'Block14');
   await login(page);
 
@@ -1579,26 +1565,8 @@ test('Block 14 (Days 53-56) — XP milestones, badges, leaderboard', async ({ pa
     info('Badge section not visible as standalone widget');
   }
 
-  // ── LEADERBOARD — check position + weekly XP
-  const leaderBtn = page.locator('button').filter({ hasText: /leaderboard|league|ranking|weekly/i }).first();
-  if (await leaderBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await leaderBtn.click();
-    await page.waitForTimeout(1000);
-    await dismissAll(page);
-    await ss(page, 'b14-leaderboard');
-    const lbText = await page.locator('#root').innerText().catch(() => '');
-    if (!lbText.match(/rank|league|XP|player|\w{4,}/i)) {
-      bug('BUG', 'Leaderboard', 'Leaderboard blank after opening');
-    } else {
-      ok('Leaderboard screen loaded');
-      // Check for weekly XP display
-      if (lbText.match(/weekly|this week|\d+\s*XP/i)) ok('Leaderboard shows weekly XP');
-      else info('Leaderboard XP format not matched (may be different layout)');
-    }
-    await exitScreen(page);
-  } else {
-    info('Leaderboard not visible on profile root');
-  }
+  // (The public leaderboard and weekly league were removed in #290 — endpoint,
+  // components and Firestore writes. Their probe lived here until 2026-09-22.)
 
   // ── Earn XP in a fresh exercise and verify level-up behaviour
   await goTab(page, 'Practice');

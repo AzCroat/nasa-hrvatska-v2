@@ -401,22 +401,8 @@ test.describe('Full user audit — nasahrvatska.com', () => {
       if (await backBtn.isVisible({ timeout: 2000 }).catch(() => false)) await backBtn.click();
     }
 
-    // Test Leaderboard
-    const lbBtn = page.locator('button, div').filter({ hasText: /Leaderboard/i }).first();
-    if (await lbBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await lbBtn.click();
-      await page.waitForTimeout(2000);
-      await shot(page, 'leaderboard');
-      const lbText = await page.locator('#root').innerText().catch(() => '');
-      if (lbText.includes('Error') || lbText.length < 50) {
-        bug('HIGH', 'Profile/Leaderboard', 'Leaderboard screen empty or shows error');
-      } else {
-        console.log('  ✓ Leaderboard loaded');
-      }
-      const backBtn = page.locator('button:has-text("←"), button:has-text("Back")').first();
-      if (await backBtn.isVisible({ timeout: 2000 }).catch(() => false)) await backBtn.click();
-      await page.waitForTimeout(500);
-    }
+    // (The public leaderboard was removed in #290 — endpoint, components and
+    // Firestore writes. Its probe lived here until 2026-09-22.)
 
     // Test Learn Path screen
     const pathBtn = page.locator('button, div').filter({ hasText: /Learn Path|My Path/i }).first();
