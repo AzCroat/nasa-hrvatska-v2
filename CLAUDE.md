@@ -2637,7 +2637,7 @@ Found from outside the code: the owner reported the Sentry project was receiving
 - **A secret cannot be tested in a step-level `if`.** The `secrets` context is not among those available to `steps.<id>.if`. Such a condition does not fail loudly — it silently does not mean what it looks like. Bind through `env` and test in the shell, as both install steps already do; asserted so nobody adds one.
 - **Shape-check before installing.** `forwardToSentry` does `new URL(dsn)` and derives the public key from the username and the project id from the path, inside `waitUntil` — so a malformed DSN fails _after_ the response returned, where nobody sees it.
 - **THE INPUT BEING SET IS NOT THE OUTPUT BEING SHIPPED (2026-09-04).** With the secret set, valid, and installed for the relay, a live browser still had `window.__nhSentry === undefined` and made **no request for the SDK chunk at all** — so the guard was falsy at runtime in whatever bundle was being served. Every layer either side was checkable from the repo (the secret from CI's log, the CSP from `_headers`, the init config from source); the one link in the middle — _did the DSN reach the artifact we uploaded_ — could only be answered by opening DevTools on production. `ci.yml` now reads `dist/` after the build and fails if the DSN it was handed is not in there. Reproduced in both directions first: built WITH the DSN it is inlined and a `vendor-sentry` chunk is emitted; built with an EMPTY one, Rollup tree-shakes the block so **the chunk is not emitted at all** and no ingest host appears anywhere in `dist` — which is exactly the shape the live site showed. Absent → warning; **present-but-not-shipped → fail**, because that is a broken pipeline and shipping it restores the silent blackout.
-  **The step is right; the diagnosis that prompted it was wrong, and both halves of that are worth keeping.** The browser was serving a STALE service-worker bundle — a hard reload produced a live SDK against a build CI had not changed, so the artifact had been carrying the DSN all along and this step has never yet fired in anger. It is still the check that was missing: before it, "did the DSN reach the artifact" was answerable only from DevTools on production, which is why a stale bundle and a broken build looked identical for hours. **A guard built on a wrong diagnosis can still be the right guard** — but do not let the fix's existence stand as evidence for the defect it was reasoned from. When production and CI disagree, establish WHICH ARTIFACT the browser is running (`/version.json` carries the build id) before concluding anything about the pipeline.
+  **The step is right; the diagnosis that prompted it was wrong, and both halves of that are worth keeping.** The browser was serving a STALE service-worker bundle — a hard reload produced a live SDK against a build CI had not changed, so the artifact had been carrying the DSN all along and this step has never yet fired in anger. It is still the check that was missing: before it, "did the DSN reach the artifact" was answerable only from DevTools on production, which is why a stale bundle and a broken build looked identical for hours. **A guard built on a wrong diagnosis can still be the right guard** — but do not let the fix's existence stand as evidence for the defect it was reasoned from. When production and CI disagree, establish WHICH ARTIFACT the browser is running (`/version.json` carries the build id AND, since 2026-09-22, the `commit` it was built from) before concluding anything about the pipeline.
 - Pinned by `sentryDsnInstall.test.js`, which DERIVES the expected name from `report-error.js` rather than restating it. Seventeen mutations verified, including reverting to the literal original bug — **and one of the new assertions was itself decorative on its first run**: written as a bare `/vendor-sentry/` text match it survived replacing the whole computation with `const hasSdkChunk = true`, because both words still appeared. Assert the DERIVATION, not the mention.
 - NEVER: install the `VITE_`-prefixed name onto Pages (inert, and it invites the belief the client half is covered by the Pages env); install after `pages deploy`; let the sync workflow and `ci.yml` write this under different names.
 
@@ -2903,9 +2903,21 @@ Practical rules that fall out of this:
   stale service-worker bundle with nothing wrong behind it. The inflation is
   invisible as you write it and load-bearing when someone reasons from it later.
 - **When production and CI disagree, identify WHICH ARTIFACT is running first.**
-  `/version.json` carries the build id. Hours went into pipeline theories for a
-  browser that was simply serving an older bundle, and every one of those
-  theories was consistent with the evidence.
+  `/version.json` carries the build id AND the `commit` (2026-09-22). Hours went
+  into pipeline theories for a browser that was simply serving an older bundle,
+  and every one of those theories was consistent with the evidence. **The
+  criticism that prompted the commit field was itself wrong and the correction
+  is the point**: I reported this line as "looser than the file is", and it was
+  not — `v` IS the build id, the same value vite.config names `BUILD_ID` and
+  bakes into `__BUILD_ID__`, `CACHE_VER` and the Sentry `release`. The real gap
+  was narrower: a timestamp identifies a BUILD, so you learned "build
+  1788822322863" and still had to find the CI run carrying it to learn what code
+  that was. `v` is untouched — three mechanisms compare that exact value — and
+  `commit` is ADDITIVE and diagnostic, which is what makes its `null` on a
+  .git-less checkout harmless rather than a new failure mode. Pinned by
+  `versionJsonCommit.test.js`; mutation-verified six ways including the
+  dangerous one (repointing `v` at the commit) and a consumer gating on
+  `commit`.
 - **Check an exclusion's reason before you write it down, even when it is
   obviously true.** The rules file and the golden set were about to be exempted
   as "full of Serbian forms by design"; measured, both produce zero findings,

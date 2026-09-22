@@ -3,12 +3,50 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import fs from 'fs';
+import { execFileSync } from 'child_process';
 
 // Auto-generated on every build/dev-server start — never bump manually.
 // Becomes CACHE_VER in sw.js and the value in /version.json.
 // Every deploy gets a unique ID → old SW caches are purged automatically.
 const BUILD_ID = Date.now().toString();
-fs.writeFileSync('./public/version.json', JSON.stringify({ v: BUILD_ID }) + '\n');
+
+// The COMMIT the artifact was built from, written beside the build id.
+//
+// WHY IT IS HERE: this file's own incident record says that when production and
+// CI disagree the first move is to establish WHICH ARTIFACT the browser is
+// running — hours once went into pipeline theories for a browser that was simply
+// serving an older bundle. `v` answered that already (it IS the build id, the
+// same value as __BUILD_ID__, CACHE_VER and the Sentry release), but only as a
+// timestamp: you learned "build 1788822322863" and then had to find the CI run
+// carrying it to learn the commit. With the sha beside it the question is
+// answered by opening the file.
+//
+// `v` IS DELIBERATELY UNTOUCHED and must stay the build id: `isStaleBuild`
+// compares it for equality against the running __BUILD_ID__, ci.yml proves that
+// same value is baked in as the Sentry `release`, and sw.js uses it as
+// CACHE_VER. This is an ADDITIVE field; nothing reads `commit` to make a
+// decision.
+//
+// Resolution order, each step falling through rather than throwing — a build
+// must never fail for want of a diagnostic: GITHUB_SHA (set by Actions, and
+// correct there even in a detached checkout) → `git rev-parse HEAD` → null. A
+// source tarball with no .git is a real case, and `null` says "unknown" rather
+// than inventing a value.
+function resolveCommit() {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+  try {
+    return execFileSync('git', ['rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+      timeout: 5000,
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+const COMMIT = resolveCommit() || null;
+
+fs.writeFileSync('./public/version.json', JSON.stringify({ v: BUILD_ID, commit: COMMIT }) + '\n');
 
 // Sentry source-map upload only runs when all three env vars are set
 // (typically only in CF Pages production builds). Local dev/preview builds
