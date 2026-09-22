@@ -12,13 +12,13 @@ Provide: screen name, screen key (camelCase), lesson type (lc = cultural/informa
    - Grammar → `src/components/learn/`
    - Minimum: renders lesson content, calls `dispatch({ type: 'VISIT_SCREEN', payload: { key: 'screenKey' } })` on mount or after dwell
 
-2. **Register in useScreenLauncher.js** (`BLACK_HOLE_SCREENS`):
+2. **Register in `src/lib/blackHoleScreens.ts`** (`BLACK_HOLE_SCREENS`; the dwell timer that reads it is in `src/hooks/useScreenLauncher.ts`):
    ```javascript
    screenKey: 'lc',  // or 'gc' for grammar
    ```
    This enables the 20-second dwell timer that awards 15 XP and marks the screen as visited.
 
-3. **Add to LEARN_PATH in content.jsx**:
+3. **Add to LEARN_PATH in `src/data/content.tsx`**:
    ```javascript
    {
      id: 'lpNN',

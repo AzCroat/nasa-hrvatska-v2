@@ -746,6 +746,62 @@ the branch we DEPLOY is precisely the thing worth an email.
 
 No code change. The correction is the deliverable.
 
+### 17. Sync field coverage — 2026-09-22 — CLEAN, and the audit tool was stale
+
+Ran the repo's own `/audit-sync` command. Two results.
+
+**THE SYNC CONTRACT IS CLEAN.** Every field `buildProgressSnapshot` writes is
+read back by `applyRemoteProgress`, except two metadata fields that correctly
+are not: `savedAt`, and `_fbUpdated` — the freshness timestamp the newer-wins
+comparison reads (`firebase.ts:1033/1051`, `useSyncManager.ts:476`). Restoring
+either into local state would be wrong. Nothing is saved-but-lost, and nothing
+is restored-but-never-saved.
+
+**THE ANSWER CAME OUT WRONG TWICE FIRST, from my own extraction.** Recorded
+because the next person will write the same two regexes:
+
+- Keying on `name:` MISSES shorthand properties, and the snapshot returns
+  `dc,` `cooldown,` `weekXP,` `name,` that way — reported as "restored but never
+  saved", which is a data-loss finding, on four fields that are fine.
+- Brace-depth tracking UNDER-counts, because several values are IIFEs carrying
+  their own braces: 62 fields against the first pass's 83.
+  Neither number was right. What settled it was running BOTH and taking the
+  union (87 candidate names): under either extraction the unrestored set is the
+  same two metadata fields, so the conclusion survives the tool being wrong.
+  `fp.st` is not a gap either — it is the legacy alias in `fp.stats || fp.st`.
+
+**THE COMMAND ITSELF POINTED AT A FILE THAT HAS NOT EXISTED FOR MONTHS**, which
+is worse in `.claude/commands/` than in prose: these are instructions a session
+FOLLOWS. Five stale paths across three commands:
+
+    audit-sync.md        useSyncManager.js     -> lib/applyRemoteProgress.ts
+    audit-learn-path.md  useScreenLauncher.js  -> lib/blackHoleScreens.ts
+    audit-learn-path.md  content.jsx  x2       -> content.tsx
+    new-lesson.md        useScreenLauncher.js  -> lib/blackHoleScreens.ts
+
+`new-lesson.md` is the one that would have done damage: it tells the author to
+register a new screen in `BLACK_HOLE_SCREENS`, in a file that no longer holds
+it, so the dwell timer would never fire and the lesson would never credit.
+
+**THE DERIVED GUARD FOUND TWO THAT MY HAND SEARCH MISSED.** I grepped the
+commands for `\.js\b` and fixed three; `claudeMdPaths.test.ts`, extended to
+`.claude/commands/*.md`, then named `content.jsx` twice — `\.js\b` cannot match
+`.jsx`, because `x` is a word character and there is no boundary. A derived
+check beats a hand search written by the same person who chose the search.
+
+**AND ITS ANTI-VACUITY FLOOR FIRED ON A CLEAN TREE**, which is the floor working
+in its least useful direction: I guessed >10 backticked paths and there are 7.
+Set floors from a measurement, not an expectation.
+
+**WHAT IT DOES NOT COVER, stated:** a filename written WITHOUT backticks.
+`new-lesson.md` said "Add to LEARN_PATH in content.jsx" in bare prose — still
+stale, invisible to the guard, found only by reading. Widening to bare prose
+would match ordinary English ("the .ts migration"), so the trade is deliberate:
+it guards the paths a reader would copy, not every mention of a file.
+
+Mutation-verified: reverting the audit-sync path to the dead `.js` file fails 1
+and names it exactly.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

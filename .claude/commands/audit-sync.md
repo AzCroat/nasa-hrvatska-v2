@@ -6,7 +6,18 @@ Verify every persisted field is present in both `buildProgressSnapshot` and `app
 
 1. Read `src/lib/progressSnapshot.ts` and list every field returned by `buildProgressSnapshot()`.
 
-2. Read `src/hooks/useSyncManager.js` and find the `applyRemoteProgress` function. List every field it reads from the remote snapshot and applies locally (localStorage sets, state dispatches, etc.).
+2. Read `src/lib/applyRemoteProgress.ts` — the whole function lives there now, not
+   in the sync hook. List every field it reads off the remote document (the
+   parameter is `fp`, not `remote`) and applies locally: localStorage sets, state
+   dispatches, merges.
+
+   TWO EXTRACTION TRAPS, both of which produced a WRONG answer on 2026-09-22:
+   - `buildProgressSnapshot` returns many fields in SHORTHAND (`dc,` `cooldown,`
+     `weekXP,` `name,`). A regex keyed on `name:` misses every one of them and
+     reports them as "restored but never saved".
+   - Several values are IIFEs containing their own braces, so naive
+     brace-depth tracking stops early and UNDER-counts the field list.
+     Cross-check two extractions, or read the return block.
 
 3. Compare the two lists:
    - **Missing from applyRemoteProgress**: fields saved to Firebase but never restored on login from a new device — data is persisted but silently lost on restore
