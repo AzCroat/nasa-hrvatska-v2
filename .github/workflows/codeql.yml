@@ -1,8 +1,23 @@
 name: CodeQL
 
 on:
+  # A PR analysis reports against the PR's merge commit, NOT against master, so
+  # without this push trigger the DEFAULT BRANCH was analysed only by the weekly
+  # schedule below: merged code sat up to 7 days unscanned, and an alert fixed by
+  # a merge stayed open on master until the next Monday. Measured 2026-09-22 —
+  # across 1,122 CodeQL runs, ZERO were push events and the only master analyses
+  # were the weekly ones.
+  #
+  # `master` alone, not `[main, master]` as the pull_request filter says: this
+  # repo has no `main` branch (checked), and the branch named here is derived and
+  # pinned against ci.yml's own deploy ref by codeqlPushTrigger.test.js — we scan
+  # the branch we ship.
+  push:
+    branches: [master]
   pull_request:
     branches: [main, master]
+  # KEPT, and not replaced by the push trigger: this re-analyses UNCHANGED code
+  # against newly published queries, which a push-only workflow never would.
   schedule:
     - cron: '0 6 * * 1'  # Weekly Monday 6am UTC
 
