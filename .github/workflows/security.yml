@@ -1,8 +1,26 @@
 name: Security Audit
 
 on:
+  # Semgrep's findings go to the Security tab via codeql-action/upload-sarif, and
+  # GitHub tracks code-scanning alerts PER REF — so without this, the `semgrep`
+  # category on the DEFAULT BRANCH was refreshed only by the weekly schedule
+  # below: merged code sat up to 7 days unscanned and a finding a merge actually
+  # fixed stayed open on master until the next Monday. The identical gap to
+  # codeql.yml's, fixed the same way. Measured 2026-09-22 — across 1,123 runs of
+  # this workflow, ZERO were push events and the only master runs were weekly.
+  #
+  # Cost measured before adding, not assumed: Gitleaks 16s (fetch-depth 0 and
+  # all) and Semgrep 90s per run, free on a public repo.
+  #
+  # `master` alone, not `[main, master]` as the pull_request filter says: this
+  # repo has no `main` branch. The branch is derived from ci.yml's own deploy ref
+  # and pinned by codeqlPushTrigger.test.js — we scan the branch we ship.
+  push:
+    branches: [master]
   pull_request:
     branches: [main, master]
+  # KEPT, and not replaced by the push trigger: this re-scans UNCHANGED code
+  # against rules published since, which a push-only workflow never would.
   schedule:
     - cron: '0 7 * * 1'  # Weekly Monday 7am UTC
   workflow_dispatch: # allow manual full-history runs (e.g. to verify .gitleaks.toml)
