@@ -11,6 +11,7 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { localDateStr } from '../../lib/dateUtils';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 interface ListeningQuestion {
   // /api/listening returns { q, options, correct } — `q` is the prompt and
@@ -108,7 +109,15 @@ export default function DailyListeningCard({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, level, style: 'dialogue' }),
       });
-      if (!res.ok) throw new Error('API error');
+      if (!res.ok) {
+        // A quota 429, a budget 503 and a dropped connection are different
+        // facts, and "Try again" is false for the first two until they reset.
+        const f = await failureFromResponse(res);
+        reportAiFailure('daily-listening', f);
+        setError(f.message);
+        setPhase('idle');
+        return;
+      }
       const json = await res.json();
       // Require both the dialogue AND its comprehension questions — without
       // questions there is no Check Answers button and thus no way to finish
@@ -117,7 +126,9 @@ export default function DailyListeningCard({
       setData(json);
       setPhase('reading');
     } catch (e) {
-      setError("Could not load today's listening exercise. Try again.");
+      const f = failureFromError(e);
+      reportAiFailure('daily-listening', f);
+      setError(f.message);
       setPhase('idle');
     }
   }, [level]);

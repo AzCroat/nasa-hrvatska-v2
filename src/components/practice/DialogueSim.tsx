@@ -15,6 +15,7 @@ import InteractionPathBanner from './InteractionPathBanner';
 import { SCENARIOS } from './dialogueScenarios.js';
 import { _aiPost } from '../../lib/aiPost';
 import { shouldShowAdvancedBridge } from '../../lib/conversationLevel';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import {
   getNextInteractionUnit,
   getInteractionProgress,
@@ -205,13 +206,27 @@ export default function DialogueSim({
         },
         { signal: AbortSignal.timeout(25000) },
       );
-      if (!res.ok) throw new Error('API error');
+      if (!res.ok) {
+        // "Could not reach Maja" blamed the tutor for what is usually a quota
+        // or budget refusal, and promised a retry that cannot succeed until it
+        // resets. `failureFromResponse` also accepts a null Response, which is
+        // what the transport returns when nothing answered at all.
+        const f = await failureFromResponse(res);
+        reportAiFailure('dialogue-sim', f);
+        setAiError(f.message);
+        setAiHistory(aiHistory);
+        setAiInput(userMsg);
+        setAiLoading(false);
+        return;
+      }
       const data = await res.json();
       setAiHistory([...newHistory, { role: 'assistant', content: data.reply, id: Date.now() + 1 }]);
       setAiCoaching(data.coaching || null);
       setAiTurns((t) => t + 1);
-    } catch {
-      setAiError('Could not reach Maja. Please try again.');
+    } catch (e) {
+      const f = failureFromError(e);
+      reportAiFailure('dialogue-sim', f);
+      setAiError(f.message);
       // Roll back the optimistic user turn but put the text back in the box so
       // the learner can resend it rather than losing what they typed.
       setAiHistory(aiHistory);

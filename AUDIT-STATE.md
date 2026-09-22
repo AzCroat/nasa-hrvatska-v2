@@ -82,6 +82,60 @@ nobody, dead for months).
 
 ---
 
+### 4. AI endpoints, end to end — 2026-09-22 — **3 REAL DEFECTS, FIXED**
+
+Enumerated from `ENDPOINT_CEILING_MICROUSD` (the canonical list) by IMPORTING
+the module, not re-parsing it. **30 endpoints**, every one with a handler file.
+
+**THE DEFECT: a learner was shown the server's machine code.** The gate refuses
+with `fail(status, code)` whose body is `{ error: '<code>' }`.
+`MicroLessonScreen` threw that string and rendered it verbatim:
+
+    throw new Error(body.error || `Server error ${res.status}`)
+    setErrorMsg((e as Error).message || 'Could not generate lesson…')
+
+The fallback never fired, because `body.error` is always present. A learner who
+hit the daily quota — or was simply signed out — read `monthly_budget_exhausted`
+or `unauthenticated` under "Something went wrong", above an unconditional
+**"Try Again"** that could not work until the cap reset. Two siblings, same
+class, milder: `DailyListeningCard` (Home) told every cause "Try again", and
+`DialogueSim` blamed the tutor ("Could not reach Maja") for a billing cap. None
+of the three reported to Sentry, so none would ever have named itself.
+
+All three now classify through `lib/aiFailure` (`failureFromResponse` /
+`failureFromError` -> one honest sentence + `retryable`), report to Sentry, and
+MicroLessonScreen only offers a retry that can actually succeed.
+
+**Why the 2026-09-07 feedback census missed it**: that census scoped itself to
+surfaces promising feedback on WRITING or SPEECH and traced those end to end. A
+micro-lesson is neither. The rule it broke is in CLAUDE.md twice — "NEVER show a
+learner a raw status" and layer 10's "EVERY AI surface renders the budget pause
+as a calm message, never a retryable error."
+
+Pinned by `aiRefusalMessages.test.tsx` (10), driving the REAL screen against the
+gate's real refusal shape. Mutation-verified, four, each confirmed landed:
+the original bug restored -> 5 fail; the retry made unconditional -> 1;
+DailyListeningCard reverted -> 1; DialogueSim reverted -> 1.
+
+**Orphaned, recorded, not urgent:** `/api/daily-culture`, `/api/daily-plan` and
+`/api/adaptive-insights` have handlers, budget ceilings and prompt
+instrumentation but NO caller anywhere. #682 deleted the client modules for the
+latter two as unreachable and left the endpoints behind. Nothing calls them, so
+nothing can fail for a learner. (`golden-calibration` and `stt-calibration` also
+have no client caller — correct, they are dispatch-only from workflows.)
+
+**FALSE POSITIVE — DO NOT RE-CHASE #3:** `croatiaPool.ts` and `sessionPools.ts`
+appear to call `/api/news` and `/api/micro-lesson`. They are COMMENTS naming the
+route beside a pool entry. **#4:** the four `explain-error` drills
+(ClozeEngine, McGame, ReviewScreen, DictationScreen) have no classifier by
+DESIGN — fail-soft, the authored tip stays on screen.
+
+**TOOL BUG #3:** a string regex `["']([^"']{10,90})["']` silently drops every
+message containing an apostrophe — including "Could not load today's listening
+exercise", the finding it was written to catch. **#4:** `getByText(/Try Again/i)`
+matched both the button AND the sentence "…Try again in a moment", a strict-mode
+violation that failed a CORRECT fix. Query by ROLE.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
