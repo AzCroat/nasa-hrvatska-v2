@@ -310,6 +310,25 @@ hypothesis. **Never diagnose session composition from labels; dump `id` and
 
 NEVER re-open this without evidence naming the `id`/`screen`, not the label.
 
+**AND THE FULL ANSWER, VERIFIED IN-REPO RATHER THAN BY ASKING ANYONE.** Driving
+the REAL builder against the REAL spine (`CURRICULUM` written through
+`writeCurriculumSpine`, no mocks beyond SRS/CEFR) a fresh A1 learner gets:
+
+    1. curriculum_alphabet           screen=animlesson
+    2. curriculum_practice_alphabet  screen=alphabet
+    3. dialogue
+    4. cityofday
+
+Spine order 1 is `alphabet`, and that is what is served — lesson first, then its
+coupled practice. P0 and the teach->practice coupling are correct end to end. A
+learner seeing GENITIVE first simply has prior progress and the spine has
+advanced them past the early lessons, which is the system working.
+
+**The earlier local probe showed a drill for one reason only: no spine and no
+content.** That is the degraded path, not a defect, and it took writing the real
+spine into the probe to see it. When a probe's answer surprises you, check what
+you failed to give it before concluding anything about the code.
+
 ### 10. Work that grades but never credits — 2026-09-22 — CLEAN
 
 The inverse of the `AlphabetScreen` award bug: a screen that scores a learner
