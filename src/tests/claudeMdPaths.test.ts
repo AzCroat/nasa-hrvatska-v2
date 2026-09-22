@@ -89,6 +89,10 @@ const EXEMPT: Record<string, string> = {
   'geographyHr.js':
     'The single-module ancestor of src/data/cultural/cityHr/, named only to ' +
     'record that it was split per band. It is described in the past tense.',
+  'DailyCroatianSection.tsx':
+    'Deleted by #682. Named here only to record that the same commit removed it ' +
+    'from the tree, from the lint TARGETS, and from neither the directory diagram ' +
+    'nor the coverage count that described it.',
   'PascalCase.jsx':
     'Not a filename — the illustration of the naming convention itself, in ' +
     'the Code Conventions section.',
@@ -173,6 +177,66 @@ describe('CLAUDE.md names files that exist', () => {
       }
     }
     expect(wrong, `the diagram misfiles components:\n  ${wrong.join('\n  ')}`).toEqual([]);
+  });
+});
+
+describe('CLAUDE.md states the lint coverage the lint actually has', () => {
+  // The figure sat at "525 files plus 2 walked structurally" while the lint
+  // printed 521 — #682 deleted the unreachable modules five targets pointed at
+  // and updated neither this number nor the directory diagram that named one of
+  // the same files. A count in prose is a hand-maintained list of one.
+  //
+  // Derived from the lint's SOURCE rather than by running it, so this stays a
+  // fast unit test: the lint walks hundreds of files.
+  const LINT = readFileSync(join(root, 'scripts/lintCroatianText.mjs'), 'utf8');
+
+  /** The body of a top-level `const <name> = [ … ]` in the lint. */
+  function arrayBlock(name: string): string {
+    const at = LINT.indexOf(`const ${name} = [`);
+    expect(at, `${name} must still be an array literal in the lint`).toBeGreaterThan(-1);
+    return LINT.slice(at, LINT.indexOf('\n];', at));
+  }
+
+  /** TARGETS holds bare path strings. */
+  const targetPaths = (): string[] =>
+    [...arrayBlock('TARGETS').matchAll(/'([^']+)'/g)]
+      .map((m) => m[1])
+      .filter((v) => v.includes('/'));
+
+  /**
+   * STRUCTURED holds `{ rel, strings }` objects, and one `rel` is a DESCRIPTION
+   * rather than a path ('lessons.js + per-level lesson files (tables)'). So
+   * counting quoted strings that look like paths returns 1 of 2 — which is what
+   * the first draft of this test did, and it reported a discrepancy in CLAUDE.md
+   * that did not exist. Count the ENTRIES.
+   */
+  const structuredCount = (): number => arrayBlock('STRUCTURED').match(/\brel:/g)?.length ?? 0;
+
+  it('the stated file count is the one the lint reports', () => {
+    const targets = targetPaths().length;
+    const structured = structuredCount();
+    // Guard the derivation: a regex that stopped matching would make the
+    // comparison below trivially satisfiable at zero.
+    expect(targets).toBeGreaterThan(100);
+    expect(structured).toBeGreaterThan(0);
+
+    const total = targets + structured;
+    const claim = DOC.match(/Coverage is \*\*(\d+) files\*\*, (\d+) of them walked structurally/);
+    expect(
+      claim,
+      'CLAUDE.md must state the Croatian lint coverage in the pinned form',
+    ).not.toBeNull();
+    expect(Number(claim![1]), `the lint covers ${total} files, CLAUDE.md says ${claim![1]}`).toBe(
+      total,
+    );
+    expect(Number(claim![2]), 'the structurally-walked count must match too').toBe(structured);
+  });
+
+  it('every file the lint targets exists', () => {
+    // A target that does not exist is a file everybody believes is linted and
+    // is not — this repo's most-repeated failure, in its original form.
+    const missing = targetPaths().filter((v) => !existsSync(join(root, v)));
+    expect(missing, `lint TARGETS name files that do not exist: ${missing.join(', ')}`).toEqual([]);
   });
 });
 

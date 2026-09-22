@@ -2327,7 +2327,15 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **525 files** plus 2 walked structurally, up from 157 on 2026-08-31 in four waves.
+Coverage is **521 files**, 2 of them walked structurally — the figure the lint
+itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
+2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
+modules five of those targets pointed at. This sentence said **525 plus 2** for
+six days after that (and the phrasing double-counted the 2, claiming 527): the
+same PR, in the same commit, removed `DailyCroatianSection.tsx` from the tree,
+from TARGETS, and from nothing in this file — which is also how the directory
+diagram above came to name it. A count in prose is a hand-maintained list of
+one, and it decays exactly the same way.
 
 **THE FOURTH WAVE MADE THE MEASUREMENT A MECHANISM (2026-09-07), AND ITS RESULT IS A NEGATIVE ONE.** The 2026-09-01 census — the one that found the matcher, not the list, was the binding constraint — was run by hand, once, and then thrown away. `scripts/croatianLintCensus.mjs` is that census as a re-runnable script: it walks every file OUTSIDE TARGETS, counts the Croatian strings, counts how many the lint's OWN matchers would yield (the regexes are **built from the lint's source**, so they cannot drift from it), and reports the ratio plus what a full sweep would find.
 
