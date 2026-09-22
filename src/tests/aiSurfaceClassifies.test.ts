@@ -97,10 +97,21 @@ const strip = (s: string) =>
     .replace(/^\s*\/\/.*$/gm, '')
     .replace(/\/\/.*$/gm, '');
 
+/**
+ * Escape EVERY regex metacharacter, not just the one that looked dangerous.
+ * The first version escaped `/` and nothing else — which CodeQL flagged (alert
+ * 79, "incomplete string escaping") and which was backwards twice over: inside
+ * a `RegExp` CONSTRUCTOR a forward slash is an ordinary character needing no
+ * escape, while `.`, `+`, `?` and a literal backslash all change what the
+ * pattern means. Endpoints come from a fixed table so nothing hostile reaches
+ * here, but a route named `/api/v2.1` would silently match `/api/v2X1`, and a
+ * guard that quietly matches the wrong thing is the failure this file exists
+ * to prevent.
+ */
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const callsEndpoint = (body: string, ep: string) =>
-  new RegExp(
-    `(?:_aiPost|apiFetch|fetch|ttsFetch)\\s*\\(\\s*['"\`]${ep.replace(/\//g, '\\/')}`,
-  ).test(body);
+  new RegExp(`(?:_aiPost|apiFetch|fetch|ttsFetch)\\s*\\(\\s*['"\`]${escapeRegExp(ep)}`).test(body);
 
 const CLASSIFIES =
   /failureFrom(?:Response|Status|Error)|classifyAiLimit|describeTtsFailure|getLastTtsFailure|useExplainError/;
