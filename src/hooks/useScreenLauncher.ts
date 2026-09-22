@@ -20,7 +20,6 @@ import type { VocabWord } from '../lib/exerciseData';
 // `allCats` survives only as an explicit override for test fixtures.
 import { vocabPool, acquisitionPool, vocabCategories, vocabLevel } from '../lib/vocabPool';
 import type { VocabSource } from '../lib/vocabPool';
-import { reportError } from '../lib/errorReporter';
 // Web Storage access THROWS (SecurityError) — it does not return null — when the
 // profile blocks cookies/site data (Family Link, managed profiles, "block all
 // cookies", some embedded webviews). Every launcher below writes nh_ex_start
@@ -283,7 +282,7 @@ export function useScreenLauncher({
         // Reported, not silent: this is a checkpoint over topics the path itself
         // offered, so an empty pool means the vocabulary source is broken — the
         // exact failure that went unseen while V was read off the client barrel.
-        reportError(new Error('checkpoint launch: empty vocab pool'), 'launch-empty-pool');
+        notifyLaunchFailure('empty-pool', new Error('checkpoint launch: empty vocab pool'));
         return;
       }
       const adaptivePool = _buildAdaptivePool(pool);
@@ -344,7 +343,7 @@ export function useScreenLauncher({
         // Unlike every sibling launcher this one had no empty guard, so an empty
         // pool navigated to McGame with ZERO questions — a dead screen the user
         // cannot finish or score. Fail without navigating, and report it.
-        reportError(new Error('legendary launch: empty question set'), 'launch-empty-pool');
+        notifyLaunchFailure('empty-pool', new Error('legendary launch: empty question set'));
         return;
       }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
@@ -462,7 +461,7 @@ export function useScreenLauncher({
           // This is the app's primary lesson entry point (Learn Path tile, Home
           // "continue" chip, search result). It fell back to the whole vocabulary
           // and still came up short, so report rather than no-op invisibly.
-          reportError(new Error('path lesson launch: empty vocab pool'), 'launch-empty-pool');
+          notifyLaunchFailure('empty-pool', new Error('path lesson launch: empty vocab pool'));
           return;
         }
         const items = _sh(pool);
@@ -527,7 +526,7 @@ export function useScreenLauncher({
         const pool = _acquire(await _getVocabSource(), allCats);
         const items = _sh(pool).slice(0, 6);
         if (items.length === 0) {
-          reportError(new Error('path speaking launch: empty vocab pool'), 'launch-empty-pool');
+          notifyLaunchFailure('empty-pool', new Error('path speaking launch: empty vocab pool'));
           return;
         }
         returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
@@ -558,7 +557,7 @@ export function useScreenLauncher({
         if (qs.length === 0) {
           // launchMcGame early-returns on an empty set, so this tap was a silent
           // no-op. Report before delegating so the dead tile is visible upstream.
-          reportError(new Error('path mcgame launch: empty vocab pool'), 'launch-empty-pool');
+          notifyLaunchFailure('empty-pool', new Error('path mcgame launch: empty vocab pool'));
           return;
         }
         launchMcGame(qs);

@@ -25,12 +25,21 @@ import { useEffect, useRef, useState } from 'react';
 import { type NextStep } from '../../lib/nextStep.js';
 import { EXERCISE_COMPLETE_EVENT, REQUEST_NEXT_STEP_EVENT } from '../../lib/sessionSignal.js';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine.js';
+import { useLaunchFailure } from '../../hooks/useLaunchFailure';
+import { LAUNCH_FAILURE_COPY } from './LaunchFailureNotice';
 
 const SHOW_DELAY_MS = 700;
 
 export default function NextStepPrompt() {
   const { computeStep, launch, navKey } = useNextStepEngine();
   const [step, setStep] = useState<NextStep | null>(null);
+  // THE PILL CLEARED ITSELF BEFORE LAUNCHING, so a failed launch removed the
+  // fork and restored the "← Back" dead end this component exists to abolish —
+  // the learner tapped, the pill vanished, and nothing happened. Keeping the
+  // step and showing the cause in place is the smallest fix that preserves the
+  // pointer-events contract: the wrapper stays pointer-events:none and only
+  // this same button is clickable.
+  const { reason: launchError, clear: clearLaunchError } = useLaunchFailure();
   const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Listen for completions. Recompute the recommendation at FIRE time (state
@@ -68,7 +77,10 @@ export default function NextStepPrompt() {
 
   function go() {
     const s = step!;
-    setStep(null);
+    // Do NOT clear the step here. A successful launch navigates and the navKey
+    // effect above dismisses the pill; a FAILED one leaves it in place so the
+    // learner still has somewhere to tap.
+    clearLaunchError();
     launch(s);
   }
 
@@ -88,6 +100,7 @@ export default function NextStepPrompt() {
     >
       <button
         data-testid="next-up-bar"
+        data-launch-failure={launchError ?? undefined}
         onClick={go}
         style={{
           pointerEvents: 'auto',
@@ -118,7 +131,7 @@ export default function NextStepPrompt() {
               textOverflow: 'ellipsis',
             }}
           >
-            Next up: {step.label}
+            {launchError ? "That didn't start" : `Next up: ${step.label}`}
           </span>
           <span
             style={{
@@ -126,12 +139,13 @@ export default function NextStepPrompt() {
               fontSize: 11,
               fontWeight: 500,
               opacity: 0.85,
-              whiteSpace: 'nowrap',
+              // A failure is a sentence; nowrap would ellipsis it to nothing useful.
+              whiteSpace: launchError ? 'normal' : 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
           >
-            {step.reason}
+            {launchError ? LAUNCH_FAILURE_COPY[launchError] : step.reason}
           </span>
         </span>
       </button>

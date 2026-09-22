@@ -609,6 +609,69 @@ E2E audit: no spec clicks Exit or depends on the re-prompt. `seed-auth.js`
 writes neither flag but seeds XP, which the guard excludes; the one onboarding
 reference in `heavy-user-180day.spec.js` is the Skip CTA, untouched.
 
+### 15. Every launch surface but the first was silent — 2026-09-22 — **2 REAL DEFECTS, FIXED**
+
+`lib/launchFailure.ts` exists because a tap must never be a silent no-op: "a
+launch either navigates, or it visibly fails HERE" (P0, 2026-07-18). It
+BROADCASTS; something has to RENDER. Exactly one thing ever did.
+
+**DEFECT 1: the next-step mechanism was the silent half.** SessionCard's fresh /
+in-progress CTA rendered the strip. Every surface built AFTER it did not:
+
+- SessionCard STATE C (`next-up-primary`) — the complete-state hero the owner's
+  2026-08-17 directive made the PRIMARY guided path
+- `NextUpCard` — pinned atop the Practice tab
+- `NextStepPrompt` — the pill that appears after every completion
+
+All three route through `useNextStepEngine`, so the app's entire "what next"
+guarantee was the part with no failure surface. **The pill was worst**: `go()`
+called `setStep(null)` BEFORE `launch()`, so a failed launch made the pill
+vanish and nothing happen — restoring the exact "← Back dead end" the component
+was written to abolish, and removing the fork on the way out.
+
+**DEFECT 2, inside the one surface that did render:** it showed "check your
+connection and tap again" for BOTH reasons. `empty-pool` is a content or
+classification gap with nothing to do with the network, so that learner was
+sent to check their router. Same error as ClozeEngine's explain-error copy
+earlier the same day; CLAUDE.md forbids it by name.
+
+**The fix is shared, not copied**: `useLaunchFailure` (one subscription, keeps
+the REASON) + `LaunchFailureNotice` (one strip, two sentences). SessionCard's
+inline copy was replaced by it rather than left as a third definition.
+
+**FOUND ON THE WAY, and only because the first derivation was too broad:** five
+OTHER launcher bails — checkpoint, legendary, path lesson, path speaking, path
+mcgame — called `reportError` and returned. Their comments say "never
+silent-fail", which meant reported to SENTRY; for the learner the tap did
+nothing. They now broadcast through the same channel. **NO RENDERER EXISTS FOR
+THOSE SURFACES YET** — the Learn Path tiles and the checkpoint entry still show
+nothing on an empty pool. Stated rather than papered over; the cheap answer is
+one app-level listener as a floor, and it is NOT done.
+
+Mutation-verified, five, each confirmed landed with its line:
+M1 the pill clears itself before launching (original bug) -> 2 fail
+M2 NextUpCard stops RENDERING the notice -> 1
+M3 empty-pool copy blames the connection again -> 2
+M4 the complete-state hero loses its notice -> 2
+M5 the five bails go back to reportError -> 1
+
+**M2 AND M4 SURVIVED THE FIRST RUN, and that is the reusable part.** The derived
+guard asked whether a file MENTIONS the failure hook. Deleting the actual
+`<LaunchFailureNotice>` element left `useLaunchFailure` imported and
+`clearLaunchError` still called, so the regex matched and the suite stayed
+green — the couplingClearingPath trap exactly, an import satisfying a guard
+written about a call. Both surfaces are now RENDERED in the test and the
+mutations bite. A source pin is a statement about a file, never about a screen.
+
+**The guard's subject had to be narrowed, and the first version's noise was
+real.** Matching any `launch(` pulled in GradMap, PlaceScreen,
+GrammarTrackScreen and the Learn Path tiles — different launchers. That is what
+exposed the five bails above, so the over-broad first draft paid for itself
+before being replaced by `useNextStepEngine|onNextStart`.
+
+E2E audit: specs reference only `session-begin-cta`, whose behaviour is
+unchanged. No spec touches the strip or any next-up test id.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -646,4 +709,9 @@ None of them crash, so no sweep above can see any of them.
 - [x] ~~**Anonymous-auth / guest lesson question**~~ — CLOSED by the owner on
       the real deployment: a guest's first activity is the genitive TEACHING
       LESSON, then its drill. No defect. See sweep 9.
+- [ ] **No renderer for the five non-next-step launch bails** (sweep 15):
+      checkpoint, legendary, path lesson, path speaking, path mcgame now
+      BROADCAST their empty pool, but the Learn Path tiles and the checkpoint
+      entry render nothing. One app-level listener would be the floor for all
+      of them at once.
 - [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.
