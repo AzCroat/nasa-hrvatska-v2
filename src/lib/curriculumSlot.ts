@@ -152,3 +152,69 @@ export function buildCurriculumSlots(opts: {
   if (practice) out.push({ ...practice, reason: 'Practising what today\u2019s lesson taught' });
   return out;
 }
+
+// ── The teaching slot's second chance (2026-09-22) ───────────────────────────
+//
+// THE DEFECT THIS CLOSES, measured in a browser rather than reasoned about:
+// on a learner's FIRST load on a device the daily plan contained no lesson at
+// all, and nothing put one back for the rest of that day.
+//
+// It is not a race that sometimes goes the wrong way — it goes the wrong way
+// every time. HomeTab both BUILDS the plan (a synchronous read of the cached
+// spine, at mount) and TRIGGERS the fetch that fills the cache (an effect). The
+// build therefore always precedes the data it needs. Measured on a cold cache:
+// plan committed at 550ms, the curriculum request not even issued until 6474ms.
+// The plan is then persisted and invalidated only by a date or CEFR change, so
+// navigating away, coming back, and a full reload all kept the lesson-less plan.
+//
+// `resolveCurriculumLesson`'s null contract is right and unchanged — no spine,
+// no slot, never a stranded session. The bug was asking once, before the answer
+// could exist, and never asking again.
+//
+// THE SAME CLASS IS ALREADY FIXED IN THIS FILE'S CALLER for a different slot:
+// the Word Review comment in buildSessionActivities records that an empty pool
+// on a cold open "silently dropped the Word Review slot from the whole day's
+// session (it's built once, keyed on userCefr)". That one had an offline
+// fallback to fall back to. Teaching has none — there is no local copy of the
+// curriculum — so it needs the other remedy: ask again when the data lands.
+//
+// THE SIGNAL IS THE SPINE'S OWN WRITE (CURRICULUM_SPINE_EVENT), not the content
+// payload. `getContent()` and `getCurriculumSpine()` are two different fetches
+// kicked off together, and the first version of this fix watched the wrong one
+// and silently never fired.
+//
+// WHY IT MAY ONLY FIRE ON AN UNTOUCHED SESSION. Re-rolling a plan the learner
+// has already started is the 2026-05-21 incident ("I did my activities but the
+// card forgot"), and that is strictly worse than a missing lesson. So a learner
+// who opens an activity within the first seconds of a cold start still loses
+// the lesson for that day. That is the deliberate cost, and it is the smaller
+// one.
+
+/** The facts this decision needs. `spineAvailable` is lazy: it parses the cache. */
+export interface TeachingRetryInput {
+  /** Whether a spine was available when the persisted plan was built. */
+  spineSeen: boolean | undefined;
+  /** The date the persisted plan was built for. */
+  sessionDate: string;
+  /** Today, from the caller's canonical date helper. */
+  today: string;
+  /** How many activities the learner has already finished today. */
+  completedCount: number;
+  /** Whether a usable spine exists NOW. Called only if everything else passes. */
+  spineAvailable: () => boolean;
+}
+
+/**
+ * Whether today's plan should be rebuilt because the curriculum arrived after
+ * it was committed.
+ *
+ * Every clause is a reason not to: the plan already had a spine; it belongs to
+ * another day (the rollover effect owns that); the learner has started; or
+ * there is still nothing to teach from.
+ */
+export function shouldRetryTeachingSlot(input: TeachingRetryInput): boolean {
+  if (input.spineSeen) return false;
+  if (input.sessionDate !== input.today) return false;
+  if (input.completedCount > 0) return false;
+  return input.spineAvailable();
+}

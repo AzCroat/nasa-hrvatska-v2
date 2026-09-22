@@ -309,3 +309,70 @@ describe('the removed leaderboard is gone from the prose too', () => {
     expect(diagram()).not.toMatch(/WeeklyLeague|Leaderboard|league\.js/);
   });
 });
+
+describe('the standing CodeQL dismissals still describe live code', () => {
+  // Every entry in the "Clear text storage of sensitive information" list is a
+  // file whose storage write a scanner heuristic reads as a credential. A
+  // dismissal for a file that no longer performs one is guarding nothing — the
+  // `couplingClearingPath` lesson, applied to a list that lives half in this
+  // document and half in GitHub's security tab.
+  //
+  // BE PLAIN ABOUT ITS REACH: this catches a deletion or a rewrite, and it
+  // would NOT have caught #78, the alert that prompted it. That line moved out
+  // of `useDailySession.ts` into `dailySessionStore.ts` and left four other
+  // writes behind, so the file still satisfies every assertion here. Nothing in
+  // the repo can catch that, because the alert's location is GitHub state.
+  const list = (): string => {
+    const at = DOC.indexOf('"Clear text storage of sensitive information" alerts');
+    expect(at, 'the dismissal list must still be in CLAUDE.md').toBeGreaterThan(-1);
+    // The phrase sits mid-sentence, so back up to the start of its paragraph —
+    // slicing from the match itself would cut off the count that opens it.
+    return DOC.slice(DOC.lastIndexOf('\n', at) + 1, DOC.indexOf('\n\n', at));
+  };
+
+  it('names a file for every dismissed alert number', () => {
+    const entries = [...list().matchAll(/#(\d+)(?:\s*\+\s*#(\d+))?\s*\(`([^`]+)`/g)];
+    // Guard the derivation: a reflow that broke this regex would make the
+    // assertion below vacuously true at zero entries.
+    expect(entries.length).toBeGreaterThanOrEqual(6);
+
+    const stated = list().match(/\*\*(\w+) "Clear text storage/);
+    expect(stated, 'the list must still state its own count in words').not.toBeNull();
+    const WORDS: Record<string, number> = { Six: 6, Seven: 7, Eight: 8, Nine: 9, Ten: 10 };
+    const claimed = WORDS[stated![1]];
+    expect(claimed, `unrecognised count word "${stated![1]}" — extend WORDS`).toBeDefined();
+
+    const numbers = new Set(entries.flatMap((m) => [m[1], m[2]].filter(Boolean)));
+    expect(numbers.size, `the list says ${stated![1]} alerts and names ${numbers.size}`).toBe(
+      claimed,
+    );
+  });
+
+  it('every file named still performs a clear-text storage write', () => {
+    const names = [...new Set([...list().matchAll(/\(`([A-Za-z]+\.tsx?)`/g)].map((m) => m[1]))];
+    expect(names.length).toBeGreaterThanOrEqual(6);
+
+    const dead: string[] = [];
+    for (const name of names) {
+      const paths = BY_NAME.get(name)?.filter((p) => !p.endsWith('.test.tsx')) ?? [];
+      if (paths.length === 0) {
+        dead.push(`${name} no longer exists`);
+        continue;
+      }
+      const writes = paths.some((p) =>
+        /(?:localStorage|sessionStorage)\.setItem/.test(readFileSync(join(root, p), 'utf8')),
+      );
+      if (!writes) dead.push(`${name} no longer writes localStorage/sessionStorage`);
+    }
+    expect(dead, `dismissals guarding nothing:\n  ${dead.join('\n  ')}`).toEqual([]);
+  });
+
+  it('no production file carries an inline codeql suppression for them', () => {
+    // The section forbids these explicitly: they pollute a source file to
+    // silence a heuristic the UI dismissal already records.
+    const offenders = FILES.filter(
+      (f) => /^(?:src|functions)\/.*\.(?:tsx?|jsx?)$/.test(f) && !f.includes('/tests/'),
+    ).filter((f) => /codeql\s*\[/i.test(readFileSync(join(root, f), 'utf8')));
+    expect(offenders, `inline codeql suppressions: ${offenders.join(', ')}`).toEqual([]);
+  });
+});

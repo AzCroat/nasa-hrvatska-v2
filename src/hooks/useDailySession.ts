@@ -6,6 +6,12 @@ import type { SkillCategory } from '../lib/adaptive';
 import { CONJ_LAB_ENABLED } from '../lib/conjugation/conjugationConfig';
 import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
+import { loadPersistedSession, newSession, persistSession } from '../lib/dailySessionStore';
+import type { DailySession, SessionActivity, SessionCategory } from '../lib/dailySessionStore';
+
+// Re-exported so existing importers (SessionCard) are unchanged by the split.
+export type { DailySession, SessionActivity } from '../lib/dailySessionStore';
+import { useTeachingSlotRetry } from './useTeachingSlotRetry';
 import { rnd } from '../lib/random.js';
 import { trackSessionBuilt } from '../lib/analytics';
 import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
@@ -50,30 +56,6 @@ export type { ProductionReps } from '../lib/productionMetric';
 // ── Types ────────────────────────────────────────────────────────────────────
 
 // Sessions can include Croatia activities whose categories aren't SkillCategory
-type SessionCategory = SkillCategory | 'culture' | 'practical' | 'general';
-
-export interface SessionActivity {
-  id: string;
-  label: string;
-  screen: string;
-  category: SessionCategory;
-  /**
-   * One line explaining why THIS activity was chosen, built at session-build
-   * time from real signal (per-activity reasons, 2026-08-20). Optional and
-   * frequently absent by design: a slot with no honest signal says nothing
-   * rather than inventing one. Persisted with the session so the learner sees
-   * the reason it was picked this morning, not a line that rewrites itself.
-   */
-  reason?: string;
-}
-
-export interface DailySession {
-  date: string; // 'YYYY-MM-DD'
-  cefrLevel?: string; // CEFR level when session was built — invalidate on level-up
-  activities: SessionActivity[];
-  completedIds: string[];
-  estimatedMinutes: number;
-}
 
 export interface UseDailySessionReturn {
   session: DailySession;
@@ -100,10 +82,8 @@ export interface UseDailySessionReturn {
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const SESSION_KEY = 'nh_daily_session';
 const HISTORY_KEY = 'nh_session_history';
 const RECENT_KEY = 'nh_recent_exercises';
-const MINUTES_PER_ACTIVITY = 5;
 const FLUENCY_MODE_KEY = 'nh_fluency_mode';
 
 /**
@@ -845,23 +825,6 @@ export function recordSessionComplete(date: string): void {
   } catch {}
 }
 
-function loadPersistedSession(): DailySession | null {
-  try {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as DailySession;
-    return parsed.date === localDateStr() ? parsed : null;
-  } catch {
-    return null;
-  }
-}
-
-function persistSession(session: DailySession): void {
-  try {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  } catch {}
-}
-
 // Wave 1: the served map (screen key → last date it appeared in a built
 // session) lives in lib/sessionServed — the discovery slot and the P2.8
 // comprehension slot both read it, and the slot moved out of this file for
@@ -898,13 +861,7 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
       return persisted;
     }
     const activities = buildSessionActivities(userCefr, poolWords);
-    const fresh: DailySession = {
-      date: localDateStr(),
-      cefrLevel: userCefr,
-      activities,
-      completedIds: [],
-      estimatedMinutes: activities.length * MINUTES_PER_ACTIVITY,
-    };
+    const fresh = newSession(userCefr, activities, []);
     persistSession(fresh);
     return fresh;
   });
@@ -948,17 +905,26 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
       completedIds = activities.filter((a) => completedScreens.has(a.screen)).map((a) => a.id);
     }
 
-    const fresh: DailySession = {
-      date: localDateStr(),
-      cefrLevel: userCefr,
-      activities,
-      completedIds,
-      estimatedMinutes: activities.length * MINUTES_PER_ACTIVITY,
-    };
+    const fresh = newSession(userCefr, activities, completedIds);
     persistSession(fresh);
     setSession(fresh);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCefr]);
+
+  // The teaching slot's second chance: today's plan is rebuilt once if it was
+  // committed before the curriculum spine arrived. Why that happens at all, and
+  // why it may only fire on an untouched session, are in useTeachingSlotRetry
+  // and lib/curriculumSlot.
+  useTeachingSlotRetry(
+    session,
+    useCallback(() => {
+      const activities = buildSessionActivities(userCefr, poolWords);
+      // completedIds is empty by construction: the guard refuses a started session.
+      const rebuilt = newSession(userCefr, activities, []);
+      persistSession(rebuilt);
+      setSession(rebuilt);
+    }, [userCefr, poolWords]),
+  );
 
   const markDone = useCallback((screenOrId: string) => {
     setSession((prev) => {
@@ -1044,13 +1010,7 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
   // (skip-recent) so the fresh set rotates to different exercises.
   const startFreshSession = useCallback(() => {
     const activities = buildSessionActivities(userCefr, poolWords);
-    const fresh: DailySession = {
-      date: localDateStr(),
-      cefrLevel: userCefr,
-      activities,
-      completedIds: [],
-      estimatedMinutes: activities.length * MINUTES_PER_ACTIVITY,
-    };
+    const fresh = newSession(userCefr, activities, []);
     persistSession(fresh);
     setSession(fresh);
   }, [userCefr, poolWords]);
