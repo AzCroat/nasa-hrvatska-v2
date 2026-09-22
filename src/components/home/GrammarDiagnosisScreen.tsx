@@ -3,6 +3,7 @@ import { getGenerationCefr } from '../../lib/cefrCertification';
 import type { AwardActivityType } from '../../types/index.js';
 import { H, getSR } from '../../data';
 import { _aiPost } from '../../lib/aiPost';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 interface GrammarDrill {
   prompt?: string;
@@ -74,6 +75,9 @@ export default function GrammarDiagnosisScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: AwardActivityType) => void;
 }) {
   const [phase, setPhase] = useState('idle');
+  // The named cause behind `phase === 'error'`. Null means no classification
+  // ran yet, and the copy falls back to the honest generic sentence.
+  const [failure, setFailure] = useState<{ message: string; retryable: boolean } | null>(null);
   const [diagnosis, setDiagnosis] = useState<GrammarDiagnosis | null>(null);
   const [cacheAge, setCacheAge] = useState<string | null>(null);
   const [activeBlindSpot, setActiveBlindSpot] = useState(0);
@@ -157,7 +161,16 @@ export default function GrammarDiagnosisScreen({
         majaPatterns,
         writingMistakes,
       });
-      if (!res.ok) throw new Error('api_error');
+      if (!res.ok) {
+        // Was: throw 'api_error' -> one generic screen telling the learner to
+        // check their INTERNET. A quota 429 and a budget 503 are server
+        // conditions; blaming the connection sends them to their router.
+        const f = await failureFromResponse(res);
+        reportAiFailure('grammar-diagnosis', f);
+        setFailure({ message: f.message, retryable: f.retryable });
+        setPhase('error');
+        return;
+      }
       const data = await res.json();
 
       localStorage.setItem(
@@ -175,7 +188,10 @@ export default function GrammarDiagnosisScreen({
       setXpAwarded(false);
       setActiveBlindSpot(0);
       setPhase('results');
-    } catch (_) {
+    } catch (e) {
+      const f = failureFromError(e);
+      reportAiFailure('grammar-diagnosis', f);
+      setFailure({ message: f.message, retryable: f.retryable });
       setPhase('error');
     }
   }
@@ -416,12 +432,14 @@ export default function GrammarDiagnosisScreen({
           Couldn't generate your report
         </div>
         <div style={{ fontSize: 14, color: 'var(--subtext)', marginBottom: 32, lineHeight: 1.6 }}>
-          Try again when you have internet access.
+          {failure?.message ?? 'Try again in a moment.'}
         </div>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-          <button className="b bp" onClick={generate}>
-            Try Again
-          </button>
+          {(failure?.retryable ?? true) && (
+            <button className="b bp" onClick={generate}>
+              Try Again
+            </button>
+          )}
           <button className="b bg" onClick={goBack}>
             ← Back
           </button>

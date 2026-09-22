@@ -133,6 +133,7 @@ describe('the three fixed surfaces classify through lib/aiFailure', () => {
     'src/components/learn/MicroLessonScreen.tsx',
     'src/components/home/DailyListeningCard.tsx',
     'src/components/practice/DialogueSim.tsx',
+    'src/components/home/GrammarDiagnosisScreen.tsx',
   ];
 
   it.each(FIXED)('%s classifies and reports its refusals', (f) => {
@@ -150,5 +151,24 @@ describe('the three fixed surfaces classify through lib/aiFailure', () => {
     // The two exact shapes that put a machine code on screen.
     expect(src).not.toMatch(/setErrorMsg\(\s*\(e as Error\)\.message/);
     expect(src).not.toMatch(/throw new Error\(\s*\(?body[\s\S]{0,40}\.error/);
+  });
+
+  it("no AI surface blames the learner's connection for a server refusal", () => {
+    // GrammarDiagnosisScreen told EVERY failure "Try again when you have
+    // internet access." A quota 429 and a budget 503 are server conditions, so
+    // a learner who had hit the daily limit went to check their router.
+    // CLAUDE.md's feedback directive forbids this by name: never "imply learner
+    // fault for a server condition".
+    //
+    // Scoped to the surfaces this file fixed. A blanket ban would be wrong —
+    // `PronunciationScorer` says "Check your connection" for the Web Speech
+    // recogniser's OWN `code === 'network'`, which is accurate, and several
+    // screens render an offline notice gated on navigator.onLine.
+    for (const f of FIXED) {
+      const src = readFileSync(f, 'utf8');
+      expect(src, `${f} blames the connection for a server condition`).not.toMatch(
+        /internet access|check your connection/i,
+      );
+    }
   });
 });

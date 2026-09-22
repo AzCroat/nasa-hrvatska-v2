@@ -211,6 +211,45 @@ fallback. It lives in `useScreenLauncher` and only chooses WHICH lesson once an
 `animlesson` screen launches. With no spine, a lesson reaches a learner only by
 winning a P3 fill slot against ~100 pool entries — the pre-2026-08-28 behaviour.
 
+### 8. Every AI surface's refusal copy — 2026-09-22 — **1 MORE DEFECT, FIXED**
+
+Finishing sweep 4, which fixed 3 of the 25 surfaces it flagged. Two targeted
+hunts over ALL of `src/`, not just the files already open.
+
+**(a) A server error code rendered to a learner** — one hit outside the three
+already fixed: `ContactScreen.tsx:143` (`setError(data.error || …)`).
+**FALSE POSITIVE — DO NOT RE-CHASE #5:** identical code shape, different
+CONTRACT. `/api/contact` returns human sentences by design ("Too many requests.
+Please wait a minute.", "Invalid email address."), not machine codes, so
+rendering them is correct.
+
+**(b) Copy that blames the learner's connection** — one real defect:
+`GrammarDiagnosisScreen` told EVERY failure *"Try again when you have internet
+access."* A quota 429 or a budget 503 is a server condition, so a learner who
+had hit the daily AI limit was sent to check their router. CLAUDE.md forbids
+this by name — "imply learner fault for a server condition" — and records the
+same shape elsewhere ("the graded reader said 'check your connection' to a
+signed-out learner"). It also offered an unconditional retry. Now classified
+through `lib/aiFailure`, reported to Sentry, and the retry follows `retryable`.
+
+Mutation-verified, two: the "internet access" copy restored fails 1; the
+classifier dropped fails 1.
+
+**Verified CORRECT and deliberately left alone** (all four looked like hits):
+- `AIConversation.tsx:476` — "check your connection" fires only from the
+  transport's own `catch`; `!res.ok` is classified separately through
+  `classifyAiLimit`, with 401 / budget / burst distinguished.
+- `PronunciationScorer.tsx:212` — switches on the Web Speech recogniser's OWN
+  `code === 'network'`. Accurate, and a model of how to do this.
+- `PostcardScreen.tsx:283` — already fixed by the 2026-09-07 census, with a
+  comment citing the same directive.
+- The offline notices in `AIConversation`, `LiveTutorScreen`,
+  `CroatianNewsScreen` etc. are gated on real offline state.
+
+**So the 2026-09-07 census fixed some surfaces and missed others** — it scoped
+to writing/speech feedback. Four surfaces outside that scope have now been
+brought up to the same standard.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -227,7 +266,7 @@ None of them crash, so no sweep above can see any of them.
       that closed it: the list and the findings are two places to remember, and
       a queue that disagrees with its own results is how the nav-tab table
       happened. Tick it in the SAME commit as the sweep.)
-- [ ] **API endpoints' real failure modes** as a learner meets them (quota,
-      budget pause, timeout, malformed reply) rather than as unit tests mock them.
+- [x] ~~**API endpoints' real failure modes** as a learner meets them~~ — DONE,
+      sweeps 4 and 8. Four surfaces fixed; the rest verified correct by name.
 - [ ] **Offline / stale-payload behaviour** on the paths that assume content.
 - [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.
