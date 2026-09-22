@@ -816,6 +816,13 @@ export default function AppRouter(props: Record<string, any>) {
                 setTab('learn');
               }}
               onCancel={function () {
+                // Record the DECLINE, not a completion — see the guard in
+                // App.tsx. This path is additionally protected today because
+                // WelcomeScreen sets `onboarded` before routing here, but a
+                // guard that holds only because a different screen happened to
+                // write an unrelated flag first is the incidental coupling this
+                // repo keeps getting caught by.
+                lsSet('nh_placement_declined', '1');
                 setTab('learn');
               }}
             />
@@ -3471,6 +3478,11 @@ export default function AppRouter(props: Record<string, any>) {
                   setTimeout(() => setTab('learn'), 300);
                 }}
                 onCancel={function () {
+                  // THE LOOP WAS HERE. Without this write the App.tsx effect
+                  // re-armed its 1200 ms timer the moment this navigation
+                  // changed `currentScreen`, so Exit returned the learner to
+                  // this very screen, forever, until they earned XP.
+                  lsSet('nh_placement_declined', '1');
                   setScr('dashboard');
                 }}
               />

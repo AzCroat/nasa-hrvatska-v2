@@ -1190,7 +1190,16 @@ function App() {
       stats.xp === 0 &&
       !lsGet('placement_done') &&
       !lsGet('nh_placement_done') &&
-      !lsGet('onboarded')
+      !lsGet('onboarded') &&
+      // "Exit placement test" USED TO BE A LOOP. This effect re-runs on every
+      // `currentScreen` change and its own cancel handler navigates, so a
+      // learner who exited landed on the dashboard, satisfied every condition
+      // above again (cancel writes no flag, by design — they did not take the
+      // test), and was thrown back into placement 1.2 s later, for as long as
+      // they had no XP. That is precisely the brand-new learner this offer is
+      // FOR. Declining is now recorded, and the Me tab's "retake placement"
+      // remains the way back in.
+      !lsGet('nh_placement_declined')
     ) {
       const t = setTimeout(() => setScr('new-placement'), 1200);
       return () => clearTimeout(t);

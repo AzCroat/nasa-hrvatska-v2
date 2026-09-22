@@ -540,6 +540,75 @@ between `export` and the declaration, silently moving the export onto the new
 function. `tsc` passed and one unit file failed with "sanitizePhraseData is not
 a function". An anchor that is a substring of a longer declaration splits it.
 
+### 14. Day one, second half: placement — 2026-09-22 — **1 REAL DEFECT, FIXED**
+
+Sweep 7 covered day one's LESSON half and left "placement -> first drill ->
+audio -> feedback" open. Starting at placement found a trap for exactly the
+learner it exists for.
+
+**"EXIT PLACEMENT TEST" WAS AN INESCAPABLE LOOP.** App.tsx offers the test
+1200 ms after a brand-new learner lands, gated on `lc === 0 && xp === 0` and
+the absence of `placement_done`, `nh_placement_done` and `onboarded`. The
+effect's dependency list includes `currentScreen`, so it RE-RUNS on every
+navigation — and the screen's own cancel handler navigates
+(`setScr('dashboard')`). Cancel deliberately writes none of those flags,
+because the learner did not take the test. So every condition was satisfied
+again the instant Exit navigated, a fresh timer armed, and the learner was
+thrown straight back into placement. The only ways out were to finish it, to
+press "Skip - I'll start at A1", or to earn XP somewhere the app kept
+interrupting.
+
+**Reachable, and by the obvious route.** WelcomeScreen's "Already signed in?
+Continue ->" goes to the dashboard writing NO flag (the "Let's begin" path sets
+`onboarded` first, which is why that half is safe). A signed-in learner with
+zero progress who takes that button meets the offer, declines it, and is
+re-offered every 1.2 seconds.
+
+**Why it stayed invisible: the two halves are in different files and NEITHER IS
+WRONG ALONE.** The guard correctly refuses to re-offer once a flag is set; the
+cancel handler correctly refuses to write a flag it has not earned. The defect
+exists only on the SECOND pass, and nothing in this repo renders App.tsx to
+find out — there is no test anywhere that imports it.
+
+**The fix records the DECLINE as its own fact** (`nh_placement_declined`,
+registered in `constants/storage.js`). Deliberately NOT `nh_placement_done` or
+`onboarded`: writing either would claim a placement that never happened, which
+is NEVER-DO 13 on the app's first interaction, and `onboarded` syncs. The Me
+tab's "retake placement" sets the screen directly and never consults this
+guard, so the way back in survives. Both router cancel handlers write it — the
+WelcomeScreen path is protected today only because a different screen happens
+to set an unrelated flag first, and a guard that holds by coincidence is the
+incidental coupling this file keeps recording.
+
+**The duplication that hid it is still there, and is now measured**: the
+placement `onComplete` handler exists TWICE in AppRouter (screens `placement`
+and `new-placement`), 26 identical code lines apart from the cancel
+destination and a 300 ms setTimeout. Both are live. Not merged here — that is a
+refactor of a first-run path, and this change is two lines plus a flag.
+
+Mutation-verified, six, each confirmed landed with its line number:
+M1 guard stops reading the decline flag (the original bug) -> 1 fails
+M2 the new-placement cancel stops recording (loop returns) -> 1
+M3 cancel promotes itself to a completion (the dishonest fix) -> 1
+M4 guard drops `xp === 0` -> 1
+M5 guard drops `lc === 0` -> 1
+M6 guard drops the `onboarded` check -> 1
+
+**M4 SURVIVED ON THE FIRST RUN and that is the finding about the test.** The
+anti-vacuity assertion matched `stats.xp === 0` anywhere in App.tsx, and that
+string occurs TWICE — so deleting the clause from THIS guard left the test
+green. It now slices the effect's own predicate out of the file and asserts
+inside it. Assert the derivation, not the mention: the same error as the
+`vendor-sentry` text match that survived `const hasSdkChunk = true`.
+
+Comment stripping is load-bearing in `placementDeclined.test.tsx`: the comments
+written alongside this fix NAME both keys, so an unstripped source pin would
+pass on prose alone. Second time in one day (ClozeEngine was the first).
+
+E2E audit: no spec clicks Exit or depends on the re-prompt. `seed-auth.js`
+writes neither flag but seeds XP, which the guard excludes; the one onboarding
+reference in `heavy-user-180day.spec.js` is the Skip CTA, untouched.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -559,9 +628,9 @@ None of them crash, so no sweep above can see any of them.
       fails 1).
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
-- [~] **Day-one path**: the LESSON half is checked (sweep 7, covered). Still
-  open: placement -> first drill -> audio -> feedback on a zero-state
-  account.
+- [~] **Day-one path**: the LESSON half is checked (sweep 7), and PLACEMENT is
+  now checked (sweep 14 — one real defect, the inescapable Exit loop). Still
+  open: first drill -> audio -> feedback on a zero-state account.
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and
