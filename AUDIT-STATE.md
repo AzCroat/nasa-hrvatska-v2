@@ -179,6 +179,38 @@ component names would drag every prose noun in, so paths is the honest scope.
 (I first reported `InsightsTab.jsx` as stale too; it is only ever written bare.
 Corrected before it reached the file.)
 
+### 7. Day one — the first-ever session — 2026-09-22 — COVERED, with one stated residual
+
+Probed by building a real session for a zero-state learner (no stats, no SRS
+queue, no cached curriculum spine). Raw result:
+
+    1. cat_genitive            2. dialogue
+    3. listeningComprehension  4. cityofday      (no lesson)
+
+**That is NOT a live defect, and the probe is why it looked like one.** Calling
+`buildSessionActivities` directly bypasses `useTeachingSlotRetry`, which is
+exactly the fix for this, shipped the same day (#698). An absent spine correctly
+yields `[]` from `buildCurriculumSlots` (the documented null contract); the
+retry rebuilds the plan once the spine's own write fires
+`CURRICULUM_SPINE_EVENT`.
+
+Verified WIRED, not just present — this repo's recurring failure:
+`useDailySession.ts:918` mounts it, `curriculumProgress.ts:98` dispatches the
+event inside `writeCurriculumSpine`, and `teachingSlotRetry.test.tsx:200` pins
+the mount by source.
+
+**RESIDUAL, deliberate and documented in the hook**: the retry refuses a session
+the learner has already STARTED. So a learner who taps an activity before the
+spine lands (~6 s on the measured trace) keeps the lesson-less plan for that
+whole day. The hook states the trade — re-rolling a started session is the
+2026-05-21 "I did my activities but the card forgot" incident, judged strictly
+worse than a missing lesson. Recorded as a known cost, not a bug.
+
+**Worth knowing for the next probe:** `pickSessionLesson` is NOT a builder
+fallback. It lives in `useScreenLauncher` and only chooses WHICH lesson once an
+`animlesson` screen launches. With no spine, a lesson reaches a learner only by
+winning a P3 fill slot against ~100 pool entries — the pre-2026-08-28 behaviour.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -187,10 +219,14 @@ None of them crash, so no sweep above can see any of them.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
-- [ ] **Day-one path end to end**: sign up -> placement -> first lesson ->
-      first drill -> audio -> feedback -> what the numbers claim.
-- [ ] **Numbers displayed vs numbers measured** (NEVER-DO 13) — every figure a
-      learner reads, traced to the thing that produced it.
+- [~] **Day-one path**: the LESSON half is checked (sweep 7, covered). Still
+      open: placement -> first drill -> audio -> feedback on a zero-state
+      account.
+- [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
+      sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
+      that closed it: the list and the findings are two places to remember, and
+      a queue that disagrees with its own results is how the nav-tab table
+      happened. Tick it in the SAME commit as the sweep.)
 - [ ] **API endpoints' real failure modes** as a learner meets them (quota,
       budget pause, timeout, malformed reply) rather than as unit tests mock them.
 - [ ] **Offline / stale-payload behaviour** on the paths that assume content.
