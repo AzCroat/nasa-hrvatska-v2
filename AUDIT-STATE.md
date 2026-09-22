@@ -250,6 +250,53 @@ classifier dropped fails 1.
 to writing/speech feedback. Four surfaces outside that scope have now been
 brought up to the same standard.
 
+### 9. A real browser walk — 2026-09-22 — CLEAN, plus a near-miss worth more than the walk
+
+Built the app and drove Chromium through a cold open and all five tabs as a
+guest. **0 error boundaries, 0 uncaught exceptions, 0 unexpected HTTP failures.**
+Login renders, every tab renders, nothing throws.
+
+**THE NEAR-MISS. I almost shipped a fix for a bug that does not exist in
+production, and the commit message would have been confident.**
+
+Observed: a guest's first session was `Genitive | Guided Speaking | Listening |
+City of the Day` — **no lesson** — and the app made NO request for
+`/api/content/curriculum` at any point. Traced to `App.tsx:1152`,
+`if (!authUser || authScreen !== 'app') return;`, with a perfect precedent
+sitting in the same file: the auto-save effect's comment records being fixed for
+exactly this, because a legacy guest has `authUser === null`.
+
+**IT WAS AN ARTIFACT OF MY OWN ENVIRONMENT.** This sandbox has no
+`VITE_FIREBASE_API_KEY`, so "Continue as Guest" fell back to
+`enterLegacyGuest()` — the path taken ONLY when anonymous auth is unavailable. A
+normal guest goes through `signInAnonymously`, which useAuth says "drives
+setAuthUser / _syncReady / setAuthScreen('app') through the same path as any
+signed-in user". A real guest HAS `authUser`; the spine IS fetched.
+
+**AND THE FIX WOULD NOT HAVE WORKED EITHER.** `/api/content/curriculum` goes
+through `authedRead`, which 401s without a Firebase token (`_authedRead.js:57`).
+A legacy guest has no token, so dropping the guard adds a request that fails and
+changes nothing a learner sees. Reverted.
+
+**TOOL BUG #5:** I grepped `curriculum.js` for `requireAuth|verifyToken|Bearer|401`,
+found nothing, and concluded the endpoint was unauthenticated. The auth lives in
+the `authedRead` HELPER. Grepping a handler for auth keywords does not tell you
+whether it is gated — follow the helper.
+
+**A TRAP FOR THE NEXT WALK, and the reusable part:** a local walk without
+Firebase config exercises the LEGACY-GUEST fallback, not the path real users
+take. Anything concluded from it about "guests" is about a degraded fallback.
+Also: `vite preview` has no Pages Functions and answers unknown paths with the
+SPA fallback (index.html, 200), so `/api/content/*` "succeeds" with HTML that
+fails to parse — the walk runs with NO CONTENT AT ALL, which is itself a
+degraded path.
+
+**ONE QUESTION THIS CANNOT ANSWER, for the owner:** if anonymous auth is
+DISABLED in the Firebase console, every guest becomes a legacy guest and the
+no-lesson behaviour is real in production. That is a console setting, not
+readable from the repo. The fix for that case would differ from the one drafted
+here.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -268,5 +315,11 @@ None of them crash, so no sweep above can see any of them.
       happened. Tick it in the SAME commit as the sweep.)
 - [x] ~~**API endpoints' real failure modes** as a learner meets them~~ — DONE,
       sweeps 4 and 8. Four surfaces fixed; the rest verified correct by name.
-- [ ] **Offline / stale-payload behaviour** on the paths that assume content.
+- [x] ~~**Offline / stale-payload behaviour**~~ — PARTLY. The cold sweep already
+      primes content as absent, so a MISSING key is covered both ways
+      (`content?.K` and `(content ?? {}).K`). The uncovered case is a key
+      PRESENT with an OLDER shape, which needs an old payload snapshot the repo
+      does not keep. Stated rather than faked.
+- [ ] **Anonymous-auth setting in the Firebase console** (owner, not repo): if
+      disabled, every guest is a legacy guest — see sweep 9.
 - [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.
