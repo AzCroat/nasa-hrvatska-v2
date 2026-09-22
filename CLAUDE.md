@@ -127,7 +127,7 @@ Remote data is always merged **additively** — `Math.max()` for numbers, union 
 
 ## Critical Architecture: Learn Path
 
-### LEARN_PATH (src/data/content.jsx)
+### LEARN_PATH (src/data/content.tsx)
 
 Array of lesson descriptors. Each entry has a `ck(stats)` function that returns `true` when the lesson is "completed." Pattern for screens that award credit via dwell timer:
 
@@ -147,7 +147,7 @@ Object mapping screen key → stat type (`'lc'` or `'gc'`). When a user spends 2
 
 Every screen that appears in LEARN_PATH and doesn't have a quiz must be in `BLACK_HOLE_SCREENS`.
 
-### CEFR Level (src/components/profile/StatsTab.jsx)
+### CEFR Level (src/components/profile/StatsTab.tsx)
 
 ```javascript
 getCEFR(xp, lc, gc) → { level: 'A1'|'A2'|'B1'|'B2'|'C1'|'C2', ... }
@@ -2279,7 +2279,7 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 1. **Model policy**: ALL Claude endpoints run `claude-haiku-4-5-20251001`. The owner's cost ceiling overrides the "largest model" default — do not promote an endpoint to Sonnet/Opus without redoing the budget math in `_aiBudget.js`.
 2. **Prompt caching**: the 7 conversational call sites (ai-chat ×3, maja ×2, conversation, conversational-tutor) send `system` as the cached-array shape. Integration tests assert the `cache_control` marker — removing it silently 10×'s input cost.
 3. **Per-user quota** (`_aiQuota.js`): 300 turns/day (doubled with the 2026-08-14 budget raise), sized against the budget, not just abuse.
-4. **Global monthly governor** (`_aiBudget.js`; schema doc in `migrations/ai_month_spend.sql` — the table SELF-MIGRATES on first use, nobody runs SQL by hand): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). EVERY non-streaming Claude endpoint RECONCILES after the response (`reconcileSafely` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged; until 2026-09-07 only three did, and the other twenty-one booked ~5x real cost — see "Feedback Must Work Every Time"), so the ledger records real spend and the budget funds ~5-10x more calls than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
+4. **Global monthly governor** (`_aiBudget.js`; the `ai_month_spend` schema is `CREATE_LEDGER_SQL` in `_aiBudget.js` itself and SELF-MIGRATES on first use, so nobody runs SQL by hand; there is no migration file for it): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). EVERY non-streaming Claude endpoint RECONCILES after the response (`reconcileSafely` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged; until 2026-09-07 only three did, and the other twenty-one booked ~5x real cost — see "Feedback Must Work Every Time"), so the ledger records real spend and the budget funds ~5-10x more calls than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
 5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts`, `/api/daily-culture`, `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
 6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key); news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
 7. **Prompt version on cached content** (`_promptCache.js`): a cache-served 200 replays text generated hours ago, so it is tagged with the version stored **beside** the body in KV metadata — never the current one, which would attribute old text to a new prompt. The stored VALUE stays byte-identical (that is why metadata, not an envelope), and an entry written before tagging carries no tag and is served **untagged** rather than guessed. Applies to `/api/daily-culture` and `/api/news`; any future cached AI content must do the same.

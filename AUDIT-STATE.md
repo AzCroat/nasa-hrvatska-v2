@@ -136,6 +136,49 @@ exercise", the finding it was written to catch. **#4:** `getByText(/Try Again/i)
 matched both the button AND the sentence "…Try again in a moment", a strict-mode
 violation that failed a CORRECT fix. Query by ROLE.
 
+### 5. Numbers displayed vs numbers measured (NEVER-DO 13) — 2026-09-22 — CLEAN
+
+Traced every figure a learner reads back to the thing that produced it. **No
+defects.** Recorded so nobody re-runs it:
+
+- `getCategoryStatus` (adaptive.ts:736) correctly returns `accuracy: null` while
+  `lastSeen === 0`. The 0.5 EWMA seed is never surfaced as a result — and **no
+  component reads the store directly**, so the guard cannot be bypassed.
+- `readinessForVerification` buckets strong / developing / **untested** and
+  requires `n >= MIN_SAMPLES` before claiming either of the first two.
+- `WeakWordsPanel` computes `errorRate = w / (r + w)` over cards with >= 2 real
+  reviews.
+- **The CEFR badge holds.** All six display surfaces — DesktopPanel,
+  heroHelpers, StatsTab, CertificateScreen, InsightsTab, LearnTab — resolve
+  through `getDisplayLevel`. None reaches for `getCertifiedLevel` or
+  `getEffectiveLevelForUnlock` (which count provisional passes). This number has
+  broken twice; it is currently correct.
+
+### 6. CLAUDE.md's own file paths — 2026-09-22 — **3 STALE, FIXED**
+
+Found while checking #5: the orientation document, read at the start of every
+session, named **three files that do not exist** (of 79 paths).
+
+    src/data/content.jsx                 -> content.tsx
+    src/components/profile/StatsTab.jsx  -> StatsTab.tsx
+    migrations/ai_month_spend.sql        -> never existed
+
+The third had propagated INTO PRODUCTION SOURCE: `_aiBudget.js` claimed in two
+comments that the file "remains as documentation of the schema". The
+`ai_month_spend` schema is `CREATE_LEDGER_SQL` inside that same file and
+self-migrates; `migrations/` holds `ai_quota` and `ai_burst` only. Nothing
+breaks — it just sends a reader somewhere empty, which is how the nav-tab table
+stayed wrong for five months.
+
+Now a MECHANISM: `claudeMdPaths.test.ts` checks every path CLAUDE.md names, with
+an anti-vacuity floor. Mutation-verified, two: the stale `StatsTab.jsx` restored
+fails 1; the path regex neutered fails 1 (the floor).
+**It cannot see a filename mentioned WITHOUT a directory** — `InsightsTab` is
+named bare, so a rename of that file would still slip through. Matching bare
+component names would drag every prose noun in, so paths is the honest scope.
+(I first reported `InsightsTab.jsx` as stale too; it is only ever written bare.
+Corrected before it reached the file.)
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

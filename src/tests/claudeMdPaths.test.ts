@@ -376,3 +376,52 @@ describe('the standing CodeQL dismissals still describe live code', () => {
     expect(offenders, `inline codeql suppressions: ${offenders.join(', ')}`).toEqual([]);
   });
 });
+
+describe('every file path CLAUDE.md names actually exists', () => {
+  // WHY THIS EXISTS (2026-09-22). CLAUDE.md is the orientation document — it is
+  // read at the start of every session, and its own most-repeated lesson is that
+  // "a hand-maintained list decays exactly like one in production". It had
+  // decayed: three of the 79 paths it named pointed at files that are not there.
+  //
+  //   src/data/content.jsx              -> content.tsx
+  //   src/components/profile/StatsTab.jsx -> StatsTab.tsx
+  //   migrations/ai_month_spend.sql     -> never existed; the ai_month_spend
+  //                                        schema is CREATE_LEDGER_SQL inside
+  //                                        _aiBudget.js, and migrations/ holds
+  //                                        ai_quota and ai_burst only
+  //
+  // The last one had propagated INTO production source: _aiBudget.js said the
+  // file "remains as documentation of the schema" in two comments. None of this
+  // breaks the app; all of it sends a reader looking for something that is not
+  // there, which is how the nav-tab table stayed wrong for five months.
+  //
+  // WHAT THIS CANNOT SEE, so nobody over-trusts it: a filename mentioned WITHOUT
+  // a directory. CLAUDE.md names `InsightsTab` bare, so a rename of that file
+  // would not be caught here. Matching bare component names would drag every
+  // prose noun into the check, so the honest scope is paths.
+  const PATH_RE =
+    /\b((?:src|functions|scripts|e2e|public|docs|migrations)\/[A-Za-z0-9_@./-]*\.[A-Za-z0-9]{1,5})/g;
+
+  const named = [
+    ...new Set(
+      [...readFileSync(join(root, 'CLAUDE.md'), 'utf8').matchAll(PATH_RE)].map((m) =>
+        m[1].replace(/[.,)]+$/, ''),
+      ),
+    ),
+  ];
+
+  it('finds a substantial set of paths to check (anti-vacuity)', () => {
+    // A regex that stops matching would make the assertion below trivially
+    // true — the exact failure mode this file keeps rediscovering.
+    expect(named.length).toBeGreaterThan(60);
+    expect(named).toContain('src/lib/nextStep.ts');
+  });
+
+  it('names no file that is missing from the repo', () => {
+    const missing = named.filter((p) => !existsSync(join(root, p)));
+    expect(
+      missing,
+      `CLAUDE.md points at files that do not exist:\n  ${missing.join('\n  ')}`,
+    ).toEqual([]);
+  });
+});
