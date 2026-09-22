@@ -22,13 +22,20 @@
 // manufactured out of an absence. A missing mechanism and a passing mechanism
 // look identical from the outside.
 //
-// WHAT THIS GUARD DOES NOT COVER, said plainly rather than left to be assumed:
-// it derives its subject from `codeql-action/analyze`, i.e. workflows that run a
-// real CodeQL ANALYSIS. `security.yml` uses `codeql-action/upload-sarif` to push
-// third-party (Semgrep) results into the same Security tab and has the SAME
-// push-trigger gap; it is deliberately outside this file's subject and is NOT
-// fixed here. Do not read a green run of this suite as "code scanning is
-// refreshed on master" — read it as "every CodeQL analysis is".
+// THE SAME GAP EXISTED IN `security.yml` AND IS NOW FIXED TOO. Semgrep's
+// findings reach the same Security tab through `codeql-action/upload-sarif`, so
+// the `semgrep` category on master was refreshed weekly for exactly the same
+// reason — measured the same way: of 1,123 runs of that workflow, ZERO carried
+// `event: push`. This guard therefore derives its subject from BOTH publishing
+// actions, `analyze` and `upload-sarif`, so a workflow cannot start publishing
+// to code scanning without the trigger.
+//
+// WHAT IT STILL DOES NOT COVER, said plainly rather than left to be assumed: a
+// scanner that reports by FAILING ITS JOB rather than by uploading SARIF. The
+// Gitleaks job in security.yml is the live example — it holds `contents: read`
+// and no `security-events: write`, so it cannot upload and does not create
+// code-scanning alerts at all. Nothing about it can go stale on a ref, so it is
+// correctly out of scope rather than an omission.
 
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -71,7 +78,7 @@ function onBlock(src) {
  */
 function branchesFor(block, trigger) {
   if (!block) return null;
-  const lines = block.filter((l) => !/^\s*#/.test(l));
+  const lines = block.filter((l) => !/^\s*#/.test(l)); // same rule as stripComments
   const at = lines.findIndex((l) => new RegExp(`^\\s{2}${trigger}:`).test(l));
   if (at === -1) return null;
   const found = [];
@@ -96,8 +103,31 @@ function branchesFor(block, trigger) {
   return found;
 }
 
-/** Workflows that run a real CodeQL analysis — derived, never listed. */
-const analysisWorkflows = workflows.filter(({ src }) => /github\/codeql-action\/analyze/.test(src));
+/**
+ * A workflow's source with comment lines removed. Load-bearing in the direction
+ * that is easy to miss: these very files now explain their own triggers in prose
+ * that NAMES the publishing actions, and prose must never read as configuration.
+ * Today it happens not to matter — the comments write `codeql-action/…` bare
+ * while the pattern wants the `github/` prefix — but that is luck, not design,
+ * and the next person to write the full name in a comment would silently pull an
+ * unrelated workflow into this guard's subject.
+ */
+function stripComments(src) {
+  return src
+    .split('\n')
+    .filter((l) => !/^\s*#/.test(l))
+    .join('\n');
+}
+
+/**
+ * Workflows that PUBLISH results to GitHub code scanning — derived, never
+ * listed. `analyze` is a CodeQL analysis; `upload-sarif` is any third-party
+ * scanner's results (Semgrep today). Both create alerts tracked per ref, so both
+ * go stale on master in exactly the same way without a push trigger.
+ */
+const scanningWorkflows = workflows.filter(({ src }) =>
+  /github\/codeql-action\/(analyze|upload-sarif)/.test(stripComments(src)),
+);
 
 /**
  * The branch we deploy from, read out of ci.yml's own deploy gate rather than
@@ -111,13 +141,16 @@ function deployBranch() {
   return m ? m[1] : null;
 }
 
-describe('every CodeQL analysis runs on the branch we deploy', () => {
+describe('everything that publishes to code scanning runs on the branch we deploy', () => {
   it('the derivation finds something to check', () => {
     // Without this, a renamed action or a moved file would empty the set and
     // make every assertion below vacuously true — the failure mode this repo
     // keeps rediscovering. Both floors, because either one alone can rot.
     expect(workflows.length).toBeGreaterThan(10);
-    expect(analysisWorkflows.length).toBeGreaterThanOrEqual(1);
+    // Two, not one: codeql.yml (analyze) and security.yml (upload-sarif) both
+    // publish today, so a floor of 1 would let either lose its coverage while
+    // the suite stayed green on the other.
+    expect(scanningWorkflows.length).toBeGreaterThanOrEqual(2);
   });
 
   it('ci.yml still states the deploy branch this check derives from', () => {
@@ -126,10 +159,10 @@ describe('every CodeQL analysis runs on the branch we deploy', () => {
     expect(branch).toMatch(/^[A-Za-z0-9._-]+$/);
   });
 
-  it('each analysis workflow triggers on push to that branch', () => {
+  it('each publishing workflow triggers on push to that branch', () => {
     const branch = deployBranch();
     const bad = [];
-    for (const { file, src } of analysisWorkflows) {
+    for (const { file, src } of scanningWorkflows) {
       const push = branchesFor(onBlock(src), 'push');
       if (push === null) {
         bad.push(`${file}: no push trigger — master is analysed only on a schedule`);
@@ -146,7 +179,7 @@ describe('every CodeQL analysis runs on the branch we deploy', () => {
     // A push trigger only ever analyses code that CHANGED. The weekly run is
     // what re-tests UNCHANGED code against queries published since — different
     // coverage, so replacing one with the other is a silent loss.
-    for (const { file, src } of analysisWorkflows) {
+    for (const { file, src } of scanningWorkflows) {
       const block = onBlock(src);
       expect(block, `${file} must have a parseable on: block`).not.toBeNull();
       expect(
@@ -160,7 +193,7 @@ describe('every CodeQL analysis runs on the branch we deploy', () => {
     // Scanning master is not a substitute for scanning a PR: catching a finding
     // before it merges is the whole point of the PR check.
     const branch = deployBranch();
-    for (const { file, src } of analysisWorkflows) {
+    for (const { file, src } of scanningWorkflows) {
       const pr = branchesFor(onBlock(src), 'pull_request');
       expect(pr, `${file} lost its pull_request trigger`).not.toBeNull();
       expect(
