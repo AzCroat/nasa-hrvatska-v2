@@ -354,6 +354,57 @@ name. Two components one letter apart, and only re-reading the file settled it.
 `LessonQuiz` (shared quiz block, credits via `completeLesson`) and `LevelQuiz`
 (the level test, credits via `award` + `levelQuizPasses`) are not the same thing.
 
+### 11. What actually watches production — 2026-09-22 — **THE STRUCTURAL GAP**
+
+Not a bug. The reason bugs reach the owner.
+
+`production-smoke.yml` runs twice daily (08:00/20:00 UTC) across four browsers
+against nasahrvatska.com. **All 16 of its tests are INFRASTRUCTURE**: HTTP 200,
+the title, not-a-Cloudflare-block, root-not-blank, content within 25 s, no JS
+crash on load, entry module served as JavaScript, service worker, three icons,
+assetlinks.json. It never signs in, never opens a lesson, never plays audio,
+never requests feedback.
+
+**So the only thing watching production checks that the site SERVES, not that it
+TEACHES.** Every defect the owner reported in the field passes all sixteen,
+twice a day, indefinitely — the B2 listening section that played nothing,
+`monthly_budget_exhausted` rendered raw, the badge claiming an unmeasured level,
+"check your internet" for a quota cap. With no automated check that a learner
+can learn, THE OWNER IS THE INTEGRATION TEST. That is the mechanism behind
+"you said it was done and then spent days fixing bugs".
+
+`full-user-audit` (16 tests) and `user-experience-audit` (9) DO cover the real
+flow — and are `test.skip`ped in CI, correctly: they drive the live site with a
+real account and no workflow holds credentials (the e2e job runs hermetically
+with `VITE_FIREBASE_API_KEY: 'placeholder'`). **FALSE POSITIVE — DO NOT
+RE-CHASE #6:** those skips are right; the gap is that nothing unattended covers
+the flow, not that those specs are wrongly disabled.
+
+**THE FIX SHIPPED:** `e2e/learner-flow.smoke.spec.js`, wired into
+`playwright.smoke.config.js` by an EXPLICIT list (a `*smoke.spec.js` glob would
+drag in `alka-smoke` and `map-smoke`, neither a production check). Four tests on
+the GUEST path, which needs no credentials and so can run unattended forever: a
+guest can enter; today's plan holds a real activity count with no error
+boundary; the first activity opens and renders; and the run itself never calls a
+generating endpoint.
+
+Two costs, designed for rather than discovered: it is pinned to ONE browser
+(2 anonymous Firebase users/day, not 8), and the fourth test fails if any of 13
+Claude endpoints is called, so a future edit cannot quietly bill the $10/month
+cap 60 times a month.
+
+**TOOL BUG #7 — IN THE SPEC I JUST WROTE.** The first draft did
+`test.skip(!(await begin.isVisible()), 'no Begin Session control')`. On a re-run
+where the session was already started that control reads differently, so the
+test SILENTLY SKIPPED (`1 skipped, 3 passed`) — a guard that disappears exactly
+when state differs. Home must always offer a way in, so absence is now an
+ASSERTION, not a skip. Caught only by running it twice and reading the skip
+count.
+
+Mutation-verified, two: an endpoint the app really calls added to the spend list
+fails the budget test (proving the watcher fires, not just that it is silent);
+an impossible activity count fails the plan test.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
