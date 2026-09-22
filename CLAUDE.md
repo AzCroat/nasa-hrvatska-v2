@@ -2,6 +2,14 @@
 
 This file gives Claude Code full context to work effectively on this codebase without re-deriving architecture or conventions from scratch.
 
+> **READ `AUDIT-STATE.md` NOW, AND AGAIN EVERY 20 MINUTES.** It is the running
+> defect hunt: what has been swept, what it found, the false positives that must
+> not be re-chased, and — the load-bearing part — **what has not been checked
+> yet**. Owner directive, 2026-09-22: there are no new sessions, all work links
+> to prior work, nothing is ever lost. That is achieved by writing findings into
+> that file **as they happen**, never by remembering them. A session boundary is
+> never an explanation for lost work; an un-appended finding is.
+
 ---
 
 ## Project Overview
