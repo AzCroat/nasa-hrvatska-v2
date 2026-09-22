@@ -61,11 +61,44 @@ export function readCurriculumSpine(): CurriculumEntry[] {
   );
 }
 
+/**
+ * Whether there is a usable spine cached right now.
+ *
+ * Reads through `readCurriculumSpine` rather than testing the raw key, so this
+ * answers the question the session builder actually asks: a truncated or
+ * half-written cache is NOT a spine, and must not be reported as one.
+ */
+export function hasCurriculumSpine(): boolean {
+  return readCurriculumSpine().length > 0;
+}
+
+/**
+ * Announced when a spine is written, so surfaces built from an ABSENT spine can
+ * ask again.
+ *
+ * Fired from the WRITE rather than from a fetcher on purpose. The spine is
+ * warmed by a fire-and-forget effect in App.tsx that notifies nobody, and it is
+ * a DIFFERENT fetch from the core content payload — so a consumer that watched
+ * `useContent` would be watching the wrong request and would never hear about
+ * this one. (That is not hypothetical: it was the first version of this fix,
+ * and it silently never fired.) Tying the signal to the write means any future
+ * fetcher gets it for free.
+ */
+export const CURRICULUM_SPINE_EVENT = 'nh:curriculum-spine';
+
 export function writeCurriculumSpine(spine: readonly CurriculumEntry[]): void {
   try {
     localStorage.setItem(SPINE_KEY, JSON.stringify(spine));
   } catch {
     /* a full quota must never break a session */
+    return; // nothing was stored, so there is nothing to announce
+  }
+  try {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(CURRICULUM_SPINE_EVENT));
+    }
+  } catch {
+    /* an environment without CustomEvent still has a cached spine */
   }
 }
 
