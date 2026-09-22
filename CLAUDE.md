@@ -6,7 +6,7 @@ This file gives Claude Code full context to work effectively on this codebase wi
 
 ## Project Overview
 
-**Naša Hrvatska** is a Croatian language-learning PWA (Progressive Web App) for the diaspora and heritage learners. It combines gamification (XP, streaks, hearts, leagues, host-family characters), spaced-repetition flashcards (FSRS), grammar tracks, cultural content, and AI tutoring.
+**Naša Hrvatska** is a Croatian language-learning PWA (Progressive Web App) for the diaspora and heritage learners. It combines gamification (XP, streaks, hearts, badges, host-family characters), spaced-repetition flashcards (FSRS), grammar tracks, cultural content, and AI tutoring.
 
 - **Live URL**: https://nasahrvatska.com
 - **Repo**: AzCroat/nasa-hrvatska-v2
@@ -38,46 +38,46 @@ npm run cap:sync         # Build + sync Capacitor native projects
 
 ```
 src/
-├── App.jsx                    # Root component — mounts context providers, routing, sync
-├── data.jsx                   # Re-export barrel + legacy helpers (LEARN_PATH, flashcard data)
+├── App.tsx                    # Root component — mounts context providers, routing, sync
+├── data.tsx                   # Re-export barrel + legacy helpers (LEARN_PATH, flashcard data)
 ├── context/
-│   ├── AppContext.jsx          # Global state: screen nav (scr), favs, jWords, dchl*
+│   ├── AppContext.tsx          # Global state: screen nav (scr), favs, jWords, dchl*
 │   └── StatsContext.tsx        # Stats state via useReducer (statsReducer.ts)
 ├── hooks/
 │   ├── useScreenLauncher.ts    # Screen navigation + dwell-timer XP awards (map in lib/blackHoleScreens.ts)
-│   ├── useSyncManager.js       # Bidirectional Firebase sync (save + load)
-│   ├── useAuth.js              # Firebase auth state
+│   ├── useSyncManager.ts       # Bidirectional Firebase sync (save + load)
+│   ├── useAuth.ts              # Firebase auth state
 │   ├── useAward.ts             # XP + badge award logic
 │   └── ...                    # 20+ other hooks
 ├── lib/
-│   ├── firebase.js             # Firebase init, all Firestore read/write functions
+│   ├── firebase.ts             # Firebase init, all Firestore read/write functions
 │   ├── progressSnapshot.ts     # Single source of truth for what gets persisted to Firebase
 │   ├── mergeStatsFromRemote.ts # Remote→local merge logic (additive, never destroys progress)
 │   ├── sanitizeStats.ts        # Validates/clamps stats before they're applied
 │   ├── statsReducer.ts         # useReducer for stats (XP, lc, gc, badges, vs, etc.)
-│   ├── srs.js                  # Spaced repetition (FSRS algorithm)
-│   ├── streak.js               # Streak calculation
-│   ├── appUtils.js             # getStreak, getStreakFreezes, shared utilities
-│   ├── dateUtils.js            # localDateStr, weekKey — canonical date helpers
+│   ├── srs.ts                  # Spaced repetition (FSRS algorithm)
+│   ├── streak.ts               # Streak calculation
+│   ├── appUtils.ts             # getStreak, getStreakFreezes, shared utilities
+│   ├── dateUtils.ts            # localDateStr, weekKey — canonical date helpers
 │   ├── constants/
-│   │   ├── storage.js          # All localStorage key names in one place
-│   │   └── timings.js          # All timeout/delay constants (MS, TIMEOUTS)
+│   │   └── storage.js          # All localStorage key names in one place
 │   └── ...                    # 25+ other lib modules
 ├── components/
-│   ├── home/                  # HomeTab, DailyCroatianSection, PathProgressCard, etc.
-│   ├── learn/                 # All lesson screens (50+), LearnTab, GrammarTrack
-│   ├── practice/              # Flashcards, McGame, Dialogue, Speaking, Writing, etc.
-│   ├── profile/               # StatsTab, Leaderboard, FriendsScreen, WeeklyLeague, etc.
-│   ├── croatia/               # CultureTab, CityOfDay, EasterScreen, etc.
-│   └── shared/                # KnightCompanion (renders prof. Kovač coach), CelebrationModal, AppToasts, AppModals, etc.
-├── data/                      # Lesson content, word lists, grammar data (split from data.jsx)
+│   ├── home/                  # HomeTab, HeroSection, SessionCard, QuestTracker, etc.
+│   ├── learn/                 # All lesson screens (70+), LearnTab, AnimatedLesson, GrammarTrackScreen
+│   ├── practice/              # Flashcards, McGame, DialogueSim, SpeakingScreen, GuidedWritingScreen, ModeDrill, etc.
+│   ├── profile/               # StatsTab, ProfileTab, InsightsTab, CertificateScreen, etc. (the `Me` surfaces)
+│   ├── croatia/               # CityOfDayScreen, CultureDeepDiveScreen, EasterScreen, FriendsScreen, etc.
+│   └── shared/                # KnightCompanion (renders prof. Kovač coach), AppToasts, AppModals, NextStepPrompt, etc.
+├── data/                      # Lesson content, word lists, grammar data (split from data.tsx)
 └── types/
     └── index.ts               # Shared TypeScript types (Stats, etc.)
 
 functions/
 └── api/                       # Cloudflare Pages Functions (serverless)
     ├── ai-chat.js             # AI Tutor (Anthropic Claude API)
-    ├── league.js              # Weekly League — requires PUSH_SUBSCRIPTIONS KV binding
+    ├── tts.js                 # Croatian TTS — edge/KV cached, self-metered
+    ├── correct.js             # Writing evaluation (the shared rubric)
     ├── contact.js             # Contact form → Resend
     ├── daily-culture.js       # Daily cultural fact generation
     └── ...                    # 15+ other API endpoints
@@ -1411,7 +1411,7 @@ When an AI activity can't generate it must not credit the session for work never
 
 ### The A1 hole this audit found
 
-A1 **taught** verbs (`present-tense-verbs`, `pronouns-biti` are A1 lessons) while the lowest verb drill in the pool was A2 — and A1 is the only level that cannot inherit downward. Same for syntax. Fixed by `presentdrill` + `wordorderdrill` (A1) and `CATEGORY_EASIER_SCREEN`, which rescues a category whose mapped drill is CEFR-locked instead of dropping it for the whole level. `a1VerbSyntaxDrills.test.ts` fails if A1 ever again lacks a reachable verb or syntax drill.
+A1 **taught** verbs (`present-tense-verbs`, `pronouns-biti` are A1 lessons) while the lowest verb drill in the pool was A2 — and A1 is the only level that cannot inherit downward. Same for syntax. Fixed by `presentdrill` + `wordorderdrill` (A1) and `CATEGORY_EASIER_SCREEN`, which rescues a category whose mapped drill is CEFR-locked instead of dropping it for the whole level. `a1VerbSyntaxDrills.test.tsx` fails if A1 ever again lacks a reachable verb or syntax drill.
 
 **Word-order content rule**: Croatian constituent order is genuinely free, so every item must target a rule that is actually FIXED (second-position clitics, `li` after its verb, `ne` before its verb, adjective before noun) and every distractor must be ungrammatical rather than merely marked. An exercise that marks real Croatian wrong teaches learners to distrust their ear.
 
@@ -2237,7 +2237,7 @@ The client touches exactly three collections, and `firestore.rules` covers all t
 
 There is **no `leaderboard` collection and no `families` collection.** The leaderboard feature was removed (see the comment on the `profiles` block in `firestore.rules`), which is why that block has no create/update rule. `fbJoinFamily` and `memberXP` no longer exist anywhere in `src/`. Both were documented here long after they were gone — if you are adding a Family feature, you are building it from scratch, and it needs a new rules match or every write hits deny-all.
 
-### fbSaveProgress (src/lib/firebase.js)
+### fbSaveProgress (src/lib/firebase.ts)
 
 Writes a single document, `users/{id}`, via `set({ merge: true })` — the array reconciliation (`stats.vs` / `ct` / `badges`) is folded into that same write rather than a follow-up `updateDoc`. Always called via `buildProgressSnapshot()`. Writes `weekXP` from localStorage `nh_week_xp_{weekKey}`.
 
@@ -2672,9 +2672,9 @@ Separate Cloudflare Worker (`nasa-hrvatska-scheduler`) runs an **hourly** cron. 
 - **File naming**: `PascalCase.jsx` for React components, `camelCase.js/ts` for utilities
 - **No default exports from lib files** — use named exports
 - **localStorage access**: use key constants from `src/lib/constants/storage.js` for new keys; legacy code uses raw strings
-- **Date helpers**: always use `localDateStr()` and `weekKey()` from `src/lib/dateUtils.js` — never `new Date().toISOString()` for date comparisons
+- **Date helpers**: always use `localDateStr()` and `weekKey()` from `src/lib/dateUtils.ts` — never `new Date().toISOString()` for date comparisons
 - **XP awards**: always through `dispatch({ type: 'AWARD_XP', ... })` or the `useAward` hook — never by mutating stats directly
-- **Firebase calls**: all in `src/lib/firebase.js` — no Firestore imports in components
+- **Firebase calls**: all in `src/lib/firebase.ts` — no Firestore imports in components
 - **Error handling**: use `errorReporter.ts` for non-fatal errors; `ErrorBoundary` component catches render crashes
 - **TypeScript**: new files in `src/lib/` and `src/hooks/` should be `.ts`/`.tsx`. Existing `.js` files are being migrated gradually — don't convert them unless that's the task.
 - **Code style**: ESLint + lint-staged enforced on commit. Run `npm run lint:fix` before committing.
