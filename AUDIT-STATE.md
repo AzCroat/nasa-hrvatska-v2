@@ -297,12 +297,44 @@ no-lesson behaviour is real in production. That is a console setting, not
 readable from the repo. The fix for that case would differ from the one drafted
 here.
 
+### 10. Work that grades but never credits — 2026-09-22 — CLEAN
+
+The inverse of the `AlphabetScreen` award bug: a screen that scores a learner
+and then pays them nothing. Swept every component that tracks a score AND
+reaches a finish state, checking for any credit call.
+
+Six flagged, **all six false positives, zero defects**: `ConditionalScreen`,
+`DeclensionScreen`, `FormalRegisterScreen`, `FutureTenseLessonScreen`,
+`ImpersonalScreen`, `LessonQuiz` all credit through `completeLesson()` from
+`hooks/useLessonCompletion`, and four also forward `award` down to a child
+rather than calling it.
+
+**TOOL BUG #6:** the detector's credit-name list
+(`completeExercise|award|awardFn|recordScreenPractised|markQuest`) did not
+include `completeLesson` — the helper the entire hand-written lesson family uses
+— nor did it count `award={award}` prop FORWARDING as crediting. An incomplete
+list of names to look for reads exactly like a finding.
+
+**AND A CORRECTION MADE MID-SWEEP:** I flagged `LessonQuiz` as not awarding
+while "remembering" having read `award(xpAward, false, 'grammar')` in it earlier
+today. That line is in **`LevelQuiz.tsx`** — a different file with a similar
+name. Two components one letter apart, and only re-reading the file settled it.
+`LessonQuiz` (shared quiz block, credits via `completeLesson`) and `LevelQuiz`
+(the level test, credits via `award` + `levelQuizPasses`) are not the same thing.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
 
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
+      (Credit-on-grade is closed — sweep 10.)
+- [ ] LOW: `AIConversation:476/593` throw `'Network error — check your
+      connection. (' + err.message + ')'`, rendered by `setSendError` at :768 —
+      so a learner can read `(TypeError: Failed to fetch)`. The SENTENCE is
+      accurate (it fires only when the transport threw; quota refusals are
+      classified correctly on a separate path); only the parenthetical is
+      developer detail. Rides the next push that already changes these files.
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
 - [~] **Day-one path**: the LESSON half is checked (sweep 7, covered). Still
