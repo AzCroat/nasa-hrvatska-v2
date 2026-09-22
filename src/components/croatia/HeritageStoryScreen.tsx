@@ -4,6 +4,7 @@ import { H } from '../../data';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { getAudioContext, unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 
@@ -412,13 +413,21 @@ export default function HeritageStoryScreen({
           },
         }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        const f = await failureFromResponse(res);
+        reportAiFailure('heritage-story', f);
+        setError(f.message);
+        setPhase('form');
+        return;
+      }
       const data = await res.json();
       setHeritageData(data);
       setSaved(false);
       setPhase('story');
     } catch (e) {
-      setError('Could not generate your heritage story. Please try again.');
+      const f = failureFromError(e);
+      reportAiFailure('heritage-story', f);
+      setError(f.message);
       setPhase('form');
     }
   }, [isOnline, selectedRegion, userName, familyNotes, selectedEra]);

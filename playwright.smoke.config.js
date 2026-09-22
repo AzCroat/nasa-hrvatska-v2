@@ -7,7 +7,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: '**/smoke.spec.js',
+  // Explicit list, not a '*smoke.spec.js' glob: `alka-smoke.spec.js` and
+  // `map-smoke.spec.js` would both match one and neither is a production check.
+  testMatch: ['**/smoke.spec.js', '**/learner-flow.smoke.spec.js'],
   fullyParallel: false,
   retries: 1,
   workers: 1,

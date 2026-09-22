@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { CITY_PHOTOS } from './StoryModeData.js';
 
 interface Token {
@@ -61,15 +62,35 @@ interface StoryViewPanelProps {
   onFinish?: () => void;
 }
 
+/**
+ * A failure sentence needs longer on screen than a one-word gloss. 2.5s is fine
+ * for `kruh → bread`; it is not long enough to read "Daily AI limit reached —
+ * feedback resets at …" and decide what to do about it.
+ */
+const FAILURE_TOOLTIP_MS = 6000;
+
 // ── Word token component ───────────────────────────────────────────────────────
 function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) {
   const [state, setState] = useState('idle'); // idle | loading | shown
   const [translation, setTranslation] = useState<string | null>(null);
+  // A failed tap shows a SENTENCE, not a gloss, so the tooltip has to stop
+  // being a single nowrap line for that one case — see the render below.
+  const [failed, setFailed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /** One place a named cause reaches the tooltip, and it lingers long enough to read. */
+  const showFailure = useCallback((message: string) => {
+    setTranslation(message);
+    setFailed(true);
+    setState('shown');
+    if (timerRef.current !== null) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setState('idle'), FAILURE_TOOLTIP_MS);
+  }, []);
 
   const handleClick = useCallback(async () => {
     if (isPunctuation) return;
     setState('loading');
+    setFailed(false);
     onTap();
     try {
       const res = await apiFetch('/api/ai-chat', {
@@ -86,6 +107,18 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
       // `translation`/`reply`/`content` field (those were always undefined, so
       // every word tap fell back to the literal "…"). Parse `text` like the
       // sibling CroatianNewsScreen/GrammarReader do.
+      // A REFUSAL USED TO RENDER AS A TRANSLATION. `res.ok` was never checked,
+      // and the gate answers `{ error: 'monthly_budget_exhausted' }` with no
+      // `text` field — so `parsed` came out `{}` and the learner read
+      // `word → …`, an ellipsis presented as the word's meaning. That is
+      // NEVER-DO 13 on a word sheet: the app stating something it did not
+      // measure. Classify first, and say which limit it was.
+      if (!res.ok) {
+        const f = await failureFromResponse(res);
+        reportAiFailure('story-word-tap', f);
+        showFailure(f.message);
+        return;
+      }
       const data = await res.json();
       let tr = '…';
       try {
@@ -95,13 +128,19 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
         tr = (typeof data.text === 'string' && data.text) || data.translation || '…';
       }
       setTranslation(tr);
+      setFailed(false);
       setState('shown');
       if (timerRef.current !== null) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => setState('idle'), 2500);
-    } catch {
-      setState('idle');
+    } catch (e) {
+      // A tap that silently does nothing is the one thing a word sheet must not
+      // do (the GrammarReader rule: never return null when the AI is
+      // unavailable).
+      const f = failureFromError(e);
+      reportAiFailure('story-word-tap', f);
+      showFailure(f.message);
     }
-  }, [word, isPunctuation, onTap]);
+  }, [word, isPunctuation, onTap, showFailure]);
 
   useEffect(
     () => () => {
@@ -144,7 +183,11 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
             fontWeight: 500,
             padding: '4px 8px',
             borderRadius: 6,
-            whiteSpace: 'nowrap',
+            // A gloss is one short line; a classified failure is a sentence, and
+            // `nowrap` would run it off both edges of a phone.
+            whiteSpace: failed ? 'normal' : 'nowrap',
+            maxWidth: failed ? 240 : undefined,
+            textAlign: failed ? 'center' : undefined,
             zIndex: 100,
             boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
             pointerEvents: 'none',
@@ -166,9 +209,7 @@ function WordToken({ word, accentColor, onTap, isPunctuation }: WordTokenProps) 
               translating…
             </span>
           ) : (
-            <>
-              {word} → {translation}
-            </>
+            <>{failed ? translation : `${word} → ${translation}`}</>
           )}
         </span>
       )}

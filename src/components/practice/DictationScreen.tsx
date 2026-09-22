@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { H, Bar } from '../../data';
 import { useHeardGate } from '../../hooks/useHeardGate';
 import AudioFailureNotice from '../shared/AudioFailureNotice';
@@ -453,13 +454,25 @@ export default function DictationScreen({ goBack, award }: Props) {
           level: level || 'A2',
         });
         if (!mountedRef.current) return;
-        if (!res.ok) throw new Error('API error');
+        if (!res.ok) {
+          // Fail-soft by contract — the authored tip is already on screen and
+          // this card only ever ADDS. What changed is that "Could not load
+          // explanation." now says WHICH limit, so a learner who has hit the
+          // daily ceiling stops tapping for one that will not come today.
+          const f = await failureFromResponse(res);
+          reportAiFailure('dictation-explain', f);
+          if (mountedRef.current)
+            setAiExplain({ explanation: f.message, rule: '', tip: '', example: '' });
+          return;
+        }
         const data = await res.json();
         if (mountedRef.current) setAiExplain(data);
-      } catch {
+      } catch (e) {
+        const f = failureFromError(e);
+        reportAiFailure('dictation-explain', f);
         if (mountedRef.current)
           setAiExplain({
-            explanation: 'Could not load explanation.',
+            explanation: f.message,
             rule: '',
             tip: '',
             example: '',

@@ -32,7 +32,8 @@
  * updating its ceiling FAILS THE BUILD rather than silently under-charging.
  *
  * Storage mirrors _aiQuota.js: D1 primary (atomic upsert), KV fallback,
- * fail-closed if neither answers. Table: migrations/ai_month_spend.sql.
+ * fail-closed if neither answers. Table: CREATE_LEDGER_SQL below — it is the
+ * only definition, and it self-migrates on first use.
  */
 
 // $9.00/month for metered AI calls — $1 head-room under the $10 mandate for
@@ -130,7 +131,9 @@ function firstOfNextMonthUTC() {
 
 // Self-migrating: the ledger table is created by the code itself the first
 // time D1 answers "no such table" — the owner never runs SQL by hand.
-// (migrations/ai_month_spend.sql remains as documentation of the schema.)
+// (There is no migration FILE: the schema below is the only definition. An
+// earlier comment pointed at migrations/ai_month_spend.sql, which does not
+// exist — migrations/ holds ai_quota and ai_burst only.)
 // CREATE TABLE IF NOT EXISTS is idempotent, so a race between two isolates
 // both migrating is harmless.
 const CREATE_LEDGER_SQL = `CREATE TABLE IF NOT EXISTS ai_month_spend (

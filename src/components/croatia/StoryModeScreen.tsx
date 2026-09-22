@@ -4,6 +4,7 @@ import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { getAudioContext, ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { STORY_CITIES, GOAL_META } from './StoryModeData.js';
@@ -221,12 +222,23 @@ export default function StoryModeScreen({
           goal_theme: goalMeta?.theme || undefined,
         },
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        // One generic "Please try again" used to answer every cause, so a
+        // learner who had used their daily AI allowance was told to retry
+        // something that cannot succeed until it resets.
+        const f = await failureFromResponse(res);
+        reportAiFailure('story-mode', f);
+        setError(f.message);
+        setPhase('setup');
+        return;
+      }
       const data = await res.json();
       setStoryData(data);
       setPhase('story');
     } catch (e) {
-      setError('Could not generate story. Please try again.');
+      const f = failureFromError(e);
+      reportAiFailure('story-mode', f);
+      setError(f.message);
       setPhase('setup');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

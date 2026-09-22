@@ -4,6 +4,7 @@ import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 interface LessonExample {
   hr: string;
@@ -108,6 +109,10 @@ export default function MicroLessonScreen({
   const [weakWords, setWeakWords] = useState<WeakWord[]>([]);
   const [errorMsg, setErrorMsg] = useState('');
   const [noWords, setNoWords] = useState(false);
+  // Whether trying again can reasonably succeed. A quota or budget refusal
+  // cannot until it resets, and offering a button that cannot work is the
+  // same lie as a generic message — see the failure block below.
+  const [retryable, setRetryable] = useState(true);
 
   // Quiz state
   const [qIdx, setQIdx] = useState(0);
@@ -192,14 +197,25 @@ export default function MicroLessonScreen({
         signal: AbortSignal.timeout(25000),
       });
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error((body as { error?: string }).error || `Server error ${res.status}`);
+        // The gate answers with a MACHINE code (`monthly_budget_exhausted`,
+        // `rate_limited`, `unauthenticated`). This used to throw that string and
+        // render it verbatim to the learner. `failureFromResponse` turns it into
+        // one honest sentence and says whether retrying can work.
+        const f = await failureFromResponse(res);
+        reportAiFailure('micro-lesson', f);
+        setErrorMsg(f.message);
+        setRetryable(f.retryable);
+        setPhase('error');
+        return;
       }
       const data = (await res.json()) as MicroLesson;
       setLesson(data);
       setPhase('intro');
     } catch (e) {
-      setErrorMsg((e as Error).message || 'Could not generate lesson. Please try again.');
+      const f = failureFromError(e);
+      reportAiFailure('micro-lesson', f);
+      setErrorMsg(f.message);
+      setRetryable(f.retryable);
       setPhase('error');
     }
   }, [level]);
@@ -367,13 +383,15 @@ export default function MicroLessonScreen({
             </div>
           ) : (
             <>
-              <button
-                className="b bp"
-                style={{ width: '100%', padding: 14, marginBottom: 10 }}
-                onClick={fetchLesson}
-              >
-                Try Again
-              </button>
+              {retryable && (
+                <button
+                  className="b bp"
+                  style={{ width: '100%', padding: 14, marginBottom: 10 }}
+                  onClick={fetchLesson}
+                >
+                  Try Again
+                </button>
+              )}
               <button
                 onClick={goBack}
                 style={{

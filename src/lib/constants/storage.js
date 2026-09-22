@@ -36,4 +36,11 @@ export const StorageKeys = {
   // Level Check audit trail (LOCAL ONLY — deliberately not synced; see
   // src/lib/attemptEvidence.ts)
   CEFR_ATTEMPT_EVIDENCE: 'nh_cefr_attempt_evidence',
+
+  // The learner pressed "Exit placement test". LOCAL ONLY and deliberately
+  // NOT `nh_placement_done` / `onboarded`: they did not take the test, and
+  // writing either would claim a placement that never happened (NEVER-DO 13).
+  // It exists solely to stop App.tsx's 1200 ms auto-offer re-firing — see
+  // `placementDeclined.test.tsx`.
+  PLACEMENT_DECLINED: 'nh_placement_declined',
 };

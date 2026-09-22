@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { H, speak, stopAudio, srMark } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
@@ -622,13 +623,27 @@ export default function ClozeEngine({ goBack, award }: Props) {
           level: level || 'B1',
         });
         if (!mountedRef.current) return;
-        if (!res.ok) throw new Error('API error');
+        if (!res.ok) {
+          // BLAMED THE LEARNER'S ROUTER FOR A SERVER CAP. The old line was
+          // "Could not load explanation. Check your connection." for EVERY
+          // cause, so a learner at their daily AI ceiling went to check their
+          // wifi — the thing CLAUDE.md's feedback directive forbids by name.
+          // The card stays fail-soft either way: the authored tip is already
+          // on screen and this only ever ADDS.
+          const f = await failureFromResponse(res);
+          reportAiFailure('cloze-explain', f);
+          if (mountedRef.current)
+            setAiExplain({ explanation: f.message, rule: '', tip: '', example: '' });
+          return;
+        }
         const data = await res.json();
         if (mountedRef.current) setAiExplain(data);
-      } catch {
+      } catch (e) {
+        const f = failureFromError(e);
+        reportAiFailure('cloze-explain', f);
         if (mountedRef.current)
           setAiExplain({
-            explanation: 'Could not load explanation. Check your connection.',
+            explanation: f.message,
             rule: '',
             tip: '',
             example: '',

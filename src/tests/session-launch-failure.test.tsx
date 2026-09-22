@@ -135,6 +135,12 @@ function capturedEvents(): Array<{ reason: string }> {
   return captured;
 }
 let captured: Array<{ reason: string }> = [];
+// The detail gained a `scope` on 2026-09-22 (see lib/launchFailure.ts): these
+// are session/next-step launches, which render an INLINE strip, as distinct
+// from the Learn Path bails that get App.tsx's toast. Asserting the whole
+// detail is deliberate — it is what caught the field being added, and a
+// launcher that silently started emitting 'path' here would send these
+// failures to the toast and leave the card blank.
 window.addEventListener(LAUNCH_FAILED_EVENT, (e) => {
   captured.push((e as CustomEvent).detail);
 });
@@ -159,7 +165,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
 
     expect(sessionStorage.getItem('nh_session_started')).toBeNull();
     expect(sessionStorage.getItem('nh_session_category')).toBeNull();
-    expect(capturedEvents()).toEqual([{ reason: 'load-error' }]);
+    expect(capturedEvents()).toEqual([{ reason: 'load-error', scope: 'session' }]);
     expect(params.setScr).not.toHaveBeenCalled();
     expect(params.sCurEx).not.toHaveBeenCalled();
     expect(mockReload).not.toHaveBeenCalled(); // 'boom' is not a chunk error
@@ -192,7 +198,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
     await act(() => result.current.launchSessionActivity('flashcards'));
 
     expect(mockReload).toHaveBeenCalledWith('nh_reload_attempt');
-    expect(capturedEvents()).toEqual([{ reason: 'load-error' }]);
+    expect(capturedEvents()).toEqual([{ reason: 'load-error', scope: 'session' }]);
     expect(sessionStorage.getItem('nh_session_started')).toBeNull();
     expect(params.setScr).not.toHaveBeenCalled();
   });
@@ -206,7 +212,7 @@ describe('launchSessionActivity — visible-failure contract', () => {
     await act(() => result.current.launchSessionActivity('speaking'));
 
     expect(sessionStorage.getItem('nh_session_started')).toBeNull();
-    expect(capturedEvents()).toEqual([{ reason: 'empty-pool' }]);
+    expect(capturedEvents()).toEqual([{ reason: 'empty-pool', scope: 'session' }]);
     expect(params.setScr).not.toHaveBeenCalled();
     expect(params.sSi).not.toHaveBeenCalled();
   });

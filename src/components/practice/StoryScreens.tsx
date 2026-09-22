@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { H, Bar, speak, STORIES } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { markQuest } from '../../lib/quests.js';
@@ -38,7 +39,13 @@ async function fetchSceneIllustration(storyTitle: string, sceneText: string, sig
       body: JSON.stringify({ type: 'scene', sceneText, storyTitle }),
       signal,
     });
-    if (!r.ok) return null;
+    if (!r.ok) {
+      // Decoration, like the flashcard illustration: the story text renders in
+      // full without it. `null` stays; only the record is added, so a dead
+      // image endpoint stops being indistinguishable from nobody reading.
+      reportAiFailure('story-scene-image', await failureFromResponse(r));
+      return null;
+    }
     const { imageUrl } = await r.json();
     if (imageUrl) {
       sceneImgCache[key] = imageUrl;
@@ -47,7 +54,9 @@ async function fetchSceneIllustration(storyTitle: string, sceneText: string, sig
       } catch {}
     }
     return imageUrl || null;
-  } catch {
+  } catch (e) {
+    if ((e as Error | undefined)?.name !== 'AbortError')
+      reportAiFailure('story-scene-image', failureFromError(e));
     return null;
   }
 }

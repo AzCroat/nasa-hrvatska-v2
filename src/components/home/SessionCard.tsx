@@ -1,7 +1,8 @@
 // src/components/home/SessionCard.tsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { DailySession, SessionActivity } from '../../hooks/useDailySession';
-import { LAUNCH_FAILED_EVENT } from '../../lib/launchFailure';
+import { useLaunchFailure } from '../../hooks/useLaunchFailure';
+import LaunchFailureNotice from '../shared/LaunchFailureNotice';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -234,12 +235,12 @@ export default function SessionCard({
   // P0 (2026-07-18): a session launch must never be a silent no-op. The
   // launcher broadcasts failures (lazy-chunk load error, empty pool); we show
   // the error at the exact button the user tapped. Cleared on the next tap.
-  const [launchError, setLaunchError] = useState(false);
-  useEffect(() => {
-    const onFail = () => setLaunchError(true);
-    window.addEventListener(LAUNCH_FAILED_EVENT, onFail);
-    return () => window.removeEventListener(LAUNCH_FAILED_EVENT, onFail);
-  }, []);
+  //
+  // The subscription moved to `useLaunchFailure` on 2026-09-22 so the OTHER
+  // three launch surfaces could share it — this card's complete-state hero
+  // included, which had none. It also keeps the REASON: this card used to tell
+  // an `empty-pool` learner to check their connection.
+  const { reason: launchError, clear: clearLaunchError } = useLaunchFailure();
 
   return (
     <div data-testid="session-card">
@@ -283,9 +284,20 @@ export default function SessionCard({
             // never an end state — ONE commanding next exercise, same visual
             // weight as Begin Session, chosen by the next-step engine.
             <>
+              {/* The hero had NO failure surface until 2026-09-22: a failed
+                  launch from the app's primary guided path did nothing at all
+                  and said nothing. */}
+              <LaunchFailureNotice
+                reason={launchError}
+                testId="next-up-primary-error"
+                style={{ textAlign: 'left' }}
+              />
               <button
                 data-testid="next-up-primary"
-                onClick={onNextStart}
+                onClick={() => {
+                  clearLaunchError();
+                  onNextStart();
+                }}
                 style={{
                   width: '100%',
                   padding: '13px 16px',
@@ -613,25 +625,7 @@ export default function SessionCard({
 
           {/* CTA button wrapper */}
           <div style={{ padding: '14px 18px 18px', position: 'relative' }}>
-            {launchError && (
-              <div
-                data-testid="session-launch-error"
-                style={{
-                  marginBottom: 10,
-                  padding: '10px 12px',
-                  borderRadius: 10,
-                  background: 'rgba(204,0,0,.08)',
-                  border: '1px solid rgba(204,0,0,.35)',
-                  color: CROATIAN_RED,
-                  fontSize: 12.5,
-                  fontWeight: 700,
-                  lineHeight: 1.45,
-                }}
-              >
-                Couldn't start the lesson — check your connection and tap again. If it keeps
-                happening, close and reopen the app to get the latest version.
-              </div>
-            )}
+            <LaunchFailureNotice reason={launchError} testId="session-launch-error" />
             {/* Why THIS activity (per-activity reasons, 2026-08-20). Sits with
                 the CTA rather than on the chips, which are 10px and already
                 carry state glyphs. Absent whenever the slot had no honest
@@ -654,7 +648,7 @@ export default function SessionCard({
             <button
               data-testid="session-begin-cta"
               onClick={() => {
-                setLaunchError(false);
+                clearLaunchError();
                 onStart();
               }}
               disabled={!nextActivity}

@@ -26,6 +26,13 @@ interface AppToastsProps {
   ttsFailedToast: boolean;
   /** Why the audio failed, in one learner-facing sentence (from audio.ts). */
   ttsFailedMessage?: string;
+  /**
+   * Why a Learn Path / checkpoint launch failed. Those surfaces have no inline
+   * strip of their own, so without this a tap was a silent no-op. Empty means
+   * nothing to show. The session/next-step surfaces render their own and are
+   * filtered out by scope before this ever gets set.
+   */
+  launchFailedMessage?: string;
   // Streak repair
   streakRepairAvailable: boolean;
   onRepairStreak: ((action: string) => void) | null;
@@ -51,6 +58,7 @@ export function AppToasts({
   streakRestoredCount,
   ttsFailedToast,
   ttsFailedMessage,
+  launchFailedMessage,
   // Streak repair
   streakRepairAvailable,
   onRepairStreak,
@@ -210,6 +218,35 @@ export function AppToasts({
           data-testid="tts-failed-toast"
         >
           🔇 {ttsFailedMessage || 'Audio unavailable'}
+        </div>
+      )}
+
+      {/* A launch that had nowhere to say it failed (Learn Path, checkpoint) */}
+      {!!launchFailedMessage && (
+        <div
+          role="status"
+          aria-live="polite"
+          data-testid="launch-failed-toast"
+          style={{
+            position: 'fixed',
+            bottom: 140,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 9500,
+            background: 'rgba(30,30,30,.92)',
+            color: '#fff',
+            borderRadius: 20,
+            padding: '9px 20px',
+            fontSize: 13,
+            fontWeight: 600,
+            pointerEvents: 'none',
+            animation: 'slideUp .3s ease',
+            maxWidth: '88vw',
+            textAlign: 'center',
+            lineHeight: 1.4,
+          }}
+        >
+          {launchFailedMessage}
         </div>
       )}
 

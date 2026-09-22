@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
+import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 // Detect desktop: has fine pointer (mouse) and hover capability
 function isDesktop() {
@@ -311,7 +312,16 @@ export default function PhotoVocabScanner({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageData, mediaType, level, context: context.trim() }),
       });
-      if (!res.ok) throw new Error('Scan failed (' + res.status + ')');
+      if (!res.ok) {
+        // Was: throw 'Scan failed (429)' — and the catch below renders
+        // err.message, so the learner read the raw STATUS. CLAUDE.md forbids
+        // that by name ("never show a learner a raw status").
+        const f = await failureFromResponse(res);
+        reportAiFailure('photo-vocab', f);
+        setErrorMsg(f.message);
+        setPhase('error');
+        return;
+      }
       const data = (await res.json()) as {
         items?: Array<{
           hr?: string;
@@ -340,9 +350,9 @@ export default function PhotoVocabScanner({
       setChecked(initial);
       setPhase('results');
     } catch (err) {
-      setErrorMsg(
-        (err instanceof Error ? err.message : null) || 'Failed to scan image. Please try again.',
-      );
+      const f = failureFromError(err);
+      reportAiFailure('photo-vocab', f);
+      setErrorMsg(f.message);
       setPhase('error');
     }
   }, [imageDataUrl, level, context]);

@@ -25,12 +25,29 @@ import { useEffect, useRef, useState } from 'react';
 import { type NextStep } from '../../lib/nextStep.js';
 import { EXERCISE_COMPLETE_EVENT, REQUEST_NEXT_STEP_EVENT } from '../../lib/sessionSignal.js';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine.js';
+import { useLaunchFailure } from '../../hooks/useLaunchFailure';
+import { LAUNCH_FAILURE_COPY } from './LaunchFailureNotice';
 
 const SHOW_DELAY_MS = 700;
 
 export default function NextStepPrompt() {
   const { computeStep, launch, navKey } = useNextStepEngine();
   const [step, setStep] = useState<NextStep | null>(null);
+  // THE PILL CLEARED ITSELF BEFORE LAUNCHING, so a failed launch removed the
+  // fork and restored the "← Back" dead end this component exists to abolish —
+  // the learner tapped, the pill vanished, and nothing happened.
+  //
+  // It still hides on tap, deliberately. The first fix simply kept the step and
+  // let the navKey effect dismiss it, which broke this component's documented
+  // contract ("hides on ANY navigation") in a way an existing test caught: with
+  // the step retained, hiding depends on the launch CHANGING navKey, so a
+  // recommendation for the screen the learner is already on would leave the
+  // pill stuck there for good. Instead it hides as before and COMES BACK
+  // carrying the cause, which needs no assumption about what the launch did.
+  const { reason: launchError, clear: clearLaunchError } = useLaunchFailure();
+  // The step to retry when it comes back. A ref, not state: restoring it must
+  // not itself re-render or race the hide.
+  const lastStep = useRef<NextStep | null>(null);
   const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Listen for completions. Recompute the recommendation at FIRE time (state
@@ -64,10 +81,14 @@ export default function NextStepPrompt() {
     }
   }, [navKey]);
 
-  if (!step) return null;
+  // Visible while there is a recommendation OR a failure to explain.
+  const shown = step ?? (launchError ? lastStep.current : null);
+  if (!shown) return null;
 
   function go() {
-    const s = step!;
+    const s = shown!;
+    lastStep.current = s;
+    clearLaunchError();
     setStep(null);
     launch(s);
   }
@@ -88,6 +109,7 @@ export default function NextStepPrompt() {
     >
       <button
         data-testid="next-up-bar"
+        data-launch-failure={launchError ?? undefined}
         onClick={go}
         style={{
           pointerEvents: 'auto',
@@ -118,7 +140,7 @@ export default function NextStepPrompt() {
               textOverflow: 'ellipsis',
             }}
           >
-            Next up: {step.label}
+            {launchError ? "That didn't start" : `Next up: ${shown.label}`}
           </span>
           <span
             style={{
@@ -126,12 +148,13 @@ export default function NextStepPrompt() {
               fontSize: 11,
               fontWeight: 500,
               opacity: 0.85,
-              whiteSpace: 'nowrap',
+              // A failure is a sentence; nowrap would ellipsis it to nothing useful.
+              whiteSpace: launchError ? 'normal' : 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
           >
-            {step.reason}
+            {launchError ? LAUNCH_FAILURE_COPY[launchError] : shown.reason}
           </span>
         </span>
       </button>

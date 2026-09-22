@@ -17,9 +17,30 @@ export const LAUNCH_FAILED_EVENT = 'nh:launch-failed';
 
 export type LaunchFailureReason = 'load-error' | 'empty-pool';
 
-export function notifyLaunchFailure(reason: LaunchFailureReason, detail?: unknown): void {
+/**
+ * WHICH FAMILY OF SURFACES hosts this launch, because they render failures
+ * differently and a learner must never be told twice.
+ *
+ *   'session'  the daily-session / next-step launches — SessionCard, NextUpCard
+ *              and the pill each render an INLINE strip at the button tapped.
+ *   'path'     the Learn Path tiles and the checkpoint entry, which have no
+ *              inline surface of their own. Added 2026-09-22, when five of
+ *              those bails turned out to `reportError` and return: reported to
+ *              Sentry, invisible to the learner. App.tsx toasts these.
+ *
+ * The launcher knows which it is; nothing else can. Keeping it out of the
+ * reason means the two questions — WHAT failed and WHO shows it — stay
+ * separate, so a new surface picks a scope rather than inventing a reason.
+ */
+export type LaunchFailureScope = 'session' | 'path';
+
+export function notifyLaunchFailure(
+  reason: LaunchFailureReason,
+  detail?: unknown,
+  scope: LaunchFailureScope = 'session',
+): void {
   try {
-    window.dispatchEvent(new CustomEvent(LAUNCH_FAILED_EVENT, { detail: { reason } }));
+    window.dispatchEvent(new CustomEvent(LAUNCH_FAILED_EVENT, { detail: { reason, scope } }));
   } catch {
     /* non-browser env */
   }
