@@ -405,11 +405,57 @@ Mutation-verified, two: an endpoint the app really calls added to the spend list
 fails the budget test (proving the watcher fires, not just that it is silent);
 an impossible activity count fails the plan test.
 
+### 12. "Fixed once, never again" — the AI-refusal class, ratcheted — 2026-09-22
+
+Owner: *"let's make sure when we fix something it's fixed once and never needed
+to be fixed again."* Applied to today's own work, which did NOT meet that bar.
+
+**THE THREE FIXES WERE PINNED BY A HAND-WRITTEN LIST OF FOUR FILES.** So was the
+2026-09-07 census before them (`feedbackSurfaces.test.ts`, one inline path per
+assertion). Neither guard could have caught the other's defects, and neither
+could catch the next one: a surface added next month lands unclassified and
+every test stays green. That is the decay shape this repo records repeatedly —
+the nav table wrong for five months, the hardcoded 56-category vocab list,
+`GRAMMAR_STRUCTURE_CATEGORIES` going stale the moment the pool grew. I shipped
+one this afternoon.
+
+**THE DERIVATION, and what it revealed.** Endpoints come from
+`ENDPOINT_CEILING_MICROUSD` (imported, not restated); callers are every `src/`
+file that CALLS one through a fetching helper, comments stripped so a route
+named beside a pool entry does not count. Result: **35 files make a real AI
+call, 18 classify, 17 do not.** I had fixed four. The class was nowhere near
+closed, and only deriving it showed that.
+
+**`aiSurfaceClassifies.test.ts` is a RATCHET, not a fix for the other 13.** A
+new unclassified surface fails the build; the existing 17 are listed WITH
+REASONS and can only shrink. Four are legitimately fail-soft (the
+`explain-error` drills keep the authored tip on screen); thirteen are real debt,
+recorded rather than hidden. They are deliberately NOT batch-fixed: a reflexive
+fix can be worse than none — `AIConversation`'s AbortError branch already reads
+"Request timed out — please try again", and routing it through
+`failureFromError` would have swapped a correct sentence for one saying "The
+evaluator took too long" on a conversation screen.
+
+Mutation-verified, four, each confirmed landed:
+  M12  a NEW unclassified surface appears        -> 1  (the scenario it exists for)
+  M13  classification stripped from a fixed file -> 2
+  M14  an exempted file fixed but left listed    -> 1  (both staleness directions)
+  M15  ANTI-VACUITY: call pattern stops matching -> 3
+
+**TOOL BUG #8:** I copied `// eslint-disable-next-line
+security/detect-non-literal-fs-filename` from a sibling test; that rule is not
+configured for this path, so the comment referenced a non-existent rule and
+failed lint. A disable comment copied without checking the rule applies is dead
+weight at best and a lint failure at worst.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
 
+- [ ] **13 AI surfaces still do not name a refusal's cause** — listed with
+      reasons in `aiSurfaceClassifies.test.ts`'s KNOWN_UNCLASSIFIED. Fix one at
+      a time, reading each failure path first; the ratchet stops NEW ones.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
