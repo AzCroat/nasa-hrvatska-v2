@@ -35,6 +35,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
 import {
   inputSlotReason,
+  retentionReason,
   reviewReason,
   taughtReason,
   adaptiveReason,
@@ -157,6 +158,64 @@ describe('inputSlotReason — the same rule for comprehension', () => {
     measure('listening', 0.4);
     expect(inputSlotReason('reading', 'listening', LEVEL)).toContain(
       'one listening or reading activity',
+    );
+  });
+});
+
+describe('retentionReason states the BACKLOG, never the sitting', () => {
+  // `retentionSlot` passes retentionStatus's DUE counts, which are unbounded,
+  // while buildRetentionQueue serves at most MAX_RECHECKS_PER_QUEUE (2)
+  // re-checks and MAX_CARDS_PER_QUEUE (4) cards inside MAX_QUEUE (12).
+  // "Time to re-check 7 lessons, plus 30 questions you missed before" therefore
+  // described a sitting of two re-checks and four cards. Measured over a
+  // 30-lesson learner across 400 days, that line overstated the cards on 135 of
+  // 273 sittings (worst by 28) and the re-checks on 77 (worst by 5).
+  //
+  // The numbers were real — they ARE due. The implication was not. Every
+  // counted branch must therefore say "due", which is what retentionStatus
+  // measures, and must state the number it was given rather than inventing one.
+  const COUNTED: Array<{ rechecks: number; cards: number }> = [
+    { rechecks: 7, cards: 30 },
+    { rechecks: 1, cards: 1 },
+    { rechecks: 3, cards: 0 },
+    { rechecks: 1, cards: 0 },
+    { rechecks: 0, cards: 5 },
+    { rechecks: 0, cards: 1 },
+  ];
+
+  it('every counted branch says what is DUE', () => {
+    for (const a of COUNTED) {
+      const line = retentionReason({ ...a, cumulative: false });
+      expect(line, JSON.stringify(a)).toMatch(/\bdue\b/);
+    }
+  });
+
+  it('no counted branch phrases the backlog as this sitting', () => {
+    // The exact shape that was wrong. "Time to re-check N lessons" reads as a
+    // description of what the learner is about to be given.
+    for (const a of COUNTED) {
+      const line = retentionReason({ ...a, cumulative: false });
+      expect(line, JSON.stringify(a)).not.toMatch(/^Time to/);
+    }
+  });
+
+  it('states the counts it was given, not invented ones', () => {
+    const line = retentionReason({ rechecks: 7, cards: 30, cumulative: false });
+    expect(line).toContain('7');
+    expect(line).toContain('30');
+  });
+
+  it('the weekly mix claims no count at all', () => {
+    const line = retentionReason({ rechecks: 7, cards: 30, cumulative: true });
+    expect(line).not.toMatch(/\d/);
+  });
+
+  it('singular and plural are both grammatical', () => {
+    expect(retentionReason({ rechecks: 1, cards: 1, cumulative: false })).toBe(
+      'A lesson is due for a re-check, plus 1 question you missed before.',
+    );
+    expect(retentionReason({ rechecks: 2, cards: 3, cumulative: false })).toBe(
+      '2 lessons are due for a re-check, plus 3 questions you missed before.',
     );
   });
 });

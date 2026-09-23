@@ -85,6 +85,26 @@ export function reviewReason(dueCount: number): string | null {
  * Why the retention slot is here (2026-09-07). Every branch states a COUNT the
  * scheduler actually holds — the honesty rule: a reason the learner can catch
  * being wrong is worse than no reason.
+ *
+ * THE COUNTS ARE THE BACKLOG, NOT THE SITTING, and the wording has to say so
+ * (2026-09-23). `retentionSlot` passes `retentionStatus`'s DUE counts, which
+ * are unbounded, while `buildRetentionQueue` serves at most
+ * MAX_RECHECKS_PER_QUEUE (2) re-checks and MAX_CARDS_PER_QUEUE (4) cards inside
+ * MAX_QUEUE (12). "Time to re-check 7 lessons, plus 30 questions you missed
+ * before" therefore described a sitting of two re-checks and four cards.
+ * Measured over a 30-lesson learner, 400 days: the line overstated the cards on
+ * 135 of 273 sittings (worst by 28) and the re-checks on 77 (worst by 5).
+ *
+ * Unlike the "your practice says" defect above, the NUMBERS were real — they
+ * are genuinely due. What was wrong was the implication that this sitting
+ * contains them, which a learner catches by counting what they are given. The
+ * fix is the wording, not the arithmetic: every counted branch now says what is
+ * DUE, which is exactly what retentionStatus measures.
+ *
+ * Not "what the sitting will serve": the slot has only the status, not the
+ * lesson bodies `buildRetentionQueue` needs, and even a cap-aware bound would
+ * still overstate whenever re-checks crowd cards out. A true statement about
+ * the backlog beats an estimate of the sitting.
  */
 export function retentionReason(a: {
   rechecks: number;
@@ -93,7 +113,7 @@ export function retentionReason(a: {
 }): string {
   if (a.cumulative) return 'Your weekly mix — questions from every lesson you have passed.';
   if (a.rechecks > 0 && a.cards > 0) {
-    return `Time to re-check ${a.rechecks === 1 ? 'a lesson' : `${a.rechecks} lessons`}, plus ${a.cards} question${a.cards === 1 ? '' : 's'} you missed before.`;
+    return `${a.rechecks === 1 ? 'A lesson is' : `${a.rechecks} lessons are`} due for a re-check, plus ${a.cards} question${a.cards === 1 ? '' : 's'} you missed before.`;
   }
   if (a.rechecks > 0) {
     return a.rechecks === 1
