@@ -131,7 +131,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Predstavi se naglas: kako se zoveš, odakle si, gdje živiš i zašto učiš hrvatski.',
     promptEn:
       'Introduce yourself out loud: your name, where you are from, where you live and why you are learning Croatian.',
-    minWords: 15,
+    minWords: 8,
     model:
       'Bog! Zovem se Ivana. Dolazim iz Kanade, iz Toronta. ' +
       'Moja je obitelj iz Hrvatske, iz Splita. ' +
@@ -211,7 +211,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'name', label: 'Say your name with "zovem se"', words: ['zovem se'] },
       { id: 'origin', label: 'Say where you are from with "iz"', words: ['iz '] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 8 words', minWords: 8 },
     ],
   },
   {
@@ -221,7 +221,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Naruči nešto u kafiću: pozdravi, reci što želiš i pitaj koliko košta.',
     promptEn:
       'Order something in a café: greet the server, say what you want and ask how much it costs.',
-    minWords: 15,
+    minWords: 8,
     model:
       'Dobar dan! Molim vas jednu kavu s mlijekom. ' +
       'Imate li kolače? Onda i jedan komad torte, molim. ' +
@@ -306,7 +306,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'polite', label: 'Use "molim vas"', words: ['molim vas', 'molim'] },
       { id: 'price', label: 'Ask the price', words: ['koliko'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 8 words', minWords: 8 },
     ],
   },
   {
@@ -316,7 +316,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj tko je u tvojoj obitelji: koliko ih je, kako se zovu i što rade.',
     promptEn:
       'Say who is in your family: how many there are, what they are called and what they do.',
-    minWords: 15,
+    minWords: 10,
     model:
       'U mojoj obitelji ima nas četvero. ' +
       'Imam muža i dvoje djece, sina i kćer. ' +
@@ -397,7 +397,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'have', label: 'Use "imam" to say who you have', words: ['imam'] },
       { id: 'job', label: 'Say what someone does', words: ['radi', 'radim', 'kao'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -407,7 +407,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši svoj običan dan: kada ustaješ, što radiš danju i što radiš navečer.',
     promptEn:
       'Describe an ordinary day: when you get up, what you do during the day and in the evening.',
-    minWords: 15,
+    minWords: 10,
     model:
       'Ustajem u sedam sati. ' +
       'Doručkujem kruh i pijem kavu. ' +
@@ -487,7 +487,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'time', label: 'Say a time with "u"', words: ['u sedam', 'u osam', 'u devet', 'u '] },
       { id: 'evening', label: 'Say what you do in the evening', words: ['navečer'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -497,7 +497,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši mjesto u kojem živiš: je li veliko ili malo, što ima i što ti se sviđa.',
     promptEn:
       'Describe the place where you live: is it big or small, what is there and what you like about it.',
-    minWords: 15,
+    minWords: 12,
     model:
       'Živim u malom gradu blizu mora. ' +
       'Grad nije velik, ali je jako lijep. ' +
@@ -577,7 +577,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'place', label: 'Say where you live with "u"', words: ['živim u', 'u '] },
       { id: 'like', label: 'Say what you like', words: ['sviđa', 'volim'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -586,7 +586,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     title: 'Ask for directions',
     prompt: 'Zaustavi nekoga na ulici i pitaj za put do kolodvora. Budi pristojan.',
     promptEn: 'Stop someone in the street and ask the way to the station. Be polite.',
-    minWords: 15,
+    minWords: 12,
     model:
       'Oprostite, smijem li pitati? ' +
       'Tražim autobusni kolodvor. Znate li gdje je? ' +
@@ -666,7 +666,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'polite', label: 'Open politely with "oprostite"', words: ['oprostite'] },
       { id: 'ask', label: 'Ask a real question', words: ['li', 'gdje'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -859,7 +859,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     title: 'Tell someone about your weekend',
     prompt: 'Ispričaj što si radio ili radila prošli vikend. Reci gdje si bio i kako je bilo.',
     promptEn: 'Tell someone what you did last weekend. Say where you were and what it was like.',
-    minWords: 20,
+    minWords: 10,
     model:
       'Prošli sam vikend bio u Zagrebu kod prijatelja. ' +
       'Putovali smo vlakom u petak navečer. ' +
@@ -910,7 +910,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'past', label: 'Use the past tense', words: ['sam', 'smo', 'bio', 'bila', 'bilo'] },
       { id: 'verdict', label: 'Say what it was like', words: ['bilo je', 'super', 'zanimljivo'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -920,7 +920,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Objasni liječniku što te boli, koliko dugo traje i pitaj što da radiš.',
     promptEn:
       'Explain to the doctor what hurts, how long it has lasted, and ask what you should do.',
-    minWords: 20,
+    minWords: 10,
     model:
       'Dobar dan, doktore. Boli me grlo već tri dana. ' +
       'Imam temperaturu i kašljem, osobito navečer. ' +
@@ -971,7 +971,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'symptom', label: 'Say what hurts with "boli me"', words: ['boli'] },
       { id: 'duration', label: 'Say how long', words: ['već', 'dana', 'tjedan'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -981,7 +981,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši nekoga koga dobro poznaješ: kako izgleda, kakav je i zašto ti je važan.',
     promptEn:
       'Describe someone you know well: what they look like, what they are like and why they matter to you.',
-    minWords: 20,
+    minWords: 12,
     model:
       'Opisat ću vam svoju najbolju prijateljicu. ' +
       'Zove se Marija, visoka je i ima kratku smeđu kosu. ' +
@@ -1032,7 +1032,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'looks', label: 'Describe how they look', words: ['visok', 'visoka', 'kosu', 'oči'] },
       { id: 'why', label: 'Say why they matter', words: ['jer', 'zato'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -1043,7 +1043,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vrati nešto u trgovinu: objasni što nije u redu, reci kad si to kupio i pitaj što se može učiniti.',
     promptEn:
       'Return something to a shop: explain what is wrong, say when you bought it and ask what can be done.',
-    minWords: 20,
+    minWords: 12,
     model:
       'Dobar dan. Kupio sam ovu majicu prošli tjedan kod vas. ' +
       'Nažalost, prevelika mi je i boja nije kao na slici. ' +
@@ -1098,7 +1098,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['prevelika', 'premala', 'ne radi', 'nije'],
       },
       { id: 'request', label: 'Ask for a solution', words: ['mogu li', 'može li', 'zamijeniti'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -1108,7 +1108,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj čime se baviš: gdje radiš, što točno radiš i što ti se sviđa ili ne sviđa.',
     promptEn:
       'Talk about what you do: where you work, what exactly you do and what you like or dislike about it.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Radim kao medicinska sestra u velikoj bolnici. ' +
       'Počinjem u sedam ujutro i smjena traje dvanaest sati. ' +
@@ -1163,7 +1163,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what you like or dislike',
         words: ['volim', 'ne volim', 'sviđa'],
       },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -1174,7 +1174,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prijatelj te zove na rođendan, ali ne možeš doći. Zahvali, objasni zašto i predloži nešto drugo.',
     promptEn:
       'A friend invites you to a birthday party but you cannot come. Say thank you, explain why and suggest something else.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Hvala ti na pozivu, baš mi je drago što si me zvao. ' +
       'Nažalost, ne mogu doći u subotu jer radim cijeli vikend. ' +
@@ -1226,7 +1226,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       { id: 'thanks', label: 'Thank them', words: ['hvala'] },
       { id: 'reason', label: 'Give a reason with "jer"', words: ['jer', 'zato što'] },
       { id: 'alt', label: 'Suggest something else', words: ['možemo', 'drugi put', 'sljedeći'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -1236,7 +1236,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj o putovanju: kamo si išao, s kim, što ste radili i bi li išao ponovno.',
     promptEn:
       'Tell the story of a trip: where you went, with whom, what you did and whether you would go again.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Ljetos smo bili na moru, u Zadru. ' +
       'Išli smo autom, vozili smo se pet sati. ' +
@@ -1287,7 +1287,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'where', label: 'Say where you went', words: ['bili', 'išli', 'putovali'] },
       { id: 'again', label: 'Say whether you would go again', words: ['bih', 'bismo', 'ponovno'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -1297,7 +1297,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ostavi glasovnu poruku: reci tko si, zašto zoveš, što trebaš i kada te mogu dobiti.',
     promptEn:
       'Leave a voice message: say who you are, why you are calling, what you need and when they can reach you.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Bog, ovdje Ivana. ' +
       'Zovem te zbog subote, oko dogovora za put. ' +
@@ -1348,7 +1348,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'who', label: 'Say who is calling', words: ['ovdje', 'zovem'] },
       { id: 'why', label: 'Say why you are calling', words: ['zbog', 'oko', 'pitati'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
 
@@ -1361,7 +1361,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'U tvom gradu žele zabraniti automobile u centru. Reci što misliš, navedi dva razloga i priznaj jedan protuargument.',
     promptEn:
       'Your town wants to ban cars from the centre. Say what you think, give two reasons and acknowledge one counter-argument.',
-    minWords: 30,
+    minWords: 12,
     model:
       'Mislim da bi to bila dobra odluka, iako razumijem zašto se ljudi bune. ' +
       'S jedne strane, centar bi bio mnogo tiši i sigurniji za djecu. ' +
@@ -1423,7 +1423,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Acknowledge the other side',
         words: ['iako', 's druge strane', 'ipak'],
       },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -1434,7 +1434,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ispričaj nešto smiješno ili neugodno što ti se dogodilo. Postavi scenu, ispričaj što se dogodilo i završi poantom.',
     promptEn:
       'Tell something funny or embarrassing that happened to you. Set the scene, say what happened and finish with a point.',
-    minWords: 30,
+    minWords: 14,
     model:
       'Neću zaboraviti prvi put kad sam naručivao kavu u Splitu. ' +
       'Htio sam reći da želim kavu s mlijekom, ali sam pomiješao riječi i tražio kavu s maslinama. ' +
@@ -1485,7 +1485,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'scene', label: 'Set the scene', words: ['kad', 'jednom', 'prvi put'] },
       { id: 'point', label: 'Finish with a point', words: ['otad', 'na kraju', 'zato'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1496,7 +1496,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Na razgovoru za posao odgovori na pitanje „Recite nam nešto o sebi.“ Govori o iskustvu, snazi i zašto želiš taj posao.',
     promptEn:
       'In a job interview, answer "tell us something about yourself". Talk about your experience, a strength and why you want the job.',
-    minWords: 30,
+    minWords: 14,
     model:
       'Hvala vam na prilici. U struci radim već šest godina, uglavnom u malim timovima. ' +
       'Zadnje tri godine vodim projekte, pa sam navikao raditi pod rokovima. ' +
@@ -1553,7 +1553,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'exp', label: 'Say how long you have done it', words: ['već', 'godina', 'godine'] },
       { id: 'why', label: 'Say why this job', words: ['jer', 'zanima', 'zato'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1564,7 +1564,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazovi stanodavca: opiši kvar, reci koliko dugo traje, objasni zašto je hitno i zamoli za popravak.',
     promptEn:
       'Call your landlord: describe the fault, say how long it has lasted, explain why it is urgent and ask for a repair.',
-    minWords: 30,
+    minWords: 16,
     model:
       'Dobar dan, zovem vas zbog stana u Ulici kralja Zvonimira. ' +
       'Grijanje ne radi već tjedan dana, a temperatura je noću oko dvanaest stupnjeva. ' +
@@ -1615,7 +1615,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'fault', label: 'Describe the fault', words: ['ne radi', 'curi', 'pokvaren'] },
       { id: 'request', label: 'Make a polite request', words: ['bih', 'biste', 'molim'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1626,7 +1626,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni nekome tko ne poznaje tvoju kulturu jedan običaj: kada se održava, što se radi i što znači.',
     promptEn:
       'Explain a custom to someone who does not know your culture: when it happens, what is done and what it means.',
-    minWords: 30,
+    minWords: 16,
     model:
       'Kod nas se na Badnjak ne jede meso, nego riba i bakalar. ' +
       'Cijela se obitelj okupi kod bake, obično oko šest sati. ' +
@@ -1677,7 +1677,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'when', label: 'Say when it happens', words: ['na ', 'kada', 'svake godine'] },
       { id: 'mean', label: 'Say what it means to you', words: ['za mene', 'znači'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1688,7 +1688,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaboravio si na dogovor i netko te čekao. Ispričaj se, objasni bez izgovora i predloži kako ćeš to popraviti.',
     promptEn:
       'You forgot an arrangement and someone was waiting for you. Apologise, explain without making excuses and propose how you will put it right.',
-    minWords: 30,
+    minWords: 18,
     model:
       'Jako mi je žao zbog jučer, stvarno nemam opravdanje. ' +
       'Zapisao sam krivi datum u kalendar i shvatio sam tek navečer. ' +
@@ -1739,7 +1739,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'sorry', label: 'Apologise clearly', words: ['žao', 'ispričavam', 'oprosti'] },
       { id: 'fix', label: 'Propose a concrete fix', words: ['javit', 'dogovorit', 'sljedeći put'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -1750,7 +1750,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Biraš između dva stana. Usporedi ih po cijeni, lokaciji i veličini, pa reci koji biraš i zašto.',
     promptEn:
       'You are choosing between two flats. Compare them on price, location and size, then say which you choose and why.',
-    minWords: 30,
+    minWords: 20,
     model:
       'Prvi je stan jeftiniji za dvjesto eura, ali je puno dalje od centra. ' +
       'Drugi je manji, međutim ima balkon i nalazi se blizu tramvaja. ' +
@@ -1808,7 +1808,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'compare', label: 'Use a comparative', words: ['jeftiniji', 'veći', 'manji', 'bolji'] },
       { id: 'choose', label: 'Say which you choose', words: ['bih', 'biram', 'uzeo'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -1819,7 +1819,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prepričaj vijest ili članak koji si nedavno pročitao: o čemu je bilo, što su rekli i što ti misliš.',
     promptEn:
       'Retell a piece of news or an article you read recently: what it was about, what was said and what you think.',
-    minWords: 30,
+    minWords: 20,
     model:
       'Jučer sam pročitao članak o cijenama stanova u Zagrebu. ' +
       'Pisalo je da su cijene u godinu dana porasle za petnaest posto. ' +
@@ -1880,7 +1880,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['članak', 'vijest', 'pisalo', 'pročitao'],
       },
       { id: 'react', label: 'Give your own reaction', words: ['mene', 'mislim', 'iznenadilo'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
 
@@ -1893,7 +1893,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Na sastanku predloži da tim uvede jedan dan rada od kuće. Obrazloži prijedlog, predvidi prigovor i odgovori na njega.',
     promptEn:
       'In a meeting, propose that the team introduce one day of working from home. Justify the proposal, anticipate an objection and answer it.',
-    minWords: 40,
+    minWords: 14,
     model:
       'Predlažem da uvedemo jedan dan rada od kuće, recimo srijedu. ' +
       'Razlog je jednostavan: zadaci koji traže koncentraciju stalno se prekidaju u uredu. ' +
@@ -1956,7 +1956,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['predlažem', 'predložio', 'predložila'],
       },
       { id: 'objection', label: 'Answer an objection', words: ['znam da', 'netko će', 'prigovor'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1967,7 +1967,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Rok je prekratak. Objasni zašto, ponudi rješenje i dogovori nešto s čim obje strane mogu živjeti.',
     promptEn:
       'The deadline is too short. Explain why, offer a solution and settle on something both sides can live with.',
-    minWords: 40,
+    minWords: 14,
     model:
       'Razumijem da vam je rok važan i ne želim ga jednostavno odbiti. ' +
       'Problem je što posao u tri tjedna ne možemo napraviti kvalitetno, a loša verzija nikome ne koristi. ' +
@@ -2026,7 +2026,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'their', label: 'Name their interest first', words: ['razumijem', 'vam je', 'vama'] },
       { id: 'options', label: 'Offer at least two options', words: ['ili', 'mogućnost', 'opcija'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -2037,7 +2037,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kolega stalno kasni s dijelom posla. Reci mu to izravno, ali s poštovanjem, i dogovorite što dalje.',
     promptEn:
       'A colleague is repeatedly late with their part of the work. Tell them directly but respectfully, and agree what happens next.',
-    minWords: 40,
+    minWords: 16,
     model:
       'Htio bih razgovarati o rokovima, i to otvoreno, jer mi je stalo do našeg odnosa. ' +
       'Primijetio sam da su zadnja tri puta tvoji dijelovi stigli nekoliko dana nakon dogovora. ' +
@@ -2100,7 +2100,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['primijetio', 'primijetila', 'zadnja'],
       },
       { id: 'turn', label: 'Ask for their view', words: ['kako ti', 'zanima me', 'što misliš'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -2111,7 +2111,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Opiši promjenu koju si primijetio: što se mijenja, koliko, otkad i što misliš da je uzrok.',
     promptEn:
       'Describe a change you have noticed: what is changing, by how much, since when and what you think is causing it.',
-    minWords: 40,
+    minWords: 16,
     model:
       'Broj ljudi koji rade na daljinu naglo je porastao nakon dvadesete godine. ' +
       'U našoj je struci taj udio s desetak posto skočio na gotovo polovicu. ' +
@@ -2171,7 +2171,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'number', label: 'Give a figure', words: ['posto', 'puta', 'broj', 'udio'] },
       { id: 'cause', label: 'Suggest a cause', words: ['uzrok', 'zbog', 'jer', 'razlog'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -2182,7 +2182,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko tvrdi da učenje jezika u aplikaciji nema smisla. Ne slaži se, ali priznaj što je točno u toj tvrdnji.',
     promptEn:
       'Someone claims that learning a language in an app is pointless. Disagree, but admit what is right in the claim.',
-    minWords: 40,
+    minWords: 18,
     model:
       'Djelomično se slažem, i to me možda iznenađuje koliko i tebe. ' +
       'Točno je da nitko nije progovorio samo zato što je svaki dan dodirivao ekran. ' +
@@ -2241,7 +2241,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'concede', label: 'Admit what is right', words: ['točno je', 'slažem', 'razumijem'] },
       { id: 'nego', label: 'Use "nego" after a negative', words: ['nego'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -2252,7 +2252,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni nekome kako se predaje zahtjev za neki dokument: koje su faze, što treba i gdje ljudi najčešće pogriješe.',
     promptEn:
       'Explain how an application for a document is submitted: the stages, what is needed and where people most often go wrong.',
-    minWords: 40,
+    minWords: 18,
     model:
       'Postupak nije težak, ali se mora ići po redu. ' +
       'Najprije se ispunjava obrazac koji se preuzima na internetskoj stranici. ' +
@@ -2319,7 +2319,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Warn about a common mistake',
         words: ['greška', 'zaborave', 'najčešće'],
       },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -2330,7 +2330,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazdravi na proslavi: obrati se društvu, reci nešto konkretno o osobi i završi zdravicom.',
     promptEn:
       'Give a toast at a celebration: address the company, say something specific about the person and finish with the toast itself.',
-    minWords: 40,
+    minWords: 20,
     model:
       'Dragi svi, samo nakratko, da nam se hrana ne ohladi. ' +
       'Marka poznajem petnaest godina i za to vrijeme nikad nisam čuo da je nekome rekao „nemam vremena“. ' +
@@ -2387,7 +2387,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['kad', 'jednom', 'sjećam'],
       },
       { id: 'toast', label: 'Finish with the toast', words: ['živjeli', 'nazdravlje', 'želim'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2398,7 +2398,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazovi tvrtku i formalno se požali: navedi broj narudžbe, opiši što nije u redu, pozovi se na dogovoreno i reci što očekuješ.',
     promptEn:
       'Call a company and complain formally: give the order number, describe what is wrong, refer to what was agreed and say what you expect.',
-    minWords: 40,
+    minWords: 20,
     model:
       'Dobar dan, obraćam vam se u vezi s narudžbom broj tri četiri sedam dva. ' +
       'Naručio sam perilicu s ugradnjom, a dostavljena je bez nje, i to deset dana nakon dogovorenog roka. ' +
@@ -2457,7 +2457,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'ref', label: 'Give the reference', words: ['narudžb', 'broj', 'potvrd'] },
       { id: 'expect', label: 'Say what you expect', words: ['očekujem', 'molim', 'zahtijevam'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
 
@@ -2470,7 +2470,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Iznesi tezu o tome treba li fakultet biti besplatan. Postavi tezu, potkrijepi je, iznesi protuargument u najjačem obliku i zauzmi stav.',
     promptEn:
       'Argue a thesis on whether university should be free. State the thesis, support it, state the counter-argument at its strongest and take a position.',
-    minWords: 50,
+    minWords: 20,
     model:
       'Tvrdim da besplatan fakultet nije pitanje velikodušnosti, nego računa. ' +
       'Budući da se stanovništvo smanjuje, svaki obrazovani čovjek koji ostane vrijedi više nego prije deset godina. ' +
@@ -2533,7 +2533,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'State the counter-argument at its strongest',
         words: ['protuargument', 'priznajem', 'najjači'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2544,7 +2544,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vodio si sastanak na kojem se nisu svi složili. Sažmi što je rečeno, razdvoji dogovoreno od otvorenog i zaključi s konkretnim koracima.',
     promptEn:
       'You chaired a meeting where people did not all agree. Summarise what was said, separate what was agreed from what is open and close with concrete steps.',
-    minWords: 50,
+    minWords: 20,
     model:
       'Sažeo bih ovako. Oko dviju stvari postoji suglasnost: da postojeći raspored ne funkcionira i da odluku ne možemo odgađati do jeseni. ' +
       'Ostaje otvoreno tko preuzima nadzor i iz kojeg se proračuna to plaća. ' +
@@ -2607,7 +2607,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['suglasnost', 'ostaje otvoreno', 'dogovorili'],
       },
       { id: 'steps', label: 'Close with concrete steps', words: ['predlažem', 'do petka', 'tko'] },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2618,7 +2618,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Odluka je donesena prije pet godina i pokazala se lošom. Objasni što bi bilo da se odlučilo drukčije — i budi pošten o tome što se ne može znati.',
     promptEn:
       'A decision was taken five years ago and turned out badly. Explain what would have happened had it been decided differently — and be honest about what cannot be known.',
-    minWords: 50,
+    minWords: 22,
     model:
       'Da smo tada zadržali vlastiti tim, danas vjerojatno ne bismo raspravljali o ovome. ' +
       'Znanje bi ostalo u kući, a svaka bi izmjena trajala dane umjesto tjedana. ' +
@@ -2685,7 +2685,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what cannot be known',
         words: ['ne može se znati', 'ne znamo', 'pretvarati'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 22 words', minWords: 22 },
     ],
   },
   {
@@ -2696,7 +2696,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Usporedi kako se u dvjema sredinama koje poznaješ izražava neslaganje. Izbjegni stereotip i navedi konkretan primjer.',
     promptEn:
       'Compare how disagreement is expressed in two settings you know. Avoid stereotypes and give a concrete example.',
-    minWords: 50,
+    minWords: 24,
     model:
       'Rekao bih da razlika nije u tome koliko su ljudi izravni, nego u tome gdje se neslaganje smije pokazati. ' +
       'Kad sam radio u Kanadi, naučio sam da se na sastanku klimne glavom, a prigovor stigne poslije, u poruci. ' +
@@ -2759,7 +2759,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Refuse the easy ranking',
         words: ['obrnuto', 'čuvao', 'ne bih rekao'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 24 words', minWords: 24 },
     ],
   },
   {
@@ -2770,7 +2770,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Uvjeri publiku koja ti ne vjeruje da vrijedi uložiti u nešto što se ne isplati odmah. Priznaj njihovu sumnju i ponudi provjerljiv korak.',
     promptEn:
       'Persuade a sceptical audience that something without an immediate payoff is worth investing in. Acknowledge their doubt and offer a verifiable step.',
-    minWords: 50,
+    minWords: 26,
     model:
       'Ne tražim od vas da mi vjerujete na riječ, i razumijem zašto ste oprezni. ' +
       'Svaki ste put dosad čuli da će se ulaganje vratiti za godinu dana i svaki se put vratilo za tri. ' +
@@ -2837,7 +2837,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Offer a verifiable test',
         words: ['ako', 'mjerilo', 'šest mjeseci', 'gasimo'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -2848,7 +2848,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko iznosi zaključak na temelju jednog istraživanja. Ne odbaci ga, nego ispitaj što podaci zapravo pokazuju i što iz njih ne slijedi.',
     promptEn:
       'Someone draws a conclusion from a single study. Do not dismiss it — examine what the data actually show and what does not follow from them.',
-    minWords: 50,
+    minWords: 28,
     model:
       'Ne osporavam podatke, zanima me samo što iz njih smijemo zaključiti. ' +
       'Istraživanje na koje se pozivate obuhvatilo je jedan grad i jednu dobnu skupinu. ' +
@@ -2915,7 +2915,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what does not follow',
         words: ['ne slijedi', 'ne možemo znati', 'objašnjenje'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 28 words', minWords: 28 },
     ],
   },
   {
@@ -2926,7 +2926,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Održi početak i kraj stručnog izlaganja: najavi strukturu, reci zašto je tema važna sada i zaključi s jednom porukom.',
     promptEn:
       'Deliver the opening and closing of a professional talk: announce the structure, say why the topic matters now, and close with one message.',
-    minWords: 50,
+    minWords: 30,
     model:
       'Zahvaljujem na pozivu. U sljedećih dvadeset minuta izložit ću tri stvari: što se promijenilo, zašto nas se to tiče i što predlažemo. ' +
       'Prije nego što krenem, jedna napomena: brojke koje ćete vidjeti odnose se na prošlu godinu, novije još nemamo. ' +
@@ -2993,7 +2993,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Close with one message',
         words: ['zaključno', 'pravo je pitanje', 'jedno'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -3004,7 +3004,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni što za tebe znači „dom“ ako si odrastao između dviju zemalja. Definiraj pojam, ograniči ga i daj primjer.',
     promptEn:
       'Explain what "home" means to you if you grew up between two countries. Define the idea, limit it and give an example.',
-    minWords: 50,
+    minWords: 30,
     model:
       'Dom za mene odavno nije mjesto na karti, nego skup navika koje nosim sa sobom. ' +
       'Kažem to oprezno, jer takva definicija zvuči zgodno dok ne dođe trenutak da ti netko zatreba u tri ujutro. ' +
@@ -3063,7 +3063,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'define', label: 'Define the idea', words: ['znači', 'nije', 'nego'] },
       { id: 'limit', label: 'Limit your own definition', words: ['oprezno', 'ipak', 'možda'] },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
 
@@ -3076,7 +3076,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zauzmi stav o pitanju o kojem se ne slažeš ni s jednom stranom u potpunosti. Reci točno koliko se slažeš, s čime, i gdje prestaje tvoje slaganje.',
     promptEn:
       'Take a position on a question where you fully agree with neither side. Say exactly how far you agree, with what, and where your agreement stops.',
-    minWords: 60,
+    minWords: 22,
     model:
       'Slažem se utoliko ukoliko govorimo o javnom prostoru; čim se rasprava premjesti na privatno vlasništvo, prestajem se slagati. ' +
       'Doduše, valja priznati da granica između to dvoje danas nije ni izbliza tako jasna kao prije trideset godina. ' +
@@ -3135,7 +3135,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'degree', label: 'Say how far you agree', words: ['utoliko', 'donekle', 'djelomično'] },
       { id: 'limit', label: 'Say where the agreement stops', words: ['čim', 'prestajem', 'nego'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 22 words', minWords: 22 },
     ],
   },
   {
@@ -3146,7 +3146,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Komentiraj situaciju koja je otišla po zlu, ali bez izravne kritike: koristi ironiju ili blagu izjavu i pazi da ne ispadneš zloban.',
     promptEn:
       'Comment on a situation that went badly, but without direct criticism: use irony or understatement, and take care not to sound spiteful.',
-    minWords: 60,
+    minWords: 24,
     model:
       'Rekao bih da je projekt završio umjereno uspješno, ako pod uspjehom podrazumijevamo to da je uopće završio. ' +
       'Rokovi su, doduše, ispoštovani — samo ne oni iz ugovora, nego oni koje smo poslije izmislili. ' +
@@ -3213,7 +3213,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Keep it from turning spiteful',
         words: ['nikoga ne krivim', 'svatko', 'pritom'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 24 words', minWords: 24 },
     ],
   },
   {
@@ -3224,7 +3224,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Tri izvora govore o istoj temi i ne slažu se. Sažmi ih, pokaži gdje se točno razilaze i reci što se iz svega zajedno može zaključiti.',
     promptEn:
       'Three sources address the same topic and disagree. Summarise them, show exactly where they diverge and say what can be concluded from all of them together.',
-    minWords: 60,
+    minWords: 26,
     model:
       'Sva tri izvora slažu se oko činjenice: broj učenika pada već desetljeće. ' +
       'Razilaze se, međutim, u tome što ta činjenica znači. ' +
@@ -3287,7 +3287,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say exactly where they diverge',
         words: ['razilaze', 'međutim', 'dok'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -3298,7 +3298,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Dvoje kolega se posvađalo i oboje imaju pravo u nečemu. Prevedi jedno drugome što zapravo govore i predloži izlaz koji nitko ne gubi obraz.',
     promptEn:
       'Two colleagues have fallen out and each is right about something. Translate what each is actually saying to the other and propose a way out where nobody loses face.',
-    minWords: 60,
+    minWords: 26,
     model:
       'Oboje ste u pravu, ali ne o istoj stvari, i mislim da je to cijeli problem. ' +
       'Ana kaže da je proces predugačak; ne kaže da netko loše radi. ' +
@@ -3357,7 +3357,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       { id: 'both', label: 'Give both sides something', words: ['oboje', 'u pravu', 'obje'] },
       { id: 'face', label: 'Protect both from losing face', words: ['povući', 'krivnje', 'nitko'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -3368,7 +3368,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Usred rasprave netko iznese argument koji nisi predvidio i koji zvuči jako. Ne izbjegavaj ga: preformuliraj ga pošteno, pa odgovori.',
     promptEn:
       'Mid-discussion someone makes an argument you did not anticipate and which sounds strong. Do not dodge it: restate it fairly, then answer.',
-    minWords: 60,
+    minWords: 28,
     model:
       'Dopustite da prvo ponovim vaš argument, da ne odgovaram na nešto što niste rekli. ' +
       'Tvrdite da svako odgađanje ide u korist onima koji imaju vremena čekati, a to su, po vama, upravo oni kojima mjera nije ni namijenjena. ' +
@@ -3435,7 +3435,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say when it would hold',
         words: ['vrijedio bi', 'kad bi', 'priznajem'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 28 words', minWords: 28 },
     ],
   },
   {
@@ -3446,7 +3446,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prenesi istu poruku dvaput: jednom službeno, nekome na visokom položaju, i jednom prijatelju. Neka sadržaj bude isti, a sve ostalo drukčije.',
     promptEn:
       'Deliver the same message twice: once formally, to someone senior, and once to a friend. Keep the content identical and change everything else.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Službeno bi to zvučalo ovako. Poštovani, dopustite jednu primjedbu na predloženi raspored. ' +
       'Kako je predviđeno, dvije bi smjene bile pokrivene istim brojem ljudi, što u praksi znači da subotom nitko ne bi mogao uzeti slobodan dan. ' +
@@ -3505,7 +3505,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['poštovani', 'dopustite', 'molio bih'],
       },
       { id: 'informal', label: 'Give the informal version', words: ['čuj', 'slušaj', 'reci im'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -3516,7 +3516,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kolega odlazi nakon mnogo godina. Govori kratko, konkretno i bez patetike: reci što odlazi s njim i što ostaje.',
     promptEn:
       'A colleague is leaving after many years. Speak briefly, concretely and without sentimentality: say what goes with them and what stays.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Neću govoriti o godinama službe jer bi to zvučalo kao da je riječ o brojci. ' +
       'Radili smo zajedno jedanaest godina i u tom se vremenu, koliko se sjećam, nijednom nije dogodilo da netko ostane bez odgovora dulje od dana. ' +
@@ -3579,7 +3579,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['jednom', 'nikad', 'uvijek je', 'sjećam'],
       },
       { id: 'stays', label: 'Say what stays behind', words: ['ostaje', 'ostavio', 'navika'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -3590,7 +3590,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko koristi dvije riječi kao da znače isto. Objasni razliku, pokaži gdje se ona vidi u praksi i priznaj kad je razlika nevažna.',
     promptEn:
       'Someone uses two words as if they meant the same. Explain the difference, show where it shows in practice, and admit when the difference does not matter.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Koristite „odgovornost“ i „krivnja“ kao istoznačnice, a mislim da nisu, i da nam upravo to zamagljuje raspravu. ' +
       'Krivnja gleda unatrag i traži tko je pogriješio; odgovornost gleda naprijed i pita tko će popraviti. ' +
@@ -3657,7 +3657,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say when it does not matter',
         words: ['nije važno', 'ne bih inzistirao', 'doduše'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
 ];

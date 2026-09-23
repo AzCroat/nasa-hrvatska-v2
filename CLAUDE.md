@@ -2188,6 +2188,23 @@ case ending.
 - Mutation-verified, four, each confirmed landed: the stage removed fails 5; one
   case named instead of every reading fails 1; a focus whose form is absent from
   its own answer fails 2; the self-correction fast path removed fails 1.
+**THE SPOKEN FLOOR NOW BUILDS UP TOO, and it was flat before (2026-09-23).**
+`minWords` was one value per level — 15 at A1 across all eight units — so a
+learner's FIRST ever spoken task was the same size as their last. It is now a
+ladder within each level (A1 8→15, A2 10→15, B1 12→20, B2 14→20, C1 20→30,
+C2 22→30). **No level's ceiling was raised**; only the early units got smaller,
+so this can only make the path gentler. Laddering by index is meaningful because
+`pickSpeakingUnit` rotates SEQUENTIALLY — a stored pointer from 0 — so unit 0
+really is the learner's first at that level; a random rotation would have made
+the ladder decorative, and that was checked before editing.
+
+**THE FLOOR IS WRITTEN THREE TIMES PER UNIT** — `minWords`, the `len` checklist
+item's own `minWords`, and the NUMBER inside that item's LABEL TEXT ("Speak at
+least 15 words"). The label is the copy with no reason to change, so it is the
+one that would quietly start promising a floor nobody enforces. All three are
+pinned to agree (`sentenceBuild.test.ts`); mutation-verified, the label drifting
+fails 1 and restoring flat floors fails 2.
+
 - NEVER: send a build sentence to an AI endpoint; name a single case for an
   ambiguous ending; gate the stage on the microphone; author a focus without
   checking `decline()` produces the cell (a wrong required form teaches a wrong

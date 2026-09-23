@@ -161,6 +161,40 @@ describe('the authored build sentences', () => {
     }
   });
 
+  it('the word floor is written THREE times per unit and all three agree', () => {
+    // `minWords`, the `len` checklist item's own `minWords`, and the NUMBER
+    // inside that item's label text ("Speak at least 15 words"). One fact, three
+    // homes — and the label is the copy with no reason to change, so it is the
+    // one that would quietly start lying to the learner about a floor nobody
+    // enforces. Found while laddering the floors (2026-09-23).
+    for (const u of SPEAKING_CURRICULUM) {
+      const len = u.checklist.find((c) => c.id === 'len');
+      expect(len, `${u.id} has no len checklist item`).toBeTruthy();
+      expect(len!.minWords, `${u.id}: checklist minWords`).toBe(u.minWords);
+      const inLabel = /at least (\d+) words/.exec(len!.label);
+      expect(inLabel, `${u.id}: label states no number`).toBeTruthy();
+      expect(Number(inLabel![1]), `${u.id}: label number`).toBe(u.minWords);
+    }
+  });
+
+  it('the floor BUILDS UP within each level instead of starting at a paragraph', () => {
+    // The owner's directive, made mechanical: units rotate SEQUENTIALLY
+    // (pickSpeakingUnit walks a stored pointer from 0), so unit 0 really is the
+    // learner's first at that level and a flat floor meant their first ever
+    // spoken task was the same size as their last.
+    for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+      const us = SPEAKING_CURRICULUM.filter((u) => u.level === lvl);
+      expect(us.length).toBeGreaterThan(1);
+      const floors = us.map((u) => u.minWords);
+      for (let i = 1; i < floors.length; i++) {
+        expect(floors[i]!, `${lvl} unit ${i}`).toBeGreaterThanOrEqual(floors[i - 1]!);
+      }
+      expect(floors[0]!, `${lvl} starts smaller than it ends`).toBeLessThan(
+        floors[floors.length - 1]!,
+      );
+    }
+  });
+
   it('each one asks for a SENTENCE, not a paragraph', () => {
     // The whole point of the rung: if these grew into paragraphs they would be a
     // second SPEAK stage rather than the step below it.
