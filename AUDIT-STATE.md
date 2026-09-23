@@ -4002,6 +4002,66 @@ is what stopped it. Report the census, not the grep.
 ---
 ---
 
+### Sweep 60 — one screen, two pools, two categories (2026-09-23, CLOSED)
+
+Sweep 58's finding, fixed. `dictation` is the ONLY id in more than one session
+pool, and its two copies disagreed for five weeks: `PRODUCTION_POOL`
+`category: 'writing'` (retagged 2026-08-18, with the comment saying so) against
+`CEFR_EXERCISE_POOL` `category: 'speaking'`. PR #492 wrote the CLAUDE.md rule
+asserting 'writing' of all three subjects and never touched `sessionPools.ts`.
+
+**Live effect**, checked consumer by consumer rather than assumed:
+`makeSessionSkillBoost` → `skillForCategory('speaking')`, so a learner the ledger
+had measured weak at SPEAKING was boosted a hear-it-and-type-it screen with no
+microphone.
+
+**I CHOSE THE WRONG VALUE FIRST, AND THE REPO'S OWN GUARDS OVERTURNED IT.** My
+recorded recommendation (F10/F10b in the scratchpad, measured over 40 sessions per
+level with the real `selectGuaranteedInput`) was `listening` + `adaptive`, on the
+reasoning that the screen SCORES hearing — which is true, and is why its ledger
+write is `listening`. Two things killed it:
+
+1. `inputKindOf` admits `listening`, so the tag ENROLS dictation in the P2.8
+   guaranteed-input slot **while it remains a PRODUCTION_POOL member**. One session
+   then counts it as a comprehension slot AND an output slot. Running the five
+   session-composition suites with that version: **4 tests fail, 3 of them the
+   documented "A1/A2 get exactly one output slot; B1+ get two" contract.** The
+   fourth is the `generated` derivation, which flags dictation because
+   `DictationScreen` calls `/api/explain-error` — a wrong-answer helper, not content
+   generation, so it would have needed the `grammarreader`-style exemption too.
+2. Without `adaptive` the tag is incoherent on its own terms: the two incumbent
+   listening entries ARE adaptive, so their sort distance is 0 at every level while
+   dictation's grows — putting it in the rotation at B1 and, purely through the
+   distance sort, **nowhere above it**. Measured: B1 7/40, B2–C2 0/40.
+
+**The fix is `'writing'` in both pools**, which is what CLAUDE.md has claimed all
+along. It changes NO composition, and that is a property rather than a measurement:
+`SKILL_GROUP` maps both `'speaking'` and `'writing'` to the one `'speaking'` family,
+so the P3 variety pass cannot tell the two tags apart. All 158 tests across the five
+composition suites pass unchanged.
+
+**THE GENERAL RULE THIS SETTLES:** the pool category is a SCHEDULING fact (which
+slot may serve this screen, what it varies against); the ledger skill is a
+MEASUREMENT (what the score evidences). Dictation is scheduled as typed,
+keyboard-safe, B1 written production and measured as listening. **They are allowed
+to differ**, and #720 settled the identical distinction for `dialogue` one PR
+earlier. My error both times was reading one off the other.
+
+`poolCategoryAgreement.test.ts` asserts AGREEMENT rather than a particular value —
+the value is a judgement for the pool comment; what no judgement justifies is one
+screen carrying two categories, because then the answer depends on which slot
+served it. It also pins the three non-obvious consequences (not in the input set,
+same variety family, boost follows writing) and has a non-empty-set guard so it
+cannot silently cover nothing. Mutation-verified: the original bug fails 3, the
+`listening` version fails 4.
+
+`skillGroups.ts`'s comment was corrected with it — it said `'writing'` has no
+CEFR_EXERCISE_POOL entries and that its row existed "for type completeness". The
+contingency it went on to describe ("if a writing entry ever joins the fill pool it
+will vary against speaking") is now live, and is exactly why the retag moved nothing.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -4030,13 +4090,6 @@ None of them crash, so no sweep above can see any of them.
       addition. Before touching them: run the census properly rather than
       trusting the ~30, and check each awards on a completion the ledger can
       take a score/total from.
-- [ ] **`CEFR_EXERCISE_POOL` and `PRODUCTION_POOL` disagree about `dictation`'s
-      category** ('speaking' vs 'writing'), which CLAUDE.md asserts is 'writing'
-      for both — sweep 58, still open, deliberately not fixed in sweep 59.
-      Retagging the fill-pool copy to `listening` (what the screen actually
-      scores) would ALSO add it to the P2.8 input set, which is a session-
-      composition change needing its own measurement. Its own PR, with the
-      measurement; the false CLAUDE.md sentence is corrected in place meanwhile.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10. The DEAD-READ half is partly
       checked: sweep 29 ran the mirror of sweep 26's dead-write derivation over

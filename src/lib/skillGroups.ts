@@ -378,11 +378,15 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   speaking: 'speaking',
   listening: 'listening',
   reading: 'reading',
-  // 'writing' has no CEFR_EXERCISE_POOL entries — written production is served
-  // by PRODUCTION_POOL, which the variety pass does not touch. This row exists
-  // for type completeness; it is grouped with speaking because both are output,
-  // so if a writing entry ever joins the fill pool it will vary against speaking
-  // rather than counting as a family of its own.
+  // 'writing' HAS exactly one CEFR_EXERCISE_POOL entry — `dictation`, retagged
+  // here from 'speaking' on 2026-09-23 so the fill pool and PRODUCTION_POOL stop
+  // disagreeing about the same screen. This comment used to say the family had no
+  // fill-pool entries and that the row existed "for type completeness"; the
+  // contingency it described ("if a writing entry ever joins the fill pool it will
+  // vary against speaking rather than counting as a family of its own") is now
+  // live, and it is exactly why that retag moved NOTHING: both 'speaking' and
+  // 'writing' land in this one family, so the P3 variety pass is byte-identical
+  // across the change.
   writing: 'speaking',
   // Rotating animated-lesson slot: catalog is predominantly verbal morphology.
   'grammar-lesson': 'verb',

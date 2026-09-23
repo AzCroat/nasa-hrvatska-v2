@@ -2168,29 +2168,49 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
 'writing'`. Never retag them back to 'speaking' and never remove the route —
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
-  **THAT SENTENCE WAS FALSE FOR ONE OF ITS THREE SUBJECTS ON THE DAY IT WAS
-  WRITTEN, AND STILL IS (measured 2026-09-23).** `dictation` is in TWO pools:
-  `PRODUCTION_POOL` carries `category: 'writing'` with an explicit "Retagged
-  'speaking' → 'writing' (2026-08-18)" comment, and `CEFR_EXERCISE_POOL`
-  (`sessionPools.ts`) still carries `category: 'speaking'`. PR #492 wrote this
-  rule and never touched `sessionPools.ts` (`git show cb3f01ec -- src/lib/sessionPools.ts`
-  names no dictation), so the retag reached one copy. Probed across all three
-  pools: exactly ONE id appears in more than one, and it disagrees with itself.
-  The live effect is narrow and was checked consumer by consumer rather than
-  assumed: `SKILL_GROUP` maps BOTH 'speaking' and 'writing' to the `'speaking'`
-  family, so the P3 variety pass is unaffected; `inputKindOf` admits neither, so
-  P2.8 is unaffected; the one real consumer is `makeSessionSkillBoost` →
-  `skillForCategory`, so **Dictation is boosted for a learner weak at SPEAKING**
-  — a hear-it-and-type-it screen with no microphone.
-  **Which value is right is NOT obvious and is deliberately still open.** The
-  screen's SCORE is a hearing score — it forgives punctuation on purpose
-  ("Punctuation is inaudible in dictation") and its done copy says "Excellent
-  ear!" — which is why its ledger write is `listening`. But `category` in
-  PRODUCTION_POOL also answers a different question (which production SLOT it can
-  fill, keyboard-safe, `kind: 'write'`), where 'writing' is defensible. Retagging
-  the fill-pool copy to `listening` would add it to the P2.8 input set, a
-  session-composition change needing its own measurement. Fix it in its own PR
-  with that measurement; do not "tidy" one copy to match the other.
+  **THAT SENTENCE WAS FALSE FOR ONE OF ITS THREE SUBJECTS FOR FIVE WEEKS, AND IS
+  NOW TRUE (fixed 2026-09-23).** `dictation` is in TWO pools. `PRODUCTION_POOL`
+  carried `category: 'writing'` with an explicit "Retagged 'speaking' → 'writing'
+  (2026-08-18)" comment; `CEFR_EXERCISE_POOL` (`sessionPools.ts`) still carried
+  `'speaking'`. PR #492 wrote this very rule and never touched sessionPools.js
+  (`git show cb3f01ec -- src/lib/sessionPools.ts` names no dictation), so the retag
+  reached one copy of a fact kept in two places — and nothing could notice, because
+  each pool is read by different code. Probed across all three pools: **exactly one
+  id appears in more than one, and it disagreed with itself.**
+  The live effect was narrow and real: `makeSessionSkillBoost` resolves
+  `category → skillForCategory → profile[skill]`, so a learner measured weak at
+  SPEAKING had a hear-it-and-type-it screen with **no microphone** boosted for them.
+  **THE FIX IS 'writing' IN BOTH, AND THE VALUE I FIRST CHOSE WAS WRONG.** The
+  screen SCORES hearing — it forgives punctuation on purpose and its ledger write
+  is `listening` (shipped in #720) — so `listening` looks like the honest tag, and
+  it was measured over 40 sessions per level before anything was written. Two
+  results killed it. `inputKindOf` admits `listening`, so that tag ENROLS dictation
+  in the P2.8 guaranteed-input slot **while it stays a PRODUCTION_POOL member**: one
+  session then counts it as a comprehension slot AND an output slot, and the
+  project's own guards caught it — 4 tests fail, 3 of them the documented "A1/A2 get
+  exactly one output slot; B1+ get two" contract. And without `adaptive` the tag is
+  incoherent anyway: the two incumbent listening entries are `adaptive`, so their
+  sort distance is 0 at every level while dictation's grows, putting it in the
+  rotation at B1 and, by an accident of the distance sort, **nowhere above it**.
+  `'writing'` changes no composition at all, and that is a property rather than a
+  measurement: `SKILL_GROUP` maps BOTH 'speaking' and 'writing' to the `'speaking'`
+  family, so the P3 variety pass cannot tell the two tags apart. All 158 tests
+  across the five session-composition suites pass unchanged.
+  **THE POOL CATEGORY AND THE LEDGER SKILL ARE DIFFERENT QUESTIONS, and they are
+  allowed to differ.** The pool category is a SCHEDULING fact — which slot may serve
+  this screen, and what it varies against. The ledger is a MEASUREMENT — what the
+  score evidences. Dictation is scheduled as typed, keyboard-safe, B1 written
+  production and measured as listening. #720 settled the identical distinction for
+  `dialogue` (`micRequired: false` is scheduling; recognition is not spoken
+  evidence). Do not "tidy" one to match the other.
+  Pinned by `poolCategoryAgreement.test.ts`, which asserts AGREEMENT rather than a
+  particular value — which value is right is a judgement for the pool comment, but
+  no judgement justifies one screen carrying two categories, because then the answer
+  depends on which slot served it. Mutation-verified: the original bug fails 3, the
+  `listening` version fails 4.
+  NEVER: let one id carry two categories across pools; tag a PRODUCTION_POOL member
+  with an input modality (it would occupy a comprehension slot and an output slot in
+  one session); infer the pool category from the ledger skill, or the reverse.
 
 ## Critical Architecture: Guided Speaking, and the Coach Nobody Could Reach (2026-09-07)
 
