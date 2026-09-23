@@ -3155,6 +3155,68 @@ tsc clean; lint clean; `firstPaintGraph` unaffected; the six CEFR/hero suites
 (77 tests) unchanged. E2E audit: no user-visible string moves — the labels and
 colours are byte-identical and only the numbers' SOURCE changed.
 
+### 50. A type kept twice, and prose that contradicted the line below it — 2026-09-23 — **1 DRIFT HAZARD CLOSED, 3 STALE COMMENTS**
+
+Third run at sweep 48's question, and it needed a new SEARCH rather than a new
+subsystem. The giveaway both previous finds shared is a COMMENT asserting that
+two places agree, so this one grepped for that phrasing across `src/`,
+`functions/` and `scripts/` — "must stay in sync", "mirrors X exactly", "same
+formula as", "structural copy of", "shared with". Twenty-odd hits, mostly
+honest; one was not.
+
+**`CroatiaPoolEntry.category` restated `SessionCategory`'s union inline**, with
+the reason written down: *"Structural copy of SessionCategory (defined in
+useDailySession) — kept inline here to avoid a hook→data→hook import cycle."*
+That reason was TRUE when written and FALSE by the time it was read again:
+`SessionCategory` moved out of the hook into `lib/dailySessionStore` in the
+800-line split. Both modules are in `lib/` now, `dailySessionStore` imports
+nothing from `croatiaPool`, and madge confirms no cycle — checked, not assumed.
+
+**WHAT A STRUCTURAL COPY OF A UNION COSTS, DEMONSTRATED RATHER THAN ASSERTED.**
+Widening `SessionCategory` and using the new member is accepted with the shared
+type (tsc clean) and REJECTED with the copy:
+
+    src/lib/croatiaPool.ts(96,63): error TS2322:
+      Type '"ritual"' is not assignable to type
+      '"culture" | "practical" | "general" | SkillCategory'.
+
+So the failure is not silent at the moment of use — it is silent for as long as
+nobody tries. A category the session builder would happily carry simply cannot
+be written down in the pool, and the error, when it finally comes, names the
+wrong file.
+
+**THREE STALE COMMENTS IN THE SAME FILE, ONE CONTRADICTING THE CODE.** All about
+`ownAtLevels` and the City of the Day band corpus:
+
+1. the field's docstring still described "City of the Day, which carries graded
+   Croatian in three bands (A1 / B1 / C1)" — it carries SIX since 2026-09-08;
+2. the 2026-09-06 owner-decision block still named `ownAtLevels` as the live
+   mechanism;
+3. **a comment saying "NOT `adaptive`" sat four lines above `adaptive: true`.**
+
+The third is the nav-table incident in miniature, and its cause is the same: the
+2026-09-08 change added its own explanation INSIDE the entry and left the one
+above it in place. Both were accurate on their own dates. **When you explain why
+something changed, delete the explanation of why it used to be the other way** —
+or the next reader meets both and has to guess which is current.
+
+**`ownAtLevels` ITSELF IS NOT DEAD CODE, and that was checked rather than
+assumed** — a field nothing sets and nothing reads looks identical from outside
+to a field nothing sets because the data outgrew it. `cityOfDayGraded.test.tsx`
+already owns the decision in both directions: `ownAtLevels` must equal the
+fully-banded levels, or be EMPTY with `adaptive` set once every level is banded.
+It is a capability kept for the next partially-banded screen, and the docstring
+now says so instead of describing a holder it no longer has.
+
+Mutation-verified, four, each confirmed landed: the structural copy restored
+fails 2; the superseded "NOT `adaptive`" comment restored fails 1; the
+three-band prose restored fails 1; and a POSITIVE control — widening
+`SessionCategory` alone — passes, because the pool now follows automatically,
+which is the whole point and an outcome the copy could not produce.
+
+tsc clean; lint clean; madge clean. E2E audit: nothing user-visible changed —
+this is a type, three comments and a new test.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
