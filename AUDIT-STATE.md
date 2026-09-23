@@ -3318,6 +3318,69 @@ restating it fails 2; a key with no export behind it fails 1; and
 `CULTURE_DEEP_DIVES` dropped fails 1 here — and, as measured above, 0 in the
 endpoint suite, which is the limitation rather than a pass.
 
+### 52. The rest of the duplicated-fact candidates — 2026-09-23 — **ALL NEGATIVE, do not re-run**
+
+Sweeps 48–51 found four. These are the candidates that were named alongside them
+and did NOT pay, recorded in full because an unrecorded negative is re-run — and
+because "I looked and found nothing" is only useful if the next person can see
+WHAT was looked at and HOW.
+
+**The five remaining hits from sweep 50's comment grep**, each checked the way
+50 was: is the STATED REASON still true, and do the two copies still agree?
+
+- **`audio.ts:37`** — "*`_nativePost` … was built to mirror it exactly*". A
+  HISTORICAL note about a consolidation that already happened: the ~90-line body
+  is gone and the call delegates. No live copy. The comment describes a past
+  state and says so.
+- **`text/similarity.ts:9`** — "*Only the raw `levenshtein` is shared with
+  TypingScreen; the local `normalize()` stays local there*", because it carries
+  two extra mappings (`š/ś`, `ž/ź`). **Verified in the file**: `TypingScreen`'s
+  `normalize` really does carry both, and omits the punctuation stripping
+  `normalizeCroatian` does. Two different functions with different jobs, not a
+  copy. (The reason as written is incomplete — it names the two mappings and not
+  the punctuation difference — but it is not wrong.)
+- **`OnboardingTour.tsx:50`** — "*One definition, shared with AIConversation's
+  `isHeritage`*". Both call `isHeritageLearner()` from `lib/heritageLearner`.
+  Genuinely one definition.
+- **`AspectDrillScreen.tsx:633`** — documents why the screen writes the
+  `aspectdrill` path key itself when its exercise key is `aspect`. A recorded
+  workaround for a real mismatch, not a duplicated fact.
+- **`applyRemoteProgress.ts:39`** — "*A frozen copy of the old order, NOT
+  `src/data/bakaPhrases`*". A deliberately FROZEN copy, which is the one case
+  where duplication is correct: it must not track the live list, or legacy
+  bookmarks re-point the moment that list is edited. Two reasons given, both
+  still true.
+
+**Three structural candidates, also clean:**
+
+- **`DAILY_QUESTS` xp vs whatever pays it.** `App.tsx`'s `payQuestXp` calls
+  `award(q.xp, …)` reading straight off the same array the card renders. One
+  definition, one payer.
+- **`GRAMMAR_STRUCTURE_CATEGORIES`.** Genuinely derived from `SKILL_GROUP` at
+  module load (`Object.keys(SKILL_GROUP).filter(...)`), exactly as this file
+  describes, with `grammarStructureCategories.test.ts` behind it.
+- **The GRAMMAR endpoint.** `content-core-contract.test.ts` already handles it
+  better than the core one was handled: it parses BOTH SIDES of each
+  `KEY: GRAMMAR.REF` pair — because in `PITCH_ACCENT: GRAMMAR.PITCHACCENT` the
+  key is fine and the REFERENCE is the typo, so a key-only check passes while
+  the field ships undefined — and its comment records that a key-only version
+  was mutation-tested and did not fail on exactly that edit. It also carries a
+  "the parsers actually found the lists" assertion against a silent regex miss.
+
+**Not searched, and deliberately**: storage key names outside
+`lib/constants/storage.js`. Raw strings there are a SANCTIONED convention for
+legacy code ("use key constants for new keys; legacy code uses raw strings"), so
+a census would return a long list of known-legacy usage and no finding. Restated
+screen routes are covered by sweep 39's `navTargetsRoute.test.ts`.
+
+**WHERE THE QUESTION HAS GOT TO.** Four finds and eight negatives. The shapes
+that paid all had one property: a copy that is **inert** — read by nothing that
+breaks when it is wrong (a display map, a test's list, a progress-bar threshold,
+a type annotation). The ones that did not pay were either a live second CALLER
+of one definition, a deliberately frozen snapshot, or a genuine derivation. That
+is the sharper form of the question for whoever picks it up: **not "is this
+written twice" but "is one of the two copies never exercised".**
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
