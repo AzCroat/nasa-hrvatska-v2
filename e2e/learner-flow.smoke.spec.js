@@ -106,8 +106,24 @@ test.describe('Production smoke — a learner can actually start learning', () =
     await enterAsGuest(page);
 
     // The session card is the product's core promise: something to do today.
+    //
+    // WAIT FOR IT RATHER THAN READING ONCE. `enterAsGuest` returns as soon as
+    // the tab bar exists — that is the app SHELL, and Home's content is a lazy
+    // chunk that arrives after it. A one-shot `innerText()` therefore raced the
+    // render and failed on a slow runner with a body holding only the header,
+    // the nav and the sidebar: no session card, no error boundary, no uncaught
+    // error (the guest-entry test above asserts that separately and passed).
+    //
+    // This does NOT weaken the check. A locator assertion still fails if the
+    // card never appears; it only stops the test asking before Home has had a
+    // chance to answer. The timeout is the same generous budget the shell gets,
+    // because this runs on a cold cache right after a service-worker install.
+    await expect(
+      page.getByText(/TODAY'S SESSION|Dnevna Vježba/i).first(),
+      'Home shows no daily session',
+    ).toBeVisible({ timeout: 45_000 });
+
     const body = await page.locator('body').innerText();
-    expect(body, 'Home shows no daily session').toMatch(/TODAY'S SESSION|Dnevna Vježba/i);
     // "~20 min · N activities" — N must be a real count, not zero.
     const m = body.match(/(\d+)\s+activit/i);
     expect(m, 'the session card states no activity count').toBeTruthy();
