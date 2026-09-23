@@ -1705,6 +1705,122 @@ handles the first, and recording a non-literal write as `<expr>` handles the
 second. A predicted exemption that measurement dissolves is worth writing down —
 an exemption is a place a guard stops looking.
 
+### 31. The re-check that graded a ladder on the questions they get right — 2026-09-23
+
+Sweeps 26–30 exhausted the dead-write and dead-read derivations. This is the
+first result from the remaining queue item, INTERACTIONS BETWEEN FEATURES: each
+part correct alone, wrong together.
+
+**THE DEFECT, and the code said so itself.** `buildRetentionQueue`'s ordering
+comment promises:
+
+> "3. Due re-checks, and ONLY WHOLE ONES: a re-check's verdict advances or
+> resets a ladder, so it must be a full MIN_CHECK_ITEMS sample. A truncated one
+> would grade a lesson on whatever happened to fit."
+
+It was not true. `push()` silently drops an item already in the queue, and the
+CARD step (2) claims items before the re-check (3) — including items of the very
+lesson about to be re-checked. So the re-check came out at 5 or 4 of 6 and
+`recordRetentionResult` moved the ladder on that.
+
+**THE BIAS RAN ONE WAY, which is what makes it worth fixing rather than
+tolerating.** The re-check's sample leads with `missed`, and an item is in
+`missed` exactly when it HAS a card. So the items a card stole were the
+learner's KNOWN-WEAK ones: the lesson's ladder advanced on the questions they
+already get right, at the moment they were weakest. Measured over 20 lessons ×
+400 days of a learner who answers everything served: **120 re-checks, 7
+truncated, every one 5/6, every one losing the weak item.**
+
+**THE FIX IS A RESERVATION, NOT A SKIP, and the difference is a livelock.**
+"Serve the re-check only if nothing took its items" defers the ladder for as
+long as a card stays due — and a card the learner keeps failing comes due again
+every single day, so that lesson's ladder would freeze permanently for the
+learner who most needs it to move. Reserving the lesson's items from the card
+step costs nothing: they still answer those items today, first thing, inside the
+re-check. **Measured cost: zero.** Re-checks served 120 → 120, cumulative items
+580 → 580, card items 500 → 500. Only the truncation changed, 7 → 0.
+
+**THE CUMULATIVE LOOKS LIKE THE SAME HAZARD AND IS NOT — and I shipped the
+wrong thing first.** The first version reserved against the cumulative too, on
+the reasoning that it also claims before the re-check. Measured over 4,000
+generated stores: **a queue holding cumulative items served ZERO re-checks**,
+because `CUMULATIVE_ITEMS` (10) of `MAX_QUEUE` (12) leaves fewer than
+`MIN_CHECK_ITEMS` and step 3 breaks out before serving anything. So reserving
+there could not prevent a truncation; all it did was SHRINK the cumulative on
+days a re-check was due — which is precisely the crowding-out the documented
+order exists to prevent. Removing it also made the suite **stronger**: with the
+cumulative reservation in place, deleting the card reservation failed 2 tests;
+without it, **4**. Dead code had been masking the guard — the `SpeakingScreen`
+lesson again, in a scheduler.
+
+**TWO OF MY OWN TEST PREMISES WERE WRONG AND THE CODE WAS RIGHT.** A
+hand-written scenario asserted the two MOST overdue re-checks are served —
+`status.rechecks` sorts ASCENDING by due date, so the EARLIEST are. Another
+asserted a re-check is crowded out entirely on a cumulative day, and the
+measurement above is what settled it in the opposite direction from where I had
+just argued. Both were written as confident assertions about a scheduler I had
+read carefully. The hand-built scenarios were replaced by a PROPERTY test over
+400 generated stores — "a served re-check has exactly MIN_CHECK_ITEMS items,
+whatever else is competing" — which encodes the invariant instead of my model of
+it, plus a non-vacuity floor (it must serve >100 re-checks) so it cannot pass by
+serving none.
+
+Mutation-verified: the card reservation removed fails **4** tests across two
+suites, including the property test and the 400-day trajectory. The two pieces
+that could NOT be made to fail were deleted rather than shipped — the cumulative
+reservation and a defensive backstop that the reservation makes unreachable.
+
+Suite **586 files, 9395 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
+E2E audit: no user-visible string changed and no spec exercises the retention
+queue (`lessonreview` appears in no spec; the one `retention` hit in
+`checkpoints.spec.js` is a comment about the checkpoint exam's own items).
+
+### Negatives recorded the same day — do not re-run
+
+- **Snapshot fields that sync UP but never come back DOWN: ZERO.** All 83
+  top-level fields `buildProgressSnapshot` publishes are consumed by
+  `applyRemoteProgress`/`useSyncManager`. The one strict-matcher hit, `savedAt`,
+  is a false positive — read at `useSyncManager:447` as `localSnap?.savedAt`, an
+  identifier the alternation did not list. POSITIVE CONTROL PASSED: an injected
+  `nh_probe_never_restored` made the derivation report exactly 1, so the clean
+  result is real and not a vacuous matcher.
+- **`Stats` fields outside `BadgeStats` with no producer but displayed: ZERO.**
+  Sweep 30's producer regex over all 24. `readingDone`/`mediaVisits` have no
+  producer and, after sweep 30, no display read. `levelQuizPasses` flagged and is
+  a MATCHER BLIND SPOT, not a finding: `LevelQuiz.tsx:88/93` write it via an
+  object spread the increment-shaped regex cannot match. `badgeCountersLive`'s
+  own failure message says to check that first, and doing so was the difference
+  between a report and a false alarm.
+- **Duplicate screens in a daily plan: NOT REACHABLE, and a guard would be
+  DECORATIVE.** The invariant IS load-bearing — `markDone` resolves with
+  `activities.find(...)`, the FIRST match, so a plan holding one screen twice
+  would strand the session at N-1/N forever — and a duplicate is conceivable,
+  since `dictation` is the one screen served by two pools
+  (`CEFR_EXERCISE_POOL` and `PRODUCTION_POOL`). Measured 1,800 real plans: 0
+  duplicates, and not vacuously (dictation is served 31–44 of 300 at B1–C2).
+  Then the mechanism was removed — all 11 `usedScreens.has(...)` checks
+  neutralised — and it is STILL 0. The property is over-determined by the
+  variety passes. A guard that cannot be made to fail by deleting what it
+  guards is decorative, so the reasoning was recorded instead.
+  **MUTATION LESSON:** the first attempt replaced `!usedScreens.has(x)` with
+  `false`, which means "reject every candidate", not "allow duplicates" — the
+  opposite of the intent. It LANDED textually and returned 0/300, which reads as
+  confirmation. The tell was the test time collapsing from 2.21s to 289ms.
+  Confirm a mutation does what you INTENDED, not merely that the text changed.
+- **Mid-day CEFR change vs the persisted daily plan: sound.** The 2026-05-21 fix
+  (`useDailySession:871-908`) preserves completions by mapping old completed
+  SCREENS onto the rebuilt plan. One residual, unchecked: the rebuild effect's
+  deps are `[userCefr]` only, so a date rollover while the app is left OPEN does
+  not rebuild until a remount. `loadPersistedSession` rejects a stale date on the
+  next mount, so this is a tab-left-open-overnight case; nobody has confirmed
+  what the learner sees in the meantime.
+- **OBSERVATION, not a finding.** Distinct screens served across 300 harness
+  plans: A1 8, A2 42, B1 50, B2 21, C1 21, C2 21. Higher levels showing LESS
+  variety than B1 is backwards, but the harness runs with EMPTY localStorage
+  (so the least-recently-served ordering is deterministic and only random
+  tiebreaks vary) and a 3-word `poolWords` set. Re-measure with seeded
+  recency/adaptive state before treating it as anything.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -1722,8 +1838,13 @@ None of them crash, so no sweep above can see any of them.
       other than `heritage` that nothing writes — the `badgesEarnable` suite
       does this for badge counters only — DONE for those, sweep 30, which found
       one real display defect and hardened the guard after a mutation survived
-      it. Still open: dead reads of NON-boolean snapshot fields, and `stats`
-      fields outside `BadgeStats`.)
+      it. The dead-read/dead-write family is now EXHAUSTED: snapshot booleans
+      (29), badge counters (30), one-way snapshot fields and `Stats` fields
+      outside `BadgeStats` (31, both negative). The live seam is INTERACTIONS
+      BETWEEN FEATURES — sweep 31's first result came from there. Still untried:
+      the retention ladder vs a date rollover with the app left open; a demotion
+      (verification_fail rollback) vs content already unlocked and vs a daily
+      plan built at the higher level.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
