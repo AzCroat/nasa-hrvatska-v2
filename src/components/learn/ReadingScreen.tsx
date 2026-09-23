@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, Spk, speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 
 export default function ReadingScreen({
   rp,
@@ -211,6 +212,29 @@ export default function ReadingScreen({
                     const alreadyDone = stats.vs?.includes(readKey);
                     if (typeof award === 'function')
                       award(Math.round((rsc / rp.qs.length) * 35) + 10, false, 'reading');
+                    // READING WAS THE ONE RECEPTIVE SKILL THE LEDGER COULD NEVER
+                    // MEASURE (2026-09-23). `award`'s third argument reaches the
+                    // XP and quest path only; `recordExerciseOutcome` fires from
+                    // `completeExercise`, which this screen deliberately does not
+                    // use (it grades and awards itself — the `writing_guided`
+                    // shape). So no row anywhere carried `activityType:
+                    // 'reading'`, `getMasteryProfile().reading` stayed undefined
+                    // forever, and `weakestReceptiveKind` — which OVERRIDES the
+                    // input slot's alternation outright — answered 'reading'
+                    // permanently the moment listening became `tested`.
+                    // Measured with the real slot: reading 40/40, listening
+                    // 0/40, at every level. The comprehension slot was built
+                    // because listening ran at 4-5% of sessions; this had
+                    // silently taken it to zero.
+                    //
+                    // The adapter, not a hand-rolled `recordMasteryEvent`: it
+                    // already owns the level, the weight and the fail-soft, so
+                    // a drill finish becomes evidence ONE way.
+                    recordExerciseOutcome({
+                      activityType: 'reading',
+                      score: rsc,
+                      total: rp.qs.length,
+                    });
                     markQuest('reading');
                     if (rsc === rp.qs.length) markQuest('perfect');
                     setSt((s) => {

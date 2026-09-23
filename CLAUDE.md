@@ -1555,6 +1555,26 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   the one day-shape with a single slot left and a non-grammar adaptive pick,
   grammar wins (the owner's G2 directive); measured, that costs input on no
   non-lesson day at any level.
+- **A SKILL THE LEDGER CANNOT MEASURE LATCHES THIS SLOT (2026-09-23).**
+  `weakestReceptiveKind` OVERRIDES the alternation outright (`weakest ??
+(alternation)`), and an untested cell scores MAXIMUM need — correct on its
+  own terms, since an unmeasured skill deserves priority. **Reading could never
+  become measured**: no `EXERCISE_COMPLETION` row carried `activityType:
+'reading'`, and both reading screens grade and award themselves, passing
+  `'reading'` to `award` — which reaches the XP and quest path and never the
+  ledger. So the moment listening reached `tested` (`MIN_SAMPLES`) the answer
+  became `'reading'` and could not change. Measured with the real slot over 40
+  sessions: **listening 0/40, reading 40/40, at A2, B1, B2 and C1** — the slot
+  exists because listening ran at 4–5% of sessions, and this had taken it to
+  zero. Fixed by `recordExerciseOutcome({ activityType: 'reading', … })` at
+  each screen's genuine completion point (the `writing_guided` /
+  `relpron` shape — no award semantics change), and pinned by
+  `masterySkillsReachable.test.ts`, which asks the GENERAL question: every
+  skill the ledger reports must have a production path that can record it.
+  NEVER let a ledger skill exist that nothing can write; and when a guard is
+  about an EFFECT, assert the effect — a source pin on the recording CALL
+  survives the score being dropped at a callback boundary, which is exactly
+  how this shipped.
 - **KIND alternates by what was served less recently** (`nh_session_served`, now
   read from `src/lib/sessionServed.ts` by both the discovery slot and this one),
   unless the mastery ledger has measured a weaker receptive skill

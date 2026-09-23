@@ -1045,6 +1045,85 @@ field the engine never renders and not one row missing a field it requires.
 That is the whole practice programme, so the class does not generalise to the
 drills — worth knowing before someone spends a sweep there.
 
+### 21. The ledger could never measure reading, and that latched the input slot — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+The open queue item "behavioural correctness on live paths — renders fine,
+behaves wrong". This is one: nothing crashes, nothing looks wrong, and the
+comprehension guarantee quietly stops guaranteeing comprehension.
+
+**READING WAS THE ONE SKILL THE MASTERY LEDGER COULD NOT MEASURE.**
+`recordExerciseOutcome` fires only from `completeExercise`, and **no
+`EXERCISE_COMPLETION` row carried `activityType: 'reading'`** (measured: 267
+rows — grammar 236, vocabulary 9, listening 5, lesson 9, speaking 2, none 5,
+default 1; reading 0, writing 0). Writing has its own direct
+`recordMasteryEvent` calls from Guided Writing, WritingScreen and
+`LessonProduceStep`. Reading had nothing: both reading screens grade and award
+themselves (the `writing_guided` / `relpron` shape) and pass `'reading'` to
+`award`, whose activityType reaches the XP and quest path and **never the
+ledger** — `useAward` does not import it.
+
+**WHY AN UNMEASURABLE SKILL IS NOT A DORMANT GAP.** `weakestReceptiveKind`
+OVERRIDES the comprehension slot outright — `const preferred = weakest ??
+(alternation)` — and an untested cell scores MAXIMUM need, which is correct on
+its own terms: an unmeasured skill deserves priority. With reading permanently
+unmeasurable, the moment listening reached `tested` (`MIN_SAMPLES` 5, "a week
+of honest work") the answer became `'reading'` and could never change.
+
+**MEASURED with the REAL slot, 40 sessions per level:**
+
+| ledger state        | weakest   | listening | reading |
+| ------------------- | --------- | --------- | ------- |
+| empty               | null      | 30        | 10      |
+| listening TESTED    | reading   | **0**     | **40**  |
+| both TESTED (fixed) | null      | —         | —       |
+
+A2, B1, B2 and C1 identical. **The comprehension slot exists BECAUSE listening
+was running at 4–5% of sessions (2026-09-04); this had quietly taken it to
+zero** — worse than the thing it was built to fix.
+
+**TWO WRONG ANSWERS ON THE WAY, BOTH CAUGHT BY MEASURING.** I first reasoned
+that one listening event would flip it; it does not — one sample is `tested:
+false`, which scores need 1 for BOTH, and the tie goes to listening. And the
+first harness reported listening 40/40 on an EMPTY ledger, which looked like
+the defect and was mine: it never wrote `nh_session_served`, so the alternation
+had no dates to alternate on. Reason about a scheduler and you will describe a
+scheduler that does not exist.
+
+**THE FIX IS THE SANCTIONED ONE**, not a conversion: a single
+`recordExerciseOutcome({ activityType: 'reading', score, total })` at each
+screen's genuine completion point — the same shape as the
+`recordScreenPractised` calls added to `writing_guided` and `relpron`, and it
+changes no award semantics. The ADAPTER rather than a hand-rolled
+`recordMasteryEvent`, because it already owns the level, the weight and the
+fail-soft, so a drill finish becomes evidence ONE way. `GradedInputScreen` also
+had to widen `onComplete(xp)` to carry `score`/`total`: the score existed
+inside `StoryQuiz` and died at that boundary.
+
+**THE FIRST GUARD WAS SOURCE-DERIVED AND A MUTATION WALKED STRAIGHT THROUGH
+IT.** Dropping `score`/`total` at the `onComplete` boundary — exactly the shape
+the bug had — leaves the `recordExerciseOutcome` call in the file, makes the
+adapter return early on a missing score, and records nothing. The suite stayed
+green. **That is `couplingClearingPath`'s trap one level deeper: there an
+IMPORT satisfied a guard written about a CALL; here a CALL satisfied a guard
+written about an EFFECT.** The guard now finishes the REAL quiz in the REAL
+screen and asks the REAL ledger what it learned.
+
+`masterySkillsReachable.test.ts` (11) asks the general question — every skill
+the ledger reports must have a production path that can record it — rather than
+naming `reading`, which would go stale the moment a seventh skill arrives with
+the same hole.
+
+Mutation-verified, five, each confirmed LANDED: both recorders removed fails 2;
+the score dropped at the `onComplete` boundary fails 1 (**this is the one that
+survived the first draft**); the both-strong `null` return removed — the latch
+restored — fails 1; the picker made unconditionally null, which would destroy
+the feature while satisfying the anti-latch test, fails 1. Removing ONE of the
+two recorders SURVIVES, and that is correct rather than a hole: one practice
+path is enough for the skill to be measurable, which is all the guard claims.
+
+E2E audit: `onComplete`'s signature is internal; no label or test id changed,
+and the specs that click "Continue →" / "See Results" are unaffected.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
