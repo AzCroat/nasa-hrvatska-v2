@@ -1144,6 +1144,26 @@ rendered at. Bounding each block by the next `currentScreen ===` fixes it, and
 the same mutation then fails. **When you fix a guard, mutate again** — and when
 you ADD a clause to one, mutate the clause, not the file.
 
+**THE FIVE REGISTRY ROWS WITH NO `activityType` WERE CHECKED AND DELIBERATELY
+LEFT ALONE** — recorded because the next person will find them the same way I
+did and they look exactly like the nine the registry comment describes fixing.
+They are `p()` rows: **passive read/dwell credit**, not graded finishes, and
+the helper does not even accept an activityType. Two (`dialects`, `grammarmap`)
+are not in any pool, so the registry's own derivation method (pool category ->
+`SKILL_GROUP`) cannot classify them at all.
+
+`alphabet` is the interesting one and still a NO. Its registry row covers the
+DWELL path; the QUIZ never reaches `completeExercise` at all — the screen
+grades itself and calls `award(20, false, 'vocabulary')`, which is the same
+XP-and-quests-only path that hid the reading defect, and it does hold a real
+`score`. So evidence IS being dropped. The difference that makes it not worth
+changing: **vocab is already measurable from eight pooled screens, so there is
+no latch** — the consequence is a little less evidence for one skill, not a
+scheduler stuck on one answer forever. The screen's own comment states the
+trade ("deliberately NOT a conversion... would change a live screen's XP
+semantics for no gain here"), and that reasoning holds. Declined on the
+measurement, not on the comment's authority.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
