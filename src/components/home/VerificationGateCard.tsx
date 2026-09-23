@@ -153,7 +153,15 @@ export default function VerificationGateCard({ gate, currentXp, onStartVerificat
           cursor: 'pointer',
         }}
       >
-        Verify {gate.target} now →
+        {/* NAMES THE CHECK THIS BUTTON ACTUALLY STARTS (owner report, 2026-09-23).
+            It said `gate.target` — the TOP of a carried-over stack — while
+            `EquivalencyTestScreen` opens `gate.nextCheck`, the BOTTOM rung. A
+            learner carried over to C1 read "Verify C1 now" on a button that
+            starts the A2 check, on a card whose own headline two lines up says
+            "Make your A2 real". Every other part of this flow — headline, body,
+            readiness — is keyed on nextCheck; the button was the only thing
+            naming the target. */}
+        Verify {gate.nextCheck} now →
       </button>
     </div>
   );

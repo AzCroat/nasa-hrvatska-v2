@@ -26,6 +26,7 @@ import { render, screen } from '@testing-library/react';
 
 import {
   VERIFICATION_RETURN_XP,
+  VERIFICATION_PROMPT_SHOW_XP,
   getLastAttemptAt,
   getLatestAttempt,
   verificationQuietStatus,
@@ -79,17 +80,59 @@ describe('the threshold', () => {
 });
 
 describe('quiet-period helpers', () => {
-  it('no attempts ever → not quiet (the hero greets first-timers)', () => {
+  it('no attempts ever → DUE, so the hero greets first-timers once', () => {
     seedState();
     expect(getLastAttemptAt()).toBeNull();
     expect(getLatestAttempt()).toBeNull();
     expect(isVerificationQuiet(5000)).toBe(false);
+    // `earnedSince` is the full threshold rather than 0 because a never-prompted
+    // learner is seeded as DUE NOW (owner report, 2026-09-23) instead of being
+    // special-cased into a permanent hero. `since` stays null — there is no
+    // attempt to name, so the card shows no "returning" line.
     expect(verificationQuietStatus(5000)).toEqual({
       quiet: false,
-      earnedSince: 0,
+      earnedSince: VERIFICATION_RETURN_XP,
       remaining: 0,
       since: null,
     });
+  });
+
+  it('never-attempted: a session of practice stands it down for another stretch', () => {
+    // THE OWNER'S ACTUAL COMPLAINT: "It seems to always be there … How can anyone
+    // learn with this constantly on the top?" Before this, no-attempt returned
+    // quiet:false unconditionally, so the hero rendered on every Home visit for
+    // ever and nothing the learner did could clear it.
+    seedState();
+    expect(isVerificationQuiet(5000)).toBe(false); // seen once, baseline recorded
+    // Still up while the session is in progress …
+    expect(isVerificationQuiet(5000 + VERIFICATION_PROMPT_SHOW_XP - 1)).toBe(false);
+    // … and gone once that session's worth of practice is done. The window is
+    // [RETURN, RETURN + SHOW), so the boundary itself stands down.
+    const after = verificationQuietStatus(5000 + VERIFICATION_PROMPT_SHOW_XP);
+    expect(after.quiet).toBe(true);
+    expect(after.remaining).toBe(VERIFICATION_RETURN_XP);
+  });
+
+  it('and it COMES BACK after another VERIFICATION_RETURN_XP of learning', () => {
+    seedState();
+    isVerificationQuiet(5000);
+    const standDownAt = 5000 + VERIFICATION_PROMPT_SHOW_XP;
+    expect(isVerificationQuiet(standDownAt)).toBe(true); // re-baselined here
+    expect(isVerificationQuiet(standDownAt + VERIFICATION_RETURN_XP - 1)).toBe(true);
+    // A week of practice later it is due again — a cadence, not a one-shot.
+    expect(isVerificationQuiet(standDownAt + VERIFICATION_RETURN_XP)).toBe(false);
+  });
+
+  it('after an ATTEMPT the prompt also stands down again — it no longer returns for ever', () => {
+    // The second half of the same defect: once the post-attempt quiet period
+    // elapsed, the hero came back permanently, so taking the test bought 350 XP
+    // of silence and then the same wall.
+    seedState({ attempts: [{ level: 'B2', passed: false, takenAt: Date.now() - DAY, xp: 5000 }] });
+    expect(isVerificationQuiet(5000)).toBe(true); // inside the window
+    expect(isVerificationQuiet(5000 + VERIFICATION_RETURN_XP)).toBe(false); // returns
+    expect(
+      isVerificationQuiet(5000 + VERIFICATION_RETURN_XP + VERIFICATION_PROMPT_SHOW_XP + 1),
+    ).toBe(true); // and stands down again
   });
 
   it('an attempt with an XP baseline → quiet until VERIFICATION_RETURN_XP has been EARNED since', () => {
@@ -243,6 +286,27 @@ describe('the baseline is WIRED, not just supported', () => {
 });
 
 describe('VerificationGateCard — hero vs nothing', () => {
+  it('the CTA names the check it actually STARTS, not the top of the stack', () => {
+    // OWNER REPORT, 2026-09-23: "a 'Verify your C1 now' badge across the top … It
+    // is not correct". It was not. On a carried-over stack the button rendered
+    // `gate.target` (C1, the TOP) while `EquivalencyTestScreen` opens
+    // `gate.nextCheck` (the BOTTOM rung it actually offers) — on a card whose own
+    // headline two lines above already said "Make your A2 real". Everything else
+    // in the flow is keyed on nextCheck; the button was the lone exception.
+    const stacked: VerificationGate = {
+      required: true,
+      target: 'C1',
+      nextCheck: 'A2',
+      verified: 'A1',
+      options: ['C1', 'B2', 'B1', 'A2'],
+    };
+    seedState();
+    render(<VerificationGateCard gate={stacked} currentXp={5000} onStartVerification={() => {}} />);
+    const cta = screen.getByTestId('verification-gate-cta');
+    expect(cta.textContent).toContain('A2');
+    expect(cta.textContent).not.toContain('C1');
+  });
+
   it('never-attempted: the full hero with its CTA, no "returning" line', () => {
     seedState();
     render(<VerificationGateCard gate={GATE} currentXp={5000} onStartVerification={() => {}} />);
