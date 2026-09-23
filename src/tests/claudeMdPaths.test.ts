@@ -425,3 +425,72 @@ describe('every file path CLAUDE.md names actually exists', () => {
     ).toEqual([]);
   });
 });
+
+// ── The project's own slash-commands name files too ──────────────────────────
+//
+// `.claude/commands/*.md` are instructions a future session FOLLOWS, so a path
+// that no longer exists is worse than one in prose — it sends the reader to
+// open a file that is not there, or, in `new-lesson.md`, to REGISTER A SCREEN
+// in the wrong place. All three were stale on 2026-09-22, found by running
+// `/audit-sync` and discovering step 2 pointed at `src/hooks/useSyncManager.js`
+// when the function had moved to `src/lib/applyRemoteProgress.ts` and the hook
+// had become `.ts`:
+//
+//   audit-sync.md        useSyncManager.js     -> lib/applyRemoteProgress.ts
+//   audit-learn-path.md  useScreenLauncher.js  -> lib/blackHoleScreens.ts
+//   new-lesson.md        useScreenLauncher.js  -> lib/blackHoleScreens.ts
+//
+// Exactly the decay CLAUDE.md's own path guard exists for, one directory over
+// and unguarded. The same derivation now covers both, because a hand-checked
+// list of two documents rots the same way the documents do.
+//
+// IT FOUND TWO MORE THAN THE HAND SEARCH DID. I grepped the commands for
+// `\.js\b` and fixed three; the guard then named `src/data/content.jsx` twice,
+// because `\.js\b` cannot match `.jsx` — `x` is a word character, so there is no
+// boundary. A derived check beats a hand search written by the same person who
+// decided what to search for.
+//
+// WHAT IT DOES NOT COVER, stated rather than implied: a filename written
+// WITHOUT backticks. `new-lesson.md` said "Add to LEARN_PATH in content.jsx" in
+// bare prose, still stale, and invisible here — found only by reading the file.
+// Widening the regex to bare prose would match ordinary English ("the .ts
+// migration"), so the trade is deliberate: this guards the paths a reader would
+// copy, not every mention of a file.
+describe('the slash-commands name files that exist', () => {
+  const CMD_DIR = join(root, '.claude', 'commands');
+  const cmdFiles = existsSync(CMD_DIR) ? readdirSync(CMD_DIR).filter((f) => f.endsWith('.md')) : [];
+
+  it('there are commands to check (anti-vacuity)', () => {
+    // Without this, deleting the directory would make every assertion below
+    // pass by having nothing to say.
+    expect(cmdFiles.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('every backticked path in every command resolves on disk', () => {
+    const re = /`([^`\n ]+?\.(?:tsx|ts|jsx|js|mjs|yml|yaml|sql|rules|toml))`/g;
+    const missing: string[] = [];
+    let seen = 0;
+    for (const f of cmdFiles) {
+      const body = readFileSync(join(CMD_DIR, f), 'utf8');
+      for (const m of body.matchAll(re)) {
+        const token = m[1].replace(/^\.\//, '');
+        if (token.includes('*') || token.includes('<')) continue;
+        seen += 1;
+        if (!(token in EXEMPT) && !resolves(token))
+          missing.push(`${f}: \`${token}\` (L${body.slice(0, m.index).split('\n').length})`);
+      }
+    }
+    // The derivation must actually be finding paths, or "none missing" means
+    // "none looked at" — the decorative-guard failure this repo keeps hitting.
+    // 7 is the measured count, not a guess — the first draft guessed 10 and the
+    // floor fired on a clean tree, which is the floor doing its job in the least
+    // useful direction. Set it from what is there.
+    expect(seen, 'the command files name no paths at all — check the regex').toBeGreaterThanOrEqual(
+      7,
+    );
+    expect(
+      missing,
+      `a slash-command sends the reader to a file that does not exist:\n  ${missing.join('\n  ')}`,
+    ).toEqual([]);
+  });
+});

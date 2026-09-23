@@ -1,12 +1,12 @@
 # Audit Learn Path Integrity
 
-Verify every LEARN_PATH entry in `src/data/content.jsx` can be completed and awards XP correctly.
+Verify every LEARN_PATH entry in `src/data/content.tsx` can be completed and awards XP correctly.
 
 ## Steps
 
-1. Read `src/data/content.jsx` and extract every LEARN_PATH entry — its key, `ck` function body, and the screen name it maps to.
+1. Read `src/data/content.tsx` and extract every LEARN_PATH entry — its key, `ck` function body, and the screen name it maps to.
 
-2. Read `src/hooks/useScreenLauncher.js` and extract the full `BLACK_HOLE_SCREENS` object.
+2. Read `src/lib/blackHoleScreens.ts` and extract the full `BLACK_HOLE_SCREENS` object. (It is no longer in the launcher hook — that file only runs the dwell timer against it.)
 
 3. For each LEARN_PATH entry, check:
    - **Has a ck function**: every entry must have a `ck` property
