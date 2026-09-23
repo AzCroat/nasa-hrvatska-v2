@@ -151,6 +151,20 @@ export default function DialogueSim({
           award(score * 6, false, 'speaking');
         }
         markQuest('speak');
+        // NO MASTERY-LEDGER WRITE HERE, DELIBERATELY (2026-09-23), and the first
+        // reason written down for that was wrong. Guided mode DOES grade —
+        // `score` counts turns where the learner picked the right utterance out
+        // of `scenario.turns.length` — so "it is not a graded task" was false.
+        // The real reason is what it grades: RECOGNITION. The learner selects
+        // one of four options (or types a line checked against one expected
+        // answer), with no microphone and no acoustic score. Counting that as
+        // spoken-production evidence would let a learner who has never spoken
+        // read as a tested speaker, at which point `weakestProductionKind` stops
+        // offering them speaking practice — the exact inverse of the defect the
+        // ledger wiring elsewhere in this change fixes. `micRequired: false` here
+        // is a SCHEDULING decision (dialogue is the mic-blocked learner's A1
+        // production option); the ledger is a MEASUREMENT, and the two questions
+        // have different answers.
         // Content-Rec #9: this scenario counts toward the conversation path.
         markInteractionUnitDone(scenario.id);
       }

@@ -4,6 +4,7 @@ import VideoBackground from '../shared/VideoBackground';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { recordListeningRep } from '../../lib/listeningMetric';
 import { lsGet, ssGet } from '../../lib/safeStorage';
 
@@ -298,6 +299,15 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
         // is wrong (the `writing_guided` / `relpron` shape).
         recordListeningRep();
         markQuest('listening');
+        // AND THE MASTERY LEDGER, which the audit above stopped one store short
+        // of (2026-09-23). `recordListeningRep` feeds the Fluency Snapshot; the
+        // ledger is what `weakestReceptiveKind` and the P2.8 guaranteed-input
+        // slot actually read, and this screen IS one of that slot's entries. Its
+        // award kind stays 'lesson' for the reason given above, and 'lesson' is
+        // deliberately unmapped in ACTIVITY_TO_SKILL — so the skill is named
+        // here, where the comprehension score is, rather than by retyping an
+        // award whose semantics are not what was wrong.
+        recordExerciseOutcome({ activityType: 'listening', score: finalScore, total: qCount });
       }
     }
   }

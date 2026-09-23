@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar } from '../../data';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import SpeakingSummaryScreen from './SpeakingSummaryScreen';
 import SpeakingPracticePanel from './SpeakingPracticePanel';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
@@ -214,6 +215,10 @@ export default function SpeakingScreen({
       finishFired.current = true;
       if (typeof award === 'function') award(ssc * 5 + 5, false, 'speaking');
       markQuest('speak');
+      // `ssc` is the per-session count of words spoken acceptably — reset by all
+      // three launch sites (useScreenLauncher sSsc(0)) — over the words served.
+      // The same pair the XP payout above already uses.
+      recordExerciseOutcome({ activityType: 'speaking', score: ssc, total: si.length });
       setSt((s) => ({ ...s, sp: s.sp + 1 }));
       if (!stats.vs?.includes('speaking')) {
         setStats((prev) => {
