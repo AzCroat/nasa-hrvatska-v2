@@ -6,7 +6,7 @@ import { getPrioritizedReviewQueue } from '../../lib/srs.js';
 import { vocabPool, vocabLevel } from '../../lib/vocabPool';
 import { useHaptic } from '../../hooks/useHaptic';
 import { markPracticed } from '../../hooks/useNotifications';
-import { markQuest } from '../../lib/quests.js';
+import { recordSrsReview } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { logError } from '../../lib/learnerErrors.js';
 import { _aiPost } from '../../lib/aiPost';
@@ -325,7 +325,12 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
               // `markQuest('review')` that sat here wrote nh_quest_review_<date>,
               // a key no quest owns and nothing reads — harmless only because the
               // line above it did the real work.
-              markQuest('master');
+              //
+              // It takes the COUNT now. The quest reads "Review 5+ SRS words" and
+              // a bare `markQuest('master')` cleared it for a one-card session —
+              // and, through TIER2_MAP's second-mark promotion, cleared "Review
+              // 15+" for two of them.
+              recordSrsReview(questions.length);
               if (!stats.vs?.includes('srsreview')) {
                 setStats((prev) => {
                   if (prev.vs?.includes('srsreview')) return prev;

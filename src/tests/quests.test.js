@@ -59,11 +59,16 @@ describe('quests — daily quest tracking', () => {
     expect(localStorage.getItem('nh_quest_grammar2_' + d)).toBe('1');
   });
 
-  it('auto-promotes master tier-2 on second call', () => {
+  // `master` LEFT TIER2_MAP on 2026-09-23, and this test had been pinning the
+  // defect. Its tier-2 card reads "Review 15+ SRS words" — a COUNT of words,
+  // not a count of sessions — so second-mark promotion cleared it for two
+  // one-card reviews. Both review quests are now earned from the day's running
+  // word total in `recordSrsReview`; see srsReviewQuestCounts.test.ts.
+  it('does NOT auto-promote master tier-2 on a second call', () => {
     const d = todayKey();
     markQuest('master');
     markQuest('master');
-    expect(localStorage.getItem('nh_quest_master2_' + d)).toBe('1');
+    expect(localStorage.getItem('nh_quest_master2_' + d)).toBeNull();
   });
 
   it('auto-promotes reading tier-2 on second call', () => {

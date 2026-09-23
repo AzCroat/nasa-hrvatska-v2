@@ -1051,7 +1051,11 @@ export default function MajaScreen() {
     if (!debrief || debriefXpFired.current) return;
     debriefXpFired.current = true;
     if (typeof award === 'function') award(debrief.xpEarned ?? 30, false, 'speaking');
-    markQuest('culture');
+    // `culture` until 2026-09-23 — "Explore a Croatian region or media item",
+    // for a spoken conversation that is neither. Maja awards `'speaking'` on
+    // the line above and the screen carries a recogniser; it was crediting a
+    // quest the learner had not earned while withholding the one they had.
+    markQuest('speak');
   }, [debrief, award]);
 
   // ── continue conversation ──────────────────

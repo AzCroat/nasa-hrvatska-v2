@@ -9,6 +9,8 @@
  */
 import { localDateStr } from './dateUtils';
 
+const SRS_REVIEWED_PREFIX = 'nh_srs_reviewed_';
+
 /**
  * Remove quest keys older than yesterday to prevent unbounded localStorage growth.
  * Safe to call on every app session start.
@@ -27,7 +29,10 @@ export function cleanupStaleQuestKeys(): void {
     const toRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (!key || !key.startsWith('nh_quest_')) continue;
+      // `nh_srs_reviewed_<date>` is swept here too: it is written once per day
+      // by recordSrsReview and read only for today, so without this it would be
+      // the one daily key in this module that grows forever.
+      if (!key || !(key.startsWith('nh_quest_') || key.startsWith(SRS_REVIEWED_PREFIX))) continue;
       // Key format: nh_quest_<id>_YYYY-MM-DD  or  nh_quest_<id>_count_YYYY-MM-DD
       const datePart = key.slice(-10); // last 10 chars = YYYY-MM-DD
       if (datePart !== today && datePart !== yesterday && /^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
@@ -45,11 +50,58 @@ export function cleanupStaleQuestKeys(): void {
 const TIER2_MAP: Record<string, string> = {
   speak: 'speak2',
   grammar: 'grammar2',
-  master: 'master2',
   reading: 'reading2',
   culture: 'culture2',
   vocab: 'vocab2',
 };
+
+/**
+ * SRS review quests — the only two whose text claims a COUNT (2026-09-23).
+ *
+ * THE DEFECT. Every other tier-1 quest says "Complete 1 …", which a single
+ * `markQuest` call is an honest record of. These two say **"Review 5+ SRS
+ * words"** and **"Review 15+ SRS words"** — and nothing counted words. The
+ * three review screens fired `markQuest('master')` on FINISH regardless of deck
+ * size, so one card cleared "Review 5+"; and `master` sat in `TIER2_MAP`, which
+ * promotes on the second MARK, so two one-card sessions cleared "Review 15+".
+ * They pay 30 and 55 XP, so this was not decorative.
+ *
+ * The count is accumulated ACROSS the day rather than per session, because the
+ * quest text is a daily goal: 5 words now and 10 later is fifteen words
+ * reviewed, and the learner would be right to expect the tier-2 card to tick.
+ * `master` is out of `TIER2_MAP` for the same reason it had to be — with the
+ * gate below in place, session-count promotion would clear "15+" at ten.
+ */
+export const MASTER_QUEST_WORDS = 5;
+export const MASTER2_QUEST_WORDS = 15;
+
+/** Words reviewed today, across every SRS surface. */
+export function srsReviewedToday(): number {
+  try {
+    return parseInt(localStorage.getItem(SRS_REVIEWED_PREFIX + localDateStr()) || '0', 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Record an SRS review of `words` cards and mark whichever review quests the
+ * day's running total has actually earned. Marking nothing is the correct
+ * outcome for a short session — the quest says what it says.
+ */
+export function recordSrsReview(words: number): void {
+  if (!Number.isFinite(words) || words <= 0) return;
+  let total = srsReviewedToday() + Math.floor(words);
+  try {
+    localStorage.setItem(SRS_REVIEWED_PREFIX + localDateStr(), String(total));
+  } catch {
+    // Storage unavailable: the marks below still reflect THIS session, which is
+    // the most the device can honestly say.
+    total = Math.floor(words);
+  }
+  if (total >= MASTER_QUEST_WORDS) markQuest('master');
+  if (total >= MASTER2_QUEST_WORDS) markQuest('master2');
+}
 
 export function markQuest(id: string): void {
   try {

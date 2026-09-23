@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { H, getMistakes, clearMistake, clearAllMistakes, speak } from '../../data';
 import { useStats } from '../../context/StatsContext';
-import { markQuest } from '../../lib/quests.js';
+import { recordSrsReview } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ── Flip card ──────────────────────────────────────────────────────────────────
@@ -310,7 +310,9 @@ export default function MistakesScreen({
       // Session complete
       if (award && newMastered > 0) {
         award(newMastered * 5, newMastered >= 3, 'review');
-        markQuest('master');
+        // The whole deck was reviewed, not just the ones newly mastered — the
+        // quest counts words REVIEWED. See lib/quests recordSrsReview.
+        recordSrsReview(reviewDeck.length);
       }
       setMode('done');
     } else {

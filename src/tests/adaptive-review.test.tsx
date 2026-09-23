@@ -9,7 +9,7 @@
  *   - Session — SRS card: "Otkrij ↓" → reveals answer → correct/wrong
  *   - Wrong answer on SRS: calls recordMistake(id, '', id, 'adaptive')
  *   - Wrong answer on mistake: calls recordMistake(hr, en, q, 'adaptive')
- *   - Last item correct: calls markQuest('master') + award(correct * 2)
+ *   - Last item correct: records the session length for the SRS quests + award(correct * 2)
  *   - Results screen: shows Sesija završena, score %, XP earned = correct * 2
  *   - Results screen: goBack() called when "✓ Završi" clicked
  *   - Empty state back button: goBack() called
@@ -64,7 +64,11 @@ vi.mock('firebase/firestore', () => ({
 
 // ── quests mock ───────────────────────────────────────────────────────────────
 const mockMarkQuest = vi.hoisted(() => vi.fn());
-vi.mock('../lib/quests.js', () => ({ markQuest: mockMarkQuest }));
+const mockRecordSrsReview = vi.hoisted(() => vi.fn());
+vi.mock('../lib/quests.js', () => ({
+  markQuest: mockMarkQuest,
+  recordSrsReview: mockRecordSrsReview,
+}));
 
 // ── StatsContext mock ─────────────────────────────────────────────────────────
 vi.mock('../context/StatsContext', () => ({
@@ -288,12 +292,18 @@ describe('AdaptiveReviewScreen — mistake card session', () => {
     expect(props.award).toHaveBeenCalledWith(2, false, 'review');
   });
 
-  it('correct answer: markQuest("master") called on completion', () => {
+  // THIS TEST ASSERTED markQuest("master") AND DEFENDED THE DEFECT (2026-09-23).
+  // That quest reads "Review 5+ SRS words" and pays 30 XP, and a bare mark
+  // cleared it for a ONE-CARD session. The screens now report the deck size and
+  // `lib/quests.recordSrsReview` decides — so the assertion is about the COUNT
+  // reaching the store, and about the shortcut being gone.
+  it('correct answer: the session length is recorded on completion', () => {
     renderScreen();
     fireEvent.click(screen.getByText(/Počni sesiju/));
     fireEvent.click(screen.getByText('Otkrij značenje'));
     fireEvent.click(screen.getByText(/✓ Znam/));
-    expect(mockMarkQuest).toHaveBeenCalledWith('master');
+    expect(mockRecordSrsReview).toHaveBeenCalledWith(expect.any(Number));
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('master');
   });
 
   it('"✗ Ne znam" calls recordMistake with mistake fields', () => {
