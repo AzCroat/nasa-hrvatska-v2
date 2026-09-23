@@ -2990,6 +2990,52 @@ so the drop is seen at the next render; the exam screen replaces Home in the
 router, so returning to Home is a mount. That is an argument, not a measurement,
 and it is the next thing to drive if this interaction is revisited.
 
+### 47. The retention ladder vs a date rollover — 2026-09-23 — **NEGATIVE, now pinned**
+
+The second and last item from the INTERACTIONS list, and it closes that list.
+
+**THE RISK.** `lessonRetention`'s whole scheduler is date arithmetic — a
+lesson's `due` is a `YYYY-MM-DD` string compared against `today` — and the
+daily plan claims its slot (`selectRetentionSlot`, P1.2) at SESSION-BUILD time.
+Sweep 37 had just established that the plan was built once and never noticed
+midnight. If anything in this chain captured `today` earlier than the rebuild, a
+re-check due "tomorrow" would be invisible on the very day it fell due: a lesson
+slipping while the scheduler believed it had scheduled it, which is the failure
+the ladder exists to prevent, reached through the calendar instead of through
+the learner.
+
+**IT HOLDS**, and the reason is worth writing down because it is a JOINT
+property. Every exported function in `lessonRetention` defaults `today` to
+`localDateStr()` **at call time**, and `buildSessionActivities` recomputes the
+slot — so the fix that made the plan notice midnight (sweep 37) is what carries
+the ladder across it too. **Neither file's own tests can see this**: the store's
+tests pass `today` explicitly, so they never exercise the default, and the
+session's tests do not seed a retention store, so they never reach the slot.
+That is exactly the shape of gap the interactions seam exists to find, and here
+it happens to contain no defect.
+
+The consumers were censused rather than assumed: `retentionSlot` (session
+build — rebuilt on rollover), `nextStep` (recomputed at event time by contract),
+`conceptMap` (pure, called at render), and `RetentionCheckScreen` (a `useMemo`
+at open). The last is the one genuinely cached place and is correct as it
+stands: re-shuffling a check under the learner's hands at midnight is the worse
+failure, the same judgement sweep 37 made about not using a timer.
+
+Mutation-verified, three, each confirmed landed: sweep 37's `dayStamp` dep
+removed from the rebuild effect fails 2; the slot capturing the date once at
+module load fails 3; the due comparison replaced by `true` — the OTHER
+direction, a slot appearing merely because the day changed — fails 4. The third
+had to be redone: the first attempt targeted `rec.due <= today`, a string that
+does not appear in the file, and printed `pattern found: False` rather than
+silently doing nothing. **Make a mutation script say whether it matched**; a
+`re.sub` that matches nothing is indistinguishable from a guard that works.
+
+**THE INTERACTIONS LIST IS NOW EMPTY** — both named items (46, 47) are driven
+and negative. The next sweep needs a new question again, and the two negatives
+say something about where to look: both of these were joins between correct
+files, and both turned out to be held by a mechanism written for a different
+reason. The defects found this session were all inside a single surface.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3013,9 +3059,10 @@ None of them crash, so no sweep above can see any of them.
       BETWEEN FEATURES — sweep 31's first result came from there. Still untried:
       the retention ladder vs a date rollover with the app left open; a demotion
       (verification_fail rollback) vs content already unlocked and vs a daily
-      plan built at the higher level — the DEMOTION half is DONE, sweep 46:
-      negative, now pinned, with the carrying mechanism measured rather than
-      assumed. The retention ladder vs a rollover is still open.)
+      plan built at the higher level — BOTH DONE, sweeps 46 and 47, both
+      negative and both now pinned, with each carrying mechanism measured
+      rather than assumed. This list is empty; the next sweep needs a new
+      question.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
