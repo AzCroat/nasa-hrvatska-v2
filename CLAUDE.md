@@ -389,9 +389,46 @@ accidentally hit the real network — it returned 200 where the dev sandbox
 (whose proxy blocks the voice host) returned 503. **A test whose result depends
 on the runner's network is not a unit test**; it is stubbed now.
 
+### Recording is not telling — the other half of that rule (2026-09-23)
+
+The fix above enumerated the callers for RECORDING and stopped. Measured at all
+ten `ttsFetch` sites: **one** screen (`AIListeningScreen`) told the learner the
+cause. `SpeakingSprintScreen` said "check your connection" for a used-up daily
+allowance, a paused budget and a stale sign-in alike; `LiveTutorScreen` sent
+them to check their headphones for the same, and its warning was **unreachable
+on Capacitor** because the native branch returned early past the failure
+counter; the other seven said nothing at all.
+
+**The seven silences looked deliberate and were not.** The rule that a failed
+play on a TEXT-FIRST surface "costs the sound and nothing else" was written
+about `speak()` callers, where `_completeSpeak` dispatches `nh:tts-failed` and
+`AppToasts` names the cause site-wide. `ttsFetch` never dispatched it — the
+same quiet with nothing behind it. `_dispatchTtsFailed` is now the ONLY raiser,
+shared by both paths, so a reworded cause cannot reach half the app.
+
+**`speakSynth` swallowed its failure twice**, and the source pin written to
+stop a future fork is what found it: `u.onerror` raised a DETAIL-LESS
+`nh:tts-failed` (the bare "Audio unavailable") and then resolved, so
+`_completeSpeak` returned `'synth'` — a SUCCESS verdict for audio that never
+played, which `useHeardGate` reads as heard. That is "never score an assessment
+item whose audio the learner has not heard", reached through the fallback.
+
+**The ratchet could not have caught any of it.** `aiSurfaceClassifies.test.ts`
+matched `ttsFetch\s*\(\s*['"`]/api/tts` and every call site passes an OBJECT,
+so that branch fired nowhere and two `ttsFetch`-only files were invisible to
+the suite. `ENDPOINT_HELPERS` now maps a helper to the route it fixes in its
+own source. Mutation-verified: a fully nameless sprint screen passes the old
+matcher and fails the new one.
+
 - NEVER: instrument one path to an endpoint and describe the endpoint as
   covered — enumerate the callers; add a `/api/tts` caller that does not record
-  a named failure; cap `text` below what the AI generators actually produce;
+  a named failure, **or that records one and never surfaces it** (silence is
+  honest only where the site-wide toast speaks for it, which means the event
+  must actually be dispatched); raise `nh:tts-failed` anywhere but
+  `_dispatchTtsFailed`, or raise it without a `message`; report a play that
+  errored as a success verdict; name a transport helper in a guard's
+  URL-matching alternation without checking it passes a URL; cap `text` below
+  what the AI generators actually produce;
   key a cache on a PREFIX of the text; change the durable KV key format without
   intending to regenerate every cached phrase; credit a `servedBy` for a
   backend that returned nothing playable; let a cache hit name a provider; put
@@ -1518,6 +1555,26 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   the one day-shape with a single slot left and a non-grammar adaptive pick,
   grammar wins (the owner's G2 directive); measured, that costs input on no
   non-lesson day at any level.
+- **A SKILL THE LEDGER CANNOT MEASURE LATCHES THIS SLOT (2026-09-23).**
+  `weakestReceptiveKind` OVERRIDES the alternation outright (`weakest ??
+(alternation)`), and an untested cell scores MAXIMUM need — correct on its
+  own terms, since an unmeasured skill deserves priority. **Reading could never
+  become measured**: no `EXERCISE_COMPLETION` row carried `activityType:
+'reading'`, and both reading screens grade and award themselves, passing
+  `'reading'` to `award` — which reaches the XP and quest path and never the
+  ledger. So the moment listening reached `tested` (`MIN_SAMPLES`) the answer
+  became `'reading'` and could not change. Measured with the real slot over 40
+  sessions: **listening 0/40, reading 40/40, at A2, B1, B2 and C1** — the slot
+  exists because listening ran at 4–5% of sessions, and this had taken it to
+  zero. Fixed by `recordExerciseOutcome({ activityType: 'reading', … })` at
+  each screen's genuine completion point (the `writing_guided` /
+  `relpron` shape — no award semantics change), and pinned by
+  `masterySkillsReachable.test.ts`, which asks the GENERAL question: every
+  skill the ledger reports must have a production path that can record it.
+  NEVER let a ledger skill exist that nothing can write; and when a guard is
+  about an EFFECT, assert the effect — a source pin on the recording CALL
+  survives the score being dropped at a callback boundary, which is exactly
+  how this shipped.
 - **KIND alternates by what was served less recently** (`nh_session_served`, now
   read from `src/lib/sessionServed.ts` by both the discovery slot and this one),
   unless the mastery ledger has measured a weaker receptive skill
@@ -2956,6 +3013,21 @@ Practical rules that fall out of this:
   the leak. If a case matters, set its mocks in its own test.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
+- **A SCREEN CAN RENDER A FIELD THE PAYLOAD HAS NEVER HAD, AND NOTHING WILL
+  SAY SO.** `ScenesScreen`'s `scene.qs` is recorded below as a one-off; it is a
+  class. `RegionScreen` rendered each dialect word's explanation from `v.tip`
+  while all 81 region vocabulary rows carry `note` — so every authored line was
+  dropped, on every region page, for the life of the screen (2026-09-23).
+  `scene.qs.map` at least THREW; an optional render of an absent field is
+  `undefined`, the `&&` short-circuits, and the card is simply one line
+  shorter: no boundary, no Sentry, no failing test. Derive it — dump the field
+  names the real payload carries under each key, and check every
+  `useContent` consumer's accesses against them. **Fix the depth before
+  believing the output**: the first run capped at 3 levels and reported four
+  correct screens as broken, because `PROFESSIONS → categories → jobs → job.m`
+  is depth 4. Guard it by RENDERING against the real payload, never with a
+  source pin on the field name — the failure is a name agreeing with nothing,
+  so a pin passes just as happily when the data is renamed underneath it.
 - **A payload key and a local export can share a name and hold different data.**
   `content.SCENES` (the illustrated tap-a-word set, `items`) and the client-local
   scene-description set (`qs`) were both called SCENES; a comment said the

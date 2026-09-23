@@ -6,6 +6,7 @@ import { getVoicePreference } from '../../lib/soundSettings.js';
 import { getStoryCatalog, getStory } from '../../lib/contentClient';
 import type { StoryCatalogEntry } from '../../types/content';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { useStats } from '../../context/StatsContext';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import { useRecorder } from '../../hooks/useRecorder';
@@ -810,7 +811,9 @@ function StoryQuiz({
   goBack,
 }: {
   story: GradedStory;
-  onComplete: (xp: number) => void;
+  /** `score`/`total` ride along so the mastery ledger can be told what the
+   *  learner actually scored — `xp` alone loses it at this boundary. */
+  onComplete: (xp: number, score: number, total: number) => void;
   goBack: () => void;
 }) {
   const [qi, setQi] = useState(0);
@@ -931,7 +934,7 @@ function StoryQuiz({
             <button
               className="b bp"
               style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => onComplete(xp)}
+              onClick={() => onComplete(xp, score, story.quiz.length)}
             >
               Continue →
             </button>
@@ -1100,12 +1103,19 @@ export default function GradedInputScreen({
     setView('quiz');
   }
 
-  function complete(xp: number) {
+  function complete(xp: number, score?: number, total?: number) {
     if (completeFired.current) return;
     completeFired.current = true;
     if (story) recordStoryRead(story.id); // SP7
     if (story) markDone(story.id);
     if (typeof award === 'function') award(xp, false, 'reading');
+    // See ReadingScreen: `award`'s activityType reaches XP and quests only, so
+    // READING was the one receptive skill the mastery ledger could never
+    // measure — and `weakestReceptiveKind` overrides the input slot outright,
+    // so it answered 'reading' forever once listening became `tested`
+    // (measured: reading 40/40, listening 0/40, every level). The adapter
+    // no-ops on a missing score, so an older caller cannot fabricate one.
+    recordExerciseOutcome({ activityType: 'reading', score, total });
     markQuest('reading');
     // Contract: update vs badge + sync lc counter — guarded to fire once per story
     if (!stats.vs.includes('story-comprehension')) {

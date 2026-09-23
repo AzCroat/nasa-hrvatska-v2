@@ -802,6 +802,368 @@ it guards the paths a reader would copy, not every mention of a file.
 Mutation-verified: reverting the audit-sync path to the dead `.js` file fails 1
 and names it exactly.
 
+### 18. Two derived sweeps, both NEGATIVE — 2026-09-23
+
+Recorded because a negative result nobody wrote down gets re-run. Both were
+chosen because they are the shape that hides a live defect behind a passing
+type-check: a dependency the code treats as optional, and a resource nothing
+releases.
+
+**`typeof X === 'function'` guarded props.** The `award` hole (AlphabetScreen,
+dead for the life of the screen behind exactly this check) is already ratcheted
+by `routerAwardProp.test.ts`, so the question was whether any OTHER prop is
+guarded that way. Derived from source: 84 `award` occurrences (covered), and 5
+others — `setScr`, `setJWords`, `onComplete`, `onClick`, `goToPractice`. All
+five verified PASSED at every call site by reading the router and the parents.
+The one worth naming is `MyWordsScreen`'s `onComplete` at :637, which is inside
+the INNER component `DrillMode` (declared :584) and is passed by `MyWordsScreen`
+(:702) at :744 — a `typeof` check whose caller is twenty lines away in the same
+file reads like a dead branch and is not.
+
+**`setInterval` without `clearInterval`.** Every file that sets one clears one.
+`useSyncManager.ts` reports 3 sets to 2 clears; the third "set" is a COMMENT at
+:659. A count derived by grepping a call NAME counts prose as code — strip
+comments before believing a ratio, the same rule the CodeQL-trigger guard
+needed.
+
+Neither produced a defect. Both are cheap to re-run and are written down so the
+next sweep spends its time elsewhere.
+
+### 19. The library named the cause; nine of ten screens threw it away — 2026-09-23 — **3 REAL DEFECTS, FIXED**
+
+Found by mutating a guard that was already green, and the guard turned out to
+be the reason nobody had looked.
+
+**THE GUARD MATCHED NOTHING.** `aiSurfaceClassifies.test.ts` (sweep 13's
+ratchet) listed `ttsFetch` in its call-detection alternation:
+
+    (?:_aiPost|apiFetch|fetch|ttsFetch)\s*\(\s*['"`]/api/tts
+
+Every one of `ttsFetch`'s ten call sites passes an OBJECT —
+`ttsFetch({ text, slow, voice })` — never a URL, because the helper already
+knows the route. So that branch could not fire **anywhere**, and two files
+whose only AI call is `ttsFetch` were invisible to the whole suite:
+`GradedInputScreen` and `SpeakingSprintScreen`. Measured, not reasoned:
+`callsEndpoint` returned false for both. Demonstrated by mutation — with the
+sprint screen stripped of every classifier reference, the OLD matcher passes
+the ratchet clean (M3).
+
+**WHAT THE HOLE WAS HIDING — the census, all ten sites, read end to end:**
+
+| screen                     | what a refusal looked like                        |
+| -------------------------- | ------------------------------------------------- |
+| `AIListeningScreen`        | names the cause inline — **correct**              |
+| `SpeakingSprintScreen`     | "Could not load audio. Check your connection..."  |
+| `LiveTutorScreen`          | "Check your volume, speaker, or headphone..."     |
+| News, PhraseOfDay, HeritageStory, StoryMode, GradedInput, Writing, Maja | silent |
+
+**THE 2026-09-10 FIX WAS THE FIRST HALF OF ITS OWN RULE.** That work found
+`ttsFetch` recorded nothing and gave it `_classifyHttpFailure`,
+`getLastTtsFailure` and a Sentry report — then stopped. Its NEVER says
+"instrument one path to an endpoint and describe the endpoint as covered —
+**enumerate the callers**". The callers were enumerated for RECORDING and never
+for TELLING, and **recording is not telling**.
+
+**THE SEVEN SILENCES LOOKED DELIBERATE AND WERE NOT.** The audio directive does
+say a failed play on a TEXT-FIRST surface "costs the sound and nothing else" —
+but that rule was written about `speak()` callers, where `_completeSpeak`
+dispatches `nh:tts-failed` and `AppToasts` renders the cause site-wide.
+`ttsFetch` never dispatched it. Same quiet, nothing behind it. So the fix is
+ONE dispatch in the library (`_dispatchTtsFailed`, now the only raiser, shared
+by both paths so a reworded cause cannot reach half the app — the
+three-copies-of-a-formula failure), plus the two screens that said something
+FALSE, because a wrong sentence beside a correct toast is worse than either.
+
+**DEFECT 2 — the live tutor warning was unreachable on the platform that needs
+it.** `playTTSStreaming` has two branches; the streaming one counted its
+failures and the NATIVE one returned early past the counter. On Capacitor that
+is the only branch (MediaSource is absent), so however many of Marija's replies
+went unheard, the warning could not appear. Both branches now count through one
+`noteTtsFailure()`, and the copy names the recorded cause, falling back to the
+device advice only when nothing was refused — which is exactly when the device
+advice is the true answer. The cause is captured when the warning goes UP, not
+read at render: a later successful play clears the module-level recorder, and a
+warning still on screen would have silently reverted to blaming the headphones.
+
+**DEFECT 3, found by the test rather than by looking — `speakSynth` swallowed
+its own failure twice.** `u.onerror` raised a `nh:tts-failed` with NO detail —
+the last nameless dispatch in the module, so the toast read the bare "Audio
+unavailable" the 2026-09-06 directive exists to abolish — and then resolved, so
+`_completeSpeak` returned `'synth'`, a SUCCESS verdict, for audio that never
+played. `useHeardGate` treats any non-failure verdict as heard, so on the two
+AUDIO-FIRST screens that unlocks an answer to a recording the learner did not
+hear: **"never score an assessment item whose audio the learner has not
+heard", reached through the fallback instead of the primary path.** It now
+resolves `false` on error and the verdict belongs to `_completeSpeak`, which
+records `cause: 'playback'` with the ROOT cause in `underlying` — so a learner
+whose allowance ran out is told that, not told their browser is at fault for
+the refusal that caused the fallback.
+
+This one was NOT in the census I wrote. The "both raisers go through ONE
+function" assertion found it, by counting two inline dispatches where I
+expected one. **A source pin written to stop a future fork found a present
+one.**
+
+Its blast radius is wider than the toast. `GuidedSpeakingScreen` is the ONLY
+caller that compares the verdict (`res === 'azure' || 'synth' || 'superseded'`
+→ say nothing), so a synth error used to return a success verdict there and the
+screen stayed silent about audio that never played. It now names the cause and
+still does not gate, which is what a text-first LISTEN stage must do. Checked,
+not assumed: that comparison is the only one in `src/` or `e2e/`.
+
+**THE FEEDBACK CLASSIFIER WAS SWEPT THE SAME WAY AND IS CLEAN** — the obvious
+next question, since `reportAiFailure` is the twin mechanism. Every file that
+calls it either renders the failure's own message or hands the failure to a
+caller that does (`useExplainError` → `DrillExplainCard`, `speakingCoach.ts`
+and `whisperClaudeScorer.ts` → their screens); the five that match no
+`.message` in source are the PR #701 surfaces whose existing copy was already
+correct and were given reporting only. No second instance of this defect.
+
+Pinned by `ttsCallersNameCause.test.tsx` (11), which drives the REAL
+`SpeakingSprintScreen` through the REAL sub-components to the model phase and
+the REAL `audio.ts` against a stubbed 429 — no audio mock, so the cause is
+classified by the code that classifies it in production. The connection
+sentence is asserted ABSENT for a quota refusal and asserted PRESENT for a
+genuine transport failure: replacing a wrong sentence with a different wrong
+sentence is not an improvement.
+
+A twelfth assertion came out of the harness rather than the census: the
+sprint's `try` also covers the FileReader and `audio.play()`, which run AFTER a
+successful fetch, where `_lastTtsFailure` is null and `describeTtsFailure(null)`
+is the nameless default. A throw past the fetch IS a playback failure and now
+says so.
+
+Mutation-verified, eight, each confirmed LANDED before its result was read:
+`ttsFetch` stops dispatching fails 2; the sprint copy reverted fails 2; the
+sprint screen stripped of every classifier fails the RATCHET 1, and with the
+helper matching also removed it passes — which is the hole, demonstrated; the
+native branch not counting fails 1; the warning copy reverted fails 1; the
+nameless synth dispatch restored fails 1; the cause read at render instead of
+captured fails 1; the post-fetch failure left nameless fails 1.
+
+**THE RATCHET FIX IS NOW SELF-GUARDING.** M3 showed that reverting
+`ENDPOINT_HELPERS` left the suite green, which would have let the hole reopen
+silently. Measured: 38 callers with helper matching, 35 without; the
+anti-vacuity floor sits at 36, and a third named anchor is
+`GradedInputScreen` — a `ttsFetch`-ONLY file, deliberately not the screen fixed
+in this change, so the anchor cannot be satisfied by the fix and holds only
+while the helper matching does. Re-mutated: reverting the matcher now fails.
+
+**TWO THINGS THE TEST HARNESSES TAUGHT, both worth keeping.** `live-tutor-
+screen.test.tsx` mocks `../lib/audio.js` and omitted the new exports, so
+`getLastTtsFailure` was `undefined`, threw inside the `finally` that clears
+`playing`/`phase`, and presented as a permanently disabled tutor rather than as
+a missing mock. That is not only a harness gap: a `finally` that can throw is a
+`finally` that can strand a screen, so the counter now reads the recorder
+fail-soft — the `writePushRun` rule, observability may never take the feature
+down. And `audioWarningCause` has exactly ONE writer, `noteTtsFailure`: the
+three places that HIDE the warning do not also have to remember to clear it,
+and a stale cause is unreachable because nothing renders it before the next
+raise overwrites it. Four places to remember is how a field goes stale.
+
+**WHAT THIS DOES NOT DO, stated.** The seven silent screens are still silent
+LOCALLY — they now inherit the site-wide toast, which is the same channel every
+`speak()` caller has always had, and no screen gained a gate. Gating a
+text-first surface on playback is the thing the audio directive forbids.
+Verified rather than assumed that showing both a local card and the toast is
+already the norm: on the two audio-first screens `useHeardGate` renders
+`AudioFailureNotice` while `speak()` raises the toast, and has since 2026-09-06.
+
+### 20. A screen rendered a field the data has never had — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+`ScenesScreen`'s `scene.qs` (Sentry 0d68c47c) is recorded in CLAUDE.md as a
+one-off. It is a CLASS, and this is the second member — found by deriving it
+instead of waiting for the next Sentry event, since Sentry is not reachable
+from here.
+
+**THE DERIVATION.** Dump every field name reachable under each
+`/api/content/core` payload key from the REAL `core.js`; for each of the 53
+`useContent`/`peekContent` consumers, collect the payload keys it names and
+every `x.field` it accesses; report accesses that no key it reads can supply.
+
+**`RegionScreen` renders `v.tip`. No region vocabulary row has ever carried
+`tip`.** Measured against the real payload: **81 rows across 10 regions, 81
+with `note`, 0 with `tip`.** So every authored explanatory line — *"šoht: the
+iconic steel tower above a mine shaft, Labin's industrial symbol"* — was
+dropped on the floor, on every region page, for the life of the screen.
+
+**IT IS A WORSE HIDING PLACE THAN THE ONE THIS CLASS IS NAMED AFTER.**
+`scene.qs.map` at least THREW, so a boundary caught it and Sentry eventually
+said so. `v.tip` is `undefined`, the `&&` short-circuits, and the card renders
+one line shorter than it should: no boundary, no Sentry event, no failing
+test, nothing to notice. A missing field and a field that is legitimately
+absent look identical from inside an optional render.
+
+**THE FIRST RUN OF THE DERIVATION MANUFACTURED FOUR FINDINGS, AND READING
+KILLED ALL FOUR.** The field walk capped at depth 3 and sampled 40 array
+elements, so `PROFESSIONS → categories → jobs → job.m` (depth 4) was outside
+it — and `ProfessionsScreen` (`j.m`, `j.f`, `j.note`), `ClothesScreen`
+(`.gen`), `BodyDescScreen` and `CountriesScreen` were all reported broken
+while being perfectly correct. **Under-counting a derivation manufactures
+findings exactly the way over-counting hides them**, and this is the
+brace-depth extraction error of sweep 17 in a new place. Re-run without the
+cap (cycle-guarded), the noise collapsed from 4 false positives to 1 real
+finding plus locals; three further candidates (`WordSprint`'s `word.hr`,
+`LearnPath`'s `word.en`, `AppRouter`'s `w.word`) were read and are
+locally-shaped objects, not payload rows.
+
+**The guard is a RENDER against the REAL payload, not a source pin**
+(`regionVocabNote.test.tsx`, 11): a pin on `v.note` would pass just as happily
+if the data were renamed underneath it, because the failure IS a name agreeing
+with nothing. It drives the real screen for all ten regions and asserts each
+row's headword AND its note reach the DOM, plus the data-side floor (81 rows,
+all with `note`, none with `tip`).
+
+Mutation-verified, three, each confirmed LANDED: the screen reverted to `v.tip`
+fails 10; one row's `note` renamed to `tip` IN THE DATA fails 2 (the other
+direction — the guard must not only watch the screen); the vocabulary tab never
+opened fails 10, so the render assertions are not vacuous.
+
+One testing note worth keeping: the tab button renders `{icon} {label}`, so its
+text is split across nodes and `getByText('Language')` finds nothing. Query by
+ROLE and accessible name — which is also what a learner actually clicks.
+
+E2E audit: `croatia.spec.js` asserts only that the `Overview` tab appears; the
+change is inside the Language tab and touches no user-visible string a spec
+names.
+
+**THE OTHER DIRECTION OF THE SAME DERIVATION IS UNUSABLE, AND THAT IS WORTH
+RECORDING SO NOBODY RE-RUNS IT.** "Which authored payload fields does no source
+file read" sounds like the same sweep pointed the other way; run, it reports
+**339 names and every one is noise**, because the payload's own DATA KEYS are
+its field names (`V['greetings']`, `REGIONS['labin']`) and are reached through
+`Object.keys`, never as literals. The one row that looked like a real finding —
+HISTORY's ten graded bands (`textHrA1` … `introHrC2`, ~4,100 authored Croatian
+words) — is read by `gradedField(base, level)` building `${base}${level}` at
+call time, so the literals correctly appear nowhere. Checked rather than
+assumed: that was the one candidate whose absence would have been expensive.
+
+**THE SAME CHECK OVER THE 109 DRILL BANKS IS CLEAN, and it is a real check
+rather than a vacuous one**: `ModeDrill` renders exactly `q`, `opts`, `answer`,
+`tip`, `en`, `mode`, and across **109 banks / 2,616 rows** there is not one
+field the engine never renders and not one row missing a field it requires.
+That is the whole practice programme, so the class does not generalise to the
+drills — worth knowing before someone spends a sweep there.
+
+### 21. The ledger could never measure reading, and that latched the input slot — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+The open queue item "behavioural correctness on live paths — renders fine,
+behaves wrong". This is one: nothing crashes, nothing looks wrong, and the
+comprehension guarantee quietly stops guaranteeing comprehension.
+
+**READING WAS THE ONE SKILL THE MASTERY LEDGER COULD NOT MEASURE.**
+`recordExerciseOutcome` fires only from `completeExercise`, and **no
+`EXERCISE_COMPLETION` row carried `activityType: 'reading'`** (measured: 267
+rows — grammar 236, vocabulary 9, listening 5, lesson 9, speaking 2, none 5,
+default 1; reading 0, writing 0). Writing has its own direct
+`recordMasteryEvent` calls from Guided Writing, WritingScreen and
+`LessonProduceStep`. Reading had nothing: both reading screens grade and award
+themselves (the `writing_guided` / `relpron` shape) and pass `'reading'` to
+`award`, whose activityType reaches the XP and quest path and **never the
+ledger** — `useAward` does not import it.
+
+**WHY AN UNMEASURABLE SKILL IS NOT A DORMANT GAP.** `weakestReceptiveKind`
+OVERRIDES the comprehension slot outright — `const preferred = weakest ??
+(alternation)` — and an untested cell scores MAXIMUM need, which is correct on
+its own terms: an unmeasured skill deserves priority. With reading permanently
+unmeasurable, the moment listening reached `tested` (`MIN_SAMPLES` 5, "a week
+of honest work") the answer became `'reading'` and could never change.
+
+**MEASURED with the REAL slot, 40 sessions per level:**
+
+| ledger state        | weakest   | listening | reading |
+| ------------------- | --------- | --------- | ------- |
+| empty               | null      | 30        | 10      |
+| listening TESTED    | reading   | **0**     | **40**  |
+| both TESTED (fixed) | null      | —         | —       |
+
+A2, B1, B2 and C1 identical. **The comprehension slot exists BECAUSE listening
+was running at 4–5% of sessions (2026-09-04); this had quietly taken it to
+zero** — worse than the thing it was built to fix.
+
+**TWO WRONG ANSWERS ON THE WAY, BOTH CAUGHT BY MEASURING.** I first reasoned
+that one listening event would flip it; it does not — one sample is `tested:
+false`, which scores need 1 for BOTH, and the tie goes to listening. And the
+first harness reported listening 40/40 on an EMPTY ledger, which looked like
+the defect and was mine: it never wrote `nh_session_served`, so the alternation
+had no dates to alternate on. Reason about a scheduler and you will describe a
+scheduler that does not exist.
+
+**THE FIX IS THE SANCTIONED ONE**, not a conversion: a single
+`recordExerciseOutcome({ activityType: 'reading', score, total })` at each
+screen's genuine completion point — the same shape as the
+`recordScreenPractised` calls added to `writing_guided` and `relpron`, and it
+changes no award semantics. The ADAPTER rather than a hand-rolled
+`recordMasteryEvent`, because it already owns the level, the weight and the
+fail-soft, so a drill finish becomes evidence ONE way. `GradedInputScreen` also
+had to widen `onComplete(xp)` to carry `score`/`total`: the score existed
+inside `StoryQuiz` and died at that boundary.
+
+**THE FIRST GUARD WAS SOURCE-DERIVED AND A MUTATION WALKED STRAIGHT THROUGH
+IT.** Dropping `score`/`total` at the `onComplete` boundary — exactly the shape
+the bug had — leaves the `recordExerciseOutcome` call in the file, makes the
+adapter return early on a missing score, and records nothing. The suite stayed
+green. **That is `couplingClearingPath`'s trap one level deeper: there an
+IMPORT satisfied a guard written about a CALL; here a CALL satisfied a guard
+written about an EFFECT.** The guard now finishes the REAL quiz in the REAL
+screen and asks the REAL ledger what it learned.
+
+`masterySkillsReachable.test.ts` (11) asks the general question — every skill
+the ledger reports must have a production path that can record it — rather than
+naming `reading`, which would go stale the moment a seventh skill arrives with
+the same hole.
+
+Mutation-verified, five, each confirmed LANDED: both recorders removed fails 2;
+the score dropped at the `onComplete` boundary fails 1 (**this is the one that
+survived the first draft**); the both-strong `null` return removed — the latch
+restored — fails 1; the picker made unconditionally null, which would destroy
+the feature while satisfying the anti-latch test, fails 1. Removing ONE of the
+two recorders SURVIVES, and that is correct rather than a hole: one practice
+path is enough for the skill to be measurable, which is all the guard claims.
+
+E2E audit: `onComplete`'s signature is internal; no label or test id changed,
+and the specs that click "Continue →" / "See Results" are unaffected.
+
+**RECORDABLE IS NOT REACHABLE, so the guard asks both.** The speaking coach was
+a correct, tested library wired to a state no launcher produces, and its own
+tests passed throughout; a skill recorded only from a screen nothing can reach
+is that defect with a new name. Measured: grammar, vocab, listening and
+speaking reach a session pool through their registry keys; reading through
+`graded_input`; writing through `writing` and `writing_guided`. (`ReadingScreen`'s
+own route is NOT pooled — it is reached from the Learn Path — so reading's
+session reachability rests entirely on the graded reader.) No second defect
+here; the clause is a ratchet.
+
+**AND THE CLAUSE I ADDED FOR IT WAS DECORATIVE ON ITS FIRST RUN**, which is the
+fourth time in this audit that a guard needed mutating after it was written.
+`routesOf` scanned a FIXED 400-character window after each `currentScreen ===`
+match, which bleeds into the NEXT router block: `GradedInputScreen` resolved to
+`['cloze', 'graded_input']`, and `cloze` is itself a pool screen — so unpooling
+`graded_input` left the assertion green on a route the component is not
+rendered at. Bounding each block by the next `currentScreen ===` fixes it, and
+the same mutation then fails. **When you fix a guard, mutate again** — and when
+you ADD a clause to one, mutate the clause, not the file.
+
+**THE FIVE REGISTRY ROWS WITH NO `activityType` WERE CHECKED AND DELIBERATELY
+LEFT ALONE** — recorded because the next person will find them the same way I
+did and they look exactly like the nine the registry comment describes fixing.
+They are `p()` rows: **passive read/dwell credit**, not graded finishes, and
+the helper does not even accept an activityType. Two (`dialects`, `grammarmap`)
+are not in any pool, so the registry's own derivation method (pool category ->
+`SKILL_GROUP`) cannot classify them at all.
+
+`alphabet` is the interesting one and still a NO. Its registry row covers the
+DWELL path; the QUIZ never reaches `completeExercise` at all — the screen
+grades itself and calls `award(20, false, 'vocabulary')`, which is the same
+XP-and-quests-only path that hid the reading defect, and it does hold a real
+`score`. So evidence IS being dropped. The difference that makes it not worth
+changing: **vocab is already measurable from eight pooled screens, so there is
+no latch** — the consequence is a little less evidence for one skill, not a
+scheduler stuck on one answer forever. The screen's own comment states the
+trade ("deliberately NOT a conversion... would change a live screen's XP
+semantics for no gain here"), and that reasoning holds. Declined on the
+measurement, not on the comment's authority.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -821,9 +1183,12 @@ None of them crash, so no sweep above can see any of them.
       fails 1).
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
-- [~] **Day-one path**: the LESSON half is checked (sweep 7), and PLACEMENT is
-  now checked (sweep 14 — one real defect, the inescapable Exit loop). Still
-  open: first drill -> audio -> feedback on a zero-state account.
+- [~] **Day-one path**: the LESSON half is checked (sweep 7), PLACEMENT is
+  checked (sweep 14 — one real defect, the inescapable Exit loop), and the
+  AUDIO leg is now checked (sweep 19 — three real defects, all on the
+  `ttsFetch` path). The FEEDBACK leg is covered by sweeps 8/13 plus
+  `useExplainError`'s own classification, re-read this pass. What remains of
+  this item is the first DRILL itself on a zero-state account.
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and

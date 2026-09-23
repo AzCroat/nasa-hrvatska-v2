@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 import { apiFetch } from '../../lib/apiFetch.js';
-import { getAudioContext, unlockAudio, ttsFetch, isNative, blobToBase64 } from '../../lib/audio.js';
+import {
+  getAudioContext,
+  unlockAudio,
+  ttsFetch,
+  isNative,
+  blobToBase64,
+  getLastTtsFailure,
+  describeTtsFailure,
+} from '../../lib/audio.js';
+import type { TtsFailure } from '../../lib/audio.js';
 import { _nativePost } from '../../lib/nativePost.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
@@ -145,6 +154,16 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
   const [audioTestResult, setAudioTestResult] = useState<'ok' | 'fail' | null>(null); // null | 'ok' | 'fail'
   const ttsFailCountRef = useRef<number>(0); // consecutive TTS failures during active session
   const [showAudioWarning, setShowAudioWarning] = useState(false);
+  // The cause is captured WHEN the warning is raised, not read at render: a
+  // later successful play clears `_lastTtsFailure`, and a warning still on
+  // screen must keep saying why it went up rather than silently reverting to
+  // the generic device advice.
+  //
+  // `noteTtsFailure` is its ONLY writer, deliberately: the three places that
+  // hide the warning do not also have to remember to clear this, and a stale
+  // cause is unreachable because nothing renders it until the next raise has
+  // overwritten it. Four places to remember is how a field goes stale.
+  const [audioWarningCause, setAudioWarningCause] = useState<TtsFailure | null>(null);
 
   // ── Refs ──────────────────────────────────
   const audioRef = useRef<{ pause: () => void; currentTime: number } | HTMLAudioElement | null>(
@@ -438,6 +457,25 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
     });
   };
 
+  // BOTH BRANCHES COUNT THROUGH ONE FUNCTION. They did not before, and the
+  // native one did not count at all — see the `finally` below.
+  const noteTtsFailure = useCallback(() => {
+    ttsFailCountRef.current += 1;
+    if (ttsFailCountRef.current < 2) return;
+    // FAIL-SOFT, the `writePushRun` rule: this runs inside the `finally` that
+    // clears `playing`/`phase`, so a throw here would strand the tutor's
+    // controls forever — observability taking the feature down. Reading the
+    // recorder must never be able to cost a learner their session.
+    let cause: TtsFailure | null = null;
+    try {
+      cause = getLastTtsFailure();
+    } catch {
+      /* no cause available — the generic device advice is then the honest one */
+    }
+    setAudioWarningCause(cause);
+    setShowAudioWarning(true);
+  }, []);
+
   // ── TTS: streaming playback ────────────────
   const playTTSStreaming = async (text: string): Promise<void> => {
     unlockAudio(); // must be synchronous before any await — iOS activation
@@ -447,16 +485,25 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
     // Native (Capacitor) can't stream over CapacitorHttp and relative-URL fetch fails on
     // device — use the native-safe blob path. Web with MSE keeps the streaming path below.
     if (isNative() || !window.MediaSource || !MediaSource.isTypeSupported('audio/mpeg')) {
+      let nativeOk = false;
       try {
         const res = await ttsFetch({ text, slow: false, voice: getVoicePreference() });
         if (res && res.ok) {
           await playBlob(await res.blob());
           ttsFailCountRef.current = 0;
           setShowAudioWarning(false);
+          nativeOk = true;
         }
       } catch {
-        /* silent — text still displayed */
+        /* text is still displayed; the counter below is what speaks */
       } finally {
+        // THE COUNTER WAS NEVER INCREMENTED ON THIS BRANCH (2026-09-23), so on
+        // Capacitor — where this is the ONLY path, MediaSource being absent —
+        // the audio warning could not appear however many replies went unheard.
+        // The streaming branch below has always counted its failures; this one
+        // returned early past them. A warning that is unreachable on the
+        // platform that needs it most is the decorative-guard shape again.
+        if (!nativeOk) noteTtsFailure();
         setPlaying(false);
         setPhase('none');
       }
@@ -578,10 +625,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       } catch {
         /* silent fail — text still displayed */
       }
-      if (!blobOk) {
-        ttsFailCountRef.current += 1;
-        if (ttsFailCountRef.current >= 2) setShowAudioWarning(true);
-      }
+      if (!blobOk) noteTtsFailure();
     }
     setPlaying(false);
     setPhase('none');
@@ -1342,9 +1386,17 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
           }}
         >
           <span>🔇</span>
-          <span style={{ flex: 1 }}>
-            Not hearing Marija? Check your volume, speaker, or headphone connection. Her replies are
-            shown as text above.
+          <span style={{ flex: 1 }} data-testid="live-tutor-audio-warning">
+            {/* IT SENT THE LEARNER TO CHECK THEIR HEADPHONES FOR A SERVER
+                REFUSAL (2026-09-23). When `ttsFetch` has recorded a cause —
+                a used-up allowance, a paused budget, a stale sign-in, a dead
+                provider — say that instead; the device advice is right only
+                when nothing was refused, which is exactly when there is no
+                recorded failure to read. */}
+            {audioWarningCause
+              ? describeTtsFailure(audioWarningCause)
+              : 'Not hearing Marija? Check your volume, speaker, or headphone connection.'}{' '}
+            Her replies are shown as text above.
           </span>
           <button
             onClick={() => setShowAudioWarning(false)}
