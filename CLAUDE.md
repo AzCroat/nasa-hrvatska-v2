@@ -1519,11 +1519,25 @@ exactly the rate the content it restates grows.
   `peekContent()` (`hooks/useContent`, never fetches): below B2 the frequency
   core leads and the band follows; at B2+ the band leads. Content absent →
   frequency only, exactly as before.
-- **Three copies of the payload key list** must agree: `core.js` KEYS,
-  `core.test.js` ALL_KEYS, and `generate-content-etags.mjs` CORE_KEYS (the etag
-  must move when the payload does). `vocabPool.test.ts` pins all three carry
-  `V_LEVELS`, plus the E2E fixture (`content-fixture.js`) — without it the E2E
-  suite would exercise only the degrade path.
+- **The payload key list is ONE array** — `CORE_PAYLOAD_KEYS` in
+  `_data/core.js` — read by `core.js`'s KEYS, `generate-content-etags.mjs`'s
+  CORE_KEYS and `core.test.js`'s ALL_KEYS (the etag must move when the payload
+  does). **It was three hand-written copies until 2026-09-23 and they had
+  drifted**: the endpoint and the generator carried 32 keys, the TEST carried 31
+  — missing `CULTURE_DEEP_DIVES` — so the "every export is present" assertion
+  covered 31 of the 32 keys actually served. The copy that went stale is the one
+  with no reason to change: the endpoint and the generator are edited whenever a
+  key is added, because nothing works otherwise. `corePayloadKeys.test.js` holds
+  all three to READING the array rather than restating it, and requires every
+  listed key to have an export behind it.
+  **Four guards broke when the literal was consolidated**, each having derived
+  by slicing `const KEYS = [` out of source or grepping files for a key name
+  (`contentShapeSweep`, `content-core-contract` — which failed to LOAD rather
+  than to assert — `vocabPool`, `cultureDeepDives`). All four now import the
+  value. **Derive by importing the VALUE, not by parsing the text that spells
+  it.** The E2E fixture (`content-fixture.js`) and `src/types/content.ts` are
+  genuinely separate carriers and are still checked as files — without the
+  fixture the E2E suite would exercise only the degrade path.
 - `vocabPoolWiring.test.tsx` drives the REAL launcher without `allCats` and reads
   what `setFcInitPool` / `setMcInitQ` receive at A1, B1 and B2 — the wiring test
   the derivation tests cannot replace. Mutation-verified: six mutations (launcher
