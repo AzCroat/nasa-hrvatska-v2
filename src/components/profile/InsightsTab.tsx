@@ -93,7 +93,13 @@ export default function InsightsTab() {
           at a glance, nudging the lightest. Consolidates the production (Rec #6),
           listening (Rec #1) and reading (Rec #2) rep signals into one panel.
           stats.pr is the synced production total (Math.max with device-local). ── */}
-      <FluencySnapshot cefr={cefr} setScr={setScr} syncedProductionTotal={st.pr || 0} />
+      <FluencySnapshot
+        cefr={cefr}
+        setScr={setScr}
+        syncedProductionTotal={st.pr || 0}
+        syncedListeningTotal={st.lr || 0}
+        syncedReadingTotal={st.rr || 0}
+      />
 
       {/* ── THE CONCEPT MAP (Rec #5) — per-concept standing derived from the
           retention ladder. Sits directly under the fluency snapshot because it

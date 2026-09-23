@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { getTopErrors, getErrorsByCategory } from '../../lib/learnerErrors.js';
 import { getWeakTopics, weakTopicEvidence } from '../../lib/adaptive.js';
+import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../../lib/categoryRoutes';
+import type { SkillCategory } from '../../lib/adaptive';
 import { useApp } from '../../context/AppContext';
 
 // ── Error code → friendly explanation mapping ─────────────────────────────────
@@ -9,7 +11,17 @@ interface ErrorMetaEntry {
   desc: string;
   example?: { wrong: string; right: string };
   tip?: string;
-  screen: string;
+  /**
+   * OPTIONAL, and that is the fix. It used to be required, so the default meta
+   * for an UNRECOGNISED pattern had to name something — and it named `'quiz'`,
+   * which is not a router branch at all. There is no catch-all in AppRouter, so
+   * `setScr('quiz')` set `currentScreen` to a string nothing matches and the
+   * content area rendered EMPTY: no error, no boundary, nothing in Sentry, just
+   * a blank page under the tab bar. Absent is the honest value for "this app
+   * has no drill for that error" — the ConceptMapCard rule, that an unmapped
+   * concept gets NO button rather than a wrong one, applied one card over.
+   */
+  screen?: string;
   icon: string;
 }
 const ERROR_META: Record<string, ErrorMetaEntry> = {
@@ -66,7 +78,7 @@ const ERROR_META: Record<string, ErrorMetaEntry> = {
     desc: '"Dva" is used with masculine and neuter nouns. "Dvije" is used with feminine nouns.',
     example: { wrong: 'dva sestre', right: 'dvije sestre (two sisters)' },
     tip: 'Check the gender of the noun first, then pick the numeral form.',
-    screen: 'quiz',
+    screen: 'numtime',
     icon: '2️⃣',
   },
   numeral_gender_agreement: {
@@ -74,7 +86,7 @@ const ERROR_META: Record<string, ErrorMetaEntry> = {
     desc: 'The numeral "one" must agree with the noun in gender: jedan (m), jedna (f), jedno (n).',
     example: { wrong: 'jedan noć', right: 'jedna noć (one night)' },
     tip: 'Learn gender with every new noun. No shortcuts — gender is fundamental.',
-    screen: 'quiz',
+    screen: 'numtime',
     icon: '1️⃣',
   },
   genitive_of_negation: {
@@ -214,11 +226,13 @@ function ErrorCard({
   onToggle: () => void;
   onPractice: (screen: string) => void;
 }) {
+  // No `screen`: an unrecognised pattern has no drill this app knows about, and
+  // the button below renders only when there is one. Naming a screen here was
+  // how EVERY unmapped error pattern got a Practice button to nowhere.
   const meta: ErrorMetaEntry = ERROR_META[error.pattern] || {
     label: error.pattern.replace(/_/g, ' '),
     desc: `This pattern appeared ${error.count} time(s).`,
     icon: '⚠️',
-    screen: 'quiz',
   };
   const urgency = error.count >= 5 ? 'high' : error.count >= 3 ? 'medium' : 'low';
   const urgencyColor =
@@ -362,7 +376,7 @@ function ErrorCard({
 
           {meta.screen && (
             <button
-              onClick={() => onPractice(meta.screen)}
+              onClick={() => onPractice(meta.screen!)}
               style={{
                 background: 'linear-gradient(135deg, var(--info), #0369a1)',
                 color: '#fff',
@@ -388,6 +402,64 @@ function ErrorCard({
 }
 
 // ── Weak topic card ───────────────────────────────────────────────────────────
+/**
+ * Where a weak TOPIC's practice button goes — or null, meaning no button.
+ *
+ * THE DEFECT THIS REPLACES. The card carried its own nine-entry substring map
+ * with `|| 'quiz'` as the fallback, and `'quiz'` is not a router branch: there
+ * is no catch-all in AppRouter, so it rendered a BLANK content area. Measured
+ * against the topic ids `recordTopicResult` is actually called with in
+ * production — aspect, cases, future_tense, grammar, listening, past_tense,
+ * phonology, production, speaking, vocab, vocabulary, food — **nine of twelve
+ * fell through to that fallback**, and two more (`vocabulary`, `numbers`) named
+ * it outright. So the Practice button on a weak-topic card did nothing for
+ * almost every topic it could appear on.
+ *
+ * It is resolved through the COUPLING'S OWN MAPS first, which is the rule
+ * ConceptMapCard already follows: `CATEGORY_SCREEN_MAP` then
+ * `CATEGORY_EASIER_SCREEN`, on the id normalised from the topic store's
+ * underscores to the category files' hyphens (`past_tense` → `past-tense`).
+ * That map is maintained, CEFR-aware and already tested end to end; a second
+ * hand-written copy of the same idea is the thing that decayed here.
+ *
+ * The substring table survives ONLY for ids that are not categories at all
+ * (`grammar`, `cases`, `padezi`, `pronunciation`, `aspect`) — every value in it
+ * is a real router branch, asserted by `navTargetsRoute`.
+ *
+ * NULL MEANS NO BUTTON. A topic with no honest drill gets nothing rather than a
+ * wrong destination — the coupling's own rule ("a wrong drill is worse than no
+ * drill") and the one this card broke by defaulting.
+ */
+const LEGACY_TOPIC_SCREEN: Record<string, string> = {
+  grammar: 'conjdrill',
+  padezi: 'padezi',
+  cases: 'padezi',
+  verbs: 'conjdrill',
+  conjugation: 'conjdrill',
+  pronunciation: 'pronunciation_course',
+  aspect: 'grammar_track',
+  // Added with the fix, each because the app's own routing already answers it
+  // and the substring table simply had no row: `phonology` IS pronunciation
+  // (the word 'pronunciation' is not in it, which is the whole reason it fell
+  // through); `speaking` goes to the mic-optional, rubric-graded practice that
+  // the speaking-coach sweep established as the reachable one; `vocab` catches
+  // `vocabulary` too and goes where CATEGORY_SCREEN_MAP sends every vocab-* tier.
+  phonology: 'pronunciation_course',
+  speaking: 'speaking_guided',
+  vocab: 'znam',
+  // `production` is deliberately absent: it covers speaking AND writing, the
+  // app has a separate screen for each, and choosing one would be the guess the
+  // old `|| 'quiz'` default was. No button is the honest answer.
+};
+
+export function practiceScreenForTopic(topicId: string): string | null {
+  const id = topicId.toLowerCase();
+  const category = id.replace(/_/g, '-') as SkillCategory;
+  const routed = CATEGORY_SCREEN_MAP[category] ?? CATEGORY_EASIER_SCREEN[category];
+  if (routed) return routed;
+  return Object.entries(LEGACY_TOPIC_SCREEN).find(([k]) => id.includes(k))?.[1] ?? null;
+}
+
 function WeakTopicCard({
   topic,
   onPractice,
@@ -395,19 +467,7 @@ function WeakTopicCard({
   topic: { id: string; accuracy: number; attempts: number };
   onPractice: (screen: string) => void;
 }) {
-  const TOPIC_SCREEN = {
-    grammar: 'conjdrill',
-    padezi: 'padezi',
-    cases: 'padezi',
-    verbs: 'conjdrill',
-    conjugation: 'conjdrill',
-    pronunciation: 'pronunciation_course',
-    aspect: 'grammar_track',
-    vocabulary: 'quiz',
-    numbers: 'quiz',
-  };
-  const screen =
-    Object.entries(TOPIC_SCREEN).find(([k]) => topic.id.toLowerCase().includes(k))?.[1] || 'quiz';
+  const screen = practiceScreenForTopic(topic.id);
   const pct = topic.accuracy;
   const color = pct < 30 ? '#D4002D' : pct < 50 ? '#d97706' : '#0e7490';
 
@@ -464,24 +524,27 @@ function WeakTopicCard({
           {topic.attempts} attempts
         </div>
       </div>
-      <button
-        onClick={() => onPractice(screen)}
-        style={{
-          background: `${color}18`,
-          border: `1.5px solid ${color}50`,
-          color,
-          borderRadius: 10,
-          padding: '7px 12px',
-          fontSize: 12,
-          fontWeight: 800,
-          cursor: 'pointer',
-          fontFamily: "'Outfit',sans-serif",
-          flexShrink: 0,
-          whiteSpace: 'nowrap',
-        }}
-      >
-        Drill →
-      </button>
+      {screen && (
+        <button
+          data-testid="weak-topic-drill"
+          onClick={() => onPractice(screen)}
+          style={{
+            background: `${color}18`,
+            border: `1.5px solid ${color}50`,
+            color,
+            borderRadius: 10,
+            padding: '7px 12px',
+            fontSize: 12,
+            fontWeight: 800,
+            cursor: 'pointer',
+            fontFamily: "'Outfit',sans-serif",
+            flexShrink: 0,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Drill →
+        </button>
+      )}
     </div>
   );
 }

@@ -16,6 +16,8 @@ import { attemptsOrUndef } from './lessonAttempts';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
+import { getListeningReps } from './listeningMetric';
+import { getReadingReps } from './readingMetric';
 
 /** A record, or undefined when it has no keys — see _strArrOrUndef. */
 function _mapOrUndef(m: Record<string, string>): Record<string, string> | undefined {
@@ -99,7 +101,20 @@ export function buildProgressSnapshot({
   // lower str value to the progress blob, causing streak divergence across devices.
   const _lsStreak = getStreak();
   const _bestStr = Math.max(stats.str || 0, _lsStreak.count || 0);
-  const _stats = _bestStr !== (stats.str || 0) ? { ...stats, str: _bestStr } : stats;
+  // Listening and reading reps are counted in their own localStorage buckets
+  // (lib/listeningMetric, lib/readingMetric) by every screen that finishes one
+  // — award()'s activityType path AND the direct recorders on the screens whose
+  // award type is not their modality. Reconciling HERE rather than at each
+  // counting site is what makes that "every" true: one place, and a call site
+  // added next month is carried without being remembered. Same idiom as `str`
+  // directly above, and Math.max for the same reason — the snapshot may never
+  // write a lower number than either side already holds.
+  const _bestLr = Math.max(stats.lr || 0, getListeningReps().total || 0);
+  const _bestRr = Math.max(stats.rr || 0, getReadingReps().total || 0);
+  const _stats =
+    _bestStr !== (stats.str || 0) || _bestLr !== (stats.lr || 0) || _bestRr !== (stats.rr || 0)
+      ? { ...stats, str: _bestStr, lr: _bestLr, rr: _bestRr }
+      : stats;
 
   return {
     name,

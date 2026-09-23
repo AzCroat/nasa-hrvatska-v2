@@ -34,24 +34,51 @@ export default function FluencySnapshot({
   cefr,
   setScr,
   syncedProductionTotal = 0,
+  syncedListeningTotal = 0,
+  syncedReadingTotal = 0,
 }: {
   cefr: string;
   setScr: (screen: string) => void;
-  // Production lifetime total is synced cross-device via stats.pr; Math.max with
-  // the device-local bucket guards a device whose synced stat hasn't hydrated.
+  // Lifetime totals are synced cross-device via stats.pr / stats.lr / stats.rr;
+  // Math.max with the device-local bucket guards a device whose synced stat has
+  // not hydrated yet, and is monotonic in both directions.
+  //
+  // ALL THREE, NOW. Only production was synced: the other two were device-local
+  // with their modules calling cross-device sync "a scoped follow-up identical
+  // to the production-rep one" and deferring it. So this card printed one
+  // cross-device lifetime total beside two per-device ones — in a row of three
+  // numbers whose entire purpose is to be compared — and a learner who reads on
+  // a laptop and listens on a phone saw two of the three start again from zero
+  // on each. The WEEK column was always consistent (all three device-local);
+  // it was the totals that disagreed about what they counted.
   syncedProductionTotal?: number;
+  syncedListeningTotal?: number;
+  syncedReadingTotal?: number;
 }) {
   const listen = getListeningReps();
   const read = getReadingReps();
   const prod = getProductionReps();
   const prodTotal = Math.max(syncedProductionTotal, prod.total);
+  const listenTotal = Math.max(syncedListeningTotal, listen.total);
+  const readTotal = Math.max(syncedReadingTotal, read.total);
 
   const skills: Skill[] = [
     {
       key: 'speaking',
       label: 'Speaking & Writing',
       emoji: '🗣️',
-      screen: 'speaking',
+      // `'speaking'` until 2026-09-23, and that is a PAYLOAD-GATED route: the
+      // branch renders `SpeakingScreen` only when the launcher has set `sw`,
+      // and otherwise renders `ScreenGuard` ("we couldn't restore your speaking
+      // practice"). This card navigates with a plain `setScr` and has no
+      // launcher, so the nudge below — the card's primary call to action, and
+      // the one shown by default whenever the week is empty, since production
+      // is priority 0 — landed on a recovery screen instead of on speaking
+      // practice. `speaking_guided` self-initialises, needs no microphone,
+      // is available from A1, is graded against the /api/speaking-coach rubric,
+      // and is in PRODUCTION_POOL — so finishing it increments the very bar
+      // that sent the learner there.
+      screen: 'speaking_guided',
       week: prod.thisWeek,
       total: prodTotal,
       priority: 0,
@@ -62,7 +89,7 @@ export default function FluencySnapshot({
       emoji: '🎧',
       screen: 'ai_listening',
       week: listen.thisWeek,
-      total: listen.total,
+      total: listenTotal,
       priority: 1,
     },
     {
@@ -71,7 +98,7 @@ export default function FluencySnapshot({
       emoji: '📖',
       screen: 'readlist',
       week: read.thisWeek,
-      total: read.total,
+      total: readTotal,
       priority: 2,
     },
   ];

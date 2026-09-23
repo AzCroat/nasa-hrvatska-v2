@@ -139,8 +139,15 @@ const GAP_AREAS = [
     desc: 'Perfective vs. imperfective verbs',
     weakness: 'The hardest part of Croatian — even advanced learners struggle',
     modules: [
+      // Three of these ids named no router branch at all — `aspect_drill`,
+      // `tivi`, `formal_register` against the real `aspectdrill`,
+      // `tivicompare`, `formalregister` — so tapping those three cards set
+      // `currentScreen` to a string AppRouter has no case for and the content
+      // area rendered EMPTY. There is no catch-all branch, so an unknown id is
+      // a blank page with no error and nothing in Sentry. `navTargetsRoute`
+      // now walks every table like this one against the real router.
       { label: 'Aspect Pairs', scr: 'aspect' },
-      { label: 'Aspect Drill', scr: 'aspect_drill' },
+      { label: 'Aspect Drill', scr: 'aspectdrill' },
     ],
   },
   {
@@ -150,8 +157,8 @@ const GAP_AREAS = [
     desc: 'Using Vi (formal you) with elders and strangers',
     weakness: 'Your grandparents may have used ti with you — Vi sounds strange but is important',
     modules: [
-      { label: 'Ti vs Vi', scr: 'tivi' },
-      { label: 'Formal Register', scr: 'formal_register' },
+      { label: 'Ti vs Vi', scr: 'tivicompare' },
+      { label: 'Formal Register', scr: 'formalregister' },
     ],
   },
   {
