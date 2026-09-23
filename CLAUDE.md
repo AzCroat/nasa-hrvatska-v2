@@ -2125,6 +2125,74 @@ to a screen state nothing produces, and it has been dead ever since.**
   — and reporting only the symptom (which the first survey did) would have sent
   the next person to sort 18 prompts into six buckets on a screen nobody reaches.
 
+### Sentences before paragraphs — the BUILD stage (owner directive, 2026-09-07 → 2026-09-23)
+
+**"In guided speaking we need to begin with sentences, not paragraphs. We need to
+be building up speaking."** Measured before building: the ladder was LISTEN →
+REHEARSE → SPEAK, where `RehearsePhrase` is `{hr, en, why}` — repeat a FIXED
+phrase back, pure imitation — and SPEAK is free production at a word floor. The
+floor is 15 words at A1 against a 31-word model, and `a1-introduce` asks for four
+things at once (name, origin, residence, motivation). **Nothing in the ladder ever
+asked the learner to CONSTRUCT one sentence of their own.**
+
+**And the grammar signal was worse than the length.** The SPEAK checklist is
+satisfied when "the transcript contains ANY of these (case-insensitive)" —
+substring presence, which cannot tell a right case ending from a wrong one. The
+only real grammatical feedback was one `/api/speaking-coach` rubric score on the
+whole paragraph: the longest, latest, least actionable place to be told about a
+case ending.
+
+- **`src/lib/sentenceBuild.ts` (`gradeBuild`) is the new rung**, and it is
+  RULE-BASED ON PURPOSE. A Claude call per spoken sentence would be the
+  cache-served-endpoint mistake in a new place — a per-learner charge on what
+  becomes the commonest event in the app. `croatianMorphology.decline()` already
+  gives the paradigm and `CASE_NAME`/`CASE_QUESTION` the app's own plain-English
+  vocabulary, so the correction is instant, offline and free. The AI coach still
+  grades the paragraph at SPEAK, once, exactly as before (pinned: the module
+  imports no AI surface, with comments STRIPPED before the match — the first
+  draft failed on its own docstring naming the endpoint).
+- **It grades the GRAMMAR POINT, not the sentence.** Produce the required form and
+  the item passes whatever the wording around it — this is speech, not dictation,
+  the same rule that stops `phraseMatches` punishing a dropped diacritic.
+- **A SELF-CORRECTION COUNTS AS RIGHT**, and that line is load-bearing: a Set
+  iterates in insertion order, so without checking the required form FIRST, a
+  learner who says "kava… kavu" (what people actually do aloud) is corrected for
+  a mistake they had already fixed. **Found by mutation** — deleting the fast path
+  broke nothing until the test existed, which is the difference between a
+  redundant line and a load-bearing one.
+- **The honesty rule is inherited from the morphology module.** `kave` is genitive
+  singular AND nominative/accusative/vocative plural; the correction reports EVERY
+  reading the ending permits and never picks one. Naming a single case would be
+  wrong most of the time — NEVER-DO 13 applied to grammar. Every reading also
+  states its NUMBER, because "genitive" beside "nominative plural" reads as if the
+  first had none.
+- **Absence degrades to the old flow.** A unit with no authored `build` goes
+  straight to SPEAK exactly as before, and the stage dot is not rendered — a
+  half-rolled-out curriculum must never strand a learner on an empty stage. A1 is
+  authored (8 units × 3 sentences); A2–C2 inherit the old ladder until authored.
+- **The stage TEACHES and never blocks**, like REHEARSE: typed input counts
+  identically to the mic (the stage that teaches case endings is exactly the one a
+  mic-blocked learner must not be shut out of), Next is always present, and the
+  model answer is withheld until two genuine attempts so it is a hint, not an
+  answer sheet.
+- **THE DATA IS VERIFIED AGAINST THE ENGINE, NOT ASSUMED.** `decline().forms` is
+  FLAT (`{Nsg, Gsg, …, Ipl}`), not `table[case][number]`. The first draft assumed
+  the nested shape, so the lookup returned `undefined` for every word, the focus
+  branch never ran, and grading fell through to phrase matching — **a grammar
+  check that was silently never performed**, the `scene.qs` class exactly. Caught
+  by probing `decline()` against real words BEFORE authoring a line of data.
+  `sentenceBuild.test.ts` now pins, for every authored item: the lemma declines,
+  the required cell exists, the required form actually appears in the model
+  answer, and **every model answer passes its own grader** (the exemplar rule the
+  writing curriculum already holds).
+- Mutation-verified, four, each confirmed landed: the stage removed fails 5; one
+  case named instead of every reading fails 1; a focus whose form is absent from
+  its own answer fails 2; the self-correction fast path removed fails 1.
+- NEVER: send a build sentence to an AI endpoint; name a single case for an
+  ambiguous ending; gate the stage on the microphone; author a focus without
+  checking `decline()` produces the cell (a wrong required form teaches a wrong
+  ending); let the button before it name a stage it does not lead to.
+
 **Guided Speaking** (`src/data/speakingCurriculum.ts`, 48 units at 8 per level;
 `GuidedSpeakingScreen`; `PRODUCTION_POOL` id `speaking_guided`, A1+, keyboard-safe)
 is the writing curriculum's twin and a REACHABLE entry point to the coach:

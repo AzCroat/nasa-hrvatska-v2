@@ -70,6 +70,7 @@
 // negotiation, C1 structured reasoning, C2 nuance and register play.
 
 import type { CefrLevel } from '../lib/cefr.js';
+import type { BuildSentence } from '../lib/sentenceBuild';
 
 export interface SpeakingStructure {
   /** The pattern as it appears in the model (verbatim substring). */
@@ -113,6 +114,11 @@ export interface SpeakingUnit {
   rehearse: RehearsePhrase[];
   /** Phrase panel shown during stage 3 — read, not tapped into a text box. */
   usefulPhrases: string[];
+  /** Stage 2.5 — BUILD: one sentence at a time, graded locally by
+   *  `lib/sentenceBuild` (zero AI, instant). Absent or empty on a unit that has
+   *  not been authored yet, and the screen then runs exactly as before —
+   *  absence degrades to the old behaviour, never to a blocked stage. */
+  build?: BuildSentence[];
   checklist: SpeakingChecklistItem[];
 }
 
@@ -171,6 +177,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Bog!', 'Zovem se…', 'Dolazim iz…', 'Živim u…', 'Drago mi je.', 'A ti?'],
+    build: [
+      {
+        cue: 'Say: I have a sister.',
+        answer: 'Imam sestru.',
+        accept: ['Ja imam sestru.'],
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'A',
+          why: 'Imam takes the accusative — the sister is what you have.',
+        },
+      },
+      {
+        cue: 'Say: I live in a small town.',
+        answer: 'Živim u malom gradu.',
+        accept: ['Živim u gradu.'],
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'L',
+          why: 'u meaning WHERE takes the locative; u meaning INTO takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I learn Croatian at school.',
+        answer: 'Učim hrvatski u školi.',
+        focus: {
+          lemma: 'škola',
+          requiredCase: 'L',
+          why: 'Again u for where you are — locative, not the dictionary form.',
+        },
+      },
+    ],
     checklist: [
       { id: 'name', label: 'Say your name with "zovem se"', words: ['zovem se'] },
       { id: 'origin', label: 'Say where you are from with "iz"', words: ['iz '] },
@@ -235,6 +272,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Izvolite.',
       'Hvala lijepa!',
     ],
+    build: [
+      {
+        cue: 'Say: I would like a coffee.',
+        answer: 'Želim kavu.',
+        accept: ['Htio bih kavu.', 'Htjela bih kavu.'],
+        focus: {
+          lemma: 'kava',
+          requiredCase: 'A',
+          why: 'What you ask for is what receives the action, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I would like water, please.',
+        answer: 'Želim vodu, molim.',
+        accept: ['Htio bih vodu, molim.'],
+        focus: {
+          lemma: 'voda',
+          requiredCase: 'A',
+          why: 'Same rule as the coffee — the thing ordered goes in the accusative.',
+        },
+      },
+      {
+        cue: 'Say: How much does the coffee cost?',
+        answer: 'Koliko košta kava?',
+        focus: {
+          lemma: 'kava',
+          requiredCase: 'N',
+          why: 'Here the coffee is DOING the costing, so it is back in the nominative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'polite', label: 'Use "molim vas"', words: ['molim vas', 'molim'] },
       { id: 'price', label: 'Ask the price', words: ['koliko'] },
@@ -296,6 +364,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Imam…', 'Nemam…', 'zove se…', 'radi kao…', 'ima … godina', 'stariji od mene'],
+    build: [
+      {
+        cue: 'Say: I have a brother.',
+        answer: 'Imam brata.',
+        accept: ['Ja imam brata.'],
+        focus: {
+          lemma: 'brat',
+          requiredCase: 'A',
+          why: 'Imam again — and for a male person the accusative looks like the genitive.',
+        },
+      },
+      {
+        cue: 'Say: My sister is a teacher.',
+        answer: 'Moja sestra je učiteljica.',
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'N',
+          why: 'The sister is the subject here, so the dictionary form is right.',
+        },
+      },
+      {
+        cue: 'Say: I often talk about my mother.',
+        answer: 'Često govorim o majci.',
+        focus: {
+          lemma: 'majka',
+          requiredCase: 'L',
+          why: 'o meaning ABOUT takes the locative, and the k softens to c.',
+        },
+      },
+    ],
     checklist: [
       { id: 'have', label: 'Use "imam" to say who you have', words: ['imam'] },
       { id: 'job', label: 'Say what someone does', words: ['radi', 'radim', 'kao'] },
@@ -357,6 +455,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ujutro', 'poslijepodne', 'navečer', 'obično', 'ponekad', 'svaki dan'],
+    build: [
+      {
+        cue: 'Say: In the evening I read a book.',
+        answer: 'Navečer čitam knjigu.',
+        focus: {
+          lemma: 'knjiga',
+          requiredCase: 'A',
+          why: 'The book receives the reading, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I work in an office.',
+        answer: 'Radim u uredu.',
+        focus: {
+          lemma: 'ured',
+          requiredCase: 'L',
+          why: 'Where you are — locative.',
+        },
+      },
+      {
+        cue: 'Say: I go to school every day.',
+        answer: 'Svaki dan idem u školu.',
+        focus: {
+          lemma: 'škola',
+          requiredCase: 'A',
+          why: 'Movement INTO, not location — so u takes the accusative this time.',
+        },
+      },
+    ],
     checklist: [
       { id: 'time', label: 'Say a time with "u"', words: ['u sedam', 'u osam', 'u devet', 'u '] },
       { id: 'evening', label: 'Say what you do in the evening', words: ['navečer'] },
@@ -418,6 +545,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['blizu', 'daleko od', 'u centru', 'nekoliko', 'najviše mi se sviđa', 'ima'],
+    build: [
+      {
+        cue: 'Say: My town is beautiful.',
+        answer: 'Moj grad je lijep.',
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'N',
+          why: 'The town is the subject, so it stays in the dictionary form.',
+        },
+      },
+      {
+        cue: 'Say: I often walk in the park.',
+        answer: 'Često šetam u parku.',
+        focus: {
+          lemma: 'park',
+          requiredCase: 'L',
+          why: 'Walking around inside it, not into it — locative.',
+        },
+      },
+      {
+        cue: 'Say: There is a church here.',
+        answer: 'Ovdje je crkva.',
+        focus: {
+          lemma: 'crkva',
+          requiredCase: 'N',
+          why: 'The church is what exists here — the subject.',
+        },
+      },
+    ],
     checklist: [
       { id: 'place', label: 'Say where you live with "u"', words: ['živim u', 'u '] },
       { id: 'like', label: 'Say what you like', words: ['sviđa', 'volim'] },
@@ -478,6 +634,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Oprostite…', 'Tražim…', 'ravno', 'lijevo', 'desno', 'Je li daleko?'],
+    build: [
+      {
+        cue: 'Say: Excuse me, where is the station?',
+        answer: 'Oprostite, gdje je kolodvor?',
+        focus: {
+          lemma: 'kolodvor',
+          requiredCase: 'N',
+          why: 'The station is the subject of je, so it is the dictionary form.',
+        },
+      },
+      {
+        cue: 'Say: How do I get to the station?',
+        answer: 'Kako da dođem do kolodvora?',
+        focus: {
+          lemma: 'kolodvor',
+          requiredCase: 'G',
+          why: 'do — as far as — always takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: Turn left at the church.',
+        answer: 'Skrenite lijevo kod crkve.',
+        focus: {
+          lemma: 'crkva',
+          requiredCase: 'G',
+          why: 'kod meaning BY or AT takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'polite', label: 'Open politely with "oprostite"', words: ['oprostite'] },
       { id: 'ask', label: 'Ask a real question', words: ['li', 'gdje'] },
@@ -539,6 +724,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['kilogram', 'pola kile', 'malo', 'svježe', 'zajedno', 'Uzet ću…'],
+    build: [
+      {
+        cue: 'Say: I would like a kilo of apples.',
+        answer: 'Želim kilogram jabuka.',
+        focus: {
+          lemma: 'jabuka',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'After a quantity Croatian uses the genitive plural — a kilo OF apples.',
+        },
+      },
+      {
+        cue: 'Say: Do you have tomatoes?',
+        answer: 'Imate li rajčice?',
+        focus: {
+          lemma: 'rajčica',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'Imate takes the accusative, and here it is plural.',
+        },
+      },
+      {
+        cue: 'Say: How much does the cheese cost?',
+        answer: 'Koliko košta sir?',
+        focus: {
+          lemma: 'sir',
+          requiredCase: 'N',
+          why: 'The cheese is doing the costing — nominative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'quantity', label: 'Ask for a quantity', words: ['kilogram', 'kile', 'malo', 'pola'] },
       { id: 'pay', label: 'Ask what it comes to', words: ['koliko'] },
@@ -599,6 +815,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Jesi li slobodan/slobodna?', 'Možemo…', 'Odgovara mi.', 'Vidimo se!', 'Bog!'],
+    build: [
+      {
+        cue: "Say: Let's meet in front of the theatre.",
+        answer: 'Nađimo se ispred kazališta.',
+        focus: {
+          lemma: 'kazalište',
+          requiredCase: 'G',
+          why: 'ispred — in front of — takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am free on Saturday.',
+        answer: 'Slobodan sam u subotu.',
+        accept: ['Slobodna sam u subotu.'],
+        focus: {
+          lemma: 'subota',
+          requiredCase: 'A',
+          why: 'u with a day of the week takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am coming with a friend.',
+        answer: 'Dolazim s prijateljem.',
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'day', label: 'Suggest a day', words: ['subotu', 'nedjelju', 'petak', 'u '] },
       { id: 'meet', label: 'Suggest meeting', words: ['naći', 'vidimo', 'možemo'] },

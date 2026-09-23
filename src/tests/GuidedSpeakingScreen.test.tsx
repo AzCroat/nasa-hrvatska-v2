@@ -77,6 +77,16 @@ function advanceToSpeak() {
     if (!next) break;
     fireEvent.click(next);
   }
+  // BUILD (stage 2.5, 2026-09-23) sits between REHEARSE and SPEAK. It is walked
+  // rather than skipped: these tests are about what SPEAK does, and the point of
+  // the new stage is that a learner passes THROUGH it. A unit with no authored
+  // build sentences renders no such button and this loop is a no-op, which is
+  // the same degrade path the screen takes.
+  for (;;) {
+    const next = screen.queryByTestId('gs-build-next');
+    if (!next) break;
+    fireEvent.click(next);
+  }
 }
 
 beforeEach(() => {
@@ -164,7 +174,74 @@ describe('stage 2 — rehearse teaches, it never blocks', () => {
       expect(screen.getByTestId('gs-phrase-next')).toBeTruthy();
       fireEvent.click(screen.getByTestId('gs-phrase-next'));
     }
+    // BUILD (2026-09-23) inherits the same contract, and the test was extended
+    // rather than routed around it: the stage that teaches case endings is
+    // exactly the one a mic-blocked learner must not be shut out of. No
+    // recogniser in jsdom, so no record button — the typed box and Next carry it.
+    const built = UNIT.build ?? [];
+    expect(built.length).toBeGreaterThan(0);
+    expect(screen.queryByTestId('gs-build-record')).toBeNull();
+    expect(screen.getByTestId('gs-build-input')).toBeTruthy();
+    for (let i = 0; i < built.length; i++) {
+      expect(screen.getByTestId('gs-build-next')).toBeTruthy();
+      fireEvent.click(screen.getByTestId('gs-build-next'));
+    }
     expect(screen.getByTestId('gs-your-turn')).toBeTruthy();
+  });
+});
+
+describe('stage 2.5 — build teaches one sentence at a time', () => {
+  function toBuild() {
+    fireEvent.click(screen.getByTestId('gs-to-rehearse'));
+    for (;;) {
+      const n = screen.queryByTestId('gs-phrase-next');
+      if (!n) break;
+      fireEvent.click(n);
+    }
+  }
+
+  it('sits BETWEEN rehearse and speak — the learner builds before they monologue', () => {
+    renderScreen();
+    toBuild();
+    expect(screen.getByTestId('gs-build')).toBeTruthy();
+    // Not yet the paragraph.
+    expect(screen.queryByTestId('gs-your-turn')).toBeNull();
+  });
+
+  it('a wrong case is named, with the form required and why — no AI call', () => {
+    renderScreen();
+    toBuild();
+    const item = UNIT.build![0]!;
+    // Say the dictionary form where the sentence needs an inflected one.
+    fireEvent.change(screen.getByTestId('gs-build-input'), {
+      target: { value: `Imam ${item.focus!.lemma}` },
+    });
+    fireEvent.click(screen.getByTestId('gs-build-check'));
+    const panel = screen.getByTestId('gs-build-contrast');
+    expect(panel.textContent).toContain('accusative');
+    expect(coachMock).not.toHaveBeenCalled();
+  });
+
+  it('the model is withheld until the learner has actually tried twice', () => {
+    renderScreen();
+    toBuild();
+    expect(screen.queryByTestId('gs-build-model')).toBeNull();
+    for (let i = 0; i < 2; i++) {
+      fireEvent.change(screen.getByTestId('gs-build-input'), { target: { value: 'nešto krivo' } });
+      fireEvent.click(screen.getByTestId('gs-build-check'));
+    }
+    expect(screen.getByTestId('gs-build-model')).toBeTruthy();
+  });
+
+  it('accepts the learner OWN wording when the grammar point is right', () => {
+    renderScreen();
+    toBuild();
+    const item = UNIT.build![0]!;
+    fireEvent.change(screen.getByTestId('gs-build-input'), {
+      target: { value: `Da, ${item.answer.toLowerCase()} stvarno` },
+    });
+    fireEvent.click(screen.getByTestId('gs-build-check'));
+    expect(screen.getByTestId('gs-build-right')).toBeTruthy();
   });
 });
 
