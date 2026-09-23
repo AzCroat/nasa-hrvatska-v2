@@ -47,7 +47,15 @@ export function cleanupStaleQuestKeys(): void {
   } catch (_) {}
 }
 
-const TIER2_MAP: Record<string, string> = {
+/**
+ * THE AUTO-PROMOTION MAP: marking a tier-1 quest a SECOND time in one day also
+ * marks its tier-2 pair. Exported since 2026-09-23 because `QuestTracker` kept
+ * its own copy under the same name, and the two have already DIVERGED — see
+ * `QUEST_DISPLAY_PAIRS` there, which builds itself from this one so the five
+ * shared rows can never drift again and the one deliberate difference has to be
+ * written down.
+ */
+export const TIER2_MAP: Record<string, string> = {
   speak: 'speak2',
   grammar: 'grammar2',
   reading: 'reading2',

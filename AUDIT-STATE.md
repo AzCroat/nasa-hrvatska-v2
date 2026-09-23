@@ -3036,6 +3036,62 @@ say something about where to look: both of these were joins between correct
 files, and both turned out to be held by a mechanism written for a different
 reason. The defects found this session were all inside a single surface.
 
+### 48. The tier-2 quest map had a second copy, already diverged — 2026-09-23 — **1 DRIFT HAZARD, CLOSED**
+
+The interactions list emptied at sweep 47, so this is the new question the
+record asked for: **where does the app keep the same fact twice?** The CEFR
+badge field report (2026-09-06) is this file's canonical instance — three copies
+of an XP-band formula, "in sync with each other and with nothing that mattered".
+Starting from the quest ledger, because sweeps 40/41/42 had just been through it
+and a fresh divergence there would be the sharpest possible test of whether the
+class is live.
+
+**IT WAS, AND THE DIVERGENCE WAS THREE HOURS OLD.** `QuestTracker` carried a
+hand-written copy of `lib/quests`' `TIER2_MAP` under the near-identical name
+`TIER2_MAP_LOCAL`. **Sweep 40 removed `master` from the award map** — promoting
+on the second MARK cleared "Review 15+ SRS words" after ten — and nothing told
+the component. Five rows agreed, one did not, and no mechanism anywhere could
+say whether that was a decision or a miss.
+
+**THE DIVERGENCE IS CORRECT, AND THAT IS PRECISELY WHY IT HAD TO BE WRITTEN
+DOWN.** The two maps answer different questions:
+
+- `TIER2_MAP` asks **has the learner EARNED the tier-2 quest** — for the SRS
+  pair that is a word count (`MASTER2_QUEST_WORDS`), not a session count.
+- the component's map asks **which card to SHOW** — and once "Review 5+" is
+  done, "Review 15+" is plainly the next goal to put in front of them.
+
+Checked rather than assumed that the display map cannot make a false claim:
+`done` is read independently from `questsDone[q.id]`, and `_unlocked` only
+changes the card's border and adds a "⬆ BONUS" badge, so the tier-2 card sits
+un-ticked until the learner genuinely reaches fifteen. **No learner-facing
+defect** — the rendering is byte-identical before and after, because
+`buildVisibleQuests` iterates `DAILY_QUESTS` rather than the map and the one
+order-sensitive use is an `Object.values(...).includes`.
+
+**THE FIX IS THE CEFR-BADGE FIX, ONE STAGE EARLIER.** There the answer was a
+single resolver; here `QUEST_DISPLAY_PAIRS` SPREADS the exported award map and
+adds the one exception with its reason, so the five shared rows cannot drift
+again and the sixth has to be declared to exist. A hazard caught before it
+became a field report is worth the same write-up as one caught after — the CEFR
+version cost a learner seeing "C1 · Advanced" for a level nothing had measured.
+
+Mutation-verified, four, each confirmed landed: reverting to a hand-written copy
+fails 2; ONE literal row creeping back beside the spread fails 1 (that is how a
+copy returns — a row at a time, not all six); `master` back in the AWARD map,
+i.e. sweep 40 reverted, fails 2; the display exception deleted, which would take
+the "Review 15+" card away from the learner entirely, fails 1.
+
+tsc clean; lint clean; `firstPaintGraph` unaffected by the new import. E2E audit:
+no user-visible string changes, and no spec references a quest name, the pair or
+the BONUS badge.
+
+**WHAT THE QUESTION IS WORTH, going forward.** One search of one subsystem found
+one live divergence, three hours old, in code that three sweeps had just read.
+The duplicated-fact question is the seam to work next, and the productive form is
+not "find duplicated constants" but **"find a fact stored twice where only one
+copy has a reason to change"** — which is what makes the drift silent.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
