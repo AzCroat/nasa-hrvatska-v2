@@ -1262,6 +1262,67 @@ failures**; `tsc --noEmit` clean; lint clean (Croatian lint 0 findings across
 521 files).
 
 
+### 23. Three generalisations of sweep 22, all NEGATIVE — 2026-09-23
+
+Sweep 22 found one screen reading a VISIT marker as a COMPLETION marker. The
+rule in this file is to enumerate the class rather than fix the instance, so
+three derivations were run against it. All three come back clean, and they are
+recorded so nobody re-runs them.
+
+**(a) Credit gated on a `vs` visit marker — 1 of 368, and it is the one fixed.**
+For every session-launchable screen, resolved through the REAL router: does it
+gate an `award` / `signalSessionCompleteIfActive` / `completeExercise` call on
+`stats.vs.includes(<key>)`? Exactly one hit — `AlphabetScreen`. **Being gated
+is not itself the defect**: the defect was that the key had a SECOND writer
+(the launcher's pre-write) that meant something else. With `alphabet` out of
+`BLACK_HOLE_SCREENS` the screen is now the only writer of its own key, so the
+gate is honest. The ratchet against a new instance lives in
+`dwellPreWriteSuppression.test.tsx`, which asks the question from the other
+side — of every key the dwell map holds.
+
+**(b) A session-launchable screen that can signal nothing — 0 of 368.** Walked
+the REAL router to each screen's components and their import graphs (depth 6)
+for any reachable writer of `nh_session_completed`. Clean.
+**This census could not have found sweep 22's defect and it is worth saying
+so**: `AlphabetScreen` REACHED `award` the whole time — the call was reachable
+and conditional. Reachability and firing are separate paths, exactly as
+reachability and clearing were for the coupling. A clean reachability census is
+not evidence that finishing a screen advances the session.
+
+**(c) One false positive, killed by reading.** The first run of (b) reported
+`alka`. `AlkaScreen` calls `award?.(xp, true, 'vocabulary')` — OPTIONAL-CALL
+syntax, and `\baward\s*\(` does not match across the `?.`. The screen has
+always awarded correctly; the matcher was wrong. Same shape as the depth-3 cap
+that manufactured four findings in sweep 20: **a derivation that under-matches
+manufactures findings exactly as one that over-matches hides them**, and one
+read of the source settles it either way. The corrected matcher tolerates
+`?.(` and reports zero.
+
+### 24. Production telemetry: what is readable, and what that does NOT establish — 2026-09-23
+
+`sentry-top-issues.yml` runs on every master push. Read for this sweep rather
+than assumed:
+
+- **The issue stream is still refused.** `event:read` is ABSENT from the
+  credential's effective org access (`org:read project:read project:releases`),
+  measured from `/organizations/<org>/`, not inferred from the 403. The
+  workflow's own "known blocked, staying quiet" branch fires, correctly. This
+  is the standing #644 blocker across four credential changes; it is NOT
+  re-chaseable from here and was not re-chased.
+- **Session health IS readable**: 1,426 sessions over 14 days, `healthy=1426`,
+  `errored=0`, `crashed=0`, `crash_free=100%`, `error_free=100%`; ingestion
+  live since 2026-03-18.
+
+**What that does and does not say.** It establishes that the client SDK is
+alive and reporting. It does NOT establish that production is clean: zero
+errored sessions with an unreadable issue stream cannot be distinguished from
+errors not reaching that stream, and the stream is precisely what cannot be
+read. That is this file's own rule — a missing mechanism and a passing
+mechanism look identical from the outside. Recorded as "sessions report, error
+counters are zero, the distinguishing read is unavailable", not as "production
+is clean".
+
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
