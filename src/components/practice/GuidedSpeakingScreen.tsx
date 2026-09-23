@@ -34,6 +34,7 @@ import { speak, getLastTtsFailure, describeTtsFailure } from '../../lib/audio';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { recordScreenPractised } from '../../lib/teachPractice';
 import { markQuest } from '../../lib/quests.js';
+import { gradeBuild, type BuildVerdict } from '../../lib/sentenceBuild';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { requestSpeakingCoach, COACH_MIN_WORDS } from '../../lib/speakingCoach';
 import type { CoachResult } from '../../lib/speakingCoach';
@@ -125,7 +126,7 @@ function recognizerCtor(): SpeechRecognitionCtor | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
-type Stage = 'listen' | 'rehearse' | 'speak';
+type Stage = 'listen' | 'rehearse' | 'build' | 'speak';
 
 interface GuidedSpeakingScreenProps {
   goBack: () => void;
@@ -139,6 +140,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const { isOnline } = useOnlineStatus();
 
   const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(getCurrentContentLevel()));
+  const buildItems = unit.build ?? [];
   const [stage, setStage] = useState<Stage>('listen');
   const [showEn, setShowEn] = useState(false);
   const [openStructure, setOpenStructure] = useState<number | null>(null);
@@ -148,6 +150,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const [phraseIdx, setPhraseIdx] = useState(0);
   const [phraseState, setPhraseState] = useState<'idle' | 'right' | 'again'>('idle');
   const [heardPhrase, setHeardPhrase] = useState('');
+
+  // Build stage (2.5) — one sentence at a time, graded locally.
+  const [buildIdx, setBuildIdx] = useState(0);
+  const [buildVerdict, setBuildVerdict] = useState<BuildVerdict | null>(null);
+  const [buildHeard, setBuildHeard] = useState('');
+  const [buildTries, setBuildTries] = useState(0);
 
   // Speak stage
   const [transcript, setTranscript] = useState('');
@@ -161,6 +169,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const srSupported = typeof window !== 'undefined' && recognizerCtor() !== null;
   const wordCount = countSpokenWords(transcript);
   const phrase = unit.rehearse[phraseIdx];
+  const buildItem = buildItems[buildIdx];
 
   const stopRecognizer = useCallback(() => {
     const rec = recRef.current;
@@ -250,8 +259,31 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     setPhraseState('idle');
     setHeardPhrase('');
     setRecording(false);
-    if (phraseIdx + 1 >= unit.rehearse.length) setStage('speak');
-    else setPhraseIdx((i) => i + 1);
+    if (phraseIdx + 1 >= unit.rehearse.length) {
+      // ABSENCE DEGRADES TO THE OLD FLOW. A unit with no authored build
+      // sentences goes straight to SPEAK exactly as before — a half-rolled-out
+      // curriculum must never strand a learner on an empty stage.
+      setStage(buildItems.length > 0 ? 'build' : 'speak');
+    } else setPhraseIdx((i) => i + 1);
+  }
+
+  function checkBuild(heard: string) {
+    setBuildHeard(heard);
+    const item = buildItems[buildIdx];
+    if (!item) return;
+    const v = gradeBuild(heard, item);
+    setBuildVerdict(v);
+    if (!v.ok) setBuildTries((t) => t + 1);
+  }
+
+  function nextBuild() {
+    stopRecognizer();
+    setBuildVerdict(null);
+    setBuildHeard('');
+    setBuildTries(0);
+    setRecording(false);
+    if (buildIdx + 1 >= buildItems.length) setStage('speak');
+    else setBuildIdx((i) => i + 1);
   }
 
   async function submit() {
@@ -339,17 +371,19 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
         style={{ display: 'flex', gap: 6, justifyContent: 'center', margin: '2px 0 14px' }}
         data-testid="gs-stages"
       >
-        {(['listen', 'rehearse', 'speak'] as Stage[]).map((s) => (
-          <span
-            key={s}
-            style={{
-              width: 26,
-              height: 6,
-              borderRadius: 3,
-              background: s === stage ? '#dc2626' : '#d1d5db',
-            }}
-          />
-        ))}
+        {(['listen', 'rehearse', 'build', 'speak'] as Stage[])
+          .filter((s) => s !== 'build' || buildItems.length > 0)
+          .map((s) => (
+            <span
+              key={s}
+              style={{
+                width: 26,
+                height: 6,
+                borderRadius: 3,
+                background: s === stage ? '#dc2626' : '#d1d5db',
+              }}
+            />
+          ))}
       </div>
 
       {ttsError && (
@@ -504,7 +538,119 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             data-testid="gs-phrase-next"
             style={{ width: '100%', padding: '11px 0', fontWeight: 800 }}
           >
-            {phraseIdx + 1 >= unit.rehearse.length ? 'Now speak your own →' : 'Next →'}
+            {phraseIdx + 1 >= unit.rehearse.length
+              ? // Names the stage it ACTUALLY goes to. With build sentences
+                // authored this button now leads to BUILD, not SPEAK, and saying
+                // 'Now speak your own' there would be the same defect as the
+                // verification CTA naming a level it does not start.
+                buildItems.length > 0
+                ? 'Now build sentences →'
+                : 'Now speak your own →'
+              : 'Next →'}
+          </button>
+        </div>
+      )}
+
+      {stage === 'build' && buildItem && (
+        <div style={card} data-testid="gs-build">
+          <div style={kicker}>
+            BUILD ONE SENTENCE ({buildIdx + 1}/{buildItems.length})
+          </div>
+          <div style={{ fontSize: 17, fontWeight: 700, lineHeight: 1.5, marginBottom: 10 }}>
+            {buildItem.cue}
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+            {srSupported && (
+              <button
+                className="b bp"
+                onClick={() => (recording ? stopRecognizer() : listenOnce(checkBuild))}
+                data-testid="gs-build-record"
+                style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
+              >
+                {recording ? '■ Stop' : '🎙️ Say it'}
+              </button>
+            )}
+          </div>
+
+          {/* TYPED FALLBACK — counts identically. A mic-blocked learner must not
+              be shut out of the only stage that teaches case endings. */}
+          <input
+            data-testid="gs-build-input"
+            value={buildHeard}
+            onChange={(e) => setBuildHeard(e.target.value)}
+            placeholder="…or type what you would say"
+            style={{
+              width: '100%',
+              padding: '10px 12px',
+              borderRadius: 10,
+              border: '1px solid var(--card-b)',
+              marginBottom: 10,
+              fontSize: 15,
+            }}
+          />
+          <button
+            className="b bs"
+            onClick={() => checkBuild(buildHeard)}
+            data-testid="gs-build-check"
+            style={{ width: '100%', padding: '10px 0', fontWeight: 700, marginBottom: 10 }}
+          >
+            Check it
+          </button>
+
+          {buildVerdict?.ok && (
+            <div
+              data-testid="gs-build-right"
+              style={{ fontSize: 14, color: '#16a34a', marginBottom: 8 }}
+            >
+              Točno! ✓
+            </div>
+          )}
+          {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'wrong-form' && (
+            <div
+              data-testid="gs-build-contrast"
+              style={{
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: '#7c2d12',
+                background: '#fff7ed',
+                border: '1px solid #fed7aa',
+                borderRadius: 10,
+                padding: '10px 12px',
+                marginBottom: 8,
+              }}
+            >
+              {buildVerdict.message}
+            </div>
+          )}
+          {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'not-yet' && (
+            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+              Not quite yet — try once more.
+            </div>
+          )}
+          {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'empty' && (
+            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+              I did not catch anything — say it or type it.
+            </div>
+          )}
+
+          {/* The model appears only after a genuine attempt, so it is a hint and
+              not the answer sheet. */}
+          {buildTries >= 2 && (
+            <div data-testid="gs-build-model" style={{ fontSize: 14, marginBottom: 8 }}>
+              One way to say it: <strong>{buildItem.answer}</strong>
+            </div>
+          )}
+
+          {/* This stage TEACHES — like REHEARSE it can always be advanced. A
+              learner is never trapped on a sentence. */}
+          <button
+            className="b bp"
+            onClick={nextBuild}
+            data-testid="gs-build-next"
+            style={{ width: '100%', padding: '11px 0', fontWeight: 800 }}
+          >
+            {buildIdx + 1 >= buildItems.length ? 'Now speak your own →' : 'Next sentence →'}
           </button>
         </div>
       )}

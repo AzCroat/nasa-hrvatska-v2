@@ -3442,6 +3442,432 @@ seventh. The class is better served by the existing per-screen tests.
 field, the fast path is the five shapes above — check which one the screen uses,
 not whether it has a `useRef`.
 
+### 54. Two guards that git could not show you — 2026-09-23 — **1 REVIEW HAZARD, CLOSED + RATCHETED**
+
+**The question.** The queue's own guidance says to name two things the app must
+keep in agreement. This one: **what the tooling treats as reviewable text** vs
+**what is actually source code**.
+
+**How it was found, which is worth keeping.** Not by asking the question — by
+`grep -rn "grammar_track" src/` printing
+
+```
+grep: src/tests/snapshotShapeAgreement.test.ts: binary file matches
+```
+
+instead of the matching lines. A `.ts` file reported as binary is not a thing to
+scroll past.
+
+**The finding.** Two committed TypeScript test files carried a **raw NUL byte**,
+each a deliberate sentinel:
+
+| file | the sentinel | offsets |
+| --- | --- | --- |
+| `snapshotShapeAgreement.test.ts` | `consts.get(t) ?? '<NUL>'`, then `key.includes('<NUL>')` — marks a key part the scan could not resolve | 4601, 4660 |
+| `case-drill-banks.test.ts` | `` `${i.q}<NUL>${i.answer}` `` — a composite-key separator | 1983 |
+
+Both offsets are inside git's 8000-byte binary sniff window, so **git classified
+both files as binary**. Measured, not reasoned — `git diff --numstat` returns
+`-` `-` for each, and the diff body is one line:
+
+```
+Binary files a/src/tests/case-drill-banks.test.ts and b/src/tests/... differ
+```
+
+That is what `git diff`, `git log -p`, `git grep`, GitHub's pull-request view and
+a plain `grep -rn` over `src/` have shown for the whole life of both files.
+
+**WHY IT MATTERS HERE SPECIFICALLY.** Both files are GUARDS, and this repo's
+stated method for a guard is: mutate it, read the diff, record the mutation in
+the commit message. A guard whose diff cannot be rendered is one **nobody can
+review a change to** — a reviewer sees a single line saying the bytes differ.
+The mechanism that keeps every other guard honest was unavailable for these two.
+
+**STATED HONESTLY: this is a REVIEW HAZARD, not a learner-facing bug.** Both
+tests ran correctly and still do; ESLint read both files without complaint
+(verified: exit 0, no output). Nothing a learner can see was ever wrong. The
+cost was entirely to visibility — which is why nothing caught it.
+
+**The fix is an ENCODING change, not a behaviour change, and that was proved
+rather than asserted.** Both sentinels are now written `'\u0000'`: same value,
+spelled with an escape instead of the raw byte. The proof is set-equality, not a
+pass count — `snapshotShapeAgreement`'s two derivations (`appWrites()` and
+`snapshotExpectations()`) were dumped to JSON from the OLD file and the NEW one
+via an identical appended probe, and the two dumps are **byte-identical across
+223 lines**. Both suites: 23 passed before, 23 passed after.
+
+**The ratchet: `src/tests/sourceIsText.test.ts` (4 tests, 1.7s).** The file list
+comes from `git ls-files` — the real tracked set, not a hand-written one, which
+is the shape that decays — filtered by extension; any file the repo stores as
+text must carry no control byte but tab, newline and carriage return. Binary
+assets are not extension-matched and are never read. Swept the whole repo:
+**2,079 tracked text files, exactly the 2 findings above and nothing else.**
+
+**One assertion was loosened before it shipped.** The first draft required the
+literal spelling `\u0000`. `\x00` and `\0` are equally correct, so that would
+have failed a tidy refactor that fixed nothing — the false-positive trap this
+repo has already paid for once. It now requires *no raw byte* plus *some*
+escape spelling.
+
+**Mutation-verified, five, each confirmed landed before its result was read:**
+
+| mutation | fails |
+| --- | --- |
+| raw NUL back into `snapshotShapeAgreement` (the original defect) | 2 |
+| raw NUL back into `case-drill-banks` | 2 |
+| raw NUL in a NON-test production file (`src/lib/cefr.ts`) | 1, message names `src/lib/cefr.ts:2` |
+| `trackedTextFiles()` forced empty | 1 — **and the sweep itself still passed**, which is why the floor exists |
+| `0x00` added to `ALLOWED` with a real NUL planted | **0 — absorbed**, confirming `ALLOWED` is the single predicate doing the work |
+
+The fourth is the one worth remembering: it is the decorative-guard shape in
+miniature. Without the `> 1500` floor, an empty listing makes the sweep pass
+vacuously and the guard reports success on a repo it never opened.
+
+**WHAT THIS DOES NOT COVER**, so nobody assumes otherwise: a control byte in a
+file whose extension is not in the text list, and a NUL past byte 8000 of a
+large file (git would still call that file text — outside the hazard, but
+reported anyway, because a raw control byte in source is never intentional and
+the escape always works).
+
+**Verification.** Full suite **604 files, 9687 passed, 25 skipped, 0 failures**
+(603/9683 before — the +1 file and +4 tests are exactly this change).
+`typecheck`, `lint` and the Croatian lint (0 findings across 521 files) clean.
+E2E audit: test files only — no component, screen, navigation element or
+user-visible string changed, so no spec can reference any of it.
+
+---
+
+### 55. Twenty-five skipped tests, and the reason beside one of them was wrong — 2026-09-23 — **1 FALSE EXEMPTION REASON, CORRECTED + RATCHETED**
+
+**The question**, continuing sweep 54's axis: *what else does a tool silently
+decline to show?* The sharpest form for a test suite: **does every committed test
+file actually execute, and does every test inside it actually run?** A test the
+runner never collects, or a suite silenced from within, is a decorative guard at
+the CONFIG level — green run, zero coverage.
+
+**Half one: orphan test files. NEGATIVE, and cleanly so.** Diffed every
+test-shaped tracked file against `vitest.config.js`'s include patterns:
+**654 test-shaped files, 604 collected** — which is exactly the 604 the full
+suite reports — **48 are `e2e/*.spec.js`** (Playwright, run separately, correct)
+and **2 are the deliberate emulator-only exclusions** (`firestore-rules`,
+`firestore-merge-semantics`, each with its own config and a comment naming the
+command). Nothing is orphaned. Do not re-run this.
+
+**Half two: `.only`. NEGATIVE.** Zero occurrences of `it.only` / `test.only` /
+`describe.only` across `src/`, `functions/`, `scripts/` AND `e2e/`. Worth having
+measured: a single stray `.only` silences the rest of its file while the run
+stays green.
+
+**Half three: the 25 skipped tests — where the find is.** All 25 come from one
+data-driven skip, `FULL_CONTRACT_DRILLS` in `exerciseContract.test.tsx`
+(`const testFn = drill.skip ? it.skip : it`). Every entry carries a
+`skipReason`, and every reason is a CLAIM about the component — mostly "option
+buttons use inline styles (no `.ob` class); the helper cannot drive it".
+
+**A claim nothing re-runs decays silently**, which is this file's own
+`idioms`-exemption lesson. So all 25 were un-skipped and run:
+
+- **24 fail at `expect(award).toHaveBeenCalledTimes(1)` with 0 calls.** The
+  helper genuinely never drives them to completion. Reasons honest, skips
+  legitimate.
+- **ZnamGame is different, and its recorded reason is FALSE.** It fails at the
+  NEXT assertion: `award` fired once with positive XP and `activityType`
+  `'vocabulary'`. So the helper drives the screen fine — the `.tc` priority
+  handles its section-select — and "no `.ob` MC buttons" was never the problem.
+
+**What actually blocks ZnamGame was in the component, not the harness.** It
+awards per CORRECT answer and gates credit on a **>=75% comprehension pass**
+through `completeExercise`. The helper clicks the first option; ZnamGame shuffles
+with its own `sh()`, so it scores ~1/N, never reaches the gate, and `markQuest`
+is never called. Confirmed by supplying the registry-correct
+`activityType: 'vocabulary'` / `questArg: 'vocab'`: every award assertion then
+passes and it fails on `markQuest` with 0 calls.
+
+**So the skip is legitimate and the reason was wrong** — and wrong in the
+expensive direction: someone reading it would have gone to add `.ob` classes to
+ZnamGame's buttons and achieved exactly nothing. Reason corrected in place, with
+the measurement that produced it.
+
+**Checked on the way, and clean:** ZnamGame calling no `markQuest` directly is
+NOT the sweep-41 defect. `completeExercise` marks it from
+`args.questKind ?? entry?.questKind`, and the registry has
+`znam: g('gc', 'vocab', 'vocabulary')` — already pinned by
+`lib/completion/__tests__/exerciseRegistry.test.ts:40`.
+
+**The ratchet: `describe('the skips are still real')`, 26 new tests.** Each
+skipped entry is RE-RUN and required to still fail; when one stops failing the
+drill has become driveable and the message says to delete its `skip`. The body
+was extracted to one `assertContract(drill)` so the staleness check re-runs
+EXACTLY the real test rather than a restatement of it.
+
+**The predicate is "the claim still holds", not "award is never called", and
+that distinction is the whole point.** The obvious predicate would have looked
+right, passed 24 times, and been wrong about the one entry that mattered —
+ZnamGame DOES call `award`. Asserting the claim itself is cause-agnostic, so it
+cannot be fooled by a drill that fails for a new reason.
+
+**Mutation-verified, three, each confirmed landed:**
+
+| mutation | fails |
+| --- | --- |
+| a DRIVEABLE drill (`NumTime`) marked `skip: true` — the exact decay | 1: "NumTime still cannot be driven" |
+| the skipped list forced empty | 1 — **and the 25 staleness tests vanish** (42 passed -> 17), which is why the floor exists |
+| a `skipReason` deleted | 1, message names `TypingScreen` |
+
+One test was written and then DELETED before shipping: `expect(typeof
+assertContract).toBe('function')` proves nothing and is the decorative shape this
+file exists to catch.
+
+**WHAT THIS DOES NOT COVER.** The 24 honest skips are still 24 drills whose
+completion contract this suite does not exercise; the ratchet guards the
+exemption, not the coverage. Closing that needs a helper that can drive
+text-input, tile-ordering, timer and multi-phase drills — a real piece of work,
+recorded here rather than implied to be done.
+
+---
+
+### 56. The production slot serves speaking the learner cannot be measured on — 2026-09-23 — **1 REAL DEFECT, MEASURED; FIX DEFERRED TO ITS OWN PR**
+
+**Where it came from.** Sweep 55 left one item open: the 24 skipped drills have
+no contract test. Rather than build a universal UI driver, the tractable question
+was source-level — **does each of those screens route completion through
+`completeExercise` (registry-driven, already covered) or hand-roll it?**
+
+**23 of 25 route through `completeExercise`.** Their credit is registry-driven
+and covered. Only **`DictationScreen` and `ShadowingScreen`** hand-roll
+`award` + `markQuest` + `setStats` + `writeDelta`.
+
+**TWO CONCERNS ABOUT THOSE TWO WERE CHECKED AND ARE WRONG — recorded so nobody
+re-chases them:**
+
+1. **They do NOT strand the daily session.** `useAward` writes
+   `nh_session_completed` unconditionally BEFORE its `amt === 0` early return,
+   guarded on `started === _effectiveEx`, and its comment names dictation
+   explicitly (2026-07-16 completion-matrix audit). The session is credited.
+2. **The missing `EXERCISE_COMPLETE_EVENT` is harmless HERE.** Only
+   `completeExercise` dispatches it, so the next-step pill does not fire for
+   these two — but both call `goBack()` in the same handler, and the pill hides
+   on ANY navigation, so it could never have shown. The landing surface's own
+   persistent prompting takes over. No dead end.
+
+**THE REAL FINDING IS THE MASTERY LEDGER, and it is sweep 21's defect in the
+half nobody checked.** Sweep 21 fixed the RECEPTIVE side: reading screens graded
+and awarded themselves, passing `'reading'` to `award`, which reaches XP and
+quests and never the ledger — so reading could never become measured and that
+LATCHED the input slot. The PRODUCTION side was never audited. Measured across
+all 8 `PRODUCTION_POOL` screens:
+
+| screen | kind | writes the mastery ledger |
+| --- | --- | --- |
+| `writing_guided` | write | yes (`recordMasteryEvent`) |
+| `speaking_guided` | speak | yes (via `requestSpeakingCoach` -> `recordMasteryEvent` weight 2) |
+| `writing` | write | yes |
+| `production_drill` | speak | yes (`completeExercise` -> `recordExerciseOutcome`) |
+| **`shadowing`** | **speak** | **nothing** |
+| **`speaking`** | **speak** | **nothing** |
+| **`speaking_sprint`** | **speak** | **nothing** |
+| **`dictation`** | **write** | **nothing** |
+
+**Three of the five `speak` entries teach the ledger nothing.** Established by
+ABSENCE OF IMPORT, not by sampling: none of the three imports any
+`masteryLedger` function, so none can write one.
+
+**The mechanism is identical to sweep 21's.** `weakestProductionKind` scores an
+absent or not-yet-`tested` cell as MAXIMUM need (`!m || !m.tested ? 1 : ...`) —
+correct for CHOOSING what to serve — and its tiebreak (`speak >= write`) favours
+speak. So unmeasured speaking pulls the P2.5 slot toward speak.
+
+**MEASURED WITH THE REAL PICKER, not argued.** `selectProductionExercise` with
+`kindBias: 'speak'` filters to `kind === 'speak'` and then picks UNIFORMLY at
+random, so the share of speak picks that can never discharge the need is:
+
+| level | ledger-silent picks |
+| --- | --- |
+| **A2** | **297/400 = 74%** (`production_drill` is B1+, so 3 of 4 candidates are silent) |
+| B1 | 236/400 = 59% |
+| B2 | 235/400 = 59% |
+| C1 | 226/400 = 56% |
+
+So the app tells the learner speaking is their weakest skill, serves speaking,
+and **56-74% of the time the work they then do cannot change that answer.**
+
+**WHY IT IS A BIAS, NOT SWEEP 21'S HARD LATCH — the distinction matters.**
+Reading had NO writer at all, so it latched permanently. Speaking has two
+(`speaking_guided`, `production_drill`), so a learner CAN discharge it — they
+just have to be dealt one of the two, against odds of roughly 1 in 4 at A2.
+
+**WHY THE EXISTING GUARD DOES NOT CATCH IT.**
+`masterySkillsReachable.test.ts` asks whether every ledger skill has SOME
+producer, and covers the RECEPTIVE picker's latch. Speaking has a producer, so
+it passes — while three of five speaking screens record nothing. **Reachable is
+not complete**, which is this file's own recurring lesson wearing new clothes.
+
+**WHAT IS HONESTLY FIXABLE, AND WHAT IS NOT.** Only record a measurement that
+was actually taken (NEVER-DO 13):
+
+- `DictationScreen` — has `score` and `total`/`answeredTotal`. Fixable.
+- `ShadowingScreen` — has `scoredOk.current` / `scoredItems.current`, REAL
+  acoustic scores from `PronunciationScorer`. Fixable, guarded on
+  `scoredItems > 0` (Web Speech may score nothing).
+- `SpeakingScreen` — `wordScores[].score` is a real Azure percentage or null,
+  and the screen already uses a 60 bar for "acoustic pass". Fixable over the
+  scored-only subset.
+- **`SpeakingSprintScreen` — NOT fixable.** It tracks `rounds` only: attempts,
+  no correctness. There is no measurement to record and inventing one would be
+  the fabrication this file forbids. It is honestly silent.
+
+**A SECOND, SMALLER FINDING FOUND ON THE WAY.** `ShadowingScreen` awards
+`activityType: 'listening'` and `markQuest('listening')` while being the
+`kind: 'speak'`, `micRequired: true` production entry that scores the learner
+ACOUSTICALLY. The app classifies one screen three ways; `dictation` is worse —
+`kind: 'write'` in `PRODUCTION_POOL`, `category: 'speaking'` in `sessionPools`,
+and `activityType: 'listening'` at its award call. Not touched here: changing an
+award's `activityType` moves XP and quest semantics and needs its own decision.
+
+**AND A COMMENT THAT WILL MISLEAD THE NEXT READER.** `ShadowingScreen:613` says
+its 70 bar is "the one the line above already uses for the speaking ledger".
+There is no mastery-ledger call in the file; it means
+`logPronunciationWeakness` (the pronunciation-weakness curriculum, line 729), a
+different store. That wording is what made this worth double-checking rather
+than trusting.
+
+**FIX DEFERRED, DELIBERATELY AND WITH THE REASON.** It touches four
+learner-facing production screens, and adding a LISTENING writer (dictation)
+shifts the P2.8 receptive alternation, which is a composition change needing its
+own measurement — the same discipline that kept `dictation` from being retagged
+`adaptive`. It does not belong mixed into a test-only PR. Recorded here in full
+so nothing is lost, per the owner directive.
+
+---
+
+### 57. Four screens the registry describes wrongly — 2026-09-23 — **1 LIVE MISLABEL + 2 LATENT LANDMINES, RECORDED; FIX JOINS 56**
+
+**The question**, which sweep 56 handed over: *where does one screen carry more
+than one classification, and do they agree?* Sweep 56 found `dictation` labelled
+three ways (`kind: 'write'` in `PRODUCTION_POOL`, `category: 'speaking'` in
+`sessionPools`, `activityType: 'listening'` at its award call). That is a shape,
+not an instance, so it was swept.
+
+**The derivation.** `exerciseRegistry.ts` is the declared "single source of truth
+for screen completion policy" and carries `questKind` + `activityType` per key.
+A screen that HAND-ROLLS `award(..., type)` / `markQuest(id)` states the same two
+facts itself. Where a screen does both — hand-rolls AND has a registry row — the
+two must agree. Compared all 267 registry rows against every component that
+hand-rolls (i.e. does NOT call `completeExercise`), matching on the `vs` key the
+screen writes.
+
+**Four disagreements, and they are not all the same severity:**
+
+| key | registry says | the screen does | verdict |
+| --- | --- | --- | --- |
+| `shadowing` | `e('lc', 'speak', 'speaking')` | `award(…, 'listening')`, `markQuest('listening')` | **the SCREEN is wrong — LIVE** |
+| `story-comprehension` | `e('lc', 'listening', 'listening')` | `'reading'` / `'reading'` | the ROW is wrong — latent |
+| `writing` | `e('lc', 'grammar', 'grammar')` | `'writing'` / `'write'` | the ROW is wrong — latent |
+| `srsreview` | `e('rc', 'grammar', 'default')` | `'review'` / `'master'`,`'review'` | the ROW is stale — benign in effect |
+
+**LIVE vs LATENT, established rather than assumed.** Only two things import the
+registry: `completeExercise` (reads `questKind`/`activityType`) and `appUtils`,
+which uses `EXERCISE_COMPLETION[key]` for MEMBERSHIP only. None of these four
+screens calls `completeExercise`, so their rows' `questKind`/`activityType` are
+read by nothing today. Three are therefore **inert copies** — the sweep 48–51
+shape exactly, a fact kept twice where only one copy is exercised.
+
+**THE TWO LATENT ONES ARE LANDMINES, not tidy-ups, because each would REVERSE a
+defect this file already records fixing:**
+
+- `story-comprehension` is the GRADED READER. Its row says `listening`. Wire that
+  screen to `completeExercise` — which is the migration the registry's own header
+  describes as in progress — and the reader starts recording LISTENING evidence,
+  re-creating sweep 21 ("the ledger could never measure reading, and that latched
+  the input slot") from the opposite direction.
+- `writing` is a first-class skill whose measurement drives
+  `weakestProductionKind`. Its row says `grammar`, so migrating that screen would
+  book writing practice as grammar and starve the production picker.
+
+`srsreview` is the mild one: `'default'` and `'review'` are both absent from
+`ACTIVITY_TO_SKILL`, so neither records a skill and the effect is identical. Only
+the `questKind` genuinely differs (`grammar` vs `master`/`review`).
+
+**THE LIVE ONE CONFIRMS SWEEP 56 FROM THE OTHER SIDE.** Sweep 56 noted that
+`ShadowingScreen` awards `'listening'` while being the `kind: 'speak'`,
+`micRequired`, acoustically-scored production entry, and left it as an
+observation. The registry independently says `speak`/`speaking` for that same
+key. So **the app already knows shadowing is speaking**, in the file that calls
+itself the single source of truth, and the screen credits the LISTENING quest
+for it. A learner doing acoustically-scored speaking practice is credited
+listening, today, on every finish.
+
+**THE META-FINDING, and it is the reusable part.** The registry's own header
+says these fields for "not-yet-migrated rows are best-known from the audit and
+are re-verified against each component when that screen is wired up". That is
+honest — and nothing performs the re-verification, and nothing notices a
+disagreement in the meantime. **A documented TODO with no mechanism is the
+`wrangler.toml` "Shared with scheduled worker above" pattern**: a sentence
+asserting two things agree, doing none of the work of making them.
+
+**FIX JOINS SWEEP 56's PR, deliberately.** Both findings centre on the same
+screen and the same class, so splitting them would put two changes to
+`ShadowingScreen`'s classification in two PRs. That PR will: correct the three
+stale rows, change `ShadowingScreen` to award `'speaking'` / `markQuest('speak')`
+to match the registry (a learner-VISIBLE change — which quest is credited — so
+it needs its own E2E audit), add the ledger writers sweep 56 identified, and add
+a guard that fails on any registry/screen disagreement so the header's promised
+re-verification finally has a mechanism.
+
+---
+
+### 58. One screen in two pools, disagreeing — and a CLAUDE.md NEVER rule applied to only one copy — 2026-09-23 — **1 RULE VIOLATION, RECORDED; FIX JOINS 56+57**
+
+**Completing sweep 57's question.** That sweep compared the registry against
+hand-rolling screens. Sweep 56's original instance also involved a second pair:
+`sessionPools.category` vs `PRODUCTION_POOL.kind`/`category`. Swept it.
+
+**Exactly ONE id is listed in both pools, and it disagrees:**
+
+```
+dictation   PRODUCTION_POOL  category='writing'  kind='write'   cefr=B1
+            sessionPools     category='speaking'                cefr=B1
+```
+
+**This is a documented NEVER rule, violated in one of the two copies.** CLAUDE.md,
+Production Teaching: *"Pool entries `writing_guided`/`writing`/`dictation` carry
+`category: 'writing'`. **Never retag them back to 'speaking'** and never remove the
+route — that re-opens the 'weak writing has no practice path' hole (the 0%-writing
+C1 case)."*
+
+**It is NOT a regression — the rule was never applied to this copy.** `git log -S`
+puts the `sessionPools` entry in #216 ("7a — A1 rotation expansion"), which
+PREDATES the 2026-08-18 production-teaching work that made `writing` first-class
+and wrote the rule. `PRODUCTION_POOL`'s entry was set correctly then; the second
+copy had no reason to change and nobody changed it. Same class as sweeps 48–51 —
+one fact, two homes, one of them inert to the edit that mattered.
+
+**THE CONSEQUENCE IS NARROWER THAN IT LOOKS, and every candidate was checked
+rather than assumed:**
+
+| consumer of `category` | affected? |
+| --- | --- |
+| `skillGroupOf` (P3 variety) | **no** — `SKILL_GROUP` maps BOTH `speaking` and `writing` to the `'speaking'` family |
+| `isGrammarStructure` (P2.7) | no — neither is a grammar category |
+| `inputKindOf` (P2.8) | no — neither is an input modality |
+| `setSessionCategory` | no — it is called with the activity **id**, not the category |
+| **`skillBoost`** | **YES** — `makeSessionSkillBoost` resolves `category -> skillForCategory -> profile[skill]` |
+
+So the one live effect: **a learner measured weak at WRITING gets no boost for
+Dictation in the P3 fill, and a learner weak at SPEAKING gets it boosted** — for
+a hear-it-and-type-it screen with no microphone. Modest, real, and a one-word
+fix.
+
+**IT COMPOUNDS WITH SWEEP 56.** Dictation is boosted as speaking here, records
+NOTHING to the mastery ledger (56), and its `PRODUCTION_POOL` twin calls it
+writing. Three statements about one screen, no two agreeing.
+
+**Fix joins the 56+57 PR** — same screen, same class, and the guard that PR adds
+for registry/screen disagreement should cover pool/pool disagreement too: any id
+in two pools must carry one category.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3486,6 +3912,45 @@ None of them crash, so no sweep above can see any of them.
         **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
         it: the guards are structural in at least five different shapes, so a
         matcher that knows five will miss the sixth and flag the seventh.
+
+      - **"What does the tooling treat as reviewable text, and is that what the
+        source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+        raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+        so every change to them was unreviewable. Ratcheted repo-wide by
+        `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+        hazard, not a learner bug — and it is the first find in this file that
+        came from the TOOLING half of an agreement rather than the code half.
+        That axis is now swept for control bytes and otherwise untried: what
+        else does a tool silently decline to show?
+
+      - **"Does every committed test actually RUN?"** — sweep 55, the same
+        tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+        604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+        `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+        un-skipping every one showed **24 honest and ZnamGame's reason false** —
+        it blamed the harness's buttons when the real blocker is the drill's own
+        >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+        still fail. Still open on this axis: the 24 honest skips are 24 drills
+        whose completion contract nothing exercises — the ratchet guards the
+        exemption, not the coverage.
+
+      - **OPEN, WITH THE WORK NAMED: one PR carrying sweeps 56 + 57 + 58.** Both
+        centre on `ShadowingScreen`'s classification, so they ship together:
+        correct the three stale `exerciseRegistry` rows (two are landmines that
+        would reverse sweep 21 and starve the production picker on migration),
+        change `ShadowingScreen` to award `'speaking'`/`markQuest('speak')` to
+        match the registry (learner-visible — needs its own E2E audit), add the
+        ledger writers, and give the registry header's promised re-verification
+        an actual mechanism.
+      - **OPEN, WITH THE WORK NAMED: three speaking screens the ledger cannot
+        see.** Sweep 56 measured it — 56-74% of the production slot's `speak`
+        picks go to a screen that records no mastery evidence, so the "speaking
+        is your weakest skill" answer cannot be discharged by doing the speaking
+        the app just served. `DictationScreen`, `ShadowingScreen` and
+        `SpeakingScreen` each hold a real measurement they discard;
+        `SpeakingSprintScreen` genuinely has none and must stay silent. The fix
+        is its own PR because adding a listening writer shifts the P2.8
+        receptive alternation and needs that composition measured.
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two

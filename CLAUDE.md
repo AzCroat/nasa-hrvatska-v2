@@ -164,7 +164,11 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 
 - **passes[L] means "the user holds level-L status."** A Level Check set keyed L (levelFrom L → levelTo L+1) tests L-competency and, when passed, records at **levelTo** — the status it grants. (Before 2026-08-16 the screen recorded at levelFrom while the retake gate blocked on the same key, so passing never advanced anyone; `migrateRealPassesToStatusKeys` additively repaired historical passes. Never revert to levelFrom recording.)
 - **Provisional passes**: grandfathered (migration-granted) passes carry `provisional: true` and are also detectable by the 0.8-signature (`isGrandfatherPassSignature`). They keep content access but do not count toward `getVerifiedLevel()`. While any provisional level sits above the verified level, `getVerificationGate().required` is true: `getContentUnlockLevel` caps NEW content one level below the gate target, Home shows `VerificationGateCard`, and the only way forward is a real pass. Practice below the gate stays open by design.
-- **Quiet period (owner directives, 2026-08-18 and 2026-09-07)**: the GATE has no snooze — content stays locked — but the PROMPT honors attempts. Any verification attempt (pass or fail) takes the prompt OFF Home until the learner has EARNED `VERIFICATION_RETURN_XP` (350 = 7 × `DAILY_XP_GOAL`, equality pinned) since it: `VerificationGateCard` renders NOTHING (`verificationQuietStatus(currentXp)`), and `getNextStep`'s verification rung stands down (`isVerificationQuiet(xp)`) so the ladder falls to the mastery ledger's weakest skill — the practice that lets them pass, and the practice that brings the prompt back. The full hero shows for never-attempted users and returns, naming the XP earned since (`verification-gate-returning`), once the learning is done. The Me tab's `equivalency-card-verify` stays available throughout for anyone who wants the check sooner.
+- **Quiet period (owner directives, 2026-08-18 and 2026-09-07)**: the GATE has no snooze — content stays locked — but the PROMPT honors attempts. Any verification attempt (pass or fail) takes the prompt OFF Home until the learner has EARNED `VERIFICATION_RETURN_XP` (350 = 7 × `DAILY_XP_GOAL`, equality pinned) since it: `VerificationGateCard` renders NOTHING (`verificationQuietStatus(currentXp)`), and `getNextStep`'s verification rung stands down (`isVerificationQuiet(xp)`) so the ladder falls to the mastery ledger's weakest skill — the practice that lets them pass, and the practice that brings the prompt back. The prompt returns naming the XP earned since (`verification-gate-returning`) once the learning is done. The Me tab's `equivalency-card-verify` stays available throughout for anyone who wants the check sooner.
+  **THE CADENCE NOW COVERS BOTH CASES, AND IT DID NOT BEFORE (owner report, 2026-09-23): _"It seems to always be there … How can anyone learn with this constantly on the top?"_** This entry used to end "the full hero shows for never-attempted users", which read as a considered choice and was a hole: `verificationQuietStatus` returned `quiet: false` whenever `getLatestAttempt()` was null, so a learner who had never taken a check met the hero on EVERY Home visit for ever, with nothing they could do to clear it. The second half was the same defect one step later — once the post-attempt window elapsed the hero came back **permanently**, so taking the test bought 350 XP of silence and then the identical wall. The owner's ask was a cadence ("popped up every few weeks"), and neither case had one.
+  The prompt now has a baseline in BOTH cases and a bounded show window: visible while `earnedSince` is in `[VERIFICATION_RETURN_XP, VERIFICATION_RETURN_XP + VERIFICATION_PROMPT_SHOW_XP)` (350–450 XP, about nine days at the default goal), then it re-baselines to the current XP and goes quiet again. A never-attempted learner is seeded DUE so they still meet it once. **It is not a snooze** — nothing is dismissible, the learner takes no action to silence it, and the GATE is untouched; only the PROMPT has a cadence. The baseline lives in `nh_cefr_prompt_baseline` and is DELIBERATELY not synced (`attempt.xp` remains the synced half; the cadence is a per-device display concern, and a second device showing it once more is the harmless direction).
+  **`VERIFICATION_PROMPT_SHOW_XP` is 100, not 50, and the reason is load-bearing**: a learner can earn 50 XP in one sitting without ever scrolling Home, so a one-day window can expire before the prompt has been SEEN — a cadence nobody meets is a slower version of no prompt. `verification-gate.spec.js` independently treats an attempt 400 XP ago as recently-returned, which a one-day window would have put on the wrong side of its own boundary; **the E2E audit caught that before it reached CI**, which is what that rule is for.
+  **The CTA named the wrong level, and that is what the owner actually quoted.** The button rendered `gate.target` — the TOP of a carried-over stack — while `EquivalencyTestScreen` opens `gate.nextCheck`, the bottom rung. A learner carried over to C1 read "Verify C1 now" on a button that starts the **A2** check, on a card whose own headline two lines above said "Make your A2 real". Everything else in the flow is keyed on `nextCheck`; the button was the lone exception. NEVER name a level on this card from anything but the check it will actually start.
   **Two versions of this rule have now been wrong in the same direction.** The 2026-08-18 fix quieted the hero for seven CALENDAR days and left a one-line ready-date chip (`verification-gate-chip`) at the top of Home; after the owner's failed B2 check that chip was still the first thing on the page ("why is it still at the top of my home page? … I have asked for this to show after a certain amount of learning time so that we can always make sure that the progress made is being retained"). A calendar timer measures nothing about learning, and a "quiet" state that still renders something is not quiet. The measure is now XP earned since the attempt: `recordEquivalencyAttempt` stashes `xp` on the attempt (the exam screen passes `userXp`; wiring pinned by source), the merge keeps a baseline once either side has one, and an attempt recorded before the field existed is backfilled ONCE with the first positive XP `verificationQuietStatus` sees — so for legacy attempts the count starts when the rule reached the device, never from an unknown past. An XP total of 0/NaN (the pre-hydration render) reads as quiet and does not backfill, so the hero can never flash on a zero. Mutation-verified (six: card ignores quiet, calendar days restored, backfill removed, merge adoption dropped, engine calls the helper bare, exam stops stashing XP) — each fails 1–5 tests.
   NEVER: restore the always-on hero; render ANYTHING for the gate on Home while quiet (no chip, no date); measure the quiet period in calendar time; let the quiet period unlock gated CONTENT; stash a baseline the exam did not actually pass (pinned by `verificationQuietPeriod.test.tsx` + `verification-gate.spec.js`).
 - **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
@@ -2120,6 +2124,133 @@ to a screen state nothing produces, and it has been dead ever since.**
   promjenama?". **The levelling is the symptom; the dead wiring is the defect**
   — and reporting only the symptom (which the first survey did) would have sent
   the next person to sort 18 prompts into six buckets on a screen nobody reaches.
+
+### Sentences before paragraphs — the BUILD stage (owner directive, 2026-09-07 → 2026-09-23)
+
+**"In guided speaking we need to begin with sentences, not paragraphs. We need to
+be building up speaking."** Measured before building: the ladder was LISTEN →
+REHEARSE → SPEAK, where `RehearsePhrase` is `{hr, en, why}` — repeat a FIXED
+phrase back, pure imitation — and SPEAK is free production at a word floor. The
+floor is 15 words at A1 against a 31-word model, and `a1-introduce` asks for four
+things at once (name, origin, residence, motivation). **Nothing in the ladder ever
+asked the learner to CONSTRUCT one sentence of their own.**
+
+**And the grammar signal was worse than the length.** The SPEAK checklist is
+satisfied when "the transcript contains ANY of these (case-insensitive)" —
+substring presence, which cannot tell a right case ending from a wrong one. The
+only real grammatical feedback was one `/api/speaking-coach` rubric score on the
+whole paragraph: the longest, latest, least actionable place to be told about a
+case ending.
+
+- **`src/lib/sentenceBuild.ts` (`gradeBuild`) is the new rung**, and it is
+  RULE-BASED ON PURPOSE. A Claude call per spoken sentence would be the
+  cache-served-endpoint mistake in a new place — a per-learner charge on what
+  becomes the commonest event in the app. `croatianMorphology.decline()` already
+  gives the paradigm and `CASE_NAME`/`CASE_QUESTION` the app's own plain-English
+  vocabulary, so the correction is instant, offline and free. The AI coach still
+  grades the paragraph at SPEAK, once, exactly as before (pinned: the module
+  imports no AI surface, with comments STRIPPED before the match — the first
+  draft failed on its own docstring naming the endpoint).
+- **It grades the GRAMMAR POINT, not the sentence.** Produce the required form and
+  the item passes whatever the wording around it — this is speech, not dictation,
+  the same rule that stops `phraseMatches` punishing a dropped diacritic.
+- **A SELF-CORRECTION COUNTS AS RIGHT**, and that line is load-bearing: a Set
+  iterates in insertion order, so without checking the required form FIRST, a
+  learner who says "kava… kavu" (what people actually do aloud) is corrected for
+  a mistake they had already fixed. **Found by mutation** — deleting the fast path
+  broke nothing until the test existed, which is the difference between a
+  redundant line and a load-bearing one.
+- **The honesty rule is inherited from the morphology module.** `kave` is genitive
+  singular AND nominative/accusative/vocative plural; the correction reports EVERY
+  reading the ending permits and never picks one. Naming a single case would be
+  wrong most of the time — NEVER-DO 13 applied to grammar. Every reading also
+  states its NUMBER, because "genitive" beside "nominative plural" reads as if the
+  first had none.
+- **Absence degrades to the old flow.** A unit with no authored `build` goes
+  straight to SPEAK exactly as before, and the stage dot is not rendered — a
+  half-rolled-out curriculum must never strand a learner on an empty stage. A1 is
+  authored (8 units × 3 sentences); A2–C2 inherit the old ladder until authored.
+- **The stage TEACHES and never blocks**, like REHEARSE: typed input counts
+  identically to the mic (the stage that teaches case endings is exactly the one a
+  mic-blocked learner must not be shut out of), Next is always present, and the
+  model answer is withheld until two genuine attempts so it is a hint, not an
+  answer sheet.
+- **THE DATA IS VERIFIED AGAINST THE ENGINE, NOT ASSUMED.** `decline().forms` is
+  FLAT (`{Nsg, Gsg, …, Ipl}`), not `table[case][number]`. The first draft assumed
+  the nested shape, so the lookup returned `undefined` for every word, the focus
+  branch never ran, and grading fell through to phrase matching — **a grammar
+  check that was silently never performed**, the `scene.qs` class exactly. Caught
+  by probing `decline()` against real words BEFORE authoring a line of data.
+  `sentenceBuild.test.ts` now pins, for every authored item: the lemma declines,
+  the required cell exists, the required form actually appears in the model
+  answer, and **every model answer passes its own grader** (the exemplar rule the
+  writing curriculum already holds).
+- Mutation-verified, four, each confirmed landed: the stage removed fails 5; one
+  case named instead of every reading fails 1; a focus whose form is absent from
+  its own answer fails 2; the self-correction fast path removed fails 1.
+**THE SPOKEN FLOOR NOW BUILDS UP TOO, and it was flat before (2026-09-23).**
+`minWords` was one value per level — 15 at A1 across all eight units — so a
+learner's FIRST ever spoken task was the same size as their last. It is now a
+ladder within each level (A1 8→15, A2 10→15, B1 12→20, B2 14→20, C1 20→30,
+C2 22→30). **No level's ceiling was raised**; only the early units got smaller,
+so this can only make the path gentler. Laddering by index is meaningful because
+`pickSpeakingUnit` rotates SEQUENTIALLY — a stored pointer from 0 — so unit 0
+really is the learner's first at that level; a random rotation would have made
+the ladder decorative, and that was checked before editing.
+
+**THE FLOOR IS WRITTEN THREE TIMES PER UNIT** — `minWords`, the `len` checklist
+item's own `minWords`, and the NUMBER inside that item's LABEL TEXT ("Speak at
+least 15 words"). The label is the copy with no reason to change, so it is the
+one that would quietly start promising a floor nobody enforces. All three are
+pinned to agree (`sentenceBuild.test.ts`); mutation-verified, the label drifting
+fails 1 and restoring flat floors fails 2.
+
+**A2 AND B1 ARE AUTHORED TOO (2026-09-23): 24 units, 72 sentences.** Each drills
+one government a learner actually gets wrong — `hvala na` + locative, `sjećati se`
++ genitive, `bojati se` + genitive, `nema` + genitive, the quantity genitive after
+five, `do`/`kod`/`zbog`/`protiv`/`blizu`/`između` + genitive, `s` + instrumental —
+and the pairs are deliberate: `u školi` (where you are) against `u školu` (movement
+into), `Želim kavu` against `Koliko košta kava`. B2–C2 still inherit the old ladder,
+and the coverage guard asserts BOTH halves so "authored" cannot quietly shrink and
+the degrade path stays real until it is filled.
+
+**THE LADDER IS COMPLETE (2026-09-23): all 48 units, 144 sentences, A1–C2.**
+The upper levels drill the governments a learner still gets wrong at B2+ —
+`unatoč` + DATIVE (not genitive), `zahvaljujući`/`prema`/`protivno` + dative,
+`tijekom`/`oko`/`bez`/`poput`/`u ime` + genitive, `temeljiti se`/`inzistirati`/
+`ovisiti` + locative, `držati se` + genitive, and the quantity genitive after
+`dva`/`tri`/`puno`/`više`. All 48 units now carry build sentences, so the
+screen's `buildItems.length > 0 ? 'build' : 'speak'` branch is a GUARD-RAIL
+rather than a live path; the coverage test is what keeps it one, and it fails
+before a learner could meet the empty stage it protects against.
+
+**AND THE -ak RULE WAS WRONG IN BOTH DIRECTIONS (2026-09-23), found the same
+way.** The fleeting-a rule drops the a for polysyllabic `-ac`/`-ak` — right for
+`početak`, `zaključak`, `naglasak`, `podatak`, and WRONG for `korak` (→ `korka`)
+and `stručnjak` (→ `stručnjka`), which keep it. It also could not know that
+`dolazak` DEVOICES its z (`dolasku`, never `dolazku`), that `tjedan` has a
+fleeting a OUTSIDE the `-ac`/`-ak` scope (`tjedna`, not `tjedana`), or that
+`podatak` sibilarizes to `podacima` rather than `podatcima`. All five are now
+attested irregulars. **There is no rule that gets this right** — the class is
+lexical in both directions, so the list is the mechanism and it can only grow.
+Keeping the a must not suppress the softening either: `korak` → `koraci`,
+`koracima`, but `koraka` and `korake`, and that is pinned separately.
+
+**THE ENGINE WAS WRONG ABOUT `centar`, AND VERIFYING FIRST IS THE ONLY REASON IT
+DID NOT SHIP.** `decline('centar')` returned `centaru`/`centara` for the oblique
+singular; the Croatian is `centru`/`centra`. The fleeting-a rule is scoped to
+polysyllabic `-ac`/`-ak` (correctly — stated generally it turns `grad` into `grd`),
+and `centar` was in neither that scope nor the irregular list, so its whole oblique
+singular was wrong — **and `decline()` also backs the tap-a-word sheet, so that
+paradigm was being shown to learners.** `centar`, `metar`, `litar`, `vjetar` and
+`ministar` are now attested irregulars. **It is a list and never a rule**: `mornar`
+and `zidar` KEEP their a, and both directions are pinned — the class is lexical, so
+a rule would produce `mornra`, the same damage in a new place.
+
+- NEVER: send a build sentence to an AI endpoint; name a single case for an
+  ambiguous ending; gate the stage on the microphone; author a focus without
+  checking `decline()` produces the cell (a wrong required form teaches a wrong
+  ending); let the button before it name a stage it does not lead to.
 
 **Guided Speaking** (`src/data/speakingCurriculum.ts`, 48 units at 8 per level;
 `GuidedSpeakingScreen`; `PRODUCTION_POOL` id `speaking_guided`, A1+, keyboard-safe)

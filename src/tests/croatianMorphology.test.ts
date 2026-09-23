@@ -433,3 +433,110 @@ describe('no Cyrillic and no Serbian variants reach a learner from here', () => 
     }
   });
 });
+
+describe('the fleeting -a in -ar nouns (2026-09-23)', () => {
+  // FOUND BY VERIFYING BEFORE AUTHORING, not by a failing test: the engine
+  // produced `u centaru`, which is not Croatian — the oblique singular drops the
+  // a (centar, centra, centru) and it returns only in the genitive plural
+  // (centara). `decline()` also backs the tap-a-word sheet, so that paradigm was
+  // being shown to learners.
+  it('centar drops the a in every oblique singular, and gets it back in the genitive plural', () => {
+    const f = decline('centar')!.forms as unknown as Record<string, string>;
+    expect(f.Nsg).toBe('centar');
+    expect(f.Gsg).toBe('centra');
+    expect(f.Dsg).toBe('centru');
+    expect(f.Lsg).toBe('centru');
+    expect(f.Isg).toBe('centrom');
+    expect(f.Npl).toBe('centri');
+    expect(f.Gpl).toBe('centara');
+  });
+
+  it('metar, litar and vjetar behave the same, and vjetar takes the long plural', () => {
+    const m = decline('metar')!.forms as unknown as Record<string, string>;
+    expect(m.Gsg).toBe('metra');
+    expect(m.Lsg).toBe('metru');
+    const l = decline('litar')!.forms as unknown as Record<string, string>;
+    expect(l.Gsg).toBe('litra');
+    const v = decline('vjetar')!.forms as unknown as Record<string, string>;
+    expect(v.Gsg).toBe('vjetra');
+    expect(v.Npl).toBe('vjetrovi');
+  });
+
+  it('ministar is ANIMATE, so its accusative singular copies the genitive', () => {
+    const f = decline('ministar')!.forms as unknown as Record<string, string>;
+    expect(f.Gsg).toBe('ministra');
+    expect(f.Asg).toBe('ministra');
+  });
+
+  it('IT IS A LIST, NOT A RULE — mornar and zidar KEEP their a', () => {
+    // The whole reason this cannot be generalised to -ar. Stated as a rule it
+    // would produce `mornra`, the same class of damage as the general fleeting-a
+    // rule turning `grad` into `grd`.
+    const m = decline('mornar')!.forms as unknown as Record<string, string>;
+    expect(m.Gsg).toBe('mornara');
+    expect(m.Lsg).toBe('mornaru');
+    const z = decline('zidar')!.forms as unknown as Record<string, string>;
+    expect(z.Gsg).toBe('zidara');
+  });
+
+  it('and the regular consonant stems are untouched', () => {
+    const g = decline('grad')!.forms as unknown as Record<string, string>;
+    expect(g.Gsg).toBe('grada');
+    expect(g.Lsg).toBe('gradu');
+    expect(g.Npl).toBe('gradovi');
+  });
+});
+
+describe('the fleeting -a in -ak is LEXICAL in BOTH directions (2026-09-23)', () => {
+  // Found by printing every form before authoring the B2–C2 speaking sentences.
+  // The rule drops the a for polysyllabic -ac/-ak, which is right for početak,
+  // zaključak, naglasak and podatak — and WRONG for korak and stručnjak. It also
+  // cannot know dolazak devoices its z, that tjedan has a fleeting a outside the
+  // -ac/-ak scope, or that podatak sibilarizes in the plural. `decline()` backs
+  // the tap-a-word sheet, so all five were being shown to learners.
+  const f = (l: string) => decline(l)!.forms as unknown as Record<string, string>;
+
+  it('korak and stručnjak KEEP their a — the rule over-applied', () => {
+    expect(f('korak').Gsg).toBe('koraka');
+    expect(f('korak').Lsg).toBe('koraku');
+    expect(f('stručnjak').Gsg).toBe('stručnjaka');
+    // Animate, so the accusative copies the genitive.
+    expect(f('stručnjak').Asg).toBe('stručnjaka');
+  });
+
+  it('but sibilarization still reaches their -i and -ima plurals', () => {
+    // Keeping the a must not also suppress the softening — two separate rules.
+    expect(f('korak').Npl).toBe('koraci');
+    expect(f('korak').Lpl).toBe('koracima');
+    // …and NOT the genitive or accusative plural.
+    expect(f('korak').Gpl).toBe('koraka');
+    expect(f('korak').Apl).toBe('korake');
+  });
+
+  it('dolazak devoices its z before the k', () => {
+    expect(f('dolazak').Gsg).toBe('dolaska');
+    expect(f('dolazak').Lsg).toBe('dolasku'); // never dolazku
+    expect(f('dolazak').Isg).toBe('dolaskom');
+  });
+
+  it('tjedan has a fleeting a outside the -ac/-ak scope', () => {
+    expect(f('tjedan').Gsg).toBe('tjedna');
+    expect(f('tjedan').Lsg).toBe('tjednu');
+    expect(f('tjedan').Gpl).toBe('tjedana'); // the a returns
+  });
+
+  it('podatak sibilarizes to podaci/podacima, not podatcima', () => {
+    expect(f('podatak').Gsg).toBe('podatka');
+    expect(f('podatak').Npl).toBe('podaci');
+    expect(f('podatak').Lpl).toBe('podacima');
+    expect(f('podatak').Gpl).toBe('podataka');
+  });
+
+  it('and the words the RULE gets right are untouched', () => {
+    // The list must not have quietly replaced the rule.
+    expect(f('početak').Dsg).toBe('početku');
+    expect(f('naglasak').Gsg).toBe('naglaska');
+    expect(f('zaključak').Isg).toBe('zaključkom');
+    expect(f('grad').Gsg).toBe('grada');
+  });
+});

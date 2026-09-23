@@ -70,6 +70,7 @@
 // negotiation, C1 structured reasoning, C2 nuance and register play.
 
 import type { CefrLevel } from '../lib/cefr.js';
+import type { BuildSentence } from '../lib/sentenceBuild';
 
 export interface SpeakingStructure {
   /** The pattern as it appears in the model (verbatim substring). */
@@ -113,6 +114,11 @@ export interface SpeakingUnit {
   rehearse: RehearsePhrase[];
   /** Phrase panel shown during stage 3 — read, not tapped into a text box. */
   usefulPhrases: string[];
+  /** Stage 2.5 — BUILD: one sentence at a time, graded locally by
+   *  `lib/sentenceBuild` (zero AI, instant). Absent or empty on a unit that has
+   *  not been authored yet, and the screen then runs exactly as before —
+   *  absence degrades to the old behaviour, never to a blocked stage. */
+  build?: BuildSentence[];
   checklist: SpeakingChecklistItem[];
 }
 
@@ -125,7 +131,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Predstavi se naglas: kako se zoveš, odakle si, gdje živiš i zašto učiš hrvatski.',
     promptEn:
       'Introduce yourself out loud: your name, where you are from, where you live and why you are learning Croatian.',
-    minWords: 15,
+    minWords: 8,
     model:
       'Bog! Zovem se Ivana. Dolazim iz Kanade, iz Toronta. ' +
       'Moja je obitelj iz Hrvatske, iz Splita. ' +
@@ -171,10 +177,41 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Bog!', 'Zovem se…', 'Dolazim iz…', 'Živim u…', 'Drago mi je.', 'A ti?'],
+    build: [
+      {
+        cue: 'Say: I have a sister.',
+        answer: 'Imam sestru.',
+        accept: ['Ja imam sestru.'],
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'A',
+          why: 'Imam takes the accusative — the sister is what you have.',
+        },
+      },
+      {
+        cue: 'Say: I live in a small town.',
+        answer: 'Živim u malom gradu.',
+        accept: ['Živim u gradu.'],
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'L',
+          why: 'u meaning WHERE takes the locative; u meaning INTO takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I learn Croatian at school.',
+        answer: 'Učim hrvatski u školi.',
+        focus: {
+          lemma: 'škola',
+          requiredCase: 'L',
+          why: 'Again u for where you are — locative, not the dictionary form.',
+        },
+      },
+    ],
     checklist: [
       { id: 'name', label: 'Say your name with "zovem se"', words: ['zovem se'] },
       { id: 'origin', label: 'Say where you are from with "iz"', words: ['iz '] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 8 words', minWords: 8 },
     ],
   },
   {
@@ -184,7 +221,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Naruči nešto u kafiću: pozdravi, reci što želiš i pitaj koliko košta.',
     promptEn:
       'Order something in a café: greet the server, say what you want and ask how much it costs.',
-    minWords: 15,
+    minWords: 8,
     model:
       'Dobar dan! Molim vas jednu kavu s mlijekom. ' +
       'Imate li kolače? Onda i jedan komad torte, molim. ' +
@@ -235,10 +272,41 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Izvolite.',
       'Hvala lijepa!',
     ],
+    build: [
+      {
+        cue: 'Say: I would like a coffee.',
+        answer: 'Želim kavu.',
+        accept: ['Htio bih kavu.', 'Htjela bih kavu.'],
+        focus: {
+          lemma: 'kava',
+          requiredCase: 'A',
+          why: 'What you ask for is what receives the action, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I would like water, please.',
+        answer: 'Želim vodu, molim.',
+        accept: ['Htio bih vodu, molim.'],
+        focus: {
+          lemma: 'voda',
+          requiredCase: 'A',
+          why: 'Same rule as the coffee — the thing ordered goes in the accusative.',
+        },
+      },
+      {
+        cue: 'Say: How much does the coffee cost?',
+        answer: 'Koliko košta kava?',
+        focus: {
+          lemma: 'kava',
+          requiredCase: 'N',
+          why: 'Here the coffee is DOING the costing, so it is back in the nominative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'polite', label: 'Use "molim vas"', words: ['molim vas', 'molim'] },
       { id: 'price', label: 'Ask the price', words: ['koliko'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 8 words', minWords: 8 },
     ],
   },
   {
@@ -248,7 +316,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj tko je u tvojoj obitelji: koliko ih je, kako se zovu i što rade.',
     promptEn:
       'Say who is in your family: how many there are, what they are called and what they do.',
-    minWords: 15,
+    minWords: 10,
     model:
       'U mojoj obitelji ima nas četvero. ' +
       'Imam muža i dvoje djece, sina i kćer. ' +
@@ -296,10 +364,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Imam…', 'Nemam…', 'zove se…', 'radi kao…', 'ima … godina', 'stariji od mene'],
+    build: [
+      {
+        cue: 'Say: I have a brother.',
+        answer: 'Imam brata.',
+        accept: ['Ja imam brata.'],
+        focus: {
+          lemma: 'brat',
+          requiredCase: 'A',
+          why: 'Imam again — and for a male person the accusative looks like the genitive.',
+        },
+      },
+      {
+        cue: 'Say: My sister is a teacher.',
+        answer: 'Moja sestra je učiteljica.',
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'N',
+          why: 'The sister is the subject here, so the dictionary form is right.',
+        },
+      },
+      {
+        cue: 'Say: I often talk about my mother.',
+        answer: 'Često govorim o majci.',
+        focus: {
+          lemma: 'majka',
+          requiredCase: 'L',
+          why: 'o meaning ABOUT takes the locative, and the k softens to c.',
+        },
+      },
+    ],
     checklist: [
       { id: 'have', label: 'Use "imam" to say who you have', words: ['imam'] },
       { id: 'job', label: 'Say what someone does', words: ['radi', 'radim', 'kao'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -309,7 +407,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši svoj običan dan: kada ustaješ, što radiš danju i što radiš navečer.',
     promptEn:
       'Describe an ordinary day: when you get up, what you do during the day and in the evening.',
-    minWords: 15,
+    minWords: 10,
     model:
       'Ustajem u sedam sati. ' +
       'Doručkujem kruh i pijem kavu. ' +
@@ -357,10 +455,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ujutro', 'poslijepodne', 'navečer', 'obično', 'ponekad', 'svaki dan'],
+    build: [
+      {
+        cue: 'Say: In the evening I read a book.',
+        answer: 'Navečer čitam knjigu.',
+        focus: {
+          lemma: 'knjiga',
+          requiredCase: 'A',
+          why: 'The book receives the reading, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I work in an office.',
+        answer: 'Radim u uredu.',
+        focus: {
+          lemma: 'ured',
+          requiredCase: 'L',
+          why: 'Where you are — locative.',
+        },
+      },
+      {
+        cue: 'Say: I go to school every day.',
+        answer: 'Svaki dan idem u školu.',
+        focus: {
+          lemma: 'škola',
+          requiredCase: 'A',
+          why: 'Movement INTO, not location — so u takes the accusative this time.',
+        },
+      },
+    ],
     checklist: [
       { id: 'time', label: 'Say a time with "u"', words: ['u sedam', 'u osam', 'u devet', 'u '] },
       { id: 'evening', label: 'Say what you do in the evening', words: ['navečer'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -370,7 +497,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši mjesto u kojem živiš: je li veliko ili malo, što ima i što ti se sviđa.',
     promptEn:
       'Describe the place where you live: is it big or small, what is there and what you like about it.',
-    minWords: 15,
+    minWords: 12,
     model:
       'Živim u malom gradu blizu mora. ' +
       'Grad nije velik, ali je jako lijep. ' +
@@ -418,10 +545,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['blizu', 'daleko od', 'u centru', 'nekoliko', 'najviše mi se sviđa', 'ima'],
+    build: [
+      {
+        cue: 'Say: My town is beautiful.',
+        answer: 'Moj grad je lijep.',
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'N',
+          why: 'The town is the subject, so it stays in the dictionary form.',
+        },
+      },
+      {
+        cue: 'Say: I often walk in the park.',
+        answer: 'Često šetam u parku.',
+        focus: {
+          lemma: 'park',
+          requiredCase: 'L',
+          why: 'Walking around inside it, not into it — locative.',
+        },
+      },
+      {
+        cue: 'Say: There is a church here.',
+        answer: 'Ovdje je crkva.',
+        focus: {
+          lemma: 'crkva',
+          requiredCase: 'N',
+          why: 'The church is what exists here — the subject.',
+        },
+      },
+    ],
     checklist: [
       { id: 'place', label: 'Say where you live with "u"', words: ['živim u', 'u '] },
       { id: 'like', label: 'Say what you like', words: ['sviđa', 'volim'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -430,7 +586,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     title: 'Ask for directions',
     prompt: 'Zaustavi nekoga na ulici i pitaj za put do kolodvora. Budi pristojan.',
     promptEn: 'Stop someone in the street and ask the way to the station. Be polite.',
-    minWords: 15,
+    minWords: 12,
     model:
       'Oprostite, smijem li pitati? ' +
       'Tražim autobusni kolodvor. Znate li gdje je? ' +
@@ -478,10 +634,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Oprostite…', 'Tražim…', 'ravno', 'lijevo', 'desno', 'Je li daleko?'],
+    build: [
+      {
+        cue: 'Say: Excuse me, where is the station?',
+        answer: 'Oprostite, gdje je kolodvor?',
+        focus: {
+          lemma: 'kolodvor',
+          requiredCase: 'N',
+          why: 'The station is the subject of je, so it is the dictionary form.',
+        },
+      },
+      {
+        cue: 'Say: How do I get to the station?',
+        answer: 'Kako da dođem do kolodvora?',
+        focus: {
+          lemma: 'kolodvor',
+          requiredCase: 'G',
+          why: 'do — as far as — always takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: Turn left at the church.',
+        answer: 'Skrenite lijevo kod crkve.',
+        focus: {
+          lemma: 'crkva',
+          requiredCase: 'G',
+          why: 'kod meaning BY or AT takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'polite', label: 'Open politely with "oprostite"', words: ['oprostite'] },
       { id: 'ask', label: 'Ask a real question', words: ['li', 'gdje'] },
-      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -539,6 +724,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['kilogram', 'pola kile', 'malo', 'svježe', 'zajedno', 'Uzet ću…'],
+    build: [
+      {
+        cue: 'Say: I would like a kilo of apples.',
+        answer: 'Želim kilogram jabuka.',
+        focus: {
+          lemma: 'jabuka',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'After a quantity Croatian uses the genitive plural — a kilo OF apples.',
+        },
+      },
+      {
+        cue: 'Say: Do you have tomatoes?',
+        answer: 'Imate li rajčice?',
+        focus: {
+          lemma: 'rajčica',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'Imate takes the accusative, and here it is plural.',
+        },
+      },
+      {
+        cue: 'Say: How much does the cheese cost?',
+        answer: 'Koliko košta sir?',
+        focus: {
+          lemma: 'sir',
+          requiredCase: 'N',
+          why: 'The cheese is doing the costing — nominative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'quantity', label: 'Ask for a quantity', words: ['kilogram', 'kile', 'malo', 'pola'] },
       { id: 'pay', label: 'Ask what it comes to', words: ['koliko'] },
@@ -599,6 +815,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Jesi li slobodan/slobodna?', 'Možemo…', 'Odgovara mi.', 'Vidimo se!', 'Bog!'],
+    build: [
+      {
+        cue: "Say: Let's meet in front of the theatre.",
+        answer: 'Nađimo se ispred kazališta.',
+        focus: {
+          lemma: 'kazalište',
+          requiredCase: 'G',
+          why: 'ispred — in front of — takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am free on Saturday.',
+        answer: 'Slobodan sam u subotu.',
+        accept: ['Slobodna sam u subotu.'],
+        focus: {
+          lemma: 'subota',
+          requiredCase: 'A',
+          why: 'u with a day of the week takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am coming with a friend.',
+        answer: 'Dolazim s prijateljem.',
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'day', label: 'Suggest a day', words: ['subotu', 'nedjelju', 'petak', 'u '] },
       { id: 'meet', label: 'Suggest meeting', words: ['naći', 'vidimo', 'možemo'] },
@@ -613,7 +859,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     title: 'Tell someone about your weekend',
     prompt: 'Ispričaj što si radio ili radila prošli vikend. Reci gdje si bio i kako je bilo.',
     promptEn: 'Tell someone what you did last weekend. Say where you were and what it was like.',
-    minWords: 20,
+    minWords: 10,
     model:
       'Prošli sam vikend bio u Zagrebu kod prijatelja. ' +
       'Putovali smo vlakom u petak navečer. ' +
@@ -661,10 +907,41 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['prošli vikend', 'najprije', 'onda', 'poslije toga', 'na kraju', 'Bilo je…'],
+    build: [
+      {
+        cue: 'Say: I was in the city.',
+        answer: 'Bio sam u gradu.',
+        accept: ['Bila sam u gradu.'],
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'L',
+          why: 'u for where you WERE — locative.',
+        },
+      },
+      {
+        cue: 'Say: We watched a match.',
+        answer: 'Gledali smo utakmicu.',
+        focus: {
+          lemma: 'utakmica',
+          requiredCase: 'A',
+          why: 'The match receives the watching, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I went with my sister.',
+        answer: 'Išao sam sa sestrom.',
+        accept: ['Išla sam sa sestrom.'],
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental — and it becomes sa before s.',
+        },
+      },
+    ],
     checklist: [
       { id: 'past', label: 'Use the past tense', words: ['sam', 'smo', 'bio', 'bila', 'bilo'] },
       { id: 'verdict', label: 'Say what it was like', words: ['bilo je', 'super', 'zanimljivo'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -674,7 +951,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Objasni liječniku što te boli, koliko dugo traje i pitaj što da radiš.',
     promptEn:
       'Explain to the doctor what hurts, how long it has lasted, and ask what you should do.',
-    minWords: 20,
+    minWords: 10,
     model:
       'Dobar dan, doktore. Boli me grlo već tri dana. ' +
       'Imam temperaturu i kašljem, osobito navečer. ' +
@@ -722,10 +999,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Boli me…', 'već … dana', 'osobito', 'nije mi bolje', 'ljekarna', 'recept'],
+    build: [
+      {
+        cue: 'Say: My throat hurts.',
+        answer: 'Boli me grlo.',
+        focus: {
+          lemma: 'grlo',
+          requiredCase: 'N',
+          why: 'In Croatian the body part DOES the hurting, so it is the subject.',
+        },
+      },
+      {
+        cue: 'Say: I have a temperature.',
+        answer: 'Imam temperaturu.',
+        focus: {
+          lemma: 'temperatura',
+          requiredCase: 'A',
+          why: 'Imam takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am going to the doctor.',
+        answer: 'Idem liječniku.',
+        focus: {
+          lemma: 'liječnik',
+          requiredCase: 'D',
+          why: 'Going TO a person takes the dative, with no preposition.',
+        },
+      },
+    ],
     checklist: [
       { id: 'symptom', label: 'Say what hurts with "boli me"', words: ['boli'] },
       { id: 'duration', label: 'Say how long', words: ['već', 'dana', 'tjedan'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 10 words', minWords: 10 },
     ],
   },
   {
@@ -735,7 +1041,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Opiši nekoga koga dobro poznaješ: kako izgleda, kakav je i zašto ti je važan.',
     promptEn:
       'Describe someone you know well: what they look like, what they are like and why they matter to you.',
-    minWords: 20,
+    minWords: 12,
     model:
       'Opisat ću vam svoju najbolju prijateljicu. ' +
       'Zove se Marija, visoka je i ima kratku smeđu kosu. ' +
@@ -783,10 +1089,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['izgleda kao', 'ima … kosu', 'karakterom je', 'poznajemo se', 'zato što'],
+    build: [
+      {
+        cue: 'Say: She has long hair.',
+        answer: 'Ima dugu kosu.',
+        focus: {
+          lemma: 'kosa',
+          requiredCase: 'A',
+          why: 'What she HAS takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: He works with my brother.',
+        answer: 'Radi s mojim bratom.',
+        focus: {
+          lemma: 'brat',
+          requiredCase: 'I',
+          why: 'With whom — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: I often talk about my friend.',
+        answer: 'Često govorim o prijatelju.',
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'L',
+          why: 'o meaning ABOUT takes the locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'looks', label: 'Describe how they look', words: ['visok', 'visoka', 'kosu', 'oči'] },
       { id: 'why', label: 'Say why they matter', words: ['jer', 'zato'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -797,7 +1132,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vrati nešto u trgovinu: objasni što nije u redu, reci kad si to kupio i pitaj što se može učiniti.',
     promptEn:
       'Return something to a shop: explain what is wrong, say when you bought it and ask what can be done.',
-    minWords: 20,
+    minWords: 12,
     model:
       'Dobar dan. Kupio sam ovu majicu prošli tjedan kod vas. ' +
       'Nažalost, prevelika mi je i boja nije kao na slici. ' +
@@ -845,6 +1180,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Nažalost…', 'Evo računa.', 'zamijeniti', 'povrat novca', 'Može li…?'],
+    build: [
+      {
+        cue: 'Say: I bought this jacket.',
+        answer: 'Kupio sam ovu jaknu.',
+        accept: ['Kupila sam ovu jaknu.'],
+        focus: {
+          lemma: 'jakna',
+          requiredCase: 'A',
+          why: 'What you bought receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: I would like a refund.',
+        answer: 'Želim povrat novca.',
+        focus: {
+          lemma: 'novac',
+          requiredCase: 'G',
+          why: 'A return OF money — genitive, and the a drops: novac, novca.',
+        },
+      },
+      {
+        cue: 'Say: I am here because of the jacket.',
+        answer: 'Ovdje sam zbog jakne.',
+        focus: {
+          lemma: 'jakna',
+          requiredCase: 'G',
+          why: 'zbog — because of — takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'problem',
@@ -852,7 +1217,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['prevelika', 'premala', 'ne radi', 'nije'],
       },
       { id: 'request', label: 'Ask for a solution', words: ['mogu li', 'može li', 'zamijeniti'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -862,7 +1227,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj čime se baviš: gdje radiš, što točno radiš i što ti se sviđa ili ne sviđa.',
     promptEn:
       'Talk about what you do: where you work, what exactly you do and what you like or dislike about it.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Radim kao medicinska sestra u velikoj bolnici. ' +
       'Počinjem u sedam ujutro i smjena traje dvanaest sati. ' +
@@ -910,6 +1275,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Radim kao…', 'Bavim se…', 'smjena', 'kolege', 'plaća', 'ide uz posao'],
+    build: [
+      {
+        cue: 'Say: I work in a hospital.',
+        answer: 'Radim u bolnici.',
+        focus: {
+          lemma: 'bolnica',
+          requiredCase: 'L',
+          why: 'Where you work — locative, and the c softens before i.',
+        },
+      },
+      {
+        cue: 'Say: I work with students.',
+        answer: 'Radim sa studentima.',
+        focus: {
+          lemma: 'student',
+          requiredCase: 'I',
+          number: 'pl',
+          why: 'With whom, in the plural — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: I have been working here a year.',
+        answer: 'Radim ovdje godinu dana.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'A',
+          why: 'A stretch of time answered with the accusative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'role', label: 'Say your role with "kao"', words: ['kao', 'bavim se', 'radim'] },
       {
@@ -917,7 +1312,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what you like or dislike',
         words: ['volim', 'ne volim', 'sviđa'],
       },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -928,7 +1323,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prijatelj te zove na rođendan, ali ne možeš doći. Zahvali, objasni zašto i predloži nešto drugo.',
     promptEn:
       'A friend invites you to a birthday party but you cannot come. Say thank you, explain why and suggest something else.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Hvala ti na pozivu, baš mi je drago što si me zvao. ' +
       'Nažalost, ne mogu doći u subotu jer radim cijeli vikend. ' +
@@ -976,11 +1371,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Hvala na pozivu.', 'Nažalost…', 'Žao mi je.', 'Volio bih…', 'Možemo li…?'],
+    build: [
+      {
+        cue: 'Say: Thank you for the invitation.',
+        answer: 'Hvala na pozivu.',
+        focus: {
+          lemma: 'poziv',
+          requiredCase: 'L',
+          why: 'hvala na always takes the locative — never the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I cannot come on Saturday.',
+        answer: 'Ne mogu doći u subotu.',
+        focus: {
+          lemma: 'subota',
+          requiredCase: 'A',
+          why: 'u with a day of the week takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about the birthday.',
+        answer: 'Razmišljam o rođendanu.',
+        focus: {
+          lemma: 'rođendan',
+          requiredCase: 'L',
+          why: 'Thinking ABOUT something — locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'thanks', label: 'Thank them', words: ['hvala'] },
       { id: 'reason', label: 'Give a reason with "jer"', words: ['jer', 'zato što'] },
       { id: 'alt', label: 'Suggest something else', words: ['možemo', 'drugi put', 'sljedeći'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -990,7 +1414,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ispričaj o putovanju: kamo si išao, s kim, što ste radili i bi li išao ponovno.',
     promptEn:
       'Tell the story of a trip: where you went, with whom, what you did and whether you would go again.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Ljetos smo bili na moru, u Zadru. ' +
       'Išli smo autom, vozili smo se pet sati. ' +
@@ -1038,10 +1462,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ljetos', 'zimus', 'najprije', 'jedan dan', 'najljepše', 'ponovno'],
+    build: [
+      {
+        cue: 'Say: We travelled by train.',
+        answer: 'Putovali smo vlakom.',
+        focus: {
+          lemma: 'vlak',
+          requiredCase: 'I',
+          why: 'By what means — the instrumental, with no preposition.',
+        },
+      },
+      {
+        cue: 'Say: We stayed in a hotel.',
+        answer: 'Bili smo u hotelu.',
+        focus: {
+          lemma: 'hotel',
+          requiredCase: 'L',
+          why: 'Where you were — locative.',
+        },
+      },
+      {
+        cue: 'Say: I remember that journey.',
+        answer: 'Sjećam se tog putovanja.',
+        focus: {
+          lemma: 'putovanje',
+          requiredCase: 'G',
+          why: 'sjećati se governs the genitive — the verb demands it.',
+        },
+      },
+    ],
     checklist: [
       { id: 'where', label: 'Say where you went', words: ['bili', 'išli', 'putovali'] },
       { id: 'again', label: 'Say whether you would go again', words: ['bih', 'bismo', 'ponovno'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
   {
@@ -1051,7 +1504,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt: 'Ostavi glasovnu poruku: reci tko si, zašto zoveš, što trebaš i kada te mogu dobiti.',
     promptEn:
       'Leave a voice message: say who you are, why you are calling, what you need and when they can reach you.',
-    minWords: 20,
+    minWords: 15,
     model:
       'Bog, ovdje Ivana. ' +
       'Zovem te zbog subote, oko dogovora za put. ' +
@@ -1099,10 +1552,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ovdje…', 'zovem zbog…', 'Htjela sam pitati…', 'Javi mi se.', 'Čujemo se!'],
+    build: [
+      {
+        cue: 'Say: I am calling about the meeting.',
+        answer: 'Zovem zbog sastanka.',
+        focus: {
+          lemma: 'sastanak',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive, and the a drops: sastanak, sastanka.',
+        },
+      },
+      {
+        cue: 'Say: I am waiting for your message.',
+        answer: 'Čekam tvoju poruku.',
+        focus: {
+          lemma: 'poruka',
+          requiredCase: 'A',
+          why: 'What you wait for receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: Thanks for the message.',
+        answer: 'Hvala na poruci.',
+        focus: {
+          lemma: 'poruka',
+          requiredCase: 'L',
+          why: 'hvala na again — locative, and the k softens to c.',
+        },
+      },
+    ],
     checklist: [
       { id: 'who', label: 'Say who is calling', words: ['ovdje', 'zovem'] },
       { id: 'why', label: 'Say why you are calling', words: ['zbog', 'oko', 'pitati'] },
-      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
     ],
   },
 
@@ -1115,7 +1597,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'U tvom gradu žele zabraniti automobile u centru. Reci što misliš, navedi dva razloga i priznaj jedan protuargument.',
     promptEn:
       'Your town wants to ban cars from the centre. Say what you think, give two reasons and acknowledge one counter-argument.',
-    minWords: 30,
+    minWords: 12,
     model:
       'Mislim da bi to bila dobra odluka, iako razumijem zašto se ljudi bune. ' +
       'S jedne strane, centar bi bio mnogo tiši i sigurniji za djecu. ' +
@@ -1170,6 +1652,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ipak smatram…',
       'Na kraju',
     ],
+    build: [
+      {
+        cue: 'Say: I am against the ban.',
+        answer: 'Protiv sam zabrane.',
+        focus: {
+          lemma: 'zabrana',
+          requiredCase: 'G',
+          why: 'protiv takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about the centre.',
+        answer: 'Razmišljam o centru.',
+        focus: {
+          lemma: 'centar',
+          requiredCase: 'L',
+          why: 'o takes the locative, and centar drops its a: centra, centru.',
+        },
+      },
+      {
+        cue: 'Say: I agree with that decision.',
+        answer: 'Slažem se s tom odlukom.',
+        focus: {
+          lemma: 'odluka',
+          requiredCase: 'I',
+          why: 'Agreeing WITH something — instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'stance', label: 'State your position', words: ['mislim', 'smatram', 'slažem'] },
       {
@@ -1177,7 +1688,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Acknowledge the other side',
         words: ['iako', 's druge strane', 'ipak'],
       },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 12 words', minWords: 12 },
     ],
   },
   {
@@ -1188,7 +1699,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ispričaj nešto smiješno ili neugodno što ti se dogodilo. Postavi scenu, ispričaj što se dogodilo i završi poantom.',
     promptEn:
       'Tell something funny or embarrassing that happened to you. Set the scene, say what happened and finish with a point.',
-    minWords: 30,
+    minWords: 14,
     model:
       'Neću zaboraviti prvi put kad sam naručivao kavu u Splitu. ' +
       'Htio sam reći da želim kavu s mlijekom, ali sam pomiješao riječi i tražio kavu s maslinama. ' +
@@ -1236,10 +1747,41 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Neću zaboraviti…', 'U jednom trenutku', 'Odjednom', 'Na kraju', 'Otad'],
+    build: [
+      {
+        cue: 'Say: It happened last year.',
+        answer: 'Dogodilo se prošle godine.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'G',
+          why: 'A point in time is often the genitive, with no preposition.',
+        },
+      },
+      {
+        cue: 'Say: I was afraid of the dog.',
+        answer: 'Bojao sam se psa.',
+        accept: ['Bojala sam se psa.'],
+        focus: {
+          lemma: 'pas',
+          requiredCase: 'G',
+          why: 'bojati se governs the genitive — and pas loses its a: psa.',
+        },
+      },
+      {
+        cue: 'Say: I told my friend about it.',
+        answer: 'Ispričao sam to prijatelju.',
+        accept: ['Ispričala sam to prijatelju.'],
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'D',
+          why: 'The person you tell takes the dative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'scene', label: 'Set the scene', words: ['kad', 'jednom', 'prvi put'] },
       { id: 'point', label: 'Finish with a point', words: ['otad', 'na kraju', 'zato'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1250,7 +1792,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Na razgovoru za posao odgovori na pitanje „Recite nam nešto o sebi.“ Govori o iskustvu, snazi i zašto želiš taj posao.',
     promptEn:
       'In a job interview, answer "tell us something about yourself". Talk about your experience, a strength and why you want the job.',
-    minWords: 30,
+    minWords: 14,
     model:
       'Hvala vam na prilici. U struci radim već šest godina, uglavnom u malim timovima. ' +
       'Zadnje tri godine vodim projekte, pa sam navikao raditi pod rokovima. ' +
@@ -1304,10 +1846,41 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Najveća mi je snaga…',
       'Zanima me…',
     ],
+    build: [
+      {
+        cue: 'Say: I have five years of experience.',
+        answer: 'Imam pet godina iskustva.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'After five and above, the genitive plural.',
+        },
+      },
+      {
+        cue: 'Say: I studied at the university.',
+        answer: 'Studirao sam na fakultetu.',
+        accept: ['Studirala sam na fakultetu.'],
+        focus: {
+          lemma: 'fakultet',
+          requiredCase: 'L',
+          why: 'na for where — locative.',
+        },
+      },
+      {
+        cue: 'Say: I work well with a team.',
+        answer: 'Dobro radim s timom.',
+        focus: {
+          lemma: 'tim',
+          requiredCase: 'I',
+          why: 'With whom — instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'exp', label: 'Say how long you have done it', words: ['već', 'godina', 'godine'] },
       { id: 'why', label: 'Say why this job', words: ['jer', 'zanima', 'zato'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1318,7 +1891,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazovi stanodavca: opiši kvar, reci koliko dugo traje, objasni zašto je hitno i zamoli za popravak.',
     promptEn:
       'Call your landlord: describe the fault, say how long it has lasted, explain why it is urgent and ask for a repair.',
-    minWords: 30,
+    minWords: 16,
     model:
       'Dobar dan, zovem vas zbog stana u Ulici kralja Zvonimira. ' +
       'Grijanje ne radi već tjedan dana, a temperatura je noću oko dvanaest stupnjeva. ' +
@@ -1366,10 +1939,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Zovem vas zbog…', 'već … dana', 'Osim toga', 'Bio bih zahvalan…', 'Javite mi'],
+    build: [
+      {
+        cue: 'Say: There is no hot water.',
+        answer: 'Nema tople vode.',
+        focus: {
+          lemma: 'voda',
+          requiredCase: 'G',
+          why: 'nema always takes the genitive — this is where learners reach for the nominative.',
+        },
+      },
+      {
+        cue: 'Say: It has lasted three days.',
+        answer: 'Traje već tri dana.',
+        focus: {
+          lemma: 'dan',
+          requiredCase: 'G',
+          why: 'After two, three and four, the genitive singular.',
+        },
+      },
+      {
+        cue: 'Say: I am calling about the heating.',
+        answer: 'Zovem zbog grijanja.',
+        focus: {
+          lemma: 'grijanje',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'fault', label: 'Describe the fault', words: ['ne radi', 'curi', 'pokvaren'] },
       { id: 'request', label: 'Make a polite request', words: ['bih', 'biste', 'molim'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1380,7 +1982,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni nekome tko ne poznaje tvoju kulturu jedan običaj: kada se održava, što se radi i što znači.',
     promptEn:
       'Explain a custom to someone who does not know your culture: when it happens, what is done and what it means.',
-    minWords: 30,
+    minWords: 16,
     model:
       'Kod nas se na Badnjak ne jede meso, nego riba i bakalar. ' +
       'Cijela se obitelj okupi kod bake, obično oko šest sati. ' +
@@ -1428,10 +2030,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Kod nas se…', 'Običaj je da…', 'dok', 'nego', 'Za mene to znači…'],
+    build: [
+      {
+        cue: 'Say: It is held in December.',
+        answer: 'Održava se u prosincu.',
+        focus: {
+          lemma: 'prosinac',
+          requiredCase: 'L',
+          why: 'u with a month takes the locative, and prosinac drops its a.',
+        },
+      },
+      {
+        cue: 'Say: People sing songs.',
+        answer: 'Ljudi pjevaju pjesme.',
+        focus: {
+          lemma: 'pjesma',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'What is sung receives the action — accusative plural.',
+        },
+      },
+      {
+        cue: 'Say: It is part of our culture.',
+        answer: 'To je dio naše kulture.',
+        focus: {
+          lemma: 'kultura',
+          requiredCase: 'G',
+          why: 'Part OF something — genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'when', label: 'Say when it happens', words: ['na ', 'kada', 'svake godine'] },
       { id: 'mean', label: 'Say what it means to you', words: ['za mene', 'znači'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1442,7 +2074,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaboravio si na dogovor i netko te čekao. Ispričaj se, objasni bez izgovora i predloži kako ćeš to popraviti.',
     promptEn:
       'You forgot an arrangement and someone was waiting for you. Apologise, explain without making excuses and propose how you will put it right.',
-    minWords: 30,
+    minWords: 18,
     model:
       'Jako mi je žao zbog jučer, stvarno nemam opravdanje. ' +
       'Zapisao sam krivi datum u kalendar i shvatio sam tek navečer. ' +
@@ -1490,10 +2122,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Žao mi je zbog…', 'Nemam opravdanje.', 'Znam da…', 'Neću to tako ostaviti.'],
+    build: [
+      {
+        cue: 'Say: I apologise for the delay.',
+        answer: 'Ispričavam se zbog kašnjenja.',
+        focus: {
+          lemma: 'kašnjenje',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am sorry about the mistake.',
+        answer: 'Žao mi je zbog greške.',
+        focus: {
+          lemma: 'greška',
+          requiredCase: 'G',
+          why: 'zbog again — genitive, and the k softens before e.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about a solution.',
+        answer: 'Razmišljam o rješenju.',
+        focus: {
+          lemma: 'rješenje',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'sorry', label: 'Apologise clearly', words: ['žao', 'ispričavam', 'oprosti'] },
       { id: 'fix', label: 'Propose a concrete fix', words: ['javit', 'dogovorit', 'sljedeći put'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -1504,7 +2165,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Biraš između dva stana. Usporedi ih po cijeni, lokaciji i veličini, pa reci koji biraš i zašto.',
     promptEn:
       'You are choosing between two flats. Compare them on price, location and size, then say which you choose and why.',
-    minWords: 30,
+    minWords: 20,
     model:
       'Prvi je stan jeftiniji za dvjesto eura, ali je puno dalje od centra. ' +
       'Drugi je manji, međutim ima balkon i nalazi se blizu tramvaja. ' +
@@ -1559,10 +2220,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ako gledam…',
       'Ipak bih…',
     ],
+    build: [
+      {
+        cue: 'Say: This flat is near the centre.',
+        answer: 'Ovaj stan je blizu centra.',
+        focus: {
+          lemma: 'centar',
+          requiredCase: 'G',
+          why: 'blizu takes the genitive, and centar drops its a: centra.',
+        },
+      },
+      {
+        cue: 'Say: I am choosing between two flats.',
+        answer: 'Biram između dva stana.',
+        focus: {
+          lemma: 'stan',
+          requiredCase: 'G',
+          why: 'između takes the genitive, and dva is followed by the genitive singular.',
+        },
+      },
+      {
+        cue: 'Say: Price matters more than size.',
+        answer: 'Cijena je važnija od veličine.',
+        focus: {
+          lemma: 'veličina',
+          requiredCase: 'G',
+          why: 'od in a comparison takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'compare', label: 'Use a comparative', words: ['jeftiniji', 'veći', 'manji', 'bolji'] },
       { id: 'choose', label: 'Say which you choose', words: ['bih', 'biram', 'uzeo'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -1573,7 +2263,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prepričaj vijest ili članak koji si nedavno pročitao: o čemu je bilo, što su rekli i što ti misliš.',
     promptEn:
       'Retell a piece of news or an article you read recently: what it was about, what was said and what you think.',
-    minWords: 30,
+    minWords: 20,
     model:
       'Jučer sam pročitao članak o cijenama stanova u Zagrebu. ' +
       'Pisalo je da su cijene u godinu dana porasle za petnaest posto. ' +
@@ -1627,6 +2317,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Stručnjaci kažu…',
       'Iznenadilo me…',
     ],
+    build: [
+      {
+        cue: 'Say: The article was about the economy.',
+        answer: 'Članak je bio o ekonomiji.',
+        focus: {
+          lemma: 'ekonomija',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: I read it in a magazine.',
+        answer: 'Pročitao sam to u časopisu.',
+        accept: ['Pročitala sam to u časopisu.'],
+        focus: {
+          lemma: 'časopis',
+          requiredCase: 'L',
+          why: 'u for where — locative.',
+        },
+      },
+      {
+        cue: 'Say: The author writes about change.',
+        answer: 'Autor piše o promjeni.',
+        focus: {
+          lemma: 'promjena',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'source',
@@ -1634,7 +2354,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['članak', 'vijest', 'pisalo', 'pročitao'],
       },
       { id: 'react', label: 'Give your own reaction', words: ['mene', 'mislim', 'iznenadilo'] },
-      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
 
@@ -1647,7 +2367,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Na sastanku predloži da tim uvede jedan dan rada od kuće. Obrazloži prijedlog, predvidi prigovor i odgovori na njega.',
     promptEn:
       'In a meeting, propose that the team introduce one day of working from home. Justify the proposal, anticipate an objection and answer it.',
-    minWords: 40,
+    minWords: 14,
     model:
       'Predlažem da uvedemo jedan dan rada od kuće, recimo srijedu. ' +
       'Razlog je jednostavan: zadaci koji traže koncentraciju stalno se prekidaju u uredu. ' +
@@ -1703,6 +2423,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Znam da će netko reći…',
       'Zato bih…',
     ],
+    build: [
+      {
+        cue: 'Say: I insist on this solution.',
+        answer: 'Inzistiram na ovom rješenju.',
+        focus: {
+          lemma: 'rješenje',
+          requiredCase: 'L',
+          why: 'inzistirati na governs the locative.',
+        },
+      },
+      {
+        cue: 'Say: My argument rests on the data.',
+        answer: 'Moj argument se temelji na podacima.',
+        focus: {
+          lemma: 'podatak',
+          requiredCase: 'L',
+          number: 'pl',
+          why: 'temeljiti se na takes the locative, and the plural softens: podaci, podacima.',
+        },
+      },
+      {
+        cue: 'Say: I am against that proposal.',
+        answer: 'Protiv sam tog prijedloga.',
+        focus: {
+          lemma: 'prijedlog',
+          requiredCase: 'G',
+          why: 'protiv takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'proposal',
@@ -1710,7 +2460,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['predlažem', 'predložio', 'predložila'],
       },
       { id: 'objection', label: 'Answer an objection', words: ['znam da', 'netko će', 'prigovor'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1721,7 +2471,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Rok je prekratak. Objasni zašto, ponudi rješenje i dogovori nešto s čim obje strane mogu živjeti.',
     promptEn:
       'The deadline is too short. Explain why, offer a solution and settle on something both sides can live with.',
-    minWords: 40,
+    minWords: 14,
     model:
       'Razumijem da vam je rok važan i ne želim ga jednostavno odbiti. ' +
       'Problem je što posao u tri tjedna ne možemo napraviti kvalitetno, a loša verzija nikome ne koristi. ' +
@@ -1777,10 +2527,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Meni je draže…',
       'Kako vam to zvuči?',
     ],
+    build: [
+      {
+        cue: 'Say: Despite the delay, we will finish.',
+        answer: 'Unatoč kašnjenju, završit ćemo.',
+        focus: {
+          lemma: 'kašnjenje',
+          requiredCase: 'D',
+          why: 'unatoč takes the DATIVE, not the genitive — a common slip.',
+        },
+      },
+      {
+        cue: 'Say: We need two more weeks.',
+        answer: 'Trebamo još dva tjedna.',
+        focus: {
+          lemma: 'tjedan',
+          requiredCase: 'G',
+          why: 'After dva the genitive singular — and the a drops: tjedan, tjedna.',
+        },
+      },
+      {
+        cue: 'Say: Let us agree on a deadline.',
+        answer: 'Dogovorimo se oko roka.',
+        focus: {
+          lemma: 'rok',
+          requiredCase: 'G',
+          why: 'oko takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'their', label: 'Name their interest first', words: ['razumijem', 'vam je', 'vama'] },
       { id: 'options', label: 'Offer at least two options', words: ['ili', 'mogućnost', 'opcija'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 14 words', minWords: 14 },
     ],
   },
   {
@@ -1791,7 +2570,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kolega stalno kasni s dijelom posla. Reci mu to izravno, ali s poštovanjem, i dogovorite što dalje.',
     promptEn:
       'A colleague is repeatedly late with their part of the work. Tell them directly but respectfully, and agree what happens next.',
-    minWords: 40,
+    minWords: 16,
     model:
       'Htio bih razgovarati o rokovima, i to otvoreno, jer mi je stalo do našeg odnosa. ' +
       'Primijetio sam da su zadnja tri puta tvoji dijelovi stigli nekoliko dana nakon dogovora. ' +
@@ -1847,6 +2626,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kako ti to vidiš?',
       'Bitno mi je da…',
     ],
+    build: [
+      {
+        cue: 'Say: I want to talk about your report.',
+        answer: 'Želim razgovarati o tvom izvještaju.',
+        focus: {
+          lemma: 'izvještaj',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: Thank you for your effort.',
+        answer: 'Hvala na trudu.',
+        focus: {
+          lemma: 'trud',
+          requiredCase: 'L',
+          why: 'hvala na takes the locative, never the accusative.',
+        },
+      },
+      {
+        cue: 'Say: Let us start with the deadline.',
+        answer: 'Počnimo s rokom.',
+        focus: {
+          lemma: 'rok',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'fact',
@@ -1854,7 +2662,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['primijetio', 'primijetila', 'zadnja'],
       },
       { id: 'turn', label: 'Ask for their view', words: ['kako ti', 'zanima me', 'što misliš'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1865,7 +2673,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Opiši promjenu koju si primijetio: što se mijenja, koliko, otkad i što misliš da je uzrok.',
     promptEn:
       'Describe a change you have noticed: what is changing, by how much, since when and what you think is causing it.',
-    minWords: 40,
+    minWords: 16,
     model:
       'Broj ljudi koji rade na daljinu naglo je porastao nakon dvadesete godine. ' +
       'U našoj je struci taj udio s desetak posto skočio na gotovo polovicu. ' +
@@ -1922,10 +2730,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Uzrok je…',
       'Očekujem da…',
     ],
+    build: [
+      {
+        cue: 'Say: The number of users is growing.',
+        answer: 'Broj korisnika raste.',
+        focus: {
+          lemma: 'korisnik',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'A number OF something — genitive plural.',
+        },
+      },
+      {
+        cue: 'Say: It grew during the year.',
+        answer: 'Raslo je tijekom godine.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'G',
+          why: 'tijekom takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: Compared with last year, it is higher.',
+        answer: 'U odnosu na prošlu godinu, veći je.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'A',
+          why: 'na in this phrase takes the accusative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'number', label: 'Give a figure', words: ['posto', 'puta', 'broj', 'udio'] },
       { id: 'cause', label: 'Suggest a cause', words: ['uzrok', 'zbog', 'jer', 'razlog'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 16 words', minWords: 16 },
     ],
   },
   {
@@ -1936,7 +2774,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko tvrdi da učenje jezika u aplikaciji nema smisla. Ne slaži se, ali priznaj što je točno u toj tvrdnji.',
     promptEn:
       'Someone claims that learning a language in an app is pointless. Disagree, but admit what is right in the claim.',
-    minWords: 40,
+    minWords: 18,
     model:
       'Djelomično se slažem, i to me možda iznenađuje koliko i tebe. ' +
       'Točno je da nitko nije progovorio samo zato što je svaki dan dodirivao ekran. ' +
@@ -1992,10 +2830,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'nego',
       'Zato bih rekao…',
     ],
+    build: [
+      {
+        cue: 'Say: I do not agree with that claim.',
+        answer: 'Ne slažem se s tom tvrdnjom.',
+        focus: {
+          lemma: 'tvrdnja',
+          requiredCase: 'I',
+          why: 'Agreeing WITH — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: There is no evidence for that.',
+        answer: 'Za to nema dokaza.',
+        focus: {
+          lemma: 'dokaz',
+          requiredCase: 'G',
+          why: 'nema always takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I see it differently from the expert.',
+        answer: 'Vidim to drukčije od stručnjaka.',
+        focus: {
+          lemma: 'stručnjak',
+          requiredCase: 'G',
+          why: 'od takes the genitive — and this a stays: stručnjaka.',
+        },
+      },
+    ],
     checklist: [
       { id: 'concede', label: 'Admit what is right', words: ['točno je', 'slažem', 'razumijem'] },
       { id: 'nego', label: 'Use "nego" after a negative', words: ['nego'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -2006,7 +2873,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni nekome kako se predaje zahtjev za neki dokument: koje su faze, što treba i gdje ljudi najčešće pogriješe.',
     promptEn:
       'Explain how an application for a document is submitted: the stages, what is needed and where people most often go wrong.',
-    minWords: 40,
+    minWords: 18,
     model:
       'Postupak nije težak, ali se mora ići po redu. ' +
       'Najprije se ispunjava obrazac koji se preuzima na internetskoj stranici. ' +
@@ -2062,6 +2929,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'u roku od',
       'Najčešća je greška…',
     ],
+    build: [
+      {
+        cue: 'Say: It is done with a machine.',
+        answer: 'Radi se strojem.',
+        focus: {
+          lemma: 'stroj',
+          requiredCase: 'I',
+          why: 'By what means — the instrumental, with no preposition.',
+        },
+      },
+      {
+        cue: 'Say: It starts with preparation.',
+        answer: 'Počinje pripremom.',
+        focus: {
+          lemma: 'priprema',
+          requiredCase: 'I',
+          why: 'Means again — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: After that step we check the result.',
+        answer: 'Nakon tog koraka provjeravamo rezultat.',
+        focus: {
+          lemma: 'korak',
+          requiredCase: 'G',
+          why: 'nakon takes the genitive — and korak KEEPS its a: koraka.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'steps',
@@ -2073,7 +2969,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Warn about a common mistake',
         words: ['greška', 'zaborave', 'najčešće'],
       },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
   },
   {
@@ -2084,7 +2980,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazdravi na proslavi: obrati se društvu, reci nešto konkretno o osobi i završi zdravicom.',
     promptEn:
       'Give a toast at a celebration: address the company, say something specific about the person and finish with the toast itself.',
-    minWords: 40,
+    minWords: 20,
     model:
       'Dragi svi, samo nakratko, da nam se hrana ne ohladi. ' +
       'Marka poznajem petnaest godina i za to vrijeme nikad nisam čuo da je nekome rekao „nemam vremena“. ' +
@@ -2134,6 +3030,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Dragi svi…', 'samo nakratko', 'Poznajem ga…', 'Želim mu…', 'Živjeli!'],
+    build: [
+      {
+        cue: 'Say: Thank you all for coming.',
+        answer: 'Hvala svima na dolasku.',
+        focus: {
+          lemma: 'dolazak',
+          requiredCase: 'L',
+          why: 'hvala na + locative, and the z becomes s: dolasku.',
+        },
+      },
+      {
+        cue: 'Say: I raise a glass to friendship.',
+        answer: 'Dižem čašu za prijateljstvo.',
+        focus: {
+          lemma: 'čaša',
+          requiredCase: 'A',
+          why: 'What you raise receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: I wish you much happiness.',
+        answer: 'Želim vam puno sreće.',
+        focus: {
+          lemma: 'sreća',
+          requiredCase: 'G',
+          why: 'After puno, the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'specific',
@@ -2141,7 +3066,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['kad', 'jednom', 'sjećam'],
       },
       { id: 'toast', label: 'Finish with the toast', words: ['živjeli', 'nazdravlje', 'želim'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2152,7 +3077,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nazovi tvrtku i formalno se požali: navedi broj narudžbe, opiši što nije u redu, pozovi se na dogovoreno i reci što očekuješ.',
     promptEn:
       'Call a company and complain formally: give the order number, describe what is wrong, refer to what was agreed and say what you expect.',
-    minWords: 40,
+    minWords: 20,
     model:
       'Dobar dan, obraćam vam se u vezi s narudžbom broj tri četiri sedam dva. ' +
       'Naručio sam perilicu s ugradnjom, a dostavljena je bez nje, i to deset dana nakon dogovorenog roka. ' +
@@ -2208,10 +3133,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'u roku od',
       'pisani odgovor',
     ],
+    build: [
+      {
+        cue: 'Say: I am writing regarding the invoice.',
+        answer: 'Pišem u vezi s računom.',
+        focus: {
+          lemma: 'račun',
+          requiredCase: 'I',
+          why: 'u vezi s takes the instrumental.',
+        },
+      },
+      {
+        cue: 'Say: I request a refund of the amount.',
+        answer: 'Tražim povrat iznosa.',
+        focus: {
+          lemma: 'iznos',
+          requiredCase: 'G',
+          why: 'A refund OF something — genitive.',
+        },
+      },
+      {
+        cue: 'Say: According to the contract, that is not allowed.',
+        answer: 'Prema ugovoru, to nije dopušteno.',
+        focus: {
+          lemma: 'ugovor',
+          requiredCase: 'D',
+          why: 'prema takes the dative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'ref', label: 'Give the reference', words: ['narudžb', 'broj', 'potvrd'] },
       { id: 'expect', label: 'Say what you expect', words: ['očekujem', 'molim', 'zahtijevam'] },
-      { id: 'len', label: 'Speak at least 40 words', minWords: 40 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
 
@@ -2224,7 +3178,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Iznesi tezu o tome treba li fakultet biti besplatan. Postavi tezu, potkrijepi je, iznesi protuargument u najjačem obliku i zauzmi stav.',
     promptEn:
       'Argue a thesis on whether university should be free. State the thesis, support it, state the counter-argument at its strongest and take a position.',
-    minWords: 50,
+    minWords: 20,
     model:
       'Tvrdim da besplatan fakultet nije pitanje velikodušnosti, nego računa. ' +
       'Budući da se stanovništvo smanjuje, svaki obrazovani čovjek koji ostane vrijedi više nego prije deset godina. ' +
@@ -2280,6 +3234,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'To priznajem…',
       'Nije riječ o… nego o…',
     ],
+    build: [
+      {
+        cue: 'Say: My thesis rests on one assumption.',
+        answer: 'Moja teza počiva na jednoj pretpostavci.',
+        focus: {
+          lemma: 'pretpostavka',
+          requiredCase: 'L',
+          why: 'počivati na + locative, and the k softens to c.',
+        },
+      },
+      {
+        cue: 'Say: Contrary to expectation, the result held.',
+        answer: 'Protivno očekivanju, rezultat je ostao.',
+        focus: {
+          lemma: 'očekivanje',
+          requiredCase: 'D',
+          why: 'protivno takes the dative.',
+        },
+      },
+      {
+        cue: 'Say: I will begin from the definition.',
+        answer: 'Počet ću od definicije.',
+        focus: {
+          lemma: 'definicija',
+          requiredCase: 'G',
+          why: 'od takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'thesis', label: 'State a thesis, not a topic', words: ['tvrdim', 'smatram', 'teza'] },
       {
@@ -2287,7 +3270,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'State the counter-argument at its strongest',
         words: ['protuargument', 'priznajem', 'najjači'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2298,7 +3281,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vodio si sastanak na kojem se nisu svi složili. Sažmi što je rečeno, razdvoji dogovoreno od otvorenog i zaključi s konkretnim koracima.',
     promptEn:
       'You chaired a meeting where people did not all agree. Summarise what was said, separate what was agreed from what is open and close with concrete steps.',
-    minWords: 50,
+    minWords: 20,
     model:
       'Sažeo bih ovako. Oko dviju stvari postoji suglasnost: da postojeći raspored ne funkcionira i da odluku ne možemo odgađati do jeseni. ' +
       'Ostaje otvoreno tko preuzima nadzor i iz kojeg se proračuna to plaća. ' +
@@ -2354,6 +3337,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Predlažem sljedeće…',
       'Vraćamo se na to…',
     ],
+    build: [
+      {
+        cue: 'Say: Let us return to the beginning.',
+        answer: 'Vratimo se početku.',
+        focus: {
+          lemma: 'početak',
+          requiredCase: 'D',
+          why: 'Returning TO something — dative, and the a drops.',
+        },
+      },
+      {
+        cue: 'Say: We agreed on three points.',
+        answer: 'Složili smo se oko tri točke.',
+        focus: {
+          lemma: 'točka',
+          requiredCase: 'G',
+          why: 'oko + genitive, and tri is followed by the genitive singular.',
+        },
+      },
+      {
+        cue: 'Say: Thank you for the discussion.',
+        answer: 'Hvala na raspravi.',
+        focus: {
+          lemma: 'rasprava',
+          requiredCase: 'L',
+          why: 'hvala na + locative.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'split',
@@ -2361,7 +3373,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['suglasnost', 'ostaje otvoreno', 'dogovorili'],
       },
       { id: 'steps', label: 'Close with concrete steps', words: ['predlažem', 'do petka', 'tko'] },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
     ],
   },
   {
@@ -2372,7 +3384,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Odluka je donesena prije pet godina i pokazala se lošom. Objasni što bi bilo da se odlučilo drukčije — i budi pošten o tome što se ne može znati.',
     promptEn:
       'A decision was taken five years ago and turned out badly. Explain what would have happened had it been decided differently — and be honest about what cannot be known.',
-    minWords: 50,
+    minWords: 22,
     model:
       'Da smo tada zadržali vlastiti tim, danas vjerojatno ne bismo raspravljali o ovome. ' +
       'Znanje bi ostalo u kući, a svaka bi izmjena trajala dane umjesto tjedana. ' +
@@ -2428,6 +3440,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ono što se ne može znati…',
       'Pouka je…',
     ],
+    build: [
+      {
+        cue: 'Say: Without that decision nothing would have changed.',
+        answer: 'Bez te odluke ništa se ne bi promijenilo.',
+        focus: {
+          lemma: 'odluka',
+          requiredCase: 'G',
+          why: 'bez takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: It depends on the context.',
+        answer: 'Ovisi o kontekstu.',
+        focus: {
+          lemma: 'kontekst',
+          requiredCase: 'L',
+          why: 'ovisiti o + locative.',
+        },
+      },
+      {
+        cue: 'Say: I would have started from the other side.',
+        answer: 'Krenuo bih s druge strane.',
+        accept: ['Krenula bih s druge strane.'],
+        focus: {
+          lemma: 'strana',
+          requiredCase: 'G',
+          why: 's meaning FROM takes the genitive — not the instrumental.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'counterfactual',
@@ -2439,7 +3481,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what cannot be known',
         words: ['ne može se znati', 'ne znamo', 'pretvarati'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 22 words', minWords: 22 },
     ],
   },
   {
@@ -2450,7 +3492,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Usporedi kako se u dvjema sredinama koje poznaješ izražava neslaganje. Izbjegni stereotip i navedi konkretan primjer.',
     promptEn:
       'Compare how disagreement is expressed in two settings you know. Avoid stereotypes and give a concrete example.',
-    minWords: 50,
+    minWords: 24,
     model:
       'Rekao bih da razlika nije u tome koliko su ljudi izravni, nego u tome gdje se neslaganje smije pokazati. ' +
       'Kad sam radio u Kanadi, naučio sam da se na sastanku klimne glavom, a prigovor stigne poslije, u poruci. ' +
@@ -2506,6 +3548,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Čuvao bih se…',
       'Trebalo mi je vremena da…',
     ],
+    build: [
+      {
+        cue: 'Say: I am talking about a difference in approach.',
+        answer: 'Govorim o razlici u pristupu.',
+        focus: {
+          lemma: 'razlika',
+          requiredCase: 'L',
+          why: 'o + locative, and the k softens to c.',
+        },
+      },
+      {
+        cue: 'Say: That is a cliché about the south.',
+        answer: 'To je klišej o jugu.',
+        focus: {
+          lemma: 'jug',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: I learned it from experience.',
+        answer: 'Naučio sam to iz iskustva.',
+        accept: ['Naučila sam to iz iskustva.'],
+        focus: {
+          lemma: 'iskustvo',
+          requiredCase: 'G',
+          why: 'iz takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'example', label: 'Give a concrete example', words: ['primjer', 'kad sam', 'jednom'] },
       {
@@ -2513,7 +3585,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Refuse the easy ranking',
         words: ['obrnuto', 'čuvao', 'ne bih rekao'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 24 words', minWords: 24 },
     ],
   },
   {
@@ -2524,7 +3596,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Uvjeri publiku koja ti ne vjeruje da vrijedi uložiti u nešto što se ne isplati odmah. Priznaj njihovu sumnju i ponudi provjerljiv korak.',
     promptEn:
       'Persuade a sceptical audience that something without an immediate payoff is worth investing in. Acknowledge their doubt and offer a verifiable step.',
-    minWords: 50,
+    minWords: 26,
     model:
       'Ne tražim od vas da mi vjerujete na riječ, i razumijem zašto ste oprezni. ' +
       'Svaki ste put dosad čuli da će se ulaganje vratiti za godinu dana i svaki se put vratilo za tri. ' +
@@ -2580,6 +3652,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Svjestan sam da…',
       'Ako se ne dogodi…, gasimo.',
     ],
+    build: [
+      {
+        cue: 'Say: Thanks to that change, it works.',
+        answer: 'Zahvaljujući toj promjeni, funkcionira.',
+        focus: {
+          lemma: 'promjena',
+          requiredCase: 'D',
+          why: 'zahvaljujući takes the dative.',
+        },
+      },
+      {
+        cue: 'Say: This leads to a better result.',
+        answer: 'Ovo vodi boljem rezultatu.',
+        focus: {
+          lemma: 'rezultat',
+          requiredCase: 'D',
+          why: 'Leading TO something — dative.',
+        },
+      },
+      {
+        cue: 'Say: I will give you an example from practice.',
+        answer: 'Dat ću vam primjer iz prakse.',
+        focus: {
+          lemma: 'praksa',
+          requiredCase: 'G',
+          why: 'iz takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'doubt',
@@ -2591,7 +3692,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Offer a verifiable test',
         words: ['ako', 'mjerilo', 'šest mjeseci', 'gasimo'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -2602,7 +3703,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko iznosi zaključak na temelju jednog istraživanja. Ne odbaci ga, nego ispitaj što podaci zapravo pokazuju i što iz njih ne slijedi.',
     promptEn:
       'Someone draws a conclusion from a single study. Do not dismiss it — examine what the data actually show and what does not follow from them.',
-    minWords: 50,
+    minWords: 28,
     model:
       'Ne osporavam podatke, zanima me samo što iz njih smijemo zaključiti. ' +
       'Istraživanje na koje se pozivate obuhvatilo je jedan grad i jednu dobnu skupinu. ' +
@@ -2658,6 +3759,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Postoji jednostavnije objašnjenje…',
       'To nije isto.',
     ],
+    build: [
+      {
+        cue: 'Say: What does that claim rest on?',
+        answer: 'Na čemu se temelji ta tvrdnja?',
+        focus: {
+          lemma: 'tvrdnja',
+          requiredCase: 'N',
+          why: 'The claim is doing the resting — nominative.',
+        },
+      },
+      {
+        cue: 'Say: I doubt the reliability of the source.',
+        answer: 'Sumnjam u pouzdanost izvora.',
+        focus: {
+          lemma: 'izvor',
+          requiredCase: 'G',
+          why: 'The reliability OF it — genitive.',
+        },
+      },
+      {
+        cue: 'Say: That follows from the earlier research.',
+        answer: 'To proizlazi iz ranijeg istraživanja.',
+        focus: {
+          lemma: 'istraživanje',
+          requiredCase: 'G',
+          why: 'iz takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'grant',
@@ -2669,7 +3799,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say what does not follow',
         words: ['ne slijedi', 'ne možemo znati', 'objašnjenje'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 28 words', minWords: 28 },
     ],
   },
   {
@@ -2680,7 +3810,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Održi početak i kraj stručnog izlaganja: najavi strukturu, reci zašto je tema važna sada i zaključi s jednom porukom.',
     promptEn:
       'Deliver the opening and closing of a professional talk: announce the structure, say why the topic matters now, and close with one message.',
-    minWords: 50,
+    minWords: 30,
     model:
       'Zahvaljujem na pozivu. U sljedećih dvadeset minuta izložit ću tri stvari: što se promijenilo, zašto nas se to tiče i što predlažemo. ' +
       'Prije nego što krenem, jedna napomena: brojke koje ćete vidjeti odnose se na prošlu godinu, novije još nemamo. ' +
@@ -2736,6 +3866,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaključno bih istaknuo…',
       'Hvala na pažnji.',
     ],
+    build: [
+      {
+        cue: 'Say: I will speak about three topics.',
+        answer: 'Govorit ću o tri teme.',
+        focus: {
+          lemma: 'tema',
+          requiredCase: 'G',
+          why: 'tri is followed by the genitive singular, even after o.',
+        },
+      },
+      {
+        cue: 'Say: I will end with a conclusion.',
+        answer: 'Završit ću zaključkom.',
+        focus: {
+          lemma: 'zaključak',
+          requiredCase: 'I',
+          why: 'Means — instrumental, and the a drops: zaključkom.',
+        },
+      },
+      {
+        cue: 'Say: Thank you for your attention.',
+        answer: 'Hvala na pažnji.',
+        focus: {
+          lemma: 'pažnja',
+          requiredCase: 'L',
+          why: 'hvala na + locative.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'structure',
@@ -2747,7 +3906,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Close with one message',
         words: ['zaključno', 'pravo je pitanje', 'jedno'],
       },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -2758,7 +3917,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Objasni što za tebe znači „dom“ ako si odrastao između dviju zemalja. Definiraj pojam, ograniči ga i daj primjer.',
     promptEn:
       'Explain what "home" means to you if you grew up between two countries. Define the idea, limit it and give an example.',
-    minWords: 50,
+    minWords: 30,
     model:
       'Dom za mene odavno nije mjesto na karti, nego skup navika koje nosim sa sobom. ' +
       'Kažem to oprezno, jer takva definicija zvuči zgodno dok ne dođe trenutak da ti netko zatreba u tri ujutro. ' +
@@ -2814,10 +3973,39 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'nego nešto…',
       'Možda je upravo to…',
     ],
+    build: [
+      {
+        cue: 'Say: I am thinking about freedom.',
+        answer: 'Razmišljam o slobodi.',
+        focus: {
+          lemma: 'sloboda',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: It is a question of justice.',
+        answer: 'To je pitanje pravde.',
+        focus: {
+          lemma: 'pravda',
+          requiredCase: 'G',
+          why: 'A question OF something — genitive.',
+        },
+      },
+      {
+        cue: 'Say: Without memory there is no identity.',
+        answer: 'Bez sjećanja nema identiteta.',
+        focus: {
+          lemma: 'identitet',
+          requiredCase: 'G',
+          why: 'nema takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'define', label: 'Define the idea', words: ['znači', 'nije', 'nego'] },
       { id: 'limit', label: 'Limit your own definition', words: ['oprezno', 'ipak', 'možda'] },
-      { id: 'len', label: 'Speak at least 50 words', minWords: 50 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
 
@@ -2830,7 +4018,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zauzmi stav o pitanju o kojem se ne slažeš ni s jednom stranom u potpunosti. Reci točno koliko se slažeš, s čime, i gdje prestaje tvoje slaganje.',
     promptEn:
       'Take a position on a question where you fully agree with neither side. Say exactly how far you agree, with what, and where your agreement stops.',
-    minWords: 60,
+    minWords: 22,
     model:
       'Slažem se utoliko ukoliko govorimo o javnom prostoru; čim se rasprava premjesti na privatno vlasništvo, prestajem se slagati. ' +
       'Doduše, valja priznati da granica između to dvoje danas nije ni izbliza tako jasna kao prije trideset godina. ' +
@@ -2886,10 +4074,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Štoviše…',
       'Ne bih rekao da… nego da…',
     ],
+    build: [
+      {
+        cue: 'Say: I hold to that distinction.',
+        answer: 'Držim se te razlike.',
+        focus: {
+          lemma: 'razlika',
+          requiredCase: 'G',
+          why: 'držati se governs the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I would put it with more caution.',
+        answer: 'Rekao bih to s više opreza.',
+        accept: ['Rekla bih to s više opreza.'],
+        focus: {
+          lemma: 'oprez',
+          requiredCase: 'G',
+          why: 'After više, the genitive.',
+        },
+      },
+      {
+        cue: 'Say: That depends on the interpretation.',
+        answer: 'To ovisi o tumačenju.',
+        focus: {
+          lemma: 'tumačenje',
+          requiredCase: 'L',
+          why: 'ovisiti o + locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'degree', label: 'Say how far you agree', words: ['utoliko', 'donekle', 'djelomično'] },
       { id: 'limit', label: 'Say where the agreement stops', words: ['čim', 'prestajem', 'nego'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 22 words', minWords: 22 },
     ],
   },
   {
@@ -2900,7 +4118,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Komentiraj situaciju koja je otišla po zlu, ali bez izravne kritike: koristi ironiju ili blagu izjavu i pazi da ne ispadneš zloban.',
     promptEn:
       'Comment on a situation that went badly, but without direct criticism: use irony or understatement, and take care not to sound spiteful.',
-    minWords: 60,
+    minWords: 24,
     model:
       'Rekao bih da je projekt završio umjereno uspješno, ako pod uspjehom podrazumijevamo to da je uopće završio. ' +
       'Rokovi su, doduše, ispoštovani — samo ne oni iz ugovora, nego oni koje smo poslije izmislili. ' +
@@ -2956,6 +4174,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Nisam siguran je li…',
       'Ono što me zabrinjava…',
     ],
+    build: [
+      {
+        cue: 'Say: I would say it without emphasis.',
+        answer: 'Rekao bih to bez naglaska.',
+        accept: ['Rekla bih to bez naglaska.'],
+        focus: {
+          lemma: 'naglasak',
+          requiredCase: 'G',
+          why: 'bez + genitive, and here the a does drop: naglaska.',
+        },
+      },
+      {
+        cue: 'Say: That was said with a smile.',
+        answer: 'To je rečeno s osmijehom.',
+        focus: {
+          lemma: 'osmijeh',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental.',
+        },
+      },
+      {
+        cue: 'Say: The whole point is in the tone.',
+        answer: 'Cijela poanta je u tonu.',
+        focus: {
+          lemma: 'ton',
+          requiredCase: 'L',
+          why: 'u for where — locative.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'indirect',
@@ -2967,7 +4215,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Keep it from turning spiteful',
         words: ['nikoga ne krivim', 'svatko', 'pritom'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 24 words', minWords: 24 },
     ],
   },
   {
@@ -2978,7 +4226,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Tri izvora govore o istoj temi i ne slažu se. Sažmi ih, pokaži gdje se točno razilaze i reci što se iz svega zajedno može zaključiti.',
     promptEn:
       'Three sources address the same topic and disagree. Summarise them, show exactly where they diverge and say what can be concluded from all of them together.',
-    minWords: 60,
+    minWords: 26,
     model:
       'Sva tri izvora slažu se oko činjenice: broj učenika pada već desetljeće. ' +
       'Razilaze se, međutim, u tome što ta činjenica znači. ' +
@@ -3034,6 +4282,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaključak koji bih izveo…',
       'Dotad…',
     ],
+    build: [
+      {
+        cue: 'Say: Both authors start from the same premise.',
+        answer: 'Oba autora polaze od iste premise.',
+        focus: {
+          lemma: 'premisa',
+          requiredCase: 'G',
+          why: 'od takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I will connect it with the earlier example.',
+        answer: 'Povezat ću to s ranijim primjerom.',
+        focus: {
+          lemma: 'primjer',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental.',
+        },
+      },
+      {
+        cue: 'Say: That emerges from the comparison.',
+        answer: 'To proizlazi iz usporedbe.',
+        focus: {
+          lemma: 'usporedba',
+          requiredCase: 'G',
+          why: 'iz takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'agree', label: 'Say what the sources share', words: ['slažu', 'zajedničko', 'svi'] },
       {
@@ -3041,7 +4318,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say exactly where they diverge',
         words: ['razilaze', 'međutim', 'dok'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -3052,7 +4329,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Dvoje kolega se posvađalo i oboje imaju pravo u nečemu. Prevedi jedno drugome što zapravo govore i predloži izlaz koji nitko ne gubi obraz.',
     promptEn:
       'Two colleagues have fallen out and each is right about something. Translate what each is actually saying to the other and propose a way out where nobody loses face.',
-    minWords: 60,
+    minWords: 26,
     model:
       'Oboje ste u pravu, ali ne o istoj stvari, i mislim da je to cijeli problem. ' +
       'Ana kaže da je proces predugačak; ne kaže da netko loše radi. ' +
@@ -3108,10 +4385,40 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Predlažem da…',
       'korak po korak',
     ],
+    build: [
+      {
+        cue: 'Say: Let us return to the problem.',
+        answer: 'Vratimo se problemu.',
+        focus: {
+          lemma: 'problem',
+          requiredCase: 'D',
+          why: 'Returning TO something — dative.',
+        },
+      },
+      {
+        cue: 'Say: I understand both sides.',
+        answer: 'Razumijem obje strane.',
+        focus: {
+          lemma: 'strana',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'What you understand receives the action — accusative plural.',
+        },
+      },
+      {
+        cue: 'Say: This leads us towards an agreement.',
+        answer: 'Ovo nas vodi prema dogovoru.',
+        focus: {
+          lemma: 'dogovor',
+          requiredCase: 'D',
+          why: 'prema takes the dative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'both', label: 'Give both sides something', words: ['oboje', 'u pravu', 'obje'] },
       { id: 'face', label: 'Protect both from losing face', words: ['povući', 'krivnje', 'nitko'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 26 words', minWords: 26 },
     ],
   },
   {
@@ -3122,7 +4429,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Usred rasprave netko iznese argument koji nisi predvidio i koji zvuči jako. Ne izbjegavaj ga: preformuliraj ga pošteno, pa odgovori.',
     promptEn:
       'Mid-discussion someone makes an argument you did not anticipate and which sounds strong. Do not dodge it: restate it fairly, then answer.',
-    minWords: 60,
+    minWords: 28,
     model:
       'Dopustite da prvo ponovim vaš argument, da ne odgovaram na nešto što niste rekli. ' +
       'Tvrdite da svako odgađanje ide u korist onima koji imaju vremena čekati, a to su, po vama, upravo oni kojima mjera nije ni namijenjena. ' +
@@ -3178,6 +4485,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vrijedilo bi kad bi…',
       'a ne o…',
     ],
+    build: [
+      {
+        cue: 'Say: That objection rests on a misunderstanding.',
+        answer: 'Ta primjedba počiva na nesporazumu.',
+        focus: {
+          lemma: 'nesporazum',
+          requiredCase: 'L',
+          why: 'počivati na + locative.',
+        },
+      },
+      {
+        cue: 'Say: I will answer with one figure.',
+        answer: 'Odgovorit ću jednim podatkom.',
+        focus: {
+          lemma: 'podatak',
+          requiredCase: 'I',
+          why: 'Means — instrumental, and the a drops: podatkom.',
+        },
+      },
+      {
+        cue: 'Say: There is no basis for that claim.',
+        answer: 'Za tu tvrdnju nema osnove.',
+        focus: {
+          lemma: 'osnova',
+          requiredCase: 'G',
+          why: 'nema takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'restate',
@@ -3189,7 +4525,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say when it would hold',
         words: ['vrijedio bi', 'kad bi', 'priznajem'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 28 words', minWords: 28 },
     ],
   },
   {
@@ -3200,7 +4536,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prenesi istu poruku dvaput: jednom službeno, nekome na visokom položaju, i jednom prijatelju. Neka sadržaj bude isti, a sve ostalo drukčije.',
     promptEn:
       'Deliver the same message twice: once formally, to someone senior, and once to a friend. Keep the content identical and change everything else.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Službeno bi to zvučalo ovako. Poštovani, dopustite jednu primjedbu na predloženi raspored. ' +
       'Kako je predviđeno, dvije bi smjene bile pokrivene istim brojem ljudi, što u praksi znači da subotom nitko ne bi mogao uzeti slobodan dan. ' +
@@ -3252,6 +4588,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Poštovani…', 'Dopustite…', 'Molio bih da se…', 'Čuj…', 'Ispada da…'],
+    build: [
+      {
+        cue: 'Say: I will say it in a formal tone.',
+        answer: 'Reći ću to službenim tonom.',
+        focus: {
+          lemma: 'ton',
+          requiredCase: 'I',
+          why: 'Means — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: Among friends I would say it differently.',
+        answer: 'Među prijateljima rekao bih to drukčije.',
+        accept: ['Među prijateljima rekla bih to drukčije.'],
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'I',
+          number: 'pl',
+          why: 'među takes the instrumental.',
+        },
+      },
+      {
+        cue: 'Say: It depends on the situation.',
+        answer: 'Ovisi o situaciji.',
+        focus: {
+          lemma: 'situacija',
+          requiredCase: 'L',
+          why: 'ovisiti o + locative.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'formal',
@@ -3259,7 +4626,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['poštovani', 'dopustite', 'molio bih'],
       },
       { id: 'informal', label: 'Give the informal version', words: ['čuj', 'slušaj', 'reci im'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -3270,7 +4637,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kolega odlazi nakon mnogo godina. Govori kratko, konkretno i bez patetike: reci što odlazi s njim i što ostaje.',
     promptEn:
       'A colleague is leaving after many years. Speak briefly, concretely and without sentimentality: say what goes with them and what stays.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Neću govoriti o godinama službe jer bi to zvučalo kao da je riječ o brojci. ' +
       'Radili smo zajedno jedanaest godina i u tom se vremenu, koliko se sjećam, nijednom nije dogodilo da netko ostane bez odgovora dulje od dana. ' +
@@ -3326,6 +4693,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ostaje, međutim…',
       'Sretno.',
     ],
+    build: [
+      {
+        cue: 'Say: I am speaking on behalf of the team.',
+        answer: 'Govorim u ime tima.',
+        focus: {
+          lemma: 'tim',
+          requiredCase: 'G',
+          why: 'u ime takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: Thank you for the years of work.',
+        answer: 'Hvala na godinama rada.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'L',
+          number: 'pl',
+          why: 'hvala na + locative, here in the plural.',
+        },
+      },
+      {
+        cue: 'Say: We wish you much success.',
+        answer: 'Želimo ti puno uspjeha.',
+        focus: {
+          lemma: 'uspjeh',
+          requiredCase: 'G',
+          why: 'After puno, the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'concrete',
@@ -3333,7 +4730,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         words: ['jednom', 'nikad', 'uvijek je', 'sjećam'],
       },
       { id: 'stays', label: 'Say what stays behind', words: ['ostaje', 'ostavio', 'navika'] },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
   {
@@ -3344,7 +4741,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Netko koristi dvije riječi kao da znače isto. Objasni razliku, pokaži gdje se ona vidi u praksi i priznaj kad je razlika nevažna.',
     promptEn:
       'Someone uses two words as if they meant the same. Explain the difference, show where it shows in practice, and admit when the difference does not matter.',
-    minWords: 60,
+    minWords: 30,
     model:
       'Koristite „odgovornost“ i „krivnja“ kao istoznačnice, a mislim da nisu, i da nam upravo to zamagljuje raspravu. ' +
       'Krivnja gleda unatrag i traži tko je pogriješio; odgovornost gleda naprijed i pita tko će popraviti. ' +
@@ -3400,6 +4797,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ne bih inzistirao…',
       'Postaje važno kad…',
     ],
+    build: [
+      {
+        cue: 'Say: The difference is in the meaning.',
+        answer: 'Razlika je u značenju.',
+        focus: {
+          lemma: 'značenje',
+          requiredCase: 'L',
+          why: 'u for where — locative.',
+        },
+      },
+      {
+        cue: 'Say: I am defending a fine distinction.',
+        answer: 'Branim finu razliku.',
+        focus: {
+          lemma: 'razlika',
+          requiredCase: 'A',
+          why: 'What you defend receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: That is not a question of style.',
+        answer: 'To nije pitanje stila.',
+        focus: {
+          lemma: 'stil',
+          requiredCase: 'G',
+          why: 'A question OF something — genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'parallel',
@@ -3411,7 +4837,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         label: 'Say when it does not matter',
         words: ['nije važno', 'ne bih inzistirao', 'doduše'],
       },
-      { id: 'len', label: 'Speak at least 60 words', minWords: 60 },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],
   },
 ];
