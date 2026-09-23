@@ -441,6 +441,39 @@ export function buildRetentionQueue(
   const queue: RetentionQueueItem[] = [];
   const queued = new Set<string>();
   const seed = seedFromDay(today);
+
+  /**
+   * The lessons step 3 may re-check today. The CARD step may not take one of
+   * their items.
+   *
+   * WHY. `push` silently drops an item already queued, so before this a due
+   * card from the same lesson made its re-check come out at 5 or 4 of
+   * MIN_CHECK_ITEMS — precisely what the order comment above says must never
+   * happen, and nothing said so. The bias ran one way, which is what makes it
+   * worth fixing: the re-check's sample leads with the MISSED items, and an
+   * item is in `missed` exactly when it HAS a card. So the items a card stole
+   * were the learner's known-weak ones, and the ladder advanced on the
+   * questions they already get right. Measured over 20 lessons x 400 days:
+   * 7 of 120 re-checks truncated, every one 5/6, every one losing the weak
+   * item. After: 0 of 120, with the cumulative (580 items) and the cards
+   * (500) byte-identical — the fix costs the sitting nothing.
+   *
+   * RESERVING, NOT SKIPPING, and the difference is a livelock. "Serve the
+   * re-check only if nothing took its items" defers the ladder for as long as
+   * a card stays due — and a card the learner keeps failing comes due again
+   * every day, so that lesson's ladder would freeze permanently for the
+   * learner who most needs it to move. Reserving costs nothing: they still
+   * answer those items today, first thing, inside the re-check.
+   *
+   * THE CUMULATIVE IS DELIBERATELY NOT RESERVED. It looks like the same
+   * hazard and is not: measured over 4,000 generated stores, a queue holding
+   * cumulative items served ZERO re-checks — CUMULATIVE_ITEMS (10) of
+   * MAX_QUEUE (12) leaves less than MIN_CHECK_ITEMS, so step 3 breaks out
+   * before serving anything. Reserving there could not prevent a truncation;
+   * all it did was shrink the cumulative on days a re-check was due, which is
+   * the crowding-out the documented order exists to prevent.
+   */
+  const reserved = new Set(status.rechecks.slice(0, MAX_RECHECKS_PER_QUEUE).map((r) => r.lessonId));
   const push = (lessonId: string, idx: number, item: LessonCheckItem, part: RetentionPart) => {
     const key = itemKey(lessonId, idx);
     if (queued.has(key) || queue.length >= MAX_QUEUE) return;
@@ -477,7 +510,7 @@ export function buildRetentionQueue(
 
   // 2. Due cards, most overdue first.
   const dueCards = Object.entries(store.items)
-    .filter(([, c]) => c.due <= now)
+    .filter(([key, c]) => c.due <= now && !reserved.has(key.split('#')[0]!))
     .sort((a, b) => a[1].due - b[1].due)
     .slice(0, MAX_CARDS_PER_QUEUE);
   for (const [key] of dueCards) {

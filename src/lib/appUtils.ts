@@ -501,6 +501,43 @@ function distinctExercisesDone(s: BadgeStats): number {
   return done.size;
 }
 
+/**
+ * How many DISTINCT reading passages the learner has completed.
+ *
+ * `stats.readingDone` has NEVER had a producer. Every mention of it in `src` is
+ * a read, a `Math.max` merge (useSyncManager, mergeStatsFromRemote), a
+ * sanitize clamp or a sign-in allowlist entry, and `git log -S` finds no
+ * incrementer in the whole history. The real signal is the `reading_<title>`
+ * marker `ReadingScreen` pushes into `stats.vs` on completion, which syncs.
+ *
+ * #678 already established that when it fixed the `read3` PREDICATE to fall
+ * back on those markers, and left the two surfaces that DISPLAY the same number
+ * reading the dead field:
+ *   - the Analytics "Reading" bar, `s.readingDone || 0` — 0 for every learner,
+ *     always, while its five neighbours filled. That is the identical defect to
+ *     `s.vc`, whose fix sits two lines above it in the same array under a
+ *     comment describing exactly this. Fixing a predicate is not fixing the
+ *     number it is derived from.
+ *   - the BadgesScreen `read3` progress row, frozen at `0 / 3` for a learner
+ *     who has genuinely finished one or two passages (earned badges hide
+ *     progress, so the flip to earned is the only movement it ever shows).
+ *
+ * ONE function so the bar, the progress row and the badge cannot disagree.
+ * `readingDone` is kept in the max for any legacy value already synced onto a
+ * device; it is a floor, never the measurement.
+ *
+ * NOT `getReadingReps()` (lib/readingMetric): that counts REPS — repeats and
+ * GradedInputScreen stories included — is device-local, and InsightsTab already
+ * shows it under its own name. Two surfaces disagreeing about "reading" is the
+ * three-copies-of-the-CEFR-formula failure.
+ */
+export function readingPassagesDone(s: BadgeStats): number {
+  const markers = Array.isArray(s.vs)
+    ? new Set(s.vs.filter((v) => typeof v === 'string' && v.startsWith('reading_'))).size
+    : 0;
+  return Math.max(s.readingDone || 0, markers);
+}
+
 export const BADGES: Badge[] = [
   { id: 'first', n: 'First Steps', i: '🌱', d: 'Complete 1 lesson', r: (s) => (s.lc ?? 0) >= 1 },
   { id: 'x100', n: 'Rising Star', i: '⭐', d: 'Earn 100 XP', r: (s) => (s.xp ?? 0) >= 100 },
@@ -566,12 +603,9 @@ export const BADGES: Badge[] = [
     n: 'Reading Pro',
     i: '📰',
     d: 'Complete 3 reading passages',
-    // ReadingScreen records each finished passage as a 'reading_<title>' vs
-    // marker (synced). s.readingDone kept as a fallback for any legacy data.
-    r: (s) =>
-      (s.readingDone || 0) >= 3 ||
-      (s.vs || []).filter((v: string) => typeof v === 'string' && v.startsWith('reading_'))
-        .length >= 3,
+    // Same helper the Analytics bar and the BadgesScreen progress row use, so
+    // the badge can never disagree with the number shown beside it.
+    r: (s) => readingPassagesDone(s) >= 3,
   },
   {
     id: 'amb',

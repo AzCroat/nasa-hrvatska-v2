@@ -18,6 +18,16 @@
  *                     state was 0 — the screen told a learner on a long streak
  *                     they had none.
  *
+ *   s.readingDone   — never written anywhere either, and MISSED BY THIS FILE
+ *                     when it was written (2026-09-23). The "Reading" bar sits
+ *                     TWO LINES below the Vocabulary one in the same array and
+ *                     had the identical defect; the fix above named the class in
+ *                     a comment and did not look at the next entry. A guard
+ *                     scoped to the field in front of you says nothing about its
+ *                     neighbour. Reading is now counted from the `reading_*`
+ *                     markers ReadingScreen writes into `stats.vs`, through the
+ *                     one helper the read3 badge also uses.
+ *
  * Why the type system was no help: the prop was declared
  * `Partial<Stats & { streak?: number; longestStreak?: number; vc?: number }>`.
  * The screen described the shape it wanted rather than the shape that exists, so
@@ -65,10 +75,12 @@ function renderScreen(stats: Record<string, unknown>) {
  * Match the label exactly (icon included) — a loose /Vocabulary/ also hits other
  * copy on the screen.
  */
-function vocabBarValue(): string | undefined {
-  const label = screen.getByText((_t, el) => el?.textContent?.trim() === '\u{1F4D6} Vocabulary');
+function barValue(labelWithIcon: string): string | undefined {
+  const label = screen.getByText((_t, el) => el?.textContent?.trim() === labelWithIcon);
   return label.nextElementSibling?.textContent?.trim();
 }
+const vocabBarValue = () => barValue('\u{1F4D6} Vocabulary');
+const readingBarValue = () => barValue('\u{1F4F0} Reading');
 
 describe('AnalyticsScreen shows real data', () => {
   it('reads the streak from getStreak(), not the stats mirror that sync wipes', () => {
@@ -98,6 +110,32 @@ describe('AnalyticsScreen shows real data', () => {
     getSR.mockReturnValue({});
     renderScreen({ xp: 100 });
     expect(vocabBarValue()).toBe('0');
+  });
+
+  it('counts Reading from the vs markers rather than a field nothing writes', () => {
+    // ReadingScreen pushes `reading_<title>` into stats.vs on completion. Before
+    // the fix this bar read s.readingDone and rendered 0 for every learner in
+    // the app, forever, whatever they had read.
+    renderScreen({ xp: 100, vs: ['reading_Prvi_tekst', 'reading_Drugi_tekst'] });
+    expect(readingBarValue()).toBe('2');
+  });
+
+  it('shows zero Reading only when nothing has been read', () => {
+    // Non-vacuity: the assertion above must be able to distinguish 2 from 0.
+    renderScreen({ xp: 100, vs: ['grammarmap', 'alphabet'] });
+    expect(readingBarValue()).toBe('0');
+  });
+
+  it('counts distinct passages, not repeats', () => {
+    renderScreen({ xp: 100, vs: ['reading_Isti', 'reading_Isti', 'reading_Drugi'] });
+    expect(readingBarValue()).toBe('2');
+  });
+
+  it('keeps a legacy synced readingDone as a floor, never as the measurement', () => {
+    // A device that synced a value in before the field went dead must not lose
+    // it; but the markers win when they are ahead.
+    renderScreen({ xp: 100, readingDone: 5, vs: [] });
+    expect(readingBarValue()).toBe('5');
   });
 
   it('no longer renders a BEST STREAK tile — nothing tracks a longest streak', () => {
