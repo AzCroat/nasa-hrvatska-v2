@@ -353,7 +353,16 @@ export function buildProgressSnapshot({
     // ── Heritage learner settings — region, generation, mode, dialect (2026-05-20)
     // Heritage learners answer onboarding questions about their family origin
     // and preferred dialect; these tune the curriculum. Previously device-local.
-    nh_heritage_saved: lsGet('nh_heritage_saved') === '1',
+    // ONE KEY, TWO VALUES — and the snapshot demanded the one nobody writes.
+    // WelcomeScreen, the only local writer, sets `'true'`; this line required
+    // `'1'`, which exists ONLY in applyRemoteProgress — whose input is this
+    // snapshot's own output. A closed loop: the flag could never sync, so a
+    // learner who recorded their heritage region kept it on one device forever.
+    // Same class as `nh_grammar_track_done` above, a few hundred lines up.
+    // Accept BOTH: the writer is left alone because installs already hold
+    // `'true'`, and synced devices already hold `'1'`. Precedent one line up
+    // (`nh_placement_done === 'true' || placement_done === 'true'`).
+    nh_heritage_saved: lsGet('nh_heritage_saved') === '1' || lsGet('nh_heritage_saved') === 'true',
     nh_heritage_region: lsGet('nh_heritage_region') || undefined,
     nh_heritage_gen: lsGet('nh_heritage_gen') || undefined,
     nh_heritage_mode: lsGet('nh_heritage_mode') || undefined,

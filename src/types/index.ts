@@ -39,7 +39,12 @@ export interface Stats {
   readingDone?: number;
   mediaVisits?: number;
   streak?: number;
-  heritage?: boolean; // Heritage/diaspora Croatian speaker flag (wires to AI conversation context)
+  // `heritage?: boolean` lived here, commented "wires to AI conversation
+  // context". NOTHING ever wrote it — verified across every sync and state path
+  // and by `git log -S` over the whole history — so the prompt section it gated
+  // never fired for any learner in ~6 months. Removed 2026-09-23; the question
+  // is now answered by `lib/heritageLearner`, from inputs that exist and
+  // already sync. A type field nothing writes is a claim, not a contract.
   /** Per-level quiz pass records. Indexed by level number (1-7); value is { score, passedAt }. */
   levelQuizPasses?: Record<number, { score: number; passedAt: number }>;
 }

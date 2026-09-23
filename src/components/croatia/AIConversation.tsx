@@ -14,6 +14,7 @@ import { getUserCefr } from '../../lib/cefr';
 import { useWriteMode } from '../../hooks/useWriteMode';
 import { markQuest } from '../../lib/quests.js';
 import { logError, getErrorsForAPI } from '../../lib/learnerErrors.js';
+import { isHeritageLearner } from '../../lib/heritageLearner';
 import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { SCENARIOS, deriveWeakAreas, sceneForCat } from './ConversationScenarios.js';
 import { apiFetch } from '../../lib/apiFetch.js';
@@ -459,7 +460,11 @@ export default function AIConversation({
       ...(memoryContext ? { memoryContext } : {}),
       mistakePatterns: learnerErrors.map((e) => ({ pattern: e?.pattern || String(e), count: 1 })),
       learnerErrors,
-      isHeritage: !!stats?.heritage,
+      // Was `!!stats?.heritage` — a field NOTHING has ever written, so this
+      // was false for every learner and the prompt's HERITAGE SPEAKER CONTEXT
+      // section never once fired. Derived now from signals that exist; see
+      // lib/heritageLearner for why this invents no new classification.
+      isHeritage: isHeritageLearner(),
     };
     // Cancel any previous in-flight stream before starting a new one
     majaAbortRef.current?.abort();

@@ -1487,6 +1487,125 @@ argument for shipping the least clever matcher that works and stating its limits
 in its own header.
 
 
+### 29. A consumer with no producer, and the predicate that could never be true — 2026-09-23
+
+Sweep 28's dead-WRITE derivation (a value stored and never read) has a mirror
+nobody had run: a value READ that nothing writes. Both are silent, and the
+second is worse, because a boolean that is always `false` is indistinguishable
+from an honest "no".
+
+**TWO REAL DEFECTS, both on the diaspora path — the audience the product's own
+first line names.**
+
+- **`isHeritage` has never been true for anybody.** `/api/conversation`'s system
+  prompt carries a substantial authored block behind `{{#if isHeritage}}` —
+  frozen emigration-era vocabulary, a simplified case system, dialect mixing,
+  "do NOT treat them as a complete beginner". Its only producer was
+  `isHeritage: !!stats?.heritage`, and **`stats.heritage` has never had a
+  writer**: not `progressSnapshot`, not `applyRemoteProgress`, not
+  `mergeStatsFromRemote`, not `statsReducer`, not `mergeSignInStats`, not
+  `useSyncManager`, not `App.tsx`, and nothing in the whole of `git log -S`
+  (the one `heritage: true` in history is `mergeSignInStats.test.ts` using it as
+  an arbitrary remote-only field). The prompt block landed 2026-03-28 and its
+  reader a week later, so **for about six months the most audience-specific
+  teaching content in the app could not reach a single learner.** The type
+  carried `heritage?: boolean` with the comment "wires to AI conversation
+  context" — a comment describing an intention, which is the same non-mechanism
+  as `wrangler.toml`'s "Shared with scheduled worker above".
+- **`nh_heritage_saved` could never sync.** `buildProgressSnapshot` published
+  `lsGet('nh_heritage_saved') === '1'`. `WelcomeScreen` — the only local writer —
+  stores `'true'`. The only writer of `'1'` is `applyRemoteProgress`, whose input
+  is this snapshot's own output. **A closed loop**: the flag could only ever be
+  `false` leaving a device, so a learner who recorded their family region kept
+  that fact on the one device forever. Exactly the `nh_grammar_track_done` shape
+  found earlier, in the block 240 lines above it in the same file.
+
+**THE FIX INVENTS NO CLASSIFICATION, and that mattered more than it looks.**
+The tempting move is a new synced `stats.heritage`. But the app ALREADY makes
+this inference and already acts on it: `OnboardingTour` served DIASPORA_STEPS on
+`userGoal === 'heritage' || userGoal === 'family'`. `src/lib/heritageLearner.ts`
+is that same predicate lifted into one place, widened by the stronger signal the
+tour ignored (a learner who NAMED their family's Croatian region has stated the
+connection outright), and both surfaces now resolve through it. Both inputs are
+already in the snapshot, so nothing new syncs and there is no fourth place to
+keep in step — the failure mode of the three copies of the CEFR band formula,
+which agreed with each other and with nothing that mattered.
+
+`nh_heritage_saved` accepts BOTH values rather than changing the writer:
+installs already hold `'true'` and synced devices already hold `'1'`, and the
+line immediately above it (`nh_placement_done`) sets that precedent.
+
+**THE DERIVATION IS THE DELIVERABLE** (`snapshotPredicatesReachable.test.ts`).
+It asks of every `field: lsGet(k) === 'v'` in the snapshot whether any LOCAL
+writer can ever produce that literal, with `applyRemoteProgress` excluded —
+count it and every field proves its own reachability from the snapshot's own
+output, and the guard passes on precisely the defect it exists to find. Grouping
+is by FIELD, not by comparison: `nh_placement_done` reads a legacy key that can
+never satisfy its comparison and is fine anyway, because its other alternative
+works. A per-comparison guard would fail there and teach everyone to write
+exemptions.
+
+**Three things the first run got wrong, all found by controls rather than by
+reading:**
+
+- **The positive control is the whole point.** An earlier attempt at this
+  derivation (sweep 26) was vacuous — a zero-width `\s*` before a negative
+  lookahead let the space after every comma satisfy it, so every literal write
+  also registered as an expression and nothing could ever be reported. **It
+  passed on a tree where the defect was already confirmed.** The shipped file
+  re-derives the real `nh_heritage_saved` defect from a reverted copy, in-test,
+  on every run; it cannot go vacuous again without that test saying so.
+- **A consuming window swallows the next call.** `[\s\S]{0,80}` after the key
+  advances `lastIndex` past 80 characters, and WelcomeScreen's preceding
+  `lsSet` sits ~58 characters before the one that mattered — so the writer was
+  reported ABSENT. Narrowing the window to 60 hides it on today's tree rather
+  than fixing it; the value is captured by lookahead, and a fixture test
+  demonstrates the difference at the historical window size instead of
+  depending on how close real call sites happen to be.
+- **Keys are written through constants.** `EasterScreen` and `streak.ts` write
+  via `const KVIZ_DONE_KEY = '…'`, so four Easter fields and
+  `nh_used_free_repair` all read as unwritten until single-file `const`
+  resolution was added. All five are fine.
+
+**`NO-WRITER` fails the guard, and its message names the matcher first.** Such a
+verdict has two causes — a write form the scan does not know (bracket
+assignment, template-literal key, imported constant) or a genuinely dead field —
+and the first is the likelier, so the failure text says to widen the matcher
+before concluding anything. What the scan deliberately cannot prove is a
+non-literal second argument (`v.toString()`, `v ? 'true' : 'false'`,
+`JSON.stringify(next)`): it is recorded as `<expr>` and CLEARS the field. Three
+keys rely on that today and all three are genuinely correct. **The guard may
+MISS; it must never MANUFACTURE.**
+
+**The scan for `stats.heritage` was narrowed after measuring it.** A bare
+`heritage:` scan reports ten files — a media category, an XP bucket, a screen
+tab, a Croatian gloss — and means nothing. The shipped one looks for the
+property on a stats-shaped object only, and carries a positive control asserting
+it matches the removed expression verbatim AND none of the five innocent uses.
+
+**The AIConversation guard asserts the EFFECT.** A source pin survives the value
+being computed correctly and dropped at a callback boundary, which is how the
+reading-ledger defect shipped (sweep 23). `ai-conversation.test.tsx` drives a
+real conversation start and reads `isHeritage` off the body handed to `_aiPost`.
+
+Mutation-verified, five, each confirmed LANDED before its result was read:
+`isHeritage` back to `!!stats?.heritage` → **4 fail** (2 behavioural, 2 source);
+`OnboardingTour` back to its inline goal-only predicate → 1 fail;
+`nh_heritage_saved` back to `=== '1'` → 2 fail (including the in-test positive
+control); the region clause removed from `isHeritageLearner` → 3 fail across two
+suites; the consuming-window regex on the fixture → the probe fails.
+Two negative controls also ship: one dead alternative must not condemn a
+reachable field, and including `applyRemoteProgress` in the writer set must make
+the known defect vanish — proving the exclusion is load-bearing.
+
+Suite **583 files, 9370 passed, 25 skipped, 0 failures**; tsc clean; lint clean
+(0 Croatian findings across 521 files).
+
+E2E audit: no user-visible string changed. No spec sets `nh_goal` or
+`nh_heritage_region`, so the onboarding tour still renders GENERIC_STEPS under
+E2E; the specs that match the welcome modal match `Dobrodošli`, which both
+variants carry. `isHeritage` appears in no spec.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -1496,7 +1615,13 @@ None of them crash, so no sweep above can see any of them.
       KNOWN_UNCLASSIFIED are verified-correct degrades, not debt. The ratchet
       stops new ones and its floors sit at the measured values.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
-      (Credit-on-grade is closed — sweep 10.)
+      (Credit-on-grade is closed — sweep 10. The DEAD-READ half is partly
+      checked: sweep 29 ran the mirror of sweep 26's dead-write derivation over
+      the snapshot's boolean predicates and over `stats.heritage`, and found two
+      real defects. What that sweep did NOT cover, and the next person should:
+      dead reads of NON-boolean snapshot fields, and consumers of `stats` fields
+      other than `heritage` that nothing writes — the `badgesEarnable` suite
+      does this for badge counters only.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
