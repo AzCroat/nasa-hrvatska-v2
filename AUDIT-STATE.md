@@ -3626,6 +3626,120 @@ recorded here rather than implied to be done.
 
 ---
 
+### 56. The production slot serves speaking the learner cannot be measured on — 2026-09-23 — **1 REAL DEFECT, MEASURED; FIX DEFERRED TO ITS OWN PR**
+
+**Where it came from.** Sweep 55 left one item open: the 24 skipped drills have
+no contract test. Rather than build a universal UI driver, the tractable question
+was source-level — **does each of those screens route completion through
+`completeExercise` (registry-driven, already covered) or hand-roll it?**
+
+**23 of 25 route through `completeExercise`.** Their credit is registry-driven
+and covered. Only **`DictationScreen` and `ShadowingScreen`** hand-roll
+`award` + `markQuest` + `setStats` + `writeDelta`.
+
+**TWO CONCERNS ABOUT THOSE TWO WERE CHECKED AND ARE WRONG — recorded so nobody
+re-chases them:**
+
+1. **They do NOT strand the daily session.** `useAward` writes
+   `nh_session_completed` unconditionally BEFORE its `amt === 0` early return,
+   guarded on `started === _effectiveEx`, and its comment names dictation
+   explicitly (2026-07-16 completion-matrix audit). The session is credited.
+2. **The missing `EXERCISE_COMPLETE_EVENT` is harmless HERE.** Only
+   `completeExercise` dispatches it, so the next-step pill does not fire for
+   these two — but both call `goBack()` in the same handler, and the pill hides
+   on ANY navigation, so it could never have shown. The landing surface's own
+   persistent prompting takes over. No dead end.
+
+**THE REAL FINDING IS THE MASTERY LEDGER, and it is sweep 21's defect in the
+half nobody checked.** Sweep 21 fixed the RECEPTIVE side: reading screens graded
+and awarded themselves, passing `'reading'` to `award`, which reaches XP and
+quests and never the ledger — so reading could never become measured and that
+LATCHED the input slot. The PRODUCTION side was never audited. Measured across
+all 8 `PRODUCTION_POOL` screens:
+
+| screen | kind | writes the mastery ledger |
+| --- | --- | --- |
+| `writing_guided` | write | yes (`recordMasteryEvent`) |
+| `speaking_guided` | speak | yes (via `requestSpeakingCoach` -> `recordMasteryEvent` weight 2) |
+| `writing` | write | yes |
+| `production_drill` | speak | yes (`completeExercise` -> `recordExerciseOutcome`) |
+| **`shadowing`** | **speak** | **nothing** |
+| **`speaking`** | **speak** | **nothing** |
+| **`speaking_sprint`** | **speak** | **nothing** |
+| **`dictation`** | **write** | **nothing** |
+
+**Three of the five `speak` entries teach the ledger nothing.** Established by
+ABSENCE OF IMPORT, not by sampling: none of the three imports any
+`masteryLedger` function, so none can write one.
+
+**The mechanism is identical to sweep 21's.** `weakestProductionKind` scores an
+absent or not-yet-`tested` cell as MAXIMUM need (`!m || !m.tested ? 1 : ...`) —
+correct for CHOOSING what to serve — and its tiebreak (`speak >= write`) favours
+speak. So unmeasured speaking pulls the P2.5 slot toward speak.
+
+**MEASURED WITH THE REAL PICKER, not argued.** `selectProductionExercise` with
+`kindBias: 'speak'` filters to `kind === 'speak'` and then picks UNIFORMLY at
+random, so the share of speak picks that can never discharge the need is:
+
+| level | ledger-silent picks |
+| --- | --- |
+| **A2** | **297/400 = 74%** (`production_drill` is B1+, so 3 of 4 candidates are silent) |
+| B1 | 236/400 = 59% |
+| B2 | 235/400 = 59% |
+| C1 | 226/400 = 56% |
+
+So the app tells the learner speaking is their weakest skill, serves speaking,
+and **56-74% of the time the work they then do cannot change that answer.**
+
+**WHY IT IS A BIAS, NOT SWEEP 21'S HARD LATCH — the distinction matters.**
+Reading had NO writer at all, so it latched permanently. Speaking has two
+(`speaking_guided`, `production_drill`), so a learner CAN discharge it — they
+just have to be dealt one of the two, against odds of roughly 1 in 4 at A2.
+
+**WHY THE EXISTING GUARD DOES NOT CATCH IT.**
+`masterySkillsReachable.test.ts` asks whether every ledger skill has SOME
+producer, and covers the RECEPTIVE picker's latch. Speaking has a producer, so
+it passes — while three of five speaking screens record nothing. **Reachable is
+not complete**, which is this file's own recurring lesson wearing new clothes.
+
+**WHAT IS HONESTLY FIXABLE, AND WHAT IS NOT.** Only record a measurement that
+was actually taken (NEVER-DO 13):
+
+- `DictationScreen` — has `score` and `total`/`answeredTotal`. Fixable.
+- `ShadowingScreen` — has `scoredOk.current` / `scoredItems.current`, REAL
+  acoustic scores from `PronunciationScorer`. Fixable, guarded on
+  `scoredItems > 0` (Web Speech may score nothing).
+- `SpeakingScreen` — `wordScores[].score` is a real Azure percentage or null,
+  and the screen already uses a 60 bar for "acoustic pass". Fixable over the
+  scored-only subset.
+- **`SpeakingSprintScreen` — NOT fixable.** It tracks `rounds` only: attempts,
+  no correctness. There is no measurement to record and inventing one would be
+  the fabrication this file forbids. It is honestly silent.
+
+**A SECOND, SMALLER FINDING FOUND ON THE WAY.** `ShadowingScreen` awards
+`activityType: 'listening'` and `markQuest('listening')` while being the
+`kind: 'speak'`, `micRequired: true` production entry that scores the learner
+ACOUSTICALLY. The app classifies one screen three ways; `dictation` is worse —
+`kind: 'write'` in `PRODUCTION_POOL`, `category: 'speaking'` in `sessionPools`,
+and `activityType: 'listening'` at its award call. Not touched here: changing an
+award's `activityType` moves XP and quest semantics and needs its own decision.
+
+**AND A COMMENT THAT WILL MISLEAD THE NEXT READER.** `ShadowingScreen:613` says
+its 70 bar is "the one the line above already uses for the speaking ledger".
+There is no mastery-ledger call in the file; it means
+`logPronunciationWeakness` (the pronunciation-weakness curriculum, line 729), a
+different store. That wording is what made this worth double-checking rather
+than trusting.
+
+**FIX DEFERRED, DELIBERATELY AND WITH THE REASON.** It touches four
+learner-facing production screens, and adding a LISTENING writer (dictation)
+shifts the P2.8 receptive alternation, which is a composition change needing its
+own measurement — the same discipline that kept `dictation` from being retagged
+`adaptive`. It does not belong mixed into a test-only PR. Recorded here in full
+so nothing is lost, per the owner directive.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3691,6 +3805,16 @@ None of them crash, so no sweep above can see any of them.
         still fail. Still open on this axis: the 24 honest skips are 24 drills
         whose completion contract nothing exercises — the ratchet guards the
         exemption, not the coverage.
+
+      - **OPEN, WITH THE WORK NAMED: three speaking screens the ledger cannot
+        see.** Sweep 56 measured it — 56-74% of the production slot's `speak`
+        picks go to a screen that records no mastery evidence, so the "speaking
+        is your weakest skill" answer cannot be discharged by doing the speaking
+        the app just served. `DictationScreen`, `ShadowingScreen` and
+        `SpeakingScreen` each hold a real measurement they discard;
+        `SpeakingSprintScreen` genuinely has none and must stay silent. The fix
+        is its own PR because adding a listening writer shifts the P2.8
+        receptive alternation and needs that composition measured.
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two
