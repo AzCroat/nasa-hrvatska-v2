@@ -3816,6 +3816,58 @@ re-verification finally has a mechanism.
 
 ---
 
+### 58. One screen in two pools, disagreeing — and a CLAUDE.md NEVER rule applied to only one copy — 2026-09-23 — **1 RULE VIOLATION, RECORDED; FIX JOINS 56+57**
+
+**Completing sweep 57's question.** That sweep compared the registry against
+hand-rolling screens. Sweep 56's original instance also involved a second pair:
+`sessionPools.category` vs `PRODUCTION_POOL.kind`/`category`. Swept it.
+
+**Exactly ONE id is listed in both pools, and it disagrees:**
+
+```
+dictation   PRODUCTION_POOL  category='writing'  kind='write'   cefr=B1
+            sessionPools     category='speaking'                cefr=B1
+```
+
+**This is a documented NEVER rule, violated in one of the two copies.** CLAUDE.md,
+Production Teaching: *"Pool entries `writing_guided`/`writing`/`dictation` carry
+`category: 'writing'`. **Never retag them back to 'speaking'** and never remove the
+route — that re-opens the 'weak writing has no practice path' hole (the 0%-writing
+C1 case)."*
+
+**It is NOT a regression — the rule was never applied to this copy.** `git log -S`
+puts the `sessionPools` entry in #216 ("7a — A1 rotation expansion"), which
+PREDATES the 2026-08-18 production-teaching work that made `writing` first-class
+and wrote the rule. `PRODUCTION_POOL`'s entry was set correctly then; the second
+copy had no reason to change and nobody changed it. Same class as sweeps 48–51 —
+one fact, two homes, one of them inert to the edit that mattered.
+
+**THE CONSEQUENCE IS NARROWER THAN IT LOOKS, and every candidate was checked
+rather than assumed:**
+
+| consumer of `category` | affected? |
+| --- | --- |
+| `skillGroupOf` (P3 variety) | **no** — `SKILL_GROUP` maps BOTH `speaking` and `writing` to the `'speaking'` family |
+| `isGrammarStructure` (P2.7) | no — neither is a grammar category |
+| `inputKindOf` (P2.8) | no — neither is an input modality |
+| `setSessionCategory` | no — it is called with the activity **id**, not the category |
+| **`skillBoost`** | **YES** — `makeSessionSkillBoost` resolves `category -> skillForCategory -> profile[skill]` |
+
+So the one live effect: **a learner measured weak at WRITING gets no boost for
+Dictation in the P3 fill, and a learner weak at SPEAKING gets it boosted** — for
+a hear-it-and-type-it screen with no microphone. Modest, real, and a one-word
+fix.
+
+**IT COMPOUNDS WITH SWEEP 56.** Dictation is boosted as speaking here, records
+NOTHING to the mastery ledger (56), and its `PRODUCTION_POOL` twin calls it
+writing. Three statements about one screen, no two agreeing.
+
+**Fix joins the 56+57 PR** — same screen, same class, and the guard that PR adds
+for registry/screen disagreement should cover pool/pool disagreement too: any id
+in two pools must carry one category.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3882,7 +3934,7 @@ None of them crash, so no sweep above can see any of them.
         whose completion contract nothing exercises — the ratchet guards the
         exemption, not the coverage.
 
-      - **OPEN, WITH THE WORK NAMED: one PR carrying sweeps 56 + 57.** Both
+      - **OPEN, WITH THE WORK NAMED: one PR carrying sweeps 56 + 57 + 58.** Both
         centre on `ShadowingScreen`'s classification, so they ship together:
         correct the three stale `exerciseRegistry` rows (two are landmines that
         would reverse sweep 21 and starve the production picker on migration),
