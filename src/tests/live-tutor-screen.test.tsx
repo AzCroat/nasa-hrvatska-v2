@@ -71,6 +71,12 @@ vi.mock('../lib/audio.js', () => ({
   ttsFetch: mockLtTtsFetch,
   isNative: mockIsNative,
   blobToBase64: vi.fn(() => Promise.resolve('data:audio/webm;base64,AAAA')),
+  // The audio warning now names the recorded cause (2026-09-23). An omitted
+  // export is `undefined` here, which throws inside the `finally` that clears
+  // `playing` — so a missing line in this mock presents as a permanently
+  // disabled tutor rather than as a missing mock.
+  getLastTtsFailure: vi.fn(() => null),
+  describeTtsFailure: vi.fn(() => "The audio couldn't be played."),
 }));
 
 // ── apiFetch — default returns a failing response to keep tests simple ────────

@@ -108,8 +108,25 @@ const strip = (s: string) =>
  */
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+/**
+ * `ttsFetch` NAMED THE ENDPOINT IN THE ALTERNATION AND MATCHED NOTHING
+ * (2026-09-23). Every one of its ten call sites passes an OBJECT —
+ * `ttsFetch({ text, slow, voice })` — never a URL, because the helper already
+ * knows the route. So the branch that appeared to cover the TTS path could not
+ * fire anywhere, and two files whose ONLY AI call is `ttsFetch`
+ * (`GradedInputScreen`, `SpeakingSprintScreen`) were invisible to this whole
+ * suite. One of them was telling every learner to check their connection for a
+ * used-up daily allowance.
+ *
+ * A caller is matched by the URL it names OR by a helper that names it for
+ * them. Keep the two apart: a helper is only listed here once its route is
+ * fixed in its own source, or this stops being a statement about endpoints.
+ */
+const ENDPOINT_HELPERS: Record<string, RegExp> = { '/api/tts': /\bttsFetch\s*\(/ };
+
 const callsEndpoint = (body: string, ep: string) =>
-  new RegExp(`(?:_aiPost|apiFetch|fetch|ttsFetch)\\s*\\(\\s*['"\`]${escapeRegExp(ep)}`).test(body);
+  new RegExp(`(?:_aiPost|apiFetch|fetch)\\s*\\(\\s*['"\`]${escapeRegExp(ep)}`).test(body) ||
+  (ENDPOINT_HELPERS[ep]?.test(body) ?? false);
 
 /**
  * What counts as naming the cause. `majaErrorMessage` is on this list because
@@ -144,10 +161,17 @@ describe('every AI surface names the cause of a refusal', () => {
     // a renamed endpoint table — every assertion below passes trivially, which
     // is the decorative guard this file exists to replace.
     expect(ENDPOINTS.length).toBeGreaterThan(20);
-    expect(callers.length).toBeGreaterThan(25);
-    // Two known-good anchors: one fixed on 2026-09-22, one long-standing.
+    // MEASURED 2026-09-23: 38 with helper matching, 35 without. The floor sits
+    // between the two, so reverting `ENDPOINT_HELPERS` fails here rather than
+    // silently going back to a suite that cannot see the /api/tts surfaces.
+    expect(callers.length).toBeGreaterThanOrEqual(36);
+    // Three known-good anchors: one fixed on 2026-09-22, one long-standing,
+    // and one whose ONLY AI call is `ttsFetch` — deliberately NOT the screen
+    // fixed alongside this change, so the anchor cannot be satisfied by that
+    // fix and can only hold while the helper matching does.
     expect(callers.map((c) => c.file)).toContain('src/components/learn/MicroLessonScreen.tsx');
     expect(callers.map((c) => c.file)).toContain('src/lib/speakingCoach.ts');
+    expect(callers.map((c) => c.file)).toContain('src/components/learn/GradedInputScreen.tsx');
   });
 
   it('no NEW surface calls an AI endpoint without naming the cause', () => {

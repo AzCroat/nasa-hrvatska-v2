@@ -81,6 +81,12 @@ vi.mock('../lib/platform.js', () => ({
 // ── audio mock (ttsFetch now imported directly from audio.ts) ─────────────────
 vi.mock('../lib/audio.js', () => ({
   ttsFetch: vi.fn(() => Promise.resolve({ ok: true, blob: () => Promise.resolve(new Blob()) })),
+  // The screen now READS the recorded cause instead of blaming the connection
+  // (2026-09-23), so the mock has to carry the recorder too — an omitted export
+  // is `undefined` here and throws only on the failure path this file never
+  // drives, which is the quietest possible way to ship a broken screen.
+  getLastTtsFailure: vi.fn(() => null),
+  describeTtsFailure: vi.fn(() => "The audio couldn't be played."),
   unlockAudio: vi.fn(),
   stopAudio: vi.fn(),
   speak: vi.fn(() => Promise.resolve('azure')),

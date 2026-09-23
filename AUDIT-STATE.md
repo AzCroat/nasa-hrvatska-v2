@@ -802,6 +802,173 @@ it guards the paths a reader would copy, not every mention of a file.
 Mutation-verified: reverting the audit-sync path to the dead `.js` file fails 1
 and names it exactly.
 
+### 18. Two derived sweeps, both NEGATIVE — 2026-09-23
+
+Recorded because a negative result nobody wrote down gets re-run. Both were
+chosen because they are the shape that hides a live defect behind a passing
+type-check: a dependency the code treats as optional, and a resource nothing
+releases.
+
+**`typeof X === 'function'` guarded props.** The `award` hole (AlphabetScreen,
+dead for the life of the screen behind exactly this check) is already ratcheted
+by `routerAwardProp.test.ts`, so the question was whether any OTHER prop is
+guarded that way. Derived from source: 84 `award` occurrences (covered), and 5
+others — `setScr`, `setJWords`, `onComplete`, `onClick`, `goToPractice`. All
+five verified PASSED at every call site by reading the router and the parents.
+The one worth naming is `MyWordsScreen`'s `onComplete` at :637, which is inside
+the INNER component `DrillMode` (declared :584) and is passed by `MyWordsScreen`
+(:702) at :744 — a `typeof` check whose caller is twenty lines away in the same
+file reads like a dead branch and is not.
+
+**`setInterval` without `clearInterval`.** Every file that sets one clears one.
+`useSyncManager.ts` reports 3 sets to 2 clears; the third "set" is a COMMENT at
+:659. A count derived by grepping a call NAME counts prose as code — strip
+comments before believing a ratio, the same rule the CodeQL-trigger guard
+needed.
+
+Neither produced a defect. Both are cheap to re-run and are written down so the
+next sweep spends its time elsewhere.
+
+### 19. The library named the cause; nine of ten screens threw it away — 2026-09-23 — **3 REAL DEFECTS, FIXED**
+
+Found by mutating a guard that was already green, and the guard turned out to
+be the reason nobody had looked.
+
+**THE GUARD MATCHED NOTHING.** `aiSurfaceClassifies.test.ts` (sweep 13's
+ratchet) listed `ttsFetch` in its call-detection alternation:
+
+    (?:_aiPost|apiFetch|fetch|ttsFetch)\s*\(\s*['"`]/api/tts
+
+Every one of `ttsFetch`'s ten call sites passes an OBJECT —
+`ttsFetch({ text, slow, voice })` — never a URL, because the helper already
+knows the route. So that branch could not fire **anywhere**, and two files
+whose only AI call is `ttsFetch` were invisible to the whole suite:
+`GradedInputScreen` and `SpeakingSprintScreen`. Measured, not reasoned:
+`callsEndpoint` returned false for both. Demonstrated by mutation — with the
+sprint screen stripped of every classifier reference, the OLD matcher passes
+the ratchet clean (M3).
+
+**WHAT THE HOLE WAS HIDING — the census, all ten sites, read end to end:**
+
+| screen                     | what a refusal looked like                        |
+| -------------------------- | ------------------------------------------------- |
+| `AIListeningScreen`        | names the cause inline — **correct**              |
+| `SpeakingSprintScreen`     | "Could not load audio. Check your connection..."  |
+| `LiveTutorScreen`          | "Check your volume, speaker, or headphone..."     |
+| News, PhraseOfDay, HeritageStory, StoryMode, GradedInput, Writing, Maja | silent |
+
+**THE 2026-09-10 FIX WAS THE FIRST HALF OF ITS OWN RULE.** That work found
+`ttsFetch` recorded nothing and gave it `_classifyHttpFailure`,
+`getLastTtsFailure` and a Sentry report — then stopped. Its NEVER says
+"instrument one path to an endpoint and describe the endpoint as covered —
+**enumerate the callers**". The callers were enumerated for RECORDING and never
+for TELLING, and **recording is not telling**.
+
+**THE SEVEN SILENCES LOOKED DELIBERATE AND WERE NOT.** The audio directive does
+say a failed play on a TEXT-FIRST surface "costs the sound and nothing else" —
+but that rule was written about `speak()` callers, where `_completeSpeak`
+dispatches `nh:tts-failed` and `AppToasts` renders the cause site-wide.
+`ttsFetch` never dispatched it. Same quiet, nothing behind it. So the fix is
+ONE dispatch in the library (`_dispatchTtsFailed`, now the only raiser, shared
+by both paths so a reworded cause cannot reach half the app — the
+three-copies-of-a-formula failure), plus the two screens that said something
+FALSE, because a wrong sentence beside a correct toast is worse than either.
+
+**DEFECT 2 — the live tutor warning was unreachable on the platform that needs
+it.** `playTTSStreaming` has two branches; the streaming one counted its
+failures and the NATIVE one returned early past the counter. On Capacitor that
+is the only branch (MediaSource is absent), so however many of Marija's replies
+went unheard, the warning could not appear. Both branches now count through one
+`noteTtsFailure()`, and the copy names the recorded cause, falling back to the
+device advice only when nothing was refused — which is exactly when the device
+advice is the true answer. The cause is captured when the warning goes UP, not
+read at render: a later successful play clears the module-level recorder, and a
+warning still on screen would have silently reverted to blaming the headphones.
+
+**DEFECT 3, found by the test rather than by looking — `speakSynth` swallowed
+its own failure twice.** `u.onerror` raised a `nh:tts-failed` with NO detail —
+the last nameless dispatch in the module, so the toast read the bare "Audio
+unavailable" the 2026-09-06 directive exists to abolish — and then resolved, so
+`_completeSpeak` returned `'synth'`, a SUCCESS verdict, for audio that never
+played. `useHeardGate` treats any non-failure verdict as heard, so on the two
+AUDIO-FIRST screens that unlocks an answer to a recording the learner did not
+hear: **"never score an assessment item whose audio the learner has not
+heard", reached through the fallback instead of the primary path.** It now
+resolves `false` on error and the verdict belongs to `_completeSpeak`, which
+records `cause: 'playback'` with the ROOT cause in `underlying` — so a learner
+whose allowance ran out is told that, not told their browser is at fault for
+the refusal that caused the fallback.
+
+This one was NOT in the census I wrote. The "both raisers go through ONE
+function" assertion found it, by counting two inline dispatches where I
+expected one. **A source pin written to stop a future fork found a present
+one.**
+
+Its blast radius is wider than the toast. `GuidedSpeakingScreen` is the ONLY
+caller that compares the verdict (`res === 'azure' || 'synth' || 'superseded'`
+→ say nothing), so a synth error used to return a success verdict there and the
+screen stayed silent about audio that never played. It now names the cause and
+still does not gate, which is what a text-first LISTEN stage must do. Checked,
+not assumed: that comparison is the only one in `src/` or `e2e/`.
+
+**THE FEEDBACK CLASSIFIER WAS SWEPT THE SAME WAY AND IS CLEAN** — the obvious
+next question, since `reportAiFailure` is the twin mechanism. Every file that
+calls it either renders the failure's own message or hands the failure to a
+caller that does (`useExplainError` → `DrillExplainCard`, `speakingCoach.ts`
+and `whisperClaudeScorer.ts` → their screens); the five that match no
+`.message` in source are the PR #701 surfaces whose existing copy was already
+correct and were given reporting only. No second instance of this defect.
+
+Pinned by `ttsCallersNameCause.test.tsx` (11), which drives the REAL
+`SpeakingSprintScreen` through the REAL sub-components to the model phase and
+the REAL `audio.ts` against a stubbed 429 — no audio mock, so the cause is
+classified by the code that classifies it in production. The connection
+sentence is asserted ABSENT for a quota refusal and asserted PRESENT for a
+genuine transport failure: replacing a wrong sentence with a different wrong
+sentence is not an improvement.
+
+A twelfth assertion came out of the harness rather than the census: the
+sprint's `try` also covers the FileReader and `audio.play()`, which run AFTER a
+successful fetch, where `_lastTtsFailure` is null and `describeTtsFailure(null)`
+is the nameless default. A throw past the fetch IS a playback failure and now
+says so.
+
+Mutation-verified, eight, each confirmed LANDED before its result was read:
+`ttsFetch` stops dispatching fails 2; the sprint copy reverted fails 2; the
+sprint screen stripped of every classifier fails the RATCHET 1, and with the
+helper matching also removed it passes — which is the hole, demonstrated; the
+native branch not counting fails 1; the warning copy reverted fails 1; the
+nameless synth dispatch restored fails 1; the cause read at render instead of
+captured fails 1; the post-fetch failure left nameless fails 1.
+
+**THE RATCHET FIX IS NOW SELF-GUARDING.** M3 showed that reverting
+`ENDPOINT_HELPERS` left the suite green, which would have let the hole reopen
+silently. Measured: 38 callers with helper matching, 35 without; the
+anti-vacuity floor sits at 36, and a third named anchor is
+`GradedInputScreen` — a `ttsFetch`-ONLY file, deliberately not the screen fixed
+in this change, so the anchor cannot be satisfied by the fix and holds only
+while the helper matching does. Re-mutated: reverting the matcher now fails.
+
+**TWO THINGS THE TEST HARNESSES TAUGHT, both worth keeping.** `live-tutor-
+screen.test.tsx` mocks `../lib/audio.js` and omitted the new exports, so
+`getLastTtsFailure` was `undefined`, threw inside the `finally` that clears
+`playing`/`phase`, and presented as a permanently disabled tutor rather than as
+a missing mock. That is not only a harness gap: a `finally` that can throw is a
+`finally` that can strand a screen, so the counter now reads the recorder
+fail-soft — the `writePushRun` rule, observability may never take the feature
+down. And `audioWarningCause` has exactly ONE writer, `noteTtsFailure`: the
+three places that HIDE the warning do not also have to remember to clear it,
+and a stale cause is unreachable because nothing renders it before the next
+raise overwrites it. Four places to remember is how a field goes stale.
+
+**WHAT THIS DOES NOT DO, stated.** The seven silent screens are still silent
+LOCALLY — they now inherit the site-wide toast, which is the same channel every
+`speak()` caller has always had, and no screen gained a gate. Gating a
+text-first surface on playback is the thing the audio directive forbids.
+Verified rather than assumed that showing both a local card and the toast is
+already the norm: on the two audio-first screens `useHeardGate` renders
+`AudioFailureNotice` while `speak()` raises the toast, and has since 2026-09-06.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -821,9 +988,12 @@ None of them crash, so no sweep above can see any of them.
       fails 1).
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
-- [~] **Day-one path**: the LESSON half is checked (sweep 7), and PLACEMENT is
-  now checked (sweep 14 — one real defect, the inescapable Exit loop). Still
-  open: first drill -> audio -> feedback on a zero-state account.
+- [~] **Day-one path**: the LESSON half is checked (sweep 7), PLACEMENT is
+  checked (sweep 14 — one real defect, the inescapable Exit loop), and the
+  AUDIO leg is now checked (sweep 19 — three real defects, all on the
+  `ttsFetch` path). The FEEDBACK leg is covered by sweeps 8/13 plus
+  `useExplainError`'s own classification, re-read this pass. What remains of
+  this item is the first DRILL itself on a zero-state account.
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and

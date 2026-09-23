@@ -389,9 +389,46 @@ accidentally hit the real network — it returned 200 where the dev sandbox
 (whose proxy blocks the voice host) returned 503. **A test whose result depends
 on the runner's network is not a unit test**; it is stubbed now.
 
+### Recording is not telling — the other half of that rule (2026-09-23)
+
+The fix above enumerated the callers for RECORDING and stopped. Measured at all
+ten `ttsFetch` sites: **one** screen (`AIListeningScreen`) told the learner the
+cause. `SpeakingSprintScreen` said "check your connection" for a used-up daily
+allowance, a paused budget and a stale sign-in alike; `LiveTutorScreen` sent
+them to check their headphones for the same, and its warning was **unreachable
+on Capacitor** because the native branch returned early past the failure
+counter; the other seven said nothing at all.
+
+**The seven silences looked deliberate and were not.** The rule that a failed
+play on a TEXT-FIRST surface "costs the sound and nothing else" was written
+about `speak()` callers, where `_completeSpeak` dispatches `nh:tts-failed` and
+`AppToasts` names the cause site-wide. `ttsFetch` never dispatched it — the
+same quiet with nothing behind it. `_dispatchTtsFailed` is now the ONLY raiser,
+shared by both paths, so a reworded cause cannot reach half the app.
+
+**`speakSynth` swallowed its failure twice**, and the source pin written to
+stop a future fork is what found it: `u.onerror` raised a DETAIL-LESS
+`nh:tts-failed` (the bare "Audio unavailable") and then resolved, so
+`_completeSpeak` returned `'synth'` — a SUCCESS verdict for audio that never
+played, which `useHeardGate` reads as heard. That is "never score an assessment
+item whose audio the learner has not heard", reached through the fallback.
+
+**The ratchet could not have caught any of it.** `aiSurfaceClassifies.test.ts`
+matched `ttsFetch\s*\(\s*['"`]/api/tts` and every call site passes an OBJECT,
+so that branch fired nowhere and two `ttsFetch`-only files were invisible to
+the suite. `ENDPOINT_HELPERS` now maps a helper to the route it fixes in its
+own source. Mutation-verified: a fully nameless sprint screen passes the old
+matcher and fails the new one.
+
 - NEVER: instrument one path to an endpoint and describe the endpoint as
   covered — enumerate the callers; add a `/api/tts` caller that does not record
-  a named failure; cap `text` below what the AI generators actually produce;
+  a named failure, **or that records one and never surfaces it** (silence is
+  honest only where the site-wide toast speaks for it, which means the event
+  must actually be dispatched); raise `nh:tts-failed` anywhere but
+  `_dispatchTtsFailed`, or raise it without a `message`; report a play that
+  errored as a success verdict; name a transport helper in a guard's
+  URL-matching alternation without checking it passes a URL; cap `text` below
+  what the AI generators actually produce;
   key a cache on a PREFIX of the text; change the durable KV key format without
   intending to regenerate every cached phrase; credit a `servedBy` for a
   backend that returned nothing playable; let a cache hit name a provider; put

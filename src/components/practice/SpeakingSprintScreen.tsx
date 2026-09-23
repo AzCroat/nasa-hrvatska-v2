@@ -3,7 +3,7 @@ import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { isSpeechRecognitionSupported } from '../../lib/platform.js';
-import { ttsFetch } from '../../lib/audio.js';
+import { ttsFetch, getLastTtsFailure, describeTtsFailure } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import SprintSetupScreen from './SprintSetupScreen';
 import SprintCountdownScreen from './SprintCountdownScreen';
@@ -497,7 +497,20 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       audioRef.current = audio;
       audio.play().catch(() => {});
     } catch {
-      setTtsError('Could not load audio. Check your connection and try again.');
+      // IT BLAMED THE LEARNER'S CONNECTION FOR EVERY CAUSE (2026-09-23).
+      // A used-up daily allowance, a paused monthly budget, a sign-in that
+      // needs refreshing and a dead voice provider all arrived here as "check
+      // your connection" — advice about a problem the learner does not have,
+      // and the `imply learner fault for a server condition` NEVER of the
+      // feedback directive. `ttsFetch` has recorded the named cause by the
+      // time this runs; the screen only had to ask.
+      //
+      // The `try` also covers the FileReader and `audio.play()`, which run
+      // AFTER a successful fetch — there is no recorded failure then, and
+      // `describeTtsFailure(null)` is the nameless default this whole area
+      // exists to abolish. A throw past the fetch IS a playback failure, so
+      // say so rather than shrug.
+      setTtsError(describeTtsFailure(getLastTtsFailure() ?? { cause: 'playback' }));
     } finally {
       setTtsLoading(false);
     }

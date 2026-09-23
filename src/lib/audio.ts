@@ -104,6 +104,11 @@ export async function ttsFetch(
     : { cause: _timedOut(effective) ? 'timeout' : 'network', backends };
   _noteFailure(failure);
   _reportTtsFailure(failure, typeof body.text === 'string' ? body.text.length : 0);
+  // A manual abort never reaches here — `_nativePost` re-throws an AbortError
+  // rather than returning null — so a caller cancelling a play cannot raise a
+  // failure toast. That is the `superseded` rule of the speak() path, holding
+  // on this one by construction rather than by a second check.
+  _dispatchTtsFailed(failure);
   return r;
 }
 
@@ -223,6 +228,34 @@ let _lastTtsFailure: TtsFailure | null = null;
 function _noteFailure(f: TtsFailure): false {
   _lastTtsFailure = f;
   return false;
+}
+
+/**
+ * THE ONE PLACE `nh:tts-failed` IS RAISED, because until 2026-09-23 there was
+ * one place and it was the wrong half of the module.
+ *
+ * `_completeSpeak` dispatched this event and `ttsFetch` did not — so of the ten
+ * screens on the fetch path, NINE told the learner nothing at all when audio
+ * refused, and the one that spoke (`AIListeningScreen`) did it by reading
+ * `getLastTtsFailure()` itself. The 2026-09-10 fix gave that path a recorded,
+ * named cause and stopped there: recording is not telling. Every silent screen
+ * looked deliberate — the audio directive genuinely does say a failed play on a
+ * TEXT-FIRST surface "costs the sound and nothing else" — but that rule was
+ * written about `speak()` callers, where this very event puts the cause in the
+ * site-wide toast. On the fetch path there was no toast, because there was no
+ * event: the same silence, with nothing behind it.
+ *
+ * `message` rides on the detail so App.tsx can render the reason without
+ * importing this module into the first-paint graph (2026-09-06), and the two
+ * call sites share this function so a reworded cause cannot reach one surface
+ * and not the other — the three-copies-of-a-formula failure this repo has paid
+ * for more than once.
+ */
+function _dispatchTtsFailed(f: TtsFailure): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(
+    new CustomEvent('nh:tts-failed', { detail: { ...f, message: describeTtsFailure(f) } }),
+  );
 }
 
 /** The most recent TTS failure, or null if the last attempt succeeded. */
@@ -728,8 +761,24 @@ export async function speakAzure(
   }
 }
 
-export function speakSynth(text: string, rate: number): Promise<void> {
-  if (!window.speechSynthesis) return Promise.resolve();
+/**
+ * Resolves TRUE when the utterance finished, FALSE when it errored.
+ *
+ * IT USED TO SWALLOW ITS OWN FAILURE TWICE (2026-09-23). `u.onerror` raised a
+ * `nh:tts-failed` with NO detail — the one nameless dispatch left in the
+ * module, so the toast read the bare "Audio unavailable" the 2026-09-06
+ * directive exists to abolish — and then resolved, so `_completeSpeak` reported
+ * `'synth'`, a SUCCESS verdict, for audio that never played. `useHeardGate`
+ * takes any non-failure verdict as heard, which on the two AUDIO-FIRST screens
+ * unlocks an answer to a recording the learner did not hear: `never score an
+ * assessment item whose audio the learner has not heard`, reached through the
+ * fallback rather than the primary path.
+ *
+ * The verdict belongs to the caller, so the dispatch moved there with it: one
+ * failure, one record, one event, named.
+ */
+export function speakSynth(text: string, rate: number): Promise<boolean> {
+  if (!window.speechSynthesis) return Promise.resolve(false);
   stopAudio();
   return new Promise((resolve) => {
     const u = new SpeechSynthesisUtterance(text);
@@ -740,11 +789,8 @@ export function speakSynth(text: string, rate: number): Promise<void> {
     u.volume = 1.0;
     const best = getBestVoice();
     if (best) u.voice = best;
-    u.onerror = () => {
-      window.dispatchEvent(new CustomEvent('nh:tts-failed'));
-      resolve();
-    };
-    u.onend = () => resolve();
+    u.onerror = () => resolve(false);
+    u.onend = () => resolve(true);
     window.speechSynthesis.speak(u);
   });
 }
@@ -839,24 +885,26 @@ async function _completeSpeak(t: string, ok: boolean, synthRate: number): Promis
   // Playing English TTS for Croatian text actively teaches wrong pronunciation — never acceptable.
   // Wait for voices to load (Android WebView loads them asynchronously after startup).
   const voice = await _awaitVoices();
+  let synthErrored = false;
   if (window.speechSynthesis && voice) {
-    await speakSynth(t, synthRate);
-    return 'synth';
+    if (await speakSynth(t, synthRate)) {
+      _lastTtsFailure = null;
+      return 'synth';
+    }
+    synthErrored = true;
   }
   const failure: TtsFailure = {
     ...(primary ?? { cause: 'playback' }),
-    cause: 'no_fallback_voice',
+    // A fallback that errored is a PLAYBACK failure; one that was never
+    // available is `no_fallback_voice`. Both report the ROOT cause through
+    // `underlying`, so a learner whose allowance ran out is told that and not
+    // told their browser is at fault for the refusal that caused the fallback.
+    cause: synthErrored ? 'playback' : 'no_fallback_voice',
     underlying: primary?.cause ?? 'playback',
   };
   _lastTtsFailure = failure;
   _reportTtsFailure(failure, t.length);
-  // `message` rides on the event so the app-level toast can say WHY without
-  // importing this module into the first-paint graph.
-  window.dispatchEvent(
-    new CustomEvent('nh:tts-failed', {
-      detail: { ...failure, message: describeTtsFailure(failure) },
-    }),
-  );
+  _dispatchTtsFailed(failure);
   return 'failed';
 }
 
