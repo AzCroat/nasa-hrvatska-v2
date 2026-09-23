@@ -1906,6 +1906,60 @@ says", "haven't practised" and "needs the most work" returns nothing).
   pass. It can MISS, never MANUFACTURE. `couplingClearingPath.test.ts` already
   does the deeper router + import-graph walk for the categories it covers.
 
+### 33. The retention reason described a sitting it could not deliver — 2026-09-23
+
+Same seam as sweep 32 — CLAIMS vs EVIDENCE, every sentence the app shows a
+learner checked against what it measured — and the next file along in the same
+module. **Smaller than sweep 32, and worth saying so plainly: the numbers here
+were real.** What was wrong was what the sentence implied about them.
+
+**THE DEFECT.** `retentionSlot` passes `retentionStatus`'s DUE counts, which are
+unbounded. `buildRetentionQueue` serves at most `MAX_RECHECKS_PER_QUEUE` (2)
+re-checks and `MAX_CARDS_PER_QUEUE` (4) cards inside `MAX_QUEUE` (12). The
+combined branch read:
+
+> "Time to re-check 7 lessons, plus 30 questions you missed before."
+
+for a sitting containing two re-checks and four cards. Measured with the real
+scheduler over a 30-lesson learner across 400 days: the line **overstated the
+cards on 135 of 273 sittings (worst by 28) and the re-checks on 77 (worst by
+5)** — about half of all retention sittings.
+
+**WHY IT IS A DEFECT AND ALSO WHY IT IS A SMALL ONE.** The counts are genuinely
+due; nothing is fabricated, unlike the "your practice says" claim sweep 32
+removed. But "Time to re-check 7 lessons" reads as a description of what the
+learner is about to be given, and the honesty rule's own test is whether the
+learner can catch it — they can, by counting what they get. The other three
+branches were already phrased as a backlog ("N lessons you passed are due for a
+retention check", "N questions you missed before are due again") and were
+correct; only the combined branch implied the sitting.
+
+**THE FIX IS THE WORDING, NOT THE ARITHMETIC.** Every counted branch now says
+what is DUE, which is exactly what `retentionStatus` measures. Deliberately NOT
+"what the sitting will serve": the slot holds only the status, not the lesson
+bodies `buildRetentionQueue` needs, and even a cap-aware bound would still
+overstate whenever re-checks crowd cards out. A true statement about the backlog
+beats an estimate of the sitting.
+
+**THE BRANCH WAS ENTIRELY UNGUARDED.** The only existing assertion anywhere was
+`retentionWiring`'s loose `/retention check/i`, which matches a different
+branch. The new guard asserts, for every counted shape, that the line says
+"due", that it does not open with "Time to", that it states the numbers it was
+given rather than inventing any, that the weekly mix claims no count at all, and
+the exact singular and plural forms.
+
+Mutation-verified: restoring the sitting-implying wording fails 3 tests.
+
+**A PROCESS SLIP WORTH RECORDING.** I undid that mutation with
+`git checkout src/lib/activityReason.ts`, which restored the COMMITTED file —
+sweep 32's — and silently destroyed the uncommitted sweep-33 edit in the same
+file. Caught immediately by grepping for the new wording, and re-applied. Undo a
+mutation from a scratchpad copy; `git checkout` on a file holding uncommitted
+work is not an undo, it is a revert to the last commit.
+
+Suite **586 files, 9406 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
+E2E audit: no spec asserts any retention reason string.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
