@@ -34,7 +34,11 @@ import { recordTopicResult, getWeakTopics, weakTopicEvidence } from '../lib/adap
 import { recordCheckAttempt } from '../lib/lessonAttempts';
 import { logError } from '../lib/learnerErrors';
 import LessonAcquisitionCard from '../components/profile/LessonAcquisitionCard';
-import CroatianErrorInsights from '../components/profile/CroatianErrorInsights';
+import CroatianErrorInsights, {
+  practiceScreenForTopic,
+} from '../components/profile/CroatianErrorInsights';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 vi.mock('../context/AppContext', () => ({ useApp: () => ({ setScr: vi.fn() }) }));
 
@@ -192,5 +196,95 @@ describe('the weak-topics verdict says what it measured', () => {
     const line = screen.getByTestId('weak-topics-empty').textContent ?? '';
     expect(line).toMatch(/great work/i);
     expect(line).toMatch(/\b2\b/); // the denominator, on the same line as the verdict
+  });
+});
+
+describe('the weak-topic drill button goes to a real screen (sweep 39)', () => {
+  // THE DEFECT. The card carried its own nine-entry substring map with
+  // `|| 'quiz'` as the fallback — and `'quiz'` is not a router branch at all
+  // (the multiple-choice game is `mcgame`). There is no catch-all in AppRouter,
+  // so the tap set `currentScreen` to a string nothing matches and the content
+  // area rendered EMPTY. Measured against the topic ids `recordTopicResult` is
+  // actually called with in production, NINE OF TWELVE weak topics landed there.
+  const ROUTED = new Set(
+    [
+      ...readFileSync(resolve(__dirname, '../components/AppRouter.tsx'), 'utf8').matchAll(
+        /currentScreen === '([^']+)'/g,
+      ),
+    ].map((m) => m[1]!),
+  );
+
+  /** Every id production code actually passes to `recordTopicResult`. */
+  const REAL_TOPIC_IDS = [
+    'aspect',
+    'cases',
+    'future_tense',
+    'grammar',
+    'listening',
+    'past_tense',
+    'phonology',
+    'production',
+    'speaking',
+    'vocab',
+    'vocabulary',
+    'food',
+  ];
+
+  it('never resolves to a screen the router cannot render', () => {
+    const dead = REAL_TOPIC_IDS.map((id) => [id, practiceScreenForTopic(id)] as const).filter(
+      ([, s]) => s !== null && !ROUTED.has(s!),
+    );
+    expect(dead, 'a weak topic whose Drill button renders a blank page').toEqual([]);
+  });
+
+  it('resolves the majority of real topics, and null for the rest', () => {
+    const resolved = REAL_TOPIC_IDS.filter((id) => practiceScreenForTopic(id) !== null);
+    // Before the fix this was 3 of 12 working and 9 dead. The floor is set
+    // below today's 10 so an honest re-classification does not fail the build,
+    // while the regression this guards against — the fallback coming back — is
+    // nowhere near it.
+    expect(resolved.length).toBeGreaterThanOrEqual(7);
+  });
+
+  it('prefers the COUPLING maps over the card’s own table', () => {
+    // `past_tense` is not in the legacy substring table at all; it resolves only
+    // because the id is normalised to the category spelling and looked up in
+    // CATEGORY_SCREEN_MAP. If that lookup is dropped, this topic goes dark.
+    expect(practiceScreenForTopic('past_tense')).toBe('cloze');
+    expect(practiceScreenForTopic('listening')).toBe('listening_comprehension');
+  });
+
+  it('an unknown topic gets NULL, not a guess', () => {
+    // The whole defect was a default. A topic with no honest drill must produce
+    // no button — the coupling's own rule, that a wrong drill is worse than no
+    // drill.
+    expect(practiceScreenForTopic('completely-unknown-topic')).toBeNull();
+    expect(practiceScreenForTopic('production')).toBeNull();
+  });
+
+  it('renders no Drill button for a topic that resolves to nothing', () => {
+    localStorage.clear();
+    logError('x', 'case', { wrong: 'a', correct: 'b' });
+    localStorage.setItem(
+      'topic_accuracy',
+      JSON.stringify({ production: { attempts: 6, correct: 1, lastAttempt: Date.now() } }),
+    );
+    render(<CroatianErrorInsights />);
+    const tab = screen.getAllByRole('button').find((b) => b.textContent?.includes('Weak Topics'));
+    fireEvent.click(tab!);
+    expect(screen.queryByTestId('weak-topic-drill')).toBeNull();
+  });
+
+  it('renders one for a topic that does', () => {
+    localStorage.clear();
+    logError('x', 'case', { wrong: 'a', correct: 'b' });
+    localStorage.setItem(
+      'topic_accuracy',
+      JSON.stringify({ past_tense: { attempts: 6, correct: 1, lastAttempt: Date.now() } }),
+    );
+    render(<CroatianErrorInsights />);
+    const tab = screen.getAllByRole('button').find((b) => b.textContent?.includes('Weak Topics'));
+    fireEvent.click(tab!);
+    expect(screen.getByTestId('weak-topic-drill')).toBeTruthy();
   });
 });

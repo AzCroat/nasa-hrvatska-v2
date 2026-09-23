@@ -2361,6 +2361,139 @@ test is a per-site decision, it decays at the rate new sites are added**; when
 it is derived from the list that already defines membership, it cannot.
 
 
+### 39. Buttons that went nowhere — 2026-09-23 — **4 DEAD TARGETS + 1 HALF-DEAD, FIXED**
+
+The owner's standing line is *"if I ever click on anything and it doesn't work
+it's over."* This is the sweep that asked it as a question with a derivation
+behind it, and the answer was not zero.
+
+**THERE IS NO CATCH-ALL IN `AppRouter`.** It is one long chain of
+`currentScreen === '<id>' && (…)`, so an id no branch matches renders
+**nothing** — a blank content area under the tab bar, with no error, no
+`ScreenErrorBoundary` and nothing in Sentry. A dead navigation target is
+therefore the QUIETEST possible defect: it looks exactly like a screen still
+loading, which is why none of these was ever reported.
+
+**Four dead values across the whole of `src`**, each reachable by tapping a
+visible control:
+
+- **`HeritageModeScreen`** — `aspect_drill`, `tivi`, `formal_register`, against
+  the real `aspectdrill`, `tivicompare`, `formalregister`. Three cards in the
+  Heritage Mode menu, three blank pages. Not a routing decision gone wrong: a
+  spelling, in a table nothing checked.
+- **`CroatianErrorInsights`** — `'quiz'`, which is not a route at all (the
+  multiple-choice game is `mcgame`, and it is payload-gated besides). It was
+  two `ERROR_META` entries, **the DEFAULT meta for every unrecognised error
+  pattern**, two rows of the weak-topic map, AND that map's `|| 'quiz'`
+  fallback.
+
+**THE WEAK-TOPIC NUMBER IS THE ONE WORTH REMEMBERING.** Measured against the
+topic ids `recordTopicResult` is actually called with in production — aspect,
+cases, future_tense, grammar, listening, past_tense, phonology, production,
+speaking, vocab, vocabulary, food — **nine of twelve resolved to `'quiz'`.** So
+the Drill button on a weak-topic card, on the Me tab, did nothing for three
+quarters of the topics it could appear on. Now: **7 resolve to a real screen, 5
+render no button, 0 dead.**
+
+**THE FIX ROUTES THROUGH THE COUPLING'S OWN MAPS**, which is the rule
+`ConceptMapCard` already follows: `CATEGORY_SCREEN_MAP` then
+`CATEGORY_EASIER_SCREEN`, on the id normalised from the topic store's
+underscores to the category files' hyphens (`past_tense` → `past-tense`). The
+card's hand-written substring table survives only for ids that are not
+categories. **`null` means NO BUTTON** — the coupling's own rule that a wrong
+drill is worse than no drill, which a default can never honour. `production` is
+deliberately left unresolved and the reason is recorded: it covers speaking AND
+writing, and picking one would be exactly the guess `|| 'quiz'` was.
+
+**THE HALF-DEAD ONE IS THE SUBTLER FINDING: A ROUTED TARGET IS NOT A WORKING
+ONE.** `FluencySnapshot`'s Speaking & Writing nudge pointed at `'speaking'`,
+which HAS a branch — and that branch renders `ScreenGuard` ("we couldn't restore
+your speaking practice") unless a launcher set `sw` first. The card navigates
+with a plain `setScr` and has no launcher. So the nudge landed on a recovery
+screen; and because production is priority 0 in the tiebreak, **that is the
+nudge shown whenever the week is empty**, which is the card's commonest state.
+It now points at `speaking_guided`: self-initialising, no microphone needed,
+A1+, rubric-graded, and in `PRODUCTION_POOL` — so finishing it increments the
+very bar that sent the learner there.
+
+**WHAT THE GUARD DOES AND DOES NOT COVER, stated rather than implied.**
+`navTargetsRoute.test.ts` derives `ROUTED` from AppRouter and requires every
+`screen|scr|go|practiceScreen: '…'` field and every literal `setScr('…')` in
+`src` to name one. It does NOT police payload-gated targets: **31 navigations in
+`src` name one, and almost all are legitimate** — the launcher sets the payload
+and then navigates — so a blanket rule would be 31 false positives, the lint's
+123-false-positive lesson in a new place. The one real instance is pinned where
+the launcher question has a definite answer, in `fluencySnapshot.test.tsx`,
+against a GATED set derived from the same router source.
+
+Mutation-verified, four, each confirmed LANDED: one Heritage id back to its dead
+spelling → 1 fail; the `|| 'quiz'` fallback restored → 3; the coupling lookup
+removed so only the legacy table answers → 2; the speaking nudge back to the
+gated route → 2.
+
+tsc clean; lint clean. E2E audit: no label changed — only the ids behind them.
+`"Aspect Drill"` does appear in four specs, and all four reach it through the
+Practice tab (`Kovačeva soba → Glagoli`), not the Heritage Mode menu; the
+`speaking` route's own specs seed `currentScreen` themselves and are untouched;
+no spec references `"Weak Topics"`, `"Drill →"` or `"lightest skill"`.
+
+**WHAT THIS LEAVES OPEN.** A catch-all branch in `AppRouter` — so an unknown id
+can never again be a silent blank page — was considered and NOT done: it needs a
+complete set of valid ids at RUNTIME, and the only honest source for that is the
+router's own source, which a runtime constant would restate and then decay from.
+The test is the mechanism instead. If a runtime net is wanted later, derive the
+set at build time; do not hand-list it.
+
+### Negatives recorded the same day — do not re-run
+
+- **Every literal `setScr('…')` in `src` routes** — 50 distinct targets, 0 dead
+  (before the fixes above, which were all in DATA TABLES rather than literal
+  calls). Positive control run: a made-up id is reported.
+- **The component→component dead-optional-prop class is essentially clean.**
+  `routerOptionalProps.test.ts` covers ROUTER → screen; the generalisation
+  (any parent → any child, over all of `src`) was censused and produced **three
+  flags, two of which are my scanner's false positives** — `PhonemeGuideCard`'s
+  `contrast` is a field on the `PHONEME_GUIDES` DATA type, not a prop, and all
+  8 guides carry it; `MicPermissionDeniedExplainer`'s `onUseWriting` is
+  documented as hidden-when-absent and none of its ten mount sites is a screen
+  with a writing analog. **Scoping is what made the census usable**: an
+  unscoped version that read every `foo?:` line in a file reported 50, almost
+  all of them API response shapes. Scope to a `*Props*` interface or the
+  default export's own parameter type, as `routerOptionalProps` does.
+- **`MediaCard.goalTag` is genuinely dead** — declared, branched on
+  (`{goalTag && <GoalTag …>}`), and its single mount site in `ImmersionHub`
+  does not pass it, so that badge has never rendered. Left alone deliberately:
+  it is decorative, not a broken click, and the two ways to resolve it are
+  "delete an extension point" and "add a feature", neither of which this sweep
+  is. Recorded so the next person does not re-derive it.
+- **THE STRAND CLASS IS CLEAN: 258 session-servable screens, 0 that cannot
+  signal completion.** Every screen reachable from `SESSION_SCREEN_IDS`
+  (`CATEGORY_SCREEN_MAP` ∪ `CEFR_EXERCISE_POOL` ∪ `CROATIA_POOL` ∪
+  `PRODUCTION_POOL` ∪ review/lessonreview) resolves through the real router to a
+  component whose import graph reaches `completeExercise`,
+  `signalSessionCompleteIfActive` or `award`; the 74 skipped are Croatia and
+  `reference: true` entries, which complete on return by design.
+  **THREE BUGS IN MY OWN CENSUS HAD TO BE FIXED FIRST, and each produced a
+  confident wrong answer**: (1) `FILES` held paths relative to `src` while
+  `path.resolve` returned absolute ones, so NO import ever resolved and **258 of
+  258 screens were flagged**; (2) the call matcher was `\baward\s*\(`, which
+  does not match `award?.(…)` — the optional-call form `AlkaScreen` and
+  `RoleplayScreen` use — two more false positives; (3) the `reference: true`
+  detector was a 400-character sliding window, so a PRECEDING entry's `screen:`
+  matched the NEXT entry's `reference: true` and the right entry was skipped
+  past, which is how `opposites` (a reference entry) came to be the last
+  survivor. Parse entry BLOCKS, never a window. A census that reports 258
+  problems and a census that reports none look equally authoritative from the
+  outside; only driving a known-good case tells them apart.
+- **A demotion against a daily plan built at the higher level rebuilds
+  correctly.** `HomeTab` computes `userCefr = getContentUnlockLevel(getUserCefr(…))`
+  as a plain expression in the render body — not memoised — and
+  `getContentUnlockLevel` reads the certification store on every call, so a
+  `verification_fail` rollback changes it on the next render and the
+  `[userCefr, dayStamp]` effect rebuilds the plan, preserving completions by
+  screen match. The content-unlock drop that comes with it is the honest-rollback
+  directive working as written, not a defect.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

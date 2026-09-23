@@ -67,7 +67,18 @@ export default function FluencySnapshot({
       key: 'speaking',
       label: 'Speaking & Writing',
       emoji: '🗣️',
-      screen: 'speaking',
+      // `'speaking'` until 2026-09-23, and that is a PAYLOAD-GATED route: the
+      // branch renders `SpeakingScreen` only when the launcher has set `sw`,
+      // and otherwise renders `ScreenGuard` ("we couldn't restore your speaking
+      // practice"). This card navigates with a plain `setScr` and has no
+      // launcher, so the nudge below — the card's primary call to action, and
+      // the one shown by default whenever the week is empty, since production
+      // is priority 0 — landed on a recovery screen instead of on speaking
+      // practice. `speaking_guided` self-initialises, needs no microphone,
+      // is available from A1, is graded against the /api/speaking-coach rubric,
+      // and is in PRODUCTION_POOL — so finishing it increments the very bar
+      // that sent the learner there.
+      screen: 'speaking_guided',
       week: prod.thisWeek,
       total: prodTotal,
       priority: 0,
