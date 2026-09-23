@@ -2830,6 +2830,92 @@ learner's entire lifetime XP, and "vs Last Week" renders "▲ 0%" when there is 
 last week at all). `XPActivityCalendar` was read and is CLEAN — its dead-key
 defect was already found and fixed in a prior pass, documented in the component.
 
+### 45. The XP chart was mostly gaps and spikes — 2026-09-23 — **3 REAL DEFECTS, FIXED**
+
+The last card in the Me-tab seam. `ProgressCharts` (the Insights tab) shows
+Total XP, This Week, "vs Last Week", and a 30-day XP bar chart. **All three
+defects are in the arithmetic, and none of them is visible without knowing what
+the store holds** — no crash, no blank, a perfectly plausible chart.
+
+**1. THE GAP-DAY SPIKE.** The bars were DELTAS of `progress_history` — a
+CUMULATIVE xp snapshot App.tsx writes only on days the learner opens the app
+(`if (!authUser || … || stats.xp === 0) return`). A day with no entry read
+`xp: 0`, so the day AFTER any gap differenced against zero and rendered a bar
+equal to the learner's whole cumulative total at that point.
+
+Measured by driving the real arithmetic over thirty days at a steady 40 XP with
+two days missed:
+
+    chart deltas : 0 40 40 40 40 40 40 40 40 40 0 440 40 40 … 0 800 40 40 …
+
+Bars of **440 and 800 for days the learner earned 40**, and because
+`SVGBarChart` scales to its largest bar, **25 of the 28 real practice days
+rendered under 10% of the height** — effectively invisible. The later the gap,
+the bigger the lie, because the spike is the running total.
+
+**2. THE TREND INHERITED IT.** `lastWeek` summed those same deltas and came out
+at **1000 against a truth of 240–280 — a 3.6x overstatement** — feeding the "vs
+Last Week" percentage. A learner practising identically every week saw a large
+red drop precisely because the earlier window had contained a gap: the number
+punished the consistency it existed to report.
+
+**3. TWO KINDS OF WEEK UNDER ONE LABEL.** `thisWeek` is the CALENDAR week
+(`nh_week_xp_<weekKey()>`); `lastWeek` was a ROLLING seven-day block
+(`slice(-14, -7)`). On a Monday morning the numerator held one day and the
+denominator seven, so the card was structurally guaranteed to open every week
+with a large red drop, independent of defects 1 and 2.
+
+**Plus the no-baseline case**: with `lastWeek === 0` the trend computed to 0 and
+rendered a green **"▲ 0%"** — "no change" — both to a learner who went from
+nothing to a full week of practice and to one who did nothing in either week.
+Two different facts, one number, neither of them measured (NEVER-DO 13), and the
+only one of the four that is a claim rather than an error.
+
+**THE REAL PER-DAY NUMBER WAS ON THE DEVICE THE WHOLE TIME.** `useAward` writes
+`nh_daily_xp_<localDate>` on every award, `pruneStaleLocalStorage` never touches
+it (so far more than thirty days survive), and `LearningInsights` and
+`XPActivityCalendar` both already read it. **This is XPActivityCalendar's own
+dead-`nh_activity_log` defect in a second place**: that card was repaired and its
+neighbour — differencing cumulative snapshots, five files away — was not. The two
+Me-tab charts now agree by construction instead of by coincidence. `lastWeek`
+reads `nh_week_xp_<prevWeekKey()>`, which the prune explicitly keeps (the weekly
+freeze recharge already depends on it), so both sides of the comparison are the
+same kind of week from the same counter. No baseline renders an em dash.
+
+**`progress_history` now has no reader.** The writer in App.tsx is deliberately
+LEFT: it is a 90-day cumulative history that costs nothing to keep and that
+deleting is not reversible for existing learners. Stated here rather than
+silently — it is a dead write by the definition sweeps 26/29 used, and the next
+person should decide it on purpose rather than rediscover it.
+
+`progressCharts.test.tsx` (9, new — the component had no test) drives the REAL
+component with the REAL keys, including the exact measured scenario, and asserts
+the legacy snapshot ALONE draws nothing (so a future reintroduction of the
+differencing fails rather than passing on plausible-looking output).
+
+Mutation-verified, four, **and the fourth is the one worth recording**: bars back
+to differencing fails 3; `lastWeek` back to the rolling slice fails 2; the green
+flat zero restored fails 1; and reading the daily key at the **UTC** date instead
+of the local one **SURVIVED at first** — because the runner's zone is UTC and, at
+the wall-clock hour the suite happened to run, the two strings agree even in
+other zones. A mutation that did not land is not a verified guard, so the suite
+gained a block that sets `process.env.TZ` and the clock to a moment where they
+genuinely differ (America/Los_Angeles at 03:00 UTC = the previous local day) and
+asks the question there; the same mutation then fails 1. That is the same
+local-vs-UTC date defect `pruneStaleLocalStorage` carries a paragraph about, in
+this codebase, for this reason.
+
+tsc clean; lint clean. E2E audit: no spec asserts any ProgressCharts string — the
+`▲` matches are a collapse toggle in an unrelated component, and `me-tab`'s
+"Total XP" is StatsTab's label, which this does not touch.
+
+**THE SEAM IS NOW EXHAUSTED.** Sweeps 32–45 read every learner-facing claim
+surface: the Me-tab visualisations are done (`SkillRadar` 43, `JourneyTimeline`
+44, `ProgressCharts` 45, `XPActivityCalendar` clean and previously repaired), as
+are Home (42), the quest ledger (40, 41), navigation targets (39), the rep
+metrics (35, 38), the empty states (36) and the day rollover (37). The next
+sweep needs a NEW question, not another surface.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

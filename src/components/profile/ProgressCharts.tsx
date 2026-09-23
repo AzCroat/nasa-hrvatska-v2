@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { weekKey, localDateStr } from '../../lib/dateUtils';
+import { weekKey, prevWeekKey, localDateStr } from '../../lib/dateUtils';
 
 interface BarDatum {
   value: number;
@@ -8,14 +8,9 @@ interface BarDatum {
 
 interface HistoryEntry {
   date: string;
-  xp: number;
   today: boolean;
+  /** XP the app RECORDED that day — see the block comment on `history`. */
   delta: number;
-}
-
-interface RawEntry {
-  date: string;
-  xp?: number;
 }
 
 function SVGBarChart({
@@ -59,44 +54,81 @@ const ProgressCharts = React.memo(function ProgressCharts({
 }: {
   stats: { xp?: number; lc?: number; gc?: number } | null;
 }) {
+  /**
+   * A DAY'S XP IS READ, NOT DIFFERENCED (2026-09-23).
+   *
+   * These bars used to be deltas of `progress_history` — a CUMULATIVE xp
+   * snapshot written only on days the learner opens the app. A day with no
+   * entry read as `xp: 0`, so the day AFTER any gap differenced against zero and
+   * rendered a bar equal to the learner's whole cumulative total to that point.
+   *
+   * Measured, 30 days at a steady 40 XP with two days missed: bars of 440 and
+   * 800 where the learner earned 40, the chart scaled to the larger spike, and
+   * **25 of the 28 real practice days rendered under 10% of the bar height** —
+   * invisible. `lastWeek` summed the same deltas and came out at 1000 against a
+   * truth of 240–280, a 3.6x overstatement, which then fed the "vs Last Week"
+   * percentage. So a learner practising identically every week saw a large
+   * negative trend precisely because the earlier window contained a gap: the
+   * number punished the consistency it was supposed to report.
+   *
+   * The real per-day number was on the device the whole time. `useAward` writes
+   * `nh_daily_xp_<localDate>` on every award, `pruneStaleLocalStorage` does not
+   * touch it (so far more than 30 days survive), and `LearningInsights` and
+   * `XPActivityCalendar` both already read it — the same key, the same fix, and
+   * the two Me-tab charts now agree by construction instead of by coincidence.
+   * This is XPActivityCalendar's dead-`nh_activity_log` defect in a second
+   * place: one card was repaired and its neighbour, differencing snapshots five
+   * files away, was not.
+   *
+   * A day with no key reads 0, which is what it means — no XP recorded — and can
+   * no longer make its NEIGHBOUR wrong.
+   */
   const history = useMemo<HistoryEntry[]>(() => {
-    let raw: RawEntry[] = [];
-    try {
-      raw = JSON.parse(localStorage.getItem('progress_history') || '[]') as RawEntry[];
-    } catch (_) {}
-    // Local date, NOT UTC — progress_history is written with localDateStr()
-    // (App.tsx). UTC buckets mis-align with the stored entries for users whose
-    // local date ≠ UTC, blanking today's XP and shifting the daily-gain bars.
+    // Local date, NOT UTC — the key is written with localDateStr() (useAward).
+    // UTC buckets mis-align for users whose local date ≠ UTC, blanking today.
     const today = localDateStr();
-    // Get last 30 days
     const days: HistoryEntry[] = [];
     for (let i = 29; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
       const date = localDateStr(d);
-      const entry = raw.find((e) => e.date === date);
-      days.push({ date, xp: entry?.xp || 0, today: date === today, delta: 0 });
+      let xp = 0;
+      try {
+        xp = parseInt(localStorage.getItem('nh_daily_xp_' + date) || '0', 10) || 0;
+      } catch {
+        /* storage unavailable — an empty chart, never a fabricated one */
+      }
+      days.push({ date, today: date === today, delta: Math.max(0, xp) });
     }
-    // Convert to daily deltas
-    for (let i = days.length - 1; i > 0; i--) {
-      days[i]!.delta = Math.max(0, days[i]!.xp - days[i - 1]!.xp);
-    }
-    days[0]!.delta = 0;
     return days;
   }, []);
 
   // Read from the same authoritative counter used by StatsWidget / SessionCard / HomeTab.
   // The delta-based calculation over progress_history silently ignores prestige resets
   // (negative deltas are clamped to 0), causing thisWeek > stats.xp after a prestige.
-  const thisWeek = (() => {
+  const weekXp = (key: string) => {
     try {
-      return parseInt(localStorage.getItem('nh_week_xp_' + weekKey()) || '0', 10);
+      return parseInt(localStorage.getItem('nh_week_xp_' + key) || '0', 10) || 0;
     } catch {
       return 0;
     }
-  })();
-  const lastWeek = history.slice(-14, -7).reduce((s, d) => s + d.delta, 0);
-  const trend = lastWeek > 0 ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : 0;
+  };
+  const thisWeek = weekXp(weekKey());
+  /**
+   * LAST WEEK IS THE CALENDAR WEEK, from the same counter.
+   *
+   * It used to be `history.slice(-14, -7)` — a ROLLING seven-day block ending a
+   * week ago — compared against `thisWeek`, which is the CALENDAR week. Two
+   * different window kinds under one "vs Last Week" label: on a Monday morning
+   * the numerator held one day and the denominator seven, so the card was
+   * structurally guaranteed to open every week with a large red drop. Reading
+   * `nh_week_xp_<prevWeekKey()>` makes both sides the same kind of week from the
+   * same counter, and `pruneStaleLocalStorage` explicitly keeps that key (the
+   * weekly freeze recharge already depends on it).
+   */
+  const lastWeek = weekXp(prevWeekKey());
+  const hasBaseline = lastWeek > 0;
+  const trend = hasBaseline ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : 0;
 
   const isNewUser = (stats?.xp ?? 0) === 0 && (stats?.lc ?? 0) === 0;
 
@@ -131,9 +163,15 @@ const ProgressCharts = React.memo(function ProgressCharts({
           { label: 'Total XP', value: stats?.xp?.toLocaleString() || '0' },
           { label: 'This Week', value: `+${thisWeek.toLocaleString()} XP` },
           {
+            // NO BASELINE IS NOT A FLAT WEEK. With `lastWeek === 0` the trend
+            // computed to 0 and rendered a green "▲ 0%" — "no change" — to a
+            // learner who went from nothing to a full week of practice, and the
+            // identical cell to one who did nothing in either week. Two
+            // different facts, one number, neither of them measured
+            // (NEVER-DO 13).
             label: 'vs Last Week',
-            value: trend >= 0 ? `▲ ${trend}%` : `▼ ${Math.abs(trend)}%`,
-            color: trend >= 0 ? '#16a34a' : '#dc2626',
+            value: !hasBaseline ? '—' : trend >= 0 ? `▲ ${trend}%` : `▼ ${Math.abs(trend)}%`,
+            color: !hasBaseline ? undefined : trend >= 0 ? '#16a34a' : '#dc2626',
           },
         ].map(({ label, value, color }) => (
           <div key={label} className="c" style={{ textAlign: 'center', padding: '12px 8px' }}>
