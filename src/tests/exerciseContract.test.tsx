@@ -235,7 +235,20 @@ const FULL_CONTRACT_DRILLS = [
     path: '../components/practice/ZnamGame',
     vsTag: 'znam',
     skip: true,
-    skipReason: 'Section-select (.tc tiles) + flashcard flip interaction; no .ob MC buttons',
+    // REASON CORRECTED 2026-09-23 — the old one was wrong and would have sent the
+    // next person to fix the wrong thing. It read "Section-select (.tc tiles) +
+    // flashcard flip interaction; no .ob MC buttons". Measured by un-skipping:
+    // the helper drives this screen fine (the `.tc` priority handles the section
+    // select and `award` DOES fire), so the buttons were never the problem. What
+    // actually blocks it is in the component: ZnamGame awards per CORRECT answer
+    // and gates credit on a >=75% comprehension pass via `completeExercise`. The
+    // helper clicks the first option, which ZnamGame shuffles with its own `sh()`,
+    // so it scores ~1/N, never reaches the gate, and `markQuest` is never called.
+    // Its completion contract is registry-driven and IS covered, by
+    // `lib/completion/__tests__/exerciseRegistry.test.ts` (znam -> vocab/vocabulary).
+    skipReason:
+      'Credit is gated on a >=75% comprehension pass; the helper picks the first ' +
+      'shuffled option so it scores ~1/N and the completion contract never fires',
   },
   // BojeGame: contract-compliant but multi-mode game (learn/quiz phases), non-ob buttons.
   {
@@ -433,44 +446,95 @@ describe('Exercise Contract -- gold-pattern drills', () => {
 
   for (const drill of FULL_CONTRACT_DRILLS) {
     const testFn = (drill as { skip?: boolean }).skip ? it.skip : it;
-    testFn(`${drill.name} follows the contract`, async () => {
-      const mod = await import(/* @vite-ignore */ drill.path);
-      const ComponentToRender = mod.default as React.ComponentType<{
-        goBack: () => void;
-        award?: (...args: unknown[]) => void;
-      }>;
+    testFn(`${drill.name} follows the contract`, () => assertContract(drill));
+  }
+});
 
-      const { value, setStats, writeDelta, award } = makeCtx();
-      const goBack = vi.fn();
+/**
+ * THE SKIPS ARE CHECKED, NOT TRUSTED (2026-09-23).
+ *
+ * Every `skip: true` above carries a `skipReason`, and a reason recorded beside
+ * an exemption is the thing this repo has been burned by more than once: the
+ * `idioms` coupling exemption named the wrong candidate and sat there guarding
+ * nothing while a real drill existed. A skip is a claim — "the helper cannot
+ * drive this to its completion contract" — and a claim nothing re-runs decays
+ * silently: refactor a drill into `.ob` buttons and its test stays skipped
+ * forever, green, testing nothing.
+ *
+ * So each skipped entry is RE-RUN here and required to still fail. This asserts
+ * the claim itself rather than any particular cause, which matters because the
+ * causes are not uniform: 24 of the 25 never call `award` at all, and ZnamGame
+ * calls it and then fails at `markQuest` for a completely different reason (see
+ * its corrected note above). A predicate like "award is never called" would have
+ * looked right, passed 24 times, and been wrong about the one that mattered.
+ *
+ * When this fails, the drill has become driveable: delete its `skip` and let the
+ * real contract test run.
+ */
+describe('the skips are still real', () => {
+  beforeEach(() => {
+    markQuestMock.mockClear();
+  });
 
-      render(
-        <StatsProvider value={value}>
-          <ComponentToRender goBack={goBack} award={award} />
-        </StatsProvider>,
-      );
+  const skipped = FULL_CONTRACT_DRILLS.filter((d) => (d as { skip?: boolean }).skip);
 
-      await completeDrill(award);
+  it('there are some, and every one states a reason', () => {
+    // A floor, because `it.each` over an empty list registers no tests at all —
+    // the shape that makes a staleness check silently stop checking.
+    expect(skipped.length).toBeGreaterThan(20);
+    for (const d of skipped) {
+      expect((d as { skipReason?: string }).skipReason, `${d.name} has no skipReason`).toBeTruthy();
+    }
+  });
 
-      const expectedActivityType = (drill as { activityType?: string }).activityType ?? 'grammar';
-      const expectedQuestArg = (drill as { questArg?: string }).questArg ?? 'grammar';
-
-      expect(award).toHaveBeenCalledTimes(1);
-      expect(award.mock.calls[0]![0]).toBeGreaterThan(0);
-      expect(award.mock.calls[0]![2]).toBe(expectedActivityType);
-      expect(markQuestMock).toHaveBeenCalledWith(expectedQuestArg);
-
-      // Verify the setStats updater actually produces gc+1 and includes the vs-tag.
-      expect(setStats).toHaveBeenCalledWith(expect.any(Function));
-      const setStatsUpdater = setStats.mock.calls[0]![0] as (
-        prev: StatsContextValue['stats'],
-      ) => StatsContextValue['stats'];
-      const updatedStats = setStatsUpdater(value.stats);
-      expect(updatedStats.gc).toBe(1);
-      expect(updatedStats.vs).toContain(drill.vsTag);
-
-      expect(writeDelta).toHaveBeenCalledWith(
-        expect.objectContaining({ gc: 1, vs: expect.arrayContaining([drill.vsTag]) }),
-      );
+  for (const drill of skipped) {
+    it(`${drill.name} still cannot be driven`, async () => {
+      await expect(
+        assertContract(drill),
+        `${drill.name} now satisfies the contract test — its skip is stale. ` +
+          'Delete `skip: true` from its entry so the real test runs.',
+      ).rejects.toThrow();
     });
   }
 });
+
+/** The gold contract, as one body, so the staleness check re-runs exactly it. */
+async function assertContract(drill: (typeof FULL_CONTRACT_DRILLS)[number]): Promise<void> {
+  const mod = await import(/* @vite-ignore */ drill.path);
+  const ComponentToRender = mod.default as React.ComponentType<{
+    goBack: () => void;
+    award?: (...args: unknown[]) => void;
+  }>;
+
+  const { value, setStats, writeDelta, award } = makeCtx();
+  const goBack = vi.fn();
+
+  render(
+    <StatsProvider value={value}>
+      <ComponentToRender goBack={goBack} award={award} />
+    </StatsProvider>,
+  );
+
+  await completeDrill(award);
+
+  const expectedActivityType = (drill as { activityType?: string }).activityType ?? 'grammar';
+  const expectedQuestArg = (drill as { questArg?: string }).questArg ?? 'grammar';
+
+  expect(award).toHaveBeenCalledTimes(1);
+  expect(award.mock.calls[0]![0]).toBeGreaterThan(0);
+  expect(award.mock.calls[0]![2]).toBe(expectedActivityType);
+  expect(markQuestMock).toHaveBeenCalledWith(expectedQuestArg);
+
+  // Verify the setStats updater actually produces gc+1 and includes the vs-tag.
+  expect(setStats).toHaveBeenCalledWith(expect.any(Function));
+  const setStatsUpdater = setStats.mock.calls[0]![0] as (
+    prev: StatsContextValue['stats'],
+  ) => StatsContextValue['stats'];
+  const updatedStats = setStatsUpdater(value.stats);
+  expect(updatedStats.gc).toBe(1);
+  expect(updatedStats.vs).toContain(drill.vsTag);
+
+  expect(writeDelta).toHaveBeenCalledWith(
+    expect.objectContaining({ gc: 1, vs: expect.arrayContaining([drill.vsTag]) }),
+  );
+}

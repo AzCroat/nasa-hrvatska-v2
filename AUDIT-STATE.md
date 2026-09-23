@@ -3537,6 +3537,95 @@ user-visible string changed, so no spec can reference any of it.
 
 ---
 
+### 55. Twenty-five skipped tests, and the reason beside one of them was wrong — 2026-09-23 — **1 FALSE EXEMPTION REASON, CORRECTED + RATCHETED**
+
+**The question**, continuing sweep 54's axis: *what else does a tool silently
+decline to show?* The sharpest form for a test suite: **does every committed test
+file actually execute, and does every test inside it actually run?** A test the
+runner never collects, or a suite silenced from within, is a decorative guard at
+the CONFIG level — green run, zero coverage.
+
+**Half one: orphan test files. NEGATIVE, and cleanly so.** Diffed every
+test-shaped tracked file against `vitest.config.js`'s include patterns:
+**654 test-shaped files, 604 collected** — which is exactly the 604 the full
+suite reports — **48 are `e2e/*.spec.js`** (Playwright, run separately, correct)
+and **2 are the deliberate emulator-only exclusions** (`firestore-rules`,
+`firestore-merge-semantics`, each with its own config and a comment naming the
+command). Nothing is orphaned. Do not re-run this.
+
+**Half two: `.only`. NEGATIVE.** Zero occurrences of `it.only` / `test.only` /
+`describe.only` across `src/`, `functions/`, `scripts/` AND `e2e/`. Worth having
+measured: a single stray `.only` silences the rest of its file while the run
+stays green.
+
+**Half three: the 25 skipped tests — where the find is.** All 25 come from one
+data-driven skip, `FULL_CONTRACT_DRILLS` in `exerciseContract.test.tsx`
+(`const testFn = drill.skip ? it.skip : it`). Every entry carries a
+`skipReason`, and every reason is a CLAIM about the component — mostly "option
+buttons use inline styles (no `.ob` class); the helper cannot drive it".
+
+**A claim nothing re-runs decays silently**, which is this file's own
+`idioms`-exemption lesson. So all 25 were un-skipped and run:
+
+- **24 fail at `expect(award).toHaveBeenCalledTimes(1)` with 0 calls.** The
+  helper genuinely never drives them to completion. Reasons honest, skips
+  legitimate.
+- **ZnamGame is different, and its recorded reason is FALSE.** It fails at the
+  NEXT assertion: `award` fired once with positive XP and `activityType`
+  `'vocabulary'`. So the helper drives the screen fine — the `.tc` priority
+  handles its section-select — and "no `.ob` MC buttons" was never the problem.
+
+**What actually blocks ZnamGame was in the component, not the harness.** It
+awards per CORRECT answer and gates credit on a **>=75% comprehension pass**
+through `completeExercise`. The helper clicks the first option; ZnamGame shuffles
+with its own `sh()`, so it scores ~1/N, never reaches the gate, and `markQuest`
+is never called. Confirmed by supplying the registry-correct
+`activityType: 'vocabulary'` / `questArg: 'vocab'`: every award assertion then
+passes and it fails on `markQuest` with 0 calls.
+
+**So the skip is legitimate and the reason was wrong** — and wrong in the
+expensive direction: someone reading it would have gone to add `.ob` classes to
+ZnamGame's buttons and achieved exactly nothing. Reason corrected in place, with
+the measurement that produced it.
+
+**Checked on the way, and clean:** ZnamGame calling no `markQuest` directly is
+NOT the sweep-41 defect. `completeExercise` marks it from
+`args.questKind ?? entry?.questKind`, and the registry has
+`znam: g('gc', 'vocab', 'vocabulary')` — already pinned by
+`lib/completion/__tests__/exerciseRegistry.test.ts:40`.
+
+**The ratchet: `describe('the skips are still real')`, 26 new tests.** Each
+skipped entry is RE-RUN and required to still fail; when one stops failing the
+drill has become driveable and the message says to delete its `skip`. The body
+was extracted to one `assertContract(drill)` so the staleness check re-runs
+EXACTLY the real test rather than a restatement of it.
+
+**The predicate is "the claim still holds", not "award is never called", and
+that distinction is the whole point.** The obvious predicate would have looked
+right, passed 24 times, and been wrong about the one entry that mattered —
+ZnamGame DOES call `award`. Asserting the claim itself is cause-agnostic, so it
+cannot be fooled by a drill that fails for a new reason.
+
+**Mutation-verified, three, each confirmed landed:**
+
+| mutation | fails |
+| --- | --- |
+| a DRIVEABLE drill (`NumTime`) marked `skip: true` — the exact decay | 1: "NumTime still cannot be driven" |
+| the skipped list forced empty | 1 — **and the 25 staleness tests vanish** (42 passed -> 17), which is why the floor exists |
+| a `skipReason` deleted | 1, message names `TypingScreen` |
+
+One test was written and then DELETED before shipping: `expect(typeof
+assertContract).toBe('function')` proves nothing and is the decorative shape this
+file exists to catch.
+
+**WHAT THIS DOES NOT COVER.** The 24 honest skips are still 24 drills whose
+completion contract this suite does not exercise; the ratchet guards the
+exemption, not the coverage. Closing that needs a helper that can drive
+text-input, tile-ordering, timer and multi-phase drills — a real piece of work,
+recorded here rather than implied to be done.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3591,6 +3680,17 @@ None of them crash, so no sweep above can see any of them.
         came from the TOOLING half of an agreement rather than the code half.
         That axis is now swept for control bytes and otherwise untried: what
         else does a tool silently decline to show?
+
+      - **"Does every committed test actually RUN?"** — sweep 55, the same
+        tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+        604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+        `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+        un-skipping every one showed **24 honest and ZnamGame's reason false** —
+        it blamed the harness's buttons when the real blocker is the drill's own
+        >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+        still fail. Still open on this axis: the 24 honest skips are 24 drills
+        whose completion contract nothing exercises — the ratchet guards the
+        exemption, not the coverage.
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two
