@@ -1124,6 +1124,26 @@ path is enough for the skill to be measurable, which is all the guard claims.
 E2E audit: `onComplete`'s signature is internal; no label or test id changed,
 and the specs that click "Continue →" / "See Results" are unaffected.
 
+**RECORDABLE IS NOT REACHABLE, so the guard asks both.** The speaking coach was
+a correct, tested library wired to a state no launcher produces, and its own
+tests passed throughout; a skill recorded only from a screen nothing can reach
+is that defect with a new name. Measured: grammar, vocab, listening and
+speaking reach a session pool through their registry keys; reading through
+`graded_input`; writing through `writing` and `writing_guided`. (`ReadingScreen`'s
+own route is NOT pooled — it is reached from the Learn Path — so reading's
+session reachability rests entirely on the graded reader.) No second defect
+here; the clause is a ratchet.
+
+**AND THE CLAUSE I ADDED FOR IT WAS DECORATIVE ON ITS FIRST RUN**, which is the
+fourth time in this audit that a guard needed mutating after it was written.
+`routesOf` scanned a FIXED 400-character window after each `currentScreen ===`
+match, which bleeds into the NEXT router block: `GradedInputScreen` resolved to
+`['cloze', 'graded_input']`, and `cloze` is itself a pool screen — so unpooling
+`graded_input` left the assertion green on a route the component is not
+rendered at. Bounding each block by the next `currentScreen ===` fixes it, and
+the same mutation then fails. **When you fix a guard, mutate again** — and when
+you ADD a clause to one, mutate the clause, not the file.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

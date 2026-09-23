@@ -30,6 +30,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
+import { CEFR_EXERCISE_POOL } from '../lib/sessionPools';
+import { PRODUCTION_POOL } from '../hooks/useDailySession';
 import {
   recordMasteryEvent,
   weakestReceptiveKind,
@@ -92,6 +94,46 @@ function recordableSkills(): Map<string, string[]> {
   return found;
 }
 
+/**
+ * Screens a daily session can actually launch. Recordable is not reachable —
+ * the speaking coach was a correct, tested library wired to a `sw[2]` value no
+ * launcher produces, and its own tests passed throughout. A skill recorded
+ * only from a screen nothing can reach is that defect with a new name.
+ */
+function poolScreens(): Set<string> {
+  const rows = [
+    ...(CEFR_EXERCISE_POOL as unknown as { screen?: string }[]),
+    ...(PRODUCTION_POOL as unknown as { screen?: string }[]),
+  ];
+  return new Set(rows.map((r) => r.screen).filter(Boolean) as string[]);
+}
+
+/**
+ * The route a component file is rendered at, read from the real router.
+ *
+ * MUTATION-FOUND. The first version scanned a FIXED 400-character window after
+ * each `currentScreen ===` match, which bleeds into the NEXT router block:
+ * `GradedInputScreen` came back as `['cloze', 'graded_input']`, and `cloze` is
+ * itself a pool screen — so unpooling `graded_input` left the assertion green
+ * on a route the component is not rendered at. Each block is bounded by the
+ * next `currentScreen ===`, which is what the router's own shape gives us.
+ */
+function routesOf(componentFile: string): string[] {
+  const router = strip(readFileSync('src/components/AppRouter.tsx', 'utf8'));
+  const name = componentFile
+    .split('/')
+    .pop()!
+    .replace(/\.tsx?$/, '');
+  const marks = [...router.matchAll(/currentScreen === '([\w-]+)'/g)];
+  const out: string[] = [];
+  for (let i = 0; i < marks.length; i++) {
+    const start = marks[i]!.index!;
+    const end = i + 1 < marks.length ? marks[i + 1]!.index! : router.length;
+    if (new RegExp(`<${name}\\b`).test(router.slice(start, end))) out.push(marks[i]![1]!);
+  }
+  return out;
+}
+
 describe('every skill the ledger reports can actually be measured', () => {
   const reachable = recordableSkills();
 
@@ -109,6 +151,24 @@ describe('every skill the ledger reports can actually be measured', () => {
         `permanently "untested", which scores MAXIMUM need — so every ` +
         `comparison against a measurable skill resolves to it forever.`,
     ).toBeGreaterThan(0);
+  });
+
+  it.each(SKILLS)('%s is recordable from a screen a session can LAUNCH', (skill) => {
+    // MEASURED 2026-09-23: grammar/vocab/listening/speaking reach the pool
+    // through their registry keys; reading through `graded_input`; writing
+    // through `writing` and `writing_guided`.
+    const pool = poolScreens();
+    const where = reachable.get(skill) ?? [];
+    const launchable = where.some((w) =>
+      w.startsWith('registry:')
+        ? pool.has(w.slice('registry:'.length))
+        : routesOf(w).some((r) => pool.has(r)),
+    );
+    expect(
+      launchable,
+      `${skill} is recorded only by: ${where.join(', ')} — none of which a ` +
+        `daily session can launch. Recordable is not reachable.`,
+    ).toBe(true);
   });
 
   it('reading is recordable from practice, not only from the Level Check', () => {
