@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
+import { recordReadingRep } from '../../lib/readingMetric';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
@@ -179,6 +180,15 @@ export default function StoryModeScreen({
       ) {
         awardFired.current = true;
         if (typeof award === 'function') award(15, false, 'story');
+        // `markQuest('reading')` on the next line is the app saying this is
+        // reading, and the pool entry (`category: 'reading'`) says it twice.
+        // `award`'s activityType is 'story', which is what useAward keys the
+        // reading rep off, so the Fluency Snapshot counted nothing for it —
+        // the two statements sat one line apart and disagreed. Recorded here
+        // rather than by retyping the award, because activityType also sets
+        // the server XP cap in /api/award (story 100 vs reading 80) and this
+        // screen's award semantics are not what is wrong.
+        recordReadingRep();
         markQuest('reading');
       }
     };
@@ -192,6 +202,7 @@ export default function StoryModeScreen({
     if (awardFired.current) return;
     awardFired.current = true;
     if (typeof award === 'function') award(15, false, 'story');
+    recordReadingRep();
     markQuest('reading');
   }, [award]);
 

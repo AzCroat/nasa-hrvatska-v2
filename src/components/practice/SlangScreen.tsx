@@ -56,6 +56,7 @@ export default function SlangScreen({
   const [quizScore, setQuizScore] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
   const quizXpGiven = useRef(false);
+  const questMarked = useRef(false);
 
   function handleUnlock() {
     // Guarded: setGated(false) below is what opens the screen. A throw here meant
@@ -122,7 +123,17 @@ export default function SlangScreen({
 
   function finishQuiz() {
     const xp = quizScore * 3;
-    markQuest('speak');
+    // This is a multiple-choice slang quiz — no microphone, no recogniser, and
+    // its own award says `'vocabulary'`. It marked the SPEAK quest ("Complete 1
+    // speaking exercise"), so finishing it cleared a speaking quest for a
+    // learner who had not spoken: the same mislabel VideoLessonScreen carried,
+    // found by the same census. It also sat OUTSIDE the one-shot guard below,
+    // so re-finishing ticked it again — and a second tick auto-promotes the
+    // tier-2 quest (`TIER2_MAP`), paying for one quiz twice.
+    if (!questMarked.current) {
+      questMarked.current = true;
+      markQuest('vocab');
+    }
     if (award && !quizXpGiven.current && xp > 0) {
       quizXpGiven.current = true;
       award(xp, false, 'vocabulary');
