@@ -3467,8 +3467,37 @@ None of them crash, so no sweep above can see any of them.
       (verification_fail rollback) vs content already unlocked and vs a daily
       plan built at the higher level — BOTH DONE, sweeps 46 and 47, both
       negative and both now pinned, with each carrying mechanism measured
-      rather than assumed. This list is empty; the next sweep needs a new
-      question.)
+      rather than assumed.
+
+      **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
+      class is open-ended, not because anything specific is outstanding** — and
+      that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+      have since been asked against it, and what each returned is recorded so
+      nobody re-derives them:
+
+      - **"Where does the app keep the same fact twice, with only one copy
+        having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+        sweep 52's eight negatives. Worked out. The sharpened form, which is
+        what actually selected the finds: *is one of the two copies never
+        exercised?* An inert copy (a display map, a test's list, a progress-bar
+        threshold, a type annotation) drifts silently; a live second CALLER, a
+        deliberately frozen snapshot and a genuine derivation all do not.
+      - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+        **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+        it: the guards are structural in at least five different shapes, so a
+        matcher that knows five will miss the sixth and flag the seventh.
+
+      **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+      were about STATE OF THE CODE. The one that paid was about a fact with two
+      homes; the one that did not was about a control-flow property that the
+      codebase happens to enforce five different ways. The pattern across every
+      productive sweep in this file is the same: **they compare two things the
+      app itself already has to keep in agreement** — a claim against its
+      evidence, a queue against its clearer, a payload against its consumer, a
+      badge against its measurement. Questions that instead ask "is this code
+      correct in isolation" have consistently returned nothing a test suite was
+      not already catching. Pick the next question on that basis: name two
+      things that must agree, and ask what would happen if they stopped.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
