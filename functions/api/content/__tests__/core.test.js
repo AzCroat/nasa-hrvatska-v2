@@ -5,6 +5,7 @@ vi.mock('../../_verifyToken.js', () => ({
 }));
 
 import { onRequestGet } from '../core.js';
+import { CORE_PAYLOAD_KEYS } from '../_data/core.js';
 import { getFirebaseUid } from '../../_verifyToken.js';
 
 function makeContext({ auth = null } = {}) {
@@ -21,42 +22,12 @@ function makeContext({ auth = null } = {}) {
   };
 }
 
-const ALL_KEYS = [
-  'V',
-  'V_LEVELS',
-  'COUNTRIES',
-  'PROFESSIONS',
-  'WEATHER',
-  'CLOTHES',
-  'BODYDESC',
-  'TECH_VOC',
-  'BUREAUCRATIC',
-  'PROVERBS',
-  'IDIOMS',
-  'BRZALICE',
-  'HISTORY',
-  'EVENTS',
-  'KINGS',
-  'REGIONS',
-  'DIALECTS',
-  'CROATIAN_CITIES',
-  'FOODORDER',
-  'TRANSPORT',
-  'GROCERY',
-  'RECIPES',
-  'PRACTICAL',
-  'SCENES',
-  'LEVEL_NARRATIVE',
-  'SHADOWING',
-  // SP11e: function/data split shipped — both names now serialize cleanly.
-  'LEARN_PATH',
-  'SEASONAL_CAMPAIGNS',
-  // SP11f: advanced-vocab tiers (V_B2, V_C1) — last orphans from SP11d.
-  'V_B2',
-  'V_C1',
-  // C2 mastery tier — near-native register.
-  'V_C2',
-];
+// DERIVED, NOT RESTATED (2026-09-23). This was a hand-written copy of the
+// endpoint's KEYS and had gone stale by one: it lacked CULTURE_DEEP_DIVES, so
+// the "every export is present" assertion below covered 31 of the 32 keys the
+// endpoint actually serves. A test that restates production data cannot check
+// production data.
+const ALL_KEYS = CORE_PAYLOAD_KEYS;
 
 describe('GET /api/content/core', () => {
   it('returns 401 with no Bearer', async () => {
@@ -65,7 +36,7 @@ describe('GET /api/content/core', () => {
     expect(res.status).toBe(401);
   });
 
-  it('returns 200 with all 27 named exports when authed', async () => {
+  it('returns 200 with every key of CORE_PAYLOAD_KEYS when authed', async () => {
     getFirebaseUid.mockResolvedValueOnce('uid_test');
     const res = await onRequestGet(makeContext({ auth: 'Bearer fake' }));
     expect(res.status).toBe(200);

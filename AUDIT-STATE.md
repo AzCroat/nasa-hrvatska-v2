@@ -3217,6 +3217,231 @@ which is the whole point and an outcome the copy could not produce.
 tsc clean; lint clean; madge clean. E2E audit: nothing user-visible changed —
 this is a type, three comments and a new test.
 
+### 51. The payload key list CLAUDE.md said must agree, and did not — 2026-09-23 — **1 REAL COVERAGE HOLE, FIXED**
+
+Fourth run at sweep 48's question, and this candidate was already NAMED in
+CLAUDE.md: *"Three copies of the payload key list must agree: `core.js` KEYS,
+`core.test.js` ALL_KEYS, and `generate-content-etags.mjs` CORE_KEYS (the etag
+must move when the payload does)."* So the first thing was to measure whether
+they did.
+
+    endpoint  KEYS        32
+    etags     CORE_KEYS   32
+    test      ALL_KEYS    31   ← missing CULTURE_DEEP_DIVES
+
+**The test's "every export is present" assertion covered 31 of the 32 keys the
+endpoint actually serves**, and the missing one is the payload for the 24
+culture deep-dive essays.
+
+**THE SIZE OF THAT HOLE HAS TO BE STATED PRECISELY, AND MY FIRST VERSION
+OVERSTATED IT.** I wrote that `CULTURE_DEEP_DIVES` "was actually unguarded".
+It was not: `cultureDeepDives.test.ts` carries a test named *"CULTURE_DEEP_DIVES
+is in ALL THREE content-pipeline key lists"* which greps `_data/core.js`,
+`core.js` and the etag generator for the literal — and those three are precisely
+the ones that had it. What was unguarded is narrower and still real: the
+ENDPOINT RESPONSE assertion in `core.test.js` did not cover that key, so the
+response could lose it and that test would not say. Say what was observed, not
+the strongest claim consistent with it.
+
+**WHICH COPY WENT STALE IS THE PATTERN, not an accident.** The endpoint and the
+etag generator are edited whenever a key is added, because nothing works
+otherwise. The test is the copy with **no reason to change** — so it is the one
+that silently stops covering what it names. That is sweep 48's rule landing
+exactly where it predicted, and it is also this file's own "a test that restates
+production data cannot check production data", met from the other direction: not
+a wrong assertion, a MISSING one.
+
+Its title said *"all 27 named exports"* while the list held 31 — the nav-table
+shape inside a test: a number right when written and never moved with the code.
+
+**THE FIX** is `CORE_PAYLOAD_KEYS` in `_data/core.js`, read by all three. The
+etag generator was re-run afterwards and the core etag is **UNCHANGED**
+(`core(1a4e3e6f…)` before and after), which is the check that this is a
+de-duplication and not a payload change — worth doing, because a generator that
+reads a different list would have silently re-hashed the payload.
+
+**MY OWN FIRST COUNT WAS WRONG AND THE MEASUREMENT CORRECTED IT.** Reading the
+files I said 33 / 32; counting mechanically gives 32 / 31 / 32, because the
+regex skips comment-only lines that the eye counts as entries. The divergence is
+one key either way, but the numbers in a report have to come from the count, not
+the reading.
+
+**WHAT DERIVATION DOES NOT BUY, stated because a mutation showed it.** Removing
+a key from the shared array now removes it from the endpoint test's assertion
+too: dropping `CULTURE_DEEP_DIVES` fails ONE test in the new guard and **NONE**
+in the endpoint suite. That is the honest trade — a hand-written copy catches
+REMOVALS and misses ADDITIONS, a derived one is the other way round, and drift
+was the live failure. The removal side is covered here by NAMING
+`CULTURE_DEEP_DIVES` (a key with a known consumer, and the one actually
+unguarded) and by requiring every listed key to have an export behind it.
+Neither half is a general removal guard; that needs the consumer side, which
+`contentShapeSweep` owns.
+
+**WHAT WAS ALREADY MECHANISED, AND WHY IT STILL MISSED THIS — a correction to my
+own first write-up.** I wrote that knowing three copies must agree "is not a
+mechanism". That was too strong, and the full suite said so by going red in two
+places I had not touched deliberately:
+
+- **`contentShapeSweep.test.tsx`** sliced `const KEYS = [` out of `core.js`'s
+  SOURCE.
+- **`content-core-contract.test.ts`** did the same in `advertisedKeys()`, and
+  threw `could not locate the KEYS array in core.js` — a whole SUITE that failed
+  to load rather than a test that failed, which is why the first summary line
+  said "2 files, 1 test".
+- **`vocabPool.test.ts`** asserted the three files "all ship V_LEVELS" — three
+  source greps for one key's NAME, proving each FILE mentions it and nothing
+  about the other 31.
+- **`cultureDeepDives.test.ts`** greps the same three files for
+  `'CULTURE_DEEP_DIVES'`.
+
+So the endpoint↔sweep pair WAS mechanised and the endpoint↔`core.test.js` pair
+was not, which is exactly where the drift landed.
+
+**A GUARD THAT DERIVES BY PARSING A LITERAL IS COUPLED TO THAT LITERAL'S
+SYNTAX**, and that is the reusable finding here. Consolidating the data into one
+exported array — the fix — broke FOUR guards, none of which could follow the
+list once it stopped being an array literal in that particular file. All four
+now IMPORT `CORE_PAYLOAD_KEYS` or ask it directly, which is strictly stronger
+and survives any refactor that keeps the value. **Derive by importing the VALUE,
+not by parsing the text that spells it.** (The `V_LEVELS` assertion keeps its two
+genuinely separate carriers — the E2E fixture and the client's payload type — as
+file checks, because those really are other places.)
+
+**AND THE BREAKAGE IS EVIDENCE THE FIX WAS WORTH MAKING.** Four guards were
+reading the same fact out of one file's syntax; none of them could see that a
+FIFTH copy, in `core.test.js`, had gone stale. Four parsers over one literal is
+the same duplication the sweep is about, one level up.
+
+Mutation-verified, five, each confirmed landed: the test back to its own stale
+list fails 2; the endpoint restating the list fails 2; the etag generator
+restating it fails 2; a key with no export behind it fails 1; and
+`CULTURE_DEEP_DIVES` dropped fails 1 here — and, as measured above, 0 in the
+endpoint suite, which is the limitation rather than a pass.
+
+### 52. The rest of the duplicated-fact candidates — 2026-09-23 — **ALL NEGATIVE, do not re-run**
+
+Sweeps 48–51 found four. These are the candidates that were named alongside them
+and did NOT pay, recorded in full because an unrecorded negative is re-run — and
+because "I looked and found nothing" is only useful if the next person can see
+WHAT was looked at and HOW.
+
+**The five remaining hits from sweep 50's comment grep**, each checked the way
+50 was: is the STATED REASON still true, and do the two copies still agree?
+
+- **`audio.ts:37`** — "*`_nativePost` … was built to mirror it exactly*". A
+  HISTORICAL note about a consolidation that already happened: the ~90-line body
+  is gone and the call delegates. No live copy. The comment describes a past
+  state and says so.
+- **`text/similarity.ts:9`** — "*Only the raw `levenshtein` is shared with
+  TypingScreen; the local `normalize()` stays local there*", because it carries
+  two extra mappings (`š/ś`, `ž/ź`). **Verified in the file**: `TypingScreen`'s
+  `normalize` really does carry both, and omits the punctuation stripping
+  `normalizeCroatian` does. Two different functions with different jobs, not a
+  copy. (The reason as written is incomplete — it names the two mappings and not
+  the punctuation difference — but it is not wrong.)
+- **`OnboardingTour.tsx:50`** — "*One definition, shared with AIConversation's
+  `isHeritage`*". Both call `isHeritageLearner()` from `lib/heritageLearner`.
+  Genuinely one definition.
+- **`AspectDrillScreen.tsx:633`** — documents why the screen writes the
+  `aspectdrill` path key itself when its exercise key is `aspect`. A recorded
+  workaround for a real mismatch, not a duplicated fact.
+- **`applyRemoteProgress.ts:39`** — "*A frozen copy of the old order, NOT
+  `src/data/bakaPhrases`*". A deliberately FROZEN copy, which is the one case
+  where duplication is correct: it must not track the live list, or legacy
+  bookmarks re-point the moment that list is edited. Two reasons given, both
+  still true.
+
+**Three structural candidates, also clean:**
+
+- **`DAILY_QUESTS` xp vs whatever pays it.** `App.tsx`'s `payQuestXp` calls
+  `award(q.xp, …)` reading straight off the same array the card renders. One
+  definition, one payer.
+- **`GRAMMAR_STRUCTURE_CATEGORIES`.** Genuinely derived from `SKILL_GROUP` at
+  module load (`Object.keys(SKILL_GROUP).filter(...)`), exactly as this file
+  describes, with `grammarStructureCategories.test.ts` behind it.
+- **The GRAMMAR endpoint.** `content-core-contract.test.ts` already handles it
+  better than the core one was handled: it parses BOTH SIDES of each
+  `KEY: GRAMMAR.REF` pair — because in `PITCH_ACCENT: GRAMMAR.PITCHACCENT` the
+  key is fine and the REFERENCE is the typo, so a key-only check passes while
+  the field ships undefined — and its comment records that a key-only version
+  was mutation-tested and did not fail on exactly that edit. It also carries a
+  "the parsers actually found the lists" assertion against a silent regex miss.
+
+**Not searched, and deliberately**: storage key names outside
+`lib/constants/storage.js`. Raw strings there are a SANCTIONED convention for
+legacy code ("use key constants for new keys; legacy code uses raw strings"), so
+a census would return a long list of known-legacy usage and no finding. Restated
+screen routes are covered by sweep 39's `navTargetsRoute.test.ts`.
+
+**WHERE THE QUESTION HAS GOT TO.** Four finds and eight negatives. The shapes
+that paid all had one property: a copy that is **inert** — read by nothing that
+breaks when it is wrong (a display map, a test's list, a progress-bar threshold,
+a type annotation). The ones that did not pay were either a live second CALLER
+of one definition, a deliberately frozen snapshot, or a genuine derivation. That
+is the sharper form of the question for whoever picks it up: **not "is this
+written twice" but "is one of the two copies never exercised".**
+
+### 53. Can a credit fire twice for one piece of work? — 2026-09-23 — **NEGATIVE, and the process is the finding**
+
+A genuinely new question, because the duplicated-fact one was worked out (52).
+**Idempotency: can a screen pay XP, tick a quest or record a completion TWICE
+for one piece of work?** The class is live in this repo's history — sweep 35
+found `SlangScreen` marking the Speak Quest OUTSIDE its one-shot guard, so
+re-finishing ticked it again and auto-promoted the tier-2 quest for one quiz,
+and `AIStoryScreen` had a dead `setDone` that guarded nothing. Both were found
+incidentally. Nobody had swept the class deliberately.
+
+**RESULT: 13 candidates, ZERO real findings.** Every one is guarded, and the
+interesting part is that almost none of them is guarded the way a matcher
+expects.
+
+**ATTEMPT 1 COULD NOT BE CALIBRATED, AND THAT IS WHY ITS OUTPUT WAS THROWN
+AWAY.** It censused credits inside `useEffect` bodies and reported 8 unguarded.
+The calibration cases — `SlangScreen`, `AIStoryScreen`, `LessonProduceStep`, all
+three known-fixed — reported **zero crediting effects**, because they credit from
+event HANDLERS. **A census whose calibration cases are not in its population
+cannot be calibrated**, so its eight results said nothing. This is the single
+most useful thing in this entry: today three scratch censuses each produced a
+confident wrong answer, and the difference here is that the calibration was
+written BEFORE the output was read.
+
+**ATTEMPT 2 calibrated** (population widened to every credit call site; the
+`CREDIT` list had to gain the rep recorders before `AIStoryScreen` appeared in it
+at all) and reported 13. **Four of the first four checked by hand were FALSE
+POSITIVES**, all for the same reason: the guard is a handled-SET consulted with
+an early return (`if (handledRef.current.has(k)) return;`), after which the
+credit fires only once the set reaches the total. Widening the detector for that
+shape took 13 → 5.
+
+**All five of those are guarded too**, verified by reading:
+
+- `MistakesScreen` — credits on `reviewIdx + 1 >= reviewDeck.length`, and the
+  index only increases. A new deck is new work and SHOULD credit again.
+- `BureaucraticScreen`, `TechVocScreen` — `if (answers[qi] !== undefined) return`
+  per question, then an exact-equality completion check against a monotonically
+  growing answer set.
+- `PhonemePracticeScreen` — a real one-shot flag, `!celebrated` +
+  `setCelebrated(true)`; the detector missed it only because it is not spelled
+  `done` or `already`.
+- `FlashcardRecallQuiz` — the thinnest of the five and still sound: `finishQuiz`
+  sets `phase: 'done'`, and the Next button renders only while
+  `phase === 'quiz'`. A double-click would need both clicks inside one React
+  batch, and discrete click events render between them. **Noted as the weakest
+  guard of the set — a state-driven unmount rather than an explicit latch — but
+  not reported as a defect, because it is not one.**
+
+**THE REUSABLE LESSON.** Idempotency in this codebase is guarded STRUCTURALLY
+and in at least five different shapes: a monotonic index, a handled-set with an
+early return, an exact-equality completion check, a named boolean flag, and a
+phase change that unmounts the control. That variety is exactly why a static
+census over-reports it — and why the answer to "is this class worth a ratchet"
+is **no**: a guard that recognises five shapes will miss the sixth and flag the
+seventh. The class is better served by the existing per-screen tests.
+
+**DO NOT RE-RUN THIS AS A CENSUS.** If a double-credit is ever reported from the
+field, the fast path is the five shapes above — check which one the screen uses,
+not whether it has a `useRef`.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3242,8 +3467,37 @@ None of them crash, so no sweep above can see any of them.
       (verification_fail rollback) vs content already unlocked and vs a daily
       plan built at the higher level — BOTH DONE, sweeps 46 and 47, both
       negative and both now pinned, with each carrying mechanism measured
-      rather than assumed. This list is empty; the next sweep needs a new
-      question.)
+      rather than assumed.
+
+      **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
+      class is open-ended, not because anything specific is outstanding** — and
+      that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+      have since been asked against it, and what each returned is recorded so
+      nobody re-derives them:
+
+      - **"Where does the app keep the same fact twice, with only one copy
+        having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+        sweep 52's eight negatives. Worked out. The sharpened form, which is
+        what actually selected the finds: *is one of the two copies never
+        exercised?* An inert copy (a display map, a test's list, a progress-bar
+        threshold, a type annotation) drifts silently; a live second CALLER, a
+        deliberately frozen snapshot and a genuine derivation all do not.
+      - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+        **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+        it: the guards are structural in at least five different shapes, so a
+        matcher that knows five will miss the sixth and flag the seventh.
+
+      **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+      were about STATE OF THE CODE. The one that paid was about a fact with two
+      homes; the one that did not was about a control-flow property that the
+      codebase happens to enforce five different ways. The pattern across every
+      productive sweep in this file is the same: **they compare two things the
+      app itself already has to keep in agreement** — a claim against its
+      evidence, a queue against its clearer, a payload against its consumer, a
+      badge against its measurement. Questions that instead ask "is this code
+      correct in isolation" have consistently returned nothing a test suite was
+      not already catching. Pick the next question on that basis: name two
+      things that must agree, and ask what would happen if they stopped.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and

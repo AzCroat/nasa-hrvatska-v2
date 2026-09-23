@@ -11,6 +11,8 @@
  * list and silently drop from another.
  */
 import { describe, it, expect } from 'vitest';
+import * as CORE from '../../functions/api/content/_data/core.js';
+import { CORE_PAYLOAD_KEYS } from '../../functions/api/content/_data/core.js';
 import { readFileSync } from 'node:fs';
 import { CULTURE_DEEP_DIVES } from '../data/cultural/deepdives.js';
 import { CROATIA_POOL } from '../lib/croatiaPool';
@@ -119,13 +121,14 @@ describe('culture deep-dive wiring', () => {
     }
   });
 
-  it('CULTURE_DEEP_DIVES is in ALL THREE content-pipeline key lists', () => {
-    const dataCore = readFileSync('functions/api/content/_data/core.js', 'utf8');
-    const apiCore = readFileSync('functions/api/content/core.js', 'utf8');
-    const etagScript = readFileSync('scripts/generate-content-etags.mjs', 'utf8');
-    expect(dataCore).toContain('CULTURE_DEEP_DIVES');
-    expect(apiCore).toContain("'CULTURE_DEEP_DIVES'");
-    expect(etagScript).toContain("'CULTURE_DEEP_DIVES'");
+  it('CULTURE_DEEP_DIVES is in the payload key list, and has an export behind it', () => {
+    // This used to grep the three pipeline FILES for the literal string, which
+    // is why it kept passing while `core.test.js`'s own `ALL_KEYS` — a fourth
+    // hand-written copy, and not one of the three — sat one key short of the
+    // payload (sweep 51). The three now read one array, so the question is
+    // whether the array carries it and whether anything is behind the name.
+    expect(CORE_PAYLOAD_KEYS).toContain('CULTURE_DEEP_DIVES');
+    expect(CORE.CULTURE_DEEP_DIVES).toBeDefined();
   });
 
   it('the Croatian encoding lint scans both data copies', () => {
