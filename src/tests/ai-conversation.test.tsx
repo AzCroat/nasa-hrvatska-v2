@@ -493,3 +493,65 @@ describe('AIConversation — duplicate logError guard', () => {
     expect(conversationLogs).toHaveLength(1);
   });
 });
+
+// ── isHeritage: the request field that nothing could ever set ────────────────
+// Until 2026-09-23 this was `isHeritage: !!stats?.heritage`, and `stats.heritage`
+// has never had a writer anywhere in the app's history — so /api/conversation's
+// HERITAGE SPEAKER CONTEXT block could not fire for any learner, for about six
+// months, in a product built for the diaspora.
+//
+// This asserts the EFFECT — the body actually handed to _aiPost — rather than
+// pinning the source line. A source pin would survive the value being computed
+// correctly and then dropped before the request, which is precisely the class
+// of miss this file's neighbours keep finding.
+describe('AIConversation — isHeritage reaches the request body', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    localStorage.clear();
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+    localStorage.clear();
+  });
+
+  async function startAndReadBody(): Promise<Record<string, unknown>> {
+    mockAiPost.mockResolvedValue({
+      ok: true,
+      status: 200,
+      body: makeSseStream(majaResultNoCorrection()),
+    });
+    renderConversation();
+    const allElements = screen.getAllByText(/At a Café|At a cafe|Kafić|café/i);
+    const cafeTile = allElements[0].closest('[style*="cursor: pointer"]') ?? allElements[0];
+    await act(async () => {
+      fireEvent.click(cafeTile);
+    });
+    const startButton = await screen.findByRole('button', { name: /^Start —/i });
+    await act(async () => {
+      fireEvent.click(startButton);
+    });
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    const call = mockAiPost.mock.calls.find((c) => c[0] === '/api/conversation');
+    expect(call, '_aiPost was never called with /api/conversation').toBeTruthy();
+    return call![1] as Record<string, unknown>;
+  }
+
+  it('sends isHeritage:false for a learner with no diaspora signal', async () => {
+    const body = await startAndReadBody();
+    expect(body.isHeritage).toBe(false);
+  });
+
+  it('sends isHeritage:true when the learner named a family region', async () => {
+    localStorage.setItem('nh_heritage_region', 'Dalmacija');
+    const body = await startAndReadBody();
+    expect(body.isHeritage).toBe(true);
+  });
+
+  it('sends isHeritage:true for a diaspora goal', async () => {
+    localStorage.setItem('nh_goal', 'heritage');
+    const body = await startAndReadBody();
+    expect(body.isHeritage).toBe(true);
+  });
+});

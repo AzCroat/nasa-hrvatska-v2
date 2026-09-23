@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { lsGet } from '../../lib/safeStorage';
+import { isHeritageLearner } from '../../lib/heritageLearner';
 
 const GENERIC_STEPS = [
   {
@@ -47,8 +47,9 @@ interface OnboardingTourProps {
   onLaunchLesson?: () => void;
 }
 export default function OnboardingTour({ onDone, onLaunchLesson }: OnboardingTourProps) {
-  const userGoal = lsGet('nh_goal');
-  const isDiaspora = userGoal === 'heritage' || userGoal === 'family';
+  // One definition, shared with AIConversation's `isHeritage` — these two
+  // surfaces answer the same question and must not drift apart.
+  const isDiaspora = isHeritageLearner();
   const STEPS = isDiaspora ? DIASPORA_STEPS : GENERIC_STEPS;
   const [step, setStep] = useState(0);
   const cur = STEPS[step]!;
