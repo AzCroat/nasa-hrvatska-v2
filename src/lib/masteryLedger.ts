@@ -298,6 +298,27 @@ export function makeSessionSkillBoost(level: CefrLevel): (category: string) => n
  * demonstrated of speaking vs writing at `level`, or null when both are
  * strong (no bias — variety wins).
  */
+/**
+ * Has this skill actually been MEASURED at this level?
+ *
+ * The `weakest*Kind` functions below score an absent or not-yet-`tested` cell
+ * as MAXIMUM need, which is right for CHOOSING what to serve — an unmeasured
+ * skill deserves priority. It is NOT a licence to tell the learner their
+ * practice said anything about it. Their null rule covers "neither skill
+ * measured"; it does not cover the common case of one measured and the other
+ * never attempted, where they still return the unmeasured one.
+ *
+ * So the reason lines ask this instead. Three states, mirroring
+ * `getCategoryStatus`: no cell at all (never practised), a cell without enough
+ * samples to be `tested` (practised, nothing proven), and a tested cell (the
+ * only state in which "your practice says" is true).
+ */
+export function skillEvidence(level: CefrLevel, skill: SkillKey): 'none' | 'untested' | 'tested' {
+  const m = getMasteryProfile(level)[skill];
+  if (!m) return 'none';
+  return m.tested ? 'tested' : 'untested';
+}
+
 export function weakestProductionKind(level: CefrLevel): 'speak' | 'write' | null {
   const p = getMasteryProfile(level);
   // No evidence for EITHER production skill → no bias. This matters beyond

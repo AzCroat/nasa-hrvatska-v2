@@ -40,6 +40,7 @@ vi.mock('../lib/masteryLedger', async (importOriginal) => {
   return { ...real, weakestReceptiveKind: vi.fn(() => null) };
 });
 
+import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
 import {
   buildSessionActivities,
   selectGuaranteedInput,
@@ -171,10 +172,26 @@ describe('input means the modality categories, not the skill families', () => {
 
 describe('the mastery ledger steers the kind when it has measured one', () => {
   it('a weaker reading skill gets reading, and the reason says so', () => {
+    // The ledger must ACTUALLY have measured reading for the reason to claim
+    // it did. Before 2026-09-23 this test mocked the selector and asserted the
+    // claim with an empty ledger — the same false premise the reason itself
+    // carried, so the test defended it.
+    for (let i = 0; i < MIN_SAMPLES + 2; i++)
+      recordMasteryEvent({ level: 'B2', skill: 'reading', score: 0.4, weight: 1 });
     vi.mocked(weakestReceptiveKind).mockReturnValue('reading');
     const pick = selectGuaranteedInput('B2', new Set(), [], CTX)!;
     expect(pick.kind).toBe('reading');
     expect(pick.reason).toBe('Reading is the skill your practice says needs the most work.');
+  });
+
+  it('still SERVES the weaker skill when it has never been practised — but says so', () => {
+    // The commonest early state, and the one the old wording got wrong: the
+    // slot should still follow an unmeasured skill (that is why it is weakest),
+    // and the reason must not claim a measurement behind it.
+    vi.mocked(weakestReceptiveKind).mockReturnValue('reading');
+    const pick = selectGuaranteedInput('B2', new Set(), [], CTX)!;
+    expect(pick.kind).toBe('reading');
+    expect(pick.reason).toBe("You haven't practised reading yet.");
   });
 
   it('a weaker listening skill gets listening even after listening was served yesterday', () => {
