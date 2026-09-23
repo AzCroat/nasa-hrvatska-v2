@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import { H, ALPHA, speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { recordScreenPractised } from '../../lib/teachPractice';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext.tsx';
 
 interface AlphaQuizQuestion {
@@ -225,6 +226,25 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                 // a live screen's XP semantics for no gain here. Same call and
                 // same reasoning as `writing_guided` and `relpron`.
                 recordScreenPractised('alphabet');
+                // Advance Today's Session on a genuine FINISH, unconditionally.
+                //
+                // The award() below is what normally writes nh_session_completed
+                // (useAward does it before its own cooldown gate), and it is gated
+                // on `firstCompletion` — which reads `stats.vs`, a marker the
+                // LEARN_PATH launcher used to pre-write the INSTANT lp10 was
+                // tapped. So for every learner already carrying the key, the
+                // day-one curriculum drill could be finished and Today's Session
+                // stayed at N-1/N, on that attempt and every later one.
+                //
+                // Dropping `alphabet` from BLACK_HOLE_SCREENS stops the pre-write
+                // for anyone starting today; it cannot un-write it for the
+                // installed base, which is why this call is here and why it is
+                // not conditional. Screen-scoped, so it can only ever complete
+                // the activity that launched THIS screen. Same shape as
+                // recordScreenPractised above — no award semantics change.
+                signalSessionCompleteIfActive('alphabet');
+                // `vs` is now an honest first-completion marker: the only writer
+                // left is this screen's own credit block below.
                 const firstCompletion = !stats.vs?.includes('alphabet');
                 if (!awardFired.current) {
                   awardFired.current = true;

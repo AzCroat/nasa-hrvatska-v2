@@ -35,14 +35,24 @@ export const BLACK_HOLE_SCREENS: Record<string, string> = {
   history: 'lc',
   recipes: 'lc',
   listeningpath: 'lc',
-  falsefr: 'lc',
   dialects: 'lc',
-  alphabet: 'lc',
-  techvoc: 'lc',
   proverbs: 'lc',
   bureaucratic: 'lc',
   writing: 'lc',
   pronunciation_course: 'lc',
+  // alphabet (AlphabetScreen), falsefr (FalseFriendsScreen) and techvoc
+  // (TechVocScreen) were removed on 2026-09-23 for the SAME reason as the six
+  // below, found by deriving it rather than waiting for it: each has a built-in
+  // quiz that writes its own vs key AND its own lc, so the pre-write suppressed
+  // that credit for anyone who finished inside 20s. `alphabet` was the costly
+  // one — it gates its 20 XP award on the same marker, and award() is what
+  // signals Today's Session, so the day-one curriculum drill could not be
+  // completed at all by a learner who had ever tapped lp10. See
+  // dwellPreWriteSuppression.test.tsx, which asks the question of every key
+  // here. `writing` (WritingScreen) STAYS: it self-writes vs and NO counter, so
+  // dwell strictly ADDS the lc it would never have written — nothing is
+  // suppressed, and that exemption is pinned in both staleness directions.
+  //
   // grammarmap (GrammarConstellation), reflexive (ReflexiveScreen), production_drill
   // (ProductionDrillScreen), pitchaccent (PitchAccentScreen), pitch_accent
   // (PitchAccentMastery) and shadowing (ShadowingScreen) were REMOVED from the
@@ -55,4 +65,10 @@ export const BLACK_HOLE_SCREENS: Record<string, string> = {
   // or the ckRule's lc/gc fallback. Per rule 6, black-hole dwell is for informational
   // screens WITHOUT a built-in quiz — these have one. dialects/history/etc. stay:
   // they are pure reference screens with no self-credit path.
+  //
+  // THE COST OF A REMOVAL, stated: a learner who opens one of these and leaves
+  // without finishing now earns nothing there, where twenty seconds of presence
+  // used to pay 1 lc and DWELL_XP. Every one of them has a completion control,
+  // and its path node still ticks — on the screen's own vs write, or on the
+  // lcAtLeast fallback the ckRule already carries.
 };

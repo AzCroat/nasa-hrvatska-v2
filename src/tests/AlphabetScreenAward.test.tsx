@@ -101,6 +101,15 @@ describe('the alphabet quiz pays the XP it always intended to', () => {
   it('pays nothing on a repeat, because the lesson is already credited', () => {
     // A learner who has finished it before: `vs` already carries the key, which
     // is the persisted first-completion marker the lc/vs write uses too.
+    //
+    // THAT SENTENCE WAS FALSE WHEN IT WAS WRITTEN, and it is why nothing caught
+    // the defect it describes. `alphabet` was in BLACK_HOLE_SCREENS, so
+    // launchPathItem wrote this key the INSTANT lp10 was tapped — before a
+    // single question was answered. The marker meant "has opened this screen",
+    // and the screen read it as "has completed this quiz", so after any Learn
+    // Path visit the award was unreachable forever and Today's Session could
+    // not be signalled at all. The key left the dwell map on 2026-09-23 and the
+    // sentence is now true; see dwellPreWriteSuppression.test.tsx.
     statsMock.stats = { vs: ['alphabet'], lc: 1 };
     const award = vi.fn();
     render(<AlphabetScreen goBack={vi.fn()} award={award} />);
