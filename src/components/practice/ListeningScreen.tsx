@@ -6,6 +6,7 @@ import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
 import ScreenHeader from '../shared/ScreenHeader';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.js';
@@ -153,6 +154,14 @@ export default function ListeningScreen({
               // answeredTotal > 0 here — the all-skipped case rendered its own
               // screen above and credits nothing.
               if (typeof award === 'function') award(score * 4 + 10, false, 'listening');
+              // THE MASTERY LEDGER SAW NONE OF THIS UNTIL 2026-09-23. `award`
+              // reaches the XP and quest path only, so the app's only dedicated
+              // Listening Quiz — one of its two AUDIO-FIRST screens — recorded
+              // its result to the ADAPTIVE store (recordTopicResult below) and
+              // not to the ledger the recommender reads. Same shape and same
+              // fix as the reading screens earlier that day: record at the
+              // genuine completion point, change no award semantics.
+              recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
               if (!stats.vs?.includes('listening')) {
                 setStats((prev) => {
                   if (prev.vs?.includes('listening')) return prev;

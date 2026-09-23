@@ -4,6 +4,7 @@ import { H, Bar } from '../../data';
 import { useHeardGate } from '../../hooks/useHeardGate';
 import AudioFailureNotice from '../shared/AudioFailureNotice';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
 import { _aiPost } from '../../lib/aiPost';
@@ -549,6 +550,12 @@ export default function DictationScreen({ goBack, award }: Props) {
               finishFired.current = true;
               if (typeof award === 'function') award(xp, false, 'listening');
               markQuest('listening');
+              // Dictation is the app's OTHER audio-first screen, and its score is
+              // a HEARING score: the round deliberately forgives punctuation
+              // ("Punctuation is inaudible in dictation" above) and its own done
+              // copy says "Excellent ear!". `answeredTotal` excludes skipped-
+              // unheard items, so the denominator is already the honest one.
+              recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
               if (!stats.vs?.includes('dictation')) {
                 setStats((prev) => {
                   if (prev.vs?.includes('dictation')) return prev;

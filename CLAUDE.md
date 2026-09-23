@@ -1593,6 +1593,77 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   about an EFFECT, assert the effect — a source pin on the recording CALL
   survives the score being dropped at a callback boundary, which is exactly
   how this shipped.
+- **THAT FIX ASKED THE QUESTION ONE SKILL AT A TIME, AND THE ANSWER IS GENERAL
+  (2026-09-23, same day).** `masterySkillsReachable` asks whether each ledger
+  SKILL has some writer. It cannot see a screen that grades and writes nothing,
+  because a sibling screen already covers that skill — so `listening` looked
+  covered by `listening_comprehension` while the dedicated Listening Quiz,
+  Dictation, Shadowing and the video lesson all recorded nothing, and `speaking`
+  looked covered while it was fed by the Level Check, the checkpoints and ONE
+  screen (`GuidedSpeakingScreen`, whose coach had no reachable caller at all
+  until 2026-09-07).
+  **THE PRECISE STATEMENT IS NOT "THEY RECORD NOTHING" — there are TWO stores
+  and they write the wrong one.** `lib/adaptive.ts`'s `recordTopicResult` is
+  called by all of them (ShadowingScreen, SpeakingScreen, ListeningScreen) and
+  feeds the adaptive topic panel; `masteryLedger` is what
+  `weakestProductionKind`, `weakestReceptiveKind`, `getNextStep`'s weakest-skill
+  rung, the concept map and `SkillRadar` read. Reading any ONE screen shows a
+  recording call and looks fine, which is why it survived.
+  **Measured with the real selector** (harness deleted after): a learner who does
+  Shadowing + Speaking + Sprint daily for a month and Guided Writing twice a week
+  has `speaking = undefined` and the slot returns **'speak'**; wire the same
+  screens and the same learner — a strong speaker (0.90), a weaker writer (0.70)
+  — reads speaking-strong and the slot returns **'write'**. The harm was never
+  "less evidence": **the recommender pointed at the WRONG SKILL**, sending a
+  strong speaker to more speaking and never to the writing they were weaker at.
+  A first harness that let nothing write the cell reported a permanent latch;
+  that was an ARTIFACT (`speaking_guided` is served 8 of 40 production days and
+  does write), and only the practice-tab scenario found the real defect.
+  Five screens now record at their genuine completion point —
+  ListeningScreen, DictationScreen (`listening`), ShadowingScreen,
+  SpeakingScreen (`speaking`) and **VideoLessonScreen**, which had ALREADY been
+  audited for this class in 2026-08-14 and whose fix stopped one store short at
+  `recordListeningRep()`; its award kind is `'lesson'`, unmapped in
+  `ACTIVITY_TO_SKILL`, so even a `completeExercise` wiring would have recorded
+  nothing.
+  **`sessionScreensFeedLedger.test.ts` is the derived guard**: every
+  `PRODUCTION_POOL` screen and every P2.8 input entry must reach a ledger writer
+  through the REAL router and import graph, exemptions carrying reasons and
+  checked in both staleness directions. **Its walk follows `components/` and
+  `hooks/` ONLY** (plus a two-entry allowlist of grading libs) — the first draft
+  followed everything and passed `dialogue` via
+  `DialogueSim -> lib/aiPost -> lib/userContext -> lib/srs`, which calls
+  `recordSrsOutcome` internally, so any screen importing `aiPost` satisfied it
+  while calling nothing. A stop-list would only have moved that hole.
+  Mutation-verified: each write removed fails 1 test.
+  **An exemption's REASON is not covered by its staleness test** — that test only
+  asks whether an exempted screen has GAINED a write, so a lazily-reasoned
+  exemption for a screen that genuinely never writes passes for ever. `dialogue`
+  cost two wrong answers and both are worth keeping. First it was exempted as "a
+  conversation, not a graded task", read off its pool row (`kind: 'converse'`) —
+  false, its guided mode grades `score` over `scenario.turns.length`. Then it was
+  WIRED as `speaking` on the strength of the pool's `category: 'speaking'` — worse,
+  because guided dialogue grades RECOGNITION (one of four options, no microphone,
+  no acoustic score), so a learner who has never spoken would read as a TESTED
+  SPEAKER and `weakestProductionKind` would stop offering them speaking practice,
+  which is the inverse of the defect being fixed. **`micRequired: false` is a
+  SCHEDULING fact; the ledger is a MEASUREMENT, and the two questions have
+  different answers.** The exemption list is therefore `NOT_LEDGER_EVIDENCE`, not
+  "no score to record": most entries have no score, `dialogue` has a good score
+  that is not evidence of the skill it would be filed under, and conflating those
+  two reasons is what produced both wrong answers.
+  **ShadowingScreen's AWARD kind was deliberately left `'listening'`**, though
+  three authorities call it speaking: `useAward` keys `recordListeningRep()` off
+  that activityType and its own comment names this screen, so retyping it would
+  silently drop a displayed Fluency Snapshot metric. Shadowing is both halves and
+  the app already counts it both ways (production rep by SCREEN id, listening rep
+  by activityType); only the LEDGER question is unambiguous, because the score
+  being recorded is an acoustic score of the learner's own speech.
+  NEVER: conclude a skill is covered because SOME screen writes it — ask it of
+  every screen the slots can serve; add a graded screen to `PRODUCTION_POOL` or
+  the input set without a ledger write or an exemption stating why it has no
+  honest score; let a reachability walk follow `lib/` imports (a shared library
+  that records internally makes every importer look wired).
 - **KIND alternates by what was served less recently** (`nh_session_served`, now
   read from `src/lib/sessionServed.ts` by both the discovery slot and this one),
   unless the mastery ledger has measured a weaker receptive skill
@@ -2097,6 +2168,29 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
 'writing'`. Never retag them back to 'speaking' and never remove the route —
   that re-opens the "weak writing has no practice path" hole (the 0%-writing
   C1 case).
+  **THAT SENTENCE WAS FALSE FOR ONE OF ITS THREE SUBJECTS ON THE DAY IT WAS
+  WRITTEN, AND STILL IS (measured 2026-09-23).** `dictation` is in TWO pools:
+  `PRODUCTION_POOL` carries `category: 'writing'` with an explicit "Retagged
+  'speaking' → 'writing' (2026-08-18)" comment, and `CEFR_EXERCISE_POOL`
+  (`sessionPools.ts`) still carries `category: 'speaking'`. PR #492 wrote this
+  rule and never touched `sessionPools.ts` (`git show cb3f01ec -- src/lib/sessionPools.ts`
+  names no dictation), so the retag reached one copy. Probed across all three
+  pools: exactly ONE id appears in more than one, and it disagrees with itself.
+  The live effect is narrow and was checked consumer by consumer rather than
+  assumed: `SKILL_GROUP` maps BOTH 'speaking' and 'writing' to the `'speaking'`
+  family, so the P3 variety pass is unaffected; `inputKindOf` admits neither, so
+  P2.8 is unaffected; the one real consumer is `makeSessionSkillBoost` →
+  `skillForCategory`, so **Dictation is boosted for a learner weak at SPEAKING**
+  — a hear-it-and-type-it screen with no microphone.
+  **Which value is right is NOT obvious and is deliberately still open.** The
+  screen's SCORE is a hearing score — it forgives punctuation on purpose
+  ("Punctuation is inaudible in dictation") and its done copy says "Excellent
+  ear!" — which is why its ledger write is `listening`. But `category` in
+  PRODUCTION_POOL also answers a different question (which production SLOT it can
+  fill, keyboard-safe, `kind: 'write'`), where 'writing' is defensible. Retagging
+  the fill-pool copy to `listening` would add it to the P2.8 input set, a
+  session-composition change needing its own measurement. Fix it in its own PR
+  with that measurement; do not "tidy" one copy to match the other.
 
 ## Critical Architecture: Guided Speaking, and the Coach Nobody Could Reach (2026-09-07)
 

@@ -7,6 +7,7 @@ import PronunciationScorer from '../shared/PronunciationScorer';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 import { markQuest } from '../../lib/quests.js';
+import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { useStats } from '../../context/StatsContext';
 import { useRecorder } from '../../hooks/useRecorder';
 import { getUserCefr, cefrRank, isUnlocked } from '../../lib/cefr';
@@ -621,6 +622,29 @@ export default function ShadowingScreen({
                 finishFired.current = true;
                 if (typeof award === 'function') award(items.length * 3 + 5, false, 'listening');
                 markQuest('listening');
+                // THE LEDGER GETS 'speaking', AND THE AWARD ABOVE DELIBERATELY DOES
+                // NOT (2026-09-23). Shadowing is both halves at once — hear a model,
+                // say it back — and the app already treats it as both: it is a
+                // PRODUCTION rep (useAward keys those off the SCREEN id, and
+                // `shadowing` is in PRODUCTION_POOL) and a LISTENING rep (keyed off
+                // activityType, and useAward's comment names this screen). Retyping
+                // the award to 'speaking' would silently drop the listening rep from
+                // the Fluency Snapshot, which is a learner-visible metric change
+                // nobody asked for.
+                //
+                // The ledger is a different question with an unambiguous answer: the
+                // score being recorded is `scoredOk/scoredItems`, an ACOUSTIC
+                // pronunciation score of the learner's own speech, so it is spoken
+                // evidence whatever the screen also teaches. `scoredItems === 0`
+                // means NOT MEASURABLE (no mic, scorer down) and must not enter as a
+                // zero — `recordExerciseOutcome` returns early on `total <= 0`, so
+                // passing the pair through is correct by construction rather than by
+                // a guard here.
+                recordExerciseOutcome({
+                  activityType: 'speaking',
+                  score: scoredOk.current,
+                  total: scoredItems.current,
+                });
                 if (!stats.vs?.includes('shadowing')) {
                   setStats((prev) => {
                     if (prev.vs?.includes('shadowing')) return prev;

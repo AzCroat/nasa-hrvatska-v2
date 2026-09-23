@@ -3868,6 +3868,140 @@ in two pools must carry one category.
 
 ---
 
+### Sweep 59 — the recommender reads a store that daily practice does not write (2026-09-23)
+
+**Started as "fix sweeps 56+57+58" and the fix turned out to be the small half.**
+Re-verifying 56 from source rather than from the plan asked one more question —
+_which screens can write the ledger at all?_ — and that is a different, larger
+defect than the three screens the sweeps had named.
+
+**THE STATEMENT, precisely.** There are TWO evidence stores and the practice
+screens were writing the first but not the second:
+
+| store                                 | written by                                                               | read by                                                                                                            |
+| ------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `lib/adaptive.ts` `recordTopicResult` | ShadowingScreen:815, SpeakingScreen:199, ListeningScreen:183 — all three | the adaptive topic panel / category picker                                                                         |
+| `lib/masteryLedger.ts`                | none of them                                                             | `weakestProductionKind`, `weakestReceptiveKind`, `getNextStep`'s weakest-skill rung, the concept map, `SkillRadar` |
+
+"Daily speaking writes nothing" is the OVERSTATEMENT I first wrote and it is
+wrong: they all record. **The store the recommender reads is the one nobody
+writes.** Say it that way — reading any one screen shows a `recordTopicResult`
+call and looks fine, which is exactly why this survived.
+
+**MEASURED WITH THE REAL SELECTOR, not reasoned about.** Harness at
+`src/tests/_tmp_measure.test.ts` (vitest's include is `src/**/*.test.*`, so it
+has to live inside src/), deleted immediately after:
+
+| scenario                                                                       | speaking cell       | writing cell | `weakestProductionKind` |
+| ------------------------------------------------------------------------------ | ------------------- | ------------ | ----------------------- |
+| today: Shadowing + Speaking + Sprint daily for a month, Guided Writing 2x/week | **undefined**       | 0.70 tested  | **speak**               |
+| wired: the same learner, a strong speaker (0.90) and weaker writer (0.70)      | 0.90 tested, strong | 0.70 tested  | **write**               |
+
+So the harm is not "less evidence". **The recommender pointed at the WRONG
+SKILL** — sending a strong speaker to more speaking and never to the writing
+they were weaker at, which is the inverse of what the slot exists to do. A month
+of daily spoken practice was invisible to it.
+
+**MY FIRST MEASUREMENT WAS AN ARTIFACT AND I ALMOST SHIPPED IT.** The first
+harness let NOTHING write the cell and reported "speak 40/40 days, latched".
+`speaking_guided` IS served 8 of 40 production days (even 5-way rotation, real
+`selectProductionExercise`) and DOES write, so the cell reaches `tested` inside a
+month. Re-run with that simulated: still 40/40 'speak', but now for a LEGITIMATE
+reason — 0.75 speaking really is weaker than 0.80 writing. **The bias was correct
+and my "latch" reading was wrong.** Only changing the scenario to a learner who
+practises from the PRACTICE TAB found the real thing.
+
+**FIXED — five screens, each one line at its genuine completion point** (the
+`writing_guided`/`relpron`/ReadingScreen shape, no award semantics changed):
+ListeningScreen and DictationScreen (`listening`, `score`/`answeredTotal` — the
+skipped-unheard denominator is already honest), ShadowingScreen and SpeakingScreen
+(`speaking`), and **VideoLessonScreen**, which the guard found and no sweep had.
+
+**VideoLessonScreen is the one worth remembering**: it had ALREADY been audited
+for this exact class (the 2026-08-14 `markQuest('speak')` mislabel, and a missing
+listening rep) and that fix stopped one store short — it added
+`recordListeningRep()` for the Fluency Snapshot and not the ledger. Its award
+kind is `'lesson'`, which `ACTIVITY_TO_SKILL` deliberately leaves unmapped, so
+even a `completeExercise` wiring would have recorded nothing. **Two stores, one
+written — the same shape, one store further along.**
+
+**THE GUARD IS DERIVED** (`src/tests/sessionScreensFeedLedger.test.ts`, 9 tests):
+every `PRODUCTION_POOL` screen and every P2.8 input-modality entry must reach a
+ledger writer through the REAL router and the REAL import graph. It names no
+screens — the hand-maintained-list decay this file has recorded four times.
+Mutation-verified: each of the five writes removed fails 1 test.
+
+**IT CAUGHT THREE THINGS I HAD WRONG, WHICH IS THE ARGUMENT FOR WRITING IT:**
+
+1. **A false positive that would have made it decorative.** The first walk
+   followed every import and reported `dialogue` as wired. Trace:
+   `DialogueSim -> lib/aiPost -> lib/userContext -> lib/srs`, and srs.ts CALLS
+   `recordSrsOutcome` internally — so **any screen importing `aiPost`, i.e.
+   nearly every AI screen, passed while calling nothing.** That is the
+   decorative-guard failure one level deeper than the declaration-stripping
+   `speakingCoachReachable` already does. A stop-list would only have moved it
+   again; the walk now follows `components/` and `hooks/` only, plus a two-entry
+   allowlist of GRADING libs, because a screen's ledger write is in its own file,
+   in something it composes, or in a library it delegates grading to.
+2. **My own exemption reason, twice.** I exempted `production_drill` as "awards
+   per answer, not on a completion" — carried over from the
+   `practice/exercises/*` cluster. It calls `completeExercise` at line 1621, and
+   the staleness test failed on it immediately. Then I exempted `dialogue` as "a
+   CONVERSATION, not a graded task", reasoning from its pool metadata
+   (`kind: 'converse'`). **DialogueSim's GUIDED mode grades**: `score` increments
+   on `correctIdx` and the award is `score * 6` over `scenario.turns.length`;
+   only the AI conversation half has no correctness signal. It is now WIRED, not
+   exempted. Both mistakes were reasoning from the POOL ROW instead of reading
+   the screen — and the guard caught only the first, because the second was an
+   exemption for a screen that genuinely does not reach the ledger. **A staleness
+   test cannot tell a correct exemption from a lazy one**; only reading the
+   screen can. Every remaining reason was therefore read: `SpeakingSprintScreen`
+   holds a `rounds` counter and no correctness variable at all,
+   `GrammarReader` has no score, award or correctness, and `storymode`/`ai_story`
+   award a flat 15 XP as activityType 'story'.
+3. **And then the SECOND answer for `dialogue` was wrong too, in the other
+   direction.** Having found that it grades, I wired it as 'speaking' — and that
+   is worse than leaving it. Guided dialogue grades RECOGNITION: pick one of four
+   options, no microphone, no acoustic score. Filing that as spoken-production
+   evidence would let a learner who has never spoken read as a TESTED SPEAKER, at
+   which point `weakestProductionKind` stops offering them speaking practice —
+   the exact inverse of the defect this sweep fixes. `micRequired: false` on that
+   pool row is a SCHEDULING decision (dialogue is the mic-blocked learner's A1
+   production option); the ledger is a MEASUREMENT. **The two questions have
+   different answers, and "the pool already calls it speaking" is not an argument
+   about what was measured.** It is exempted, with that reason — and the
+   exemption list is named `NOT_LEDGER_EVIDENCE`, not `NO_SCORE_TO_RECORD`,
+   because two different reasons live in it and conflating them is what produced
+   both wrong answers.
+
+**WHAT WAS DELIBERATELY NOT DONE, and both are judgement calls, not oversights:**
+
+- **ShadowingScreen's award/quest kind was left alone.** Three authorities say
+  speaking (PRODUCTION_POOL `kind: 'speak'`, `micRequired: true`; the registry row
+  `e('lc','speak','speaking')`) and only the award says listening, so changing it
+  looked obviously right — **until `useAward` was read**: `recordListeningRep()`
+  is keyed off activityType `'listening'`, and useAward's own comment NAMES this
+  screen as a listening activity. Retyping the award would have silently dropped
+  a synced, displayed Fluency Snapshot metric. Shadowing is genuinely both halves
+  and the app already counts it both ways (production rep by SCREEN id, listening
+  rep by activityType). The LEDGER question is separate and unambiguous — the
+  score is an acoustic score of the learner's own speech — so only that moved.
+  The quest question (listening has no `TIER2_MAP` row, so shadowing can never
+  reach `speak2`) is left open rather than decided unilaterally.
+- **The sweep-58 pool disagreement is NOT fixed here.** Retagging
+  `CEFR_EXERCISE_POOL`'s `dictation` to `listening` would add it to the P2.8 input
+  set — a session-composition change needing its own measurement. Mixing that into
+  a ledger-wiring PR is two risks in one. Its own PR, with the measurement.
+
+**A number that would have been fabricated.** An early probe reported "134 of 267
+registry rows unreached". 119 of those are ModeDrill-backed and reach
+`completeExercise` through `ModeDrill.tsx:131 key: id` — a PROP, which a literal
+`key: '...'` grep cannot see. Checking the mechanism before reporting the number
+is what stopped it. Report the census, not the grep.
+
+---
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3876,6 +4010,33 @@ None of them crash, so no sweep above can see any of them.
 - [x] ~~13 AI surfaces still do not name a refusal's cause~~ — CLOSED, sweep 13. 33 of 35 callers classify; the 2 remaining entries in
       KNOWN_UNCLASSIFIED are verified-correct degrades, not debt. The ratchet
       stops new ones and its floors sit at the measured values.
+- [ ] **The ledger wiring stops at the two SESSION POOLS (sweep 59 scope).**
+      `sessionScreensFeedLedger.test.ts` covers every `PRODUCTION_POOL` screen and
+      every P2.8 input entry, because those are the screens the recommender
+      SELECTS ON and therefore the ones whose evidence changes what is served
+      next. It does NOT cover screens reachable only from the Practice tab. A
+      grep (not a census — say which) found ~30 components that award a
+      skill-bearing activityType and keep a score while reaching no ledger
+      writer; the ones outside the pools are `PitchAccentScreen`,
+      `PronunciationContrast` and the nine un-migrated `practice/exercises/*`
+      screens (ColorAgreement, EmotionGender, Ordinals, ProfessionGender,
+      QuestionWords, Riddles, Sibilarization, LogicQuiz, TenseFlip). **All of
+      them feed `grammar`, which is the best-fed cell in the ledger** — 119 of
+      the registry's `gated` rows reach `completeExercise`, most through
+      `ModeDrill.tsx:131 key: id` and the rest as dedicated lesson screens (the
+      split was not counted, only the total) — so the measurable harm is small — that is why
+      they were left. They also award a fixed 2–5 XP PER CORRECT ANSWER rather
+      than on a completion, so wiring them is a reshaping job, not a one-line
+      addition. Before touching them: run the census properly rather than
+      trusting the ~30, and check each awards on a completion the ledger can
+      take a score/total from.
+- [ ] **`CEFR_EXERCISE_POOL` and `PRODUCTION_POOL` disagree about `dictation`'s
+      category** ('speaking' vs 'writing'), which CLAUDE.md asserts is 'writing'
+      for both — sweep 58, still open, deliberately not fixed in sweep 59.
+      Retagging the fill-pool copy to `listening` (what the screen actually
+      scores) would ALSO add it to the P2.8 input set, which is a session-
+      composition change needing its own measurement. Its own PR, with the
+      measurement; the false CLAUDE.md sentence is corrected in place meanwhile.
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10. The DEAD-READ half is partly
       checked: sweep 29 ran the mirror of sweep 26's dead-write derivation over
