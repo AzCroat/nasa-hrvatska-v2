@@ -2916,6 +2916,80 @@ are Home (42), the quest ledger (40, 41), navigation targets (39), the rep
 metrics (35, 38), the empty states (36) and the day rollover (37). The next
 sweep needs a NEW question, not another surface.
 
+### 46. A demotion vs the plan already built — 2026-09-23 — **NEGATIVE, now pinned**
+
+The first item from the INTERACTIONS seam, which the list has named for weeks:
+"a demotion (verification_fail rollback) vs content already unlocked and vs a
+daily plan built at the higher level." Two mechanisms that are each correct
+alone, meeting.
+
+**THE RISK WAS REAL ON PAPER.** `rollbackProvisionalOnFail` writes only to the
+certification store. The daily plan is built from
+`getContentUnlockLevel(getUserCefr(xp, lc, gc))` — and **a demotion changes
+none of xp, lc or gc** (asserted mechanically, so the premise is not an
+assumption). If the rollback did not reach the unlock level, a learner the app
+had just honestly rolled back to B1 would keep being served the B2 plan built
+that morning: the badge and the plan disagreeing about the same learner, which
+is the 2026-09-06 field report's shape in a new place.
+
+**IT HOLDS, IN BOTH HALVES**, driven end to end: the REAL
+`recordEquivalencyAttempt` on a grandfathered B2, then the REAL
+`useDailySession`.
+
+**WHICH MECHANISM CARRIES IT WAS MEASURED, AND MY FIRST ANSWER WAS WRONG.** I
+wrote that the link is `getContentUnlockLevel`'s closing
+`return getCertifiedLevel()` — provisional passes counted, the rollback removing
+one — and said so in the test's own failure message. Mutating that line to
+`getVerifiedLevel()` left the file **fully green**, which said the claim was
+false. Dumping the real state said why:
+
+    BEFORE  certified=B2 verified=A1 gate.required=true gate.target=B2 unlock=B1
+    AFTER   certified=B1 verified=A1 gate.required=true gate.target=B1 unlock=A2
+
+The **verification gate** carries it. A demotion only ever happens to a
+PROVISIONAL level (`rollbackProvisionalOnFail` returns null otherwise), and a
+provisional level above the verified one is precisely what makes the gate
+required — so the gate branch returns `levelBelow(gate.target)` and
+`getCertifiedLevel()` is never reached. The gate's target is now asserted to
+follow the rollback, so the finding is pinned rather than left in prose.
+**A comment explaining a mechanism is worth what the mutation that checked it is
+worth**, and this one was worth nothing until it was run.
+
+**THE PROPERTY TURNS OUT TO BE OVER-DETERMINED, and that is the result rather
+than a weak guard.** Two further mutations — the gate returning its target
+instead of the level below, and unlock ignoring the gate entirely — also leave
+the file green, because the gate target and the certified level BOTH drop on a
+demotion. There is no single line whose removal strands the plan at the old
+level. Said plainly rather than hunted until something failed: the guard's value
+is the three points that ARE single: the rollback itself, the rebuild effect's
+dependency on the level, and the level written onto the rebuilt session.
+
+Mutation-verified, three landed and caught: `rollbackProvisionalOnFail` neutered
+fails 3; `userCefr` dropped from the rebuild effect's deps fails 2; the rebuild
+keeping the OLD level on the fresh session fails 2. Three more survive, each for
+a stated reason (above), and the `getVerifiedLevel` swap is deliberately NOT
+claimed — it is a real defect in its own right (it takes content away from
+grandfathered learners) and CLAUDE.md records it as guarded by two other tests.
+Claiming it here would be claiming a guard this file does not have.
+
+**A MUTATION THAT DID NOT LAND CAME FIRST.** The initial attempt at the rollback
+mutation inserted `return null;` with a regex whose `[^{]*\{` matched the `{` of
+the RETURN TYPE ANNOTATION (`): { from: CefrLevel; to: CefrLevel } | null {`),
+so the statement landed inside the type, esbuild stripped it, and the suite
+stayed green — reading exactly like a decorative guard. Check WHERE a mutation
+landed before reading its result; a multi-line signature with braces in its
+return type defeats the obvious pattern.
+
+**Work done that day is preserved.** The CEFR branch maps completions by screen,
+so a learner just told they are a level lower is not also told they have done
+nothing — the 2026-05-21 incident, met from the other direction.
+
+**WHAT THIS DOES NOT COVER, stated**: a demotion landing while Home is MOUNTED
+and never re-rendered. `getContentUnlockLevel` reads localStorage during render,
+so the drop is seen at the next render; the exam screen replaces Home in the
+router, so returning to Home is a mount. That is an argument, not a measurement,
+and it is the next thing to drive if this interaction is revisited.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -2939,7 +3013,9 @@ None of them crash, so no sweep above can see any of them.
       BETWEEN FEATURES — sweep 31's first result came from there. Still untried:
       the retention ladder vs a date rollover with the app left open; a demotion
       (verification_fail rollback) vs content already unlocked and vs a daily
-      plan built at the higher level.)
+      plan built at the higher level — the DEMOTION half is DONE, sweep 46:
+      negative, now pinned, with the carrying mechanism measured rather than
+      assumed. The retention ladder vs a rollover is still open.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
