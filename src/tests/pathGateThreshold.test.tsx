@@ -7,11 +7,19 @@
  * the `listening` node complete and still collected 10 XP.
  *
  * NONE of the five is in BLACK_HOLE_SCREENS, and that is what makes them a
- * defect rather than a design. The dwell-credited screens (`alphabet`,
- * `techvoc`, `falsefr`, `dialects`, `readlist`, `writing`) credit on 20
- * seconds of presence ON PURPOSE — they are informational. These five score
- * the learner and then ignored the score, which is exactly the state
- * `AnimatedLesson` was in before the mastery-check directive.
+ * defect rather than a design. The dwell-credited screens (`dialects`,
+ * `readlist`, `writing`, `history`, …) credit on 20 seconds of presence ON
+ * PURPOSE — they are informational. These five score the learner and then
+ * ignored the score, which is exactly the state `AnimatedLesson` was in before
+ * the mastery-check directive.
+ *
+ * THAT LIST NAMED THREE SCREENS THAT DID NOT BELONG IN IT, and the error was
+ * the sweep's, not the data's: it subtracted the dwell-credited screens without
+ * asking whether each was actually informational. `alphabet`, `techvoc` and
+ * `falsefr` each have a built-in completion control that writes its own vs key
+ * and its own lc — so the launcher's pre-write was suppressing that credit, not
+ * standing in for it. All three left BLACK_HOLE_SCREENS on 2026-09-23; see
+ * dwellPreWriteSuppression.test.tsx.
  *
  * HOW THE CLASS WAS FOUND, and how badly the first measurement lied: a sweep
  * for "writes completion state with no gate" returned 37 screens. That number

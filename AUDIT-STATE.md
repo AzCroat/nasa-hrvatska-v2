@@ -1164,6 +1164,104 @@ trade ("deliberately NOT a conversion... would change a live screen's XP
 semantics for no gain here"), and that reasoning holds. Declined on the
 measurement, not on the comment's authority.
 
+### 22. The day-one drill: a visit marker read as a completion marker — 2026-09-23 — **1 BLOCKING + 2 MILD DEFECTS, FIXED**
+
+The last open leg of the day-one item: the first DRILL on a zero-state account.
+Driving the REAL session builder at A1 with an empty everything, the day-one
+plan is four activities — `curriculum_alphabet` (the lesson), **`curriculum_practice_alphabet`
+→ screen `alphabet` (the drill)**, `speaking_guided`, `cityofday`. So the first
+drill in the product is the Alphabet quiz.
+
+**THE FINDING.** `launchPathItem` writes a screen id into `stats.vs` the INSTANT
+a LEARN_PATH item whose `go` is in `BLACK_HOLE_SCREENS` is tapped — synchronously,
+before a single question is answered, so a learner who leaves in under 20s still
+ticks the path node. That is a VISIT marker. `AlphabetScreen` computes
+`firstCompletion = !stats.vs?.includes('alphabet')` and reads it as a COMPLETION
+marker, gating both its 20 XP award and its lc write on it.
+
+`award()` is also what writes `nh_session_completed` (useAward, ahead of its own
+cooldown gate). So for any learner carrying the key — every learner who ever
+tapped lp10, and every learner on the tree at all, since the pre-write has always
+been there — **finishing the day-one alphabet drill signalled nothing, and
+Today's Session stayed at N-1/N on that attempt and on every later one.** Not a
+crash, not a blank screen: the learner does the work and the counter does not
+move.
+
+Confirmed empirically before anything was changed: the real screen, `vs:
+['alphabet']`, an active session, played to Done — `nh_session_completed` null.
+
+**THE CLASS, DERIVED RATHER THAN WAITED FOR.** `blackHoleScreens.ts` already
+says in its own header what disqualifies a screen — a built-in quiz that
+self-credits — and lists six removed for exactly that. Walking the REAL router
+to each of the sixteen remaining keys and asking whether its component writes
+that key into `vs` itself, and whether the same write bumps a counter:
+
+| key | self-writes vs | own counter | what the pre-write costs |
+| --- | --- | --- | --- |
+| `alphabet` | yes | lc | **20 XP + the session signal, permanently** |
+| `falsefr` | yes | lc | 1 lc, when the learner finishes inside 20s |
+| `techvoc` | yes | lc | 1 lc, same condition |
+| `writing` | yes | **none** | nothing — dwell strictly ADDS an lc the screen never writes |
+| other 12 | no | — | nothing; dwell is genuinely their only credit |
+
+`writing` is the exemption and is pinned in BOTH staleness directions. The other
+twelve are informational, which is what the map is for.
+
+**TWO FIXES, NEITHER SUFFICIENT ALONE — and that is the whole subtlety.**
+Removing the three keys makes `vs` an honest first-completion marker for a
+learner starting today, and does NOTHING for the installed base, whose `vs`
+already carries it: their sessions would still strand. An unconditional
+`signalSessionCompleteIfActive('alphabet')` at Done covers them, and on its own
+leaves the 20 XP unreachable. Shipping either alone reads as a fix and is not
+one.
+
+**WHAT IT COSTS, stated:** a learner who opens Alphabet / False Friends / Tech &
+Digital and leaves without finishing now earns nothing there, where twenty
+seconds of presence used to pay 1 lc and 5 XP. All three have a completion
+control and their path nodes still tick — on the screen's own `vs` write or on
+the `lcAtLeast` fallback the ckRule already carries — which is exactly how
+pitchaccent and shadowing have worked since they were removed for this reason.
+
+**THE TEST THAT ENCODED THE MISTAKEN PREMISE.** `AlphabetScreenAward.test.tsx`
+asserts "a repeat pays nothing" with `vs: ['alphabet']` and the comment "`vs`
+already carries the key, **which is the persisted first-completion marker**".
+That sentence was false when it was written, and it is precisely why nothing
+caught this: the test asserted the defect's own behaviour, correctly, under a
+premise about what the marker means that the launcher disproves. It is now true,
+and the comment records that it was not.
+
+**TWO STALE PROSE CLAIMS CAME WITH IT.** `pathGateThreshold.test.tsx`'s header
+called `alphabet`, `techvoc` and `falsefr` dwell-credited "ON PURPOSE — they are
+informational". That sweep subtracted the dwell-credited screens from its
+candidate list without asking whether each one actually was informational; all
+three have a quiz. Corrected in the same commit as the code.
+
+**I LOOKED AT THIS SCREEN YESTERDAY AND MISSED IT.** Sweep 21's closing section
+examined `AlphabetScreen` and declined to route its quiz through
+`completeExercise`, noting the screen "grades itself and calls `award(20, false,
+'vocabulary')` … and it does hold a real `score`". That reasoning still holds on
+its own axis (the mastery ledger), and it silently assumed the award FIRES. The
+axis you are sweeping decides which question you ask; it does not make the other
+questions safe.
+
+**Mutation-verified, nine**, each confirmed LANDED before its result was read:
+the session signal removed → 2 fail; the signal made conditional on
+`firstCompletion` → 1; the signal unscoped (no screen argument) → 1;
+`alphabet` restored to the dwell map → 3; `falsefr` restored → 3;
+`WritingScreen` given a counter, so its exemption must go stale → 1; an
+exemption over a key no longer in the map → 1; the census resolving no
+components → 1; `playToDone` never pressing Done → 2.
+
+**E2E audit**: the only two spec references to these screens are fixture SEEDS
+(`seed-auth.js`, `microquiz-levelquiz-settings.spec.js`) that pre-write `vs`
+themselves — unaffected. No spec depends on dwell credit; greps run for the
+copy, the ids and the 20s mechanism.
+
+Full suite on the final tree: **579 files, 9336 passed, 25 skipped, 0
+failures**; `tsc --noEmit` clean; lint clean (Croatian lint 0 findings across
+521 files).
+
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -1183,12 +1281,13 @@ None of them crash, so no sweep above can see any of them.
       fails 1).
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
-- [~] **Day-one path**: the LESSON half is checked (sweep 7), PLACEMENT is
-  checked (sweep 14 — one real defect, the inescapable Exit loop), and the
-  AUDIO leg is now checked (sweep 19 — three real defects, all on the
-  `ttsFetch` path). The FEEDBACK leg is covered by sweeps 8/13 plus
-  `useExplainError`'s own classification, re-read this pass. What remains of
-  this item is the first DRILL itself on a zero-state account.
+- [x] ~~**Day-one path**~~ — CLOSED. The LESSON half is checked (sweep 7),
+  PLACEMENT is checked (sweep 14 — one real defect, the inescapable Exit loop),
+  the AUDIO leg is checked (sweep 19 — three real defects, all on the
+  `ttsFetch` path), the FEEDBACK leg is covered by sweeps 8/13 plus
+  `useExplainError`'s own classification, and the first DRILL is checked
+  (sweep 22 — the day-one drill is the Alphabet quiz, and finishing it never
+  signalled the session; one blocking and two mild defects, fixed).
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and

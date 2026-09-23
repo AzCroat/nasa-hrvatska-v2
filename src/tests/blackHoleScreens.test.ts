@@ -76,6 +76,15 @@ describe('BLACK_HOLE_SCREENS reachability', () => {
       'pitchaccent',
       'pitch_accent',
       'shadowing',
+      // Same class, derived 2026-09-23 rather than waited for: each writes its
+      // own vs key AND its own lc on a completion control, so the launcher's
+      // pre-write suppressed that credit. `alphabet` also gated its 20 XP award
+      // — and therefore the Today's Session handshake — on that same marker,
+      // stranding the day-one curriculum drill. `writing` is the one self-writer
+      // that stays: it writes no counter, so dwell only adds.
+      'alphabet',
+      'falsefr',
+      'techvoc',
     ];
     for (const id of mustNotBeCredited) {
       expect(BLACK_HOLE_SCREENS[id], `${id} must not be dwell-credited`).toBeUndefined();

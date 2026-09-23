@@ -3037,6 +3037,18 @@ Practical rules that fall out of this:
   screen is pointed at `useContent`, check the SHAPE it renders against the key
   it reads — the local export is now `DESCRIBE_SCENES`, a name that cannot
   collide, and `scenesScreen.test.tsx` asserts the server set still lacks `qs`.
+- **A MARKER MEANS WHAT ITS WRITER MEANT, NOT WHAT ITS READER ASSUMES.**
+  `launchPathItem` writes a `BLACK_HOLE_SCREENS` key into `stats.vs` the INSTANT
+  the item is tapped — a VISIT marker, so a learner who leaves in under 20s
+  still ticks the path node. `AlphabetScreen` read the same key as a COMPLETION
+  marker and gated its 20 XP award on it; `award()` is also what writes
+  `nh_session_completed`, so **the day-one curriculum drill could be finished
+  and Today's Session stayed at N-1/N** for anyone who had ever opened the
+  screen (2026-09-23). Nothing crashed and nothing was blank. The test that
+  should have caught it asserted the behaviour correctly under a comment saying
+  `vs` "is the persisted first-completion marker" — **a test can encode the
+  false premise instead of checking it**, and then it defends the defect. When
+  two places write one key, ask what each of them means by it.
 - **A component test and a wiring test are different tests.** A test that
   renders a screen and supplies its props proves the screen works when wired;
   only walking the router proves it IS wired. `award` was the case — see the
