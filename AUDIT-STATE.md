@@ -2014,6 +2014,269 @@ NextUpCard text. The method that keeps working: read the sentence, find what it
 asserts, then ask the code whether it can support that — not whether the number
 is real, but whether the CLAIM is.
 
+### 35. The fluency snapshot named a lightest skill it could not measure — 2026-09-23 — **3 UNCOUNTED ACTIVITIES + 2 QUEST MISLABELS, FIXED**
+
+Fourth from the CLAIMS vs EVIDENCE seam, taken into the Me tab as sweep 34 said
+to. The first three removed a claim each; this one is about a claim that is
+right in form and wrong in the input, which is the harder kind to see.
+
+**THE SENTENCE.** `FluencySnapshot` (Me → Insights) draws three bars and then
+says:
+
+> "This week your lightest skill is Reading — give it some reps."
+
+Nothing about that is fabricated: the three counters are real, and the sentence
+reports the smallest of them. **A COMPARISON IS ONLY AS HONEST AS THE LEAST
+INSTRUMENTED OF THE THINGS COMPARED**, and that had never been checked.
+
+**WHAT THE COUNTERS ACTUALLY COUNT.** `useAward` records a listening or reading
+rep off `award`'s third argument — an activityType string each screen chooses
+for itself. Three screens chose one that is not their modality, and the app
+contradicted itself in writing to do it:
+
+| screen | pool entry | awarded | the contradiction |
+| --- | --- | --- | --- |
+| `VideoLessonScreen` | `category: 'listening'` | `'lesson'` | also `markQuest('speak')` — on a screen with no microphone |
+| `StoryModeScreen` | `category: 'reading'` | `'story'` | `markQuest('reading')` **on the next line** |
+| `AIStoryScreen` | `category: 'reading'` | `'story'` | — |
+
+Measured with a census over the real pool and the real router: listening
+recorded from **3 of its 4** session-servable entries, reading from **1 of its
+3**. So a learner whose reading is AI stories saw Reading sit at zero and was
+told, week after week, to go and read — while doing exactly that. NEVER-DO 13
+reached not by inventing a number but by comparing two that were not
+comparable.
+
+**THE FIX IS A DIRECT RECORDER, NOT A RETYPED AWARD.** `recordReadingRep()` /
+`recordListeningRep()` at each screen's genuine completion point — the
+`writing_guided` / `relpron` shape. Retyping the activityType would have been
+one character per screen and would ALSO have changed `/api/award`'s server-side
+XP cap (`story` 100 → `reading` 80, `lesson` 210 → `listening` 80) and the XP
+audit records. The award semantics are not what is wrong here.
+
+**A COUNTER THAT CAN BE INFLATED IS THE SAME LIE AS ONE THAT STANDS STILL**, so
+`AIStoryScreen`'s Done button had to become a one-shot first. It held
+`const [, setDone] = useState(false)` — **a state setter whose value is
+discarded at the destructure**, read by no branch anywhere. It looked exactly
+like a completion latch. `goBack` is behind a 400 ms timeout and the button was
+never disabled, so the award was already double-tappable and survived only
+because the XP cooldown absorbs the second one; the rep is recorded ABOVE that
+gate by design and would not have been.
+
+**THE SPEAK QUEST WAS BEING CLEARED BY SCREENS WITH NO MICROPHONE**, which is
+the same finding pointed at the quest ledger rather than the fluency bars. The
+Speak Quest reads "Complete 1 speaking exercise", pays 25 XP, and a second tick
+the same day auto-promotes `speak2` for 50 more. `VideoLessonScreen` marked it
+(the 2026-08-14 mislabel: the listening screens were moved off the speak quest
+that day, correctly, and this one was not). Sweeping the class found a second:
+`SlangScreen`, a multiple-choice slang quiz that awards `'vocabulary'`, marked
+`'speak'` **outside its own one-shot guard**, so re-finishing ticked it again
+and paid the tier-2 quest for one quiz. Both now mark what they award.
+
+**THE GUARD FOR IT WAS MEASURED BEFORE IT WAS WRITTEN, and the obvious rule was
+the wrong rule twice.** "A quest must match the award's activityType" was
+dry-run first: **6 hits across 648 component files**, four of them honest
+dual-purpose screens (news is culture AND reading; a tutor conversation does
+correct grammar). "No microphone → no speak quest" was dry-run next: **2 hits,
+one a false positive** — `DialogueSim` has no recogniser and legitimately marks
+it, because its production path is typed and the app's typed-production
+fallback counts identically. The shipped rule is *speech input path OR its own
+award calls the work `'speaking'`*: exactly the two defects, nothing else. The
+123-false-positive lesson, applied by dry run rather than by memory.
+
+**THE FIRST DRAFT OF THE MAIN GUARD WAS DECORATIVE, AND MUTATION SAID SO
+IMMEDIATELY.** `inputRepsRecorded` walks a screen's local imports — it has to,
+because `ListeningComprehensionScreen` keeps its whole completion in
+`listening/useListeningQuiz` — and `lib/listeningMetric` DECLARES
+`recordListeningRep`. So every screen that merely IMPORTED the recorder matched
+the call test: deleting the call from `VideoLessonScreen` left all 25 tests
+green. **This is `couplingClearingPath`'s `recordScreenPractised` blind spot,
+written up in CLAUDE.md, reproduced exactly** — and it was not caught by
+remembering the write-up, it was caught by running the mutation. Declarations
+are stripped now, and both strippers are driven by their own probes rather than
+trusted to the corpus.
+
+**Two guards, kept deliberately side by side**: `inputRepsRecorded.test.ts`
+derives its subject from `CEFR_EXERCISE_POOL` and asks whether a declared
+modality records its own rep (with `reference: true` exempt — a browse surface
+has no graded finish — checked in BOTH staleness directions);
+`speakQuestEarned.test.ts` sweeps all of `src` and asks whether a claimant of
+the speak quest can hear. Neither restates the other's subject and they fail
+with different sentences. The PLUMBING both depend on — that the counter really
+keys off activityType, and is read ABOVE the XP-cooldown gate — is asserted as
+an EFFECT against the real `useAward` and the real metric modules in
+`useAward-coverage.test.ts`, because a source walk proves a path exists, not
+that it runs.
+
+Mutation-verified, **ten, each confirmed LANDED**: `recordListeningRep` removed
+from VideoLesson → 1 fail (and SURVIVED before the declaration strip — the
+finding above); both `recordReadingRep` removed from StoryMode → 1; from
+AIStory → 1; the import walk removed → 1 (ListeningComprehension); the
+exemption row deleted → 1; `grammarreader` made non-reference → 2; comment
+stripping made identity → 2 in one file and 3 in the other, **both in the
+DANGEROUS direction** (the prose in which these very screens discuss the
+mislabel reads as a violation, and `lib/quests.ts` gets dragged in); the reading
+rep keyed on `'story'` → 2; the rep moved BELOW the cooldown gate → 1; the
+`doneRef` one-shot removed → 1; SlangScreen back to `'speak'` → 1; VideoLesson
+back to `'speak'` → 2.
+
+**ONE MUTATION SURVIVED AND IS REPORTED AS SUCH**: walking only the screen's own
+file, in `speakQuestEarned`, leaves all 7 green — every current claimant has its
+recogniser inline or takes the `award('speaking')` branch. The walk is kept
+because the semantics are right (this repo decomposes screens into hooks), not
+because it is catching something, and the file says so.
+
+Suite: see below. tsc clean; lint clean. E2E audit: greps run for every
+user-visible string on the changed controls ("Done — +15 XP ✓", "New Story",
+the slang/video/story screen names) and for every quest name and quest
+localStorage key — **no spec asserts a quest, a rep counter, or any label this
+touched**; no user-visible string changed.
+
+**WHAT THIS LEAVES IN THE SEAM.** `reviewReason(dueCount)`'s caller (servable vs
+raw due — sweep 33's shape, still unchecked); `LessonAcquisitionCard` and
+`ConceptMapCard`'s sentences; `NextStepPrompt` / `NextUpCard` text. And a new
+question this sweep raises rather than answers: the three rep counters are
+DEVICE-LOCAL (only production syncs, via `stats.pr`), so the snapshot's
+comparison is per-device by construction — a learner who reads on their phone
+and listens on their laptop is told something true of neither. That is a
+design decision to take, not a defect to fix quietly.
+
+### 36. "Nothing measured" rendered as "nothing wrong" — 2026-09-23 — **2 REAL DEFECTS, FIXED**
+
+Fifth from the CLAIMS vs EVIDENCE seam, and a **direction NEVER-DO 13's usual
+statement does not cover**. The rule is normally read as "do not display a
+number the app did not measure". Neither defect here displays a number. They
+turn an EMPTY MEASUREMENT into a POSITIVE VERDICT — which is the same lie with
+the arithmetic removed, and it is harder to see precisely because there is no
+figure to check.
+
+**DEFECT 1 — `CroatianErrorInsights`: "🏆 No weak topics — great work!"**
+rendered whenever `getWeakTopics()` returned `[]`. That function returns `[]`
+for **four** states and the caller could not tell them apart: no data at all;
+data below the 3-attempt bar; data gone stale past `STALE_MS` (30 days); and a
+learner who is genuinely strong. Only the last earns the sentence.
+
+The card **contradicted itself in the same box**: the line directly under the
+trophy read "Complete more exercises across different topics to see where you
+need improvement." Congratulation on top in bold, an admission that nothing had
+been measured underneath, neither aware of the other.
+
+**Who actually saw it, stated precisely rather than dramatically**: the Weak
+Topics tab is only offered when there are tracked error patterns or weak topics,
+so a completely fresh learner cannot reach it. The reachable cases are a learner
+who has produced writing or speech (which fills `nh_learner_errors`) but never
+done a drill (which is what fills `topic_accuracy`) — and, worse, **a returning
+learner whose drill data has all gone stale**, who is handed a trophy on the
+evidence of a month's absence. The staleness reset exists so old struggles do
+not haunt the panel; it silently produced a commendation instead.
+
+`weakTopicEvidence()` reports `{ measured, thin, stale }` and applies the SAME
+bar as the weak list — `MIN_TOPIC_ATTEMPTS` is now a named constant used by
+both, because a denominator computed with a different threshold from the
+numerator is the exact defect the function exists to prevent (mutation N2 pins
+it: counting raw rows fails 5).
+
+**DEFECT 2 — `LessonAcquisitionCard`: "Every lesson you have taken passed first
+time."** `report.measured` counts lessons with a taught attempt in a store that
+began recording on 2026-09-07, so **every learner who already had a history
+started at zero**. Take one lesson, pass it, and the card announced a perfect
+record over everything it cannot see. The summary line ONE ROW ABOVE states its
+own denominator ("N of M lessons passed their check on the first reading") and
+was honest from the day it shipped; this line named no denominator and
+inherited none. It now defers to that same M — "None of them needed a second
+go." **The scope was already on the card; the sentence just refused to use
+it.**
+
+**THE TEST THAT DEFENDED THE OTHER HALF OF SWEEP 35.** The full-suite run for
+sweep 35 came back **1 failed**, and it was `slang-screen.test.tsx`'s
+`quiz "Done" button calls markQuest("speak")` — a test that read the code and
+wrote it down. Third time this session (the `vs`-as-completion-marker comment in
+sweep 22, the "no evidence, no claim" block in sweep 32, this). It now asserts
+the quest matches what the screen awards, that `speak` is NOT marked, and that a
+second Done does not tick it twice.
+
+Mutation-verified, three, each confirmed LANDED: the empty state congratulating
+unconditionally → 4 fail (including the positive control — the unconditional
+string carries no count, so "measured and strong DOES earn it" fails too);
+`weakTopicEvidence` counting raw rows → 5; the all-clear line back to "Every
+lesson you have taken" → 1.
+
+tsc clean; lint clean. E2E audit: greps run for every user-visible string
+changed ("No weak topics", "great work", "Complete more exercises", "Every
+lesson you have taken", "passed first time") and for the tab label and both
+test ids — **no spec references any of them**.
+
+**WHAT THE CLASS LEAVES OPEN.** `FlashcardEmptyState` and `ReviewScreen` both
+say "All caught up! 🎉" for an empty SRS queue, which is the same shape — but
+"No more cards due right now" is literally true of a learner with no deck, so
+it is a weaker case and was left alone deliberately rather than swept in. Say
+which ones were looked at and not changed, or the next person re-derives the
+same list.
+
+### 37. The daily session never noticed midnight — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+From the INTERACTIONS list rather than the claims seam — the queue's own
+"retention ladder vs a date rollover with the app left open" item — and it
+turned out to be the daily session, not the ladder.
+
+**THE DEFECT.** `useDailySession`'s rebuild effect has always computed
+`isNewDay` and has always known what to do with it. Its dependency array was
+`[userCefr]`, so **nothing ever re-ran it for a date change**: the check fired
+on mount and never again. Reproduced before fixing — advance the clock past
+midnight, fire `visibilitychange`, `session.date` is still yesterday's.
+
+**THIS IS NOT AN EDGE CASE ON A PWA, IT IS THE NORMAL USAGE PATTERN.** The app
+sits backgrounded on a phone, midnight passes, the learner brings it back — and
+Today's Session shows YESTERDAY'S plan with yesterday's completions. A learner
+who finished last night is told they have finished today. It is the CLAIMS vs
+EVIDENCE seam reached from the interactions side: nothing is invented, the card
+simply answers "what have you done today?" with data about a different day.
+
+**THE MECHANISM WAS ALREADY ON THE SAME SCREEN.** `HomeTab` has `checkDay` on
+`visibilitychange`, which is exactly this problem solved — for the word and
+phrase of the day. The session sat beside it, unwired, for as long as both
+existed. Same shape as the badge that followed the certified level while two
+other badges did not: the right answer present in the file, used for one
+consumer.
+
+**THE FIX** is a `dayStamp` the hook holds and the rebuild effect depends on,
+moved by `visibilitychange` / `focus` / `pageshow` — the wake-from-sleep trio
+`useSyncManager` already listens on — and only when the date actually changed.
+
+**DELIBERATELY NOT A TIMER, and the residual gap is recorded rather than
+hidden**: a learner LOOKING at the app as midnight passes keeps yesterday's
+plan until they switch away and back. A timer would close that and would also
+reset the plan under their hands mid-session — a worse failure than a short
+delay, and one they cannot explain. The app coming back is the honest moment to
+roll over.
+
+**A MUTATION SURVIVED AND THE TEST'S OWN REASONING WAS WRONG.** O2 replaced the
+listener's `prev === localDateStr()` check with an unconditional stamp and all
+six tests stayed green — because the EFFECT returns early by itself when
+neither the day nor the level moved. The test asserting "a resume on the same
+day rebuilds nothing" carried a comment crediting the listener's guard, and was
+passing for the effect's reason. So the guard buys a RE-RENDER, not a rebuild;
+a seventh test now counts renders across a same-day resume, and O2 fails it.
+**Assert what the guard actually does, or the guard is decorative** — this is
+the fourth time this session a test has been passing for a reason other than
+the one written above it.
+
+Mutation-verified, three, each confirmed LANDED: `dayStamp` removed from the
+deps (the original bug) → 5 fail; the listener stamping unconditionally → 1
+(after the fix above; **0 before it**, reported); only `visibilitychange`
+listened for → 2.
+
+tsc clean; lint clean. E2E audit: no user-visible string changed, and the three
+listeners cannot fire a rebuild on an unchanged date, so no spec's tab-switch
+or reload behaviour moves.
+
+**WHAT THIS DOES NOT CLOSE.** The other half of that queue item — a
+`verification_fail` demotion against content already unlocked and against a
+plan built at the higher level — is still unchecked. The plan half is now
+partly answered (the rebuild effect keys on `userCefr`, so a level change does
+invalidate it), but WHICH level string that is, and whether a demotion moves
+it, was not established here.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

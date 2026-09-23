@@ -7,6 +7,7 @@ import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/a
 import { getActiveVocabulary } from '../../lib/activeVocabulary';
 import { getUserCefr } from '../../lib/cefr';
 import { useStats } from '../../context/StatsContext';
+import { recordReadingRep } from '../../lib/readingMetric';
 
 export default function AIStoryScreen({
   goBack,
@@ -32,7 +33,14 @@ export default function AIStoryScreen({
   const [rawReply, setRawReply] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showTranslation, setShowTranslation] = useState(false);
-  const [, setDone] = useState(false);
+  // Done is a ONE-SHOT. It used to be `const [, setDone] = useState(false)` —
+  // a state setter whose value nothing read, so it forced a re-render and
+  // guarded nothing, and the button it sits behind is never disabled. The
+  // award was already double-tappable (the XP cooldown absorbs the second
+  // one; the reading rep below is recorded BEFORE that gate, by design, so it
+  // would not have been). A ref says what the old state only looked like it
+  // said.
+  const doneRef = useRef(false);
   // Content-Rec #3: feed the learner's ACTIVE vocabulary (weak → due → learning →
   // high-frequency core) into the story so it recycles the words they're actually
   // working on, in context — instead of this screen's old, narrower "wrong>right"
@@ -145,8 +153,17 @@ export default function AIStoryScreen({
   }, []);
 
   function handleDone() {
+    if (doneRef.current) return;
+    doneRef.current = true;
     if (typeof award === 'function') award(15, false, 'story');
-    setDone(true);
+    // An AI story is READING — the pool entry says `category: 'reading'` and
+    // the guaranteed input slot serves it as the day's reading. `award`'s
+    // activityType is 'story', which is what useAward keys the reading rep
+    // off, so the Fluency Snapshot counted nothing for it. Recorded here
+    // rather than by retyping the award, because activityType also sets the
+    // server XP cap in /api/award (story 100 vs reading 80) and this screen's
+    // award semantics are not what is wrong.
+    recordReadingRep();
     setTimeout(goBack, 400);
   }
 

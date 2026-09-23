@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getTopErrors, getErrorsByCategory } from '../../lib/learnerErrors.js';
-import { getWeakTopics } from '../../lib/adaptive.js';
+import { getWeakTopics, weakTopicEvidence } from '../../lib/adaptive.js';
 import { useApp } from '../../context/AppContext';
 
 // ── Error code → friendly explanation mapping ─────────────────────────────────
@@ -526,6 +526,10 @@ export default function CroatianErrorInsights() {
 
   const topErrors = getTopErrors(8);
   const weakTopics = getWeakTopics(65);
+  // `getWeakTopics` returns [] for "nothing measured" and for "nothing wrong"
+  // alike; the empty state below used to render the second for both. See
+  // `weakTopicEvidence` for why that is the same defect as a fabricated number.
+  const topicEvidence = weakTopicEvidence();
   const byCategory = getErrorsByCategory();
   const totalErrors = topErrors.length;
   const errorCats = Object.entries(byCategory).filter(([, v]) => v.length > 0);
@@ -713,14 +717,25 @@ export default function CroatianErrorInsights() {
                 borderRadius: 16,
               }}
             >
-              <div style={{ fontSize: 36, marginBottom: 10 }}>🏆</div>
+              <div style={{ fontSize: 36, marginBottom: 10 }} aria-hidden="true">
+                {topicEvidence.measured > 0 ? '🏆' : '📊'}
+              </div>
               <div
+                data-testid="weak-topics-empty"
                 style={{ fontSize: 14, fontWeight: 800, color: 'var(--heading)', marginBottom: 6 }}
               >
-                No weak topics — great work!
+                {topicEvidence.measured > 0
+                  ? `No weak topics among the ${topicEvidence.measured} you have practised — great work!`
+                  : 'Nothing measured yet.'}
               </div>
               <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.6 }}>
-                Complete more exercises across different topics to see where you need improvement.
+                {topicEvidence.measured > 0
+                  ? 'Practise more topics to widen what this can see.'
+                  : `A topic needs a few answers before this can say anything about it${
+                      topicEvidence.thin > 0
+                        ? ` — ${topicEvidence.thin} ${topicEvidence.thin === 1 ? 'is' : 'are'} part way there`
+                        : ''
+                    }.`}
               </div>
             </div>
           ) : (

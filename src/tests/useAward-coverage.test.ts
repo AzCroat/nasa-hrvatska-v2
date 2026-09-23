@@ -24,6 +24,8 @@
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import { getListeningReps } from '../lib/listeningMetric';
+import { getReadingReps } from '../lib/readingMetric';
 
 // ── Mocks (must match useAward.test.ts exactly) ───────────────────────────────
 
@@ -991,5 +993,56 @@ describe('negative amt', () => {
     });
     // setStats IS called (negative is valid, just won't trigger comeback bonus)
     expect(setStats).toHaveBeenCalled();
+  });
+});
+
+// ── The fluency-rep plumbing (sweep 35, 2026-09-23) ───────────────────────────
+//
+// FluencySnapshot compares three counters and NAMES THE LIGHTEST — "This week
+// your lightest skill is Reading — give it some reps." A comparative claim is
+// only as honest as the least-instrumented of the things it compares, and the
+// listening and reading counters are keyed on `award`'s activityType, which is
+// a string each screen chooses for itself. Three screens chose one that is not
+// their modality, so the counter stood still while the learner practised:
+// VideoLessonScreen ('lesson', a `listening` pool entry), StoryModeScreen and
+// AIStoryScreen ('story', both `reading` pool entries). Measured at the time:
+// listening recorded from 3 of its 4 session-servable pool entries, reading
+// from 1 of its 3.
+//
+// `inputRepsRecorded.test.ts` guards the SCREENS. These four guard the PLUMBING
+// they depend on — that the activityType really is what useAward keys off, and
+// that it is read before the XP-cooldown gate, which is the whole reason the
+// screens were allowed to record directly instead of retyping their awards.
+describe('listening and reading reps are keyed on activityType', () => {
+  it("award(..., 'listening') records a listening rep and no reading rep", async () => {
+    await runAward('video_lesson', 10, false, undefined, undefined, 'listening');
+    expect(getListeningReps()).toEqual({ total: 1, thisWeek: 1 });
+    expect(getReadingReps()).toEqual({ total: 0, thisWeek: 0 });
+  });
+
+  it("award(..., 'reading') records a reading rep and no listening rep", async () => {
+    await runAward('graded_input', 10, false, undefined, undefined, 'reading');
+    expect(getReadingReps()).toEqual({ total: 1, thisWeek: 1 });
+    expect(getListeningReps()).toEqual({ total: 0, thisWeek: 0 });
+  });
+
+  it('an activityType that is not the modality records NOTHING — the defect shape', async () => {
+    // What StoryModeScreen and AIStoryScreen passed ('story'), and what
+    // VideoLessonScreen passed ('lesson'). Both are valid award types; neither
+    // is a modality, so the counter never moved.
+    await runAward('storymode', 10, false, undefined, undefined, 'story');
+    await runAward('video_lesson', 10, false, undefined, undefined, 'lesson');
+    expect(getReadingReps().total).toBe(0);
+    expect(getListeningReps().total).toBe(0);
+  });
+
+  it('the rep is recorded even when the XP cooldown blocks the award', async () => {
+    // markExerciseDone runs on the first award, so the second is on cooldown.
+    // Input VOLUME is the fluency signal and is decoupled from the XP economy
+    // — the placement above the cooldown gate is what lets a screen that
+    // already awarded today still count the reps the learner actually did.
+    await runAward('ai_listening', 10, false, undefined, undefined, 'listening');
+    await runAward('ai_listening', 10, false, undefined, undefined, 'listening');
+    expect(getListeningReps().total).toBe(2);
   });
 });

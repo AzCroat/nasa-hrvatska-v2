@@ -322,13 +322,32 @@ describe('SlangScreen — quiz', () => {
     expect(screen.queryByTestId('quiz-panel')).toBeNull();
   });
 
-  it('quiz "Done" button calls markQuest("speak")', () => {
+  // THIS TEST USED TO ASSERT markQuest('speak') AND DEFENDED THE DEFECT
+  // (2026-09-23). This is a multiple-choice slang quiz — no microphone, no
+  // recogniser anywhere in it — and its own award says `'vocabulary'`, yet it
+  // cleared the Speak Quest ("Complete 1 speaking exercise", 25 XP). The test
+  // read the code and wrote it down; nothing asked whether it should be true.
+  // Same shape as the `vs`-as-completion-marker test in sweep 22.
+  it('quiz "Done" marks the VOCAB quest, which is what it awards', () => {
     renderScreen();
     clickQuiz();
     // The mock always renders "Done" when quizMode=true — no need to answer questions
     const doneBtn = screen.getAllByRole('button').find((b) => b.textContent?.trim() === 'Done')!;
     fireEvent.click(doneBtn);
-    expect(mockMarkQuest).toHaveBeenCalledWith('speak');
+    expect(mockMarkQuest).toHaveBeenCalledWith('vocab');
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('speak');
+  });
+
+  it('quiz "Done" twice marks the quest ONCE', () => {
+    // The mark sat outside the one-shot guard, so re-finishing ticked it again
+    // — and a second tick the same day auto-promotes the tier-2 quest
+    // (`TIER2_MAP`), paying for one quiz twice.
+    renderScreen();
+    clickQuiz();
+    const doneBtn = screen.getAllByRole('button').find((b) => b.textContent?.trim() === 'Done')!;
+    fireEvent.click(doneBtn);
+    fireEvent.click(doneBtn);
+    expect(mockMarkQuest.mock.calls.filter((c) => c[0] === 'vocab')).toHaveLength(1);
   });
 
   it('quiz "Done" with quizScore=0 does NOT call award (xp > 0 guard)', () => {

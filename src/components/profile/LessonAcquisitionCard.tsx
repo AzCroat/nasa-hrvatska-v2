@@ -16,6 +16,18 @@
 // being read. A lesson never reached is absent rather than a zero, because "not
 // taught yet" and "taught badly" are different facts (NEVER DO 13). Test-out
 // attempts are excluded upstream — they happen before the lesson is read.
+//
+// AND THE ALL-CLEAR LINE BROKE THAT, FOR ONE WORD (2026-09-23). It read "Every
+// lesson you have taken passed first time." `report.measured` counts lessons
+// with a taught attempt IN THIS STORE, which began recording on 2026-09-07 and
+// is per-device until it syncs — so every learner who had already completed
+// lessons had a measured count of zero on the day it shipped. Take one lesson,
+// pass it, and the card announced that every lesson you had ever taken passed
+// first time, over a history it cannot see. The summary line above states its
+// own denominator ("N of M lessons…"), which is why it was always honest; this
+// line named no denominator and inherited none. It now refers to that same M
+// ("None of them…") and so cannot claim past it — the smallest possible fix,
+// and the right one: the scope was already on the card, one line up.
 
 import React from 'react';
 import { qualityReport, type LessonQuality } from '../../lib/lessonAttempts';
@@ -64,8 +76,11 @@ export default function LessonAcquisitionCard() {
       </p>
 
       {shown.length === 0 ? (
-        <p style={{ fontSize: 13, color: 'var(--subtext)', margin: 0 }}>
-          Every lesson you have taken passed first time.
+        <p
+          data-testid="acquisition-all-clear"
+          style={{ fontSize: 13, color: 'var(--subtext)', margin: 0 }}
+        >
+          None of them needed a second go.
         </p>
       ) : (
         <React.Fragment>

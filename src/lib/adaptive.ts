@@ -18,6 +18,11 @@ const KEY = 'topic_accuracy';
 // This prevents old struggles from permanently marking a topic as "weak" after
 // the learner has had a long break and potentially improved through other means.
 const STALE_MS = 30 * 24 * 60 * 60 * 1000;
+// A topic is not MEASURED until it has this many attempts. Named because
+// `weakTopicEvidence` has to apply the SAME bar as `getWeakTopics` — a
+// denominator computed with a different threshold from the numerator is the
+// defect that function exists to make impossible.
+const MIN_TOPIC_ATTEMPTS = 3;
 
 interface TopicData {
   attempts: number;
@@ -75,7 +80,7 @@ export function getWeakTopics(
   return Object.entries(data)
     .filter(
       ([, v]) =>
-        v.attempts >= 3 &&
+        v.attempts >= MIN_TOPIC_ATTEMPTS &&
         (v.correct / v.attempts) * 100 < threshold &&
         now - v.lastAttempt < STALE_MS, // only surface recent data
     )
@@ -85,6 +90,37 @@ export function getWeakTopics(
       attempts: v.attempts,
     }))
     .sort((a, b) => a.accuracy - b.accuracy);
+}
+
+/**
+ * How much evidence `getWeakTopics` had to work with (2026-09-23).
+ *
+ * THE PROBLEM IT EXISTS FOR: `getWeakTopics` returns `[]` for FOUR different
+ * states and the caller cannot tell them apart — no data at all, data that has
+ * not reached `MIN_TOPIC_ATTEMPTS`, data gone stale past `STALE_MS`, and a
+ * learner who is genuinely strong everywhere. `CroatianErrorInsights` rendered
+ * a trophy and "No weak topics — great work!" for all four, so a learner who
+ * had practised nothing was congratulated on having no weaknesses — with the
+ * line underneath simultaneously admitting nothing had been measured. Two
+ * sentences on one card saying opposite things, and the celebratory one was on
+ * top in bold (NEVER DO 13).
+ *
+ * `measured` counts topics that actually CLEAR both filters, so it is exactly
+ * the denominator the weak list was drawn from — never a count of rows in
+ * storage, which would claim evidence the threshold rejected.
+ */
+export function weakTopicEvidence(): { measured: number; thin: number; stale: number } {
+  const data = _load();
+  const now = Date.now();
+  let measured = 0;
+  let thin = 0;
+  let stale = 0;
+  for (const v of Object.values(data)) {
+    if (now - v.lastAttempt >= STALE_MS) stale++;
+    else if (v.attempts < MIN_TOPIC_ATTEMPTS) thin++;
+    else measured++;
+  }
+  return { measured, thin, stale };
 }
 
 // ─── Path adjustment ─────────────────────────────────────────────────────────

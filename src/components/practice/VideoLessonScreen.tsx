@@ -4,6 +4,7 @@ import VideoBackground from '../shared/VideoBackground';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
+import { recordListeningRep } from '../../lib/listeningMetric';
 import { lsGet, ssGet } from '../../lib/safeStorage';
 
 // Topic → Croatian scene video key for VideoBackground
@@ -283,7 +284,20 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
         xpAwarded.current = true;
         const xp = finalScore >= qCount ? 30 : finalScore > 0 ? 15 : 5;
         award(xp, false, 'lesson');
-        markQuest('speak');
+        // A video lesson is LISTENING, and every other surface in the app
+        // already says so: the pool entry is `category: 'listening'`, the
+        // comprehension questions are about what was heard. Two places did
+        // not. `markQuest('speak')` is the 2026-08-14 mislabel that was
+        // corrected on the listening screens and survived here — it cleared
+        // the Speak Quest ("Complete 1 speaking exercise") for a learner who
+        // had not spoken. And `award`'s activityType is 'lesson', which is
+        // what useAward keys the listening rep off, so the Fluency Snapshot
+        // counted nothing for it. The rep is recorded here rather than by
+        // retyping the award, because activityType also sets the server XP
+        // cap in /api/award and this screen's award semantics are not what
+        // is wrong (the `writing_guided` / `relpron` shape).
+        recordListeningRep();
+        markQuest('listening');
       }
     }
   }
