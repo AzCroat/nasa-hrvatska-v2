@@ -2687,6 +2687,75 @@ are genuinely written by `useAward`).
 **WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `SkillRadar`, `JourneyTimeline`,
 `XPActivityCalendar` — four Me-tab visualisations, none yet read.
 
+### 43. Three of the five axes measured nothing — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+Next in the seam sweep 42 left open (`ProgressCharts`, **`SkillRadar`**,
+`JourneyTimeline`, `XPActivityCalendar`). `SkillRadar` is the Me tab's "Skill
+Profile" card: a pentagon, five labelled axes, a percentage printed on each, and
+a red **"Focus here →"** on the weakest.
+
+**THREE OF THE FIVE AXES READ FIELDS THAT DO NOT EXIST.** The component declared
+`st: { wl?, gc?, listen?, speak?, rc? }` and plotted:
+
+    Vocab      (st.wl || 0) / 2
+    Grammar    (st.gc || 0) * 10
+    Listening  (st.listen || 0) * 20
+    Speaking   (st.speak || 0) * 10
+    Reading    (st.rc || 0) * 5
+
+`wl`, `listen` and `speak` are **not on `Stats`** — checked in the interface, in
+`statsReducer`, in `mergeStatsFromRemote`, in `sanitizeStats`, and by grepping
+every write in `src`. Nothing has ever written any of them. So three axes were
+`undefined || 0` for every learner since the card shipped, plotting a collapsed
+polygon and printing a literal **"0%"** beside each.
+
+**THE DISPLAY WAS THE SMALL HALF.** `weakIdx` is the lowest score and the row it
+lands on renders "Focus here →". Three axes tied at zero, and `reduce` keeps the
+FIRST on a tie — index 0, **Vocab**. So every learner who has ever opened the Me
+tab has been told their weakest skill is vocabulary and to focus there, on the
+evidence of a field name that matches nothing. That is NEVER-DO 13 on a
+recommendation, and it is the _lightest skill_ defect (sweep 39) and the _weak
+topics_ defect (sweep 36) in a third place: a recommendation derived from a
+measurement that was never taken.
+
+The two surviving axes were not honest either: `gc * 10` asserts that ten
+grammar completions is 100% of something and `rc * 5` that twenty readings is —
+conversion factors nobody defined, rendered as a percentage.
+
+**THE FIX POINTS IT AT THE LEDGER.** `lib/masteryLedger` is the app's canonical
+per-skill measurement, already carries exactly these five skills (plus writing),
+and is what `buildPlanReason` and `weakestProductionKind` already consult — so
+the radar and the recommender now answer from one source instead of disagreeing.
+It is read at `getCurrentContentLevel()`, the same expression
+`recordExerciseOutcome` keys its cells on, so the card cannot read a level
+nothing was written to. The component takes **no props**; `StatsTab` mounts it
+bare.
+
+**AN UNMEASURED SKILL IS NOT A ZERO.** No cell, or fewer than `MIN_SAMPLES`
+samples, renders **"not measured"** and an em dash on the axis — never 0%,
+and never eligible to be the focus. With nothing measured the card recommends
+NOTHING (`weakIdx === -1`), which is the same rule the concept map, the weak
+topics card and `productionReason` already follow.
+
+**GUARDED BY RENDERING, NOT BY A SOURCE PIN.** `skillRadar.test.tsx` (8, new —
+the component had no test at all) seeds the REAL `nh_mastery_ledger` at the REAL
+level and renders. A pin asserting "does not read `st.wl`" would pass just as
+happily the day the data is renamed underneath it — that is the `RegionScreen`
+`v.tip` lesson, where the failure mode is a field name agreeing with nothing.
+One source assertion is kept, and only for the WIRING (`StatsTab` mounts it with
+no `st`), which rendering cannot see.
+
+Mutation-verified, five, each confirmed landed: unmeasured scored as 0 (the old
+behaviour) fails 5; `weakIdx` over all five axes with null as 0 fails 3; null
+rendered as "0%" fails 3; the `tested` check dropped fails 1; `StatsTab` passing
+`st={st}` again fails 1.
+
+tsc clean; lint clean; E2E audit: no spec references "Skill Profile", "Focus
+here", any radar test id, or an axis label — the card is unasserted in E2E.
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `JourneyTimeline`,
+`XPActivityCalendar`.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
