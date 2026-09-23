@@ -3740,6 +3740,82 @@ so nothing is lost, per the owner directive.
 
 ---
 
+### 57. Four screens the registry describes wrongly — 2026-09-23 — **1 LIVE MISLABEL + 2 LATENT LANDMINES, RECORDED; FIX JOINS 56**
+
+**The question**, which sweep 56 handed over: *where does one screen carry more
+than one classification, and do they agree?* Sweep 56 found `dictation` labelled
+three ways (`kind: 'write'` in `PRODUCTION_POOL`, `category: 'speaking'` in
+`sessionPools`, `activityType: 'listening'` at its award call). That is a shape,
+not an instance, so it was swept.
+
+**The derivation.** `exerciseRegistry.ts` is the declared "single source of truth
+for screen completion policy" and carries `questKind` + `activityType` per key.
+A screen that HAND-ROLLS `award(..., type)` / `markQuest(id)` states the same two
+facts itself. Where a screen does both — hand-rolls AND has a registry row — the
+two must agree. Compared all 267 registry rows against every component that
+hand-rolls (i.e. does NOT call `completeExercise`), matching on the `vs` key the
+screen writes.
+
+**Four disagreements, and they are not all the same severity:**
+
+| key | registry says | the screen does | verdict |
+| --- | --- | --- | --- |
+| `shadowing` | `e('lc', 'speak', 'speaking')` | `award(…, 'listening')`, `markQuest('listening')` | **the SCREEN is wrong — LIVE** |
+| `story-comprehension` | `e('lc', 'listening', 'listening')` | `'reading'` / `'reading'` | the ROW is wrong — latent |
+| `writing` | `e('lc', 'grammar', 'grammar')` | `'writing'` / `'write'` | the ROW is wrong — latent |
+| `srsreview` | `e('rc', 'grammar', 'default')` | `'review'` / `'master'`,`'review'` | the ROW is stale — benign in effect |
+
+**LIVE vs LATENT, established rather than assumed.** Only two things import the
+registry: `completeExercise` (reads `questKind`/`activityType`) and `appUtils`,
+which uses `EXERCISE_COMPLETION[key]` for MEMBERSHIP only. None of these four
+screens calls `completeExercise`, so their rows' `questKind`/`activityType` are
+read by nothing today. Three are therefore **inert copies** — the sweep 48–51
+shape exactly, a fact kept twice where only one copy is exercised.
+
+**THE TWO LATENT ONES ARE LANDMINES, not tidy-ups, because each would REVERSE a
+defect this file already records fixing:**
+
+- `story-comprehension` is the GRADED READER. Its row says `listening`. Wire that
+  screen to `completeExercise` — which is the migration the registry's own header
+  describes as in progress — and the reader starts recording LISTENING evidence,
+  re-creating sweep 21 ("the ledger could never measure reading, and that latched
+  the input slot") from the opposite direction.
+- `writing` is a first-class skill whose measurement drives
+  `weakestProductionKind`. Its row says `grammar`, so migrating that screen would
+  book writing practice as grammar and starve the production picker.
+
+`srsreview` is the mild one: `'default'` and `'review'` are both absent from
+`ACTIVITY_TO_SKILL`, so neither records a skill and the effect is identical. Only
+the `questKind` genuinely differs (`grammar` vs `master`/`review`).
+
+**THE LIVE ONE CONFIRMS SWEEP 56 FROM THE OTHER SIDE.** Sweep 56 noted that
+`ShadowingScreen` awards `'listening'` while being the `kind: 'speak'`,
+`micRequired`, acoustically-scored production entry, and left it as an
+observation. The registry independently says `speak`/`speaking` for that same
+key. So **the app already knows shadowing is speaking**, in the file that calls
+itself the single source of truth, and the screen credits the LISTENING quest
+for it. A learner doing acoustically-scored speaking practice is credited
+listening, today, on every finish.
+
+**THE META-FINDING, and it is the reusable part.** The registry's own header
+says these fields for "not-yet-migrated rows are best-known from the audit and
+are re-verified against each component when that screen is wired up". That is
+honest — and nothing performs the re-verification, and nothing notices a
+disagreement in the meantime. **A documented TODO with no mechanism is the
+`wrangler.toml` "Shared with scheduled worker above" pattern**: a sentence
+asserting two things agree, doing none of the work of making them.
+
+**FIX JOINS SWEEP 56's PR, deliberately.** Both findings centre on the same
+screen and the same class, so splitting them would put two changes to
+`ShadowingScreen`'s classification in two PRs. That PR will: correct the three
+stale rows, change `ShadowingScreen` to award `'speaking'` / `markQuest('speak')`
+to match the registry (a learner-VISIBLE change — which quest is credited — so
+it needs its own E2E audit), add the ledger writers sweep 56 identified, and add
+a guard that fails on any registry/screen disagreement so the header's promised
+re-verification finally has a mechanism.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3806,6 +3882,14 @@ None of them crash, so no sweep above can see any of them.
         whose completion contract nothing exercises — the ratchet guards the
         exemption, not the coverage.
 
+      - **OPEN, WITH THE WORK NAMED: one PR carrying sweeps 56 + 57.** Both
+        centre on `ShadowingScreen`'s classification, so they ship together:
+        correct the three stale `exerciseRegistry` rows (two are landmines that
+        would reverse sweep 21 and starve the production picker on migration),
+        change `ShadowingScreen` to award `'speaking'`/`markQuest('speak')` to
+        match the registry (learner-visible — needs its own E2E audit), add the
+        ledger writers, and give the registry header's promised re-verification
+        an actual mechanism.
       - **OPEN, WITH THE WORK NAMED: three speaking screens the ledger cannot
         see.** Sweep 56 measured it — 56-74% of the production slot's `speak`
         picks go to a screen that records no mastery evidence, so the "speaking
