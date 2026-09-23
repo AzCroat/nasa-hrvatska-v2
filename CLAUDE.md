@@ -2214,6 +2214,28 @@ into), `Želim kavu` against `Koliko košta kava`. B2–C2 still inherit the old
 and the coverage guard asserts BOTH halves so "authored" cannot quietly shrink and
 the degrade path stays real until it is filled.
 
+**THE LADDER IS COMPLETE (2026-09-23): all 48 units, 144 sentences, A1–C2.**
+The upper levels drill the governments a learner still gets wrong at B2+ —
+`unatoč` + DATIVE (not genitive), `zahvaljujući`/`prema`/`protivno` + dative,
+`tijekom`/`oko`/`bez`/`poput`/`u ime` + genitive, `temeljiti se`/`inzistirati`/
+`ovisiti` + locative, `držati se` + genitive, and the quantity genitive after
+`dva`/`tri`/`puno`/`više`. All 48 units now carry build sentences, so the
+screen's `buildItems.length > 0 ? 'build' : 'speak'` branch is a GUARD-RAIL
+rather than a live path; the coverage test is what keeps it one, and it fails
+before a learner could meet the empty stage it protects against.
+
+**AND THE -ak RULE WAS WRONG IN BOTH DIRECTIONS (2026-09-23), found the same
+way.** The fleeting-a rule drops the a for polysyllabic `-ac`/`-ak` — right for
+`početak`, `zaključak`, `naglasak`, `podatak`, and WRONG for `korak` (→ `korka`)
+and `stručnjak` (→ `stručnjka`), which keep it. It also could not know that
+`dolazak` DEVOICES its z (`dolasku`, never `dolazku`), that `tjedan` has a
+fleeting a OUTSIDE the `-ac`/`-ak` scope (`tjedna`, not `tjedana`), or that
+`podatak` sibilarizes to `podacima` rather than `podatcima`. All five are now
+attested irregulars. **There is no rule that gets this right** — the class is
+lexical in both directions, so the list is the mechanism and it can only grow.
+Keeping the a must not suppress the softening either: `korak` → `koraci`,
+`koracima`, but `koraka` and `korake`, and that is pinned separately.
+
 **THE ENGINE WAS WRONG ABOUT `centar`, AND VERIFYING FIRST IS THE ONLY REASON IT
 DID NOT SHIP.** `decline('centar')` returned `centaru`/`centara` for the oblique
 singular; the Croatian is `centru`/`centra`. The fleeting-a rule is scoped to

@@ -111,21 +111,17 @@ describe('gradeBuild — it grades the GRAMMAR POINT, not the sentence', () => {
 describe('the authored build sentences', () => {
   const withBuild = SPEAKING_CURRICULUM.filter((u) => (u.build?.length ?? 0) > 0);
 
-  it('cover every unit at the AUTHORED levels, and the rest degrade', () => {
-    // A1, A2 and B1 are authored. B2/C1/C2 deliberately still run the old
-    // ladder — the screen skips BUILD when a unit has none, so a partial
-    // rollout never strands a learner on an empty stage. This asserts BOTH
-    // halves so "authored" cannot quietly shrink and so the degrade path stays
-    // real until it is filled.
-    const AUTHORED = ['A1', 'A2', 'B1'] as const;
-    for (const lvl of AUTHORED) {
-      const us = SPEAKING_CURRICULUM.filter((u) => u.level === lvl);
-      expect(us.length).toBeGreaterThan(0);
-      for (const u of us)
-        expect(u.build?.length ?? 0, `${u.id} has no build sentences`).toBeGreaterThanOrEqual(3);
-    }
-    // Every authored item drills a checkable point — a build sentence with no
-    // focus would grade by phrase matching alone, which is the old checklist.
+  it('cover EVERY unit at EVERY level — the ladder is complete', () => {
+    // A1 landed first, A2/B1 next, B2/C1/C2 last (2026-09-23). All 48 units now
+    // carry build sentences, so the screen's `buildItems.length > 0 ? 'build' :
+    // 'speak'` branch is a GUARD-RAIL rather than a live path: this assertion is
+    // what keeps it that way, and it fails before a learner could ever meet the
+    // empty stage it protects against.
+    expect(SPEAKING_CURRICULUM.length).toBe(48);
+    for (const u of SPEAKING_CURRICULUM)
+      expect(u.build?.length ?? 0, `${u.id} has no build sentences`).toBeGreaterThanOrEqual(3);
+    // Every item drills a checkable point — one with no focus would grade by
+    // phrase matching alone, which is the old checklist wearing a new name.
     for (const u of SPEAKING_CURRICULUM)
       for (const b of u.build ?? [])
         expect(b.focus, `${u.id}: "${b.answer}" has no focus`).toBeTruthy();
