@@ -18,7 +18,6 @@ interface Props {
   questions: LevelQuizQuestion[];
   goBack: () => void;
   award: (xp: number, celebrate?: boolean, activityType?: string) => void;
-  onPass?: () => void;
 }
 
 function shLocal<T>(a: T[]): T[] {
@@ -30,7 +29,7 @@ function shLocal<T>(a: T[]): T[] {
   return b;
 }
 
-export default function LevelQuiz({ levelNumber, questions, goBack, award, onPass }: Props) {
+export default function LevelQuiz({ levelNumber, questions, goBack, award }: Props) {
   const { setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
   const [q] = useState(() =>
@@ -94,7 +93,12 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award, onPas
             levelQuizPasses: { [levelNumber]: { score, passedAt: now } },
           } as unknown as StatsDelta);
         }
-        if (passed && onPass) onPass();
+        // `onPass` was an optional callback AppRouter never supplied, so this
+        // was a dead branch behind an optional-prop check — the AlphabetScreen
+        // `award` shape, on a different prop of the same screen. Nothing was
+        // lost by its absence: the pass is recorded above in
+        // `stats.levelQuizPasses`, which LearnPath reads to gate the level node
+        // and to render "Level N Quiz Passed (x/10)". Removed 2026-09-23.
       }
       setDone(true);
     } else {

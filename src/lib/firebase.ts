@@ -652,22 +652,15 @@ export async function fbSaveSRS(uid: string, srData: Record<string, unknown>): P
   }
 }
 
-/** Load SRS card state from its dedicated Firestore document. */
-export async function fbLoadSRS(uid: string): Promise<Record<string, unknown> | null> {
-  if (!_fbReady || !_fbDb) return null;
-  const id = toDocId(uid);
-  try {
-    const snap = await getDoc(fsDoc(_fbDb, 'srs', id));
-    if (snap.exists()) {
-      const data = snap.data() as { cards?: Record<string, unknown> };
-      return data.cards || null;
-    }
-    return null;
-  } catch (e: unknown) {
-    console.warn('[srs] fbLoadSRS failed:', (e as { code?: string })?.code);
-    return null;
-  }
-}
+// `fbLoadSRS` lived here and was called by NOTHING. It was not a missing restore
+// path: `fbLoadProgress` above does that read INLINE (`getDoc(fsDoc(_fbDb,'srs',
+// id))` → `p.sr = srsData.cards`), and applyRemoteProgress merges `fp.sr` from
+// there, so SRS round-trips correctly. Removed 2026-09-23 as a redundant export.
+//
+// WORTH THE WARNING: reading only the FIRST half of fbLoadProgress — where the
+// blob is parsed and `sr` is absent, having been split out by fbSaveProgress —
+// makes it look as though the deck is write-only in the cloud. It is not. The
+// inline read sits ~60 lines further down, past where a partial read stops.
 
 export async function fbRegister(
   email: string,
