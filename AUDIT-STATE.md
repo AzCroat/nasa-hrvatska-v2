@@ -1821,6 +1821,91 @@ queue (`lessonreview` appears in no spec; the one `retention` hit in
   tiebreaks vary) and a 3-word `poolWords` set. Re-measure with seeded
   recency/adaptive state before treating it as anything.
 
+### 32. "Your practice says" about a skill the practice never measured — 2026-09-23
+
+NEVER-DO 13, in the module whose own header is the honesty rule. Found by
+reading `activityReason.ts`'s claims against what the ledger can actually
+support — the same question sweeps 29–31 asked of storage keys, asked of
+sentences.
+
+**THE DEFECT.** Two slot reasons told the learner:
+
+> "Listening is the skill your practice says needs the most work."
+> "Speaking is the skill your practice says needs the most work."
+
+`weakestReceptiveKind` / `weakestProductionKind` return null only when **BOTH**
+skills in the pair are unmeasured. Their `need()` scores an ABSENT or
+not-yet-`tested` cell as MAXIMUM — correct for CHOOSING what to serve, since an
+unmeasured skill deserves priority, and CLAUDE.md defends that explicitly. It is
+not evidence of anything. So with one skill measured and the other never
+attempted, they return the one nothing is known about, and the reason claimed a
+measurement for it.
+
+**Measured, not argued**: a learner with six reading events at B1 and NO
+listening cell in the ledger (`listening=undefined`) is told "Listening is the
+skill your practice says needs the most work." Same shape for production:
+writing measured strong, speaking never attempted → "Speaking is the skill your
+practice says needs the most work." **This is the commonest state a learner
+passes through, not a corner** — it fires as soon as exactly one skill of a pair
+has been practised.
+
+**THE HONEST PATTERN ALREADY EXISTED IN TWO PLACES IN THIS CODEBASE, and the
+two newer functions did not follow it.** `adaptiveReason`, ten lines below the
+defect in the same file, distinguishes `!status.seen` ("You haven't practised
+the genitive yet.") from a measured accuracy. `buildPlanReason`, in the same
+file as the `weakest*Kind` functions, says "your practice says" only for a
+TESTED cell and "the least-practiced skill" for an untested one — which claims
+nothing. Both were written earlier. The slot reasons were added later and
+reached for the claim directly.
+
+**THE FIX** is `skillEvidence(level, skill)` → `'none' | 'untested' | 'tested'`,
+and three sentences per reason, mirroring `adaptiveReason` exactly:
+no cell → "You haven't practised listening yet." (true, and exactly why the slot
+picked it); a cell too thin to be `tested` → the guarantee line, claiming
+nothing; a tested cell → the original sentence, now earned.
+The `level` parameter is REQUIRED rather than optional on both reason functions:
+an optional one silently restores the old lie at any call site that forgets it,
+and tsc named both call sites the moment it was added.
+
+**THE EXISTING TEST ENCODED THE DEFECT AND THEN DEFENDED IT.** Inside a describe
+block titled `productionReason — no evidence, no claim`, the first case called
+`productionReason('speak')` against an EMPTY ledger and asserted the sentence
+contained "Speaking". It passed for years because it never looked at the ledger
+it was named after. It now seeds real evidence before expecting a claim, and the
+no-evidence and too-thin-evidence states are separate assertions.
+
+**A SECOND-ORDER TRAP IN MY OWN FIX**: the file's
+`beforeEach(() => localStorage.clear())` lives inside the FIRST describe block
+only, so the new blocks inherited the previous test's ledger and the
+no-evidence cases silently became evidence cases. Three tests failed for that
+reason before each block got its own reset. Coverage borrowed from a
+neighbouring block's state is the mock-leakage trap in another form.
+
+What was checked and is CORRECT: `buildPlanReason` (above), and the SLOTS
+themselves — `inputSlot` and the production slot should keep following an
+unmeasured skill, and do. The defect was only ever in what the learner was
+told about why.
+
+Mutation-verified, three, each confirmed LANDED: `productionReason` claiming
+unconditionally → 2 fail; `inputSlotReason` claiming unconditionally → 1;
+`skillEvidence` treating an untested cell as tested → 1.
+
+Suite **586 files, 9401 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
+E2E audit: no spec asserts any reason string (`grep` over `e2e/` for "practice
+says", "haven't practised" and "needs the most work" returns nothing).
+
+### One more negative recorded the same day — do not re-run
+
+- **Every pool entry's screen exists in the router: 376 of 376.**
+  `CEFR_EXERCISE_POOL` (305) + `PRODUCTION_POOL` (9) + `CROATIA_POOL` (62),
+  each entry's `screen` (first token, for parameterised routes like
+  `region_* tier essayKey`) matched as a quoted key in `AppRouter.tsx`.
+  POSITIVE CONTROL PASSED: an injected `definitely_not_a_real_screen_key` was
+  reported, and only it. STATED LIMIT: this proves the KEY EXISTS, not that the
+  router renders that screen for it — a key appearing only in a comment would
+  pass. It can MISS, never MANUFACTURE. `couplingClearingPath.test.ts` already
+  does the deeper router + import-graph walk for the categories it covers.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

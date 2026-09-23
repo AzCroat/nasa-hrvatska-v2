@@ -19,12 +19,27 @@
 //   * the mastery ledger returns null when it has measured neither production
 //     skill, so we never claim speaking is "weakest" on no evidence.
 //
+// THAT SECOND NOTE WAS TRUE AND TOO NARROW, and the gap it left was live from
+// the day the line was written (found 2026-09-23). `weakestProductionKind` and
+// `weakestReceptiveKind` return null only when BOTH skills in the pair are
+// unmeasured. They score an ABSENT or not-yet-`tested` cell as MAXIMUM need —
+// correct for choosing what to serve, since an unmeasured skill deserves
+// priority — so with one skill measured and the other never attempted they
+// return the one nothing is known about. Measured: a learner who had done six
+// reading activities and no listening was told "Listening is the skill your
+// practice says needs the most work", with no listening cell in the ledger at
+// all. That is the commonest state a learner passes through, not a corner.
+// Both lines now ask `skillEvidence` and say the true thing per state, exactly
+// as adaptiveReason already did ten lines below.
+//
 // Reasons are built at session-BUILD time and stored on the activity, not
 // recomputed at render: the learner should see why it was picked this morning,
 // not a line that silently rewrites itself as they practise.
 
 import type { SkillCategory } from './adaptive';
 import { getCategoryStatus } from './adaptive';
+import type { CefrLevel } from './cefr';
+import { skillEvidence } from './masteryLedger';
 
 /** Human-facing name for a category, for use inside a sentence. */
 const CATEGORY_LABEL: Partial<Record<SkillCategory, string>> = {
@@ -114,14 +129,27 @@ export function adaptiveReason(category: SkillCategory): string | null {
 }
 
 /**
- * Why the production slot is here. `weakest` comes from the mastery ledger and
- * is already null when the ledger has measured neither skill — in that case we
- * fall back to naming the guarantee, which is true regardless of evidence.
+ * Why the production slot is here. `weakest` comes from the mastery ledger,
+ * which returns null only when NEITHER skill is measured — so the named skill
+ * may still be one the learner has never attempted. Three honest cases, the
+ * same three adaptiveReason uses.
  */
-export function productionReason(weakest: 'speak' | 'write' | null): string {
-  if (weakest === 'speak') return 'Speaking is the skill your practice says needs the most work.';
-  if (weakest === 'write') return 'Writing is the skill your practice says needs the most work.';
-  return 'Every session includes one activity where you produce Croatian yourself.';
+export function productionReason(weakest: 'speak' | 'write' | null, level: CefrLevel): string {
+  const guarantee = 'Every session includes one activity where you produce Croatian yourself.';
+  if (weakest === null) return guarantee;
+  const skill = weakest === 'speak' ? 'speaking' : 'writing';
+  const label = weakest === 'speak' ? 'Speaking' : 'Writing';
+  switch (skillEvidence(level, skill)) {
+    case 'tested':
+      return `${label} is the skill your practice says needs the most work.`;
+    case 'none':
+      // True, and exactly why the slot picked it.
+      return `You haven't practised ${skill} yet.`;
+    default:
+      // Practised, but not enough for the ledger to have a verdict. Claiming
+      // one would be the 0.5-seeded-accuracy trap in another module.
+      return guarantee;
+  }
 }
 
 /** Why the conversation anchor is here (B1+ guarantee — true by construction). */
@@ -135,19 +163,28 @@ export function grammarSlotReason(): string {
 }
 
 /**
- * Why the guaranteed comprehension slot is here. `weakest` comes from the
- * mastery ledger and is null when it has measured neither receptive skill — then
- * the line names the guarantee, which is true regardless of evidence. It names
- * the measured skill only when the slot actually followed it.
+ * Why the guaranteed comprehension slot is here. `weakest` is null only when
+ * the ledger has measured NEITHER receptive skill, so following it is not
+ * enough to make "your practice says" true — the slot may be following a skill
+ * the learner has never attempted, which is precisely why it was chosen. The
+ * evidence state decides which of the three sentences is honest.
  */
 export function inputSlotReason(
   kind: 'listening' | 'reading',
   weakest: 'listening' | 'reading' | null,
+  level: CefrLevel,
 ): string {
-  if (weakest === kind) {
-    return `${kind === 'listening' ? 'Listening' : 'Reading'} is the skill your practice says needs the most work.`;
+  const guarantee = 'Every session includes one listening or reading activity at your level.';
+  if (weakest !== kind) return guarantee;
+  const label = kind === 'listening' ? 'Listening' : 'Reading';
+  switch (skillEvidence(level, kind)) {
+    case 'tested':
+      return `${label} is the skill your practice says needs the most work.`;
+    case 'none':
+      return `You haven't practised ${kind} yet.`;
+    default:
+      return guarantee;
   }
-  return 'Every session includes one listening or reading activity at your level.';
 }
 
 /**

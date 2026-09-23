@@ -119,7 +119,7 @@ export function selectGuaranteedInput(
       screen: pick.screen,
       category: pick.category,
       kind,
-      ...withReason(inputSlotReason(kind, weakest)),
+      ...withReason(inputSlotReason(kind, weakest, userCefr as CefrLevel)),
     };
   }
   return null;

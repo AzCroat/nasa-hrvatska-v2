@@ -504,7 +504,9 @@ export function buildSessionActivities(
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push({
       ...productionActivity,
-      ...withReason(productionReason(weakestProductionKind(userCefr as CefrLevel))),
+      ...withReason(
+        productionReason(weakestProductionKind(userCefr as CefrLevel), userCefr as CefrLevel),
+      ),
     });
     usedScreens.add(productionActivity.screen);
   }
