@@ -4,7 +4,7 @@
  * hook). Entries complete via the auto-complete-on-return contract derived in
  * useDailySession (SESSION_AUTOCOMPLETE_SCREENS).
  */
-import type { SkillCategory } from './adaptive';
+import type { SessionCategory } from './dailySessionStore';
 
 /**
  * Croatia rotation pool — Priority 4 always adds one of these. `cefr` (optional,
@@ -23,9 +23,16 @@ export interface CroatiaPoolEntry {
   id: string;
   label: string;
   screen: string;
-  // Structural copy of SessionCategory (defined in useDailySession) — kept
-  // inline here to avoid a hook→data→hook import cycle.
-  category: SkillCategory | 'culture' | 'practical' | 'general';
+  // THE TYPE ITSELF, NOT A STRUCTURAL COPY OF IT (2026-09-23). This used to
+  // restate `SkillCategory | 'culture' | 'practical' | 'general'` inline, with
+  // the stated reason "to avoid a hook→data→hook import cycle" — which stopped
+  // being true when `SessionCategory` moved out of `useDailySession` into
+  // `lib/dailySessionStore` in the 800-line split. Both modules are in `lib/`
+  // now, `dailySessionStore` imports nothing from here, and madge confirms no
+  // cycle. A structural copy of a union is the silent kind: widen the real type
+  // and this one still compiles, still accepts the old members, and rejects the
+  // new one at a boundary nobody is looking at.
+  category: SessionCategory;
   cefr?: string; // minimum CEFR to be served this entry (default A1)
   /**
    * The screen levels its own content to the learner (croatianews asks
@@ -36,13 +43,18 @@ export interface CroatiaPoolEntry {
   adaptive?: boolean;
   /**
    * The screen serves the learner's OWN level exactly at these levels and a
-   * lower band elsewhere — the shape of City of the Day, which carries graded
-   * Croatian in three bands (A1 / B1 / C1): a B1 learner reads B1 (own tier),
-   * a B2 learner reads B1 (lower tier, and the slot must not say "at your
-   * level"). `adaptive` cannot express that — it means own tier at EVERY
-   * unlocked level — so this names the levels precisely. Derived from the
-   * data by cityOfDayGraded.test.tsx: a level is listed iff every city has a
-   * band for it.
+   * lower band elsewhere. `adaptive` cannot express that — it means own tier at
+   * EVERY unlocked level — so this names the levels precisely, and the slot's
+   * "Culture at your level." reason stays true at the levels that earn it.
+   *
+   * NO ENTRY USES IT TODAY, and that is the correct state rather than dead
+   * code. City of the Day was its one holder while only A1/B1/C1 had their own
+   * band; the six-band corpus (2026-09-08) made `adaptive` the exact statement
+   * and this the understatement, so the entry moved. The field is kept for the
+   * next screen banded at SOME levels, and `cityOfDayGraded.test.tsx` decides
+   * between the two from the data: it requires `ownAtLevels` to equal the
+   * fully-banded levels, or to be EMPTY with `adaptive` set once every level is
+   * banded. Authoring or removing a band changes which branch it asserts.
    */
   ownAtLevels?: readonly string[];
 }
@@ -58,18 +70,15 @@ export interface CroatiaPoolEntry {
  *
  * OWNER DECISION (2026-09-06): now that every city carries graded Croatian,
  * City of the Day is BACK IN the B1+ rotation — as one rotation entry served
- * least-recently like the rest, never as a daily first claim. It sits in the
- * own-tier cycle at the levels that have their own band (`ownAtLevels`) and in
- * the lower cycle elsewhere, so the "Culture at your level." reason stays true.
+ * least-recently like the rest, never as a daily first claim. It sat in the
+ * own-tier cycle at the levels that had their own band and in the lower cycle
+ * elsewhere, so the "Culture at your level." reason stays true. Since the
+ * six-band corpus (2026-09-08) that is EVERY level, which is what `adaptive`
+ * means, so the entry carries that instead — see the note on the entry itself.
  */
 export const CITY_OF_DAY_SLOT_MAX_CEFR = 'A2';
 
 export const CROATIA_POOL: CroatiaPoolEntry[] = [
-  // NOT `adaptive` (2026-09-06): the screen grades its Croatian intro by the
-  // learner's level, but with THREE bands (A1 / B1 / C1) an A2 learner reads
-  // the A1 text and a B2 learner reads B1, so "own tier at every level" would
-  // be false. `ownAtLevels` names the levels where it IS true; the test derives
-  // the list from the data (a level is listed iff every city has that band).
   {
     id: 'cityofday',
     label: 'City of the Day',
