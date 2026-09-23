@@ -352,7 +352,13 @@ export function useScreenLauncher({
       }
       returnContextRef.current = { tab: 'learn', screen: 'learnpath' };
       setMcInitQ(qs);
-      ssSet('nh_legendary_mode', '1');
+      // `nh_legendary_mode` was set here and read by NOTHING in production:
+      // mcGameComplete branches on `nh_checkpoint_level` and has no legendary
+      // branch, so no badge, bonus or label ever consumed it. Its only readers
+      // were two test assertions, each a proxy sitting beside a stronger direct
+      // one. The legendary run itself is unchanged — what makes it harder is the
+      // 4-distractor slice above, not this flag. A dead flag is worse than no
+      // flag: it reads as a wired feature to the next person.
       sCurEx('mcgame');
       ssSet('nh_ex_start', Date.now().toString());
       trackStart('quiz');

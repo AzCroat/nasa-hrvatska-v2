@@ -134,10 +134,15 @@ export default function WelcomeScreen({
       // future reader on another device.
     }
     if (dailyMin) {
-      lsSet('nh_daily_min', String(dailyMin));
-      // Make the minutes choice actually set the measured daily XP goal
-      // (2 XP/min — the same rate GoalSetterModal's commitment options use).
-      // Previously this picker set nothing measurable.
+      // `nh_daily_min` was written here and read by nothing, anywhere — the same
+      // shape as the `nh_goal_set_date` removed three lines above, and missed by
+      // the same sweep, which was scoped to GoalSetterModal. This screen is a
+      // SECOND surface asking the same commitment question.
+      //
+      // The learner's answer is not lost: the line below is what makes the
+      // minutes choice measurable (2 XP/min — the same rate GoalSetterModal's
+      // options use), and `nh_daily_goal_xp` IS read (DailyGoalCard,
+      // appUtils.getDailyGoal) and synced both ways.
       lsSet('nh_daily_goal_xp', String(dailyMin * 2));
     }
     if (lsGet('nh_heritage_region')) {
