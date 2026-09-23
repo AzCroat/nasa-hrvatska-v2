@@ -1,21 +1,75 @@
 import React from 'react';
 import { getJourneyMilestones } from '../../data';
 
-const MILESTONE_ICONS = {
+interface MilestoneDef {
+  icon: string;
+  label: string;
+  msg: string;
+}
+
+/**
+ * Milestones with a type this card knows by name.
+ *
+ * `name_day` is DELIBERATELY UNREACHABLE and kept with its reason: nothing in
+ * `src` records that type today (`recordJourneyMilestone` is called with
+ * `first_lesson`, `first_speaking` and `streak_<n>` and nothing else). It is the
+ * harmless direction of the defect below — a label with no event, rather than an
+ * event with no label — and `journeyTimeline.test.tsx` holds it honest in both
+ * directions, so the day something starts recording it the exemption fails
+ * rather than sitting here covering nothing.
+ */
+const MILESTONE_ICONS: Record<string, MilestoneDef> = {
   first_lesson: { icon: '📚', label: 'First Lesson', msg: 'Your Croatian journey begins!' },
   first_speaking: {
     icon: '🎤',
     label: 'First Speaking',
     msg: 'You spoke Croatian for the first time!',
   },
-  streak_7: { icon: '🔥', label: '7-Day Streak', msg: 'One full week of Croatian!' },
-  streak_30: { icon: '🌟', label: '30-Day Streak', msg: '30 days of dedication!' },
-  streak_50: { icon: '💎', label: '50-Day Streak', msg: 'Incredible consistency!' },
-  streak_100: { icon: '🏆', label: '100-Day Streak', msg: 'Champion-level commitment!' },
-  streak_365: { icon: '👑', label: '365-Day Streak', msg: 'One full year — Čestitamo!' },
   name_day: { icon: '🎉', label: 'Name Day', msg: 'Sretan imendan!' },
   default: { icon: '🌟', label: 'Milestone', msg: 'A new achievement!' },
 };
+
+/** Bespoke copy for the streak lengths that have earned a line of their own. */
+const STREAK_MSGS: Record<number, string> = {
+  7: 'One full week of Croatian!',
+  14: 'Two weeks straight — the habit is forming!',
+  21: 'Three weeks running!',
+  30: '30 days of dedication!',
+  50: 'Incredible consistency!',
+  60: 'Two months without missing a day!',
+  100: 'Champion-level commitment!',
+  365: 'One full year — Čestitamo!',
+};
+
+/**
+ * THE STREAK LABEL IS DERIVED FROM THE NUMBER, NOT LOOKED UP (2026-09-23).
+ *
+ * `MILESTONE_ICONS` used to carry one hand-written row per streak length and had
+ * five of `STREAK_MILESTONES`' eight: **14, 21 and 60 were missing**. The store
+ * records `streak_14` faithfully, with the count in its own meta, and this card
+ * rendered it as "🌟 Milestone — A new achievement!". Three of the eight streak
+ * milestones — including the two most learners reach after the first week — were
+ * anonymised by a list that had gone stale against the constant it restates.
+ *
+ * A hand-maintained list decays exactly like one in production, so this is a
+ * derivation: any `streak_<n>` names its own n, for every value the constant
+ * holds today and any value added to it later. The icon steps by threshold for
+ * the same reason — a new milestone at 200 gets 🏆, not a blank.
+ */
+function streakDef(n: number): MilestoneDef {
+  const icon = n >= 365 ? '👑' : n >= 100 ? '🏆' : n >= 50 ? '💎' : n >= 30 ? '🌟' : '🔥';
+  return {
+    icon,
+    label: `${n}-Day Streak`,
+    msg: STREAK_MSGS[n] ?? `${n} days in a row — keep going!`,
+  };
+}
+
+export function milestoneDef(type: string): MilestoneDef {
+  const m = /^streak_(\d+)$/.exec(type);
+  if (m) return streakDef(Number(m[1]));
+  return MILESTONE_ICONS[type] ?? MILESTONE_ICONS.default!;
+}
 
 export default function JourneyTimeline() {
   const milestones = getJourneyMilestones().reverse(); // newest first
@@ -50,8 +104,7 @@ export default function JourneyTimeline() {
       />
 
       {milestones.map((m: { type: string; date: string }, i: number) => {
-        const def =
-          MILESTONE_ICONS[m.type as keyof typeof MILESTONE_ICONS] || MILESTONE_ICONS.default;
+        const def = milestoneDef(m.type);
         const date = new Date(m.date);
         const dateStr = date.toLocaleDateString('en-US', {
           month: 'short',

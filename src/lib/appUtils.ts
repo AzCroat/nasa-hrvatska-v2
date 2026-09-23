@@ -205,7 +205,14 @@ export function spendFreeze(): boolean {
   return true;
 }
 
-const STREAK_MILESTONES = [7, 14, 21, 30, 50, 60, 100, 365];
+/**
+ * The streak day-counts that raise a milestone. EXPORTED because
+ * `JourneyTimeline` has to be able to render every one of them: three values
+ * here (14, 21, 60) had no entry in that card's hand-written icon map and fell
+ * through to a generic "Milestone / A new achievement!", so the app recorded a
+ * specific achievement and then declined to name it.
+ */
+export const STREAK_MILESTONES = [7, 14, 21, 30, 50, 60, 100, 365];
 
 export function updateStreak(
   todayOverride?: string,

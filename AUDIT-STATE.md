@@ -2756,6 +2756,80 @@ here", any radar test id, or an axis label — the card is unasserted in E2E.
 **WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `JourneyTimeline`,
 `XPActivityCalendar`.
 
+### 44. Three streak milestones the app recorded and refused to name — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+Next in the Me-tab seam. `JourneyTimeline` renders the learner's milestone
+history: an icon, a label, a date and a line of copy per entry.
+
+**`updateStreak` raises a milestone at each of
+`STREAK_MILESTONES = [7, 14, 21, 30, 50, 60, 100, 365]`**, and `useAward` records
+it as `streak_<n>` — with the count in the entry's own meta. The card looked the
+type up in a hand-written `MILESTONE_ICONS` map that carried **five of the
+eight**: `streak_14`, `streak_21` and `streak_60` had no row, so each fell
+through to `MILESTONE_ICONS.default` and rendered
+
+    🌟  Milestone
+        A new achievement!
+
+A learner who reaches a fourteen-day streak — the first milestone after the
+opening week, and the one most learners actually reach — is shown an anonymous
+"Milestone" for an achievement the app measured precisely and wrote the number
+down for. Three of the eight; the one a year of daily practice earns is fine and
+the two at two and three weeks are not.
+
+**IT IS THE DECAY CLASS, IN A THIRD PLACE.** A hand-maintained list restating a
+production constant, in a different file, going stale at whatever rate the list
+still covers — the nav-tab table, the A1 grammar-screen list, `PRODUCTION_SCREENS`
+and `GRAMMAR_STRUCTURE_CATEGORIES` are the same shape. Nothing could notice,
+because a generic label renders perfectly: there is no crash, no blank, no
+console line. It is only wrong if you know what the store holds.
+
+**THE FIX IS A DERIVATION, not three more rows.** `milestoneDef` parses
+`streak_(\d+)` and builds the label from the number, so every value the constant
+holds today — and any value added to it tomorrow — names itself. The icon steps
+by threshold (365 👑, 100 🏆, 50 💎, 30 🌟, else 🔥) for the same reason: a
+milestone added at 200 gets a sensible icon rather than a blank. Bespoke copy is
+kept where it existed and written for the three that had none; a length with no
+bespoke line gets an honest generic that still states the number.
+`STREAK_MILESTONES` is exported so the guard can drive the real constant instead
+of keeping a fourth copy of it.
+
+**`name_day` is the harmless converse and is kept with its reason**: a label in
+the map that nothing records (`recordJourneyMilestone` is called with
+`first_lesson`, `first_speaking` and `streak_<n>`, and nothing else). A label
+with no event costs nothing; an event with no label is the defect above. The
+guard checks it in BOTH staleness directions — it must still be in the map AND
+still be unrecorded — because an exemption asserting a condition nobody re-checks
+is how the `idioms` dead end survived its own staleness test.
+
+`journeyTimeline.test.tsx` (25, new — the component had no test) drives
+`STREAK_MILESTONES` itself, renders the REAL store through the REAL component,
+and censuses every `recordJourneyMilestone` call in `src` to require that each
+recorded type resolves to something other than the default. **The census matcher
+was wrong on its first run**, in the direction that manufactures a demand: the
+literal pattern captured the `'streak_'` of `'streak_' + sr.milestone`, i.e. a
+bare prefix no map could ever name. The closing quote must now be followed by
+`,` or `)`.
+
+Mutation-verified, four defect mutations each confirmed landed: the hand-written
+map with 14/21/60 missing fails 8; the streak label dropping the number fails 10;
+the generic message reused for a length with no bespoke copy fails 1; something
+starting to record `name_day` fails 1. Plus one positive control — adding 200 to
+`STREAK_MILESTONES` **passes, at 27 tests instead of 25**, which is the
+derivation doing its job and the outcome a listed guard could not produce.
+
+tsc clean; lint clean. E2E audit: the only specs mentioning a milestone are the
+heavy-user reporters, which are observational `ok()/info()` loops that break on
+`'journey'` (always present in the card's closing line) and cannot fail; `me-tab`'s
+`Day Streak` assertions are the stats widget and the `aria-label="5 Day Streak"`
+badge, neither of which this touches.
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts` — read, and it carries two
+findings already identified for sweep 45 (a gap day makes the next day's bar the
+learner's entire lifetime XP, and "vs Last Week" renders "▲ 0%" when there is no
+last week at all). `XPActivityCalendar` was read and is CLEAN — its dead-key
+defect was already found and fixed in a prior pass, documented in the component.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
