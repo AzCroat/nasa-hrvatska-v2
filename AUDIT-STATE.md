@@ -1960,6 +1960,60 @@ work is not an undo, it is a revert to the last commit.
 Suite **586 files, 9406 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
 E2E audit: no spec asserts any retention reason string.
 
+### 34. "Just finished" was a claim about time that nothing checked — 2026-09-23
+
+Third from the CLAIMS vs EVIDENCE seam, and the smallest of the three. Sweep 32
+removed a fabricated measurement; sweep 33 removed an implication about a
+sitting; this removes a claim about WHEN.
+
+**THE DEFECT.** The teach → practice slot's line read:
+
+> "You just finished a lesson on the genitive — here's where you use it."
+
+A taught-queue entry lives `TAUGHT_TTL_DAYS` (14) and exists **precisely
+because the learner has not practised what it taught**. So any gap in usage
+makes it stale: the entry is still pending on day 9, the slot still claims its
+place — correctly, that is the coupling working — and the line still said "just
+finished". **A learner returning after a week was told they had just finished a
+lesson they finished last Tuesday**, which is the worst audience for that
+sentence: someone who has been away.
+
+**THE APP HELD THE AGE THE WHOLE TIME.** The entry carries `at`;
+`pendingTaughtCategories` maps it away (`.map((e) => e.c)`), so by the time the
+reason was built the timestamp was gone. Same shape as sweeps 32 and 33: the
+evidence existed and the sentence was written without consulting it.
+
+**THE FIX** is `taughtAgeDays(category, now)` — additive, changing no existing
+signature — plus a wording branch. `JUST_FINISHED_MAX_AGE_DAYS` is 1, and it is
+NOT a tuning knob: "just" in English means today or yesterday, and a lesson
+finished five days ago was not just finished whatever number is chosen. Past
+the window the line drops the claim and says the part that is true and is
+actually why the slot is here: "You finished a lesson on the genitive and
+haven't practised it yet — here's where you use it."
+
+**A null age gets the sober line, never the stronger one.** `taughtAgeDays`
+returns null for a category nothing queued, for an EXPIRED entry (it filters
+through the same `fresh()` as `pendingTaughtCategories`, so the two can never
+disagree about what is pending), and after practising clears the coupling.
+Treating null as fresh would restore the defect for exactly the cases the app
+knows least about — pinned by its own mutation.
+
+Mutation-verified, three, each confirmed LANDED: `taughtReason` claiming "just"
+unconditionally → 2 fail; a null age treated as fresh → 1; `taughtAgeDays`
+skipping the expiry filter → 1.
+
+Suite **586 files, 9415 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
+E2E audit: no spec asserts the taught-slot reason string.
+
+**THE SEAM HAS NOW PRODUCED THREE IN A ROW AND IS NOT EXHAUSTED.** What is left
+in it, unchecked: `reviewReason(dueCount)` — is the count the caller passes the
+SERVABLE queue length or the raw due count? (the same shape sweep 33 fixed); the
+Me-tab surfaces (InsightsTab, FluencySnapshot, LessonAcquisitionCard, the concept
+map), each of which renders a number or a verdict; and the NextStepPrompt /
+NextUpCard text. The method that keeps working: read the sentence, find what it
+asserts, then ask the code whether it can support that — not whether the number
+is real, but whether the CLAIM is.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

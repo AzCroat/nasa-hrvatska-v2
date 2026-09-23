@@ -34,6 +34,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
 import {
+  JUST_FINISHED_MAX_AGE_DAYS,
   inputSlotReason,
   retentionReason,
   reviewReason,
@@ -228,9 +229,42 @@ describe('the always-true reasons state a guarantee, not a measurement', () => {
   });
 
   it('taughtReason names the concept, not an invented lesson title', () => {
-    const reason = taughtReason('present-tense');
+    const reason = taughtReason('present-tense', 0);
     expect(reason).toContain('the present tense');
     expect(reason).toContain('just finished a lesson');
+  });
+});
+
+describe('taughtReason — "just" is a claim about time', () => {
+  // The queue entry lives TAUGHT_TTL_DAYS (14) and exists PRECISELY BECAUSE the
+  // learner has not practised what it taught, so any gap in usage makes it
+  // stale. Before 2026-09-23 the line said "You just finished a lesson on X" at
+  // any age up to a fortnight — telling a learner returning after a week that
+  // they had just finished a lesson they finished last Tuesday. The entry
+  // carried `at` the whole time; pendingTaughtCategories simply dropped it.
+
+  it('says "just" only within the window the word means', () => {
+    for (let age = 0; age <= JUST_FINISHED_MAX_AGE_DAYS; age++)
+      expect(taughtReason('genitive', age), `age ${age}`).toContain('just finished');
+  });
+
+  it('drops the claim once the lesson was not just finished', () => {
+    for (const age of [JUST_FINISHED_MAX_AGE_DAYS + 1, 5, 13]) {
+      const reason = taughtReason('genitive', age);
+      expect(reason, `age ${age}`).not.toContain('just');
+      // ...and still says why the slot is here, which is the true part.
+      expect(reason, `age ${age}`).toContain("haven't practised it yet");
+      expect(reason, `age ${age}`).toContain("here's where you use it");
+    }
+  });
+
+  it('an un-datable entry gets the sober line, never the stronger one', () => {
+    expect(taughtReason('genitive', null)).not.toContain('just');
+  });
+
+  it('names the concept in every branch', () => {
+    for (const age of [0, 9, null])
+      expect(taughtReason('present-tense', age), `age ${age}`).toContain('the present tense');
   });
 });
 
