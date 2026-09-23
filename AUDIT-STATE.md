@@ -3381,6 +3381,67 @@ of one definition, a deliberately frozen snapshot, or a genuine derivation. That
 is the sharper form of the question for whoever picks it up: **not "is this
 written twice" but "is one of the two copies never exercised".**
 
+### 53. Can a credit fire twice for one piece of work? — 2026-09-23 — **NEGATIVE, and the process is the finding**
+
+A genuinely new question, because the duplicated-fact one was worked out (52).
+**Idempotency: can a screen pay XP, tick a quest or record a completion TWICE
+for one piece of work?** The class is live in this repo's history — sweep 35
+found `SlangScreen` marking the Speak Quest OUTSIDE its one-shot guard, so
+re-finishing ticked it again and auto-promoted the tier-2 quest for one quiz,
+and `AIStoryScreen` had a dead `setDone` that guarded nothing. Both were found
+incidentally. Nobody had swept the class deliberately.
+
+**RESULT: 13 candidates, ZERO real findings.** Every one is guarded, and the
+interesting part is that almost none of them is guarded the way a matcher
+expects.
+
+**ATTEMPT 1 COULD NOT BE CALIBRATED, AND THAT IS WHY ITS OUTPUT WAS THROWN
+AWAY.** It censused credits inside `useEffect` bodies and reported 8 unguarded.
+The calibration cases — `SlangScreen`, `AIStoryScreen`, `LessonProduceStep`, all
+three known-fixed — reported **zero crediting effects**, because they credit from
+event HANDLERS. **A census whose calibration cases are not in its population
+cannot be calibrated**, so its eight results said nothing. This is the single
+most useful thing in this entry: today three scratch censuses each produced a
+confident wrong answer, and the difference here is that the calibration was
+written BEFORE the output was read.
+
+**ATTEMPT 2 calibrated** (population widened to every credit call site; the
+`CREDIT` list had to gain the rep recorders before `AIStoryScreen` appeared in it
+at all) and reported 13. **Four of the first four checked by hand were FALSE
+POSITIVES**, all for the same reason: the guard is a handled-SET consulted with
+an early return (`if (handledRef.current.has(k)) return;`), after which the
+credit fires only once the set reaches the total. Widening the detector for that
+shape took 13 → 5.
+
+**All five of those are guarded too**, verified by reading:
+
+- `MistakesScreen` — credits on `reviewIdx + 1 >= reviewDeck.length`, and the
+  index only increases. A new deck is new work and SHOULD credit again.
+- `BureaucraticScreen`, `TechVocScreen` — `if (answers[qi] !== undefined) return`
+  per question, then an exact-equality completion check against a monotonically
+  growing answer set.
+- `PhonemePracticeScreen` — a real one-shot flag, `!celebrated` +
+  `setCelebrated(true)`; the detector missed it only because it is not spelled
+  `done` or `already`.
+- `FlashcardRecallQuiz` — the thinnest of the five and still sound: `finishQuiz`
+  sets `phase: 'done'`, and the Next button renders only while
+  `phase === 'quiz'`. A double-click would need both clicks inside one React
+  batch, and discrete click events render between them. **Noted as the weakest
+  guard of the set — a state-driven unmount rather than an explicit latch — but
+  not reported as a defect, because it is not one.**
+
+**THE REUSABLE LESSON.** Idempotency in this codebase is guarded STRUCTURALLY
+and in at least five different shapes: a monotonic index, a handled-set with an
+early return, an exact-equality completion check, a named boolean flag, and a
+phase change that unmounts the control. That variety is exactly why a static
+census over-reports it — and why the answer to "is this class worth a ratchet"
+is **no**: a guard that recognises five shapes will miss the sixth and flag the
+seventh. The class is better served by the existing per-screen tests.
+
+**DO NOT RE-RUN THIS AS A CENSUS.** If a double-credit is ever reported from the
+field, the fast path is the five shapes above — check which one the screen uses,
+not whether it has a `useRef`.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
