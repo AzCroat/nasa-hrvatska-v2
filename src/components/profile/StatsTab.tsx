@@ -6,20 +6,37 @@ import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import XPActivityCalendar from './XPActivityCalendar';
 import SkillRadar from './SkillRadar';
-import { getUserCefr, cefrRank } from '../../lib/cefr';
+import {
+  getUserCefr,
+  cefrRank,
+  CEFR_BANDS,
+  cefrBand,
+  cefrScore,
+  type CefrLevel,
+} from '../../lib/cefr';
 import { getDisplayLevel, getVerificationGate } from '../../lib/cefrCertification';
+
+// LABEL AND COLOUR ARE THIS FILE'S; THE NUMBERS ARE NOT (2026-09-23).
+// `needed` and the floor map below used to carry their own copies of the CEFR
+// thresholds, as did `heroHelpers` and `getUserCefr`'s `if` ladder — four
+// copies, all agreeing, and only the ladder with a reason to change. Move a band
+// there and the badge follows while every bar in the app keeps measuring against
+// the old target. Both now read `lib/cefr`'s band table.
+const CEFR_LABELS: Record<string, { label: string; color: string; next: string | null }> = {
+  A1: { label: 'Beginner', color: 'var(--success)', next: 'A2' },
+  A2: { label: 'Elementary', color: 'var(--success)', next: 'B1' },
+  B1: { label: 'Intermediate', color: 'var(--warning)', next: 'B2' },
+  B2: { label: 'Upper-Int.', color: 'var(--warning)', next: 'C1' },
+  C1: { label: 'Advanced', color: 'var(--info)', next: 'C2' },
+  C2: { label: 'Mastery', color: 'var(--lavender)', next: null },
+};
 
 const CEFR_META: Record<
   string,
   { label: string; color: string; next: string | null; needed: number | null }
-> = {
-  A1: { label: 'Beginner', color: 'var(--success)', next: 'A2', needed: 300 },
-  A2: { label: 'Elementary', color: 'var(--success)', next: 'B1', needed: 1200 },
-  B1: { label: 'Intermediate', color: 'var(--warning)', next: 'B2', needed: 3500 },
-  B2: { label: 'Upper-Int.', color: 'var(--warning)', next: 'C1', needed: 8000 },
-  C1: { label: 'Advanced', color: 'var(--info)', next: 'C2', needed: 18000 },
-  C2: { label: 'Mastery', color: 'var(--lavender)', next: null, needed: null },
-};
+> = Object.fromEntries(
+  CEFR_BANDS.map((b) => [b.level, { ...CEFR_LABELS[b.level]!, needed: b.ceiling }]),
+);
 
 // Rec #4 (display-only) — the badge shows the CERTIFIED (assessment-verified)
 // level, not the raw XP-eligible level, so it reflects demonstrated ability
@@ -421,24 +438,13 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       {(() => {
         const cefr = getCEFR(st.xp || 0, st.lc || 0, st.gc || 0);
         const wordsLearned = getWordsLearned();
-        const cefrScore = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;
+        const score = cefrScore(st.xp || 0, st.lc || 0, st.gc || 0);
         // Within-band progress: measure from the CURRENT level's floor, not from 0.
         // Using the absolute `needed` threshold overstated progress (e.g. a learner
         // who just entered B1 at 1250 showed "36% to B2" instead of ~2%).
-        const CEFR_FLOOR: Record<string, number> = {
-          A1: 0,
-          A2: 300,
-          B1: 1200,
-          B2: 3500,
-          C1: 8000,
-          C2: 18000,
-        };
-        const floor = CEFR_FLOOR[cefr.level as string] ?? 0;
+        const floor = cefrBand(cefr.level as CefrLevel).floor;
         const progress = cefr.needed
-          ? Math.max(
-              0,
-              Math.min(100, Math.round(((cefrScore - floor) / (cefr.needed - floor)) * 100)),
-            )
+          ? Math.max(0, Math.min(100, Math.round(((score - floor) / (cefr.needed - floor)) * 100)))
           : 100;
         // Derive which Learn Path stage matches the current CEFR level so both displays agree.
         // 7 stages, 6 CEFR levels: Hrvat (idx 4) is the late-B2 bridge, so B2

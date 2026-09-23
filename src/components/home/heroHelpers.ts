@@ -4,7 +4,7 @@
 
 import type { Stats } from '../../types';
 import { HERO_SCENES, CONTEXTUAL_POOL } from './heroData';
-import { cefrRank, getUserCefr, type CefrLevel } from '../../lib/cefr';
+import { cefrRank, getUserCefr, CEFR_BANDS, cefrScore, type CefrLevel } from '../../lib/cefr';
 import { getDisplayLevel } from '../../lib/cefrCertification';
 
 export interface HeroScene {
@@ -311,28 +311,34 @@ export function getMascotMessage({
 // `awaitingAssessment` is set: the next level is earned by a Level Check, not
 // by more XP, and HeroStats says so instead of printing a percentage.
 
-const CEFR_BANDS: ReadonlyArray<{
+// DERIVED FROM `lib/cefr`'s band table, not restated (2026-09-23). These five
+// floors and thresholds used to be written out here, and identically in two
+// places inside StatsTab, and a fourth time as `getUserCefr`'s `if` ladder. They
+// agreed — but only the ladder had a reason to change, so moving a band would
+// have left every bar in the app measuring against the old target while the
+// badge beside it moved. The `next` column is the table's own ordering, so a new
+// level could not be added to one and forgotten in the other.
+const CEFR_PROGRESS_BANDS: ReadonlyArray<{
   current: CefrLevel;
   next: CefrLevel;
   floor: number;
   threshold: number;
-}> = [
-  { current: 'A1', next: 'A2', floor: 0, threshold: 300 },
-  { current: 'A2', next: 'B1', floor: 300, threshold: 1200 },
-  { current: 'B1', next: 'B2', floor: 1200, threshold: 3500 },
-  { current: 'B2', next: 'C1', floor: 3500, threshold: 8000 },
-  { current: 'C1', next: 'C2', floor: 8000, threshold: 18000 },
-];
+}> = CEFR_BANDS.filter((b) => b.ceiling !== null).map((b, i) => ({
+  current: b.level,
+  next: CEFR_BANDS[i + 1]!.level,
+  floor: b.floor,
+  threshold: b.ceiling as number,
+}));
 
 export function getCEFR(
   xp: number,
   lc: number,
   gc: number,
 ): { current: CefrLevel; next: CefrLevel; pctInLevel: number; awaitingAssessment: boolean } {
-  const total = (xp || 0) + (lc || 0) * 15 + (gc || 0) * 25;
+  const total = cefrScore(xp, lc, gc);
   const eligible = getUserCefr(xp || 0, lc || 0, gc || 0);
   const current = getDisplayLevel(eligible);
-  const band = CEFR_BANDS.find((b) => b.current === current);
+  const band = CEFR_PROGRESS_BANDS.find((b) => b.current === current);
   // C2 is terminal: there is no next level and the within-level bar is full.
   // (An earlier version's fallback returned 'C1' here, so the hero never showed C2.)
   if (!band) return { current: 'C2', next: 'C2', pctInLevel: 100, awaitingAssessment: false };

@@ -116,12 +116,55 @@ export function getEffectiveLevel(
 }
 
 /**
+ * THE CEFR BAND TABLE — the one place the thresholds are written down.
+ *
+ * Until 2026-09-23 these five numbers lived in FOUR places: this function's
+ * inline `if` ladder, `StatsTab`'s `CEFR_META[...].needed`, a second inline
+ * `CEFR_FLOOR` map a few hundred lines below it in the same file, and
+ * `heroHelpers`' own `CEFR_BANDS`. They all agreed — measured, not assumed —
+ * but only ONE of them had a reason to change, and that asymmetry is what makes
+ * this kind of drift silent: move a band here and the LEVEL moves everywhere
+ * while every progress bar keeps measuring against the old target, with the
+ * badge and the bar both looking perfectly plausible.
+ *
+ * That is not hypothetical in this codebase. The 2026-09-06 field report — "it
+ * shows C1, I'm not C1" — came from three copies of the level formula that were
+ * "in sync with each other and with nothing that mattered". The LEVEL was
+ * consolidated then; these thresholds were not.
+ *
+ * `ceiling` is the score at which the learner leaves the band (exclusive floor
+ * of the next), and is null at C2, which is terminal.
+ */
+export const CEFR_BANDS: ReadonlyArray<{
+  level: CefrLevel;
+  floor: number;
+  ceiling: number | null;
+}> = [
+  { level: 'A1', floor: 0, ceiling: 300 },
+  { level: 'A2', floor: 300, ceiling: 1200 },
+  { level: 'B1', floor: 1200, ceiling: 3500 },
+  { level: 'B2', floor: 3500, ceiling: 8000 },
+  { level: 'C1', floor: 8000, ceiling: 18000 },
+  { level: 'C2', floor: 18000, ceiling: null },
+];
+
+/** The progress score a level is derived from: XP plus weighted completions. */
+export function cefrScore(xp: number, lc: number, gc: number): number {
+  return (xp || 0) + (lc || 0) * 15 + (gc || 0) * 25;
+}
+
+/** The band a level occupies. Every consumer of a floor or a target reads this. */
+export function cefrBand(level: CefrLevel): { floor: number; ceiling: number | null } {
+  const band = CEFR_BANDS.find((b) => b.level === level);
+  return band ? { floor: band.floor, ceiling: band.ceiling } : { floor: 0, ceiling: null };
+}
+
+/**
  * Computes the user's CEFR level from progress statistics.
  *
- * Formula: total = xp + lc*15 + gc*25
- * Thresholds: A1 (<300) → A2 (<1200) → B1 (<3500) → B2 (<8000) → C1 (<18000) → C2
- *
- * This mirrors the getCEFR formula in src/components/profile/StatsTab.tsx exactly.
+ * Formula: total = xp + lc*15 + gc*25 (`cefrScore`)
+ * Thresholds: `CEFR_BANDS` above — A1 (<300) → A2 (<1200) → B1 (<3500) →
+ * B2 (<8000) → C1 (<18000) → C2.
  *
  * @param xp - Total XP earned
  * @param lc - Lesson completions
@@ -133,12 +176,9 @@ export function getEffectiveLevel(
  * @example getUserCefr(150, 10, 0) → 'A2' (150 + 10*15 = 300)
  */
 export function getUserCefr(xp: number, lc: number, gc: number): CefrLevel {
-  const total = xp + lc * 15 + gc * 25;
-
-  if (total < 300) return 'A1';
-  if (total < 1200) return 'A2';
-  if (total < 3500) return 'B1';
-  if (total < 8000) return 'B2';
-  if (total < 18000) return 'C1';
+  const total = cefrScore(xp, lc, gc);
+  for (const band of CEFR_BANDS) {
+    if (band.ceiling === null || total < band.ceiling) return band.level;
+  }
   return 'C2';
 }
