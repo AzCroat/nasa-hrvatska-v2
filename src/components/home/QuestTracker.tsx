@@ -1,5 +1,6 @@
 import React from 'react';
 import { DAILY_QUESTS } from '../../data';
+import { TIER2_MAP } from '../../lib/quests';
 
 interface QuestItem {
   id: string;
@@ -13,14 +14,33 @@ interface QuestItem {
   _upgradeName?: string;
 }
 
-// Maps tier-1 quest IDs to their tier-2 upgrade
-const TIER2_MAP_LOCAL = {
-  speak: 'speak2',
-  grammar: 'grammar2',
+/**
+ * WHICH TIER-1 CARD IS REPLACED BY ITS TIER-2 PAIR once tier-1 is done.
+ *
+ * DERIVED FROM THE AWARD MAP, plus one stated exception (2026-09-23). This was
+ * a hand-written copy of `TIER2_MAP` under a near-identical name, and by the
+ * time anyone looked the two had already diverged: sweep 40 removed `master`
+ * from the award map — auto-promoting on the second MARK cleared "Review 15+
+ * SRS words" after ten — and nothing told this file.
+ *
+ * The divergence is CORRECT and is the whole reason to write it down. These are
+ * two different questions:
+ *
+ *   - `TIER2_MAP` (lib/quests) asks **has the learner EARNED the tier-2 quest**,
+ *     and for the SRS pair the answer is a word count, not a session count.
+ *   - this map asks **which card to SHOW**, and once "Review 5+" is done the
+ *     next goal to put in front of the learner is plainly "Review 15+".
+ *
+ * Showing the card claims nothing: `done` is read independently from
+ * `questsDone[q.id]`, so the tier-2 card appears un-ticked until the learner
+ * genuinely reaches fifteen. Spreading the award map means the five shared rows
+ * cannot drift again; `questTrackerPairs.test.ts` pins the exception in both
+ * directions.
+ */
+const QUEST_DISPLAY_PAIRS: Record<string, string> = {
+  ...TIER2_MAP,
+  // Display-only: earned by word count (MASTER2_QUEST_WORDS), not by a second mark.
   master: 'master2',
-  reading: 'reading2',
-  culture: 'culture2',
-  vocab: 'vocab2',
 };
 
 // All bg values are hardcoded hex — no CSS variable references — so dark-mode
@@ -173,7 +193,7 @@ function buildVisibleQuests(questsDone: Record<string, boolean>): QuestItem[] {
   for (const q of DAILY_QUESTS) {
     if (handled.has(q.id)) continue;
 
-    const tier2Id = TIER2_MAP_LOCAL[q.id as keyof typeof TIER2_MAP_LOCAL];
+    const tier2Id = QUEST_DISPLAY_PAIRS[q.id];
 
     if (q.tier === 1 && tier2Id) {
       // Paired quest: show tier-2 when tier-1 done, else show tier-1
@@ -187,7 +207,7 @@ function buildVisibleQuests(questsDone: Record<string, boolean>): QuestItem[] {
       }
       handled.add(q.id);
       if (tier2Id) handled.add(tier2Id);
-    } else if (q.tier === 2 && Object.values(TIER2_MAP_LOCAL).includes(q.id)) {
+    } else if (q.tier === 2 && Object.values(QUEST_DISPLAY_PAIRS).includes(q.id)) {
       // Already handled above as part of a pair — skip
     } else {
       // Standalone quest — always show

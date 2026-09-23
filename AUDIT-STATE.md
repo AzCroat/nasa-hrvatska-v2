@@ -2643,6 +2643,455 @@ directions of one rule, in one guard file so they cannot drift apart — and
 neither would have been found by the other. When a rule is worth writing in one
 direction, ask it in the other before moving on.
 
+### 42. The Home tab's claims — 2026-09-23 — **ALL NEGATIVE, do not re-run**
+
+The largest unread block of learner-facing claims after sweeps 32–41, swept the
+same way: read every sentence, then ask the code whether it can support it.
+Nothing found. Recorded in full, because an unrecorded negative is re-run.
+
+- **`QuestTracker`** — "N quests remaining" / "All quests complete!" / the
+  percentage all derive from `questsDoneToday`, which reads the real keys. **And
+  every one of the 17 quests is EARNABLE**, censused mechanically: 9 by a direct
+  `markQuest`, 5 by `TIER2_MAP` promotion, 2 derived from the streak by name in
+  `questState`, 1 (`master2`) marked explicitly since sweep 40. That is the
+  converse of the historical `listening` defect — a quest marked by seven
+  completion paths that *did not exist in the list*, so the key was written and
+  nothing read it. This checks the other direction: a quest in the list that
+  nothing can mark would make "All quests complete!" permanently unreachable and
+  the remaining-count permanently wrong. Zero.
+- **`SessionCard`** — "📚 Review N with prof. Kovač" and "N phrases to review"
+  take `wordsdue`, which `HomeTab` computes as
+  `getServableReviewCount(poolWords)` — the SERVABLE count, not the raw FSRS due
+  count. So Home cannot promise reviews the Review screen then refuses; that is
+  the 2026-09-04 vocabPool rule ("Home and Review must agree by construction")
+  still holding, verified rather than assumed.
+- **`HeroSection` / `getKnightGreeting`** — every interpolated number sits under
+  a guard that matches it (`xp >= 5000` → "5,000 XP!", `lc >= 10` → "N lessons
+  in"), and the rest is motivational copy conditioned on real state (`lc === 0`,
+  `streakBroken`, the hour, `practicedToday`). No measurement is claimed. The
+  hero's one real proficiency claim — the CEFR bar — was already fixed and
+  pinned by the 2026-09-06 and 2026-09-08 badge sweeps.
+  One cosmetic imprecision noted and deliberately not changed: the `gc >= 5`
+  branch says "Five grammar sessions in" for any count ≥ 5. It sits AFTER the
+  `xp >= 100` branch, so reaching it with a much higher `gc` is practically
+  impossible (grammar completions carry XP), and it is encouragement copy rather
+  than a measurement surface.
+
+**Already checked and clean, from the same seam, recorded here so the list is in
+one place**: `NextStepPrompt` (`buildPlanReason` scopes every claim — including
+"All TRACKED skills look strong"); `StatsTab` (`getWordsLearned` reads a live
+`nh_sr` with the right card shape; the eligible-vs-verified split is stated
+honestly); `LearningInsights`' inputs (both `nh_daily_xp_` and `nh_daily_time_`
+are genuinely written by `useAward`).
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `SkillRadar`, `JourneyTimeline`,
+`XPActivityCalendar` — four Me-tab visualisations, none yet read.
+
+### 43. Three of the five axes measured nothing — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+Next in the seam sweep 42 left open (`ProgressCharts`, **`SkillRadar`**,
+`JourneyTimeline`, `XPActivityCalendar`). `SkillRadar` is the Me tab's "Skill
+Profile" card: a pentagon, five labelled axes, a percentage printed on each, and
+a red **"Focus here →"** on the weakest.
+
+**THREE OF THE FIVE AXES READ FIELDS THAT DO NOT EXIST.** The component declared
+`st: { wl?, gc?, listen?, speak?, rc? }` and plotted:
+
+    Vocab      (st.wl || 0) / 2
+    Grammar    (st.gc || 0) * 10
+    Listening  (st.listen || 0) * 20
+    Speaking   (st.speak || 0) * 10
+    Reading    (st.rc || 0) * 5
+
+`wl`, `listen` and `speak` are **not on `Stats`** — checked in the interface, in
+`statsReducer`, in `mergeStatsFromRemote`, in `sanitizeStats`, and by grepping
+every write in `src`. Nothing has ever written any of them. So three axes were
+`undefined || 0` for every learner since the card shipped, plotting a collapsed
+polygon and printing a literal **"0%"** beside each.
+
+**THE DISPLAY WAS THE SMALL HALF.** `weakIdx` is the lowest score and the row it
+lands on renders "Focus here →". Three axes tied at zero, and `reduce` keeps the
+FIRST on a tie — index 0, **Vocab**. So every learner who has ever opened the Me
+tab has been told their weakest skill is vocabulary and to focus there, on the
+evidence of a field name that matches nothing. That is NEVER-DO 13 on a
+recommendation, and it is the _lightest skill_ defect (sweep 39) and the _weak
+topics_ defect (sweep 36) in a third place: a recommendation derived from a
+measurement that was never taken.
+
+The two surviving axes were not honest either: `gc * 10` asserts that ten
+grammar completions is 100% of something and `rc * 5` that twenty readings is —
+conversion factors nobody defined, rendered as a percentage.
+
+**THE FIX POINTS IT AT THE LEDGER.** `lib/masteryLedger` is the app's canonical
+per-skill measurement, already carries exactly these five skills (plus writing),
+and is what `buildPlanReason` and `weakestProductionKind` already consult — so
+the radar and the recommender now answer from one source instead of disagreeing.
+It is read at `getCurrentContentLevel()`, the same expression
+`recordExerciseOutcome` keys its cells on, so the card cannot read a level
+nothing was written to. The component takes **no props**; `StatsTab` mounts it
+bare.
+
+**AN UNMEASURED SKILL IS NOT A ZERO.** No cell, or fewer than `MIN_SAMPLES`
+samples, renders **"not measured"** and an em dash on the axis — never 0%,
+and never eligible to be the focus. With nothing measured the card recommends
+NOTHING (`weakIdx === -1`), which is the same rule the concept map, the weak
+topics card and `productionReason` already follow.
+
+**GUARDED BY RENDERING, NOT BY A SOURCE PIN.** `skillRadar.test.tsx` (8, new —
+the component had no test at all) seeds the REAL `nh_mastery_ledger` at the REAL
+level and renders. A pin asserting "does not read `st.wl`" would pass just as
+happily the day the data is renamed underneath it — that is the `RegionScreen`
+`v.tip` lesson, where the failure mode is a field name agreeing with nothing.
+One source assertion is kept, and only for the WIRING (`StatsTab` mounts it with
+no `st`), which rendering cannot see.
+
+Mutation-verified, five, each confirmed landed: unmeasured scored as 0 (the old
+behaviour) fails 5; `weakIdx` over all five axes with null as 0 fails 3; null
+rendered as "0%" fails 3; the `tested` check dropped fails 1; `StatsTab` passing
+`st={st}` again fails 1.
+
+tsc clean; lint clean; E2E audit: no spec references "Skill Profile", "Focus
+here", any radar test id, or an axis label — the card is unasserted in E2E.
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `JourneyTimeline`,
+`XPActivityCalendar`.
+
+### 44. Three streak milestones the app recorded and refused to name — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+Next in the Me-tab seam. `JourneyTimeline` renders the learner's milestone
+history: an icon, a label, a date and a line of copy per entry.
+
+**`updateStreak` raises a milestone at each of
+`STREAK_MILESTONES = [7, 14, 21, 30, 50, 60, 100, 365]`**, and `useAward` records
+it as `streak_<n>` — with the count in the entry's own meta. The card looked the
+type up in a hand-written `MILESTONE_ICONS` map that carried **five of the
+eight**: `streak_14`, `streak_21` and `streak_60` had no row, so each fell
+through to `MILESTONE_ICONS.default` and rendered
+
+    🌟  Milestone
+        A new achievement!
+
+A learner who reaches a fourteen-day streak — the first milestone after the
+opening week, and the one most learners actually reach — is shown an anonymous
+"Milestone" for an achievement the app measured precisely and wrote the number
+down for. Three of the eight; the one a year of daily practice earns is fine and
+the two at two and three weeks are not.
+
+**IT IS THE DECAY CLASS, IN A THIRD PLACE.** A hand-maintained list restating a
+production constant, in a different file, going stale at whatever rate the list
+still covers — the nav-tab table, the A1 grammar-screen list, `PRODUCTION_SCREENS`
+and `GRAMMAR_STRUCTURE_CATEGORIES` are the same shape. Nothing could notice,
+because a generic label renders perfectly: there is no crash, no blank, no
+console line. It is only wrong if you know what the store holds.
+
+**THE FIX IS A DERIVATION, not three more rows.** `milestoneDef` parses
+`streak_(\d+)` and builds the label from the number, so every value the constant
+holds today — and any value added to it tomorrow — names itself. The icon steps
+by threshold (365 👑, 100 🏆, 50 💎, 30 🌟, else 🔥) for the same reason: a
+milestone added at 200 gets a sensible icon rather than a blank. Bespoke copy is
+kept where it existed and written for the three that had none; a length with no
+bespoke line gets an honest generic that still states the number.
+`STREAK_MILESTONES` is exported so the guard can drive the real constant instead
+of keeping a fourth copy of it.
+
+**`name_day` is the harmless converse and is kept with its reason**: a label in
+the map that nothing records (`recordJourneyMilestone` is called with
+`first_lesson`, `first_speaking` and `streak_<n>`, and nothing else). A label
+with no event costs nothing; an event with no label is the defect above. The
+guard checks it in BOTH staleness directions — it must still be in the map AND
+still be unrecorded — because an exemption asserting a condition nobody re-checks
+is how the `idioms` dead end survived its own staleness test.
+
+`journeyTimeline.test.tsx` (25, new — the component had no test) drives
+`STREAK_MILESTONES` itself, renders the REAL store through the REAL component,
+and censuses every `recordJourneyMilestone` call in `src` to require that each
+recorded type resolves to something other than the default. **The census matcher
+was wrong on its first run**, in the direction that manufactures a demand: the
+literal pattern captured the `'streak_'` of `'streak_' + sr.milestone`, i.e. a
+bare prefix no map could ever name. The closing quote must now be followed by
+`,` or `)`.
+
+Mutation-verified, four defect mutations each confirmed landed: the hand-written
+map with 14/21/60 missing fails 8; the streak label dropping the number fails 10;
+the generic message reused for a length with no bespoke copy fails 1; something
+starting to record `name_day` fails 1. Plus one positive control — adding 200 to
+`STREAK_MILESTONES` **passes, at 27 tests instead of 25**, which is the
+derivation doing its job and the outcome a listed guard could not produce.
+
+tsc clean; lint clean. E2E audit: the only specs mentioning a milestone are the
+heavy-user reporters, which are observational `ok()/info()` loops that break on
+`'journey'` (always present in the card's closing line) and cannot fail; `me-tab`'s
+`Day Streak` assertions are the stats widget and the `aria-label="5 Day Streak"`
+badge, neither of which this touches.
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts` — read, and it carries two
+findings already identified for sweep 45 (a gap day makes the next day's bar the
+learner's entire lifetime XP, and "vs Last Week" renders "▲ 0%" when there is no
+last week at all). `XPActivityCalendar` was read and is CLEAN — its dead-key
+defect was already found and fixed in a prior pass, documented in the component.
+
+### 45. The XP chart was mostly gaps and spikes — 2026-09-23 — **3 REAL DEFECTS, FIXED**
+
+The last card in the Me-tab seam. `ProgressCharts` (the Insights tab) shows
+Total XP, This Week, "vs Last Week", and a 30-day XP bar chart. **All three
+defects are in the arithmetic, and none of them is visible without knowing what
+the store holds** — no crash, no blank, a perfectly plausible chart.
+
+**1. THE GAP-DAY SPIKE.** The bars were DELTAS of `progress_history` — a
+CUMULATIVE xp snapshot App.tsx writes only on days the learner opens the app
+(`if (!authUser || … || stats.xp === 0) return`). A day with no entry read
+`xp: 0`, so the day AFTER any gap differenced against zero and rendered a bar
+equal to the learner's whole cumulative total at that point.
+
+Measured by driving the real arithmetic over thirty days at a steady 40 XP with
+two days missed:
+
+    chart deltas : 0 40 40 40 40 40 40 40 40 40 0 440 40 40 … 0 800 40 40 …
+
+Bars of **440 and 800 for days the learner earned 40**, and because
+`SVGBarChart` scales to its largest bar, **25 of the 28 real practice days
+rendered under 10% of the height** — effectively invisible. The later the gap,
+the bigger the lie, because the spike is the running total.
+
+**2. THE TREND INHERITED IT.** `lastWeek` summed those same deltas and came out
+at **1000 against a truth of 240–280 — a 3.6x overstatement** — feeding the "vs
+Last Week" percentage. A learner practising identically every week saw a large
+red drop precisely because the earlier window had contained a gap: the number
+punished the consistency it existed to report.
+
+**3. TWO KINDS OF WEEK UNDER ONE LABEL.** `thisWeek` is the CALENDAR week
+(`nh_week_xp_<weekKey()>`); `lastWeek` was a ROLLING seven-day block
+(`slice(-14, -7)`). On a Monday morning the numerator held one day and the
+denominator seven, so the card was structurally guaranteed to open every week
+with a large red drop, independent of defects 1 and 2.
+
+**Plus the no-baseline case**: with `lastWeek === 0` the trend computed to 0 and
+rendered a green **"▲ 0%"** — "no change" — both to a learner who went from
+nothing to a full week of practice and to one who did nothing in either week.
+Two different facts, one number, neither of them measured (NEVER-DO 13), and the
+only one of the four that is a claim rather than an error.
+
+**THE REAL PER-DAY NUMBER WAS ON THE DEVICE THE WHOLE TIME.** `useAward` writes
+`nh_daily_xp_<localDate>` on every award, `pruneStaleLocalStorage` never touches
+it (so far more than thirty days survive), and `LearningInsights` and
+`XPActivityCalendar` both already read it. **This is XPActivityCalendar's own
+dead-`nh_activity_log` defect in a second place**: that card was repaired and its
+neighbour — differencing cumulative snapshots, five files away — was not. The two
+Me-tab charts now agree by construction instead of by coincidence. `lastWeek`
+reads `nh_week_xp_<prevWeekKey()>`, which the prune explicitly keeps (the weekly
+freeze recharge already depends on it), so both sides of the comparison are the
+same kind of week from the same counter. No baseline renders an em dash.
+
+**`progress_history` now has no reader.** The writer in App.tsx is deliberately
+LEFT: it is a 90-day cumulative history that costs nothing to keep and that
+deleting is not reversible for existing learners. Stated here rather than
+silently — it is a dead write by the definition sweeps 26/29 used, and the next
+person should decide it on purpose rather than rediscover it.
+
+`progressCharts.test.tsx` (9, new — the component had no test) drives the REAL
+component with the REAL keys, including the exact measured scenario, and asserts
+the legacy snapshot ALONE draws nothing (so a future reintroduction of the
+differencing fails rather than passing on plausible-looking output).
+
+Mutation-verified, four, **and the fourth is the one worth recording**: bars back
+to differencing fails 3; `lastWeek` back to the rolling slice fails 2; the green
+flat zero restored fails 1; and reading the daily key at the **UTC** date instead
+of the local one **SURVIVED at first** — because the runner's zone is UTC and, at
+the wall-clock hour the suite happened to run, the two strings agree even in
+other zones. A mutation that did not land is not a verified guard, so the suite
+gained a block that sets `process.env.TZ` and the clock to a moment where they
+genuinely differ (America/Los_Angeles at 03:00 UTC = the previous local day) and
+asks the question there; the same mutation then fails 1. That is the same
+local-vs-UTC date defect `pruneStaleLocalStorage` carries a paragraph about, in
+this codebase, for this reason.
+
+tsc clean; lint clean. E2E audit: no spec asserts any ProgressCharts string — the
+`▲` matches are a collapse toggle in an unrelated component, and `me-tab`'s
+"Total XP" is StatsTab's label, which this does not touch.
+
+**THE SEAM IS NOW EXHAUSTED.** Sweeps 32–45 read every learner-facing claim
+surface: the Me-tab visualisations are done (`SkillRadar` 43, `JourneyTimeline`
+44, `ProgressCharts` 45, `XPActivityCalendar` clean and previously repaired), as
+are Home (42), the quest ledger (40, 41), navigation targets (39), the rep
+metrics (35, 38), the empty states (36) and the day rollover (37). The next
+sweep needs a NEW question, not another surface.
+
+### 46. A demotion vs the plan already built — 2026-09-23 — **NEGATIVE, now pinned**
+
+The first item from the INTERACTIONS seam, which the list has named for weeks:
+"a demotion (verification_fail rollback) vs content already unlocked and vs a
+daily plan built at the higher level." Two mechanisms that are each correct
+alone, meeting.
+
+**THE RISK WAS REAL ON PAPER.** `rollbackProvisionalOnFail` writes only to the
+certification store. The daily plan is built from
+`getContentUnlockLevel(getUserCefr(xp, lc, gc))` — and **a demotion changes
+none of xp, lc or gc** (asserted mechanically, so the premise is not an
+assumption). If the rollback did not reach the unlock level, a learner the app
+had just honestly rolled back to B1 would keep being served the B2 plan built
+that morning: the badge and the plan disagreeing about the same learner, which
+is the 2026-09-06 field report's shape in a new place.
+
+**IT HOLDS, IN BOTH HALVES**, driven end to end: the REAL
+`recordEquivalencyAttempt` on a grandfathered B2, then the REAL
+`useDailySession`.
+
+**WHICH MECHANISM CARRIES IT WAS MEASURED, AND MY FIRST ANSWER WAS WRONG.** I
+wrote that the link is `getContentUnlockLevel`'s closing
+`return getCertifiedLevel()` — provisional passes counted, the rollback removing
+one — and said so in the test's own failure message. Mutating that line to
+`getVerifiedLevel()` left the file **fully green**, which said the claim was
+false. Dumping the real state said why:
+
+    BEFORE  certified=B2 verified=A1 gate.required=true gate.target=B2 unlock=B1
+    AFTER   certified=B1 verified=A1 gate.required=true gate.target=B1 unlock=A2
+
+The **verification gate** carries it. A demotion only ever happens to a
+PROVISIONAL level (`rollbackProvisionalOnFail` returns null otherwise), and a
+provisional level above the verified one is precisely what makes the gate
+required — so the gate branch returns `levelBelow(gate.target)` and
+`getCertifiedLevel()` is never reached. The gate's target is now asserted to
+follow the rollback, so the finding is pinned rather than left in prose.
+**A comment explaining a mechanism is worth what the mutation that checked it is
+worth**, and this one was worth nothing until it was run.
+
+**THE PROPERTY TURNS OUT TO BE OVER-DETERMINED, and that is the result rather
+than a weak guard.** Two further mutations — the gate returning its target
+instead of the level below, and unlock ignoring the gate entirely — also leave
+the file green, because the gate target and the certified level BOTH drop on a
+demotion. There is no single line whose removal strands the plan at the old
+level. Said plainly rather than hunted until something failed: the guard's value
+is the three points that ARE single: the rollback itself, the rebuild effect's
+dependency on the level, and the level written onto the rebuilt session.
+
+Mutation-verified, three landed and caught: `rollbackProvisionalOnFail` neutered
+fails 3; `userCefr` dropped from the rebuild effect's deps fails 2; the rebuild
+keeping the OLD level on the fresh session fails 2. Three more survive, each for
+a stated reason (above), and the `getVerifiedLevel` swap is deliberately NOT
+claimed — it is a real defect in its own right (it takes content away from
+grandfathered learners) and CLAUDE.md records it as guarded by two other tests.
+Claiming it here would be claiming a guard this file does not have.
+
+**A MUTATION THAT DID NOT LAND CAME FIRST.** The initial attempt at the rollback
+mutation inserted `return null;` with a regex whose `[^{]*\{` matched the `{` of
+the RETURN TYPE ANNOTATION (`): { from: CefrLevel; to: CefrLevel } | null {`),
+so the statement landed inside the type, esbuild stripped it, and the suite
+stayed green — reading exactly like a decorative guard. Check WHERE a mutation
+landed before reading its result; a multi-line signature with braces in its
+return type defeats the obvious pattern.
+
+**Work done that day is preserved.** The CEFR branch maps completions by screen,
+so a learner just told they are a level lower is not also told they have done
+nothing — the 2026-05-21 incident, met from the other direction.
+
+**WHAT THIS DOES NOT COVER, stated**: a demotion landing while Home is MOUNTED
+and never re-rendered. `getContentUnlockLevel` reads localStorage during render,
+so the drop is seen at the next render; the exam screen replaces Home in the
+router, so returning to Home is a mount. That is an argument, not a measurement,
+and it is the next thing to drive if this interaction is revisited.
+
+### 47. The retention ladder vs a date rollover — 2026-09-23 — **NEGATIVE, now pinned**
+
+The second and last item from the INTERACTIONS list, and it closes that list.
+
+**THE RISK.** `lessonRetention`'s whole scheduler is date arithmetic — a
+lesson's `due` is a `YYYY-MM-DD` string compared against `today` — and the
+daily plan claims its slot (`selectRetentionSlot`, P1.2) at SESSION-BUILD time.
+Sweep 37 had just established that the plan was built once and never noticed
+midnight. If anything in this chain captured `today` earlier than the rebuild, a
+re-check due "tomorrow" would be invisible on the very day it fell due: a lesson
+slipping while the scheduler believed it had scheduled it, which is the failure
+the ladder exists to prevent, reached through the calendar instead of through
+the learner.
+
+**IT HOLDS**, and the reason is worth writing down because it is a JOINT
+property. Every exported function in `lessonRetention` defaults `today` to
+`localDateStr()` **at call time**, and `buildSessionActivities` recomputes the
+slot — so the fix that made the plan notice midnight (sweep 37) is what carries
+the ladder across it too. **Neither file's own tests can see this**: the store's
+tests pass `today` explicitly, so they never exercise the default, and the
+session's tests do not seed a retention store, so they never reach the slot.
+That is exactly the shape of gap the interactions seam exists to find, and here
+it happens to contain no defect.
+
+The consumers were censused rather than assumed: `retentionSlot` (session
+build — rebuilt on rollover), `nextStep` (recomputed at event time by contract),
+`conceptMap` (pure, called at render), and `RetentionCheckScreen` (a `useMemo`
+at open). The last is the one genuinely cached place and is correct as it
+stands: re-shuffling a check under the learner's hands at midnight is the worse
+failure, the same judgement sweep 37 made about not using a timer.
+
+Mutation-verified, three, each confirmed landed: sweep 37's `dayStamp` dep
+removed from the rebuild effect fails 2; the slot capturing the date once at
+module load fails 3; the due comparison replaced by `true` — the OTHER
+direction, a slot appearing merely because the day changed — fails 4. The third
+had to be redone: the first attempt targeted `rec.due <= today`, a string that
+does not appear in the file, and printed `pattern found: False` rather than
+silently doing nothing. **Make a mutation script say whether it matched**; a
+`re.sub` that matches nothing is indistinguishable from a guard that works.
+
+**THE INTERACTIONS LIST IS NOW EMPTY** — both named items (46, 47) are driven
+and negative. The next sweep needs a new question again, and the two negatives
+say something about where to look: both of these were joins between correct
+files, and both turned out to be held by a mechanism written for a different
+reason. The defects found this session were all inside a single surface.
+
+### 48. The tier-2 quest map had a second copy, already diverged — 2026-09-23 — **1 DRIFT HAZARD, CLOSED**
+
+The interactions list emptied at sweep 47, so this is the new question the
+record asked for: **where does the app keep the same fact twice?** The CEFR
+badge field report (2026-09-06) is this file's canonical instance — three copies
+of an XP-band formula, "in sync with each other and with nothing that mattered".
+Starting from the quest ledger, because sweeps 40/41/42 had just been through it
+and a fresh divergence there would be the sharpest possible test of whether the
+class is live.
+
+**IT WAS, AND THE DIVERGENCE WAS THREE HOURS OLD.** `QuestTracker` carried a
+hand-written copy of `lib/quests`' `TIER2_MAP` under the near-identical name
+`TIER2_MAP_LOCAL`. **Sweep 40 removed `master` from the award map** — promoting
+on the second MARK cleared "Review 15+ SRS words" after ten — and nothing told
+the component. Five rows agreed, one did not, and no mechanism anywhere could
+say whether that was a decision or a miss.
+
+**THE DIVERGENCE IS CORRECT, AND THAT IS PRECISELY WHY IT HAD TO BE WRITTEN
+DOWN.** The two maps answer different questions:
+
+- `TIER2_MAP` asks **has the learner EARNED the tier-2 quest** — for the SRS
+  pair that is a word count (`MASTER2_QUEST_WORDS`), not a session count.
+- the component's map asks **which card to SHOW** — and once "Review 5+" is
+  done, "Review 15+" is plainly the next goal to put in front of them.
+
+Checked rather than assumed that the display map cannot make a false claim:
+`done` is read independently from `questsDone[q.id]`, and `_unlocked` only
+changes the card's border and adds a "⬆ BONUS" badge, so the tier-2 card sits
+un-ticked until the learner genuinely reaches fifteen. **No learner-facing
+defect** — the rendering is byte-identical before and after, because
+`buildVisibleQuests` iterates `DAILY_QUESTS` rather than the map and the one
+order-sensitive use is an `Object.values(...).includes`.
+
+**THE FIX IS THE CEFR-BADGE FIX, ONE STAGE EARLIER.** There the answer was a
+single resolver; here `QUEST_DISPLAY_PAIRS` SPREADS the exported award map and
+adds the one exception with its reason, so the five shared rows cannot drift
+again and the sixth has to be declared to exist. A hazard caught before it
+became a field report is worth the same write-up as one caught after — the CEFR
+version cost a learner seeing "C1 · Advanced" for a level nothing had measured.
+
+Mutation-verified, four, each confirmed landed: reverting to a hand-written copy
+fails 2; ONE literal row creeping back beside the spread fails 1 (that is how a
+copy returns — a row at a time, not all six); `master` back in the AWARD map,
+i.e. sweep 40 reverted, fails 2; the display exception deleted, which would take
+the "Review 15+" card away from the learner entirely, fails 1.
+
+tsc clean; lint clean; `firstPaintGraph` unaffected by the new import. E2E audit:
+no user-visible string changes, and no spec references a quest name, the pair or
+the BONUS badge.
+
+**WHAT THE QUESTION IS WORTH, going forward.** One search of one subsystem found
+one live divergence, three hours old, in code that three sweeps had just read.
+The duplicated-fact question is the seam to work next, and the productive form is
+not "find duplicated constants" but **"find a fact stored twice where only one
+copy has a reason to change"** — which is what makes the drift silent.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -2666,7 +3115,10 @@ None of them crash, so no sweep above can see any of them.
       BETWEEN FEATURES — sweep 31's first result came from there. Still untried:
       the retention ladder vs a date rollover with the app left open; a demotion
       (verification_fail rollback) vs content already unlocked and vs a daily
-      plan built at the higher level.)
+      plan built at the higher level — BOTH DONE, sweeps 46 and 47, both
+      negative and both now pinned, with each carrying mechanism measured
+      rather than assumed. This list is empty; the next sweep needs a new
+      question.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and

@@ -228,7 +228,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       <XPActivityCalendar st={st} />
 
       {/* ── SKILL RADAR CHART ── */}
-      <SkillRadar st={st} />
+      <SkillRadar />
 
       {/* ── STATS GRID ── */}
       <div

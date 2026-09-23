@@ -1,23 +1,80 @@
 import React, { useState, useEffect } from 'react';
+import { getMasteryProfile } from '../../lib/masteryLedger';
+import { getCurrentContentLevel, type SkillKey } from '../../lib/cefrCertification';
 
-export default function SkillRadar({
-  st,
-}: {
-  st: { wl?: number; gc?: number; listen?: number; speak?: number; rc?: number };
-}) {
+/**
+ * SkillRadar — five skills, from the mastery ledger (rewritten 2026-09-23).
+ *
+ * WHAT IT USED TO DO, AND WHY IT WAS WRONG. It read five fields off `stats`:
+ *
+ *     Vocab      (st.wl || 0) / 2
+ *     Grammar    (st.gc || 0) * 10
+ *     Listening  (st.listen || 0) * 20
+ *     Speaking   (st.speak || 0) * 10
+ *     Reading    (st.rc || 0) * 5
+ *
+ * **`wl`, `listen` and `speak` DO NOT EXIST on `Stats`** — not in the type, not
+ * in `statsReducer`, not in the merge, not in `sanitizeStats`, and written by
+ * nothing anywhere in `src`. So three of the five axes were `undefined || 0` and
+ * plotted ZERO for every learner, forever, while printing a literal **"0%"**
+ * beside each.
+ *
+ * It did not stop at displaying them. `weakIdx` takes the lowest score and the
+ * component renders **"Focus here →"** on it; with three axes tied at zero the
+ * reduce keeps the FIRST, which is index 0 — **Vocab**. Every learner who has
+ * ever opened this card has been told their weakest skill is vocabulary and to
+ * focus there, on the evidence of a field that does not exist. That is the
+ * "lightest skill" defect again: a RECOMMENDATION derived from a measurement
+ * that was never taken.
+ *
+ * The two surviving axes were not honest either. `gc * 10` asserts that ten
+ * grammar completions is 100% of something, and `rc * 5` that twenty readings
+ * is — conversion factors nobody defined, rendered as a percentage.
+ *
+ * WHY THE LEDGER. `lib/masteryLedger` is the app's canonical per-skill
+ * measurement and already carries exactly these skills: a 0–1 `score` from real
+ * graded outcomes, a `samples` count, and a `tested` flag that says whether
+ * there is enough evidence to speak at all. It is what `buildPlanReason` and
+ * `weakestProductionKind` already consult to decide what to recommend, so the
+ * radar and the recommender now answer from one source instead of disagreeing.
+ *
+ * AN UNMEASURED SKILL IS NOT A ZERO. A skill with no cell, or with too few
+ * samples to be `tested`, renders as "not measured yet" — never as 0%, and
+ * never as the weakest. That is the rule the concept map, `productionReason`
+ * and the weak-topics card all follow: "nothing measured" and "nothing there"
+ * are different facts.
+ */
+interface RadarSkill {
+  label: string;
+  key: SkillKey;
+  /** 0–100, or null when the ledger has no verdict to report. */
+  score: number | null;
+}
+
+export default function SkillRadar() {
   const [animated, setAnimated] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setAnimated(true), 300);
     return () => clearTimeout(t);
   }, []);
 
-  const skills = [
-    { label: 'Vocab', score: Math.min(100, (st.wl || 0) / 2) },
-    { label: 'Grammar', score: Math.min(100, (st.gc || 0) * 10) },
-    { label: 'Listening', score: Math.min(100, (st.listen || 0) * 20) },
-    { label: 'Speaking', score: Math.min(100, (st.speak || 0) * 10) },
-    { label: 'Reading', score: Math.min(100, (st.rc || 0) * 5) },
-  ];
+  // Read at the level the outcomes were RECORDED at — the same expression
+  // `recordExerciseOutcome` keys its cells on, so the radar cannot read a level
+  // nothing was written to.
+  const profile = getMasteryProfile(getCurrentContentLevel());
+  const skills: RadarSkill[] = (
+    [
+      ['Vocab', 'vocab'],
+      ['Grammar', 'grammar'],
+      ['Listening', 'listening'],
+      ['Speaking', 'speaking'],
+      ['Reading', 'reading'],
+    ] as Array<[string, SkillKey]>
+  ).map(([label, key]) => {
+    const m = profile[key];
+    return { label, key, score: m && m.tested ? Math.round(m.score * 100) : null };
+  });
+  const measured = skills.filter((s) => s.score !== null);
 
   const cx = 100,
     cy = 100,
@@ -39,15 +96,21 @@ export default function SkillRadar({
   }
 
   const dataPoints = animated
-    ? skills.map((s, i) => polarToXY(angles[i]!, (s.score / 100) * R))
+    ? skills.map((s, i) => polarToXY(angles[i]!, ((s.score ?? 0) / 100) * R))
     : skills.map((_, i) => polarToXY(angles[i]!, 0));
 
   const dataPolygon = dataPoints.map((p) => `${p.x},${p.y}`).join(' ');
 
-  const weakIdx = skills.reduce(
-    (minI, s, i, arr) => (s.score < (arr[minI]?.score ?? Infinity) ? i : minI),
-    0,
-  );
+  // "Focus here" may only ever point at a skill the ledger has MEASURED. With
+  // three axes structurally stuck at zero this used to resolve to index 0
+  // (Vocab) for every learner alive. -1 means "say nothing", which is the
+  // correct output when nothing has been measured.
+  const weakIdx =
+    measured.length > 0
+      ? skills.indexOf(
+          measured.reduce((a, b) => ((b.score as number) < (a.score as number) ? b : a)),
+        )
+      : -1;
 
   const labelOffsets = [
     { dx: 0, dy: -12 }, // top (Vocab)
@@ -154,7 +217,7 @@ export default function SkillRadar({
                   fontWeight="600"
                   fill="var(--accent, var(--info))"
                 >
-                  {Math.round(s.score)}%
+                  {s.score === null ? '—' : `${s.score}%`}
                 </text>
               </g>
             );
@@ -192,16 +255,26 @@ export default function SkillRadar({
                   height: '100%',
                   borderRadius: 4,
                   background: i === weakIdx ? 'var(--error)' : 'var(--accent, var(--info))',
-                  width: animated ? `${s.score}%` : '0%',
+                  width: animated ? `${s.score ?? 0}%` : '0%',
                   transition: 'width 0.6s ease',
                 }}
               />
             </div>
-            <div style={{ width: 30, fontSize: 10, fontWeight: 700, color: 'var(--subtext)' }}>
-              {Math.round(s.score)}%
+            <div
+              data-testid={`radar-score-${s.key}`}
+              style={{
+                width: s.score === null ? 68 : 30,
+                fontSize: 10,
+                fontWeight: 700,
+                color: 'var(--subtext)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {s.score === null ? 'not measured' : `${s.score}%`}
             </div>
             {i === weakIdx && (
               <div
+                data-testid="radar-focus"
                 style={{
                   fontSize: 9,
                   fontWeight: 800,
