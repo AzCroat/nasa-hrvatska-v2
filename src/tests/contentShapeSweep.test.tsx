@@ -40,16 +40,20 @@ import { useContent, peekContent, _resetContentHookForTests } from '../hooks/use
 import { useGrammar, _resetGrammarHookForTests } from '../hooks/useGrammar';
 
 /**
- * The served key list, DERIVED from the endpoint rather than restated. A
- * hand-copied list here would be the exact defect the sweep hunts: it would go
- * stale as the payload grew and the sweep would quietly stop exercising the
- * new keys, while still reporting green.
+ * The served key list, DERIVED rather than restated. A hand-copied list here
+ * would be the exact defect the sweep hunts: it would go stale as the payload
+ * grew and the sweep would quietly stop exercising the new keys, while still
+ * reporting green.
+ *
+ * IT USED TO PARSE `const KEYS = [` OUT OF THE ENDPOINT'S SOURCE, which was the
+ * right instinct and the wrong grip: it derived from the endpoint↔sweep pair and
+ * left the endpoint↔`core.test.js` pair to a hand-written copy, which duly went
+ * one key short (sweep 51 — `ALL_KEYS` lacked `CULTURE_DEEP_DIVES`). The list is
+ * now `CORE_PAYLOAD_KEYS` in `_data/core.js`, read by the endpoint, the etag
+ * generator, `core.test.js` and this sweep, so it is an import instead of a
+ * regex over a literal that a refactor can move.
  */
-const CORE_SRC = readFileSync('functions/api/content/core.js', 'utf8');
-const KEYS: string[] = (() => {
-  const block = CORE_SRC.slice(CORE_SRC.indexOf('const KEYS = ['), CORE_SRC.indexOf('];'));
-  return [...block.matchAll(/^\s*'([A-Z0-9_]+)',/gm)].map((m) => m[1]);
-})();
+const KEYS: string[] = [...CORE.CORE_PAYLOAD_KEYS];
 
 /** The body `buildBody()` returns, built the same way. */
 const PAYLOAD: Record<string, unknown> = {};

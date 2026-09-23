@@ -30,6 +30,7 @@
  * SOURCE — that is what path-launch-vocab.test.tsx pins.
  */
 import { describe, it, expect } from 'vitest';
+import { CORE_PAYLOAD_KEYS } from '../../functions/api/content/_data/core.js';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -46,12 +47,18 @@ function interfaceFields(name: string): string[] {
   return [...block[1]!.matchAll(/^\s*([A-Z][A-Z0-9_]*)\??\s*:/gm)].map((m) => m[1]!);
 }
 
-/** KEYS array literal from the endpoint — the list it advertises. */
+/**
+ * The list the endpoint advertises.
+ *
+ * This used to parse `const KEYS = [` out of `core.js`'s SOURCE. That is the
+ * right instinct — derive, never restate — with the wrong grip: it is coupled to
+ * the literal's SYNTAX, so consolidating the list into one exported array (sweep
+ * 51, because three hand-written copies had drifted) made it throw
+ * "could not locate the KEYS array". **Derive by importing the VALUE, not by
+ * parsing the text that spells it.**
+ */
 function advertisedKeys(): string[] {
-  const src = readFileSync(resolve(root, 'functions/api/content/core.js'), 'utf8');
-  const block = /const KEYS = \[([\s\S]*?)\];/.exec(src);
-  if (!block) throw new Error('could not locate the KEYS array in core.js');
-  return [...block[1]!.matchAll(/'([A-Z][A-Z0-9_]*)'/g)].map((m) => m[1]!);
+  return [...CORE_PAYLOAD_KEYS];
 }
 
 /**

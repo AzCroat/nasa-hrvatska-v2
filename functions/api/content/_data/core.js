@@ -149,6 +149,69 @@ export {
   CULTURE_DEEP_DIVES,
 };
 
+/**
+ * THE PAYLOAD'S KEY LIST — one definition, three readers (2026-09-23).
+ *
+ * `/api/content/core`'s own `KEYS`, `generate-content-etags.mjs`'s `CORE_KEYS`
+ * and `core.test.js`'s `ALL_KEYS` were three hand-written copies of this list,
+ * and CLAUDE.md already recorded that all three must agree. Measured: they did
+ * not. The endpoint and the etag generator carried 32 keys; **the TEST carried
+ * 31, missing `CULTURE_DEEP_DIVES`** — so the "every export is present"
+ * assertion covered 31 of the 32 keys actually served, and dropping the culture
+ * deep dives from the payload would have left the suite green while
+ * `CultureDeepDiveScreen` received nothing.
+ *
+ * It is the copy with no reason to change that goes stale: the endpoint and the
+ * generator are edited when a key is added, the test is the one someone forgets.
+ * All three now read this array.
+ *
+ * `LEVEL_NARRATIVE` is declared below and hoisting does not apply to `const`,
+ * so this list is a plain array of NAMES rather than a reference to the values —
+ * which is also what the etag generator needs, since it looks each one up on the
+ * module it imported.
+ */
+export const CORE_PAYLOAD_KEYS = [
+  'V',
+  // Level tag per V category — the client derives the level-gated review /
+  // flashcard deck from it (src/lib/vocabPool.ts). Composed here so the aliases
+  // are tagged too.
+  'V_LEVELS',
+  'COUNTRIES',
+  'PROFESSIONS',
+  'WEATHER',
+  'CLOTHES',
+  'BODYDESC',
+  'TECH_VOC',
+  'BUREAUCRATIC',
+  'PROVERBS',
+  'IDIOMS',
+  'BRZALICE',
+  'HISTORY',
+  'EVENTS',
+  'KINGS',
+  'REGIONS',
+  'DIALECTS',
+  'CROATIAN_CITIES',
+  'FOODORDER',
+  'TRANSPORT',
+  'GROCERY',
+  'RECIPES',
+  'PRACTICAL',
+  'SCENES',
+  'LEVEL_NARRATIVE',
+  'SHADOWING',
+  // SP11e: function/data split shipped — both names now serialize cleanly.
+  'LEARN_PATH',
+  'SEASONAL_CAMPAIGNS',
+  // SP11f: advanced-vocab tiers (consumed by AdvancedVocabScreen).
+  'V_B2',
+  'V_C1',
+  // C2 mastery tier — near-native register (rhetoric, figurative usage, nuance).
+  'V_C2',
+  // B2-C2 culture deep dives (fluency initiative, 2026-08).
+  'CULTURE_DEEP_DIVES',
+];
+
 export const LEVEL_NARRATIVE = {
   heritage: [
     'First Words',

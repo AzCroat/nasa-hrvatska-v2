@@ -2,47 +2,10 @@ import { authedRead } from './_authedRead.js';
 import { ETAGS } from './_data/_etags.js';
 import * as CORE from './_data/core.js';
 
-const KEYS = [
-  'V',
-  // Level tag per V category — the client derives the level-gated review /
-  // flashcard deck from it (src/lib/vocabPool.ts). Composed in _data/core.js so
-  // the aliases are tagged too.
-  'V_LEVELS',
-  'COUNTRIES',
-  'PROFESSIONS',
-  'WEATHER',
-  'CLOTHES',
-  'BODYDESC',
-  'TECH_VOC',
-  'BUREAUCRATIC',
-  'PROVERBS',
-  'IDIOMS',
-  'BRZALICE',
-  'HISTORY',
-  'EVENTS',
-  'KINGS',
-  'REGIONS',
-  'DIALECTS',
-  'CROATIAN_CITIES',
-  'FOODORDER',
-  'TRANSPORT',
-  'GROCERY',
-  'RECIPES',
-  'PRACTICAL',
-  'SCENES',
-  'LEVEL_NARRATIVE',
-  'SHADOWING',
-  // SP11e: function/data split shipped — both names now serialize cleanly.
-  'LEARN_PATH',
-  'SEASONAL_CAMPAIGNS',
-  // SP11f: advanced-vocab tiers migrated (consumed by AdvancedVocabScreen).
-  'V_B2',
-  'V_C1',
-  // C2 mastery tier — near-native register (rhetoric, figurative usage, nuance).
-  'V_C2',
-  // B2-C2 culture deep dives (fluency initiative, 2026-08).
-  'CULTURE_DEEP_DIVES',
-];
+// The payload's key list lives in `_data/core.js` as `CORE_PAYLOAD_KEYS` —
+// one definition read by this endpoint, the etag generator and core.test.js.
+// Three hand-written copies had already diverged; see the comment there.
+const KEYS = CORE.CORE_PAYLOAD_KEYS;
 
 function buildBody() {
   const data = {};

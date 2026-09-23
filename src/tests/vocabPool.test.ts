@@ -12,6 +12,7 @@
  * precedent: vocab-structure, vocabulary-coverage), never a restatement of it.
  */
 import { describe, it, expect } from 'vitest';
+import { CORE_PAYLOAD_KEYS } from '../../functions/api/content/_data/core.js';
 import { readFileSync } from 'node:fs';
 import * as CORE from '../../functions/api/content/_data/core.js';
 import {
@@ -294,10 +295,19 @@ describe('the wiring — the derivation is what production reads', () => {
     }
   });
 
-  it('the payload key list, its test and the etag generator all ship V_LEVELS', () => {
-    expect(read('functions/api/content/core.js')).toMatch(/'V_LEVELS'/);
-    expect(read('functions/api/content/__tests__/core.test.js')).toMatch(/'V_LEVELS'/);
-    expect(read('scripts/generate-content-etags.mjs')).toMatch(/'V_LEVELS'/);
+  it('every carrier of the payload ships V_LEVELS', () => {
+    // THE FIRST THREE OF THESE USED TO BE SOURCE GREPS for the string
+    // `'V_LEVELS'` in core.js, core.test.js and the etag generator — three
+    // hand-written key lists that had to agree. It proved each FILE mentioned
+    // the name and said nothing about the other 31 keys, which is how
+    // `ALL_KEYS` came to be one short of the payload (sweep 51: it lacked
+    // CULTURE_DEEP_DIVES). Those three now read one array, so the question
+    // collapses to whether the array carries it; `corePayloadKeys.test.js`
+    // holds them to reading it rather than restating it.
+    expect(CORE_PAYLOAD_KEYS).toContain('V_LEVELS');
+    // The two that are genuinely separate carriers and must be checked apart:
+    // the E2E fixture (without it the suite exercises only the degrade path)
+    // and the client's type for the payload.
     expect(read('e2e/fixtures/content-fixture.js')).toMatch(/\bV_LEVELS,/);
     expect(read('src/types/content.ts')).toMatch(/V_LEVELS: Record<string, string>/);
   });

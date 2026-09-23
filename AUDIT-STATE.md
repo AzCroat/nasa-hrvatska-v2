@@ -3217,6 +3217,107 @@ which is the whole point and an outcome the copy could not produce.
 tsc clean; lint clean; madge clean. E2E audit: nothing user-visible changed —
 this is a type, three comments and a new test.
 
+### 51. The payload key list CLAUDE.md said must agree, and did not — 2026-09-23 — **1 REAL COVERAGE HOLE, FIXED**
+
+Fourth run at sweep 48's question, and this candidate was already NAMED in
+CLAUDE.md: *"Three copies of the payload key list must agree: `core.js` KEYS,
+`core.test.js` ALL_KEYS, and `generate-content-etags.mjs` CORE_KEYS (the etag
+must move when the payload does)."* So the first thing was to measure whether
+they did.
+
+    endpoint  KEYS        32
+    etags     CORE_KEYS   32
+    test      ALL_KEYS    31   ← missing CULTURE_DEEP_DIVES
+
+**The test's "every export is present" assertion covered 31 of the 32 keys the
+endpoint actually serves**, and the missing one is the payload for the 24
+culture deep-dive essays.
+
+**THE SIZE OF THAT HOLE HAS TO BE STATED PRECISELY, AND MY FIRST VERSION
+OVERSTATED IT.** I wrote that `CULTURE_DEEP_DIVES` "was actually unguarded".
+It was not: `cultureDeepDives.test.ts` carries a test named *"CULTURE_DEEP_DIVES
+is in ALL THREE content-pipeline key lists"* which greps `_data/core.js`,
+`core.js` and the etag generator for the literal — and those three are precisely
+the ones that had it. What was unguarded is narrower and still real: the
+ENDPOINT RESPONSE assertion in `core.test.js` did not cover that key, so the
+response could lose it and that test would not say. Say what was observed, not
+the strongest claim consistent with it.
+
+**WHICH COPY WENT STALE IS THE PATTERN, not an accident.** The endpoint and the
+etag generator are edited whenever a key is added, because nothing works
+otherwise. The test is the copy with **no reason to change** — so it is the one
+that silently stops covering what it names. That is sweep 48's rule landing
+exactly where it predicted, and it is also this file's own "a test that restates
+production data cannot check production data", met from the other direction: not
+a wrong assertion, a MISSING one.
+
+Its title said *"all 27 named exports"* while the list held 31 — the nav-table
+shape inside a test: a number right when written and never moved with the code.
+
+**THE FIX** is `CORE_PAYLOAD_KEYS` in `_data/core.js`, read by all three. The
+etag generator was re-run afterwards and the core etag is **UNCHANGED**
+(`core(1a4e3e6f…)` before and after), which is the check that this is a
+de-duplication and not a payload change — worth doing, because a generator that
+reads a different list would have silently re-hashed the payload.
+
+**MY OWN FIRST COUNT WAS WRONG AND THE MEASUREMENT CORRECTED IT.** Reading the
+files I said 33 / 32; counting mechanically gives 32 / 31 / 32, because the
+regex skips comment-only lines that the eye counts as entries. The divergence is
+one key either way, but the numbers in a report have to come from the count, not
+the reading.
+
+**WHAT DERIVATION DOES NOT BUY, stated because a mutation showed it.** Removing
+a key from the shared array now removes it from the endpoint test's assertion
+too: dropping `CULTURE_DEEP_DIVES` fails ONE test in the new guard and **NONE**
+in the endpoint suite. That is the honest trade — a hand-written copy catches
+REMOVALS and misses ADDITIONS, a derived one is the other way round, and drift
+was the live failure. The removal side is covered here by NAMING
+`CULTURE_DEEP_DIVES` (a key with a known consumer, and the one actually
+unguarded) and by requiring every listed key to have an export behind it.
+Neither half is a general removal guard; that needs the consumer side, which
+`contentShapeSweep` owns.
+
+**WHAT WAS ALREADY MECHANISED, AND WHY IT STILL MISSED THIS — a correction to my
+own first write-up.** I wrote that knowing three copies must agree "is not a
+mechanism". That was too strong, and the full suite said so by going red in two
+places I had not touched deliberately:
+
+- **`contentShapeSweep.test.tsx`** sliced `const KEYS = [` out of `core.js`'s
+  SOURCE.
+- **`content-core-contract.test.ts`** did the same in `advertisedKeys()`, and
+  threw `could not locate the KEYS array in core.js` — a whole SUITE that failed
+  to load rather than a test that failed, which is why the first summary line
+  said "2 files, 1 test".
+- **`vocabPool.test.ts`** asserted the three files "all ship V_LEVELS" — three
+  source greps for one key's NAME, proving each FILE mentions it and nothing
+  about the other 31.
+- **`cultureDeepDives.test.ts`** greps the same three files for
+  `'CULTURE_DEEP_DIVES'`.
+
+So the endpoint↔sweep pair WAS mechanised and the endpoint↔`core.test.js` pair
+was not, which is exactly where the drift landed.
+
+**A GUARD THAT DERIVES BY PARSING A LITERAL IS COUPLED TO THAT LITERAL'S
+SYNTAX**, and that is the reusable finding here. Consolidating the data into one
+exported array — the fix — broke FOUR guards, none of which could follow the
+list once it stopped being an array literal in that particular file. All four
+now IMPORT `CORE_PAYLOAD_KEYS` or ask it directly, which is strictly stronger
+and survives any refactor that keeps the value. **Derive by importing the VALUE,
+not by parsing the text that spells it.** (The `V_LEVELS` assertion keeps its two
+genuinely separate carriers — the E2E fixture and the client's payload type — as
+file checks, because those really are other places.)
+
+**AND THE BREAKAGE IS EVIDENCE THE FIX WAS WORTH MAKING.** Four guards were
+reading the same fact out of one file's syntax; none of them could see that a
+FIFTH copy, in `core.test.js`, had gone stale. Four parsers over one literal is
+the same duplication the sweep is about, one level up.
+
+Mutation-verified, five, each confirmed landed: the test back to its own stale
+list fails 2; the endpoint restating the list fails 2; the etag generator
+restating it fails 2; a key with no export behind it fails 1; and
+`CULTURE_DEEP_DIVES` dropped fails 1 here — and, as measured above, 0 in the
+endpoint suite, which is the limitation rather than a pass.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
