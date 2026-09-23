@@ -1413,6 +1413,80 @@ failures**; `tsc --noEmit` clean; lint clean (0 findings across 521 files).
   reads has a writer in `src`. Do not re-sweep this.
 
 
+### 27. The queue's last two items, and the class behind one of them — 2026-09-23
+
+Both remaining "lower priority" items, verified and removed. **Neither was a
+learner-facing defect** — and the first nearly got reported as a severe one.
+
+- **`fbLoadSRS`** — an exported reader of `srs/{uid}` with no caller. Removed as
+  redundant: `fbLoadProgress` does that read INLINE and sets `p.sr`, which
+  `applyRemoteProgress` then merges, so SRS round-trips correctly.
+  **I NEARLY REPORTED THIS AS CROSS-DEVICE SRS DATA LOSS.** I read
+  `fbLoadProgress` lines 556–585, stopped at an arbitrary boundary, saw that
+  `fbSaveProgress` strips `sr` out of the blob and that nothing calls
+  `fbLoadSRS`, and concluded the learner's whole spaced-repetition deck was
+  write-only in the cloud. The inline read sits ~60 lines further down, INSIDE
+  THE SAME FUNCTION, past where I stopped. This is sweep 20's depth cap in a new
+  place: **a partial read of a function is a derivation with a cap on it**, and
+  it manufactures findings the same way. One more minute of reading was the
+  difference between a false alarm about learner data and a non-finding. The
+  warning is now written where the function used to be.
+- **`LevelQuiz.onPass`** — an optional prop AppRouter never passes, so
+  `if (passed && onPass) onPass()` was unreachable. Harmless: the pass is
+  recorded in `stats.levelQuizPasses`, which LearnPath consumes to gate the level
+  node and render "Level N Quiz Passed (x/10)", and useSyncManager merges. Dead
+  in BOTH directions — no consumer and no producer.
+
+**THE CLASS IS NOW RATCHETED** (`routerOptionalProps.test.ts`). It has bitten
+twice: `AlphabetScreen.award` (dead for the life of the screen — the quiz's 20 XP
+never paid) and this. `routerAwardProp.test.ts` guards the first BY NAME, so it
+could never have found the second: **the survey that declared AlphabetScreen
+"the only one" was a survey of one PROP, not of the class.** The new file asks
+the general question of every routed component.
+
+**The attribute scanner is the load-bearing part, and the naive one fails in the
+dangerous direction.** `<Name([^>]*)>` stops at the first `>` — and AppRouter
+passes arrow functions (`setTab={(id: string) => { … }}`), so the capture
+truncates and every prop after it reads as "never passed". Measured: that
+version reported `HomeTab.authUser` as dead when AppRouter passes it plainly.
+Truncation shrinks the passed-set, so it can only ADD false positives — loud
+rather than silent, but wrong. The shipped scanner balances braces and skips
+strings.
+
+Mutation-verified, three, each confirmed LANDED (one did not land first try —
+an indentation mismatch on the anchor — and its green meant nothing):
+`LevelQuiz.onPass` restored → 1 fail, named; **`award` stripped from AppRouter's
+`AlphabetScreen`, reproducing the historical defect → 1 fail, named**; the naive
+`split('>')` scanner → 2 fail, the non-vacuity test catching it.
+
+Suite **581 files, 9345 passed, 25 skipped, 0 failures**; tsc clean; lint clean.
+E2E audit: `microquiz-levelquiz-settings.spec.js` covers LevelQuiz and asserts
+only the CTA, the mount, the heading and the counter — nothing touches `onPass`.
+
+### 28. Two more derivations, both NEGATIVE — 2026-09-23
+
+- **CustomEvent dispatchers vs listeners.** No defect. `nh:auth-token-error` has
+  never had a listener and `apiFetch.ts` documents that deliberately (pinned by
+  `syncTelemetry.test.ts`); `nh:debuglog` IS dispatched, by `debugLog.ts` via
+  `new Event(...)`, which my CustomEvent-only matcher could not see;
+  `nh:request-next-step` has no production dispatcher but its listener works, so
+  CLAUDE.md's claim that it "lets any surface summon the prompt" is TRUE — an
+  unused extension point, not a dead path. **A receiver with no sender is not a
+  dead write**: the capability is real the moment anything dispatches.
+- **`curEx` vs `nh_session_started`.** Closed by construction. The launcher sets
+  `curEx` equal to the screen id everywhere except `conjpractice:<category>`, and
+  `ConjugationSessionDrill` still calls `signalSessionCompleteIfActive('conjpractice')`
+  explicitly. No component sets `curEx` independently.
+
+**FOUR OF SIX DERIVATIONS RUN TODAY TOLD ME SOMETHING CONFIDENTLY WRONG**, and
+every correction came from reading source, never from the sweep: the dead-key
+matcher (wrong in three separate directions), `award?.(…)` (the optional-call
+the matcher would not cross), the truncated `fbLoadProgress` read above, and the
+`[^>]` attribute scanner. Record the ratio, not just the findings — it is the
+argument for shipping the least clever matcher that works and stating its limits
+in its own header.
+
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -1456,4 +1530,7 @@ None of them crash, so no sweep above can see any of them.
       LESSON, then its drill. No defect. See sweep 9.
 - [x] ~~No renderer for the five non-next-step launch bails~~ — CLOSED in the
       same sweep: `scope: 'path'` + App.tsx listener + `launch-failed-toast`.
-- [ ] Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.
+- [x] ~~Lower priority: `fbLoadSRS` removal; `LevelQuiz.onPass` removal.~~ — DONE,
+      sweep 27. Both removed; neither was a defect. The `onPass` class is now
+      ratcheted by `routerOptionalProps.test.ts`, which also catches the
+      historical `AlphabetScreen.award` instance.

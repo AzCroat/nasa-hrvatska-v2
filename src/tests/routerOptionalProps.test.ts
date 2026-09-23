@@ -1,0 +1,145 @@
+/**
+ * routerOptionalProps.test.ts — a dead branch behind an optional prop (2026-09-23).
+ *
+ * THE CLASS, and it has bitten twice. A routed component declares `foo?:` and
+ * branches on it (`foo && …`, `typeof foo === 'function'`, `foo?.()`). AppRouter
+ * never passes it. The branch is unreachable, and **a dead branch behind an
+ * optional-prop check is indistinguishable from a deliberate optional
+ * dependency** — which is exactly why both instances survived so long:
+ *
+ *   AlphabetScreen.award   `<AlphabetScreen goBack={goBack} />` with no `award`,
+ *                          so `if (typeof award === 'function')` was false and
+ *                          the quiz's 20 XP was dead for the life of the screen.
+ *                          Its own component tests passed `award` themselves,
+ *                          which proves the screen works WHEN WIRED and says
+ *                          nothing about whether it IS.
+ *   LevelQuiz.onPass       `if (passed && onPass) onPass()`, never supplied.
+ *                          Harmless — the pass is recorded in
+ *                          `stats.levelQuizPasses`, which LearnPath consumes —
+ *                          but dead in both directions. Removed with this file.
+ *
+ * `routerAwardProp.test.ts` already guards the FIRST one. It is scoped to the
+ * name `award`, so it could never have found the second: the survey that
+ * declared AlphabetScreen "the only one" was a survey of that one prop, not of
+ * the class. This file asks the general question.
+ *
+ * THE ATTRIBUTE SCANNER IS THE LOAD-BEARING PART, and a naive one gets this
+ * wrong in the dangerous direction. Matching props with `<Name([^>]*)>` stops at
+ * the FIRST `>` — and AppRouter passes arrow functions
+ * (`setTab={(id: string) => { … }}`), so the capture truncates mid-attribute and
+ * every prop after it reads as "never passed". Measured: that version reported
+ * `HomeTab.authUser` as dead when AppRouter passes it plainly. Truncation
+ * shrinks the passed-set, so it can only ADD false positives — it fails loud
+ * rather than silent, but it fails. `attrsOf` below balances braces and skips
+ * strings so it reads the whole tag.
+ */
+import { describe, it, expect } from 'vitest';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+const strip = (s: string) =>
+  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+
+const ROUTER = strip(readFileSync('src/components/AppRouter.tsx', 'utf8'));
+
+function componentFiles(): Map<string, string> {
+  const out = new Map<string, string>();
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir)) {
+      const p = join(dir, e);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(tsx|jsx)$/.test(e)) {
+        const name = e.replace(/\.(tsx|jsx)$/, '');
+        if (!out.has(name)) out.set(name, p);
+      }
+    }
+  };
+  walk('src/components');
+  return out;
+}
+const FILES = componentFiles();
+
+/** The attribute text of one JSX opening tag, balancing `{}` and skipping
+ *  strings so an arrow function's `=>` cannot end the tag early. */
+function attrsOf(src: string, from: number): string {
+  let depth = 0;
+  let quote = '';
+  for (let i = from; i < src.length; i++) {
+    const c = src[i]!;
+    if (quote) {
+      if (c === quote && src[i - 1] !== '\\') quote = '';
+      continue;
+    }
+    if (c === '"' || c === "'" || c === '`') quote = c;
+    else if (c === '{') depth++;
+    else if (c === '}') depth--;
+    else if (c === '>' && depth === 0) return src.slice(from, i);
+  }
+  return src.slice(from);
+}
+
+/** Every prop name AppRouter passes to <Name>, across all its usages. */
+function propsPassedTo(name: string): Set<string> {
+  const out = new Set<string>();
+  const re = new RegExp(`<${name}\\b`, 'g');
+  for (const m of ROUTER.matchAll(re)) {
+    for (const a of attrsOf(ROUTER, m.index! + m[0].length).matchAll(/(\w+)\s*=/g)) {
+      out.add(a[1]!);
+    }
+  }
+  return out;
+}
+
+/** Optional props a component declares AND branches on. */
+function optionalBranchedProps(file: string): string[] {
+  const src = strip(readFileSync(file, 'utf8'));
+  const iface = /(?:interface|type)\s+\w*Props\w*\s*=?\s*\{([\s\S]*?)\n\}/.exec(src);
+  if (!iface) return [];
+  const optional = [...iface[1]!.matchAll(/^\s*(\w+)\?\s*:/gm)].map((m) => m[1]!);
+  return optional.filter((p) =>
+    new RegExp(
+      `&&\\s*${p}\\b|\\b${p}\\s*&&|typeof\\s+${p}\\s*===\\s*['"]function|\\b${p}\\?\\.\\(`,
+    ).test(src),
+  );
+}
+
+const ROUTED = [...new Set([...ROUTER.matchAll(/<([A-Z]\w+)\b/g)].map((m) => m[1]!))].filter((n) =>
+  FILES.has(n),
+);
+
+describe('AppRouter supplies every optional prop its screens branch on', () => {
+  it('the sweep is real: it resolves a substantial number of routed components', () => {
+    expect(ROUTED.length).toBeGreaterThan(100);
+  });
+
+  it('the attribute scanner reads a whole tag, arrow functions included', () => {
+    // The exact shape that broke the naive version: a `>` inside an arrow
+    // function, with the prop under test AFTER it.
+    const tag = `<Foo a={(id: string) => { return id; }} bar={1} baz="x >" qux={2}>`;
+    const attrs = attrsOf(tag, tag.indexOf('<Foo') + 4);
+    const names = [...attrs.matchAll(/(\w+)\s*=/g)].map((m) => m[1]);
+    expect(names).toContain('bar');
+    expect(names).toContain('qux');
+  });
+
+  it('non-vacuity: a prop the router DOES pass is seen as passed', () => {
+    // HomeTab.authUser is passed plainly, and is what the naive scanner missed.
+    expect(propsPassedTo('HomeTab')).toContain('authUser');
+  });
+
+  it('no routed screen branches on an optional prop the router never passes', () => {
+    const dead: string[] = [];
+    for (const name of ROUTED) {
+      const passed = propsPassedTo(name);
+      for (const p of optionalBranchedProps(FILES.get(name)!)) {
+        if (!passed.has(p)) dead.push(`${name}.${p}  (${FILES.get(name)})`);
+      }
+    }
+    expect(
+      dead,
+      'these components branch on an optional prop AppRouter never supplies, so the branch is ' +
+        'unreachable — either pass the prop or delete the branch. A dead branch behind an ' +
+        'optional-prop check looks exactly like a deliberate optional dependency.',
+    ).toEqual([]);
+  });
+});
