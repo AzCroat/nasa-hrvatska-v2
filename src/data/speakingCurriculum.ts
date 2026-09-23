@@ -907,6 +907,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['prošli vikend', 'najprije', 'onda', 'poslije toga', 'na kraju', 'Bilo je…'],
+    build: [
+      {
+        cue: 'Say: I was in the city.',
+        answer: 'Bio sam u gradu.',
+        accept: ['Bila sam u gradu.'],
+        focus: {
+          lemma: 'grad',
+          requiredCase: 'L',
+          why: 'u for where you WERE — locative.',
+        },
+      },
+      {
+        cue: 'Say: We watched a match.',
+        answer: 'Gledali smo utakmicu.',
+        focus: {
+          lemma: 'utakmica',
+          requiredCase: 'A',
+          why: 'The match receives the watching, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I went with my sister.',
+        answer: 'Išao sam sa sestrom.',
+        accept: ['Išla sam sa sestrom.'],
+        focus: {
+          lemma: 'sestra',
+          requiredCase: 'I',
+          why: 's meaning WITH takes the instrumental — and it becomes sa before s.',
+        },
+      },
+    ],
     checklist: [
       { id: 'past', label: 'Use the past tense', words: ['sam', 'smo', 'bio', 'bila', 'bilo'] },
       { id: 'verdict', label: 'Say what it was like', words: ['bilo je', 'super', 'zanimljivo'] },
@@ -968,6 +999,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Boli me…', 'već … dana', 'osobito', 'nije mi bolje', 'ljekarna', 'recept'],
+    build: [
+      {
+        cue: 'Say: My throat hurts.',
+        answer: 'Boli me grlo.',
+        focus: {
+          lemma: 'grlo',
+          requiredCase: 'N',
+          why: 'In Croatian the body part DOES the hurting, so it is the subject.',
+        },
+      },
+      {
+        cue: 'Say: I have a temperature.',
+        answer: 'Imam temperaturu.',
+        focus: {
+          lemma: 'temperatura',
+          requiredCase: 'A',
+          why: 'Imam takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am going to the doctor.',
+        answer: 'Idem liječniku.',
+        focus: {
+          lemma: 'liječnik',
+          requiredCase: 'D',
+          why: 'Going TO a person takes the dative, with no preposition.',
+        },
+      },
+    ],
     checklist: [
       { id: 'symptom', label: 'Say what hurts with "boli me"', words: ['boli'] },
       { id: 'duration', label: 'Say how long', words: ['već', 'dana', 'tjedan'] },
@@ -1029,6 +1089,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['izgleda kao', 'ima … kosu', 'karakterom je', 'poznajemo se', 'zato što'],
+    build: [
+      {
+        cue: 'Say: She has long hair.',
+        answer: 'Ima dugu kosu.',
+        focus: {
+          lemma: 'kosa',
+          requiredCase: 'A',
+          why: 'What she HAS takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: He works with my brother.',
+        answer: 'Radi s mojim bratom.',
+        focus: {
+          lemma: 'brat',
+          requiredCase: 'I',
+          why: 'With whom — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: I often talk about my friend.',
+        answer: 'Često govorim o prijatelju.',
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'L',
+          why: 'o meaning ABOUT takes the locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'looks', label: 'Describe how they look', words: ['visok', 'visoka', 'kosu', 'oči'] },
       { id: 'why', label: 'Say why they matter', words: ['jer', 'zato'] },
@@ -1091,6 +1180,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Nažalost…', 'Evo računa.', 'zamijeniti', 'povrat novca', 'Može li…?'],
+    build: [
+      {
+        cue: 'Say: I bought this jacket.',
+        answer: 'Kupio sam ovu jaknu.',
+        accept: ['Kupila sam ovu jaknu.'],
+        focus: {
+          lemma: 'jakna',
+          requiredCase: 'A',
+          why: 'What you bought receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: I would like a refund.',
+        answer: 'Želim povrat novca.',
+        focus: {
+          lemma: 'novac',
+          requiredCase: 'G',
+          why: 'A return OF money — genitive, and the a drops: novac, novca.',
+        },
+      },
+      {
+        cue: 'Say: I am here because of the jacket.',
+        answer: 'Ovdje sam zbog jakne.',
+        focus: {
+          lemma: 'jakna',
+          requiredCase: 'G',
+          why: 'zbog — because of — takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       {
         id: 'problem',
@@ -1156,6 +1275,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Radim kao…', 'Bavim se…', 'smjena', 'kolege', 'plaća', 'ide uz posao'],
+    build: [
+      {
+        cue: 'Say: I work in a hospital.',
+        answer: 'Radim u bolnici.',
+        focus: {
+          lemma: 'bolnica',
+          requiredCase: 'L',
+          why: 'Where you work — locative, and the c softens before i.',
+        },
+      },
+      {
+        cue: 'Say: I work with students.',
+        answer: 'Radim sa studentima.',
+        focus: {
+          lemma: 'student',
+          requiredCase: 'I',
+          number: 'pl',
+          why: 'With whom, in the plural — instrumental.',
+        },
+      },
+      {
+        cue: 'Say: I have been working here a year.',
+        answer: 'Radim ovdje godinu dana.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'A',
+          why: 'A stretch of time answered with the accusative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'role', label: 'Say your role with "kao"', words: ['kao', 'bavim se', 'radim'] },
       {
@@ -1222,6 +1371,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Hvala na pozivu.', 'Nažalost…', 'Žao mi je.', 'Volio bih…', 'Možemo li…?'],
+    build: [
+      {
+        cue: 'Say: Thank you for the invitation.',
+        answer: 'Hvala na pozivu.',
+        focus: {
+          lemma: 'poziv',
+          requiredCase: 'L',
+          why: 'hvala na always takes the locative — never the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I cannot come on Saturday.',
+        answer: 'Ne mogu doći u subotu.',
+        focus: {
+          lemma: 'subota',
+          requiredCase: 'A',
+          why: 'u with a day of the week takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about the birthday.',
+        answer: 'Razmišljam o rođendanu.',
+        focus: {
+          lemma: 'rođendan',
+          requiredCase: 'L',
+          why: 'Thinking ABOUT something — locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'thanks', label: 'Thank them', words: ['hvala'] },
       { id: 'reason', label: 'Give a reason with "jer"', words: ['jer', 'zato što'] },
@@ -1284,6 +1462,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ljetos', 'zimus', 'najprije', 'jedan dan', 'najljepše', 'ponovno'],
+    build: [
+      {
+        cue: 'Say: We travelled by train.',
+        answer: 'Putovali smo vlakom.',
+        focus: {
+          lemma: 'vlak',
+          requiredCase: 'I',
+          why: 'By what means — the instrumental, with no preposition.',
+        },
+      },
+      {
+        cue: 'Say: We stayed in a hotel.',
+        answer: 'Bili smo u hotelu.',
+        focus: {
+          lemma: 'hotel',
+          requiredCase: 'L',
+          why: 'Where you were — locative.',
+        },
+      },
+      {
+        cue: 'Say: I remember that journey.',
+        answer: 'Sjećam se tog putovanja.',
+        focus: {
+          lemma: 'putovanje',
+          requiredCase: 'G',
+          why: 'sjećati se governs the genitive — the verb demands it.',
+        },
+      },
+    ],
     checklist: [
       { id: 'where', label: 'Say where you went', words: ['bili', 'išli', 'putovali'] },
       { id: 'again', label: 'Say whether you would go again', words: ['bih', 'bismo', 'ponovno'] },
@@ -1345,6 +1552,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['ovdje…', 'zovem zbog…', 'Htjela sam pitati…', 'Javi mi se.', 'Čujemo se!'],
+    build: [
+      {
+        cue: 'Say: I am calling about the meeting.',
+        answer: 'Zovem zbog sastanka.',
+        focus: {
+          lemma: 'sastanak',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive, and the a drops: sastanak, sastanka.',
+        },
+      },
+      {
+        cue: 'Say: I am waiting for your message.',
+        answer: 'Čekam tvoju poruku.',
+        focus: {
+          lemma: 'poruka',
+          requiredCase: 'A',
+          why: 'What you wait for receives the action — accusative.',
+        },
+      },
+      {
+        cue: 'Say: Thanks for the message.',
+        answer: 'Hvala na poruci.',
+        focus: {
+          lemma: 'poruka',
+          requiredCase: 'L',
+          why: 'hvala na again — locative, and the k softens to c.',
+        },
+      },
+    ],
     checklist: [
       { id: 'who', label: 'Say who is calling', words: ['ovdje', 'zovem'] },
       { id: 'why', label: 'Say why you are calling', words: ['zbog', 'oko', 'pitati'] },
@@ -1416,6 +1652,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ipak smatram…',
       'Na kraju',
     ],
+    build: [
+      {
+        cue: 'Say: I am against the ban.',
+        answer: 'Protiv sam zabrane.',
+        focus: {
+          lemma: 'zabrana',
+          requiredCase: 'G',
+          why: 'protiv takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about the centre.',
+        answer: 'Razmišljam o centru.',
+        focus: {
+          lemma: 'centar',
+          requiredCase: 'L',
+          why: 'o takes the locative, and centar drops its a: centra, centru.',
+        },
+      },
+      {
+        cue: 'Say: I agree with that decision.',
+        answer: 'Slažem se s tom odlukom.',
+        focus: {
+          lemma: 'odluka',
+          requiredCase: 'I',
+          why: 'Agreeing WITH something — instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'stance', label: 'State your position', words: ['mislim', 'smatram', 'slažem'] },
       {
@@ -1482,6 +1747,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Neću zaboraviti…', 'U jednom trenutku', 'Odjednom', 'Na kraju', 'Otad'],
+    build: [
+      {
+        cue: 'Say: It happened last year.',
+        answer: 'Dogodilo se prošle godine.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'G',
+          why: 'A point in time is often the genitive, with no preposition.',
+        },
+      },
+      {
+        cue: 'Say: I was afraid of the dog.',
+        answer: 'Bojao sam se psa.',
+        accept: ['Bojala sam se psa.'],
+        focus: {
+          lemma: 'pas',
+          requiredCase: 'G',
+          why: 'bojati se governs the genitive — and pas loses its a: psa.',
+        },
+      },
+      {
+        cue: 'Say: I told my friend about it.',
+        answer: 'Ispričao sam to prijatelju.',
+        accept: ['Ispričala sam to prijatelju.'],
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'D',
+          why: 'The person you tell takes the dative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'scene', label: 'Set the scene', words: ['kad', 'jednom', 'prvi put'] },
       { id: 'point', label: 'Finish with a point', words: ['otad', 'na kraju', 'zato'] },
@@ -1550,6 +1846,37 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Najveća mi je snaga…',
       'Zanima me…',
     ],
+    build: [
+      {
+        cue: 'Say: I have five years of experience.',
+        answer: 'Imam pet godina iskustva.',
+        focus: {
+          lemma: 'godina',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'After five and above, the genitive plural.',
+        },
+      },
+      {
+        cue: 'Say: I studied at the university.',
+        answer: 'Studirao sam na fakultetu.',
+        accept: ['Studirala sam na fakultetu.'],
+        focus: {
+          lemma: 'fakultet',
+          requiredCase: 'L',
+          why: 'na for where — locative.',
+        },
+      },
+      {
+        cue: 'Say: I work well with a team.',
+        answer: 'Dobro radim s timom.',
+        focus: {
+          lemma: 'tim',
+          requiredCase: 'I',
+          why: 'With whom — instrumental.',
+        },
+      },
+    ],
     checklist: [
       { id: 'exp', label: 'Say how long you have done it', words: ['već', 'godina', 'godine'] },
       { id: 'why', label: 'Say why this job', words: ['jer', 'zanima', 'zato'] },
@@ -1612,6 +1939,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Zovem vas zbog…', 'već … dana', 'Osim toga', 'Bio bih zahvalan…', 'Javite mi'],
+    build: [
+      {
+        cue: 'Say: There is no hot water.',
+        answer: 'Nema tople vode.',
+        focus: {
+          lemma: 'voda',
+          requiredCase: 'G',
+          why: 'nema always takes the genitive — this is where learners reach for the nominative.',
+        },
+      },
+      {
+        cue: 'Say: It has lasted three days.',
+        answer: 'Traje već tri dana.',
+        focus: {
+          lemma: 'dan',
+          requiredCase: 'G',
+          why: 'After two, three and four, the genitive singular.',
+        },
+      },
+      {
+        cue: 'Say: I am calling about the heating.',
+        answer: 'Zovem zbog grijanja.',
+        focus: {
+          lemma: 'grijanje',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'fault', label: 'Describe the fault', words: ['ne radi', 'curi', 'pokvaren'] },
       { id: 'request', label: 'Make a polite request', words: ['bih', 'biste', 'molim'] },
@@ -1674,6 +2030,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Kod nas se…', 'Običaj je da…', 'dok', 'nego', 'Za mene to znači…'],
+    build: [
+      {
+        cue: 'Say: It is held in December.',
+        answer: 'Održava se u prosincu.',
+        focus: {
+          lemma: 'prosinac',
+          requiredCase: 'L',
+          why: 'u with a month takes the locative, and prosinac drops its a.',
+        },
+      },
+      {
+        cue: 'Say: People sing songs.',
+        answer: 'Ljudi pjevaju pjesme.',
+        focus: {
+          lemma: 'pjesma',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'What is sung receives the action — accusative plural.',
+        },
+      },
+      {
+        cue: 'Say: It is part of our culture.',
+        answer: 'To je dio naše kulture.',
+        focus: {
+          lemma: 'kultura',
+          requiredCase: 'G',
+          why: 'Part OF something — genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'when', label: 'Say when it happens', words: ['na ', 'kada', 'svake godine'] },
       { id: 'mean', label: 'Say what it means to you', words: ['za mene', 'znači'] },
@@ -1736,6 +2122,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     usefulPhrases: ['Žao mi je zbog…', 'Nemam opravdanje.', 'Znam da…', 'Neću to tako ostaviti.'],
+    build: [
+      {
+        cue: 'Say: I apologise for the delay.',
+        answer: 'Ispričavam se zbog kašnjenja.',
+        focus: {
+          lemma: 'kašnjenje',
+          requiredCase: 'G',
+          why: 'zbog takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I am sorry about the mistake.',
+        answer: 'Žao mi je zbog greške.',
+        focus: {
+          lemma: 'greška',
+          requiredCase: 'G',
+          why: 'zbog again — genitive, and the k softens before e.',
+        },
+      },
+      {
+        cue: 'Say: I am thinking about a solution.',
+        answer: 'Razmišljam o rješenju.',
+        focus: {
+          lemma: 'rješenje',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+    ],
     checklist: [
       { id: 'sorry', label: 'Apologise clearly', words: ['žao', 'ispričavam', 'oprosti'] },
       { id: 'fix', label: 'Propose a concrete fix', words: ['javit', 'dogovorit', 'sljedeći put'] },
@@ -1805,6 +2220,35 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ako gledam…',
       'Ipak bih…',
     ],
+    build: [
+      {
+        cue: 'Say: This flat is near the centre.',
+        answer: 'Ovaj stan je blizu centra.',
+        focus: {
+          lemma: 'centar',
+          requiredCase: 'G',
+          why: 'blizu takes the genitive, and centar drops its a: centra.',
+        },
+      },
+      {
+        cue: 'Say: I am choosing between two flats.',
+        answer: 'Biram između dva stana.',
+        focus: {
+          lemma: 'stan',
+          requiredCase: 'G',
+          why: 'između takes the genitive, and dva is followed by the genitive singular.',
+        },
+      },
+      {
+        cue: 'Say: Price matters more than size.',
+        answer: 'Cijena je važnija od veličine.',
+        focus: {
+          lemma: 'veličina',
+          requiredCase: 'G',
+          why: 'od in a comparison takes the genitive.',
+        },
+      },
+    ],
     checklist: [
       { id: 'compare', label: 'Use a comparative', words: ['jeftiniji', 'veći', 'manji', 'bolji'] },
       { id: 'choose', label: 'Say which you choose', words: ['bih', 'biram', 'uzeo'] },
@@ -1872,6 +2316,36 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Prema članku',
       'Stručnjaci kažu…',
       'Iznenadilo me…',
+    ],
+    build: [
+      {
+        cue: 'Say: The article was about the economy.',
+        answer: 'Članak je bio o ekonomiji.',
+        focus: {
+          lemma: 'ekonomija',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: I read it in a magazine.',
+        answer: 'Pročitao sam to u časopisu.',
+        accept: ['Pročitala sam to u časopisu.'],
+        focus: {
+          lemma: 'časopis',
+          requiredCase: 'L',
+          why: 'u for where — locative.',
+        },
+      },
+      {
+        cue: 'Say: The author writes about change.',
+        answer: 'Autor piše o promjeni.',
+        focus: {
+          lemma: 'promjena',
+          requiredCase: 'L',
+          why: 'o takes the locative.',
+        },
+      },
     ],
     checklist: [
       {

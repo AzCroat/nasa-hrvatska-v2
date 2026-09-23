@@ -2205,6 +2205,26 @@ one that would quietly start promising a floor nobody enforces. All three are
 pinned to agree (`sentenceBuild.test.ts`); mutation-verified, the label drifting
 fails 1 and restoring flat floors fails 2.
 
+**A2 AND B1 ARE AUTHORED TOO (2026-09-23): 24 units, 72 sentences.** Each drills
+one government a learner actually gets wrong — `hvala na` + locative, `sjećati se`
++ genitive, `bojati se` + genitive, `nema` + genitive, the quantity genitive after
+five, `do`/`kod`/`zbog`/`protiv`/`blizu`/`između` + genitive, `s` + instrumental —
+and the pairs are deliberate: `u školi` (where you are) against `u školu` (movement
+into), `Želim kavu` against `Koliko košta kava`. B2–C2 still inherit the old ladder,
+and the coverage guard asserts BOTH halves so "authored" cannot quietly shrink and
+the degrade path stays real until it is filled.
+
+**THE ENGINE WAS WRONG ABOUT `centar`, AND VERIFYING FIRST IS THE ONLY REASON IT
+DID NOT SHIP.** `decline('centar')` returned `centaru`/`centara` for the oblique
+singular; the Croatian is `centru`/`centra`. The fleeting-a rule is scoped to
+polysyllabic `-ac`/`-ak` (correctly — stated generally it turns `grad` into `grd`),
+and `centar` was in neither that scope nor the irregular list, so its whole oblique
+singular was wrong — **and `decline()` also backs the tap-a-word sheet, so that
+paradigm was being shown to learners.** `centar`, `metar`, `litar`, `vjetar` and
+`ministar` are now attested irregulars. **It is a list and never a rule**: `mornar`
+and `zidar` KEEP their a, and both directions are pinned — the class is lexical, so
+a rule would produce `mornra`, the same damage in a new place.
+
 - NEVER: send a build sentence to an AI endpoint; name a single case for an
   ambiguous ending; gate the stage on the microphone; author a focus without
   checking `decline()` produces the cell (a wrong required form teaches a wrong

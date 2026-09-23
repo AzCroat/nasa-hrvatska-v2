@@ -111,10 +111,24 @@ describe('gradeBuild — it grades the GRAMMAR POINT, not the sentence', () => {
 describe('the authored build sentences', () => {
   const withBuild = SPEAKING_CURRICULUM.filter((u) => (u.build?.length ?? 0) > 0);
 
-  it('cover every A1 unit', () => {
-    const a1 = SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
-    expect(a1.length).toBeGreaterThan(0);
-    for (const u of a1) expect(u.build?.length ?? 0).toBeGreaterThanOrEqual(3);
+  it('cover every unit at the AUTHORED levels, and the rest degrade', () => {
+    // A1, A2 and B1 are authored. B2/C1/C2 deliberately still run the old
+    // ladder — the screen skips BUILD when a unit has none, so a partial
+    // rollout never strands a learner on an empty stage. This asserts BOTH
+    // halves so "authored" cannot quietly shrink and so the degrade path stays
+    // real until it is filled.
+    const AUTHORED = ['A1', 'A2', 'B1'] as const;
+    for (const lvl of AUTHORED) {
+      const us = SPEAKING_CURRICULUM.filter((u) => u.level === lvl);
+      expect(us.length).toBeGreaterThan(0);
+      for (const u of us)
+        expect(u.build?.length ?? 0, `${u.id} has no build sentences`).toBeGreaterThanOrEqual(3);
+    }
+    // Every authored item drills a checkable point — a build sentence with no
+    // focus would grade by phrase matching alone, which is the old checklist.
+    for (const u of SPEAKING_CURRICULUM)
+      for (const b of u.build ?? [])
+        expect(b.focus, `${u.id}: "${b.answer}" has no focus`).toBeTruthy();
   });
 
   it('EVERY model answer passes its own grader', () => {
