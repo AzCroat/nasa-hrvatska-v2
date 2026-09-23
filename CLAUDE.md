@@ -2993,6 +2993,21 @@ Practical rules that fall out of this:
   the leak. If a case matters, set its mocks in its own test.
 - **Check what the code actually passes**, not what the variable is named. A
   completion key is not always a screen id.
+- **A SCREEN CAN RENDER A FIELD THE PAYLOAD HAS NEVER HAD, AND NOTHING WILL
+  SAY SO.** `ScenesScreen`'s `scene.qs` is recorded below as a one-off; it is a
+  class. `RegionScreen` rendered each dialect word's explanation from `v.tip`
+  while all 81 region vocabulary rows carry `note` — so every authored line was
+  dropped, on every region page, for the life of the screen (2026-09-23).
+  `scene.qs.map` at least THREW; an optional render of an absent field is
+  `undefined`, the `&&` short-circuits, and the card is simply one line
+  shorter: no boundary, no Sentry, no failing test. Derive it — dump the field
+  names the real payload carries under each key, and check every
+  `useContent` consumer's accesses against them. **Fix the depth before
+  believing the output**: the first run capped at 3 levels and reported four
+  correct screens as broken, because `PROFESSIONS → categories → jobs → job.m`
+  is depth 4. Guard it by RENDERING against the real payload, never with a
+  source pin on the field name — the failure is a name agreeing with nothing,
+  so a pin passes just as happily when the data is renamed underneath it.
 - **A payload key and a local export can share a name and hold different data.**
   `content.SCENES` (the illustrated tap-a-word set, `items`) and the client-local
   scene-description set (`qs`) were both called SCENES; a comment said the

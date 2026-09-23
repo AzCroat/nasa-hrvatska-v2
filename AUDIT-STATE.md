@@ -969,6 +969,82 @@ Verified rather than assumed that showing both a local card and the toast is
 already the norm: on the two audio-first screens `useHeardGate` renders
 `AudioFailureNotice` while `speak()` raises the toast, and has since 2026-09-06.
 
+### 20. A screen rendered a field the data has never had — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+`ScenesScreen`'s `scene.qs` (Sentry 0d68c47c) is recorded in CLAUDE.md as a
+one-off. It is a CLASS, and this is the second member — found by deriving it
+instead of waiting for the next Sentry event, since Sentry is not reachable
+from here.
+
+**THE DERIVATION.** Dump every field name reachable under each
+`/api/content/core` payload key from the REAL `core.js`; for each of the 53
+`useContent`/`peekContent` consumers, collect the payload keys it names and
+every `x.field` it accesses; report accesses that no key it reads can supply.
+
+**`RegionScreen` renders `v.tip`. No region vocabulary row has ever carried
+`tip`.** Measured against the real payload: **81 rows across 10 regions, 81
+with `note`, 0 with `tip`.** So every authored explanatory line — *"šoht: the
+iconic steel tower above a mine shaft, Labin's industrial symbol"* — was
+dropped on the floor, on every region page, for the life of the screen.
+
+**IT IS A WORSE HIDING PLACE THAN THE ONE THIS CLASS IS NAMED AFTER.**
+`scene.qs.map` at least THREW, so a boundary caught it and Sentry eventually
+said so. `v.tip` is `undefined`, the `&&` short-circuits, and the card renders
+one line shorter than it should: no boundary, no Sentry event, no failing
+test, nothing to notice. A missing field and a field that is legitimately
+absent look identical from inside an optional render.
+
+**THE FIRST RUN OF THE DERIVATION MANUFACTURED FOUR FINDINGS, AND READING
+KILLED ALL FOUR.** The field walk capped at depth 3 and sampled 40 array
+elements, so `PROFESSIONS → categories → jobs → job.m` (depth 4) was outside
+it — and `ProfessionsScreen` (`j.m`, `j.f`, `j.note`), `ClothesScreen`
+(`.gen`), `BodyDescScreen` and `CountriesScreen` were all reported broken
+while being perfectly correct. **Under-counting a derivation manufactures
+findings exactly the way over-counting hides them**, and this is the
+brace-depth extraction error of sweep 17 in a new place. Re-run without the
+cap (cycle-guarded), the noise collapsed from 4 false positives to 1 real
+finding plus locals; three further candidates (`WordSprint`'s `word.hr`,
+`LearnPath`'s `word.en`, `AppRouter`'s `w.word`) were read and are
+locally-shaped objects, not payload rows.
+
+**The guard is a RENDER against the REAL payload, not a source pin**
+(`regionVocabNote.test.tsx`, 11): a pin on `v.note` would pass just as happily
+if the data were renamed underneath it, because the failure IS a name agreeing
+with nothing. It drives the real screen for all ten regions and asserts each
+row's headword AND its note reach the DOM, plus the data-side floor (81 rows,
+all with `note`, none with `tip`).
+
+Mutation-verified, three, each confirmed LANDED: the screen reverted to `v.tip`
+fails 10; one row's `note` renamed to `tip` IN THE DATA fails 2 (the other
+direction — the guard must not only watch the screen); the vocabulary tab never
+opened fails 10, so the render assertions are not vacuous.
+
+One testing note worth keeping: the tab button renders `{icon} {label}`, so its
+text is split across nodes and `getByText('Language')` finds nothing. Query by
+ROLE and accessible name — which is also what a learner actually clicks.
+
+E2E audit: `croatia.spec.js` asserts only that the `Overview` tab appears; the
+change is inside the Language tab and touches no user-visible string a spec
+names.
+
+**THE OTHER DIRECTION OF THE SAME DERIVATION IS UNUSABLE, AND THAT IS WORTH
+RECORDING SO NOBODY RE-RUNS IT.** "Which authored payload fields does no source
+file read" sounds like the same sweep pointed the other way; run, it reports
+**339 names and every one is noise**, because the payload's own DATA KEYS are
+its field names (`V['greetings']`, `REGIONS['labin']`) and are reached through
+`Object.keys`, never as literals. The one row that looked like a real finding —
+HISTORY's ten graded bands (`textHrA1` … `introHrC2`, ~4,100 authored Croatian
+words) — is read by `gradedField(base, level)` building `${base}${level}` at
+call time, so the literals correctly appear nowhere. Checked rather than
+assumed: that was the one candidate whose absence would have been expensive.
+
+**THE SAME CHECK OVER THE 109 DRILL BANKS IS CLEAN, and it is a real check
+rather than a vacuous one**: `ModeDrill` renders exactly `q`, `opts`, `answer`,
+`tip`, `en`, `mode`, and across **109 banks / 2,616 rows** there is not one
+field the engine never renders and not one row missing a field it requires.
+That is the whole practice programme, so the class does not generalise to the
+drills — worth knowing before someone spends a sweep there.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

@@ -344,7 +344,17 @@ function RegionScreen({ regionKey, goBack }: Props) {
           <div style={{ fontSize: 13, color: 'var(--subtext)', marginBottom: 16 }}>
             Local words, dialect terms & cultural vocabulary
           </div>
-          {r.vocab.map(function (v: { hr: string; en: string; tip?: string }, i: number) {
+          {/* THE FIELD IS `note`, AND THIS RENDERED `tip` (2026-09-23). All 81
+              region vocabulary rows across all 10 regions carry a `note` — the
+              line that says what a dialect word MEANS locally ("the iconic
+              steel tower above a mine shaft — Labin's industrial symbol"). No
+              row has ever carried `tip`, so every one of those notes was
+              dropped on the floor, on every region page, for the life of the
+              screen. It does not crash: `v.tip` is undefined, the `&&`
+              short-circuits, and the card renders one line shorter than it
+              should. Silent in exactly the way `ScenesScreen`'s `scene.qs` was
+              not — no boundary, no Sentry, nothing to notice. */}
+          {r.vocab.map(function (v: { hr: string; en: string; note?: string }, i: number) {
             return (
               <div
                 key={i}
@@ -363,7 +373,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     {v.en}
                   </span>
                 </div>
-                {v.tip && (
+                {v.note && (
                   <div
                     style={{
                       fontSize: 12,
@@ -372,7 +382,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                       fontStyle: 'italic',
                     }}
                   >
-                    {v.tip}
+                    {v.note}
                   </div>
                 )}
               </div>
