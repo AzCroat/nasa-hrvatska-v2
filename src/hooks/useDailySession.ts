@@ -873,6 +873,43 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     return fresh;
   });
 
+  // ── Noticing midnight while the app is OPEN (2026-09-23) ──────────────────
+  //
+  // The rebuild effect below computes `isNewDay` and has ALWAYS been able to
+  // act on it — but its dependency array is `[userCefr]`, so nothing re-ran it
+  // when only the DATE changed. On a PWA that is not an edge case, it is the
+  // normal usage pattern: the app sits backgrounded on a phone, midnight
+  // passes, the learner brings it back, and the Today's Session card shows
+  // YESTERDAY'S plan with yesterday's completions — reporting a session they
+  // finished last night as finished today. Reproduced before fixing: advance
+  // the clock past midnight, fire `visibilitychange`, and `session.date` is
+  // still yesterday's.
+  //
+  // HomeTab already solves exactly this problem, one component up, for the word
+  // and phrase of the day (`checkDay` on `visibilitychange`) — so the mechanism
+  // to notice midnight was on the same screen, and the session was simply not
+  // wired to it. This is that wiring, plus `focus`/`pageshow` for the
+  // wake-from-sleep cases `useSyncManager` already listens on.
+  //
+  // DELIBERATELY NOT A TIMER, and the residual gap is stated rather than
+  // hidden: a learner who is LOOKING at the app as midnight passes keeps
+  // yesterday's plan until they switch away and back. A timer would close that,
+  // and would also reset the plan under their hands mid-session — a worse
+  // failure than a short delay, and one they cannot explain. The app coming
+  // back is the honest moment to roll over.
+  const [dayStamp, setDayStamp] = useState(localDateStr);
+  useEffect(() => {
+    const check = () => setDayStamp((prev) => (prev === localDateStr() ? prev : localDateStr()));
+    document.addEventListener('visibilitychange', check);
+    window.addEventListener('focus', check);
+    window.addEventListener('pageshow', check);
+    return () => {
+      document.removeEventListener('visibilitychange', check);
+      window.removeEventListener('focus', check);
+      window.removeEventListener('pageshow', check);
+    };
+  }, []);
+
   // Handle date rollover or CEFR level-up after mount.
   //
   // 2026-05-21 BUG FIX: the previous implementation set `completedIds: []` on
@@ -915,8 +952,11 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     const fresh = newSession(userCefr, activities, completedIds);
     persistSession(fresh);
     setSession(fresh);
+    // `dayStamp` is here so a date rollover reaches this effect at all; it is a
+    // SIGNAL, not a value the body reads (the body asks `localDateStr()`
+    // itself, which is the same answer and cannot go stale between them).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCefr]);
+  }, [userCefr, dayStamp]);
 
   // The teaching slot's second chance: today's plan is rebuilt once if it was
   // committed before the curriculum spine arrived. Why that happens at all, and

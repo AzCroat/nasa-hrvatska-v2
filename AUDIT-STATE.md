@@ -2213,6 +2213,70 @@ it is a weaker case and was left alone deliberately rather than swept in. Say
 which ones were looked at and not changed, or the next person re-derives the
 same list.
 
+### 37. The daily session never noticed midnight — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+From the INTERACTIONS list rather than the claims seam — the queue's own
+"retention ladder vs a date rollover with the app left open" item — and it
+turned out to be the daily session, not the ladder.
+
+**THE DEFECT.** `useDailySession`'s rebuild effect has always computed
+`isNewDay` and has always known what to do with it. Its dependency array was
+`[userCefr]`, so **nothing ever re-ran it for a date change**: the check fired
+on mount and never again. Reproduced before fixing — advance the clock past
+midnight, fire `visibilitychange`, `session.date` is still yesterday's.
+
+**THIS IS NOT AN EDGE CASE ON A PWA, IT IS THE NORMAL USAGE PATTERN.** The app
+sits backgrounded on a phone, midnight passes, the learner brings it back — and
+Today's Session shows YESTERDAY'S plan with yesterday's completions. A learner
+who finished last night is told they have finished today. It is the CLAIMS vs
+EVIDENCE seam reached from the interactions side: nothing is invented, the card
+simply answers "what have you done today?" with data about a different day.
+
+**THE MECHANISM WAS ALREADY ON THE SAME SCREEN.** `HomeTab` has `checkDay` on
+`visibilitychange`, which is exactly this problem solved — for the word and
+phrase of the day. The session sat beside it, unwired, for as long as both
+existed. Same shape as the badge that followed the certified level while two
+other badges did not: the right answer present in the file, used for one
+consumer.
+
+**THE FIX** is a `dayStamp` the hook holds and the rebuild effect depends on,
+moved by `visibilitychange` / `focus` / `pageshow` — the wake-from-sleep trio
+`useSyncManager` already listens on — and only when the date actually changed.
+
+**DELIBERATELY NOT A TIMER, and the residual gap is recorded rather than
+hidden**: a learner LOOKING at the app as midnight passes keeps yesterday's
+plan until they switch away and back. A timer would close that and would also
+reset the plan under their hands mid-session — a worse failure than a short
+delay, and one they cannot explain. The app coming back is the honest moment to
+roll over.
+
+**A MUTATION SURVIVED AND THE TEST'S OWN REASONING WAS WRONG.** O2 replaced the
+listener's `prev === localDateStr()` check with an unconditional stamp and all
+six tests stayed green — because the EFFECT returns early by itself when
+neither the day nor the level moved. The test asserting "a resume on the same
+day rebuilds nothing" carried a comment crediting the listener's guard, and was
+passing for the effect's reason. So the guard buys a RE-RENDER, not a rebuild;
+a seventh test now counts renders across a same-day resume, and O2 fails it.
+**Assert what the guard actually does, or the guard is decorative** — this is
+the fourth time this session a test has been passing for a reason other than
+the one written above it.
+
+Mutation-verified, three, each confirmed LANDED: `dayStamp` removed from the
+deps (the original bug) → 5 fail; the listener stamping unconditionally → 1
+(after the fix above; **0 before it**, reported); only `visibilitychange`
+listened for → 2.
+
+tsc clean; lint clean. E2E audit: no user-visible string changed, and the three
+listeners cannot fire a rebuild on an unchanged date, so no spec's tab-switch
+or reload behaviour moves.
+
+**WHAT THIS DOES NOT CLOSE.** The other half of that queue item — a
+`verification_fail` demotion against content already unlocked and against a
+plan built at the higher level — is still unchecked. The plan half is now
+partly answered (the rebuild effect keys on `userCefr`, so a level change does
+invalidate it), but WHICH level string that is, and whether a demotion moves
+it, was not established here.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
