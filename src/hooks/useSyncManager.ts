@@ -206,6 +206,13 @@ export function useSyncManager({
       // cache spread ...safePSt did NOT, so a reload could rehydrate a lower
       // srsTotal / production-rep count than the user had actually earned.
       pr: Math.max((safeLp.pr as number) || 0, (safePSt.pr as number) || 0),
+      // lr / rr (listening + reading reps) join pr here for the same reason the
+      // comment above gives. They are NOT delta-written — they are reconciled
+      // from their localStorage buckets in buildProgressSnapshot — so only the
+      // blob carries them, and the `...safePSt` spread would let a lower remote
+      // blob win without this.
+      lr: Math.max((safeLp.lr as number) || 0, (safePSt.lr as number) || 0),
+      rr: Math.max((safeLp.rr as number) || 0, (safePSt.rr as number) || 0),
       srsTotal: Math.max((safeLp.srsTotal as number) || 0, (safePSt.srsTotal as number) || 0),
       mistakesMastered: Math.max(
         (safeLp.mistakesMastered as number) || 0,

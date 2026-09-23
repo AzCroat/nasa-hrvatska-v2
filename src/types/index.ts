@@ -20,6 +20,24 @@ export interface Stats {
   /** Production reps — speaking/writing/conversation completions (Session-Rec #6).
    *  Monotonic counter, Math.max-merged across devices. The real fluency signal. */
   pr: number;
+  /**
+   * Lifetime LISTENING and READING reps — the cross-device halves of
+   * `lib/listeningMetric` and `lib/readingMetric` (2026-09-23). `pr` has been
+   * synced since production reps shipped; these two were written as device-local
+   * with a comment calling cross-device sync "a scoped follow-up identical to
+   * the production-rep one" and deferring it. That left `FluencySnapshot`
+   * printing ONE synced lifetime total beside TWO device-local ones, in a row
+   * of three numbers whose whole purpose is to be compared — so a learner who
+   * reads on a laptop and listens on a phone saw two of the three reset.
+   *
+   * Optional because they arrived after the type: a blob written before this
+   * carries neither, and `|| 0` is the right reading of that (nothing counted
+   * on that device yet), never a reason to overwrite what another device holds.
+   * Reconciled from the local buckets in `buildProgressSnapshot`, which is the
+   * one place that sees every counting site.
+   */
+  lr?: number;
+  rr?: number;
   de: number;
   rc: number;
   pf: number;
@@ -68,6 +86,9 @@ export interface StatsDelta {
   gc?: number;
   sp?: number;
   pr?: number;
+  /** Listening / reading rep deltas — the counterparts of `pr`. */
+  lr?: number;
+  rr?: number;
   de?: number;
   rc?: number;
   pf?: number;

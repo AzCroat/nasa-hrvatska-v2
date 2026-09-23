@@ -597,6 +597,14 @@ export async function fbLoadProgress(uid: string): Promise<Record<string, unknow
       // _DELTA_NUMERIC field that was missing its load-side backstop, causing the
       // "real fluency signal" to regress on a cache-cold read.
       pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
+      // lr / rr — listening and reading reps. Unlike pr they are NOT in
+      // _DELTA_NUMERIC (they are reconciled from their localStorage buckets in
+      // buildProgressSnapshot, which is the one place that sees every counting
+      // site), so _as normally does not carry them and the spread keeps _bs.
+      // The Math.max is here anyway: a numeric stat in this codebase has FOUR
+      // merge points, and the one that bit pr was the one nobody listed it in.
+      lr: Math.max((_bs.lr as number) || 0, (_as.lr as number) || 0),
+      rr: Math.max((_bs.rr as number) || 0, (_as.rr as number) || 0),
       de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
       rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
       pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),
@@ -991,6 +999,9 @@ export function fbWatchProgress(
             sp: Math.max((_bs.sp as number) || 0, (_as.sp as number) || 0),
             // pr regression backstop — see fbLoadProgress above.
             pr: Math.max((_bs.pr as number) || 0, (_as.pr as number) || 0),
+            // lr / rr — see fbLoadProgress above.
+            lr: Math.max((_bs.lr as number) || 0, (_as.lr as number) || 0),
+            rr: Math.max((_bs.rr as number) || 0, (_as.rr as number) || 0),
             de: Math.max((_bs.de as number) || 0, (_as.de as number) || 0),
             rc: Math.max((_bs.rc as number) || 0, (_as.rc as number) || 0),
             pf: Math.max((_bs.pf as number) || 0, (_as.pf as number) || 0),

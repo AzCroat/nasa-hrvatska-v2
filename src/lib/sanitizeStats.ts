@@ -18,6 +18,8 @@ export function sanitizeStats(raw: unknown): Partial<Stats> {
     'gc',
     'sp',
     'pr',
+    'lr',
+    'rr',
     'de',
     'rc',
     'pf',

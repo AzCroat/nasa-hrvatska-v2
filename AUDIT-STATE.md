@@ -2277,6 +2277,90 @@ partly answered (the rebuild effect keys on `userCefr`, so a level change does
 invalidate it), but WHICH level string that is, and whether a demotion moves
 it, was not established here.
 
+### 38. One synced counter beside two device-local ones — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+The follow-on sweep 35 raised and deliberately did not take: `FluencySnapshot`
+prints three LIFETIME totals in one column and invites the learner to compare
+them, and **only one of them was synced.**
+
+`stats.pr` has ridden the progress blob since production reps shipped.
+`listeningMetric` and `readingMetric` were written device-local, each carrying
+a comment calling cross-device sync "a scoped follow-up identical to the
+production-rep one" and deferring it. So a learner who reads on a laptop and
+listens on a phone saw two of the three totals start again from zero on each
+device, beside one that did not — in a row of numbers whose entire purpose is
+the comparison. The WEEK column was always consistent (all three device-local);
+it was the TOTALS that disagreed about what they counted.
+
+This was sanctioned debt, not an open design question — both module headers
+state the intended follow-up and the exact four-point shape of it — so
+implementing it is finishing a documented job rather than inventing a policy.
+
+**WHERE THE RECONCILIATION LIVES IS THE LOAD-BEARING CHOICE.**
+`recordProductionRep`'s caller also does `setStats({ pr: pr + 1 })` AT THE
+COUNTING SITE, which works because there is exactly one such site. Listening and
+reading have several — `useAward`'s activityType path, plus the three direct
+recorders sweep 35 added to the screens whose award type is not their modality.
+Reconciling at each site would mean remembering all of them, and the next one
+added. `buildProgressSnapshot` sees every site BY CONSTRUCTION, because it reads
+the buckets those sites write, and it is already the documented single source of
+truth for what gets persisted. It does the same `Math.max` reconciliation it has
+always done for `str`, three lines up.
+
+**THE FINDING INSIDE THE FINDING: A MONOTONIC COUNTER HAS FOUR MERGE POINTS,
+NOT ONE.** The first draft added `lr`/`rr` to `mergeStatsFromRemote` and
+stopped — which is the "instrument one path and describe the endpoint as
+covered" rule, one counter later, on the day it was written down for `ttsFetch`.
+`pr` is Math.max-merged in **four** places: `mergeStatsFromRemote` (React
+state), `useSyncManager` (the local-cache write-back), and TWICE in
+`firebase.ts` (the load-side backstop and the delta-apply path). Three are
+spread-plus-override, so **a field that is not LISTED is carried by the spread
+and silently not protected** — a lower remote wins. `pr` itself learned this the
+hard way; its own comment in `firebase.ts` records it as "the one
+`_DELTA_NUMERIC` field that was missing its load-side backstop, causing the real
+fluency signal to regress on a cache-cold read."
+
+The guard is DERIVED rather than a list of four: for each file that guards `pr`,
+it counts `pr: Math.max(` and requires the same count for `lr` and `rr`. So a
+fifth merge point added next month is covered the moment someone protects `pr`
+in it, and a sixth counter cannot be added to one file and forgotten in three.
+It also asserts the subject is non-empty (≥ 4 guarded sites) — an `it.each` over
+an empty list registers no tests.
+
+**`_DELTA_NUMERIC` was deliberately NOT extended**, and the reason is the
+decorative-guard rule: nothing delta-writes these two (that is the whole point
+of reconciling at snapshot time), so adding them would be an entry that guards
+nothing while implying a write path exists.
+
+**An absent field reads as 0 and can never zero the other side.** Both are
+optional because they arrived after the type; the snapshot only re-spreads when
+a value actually moves, so a learner who has never listened writes no key rather
+than a zero — the same shape `str` has always had. The merge test pins that an
+older blob carrying neither cannot reset what this device holds.
+
+Mutation-verified, seven, each confirmed LANDED: the snapshot no longer
+reconciling → 1 fail; the snapshot taking the local bucket outright (able to
+LOWER a synced value) → 1; the merge preferring remote → 2; the card ignoring
+the synced totals → 1; sanitize dropping the fields → 2; `lr`/`rr` removed from
+ONE of the two `firebase.ts` merge points (the original omission) → 1; removed
+from `useSyncManager` → 1.
+
+E2E audit: no user-visible string changed — the card's numbers can only go UP on
+a device behind its synced total, and every E2E fixture is single-device, so no
+spec's rendered totals move.
+
+**WHY PRODUCTION WAS THE ONE THAT DID NOT DRIFT, which is the reusable part.**
+Checked while here: `PRODUCTION_SCREEN_IDS` is `new Set(PRODUCTION_POOL.map(p =>
+p.screen))` — DERIVED from the pool, so a production screen added tomorrow is
+counted the day it is added, and no per-screen decision is involved. The
+listening and reading counters key on a STRING EACH SCREEN CHOOSES
+(`award`'s activityType), and both drifted — three screens between them, found
+by sweep 35's census. Same product, same week, same three bars: the derived one
+was right and the two hand-keyed ones were not. **When a counter's membership
+test is a per-site decision, it decays at the rate new sites are added**; when
+it is derived from the list that already defines membership, it cannot.
+
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
