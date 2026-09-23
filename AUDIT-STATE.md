@@ -2643,6 +2643,50 @@ directions of one rule, in one guard file so they cannot drift apart — and
 neither would have been found by the other. When a rule is worth writing in one
 direction, ask it in the other before moving on.
 
+### 42. The Home tab's claims — 2026-09-23 — **ALL NEGATIVE, do not re-run**
+
+The largest unread block of learner-facing claims after sweeps 32–41, swept the
+same way: read every sentence, then ask the code whether it can support it.
+Nothing found. Recorded in full, because an unrecorded negative is re-run.
+
+- **`QuestTracker`** — "N quests remaining" / "All quests complete!" / the
+  percentage all derive from `questsDoneToday`, which reads the real keys. **And
+  every one of the 17 quests is EARNABLE**, censused mechanically: 9 by a direct
+  `markQuest`, 5 by `TIER2_MAP` promotion, 2 derived from the streak by name in
+  `questState`, 1 (`master2`) marked explicitly since sweep 40. That is the
+  converse of the historical `listening` defect — a quest marked by seven
+  completion paths that *did not exist in the list*, so the key was written and
+  nothing read it. This checks the other direction: a quest in the list that
+  nothing can mark would make "All quests complete!" permanently unreachable and
+  the remaining-count permanently wrong. Zero.
+- **`SessionCard`** — "📚 Review N with prof. Kovač" and "N phrases to review"
+  take `wordsdue`, which `HomeTab` computes as
+  `getServableReviewCount(poolWords)` — the SERVABLE count, not the raw FSRS due
+  count. So Home cannot promise reviews the Review screen then refuses; that is
+  the 2026-09-04 vocabPool rule ("Home and Review must agree by construction")
+  still holding, verified rather than assumed.
+- **`HeroSection` / `getKnightGreeting`** — every interpolated number sits under
+  a guard that matches it (`xp >= 5000` → "5,000 XP!", `lc >= 10` → "N lessons
+  in"), and the rest is motivational copy conditioned on real state (`lc === 0`,
+  `streakBroken`, the hour, `practicedToday`). No measurement is claimed. The
+  hero's one real proficiency claim — the CEFR bar — was already fixed and
+  pinned by the 2026-09-06 and 2026-09-08 badge sweeps.
+  One cosmetic imprecision noted and deliberately not changed: the `gc >= 5`
+  branch says "Five grammar sessions in" for any count ≥ 5. It sits AFTER the
+  `xp >= 100` branch, so reaching it with a much higher `gc` is practically
+  impossible (grammar completions carry XP), and it is encouragement copy rather
+  than a measurement surface.
+
+**Already checked and clean, from the same seam, recorded here so the list is in
+one place**: `NextStepPrompt` (`buildPlanReason` scopes every claim — including
+"All TRACKED skills look strong"); `StatsTab` (`getWordsLearned` reads a live
+`nh_sr` with the right card shape; the eligible-vs-verified split is stated
+honestly); `LearningInsights`' inputs (both `nh_daily_xp_` and `nh_daily_time_`
+are genuinely written by `useAward`).
+
+**WHAT IS LEFT IN THE SEAM**: `ProgressCharts`, `SkillRadar`, `JourneyTimeline`,
+`XPActivityCalendar` — four Me-tab visualisations, none yet read.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
