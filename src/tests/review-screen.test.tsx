@@ -13,7 +13,7 @@
  *   - Wrong answer: _aiPost called for AI explanation
  *   - Navigation: "Next →" advances to next question
  *   - Last question shows "Results" instead of "Next →"
- *   - Done mode: "Continue →" button, award(score * 5 + 5), markQuest('master')
+ *   - Done mode: "Continue →" button, award(score * 5 + 5), recordSrsReview(deck size)
  *   - finishFired ref prevents double-award on double-click
  *
  * Notes:
@@ -88,7 +88,11 @@ vi.mock('../hooks/useNotifications', () => ({ markPracticed: mockMarkPracticed }
 
 // ── quests mock ───────────────────────────────────────────────────────────────
 const mockMarkQuest = vi.hoisted(() => vi.fn());
-vi.mock('../lib/quests.js', () => ({ markQuest: mockMarkQuest }));
+const mockRecordSrsReview = vi.hoisted(() => vi.fn());
+vi.mock('../lib/quests.js', () => ({
+  markQuest: mockMarkQuest,
+  recordSrsReview: mockRecordSrsReview,
+}));
 
 // ── logError mock ─────────────────────────────────────────────────────────────
 const mockLogError = vi.hoisted(() => vi.fn());
@@ -459,14 +463,20 @@ describe('ReviewScreen — done mode', () => {
     expect(award).toHaveBeenCalledWith(15, false, 'review');
   });
 
-  // `master` alone. The `markQuest('review')` this used to require named no
-  // quest — a dead write beside the real one — so the assertion pinned it in
-  // place. See questIdsExist.test.ts.
-  it('"Continue →" calls markQuest("master") and nothing that names no quest', () => {
+  // The `markQuest('review')` this used to require named no quest — a dead
+  // write beside the real one — so the assertion pinned it in place. See
+  // questIdsExist.test.ts.
+  // THIS TEST ASSERTED markQuest("master") AND DEFENDED THE DEFECT (2026-09-23).
+  // That quest reads "Review 5+ SRS words" and pays 30 XP, and a bare mark
+  // cleared it for a ONE-CARD session. The screens now report the deck size and
+  // `lib/quests.recordSrsReview` decides — so the assertion is about the COUNT
+  // reaching the store, and about the shortcut being gone.
+  it('"Continue →" records the deck size and names no quest directly', () => {
     goToDone();
     const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
     fireEvent.click(btn);
-    expect(mockMarkQuest).toHaveBeenCalledWith('master');
+    expect(mockRecordSrsReview).toHaveBeenCalledWith(expect.any(Number));
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('master');
     expect(mockMarkQuest).not.toHaveBeenCalledWith('review');
   });
 

@@ -2494,6 +2494,94 @@ set at build time; do not hand-list it.
   screen match. The content-unlock drop that comes with it is the honest-rollback
   directive working as written, not a defect.
 
+### 40. The two quests whose text claimed a number — 2026-09-23 — **1 REAL DEFECT, FIXED**
+
+The claims seam pointed at the quest ledger, which is a surface a learner reads
+EVERY day on Home and which, since 2026-09-14, pays real XP.
+
+**Every tier-1 daily quest reads "Complete 1 …" — which a single `markQuest`
+call is an honest record of. Two do not:**
+
+| quest | text | XP |
+| --- | --- | --- |
+| `master` | "Review 5+ SRS words" | 30 |
+| `master2` | "Review 15+ SRS words" | 55 |
+
+**Nothing counted words.** All three review surfaces — `ReviewScreen`,
+`MistakesScreen`, `AdaptiveReviewScreen` — fired a bare `markQuest('master')` on
+finish, whatever the deck size, so **one card cleared "Review 5+"**. And
+`master` sat in `TIER2_MAP`, which promotes on the second MARK, so **two
+one-card sessions cleared "Review 15+"**. The other five tier-2 quests say "2 of
+X today" and are therefore honestly served by that same mechanism; these two say
+a WORD count, and the mechanism counts sessions.
+
+**THE FIX COUNTS, AND ACCUMULATES ACROSS THE DAY.** `recordSrsReview(words)` in
+`lib/quests` keeps `nh_srs_reviewed_<date>` and marks whichever quest the day's
+running total has actually earned — `master` at 5, `master2` at 15. Across the
+day rather than per session because the text is a DAILY goal: five words now and
+ten later is fifteen words reviewed, and per-session counting would make
+"Review 15+" unreachable on any surface whose deck is smaller than that.
+
+**`master` had to leave `TIER2_MAP`, and that is not a tidy-up.** With the gate
+in place, second-mark promotion would clear "15+" at ten — the same defect in a
+new disguise. The guard drives the real `markQuest` twice rather than reading
+the map, so a re-added row fails rather than merely differing from a restated
+constant.
+
+**THE COUNTER IS SWEPT.** `cleanupStaleQuestKeys` now covers the
+`nh_srs_reviewed_` prefix as well. Without it this would be the one daily key in
+the module that grows forever — invisible until a learner's storage is full.
+
+**FOUR TEST FILES ENCODED THE DEFECT, which is the fifth instance this session**
+(after the `vs`-as-completion-marker comment in sweep 22, the "no evidence, no
+claim" block in 32, the slang speak-quest in 35 and the same-day-resume comment
+in 37). `review-screen`, `mistakes-screen` and `adaptive-review` each asserted
+`markQuest('master')`; `quests.test.js` asserted that a second mark promotes
+`master2`. All four read the code and wrote it down. They now assert the count
+reaching the store and the shortcut being gone — and `quests.test.js` asserts
+the promotion does NOT happen, with the reason beside it.
+
+Mutation-verified, five, each confirmed LANDED: marking `master` unconditionally
+→ 2 fail; `master` back in `TIER2_MAP` → 2; a review screen back to a bare
+`markQuest` → 1; a CONSTANT passed instead of the deck length (which satisfies a
+naive "calls recordSrsReview" matcher while restoring the defect exactly) → 1;
+the new prefix dropped from the cleanup → 1.
+
+tsc clean; lint clean. E2E audit: the quest TEXT is unchanged — it was already
+what the app should have been doing — and no spec references a quest name, a
+quest key or the new counter.
+
+**The rest of the quest ledger was walked and is honest.** `perfect` ("Score
+100% on any exercise") is gated on an exact score at all four of its marks;
+every `culture`/`reading`/`grammar`/`vocab` mark is on a screen that does that
+thing; the five OTHER tier-2 quests say "2 of X today", which second-mark
+promotion serves exactly. Two judgement calls recorded rather than changed:
+`LessonScreen` marks BOTH `grammar` and `vocab` for one lesson (generous, but a
+lesson does teach both, so neither claim is false), and `AlphabetScreen` marks
+`grammar` while awarding `'vocabulary'` (the alphabet is neither, and "Complete
+1 grammar lesson" is loose rather than wrong).
+
+### A candidate examined and deliberately NOT changed — the analysis, so it is not re-derived
+
+`CroatianErrorInsights`'s eight phoneme cards say **"Your spoken Č scored
+low."** `logPronunciationWeakness` records the phoneme Azure names as worst —
+and when it names none, or names one of the many Croatian sounds outside the
+tracked eight, it falls back to logging EVERY tracked phoneme present in the
+target text. So on the fallback path the card asserts a per-sound score for up
+to three sounds on the evidence of one low utterance score.
+
+**The fallback is deliberate and documented**: `phonemesInText` excludes the
+trilled `r` with a comment saying presence alone is "too common to be a
+meaningful weakness signal", so the authors knew it is presence-derived and
+pruned the worst offender. It is also a reasonable SCHEDULING signal — practise
+the hard sounds in the sentence you scored badly on. Only the display sentence
+is stronger than the evidence, and only on that path; the frequency of the path
+is not measurable from here (it depends on Azure's per-phoneme output). Fixing
+it means either hedging all eight descriptions — which weakens the honest,
+Azure-named case for no measured gain — or threading an `exact` flag from the
+ledger context into the card. Recorded as a candidate with the mechanism
+established, not as a defect fixed on a guess about frequency.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

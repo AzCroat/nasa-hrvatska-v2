@@ -9,7 +9,7 @@
  *   - Review mode: "Card 1 of N" subtitle via H(), Croatian word shown
  *   - FlipCard: both faces always in DOM (CSS backfaceVisibility not enforced in jsdom)
  *   - "✅ Got It!": clearMistake(hr) called, mastered incremented
- *   - "✅ Got It!" on last card: award(mastered*5, mastered>=3) + markQuest('master') + mode='done'
+ *   - "✅ Got It!" on last card: award(mastered*5, mastered>=3) + recordSrsReview(deck) + mode='done'
  *   - "📚 Study Again" on last card: mode='done' (without awarding mastered)
  *   - "← Back to List" in review → returns to list mode
  *   - Clear one: × button → clearMistake(hr) called
@@ -59,7 +59,11 @@ vi.mock('firebase/firestore', () => ({
 
 // ── quests mock ───────────────────────────────────────────────────────────────
 const mockMarkQuest = vi.hoisted(() => vi.fn());
-vi.mock('../lib/quests.js', () => ({ markQuest: mockMarkQuest }));
+const mockRecordSrsReview = vi.hoisted(() => vi.fn());
+vi.mock('../lib/quests.js', () => ({
+  markQuest: mockMarkQuest,
+  recordSrsReview: mockRecordSrsReview,
+}));
 vi.mock('../context/StatsContext', () => ({
   useStats: () => ({ stats: { xp: 0, lc: 0, gc: 0 }, setStats: vi.fn() }),
 }));
@@ -383,12 +387,18 @@ describe('MistakesScreen — "✅ Got It!" behavior', () => {
     expect(award).toHaveBeenCalledWith(15, true, 'review');
   });
 
-  it('"✅ Got It!" on last card calls markQuest("master")', () => {
+  // THIS TEST ASSERTED markQuest("master") AND DEFENDED THE DEFECT (2026-09-23).
+  // That quest reads "Review 5+ SRS words" and pays 30 XP, and a bare mark
+  // cleared it for a ONE-CARD session. The screens now report the deck size and
+  // `lib/quests.recordSrsReview` decides — so the assertion is about the COUNT
+  // reaching the store, and about the shortcut being gone.
+  it('"✅ Got It!" on last card records the deck size', () => {
     mockGetMistakes.mockReturnValueOnce([MISTAKE_A]).mockReturnValue([]);
     renderScreen();
     clickStartReview();
     fireEvent.click(screen.getByText(/✅ Got It!/));
-    expect(mockMarkQuest).toHaveBeenCalledWith('master');
+    expect(mockRecordSrsReview).toHaveBeenCalledWith(expect.any(Number));
+    expect(mockMarkQuest).not.toHaveBeenCalledWith('master');
   });
 
   it('"✅ Got It!" on last card transitions to done mode', () => {

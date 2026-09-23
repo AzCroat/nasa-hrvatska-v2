@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { speak, getMistakes, recordMistake } from '../../data';
 import { getSR } from '../../lib/srs.ts';
 import { useStats } from '../../context/StatsContext.tsx';
-import { markQuest } from '../../lib/quests.js';
+import { recordSrsReview } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
@@ -348,7 +348,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
     if (view === 'session' && session.length > 0 && sessionIdx >= session.length) {
       if (!questFiredRef.current) {
         questFiredRef.current = true;
-        markQuest('master');
+        recordSrsReview(session.length);
       }
       if (award) award(correct * 2, false, 'review');
       setView('results');
@@ -612,7 +612,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
         const newCorrect = isCorrect ? correct + 1 : correct;
         if (!questFiredRef.current) {
           questFiredRef.current = true;
-          markQuest('master');
+          recordSrsReview(session.length);
         }
         if (award) award(newCorrect * 2, false, 'review');
         setView('results');
