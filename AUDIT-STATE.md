@@ -1323,6 +1323,96 @@ counters are zero, the distinguishing read is unavailable", not as "production
 is clean".
 
 
+### 25. Work recorded that nothing consumes — 2026-09-23 — **2 DEAD WRITES, FIXED**
+
+The mirror of the `v.tip` sweep, run over storage keys instead of payload
+fields: not "a screen reads a field the data never had" but "the app writes a
+value nothing ever reads". Both are silent by construction.
+
+**This class already had a fix and a guard, and the guard could not grow.**
+`onboardingAsksOnlyWhatItUses.test.tsx` removed three dead writes
+(`nh_connection`, `nh_goal_set_date`, `nh_last_active`) and pins three hardcoded
+NAMES. A fourth lands silently — the hand-maintained-list decay this file keeps
+rediscovering — and two had:
+
+- **`nh_daily_min`** (`WelcomeScreen`). Read by nothing in `src/`, `functions/`,
+  `e2e/` or `scripts/`. **Not a broken promise**: the line directly below it
+  converts the same answer into `nh_daily_goal_xp`, which IS read
+  (`DailyGoalCard`, `appUtils.getDailyGoal`) and synced both ways — so the
+  learner's choice was always honoured and only the raw minutes were dead. The
+  earlier sweep **edited this very file** (its comment records removing
+  `nh_goal_set_date`) and left this one three lines below, because that sweep was
+  scoped to `GoalSetterModal` and `WelcomeScreen` is a SECOND surface asking the
+  same commitment question.
+- **`nh_legendary_mode`** (`useScreenLauncher.launchLegendary`). Set beside
+  `nh_checkpoint_level`, which `mcGameComplete` DOES branch on; there is no
+  legendary branch anywhere. The ⚔️ Legendary run is genuinely harder — the
+  4-distractor slice gives it five options — so the FEATURE works and only the
+  flag was orphaned. Its only readers were two assertions in
+  `path-launch-vocab.test.tsx`, each a proxy sitting beside a stronger direct one
+  (`setScr` called with a non-empty question set / neither called), so removing
+  them cost no coverage. **A test pinning a write nothing consumes** is the
+  `AlphabetScreenAward` shape from sweep 22: the test defends the defect.
+
+**THE MATCHER WAS WRONG THREE TIMES, EACH TIME CONFIDENTLY**, and this is the
+part worth keeping:
+
+| version | what it did | result |
+| --- | --- | --- |
+| under-match | resolved constants and import graphs | 3 hits, missing keys |
+| over-match | excluded the writing file from the reader search | **34 false positives**, including keys CLAUDE.md documents as read (`nh_case_primer_seen`, `nh_recent_exercises`) |
+| over-ALIVE | a "prefix consumer" clause picked up a bare `nh_` literal in App.tsx's pruning loop | **0 hits** — it hid both real findings |
+
+What settled it was the dumbest version that works: count occurrences of the
+exact key string across production source; if every one of them IS a write
+statement, nothing else mentions the key. No constant resolution, no import
+graph, no prefix logic. **It can only MISS, never MANUFACTURE** — a key written
+through a constant or a template literal is outside it — and that is the safe
+direction for a guard that fails the build. The limitation is stated in the
+file's own header rather than discovered later.
+
+**THE FIRST DRAFT'S ONE EXEMPTION WAS WRONG, AND ITS OWN STALENESS TEST CAUGHT
+IT.** I exempted `nh_pruned_` on the plausible reason that a date-suffixed key
+is invisible to an exact-string count. The staleness half failed immediately:
+App.tsx:213 reads it back through `/^nh_pruned_\d{4}-\d{2}-\d{2}$/`, whose
+literal CONTAINS the string, so the count already saw it and the exemption was
+guarding nothing. That is this file's rule about checking an exclusion's reason
+even when it is obviously true — met again, and caught by a mechanism rather
+than by care. **`deadStorageWrites.test.ts` ships with no exemptions at all.**
+
+**Mutation-verified, six**, each confirmed LANDED before its result was read —
+and one did NOT land on the first attempt (`setMcInitQ(qs);` appears three times
+in the launcher, so the anchored edit silently did nothing and the run came back
+green; re-done against the line number). `nh_daily_min` restored → 2 fail;
+`nh_legendary_mode` restored → 2; a BRAND-NEW dead key the named list cannot
+know about → 1, named in the failure message (the whole point of the ratchet);
+the derivation neutered ALONE → 0, correctly, because nothing is dead to catch —
+which is why the next one exists; the derivation neutered WITH a dead write → 1
+instead of 2, proving it is a second independent layer; comment stripping removed
+with a dead write restored → 1 instead of 2, because the explanatory comment
+naming the key reads as a consumer unstripped.
+
+E2E audit: no spec references either key, the ⚔️ Legendary control, or any
+onboarding storage key. Full suite **580 files, 9341 passed, 25 skipped, 0
+failures**; `tsc --noEmit` clean; lint clean (0 findings across 521 files).
+
+### 26. Two more areas checked, both closed without a change — 2026-09-23
+
+- **`SESSION_AUTOCOMPLETE_SCREENS`** is built from every `CROATIA_POOL` screen
+  plus the reference-tagged pool entries, under a comment asserting "graded pool
+  entries are never in this set" — a claim the derivation does not enforce.
+  Measured: zero overlap between graded `CEFR_EXERCISE_POOL` entries and Croatia
+  screens. Three of the 62 Croatia screens DO self-grade (`bureaucratic`,
+  `postcard`, `practical_croatian`), so the comment's premise ("no self-grading
+  completion") is inaccurate for them — but each is a content page whose quiz is
+  a bonus block, filling the IMMERSION slot, so auto-completing on return is the
+  right behaviour and only the prose overstates. Declined on the measurement.
+- **Badges are CLOSED.** `badgesEarnable.test.ts` already iterates all 65 against
+  a maximal learner, checks non-vacuity against an empty one, DERIVES the
+  counters from the predicates themselves and asserts every counter a badge
+  reads has a writer in `src`. Do not re-sweep this.
+
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

@@ -193,7 +193,6 @@ describe('learn-path launchers reach their screen', () => {
       await result.current.launchLegendary({ id: 'lp1', go: 'lesson', topic: 'basics' });
     });
     expect(params.setScr).toHaveBeenCalledWith('mcgame');
-    expect(sessionStorage.getItem('nh_legendary_mode')).toBe('1');
     // Pre-fix this launcher navigated with an EMPTY set, so asserting the
     // destination alone would have passed straight through the bug.
     expect(params.setMcInitQ.mock.calls[0]![0] as unknown[]).not.toHaveLength(0);
@@ -268,7 +267,6 @@ describe('empty vocabulary is reported, and never lands on a dead screen', () =>
     });
     expect(params.setScr).not.toHaveBeenCalled();
     expect(params.setMcInitQ).not.toHaveBeenCalled();
-    expect(sessionStorage.getItem('nh_legendary_mode')).toBeNull();
     expect(mockReport).toHaveBeenCalled();
   });
 
