@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { H, getMistakes, getDueReviews, getSR, getStreak, BADGES } from '../../data';
+import { readingPassagesDone } from '../../lib/appUtils';
 import type { Stats } from '../../types';
 
 // ── Mini bar chart ─────────────────────────────────────────────────────────────
@@ -167,7 +168,11 @@ export default function AnalyticsScreen({
     // vocabulary measure: one card per word the learner has started.
     { label: 'Vocabulary', icon: '📖', value: srCards, color: '#0ea5e9' },
     { label: 'Speaking', icon: '🎤', value: s.sp || 0, color: '#10b981' },
-    { label: 'Reading', icon: '📰', value: s.readingDone || 0, color: '#f59e0b' },
+    // `s.readingDone` had never been written either — the same defect as the
+    // `vc` one above it, two lines apart, missed by the sweep that wrote that
+    // comment. The passages a learner finishes are `reading_*` markers in `vs`;
+    // `readingPassagesDone` is the one definition, shared with the read3 badge.
+    { label: 'Reading', icon: '📰', value: readingPassagesDone(s), color: '#f59e0b' },
     { label: 'History', icon: '🏛️', value: s.hi || 0, color: '#8b5cf6' },
     { label: 'Modal Verbs', icon: '🔮', value: s.mv || 0, color: '#ec4899' },
   ];

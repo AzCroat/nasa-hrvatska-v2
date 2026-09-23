@@ -1606,6 +1606,105 @@ E2E audit: no user-visible string changed. No spec sets `nh_goal` or
 E2E; the specs that match the welcome modal match `Dobrodošli`, which both
 variants carry. `isHeritage` appears in no spec.
 
+### 30. Fixing a predicate is not fixing the number beside it — 2026-09-23
+
+Sweep 29 ran the dead-READ derivation over the progress snapshot. Run over the
+BADGE COUNTERS it finds a second instance, and this one was left behind by a
+sweep that had already named the class **two lines away in the same array**.
+
+**THE DEFECT.** `BadgeStats` declares fifteen numeric counters; **five have no
+producer anywhere in the app** — not one increment, ever, in the whole history.
+That is deliberate inside `appUtils`, where #678 put each of them in a `||` or
+a `Math.max` beside a signal that IS live, so a value already synced onto a
+device still counts as a floor. What #678 did not do is look at the surfaces
+that DISPLAY those numbers:
+
+- **`AnalyticsScreen`'s "Reading" bar was `s.readingDone || 0` — 0 for every
+  learner, always**, while its five neighbours filled. The `s.vc` fix sits TWO
+  LINES ABOVE IT IN THE SAME ARRAY, under a comment reading "nothing has ever
+  written — so this bar sat empty while its five neighbours filled". The sweep
+  that wrote that sentence did not check the next entry.
+- **`BadgesScreen`'s `read3` row was frozen at `🔒 0 / 3`** for a learner who
+  had genuinely finished one or two passages, then jumped straight to earned.
+  The bar and the badge disagreed because they read different fields.
+
+The real signal is the `reading_<title>` marker `ReadingScreen` pushes into
+`stats.vs`, which syncs. `readingPassagesDone(s)` is now the ONE expression the
+bar, the progress row and the `read3` predicate all use, with `readingDone` kept
+as a floor and never as the measurement. It counts DISTINCT markers, so three
+opens of one passage is one passage.
+
+**Deliberately NOT `getReadingReps()`** (`lib/readingMetric`): that counts REPS —
+repeats and `GradedInputScreen` stories included — is device-local, and
+`InsightsTab` already shows it under its own name. Two surfaces disagreeing
+about "reading" is the three-copies-of-the-CEFR-formula failure.
+
+**`mediaVisits`, `footballDone`, `dialectDone` and `textingDone` are the same
+dead field and are NOT defects** — each has a live primary signal and, crucially,
+NO display surface: `amb`, `football`, `dialect` and `texting` are absent from
+`BadgesScreen`'s progress map, so `getBadgeProgress` returns null and no row
+renders. Checked, not assumed; recorded so the next person does not re-chase
+them.
+
+**THE MUTATION THAT SURVIVED IS THE MOST USEFUL THING HERE.** M3 reverted the
+`read3` predicate to `(s.readingDone || 0) >= 3` — recreating, verbatim, the
+unearnable badge #678 existed to fix — and **all 37 tests passed**. The new
+guard's "a legacy counter never stands alone" check asked whether the line
+contained `||` or `Math.max`, and `|| 0` is a `||`. **A nullish default is not a
+second signal**, and a check that cannot tell them apart passes on exactly the
+shape it was written to forbid. `livePartnerOf()` strips `|| 0` / `?? 0` first;
+the surviving mutation is now its own positive control, asserted both ways (the
+naive test passes the unearnable form, the shipped one does not; the honest
+fallback and the `Math.max` still read as live). `badgesEarnable.test.ts` could
+not catch it either — its maximal learner sets `readingDone: 1e9`, so the badge
+is earnable there whichever field the predicate reads.
+
+**THE PASSTHROUGH EXCLUSION IS THE SAME MECHANISM AS SWEEP 29's.**
+`useSyncManager`, `mergeStatsFromRemote`, `mergeSignInStats`, `sanitizeStats`
+and `statsReducer` all carry these fields forward — a `Math.max`, a clamp, an
+allowlist entry. **A first cut of this derivation reported all 24 `Stats` fields
+as produced**, because the count included reads and merges; what found the
+defect was checking the five thinnest by hand. `applyRemoteProgress` did this to
+the snapshot, and it will do it to the next derivation too: **anything that
+copies a field forward lets a dead field prove its own liveness.**
+
+**Guards, and what each is for.** `badgeCountersLive.test.ts` derives LIVE (10)
+vs LEGACY (5) from the interface itself and pins the legacy set with each one's
+live replacement, in both staleness directions; asserts no surface outside
+`appUtils` reads a legacy counter at all; and asserts no legacy counter stands
+alone inside it. `badgesScreenProgress.test.tsx` and four new cases in
+`analyticsScreen-real-data.test.tsx` assert the RENDERED number — a source pin
+survives the right value being computed and dropped on the way to the screen.
+The new Analytics cases went into the very file whose header promises "every
+number on the Analytics screen must come from a field something actually
+writes"; it is now true of the line below the one it was written for.
+
+What the matcher sees: `f: <expr> + 1`, `.f =`, `.f +=`, `.f++`. A producer
+written some other way arrives as LEGACY and the failure message says to check
+that first. It may MISS a producer; it must never MANUFACTURE one.
+
+Mutation-verified, five, each confirmed LANDED before its result was read:
+Analytics reverted → 3 fail; BadgesScreen reverted → 2 (one behavioural, one
+scan); the `read3` predicate reverted → 1, **after the guard was hardened; it
+survived the first draft**; the legacy floor dropped from the helper → 2; the
+passthrough exclusion dropped → 1 (the direct-read scan floods with merge
+false positives, which is what the exclusion exists to prevent).
+
+Suite **585 files, 9390 passed, 25 skipped, 0 failures**; tsc clean; lint clean
+(0 Croatian findings across 521 files).
+
+E2E audit: no user-visible string changed — only the VALUE of two numbers, and
+both can only rise from a permanent 0. No spec asserts a progress string, a bar
+value, or the "Reading Pro" badge; the badge specs are loose
+`match(/badge|achievement/i)` informational checks.
+
+**One correction to sweep 29's own record.** The #706 check-in predicted the
+snapshot-reachability guard would need TWO exemptions (`placement_done`,
+`nh_autotts`). It needs NEITHER: grouping by FIELD rather than by comparison
+handles the first, and recording a non-literal write as `<expr>` handles the
+second. A predicted exemption that measurement dissolves is worth writing down —
+an exemption is a place a guard stops looking.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -1621,7 +1720,10 @@ None of them crash, so no sweep above can see any of them.
       real defects. What that sweep did NOT cover, and the next person should:
       dead reads of NON-boolean snapshot fields, and consumers of `stats` fields
       other than `heritage` that nothing writes — the `badgesEarnable` suite
-      does this for badge counters only.)
+      does this for badge counters only — DONE for those, sweep 30, which found
+      one real display defect and hardened the guard after a mutation survived
+      it. Still open: dead reads of NON-boolean snapshot fields, and `stats`
+      fields outside `BadgeStats`.)
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and

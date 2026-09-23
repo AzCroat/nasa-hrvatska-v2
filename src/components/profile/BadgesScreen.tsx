@@ -1,6 +1,7 @@
 import React from 'react';
 import { H, BADGES, getStreak, getSR } from '../../data';
 import BadgeArtwork from '../shared/BadgeArtwork';
+import { readingPassagesDone } from '../../lib/appUtils';
 import type { Stats } from '../../types';
 
 interface BadgeDef {
@@ -46,8 +47,11 @@ function getBadgeProgress(b: BadgeDef, stats: Partial<Stats>) {
     srs50: { cur: stats.srsTotal || 0, total: 50 },
     // Mistakes mastered
     fix5: { cur: stats.mistakesMastered || 0, total: 5 },
-    // Reading
-    read3: { cur: stats.readingDone || 0, total: 3 },
+    // Reading — the SAME expression the read3 predicate uses. It read
+    // `stats.readingDone`, which nothing has ever written, so this row was
+    // frozen at 0 / 3 for a learner who had genuinely finished one or two
+    // passages and then flipped straight to earned.
+    read3: { cur: readingPassagesDone(stats), total: 3 },
   };
   if (!map[b.id as keyof typeof map]) return null;
   const { cur, total } = map[b.id as keyof typeof map]!;
