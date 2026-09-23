@@ -33,6 +33,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { speak, getLastTtsFailure, describeTtsFailure } from '../../lib/audio';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { recordScreenPractised } from '../../lib/teachPractice';
+import { markQuest } from '../../lib/quests.js';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { requestSpeakingCoach, COACH_MIN_WORDS } from '../../lib/speakingCoach';
 import type { CoachResult } from '../../lib/speakingCoach';
@@ -291,6 +292,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     if (!finishFired.current) {
       finishFired.current = true;
       award(Math.round(res.data.overall * 10) + 5, false, 'speaking');
+      // The Speak Quest reads "Complete 1 speaking exercise", and until
+      // 2026-09-23 the app's own rubric-graded speaking practice — the one
+      // FluencySnapshot's nudge now sends learners to — marked nothing at all.
+      // Work done, credit withheld.
+      markQuest('speak');
     }
   }
 
@@ -299,6 +305,13 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     if (!finishFired.current) {
       finishFired.current = true;
       award(5, false, 'speaking');
+      // Marked on this path too. The coach failing is the app's problem, not
+      // the learner's — they spoke, and this is the same fail-soft posture that
+      // fires the session signal two lines down. Withholding the quest here
+      // would punish them for our outage. (The COUPLING is still not cleared
+      // and no score is recorded: those are claims about performance, which a
+      // dead evaluator genuinely did not measure.)
+      markQuest('speak');
     }
     signalSessionCompleteIfActive('speaking_guided');
     goBack();

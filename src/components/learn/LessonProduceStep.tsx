@@ -29,6 +29,7 @@ import { recordMasteryEvent } from '../../lib/masteryLedger';
 import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback';
 import { markLessonProduced } from '../../lib/lessonRetention';
 import type { CefrLevel } from '../../lib/cefr';
+import { markQuest } from '../../lib/quests.js';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -115,6 +116,10 @@ export default function LessonProduceStep({
       if (!awarded.current && award) {
         awarded.current = true;
         award(Math.round(data.score / 10) + 5, false, 'writing');
+        // "Submit a written exercise" — which is exactly what this step is. It
+        // can only ADD (the lesson's pass is already recorded when this
+        // renders), so crediting the quest here takes nothing away on any path.
+        markQuest('write');
       }
     } catch (e) {
       const f = failureFromError(e);

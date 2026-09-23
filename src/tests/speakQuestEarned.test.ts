@@ -86,6 +86,81 @@ const AWARDS_SPEAKING = /award\([^;]*?,\s*(?:true|false)\s*,\s*['"]speaking['"]\
 
 const CLAIMANTS = FILES.filter((f) => MARK_SPEAK.test(strip(f)));
 
+/**
+ * THE CONVERSE RULE (added 2026-09-23, one sweep later). The block below asks
+ * whether a claimant of the quest EARNED it. This one asks whether a screen
+ * that earned it CLAIMS it — and the answer was no, twice:
+ *
+ *   * `MajaScreen` — awards `'speaking'`, carries a recogniser, and marked
+ *     `culture`: "Explore a Croatian region or media item", for a spoken
+ *     conversation that is neither. One quest wrongly credited, one rightly
+ *     owed and withheld, in a single line.
+ *   * `GuidedSpeakingScreen` — the app's own rubric-graded speaking practice,
+ *     and the screen `FluencySnapshot`'s nudge was just repointed at, marked
+ *     NOTHING. Work done, credit withheld.
+ *
+ * MEASURED BEFORE IT WAS WRITTEN, like its twin: seven screens award
+ * `'speaking'` with a speech-input path, five marked `speak`, and those two did
+ * not. Zero false positives — which is what makes the rule shippable rather
+ * than a thirty-one-hit blanket like the payload-gated one.
+ */
+const SPEAKS_AND_SCORES = FILES.filter((f) => {
+  const src = strip(f);
+  return AWARDS_SPEAKING.test(src) && [f, ...localImports(f)].some((g) => SPEECH.test(strip(g)));
+});
+
+describe('a screen that does speaking practice claims the quest for it', () => {
+  it('the subject is not empty — several screens really do both', () => {
+    expect(SPEAKS_AND_SCORES.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it.each(SPEAKS_AND_SCORES.map((f) => [relative(ROOT, f), f] as const))(
+    '%s marks the speak quest',
+    (_name, file) => {
+      expect(
+        MARK_SPEAK.test(strip(file)),
+        `${relative(ROOT, file)} awards its work as 'speaking' and can hear the learner, but ` +
+          `never marks the Speak Quest ("Complete 1 speaking exercise"). Either the learner ` +
+          `earned it and it is being withheld, or the screen is marking some OTHER quest for ` +
+          `speaking practice — both of which this rule exists to catch.`,
+      ).toBe(true);
+    },
+  );
+});
+
+/**
+ * THE SAME RULE, POINTED AT WRITING. Asked immediately after the speaking one
+ * and it found the same shape twice more: `GuidedWritingScreen` — the
+ * rubric-graded guided writing that the B2 formal email and the C1 academic
+ * units route to — and `LessonProduceStep` both award `'writing'` and marked
+ * NOTHING. The Writing Quest reads "Submit a written exercise" and pays 25 XP;
+ * both of those screens submit a written exercise.
+ *
+ * Measured first, as ever: three screens award `'writing'`, one marked `write`,
+ * two did not. No microphone clause is needed here — writing has no analogue of
+ * the DialogueSim case, because the input device is the keyboard either way.
+ */
+const AWARDS_WRITING = /award\([^;]*?,\s*(?:true|false)\s*,\s*['"]writing['"]\s*\)/;
+const MARK_WRITE = /markQuest\(\s*['"]write['"]\s*\)/;
+const WRITERS = FILES.filter((f) => AWARDS_WRITING.test(strip(f)));
+
+describe('a screen that grades writing claims the quest for it', () => {
+  it('the subject is not empty', () => {
+    expect(WRITERS.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(WRITERS.map((f) => [relative(ROOT, f), f] as const))(
+    '%s marks the write quest',
+    (_name, file) => {
+      expect(
+        MARK_WRITE.test(strip(file)),
+        `${relative(ROOT, file)} awards its work as 'writing' but never marks the Writing Quest ` +
+          `("Submit a written exercise"). The learner submitted one.`,
+      ).toBe(true);
+    },
+  );
+});
+
 describe("markQuest('speak') is earned, not assumed", () => {
   it('the subject is not empty — several screens really do mark it', () => {
     // Without this, a rename of markQuest would empty the subject and it.each

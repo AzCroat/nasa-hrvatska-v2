@@ -2582,6 +2582,67 @@ Azure-named case for no measured gain — or threading an `exact` flag from the
 ledger context into the card. Recorded as a candidate with the mechanism
 established, not as a defect fixed on a guess about frequency.
 
+### 41. Production done, quest credited to something else — 2026-09-23 — **4 REAL DEFECTS, FIXED**
+
+The converse of sweep 35's rule, asked one sweep later. That one asked whether a
+CLAIMANT of the Speak Quest had earned it, and found two screens with no
+microphone clearing it. This asks whether a screen that DID earn it claims it —
+and the answer was no, twice.
+
+- **`MajaScreen`** awards `'speaking'`, carries a recogniser (17 references),
+  and marked **`culture`**: *"Explore a Croatian region or media item"*, for a
+  spoken conversation that is neither. One quest wrongly credited and one
+  rightly owed and withheld, in a single line. It now marks what it awards.
+- **`GuidedSpeakingScreen`** — the app's own rubric-graded speaking practice,
+  and (as of sweep 39, hours earlier) the screen `FluencySnapshot`'s nudge sends
+  learners to — **marked nothing at all.** Work done, credit withheld. It marks
+  on BOTH its paths: the graded finish, and `continueAnyway` after a coach
+  failure, because the coach failing is the app's problem and not the learner's.
+  That is the same fail-soft posture that already fires the session signal there.
+  The COUPLING is still not cleared on the failure path and no score is
+  recorded — those are claims about PERFORMANCE, which a dead evaluator
+  genuinely did not measure. A quest that says "Complete 1 speaking exercise" is
+  a claim about what the learner DID.
+
+**MEASURED BEFORE THE RULE WAS WRITTEN, like its twin.** Seven screens award
+`'speaking'` with a speech-input path; **five marked `speak` and those two did
+not** — zero false positives, which is what makes this rule shippable where the
+payload-gated one (31 hits, almost all legitimate) was not. The guard lives
+beside the original in `speakQuestEarned.test.ts`, so the two directions of one
+rule cannot drift apart.
+
+**THE SAME RULE, POINTED AT WRITING, FOUND THE SAME SHAPE TWICE MORE.** Asked
+immediately after — because a rule that holds for one modality is a question
+about the others, and asking it costs one dry run:
+
+- **`GuidedWritingScreen`** — the rubric-graded guided writing that the B2
+  formal email and the C1 academic units route to — awards `'writing'` and
+  marked nothing.
+- **`LessonProduceStep`** — the produce-after-you-pass step — awards `'writing'`
+  and marked nothing.
+
+Three screens award `'writing'`; one marked `write`. The Writing Quest reads
+"Submit a written exercise" and pays 25 XP; all three submit one. No microphone
+clause is needed on this side: writing has no analogue of the `DialogueSim`
+case, because the input device is the keyboard either way. `LessonProduceStep`
+is the safest of the four by construction — its own contract is that it "can
+only ADD", the lesson's pass being already recorded when it renders.
+
+Mutation-verified, four, each confirmed LANDED: Maja back to
+`markQuest('culture')` → 1 fail; GuidedSpeaking marking nothing again → 1;
+GuidedWriting marking nothing again → 1; LessonProduceStep marking nothing
+again → 1.
+
+tsc clean; lint clean; the four neighbouring suites (51 tests) unchanged. E2E
+audit: no quest name, quest key or changed label appears in any spec.
+
+**THE PAIR OF SWEEPS IS THE POINT.** 35 asked "did the claimant earn it" and
+found two screens clearing a quest they had not; 41 asked "does the earner
+claim it" and found four screens doing the work and getting nothing. Both
+directions of one rule, in one guard file so they cannot drift apart — and
+neither would have been found by the other. When a rule is worth writing in one
+direction, ask it in the other before moving on.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.

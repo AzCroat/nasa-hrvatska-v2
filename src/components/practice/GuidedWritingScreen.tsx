@@ -35,6 +35,7 @@ import type { CorrectionChange } from './CorrectionDiff';
 import { WRITING_CURRICULUM, unitsForLevel } from '../../data/writingCurriculum';
 import type { WritingUnit } from '../../data/writingCurriculum';
 import type { CefrLevel } from '../../lib/cefr.js';
+import { markQuest } from '../../lib/quests.js';
 
 const UNIT_PTR_KEY = 'nh_guided_writing_idx';
 
@@ -241,6 +242,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
         if (!finishFired.current) {
           finishFired.current = true;
           award(Math.round(data.score / 10) + 5, false, 'writing');
+          // The Writing Quest reads "Submit a written exercise", and until
+          // 2026-09-23 the app's rubric-graded guided writing — the route for
+          // the B2 formal email and the C1 academic units — marked nothing.
+          // Work done, credit withheld; the same defect GuidedSpeakingScreen
+          // carried, found by the same rule pointed at the other modality.
+          markQuest('write');
         }
       }
       const corrections: Array<CorrectionChange & { errorType?: string; type?: string }> =
@@ -296,6 +303,10 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
     if (!finishFired.current) {
       finishFired.current = true;
       award(5, false, 'writing');
+      // Marked here too: the evaluator failing is the app's problem, not the
+      // learner's. They submitted. (No score is recorded on this path — that is
+      // a claim about performance, which a dead evaluator did not measure.)
+      markQuest('write');
     }
     // Idempotent with the failure path's self-heal; covers the offline route
     // where no submit ever ran.
