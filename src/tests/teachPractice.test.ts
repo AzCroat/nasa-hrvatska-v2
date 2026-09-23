@@ -18,6 +18,7 @@ import {
   pendingTaughtCategories,
   categoryForScreen,
   clearTaughtQueue,
+  taughtAgeDays,
 } from '../lib/teachPractice';
 import { resolveTaughtPracticeActivity } from '../hooks/useDailySession';
 
@@ -126,6 +127,43 @@ describe('the taught queue', () => {
     localStorage.setItem('nh_taught_pending', '{not json');
     expect(() => pendingTaughtCategories()).not.toThrow();
     expect(pendingTaughtCategories()).toEqual([]);
+  });
+});
+
+describe('taughtAgeDays — the age the reason line needs', () => {
+  beforeEach(() => clearTaughtQueue());
+
+  it('is 0 the day the lesson was finished', () => {
+    const now = Date.now();
+    recordLessonTaught('genitive-intro', now);
+    expect(taughtAgeDays('genitive', now)).toBe(0);
+  });
+
+  it('counts whole days since the lesson, not since midnight', () => {
+    const now = Date.now();
+    recordLessonTaught('genitive-intro', now - 9 * DAY);
+    expect(taughtAgeDays('genitive', now)).toBe(9);
+    // ...and a part-day does not round up: 9 days and 23 hours is still 9.
+    recordLessonTaught('genitive-intro', now - (9 * DAY + 23 * 3600000));
+    expect(taughtAgeDays('genitive', now)).toBe(9);
+  });
+
+  it('is null for a category nothing queued', () => {
+    expect(taughtAgeDays('genitive')).toBeNull();
+  });
+
+  it('is null once the entry has expired, matching pendingTaughtCategories', () => {
+    const now = Date.now();
+    recordLessonTaught('genitive-intro', now - (TAUGHT_TTL_DAYS + 1) * DAY);
+    expect(pendingTaughtCategories(now)).not.toContain('genitive');
+    expect(taughtAgeDays('genitive', now)).toBeNull();
+  });
+
+  it('is null after the coupling is cleared by practising', () => {
+    const now = Date.now();
+    recordLessonTaught('genitive-intro', now);
+    recordCategoryPractised('genitive', now);
+    expect(taughtAgeDays('genitive', now)).toBeNull();
   });
 });
 

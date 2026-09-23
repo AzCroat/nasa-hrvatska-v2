@@ -18,7 +18,7 @@ import { CEFR_EXERCISE_POOL, EXERCISE_DIFFICULTY } from '../lib/sessionPools';
 import { makeSessionSkillBoost, weakestProductionKind } from '../lib/masteryLedger';
 import type { CefrLevel } from '../lib/cefr';
 import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
-import { pendingTaughtCategories } from '../lib/teachPractice';
+import { pendingTaughtCategories, taughtAgeDays } from '../lib/teachPractice';
 import { selectRetentionSlot } from '../lib/retentionSlot';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
 import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
@@ -394,7 +394,12 @@ export function buildSessionActivities(
   if (taughtActivity) {
     activities.push({
       ...taughtActivity,
-      ...withReason(taughtReason(taughtActivity.category as SkillCategory)),
+      ...withReason(
+        taughtReason(
+          taughtActivity.category as SkillCategory,
+          taughtAgeDays(taughtActivity.category as SkillCategory),
+        ),
+      ),
     });
   }
 

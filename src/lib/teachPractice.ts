@@ -539,6 +539,23 @@ export function recordScreenPractised(screenKey: string, now = Date.now()): void
  * Categories taught but not yet practised, oldest first — the order the session
  * builder should honour so nothing waits behind a newer lesson.
  */
+/**
+ * How many whole days ago the lesson that queued `category` was finished, or
+ * null when nothing is queued for it.
+ *
+ * WHY THIS EXISTS. The queue entry carries `at`, and `pendingTaughtCategories`
+ * drops it — so the reason line said "You just finished a lesson on X" for an
+ * entry that can legitimately be up to TAUGHT_TTL_DAYS old. The entry exists
+ * PRECISELY BECAUSE the learner has not practised it yet, so any gap in usage
+ * makes it stale: a learner who returns after a week is told they just finished
+ * a lesson they finished last Tuesday. The app held the age all along.
+ */
+export function taughtAgeDays(category: SkillCategory, now = Date.now()): number | null {
+  const entry = fresh(read(), now).find((e) => e.c === category);
+  if (!entry) return null;
+  return Math.floor((now - entry.at) / 86400000);
+}
+
 export function pendingTaughtCategories(now = Date.now()): SkillCategory[] {
   return fresh(read(), now)
     .sort((a, b) => a.at - b.at)

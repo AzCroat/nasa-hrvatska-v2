@@ -124,12 +124,33 @@ export function retentionReason(a: {
 }
 
 /**
+ * The window in which "just finished" is what the word means in English: today
+ * or yesterday. Not a tuning knob — a lesson finished five days ago was not
+ * just finished, whatever number is chosen.
+ */
+export const JUST_FINISHED_MAX_AGE_DAYS = 1;
+
+/**
  * Why the teach → practice slot is here. The queue stores the category, not
  * which lesson queued it, so the line names the concept rather than inventing a
  * lesson title.
+ *
+ * "JUST" IS A CLAIM ABOUT TIME AND WAS NEVER CHECKED (2026-09-23). A queue
+ * entry lives TAUGHT_TTL_DAYS (14) and exists PRECISELY BECAUSE the learner has
+ * not practised what it taught — so any gap in usage makes it stale, and the
+ * line told a learner returning after a week that they had just finished a
+ * lesson they finished last Tuesday. The entry carried `at` the whole time;
+ * `pendingTaughtCategories` simply dropped it.
+ *
+ * `ageDays` is null when the caller has no entry to date it. That is treated as
+ * the un-datable case and says the sober thing, never the stronger one.
  */
-export function taughtReason(category: SkillCategory): string {
-  return `You just finished a lesson on ${categoryLabel(category)} — here's where you use it.`;
+export function taughtReason(category: SkillCategory, ageDays: number | null): string {
+  const where = `here's where you use it.`;
+  const label = categoryLabel(category);
+  if (ageDays !== null && ageDays <= JUST_FINISHED_MAX_AGE_DAYS)
+    return `You just finished a lesson on ${label} — ${where}`;
+  return `You finished a lesson on ${label} and haven't practised it yet — ${where}`;
 }
 
 /**
