@@ -114,7 +114,24 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'vocab-b1',
   },
   { id: 'clitic', label: 'Clitic Drill', screen: 'clitic', cefr: 'B2', category: 'clitics' },
-  { id: 'dictation', label: 'Dictation', screen: 'dictation', cefr: 'B1', category: 'speaking' },
+  // Retagged 'speaking' -> 'writing' (2026-09-23), which is what PRODUCTION_POOL
+  // has said since 2026-08-18 and what CLAUDE.md has asserted of BOTH copies ever
+  // since. PR #492 wrote that rule and never touched this file, so one id sat in
+  // two pools under two categories: the ONLY such id across all three pools.
+  // The live effect was `makeSessionSkillBoost` -> `skillForCategory('speaking')`,
+  // i.e. a hear-it-and-type-it screen with no microphone recommended to a learner
+  // measured weak at SPEAKING.
+  // NOT 'listening', though that is what the screen SCORES (its ledger write is
+  // `listening`, and it forgives punctuation precisely because the score is a
+  // hearing score). `inputKindOf` admits 'listening', so that tag would enrol
+  // dictation in the P2.8 guaranteed-input slot while it remains a PRODUCTION_POOL
+  // member — and a session would then count it as a comprehension slot AND an
+  // output slot, which breaks the "A1/A2 one output slot, B1+ two" contract.
+  // Measured: that version fails 4 tests, 3 of them on that contract.
+  // The pool category is a SCHEDULING fact (which slot may serve this screen) and
+  // the ledger is a MEASUREMENT (what the score evidences); they are allowed to
+  // differ, and #720 settled that same distinction for `dialogue`.
+  { id: 'dictation', label: 'Dictation', screen: 'dictation', cefr: 'B1', category: 'writing' },
   // B2 — advanced grammar (existing drills surfaced into the session pool).
   { id: 'passive', label: 'Passive Voice', screen: 'passive', cefr: 'B2', category: 'passive' },
   {
