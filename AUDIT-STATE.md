@@ -3442,6 +3442,101 @@ seventh. The class is better served by the existing per-screen tests.
 field, the fast path is the five shapes above — check which one the screen uses,
 not whether it has a `useRef`.
 
+### 54. Two guards that git could not show you — 2026-09-23 — **1 REVIEW HAZARD, CLOSED + RATCHETED**
+
+**The question.** The queue's own guidance says to name two things the app must
+keep in agreement. This one: **what the tooling treats as reviewable text** vs
+**what is actually source code**.
+
+**How it was found, which is worth keeping.** Not by asking the question — by
+`grep -rn "grammar_track" src/` printing
+
+```
+grep: src/tests/snapshotShapeAgreement.test.ts: binary file matches
+```
+
+instead of the matching lines. A `.ts` file reported as binary is not a thing to
+scroll past.
+
+**The finding.** Two committed TypeScript test files carried a **raw NUL byte**,
+each a deliberate sentinel:
+
+| file | the sentinel | offsets |
+| --- | --- | --- |
+| `snapshotShapeAgreement.test.ts` | `consts.get(t) ?? '<NUL>'`, then `key.includes('<NUL>')` — marks a key part the scan could not resolve | 4601, 4660 |
+| `case-drill-banks.test.ts` | `` `${i.q}<NUL>${i.answer}` `` — a composite-key separator | 1983 |
+
+Both offsets are inside git's 8000-byte binary sniff window, so **git classified
+both files as binary**. Measured, not reasoned — `git diff --numstat` returns
+`-` `-` for each, and the diff body is one line:
+
+```
+Binary files a/src/tests/case-drill-banks.test.ts and b/src/tests/... differ
+```
+
+That is what `git diff`, `git log -p`, `git grep`, GitHub's pull-request view and
+a plain `grep -rn` over `src/` have shown for the whole life of both files.
+
+**WHY IT MATTERS HERE SPECIFICALLY.** Both files are GUARDS, and this repo's
+stated method for a guard is: mutate it, read the diff, record the mutation in
+the commit message. A guard whose diff cannot be rendered is one **nobody can
+review a change to** — a reviewer sees a single line saying the bytes differ.
+The mechanism that keeps every other guard honest was unavailable for these two.
+
+**STATED HONESTLY: this is a REVIEW HAZARD, not a learner-facing bug.** Both
+tests ran correctly and still do; ESLint read both files without complaint
+(verified: exit 0, no output). Nothing a learner can see was ever wrong. The
+cost was entirely to visibility — which is why nothing caught it.
+
+**The fix is an ENCODING change, not a behaviour change, and that was proved
+rather than asserted.** Both sentinels are now written `'\u0000'`: same value,
+spelled with an escape instead of the raw byte. The proof is set-equality, not a
+pass count — `snapshotShapeAgreement`'s two derivations (`appWrites()` and
+`snapshotExpectations()`) were dumped to JSON from the OLD file and the NEW one
+via an identical appended probe, and the two dumps are **byte-identical across
+223 lines**. Both suites: 23 passed before, 23 passed after.
+
+**The ratchet: `src/tests/sourceIsText.test.ts` (4 tests, 1.7s).** The file list
+comes from `git ls-files` — the real tracked set, not a hand-written one, which
+is the shape that decays — filtered by extension; any file the repo stores as
+text must carry no control byte but tab, newline and carriage return. Binary
+assets are not extension-matched and are never read. Swept the whole repo:
+**2,079 tracked text files, exactly the 2 findings above and nothing else.**
+
+**One assertion was loosened before it shipped.** The first draft required the
+literal spelling `\u0000`. `\x00` and `\0` are equally correct, so that would
+have failed a tidy refactor that fixed nothing — the false-positive trap this
+repo has already paid for once. It now requires *no raw byte* plus *some*
+escape spelling.
+
+**Mutation-verified, five, each confirmed landed before its result was read:**
+
+| mutation | fails |
+| --- | --- |
+| raw NUL back into `snapshotShapeAgreement` (the original defect) | 2 |
+| raw NUL back into `case-drill-banks` | 2 |
+| raw NUL in a NON-test production file (`src/lib/cefr.ts`) | 1, message names `src/lib/cefr.ts:2` |
+| `trackedTextFiles()` forced empty | 1 — **and the sweep itself still passed**, which is why the floor exists |
+| `0x00` added to `ALLOWED` with a real NUL planted | **0 — absorbed**, confirming `ALLOWED` is the single predicate doing the work |
+
+The fourth is the one worth remembering: it is the decorative-guard shape in
+miniature. Without the `> 1500` floor, an empty listing makes the sweep pass
+vacuously and the guard reports success on a repo it never opened.
+
+**WHAT THIS DOES NOT COVER**, so nobody assumes otherwise: a control byte in a
+file whose extension is not in the text list, and a NUL past byte 8000 of a
+large file (git would still call that file text — outside the hazard, but
+reported anyway, because a raw control byte in source is never intentional and
+the escape always works).
+
+**Verification.** Full suite **604 files, 9687 passed, 25 skipped, 0 failures**
+(603/9683 before — the +1 file and +4 tests are exactly this change).
+`typecheck`, `lint` and the Croatian lint (0 findings across 521 files) clean.
+E2E audit: test files only — no component, screen, navigation element or
+user-visible string changed, so no spec can reference any of it.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
@@ -3486,6 +3581,16 @@ None of them crash, so no sweep above can see any of them.
         **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
         it: the guards are structural in at least five different shapes, so a
         matcher that knows five will miss the sixth and flag the seventh.
+
+      - **"What does the tooling treat as reviewable text, and is that what the
+        source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+        raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+        so every change to them was unreviewable. Ratcheted repo-wide by
+        `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+        hazard, not a learner bug — and it is the first find in this file that
+        came from the TOOLING half of an agreement rather than the code half.
+        That axis is now swept for control bytes and otherwise untried: what
+        else does a tool silently decline to show?
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two
