@@ -3092,6 +3092,69 @@ The duplicated-fact question is the seam to work next, and the productive form i
 not "find duplicated constants" but **"find a fact stored twice where only one
 copy has a reason to change"** — which is what makes the drift silent.
 
+### 49. The CEFR thresholds were written down four times — 2026-09-23 — **1 DRIFT HAZARD, CLOSED**
+
+Continuing sweep 48's question, and the second place it pays. The five band
+boundaries — **300 / 1200 / 3500 / 8000 / 18000** — lived in FOUR places:
+
+| # | where | as |
+| - | ----- | -- |
+| 1 | `lib/cefr` `getUserCefr` | an inline `if` ladder |
+| 2 | `StatsTab` `CEFR_META[...].needed` | the "next level at N" target |
+| 3 | `StatsTab` `CEFR_FLOOR` | a SECOND inline map, ~400 lines below #2 in the same file |
+| 4 | `heroHelpers` `CEFR_BANDS` | floor + threshold pairs |
+
+**MEASURED, NOT ASSUMED: all four agreed**, so this is a hazard closed rather
+than a bug fixed, and it is worth saying which. The boundaries were derived from
+`getUserCefr` BY BISECTION (rather than read off the source) and compared with
+every literal in the three files.
+
+**WHY IT IS STILL THE FINDING.** Only the ladder has a reason to change. Move a
+band there and the LEVEL moves everywhere — the badge, the gate, the content
+unlock — while every progress bar in the app keeps measuring against the old
+target. Both numbers stay plausible and they sit on screen together. That
+asymmetry is the whole point of sweep 48's question: a fact stored twice where
+one copy is live and the others are inert drifts silently, and nothing in a test
+suite or a coverage report can see it.
+
+**AND THIS EXACT FAMILY HAS ALREADY PRODUCED A FIELD REPORT.** 2026-09-06, "it
+shows C1, I'm not C1" — three copies of the LEVEL formula that were "in sync
+with each other and with nothing that mattered". That fix consolidated the level
+and **left these thresholds alone**. `lib/cefr`'s own docstring still said "This
+mirrors the getCEFR formula in src/components/profile/StatsTab.tsx exactly" —
+prose asserting agreement, the same non-mechanism as `wrangler.toml`'s "Shared
+with scheduled worker above" — and it was stale besides: `StatsTab`'s `getCEFR`
+had long since delegated back to `getUserCefr` and contained no formula at all.
+**A comment that names a second copy is evidence the copy exists, not evidence
+it agrees.**
+
+**THE FIX** is `CEFR_BANDS` + `cefrBand()` + `cefrScore()` exported from
+`lib/cefr`. `getUserCefr` walks the table; `CEFR_META` keeps this file's labels
+and colours and takes `needed` from it; `CEFR_FLOOR` is gone; `heroHelpers`
+builds its progress bands by filtering and mapping the same table, so its `next`
+column is the table's own ordering and a new level cannot be added to one and
+forgotten in the other. The score formula `xp + lc*15 + gc*25` was restated in
+both components and is now one function.
+
+**THE GUARD IS BEHAVIOURAL WHERE IT CAN BE.** A source pin saying "StatsTab does
+not contain 3500" is weak — it passes the moment someone writes `3_500` or
+computes it. So `cefrBandsSingleSource.test.ts` derives the boundaries from
+`getUserCefr` ITSELF by bisection and requires the table to match what the
+function actually DOES, plus floors abutting ceilings with no gap or overlap,
+every level covered once in order, and C2 the only terminal band. The source
+half is the ratchet for a FIFTH copy appearing somewhere that happens to agree
+today, which behaviour cannot see.
+
+Mutation-verified, five, each confirmed landed (the script prints `landed`, per
+sweep 47's lesson): a band moved in the LADDER only — the exact silent-drift
+scenario — fails 2; `StatsTab`'s inline floor map restored fails 1;
+`heroHelpers` back to literal thresholds fails 1; a consumer recomputing the
+score formula fails 1; a gap opened between two bands fails 2.
+
+tsc clean; lint clean; `firstPaintGraph` unaffected; the six CEFR/hero suites
+(77 tests) unchanged. E2E audit: no user-visible string moves — the labels and
+colours are byte-identical and only the numbers' SOURCE changed.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 Every defect the owner has actually hit is in this list, not the one above.
