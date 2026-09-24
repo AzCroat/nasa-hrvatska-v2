@@ -58,7 +58,14 @@ const isLineStrip = (re: string) => re.includes('\\/\\/') && !isBlockStrip(re);
  */
 function replaceCalls(src: string): { re: string; chained: boolean }[] {
   const out: { re: string; chained: boolean }[] = [];
-  const LITERAL = /^\s*(\/(?:\\.|\[(?:\\.|[^\]\\])*\]|[^/\\\n])+\/[gimsuy]*)/;
+  // `[` is excluded from the final alternative ON PURPOSE. Without that, `[`
+  // can be consumed either by the character-class branch or by the catch-all,
+  // so `[]` has two parses and a run of them backtracks exponentially when the
+  // closing `/` never arrives — CodeQL flagged exactly that on this line. With
+  // it, the three alternatives are start-disjoint (`\\`, `[`, everything else)
+  // and the match is linear. A `]` outside a class stays legal and still lands
+  // in the catch-all.
+  const LITERAL = /^\s*(\/(?:\\.|\[(?:\\.|[^\]\\])*\]|[^/\\\n[])+\/[gimsuy]*)/;
   let prevEnd = -1;
   for (let at = src.indexOf('.replace('); at !== -1; at = src.indexOf('.replace(', at + 1)) {
     const open = at + '.replace'.length;
@@ -111,6 +118,17 @@ describe('comment strippers run line-comments first', () => {
       offenders,
       `strip line comments FIRST — a "//" comment naming a path like /api/* otherwise opens a block comment that eats the rest of the file:\n${offenders.join('\n')}`,
     ).toEqual([]);
+  });
+
+  it('the literal parser is linear, not exponential', () => {
+    // The pathological input CodeQL named: a '/' followed by many '[]' pairs and
+    // no closing '/'. Before the fix each pair had two parses, so this backtracks
+    // for longer than the universe has run and the test times out rather than
+    // fails — which is the signal. Kept small enough to be instant when linear.
+    const evil = `.replace(/${'[]'.repeat(60)}`;
+    const started = Date.now();
+    expect(replaceCalls(evil)).toEqual([]);
+    expect(Date.now() - started).toBeLessThan(1000);
   });
 
   it('and the detector actually recognises the shape it forbids', () => {
