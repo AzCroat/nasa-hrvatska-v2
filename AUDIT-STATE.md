@@ -5092,7 +5092,7 @@ route, or one render per click — which is tractable but expensive. The honest
 alternative is that this class is found by rendering-with-intent per screen, as
 BOTH known instances were.
 
-### Sweeps 75–78 — how much does anything CLICK, the biggest untested screen, and the doors nothing guarded (2026-09-24)
+### Sweeps 75–79 — how much does anything CLICK, the biggest untested screen, and every door in and out (2026-09-24)
 
 **75 — the census, and every intermediate number overstates the gap.**
 Sweep 74 measured that 374 of 423 routes expose controls the render-only sweep
@@ -5181,7 +5181,36 @@ The component-local tables are deliberately NOT ratcheted: a guard over them
 needs per-file knowledge of which `id` means what, which is exactly the
 false-positive shape this sweep just walked into.
 
-**Gates:** 614 files / 9826 passing, typecheck clean, eslint clean, Croatian lint
+**79 — the complement: is any routed screen UNREACHABLE?** 430 routed keys
+against every literal and data reference in the app. First pass: 7 with no
+reference. **Five were my matcher, in two distinct ways**, and both are worth
+keeping because both are the shape that manufactures a finding:
+ - `grammar-ref` and `new-placement` contain a HYPHEN, and the reference scan's
+   character class was `[a-z0-9_]`. The router's own keys were captured with a
+   different pattern than the references to them, so the two sides could never
+   agree on those two.
+ - `kultura_b2` / `_c1` / `_c2` are reached by a TEMPLATE LITERAL
+   (`kultura_${tier}`), which a literal-only scan cannot see.
+
+That left two, and **neither is a defect**:
+ - **`personas` is deliberately unreachable**, and `partners.ts:200` says so:
+   the picker "is intentionally replaced by the partner rows". Reading the
+   comment is what stopped this being reported.
+ - **`listeningpath` is reached TWICE — from server content.** My corpus was
+   `src/` only, and the Learn Path spine lives in
+   `functions/api/content/_data/learnPath.js`. **A reachability census is only
+   as wide as its corpus, and navigation data is not all in `src/`.**
+
+Two things came out of it. All **48 learn-path `go` targets are routed** — a
+third navigation surface neither 77 nor 78 covered, now asserted in
+`navTargetsRouted.test.ts` (mutation-verified; `learnPathReachableCk` and
+`learnPathTapCompletion` guard that file's `ck` rules and neither asks whether
+its `go` can be rendered). And the double `go: 'listeningpath'` turned out to be
+#725's convention working in live data: the first item carries
+`vsIncludes: 'listeningpath'` + `lcAtLeast: 25`, the second drops the leaf and
+re-gates on `lcAtLeast: 40`, exactly as that fix requires — with its guard green.
+
+**Gates:** 614 files / 9828 passing, typecheck clean, eslint clean, Croatian lint
 0 findings across 522 files.
 
 ---

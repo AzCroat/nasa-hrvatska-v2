@@ -151,6 +151,33 @@ describe('every Croatia door card opens a screen that exists', () => {
   });
 });
 
+/**
+ * The Learn Path's own destinations, which live in SERVER content
+ * (`functions/api/content/_data/learnPath.js`) rather than in `src/`.
+ *
+ * That corpus boundary is why this exists. A reachability census scoped to
+ * `src/` reports `listeningpath` as a routed screen nothing can reach — it is
+ * reached, twice, by the spine. The spine is the app's backbone and a
+ * hand-maintained data file; `learnPathReachableCk` and `learnPathTapCompletion`
+ * guard its `ck` rules, and neither asks whether its `go` is a screen the router
+ * can render.
+ */
+function learnPathTargets(): string[] {
+  const src = strip(readFileSync('functions/api/content/_data/learnPath.js', 'utf8'));
+  return [...new Set([...src.matchAll(/\bgo:\s*'([a-z0-9_-]+)'/gi)].map((m) => m[1]!))];
+}
+
+describe('every Learn Path destination is a routed screen', () => {
+  it('reads the real spine', () => {
+    expect(learnPathTargets().length).toBeGreaterThan(30);
+  });
+
+  it('no path item sends the learner to an unrouted screen', () => {
+    const routed = routedKeys();
+    expect(learnPathTargets().filter((g) => !routed.has(g))).toEqual([]);
+  });
+});
+
 describe('every literal navigation target is a routed screen', () => {
   it('the router and the corpus are both really being read', () => {
     // Without this the rule below passes by scanning nothing — the vacuous-guard
