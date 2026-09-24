@@ -120,8 +120,8 @@ describe('buildProgressSnapshot on a storage-blocked profile', () => {
     // would reintroduce the throw for exactly the profiles the fix protects.
     // (Comments legitimately mention localStorage, so strip them first.)
     const src = readFileSync(resolve(__dirname, '../lib/progressSnapshot.ts'), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).not.toMatch(/localStorage\.getItem/);
     expect(src).not.toMatch(/localStorage\.setItem/);
   });

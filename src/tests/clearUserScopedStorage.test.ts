@@ -192,8 +192,8 @@ describe('every non-nh_ storage key in the app is classified', () => {
       // describing (`lsGet('…')`), and a scanner that reads its own commentary
       // reports keys nothing executes.
       const src = readFileSync(file, 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+        .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       // One level of indirection: `const KEY = 'topic_accuracy'` then
       // `localStorage.getItem(KEY)`. Without this the scan misses adaptive.ts
       // and both auth throttles.
@@ -310,8 +310,8 @@ describe('every sessionStorage key in the app is classified', () => {
       // Comments first, for the same reason as the localStorage scan: the prose
       // in these files names the very keys it describes.
       const src = readFileSync(file, 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+        .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       const consts = new Map<string, string>();
       for (const m of src.matchAll(
         /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=]+)?=\s*(['`][^'`]*['`])/g,
@@ -445,7 +445,7 @@ describe('an account change cannot hand the next learner credit', () => {
    */
   it('no account-exit path blanket-clears sessionStorage after the sweep', () => {
     const strip = (src: string) =>
-      src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     const offenders = globSync('src/**/*.{ts,tsx,js,jsx}')
       .filter((f) => !f.includes('/tests/') && !f.includes('.test.') && !f.includes('__tests__'))
       .filter((f) => /sessionStorage\s*\.\s*clear\s*\(/.test(strip(readFileSync(f, 'utf8'))));
@@ -457,7 +457,7 @@ describe('an account change cannot hand the next learner credit', () => {
     // along with the prose. A positive control costs one line and is the only
     // reason the assertion above means anything.
     const strip = (src: string) =>
-      src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(/sessionStorage\s*\.\s*clear\s*\(/.test(strip('  sessionStorage.clear();'))).toBe(true);
   });
 

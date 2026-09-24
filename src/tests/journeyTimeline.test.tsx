@@ -103,8 +103,8 @@ const FILES: string[] = [];
 const RECORDED = new Set<string>();
 for (const f of FILES) {
   const src = readFileSync(f, 'utf8')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
   // The literal form only: the closing quote must be followed by `,` or `)`, or
   // the `'streak_' + n` concatenation below contributes a bare `streak_` type
   // that no map could ever name. (It did, on this test's first run.)

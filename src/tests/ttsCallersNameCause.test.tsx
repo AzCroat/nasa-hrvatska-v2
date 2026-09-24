@@ -145,8 +145,8 @@ describe('ttsFetch raises the same failure event speak() does', () => {
     // nothing that mattered (2026-09-06). Two copies of a dispatch would do
     // the same: reword a cause and half the app keeps the old sentence.
     const src = readFileSync('src/lib/audio.ts', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/[^\n]*/g, '');
+      .replace(/\/\/[^\n]*/g, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     const raw = [...src.matchAll(/new CustomEvent\(\s*'nh:tts-failed'/g)];
     expect(raw.length, 'a second inline dispatch has appeared — route it through the helper').toBe(
       1,

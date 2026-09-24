@@ -38,7 +38,7 @@ import { readFileSync, globSync } from 'node:fs';
 import { EXERCISE_COMPLETION } from '../lib/completion/exerciseRegistry';
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const SRC = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
   (f) => !f.includes('/tests/') && !f.includes('.test.'),

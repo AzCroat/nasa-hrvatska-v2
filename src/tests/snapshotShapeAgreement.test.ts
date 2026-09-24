@@ -35,7 +35,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync } from 'node:fs';
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 type Coercion = 'flag' | 'int' | 'json' | 'raw';
 

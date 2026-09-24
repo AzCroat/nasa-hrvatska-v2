@@ -189,8 +189,8 @@ describe('every merge point a monotonic counter has to survive', () => {
 
   it.each(FILES)('%s guards lr and rr wherever it guards pr', (rel) => {
     const src = readFileSync(resolve(__dirname, '../..', rel), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     const count = (field: string) =>
       (src.match(new RegExp(`\\b${field}:\\s*Math\\.max\\(`, 'g')) || []).length;
     const pr = count('pr');

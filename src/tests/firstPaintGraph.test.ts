@@ -80,7 +80,7 @@ function eagerGraph(): Map<string, string | null> {
       continue;
     }
     // Strip comments: prose quoting `from '../data'` must not count as an edge.
-    src = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    src = src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     // Strip `import type ... from '...'` — erased by the compiler, so it is not
     // a runtime edge and Rollup never emits one for it. Counting them made this
     // walker over-report: it named ExamRunner -> data/speakingTasks as eager

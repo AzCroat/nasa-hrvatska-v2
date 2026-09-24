@@ -186,7 +186,7 @@ describe('the wiring is pinned by source, not by restating it', () => {
     // The first version did, and never fired: getContent() and
     // getCurriculumSpine() are different fetches.
     const hook = read('src/hooks/useTeachingSlotRetry.ts');
-    const code = hook.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = hook.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(code).not.toMatch(/poolWords|useContent/);
   });
 

@@ -102,7 +102,7 @@ describe('gradeBuild — it grades the GRAMMAR POINT, not the sentence', () => {
     const raw = await import('node:fs').then((fs) =>
       fs.readFileSync('src/lib/sentenceBuild.ts', 'utf8'),
     );
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    const code = raw.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(code).not.toMatch(/_aiPost|requestSpeakingCoach|fetch\(/);
     expect(code).not.toMatch(/['\`]\/api\//);
   });

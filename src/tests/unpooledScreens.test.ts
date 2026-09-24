@@ -34,7 +34,7 @@ import { CROATIA_POOL } from '../lib/croatiaPool';
 import { PRODUCTION_POOL } from '../hooks/useDailySession';
 
 const ROUTER = 'src/components/AppRouter.tsx';
-const strip = (s: string) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
+const strip = (s: string) => s.replace(/\/\/[^\n]*/g, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
 
 function pooledScreens(): Set<string> {
   const rows = [

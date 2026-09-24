@@ -65,7 +65,7 @@ const TEST = readFileSync(
 
 /** Strip line comments so a literal list cannot hide behind a comment line. */
 const stripComments = (src) =>
-  src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 describe('the key list is one array', () => {
   it('the subject is not empty — a rename would otherwise pass silently', () => {

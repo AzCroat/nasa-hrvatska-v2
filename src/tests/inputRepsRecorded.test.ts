@@ -111,7 +111,7 @@ function registryActivityType(key: string): string | null {
  * would otherwise read as compliance, which is the decorative direction.
  */
 export function stripComments(src: string): string {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  return src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 /**

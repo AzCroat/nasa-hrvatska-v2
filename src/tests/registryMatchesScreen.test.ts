@@ -33,7 +33,7 @@ const SRC = path.join(ROOT, 'src');
 const EXTS = ['', '.tsx', '.ts', '.jsx', '.js', '/index.tsx', '/index.ts'];
 
 const stripComments = (s: string): string =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  s.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 /**
  * No `existsSync`-then-`statSync` here, and no `statSync`-then-`readFileSync`

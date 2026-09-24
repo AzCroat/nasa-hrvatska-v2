@@ -39,7 +39,7 @@ import { MAX_TTS_CHARS, TTS_TEXT_BUDGET } from '../../functions/api/_ttsLimits.j
  * assertion below failed against correct code on its first run. Only a `//`
  * that is not preceded by `:` starts a comment.
  */
-const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+const strip = (src) => src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 const TTS = strip(readFileSync('functions/api/tts.js', 'utf8'));
 
 /** A request shaped the way every caller sends one. */

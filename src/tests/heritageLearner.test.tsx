@@ -109,8 +109,8 @@ describe('stats.heritage is gone and stays gone', () => {
         } else if (/\.(ts|tsx|js|jsx)$/.test(e.name)) {
           const src = fs
             .readFileSync(p, 'utf8')
-            .replace(/\/\*[\s\S]*?\*\//g, '')
-            .replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
+            .replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1')
+            .replace(/\/\*[\s\S]*?\*\//g, '');
           if (/\b(?:stats|st|appSt|s)\s*\??\.\s*heritage\b/.test(src))
             offenders.push(path.relative(ROOT, p));
         }
@@ -170,8 +170,8 @@ describe('OnboardingTour resolves through the shared predicate', () => {
 describe('AIConversation stops asking a field nobody answers', () => {
   it('no longer derives isHeritage from stats', () => {
     const src = read('src/components/croatia/AIConversation.tsx')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
+      .replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).not.toMatch(/isHeritage\s*:\s*!!\s*stats/);
     expect(src).toMatch(/isHeritage\s*:\s*isHeritageLearner\(\)/);
   });

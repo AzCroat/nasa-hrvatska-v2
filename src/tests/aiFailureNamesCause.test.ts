@@ -35,7 +35,7 @@ import { describe, it, expect } from 'vitest';
 import { failureFromResponse, failureFromStatus } from '../lib/aiFailure';
 
 const strip = (src: string) =>
-  src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 const COACH = strip(readFileSync('functions/api/speaking-coach.js', 'utf8'));
 const GATE = strip(readFileSync('functions/api/_requireAuth.js', 'utf8'));
 

@@ -31,7 +31,7 @@ import React from 'react';
 import GoalSetterModal from '../components/shared/GoalSetterModal';
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const PROD = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
   (f) => !/[\\/](tests|__tests__)[\\/]/.test(f),

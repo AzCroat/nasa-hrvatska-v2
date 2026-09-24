@@ -294,8 +294,8 @@ describe('the removed leaderboard is gone from the prose too', () => {
     const offenders: string[] = [];
     for (const f of specs) {
       const code = readFileSync(join(root, 'e2e', f), 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/(^|[^:])\/\/.*$/gm, '$1');
+        .replace(/(^|[^:])\/\/.*$/gm, '$1')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       if (/leaderboard|weekly league/i.test(code)) offenders.push(f);
     }
     expect(offenders, `specs still probe the removed leaderboard: ${offenders.join(', ')}`).toEqual(

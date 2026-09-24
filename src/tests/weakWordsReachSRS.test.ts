@@ -105,7 +105,7 @@ describe('the wiring the write depends on', () => {
     // COMMENTS STRIPPED. The first run of this failed on the hook's own
     // explanation of the bug, which names the dead event — prose reading
     // exactly like the code it describes, for the third time in this session.
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = raw.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(code, 'the hook does not write to SRS').toMatch(/getSRScore\(/);
     expect(
       code,
@@ -143,7 +143,7 @@ describe('the wiring the write depends on', () => {
 describe('a badge with no authored speech still celebrates', () => {
   it('no knight:badge dispatch remains at either site', () => {
     const raw = readFileSync('src/hooks/useAward.ts', 'utf8');
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = raw.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(
       code,
       'the dead knight:badge dispatch is back — nothing has ever listened for it',
@@ -152,7 +152,7 @@ describe('a badge with no authored speech still celebrates', () => {
 
   it('both fallback branches speak instead', () => {
     const raw = readFileSync('src/hooks/useAward.ts', 'utf8');
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = raw.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     // Two sites: the badge path and the streak-badge path. Counting them is what
     // stops a fix to one being mistaken for a fix to both — which is how the
     // second site nearly shipped untouched.

@@ -78,8 +78,8 @@ describe('Culture dot follows the local day', () => {
     // Structural guard: this is the codified convention, and the file drifted
     // from it once.
     const src = readFileSync(resolve(__dirname, '../components/shared/TabBar.tsx'), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).not.toMatch(/toISOString/);
     expect(src).toMatch(/localDateStr\(\)/);
   });

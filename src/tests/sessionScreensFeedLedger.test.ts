@@ -413,7 +413,7 @@ describe('every name in the writer set is a real ledger writer', () => {
    * itself can satisfy is measuring documentation.
    */
   const stripComments = (src: string): string =>
-    src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
   function declaringModules(name: string): string[] {
     const decl = new RegExp(

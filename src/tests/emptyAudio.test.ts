@@ -36,7 +36,7 @@ import { MIN_AUDIO_BYTES, describeTtsFailure } from '../lib/audio';
  * third time in one session a source pin was satisfied by its own comment —
  * offlineResourceKey, PopCultureScreen, and here.
  */
-const strip = (src: string) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+const strip = (src: string) => src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const TTS = strip(readFileSync('functions/api/tts.js', 'utf8'));
 const AUDIO = strip(readFileSync('src/lib/audio.ts', 'utf8'));

@@ -260,7 +260,7 @@ describe('the dead migration copy is gone', () => {
     // COMMENTS STRIPPED — the note recording the deletion names the symbol, and
     // prose reading exactly like the code it describes is how this repo's
     // guards keep turning out decorative.
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = raw.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     expect(code, 'the dead non-exported copy is back').not.toMatch(/_LEVEL_NARRATIVE/);
   });
 });

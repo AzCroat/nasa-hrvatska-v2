@@ -39,7 +39,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync } from 'node:fs';
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const LEARN_PATH_SRC = strip(readFileSync('functions/api/content/_data/learnPath.js', 'utf8'));
 

@@ -350,7 +350,7 @@ describe('word-boundary matching without a dynamic regex', () => {
     // `new RegExp` — the same shape that made two earlier guards in this series
     // decorative. Prose about a thing is not a use of it.
     const raw = readFileSync('src/lib/learningIndex.ts', 'utf8');
-    const code = raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    const code = raw.replace(/^\s*\/\/.*$/gm, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
     expect(raw, 'the comment that would defeat a naive check').toContain('new RegExp');
     expect(code, 'no dynamic RegExp may be built on the search path').not.toContain('new RegExp');
     expect(code).not.toMatch(/RegExp\s*\(/);

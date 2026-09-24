@@ -369,8 +369,8 @@ describe('the slot yields to the budget, like P2 and P2.7', () => {
 describe('the wiring — buildSessionActivities really calls the slot', () => {
   it('useDailySession imports and invokes selectGuaranteedInput under the budget check', () => {
     const src = readFileSync('src/hooks/useDailySession.ts', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).toMatch(/from '\.\.\/lib\/inputSlot'/);
     expect(src).toMatch(
       /activities\.length < fillTarget && !activities\.some\(\(a\) => inputKindOf\(a\.category\)\)/,

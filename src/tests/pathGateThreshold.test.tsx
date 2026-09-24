@@ -67,8 +67,8 @@ import { LESSON_PASS_THRESHOLD, passedLesson } from '../lib/lessonGate';
  */
 const strip = (s: string) =>
   s
-    .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\s+/g, ' ');
 
 /** The five screens and the LEARN_PATH key each one writes. */

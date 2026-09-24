@@ -419,8 +419,8 @@ describe('render-path reads survive a blocked profile', () => {
     const offenders: string[] = [];
     for (const f of files) {
       const src = readFileSync(resolve(__dirname, '..', '..', f), 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/^\s*\/\/.*$/gm, '');
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       if (/localStorage\.(get|set|remove)Item/.test(src)) offenders.push(f);
     }
     expect(offenders, `raw storage access remains in: ${offenders.join(', ')}`).toEqual([]);
@@ -467,8 +467,8 @@ describe('render-time storage access beyond useState initialisers', () => {
     const offenders: string[] = [];
     for (const f of files) {
       const src = readFileSync(resolve(__dirname, '..', '..', f), 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/^\s*\/\/.*$/gm, '');
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       if (/localStorage\.(get|set|remove)Item/.test(src)) offenders.push(f);
     }
     expect(offenders, `raw storage access remains in: ${offenders.join(', ')}`).toEqual([]);

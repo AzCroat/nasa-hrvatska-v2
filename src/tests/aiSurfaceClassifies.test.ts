@@ -91,9 +91,9 @@ function srcFiles(): string[] {
 /** Comments stripped: a route named in prose beside a pool entry is not a call. */
 const strip = (s: string) =>
   s
-    .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/^\s*\/\/.*$/gm, '')
-    .replace(/\/\/.*$/gm, '');
+    .replace(/\/\/.*$/gm, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 
 /**
  * Escape EVERY regex metacharacter, not just the one that looked dangerous.

@@ -122,8 +122,8 @@ describe('every review surface counts, and none marks the quest bare', () => {
 
   it.each(SURFACES)('%s calls recordSrsReview and not markQuest(master)', (rel) => {
     const src = readFileSync(resolve(__dirname, '../..', rel), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(/\brecordSrsReview\s*\(/.test(src), `${rel} no longer records a count`).toBe(true);
     expect(
       /markQuest\(\s*['"]master['"]\s*\)/.test(src),

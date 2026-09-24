@@ -4883,11 +4883,81 @@ lesson): `dist/sw.js` carries `="nasa-hrvatska-v-assets"` and
 five specs touching SW/offline assert registration and offline-shell behaviour,
 both unaffected since the precache and `-html`/`-js` caches are unchanged.
 
+### Sweep 72 — the same stripper in 72 more guards (2026-09-24, LATENT CLASS CLOSED)
+
+Sweep 71's finding C asked whether any OTHER guard's comment stripper eats its
+own corpus. Measured rather than assumed, and the measurement changed the fix
+twice.
+
+**1. THE DECISIVE EXPERIMENT: flip the order everywhere and see what breaks.**
+77 test files strip block comments. Reordering the pair in all 72 that have it
+and running the whole suite gave **612 files / 9815 passing — byte-identical**.
+So no guard is currently MISSING a violation: the class is LATENT everywhere,
+and `sw.js` was live only because its own new assertion matched nothing and that
+was noticed. Say that plainly rather than dressing a clean result up as a save.
+
+**2. The exposure is narrow and now known.** A block-first strip over-eats 23 of
+1,771 source files (only 8 meaningfully — worst `scripts/lintCroatianText.mjs`
+at 21,216 chars / 36%, `src/lib/contentClient.ts` 19%,
+`functions/api/content/_authedRead.js` 21%) and 1 of 57 e2e specs
+(`sp11-content-protection`, 38%). Those are the places a FUTURE violation could
+hide.
+
+**3. THE CAUSE CENSUS KILLED THE OBVIOUS FIX.** 28 line comments contain `/*`,
+and every one is ordinary prose: `/api/content/*`, `src/data/drills/*`,
+`audio/*`, `*.webp`, `*ije*/*je*`. Forbidding that would impose a bad rule on
+authors to paper over a tooling defect — **the comments are right and the
+stripper is wrong**. So the corpus was not touched.
+
+**4. AND THE REGEX CENSUS KILLED THE SECOND OBVIOUS FIX.** The plan was one
+shared helper. Measured: **nine** line-strip variants and three block-strip
+variants, and two groups differ ON PURPOSE — 20 uses strip WHOLE-LINE comments
+only (`/^\s*\/\/.*$/gm`, leaving a trailing `// note` after code intact) and 4
+target JSX comment expressions. Folding those into one helper would widen their
+semantics silently, under cover of a fix about ordering. **Order is the defect;
+order is what was fixed** — 90 swaps across 70 files, each a swap of two adjacent
+`.replace()` calls and nothing else.
+
+**TWO HARNESS DEFECTS IN MY OWN TOOLING, both caught by checking a reported
+result by hand rather than believing it:**
+
+- The reorder script used `String.replace` with `/g`, so a NON-matching
+  `[line, block]` pair **consumed** the text and the `[block, line]` pair
+  starting one call later was never examined. Chains of three hid inside chains
+  of two. Fixed with an index-controlled scan that advances by one character on
+  a non-match instead of past the whole pair.
+- The ratchet's first draft decided "is this call chained to the previous one?"
+  with *"the preceding text ends with `)`"* — and `readFileSync(path, 'utf8')`
+  also ends with `)`, so it stitched the last call of one chain onto the first
+  call of the NEXT one and reported **five offences that do not exist**, all
+  already in the right order. That is the fabricated-finding shape of sweeps 63
+  and 68 (fixed character windows) met a THIRD time, in a third disguise. The fix
+  is the same one every time: stop approximating the boundary and parse it — the
+  guard now closes each call by balancing parentheses and skipping quoted
+  strings, then requires the next non-whitespace text to be `.replace(`.
+
+**The guard** (`commentStripOrder.test.ts`) fails if any test file strips block
+comments before line comments, and carries a non-vacuity floor (>300 files
+scanned, >30 of them stripping) plus a positive control on the detector itself.
+
+**Mutation-verified, three**: the ratchet against the PRE-FIX tree reports **166
+offending chains** across 72 files; a single chain reverted to block-first fails
+it and names the file; and the full suite before and after the reorder is
+**612/9815 → 613/9818**, the delta being exactly the three new tests — which is
+the equivalence proof that 90 swaps across 70 guards changed no outcome.
+
+**Gates:** 613 files / 9818 passing, typecheck clean, eslint clean, Croatian lint
+0 findings across 522 files. **E2E audit:** none — this change touches test files
+only and no production behaviour.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
 
-- [ ] **DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?** — opened by
+- [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
+      CLOSED, sweep 72: measured LATENT everywhere (flipping the order in all 72
+      files left the suite byte-identical), fixed by ordering + a ratchet. The
+      original item read: opened by
       sweep 71's finding C, NOT yet measured. 77 files under `src/`/`scripts/`
       strip block comments with the same `/\/\*[\s\S]*?\*\//g` shape, and
       sweep 71 showed that a `//` line containing `/*` — `/api/*`, a glob like

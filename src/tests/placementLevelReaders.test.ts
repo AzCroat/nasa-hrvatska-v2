@@ -46,7 +46,7 @@ function walk(dir: string, out: string[] = []): string[] {
 }
 
 const stripComments = (s: string): string =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  s.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 /**
  * Files allowed to read the raw key, each with the reason. These CARRY the

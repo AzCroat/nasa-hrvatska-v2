@@ -52,8 +52,8 @@ const FILES: string[] = [];
 
 function strip(file: string): string {
   return readFileSync(file, 'utf8')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 /** Every id AppRouter has a branch for. Derived — never restated here. */

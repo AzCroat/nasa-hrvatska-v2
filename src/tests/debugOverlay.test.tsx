@@ -80,9 +80,9 @@ describe('it is actually mounted — the half a component test cannot see', () =
     // Comments stripped: App.tsx explains the mount in prose naming
     // DebugOverlay, and a raw text match is satisfied by the explanation.
     // Same trap as the launchFailure and PopCultureScreen pins.
+    .replace(/\/\/.*$/gm, '')
     .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*$/gm, '');
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 
   it('App.tsx imports and renders it', () => {
     expect(APP).toMatch(/import DebugOverlay from '\.\/components\/shared\/DebugOverlay'/);
@@ -94,8 +94,8 @@ describe('it is actually mounted — the half a component test cannot see', () =
     // `export default function DebugOverlay() { return null; }`, which would
     // satisfy every "renders nothing by default" assertion above.
     const src = readFileSync('src/components/shared/DebugOverlay.tsx', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*$/gm, '');
+      .replace(/\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).toMatch(/getEntries/);
     expect(src).toMatch(/nh:debuglog/);
   });

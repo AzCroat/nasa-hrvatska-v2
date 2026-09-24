@@ -87,8 +87,8 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
    * guard earlier in this codebase.
    */
   const assembler = readFileSync(ASSEMBLER, 'utf8')
-    .replace(/\/\*[\s\S]*?\*\//g, ' ')
-    .replace(/^\s*\/\/.*$/gm, ' ');
+    .replace(/^\s*\/\/.*$/gm, ' ')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
 
   /** Every exported catalogue-shaped constant, derived rather than listed. */
   const catalogues = (() => {
@@ -406,7 +406,7 @@ describe('looking something up costs nothing', () => {
     // crediting, so the rule is about the WRITE path — the Center must never
     // dispatch or award. Checked on the code, comments stripped, because this
     // file's own prose discusses awarding.
-    const code = src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    const code = src.replace(/^\s*\/\/.*$/gm, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
     expect(code).not.toMatch(
       /\bdispatch\s*\(|\baward\s*\(|markLessonComplete|recordScreenPractised/,
     );
