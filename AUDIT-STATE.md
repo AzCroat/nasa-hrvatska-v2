@@ -4593,6 +4593,118 @@ reachable at all. `levelledBankFloor` already records that search is an ungated
 door and treats that as a fact to design against rather than a defect; nothing
 here revisits that decision.
 
+### Sweep 68 — the router's three names per branch (2026-09-24, NEGATIVE)
+
+Each of the router's 435 `currentScreen === 'x'` branches names its screen up to
+three times: the comparison, the boundary's `key`, and the boundary's `name`.
+The `name` is what a crash is REPORTED under, so a drifted one sends the next
+person reading Sentry to the wrong screen — the diagnostics-that-lie class the
+audio work is about, one level up.
+
+**Result: 0 disagreements, 0 unwrapped tab surfaces.** All six tab components
+(`HomeTab`, `LearnTab`, `GradTab`, `RazgovorTab`, `HrvatskaTab`, `ProfileTab`)
+sit inside a boundary. The five branches without one are four documented
+`ScreenGuard` reload/deep-link fallbacks (`animlesson`, `grammar_unit_detail`,
+`lesson`, `grammar` — each carrying its own comment about the blank screen it
+exists to prevent) and one `currentScreen === 'dashboard'` that is a ternary for
+a transition key, not a render branch at all. The single name "mismatch" is the
+tab shell's `dashboard` branch naming `HomeTab`, which is right: it names the
+component that can throw, not the screen key.
+
+**TWO HARNESS DEFECTS, BOTH CAUGHT BEFORE THEY BECAME A REPORT, and both are
+repeats of findings already in this file.**
+1. A fixed 400-character window ran past the end of a branch and paired each
+   screen with the NEXT branch's boundary — reporting 4 disagreements that do
+   not exist (`animlesson`→`grammarreader`, `lesson`→`grammar`, …). That is
+   sweep 63's 700-character window verbatim. Bounding each block by the next
+   `currentScreen ===` took it to 0.
+2. The matcher required `key="…"` BEFORE `name="…"`, and the tab boundaries
+   carry no `key` — so the entire tab shell, the most important surface in the
+   file, was invisible to the check that was supposed to cover it. The first
+   run's "only HomeTab is wrapped" reading would have been a fabricated defect.
+   **An attribute a guard requires is a filter, not a formality.**
+
+**No ratchet written.** Nothing here is a hand-maintained list that can decay:
+each branch's three names sit on adjacent lines, and a wrong one is visible in
+the diff that writes it. A guard would restate the router to the router.
+
+**THE HONEST READING OF FIVE NEGATIVES IN A ROW** (sweep 67's ct / search /
+difficulty / CodeQL, and this): the STRUCTURAL-AGREEMENT seam this file's method
+section recommends is close to worked out. Every remaining pair I can derive
+from source is either already guarded or already consistent. That is not a
+reason to stop, but it IS a reason to stop picking questions the same way — the
+next find will not come from another source-derived pair. It has to come from
+the class the queue already names as open: **interactions between features on a
+live path**, which needs the real app driven through a sequence, not a regex
+over a file.
+
+### Sweep 69 — a dead prop, and the guard written for it the day before (2026-09-24, 1 REAL DEFECT, FIXED)
+
+Sweep 68 ended by saying the next find would not come from another
+source-derived pair. It came from a REACHABILITY question asked at a live prop
+instead, which is the same method that found the speaking coach nobody could
+call.
+
+**The defect.** `McGame.challengeMode` is optional and passed by **nothing** —
+not `AppRouter` (which passes `questions`, `onComplete`, `goBack`, `award`), not
+one test. So `isHeartsMode = challengeMode || heartsAlwaysOn` always reduced to
+the preference, and both `McGameOver` arms keyed on it were unreachable: a
+"← Back to Practice" button, and the `onBack` prop that existed only to serve
+it, and a line telling learners **"Hearts refill over time — 1 per hour"** while
+`lives.ts` regenerates one per **FOUR** hours. Harmless while dead — and a trap
+for whoever wires challenge mode up, who would ship a wrong number to a learner
+without touching it.
+
+**Hearts themselves are NOT dead, and checking that is what made the finding
+narrow.** `nh_hearts_always_on` has a real writer (the Learning Preferences
+toggle) and syncs through `applyRemoteProgress`, so hearts mode is reachable —
+only the second, unused source for it was not. Reporting "the hearts system is
+dead" would have been the stronger claim and the wrong one.
+
+**THE PART THAT MATTERS MORE THAN THE DEAD CODE.**
+`routerOptionalProps.test.ts` was written the DAY BEFORE for exactly this class
+("a dead branch behind an optional-prop check is indistinguishable from a
+deliberate optional dependency") and reported clean. Its predicate matched
+`&& p`, `p &&`, `typeof p === 'function'` and `p?.(` — four spellings of
+branching, missing the two commonest for a BOOLEAN: `p || q` and `p ? x : y`.
+**The class is defined by its matcher, and the matcher knew four of six.** Same
+shape as the `ENDPOINT_HELPERS` alternation that matched nothing and the
+`whisperClaudeScorer` name that matched nothing: a guard covering most of a
+class reads exactly like one covering the class.
+
+**Widening is the false-positive direction, so it was censused before it was
+written.** Across 400 routed components the two added shapes yield exactly
+**two** props: this one, and `RetentionCheckScreen.lessons` — which is a
+legitimate TEST-INJECTION SEAM (`retentionWiring.test.tsx` passes the bodies;
+production omits it and the screen fetches them, `if (lessons) return undefined`
+skipping the fetch when injected). That is the `vocabPool.allCats` shape, so it
+is exempted WITH ITS REASON and checked in both staleness directions — the
+component must still declare the prop optional and branched, and the router must
+still not pass it.
+
+**Mutation-verified, three**, each confirmed landed:
+- the dead prop restored → the headline assertion fails;
+- **the same defect with the predicate reverted to its original four shapes →
+  the headline assertion PASSES**, which is the direct proof the widening is
+  load-bearing rather than decorative;
+- an exemption naming a prop the router DOES pass (`HomeTab.authUser`) → the
+  staleness test fails.
+
+**One correction on the way, recorded because the first reading was mine:** my
+probe asserted `flag?.call()` should match the original `p?.(` shape. It should
+not — that is optional chaining, not a call of an optional callback. The matcher
+was right and the test was wrong; the probe now uses `flag?.()`.
+
+**A second harness lesson, the same one as sweep 68.** A `python` replace with
+mismatched escaping threw its assertion, so mutation 2 never landed — and the
+vitest run that followed showed the UNMUTATED guard failing on mutation 1's
+defect, which reads exactly like a landed mutation. Confirming a mutation LANDED
+is not enough; confirm the file actually changed before reading the result.
+
+**Not added to CLAUDE.md**: the class already has its section there
+("MUTATION-TEST THE GUARD"), and the specifics live in the guard's own header
+where the next person editing that predicate will read them.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

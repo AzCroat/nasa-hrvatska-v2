@@ -96,12 +96,48 @@ function optionalBranchedProps(file: string): string[] {
   const iface = /(?:interface|type)\s+\w*Props\w*\s*=?\s*\{([\s\S]*?)\n\}/.exec(src);
   if (!iface) return [];
   const optional = [...iface[1]!.matchAll(/^\s*(\w+)\?\s*:/gm)].map((m) => m[1]!);
-  return optional.filter((p) =>
-    new RegExp(
-      `&&\\s*${p}\\b|\\b${p}\\s*&&|typeof\\s+${p}\\s*===\\s*['"]function|\\b${p}\\?\\.\\(`,
-    ).test(src),
-  );
+  return optional.filter((p) => BRANCHES_ON(p).test(src));
 }
+
+/**
+ * THE PREDICATE MISSED TWO SHAPES, AND ONE OF THEM WAS LIVE (2026-09-24).
+ *
+ * The first version matched `&& p`, `p &&`, `typeof p === 'function'` and
+ * `p?.(` — four ways of branching, and not the two commonest for a BOOLEAN:
+ * `p || q` and `p ? x : y`. `McGame.challengeMode` was optional, passed by
+ * nothing (not AppRouter, not one test), and used as
+ * `challengeMode || heartsAlwaysOn`; it forwarded to `McGameOver`, whose two
+ * `challengeMode` arms could therefore never render — one of them a refill
+ * line contradicting `lives.ts`. The guard was written for exactly this class
+ * the day before and reported it clean, because the class is defined by its
+ * MATCHER and the matcher knew four spellings out of six.
+ *
+ * Widening is the direction that invents false positives, so it was censused
+ * first: across 400 routed components the two added shapes yield exactly two
+ * props, one real and one a deliberate test seam (see EXEMPT).
+ */
+const BRANCHES_ON = (p: string) =>
+  new RegExp(
+    `&&\\s*${p}\\b|\\b${p}\\s*&&|typeof\\s+${p}\\s*===\\s*['"]function|\\b${p}\\?\\.\\(` +
+      // `p || q` / `q || p` — how an optional boolean is usually defaulted.
+      `|\\b${p}\\s*\\|\\||\\|\\|\\s*${p}\\b` +
+      // `p ? x : y`, excluding `p?.` (optional chaining) and `p?:` (a type).
+      `|\\b${p}\\s*\\?[^.:]`,
+  );
+
+/**
+ * Optional props a component branches on that the router legitimately omits.
+ * The reason has to be that PRODUCTION omits it BY DESIGN and the component
+ * supplies its own value — the `vocabPool.allCats` shape, an injection seam
+ * kept for tests. "Nothing passes it" is the defect this file exists to find,
+ * so it is never a reason to be here.
+ */
+const EXEMPT: Record<string, string> = {
+  'RetentionCheckScreen.lessons':
+    'Test-fixture injection. retentionWiring.test.tsx passes the lesson bodies; ' +
+    'production omits it and the screen FETCHES them instead — `if (lessons) return undefined` ' +
+    'skips the fetch when injected. The branch is reachable in both directions.',
+};
 
 const ROUTED = [...new Set([...ROUTER.matchAll(/<([A-Z]\w+)\b/g)].map((m) => m[1]!))].filter((n) =>
   FILES.has(n),
@@ -132,7 +168,8 @@ describe('AppRouter supplies every optional prop its screens branch on', () => {
     for (const name of ROUTED) {
       const passed = propsPassedTo(name);
       for (const p of optionalBranchedProps(FILES.get(name)!)) {
-        if (!passed.has(p)) dead.push(`${name}.${p}  (${FILES.get(name)})`);
+        if (passed.has(p) || EXEMPT[`${name}.${p}`]) continue;
+        dead.push(`${name}.${p}  (${FILES.get(name)})`);
       }
     }
     expect(
@@ -141,5 +178,40 @@ describe('AppRouter supplies every optional prop its screens branch on', () => {
         'unreachable — either pass the prop or delete the branch. A dead branch behind an ' +
         'optional-prop check looks exactly like a deliberate optional dependency.',
     ).toEqual([]);
+  });
+
+  it('the widened shapes match what they were added for', () => {
+    // Driven against the real matcher rather than asserted about it, so a
+    // reworded regex that stops matching `||` fails here.
+    expect(BRANCHES_ON('flag').test('const on = flag || pref;')).toBe(true);
+    expect(BRANCHES_ON('flag').test('{flag ? a : b}')).toBe(true);
+    // The original four still match: `p?.(` is a CALL of an optional callback,
+    // which is not the same as `p?.foo` — writing the probe as `flag?.call()`
+    // failed here first, correctly, because that is optional chaining.
+    expect(BRANCHES_ON('flag').test('flag?.()')).toBe(true);
+    // The type declaration itself must NOT read as a branch, or every optional
+    // prop would match its own `?:` and the filter would select all of them.
+    expect(BRANCHES_ON('flag').test('  flag?: boolean;')).toBe(false);
+  });
+
+  it('every exemption still names a real, still-exempt prop', () => {
+    // Both staleness directions: the component must still exist and still
+    // declare the prop as optional, and the router must still NOT pass it —
+    // an exemption over a prop the router now supplies is guarding nothing.
+    expect(Object.keys(EXEMPT).length).toBeGreaterThan(0);
+    for (const [key, reason] of Object.entries(EXEMPT)) {
+      const [comp, prop] = key.split('.') as [string, string];
+      expect(reason.length, `${key} needs a stated reason`).toBeGreaterThan(40);
+      const file = FILES.get(comp);
+      expect(file, `${key}: component no longer exists`).toBeTruthy();
+      expect(
+        optionalBranchedProps(file!),
+        `${key}: no longer an optional branched prop — drop the exemption`,
+      ).toContain(prop);
+      expect(
+        propsPassedTo(comp).has(prop),
+        `${key}: AppRouter now passes it — drop the exemption`,
+      ).toBe(false);
+    }
   });
 });
