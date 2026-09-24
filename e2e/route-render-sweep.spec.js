@@ -215,4 +215,61 @@ test.describe('route render sweep', () => {
         'unusable with assistive technology while looking perfectly fine',
     ).toEqual([]);
   });
+
+  /**
+   * Phone width. This is a phone-first PWA — `TabBar` is described in CLAUDE.md
+   * as "what a phone shows" — and every sweep above runs Desktop Chrome, so
+   * nothing had ever checked that a screen fits on the device most learners
+   * use. Content that spills sideways is either unreachable or forces the whole
+   * page to pan, and it is invisible at 1280px.
+   *
+   * Measured clean on all 430 routes at 393px when written — a ratchet, not a
+   * repair. The detector was proved able to fire first: `overflow-x` computes
+   * to `visible` on both `html` and `body` (nothing suppresses the scroll that
+   * would hide an overflow from `scrollWidth`), and injecting a 900px element
+   * moved `scrollWidth` from 393 to 900. Without that check a structurally
+   * blind probe and a clean app are the same green.
+   *
+   * `position: fixed` elements are excluded when naming offenders: the tab bar
+   * and toasts are viewport-anchored by design and do not widen the document.
+   */
+  test('no screen spills sideways at phone width', async ({ page }) => {
+    test.setTimeout(30 * 60 * 1000);
+    await page.setViewportSize({ width: 393, height: 851 });
+    await page.goto('/');
+    await page.waitForLoadState('networkidle').catch(() => {});
+
+    const spilling = [];
+    for (const r of ROUTES) {
+      try {
+        await page.goto('/' + r, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        await page.waitForTimeout(350);
+        const res = await page.evaluate(() => {
+          const vw = document.documentElement.clientWidth;
+          const doc = document.documentElement.scrollWidth;
+          if (doc <= vw + 1) return null;
+          let worst = '';
+          let right = 0;
+          for (const el of document.querySelectorAll('body *')) {
+            const rect = el.getBoundingClientRect();
+            if (!rect.width || !rect.height) continue;
+            if (getComputedStyle(el).position === 'fixed') continue;
+            if (rect.right > right) {
+              right = rect.right;
+              worst = `${el.tagName.toLowerCase()} "${(el.textContent || '').trim().slice(0, 40)}"`;
+            }
+          }
+          return { by: doc - vw, worst };
+        });
+        if (res) spilling.push(`${r}: ${res.by}px past the edge — widest is ${res.worst}`);
+      } catch {
+        /* a route that will not load is sweep 87's finding, not this one */
+      }
+    }
+    expect(
+      spilling,
+      'these screens are wider than the phone they are designed for, so content ' +
+        'is cut off or the whole page pans sideways',
+    ).toEqual([]);
+  });
 });

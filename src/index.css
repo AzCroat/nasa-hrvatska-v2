@@ -103,6 +103,14 @@ html{
 
   /* Typography */
   --heading:#0f172a;
+  /* --text was REFERENCED by 104 `color: var(--text)` call sites and DEFINED
+     NOWHERE. An undefined custom property makes the declaration invalid at
+     computed-value time, so `color` fell back to inherit — pure black. On white
+     that is 21:1 and nobody noticed; inside a dark card it is #000 on #1e293b,
+     a contrast of 1.43, i.e. invisible. Defining it is the fix; light mode
+     moves from pure black to the design system's own text colour, which is
+     18.1:1 on white and imperceptibly different. */
+  --text:#0f172a;
   --subtext:#555e6e; /* WCAG AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small text) */
   --sh-c:#5c6370; /* WCAG AA: ~5.1:1 on white (was #94a3b8 = 2.4:1, failed) */
   --rt-c:#374151;
@@ -388,6 +396,7 @@ html{
   --ghost-c:#94a3b8;
   --ghost-b:#334155;
   --heading:#e2e8f0;
+  --text:#e2e8f0; /* see the :root note — undefined here meant black on #1e293b */
   --subtext:#94a3b8;
   --sh-c:#8899b0;
   --rt-c:#cbd5e1;

@@ -5797,6 +5797,128 @@ repair — and it is what stops the fourth singleton.
 
 ---
 
+### Sweep 91 — a colour token referenced 104 times and defined nowhere (2026-09-24, 1 REAL DEFECT, FIXED — 1,248 failing nodes)
+
+Sweep 90 found ~130 hardcoded colour literals and parked the palette question.
+The obvious follow-up is the one nobody had run: **the accessibility suite has
+never once run in dark mode** (`grep -c darkMode e2e/accessibility.spec.js` → 0).
+A hardcoded light-mode colour is harmless on white and invisible on a dark card,
+so dark mode is where those literals would actually hurt.
+
+**Measured, same 60-route sample, same seed, only the theme changed:**
+
+| | routes with violations | failing nodes |
+| --- | --- | --- |
+| light | 35 of 60 | 151 |
+| dark | 50 of 60 | **1,850** |
+
+Twelve times the nodes. And the worst ratios are not "a bit thin" — they are
+**unreadable**: `#000000` on `#1e293b` = **1.43**, `#44403c` on `#1e293b` = 1.42,
+`#164e63` = 1.60, `#991b1b` = 1.76. WCAG AA wants 4.5.
+
+**THE ROOT CAUSE, AND IT IS ONE LINE.** The worst offender rendered
+`color: var(--text)`. **`--text` is referenced by 104 `color:` call sites in
+`src` and DEFINED NOWHERE.** The only `--text-*` tokens in `index.css` are FONT
+SIZES (`--text-xs` … `--text-4xl`); the colour token was never written. An
+undefined custom property makes the declaration invalid at computed-value time,
+so `color` falls back to inherit — pure black. Probed in the real browser:
+
+```
+BEFORE  LIGHT: color rgb(0,0,0)      on bg rgb(255,255,255)   → 21:1, fine
+BEFORE  DARK : color rgb(0,0,0)      on bg rgb(30,41,59)      → 1.43, invisible
+AFTER   LIGHT: color rgb(15,23,42)   on bg rgb(255,255,255)   → 18.1:1
+AFTER   DARK : color rgb(226,232,240) on bg rgb(30,41,59)     → ~12:1
+```
+
+**This is why it survived**: in light mode the accident produces exactly the
+right answer. Black on white is the best contrast there is, so 104 sites looked
+perfect and the bug was invisible to every test, every reviewer and every
+light-mode user. Only the theme it was never tested in exposes it.
+
+**The fix is to define the token** in both themes, mirroring `--heading`
+(`#0f172a` light, `#e2e8f0` dark). It cannot be fixed in dark alone: the sites
+currently have no colour of their own, so defining it necessarily sets both.
+Light moves from `#000` to `#0f172a` — 21:1 to 18.1:1, imperceptible, and it is
+the colour the design system already uses for text.
+
+**MEASURED BEFORE AND AFTER, INCLUDING THE CONTROL THAT MATTERED.** A token used
+104 times could easily regress the theme that was working:
+
+| | routes | nodes |
+| --- | --- | --- |
+| light BEFORE | 35 of 60 | 151 |
+| light AFTER | 35 of 60 | **151 — identical** |
+| dark BEFORE | 50 of 60 | 1,850 |
+| dark AFTER | 49 of 60 | **602** |
+
+**1,248 failing nodes fixed by defining one variable, with light mode
+byte-identical.**
+
+**The remaining 602 are the sweep-90 class** — hardcoded literals like `#164e63`
+on `kings` and `idioms`, `#991b1b` on `history`, `#7c3aed` on 27 nodes — and they
+stay parked for the same stated reason: repairing them changes how the product
+looks, which is an owner's decision. The difference is that THIS one was not a
+palette judgement at all; it was a variable that does not exist.
+
+**THE DIFF IS NINE LINES AND THE FIRST ATTEMPT WAS 5,069.** I ran
+`prettier --write` on `index.css` out of habit. **lint-staged covers only
+`src/**/*.{ts,tsx,js,jsx}` and `functions/**/*.js`**, so that stylesheet has
+never been prettier-formatted — the whole file reflowed, 3,657 insertions riding
+on a two-line fix, with nothing about the actual change visible in it. Rebuilt
+from master with the token lines applied by hand, and re-verified in the browser
+AFTER the re-apply rather than assuming the text was identical. **Do not format a
+file the repo does not format** — check the lint-staged globs before reaching for
+a formatter.
+
+**A process note.** The full dark sweep was running when I rebuilt `dist/` for
+the fix, so half its routes were measured before the change and half after. That
+run is discarded, not reported — a before/after is worthless if the build moved
+underneath it. The 60-route sample was re-run cleanly on each side instead.
+Separately, `pkill -f zz-dark-axe` matched its own command line and killed the
+replacement run I had just started; the lesson is small but real, which is that a
+pattern kill can match the process issuing it.
+
+---
+
+### Sweep 92 — the phone this app is built for (2026-09-24, NEGATIVE, CONTROL VERIFIED)
+
+Sweep 91 paid because dark mode was a configuration nobody had ever tested. The
+same shape, one axis over: **this is a phone-first PWA** — CLAUDE.md describes
+`TabBar` as "what a phone shows" — and sweeps 87 through 91 all ran Desktop
+Chrome at 1280px. Nothing had checked that a screen fits the device most
+learners hold.
+
+Horizontal overflow is the objective version of that question: content wider
+than the viewport is either cut off or forces the whole page to pan sideways,
+and it is completely invisible at desktop width.
+
+**Result: 430 routes at 393px, 0 overflowing.**
+
+**THE CONTROL IS WHY THAT NUMBER MEANS ANYTHING.** A `scrollWidth > clientWidth`
+probe is STRUCTURALLY BLIND if anything sets `overflow-x: hidden` — the content
+still spills and is still unreachable, but the scroll it would have caused is
+suppressed, so the measurement reports a clean page for ever. Two checks before
+believing the zero:
+
+- `overflow-x` computes to `visible` on BOTH `html` and `body` — nothing
+  suppresses it. (The three `overflow-x: auto` rules in `index.css` are on inner
+  scrollers, not the document.)
+- A 900px element injected into a live page moved `scrollWidth` from 393 to 900:
+  `DETECTOR_FIRES true`.
+
+Without those, "0 overflowing" and "the probe cannot see overflow" are the same
+green.
+
+`position: fixed` elements are excluded when naming an offender — the tab bar
+and toasts are viewport-anchored by design and do not widen the document.
+
+**Shipped as a fourth test in the weekly route sweep** (verified passing, 4.7m).
+A ratchet, not a repair: the regression it exists for is a new drill with a wide
+table or a long unbroken string, which is exactly the kind of thing that looks
+fine to whoever adds it on a laptop.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
