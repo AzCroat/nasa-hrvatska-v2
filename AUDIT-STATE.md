@@ -4560,6 +4560,33 @@ fails 1; the vocab rows stripped of `cat` fails 1 — and that second one is the
 half a route-existence check alone would miss, since `go: 'lesson'` stays
 perfectly valid while the navigation loses the topic it opens on.
 
+**A FOURTH NEGATIVE ARRIVED MID-SWEEP, from CodeQL rather than from me.** Alert
+#80 (`js/file-system-race`) posted against `registryMatchesScreen.test.ts` on
+the MERGED #723, quoting `readdirSync(dir)` + `statSync(p).isDirectory()` +
+`readFileSync(p)`. **That code was already fixed inside that same PR**, commit
+`9514e876`, before it merged: the walk uses `readdirSync(dir, { withFileTypes:
+true })` — which answers "directory or file" from the SAME syscall that listed
+the entry, so there is no separate stat to race — with the read guarded in a
+try rather than preconditioned on an earlier check, and `resolveModule` went
+through `statOrNull()` for the `existsSync`-then-`statSync` half. **An alert is
+anchored to a LINE IN A COMMIT, so a fix inside the same PR leaves the alert
+pointing at code that no longer exists** — the mirror of the "a dismissal is
+keyed to a location" note in CLAUDE.md, and worth knowing before re-chasing one.
+
+**The grep that followed said 16 files and the census said none**, which is the
+`~80 practice surfaces` lesson again. 16 other files under `src/tests/` match
+`statSync(p).isDirectory()`; **not one is this finding.** Every one stats only
+to decide whether to RECURSE and collects file paths for reading later in
+another scope, and the two `readFileSync(p` hits among them are a helper's own
+parameter (`inputRepsRecorded.test.ts:49`) and an unrelated scope 36 lines away
+(`dwellPreWriteSuppression.test.tsx:207`). Checking what those two matches
+actually were is what separated "16 instances" from zero.
+**Those 16 were deliberately NOT rewritten.** A scanner shape that has not been
+flagged is not a reason to touch sixteen working harnesses, and doing so would
+be the refactor-beyond-the-ask this file forbids. Replied on the thread
+(`#723 discussion_r4089701318`) rather than pushing, because there was nothing
+to push.
+
 **What this sweep cannot see:** whether a routed target is the RIGHT screen for
 the row, and whether a search result the learner is CEFR-gated out of should be
 reachable at all. `levelledBankFloor` already records that search is an ungated
