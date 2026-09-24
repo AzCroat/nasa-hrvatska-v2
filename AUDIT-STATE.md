@@ -5416,6 +5416,85 @@ why every parse in this guard carries a floor.
 
 ---
 
+### Sweeps 84–85 — what else does `e2e/fixtures/` restate, and what in there is dead? (2026-09-24, NEGATIVE ON DRIFT, ONE CORRECTION OF MY OWN)
+
+Sweep 83 found the content fixture. The same question asked of the rest of
+`e2e/fixtures/`.
+
+**THE COPIES (84).** Two E2E fixtures restate the XP→level formula by hand:
+
+- `seed-auth.js` — a ternary chain over `xp + lc*15 + gc*25` deciding how many
+  CEFR passes to seed. It runs for **every spec** (33 files import it), and its
+  own comment says the point is that "the verification gate stays off and specs
+  keep their pre-gate meaning" — so the whole suite's starting assumption rests
+  on this copy agreeing with `CEFR_BANDS`. Nothing compared them.
+- `forceCefr.js` — the same ternary again (4 importers).
+
+**This is the one formula the repo has already watched drift.** On 2026-09-06
+`DesktopPanel` and the hero card each carried their own copy under a comment
+reading "same formula as StatsTab — all three must stay in sync"; they were in
+sync with each other and with nothing that mattered. That fix routed all three
+through one function. **The E2E fixtures are the copies it did not reach.**
+
+**Result: clean in every direction.** All five thresholds, all six levels, and
+the completion weights match. A ratchet, said plainly.
+`e2eFixtureCefrBands.test.ts` imports `CEFR_BANDS`/`cefrScore` rather than
+restating them and derives the weights BY VALUE (`cefrScore(0,1,0)` IS the lc
+weight, so the assertion tracks them if they move).
+
+**A CORRECTION OF MY OWN, and it is the reason this entry reads as it does.**
+I wrote, and nearly shipped, that "nothing asserts each `CEFR_XP_TABLE` value
+lands in the band it is named for". **That is false.** `e2eFixtures.test.js` has
+checked exactly that, by value through `getUserCefr`, since SP10 — I wrote the
+assertion a second time without finding the first. The duplicate is removed and
+only the genuinely-new parts kept. In sweep 82 I checked for an existing guard
+before writing one and found `deadKeyReaders`; here I did not, and the claim that
+made it into the draft was a claim about ABSENCE — **the one kind of claim that
+cannot be made by looking at the thing you are writing about.** Search for the
+guard before asserting there isn't one.
+
+**THE DEAD FIXTURES (85).** A usage census of `e2e/fixtures/` by importer:
+
+| fixture | importers |
+| --- | --- |
+| `seed-auth.js` | 33 |
+| `forceCefr.js` | 4 |
+| `testids.js` | 3 |
+| `stealth-page.js` | 2 |
+| `content-fixture.js` | 1 |
+| `mockRnd.js` | 1 |
+| **`mockAiPost.js`** | **0** |
+| **`mockMediaRecorder.js`** | **0** |
+
+Both are imported by nothing, anywhere in the repo. Two things make that worth
+recording rather than shrugging at:
+
+- **`mockAiPost` has a guard that reads as a production-contract check and is
+  not one.** `e2eFixtures.test.js` asserts *"CANNED.correct has the shape
+  /api/correct returns"* with three `toHaveProperty` calls against a
+  hand-written object — nothing compares it to the endpoint, and no spec uses
+  the fixture. A reader scanning `e2e/fixtures/` sees an AI mock plus a
+  shape test and concludes AI surfaces are mocked and checked in E2E. **Neither
+  is true.**
+- **`mockMediaRecorder` has DIVERGED from the copies that actually run.**
+  `checkpoints.spec.js` and `pronunciation.spec.js` both need it and both inline
+  their own verbatim-looking copy — but the spec's `start()` fires `stop()` on
+  the next microtask ("so captureAudio resolves fast") and the fixture's does
+  not. So it is **not** a drop-in replacement, and consolidating the three copies
+  would be a behaviour change to two live specs, not a tidy-up.
+
+**DELIBERATELY NOT CHANGED.** No deletion, no consolidation, and no
+"every fixture must be imported" ratchet — a guard shipping with exemptions for
+both of its only two subjects guards nothing. This is a measured negative whose
+value is that the next person does not read `e2e/fixtures/` as a picture of what
+E2E actually mocks. The divergence above is the reason consolidation is a
+decision rather than a chore.
+
+**Mutation-verified four ways** (the table check having been dropped as a
+duplicate): a production threshold moved with the fixtures not following (fails
+2); `seed-auth` drifting alone (1); a completion weight moved in production (1);
+and the ternary parse matching nothing (1, the non-vacuity floor).
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
