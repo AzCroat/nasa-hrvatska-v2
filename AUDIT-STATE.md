@@ -5495,6 +5495,74 @@ duplicate): a production threshold moved with the fixtures not following (fails
 2); `seed-auth` drifting alone (1); a completion weight moved in production (1);
 and the ternary parse matching nothing (1, the non-vacuity floor).
 
+### Sweep 86 — two declared policies nobody compared to the client (2026-09-24, BOTH CLEAN, BOTH RATCHETED)
+
+Two axes this file had never touched. Neither appears anywhere in it before
+today: `firestore.rules` is mentioned once in passing, CSP not at all.
+
+**A — every collection the client touches must have a rule.** `firestore.rules`
+ends in `match /{document=**}` denying everything, so a collection with no match
+block is not a visible permission error: it is a Firestore write that rejects
+asynchronously, usually with nobody awaiting it. Unit tests mock the SDK and
+never consult the rules; the emulator suite exercises the rules it knows about.
+Nothing asked whether the two SETS agree. **CLAUDE.md anticipates this exact
+failure in prose** — "if you are adding a Family feature… it needs a new rules
+match or every write hits deny-all" — and `fbJoinFamily`/`memberXP` were
+documented as live long after they were deleted. Prose is not a mechanism.
+Measured: the client touches `users`, `srs`, `profiles`, `xpAudit`,
+`conversationMemory`; all five are matched. CLEAN.
+
+**B — a host the client fetches that the CSP omits fails IN PRODUCTION ONLY.**
+The policy lives in `public/_headers`, which only Cloudflare Pages serves. jsdom
+does not enforce CSP at all and the E2E suite runs against `vite preview`, which
+does not serve `_headers` — so a blocked request is green in **every gate this
+repo has** and dead on nasahrvatska.com. Measured: the client makes NO
+absolute-URL request of its own. Every call is same-origin, the radio streams
+are proxied server-side, `index.html` loads no external script or stylesheet,
+and the only cross-origin traffic is from bundled SDKs (Firebase, Sentry,
+PostHog) whose hosts are all in `connect-src`. **So `connect-src 'self'` is
+sufficient BECAUSE of the same-origin property, not independently of it** — and
+that property is what the guard pins. CLEAN.
+
+Two hosts were checked and are not findings: `us.i.posthog.com` IS matched by
+`*.posthog.com` (a CSP host wildcard suffix-matches nested subdomains), and
+posthog-js never fetches its session recorder because `disable_session_recording`
+is true — otherwise that script would need a `script-src` entry it does not have.
+
+**MY OWN MATCHER WAS WRONG THREE TIMES, AND EVERY ONE WAS CAUGHT BY A FLOOR.**
+This is the reusable part, because each failure reported a CLEAN-LOOKING number:
+
+1. The client matcher named `doc|collection` applied to `db|_db|firestore`.
+   `firebase.ts` imports `doc as fsDoc` and holds the handle in `_fbDb`, so
+   `srs` and `profiles` were invisible — 2 collections found, and the guard read
+   as covering the whole client. **A name that matches nothing guards nothing**,
+   met while writing a guard about exactly that. Aliases are now DERIVED from
+   each file's own import.
+2. The rules matcher captured only the segment after `match /`, so the nested
+   `xpAudit` and `conversationMemory` blocks were missed — and it reported a
+   LIVE collection as unruled, i.e. a false positive on the first run.
+3. The argument body was `[^)]*`, which stops at the close of `toDocId(` inside
+   `collection(db, 'users', toDocId(uid), 'conversationMemory')` — 4 collections
+   instead of 5. Balanced-paren now.
+
+Each was found because the non-vacuity floor was set from a COUNT I had measured
+by hand first. Without those floors all three versions pass, and the third —
+4 of 5 collections — is the one that would have shipped looking right.
+
+Comment stripping is load-bearing on the rules file specifically: a comment there
+contains the words "match ANY", which the parse would otherwise read as a path.
+
+**Mutation-verified seven ways.** Firestore: a client call to an unruled
+collection (fails 1); a match block renamed (2); the alias derivation replaced by
+hardcoded names (2); the balanced-paren reverted (2). CSP: a production file
+fetching an absolute URL (1); an SDK host dropped from `connect-src` (1); the
+matcher broken (1).
+
+**Both are ratchets, not fixes** — said plainly, because a guard written after a
+clean measurement is easy to mistake for a repair.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
