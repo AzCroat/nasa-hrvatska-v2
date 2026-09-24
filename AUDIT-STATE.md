@@ -5860,6 +5860,16 @@ stay parked for the same stated reason: repairing them changes how the product
 looks, which is an owner's decision. The difference is that THIS one was not a
 palette judgement at all; it was a variable that does not exist.
 
+**THE DIFF IS NINE LINES AND THE FIRST ATTEMPT WAS 5,069.** I ran
+`prettier --write` on `index.css` out of habit. **lint-staged covers only
+`src/**/*.{ts,tsx,js,jsx}` and `functions/**/*.js`**, so that stylesheet has
+never been prettier-formatted — the whole file reflowed, 3,657 insertions riding
+on a two-line fix, with nothing about the actual change visible in it. Rebuilt
+from master with the token lines applied by hand, and re-verified in the browser
+AFTER the re-apply rather than assuming the text was identical. **Do not format a
+file the repo does not format** — check the lint-staged globs before reaching for
+a formatter.
+
 **A process note.** The full dark sweep was running when I rebuilt `dist/` for
 the fix, so half its routes were measured before the change and half after. That
 run is discarded, not reported — a before/after is worthless if the build moved
@@ -5867,6 +5877,45 @@ underneath it. The 60-route sample was re-run cleanly on each side instead.
 Separately, `pkill -f zz-dark-axe` matched its own command line and killed the
 replacement run I had just started; the lesson is small but real, which is that a
 pattern kill can match the process issuing it.
+
+---
+
+### Sweep 92 — the phone this app is built for (2026-09-24, NEGATIVE, CONTROL VERIFIED)
+
+Sweep 91 paid because dark mode was a configuration nobody had ever tested. The
+same shape, one axis over: **this is a phone-first PWA** — CLAUDE.md describes
+`TabBar` as "what a phone shows" — and sweeps 87 through 91 all ran Desktop
+Chrome at 1280px. Nothing had checked that a screen fits the device most
+learners hold.
+
+Horizontal overflow is the objective version of that question: content wider
+than the viewport is either cut off or forces the whole page to pan sideways,
+and it is completely invisible at desktop width.
+
+**Result: 430 routes at 393px, 0 overflowing.**
+
+**THE CONTROL IS WHY THAT NUMBER MEANS ANYTHING.** A `scrollWidth > clientWidth`
+probe is STRUCTURALLY BLIND if anything sets `overflow-x: hidden` — the content
+still spills and is still unreachable, but the scroll it would have caused is
+suppressed, so the measurement reports a clean page for ever. Two checks before
+believing the zero:
+
+- `overflow-x` computes to `visible` on BOTH `html` and `body` — nothing
+  suppresses it. (The three `overflow-x: auto` rules in `index.css` are on inner
+  scrollers, not the document.)
+- A 900px element injected into a live page moved `scrollWidth` from 393 to 900:
+  `DETECTOR_FIRES true`.
+
+Without those, "0 overflowing" and "the probe cannot see overflow" are the same
+green.
+
+`position: fixed` elements are excluded when naming an offender — the tab bar
+and toasts are viewport-anchored by design and do not widen the document.
+
+**Shipped as a fourth test in the weekly route sweep** (verified passing, 4.7m).
+A ratchet, not a repair: the regression it exists for is a new drill with a wide
+table or a long unbroken string, which is exactly the kind of thing that looks
+fine to whoever adds it on a laptop.
 
 ---
 
