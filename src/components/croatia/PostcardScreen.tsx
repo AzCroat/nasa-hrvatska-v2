@@ -488,11 +488,14 @@ export default function PostcardScreen({
                       overflow: 'hidden',
                       cursor: 'pointer',
                       position: 'relative',
-                      outline: sel ? `3px solid ${city.color}` : '3px solid transparent',
-                      outlineOffset: 2,
-                      transition: 'outline .2s, transform .15s',
+                      transition: 'box-shadow .2s, transform .15s',
                       transform: sel ? 'scale(1.04)' : 'scale(1)',
-                      boxShadow: sel ? `0 4px 18px ${city.color}44` : '0 2px 8px rgba(0,0,0,.18)',
+                      // The selection ring was an inline `outline`, which beats
+                      // the app's :focus-visible rule — so keyboard focus was
+                      // invisible on every city. Same ring, on box-shadow.
+                      boxShadow: sel
+                        ? `0 0 0 3px ${city.color}, 0 4px 18px ${city.color}44`
+                        : '0 2px 8px rgba(0,0,0,.18)',
                     }}
                     aria-pressed={sel}
                   >

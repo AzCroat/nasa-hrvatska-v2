@@ -887,12 +887,12 @@ export default function AppRouter(props: Record<string, any>) {
                     aria-controls="search-results"
                     aria-autocomplete="list"
                     autoComplete="off"
+                    className="search-inp"
                     style={{
                       width: '100%',
                       padding: '12px 16px 12px 44px',
                       fontSize: 14,
                       borderRadius: 14,
-                      boxShadow: '0 1px 3px rgba(0,0,0,.05)',
                     }}
                   />
                 </div>

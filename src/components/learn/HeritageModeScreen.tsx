@@ -290,7 +290,10 @@ export default function HeritageModeScreen({
                 lineHeight: 1.3,
                 background: active ? 'var(--info)' : visited ? 'var(--info-bg)' : 'var(--bar-bg)',
                 color: active ? '#fff' : visited ? 'var(--info)' : 'var(--subtext)',
-                outline: active ? 'none' : visited ? '1.5px solid var(--info-b)' : 'none',
+                // Decoration must not sit on `outline`: an inline one beats the
+                // app's `:focus-visible` ring, so these tabs had no keyboard
+                // focus indicator at all. An inset shadow reads the same.
+                boxShadow: !active && visited ? 'inset 0 0 0 1.5px var(--info-b)' : 'none',
                 transition: 'all .15s',
               }}
             >

@@ -459,7 +459,7 @@ export default function LearningPreferencesSection() {
                 fontSize: 11,
                 background: voicePref === v.id ? 'var(--info-bg,#e0f2fe)' : 'var(--bar-bg,#f1f5f9)',
                 color: voicePref === v.id ? 'var(--info,#0284c7)' : 'var(--subtext,#64748b)',
-                outline: voicePref === v.id ? '2px solid var(--info,#0284c7)' : 'none',
+                boxShadow: voicePref === v.id ? 'inset 0 0 0 2px var(--info,#0284c7)' : 'none',
                 transition: 'all .15s',
               }}
             >
@@ -508,7 +508,7 @@ export default function LearningPreferencesSection() {
                 background:
                   speechRate === opt.rate ? 'var(--info-bg,#e0f2fe)' : 'var(--bar-bg,#f1f5f9)',
                 color: speechRate === opt.rate ? 'var(--info,#0284c7)' : 'var(--subtext,#64748b)',
-                outline: speechRate === opt.rate ? '2px solid var(--info,#0284c7)' : 'none',
+                boxShadow: speechRate === opt.rate ? 'inset 0 0 0 2px var(--info,#0284c7)' : 'none',
                 transition: 'all .15s',
               }}
             >

@@ -2901,6 +2901,61 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: An Inline Style Is Where The Focus Ring Goes To Die (2026-09-24)
+
+This app has exactly two keyboard focus indicators, both in `src/index.css`, and
+an inline style beats both of them silently:
+
+| indicator                   | who gets it                                                           |
+| --------------------------- | --------------------------------------------------------------------- |
+| `:focus-visible` outline    | everything — except a text field, where the base `input[type=…]` rule's `outline:none` outranks it |
+| `input:focus,textarea:focus` | a text field: `border-color` **plus** a 4px `box-shadow` ring — the whole indicator it has |
+
+- **`outline` IS THE FOCUS RING, so it is not available for decoration.** Six
+  controls used it for a SELECTED state — `HeritageModeScreen`'s section tabs,
+  `VideoLessonScreen`'s topic cards and level pills, `LearningPreferencesSection`'s
+  voice and speech-rate pills, `PostcardScreen`'s city thumbnails — and the
+  learner's focus ring was replaced by a ring that does not change on focus.
+  `PostcardScreen` is the shape worth remembering: the unselected state was
+  `3px solid transparent`, so a presence check ("does this element have an
+  outline?") reports a ring and a keyboard user sees nothing. Decoration goes on
+  `box-shadow`; `inset 0 0 0 Npx COLOR` reads the same as an outline of the same
+  width and is layout-neutral.
+- **A TEXT FIELD LOSES ITS RING TO AN INLINE `boxShadow`, and BOTH halves to an
+  inline `border` as well.** 41 fields carry an inline `border` — that is the
+  app's convention and costs only the colour half, since the ring still fires.
+  Exactly one field overrode both: AI Conversation's free-writing textarea set
+  `outline`, `border` AND `boxShadow` inline and therefore had **no focus
+  indicator of any kind**. The dashboard search box set `boxShadow` for resting
+  elevation and lost the designed ring, keeping only the border colour. Both now
+  carry their resting decoration in a CLASS (`.search-inp`, `.write-area`),
+  which is (0,1,0) and loses to `input:focus` at (0,1,1) — that specificity gap
+  is the entire mechanism, so never move such a declaration to an `#id` rule,
+  which would win and re-open the hole.
+- **THE PREDICATE IS "DOES ANYTHING CHANGE", NOT "IS THERE AN OUTLINE".** The
+  first probe asked the second question and reported **30 bad routes**; 217 of
+  its 219 hits were elements sampled mid-`transition`, where the ring is
+  genuinely 0px at t=0 and 3px 200ms later. A fixed re-read after 450ms took it
+  to 2. The presence predicate then MISSED the transparent-outline and
+  unconditional-outline cases entirely. Comparing an element's computed
+  appearance focused against its own appearance unfocused is the only form that
+  catches all of it — and it needs element IDENTITY to walk the tab order, not a
+  text fingerprint: two skip links share a label, and a string key ended the
+  loop at the second Tab on every route, which made a 430-route sweep measure
+  one element per route and report a clean zero.
+- **Two guards, because they answer different questions.** `inlineFocusIndicator.test.ts`
+  is the cheap source ratchet (no decorative `outline` on a focusable element; no
+  field overriding both of its indicators; the two CSS rules still exist, with
+  the `:focus-visible` selector required to be BARE — `.sub-tab-pill:focus-visible`
+  also carries that declaration and a loose regex passed with every global ring
+  deleted). The EFFECT is measured by `route-render-sweep.spec.js`'s focus test,
+  weekly, over all 430 routes and 8,363 tabbable controls.
+- NEVER: use `outline` for a selected/hover/visited state on anything focusable;
+  set `boxShadow` inline on an `<input>`/`<textarea>`; set both `border` and
+  `boxShadow` inline on one; move a field's resting decoration to an `#id` rule;
+  read "the element has an outline" as "the element shows focus"; sample a focus
+  style without letting its transition finish.
+
 ## Critical Architecture: A Path Tile Must Not Tick For Another Tile's Work (2026-09-24)
 
 `stats.vs` is append-only and GLOBAL, so a key written once is set for ever. Two
