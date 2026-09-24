@@ -35,14 +35,29 @@ const EXTS = ['', '.tsx', '.ts', '.jsx', '.js', '/index.tsx', '/index.ts'];
 const stripComments = (s: string): string =>
   s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
 
+/**
+ * No `existsSync`-then-`statSync` here, and no `statSync`-then-`readFileSync`
+ * below: CodeQL flags both as file-system race conditions (js/file-system-race),
+ * and it is right about the shape even in a test — the check and the use are two
+ * syscalls with a window between them. Asking once and handling the failure is
+ * both correct and simpler, so this is fixed rather than dismissed.
+ */
+function statOrNull(p: string): fs.Stats | null {
+  try {
+    return fs.statSync(p);
+  } catch {
+    return null;
+  }
+}
+
 function resolveModule(dir: string, spec: string): string | null {
   const base = path.resolve(dir, spec);
   for (const e of EXTS) {
     const c = base + e;
-    if (fs.existsSync(c) && fs.statSync(c).isFile()) return c;
+    if (statOrNull(c)?.isFile()) return c;
   }
   const swapped = base.replace(/\.js$/, '.ts');
-  return fs.existsSync(swapped) ? swapped : null;
+  return statOrNull(swapped)?.isFile() ? swapped : null;
 }
 
 const routerSrc = fs.readFileSync(path.join(SRC, 'components/AppRouter.tsx'), 'utf8');
@@ -96,12 +111,21 @@ function fileWritingVsKey(key: string): string | null {
   const stack = [SRC];
   while (stack.length) {
     const dir = stack.pop()!;
-    for (const e of fs.readdirSync(dir)) {
-      const p = path.join(dir, e);
-      if (fs.statSync(p).isDirectory()) {
-        if (e !== 'tests') stack.push(p);
-      } else if (/\.(tsx|ts|jsx|js)$/.test(p) && fs.readFileSync(p, 'utf8').includes(needle)) {
-        return p;
+    // `withFileTypes` answers "directory or file" from the SAME syscall that
+    // listed the entry, so there is no separate stat to race against; the read
+    // is guarded rather than preconditioned on a check made earlier.
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, ent.name);
+      if (ent.isDirectory()) {
+        if (ent.name !== 'tests') stack.push(p);
+      } else if (ent.isFile() && /\.(tsx|ts|jsx|js)$/.test(p)) {
+        let src = '';
+        try {
+          src = fs.readFileSync(p, 'utf8');
+        } catch {
+          continue;
+        }
+        if (src.includes(needle)) return p;
       }
     }
   }

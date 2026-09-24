@@ -48,12 +48,25 @@ const SRC = path.resolve(HERE, '..');
 const ROUTER = path.join(SRC, 'components/AppRouter.tsx');
 const EXTS = ['.tsx', '.ts', '.jsx', '.js'];
 
+/** Read a file, or '' if it is gone — one syscall, no check-then-use pair. */
+function readOrEmpty(p: string): string {
+  try {
+    return fs.readFileSync(p, 'utf8');
+  } catch {
+    return '';
+  }
+}
+
 /** Every source file under a directory, tests included — callers filter. */
 function walkSource(dir: string, out: string[] = []): string[] {
-  for (const e of fs.readdirSync(dir)) {
-    const p = path.join(dir, e);
-    if (fs.statSync(p).isDirectory()) walkSource(p, out);
-    else if (EXTS.some((x) => p.endsWith(x))) out.push(p);
+  // `withFileTypes` answers "directory or file" from the same syscall that
+  // listed the entry, so there is no separate stat to race against — CodeQL
+  // flags the check-then-use pair (js/file-system-race) and is right about the
+  // shape even in a test.
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, ent.name);
+    if (ent.isDirectory()) walkSource(p, out);
+    else if (ent.isFile() && EXTS.some((x) => p.endsWith(x))) out.push(p);
   }
   return out;
 }
@@ -406,9 +419,7 @@ describe('every name in the writer set is a real ledger writer', () => {
     const decl = new RegExp(
       `(?:function|const|let)\\s+${name}\\b|\\b${name}\\s*[:=]\\s*(?:async\\s*)?(?:function|\\(|\\{)`,
     );
-    return HOMES.filter(
-      (h) => fs.existsSync(h) && decl.test(stripComments(fs.readFileSync(h, 'utf8'))),
-    );
+    return HOMES.filter((h) => decl.test(stripComments(readOrEmpty(h))));
   }
 
   function writesToLedger(name: string, seen = new Set<string>()): boolean {
@@ -416,7 +427,7 @@ describe('every name in the writer set is a real ledger writer', () => {
     if (seen.has(name)) return false;
     seen.add(name);
     for (const home of declaringModules(name)) {
-      const src = stripComments(fs.readFileSync(home, 'utf8'));
+      const src = stripComments(readOrEmpty(home));
       if (/\brecordMasteryEvent\s*\(/.test(src)) return true;
       for (const other of ALL_WRITERS) {
         if (other === name) continue;
