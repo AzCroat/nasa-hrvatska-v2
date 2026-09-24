@@ -69,7 +69,7 @@ function projectedFields(src: string, marker: string): string[] {
   const out: string[] = [];
   let d = 0;
   for (const line of body.split('\n')) {
-    const m = d === 0 ? line.match(/^\s*([A-Za-z_$][\w$]*)\s*:/) : null;
+    const m = d === 0 ? line.match(/^\s*([A-Za-z_$][\w$]*)\??\s*:/) : null;
     if (m) out.push(m[1]!);
     for (const ch of line) {
       if (ch === '{' || ch === '[' || ch === '(') d++;
@@ -104,6 +104,32 @@ describe('the E2E core fixture carries the whole payload', () => {
     expect(extra, 'E2E would prove a field production never ships — the worse direction').toEqual(
       [],
     );
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The THIRD carrier of the same key list: the client's own type.
+//
+// Measured clean in both directions when this guard was written — only the
+// fixture had drifted. Ratcheted anyway, because `Content` is what every
+// `useContent` consumer typechecks against: a key served but not typed makes a
+// real field a type error, and a key typed but not served lets a consumer read
+// `undefined` with the compiler's blessing. That second direction is the
+// `scene.qs` class, which shipped and threw on every open for three weeks.
+// ─────────────────────────────────────────────────────────────────────────────
+describe('the client Content type matches the payload', () => {
+  const typed = projectedFields(read('src/types/content.ts'), 'export interface Content ');
+
+  it('the parse is real', () => {
+    expect(typed.length).toBeGreaterThan(25);
+  });
+
+  it('every key the server serves is typed', () => {
+    expect(CORE_PAYLOAD_KEYS.filter((k) => !typed.includes(k))).toEqual([]);
+  });
+
+  it('the type declares nothing the server does not serve', () => {
+    expect(typed.filter((k) => !CORE_PAYLOAD_KEYS.includes(k))).toEqual([]);
   });
 });
 

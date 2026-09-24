@@ -5392,6 +5392,25 @@ serve; the parse marker broken; and a new field added to each of the three
 handlers' projections (`catalog.js`, `grammar.js`, `curriculum.js`) without the
 fixture following.
 
+**THE THIRD CARRIER WAS THEN MEASURED AND IS CLEAN.** CLAUDE.md names the
+fixture and `src/types/content.ts` in ONE sentence as the two separate carriers,
+so having found the first wrong the second had to be asked rather than assumed:
+the `Content` interface carries **exactly 32 fields, no drift in either
+direction**. Ratcheted anyway, because that type is what every `useContent`
+consumer typechecks against — a key served but not typed makes a real field a
+type error, and a key typed but not served lets a consumer read `undefined` with
+the compiler's blessing, which is the `scene.qs` class that shipped and threw on
+every open for three weeks. Mutation-verified three more ways (a served key
+dropped from the type, a typed key the server does not serve, and the parse
+marker broken — 1, 1 and 2 tests).
+
+**My first run of that measurement reported all 32 keys missing from the type**,
+because the interface is `Content`, not `ContentPayload`, and my parse found
+nothing. `fields: 0` is the tell. **A probe that matches nothing reports the
+whole population as broken**, which is loud enough to check — the dangerous
+version is the one that matches nothing and reports everything CLEAN, which is
+why every parse in this guard carries a floor.
+
 **Gates:** 615 files / 9837 passing, typecheck clean, eslint clean, Croatian lint
 0 findings across 522 files.
 
