@@ -3016,6 +3016,18 @@ and the mic is dead until the learner leaves the screen.
   result on every `start()`, which a real one never does (a new session's
   `results` is empty), so the doubled transcript was an artifact; but chasing it
   surfaced the real interaction change underneath.
+- **THREE SCREENS HAD IT, AND THE CENSUS IS THE POINT.** `SpeakingSprintScreen`
+  is the third: `continuous`, graded, and its `stopMic()` did NOT null the
+  handler, so a deliberate stop and a service-ended session were literally
+  indistinguishable — and `onend` submitted either way. It now nulls `onend`
+  BEFORE `stop()` (order pinned: the other way round still fires), accumulates,
+  and keeps the old submit as the terminal case once the restart budget is
+  spent, so nothing is dropped. Fixing Maja and stopping there would have left
+  two more.
+- **`SpeakingScreen` IS DELIBERATELY NOT IN THIS CLASS** and is pinned as such:
+  its recognizer is `continuous: false`, where the session ending after one
+  utterance IS the endpoint by design. A later change to `continuous` would
+  silently enrol it, which is what the pin catches.
 - NEVER: treat `onend` as "the learner finished"; set the deliberate-end flag
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.

@@ -174,3 +174,48 @@ describe('the same defect on the graded speaking screen', () => {
     expect(body).toMatch(/errored\s*\n?\s*\?\s*'idle'/);
   });
 });
+
+describe('and the third screen with the same shape: Speaking Sprint', () => {
+  // `continuous` recognizer, graded answer, same handler. The census that found
+  // it is the point: fixing Maja and stopping there would have left two more.
+  // (SpeakingScreen is NOT in this class — its recognizer is `continuous:false`,
+  // where the session ending after one utterance IS the endpoint by design.)
+  const SRC = readFileSync('src/components/practice/SpeakingSprintScreen.tsx', 'utf8');
+
+  it('a deliberate stop cannot be mistaken for the service ending the session', () => {
+    const stop = SRC.slice(SRC.indexOf('function stopMic'), SRC.indexOf('function startListening'));
+    expect(stop).toMatch(/onend = null/);
+    // and the null must come BEFORE the stop, or the handler still fires
+    expect(stop.indexOf('onend = null')).toBeLessThan(stop.indexOf('.stop()'));
+  });
+
+  it('asks the shared decision and carries the answer across a restart', () => {
+    expect(SRC).toContain('decideOnRecognizerEnd');
+    expect(SRC).toContain('accumulateTranscript(base, full)');
+    expect(SRC).not.toMatch(/transcriptRef\.current = full;/);
+  });
+
+  it('still submits what it has once the restart budget is spent', () => {
+    // The old terminal behaviour is preserved deliberately: after the cap, a
+    // service-ended session hands over the answer rather than dropping it.
+    const end = SRC.slice(
+      SRC.indexOf('rec.onend = () => {'),
+      SRC.indexOf('try {\n      rec.start();'),
+    );
+    expect(end).toContain('handleUserDone(transcriptRef.current.trim())');
+  });
+
+  it('does not re-open after an error', () => {
+    expect(SRC).toMatch(/errored\s*=\s*true/);
+  });
+});
+
+describe('the pronunciation screen is deliberately NOT in this class', () => {
+  it('SpeakingScreen uses a single-utterance recognizer', () => {
+    // `continuous: false` means Chrome ends the session when the utterance ends
+    // — that IS the endpoint, so onend there is not a truncation. Pinned so a
+    // later change to `continuous` cannot silently join the class.
+    const SRC = readFileSync('src/components/practice/SpeakingScreen.tsx', 'utf8');
+    expect(SRC).toMatch(/rec\.continuous\s*=\s*false/);
+  });
+});

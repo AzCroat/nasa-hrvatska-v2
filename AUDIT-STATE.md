@@ -6110,7 +6110,12 @@ stop nulls the handler, so EVERY `onend` there is the service ending the
 session — and it is worse, because the SPEAK stage is rubric-graded and measured
 against a word floor. Measured in a browser: 15 words spoken, **8 delivered to
 the grader** before the fix. Both screens are pinned by
-`e2e/speech-turn-end.spec.js`.
+`e2e/speech-turn-end.spec.js`. A third — `SpeakingSprintScreen`, also
+`continuous` and also graded — had the same handler AND a `stopMic()` that did
+not null it, so a deliberate stop and a service-ended session were literally the
+same event. Fixed the same way. `SpeakingScreen` is excluded on evidence
+(`continuous: false`, where the session end IS the endpoint) and pinned so a
+later change cannot enrol it silently.
 
 **The other half of that report was a promise that never settles**, and it is
 the worse half: ten screens carried a byte-identical `new Promise` around a
