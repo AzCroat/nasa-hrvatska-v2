@@ -93,45 +93,15 @@ const SR_MOCK_SCRIPT = `
   })();
 `;
 
-// ── Navigate to Speaking screen with seeded localStorage ───────────────────
-// Sets scr=speaking with two test words in localStorage so the app renders
-// SpeakingScreen directly without requiring navigation through lesson flow.
-async function goToSpeaking(page, words) {
-  const defaultWords = [
-    ['četiri', 'four', 'tʃe.ti.ri'],
-    ['dobar', 'good', 'dɔ.bar'],
-  ];
-  const sw = words || defaultWords;
-  await page.addInitScript((swArg) => {
-    const stats = {
-      xp: 250, lv: 3, sc: 8, lc: 12, gc: 3, sp: 2, wc: 40,
-      uid: 'test-uid', name: 'Test User', email: 'test@example.com',
-      // LOCAL date (see localYMD in the fixture) — the app uses localDateStr().
-      streak: 5,
-      lastDate:
-        new Date().getFullYear() +
-        '-' +
-        String(new Date().getMonth() + 1).padStart(2, '0') +
-        '-' +
-        String(new Date().getDate()).padStart(2, '0'),
-      cefr: 1,
-    };
-    localStorage.setItem('nh_stats', JSON.stringify(stats));
-    localStorage.setItem('nh_scr', JSON.stringify({
-      screen: 'speaking',
-      si: swArg,
-      sx: 0,
-      sw: swArg[0],
-      sr: null,
-      ssc: 0,
-    }));
-  }, sw);
-}
+// `goToSpeaking` lived here and is gone (2026-09-24). It seeded `nh_scr` to put
+// the learner straight on the speaking screen — a key the app never reads back
+// (a probe found it null after the screen opens), so that navigation had never
+// worked; and it wrote `nh_stats` immediately before `seedAuth` overwrote it.
+// The real path is `openSpeaking` below.
 
 // ── Shared setup ────────────────────────────────────────────────────────────
-async function setup(page, words) {
+async function setup(page) {
   await page.addInitScript(SR_MOCK_SCRIPT);
-  await goToSpeaking(page, words);
   await seedAuth(page);
   await blockFirebase(page);
   await mockTTS(page);
@@ -182,19 +152,6 @@ async function setup(page, words) {
 /** The word the learner is being asked to say, read from the screen itself. */
 async function targetWord(page) {
   return (await page.getByTestId('speaking-word').first().textContent())?.trim();
-}
-
-/** Open the screen, speak `transcripts` through the SR mock, return the body text. */
-async function scoreWith(page, transcripts) {
-  await openSpeaking(page);
-  await page.evaluate((t) => {
-    window.__mockSR__ = { transcripts: t, delay: 100 };
-  }, transcripts);
-  await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
-  // The verdict panel is what a learner waits for; assert it arrived rather
-  // than sampling the body after a fixed sleep and hoping.
-  await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
-  return (await page.locator('body').textContent()) || '';
 }
 
 async function openSpeaking(page) {
