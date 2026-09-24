@@ -5630,6 +5630,100 @@ would say so.
 
 ---
 
+### Sweep 88 — the errors a boundary cannot catch (2026-09-24, 430 ROUTES, 0 UNCAUGHT EXCEPTIONS)
+
+Sweep 87 asks one question: did `ScreenErrorBoundary` engage? That only sees a
+throw during RENDER. This repo has already been bitten by the other half —
+`RegionScreen` rendered `v.tip` while every row carries `note`, so every
+authored line was dropped silently, and `ScenesScreen`'s `scene.qs.map` threw
+into a boundary that swallowed it for three weeks. An unhandled rejection inside
+an effect produces no boundary at all.
+
+So the same harness was re-run collecting **every `pageerror` and every
+`console.error`** per route, rather than only the boundary.
+
+**Raw result: 430 of 430 routes reported something — and that number is
+worthless**, which is the finding worth recording. Classified:
+
+| messages | count | what it is |
+| --- | --- | --- |
+| `net::ERR_TUNNEL_CONNECTION_FAILED` | every route | the sandbox proxy refusing outbound traffic |
+| `Firebase: VITE_FIREBASE_API_KEY is missing` | 429 | no Firebase key in a local build |
+| `[apiFetch] Failed to get auth token` | 3 | the consequence of the line above |
+| `ERR_CERT_AUTHORITY_INVALID` | 1 | the same proxy |
+| **uncaught exceptions (`pageerror`)** | **0** | — |
+
+**Zero routes raise an uncaught exception on direct-URL load.** The three
+`apiFetch` lines are the degrade path working out loud: it logs the missing
+token and carries on.
+
+**THE LESSON IS ABOUT THE MEASUREMENT, NOT THE APP.** "430 of 430 have errors"
+and "0 of 430 have a defect" are the same run. A console-error sweep run in a
+sandbox with blocked egress reports the environment, not the product, and an
+unclassified count would have been a fabricated crisis. Classify before
+counting — and state which bucket is environmental, because the next person
+re-running this will see 430 again.
+
+**Both sweeps share one limitation, stated once:** nothing is clicked, and
+`/api/*` other than content 404s, so an AI surface is covered in its degrade
+state only.
+
+---
+
+### Sweep 89 — clicking one control on every screen (2026-09-24, 430 ROUTES, 0 PROBLEMS, AND THE COVERAGE IS 3 IN 4)
+
+Sweep 87 proved every screen RENDERS. The owner's standing directive is about
+what happens when you press something, so the same harness was pointed at the
+first substantive control on each screen: skip anything whose label is
+navigation (Back, the six tab names, Sign Out, the skip-link), take the first
+visible ENABLED button with a label, click it, then check the boundary and
+`pageerror`.
+
+**Result: 430 routes, 0 problems.**
+
+**AND THAT NUMBER IS UNFALSIFIABLE WITHOUT THE NEXT ONE, which the first run did
+not produce.** The probe `continue`s when no button passes the filter — so
+"0 problems" is equally consistent with "nothing was ever clicked". A control on
+a 12-route sample reports the click rate and what was pressed:
+
+```
+genitivedrill  buttons=10  clicked "Start questions →"
+alphabet       buttons=40  clicked "A a a (ah) auto (car)"
+flashcards     buttons= 9  clicked null
+journal        buttons=10  clicked "➕ Add Word"
+dictation      buttons=21  clicked "▶"
+writing        buttons=13  clicked "📚 Guided Prompt"
+cityofday      buttons=14  clicked "📖 Overview"
+badges         buttons= 9  clicked null
+aspectdrill    buttons=13  clicked "📖 6 Rules"
+mcgame         buttons= 9  clicked null
+brzalice       buttons=19  clicked "Tri trice trista trideset i tri."
+certificate    buttons=11  clicked "🔗 Share"
+CLICK_RATE 9 of 12
+```
+
+So the honest claim is: **one primary control was pressed on roughly three
+screens in four, and none of them crashed or raised an uncaught exception.** The
+presses are substantive — a drill's start button, Add Word, Share, a tongue
+twister, an alphabet letter — not decoration.
+
+**The blind spot is named rather than rounded off.** Three of twelve screens had
+buttons and none passed the filter: their controls are all navigation-shaped,
+unlabelled (icon-only with no text and no aria-label) or disabled at rest. An
+icon-only control with no accessible name is invisible to this sweep — and to a
+screen reader, which is the more interesting half of that observation.
+
+**NOT SHIPPED as a spec, deliberately.** One click per screen is a weak
+guarantee next to its cost (the run takes far longer than the render sweep,
+because a click that fires a request waits on it), and a 75% click rate would
+have to be stated inside the test for its green to mean anything. Sweep 87's
+spec covers the render half and now the uncaught-exception half; this stays a
+measurement. **The next person who wants real interaction coverage should write
+flows for named screens, not another generic presser** — sweep 75's 110
+uninteracted screens are still 110.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —

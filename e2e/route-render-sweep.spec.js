@@ -30,6 +30,14 @@
  * state only, and direct entry means many screens render their empty state
  * rather than a populated one. "Does not crash on refresh" is the claim.
  *
+ * IT ALSO COLLECTS UNCAUGHT EXCEPTIONS, because the boundary only sees a throw
+ * during RENDER. This repo has been bitten by the other half: `RegionScreen`
+ * rendered `v.tip` while every row carries `note`, dropping every authored line
+ * silently, and an unhandled rejection inside an effect produces no boundary at
+ * all. Only `pageerror` is asserted, never `console.error` — a console sweep in
+ * an environment with blocked egress or no Firebase key reports the environment,
+ * not the product (measured: 430 of 430 routes log something, 0 have a defect).
+ *
  * THE CONTROL IS PART OF THE SPEC ON PURPOSE. A sweep that navigated 430 times
  * and silently landed on the dashboard every time would report a perfect score,
  * and that is indistinguishable from a real pass. The first test below pins that
@@ -104,13 +112,21 @@ test.describe('route render sweep', () => {
     ).toBe(DISTINCT_SAMPLE.length);
   });
 
-  test('every route renders without engaging its error boundary', async ({ page }) => {
+  test('every route renders without crashing or raising an uncaught exception', async ({
+    page,
+  }) => {
     test.setTimeout(30 * 60 * 1000);
+
+    let raised = [];
+    page.on('pageerror', (e) => raised.push(String(e.message).slice(0, 160)));
+
     await page.goto('/');
     await page.waitForLoadState('networkidle').catch(() => {});
 
     const crashed = [];
+    const threw = [];
     for (const r of ROUTES) {
+      raised = [];
       try {
         await page.goto('/' + r, { waitUntil: 'domcontentloaded', timeout: 15_000 });
         await page.waitForTimeout(350);
@@ -120,11 +136,19 @@ test.describe('route render sweep', () => {
       } catch (e) {
         crashed.push(`${r} (navigation: ${String(e.message).slice(0, 80)})`);
       }
+      // An effect that rejects raises here and engages no boundary — the half
+      // the check above cannot see.
+      if (raised.length) threw.push(`${r}: ${[...new Set(raised)][0]}`);
     }
     expect(
       crashed,
       'these screens crash when opened by URL — the path a learner takes on ' +
         'refresh, back-button or a bookmark',
+    ).toEqual([]);
+    expect(
+      threw,
+      'these screens raise an uncaught exception with no boundary to catch it, ' +
+        'so nothing renders an error and nothing fails — it is simply wrong',
     ).toEqual([]);
   });
 });
