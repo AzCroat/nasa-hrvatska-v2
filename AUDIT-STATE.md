@@ -4791,9 +4791,115 @@ rule is now enforced mechanically over all of `src/`, and the specifics live in
 the module header where the next person editing that sweep will read them. A
 paragraph restating a guard is the decoration this file keeps finding.
 
+### Sweep 71 — the asset caches the app threw away six times a day (2026-09-24, 3 REAL DEFECTS, FIXED)
+
+**The question came straight out of sweep 70's shape**: *where else does a blunt
+operation run after a careful one on the same path and undo it?* Three instances
+were checked and cleared before the real one turned up — no blanket
+`localStorage.clear()` exists anywhere in shipped code (NEVER-DO 1/9, clean);
+`chunkErrors`' cache purge is narrowly scoped to `-js`/`-html`; and
+`sw-migration.js`'s `KEEP_CACHE_PREFIXES` covers every cache name the app
+creates. Then the same question asked of `src/sw.js` found three.
+
+**A — EVERY DEPLOY THREW AWAY THE LEARNER'S ASSET CACHES AND STARTED EMPTY ONES.**
+`CACHE_VER` is `'nasa-hrvatska-v' + __BUILD_ID__`, a fresh timestamp per deploy,
+and the `-images`, `-audio` and `-fonts` routes all opened `${CACHE_VER}-<suffix>`.
+After a deploy nothing references the old names, so those entries are
+UNREACHABLE — and the activate handler's reclamation deliberately excluded all
+three, with its reason recorded as *"keyed by STABLE urls, so the previous
+build's entries are still perfectly valid. Dropping them would force a
+re-download of hundreds of MP3s for no benefit."*
+**True in its first half, false in its operative half.** The entries were valid
+and unreadable, so the re-download happened on every deploy anyway, and the
+exclusion bought nothing while the orphans accumulated — which is precisely the
+storage-quota growth the reclamation block was written to stop, left open for
+three of six families. Measured: **183 deploys in 30 days, 43 in 7** — about six
+a day. And **all 77 images in a build come from `public/` with stable urls, with
+ZERO hashed images in `dist/assets`**, so 100% of that cache was re-fetched every
+deploy for nothing; `maxEntries: 100` holds a full build with headroom, so no
+sizing change was needed.
+
+**B — THE AUDIO ROUTE MATCHED NOTHING THE APP SHIPS.** It read
+`/\/audio\/.*\.(mp3|ogg|wav)$/i`; the one audio asset is
+`public/audio/bojna-cavoglave-v3.m4a`, the song on the history screen. So the
+`-audio` cache was never populated at all and the `RangeRequestsPlugin`
+configured for seeking never applied. A route that matches nothing reads exactly
+like a route that works — the `whisperClaudeScorer` / `ENDPOINT_HELPERS` shape,
+here in PRODUCTION code rather than in a guard.
+
+**C — AND THE GUARD'S COMMENT STRIPPER WAS EATING 70% OF THE FILE.**
+`sw-cache-lifecycle.test.ts` built `SW_CODE` by stripping BLOCK comments first,
+then line comments. `src/sw.js:180` contains `/api/*` inside a `//` comment, so
+the block-comment regex opened there and closed on the star-then-slash ending the
+Google Fonts route regex: **`SW_CODE` was 6,430 characters of a 21,532-character
+file, and every `registerRoute` call in the file was invisible to it.** The
+assertion that the SW never touches `localStorage` or `indexedDB` — the one that
+matters most, a SW update must never destroy progress — was reading 30% of the
+file and reporting on all of it. Found because the new asset assertion matched
+nothing and had no business failing.
+
+**A GUARD WAS ACTIVELY DEFENDING A.** The same file's header NAMES
+`-images`/`-audio`/`-fonts` as part of the accumulation problem, and then
+`expect(SUFFIXES).not.toContain('-images')` (and audio, and fonts) restated the
+exclusion's premise instead of checking it. That is *a test can encode the false
+premise instead of checking it, and then it defends the defect* — the
+`AlphabetScreen` `vs`-marker shape — with the file's own prose contradicting its
+own assertion eighty lines apart.
+
+**The fixes.** Asset caches get a STABLE name (`ASSET_CACHE =
+'nasa-hrvatska-v-assets'`), plus a one-time reclamation of the versioned ones so
+the orphans already on devices are collected — nothing else would ever name them
+again. **The `nasa-hrvatska-v` prefix is load-bearing and deliberately kept**: a
+tidier `nasa-hrvatska-assets` would be deleted by `sw-migration.js` on every page
+load, which is the same blunt-undoes-careful trap one layer down. The audio route
+gains `m4a`. The stripper strips LINE comments first.
+
+**The new guards.** The asset-route extensions are DERIVED from what is actually
+in `public/` (mirroring the existing data-chunk precedent), so a new format that
+the route does not claim fails instead of silently never being cached; the stable
+name is pinned along with its required prefix; the migration branch is pinned;
+and — the guard on the guard — **every `registerRoute` and `cacheName` in the
+file must survive the strip**. That last one is deliberately a construct count,
+not a length ratio: `sw.js` is 57% prose, so any ratio loose enough to pass today
+is loose enough to miss a strip that ate half the routes.
+
+**Mutation-verified, six**, each confirmed landed (and M1's first attempt did NOT
+run, because its landing grep used a bad pattern and short-circuited the suite —
+confirm the mutation landed AND that the measurement ran):
+
+- audio regex back to `(mp3|ogg|wav)` → **1 fails**
+- images `cacheName` back to `${CACHE_VER}` → **1 fails**
+- `ASSET_SUFFIXES` dropped from the reclaim → **1 fails**
+- the image route drops `svg` → **1 fails**
+- **stripper order reverted to block-comments-first → 5 fail**
+- **the ORIGINAL `sw.js`, all three defects present, against the new guard → 3
+  fail** (the old guard was green on it throughout, which is the gap)
+
+**Gates:** 612 files / 9815 passing, typecheck clean, eslint clean, Croatian lint
+0 findings across 522 files, and a full `npm run build` — precache 21 entries /
+681.49 KiB. **The BUILT artifact was checked, not just the input** (the Sentry-DSN
+lesson): `dist/sw.js` carries `="nasa-hrvatska-v-assets"` and
+`cacheName:`${ue}-images``. **E2E audit:** no spec asserts on any cache NAME; the
+five specs touching SW/offline assert registration and offline-shell behaviour,
+both unaffected since the precache and `-html`/`-js` caches are unchanged.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
+
+- [ ] **DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?** — opened by
+      sweep 71's finding C, NOT yet measured. 77 files under `src/`/`scripts/`
+      strip block comments with the same `/\/\*[\s\S]*?\*\//g` shape, and
+      sweep 71 showed that a `//` line containing `/*` — `/api/*`, a glob like
+      `src/**/*.ts`, a path — opens a runaway block comment that runs to the next
+      star-slash anywhere in the file, which a regex literal can easily supply.
+      The failure is SILENT and in the dangerous direction: the guard's subject
+      vanishes and every assertion over it passes. Sweep 71 fixed the one file it
+      was working in; the class was deliberately left out of that PR rather than
+      widening it. **Measure it the way sweep 71 did — count the constructs that
+      survive the strip, per guard, against the same count in the raw file** — do
+      not read a length ratio, and do not assume a guard is fine because it is
+      green.
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
