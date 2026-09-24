@@ -6105,6 +6105,12 @@ decision: `e2e/maja-turn-end.spec.js` drives a fake recognizer that ends its
 session mid-sentence, and against the old handler it reproduces the report
 exactly — `{"message":"Jučer sam bio"}` posted and answered, then
 `{"message":"u dućanu s bakom"}` as a separate turn.
+The same defect was then found on `GuidedSpeakingScreen` — where a deliberate
+stop nulls the handler, so EVERY `onend` there is the service ending the
+session — and it is worse, because the SPEAK stage is rubric-graded and measured
+against a word floor. Measured in a browser: 15 words spoken, **8 delivered to
+the grader** before the fix. Both screens are pinned by
+`e2e/speech-turn-end.spec.js`.
 
 **The other half of that report was a promise that never settles**, and it is
 the worse half: ten screens carried a byte-identical `new Promise` around a

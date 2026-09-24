@@ -1,5 +1,5 @@
 /**
- * maja-turn-end.spec.js — one sentence must stay one turn.
+ * speech-turn-end.spec.js — one answer must stay one turn.
  *
  * OWNER REPORT, 2026-09-24: Baka Mara "wasn't always reading properly or
  * picking up my full sentences."
@@ -10,7 +10,7 @@
  * session on its own — a long pause, a service timeout, a network blip — while
  * the learner is still mid-sentence.
  *
- * `majaTurnEnd.test.ts` pins the decision function. This pins the SCREEN, with
+ * `majaTurnEnd.test.ts` pins the decision function. This pins the SCREENS, with
  * a fake recognizer that does exactly what Chrome does: emit a partial result,
  * then end the session by itself. Reproduced against the old handler before the
  * fix, and it is the whole defect in one line of output — the learner's single
@@ -119,5 +119,57 @@ test.describe('Baka Mara / Maja — a service-ended session is not a finished se
     expect(sent[0], 'the two halves must arrive as one sentence').toBe(
       'Jučer sam bio u dućanu s bakom',
     );
+  });
+});
+
+test.describe('Guided Speaking — the same defect, on an answer that gets graded', () => {
+  test('a service-ended session does not cost the learner the first half of their answer', async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await blockFirebase(page);
+    await seedAuth(page, { xp: 4000 });
+    await mockContent(page);
+    await mockTTS(page);
+    await page.addInitScript(FAKE_RECOGNIZER);
+
+    await page.goto('/speaking_guided', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(1200);
+
+    // Walk to the SPEAK stage (LISTEN → REHEARSE → BUILD → SPEAK).
+    for (let i = 0; i < 8; i++) {
+      if (await page.getByTestId('gs-record').count()) break;
+      const next = page.getByRole('button', { name: /dalje|next|nastavi|continue|→/i }).first();
+      if (!(await next.count())) break;
+      await next.click().catch(() => {});
+      await page.waitForTimeout(400);
+    }
+    // Reaching the stage is part of the assertion: a walk that silently stopped
+    // short would make everything below vacuous.
+    await expect(page.getByTestId('gs-record')).toHaveCount(1);
+
+    await page.getByTestId('gs-record').click();
+    await expect
+      .poll(() => page.evaluate(() => window.__rec?.starts ?? 0), { timeout: 15_000 })
+      .toBeGreaterThan(0);
+
+    await page.evaluate(() => window.__rec.last._say('Zovem se Marko i dolazim iz Kanade'));
+    await page.waitForTimeout(200);
+    await page.evaluate(() => window.__rec.last._quit()); // the SERVICE ends it
+
+    await expect
+      .poll(() => page.evaluate(() => window.__rec.starts), { timeout: 10_000 })
+      .toBeGreaterThan(1);
+
+    await page.evaluate(() => window.__rec.last._say('i učim hrvatski svaki dan jer volim baku'));
+
+    // Measured against the old handler: the transcript was the SECOND half only
+    // — 8 words of a 15-word answer — and that fragment is what got scored and
+    // measured against the stage's word floor.
+    await expect
+      .poll(async () => (await page.getByTestId('gs-transcript').inputValue()).trim(), {
+        timeout: 15_000,
+      })
+      .toBe('Zovem se Marko i dolazim iz Kanade i učim hrvatski svaki dan jer volim baku');
   });
 });

@@ -2983,7 +2983,7 @@ and the mic is dead until the learner leaves the screen.
   silence timer flushes with `stop()`, and `stopMic()` (which aborts) appears
   only in the WebView backstop.
 - **PINNED AT THE SCREEN, NOT ONLY AT THE DECISION.**
-  `e2e/maja-turn-end.spec.js` drives the real screen with a fake recognizer that
+  `e2e/speech-turn-end.spec.js` drives both real screens with a fake recognizer that
   does what Chrome does — emit a partial result, then end the session by itself.
   Reproduced against the old handler first, and the output IS the defect:
   `{"message":"Jučer sam bio"}` posted and answered, then
@@ -2992,6 +2992,11 @@ and the mic is dead until the learner leaves the screen.
   because the bug is in which branch the screen takes and how the transcript
   crosses a restart. Mutation-verified there too: dropping the accumulation
   makes it arrive as "u dućanu s bakom".
+  The guided-speaking half is measured in the same spec and the number is the
+  point: the learner says 15 words, the service closes the session, and the old
+  code hands the grader **8** — `"i učim hrvatski svaki dan jer volim baku"`,
+  the first seven words gone. Mutation-verified: SPEAK losing `keepOpen` leaves
+  the mic closed and the test red.
 - **THE SAME DEFECT WAS ON THE GRADED SPEAKING SCREEN, and worse there.**
   `GuidedSpeakingScreen`'s recognizer is `continuous` too, and its deliberate
   stop NULLS the handler first — so EVERY `onend` that fires there is the
