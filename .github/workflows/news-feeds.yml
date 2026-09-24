@@ -1,0 +1,50 @@
+# Does every configured Croatian news source actually answer?
+#
+# `/api/news` fans out over RSS_FEEDS and a source that never answers is
+# INVISIBLE: the surviving sources cover for it, the learner still gets news,
+# and nothing anywhere records that one has been dead for months. That matters
+# more now that the source list is an editorial decision (owner directive,
+# 2026-09-24) — a silently dead feed means that decision is not in effect.
+#
+# It is also the only place these URLs CAN be checked. Development sandboxes
+# block outbound traffic to every Croatian host (measured: all four sources
+# answer 403 at the proxy, including the two that have worked in production for
+# months), so a feed path is unverifiable from a laptop and verifiable here.
+#
+# Runs on a PR that touches the feed list, so a source change is proven before
+# it merges — and weekly, because the ordinary way a feed dies is the publisher
+# moving it. Fails red. It is NOT in the deploy gate: a publisher's outage must
+# not block shipping unrelated work.
+name: News Feed Health
+
+on:
+  schedule:
+    # Mondays 07:30 UTC — after the route sweep (07:00), before backup health.
+    - cron: '30 7 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'functions/api/news.js'
+      - 'scripts/checkNewsFeeds.mjs'
+      - '.github/workflows/news-feeds.yml'
+
+concurrency:
+  group: news-feeds-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # No install step on purpose: the checker imports the production feed list
+      # and uses global fetch. Nothing else is needed, and a dependency tree is
+      # one more thing that can fail in a check about somebody else's uptime.
+      - name: Check every news source answers
+        run: node scripts/checkNewsFeeds.mjs

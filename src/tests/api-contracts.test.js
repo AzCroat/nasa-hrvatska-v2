@@ -562,7 +562,7 @@ describe('validateNewsResponse — valid mock responses', () => {
     const data = {
       articles: [
         {
-          source: 'Index.hr',
+          source: 'Dnevnik.hr',
           simplified_title: 'Dubrovnik prima turiste',
           simplified_text: 'Grad Dubrovnik otvara se za turiste početkom lipnja.',
           key_vocabulary: [],

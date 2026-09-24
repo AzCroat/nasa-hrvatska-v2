@@ -11,9 +11,15 @@ import { unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 
 // ── Fallback articles shown when the live API is unavailable ─────────────────
+//
+// These three are WRITTEN BY THIS APP. They used to carry `source: 'Dnevnik.hr'`
+// / `'Index.hr'` / `'Večernji list'` — three real newsrooms' names on text they
+// never wrote, shown to a learner as if it were their reporting. The server's
+// own fallback (`functions/api/news.js`) has always said 'Naša Hrvatska'; this
+// copy had drifted. Attribute authored text to the app, never to a publisher.
 const FALLBACK_ARTICLES = [
   {
-    source: 'Dnevnik.hr',
+    source: 'Naša Hrvatska',
     simplified_title: 'Zagreb dobiva novu tramvajsku liniju',
     simplified_title_en: 'Zagreb is getting a new tram line',
     simplified_text:
@@ -32,7 +38,7 @@ const FALLBACK_ARTICLES = [
     link: null,
   },
   {
-    source: 'Index.hr',
+    source: 'Naša Hrvatska',
     simplified_title: 'Hrvatska priprema novi turistički rekord',
     simplified_title_en: 'Croatia is preparing a new tourism record',
     simplified_text:
@@ -51,7 +57,7 @@ const FALLBACK_ARTICLES = [
     link: null,
   },
   {
-    source: 'Večernji list',
+    source: 'Naša Hrvatska',
     simplified_title: 'Dinamo Zagreb pobijedio u Europskoj ligi',
     simplified_title_en: 'Dinamo Zagreb won in the Europa League',
     simplified_text:

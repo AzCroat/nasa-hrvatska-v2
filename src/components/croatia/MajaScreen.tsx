@@ -26,6 +26,8 @@ import {
   getPersona,
   SR_SUPPORTED,
   computeSilenceDelay,
+  accumulateTranscript,
+  decideOnRecognizerEnd,
   extractStreamingReply,
   extractSentences,
   loadMemory,
@@ -145,6 +147,16 @@ export default function MajaScreen() {
   const animFrameRef = useRef<number | null>(null);
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const transcriptRef = useRef<string>('');
+  // What earlier recognizer sessions in THIS turn already heard. `onresult`
+  // reads `event.results`, which is empty again after a restart, so without a
+  // base every restart would wipe the sentence so far.
+  const transcriptBaseRef = useRef<string>('');
+  // Did WE end this session (silence timer / teardown), or did the speech
+  // service end it on its own? `onend` cannot tell, and treating the second as
+  // the first sends half a sentence — or, with nothing said yet, leaves the mic
+  // dead with no way back.
+  const turnEndingRef = useRef<boolean>(false);
+  const restartsRef = useRef<number>(0);
   const sessionStartRef = useRef<number | null>(null);
   const elapsedTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -768,6 +780,9 @@ export default function MajaScreen() {
 
     setPhase('listening');
     transcriptRef.current = '';
+    transcriptBaseRef.current = '';
+    turnEndingRef.current = false;
+    restartsRef.current = 0;
     setLiveTranscript('');
 
     startWaveform();
@@ -801,6 +816,7 @@ export default function MajaScreen() {
           // re-arms on interims, not on audio), abort threw away the words the
           // user was actually saying. stop() flushes them — they arrive as a
           // final onresult, then onend sends the COMPLETE transcript.
+          turnEndingRef.current = true;
           try {
             recRef.current?.stop();
           } catch {
@@ -825,8 +841,9 @@ export default function MajaScreen() {
       for (let i = 0; i < se.results.length; i++) {
         if (se.results[i]?.[0]) full += se.results[i]![0]!.transcript;
       }
-      transcriptRef.current = full;
-      setLiveTranscript(full);
+      const merged = accumulateTranscript(transcriptBaseRef.current, full);
+      transcriptRef.current = merged;
+      setLiveTranscript(merged);
       resetSilenceTimer();
     };
 
@@ -862,10 +879,37 @@ export default function MajaScreen() {
     };
 
     rec.onend = () => {
-      // If still supposed to be listening and we have transcript, send it
-      if (phaseRef.current === 'listening' && transcriptRef.current.trim().length > 1) {
+      const verdict = decideOnRecognizerEnd({
+        deliberate: turnEndingRef.current,
+        phase: phaseRef.current,
+        transcript: transcriptRef.current,
+        restarts: restartsRef.current,
+      });
+      if (verdict === 'send') {
         stopMic();
         sendMessage(transcriptRef.current.trim());
+        return;
+      }
+      if (verdict === 'restart') {
+        // The service ended the session, not us. Keep the sentence so far and
+        // re-open, so a thinking pause does not end the learner's turn for them.
+        restartsRef.current += 1;
+        transcriptBaseRef.current = transcriptRef.current;
+        try {
+          rec.start();
+        } catch {
+          /* already starting — the next onend will decide again */
+        }
+        return;
+      }
+      if (verdict === 'fallback') {
+        // Re-opening is not working: this browser's speech service is refusing
+        // to run. Surface the path that does (Whisper, or the typed input)
+        // instead of leaving a dead mic on screen.
+        stopMicImmediate();
+        setSrFailed(true);
+        srFailedRef.current = true;
+        if (WHISPER_CAPABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
       }
     };
 

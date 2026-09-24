@@ -431,8 +431,8 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
           textAlign: 'center',
         }}
       >
-        📱 Try reading <strong>Index.hr</strong> or <strong>Jutarnji.hr</strong> after this — use
-        these words to unlock the headlines.
+        📱 Try reading <strong>Dnevnik.hr</strong> or <strong>Zadarski list</strong> after this —
+        use these words to unlock the headlines.
       </div>
     </div>
   );
