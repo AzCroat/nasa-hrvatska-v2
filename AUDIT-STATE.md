@@ -6357,6 +6357,20 @@ with GradTab's speaking fix reverted and the CI-equivalent build rebuilt, the
 new early-tap spec fails — it reproduces the owner-visible symptom, not only the
 unit-level wiring.
 
+**AND MY OWN GUARD BROKE THE RULE SWEEP 71 WROTE DOWN.** The source pin
+stripped BLOCK comments before LINE comments, which `commentStripOrder.test.ts`
+forbids and caught on the full run — a `//` mentioning a path like `src/data/*`
+carries the two characters that open a block comment, so a block-first strip
+runs from there to the next `*/` anywhere later and silently deletes the code
+the pin is about (in `src/sw.js` that swallowed 15,102 of 21,532 characters,
+green throughout). Order swapped, and **the comment-only mutation was re-run
+rather than assumed** — it still fails 5, so the strip still does its job.
+Worth stating plainly: the targeted suites I ran while building this were all
+green, and only the FULL suite had the guard that knew. Two of my own claims
+needed correcting on the way — this one, and my first reading of the earlier
+full run, which I attributed to a mid-run edit race when it was this same real
+failure both times.
+
 **The E2E half.** `openSpeaking` now registers `waitForResponse` for
 `/api/content/core` BEFORE navigating and awaits it — the wait is not a
 convenience, it is the dependency the screen has. A new test taps Govori

@@ -170,8 +170,14 @@ describe('a pooled launch never fails silently', () => {
     for (const f of files) {
       const src = fs
         .readFileSync(f, 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/^\s*\/\/.*$/gm, '');
+        // LINE comments first, then block — the order `commentStripOrder`
+        // exists to enforce. A `//` mentioning a path like `src/data/*` carries
+        // the two characters that OPEN a block comment, so stripping blocks
+        // first runs from there to the next `*/` anywhere later and silently
+        // deletes the code this pin is about (sweep 71 lost 15,102 characters
+        // of src/sw.js that way, green throughout).
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       expect(builders.test(src), `${f} no longer builds a pooled payload`).toBe(true);
       expect(src, `${f} builds a pooled payload without asking poolLaunchBlock`).toMatch(
         /poolLaunchBlock\s*\(/,
@@ -187,8 +193,8 @@ describe('a pooled launch never fails silently', () => {
     // — nothing on the else. Same silence, a third surface.
     const src = fs
       .readFileSync('src/components/profile/sections/GoalFocusSection.tsx', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).toMatch(/poolLaunchBlock\s*\(/);
     expect(src).toMatch(/goal-launch-error/);
   });
