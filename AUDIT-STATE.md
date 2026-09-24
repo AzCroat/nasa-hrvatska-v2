@@ -6462,6 +6462,71 @@ number to one, and this is that one.
 
 ---
 
+### Sweep 99 — an empty Learn Path congratulated the learner (2026-09-24, 1 REAL DEFECT, FIXED)
+
+**The question, in the form this file says pays:** name two things that must
+agree — here, *what a screen asserts about a learner's progress* and *whether
+the data it measures progress from has arrived*. It is sweep 97's question
+(silent taps before content lands) asked of RENDERS rather than launches, and
+it was chosen because sweep 97's own "what this cannot see" named the gap.
+
+**THE DERIVATION'S FIRST VERSION WAS DECORATIVE, AND SAYING SO IS THE POINT.**
+It walks every `useContent`/`peekContent` consumer, collects the identifiers
+assigned from `content`, and reports those reaching a handler that ACTS on them
+(launches, navigates, or bails on `.length`). First run: **2 surfaces, both
+already fixed** — a clean-looking nothing. But it missed `LearningCenter`, a
+KNOWN member of the class, because the handler regex required `)` immediately
+before `{` and every TypeScript function with a return-type annotation —
+`async function openScreen(…): Promise<void> {` — was therefore invisible.
+Repaired, it finds all three. **A derivation that misses a known member is not
+a negative result, it is an unfinished tool**; testing it against an instance
+you already have is the only thing that separates the two.
+
+**THE FIND — `LearnPath.tsx`.** `LEARN_PATH` is `content?.LEARN_PATH ?? []`, so
+before `/api/content/core` lands the screen has no milestones to count.
+Rendered with content absent, measured rather than reasoned:
+
+```
+0% done · 0 / 0 milestones · Amazing progress!
+```
+
+A praise line over zero measured milestones, on the ONE screen whose entire job
+is reporting measured progress — NEVER-DO 13 in its purest form.
+
+**AND "Amazing progress!" IS REACHABLE ONLY IN THAT STATE**, which is what
+makes it a defect rather than clumsy copy. Its branch needs `pct !== 100` AND
+`activeLevel < 0`; with a real path, "no incomplete item" implies everything is
+done, which makes `pct === 100` and takes the TROPHY branch instead (asserted
+both ways). `pct` is `totalAll > 0 ? … : 0`, so the empty case is the only way
+to reach it. **The single thing that string ever meant was "the path has not
+loaded", and it said the opposite.**
+
+**Transient in the ordinary case, PERMANENT when the content fetch fails** —
+the same shape sweep 97 found behind the Grad tab, which is why the loading and
+failed sentences are kept apart here too: telling a learner their path failed
+while the request is still in flight is itself a claim the app has not measured.
+The ring now shows `—` rather than a measured `0%`.
+
+**Checked and NOT defects on the same surface:** the two non-null assertions
+`LEARN_PATH[activeLevel]!.title` are both behind `activeLevel >= 0`, which stays
+`-1` on an empty array, so the empty path never threw; and `pct` was already
+guarded against a 0/0 NaN. The screen was wrong, not broken — which is why
+nothing had ever noticed.
+
+**Mutation-verified, four, each confirmed landed:** the whole fix reverted (the
+praise line back over 0/0) fails 2; loading told it had failed fails 1; the
+measured `0%` ring restored fails 1; and the DANGEROUS direction — `pathMissing`
+true for a real path, which would hide a learner's actual progress behind a
+"could not be loaded" notice — fails 2.
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a surface that receives content-derived
+data as a PROP rather than calling `useContent` itself. `GoalFocusSection` is
+exactly that shape and was found in sweep 97 by reading the callers of the four
+launchers, not by any mechanism; this derivation would still miss it. The
+prop-drilled half of this class remains unswept.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
