@@ -5243,6 +5243,11 @@ media APIs — so "boundary engaged" carries no information about production.
 cannot report either.** An E2E spec driving the tabbed screens in a real browser
 is the honest vehicle, and it is a bounded 36, not 423.
 
+**BOTH HALVES OF THAT LAST SENTENCE WERE WRONG — see sweep 87.** The vehicle was
+right; the bound was an artifact of thinking in taps. `setScr` calls
+`navigate('/' + screen)`, so EVERY screen has a real URL and a browser can reach
+all 430 directly, no click path required. Swept: 430 routes, 0 crashes.
+
 Two harness defects worth keeping, both found by checking a reported number by
 hand: a key-to-component pairing that took the nearest uppercase tag captured
 `<ScreenErrorBoundary>` every time and reported `routes=0`; and
@@ -5562,6 +5567,66 @@ matcher broken (1).
 clean measurement is easy to mistake for a repair.
 
 ---
+
+### Sweep 87 — every screen, opened by URL, in a real browser (2026-09-24, 430 ROUTES, 0 CRASHES)
+
+Sweeps 80–81 ended with a recommendation and no result: three ways to run a
+click sweep in jsdom were measured and all three failed, and the conclusion was
+"an E2E spec driving the screens is the honest vehicle, and it is a bounded 36,
+not 423." **Both halves of that were wrong in the useful direction.**
+
+**THE DOOR WAS ALREADY THERE AND NOBODY HAD OPENED IT.** `setScr` ends in
+`navigate(s === 'dashboard' ? '/' : '/' + s)`, and App.tsx's path effect turns
+an unrecognised path straight back into `_setCurrentScreen(p.slice(1))`. So
+**every screen in this app has a real URL**, reachable directly — no click path
+required. The 36-screen bound existed only because I had been thinking in taps.
+Every existing spec navigates by clicking visible text, and the only
+`page.goto` targets anywhere in `e2e/` are the five TAB paths.
+
+**This is a real user path, not a synthetic one.** A learner reaches these by
+refreshing, by the back button, or from a bookmark — and on that entry the
+screen renders WITHOUT the launch-time state its normal caller would have set.
+App.tsx says as much in a comment ("exercise screens need launch-time state")
+and restricts `RESTORE_SAFE_SCREENS` for that reason, but the URL path has no
+such restriction.
+
+**RESULT: 430 routes swept, 0 crashes.** Every route the router branches on
+renders without engaging `ScreenErrorBoundary`, in Chromium, as a seeded
+verified learner, with `/api/content/*` fixtured. 4.8 minutes.
+
+**TWO CONTROLS, AND THE FIRST ONE IS THE REASON THE RESULT MEANS ANYTHING.**
+
+1. **Do distinct routes render distinct screens?** If direct-URL entry silently
+   bounced to the dashboard, the sweep would have visited ONE screen 430 times
+   and reported a perfect score. Measured: 8 of 8 sampled routes produce
+   distinct body text. **My first attempt at this control reported 1 of 8** —
+   the fingerprint was the first 90 characters, which is the shared app header.
+   A control can be vacuous exactly like the thing it controls.
+2. **Does the detector fire on a real crash?** A `throw` injected into
+   `VocabJournal`'s render, rebuilt, swept: `journal` reported, the other two
+   routes in the subset clean. The first injection went in at the wrong brace
+   and broke the BUILD rather than the render — **check where a mutation landed
+   before reading its result**, again.
+
+**WHAT IT PROVES AND WHAT IT DOES NOT, stated.** It proves each screen RENDERS.
+It does not prove any screen WORKS: nothing is clicked (sweep 75's 110 screens
+with no interaction test stands untouched), every `/api/*` but content 404s so
+the AI surfaces are covered in their degrade state only, and direct entry means
+many screens render an empty state rather than a populated one. The claim is
+"does not crash on refresh", and that is all.
+
+**IT DOES NOT RUN ON THE DEPLOY GATE, deliberately.** 430 routes take ~4.8 min
+and `playwright.config.js` pins `workers: 1` (recorded reason: flakiness at 4)
+with `retries: 2` — one flaky route would cost ~15 minutes on the job that
+gates every deploy. The spec is `test.skip`ped unless `ROUTE_SWEEP` is set, and
+`.github/workflows/route-render-sweep.yml` runs it weekly and on dispatch,
+failing red. That is the shape this repo already uses for output-observatory,
+calibration, stt-calibration and push-health: sweeps worth running regularly and
+not worth paying for on every push.
+
+**The control ships WITH the sweep**, in the same file, because a sweep whose
+navigation silently stopped working would go green forever and nothing else
+would say so.
 
 ---
 

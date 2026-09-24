@@ -1,0 +1,67 @@
+# Every screen survives a direct-URL load.
+#
+# Runs e2e/route-render-sweep.spec.js, which is SKIPPED in the deploy-gating E2E
+# job: 430 routes take ~5 min, and playwright.config.js pins workers: 1 with
+# retries: 2, so one flaky route would cost ~15 min on the job that gates every
+# deploy. Same shape as output-observatory / calibration / push-health — a sweep
+# that is worth running regularly and not worth paying for on every push.
+#
+# Fails red. A crash here is a screen that breaks on refresh, the back button or
+# a bookmark, which is a path learners take.
+name: Route Render Sweep
+
+on:
+  schedule:
+    # Mondays 07:00 UTC — after the output observatory (06:00), before the
+    # backup and push health sweeps.
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: route-render-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Bounded + retried once: a degraded Ubuntu mirror has stalled this step
+      # for hours before (see CLAUDE.md). Between attempts, kill orphaned apt
+      # processes and clear the locks — `timeout` kills the npx wrapper, not the
+      # apt-get child, whose surviving lock makes the first retry die instantly.
+      - name: Install Playwright browsers
+        run: |
+          set -e
+          install() { timeout 600 npx playwright install --with-deps chromium; }
+          if ! install; then
+            echo "::warning::playwright install attempt 1 failed — clearing apt locks and retrying"
+            sudo pkill -9 -f apt-get || true
+            sudo rm -f /var/lib/apt/lists/lock /var/lib/dpkg/lock /var/lib/dpkg/lock-frontend || true
+            install
+          fi
+
+      - run: npm run build
+
+      - name: Sweep every route by direct URL
+        run: npx playwright test --project="Desktop Chrome" e2e/route-render-sweep.spec.js
+        env:
+          CI: true
+          ROUTE_SWEEP: '1'
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: route-render-sweep-report
+          path: playwright-report/
+          retention-days: 7
