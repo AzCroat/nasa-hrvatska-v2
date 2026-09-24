@@ -4950,6 +4950,86 @@ the equivalence proof that 90 swaps across 70 guards changed no outcome.
 0 findings across 522 files. **E2E audit:** none — this change touches test files
 only and no production behaviour.
 
+### Sweep 73 — four negatives and one honest "I don't know" (2026-09-24, NO DEFECT)
+
+Same axis as sweeps 70–71 (interactions between features on a live path). Five
+questions, no defect. Recorded so nobody re-derives them — and one of them is
+recorded because I nearly got it WRONG.
+
+**A. The offline award queue across an account change.** `offlineAwardQueue`
+holds unsent XP and flushes to `users/{uid}/xpAudit`; could user B receive user
+A's XP? No — the key is `nh_offline_award_queue`, so the `nh_` prefix sweep in
+`clearUserScopedStorage` wipes it on both account-exit paths. Covered BY
+CONSTRUCTION, which is the good kind: a new queue key under that prefix inherits
+it without anyone remembering.
+
+**B. Two tabs of the same account cannot regress a stat.** There is NO `storage`
+event listener anywhere in `src/`, and the local→remote write really is
+unconditional (`useSyncManager.ts:326` — no `Math.max` on that direction). The
+protection is elsewhere: the periodic PULL was removed in 2026-05-28 and replaced
+by the realtime `fbWatchProgress` onSnapshot listener, which EVERY tab holds
+because Firestore is initialised with `persistentMultipleTabManager()`. Each tab
+merges through `mergeStatsFromRemote` (Math.max / union), so no tab holds stale
+stats to write back. **Note for whoever revisits: the protection is the WATCHER,
+not the save path.** Remove or single-tab that listener and the hazard is live
+immediately, with nothing in the save path to catch it.
+
+**C. A completion that lands after midnight.** `markDone(screenOrId)` matches by
+id OR screen against the CURRENT plan and no-ops when there is no match
+(`useDailySession.ts:976`). So an exercise launched before the rollover and
+finished after it can only credit a slot for the screen the learner actually just
+did — never a different activity, and nothing at all when today's plan lacks that
+screen. No false credit is reachable.
+
+**D. The synced blob has no size ceiling — and cannot reach one.** Firestore
+hard-rejects a document over 1 MiB and there is NO size guard anywhere in the
+sync path (searched `fbSaveProgress`, `buildProgressSnapshot`, the failure
+classifier; `invalid-argument` appears only in a comment). A blob that crossed it
+would fail EVERY save permanently and silently, because it only grows. The
+structural gap is real; it is not reachable. `journal` is the only field that
+scales with use, and `normalizeJournalEntry` (`journalEntry.ts:58`) returns ONLY
+`{hr, en, date?}` — a whitelist applied to BOTH sides by `mergeJournals`. At ~50
+bytes an entry, 1 MiB needs ~20,000 distinct saved words against an app
+vocabulary of ~4,300 lemmas.
+**AND MY OWN PROBE NEARLY SOLD THE OPPOSITE.** I measured a maximal snapshot at
+**0.99 MiB** and was one step from calling it live — but I had invented journal
+entries carrying two AI `examples` each (~343 bytes), a shape production CANNOT
+produce: examples live in VocabJournal's Dexie store, never in `uJournal`, and
+the normalizer drops them regardless. The same probe also silently omitted
+`nh_lesson_attempts` / `nh_lesson_retention` / `nh_curriculum_progress`, whose
+validators rejected my synthetic shapes — so it was wrong in BOTH directions at
+once. **A probe that invents its own data shape measures the probe, not the app**
+— the same family as "a test that restates production data cannot check
+production data".
+**What is worth keeping:** the blob's size safety rests on a WHITELIST IN A
+NORMALIZER, not on any size guard, and nothing says so. A well-meaning change to
+preserve `examples` across devices would drop the ceiling from ~20,000 entries to
+~3,000 — inside the content scale — behind a permanent, silent failure.
+
+**E. INCONCLUSIVE — "a screen renders a field the payload never had", by name.**
+CLAUDE.md records this as a CLASS with two instances (`scene.qs`, which threw;
+`RegionScreen`'s `v.tip`, which silently dropped every authored note on every
+region page). Both are fixed and individually pinned, and `contentShapeSweep`
+renders every route against the real payload — but it catches CRASHES and EMPTY
+renders only, and the `v.tip` shape is neither: the `&&` short-circuits and the
+card is one line shorter. **So the class has never been swept generally.**
+I tried: dump every field name the real payload carries under each key at ANY
+depth (uncapped — CLAUDE.md records a 3-level cap falsely reporting four screens,
+`PROFESSIONS → categories → jobs → job.m` being depth 4), then flag consumer
+accesses matching the defect's exact signature — a name that IS a payload field
+somewhere but not under any key that file reads. 32 keys, 400 field names, 38
+consumers, 16 flagged. **It does not work**, and the three strongest candidates
+show why: `CultureDeepDiveScreen`'s `meta.icon`/`meta.sub` resolve to a local
+`TIER_META` const; `LearnTab`'s `pendingLesson.tip` is local React state (and
+`tip` genuinely appears nowhere under LEARN_PATH); and every `V`-reading file
+accesses local objects, because V's rows are POSITIONAL ARRAYS.
+A name census cannot tell `v.tip` (payload-derived) from `meta.sub` (local) — it
+needs DATAFLOW. **So the result is INCONCLUSIVE: neither that a third instance
+exists nor that none does.** Recorded as such rather than as a clean sweep, which
+would be the fabricated-confidence failure this file keeps meeting. Both known
+instances were found by RENDERING against the real payload and by READING; a real
+guard needs the same.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
