@@ -40,7 +40,7 @@ import { readFileSync, globSync } from 'node:fs';
 import { DAILY_QUESTS } from '../data';
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const SRC = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
   (f) => !/[\\/](tests|__tests__)[\\/]/.test(f),

@@ -92,9 +92,9 @@ describe('the Azure key is installed by CI, not by memory', () => {
 describe('a failed play on the AI listening screen names its cause', () => {
   const SRC = readFileSync('src/components/practice/AIListeningScreen.tsx', 'utf8')
     // Comments stripped: the block added there quotes the old string verbatim.
+    .replace(/\/\/.*$/gm, '')
     .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*$/gm, '');
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 
   it('reads the recorded failure instead of a fixed sentence', () => {
     expect(SRC).toMatch(/describeTtsFailure\(getLastTtsFailure\(\)\)/);

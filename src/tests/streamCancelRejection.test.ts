@@ -112,7 +112,7 @@ describe('every streaming screen releases its reader safely', () => {
       const src = readFileSync(file, 'utf8');
       // Strip comments so the prose above these calls — which quotes the old
       // broken form on purpose — cannot be mistaken for live code.
-      const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      const code = src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
       const calls = [...code.matchAll(/\breader\.cancel\(\)/g)];
       // Non-vacuity: if a refactor renames the reader, this test must not quietly

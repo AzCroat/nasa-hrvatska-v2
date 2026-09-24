@@ -38,7 +38,7 @@ vi.mock('../lib/errorReporter', () => ({ reportError: vi.fn() }));
 const reported = reportError as unknown as ReturnType<typeof vi.fn>;
 
 const strip = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 const SYNC = strip(readFileSync('src/hooks/useSyncManager.ts', 'utf8'));
 const FETCH = strip(readFileSync('src/lib/apiFetch.ts', 'utf8'));
 

@@ -287,8 +287,8 @@ describe('the wiring — the derivation is what production reads', () => {
     ]) {
       // Comments stripped: the launcher's header quotes the old shape by name.
       const code = read(file)
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+        .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       expect(code, file).not.toMatch(
         /allCats\s*\.flatMap|_cats\.flatMap|Object\.keys\(V\)\.flatMap/,
       );

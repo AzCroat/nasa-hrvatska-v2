@@ -161,8 +161,8 @@ describe('the fixed surfaces classify through lib/aiFailure', () => {
 
   it.each(FIXED)('%s no longer renders the transport error verbatim', (f) => {
     const src = readFileSync(f, 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     // The two exact shapes that put a machine code on screen.
     expect(src).not.toMatch(/setErrorMsg\(\s*\(e as Error\)\.message/);
     expect(src).not.toMatch(/throw new Error\(\s*\(?body[\s\S]{0,40}\.error/);
@@ -206,9 +206,9 @@ describe('the fixed surfaces classify through lib/aiFailure', () => {
     // sentence restored to LIVE code in either file still fails.
     for (const f of FIXED) {
       const src = readFileSync(f, 'utf8')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
         .replace(/^\s*\/\/.*$/gm, '')
-        .replace(/\/\/.*$/gm, '');
+        .replace(/\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
       expect(src, `${f} blames the connection for a server condition`).not.toMatch(
         /internet access|check your connection/i,
       );

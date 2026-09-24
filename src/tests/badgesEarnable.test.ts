@@ -150,7 +150,7 @@ describe('the counters the culture badges read are actually written', () => {
     (f) => !/[\\/](tests|__tests__)[\\/]/.test(f),
   );
   const strip = (s: string) =>
-    s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
   /** Culture counters the badge predicates depend on. */
   const required = [
@@ -244,7 +244,7 @@ describe('the culture blob merges additively', () => {
 
 describe('both screens record what their badge counts', () => {
   const strip = (s: string) =>
-    s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
   it('CityOfDayScreen records the city by name', () => {
     const src = strip(readFileSync('src/components/croatia/CityOfDayScreen.tsx', 'utf8'));

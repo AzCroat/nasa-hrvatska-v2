@@ -44,7 +44,7 @@ function sourceFiles(dir: string, out: string[] = []): string[] {
 
 /** Prose naming a URL is not a link to it. */
 const stripComments = (s: string) =>
-  s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  s.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
 type Link = { file: string; url: string; page: string; anchor: string | null };
 

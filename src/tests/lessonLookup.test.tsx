@@ -48,7 +48,7 @@ const DRILLS_DIR = 'src/components/practice/drills';
 
 /** Strip comments — prose naming a thing must never read as the thing. */
 function strip(src: string): string {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  return src.replace(/\/\/[^\n]*/g, '').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 /** Every ModeDrill-backed drill, by the screen id it registers. DERIVED. */

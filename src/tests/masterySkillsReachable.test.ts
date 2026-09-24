@@ -61,7 +61,7 @@ function sourceFiles(dir: string, out: string[] = []): string[] {
   }
   return out;
 }
-const strip = (s: string) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+const strip = (s: string) => s.replace(/\/\/[^\n]*/g, '').replace(/\/\*[\s\S]*?\*\//g, '');
 
 /**
  * Every skill some production file can actually record, by either route:

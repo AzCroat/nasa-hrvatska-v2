@@ -55,7 +55,7 @@ const DEFINED: string[] = (() => {
  * matching anything. `matchesBadRead` below is driven by both cases.
  */
 function stripComments(src: string): string {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  return src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 /** The one matcher, so the probes below test what the scan actually runs. */

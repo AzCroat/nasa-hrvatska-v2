@@ -34,7 +34,7 @@ import { createHash } from 'node:crypto';
 import { describe, it, expect } from 'vitest';
 import { edgeSecMsGec } from '../../functions/api/tts.js';
 
-const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+const strip = (src) => src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
 // Comments stripped: this file's own prose quotes `new WebSocket(` and the old
 // early return verbatim, and a source pin satisfied by its own explanation has
 // already happened four times in this session.

@@ -184,8 +184,8 @@ describe('applyRemoteProgress survives an unwritable / unreadable profile', () =
     // were left behind, so pin that only _safeSet's own implementation may touch
     // localStorage directly. (Comments legitimately name it — strip them first.)
     const src = readFileSync(resolve(__dirname, '../lib/applyRemoteProgress.ts'), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src.match(/localStorage\.getItem/g), 'raw getItem found').toBeNull();
     // Exactly one: the write inside _safeSet.
     expect(src.match(/localStorage\.setItem/g) ?? []).toHaveLength(1);

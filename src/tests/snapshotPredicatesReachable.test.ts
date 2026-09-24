@@ -63,7 +63,7 @@ const SNAPSHOT = path.join(ROOT, 'src/lib/progressSnapshot.ts');
 const CIRCULAR_WRITER = path.join(ROOT, 'src/lib/applyRemoteProgress.ts');
 
 function strip(src: string): string {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
+  return src.replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 function walk(dir: string, out: string[] = []): string[] {

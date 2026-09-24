@@ -108,7 +108,7 @@ describe('every guarded screen is either launched properly or not listed', () =>
     // note explains WHY the session launcher is not used and names it, so a raw
     // `toContain` failed against correct code. Prose about a thing is not a use
     // of it — the same trap that made the phase-2 catalogue guard decorative.
-    const code = block.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    const code = block.replace(/^\s*\/\/.*$/gm, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
     expect(code).not.toContain('launchSessionActivity');
     expect(code).toContain('launchFlashcards');
   });

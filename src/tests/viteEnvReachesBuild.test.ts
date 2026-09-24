@@ -47,7 +47,7 @@ function sourceFiles(dir: string, out: string[] = []): string[] {
 
 /** Comments stripped: prose naming a variable is not a read of it. */
 function stripComments(src: string): string {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  return src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 /**

@@ -56,9 +56,9 @@ function srcFiles(): string[] {
 
 const strip = (s: string) =>
   s
-    .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/^\s*\/\/.*$/gm, '')
-    .replace(/\/\/.*$/gm, '');
+    .replace(/\/\/.*$/gm, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 
 /**
  * THE SUBJECT IS THE NEXT-STEP ENGINE'S CONSUMERS, and narrowing it to that was

@@ -40,8 +40,8 @@ const read = (p: string) => fs.readFileSync(path.join(SRC, p), 'utf8');
 /** Strip comments, then collapse whitespace runs to one space. */
 export function strip(text: string): string {
   return text
-    .replace(/\/\*[\s\S]*?\*\//g, ' ')
     .replace(/(^|[^:])\/\/[^\n]*/g, '$1 ')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
     .replace(/\s+/g, ' ');
 }
 

@@ -300,7 +300,7 @@ describe('reminder notification personalisation', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 describe('no key is read that nothing writes', () => {
   const stripComments = (s: string) =>
-    s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    s.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 
   const sourceFiles = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
     (f) => !/[\\/](tests|__tests__)[\\/]/.test(f),

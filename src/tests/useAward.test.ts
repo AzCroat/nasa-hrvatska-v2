@@ -846,8 +846,8 @@ describe('useAward — storage-blocked profile', () => {
     // Structural guard. This regressed once already in applyRemoteProgress
     // precisely because raw calls were left behind next to guarded ones.
     const src = readFileSync(resolve(__dirname, '../hooks/useAward.ts'), 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).not.toMatch(/localStorage\.getItem/);
     expect(src).not.toMatch(/localStorage\.setItem/);
     expect(src).not.toMatch(/localStorage\.removeItem/);

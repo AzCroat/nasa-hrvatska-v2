@@ -32,7 +32,7 @@ vi.mock('../../functions/api/_aiBudget.js', () => ({
 }));
 
 /** Comments stripped, preserving `//` inside URLs. */
-const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+const strip = (src) => src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
 const TTS = strip(readFileSync('functions/api/tts.js', 'utf8'));
 
 function ttsRequest(text, voice = 'gabrijela') {

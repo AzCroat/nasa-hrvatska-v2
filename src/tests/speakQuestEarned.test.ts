@@ -49,8 +49,8 @@ const FILES: string[] = [];
 /** Comments stripped: several of these files DISCUSS `markQuest('speak')`. */
 function strip(src: string): string {
   return readFileSync(src, 'utf8')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
 const SPEECH =

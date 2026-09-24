@@ -74,8 +74,8 @@ describe('ScenesScreen', () => {
 
   it('does not read the payload SCENES (source pin — the exact line that crashed)', () => {
     const src = readFileSync('src/components/practice/exercises/ScenesScreen.tsx', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+      .replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).not.toMatch(/content\.SCENES/);
     expect(src).not.toMatch(/useContent/);
     expect(src).toMatch(/DESCRIBE_SCENES/);

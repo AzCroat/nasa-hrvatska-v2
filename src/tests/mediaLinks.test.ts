@@ -142,9 +142,9 @@ describe('the media page never points at another learning service', () => {
     // caught on this assertion's first run, which is the same failure mode
     // offlineResourceKey.test.ts records for the launchFailure pin.
     const src = readFileSync('src/components/croatia/PopCultureScreen.tsx', 'utf8')
+      .replace(/\/\/.*$/gm, '')
       .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
-      .replace(/\/\/.*$/gm, '');
+      .replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
     expect(src, 'PopCultureScreen still opens an outbound link').not.toMatch(/window\.open/);
     expect(src, 'PopCulture cards are buttons again — a control that does nothing').not.toMatch(
       /<button/,

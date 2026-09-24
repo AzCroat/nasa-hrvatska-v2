@@ -72,7 +72,7 @@ function importKinds(): Map<string, Usage> {
 
   for (const file of files) {
     let src = readFileSync(file, 'utf8');
-    src = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    src = src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');
     for (const m of src.matchAll(/['"](\.[^'"\n]{0,200})['"]/g)) {
       const before = src.slice(Math.max(0, m.index! - 40), m.index!);
       const isDynamic = /import\s*\(\s*$/.test(before);

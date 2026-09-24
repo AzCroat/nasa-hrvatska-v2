@@ -86,8 +86,8 @@ describe('the launch failure report reaches Sentry with the key', () => {
     // Comments stripped first: this file EXPLAINS the trap in prose, and prose
     // naming the symbol would satisfy a raw text match either way round.
     const src = readFileSync('src/lib/launchFailure.ts', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*$/gm, '');
+      .replace(/\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     expect(src).toMatch(/import \{ reportError \} from '\.\/errorReporter'/);
     expect(src).not.toMatch(/resourceOf/);
   });

@@ -140,7 +140,7 @@ describe('the drill wrong-answer explainer', () => {
     expect(src).toMatch(/failureFromError\(e\)/);
     expect(src).toMatch(/reportAiFailure\('drill-explain-error'/);
     // The original defect, by its exact shape: a catch that swallows the cause.
-    const code = src.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ');
+    const code = src.replace(/^\s*\/\/.*$/gm, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
     expect(code).not.toMatch(/catch\s*\{\s*if\s*\([^)]*\)\s*setExplain\(null\)/);
   });
 

@@ -49,9 +49,9 @@ const COMPLETION_FLAGS = ['placement_done', 'nh_placement_done', 'onboarded'];
 
 const strip = (s: string) =>
   s
-    .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/^\s*\/\/.*$/gm, '')
-    .replace(/\/\/.*$/gm, '');
+    .replace(/\/\/.*$/gm, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 
 const APP = strip(readFileSync('src/App.tsx', 'utf8'));
 

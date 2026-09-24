@@ -74,7 +74,7 @@ function resolveModule(rel: string): string | null {
 }
 
 const strip = (t: string) =>
-  t.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+  t.replace(/(^|[^:])\/\/[^\n]*/g, '$1 ').replace(/\/\*[\s\S]*?\*\//g, ' ');
 
 /** Every `<Component attr={…}>` the router renders, as [tag, attr] pairs. */
 export function routerAttributes(src: string): Array<[string, string]> {

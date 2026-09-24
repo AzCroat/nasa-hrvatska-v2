@@ -216,8 +216,8 @@ describe('every null-response site asks whether it timed out', () => {
   it('has no bare `network` classification left', async () => {
     const { readFileSync } = await import('node:fs');
     const src = readFileSync('src/lib/audio.ts', 'utf8')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/[^\n]*/g, '');
+      .replace(/\/\/[^\n]*/g, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
     // The shape of a classification: `: { cause: <something>, backends }`.
     const sites = [...src.matchAll(/:\s*\{\s*cause:\s*([^,}]+),\s*backends\s*\}/g)];
     expect(sites.length).toBe(2);
