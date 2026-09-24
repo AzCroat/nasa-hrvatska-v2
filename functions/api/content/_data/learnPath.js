@@ -249,7 +249,12 @@ export const LEARN_PATH = [
         name: 'Listening',
         diff: 2,
         dur: '~10 min',
-        ckRule: { anyOf: [{ vsIncludes: 'listening' }, { lcAtLeast: 12 }] },
+        // No `vsIncludes: 'listening'` leaf: lp_listen_basics at level 1 sends
+        // the learner to this same screen and that key is already set, so the
+        // leaf would tick this level-3 tile on day two. A repeat destination is
+        // re-gated on a HIGHER counter instead — the shape lp53/lp55/lp56/lp57/
+        // lp62/lp63/lp66 already use.
+        ckRule: { anyOf: [{ lcAtLeast: 12 }] },
         go: 'listening',
       },
       {
@@ -802,7 +807,9 @@ export const LEARN_PATH = [
         name: 'Croatian History',
         diff: 3,
         dur: '~20 min',
-        ckRule: { anyOf: [{ vsIncludes: 'history' }, { lcAtLeast: 40 }] },
+        // Repeat of lp31 (level 5, same screen) — counter-gated only, like lp62
+        // directly below. See lp17.
+        ckRule: { anyOf: [{ lcAtLeast: 40 }] },
         go: 'history',
       },
       {
@@ -942,9 +949,12 @@ export const LEARN_PATH = [
         name: 'Tongue Twisters: Expert',
         diff: 3,
         dur: '~15 min',
-        ckRule: {
-          anyOf: [{ vsIncludes: 'pitchaccent' }, { xpAtLeast: 2500 }],
-        },
+        // Repeat of lp27 (level 5, `brzalice`) — counter-gated only, like lp66.
+        // The leaf here used to read `vsIncludes: 'pitchaccent'`, copied from
+        // lp50: it named a screen this tile does not open, so doing the pitch
+        // accent drill ticked "Tongue Twisters: Expert" while doing the tongue
+        // twisters themselves never did. See lp17.
+        ckRule: { anyOf: [{ xpAtLeast: 2500 }] },
         go: 'brzalice',
       },
       {
