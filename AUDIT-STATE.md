@@ -5092,6 +5092,75 @@ route, or one render per click — which is tractable but expensive. The honest
 alternative is that this class is found by rendering-with-intent per screen, as
 BOTH known instances were.
 
+### Sweeps 75–77 — how much does anything CLICK, the biggest untested screen, and the door nothing guarded (2026-09-24)
+
+**75 — the census, and every intermediate number overstates the gap.**
+Sweep 74 measured that 374 of 423 routes expose controls the render-only sweep
+never presses. So: how many SCREENS does any test fire a real interaction on?
+
+    401  router components resolved to a file
+    107  have a unit test that renders them AND fires fireEvent/userEvent (27%)
+    294  never interacted with in any unit test
+   -108  thin ModeDrill wrappers (~12 lines, delegating to a tested engine)
+    186  substantive
+    -76  hand-written drill siblings (practice/*Drill.tsx, ~400 lines each, one
+         shape differing only in its bank — "DATA wearing a .tsx extension")
+    110  GENUINELY DISTINCT screens with no unit interaction test
+
+Reporting 294, or even 186, would have been the "~80 practice surfaces" error.
+**Spot-checked** rather than trusted: `EquivalencyTestScreen`'s only naming test,
+`verificationQuietPeriod`, reads it as a SOURCE PIN and fires nothing.
+**AND HALF THE CENSUS WAS WRONG.** It also reported "9 of 110 reached by E2E, 101
+with no interaction anywhere". That half is discarded: E2E specs navigate by
+VISIBLE TEXT, not by component name or screen key, so a grep cannot see them —
+proved by the same spot check, since `e2e/verification-gate.spec.js` reaches the
+Level Check by text and my matcher scored it untouched. **The 110 stands; the
+E2E overlap is not measured here**, and getting it honestly means instrumenting
+the running app during an E2E run.
+A screen with no interaction test is an UNTESTED SURFACE, not a broken one.
+
+**76 — the biggest one read with intent: NEGATIVE.** `EquivalencyTestScreen`
+(925L), picked because it is the largest untested screen AND hosts the check that
+changes a learner's STANDING. Every rule this file records for it holds: records
+at `levelTo` (line 305), stashes `currentXp` as the quiet-period baseline, routes
+a missing production section to `writePartial` + `pending` rather than a recorded
+failure, restores earned scores on resume (`useState(partial?.scores ?? null)`),
+and takes `defaultTarget` from `gate.nextCheck` rather than `gate.target`.
+One inconsistency, benign, DELIBERATELY NOT CHANGED: three `writePartial` sites
+disagree on `startedAt` — `onMcqProgress` uses `startedAtRef.current`, the other
+two `partial?.startedAt ?? Date.now()`, and `partial` is memoised at mount. On a
+resume both are identical; they differ only on a FRESH attempt, by the MCQ's
+duration against a 48h TTL, and can only EXTEND the parked window. Recorded
+rather than edited: this is the highest-stakes screen in the app and the repo's
+rule is to be conservative.
+
+**77 — the door nothing guarded, and it is CLEAN.** Sweep 67 guarded the SEARCH
+index's targets and called search "the one door with no guard at all". It is not
+the only door: screens navigate each other directly, and `exerciseCatalog.ts` is
+a hand-maintained list of Practice-tab cards whose whole job is to name a screen.
+An unrouted target is not a crash — it is a tap onto a key the router has no
+branch for, i.e. a blank surface.
+Measured: **102 distinct literal targets, 430 routed keys, 0 unrouted**, across
+the two REAL navigation APIs — `setScr` (48) and `exerciseCatalog`'s `go` factory
+(58). `setScreen`, `launchScreen` and `navigate` were measured and match NOTHING,
+so naming them would be a matcher alternative guarding nothing (the
+`whisperClaudeScorer` mistake), and they are excluded.
+Extended to navigation held as DATA: **360 screen-valued entries** across the
+pools, both CATEGORY route maps and the authored fallbacks — **0 unrouted**. The
+CATEGORY maps already go through `curriculumCouplingResolves`; the pools' own
+`screen:` fields are the part with no routing check, and are why that half exists.
+`navTargetsRouted.test.ts` is the ratchet, written despite the clean measurement
+— and said plainly as a ratchet, not a save. Mutation-verified twice on REAL
+source, each naming its file: `go('cloze')` → `go('clozee')` in the catalog, and
+`screen: 'flashcards'` → `'flashcardz'` in the pool. Plus a positive control on
+the matcher itself and non-vacuity floors, because a clean result from a matcher
+nobody has seen fail is indistinguishable from one that matches nothing.
+**What it cannot see, stated:** only LITERAL targets. A key held in a variable or
+built at run time (`region_${id}`) is invisible here.
+
+**Gates:** 614 files / 9824 passing, typecheck clean, eslint clean, Croatian lint
+0 findings across 522 files.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
