@@ -5724,6 +5724,79 @@ uninteracted screens are still 110.
 
 ---
 
+### Sweep 90 — axe has only ever seen six screens (2026-09-24, 3 REAL DEFECTS, FIXED)
+
+Sweep 89 ended with a hypothesis: some controls are icon-only with no
+accessible name, invisible to a click sweep and to a screen reader. Sweep 87's
+harness can reach every screen, and the repo already has `@axe-core/playwright`,
+so the hypothesis was testable rather than arguable.
+
+**FIRST, THE HYPOTHESIS WAS WRONG.** Across all 430 routes axe reports **zero**
+`button-name` violations. The three screens whose buttons my click filter
+rejected had navigation-shaped or disabled controls, not unlabelled ones.
+Recorded because a plausible lead that dies on measurement is worth exactly as
+much as one that lives — and this one would otherwise be repeated.
+
+**THE REAL GAP: `accessibility.spec.js` scans SIX surfaces** — the five tabs and
+login — so **424 screens had never been scanned by axe at all**. Swept, WCAG 2.1
+AA, serious + critical:
+
+| rule | routes | |
+| --- | --- | --- |
+| `color-contrast` | 252 | 985 nodes — excluded, see below |
+| `select-name` (**critical**) | 1 | `live_tutor` |
+| `frame-title` | 1 | `crmap` |
+| `aria-prohibited-attr` | 1 | `alka` |
+
+**All three singletons were real and are fixed**, each a one-line change with no
+visual effect:
+
+- `LiveTutorSetup` — the Conversation Topic `<select>` is named by a plain `div`
+  above it, so it names the control for sighted users **and for nobody else**.
+  Given `aria-label`.
+- `CrMap` — the Google Maps `<iframe>` had no `title`, so a screen reader
+  announces an unnamed frame and cannot decide whether to enter it.
+- `AlkaRing` — `aria-label` on a role-less `div` is PROHIBITED, which means it
+  was simply ignored: the author wrote a name and no one ever received it.
+  `role="img"` makes it valid and keeps the name.
+
+Verified by re-running axe on exactly those three routes: all three rules gone,
+only contrast left. The before/after is on the real thing, which is stronger
+than a mutation.
+
+**COLOR-CONTRAST IS EXCLUDED, DELIBERATELY AND WITH A NUMBER.** 985 nodes span
+at least eight palette colours (slate-400 211, green-600 181, gray-400 107,
+stone-400 60, cyan-600 43 …) and 246 come from CSS classes rather than inline
+styles. The root of the biggest group is a **two-copies problem**: `--subtext`
+was deliberately darkened to `#555e6e`, and index.css says why in its own
+comment — *"WCAG AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small
+text)"* — while **~130 hardcoded `#94a3b8` literals never followed it**
+(`CertificateScreen` renders 10px and 12px text in it). A blanket replacement is
+NOT safe: some of those literals sit on dark backgrounds, where `#94a3b8` is
+correct and `#555e6e` would be worse. Repairing this properly changes how the
+product LOOKS on most of its screens, which is an owner's decision and not a
+test's. It is counted and printed by the sweep rather than asserted, so the
+number cannot grow unobserved, and the alternative — a threshold nobody can
+justify — is refused explicitly.
+
+**A control that ruled out the obvious explanation.** `accessibility.spec.js`
+seeds `xp: 8000` precisely because locked cards render at `opacity:0.55` and
+fail contrast, so the first suspicion was that my lower-XP seed had manufactured
+all 985 nodes. Re-run at C1 on the identical sample: **35 routes, 151 nodes,
+byte-identical**. The locked-card explanation is disproved, and the finding is
+level-independent.
+
+**The count moves between runs — 985 then 991 on identical code** — which is
+the concrete reason the node total is printed and not asserted. A threshold set
+at either number would have been a coin flip, and this file's own rule about
+stochastic assertions says not to put a floor at the distribution's mean.
+
+**Shipped as a ratchet** in the weekly route sweep: serious/critical violations
+other than contrast must be empty. It is clean as written — a ratchet, not a
+repair — and it is what stops the fourth singleton.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
