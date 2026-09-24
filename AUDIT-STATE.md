@@ -4144,6 +4144,87 @@ MEASUREMENT across all seven banks, the reachability finding that turns a known
 gap into a live one, the ratchet, the badge defect and the CLAUDE.md correction
 — not the gap itself.
 
+### Sweep 62 — the census the queue asked for, and two lies inside yesterday's guard (2026-09-23, CLOSED)
+
+The queue item said, in its own words, *"run the census properly rather than
+trusting the ~30."* Done, with the shipped guard's OWN reachability definitions
+(`sessionScreensFeedLedger.test.ts`'s `WRITER_CALL`, `GRADING_LIBS`, `BLOCKED`,
+`mayDescend`) so the census and the guard cannot disagree about what "reaches
+the ledger" means.
+
+**THE NUMBER IS 34, AND THE RECORDED REASON WAS WRONG.** The entry said *"All of
+them feed `grammar`, which is the best-fed cell in the ledger — so the measurable
+harm is small."* Measured over all 381 routed components: **17 grammar, 12
+vocabulary, 5 speaking.** The conclusion survives; the argument for it does not,
+and it survives for reasons the entry never stated:
+
+- The 12 `vocabulary` screens are **not** unfed. Flashcards, McGame, MatchGame,
+  ZnamGame, ReviewScreen, TypingScreen, WordSprint, ClozeEngine, MyWordsScreen,
+  VocabJournal and LessonScreen all call `srMark` → `getSRScore` →
+  `recordSrsOutcome`, which is the app's highest-volume vocab evidence. They read
+  as unfed to any walk that refuses to enter `lib/` — including the census's, and
+  including the shipped guard's.
+- The 5 `speaking` screens are each already reasoned about: `DialogueSim` and
+  `speaking_sprint` carry written exemptions (sweep 59), and `AIConversation`,
+  `LiveTutorScreen` and `MajaScreen` are free conversation with no score at all.
+- **Zero of the 34 sit in a session pool** — checked against the real pool data
+  through the real router — so sweep 59's guard has no gap on its own subject and
+  its scope statement is accurate.
+
+So: a NEGATIVE on the defect, with the recorded justification corrected. A wrong
+reason beside a deferred item is how the `idioms` exemption survived a staleness
+test, which is why this is written down rather than quietly ticked.
+
+**THEN THE CENSUS TURNED ON THE GUARD, AND FOUND TWO NAMES THAT LIE.** Both were
+shipped by me the previous day in #720.
+
+1. **`whisperClaudeScorer` matched NOTHING, anywhere.** It is an object —
+   `export const whisperClaudeScorer: SpeakingScorer = { … }` — handed to the exam
+   runner as `scorer: whisperClaudeScorer` and never called by that name. The
+   guard required call syntax for all six writers, so that entry read as coverage
+   of the exam speaking path and supplied none. **CLAUDE.md already carries a NEVER
+   rule for this exact shape one step removed** — "never name a transport helper in
+   a guard's URL-matching alternation without checking it passes a URL" — and it
+   recurred in a brand-new file written by someone who had just read that rule.
+   Writers are now split: `FUNCTION_WRITERS` matched as calls, `VALUE_WRITERS`
+   matched bare (handing a scorer to a runner IS the wiring), with the value
+   writer's own `const` declaration stripped so its defining module cannot satisfy
+   itself.
+2. **The SRS answer path was missing entirely.** `srMark` / `getSRScore` is the
+   third grading path and the one that feeds `vocab`. Including it is NARROW, not a
+   re-opening of the `lib/` hole sweep 59 closed: `mayDescend` still refuses to
+   enter `src/lib` and `src/data`, so only a DIRECT call in a screen or a component
+   it composes counts — which is exactly the act of grading an answer. Verified not
+   to weaken anything: none of the five screens wired in #720 calls either name, so
+   every mutation that PR recorded still fails.
+
+**THE NEW GUARD IS THE ONE THAT WOULD HAVE CAUGHT BOTH**, and it asks the question
+nothing asked: *does each name in the writer set actually write, and does it match
+anything?* Either can go false silently — a writer that stops calling
+`recordMasteryEvent` leaves every screen delegating to it passing while recording
+nothing.
+
+**ITS FIRST VERSION WAS DECORATIVE AND MUTATION SAID SO.** Gutting
+`requestSpeakingCoach`'s real `recordMasteryEvent` call left the suite green,
+because `speakingCoach.ts` opens with a header comment reading "mastery ledger:
+recordMasteryEvent(skill 'speaking', weight 2)" — **the module's prose about
+itself satisfied the check.** Comments are stripped now. That is the same finding
+`codeqlPushTrigger` recorded from the other direction, met again at the cost of
+one mutation.
+
+**A HARNESS BUG WORTH RECORDING, because it produced a confident wrong reading.**
+`sed … && grep -c … && npx vitest` — `grep -c` returning **0** exits NON-ZERO, so
+the `&&` chain short-circuited and the test never ran; the "18 passed" I read was
+the next command's post-restore run, and I reported a surviving mutation that had
+never been attempted. Confirming a mutation LANDED is not enough: confirm the
+measurement RAN.
+
+Mutation-verified, four: the shipped `whisperClaudeScorer` bug restored fails 3
+(including the new matches-nothing test); `requestSpeakingCoach` stopped writing
+fails 1 (and SURVIVED until comments were stripped); #720's own ShadowingScreen
+mutation still fails 1, unchanged, so nothing was weakened; the SRS answer path
+stopped writing fails 2.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -4154,26 +4235,18 @@ None of them crash, so no sweep above can see any of them.
 - [x] ~~13 AI surfaces still do not name a refusal's cause~~ — CLOSED, sweep 13. 33 of 35 callers classify; the 2 remaining entries in
       KNOWN_UNCLASSIFIED are verified-correct degrades, not debt. The ratchet
       stops new ones and its floors sit at the measured values.
-- [ ] **The ledger wiring stops at the two SESSION POOLS (sweep 59 scope).**
-      `sessionScreensFeedLedger.test.ts` covers every `PRODUCTION_POOL` screen and
-      every P2.8 input entry, because those are the screens the recommender
-      SELECTS ON and therefore the ones whose evidence changes what is served
-      next. It does NOT cover screens reachable only from the Practice tab. A
-      grep (not a census — say which) found ~30 components that award a
-      skill-bearing activityType and keep a score while reaching no ledger
-      writer; the ones outside the pools are `PitchAccentScreen`,
-      `PronunciationContrast` and the nine un-migrated `practice/exercises/*`
-      screens (ColorAgreement, EmotionGender, Ordinals, ProfessionGender,
-      QuestionWords, Riddles, Sibilarization, LogicQuiz, TenseFlip). **All of
-      them feed `grammar`, which is the best-fed cell in the ledger** — 119 of
-      the registry's `gated` rows reach `completeExercise`, most through
-      `ModeDrill.tsx:131 key: id` and the rest as dedicated lesson screens (the
-      split was not counted, only the total) — so the measurable harm is small — that is why
-      they were left. They also award a fixed 2–5 XP PER CORRECT ANSWER rather
-      than on a completion, so wiring them is a reshaping job, not a one-line
-      addition. Before touching them: run the census properly rather than
-      trusting the ~30, and check each awards on a completion the ledger can
-      take a score/total from.
+- [x] ~~**The ledger wiring stops at the two SESSION POOLS (sweep 59 scope).**~~
+      — CENSUS RUN, sweep 62. The ~30 was 34; the "all of them feed grammar"
+      reason was WRONG (17 grammar / 12 vocabulary / 5 speaking); ZERO of them
+      sit in a session pool, so sweep 59's guard has no gap on its own subject.
+      The 12 vocabulary screens are not unfed at all — they grade through
+      `srMark` → `getSRScore` → `recordSrsOutcome`, invisible to any walk that
+      refuses to enter `lib/`. No defect; the census instead found two lies
+      inside the guard itself (a writer name matching nothing, and the SRS path
+      missing), both fixed there. The remaining screens award 2–5 XP per correct
+      answer rather than on a completion, so wiring them would still be a
+      reshaping job — and there is now no ledger reason to.
+
 - [ ] **Behavioural correctness on live paths.** Renders fine, behaves wrong.
       (Credit-on-grade is closed — sweep 10. The DEAD-READ half is partly
       checked: sweep 29 ran the mirror of sweep 26's dead-write derivation over

@@ -1659,6 +1659,38 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   the app already counts it both ways (production rep by SCREEN id, listening rep
   by activityType); only the LEDGER question is unambiguous, because the score
   being recorded is an acoustic score of the learner's own speech.
+  **AND THE GUARD'S OWN VOCABULARY CARRIED TWO LIES, FOUND THE NEXT DAY
+  (2026-09-23).** `sessionScreensFeedLedger`'s writer set named six functions and
+  matched them all as CALLS. `whisperClaudeScorer` is an OBJECT — handed to the
+  exam runner as `scorer: whisperClaudeScorer`, never called by that name — so
+  that alternative matched **nothing in the entire corpus** while reading as
+  coverage of the exam speaking path. That is the `ENDPOINT_HELPERS` finding
+  above ("never name a transport helper in a guard's URL-matching alternation
+  without checking it passes a URL") recurring in a file written the day after
+  that rule was read. Writers are now split into `FUNCTION_WRITERS` (matched as
+  calls) and `VALUE_WRITERS` (matched bare, because handing a scorer to a runner
+  IS the wiring), with the value writer's own `const` declaration stripped so its
+  defining module cannot satisfy itself.
+  Second, the SRS ANSWER PATH was absent: `srMark` → `getSRScore` →
+  `recordSrsOutcome` is what eleven vocabulary screens actually call and the
+  app's highest-volume `vocab` evidence, so a census run with the guard's own
+  definitions reported every one of them as unfed. Adding it is NARROW rather
+  than a re-opening of the `lib/` hole — `mayDescend` still refuses `src/lib` and
+  `src/data`, so only a DIRECT call counts, which is the act of grading an
+  answer. None of the five screens wired that day calls either name, so every
+  mutation recorded above still fails.
+  **The new guard asks what nothing asked: does each name in the writer set
+  actually write, and does it match anything?** Either can go false silently — a
+  writer that stops calling `recordMasteryEvent` leaves every screen delegating
+  to it passing while recording nothing. **Its own first version was decorative**:
+  gutting `requestSpeakingCoach`'s real call left the suite green, because
+  `speakingCoach.ts` opens with a header comment reading "mastery ledger:
+  recordMasteryEvent(...)" — the module's PROSE ABOUT ITSELF satisfied the check.
+  Comments are stripped now.
+  NEVER: put a name in a guard's matcher without confirming it matches a real use
+  (a name that matches nothing guards nothing); match a value-shaped export with
+  call syntax; assume a named writer still writes.
+
   NEVER: conclude a skill is covered because SOME screen writes it — ask it of
   every screen the slots can serve; add a graded screen to `PRODUCTION_POOL` or
   the input set without a ledger write or an exemption stating why it has no
