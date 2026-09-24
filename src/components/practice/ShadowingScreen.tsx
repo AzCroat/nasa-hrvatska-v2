@@ -622,6 +622,32 @@ export default function ShadowingScreen({
                 finishFired.current = true;
                 if (typeof award === 'function') award(items.length * 3 + 5, false, 'listening');
                 markQuest('listening');
+                // AND THE SPEAK QUEST TOO, WHEN THE LEARNER ACTUALLY SPOKE
+                // (2026-09-23). `exerciseRegistry` calls this key
+                // `e('lc', 'speak', 'speaking')` — the file that names itself the
+                // single source of truth for completion policy — while the screen
+                // credited only the LISTENING quest, so a learner who shadowed with
+                // a working mic finished an acoustically-scored speaking exercise
+                // and read "Speak Quest: not done". The Speak Quest's own text is
+                // "Complete 1 speaking exercise".
+                //
+                // WHY IT IS CONDITIONAL, and this is the whole care in it: the
+                // 2026-08-14 change that moved the listening screens off
+                // `markQuest('speak')` was RIGHT — listening is not speaking — and
+                // it swept up the one screen of the four that is also speaking.
+                // Reinstating it unconditionally would be the opposite error, and a
+                // worse one: `acousticScore === null` is a SUPPORTED path here (no
+                // mic, scorer down) and this screen deliberately never penalises a
+                // keyboard-only learner, so an unconditional mark would credit a
+                // speaking exercise to someone who never spoke. That is the
+                // `dialogue` mistake #720 corrected, in a new place.
+                //
+                // `scoredItems.current > 0` is this block's OWN measured-speech
+                // predicate — the gate above uses it and the ledger write below
+                // relies on it — so the quest and the ledger cannot disagree about
+                // whether speech happened. Marking two quests from one screen is
+                // not novel: `VideoLessonScreen` already marks both.
+                if (scoredItems.current > 0) markQuest('speak');
                 // THE LEDGER GETS 'speaking', AND THE AWARD ABOVE DELIBERATELY DOES
                 // NOT (2026-09-23). Shadowing is both halves at once — hear a model,
                 // say it back — and the app already treats it as both: it is a

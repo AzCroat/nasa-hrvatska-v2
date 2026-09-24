@@ -495,9 +495,17 @@ interface Badge {
  * at any point in the past — earns the badges at their next XP award rather than
  * starting a fresh local tally from zero.
  *
- * Note this is deliberately NOT keyed on `activityType`: the registry's 72 rows
- * carry only 6 distinct activity types, so a type-keyed count would cap at 6 and
- * leave the 10 and 15 badges exactly as unearnable as the dead key left them.
+ * Note this is deliberately NOT keyed on `activityType`: the registry carries
+ * only 6 distinct activity types, so a type-keyed count would cap at 6 and leave
+ * the 10 and 15 badges exactly as unearnable as the dead key left them.
+ *
+ * That sentence used to say "the registry's 72 rows" and there are 267
+ * (corrected 2026-09-23). The COUNT was stale by a factor of three and the
+ * ARGUMENT was unharmed, because the argument rests on the 6 — and 6 is still
+ * exactly right. `registryMatchesScreen.test.ts` now pins the inequality that is
+ * actually load-bearing (distinct activity types < the 10-badge threshold)
+ * rather than either number in prose, since a count in a comment is a
+ * hand-maintained list of one and decays the same way.
  */
 function distinctExercisesDone(s: BadgeStats): number {
   if (!Array.isArray(s.vs)) return 0;

@@ -2833,6 +2833,54 @@ The rest of the widening came from ranking the census by volume: `label` (54), `
 
 **`croatianLintTargets.test.ts` guards the list itself**, which nothing did before. It DERIVES the drill cohort from the glob rather than restating it, so a drill authored next month cannot land outside TARGETS silently; it checks every target still exists; and it holds the carve-out honest in both directions — the entry must still exist AND still contain a form the lint would otherwise flag, or it is guarding nothing while suspending a check over the whole file.
 
+## Critical Architecture: The Registry Describes Screens That Never Read It (2026-09-23)
+
+`exerciseRegistry.ts` calls itself the single source of truth for screen
+completion policy and carries `questKind` + `activityType` per key. A screen that
+HAND-ROLLS `award(..., type)` / `markQuest(id)` states those same two facts
+itself — so where a screen does both, only ONE copy is exercised and the other is
+an inert copy waiting for the screen to migrate onto `completeExercise`.
+
+- **`shadowing` was LIVE, not inert.** Its row says `speak`/`speaking`; the
+  screen credited only the LISTENING quest, so a learner who shadowed with a
+  working mic finished an acoustically-scored speaking exercise and read "Speak
+  Quest: not done". **The fix is CONDITIONAL and the unconditional version would
+  have been worse than the defect**: the 2026-08-14 move of the listening screens
+  off `markQuest('speak')` was right, and swept up the one screen of four that is
+  also speaking; `acousticScore === null` is a SUPPORTED path there, so an
+  unconditional mark would credit speaking to a learner who never spoke — the
+  `dialogue` error #720 corrected. It fires on `scoredItems.current > 0`, the
+  block's own measured-speech predicate, which the pass gate and the ledger write
+  already use, so the quest and the ledger cannot disagree. The AWARD kind stays
+  `'listening'` (the `recordListeningRep` reason is unchanged): this adds credit
+  and removes none.
+- **An unreached row can still be load-bearing.** 267 rows; 20 reached by no
+  static key, no ModeDrill id and no lesson screenId. They are NOT deleted:
+  `appUtils`'s `distinctExercisesDone` counts `stats.vs` entries that are registry
+  KEYS for the badge thresholds, and `writing`/`dialects` reach `vs` through
+  `BLACK_HOLE_SCREENS`. Check the second consumer before calling a row dead.
+- **A field left empty on purpose needs its reason beside it.** `srsreview`'s
+  `questKind` is UNSET, not corrected: filling it in would make
+  `completeExercise` fire a bare `markQuest('master')`, which is exactly the
+  defect that screen's own comment records fixing (one card clearing "Review 5+").
+- **`registryMatchesScreen.test.ts`** resolves each row to its screen through the
+  REAL router — falling back to the file that writes the row's `vs` key, because
+  `story-comprehension` is not a route at all — and compares the row against what
+  the screen hand-rolls. One exemption (`shadowing`'s award kind), checked in both
+  staleness directions AND for whether its stated reason is still true.
+  **Two harness defects, both caught by checking a reported finding by hand**: a
+  fixed 700-character route window ran past the end of a block and attributed a
+  NEIGHBOUR's award kind to the key (it reported a screen with no `award(` call at
+  all as disagreeing); and router-only resolution covered `story-comprehension`
+  with nothing, so restoring its wrong value left the guard green. **A guard
+  covers only the subjects its resolution can reach**, and that set is not obvious
+  from the list of ids.
+- NEVER: fill in a registry field whose screen handles that concern differently
+  (a count-based quest is not a `markQuest`); delete a row because nothing calls
+  `completeExercise` with it; resolve a guard's subjects one way and describe the
+  guard as covering the whole registry; credit a production quest from a screen
+  where the production half is optional.
+
 ## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
 
 English speakers have no concept of grammatical case — the app must TEACH
