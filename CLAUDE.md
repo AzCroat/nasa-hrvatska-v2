@@ -3271,6 +3271,66 @@ SOME_STATIC_DATASET)` — a real but far weaker concern that would drown the
 
 ---
 
+## Critical Architecture: A Tap Either Opens It Or Says Why (2026-09-24)
+
+The vocabulary arrives from `/api/content/core` AFTER first paint, so every
+surface that builds a practice payload from it has a window where `pool` is
+empty for a reason that has nothing to do with the learner's deck. What each
+surface did in that window, measured against the CI-equivalent build (content
+landed at 9.2 s, because `fetchAuthed` awaits `getFirebaseBearer()` and that has
+a 6 s failsafe when no Firebase user arrives):
+
+| tap | before |
+| --- | ------ |
+| Grad → Govori | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;` |
+| Grad → Kviz | **nothing at all** — `launchMcGame` the same |
+| Grad → Kartice, Spoji parove | the ScreenGuard, whose words are "this needs to be started from the Practice tab" — said to a learner standing on the Practice tab, about a session that never existed |
+| Me → Goal Focus → Speaking | **nothing at all**; its `speaking_sprint` fallback had been removed and nothing replaced the else |
+| Grad → Slušanje | worked — its bank is a static import, not content |
+
+- **THE ANSWER ALREADY EXISTED AT ONE CALLER.** `LearningCenter.openScreen`
+  carries the rule: **"NOT LOADED YET" and "EMPTY" are different facts**, and
+  claiming the second is NEVER-DO 13 — "try a lesson first" is false advice
+  about a deck the app has not yet seen. Its comment even records that CI
+  caught it there, on a loaded runner, exactly as CI caught this. The fix was
+  made at the Center and not at the **Grad tab, which is the app's primary
+  route to the same five screens**. One caller fixed, one not, same builders.
+- **`poolLaunchBlock` + `POOL_LAUNCH_COPY` (`lib/practiceLaunch.ts`) is the one
+  decision**, living beside the payload builders the callers already share.
+  **Content is decided before emptiness** and that order is the whole point; it
+  is pinned as its own assertion, not inferred from a rendering test.
+- **The reason renders where the tap happened** — `grad-launch-error` in
+  `PlaceScreen` at the exercise list, and on the Grad list view for the Today
+  card, which launches through the same `ctx.extras` functions the rows do.
+- **THE SOURCE PIN IS WHAT COVERS THE SIXTH CALLER.** Rendering the five
+  existing starts says nothing about one added next month, so
+  `pooledLaunchNeverSilent.test.tsx` requires every file importing a payload
+  builder to also call `poolLaunchBlock`, **with comments stripped** — the
+  dangerous mutation (the helper named only in prose) fails 5 tests, which is
+  the `couplingClearingPath` hole not being re-dug.
+- **A green local E2E against a build the app never ships is not evidence.**
+  This was found because 12 tests passed here and failed every attempt on CI;
+  the difference was that `ci.yml` builds with placeholder `VITE_FIREBASE_*`
+  and this sandbox has no `.env`, so Firebase was never initialised and nothing
+  ever waited on a bearer. Reproducing it locally took setting the same six
+  variables. Same rule as `/version.json`, from the other side: establish which
+  ARTIFACT produced the result before trusting it.
+- **`contentLoading` is PASSED to `GoalFocusSection`, never inferred from an
+  empty `V`.** My first version inferred it, which re-creates the same lie one
+  layer down: an empty `V` is both "not here yet" and "the fetch failed". The
+  caller holds `useContent()` and knows which.
+- **What this does NOT cover, stated:** a surface that builds its own list from
+  `content` by hand rather than importing a builder. `GoalFocusSection` is one,
+  and it was found by reading the callers of the four launchers, not by any
+  mechanism. Mutation-verified, six, each fails 1–5 tests.
+- NEVER: let a tap on an exercise do nothing; say "nothing to practise yet"
+  while the content request is still in flight; navigate to a ScreenGuard
+  instead of naming the reason; build a pooled payload without asking
+  `poolLaunchBlock`; show the reason anywhere but at the control that was
+  tapped.
+
+---
+
 ## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
 
 `nh_level` is written in exactly two places, both inside `PlacementTest`. It is

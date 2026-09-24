@@ -155,8 +155,20 @@ async function targetWord(page) {
 }
 
 async function openSpeaking(page) {
+  // WAITING FOR THE WORDS IS NOT A CONVENIENCE, IT IS THE SUBJECT (2026-09-24).
+  // The speaking prompts are built from `/api/content/core`, which `fetchAuthed`
+  // does not even request until `getFirebaseBearer()` settles — and with no
+  // Firebase user ever arriving here, that is its 6 s failsafe. Measured in this
+  // harness: content lands at ~9.2 s. Clicking before then used to do NOTHING
+  // AT ALL, and this spec passed locally (a build with no Firebase config never
+  // waits on a bearer) while failing every attempt on CI. The registration goes
+  // BEFORE the navigation, or a fast response is missed and the wait hangs.
+  const words = page.waitForResponse((r) => r.url().includes('/api/content/core'), {
+    timeout: 25_000,
+  });
   await page.goto('/practice');
   await expect(page.getByText('Danas u gradu')).toBeVisible({ timeout: 20_000 });
+  await words;
   await page.getByText('Anina kavana', { exact: true }).first().click();
   await page.getByText('Govori', { exact: false }).first().click();
   await expect(page.getByText(/Pronunciation Practice/i).first()).toBeVisible({ timeout: 8_000 });
@@ -169,6 +181,24 @@ async function openSpeaking(page) {
 test.describe('SpeakingScreen structure', () => {
   test.beforeEach(async ({ page }) => {
     await setup(page);
+  });
+
+  test('a tap before the words arrive says so, and never does nothing', async ({ page }) => {
+    // The defect this file's rewrite uncovered: for the seconds before
+    // /api/content/core lands, tapping Govori called `launchSpeaking` with an
+    // empty list, which opens `if (!items || items.length === 0) return;`.
+    // No screen, no message, no error — the owner's "I click and nothing
+    // happens". Kviz was the same; Kartice and Spoji parove landed on a
+    // ScreenGuard telling the learner to start from the tab they were on.
+    await page.goto('/practice');
+    await expect(page.getByText('Danas u gradu')).toBeVisible({ timeout: 20_000 });
+    await page.getByText('Anina kavana', { exact: true }).first().click();
+    await page.getByText('Govori', { exact: false }).first().click();
+    // Either it opened (the words were already there) or it said why. Never
+    // neither — that is the whole contract, and it is asserted as one.
+    await expect(
+      page.getByText(/Pronunciation Practice/i).first().or(page.getByTestId('grad-launch-error')),
+    ).toBeVisible({ timeout: 8_000 });
   });
 
   test('shows Pronunciation Practice heading', async ({ page }) => {

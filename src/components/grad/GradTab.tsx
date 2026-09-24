@@ -10,6 +10,8 @@ import {
   matchPool,
   listeningItems,
   speakingItems,
+  poolLaunchBlock,
+  POOL_LAUNCH_COPY,
 } from '../../lib/practiceLaunch';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
@@ -58,7 +60,7 @@ export default function GradTab({
 }: GradTabProps) {
   const { setScr } = useApp();
   const { stats: st } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const lc = st?.lc ?? 0;
   const userCefr = getContentUnlockLevel(getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0));
 
@@ -66,6 +68,10 @@ export default function GradTab({
     () => (lsGet('nh_grad_view') as 'list' | 'map') || 'list',
   );
   const [openPlace, setOpenPlace] = useState<PlaceId | null>(null);
+  // Why a pooled exercise could not open, in the learner's words. Cleared on a
+  // successful launch and whenever they leave the place, so it can never
+  // outlive the tap that caused it.
+  const [launchError, setLaunchError] = useState<string | null>(null);
 
   function chooseView(v: 'list' | 'map') {
     setView(v);
@@ -84,14 +90,38 @@ export default function GradTab({
   // open these same five screens correctly. They are ScreenGuard-protected: a
   // bare setScr lands on the "start this properly" dead end, which is what the
   // Center's phase-2 rows did. One definition, two callers.
+  //
+  // EVERY POOLED LAUNCH GOES THROUGH HERE, AND NONE MAY BE SILENT (2026-09-24).
+  // `pool` is empty until /api/content/core lands, and measured against the real
+  // build that window cost the learner four of the five exercises in Grad:
+  // Govori and Kviz did NOTHING AT ALL (`launchSpeaking` and `launchMcGame`
+  // return on an empty list), while Kartice and Spoji parove navigated to the
+  // ScreenGuard, which tells the learner to "start this from the Practice tab"
+  // — the tab they are standing on, about a session that never existed.
+  //
+  // The Learning Center met this exact race and fixed it; the Grad tab is the
+  // app's PRIMARY route to these same screens and was never touched. The
+  // decision and its three sentences live in lib/practiceLaunch so the two
+  // callers cannot drift.
+  function launchPooled(build: () => unknown[], go: (items: unknown[]) => void): void {
+    const items = content ? build() : [];
+    const block = poolLaunchBlock(content, contentLoading, items);
+    if (block) {
+      setLaunchError(POOL_LAUNCH_COPY[block]);
+      return;
+    }
+    setLaunchError(null);
+    go(items);
+  }
+
   function startQuiz() {
-    onLaunchQuiz(quizItems(pool, sh));
+    launchPooled(() => quizItems(pool, sh), onLaunchQuiz);
   }
   function startFlashcards() {
-    onLaunchFlash(flashcardPool(pool, sh));
+    launchPooled(() => flashcardPool(pool, sh), onLaunchFlash);
   }
   function startMatch() {
-    onLaunchMatch(matchPool(pool, sh));
+    launchPooled(() => matchPool(pool, sh), onLaunchMatch);
   }
   function startListening() {
     // THE THIRD LISTEN LAUNCH SITE. The 2026-09-04 fix levelled the session and
@@ -102,7 +132,7 @@ export default function GradTab({
     onLaunchListen(listeningItems(LISTEN as { level?: string }[], vocabLevel(st), sh));
   }
   function startSpeaking() {
-    onLaunchSpeaking(speakingItems(pool, sh));
+    launchPooled(() => speakingItems(pool, sh), onLaunchSpeaking);
   }
   function startReview() {
     setScr('review');
@@ -212,7 +242,17 @@ export default function GradTab({
   })();
 
   if (openPlace) {
-    return <PlaceScreen placeId={openPlace} ctx={ctx} onBack={() => setOpenPlace(null)} />;
+    return (
+      <PlaceScreen
+        placeId={openPlace}
+        ctx={ctx}
+        launchError={launchError}
+        onBack={() => {
+          setLaunchError(null);
+          setOpenPlace(null);
+        }}
+      />
+    );
   }
 
   const statsByPlace = Object.fromEntries(
@@ -395,6 +435,18 @@ export default function GradTab({
               </span>
             </div>
           </button>
+          {/* The Today card launches through the same `ctx.extras` functions the
+              place rows do, so a pooled recommendation tapped from here can be
+              blocked for the same reason — and the place screen that normally
+              shows why is not on screen. */}
+          {launchError && (
+            <p
+              data-testid="grad-launch-error"
+              style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '8px 2px 0' }}
+            >
+              {launchError}
+            </p>
+          )}
           <div
             style={{
               display: 'flex',

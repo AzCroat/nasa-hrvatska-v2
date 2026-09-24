@@ -20,7 +20,7 @@ export default function SettingsTab({
   onSyncNow?: () => void | Promise<boolean | void>;
 }) {
   const { setScr, launchFlashcards, launchSpeaking } = useApp();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const V = (content?.V ?? {}) as Record<string, any[]>;
   // currentGoal stays lifted here: it's shared by GoalFocusSection (renders the
   // active goal's shortcuts) and GoalSelectorSection (changes it).
@@ -35,6 +35,7 @@ export default function SettingsTab({
         setScr={setScr}
         launchFlashcards={launchFlashcards}
         launchSpeaking={launchSpeaking}
+        contentLoading={contentLoading}
       />
 
       <LearningPreferencesSection />

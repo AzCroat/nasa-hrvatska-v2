@@ -6259,6 +6259,133 @@ and why the next person should re-measure rather than re-read them.
 
 ---
 
+### Sweep 97 — the tap that does nothing while the words are in the post (2026-09-24, 5 REAL DEFECTS, FIXED)
+
+**Found by CI on sweep 96's own PR, and the discrepancy IS the finding.** The
+rewritten `e2e/pronunciation.spec.js` passed 33/33 locally and failed 12 of 12
+on the runner, every attempt, every retry. The 12 were exactly the tests that
+go through the new `openSpeaking` helper — Grad → Anina kavana → Govori.
+
+**The difference was the BUILD, not the runner.** `ci.yml`'s E2E step builds
+with placeholder Firebase config; this sandbox has no `.env`, so my local build
+had none and never initialised Firebase at all. Rebuilding locally with the
+same six `VITE_FIREBASE_*` placeholders reproduced it on the first run. **A
+green local E2E against a build the app never ships is not evidence** — this is
+the "establish WHICH ARTIFACT is running" rule, met from the other side.
+
+**What the reproduction then showed is a product defect, not a test artifact.**
+`fetchAuthed` awaits `getFirebaseBearer()` before it will even request
+`/api/content/core`, and with a Firebase config present but no user ever
+arriving that is its 6 s failsafe. Instrumented in a real browser:
+
+```
+GRAD VISIBLE at 3285 ms
+CLICKED    at 4985 ms   scr = null          <- nothing happened
+REQS: [[9253, "/content/core"], [9285, "/content/curriculum"]]
+second click after the wait -> the screen opens
+```
+
+**Measured, all five pooled exercises in Grad, during that window:**
+
+| tap | what the learner gets |
+| --- | --- |
+| Govori (speaking) | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;` |
+| Kviz (mcgame) | **nothing at all** — `launchMcGame` does the same |
+| Kartice (flashcards) | the ScreenGuard: *"This flashcard session needs to be started from the Practice tab — your previous session data couldn't be restored"* |
+| Spoji parove (match) | the same false message |
+| Slušanje (listening) | **works** — its bank is a static import, not content |
+
+The two ScreenGuard messages are false in both halves: the learner **is** on the
+Practice tab, and there was no previous session to restore. That is the "start
+this properly" dead end, said to someone who did start it properly.
+
+**THE SAME DEFECT HAD ALREADY BEEN FOUND AND FIXED — AT ONE OF THE TWO
+CALLERS.** `LearningCenter.openScreen` carries a comment that states the rule
+better than I could: *"NOT LOADED YET" and "EMPTY" are different facts, and
+saying the wrong one is NEVER-DO 13 … CI caught this: the same tap passed
+locally on a warm machine and failed on a loaded runner, which is the race a
+real learner meets on a slow connection.* Same five screens, same payload
+builders in `lib/practiceLaunch`, same race — and the **Grad tab, which is the
+app's primary route to all five**, was never touched. The Center is reached
+through Learn; Grad is the Practice tab itself.
+
+**A third surface had it too**, found by walking the callers rather than
+stopping at the two: `GoalFocusSection`'s Me-tab speaking shortcut reads the
+same `content?.V` and its line is `if (pool.length > 0 && launchSpeaking)
+launchSpeaking(pool);` with **nothing on the else** — a comment above it records
+that the speaking_sprint fallback was removed, which is what left it silent.
+
+**The fix is one decision, three callers.** `poolLaunchBlock()` +
+`POOL_LAUNCH_COPY` in `lib/practiceLaunch.ts`, beside the payload builders the
+callers already share, holding the Center's own three sentences and its own
+ordering — **content is decided before emptiness**, because "try a lesson first"
+is false advice about a deck the app has not yet seen. GradTab routes its four
+pooled starts through `launchPooled` and renders the reason where the tap
+happened (`grad-launch-error`, in `PlaceScreen` at the exercise list, and on the
+list view for the Today card, which launches through the same functions).
+
+**Deliberately NOT changed, and stated rather than quietly left:**
+
+- `launchSpeaking` / `launchMcGame` keep their `return` on an empty list. No
+  caller can now reach them empty, and adding a notify there would double the
+  message on the surfaces that already show one. The source pin is what stops a
+  fourth caller arriving bare.
+- `GoalFocusSection` takes `contentLoading` as a PROP. Inferring it from an
+  empty `V` was my first version and it was wrong in exactly the way this sweep
+  is about: an empty `V` is both "not here yet" and "the fetch failed", so
+  guessing between them re-creates the lie one layer down. `SettingsTab` holds
+  `useContent()` and knows.
+- `GoalFocusSection`'s FLASHCARDS shortcut still falls back to `setScr('review')`
+  on an empty pool. That substitutes a different exercise for the one tapped,
+  which is its own small dishonesty — but it NAVIGATES, so it is not this
+  sweep's subject, and changing it changes a live behaviour with its own tests.
+- The 6 s bearer failsafe itself. On a real device auth restores from IndexedDB
+  in well under a second, so the window is short; it is only unbounded when the
+  content fetch genuinely fails, and that case now says so.
+
+**Pinned by `src/tests/pooledLaunchNeverSilent.test.tsx` (8)**, which drives the
+REAL `GradTab` through the taps a learner performs (open the place, tap the row)
+at all three content states, plus a source pin requiring every file that builds
+a pooled payload to also ask `poolLaunchBlock` — comments stripped, because a
+file naming the helper in prose is the `couplingClearingPath` hole.
+Mutation-verified, six, each confirmed landed: the speaking fix reverted fails
+3; the decision order inverted fails 3; `PlaceScreen` no longer rendering the
+message fails 4; the Center re-deriving its own copy fails 1; **the helper named
+only in a comment fails 5** (the dangerous direction — it proves the strip); the
+Me-tab shortcut restored to silence fails 1. **A seventh, at the E2E level:**
+with GradTab's speaking fix reverted and the CI-equivalent build rebuilt, the
+new early-tap spec fails — it reproduces the owner-visible symptom, not only the
+unit-level wiring.
+
+**The E2E half.** `openSpeaking` now registers `waitForResponse` for
+`/api/content/core` BEFORE navigating and awaits it — the wait is not a
+convenience, it is the dependency the screen has. A new test taps Govori
+immediately and asserts the screen opened **or** the reason is on screen, never
+neither, which is the contract as one assertion rather than two.
+
+**CHECKED AND NOT A DEFECT — recorded so it is not re-chased.**
+`useScreenLauncher.resumeLesson` has the same shape (`if (Object.keys(V).length
+=== 0) return;`, deliberately, so an unverifiable topic is not deleted), but it
+has **no live tap**: `AppRouter` passes it to `HomeTab`, and HomeTab's body is
+`void resumeLesson;`. Nothing else calls it. A silent bail behind a prop nobody
+invokes is dead code, not a learner-facing silence — a separate (minor) finding
+about an unused launcher, not this one.
+
+`McResult.playAgain` is the second: it rebuilds from `V` and hands the result to
+`launchMcGame`, so an empty `V` would be the same silence. It cannot be reached
+with one — the learner is on that screen only because they just finished a quiz
+whose questions were built from the same `V`, and content does not unload. Safe
+by construction rather than by a guard, which is why it is written down here
+rather than left to be re-derived.
+
+**WHAT THIS SWEEP CANNOT SEE.** It asks the question of surfaces that import a
+payload builder from `lib/practiceLaunch`. A surface that builds its own list
+from `content` by hand — as `GoalFocusSection` does — is invisible to the source
+pin and was found by reading the callers of the four launchers. There is no
+mechanism covering that shape; the next one will be found the same way.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —

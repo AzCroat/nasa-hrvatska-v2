@@ -79,3 +79,50 @@ export function listeningItems(
 ): unknown[] {
   return sh([...levelledBank(bank, level)]).slice(0, 8);
 }
+
+/**
+ * WHY A POOLED LAUNCH CANNOT PROCEED — or null when it can.
+ *
+ * THE DEFECT THIS CLOSES (2026-09-24). `LearningCenter.openScreen` already
+ * answered this question, and its comment states the rule: **"NOT LOADED YET"
+ * and "EMPTY" are different facts, and saying the wrong one is NEVER-DO 13.**
+ * The vocabulary arrives from `/api/content/core` after first paint, so a
+ * learner who opens a surface and taps straight away has a null `content` and
+ * an empty pool for a reason that has nothing to do with their deck.
+ *
+ * That fix was made at ONE of the two callers. The Grad tab — the app's primary
+ * route to these same five screens, through the place cards — was never
+ * touched, and measured with the real build there, during the window before
+ * content lands:
+ *
+ *   Govori (speaking)   nothing at all — `launchSpeaking` returns on an empty
+ *   Kviz (mcgame)       nothing at all — `launchMcGame` does the same
+ *   Kartice, Spoji      the ScreenGuard dead end, whose words are "this needs
+ *                       to be started from the Practice tab" — said to a
+ *                       learner who IS on the Practice tab, about a session
+ *                       that never existed
+ *   Slušanje            works; its bank is a static import, not content
+ *
+ * So the decision lives HERE, beside the payload builders both callers already
+ * share, rather than as a second copy that can drift from the first. A third
+ * surface reaching for `flashcardPool` gets the same three sentences.
+ */
+export type PoolLaunchBlock = 'loading' | 'unavailable' | 'empty';
+
+export const POOL_LAUNCH_COPY: Record<PoolLaunchBlock, string> = {
+  loading: 'Still loading your words — try that again in a moment.',
+  unavailable: 'Your word list could not be loaded. Check your connection and try again.',
+  empty: 'There are no words ready for that yet — try a lesson first.',
+};
+
+export function poolLaunchBlock(
+  content: unknown | null,
+  contentLoading: boolean,
+  payload: readonly unknown[] | null | undefined,
+): PoolLaunchBlock | null {
+  // Content decides first: with none, the payload is empty for a reason that
+  // says nothing about the learner's deck, and `empty`'s "try a lesson first"
+  // would be false advice.
+  if (!content) return contentLoading ? 'loading' : 'unavailable';
+  return !payload || payload.length === 0 ? 'empty' : null;
+}
