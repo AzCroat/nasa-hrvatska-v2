@@ -422,6 +422,57 @@ describe('an account change cannot hand the next learner credit', () => {
     expect(sessionStorage.getItem(k)).toBe('{"n":2}');
   });
 
+  /**
+   * THE THREE ASSERTIONS ABOVE WERE TRUE AND PRODUCTION DID THE OPPOSITE.
+   *
+   * They call `clearUserScopedStorage` on its own. Both account-exit handlers
+   * ran `sessionStorage.clear()` on the line after it returned, so every
+   * exemption above was undone on every real sign-out and every account switch —
+   * a unit test of a sweep cannot see what its caller does two lines later, and
+   * this file is the one that had most reason to look.
+   *
+   * So the preservation is asserted where it is actually decided: in the
+   * handlers. Matched as a bare call because that is the shape that defeats the
+   * sweep no matter which file it appears in, over the WHOLE of src/ rather than
+   * App.tsx alone — a third exit path added tomorrow is the same defect.
+   *
+   * COMMENTS ARE STRIPPED, and this guard failed on its own first run without
+   * it: the fix necessarily leaves prose behind NAMING the call it forbids, in
+   * both files it was removed from, so an unstripped match reports the
+   * explanation as the offence. The same strip is load-bearing in the dangerous
+   * direction elsewhere in this repo; here it is what makes the rule writable
+   * down at all.
+   */
+  it('no account-exit path blanket-clears sessionStorage after the sweep', () => {
+    const strip = (src: string) =>
+      src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    const offenders = globSync('src/**/*.{ts,tsx,js,jsx}')
+      .filter((f) => !f.includes('/tests/') && !f.includes('.test.') && !f.includes('__tests__'))
+      .filter((f) => /sessionStorage\s*\.\s*clear\s*\(/.test(strip(readFileSync(f, 'utf8'))));
+    expect(offenders).toEqual([]);
+  });
+
+  it('and that guard can still see a real one', () => {
+    // The strip above is the kind of step that can silently swallow the subject
+    // along with the prose. A positive control costs one line and is the only
+    // reason the assertion above means anything.
+    const strip = (src: string) =>
+      src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+    expect(/sessionStorage\s*\.\s*clear\s*\(/.test(strip('  sessionStorage.clear();'))).toBe(true);
+  });
+
+  it('the sweep is as wide as the clear it replaced', () => {
+    // Deleting the blanket clear must not quietly change which NON-`nh_` keys
+    // survive a sign-out — third-party session state included. This is the half
+    // that makes the removal behaviour-preserving, and without it the fix would
+    // be a silent scope change wearing a leak fix's clothes.
+    sessionStorage.setItem('firebase:pendingRedirect:demo', 'x');
+    sessionStorage.setItem('sw-reload-count', '2');
+    clearUserScopedStorage('a@example.com');
+    expect(sessionStorage.getItem('firebase:pendingRedirect:demo')).toBeNull();
+    expect(sessionStorage.getItem('sw-reload-count')).toBeNull();
+  });
+
   it('and those three are exactly the exemptions', () => {
     // So a fourth exemption has to be argued for here too, rather than added to
     // the list and inheriting this file's silence.

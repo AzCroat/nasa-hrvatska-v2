@@ -168,8 +168,12 @@ export const NOT_USER_SCOPED_KEYS: readonly string[] = [
 ];
 
 /**
- * sessionStorage: the SAME `nh_` prefix rule as localStorage, minus the keys
- * below.
+ * sessionStorage: EVERYTHING except the keys below.
+ *
+ * Wider than the localStorage rule on purpose. It was the same `nh_` prefix rule
+ * until the exemptions turned out to be undone by a blanket
+ * `sessionStorage.clear()` at both call sites; absorbing that clear is what let
+ * it be deleted without changing which third-party keys survive a sign-out.
  *
  * THIS HALF WAS A HAND-MAINTAINED LIST OF SIX, AND IT LOOKED COVERED.
  * localStorage is swept by prefix plus a derived list that reads all of `src/`;
@@ -220,9 +224,31 @@ export const NOT_USER_SCOPED_KEYS: readonly string[] = [
  * 'true'` is false — so it is a dead field shadowing a live one, which is a sync
  * four-point change and belongs in its own commit, not in a leak fix.
  *
- * So the list is no longer the mechanism. The prefix is, and what remains is an
- * EXEMPTION list: adding a key here is a decision on the record, and the guard
- * test checks it in both staleness directions.
+ * So the list is no longer the mechanism. What remains is an EXEMPTION list —
+ * the only thing a sign-out now spares — so adding a key here is a decision on
+ * the record, and the guard test checks it in both staleness directions.
+ *
+ * AND THE EXEMPTIONS BELOW WERE DECORATIVE FOR AS LONG AS THEY EXISTED.
+ * Both call sites ran `sessionStorage.clear()` on the line after this function
+ * returned — App.tsx's `onSignedOut` and `onUserChanged`, the only two paths a
+ * user leaves by — so all three reload-loop breakers went anyway, on every
+ * sign-out and every account switch. The guard test asserted the preservation by
+ * calling this function ON ITS OWN, which is exactly the component-test /
+ * wiring-test split this codebase keeps rediscovering: a unit test of a sweep
+ * cannot see what the caller does two lines later.
+ *
+ * The harm is bounded and worth stating exactly rather than at its strongest:
+ * the budgets are 2 reloads per session (`nh_ver_reload`, reset to 0 whenever
+ * the running build is current) and 2 per 30-minute window (the chunk-error
+ * pair). So a sign-out did not re-arm an unbounded loop — it bought the tab two
+ * more reloads, one of which purges caches. That still lands on the learner who
+ * signed out BECAUSE the app was misbehaving, which is the one learner holding a
+ * spent budget.
+ *
+ * The fix is here rather than at the call sites: the sweep widened to every
+ * session key that is not a device key, so it does everything the blanket clear
+ * did, and the blanket clear is gone. The delta against the old behaviour is
+ * exactly those three keys.
  */
 export const DEVICE_SESSION_KEYS: readonly string[] = [
   // The version-mismatch reload counter (main.tsx `_VER_RELOAD_KEY`), capped at
@@ -246,6 +272,11 @@ export const DEVICE_SESSION_KEYS: readonly string[] = [
  * Non-`nh_` sessionStorage keys, classified so the guard test can tell "decided"
  * from "nobody has looked at it yet" — the same role NOT_USER_SCOPED_KEYS plays
  * for localStorage.
+ *
+ * NOTE THE ASYMMETRY WITH localStorage: being listed here does NOT spare a key.
+ * The session sweep takes everything but DEVICE_SESSION_KEYS, so these two are
+ * cleared like any other — which is what the blanket clear did to them before,
+ * so nothing changed for them. Only DEVICE_SESSION_KEYS exempts.
  */
 export const NOT_USER_SCOPED_SESSION_KEYS: readonly string[] = [
   // Legacy service-worker reload guards. main.tsx only ever REMOVES these (they
@@ -256,13 +287,15 @@ export const NOT_USER_SCOPED_SESSION_KEYS: readonly string[] = [
 ];
 
 /**
- * User-scoped sessionStorage keys that do NOT start with `nh_` and so are missed
- * by the prefix sweep — the sessionStorage twin of USER_SCOPED_LEGACY_KEYS.
+ * User-scoped sessionStorage keys — the sessionStorage twin of
+ * USER_SCOPED_LEGACY_KEYS.
  *
- * Empty today: every session key the app writes is `nh_`-prefixed. It is kept
- * (rather than deleted) so a future key outside the prefix has an obvious home,
- * and the guard test asserts it stays honest rather than iterating it — an
- * `it.each` over an empty array registers no tests at all.
+ * Empty today, and since the sweep widened to every non-device key it is also
+ * REDUNDANT: a future user-scoped key is swept whether or not it is listed here.
+ * Kept rather than deleted because the guard test uses it to assert the two
+ * lists cannot contradict each other — a key cannot be both device-level and
+ * user-scoped — and because listing one costs nothing if the prefix rule ever
+ * comes back.
  */
 export const USER_SCOPED_SESSION_KEYS: readonly string[] = [];
 
@@ -308,11 +341,16 @@ export function clearUserScopedStorage(uid?: string): void {
 
   USER_SCOPED_LEGACY_KEYS.forEach(removeLocal);
 
+  // EVERY session key except the loop breakers — not just `nh_`. Both call sites
+  // used to follow this function with a blanket `sessionStorage.clear()`, which
+  // is where the DEVICE_SESSION_KEYS exemptions were actually being undone. The
+  // clear is gone, so this sweep has to be exactly as wide as it was, or a
+  // sign-out would start leaving behind whatever Firebase, Sentry and PostHog
+  // keep in sessionStorage — a behaviour change nobody asked for, smuggled in
+  // under a leak fix.
   let sessionKeys: string[] = [];
   try {
-    sessionKeys = Object.keys(sessionStorage).filter(
-      (k) => k.startsWith('nh_') && !DEVICE_SESSION_KEYS.includes(k),
-    );
+    sessionKeys = Object.keys(sessionStorage).filter((k) => !DEVICE_SESSION_KEYS.includes(k));
   } catch {
     /* sessionStorage sits behind the same permission gate as localStorage */
   }
