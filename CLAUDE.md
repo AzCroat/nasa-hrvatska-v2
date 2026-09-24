@@ -3260,6 +3260,17 @@ SOME_STATIC_DATASET)` — a real but far weaker concern that would drown the
   through a helper whose own body is guarded; and — the one that matters — a
   guard that fires today and stops firing tomorrow, which is exactly what
   happened to `pronunciation.spec.js`.
+- **A NOT-CALLED ASSERTION IS ONLY AS GOOD AS THE PROOF THE SCENARIO RAN
+  (sweep 98, 2026-09-24).** `boje-game.test.tsx` held ten silent early-outs of
+  the loop-shaped kind above — `if (!optBtn) break;` eight times, `if (doneBtn)`
+  twice — LATENT, because each old test's post-loop assertion happened to catch
+  an unplayed quiz. They stopped being latent the moment the file gained
+  `expect(setStats).not.toHaveBeenCalled()` for the below-75% case, which passes
+  perfectly on a quiz that never ran. `expect(x).not.toHaveBeenCalled()` is the
+  easiest assertion in any suite to satisfy by accident; pair it with a floor
+  that fails if the run never reached the point of interest. Mutation-verified:
+  making the quiz unplayable after question 1 fails 13 of 29 with a named
+  message, where before it would have left the four new assertions green.
 - NEVER: put a test's only assertions inside a condition the test does not
   establish; assert a mock was called *inside* `if (mock.mock.calls.length >
 0)`; loop over `mock.mock.calls` without a floor on its length; write a

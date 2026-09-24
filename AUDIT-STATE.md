@@ -6400,6 +6400,68 @@ mechanism covering that shape; the next one will be found the same way.
 
 ---
 
+### Sweep 98 — BojeGame's completion contract, the last remainder of sweep 55 (2026-09-24, 1 REAL GAP, CLOSED)
+
+**The item sweep 96 named and left open.** `BojeGame` completes through
+`completeExercise({ key: 'boje', score: bjSc, total, xp: bjSc * 2 })` — a GATED
+row (`g('gc', 'vocab', 'vocabulary')`), so a pass writes `gc + 1`, the `boje`
+`vs` tag, `writeDelta({gc:1, vs:['boje']})`, the XP and `markQuest('vocab')`.
+**None of those five was asserted anywhere**, while the per-answer `award(5)`
+was asserted in eight separate tests.
+
+**The reason is mechanical, not an oversight of judgement**: the `useStats`
+mock was `vi.fn(() => ({ stats, setStats: vi.fn(), writeDelta: vi.fn() }))` — a
+FRESH object with new inline mocks on every call, so nothing outside the
+component could ever see what it wrote. `markQuest` was mocked the same way and
+never read. The mock's shape decided what the file could test, and nobody
+noticed because the tests it COULD write all passed.
+
+**Checked and NOT a defect** (recorded so it is not re-chased): the test mocks
+`'../lib/quests.js'` while `useExerciseCompletion` imports `'../lib/quests'`.
+Probed directly — the mock DOES intercept (Vite resolves both to one module id),
+so `markQuest` is the mock. Had it not intercepted, the new assertion would have
+been vacuous in the one direction a green run cannot show.
+
+**Four assertions added, and the gate is tested in the direction that matters.**
+Every pre-existing completion test plays a PERFECT 15/15 round, so the 75%
+threshold had never been exercised from below: 10 of 15 (66.7%) must record
+nothing at all, and does. 12 of 15 (80%) must credit, and does — the gate is a
+threshold, not perfection. The already-credited path (`vs` already holding
+`boje`) must not write a second `gc`. The passing case drives the REAL updater
+the screen hands `setStats` rather than restating what it ought to do.
+
+**AND THE FILE WAS THE LOOP-SHAPED BLIND SPOT SWEEP 96 STATED IT COULD NOT SEE.**
+Eight copies of `for (…) { const b = container.querySelector('button.ob'); if
+(!b) break; … if (nextText) fireEvent.click(nextText); }`, plus two
+`if (doneBtn) fireEvent.click(doneBtn)`. Every one is a silent early-out: a run
+that renders no options on question 2 stops, and the test then asserts about a
+quiz that was never played. **Latent rather than live** — each old test's
+post-loop assertion (`getByText('Colors Quiz Complete!')`, `goBack` called)
+happens to catch it — but the NEW tests are NOT-called assertions, which pass
+perfectly on an unplayed quiz, so the shape had to go before they could mean
+anything. One `playQuiz(container, correct)` helper now ASSERTS what those
+conditionals swallowed, and all ten early-outs are gone.
+
+**Mutation-verified, six, each confirmed landed:** the 75% gate removed fails 1;
+`markQuest` removed fails 2; `writeDelta` removed fails 1; the already-credited
+early return removed fails 1; `completeExercise` removed from the screen fails 3
+(one of them a pre-existing test). **The sixth is the one that matters** — the
+quiz made unplayable after question 1, the exact shape `if (!optBtn) break`
+swallowed: **13 of 29 fail with a named message** ("question 2 rendered no
+options"), where before the de-silencing the four new NOT-called assertions
+would have passed on a quiz that never ran.
+
+**WHAT THIS SAYS GENERALLY:** a NOT-called assertion is only as good as the
+proof that the scenario actually happened. `expect(x).not.toHaveBeenCalled()` is
+the easiest assertion in any suite to satisfy by accident, and a loop that can
+exit early is exactly how it gets satisfied. Pair every such assertion with a
+floor that fails if the run did not reach the point of interest.
+
+**Sweep 55's "24 drills" claim is now fully closed**: sweep 96 corrected the
+number to one, and this is that one.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —

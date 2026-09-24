@@ -9,6 +9,9 @@
  *   - award(bjSc * 2) called when "See Results" clicked on last question
  *   - "🏠 Done" on results screen calls goBack() only (NOT award())
  *   - "📖 Review" on results screen returns to learn mode
+ *   - THE COMPLETION CONTRACT (added sweep 98, 2026-09-24): gc, the `boje` vs
+ *     tag, writeDelta and the vocab quest — and the 75% gate in the direction
+ *     that matters, where a failing run must record NONE of them.
  *
  * Shuffle is deterministic: rnd() → 0.99 makes sh() identity.
  * BOJE.quiz has 15 items. Q0: {noun:"Ruža", answer:"crvena", g:"f"}.
@@ -20,7 +23,7 @@
  * Tests use waitFor() to poll until Loading... disappears — each waitFor attempt
  * is wrapped in act(), which flushes the sBjOpts state update when it fires.
  */
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
@@ -58,16 +61,27 @@ vi.mock('firebase/firestore', () => ({
 }));
 
 // ── StatsContext mock — provides useStats() without needing a Provider ────────
-vi.mock('../context/StatsContext', () => ({
-  useStats: vi.fn(() => ({
-    stats: { vs: [] as string[], gc: 0 },
-    setStats: vi.fn(),
-    writeDelta: vi.fn(),
-  })),
+//
+// CAPTURABLE, AND THAT IS THE POINT (sweep 98, 2026-09-24). This mock used to
+// return a FRESH object with brand-new inline `vi.fn()`s on every call, so
+// nothing outside could ever see `setStats` or `writeDelta` — the screen's
+// entire completion contract (gc, the `boje` vs tag, the quest) was asserted
+// NOWHERE, while the per-answer `award(5)` calls were asserted eight times over.
+// One hoisted object, so a test can both seed `stats` and read what was written.
+const statsMock = vi.hoisted(() => ({
+  stats: { vs: [] as string[], gc: 0 },
+  setStats: vi.fn(),
+  writeDelta: vi.fn(),
 }));
+vi.mock('../context/StatsContext', () => ({ useStats: () => statsMock }));
 
 // ── quests mock ───────────────────────────────────────────────────────────────
-vi.mock('../lib/quests.js', () => ({ markQuest: vi.fn() }));
+// The `.js` specifier DOES intercept `useExerciseCompletion`'s extensionless
+// `from '../lib/quests'` — verified by probe, not assumed, because a mock that
+// silently fails to apply would make the assertion below vacuous in the one
+// direction no green run can show.
+const questsMock = vi.hoisted(() => ({ markQuest: vi.fn() }));
+vi.mock('../lib/quests.js', () => questsMock);
 
 // ── rnd mock — 0.99 makes sh() identity ──────────────────────────────────────
 vi.mock('../lib/random.js', () => ({ rnd: vi.fn(() => 0.99) }));
@@ -124,17 +138,13 @@ async function completeQuizAndClickDone(
   goBack: ReturnType<typeof vi.fn> = vi.fn(),
 ) {
   const { container } = render(<BojeGame award={award} goBack={goBack} />);
-  await startQuizAndWait();
-  for (let i = 0; i < 15; i++) {
-    const optBtn = container.querySelector('button.ob');
-    if (!optBtn) break;
-    fireEvent.click(optBtn);
-    // Use text to avoid hitting the "✏️ Quiz" tab (also class "b bp")
-    const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-    if (nextText) fireEvent.click(nextText);
-  }
+  await playQuiz(container);
+  // Text, not `button.b.bp` — the "✏️ Quiz" tab carries that class too.
+  // ASSERTED rather than `if (doneBtn)`: a results screen with no way home is
+  // the defect this helper would otherwise hide.
   const doneBtn = screen.queryByText('🏠 Done');
-  if (doneBtn) fireEvent.click(doneBtn);
+  expect(doneBtn, 'the results screen offered no 🏠 Done').toBeTruthy();
+  fireEvent.click(doneBtn!);
   return { award, goBack };
 }
 
@@ -275,55 +285,27 @@ describe('BojeGame — answer mechanics', () => {
 describe('BojeGame — completion + award guard', () => {
   it('shows Colors Quiz Complete! after all questions answered', async () => {
     const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     expect(screen.getByText('Colors Quiz Complete!')).toBeTruthy();
   });
 
   it('shows score 15 / 15 on done screen', async () => {
     const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     expect(screen.getByText(/15 \/ 15/)).toBeTruthy();
   });
 
   it('award(5) called 15 times (once per correct answer)', async () => {
     const award = vi.fn();
     const { container } = render(<BojeGame award={award} goBack={vi.fn()} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     expect(award.mock.calls.filter((c) => c[0] === 5).length).toBe(15);
   });
 
   it('award(bjSc * 2) fired on See Results (15 correct → award(30))', async () => {
     const award = vi.fn();
     const { container } = render(<BojeGame award={award} goBack={vi.fn()} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     expect(award).toHaveBeenCalledWith(30, false, 'vocabulary');
   });
 
@@ -331,19 +313,106 @@ describe('BojeGame — completion + award guard', () => {
     const award = vi.fn();
     const goBack = vi.fn();
     const { container } = render(<BojeGame award={award} goBack={goBack} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     const callsBefore = award.mock.calls.length;
     const doneBtn = screen.queryByText('🏠 Done');
-    if (doneBtn) fireEvent.click(doneBtn);
+    // Not `if (doneBtn)`: with the button absent, "award was not called again"
+    // is true for the wrong reason and this test passes having clicked nothing.
+    expect(doneBtn, 'the results screen offered no 🏠 Done').toBeTruthy();
+    fireEvent.click(doneBtn!);
     expect(award.mock.calls.length).toBe(callsBefore);
     expect(goBack).toHaveBeenCalledTimes(1);
+  });
+});
+
+// ── Completion CONTRACT — what the screen actually records ───────────────────
+
+/**
+ * Play the whole 15-question quiz, answering `correct` of them right.
+ *
+ * WHY THIS EXISTS RATHER THAN AN EIGHTH COPY OF THE LOOP. The block above
+ * repeats `for (…) { const b = container.querySelector('button.ob'); if (!b)
+ * break; … if (nextText) fireEvent.click(nextText); }` eight times, and each of
+ * those three conditionals is a SILENT early-out: a run that renders no options
+ * on question 2 simply stops, and the test then asserts about a quiz that was
+ * never played. That is the loop-shaped blind spot sweep 96 stated it could not
+ * see, sitting in the very file sweep 96 named as its one real remainder.
+ * Here the same conditions are ASSERTIONS, so a quiz that cannot be played
+ * fails instead of passing quietly.
+ *
+ * `opts[0]` is the answer under the identity shuffle, so index 0 is correct and
+ * any later index is a genuine wrong answer — not a skip.
+ */
+async function playQuiz(container: HTMLElement, correct = 15) {
+  await startQuizAndWait();
+  for (let i = 0; i < 15; i++) {
+    const optBtns = container.querySelectorAll('button.ob');
+    expect(optBtns.length, `question ${i + 1} rendered no options`).toBeGreaterThan(1);
+    fireEvent.click(optBtns[i < correct ? 0 : 1]!);
+    const next = screen.queryByText('Next →') || screen.queryByText('See Results');
+    expect(next, `question ${i + 1} offered no way forward`).toBeTruthy();
+    fireEvent.click(next!);
+  }
+}
+
+/** Apply the updater the screen handed `setStats` to the stats it was given. */
+function statsAfter() {
+  expect(statsMock.setStats, 'setStats was never called').toHaveBeenCalledTimes(1);
+  const updater = statsMock.setStats.mock.calls[0]![0] as (
+    p: typeof statsMock.stats,
+  ) => typeof statsMock.stats;
+  return updater(statsMock.stats);
+}
+
+describe('BojeGame — completion contract', () => {
+  beforeEach(() => {
+    statsMock.stats = { vs: [], gc: 0 };
+    statsMock.setStats.mockClear();
+    statsMock.writeDelta.mockClear();
+    questsMock.markQuest.mockClear();
+  });
+
+  it('a passing run credits gc, tags vs with boje, and marks the vocab quest', async () => {
+    const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
+    await playQuiz(container);
+    // The screen passes an updater, so drive it — this is the real reducer the
+    // component handed over, not a restatement of what it ought to do.
+    const next = statsAfter();
+    expect(next.gc).toBe(1);
+    expect(next.vs).toContain('boje');
+    expect(statsMock.writeDelta).toHaveBeenCalledWith({ gc: 1, vs: ['boje'] });
+    expect(questsMock.markQuest).toHaveBeenCalledWith('vocab');
+  });
+
+  it('BELOW the 75% gate nothing is recorded at all', async () => {
+    // 10 of 15 is 66.7% — under LESSON_PASS_THRESHOLD, so `completeExercise`
+    // returns before the credit block. This is the direction the suite never
+    // tested: every existing completion test plays a perfect round.
+    const award = vi.fn();
+    const { container } = render(<BojeGame award={award} goBack={vi.fn()} />);
+    await playQuiz(container, 10);
+    expect(statsMock.setStats).not.toHaveBeenCalled();
+    expect(statsMock.writeDelta).not.toHaveBeenCalled();
+    expect(questsMock.markQuest).not.toHaveBeenCalled();
+    // The per-answer award(5) still fired for the ten right answers; what must
+    // NOT fire is the completion bonus, which is the only award of bjSc * 2.
+    expect(award).not.toHaveBeenCalledWith(20, false, 'vocabulary');
+  });
+
+  it('12 of 15 is 80% and does credit — the gate is a threshold, not perfection', async () => {
+    const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
+    await playQuiz(container, 12);
+    expect(statsAfter().gc).toBe(1);
+    expect(questsMock.markQuest).toHaveBeenCalledWith('vocab');
+  });
+
+  it('a learner already credited for boje is never credited twice', async () => {
+    statsMock.stats = { vs: ['boje'], gc: 1 };
+    const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
+    await playQuiz(container);
+    expect(statsMock.setStats).not.toHaveBeenCalled();
+    expect(statsMock.writeDelta).not.toHaveBeenCalled();
+    expect(questsMock.markQuest).not.toHaveBeenCalled();
   });
 });
 
@@ -358,14 +427,7 @@ describe('BojeGame — navigation', () => {
 
   it('📖 Review returns to learn mode from results screen', async () => {
     const { container } = render(<BojeGame award={vi.fn()} goBack={vi.fn()} />);
-    await startQuizAndWait();
-    for (let i = 0; i < 15; i++) {
-      const optBtn = container.querySelector('button.ob');
-      if (!optBtn) break;
-      fireEvent.click(optBtn);
-      const nextText = screen.queryByText('Next →') || screen.queryByText('See Results');
-      if (nextText) fireEvent.click(nextText);
-    }
+    await playQuiz(container);
     fireEvent.click(screen.getByText('📖 Review'));
     expect(screen.getByText(/How Colors Change by Gender/)).toBeTruthy();
   });
