@@ -3,6 +3,7 @@ import React from 'react';
 import type { DailySession, SessionActivity } from '../../hooks/useDailySession';
 import { useLaunchFailure } from '../../hooks/useLaunchFailure';
 import LaunchFailureNotice from '../shared/LaunchFailureNotice';
+import { clickable } from '../../lib/clickable';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -568,11 +569,11 @@ export default function SessionCard({
               {nextLearnPathItem && (
                 <div
                   data-testid="learnpath-chip"
-                  onClick={() => {
+                  {...clickable(() => {
                     if (!learnPathItemDone && onLearnPathStart) {
                       onLearnPathStart(nextLearnPathItem);
                     }
-                  }}
+                  })}
                   style={{
                     padding: '5px 12px',
                     borderRadius: 100,

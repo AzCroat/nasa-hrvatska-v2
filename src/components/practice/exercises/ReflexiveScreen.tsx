@@ -4,6 +4,7 @@ import { REFLEXIVE } from '../../../data';
 import { rnd } from '../../../lib/random.js';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -269,9 +270,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
                           alignItems: 'flex-start',
                           cursor: 'pointer',
                         }}
-                        onClick={function () {
+                        {...clickable(function () {
                           speak(row.data.hr);
-                        }}
+                        }, 'Hear ' + row.data.hr)}
                       >
                         <span
                           style={{
@@ -353,9 +354,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
                           borderRadius: 10,
                           cursor: 'pointer',
                         }}
-                        onClick={function () {
+                        {...clickable(function () {
                           speak(formVal);
-                        }}
+                        }, 'Hear ' + formVal)}
                       >
                         <span style={{ fontWeight: 700, color: '#0e7490' }}>
                           {p}
@@ -374,9 +375,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}
-                    onClick={function () {
+                    {...clickable(function () {
                       speak(v.past.m);
-                    }}
+                    }, 'Hear ' + v.past.m)}
                   >
                     {'👨 '}
                     {v.past.m}
@@ -388,9 +389,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}
-                    onClick={function () {
+                    {...clickable(function () {
                       speak(v.past.f);
-                    }}
+                    }, 'Hear ' + v.past.f)}
                   >
                     {'👩 '}
                     {v.past.f}

@@ -4,6 +4,7 @@ import { RELPRON } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
 import { recordScreenPractised } from '../../../lib/teachPractice';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -101,9 +102,9 @@ function RelativePronounsScreen({ goBack, award }: Props) {
                       <td
                         key={vi}
                         style={{ padding: '6px', cursor: 'pointer' }}
-                        onClick={function () {
+                        {...clickable(function () {
                           speak(v);
-                        }}
+                        }, 'Hear ' + v)}
                       >
                         {v}
                       </td>

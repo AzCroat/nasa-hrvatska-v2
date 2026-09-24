@@ -9,6 +9,7 @@ import { majaErrorMessage, MAJA_START_FALLBACK, MAJA_TURN_FALLBACK } from './maj
 import { ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
+import { clickable } from '../../lib/clickable';
 
 interface WordBreakdown {
   word: string;
@@ -957,7 +958,7 @@ export default function PhraseOfDayScreen({
           {/* Cultural note — amber/gold tone, triggers award */}
           {phraseData.cultural_note && (
             <div
-              onClick={handleReadCultural}
+              {...clickable(handleReadCultural, 'Mark the cultural note as read')}
               style={{
                 background: 'linear-gradient(135deg,rgba(180,83,9,.08),rgba(202,138,4,.06))',
                 border: '1.5px solid rgba(180,83,9,.22)',

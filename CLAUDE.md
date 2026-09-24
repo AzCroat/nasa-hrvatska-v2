@@ -2901,6 +2901,50 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: A Click Is Not An Affordance (2026-09-24)
+
+`<div onClick={…}>` renders, clicks and looks right, and a keyboard cannot reach
+it at all: no tab stop, no role, nothing on Enter or Space. Measured: **1,901
+`onClick` handlers, 60 of them on an element a keyboard cannot reach**, including
+the only path to choosing an AI conversation scenario, opening a news article,
+picking a writing prompt, starting a story, choosing a region, and the Learn Path
+chip on Home. This is the harder half of the focus-ring section above — there the
+control could at least be reached.
+
+- **`src/lib/clickable.ts` is the one pattern.** `{...clickable(fn, 'label?')}`
+  supplies `role="button"`, `tabIndex={0}`, the click, and an Enter/Space handler
+  that `preventDefault`s (so Space does not scroll the page). The repo already
+  had this shape hand-written in `IdiomsScreen` and used it on some screens and
+  not others — a convention with nothing to notice its own decay.
+- **TWO CATEGORIES ARE DELIBERATELY LEFT ALONE, and each is a reason, not a
+  shrug.** A modal BACKDROP (click-outside-to-close) already has a keyboard path
+  — every one of the four sits over a real Close control, one also handles
+  Escape — and making the backdrop focusable adds a full-screen tab stop that
+  announces itself as a button. A per-WORD tap inside running text (tap a word to
+  hear or translate it) would put hundreds of stops in one paragraph, which costs
+  the keyboard user more than the affordance is worth, and the word is on screen
+  either way. Both are checked in both staleness directions.
+- **A per-ITEM tap is NOT in that carve-out and was fixed**: a vocabulary row, a
+  paradigm cell, a chat bubble, a table row. Those are bounded per screen, and
+  for the AI chat bubble the tap is the ONLY way to hear an AI line — there is no
+  separate speaker button. The learner's own messages stay out of the tab order
+  rather than becoming silent buttons.
+- **The anthem scrubber is a `role="slider"`, not a button**, because it is a
+  range: arrows step 5s, PageUp/Down 30s, Home/End jump to the ends, with
+  `aria-valuenow`/`aria-valuetext` from the audio element. Reaching for
+  `role="button"` on a scrubber is the easy wrong answer.
+- **`(?!=)` in the guard's matcher is load-bearing**: without it
+  `typeof props.onClick === 'function'` reads as a JSX attribute, and the guard's
+  first run reported `SessionCard`'s decorative avatar div.
+- **axe cannot see any of this.** A `<div onClick>` has no ARIA violation — it is
+  simply a div. The weekly sweep's axe pass was green across 430 routes with all
+  60 present, and stayed green after the fix (which is also the check that the 45
+  new `role="button"` elements did not introduce `nested-interactive`).
+- NEVER: add an `onClick` to a non-focusable element without `clickable()` or an
+  exemption stating why it must not be in the tab order; put a modal backdrop in
+  the tab order; make every word of a passage focusable; use `role="button"` for
+  something that is a range or a toggle group.
+
 ## Critical Architecture: An Inline Style Is Where The Focus Ring Goes To Die (2026-09-24)
 
 This app has exactly two keyboard focus indicators, both in `src/index.css`, and

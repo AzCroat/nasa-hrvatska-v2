@@ -4,6 +4,7 @@ import { completeLesson } from '../../hooks/useLessonCompletion';
 import { LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext.tsx';
 import { recordTopicResult } from '../../lib/adaptive.ts';
+import { clickable } from '../../lib/clickable';
 
 // ── Future I: ću + infinitive paradigm ────────────────────────────────────────
 const FUTURE1_PARADIGM = [
@@ -373,7 +374,7 @@ export default function FutureTenseLessonScreen({
                   <tr
                     key={i}
                     style={{ borderBottom: '1px solid var(--card-b)', cursor: 'pointer' }}
-                    onClick={() => speak(row.person + ' ' + row.full)}
+                    {...clickable(() => speak(row.person + ' ' + row.full), 'Hear ' + row.full)}
                   >
                     <td
                       style={{

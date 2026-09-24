@@ -71,6 +71,26 @@ function HimnaPlayer() {
     a.currentTime = ((e.clientX - r.left) / r.width) * a.duration;
   }
 
+  // The scrubber was mouse-only: `role="button"` would be the wrong fix (it is a
+  // range, not an action), so it is a real slider — arrows step 5s, Home/End
+  // jump to the ends. The play/pause button beside it already worked, so this
+  // is the seek half, which had no keyboard path at all.
+  function seekKey(e: React.KeyboardEvent<HTMLDivElement>) {
+    const a = ref.current;
+    if (!a || !a.duration) return;
+    const step = e.key === 'PageUp' || e.key === 'PageDown' ? 30 : 5;
+    let t: number | null = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'PageUp')
+      t = Math.min(a.duration, a.currentTime + step);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'PageDown')
+      t = Math.max(0, a.currentTime - step);
+    else if (e.key === 'Home') t = 0;
+    else if (e.key === 'End') t = a.duration;
+    if (t === null) return;
+    e.preventDefault();
+    a.currentTime = t;
+  }
+
   function fmt(s: number) {
     return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   }
@@ -205,6 +225,14 @@ function HimnaPlayer() {
           <div style={{ flex: 1 }}>
             <div
               onClick={seek}
+              onKeyDown={seekKey}
+              role="slider"
+              tabIndex={0}
+              aria-label="Seek within the anthem"
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration)}
+              aria-valuenow={Math.round(current)}
+              aria-valuetext={fmt(current) + ' of ' + fmt(duration)}
               style={{ padding: '8px 0', cursor: 'pointer', position: 'relative', marginBottom: 2 }}
             >
               <div

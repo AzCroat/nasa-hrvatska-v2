@@ -9,6 +9,7 @@ import { incrementCulture } from '../../data';
 import { useApp } from '../../context/AppContext';
 import CharacterPortrait from '../family/CharacterPortrait';
 import { knightSpeak } from '../../lib/knightSpeak.js';
+import { clickable } from '../../lib/clickable';
 import {
   BAKA_LETTERS,
   type BakaLetter,
@@ -604,10 +605,10 @@ export default function StoriesTab(): React.ReactElement {
           members actually speak, including regional expressions and emotional vocabulary.
         </div>
         <div
-          onClick={() => {
+          {...clickable(() => {
             if (!expandedCtx['baka']) incrementCulture('regionCnt');
             toggleCtx('baka');
-          }}
+          })}
           style={{
             fontSize: 12,
             color: 'var(--info)',

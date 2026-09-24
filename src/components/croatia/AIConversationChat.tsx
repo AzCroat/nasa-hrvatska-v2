@@ -5,6 +5,7 @@ import WaveformVisualizer from '../shared/WaveformVisualizer';
 import { CefrSoftHint } from '../shared/CefrSoftHint';
 import { STARTERS, sceneForCat } from './ConversationScenarios.js';
 import type { ConversationMessage } from '../../hooks/useConversationSession';
+import { clickable } from '../../lib/clickable';
 
 interface ChatScenario {
   id: string;
@@ -404,9 +405,13 @@ export default function AIConversationChat({
                   />
                 )}
                 <div
-                  onClick={() => {
-                    if (!isUser) onSpeakMessage(m.content);
-                  }}
+                  // Tapping the bubble is the ONLY way to hear an AI line — there
+                  // is no separate speaker button — so it has to be reachable.
+                  // The learner's own messages are not spoken, so they stay
+                  // out of the tab order rather than becoming silent buttons.
+                  {...(isUser
+                    ? {}
+                    : clickable(() => onSpeakMessage(m.content), 'Hear this message'))}
                   style={{
                     maxWidth: '78%',
                     padding: '11px 14px',

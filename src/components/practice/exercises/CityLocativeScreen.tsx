@@ -3,6 +3,7 @@ import { H, speak, sh, shMemo } from '../../../data';
 import { CITYLOC } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -106,9 +107,9 @@ function CityLocativeScreen({ goBack, award }: Props) {
               key={i}
               className="c"
               style={{ padding: '8px 12px', cursor: 'pointer', textAlign: 'center' }}
-              onClick={function () {
+              {...clickable(function () {
                 speak('Živim u ' + c2.lok);
-              }}
+              }, 'Hear Živim u ' + c2.lok)}
             >
               <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{c2.nom}</div>
               <div style={{ fontSize: 12, color: '#0e7490' }}>
@@ -127,9 +128,9 @@ function CityLocativeScreen({ goBack, award }: Props) {
               key={i}
               className="c"
               style={{ padding: '8px 12px', cursor: 'pointer', textAlign: 'center' }}
-              onClick={function () {
+              {...clickable(function () {
                 speak(c2.nom + ' - u ' + c2.lok);
-              }}
+              }, 'Hear ' + c2.nom)}
             >
               <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{c2.nom}</div>
               <div style={{ fontSize: 12, color: '#b45309' }}>

@@ -8,6 +8,7 @@ import { getActiveVocabulary } from '../../lib/activeVocabulary';
 import { getUserCefr } from '../../lib/cefr';
 import { useStats } from '../../context/StatsContext';
 import { recordReadingRep } from '../../lib/readingMetric';
+import { clickable } from '../../lib/clickable';
 
 export default function AIStoryScreen({
   goBack,
@@ -187,7 +188,7 @@ export default function AIStoryScreen({
         return (
           <strong
             key={i}
-            onClick={() => speak(part)}
+            {...clickable(() => speak(part), 'Hear ' + part)}
             style={{
               color: 'var(--info)',
               cursor: 'pointer',

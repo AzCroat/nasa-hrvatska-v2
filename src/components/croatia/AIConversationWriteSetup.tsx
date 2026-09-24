@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 import type { WritePrompt } from '../../hooks/useWriteMode';
+import { clickable } from '../../lib/clickable';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -75,7 +76,7 @@ export default function AIConversationWriteSetup({
             return (
               <div
                 key={p.id}
-                onClick={() => setWritePrompt(p)}
+                {...clickable(() => setWritePrompt(p))}
                 style={{
                   padding: 16,
                   borderRadius: 16,

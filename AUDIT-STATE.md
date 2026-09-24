@@ -5986,6 +5986,56 @@ mutation. Its own `:focus-visible` assertion was DECORATIVE on first writing —
 `.sub-tab-pill:focus-visible` carries the same declaration, so deleting every
 global ring left it green; it now requires the selector to be bare.
 
+### Sweep 94 — a click is not an affordance (2026-09-24, 52 REAL DEFECTS, FIXED)
+
+Sweep 93 fixed controls whose focus ring was invisible. The harder half of the
+same question had not been asked: can the action be performed at all without a
+mouse? A `<div onClick>` has no tab stop, no role, and does nothing on Enter or
+Space — and **axe cannot see it**, because a div with a click handler has no
+ARIA violation. The weekly sweep's axe pass was green across 430 routes with all
+60 present.
+
+**Census: 1,901 `onClick` handlers; 60 on an element a keyboard cannot reach.**
+Among them the ONLY path to: choosing an AI conversation scenario (three of
+them), opening a news article, picking a writing prompt, choosing a region,
+starting a story, picking a verb, starting a conjugation quiz, flipping a
+mistakes card, the Learn Path chip on Home, the "Moje riječi" card on Me, and an
+XP award on Phrase of the Day that a keyboard user could never earn.
+
+**52 fixed, 8 left with a reason.** `src/lib/clickable.ts` is the repo's own
+existing pattern (`IdiomsScreen` has had `role` + `tabIndex` + Enter/Space for
+months) as one function, so the next one is a spread rather than eight lines to
+get right again. The anthem scrubber got `role="slider"` instead — arrows step
+5s, Home/End jump to the ends — because reaching for `role="button"` on a range
+is the easy wrong answer.
+
+**THE TWO CARVE-OUTS ARE CATEGORIES, NOT A SHRUG.** A modal BACKDROP already has
+a keyboard path: all four sit over a real Close control (checked by hand; one
+also handles Escape), and making a full-screen backdrop focusable adds a tab
+stop that announces itself as a button. A per-WORD tap inside running text would
+put hundreds of stops in one paragraph. **A per-ITEM tap is not in that
+carve-out and was fixed** — a vocabulary row, a paradigm cell, a chat bubble —
+and for the AI chat bubble the tap is the only way to hear an AI line at all.
+
+**Two things the scanner got wrong first, both worth keeping.** `onClick\s*=`
+matches `typeof props.onClick === 'function'`, so the first run reported
+`SessionCard`'s decorative avatar div — `(?!=)` fixes it, and without that the
+exemption list would have carried a phantom. And the import inserter picked "the
+last line starting with `import `", which in `StoriesTab` is the opening line of
+a multi-line `import {` — it inserted the new import INSIDE the braces and broke
+the file. Anchor on a complete statement, not on a prefix.
+
+**The risk this change carried was `nested-interactive`**, a SERIOUS axe rule: 45
+new `role="button"` elements, any of which containing a real button would fail.
+Measured after, over all 430 routes: axe still reports zero serious or critical
+violations. That is the check, not an argument.
+
+Guard: `src/tests/clickableKeyboard.test.ts`, exemptions with reasons and both
+staleness directions, plus a non-vacuity clause requiring it to see the GOOD
+pattern (>30 sites) as well as the bad. Mutation-verified four ways: one fix
+reverted fails 2, `tabIndex` dropped from the helper fails 1, Space no longer
+activating fails 1, a stale exemption fails 1.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

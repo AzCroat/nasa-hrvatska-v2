@@ -7,6 +7,7 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { getAudioContext, unlockAudio, ttsFetch } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
+import { clickable } from '../../lib/clickable';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Region {
@@ -534,7 +535,7 @@ export default function HeritageStoryScreen({
               <div
                 key={region.name}
                 className="region-card c"
-                onClick={() => setSelectedRegion(region)}
+                {...clickable(() => setSelectedRegion(region))}
                 style={{
                   padding: '14px 16px',
                   borderRadius: 14,

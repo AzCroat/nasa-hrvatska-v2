@@ -3,6 +3,7 @@ import { failureFromResponse, failureFromError, reportAiFailure } from '../../li
 import { H, Bar, speak, STORIES } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { markQuest } from '../../lib/quests.js';
+import { clickable } from '../../lib/clickable';
 
 interface StoryChoice {
   text: string;
@@ -110,12 +111,12 @@ export default function StoryScreens({
           <div
             key={i}
             className="tc"
-            onClick={() => {
+            {...clickable(() => {
               finishFired.current = false;
               sStSt(s);
               sStSc(0);
               if (sCurEx) sCurEx('story');
-            }}
+            })}
             style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}
           >
             <div style={{ fontSize: 36 }}>{i === 0 ? '☕' : i === 1 ? '🍒' : '🏖️'}</div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { portraitSrc } from './SpeakingAvatar';
 import { deriveWeakAreas } from './ConversationScenarios.js';
+import { clickable } from '../../lib/clickable';
 
 interface ConvoScenario {
   id: string;
@@ -105,7 +106,9 @@ export default function AIConversationConvoSetup({
 
       {/* ── Free Talk quick-start ── */}
       <div
-        onClick={() => setScenario(scenario?.id === '__freetalk__' ? null : FREE_TALK_SCENARIO)}
+        {...clickable(() =>
+          setScenario(scenario?.id === '__freetalk__' ? null : FREE_TALK_SCENARIO),
+        )}
         style={{
           borderRadius: 18,
           padding: '14px 16px',
@@ -275,7 +278,7 @@ export default function AIConversationConvoSetup({
             return (
               <div
                 key={s.id}
-                onClick={() => setScenario(s)}
+                {...clickable(() => setScenario(s))}
                 style={{
                   borderRadius: 18,
                   overflow: 'hidden',
@@ -473,7 +476,7 @@ export default function AIConversationConvoSetup({
         }}
       >
         <div
-          onClick={() => setShowCustom((p: boolean) => !p)}
+          {...clickable(() => setShowCustom((p: boolean) => !p))}
           style={{
             display: 'flex',
             alignItems: 'center',

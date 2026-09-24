@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { clickable } from '../../lib/clickable';
 
 const BACK_BTN = ({ goBack }: { goBack: () => void }) => (
   <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
@@ -225,7 +226,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
                   alignItems: 'center',
                   gap: 10,
                 }}
-                onClick={() => speak(v.hr)}
+                {...clickable(() => speak(v.hr), 'Hear ' + v.hr)}
               >
                 <div style={{ fontSize: 22, flexShrink: 0 }}>{v.icon}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -262,7 +263,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               <div style={{ flex: 1 }}>
                 <span
                   style={{ fontWeight: 700, color: '#0891b2', cursor: 'pointer' }}
-                  onClick={() => speak(a.hr)}
+                  {...clickable(() => speak(a.hr), 'Hear ' + a.hr)}
                 >
                   {a.hr}
                 </span>{' '}
@@ -272,7 +273,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               <div style={{ flex: 1 }}>
                 <span
                   style={{ fontWeight: 700, color: '#0891b2', cursor: 'pointer' }}
-                  onClick={() => speak(a.hr2)}
+                  {...clickable(() => speak(a.hr2), 'Hear ' + a.hr2)}
                 >
                   {a.hr2}
                 </span>{' '}
@@ -297,7 +298,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
                 boxShadow: '0 1px 3px rgba(0,0,0,.04)',
                 cursor: 'pointer',
               }}
-              onClick={() => speak(s.hr)}
+              {...clickable(() => speak(s.hr), 'Hear ' + s.hr)}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
                 <div style={{ fontSize: 36 }}>{s.icon}</div>

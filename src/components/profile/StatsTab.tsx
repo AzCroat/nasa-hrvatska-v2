@@ -15,6 +15,7 @@ import {
   type CefrLevel,
 } from '../../lib/cefr';
 import { getDisplayLevel, getVerificationGate } from '../../lib/cefrCertification';
+import { clickable } from '../../lib/clickable';
 
 // LABEL AND COLOUR ARE THIS FILE'S; THE NUMBERS ARE NOT (2026-09-23).
 // `needed` and the floor map below used to carry their own copies of the CEFR
@@ -729,7 +730,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       </div>
 
       <div
-        onClick={() => setScr('my_words')}
+        {...clickable(() => setScr('my_words'))}
         style={{
           display: 'flex',
           alignItems: 'center',

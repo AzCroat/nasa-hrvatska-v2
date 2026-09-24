@@ -3,6 +3,7 @@ import { speak } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import LessonQuiz from './LessonQuiz';
 import { LESSON_QUIZ_BANKS } from '../../lib/lessonQuizBanks';
+import { clickable } from '../../lib/clickable';
 
 interface PhonExample {
   hr: string;
@@ -371,7 +372,7 @@ function PhonologyScreen({
                           padding: '6px 12px',
                           cursor: 'pointer',
                         }}
-                        onClick={() => speak(ex.hr)}
+                        {...clickable(() => speak(ex.hr), 'Hear ' + ex.hr)}
                       >
                         <div style={{ fontSize: 14, fontWeight: 700, color: l.color }}>{ex.hr}</div>
                         <div style={{ fontSize: 11, color: '#78716c' }}>{ex.en}</div>
@@ -416,7 +417,10 @@ function PhonologyScreen({
                     padding: '10px',
                     cursor: 'pointer',
                   }}
-                  onClick={() => speak(p.example_a.split(' ')[0] ?? '')}
+                  {...clickable(
+                    () => speak(p.example_a.split(' ')[0] ?? ''),
+                    'Hear ' + p.example_a,
+                  )}
                 >
                   <div style={{ fontSize: 26, fontWeight: 900, color: '#b45309' }}>{p.a}</div>
                   <div style={{ fontSize: 11, color: '#44403c', marginTop: 4 }}>{p.example_a}</div>
@@ -435,7 +439,10 @@ function PhonologyScreen({
                     padding: '10px',
                     cursor: 'pointer',
                   }}
-                  onClick={() => speak(p.example_b.split(' ')[0] ?? '')}
+                  {...clickable(
+                    () => speak(p.example_b.split(' ')[0] ?? ''),
+                    'Hear ' + p.example_b,
+                  )}
                 >
                   <div style={{ fontSize: 26, fontWeight: 900, color: '#b45309' }}>{p.b}</div>
                   <div style={{ fontSize: 11, color: '#44403c', marginTop: 4 }}>{p.example_b}</div>

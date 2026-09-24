@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { clickable } from '../../lib/clickable';
 
 const BACK_BTN = ({ goBack }: { goBack: () => void }) => (
   <button className="b bg" style={{ marginBottom: 16, fontSize: 13 }} onClick={goBack}>
@@ -268,7 +269,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                           color: '#1d4ed8',
                           cursor: 'pointer',
                         }}
-                        onClick={() => speak(j.m)}
+                        {...clickable(() => speak(j.m), 'Hear ' + j.m)}
                       >
                         ♂ {j.m}
                       </span>
@@ -280,7 +281,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                           color: '#7c3aed',
                           cursor: 'pointer',
                         }}
-                        onClick={() => speak(j.f)}
+                        {...clickable(() => speak(j.f), 'Hear ' + j.f)}
                       >
                         ♀ {j.f}
                       </span>

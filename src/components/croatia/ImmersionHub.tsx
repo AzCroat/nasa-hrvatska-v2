@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MEDIA } from '../../data';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
+import { clickable } from '../../lib/clickable';
 
 interface JourneyItem {
   level: string;
@@ -715,11 +716,11 @@ function MediaCard({
     <div
       className="c"
       style={{ marginBottom: 12, padding: 16, cursor: 'pointer' }}
-      onClick={() => {
-        // 2026-05-21 BUG FIX: items with an internal screen (m.scr) previously
-        // returned silently, so cards like "Pop Culture & Music" did nothing
-        // when tapped. Now: navigate to the internal screen if scr is set,
-        // otherwise open the external web URL. If neither is set, no-op.
+      // 2026-05-21 BUG FIX: items with an internal screen (m.scr) previously
+      // returned silently, so cards like "Pop Culture & Music" did nothing
+      // when tapped. Now: navigate to the internal screen if scr is set,
+      // otherwise open the external web URL. If neither is set, no-op.
+      {...clickable(() => {
         if (m.scr && setScr) {
           setScr(m.scr);
           return;
@@ -727,7 +728,7 @@ function MediaCard({
         if (m.web) {
           window.open(m.web, '_blank', 'noopener,noreferrer');
         }
-      }}
+      })}
     >
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 10 }}>
         <div

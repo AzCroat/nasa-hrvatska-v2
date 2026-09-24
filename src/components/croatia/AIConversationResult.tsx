@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
+import { clickable } from '../../lib/clickable';
 
 interface ConvoMistake {
   original?: string;
@@ -146,7 +147,7 @@ export default function AIConversationResult({
 
       {ev.encouragement && (
         <div
-          onClick={() => speak(ev.encouragement ?? '')}
+          {...clickable(() => speak(ev.encouragement ?? ''), 'Hear this')}
           style={{
             background: 'var(--success-bg)',
             border: '1.5px solid var(--success-b)',

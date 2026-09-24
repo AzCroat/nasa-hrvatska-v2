@@ -1,5 +1,6 @@
 // ── GrammarConstellation — shared UI sub-components ───────────
 import React from 'react';
+import { clickable } from '../../lib/clickable';
 
 export function ConstellationBackground() {
   const points = [
@@ -142,7 +143,7 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
 
   return (
     <div
-      onClick={onToggle}
+      {...clickable(onToggle)}
       style={{
         background: '#ffffff',
         borderRadius: 12,
