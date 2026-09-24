@@ -59,8 +59,19 @@ const PROD = globSync('src/**/*.{ts,tsx,js,jsx}').filter(
 );
 const SRC = new Map(PROD.map((f) => [f, strip(readFileSync(f, 'utf8'))]));
 
-/** A literal write of an `nh_` key through any of the app's setter spellings. */
-const WRITE = /(?:lsSet|ssSet|_safeSet|setItem)\s*\(\s*['"](nh_[^'"]*)['"]/g;
+/**
+ * A literal write of ANY key through any of the app's setter spellings.
+ *
+ * IT WAS SCOPED TO `nh_` UNTIL 2026-09-24, and a namespace decays exactly like
+ * the list of files this guard replaced: every key written outside `nh_` — the
+ * whole legacy set, `uS`, `dcDay3`, `lastSeen`, `onboarded`, `cookieConsent`,
+ * `fbBackupConfirmed` — was uncovered, and nothing said so. Widening it costs
+ * NOTHING here because `occurrences` below can only miss: measured over the
+ * widened set, 124 written keys and ZERO newly dead, so this buys a ratchet
+ * against future writes rather than a finding today. Said plainly.
+ */
+const WRITE =
+  /(?:lsSet|ssSet|_safeSet|setItem|LS_SET|_unionStrArr|_maxNum)\s*\(\s*['"]([^'"]+)['"]/g;
 
 function literalWrites(): Map<string, string[]> {
   const out = new Map<string, string[]>();
@@ -100,9 +111,15 @@ function occurrences(key: string): { total: number; writes: number } {
 describe('every key the app writes is read by something', () => {
   const WRITES = literalWrites();
 
+  it('the widening is real: it sees keys outside the nh_ namespace', () => {
+    // Without this the regex could snap back to `nh_` and every assertion below
+    // would still pass, over the population the old matcher already covered.
+    expect([...WRITES.keys()].filter((k) => !k.startsWith('nh_')).length).toBeGreaterThan(15);
+  });
+
   it('the sweep is real: it sees a substantial number of written keys', () => {
     // Without this the assertion below would pass against a broken matcher.
-    expect(WRITES.size).toBeGreaterThan(50);
+    expect(WRITES.size).toBeGreaterThan(100);
   });
 
   it('non-vacuity: a key that IS alive shows more occurrences than writes', () => {

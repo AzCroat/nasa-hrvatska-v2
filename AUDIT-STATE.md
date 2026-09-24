@@ -3370,7 +3370,13 @@ WHAT was looked at and HOW.
 **Not searched, and deliberately**: storage key names outside
 `lib/constants/storage.js`. Raw strings there are a SANCTIONED convention for
 legacy code ("use key constants for new keys; legacy code uses raw strings"), so
-a census would return a long list of known-legacy usage and no finding. Restated
+a census would return a long list of known-legacy usage and no finding.
+**THAT REASON WAS TRUE AND IT ANSWERED A DIFFERENT QUESTION — searched in sweep
+82.** "A raw string is allowed" says nothing about whether a key's WRITE site
+and its READ site spell it identically, which is the pair that has to agree; the
+two guards over that class were both scoped to the `nh_` namespace, so the whole
+legacy set was uncovered. Widened and mutation-proven there; no live defect
+today. Restated
 screen routes are covered by sweep 39's `navTargetsRoute.test.ts`.
 
 **WHERE THE QUESTION HAS GOT TO.** Four finds and eight negatives. The shapes
@@ -5212,6 +5218,121 @@ re-gates on `lcAtLeast: 40`, exactly as that fix requires — with its guard gre
 
 **Gates:** 614 files / 9828 passing, typecheck clean, eslint clean, Croatian lint
 0 findings across 522 files.
+
+### Sweeps 80–81 — can a click sweep run in jsdom at all? (2026-09-24, THREE HYPOTHESES, ALL DISPROVED)
+
+Sweep 75 measured **110 genuinely distinct screens with no unit interaction
+test**. The obvious follow-up is to press something on each of them and see what
+crashes. Three cheap ways to do that were tried and each was measured to fail,
+so the expensive one is now the honest answer rather than a preference.
+
+- **H1 — clear storage between screens.** Rejected by measurement: the harness
+  bailed on its first screen regardless.
+- **H2 — exclude navigation so one screen cannot poison the next.** Same.
+- **H3 — scope the corpus to the 15 routes reachable from a tab.** The decisive
+  run: `PROTO TABBED: routes=15 ok=1 clicks=8 crashes=0
+  firstBail=region_bibinje => boundary engaged after 1 ok/8 clicks`. It failed
+  on the FIRST screen, not the fiftieth, so the cause is not accumulated state
+  at all.
+
+**The conclusion is about the VEHICLE, not the screens.** A jsdom render of a
+real screen engages `ScreenErrorBoundary` for reasons that have nothing to do
+with the screen being broken — absent providers, absent content payload, absent
+media APIs — so "boundary engaged" carries no information about production.
+**A harness whose failure mode is indistinguishable from the defect it hunts
+cannot report either.** An E2E spec driving the tabbed screens in a real browser
+is the honest vehicle, and it is a bounded 36, not 423.
+
+Two harness defects worth keeping, both found by checking a reported number by
+hand: a key-to-component pairing that took the nearest uppercase tag captured
+`<ScreenErrorBoundary>` every time and reported `routes=0`; and
+`screen.queryByTestId` silently resolved to jsdom's global `window.screen`
+because the Testing Library import was missing, which throws rather than
+reporting. **Neither showed up as a wrong answer — both showed up as an
+implausible one**, which is the only reason they were checked.
+
+---
+
+### Sweep 82 — does a key's WRITE site spell it the same as its READ site? (2026-09-24, NEGATIVE TODAY, GAP CLOSED)
+
+**Why it was asked though this file says not to.** Sweep 52 recorded storage
+keys as "not searched, and deliberately": raw strings outside
+`lib/constants/storage.js` are a SANCTIONED convention, so a census returns
+known-legacy usage and no finding. That reason is TRUE and it answers a
+DIFFERENT question. "A raw string is allowed" says nothing about whether the
+write site and the read site spell it identically — and a key whose two ends
+disagree fails silently and permanently in both directions at once. This is
+**"check an exclusion's reason before you write it down, even when it is
+obviously true"** applied to an exclusion already written down.
+
+**The class had two guards and BOTH carried the same restriction.**
+`deadKeyReaders.test.ts` (reads) and `deadStorageWrites.test.ts` (writes) each
+matched only `'nh_…'` spelled as an INLINE LITERAL. So two populations sat
+outside both: the entire LEGACY namespace — `uS`, `uSR`, `dcDay3`, `lastSeen`,
+`onboarded`, `xpCooldown`, `slangVisited`, `cookieConsent`, `fbBackupConfirmed`
+— and every access through a CONSTANT identifier, which the read matcher could
+not see at all because it demanded a quoted literal. **A namespace restriction
+decays exactly like the list of files it replaced**, and it is harder to notice,
+because a list looks short while a regex looks like a rule.
+
+**MEASURED BEFORE WIDENING, because widening is the direction that
+MANUFACTURES failures.** Resolving constants FILE-LOCALLY and then following
+named imports, and counting the app's wrapper spellings (`lsGet`/`lsSet`/
+`LS_GET`/`LS_SET`/`_safeSet`/…) as accessors: reads seen **80 → 185**, writes
+**100 → 185**, and the orphan list is **FOUR** — the two exemptions already
+present plus two the legacy namespace was hiding, both benign:
+
+- `uSR` — the pre-`nh_sr` SRS deck, read once by the `getSR` migration and never
+  written again. The same shape as the already-exempt `nh_streak_freezes`.
+- `fbBackupConfirmed` — read at `useSyncManager.ts:374`, written NOWHERE, so
+  `!lsGet('fbBackupConfirmed')` is permanently true. **Not a defect**: the
+  cloud-backup banner was deleted deliberately in `2b838fdb` ("Remove all
+  unprompted user interruptions", 2026-04-08). What survives is dead WIRING —
+  the state, the effect, and two props threaded App.tsx → AppToasts, which
+  destructures both and renders nothing with them. **Recorded, not repaired**:
+  the removal was intentional and deleting the residue is a refactor.
+
+The write side widened to **124 keys and ZERO newly dead**, because that guard's
+`occurrences` counts any mention anywhere and can only miss. Free ratchet,
+stated as a ratchet.
+
+**MY OWN PROBE HAD THE DEFECT IT WAS HUNTING, and this is the reusable part.**
+The first three runs used `git ls-files 'src/**/*.tsx'` — and git's pathspec
+`**` did NOT match `src/App.tsx`, so every top-level file in `src/` was silently
+outside the corpus. That one omission manufactured `lastSeen` as an orphan read
+(App.tsx writes it) and inflated the list to 22. Earlier runs had reported 22
+and 24 purely because the census did not yet know the `safeStorage` wrappers or
+`_safeSet`. **Name a key you KNOW is written and check the census agrees before
+believing any orphan list** — `lastSeen` was that control, and it failed. (The
+existing guards use node's `globSync`, where `**` matches zero directories, and
+were never affected.)
+
+**Mutation-verified six ways, and two of them are CONTROLS against the OLD
+guard — the direct proof the widening is load-bearing rather than cosmetic:**
+
+| mutation | new guard | old guard |
+| --- | --- | --- |
+| dead read of a LEGACY key | 1 fails | **30 passed — fully green** |
+| dead write of a LEGACY key | 1 fails | **5 passed — fully green** |
+| dead read of an `nh_` key (regression check) | 1 fails | — |
+| scope snapped back to `nh_` | 2 fail | — |
+| constant resolution removed | 3 fail | — |
+| prefix-vacuity rule removed | 4 fail | — |
+
+The vacuity rule is now DERIVED rather than hard-coded: the old version deleted
+the literal `'nh_'`, which stopped describing the namespace the moment the scope
+moved. A prefix is rejected when it covers more than `MAX_PREFIX_COVERAGE` (5)
+exact keys — measured, the interpolation artifacts cover **94 and 116** while
+every genuine key family covers at most **three**.
+
+**A first mutation did not land and reading it would have been wrong.** Probing
+with `lsGet(...)` inside `debugLog.ts` — which imports no such function — broke
+the module, and BOTH guards failed for an unrelated reason, which read as "the
+old guard already catches this". Re-run with `localStorage.getItem`, needing no
+import, the old guard is green. **Check WHERE a mutation landed before reading
+its result.**
+
+---
 
 ---
 

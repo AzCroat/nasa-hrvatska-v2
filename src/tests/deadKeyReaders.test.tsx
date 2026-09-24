@@ -295,8 +295,29 @@ describe('reminder notification personalisation', () => {
 //
 // A list of files decays exactly like the constants it polices, and it decays
 // quietly, because it keeps passing at whatever rate the list still covers.
-// This sweep is DERIVED from the whole of src/ instead: every `nh_` key read
-// through a storage accessor must have a writer, or a named exemption.
+// A list of files decays exactly like the constants it polices, and it decays
+// quietly, because it keeps passing at whatever rate the list still covers.
+// This sweep is DERIVED from the whole of src/ instead: every key read through
+// a storage accessor must have a writer, or a named exemption.
+//
+// AND THE DERIVATION ITSELF CARRIED A NAMESPACE (widened 2026-09-24). Both this
+// guard and `deadStorageWrites.test.ts` matched only `'nh_…'` spelled as an
+// INLINE LITERAL, so two populations sat outside both: the entire LEGACY key
+// namespace (`uS`, `uSR`, `dcDay3`, `lastSeen`, `onboarded`, `xpCooldown`,
+// `slangVisited`, `cookieConsent`, `fbBackupConfirmed`, …) and every access
+// made through a CONSTANT identifier, which the old read matcher could not see
+// at all because it demanded a quoted literal. A namespace restriction decays
+// exactly like the list of files it replaced — every key added outside `nh_` is
+// uncovered, and nothing says so.
+//
+// WIDENING IS THE DANGEROUS DIRECTION: it can MANUFACTURE a build failure for a
+// key whose writer it merely cannot see. So the resolution was built and
+// measured BEFORE the scope moved — constants resolve file-locally and are then
+// followed across named imports, and the app's wrapper spellings (`lsGet`,
+// `lsSet`, `LS_GET`, `LS_SET`, `_safeSet`, …) count as accessors. Reads seen go
+// 80 -> 185 and writes 100 -> 185, and the orphan list is FOUR: the two
+// exemptions that were already here, plus the two the legacy namespace had been
+// hiding — both benign, both named below.
 // ─────────────────────────────────────────────────────────────────────────────
 describe('no key is read that nothing writes', () => {
   const stripComments = (s: string) =>
@@ -307,56 +328,137 @@ describe('no key is read that nothing writes', () => {
   );
   const SRC = new Map(sourceFiles.map((f) => [f, stripComments(readFileSync(f, 'utf8'))]));
 
-  /** `const FOO = 'nh_bar'` anywhere in src — a key written through a constant. */
-  const CONST_KEY = new Map<string, string>();
-  for (const s of SRC.values())
+  // ── constants, resolved per FILE and then across named imports ─────────────
+  // A global name -> value map would be wrong now that the scope is the whole
+  // namespace: `STORAGE_KEY` is declared in six different modules with six
+  // different values, so one global entry would hand five keys the wrong writer
+  // and orphan the sixth. That is the manufacturing direction.
+  const LOCAL = new Map<string, Map<string, string>>();
+  const EXPORTED = new Map<string, Map<string, string>>();
+  for (const [f, s] of SRC) {
+    const local = new Map<string, string>();
+    const exported = new Map<string, string>();
     for (const m of s.matchAll(
-      /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=\n]+)?=\s*'(nh_[^']*)'/g,
-    ))
-      CONST_KEY.set(m[1]!, m[2]!);
+      /\b(export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=\n]+)?=\s*['"]([^'"]*)['"]/g,
+    )) {
+      local.set(m[2]!, m[3]!);
+      if (m[1]) exported.set(m[2]!, m[3]!);
+    }
+    LOCAL.set(f, local);
+    EXPORTED.set(f, exported);
+  }
 
-  const WRITE_ACCESSOR =
-    /\b(?:setItem|lsSet|ssSet|_safeSet|_unionStrArr|_maxNum)\(\s*([^,)]{1,90})/g;
-  const READ_ACCESSOR = /\b(?:getItem|lsGet|ssGet|lsGetRaw)\(\s*('nh_[^']*')\s*(\+?)/g;
+  const resolveSpec = (from: string, spec: string): string | null => {
+    if (!spec.startsWith('.')) return null;
+    const dir = from.slice(0, from.lastIndexOf('/'));
+    const parts: string[] = [];
+    for (const seg of `${dir}/${spec}`.split('/')) {
+      if (seg === '.' || seg === '') continue;
+      if (seg === '..') parts.pop();
+      else parts.push(seg);
+    }
+    const base = parts.join('/');
+    const noExt = base.replace(/\.(js|jsx|ts|tsx)$/, '');
+    for (const c of [
+      base,
+      ...['.ts', '.tsx', '.js', '.jsx', '/index.ts', '/index.tsx', '/index.js'].map(
+        (e) => noExt + e,
+      ),
+    ])
+      if (SRC.has(c)) return c;
+    return null;
+  };
+
+  const IMPORTS = new Map<string, Map<string, { file: string; name: string }>>();
+  for (const [f, s] of SRC) {
+    const m = new Map<string, { file: string; name: string }>();
+    for (const im of s.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"]/g)) {
+      const tgt = resolveSpec(f, im[2]!);
+      if (!tgt) continue;
+      for (const raw of im[1]!.split(',')) {
+        const p = raw.trim().split(/\s+as\s+/);
+        if (p[0]) m.set((p[1] ?? p[0]).trim(), { file: tgt, name: p[0].trim() });
+      }
+    }
+    IMPORTS.set(f, m);
+  }
+
+  const lookup = (f: string, name: string, depth = 0): string | null => {
+    if (depth > 4) return null;
+    const local = LOCAL.get(f);
+    if (local?.has(name)) return local.get(name)!;
+    const im = IMPORTS.get(f)?.get(name);
+    if (!im) return null;
+    return EXPORTED.get(im.file)?.get(im.name) ?? lookup(im.file, im.name, depth + 1);
+  };
+
+  // Every spelling the app reaches Web Storage through. `safeStorage`'s wrappers
+  // are the majority of real traffic, so a matcher that knows only `getItem`
+  // reports writes that exist as absent — the manufacturing direction again.
+  const GET = String.raw`(?:localStorage|sessionStorage)\s*\.\s*getItem|lsGet|lsGetRaw|ssGet|LS_GET`;
+  const SET = String.raw`(?:localStorage|sessionStorage)\s*\.\s*setItem|lsSet|ssSet|LS_SET|_safeSet|_unionStrArr|_maxNum`;
+  const accessor = (alts: string) =>
+    new RegExp(String.raw`\b(?:${alts})\s*\(\s*([^,)]{1,90})`, 'g');
+
+  /** First argument -> an exact key, a key PREFIX, or null when unresolvable. */
+  const classify = (file: string, raw: string): { key?: string; prefix?: string } | null => {
+    const a = raw.trim();
+    let m: RegExpMatchArray | null;
+    if ((m = a.match(/^['"]([^'"]*)['"]\s*$/))) return { key: m[1]! };
+    if ((m = a.match(/^['"]([^'"]*)['"]\s*\+/))) return { prefix: m[1]! };
+    if ((m = a.match(/^`([^`${]*)\$\{/))) return { prefix: m[1]! };
+    if ((m = a.match(/^`([^`${]*)`\s*$/))) return { key: m[1]! };
+    if ((m = a.match(/^([A-Za-z_$][\w$]*)\s*\+/))) {
+      const v = lookup(file, m[1]!);
+      return v == null ? null : { prefix: v };
+    }
+    if ((m = a.match(/^`\$\{([A-Za-z_$][\w$]*)\}/))) {
+      const v = lookup(file, m[1]!);
+      return v == null ? null : { prefix: v };
+    }
+    if ((m = a.match(/^([A-Za-z_$][\w$]*)\s*$/))) {
+      const v = lookup(file, m[1]!);
+      return v == null ? null : { key: v };
+    }
+    return null;
+  };
 
   const written = new Set<string>();
   const writtenPrefixes = new Set<string>();
-  for (const s of SRC.values())
-    for (const m of s.matchAll(WRITE_ACCESSOR)) {
-      const a = m[1]!.trim();
-      let k;
-      if ((k = a.match(/^'(nh_[^']*)'\s*\+/))) writtenPrefixes.add(k[1]!);
-      else if ((k = a.match(/^'(nh_[^']*)'/))) written.add(k[1]!);
-      else if ((k = a.match(/^`(nh_[^`${]*)\$\{/))) writtenPrefixes.add(k[1]!);
-      else if ((k = a.match(/^`(nh_[^`${]*)`/))) written.add(k[1]!);
-      else if ((k = a.match(/^([A-Za-z_$][\w$]*)\s*\+/)) && CONST_KEY.has(k[1]!))
-        writtenPrefixes.add(CONST_KEY.get(k[1]!)!);
-      else if ((k = a.match(/^([A-Za-z_$][\w$]*)/)) && CONST_KEY.has(k[1]!))
-        written.add(CONST_KEY.get(k[1]!)!);
+  /** key -> the files that read it. */
+  const reads = new Map<string, string[]>();
+  for (const [f, s] of SRC) {
+    for (const m of s.matchAll(accessor(SET))) {
+      const c = classify(f, m[1]!);
+      if (!c) continue;
+      if (c.key != null) written.add(c.key);
+      else writtenPrefixes.add(c.prefix!);
     }
+    for (const m of s.matchAll(accessor(GET))) {
+      const c = classify(f, m[1]!);
+      if (c?.key != null) reads.set(c.key, [...(reads.get(c.key) ?? []), f]);
+    }
+  }
 
-  // `_safeSet(`nh_${key}_ceremony`)` in applyRemoteProgress interpolates at
-  // position 3, so its "prefix" is the bare `nh_`. Left in, ONE such write makes
-  // every key in the app look covered and the whole sweep vacuous — which is
-  // precisely how a guard ends up reporting clean forever. A suffix-shaped key
-  // family carries no prefix evidence, so it contributes none.
-  const VACUOUS_PREFIX = 'nh_';
-  writtenPrefixes.delete(VACUOUS_PREFIX);
+  // `_safeSet(`nh_${key}_ceremony`)` interpolates at position 3, so its
+  // "prefix" is the bare `nh_`; a first argument opening with `${` yields ''.
+  // Left in, ONE such write makes every key in the app look covered and the
+  // whole sweep vacuous — which is precisely how a guard ends up reporting clean
+  // forever. The old version hard-coded `nh_`, which no longer describes the
+  // namespace. The rule is now DERIVED from what each prefix actually covers:
+  // measured, the interpolation artifacts cover 94 and 116 exact keys while
+  // every genuine key family covers at most three.
+  const MAX_PREFIX_COVERAGE = 5;
+  const coverage = (p: string) => [...written].filter((k) => k.startsWith(p)).length;
+  const vacuousPrefixes = [...writtenPrefixes].filter((p) => coverage(p) > MAX_PREFIX_COVERAGE);
+  const usablePrefixes = [...writtenPrefixes].filter((p) => coverage(p) <= MAX_PREFIX_COVERAGE);
 
   const hasWriter = (key: string) =>
     written.has(key) ||
-    [...writtenPrefixes].some((p) => key.startsWith(p)) ||
+    usablePrefixes.some((p) => p !== '' && key.startsWith(p)) ||
     // A concat read (`lsGet('nh_daily_xp_' + date)`) yields a PREFIX, satisfied
     // by any key or prefix written beneath it.
     [...written].some((w) => w.startsWith(key));
-
-  /** key → the files that read it. */
-  const reads = new Map<string, string[]>();
-  for (const [f, s] of SRC)
-    for (const m of s.matchAll(READ_ACCESSOR)) {
-      const key = m[1]!.slice(1, -1);
-      reads.set(key, [...(reads.get(key) ?? []), f]);
-    }
 
   /**
    * Keys read on purpose with no in-app writer. Both staleness directions are
@@ -367,19 +469,42 @@ describe('no key is read that nothing writes', () => {
       'set by hand in DevTools to turn on on-device console mirroring — an app writer would defeat the point of an off-by-default diagnostic',
     nh_streak_freezes:
       'a legacy store (Settings → Streak Protection, pre-2026-07) read once and deleted by the uFreeze migration in getStreakFreezes — writing it again would resurrect a store nothing consumes',
+    uSR: 'the pre-nh_sr SRS deck, read once by the getSR migration when nh_sr is empty and never written again — the same shape as nh_streak_freezes, and invisible here until the sweep left the nh_ namespace',
+    fbBackupConfirmed:
+      'the dismissal flag of the cloud-backup banner, which 2b838fdb ("Remove all unprompted user interruptions", 2026-04-08) deleted from AppToasts — the read survives in useSyncManager and is permanently true, but it can only set a state whose props that component destructures and renders nothing with. Recorded, not repaired: the removal was deliberate, and deleting the residue is a refactor rather than a fix',
   };
 
   it('the derivation is real', () => {
     expect(SRC.size).toBeGreaterThan(400);
-    expect(reads.size).toBeGreaterThan(80);
-    expect(written.size).toBeGreaterThan(100);
+    expect(reads.size).toBeGreaterThan(150);
+    expect(written.size).toBeGreaterThan(150);
     expect(writtenPrefixes.size).toBeGreaterThan(5);
   });
 
-  it('no accepted prefix matches every key', () => {
-    // The mutation that would silence this whole file, pinned: any prefix at or
-    // below `nh_` covers the entire namespace.
-    for (const p of writtenPrefixes) expect(p.length).toBeGreaterThan(VACUOUS_PREFIX.length);
+  it('the widening is real: both sides see keys outside the nh_ namespace', () => {
+    // Without this the scope could silently snap back to `nh_` — every
+    // assertion below would still pass, over the population the old matcher
+    // already covered, and the four keys this widening exists for would be
+    // invisible again.
+    expect([...reads.keys()].filter((k) => !k.startsWith('nh_')).length).toBeGreaterThan(20);
+    expect([...written].filter((k) => !k.startsWith('nh_')).length).toBeGreaterThan(20);
+  });
+
+  it('constants resolve, file-locally and across named imports', () => {
+    // CookieConsent writes through `const COOKIE_KEY = 'cookie_consent_v1'` and
+    // analytics.ts reads the literal; if constant resolution regressed, that
+    // pair would split into an orphan read and an orphan write.
+    expect(written.has('cookie_consent_v1')).toBe(true);
+    // A name declared in six modules must not leak between them.
+    expect(hasWriter('nh_no_such_key_anywhere')).toBe(false);
+  });
+
+  it('no accepted prefix covers a large share of the namespace', () => {
+    // The mutation that would silence this whole file, pinned: an interpolation
+    // artifact accepted as a key family covers everything beneath it.
+    for (const p of usablePrefixes) expect(coverage(p)).toBeLessThanOrEqual(MAX_PREFIX_COVERAGE);
+    // …and the artifacts really are being rejected, so the rule is not inert.
+    expect(vacuousPrefixes.length).toBeGreaterThan(0);
   });
 
   it('non-vacuity: the matcher resolves a key that IS written and one that is not', () => {
@@ -388,7 +513,7 @@ describe('no key is read that nothing writes', () => {
     expect(hasWriter('nh_no_such_key_anywhere')).toBe(false);
   });
 
-  it('every nh_ key read in src has a writer', () => {
+  it('every key read in src has a writer', () => {
     const orphans = [...reads]
       .filter(([k]) => !hasWriter(k) && !(k in NO_WRITER_BY_DESIGN))
       .map(([k, files]) => `${k} — read by ${[...new Set(files)].join(', ')}`);
@@ -411,7 +536,7 @@ describe('no key is read that nothing writes', () => {
   });
 
   it('the exemption list is not silently emptied', () => {
-    expect(Object.keys(NO_WRITER_BY_DESIGN)).toHaveLength(2);
+    expect(Object.keys(NO_WRITER_BY_DESIGN)).toHaveLength(4);
   });
 });
 
