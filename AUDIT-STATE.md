@@ -6100,7 +6100,11 @@ send / restart / fallback / idle, restarts carry the transcript forward
 (`event.results` is empty in a new session, so restarting without accumulating
 would have been a second truncation bug), and restarting is capped so a dead
 speech service falls through to Whisper or the typed input instead of spinning.
-Mutation-verified four ways.
+Mutation-verified four ways, and pinned at the SCREEN as well as at the
+decision: `e2e/maja-turn-end.spec.js` drives a fake recognizer that ends its
+session mid-sentence, and against the old handler it reproduces the report
+exactly — `{"message":"Jučer sam bio"}` posted and answered, then
+`{"message":"u dućanu s bakom"}` as a separate turn.
 
 **The other half of that report was a promise that never settles**, and it is
 the worse half: ten screens carried a byte-identical `new Promise` around a

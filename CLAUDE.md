@@ -2982,6 +2982,16 @@ and the mic is dead until the learner leaves the screen.
 - The existing `abort()`-vs-`stop()` rule is untouched and still pinned: the
   silence timer flushes with `stop()`, and `stopMic()` (which aborts) appears
   only in the WebView backstop.
+- **PINNED AT THE SCREEN, NOT ONLY AT THE DECISION.**
+  `e2e/maja-turn-end.spec.js` drives the real screen with a fake recognizer that
+  does what Chrome does — emit a partial result, then end the session by itself.
+  Reproduced against the old handler first, and the output IS the defect:
+  `{"message":"Jučer sam bio"}` posted and answered, then
+  `{"message":"u dućanu s bakom"}` as a second turn. One sentence, two turns,
+  the first a fragment. After: one message, whole. A unit test cannot see that,
+  because the bug is in which branch the screen takes and how the transcript
+  crosses a restart. Mutation-verified there too: dropping the accumulation
+  makes it arrive as "u dućanu s bakom".
 - NEVER: treat `onend` as "the learner finished"; set the deliberate-end flag
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.
