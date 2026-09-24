@@ -4312,6 +4312,127 @@ re-armed.
 E2E: no spec asserts quest state, quest counts or XP totals, and under E2E there is
 no microphone — `scoredItems` is 0, so the new mark never fires there at all.
 
+### Sweep 64 — the level four screens showed was the day-one placement (2026-09-24, CLOSED)
+
+**The question**, chosen after the duplicated-fact vein was worked out: *where is
+an ABSENT or STALE value read as a permissive default?* `cefrRank` maps any
+unrecognised string to 0, so an absent CONTENT level is visible to everyone
+(documented and intended, `cefr.ts:78`) while an absent USER level silently locks
+a learner to A1. Tracing what actually reaches the gate as the user level found
+something better than the absent case.
+
+**`nh_level` IS THE PLACEMENT RESULT AND NOTHING ELSE.** Written in exactly two
+places, both inside `PlacementTest`; never advanced as a learner earns their way
+up. `getGenerationCefr` exists for precisely this and says so in its own
+docstring — "generators that read it serve placement-level content to learners
+who have since reached C1/C2" — and `AIListeningScreen` carries a comment
+explaining that it moved off the raw key for that reason. **Four screens still
+read it raw**, each with its own invented default.
+
+**THE FOUR ARE NOT EQUIVALENT, AND MY FIRST WRITE-UP SAID THEY WERE.** I posted a
+four-row table as though one defect appeared four times; reading what each screen
+DOES with the value is what separated them, and one of the four is not a defect
+in the same sense at all:
+
+| screen | what the value decides | verdict |
+| --- | --- | --- |
+| `SpeakingSprintScreen` ×2 | the PROMPT POOL, and the level RENDERED on the setup screen | real — no way to change it |
+| `AspectScreen` | how much scaffolding the lesson shows | real, milder — errs toward more teaching |
+| `VocabJournal` | metadata attached to a saved word via an API call | milder still, different in kind |
+| `VideoLessonScreen` | the INITIAL level — the screen has its own picker | a wrong DEFAULT the learner can override |
+
+So a learner placed at A2 who has since reached C1 drew A2 sprint prompts for
+ever, and one who skipped placement drew **B1 whoever they were** — while the
+setup screen told them "Level: B1". That is a number the app SHOWED a learner
+while holding a better one.
+
+**The fix is one line per site and safe in all four at once**, because
+`getGenerationCefr()` takes no argument (it reads the persisted profile itself,
+by design, for callers without StatsContext — which is why two MODULE-LEVEL
+functions could call it with no plumbing) and returns the **higher** of placement
+and earned. It can only ever raise a learner's level. **That property is the
+whole reason a four-site change is safe, so it is asserted rather than trusted**
+— a test drives the real function at every placement with a zero-XP learner and
+requires the result never to rank below the placement. Mutation-verified in the
+DANGEROUS direction: making the helper prefer `earned` fails 2.
+
+**Three call sites, not two.** `pickPrompt()` is called twice and `getUserLevel()`
+once; both are module-level and neither is exported. Counting them before editing
+is the LISTEN lesson ("this entry said both launch sites and there were three")
+applied on purpose rather than after the fact.
+
+`placementLevelReaders.test.ts` derives every raw reader from source and requires
+each to be the sync/wire layer with its reason — `cefrCertification` (the one
+reconciling read), `progressSnapshot`, `firebase`, `applyRemoteProgress`, and
+`PlacementTest` (which writes it) — checked in both staleness directions.
+Mutation-verified, three: the original sprint bug restored fails 1; an exemption
+for a file that does not read the key fails 1; the helper's no-regression
+property broken fails 2.
+
+E2E: no spec asserts a CEFR label on any of the four. `ai-video-lesson` asserts
+the six level BUTTONS are present, not which is selected; the `Level:` matches in
+the 180-day audit are `info()` logging; the Speaking Sprint block matches loose
+regexes and types answers.
+
+### Sweep 65 — the spec's own setup wrote the state it then contradicted (2026-09-24, CLOSED)
+
+**Found by CI, not by a sweep**: `E2E Tests (Cross-Browser)` went red on #724
+(`b93e0d71`) at `verification-gate.spec.js:146`, three attempts, identical
+string — expected `400 XP`, got `You've earned 350 XP of practice since your
+last check`. Master was green on the PR's own base (`0b4ec48a`, run
+35945156618), so by the usual reading it was "mine". **It was not, and
+establishing that took reading the mechanism rather than the diff.** #724
+touched `SpeakingSprintScreen`, `AspectScreen`, `VocabJournal`,
+`VideoLessonScreen` and one new test file — nothing on Home, nothing near the
+gate.
+
+**The mechanism.** `seedProvisional` writes the certification blob with
+`attempts: []`, then `beforeEach` visits Home. That is the never-attempted
+case, so `verificationQuietStatus` takes its "seeded DUE" branch and WRITES
+`nh_cefr_prompt_baseline = currentXp - VERIFICATION_RETURN_XP` = 1500 - 350 =
+**1150**. The test then re-seeds an attempt stashed at `xp: 1100` and reloads;
+localStorage survives a reload, the later-stretch-wins rule prefers the stored
+1150 over the attempt's 1100, and `earnedSince` is 350 rather than 400 — which
+is also why the failure string reads exactly `VERIFICATION_RETURN_XP`.
+
+**Why it was a flake and not a permanent failure.** The baseline is only
+written once `currentXp` is hydrated (the card renders NOTHING at 0, by
+design), and `beforeEach` awaits only the nav landmark before the test reloads.
+So the write is in a race with the reload: fast runner → no write → 400 →
+green; slow runner → write → 350 → red. It had been latent for as long as the
+cadence existed.
+
+**Reproduced deterministically before touching anything** — added a temporary
+`waitForFunction(() => localStorage.getItem('nh_cefr_prompt_baseline') !==
+null)` before the reload and got CI's exact string locally, against a fresh
+`npm run build` and the container's own chromium
+(`/opt/pw-browsers/chromium-1194`, since the installed Playwright wants a
+browser build this image does not carry — `executablePath` via a throwaway
+config, never `playwright install`).
+
+**Fix, two parts and both load-bearing:**
+
+1. `seedProvisional` now ends `localStorage.removeItem('nh_cefr_prompt_baseline')`.
+   Init scripts re-run on every navigation including the reload, so the cadence
+   half starts clean each load and only the attempt-driven half — what this file
+   tests — decides.
+2. `beforeEach` now anchors on the gate card being VISIBLE. The card renders
+   nothing while `currentXp` is 0, so its visibility is the proof that the
+   engine ran against hydrated XP and therefore that the baseline write has
+   happened. Without it the fix is unfalsifiable locally, because the defect
+   only appears when the race lands.
+
+**Verified:** 5/5 pass with the fix. **Mutation-verified:** dropping the
+`removeItem` (anchor kept) fails 1 test — the returning-hero one — on every
+run, not intermittently, which is the difference part 2 buys.
+
+**What this sweep cannot see:** other specs whose `beforeEach` navigation
+writes state the test later contradicts. The shape is general —
+`page.addInitScript` re-runs on every navigation but localStorage PERSISTS
+across a reload, so a seed that only WRITES what the test needs inherits
+whatever the setup visit wrote. Not surveyed; a candidate for a later sweep is
+every spec that reloads after re-seeding a key the app also writes.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
