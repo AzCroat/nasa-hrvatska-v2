@@ -4312,6 +4312,68 @@ re-armed.
 E2E: no spec asserts quest state, quest counts or XP totals, and under E2E there is
 no microphone — `scoredItems` is 0, so the new mark never fires there at all.
 
+### Sweep 64 — the level four screens showed was the day-one placement (2026-09-24, CLOSED)
+
+**The question**, chosen after the duplicated-fact vein was worked out: *where is
+an ABSENT or STALE value read as a permissive default?* `cefrRank` maps any
+unrecognised string to 0, so an absent CONTENT level is visible to everyone
+(documented and intended, `cefr.ts:78`) while an absent USER level silently locks
+a learner to A1. Tracing what actually reaches the gate as the user level found
+something better than the absent case.
+
+**`nh_level` IS THE PLACEMENT RESULT AND NOTHING ELSE.** Written in exactly two
+places, both inside `PlacementTest`; never advanced as a learner earns their way
+up. `getGenerationCefr` exists for precisely this and says so in its own
+docstring — "generators that read it serve placement-level content to learners
+who have since reached C1/C2" — and `AIListeningScreen` carries a comment
+explaining that it moved off the raw key for that reason. **Four screens still
+read it raw**, each with its own invented default.
+
+**THE FOUR ARE NOT EQUIVALENT, AND MY FIRST WRITE-UP SAID THEY WERE.** I posted a
+four-row table as though one defect appeared four times; reading what each screen
+DOES with the value is what separated them, and one of the four is not a defect
+in the same sense at all:
+
+| screen | what the value decides | verdict |
+| --- | --- | --- |
+| `SpeakingSprintScreen` ×2 | the PROMPT POOL, and the level RENDERED on the setup screen | real — no way to change it |
+| `AspectScreen` | how much scaffolding the lesson shows | real, milder — errs toward more teaching |
+| `VocabJournal` | metadata attached to a saved word via an API call | milder still, different in kind |
+| `VideoLessonScreen` | the INITIAL level — the screen has its own picker | a wrong DEFAULT the learner can override |
+
+So a learner placed at A2 who has since reached C1 drew A2 sprint prompts for
+ever, and one who skipped placement drew **B1 whoever they were** — while the
+setup screen told them "Level: B1". That is a number the app SHOWED a learner
+while holding a better one.
+
+**The fix is one line per site and safe in all four at once**, because
+`getGenerationCefr()` takes no argument (it reads the persisted profile itself,
+by design, for callers without StatsContext — which is why two MODULE-LEVEL
+functions could call it with no plumbing) and returns the **higher** of placement
+and earned. It can only ever raise a learner's level. **That property is the
+whole reason a four-site change is safe, so it is asserted rather than trusted**
+— a test drives the real function at every placement with a zero-XP learner and
+requires the result never to rank below the placement. Mutation-verified in the
+DANGEROUS direction: making the helper prefer `earned` fails 2.
+
+**Three call sites, not two.** `pickPrompt()` is called twice and `getUserLevel()`
+once; both are module-level and neither is exported. Counting them before editing
+is the LISTEN lesson ("this entry said both launch sites and there were three")
+applied on purpose rather than after the fact.
+
+`placementLevelReaders.test.ts` derives every raw reader from source and requires
+each to be the sync/wire layer with its reason — `cefrCertification` (the one
+reconciling read), `progressSnapshot`, `firebase`, `applyRemoteProgress`, and
+`PlacementTest` (which writes it) — checked in both staleness directions.
+Mutation-verified, three: the original sprint bug restored fails 1; an exemption
+for a file that does not read the key fails 1; the helper's no-regression
+property broken fails 2.
+
+E2E: no spec asserts a CEFR label on any of the four. `ai-video-lesson` asserts
+the six level BUTTONS are present, not which is selected; the `Level:` matches in
+the 180-day audit are `info()` logging; the Speaking Sprint block matches loose
+regexes and types answers.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

@@ -3,7 +3,7 @@ import { H, speak } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import LessonQuiz from './LessonQuiz';
 import { LESSON_QUIZ_BANKS } from '../../lib/lessonQuizBanks';
-import { lsGet } from '../../lib/safeStorage';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 
 interface AspectPair {
   impf: string;
@@ -25,7 +25,9 @@ interface Props {
 function AspectScreen({ goBack, award }: Props) {
   const { grammar, loading, error } = useGrammar();
   const [quiz, setQuiz] = useState(false);
-  const userLevel = typeof localStorage !== 'undefined' ? lsGet('nh_level') || 'A1' : 'A1';
+  // Chooses how much scaffolding to show, so the stale placement level kept an
+  // advanced learner on the beginner explanation of aspect indefinitely.
+  const userLevel = getGenerationCefr();
   const isA1 = userLevel === 'A1';
   const isPreB1 = ['A1', 'A2'].includes(userLevel);
 

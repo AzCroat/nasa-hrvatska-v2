@@ -2881,6 +2881,35 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
+
+`nh_level` is written in exactly two places, both inside `PlacementTest`. It is
+the day-one placement result and **never advances** as a learner earns their way
+up. `getGenerationCefr()` is the answer and its own docstring says so; four
+screens still read the raw key, each with an invented default, so a learner
+placed at A2 who reached C1 drew A2 content for ever and one who skipped
+placement drew **B1 whoever they were**.
+
+- **The four were NOT equivalent** and reading what each DOES with the value is
+  what separated them: `SpeakingSprintScreen` (the prompt POOL, and the level
+  RENDERED on setup — no way to change it) is the real one; `AspectScreen`
+  (scaffolding depth) is milder and errs toward more teaching; `VocabJournal`
+  attaches it as metadata to an API call; `VideoLessonScreen`'s is a DEFAULT the
+  learner can override with its own picker. Report the census, not the grep.
+- **`getGenerationCefr()` takes no argument** — it reads the persisted profile
+  itself, deliberately, so a MODULE-LEVEL function can call it with no hook and
+  no plumbing. That is what made a four-site fix one line each.
+- **It returns the HIGHER of placement and earned**, so it can only raise a
+  learner's level. That property is why changing four call sites at once is safe,
+  so `placementLevelReaders.test.ts` ASSERTS it against the real function rather
+  than trusting it (mutation-verified in the dangerous direction).
+- **Count the call sites before editing.** `pickPrompt()` is called twice and
+  `getUserLevel()` once — three, not two. Same lesson as "this entry said both
+  launch sites and there were three".
+- NEVER: decide what a learner SEES from `nh_level`; add a reader of the raw key
+  outside the sync/wire layer (the guard derives them and demands a reason);
+  assume screens sharing a symptom share a severity.
+
 ## Critical Architecture: Concept Teaching (owner directive, 2026-08-18)
 
 English speakers have no concept of grammatical case — the app must TEACH

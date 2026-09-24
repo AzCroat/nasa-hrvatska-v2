@@ -4,6 +4,7 @@ import Dexie from 'dexie';
 import { H, speak, srMark, getSR } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { normalizeJournal } from '../../lib/journalEntry';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 
 interface JournalWord {
   id?: number;
@@ -56,7 +57,7 @@ async function migrateFromLocalStorage() {
 // Read user's CEFR level from localStorage (set by placement test / profile)
 function getUserLevel() {
   try {
-    return localStorage.getItem('nh_level') || 'A2';
+    return getGenerationCefr();
   } catch {
     return 'A2';
   }

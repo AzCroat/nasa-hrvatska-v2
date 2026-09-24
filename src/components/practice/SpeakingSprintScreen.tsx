@@ -10,7 +10,7 @@ import SprintCountdownScreen from './SprintCountdownScreen';
 import SprintSpeakingPhase from './SprintSpeakingPhase';
 import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
-import { lsGet } from '../../lib/safeStorage';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -288,18 +288,27 @@ const PROMPTS = {
 // ─────────────────────────────────────────────
 const SR_SUPPORTED = isSpeechRecognitionSupported();
 
+// THE LEARNER'S LEVEL IS `getGenerationCefr()`, NOT `nh_level` (2026-09-24).
+// `nh_level` is written in exactly two places, both inside `PlacementTest`: it is
+// the day-one placement result and never advances as the learner earns their way
+// up. `getGenerationCefr` returns the HIGHER of that placement and the earned,
+// certification-aware unlock level, so it can only ever raise a learner's level
+// — and it reads the persisted profile itself when given no stats, which is why
+// a module-level function can call it with no hook and no plumbing.
+//
+// This screen picked the learner's PROMPT POOL from the stale value, so a learner
+// placed at A2 who has since reached C1 drew A2 sprint prompts for ever, and one
+// who skipped placement drew B1 whoever they were.
 function pickPrompt(): SprintPrompt {
-  const level = lsGet('nh_level') || 'B1';
-  const levelKey = (
-    ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1'
-  ) as keyof typeof PROMPTS;
+  const levelKey = getGenerationCefr() as keyof typeof PROMPTS;
   const pool = PROMPTS[levelKey] ?? PROMPTS.B1;
   return pool[Math.floor(Math.random() * pool.length)]!;
 }
 
+// Rendered to the learner as their level on the sprint setup screen, so the
+// stale value was a number the app SHOWED them while holding a better one.
 function getUserLevel() {
-  const level = lsGet('nh_level') || 'B1';
-  return ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(level) ? level : 'B1';
+  return getGenerationCefr();
 }
 
 // ─────────────────────────────────────────────
