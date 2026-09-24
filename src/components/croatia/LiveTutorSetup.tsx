@@ -418,6 +418,9 @@ export default function LiveTutorSetup({
             Conversation Topic
           </div>
           <select
+            // The visible "Conversation Topic" heading above is a plain div, so
+            // it names this control for sighted users and for nobody else.
+            aria-label="Conversation Topic"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             style={{

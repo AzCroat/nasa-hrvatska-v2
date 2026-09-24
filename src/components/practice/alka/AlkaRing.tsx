@@ -41,6 +41,10 @@ export default function AlkaRing({
         3
       </div>
       <div
+        // aria-label is prohibited on a generic div — with no role it is simply
+        // ignored, so the label was never reaching anyone. role="img" makes it
+        // valid and keeps the name the author wrote.
+        role="img"
         aria-label="lance aim"
         style={{
           position: 'absolute',

@@ -44,6 +44,7 @@
  * distinct routes render distinct screens; without it the second is unfalsifiable.
  */
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 import { readFileSync } from 'node:fs';
 
@@ -149,6 +150,69 @@ test.describe('route render sweep', () => {
       threw,
       'these screens raise an uncaught exception with no boundary to catch it, ' +
         'so nothing renders an error and nothing fails — it is simply wrong',
+    ).toEqual([]);
+  });
+
+  /**
+   * WCAG across the 424 screens axe has never seen.
+   *
+   * `accessibility.spec.js` scans SIX surfaces — the five tabs and login. That
+   * left 424 screens unscanned, and the first sweep of all 430 found four rules:
+   *
+   *   color-contrast        252 routes / 985 nodes   (excluded — see below)
+   *   select-name             1 route  (critical)    fixed: LiveTutorSetup
+   *   frame-title             1 route               fixed: CrMap
+   *   aria-prohibited-attr    1 route               fixed: AlkaRing
+   *
+   * The three singletons were real and are fixed; this test is what stops the
+   * next one. It is clean as written, so it is a ratchet, not a repair.
+   *
+   * COLOR-CONTRAST IS EXCLUDED, DELIBERATELY AND WITH A NUMBER. 985 failing
+   * nodes span at least eight palette colours (slate-400 211, green-600 181,
+   * gray-400 107, stone-400 60, cyan-600 43 …), and 246 of them come from CSS
+   * classes rather than inline styles. `--subtext` was already darkened to
+   * #555e6e for exactly this reason — its own comment in index.css says "WCAG
+   * AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small text)" — while
+   * ~130 hardcoded `#94a3b8` literals never followed it. Repairing that is a
+   * change to how the product LOOKS on most of its screens, which is an owner's
+   * decision and not a test's. Asserting it here would either fail the workflow
+   * for ever or invite a threshold nobody can justify. It is counted and
+   * printed instead, so the number cannot quietly grow unobserved.
+   */
+  test('no screen has a serious or critical WCAG violation, contrast aside', async ({ page }) => {
+    test.setTimeout(45 * 60 * 1000);
+    await page.goto('/');
+    await page.waitForLoadState('networkidle').catch(() => {});
+
+    const offenders = [];
+    let contrastRoutes = 0;
+    let contrastNodes = 0;
+    for (const r of ROUTES) {
+      try {
+        await page.goto('/' + r, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        await page.waitForTimeout(600);
+        const res = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+          .analyze();
+        const bad = res.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
+        const contrast = bad.filter((v) => v.id === 'color-contrast');
+        if (contrast.length) {
+          contrastRoutes++;
+          contrastNodes += contrast.reduce((n, v) => n + v.nodes.length, 0);
+        }
+        for (const v of bad.filter((v) => v.id !== 'color-contrast')) {
+          offenders.push(`${r}: ${v.id} (${v.impact}) — ${(v.nodes[0]?.html || '').slice(0, 90)}`);
+        }
+      } catch {
+        /* a route that will not load is sweep 87's finding, not this one */
+      }
+    }
+    console.log(`color-contrast: ${contrastRoutes} routes, ${contrastNodes} nodes (not asserted)`);
+    expect(
+      offenders,
+      'a control a screen reader cannot name, a frame it cannot title, or an ' +
+        'ARIA attribute that is silently ignored — each one makes the screen ' +
+        'unusable with assistive technology while looking perfectly fine',
     ).toEqual([]);
   });
 });
