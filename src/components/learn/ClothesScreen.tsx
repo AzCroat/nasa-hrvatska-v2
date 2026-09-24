@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { clickable } from '../../lib/clickable';
 
 interface BackBtnProps {
   goBack: () => void;
@@ -264,7 +265,7 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                   border: '1px solid rgba(0,0,0,.06)',
                   cursor: 'pointer',
                 }}
-                onClick={() => speak(item.hr)}
+                {...clickable(() => speak(item.hr), 'Hear ' + item.hr)}
               >
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#7c3aed', marginBottom: 2 }}>
                   {item.hr}

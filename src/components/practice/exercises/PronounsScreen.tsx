@@ -4,6 +4,7 @@ import { PRONOUNCASE } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -122,9 +123,9 @@ function PronounsScreen({ goBack, award }: Props) {
                           fontWeight: vi === 0 ? 700 : 400,
                           color: vi === 0 ? '#0e7490' : '#44403c',
                         }}
-                        onClick={function () {
+                        {...clickable(function () {
                           speak(v);
-                        }}
+                        }, 'Hear ' + v)}
                       >
                         {v}
                       </td>

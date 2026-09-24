@@ -1,6 +1,7 @@
 import React from 'react';
 import { speak } from '../../data';
 import type { WriteEvaluation } from '../../hooks/useWriteMode';
+import { clickable } from '../../lib/clickable';
 
 interface AIConversationWriteResultProps {
   writeEvalError: string | null;
@@ -73,7 +74,7 @@ export default function AIConversationWriteResult({
       {/* Encouragement */}
       {ev.encouragement && (
         <div
-          onClick={() => speak(ev.encouragement!)}
+          {...clickable(() => speak(ev.encouragement!), 'Hear this')}
           style={{
             background: 'var(--success-bg)',
             border: '1.5px solid var(--success-b)',

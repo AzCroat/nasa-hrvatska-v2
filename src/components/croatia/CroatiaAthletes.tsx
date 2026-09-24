@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { clickable } from '../../lib/clickable';
 
 interface Player {
   name: string;
@@ -526,13 +527,13 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
 
       {/* Live database CTA */}
       <div
-        onClick={() =>
+        {...clickable(() =>
           window.open(
             'https://basketball.realgm.com/ncaa/birth-countries/3/Croatia',
             '_blank',
             'noopener,noreferrer',
-          )
-        }
+          ),
+        )}
         style={{
           display: 'flex',
           alignItems: 'center',

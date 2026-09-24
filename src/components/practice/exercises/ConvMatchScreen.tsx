@@ -3,6 +3,7 @@ import { H, speak, sh } from '../../../data';
 import { CONVMATCH } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -116,9 +117,9 @@ function ConvMatchScreen({ goBack, award }: Props) {
                       marginBottom: 6,
                       cursor: 'pointer',
                     }}
-                    onClick={function () {
+                    {...clickable(function () {
                       speak(p.q);
-                    }}
+                    }, 'Hear ' + p.q)}
                   >
                     {'🗣️ '}
                     {p.q}

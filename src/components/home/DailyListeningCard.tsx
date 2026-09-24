@@ -12,6 +12,7 @@ import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import { clickable } from '../../lib/clickable';
 
 interface ListeningQuestion {
   // /api/listening returns { q, options, correct } — `q` is the prompt and
@@ -391,7 +392,7 @@ export default function DailyListeningCard({
         {allLines.map((line, i) => (
           <div
             key={i}
-            onClick={() => speakLine(line.text)}
+            {...clickable(() => speakLine(line.text), 'Hear this line')}
             style={{
               display: 'flex',
               gap: 10,

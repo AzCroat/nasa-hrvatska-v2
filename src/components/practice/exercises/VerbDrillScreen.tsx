@@ -6,6 +6,7 @@ import { addWordToSRS } from '../../../lib/srs.js';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 import CompletionCard from '../../shared/CompletionCard';
+import { clickable } from '../../../lib/clickable';
 
 interface VerbEntry {
   inf: string;
@@ -140,9 +141,9 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
                   alignItems: 'center',
                   cursor: 'pointer',
                 }}
-                onClick={function () {
+                {...clickable(function () {
                   speak(v.inf);
-                }}
+                }, 'Hear ' + v.inf)}
               >
                 <span style={{ fontWeight: 800 }}>{v.inf}</span>
                 <span style={{ fontSize: 12, opacity: 0.7 }}>

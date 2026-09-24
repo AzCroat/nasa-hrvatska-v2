@@ -1,6 +1,7 @@
 import React from 'react';
 import { H, speak, shMemo } from '../../../data';
 import { ADJOPPOSITES } from '../../../data';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -28,9 +29,9 @@ function OppositesScreen({ goBack }: Props) {
           >
             <div
               style={{ flex: 1, textAlign: 'center', cursor: 'pointer' }}
-              onClick={function () {
+              {...clickable(function () {
                 speak(p.ex.a);
-              }}
+              }, 'Hear ' + p.ex.a)}
             >
               <div style={{ fontSize: 16, fontWeight: 800, color: '#16a34a' }}>{p.a}</div>
               <div style={{ fontSize: 11, color: '#78716c' }}>{p.ex.a}</div>
@@ -38,9 +39,9 @@ function OppositesScreen({ goBack }: Props) {
             <div style={{ fontSize: 18, color: '#d6d3d1' }}>↔</div>
             <div
               style={{ flex: 1, textAlign: 'center', cursor: 'pointer' }}
-              onClick={function () {
+              {...clickable(function () {
                 speak(p.ex.b);
-              }}
+              }, 'Hear ' + p.ex.b)}
             >
               <div style={{ fontSize: 16, fontWeight: 800, color: '#dc2626' }}>{p.b}</div>
               <div style={{ fontSize: 11, color: '#78716c' }}>{p.ex.b}</div>

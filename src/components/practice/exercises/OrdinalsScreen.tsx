@@ -3,6 +3,7 @@ import { H, speak, sh, shMemo } from '../../../data';
 import { ORDINALS, ORDQUIZ } from '../../../data';
 import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
+import { clickable } from '../../../lib/clickable';
 
 interface Props {
   goBack: () => void;
@@ -54,9 +55,9 @@ function OrdinalsScreen({ goBack, award }: Props) {
               key={i}
               className="c"
               style={{ textAlign: 'center', padding: '8px 4px', cursor: 'pointer' }}
-              onClick={function () {
+              {...clickable(function () {
                 speak(o.hr);
-              }}
+              }, 'Hear ' + o.hr)}
             >
               <div style={{ fontSize: 18, fontWeight: 800, color: '#0e7490' }}>{o.num}.</div>
               <div style={{ fontSize: 13, fontWeight: 700 }}>{o.hr}</div>

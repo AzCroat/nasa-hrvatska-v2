@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { H } from '../../data';
+import { clickable } from '../../lib/clickable';
 
 const CAT_COLORS = {
   Sport: '#dc2626',
@@ -707,7 +708,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           Istaknuti članak danas
         </div>
         <div
-          onClick={() => handleSelect(featuredArticle.id)}
+          {...clickable(() => handleSelect(featuredArticle.id))}
           style={{
             background: `linear-gradient(145deg, ${(CAT_COLORS as Record<string, string>)[featuredArticle.category]}ee 0%, ${(CAT_COLORS as Record<string, string>)[featuredArticle.category]}99 100%)`,
             borderRadius: 18,
@@ -806,7 +807,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           return (
             <div
               key={art.id}
-              onClick={() => handleSelect(art.id)}
+              {...clickable(() => handleSelect(art.id))}
               style={{
                 background: '#fff',
                 borderRadius: 14,

@@ -3,6 +3,7 @@ import { H, getMistakes, clearMistake, clearAllMistakes, speak } from '../../dat
 import { useStats } from '../../context/StatsContext';
 import { recordSrsReview } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { clickable } from '../../lib/clickable';
 
 // ── Flip card ──────────────────────────────────────────────────────────────────
 function FlipCard({
@@ -23,7 +24,7 @@ function FlipCard({
   return (
     <div style={{ perspective: 1000, marginBottom: 24 }}>
       <div
-        onClick={handleFlip}
+        {...clickable(handleFlip)}
         style={{
           position: 'relative',
           width: '100%',

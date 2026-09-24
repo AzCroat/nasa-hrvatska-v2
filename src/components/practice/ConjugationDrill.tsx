@@ -4,6 +4,7 @@ import { H, Bar, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { clickable } from '../../lib/clickable';
 
 interface ConjVerb {
   inf: string;
@@ -81,7 +82,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                 key={t}
                 className="tc"
                 style={{ textAlign: 'center', cursor: 'pointer', padding: '20px 14px' }}
-                onClick={() => startQuiz(t)}
+                {...clickable(() => startQuiz(t))}
               >
                 <div style={{ fontSize: 32 }}>
                   {t === 'all' ? '🎲' : t === 'present' ? '📍' : t === 'past' ? '⏮' : '⏭'}
@@ -121,7 +122,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                       cursor: 'pointer',
                       textAlign: 'center',
                     }}
-                    onClick={() => speak(v.forms[0] ?? '')}
+                    {...clickable(() => speak(v.forms[0] ?? ''), 'Hear ' + (v.forms[0] ?? ''))}
                   >
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{v.inf}</div>
                     <div style={{ fontSize: 11, color: '#78716c' }}>{v.en}</div>

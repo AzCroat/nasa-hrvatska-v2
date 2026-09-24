@@ -3,6 +3,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, Spk, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { clickable } from '../../lib/clickable';
 
 interface ModalQuizQ {
   q: string;
@@ -120,10 +121,10 @@ export default function ModalScreen({
                 key={i}
                 className="tc"
                 style={{ textAlign: 'center', padding: '14px 8px' }}
-                onClick={() => {
+                {...clickable(() => {
                   sM7v(i);
                   sM7('learn');
-                }}
+                })}
               >
                 <div style={{ fontSize: 28 }}>{v.icon}</div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: '#5b21b6' }}>{v.inf}</div>
@@ -188,7 +189,10 @@ export default function ModalScreen({
                       <tr
                         key={pi}
                         style={{ borderBottom: '1px solid #f3f4f6', cursor: 'pointer' }}
-                        onClick={() => speak(v.forms[pi] ?? '')}
+                        {...clickable(
+                          () => speak(v.forms[pi] ?? ''),
+                          'Hear ' + (v.forms[pi] ?? ''),
+                        )}
                       >
                         <td
                           style={{

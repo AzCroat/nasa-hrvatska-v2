@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { H, Bar, sh, ZNAM, srMark } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
+import { clickable } from '../../lib/clickable';
 
 export default function ZnamGame({
   goBack,
@@ -46,7 +47,7 @@ export default function ZnamGame({
             <div
               key={si}
               className="tc"
-              onClick={() => startSection(si)}
+              {...clickable(() => startSection(si))}
               style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}
             >
               <div
