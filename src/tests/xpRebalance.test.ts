@@ -23,9 +23,16 @@ describe('XP economy rebalance (2026-08-14)', () => {
   });
 
   it('the dwell timer awards DWELL_XP (not a hardcoded amount)', () => {
-    const src = readFileSync('src/hooks/useScreenLauncher.ts', 'utf8');
-    expect(src).toContain("award(DWELL_XP, undefined, 'lesson', screenId)");
-    expect(src).not.toContain("award(15, undefined, 'lesson', screenId)");
+    // DERIVED, because this pin named useScreenLauncher.ts and went stale the day
+    // the dwell block was extracted to lib/dwellCredit.ts for the 800-line cap
+    // (2026-09-24) — a file path in an assertion decays exactly like a
+    // hand-maintained list. Whichever file holds the dwell award must reach
+    // DWELL_XP through the constant; a literal 15 anywhere fails.
+    const HOLDERS = ['src/lib/dwellCredit.ts', 'src/hooks/useScreenLauncher.ts'];
+    const sources = HOLDERS.map((f) => readFileSync(f, 'utf8'));
+    const awarding = sources.filter((src) => /award\(DWELL_XP, undefined, 'lesson',/.test(src));
+    expect(awarding.length, 'no file awards the dwell XP through DWELL_XP').toBe(1);
+    for (const src of sources) expect(src).not.toMatch(/award\(1?5, undefined, 'lesson',/);
   });
 
   it('useAward applies the production premium at the PRODUCTION_SCREEN_IDS check', () => {

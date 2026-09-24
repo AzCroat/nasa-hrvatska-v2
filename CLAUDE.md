@@ -3342,6 +3342,107 @@ a 6 s failsafe when no Firebase user arrives):
 
 ---
 
+## Critical Architecture: An Empty Page Is Not An Answer, And Twenty Seconds On One Is Not A Lesson (2026-09-24)
+
+The other half of "a tap either opens it or says why": the tap DOES open a
+screen, and the screen has nothing on it. Measured across all 48 `useContent`
+consumers, reading what each early return actually renders — **20 say both
+states, five said neither.**
+
+| screen | before |
+| ------ | ------ |
+| `BodyDescScreen`, `ClothesScreen`, `CountriesScreen`, `ProfessionsScreen` | `<WRAP><BACK_BTN/></WRAP>` from BOTH the `error` and the `loading \|\| !content` branch — **byte-identical**, so the two causes were indistinguishable and neither was named |
+| `WeatherScreen` | the same, and it never destructured `error` at all: a failed fetch leaves `content` null, so that page was blank **for ever** |
+
+All five are routed (`weather`, `clothes`, `countries`, `professions`,
+`bodydesc`), reachable from the Learn Path and from search, and the payload lands
+~9.2 s after first paint in the CI-equivalent E2E harness — so an early tap meets
+this window every time.
+
+- **`ContentStateNotice` is the one decision** (`src/components/shared/`): two
+  states, two sentences, the rule `LaunchFailureNotice` and `poolLaunchBlock`
+  already carry, applied one layer up. A component rather than five more inline
+  copies, because a SIXTH silent screen is what this census keeps finding.
+- **THE PROP-DRILLED HALF OF THE CONTENT-TIMING CLASS IS EMPTY, AND THAT IS A
+  RESULT.** The derivation (bind the names `useContent` yields, close over every
+  local whose initializer mentions one, then read every JSX attribute whose value
+  mentions a derived name) found **48 content-derived prop passes to 11
+  components and not one defect** — because every parent that passes such data
+  down also guards, so the child never sees the pre-content value. The defect was
+  in the guard. **Its first run reported 0 and was therefore unfinished**: the
+  JSX tag matcher could not span a tag containing an arrow function, since the
+  `>` in `(v) => …` ends the match, and that made the KNOWN member
+  (`GoalFocusSection`) invisible. A brace- and string-aware tag scanner fixed it.
+  **A derivation that misses a known member is an unfinished tool, not a negative
+  result.**
+- **THE DWELL TIMER PAID FOR A PAGE THAT SHOWED NOTHING**, and this is the
+  interactions-between-features seam: neither feature is wrong alone.
+  `launchPathItem` arms a 20-second timer for a LEARN_PATH item whose `go` is in
+  `BLACK_HOLE_SCREENS` and credits `lc`/`gc` + `DWELL_XP` when it fires, knowing
+  the screen id and **nothing about whether that screen had anything to show**.
+  Derived through the REAL router and the import graph: **7 of the 13 black-hole
+  screens render from the payload** (`idioms`, `brzalice`, `history`, `recipes`,
+  `dialects`, `proverbs`, `bureaucratic`); the other 6 are static. So twenty
+  seconds on "Loading this page" bought a completed informational lesson and
+  5 XP for reading nothing — NEVER-DO 14.
+- **THE RE-ARM IS LOAD-BEARING AND THE OBVIOUS FIX WOULD HAVE BEEN WORSE THAN
+  THE DEFECT.** `vs` is written on TAP, so `wasFirstVisit` is false on every
+  later visit: a bare `return` in the gate would have withheld the counter
+  **permanently** from the ordinary learner who tapped in during the content
+  window, which is far commoner than a failed fetch. The timer re-arms a full
+  dwell, capped at `DWELL_CONTENT_WAITS` (3) — credit for twenty seconds on a
+  page that could be read, whenever the payload turns up, and nothing once the
+  page has been unreadable for over a minute. Each re-armed timer is handed back
+  through `onArm` so the launcher's ref can still cancel it on navigation.
+- **The `vs` VISIT marker is untouched.** It is a different claim — CLAUDE.md
+  already records what conflating it with a completion marker cost on
+  AlphabetScreen — and the path node must not stick incomplete. Only the COUNTER
+  and the XP are gated, which is what "credit" means in NEVER-DO 14.
+- **`CONTENT_DEPENDENT_BLACK_HOLE_SCREENS` is DERIVED, not hand-listed.** A list
+  of screen ids in one file cannot know about a screen that starts or stops
+  reading the payload; `dwellContentGate.test.tsx` walks the real router and the
+  real import graph and requires equality in BOTH directions, plus that both
+  sides are non-empty so neither half of the check is vacuous.
+- **The 800-line cap was NOT raised.** The gate took `useScreenLauncher.ts` to
+  806 countable lines, so the dwell block became `src/lib/dwellCredit.ts` — the
+  same move that produced `blackHoleScreens.ts` out of that very hook. No
+  override; mechanism unchanged; all four dwell mutations re-run against the
+  extracted module.
+- **TWO HARNESS DEFECTS IN THE NEW GUARDS, both found by mutation.** (1) A
+  `setStats` mock that RECORDS updaters without APPLYING them silently disables
+  any launcher behaviour depending on a state update having happened —
+  `wasFirstVisit` is assigned inside the `vs` updater and read twenty seconds
+  later, so every credit path bailed before reaching the gate under test. The
+  suite failed on the STATIC screen, where no gate should apply at all, which is
+  what exposed it. (2) The census's "does this branch say anything" predicate had
+  to follow one delegation hop (six screens render `<LoadingState />`, whose
+  whole body is the word "Loading…") — **and the first version of that hop was
+  decorative**, reading a fixed 800 characters from the declaration, running past
+  the end of the function into a sibling's `textAlign: 'center'`, so a gutted
+  `LoadingState` passed clean. That is verbatim the fixed-window defect
+  `registryMatchesScreen` records. Fixed by bounding the body to its own braces
+  AND stripping styling before testing for words; `deStyle` is **proved**
+  load-bearing, not assumed — with it the gutted component fails 1 test, without
+  it the identical mutation passes.
+- **What this does NOT cover, stated:** a screen that renders content-derived
+  data with no early return and no inline notice (the census's `NO GUARD` rows —
+  sweeps 97 and 99 fixed six by hand, and nothing mechanical covers the rest,
+  because "renders a claim" has no source signature); a payload that arrives
+  MISSING the screen's own key, which is the `scene.qs` class and belongs to
+  `contentShapeSweep`; and a content-dependent screen reached by anything other
+  than `launchPathItem`, which earns no dwell credit at all.
+- NEVER: return from a content-state branch without naming which state it is;
+  render the loading and the failed cases identically; ship a content-dependent
+  screen with no `error` branch (a null payload will claim "one moment" for
+  ever); credit dwell time on a screen whose content never arrived; withhold that
+  credit with a bare `return` (the `vs` pre-write makes it permanent — re-arm and
+  cap); hand-list the content-dependent set; raise the 800-line cap to keep the
+  dwell block in the hook; read a fixed character window from a declaration
+  instead of its own braces; test a JSX branch for readable words without
+  stripping style values first.
+
+---
+
 ## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
 
 `nh_level` is written in exactly two places, both inside `PlacementTest`. It is

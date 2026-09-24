@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import ContentStateNotice from '../shared/ContentStateNotice';
 import { clickable } from '../../lib/clickable';
 
 const BACK_BTN = ({ goBack }: { goBack: () => void }) => (
@@ -187,12 +188,23 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
 };
 
 function WeatherScreen({ goBack }: { goBack: () => void }) {
-  const { content, loading } = useContent();
+  const { content, loading, error } = useContent();
   const [tab, setTab] = useState('Vocabulary');
+  // Weather had NO error branch: a failed fetch leaves `content` null, so the
+  // loading sentence below would have claimed "one moment" for ever. The other
+  // four screens fixed in this sweep already separated the two causes.
+  if (error)
+    return (
+      <WRAP>
+        <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="error" />
+      </WRAP>
+    );
   if (loading || !content)
     return (
       <WRAP>
         <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="loading" />
       </WRAP>
     );
   const d = content.WEATHER as any;

@@ -6525,6 +6525,163 @@ exactly that shape and was found in sweep 97 by reading the callers of the four
 launchers, not by any mechanism; this derivation would still miss it. The
 prop-drilled half of this class remains unswept.
 
+### Sweep 100 — the prop-drilled half, and the credit paid for a blank page (2026-09-24, 7 REAL DEFECTS, FIXED)
+
+**THE QUESTION SWEEP 99 LEFT OPEN**, verbatim from its own "what this cannot
+see": _a surface that receives content-derived data as a PROP rather than
+calling `useContent` itself._
+
+**The prop derivation was built and it came back almost empty — and that is a
+result, not a dead end.** `/tmp` script: for every file calling `useContent()`,
+take the names bound from the hook, close over every `const`/`let` whose
+initializer mentions one (8 passes), then read every JSX attribute whose value
+expression mentions a derived name. **48 content-derived prop passes to 11
+components.** The first run reported **0**, which is the sweep-99 lesson landing
+again: `GoalFocusSection` is a KNOWN member (fixed in sweep 97) and a derivation
+that misses a known member is an unfinished tool. The cause was the JSX tag
+matcher — `<([A-Z][\w.]*)((?:\s+[^<>])*?)\/?>` cannot span a tag containing an
+arrow function, because the `>` in `(v) => …` ends the match. Replaced with a
+brace- and string-aware tag scanner, and `GoalFocusSection` then appeared.
+
+**None of the 11 recipients is a defect, and the reason is structural**: every
+parent that passes content-derived data down ALSO guards, so the child never sees
+the pre-content value (`HERO title={d.title}`, `QUIZ_SECTION quiz={d.quiz}`,
+`BiText hr={r.introHr}`, `SessionCard session={session}`, `Bar mx={items.length}`
+and the rest sit below an `if (loading || !content) return …`). **The defect was
+in the guard itself.**
+
+**FINDING A — five screens rendered an EMPTY PAGE and said nothing about why.**
+Census of all 48 `useContent` consumers, reading what each early return actually
+renders: 20 say both states, **5 say neither.** `BodyDescScreen`,
+`ClothesScreen`, `CountriesScreen`, `ProfessionsScreen` and `WeatherScreen` each
+returned `<WRAP><BACK_BTN goBack={goBack} /></WRAP>` — a back arrow on a blank
+page — from BOTH their `if (error)` and their `if (loading || !content)` branch.
+The two returns were **byte-identical**, so "still loading" and "the fetch
+failed" were indistinguishable, and neither told the learner anything.
+`WeatherScreen` did not even destructure `error`: a failed fetch leaves `content`
+null, so that page was blank **for ever**, with nothing to retry and nothing to
+read. All five are routed in `AppRouter` (`weather`, `clothes`, `countries`,
+`professions`, `bodydesc`), reachable from the Learn Path and from search, and
+the payload lands ~9.2 s after first paint in the CI-equivalent E2E harness — so
+an early tap meets this window every time. This is the owner's own standing
+sentence ("if I ever click on anything and it doesn't work it's over") in its
+purest form: the tap works, the screen opens, and there is nothing on it.
+
+Fixed with `src/components/shared/ContentStateNotice.tsx` — two states, two
+sentences, the `LaunchFailureNotice`/`poolLaunchBlock` rule applied one layer up
+— plus `WeatherScreen`'s missing `error` branch. A shared component rather than
+five more inline copies, because a SIXTH silent screen is what this census keeps
+finding.
+
+**FINDING B — the dwell timer paid for a page that showed nothing.** This is the
+INTERACTIONS-BETWEEN-FEATURES seam the queue says is the live one, and neither
+feature is wrong alone. `launchPathItem` arms a 20-second timer when a LEARN_PATH
+item's `go` is in `BLACK_HOLE_SCREENS` and on fire credits `lc`/`gc` plus
+DWELL_XP. It knows the screen id and **nothing about whether that screen had
+anything to display.** Derived the split — for each of the 13 black-hole keys,
+resolve the component through the REAL router and walk the import graph
+(`components/` + `hooks/` only, the `sessionScreensFeedLedger` rule) for
+`useContent`/`getContent`/`peekContent`: **7 of 13 are content-dependent**
+(`idioms`, `brzalice`, `history`, `recipes`, `dialects`, `proverbs`,
+`bureaucratic`), 6 render from static imports. So a learner who tapped a path
+item during the content window — or after a failed fetch, where content never
+arrives at all — sat on a placeholder for twenty seconds and was credited a
+completed informational lesson and 5 XP for reading nothing. **NEVER-DO 14.**
+
+**THE RE-ARM IS THE LOAD-BEARING HALF, and the obvious fix would have been a
+worse defect than the one it fixes.** `vs` is written on TAP, so `wasFirstVisit`
+is false on every later visit — a bare `return` in the gate would have withheld
+the counter **PERMANENTLY** from the ordinary learner who tapped in during the
+content window, which is far commoner than a failed fetch. The timer re-arms a
+full dwell instead, capped at `DWELL_CONTENT_WAITS` (3), so the credit is paid
+for twenty seconds on a page that could actually be read, whenever the payload
+turns up. Past the cap the page has been unreadable for over a minute and nothing
+is owed. **The `vs` VISIT marker is deliberately untouched** — CLAUDE.md records
+what conflating that marker with a completion marker cost on AlphabetScreen, and
+the path node must not stick incomplete.
+
+**The 800-line cap was NOT raised.** The gate took `useScreenLauncher.ts` to 806
+countable lines, so the dwell block became `src/lib/dwellCredit.ts` — the same
+move that produced `blackHoleScreens.ts` out of this very hook. No override was
+added and the mechanism is byte-for-byte the same; the four mutations were re-run
+against the extracted module and each still fails.
+
+**Mutation-verified, ten in total, every one confirmed landed.**
+Dwell gate (`dwellContentGate.test.tsx`, 10 tests): the gate removed — the
+original bug — fails 4; a bare `return` instead of the re-arm fails 1; the cap
+removed fails 1; the re-armed timer not handed to `onArm`, so navigating away
+cannot cancel it, fails 1; the set widened to a STATIC screen fails 3; and the
+DANGEROUS direction — `dialects` dropped from the set, i.e. back to crediting a
+blank page — fails 6.
+Content state (`contentStateSpeaks.test.tsx`, 24 tests): Weather reverted to the
+original blank fails 4; Weather's `error` branch removed fails 3; both sentences
+made identical fails 6.
+Derived XP pin (`xpRebalance.test.ts`): a hardcoded 5 in place of `DWELL_XP`
+fails 1; the award duplicated so two files hold it fails 1; the award deleted
+entirely fails 1.
+
+**THE EXTRACTION BROKE A SOURCE PIN IN ANOTHER FILE, which is the reusable
+lesson.** `xpRebalance.test.ts` asserted `readFileSync('src/hooks/
+useScreenLauncher.ts')` contains the `award(DWELL_XP, …)` call — correct for
+thirteen months and stale the moment the block moved, with nothing in the
+extraction to hint at it. **A file path inside an assertion decays exactly like a
+hand-maintained list**, and the whole-suite run is what found it (629 files, this
+one failure). It is now derived over the set of files that could legitimately
+hold the call, asserting exactly ONE does, so the next extraction changes a list
+of two rather than going red.
+
+**And a self-inflicted one worth recording:** I ran `git checkout
+src/hooks/useScreenLauncher.ts` to undo a mutation in that file and reverted the
+whole sweep's change to it — the mutation-restore had been a `cp` from a backup
+everywhere else. The next `restored:` line read "1 failed" and for a moment
+looked like a real regression. **Never use `git checkout` to undo a mutation in a
+file the working tree has uncommitted work in**; the backup-and-copy pattern the
+rest of this hunt uses exists for exactly that reason.
+
+**TWO HARNESS DEFECTS IN MY OWN GUARDS, both found by mutation and both worth
+keeping.** (1) The rendering tests' `setStats` was a bare `vi.fn()` that recorded
+updaters without APPLYING them — and `wasFirstVisit` is assigned inside the
+launcher's `vs` updater and read twenty seconds later, so it stayed false and
+every credit path bailed before reaching the gate under test. The suite failed on
+the STATIC screen, where no gate should apply at all, which is what exposed it. A
+recording-only `setStats` mock silently disables any launcher behaviour that
+depends on a state update having happened. (2) The census's "does this branch say
+anything" predicate reported six screens rendering `<LoadingState />`, a local
+component whose entire body is the word "Loading…", so it followed one
+delegation hop — **and the first version of that hop was decorative**: it read a
+fixed 800 characters from the declaration, ran past the end of the function into
+a sibling's `textAlign: 'center'`, and a gutted `LoadingState` passed clean. That
+is verbatim the fixed-window harness defect `registryMatchesScreen` records.
+Fixed by bounding the body to its own braces AND stripping styling before testing
+for words — and `deStyle` is proved load-bearing rather than assumed: with it,
+the gutted `LoadingState` fails 1 test; **without it, the identical mutation
+passes clean.**
+
+**E2E audit:** grepped `e2e/` for all five screen names, for every black-hole
+key, and for any 20-second wait. The only match is `heavy-user-180day.spec.js`,
+which is in `testIgnore` and whose hits are vocabulary category names, not screen
+strings. No spec dwells on a black-hole screen, so nothing E2E depends on the
+dwell credit; `route-render-sweep` renders all five and the notice is a
+`role="status"` div (axe-clean by construction, and its focus pass is untouched).
+`dwell-award-callsite.test.tsx` DID go red and that is the guard working: its
+subject is award ATTRIBUTION on `dialects`, which presumes a readable page, so it
+now mocks the payload as present and asserts that premise explicitly, the way its
+existing `BLACK_HOLE_SCREENS[DWELT]` premise check already does.
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A screen that renders content-derived
+data with NO early return and no inline notice — the `NO GUARD` rows of the
+census (`GradTab`, `HomeTab`, `LearnTab`, `LearningCenter`, `HeroSection`,
+`SpeedChallenge`, `McResult`, `ReviewScreen`, `TypingScreen`, `WordSprint`,
+`LearnPath`, `SettingsTab`, `GoalFocusSection`, `AdvancedVocabScreen`,
+`VocabSceneComponents`). Sweeps 97 and 99 fixed six of those by hand; the rest
+were read and render nothing false, but nothing MECHANICAL covers them, because
+"renders a claim" has no source signature. (2) The dwell gate asks whether the
+PAYLOAD is present, not whether the screen's own KEY within it is — a payload
+that arrives missing `DIALECTS` would still credit. That is the `scene.qs` class
+and `contentShapeSweep` is what covers it. (3) A content-dependent screen reached
+by something other than `launchPathItem` earns no dwell credit at all, so the
+gate has nothing to say about it.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

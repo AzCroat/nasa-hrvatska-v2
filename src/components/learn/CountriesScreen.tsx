@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import ContentStateNotice from '../shared/ContentStateNotice';
 
 interface BackBtnProps3 {
   goBack: () => void;
@@ -203,12 +204,14 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
     return (
       <WRAP>
         <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="error" />
       </WRAP>
     );
   if (loading || !content)
     return (
       <WRAP>
         <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="loading" />
       </WRAP>
     );
   const d = content.COUNTRIES as any;

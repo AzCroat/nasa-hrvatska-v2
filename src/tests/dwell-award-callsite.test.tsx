@@ -15,7 +15,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
 import { useScreenLauncher } from '../hooks/useScreenLauncher';
-import { BLACK_HOLE_SCREENS, DWELL_XP } from '../lib/blackHoleScreens';
+import {
+  BLACK_HOLE_SCREENS,
+  CONTENT_DEPENDENT_BLACK_HOLE_SCREENS,
+  DWELL_XP,
+} from '../lib/blackHoleScreens';
+import { peekContent } from '../hooks/useContent';
 
 vi.mock('../lib/exerciseData', () => ({
   _getData: vi.fn(async () => ({ LISTEN: [] })),
@@ -27,6 +32,16 @@ vi.mock('../lib/contentClient', () => ({
   getLessons: vi.fn(async () => []),
   getGrammar: vi.fn(async () => ({})),
 }));
+// `dialects` renders from the content payload, and since 2026-09-24 the dwell
+// timer withholds credit while that payload is absent (NEVER-DO 14 — it used to
+// pay a completed lesson for twenty seconds on a "Loading this page" placeholder;
+// see dwellContentGate.test.tsx). This file's subject is award ATTRIBUTION, which
+// presumes a page the learner could actually read, so the payload is present here.
+vi.mock('../hooks/useContent', () => ({
+  peekContent: () => ({ V: {} }),
+  useContent: () => ({ content: { V: {} }, loading: false, error: null }),
+}));
+
 vi.mock('../lib/errorReporter', () => ({
   reportError: vi.fn(),
   reportBoundaryError: vi.fn(),
@@ -102,6 +117,10 @@ describe('Learn-Path dwell timer — award attribution', () => {
     // from the map — the timer would never be scheduled and every assertion below
     // would have nothing to say.
     expect(BLACK_HOLE_SCREENS[DWELT]).toBe('lc');
+    // And that the content gate is satisfied — without the payload mock above the
+    // timer re-arms instead of awarding and every assertion below goes silent.
+    expect(CONTENT_DEPENDENT_BLACK_HOLE_SCREENS.has(DWELT)).toBe(true);
+    expect(peekContent()).toBeTruthy();
   });
 
   it('awards after 20s naming the dwelt screen, not the stale curEx', async () => {
