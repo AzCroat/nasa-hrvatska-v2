@@ -38,11 +38,12 @@ export const RSS_FEEDS = [
   },
   {
     name: 'Zadarski list',
-    urls: [
-      'https://www.zadarskilist.hr/rss',
-      'https://zadarski.slobodnadalmacija.hr/rss',
-      'https://www.zadarskilist.hr/feed',
-    ],
+    // Trimmed on evidence from the CI check, 2026-09-24: `/feed` serves 10
+    // items, `/rss` 404s, and `zadarski.slobodnadalmacija.hr/rss` answers
+    // **200 with zero items** — the HTML-error-page-as-success case, and the
+    // reason the checker refuses to count a 200 without <item> as a live feed.
+    // A single guessed URL would have left this source dead and silent.
+    urls: ['https://www.zadarskilist.hr/feed', 'https://zadarski.slobodnadalmacija.hr/rss'],
     category: 'news',
   },
   {

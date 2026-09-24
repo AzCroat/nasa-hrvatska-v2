@@ -2934,6 +2934,12 @@ reading-practice prompt on `CivicScreen`.
   them on a GitHub runner, which can reach them: on a PR that touches the feed
   list, and weekly. That workflow is how a feed path is CONFIRMED rather than
   guessed, and it fails red.
+  **First run, 2026-09-24 — 4/4 answering**: Dnevnik 10 items
+  (`/assets/feed/articles`), 24sata 19, Zadarski list 10 (`/feed`), Večernji 20.
+  The candidate list earned itself immediately: Zadarski's `/rss` 404s and
+  `zadarski.slobodnadalmacija.hr/rss` answers **200 with zero items** — the
+  HTML-error-page-as-success case. A single guessed URL would have left that
+  source dead and silent, which is the defect above in its purest form.
 - **The offline fallback articles are written by this app** and used to carry
   `source: 'Dnevnik.hr'` / `'Index.hr'` / `'Večernji list'` — three real
   newsrooms' names on text they never wrote. The server's own fallback has always

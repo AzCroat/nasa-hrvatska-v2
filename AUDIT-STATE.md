@@ -6082,7 +6082,10 @@ Both fixed; the payload now reports which sources answered.
 host answers 403 at the egress proxy, including the two that have worked in
 production for months, which is the "classify before counting" rule in its
 purest form. `scripts/checkNewsFeeds.mjs` runs on a GitHub runner, which can
-reach them, on any PR touching the feed list and weekly. Also fixed on the way:
+reach them, on any PR touching the feed list and weekly. **First run: 4/4
+answering** — and the candidate-URL design paid immediately, because Zadarski's
+first guessed path 404s and its second answers 200 with zero items, which is
+exactly the failure the checker refuses to score as success. Also fixed on the way:
 the offline fallback articles, written by this app, carried three real
 newsrooms' names as their source.
 
