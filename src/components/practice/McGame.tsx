@@ -75,14 +75,12 @@ interface McGameProps {
   onComplete: (questions: McQuestion[], score: number) => void;
   goBack: () => void;
   award: ((xp: number, bonus?: boolean, activityType?: string) => void) | undefined;
-  challengeMode?: boolean;
 }
 export default function McGame({
   questions: rawQuestions,
   onComplete,
   goBack,
   award,
-  challengeMode = false,
 }: McGameProps) {
   // Guard: drop any question where the correct answer isn't present in opts
   const questions = React.useMemo(
@@ -100,7 +98,8 @@ export default function McGame({
       return false;
     }
   })();
-  const isHeartsMode = challengeMode || heartsAlwaysOn;
+  // Hearts come from the learner's own preference; there is no second source.
+  const isHeartsMode = heartsAlwaysOn;
   const haptic = useHaptic();
 
   const initialHearts = React.useMemo(() => {
@@ -382,7 +381,6 @@ export default function McGame({
   if (state.gameOver && !state.continueAnyway) {
     return (
       <McGameOver
-        challengeMode={challengeMode}
         onTryAgain={() => {
           const freshH = isHeartsMode ? getHearts() : 5;
           const h = Math.min(5, Math.max(0, Number.isFinite(freshH) ? Math.floor(freshH) : 5));
@@ -391,7 +389,6 @@ export default function McGame({
           dispatch({ type: 'RESET', questions, hearts: h });
         }}
         onContinueAnyway={() => dispatch({ type: 'SET_CONTINUE_ANYWAY' })}
-        onBack={goBack}
       />
     );
   }

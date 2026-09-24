@@ -4638,6 +4638,73 @@ the class the queue already names as open: **interactions between features on a
 live path**, which needs the real app driven through a sequence, not a regex
 over a file.
 
+### Sweep 69 — a dead prop, and the guard written for it the day before (2026-09-24, 1 REAL DEFECT, FIXED)
+
+Sweep 68 ended by saying the next find would not come from another
+source-derived pair. It came from a REACHABILITY question asked at a live prop
+instead, which is the same method that found the speaking coach nobody could
+call.
+
+**The defect.** `McGame.challengeMode` is optional and passed by **nothing** —
+not `AppRouter` (which passes `questions`, `onComplete`, `goBack`, `award`), not
+one test. So `isHeartsMode = challengeMode || heartsAlwaysOn` always reduced to
+the preference, and both `McGameOver` arms keyed on it were unreachable: a
+"← Back to Practice" button, and the `onBack` prop that existed only to serve
+it, and a line telling learners **"Hearts refill over time — 1 per hour"** while
+`lives.ts` regenerates one per **FOUR** hours. Harmless while dead — and a trap
+for whoever wires challenge mode up, who would ship a wrong number to a learner
+without touching it.
+
+**Hearts themselves are NOT dead, and checking that is what made the finding
+narrow.** `nh_hearts_always_on` has a real writer (the Learning Preferences
+toggle) and syncs through `applyRemoteProgress`, so hearts mode is reachable —
+only the second, unused source for it was not. Reporting "the hearts system is
+dead" would have been the stronger claim and the wrong one.
+
+**THE PART THAT MATTERS MORE THAN THE DEAD CODE.**
+`routerOptionalProps.test.ts` was written the DAY BEFORE for exactly this class
+("a dead branch behind an optional-prop check is indistinguishable from a
+deliberate optional dependency") and reported clean. Its predicate matched
+`&& p`, `p &&`, `typeof p === 'function'` and `p?.(` — four spellings of
+branching, missing the two commonest for a BOOLEAN: `p || q` and `p ? x : y`.
+**The class is defined by its matcher, and the matcher knew four of six.** Same
+shape as the `ENDPOINT_HELPERS` alternation that matched nothing and the
+`whisperClaudeScorer` name that matched nothing: a guard covering most of a
+class reads exactly like one covering the class.
+
+**Widening is the false-positive direction, so it was censused before it was
+written.** Across 400 routed components the two added shapes yield exactly
+**two** props: this one, and `RetentionCheckScreen.lessons` — which is a
+legitimate TEST-INJECTION SEAM (`retentionWiring.test.tsx` passes the bodies;
+production omits it and the screen fetches them, `if (lessons) return undefined`
+skipping the fetch when injected). That is the `vocabPool.allCats` shape, so it
+is exempted WITH ITS REASON and checked in both staleness directions — the
+component must still declare the prop optional and branched, and the router must
+still not pass it.
+
+**Mutation-verified, three**, each confirmed landed:
+- the dead prop restored → the headline assertion fails;
+- **the same defect with the predicate reverted to its original four shapes →
+  the headline assertion PASSES**, which is the direct proof the widening is
+  load-bearing rather than decorative;
+- an exemption naming a prop the router DOES pass (`HomeTab.authUser`) → the
+  staleness test fails.
+
+**One correction on the way, recorded because the first reading was mine:** my
+probe asserted `flag?.call()` should match the original `p?.(` shape. It should
+not — that is optional chaining, not a call of an optional callback. The matcher
+was right and the test was wrong; the probe now uses `flag?.()`.
+
+**A second harness lesson, the same one as sweep 68.** A `python` replace with
+mismatched escaping threw its assertion, so mutation 2 never landed — and the
+vitest run that followed showed the UNMUTATED guard failing on mutation 1's
+defect, which reads exactly like a landed mutation. Confirming a mutation LANDED
+is not enough; confirm the file actually changed before reading the result.
+
+**Not added to CLAUDE.md**: the class already has its section there
+("MUTATION-TEST THE GUARD"), and the specifics live in the guard's own header
+where the next person editing that predicate will read them.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
