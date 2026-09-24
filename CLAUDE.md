@@ -2901,6 +2901,40 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: A Path Tile Must Not Tick For Another Tile's Work (2026-09-24)
+
+`stats.vs` is append-only and GLOBAL, so a key written once is set for ever. Two
+Learn Path items testing the same `vsIncludes` key therefore complete together —
+the later one before the learner ever reaches it.
+
+- **Nine destinations are visited twice; seven repeats already drop the leaf**
+  and re-gate on a higher counter (lp53, lp55, lp56, lp57, lp62, lp63, lp66).
+  That convention is the path author's. **Three did not**, and all three were
+  live: `listening` (lp_listen_basics@L1 → lp17@L3 — a day-two beginner with 40
+  XP had a LEVEL-3 tile done), `history` (lp31@L5 → lp61@L6) and `pitchaccent`
+  (lp50@L6 → lp70@L7).
+- **lp70 was a second, distinct shape**: its leaf read `vsIncludes:
+  'pitchaccent'`, copied from lp50 with the counter updated and the key not, so
+  the PITCH ACCENT drill ticked "Tongue Twisters: Expert" while doing the tongue
+  twisters (which write `brzalice`) never did. One item of 97 whose key was not
+  its own destination.
+- **The harm is not cosmetic.** `evalCk` feeds three consumers: the tile renders
+  done, the **80% threshold that unlocks the next level** counts it, and
+  `HomeTab`/`LearnTab` choose the next path item by SKIPPING completed ones — so
+  the app never recommends a tile it wrongly believes is finished.
+- **Two guards already sat either side and neither asked this.**
+  `learnPathTapCompletion` forbids a leaf naming the item's OWN id (ticked by the
+  opening tap); `learnPathReachableCk` forbids a key nothing writes (never
+  tickable). `learnPathInheritedCk.test.ts` is the one between them: (A) no key
+  is tested by more than one item, (B) a key IS the item's own destination key
+  (`go`, or `al_<lessonId>`), plus an EFFECT assertion driving the real `evalCk`
+  over every repeat pair — a structural pin on the DSL's spelling survives the
+  DSL changing. Mutation-verified four ways; the unshared-wrong-key mutation
+  fails **B alone** while both sibling suites stay green, which is the direct
+  check that neither already covered it.
+- NEVER: give two path items the same `vsIncludes` key; gate a tile on a screen
+  it does not open; re-gate a repeat destination on anything but a higher counter.
+
 ## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
 
 `nh_level` is written in exactly two places, both inside `PlacementTest`. It is
