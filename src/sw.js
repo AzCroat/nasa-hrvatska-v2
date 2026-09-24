@@ -33,6 +33,26 @@ const CACHE_VER = 'nasa-hrvatska-v' + _BUILD_ID;
 // can never be requested again. Safe — and necessary — to reclaim.
 const BUILD_COUPLED_SUFFIXES = ['-js', '-data', '-html'];
 
+// Caches for assets keyed by STABLE urls. Their NAME must NOT embed the build
+// id, and for a long time it did — every route below opened `${CACHE_VER}-…`.
+//
+// The exclusion that kept these out of the reclaim below recorded its reason as
+// "keyed by STABLE urls, so the previous build's entries are still perfectly
+// valid". True, and beside the point: the entries were valid but UNREACHABLE,
+// because nothing referenced the old cache NAME once CACHE_VER moved. So each
+// deploy opened an empty cache and orphaned the full one — the re-download the
+// exclusion existed to prevent happened anyway, at ~6 deploys a day, while the
+// orphans accumulated toward the storage quota this whole block exists to stop.
+// Every image the app ships is a stable public/ url (vite emits no hashed
+// images), so that cache was re-fetched in full, every deploy, for nothing.
+//
+// The prefix stays 'nasa-hrvatska-v' deliberately: public/sw-migration.js runs
+// on EVERY page load and deletes any cache not starting with it, so a tidier
+// name like 'nasa-hrvatska-assets' would be wiped before it was ever read —
+// the same blunt-undoes-careful shape as the bug above.
+const ASSET_CACHE = 'nasa-hrvatska-v-assets';
+const ASSET_SUFFIXES = ['-images', '-audio', '-fonts'];
+
 // ── Lifecycle ────────────────────────────────────────────────────────────────
 
 // Take control immediately on install/update — no waiting for old tabs to close.
@@ -98,11 +118,12 @@ self.addEventListener('activate', (event) => {
       //     repopulated only during INSTALL, which does not re-run between
       //     deploys. Deleting it broke cold-start offline navigation once
       //     already (see the note in sw-migration.js).
-      //   - '-images' / '-audio' / '-fonts' — keyed by STABLE urls, so the
-      //     previous build's entries are still perfectly valid. Dropping them
-      //     would force a re-download of hundreds of MP3s for no benefit. Their
-      //     version suffix is pointless churn, but removing it is a rename plus
-      //     migration, not a delete, so it is left for a separate change.
+      //   - ASSET_CACHE — the stable '-images' / '-audio' / '-fonts' caches.
+      //     Keyed by urls that outlive a deploy, so reclaiming them WOULD be
+      //     the pointless re-download the old comment here feared. It feared it
+      //     about caches that were already being orphaned every deploy; see the
+      //     ASSET_CACHE declaration. The VERSIONED ones are reclaimed below, as
+      //     a one-time migration off that scheme.
       //   - anything not prefixed 'nasa-hrvatska-v' — not ours to touch.
       //
       // Caches only. This handler must never reach into localStorage,
@@ -111,12 +132,17 @@ self.addEventListener('activate', (event) => {
         const allKeys = await caches.keys();
         await Promise.all(
           allKeys
-            .filter(
-              (k) =>
-                k.startsWith('nasa-hrvatska-v') &&
-                !k.startsWith(CACHE_VER) &&
-                BUILD_COUPLED_SUFFIXES.some((s) => k.endsWith(s)),
-            )
+            .filter((k) => {
+              if (!k.startsWith('nasa-hrvatska-v')) return false; // not ours
+              if (k.startsWith(ASSET_CACHE)) return false; // the live asset caches
+              // Previous builds' content-hashed caches.
+              if (!k.startsWith(CACHE_VER) && BUILD_COUPLED_SUFFIXES.some((s) => k.endsWith(s)))
+                return true;
+              // One-time migration: asset caches from before the names were
+              // stabilised. No build creates a versioned one any more, so every
+              // one of them is orphaned whatever build it belongs to.
+              return ASSET_SUFFIXES.some((s) => k.endsWith(s));
+            })
             .map((k) => caches.delete(k)),
         );
       } catch {}
@@ -265,7 +291,7 @@ registerRoute(
 registerRoute(
   /\.(svg|png|webp|jpg|jpeg)$/,
   new CacheFirst({
-    cacheName: `${CACHE_VER}-images`,
+    cacheName: `${ASSET_CACHE}-images`,
     plugins: [
       new ExpirationPlugin({ maxEntries: 100, maxAgeSeconds: 365 * 24 * 60 * 60 }),
       new CacheableResponsePlugin({ statuses: [0, 200] }),
@@ -279,9 +305,9 @@ registerRoute(
 
 // 5. Audio assets — StaleWhileRevalidate with range-request support.
 registerRoute(
-  /\/audio\/.*\.(mp3|ogg|wav)$/i,
+  /\/audio\/.*\.(mp3|ogg|wav|m4a)$/i,
   new StaleWhileRevalidate({
-    cacheName: `${CACHE_VER}-audio`,
+    cacheName: `${ASSET_CACHE}-audio`,
     plugins: [
       new ExpirationPlugin({ maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 30 }),
       new RangeRequestsPlugin(),
@@ -294,7 +320,7 @@ registerRoute(
 registerRoute(
   /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
   new CacheFirst({
-    cacheName: `${CACHE_VER}-fonts`,
+    cacheName: `${ASSET_CACHE}-fonts`,
     plugins: [
       new ExpirationPlugin({ maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 }),
       new CacheableResponsePlugin({ statuses: [0, 200] }),
