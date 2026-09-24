@@ -1278,19 +1278,21 @@ export default function AIConversation({
             value={writeText}
             onChange={(e) => setWriteText(e.target.value)}
             placeholder="Piši ovdje na hrvatskom…"
+            // Border and shadow live in `.write-area`, not inline: written
+            // inline they beat `input:focus`, and with `outline:none` on top
+            // this field had no focus indicator of any kind.
+            className="write-area"
             style={{
               flex: 1,
               padding: '14px',
               fontSize: 16,
               lineHeight: 1.7,
               borderRadius: 14,
-              border: '1.5px solid var(--card-b)',
               background: 'var(--card)',
               fontFamily: "'Outfit',sans-serif",
               color: 'var(--heading)',
               resize: 'none',
               outline: 'none',
-              boxShadow: '0 1px 4px rgba(0,0,0,.05)',
             }}
           />
           <div

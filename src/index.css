@@ -885,6 +885,13 @@ input:focus,textarea:focus{
   border-color:#0e7490;
   box-shadow:0 0 0 4px rgba(14,116,144,.1),0 1px 4px rgba(0,0,0,.06);
 }
+/* A text field's ONLY focus indicator is the rule above: the base input rule
+   sets `outline:none`, so the app's :focus-visible ring never reaches it.
+   Resting decoration therefore belongs in a class — these lose to `input:focus`
+   on specificity, where the same declarations written inline would win and
+   leave the field with no focus indicator at all. */
+.search-inp{box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.write-area{border:1.5px solid var(--card-b);box-shadow:0 1px 4px rgba(0,0,0,.05)}
 input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG AA: ~4.6:1 on white */
 
 /* ═══════════════════════════════════════════════════════════

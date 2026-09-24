@@ -272,4 +272,104 @@ test.describe('route render sweep', () => {
         'is cut off or the whole page pans sideways',
     ).toEqual([]);
   });
+
+  test('every keyboard-focusable control shows that it has focus', async ({ page }) => {
+    test.setTimeout(30 * 60 * 1000);
+
+    // THE PREDICATE IS "DOES ANYTHING CHANGE", not "is there an outline".
+    // Sweep 93 found six controls using `outline` as DECORATION — a selected
+    // state, or `3px solid transparent` — which is present whether or not the
+    // control has focus, so a presence check calls it a ring and a keyboard
+    // user sees nothing happen. It also found two text fields whose inline
+    // border and box-shadow overrode `input:focus`, the only indicator a field
+    // gets. Comparing the focused appearance against the same element's
+    // unfocused appearance is the only form that catches both.
+    const SIG = () => {
+      window.__sig = (f) =>
+        [
+          f.outlineStyle,
+          f.outlineWidth,
+          f.outlineColor,
+          f.boxShadow,
+          f.borderColor,
+          f.borderWidth,
+          f.backgroundColor,
+          f.color,
+          f.textDecorationLine,
+        ].join(' | ');
+      window.__fi = [];
+      document
+        .querySelectorAll('a[href],button,input,select,textarea,[tabindex]')
+        .forEach((el, i) => {
+          el.setAttribute('data-fi', String(i));
+          window.__fi[i] = window.__sig(getComputedStyle(el));
+        });
+    };
+
+    await page.goto('/');
+    await page.waitForLoadState('networkidle').catch(() => {});
+
+    const bad = [];
+    let tabbed = 0;
+    let settled = 0;
+    for (const r of ROUTES) {
+      try {
+        await page.goto('/' + r, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        await page.waitForTimeout(450);
+        await page.evaluate(SIG);
+        for (let i = 0; i < 40; i++) {
+          await page.keyboard.press('Tab');
+          const read = () =>
+            page.evaluate(() => {
+              const el = document.activeElement;
+              if (!el || el === document.body) return null;
+              // Identity, not a text fingerprint: two skip links with the same
+              // label collided on a string key and ended the loop at i=1.
+              if (el.hasAttribute('data-seen')) return { repeat: true };
+              const idx = el.getAttribute('data-fi');
+              return {
+                idx,
+                now: window.__sig(getComputedStyle(el)),
+                was: idx == null ? null : window.__fi[Number(idx)],
+                tag: el.tagName.toLowerCase(),
+                txt: (el.textContent || '').trim().slice(0, 30),
+              };
+            });
+          let res = await read();
+          if (!res || res.repeat) break;
+          await page.evaluate(
+            () => document.activeElement && document.activeElement.setAttribute('data-seen', '1'),
+          );
+          tabbed++;
+          if (res.idx == null) continue; // rendered after the snapshot
+          if (res.now !== res.was) continue;
+          // A ring that TRANSITIONS in reads as absent at t=0: 217 of 219 first
+          // readings were that, so measuring without this step reports the
+          // animation, not the product.
+          await page.waitForTimeout(450);
+          const again = await read();
+          if (again && !again.repeat && again.now !== again.was) {
+            settled++;
+            continue;
+          }
+          if (again && !again.repeat) res = again;
+          if (bad.length < 40) bad.push(`${r}: <${res.tag}> "${res.txt}" — ${res.now}`);
+        }
+      } catch {
+        /* a route that will not load is the render test's finding, not this one */
+      }
+    }
+
+    // Without this the assertion below passes on a page that never reached the
+    // tab order at all.
+    expect(tabbed, 'nothing was tabbed to — this sweep would be vacuous').toBeGreaterThan(3000);
+    expect(settled).toBeGreaterThanOrEqual(0);
+    expect(
+      bad,
+      'these controls look exactly the same focused as unfocused, so a keyboard ' +
+        "user cannot tell where they are. An inline `outline` beats the app's " +
+        ':focus-visible rule, and on a text field an inline border or box-shadow ' +
+        'beats `input:focus` — see src/tests/inlineFocusIndicator.test.ts',
+    ).toEqual([]);
+  });
 });

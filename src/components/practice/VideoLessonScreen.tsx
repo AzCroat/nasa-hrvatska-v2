@@ -407,10 +407,12 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 fontFamily: "'Outfit',sans-serif",
                 background:
                   topic?.key === t.key ? 'var(--info-bg,#e0f2fe)' : 'var(--card-bg,#f8fafc)',
-                outline:
+                // Selection lives on box-shadow, not outline — an inline
+                // outline overrides the app's :focus-visible ring.
+                boxShadow:
                   topic?.key === t.key
-                    ? '2px solid var(--info,#0284c7)'
-                    : '1px solid var(--card-b,#e2e8f0)',
+                    ? 'inset 0 0 0 2px var(--info,#0284c7)'
+                    : 'inset 0 0 0 1px var(--card-b,#e2e8f0)',
                 transition: 'all .15s',
               }}
             >
@@ -460,7 +462,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 fontSize: 12,
                 background: level === l ? 'var(--info-bg,#e0f2fe)' : 'var(--bar-bg,#f1f5f9)',
                 color: level === l ? 'var(--info,#0284c7)' : 'var(--subtext,#64748b)',
-                outline: level === l ? '2px solid var(--info,#0284c7)' : 'none',
+                boxShadow: level === l ? 'inset 0 0 0 2px var(--info,#0284c7)' : 'none',
               }}
             >
               {l}

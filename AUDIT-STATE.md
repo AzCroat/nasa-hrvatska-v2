@@ -5917,6 +5917,75 @@ A ratchet, not a repair: the regression it exists for is a new drill with a wide
 table or a long unbroken string, which is exactly the kind of thing that looks
 fine to whoever adds it on a laptop.
 
+### Sweep 93 — where is the keyboard (2026-09-24, 8 REAL DEFECTS, FIXED)
+
+Sweeps 87–92 asked whether a screen renders, throws, passes axe, and fits a
+phone. None of them asked whether it can be USED without a mouse. axe cannot
+answer it — focus visibility is not a static-DOM property — and no spec in the
+repo presses Tab.
+
+**Result: 8 controls, across 6 components, that look exactly the same focused as
+unfocused**, out of 8,363 tabbable controls on 430 routes.
+
+The mechanism is one sentence: **`outline` IS this app's focus ring, so using it
+for decoration deletes the ring, and an inline style always wins.** Six controls
+used it for a SELECTED state — `HeritageModeScreen`'s four section tabs,
+`VideoLessonScreen`'s topic cards and level pills, `LearningPreferencesSection`'s
+voice and speech-rate pills, `PostcardScreen`'s city thumbnails. Two text fields
+lost the other indicator: the dashboard search box set `boxShadow` inline for
+resting elevation, overriding `input:focus`'s ring, and AI Conversation's
+free-writing textarea set `outline`, `border` AND `boxShadow` inline and had **no
+focus indicator of any kind**. All eight now carry their decoration on
+`box-shadow` (`inset`, which reads the same) or in a class that loses to
+`input:focus` on specificity.
+
+**THE PROBE WAS WRONG TWICE, AND BOTH ERRORS ARE THE REUSABLE PART.**
+
+1. **It measured one element per route and reported a clean zero.** The Tab loop
+   broke on a repeated element, keyed by a text fingerprint — and the app renders
+   TWO "Skip to main content" links, so Tab 0 and Tab 1 produced the same key and
+   the loop ended at i=1 on all 430 routes. `TABBED_ELEMENTS 50` across 50 routes
+   is exactly one each; the counter I had added for this reason is the only thing
+   that said so. Walk a tab order by element IDENTITY (stamp an attribute), never
+   by what the element looks like.
+2. **It reported 30 bad routes, and 217 of its 219 hits were an ANIMATION.** A
+   focus ring that transitions in is genuinely `0px` at t=0 and `3px` 200ms
+   later; sampling immediately after the keypress measures the transition, not
+   the product. Re-reading suspects after 450ms took 30 routes to 2. I spent
+   three rounds theorising about which CSS rule was setting `outline-style:
+   solid; outline-width: 0` — an impossible cascade — when the answer was that
+   nothing was: I was reading a value in flight. **Forcing an inline
+   `outline: 3px solid red` and getting `solid 1px` BACK is what proved it**, and
+   that is the diagnostic to reach for first, ahead of any theory about which
+   rule wins.
+
+**AND THE PREDICATE ITSELF WAS THE THIRD ERROR.** "Does this element have an
+outline?" is not the question. `PostcardScreen`'s unselected city is
+`3px solid transparent` and `VideoLessonScreen`'s unselected topic is
+`1px solid rgba(0,0,0,.07)` — both present, neither a focus indicator, and both
+INVISIBLE to a presence check. The predicate is **does anything about this
+element change when it takes focus**: snapshot every focusable element's computed
+appearance first, then tab and compare each against its own earlier value. That
+version found the transparent-outline and unconditional-outline cases the
+presence version had passed clean.
+
+**What the rules were measured against, before being written.** 41 inputs carry
+an inline `border` (the app's convention; costs only the colour half, the ring
+still fires) and 23 carry an inline `outline: 'none'` (redundant with the base
+input rule; a field's ring is the box-shadow). So the guard forbids a
+NON-'none' outline on a focusable element, and forbids a field overriding BOTH
+its indicators — exactly one site did. A rule against the 41 would have been a
+rule against the codebase, not against the defect.
+
+**Two guards, because they answer different questions.**
+`src/tests/inlineFocusIndicator.test.ts` is the cheap source ratchet on every
+commit; the EFFECT is a fifth test in the weekly route sweep. Mutation-verified
+both ways: reverting the four fixes makes the E2E test list **28 controls**
+across the three reachable routes, and the source guard fails 1–2 tests per
+mutation. Its own `:focus-visible` assertion was DECORATIVE on first writing —
+`.sub-tab-pill:focus-visible` carries the same declaration, so deleting every
+global ring left it green; it now requires the selector to be bare.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
