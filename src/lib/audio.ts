@@ -20,6 +20,45 @@ export { isNative } from './nativeTransport.js';
  * Encode a Blob's bytes as base64 (chunked to avoid call-stack limits on large inputs).
  * Safe for audio blobs of any size — processes in 8 KiB chunks rather than byte-by-byte.
  */
+/**
+ * A blob as a `data:` URL, or null if it could not be read.
+ *
+ * THE REASON THIS IS A HELPER AND NOT FOUR LINES AT THE CALL SITE. Nine screens
+ * carried the same block — AI Listening, Speaking Sprint, Writing, the graded
+ * reader, Heritage Story, Live Tutor, Phrase of the Day, Story Mode, Croatian
+ * News — and every one of them was:
+ *
+ *   const url = await new Promise<string>((resolve) => {
+ *     const r = new FileReader();
+ *     r.onload = () => resolve(r.result as string);
+ *     r.readAsDataURL(blob);          // ← no onerror, no onabort
+ *   });
+ *
+ * A FileReader that errors then NEVER settles that promise, so the `await`
+ * hangs for ever: the audio never plays, the screen never leaves whatever state
+ * it was in, and there is no error, no timeout and no boundary — the silent
+ * hang the owner met on Baka Mara, which is the tenth copy of this block. One
+ * screen (Maja's streaming queue) had the `onerror` and the other nine did not,
+ * which is what a copy-pasted primitive does.
+ *
+ * Returns null rather than throwing so a caller can name the failure
+ * (`reportTtsPlaybackFailure`) and carry on; the text is always already on
+ * screen by this point.
+ */
+export function blobToDataUrl(blob: Blob): Promise<string | null> {
+  return new Promise((resolve) => {
+    try {
+      const r = new FileReader();
+      r.onload = () => resolve(typeof r.result === 'string' ? r.result : null);
+      r.onerror = () => resolve(null);
+      r.onabort = () => resolve(null);
+      r.readAsDataURL(blob);
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
 export async function blobToBase64(blob: Blob): Promise<string> {
   const buf = new Uint8Array(await blob.arrayBuffer());
   const CHUNK = 8192;
@@ -256,6 +295,43 @@ function _dispatchTtsFailed(f: TtsFailure): void {
   window.dispatchEvent(
     new CustomEvent('nh:tts-failed', { detail: { ...f, message: describeTtsFailure(f) } }),
   );
+}
+
+/**
+ * A caller on the `ttsFetch` path whose audio failed AFTER the bytes arrived.
+ *
+ * `ttsFetch` classifies and raises for everything up to and including the HTTP
+ * response. What it cannot see is the half that happens in the caller: decoding
+ * the blob, constructing an `Audio`, and `play()` being refused. Those are the
+ * failures a learner meets as Maja simply going quiet, and before this they
+ * recorded nothing and raised nothing — the same silence with nothing behind
+ * it that the 2026-09-23 work removed from the fetch half.
+ *
+ * Routed through `_dispatchTtsFailed` like every other raise, so the cause the
+ * learner reads is the same sentence everywhere.
+ */
+export function reportTtsPlaybackFailure(detail?: string): void {
+  // `code` rather than `underlying`: that field is typed as another CAUSE (the
+  // fallback-voice case), and widening it to free text to carry a DOMException
+  // name would make every consumer's switch lie.
+  const failure: TtsFailure = { cause: 'playback', code: detail?.slice(0, 80) };
+  _noteFailure(failure);
+  _reportTtsFailure(failure, 0);
+  _dispatchTtsFailed(failure);
+}
+
+/**
+ * Records a failed read and returns the Error to throw for it.
+ *
+ * `throw ttsReadError()` rather than an early `return`, because these screens
+ * already have a catch that renders the recorded cause — returning would skip
+ * their own error UI and show the learner nothing, which is the silence this
+ * work exists to remove. (Two screens whose convention IS a silent early
+ * return keep it; see WritingScreen.)
+ */
+export function ttsReadError(): Error {
+  reportTtsPlaybackFailure('filereader');
+  return new Error('TTS read failed');
 }
 
 /** The most recent TTS failure, or null if the last attempt succeeded. */

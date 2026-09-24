@@ -2901,6 +2901,174 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
+
+Owner: *"news is coming from Index.hr, they are a communist propaganda news
+organization and I want a real news source that loves Croatia... why are we not
+using Dnevnik?"* — answer: nobody ever chose. The three feeds in
+`functions/api/news.js` were hardcoded when the endpoint was written and nothing
+revisited them. `RSS_FEEDS` is now **Dnevnik.hr, 24sata.hr, Zadarski list,
+Večernji list**; Index.hr is out, of the feed list, the media catalogue and the
+reading-practice prompt on `CivicScreen`.
+
+- **This list's CONTENT is not a technical judgement.** Do not add, remove or
+  swap a source without the owner asking. `newsSources.test.ts` pins that.
+- **A DEAD FEED WAS COMPLETELY SILENT, which made the decision unenforceable.**
+  The fan-out was `catch { return [] }` over a bare `!res.ok`: a source whose URL
+  is wrong contributes nothing, the surviving sources cover for it, the learner
+  still gets news, and NOTHING anywhere records it. A chosen source could be
+  absent for months and look exactly like a source with no story that day.
+  `fetchFeed` now reports `{ok, url, attempts}` per source and the payload
+  carries a `sources` array. **A 200 carrying no `<item>` is not a working
+  feed** — a publisher serving an HTML error page with status 200 is how a moved
+  feed hides.
+- **`flat()` MEANT THE LIST BARELY MATTERED.** `feedResults.flat().slice(0, 6)`
+  took the first source's five items and then one of the second's, so the third
+  and fourth sources never reached a learner at all. `interleave()` round-robins,
+  which is what makes adding a source to the list do anything.
+- **EACH SOURCE CARRIES CANDIDATE URLs, NOT ONE**, because a publisher moving its
+  feed path is the ordinary way a source dies, and because **the feed URLs cannot
+  be checked from a development sandbox at all** — every Croatian host answers
+  403 at the egress proxy, including the two that have worked in production for
+  months. `scripts/checkNewsFeeds.mjs` + `.github/workflows/news-feeds.yml` check
+  them on a GitHub runner, which can reach them: on a PR that touches the feed
+  list, and weekly. That workflow is how a feed path is CONFIRMED rather than
+  guessed, and it fails red.
+  **First run, 2026-09-24 — 4/4 answering**: Dnevnik 10 items
+  (`/assets/feed/articles`), 24sata 19, Zadarski list 10 (`/feed`), Večernji 20.
+  The candidate list earned itself immediately: Zadarski's `/rss` 404s and
+  `zadarski.slobodnadalmacija.hr/rss` answers **200 with zero items** — the
+  HTML-error-page-as-success case. A single guessed URL would have left that
+  source dead and silent, which is the defect above in its purest form.
+- **The offline fallback articles are written by this app** and used to carry
+  `source: 'Dnevnik.hr'` / `'Index.hr'` / `'Večernji list'` — three real
+  newsrooms' names on text they never wrote. The server's own fallback has always
+  said `'Naša Hrvatska'`; the client copy had drifted. Attribute authored text to
+  the app, never to a publisher.
+- NEVER: change the source list without the owner; let a feed failure be silent;
+  concatenate feeds instead of interleaving them; count a 200 with no items as a
+  working feed; put a real publisher's name on text this app wrote.
+
+## Critical Architecture: A Recognizer Ending Is Not A Learner Finishing (owner report, 2026-09-24)
+
+Owner, on Baka Mara: *"wasn't always reading properly or picking up my full
+sentences."* A Web Speech session ends for two quite different reasons and
+`MajaScreen`'s `onend` treated them as one:
+
+| why it ended | what it means |
+| ------------ | ------------- |
+| our silence timer called `stop()` | the utterance looked finished (`computeSilenceDelay` decided). Send. |
+| the speech service ended it itself | a long pause, a service timeout, a network blip. **The learner is mid-sentence.** |
+
+The handler was `if (listening && transcript.length > 1) { send }`, which
+produces both reported symptoms and nothing else: ended mid-sentence, half the
+sentence is sent and Baka Mara answers it while the learner is still talking;
+ended before they had said anything, the length guard skips the send and
+**nothing else runs** — the recogniser is finished, `recRef` still points at it,
+and the mic is dead until the learner leaves the screen.
+
+- **`decideOnRecognizerEnd` (pure, in `MajaScreenUtils`) returns
+  `send | restart | fallback | idle`**, and the screen only executes the verdict.
+  `turnEndingRef` is set in exactly ONE place — the silence timer — because
+  anything else setting it would make a service-ended session look like a
+  finished sentence again.
+- **A RESTART MUST ACCUMULATE.** `event.results` belongs to the current session
+  and is empty again after a restart, so the old `transcriptRef.current = full`
+  would have replaced a truncation bug with a different one. `accumulateTranscript`
+  joins the new session onto `transcriptBaseRef`.
+- **Restarting is capped** (`MAX_TURN_RESTARTS` 8) and falls through to the
+  Whisper / typed path, because a browser whose speech service refuses to run
+  would otherwise spin forever — the same dead mic with more CPU.
+- The existing `abort()`-vs-`stop()` rule is untouched and still pinned: the
+  silence timer flushes with `stop()`, and `stopMic()` (which aborts) appears
+  only in the WebView backstop.
+- **PINNED AT THE SCREEN, NOT ONLY AT THE DECISION.**
+  `e2e/speech-turn-end.spec.js` drives both real screens with a fake recognizer that
+  does what Chrome does — emit a partial result, then end the session by itself.
+  Reproduced against the old handler first, and the output IS the defect:
+  `{"message":"Jučer sam bio"}` posted and answered, then
+  `{"message":"u dućanu s bakom"}` as a second turn. One sentence, two turns,
+  the first a fragment. After: one message, whole. A unit test cannot see that,
+  because the bug is in which branch the screen takes and how the transcript
+  crosses a restart. Mutation-verified there too: dropping the accumulation
+  makes it arrive as "u dućanu s bakom".
+  The guided-speaking half is measured in the same spec and the number is the
+  point: the learner says 15 words, the service closes the session, and the old
+  code hands the grader **8** — `"i učim hrvatski svaki dan jer volim baku"`,
+  the first seven words gone. Mutation-verified: SPEAK losing `keepOpen` leaves
+  the mic closed and the test red.
+- **THE SAME DEFECT WAS ON THE GRADED SPEAKING SCREEN, and worse there.**
+  `GuidedSpeakingScreen`'s recognizer is `continuous` too, and its deliberate
+  stop NULLS the handler first — so EVERY `onend` that fires there is the
+  service ending the session, and the old handler read all of them as "the
+  learner finished". On SPEAK that answer is scored by `/api/speaking-coach`,
+  fed to the mastery ledger AND measured against a word floor, so a truncated
+  answer tells the learner they did not say enough when they did; pressing the
+  mic again REPLACED the transcript rather than continuing it, so the first half
+  was lost outright. The helpers moved to `src/lib/speechTurn.ts` when the
+  second screen needed them — one definition, re-exported from
+  `MajaScreenUtils` so Maja's imports are unchanged.
+- **`keepOpen` IS SCOPED TO THE LONG STAGE, and the unscoped version was wrong.**
+  REHEARSE and BUILD are one short phrase, where a service-ended session IS the
+  end of the answer; re-opening there leaves the mic running after three words
+  and makes the learner press Stop for nothing. Only SPEAK passes `keepOpen`.
+  Found because an existing test went red — its fake recognizer replayed its
+  result on every `start()`, which a real one never does (a new session's
+  `results` is empty), so the doubled transcript was an artifact; but chasing it
+  surfaced the real interaction change underneath.
+- **THREE SCREENS HAD IT, AND THE CENSUS IS THE POINT.** `SpeakingSprintScreen`
+  is the third: `continuous`, graded, and its `stopMic()` did NOT null the
+  handler, so a deliberate stop and a service-ended session were literally
+  indistinguishable — and `onend` submitted either way. It now nulls `onend`
+  BEFORE `stop()` (order pinned: the other way round still fires), accumulates,
+  and keeps the old submit as the terminal case once the restart budget is
+  spent, so nothing is dropped. Fixing Maja and stopping there would have left
+  two more.
+- **`SpeakingScreen` IS DELIBERATELY NOT IN THIS CLASS** and is pinned as such:
+  its recognizer is `continuous: false`, where the session ending after one
+  utterance IS the endpoint by design. A later change to `continuous` would
+  silently enrol it, which is what the pin catches.
+- NEVER: treat `onend` as "the learner finished"; set the deliberate-end flag
+  anywhere but the silence timer; restart without carrying the transcript
+  forward; restart without a cap.
+
+**AND THE OTHER HALF OF THAT REPORT WAS A PROMISE THAT NEVER SETTLES.** Ten
+screens carried this block, byte-identical:
+
+```js
+const url = await new Promise<string>((resolve) => {
+  const r = new FileReader();
+  r.onload = () => resolve(r.result as string);
+  r.readAsDataURL(blob);          // ← no onerror, no onabort
+});
+```
+
+A FileReader that errors never settles that promise, so the `await` hangs for
+ever: the audio never plays, the screen never leaves the state it was in, and
+there is **no exception, no timeout, no boundary and no console line**. Maja
+simply stops talking mid-conversation and the mic never comes back — which is
+the worst shape "wasn't reading properly" can take, because nothing about it
+looks like a failure. Exactly ONE of the ten (Maja's own streaming TTS queue)
+had the `onerror`; that is what a copy-pasted primitive does.
+
+- **`blobToDataUrl` in `lib/audio.ts` is the one implementation**, returning
+  `string | null` and settling on `onload`, `onerror`, `onabort` AND a throwing
+  constructor. Nine call sites converted; the next screen that needs a data URL
+  gets the guarantee by construction rather than by remembering.
+- **A failed PLAY is now named too.** `ttsFetch` classifies everything up to the
+  HTTP response; decoding the blob, constructing the `Audio` and `play()` being
+  refused all happen in the caller, and all three recorded nothing and raised
+  nothing. `reportTtsPlaybackFailure` routes them through `_dispatchTtsFailed`
+  like every other raise, so the learner reads the same sentence everywhere.
+- **The guard is about PROMISES, not about FileReader.** A reader whose
+  `onload` only sets state cannot hang anything — flagging those would make
+  `fileReaderSettles.test.ts` noise, and a noisy guard gets ignored. It fires
+  only where a `readAs*` sits inside a `new Promise` that settles in an event
+  handler.
+- NEVER: `readAs*` inside a promise without `onerror` AND `onabort`; a play
+  failure that records no cause; widen `TtsFailure.underlying` to free text (it
+  is typed as another CAUSE, and a consumer's switch would start lying).
+
 ## Critical Architecture: A Click Is Not An Affordance (2026-09-24)
 
 `<div onClick={…}>` renders, clicks and looks right, and a keyboard cannot reach

@@ -12,11 +12,45 @@ import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
 
-// Croatian news RSS feeds
-const RSS_FEEDS = [
-  { name: 'Index.hr', url: 'https://www.index.hr/rss/vijesti', category: 'news' },
-  { name: '24sata.hr', url: 'https://www.24sata.hr/feeds/aktualno.xml', category: 'news' },
-  { name: 'Večernji list', url: 'https://www.vecernji.hr/feeds/latest', category: 'news' },
+// Croatian news RSS feeds.
+//
+// THE SOURCE LIST IS AN EDITORIAL DECISION, NOT A TECHNICAL ONE (owner
+// directive, 2026-09-24). These three were hardcoded when this endpoint was
+// written and nothing had revisited them since; Index.hr was removed on the
+// owner's instruction and Dnevnik.hr and Zadarski list added. Do not add a
+// source here without the owner asking for it.
+//
+// EACH SOURCE CARRIES CANDIDATE URLS, NOT ONE. A publisher moving its feed path
+// is the ordinary way a source dies, and the old shape made that death silent
+// (see the fan-out below). The first candidate that answers AND parses wins;
+// `scripts/checkNewsFeeds.mjs` reads this list and reports which one that is,
+// so the list can be trimmed on evidence rather than on memory.
+export const RSS_FEEDS = [
+  {
+    name: 'Dnevnik.hr',
+    urls: ['https://dnevnik.hr/assets/feed/articles', 'https://dnevnik.hr/rss'],
+    category: 'news',
+  },
+  {
+    name: '24sata.hr',
+    urls: ['https://www.24sata.hr/feeds/aktualno.xml'],
+    category: 'news',
+  },
+  {
+    name: 'Zadarski list',
+    // Trimmed on evidence from the CI check, 2026-09-24: `/feed` serves 10
+    // items, `/rss` 404s, and `zadarski.slobodnadalmacija.hr/rss` answers
+    // **200 with zero items** — the HTML-error-page-as-success case, and the
+    // reason the checker refuses to count a 200 without <item> as a live feed.
+    // A single guessed URL would have left this source dead and silent.
+    urls: ['https://www.zadarskilist.hr/feed', 'https://zadarski.slobodnadalmacija.hr/rss'],
+    category: 'news',
+  },
+  {
+    name: 'Večernji list',
+    urls: ['https://www.vecernji.hr/feeds/latest'],
+    category: 'news',
+  },
 ];
 
 function newsCorsHeaders(origin) {
@@ -78,6 +112,46 @@ function parseRSS(rawXml, sourceName) {
     }
   }
   return items;
+}
+
+/**
+ * One source, its candidate URLs tried in order.
+ *
+ * A DEAD FEED USED TO BE COMPLETELY SILENT: `catch { return [] }` and a bare
+ * `!res.ok` return, with the surviving sources quietly covering for it. The
+ * learner still got news, so nothing looked wrong, and a source the owner chose
+ * could be absent for months with no record anywhere. The outcome is reported
+ * now (see `sources` on the payload), which is what makes "is Dnevnik actually
+ * being used" an answerable question rather than an assumption.
+ */
+export async function fetchFeed(feed, fetchImpl = fetch) {
+  const attempts = [];
+  for (const url of feed.urls) {
+    try {
+      const res = await fetchImpl(url, {
+        headers: { 'User-Agent': 'NasaHrvatska/1.0 (Croatian language learning app)' },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) {
+        attempts.push({ url, status: res.status, items: 0 });
+        continue;
+      }
+      const items = parseRSS(await res.text(), feed.name);
+      attempts.push({ url, status: res.status, items: items.length });
+      if (items.length > 0) return { name: feed.name, url, ok: true, items, attempts };
+    } catch (e) {
+      attempts.push({ url, status: 0, items: 0, error: String(e?.name || e).slice(0, 40) });
+    }
+  }
+  return { name: feed.name, url: null, ok: false, items: [], attempts };
+}
+
+/** Round-robin over per-source article lists, preserving each source's order. */
+export function interleave(lists) {
+  const out = [];
+  const longest = Math.max(0, ...lists.map((l) => l.length));
+  for (let i = 0; i < longest; i++) for (const l of lists) if (l[i]) out.push(l[i]);
+  return out;
 }
 
 // Simplify one article using Claude
@@ -311,22 +385,14 @@ export async function onRequestGet(context) {
   }
 
   // Fetch all RSS feeds in parallel (saves ~16s vs sequential)
-  const feedResults = await Promise.all(
-    RSS_FEEDS.map(async (feed) => {
-      try {
-        const res = await fetch(feed.url, {
-          headers: { 'User-Agent': 'NasaHrvatska/1.0 (Croatian language learning app)' },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (!res.ok) return [];
-        const rawXml = await res.text();
-        return parseRSS(rawXml, feed.name);
-      } catch {
-        return [];
-      }
-    }),
-  );
-  const rawArticles = feedResults.flat().slice(0, 6);
+  const feedResults = await Promise.all(RSS_FEEDS.map((feed) => fetchFeed(feed)));
+
+  // INTERLEAVE, don't concatenate. `flat().slice(0, 6)` took the first source's
+  // five items and then one of the second's, so the third and fourth sources
+  // never reached a learner at all — which makes an editorial decision about
+  // WHICH sources to carry purely decorative. Round-robin gives each source its
+  // turn before any source gets a second item.
+  const rawArticles = interleave(feedResults.map((r) => r.items)).slice(0, 6);
 
   if (rawArticles.length === 0) {
     // Return curated fallback articles if RSS fails
@@ -351,7 +417,14 @@ export async function onRequestGet(context) {
   // Every article in this payload was simplified at the SAME level, so one tag
   // describes the whole entry — which is what makes a per-entry tag honest here
   // rather than a summary of several different prompts.
-  const payload = { articles, source: 'live', timestamp: Date.now() };
+  const payload = {
+    articles,
+    source: 'live',
+    // Which sources actually answered. Without this a source that never works
+    // is indistinguishable from one that simply had no new story this window.
+    sources: feedResults.map((r) => ({ name: r.name, ok: r.ok, items: r.items.length })),
+    timestamp: Date.now(),
+  };
   if (kv && articles.length > 0) {
     const put = kv
       .put(kvKey, JSON.stringify(payload), {

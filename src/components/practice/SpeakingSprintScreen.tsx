@@ -3,7 +3,13 @@ import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { isSpeechRecognitionSupported } from '../../lib/platform.js';
-import { ttsFetch, getLastTtsFailure, describeTtsFailure } from '../../lib/audio.js';
+import {
+  ttsFetch,
+  getLastTtsFailure,
+  describeTtsFailure,
+  blobToDataUrl,
+  ttsReadError,
+} from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import SprintSetupScreen from './SprintSetupScreen';
 import SprintCountdownScreen from './SprintCountdownScreen';
@@ -11,6 +17,7 @@ import SprintSpeakingPhase from './SprintSpeakingPhase';
 import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
 import { getGenerationCefr } from '../../lib/cefrCertification';
+import { accumulateTranscript, decideOnRecognizerEnd } from '../../lib/speechTurn';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -404,6 +411,10 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
     setIsRecording(false);
     if (recRef.current) {
       try {
+        // Null the handler FIRST. A deliberate stop must not look like the
+        // speech service ending the session, which is now a reason to re-open
+        // the mic rather than end the learner's answer.
+        recRef.current.onend = null;
         recRef.current.stop();
       } catch {
         /* already stopped */
@@ -418,6 +429,13 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
     setIsRecording(true);
 
     if (!SR_SUPPORTED) return;
+
+    // What earlier sessions in THIS answer produced. A `continuous` session the
+    // speech service closes on its own starts over with an empty `results`, so
+    // without a base the first half of the answer is simply gone.
+    let base = '';
+    let restarts = 0;
+    let errored = false;
 
     const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
     const rec = new SpeechRec();
@@ -442,12 +460,13 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       for (let i = 0; i < e.results.length; i++) {
         full += e.results[i][0].transcript;
       }
-      transcriptRef.current = full;
-      setLiveTranscript(full);
+      transcriptRef.current = accumulateTranscript(base, full);
+      setLiveTranscript(transcriptRef.current);
       resetSilence();
     };
 
     rec.onerror = (e: any) => {
+      errored = true;
       if (e.error === 'not-allowed' || e.error === 'permission-denied') {
         setMicDenied(true);
       }
@@ -455,6 +474,28 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
     };
 
     rec.onend = () => {
+      // stopMic() nulls this handler, so reaching here means the SPEECH SERVICE
+      // ended the session — on a pause, a timeout or a blip — and the learner
+      // may be mid-answer. Submitting here scores a fragment; the 3s silence
+      // timer above is what decides the answer is finished.
+      const verdict = errored
+        ? 'idle'
+        : decideOnRecognizerEnd({
+            deliberate: false,
+            phase: phaseRef.current === 'speaking' ? 'listening' : 'idle',
+            transcript: transcriptRef.current,
+            restarts,
+          });
+      if (verdict === 'restart') {
+        restarts += 1;
+        base = transcriptRef.current;
+        try {
+          rec.start();
+          return;
+        } catch {
+          /* could not re-open — fall through and submit what we have */
+        }
+      }
       if (phaseRef.current === 'speaking' && transcriptRef.current.trim().length > 1) {
         stopMic();
         handleUserDone(transcriptRef.current.trim());
@@ -490,11 +531,8 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       if (!res || !res.ok) throw new Error(`TTS ${res?.status ?? 'failed'}`);
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       // Left the screen during the TTS fetch? The unmount cleanup has already
       // paused audioRef and revoked the object URL, so constructing and playing a
       // new element here left Croatian audio running over the next screen with

@@ -5,7 +5,7 @@ import { markQuest } from '../../lib/quests.js';
 import { applyConversationCategoriesToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch } from '../../lib/audio.js';
+import { unlockAudio, ttsFetch, reportTtsPlaybackFailure } from '../../lib/audio.js';
 import MajaOrb from './MajaOrb';
 import ConversationBubble from './ConversationBubble';
 import DebriefScreen from './MajaDebrief';
@@ -26,6 +26,8 @@ import {
   getPersona,
   SR_SUPPORTED,
   computeSilenceDelay,
+  accumulateTranscript,
+  decideOnRecognizerEnd,
   extractStreamingReply,
   extractSentences,
   loadMemory,
@@ -145,6 +147,16 @@ export default function MajaScreen() {
   const animFrameRef = useRef<number | null>(null);
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const transcriptRef = useRef<string>('');
+  // What earlier recognizer sessions in THIS turn already heard. `onresult`
+  // reads `event.results`, which is empty again after a restart, so without a
+  // base every restart would wipe the sentence so far.
+  const transcriptBaseRef = useRef<string>('');
+  // Did WE end this session (silence timer / teardown), or did the speech
+  // service end it on its own? `onend` cannot tell, and treating the second as
+  // the first sends half a sentence — or, with nothing said yet, leaves the mic
+  // dead with no way back.
+  const turnEndingRef = useRef<boolean>(false);
+  const restartsRef = useRef<number>(0);
   const sessionStartRef = useRef<number | null>(null);
   const elapsedTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -282,12 +294,26 @@ export default function MajaScreen() {
       if (!res || !res.ok) throw new Error(`TTS ${res?.status ?? 'failed'}`);
 
       const blob = await res.blob();
-      // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
+      // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews.
+      // `onerror`/`onabort` are NOT optional here: without them a FileReader
+      // failure never settles this promise, so the await hangs for ever, the
+      // TTS queue never drains, the phase never leaves 'maja-speaking' and the
+      // mic never comes back. Baka Mara simply stops, mid-conversation, with no
+      // error anywhere — which is the worst shape of "wasn't reading properly".
+      const url = await new Promise<string | null>((resolve) => {
         const r = new FileReader();
         r.onload = () => resolve(r.result as string);
+        r.onerror = () => resolve(null);
+        r.onabort = () => resolve(null);
         r.readAsDataURL(blob);
       });
+      if (!url) {
+        // Early return, not a throw: this function's catch is the "non-fatal,
+        // the text is already on screen" branch, so throwing would only reach
+        // the same place. The cause is recorded either way.
+        reportTtsPlaybackFailure('filereader');
+        return;
+      }
       // The TTS fetch + FileReader above are suspension points. If the screen
       // was left in the meantime, the unmount cleanup already paused whatever
       // audio existed then — constructing and playing a NEW Audio here made
@@ -307,9 +333,17 @@ export default function MajaScreen() {
         audio.onerror = () => {
           audioUrlRef.current = null;
           audioRef.current = null;
-          resolve(); // continue even on error
+          // Continue the turn — the reply is already on screen — but SAY what
+          // happened. `ttsFetch` classifies everything up to the response; a
+          // decode or playback failure after that used to record nothing and
+          // raise nothing, so the learner got silence with no cause.
+          reportTtsPlaybackFailure('decode');
+          resolve();
         };
-        audio.play().catch(() => resolve());
+        audio.play().catch((e) => {
+          reportTtsPlaybackFailure(String((e as Error)?.name || 'play'));
+          resolve();
+        });
       });
     } catch {
       // TTS failure is non-fatal — text is already shown in conversation
@@ -768,6 +802,9 @@ export default function MajaScreen() {
 
     setPhase('listening');
     transcriptRef.current = '';
+    transcriptBaseRef.current = '';
+    turnEndingRef.current = false;
+    restartsRef.current = 0;
     setLiveTranscript('');
 
     startWaveform();
@@ -801,6 +838,7 @@ export default function MajaScreen() {
           // re-arms on interims, not on audio), abort threw away the words the
           // user was actually saying. stop() flushes them — they arrive as a
           // final onresult, then onend sends the COMPLETE transcript.
+          turnEndingRef.current = true;
           try {
             recRef.current?.stop();
           } catch {
@@ -825,8 +863,9 @@ export default function MajaScreen() {
       for (let i = 0; i < se.results.length; i++) {
         if (se.results[i]?.[0]) full += se.results[i]![0]!.transcript;
       }
-      transcriptRef.current = full;
-      setLiveTranscript(full);
+      const merged = accumulateTranscript(transcriptBaseRef.current, full);
+      transcriptRef.current = merged;
+      setLiveTranscript(merged);
       resetSilenceTimer();
     };
 
@@ -862,10 +901,37 @@ export default function MajaScreen() {
     };
 
     rec.onend = () => {
-      // If still supposed to be listening and we have transcript, send it
-      if (phaseRef.current === 'listening' && transcriptRef.current.trim().length > 1) {
+      const verdict = decideOnRecognizerEnd({
+        deliberate: turnEndingRef.current,
+        phase: phaseRef.current,
+        transcript: transcriptRef.current,
+        restarts: restartsRef.current,
+      });
+      if (verdict === 'send') {
         stopMic();
         sendMessage(transcriptRef.current.trim());
+        return;
+      }
+      if (verdict === 'restart') {
+        // The service ended the session, not us. Keep the sentence so far and
+        // re-open, so a thinking pause does not end the learner's turn for them.
+        restartsRef.current += 1;
+        transcriptBaseRef.current = transcriptRef.current;
+        try {
+          rec.start();
+        } catch {
+          /* already starting — the next onend will decide again */
+        }
+        return;
+      }
+      if (verdict === 'fallback') {
+        // Re-opening is not working: this browser's speech service is refusing
+        // to run. Surface the path that does (Whisper, or the typed input)
+        // instead of leaving a dead mic on screen.
+        stopMicImmediate();
+        setSrFailed(true);
+        srFailedRef.current = true;
+        if (WHISPER_CAPABLE && !iosVoiceRef.current.isListening) iosVoiceRef.current.toggle();
       }
     };
 

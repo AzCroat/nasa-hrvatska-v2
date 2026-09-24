@@ -25,6 +25,8 @@ function _sh<T>(a: T[]): T[] {
   return b;
 }
 import ScreenErrorBoundary from './shared/ScreenErrorBoundary';
+import ScreenNotFound from './shared/ScreenNotFound';
+import { NOT_FOUND_SCREEN } from '../lib/routeKeys';
 import { addWordToSRS } from '../lib/srs.js';
 const WelcomeScreen = lazyWithReload(() => import('./home/WelcomeScreen'));
 const PlacementTest = lazyWithReload(() => import('../components/auth/PlacementTest'));
@@ -3656,6 +3658,17 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'map' && (
           <ScreenErrorBoundary key="map" name="map">
             <MapScreen goBack={goBack} />
+          </ScreenErrorBoundary>
+        )}
+        {/* A path that names nothing. App.tsx maps it here rather than letting
+            every branch above miss, which rendered a blank page. */}
+        {currentScreen === NOT_FOUND_SCREEN && (
+          <ScreenErrorBoundary key={NOT_FOUND_SCREEN} name={NOT_FOUND_SCREEN}>
+            <ScreenNotFound
+              path={typeof location !== 'undefined' ? location.pathname : ''}
+              goHome={() => setScr('dashboard')}
+              goBack={goBack}
+            />
           </ScreenErrorBoundary>
         )}
       </motion.div>

@@ -81,6 +81,7 @@ import DesktopPanel from './components/shared/DesktopPanel';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
 import { LAUNCH_FAILED_EVENT } from './lib/launchFailure';
 import { LAUNCH_FAILURE_COPY } from './components/shared/LaunchFailureNotice';
+import { isKnownScreen, NOT_FOUND_SCREEN } from './lib/routeKeys';
 
 // ── Module-level constants ───────────────────────────────────────────────────
 // The vocabulary deck used to be a 56-name category list hardcoded here ("update
@@ -815,7 +816,11 @@ function App() {
     }
     if (p && p !== '/' && p !== '/welcome' && p !== '/placement') {
       const scr = p.slice(1);
-      _setCurrentScreen(scr);
+      // A path that names no screen used to be set as the screen anyway: no
+      // branch in AppRouter matched, nothing rendered a message, and the
+      // learner got a blank page. `/culture` reaches this (the Croatia tab was
+      // called Culture until 2026-04-26), and so does a capital letter.
+      _setCurrentScreen(isKnownScreen(scr) ? scr : NOT_FOUND_SCREEN);
       if (SCREEN_TAB[scr]) _setTab(SCREEN_TAB[scr]);
     }
   }, [location.pathname]);

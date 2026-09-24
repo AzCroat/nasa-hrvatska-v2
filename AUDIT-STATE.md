@@ -6036,6 +6036,98 @@ pattern (>30 sites) as well as the bad. Mutation-verified four ways: one fix
 reverted fails 2, `tabIndex` dropped from the helper fails 1, Space no longer
 activating fails 1, a stale exemption fails 1.
 
+### Sweep 95 — the blank page at the end of a stale link (2026-09-24, 1 REAL DEFECT, FIXED)
+
+`App.tsx`'s path effect was `_setCurrentScreen(p.slice(1))` with no validation,
+and the SPA fallback serves index.html for every path — so ANY address became a
+screen key, matched no branch in `AppRouter` (which has no fallback), and
+rendered nothing. Measured in a real browser, seeded and authenticated:
+
+| path            | main content |
+| --------------- | ------------ |
+| /genitivedrill  | 1,388 chars  |
+| /nonsense       | 33           |
+| /culture        | 33           |
+| /Dashboard      | 33           |
+
+**`/culture` is the one that matters**: the Croatia tab was CALLED Culture until
+2026-04-26 — this repo's own nav table carried the stale name for five months
+after — so every link and bookmark from before that date lands on a page with no
+message, no active tab and nothing to do. That is the dead end the next-step
+directive exists to forbid, on the one route no spec visits. `/Dashboard` is the
+same thing one capital letter away from a real screen.
+
+`ScreenNotFound` names what happened, shows the path asked for, and offers the
+two ways out. **The risk is the 430-entry key list**, which is exactly the
+hand-maintained list this repo keeps finding decayed — so it is generated from
+`AppRouter.tsx` and `routeKeys.test.ts` compares BOTH directions: a screen added
+without its key would send its own URL to the not-found card, a key left behind
+after a deletion would send a dead path back to a blank page. Mutation-verified
+five ways (guard reverted fails 1 unit + the new E2E test while its control
+still passes; a key deleted, a phantom key added, the branch removed each fail 1).
+
+### Owner-reported, 2026-09-24 — the news sources, and Baka Mara's ear
+
+Two field reports, neither found by a sweep.
+
+**"News is coming from Index.hr... why are we not using Dnevnik?"** Answer:
+nobody ever chose. Three feeds were hardcoded when `/api/news` was written and
+nothing revisited them. Beyond the swap, two defects made the source list
+unenforceable: a dead feed was COMPLETELY SILENT (`catch { return [] }`, the
+survivors covering for it, no record anywhere), and `flat().slice(0, 6)` took
+five items from the first source and one from the second, so sources three and
+four never reached a learner at all — adding a source to the list did nothing.
+Both fixed; the payload now reports which sources answered.
+**The feed URLs cannot be verified from a development sandbox** — every Croatian
+host answers 403 at the egress proxy, including the two that have worked in
+production for months, which is the "classify before counting" rule in its
+purest form. `scripts/checkNewsFeeds.mjs` runs on a GitHub runner, which can
+reach them, on any PR touching the feed list and weekly. **First run: 4/4
+answering** — and the candidate-URL design paid immediately, because Zadarski's
+first guessed path 404s and its second answers 200 with zero items, which is
+exactly the failure the checker refuses to score as success. Also fixed on the way:
+the offline fallback articles, written by this app, carried three real
+newsrooms' names as their source.
+
+**"Baka Mara wasn't always reading properly or picking up my full sentences."**
+`MajaScreen`'s `onend` could not tell OUR `stop()` from the speech service
+ending the session on its own, and `if (listening && transcript.length > 1)
+{ send }` produces both symptoms exactly: ended mid-sentence, half the sentence
+is sent while the learner is still talking; ended before they said anything, the
+length guard skips the send and **nothing else runs** — the mic is dead with no
+message until they leave the screen. Now a pure `decideOnRecognizerEnd` returns
+send / restart / fallback / idle, restarts carry the transcript forward
+(`event.results` is empty in a new session, so restarting without accumulating
+would have been a second truncation bug), and restarting is capped so a dead
+speech service falls through to Whisper or the typed input instead of spinning.
+Mutation-verified four ways, and pinned at the SCREEN as well as at the
+decision: `e2e/maja-turn-end.spec.js` drives a fake recognizer that ends its
+session mid-sentence, and against the old handler it reproduces the report
+exactly — `{"message":"Jučer sam bio"}` posted and answered, then
+`{"message":"u dućanu s bakom"}` as a separate turn.
+The same defect was then found on `GuidedSpeakingScreen` — where a deliberate
+stop nulls the handler, so EVERY `onend` there is the service ending the
+session — and it is worse, because the SPEAK stage is rubric-graded and measured
+against a word floor. Measured in a browser: 15 words spoken, **8 delivered to
+the grader** before the fix. Both screens are pinned by
+`e2e/speech-turn-end.spec.js`. A third — `SpeakingSprintScreen`, also
+`continuous` and also graded — had the same handler AND a `stopMic()` that did
+not null it, so a deliberate stop and a service-ended session were literally the
+same event. Fixed the same way. `SpeakingScreen` is excluded on evidence
+(`continuous: false`, where the session end IS the endpoint) and pinned so a
+later change cannot enrol it silently.
+
+**The other half of that report was a promise that never settles**, and it is
+the worse half: ten screens carried a byte-identical `new Promise` around a
+`FileReader` with no `onerror`, so a failed read leaves the `await` hanging for
+ever — no exception, no timeout, no boundary, no console line. The screen stops
+and nothing says why. Exactly one of the ten had the error path. `blobToDataUrl`
+is now the one implementation and nine call sites use it; a failed decode or a
+refused `play()` is named through the same raiser as every other TTS failure,
+where all three used to record and raise nothing. Guarded by
+`fileReaderSettles.test.ts`, scoped to the promise shape on purpose so it does
+not flag readers that merely set state.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

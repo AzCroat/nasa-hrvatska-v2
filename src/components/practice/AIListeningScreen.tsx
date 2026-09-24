@@ -6,7 +6,14 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
 import { interleaveDialogue, listeningFailureFromResponse } from '../../lib/listeningSupport';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch, getLastTtsFailure, describeTtsFailure } from '../../lib/audio.js';
+import {
+  unlockAudio,
+  ttsFetch,
+  getLastTtsFailure,
+  describeTtsFailure,
+  blobToDataUrl,
+  ttsReadError,
+} from '../../lib/audio.js';
 import { recordTopicResult } from '../../lib/adaptive';
 import { useStats } from '../../context/StatsContext';
 import { creditIfNoAuthoredFallback } from '../../lib/authoredFallback';
@@ -150,13 +157,10 @@ export default function AIListeningScreen({
       if (!ttsRes || !ttsRes.ok) {
         setAudioSource('unavailable');
       } else {
-        const blob = await ttsRes.blob();
-        // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-        const url = await new Promise<string>((resolve) => {
-          const r = new FileReader();
-          r.onload = () => resolve(r.result as string);
-          r.readAsDataURL(blob);
-        });
+        // blobToDataUrl, not a blob: URL — those fail silently on some Android
+        // OEM WebViews; and it always settles, which the old inline reader did not.
+        const url = await blobToDataUrl(await ttsRes.blob());
+        if (!url) throw ttsReadError();
         if (!mountedRef.current) return; // data: URLs are GC'd normally — no revocation needed
         setAudioUrl(url);
         setAudioSource('azure');

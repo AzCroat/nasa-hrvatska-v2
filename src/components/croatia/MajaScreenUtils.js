@@ -150,6 +150,15 @@ export const DEFAULT_MEMORY = {
 // talking. 1500/2600 absorbs both the human pause and the recognizer stall;
 // the flush-on-stop fix in MajaScreen means even a mistimed fire no longer
 // LOSES words. Do not lower these without re-testing against halting speech.
+// The turn-end helpers moved to src/lib/speechTurn.ts when a SECOND screen
+// needed them (GuidedSpeakingScreen). Re-exported here so this module stays
+// the one import for Maja, with the definition in exactly one place.
+export {
+  MAX_TURN_RESTARTS,
+  accumulateTranscript,
+  decideOnRecognizerEnd,
+} from '../../lib/speechTurn';
+
 export const SILENCE_BASE_MS = 1500;
 export const SILENCE_EXTENDED_MS = 2600;
 

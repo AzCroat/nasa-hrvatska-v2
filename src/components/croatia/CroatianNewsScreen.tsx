@@ -7,13 +7,19 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch } from '../../lib/audio.js';
+import { unlockAudio, ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 
 // ── Fallback articles shown when the live API is unavailable ─────────────────
+//
+// These three are WRITTEN BY THIS APP. They used to carry `source: 'Dnevnik.hr'`
+// / `'Index.hr'` / `'Večernji list'` — three real newsrooms' names on text they
+// never wrote, shown to a learner as if it were their reporting. The server's
+// own fallback (`functions/api/news.js`) has always said 'Naša Hrvatska'; this
+// copy had drifted. Attribute authored text to the app, never to a publisher.
 const FALLBACK_ARTICLES = [
   {
-    source: 'Dnevnik.hr',
+    source: 'Naša Hrvatska',
     simplified_title: 'Zagreb dobiva novu tramvajsku liniju',
     simplified_title_en: 'Zagreb is getting a new tram line',
     simplified_text:
@@ -32,7 +38,7 @@ const FALLBACK_ARTICLES = [
     link: null,
   },
   {
-    source: 'Index.hr',
+    source: 'Naša Hrvatska',
     simplified_title: 'Hrvatska priprema novi turistički rekord',
     simplified_title_en: 'Croatia is preparing a new tourism record',
     simplified_text:
@@ -51,7 +57,7 @@ const FALLBACK_ARTICLES = [
     link: null,
   },
   {
-    source: 'Večernji list',
+    source: 'Naša Hrvatska',
     simplified_title: 'Dinamo Zagreb pobijedio u Europskoj ligi',
     simplified_title_en: 'Dinamo Zagreb won in the Europa League',
     simplified_text:
@@ -299,11 +305,8 @@ function ArticleCard({
       if (!res || !res.ok) throw new Error('TTS failed');
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       const audio = new Audio(url);
       audio.volume = 1.0; // required: low volume blocks activation on some WebViews
       audio.onended = () => {

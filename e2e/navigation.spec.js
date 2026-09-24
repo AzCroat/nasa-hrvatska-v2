@@ -17,13 +17,19 @@ test.describe('Tab navigation', () => {
     await blockFirebase(page);
     await mockTTS(page);
     await page.goto('/');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
+      timeout: 10_000,
+    });
     // Wait for the app's post-auth internal navigate() calls to fully settle before each test.
     // On Firefox/WebKit these deferred effects take longer; clicking a tab before they complete
     // can result in the router overriding the tab click and resetting to Today.
     await page.waitForLoadState('networkidle', { timeout: 8_000 }).catch(() => {});
     // Wait for the session card — reliable ready signal for the new HomeTab
-    await page.getByText("Today's Session").first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await page
+      .getByText("Today's Session")
+      .first()
+      .waitFor({ state: 'visible', timeout: 10_000 })
+      .catch(() => {});
     await page.waitForTimeout(300);
   });
 
@@ -51,7 +57,9 @@ test.describe('Tab navigation', () => {
     // gone; this testid is the surface's own stable handle.
     await expect(page.getByTestId('open-learning-center')).toBeVisible({ timeout: 10_000 });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
+    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, {
+      timeout: 10_000,
+    });
   });
 
   test('navigates to Practice tab and shows practice options', async ({ page }) => {
@@ -62,9 +70,13 @@ test.describe('Tab navigation', () => {
     // The teal hero renders emoji 🎮 and text 'Practice' in separate sibling divs,
     // so we match the overline div text with locator('text=Practice').first().
     // 20s for lazy-chunk load on Firefox/WebKit in parallel CI.
-    await expect(page.locator('text=Practice').filter({ visible: true }).first()).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('text=Practice').filter({ visible: true }).first()).toBeVisible({
+      timeout: 20_000,
+    });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Practice', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
+    await expect(nav.getByRole('button', { name: 'Practice', exact: true })).toHaveClass(/active/, {
+      timeout: 10_000,
+    });
   });
 
   test('navigates to Croatia tab and shows the Hrvatska doors surface', async ({ page }) => {
@@ -74,7 +86,9 @@ test.describe('Tab navigation', () => {
     // Danas card with generous timeout for lazy-chunk load on Firefox/WebKit
     await expect(page.getByText('Danas u Hrvatskoj')).toBeVisible({ timeout: 20_000 });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Croatia', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
+    await expect(nav.getByRole('button', { name: 'Croatia', exact: true })).toHaveClass(/active/, {
+      timeout: 10_000,
+    });
   });
 
   test('navigates to Me tab and shows user name', async ({ page }) => {
@@ -83,7 +97,9 @@ test.describe('Tab navigation', () => {
     await clickMe(page);
     await page.waitForURL('/profile', { timeout: 20_000 });
     // 20s covers Mobile Chrome (Pixel 5) where name state resolves slowly after auth.
-    await expect(page.getByText('Test Učenik').filter({ visible: true }).first()).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByText('Test Učenik').filter({ visible: true }).first()).toBeVisible({
+      timeout: 20_000,
+    });
   });
 
   test('tab switches correctly update active state', async ({ page }) => {
@@ -93,19 +109,31 @@ test.describe('Tab navigation', () => {
     // Wait for URL to confirm click registered, then check active class.
     // Firefox/WebKit need up to 20s for URL + React re-render in parallel CI.
     await page.waitForURL('/learn', { timeout: 20_000 });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
-    await expect(nav.getByRole('button', { name: 'Today', exact: true })).not.toHaveClass(/active/, { timeout: 10_000 });
+    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, {
+      timeout: 10_000,
+    });
+    await expect(nav.getByRole('button', { name: 'Today', exact: true })).not.toHaveClass(
+      /active/,
+      { timeout: 10_000 },
+    );
 
     await clickTab(page, 'Today');
     await page.waitForURL('/', { timeout: 20_000 });
-    await expect(nav.getByRole('button', { name: 'Today', exact: true })).toHaveClass(/active/, { timeout: 10_000 });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).not.toHaveClass(/active/, { timeout: 10_000 });
+    await expect(nav.getByRole('button', { name: 'Today', exact: true })).toHaveClass(/active/, {
+      timeout: 10_000,
+    });
+    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).not.toHaveClass(
+      /active/,
+      { timeout: 10_000 },
+    );
   });
 
   test('search bar is visible on the dashboard', async ({ page }) => {
     // The app search input uses role="combobox" (supports aria-expanded/aria-controls/aria-autocomplete)
     // 10s timeout allows for slower render on Firefox/WebKit under parallel load.
-    await expect(page.getByRole('combobox', { name: /Search vocabulary/i })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('combobox', { name: /Search vocabulary/i })).toBeVisible({
+      timeout: 10_000,
+    });
   });
 
   test('search returns results for a known Croatian word', async ({ page }) => {
@@ -117,6 +145,32 @@ test.describe('Tab navigation', () => {
     // doSearch debounces 200ms then lazily imports the search index chunk.
     // Give both enough time before expecting the results listbox.
     await page.waitForTimeout(600);
-    await expect(page.getByRole('listbox', { name: 'Search results' })).toBeVisible({ timeout: 5_000 });
+    await expect(page.getByRole('listbox', { name: 'Search results' })).toBeVisible({
+      timeout: 5_000,
+    });
+  });
+
+  test('a path that names nothing says so instead of rendering a blank page', async ({ page }) => {
+    // The SPA fallback serves index.html for every path, so a stale bookmark to
+    // a renamed screen (`/culture` was the Croatia tab until 2026-04-26) used to
+    // set that string as the screen key, match no branch in AppRouter, and leave
+    // the learner on the header and tab bar alone.
+    await page.goto('/culture', { waitUntil: 'domcontentloaded' });
+    const card = page.getByTestId('screen-not-found');
+    await expect(card).toBeVisible({ timeout: 10_000 });
+    await expect(card).toContainText('/culture');
+
+    // and it is a way out, not just a message
+    await page.getByTestId('not-found-home').click();
+    await expect(page).toHaveURL(/\/$/, { timeout: 10_000 });
+    await expect(page.getByTestId('screen-not-found')).toHaveCount(0);
+  });
+
+  test('a real screen still renders itself, not the not-found card', async ({ page }) => {
+    // Without this the test above passes just as well against a guard that sends
+    // EVERY path to the not-found card.
+    await page.goto('/genitivedrill', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(800);
+    await expect(page.getByTestId('screen-not-found')).toHaveCount(0);
   });
 });

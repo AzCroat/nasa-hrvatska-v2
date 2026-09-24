@@ -57,14 +57,17 @@ export const MEDIA = [
     tip: 'Večernji has good local and regional stories. Reading it alongside HRT news gives you broader exposure to written Croatian styles.',
   },
   {
-    name: 'Index.hr',
-    desc: 'Independent news & opinion portal',
-    web: 'https://www.index.hr/',
+    // Replaced Index.hr here (owner decision, 2026-09-24). NOT another Dnevnik
+    // card — this catalogue already carries one at A2, and `mediaLinks.test.ts`
+    // caught the duplicate, which is the guard doing its job.
+    name: 'Zadarski list',
+    desc: 'Zadar regional daily — local news from Dalmatia',
+    web: 'https://www.zadarskilist.hr/',
     icon: '📰',
     color: '#ea580c',
     cat: 'tv',
     level: 'B2',
-    tip: "Index.hr features debate and commentary — you'll encounter argumentation structures and rhetorical vocabulary here.",
+    tip: 'A regional paper writes about places and people rather than national politics, so the vocabulary is concrete — coastline, ferries, tourism, local government.',
   },
   {
     name: 'Glas Hrvatske',
