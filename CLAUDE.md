@@ -2992,6 +2992,25 @@ and the mic is dead until the learner leaves the screen.
   because the bug is in which branch the screen takes and how the transcript
   crosses a restart. Mutation-verified there too: dropping the accumulation
   makes it arrive as "u dućanu s bakom".
+- **THE SAME DEFECT WAS ON THE GRADED SPEAKING SCREEN, and worse there.**
+  `GuidedSpeakingScreen`'s recognizer is `continuous` too, and its deliberate
+  stop NULLS the handler first — so EVERY `onend` that fires there is the
+  service ending the session, and the old handler read all of them as "the
+  learner finished". On SPEAK that answer is scored by `/api/speaking-coach`,
+  fed to the mastery ledger AND measured against a word floor, so a truncated
+  answer tells the learner they did not say enough when they did; pressing the
+  mic again REPLACED the transcript rather than continuing it, so the first half
+  was lost outright. The helpers moved to `src/lib/speechTurn.ts` when the
+  second screen needed them — one definition, re-exported from
+  `MajaScreenUtils` so Maja's imports are unchanged.
+- **`keepOpen` IS SCOPED TO THE LONG STAGE, and the unscoped version was wrong.**
+  REHEARSE and BUILD are one short phrase, where a service-ended session IS the
+  end of the answer; re-opening there leaves the mic running after three words
+  and makes the learner press Stop for nothing. Only SPEAK passes `keepOpen`.
+  Found because an existing test went red — its fake recognizer replayed its
+  result on every `start()`, which a real one never does (a new session's
+  `results` is empty), so the doubled transcript was an artifact; but chasing it
+  surfaced the real interaction change underneath.
 - NEVER: treat `onend` as "the learner finished"; set the deliberate-end flag
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.

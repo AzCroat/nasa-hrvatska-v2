@@ -30,11 +30,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import {
-  accumulateTranscript,
-  decideOnRecognizerEnd,
-  MAX_TURN_RESTARTS,
-} from '../components/croatia/MajaScreenUtils.js';
+import { accumulateTranscript, decideOnRecognizerEnd, MAX_TURN_RESTARTS } from '../lib/speechTurn';
 
 describe('what to do when the recognizer ends', () => {
   const base = { phase: 'listening', transcript: 'kupio sam kruh', restarts: 0 };
@@ -131,5 +127,50 @@ describe('the screen is wired to the decision', () => {
     const res = SRC.slice(SRC.indexOf('rec.onresult = ('), SRC.indexOf('rec.onerror = ('));
     expect(res).toContain('accumulateTranscript(transcriptBaseRef.current');
     expect(res).not.toMatch(/transcriptRef\.current = full;/);
+  });
+});
+
+describe('the same defect on the graded speaking screen', () => {
+  // GuidedSpeakingScreen's SPEAK stage is the app's only rubric-graded free
+  // production. Its recognizer is `continuous` too, and a DELIBERATE stop nulls
+  // the handler first — so every `onend` that fires there is the service ending
+  // the session, which the old code treated as "the learner finished".
+  //
+  // It is worse here than in a chat: the truncated answer is SCORED, and
+  // measured against a word floor, so the learner is told they did not say
+  // enough when they did. And pressing the mic again replaced the transcript
+  // instead of continuing it, so the first half was lost outright.
+  const SRC = readFileSync('src/components/practice/GuidedSpeakingScreen.tsx', 'utf8');
+  // `stopRecognizer` is defined BEFORE `listenOnce`, so slicing between them
+  // gave an EMPTY window that fell back to the whole file — the assertions
+  // below read as scoped and were not. Slice to the next member instead.
+  const from = SRC.indexOf('function listenOnce');
+  const body = SRC.slice(from, SRC.indexOf('\n  function ', from + 10));
+
+  it('asks the shared decision rather than ending the answer', () => {
+    expect(body).toContain('decideOnRecognizerEnd');
+    expect(body).toContain("verdict === 'restart'");
+  });
+
+  it('carries the answer so far across a restart', () => {
+    expect(body).toContain('accumulateTranscript(base');
+    // The defect, spelled out: the session's own text replacing the answer.
+    expect(body).not.toMatch(/\bfull = out;/);
+  });
+
+  it('re-opens only on the long stage, not after a three-word phrase', () => {
+    // REHEARSE and BUILD are one short phrase: a service-ended session there IS
+    // the end of the answer, and re-opening would leave the mic running and
+    // make the learner press Stop for nothing. Only SPEAK asks to keep going.
+    expect(body).toMatch(/function listenOnce\([\s\S]{0,80}keepOpen = false\)/);
+    expect(body).toMatch(/!keepOpen\s*\n?\s*\?\s*'idle'/);
+    expect(SRC).toContain('listenOnce(setTranscript, true)');
+    expect(SRC).toContain('listenOnce(checkPhrase)');
+    expect(SRC).toContain('listenOnce(checkBuild)');
+  });
+
+  it('does not re-open after an error — that would spin on a refused mic', () => {
+    expect(body).toMatch(/errored\s*=\s*true/);
+    expect(body).toMatch(/errored\s*\n?\s*\?\s*'idle'/);
   });
 });

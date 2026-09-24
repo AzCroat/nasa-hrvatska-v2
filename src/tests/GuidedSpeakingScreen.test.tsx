@@ -340,7 +340,15 @@ describe('the microphone path, when the browser has one', () => {
       onresult: ((e: unknown) => void) | null = null;
       onerror: ((e: unknown) => void) | null = null;
       onend: (() => void) | null = null;
+      _delivered = false;
       start() {
+        // A REAL session starts with an empty `results` list, so a restarted
+        // recogniser never replays what the previous one heard. Modelling that
+        // matters now that a service-ended SPEAK session re-opens the mic: a
+        // fake that replays would double the transcript and report a bug the
+        // browser cannot produce.
+        if (this._delivered) return;
+        this._delivered = true;
         this.onresult?.({ results: [[{ transcript: GOOD }]] });
         this.onend?.();
       }

@@ -46,6 +46,7 @@ import {
   type SpeakingChecklistItem,
 } from '../../data/speakingCurriculum';
 import type { CefrLevel } from '../../lib/cefr.js';
+import { accumulateTranscript, decideOnRecognizerEnd } from '../../lib/speechTurn';
 
 const UNIT_PTR_KEY = 'nh_guided_speaking_idx';
 
@@ -202,13 +203,28 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     setTtsError(describeTtsFailure(getLastTtsFailure()));
   }
 
-  /** Listen once and hand the transcript to `onText`. Zero AI cost. */
-  function listenOnce(onText: (t: string) => void) {
+  /**
+   * Listen once and hand the transcript to `onText`. Zero AI cost.
+   *
+   * `keepOpen` decides what a SERVICE-ended session means, and the two stages
+   * genuinely differ. On SPEAK the learner is producing 8–30 words, so a
+   * session the speech service closes on a pause is an interruption: re-open
+   * and keep the answer going. On REHEARSE and BUILD they say one short phrase,
+   * and the session ending IS the end of it — re-opening there would leave the
+   * mic running after a three-word answer and make them press Stop for nothing.
+   */
+  function listenOnce(onText: (t: string) => void, keepOpen = false) {
     const Ctor = recognizerCtor();
     if (!Ctor) return;
     stopRecognizer();
     setMicError('');
     let full = '';
+    // What earlier recognizer sessions in THIS answer produced. A `continuous`
+    // session that the speech service ends on its own starts over with an empty
+    // `results`, so without a base the learner's first half is simply gone.
+    let base = '';
+    let restarts = 0;
+    let errored = false;
     const rec = new Ctor();
     recRef.current = rec;
     rec.lang = 'hr-HR';
@@ -220,11 +236,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
         const alt = e.results[i]?.[0];
         if (alt) out += alt.transcript;
       }
-      full = out;
-      if (mountedRef.current) onText(out);
+      full = accumulateTranscript(base, out);
+      if (mountedRef.current) onText(full);
     };
     rec.onerror = (e) => {
       if (!mountedRef.current) return;
+      errored = true;
       setRecording(false);
       setMicError(
         e.error === 'not-allowed' || e.error === 'permission-denied'
@@ -236,6 +253,34 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     };
     rec.onend = () => {
       if (!mountedRef.current) return;
+      // A DELIBERATE stop nulls this handler first (see stopRecognizer), so
+      // reaching here means the SPEECH SERVICE ended the session — on a long
+      // pause, a timeout or a network blip — and the learner may be halfway
+      // through their answer. Ending the recording here truncates it, and
+      // pressing the mic again used to REPLACE the text rather than continue
+      // it, so the first half was lost. On the SPEAK stage that answer is then
+      // graded and measured against a word floor: the learner is told they did
+      // not say enough when they did.
+      const verdict = errored
+        ? 'idle'
+        : !keepOpen
+          ? 'idle'
+          : decideOnRecognizerEnd({
+              deliberate: false,
+              phase: 'listening',
+              transcript: full,
+              restarts,
+            });
+      if (verdict === 'restart') {
+        restarts += 1;
+        base = full;
+        try {
+          rec.start();
+          return;
+        } catch {
+          /* could not re-open — fall through and hand over what we have */
+        }
+      }
       setRecording(false);
       onText(full);
     };
@@ -683,7 +728,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             {srSupported && (
               <button
                 className="b bp"
-                onClick={() => (recording ? stopRecognizer() : listenOnce(setTranscript))}
+                onClick={() => (recording ? stopRecognizer() : listenOnce(setTranscript, true))}
                 data-testid="gs-record"
                 style={{ width: '100%', padding: '13px 0', fontWeight: 800, marginBottom: 10 }}
               >
