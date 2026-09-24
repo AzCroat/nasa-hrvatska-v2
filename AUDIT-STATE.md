@@ -5334,6 +5334,69 @@ its result.**
 
 ---
 
+### Sweep 83 — the E2E content fixture is a FOURTH copy, and one key of thirty-two was checked (2026-09-24, 1 REAL DEFECT, FIXED)
+
+**The pair.** Under `vite preview` the Cloudflare Functions are not served, so
+`e2e/fixtures/content-fixture.js` re-builds every `/api/content/*` payload and
+Playwright replies with it. The fixture imports the REAL `_data` modules, so the
+inner shapes cannot drift — that half is well built. But the PROJECTIONS are
+hand-mirrored field lists, FOUR of them (core, grammar, catalog, curriculum),
+exercised **only by E2E** while the server side is exercised by production. That
+is exactly the shape sweeps 48–52 identified as the one that pays: **a copy that
+is never exercised against the thing it copies.**
+
+**What was checked before: one line.** `vocabPool.test.ts` asserts the fixture's
+TEXT matches `/\bV_LEVELS,/`. One key of thirty-two, by string.
+
+**THE FINDING: `CULTURE_DEEP_DIVES` is served by `/api/content/core` and was
+ABSENT from the fixture.** `CultureDeepDiveScreen` optional-chains it and falls
+through to its `if (!essays.length)` branch, so under E2E all 24 deep-dive
+routes rendered *"New culture essays are on their way — reopen this screen in a
+moment to load them"* instead of the essays. Silent: no crash, no failing spec.
+
+**IT IS THE SAME KEY THE 2026-09-23 CONSOLIDATION WAS ABOUT.** That change found
+three hand-written copies of the core key list — the endpoint, the etag
+generator and the test — of which the TEST was missing exactly
+`CULTURE_DEEP_DIVES`, and replaced all three with `CORE_PAYLOAD_KEYS`. Its
+write-up names the fixture as "a genuinely separate carrier, still checked as a
+file", and states the harm in advance: *"without the fixture the E2E suite would
+exercise only the degrade path."* The fourth copy kept the very omission the
+first three were repaired for, under a sentence describing what that omission
+would cost. **Consolidating the copies you found is not the same as finding them
+all** — and a carrier called out BY NAME in the fix is the easiest one to
+believe is already handled.
+
+**The other three projections were measured and are CLEAN** — grammar (14 keys),
+catalog (stories 11, grammarUnits 6) and curriculum (12) match their handlers
+field for field. Recorded as a negative rather than quietly omitted, because the
+new guard covers all four and a reader needs to know only one had drifted.
+
+**WHAT THE FIX BUYS AND DOES NOT, stated.** It removes a fiction: those screens
+now render real essays under E2E instead of a degrade banner. It does NOT add
+coverage — **no spec reaches the deep-dive screens at all** (the four heavy-user
+specs match a grep for "deep dive" only in English comment prose), so the 24
+routes remain untested. They are merely no longer tested-as-broken.
+
+`e2eContentFixtureMatchesServer.test.ts` checks core BY VALUE — which is what
+caught it — and the three projections by parsing the handlers' own source, each
+behind a non-vacuity floor. **The floor earned itself immediately**: the first
+catalog marker was `'stories:'` while the handler declares `const stories =`, so
+the parse returned ZERO fields and every comparison beneath it would have
+passed. It failed on the floor instead. A parse that silently matches nothing is
+the decorative guard this file keeps rediscovering, and it is the one failure
+mode a field-comparison assertion cannot show you.
+
+**Mutation-verified six ways, each failing exactly 1 test:** the defect restored
+(key dropped from the fixture); the fixture inventing a key the server does not
+serve; the parse marker broken; and a new field added to each of the three
+handlers' projections (`catalog.js`, `grammar.js`, `curriculum.js`) without the
+fixture following.
+
+**Gates:** 615 files / 9837 passing, typecheck clean, eslint clean, Croatian lint
+0 findings across 522 files.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
