@@ -5092,7 +5092,7 @@ route, or one render per click — which is tractable but expensive. The honest
 alternative is that this class is found by rendering-with-intent per screen, as
 BOTH known instances were.
 
-### Sweeps 75–77 — how much does anything CLICK, the biggest untested screen, and the door nothing guarded (2026-09-24)
+### Sweeps 75–78 — how much does anything CLICK, the biggest untested screen, and the doors nothing guarded (2026-09-24)
 
 **75 — the census, and every intermediate number overstates the gap.**
 Sweep 74 measured that 374 of 423 routes expose controls the render-only sweep
@@ -5158,7 +5158,30 @@ nobody has seen fail is indistinguishable from one that matches nothing.
 **What it cannot see, stated:** only LITERAL targets. A key held in a variable or
 built at run time (`region_${id}`) is invisible here.
 
-**Gates:** 614 files / 9824 passing, typecheck clean, eslint clean, Croatian lint
+**78 — the half sweep 77 said it could not see, and one more table.** Sweep 77
+covers LITERAL targets only, so: 30 call sites navigate with a run-time value,
+and almost all read a screen name out of a COMPONENT-LOCAL table that sweep 77's
+data half never looked at — `doors.ts`, `partners.ts`, ProfileScreen's tabs,
+GrammarTrackScreen's units, FavoritesScreen, FluencySnapshot, GoalFocusSection,
+HeritageModeScreen, AIConversationResult. Measured across all ten: **132
+screen-valued entries, 0 unrouted.**
+**The four apparent hits were my matcher, and the type declaration settled it.**
+`doors.ts` declares TWO `id` fields: `Door.id` is a DoorId
+(`'price' | 'krajevi' | 'zivot' | 'povijest' | 'mediji'`), while `DoorItem.id` is
+— in that file's own comment — "the screen id handed to setScr", which
+`launchDoorItem` then does. Taking every `id:` in the file reports the five door
+ids as dead screens. Scoped properly: **40 DOOR_ITEMS, 0 unrouted.**
+Those 40 are the Croatia tab's card grid, and `hrvatska.test.ts` covers them
+thoroughly — orphans, duplicates, and that `launchDoorItem` "navigates to the
+screen id" — **without ever asking whether the router can RENDER that id**, which
+is the difference between a card that navigates and a card that works. That
+assertion is now in `navTargetsRouted.test.ts`, mutation-verified (one door id
+typoed fails it by name).
+The component-local tables are deliberately NOT ratcheted: a guard over them
+needs per-file knowledge of which `id` means what, which is exactly the
+false-positive shape this sweep just walked into.
+
+**Gates:** 614 files / 9826 passing, typecheck clean, eslint clean, Croatian lint
 0 findings across 522 files.
 
 ---

@@ -120,6 +120,37 @@ describe('every screen named as DATA is a routed screen', () => {
   });
 });
 
+/**
+ * The Croatia tab's 40 door cards. `doors.ts` declares TWO `id` fields and they
+ * mean different things — `Door.id` is a DoorId ('price' | 'krajevi' | …), while
+ * `DoorItem.id` is, in that file's own words, "the screen id handed to setScr",
+ * and `launchDoorItem` does exactly that. A matcher that takes every `id:` in
+ * the file reports the five door ids as unrouted screens; reading the type
+ * declaration is what separates them, so this is scoped to the DOOR_ITEMS array.
+ *
+ * `hrvatska.test.ts` already covers the doors thoroughly — orphans, duplicates,
+ * and that `launchDoorItem` "navigates to the screen id". None of that asks
+ * whether the router can RENDER that id, which is the difference between a card
+ * that navigates and a card that works.
+ */
+function doorItemScreens(): string[] {
+  const src = strip(readFileSync('src/components/hrvatska/doors.ts', 'utf8'));
+  const i = src.indexOf('DOOR_ITEMS');
+  expect(i, 'DOOR_ITEMS not found in doors.ts').toBeGreaterThan(-1);
+  return [...src.slice(i).matchAll(/\bid:\s*'([a-z0-9_]+)'/gi)].map((m) => m[1]!);
+}
+
+describe('every Croatia door card opens a screen that exists', () => {
+  it('reads the real door items', () => {
+    expect(doorItemScreens().length).toBeGreaterThan(30);
+  });
+
+  it('no door card navigates to an unrouted screen', () => {
+    const routed = routedKeys();
+    expect(doorItemScreens().filter((id) => !routed.has(id))).toEqual([]);
+  });
+});
+
 describe('every literal navigation target is a routed screen', () => {
   it('the router and the corpus are both really being read', () => {
     // Without this the rule below passes by scanning nothing — the vacuous-guard
