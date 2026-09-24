@@ -4593,6 +4593,51 @@ reachable at all. `levelledBankFloor` already records that search is an ungated
 door and treats that as a fact to design against rather than a defect; nothing
 here revisits that decision.
 
+### Sweep 68 — the router's three names per branch (2026-09-24, NEGATIVE)
+
+Each of the router's 435 `currentScreen === 'x'` branches names its screen up to
+three times: the comparison, the boundary's `key`, and the boundary's `name`.
+The `name` is what a crash is REPORTED under, so a drifted one sends the next
+person reading Sentry to the wrong screen — the diagnostics-that-lie class the
+audio work is about, one level up.
+
+**Result: 0 disagreements, 0 unwrapped tab surfaces.** All six tab components
+(`HomeTab`, `LearnTab`, `GradTab`, `RazgovorTab`, `HrvatskaTab`, `ProfileTab`)
+sit inside a boundary. The five branches without one are four documented
+`ScreenGuard` reload/deep-link fallbacks (`animlesson`, `grammar_unit_detail`,
+`lesson`, `grammar` — each carrying its own comment about the blank screen it
+exists to prevent) and one `currentScreen === 'dashboard'` that is a ternary for
+a transition key, not a render branch at all. The single name "mismatch" is the
+tab shell's `dashboard` branch naming `HomeTab`, which is right: it names the
+component that can throw, not the screen key.
+
+**TWO HARNESS DEFECTS, BOTH CAUGHT BEFORE THEY BECAME A REPORT, and both are
+repeats of findings already in this file.**
+1. A fixed 400-character window ran past the end of a branch and paired each
+   screen with the NEXT branch's boundary — reporting 4 disagreements that do
+   not exist (`animlesson`→`grammarreader`, `lesson`→`grammar`, …). That is
+   sweep 63's 700-character window verbatim. Bounding each block by the next
+   `currentScreen ===` took it to 0.
+2. The matcher required `key="…"` BEFORE `name="…"`, and the tab boundaries
+   carry no `key` — so the entire tab shell, the most important surface in the
+   file, was invisible to the check that was supposed to cover it. The first
+   run's "only HomeTab is wrapped" reading would have been a fabricated defect.
+   **An attribute a guard requires is a filter, not a formality.**
+
+**No ratchet written.** Nothing here is a hand-maintained list that can decay:
+each branch's three names sit on adjacent lines, and a wrong one is visible in
+the diff that writes it. A guard would restate the router to the router.
+
+**THE HONEST READING OF FIVE NEGATIVES IN A ROW** (sweep 67's ct / search /
+difficulty / CodeQL, and this): the STRUCTURAL-AGREEMENT seam this file's method
+section recommends is close to worked out. Every remaining pair I can derive
+from source is either already guarded or already consistent. That is not a
+reason to stop, but it IS a reason to stop picking questions the same way — the
+next find will not come from another source-derived pair. It has to come from
+the class the queue already names as open: **interactions between features on a
+live path**, which needs the real app driven through a sequence, not a regex
+over a file.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
