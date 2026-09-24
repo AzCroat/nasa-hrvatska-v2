@@ -5030,6 +5030,68 @@ would be the fabricated-confidence failure this file keeps meeting. Both known
 instances were found by RENDERING against the real payload and by READING; a real
 guard needs the same.
 
+### Sweep 74 — the dataflow sweep sweep 73E asked for, and the sweep that broke itself (2026-09-24, NEGATIVE, both halves mutation-proven)
+
+Sweep 73E said the "a screen renders a field the payload never had" class needs
+DATAFLOW, not name matching. Both attempts are negatives, and both are recorded
+because each would have reported CLEAN.
+
+**74a — the Proxy recorder. It works, and it does not catch the defect.**
+Wrap the REAL `/api/content/core` payload in a lazy recursive Proxy before it
+reaches `useContent`, sweep every route with the existing `routeSweepHarness`,
+record every read of a key ABSENT from its target, and report only those absent
+from EVERY sibling in the collection — the exact `v.tip` signature
+(`regionVocabNote`: 81 rows carry `note`, 0 carry `tip`).
+Live and reaching production code: **9,701 proxy reads**, 896 of them object-key
+reads, 27 of 32 payload keys touched, **213 distinct paths under REGIONS alone**.
+Result: 3 miss events, 1 distinct, **0 dead-on-all-siblings**.
+**MUTATION: the known defect re-introduced** (`v.note` → `v.tip`,
+RegionScreen:376/385) → **byte-identical numbers**. Decorative, so not committed.
+**The diagnosis is not the obvious one.** Not the recorder, and NOT "the screen
+is never reached": REGIONS is read 296 times and the screen renders deeply —
+`sections`, `facts`, `factsHr[0..6]`, `quiz`, `intro`, `color`, `icon`. `vocab`
+is never read, because of RegionScreen:342: `{tab === 'language' && r.vocab && (`.
+**The collection the defect lives in is behind a TAB.** A render-only sweep sees
+the default view; a defect in a collection behind a tab, a toggle or a detail
+expansion is invisible to it however deeply the rest of the screen renders.
+**This is also true of `contentShapeSweep` itself** — "sweeps every route key
+through the real router" proves each route's DEFAULT VIEW renders, not that the
+screen's data paths were exercised. Worth knowing before anyone leans on it.
+
+**74b — clicking the tabs, and the sweep that destroyed itself.**
+Natural next step: press each route's tab-like `<button>`s and watch for the
+boundary. **Two versions never ran at all** — a standalone file threw
+`useApp must be used inside AppContext.Provider` on all 423 routes, then
+`boundary engaged` on 383 once the mocks were added but the payload was not —
+and **each would have reported "0 crashes"**. Run inside `contentShapeSweep`,
+where the priming already lives, it reported 22 of 423 routes with controls, 42
+clicks, 0 crashes, plus six `region_*` routes "boundary engaged" while
+`region_zagreb` rendered fine.
+**That asymmetry is what stopped me reporting it** — six siblings crashing and
+the seventh not is not a shape real defects take. Control run, clicking disabled:
+
+| | routes with controls | region routes skipped |
+| --- | --- | --- |
+| clicks ON | 23 / 423 | 6 ("boundary engaged") |
+| clicks OFF | **374 / 423** | 0 |
+
+**The clicking was destroying the sweep.** After the first few clicks later
+routes engaged the boundary and most stopped exposing controls at all, so
+"0 crashes" was a verdict over ~400 routes it had already stopped exercising,
+and the six region crashes were pollution rather than findings. A click leaves
+state behind that `cleanup()` does not undo.
+**The number worth keeping is from the control: 374 of 423 routes expose
+interactive controls the existing render-only sweep never presses.** That is the
+size of the untouched surface, measured rather than asserted.
+Not committed: a sweep that silently stops exercising its corpus and still
+reports clean is the exact decorative guard this file exists to find.
+
+**If this is picked up**, the recorder is sound and reusable (archived); the
+REACH is the work, and it needs per-click isolation — a fresh module registry per
+route, or one render per click — which is tractable but expensive. The honest
+alternative is that this class is found by rendering-with-intent per screen, as
+BOTH known instances were.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
