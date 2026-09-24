@@ -170,6 +170,26 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
   **`VERIFICATION_PROMPT_SHOW_XP` is 100, not 50, and the reason is load-bearing**: a learner can earn 50 XP in one sitting without ever scrolling Home, so a one-day window can expire before the prompt has been SEEN — a cadence nobody meets is a slower version of no prompt. `verification-gate.spec.js` independently treats an attempt 400 XP ago as recently-returned, which a one-day window would have put on the wrong side of its own boundary; **the E2E audit caught that before it reached CI**, which is what that rule is for.
   **The CTA named the wrong level, and that is what the owner actually quoted.** The button rendered `gate.target` — the TOP of a carried-over stack — while `EquivalencyTestScreen` opens `gate.nextCheck`, the bottom rung. A learner carried over to C1 read "Verify C1 now" on a button that starts the **A2** check, on a card whose own headline two lines above said "Make your A2 real". Everything else in the flow is keyed on `nextCheck`; the button was the lone exception. NEVER name a level on this card from anything but the check it will actually start.
   **Two versions of this rule have now been wrong in the same direction.** The 2026-08-18 fix quieted the hero for seven CALENDAR days and left a one-line ready-date chip (`verification-gate-chip`) at the top of Home; after the owner's failed B2 check that chip was still the first thing on the page ("why is it still at the top of my home page? … I have asked for this to show after a certain amount of learning time so that we can always make sure that the progress made is being retained"). A calendar timer measures nothing about learning, and a "quiet" state that still renders something is not quiet. The measure is now XP earned since the attempt: `recordEquivalencyAttempt` stashes `xp` on the attempt (the exam screen passes `userXp`; wiring pinned by source), the merge keeps a baseline once either side has one, and an attempt recorded before the field existed is backfilled ONCE with the first positive XP `verificationQuietStatus` sees — so for legacy attempts the count starts when the rule reached the device, never from an unknown past. An XP total of 0/NaN (the pre-hydration render) reads as quiet and does not backfill, so the hero can never flash on a zero. Mutation-verified (six: card ignores quiet, calendar days restored, backfill removed, merge adoption dropped, engine calls the helper bare, exam stops stashing XP) — each fails 1–5 tests.
+  **THE SPEC'S OWN SETUP WROTE THE STATE IT THEN CONTRADICTED (2026-09-24).**
+  `verification-gate.spec.js` seeds `attempts: []` and visits Home in
+  `beforeEach`. That is the never-attempted case, so the engine writes
+  `nh_cefr_prompt_baseline = currentXp - VERIFICATION_RETURN_XP` (1150) — and a
+  test that then re-seeds an attempt stashed at 1100 inherits it, where
+  later-stretch-wins makes 1150 the baseline and the hero reports **350 XP
+  instead of 400**. The write only happens once stats have hydrated, and the
+  test reloads without waiting, so whether it happened at all was a RACE: the
+  spec passed for weeks and went red on a slower runner, on a PR whose diff
+  touched nothing on Home. Fixed in the seed (`removeItem` at init time, which
+  re-runs on every navigation) and made DETERMINISTIC by anchoring `beforeEach`
+  on the gate card being visible — the card renders nothing while `currentXp`
+  is 0, so its visibility IS the proof that the engine ran for real. Without
+  that anchor the fix is unfalsifiable locally, because the defect only appears
+  when the race lands. Mutation-verified: the `removeItem` dropped fails 1 test,
+  every run.
+  **The general shape: a test's own setup navigation can write the very state
+  the test then contradicts**, and localStorage survives `page.reload()` while
+  init scripts re-run on top of it. Seed by CLEARING what the setup may have
+  written, not only by writing what the test needs.
   NEVER: restore the always-on hero; render ANYTHING for the gate on Home while quiet (no chip, no date); measure the quiet period in calendar time; let the quiet period unlock gated CONTENT; stash a baseline the exam did not actually pass (pinned by `verificationQuietPeriod.test.tsx` + `verification-gate.spec.js`).
 - **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
 - **Sections are resumable, never falsely failed**: an unfinished required section (no mic, evaluator unavailable) parks the attempt in `nh_cefr_verification_partial` (48h TTL) instead of recording a failure. Only complete attempts reach `recordEquivalencyAttempt`.

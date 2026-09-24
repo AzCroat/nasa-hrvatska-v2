@@ -37,6 +37,18 @@ function seedProvisional(page) {
         v: 2,
       }),
     );
+    // The CADENCE half must start clean on every navigation. `verificationQuietStatus`
+    // writes `nh_cefr_prompt_baseline = currentXp - VERIFICATION_RETURN_XP` the first
+    // time it renders for a learner with NO attempt (the "seeded DUE" rule) — which is
+    // exactly the state beforeEach's own Home visit is in, since this blob seeds
+    // `attempts: []`. A test that then re-seeds an OLDER attempt inherits that
+    // baseline (1150 > the attempt's 1100), it outranks the attempt by the
+    // later-stretch-wins rule, and the hero reports 350 XP instead of 400. Whether it
+    // happened at all depended on a race between stats hydration and the reload, so
+    // the spec was flaky rather than wrong. Clearing the key at init time — init
+    // scripts re-run on every navigation, the reload included — means only the
+    // attempt-driven half, which is what this file tests, decides.
+    localStorage.removeItem('nh_cefr_prompt_baseline');
   });
 }
 
@@ -50,6 +62,12 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 10_000,
     });
+    // Wait for the gate to have rendered against HYDRATED xp. The card renders
+    // nothing while `currentXp` is still 0, so its visibility is the signal that
+    // the quiet-period engine has run for real — and therefore that the
+    // baseline-write above has happened. Anchoring here makes every test below
+    // face that state deterministically instead of racing it.
+    await expect(page.getByTestId('verification-gate-card')).toBeVisible({ timeout: 20_000 });
   });
 
   test('Home shows the verification gate card with no dismiss control', async ({ page }) => {

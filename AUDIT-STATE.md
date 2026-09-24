@@ -4374,6 +4374,65 @@ the six level BUTTONS are present, not which is selected; the `Level:` matches i
 the 180-day audit are `info()` logging; the Speaking Sprint block matches loose
 regexes and types answers.
 
+### Sweep 65 — the spec's own setup wrote the state it then contradicted (2026-09-24, CLOSED)
+
+**Found by CI, not by a sweep**: `E2E Tests (Cross-Browser)` went red on #724
+(`b93e0d71`) at `verification-gate.spec.js:146`, three attempts, identical
+string — expected `400 XP`, got `You've earned 350 XP of practice since your
+last check`. Master was green on the PR's own base (`0b4ec48a`, run
+35945156618), so by the usual reading it was "mine". **It was not, and
+establishing that took reading the mechanism rather than the diff.** #724
+touched `SpeakingSprintScreen`, `AspectScreen`, `VocabJournal`,
+`VideoLessonScreen` and one new test file — nothing on Home, nothing near the
+gate.
+
+**The mechanism.** `seedProvisional` writes the certification blob with
+`attempts: []`, then `beforeEach` visits Home. That is the never-attempted
+case, so `verificationQuietStatus` takes its "seeded DUE" branch and WRITES
+`nh_cefr_prompt_baseline = currentXp - VERIFICATION_RETURN_XP` = 1500 - 350 =
+**1150**. The test then re-seeds an attempt stashed at `xp: 1100` and reloads;
+localStorage survives a reload, the later-stretch-wins rule prefers the stored
+1150 over the attempt's 1100, and `earnedSince` is 350 rather than 400 — which
+is also why the failure string reads exactly `VERIFICATION_RETURN_XP`.
+
+**Why it was a flake and not a permanent failure.** The baseline is only
+written once `currentXp` is hydrated (the card renders NOTHING at 0, by
+design), and `beforeEach` awaits only the nav landmark before the test reloads.
+So the write is in a race with the reload: fast runner → no write → 400 →
+green; slow runner → write → 350 → red. It had been latent for as long as the
+cadence existed.
+
+**Reproduced deterministically before touching anything** — added a temporary
+`waitForFunction(() => localStorage.getItem('nh_cefr_prompt_baseline') !==
+null)` before the reload and got CI's exact string locally, against a fresh
+`npm run build` and the container's own chromium
+(`/opt/pw-browsers/chromium-1194`, since the installed Playwright wants a
+browser build this image does not carry — `executablePath` via a throwaway
+config, never `playwright install`).
+
+**Fix, two parts and both load-bearing:**
+
+1. `seedProvisional` now ends `localStorage.removeItem('nh_cefr_prompt_baseline')`.
+   Init scripts re-run on every navigation including the reload, so the cadence
+   half starts clean each load and only the attempt-driven half — what this file
+   tests — decides.
+2. `beforeEach` now anchors on the gate card being VISIBLE. The card renders
+   nothing while `currentXp` is 0, so its visibility is the proof that the
+   engine ran against hydrated XP and therefore that the baseline write has
+   happened. Without it the fix is unfalsifiable locally, because the defect
+   only appears when the race lands.
+
+**Verified:** 5/5 pass with the fix. **Mutation-verified:** dropping the
+`removeItem` (anchor kept) fails 1 test — the returning-hero one — on every
+run, not intermittently, which is the difference part 2 buys.
+
+**What this sweep cannot see:** other specs whose `beforeEach` navigation
+writes state the test later contradicts. The shape is general —
+`page.addInitScript` re-runs on every navigation but localStorage PERSISTS
+across a reload, so a seed that only WRITES what the test needs inherits
+whatever the setup visit wrote. Not surveyed; a candidate for a later sweep is
+every spec that reloads after re-seeding a key the app also writes.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
