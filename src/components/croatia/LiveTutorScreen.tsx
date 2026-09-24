@@ -7,6 +7,8 @@ import {
   ttsFetch,
   isNative,
   blobToBase64,
+  blobToDataUrl,
+  ttsReadError,
   getLastTtsFailure,
   describeTtsFailure,
 } from '../../lib/audio.js';
@@ -442,11 +444,8 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
       }
     }
     // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-    const url = await new Promise<string>((resolve) => {
-      const r = new FileReader();
-      r.onload = () => resolve(r.result as string);
-      r.readAsDataURL(blob);
-    });
+    const url = await blobToDataUrl(blob);
+    if (!url) throw ttsReadError();
     if (!mountedRef.current) return; // left the screen during the TTS fetch
     const audio = new Audio(url);
     audioRef.current = audio;

@@ -6,7 +6,7 @@ import { recordReadingRep } from '../../lib/readingMetric';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
-import { getAudioContext, ttsFetch } from '../../lib/audio.js';
+import { getAudioContext, ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { STORY_CITIES, GOAL_META } from './StoryModeData.js';
 import StorySetupPanel from './StorySetupPanel';
@@ -79,11 +79,8 @@ async function playTTS(text: string): Promise<AudioPlayer | HTMLAudioElement> {
   }
 
   // Non-iOS: use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-  const url = await new Promise<string>((resolve) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result as string);
-    r.readAsDataURL(blob);
-  });
+  const url = await blobToDataUrl(blob);
+  if (!url) throw ttsReadError();
   const audio = new Audio(url);
   try {
     await audio.play();

@@ -5,7 +5,13 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
-import { getAudioContext, unlockAudio, ttsFetch } from '../../lib/audio.js';
+import {
+  getAudioContext,
+  unlockAudio,
+  ttsFetch,
+  blobToDataUrl,
+  ttsReadError,
+} from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { clickable } from '../../lib/clickable';
 
@@ -138,11 +144,8 @@ async function playTTS(text: string) {
   }
 
   // Non-iOS: use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-  const url = await new Promise<string>((resolve) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result as string);
-    r.readAsDataURL(blob);
-  });
+  const url = await blobToDataUrl(blob);
+  if (!url) throw ttsReadError();
   const audio = new Audio(url);
   audio.volume = 1.0; // required: low volume blocks activation on some WebViews
   try {

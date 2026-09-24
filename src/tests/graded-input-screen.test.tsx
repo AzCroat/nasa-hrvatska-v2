@@ -105,6 +105,13 @@ vi.mock('../lib/apiFetch.js', () => ({
 vi.mock('../lib/audio.js', () => ({
   unlockAudio: vi.fn(),
   ttsFetch: mockTtsFetch,
+  // The screen reads the blob through the shared helper (2026-09-24), which is
+  // what guarantees the promise settles. A module mock that omits it hands the
+  // screen `undefined`, which reads as a failed read and sends it down the
+  // speak() fallback — so the mock has to model the real contract, not just the
+  // names the test happens to assert on.
+  blobToDataUrl: vi.fn(async () => 'data:audio/mpeg;base64,AAAA'),
+  ttsReadError: vi.fn(() => new Error('TTS read failed')),
 }));
 vi.mock('../lib/soundSettings.js', () => ({
   getVoicePreference: vi.fn(() => 'hr-HR-GabrijelaNeural'),

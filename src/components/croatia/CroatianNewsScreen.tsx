@@ -7,7 +7,7 @@ import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { markQuest } from '../../lib/quests.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch } from '../../lib/audio.js';
+import { unlockAudio, ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 
 // ── Fallback articles shown when the live API is unavailable ─────────────────
@@ -305,11 +305,8 @@ function ArticleCard({
       if (!res || !res.ok) throw new Error('TTS failed');
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       const audio = new Audio(url);
       audio.volume = 1.0; // required: low volume blocks activation on some WebViews
       audio.onended = () => {

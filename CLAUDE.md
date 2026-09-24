@@ -2986,6 +2986,43 @@ and the mic is dead until the learner leaves the screen.
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.
 
+**AND THE OTHER HALF OF THAT REPORT WAS A PROMISE THAT NEVER SETTLES.** Ten
+screens carried this block, byte-identical:
+
+```js
+const url = await new Promise<string>((resolve) => {
+  const r = new FileReader();
+  r.onload = () => resolve(r.result as string);
+  r.readAsDataURL(blob);          // ← no onerror, no onabort
+});
+```
+
+A FileReader that errors never settles that promise, so the `await` hangs for
+ever: the audio never plays, the screen never leaves the state it was in, and
+there is **no exception, no timeout, no boundary and no console line**. Maja
+simply stops talking mid-conversation and the mic never comes back — which is
+the worst shape "wasn't reading properly" can take, because nothing about it
+looks like a failure. Exactly ONE of the ten (Maja's own streaming TTS queue)
+had the `onerror`; that is what a copy-pasted primitive does.
+
+- **`blobToDataUrl` in `lib/audio.ts` is the one implementation**, returning
+  `string | null` and settling on `onload`, `onerror`, `onabort` AND a throwing
+  constructor. Nine call sites converted; the next screen that needs a data URL
+  gets the guarantee by construction rather than by remembering.
+- **A failed PLAY is now named too.** `ttsFetch` classifies everything up to the
+  HTTP response; decoding the blob, constructing the `Audio` and `play()` being
+  refused all happen in the caller, and all three recorded nothing and raised
+  nothing. `reportTtsPlaybackFailure` routes them through `_dispatchTtsFailed`
+  like every other raise, so the learner reads the same sentence everywhere.
+- **The guard is about PROMISES, not about FileReader.** A reader whose
+  `onload` only sets state cannot hang anything — flagging those would make
+  `fileReaderSettles.test.ts` noise, and a noisy guard gets ignored. It fires
+  only where a `readAs*` sits inside a `new Promise` that settles in an event
+  handler.
+- NEVER: `readAs*` inside a promise without `onerror` AND `onabort`; a play
+  failure that records no cause; widen `TtsFailure.underlying` to free text (it
+  is typed as another CAUSE, and a consumer's switch would start lying).
+
 ## Critical Architecture: A Click Is Not An Affordance (2026-09-24)
 
 `<div onClick={…}>` renders, clicks and looks right, and a keyboard cannot reach

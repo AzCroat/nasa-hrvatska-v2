@@ -6102,6 +6102,17 @@ would have been a second truncation bug), and restarting is capped so a dead
 speech service falls through to Whisper or the typed input instead of spinning.
 Mutation-verified four ways.
 
+**The other half of that report was a promise that never settles**, and it is
+the worse half: ten screens carried a byte-identical `new Promise` around a
+`FileReader` with no `onerror`, so a failed read leaves the `await` hanging for
+ever — no exception, no timeout, no boundary, no console line. The screen stops
+and nothing says why. Exactly one of the ten had the error path. `blobToDataUrl`
+is now the one implementation and nine call sites use it; a failed decode or a
+refused `play()` is named through the same raiser as every other TTS failure,
+where all three used to record and raise nothing. Guarded by
+`fileReaderSettles.test.ts`, scoped to the promise shape on purpose so it does
+not flag readers that merely set state.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

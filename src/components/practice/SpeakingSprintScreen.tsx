@@ -3,7 +3,13 @@ import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { isSpeechRecognitionSupported } from '../../lib/platform.js';
-import { ttsFetch, getLastTtsFailure, describeTtsFailure } from '../../lib/audio.js';
+import {
+  ttsFetch,
+  getLastTtsFailure,
+  describeTtsFailure,
+  blobToDataUrl,
+  ttsReadError,
+} from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import SprintSetupScreen from './SprintSetupScreen';
 import SprintCountdownScreen from './SprintCountdownScreen';
@@ -490,11 +496,8 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
       if (!res || !res.ok) throw new Error(`TTS ${res?.status ?? 'failed'}`);
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       // Left the screen during the TTS fetch? The unmount cleanup has already
       // paused audioRef and revoked the object URL, so constructing and playing a
       // new element here left Croatian audio running over the next screen with

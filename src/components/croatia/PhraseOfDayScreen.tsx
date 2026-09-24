@@ -6,7 +6,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { majaErrorMessage, MAJA_START_FALLBACK, MAJA_TURN_FALLBACK } from './majaErrors';
-import { ttsFetch } from '../../lib/audio.js';
+import { ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { clickable } from '../../lib/clickable';
@@ -557,11 +557,8 @@ export default function PhraseOfDayScreen({
       if (!res || !res.ok) throw new Error('TTS failed');
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       if (!mountedRef.current) return; // left the screen during the TTS fetch
       const audio = new Audio(url);
       audioRef.current = audio;

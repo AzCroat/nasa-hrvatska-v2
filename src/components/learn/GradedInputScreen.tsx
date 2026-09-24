@@ -1,6 +1,12 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { speak } from '../../data';
-import { unlockAudio, ttsFetch, blobToBase64 } from '../../lib/audio.js';
+import {
+  unlockAudio,
+  ttsFetch,
+  blobToBase64,
+  blobToDataUrl,
+  ttsReadError,
+} from '../../lib/audio.js';
 import { _nativePost } from '../../lib/nativePost.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { getStoryCatalog, getStory } from '../../lib/contentClient';
@@ -135,11 +141,8 @@ async function playTTS(text: string, audioRef: React.MutableRefObject<HTMLAudioE
     if (res && res.ok) {
       const blob = await res.blob();
       // Use a base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) throw ttsReadError();
       const a = new Audio(url);
       a.volume = 1.0; // required: low volume blocks activation on some WebViews
       audioRef.current = a;

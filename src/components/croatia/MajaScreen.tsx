@@ -5,7 +5,7 @@ import { markQuest } from '../../lib/quests.js';
 import { applyConversationCategoriesToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
-import { unlockAudio, ttsFetch } from '../../lib/audio.js';
+import { unlockAudio, ttsFetch, reportTtsPlaybackFailure } from '../../lib/audio.js';
 import MajaOrb from './MajaOrb';
 import ConversationBubble from './ConversationBubble';
 import DebriefScreen from './MajaDebrief';
@@ -294,12 +294,26 @@ export default function MajaScreen() {
       if (!res || !res.ok) throw new Error(`TTS ${res?.status ?? 'failed'}`);
 
       const blob = await res.blob();
-      // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
+      // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews.
+      // `onerror`/`onabort` are NOT optional here: without them a FileReader
+      // failure never settles this promise, so the await hangs for ever, the
+      // TTS queue never drains, the phase never leaves 'maja-speaking' and the
+      // mic never comes back. Baka Mara simply stops, mid-conversation, with no
+      // error anywhere — which is the worst shape of "wasn't reading properly".
+      const url = await new Promise<string | null>((resolve) => {
         const r = new FileReader();
         r.onload = () => resolve(r.result as string);
+        r.onerror = () => resolve(null);
+        r.onabort = () => resolve(null);
         r.readAsDataURL(blob);
       });
+      if (!url) {
+        // Early return, not a throw: this function's catch is the "non-fatal,
+        // the text is already on screen" branch, so throwing would only reach
+        // the same place. The cause is recorded either way.
+        reportTtsPlaybackFailure('filereader');
+        return;
+      }
       // The TTS fetch + FileReader above are suspension points. If the screen
       // was left in the meantime, the unmount cleanup already paused whatever
       // audio existed then — constructing and playing a NEW Audio here made
@@ -319,9 +333,17 @@ export default function MajaScreen() {
         audio.onerror = () => {
           audioUrlRef.current = null;
           audioRef.current = null;
-          resolve(); // continue even on error
+          // Continue the turn — the reply is already on screen — but SAY what
+          // happened. `ttsFetch` classifies everything up to the response; a
+          // decode or playback failure after that used to record nothing and
+          // raise nothing, so the learner got silence with no cause.
+          reportTtsPlaybackFailure('decode');
+          resolve();
         };
-        audio.play().catch(() => resolve());
+        audio.play().catch((e) => {
+          reportTtsPlaybackFailure(String((e as Error)?.name || 'play'));
+          resolve();
+        });
       });
     } catch {
       // TTS failure is non-fatal — text is already shown in conversation

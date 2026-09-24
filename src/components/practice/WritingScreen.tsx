@@ -9,7 +9,7 @@ import { getGenerationCefr } from '../../lib/cefrCertification';
 import { logError } from '../../lib/learnerErrors.js';
 import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback.js';
 import { _aiPost } from '../../lib/aiPost';
-import { ttsFetch } from '../../lib/audio.js';
+import { ttsFetch, blobToDataUrl, reportTtsPlaybackFailure } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
@@ -259,11 +259,11 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       if (!res || !res.ok) return;
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews
-      const url = await new Promise<string>((resolve) => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result as string);
-        r.readAsDataURL(blob);
-      });
+      const url = await blobToDataUrl(blob);
+      if (!url) {
+        reportTtsPlaybackFailure('filereader');
+        return;
+      }
       if (audioRef.current) audioRef.current.pause();
       const audio = new Audio(url);
       audioRef.current = audio;
