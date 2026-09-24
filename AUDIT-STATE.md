@@ -6130,6 +6130,135 @@ not flag readers that merely set state.
 
 ---
 
+### Sweep 96 — the tests that assert nothing (2026-09-24, 22 REAL DEFECTS + 1 PRODUCT DEAD END, FIXED)
+
+**The question**, in the form this file says has paid every time: *name two
+things that must agree, and ask what happens when they stop.* Here: a test's
+TITLE (what it claims to check) against what it actually executes.
+
+**THE SHAPE.** A test whose every `expect(...)` sits inside an `if` with no
+assertion-bearing `else`. When the condition is false the body runs zero
+assertions and the test passes — indistinguishable, from a green run, from a
+test that checked the thing.
+
+**THE CENSUS.** A TypeScript-AST pass over all 590 committed test files
+(6,119 tests). A general "assertion-free path" definition reports **410**,
+almost all `for (const x of SOME_STATIC_DATASET)` — a real but far weaker
+concern that would drown the signal. Narrowed to the `if`-with-no-else shape:
+**25**. Every one was then MEASURED by instrumenting its condition and running
+its file, because no static rule can tell a guard that fires from one that
+cannot.
+
+| where | measured | verdict |
+| --- | --- | --- |
+| `gradedInputScreen.transport.test.tsx` ×2 | **0 firings** | LIVE VACUOUS |
+| `e2e/pronunciation.spec.js` | **21 guards, 19 never fired** | LIVE VACUOUS |
+| `word-sprint.test.tsx` ×3 | 1 firing each | latent |
+| `profile-persist.spec.js` ×2 | fires | latent |
+| the other 9 | 4–212 firings | legitimate, exempted with the count |
+
+**A. THE TRANSPORT CONTRACT NOBODY WAS CHECKING.**
+`gradedInputScreen.transport.test.tsx` exists to verify that pronunciation
+assessment posts `{ audioBase64, referenceText, locale, audioMimeType }` and
+*not* the old `{ audio, text }`. `assessPronunciation` runs from an effect
+that returns early unless `recordingIdx !== null`, which **only a click on the
+record button sets** — and no test clicked it. So `_nativePost` was never
+called, and all three assertions (two behind `if (calls.length > 0)`, one
+looping over the same empty array) ran zero times. THREE green tests, the
+file's entire stated subject unverified, for as long as it existed. Fixed with
+a `recordParagraph()` helper that performs the click, and unconditional
+assertions.
+
+**B. A WHOLE SPEC POINTED AT A UI THAT NO LONGER EXISTS.**
+`e2e/pronunciation.spec.js` — 40 tests, header "the features most at risk
+before Google Play launch" — navigated through `button.cat-tile` inside "Drill"
+and "Challenge" panels. **`cat-tile` exists only in `index.css`: no component
+in `src/` has rendered it since the Practice tab became the Grad surface.**
+Same for `.path-item` / `.lp-item` / `[data-path-item]`. Because every locator
+was consulted inside `if (await X.isVisible().catch(() => false))`, the tests
+did not FAIL when the screen was unreachable — they skipped their own bodies.
+Instrumented and run: **19 of 21 guards never fired.** The spec's second
+navigation strategy (seeding `nh_scr`) was dead too — that key is never
+written, so the restore could not have worked either.
+Rewritten against the real path (Grad → Anina kavana → Govori), with an
+assertion after it so a future move of that entry point fails loudly. **33
+tests, all genuinely driving the screen.** Six tests were REMOVED rather than
+re-pointed (AI Listening, Dictation, Flashcards ×2, MC quiz ×2, settings, path
+item): each navigates to another spec's subject, each is covered there by name,
+and each asserted nothing here — so nothing is lost, and the coverage the file
+claims now matches the coverage it has.
+
+**C. AND THE DEAD SPEC WAS HIDING A REAL PRODUCT DEAD END.**
+Once the tests reached the screen, the very first scoring run showed
+**"⚠️ Audio recording not supported in this browser." and nothing else** —
+pressing "Test My Pronunciation" did nothing, repeatedly.
+`PronunciationScorer.mediaRecorderSupported` only asks whether `MediaRecorder`
+EXISTS, so the Azure path is taken on any browser that has the constructor;
+`useRecorder` then reports `'unsupported'` when none of `MIME_PRIORITY` is
+actually recordable — **a check that runs AFTER `getUserMedia` has already
+succeeded**. So the learner grants the microphone, presses the button, and
+meets a dead end, while Web Speech sits available and unused in a component
+whose own comment says `'auto'` falls back to it. Fixed the way the sibling
+Azure-failure path already does it: name the cause (`serviceNotice`), switch
+mode, run Web Speech. Verified end to end in a browser — the same press now
+scores and offers Try Again / Next.
+**This is the argument for the whole sweep in one line: the test written to
+catch exactly this was green, and had been for as long as the defect existed.**
+
+**THE RATCHET.** `src/tests/guardedAssertions.test.ts` +
+`helpers/guardedAssertions.ts` derive the shape from every committed test file
+and fail on any instance not in `EXEMPT`. Exemptions are keyed on
+**(file, test name)** — line numbers move on every edit above them — and each
+carries its MEASURED firing count, because "I read it and it looks fine" is the
+evidence that produced the `idioms` exemption. Staleness is checked in BOTH
+directions, and there is a positive control: a synthetic guarded test must be
+flagged, an unguarded one must not, and an if/else asserting on both branches
+must not.
+
+**Mutation-verified, six, each confirmed landed:**
+
+| mutation | fails |
+| --- | --- |
+| the transport test's original `if (calls.length > 0)` shape restored | 1 |
+| an exemption for a test that no longer has the shape | 1 |
+| the analyser returns `[]` (a decorative detector) | 3 |
+| word-sprint's guard restored | 1 |
+| the else-branch exclusion removed (if/else both-assert over-reported) | 2 |
+| pronunciation.spec.js's `cat-tile` guard restored on one test | 1 |
+
+**ONE MUTATION EXPOSED A DECORATIVE LINE OF MY OWN.** The analyser originally
+excluded the THEN branch when the ELSE also asserts. Removing that clause
+changed nothing — the else-branch rule already covers if/else — so by this
+file's own standard it was decoration, and it is gone. A mutation that SURVIVES
+is a result too: it says the line it removed was not load-bearing.
+
+**AND IT CORRECTS SWEEP 55.** That sweep closed with "the 24 honest skips are
+still 24 drills whose completion contract this suite does not exercise", and
+recommended building a harness that can drive text-input, tile-ordering, timer
+and multi-phase drills — "a real piece of work". Measured: **23 of the 25
+skipped entries have their own `*.contract.test.tsx`**, driving the real screen
+with a real answer key, and the `exerciseContract` file says so in a comment
+above its Tier 3 block. The number is not 24; it is **one**. `WordSprint` had
+completion coverage in `word-sprint.test.tsx` — behind the guards this sweep
+removed — and only `BojeGame` is genuinely unexercised: `boje-game.test.tsx`
+asserts its per-answer and completion AWARDS, but mocks `setStats`,
+`writeDelta` and `markQuest` as bare inline `vi.fn()`s it never captures, so
+`gc`, the `boje` `vs` tag and the quest are checked nowhere. Left open and named
+rather than folded into this PR. **Sweep 55's figure came from counting the
+skips instead of looking for the coverage elsewhere** — the same shape as the A2
+tranche that claimed 26 of 30 by subtracting a list of judgement calls from
+thirty.
+
+**WHAT THIS SWEEP CANNOT SEE**, stated rather than implied: the 410 loop-shaped
+tests (vacuous only if their dataset is empty — most are large and static);
+assertions reached through a helper whose own body is guarded; and, the one
+that matters most, **a guard that fires today and stops firing tomorrow.** That
+is precisely what happened to `pronunciation.spec.js`, and no static rule can
+catch it — which is why the exemptions carry measurements rather than opinions,
+and why the next person should re-measure rather than re-read them.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —

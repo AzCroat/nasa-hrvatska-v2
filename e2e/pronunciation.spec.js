@@ -21,7 +21,14 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { seedAuth, blockFirebase, mockTTS, mockContent, localYMD } from './fixtures/seed-auth.js';
+import {
+  seedAuth,
+  blockFirebase,
+  mockTTS,
+  mockContent,
+  localYMD,
+  silentWav,
+} from './fixtures/seed-auth.js';
 
 // Hard cap: every test in this file must finish within 12 seconds.
 // isVisible timeouts and waitForTimeout values are trimmed to match.
@@ -128,6 +135,10 @@ async function setup(page, words) {
   await seedAuth(page);
   await blockFirebase(page);
   await mockTTS(page);
+  // The Grad surface reads /api/content/* — without the fixture its places do
+  // not render, which is one of the two reasons this file could never reach
+  // the speaking screen.
+  await mockContent(page);
   // Mock pronunciation-assess (Azure) to return not-ok so it falls back to WebSpeech
   await page.route('/api/pronunciation-assess', route => route.fulfill({
     status: 503,
@@ -148,6 +159,52 @@ async function setup(page, words) {
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
 }
 
+/**
+ * REACHING THE SCREEN — and why this helper had to be written (2026-09-24).
+ *
+ * Every navigation in this file was written against a Practice tab that had
+ * "category tiles" (`button.cat-tile`) inside "Drill" and "Challenge" panels.
+ * That tab was replaced by the Grad surface — six places, each holding its own
+ * exercises — and `cat-tile` now exists only in `index.css`: no component in
+ * `src/` renders it. So every `catTile` locator matched nothing.
+ *
+ * Because each of those locators was consulted inside `if (await
+ * X.isVisible(...).catch(() => false))`, the tests did not FAIL when the
+ * screen could not be reached — they skipped their own bodies and passed.
+ * Measured by instrumenting every guard and running the file: **21 guards,
+ * 19 never fired**, across 40 green tests. The spec's own header calls these
+ * "the features most at risk before Google Play launch".
+ *
+ * The real path is Grad -> Anina kavana -> Govori, and the assertion after it
+ * is what makes a future move of that entry point fail loudly instead of
+ * quietly.
+ */
+/** The word the learner is being asked to say, read from the screen itself. */
+async function targetWord(page) {
+  return (await page.getByTestId('speaking-word').first().textContent())?.trim();
+}
+
+/** Open the screen, speak `transcripts` through the SR mock, return the body text. */
+async function scoreWith(page, transcripts) {
+  await openSpeaking(page);
+  await page.evaluate((t) => {
+    window.__mockSR__ = { transcripts: t, delay: 100 };
+  }, transcripts);
+  await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+  // The verdict panel is what a learner waits for; assert it arrived rather
+  // than sampling the body after a fixed sleep and hoping.
+  await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
+  return (await page.locator('body').textContent()) || '';
+}
+
+async function openSpeaking(page) {
+  await page.goto('/practice');
+  await expect(page.getByText('Danas u gradu')).toBeVisible({ timeout: 20_000 });
+  await page.getByText('Anina kavana', { exact: true }).first().click();
+  await page.getByText('Govori', { exact: false }).first().click();
+  await expect(page.getByText(/Pronunciation Practice/i).first()).toBeVisible({ timeout: 8_000 });
+}
+
 // ===========================================================================
 // 1. SpeakingScreen structure
 // ===========================================================================
@@ -155,31 +212,22 @@ async function setup(page, words) {
 test.describe('SpeakingScreen structure', () => {
   test.beforeEach(async ({ page }) => {
     await setup(page);
-    // Navigate to the speaking screen via localStorage scr state
-    await page.evaluate(() => {
-      localStorage.setItem('nh_scr', JSON.stringify({
-        screen: 'speaking',
-        si: [['četiri','four','tʃe.ti.ri'], ['dobar','good','dɔ.bar']],
-        sx: 0,
-        sw: ['četiri','four','tʃe.ti.ri'],
-        sr: null,
-        ssc: 0,
-      }));
-    });
-    await page.goto('/');
-    await page.waitForTimeout(300);
   });
 
   test('shows Pronunciation Practice heading', async ({ page }) => {
-    const body = await page.locator('body').textContent();
-    // Only assert heading if the speaking screen actually loaded.
-    // 'četiri' appears in vocabulary data on the home screen too, so only
-    // trigger on the heading text itself to avoid a false-positive condition.
-    if (body.includes('Pronunciation Practice')) {
-      await expect(page.getByText(/Pronunciation Practice/i).first()).toBeVisible({ timeout: 2_000 });
-    }
-    // If the screen didn't restore from localStorage, the test passes trivially —
-    // screen-state restoration is best-effort and not guaranteed.
+    // This used to seed `nh_scr` and then assert only `if (body.includes(...))`.
+    // The restore never put the learner on the screen, so the assertion never ran.
+    await openSpeaking(page);
+    await expect(page.getByText(/Pronunciation Practice/i).first()).toBeVisible();
+  });
+
+  test('offers both play speeds and both ways to be scored', async ({ page }) => {
+    await openSpeaking(page);
+    await expect(page.getByRole('button', { name: /Normal/i }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Slow/i }).first()).toBeVisible();
+    // The two scoring paths: the microphone, and the keyboard-safe self-assess.
+    await expect(page.getByRole('button', { name: /Test My Pronunciation/i }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /I Said It Correctly/i }).first()).toBeVisible();
   });
 });
 
@@ -196,25 +244,17 @@ test.describe('Self-assessment path', () => {
     await mockContent(page);
     await page.route('/api/pronunciation-assess', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
     await page.route('/api/pronunciation-coach', route => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Good!', issue: '', phonetic_guide: '', drills: [] }) }));
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
   });
 
-  test('Speaking exercise shows "I Said It Correctly!" button when accessible', async ({ page }) => {
-    // Look for speaking exercises on the Practice tab
-    const speakBtn = page.getByRole('button', { name: /speaking|speak|pronunciation/i }).first();
-    if (await speakBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await speakBtn.click();
-      await page.waitForTimeout(200);
-      const selfAssess = page.getByRole('button', { name: /I Said It Correctly/i });
-      if (await selfAssess.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await selfAssess.click();
-        // After self-assess, sr becomes 'ok' — "Next →" or "Finish" should appear
-        await expect(
-          page.getByRole('button', { name: /Next|Finish/i }).first()
-        ).toBeVisible({ timeout: 1_500 });
-      }
-    }
+  test('self-assessment marks the word done without a microphone', async ({ page }) => {
+    await openSpeaking(page);
+    const selfAssess = page.getByRole('button', { name: /I Said It Correctly/i }).first();
+    await expect(selfAssess).toBeVisible();
+    await selfAssess.click();
+    // After self-assess the learner is offered the way on.
+    await expect(page.getByRole('button', { name: /Next|Finish|Done/i }).first()).toBeVisible({
+      timeout: 4_000,
+    });
   });
 });
 
@@ -236,44 +276,28 @@ test.describe('PronunciationScorer WebSpeech mode', () => {
   });
 
   test('Test My Pronunciation button is present in speaking exercises', async ({ page }) => {
-    // Navigate to a speaking exercise that shows PronunciationScorer
-    // Look in Practice tab for speaking category
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      // PronunciationScorer renders "Test My Pronunciation" button
-      await expect(
-        page.getByRole('button', { name: /Test My Pronunciation/i }).first()
-      ).toBeVisible({ timeout: 2_000 });
-    }
+    await openSpeaking(page);
+    await expect(
+      page.getByRole('button', { name: /Test My Pronunciation/i }).first(),
+    ).toBeVisible();
   });
 
-  test('HR match — correct Croatian word scores positively', async ({ page }) => {
-    await page.evaluate(() => {
-      window.__mockSR__ = { transcripts: ['dobar', 'dobro', 'dobi'], delay: 150 };
-    });
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        // Wait for scorer result
-        await page.waitForTimeout(400);
-        // Should show score or coaching panel, NOT a zero score
-        const bodyText = await page.locator('body').textContent();
-        // If we got a result, confirm it doesn't show 0% for what should be a match
-        if (bodyText.includes('%')) {
-          const scoreMatch = bodyText.match(/(\d+)%/);
-          if (scoreMatch) {
-            const score = parseInt(scoreMatch[1]);
-            expect(score).toBeGreaterThan(0);
-          }
-        }
-      }
-    }
+  test('HR match — saying the word on screen scores positively', async ({ page }) => {
+    // The word is drawn from the learner's pool, so it is read off the screen
+    // rather than hardcoded: the old version fed 'dobar' to whatever word had
+    // been served, which could never have been a match even had it run.
+    await openSpeaking(page);
+    const word = await targetWord(page);
+    expect(word && word.length).toBeGreaterThan(0);
+    await page.evaluate((w) => {
+      window.__mockSR__ = { transcripts: [w], delay: 100 };
+    }, word);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
+    const bodyText = (await page.locator('body').textContent()) || '';
+    const m = bodyText.match(/(\d+)%/);
+    expect(m, 'the verdict panel states a percentage').not.toBeNull();
+    expect(parseInt(m[1], 10)).toBeGreaterThan(0);
   });
 });
 
@@ -282,138 +306,62 @@ test.describe('PronunciationScorer WebSpeech mode', () => {
 //    ("četiri" → browser returns "four" → should show as CORRECT, not "You said: four")
 // ===========================================================================
 
-test.describe('English-translation recognition (četiri → four bug fix)', () => {
-  test('WebSpeechResultPanel does not display raw English translation', async ({ page }) => {
-    // Install SR mock that returns the English translation "four" when user says "četiri"
-    await page.addInitScript(() => {
-      // Mock SpeechRecognition to return English translation
-      class MockSR {
-        constructor() {
-          this.lang = 'hr-HR'; this.maxAlternatives = 3;
-          this.continuous = false; this.interimResults = false;
-        }
-        start() {
-          setTimeout(() => {
-            // Simulate browser returning English meaning "four" instead of Croatian "četiri"
-            const alts = [
-              { transcript: 'four', confidence: 0.91 },
-              { transcript: 'for', confidence: 0.65 },
-            ];
-            Object.defineProperty(alts, Symbol.iterator, {
-              value: function*() { yield* [{ transcript: 'four' }, { transcript: 'for' }]; },
-            });
-            this.onresult?.({ results: [alts] });
-            setTimeout(() => this.onend?.(), 100);
-          }, 300);
-        }
-        stop() { setTimeout(() => this.onend?.(), 80); }
-        abort() { setTimeout(() => this.onend?.(), 80); }
-      }
-      window.SpeechRecognition = MockSR;
-      window.webkitSpeechRecognition = MockSR;
-      // Force WebSpeech mode by making MediaRecorder.isTypeSupported return false
-      if (typeof MediaRecorder !== 'undefined') {
-        MediaRecorder.isTypeSupported = () => false;
-      }
-    });
-
+test.describe('English-translation recognition (browser returns the meaning)', () => {
+  // The bug: hr-HR recognition falls through to the browser's English model, so
+  // saying "četiri" comes back as "four". That IS a correct pronunciation — the
+  // English ASR decoded the Croatian phonemes — and the panel must say so rather
+  // than reporting `You said: "four"` as a miss.
+  //
+  // The old version of these two tests hardcoded the transcript 'four' against
+  // whatever word the pool happened to serve, so even had they reached the
+  // screen they could only have matched by coincidence. Both now read the
+  // gloss off the page and feed THAT back.
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(SR_MOCK_SCRIPT);
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
     await mockContent(page);
-    await page.route('/api/pronunciation-assess', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
-    await page.route('/api/pronunciation-coach', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'You recognized the meaning correctly!', issue: '', phonetic_guide: '/tʃe.ti.ri/', drills: [] }) }));
-
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-
-    // Navigate to Speaking category
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (!await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      // Drill button to expand
-      const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-      if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    }
-
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        await page.waitForTimeout(200);
-
-        const bodyText = await page.locator('body').textContent();
-
-        // BUG FIX VERIFICATION:
-        // The old buggy behavior showed: You said: "four"
-        // The fix should show: "Pronunciation recognized — browser matched the meaning ✓"
-        // and NOT show: You said: "four"
-        expect(bodyText).not.toContain('You said: "four"');
-
-        // If the scoring ran (we got a result), confirm it's not a failure
-        if (bodyText.includes('recognized') || bodyText.includes('%')) {
-          // Should show positive recognition message, not "Try again" failure state
-          const hasFailure = bodyText.includes('🔴 Try again');
-          expect(hasFailure).toBe(false);
-        }
-      }
-    }
+    await page.route('/api/pronunciation-assess', (r) =>
+      r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }),
+    );
+    await page.route('/api/pronunciation-coach', (r) =>
+      r.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({ feedback: 'You recognized the meaning correctly!', issue: '', phonetic_guide: '', drills: [] }),
+      }),
+    );
   });
 
-  test('recognizedViaTranslation scores at 82% or higher', async ({ page }) => {
-    await page.addInitScript(() => {
-      class MockSR {
-        constructor() { this.lang = 'hr-HR'; this.maxAlternatives = 3; this.continuous = false; this.interimResults = false; }
-        start() {
-          setTimeout(() => {
-            const alts = [{ transcript: 'four', confidence: 0.93 }];
-            Object.defineProperty(alts, Symbol.iterator, {
-              value: function*() { yield { transcript: 'four', confidence: 0.93 }; },
-            });
-            this.onresult?.({ results: [alts] });
-            setTimeout(() => this.onend?.(), 100);
-          }, 300);
-        }
-        stop() { setTimeout(() => this.onend?.(), 80); }
-        abort() { setTimeout(() => this.onend?.(), 80); }
-      }
-      window.SpeechRecognition = MockSR;
-      window.webkitSpeechRecognition = MockSR;
-      if (typeof MediaRecorder !== 'undefined') MediaRecorder.isTypeSupported = () => false;
-    });
+  test('the panel does not print the English word back as what you said', async ({ page }) => {
+    await openSpeaking(page);
+    const english = (await page.getByTestId('speaking-gloss').first().textContent())?.trim();
+    expect(english && english.length).toBeGreaterThan(0);
+    await page.evaluate((e) => {
+      window.__mockSR__ = { transcripts: [e], delay: 100 };
+    }, english);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
 
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-    await mockContent(page);
-    await page.route('/api/pronunciation-assess', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
-    await page.route('/api/pronunciation-coach', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Excellent!', issue: '', phonetic_guide: '', drills: [] }) }));
+    const bodyText = (await page.locator('body').textContent()) || '';
+    expect(bodyText).not.toContain(`You said: “${english}”`);
+    expect(bodyText).not.toContain(`You said: "${english}"`);
+    expect(bodyText).not.toContain('🔴 Try again');
+  });
 
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+  test('recognition via the translation is treated as correct', async ({ page }) => {
+    await openSpeaking(page);
+    const english = (await page.getByTestId('speaking-gloss').first().textContent())?.trim();
+    await page.evaluate((e) => {
+      window.__mockSR__ = { transcripts: [e], delay: 100 };
+    }, english);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
 
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        await page.waitForTimeout(200);
-        const bodyText = await page.locator('body').textContent();
-        // When translation recognized, score should be 82% → not in "Try again" zone
-        if (bodyText.includes('%')) {
-          const scoreMatch = bodyText.match(/(\d+)%/);
-          if (scoreMatch) {
-            const score = parseInt(scoreMatch[1]);
-            // 82% → "Good!" or "Excellent!" range
-            expect(score).toBeGreaterThanOrEqual(70);
-          }
-        }
-      }
-    }
+    // No acoustic score is claimed for a translation match — the panel says the
+    // meaning was recognised instead of inventing a percentage (NEVER-DO 13).
+    await expect(page.getByTestId('webspeech-result')).toContainText(/recogni[sz]ed|matched the meaning/i);
+    await expect(page.locator('body')).not.toContainText('🔴 Try again');
   });
 });
 
@@ -422,52 +370,53 @@ test.describe('English-translation recognition (četiri → four bug fix)', () =
 // ===========================================================================
 
 test.describe('Microphone error handling', () => {
-  test('shows permission denied message when mic access refused', async ({ page }) => {
-    await page.addInitScript(() => {
-      class MockSR {
-        constructor() { this.lang = 'hr-HR'; this.maxAlternatives = 3; this.continuous = false; this.interimResults = false; }
-        start() {
-          setTimeout(() => {
-            this.onerror?.({ error: 'not-allowed', type: 'not-allowed' });
-            setTimeout(() => this.onend?.(), 100);
-          }, 200);
+  test('a refused microphone is explained, not swallowed', async ({ page }) => {
+    // SR_MOCK_SCRIPT raises 'no-speech' when no transcripts are configured; this
+    // test wants 'not-allowed', so it installs its own recogniser — but it now
+    // reaches the screen, which is the part that never happened before.
+    await page.addInitScript(`
+      (function () {
+        class DeniedSR {
+          constructor() { this.lang = 'hr-HR'; this.maxAlternatives = 3; }
+          start() {
+            setTimeout(() => {
+              this.onerror?.({ error: 'not-allowed', type: 'not-allowed' });
+              setTimeout(() => this.onend?.(), 60);
+            }, 120);
+          }
+          stop() { setTimeout(() => this.onend?.(), 60); }
+          abort() { setTimeout(() => this.onend?.(), 60); }
         }
-        stop() { setTimeout(() => this.onend?.(), 80); }
-        abort() { setTimeout(() => this.onend?.(), 80); }
-      }
-      window.SpeechRecognition = MockSR;
-      window.webkitSpeechRecognition = MockSR;
-      if (typeof MediaRecorder !== 'undefined') MediaRecorder.isTypeSupported = () => false;
-    });
-
+        window.SpeechRecognition = DeniedSR;
+        window.webkitSpeechRecognition = DeniedSR;
+        if (typeof MediaRecorder !== 'undefined') MediaRecorder.isTypeSupported = () => false;
+      })();
+    `);
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
     await mockContent(page);
-    await page.route('/api/pronunciation-assess', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
-    await page.route('/api/pronunciation-coach', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Good!', issue: '', phonetic_guide: '', drills: [] }) }));
+    await page.route('/api/pronunciation-assess', (r) =>
+      r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }),
+    );
+    await page.route('/api/pronunciation-coach', (r) =>
+      r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Good!', issue: '', phonetic_guide: '', drills: [] }) }),
+    );
 
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+    await openSpeaking(page);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
 
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        await page.waitForTimeout(400);
-        const bodyText = await page.locator('body').textContent();
-        // Should show a user-friendly error, not a raw error code
-        if (bodyText.toLowerCase().includes('permission') || bodyText.toLowerCase().includes('microphone') || bodyText.toLowerCase().includes('allow')) {
-          // Good — user-friendly message shown
-          expect(bodyText.toLowerCase()).toMatch(/permission|microphone|allow/i);
-        }
-        // Must NOT crash (no JS error boundary)
-        await expect(page.locator('body')).not.toContainText('Something went wrong');
-      }
-    }
+    // The learner is TOLD, in words about the microphone — not left with a
+    // spinner and not shown a raw error code. Unconditional: the old version
+    // asserted this inside `if (bodyText includes permission|microphone|allow)`,
+    // which is the assertion checking itself.
+    await expect(page.locator('body')).toContainText(/microphone|permission|allow/i, {
+      timeout: 6_000,
+    });
+    await expect(page.locator('body')).not.toContainText('not-allowed');
+    await expect(page.locator('body')).not.toContainText('Something went wrong');
+    // And the way back is still offered.
+    await expect(page.getByRole('button', { name: /Test My Pronunciation/i }).first()).toBeVisible();
   });
 });
 
@@ -476,332 +425,80 @@ test.describe('Microphone error handling', () => {
 // ===========================================================================
 
 test.describe('Score badge thresholds', () => {
-  async function runWithScore(page, transcripts, targetWord) {
-    await page.addInitScript((args) => {
-      const [trs] = args;
-      class MockSR {
-        constructor() { this.lang = 'hr-HR'; this.maxAlternatives = 3; this.continuous = false; this.interimResults = false; }
-        start() {
-          setTimeout(() => {
-            const alts = trs.map(t => ({ transcript: t, confidence: 0.9 }));
-            Object.defineProperty(alts, Symbol.iterator, {
-              value: function*() { for (const t of trs) yield { transcript: t, confidence: 0.9 }; },
-            });
-            this.onresult?.({ results: [alts] });
-            setTimeout(() => this.onend?.(), 100);
-          }, 200);
-        }
-        stop() { setTimeout(() => this.onend?.(), 80); }
-        abort() { setTimeout(() => this.onend?.(), 80); }
-      }
-      window.SpeechRecognition = MockSR;
-      window.webkitSpeechRecognition = MockSR;
-      if (typeof MediaRecorder !== 'undefined') MediaRecorder.isTypeSupported = () => false;
-    }, [transcripts]);
-
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-    await mockContent(page);
-    await page.route('/api/pronunciation-assess', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
-    await page.route('/api/pronunciation-coach', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Keep practicing!', issue: '', phonetic_guide: '', drills: [] }) }));
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-  }
-
-  test('no JS errors thrown during pronunciation scoring', async ({ page }) => {
-    const jsErrors = [];
-    page.on('pageerror', err => jsErrors.push(err.message));
-
-    await runWithScore(page, ['dobar', 'dobi'], 'dobar');
-
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        await page.waitForTimeout(200);
-        const unexpected = jsErrors.filter(e =>
-          !e.includes('firebase') && !e.includes('firestore') &&
-          !e.includes('fetch') && !e.includes('AbortError')
-        );
-        expect(unexpected).toHaveLength(0);
-      }
-    }
-  });
-
-  test('Try Again button resets scorer to idle state', async ({ page }) => {
-    await page.addInitScript(() => {
-      class MockSR {
-        constructor() { this.lang = 'hr-HR'; this.maxAlternatives = 3; this.continuous = false; this.interimResults = false; }
-        start() {
-          setTimeout(() => {
-            const alts = [{ transcript: 'dobar', confidence: 0.95 }];
-            Object.defineProperty(alts, Symbol.iterator, { value: function*() { yield { transcript: 'dobar' }; } });
-            this.onresult?.({ results: [alts] });
-            setTimeout(() => this.onend?.(), 100);
-          }, 200);
-        }
-        stop() { setTimeout(() => this.onend?.(), 80); }
-        abort() { setTimeout(() => this.onend?.(), 80); }
-      }
-      window.SpeechRecognition = MockSR;
-      window.webkitSpeechRecognition = MockSR;
-      if (typeof MediaRecorder !== 'undefined') MediaRecorder.isTypeSupported = () => false;
-    });
-
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-    await mockContent(page);
-    await page.route('/api/pronunciation-assess', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }));
-    await page.route('/api/pronunciation-coach', r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Excellent!', issue: '', phonetic_guide: '', drills: [] }) }));
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-
-    const catTile = page.locator('button.cat-tile').filter({ hasText: /speaking/i });
-    if (await catTile.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await catTile.click();
-      await page.waitForTimeout(200);
-      const pronBtn = page.getByRole('button', { name: /Test My Pronunciation/i }).first();
-      if (await pronBtn.isVisible({ timeout: 1_500 }).catch(() => false)) {
-        await pronBtn.click();
-        await page.waitForTimeout(200);
-        // After scoring, "Try Again" should appear
-        const retryBtn = page.getByRole('button', { name: /🔄 Try Again/i }).first();
-        if (await retryBtn.isVisible({ timeout: 800 }).catch(() => false)) {
-          await retryBtn.click();
-          // After retry, scorer returns to idle — "Test My Pronunciation" re-appears
-          await expect(
-            page.getByRole('button', { name: /Test My Pronunciation/i }).first()
-          ).toBeVisible({ timeout: 1_500 });
-        }
-      }
-    }
-  });
-});
-
-// ===========================================================================
-// 7. Listening lessons (ListeningScreen and ListeningPath)
-// ===========================================================================
-
-test.describe('Listening screen', () => {
   test.beforeEach(async ({ page }) => {
+    await page.addInitScript(SR_MOCK_SCRIPT);
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
     await mockContent(page);
-    // Mock AI listening endpoint
-    await page.route('/api/ai-listen*', route => route.fulfill({
-      contentType: 'application/json',
-      body: JSON.stringify({
-        title: 'Na plaži',
-        en_summary: 'At the beach',
-        speakers: [
-          { name: 'Ana',   lines: ['Kako je more?', 'Prekrasno!'] },
-          { name: 'Petar', lines: ['Toplo je.',     'Idemo plivati.'] },
-        ],
-        narrator: null,
-        vocab: [{ hr: 'more', en: 'sea' }, { hr: 'toplo', en: 'warm' }],
-        questions: [
-          { q: 'Where are they?', options: ['Beach', 'Café', 'Market', 'Park'], correct: 0 },
-        ],
-      }),
-    }));
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+    await page.route('/api/pronunciation-assess', (r) =>
+      r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false }) }),
+    );
+    await page.route('/api/pronunciation-coach', (r) =>
+      r.fulfill({ contentType: 'application/json', body: JSON.stringify({ feedback: 'Keep practicing!', issue: '', phonetic_guide: '', drills: [] }) }),
+    );
   });
 
-  test('AI Listening screen renders or shows loading state without crashing', async ({ page }) => {
+  test('scoring throws no JS errors', async ({ page }) => {
     const jsErrors = [];
-    page.on('pageerror', e => jsErrors.push(e.message));
+    page.on('pageerror', (err) => jsErrors.push(err.message));
 
-    // Navigate to the AI Challenges panel and click AI Listening
-    const challengeBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Challenge$/ }) });
-    if (await challengeBtn.isVisible({ timeout: 800 }).catch(() => false)) await challengeBtn.click();
+    await openSpeaking(page);
+    const word = await targetWord(page);
+    await page.evaluate((w) => {
+      window.__mockSR__ = { transcripts: [w, w + 'a'], delay: 100 };
+    }, word);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
 
-    const listenCard = page.getByText(/AI Listening|Listening Comprehension/i).first();
-    if (await listenCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await listenCard.click();
-      await page.waitForTimeout(200);
-      // Should show listening content or loading, not blank or error
-      const body = await page.locator('body').textContent();
-      expect(body.length).toBeGreaterThan(50);
-      expect(body).not.toContain('Something went wrong');
-    }
-
-    const unexpected = jsErrors.filter(e =>
-      !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch') && !e.includes('AbortError')
+    const unexpected = jsErrors.filter(
+      (e) =>
+        !e.includes('firebase') &&
+        !e.includes('firestore') &&
+        !e.includes('fetch') &&
+        !e.includes('AbortError'),
     );
     expect(unexpected).toHaveLength(0);
   });
 
-  test('DictationScreen renders without crash', async ({ page }) => {
-    const jsErrors = [];
-    page.on('pageerror', e => jsErrors.push(e.message));
+  test('a near miss is scored below a perfect match, and both state a percentage', async ({ page }) => {
+    await openSpeaking(page);
+    const word = await targetWord(page);
 
-    // Open Advanced category in Drill panel
-    const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-    if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    const advCat = page.locator('button.cat-tile').filter({ hasText: /Advanced|Dictation/i });
-    if (await advCat.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await advCat.click();
-      await page.waitForTimeout(200);
-      const dictCard = page.getByText(/Dictation/i).first();
-      if (await dictCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await dictCard.click();
-        await page.waitForTimeout(400);
-        const body = await page.locator('body').textContent();
-        expect(body).not.toContain('Something went wrong');
-      }
-    }
+    const read = async () => {
+      const t = (await page.getByTestId('webspeech-result').textContent()) || '';
+      const m = t.match(/(\d+)%/);
+      expect(m, 'the verdict states a percentage').not.toBeNull();
+      return parseInt(m[1], 10);
+    };
 
-    const unexpected = jsErrors.filter(e =>
-      !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch') && !e.includes('AbortError')
-    );
-    expect(unexpected).toHaveLength(0);
+    await page.evaluate((w) => {
+      window.__mockSR__ = { transcripts: [w], delay: 100 };
+    }, word);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
+    const exact = await read();
+
+    // Try Again returns the scorer to idle — the second half of what this
+    // describe used to claim to test, and the reason the retry path is here.
+    await page.getByRole('button', { name: /Try Again/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Test My Pronunciation/i }).first()).toBeVisible();
+
+    // A mangled attempt scores lower than the exact one.
+    await page.evaluate((w) => {
+      window.__mockSR__ = { transcripts: ['zzz' + w.slice(2) + 'qq'], delay: 100 };
+    }, word);
+    await page.getByRole('button', { name: /Test My Pronunciation/i }).first().click();
+    await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
+    const mangled = await read();
+
+    expect(exact).toBeGreaterThan(mangled);
   });
 });
+// The MC quiz was reached through the same dead panel. Covered by
+// `e2e/month-audit.spec.js` and `e2e/week-audit.spec.js`.
 
-// ===========================================================================
-// 8. FlashCards screen
-// ===========================================================================
-
-test.describe('Flashcards', () => {
-  test.beforeEach(async ({ page }) => {
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-    await mockContent(page);
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-  });
-
-  test('Flashcard exercise loads and shows front of card', async ({ page }) => {
-    const jsErrors = [];
-    page.on('pageerror', e => jsErrors.push(e.message));
-
-    const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-    if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    const vocabCat = page.locator('button.cat-tile').filter({ hasText: /Vocabulary|Word|vocab/i }).first();
-    if (await vocabCat.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await vocabCat.click();
-      await page.waitForTimeout(200);
-      const flashCard = page.getByText(/Flashcard|Flash Card/i).first();
-      if (await flashCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await flashCard.click();
-        await page.waitForTimeout(400);
-        const body = await page.locator('body').textContent();
-        expect(body).not.toContain('Something went wrong');
-      }
-    }
-
-    const unexpected = jsErrors.filter(e =>
-      !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch') && !e.includes('AbortError')
-    );
-    expect(unexpected).toHaveLength(0);
-  });
-
-  test('Flashcard audio play button triggers TTS without error', async ({ page }) => {
-    let ttsRequested = false;
-    await page.route('/api/tts', route => { ttsRequested = true; route.fulfill({ body: Buffer.alloc(100), contentType: 'audio/mpeg' }); });
-
-    const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-    if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    const vocabCat = page.locator('button.cat-tile').filter({ hasText: /Vocabulary|Word|vocab/i }).first();
-    if (await vocabCat.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await vocabCat.click();
-      await page.waitForTimeout(200);
-      const flashCard = page.getByText(/Flashcard|Flash Card/i).first();
-      if (await flashCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await flashCard.click();
-        await page.waitForTimeout(400);
-        // Click play button if present
-        const playBtn = page.locator('button').filter({ hasText: /🔊|play|listen/i }).first();
-        if (await playBtn.isVisible({ timeout: 800 }).catch(() => false)) {
-          await playBtn.click();
-          await page.waitForTimeout(200);
-          // TTS should have been requested
-          expect(ttsRequested).toBe(true);
-        }
-      }
-    }
-  });
-});
-
-// ===========================================================================
-// 9. McGame (Multiple Choice)
-// ===========================================================================
-
-test.describe('McGame (Multiple Choice quiz)', () => {
-  test.beforeEach(async ({ page }) => {
-    await seedAuth(page);
-    await blockFirebase(page);
-    await mockTTS(page);
-    await mockContent(page);
-    await page.goto('/practice');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-  });
-
-  test('MC quiz renders options and accepts click without crash', async ({ page }) => {
-    const jsErrors = [];
-    page.on('pageerror', e => jsErrors.push(e.message));
-
-    const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-    if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    const vocabCat = page.locator('button.cat-tile').filter({ hasText: /Vocabulary|Word|vocab/i }).first();
-    if (await vocabCat.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await vocabCat.click();
-      await page.waitForTimeout(200);
-      const mcCard = page.getByText(/Quiz|Multiple Choice|Word Quiz/i).first();
-      if (await mcCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await mcCard.click();
-        await page.waitForTimeout(400);
-        // If MC game loaded, click first option
-        const optionBtn = page.locator('button').filter({ hasText: /^[A-Za-zčćžšđČĆŽŠĐ]/ }).first();
-        if (await optionBtn.isVisible({ timeout: 800 }).catch(() => false)) {
-          await optionBtn.click();
-          await page.waitForTimeout(200);
-          const body = await page.locator('body').textContent();
-          expect(body).not.toContain('Something went wrong');
-        }
-      }
-    }
-
-    const unexpected = jsErrors.filter(e =>
-      !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch') && !e.includes('AbortError')
-    );
-    expect(unexpected).toHaveLength(0);
-  });
-
-  test('hearts display does not show negative values', async ({ page }) => {
-    // Seed stats with potential hearts edge case
-    await page.evaluate(() => {
-      const stats = JSON.parse(localStorage.getItem('nh_stats') || '{}');
-      stats.hearts = 0;  // boundary: zero hearts
-      localStorage.setItem('nh_stats', JSON.stringify(stats));
-    });
-
-    const drillBtn = page.locator('button').filter({ has: page.locator('div').filter({ hasText: /^Drill$/ }) });
-    if (await drillBtn.isVisible({ timeout: 800 }).catch(() => false)) await drillBtn.click();
-    const vocabCat = page.locator('button.cat-tile').filter({ hasText: /Vocabulary|Word|vocab/i }).first();
-    if (await vocabCat.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await vocabCat.click();
-      await page.waitForTimeout(200);
-      const mcCard = page.getByText(/Quiz|Multiple Choice/i).first();
-      if (await mcCard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-        await mcCard.click();
-        await page.waitForTimeout(300);
-        const body = await page.locator('body').textContent();
-        // Hearts should not show -1 or negative numbers
-        expect(body).not.toMatch(/-\d+ ❤️/);
-        expect(body).not.toMatch(/-\d+heart/i);
-      }
-    }
-  });
-});
 
 // ===========================================================================
 // 10. Profile / Me tab persistence
@@ -832,15 +529,11 @@ test.describe('Profile persistence', () => {
     await expect(page.getByText(/Level|Lv\./i).first()).toBeVisible({ timeout: 2_000 });
   });
 
-  test('settings accessible from profile tab', async ({ page }) => {
-    const settingsLink = page.getByRole('button', { name: /settings|⚙️/i }).first();
-    if (await settingsLink.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await settingsLink.click();
-      await page.waitForTimeout(200);
-      const body = await page.locator('body').textContent();
-      expect(body.toLowerCase()).toMatch(/settings|voice|theme|dark|notify/i);
-    }
-  });
+  // 'settings accessible from profile tab' was removed here: it looked for a
+  // button named /settings|⚙️/, found none (Settings is a `.profile-tab-pill`),
+  // and so asserted nothing. Its subject is `e2e/me-tab.spec.js`'s
+  // 'clicking Settings pill switches to Settings content', which drives the
+  // real control.
 
   test('localStorage not cleared on profile tab visit', async ({ page }) => {
     // beforeEach navigated to /me. Verify seeded XP (250) is still rendered in the DOM.
@@ -885,11 +578,12 @@ test.describe('Streak mechanics', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
 
     // Earn-back banner or token should be visible
-    const body = await page.locator('body').textContent();
-    // Either the earn-back card is shown or the streak section mentions recovery
-    if (body.includes('earn') || body.includes('recover') || body.includes('repair') || body.includes('restore')) {
-      expect(body.toLowerCase()).toMatch(/earn|recover|repair|restore/i);
-    }
+    // `if (body includes earn) expect(body to match earn)` is a tautology: it
+    // cannot fail, whatever Home renders. Seeded with a streak that broke
+    // yesterday, the recovery offer is the behaviour under test, so assert it.
+    await expect(page.locator('body')).toContainText(/earn|recover|repair|restore/i, {
+      timeout: 8_000,
+    });
   });
 
   test('streak of exactly 7 shows "a full week" message', async ({ page }) => {
@@ -959,57 +653,52 @@ test.describe('Streak mechanics', () => {
 // ===========================================================================
 
 test.describe('Audio system', () => {
-  test('TTS plays without Audio Unavailable error', async ({ page }) => {
-    let ttsHit = 0;
-    await page.route('/api/tts', route => {
-      ttsHit++;
-      route.fulfill({
-        status: 200,
-        contentType: 'audio/mpeg',
-        body: Buffer.alloc(200, 0), // minimal valid response
-      });
-    });
-
+  // These used to click "the first 🔊 button on the home screen", inside a
+  // visibility guard, and assert nothing when there wasn't one. The speaker
+  // this file is actually about is the one beside the word being practised.
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(SR_MOCK_SCRIPT);
     await seedAuth(page);
     await blockFirebase(page);
-    await page.goto('/');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-
-    // Click any speaker button to trigger TTS
-    const spkBtn = page.locator('button').filter({ hasText: /🔊/ }).first();
-    if (await spkBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await spkBtn.click();
-      await page.waitForTimeout(300);
-    }
-
-    // Must NOT show "Audio Unavailable"
-    const body = await page.locator('body').textContent();
-    expect(body).not.toContain('Audio Unavailable');
+    await mockContent(page);
   });
 
-  test('TTS API called with correct Content-Type', async ({ page }) => {
-    let requestBody = null;
-    await page.route('/api/tts', route => {
-      const req = route.request();
-      requestBody = req.postDataJSON();
-      route.fulfill({ status: 200, contentType: 'audio/mpeg', body: Buffer.alloc(200, 0) });
+  test('the speaker button requests TTS and never says audio is unavailable', async ({ page }) => {
+    let body = null;
+    await page.route('**/api/tts', (route) => {
+      body = route.request().postDataJSON();
+      route.fulfill({ status: 200, contentType: 'audio/wav', body: silentWav(80) });
     });
 
-    await seedAuth(page);
-    await blockFirebase(page);
-    await page.goto('/');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+    await openSpeaking(page);
+    const word = await targetWord(page);
+    await page.getByRole('button', { name: /Normal/i }).first().click();
 
-    const spkBtn = page.locator('button').filter({ hasText: /🔊/ }).first();
-    if (await spkBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await spkBtn.click();
-      await page.waitForTimeout(300);
-      if (requestBody) {
-        expect(requestBody).toHaveProperty('text');
-        expect(typeof requestBody.text).toBe('string');
-        expect(requestBody.text.length).toBeGreaterThan(0);
-      }
-    }
+    // The request is made, and it carries the word on screen — not an empty
+    // string, which is what a silently-broken `text` prop would send.
+    await expect.poll(() => body, { timeout: 6_000 }).not.toBeNull();
+    expect(typeof body.text).toBe('string');
+    expect(body.text.length).toBeGreaterThan(0);
+    expect(body.text).toContain(word);
+
+    await expect(page.locator('body')).not.toContainText('Audio Unavailable');
+  });
+
+  test('the slow speaker asks for the slow rendering of the same word', async ({ page }) => {
+    const calls = [];
+    await page.route('**/api/tts', (route) => {
+      calls.push(route.request().postDataJSON());
+      route.fulfill({ status: 200, contentType: 'audio/wav', body: silentWav(80) });
+    });
+
+    await openSpeaking(page);
+    const word = await targetWord(page);
+    await page.getByRole('button', { name: /Slow/i }).first().click();
+
+    await expect.poll(() => calls.length, { timeout: 6_000 }).toBeGreaterThan(0);
+    const slow = calls.find((c) => c && c.slow);
+    expect(slow, 'the slow button asks for slow audio').toBeTruthy();
+    expect(slow.text).toContain(word);
   });
 });
 
@@ -1045,16 +734,11 @@ test.describe('LearnPath sequential flow', () => {
     expect(unexpected).toHaveLength(0);
   });
 
-  test('clicking a path item navigates without blank screen', async ({ page }) => {
-    const pathItems = page.locator('[data-path-item], .path-item, .lp-item').first();
-    if (await pathItems.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await pathItems.click();
-      await page.waitForTimeout(400);
-      const body = await page.locator('body').textContent();
-      expect(body.trim().length).toBeGreaterThan(50);
-      expect(body).not.toContain('Something went wrong');
-    }
-  });
+  // 'clicking a path item navigates without blank screen' was removed here:
+  // none of `[data-path-item]`, `.path-item` or `.lp-item` is rendered
+  // anywhere in `src/`, so the body never ran. "Opening a screen does not go
+  // blank" is now covered for EVERY route, not one path tile, by
+  // `e2e/route-render-sweep.spec.js`.
 
   test('Listening lesson accessible after Reading completed (lp16 fix)', async ({ page }) => {
     // Seed stats that unlock Listening (lc >= 12 OR gc >= 2)

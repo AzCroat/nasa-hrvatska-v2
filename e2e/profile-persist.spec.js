@@ -189,20 +189,21 @@ test.describe('Profile screen', () => {
     await expect(page.getByText('250').filter({ visible: true }).first()).toBeVisible({ timeout: 5_000 });
   });
 
+  // Both of these used to open with `if (await X.isVisible())` and no else, so
+  // a profile that stopped offering the section passed instead of failing.
+  // Measured 2026-09-24: both entries are present on every run.
   test('Badges section is accessible', async ({ page }) => {
     const badgesBtn = page.getByText(/Badges/i).first();
-    if (await badgesBtn.isVisible()) {
-      await badgesBtn.click();
-      await expect(page.getByText(/Badge|Achievement/i).first()).toBeVisible({ timeout: 5_000 });
-    }
+    await expect(badgesBtn).toBeVisible();
+    await badgesBtn.click();
+    await expect(page.getByText(/Badge|Achievement/i).first()).toBeVisible({ timeout: 5_000 });
   });
 
   test('Favorites section is accessible', async ({ page }) => {
     const favsBtn = page.getByText('Favorites').first();
-    if (await favsBtn.isVisible()) {
-      await favsBtn.click();
-      // FavoritesScreen renders either the saved words list or the empty-state message
-      await expect(page.getByText(/My Favorites|No favorites yet/i).first()).toBeVisible({ timeout: 5_000 });
-    }
+    await expect(favsBtn).toBeVisible();
+    await favsBtn.click();
+    // FavoritesScreen renders either the saved words list or the empty-state message
+    await expect(page.getByText(/My Favorites|No favorites yet/i).first()).toBeVisible({ timeout: 5_000 });
   });
 });

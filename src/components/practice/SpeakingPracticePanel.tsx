@@ -179,6 +179,7 @@ export default function SpeakingPracticePanel({
       </div>
 
       <p
+        data-testid="speaking-word"
         style={{
           fontSize: 'var(--text-4xl)',
           fontWeight: 800,
@@ -192,7 +193,12 @@ export default function SpeakingPracticePanel({
           /{sw[2]}/
         </p>
       )}
-      <p style={{ fontSize: 'var(--text-lg)', color: 'var(--body)', marginBottom: 16 }}>{sw[1]}</p>
+      <p
+        data-testid="speaking-gloss"
+        style={{ fontSize: 'var(--text-lg)', color: 'var(--body)', marginBottom: 16 }}
+      >
+        {sw[1]}
+      </p>
       <div
         style={{
           display: 'flex',

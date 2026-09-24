@@ -14,7 +14,7 @@
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 
 // ── vi.hoisted — must be hoisted before vi.mock ──────────────────────────────
 const mockNativePost = vi.hoisted(() => vi.fn());
@@ -102,6 +102,45 @@ function recorderState(overrides: Record<string, unknown> = {}) {
   };
 }
 
+/**
+ * DRIVE THE REAL PATH — the reason this file's assertions were dead (2026-09-24).
+ *
+ * `assessPronunciation` runs from an effect that returns early unless
+ * `recordingIdx !== null`, and `recordingIdx` is only set by clicking the
+ * per-paragraph record button. Every test here used to flip the recorder mock
+ * to 'done' WITHOUT that click, so the effect bailed, `_nativePost` was never
+ * called, and each test's assertions — all of which sat behind
+ * `if (mockNativePost.mock.calls.length > 0)` or a loop over the same empty
+ * array — ran zero times. Three green tests, nothing checked, for as long as
+ * the file existed.
+ *
+ * This helper performs the click first, so the state the effect requires is the
+ * state a learner actually produces.
+ */
+async function recordParagraph(blob: Blob) {
+  recorderMock.mockReturnValue(recorderState({ state: 'idle' }));
+  const { StoryReader } = await import('../components/learn/GradedInputScreen');
+  const view = render(
+    <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
+  );
+
+  // The click is what sets recordingIdx — without it the effect returns early.
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Record your pronunciation/i));
+  });
+
+  // Now the recorder finishes with audio.
+  recorderMock.mockReturnValue(recorderState({ state: 'done', audioBlob: blob }));
+  await act(async () => {
+    view.rerender(
+      <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
+    );
+  });
+  await act(async () => {}); // flush the async effect body
+
+  return view;
+}
+
 // ── Import the exported StoryReader for direct testing ────────────────────────
 // We import dynamically inside each test to pick up fresh mocks.
 
@@ -118,96 +157,39 @@ describe('assessPronunciation — correct keys via _nativePost (Task 4)', () => 
   });
 
   it('_nativePost is called with { audioBase64, referenceText, locale, audioMimeType } — not old wrong keys', async () => {
-    // Arrange: simulate recorder completing with an audio blob
     const fakeBlob = new Blob([new Uint8Array([1, 2, 3])], { type: 'audio/webm' });
-
     mockNativePost.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ overall: 78, accuracy: 80, fluency: 75, word_scores: [] }),
     });
 
-    // Two-step recorder state: first idle, then 'done' with blob
-    let stateStep = 0;
-    recorderMock.mockImplementation(() => {
-      if (stateStep === 0) {
-        return recorderState({ state: 'idle' });
-      }
-      return recorderState({ state: 'done', audioBlob: fakeBlob });
-    });
+    await recordParagraph(fakeBlob);
 
-    const { StoryReader } = await import('../components/learn/GradedInputScreen');
-
-    // Start with idle recorder
-    const { rerender } = render(
-      <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
-    );
-
-    // Simulate recorder transitioning to 'done' state
-    stateStep = 1;
-    recorderMock.mockReturnValue(recorderState({ state: 'done', audioBlob: fakeBlob }));
-
-    await act(async () => {
-      rerender(
-        <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
-      );
-    });
-
-    await act(async () => {}); // flush async useEffect
-
-    // If _nativePost was called, verify keys
-    if (mockNativePost.mock.calls.length > 0) {
-      const [path, body] = mockNativePost.mock.calls[0] as [string, Record<string, unknown>];
-      expect(path).toBe('/api/pronunciation-assess');
-      // CORRECT keys
-      expect(body).toHaveProperty('audioBase64');
-      expect(body).toHaveProperty('referenceText');
-      expect(body).toHaveProperty('locale', 'hr-HR');
-      expect(body).toHaveProperty('audioMimeType');
-      // WRONG old keys must NOT be present
-      expect(body.audio).toBeUndefined();
-      expect(body.text).toBeUndefined();
-      // blobToBase64 used (not hand-rolled loop)
-      expect(mockBlobToBase64).toHaveBeenCalledWith(fakeBlob);
-      expect(body.audioBase64).toBe('MOCK_BASE64');
-    }
-    // If _nativePost wasn't called in this render cycle, the test verifies
-    // the mock infrastructure is wired correctly (no crash from import).
+    // UNCONDITIONAL, and that is the point: a guarded version of this block
+    // passed for as long as the call never happened.
+    expect(mockNativePost).toHaveBeenCalledTimes(1);
+    const [path, body] = mockNativePost.mock.calls[0] as [string, Record<string, unknown>];
+    expect(path).toBe('/api/pronunciation-assess');
+    expect(body).toHaveProperty('audioBase64');
+    expect(body).toHaveProperty('referenceText', 'Ana ide.');
+    expect(body).toHaveProperty('locale', 'hr-HR');
+    expect(body).toHaveProperty('audioMimeType', 'audio/webm');
+    // WRONG old keys must NOT be present
+    expect(body.audio).toBeUndefined();
+    expect(body.text).toBeUndefined();
+    // blobToBase64 (the chunked encoder) is used, not a hand-rolled byte loop
+    expect(mockBlobToBase64).toHaveBeenCalledWith(fakeBlob);
+    expect(body.audioBase64).toBe('MOCK_BASE64');
   });
 
   it('_nativePost returns null → assessPronunciation throws → assessError state set', async () => {
     const fakeBlob = new Blob([new Uint8Array([4, 5, 6])], { type: 'audio/webm' });
     mockNativePost.mockResolvedValueOnce(null); // transport failure
 
-    let stateStep = 0;
-    recorderMock.mockImplementation(() => {
-      if (stateStep === 0) {
-        return recorderState({ state: 'idle' });
-      }
-      return recorderState({ state: 'done', audioBlob: fakeBlob });
-    });
+    await recordParagraph(fakeBlob);
 
-    const { StoryReader } = await import('../components/learn/GradedInputScreen');
-
-    const { rerender } = render(
-      <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
-    );
-
-    stateStep = 1;
-    recorderMock.mockReturnValue(recorderState({ state: 'done', audioBlob: fakeBlob }));
-
-    await act(async () => {
-      rerender(
-        <StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />,
-      );
-    });
-
-    await act(async () => {});
-
-    // If nativePost was called with null result, error message should appear
-    if (mockNativePost.mock.calls.length > 0) {
-      expect(screen.getByTestId('reader-assess-failed')).toHaveTextContent(/No connection/);
-    }
-    // If not triggered in this cycle, at minimum the component rendered without crashing
+    expect(mockNativePost).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('reader-assess-failed')).toHaveTextContent(/connection/i);
   });
 
   it('StoryReader renders paragraph text and mic button without crashing when recorder is idle', async () => {
@@ -236,25 +218,19 @@ describe('assessPronunciation — backward-compatibility guard (old keys must no
       json: async () => ({ overall: 70, accuracy: 65, fluency: 75, word_scores: [] }),
     });
 
-    recorderMock.mockReturnValue(recorderState({ state: 'done', audioBlob: fakeBlob }));
-    const { StoryReader } = await import('../components/learn/GradedInputScreen');
+    await recordParagraph(fakeBlob);
 
-    await act(async () => {
-      render(<StoryReader story={SAMPLE_STORY as never} onStartQuiz={vi.fn()} goBack={vi.fn()} />);
-    });
-
-    await act(async () => {});
-
+    // A loop over mock.calls was the third dead assertion in this file: with
+    // zero calls it iterated zero times and proved nothing. The floor is what
+    // makes the loop mean something.
+    expect(mockNativePost.mock.calls.length).toBeGreaterThan(0);
     for (const call of mockNativePost.mock.calls) {
       const body = call[1] as Record<string, unknown>;
-      // Old key must NOT appear
       expect(body.audio).toBeUndefined();
       expect(body.text).toBeUndefined();
-      // New key must appear when called
-      if (Object.keys(body).length > 0) {
-        expect(body).toHaveProperty('audioBase64');
-        expect(body).toHaveProperty('referenceText');
-      }
+      expect(body).toHaveProperty('audioBase64');
+      expect(body).toHaveProperty('referenceText');
+      expect(body).toHaveProperty('audioMimeType', 'audio/ogg');
     }
   });
 });

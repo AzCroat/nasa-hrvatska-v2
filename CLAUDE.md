@@ -3202,6 +3202,75 @@ the later one before the learner ever reaches it.
 - NEVER: give two path items the same `vsIncludes` key; gate a tile on a screen
   it does not open; re-gate a repeat destination on anything but a higher counter.
 
+## Critical Architecture: A Test That Asserts Nothing Is Not A Test (2026-09-24)
+
+The shape: a test whose every `expect(...)` sits inside an `if` with no
+assertion-bearing `else`. When the condition is false the body runs **zero
+assertions and passes** — indistinguishable, from a green run, from a test that
+checked the thing. This is the mutation-testing lesson below, landing on the
+tests themselves.
+
+- **Two files were LIVE vacuous, and both were about the app's most fragile
+  path.** `gradedInputScreen.transport.test.tsx` exists to pin that
+  pronunciation assessment posts `{ audioBase64, referenceText, locale,
+audioMimeType }` and not the old `{ audio, text }`; `assessPronunciation`
+  runs from an effect that returns early unless `recordingIdx !== null`, which
+  only a CLICK on the record button sets, and no test clicked it — so
+  `_nativePost` was never called and all three assertions (two behind
+  `if (calls.length > 0)`, one looping over the same empty array) ran zero
+  times. And `e2e/pronunciation.spec.js` — 40 tests, header "the features most
+  at risk before Google Play launch" — navigated through `button.cat-tile`,
+  **a class that exists only in `index.css`**: no component has rendered it
+  since the Practice tab became the Grad surface. Instrumented and run: **19 of
+  its 21 guards never fired.**
+- **A dead spec hides live defects, and this one did.** Once the tests reached
+  the screen, the first scoring run dead-ended on "⚠️ Audio recording not
+  supported in this browser." `PronunciationScorer.mediaRecorderSupported` only
+  asks whether `MediaRecorder` EXISTS, so the Azure path is taken on any
+  browser with the constructor; `useRecorder` then reports `'unsupported'` when
+  none of `MIME_PRIORITY` is recordable — **after `getUserMedia` has already
+  succeeded**. The learner grants the mic, presses the button, and meets a dead
+  end while Web Speech sits available and unused, in a component whose own
+  comment says `'auto'` falls back to it. Fixed the way the sibling
+  Azure-failure path already does: name the cause, switch mode, run Web Speech.
+- **MEASURE, never read.** No static rule can tell a guard that fires from one
+  that cannot. The census found 25 instances of the shape; each was measured by
+  instrumenting its condition and running its file (0 firings to 212). Only
+  that separated the two live cases from the nine legitimate ones.
+- **Scope was chosen by measurement too.** A general "assertion-free path"
+  definition reports **410** tests, almost all `for (const x of
+SOME_STATIC_DATASET)` — a real but far weaker concern that would drown the
+  signal. The `if`-with-no-else shape is 25, and every one was read by hand.
+- **The ratchet** is `src/tests/guardedAssertions.test.ts` +
+  `helpers/guardedAssertions.ts`, deriving the shape from every committed test
+  file. Exemptions are keyed on **(file, test name)** — a line number moves on
+  any edit above it — and each carries its MEASURED firing count, because "I
+  read it and it looks fine" is the evidence that produced the `idioms`
+  exemption. Checked in both staleness directions, with a positive control (a
+  synthetic guarded test must be flagged, an unguarded one must not).
+- **A SURVIVING MUTATION IS A RESULT.** The analyser originally excluded the
+  THEN branch when the ELSE also asserts; removing that clause changed nothing,
+  because the else-branch rule already covers if/else — so by this file's own
+  standard it was decoration, and it is gone.
+- Mutation-verified, six, each confirmed landed: the transport test's original
+  guard restored (fails 1), a stale exemption (1), the analyser returning `[]`
+  (3), word-sprint's guard restored (1), the else-branch exclusion removed (2),
+  and `pronunciation.spec.js`'s `cat-tile` guard restored on one test (1).
+- **What it cannot see, stated:** the 410 loop-shaped tests; assertions reached
+  through a helper whose own body is guarded; and — the one that matters — a
+  guard that fires today and stops firing tomorrow, which is exactly what
+  happened to `pronunciation.spec.js`.
+- NEVER: put a test's only assertions inside a condition the test does not
+  establish; assert a mock was called *inside* `if (mock.mock.calls.length >
+0)`; loop over `mock.mock.calls` without a floor on its length; write a
+  tautological guard (`if (body.includes('earn')) expect(body).toMatch(/earn/)`
+  cannot fail); leave an E2E locator in a visibility guard when the screen is
+  the subject of the test — reach it and assert, so a moved entry point fails
+  loudly; record an exemption here from reading the code instead of measuring
+  the condition.
+
+---
+
 ## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
 
 `nh_level` is written in exactly two places, both inside `PlacementTest`. It is
