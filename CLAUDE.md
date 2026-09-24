@@ -1752,8 +1752,13 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   `ProductionDrillScreen` banks were made unlevelled BY the fix that bounded
   them**: the 2026-07-21 owner-flagged change capped a 43-item sitting to
   `ROUND_SIZE`, which is where `sh([...BANK]).slice(0, 10)` came from. Its other
-  two modes (`BUILD_SENTENCES`, `ERROR_CORRECT`) carry no `level` at all — a
-  content gap, recorded rather than papered over.
+  two modes (`BUILD_SENTENCES`, `ERROR_CORRECT`) carried no `level` at all — a
+  content gap, recorded rather than papered over. **THAT GAP WAS CLOSED BY #630
+  AND THIS SENTENCE KEPT SAYING OTHERWISE FOR SIXTEEN DAYS** (corrected
+  2026-09-23): both banks are fully levelled, 17/17 and 20/20. The recorded gap
+  outlived the gap because closing it changed the DATA and nothing read this
+  prose — the same one-copy-never-exercised shape this file keeps rediscovering,
+  landing on a paragraph whose whole subject is levels nothing reads.
   `src/lib/levelledBank.ts` is now the ONE rule (`_levelledListen` and
   `_levelledDictation` survive as named wrappers over it), and
   `levelledBankReads.test.ts` DERIVES the levelled banks from source and
@@ -1778,6 +1783,64 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   derives its length and the fixture states the B1 gate), and
   `production-drill-screen.test.tsx` asserted a specific A2 sentence from an
   unfiltered bank while mocking stats at A1.
+  **AND THEN THE FILTER STOOD DOWN AT THE ONE LEVEL IT PROTECTS (2026-09-23).**
+  Everything above asks whether a selecting use REACHES `levelledBank`. Nothing
+  asked what `levelledBank` then HANDS BACK — and below `LEVELLED_BANK_MIN` (4)
+  survivors it returns the WHOLE bank, by design, so that a launch can never
+  bail or shrink to two questions on a classification gap. The module's own
+  docstring calls that "a floor, not a feature: when it fires for a level the
+  bank has no content there, and the honest fix is content". **The two outcomes
+  are indistinguishable from the call site**: a screen routed correctly through
+  the filter, with the filter serving everything, reads exactly like a screen
+  that is filtering.
+  Measured across all seven levelled banks at every level their screen can be
+  reached at, there was exactly one live instance: `WritingScreen`'s `PROMPTS`
+  held A2 5 · B1 6 · B2 5 · C1 4 and **nothing at A1**, so an A1 learner was
+  handed all twenty prompts, C1 entries included. Fixed the way the docstring
+  prescribes — four A1 prompts authored (subject forms, present tense, negation,
+  numbers) — never by widening the floor.
+  **REACHABILITY IS WHAT MADE IT LIVE, AND THE POOL'S `cefr` IS NOT IT.** The
+  pool gates `writing` at A2, which is why an A1 learner looked impossible. The
+  SEARCH index carries `go: 'writing'` (`src/data/content.tsx`) and
+  `SearchModal.navigate` calls `setScr?.(r.go)` with no CEFR check, so search is
+  an ungated door into every screen it indexes. `levelledBankFloor.test.ts`
+  records a `lowestReachable` and a `door` per bank for that reason; with the
+  door relaxed to A2 the same missing tier passes, which is the mutation that
+  proves the field load-bearing. `dictation` is B1 in the pool and A1 through
+  search too — it survives only because its bank genuinely has A1 content.
+  **THE FIRST DRAFT OF THAT GUARD WAS DECORATIVE AND MUTATION IS THE ONLY
+  REASON IT DID NOT SHIP.** Written as `levelledBank(bank, lv).length <
+LEVELLED_BANK_MIN`, it could not fire on any bank worth guarding — when the
+  floor fires the returned array is the whole bank, which is LONGER than the
+  minimum, not shorter. Deleting the A1 tier the file was written about left it
+  fully green. It measures the survivor count instead, through the real function
+  at `min: 0` (which disables the fallback), so the predicate under test is
+  production's own `isUnlocked` and the comparison still tracks
+  `LEVELLED_BANK_MIN` if that constant moves. **Assert on the side of the
+  function the defect is on**: a fallback that returns MORE cannot be caught by
+  a test for LESS.
+  **The badge's final ternary arm is C1's colour, so an unarmed level renders AS
+  C1** — worse than `dictationLevel`'s `undefined` shape, because nothing looks
+  broken: an A1 prompt simply wears the advanced badge. Adding the A1 tier
+  created it and reading the ternary found it the same hour.
+  `writing-screen.test.tsx` derives the authored levels from the bank and
+  requires an arm for each, so the next tier cannot reintroduce it.
+  The bank moved to `src/data/writingPrompts.ts` (beside `writingCurriculum.ts`)
+  because the A1 tier took `WritingScreen.tsx` past the 800-line cap; **the cap
+  was not raised and no override was added**, and the new file joined the lint
+  TARGETS with a positive control. Two guards had to follow the move and their
+  two lists mean different things — `levelledBankReads` pins the DECLARATION at
+  the data file and the USE at the screen, and patching both to the data file
+  fails.
+  Mutation-verified, four: the A1 tier deleted fails 1 (and survived the first
+  draft, above); every `level` stripped from the bank fails the vacuous-pass
+  guard while the per-level test passes, which is the vacuity; the door relaxed
+  to A2 passes; the A1 badge arm removed fails 1.
+  NEVER: read `levelledBank`'s RETURNED length as the survivor count; record a
+  bank's lowest reachable level from the pool's `cefr` without checking the
+  search index; widen the floor instead of authoring the level's content; add a
+  tier to a levelled bank without an arm in its screen's badge.
+
   NEVER: fix one of these screens without re-running the derivation; add a
   levelled bank whose consumer picks from it without `levelledBank`; scope a
   source-derived guard by module path when a barrel re-exports the name.
@@ -2651,7 +2714,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **521 files**, 2 of them walked structurally — the figure the lint
+Coverage is **522 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at. This sentence said **525 plus 2** for

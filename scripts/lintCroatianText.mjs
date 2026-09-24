@@ -325,6 +325,7 @@ const TARGETS = [
   'src/components/croatia/AIConversation.tsx',
   'src/components/home/heroHelpers.ts',
   'src/components/practice/WritingScreen.tsx',
+  'src/data/writingPrompts.ts',
   'src/components/croatia/KaficScreen.tsx',
   'src/components/croatia/MediaPlayerUtils.tsx',
   'src/hooks/useAward.ts',

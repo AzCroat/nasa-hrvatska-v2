@@ -19,128 +19,7 @@ import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
-
-const PROMPTS = [
-  // A2 — simple present, basic vocabulary
-  {
-    en: 'Describe your morning routine',
-    hr: 'Opiši svoju jutarnju rutinu',
-    level: 'A2',
-    focus: 'Present tense + daily verbs',
-  },
-  {
-    en: 'Write about your family',
-    hr: 'Napiši o svojoj obitelji',
-    level: 'A2',
-    focus: "Verb 'biti' + nominative",
-  },
-  {
-    en: 'Describe the weather today',
-    hr: 'Opiši današnje vrijeme',
-    level: 'A2',
-    focus: 'Adjective agreement',
-  },
-  {
-    en: 'Write about where you live',
-    hr: 'Napiši o tome gdje živiš',
-    level: 'A2',
-    focus: 'Locative case (u/na + place)',
-  },
-  // B1 — past tense, accusative, broader vocabulary
-  {
-    en: 'Describe a typical day in Croatia',
-    hr: 'Opiši tipičan dan u Hrvatskoj',
-    level: 'B1',
-    focus: 'Past tense (perfective/imperfective)',
-  },
-  { en: 'Write about your hobby', hr: 'Opiši svoj hobi', level: 'B1', focus: 'Accusative case' },
-  {
-    en: 'Write a short text about Croatia',
-    hr: 'Napiši kratki tekst o Hrvatskoj',
-    level: 'B1',
-    focus: 'Culture vocabulary',
-  },
-  {
-    en: 'Describe a Croatian city you know',
-    hr: 'Opiši hrvatski grad koji poznaješ',
-    level: 'B1',
-    focus: 'Genitive + prepositions',
-  },
-  {
-    en: 'Write about your favorite Croatian food',
-    hr: 'Napiši o svojoj omiljenoj hrvatskoj hrani',
-    level: 'B1',
-    focus: 'Adjective-noun agreement',
-  },
-  {
-    en: 'Write about a recent trip or outing',
-    hr: 'Napiši o nedavnom putovanju ili izletu',
-    level: 'B1',
-    focus: 'Past tense + travel vocabulary',
-  },
-  // B2 — conditional, complex sentences
-  {
-    en: 'If you could live in Croatia, where would you choose?',
-    hr: 'Kad bi mogao/mogla živjeti u Hrvatskoj, gdje bi odabrao/la?',
-    level: 'B2',
-    focus: 'Conditional mood (bih/bi)',
-  },
-  {
-    en: 'Describe a conversation you had recently',
-    hr: 'Opiši razgovor koji si nedavno imao/imala',
-    level: 'B2',
-    focus: 'Reported speech + past tense',
-  },
-  {
-    en: 'Write about Croatian culture or customs you admire',
-    hr: 'Napiši o hrvatskoj kulturi ili običajima koji ti se sviđaju',
-    level: 'B2',
-    focus: 'Relative clauses',
-  },
-  {
-    en: 'Why do you learn Croatian? Write a short letter.',
-    hr: 'Zašto učiš hrvatski? Napiši kratko pismo.',
-    level: 'B2',
-    focus: 'Modal verbs + dative',
-  },
-  {
-    en: 'Compare life in Croatia with your home country',
-    hr: 'Usporedi život u Hrvatskoj s tvojom domovinom',
-    level: 'B2',
-    focus: 'Comparatives + contrast conjunctions',
-  },
-  // C1 — subjunctive-like structures, all 7 cases, complex syntax
-  {
-    en: 'Describe what would need to change for you to speak Croatian fluently',
-    hr: 'Opiši što bi trebalo promijeniti da govoriš tečno hrvatski',
-    level: 'C1',
-    focus: 'da + present tense (subjunctive pattern)',
-  },
-  {
-    en: 'Write a persuasive paragraph: why is Croatian worth learning?',
-    hr: 'Napiši uvjerljiv odlomak: zašto je vrijedno učiti hrvatski?',
-    level: 'C1',
-    focus: 'Complex clauses + formal register',
-  },
-  {
-    en: 'Describe a family tradition in Croatian',
-    hr: 'Opiši obiteljsku tradiciju na hrvatskom',
-    level: 'C1',
-    focus: 'All 7 cases in natural context',
-  },
-  {
-    en: 'Write about something you wish had been different',
-    hr: 'Napiši o nečemu što bi željeo/željela promijeniti',
-    level: 'C1',
-    focus: 'Conditional + past tense contrast',
-  },
-  {
-    en: 'Write about why you learn Croatian',
-    hr: 'Napiši zašto učiš hrvatski',
-    level: 'A2',
-    focus: 'Basic sentence structure',
-  },
-];
+import { PROMPTS } from '../../data/writingPrompts';
 
 interface WritingResult {
   score?: number;
@@ -169,12 +48,17 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const mountedRef = useRef(true);
   const { isOnline } = useOnlineStatus();
   const { stats, setStats, writeDelta, level: userLevel } = useStats();
-  // The 20 prompts carry a CEFR `level` (A2 5 · B1 6 · B2 5 · C1 4) that was
+  // The prompts carry a CEFR `level` (A1 4 · A2 5 · B1 6 · B2 5 · C1 4) that was
   // read ONLY to colour the badge beside them: the pick was a random index over
   // the whole bank, so an A2 learner drew a prompt above their level 15 times
   // in 20. This screen is the keyboard-only production fallback, so it is what
-  // a mic-blocked learner gets at every level. The bank has nothing at A1, and
-  // levelledBank's floor serves the whole bank there, exactly as before.
+  // a mic-blocked learner gets at every level.
+  // The A1 tier was authored 2026-09-23. Before it the bank had nothing at A1,
+  // so `levelledBank`'s floor served the WHOLE bank there — the filter standing
+  // down at the one level it protects. That was reachable: the pool gates this
+  // screen at A2, but search reaches it ungated. `levelledBankFloor.test.ts`
+  // now measures the floor for every bank at every level it can be reached at,
+  // so a bank cannot silently lose its low tier again.
   const prompts = useMemo(() => levelledBank(PROMPTS, getGenerationCefr(stats)), [stats]);
   const [promptIdx, setPromptIdx] = useState(() => Math.floor(rnd() * prompts.length));
   const [text, setText] = useState('');
@@ -468,22 +352,32 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                       fontWeight: 700,
                       padding: '2px 8px',
                       borderRadius: 20,
+                      // The final arm is C1's violet, so a level with no arm of
+                      // its own renders as C1 rather than as nothing — which is
+                      // why A1 needed one the moment the A1 tier was authored.
                       background:
-                        prompt.level === 'A2'
-                          ? '#dcfce7'
-                          : prompt.level === 'B1'
-                            ? '#fef9c3'
-                            : prompt.level === 'B2'
-                              ? '#fef3c7'
-                              : '#ede9fe',
+                        prompt.level === 'A1'
+                          ? '#dbeafe'
+                          : prompt.level === 'A2'
+                            ? '#dcfce7'
+                            : prompt.level === 'B1'
+                              ? '#fef9c3'
+                              : prompt.level === 'B2'
+                                ? '#fef3c7'
+                                : '#ede9fe',
                       color:
-                        prompt.level === 'A2'
-                          ? '#166534' // green-800 on #dcfce7 (~7.0:1); green-600 was 3.0:1, failed WCAG AA
-                          : prompt.level === 'B1'
-                            ? '#a16207'
-                            : prompt.level === 'B2'
-                              ? '#b45309'
-                              : '#5b21b6', // violet-800 on #ede9fe (~7.6:1); violet-600 was ~4.5:1 borderline
+                        prompt.level === 'A1'
+                          ? '#1e40af' // blue-800 on #dbeafe, 7.15:1 — measured, not estimated. The
+                          : // arms below were re-measured with it: A2 6.49, B1 4.58,
+                            // B2 4.51, C1 7.57. All clear AA; the two 4.5s clear it
+                            // by a hair, so neither is a template for a new arm.
+                            prompt.level === 'A2'
+                            ? '#166534' // green-800 on #dcfce7 (~7.0:1); green-600 was 3.0:1, failed WCAG AA
+                            : prompt.level === 'B1'
+                              ? '#a16207'
+                              : prompt.level === 'B2'
+                                ? '#b45309'
+                                : '#5b21b6', // violet-800 on #ede9fe (~7.6:1); violet-600 was ~4.5:1 borderline
                     }}
                   >
                     {prompt.level}

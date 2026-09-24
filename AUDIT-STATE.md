@@ -3626,7 +3626,7 @@ recorded here rather than implied to be done.
 
 ---
 
-### 56. The production slot serves speaking the learner cannot be measured on — 2026-09-23 — **1 REAL DEFECT, MEASURED; FIX DEFERRED TO ITS OWN PR**
+### 56. The production slot serves speaking the learner cannot be measured on — 2026-09-23 — **1 REAL DEFECT, MEASURED; FIXED IN #720 — see sweep 59**
 
 **Where it came from.** Sweep 55 left one item open: the 24 skipped drills have
 no contract test. Rather than build a universal UI driver, the tractable question
@@ -3740,7 +3740,7 @@ so nothing is lost, per the owner directive.
 
 ---
 
-### 57. Four screens the registry describes wrongly — 2026-09-23 — **1 LIVE MISLABEL + 2 LATENT LANDMINES, RECORDED; FIX JOINS 56**
+### 57. Four screens the registry describes wrongly — 2026-09-23 — **1 LIVE MISLABEL + 2 LATENT LANDMINES — STILL OPEN, narrowed; see the queue**
 
 **The question**, which sweep 56 handed over: *where does one screen carry more
 than one classification, and do they agree?* Sweep 56 found `dictation` labelled
@@ -3816,7 +3816,7 @@ re-verification finally has a mechanism.
 
 ---
 
-### 58. One screen in two pools, disagreeing — and a CLAUDE.md NEVER rule applied to only one copy — 2026-09-23 — **1 RULE VIOLATION, RECORDED; FIX JOINS 56+57**
+### 58. One screen in two pools, disagreeing — and a CLAUDE.md NEVER rule applied to only one copy — 2026-09-23 — **1 RULE VIOLATION, FIXED IN #721 — see sweep 60**
 
 **Completing sweep 57's question.** That sweep compared the registry against
 hand-rolling screens. Sweep 56's original instance also involved a second pair:
@@ -4060,6 +4060,90 @@ CEFR_EXERCISE_POOL entries and that its row existed "for type completeness". The
 contingency it went on to describe ("if a writing entry ever joins the fill pool it
 will vary against speaking") is now live, and is exactly why the retag moved nothing.
 
+### Sweep 61 — the level filter that stood down at the level it protects (2026-09-23, CLOSED)
+
+**The pair**, chosen by this file's own rule: `levelledBank` and the banks it
+serves. `levelledBankReads.test.ts` asks whether every selecting use REACHES the
+filter. Nothing asked what the filter then HANDS BACK — and below
+`LEVELLED_BANK_MIN` (4) survivors it returns the WHOLE bank by design, so a
+launch cannot bail or shrink to two questions on a classification gap. The
+module's own docstring says that is "a floor, not a feature: when it fires for a
+level the bank has no content there, and the honest fix is content." **Nobody
+had measured where it fires**, and from the call site a bank that filters and a
+bank the filter serves whole are the same line of code.
+
+**Measured, all seven levelled banks at every level their screen can be reached
+at.** One live instance: `WritingScreen`'s `PROMPTS` held A2 5 · B1 6 · B2 5 ·
+C1 4 and **nothing at A1**, so an A1 learner drew from all twenty — C1 entries
+included — on the keyboard-only production screen a mic-blocked learner gets at
+every level. `TRANSLATE_PROD`, `BUILD_SENTENCES` and `ERROR_CORRECT` also fall
+back at A1, and are NOT defects: `production_drill` is B1 in the pool and absent
+from the search index, so A1 cannot reach it. LISTEN, DICTATION_DATA,
+TRANSFORMS and TRANSLATE_DRILLS+C1_DRILLS are healthy everywhere.
+
+**REACHABILITY IS THE HALF THAT MADE IT LIVE.** The pool gates `writing` at A2,
+which is why A1 looked impossible; `src/data/content.tsx` carries
+`go: 'writing'` in the search index and `SearchModal.navigate` calls
+`setScr?.(r.go)` with **no CEFR check**, so search is an ungated door into every
+screen it indexes. That is a general fact worth carrying forward: a screen's
+pool `cefr` is a lower bound on scheduling, not on reach. `dictation` is B1 in
+the pool and A1 through search too — it survives only because its bank has A1
+content.
+
+**Fixed as the docstring prescribes**: four A1 prompts authored (name/origin,
+three things in a room, likes and dislikes, counting the family — subject forms,
+present tense, negation, numbers), never by widening the floor.
+
+**MY FIRST GUARD WAS DECORATIVE AND ONLY MUTATION SAID SO.** Written as
+`levelledBank(bank, lv).length < LEVELLED_BANK_MIN`, it cannot fire on any bank
+worth guarding: when the floor fires the returned array is the WHOLE bank, which
+is longer than the minimum, not shorter. Deleting the A1 tier the file was
+written about left it fully green. It measures the survivor count instead,
+through the real function at `min: 0` (which disables the fallback), so the
+predicate under test is production's own `isUnlocked`. **Assert on the side of
+the function the defect is on** — a fallback that returns MORE is invisible to a
+test for LESS. The file also carries a `lowestReachable` + `door` per bank,
+because the door claim is what makes the assertion bind: relax `writing` to A2
+and the missing tier passes.
+
+**A SECOND DEFECT, CREATED BY THE FIX AND FOUND IN THE SAME HOUR.** The badge's
+colour ternary ends on C1's violet, so a level with no arm of its own does not
+render colourless — it renders AS C1. Adding A1 would have put the advanced
+badge on a beginner prompt, with nothing looking wrong. Worse than
+`dictationLevel`'s `undefined` shape for exactly that reason. A1 got an arm
+(blue-800 on blue-100, 7.15:1 measured) and `writing-screen.test.tsx` now derives the
+authored levels from the bank and requires an arm for each.
+
+**Two housekeeping consequences, both non-optional.** The A1 tier took
+`WritingScreen.tsx` past the 800-line ESLint cap, so the bank moved to
+`src/data/writingPrompts.ts` beside `writingCurriculum.ts` — **the cap was not
+raised and no override added**, and the new file joined the lint TARGETS with a
+positive control (`hleb` in a new `hr` fails; restored, 0 findings across 522).
+Moving it broke two guards in ways worth recording: my extractor balanced
+brackets from the first `[` after the declaration and so parsed the TYPE
+ANNOTATION's `[]` as the bank (caught by its own empty-bank assertion — the
+reason that assertion exists); and `levelledBankReads` keeps two lists that mean
+different things, DECLARATIONS and USES, so repointing both at the data file
+fails — the use stayed in the screen.
+
+**One documentation defect found on the way**, and it is this file's own most
+repeated shape: CLAUDE.md said `BUILD_SENTENCES` and `ERROR_CORRECT` "carry no
+`level` at all — a content gap, recorded rather than papered over." PR #630
+levelled both (17/17 and 20/20) on 2026-09-07 and left the sentence standing for
+sixteen days. Closing the gap changed the DATA; nothing read the prose.
+
+Mutation-verified, four: the A1 tier deleted fails 1 (and survived the first
+draft of the guard); every `level` stripped fails the vacuous-pass guard while
+the per-level test passes, which IS the vacuity; the door relaxed to A2 passes;
+the A1 badge arm removed fails 1.
+
+**Not a discovery, and said plainly**: the WritingScreen call-site comment
+already recorded "The bank has nothing at A1, and levelledBank's floor serves
+the whole bank there, exactly as before." The sweep's outputs are the
+MEASUREMENT across all seven banks, the reachability finding that turns a known
+gap into a live one, the ratchet, the badge defect and the CLAUDE.md correction
+— not the gap itself.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -4148,23 +4232,35 @@ None of them crash, so no sweep above can see any of them.
         whose completion contract nothing exercises — the ratchet guards the
         exemption, not the coverage.
 
-      - **OPEN, WITH THE WORK NAMED: one PR carrying sweeps 56 + 57 + 58.** Both
-        centre on `ShadowingScreen`'s classification, so they ship together:
-        correct the three stale `exerciseRegistry` rows (two are landmines that
-        would reverse sweep 21 and starve the production picker on migration),
-        change `ShadowingScreen` to award `'speaking'`/`markQuest('speak')` to
-        match the registry (learner-visible — needs its own E2E audit), add the
-        ledger writers, and give the registry header's promised re-verification
-        an actual mechanism.
-      - **OPEN, WITH THE WORK NAMED: three speaking screens the ledger cannot
-        see.** Sweep 56 measured it — 56-74% of the production slot's `speak`
-        picks go to a screen that records no mastery evidence, so the "speaking
-        is your weakest skill" answer cannot be discharged by doing the speaking
-        the app just served. `DictationScreen`, `ShadowingScreen` and
-        `SpeakingScreen` each hold a real measurement they discard;
-        `SpeakingSprintScreen` genuinely has none and must stay silent. The fix
-        is its own PR because adding a listening writer shifts the P2.8
-        receptive alternation and needs that composition measured.
+      - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+        the split was right. #720 (sweep 56) added the five ledger writers;
+        #721 (sweep 58) fixed the pool-category disagreement. They did not
+        belong in one PR: the first is about what a score EVIDENCES, the second
+        about which slot may SERVE a screen, and conflating those two questions
+        is precisely the error that made me pick the wrong value for
+        `dictation`'s category first. See sweeps 59 and 60.
+      - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+        #720. Five screens now record at their genuine completion point
+        (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+        `SpeakingScreen`, `VideoLessonScreen`), and
+        `sessionScreensFeedLedger.test.ts` derives the demand from
+        `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+        `SpeakingSprintScreen` stays silent with its reason recorded in
+        `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+        RECOGNITION, and filing it as spoken evidence would have made a learner
+        who never spoke read as a tested speaker.
+      - **STILL OPEN, NARROWED: the three stale `exerciseRegistry` rows** (sweep
+        57). `'story-comprehension'` is typed listening and is reading;
+        `writing` is typed grammar and is writing. Re-checked while shipping
+        #720: still wrong, and still INERT — no screen reaches those rows today,
+        which is why they are landmines rather than defects. They would reverse
+        sweep 21 and starve the production picker the moment a migration reads
+        them. `ShadowingScreen`'s award kind was examined in #720 and
+        DELIBERATELY left `'listening'`: `useAward` keys `recordListeningRep()`
+        off that activityType and its comment names this screen, so retyping it
+        silently drops a displayed Fluency Snapshot metric. Shadowing is both
+        halves and the app already counts it both ways; only the LEDGER question
+        was unambiguous, and that half is done.
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two
