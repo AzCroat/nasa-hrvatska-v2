@@ -4705,6 +4705,92 @@ is not enough; confirm the file actually changed before reading the result.
 ("MUTATION-TEST THE GUARD"), and the specifics live in the guard's own header
 where the next person editing that predicate will read them.
 
+### Sweep 70 — the exemption production undid two lines later (2026-09-24, 1 REAL DEFECT, FIXED)
+
+**The question**, picked on sweep 68's own recorded advice that the next find
+would have to come from *interactions between features on a live path* rather
+than another source-derived pair: **what does a sign-out fail to wipe?** — auth
+crossed with every feature's local store, on a real sequence (user A out, user B
+in). The obvious target was `clearUserScopedStorage`'s key lists, which are the
+classic hand-maintained shape.
+
+**They are not the defect, and checking that first is what found the real one.**
+That module is thoroughly worked out: localStorage is a `nh_` prefix sweep plus a
+list DERIVED by reading all of `src/`, sessionStorage is the same prefix rule
+minus three exemptions, and the journal's Dexie table is cleared too. The Dexie
+DB has exactly one store (`journal`, v1→v2 adds a column, not a table), so that
+half is complete. `nh-content-cache` is shared content, not user data.
+
+**THE DEFECT IS THAT THE sessionStorage EXEMPTIONS WERE DECORATIVE.**
+`DEVICE_SESSION_KEYS` preserves three reload-loop breakers — `nh_ver_reload`
+(main.tsx, at most 2 reloads per session onto a freshly-deployed build) and
+`nh_reload_attempt` / `nh_binding_reload` (`chunkErrors.ts`, 2 cache-purge
+reloads per 30-minute window). The module's own docstring argues for them:
+*"Clearing it on sign-out would re-arm the loop it exists to break."* Both
+account-exit handlers in App.tsx — `onSignedOut` and `onUserChanged`, the only
+two paths a user leaves by, reached from `useAuth` at 656 and 292 — then ran a
+blanket `sessionStorage.clear()` **on the line after the sweep returned**. So
+every exemption was undone on every sign-out and every account switch, for as
+long as the exemptions existed.
+
+**Why nothing saw it.** `clearUserScopedStorage.test.ts` asserts the
+preservation by calling the function ON ITS OWN, key by key, under a comment
+calling it *"the overshoot this fix nearly shipped"*. That is the
+component-test / wiring-test split — *a unit test of a sweep cannot see what its
+caller does two lines later* — landing on the file that had most reason to look.
+The same file's wiring test matches `onSignedOut\(\)[\s\S]{0,600}clearUserScopedStorage\(`,
+so it reads the handler and stops at the call it wants.
+
+**The harm, bounded and stated at what it is rather than at its strongest.**
+Neither budget is unbounded and one self-expires after 30 minutes, so a sign-out
+did not re-arm an infinite loop — it bought the tab up to two more reloads, one
+kind of which purges caches. It lands on exactly one learner: the one who signed
+out *because* the app was misbehaving, which is the only learner holding a spent
+budget. Not data loss, and said so rather than dressed up.
+
+**The fix keeps the blast radius at three keys.** Deleting the blanket clear
+outright would also have changed which THIRD-PARTY session keys survive a
+sign-out — `firebase`, `@sentry` and `posthog-js` all write sessionStorage
+(measured, not assumed) — which is a scope change wearing a leak fix's clothes.
+So the sweep widened to every session key that is NOT a device key, absorbing
+everything the clear did, and the clear is gone from both handlers. **The delta
+against old behaviour is exactly those three keys.**
+
+**The guard is the wiring test the isolation test could not be**: no file under
+`src/` (tests excluded) may contain a bare `sessionStorage.clear()`, so a third
+exit path added tomorrow is the same failure. It is scoped to all of `src/`
+rather than App.tsx because the shape defeats the sweep wherever it appears.
+Plus a behaviour half — a non-`nh_` key must still be cleared — which is what
+makes the removal provably behaviour-preserving rather than a silent narrowing.
+
+**COMMENTS ARE STRIPPED, AND THE GUARD FAILED ON ITS OWN FIRST RUN WITHOUT IT.**
+The fix necessarily leaves prose behind NAMING the call it forbids, in both files
+it was removed from, so an unstripped match reported the explanation as the
+offence. Here the strip is in the SAFE direction (a false positive, not a false
+negative) — but it is the reason the rule can be written down at all, and it
+carries a positive control, because a strip is exactly the step that can swallow
+the subject along with the prose.
+
+**Mutation-verified, four**, each confirmed landed:
+
+- the blanket clear restored in `onUserChanged` → the wiring test **fails**
+- **the whole defect restored and the PRE-EXISTING suite run against it → 27/27
+  PASS** — the direct proof the gap was real rather than a rule I invented
+- the sweep narrowed back to the `nh_` prefix → the width test **fails**
+- the comment strip gutted → the fix's own prose is reported as the offence
+
+**Gates:** 612 files / 9809 passing, typecheck clean, eslint clean, Croatian
+lint 0 findings across 522 files. **E2E audit:** no spec asserts sessionStorage
+across a sign-out — the only sessionStorage spec (`speaking-reload-guard`) tests
+survival across a RELOAD and never signs out; `mobile-signout` asserts
+navigation to the login screen only.
+
+**Not added to CLAUDE.md**, same reasoning as sweep 69: the class already has
+its section there (a component test and a wiring test are different tests), the
+rule is now enforced mechanically over all of `src/`, and the specifics live in
+the module header where the next person editing that sweep will read them. A
+paragraph restating a guard is the decoration this file keeps finding.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

@@ -609,10 +609,11 @@ function App() {
       // the next account's cloud document.
       clearUserScopedStorage();
       resetComebackGuard();
-      // Clear exercise session state so the next user doesn't see a stale "resume" prompt
-      try {
-        sessionStorage.clear();
-      } catch {}
+      // The exercise session state this used to clear with a blanket
+      // `sessionStorage.clear()` is swept by clearUserScopedStorage above. The
+      // clear had to go: it ran AFTER the sweep and wiped the three reload-loop
+      // breakers the sweep deliberately preserves, so signing out on a stale
+      // bundle bought the tab two more reloads. See DEVICE_SESSION_KEYS.
     },
     // A different account took over this tab (see useAuth's divergence check).
     // Clear the previous user's progress from memory so nothing merges into it.
@@ -621,8 +622,9 @@ function App() {
     // incoming user is a real returning account and belongs in the app rather
     // than in onboarding. resetComebackGuard() is included — the guard is
     // per-user-per-day, so leaving it set would suppress the new user's comeback
-    // bonus. sessionStorage.clear() is included for the same reason it is on
-    // sign-out: the previous user's in-flight exercise state must not carry over.
+    // bonus. The previous user's in-flight exercise state must not carry over
+    // either, and clearUserScopedStorage sweeps it — see onSignedOut for why the
+    // blanket sessionStorage.clear() that used to sit here had to go.
     onUserChanged() {
       dispatch({ type: 'RESET', payload: DS });
       setName('');
@@ -636,9 +638,6 @@ function App() {
       // paths cannot drift apart again.
       clearUserScopedStorage();
       resetComebackGuard();
-      try {
-        sessionStorage.clear();
-      } catch {}
     },
     onBeforeSignOut: async () => {
       if (_syncNowRef.current) await _syncNowRef.current();
