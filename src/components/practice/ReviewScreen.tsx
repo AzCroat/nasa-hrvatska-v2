@@ -4,6 +4,7 @@ import { H, Bar, Spk, srMark, getSR, sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { getPrioritizedReviewQueue } from '../../lib/srs.js';
 import { vocabPool, vocabLevel } from '../../lib/vocabPool';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 import { useHaptic } from '../../hooks/useHaptic';
 import { markPracticed } from '../../hooks/useNotifications';
 import { recordSrsReview } from '../../lib/quests.js';
@@ -38,7 +39,7 @@ interface ReviewStateRef {
 export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenProps) {
   const haptic = useHaptic();
   const { stats, setStats, writeDelta } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const finishFired = useRef(false);
   // The level-gated deck (lib/vocabPool): the same derivation HomeTab counts
   // servable reviews against, so the pill and this screen agree by construction.
@@ -158,6 +159,30 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
     return earliest === Infinity ? null : new Date(earliest);
   }, []);
 
+  // "All caught up!" IS A CLAIM ABOUT THE LEARNER'S DECK, and `dueWords` is
+  // derived from `vocabPool(content, …)` — so before the payload lands, and for
+  // ever after a failed fetch, this screen congratulated a learner whose Home
+  // pill had just told them words were due. The pill counts against the SAME
+  // derivation, which is exactly the disagreement the vocab-deck work exists to
+  // make impossible; the window was the one place it could still happen.
+  // `poolLaunchBlock` is the one classifier (sweep 97) — content decides first.
+  const reviewBlock = poolLaunchBlock(content, contentLoading, dueWords);
+  if (reviewBlock && reviewBlock !== 'empty') {
+    return (
+      <div className="scr-wrap">
+        {H('🔁 Review Due', 'Your spaced repetition cards', goBack)}
+        <div
+          data-testid="review-unavailable"
+          data-pool-block={reviewBlock}
+          style={{ textAlign: 'center', paddingTop: 40, color: 'var(--subtext)' }}
+        >
+          {reviewBlock === 'loading'
+            ? 'Loading your review cards — one moment.'
+            : "Your review cards couldn't be loaded. Check your connection and try again."}
+        </div>
+      </div>
+    );
+  }
   if (dueWords.length === 0) {
     return (
       <div className="scr-wrap">

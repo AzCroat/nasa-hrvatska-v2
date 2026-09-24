@@ -6682,6 +6682,98 @@ and `contentShapeSweep` is what covers it. (3) A content-dependent screen reache
 by something other than `launchPathItem` earns no dwell credit at all, so the
 gate has nothing to say about it.
 
+### Sweep 101 — "empty" and "not arrived yet" are the same expression (2026-09-24, 4 REAL DEFECTS + 2 RESIDUES, FIXED)
+
+**THE SHAPE SWEEP 100 LEFT OPEN**, verbatim from its own "what this cannot see":
+_a screen that renders content-derived data with NO early return on the content
+state._ Sweep 97's note named the same gap from the other side: _a surface that
+builds its own list from `content` by hand rather than importing a builder._
+
+**THE DERIVATION TOOK FOUR SHAPES TO FINISH, and each was added only because it
+was caught hiding a member the previous shape could not see.** That sequence is
+the finding, not an anecdote: at every stage the tool reported a small clean
+number and looked done.
+
+| shape | found | what it had been hiding |
+| ----- | ----- | ----------------------- |
+| 1. `X.length === 0 && <…>` | 1 | — |
+| 2. `if (X.length === 0) return (<…>)` | 6 | **ReviewScreen's "All caught up!"**, the worst instance in the class, which I had already found BY HAND |
+| 3. `const flag = X.length === 0` → `flag ?` | 6 | `LearnPath`'s `pathMissing` — sweep 99's own fix, i.e. a KNOWN member |
+| 4. `if (X.length < 4) setFlag(true)` **plus assignment closure** | 7 | **SpeedChallenge's**, whose pool lives in a REF (`pool.current = buildQuestionPool(V)`) — an assignment, not a declaration, so the entire screen was invisible to the closure |
+
+A separate derivation for SILENT BAILS (`if (<derived>.length < n) return;` with
+no state set) found **WordSprint's Start button**.
+
+**FOUR REAL DEFECTS. Every one is a sentence about the learner's own deck, said
+before the app had seen it — and said for ever after a failed fetch, because
+`content` then stays null.**
+
+1. **`ReviewScreen` — a green tick and "All caught up! No reviews due right
+   now."** on the app's highest-volume daily action. `dueWords` comes from
+   `vocabPool(content, level)`, and **Home's due-count pill counts against the
+   SAME derivation** — which is exactly the pill-vs-screen disagreement the
+   2026-09-04 vocabulary-deck work exists to make impossible "by construction".
+   The pre-content window was the one place it could still happen, and there the
+   learner was congratulated for finishing work the app had not yet loaded.
+2. **`SpeedChallenge` — "Complete a few vocabulary lessons first to unlock Speed
+   Challenge!"**, on HOME, the first screen. That is verbatim the lie
+   `LearningCenter.openScreen`'s own comment records: false advice about a deck
+   the app has not yet seen, told to a learner who may have hundreds of words.
+3. **`AdvancedVocabScreen` — "No words match your search."** A search that ran
+   against nothing found nothing. `V_B2`/`V_C1`/`V_C2` arrive with the payload.
+4. **`WordSprint` — "Start Sprint ⚡" did NOTHING** (`if (pool.length < 4)
+   return;`). This is sweep 97's class in the shape sweep 97 said it could not
+   see, because WordSprint builds its own pool instead of importing a builder.
+
+**TWO RESIDUES ON SCREENS THAT WERE ALREADY RIGHT.** `TypingScreen` and
+`ShadowingScreen` already split the two facts — `content ? 'No words available
+right now…' : 'Loading…'` — and are the convention this fix follows (TypingScreen's
+comment even records the incident that produced it). Their one remaining lie is
+that `'Loading…'` is shown FOR EVER after a failed fetch, since content stays
+null. One line each, same classifier.
+
+**NO NEW PRIMITIVE WAS BUILT.** `poolLaunchBlock` (sweep 97) already answers
+exactly this question — loading / unavailable / empty, content decided BEFORE
+emptiness — so all six screens now route through it and each supplies its own
+honest three sentences. One classifier, six copies that fit their own surface.
+
+**Three CHECKED NON-DEFECTS, each exempted with a reason and checked in both
+staleness directions:** `CultureDeepDiveScreen` guards `loading || !content`
+ABOVE its `!essays.length` branch, so that branch can only mean a stale cached
+payload missing the key — which is what its message says; `HeroSection`'s
+fallback is the neutral LABEL "Learning" rather than a claim, so before the
+payload lands the hero is merely less specific; `LearnPath` was fixed in sweep 99
+with its own split, and its claim is about the PATH, so the pool copy would be
+wrong there. One recorded FALSE POSITIVE by name: `ReviewScreen`'s
+`if (!done || questions.length === 0) return;` is the Knight-reaction effect, a
+correct guard, not a tap.
+
+**Mutation-verified, eight, each confirmed landed** (`emptyIsNotAnAnswer.test.tsx`,
+7 tests). The four defects reverted: ReviewScreen fails 4, SpeedChallenge 2,
+WordSprint 2, AdvancedVocab 2. The derivation itself: the ASSIGNMENT closure
+dropped (SpeedChallenge invisible again) fails 1; the early-RETURN shape dropped
+(ReviewScreen invisible again) fails 2; an exemption made stale fails 1; the
+derivation returning `[]` fails 2 — the vacuity guard, because a ratchet over an
+empty list asserts nothing.
+
+**E2E audit:** grepped `e2e/` for every user-visible string touched ("All caught
+up", "No reviews due", "Complete a few vocabulary", "No words match", "Start
+Sprint", "No words available", "No shadowing lines") — **zero matches**. The only
+specs naming these screens are `daily-challenge-sync.spec.js`, which asserts the
+"Speed Challenge" HEADING (untouched), and `full-user-audit` / `heavy-user-*`,
+which are in `testIgnore`. All seven existing unit suites for the six screens pass
+unchanged (113 tests).
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A claim derived from content that is
+NOT an emptiness test — a count, a percentage, a level, a date rendered from a
+payload that has not arrived. The derivation is keyed on `.length`/`Object.keys`
+and nothing else; sweep 99's `0 / 0 milestones` was that shape and was found by
+hand. (2) A surface whose content-derived collection is non-empty but WRONG (a
+stale cached payload), which is the `scene.qs` class and belongs to
+`contentShapeSweep`. (3) The exemption REASONS are checked for existence and for
+both staleness directions, but not for truth — the `idioms` lesson: a plausible
+reason recorded beside an exemption is how a dead end survives a staleness test.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

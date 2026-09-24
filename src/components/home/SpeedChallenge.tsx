@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useStats } from '../../context/StatsContext';
 import { getSR, getSRScore } from '../../lib/srs.js';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock, type PoolLaunchBlock } from '../../lib/practiceLaunch';
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { lsGet, lsSet } from '../../lib/safeStorage';
@@ -93,7 +94,7 @@ const LS_KEY_PLAYED = 'nh_speed_challenge_played';
 
 export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }) {
   const { award } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const V = useMemo(() => (content?.V ?? {}) as Record<string, unknown>, [content]);
   const [phase, setPhase] = useState('idle'); // idle | playing | done
   const [timeLeft, setTimeLeft] = useState(DURATION);
@@ -116,7 +117,13 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
     [phase], // intentional: re-check after phase transition
   );
 
-  const [noVocab, setNoVocab] = useState(false);
+  // THREE FACTS, NOT ONE. `setNoVocab(true)` fired whenever the pool was thin,
+  // and the pool is built from `V` — so the "complete a few vocabulary lessons
+  // first" message, on HOME, was shown for the whole pre-content window and for
+  // ever after a failed fetch. That is verbatim the lie LearningCenter.openScreen
+  // records: false advice about a deck the app has not yet seen. `poolLaunchBlock`
+  // is the one classifier and content decides before emptiness.
+  const [noVocab, setNoVocab] = useState<PoolLaunchBlock | null>(null);
   const pool = useRef<VocabWord[]>([]);
   const questions = useRef<Question[]>([]);
   const allVocab = useRef<VocabWord[]>([]);
@@ -124,8 +131,13 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
   const start = useCallback(() => {
     pool.current = buildQuestionPool(V);
     allVocab.current = pool.current;
-    if (pool.current.length < 4) {
-      setNoVocab(true);
+    const block = poolLaunchBlock(
+      content,
+      contentLoading,
+      pool.current.length < 4 ? [] : pool.current,
+    );
+    if (block) {
+      setNoVocab(block);
       return;
     }
     questions.current = pool.current
@@ -140,7 +152,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
     setAnswered(null);
     setTotalEarned(0);
     questionStartRef.current = Date.now();
-  }, [V]);
+  }, [V, content, contentLoading]);
 
   // Timer
   useEffect(() => {
@@ -289,6 +301,8 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
         </div>
         {noVocab && (
           <div
+            data-testid="speed-challenge-block"
+            data-pool-block={noVocab}
             style={{
               marginTop: 10,
               padding: '8px 12px',
@@ -300,7 +314,11 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               fontWeight: 600,
             }}
           >
-            Complete a few vocabulary lessons first to unlock Speed Challenge!
+            {noVocab === 'loading'
+              ? 'Still loading your words — try that again in a moment.'
+              : noVocab === 'unavailable'
+                ? "Your word list couldn't be loaded. Check your connection and try again."
+                : 'Complete a few vocabulary lessons first to unlock Speed Challenge!'}
           </div>
         )}
         {playedToday && !noVocab && (

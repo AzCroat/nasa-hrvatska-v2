@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 
 type LevelKey = 'B2' | 'C1' | 'C2';
 const LS_KEY = 'nh_adv_vocab_learned';
@@ -25,7 +26,7 @@ interface Props {
 }
 
 export default function AdvancedVocabScreen({ goBack, award }: Props) {
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   // SP11f: V_B2 / V_C1 / V_C2 ship from /api/content/core. While content hydrates,
   // fall back to empty objects so the screen renders the empty state rather
   // than crashing.
@@ -243,8 +244,21 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
       {/* ── WORD LIST ── */}
       <div className="c" style={{ paddingTop: 8 }}>
         {words.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--subtext)' }}>
-            No words match your search.
+          <div
+            data-testid="advanced-vocab-empty"
+            data-pool-block={poolLaunchBlock(content, contentLoading, words) ?? 'empty'}
+            style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--subtext)' }}
+          >
+            {/* A SEARCH THAT RAN AGAINST NOTHING FOUND NOTHING. V_B2/C1/C2 arrive
+                with the payload, so this line told an advanced learner their query
+                had no matches before the tiers existed — and for ever after a
+                failed fetch. poolLaunchBlock is the one classifier; content is
+                decided before emptiness. */}
+            {poolLaunchBlock(content, contentLoading, words) === 'loading'
+              ? 'Loading the advanced word lists — one moment.'
+              : poolLaunchBlock(content, contentLoading, words) === 'unavailable'
+                ? "The advanced word lists couldn't be loaded. Check your connection and try again."
+                : 'No words match your search.'}
           </div>
         )}
         {words.map(([hr = '', en = '', ex = '']: string[], i: number) => {

@@ -3443,6 +3443,65 @@ this window every time.
 
 ---
 
+## Critical Architecture: "Empty" And "Not Arrived Yet" Are The Same Expression (2026-09-24)
+
+A content-derived collection is empty for two quite different reasons, and every
+`X.length === 0` in the tree reads them as one. Measured across every
+`useContent` consumer: **four surfaces said something false about the learner's
+own deck**, and each said it for the whole pre-content window AND for ever after
+a failed fetch, because `content` then stays null.
+
+| surface | what it said |
+| ------- | ------------ |
+| `ReviewScreen` | a green tick and **"All caught up! No reviews due right now."** — on the highest-volume daily action, to a learner whose Home pill had just said words were due |
+| `SpeedChallenge` | **"Complete a few vocabulary lessons first to unlock Speed Challenge!"** — on HOME, the first screen |
+| `AdvancedVocabScreen` | **"No words match your search."** — a search that ran against nothing |
+| `WordSprint` | **nothing at all**: "Start Sprint ⚡" was `if (pool.length < 4) return;` |
+
+- **THE PILL AND THE SCREEN READ THE SAME DERIVATION, WHICH IS WHY REVIEW IS THE
+  WORST OF THE FOUR.** `dueWords` comes from `vocabPool(content, level)` and
+  Home counts against the same function — the vocabulary-deck work's "Home and
+  Review must agree by construction". The pre-content window was the one place
+  they still could not, and there the app congratulated a learner for finishing
+  work it had not loaded.
+- **NO NEW PRIMITIVE.** `poolLaunchBlock` already answers this — loading /
+  unavailable / empty, **content decided before emptiness** — so all six screens
+  route through it and each supplies its own three sentences. `TypingScreen` and
+  `ShadowingScreen` were already right (`content ? '…' : 'Loading…'`) and are the
+  convention; their one residue was saying "Loading…" for ever after a failure.
+- **THE DERIVATION TOOK FOUR SHAPES TO FINISH, and that sequence is the lesson.**
+  At every stage it reported a small clean number and looked done:
+  `X.length === 0 && <…>` found 1; adding the EARLY RETURN shape found Review's
+  "All caught up!" — which I had already found by hand; adding a NAMED FLAG found
+  `LearnPath`'s `pathMissing`, sweep 99's own fix and therefore a known member;
+  adding a STATE FLAG **plus closure over ASSIGNMENTS** found SpeedChallenge's,
+  whose pool lives in a ref (`pool.current = buildQuestionPool(V)`) so the whole
+  screen was invisible. **Close over assignments, not only declarations** — a ref
+  write is how a component holds derived data without ever declaring it.
+- **A ratchet over an empty list asserts nothing**, so
+  `emptyIsNotAnAnswer.test.tsx` mutates the derivation to return `[]` and requires
+  that to fail; and it pins a minimum subject count.
+- **Three checked non-defects, exempted with reasons and both staleness
+  directions**: `CultureDeepDiveScreen` guards `loading || !content` ABOVE its
+  `!essays.length` branch, so that branch can only mean a stale payload missing
+  the key; `HeroSection` falls back to the neutral LABEL "Learning", which states
+  nothing false; `LearnPath` was fixed in sweep 99 and its claim is about the
+  PATH, so pool copy would be wrong there.
+- **What this does NOT cover, stated:** a claim derived from content that is not
+  an emptiness test — a count, a percentage, a level or a date rendered from a
+  payload that has not arrived (sweep 99's `0 / 0 milestones` was that shape and
+  was found by hand); a collection that is non-empty but STALE, which is the
+  `scene.qs` class; and the truth of an exemption's reason, which no staleness
+  test can check.
+- NEVER: decide "the learner has nothing" from a collection that is also empty
+  while the content request is in flight; let a tap bail silently on a thin
+  content-derived pool; say "Loading…" for a request that has already finished
+  without content; tell a learner to go and learn more words when the app has not
+  yet seen the words they have; build a second classifier for this — ask
+  `poolLaunchBlock`; close a content-derivation over declarations only.
+
+---
+
 ## Critical Architecture: `nh_level` Is The Placement, Not The Learner (2026-09-24)
 
 `nh_level` is written in exactly two places, both inside `PlacementTest`. It is

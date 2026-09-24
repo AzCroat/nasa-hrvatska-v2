@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { H, Bar, srMark, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock, POOL_LAUNCH_COPY, type PoolLaunchBlock } from '../../lib/practiceLaunch';
 import { rnd } from '../../lib/random.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
@@ -135,11 +136,12 @@ interface WordSprintProps {
 }
 export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
   const { stats, setStats, writeDelta } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const V = useMemo(() => (content?.V ?? {}) as Record<string, string[][]>, [content]);
   const finishFired = useRef(false);
   const catList = Object.keys(V);
   const [phase, setPhase] = useState('menu');
+  const [launchBlock, setLaunchBlock] = useState<PoolLaunchBlock | null>(null);
   const [selectedCats, setSelectedCats] = useState(['greetings', 'food', 'animals']);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [qi, setQi] = useState(0);
@@ -160,7 +162,17 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
   const startGame = useCallback(() => {
     const cats = selectedCats.length > 0 ? selectedCats : catList.slice(0, 5);
     const pool = buildPool(V, cats, sh);
-    if (pool.length < 4) return;
+    // A TAP EITHER OPENS IT OR SAYS WHY. This was a bare `return`, so "Start
+    // Sprint ⚡" did nothing at all while the payload was in flight — and for ever
+    // after a failed fetch, since `V` comes from it. Sweep 97 fixed the surfaces
+    // that import a payload BUILDER and its own note named this shape as
+    // uncovered: a screen that builds its own list by hand.
+    const block = poolLaunchBlock(content, contentLoading, pool.length < 4 ? [] : pool);
+    if (block) {
+      setLaunchBlock(block);
+      return;
+    }
+    setLaunchBlock(null);
     const qs: Question[] = [];
     const shuffled: WordItem[] = sh(pool) as WordItem[];
     for (let i = 0; i < QUESTIONS_PER_ROUND && i < shuffled.length; i++) {
@@ -180,7 +192,7 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
     consecWrongRef.current = 0;
     worriedFiredRef.current = false;
     setPhase('playing');
-  }, [selectedCats, sh, catList, V]);
+  }, [selectedCats, sh, catList, V, content, contentLoading]);
 
   // Speak the Croatian word whenever a new question loads (Croatian prompt only)
   useEffect(() => {
@@ -356,6 +368,26 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
           </div>
         </div>
 
+        {launchBlock && (
+          <div
+            data-testid="word-sprint-block"
+            data-pool-block={launchBlock}
+            role="status"
+            style={{
+              marginBottom: 10,
+              padding: '10px 12px',
+              borderRadius: 10,
+              background: 'rgba(204,0,0,.08)',
+              border: '1px solid rgba(204,0,0,.35)',
+              color: 'var(--error, #c00)',
+              fontSize: 12.5,
+              fontWeight: 700,
+              lineHeight: 1.45,
+            }}
+          >
+            {POOL_LAUNCH_COPY[launchBlock]}
+          </div>
+        )}
         <button className="b bp" style={{ width: '100%' }} onClick={startGame}>
           Start Sprint ⚡
         </button>

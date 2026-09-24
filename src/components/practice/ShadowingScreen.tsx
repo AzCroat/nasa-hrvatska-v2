@@ -3,6 +3,7 @@ import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
 import { H, Bar, Spk, speakSlow } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 import PronunciationScorer from '../shared/PronunciationScorer';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
@@ -430,7 +431,7 @@ export default function ShadowingScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
   const { stats, setStats, writeDelta } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const SHADOWING = (content?.SHADOWING ?? []) as any[];
   const finishFired = useRef(false);
   const [idx, setIdx] = useState(0);
@@ -476,7 +477,11 @@ export default function ShadowingScreen({
       <div className="scr-wrap">
         {H('🗣️ Shadowing Practice', 'Listen and repeat', goBack)}
         <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
-          {content ? 'No shadowing lines available right now — please try again.' : 'Loading…'}
+          {poolLaunchBlock(content, contentLoading, SHADOWING ?? []) === 'loading'
+            ? 'Loading…'
+            : poolLaunchBlock(content, contentLoading, SHADOWING ?? []) === 'unavailable'
+              ? "That couldn't be loaded. Check your connection and try again."
+              : 'No shadowing lines available right now — please try again.'}
         </div>
       </div>
     );
