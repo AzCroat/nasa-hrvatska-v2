@@ -26,6 +26,8 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 // ── Firebase mocks ────────────────────────────────────────────────────────────
 vi.mock('firebase/app', () => ({ initializeApp: vi.fn(() => ({})), getApps: vi.fn(() => []) }));
@@ -256,5 +258,43 @@ describe('WritingScreen — word count display', () => {
     const thirtyOneWords = Array(31).fill('riječ').join(' ');
     fireEvent.change(textarea, { target: { value: thirtyOneWords } });
     expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 31 / 30');
+  });
+});
+
+// ── The badge must be able to name every level the bank holds ─────────────────
+//
+// The colour is an inline ternary whose FINAL arm is C1's violet, so a level
+// with no arm of its own does not render colourless — it renders as C1. That is
+// worse than the `levelColor[q.level] === undefined` shape `dictationLevel`
+// pins, because nothing looks wrong: an A1 prompt simply wears the advanced
+// badge. It went live for exactly as long as it took to author the A1 tier and
+// read the ternary (2026-09-23), and it is derived from the DATA rather than
+// listed, so the next tier cannot reintroduce it.
+describe('the level badge has an arm for every level in PROMPTS', () => {
+  it('every authored level is matched explicitly, not caught by the final arm', () => {
+    // Two files on purpose: the bank moved to src/data on the 800-line split
+    // and the ternary did not, which is exactly the shape that lets the two
+    // drift. Reading both is what keeps the guard about the pair.
+    const src = readFileSync(
+      join(__dirname, '..', 'components', 'practice', 'WritingScreen.tsx'),
+      'utf8',
+    );
+    const bank = readFileSync(join(__dirname, '..', 'data', 'writingPrompts.ts'), 'utf8');
+    const authored = [...new Set([...bank.matchAll(/level:\s*'([^']+)'/g)].map((m) => m[1]))];
+    expect(authored.length, 'PROMPTS parsed as unlevelled — the extractor broke').toBeGreaterThan(
+      3,
+    );
+
+    // The last arm is a fall-through, so the level it happens to render is the
+    // one level that legitimately needs no explicit test of its own.
+    const fallThrough = /:\s*'#5b21b6',/.test(src) ? 'C1' : '';
+    const armed = new Set([...src.matchAll(/prompt\.level === '([^']+)'/g)].map((m) => m[1]));
+
+    const unarmed = authored.filter((lv) => lv !== fallThrough && !armed.has(lv));
+    expect(
+      unarmed,
+      `PROMPTS carries ${unarmed.join('/')} but the badge ternary has no arm for it, so it falls ` +
+        `through to ${fallThrough || 'the final arm'} and a learner reads the wrong level's colour.`,
+    ).toEqual([]);
   });
 });

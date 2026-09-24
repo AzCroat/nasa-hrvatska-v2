@@ -47,6 +47,16 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.resolve(HERE, '..');
 const ROUTER = path.join(SRC, 'components/AppRouter.tsx');
 const EXTS = ['.tsx', '.ts', '.jsx', '.js'];
+
+/** Every source file under a directory, tests included — callers filter. */
+function walkSource(dir: string, out: string[] = []): string[] {
+  for (const e of fs.readdirSync(dir)) {
+    const p = path.join(dir, e);
+    if (fs.statSync(p).isDirectory()) walkSource(p, out);
+    else if (EXTS.some((x) => p.endsWith(x))) out.push(p);
+  }
+  return out;
+}
 const routerSrc = fs.readFileSync(ROUTER, 'utf8');
 
 function resolveModule(fromDir: string, spec: string): string | null {
@@ -60,12 +70,54 @@ function resolveModule(fromDir: string, spec: string): string | null {
 }
 
 /**
- * The entry-point writers. Every one of them bottoms out in
- * `recordMasteryEvent`, so matching a CALL to any of these names is matching
- * "this code puts evidence in the ledger".
+ * The entry-point writers. Every one bottoms out in `recordMasteryEvent`, so
+ * matching a use of any of these names is matching "this code puts evidence in
+ * the ledger".
+ *
+ * THEY ARE SPLIT BY HOW THEY ARE USED, AND THE FIRST VERSION OF THIS FILE GOT
+ * ONE WRONG (2026-09-23, the day after it shipped). It required call syntax for
+ * all six — but `whisperClaudeScorer` is an OBJECT (`export const
+ * whisperClaudeScorer: SpeakingScorer = { … }`), handed to an exam runner as
+ * `scorer: whisperClaudeScorer`, and never called by that name anywhere. So
+ * `whisperClaudeScorer\s*\(` matched **nothing in the entire corpus** while
+ * reading as coverage of the exam speaking path. CLAUDE.md already carries a
+ * NEVER rule for this exact shape one step removed — "never name a transport
+ * helper in a guard's URL-matching alternation without checking it passes a
+ * URL" — and it recurred here in a fresh file. `WRITER_USES_MATCH` below fails
+ * on any entry with no use in the corpus, so a decorative name cannot sit here
+ * again.
+ *
+ * FUNCTION writers are matched as calls. VALUE writers are matched as bare
+ * references, because handing a scorer to a runner IS the wiring — the runner
+ * is what calls `.score()`.
+ *
+ * `srMark` / `getSRScore` are the SRS-answer path and were MISSING from the
+ * first version. `getSRScore` calls `recordSrsOutcome` on every graded review,
+ * which is the app's highest-volume `vocab` evidence; `srMark` is the `data`
+ * barrel's one-line delegate to it, and is what Flashcards, McGame, MatchGame,
+ * ZnamGame, ReviewScreen and six more actually call. Including them is NARROW
+ * rather than a re-opening of the lib/ hole: `mayDescend` still refuses to
+ * enter `src/lib` and `src/data`, so only a DIRECT call in a screen or a
+ * component it composes counts — which is precisely the act of grading an
+ * answer. Verified not to weaken anything: none of the five screens wired in
+ * #720 calls either name, so each of that PR's mutations still fails.
  */
-const WRITER_CALL =
-  /\b(recordMasteryEvent|recordExerciseOutcome|recordSrsOutcome|completeExercise|requestSpeakingCoach|whisperClaudeScorer)\s*\(/;
+const FUNCTION_WRITERS = [
+  'recordMasteryEvent',
+  'recordExerciseOutcome',
+  'recordSrsOutcome',
+  'completeExercise',
+  'requestSpeakingCoach',
+  'srMark',
+  'getSRScore',
+];
+/** Writers used by REFERENCE, not called by name — see the note above. */
+const VALUE_WRITERS = ['whisperClaudeScorer'];
+const ALL_WRITERS = [...FUNCTION_WRITERS, ...VALUE_WRITERS];
+
+const WRITER_CALL = new RegExp(
+  `\\b(?:(?:${FUNCTION_WRITERS.join('|')})\\s*\\(|(?:${VALUE_WRITERS.join('|')})\\b)`,
+);
 
 /**
  * WHERE THE WALK MAY GO, and this is the load-bearing part.
@@ -103,10 +155,20 @@ function mayDescend(file: string): boolean {
 
 /** Declarations stripped first, for the same reason. */
 function stripDeclarations(src: string): string {
-  return src.replace(
-    /\b(?:export\s+)?(?:async\s+)?function\s+(?:recordMasteryEvent|recordExerciseOutcome|recordSrsOutcome|completeExercise|requestSpeakingCoach|whisperClaudeScorer)\s*\(/g,
-    'function __decl__(',
-  );
+  return src
+    .replace(
+      new RegExp(
+        `\\b(?:export\\s+)?(?:async\\s+)?function\\s+(?:${ALL_WRITERS.join('|')})\\s*\\(`,
+        'g',
+      ),
+      'function __decl__(',
+    )
+    .replace(
+      // A VALUE writer is matched bare, so its own `export const <name> =`
+      // declaration would otherwise make its defining module self-satisfying.
+      new RegExp(`\\b(?:export\\s+)?const\\s+(?:${VALUE_WRITERS.join('|')})\\b`, 'g'),
+      'const __decl__',
+    );
 }
 
 function reachesLedger(file: string, seen = new Set<string>(), isRoot = true): boolean {
@@ -290,5 +352,108 @@ describe('the walk itself is not decorative', () => {
     } finally {
       fs.unlinkSync(tmp);
     }
+  });
+});
+
+// ── The writer set has to earn its own entries ───────────────────────────────
+//
+// TWO WAYS A NAME IN `ALL_WRITERS` CAN BE A LIE, and the first version of this
+// file shipped with one of each:
+//
+//   1. It does not actually write. Nothing checked that `requestSpeakingCoach`
+//      still calls `recordMasteryEvent`; if it stopped, every screen delegating
+//      to it would keep passing this suite while recording nothing. That is the
+//      decorative-guard failure CLAUDE.md keeps rediscovering, aimed at the
+//      guard's own vocabulary instead of at a screen.
+//   2. It never matches. `whisperClaudeScorer` is an object passed as a value,
+//      so the call-shaped pattern matched it NOWHERE in the corpus — a name
+//      that reads as coverage of the exam speaking path and supplies none.
+//
+// Both are checked here, over the real source, so an entry that stops writing
+// or stops matching fails rather than quietly widening nothing.
+describe('every name in the writer set is a real ledger writer', () => {
+  /**
+   * Follow a writer to `recordMasteryEvent`, through lib this time — the
+   * question here is about the LIBRARY's plumbing, not a screen's wiring, so
+   * the `mayDescend` restriction that governs screen walks does not apply.
+   *
+   * A writer qualifies when its declaring module calls `recordMasteryEvent`, or
+   * calls ANOTHER writer that qualifies. The second clause is not a convenience:
+   * `srMark` is the data barrel's one-line delegate to `getSRScore`, which is
+   * where the `recordSrsOutcome` call lives, so a single-hop rule would reject a
+   * writer that genuinely writes.
+   */
+  const HOMES = [
+    path.join(SRC, 'lib/masteryLedger.ts'),
+    path.join(SRC, 'lib/srs.ts'),
+    path.join(SRC, 'lib/speakingCoach.ts'),
+    path.join(SRC, 'lib/speaking/whisperClaudeScorer.ts'),
+    path.join(SRC, 'hooks/useExerciseCompletion.ts'),
+    path.join(SRC, 'data/content.tsx'),
+  ];
+
+  /**
+   * COMMENTS ARE STRIPPED, AND MUTATION IS WHY. `speakingCoach.ts` opens with a
+   * header comment reading "mastery ledger: recordMasteryEvent(skill 'speaking',
+   * weight 2)". Unstripped, that sentence satisfied the check on its own: gutting
+   * the REAL call left this suite fully green. A guard that a module's prose about
+   * itself can satisfy is measuring documentation.
+   */
+  const stripComments = (src: string): string =>
+    src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+
+  function declaringModules(name: string): string[] {
+    const decl = new RegExp(
+      `(?:function|const|let)\\s+${name}\\b|\\b${name}\\s*[:=]\\s*(?:async\\s*)?(?:function|\\(|\\{)`,
+    );
+    return HOMES.filter(
+      (h) => fs.existsSync(h) && decl.test(stripComments(fs.readFileSync(h, 'utf8'))),
+    );
+  }
+
+  function writesToLedger(name: string, seen = new Set<string>()): boolean {
+    if (name === 'recordMasteryEvent') return true;
+    if (seen.has(name)) return false;
+    seen.add(name);
+    for (const home of declaringModules(name)) {
+      const src = stripComments(fs.readFileSync(home, 'utf8'));
+      if (/\brecordMasteryEvent\s*\(/.test(src)) return true;
+      for (const other of ALL_WRITERS) {
+        if (other === name) continue;
+        if (new RegExp(`\\b${other}\\s*\\(`).test(src) && writesToLedger(other, seen)) return true;
+      }
+    }
+    return false;
+  }
+
+  it.each(ALL_WRITERS)('%s bottoms out in recordMasteryEvent', (name) => {
+    expect(
+      writesToLedger(name),
+      `${name} is named as a ledger writer but no module declaring it reaches ` +
+        `recordMasteryEvent. Either it stopped writing — in which case every screen ` +
+        `delegating to it is now passing this suite while recording nothing — or it ` +
+        `never wrote and should not be in the set.`,
+    ).toBe(true);
+  });
+
+  it('every writer matches at least one real use — a name that matches nothing guards nothing', () => {
+    const corpus = walkSource(SRC)
+      .filter((f) => !f.includes('/tests/'))
+      .map((f) => stripDeclarations(fs.readFileSync(f, 'utf8')))
+      .join('\n');
+    const unused = ALL_WRITERS.filter((name) => {
+      const pat = FUNCTION_WRITERS.includes(name)
+        ? new RegExp(`\\b${name}\\s*\\(`)
+        : new RegExp(`\\b${name}\\b`);
+      return !pat.test(corpus);
+    });
+    expect(
+      unused,
+      `${unused.join(', ')} appear in the writer set but match nothing in src/. ` +
+        `That is what shipped for whisperClaudeScorer on 2026-09-22: an object ` +
+        `matched with call syntax, reading as coverage and supplying none. Either ` +
+        `the name is wrong, the shape is wrong (FUNCTION_WRITERS vs VALUE_WRITERS), ` +
+        `or the writer is gone and the entry should be removed.`,
+    ).toEqual([]);
   });
 });

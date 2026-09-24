@@ -165,7 +165,10 @@ describe('the levelled banks are derived, not listed', () => {
       'TRANSFORMS@src/components/practice/ProductionDrillScreen.tsx',
       'TRANSLATE_PROD@src/components/practice/ProductionDrillScreen.tsx',
       'TRANSLATE_DRILLS@src/data/exercises.js',
-      'PROMPTS@src/components/practice/WritingScreen.tsx',
+      // Moved out of WritingScreen.tsx on 2026-09-23: authoring its A1 tier took
+      // that file past the 800-line cap, so the bank went to src/data beside
+      // writingCurriculum.ts rather than the cap being raised.
+      'PROMPTS@src/data/writingPrompts.ts',
     ])
       expect(names).toContain(n);
   });
@@ -230,6 +233,9 @@ describe('every selecting use of a levelled bank serves it at level', () => {
       'TRANSFORMS@src/components/practice/ProductionDrillScreen.tsx',
       'TRANSLATE_PROD@src/components/practice/ProductionDrillScreen.tsx',
       'TRANSLATE_DRILLS@src/components/practice/TranslateDrillsScreen.tsx',
+      // The bank moved to src/data/writingPrompts.ts on 2026-09-23 (the
+      // 800-line split); the USE stayed in the screen, which is the whole point
+      // of this list — it names consumers, not declarations.
       'PROMPTS@src/components/practice/WritingScreen.tsx',
     ])
       expect(levelled).toContain(n);
