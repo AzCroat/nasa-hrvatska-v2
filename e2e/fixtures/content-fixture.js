@@ -53,6 +53,7 @@ import {
   V_C2,
   V_LEVELS,
   LEVEL_NARRATIVE,
+  CULTURE_DEEP_DIVES,
 } from '../../functions/api/content/_data/core.js';
 import * as GRAMMAR from '../../functions/api/content/_data/grammar.js';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
@@ -95,6 +96,11 @@ export const CONTENT_FIXTURE = {
   // fixture would exercise only the no-levels degrade path.
   V_LEVELS,
   LEVEL_NARRATIVE,
+  // Without this every CultureDeepDiveScreen route renders its stale-payload
+  // hint under E2E instead of the essays — 24 pool entries covered only in
+  // their degrade state. `coreFixtureCoversPayload.test.ts` derives this list
+  // from CORE_PAYLOAD_KEYS so a new key cannot be omitted here again.
+  CULTURE_DEEP_DIVES,
 };
 
 // /api/content/grammar — mirrors functions/api/content/grammar.js buildBody
