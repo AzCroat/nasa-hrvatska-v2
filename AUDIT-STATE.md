@@ -6130,6 +6130,276 @@ not flag readers that merely set state.
 
 ---
 
+### Sweep 96 — the tests that assert nothing (2026-09-24, 22 REAL DEFECTS + 1 PRODUCT DEAD END, FIXED)
+
+**The question**, in the form this file says has paid every time: *name two
+things that must agree, and ask what happens when they stop.* Here: a test's
+TITLE (what it claims to check) against what it actually executes.
+
+**THE SHAPE.** A test whose every `expect(...)` sits inside an `if` with no
+assertion-bearing `else`. When the condition is false the body runs zero
+assertions and the test passes — indistinguishable, from a green run, from a
+test that checked the thing.
+
+**THE CENSUS.** A TypeScript-AST pass over all 590 committed test files
+(6,119 tests). A general "assertion-free path" definition reports **410**,
+almost all `for (const x of SOME_STATIC_DATASET)` — a real but far weaker
+concern that would drown the signal. Narrowed to the `if`-with-no-else shape:
+**25**. Every one was then MEASURED by instrumenting its condition and running
+its file, because no static rule can tell a guard that fires from one that
+cannot.
+
+| where | measured | verdict |
+| --- | --- | --- |
+| `gradedInputScreen.transport.test.tsx` ×2 | **0 firings** | LIVE VACUOUS |
+| `e2e/pronunciation.spec.js` | **21 guards, 19 never fired** | LIVE VACUOUS |
+| `word-sprint.test.tsx` ×3 | 1 firing each | latent |
+| `profile-persist.spec.js` ×2 | fires | latent |
+| the other 9 | 4–212 firings | legitimate, exempted with the count |
+
+**A. THE TRANSPORT CONTRACT NOBODY WAS CHECKING.**
+`gradedInputScreen.transport.test.tsx` exists to verify that pronunciation
+assessment posts `{ audioBase64, referenceText, locale, audioMimeType }` and
+*not* the old `{ audio, text }`. `assessPronunciation` runs from an effect
+that returns early unless `recordingIdx !== null`, which **only a click on the
+record button sets** — and no test clicked it. So `_nativePost` was never
+called, and all three assertions (two behind `if (calls.length > 0)`, one
+looping over the same empty array) ran zero times. THREE green tests, the
+file's entire stated subject unverified, for as long as it existed. Fixed with
+a `recordParagraph()` helper that performs the click, and unconditional
+assertions.
+
+**B. A WHOLE SPEC POINTED AT A UI THAT NO LONGER EXISTS.**
+`e2e/pronunciation.spec.js` — 40 tests, header "the features most at risk
+before Google Play launch" — navigated through `button.cat-tile` inside "Drill"
+and "Challenge" panels. **`cat-tile` exists only in `index.css`: no component
+in `src/` has rendered it since the Practice tab became the Grad surface.**
+Same for `.path-item` / `.lp-item` / `[data-path-item]`. Because every locator
+was consulted inside `if (await X.isVisible().catch(() => false))`, the tests
+did not FAIL when the screen was unreachable — they skipped their own bodies.
+Instrumented and run: **19 of 21 guards never fired.** The spec's second
+navigation strategy (seeding `nh_scr`) was dead too — that key is never
+written, so the restore could not have worked either.
+Rewritten against the real path (Grad → Anina kavana → Govori), with an
+assertion after it so a future move of that entry point fails loudly. **33
+tests, all genuinely driving the screen.** Six tests were REMOVED rather than
+re-pointed (AI Listening, Dictation, Flashcards ×2, MC quiz ×2, settings, path
+item): each navigates to another spec's subject, each is covered there by name,
+and each asserted nothing here — so nothing is lost, and the coverage the file
+claims now matches the coverage it has.
+
+**C. AND THE DEAD SPEC WAS HIDING A REAL PRODUCT DEAD END.**
+Once the tests reached the screen, the very first scoring run showed
+**"⚠️ Audio recording not supported in this browser." and nothing else** —
+pressing "Test My Pronunciation" did nothing, repeatedly.
+`PronunciationScorer.mediaRecorderSupported` only asks whether `MediaRecorder`
+EXISTS, so the Azure path is taken on any browser that has the constructor;
+`useRecorder` then reports `'unsupported'` when none of `MIME_PRIORITY` is
+actually recordable — **a check that runs AFTER `getUserMedia` has already
+succeeded**. So the learner grants the microphone, presses the button, and
+meets a dead end, while Web Speech sits available and unused in a component
+whose own comment says `'auto'` falls back to it. Fixed the way the sibling
+Azure-failure path already does it: name the cause (`serviceNotice`), switch
+mode, run Web Speech. Verified end to end in a browser — the same press now
+scores and offers Try Again / Next.
+**This is the argument for the whole sweep in one line: the test written to
+catch exactly this was green, and had been for as long as the defect existed.**
+
+**THE RATCHET.** `src/tests/guardedAssertions.test.ts` +
+`helpers/guardedAssertions.ts` derive the shape from every committed test file
+and fail on any instance not in `EXEMPT`. Exemptions are keyed on
+**(file, test name)** — line numbers move on every edit above them — and each
+carries its MEASURED firing count, because "I read it and it looks fine" is the
+evidence that produced the `idioms` exemption. Staleness is checked in BOTH
+directions, and there is a positive control: a synthetic guarded test must be
+flagged, an unguarded one must not, and an if/else asserting on both branches
+must not.
+
+**Mutation-verified, six, each confirmed landed:**
+
+| mutation | fails |
+| --- | --- |
+| the transport test's original `if (calls.length > 0)` shape restored | 1 |
+| an exemption for a test that no longer has the shape | 1 |
+| the analyser returns `[]` (a decorative detector) | 3 |
+| word-sprint's guard restored | 1 |
+| the else-branch exclusion removed (if/else both-assert over-reported) | 2 |
+| pronunciation.spec.js's `cat-tile` guard restored on one test | 1 |
+
+**ONE MUTATION EXPOSED A DECORATIVE LINE OF MY OWN.** The analyser originally
+excluded the THEN branch when the ELSE also asserts. Removing that clause
+changed nothing — the else-branch rule already covers if/else — so by this
+file's own standard it was decoration, and it is gone. A mutation that SURVIVES
+is a result too: it says the line it removed was not load-bearing.
+
+**AND IT CORRECTS SWEEP 55.** That sweep closed with "the 24 honest skips are
+still 24 drills whose completion contract this suite does not exercise", and
+recommended building a harness that can drive text-input, tile-ordering, timer
+and multi-phase drills — "a real piece of work". Measured: **23 of the 25
+skipped entries have their own `*.contract.test.tsx`**, driving the real screen
+with a real answer key, and the `exerciseContract` file says so in a comment
+above its Tier 3 block. The number is not 24; it is **one**. `WordSprint` had
+completion coverage in `word-sprint.test.tsx` — behind the guards this sweep
+removed — and only `BojeGame` is genuinely unexercised: `boje-game.test.tsx`
+asserts its per-answer and completion AWARDS, but mocks `setStats`,
+`writeDelta` and `markQuest` as bare inline `vi.fn()`s it never captures, so
+`gc`, the `boje` `vs` tag and the quest are checked nowhere. Left open and named
+rather than folded into this PR. **Sweep 55's figure came from counting the
+skips instead of looking for the coverage elsewhere** — the same shape as the A2
+tranche that claimed 26 of 30 by subtracting a list of judgement calls from
+thirty.
+
+**WHAT THIS SWEEP CANNOT SEE**, stated rather than implied: the 410 loop-shaped
+tests (vacuous only if their dataset is empty — most are large and static);
+assertions reached through a helper whose own body is guarded; and, the one
+that matters most, **a guard that fires today and stops firing tomorrow.** That
+is precisely what happened to `pronunciation.spec.js`, and no static rule can
+catch it — which is why the exemptions carry measurements rather than opinions,
+and why the next person should re-measure rather than re-read them.
+
+---
+
+### Sweep 97 — the tap that does nothing while the words are in the post (2026-09-24, 5 REAL DEFECTS, FIXED)
+
+**Found by CI on sweep 96's own PR, and the discrepancy IS the finding.** The
+rewritten `e2e/pronunciation.spec.js` passed 33/33 locally and failed 12 of 12
+on the runner, every attempt, every retry. The 12 were exactly the tests that
+go through the new `openSpeaking` helper — Grad → Anina kavana → Govori.
+
+**The difference was the BUILD, not the runner.** `ci.yml`'s E2E step builds
+with placeholder Firebase config; this sandbox has no `.env`, so my local build
+had none and never initialised Firebase at all. Rebuilding locally with the
+same six `VITE_FIREBASE_*` placeholders reproduced it on the first run. **A
+green local E2E against a build the app never ships is not evidence** — this is
+the "establish WHICH ARTIFACT is running" rule, met from the other side.
+
+**What the reproduction then showed is a product defect, not a test artifact.**
+`fetchAuthed` awaits `getFirebaseBearer()` before it will even request
+`/api/content/core`, and with a Firebase config present but no user ever
+arriving that is its 6 s failsafe. Instrumented in a real browser:
+
+```
+GRAD VISIBLE at 3285 ms
+CLICKED    at 4985 ms   scr = null          <- nothing happened
+REQS: [[9253, "/content/core"], [9285, "/content/curriculum"]]
+second click after the wait -> the screen opens
+```
+
+**Measured, all five pooled exercises in Grad, during that window:**
+
+| tap | what the learner gets |
+| --- | --- |
+| Govori (speaking) | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;` |
+| Kviz (mcgame) | **nothing at all** — `launchMcGame` does the same |
+| Kartice (flashcards) | the ScreenGuard: *"This flashcard session needs to be started from the Practice tab — your previous session data couldn't be restored"* |
+| Spoji parove (match) | the same false message |
+| Slušanje (listening) | **works** — its bank is a static import, not content |
+
+The two ScreenGuard messages are false in both halves: the learner **is** on the
+Practice tab, and there was no previous session to restore. That is the "start
+this properly" dead end, said to someone who did start it properly.
+
+**THE SAME DEFECT HAD ALREADY BEEN FOUND AND FIXED — AT ONE OF THE TWO
+CALLERS.** `LearningCenter.openScreen` carries a comment that states the rule
+better than I could: *"NOT LOADED YET" and "EMPTY" are different facts, and
+saying the wrong one is NEVER-DO 13 … CI caught this: the same tap passed
+locally on a warm machine and failed on a loaded runner, which is the race a
+real learner meets on a slow connection.* Same five screens, same payload
+builders in `lib/practiceLaunch`, same race — and the **Grad tab, which is the
+app's primary route to all five**, was never touched. The Center is reached
+through Learn; Grad is the Practice tab itself.
+
+**A third surface had it too**, found by walking the callers rather than
+stopping at the two: `GoalFocusSection`'s Me-tab speaking shortcut reads the
+same `content?.V` and its line is `if (pool.length > 0 && launchSpeaking)
+launchSpeaking(pool);` with **nothing on the else** — a comment above it records
+that the speaking_sprint fallback was removed, which is what left it silent.
+
+**The fix is one decision, three callers.** `poolLaunchBlock()` +
+`POOL_LAUNCH_COPY` in `lib/practiceLaunch.ts`, beside the payload builders the
+callers already share, holding the Center's own three sentences and its own
+ordering — **content is decided before emptiness**, because "try a lesson first"
+is false advice about a deck the app has not yet seen. GradTab routes its four
+pooled starts through `launchPooled` and renders the reason where the tap
+happened (`grad-launch-error`, in `PlaceScreen` at the exercise list, and on the
+list view for the Today card, which launches through the same functions).
+
+**Deliberately NOT changed, and stated rather than quietly left:**
+
+- `launchSpeaking` / `launchMcGame` keep their `return` on an empty list. No
+  caller can now reach them empty, and adding a notify there would double the
+  message on the surfaces that already show one. The source pin is what stops a
+  fourth caller arriving bare.
+- `GoalFocusSection` takes `contentLoading` as a PROP. Inferring it from an
+  empty `V` was my first version and it was wrong in exactly the way this sweep
+  is about: an empty `V` is both "not here yet" and "the fetch failed", so
+  guessing between them re-creates the lie one layer down. `SettingsTab` holds
+  `useContent()` and knows.
+- `GoalFocusSection`'s FLASHCARDS shortcut still falls back to `setScr('review')`
+  on an empty pool. That substitutes a different exercise for the one tapped,
+  which is its own small dishonesty — but it NAVIGATES, so it is not this
+  sweep's subject, and changing it changes a live behaviour with its own tests.
+- The 6 s bearer failsafe itself. On a real device auth restores from IndexedDB
+  in well under a second, so the window is short; it is only unbounded when the
+  content fetch genuinely fails, and that case now says so.
+
+**Pinned by `src/tests/pooledLaunchNeverSilent.test.tsx` (8)**, which drives the
+REAL `GradTab` through the taps a learner performs (open the place, tap the row)
+at all three content states, plus a source pin requiring every file that builds
+a pooled payload to also ask `poolLaunchBlock` — comments stripped, because a
+file naming the helper in prose is the `couplingClearingPath` hole.
+Mutation-verified, six, each confirmed landed: the speaking fix reverted fails
+3; the decision order inverted fails 3; `PlaceScreen` no longer rendering the
+message fails 4; the Center re-deriving its own copy fails 1; **the helper named
+only in a comment fails 5** (the dangerous direction — it proves the strip); the
+Me-tab shortcut restored to silence fails 1. **A seventh, at the E2E level:**
+with GradTab's speaking fix reverted and the CI-equivalent build rebuilt, the
+new early-tap spec fails — it reproduces the owner-visible symptom, not only the
+unit-level wiring.
+
+**AND MY OWN GUARD BROKE THE RULE SWEEP 71 WROTE DOWN.** The source pin
+stripped BLOCK comments before LINE comments, which `commentStripOrder.test.ts`
+forbids and caught on the full run — a `//` mentioning a path like `src/data/*`
+carries the two characters that open a block comment, so a block-first strip
+runs from there to the next `*/` anywhere later and silently deletes the code
+the pin is about (in `src/sw.js` that swallowed 15,102 of 21,532 characters,
+green throughout). Order swapped, and **the comment-only mutation was re-run
+rather than assumed** — it still fails 5, so the strip still does its job.
+Worth stating plainly: the targeted suites I ran while building this were all
+green, and only the FULL suite had the guard that knew. Two of my own claims
+needed correcting on the way — this one, and my first reading of the earlier
+full run, which I attributed to a mid-run edit race when it was this same real
+failure both times.
+
+**The E2E half.** `openSpeaking` now registers `waitForResponse` for
+`/api/content/core` BEFORE navigating and awaits it — the wait is not a
+convenience, it is the dependency the screen has. A new test taps Govori
+immediately and asserts the screen opened **or** the reason is on screen, never
+neither, which is the contract as one assertion rather than two.
+
+**CHECKED AND NOT A DEFECT — recorded so it is not re-chased.**
+`useScreenLauncher.resumeLesson` has the same shape (`if (Object.keys(V).length
+=== 0) return;`, deliberately, so an unverifiable topic is not deleted), but it
+has **no live tap**: `AppRouter` passes it to `HomeTab`, and HomeTab's body is
+`void resumeLesson;`. Nothing else calls it. A silent bail behind a prop nobody
+invokes is dead code, not a learner-facing silence — a separate (minor) finding
+about an unused launcher, not this one.
+
+`McResult.playAgain` is the second: it rebuilds from `V` and hands the result to
+`launchMcGame`, so an empty `V` would be the same silence. It cannot be reached
+with one — the learner is on that screen only because they just finished a quiz
+whose questions were built from the same `V`, and content does not unload. Safe
+by construction rather than by a guard, which is why it is written down here
+rather than left to be re-derived.
+
+**WHAT THIS SWEEP CANNOT SEE.** It asks the question of surfaces that import a
+payload builder from `lib/practiceLaunch`. A surface that builds its own list
+from `content` by hand — as `GoalFocusSection` does — is invisible to the source
+pin and was found by reading the callers of the four launchers. There is no
+mechanism covering that shape; the next one will be found the same way.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —

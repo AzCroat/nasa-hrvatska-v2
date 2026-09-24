@@ -230,10 +230,14 @@ describe('WordSprint — completion contract (timer expires with score > 0)', ()
       .find((b) => b.textContent?.includes('Start Sprint'));
     fireEvent.click(startBtn!);
 
-    // Answer at least one question correctly before timer expires
+    // Answer at least one question correctly before the timer expires.
+    // The floor matters: with no option buttons the round scores 0, WordSprint
+    // deliberately awards nothing, and every assertion below would have been
+    // skipped rather than failed (see the header note on the guards).
     act(() => {
       const optBtns = screen.getAllByRole('button').filter((b) => b.className.includes('ob'));
-      if (optBtns.length > 0) fireEvent.click(optBtns[0]!);
+      expect(optBtns.length, 'the sprint renders answer options').toBeGreaterThan(0);
+      fireEvent.click(optBtns[0]!);
     });
 
     // Advance timer by 600ms (feedback delay) then 31s (timer expiry)
@@ -245,31 +249,43 @@ describe('WordSprint — completion contract (timer expires with score > 0)', ()
     });
   }
 
+  /**
+   * THESE THREE ASSERTED NOTHING UNLESS THE CONTRACT ALREADY HELD (2026-09-24).
+   *
+   * Each body sat inside `if (award.mock.calls.length > 0)`, with a comment
+   * saying a zero score is "also valid contract behavior". That is true of the
+   * COMPONENT and false of the TEST: the helper above answers a question before
+   * the timer runs out, so a score of 0 means the harness failed to drive the
+   * drill — and the guard turned that failure into a pass. Break WordSprint's
+   * completion path entirely and all three stayed green.
+   *
+   * WordSprint is `skip: true` in `exerciseContract.test.tsx` (timer-based, no
+   * `.ob` MC loop the shared helper can drive), so these three were its only
+   * completion coverage anywhere. Measured before removing the guard: the award
+   * fires exactly once per run.
+   */
   it('award() called with activityType "grammar" when timer expires with score > 0', () => {
     const award = vi.fn();
     playAndExpireTimer(award);
-    if (award.mock.calls.length > 0) {
-      expect(award.mock.calls[0]![2]).toBe('grammar');
-    }
-    // If score was 0, award is not called — that's also valid contract behavior
+    expect(award).toHaveBeenCalledTimes(1);
+    expect(award.mock.calls[0]![0]).toBeGreaterThan(0);
+    expect(award.mock.calls[0]![2]).toBe('grammar');
   });
 
   it('markQuest("grammar") called after completing a round with score > 0', () => {
     const award = vi.fn();
     playAndExpireTimer(award);
-    if (award.mock.calls.length > 0) {
-      expect(mockMarkQuest).toHaveBeenCalledWith('grammar');
-    }
+    expect(award).toHaveBeenCalledTimes(1);
+    expect(mockMarkQuest).toHaveBeenCalledWith('grammar');
   });
 
   it('writeDelta called with { gc: 1, vs: ["wordsprint"] } on first completion with score', () => {
     const award = vi.fn();
     playAndExpireTimer(award);
-    if (award.mock.calls.length > 0) {
-      expect(mockWriteDelta).toHaveBeenCalledWith(
-        expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['wordsprint']) }),
-      );
-    }
+    expect(award).toHaveBeenCalledTimes(1);
+    expect(mockWriteDelta).toHaveBeenCalledWith(
+      expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['wordsprint']) }),
+    );
   });
 });
 

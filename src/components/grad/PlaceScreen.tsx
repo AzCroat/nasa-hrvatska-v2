@@ -109,10 +109,18 @@ export default function PlaceScreen({
   placeId,
   ctx,
   onBack,
+  launchError,
 }: {
   placeId: PlaceId;
   ctx: ModelCtx;
   onBack: () => void;
+  /**
+   * Why the last pooled tap could not open, in the learner's words. It is
+   * rendered at the exercise list, which is where the tap happened — a message
+   * about a row, shown anywhere but beside that row, is one the learner has to
+   * go looking for.
+   */
+  launchError?: string | null;
 }) {
   const place = PLACES.find((p) => p.id === placeId)!;
   const items = itemsForPlace(placeId, ctx);
@@ -371,6 +379,15 @@ export default function PlaceScreen({
       >
         Vježbe ovdje
       </div>
+
+      {launchError && (
+        <p
+          data-testid="grad-launch-error"
+          style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '0 2px 10px' }}
+        >
+          {launchError}
+        </p>
+      )}
 
       {place.subgroups ? (
         place.subgroups.map((sg, idx) => {

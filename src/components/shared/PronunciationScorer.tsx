@@ -341,8 +341,25 @@ export default function PronunciationScorer({
       );
       setState('idle');
     } else if (rec.state === 'unsupported') {
-      setSrErrorMsg('Audio recording not supported in this browser.');
-      setState('idle');
+      // THE FALLBACK THIS BRANCH USED TO SKIP (2026-09-24).
+      // `mediaRecorderSupported` only asks whether MediaRecorder EXISTS, so the
+      // Azure path is taken on any browser that has the constructor — but
+      // `useRecorder` reports 'unsupported' when none of MIME_PRIORITY is
+      // actually recordable, and that check runs AFTER getUserMedia has already
+      // succeeded. So the learner granted the microphone, pressed the button,
+      // and met a dead end reading "Audio recording not supported in this
+      // browser." — while Web Speech sat available and unused, in a component
+      // whose own comment says 'auto' falls back to it. Every subsequent press
+      // repeated the dead end. Same shape, and the same remedy, as the Azure
+      // failure path below: switch, and SAY SO (owner directive, 2026-09-07).
+      if (mode === 'auto' && webSpeechSupported) {
+        setServiceNotice('This browser cannot record audio for detailed scoring.');
+        setMode('webspeech');
+        startWebSpeech();
+      } else {
+        setSrErrorMsg('Audio recording not supported in this browser.');
+        setState('idle');
+      }
     } else if (rec.state === 'error') {
       setSrErrorMsg('Recording error — please try again.');
       setState('idle');

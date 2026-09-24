@@ -301,4 +301,54 @@ describe('PronunciationScorer — useRecorder integration (Task 7)', () => {
     const btn = screen.queryByText(/Test My Pronunciation/i);
     expect(btn !== null || errMsg !== null).toBe(true);
   });
+
+  /**
+   * THE 'unsupported' BRANCH HAD NO TEST AT ALL (2026-09-24), which is how a
+   * dead end reached learners. This file's header has listed
+   * "rec.state 'error'/'unsupported' → error message shown" since it was
+   * written; only 'error' and 'denied' were ever driven.
+   *
+   * `mediaRecorderSupported` asks only whether MediaRecorder EXISTS, so the
+   * Azure path is taken on any browser with the constructor — but useRecorder
+   * reports 'unsupported' when none of MIME_PRIORITY is actually recordable,
+   * and that check runs AFTER getUserMedia has already succeeded. So the
+   * learner granted the microphone, pressed the button, and met
+   * "Audio recording not supported in this browser." with no way forward,
+   * while Web Speech sat available and unused.
+   *
+   * Both directions are pinned, because the fix must not take the fallback on
+   * a browser that genuinely has neither path.
+   */
+  it('rec.state unsupported → falls back to Web Speech and says why', async () => {
+    const FakeSR = class {
+      lang = '';
+      continuous = false;
+      interimResults = false;
+      maxAlternatives = 0;
+      start() {}
+      stop() {}
+      abort() {}
+    };
+    Object.defineProperty(window, 'SpeechRecognition', { value: FakeSR, configurable: true });
+    recorderMock.mockReturnValue(recorderState({ state: 'unsupported' }));
+
+    render(<PronunciationScorer targetText="hvala" level="A1" onScore={vi.fn()} />);
+    await act(async () => {});
+
+    // It SAYS SO (the 2026-09-07 directive: never a silent mode switch)…
+    expect(screen.queryByTestId('pronunciation-service-notice')).toBeInTheDocument();
+    // …and it does NOT leave the learner on the dead end.
+    expect(screen.queryByText(/Audio recording not supported/i)).not.toBeInTheDocument();
+  });
+
+  it('rec.state unsupported with NO Web Speech → still says recording is unsupported', async () => {
+    // SpeechRecognition is undefined from beforeEach — there is nothing to fall
+    // back TO, so the honest message is the original one.
+    recorderMock.mockReturnValue(recorderState({ state: 'unsupported' }));
+
+    render(<PronunciationScorer targetText="hvala" level="A1" onScore={vi.fn()} />);
+    await act(async () => {});
+
+    expect(screen.queryByText(/Audio recording not supported/i)).toBeInTheDocument();
+  });
 });

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { sh } from '../../../data';
 import { lsGet } from '../../../lib/safeStorage';
+import { poolLaunchBlock, POOL_LAUNCH_COPY } from '../../../lib/practiceLaunch';
 
 /**
  * Goal Focus cluster — extracted verbatim from SettingsTab as part of the 1a
@@ -78,13 +79,26 @@ export default function GoalFocusSection({
   setScr,
   launchFlashcards,
   launchSpeaking,
+  contentLoading,
 }: {
   currentGoal: string;
   V: Record<string, any[]>;
   setScr: (scr: string) => void;
   launchFlashcards?: (pool: any[]) => void;
   launchSpeaking?: (pool: any[]) => void;
+  /**
+   * Whether the content fetch is still in flight. PASSED IN rather than
+   * inferred from `V`: an empty `V` is both "not here yet" and "the fetch
+   * failed", and guessing between them is the mistake this whole change is
+   * about. The caller holds `useContent()` and knows.
+   */
+  contentLoading?: boolean;
 }) {
+  // `V` is `content?.V ?? {}` — empty until /api/content/core lands, so before
+  // it does the Speaking shortcut below called nothing and said nothing. Same
+  // window, same silence as the Grad tab's Govori (2026-09-24).
+  const [launchError, setLaunchError] = useState<string | null>(null);
+  const contentLoaded = Object.keys(V).length > 0;
   return (
     <React.Fragment>
       {/* ── GOAL FOCUS ── */}
@@ -123,9 +137,22 @@ export default function GoalFocusSection({
                         else setScr('review');
                       } else if (it.launch === 'speaking_family') {
                         const pool = sh([...(V['family'] || [])]).slice(0, 6);
-                        if (pool.length > 0 && launchSpeaking) launchSpeaking(pool);
                         // Fallback to speaking_sprint removed — that surface
-                        // is now only launchable from the AI Tutor tab.
+                        // is now only launchable from the AI Tutor tab. Which
+                        // left this tap SILENT on an empty pool; it now says
+                        // which of the three reasons applies, in the app's one
+                        // set of words for it.
+                        const block = poolLaunchBlock(
+                          contentLoaded ? V : null,
+                          !!contentLoading,
+                          pool,
+                        );
+                        if (block || !launchSpeaking) {
+                          setLaunchError(POOL_LAUNCH_COPY[block ?? 'unavailable']);
+                        } else {
+                          setLaunchError(null);
+                          launchSpeaking(pool);
+                        }
                       } else {
                         setScr(it.scr);
                       }
@@ -160,6 +187,18 @@ export default function GoalFocusSection({
                   },
                 )}
               </div>
+              {launchError && (
+                <p
+                  data-testid="goal-launch-error"
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--danger, #b91c1c)',
+                    margin: '-12px 2px 20px',
+                  }}
+                >
+                  {launchError}
+                </p>
+              )}
             </React.Fragment>
           );
         })()}

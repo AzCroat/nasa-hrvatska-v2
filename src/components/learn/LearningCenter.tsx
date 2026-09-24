@@ -41,6 +41,8 @@ import {
   matchPool,
   listeningItems,
   speakingItems,
+  poolLaunchBlock,
+  POOL_LAUNCH_COPY,
   type Shuffle,
   type VocabRow,
 } from '../../lib/practiceLaunch';
@@ -232,20 +234,19 @@ export default function LearningCenter({
     // CI caught this: the same tap passed locally on a warm machine and failed
     // on a loaded runner, which is the race a real learner meets on a slow
     // connection.
-    if (!content) {
-      setLaunchError(
-        contentLoading
-          ? 'Still loading your words — try that again in a moment.'
-          : 'Your word list could not be loaded. Check your connection and try again.',
-      );
-      return;
-    }
+    //
+    // The three sentences and the order they are decided in moved to
+    // `poolLaunchBlock` / `POOL_LAUNCH_COPY` (2026-09-24) when the Grad tab
+    // turned out to need the same answer and had never been given it: there,
+    // the same tap was a silent no-op or a ScreenGuard telling the learner to
+    // start from the tab they were already on. One definition, both callers.
     const level = vocabLevel(st ?? undefined);
-    const pool = acquisitionPool(content, level) as VocabRow[];
+    const pool = content ? (acquisitionPool(content, level) as VocabRow[]) : [];
     try {
-      const payload = await build({ pool, level, sh });
-      if (!payload || payload.length === 0) {
-        setLaunchError('There are no words ready for that yet — try a lesson first.');
+      const payload = content ? await build({ pool, level, sh }) : [];
+      const block = poolLaunchBlock(content, contentLoading, payload);
+      if (block) {
+        setLaunchError(POOL_LAUNCH_COPY[block]);
         return;
       }
       setLaunchError(null);

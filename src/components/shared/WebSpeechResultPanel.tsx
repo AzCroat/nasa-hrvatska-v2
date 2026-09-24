@@ -35,6 +35,7 @@ export default function WebSpeechResultPanel({
 
   return (
     <div
+      data-testid="webspeech-result"
       style={{
         background: 'var(--card)',
         borderRadius: 12,
