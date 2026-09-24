@@ -4225,6 +4225,93 @@ fails 1 (and SURVIVED until comments were stripped); #720's own ShadowingScreen
 mutation still fails 1, unchanged, so nothing was weakened; the SRS answer path
 stopped writing fails 2.
 
+### Sweep 63 — the registry describes screens that never read it (2026-09-23, CLOSED)
+
+Sweep 57's leftovers, finished — and its own classification corrected on the one
+entry that mattered most.
+
+**I REPORTED THESE AS "three stale rows, all inert" AND ONE WAS LIVE.** Sweep 57's
+table says so plainly; I summarised it from memory rather than re-reading it, which
+is the failure this file exists to prevent. `shadowing`'s row says `speak`/`speaking`
+— the file that calls itself the single source of truth for completion policy —
+while the SCREEN credited only the LISTENING quest. A learner who shadowed with a
+working microphone finished an acoustically-scored speaking exercise and read
+"Speak Quest: not done", every time.
+
+**THE FIX IS CONDITIONAL, AND THE UNCONDITIONAL VERSION WOULD HAVE BEEN WORSE THAN
+THE DEFECT.** The 2026-08-14 change that moved the listening screens off
+`markQuest('speak')` was RIGHT — listening is not speaking — and it swept up the one
+screen of four that is ALSO speaking. Reinstating the mark outright would credit a
+speaking exercise to a learner who never spoke: `acousticScore === null` is a
+SUPPORTED path on that screen (no mic, scorer down) and it deliberately never
+penalises a keyboard-only learner. That is the `dialogue` mistake #720 corrected, in
+a new place. The mark now fires on `scoredItems.current > 0` — this block's OWN
+measured-speech predicate, which the pass gate above and the ledger write below both
+already rely on, so the quest and the ledger cannot disagree about whether speech
+happened. Marking two quests from one screen is not novel: `VideoLessonScreen`
+already marks both. The AWARD kind stays `'listening'` (the `recordListeningRep`
+reason from #720 is unchanged), so this adds credit and removes none.
+
+**The three inert rows were corrected rather than left**, because the registry's own
+header describes migrating screens onto `completeExercise` as in progress and each
+wrong row lands the moment its screen migrates:
+
+- `writing` said grammar/grammar → `write`/`writing`. Writing drives
+  `weakestProductionKind`; migrating WritingScreen would have booked writing
+  practice as grammar and starved the production picker.
+- `story-comprehension` said listening/listening → reading/reading. **Verified
+  against the screen, not taken from sweep 57's table**: `GradedInputScreen` awards
+  `'reading'` and marks the `reading` quest. Recording reading as listening
+  re-creates sweep 21 from the other direction.
+- `srsreview` said grammar/default → **questKind UNSET**, activityType `'review'`.
+  The activityType is cosmetic (both values are outside `ACTIVITY_TO_SKILL`). The
+  questKind is the interesting half: filling it in with the quest that "counts"
+  would make `completeExercise` fire a bare `markQuest('master')`, and that is
+  exactly the defect the screen's own comment records fixing — one card clearing
+  "Review 5+", and two clearing "Review 15+" through TIER2_MAP's promotion. **A
+  field left empty on purpose needs the reason written beside it**, or the next
+  person fills it in.
+
+**ROWS ARE NOT DELETED EVEN THOUGH NOTHING CALLS THEM.** Enumerated: 267 registry
+rows, 20 of which no static key, no ModeDrill id and no lesson screenId reaches. But
+`completeExercise` is not the only consumer — `appUtils`'s `distinctExercisesDone`
+counts `stats.vs` entries that are registry KEYS for the badge thresholds, and
+`writing` and `dialects` reach `vs` through `BLACK_HOLE_SCREENS`. So an unreached
+row can still be load-bearing by a path that never touches the fields this sweep
+corrected. I nearly reported "20 dead rows"; checking the second consumer is what
+stopped it.
+
+**`registryMatchesScreen.test.ts` is the mechanism sweep 57 lacked** — it found all
+four by hand and nothing stopped a fifth. It resolves each row to its screen through
+the REAL router, compares the row against what the screen hand-rolls, and carries
+ONE exemption (`shadowing`'s award kind) checked in both staleness directions plus a
+third check that the exemption's stated REASON is still true.
+
+**TWO HARNESS DEFECTS, BOTH CAUGHT BY CHECKING A REPORTED FINDING BY HAND.**
+(1) A fixed 700-character route window ran past the end of a route block — the first
+`<Component>` is usually `ScreenErrorBoundary`, which is not lazy — and attributed a
+NEIGHBOUR's award kind to the key, reporting `listening_comprehension` as
+disagreeing with a screen that contains no `award(` call at all. (2) Resolving rows
+through the router ALONE covered `story-comprehension` with nothing, because it is
+not a route at all but a `vs` key the graded reader writes; measured, restoring its
+original wrong value left the router-only guard fully green. **A guard that resolves
+its subjects one way covers only the subjects reachable that way**, and the
+reachable set is not obvious from the list of ids.
+
+Also corrected: `appUtils` explained `distinctExercisesDone` by citing "the
+registry's 72 rows" — it is 267. The COUNT was stale by a factor of three and the
+ARGUMENT was untouched, because it rests on the number of distinct activity TYPES
+and that is still exactly 6. The test pins the load-bearing inequality (types < 10,
+the badge threshold) rather than either number in prose.
+
+Mutation-verified, five, each confirmed landed: each of the three corrected rows
+reverted fails 1; the speak-quest mark removed fails 1 (the exemption's reason goes
+stale); and the unbounded route window fails 1, which is the harness bug above
+re-armed.
+
+E2E: no spec asserts quest state, quest counts or XP totals, and under E2E there is
+no microphone — `scoredItems` is 0, so the new mark never fires there at all.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -4322,18 +4409,11 @@ None of them crash, so no sweep above can see any of them.
         `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
         RECOGNITION, and filing it as spoken evidence would have made a learner
         who never spoke read as a tested speaker.
-      - **STILL OPEN, NARROWED: the three stale `exerciseRegistry` rows** (sweep
-        57). `'story-comprehension'` is typed listening and is reading;
-        `writing` is typed grammar and is writing. Re-checked while shipping
-        #720: still wrong, and still INERT — no screen reaches those rows today,
-        which is why they are landmines rather than defects. They would reverse
-        sweep 21 and starve the production picker the moment a migration reads
-        them. `ShadowingScreen`'s award kind was examined in #720 and
-        DELIBERATELY left `'listening'`: `useAward` keys `recordListeningRep()`
-        off that activityType and its comment names this screen, so retyping it
-        silently drops a displayed Fluency Snapshot metric. Shadowing is both
-        halves and the app already counts it both ways; only the LEDGER question
-        was unambiguous, and that half is done.
+      - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+        sweep 63. All four fixed, and my "three stale rows, all inert" summary
+        was wrong: `shadowing` was LIVE, crediting the listening quest for
+        acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+        mechanism sweep 57 lacked.
 
       **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
       were about STATE OF THE CODE. The one that paid was about a fact with two

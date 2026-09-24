@@ -363,7 +363,26 @@ const RAW: Record<string, ExerciseEntry> = {
   // award()'s vocabulary, a different namespace.
   speaking: e('sp', 'speak', 'speaking'),
   shadowing: e('lc', 'speak', 'speaking'),
-  writing: e('lc', 'grammar', 'grammar'),
+  // `writing` and `story-comprehension` describe their screens WRONGLY, and both
+  // are INERT TODAY — neither key reaches `completeExercise` (measured: not among
+  // the 132 static keys, the 109 ModeDrill ids or the 6 lesson screenIds), so
+  // these two fields are read by nothing. They are corrected rather than left,
+  // because the registry header describes migrating screens onto
+  // `completeExercise` as in progress and each wrong row would REVERSE a defect
+  // this repo has already fixed once (2026-09-23):
+  //   - `writing` said grammar/grammar. Writing is a first-class ledger skill
+  //     driving `weakestProductionKind`, so migrating WritingScreen would have
+  //     booked writing practice as grammar and starved the production picker.
+  //     The screen itself awards 'writing' and marks the 'write' quest.
+  //   - `story-comprehension` said listening/listening. It is the GRADED READER,
+  //     and recording reading as listening re-creates sweep 21 ("the ledger could
+  //     never measure reading, and that latched the input slot") from the other
+  //     direction.
+  // The ROWS ARE NOT DELETED even though nothing calls them: `appUtils`'s
+  // `distinctExercisesDone` counts `stats.vs` entries that are registry KEYS for
+  // the badge thresholds, and `writing` is in BLACK_HOLE_SCREENS — so its row is
+  // live for badges by a path that never touches these two fields.
+  writing: e('lc', 'write', 'writing'),
   dictation: e('lc', 'listening', 'listening'),
   // Lesson Review (retention, 2026-09-07): the sitting that re-checks passed
   // lessons, replays missed items and runs the weekly mix. Effort, not gated:
@@ -374,9 +393,24 @@ const RAW: Record<string, ExerciseEntry> = {
   listening: e('lc', 'listening', 'listening'),
   'pitch-accent': e('gc', 'grammar', 'grammar'),
   'pronunciation-contrast': e('gc', 'grammar', 'grammar'),
-  srsreview: e('rc', 'grammar', 'default'),
+  // ALSO INERT, ALSO CORRECTED, AND THE QUEST IS DELIBERATELY ABSENT
+  // (2026-09-23). The row said questKind 'grammar' / activityType 'default'
+  // while `ReviewScreen` awards 'review'. Both old and new activityTypes are
+  // outside `ACTIVITY_TO_SKILL`, so the ledger effect is identical either way —
+  // it is corrected because a stale copy is what this sweep is about, not
+  // because it was doing harm.
+  //
+  // `questKind` is left UNSET on purpose rather than set to the quest that
+  // actually counts. The SRS quests read "Review 5+ / 15+ SRS words" and are
+  // credited by `recordSrsReview(questions.length)`, which takes the COUNT; a
+  // plain `markQuest('master')` — which is exactly what `completeExercise`
+  // would do from a questKind — cleared "Review 5+" for a one-card session and,
+  // through TIER2_MAP's second-mark promotion, "Review 15+" for two of them.
+  // Filling this field in would re-create that defect the moment the screen
+  // migrated onto `completeExercise`.
+  srsreview: e('rc', undefined, 'review'),
   'flashcards-quiz': e('lc', 'vocab', 'vocabulary'),
-  'story-comprehension': e('lc', 'listening', 'listening'),
+  'story-comprehension': e('lc', 'reading', 'reading'),
   // Listening-channel fix (2026-08-14): both long-form listening screens now
   // route their finish through completeExercise (they used to award XP
   // directly), so a Today's Session slot serving them can actually complete
