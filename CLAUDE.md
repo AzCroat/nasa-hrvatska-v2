@@ -71,7 +71,8 @@ src/
 │   │   └── storage.js          # All localStorage key names in one place
 │   └── ...                    # 25+ other lib modules
 ├── components/
-│   ├── home/                  # HomeTab, HeroSection, SessionCard, QuestTracker, etc.
+│   ├── home/                  # HomeTab, SessionCard, QuestTracker, DailyGoalCard, etc.
+│   │                          # (NOT HeroSection — dead since 2026-04-25, see below)
 │   ├── learn/                 # All lesson screens (70+), LearnTab, AnimatedLesson, GrammarTrackScreen
 │   ├── practice/              # Flashcards, McGame, DialogueSim, SpeakingScreen, GuidedWritingScreen, ModeDrill, etc.
 │   ├── profile/               # StatsTab, ProfileTab, InsightsTab, CertificateScreen, etc. (the `Me` surfaces)
@@ -197,6 +198,7 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
 - **E2E fixtures seed VERIFIED users** (real-shape passes + migration flags in `seed-auth.js` / `forceCefr.js`); the gate itself is covered by `e2e/verification-gate.spec.js`.
 - **Honest rollback (owner directive, 2026-08-17)**: a FAILED verification of a provisional level steps standing DOWN one level (`rollbackProvisionalOnFail` inside `recordEquivalencyAttempt`): the failed provisional and every provisional above it are removed, provisional standing is granted one level below (grandfather 0.8-signature shape) unless A1/occupied, and a `verification_fail` demotion is recorded. A failed ADVANCEMENT attempt (no provisional held) rolls nothing back. The badge follows automatically — it reads `getCertifiedLevel()` when gating is on.
   **"THE BADGE" WAS ONE OF THREE, AND ONLY ONE FOLLOWED (field report, 2026-09-06).** A learner whose failed B2 check had honestly rolled them to B1 — the Me tab said B1 — still saw "C1 · Advanced" in the upper-right desktop badge. `DesktopPanel` and the hero card's CEFR bar (`heroHelpers.getCEFR` → `HeroStats`) each carried their OWN copy of the XP band formula with a comment saying "same formula as StatsTab — all three must stay in sync"; they were in sync with each other and with nothing that mattered, because StatsTab had moved to the certified level and they had not. A comment asserting three copies agree is the same non-mechanism as `wrangler.toml`'s "Shared with scheduled worker above". All three now resolve through `getEffectiveLevelForUnlock` (the convention block at the top of `src/lib/cefr.ts` says a badge is a proficiency claim); the hero bar measures XP progress only WITHIN the certified band and, when practice has outrun the certified level, says "Level Check" instead of a percentage, because XP does not advance a level and a bar creeping toward 99% forever would say it does. `cefrBadgeCertified.test.tsx` drives the REAL rollback (`recordEquivalencyAttempt` on a provisional B2) and renders both surfaces, guards the other direction (certified at the XP band still shows it), and pins all three files to the one resolver by source — because a fourth copy would pass every rendering test at whatever rate its thresholds still matched. Mutation-verified: each surface reverted to the raw formula fails 3 tests. E2E fixtures seed VERIFIED users (certified == eligible), so no spec moved.
+  **ONE OF THE THREE WAS ALREADY UNRENDERED, AND THIS ENTRY DID NOT KNOW IT (correction, 2026-09-25).** `heroHelpers.getCEFR` → `HeroStats` is the old Home hero's bar, and `HomeTab` stopped importing `HeroSection` on 2026-04-25 (`c1aea80d`, "rewrite HomeTab — remove 12 sections"), five months before this fix. So the field report — "it shows C1, I'm not C1", in the upper-right DESKTOP badge — was about `DesktopPanel`, and the live surfaces were two, not three. The fix is still right for both of them and the third is moot; what is wrong is the SENTENCE, which sent the next reader to a bar no learner can see, and `cefrBadgeCertified.test.tsx` renders `<HeroStats>` to this day. Nothing could have caught it: `noUnreachableModules` seeds its walk from every test, so a dead component with a test reads as reachable. That hole is closed — see **A Test Can Keep A Dead Screen Alive** and the `TEST_ONLY_REACHABLE` list.
 - **Demotions are merge tombstones**: `mergeRemoteCertifications` ends with a sweep deleting any pass at a demotion's `from` level whose `passedAt` precedes the demotion `at` — in both directions, for BOTH `verification_fail` and `checkpoint_fail`. This is the sanctioned, deliberate exception to "merges never reduce": the demotion EVENT is additive and user-visible; without the sweep any stale device blob resurrects a rolled-back level. A pass re-earned AFTER the demotion has a later `passedAt` and always survives — new evidence outranks tombstones.
 - **THE THREE SURFACES AGREED ON A NUMBER THAT WAS NOT TRUE (field report,
   2026-09-08): "it shows C1, I'm not C1."** The 2026-09-06 fix above made
@@ -213,6 +215,7 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
   **The fix is a SPLIT, and both halves are load-bearing** (owner decision):
   `getDisplayLevel(eligible)` (new, in `cefrCertification.ts`) returns
   `getVerifiedLevel()` — real passes only — and the six DISPLAY surfaces read it
+  (**five of them live: `heroHelpers` has been unrendered since 2026-04-25 — correction of 2026-09-25**)
   (DesktopPanel, heroHelpers, StatsTab, CertificateScreen, InsightsTab,
   LearnTab). **Content unlock is untouched**: `getContentUnlockLevel` still reads
   the certified level, provisional included, so a grandfathered learner keeps
@@ -2063,11 +2066,21 @@ opinion | literary`) and, on serial parts, `series: { id, part, of }`.
   excerpt and nine short stories, **original work written for this app, not
   quotations from any author** (reproducing real texts from memory risks
   misattribution and copyright; the `intro` of each says so).
-- **Serials survive a picker that does not order by part.** The
-  story-of-the-day picker sorts by score then title and indexes by day, so
-  part 2 can be served before part 1. Every part therefore opens readable on
-  its own, its title ends "(k/n)", and its English `intro` says "Part k of n"
-  and recaps — pinned. The catalog projection (`/api/content/catalog`) does
+- **Serials survive a reader who can open any part first.** Every part opens
+  readable on its own, its title ends "(k/n)", and its English `intro` says
+  "Part k of n" and recaps — pinned. **THE REASON ORIGINALLY GIVEN HERE NAMED A
+  DEAD MECHANISM (corrected 2026-09-25):** it said "the story-of-the-day picker
+  sorts by score then title and indexes by day, so part 2 can be served before
+  part 1". That picker is `StoryOfTheDayCard` → `storyRecommendation.recommendStory`,
+  and BOTH have been unrendered since `TodaysDiscoveries` deliberately dropped the
+  card ("to leave a single reading lesson on the Home tab"). The constraint is
+  right for a plainer and stronger reason: these 35 stories are reached ONLY
+  through `GradedInputScreen`'s catalog list, which the learner browses and picks
+  from freely — so part 2 before part 1 is not a scheduling accident, it is one
+  tap. (The daily "Read" row is a different corpus: `dailyInput` →
+  `readingCurriculum` walks the `READ` pool in `exercises.js`, not
+  `GRADED_STORIES`.) **A constraint whose justification has died reads as
+  arbitrary, and the next author deletes it.** The catalog projection (`/api/content/catalog`) does
   NOT carry `kind`/`series`; the title and intro are what the reader sees, so
   they carry the information.
 - **Payload**: the catalog gains 35 rows (shape only); bodies ship one at a
@@ -3092,6 +3105,64 @@ describing a per-consumer choice nobody was making.
   parameter depth walk; detect a props spread anywhere but attribute depth; skip a
   component with no render site without recording WHY.
 
+## Critical Architecture: A Test Can Keep A Dead Screen Alive (2026-09-25)
+
+`noUnreachableModules.test.ts` seeds its reachability walk from every TEST as well
+as the app entries, deliberately: "a module kept alive only by its own tests still
+counts as reachable — that is a softer problem and is not what this guard is for."
+True of a helper with a unit test. Measured against the tree, that exclusion was
+hiding **21 modules and 4,206 lines the app cannot reach at all** — including the
+whole `home/` hero cluster.
+
+- **`HeroSection` and twelve satellites have been unrendered since 2026-04-25**,
+  when `c1aea80d` ("rewrite HomeTab — remove 12 sections") replaced the hero with
+  the Daily Session Hub: `HeroStats`, `heroHelpers`, `heroData`, `useHeroRewards`,
+  `useKnightSpeech`, `KnightBubble`, `TypewriterText`, `CompactStrip`,
+  `QuickReplyBanner`, `RewardsPanel`, `StoryOfTheDayCard`, `DailyListeningCard`.
+  `HomeTab` imports none of them; nothing outside `src/tests` imports `HeroSection`.
+- **THE COST WAS WORK ON THE WRONG FILE, TWICE, BY THE AUDIT ITSELF.** #655
+  (2026-09-12) fixed "the hero stopped naming your goal at level 7" inside
+  `HeroSection.tsx` and added a 263-line test for it. And the 2026-09-06/09-08
+  CEFR-badge work named `heroHelpers.getCEFR` → `HeroStats` as one of THREE (later
+  six) learner-visible badge surfaces, pinned it by source, and renders
+  `<HeroStats>` in `cefrBadgeCertified.test.tsx` — while that bar could not show
+  anyone anything. Those entries above are corrected in place rather than rewritten.
+- **`#682`'s sweep deleted 31 modules of exactly this kind and could not see
+  these**, because these have tests. So this set is the residue of that sweep,
+  hidden by its own seeding rule — a guard's stated scope is also its blind spot,
+  and this one wrote its blind spot down in its own docstring.
+- **One dead module sits inside a LIVE directory**, which is the hazard that guard
+  was written about ("a duplicate invites editing the one nobody renders"):
+  `src/data/exerciseMeta.ts` is a second copy of the exercise difficulty scale, and
+  the live one is `lib/exerciseDifficulty.ts`, whose own comment says it mirrors
+  "exerciseMeta's scale" — so the wrong file is one directory away with a passing
+  test on it, while CLAUDE.md's new-drill checklist names the right one.
+  `src/lib/conjugation/morphology.ts` looked like a second instance and **IS NOT A
+  DEFECT, though my first write-up said it was**
+  — corrected within the hour: `expectedForms` DERIVES each form from the verb's
+  class and root, `verbsData.test.ts` asserts the STORED forms equal the
+  derivation, and the app renders those stored forms through `forms.ts`'s
+  `formFor`, which is a LOOKUP rather than a competing rule. The data a learner
+  meets is exactly what was validated. It is a test-only VALIDATOR — the "softer
+  problem" the guard's docstring actually means — and it is listed because
+  membership must never be silent, not because anything is wrong.
+- **Three are dead CLUSTER members**, reachable only through another dead module —
+  `useLocalStorage` (via `useHeroRewards`), `useTranslator` (via
+  `useKnightSpeech`), `storyRecommendation` (via `StoryOfTheDayCard`) — which is
+  why "no importer" could never have found them and only a reachability walk can.
+- **The mechanism is a second walk in the same file**, seeded from `ENTRIES` ONLY,
+  requiring every app-unreachable module to be named in `TEST_ONLY_REACHABLE` with
+  a reason, both staleness directions checked. Membership is not automatically a
+  defect — a library with a test and no caller yet is not a 389-line screen — but
+  it can no longer be SILENT, which is the whole of what went wrong.
+- Mutation-verified, four: an entry dropped fails 1; a stale entry (an
+  app-reachable module listed) fails 2; **the app walk re-seeded with the tests —
+  the hole itself — fails 3**; a gutted `edgesOf` fails 4 on the non-vacuity guard.
+- NEVER: read `noUnreachableModules` green as "nothing is dead" (it answers a
+  narrower question than its name); let a module join the test-only set without a
+  reason; delete a test to make a module look unreachable; assume a guard that
+  renders a component proves anyone can see it.
+
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 
 Owner: _"news is coming from Index.hr, they are a communist propaganda news
@@ -3675,7 +3746,8 @@ a failed fetch, because `content` then stays null.
 - **Three checked non-defects, exempted with reasons and both staleness
   directions**: `CultureDeepDiveScreen` guards `loading || !content` ABOVE its
   `!essays.length` branch, so that branch can only mean a stale payload missing
-  the key; `HeroSection` falls back to the neutral LABEL "Learning", which states
+  the key; `HeroSection` (**unrendered since 2026-04-25 — so this was a checked
+  non-defect on dead code**) falls back to the neutral LABEL "Learning", which states
   nothing false; `LearnPath` was fixed in sweep 99 and its claim is about the
   PATH, so pool copy would be wrong there.
 - **What this does NOT cover, stated:** a claim derived from content that is not
@@ -4665,7 +4737,7 @@ reader looking for a file that was never there, which is worse than no table.
 
 | If you change...                            | Check these spec files                                                                     |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `HomeTab` / HeroSection / QuestTracker      | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
+| `HomeTab` / `SessionCard` / `QuestTracker`  | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
 | `LearnTab` / Learning Center / vocab pills  | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js`                           |
 | `GradTab` (the Practice tab) / game panels  | `practice.spec.js`, `offline.spec.js`                                                      |
 | `HrvatskaTab` (the Croatia tab)             | `croatia.spec.js`, `navigation.spec.js`                                                    |
