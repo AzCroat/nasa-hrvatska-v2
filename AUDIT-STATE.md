@@ -6981,6 +6981,22 @@ rather than inferred, and two things above need fixing:
 names is covered — verified by running it (`escapeRegExp('a\\b')` matches `a\b`
 and not `aXb`), not inferred from the class looking right.
 
+**7 → 1 → 0, AND THE LAST ONE WAS MY OWN PROOF-OF-BUG.** The escaping fix cleared
+six. The survivor (alert 89, `emptyIsNotAnAnswer.test.tsx`) was the deliberately
+weak `$`-only function the new tests used to show the fix is load-bearing — and
+**CodeQL was right about it**: the rule is "an escape that misses cases", and "it
+is wrong on purpose, it is a test" is not a property the rule can see. Rather than
+dismiss it, the assertion was restated as the LITERAL patterns the old escaping
+produced (`new RegExp('\\br.timeline\\b')` matching `rXtimeline`; an
+unterminated group throwing), plus `escapeRegExp(x) !== x` on both — which names
+the regex fact directly instead of via a copy of the bug. **Strictly stronger:** the
+`$`-only mutation now fails **3** tests where it failed 2, and a NO-OP
+`escapeRegExp` fails 3 as well, which the old pairing would not have caught.
+`no-invalid-regexp` then failed the lint on the deliberately broken literal, so it
+is bound to a const — the rule only evaluates direct literals. **A guard that has
+to write the bug in order to prove the fix can usually assert the consequence
+instead.**
+
 **THE REUSABLE PART: the alert identity was available all along, on the PR, as
 inline review comments.** I read the check-run summary, found no `output.text`,
 concluded the identity was unreadable from this session, and reasoned from priors

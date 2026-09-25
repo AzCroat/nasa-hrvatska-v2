@@ -295,9 +295,23 @@ describe('escapeRegExp makes a derived name match itself and nothing else', () =
     }
   });
 
-  it('the old escaping — `$` only — genuinely fails both of those', () => {
-    const weak = (x: string) => x.replace(/\$/g, '\\$');
-    expect(new RegExp(`\\b${weak('r.timeline')}\\b`).test('rXtimeline')).toBe(true);
-    expect(() => new RegExp(`\\b${weak('a(b')}\\b`)).toThrow();
+  it('an UNESCAPED name genuinely fails both of those — the fix is load-bearing', () => {
+    // Stated as the literal patterns the old `$`-only escaping produced, rather
+    // than by re-implementing that escaping here. A partial-escape function in a
+    // test is still a partial-escape function — CodeQL flagged this very block as
+    // `js/incomplete-sanitization` (alert 89) and was right to: the rule is about
+    // an escape that misses cases, and "it is deliberately wrong, it is a test"
+    // is not a property the rule can see. The assertion is better this way too,
+    // because it names the regex fact directly instead of via a copy of the bug.
+    expect(new RegExp('\\br.timeline\\b').test('rXtimeline')).toBe(true);
+    // Bound to a const because `no-invalid-regexp` statically evaluates a direct
+    // literal and would fail the lint on this deliberately broken pattern — which
+    // is the assertion, not a mistake.
+    const unterminatedGroup = '\\ba(b\\b';
+    expect(() => new RegExp(unterminatedGroup)).toThrow();
+    // And the fixed escaping must differ from the input on exactly these — a
+    // pairing that would still catch a no-op `escapeRegExp`.
+    expect(escapeRegExp('r.timeline')).not.toBe('r.timeline');
+    expect(escapeRegExp('a(b')).not.toBe('a(b');
   });
 });
