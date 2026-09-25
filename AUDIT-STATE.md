@@ -7428,6 +7428,152 @@ without touching it.
 
 ---
 
+### 109. The same credit shape in EVENT HANDLERS — 2026-09-25 — NO DEFECTS, and the reason is structural
+
+Sweep 107's largest stated gap: it enumerated `useEffect` bodies and said handlers
+were "the larger population and are not attempted here." This is that population.
+
+**THE CENSUS.** Handler-shaped function bodies (an arrow assigned to a name, a
+`useCallback`, a `function` declaration) across `src/components/**/*.tsx` that call
+a credit writer: **338**. Of those, **152** gate on a comparison against a
+length- or size-derived total. That is twelve times the effect population, and it
+is dominated by one thing: **roughly a hundred are the hand-written drills**, each
+a copy of the same ~400-line component ending in `score === total` /
+`score >= total`.
+
+**Narrowing to a total that can actually reach zero at runtime brought 152 → 10.**
+The hundred drills read STATIC banks (`src/data/drills/*`, `exercises.js`), so
+`total` cannot be zero — and where it is, the screen throws on `questions[idx]!`
+long before it credits. The ten are the ones whose total is prop- or
+content-derived:
+
+| subject                                              | why it cannot credit at zero                                                                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `McResult` `next >= mistakes.length`                 | the whole review flow is behind `showReviewPrompt = mistakes.length >= 2`                                                                  |
+| `BureaucraticScreen` `QuizBlock` (×2)                | `loading \|\| !content` and `error` return ABOVE it; and its handler is a per-QUESTION tap, so with no questions there is nothing to click |
+| `SentenceTileScreen` `nextIdx >= questions.length`   | `shuffle(SENTBUILD).slice(0, 10)` — static, 42 items                                                                                       |
+| `DialogueSim` `nextIdx >= scenario.turns.length`     | `if (!scenario) return` at line 254                                                                                                        |
+| `Flashcards` `finalKnown === activePool.length` (×2) | reached only through a child's `onComplete`, i.e. a quiz that ran                                                                          |
+| `GenderDrillScreen` `GENDERDRILL.adjectives.length`  | static, 10 items                                                                                                                           |
+| `ReflexiveScreen` `REFLEXIVE.quiz.length`            | static, 10 items                                                                                                                           |
+| `LessonProduceStep` `words >= MIN_PRODUCE_WORDS`     | the right-hand side is a positive CONSTANT, so `0 >= MIN` is false                                                                         |
+
+**WHY THERE IS NOTHING HERE, STATED AS A PROPERTY RATHER THAN A COUNT.** _An
+effect fires on mount whatever is on screen; a handler needs a control to be
+clicked._ The controls that reach these handlers are either per-ITEM (a question
+tile, an answer button — unclickable when there are no items) or behind a flow
+ENTRY condition that already establishes the count. That asymmetry is the whole
+reason sweep 107's defect was in an effect and this sweep found none, and it is
+worth knowing before anyone spends a day on the 152.
+
+**NO RATCHET WAS ADDED, DELIBERATELY** — the sweep 104 precedent. My positivity
+matcher is scoped to the handler BODY, and in every one of the ten the guard lives
+OUTSIDE it (an entry condition, an early return above, the shape of the control).
+So a ratchet on this derivation would ship with ten false positives, and a guard
+that is mostly false positives trains everyone to ignore it. Recording the
+measurement is the deliverable.
+
+**A METHOD NOTE THAT ALMOST COST THE SWEEP.** My first narrowing pass excluded
+totals it could not resolve to a declaration in the same file — the bucket labelled
+`UNRESOLVED`. That took the census to exactly ONE subject and looked finished.
+**`UNRESOLVED` is precisely where prop-passed content lives**: nine of the ten
+above, including every content-derived one, were in it. Excluding what a derivation
+cannot explain is how it reports a small clean number and misses the class — the
+same shape as sweep 102's four-stage derivation and sweep 107's unreadable root.
+**Investigate the bucket you cannot resolve; do not filter it out.**
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A credit gated on equality with a total that is not syntactically a
+  `.length`/`.size` — `if (answered === target)` where `target` was computed
+  elsewhere. Still open, and sweep 107 named it too.
+- A handler reached by a control whose own render condition is itself wrong. This
+  sweep read each of the ten entry conditions and judged them; it did not derive
+  them, so a fifth kind of entry guard would be read by hand again.
+- A credit inside a `.then()`, a timer callback or an event listener registered
+  outside a named function — the matcher keys on named/assigned function bodies.
+
+---
+
+### 110. The 25 drills whose completion contract nothing exercises — 2026-09-25 — NO DEFECTS in the contracts; the exemptions have ONE root cause
+
+This picks up the only NAMED open item left in the section below: sweep 55 ended
+_"the 24 honest skips are 24 drills whose completion contract nothing exercises —
+the ratchet guards the exemption, not the coverage."_ (It is 25 now.)
+
+**ALL 25 EXEMPTIONS HAVE A SINGLE ROOT CAUSE, and it is in the harness, not the
+screens.** `completeDrill` in `exerciseContract.test.tsx` drives a drill by
+clicking, in priority order: a `.tc` menu tile, `case-intro-start`, a button whose
+text matches `next|see results|done|finish`, and then — Priority 2 — **a button
+whose `className` includes `'ob'`.** Nothing else. Every one of the 25 skip
+reasons is a restatement of that one sentence: _"Option buttons use inline styles
+(no .ob class)"_, _"no .ob MC buttons"_, _"helper cannot click options"_. The
+reasons are honest and they are not 25 separate problems.
+
+**THE CONTRACTS THEMSELVES WERE AUDITED BY READING, AND THEY ARE UNIFORM AND
+CORRECT.** Since nothing exercises them, the question is whether the completion
+predicate is right. Two idioms exist across the exercise screens for "the last
+answer just landed", and both were checked mechanically:
+
+- **Sixteen screens** use `handledRef.current.size >= X.length`
+  (CityLocative, ColorAgreement, Comparatives, ConvMatch, EmotionGender,
+  FillStory, FutureTense, LogicQuiz, Ordinals, Possessives, Pronouns,
+  RelativePronouns, Riddles, SentenceBuilder, Sibilarization, TenseFlip). In
+  **all sixteen** the `.add()` precedes the size check and each carries a
+  `handledRef.current.has()` re-answer guard — so the Set counts distinct
+  questions and the predicate fires exactly once, on the last one.
+- **`NegationScreen` alone** uses `answeredCount + 1 >= shuffledQuiz.length`,
+  where `answeredCount` is `Object.keys(answers).length` from the PREVIOUS
+  render. That form would over-count on a re-answer — answer four of five, then
+  re-answer the first, and `4 + 1 >= 5` would credit with a question
+  untouched — but `if (answers[qi] !== undefined) return;` at the top of the
+  handler makes a re-answer impossible. Correct, and its own comments show the
+  score arithmetic (`correctCount + (isCorrect ? 1 : 0)`) was already audited.
+
+So: **no defect in any of the 25 completion contracts.** The gap is coverage, and
+the coverage gap is one helper.
+
+**THE FIX IS AVAILABLE WITHOUT TOUCHING A PRODUCTION FILE — and my attempt to
+measure it FAILED, which is recorded here rather than dressed up.** Reading
+`PronounsScreen`'s markup shows the option buttons carry **no `className` at
+all**, while every advance/retry button carries `b bp`. So "a `<button>` with an
+empty className that is not disabled" identifies an option button structurally,
+and Priority 2.5 could be one line. I built a throwaway experiment to measure how
+many of the 25 that unlocks — 15 screens, the extended driver, logging
+award/quest/setStats counts — and **it produced no output in eight minutes and had
+to be killed.** So the honest state is:
+
+- the root cause is measured and certain;
+- the proposed mechanism is plausible and NOT measured;
+- and the hang is itself weak evidence that at least one of those 15 screens does
+  not terminate under a naive click-the-first-classless-button driver — which is
+  what the next attempt should find out FIRST, one screen at a time with a small
+  iteration cap, instead of fifteen at once with a 400-iteration loop.
+
+**Do not read the hang as "the approach does not work."** It says the experiment
+was badly built: fifteen components, each spinning up to 400 full
+`queryAllByRole` sweeps, with vitest buffering console output until the file
+finishes — so a single non-terminating screen produces exactly the same silence as
+a slow one. That is this file's own lesson about a missing mechanism and a passing
+mechanism looking identical from outside, landing on my own harness.
+
+**WHAT THE NEXT PERSON SHOULD DO, concretely:** take ONE screen
+(`PronounsScreen` — `handledRef` idiom, no menu phase, no audio, no timer), add
+the bare-className priority to a LOCAL copy of the driver with a cap of ~60
+iterations and a per-iteration log, and see whether `award` fires. If it does,
+walk the other 24 one at a time and un-skip the ones that pass, leaving a reason
+on each that genuinely cannot be driven (the microphone one, the timer one, the
+tile-assembly one). Each un-skip is one exemption converted into coverage of a
+live credit path.
+
+**WHAT THIS SWEEP CANNOT SEE:** whether each contract fires at the right MOMENT
+and with the right SCORE under real interaction — that is exactly what the 25
+skipped tests would have checked, and reading a predicate is not running it. The
+`.add()`-before-check ordering and the `has()` guard are necessary, not
+sufficient.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -7487,78 +7633,78 @@ None of them crash, so no sweep above can see any of them.
       rather than assumed.
 
       **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-              class is open-ended, not because anything specific is outstanding** — and
-              that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-              have since been asked against it, and what each returned is recorded so
-              nobody re-derives them:
+                      class is open-ended, not because anything specific is outstanding** — and
+                      that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+                      have since been asked against it, and what each returned is recorded so
+                      nobody re-derives them:
 
-              - **"Where does the app keep the same fact twice, with only one copy
-                having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-                sweep 52's eight negatives. Worked out. The sharpened form, which is
-                what actually selected the finds: *is one of the two copies never
-                exercised?* An inert copy (a display map, a test's list, a progress-bar
-                threshold, a type annotation) drifts silently; a live second CALLER, a
-                deliberately frozen snapshot and a genuine derivation all do not.
-              - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-                **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-                it: the guards are structural in at least five different shapes, so a
-                matcher that knows five will miss the sixth and flag the seventh.
+                      - **"Where does the app keep the same fact twice, with only one copy
+                        having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+                        sweep 52's eight negatives. Worked out. The sharpened form, which is
+                        what actually selected the finds: *is one of the two copies never
+                        exercised?* An inert copy (a display map, a test's list, a progress-bar
+                        threshold, a type annotation) drifts silently; a live second CALLER, a
+                        deliberately frozen snapshot and a genuine derivation all do not.
+                      - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+                        **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+                        it: the guards are structural in at least five different shapes, so a
+                        matcher that knows five will miss the sixth and flag the seventh.
 
-              - **"What does the tooling treat as reviewable text, and is that what the
-                source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-                raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-                so every change to them was unreviewable. Ratcheted repo-wide by
-                `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-                hazard, not a learner bug — and it is the first find in this file that
-                came from the TOOLING half of an agreement rather than the code half.
-                That axis is now swept for control bytes and otherwise untried: what
-                else does a tool silently decline to show?
+                      - **"What does the tooling treat as reviewable text, and is that what the
+                        source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+                        raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+                        so every change to them was unreviewable. Ratcheted repo-wide by
+                        `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+                        hazard, not a learner bug — and it is the first find in this file that
+                        came from the TOOLING half of an agreement rather than the code half.
+                        That axis is now swept for control bytes and otherwise untried: what
+                        else does a tool silently decline to show?
 
-              - **"Does every committed test actually RUN?"** — sweep 55, the same
-                tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-                604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-                `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-                un-skipping every one showed **24 honest and ZnamGame's reason false** —
-                it blamed the harness's buttons when the real blocker is the drill's own
-                >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-                still fail. Still open on this axis: the 24 honest skips are 24 drills
-                whose completion contract nothing exercises — the ratchet guards the
-                exemption, not the coverage.
+                      - **"Does every committed test actually RUN?"** — sweep 55, the same
+                        tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+                        604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+                        `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+                        un-skipping every one showed **24 honest and ZnamGame's reason false** —
+                        it blamed the harness's buttons when the real blocker is the drill's own
+                        >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+                        still fail. Still open on this axis: the 24 honest skips are 24 drills
+                        whose completion contract nothing exercises — the ratchet guards the
+                        exemption, not the coverage.
 
-              - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
-                the split was right. #720 (sweep 56) added the five ledger writers;
-                #721 (sweep 58) fixed the pool-category disagreement. They did not
-                belong in one PR: the first is about what a score EVIDENCES, the second
-                about which slot may SERVE a screen, and conflating those two questions
-                is precisely the error that made me pick the wrong value for
-                `dictation`'s category first. See sweeps 59 and 60.
-              - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
-                #720. Five screens now record at their genuine completion point
-                (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
-                `SpeakingScreen`, `VideoLessonScreen`), and
-                `sessionScreensFeedLedger.test.ts` derives the demand from
-                `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
-                `SpeakingSprintScreen` stays silent with its reason recorded in
-                `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
-                RECOGNITION, and filing it as spoken evidence would have made a learner
-                who never spoke read as a tested speaker.
-              - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
-                sweep 63. All four fixed, and my "three stale rows, all inert" summary
-                was wrong: `shadowing` was LIVE, crediting the listening quest for
-                acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
-                mechanism sweep 57 lacked.
+                      - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+                        the split was right. #720 (sweep 56) added the five ledger writers;
+                        #721 (sweep 58) fixed the pool-category disagreement. They did not
+                        belong in one PR: the first is about what a score EVIDENCES, the second
+                        about which slot may SERVE a screen, and conflating those two questions
+                        is precisely the error that made me pick the wrong value for
+                        `dictation`'s category first. See sweeps 59 and 60.
+                      - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+                        #720. Five screens now record at their genuine completion point
+                        (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+                        `SpeakingScreen`, `VideoLessonScreen`), and
+                        `sessionScreensFeedLedger.test.ts` derives the demand from
+                        `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+                        `SpeakingSprintScreen` stays silent with its reason recorded in
+                        `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+                        RECOGNITION, and filing it as spoken evidence would have made a learner
+                        who never spoke read as a tested speaker.
+                      - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+                        sweep 63. All four fixed, and my "three stale rows, all inert" summary
+                        was wrong: `shadowing` was LIVE, crediting the listening quest for
+                        acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+                        mechanism sweep 57 lacked.
 
-              **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-              were about STATE OF THE CODE. The one that paid was about a fact with two
-              homes; the one that did not was about a control-flow property that the
-              codebase happens to enforce five different ways. The pattern across every
-              productive sweep in this file is the same: **they compare two things the
-              app itself already has to keep in agreement** — a claim against its
-              evidence, a queue against its clearer, a payload against its consumer, a
-              badge against its measurement. Questions that instead ask "is this code
-              correct in isolation" have consistently returned nothing a test suite was
-              not already catching. Pick the next question on that basis: name two
-              things that must agree, and ask what would happen if they stopped.)
+                      **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+                      were about STATE OF THE CODE. The one that paid was about a fact with two
+                      homes; the one that did not was about a control-flow property that the
+                      codebase happens to enforce five different ways. The pattern across every
+                      productive sweep in this file is the same: **they compare two things the
+                      app itself already has to keep in agreement** — a claim against its
+                      evidence, a queue against its clearer, a payload against its consumer, a
+                      badge against its measurement. Questions that instead ask "is this code
+                      correct in isolation" have consistently returned nothing a test suite was
+                      not already catching. Pick the next question on that basis: name two
+                      things that must agree, and ask what would happen if they stopped.)
 
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.

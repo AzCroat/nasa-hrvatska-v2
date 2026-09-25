@@ -3643,6 +3643,48 @@ comparisons would have been `undefined === undefined` and passed while checking
   derivation skips a module with no client copy — correct for `learnPath` and
   `seasonalCampaigns`, and also exactly how a RENAMED twin would leave the guard
   without a word. The set of skipped modules is asserted, not assumed.
+- **AN EFFECT FIRES ON MOUNT; A HANDLER NEEDS A CONTROL — which is why the same
+  credit shape is harmless in 152 handlers and was a defect in one effect** (sweep
+  109, 2026-09-25). Census: 338 handler bodies calling a credit writer, 152 gating
+  on a length comparison, **zero defects**. Roughly a hundred are the hand-written
+  drills over STATIC banks, where the total cannot be zero; of the ten whose total
+  is prop- or content-derived, every one is protected OUTSIDE the handler — an
+  entry condition on the flow (`showReviewPrompt = mistakes.length >= 2`), an
+  early `loading || !content` return above it, `if (!scenario) return`, or a
+  per-ITEM control that cannot be clicked when there are no items. Know that
+  asymmetry before spending a day on the 152.
+- **NO RATCHET WAS ADDED THERE, AND THAT IS THE RIGHT CALL.** The positivity
+  matcher is scoped to the handler BODY and the guards live outside it, so the
+  derivation would ship with ten false positives — and a guard that is mostly
+  false positives trains everyone to ignore it (the sweep 104 precedent). A
+  recorded measurement with its method is the deliverable.
+- **INVESTIGATE THE BUCKET A DERIVATION CANNOT RESOLVE; DO NOT FILTER IT OUT.**
+  My first narrowing pass dropped totals not declared in the same file — the
+  `UNRESOLVED` bucket — and reported exactly ONE subject, looking finished.
+  **That bucket is where prop-passed content lives**: nine of the ten real
+  subjects were in it, including every content-derived one. Same shape as sweep
+  102's four-stage derivation and sweep 107's root the walk could not read: the
+  tool reports a small clean number and the class is in what it discarded.
+- **25 TEST EXEMPTIONS, ONE ROOT CAUSE, AND IT IS IN THE HARNESS** (sweep 110,
+  2026-09-25). Every skip in `exerciseContract.test.tsx` restates one sentence:
+  `completeDrill`'s option-clicking priority matches only `className.includes('ob')`,
+  and those 25 screens style their option buttons inline. Their contracts were then
+  audited by reading and are uniform and correct — sixteen use
+  `handledRef.current.size >= X.length` with the `.add()` before the check and a
+  `has()` re-answer guard, and `NegationScreen`'s lone `answeredCount + 1 >= length`
+  variant is safe only because it returns early on a re-answer. **The exemptions are
+  a coverage gap, not 25 problems**, and the option buttons carry NO className at
+  all, so a structural "bare className" rule could drive them without touching a
+  production file.
+- **MY EXPERIMENT TO MEASURE THAT HUNG, AND THE HANG IS ABOUT THE EXPERIMENT.**
+  Fifteen components in one file, each looping up to 400 `queryAllByRole` sweeps,
+  with vitest buffering console output until the file ends — so one
+  non-terminating screen looks exactly like fifteen slow ones, and eight minutes
+  produced zero bytes. **A missing mechanism and a passing mechanism look
+  identical from outside**, which this file already says about CI, landing here on
+  my own harness. Probe ONE subject with a small cap and per-iteration logging
+  before fanning out; and do not report a hung experiment as evidence the approach
+  fails.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
