@@ -456,6 +456,45 @@ export default function AspectDrillScreen({
     }
   }, [loading, error, allItems.length]);
 
+  // Credit on REACHING the results view, not on acknowledging it. That view is
+  // rendered through H(..., goBack), so Finish sits beside a real Back button — and
+  // this drill awards nothing per answer, so a learner who answered every item and
+  // left by Back used to get no XP, no gc, no vs, no writeDelta and no session
+  // signal, having done all the work. `total > 0` is required, or 0 >= 0 would fire
+  // this on mount and credit a drill nobody played (sweep 106 / NEVER-DO 14).
+  useEffect(() => {
+    const total = items.length * 4;
+    if (!done || total === 0 || finishFired.current) return;
+    finishFired.current = true;
+    // Gated: credit (vs 'aspect') only at >=75% — closes the back-door into the
+    // AspectScreen lesson gate (PR #37), which shares the 'aspect' key.
+    const { passed } = completeExercise({
+      key: 'aspect',
+      score,
+      total,
+      xp: score * 4 + 10,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // The Aspect Drill path node (learnPath lp52) checks vsIncludes:'aspectdrill',
+    // but this screen's exercise key is 'aspect' (shared with the AspectScreen
+    // lesson gate), so the node never checked off from doing the drill. On a pass,
+    // also record the drill's own path-node key — vs only (gc is already credited
+    // by completeExercise; 'aspectdrill' is not a black-hole screen so nothing else
+    // writes it). vs is union-merged on sync, so this is additive and safe.
+    if (passed && !stats.vs?.includes('aspectdrill')) {
+      setStats((prev) =>
+        prev.vs?.includes('aspectdrill')
+          ? prev
+          : { ...prev, vs: [...(prev.vs || []), 'aspectdrill'] },
+      );
+      if (writeDelta) writeDelta({ vs: ['aspectdrill'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, items.length, score]);
+
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
   if (!allItems.length) return null;
@@ -612,40 +651,7 @@ export default function AspectDrillScreen({
                 Drill Mistakes
               </button>
             )}
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                finishFired.current = true;
-                // Gated: credit (vs 'aspect') only at >=75% — closes the back-door into the
-                // AspectScreen lesson gate (PR #37), which shares the 'aspect' key.
-                const { passed } = completeExercise({
-                  key: 'aspect',
-                  score,
-                  total,
-                  xp: score * 4 + 10,
-                  stats,
-                  setStats,
-                  writeDelta,
-                  award,
-                });
-                // The Aspect Drill path node (learnPath lp52) checks vsIncludes:'aspectdrill',
-                // but this screen's exercise key is 'aspect' (shared with the AspectScreen
-                // lesson gate), so the node never checked off from doing the drill. On a pass,
-                // also record the drill's own path-node key — vs only (gc is already credited
-                // by completeExercise; 'aspectdrill' is not a black-hole screen so nothing else
-                // writes it). vs is union-merged on sync, so this is additive and safe.
-                if (passed && !stats.vs?.includes('aspectdrill')) {
-                  setStats((prev) =>
-                    prev.vs?.includes('aspectdrill')
-                      ? prev
-                      : { ...prev, vs: [...(prev.vs || []), 'aspectdrill'] },
-                  );
-                  if (writeDelta) writeDelta({ vs: ['aspectdrill'] });
-                }
-                goBack();
-              }}
-            >
+            <button className="b bp" onClick={goBack}>
               Finish
             </button>
           </div>

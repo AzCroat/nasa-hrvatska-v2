@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, sh, UNJUMBLE } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
@@ -23,6 +23,28 @@ export default function Unjumble({
 
   const shuffledWords = React.useMemo(() => ujQ.map((q) => sh([...q.words])), [ujQ]);
 
+  // Credit on REACHING the results view, not on acknowledging it. That view renders
+  // H(..., goBack) — a real Back button — beside "Continue →", and prints "+N XP" it
+  // had not yet paid, so a learner who solved every sentence and left by Back saw
+  // the promise and received no XP, no gc, no vs, no writeDelta and no session
+  // signal. `total > 0` is required, or an empty bank would credit on mount
+  // (NEVER-DO 14).
+  useEffect(() => {
+    if (total === 0 || ujI < total || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'unjumble',
+      score: ujS,
+      total,
+      xp: ujS * 3 + 10,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ujI, total, ujS]);
+
   if (!q) {
     const xp = ujS * 3 + 10;
     return (
@@ -39,24 +61,7 @@ export default function Unjumble({
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '12px 0 20px' }}>
             +{xp} XP
           </div>
-          <button
-            className="b bp"
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              completeExercise({
-                key: 'unjumble',
-                score: ujS,
-                total,
-                xp,
-                stats,
-                setStats,
-                writeDelta,
-                award,
-              });
-              goBack();
-            }}
-          >
+          <button className="b bp" onClick={goBack}>
             Continue →
           </button>
         </div>

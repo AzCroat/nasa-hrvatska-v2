@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
@@ -204,6 +204,30 @@ export default function WordFamilies({
 
   const total = qs.length;
 
+  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT. This used to sit in the Done
+  // button's onClick, and the results view also renders a Back button (it passes
+  // `goBack` to H) — so a learner who passed and left by Back got no XP, no gc/vs
+  // and no session signal. The condition is exactly the one that gated the button,
+  // so a failed attempt still credits nothing and still offers the retry.
+  //
+  // `total > 0` is not decoration: `idx >= total` is `0 >= 0` on an empty bank,
+  // which would credit a completion of nothing on mount (NEVER-DO 14).
+  useEffect(() => {
+    if (total === 0 || idx < total || !passedLesson(score, total) || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'word-families',
+      score,
+      total,
+      xp: score * 5,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, total, score]);
+
   if (!qs.length) return null;
 
   if (idx >= total) {
@@ -219,25 +243,7 @@ export default function WordFamilies({
             +{score * 5} XP
           </div>
           {passedLesson(score, total) ? (
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                finishFired.current = true;
-                completeExercise({
-                  key: 'word-families',
-                  score,
-                  total,
-                  xp: score * 5,
-                  stats,
-                  setStats,
-                  writeDelta,
-                  award,
-                });
-                goBack();
-              }}
-              style={{ width: '100%', marginTop: 16 }}
-            >
+            <button className="b bp" onClick={goBack} style={{ width: '100%', marginTop: 16 }}>
               🏠 Done
             </button>
           ) : (

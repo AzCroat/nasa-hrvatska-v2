@@ -432,7 +432,9 @@ export default function ShadowingScreen({
 }) {
   const { stats, setStats, writeDelta } = useStats();
   const { content, loading: contentLoading } = useContent();
-  const SHADOWING = (content?.SHADOWING ?? []) as any[];
+  // Memoised so the level-aware `items` memo below has a stable dependency — a fresh
+  // `[]` on every render would recompute it every time and defeat the point.
+  const SHADOWING = React.useMemo(() => (content?.SHADOWING ?? []) as any[], [content]);
   const finishFired = useRef(false);
   const [idx, setIdx] = useState(0);
   const [said, setSaid] = useState(false);
@@ -446,6 +448,100 @@ export default function ShadowingScreen({
   const scoredItems = useRef(0);
   const scoredOk = useRef(0);
   const [gateFailed, setGateFailed] = useState(false);
+
+  // 3b: level-aware selection. Items now carry a CEFR `level` tag — serve the
+  // ~12 nearest the user's unlock level (easier→harder order) instead of the
+  // whole pool in fixed order. Content cached before the deploy has no tags
+  // and keeps the original full-pool behaviour.
+  //
+  // MEMOISED AND HOISTED ABOVE THE EARLY RETURNS so the credit effect below can read
+  // its length; the computation itself is unchanged.
+  const items = React.useMemo(() => {
+    const userCefr = getContentUnlockLevel(
+      getUserCefr(stats.xp ?? 0, stats.lc ?? 0, stats.gc ?? 0),
+    );
+    const tagged = (SHADOWING || []).filter((s) => s?.level);
+    if (tagged.length === 0) return SHADOWING || [];
+    const unlocked = tagged.filter((s) => isUnlocked(s.level, userCefr));
+    const pool = unlocked.length >= 4 ? unlocked : tagged;
+    const r = cefrRank(userCefr);
+    return [...pool]
+      .sort((a, b) => Math.abs(cefrRank(a.level) - r) - Math.abs(cefrRank(b.level) - r))
+      .slice(0, 12)
+      .sort((a, b) => cefrRank(a.level) - cefrRank(b.level));
+  }, [SHADOWING, stats.xp, stats.lc, stats.gc]);
+
+  // Credit on REACHING the done view, not on acknowledging it. That view offers Retry
+  // beside Finish, carries the Back button H(..., goBack) draws and the TabBar is
+  // mounted besides — so Finish was one exit of four and the ONLY one that paid. A
+  // learner who shadowed every sentence and left any other way got no XP, no `lc`, no
+  // `vs: shadowing` (the ckRule key for its LEARN_PATH node), neither quest mark and no
+  // ledger write.
+  //
+  // Everything below keeps its original reasoning from the Finish handler:
+  //
+  // The gate is the SHARED threshold (owner decision, 2026-09-16) — but ONLY over items
+  // the acoustic scorer actually scored. This screen had no session score at all: it
+  // paid `items.length * 3 + 5` XP and wrote vs:['shadowing'] as a function of how many
+  // sentences EXISTED, never of how the learner did. `scoredItems === 0` PASSES on
+  // purpose, and that is the whole subtlety: the scorer is fail-soft by contract (no
+  // mic, Azure down, no Web Speech) and the app's standing rule is that a learner is
+  // never failed for their microphone. So this gates the learners it can measure and
+  // blocks nobody it cannot.
+  //
+  // `items.length > 0` stops 0 >= 0 crediting on mount (NEVER-DO 14); the empty-pool
+  // case has its own screen below.
+  useEffect(() => {
+    if (!done || gateFailed || items.length === 0 || finishFired.current) return;
+    if (scoredItems.current > 0 && !passedLesson(scoredOk.current, scoredItems.current)) {
+      setGateFailed(true);
+      return;
+    }
+    finishFired.current = true;
+    if (typeof award === 'function') award(items.length * 3 + 5, false, 'listening');
+    markQuest('listening');
+    // AND THE SPEAK QUEST TOO, WHEN THE LEARNER ACTUALLY SPOKE (2026-09-23).
+    // `exerciseRegistry` calls this key `e('lc', 'speak', 'speaking')` while the screen
+    // credited only the LISTENING quest, so a learner who shadowed with a working mic
+    // finished an acoustically-scored speaking exercise and read "Speak Quest: not
+    // done".
+    //
+    // WHY IT IS CONDITIONAL: the 2026-08-14 change that moved the listening screens off
+    // `markQuest('speak')` was RIGHT — listening is not speaking — and it swept up the
+    // one screen of the four that is also speaking. Reinstating it unconditionally
+    // would be the opposite error, and a worse one: `acousticScore === null` is a
+    // SUPPORTED path here, so an unconditional mark would credit a speaking exercise to
+    // someone who never spoke (the `dialogue` mistake #720 corrected).
+    // `scoredItems.current > 0` is this block's OWN measured-speech predicate — the gate
+    // above uses it and the ledger write below relies on it — so the quest and the
+    // ledger cannot disagree about whether speech happened.
+    if (scoredItems.current > 0) markQuest('speak');
+    // THE LEDGER GETS 'speaking', AND THE AWARD ABOVE DELIBERATELY DOES NOT. Shadowing
+    // is both halves at once and the app already treats it as both: a PRODUCTION rep
+    // (useAward keys those off the SCREEN id) and a LISTENING rep (keyed off
+    // activityType). Retyping the award would silently drop the listening rep from the
+    // Fluency Snapshot. The ledger is unambiguous: the score is an ACOUSTIC
+    // pronunciation score of the learner's own speech. `scoredItems === 0` means NOT
+    // MEASURABLE and must not enter as a zero — `recordExerciseOutcome` returns early on
+    // `total <= 0`, so passing the pair through is correct by construction.
+    recordExerciseOutcome({
+      activityType: 'speaking',
+      score: scoredOk.current,
+      total: scoredItems.current,
+    });
+    if (!stats.vs?.includes('shadowing')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('shadowing')) return prev;
+        return {
+          ...prev,
+          lc: (prev.lc || 0) + 1,
+          vs: [...(prev.vs || []), 'shadowing'],
+        };
+      });
+      if (writeDelta) writeDelta({ lc: 1, vs: ['shadowing'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, gateFailed, items.length]);
 
   const {
     state: recState,
@@ -485,22 +581,6 @@ export default function ShadowingScreen({
         </div>
       </div>
     );
-  }
-  // 3b: level-aware selection. Items now carry a CEFR `level` tag — serve the
-  // ~12 nearest the user's unlock level (easier→harder order) instead of the
-  // whole pool in fixed order. Content cached before the deploy has no tags
-  // and keeps the original full-pool behaviour.
-  const userCefr = getContentUnlockLevel(getUserCefr(stats.xp ?? 0, stats.lc ?? 0, stats.gc ?? 0));
-  const tagged = SHADOWING.filter((s) => s?.level);
-  let items = SHADOWING;
-  if (tagged.length > 0) {
-    const unlocked = tagged.filter((s) => isUnlocked(s.level, userCefr));
-    const pool = unlocked.length >= 4 ? unlocked : tagged;
-    const r = cefrRank(userCefr);
-    items = [...pool]
-      .sort((a, b) => Math.abs(cefrRank(a.level) - r) - Math.abs(cefrRank(b.level) - r))
-      .slice(0, 12)
-      .sort((a, b) => cefrRank(a.level) - cefrRank(b.level));
   }
 
   // Reset recording state when moving to a new item
@@ -599,97 +679,7 @@ export default function ShadowingScreen({
             >
               Retry
             </button>
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                // Gate credit on the SHARED threshold (owner decision,
-                // 2026-09-16) — but ONLY over items the acoustic scorer
-                // actually scored. This screen had no session score at all: it
-                // paid `items.length * 3 + 5` XP and wrote vs:['shadowing'] (the
-                // ckRule key for its LEARN_PATH node) as a function of how many
-                // sentences EXISTED, never of how the learner did.
-                //
-                // `scoredItems === 0` PASSES on purpose, and that is the whole
-                // subtlety. The scorer is fail-soft by contract — no mic, Azure
-                // down, no Web Speech — and the app's standing rule is that a
-                // learner is never failed for their microphone. So this gates
-                // the learners it can measure and blocks nobody it cannot. The
-                // 70 bar is the one the line above already uses for the
-                // speaking ledger, not a new number.
-                if (
-                  scoredItems.current > 0 &&
-                  !passedLesson(scoredOk.current, scoredItems.current)
-                ) {
-                  setGateFailed(true);
-                  return;
-                }
-                finishFired.current = true;
-                if (typeof award === 'function') award(items.length * 3 + 5, false, 'listening');
-                markQuest('listening');
-                // AND THE SPEAK QUEST TOO, WHEN THE LEARNER ACTUALLY SPOKE
-                // (2026-09-23). `exerciseRegistry` calls this key
-                // `e('lc', 'speak', 'speaking')` — the file that names itself the
-                // single source of truth for completion policy — while the screen
-                // credited only the LISTENING quest, so a learner who shadowed with
-                // a working mic finished an acoustically-scored speaking exercise
-                // and read "Speak Quest: not done". The Speak Quest's own text is
-                // "Complete 1 speaking exercise".
-                //
-                // WHY IT IS CONDITIONAL, and this is the whole care in it: the
-                // 2026-08-14 change that moved the listening screens off
-                // `markQuest('speak')` was RIGHT — listening is not speaking — and
-                // it swept up the one screen of the four that is also speaking.
-                // Reinstating it unconditionally would be the opposite error, and a
-                // worse one: `acousticScore === null` is a SUPPORTED path here (no
-                // mic, scorer down) and this screen deliberately never penalises a
-                // keyboard-only learner, so an unconditional mark would credit a
-                // speaking exercise to someone who never spoke. That is the
-                // `dialogue` mistake #720 corrected, in a new place.
-                //
-                // `scoredItems.current > 0` is this block's OWN measured-speech
-                // predicate — the gate above uses it and the ledger write below
-                // relies on it — so the quest and the ledger cannot disagree about
-                // whether speech happened. Marking two quests from one screen is
-                // not novel: `VideoLessonScreen` already marks both.
-                if (scoredItems.current > 0) markQuest('speak');
-                // THE LEDGER GETS 'speaking', AND THE AWARD ABOVE DELIBERATELY DOES
-                // NOT (2026-09-23). Shadowing is both halves at once — hear a model,
-                // say it back — and the app already treats it as both: it is a
-                // PRODUCTION rep (useAward keys those off the SCREEN id, and
-                // `shadowing` is in PRODUCTION_POOL) and a LISTENING rep (keyed off
-                // activityType, and useAward's comment names this screen). Retyping
-                // the award to 'speaking' would silently drop the listening rep from
-                // the Fluency Snapshot, which is a learner-visible metric change
-                // nobody asked for.
-                //
-                // The ledger is a different question with an unambiguous answer: the
-                // score being recorded is `scoredOk/scoredItems`, an ACOUSTIC
-                // pronunciation score of the learner's own speech, so it is spoken
-                // evidence whatever the screen also teaches. `scoredItems === 0`
-                // means NOT MEASURABLE (no mic, scorer down) and must not enter as a
-                // zero — `recordExerciseOutcome` returns early on `total <= 0`, so
-                // passing the pair through is correct by construction rather than by
-                // a guard here.
-                recordExerciseOutcome({
-                  activityType: 'speaking',
-                  score: scoredOk.current,
-                  total: scoredItems.current,
-                });
-                if (!stats.vs?.includes('shadowing')) {
-                  setStats((prev) => {
-                    if (prev.vs?.includes('shadowing')) return prev;
-                    return {
-                      ...prev,
-                      lc: (prev.lc || 0) + 1,
-                      vs: [...(prev.vs || []), 'shadowing'],
-                    };
-                  });
-                  if (writeDelta) writeDelta({ lc: 1, vs: ['shadowing'] });
-                }
-                goBack();
-              }}
-            >
+            <button className="b bp" onClick={goBack}>
               Finish
             </button>
           </div>

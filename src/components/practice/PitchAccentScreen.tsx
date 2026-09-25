@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
 import { H, Bar, Spk } from '../../data';
@@ -68,6 +68,50 @@ export default function PitchAccentScreen({
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+
+  // Credit on REACHING the passed results view, not on acknowledging it. That view
+  // offers Retry beside Finish, carries the Back button H(..., goBack) draws, and the
+  // TabBar is mounted besides — so Finish was one exit of four and the ONLY one that
+  // paid. A learner who answered every item and left any other way got no XP, no `gc`,
+  // no `vs: pitchaccent`, no quest mark and no coupling discharge.
+  //
+  // `items.length > 0` and the pass gate are both load-bearing: the first stops 0 >= 0
+  // crediting on mount, the second keeps the failed round crediting nothing, which is
+  // what the PassGateNotice branch below exists to render. The gate is the SHARED
+  // threshold (owner decision, 2026-09-16) — this screen used to write vs, gc and XP
+  // with no reference to the score, and `pitchaccent` is NOT dwell-credited (the
+  // black-hole entry was removed to stop a double-count), so nothing else gated it.
+  //
+  // recordScreenPractised clears the teach → practice coupling (2026-08-29): this
+  // screen awards from its own score and credits `vs` itself rather than going through
+  // completeExercise, so it never reached that call — the third screen found in that
+  // state, after writing_guided and relpron. It is the route for the C1
+  // `accent-prosody` lesson, which without it would resolve, send the learner here and
+  // never clear.
+  //
+  // The vs key MUST be 'pitchaccent' (no hyphen) to satisfy this node's ckRule (lp50:
+  // vsIncludes 'pitchaccent'). The old 'pitch-accent' token was orphaned.
+  const pitchItems = (grammar?.PITCH_ACCENT as unknown as PitchAccentItem[] | undefined) ?? [];
+  useEffect(() => {
+    if (!done || pitchItems.length === 0 || finishFired.current) return;
+    if (!passedLesson(score, pitchItems.length)) return;
+    finishFired.current = true;
+    if (typeof award === 'function') award(score * 5 + 5, false, 'grammar');
+    recordScreenPractised('pitchaccent');
+    markQuest('grammar');
+    if (!stats.vs?.includes('pitchaccent')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('pitchaccent')) return prev;
+        return {
+          ...prev,
+          gc: (prev.gc || 0) + 1,
+          vs: [...(prev.vs || []), 'pitchaccent'],
+        };
+      });
+      if (writeDelta) writeDelta({ gc: 1, vs: ['pitchaccent'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, pitchItems.length, score]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -164,41 +208,7 @@ export default function PitchAccentScreen({
             >
               Retry
             </button>
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                finishFired.current = true;
-                if (typeof award === 'function') award(score * 5 + 5, false, 'grammar');
-                // Clear the teach → practice coupling (2026-08-29). This screen
-                // awards from its own score and credits `vs` itself rather than
-                // going through completeExercise, so it never reached
-                // recordScreenPractised — the third screen found in this state,
-                // after writing_guided and relpron. It is the route for the C1
-                // `accent-prosody` lesson, which without this would resolve, send
-                // the learner here, and never clear. One call at the genuine
-                // completion point; the award path is deliberately untouched.
-                recordScreenPractised('pitchaccent');
-                markQuest('grammar');
-                // vs key MUST be 'pitchaccent' (no hyphen) to satisfy this node's
-                // ckRule (lp50: vsIncludes 'pitchaccent'). The old 'pitch-accent'
-                // token was orphaned — it never completed the path node, which then
-                // only advanced via the black-hole dwell (now removed to stop the
-                // lc(dwell)+gc(self) double-count).
-                if (!stats.vs?.includes('pitchaccent')) {
-                  setStats((prev) => {
-                    if (prev.vs?.includes('pitchaccent')) return prev;
-                    return {
-                      ...prev,
-                      gc: (prev.gc || 0) + 1,
-                      vs: [...(prev.vs || []), 'pitchaccent'],
-                    };
-                  });
-                  if (writeDelta) writeDelta({ gc: 1, vs: ['pitchaccent'] });
-                }
-                goBack();
-              }}
-            >
+            <button className="b bp" onClick={goBack}>
               Finish
             </button>
           </div>

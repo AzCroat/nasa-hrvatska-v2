@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
@@ -51,6 +51,30 @@ export default function PadezifullScreen({
   const [pfO, sPfO] = useState<string[]>([]);
   const [pfCaseA, sPfCaseA] = useState(false);
   const [_pfCaseSl, sPfCaseSl] = useState(-1);
+
+  // Credit on REACHING the results view, not on acknowledging it. The view is
+  // rendered inside the same wrapper as H(..., goBack), so 🏠 Finish sits beside a
+  // real Back button — and nothing here awards per answer, so a learner who
+  // answered every question and left by Back used to get no XP, no gc, no vs, no
+  // writeDelta and no session signal. `pfQ.length > 0` is required, or 0 >= 0 would
+  // fire this on mount and credit a quiz nobody played (NEVER-DO 14).
+  useEffect(() => {
+    if (pfMode !== 'quiz' || pfQ.length === 0 || pfI < pfQ.length || finishFired.current) return;
+    finishFired.current = true;
+    // Gate completion on the comprehension pass (>=75%) via the
+    // single completion authority — idempotent, no credit on fail.
+    completeExercise({
+      key: 'padezifull',
+      score: pfS,
+      total: pfQ.length,
+      xp: pfS * 5,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pfMode, pfI, pfQ.length, pfS]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -284,26 +308,7 @@ export default function PadezifullScreen({
                 <h2>
                   {pfS} / {total}
                 </h2>
-                <button
-                  className="b bp"
-                  onClick={() => {
-                    if (finishFired.current) return;
-                    finishFired.current = true;
-                    // Gate completion on the comprehension pass (>=75%) via the
-                    // single completion authority — idempotent, no credit on fail.
-                    completeExercise({
-                      key: 'padezifull',
-                      score: pfS,
-                      total,
-                      xp: pfS * 5,
-                      stats,
-                      setStats,
-                      writeDelta,
-                      award,
-                    });
-                    goBack();
-                  }}
-                >
+                <button className="b bp" onClick={goBack}>
                   🏠 Finish
                 </button>
               </div>

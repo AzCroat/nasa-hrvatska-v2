@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { H, ALPHA, speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { recordScreenPractised } from '../../lib/teachPractice';
@@ -48,6 +48,73 @@ export default function AlphabetScreen({ goBack, award }: Props) {
   const [learnedCount, setLearnedCount] = useState(0);
   const learnedRef = useRef(new Set());
   const awardFired = useRef(false);
+
+  // Credit on REACHING the quiz-done view, not on acknowledging it. That view offers
+  // 📖 Review beside ✓ Done, carries the Back button H(..., goBack) draws, and the
+  // TabBar is mounted besides — so ✓ Done was one exit of four and the ONLY one that
+  // paid. A learner who finished the day-one alphabet quiz and tapped Review, Back or
+  // a tab got no XP, no `lc`, no `vs`, no quest mark, no coupling discharge and no
+  // session signal. `questions.length > 0` is required, or an empty bank would credit
+  // on mount (NEVER-DO 14).
+  //
+  // Everything below kept its original ordering and reasoning from the finish handler:
+  //
+  // `recordScreenPractised` sits BEFORE the already-awarded guard on purpose: the
+  // queue holds an intention ("practise the alphabet"), and a learner who retakes the
+  // quiz has satisfied it whether or not the XP was banked the first time. Same
+  // ordering as completeExercise, which clears before its own already-credited early
+  // return.
+  //
+  // Deliberately NOT a conversion to completeExercise. This screen grades itself and
+  // runs its own award path (20 XP, markQuest, and its own lc/vs bookkeeping guarded
+  // against the dwell timer); routing that through the shared authority would change
+  // a live screen's XP semantics for no gain here. Same call and same reasoning as
+  // `writing_guided` and `relpron`.
+  useEffect(() => {
+    if (!quizDone || questions.length === 0) return;
+    recordScreenPractised('alphabet');
+    // Advance Today's Session on a genuine FINISH, unconditionally. award() is what
+    // normally writes nh_session_completed (useAward does it before its own cooldown
+    // gate), and it is gated on first completion here — while `vs` was PRE-WRITTEN by
+    // the dwell timer for every learner who had ever merely tapped in. So for every
+    // learner already carrying the key, the day-one curriculum drill could be
+    // finished and Today's Session stayed at N-1/N, on that attempt and every later
+    // one. Dropping `alphabet` from BLACK_HOLE_SCREENS stops the pre-write for anyone
+    // starting today; it cannot un-write it for the installed base, which is why this
+    // call is here and why it is not conditional. Screen-scoped, so it can only ever
+    // complete the activity that launched THIS screen.
+    signalSessionCompleteIfActive('alphabet');
+    // `vs` is now an honest first-completion marker: the only writer left is this
+    // screen's own credit block.
+    const firstCompletion = !stats.vs?.includes('alphabet');
+    if (!awardFired.current) {
+      awardFired.current = true;
+      // XP ON FIRST COMPLETION ONLY, which is `completeExercise`'s default: a repeat
+      // pays nothing unless the screen opts in via awardOnReplay, and this one does
+      // not. `awardFired` alone is an IN-INSTANCE ref and resets on every remount, so
+      // gating on it would have made the alphabet quiz the one screen in the app that
+      // pays 20 XP every time you re-enter it.
+      if (firstCompletion && typeof award === 'function') {
+        award(20, false, 'vocabulary');
+      }
+      // markQuest is NOT gated the same way, deliberately: it is date-keyed and counts
+      // per day (it promotes a tier-2 quest on the second finish of a type today), so
+      // it is meant to be called on each genuine completion.
+      markQuest('grammar');
+    }
+    if (firstCompletion) {
+      setStats((prev) => {
+        if (prev.vs?.includes('alphabet')) return prev;
+        return {
+          ...prev,
+          lc: (prev.lc || 0) + 1,
+          vs: [...(prev.vs || []), 'alphabet'],
+        };
+      });
+      if (writeDelta) writeDelta({ lc: 1, vs: ['alphabet'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quizDone, questions.length]);
 
   function markLearned(letter: string) {
     if (!learnedRef.current.has(letter)) {
@@ -208,77 +275,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
             >
               📖 Review
             </button>
-            <button
-              className="b bp"
-              style={{ flex: 1 }}
-              onClick={() => {
-                // Discharge the teach → practice coupling. This sits BEFORE the
-                // already-awarded guard on purpose: the queue holds an intention
-                // ("practise the alphabet"), and a learner who retakes the quiz
-                // has satisfied it whether or not the XP was banked the first
-                // time. Same ordering as completeExercise, which clears before
-                // its own already-credited early return.
-                //
-                // Deliberately NOT a conversion to completeExercise. This screen
-                // grades itself and runs its own award path (20 XP, markQuest,
-                // and its own lc/vs bookkeeping guarded against the dwell
-                // timer); routing that through the shared authority would change
-                // a live screen's XP semantics for no gain here. Same call and
-                // same reasoning as `writing_guided` and `relpron`.
-                recordScreenPractised('alphabet');
-                // Advance Today's Session on a genuine FINISH, unconditionally.
-                //
-                // The award() below is what normally writes nh_session_completed
-                // (useAward does it before its own cooldown gate), and it is gated
-                // on `firstCompletion` — which reads `stats.vs`, a marker the
-                // LEARN_PATH launcher used to pre-write the INSTANT lp10 was
-                // tapped. So for every learner already carrying the key, the
-                // day-one curriculum drill could be finished and Today's Session
-                // stayed at N-1/N, on that attempt and every later one.
-                //
-                // Dropping `alphabet` from BLACK_HOLE_SCREENS stops the pre-write
-                // for anyone starting today; it cannot un-write it for the
-                // installed base, which is why this call is here and why it is
-                // not conditional. Screen-scoped, so it can only ever complete
-                // the activity that launched THIS screen. Same shape as
-                // recordScreenPractised above — no award semantics change.
-                signalSessionCompleteIfActive('alphabet');
-                // `vs` is now an honest first-completion marker: the only writer
-                // left is this screen's own credit block below.
-                const firstCompletion = !stats.vs?.includes('alphabet');
-                if (!awardFired.current) {
-                  awardFired.current = true;
-                  // XP ON FIRST COMPLETION ONLY, which is `completeExercise`'s
-                  // default: a repeat pays nothing unless the screen opts in via
-                  // awardOnReplay, and this one does not. `awardFired` alone is
-                  // an IN-INSTANCE ref and resets on every remount, so gating on
-                  // it would have made the alphabet quiz the one screen in the
-                  // app that pays 20 XP every time you re-enter it. That was
-                  // invisible until the prop below started arriving — the call
-                  // had been dead since the screen shipped.
-                  if (firstCompletion && typeof award === 'function') {
-                    award(20, false, 'vocabulary');
-                  }
-                  // markQuest is NOT gated the same way, deliberately: it is
-                  // date-keyed and counts per day (it promotes a tier-2 quest on
-                  // the second finish of a type today), so it is meant to be
-                  // called on each genuine completion.
-                  markQuest('grammar');
-                }
-                if (firstCompletion) {
-                  setStats((prev) => {
-                    if (prev.vs?.includes('alphabet')) return prev;
-                    return {
-                      ...prev,
-                      lc: (prev.lc || 0) + 1,
-                      vs: [...(prev.vs || []), 'alphabet'],
-                    };
-                  });
-                  if (writeDelta) writeDelta({ lc: 1, vs: ['alphabet'] });
-                }
-                goBack();
-              }}
-            >
+            <button className="b bp" style={{ flex: 1 }} onClick={goBack}>
               ✓ Done
             </button>
           </div>

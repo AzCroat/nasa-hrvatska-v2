@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, sh, NUMTIME } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
@@ -26,6 +26,30 @@ export default function NumTime({
   const [ntO, sNtO] = useState(initialData[1]);
 
   const total = ntQ.length;
+
+  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT. The results view renders a
+  // Back button beside Finish!, and this drill pays everything at the end, so a
+  // learner who answered every question and left by Back got nothing. Fires under
+  // the same condition that showed the results view; `completeExercise` still
+  // applies the 75% gate, and `total > 0` stops an empty bank crediting on mount.
+  useEffect(() => {
+    if (total === 0 || ntQ[ntI] || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'numtime',
+      score: ntS,
+      total,
+      xp: ntS * 3 + 10,
+      // Replayable drill — the score-scaled bonus has always been paid on every
+      // finish, not only the first.
+      awardOnReplay: true,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ntI, total, ntS]);
 
   if (!ntQ[ntI]) {
     // `numtime` is registered `gated`, so a sub-75% run earns no gc and no XP.
@@ -63,28 +87,7 @@ export default function NumTime({
               {retryNeedLabel(total)}
             </button>
           )}
-          <button
-            className="b bp"
-            style={{ marginTop: 0 }}
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              completeExercise({
-                key: 'numtime',
-                score: ntS,
-                total,
-                xp: ntS * 3 + 10,
-                // Replayable drill — the score-scaled bonus has always been paid
-                // on every finish, not only the first.
-                awardOnReplay: true,
-                stats,
-                setStats,
-                writeDelta,
-                award,
-              });
-              goBack();
-            }}
-          >
+          <button className="b bp" style={{ marginTop: 0 }} onClick={goBack}>
             Finish!
           </button>
         </div>

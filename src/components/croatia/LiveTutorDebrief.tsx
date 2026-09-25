@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 
 interface DebriefData {
@@ -29,6 +29,22 @@ export default function LiveTutorDebrief({
   const awardFired = useRef<boolean>(false);
   const fmtDur = (s: number) => `${Math.floor(s / 60)}m ${s % 60}s`;
   const xpEarned = debrief.xpEarned ?? 30;
+
+  // Credit on REACHING the debrief, not on acknowledging it. This screen renders only
+  // once a debrief exists, i.e. the tutoring session is over and the XP is earned — and
+  // it offers THREE exits: "← Back" at the top, "Practice Again" below, and the
+  // "+N XP · Back to App" button, with the TabBar mounted besides. Only the last one
+  // paid, while the button itself prints the figure. A learner who read their debrief
+  // and left any other way got nothing.
+  //
+  // `xpEarned` is `debrief.xpEarned ?? 30`, so it is always positive; the ref keeps a
+  // remount from paying twice, exactly as it did on the button.
+  useEffect(() => {
+    if (awardFired.current) return;
+    awardFired.current = true;
+    if (award) award(xpEarned, false, 'speaking');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [xpEarned]);
 
   return (
     <div className="c" style={{ minHeight: '100vh', paddingBottom: 40 }}>
@@ -185,13 +201,7 @@ export default function LiveTutorDebrief({
 
         {/* CTA */}
         <button
-          onClick={() => {
-            if (!awardFired.current) {
-              awardFired.current = true;
-              if (award) award(xpEarned, false, 'speaking');
-            }
-            goBack();
-          }}
+          onClick={goBack}
           style={{
             width: '100%',
             height: 52,

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, Spk, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
@@ -54,6 +54,37 @@ export default function ModalScreen({
   const [m7a, sM7a] = useState(false);
   const [m7sl, sM7sl] = useState(-1);
   const [m7o, sM7o] = useState<string[]>([]);
+
+  // Credit on REACHING the results view, not on acknowledging it. That view renders
+  // H(..., goBack) — a real Back button — beside 🔄 Retry and 🏠 Finish, and it
+  // announces "🏅 Modal Verbs Badge Earned!" before the badge is credited: a learner
+  // who answered every question and left by either of the other two exits read the
+  // claim and got no completion XP, no gc, no vs, no badge counter, no writeDelta
+  // and no session signal. `m7q.length > 0` is required, or 0 >= 0 would fire this
+  // on mount and credit a quiz nobody played (NEVER-DO 14).
+  useEffect(() => {
+    if (m7 !== 'quiz' || m7q.length === 0 || m7i < m7q.length || finishFired.current) return;
+    finishFired.current = true;
+    // Gate completion on the comprehension pass (>=75%) via the
+    // single completion authority — no credit on a failed quiz.
+    const already = stats.vs?.includes('modal') ?? false;
+    const { passed } = completeExercise({
+      key: 'modal',
+      score: m7s,
+      total: m7q.length,
+      xp: m7s * 3 + 20,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // Modal-verbs badge counter — credited once, on the same pass.
+    if (passed && !already) {
+      setStats((st) => ({ ...st, mv: (st.mv || 0) + 1 }));
+      writeDelta({ mv: 1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [m7, m7i, m7q.length, m7s]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -437,32 +468,7 @@ export default function ModalScreen({
                   >
                     🔄 Retry
                   </button>
-                  <button
-                    className="b bv"
-                    onClick={() => {
-                      if (finishFired.current) return;
-                      finishFired.current = true;
-                      // Gate completion on the comprehension pass (>=75%) via the
-                      // single completion authority — no credit on a failed quiz.
-                      const already = stats.vs?.includes('modal') ?? false;
-                      const { passed } = completeExercise({
-                        key: 'modal',
-                        score: m7s,
-                        total,
-                        xp: m7s * 3 + 20,
-                        stats,
-                        setStats,
-                        writeDelta,
-                        award,
-                      });
-                      // Modal-verbs badge counter — credited once, on the same pass.
-                      if (passed && !already) {
-                        setStats((s) => ({ ...s, mv: (s.mv || 0) + 1 }));
-                        writeDelta({ mv: 1 });
-                      }
-                      goBack();
-                    }}
-                  >
+                  <button className="b bv" onClick={goBack}>
                     🏠 Finish!
                   </button>
                 </div>

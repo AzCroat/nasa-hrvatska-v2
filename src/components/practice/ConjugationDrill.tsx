@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
@@ -39,6 +39,28 @@ export default function ConjugationDrill({ goBack, award }: Props) {
   const [cjA, sCjA] = useState(false);
   const [cjSl, sCjSl] = useState(-1);
   const [cjO, sCjO] = useState<string[]>([]);
+
+  // Credit on REACHING the results view, not on acknowledging it. That view offers
+  // THREE exits — 🏠 Finish, 📋 Menu, and the Back button H(..., goBack) draws — and
+  // nothing here awards per answer, so a learner who answered every question and
+  // left by either of the other two used to get no XP, no gc, no vs, no writeDelta
+  // and no session signal. `cjQ.length > 0` is required, or 0 >= 0 would fire this
+  // on mount and credit a quiz nobody played (NEVER-DO 14).
+  useEffect(() => {
+    if (cjMode !== 'quiz' || cjQ.length === 0 || cjI < cjQ.length || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'conjugation',
+      score: cjS,
+      total: cjQ.length,
+      xp: cjS * 2 + 10,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cjMode, cjI, cjQ.length, cjS]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -151,24 +173,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                   <button className="b bg" onClick={() => sCjMode('menu')}>
                     📋 Menu
                   </button>
-                  <button
-                    className="b bp"
-                    onClick={() => {
-                      if (finishFired.current) return;
-                      finishFired.current = true;
-                      completeExercise({
-                        key: 'conjugation',
-                        score: cjS,
-                        total,
-                        xp: cjS * 2 + 10,
-                        stats,
-                        setStats,
-                        writeDelta,
-                        award,
-                      });
-                      goBack();
-                    }}
-                  >
+                  <button className="b bp" onClick={goBack}>
                     🏠 Finish!
                   </button>
                 </div>

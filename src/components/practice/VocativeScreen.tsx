@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, VOCATIVE } from '../../data';
 import { speak } from '../../lib/audio.js';
 import { useStats } from '../../context/StatsContext';
@@ -40,6 +40,32 @@ export default function VocativeScreen({
   const pct = Math.round((score / total) * 100);
 
   const shuffledOpts = React.useMemo(() => quizQ.map((q) => sh([q.a, ...q.al])), [quizQ]);
+
+  // Credit on REACHING the done phase, not on acknowledging it. That view renders
+  // H(..., goBack) — a real Back button — beside "✓ Done" and prints "+N XP" it had
+  // not yet paid, and nothing here awards per answer: a learner who answered every
+  // question and left by Back saw the promise and received no XP, no gc, no vs, no
+  // writeDelta and no session signal. `total > 0` is required, or an empty bank
+  // would credit on mount (NEVER-DO 14).
+  useEffect(() => {
+    if (phase !== 'done' || total === 0 || finishFired.current) return;
+    finishFired.current = true;
+    // Gate completion on the comprehension pass (>=75%) — a failed quiz
+    // reaches this view and earns no credit.
+    completeExercise({
+      key: 'vocative',
+      score,
+      total,
+      xp: score * 8,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+      // Preserve the original XP attribution (vocative drilled as vocab).
+      activityType: 'vocabulary',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, total, score]);
 
   // ── Phase: Rules ───────────────────────────────────────────────────────────
   if (phase === 'rules') {
@@ -458,28 +484,7 @@ export default function VocativeScreen({
               🔄 Try again
             </button>
           )}
-          <button
-            className="b bp"
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              // Gate completion on the comprehension pass (>=75%) — "Continue
-              // anyway" navigates away but earns no credit on a failed quiz.
-              completeExercise({
-                key: 'vocative',
-                score,
-                total,
-                xp: xpEarned,
-                stats,
-                setStats,
-                writeDelta,
-                award,
-                // Preserve the original XP attribution (vocative drilled as vocab).
-                activityType: 'vocabulary',
-              });
-              goBack();
-            }}
-          >
+          <button className="b bp" onClick={goBack}>
             {passed ? '✓ Done' : 'Continue anyway'}
           </button>
         </div>

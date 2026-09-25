@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
@@ -208,6 +208,26 @@ export default function CollocationsGame({ goBack, award }: Props) {
 
   const total = qs.length;
 
+  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT — the results view also offers
+  // a Back button, so a learner who passed and left by it used to get nothing. The
+  // condition is exactly the one that gated the Done button, so a failed attempt
+  // still credits nothing. `total > 0` stops `0 >= 0` crediting an empty bank.
+  useEffect(() => {
+    if (total === 0 || idx < total || !passedLesson(score, total) || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'collocations',
+      score,
+      total,
+      xp: score * 5,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, total, score]);
+
   if (!qs.length) return null;
 
   if (idx >= total) {
@@ -223,25 +243,7 @@ export default function CollocationsGame({ goBack, award }: Props) {
             +{score * 5} XP
           </div>
           {passedLesson(score, total) ? (
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                finishFired.current = true;
-                completeExercise({
-                  key: 'collocations',
-                  score,
-                  total,
-                  xp: score * 5,
-                  stats,
-                  setStats,
-                  writeDelta,
-                  award,
-                });
-                goBack();
-              }}
-              style={{ width: '100%', marginTop: 16 }}
-            >
+            <button className="b bp" onClick={goBack} style={{ width: '100%', marginTop: 16 }}>
               🏠 Done
             </button>
           ) : (

@@ -3387,6 +3387,110 @@ transport read as a server error.
   learner said; tell a model its input is one kind of measurement when it is
   another; throw a bare `Error` for a transport that returned nothing.
 
+## Critical Architecture: The Credit Follows The Work, Not The Button (owner bar, 2026-09-25)
+
+Owner: **"When I say 'working' I mean there is nothing the user finds that doesn't
+work."** The first defect found by asking that instead of running a derivation, and
+it is a learner losing a whole round.
+
+`H(title, subtitle, back)` (`src/data/content.tsx`) draws a real Back **BUTTON** when
+`back` is passed, and **`TabBar` is mounted on every screen but `welcome` and
+`placement`** (`App.tsx`) — so a tab is always another way out and EVERY results view
+has a second exit. **Twenty-one screens paid their credit from the onClick of the Done /
+Finish button on that view**, several of which had a fourth exit of their own (📋 Menu,
+📖 Review, 🔄 Retry, Practice Again). Answer every question, leave any other way, get
+nothing: no XP, no `gc`/`lc`/`rc`, no `vs`, no quest mark, no `writeDelta`, no ledger
+write, no session signal, no Learn-Path tick.
+
+Twelve used `completeExercise`; **nine hand-rolled the same credit**
+(`award` + `markQuest` + their own `vs` bookkeeping) and so were outside the authority
+entirely. **The worst is `ReviewScreen` — the app's highest-volume daily action**: finish
+every due SRS card, tap a tab, and the XP, the `rc` counter, `vs: srsreview` and the
+review count the quest reads are all gone. On four (`Unjumble`, `VocativeScreen`,
+`PadezifullScreen`, `ConjugationDrill`) nothing was awarded per answer either, so the
+round paid zero.
+
+- **SEVEN PRINTED A CLAIM THEY HAD NOT HONOURED.** `Unjumble`, `VocativeScreen`,
+  `BojeGame`, `DictationScreen`, `ListeningScreen` and `LiveTutorDebrief` render
+  "+N XP" on that view — the last one **on the button itself** — while `ModalScreen`
+  announces "🏅 Modal Verbs Badge Earned!" and `PastTenseLessonScreen` "Quest complete!
+  +20 XP bonus". Sweep 102's `0 / 0 milestones` class with the opposite cause: the
+  number is right, and whether it becomes true depends on which button the learner
+  presses next. `AspectDrillScreen` also owed the `aspectdrill` path-node key (lp52),
+  `PitchAccentScreen` its `pitchaccent` key (lp50) and its coupling discharge,
+  `ModalScreen` the `mv` badge counter, and `ShadowingScreen` both quest marks.
+- **A TEST THAT EXERCISES THE PAYING PATH CANNOT TELL YOU THE OTHER PATH EXISTS.**
+  Every contract test in `exerciseContract.test.tsx` clicks Done — the
+  component-test / wiring-test split landing on a second exit instead of a missing
+  prop. **TWO source pins sat directly on defective call sites and justified themselves
+  with the same false premise**: `unjumble.contract.test.tsx` ("a generic render-driver
+  cannot reliably build the CORRECT sentence to clear the 75% gate" — FALSE, the bank's
+  own `correct` string gives the tile order) and
+  `comprehensionGateBypass.contract.test.ts`, which covers all four of
+  `modal`/`padezi`/`padezifull`/`vocative` ("whose UI a generic render-driver cannot
+  reliably drive to a deterministic pass/fail"). **A stated reason for not driving a
+  screen is where that screen's real behaviour goes to die** — the `idioms` exemption
+  shape, applied to a test's own premise. Both premises are corrected in place.
+- **AND BOTH PINS THEN FAILED ON THE CORRECT CHANGE, for the same reason**: each
+  asserted the SHORTHAND spelling `total,`, which stops matching once the credit moves
+  into an effect where the render branch's `total` local is out of scope. A spelling pin
+  says nothing about the value, and a wrong total silently moves the 75% gate — so both
+  now pin the screen's own question-bank length (`total: m7q.length`, `xp: ujS * 3 + 10`)
+  instead. **Pin the VALUE, never the spelling.**
+- **THE FIX** credits from an effect keyed on REACHING the results view, so both
+  exits are equivalent, with a **`total > 0` guard** because `0 >= 0` would otherwise
+  credit an unplayed exercise on mount (sweep 106 / NEVER-DO 14). Each screen keeps
+  its own gating condition and `finishFired` ref, so Retry still cannot re-credit,
+  and the exit button becomes a bare `onClick={goBack}`.
+- **THE RULE IS A CONJUNCTION AND EACH HALF ALONE IS WRONG.** `BojeGame` and
+  `ZnamGame` also credit from an `onClick` — the ADVANCE button of the final
+  question, which IS the act of finishing; they move the learner onto a view whose
+  credit is already recorded, so every exit is equivalent. Banning the shape flags
+  both as defects. Calling `goBack()` from an onClick is fine everywhere. It is
+  **paying only when the learner presses the button that LEAVES** that loses the
+  work, and that is what `creditFollowsWork.test.ts` forbids.
+- **WATCHING ONLY THE AUTHORITY WOULD HAVE FOUND TWELVE OF TWENTY-ONE.** The rule's
+  writer set is `completeExercise` **plus** `award`, `markQuest`,
+  `recordExerciseOutcome`, `recordSrsReview` and `recordMasteryEvent`, because nine
+  screens grade and award themselves and never reach the authority — and they are the
+  half containing `ReviewScreen`. Those nine are deliberately NOT converted to
+  `completeExercise`: each has its own XP semantics and routing them through the shared
+  path would change a live screen's awards for no gain here (the `writing_guided` /
+  `relpron` precedent). **A rule scoped to the single source of truth misses everything
+  that never adopted it.**
+- **REAL-WORLD MUTATION, not only a synthetic one**: the rule was run over the
+  pre-fix version of every subject (`git show 567a3080:<path>` into a scratch tree) —
+  **21 of 21 flagged and 0 of 21 after, with `BojeGame` and `ZnamGame` correctly left
+  alone in both runs**. The committed non-vacuity clause uses a FABRICATED pair (a
+  defective probe AND the prescribed fix) so it cannot come to depend on a real file
+  keeping the defect (sweep 137's rule), and the fix arm proves the rule does not
+  forbid its own remedy.
+- **THREE screens are also DRIVEN** (`creditSurvivesLeavingResults.test.tsx`):
+  `TypingScreen` (the sharpest loss), `Unjumble` (the printed promise, driven off the
+  REAL static bank) and `PronunciationContrast` — one of the nine, because an effect can
+  be present and never fire and only rendering shows that. Each reverted fails the
+  behavioural test naming what it broke.
+- **A SOURCE PIN DROPPED A `style` ATTRIBUTE AND NOTHING TYPE-CHECKED IT.** The helper
+  that rewrote 21 buttons preserved the attributes BEFORE `onClick` and silently lost a
+  trailing `style={{ width: '100%' }}` — a visible regression with no error behind it.
+  Caught by diffing each button's attribute SET before and after, which is the check to
+  run after any mechanical edit to JSX.
+- **MY OWN POSITIVITY ASSERTION SURVIVED ITS FIRST MUTATION.** Written against a
+  fixed 1,600-character look-behind, it passed with `total === 0` deleted from
+  `VocativeScreen`, because that much preceding code mentions a length somewhere. It
+  reads the effect's own guard region now (`useEffect(` → the call), and each of four
+  removals fails it. Nth instance of the fixed-window defect here
+  (`registryMatchesScreen`, `dwellContentGate`); caught only because mutation was run
+  **per screen** rather than once.
+- NEVER: call a credit writer (`completeExercise`, `award`, `markQuest`,
+  `recordExerciseOutcome`, `recordSrsReview`, `recordMasteryEvent`) from the onClick of
+  a control that also navigates away; print an XP figure or a badge on a results view
+  before it is credited; scope a credit rule to `completeExercise` alone (nine screens
+  never adopted it); record "a driver cannot reach this screen" without trying; pin a
+  gate's inputs by their SHORTHAND SPELLING rather than their value; assert a guard
+  clause inside a fixed character window from a declaration; rewrite a JSX attribute
+  list mechanically without diffing the attribute SET before and after.
+
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 
 `_nativePost` returning `null` has meant "no endpoint answered at all" since

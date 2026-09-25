@@ -62,6 +62,41 @@ export default function ListeningScreen({
   const total = questions.length;
   const answeredTotal = total - skipped;
 
+  // Credit on REACHING the passed results view, not on acknowledging it. The TabBar is
+  // mounted on every screen, so "Finish!" was one exit of two and the ONLY one that
+  // paid — while the view prints "+N XP" it had not yet credited. A learner who
+  // answered every sentence and tapped a tab got no XP, no `lc`, no `vs`, no quest
+  // mark and no ledger write.
+  //
+  // Both extra conditions are load-bearing, not defensive: `answeredTotal > 0` keeps
+  // the all-skipped case (its own screen below) crediting nothing — "never credit work
+  // the learner could not do", NEVER-DO 14 — and it stops 0 >= 0 firing on mount; and
+  // the pass gate keeps the failed round crediting nothing, which is what the
+  // PassGateNotice branch below exists to render.
+  useEffect(() => {
+    if (idx < total || answeredTotal === 0 || finishFired.current) return;
+    if (!passedLesson(score, answeredTotal)) return;
+    finishFired.current = true;
+    // `listening`, not `speak` — this screen awards activityType 'listening' and
+    // credits vs:['listening']. It was the last pair of screens left behind by the
+    // 2026-08-14 move off the speak mislabel.
+    markQuest('listening');
+    if (typeof award === 'function') award(score * 4 + 10, false, 'listening');
+    // THE MASTERY LEDGER SAW NONE OF THIS UNTIL 2026-09-23. `award` reaches the XP and
+    // quest path only, so the app's only dedicated Listening Quiz — one of its two
+    // AUDIO-FIRST screens — recorded its result to the ADAPTIVE store (handleAnswer's
+    // per-answer recordTopicResult) and not to the ledger the recommender reads.
+    recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
+    if (!stats.vs?.includes('listening')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('listening')) return prev;
+        return { ...prev, lc: (prev.lc || 0) + 1, vs: [...(prev.vs || []), 'listening'] };
+      });
+      if (writeDelta) writeDelta({ lc: 1, vs: ['listening'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, total, answeredTotal, score]);
+
   if (idx >= total && answeredTotal === 0)
     return (
       <div className="scr-wrap">
@@ -140,38 +175,7 @@ export default function ListeningScreen({
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', marginBottom: 20 }}>
             +{score * 4 + 10} XP
           </div>
-          <button
-            className="b bp"
-            style={{ width: '100%' }}
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              // `listening`, not `speak` — this screen awards activityType 'listening'
-              // and credits vs:['listening']. It was the last pair of screens left
-              // behind by the 2026-08-14 move off the speak mislabel, and until the
-              // Listening Quest existed there was nothing correct to move them to.
-              markQuest('listening');
-              // answeredTotal > 0 here — the all-skipped case rendered its own
-              // screen above and credits nothing.
-              if (typeof award === 'function') award(score * 4 + 10, false, 'listening');
-              // THE MASTERY LEDGER SAW NONE OF THIS UNTIL 2026-09-23. `award`
-              // reaches the XP and quest path only, so the app's only dedicated
-              // Listening Quiz — one of its two AUDIO-FIRST screens — recorded
-              // its result to the ADAPTIVE store (recordTopicResult below) and
-              // not to the ledger the recommender reads. Same shape and same
-              // fix as the reading screens earlier that day: record at the
-              // genuine completion point, change no award semantics.
-              recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
-              if (!stats.vs?.includes('listening')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('listening')) return prev;
-                  return { ...prev, lc: (prev.lc || 0) + 1, vs: [...(prev.vs || []), 'listening'] };
-                });
-                if (writeDelta) writeDelta({ lc: 1, vs: ['listening'] });
-              }
-              goBack();
-            }}
-          >
+          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
             Finish!
           </button>
         </div>
