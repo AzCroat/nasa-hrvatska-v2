@@ -602,13 +602,54 @@ JSON example.
   invisible and a multi-endpoint file read as attributable — every key of that OTHER
   response then reported against the writing evaluator. Latent (the strict form
   undercounts in 3 of 52 client files, none a `writeeval` surface) and fixed.
+- **THAT GUARD SKIPPED THE TEN AI-HEAVIEST SCREENS, AND STILL THE CONTRACT HOLDS
+  (sweep 123, 2026-09-25).** `attributable()` bailed on `paths.size !== 1`, so a
+  MULTI-endpoint client file was covered by nothing: `LiveTutorScreen` (4 endpoints),
+  `AIConversation` (4), `MajaScreen`, `CroatianNewsScreen`, `GrammarExplainer`,
+  `PronunciationScorer`, `VideoLessonScreen`, `Flashcards`, `PhraseOfDayScreen`,
+  `pushNotifications` — ten of forty-one. They are now compared against the **UNION**
+  of their endpoints' keys. **The union is the deliberate choice, not a shortcut**:
+  per-handler attribution needs the brace-matched enclosing function, and the
+  string-and-regex-aware TSX scanner written for it reported **4 of those 10 files
+  unbalanced on its first run and 99 of 969 across the tree** (JSX `</div>` reads as a
+  regex start; a `'` inside `/["'()[\]]/g` opens a string). A guard built on a fragile
+  parser is decoration. The union cannot manufacture a finding and still catches the
+  `v.tip` class — a field NO endpoint in the file sends. Measured 31/20 → **43 subjects
+  over 33 endpoints, zero new defects.**
+- **A DESTRUCTURED READ IS A READ, AND A TEMPLATE-PREFIXED PATH IS A PATH.**
+  `const { imageUrl } = await r.json()` binds no name a read loop can follow (measured:
+  FIVE such reads in the whole client tree, every one correct), and `WIDE` required a
+  quote right before `/api/`, so `` `${apiBase}/api/server-time` `` reached no endpoint
+  at all. The path widening **survived its own first mutation** — 41 subjects still
+  cleared the ≥40 floor — so `dateUtils` is pinned by name.
+- **A TRAILING `//` COMMENT CREDITED AN ENDPOINT WITH A KEY IT DOES NOT SEND.** The
+  shared `strip` idiom anchors line comments at `^\s*//`, which
+  `commentStripOrder.test.ts` records as a deliberate SEMANTIC difference — documented,
+  never measured as a risk. It is one here, in the dangerous direction: `keysOf` runs on
+  `ok({`, so `foo(); // ok({ neverSent })` turns a real finding into a pass (proven on
+  real files: hardened strip fails 1 and names the field, the old one passes 9 and never
+  mentions it). Fixed keeping **sweep 72's order — line comments FIRST, blocks LAST**;
+  reversing it re-opens the runaway-block hole and that ratchet caught it in one run.
+  The trailing pass refuses any comment whose body contains `*/`, so a one-line
+  `/* a // b */` keeps its own terminator. **Latent everywhere else, measured**: across
+  the symbols the other guards match, only two trailing comments in the tree mention one
+  and both are prose, and zero trailing comments in `functions/api/*.js` spell `ok({`.
+- **`npx vitest run` WITHOUT `--reporter=verbose` PRINTS NO `console.log`.** A census
+  that printed zero lines was read as zero instances; it was zero OUTPUT, and only a
+  `grep` disagreeing with the probe settled it. **A probe that prints nothing has not
+  measured zero** — the "a missing mechanism and a passing mechanism look identical from
+  outside" rule, landing on a reporter flag.
 - NEVER: parse a model reply with a private fence regex or a bare
   `JSON.parse` (use `parseModelJson`); add a Claude endpoint without
   `reconcileSafely` or a stated exemption; return a bare `null`/`false` from a
   feedback path without recording a named cause; render nothing on a feedback
   failure; show a learner a raw status ("API error 429"); imply learner fault
   for a server condition; call `_aiPost` for feedback with a signal that
-  disables the default timeout unless you supply your own.
+  disables the default timeout unless you supply your own; skip a client file
+  from an attribution guard for having two endpoints (compare against the union);
+  read a field-presence guard as covering a destructured read; strip block
+  comments before line comments, or leave TRAILING comments in a guard whose
+  matcher reads object literals.
 
 ## Critical Architecture: Taught In Depth, Then Tested (owner directive, 2026-09-07)
 

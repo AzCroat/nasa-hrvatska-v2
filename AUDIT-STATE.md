@@ -8567,6 +8567,114 @@ un-named scales are not enumerable from source.
 
 ---
 
+### 123. The server→client AI contract, widened three ways — 2026-09-25 — NEGATIVE on the app, one live defect in the GUARD
+
+Sweep 121 shipped `aiResponseContract.test.ts` and recorded three gaps. This sweep
+measured all three before touching anything, widened the guard to cover them, and
+found **no new defect in the app** — while finding one in the guard itself, in the
+dangerous direction.
+
+**(a) MULTI-ENDPOINT CLIENT FILES WERE SKIPPED OUTRIGHT — and they are the
+AI-heaviest screens in the product.** `attributable()` bailed on `paths.size !== 1`,
+which excluded **ten** files: `LiveTutorScreen` (4 endpoints), `AIConversation` (4),
+`MajaScreen`, `CroatianNewsScreen`, `GrammarExplainer`, `PronunciationScorer`,
+`VideoLessonScreen`, `Flashcards`, `PhraseOfDayScreen`, `pushNotifications`. Ten of
+forty-one, ~24% of the client surface, covered by nothing.
+
+They are now compared against the **UNION** of their endpoints' keys, and the choice
+of the union over per-handler attribution is the finding worth keeping. Per-handler
+scoping needs the brace-matched enclosing function sweep 114 described, which needs a
+string-and-regex-aware scanner over TSX — and one was written: **it reported 4 of these
+10 files unbalanced on its first run and 99 of 969 across the tree.** JSX `</div>`
+reads as a regex start; a `'` inside `/["'()[\]]/g` opens a string that swallows to the
+next apostrophe; adding regex awareness fixed four files and broke two that had been
+right. The balance self-check (does depth return to 0 at EOF) is what made each of
+those visible, and it is why the scanner was abandoned rather than shipped: **a guard
+built on a fragile parser is the decorative-guard failure this project keeps
+rediscovering.** The union is weaker and cannot manufacture a finding — stated in the
+guard: it cannot see a field sent by endpoint A read off B's response inside one file,
+but it does catch the `v.tip` class, a field NO endpoint in the file sends, which is
+the failure that has actually shipped.
+
+**(b) A DESTRUCTURED READ WAS NO READ AT ALL.** `const { imageUrl } = await r.json()`
+binds no name the read loop could follow, so the whole file's contract was satisfied
+vacuously. **Measured before extending anything: FIVE such reads in the entire client
+tree** — `flux-generate`'s two (`Flashcards`, `StoryScreens`), `/api/ai-chat`'s `text`
+in `GrammarReader`, `/api/server-time`'s `ts` in `dateUtils`, and one off a Firestore
+document in `firebase.ts` that is not an API response at all. Every one correct. Say
+that plainly: a ratchet, not a save.
+
+**(c) A TEMPLATE-PREFIXED PATH WAS NOT A PATH.** `WIDE` required a quote immediately
+before `/api/`, so `` `${apiBase}/api/server-time` `` was invisible and two files
+(`dateUtils`, `errorReporter`) reached no endpoint at all. Measured: 5 files whose
+endpoint the quote-only form missed, 2 real code and 3 trailing comments. **This
+widening SURVIVED its own first mutation** — 41 subjects still cleared the ≥40 floor —
+so `dateUtils` is now pinned BY NAME. A clause that survives its mutation without a
+control exercising it is decoration, and that rule earned its keep again here.
+
+**THE LIVE DEFECT WAS IN `strip`, AND IT IS SWEEP 72's CLASS IN THE PLACE SWEEP 72
+DELIBERATELY LEFT.** `commentStripOrder.test.ts` records the decision not to
+consolidate the strippers because "20 uses strip WHOLE-LINE comments only …, leaving a
+trailing `// note` after code intact" — documented as a SEMANTIC difference and never
+measured as a RISK. Here it is a risk: `keysOf` runs on `ok({`, so an endpoint line
+reading `foo(); // ok({ neverSent })` credits the endpoint with a key it does not send
+and **turns a real finding into a pass**. Proven on real files, not argued: with the
+phantom credit in `functions/api/maja.js` and the read in `MajaScreen.tsx`, the
+hardened strip fails 1 test and NAMES the field, the old one passes all 9 and never
+mentions it.
+
+- The fix keeps sweep 72's ordering — line comments FIRST, blocks LAST — because
+  reversing it (which my first draft did) re-opens the runaway-block hole, and
+  `commentStripOrder.test.ts` caught that within one run. **The ratchet works.**
+- The trailing pass refuses any comment whose body contains `*/`, so a one-line
+  `/* a // b */` keeps its own terminator instead of being truncated into a runaway.
+  Measured across `src/`, `functions/` and `scripts/`: **zero** such one-line block
+  comments exist today, so this is belt-and-braces — and it is pinned by a control
+  either way.
+- **The class is LATENT everywhere else, measured rather than assumed.** Across the
+  symbols the other guards match (`recordMasteryEvent`, `completeExercise`,
+  `parseModelJson`, `poolLaunchBlock`, `levelledBank`, `clickable`, `markQuest`,
+  `award`, …), only **two** trailing comments in the whole tree mention one, both as
+  English prose and neither as a call; and **zero** trailing comments in
+  `functions/api/*.js` spell `ok({` or `JSON.stringify({`. So the hole was live only
+  where `keysOf` reads an object literal.
+
+**Two false findings removed, both pinned by real data** (each fails 1 test if the
+exclusion is dropped, so neither is a guess): `resetAt` rides the SHARED 429 envelope
+`requireAuthedAI` sends (`daily_quota_exceeded` / the budget pause) and is read inside
+`if (!res.ok)` — the same channel as `error`, never a 200 field; and `getReader` is a
+ReadableStream member reached through a **name collision**, because `MajaScreen`
+declares `const body = await res.clone().json()` for the error code AND streams with
+`res.body.getReader()`, so the tracked name `body` picks up `.getReader`.
+
+**MEASURED, before and after:** 31 subjects / 20 endpoints → **43 subjects / 33
+endpoints**, and the only candidates are the three fallback arms already in
+`TOLERATED`. The contract holds.
+
+**Mutation-verified, nine, each confirmed landed:** multi-endpoint files skipped again
+(fails 1), the destructure clause removed (1), the trailing-comment pass removed (1),
+`WIDE` back to quote-only (1), `resetAt` un-ignored (1), `getReader` un-ignored (1), a
+multi-endpoint client reading a field no endpoint sends (1, and it NAMES the field), the
+same with the endpoint crediting it in a trailing comment under the hardened strip (1,
+still named), and **the same with the trailing pass removed — 0 failed and the field
+never named, which is the defect.**
+
+**A TOOL NOTE THAT COST A WRONG ANSWER.** `npx vitest run` WITHOUT `--reporter=verbose`
+prints nothing from `console.log`. My first destructure census printed zero lines and I
+read that as zero instances; it was zero OUTPUT. The count was only settled because a
+`grep` over the tree independently found the two `flux-generate` reads and disagreed
+with the probe. **A probe that prints nothing has not measured zero** — check the
+harness prints before reading its silence, which is this file's own "a missing mechanism
+and a passing mechanism look identical from outside", landing on a reporter flag.
+
+**WHAT THIS STILL CANNOT SEE, stated:** inside a multi-endpoint file, a field sent by
+one of its endpoints and read off another's response (the union's price, paid
+deliberately); the SHAPE of a field as opposed to its presence (a `string` where the
+client maps an array — needs a rendering test, and that gap is unchanged from sweep
+121); and a read reached through two hops of state or a helper's parameter.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -8587,6 +8695,19 @@ un-named scales are not enumerable from source.
       survive the strip, per guard, against the same count in the raw file** — do
       not read a length ratio, and do not assume a guard is fine because it is
       green.
+
+      **A SECOND HOLE IN THE SAME SHAPE, sweep 123:** the ORDER is right
+      everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
+      `commentStripOrder.test.ts` records that as a deliberate semantic
+      difference and never measured it as a risk. It is a risk where the matcher
+      reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
+      with a key it does not send and turned a real finding into a pass
+      (`aiResponseContract`, fixed and mutation-proven in both directions).
+      Measured LATENT elsewhere — across the symbols the other guards match, only
+      two trailing comments in the whole tree mention one and both are English
+      prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
+      `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
+      literal, and keep line-before-block or sweep 71's hole re-opens.
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.

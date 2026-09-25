@@ -20,16 +20,49 @@
  * derivation's own gap: `/api/listening` sets `speakers`/`narrator` onto its response
  * AFTER the literal, conditionally on style). So this is a ratchet, not a save; say
  * that plainly rather than dressing a clean sweep as a find.
+ *
+ * SWEEP 123 WIDENED IT THREE WAYS AND THE CONTRACT STILL HOLDS — 43 files over 33
+ * endpoints, the only candidates being the three already-tolerated fallback arms:
+ *   1. MULTI-ENDPOINT FILES ARE NO LONGER SKIPPED. `paths.size !== 1` excluded TEN
+ *      files, and they are the AI-heaviest screens in the product. They are compared
+ *      against the UNION of their endpoints' keys — see `attributable` for why the
+ *      union, and not per-handler scoping, is the honest rule here.
+ *   2. A DESTRUCTURED READ IS A READ. `const { imageUrl } = await r.json()` bound no
+ *      name the read loop could follow. Measured: five such reads in the whole client
+ *      tree, every one correct.
+ *   3. A TEMPLATE-PREFIXED PATH IS A PATH. `` `${apiBase}/api/server-time` `` was
+ *      invisible, so two files reached no endpoint at all.
+ * And one hardening in the DANGEROUS direction: `strip` left TRAILING comments, so
+ * `foo(); // ok({ x })` credited the endpoint with a key it does not send — a real
+ * finding turned into a pass. Mutation-verified on real files, both directions.
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync, readdirSync } from 'node:fs';
 
 const API = 'functions/api';
-const strip = (s: string) => s.replace(/^\s*\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+const strip = (s: string) =>
+  s
+    // LINE comments FIRST, both shapes, and blocks LAST (sweep 72's ordering rule: a
+    // `//` naming a path like `/api/*` otherwise opens a block comment that eats the
+    // rest of the file, and a guard whose subject has vanished passes).
+    .replace(/^\s*\/\/.*$/gm, '')
+    // TRAILING comments as well, and this is the DANGEROUS direction (sweep 123):
+    // `foo(); // ok({ neverSent })` makes `keysOf` credit a key the endpoint does not
+    // send, which turns a real finding into a pass. Only a `//` preceded by
+    // whitespace, so a URL's `://` inside a string survives; and never one whose body
+    // contains `*/`, so a one-line `/* a // b */` keeps its own terminator for the
+    // block pass instead of becoming a runaway.
+    .replace(/([^\S\n])\/\/(?:(?!\*\/)[^\n])*$/gm, '$1')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-/** A path start with NO closing quote required — a query string must not hide it. */
-const WIDE = /['"`](\/api\/[a-z0-9-]+)/g;
+/**
+ * A path start with NO closing quote required — a query string must not hide it —
+ * and `}` as an opener, because `` `${apiBase}/api/server-time` `` is how the two
+ * base-prefixed callers spell it (sweep 123: measured 5 files whose endpoint the
+ * quote-only form could not see, 2 of them real code and 3 trailing comments).
+ */
+const WIDE = /['"`}](\/api\/[a-z0-9-]+)/g;
 
 function braceSpan(s: string, i: number): string | null {
   let d = 0;
@@ -210,6 +243,28 @@ function fieldsRead(src: string): Set<string> {
   for (const n of names)
     for (const m of s.matchAll(new RegExp(`${esc(n)}\\??\\.([A-Za-z_$][\\w$]*)\\b`, 'g')))
       out.add(m[1]!);
+  // A DESTRUCTURED read is the same read, and it binds no name for the loop above to
+  // follow: `const { imageUrl } = await r.json()` is how two screens read
+  // /api/flux-generate. Measured across the whole client tree (sweep 123): FIVE such
+  // reads, every one correct — so this is a ratchet, not a save. Both shapes count,
+  // straight off `.json()` and off a tracked name; `...rest` binds no field.
+  const destructured = (list: string) => {
+    for (const part of list.split(',')) {
+      const t = part.trim();
+      if (!t || t.startsWith('...')) continue;
+      const m = /^['"]?([A-Za-z_$][\w$]*)['"]?\s*[:=]?/.exec(t);
+      if (m) out.add(m[1]!);
+    }
+  };
+  for (const m of s.matchAll(
+    /(?:const|let|var)\s*\{([^{}]*)\}\s*=\s*(?:await\s+)?[^;\n]*\.json\(\)/g,
+  ))
+    destructured(m[1]!);
+  for (const n of names)
+    for (const m of s.matchAll(
+      new RegExp(`(?:const|let|var)\\s*\\{([^{}]*)\\}\\s*=\\s*${esc(n)}\\b`, 'g'),
+    ))
+      destructured(m[1]!);
   // Response/Promise/collection members and the shared error channel.
   for (const k of [
     'ok',
@@ -232,6 +287,14 @@ function fieldsRead(src: string): Set<string> {
     'some',
     'every',
     'error',
+    // `resetAt` rides the SHARED 429 envelope `requireAuthedAI` sends
+    // (`daily_quota_exceeded` / the budget pause), read inside `if (!res.ok)` — the
+    // same channel as `error`, and never a field of a 200.
+    'resetAt',
+    // A ReadableStream member reached through a NAME COLLISION: MajaScreen declares
+    // `const body = await res.clone().json()` for the error code AND streams with
+    // `res.body.getReader()`, so the tracked name `body` picks up `.getReader`.
+    'getReader',
   ])
     out.delete(k);
   return out;
@@ -259,20 +322,43 @@ function endpointFiles(): Map<string, string> {
   return m;
 }
 
-function attributable(): { file: string; path: string; keys: Set<string> }[] {
+type Subject = { file: string; path: string; keys: Set<string>; endpoints: string[] };
+
+/**
+ * Every client file that talks to at least one of these endpoints.
+ *
+ * A SINGLE-endpoint file is compared against that endpoint's keys. A MULTI-endpoint
+ * file is compared against the UNION of its endpoints' keys — sweep 121 skipped those
+ * outright (`paths.size !== 1`), which left TEN files covered by nothing at all, and
+ * they are the AI-heaviest screens in the product: LiveTutorScreen (4 endpoints),
+ * AIConversation (4), MajaScreen, CroatianNewsScreen, GrammarExplainer,
+ * PronunciationScorer, VideoLessonScreen, Flashcards, PhraseOfDayScreen and
+ * pushNotifications.
+ *
+ * The union is WEAKER than per-handler attribution and it is deliberately the rule
+ * chosen: it cannot produce a false finding, whereas scoping each read to the
+ * brace-matched enclosing function requires parsing TSX, and a string-and-regex-aware
+ * scanner written for exactly that reported 4 of these 10 files unbalanced on its
+ * first run and 99 of 969 across the tree (JSX `</div>` reads as a regex start, a
+ * `'` inside `/["'()]/` opens a string). A guard built on a fragile parser is the
+ * decorative-guard failure this file exists to prevent.
+ *
+ * WHAT THE UNION CANNOT SEE, stated: inside a multi-endpoint file, a field sent by
+ * endpoint A but read off B's response. It still catches the `v.tip` class — a field
+ * NO endpoint in the file sends — which is the failure that has actually shipped.
+ */
+function attributable(): Subject[] {
   const eps = endpointFiles();
-  const out: { file: string; path: string; keys: Set<string> }[] = [];
+  const out: Subject[] = [];
   for (const f of globSync('src/**/*.{ts,tsx}')) {
     if (/(^|\/)(tests|__tests__)\//.test(f) || /\.test\./.test(f)) continue;
     const src = strip(readFileSync(f, 'utf8'));
-    const paths = new Set([...src.matchAll(WIDE)].map((m) => m[1]!));
-    if (paths.size !== 1) continue;
-    const path = [...paths][0]!;
-    const ep = eps.get(path);
-    if (!ep) continue;
-    const keys = responseKeys(ep);
+    const known = [...new Set([...src.matchAll(WIDE)].map((m) => m[1]!))].filter((p) => eps.has(p));
+    if (known.length === 0) continue;
+    const keys = new Set<string>();
+    for (const p of known) for (const k of responseKeys(eps.get(p)!)) keys.add(k);
     if (keys.size === 0) continue;
-    out.push({ file: f, path, keys });
+    out.push({ file: f, path: known.join(' + '), keys, endpoints: known });
   }
   return out;
 }
@@ -281,8 +367,30 @@ describe('an AI endpoint sends every field its clients read', () => {
   const subjects = attributable();
 
   it('the derivation is real and reaches the reshaping endpoints', () => {
-    expect(subjects.length).toBeGreaterThanOrEqual(25);
-    expect(new Set(subjects.map((s) => s.path)).size).toBeGreaterThanOrEqual(15);
+    // 43 client files over 33 endpoints when written (31/20 before the union rule).
+    expect(subjects.length).toBeGreaterThanOrEqual(40);
+    expect(new Set(subjects.flatMap((s) => s.endpoints)).size).toBeGreaterThanOrEqual(30);
+    // The ten multi-endpoint files sweep 121 skipped outright must be IN. A count
+    // alone would pass on ten single-endpoint files, so the AI-heaviest four are
+    // named: those are the screens whose reads were checked by nothing.
+    const multi = subjects.filter((s) => s.endpoints.length > 1);
+    expect(multi.length).toBeGreaterThanOrEqual(10);
+    const files = new Set(multi.map((s) => s.file));
+    for (const f of [
+      'src/components/croatia/LiveTutorScreen.tsx',
+      'src/components/croatia/AIConversation.tsx',
+      'src/components/croatia/MajaScreen.tsx',
+      'src/components/learn/GrammarExplainer.tsx',
+    ])
+      expect(files, `${f} must be a subject — it was covered by nothing`).toContain(f);
+    // The `}` opener, pinned: `dateUtils` spells its path `` `${apiBase}/api/server-time` ``
+    // and is reachable ONLY through it. Without this the widening survives its own
+    // mutation — 41 subjects still clears the floor above, which is how a clause
+    // becomes decoration.
+    expect(
+      subjects.map((s) => s.file),
+      'a `${base}/api/…` path must be seen',
+    ).toContain('src/lib/dateUtils.ts');
     const listening = responseKeys(`${API}/listening.js`);
     // The literal's keys AND the conditional post-hoc assignments.
     expect([...listening].sort()).toEqual(
@@ -308,6 +416,43 @@ describe('an AI endpoint sends every field its clients read', () => {
         '`note`, for the life of the screen).\n' +
         bad.map((b) => `  - ${b}`).join('\n'),
     ).toEqual([]);
+  });
+
+  it('POSITIVE CONTROL — a DESTRUCTURED read is seen, in both shapes', () => {
+    // Straight off `.json()` (the only two flux-generate readers), off a
+    // base-prefixed template path (`${apiBase}/api/server-time`), and the plain
+    // single-name form. Without the destructure clause all three read as no read at
+    // all, so the contract would be satisfied vacuously for those files.
+    expect(fieldsRead(readFileSync('src/components/practice/StoryScreens.tsx', 'utf8'))).toContain(
+      'imageUrl',
+    );
+    expect(fieldsRead(readFileSync('src/components/learn/GrammarReader.tsx', 'utf8'))).toContain(
+      'text',
+    );
+    expect(fieldsRead(readFileSync('src/lib/dateUtils.ts', 'utf8'))).toContain('ts');
+    // …and the endpoints really do send them, which is why the sweep found nothing.
+    expect(responseKeys(`${API}/flux-generate.js`).has('imageUrl')).toBe(true);
+    expect(responseKeys(`${API}/server-time.js`).has('ts')).toBe(true);
+    // A `...rest` binds no field and must not be reported as one.
+    expect([...fieldsRead('const { a, ...rest } = await r.json();')].sort()).toEqual(['a']);
+  });
+
+  it('POSITIVE CONTROL — a TRAILING comment cannot credit a key the endpoint never sends', () => {
+    // The dangerous direction. `strip` anchored `//` at line start, so
+    // `something(); // ok({ neverSent })` fed `keysOf` a phantom key and turned a real
+    // finding into a pass. A `://` inside a string must survive, or every endpoint
+    // that mentions a URL loses the rest of its line.
+    expect(strip('call(); // ok({ neverSent })\n')).not.toContain('neverSent');
+    expect(strip("const u = 'https://x/y';\n")).toContain('https://x/y');
+    expect(strip('a(); /* ok({ gone }) */ b();\n')).not.toContain('gone');
+    // A trailing `//` naming a glob must go BEFORE the block pass, or its `/*` opens
+    // a comment that runs to the next `*/` anywhere later (sweep 72's defect).
+    expect(strip('keep1(); // src/data/drills/*\nconst re = /x*/;\nkeep2();\n')).toContain('keep2');
+    // …and a ONE-LINE block comment must keep its own `*/`, so the trailing pass
+    // leaves it alone rather than truncating it into a runaway.
+    const mixed = strip('a(); /* ok({ gone2 }) // note */ keep3();\n');
+    expect(mixed).not.toContain('gone2');
+    expect(mixed).toContain('keep3');
   });
 
   it('POSITIVE CONTROL — dropping the post-hoc assignments re-finds /api/listening', () => {
