@@ -4178,10 +4178,35 @@ screens still read the raw key, each with an invented default, so a learner
 placed at A2 who reached C1 drew A2 content for ever and one who skipped
 placement drew **B1 whoever they were**.
 
+- **A GUARD CALLED A "CORPUS SWEEP" SWEPT FIVE MODULES OF 211** (sweep 126,
+  2026-09-25). `answerKeyIntegrity.test.ts` catches the class where a question is
+  LITERALLY UNWINNABLE — the declared answer is absent from its own options, so no
+  option ever turns green, no XP is awarded and nothing says so — and its corpus was
+  a hand-written map of five modules. Measured: **211 modules carry an
+  option-bearing item, 10,144 items exist**, and the block immediately below it says
+  "the corpus sweep above covers five modules, none of them these" without anyone
+  widening it. The largest uncovered body is the ~75 hand-written `*Drill.tsx`
+  components, the oldest graded content in the app. **The proof is one mutation:**
+  an unwinnable item in `NominativeDrill.tsx` leaves the committed guard passing
+  **36 of 36**. Corpus now derived with `import.meta.glob`/`eager` (not a dynamic
+  import — sweep 108); zero failures across all 644 modules, so it is a ratchet with
+  no false positives. The five named modules are CHECKED by identity and four
+  previously-uncovered drill files pinned BY NAME, because a glob typo still leaves
+  ~9,000 items and clears any floor.
+- **WHERE THE ANSWER KEY HAS NO STANDARD NAME**, the invariant is weaker and
+  name-independent: 388 option arrays carry no answer-shaped field at all —
+  `LISTEN` is `{hr, en, opts, level}` and `useListeningQuiz` grades `opt === q.en`,
+  `GENDERDRILL` uses `adj`, `COLORAGREE` uses `color`, `SENTBUILD` uses `hr` — so
+  the rule is that SOME string field of the item must appear among its options. That
+  is what makes widening the corpus safe, and a hard-coded key list produced 70
+  false positives on its first run.
 - NEVER: accept a positivity check that does not NAME the total it is clearing;
   match a credit's length comparison only inside the effect body (a named flag in
   the component body is the same comparison one hop away); read a synthetic control
-  as a verdict without confirming the derivation reached it at all.
+  as a verdict without confirming the derivation reached it at all. NEVER: hand-list the
+  corpus of a guard whose subject can grow — derive it, and pin the named members a
+  floor cannot protect; ship a bank whose declared answer is absent from its own
+  options, or whose options repeat.
 - **The four were NOT equivalent** and reading what each DOES with the value is
   what separated them: `SpeakingSprintScreen` (the prompt POOL, and the level
   RENDERED on setup — no way to change it) is the real one; `AspectScreen`

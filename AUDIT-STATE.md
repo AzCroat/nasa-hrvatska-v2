@@ -8867,6 +8867,80 @@ whose total is a function PARAMETER, which no per-file derivation can resolve.
 
 ---
 
+### 126. The corpus sweep swept five modules of two hundred and eleven — 2026-09-25 — RATCHET, and the proof it was needed is one mutation
+
+`answerKeyIntegrity.test.ts` guards the class where a question is **literally
+unwinnable**: the declared answer is absent from its own options, so no option ever
+turns green, no XP is awarded, and nothing anywhere says so. It names three real
+shipped violations (a `CONDITIONAL` item whose answer was `'bi (ona bi došla)'`
+against `['bih','bismo','biste','bi']`; duplicate options in `PADEZI_FULL` and
+`WordFamilies`). Its middle block is called **"answer-key integrity — corpus
+sweep"** and its corpus was a hand-written map of **five modules**.
+
+**Measured: 211 modules carry an option-bearing item, and there are 10,144 items.**
+The sweep covered five of the 211 — and the block immediately BELOW it says so in
+its own docstring ("the corpus sweep above covers five modules, none of them
+these") while widening the corpus occurred to nobody, including me when I read
+that sentence. The largest uncovered body is the **~75 hand-written `*Drill.tsx`
+components** — the oldest graded content in the app, which CLAUDE.md itself
+describes as "DATA wearing a `.tsx` extension" — plus the lesson bodies and the
+graded stories. 97 bank-bearing modules sat outside both covered sets.
+
+**THE PROOF, and it is one mutation:** put a genuinely unwinnable item into
+`NominativeDrill.tsx` — change `opts: ['Ana','Anu','Ane','Anom']` to
+`['Anu','Ane','Anom','Anama']` while `answer` stays `'Ana'` — and the COMMITTED
+guard passes **36 of 36**. With the corpus derived it fails 1 and names the file.
+The same holds for duplicate options.
+
+**Widening costs nothing, which is why it is done and not deferred.** The same
+`sweep` over the whole derived corpus (`src/data/**`,
+`functions/api/content/_data/**`, `practice/`, `learn/` and `croatia/` components)
+reports **ZERO** failures — no false positives to train anyone to ignore it. So
+this is a ratchet: nothing is broken today, and the next authored bank cannot be
+unwinnable silently.
+
+**The five named modules are CHECKED, not deleted.** A glob that stopped reaching
+one of them would shrink the corpus back with the item floor none the wiser — five
+modules are 2% of the items — so each is asserted to be reachable by identity, and
+four of the previously-uncovered drill files are pinned BY NAME for the same reason
+(a typo dropping `practice/**` still leaves ~9,000 items and clears any floor).
+Mutation-verified: the practice glob removed fails 2.
+
+**`import.meta.glob` with `eager`, matching the drill-bank block below it** — not a
+dynamic `import()`. Sweep 108's rule: a dynamic import that silently resolved to
+nothing would make every assertion here vacuous, and only the item floor plus the
+named pins would catch it. The eager glob costs ~14 s of import time in that one
+file, which is the price of covering 644 modules.
+
+**Three synthetic positive controls**, because the corpus is clean and otherwise
+both assertions could be satisfied by a sweep that had stopped looking: an answer
+absent from its options, a duplicated option, and an index out of range.
+
+**WHERE THE ANSWER KEY HAS NO STANDARD NAME, and why the check is name-independent.**
+388 option arrays carry no field named like an answer at all: `LISTEN` items are
+`{hr, en, opts, level}` and `useListeningQuiz` grades `opt === q.en`, so `en` IS
+the key; `GENDERDRILL` uses `adj`, `COLORAGREE` uses `color`, `SENTBUILD` uses
+`hr`. The existing sweep already handles this with the weaker but name-independent
+invariant — SOME string field of the item must appear among its options — and that
+is what makes widening safe. Checked directly while here: all 45 client `LISTEN`
+items and all 21 server ones have `en` among their options, with no duplicates.
+
+**Mutation-verified, five, each confirmed landed:** an unwinnable item in
+`NominativeDrill` (fails 1, names the file), duplicate options there (1), the
+practice glob removed (2), the corpus reverted to the five named modules (2), and
+**the same unwinnable item against the committed guard — 0 failed, 36 passed,
+which is the defect.**
+
+**WHAT THIS CANNOT SEE, stated:** a bank reached only through a function call (the
+walk reads exported VALUES, so a `buildQuiz()` bank is checked only where a screen
+also exports its source data); a grader that compares something other than the
+option string (a normalising grader could accept an option the strict check calls
+absent, and `UNJUMBLE`'s tile winnability is a separate block in the same file for
+exactly that reason); and an answer that is present but WRONG Croatian, which is
+the lint's question and not this one.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
