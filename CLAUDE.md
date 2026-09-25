@@ -575,6 +575,28 @@ JSON example.
   the prompt's keys are unioned in only where the endpoint spreads or forwards the
   parsed object whole — `{...parsed, _raw, model}`, or `JSON.stringify(result)`. That
   is the exception; reshaping is the rule.
+- **A KV `expirationTtl` IS SECONDS, AND THE NAME IS THE ONLY THING THAT SAYS SO
+  (sweep 122, 2026-09-25).** 24 arguments, all correct — and one constant whose name
+  did not state its unit (`WEEKLY_TTL`, 90 days in seconds), renamed
+  `WEEKLY_TTL_SECONDS`. `kvTtlUnits.test.js` requires every TTL argument to be
+  seconds-valued on its face: numeric-literal arithmetic, or an identifier stating
+  seconds. **The failure is silent and expensive in one direction** — a `_DAYS` value
+  there turns the 90-day TTS audio cache into a 90-SECOND one, so `/api/tts`
+  regenerates nearly every phrase against the $10/month ceiling while the audio still
+  plays, so nothing looks wrong. A ternary's CONDITION carries no unit (both arms are
+  checked, the condition is not); the first predicate reported `_middleware`'s
+  `contaminated ? … : …` as a finding on correct code.
+- **THE WIDER UNIT CLASS IS CLEAN BECAUSE THE NAME IS THE MECHANISM.** All 49
+  unit-named duration constants (`_MS`, `_SECONDS`, `_MINUTES`, `_HOURS`, `_DAYS`)
+  convert correctly at every use — a name that states a unit makes the author do the
+  arithmetic. The unnamed side cannot be guarded by name: of the 48 timestamp FIELDS,
+  five names (`at`, `date`, `last`, `savedAt`, `ts`) carry more than one unit, and
+  every case is a collision between unrelated objects rather than a mismatch
+  (`progressSnapshot.savedAt` is ms, `HeritageStoryScreen`'s entry is ISO;
+  `lessonRetention.last` is ms, `uStreak.last` is a date string). TypeScript already
+  covers the typed objects; the uncovered surface is `JSON.parse` typed `any`, which
+  is a migration, not a ratchet. **Name the unit in the constant** and this class
+  stays closed.
 - **A guard's attribution matcher must admit a query string.** `endpointsIn` required
   a closing quote right after the path, so `` `/api/news?level=${level}` `` was
   invisible and a multi-endpoint file read as attributable — every key of that OTHER
