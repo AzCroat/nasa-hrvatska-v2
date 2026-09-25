@@ -6997,6 +6997,14 @@ is bound to a const — the rule only evaluates direct literals. **A guard that 
 to write the bug in order to prove the fix can usually assert the consequence
 instead.**
 
+**CONFIRMED GREEN on `3908df47`: `CodeQL` success, "No new alerts in code changed
+by this pull request." 7 → 1 → 0.** Read rather than inferred — there was no
+failure event for `f48184c5`, and **absence of a failure event is not a pass**
+(its run was superseded when the docs commit landed on top of it, so the number
+came from the next head). That is this file's own rule about a missing mechanism
+and a passing mechanism looking identical from outside, met while waiting on the
+very check it applies to.
+
 **THE REUSABLE PART: the alert identity was available all along, on the PR, as
 inline review comments.** I read the check-run summary, found no `output.text`,
 concluded the identity was unreadable from this session, and reasoned from priors
