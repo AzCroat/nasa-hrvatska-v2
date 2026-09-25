@@ -29,12 +29,23 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import ts from 'typescript';
-import { execFileSync } from 'node:child_process';
 import { describe, it, expect } from 'vitest';
+import {
+  ROOT,
+  ENTRIES,
+  isTest,
+  isSubject,
+  edgesOf,
+  srcFiles,
+  dependencyGraph,
+  reachableFrom,
+} from './helpers/moduleGraph';
 
-const ROOT = path.join(__dirname, '..', '..');
-const ENTRIES = ['src/main.tsx', 'src/sw.js'];
+// The graph itself lives in `helpers/moduleGraph` as of sweep 130, because
+// `meteredEndpointsHaveCallers` needs the same walk — a caller that is itself
+// unreachable is not a caller. `edgesOf` is re-exported so importers of this
+// file by name keep working.
+export { edgesOf } from './helpers/moduleGraph';
 
 /**
  * Unreachable on purpose. Each entry states WHY, and both staleness directions
@@ -54,87 +65,75 @@ const KNOWN_UNREACHABLE: Record<string, string> = {
     'nothing diverges — but which file to keep is a deliberate decision.',
 };
 
-const EXTS = ['.ts', '.tsx', '.js', '.jsx'];
-const isTest = (f: string) =>
-  f.includes('/tests/') || f.includes('__tests__') || /\.test\.[jt]sx?$/.test(f);
-
-function resolveSpec(fromFile: string, spec: string): string | null {
-  if (!spec.startsWith('.')) return null; // package import
-  const base = path.normalize(path.join(path.dirname(fromFile), spec));
-  const stems = [base];
-  const m = base.match(/^(.*)\.(js|jsx)$/);
-  if (m) stems.push(m[1]!); // TS bundler resolution: ".js" may mean ".ts"
-  for (const s of stems) {
-    for (const e of ['', ...EXTS]) {
-      const p = s + e;
-      if (fs.existsSync(p) && fs.statSync(p).isFile()) return p;
-    }
-    for (const e of EXTS) {
-      const p = path.join(s, 'index' + e);
-      if (fs.existsSync(p)) return p;
-    }
-  }
-  return null;
-}
-
-/** Every module specifier `file` depends on — imports, re-exports, dynamic. */
-export function edgesOf(file: string, text: string): string[] {
-  const kind = file.endsWith('.tsx')
-    ? ts.ScriptKind.TSX
-    : file.endsWith('.ts')
-      ? ts.ScriptKind.TS
-      : ts.ScriptKind.JSX;
-  const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, kind);
-  const out = new Set<string>();
-  const add = (spec: string) => {
-    const r = resolveSpec(file, spec);
-    if (r) out.add(r);
-  };
-  const visit = (n: ts.Node): void => {
-    if (ts.isImportDeclaration(n) && ts.isStringLiteral(n.moduleSpecifier))
-      add(n.moduleSpecifier.text);
-    else if (
-      ts.isExportDeclaration(n) &&
-      n.moduleSpecifier &&
-      ts.isStringLiteral(n.moduleSpecifier)
-    )
-      add(n.moduleSpecifier.text); // the edge madge misses
-    else if (ts.isCallExpression(n)) {
-      const dynamic = n.expression.kind === ts.SyntaxKind.ImportKeyword;
-      const req = ts.isIdentifier(n.expression) && n.expression.text === 'require';
-      const arg = n.arguments[0];
-      if ((dynamic || req) && arg && ts.isStringLiteral(arg)) add(arg.text);
-    }
-    ts.forEachChild(n, visit);
-  };
-  visit(sf);
-  return [...out];
-}
-
 function unreachableModules(): { files: string[]; dead: string[]; reachable: number } {
-  const files = execFileSync(
-    'bash',
-    [
-      '-c',
-      "find src -type f \\( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' \\)",
-    ],
-    { cwd: ROOT, encoding: 'utf8' },
-  )
-    .trim()
-    .split('\n');
-  const deps = new Map<string, string[]>();
-  for (const f of files) deps.set(f, edgesOf(f, fs.readFileSync(path.join(ROOT, f), 'utf8')));
-  const seen = new Set<string>();
-  const queue = [...ENTRIES, ...files.filter(isTest)];
-  while (queue.length) {
-    const f = queue.pop()!;
-    if (seen.has(f)) continue;
-    seen.add(f);
-    for (const d of deps.get(f) ?? []) if (!seen.has(d)) queue.push(d);
-  }
-  const dead = files.filter((f) => !isTest(f) && !/\.d\.ts$/.test(f) && !seen.has(f)).sort();
+  const files = srcFiles();
+  const deps = dependencyGraph(files);
+  const seen = reachableFrom(deps, [...ENTRIES, ...files.filter(isTest)]);
+  const dead = files.filter((f) => isSubject(f) && !seen.has(f)).sort();
   return { files, dead, reachable: seen.size };
 }
+
+/**
+ * Modules the APP cannot reach, which only the tests keep alive.
+ *
+ * THE GUARD ABOVE EXCLUDES THESE BY DESIGN, AND THAT HID 4,206 LINES (sweep 129,
+ * 2026-09-25). Its walk seeds from every test as well as the app entries, on the
+ * stated reasoning that "a module kept alive only by its own tests still counts as
+ * reachable — that is a softer problem and is not what this guard is for". True of
+ * a helper with a unit test. NOT true of what was actually in there: **21 modules,
+ * 4,206 lines, including the entire `home/` hero cluster** — `HeroSection` and its
+ * twelve satellites, unrendered since `c1aea80d` (2026-04-25, "rewrite HomeTab —
+ * remove 12 sections") replaced it with the Daily Session Hub.
+ *
+ * The cost was not clutter. It was WORK DONE ON THE WRONG FILE, twice, by the
+ * audit itself:
+ *   - `#655` (2026-09-12) fixed "the hero stopped naming your goal at level 7"
+ *     in `HeroSection.tsx` and added a 263-line test for it.
+ *   - the 2026-09-06/09-08 CEFR-badge work named `heroHelpers.getCEFR` →
+ *     `HeroStats` as one of THREE (later six) learner-visible badge surfaces,
+ *     pinned it by source in `cefrBadgeCertified.test.tsx`, and renders
+ *     `<HeroStats>` there. The field report it answered ("it shows C1, I'm not
+ *     C1") was about `DesktopPanel`; the hero bar could not have shown anyone
+ *     anything. The fix was right for the two live surfaces and moot for the third.
+ * `#682`'s sweep deleted 31 modules of exactly this kind — including home
+ * components — and could not see these, because these have tests. So this list is
+ * the residue of that sweep, hidden by its own seeding rule.
+ *
+ * A module here is NOT automatically a defect: a pure library with a unit test and
+ * no caller yet is a different thing from a 389-line screen. What is required is
+ * that each one is NAMED, so a module cannot join the set in silence — which is
+ * exactly what happened to all 21.
+ *
+ * TWENTY OF THE TWENTY-ONE ARE DELETED (sweep 136, the same day). 4,017 lines of
+ * modules plus 1,365 of tests that only existed to keep them reachable. WHAT THE
+ * DELETION ITSELF SURFACED, because nothing else could have:
+ *   - a THIRD and FOURTH instance of work done on the dead files.
+ *     `paidStreakRestore.test.ts` fixed the 200-XP restore in `useHeroRewards` and
+ *     its own docstring says the fixed path "is the ONLY one a user can reach";
+ *     `storageResilience.test.ts`'s paid-actions block says of the same handler
+ *     "the difference is that these two were still live". Neither was reachable.
+ *   - the XP BOOST and the PAID STREAK RESTORE are features with no purchase
+ *     path: `lXPgain` still applies `XP_BOOST_MULTIPLIER` and the snapshot still
+ *     syncs `nh_xp_boost_expires`, while the only caller of `activateXpBoost` /
+ *     `spendXp` was this hook. Sweep 111's "a conduit is not a producer" needs one
+ *     more hop — a producer that is itself UNREACHABLE is not a producer, which is
+ *     exactly what sweep 130 established for endpoints. Recorded for the owner,
+ *     not patched: re-adding a purchase surface is a product decision.
+ *   - `LEVEL_NARRATIVE`, a key in the 1.4 MB `/api/content/core` payload, had
+ *     `HeroSection` as its ONE client consumer — so #655's September fix to the
+ *     level-7 rung was a fix to the reading of a payload nobody reads.
+ * The one survivor is the conjugation validator, which is what the docstring's
+ * "softer problem" actually means.
+ */
+const TEST_ONLY_REACHABLE: Record<string, string> = {
+  'src/lib/conjugation/morphology.ts':
+    'TEST-ONLY VALIDATOR, 126 lines, and legitimately so — the one entry here that is ' +
+    'the "softer problem" this guard\'s docstring means. `expectedForms` DERIVES each ' +
+    "form from the verb's class and root, and verbsData.test.ts asserts the STORED forms " +
+    'equal the derivation; the app renders those stored forms through forms.ts `formFor`, ' +
+    'which is a LOOKUP and not a competing rule. So the data a learner meets is exactly ' +
+    'what was validated. Listed because membership must never be silent, not as a defect.',
+};
 
 describe('no unreachable modules in src/', () => {
   const { files, dead, reachable } = unreachableModules();
@@ -175,5 +174,48 @@ describe('no unreachable modules in src/', () => {
       expect(dead, `${f} is reachable now — drop its exemption`).toContain(f);
     }
     expect(Object.keys(KNOWN_UNREACHABLE)).toHaveLength(2);
+  });
+});
+
+describe('every module the APP cannot reach is named, with its reason', () => {
+  const files = srcFiles();
+  const deps = dependencyGraph(files);
+  const app = reachableFrom(deps, ENTRIES);
+  const all = reachableFrom(deps, [...ENTRIES, ...files.filter(isTest)]);
+  const testOnly = files.filter((f) => isSubject(f) && !app.has(f) && all.has(f)).sort();
+
+  it('the app-only walk is real', () => {
+    // Without this, a resolver that reaches nothing calls the whole tree test-only
+    // and the list below would be asked to cover 1,600 files.
+    expect(app.size).toBeGreaterThan(files.length / 3);
+    expect(app.size).toBeLessThan(all.size);
+    // And it must reach what is unarguably live, or the walk is measuring nothing.
+    for (const live of [
+      'src/components/home/HomeTab.tsx',
+      'src/components/AppRouter.tsx',
+      'src/lib/masteryLedger.ts',
+    ])
+      expect(app.has(live), `${live} must be app-reachable`).toBe(true);
+  });
+
+  it('nothing is test-only-reachable except the recorded modules', () => {
+    expect(
+      testOnly,
+      'these modules are reachable ONLY from the tests — the app cannot render or call them. ' +
+        'The guard above excludes them by design, which is how the 13-module hero cluster sat ' +
+        'unrendered for five months while two audit sweeps edited it. Name it with a reason, ' +
+        'or delete it.',
+    ).toEqual(Object.keys(TEST_ONLY_REACHABLE).sort());
+  });
+
+  it('every recorded module still exists and is still test-only', () => {
+    for (const [f, reason] of Object.entries(TEST_ONLY_REACHABLE)) {
+      expect(fs.existsSync(path.join(ROOT, f)), `${f} was deleted — drop its entry`).toBe(true);
+      expect(reason.length, `${f} needs a stated reason`).toBeGreaterThan(40);
+      expect(testOnly, `${f} is app-reachable now — drop its entry`).toContain(f);
+    }
+    // Sweep 131 deleted twenty of the twenty-one. The count is pinned so growth
+    // back toward a cluster is a decision somebody made in this file, not drift.
+    expect(Object.keys(TEST_ONLY_REACHABLE)).toHaveLength(1);
   });
 });

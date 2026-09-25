@@ -1,7 +1,7 @@
 /**
  * hooksExtra.test.ts — coverage for hooks with 0% or very low coverage:
  *   useConversationSession, useWriteMode, usePwaInstall, usePlacement,
- *   useSwipeBack, useLocalStorage, useAndroidBackButton, useAndroidMicPermission
+ *   useSwipeBack, useAndroidBackButton, useAndroidMicPermission
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
@@ -60,7 +60,6 @@ import { useWriteMode } from '../hooks/useWriteMode';
 import { usePwaInstall } from '../hooks/usePwaInstall';
 import { usePlacement } from '../hooks/usePlacement';
 import { useSwipeBack } from '../hooks/useSwipeBack';
-import { useLocalStorage, safeGetItem, safeSetItem } from '../hooks/useLocalStorage';
 import { useAndroidBackButton } from '../hooks/useAndroidBackButton';
 import { useAndroidMicPermission } from '../hooks/useAndroidMicPermission';
 
@@ -377,109 +376,6 @@ describe('useSwipeBack', () => {
       document.dispatchEvent(new TouchEvent('touchend', { changedTouches: [] }));
     }).not.toThrow();
     expect(goBack).not.toHaveBeenCalled();
-  });
-});
-
-// ── useLocalStorage ───────────────────────────────────────────────────────────
-
-describe('useLocalStorage', () => {
-  beforeEach(clearLS);
-  afterEach(clearLS);
-
-  it('returns defaultValue when key not set', () => {
-    const { result } = renderHook(() => useLocalStorage('test-key', 'default'));
-    expect(result.current[0]).toBe('default');
-  });
-
-  it('reads existing value from localStorage', () => {
-    localStorage.setItem('test-key', JSON.stringify('stored-value'));
-    const { result } = renderHook(() => useLocalStorage('test-key', 'default'));
-    expect(result.current[0]).toBe('stored-value');
-  });
-
-  it('setValue updates state', () => {
-    const { result } = renderHook(() => useLocalStorage('test-key', 0));
-    act(() => {
-      result.current[1](42);
-    });
-    expect(result.current[0]).toBe(42);
-  });
-
-  it('setValue persists to localStorage', () => {
-    const { result } = renderHook(() => useLocalStorage('test-key', 0));
-    act(() => {
-      result.current[1](99);
-    });
-    expect(JSON.parse(localStorage.getItem('test-key') || '0')).toBe(99);
-  });
-
-  it('setValue with function form uses previous value', () => {
-    const { result } = renderHook(() => useLocalStorage('test-key', 10));
-    act(() => {
-      result.current[1]((prev) => prev + 5);
-    });
-    expect(result.current[0]).toBe(15);
-  });
-
-  it('setValue with null removes key from localStorage', () => {
-    localStorage.setItem('test-key', JSON.stringify('value'));
-    const { result } = renderHook(() => useLocalStorage<string | null>('test-key', null));
-    act(() => {
-      result.current[1](null);
-    });
-    expect(localStorage.getItem('test-key')).toBeNull();
-  });
-
-  it('handles corrupted localStorage value gracefully', () => {
-    localStorage.setItem('test-key', 'NOT_JSON{{{{');
-    const { result } = renderHook(() => useLocalStorage('test-key', 'fallback'));
-    expect(result.current[0]).toBe('fallback');
-  });
-});
-
-describe('safeGetItem', () => {
-  beforeEach(clearLS);
-  afterEach(clearLS);
-
-  it('returns null when key not found and no defaultValue', () => {
-    expect(safeGetItem('missing')).toBeNull();
-  });
-
-  it('returns defaultValue when key not found', () => {
-    expect(safeGetItem('missing', 'default')).toBe('default');
-  });
-
-  it('returns parsed value when key exists', () => {
-    localStorage.setItem('mykey', JSON.stringify({ a: 1 }));
-    expect(safeGetItem('mykey')).toEqual({ a: 1 });
-  });
-
-  it('returns defaultValue when value is invalid JSON', () => {
-    localStorage.setItem('mykey', 'INVALID{{{');
-    expect(safeGetItem('mykey', 'fallback')).toBe('fallback');
-  });
-});
-
-describe('safeSetItem', () => {
-  beforeEach(clearLS);
-  afterEach(clearLS);
-
-  it('stores value and returns true', () => {
-    const ok = safeSetItem('k', { x: 1 });
-    expect(ok).toBe(true);
-    expect(JSON.parse(localStorage.getItem('k') || '{}')).toEqual({ x: 1 });
-  });
-
-  it('removes key when value is null', () => {
-    localStorage.setItem('k', JSON.stringify('old'));
-    safeSetItem('k', null);
-    expect(localStorage.getItem('k')).toBeNull();
-  });
-
-  it('removes key when value is undefined', () => {
-    localStorage.setItem('k', JSON.stringify('old'));
-    safeSetItem('k', undefined);
-    expect(localStorage.getItem('k')).toBeNull();
   });
 });
 

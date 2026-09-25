@@ -21,6 +21,26 @@
 //       "budget-paused" from /api/tts used to come back as `null`, identical to
 //       a dropped connection, and the client filed both as "network". `null`
 //       now means exactly what it says: no endpoint answered at all.
+//   (e) WHY it answered nothing (2026-09-25). `null` said WHAT happened and
+//       never WHY, across 20+ callers — so a real field report
+//       (`ai_feedback_failed:pronunciation-assess:server`, no status, no code)
+//       could be traced to this function and no further. `getLastTransportFailure()`
+//       records the reason as a CODE, cleared on any success so no surface can
+//       report another's stale failure as its own (the `ttsFetch` rule).
+//
+//       THE FIELD REPORT IS EXPLAINED, AND IT WAS THE CALLER THAT HID IT.
+//       `PronunciationScorer` did `if (!res) throw new Error('assess_transport_failed')`
+//       inside a try whose catch calls `failureFromError` — and a plain `Error`
+//       is not a TypeError, not an abort, and the browser was online, so it fell
+//       to `build('server')` with NO status and NO code. That is the exact Sentry
+//       signature. So the null path was laundered into "the evaluation service is
+//       temporarily unavailable" and nothing recorded that nothing had answered.
+//
+//       ELIMINATED, so nobody re-chases it: `getFirebaseBearer()` cannot throw.
+//       Its entire body — including the `await _bearerPromise` that could inherit
+//       a rejected cached promise — sits inside one try/catch returning null. It
+//       was a live candidate on the strength of being awaited OUTSIDE `send()`,
+//       and reading the body settled it.
 import { getFirebaseBearer, isNative, _dataUrlToArrayBuffer } from './nativeTransport.js';
 import { dbgInfo, dbgWarn } from './debugLog';
 
@@ -31,6 +51,62 @@ export interface NativePostOpts {
   responseType?: 'json' | 'blob';
   /** Response header names to preserve on the blob path (e.g. ['X-TTS-Backends']). */
   passthroughHeaders?: string[];
+}
+
+/**
+ * Why `_nativePost` returned null. A CLOSED vocabulary, like the push-delivery
+ * failure codes and `TtsFailure.cause` — never free text, so a consumer's switch
+ * cannot start lying and nothing unbounded reaches a report.
+ */
+export type TransportFailureReason = 'fetch_threw' | 'capacitor_threw' | 'capacitor_unusable_body';
+
+export interface TransportFailure {
+  /** The endpoint path asked for, e.g. '/api/pronunciation-assess'. */
+  path: string;
+  reason: TransportFailureReason;
+  /** How many endpoints were tried before giving up (1 on web, 2 on native). */
+  attempts: number;
+  /**
+   * The last thrown error's `name` only — `TypeError`, `AbortError`, a DOMException
+   * name. NOT the message: a fetch rejection embeds the URL it failed against, and
+   * this value is meant to be safe to put in a report. A caller that wants more
+   * detail has the error itself.
+   */
+  errorName?: string;
+  at: number;
+}
+
+let _lastTransportFailure: TransportFailure | null = null;
+
+/**
+ * The reason the most recent `_nativePost` answered nothing, or null.
+ *
+ * Cleared by ANY response — including a 4xx or a 5xx — because from that moment
+ * the transport demonstrably works and a stale reason would misattribute a
+ * handler refusal to a dead connection.
+ */
+export function getLastTransportFailure(): TransportFailure | null {
+  return _lastTransportFailure;
+}
+
+/** Test hook. */
+export function _resetTransportFailure(): void {
+  _lastTransportFailure = null;
+}
+
+function _noteTransportFailure(
+  path: string,
+  reason: TransportFailureReason,
+  attempts: number,
+  errorName?: string,
+): void {
+  _lastTransportFailure = {
+    path,
+    reason,
+    attempts,
+    at: Date.now(),
+    ...(errorName ? { errorName } : {}),
+  };
 }
 
 // In Capacitor native builds, relative URLs resolve to the bundled WebView server
@@ -103,6 +179,8 @@ export async function _nativePost(
 
       if (capHttp) {
         let lastServerError: Response | null = null;
+        let lastErrName: string | undefined;
+        let unusableBody = false;
         for (const base of endpoints) {
           const url = `${base}${path}`;
           try {
@@ -127,6 +205,10 @@ export async function _nativePost(
                   dbgWarn(
                     `[nativePost] CapacitorHttp blob: unexpected data type "${typeof resp.data}" len=${String(resp.data).length} — trying next`,
                   );
+                  // A 200 whose body cannot be decoded is NOT "nothing answered",
+                  // and the two used to be the same null. Remembered so the
+                  // reason names the decode rather than the connection.
+                  unusableBody = true;
                   continue;
                 }
                 // Build passthrough headers from the CapacitorHttp response
@@ -155,12 +237,21 @@ export async function _nativePost(
             lastServerError = _capDataToResponse(resp.status, resp.data);
           } catch (e: unknown) {
             const err = e as Error;
+            lastErrName = err?.name || 'Error';
             dbgWarn(
               `[nativePost] CapacitorHttp → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 100)} — trying next`,
             );
           }
         }
         dbgWarn('[nativePost] CapacitorHttp: all endpoints failed');
+        if (!lastServerError) {
+          _noteTransportFailure(
+            path,
+            unusableBody ? 'capacitor_unusable_body' : 'capacitor_threw',
+            endpoints.length,
+            lastErrName,
+          );
+        }
         return lastServerError;
       }
       // CapacitorHttp unavailable — fall through to fetch()
@@ -168,6 +259,7 @@ export async function _nativePost(
 
     // Web (and native fallback): standard fetch()
     let lastServerError: Response | null = null;
+    let lastErrName: string | undefined;
     for (const base of endpoints) {
       const url = `${base}${path}`;
       try {
@@ -186,11 +278,13 @@ export async function _nativePost(
       } catch (e: unknown) {
         const err = e as Error;
         if (err?.name === 'AbortError') throw e; // propagate abort immediately
+        lastErrName = err?.name || 'Error';
         dbgWarn(
           `[nativePost] fetch → "${url}" error: ${err?.name} — ${err?.message?.slice(0, 80)} — trying next`,
         );
       }
     }
+    if (!lastServerError) _noteTransportFailure(path, 'fetch_threw', endpoints.length, lastErrName);
     return lastServerError; // null only when no endpoint answered at all
   }
 
@@ -202,5 +296,9 @@ export async function _nativePost(
   if (res && res.status === 401) {
     res = await send(await getFirebaseBearer(true));
   }
+  // ANY response clears the record — a 4xx and a 5xx both prove the transport
+  // works, so keeping a reason from an earlier call would let one surface report
+  // another's dead connection as the cause of a handler's refusal.
+  if (res) _lastTransportFailure = null;
   return res;
 }

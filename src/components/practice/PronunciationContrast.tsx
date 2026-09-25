@@ -4,6 +4,7 @@ import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { passedLesson } from '../../lib/lessonGate';
 function shLocal<T>(a: T[]): T[] {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -289,7 +290,7 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
       <div className="scr-wrap">
         {H('🔤 Sound Contrast', 'Master č/ć, š/ž, đ/dž and more', goBack)}
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 64 }}>{score >= total * 0.8 ? '🏆' : '📚'}</div>
+          <div style={{ fontSize: 64 }}>{passedLesson(score, total) ? '🏆' : '📚'}</div>
           <h2>
             {score} / {total}
           </h2>

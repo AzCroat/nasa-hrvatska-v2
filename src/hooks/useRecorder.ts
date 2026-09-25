@@ -56,6 +56,16 @@ export function useRecorder(): UseRecorderResult {
   // React batches setState — two sync calls both see state==='idle'.
   const busyRef = useRef(false);
   const audioUrlRef = useRef<string | null>(null);
+  /**
+   * The ONE playback element. `playback()` used to `new Audio(audioUrl)` on every
+   * call and keep no reference, so a second tap of ▶ started a SECOND copy of the
+   * same recording over the first — offset by the gap between taps, which is an
+   * echo (owner report, 2026-09-25: "why does my playback have an echo in
+   * Shadowing Practice?"). Nothing could stop either one: no reference meant
+   * `reset()` and unmount had nothing to pause, so a recording kept playing after
+   * the learner left the screen. Holding it makes both fixable.
+   */
+  const playbackElRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
     audioUrlRef.current = audioUrl;
   }, [audioUrl]);
@@ -92,6 +102,17 @@ export function useRecorder(): UseRecorderResult {
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
+      }
+      // Leaving the screen mid-playback used to leave the recording audible with
+      // no way to stop it — the same missing reference as the echo above.
+      const el = playbackElRef.current;
+      if (el) {
+        try {
+          el.pause();
+        } catch (_) {
+          // ignore
+        }
+        playbackElRef.current = null;
       }
       if (audioUrlRef.current && audioUrlRef.current.startsWith('blob:')) {
         URL.revokeObjectURL(audioUrlRef.current);
@@ -249,20 +270,46 @@ export function useRecorder(): UseRecorderResult {
     const rec = recorderRef.current;
     if (rec && rec.state === 'recording') rec.stop();
   }, []);
+  /** Stop whatever is playing. Safe to call when nothing is. */
+  const stopPlayback = useCallback(() => {
+    const el = playbackElRef.current;
+    if (!el) return;
+    try {
+      el.pause();
+      el.currentTime = 0;
+    } catch (_) {
+      // a detached element can refuse both; nothing to recover
+    }
+    playbackElRef.current = null;
+  }, []);
+
   const playback = useCallback(async () => {
     unlockAudio();
     if (!audioUrl) return;
+    // A tap while the last playback is still running REPLACES it rather than
+    // layering on top of it — that layering is the echo this ref exists for.
+    stopPlayback();
     const audio = new Audio(audioUrl);
+    playbackElRef.current = audio;
     audio.volume = 1.0;
+    // Release the ref once it finishes, so a later stop cannot pause an element
+    // that has already ended (harmless) and the object can be collected.
+    audio.onended = () => {
+      if (playbackElRef.current === audio) playbackElRef.current = null;
+    };
     try {
       await audio.play();
     } catch (_) {
       // logged by consumer if needed
     }
-  }, [audioUrl]);
+  }, [audioUrl, stopPlayback]);
 
   const reset = useCallback(() => {
     busyRef.current = false;
+    // "Try again" must not leave the previous attempt audible underneath the next
+    // one. NOT exported: nothing outside needs it yet, and an optional callback no
+    // caller passes is its own class of dead branch.
+    stopPlayback();
     if (countdownTimerRef.current) {
       clearInterval(countdownTimerRef.current);
       countdownTimerRef.current = null;
@@ -289,7 +336,7 @@ export function useRecorder(): UseRecorderResult {
     setCountdown(0);
     setState('idle');
     setMicAvailable(null);
-  }, [audioUrl]);
+  }, [stopPlayback, audioUrl]);
 
   return {
     state,

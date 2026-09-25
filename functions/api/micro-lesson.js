@@ -7,6 +7,7 @@ import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 const MICRO_LESSON_PROMPT = definePrompt(
   'micro-lesson',
@@ -203,14 +204,10 @@ Return ONLY valid JSON (no markdown):
   const raw = data?.content?.[0]?.text?.trim() || '';
   if (!raw) return err(502, 'Empty response from AI', origin);
 
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('micro-lesson.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);
   }

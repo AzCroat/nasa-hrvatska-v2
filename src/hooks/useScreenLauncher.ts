@@ -8,7 +8,8 @@ import { useEffect, useRef, useCallback } from 'react';
 import { trackStart, trackAbandon } from '../lib/learnerStyle.js';
 import { clearActiveSessionActivity } from '../lib/sessionSignal.js';
 import { pickSessionLesson } from '../lib/sessionLessonPick';
-import { BLACK_HOLE_SCREENS, DWELL_XP } from '../lib/blackHoleScreens';
+import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
+import { armDwellCredit } from '../lib/dwellCredit';
 import { notifyLaunchFailure } from '../lib/launchFailure';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _getVocabSource, _buildAdaptivePool } from '../lib/exerciseData';
@@ -631,39 +632,25 @@ export function useScreenLauncher({
             return { ...prev, vs: [...(prev.vs || []), screenId] };
           });
           if (writeDelta) writeDelta({ vs: [screenId] });
-          // After 20s of dwell time, award lc/gc progress credit and XP.
-          // vs is already written above; the timer only handles the counter increment.
-          const timer = setTimeout(() => {
-            if (!wasFirstVisit) return; // repeat visit — counters already credited
-            setStats((prev) => {
-              if (bhStat === 'lc') return { ...prev, lc: prev.lc + 1 };
-              if (bhStat === 'gc') return { ...prev, gc: prev.gc + 1 };
-              return prev;
-            });
-            if (writeDelta) {
-              const delta: StatsDelta & Record<string, unknown> = {};
-              if (bhStat === 'lc') delta.lc = 1;
-              if (bhStat === 'gc') delta.gc = 1;
-              if (Object.keys(delta).length > 0) writeDelta(delta);
-            }
-            // Credit the black-hole screen BY NAME. `award` is a useCallback over
-            // [curEx, …], so the one captured here carries curEx as it was at the
-            // click — i.e. before the sCurEx(item.go) further down this same
-            // function. Without the explicit id this 20s-later award attributes
-            // itself to whatever exercise the user was in previously, which is not
-            // cosmetic: it stamps that exercise's XP cooldown (destroying its XP
-            // for the rest of the day), counts a synced production rep for it if it
-            // is a production screen, and can complete an abandoned daily-session
-            // activity. Only goBack() clears curEx, so any exit via the tab bar or
-            // browser-back leaves a stale id to be mis-credited.
-            //
-            // XP rebalance (fluency initiative #3, 2026-08-14): dwell XP trimmed
-            // 15 → 5. Presence on an info screen is worth a token amount, not a
-            // third of a drill; the lc/gc counter credit above is untouched (it
-            // drives Learn-Path completion, which stays as designed).
-            award(DWELL_XP, undefined, 'lesson', screenId);
-          }, 20000);
-          lpDwellRef.current = { screen: screenId, statType: bhStat, timer };
+          // After 20s of dwell time, award lc/gc progress credit and XP — but
+          // only on a page the learner could actually READ. The rules, and why
+          // the content gate re-arms rather than returning, live in
+          // lib/dwellCredit.ts beside the set it consults.
+          lpDwellRef.current = {
+            screen: screenId,
+            statType: bhStat,
+            timer: armDwellCredit({
+              screenId,
+              bhStat,
+              wasFirstVisit: () => wasFirstVisit,
+              setStats,
+              writeDelta,
+              award,
+              onArm: (timer) => {
+                lpDwellRef.current = { screen: screenId, statType: bhStat, timer };
+              },
+            }),
+          };
         }
         if (item.go === 'readlist') {
           if (item.filter) ssSet('nh_readlist_filter', JSON.stringify(item.filter));

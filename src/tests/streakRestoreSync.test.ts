@@ -10,10 +10,18 @@
  *
  * These tests reproduce the sync re-derivation (computeStreak over the day-set)
  * and assert the restored count now survives it.
+ *
+ * THERE WERE THREE RECOVERY PATHS AND NOW THERE ARE TWO. `paidStreakRestore.test.ts`
+ * guarded the third — `useHeroRewards.restoreStreak`, the 200-XP purchase — and its
+ * own docstring called it "the ONLY one a user can reach". It was reachable by
+ * nobody: the hero cluster had been unrendered since 2026-04-25 (sweep 129) and was
+ * deleted in sweep 136, so that file went with it. The two paths here are the live
+ * ones, driven through their real functions rather than pinned by source, and the
+ * additivity assertion that file held is now the last test below.
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { repairStreak } from '../lib/streak';
-import { applyStreakEarnBack } from '../lib/appUtils';
+import { applyStreakEarnBack, restoreStreakDays } from '../lib/appUtils';
 import { computeStreak, type DaySet } from '../lib/streakDays';
 
 function dateStr(offsetDays: number): string {
@@ -78,5 +86,23 @@ describe('applyStreakEarnBack backfills the day-set', () => {
     expect(applyStreakEarnBack()).toBe(0);
     // No spurious backfill when nothing was restored.
     expect(localStorage.getItem('nh_streak_days')).toBeNull();
+  });
+});
+
+/**
+ * The backfill primitive itself, inherited from paidStreakRestore.test.ts: the two
+ * paths above both reach `restoreStreakDays`, and a restore must never drop a day
+ * the learner had genuinely earned.
+ */
+describe('restoreStreakDays is additive', () => {
+  it('never drops an existing active day', () => {
+    const earlier = '2020-01-01';
+    localStorage.setItem('nh_streak_days', JSON.stringify({ [earlier]: true }));
+
+    restoreStreakDays(1, today());
+
+    const days = JSON.parse(localStorage.getItem('nh_streak_days')!) as DaySet;
+    expect(days[earlier]).toBe(true);
+    expect(days[today()]).toBe(true);
   });
 });

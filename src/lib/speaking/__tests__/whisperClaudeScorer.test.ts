@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // The scorer now routes through the shared native-safe POST helper. Mock it so we
 // control the transport result (a Response, or null on total transport failure).
-vi.mock('../../nativePost', () => ({ _nativePost: vi.fn() }));
+vi.mock('../../nativePost', () => ({ _nativePost: vi.fn(), getLastTransportFailure: () => null }));
 
 import { whisperClaudeScorer } from '../whisperClaudeScorer.js';
 import { _nativePost } from '../../nativePost';

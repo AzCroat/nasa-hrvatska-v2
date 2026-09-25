@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { H, Bar, sh, NUMTIME } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { passedLesson } from '../../lib/lessonGate';
+import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
 
 export default function NumTime({
@@ -60,7 +60,7 @@ export default function NumTime({
                 sNtO(sh([ntQ[0]!.a].concat(ntQ[0]!.al)));
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button

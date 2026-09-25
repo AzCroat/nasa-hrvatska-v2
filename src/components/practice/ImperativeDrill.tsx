@@ -4,6 +4,7 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -231,7 +232,7 @@ export default function ImperativeDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Flawless! Command the language! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Strong work on imperatives! 💪'
                 : 'Keep practising those command forms!'}
           </div>
@@ -249,7 +250,7 @@ export default function ImperativeDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

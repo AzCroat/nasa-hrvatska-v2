@@ -55,12 +55,17 @@ describe('C2 news mode', () => {
     expect(serverSrc.includes("['A1', 'A2', 'B1', 'B2', 'C1', 'C2']")).toBe(true);
   });
 
-  it('strips a json code fence before parsing the model payload (no silent article drop)', () => {
-    // news.js was the sole AI endpoint missing this guard: a fenced-but-valid
-    // response threw in JSON.parse → simplifyArticle returned null → the article
-    // was dropped and the News screen rendered nothing. Assert the fence-strip +
-    // that the parse now runs on the cleaned string, not the raw text.
-    expect(serverSrc).toMatch(/replace\(\/\^\\s\*```\(\?:json\)\?\\s\*\/i, ''\)/);
-    expect(serverSrc).toContain('JSON.parse(cleaned)');
+  it('recovers the model payload through the SHARED parser (no silent article drop)', () => {
+    // news.js was once the sole AI endpoint with no fence handling at all: a
+    // fenced-but-valid response threw in JSON.parse → simplifyArticle returned
+    // null → the article was dropped and the News screen rendered nothing. It
+    // then grew its OWN fence strip, under a comment calling that "the same
+    // guard every other AI endpoint applies" — true of the fence and false of
+    // the shared parser, which also recovers a reply with prose around the JSON.
+    // Sweep 120 routed all 17 such endpoints through parseModelJson; this pin
+    // moved with them rather than continuing to demand the private regex.
+    expect(serverSrc).toContain("from './_modelJson.js'");
+    expect(serverSrc).toMatch(/parseModelJson\(raw\)/);
+    expect(serverSrc.replace(/^\s*\/\/.*$/gm, '')).not.toMatch(/replace\(\s*\/\^(?:\\s\*)?```/);
   });
 });

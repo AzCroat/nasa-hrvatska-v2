@@ -2,7 +2,8 @@
  * dailyGoalCard.test.tsx — the daily-XP-goal bar on the Today tab.
  *
  * The goal (nh_daily_goal_xp) and today's earned XP (nh_daily_xp_<date>) were
- * only ever rendered inside the now-unmounted HeroSection, so the commitment the
+ * only ever rendered inside HeroSection — unmounted since 2026-04-25 and deleted
+ * in sweep 136 — so the commitment the
  * user set at onboarding was invisible. DailyGoalCard surfaces it on the live
  * Today tab. These tests pin the three states: in-progress, exactly met, and the
  * clamp when earned XP exceeds the goal.

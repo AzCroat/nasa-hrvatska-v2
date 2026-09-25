@@ -127,7 +127,6 @@ const TARGETS = [
   'src/components/grad/gradModel.ts', // 1 Croatian strings, 100% seen
   'src/components/grad/places.ts', // 12 Croatian strings, 92% seen
   'src/components/grad/PlaceScreen.tsx', // 6 Croatian strings, 100% seen
-  'src/components/home/HeroStats.tsx', // 2 Croatian strings, 50% seen
   'src/components/home/hostFamily.ts', // 5 Croatian strings, 80% seen
   'src/components/home/SpeedChallenge.tsx', // 4 Croatian strings, 100% seen
   'src/components/learn/GrammarReader.tsx', // 10 Croatian strings, 100% seen
@@ -314,7 +313,6 @@ const TARGETS = [
   'src/lib/lessonQuizBanks.ts',
   'src/components/croatia/DialectAwarenessScreen.tsx',
   'src/components/practice/PronunciationAssessScreen.tsx',
-  'src/components/home/heroData.ts',
   'src/components/croatia/MediaTab.tsx',
   'src/components/learn/PhonemePracticeScreen.tsx',
   'src/components/croatia/SurvivalDinner.tsx',
@@ -323,7 +321,6 @@ const TARGETS = [
   'src/components/hrvatska/doors.ts',
   'src/components/learn/HeritageModeScreen.tsx',
   'src/components/croatia/AIConversation.tsx',
-  'src/components/home/heroHelpers.ts',
   'src/components/practice/WritingScreen.tsx',
   'src/data/writingPrompts.ts',
   'src/components/croatia/KaficScreen.tsx',
@@ -570,56 +567,9 @@ const TARGETS = [
   // about. Every file below is one the widened matcher sees at least half of,
   // and most of them all of. The comment on each is cro=Croatian strings the
   // file holds, %=share of them the lint scans.
-  'functions/api/_sttGoldenSet.js', // 4cro 100%
-  'functions/api/content/_data/cultural/events.js', // 8cro 100%
   'functions/api/content/_data/seasonalCampaigns.js', // 1cro 100%
-  'functions/api/conversational-tutor.js', // 2cro 50%
   'functions/api/flux-generate.js', // 1cro 100%
-  'functions/api/news.js', // 10cro 70%
-  'src/components/croatia/ConversationBubble.tsx', // 1cro 100%
-  'src/components/croatia/CroatiaAthletes.tsx', // 7cro 100%
-  'src/components/croatia/CroatianNewsScreen.tsx', // 9cro 78%
-  'src/components/croatia/CultureDeepDiveScreen.tsx', // 1cro 100%
-  'src/components/croatia/DiasporaNote.tsx', // 6cro 83%
-  'src/components/croatia/MajaDebrief.tsx', // 1cro 100%
-  'src/components/croatia/MajaScreenUtils.js', // 5cro 60%
-  'src/components/croatia/PhraseOfDayScreen.tsx', // 31cro 65%
-  'src/components/croatia/SpotifySection.tsx', // 3cro 100%
-  'src/components/croatia/StoryModeData.js', // 2cro 100%
-  'src/components/grad/PlaceScreen.tsx', // 6cro 100%
-  'src/components/grad/gradModel.ts', // 1cro 100%
-  'src/components/grad/places.ts', // 12cro 92%
-  'src/components/home/HeroStats.tsx', // 2cro 50%
-  'src/components/home/SpeedChallenge.tsx', // 4cro 100%
-  'src/components/home/hostFamily.ts', // 5cro 80%
   'src/components/learn/GrammarExplainer.tsx', // 4cro 50%
-  'src/components/learn/GrammarReader.tsx', // 10cro 100%
-  'src/components/learn/GrammarVideos.tsx', // 2cro 100%
-  'src/components/learn/LearnTab.tsx', // 2cro 50%
-  'src/components/practice/AdaptiveReviewScreen.tsx', // 2cro 100%
-  'src/components/practice/AspectDrillScreen.tsx', // 6cro 67%
-  'src/components/practice/FlashcardCardBack.tsx', // 1cro 100%
-  'src/components/practice/MapScreen.tsx', // 1cro 100%
-  'src/components/practice/SprintFeedbackPhase.tsx', // 1cro 100%
-  'src/components/practice/VideoLessonScreen.tsx', // 2cro 100%
-  'src/components/practice/exerciseCatalog.ts', // 7cro 100%
-  'src/components/practice/listening/aiListeningTopics.ts', // 2cro 100%
-  'src/components/profile/CertificateScreen.tsx', // 2cro 50%
-  'src/components/profile/CroatianErrorInsights.tsx', // 29cro 52%
-  'src/components/razgovor/partners.ts', // 22cro 100%
-  'src/components/shared/GrammarReference.tsx', // 17cro 76%
-  'src/components/shared/KnightCompanion.tsx', // 5cro 100%
-  'src/components/shared/OnboardingTour.tsx', // 4cro 50%
-  'src/data/bakaPhrases.ts', // 8cro 100%
-  'src/hooks/useNotifications.ts', // 10cro 50%
-  'src/lib/conjugation/curriculum.ts', // 9cro 67%
-  'src/lib/croatiaPool.ts', // 2cro 100%
-  'src/lib/drillPoolEntries.ts', // 13cro 100%
-  'src/lib/legacySavedPhraseIndex.ts', // 8cro 100%
-  'src/lib/nextStep.ts', // 1cro 100%
-  'src/lib/pushNotifications.ts', // 1cro 100%
-  'src/lib/sessionPools.ts', // 7cro 100%
-  'src/sw.js', // 2cro 100%
 ];
 
 // Whitelist: Croatian Latin + common punctuation + digits + typographic marks.
@@ -736,8 +686,23 @@ function* fieldStrings(buf) {
   }
 }
 
+/**
+ * TARGETS, deduplicated.
+ *
+ * IT HELD 46 DUPLICATES AND BOTH OF THE MECHANISMS THAT REPORT ON IT AGREED WITH
+ * EACH OTHER (sweep 136, 2026-09-25). The fourth wave (2026-09-07) appended a
+ * batch that overlapped the list already there, so 46 files were scanned TWICE,
+ * the count printed below said 516 targets when 470 distinct files were covered,
+ * and `claudeMdPaths.test.ts` compared CLAUDE.md's figure against the same array
+ * LENGTH — so the prose, the lint's own output and the guard all said 522 while
+ * the truth was 472. The CEFR-badge shape: consistency between copies is not
+ * evidence the number is true. Dedupe here so a re-added entry cannot double-scan
+ * or inflate the count; `croatianLintTargets.test.ts` fails on a duplicate.
+ */
+const TARGET_FILES = [...new Set(TARGETS)];
+
 async function* walkTargets() {
-  for (const rel of TARGETS) {
+  for (const rel of TARGET_FILES) {
     const abs = resolve(REPO_ROOT, rel);
     let buf;
     try {
@@ -1130,7 +1095,7 @@ async function main() {
   } else {
     console.log(
       '✓ Croatian text lint: 0 findings across',
-      TARGETS.length + STRUCTURED.length,
+      TARGET_FILES.length + STRUCTURED.length,
       'files (' + STRUCTURED.length + ' walked structurally).',
     );
   }

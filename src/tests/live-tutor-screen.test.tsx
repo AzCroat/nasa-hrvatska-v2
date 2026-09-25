@@ -99,7 +99,10 @@ vi.mock('../hooks/useOnlineStatus', () => ({
 
 // ── _nativePost — captures STT calls ─────────────────────────────────────────
 const mockNativePost = vi.hoisted(() => vi.fn());
-vi.mock('../lib/nativePost.js', () => ({ _nativePost: mockNativePost }));
+vi.mock('../lib/nativePost.js', () => ({
+  _nativePost: mockNativePost,
+  getLastTransportFailure: () => null,
+}));
 
 // ── useRecorder — controllable mock ──────────────────────────────────────────
 // mockUseRecorder is a vi.fn() so tests can call mockImplementation to control

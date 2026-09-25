@@ -3,7 +3,7 @@ import { useStats } from '../../../context/StatsContext.tsx';
 import { H, speak, sh } from '../../../data';
 import { GENDERDRILL } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
-import { passedLesson } from '../../../lib/lessonGate';
+import { passedLesson, retryNeedLabel } from '../../../lib/lessonGate';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 
 interface GenderEntry {
@@ -445,7 +445,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
                 style={{ width: '100%', marginTop: 12 }}
                 onClick={retry}
               >
-                🔁 Try again (need 75%)
+                {retryNeedLabel(GENDERDRILL.adjectives.length)}
               </button>
             </>
           )}

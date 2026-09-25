@@ -1,9 +1,17 @@
 /**
  * MicPermissionDeniedExplainer.test.tsx — Pattern X behavioral
  *
- * Verifies the per-OS instruction text + Try Again / Use writing instead
- * callbacks. The component depends on getMicPermissionPlatform() — mocked
- * so each test case isolates a single platform.
+ * Verifies the per-OS instruction text and the ONE action, Try Again. The
+ * component depends on getMicPermissionPlatform() — mocked so each test case
+ * isolates a single platform.
+ *
+ * TWO TESTS HERE USED TO COVER A BRANCH NO CONSUMER COULD REACH (2026-09-25).
+ * An optional `onUseWriting` rendered a second button; not one of the ten render
+ * sites passed it, and one of these tests SUPPLIED IT ITSELF — the
+ * `AlphabetScreen.award` shape exactly, where a component test that provides the
+ * prop proves the branch works when wired and says nothing about whether it is.
+ * The prop is gone; what stands in their place is an assertion that this card
+ * offers exactly one action, so a second one cannot return without a consumer.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -64,18 +72,16 @@ describe('MicPermissionDeniedExplainer', () => {
     expect(onRetry).toHaveBeenCalled();
   });
 
-  it('"Use writing instead" is hidden when onUseWriting prop is undefined', () => {
+  it('offers exactly ONE action — the card is not a router to anywhere else', () => {
     platformMock.mockReturnValue('desktop');
     render(<MicPermissionDeniedExplainer onRetry={() => {}} />);
-    expect(screen.queryByText(/Use writing instead/)).toBeNull();
-  });
-
-  it('"Use writing instead" is rendered and calls onUseWriting when prop provided', () => {
-    platformMock.mockReturnValue('desktop');
-    const onUseWriting = vi.fn();
-    render(<MicPermissionDeniedExplainer onRetry={() => {}} onUseWriting={onUseWriting} />);
-    fireEvent.click(screen.getByText(/Use writing instead/));
-    expect(onUseWriting).toHaveBeenCalled();
+    const buttons = screen.getAllByRole('button');
+    expect(
+      buttons.map((b) => b.textContent),
+      'a second action here is only honest if a consumer passes it — the removed ' +
+        '"Use writing instead" never had one, and each consumer that has a writing ' +
+        'analog renders it itself beside this card',
+    ).toEqual(['Try Again']);
   });
 
   it('role=alert is present for screen readers', () => {

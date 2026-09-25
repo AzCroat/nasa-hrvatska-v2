@@ -35,7 +35,8 @@ describe('GET /api/content/catalog', () => {
     const res = await onRequestGet(makeContext());
     const json = await res.json();
     const s = json.data.stories[0];
-    // Display metadata used by StoryOfTheDayCard + recommendStory() + BonusStoryCard.
+    // Display metadata used by BonusStoryCard. (StoryOfTheDayCard + recommendStory
+    // were unrendered and were deleted in sweep 136; the catalog shape is unchanged.)
     // `intro` is a short English-language teaser (~100 chars), not curriculum prose, safe to expose.
     for (const k of [
       'id',

@@ -28,7 +28,14 @@ function QuestionWordsScreen({ goBack, award }: Props) {
   const xpEarned = correctCount * 3;
 
   React.useEffect(() => {
-    if (!allDone) return;
+    // `total > 0` as well as `allDone`, because `allDone` is `answeredCount ===
+    // total` and `0 === 0` is TRUE on mount: an empty bank would tick the grammar
+    // quest, add a `gc` and signal the session for a set the learner never saw
+    // (NEVER-DO 14). QWORDS is static and non-empty today, so this is a
+    // belt-and-braces guard rather than a repair — and the `xpEarned > 0` below
+    // never covered it, because a positivity about an unrelated quantity is not a
+    // positivity about the total (sweep 125).
+    if (!allDone || total === 0) return;
     // Finishing the set completes the session activity even at 0 correct —
     // award() below is gated on xpEarned > 0, which stranded the session on a
     // zero-score run (2026-07-16 completion-matrix audit).

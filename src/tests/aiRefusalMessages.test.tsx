@@ -23,7 +23,7 @@
 // WHY THE 2026-09-07 FEEDBACK CENSUS MISSED IT: that census scoped itself to
 // every surface that promises feedback on WRITING or SPEECH, and traced those
 // end to end. A micro-lesson is neither. Two siblings had the same shape in a
-// milder form — DailyListeningCard on Home ("Could not load today's listening
+// milder form — DailyListeningCard on Home, since deleted ("Could not load today's listening
 // exercise. Try again.") and DialogueSim ("Could not reach Maja."), the latter
 // blaming the tutor for a billing cap. None of the three reached Sentry, so
 // none would ever have named itself.
@@ -136,7 +136,9 @@ describe('the fixed surfaces classify through lib/aiFailure', () => {
   // the other two.
   const FIXED = [
     'src/components/learn/MicroLessonScreen.tsx',
-    'src/components/home/DailyListeningCard.tsx',
+    // DailyListeningCard was the second entry until sweep 136 deleted it: it had
+    // been rendered by nothing since 2026-06-19, and the routed AIListeningScreen
+    // calls the same /api/listening. Its refusal copy was never read by anyone.
     'src/components/practice/DialogueSim.tsx',
     'src/components/home/GrammarDiagnosisScreen.tsx',
     // Added 2026-09-22 when the class was closed (35 callers, 33 classifying).

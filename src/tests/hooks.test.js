@@ -49,7 +49,6 @@ import { usePreferences } from '../hooks/usePreferences';
 import { useSearch } from '../hooks/useSearch';
 import { useJournal } from '../hooks/useJournal';
 import { useDaily } from '../hooks/useDaily';
-import { useTranslator } from '../hooks/useTranslator';
 
 function clearLS() {
   localStorage.clear();
@@ -250,38 +249,6 @@ describe('useDaily', () => {
       result.current.sDchlA([true, true, false]);
     });
     expect(result.current.dchlA).toEqual([true, true, false]);
-  });
-});
-
-// ── useTranslator ─────────────────────────────────────────────────────────────
-describe('useTranslator', () => {
-  it('initialises with en-hr direction', () => {
-    const { result } = renderHook(() => useTranslator());
-    expect(result.current.tDir).toBe('en-hr');
-  });
-  it('tIn and tOut initialise as empty strings', () => {
-    const { result } = renderHook(() => useTranslator());
-    expect(result.current.tIn).toBe('');
-    expect(result.current.tOut).toBe('');
-  });
-  it('tL (loading) initialises as false', () => {
-    const { result } = renderHook(() => useTranslator());
-    expect(result.current.tL).toBe(false);
-  });
-  it('setTDir changes direction', () => {
-    const { result } = renderHook(() => useTranslator());
-    act(() => {
-      result.current.setTDir('hr-en');
-    });
-    expect(result.current.tDir).toBe('hr-en');
-  });
-  it('doTr does nothing when tIn is empty', async () => {
-    const { result } = renderHook(() => useTranslator());
-    await act(async () => {
-      await result.current.doTr();
-    });
-    expect(result.current.tL).toBe(false);
-    expect(result.current.tOut).toBe('');
   });
 });
 

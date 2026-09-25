@@ -9,7 +9,7 @@ import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { parseModelJson } from './_modelJson.js';
-import { reconcileSafely } from './_aiBudget.js';
+import { reconcileSafely, refundPrecharge } from './_aiBudget.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -61,7 +61,19 @@ function err(status, msg, origin) {
 // ReviewScreen and McGame.
 // 'case_drill' (concept-teaching, 2026-08-18): the seven case drills now
 // request plain-English explanations on wrong answers via useExplainError.
-const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice', 'case_drill'];
+// 'drill' (2026-09-25) — THE SAME OMISSION AS multiple_choice, AND IT KILLED 109
+// DRILLS. `WrongAnswerHelp` is mounted once inside `ModeDrill` and passes
+// `type="drill"`; rec #7 shipped it across every engine-backed drill on
+// 2026-09-07, and this list was not touched, so EVERY press of "Why is this
+// wrong?" in all 109 of them answered 400 'Invalid type'. Worse than the McGame
+// instance: `failureFromStatus` has no 4xx branch, so the client reported it as
+// kind `server` — the owner's Sentry issue
+// `ai_feedback_failed:drill-explain-error:server` on /objekt — and the gate above
+// had already charged a quota turn AND pre-charged the monthly budget, which the
+// 400 never refunded (see refundPrecharge below). The comment two paragraphs up
+// says to keep this list in step with every caller and nothing enforced it;
+// `explainErrorTypes.test.ts` now derives the caller set from source.
+const VALID_TYPES = ['cloze', 'dictation', 'flashcard', 'multiple_choice', 'case_drill', 'drill'];
 const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export async function onRequestOptions({ request }) {
@@ -93,9 +105,21 @@ export async function onRequestPost(context) {
 
   const { wrong, correct, context: ctx, type, level } = reqBody;
 
-  if (!VALID_TYPES.includes(type)) return err(400, 'Invalid type', origin);
-  if (typeof correct !== 'string' || !correct.trim())
-    return err(400, 'Missing correct answer', origin);
+  // A REJECTED REQUEST MUST NOT KEEP THE MONEY. `requireAuthedAI` pre-charges
+  // this endpoint's worst-case ceiling against the monthly ledger BEFORE the
+  // handler runs, and `reconcileSafely` — the only refund — sits after a
+  // successful Anthropic response. So every 400 below permanently booked spend
+  // for a call that never happened, and with `type: 'drill'` rejected that was
+  // EVERY wrong-answer press in 109 drills: a steady leak toward the $9 cap,
+  // after which every live evaluation in the app answers
+  // `monthly_budget_exhausted`. Refund before returning.
+  const reject = async (status, msg) => {
+    await refundPrecharge(env, '/api/explain-error');
+    return err(status, msg, origin);
+  };
+
+  if (!VALID_TYPES.includes(type)) return reject(400, 'Invalid type');
+  if (typeof correct !== 'string' || !correct.trim()) return reject(400, 'Missing correct answer');
 
   const safeWrong = sanitizeParam(wrong || '', 200);
   const safeCorrect = sanitizeParam(correct, 200);
@@ -111,6 +135,10 @@ export async function onRequestPost(context) {
     flashcard: 'vocabulary flashcard',
     multiple_choice: 'multiple-choice vocabulary quiz',
     case_drill: 'noun-case ending exercise',
+    // A TYPE WITH NO DESCRIPTION IS A SECOND, QUIETER DEFECT: `typeDesc` would be
+    // undefined and the model would be asked about a "Croatian undefined at CEFR
+    // B1". Every VALID_TYPES member must have a row here (pinned).
+    drill: 'Croatian grammar or vocabulary drill question',
   };
 
   const typeDesc = TYPE_DESCS[type];

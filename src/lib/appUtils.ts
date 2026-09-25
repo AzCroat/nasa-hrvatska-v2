@@ -93,6 +93,23 @@ export function nXP(l: number): number {
 // as an argument now.
 
 // ─── XP Boost ────────────────────────────────────────────────────────────────
+/**
+ * NOTHING CAN BUY THIS TODAY, and nothing can buy the streak restore below
+ * either (sweep 136, 2026-09-25). The multiplier is live — `lXPgain` reads
+ * `nh_xp_boost_expires` and doubles the award, `progressSnapshot` uploads it and
+ * `applyRemoteProgress` merges it — but the ONLY caller of `activateXPBoost` and
+ * of `spendXp(STREAK_RESTORE_COST)` was `home/useHeroRewards`, part of the hero
+ * cluster that had been unrendered since 2026-04-25 and was deleted with it. So
+ * `nh_xp_boost_expires` can never be non-zero for any learner, and the paid
+ * streak restore cannot be reached at all.
+ *
+ * Sweep 111's rule needs one more hop to have caught it: a producer that is
+ * itself UNREACHABLE is not a producer — the same correction sweep 130 made for
+ * endpoints. These constants and functions are kept, unlike the dead screen,
+ * because re-adding a purchase surface is a PRODUCT decision for the owner (the
+ * campaign multiplier is recorded the same way) and this is the only remaining
+ * record of what the two rewards cost.
+ */
 export const XP_BOOST_COST = 100;
 export const XP_BOOST_DURATION_MS = 30 * 60 * 1000;
 export const XP_BOOST_MULTIPLIER = 2;
@@ -103,11 +120,14 @@ export const XP_BOOST_MULTIPLIER = 2;
  *
  * Lives here, next to XP_BOOST_COST, because the price has to be one number.
  * It used to be written three times — a local const in useHeroRewards (what the
- * learner is charged), a bare `xp >= 200` in the RewardsPanel visibility gate,
+ * learner was charged), a bare `xp >= 200` in the RewardsPanel visibility gate,
  * and the literal "200 XP" in the button label. The other two rewards already
  * shared a constant between their charge and their display; this one did not,
  * so changing the price in the obvious place would have left the panel still
  * gating at the old number and still advertising it while charging the new one.
+ *
+ * Both of those sites were in the hero cluster and are gone (sweep 136); see the
+ * XP_BOOST_COST note above for why the price itself is kept.
  */
 export const STREAK_RESTORE_COST = 200;
 

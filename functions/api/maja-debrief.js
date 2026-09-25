@@ -7,6 +7,7 @@ import { corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 // Max knownFacts entries folded into a system prompt (prompt-inflation / cost guard).
 const MAX_KNOWN_FACTS = 40;
@@ -388,14 +389,10 @@ export async function onRequestPost(context) {
   }
 
   // ── Parse Claude's JSON response ──
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('maja-debrief.js: JSON parse failed, using fallback. Raw:', raw.slice(0, 200));
     return ok(debriefFallback(userName), origin);
   }

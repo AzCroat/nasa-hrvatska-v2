@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { H } from '../../data';
-import { useContent } from '../../hooks/useContent';
+import { SCENES } from './VocabSceneData.js';
 
 interface SceneItem {
   id: string;
@@ -184,9 +184,18 @@ export function ScenePicker({
   onSelect: (scene: any) => void;
   allDiscovered: Record<string, Set<string>>;
 }) {
-  const { content } = useContent();
-  const SCENES = useMemo(() => (content?.SCENES ?? []) as any[], [content]);
-  const TOTAL_WORDS = useMemo(() => SCENES.reduce((s, sc) => s + sc.items.length, 0), [SCENES]);
+  // ONE DATASET FOR ONE FEATURE (sweep 107). This picker used to read
+  // `content.SCENES` while `VocabScenes` — its own parent, which receives the
+  // selected scene back through `onSelect` and walks the list again in
+  // `handleNextScene` — read the byte-identical STATIC copy two files away.
+  // Nothing enforced that the two agreed, and the picker was the app's ONLY
+  // reader of that payload key, so the whole feature waited on a fetch for data
+  // already in the bundle (`SceneExplorer` imports this module's localStorage
+  // helpers, so it can never leave it) and died PERMANENTLY on a failed one.
+  // Reading the static export instead makes the drift unrepresentable, and the
+  // count below cannot be a claim about an unarrived payload because it does not
+  // depend on one — a stronger answer to sweep 102 than naming the state.
+  const TOTAL_WORDS = useMemo(() => SCENES.reduce((s, sc) => s + sc.items.length, 0), []);
   const totalDiscovered = SCENES.reduce((s, sc) => s + (allDiscovered[sc.id]?.size ?? 0), 0);
 
   return (
@@ -223,7 +232,7 @@ export function ScenePicker({
           >
             Total Progress
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800 }}>
+          <div style={{ fontSize: 22, fontWeight: 800 }} data-testid="scene-total-progress">
             {totalDiscovered}{' '}
             <span style={{ fontSize: 14, opacity: 0.7 }}>/ {TOTAL_WORDS} words discovered</span>
           </div>
@@ -236,7 +245,9 @@ export function ScenePicker({
         {SCENES.map((scene) => {
           const disc = allDiscovered[scene.id]?.size ?? 0;
           const total = scene.items.length;
-          const complete = disc >= total;
+          // `total > 0` because `0 >= 0` is true: a scene authored with no items
+          // would wear a "Complete!" badge nobody earned (sweep 107).
+          const complete = total > 0 && disc >= total;
           return (
             <button
               key={scene.id}

@@ -57,6 +57,23 @@ export function isoWeekKey(date = new Date()) {
 export function seedAuth(page, statOverrides = {}) {
   return page.addInitScript(
     ({ email, name, now, today, recapKey, statOverrides }) => {
+      // TOP FRAME ONLY. `addInitScript` runs in EVERY frame, and `CrMap` embeds a
+      // cross-origin Google Maps iframe: when that iframe cannot load — a sandbox
+      // with no egress to google.com, an offline runner, a blocked third party —
+      // its document has an OPAQUE ORIGIN, and reading `localStorage` there throws
+      // `SecurityError: Access is denied for this document`. Playwright surfaces
+      // that on `page.on('pageerror')` with no frame attribution, so
+      // `route-render-sweep.spec.js` reported it as **`crmap` raises an uncaught
+      // exception** — an 18-minute red run blaming the app for the fixture, and
+      // only in environments where the embed fails, which is why CI never saw it.
+      // Seeding the learner's storage is meaningful in the main frame and nowhere
+      // else, so bail rather than catch: a swallowed throw would leave the same
+      // frame half-seeded and say nothing.
+      try {
+        if (window.top !== window) return;
+      } catch {
+        return; // cross-origin parent — by definition not the app's own frame
+      }
       const baseStats = {
         xp: 250,
         lc: 10,

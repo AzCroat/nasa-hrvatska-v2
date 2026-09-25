@@ -13,13 +13,18 @@ import {
   describeTtsFailure,
 } from '../../lib/audio.js';
 import type { TtsFailure } from '../../lib/audio.js';
-import { _nativePost } from '../../lib/nativePost.js';
+import { _nativePost, getLastTransportFailure } from '../../lib/nativePost.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { markQuest } from '../../lib/quests.js';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { useRecorder } from '../../hooks/useRecorder';
 import { classifyAiLimit, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
-import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import {
+  failureFromResponse,
+  failureFromError,
+  reportAiFailure,
+  transportFailure,
+} from '../../lib/aiFailure';
 import LiveTutorSetup from './LiveTutorSetup';
 import LiveTutorDebrief from './LiveTutorDebrief';
 import LiveTutorControls from './LiveTutorControls';
@@ -644,7 +649,23 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
           { audioBase64, mimeType },
           { signal: controller.signal },
         );
-        if (!res) throw new Error('stt_transport_failed');
+        // NOT a bare throw. This used to be `throw new Error('stt_transport_failed')`
+        // caught below by `failureFromError`, which — for a plain Error, online,
+        // not an abort — yields `server` with NO status and NO code: the same
+        // laundering that made the pronunciation Sentry issue undiagnosable.
+        // Nothing answered, so say so, with the transport's own reason.
+        if (!res) {
+          clearTimeout(tid);
+          const t = getLastTransportFailure();
+          const failure = transportFailure(t ? t.reason : 'transport_null');
+          reportAiFailure(
+            'live-tutor-stt',
+            failure,
+            t ? `attempts=${t.attempts}${t.errorName ? ` err=${t.errorName}` : ''}` : undefined,
+          );
+          setSttNotice(failure.message);
+          return;
+        }
         clearTimeout(tid);
         // Non-2xx (e.g. 503 when STT keys not configured) → fall back to text
         // input — and SAY WHY (owner directive, 2026-09-07). Before this the

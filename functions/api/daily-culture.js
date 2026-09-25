@@ -13,6 +13,7 @@ import { corsHeaders, err } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -189,15 +190,10 @@ export async function onRequestGet(context) {
   await reconcileSafely(env, '/api/daily-culture:generate', data?.usage);
   const raw = data.content?.[0]?.text || '';
 
-  // Parse JSON — strip any accidental markdown fences
-  const jsonStr = raw
-    .replace(/^```(?:json)?\s*/m, '')
-    .replace(/```\s*$/m, '')
-    .trim();
-  let parsed;
-  try {
-    parsed = JSON.parse(jsonStr);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('[daily-culture] JSON parse failed:', raw.slice(0, 200));
     return err(502, 'Invalid AI response', origin);
   }

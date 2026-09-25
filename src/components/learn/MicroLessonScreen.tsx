@@ -4,6 +4,7 @@ import { useStats } from '../../context/StatsContext';
 import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { passedLesson, LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 
 interface LessonExample {
@@ -135,16 +136,32 @@ export default function MicroLessonScreen({
     if (phase === 'error') signalSessionCompleteIfActive('micro_lesson');
   }, [phase]);
 
+  // `void total` WAS THE GATE THAT NEVER RAN. This effect computed the quiz length,
+  // discarded it with a "suppress unused warning" comment, and then paid XP, marked
+  // the grammar quest and incremented `gc` on ANY score — 0 of 3 correct included.
+  // `gc` feeds the CEFR score (xp + lc*15 + gc*25) and the Learn Path stage, so a
+  // learner who answered every question in their own weak-word review wrong still
+  // advanced their measured level (NEVER-DO 14: never credit work the learner could
+  // not do). The sibling screen two directories over (`ImpersonalScreen`) routes the
+  // identical shape through `completeLesson`, which is gated at 75%.
+  //
+  // THE SESSION SIGNAL MUST FIRE EITHER WAY, and it is the reason this is not a
+  // one-line change. The pool entry for this screen says "awards on results", i.e.
+  // the award was what wrote `nh_session_completed` — so gating the award alone
+  // would strand a session-launched micro-lesson at N-1/N on every failed attempt.
+  // Today's Session is a practice FLOW, not a mastery gate; credit is gated, the
+  // flow is not (the AnimatedLesson rule: the one thing a fail does is signal).
   useEffect(() => {
     if (phase === 'results' && lesson && !xpFiredRef.current) {
       xpFiredRef.current = true;
       const total = (lesson.quiz || []).length;
+      signalSessionCompleteIfActive('micro_lesson');
+      if (!passedLesson(correctCount, total)) return;
       const xpEarned = 10 + correctCount * 5;
       awardFn(xpEarned);
       markQuest('grammar');
       setStats((s) => ({ ...s, gc: s.gc + 1 }));
       writeDelta({ gc: 1 });
-      void total; // suppress unused warning
     }
   }, [phase, lesson, correctCount, awardFn, setStats, writeDelta]);
 
@@ -832,10 +849,27 @@ export default function MicroLessonScreen({
   // ── PHASE: results ────────────────────────────────────────────────────────────
   if (phase === 'results' && lesson) {
     const total = (lesson.quiz || []).length;
-    const xpEarned = 10 + correctCount * 5;
+    // THE CARD MUST NOT CLAIM WHAT THE EFFECT NO LONGER PAYS. Before the gate above
+    // this read "XP Earned +10" on a 0-of-3 answer sheet, and the heading said
+    // "Odlično!" at 2 of 3 — a failing score under the shared 75% rule. A number the
+    // learner can catch being wrong makes every other number in the app suspect
+    // (NEVER-DO 13), so both the heading and the XP block follow `passed`.
+    const passed = passedLesson(correctCount, total);
+    const xpEarned = passed ? 10 + correctCount * 5 : 0;
     const pct = total > 0 ? correctCount / total : 0;
-    const headingText = pct === 1 ? 'Savršeno!' : pct >= 0.67 ? 'Odlično!' : 'Bravo!';
-    const subText = pct === 1 ? 'Perfect score!' : pct >= 0.5 ? 'Great work!' : 'Every rep counts.';
+    const needed = Math.ceil(total * LESSON_PASS_THRESHOLD);
+    const headingText = !passed
+      ? 'Još malo!'
+      : pct === 1
+        ? 'Savršeno!'
+        : pct >= 0.67
+          ? 'Odlično!'
+          : 'Bravo!';
+    const subText = !passed
+      ? `${needed} of ${total} needed to log this lesson.`
+      : pct === 1
+        ? 'Perfect score!'
+        : 'Great work!';
 
     return (
       <div className="scr-wrap">
@@ -920,7 +954,7 @@ export default function MicroLessonScreen({
                 letterSpacing: '.1em',
               }}
             >
-              XP Earned
+              {passed ? 'XP Earned' : 'Score'}
             </div>
             <div
               style={{
@@ -930,11 +964,14 @@ export default function MicroLessonScreen({
                 fontFamily: "'Outfit',sans-serif",
                 lineHeight: 1.1,
               }}
+              data-testid="micro-lesson-xp"
             >
-              +{xpEarned}
+              {passed ? `+${xpEarned}` : `${correctCount}/${total}`}
             </div>
             <div style={{ fontSize: 13, opacity: 0.65, fontWeight: 600 }}>
-              {correctCount}/{total} correct
+              {passed
+                ? `${correctCount}/${total} correct`
+                : 'Try another — this one did not count.'}
             </div>
           </div>
         </div>

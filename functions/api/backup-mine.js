@@ -26,7 +26,7 @@ import { corsHeaders } from './_helpers.js';
 import { weekKeyUTC } from './_weekKey.js';
 
 const MAX_BODY_BYTES = 1_500_000; // progress blob is designed <=200KB; SRS adds some
-const WEEKLY_TTL = 60 * 60 * 24 * 90;
+const WEEKLY_TTL_SECONDS = 60 * 60 * 24 * 90;
 
 function json(body, status, origin) {
   return new Response(JSON.stringify(body), {
@@ -89,7 +89,7 @@ export async function onRequestPost(context) {
   const wk = weekKeyUTC();
   try {
     await kv.put(`backup:user:${uid}:latest`, record); // permanent
-    await kv.put(`backup:${wk}:user:${uid}`, record, { expirationTtl: WEEKLY_TTL });
+    await kv.put(`backup:${wk}:user:${uid}`, record, { expirationTtl: WEEKLY_TTL_SECONDS });
     await kv.put(rlKey, '1', { expirationTtl: 60 * 60 * 26 });
     await kv.put('backup:client:lastAt', new Date().toISOString());
   } catch (e) {

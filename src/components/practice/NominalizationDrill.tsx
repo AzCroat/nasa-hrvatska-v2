@@ -3,6 +3,7 @@ import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 
 function shLocal(a: any[]) {
   const b = [...a];
@@ -151,7 +152,7 @@ export default function NominalizationDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Nominal style mastered! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Great work! 💪'
                 : 'Keep practising — deverbal nouns take time!'}
           </div>
@@ -169,7 +170,7 @@ export default function NominalizationDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

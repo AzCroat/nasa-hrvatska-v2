@@ -19,7 +19,7 @@ import { clickable } from '../../lib/clickable';
 
 // LABEL AND COLOUR ARE THIS FILE'S; THE NUMBERS ARE NOT (2026-09-23).
 // `needed` and the floor map below used to carry their own copies of the CEFR
-// thresholds, as did `heroHelpers` and `getUserCefr`'s `if` ladder — four
+// thresholds, as did `heroHelpers` (since deleted) and `getUserCefr`'s `if` ladder — four
 // copies, all agreeing, and only the ladder with a reason to change. Move a band
 // there and the badge follows while every bar in the app keeps measuring against
 // the old target. Both now read `lib/cefr`'s band table.

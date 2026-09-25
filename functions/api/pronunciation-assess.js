@@ -71,7 +71,16 @@ function parseAzureResponse(azureData) {
     })),
   }));
 
-  return { overall, accuracy, fluency, completeness, word_scores };
+  // THE RECOGNISED TEXT WAS DROPPED HERE, AND THE COACH PAID FOR IT (2026-09-25).
+  // Azure returns what it actually heard; nothing forwarded it, so the client had
+  // no transcript on this path and passed the TARGET to /api/pronunciation-coach
+  // as "what the learner said". The coach's phoneme analysis then compared the
+  // target with itself, found nothing, and every attempt at a phrase produced the
+  // same paragraph — owner report: "AI coaching provided feedback once and never
+  // changed after that."
+  const recognized = nbest.Display || nbest.Lexical || '';
+
+  return { overall, accuracy, fluency, completeness, word_scores, recognized };
 }
 
 // ── Preflight ─────────────────────────────────────────────────────────────────

@@ -4,6 +4,7 @@ import { NEGATION } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 export const NEGATION_QUIZ = [
   { q: 'Ne ___ ručak. (kuhati — ja)', a: 'kuham', opts: ['kuham', 'kuhaš', 'kuha', 'kuhamo'] },
@@ -356,7 +357,7 @@ function NegationScreen({ goBack, award }: Props) {
                   style={{ width: '100%', marginTop: 12 }}
                   onClick={retry}
                 >
-                  🔁 Try again (need 75%)
+                  {retryNeedLabel(shuffledQuiz.length)}
                 </button>
               )}
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

@@ -4,6 +4,7 @@ import { SENTBUILD } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface Props {
   goBack: () => void;
@@ -181,7 +182,7 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
               style={{ width: '100%', marginTop: 12 }}
               onClick={retry}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(questions.length)}
             </button>
           )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

@@ -121,7 +121,8 @@ export function getEffectiveLevel(
  * Until 2026-09-23 these five numbers lived in FOUR places: this function's
  * inline `if` ladder, `StatsTab`'s `CEFR_META[...].needed`, a second inline
  * `CEFR_FLOOR` map a few hundred lines below it in the same file, and
- * `heroHelpers`' own `CEFR_BANDS`. They all agreed — measured, not assumed —
+ * `heroHelpers`' own `CEFR_BANDS` (that file was never rendered and is deleted).
+ * They all agreed — measured, not assumed —
  * but only ONE of them had a reason to change, and that asymmetry is what makes
  * this kind of drift silent: move a band here and the LEVEL moves everywhere
  * while every progress bar keeps measuring against the old target, with the

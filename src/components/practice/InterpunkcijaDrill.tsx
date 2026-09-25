@@ -5,6 +5,7 @@ import { useStats } from '../../context/StatsContext';
 
 import { rnd } from '../../lib/random.js';
 import { drawDrillRun } from '../../lib/drillRun';
+import { retryNeedLabel } from '../../lib/lessonGate';
 function shLocal<T>(a: T[]): T[] {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -317,7 +318,7 @@ export default function InterpunkcijaDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Savršeno — interpunkcija je vaša! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Vrlo dobro vladanje interpunkcijom! 💪'
                 : 'Interpunkcija traži još vježbe.'}
           </div>
@@ -335,7 +336,7 @@ export default function InterpunkcijaDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

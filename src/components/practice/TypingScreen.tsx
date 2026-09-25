@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { H, Bar, sh, srMark, speak, getDueReviews } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 import CroatianKeyboard from '../shared/CroatianKeyboard';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
@@ -122,7 +123,7 @@ export default function TypingScreen({
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
   const { stats, setStats, writeDelta } = useStats();
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const V = content?.V as Record<string, any[]> | undefined;
   const finishFired = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -154,7 +155,11 @@ export default function TypingScreen({
       <div className="scr-wrap">
         {H('⌨️ Typing Practice', 'Type Croatian words with special characters', goBack)}
         <div style={{ textAlign: 'center', paddingTop: 48, color: 'var(--subtext)' }}>
-          {content ? 'No words available right now — please try again.' : 'Loading…'}
+          {poolLaunchBlock(content, contentLoading, tyPool ?? []) === 'loading'
+            ? 'Loading…'
+            : poolLaunchBlock(content, contentLoading, tyPool ?? []) === 'unavailable'
+              ? "That couldn't be loaded. Check your connection and try again."
+              : 'No words available right now — please try again.'}
         </div>
       </div>
     );

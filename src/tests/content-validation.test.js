@@ -1,6 +1,6 @@
 /**
  * content-validation.test.js
- * Validates the shape and integrity of all content data exported from appData.js.
+ * Validates the shape and integrity of all content data exported from src/data.
  * These are structural/contract tests — they should always pass on the real data.
  */
 import { describe, it, expect, vi } from 'vitest';
@@ -41,7 +41,11 @@ vi.mock('firebase/firestore', () => ({
   orderBy: vi.fn(),
 }));
 
-import { STORIES, VOCATIVE, NUMCOUNT, FALSEFR, DECL, PREPDRILL, UNJUMBLE } from '../lib/appData.js';
+// Read from src/data directly. This used to go through `lib/appData.ts`, a
+// re-export barrel over the same module that no consumer in the app had ever
+// imported — deleted in sweep 136 as unreachable, so the test now reads the
+// module production reads.
+import { STORIES, VOCATIVE, NUMCOUNT, FALSEFR, DECL, PREPDRILL, UNJUMBLE } from '../data';
 // Grammar data moved server-side in SP11b — import directly from _data/.
 import { ASPECT, ASPECT_PAIRS, PADEZI } from '../../functions/api/content/_data/grammar.js';
 // SP11d: V, PROVERBS, BRZALICE moved server-side — import from _data/.

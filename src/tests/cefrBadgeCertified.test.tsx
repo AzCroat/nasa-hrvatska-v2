@@ -23,13 +23,20 @@
  *   - the desktop badge after a real rollback (the reported scenario, driven
  *     through recordEquivalencyAttempt — not a hand-seeded post-state), AND
  *     that the certified level the door still opens on is unchanged
- *   - the hero bar's level and its "Level Check" label when XP has outrun the
- *     verified level (XP does not advance a level; a check does)
  *   - the other direction — a learner with a REAL pass at their XP band still
  *     sees it, so the fix cannot over-correct into showing A1 to everyone
  *
  * Mutation-verified: reverting any surface to the raw XP formula, or back to
  * getEffectiveLevelForUnlock, fails here.
+ *
+ * THE THIRD SURFACE WAS NEVER RENDERED, AND THIS FILE RENDERED IT ANYWAY (sweep
+ * 129/131, 2026-09-25). `heroHelpers.getCEFR` → `HeroStats` is the OLD Home hero's
+ * bar, and `HomeTab` stopped importing `HeroSection` on 2026-04-25 — five months
+ * before the first report. So the reported badge was `DesktopPanel`, the live
+ * surfaces were two, and the hero-bar block here (its level label, its "Level
+ * Check" text, its within-band percentage) was testing a component no learner
+ * could see. The cluster is deleted; those assertions went with it, and nothing
+ * live carries `pctInLevel` — StatsTab's own getCEFR never had it.
  */
 import React from 'react';
 import { readFileSync } from 'node:fs';
@@ -40,8 +47,6 @@ import {
   getCertifiedLevel,
   getVerifiedLevel,
 } from '../lib/cefrCertification';
-import { getCEFR } from '../components/home/heroHelpers';
-import HeroStats from '../components/home/HeroStats';
 import {
   provisionalPass,
   realPass,
@@ -158,9 +163,10 @@ describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
     // A SOURCE pin, because the bug was three copies of one formula drifting
     // apart: a fourth copy would pass every rendering test above at whatever
     // rate its thresholds still matched.
+    // Two files, not three: the hero bar that used to be the middle entry was
+    // never rendered and is gone (sweep 136).
     for (const f of [
       'src/components/shared/DesktopPanel.tsx',
-      'src/components/home/heroHelpers.ts',
       'src/components/profile/StatsTab.tsx',
     ]) {
       const src = readFileSync(f, 'utf8');
@@ -177,67 +183,5 @@ describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
         /getEffectiveLevelForUnlock\(/,
       );
     }
-  });
-});
-
-describe('hero CEFR bar — certified level and the Level Check label', () => {
-  it('after the rollback the hero reads A1 → A2 and says Level Check, not a percentage', () => {
-    writeCertState({ A2: provisionalPass(), B1: provisionalPass(), B2: provisionalPass() });
-    recordEquivalencyAttempt({ level: 'B2', scores: FAILED_B2, currentLessonCount: 40 });
-
-    const cefr = getCEFR(C1_BAND_STATS.xp, C1_BAND_STATS.lc, C1_BAND_STATS.gc);
-    expect(cefr.current).toBe('A1');
-    expect(cefr.next).toBe('A2');
-    expect(cefr.awaitingAssessment).toBe(true);
-    expect(cefr.pctInLevel).toBe(100);
-
-    render(
-      <HeroStats
-        streak={{ count: 1 }}
-        freezes={0}
-        xpPct={10}
-        xpCur={10}
-        xpNeeded={100}
-        level={1}
-        cefr={cefr}
-        lc={40}
-        xp={9000}
-      />,
-    );
-    const el = screen.getByTestId('hero-cefr-level');
-    expect(el).toHaveTextContent(/A1\s*→\s*A2/);
-    expect(el).toHaveTextContent('Level Check');
-    expect(el).not.toHaveTextContent('%');
-    expect(el).not.toHaveTextContent('C1');
-  });
-
-  it('certified at the XP band → the bar shows the within-band percentage as before', () => {
-    seedCertifiedTo('B1');
-    const cefr = getCEFR(2350, 0, 0); // B1 floor 1200, span 2300 → 50%
-    expect(cefr).toMatchObject({
-      current: 'B1',
-      next: 'B2',
-      pctInLevel: 50,
-      awaitingAssessment: false,
-    });
-    render(
-      <HeroStats
-        streak={{ count: 1 }}
-        freezes={0}
-        xpPct={10}
-        xpCur={10}
-        xpNeeded={100}
-        level={1}
-        cefr={cefr}
-        lc={0}
-        xp={2350}
-      />,
-    );
-    expect(screen.getByTestId('hero-cefr-level')).toHaveTextContent(/B1\s*→\s*B2\s*·\s*50%/);
-  });
-
-  it('a real pass earned with less XP than the band floor clamps at 0%, never negative', () => {
-    seedCertifiedTo('B1');
-    expect(getCEFR(500, 0, 0).pctInLevel).toBe(0);
   });
 });

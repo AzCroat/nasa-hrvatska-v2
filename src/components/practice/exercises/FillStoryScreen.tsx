@@ -3,6 +3,7 @@ import { H, sh } from '../../../data';
 import { FILL_STORIES } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface Props {
   goBack: () => void;
@@ -160,7 +161,7 @@ function FillStoryScreen({ goBack, award }: Props) {
               style={{ width: '100%', marginTop: 12 }}
               onClick={retry}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

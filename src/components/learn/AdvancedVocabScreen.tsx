@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 
 type LevelKey = 'B2' | 'C1' | 'C2';
 const LS_KEY = 'nh_adv_vocab_learned';
@@ -25,7 +26,7 @@ interface Props {
 }
 
 export default function AdvancedVocabScreen({ goBack, award }: Props) {
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   // SP11f: V_B2 / V_C1 / V_C2 ship from /api/content/core. While content hydrates,
   // fall back to empty objects so the screen renders the empty state rather
   // than crashing.
@@ -87,6 +88,13 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
   }
 
   const pct = totalInCat > 0 ? Math.round((learnedInCat / totalInCat) * 100) : 0;
+  // A COUNT IS A CLAIM TOO. The word list below says which of the three content
+  // states it is in (sweep 101); this counter sat above it still reading
+  // "0/0 learned" over a 0% bar, because V_B2/C1/C2 arrive with the payload and
+  // an absent list has the same length as a finished one. Fixing one claim on a
+  // screen does not fix the others — the bar is a second statement about the
+  // learner's progress and needed its own answer (sweep 102).
+  const countsKnown = poolLaunchBlock(content, contentLoading, categories) === null;
 
   return (
     <div className="scr-wrap">
@@ -215,7 +223,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
               <span
                 style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', fontWeight: 700 }}
               >
-                {learnedInCat}/{totalInCat} learned
+                {countsKnown ? `${learnedInCat}/${totalInCat} learned` : '—'}
               </span>
             </div>
             <div
@@ -229,7 +237,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
               <div
                 style={{
                   height: '100%',
-                  width: `${pct}%`,
+                  width: countsKnown ? `${pct}%` : '0%',
                   background: 'linear-gradient(90deg, #7c3aed, #5b21b6)',
                   borderRadius: 99,
                   transition: 'width .3s ease',
@@ -243,8 +251,21 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
       {/* ── WORD LIST ── */}
       <div className="c" style={{ paddingTop: 8 }}>
         {words.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--subtext)' }}>
-            No words match your search.
+          <div
+            data-testid="advanced-vocab-empty"
+            data-pool-block={poolLaunchBlock(content, contentLoading, words) ?? 'empty'}
+            style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--subtext)' }}
+          >
+            {/* A SEARCH THAT RAN AGAINST NOTHING FOUND NOTHING. V_B2/C1/C2 arrive
+                with the payload, so this line told an advanced learner their query
+                had no matches before the tiers existed — and for ever after a
+                failed fetch. poolLaunchBlock is the one classifier; content is
+                decided before emptiness. */}
+            {poolLaunchBlock(content, contentLoading, words) === 'loading'
+              ? 'Loading the advanced word lists — one moment.'
+              : poolLaunchBlock(content, contentLoading, words) === 'unavailable'
+                ? "The advanced word lists couldn't be loaded. Check your connection and try again."
+                : 'No words match your search.'}
           </div>
         )}
         {words.map(([hr = '', en = '', ex = '']: string[], i: number) => {

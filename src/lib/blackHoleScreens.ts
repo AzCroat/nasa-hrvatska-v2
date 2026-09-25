@@ -72,3 +72,56 @@ export const BLACK_HOLE_SCREENS: Record<string, string> = {
   // and its path node still ticks — on the screen's own vs write, or on the
   // lcAtLeast fallback the ckRule already carries.
 };
+
+/**
+ * The black-hole screens that RENDER FROM THE CONTENT PAYLOAD, and therefore
+ * show a learner nothing at all until it arrives (or if it never does).
+ *
+ * THE DWELL TIMER PAID FOR A PAGE THAT SHOWED NOTHING. `launchPathItem` arms a
+ * 20-second timer on tap and credits `lc`/`gc` + DWELL_XP when it fires,
+ * knowing only the screen id — not whether that screen had anything to display.
+ * Content lands ~9 s after first paint in the E2E harness and NEVER on a failed
+ * fetch, so a learner who tapped a path item and sat on "Loading this page" or
+ * "couldn't be loaded" for twenty seconds was credited a completed
+ * informational lesson and 5 XP for reading nothing. That is NEVER-DO 14 — do
+ * not credit work the learner could not do — reached through an interaction
+ * between two features that are each correct alone.
+ *
+ * SEVEN OF THIRTEEN, and the split is why this is a set rather than a blanket
+ * rule: `texting`, `roleplay`, `readlist`, `listeningpath`, `writing` and
+ * `pronunciation_course` render from static imports and are unaffected by the
+ * payload, so withholding their credit when content happens to be absent would
+ * take away a completion the learner genuinely earned.
+ *
+ * The VISIT half is deliberately untouched. `launchPathItem` writes the screen's
+ * `vs` key the instant the item is tapped, as a VISIT marker so the path node
+ * cannot stick incomplete — CLAUDE.md records what conflating that marker with
+ * a completion marker cost on AlphabetScreen. This gates only the COUNTER and
+ * the XP, which is what "credit" means in NEVER-DO 14.
+ *
+ * DERIVED, NOT HAND-LISTED: `dwellContentGate.test.tsx` walks the REAL router and
+ * the REAL import graph from each key above and requires this set to equal the
+ * keys whose screen reaches `useContent`/`getContent`/`peekContent`, in both
+ * directions — so a screen that starts or stops reading the payload fails there
+ * instead of quietly mis-crediting.
+ */
+export const CONTENT_DEPENDENT_BLACK_HOLE_SCREENS: ReadonlySet<string> = new Set([
+  'idioms',
+  'brzalice',
+  'history',
+  'recipes',
+  'dialects',
+  'proverbs',
+  'bureaucratic',
+]);
+
+/**
+ * How many extra full dwells the timer will wait for the content payload before
+ * giving up. Three, so a learner who tapped in during the ~9 s content window is
+ * credited on the FIRST fire, and one whose payload arrives late is still
+ * credited on a later one; past this the page has been unreadable for over a
+ * minute and no credit is owed. See the re-arm block in lib/dwellCredit.ts: a
+ * bare return would have withheld the counter for ever, because `vs` is written
+ * on tap and `wasFirstVisit` is false on every later visit.
+ */
+export const DWELL_CONTENT_WAITS = 3;

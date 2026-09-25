@@ -8,6 +8,7 @@ import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 const VOCAB_PROMPT = definePrompt(
   'vocab-expand',
@@ -180,14 +181,10 @@ export async function onRequestPost(context) {
   }
 
   // ── Parse and validate response ────────────────────────────────────────────
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('vocab-expand.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return ok({ examples: [], cached: false }, origin);
   }

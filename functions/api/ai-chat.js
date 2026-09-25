@@ -8,6 +8,7 @@ import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js'
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -805,19 +806,17 @@ export async function onRequestPost(context) {
     // fence first — without it a fenced-but-valid object fell through to the
     // { text } fallback, so e.g. the postcard client silently showed the user's
     // UNCORRECTED text (data.corrected_text was undefined).
-    const rawClean = raw
-      .replace(/^\s*```(?:json)?\s*/i, '')
-      .replace(/\s*```\s*$/i, '')
-      .trim();
-    try {
-      const parsed = JSON.parse(rawClean);
+    // parseModelJson, not a private fence regex: the shared parser also recovers a
+    // reply with prose around the JSON, and — unlike a bare JSON.parse — refuses a
+    // bare string, which would otherwise spread into `{0:'h',1:'e',…}` (sweep 120).
+    const parsed = parseModelJson(raw);
+    if (parsed) {
       return new Response(JSON.stringify({ ...parsed, _raw: raw, model: MODEL }), {
         status: 200,
         headers: { ...corsHeaders(origin), ...promptHeaders(promptForMode(mode)) },
       });
-    } catch {
-      return ok({ text: raw, model: MODEL }, origin, promptHeaders(promptForMode(mode)));
     }
+    return ok({ text: raw, model: MODEL }, origin, promptHeaders(promptForMode(mode)));
   }
 
   if (!messages || !Array.isArray(messages) || !mode) {

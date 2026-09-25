@@ -208,8 +208,18 @@ export default function LearnPath({
   const [hovered, setHovered] = useState<string | null>(null);
   const [quizLaunching, setQuizLaunching] = useState(false);
   const passedCheckpoints = useMemo(() => getPassedCheckpoints(), []);
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const LEARN_PATH = useMemo(() => content?.LEARN_PATH ?? [], [content?.LEARN_PATH]);
+  // AN EMPTY PATH IS NOT ZERO PROGRESS (2026-09-24). LEARN_PATH comes from
+  // /api/content/core, which lands AFTER first paint, so before it does this
+  // screen has no milestones to count — and it used to render "0% done",
+  // "0 / 0 milestones" and the praise line "Amazing progress!" over them.
+  // Measured: that praise line is reachable ONLY in this state (with content
+  // present and everything finished, pct === 100 wins the trophy branch), so
+  // the one thing it ever meant was "the path has not loaded" and it said the
+  // opposite. NEVER-DO 13 on the screen whose whole job is measured progress —
+  // and permanent, not transient, if the content fetch fails.
+  const pathMissing = LEARN_PATH.length === 0;
   const V = useMemo(() => (content?.V ?? {}) as Record<string, unknown[]>, [content?.V]);
   const decayedTopics = useMemo(() => getDecayedTopics(LEARN_PATH), [LEARN_PATH]);
 
@@ -316,7 +326,7 @@ export default function LearnPath({
             }}
           >
             <div style={{ fontSize: 18, fontWeight: 900, color: '#0e7490', lineHeight: 1 }}>
-              {pct}%
+              {pathMissing ? '—' : `${pct}%`}
             </div>
             <div style={{ fontSize: 9, color: '#64748b', fontWeight: 600 }}>done</div>
           </div>
@@ -324,14 +334,21 @@ export default function LearnPath({
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>
-            {totalDone} / {totalAll} milestones
+            {pathMissing ? 'Your learning path' : `${totalDone} / ${totalAll} milestones`}
           </div>
-          <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500, lineHeight: 1.5 }}>
-            {pct === 100
-              ? '🏆 All milestones complete! You are Hrvat!'
-              : activeLevel >= 0
-                ? `Currently on: ${LEARN_PATH[activeLevel]!.title} — ${LEARN_PATH[activeLevel]!.items[activeItem]?.name}`
-                : 'Amazing progress!'}
+          <div
+            style={{ fontSize: 13, color: '#64748b', fontWeight: 500, lineHeight: 1.5 }}
+            data-testid={pathMissing ? 'learnpath-unavailable' : undefined}
+          >
+            {pathMissing
+              ? contentLoading
+                ? 'Still loading your path — one moment.'
+                : 'Your learning path could not be loaded. Check your connection and try again.'
+              : pct === 100
+                ? '🏆 All milestones complete! You are Hrvat!'
+                : activeLevel >= 0
+                  ? `Currently on: ${LEARN_PATH[activeLevel]!.title} — ${LEARN_PATH[activeLevel]!.items[activeItem]?.name}`
+                  : 'Amazing progress!'}
           </div>
         </div>
       </div>

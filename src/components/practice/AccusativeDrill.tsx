@@ -7,6 +7,7 @@ import { useExplainError } from '../../hooks/useExplainError';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 
 function shLocal(a: any[]) {
   const b = [...a];
@@ -460,7 +461,7 @@ export default function AccusativeDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Accusative mastered!'
-              : score >= total * 0.8
+              : passed
                 ? 'Great work! Accusative is essential for direct objects!'
                 : 'Keep practising — accusative marks the direct object of most verbs.'}
           </div>
@@ -478,7 +479,7 @@ export default function AccusativeDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

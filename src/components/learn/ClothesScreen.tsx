@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import ContentStateNotice from '../shared/ContentStateNotice';
 import { clickable } from '../../lib/clickable';
 
 interface BackBtnProps {
@@ -200,12 +201,14 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
     return (
       <WRAP>
         <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="error" />
       </WRAP>
     );
   if (loading || !content)
     return (
       <WRAP>
         <BACK_BTN goBack={goBack} />
+        <ContentStateNotice state="loading" />
       </WRAP>
     );
   const d = content.CLOTHES as {

@@ -11,6 +11,7 @@ import { reconcileSafely } from './_aiBudget.js';
 // fit under that endpoint's cap. Both numbers live in _ttsLimits.js so they
 // cannot drift; see the note there for why the budget is derived, not typed.
 import { TTS_TEXT_BUDGET } from './_ttsLimits.js';
+import { parseModelJson } from './_modelJson.js';
 
 const LISTENING_PROMPT = definePrompt(
   'listening',
@@ -256,14 +257,10 @@ export async function onRequestPost(context) {
   }
 
   // ── Parse response ──
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  let parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('listening.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);
   }

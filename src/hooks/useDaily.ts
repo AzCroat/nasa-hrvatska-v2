@@ -5,6 +5,7 @@
  */
 import { useState } from 'react';
 import { lsGet } from '../lib/safeStorage';
+import { GUEST_UID } from '../lib/guestIdentity';
 
 function todayKey(): string {
   const d = new Date();
@@ -29,8 +30,23 @@ interface DailyState {
 function loadFromMainDoc(k: string): DailyState | null {
   try {
     const sess = JSON.parse(localStorage.getItem('uS') || 'null') as { u?: string } | null;
-    if (!sess || !sess.u) return null;
-    const prog = JSON.parse(localStorage.getItem('uP_' + sess.u) || 'null') as {
+    // A LEGACY GUEST HAS NO SESSION RECORD, AND USED TO LOSE THE DAY'S ANSWERS.
+    // `sS()` — the only writer of 'uS' — runs solely in the fbUser branch, so a
+    // learner on the anonymous-sign-in-unavailable path never has one (App.tsx
+    // says so in as many words). This function returned null for them, and the
+    // PRIMARY source it backs up, `dcDay3`, is written by nothing outside the
+    // sync layer (sweep 111) — so a reload showed the daily challenge unanswered
+    // while their answers sat in `uP_guest.dc`, one key away. App.tsx writes that
+    // blob for a guest (`uid = authUser ? authUser.u : GUEST_UID`) and
+    // `buildProgressSnapshot` puts `dc` in it, so the data was always there.
+    //
+    // The fallback is safe in the one direction that matters: it fires ONLY when
+    // no session record exists, i.e. nobody is signed in, and App.tsx removes
+    // `uP_guest` on sign-in — so it can never read one learner's state into
+    // another's. The `dc.day === k` check below already discards anything but
+    // today.
+    const uid = sess?.u || GUEST_UID;
+    const prog = JSON.parse(localStorage.getItem('uP_' + uid) || 'null') as {
       dc?: DailyState;
     } | null;
     if (prog && prog.dc && prog.dc.day === k) return prog.dc;

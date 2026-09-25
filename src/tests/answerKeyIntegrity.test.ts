@@ -143,14 +143,82 @@ function sweep(root: unknown, path: string, out: string[], depth = 0): void {
   }
 }
 
+/**
+ * THE CORPUS IS DERIVED, NOT LISTED (sweep 126).
+ *
+ * It was five hand-written modules. Measured: **211 modules carry an
+ * option-bearing item and 10,144 items exist**, so the sweep that calls itself a
+ * corpus sweep covered five of two hundred and eleven — and the block below it
+ * says so in its own docstring ("the corpus sweep above covers five modules, none
+ * of them these") without anyone widening the corpus. That is this repo's
+ * most-repeated lesson, in the file that records it: **a hand-maintained list of
+ * subjects decays exactly like one in production**, and coverage is a ratio, not a
+ * list length.
+ *
+ * The largest uncovered body is the ~75 HAND-WRITTEN `*Drill.tsx` components —
+ * the oldest graded content in the app, which CLAUDE.md describes as "DATA wearing
+ * a `.tsx` extension" — plus the lesson bodies and the graded stories. Widening it
+ * costs nothing: the same `sweep` over the whole derived corpus reports **zero**
+ * failures, so there are no false positives to train anyone to ignore it.
+ *
+ * `import.meta.glob` with `eager` rather than a dynamic `import()`, matching the
+ * drill-bank block below: a dynamic import that silently resolved to nothing would
+ * make every assertion here vacuous, and the item floor plus the named pins are
+ * what would catch that.
+ */
+const DERIVED_MODULES: Record<string, unknown> = {
+  ...(import.meta.glob('../data/**/*.{ts,js}', { eager: true }) as Record<string, unknown>),
+  ...(import.meta.glob('../../functions/api/content/_data/**/*.js', { eager: true }) as Record<
+    string,
+    unknown
+  >),
+  ...(import.meta.glob('../components/practice/**/*.tsx', { eager: true }) as Record<
+    string,
+    unknown
+  >),
+  ...(import.meta.glob('../components/learn/**/*.tsx', { eager: true }) as Record<string, unknown>),
+  ...(import.meta.glob('../components/croatia/**/*.tsx', { eager: true }) as Record<
+    string,
+    unknown
+  >),
+};
+
 describe('answer-key integrity — corpus sweep', () => {
-  const MODULES: Record<string, unknown> = {
-    'content/exercises': SERVER_EXERCISES,
-    'content/grammar': GRAMMAR,
-    'content/grammarAdvanced': GRAMMAR_ADVANCED,
-    'src/data/exercises': CLIENT_EXERCISES,
-    'src/data/pitchAccentContent': PITCH_ACCENT,
-  };
+  const MODULES: Record<string, unknown> = DERIVED_MODULES;
+
+  it('the five modules the hand-written list named are still in the derived corpus', () => {
+    // The old list is not deleted, it is CHECKED: if a glob stops reaching one of
+    // them the corpus has silently shrunk back, and the item floor alone would not
+    // notice (5 modules of 211 is 2% of the items).
+    for (const [name, mod] of Object.entries({
+      SERVER_EXERCISES,
+      GRAMMAR,
+      GRAMMAR_ADVANCED,
+      CLIENT_EXERCISES,
+      PITCH_ACCENT,
+    })) {
+      const hit = Object.values(MODULES).some((m) => m === mod);
+      expect(hit, `${name} is no longer reached by the globs`).toBe(true);
+    }
+  });
+
+  it('the derived corpus reaches the hand-written drill components', () => {
+    // The largest previously-uncovered body. Named rather than counted, because a
+    // glob typo that dropped `practice/**` would still leave ~9,000 items and clear
+    // any floor.
+    const keys = Object.keys(MODULES);
+    for (const f of [
+      'NominativeDrill.tsx',
+      'MnozinaDrill.tsx',
+      'InterpunkcijaDrill.tsx',
+      'FrazeologijaDrill.tsx',
+    ])
+      expect(
+        keys.some((k) => k.endsWith(`/${f}`)),
+        `${f} is outside the corpus — the hand-written drills are the oldest graded content in the app`,
+      ).toBe(true);
+    expect(keys.length).toBeGreaterThan(400);
+  });
 
   it('finds option-bearing items to check (guards against an empty sweep)', () => {
     // sweep() only records failures, so a broken import or a rename would leave
@@ -167,17 +235,37 @@ describe('answer-key integrity — corpus sweep', () => {
       Object.values(o).forEach((x) => countOpts(x, d + 1));
     };
     Object.values(MODULES).forEach((m) => countOpts(m));
-    expect(count).toBeGreaterThan(500);
+    // 10,144 when the corpus was derived (sweep 126); it was >500 over five modules.
+    expect(count).toBeGreaterThan(9000);
   });
 
   it('every option-bearing item has unique options and a reachable answer', () => {
     const failures: string[] = [];
     for (const [name, mod] of Object.entries(MODULES)) {
       for (const [exp, v] of Object.entries(mod as Record<string, unknown>)) {
+        if (typeof v === 'function') continue;
         sweep(v, `${name}:${exp}`, failures);
       }
     }
-    expect(failures).toEqual([]);
+    expect(
+      failures,
+      'an answer no option carries makes the question literally unwinnable: no ' +
+        'option ever turns green, no XP is awarded, and nothing anywhere says so',
+    ).toEqual([]);
+  });
+
+  it('POSITIVE CONTROL: the sweep reports both invariants on a synthetic item', () => {
+    // The corpus is clean, so without this the two assertions above could both be
+    // satisfied by a sweep that had stopped looking.
+    const unwinnable: string[] = [];
+    sweep([{ hr: 'x', answer: 'nije tu', opts: ['a', 'b', 'c'] }], 'ctl', unwinnable);
+    expect(unwinnable.join(' ')).toMatch(/no field/);
+    const dupes: string[] = [];
+    sweep([{ answer: 'a', opts: ['a', 'a', 'b'] }], 'ctl', dupes);
+    expect(dupes.join(' ')).toMatch(/duplicate options/);
+    const outOfRange: string[] = [];
+    sweep([{ q: 'x', correct: 5, opts: ['a', 'b'] }], 'ctl', outOfRange);
+    expect(outOfRange.join(' ')).toMatch(/out of range/);
   });
 });
 

@@ -7,6 +7,7 @@ import { useExplainError } from '../../hooks/useExplainError';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 
 function shLocal(a: any[]) {
   const b = [...a];
@@ -461,7 +462,7 @@ export default function NominativeDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Nominative mastered! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Great work! Nominative is the foundation!'
                 : 'Keep practising — nominative tells you who or what is doing the action!'}
           </div>
@@ -479,7 +480,7 @@ export default function NominativeDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

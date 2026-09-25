@@ -850,12 +850,12 @@ the ratchet clean (M3).
 
 **WHAT THE HOLE WAS HIDING — the census, all ten sites, read end to end:**
 
-| screen                     | what a refusal looked like                        |
-| -------------------------- | ------------------------------------------------- |
-| `AIListeningScreen`        | names the cause inline — **correct**              |
-| `SpeakingSprintScreen`     | "Could not load audio. Check your connection..."  |
-| `LiveTutorScreen`          | "Check your volume, speaker, or headphone..."     |
-| News, PhraseOfDay, HeritageStory, StoryMode, GradedInput, Writing, Maja | silent |
+| screen                                                                  | what a refusal looked like                       |
+| ----------------------------------------------------------------------- | ------------------------------------------------ |
+| `AIListeningScreen`                                                     | names the cause inline — **correct**             |
+| `SpeakingSprintScreen`                                                  | "Could not load audio. Check your connection..." |
+| `LiveTutorScreen`                                                       | "Check your volume, speaker, or headphone..."    |
+| News, PhraseOfDay, HeritageStory, StoryMode, GradedInput, Writing, Maja | silent                                           |
 
 **THE 2026-09-10 FIX WAS THE FIRST HALF OF ITS OWN RULE.** That work found
 `ttsFetch` recorded nothing and gave it `_classifyHttpFailure`,
@@ -983,8 +983,8 @@ every `x.field` it accesses; report accesses that no key it reads can supply.
 
 **`RegionScreen` renders `v.tip`. No region vocabulary row has ever carried
 `tip`.** Measured against the real payload: **81 rows across 10 regions, 81
-with `note`, 0 with `tip`.** So every authored explanatory line — *"šoht: the
-iconic steel tower above a mine shaft, Labin's industrial symbol"* — was
+with `note`, 0 with `tip`.** So every authored explanatory line — _"šoht: the
+iconic steel tower above a mine shaft, Labin's industrial symbol"_ — was
 dropped on the floor, on every region page, for the life of the screen.
 
 **IT IS A WORSE HIDING PLACE THAN THE ONE THIS CLASS IS NAMED AFTER.**
@@ -1071,11 +1071,11 @@ of honest work") the answer became `'reading'` and could never change.
 
 **MEASURED with the REAL slot, 40 sessions per level:**
 
-| ledger state        | weakest   | listening | reading |
-| ------------------- | --------- | --------- | ------- |
-| empty               | null      | 30        | 10      |
-| listening TESTED    | reading   | **0**     | **40**  |
-| both TESTED (fixed) | null      | —         | —       |
+| ledger state        | weakest | listening | reading |
+| ------------------- | ------- | --------- | ------- |
+| empty               | null    | 30        | 10      |
+| listening TESTED    | reading | **0**     | **40**  |
+| both TESTED (fixed) | null    | —         | —       |
 
 A2, B1, B2 and C1 identical. **The comprehension slot exists BECAUSE listening
 was running at 4–5% of sessions (2026-09-04); this had quietly taken it to
@@ -1196,13 +1196,13 @@ self-credits — and lists six removed for exactly that. Walking the REAL router
 to each of the sixteen remaining keys and asking whether its component writes
 that key into `vs` itself, and whether the same write bumps a counter:
 
-| key | self-writes vs | own counter | what the pre-write costs |
-| --- | --- | --- | --- |
-| `alphabet` | yes | lc | **20 XP + the session signal, permanently** |
-| `falsefr` | yes | lc | 1 lc, when the learner finishes inside 20s |
-| `techvoc` | yes | lc | 1 lc, same condition |
-| `writing` | yes | **none** | nothing — dwell strictly ADDS an lc the screen never writes |
-| other 12 | no | — | nothing; dwell is genuinely their only credit |
+| key        | self-writes vs | own counter | what the pre-write costs                                    |
+| ---------- | -------------- | ----------- | ----------------------------------------------------------- |
+| `alphabet` | yes            | lc          | **20 XP + the session signal, permanently**                 |
+| `falsefr`  | yes            | lc          | 1 lc, when the learner finishes inside 20s                  |
+| `techvoc`  | yes            | lc          | 1 lc, same condition                                        |
+| `writing`  | yes            | **none**    | nothing — dwell strictly ADDS an lc the screen never writes |
+| other 12   | no             | —           | nothing; dwell is genuinely their only credit               |
 
 `writing` is the exemption and is pinned in BOTH staleness directions. The other
 twelve are informational, which is what the map is for.
@@ -1260,7 +1260,6 @@ copy, the ids and the 20s mechanism.
 Full suite on the final tree: **579 files, 9336 passed, 25 skipped, 0
 failures**; `tsc --noEmit` clean; lint clean (Croatian lint 0 findings across
 521 files).
-
 
 ### 23. Three generalisations of sweep 22, all NEGATIVE — 2026-09-23
 
@@ -1322,7 +1321,6 @@ mechanism look identical from the outside. Recorded as "sessions report, error
 counters are zero, the distinguishing read is unavailable", not as "production
 is clean".
 
-
 ### 25. Work recorded that nothing consumes — 2026-09-23 — **2 DEAD WRITES, FIXED**
 
 The mirror of the `v.tip` sweep, run over storage keys instead of payload
@@ -1357,11 +1355,11 @@ rediscovering — and two had:
 **THE MATCHER WAS WRONG THREE TIMES, EACH TIME CONFIDENTLY**, and this is the
 part worth keeping:
 
-| version | what it did | result |
-| --- | --- | --- |
-| under-match | resolved constants and import graphs | 3 hits, missing keys |
-| over-match | excluded the writing file from the reader search | **34 false positives**, including keys CLAUDE.md documents as read (`nh_case_primer_seen`, `nh_recent_exercises`) |
-| over-ALIVE | a "prefix consumer" clause picked up a bare `nh_` literal in App.tsx's pruning loop | **0 hits** — it hid both real findings |
+| version     | what it did                                                                         | result                                                                                                            |
+| ----------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| under-match | resolved constants and import graphs                                                | 3 hits, missing keys                                                                                              |
+| over-match  | excluded the writing file from the reader search                                    | **34 false positives**, including keys CLAUDE.md documents as read (`nh_case_primer_seen`, `nh_recent_exercises`) |
+| over-ALIVE  | a "prefix consumer" clause picked up a bare `nh_` literal in App.tsx's pruning loop | **0 hits** — it hid both real findings                                                                            |
 
 What settled it was the dumbest version that works: count occurrences of the
 exact key string across production source; if every one of them IS a write
@@ -1411,7 +1409,6 @@ failures**; `tsc --noEmit` clean; lint clean (0 findings across 521 files).
   a maximal learner, checks non-vacuity against an empty one, DERIVES the
   counters from the predicates themselves and asserts every counter a badge
   reads has a writer in `src`. Do not re-sweep this.
-
 
 ### 27. The queue's last two items, and the class behind one of them — 2026-09-23
 
@@ -1485,7 +1482,6 @@ the matcher would not cross), the truncated `fbLoadProgress` read above, and the
 `[^>]` attribute scanner. Record the ratio, not just the findings — it is the
 argument for shipping the least clever matcher that works and stating its limits
 in its own header.
-
 
 ### 29. A consumer with no producer, and the predicate that could never be true — 2026-09-23
 
@@ -1922,8 +1918,7 @@ combined branch read:
 
 for a sitting containing two re-checks and four cards. Measured with the real
 scheduler over a 30-lesson learner across 400 days: the line **overstated the
-cards on 135 of 273 sittings (worst by 28) and the re-checks on 77 (worst by
-5)** — about half of all retention sittings.
+cards on 135 of 273 sittings (worst by 28) and the re-checks on 77 (worst by 5)** — about half of all retention sittings.
 
 **WHY IT IS A DEFECT AND ALSO WHY IT IS A SMALL ONE.** The counts are genuinely
 due; nothing is fabricated, unlike the "your practice says" claim sweep 32
@@ -2034,11 +2029,11 @@ rep off `award`'s third argument — an activityType string each screen chooses
 for itself. Three screens chose one that is not their modality, and the app
 contradicted itself in writing to do it:
 
-| screen | pool entry | awarded | the contradiction |
-| --- | --- | --- | --- |
+| screen              | pool entry              | awarded    | the contradiction                                          |
+| ------------------- | ----------------------- | ---------- | ---------------------------------------------------------- |
 | `VideoLessonScreen` | `category: 'listening'` | `'lesson'` | also `markQuest('speak')` — on a screen with no microphone |
-| `StoryModeScreen` | `category: 'reading'` | `'story'` | `markQuest('reading')` **on the next line** |
-| `AIStoryScreen` | `category: 'reading'` | `'story'` | — |
+| `StoryModeScreen`   | `category: 'reading'`   | `'story'`  | `markQuest('reading')` **on the next line**                |
+| `AIStoryScreen`     | `category: 'reading'`   | `'story'`  | —                                                          |
 
 Measured with a census over the real pool and the real router: listening
 recorded from **3 of its 4** session-servable entries, reading from **1 of its
@@ -2080,8 +2075,8 @@ dual-purpose screens (news is culture AND reading; a tutor conversation does
 correct grammar). "No microphone → no speak quest" was dry-run next: **2 hits,
 one a false positive** — `DialogueSim` has no recogniser and legitimately marks
 it, because its production path is typed and the app's typed-production
-fallback counts identically. The shipped rule is *speech input path OR its own
-award calls the work `'speaking'`*: exactly the two defects, nothing else. The
+fallback counts identically. The shipped rule is _speech input path OR its own
+award calls the work `'speaking'`_: exactly the two defects, nothing else. The
 123-false-positive lesson, applied by dry run rather than by memory.
 
 **THE FIRST DRAFT OF THE MAIN GUARD WAS DECORATIVE, AND MUTATION SAID SO
@@ -2360,11 +2355,10 @@ was right and the two hand-keyed ones were not. **When a counter's membership
 test is a per-site decision, it decays at the rate new sites are added**; when
 it is derived from the list that already defines membership, it cannot.
 
-
 ### 39. Buttons that went nowhere — 2026-09-23 — **4 DEAD TARGETS + 1 HALF-DEAD, FIXED**
 
-The owner's standing line is *"if I ever click on anything and it doesn't work
-it's over."* This is the sweep that asked it as a question with a derivation
+The owner's standing line is _"if I ever click on anything and it doesn't work
+it's over."_ This is the sweep that asked it as a question with a derivation
 behind it, and the answer was not zero.
 
 **THERE IS NO CATCH-ALL IN `AppRouter`.** It is one long chain of
@@ -2502,10 +2496,10 @@ EVERY day on Home and which, since 2026-09-14, pays real XP.
 **Every tier-1 daily quest reads "Complete 1 …" — which a single `markQuest`
 call is an honest record of. Two do not:**
 
-| quest | text | XP |
-| --- | --- | --- |
-| `master` | "Review 5+ SRS words" | 30 |
-| `master2` | "Review 15+ SRS words" | 55 |
+| quest     | text                   | XP  |
+| --------- | ---------------------- | --- |
+| `master`  | "Review 5+ SRS words"  | 30  |
+| `master2` | "Review 15+ SRS words" | 55  |
 
 **Nothing counted words.** All three review surfaces — `ReviewScreen`,
 `MistakesScreen`, `AdaptiveReviewScreen` — fired a bare `markQuest('master')` on
@@ -2590,7 +2584,7 @@ microphone clearing it. This asks whether a screen that DID earn it claims it �
 and the answer was no, twice.
 
 - **`MajaScreen`** awards `'speaking'`, carries a recogniser (17 references),
-  and marked **`culture`**: *"Explore a Croatian region or media item"*, for a
+  and marked **`culture`**: _"Explore a Croatian region or media item"_, for a
   spoken conversation that is neither. One quest wrongly credited and one
   rightly owed and withheld, in a single line. It now marks what it awards.
 - **`GuidedSpeakingScreen`** — the app's own rubric-graded speaking practice,
@@ -2655,7 +2649,7 @@ Nothing found. Recorded in full, because an unrecorded negative is re-run.
   `markQuest`, 5 by `TIER2_MAP` promotion, 2 derived from the streak by name in
   `questState`, 1 (`master2`) marked explicitly since sweep 40. That is the
   converse of the historical `listening` defect — a quest marked by seven
-  completion paths that *did not exist in the list*, so the key was written and
+  completion paths that _did not exist in the list_, so the key was written and
   nothing read it. This checks the other direction: a quest in the list that
   nothing can mark would make "All quests complete!" permanently unreachable and
   the remaining-count permanently wrong. Zero.
@@ -3097,12 +3091,12 @@ copy has a reason to change"** — which is what makes the drift silent.
 Continuing sweep 48's question, and the second place it pays. The five band
 boundaries — **300 / 1200 / 3500 / 8000 / 18000** — lived in FOUR places:
 
-| # | where | as |
-| - | ----- | -- |
-| 1 | `lib/cefr` `getUserCefr` | an inline `if` ladder |
-| 2 | `StatsTab` `CEFR_META[...].needed` | the "next level at N" target |
-| 3 | `StatsTab` `CEFR_FLOOR` | a SECOND inline map, ~400 lines below #2 in the same file |
-| 4 | `heroHelpers` `CEFR_BANDS` | floor + threshold pairs |
+| #   | where                              | as                                                        |
+| --- | ---------------------------------- | --------------------------------------------------------- |
+| 1   | `lib/cefr` `getUserCefr`           | an inline `if` ladder                                     |
+| 2   | `StatsTab` `CEFR_META[...].needed` | the "next level at N" target                              |
+| 3   | `StatsTab` `CEFR_FLOOR`            | a SECOND inline map, ~400 lines below #2 in the same file |
+| 4   | `heroHelpers` `CEFR_BANDS`         | floor + threshold pairs                                   |
 
 **MEASURED, NOT ASSUMED: all four agreed**, so this is a hazard closed rather
 than a bug fixed, and it is worth saying which. The boundaries were derived from
@@ -3165,8 +3159,8 @@ formula as", "structural copy of", "shared with". Twenty-odd hits, mostly
 honest; one was not.
 
 **`CroatiaPoolEntry.category` restated `SessionCategory`'s union inline**, with
-the reason written down: *"Structural copy of SessionCategory (defined in
-useDailySession) — kept inline here to avoid a hook→data→hook import cycle."*
+the reason written down: _"Structural copy of SessionCategory (defined in
+useDailySession) — kept inline here to avoid a hook→data→hook import cycle."_
 That reason was TRUE when written and FALSE by the time it was read again:
 `SessionCategory` moved out of the hook into `lib/dailySessionStore` in the
 800-line split. Both modules are in `lib/` now, `dailySessionStore` imports
@@ -3220,9 +3214,9 @@ this is a type, three comments and a new test.
 ### 51. The payload key list CLAUDE.md said must agree, and did not — 2026-09-23 — **1 REAL COVERAGE HOLE, FIXED**
 
 Fourth run at sweep 48's question, and this candidate was already NAMED in
-CLAUDE.md: *"Three copies of the payload key list must agree: `core.js` KEYS,
+CLAUDE.md: _"Three copies of the payload key list must agree: `core.js` KEYS,
 `core.test.js` ALL_KEYS, and `generate-content-etags.mjs` CORE_KEYS (the etag
-must move when the payload does)."* So the first thing was to measure whether
+must move when the payload does)."_ So the first thing was to measure whether
 they did.
 
     endpoint  KEYS        32
@@ -3235,8 +3229,8 @@ culture deep-dive essays.
 
 **THE SIZE OF THAT HOLE HAS TO BE STATED PRECISELY, AND MY FIRST VERSION
 OVERSTATED IT.** I wrote that `CULTURE_DEEP_DIVES` "was actually unguarded".
-It was not: `cultureDeepDives.test.ts` carries a test named *"CULTURE_DEEP_DIVES
-is in ALL THREE content-pipeline key lists"* which greps `_data/core.js`,
+It was not: `cultureDeepDives.test.ts` carries a test named _"CULTURE_DEEP_DIVES
+is in ALL THREE content-pipeline key lists"_ which greps `_data/core.js`,
 `core.js` and the etag generator for the literal — and those three are precisely
 the ones that had it. What was unguarded is narrower and still real: the
 ENDPOINT RESPONSE assertion in `core.test.js` did not cover that key, so the
@@ -3251,7 +3245,7 @@ exactly where it predicted, and it is also this file's own "a test that restates
 production data cannot check production data", met from the other direction: not
 a wrong assertion, a MISSING one.
 
-Its title said *"all 27 named exports"* while the list held 31 — the nav-table
+Its title said _"all 27 named exports"_ while the list held 31 — the nav-table
 shape inside a test: a number right when written and never moved with the code.
 
 **THE FIX** is `CORE_PAYLOAD_KEYS` in `_data/core.js`, read by all three. The
@@ -3328,25 +3322,25 @@ WHAT was looked at and HOW.
 **The five remaining hits from sweep 50's comment grep**, each checked the way
 50 was: is the STATED REASON still true, and do the two copies still agree?
 
-- **`audio.ts:37`** — "*`_nativePost` … was built to mirror it exactly*". A
+- **`audio.ts:37`** — "_`_nativePost` … was built to mirror it exactly_". A
   HISTORICAL note about a consolidation that already happened: the ~90-line body
   is gone and the call delegates. No live copy. The comment describes a past
   state and says so.
-- **`text/similarity.ts:9`** — "*Only the raw `levenshtein` is shared with
-  TypingScreen; the local `normalize()` stays local there*", because it carries
+- **`text/similarity.ts:9`** — "_Only the raw `levenshtein` is shared with
+  TypingScreen; the local `normalize()` stays local there_", because it carries
   two extra mappings (`š/ś`, `ž/ź`). **Verified in the file**: `TypingScreen`'s
   `normalize` really does carry both, and omits the punctuation stripping
   `normalizeCroatian` does. Two different functions with different jobs, not a
   copy. (The reason as written is incomplete — it names the two mappings and not
   the punctuation difference — but it is not wrong.)
-- **`OnboardingTour.tsx:50`** — "*One definition, shared with AIConversation's
-  `isHeritage`*". Both call `isHeritageLearner()` from `lib/heritageLearner`.
+- **`OnboardingTour.tsx:50`** — "_One definition, shared with AIConversation's
+  `isHeritage`_". Both call `isHeritageLearner()` from `lib/heritageLearner`.
   Genuinely one definition.
 - **`AspectDrillScreen.tsx:633`** — documents why the screen writes the
   `aspectdrill` path key itself when its exercise key is `aspect`. A recorded
   workaround for a real mismatch, not a duplicated fact.
-- **`applyRemoteProgress.ts:39`** — "*A frozen copy of the old order, NOT
-  `src/data/bakaPhrases`*". A deliberately FROZEN copy, which is the one case
+- **`applyRemoteProgress.ts:39`** — "_A frozen copy of the old order, NOT
+  `src/data/bakaPhrases`_". A deliberately FROZEN copy, which is the one case
   where duplication is correct: it must not track the live list, or legacy
   bookmarks re-point the moment that list is edited. Two reasons given, both
   still true.
@@ -3371,8 +3365,7 @@ WHAT was looked at and HOW.
 `lib/constants/storage.js`. Raw strings there are a SANCTIONED convention for
 legacy code ("use key constants for new keys; legacy code uses raw strings"), so
 a census would return a long list of known-legacy usage and no finding.
-**THAT REASON WAS TRUE AND IT ANSWERED A DIFFERENT QUESTION — searched in sweep
-82.** "A raw string is allowed" says nothing about whether a key's WRITE site
+**THAT REASON WAS TRUE AND IT ANSWERED A DIFFERENT QUESTION — searched in sweep 82.** "A raw string is allowed" says nothing about whether a key's WRITE site
 and its READ site spell it identically, which is the pair that has to agree; the
 two guards over that class were both scoped to the `nh_` namespace, so the whole
 legacy set was uncovered. Widened and mutation-proven there; no live defect
@@ -3467,10 +3460,10 @@ scroll past.
 **The finding.** Two committed TypeScript test files carried a **raw NUL byte**,
 each a deliberate sentinel:
 
-| file | the sentinel | offsets |
-| --- | --- | --- |
+| file                             | the sentinel                                                                                           | offsets    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
 | `snapshotShapeAgreement.test.ts` | `consts.get(t) ?? '<NUL>'`, then `key.includes('<NUL>')` — marks a key part the scan could not resolve | 4601, 4660 |
-| `case-drill-banks.test.ts` | `` `${i.q}<NUL>${i.answer}` `` — a composite-key separator | 1983 |
+| `case-drill-banks.test.ts`       | `` `${i.q}<NUL>${i.answer}` `` — a composite-key separator                                             | 1983       |
 
 Both offsets are inside git's 8000-byte binary sniff window, so **git classified
 both files as binary**. Measured, not reasoned — `git diff --numstat` returns
@@ -3512,18 +3505,18 @@ assets are not extension-matched and are never read. Swept the whole repo:
 **One assertion was loosened before it shipped.** The first draft required the
 literal spelling `\u0000`. `\x00` and `\0` are equally correct, so that would
 have failed a tidy refactor that fixed nothing — the false-positive trap this
-repo has already paid for once. It now requires *no raw byte* plus *some*
+repo has already paid for once. It now requires _no raw byte_ plus _some_
 escape spelling.
 
 **Mutation-verified, five, each confirmed landed before its result was read:**
 
-| mutation | fails |
-| --- | --- |
-| raw NUL back into `snapshotShapeAgreement` (the original defect) | 2 |
-| raw NUL back into `case-drill-banks` | 2 |
-| raw NUL in a NON-test production file (`src/lib/cefr.ts`) | 1, message names `src/lib/cefr.ts:2` |
-| `trackedTextFiles()` forced empty | 1 — **and the sweep itself still passed**, which is why the floor exists |
-| `0x00` added to `ALLOWED` with a real NUL planted | **0 — absorbed**, confirming `ALLOWED` is the single predicate doing the work |
+| mutation                                                         | fails                                                                         |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| raw NUL back into `snapshotShapeAgreement` (the original defect) | 2                                                                             |
+| raw NUL back into `case-drill-banks`                             | 2                                                                             |
+| raw NUL in a NON-test production file (`src/lib/cefr.ts`)        | 1, message names `src/lib/cefr.ts:2`                                          |
+| `trackedTextFiles()` forced empty                                | 1 — **and the sweep itself still passed**, which is why the floor exists      |
+| `0x00` added to `ALLOWED` with a real NUL planted                | **0 — absorbed**, confirming `ALLOWED` is the single predicate doing the work |
 
 The fourth is the one worth remembering: it is the decorative-guard shape in
 miniature. Without the `> 1500` floor, an empty listing makes the sweep pass
@@ -3545,8 +3538,8 @@ user-visible string changed, so no spec can reference any of it.
 
 ### 55. Twenty-five skipped tests, and the reason beside one of them was wrong — 2026-09-23 — **1 FALSE EXEMPTION REASON, CORRECTED + RATCHETED**
 
-**The question**, continuing sweep 54's axis: *what else does a tool silently
-decline to show?* The sharpest form for a test suite: **does every committed test
+**The question**, continuing sweep 54's axis: _what else does a tool silently
+decline to show?_ The sharpest form for a test suite: **does every committed test
 file actually execute, and does every test inside it actually run?** A test the
 runner never collects, or a suite silenced from within, is a decorative guard at
 the CONFIG level — green run, zero coverage.
@@ -3614,11 +3607,11 @@ cannot be fooled by a drill that fails for a new reason.
 
 **Mutation-verified, three, each confirmed landed:**
 
-| mutation | fails |
-| --- | --- |
-| a DRIVEABLE drill (`NumTime`) marked `skip: true` — the exact decay | 1: "NumTime still cannot be driven" |
-| the skipped list forced empty | 1 — **and the 25 staleness tests vanish** (42 passed -> 17), which is why the floor exists |
-| a `skipReason` deleted | 1, message names `TypingScreen` |
+| mutation                                                            | fails                                                                                      |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| a DRIVEABLE drill (`NumTime`) marked `skip: true` — the exact decay | 1: "NumTime still cannot be driven"                                                        |
+| the skipped list forced empty                                       | 1 — **and the 25 staleness tests vanish** (42 passed -> 17), which is why the floor exists |
+| a `skipReason` deleted                                              | 1, message names `TypingScreen`                                                            |
 
 One test was written and then DELETED before shipping: `expect(typeof
 assertContract).toBe('function')` proves nothing and is the decorative shape this
@@ -3663,16 +3656,16 @@ quests and never the ledger — so reading could never become measured and that
 LATCHED the input slot. The PRODUCTION side was never audited. Measured across
 all 8 `PRODUCTION_POOL` screens:
 
-| screen | kind | writes the mastery ledger |
-| --- | --- | --- |
-| `writing_guided` | write | yes (`recordMasteryEvent`) |
-| `speaking_guided` | speak | yes (via `requestSpeakingCoach` -> `recordMasteryEvent` weight 2) |
-| `writing` | write | yes |
-| `production_drill` | speak | yes (`completeExercise` -> `recordExerciseOutcome`) |
-| **`shadowing`** | **speak** | **nothing** |
-| **`speaking`** | **speak** | **nothing** |
-| **`speaking_sprint`** | **speak** | **nothing** |
-| **`dictation`** | **write** | **nothing** |
+| screen                | kind      | writes the mastery ledger                                         |
+| --------------------- | --------- | ----------------------------------------------------------------- |
+| `writing_guided`      | write     | yes (`recordMasteryEvent`)                                        |
+| `speaking_guided`     | speak     | yes (via `requestSpeakingCoach` -> `recordMasteryEvent` weight 2) |
+| `writing`             | write     | yes                                                               |
+| `production_drill`    | speak     | yes (`completeExercise` -> `recordExerciseOutcome`)               |
+| **`shadowing`**       | **speak** | **nothing**                                                       |
+| **`speaking`**        | **speak** | **nothing**                                                       |
+| **`speaking_sprint`** | **speak** | **nothing**                                                       |
+| **`dictation`**       | **write** | **nothing**                                                       |
 
 **Three of the five `speak` entries teach the ledger nothing.** Established by
 ABSENCE OF IMPORT, not by sampling: none of the three imports any
@@ -3687,12 +3680,12 @@ speak. So unmeasured speaking pulls the P2.5 slot toward speak.
 `kindBias: 'speak'` filters to `kind === 'speak'` and then picks UNIFORMLY at
 random, so the share of speak picks that can never discharge the need is:
 
-| level | ledger-silent picks |
-| --- | --- |
+| level  | ledger-silent picks                                                            |
+| ------ | ------------------------------------------------------------------------------ |
 | **A2** | **297/400 = 74%** (`production_drill` is B1+, so 3 of 4 candidates are silent) |
-| B1 | 236/400 = 59% |
-| B2 | 235/400 = 59% |
-| C1 | 226/400 = 56% |
+| B1     | 236/400 = 59%                                                                  |
+| B2     | 235/400 = 59%                                                                  |
+| C1     | 226/400 = 56%                                                                  |
 
 So the app tells the learner speaking is their weakest skill, serves speaking,
 and **56-74% of the time the work they then do cannot change that answer.**
@@ -3748,8 +3741,8 @@ so nothing is lost, per the owner directive.
 
 ### 57. Four screens the registry describes wrongly — 2026-09-23 — **1 LIVE MISLABEL + 2 LATENT LANDMINES — STILL OPEN, narrowed; see the queue**
 
-**The question**, which sweep 56 handed over: *where does one screen carry more
-than one classification, and do they agree?* Sweep 56 found `dictation` labelled
+**The question**, which sweep 56 handed over: _where does one screen carry more
+than one classification, and do they agree?_ Sweep 56 found `dictation` labelled
 three ways (`kind: 'write'` in `PRODUCTION_POOL`, `category: 'speaking'` in
 `sessionPools`, `activityType: 'listening'` at its award call). That is a shape,
 not an instance, so it was swept.
@@ -3764,12 +3757,12 @@ screen writes.
 
 **Four disagreements, and they are not all the same severity:**
 
-| key | registry says | the screen does | verdict |
-| --- | --- | --- | --- |
-| `shadowing` | `e('lc', 'speak', 'speaking')` | `award(…, 'listening')`, `markQuest('listening')` | **the SCREEN is wrong — LIVE** |
-| `story-comprehension` | `e('lc', 'listening', 'listening')` | `'reading'` / `'reading'` | the ROW is wrong — latent |
-| `writing` | `e('lc', 'grammar', 'grammar')` | `'writing'` / `'write'` | the ROW is wrong — latent |
-| `srsreview` | `e('rc', 'grammar', 'default')` | `'review'` / `'master'`,`'review'` | the ROW is stale — benign in effect |
+| key                   | registry says                       | the screen does                                   | verdict                             |
+| --------------------- | ----------------------------------- | ------------------------------------------------- | ----------------------------------- |
+| `shadowing`           | `e('lc', 'speak', 'speaking')`      | `award(…, 'listening')`, `markQuest('listening')` | **the SCREEN is wrong — LIVE**      |
+| `story-comprehension` | `e('lc', 'listening', 'listening')` | `'reading'` / `'reading'`                         | the ROW is wrong — latent           |
+| `writing`             | `e('lc', 'grammar', 'grammar')`     | `'writing'` / `'write'`                           | the ROW is wrong — latent           |
+| `srsreview`           | `e('rc', 'grammar', 'default')`     | `'review'` / `'master'`,`'review'`                | the ROW is stale — benign in effect |
 
 **LIVE vs LATENT, established rather than assumed.** Only two things import the
 registry: `completeExercise` (reads `questKind`/`activityType`) and `appUtils`,
@@ -3836,10 +3829,10 @@ dictation   PRODUCTION_POOL  category='writing'  kind='write'   cefr=B1
 ```
 
 **This is a documented NEVER rule, violated in one of the two copies.** CLAUDE.md,
-Production Teaching: *"Pool entries `writing_guided`/`writing`/`dictation` carry
+Production Teaching: _"Pool entries `writing_guided`/`writing`/`dictation` carry
 `category: 'writing'`. **Never retag them back to 'speaking'** and never remove the
 route — that re-opens the 'weak writing has no practice path' hole (the 0%-writing
-C1 case)."*
+C1 case)."_
 
 **It is NOT a regression — the rule was never applied to this copy.** `git log -S`
 puts the `sessionPools` entry in #216 ("7a — A1 rotation expansion"), which
@@ -3851,13 +3844,13 @@ one fact, two homes, one of them inert to the edit that mattered.
 **THE CONSEQUENCE IS NARROWER THAN IT LOOKS, and every candidate was checked
 rather than assumed:**
 
-| consumer of `category` | affected? |
-| --- | --- |
-| `skillGroupOf` (P3 variety) | **no** — `SKILL_GROUP` maps BOTH `speaking` and `writing` to the `'speaking'` family |
-| `isGrammarStructure` (P2.7) | no — neither is a grammar category |
-| `inputKindOf` (P2.8) | no — neither is an input modality |
-| `setSessionCategory` | no — it is called with the activity **id**, not the category |
-| **`skillBoost`** | **YES** — `makeSessionSkillBoost` resolves `category -> skillForCategory -> profile[skill]` |
+| consumer of `category`      | affected?                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------- |
+| `skillGroupOf` (P3 variety) | **no** — `SKILL_GROUP` maps BOTH `speaking` and `writing` to the `'speaking'` family        |
+| `isGrammarStructure` (P2.7) | no — neither is a grammar category                                                          |
+| `inputKindOf` (P2.8)        | no — neither is an input modality                                                           |
+| `setSessionCategory`        | no — it is called with the activity **id**, not the category                                |
+| **`skillBoost`**            | **YES** — `makeSessionSkillBoost` resolves `category -> skillForCategory -> profile[skill]` |
 
 So the one live effect: **a learner measured weak at WRITING gets no boost for
 Dictation in the P3 fill, and a learner weak at SPEAKING gets it boosted** — for
@@ -4006,6 +3999,7 @@ registry rows unreached". 119 of those are ModeDrill-backed and reach
 is what stopped it. Report the census, not the grep.
 
 ---
+
 ---
 
 ### Sweep 60 — one screen, two pools, two categories (2026-09-23, CLOSED)
@@ -4152,15 +4146,15 @@ gap into a live one, the ratchet, the badge defect and the CLAUDE.md correction
 
 ### Sweep 62 — the census the queue asked for, and two lies inside yesterday's guard (2026-09-23, CLOSED)
 
-The queue item said, in its own words, *"run the census properly rather than
-trusting the ~30."* Done, with the shipped guard's OWN reachability definitions
+The queue item said, in its own words, _"run the census properly rather than
+trusting the ~30."_ Done, with the shipped guard's OWN reachability definitions
 (`sessionScreensFeedLedger.test.ts`'s `WRITER_CALL`, `GRADING_LIBS`, `BLOCKED`,
 `mayDescend`) so the census and the guard cannot disagree about what "reaches
 the ledger" means.
 
-**THE NUMBER IS 34, AND THE RECORDED REASON WAS WRONG.** The entry said *"All of
+**THE NUMBER IS 34, AND THE RECORDED REASON WAS WRONG.** The entry said _"All of
 them feed `grammar`, which is the best-fed cell in the ledger — so the measurable
-harm is small."* Measured over all 381 routed components: **17 grammar, 12
+harm is small."_ Measured over all 381 routed components: **17 grammar, 12
 vocabulary, 5 speaking.** The conclusion survives; the argument for it does not,
 and it survives for reasons the entry never stated:
 
@@ -4205,8 +4199,8 @@ shipped by me the previous day in #720.
    every mutation that PR recorded still fails.
 
 **THE NEW GUARD IS THE ONE THAT WOULD HAVE CAUGHT BOTH**, and it asks the question
-nothing asked: *does each name in the writer set actually write, and does it match
-anything?* Either can go false silently — a writer that stops calling
+nothing asked: _does each name in the writer set actually write, and does it match
+anything?_ Either can go false silently — a writer that stops calling
 `recordMasteryEvent` leaves every screen delegating to it passing while recording
 nothing.
 
@@ -4320,8 +4314,8 @@ no microphone — `scoredItems` is 0, so the new mark never fires there at all.
 
 ### Sweep 64 — the level four screens showed was the day-one placement (2026-09-24, CLOSED)
 
-**The question**, chosen after the duplicated-fact vein was worked out: *where is
-an ABSENT or STALE value read as a permissive default?* `cefrRank` maps any
+**The question**, chosen after the duplicated-fact vein was worked out: _where is
+an ABSENT or STALE value read as a permissive default?_ `cefrRank` maps any
 unrecognised string to 0, so an absent CONTENT level is visible to everyone
 (documented and intended, `cefr.ts:78`) while an absent USER level silently locks
 a learner to A1. Tracing what actually reaches the gate as the user level found
@@ -4340,12 +4334,12 @@ four-row table as though one defect appeared four times; reading what each scree
 DOES with the value is what separated them, and one of the four is not a defect
 in the same sense at all:
 
-| screen | what the value decides | verdict |
-| --- | --- | --- |
-| `SpeakingSprintScreen` ×2 | the PROMPT POOL, and the level RENDERED on the setup screen | real — no way to change it |
-| `AspectScreen` | how much scaffolding the lesson shows | real, milder — errs toward more teaching |
-| `VocabJournal` | metadata attached to a saved word via an API call | milder still, different in kind |
-| `VideoLessonScreen` | the INITIAL level — the screen has its own picker | a wrong DEFAULT the learner can override |
+| screen                    | what the value decides                                      | verdict                                  |
+| ------------------------- | ----------------------------------------------------------- | ---------------------------------------- |
+| `SpeakingSprintScreen` ×2 | the PROMPT POOL, and the level RENDERED on the setup screen | real — no way to change it               |
+| `AspectScreen`            | how much scaffolding the lesson shows                       | real, milder — errs toward more teaching |
+| `VocabJournal`            | metadata attached to a saved word via an API call           | milder still, different in kind          |
+| `VideoLessonScreen`       | the INITIAL level — the screen has its own picker           | a wrong DEFAULT the learner can override |
 
 So a learner placed at A2 who has since reached C1 drew A2 sprint prompts for
 ever, and one who skipped placement drew **B1 whoever they were** — while the
@@ -4441,8 +4435,8 @@ every spec that reloads after re-seeding a key the app also writes.
 
 ### Sweep 66 — three Learn Path tiles that ticked for work done elsewhere (2026-09-24, CLOSED)
 
-**The question, picked by this file's own rule** (*name two things that must
-agree*): "this tile reads complete" and "the learner did this tile". `stats.vs`
+**The question, picked by this file's own rule** (_name two things that must
+agree_): "this tile reads complete" and "the learner did this tile". `stats.vs`
 is append-only and GLOBAL, so a key written once is set for ever — and a second
 path item testing the same key is complete before the learner reaches it.
 
@@ -4457,11 +4451,11 @@ Seven repeats drop the `vsIncludes` leaf and re-gate on a higher counter (lp53,
 lp55, lp56, lp57, lp62, lp63, lp66) — so the convention is the AUTHOR'S, not
 mine. Three did not:
 
-| key | pre-ticks | measured with the real `evalCk` |
-| --- | --- | --- |
-| `listening` | lp_listen_basics@L1 → **lp17@L3** | a day-two beginner (xp 40, lc 2, one tile opened) already has a LEVEL-3 tile done |
-| `history` | lp31@L5 → **lp61@L6** | lc 31 learner: level 6 reads 2/18 done, one of them never opened |
-| `pitchaccent` | lp50@L6 → **lp70@L7** | doing the PITCH ACCENT drill ticks "Tongue Twisters: Expert" |
+| key           | pre-ticks                         | measured with the real `evalCk`                                                   |
+| ------------- | --------------------------------- | --------------------------------------------------------------------------------- |
+| `listening`   | lp_listen_basics@L1 → **lp17@L3** | a day-two beginner (xp 40, lc 2, one tile opened) already has a LEVEL-3 tile done |
+| `history`     | lp31@L5 → **lp61@L6**             | lc 31 learner: level 6 reads 2/18 done, one of them never opened                  |
+| `pitchaccent` | lp50@L6 → **lp70@L7**             | doing the PITCH ACCENT drill ticks "Tongue Twisters: Expert"                      |
 
 **lp70 is the worse one and is a second, distinct shape.** Its leaf read
 `vsIncludes: 'pitchaccent'` — lp50's leaf verbatim, copied when the item was
@@ -4536,7 +4530,7 @@ correct too — `navigate` sends `{ go: 'lesson', topic: r.cat }` through
 `launchPathItem`, and every vocab row carries its `cat`.
 
 **3. `EXERCISE_DIFFICULTY` — CLEAN, and it is a MECHANISM rather than luck.**
-The map defaults an unlisted id to tier 3 *silently*, which is the decay shape
+The map defaults an unlisted id to tier 3 _silently_, which is the decay shape
 this file keeps meeting; 306 rows against a 305-entry pool. It has not decayed
 because `session-coverage.test.ts:165` already asserts every
 `CEFR_EXERCISE_POOL` entry has a row — and `C_LEVEL_DRILL_ENTRIES` is spread
@@ -4619,6 +4613,7 @@ component that can throw, not the screen key.
 
 **TWO HARNESS DEFECTS, BOTH CAUGHT BEFORE THEY BECAME A REPORT, and both are
 repeats of findings already in this file.**
+
 1. A fixed 400-character window ran past the end of a branch and paired each
    screen with the NEXT branch's boundary — reporting 4 disagreements that do
    not exist (`animlesson`→`grammarreader`, `lesson`→`grammar`, …). That is
@@ -4689,6 +4684,7 @@ component must still declare the prop optional and branched, and the router must
 still not pass it.
 
 **Mutation-verified, three**, each confirmed landed:
+
 - the dead prop restored → the headline assertion fails;
 - **the same defect with the predicate reverted to its original four shapes →
   the headline assertion PASSES**, which is the direct proof the widening is
@@ -4714,7 +4710,7 @@ where the next person editing that predicate will read them.
 ### Sweep 70 — the exemption production undid two lines later (2026-09-24, 1 REAL DEFECT, FIXED)
 
 **The question**, picked on sweep 68's own recorded advice that the next find
-would have to come from *interactions between features on a live path* rather
+would have to come from _interactions between features on a live path_ rather
 than another source-derived pair: **what does a sign-out fail to wipe?** — auth
 crossed with every feature's local store, on a real sequence (user A out, user B
 in). The obvious target was `clearUserScopedStorage`'s key lists, which are the
@@ -4732,7 +4728,7 @@ half is complete. `nh-content-cache` is shared content, not user data.
 (main.tsx, at most 2 reloads per session onto a freshly-deployed build) and
 `nh_reload_attempt` / `nh_binding_reload` (`chunkErrors.ts`, 2 cache-purge
 reloads per 30-minute window). The module's own docstring argues for them:
-*"Clearing it on sign-out would re-arm the loop it exists to break."* Both
+_"Clearing it on sign-out would re-arm the loop it exists to break."_ Both
 account-exit handlers in App.tsx — `onSignedOut` and `onUserChanged`, the only
 two paths a user leaves by, reached from `useAuth` at 656 and 292 — then ran a
 blanket `sessionStorage.clear()` **on the line after the sweep returned**. So
@@ -4741,9 +4737,9 @@ long as the exemptions existed.
 
 **Why nothing saw it.** `clearUserScopedStorage.test.ts` asserts the
 preservation by calling the function ON ITS OWN, key by key, under a comment
-calling it *"the overshoot this fix nearly shipped"*. That is the
-component-test / wiring-test split — *a unit test of a sweep cannot see what its
-caller does two lines later* — landing on the file that had most reason to look.
+calling it _"the overshoot this fix nearly shipped"_. That is the
+component-test / wiring-test split — _a unit test of a sweep cannot see what its
+caller does two lines later_ — landing on the file that had most reason to look.
 The same file's wiring test matches `onSignedOut\(\)[\s\S]{0,600}clearUserScopedStorage\(`,
 so it reads the handler and stops at the call it wants.
 
@@ -4751,7 +4747,7 @@ so it reads the handler and stops at the call it wants.
 Neither budget is unbounded and one self-expires after 30 minutes, so a sign-out
 did not re-arm an infinite loop — it bought the tab up to two more reloads, one
 kind of which purges caches. It lands on exactly one learner: the one who signed
-out *because* the app was misbehaving, which is the only learner holding a spent
+out _because_ the app was misbehaving, which is the only learner holding a spent
 budget. Not data loss, and said so rather than dressed up.
 
 **The fix keeps the blast radius at three keys.** Deleting the blanket clear
@@ -4799,8 +4795,8 @@ paragraph restating a guard is the decoration this file keeps finding.
 
 ### Sweep 71 — the asset caches the app threw away six times a day (2026-09-24, 3 REAL DEFECTS, FIXED)
 
-**The question came straight out of sweep 70's shape**: *where else does a blunt
-operation run after a careful one on the same path and undo it?* Three instances
+**The question came straight out of sweep 70's shape**: _where else does a blunt
+operation run after a careful one on the same path and undo it?_ Three instances
 were checked and cleared before the real one turned up — no blanket
 `localStorage.clear()` exists anywhere in shipped code (NEVER-DO 1/9, clean);
 `chunkErrors`' cache purge is narrowly scoped to `-js`/`-html`; and
@@ -4812,9 +4808,9 @@ creates. Then the same question asked of `src/sw.js` found three.
 and the `-images`, `-audio` and `-fonts` routes all opened `${CACHE_VER}-<suffix>`.
 After a deploy nothing references the old names, so those entries are
 UNREACHABLE — and the activate handler's reclamation deliberately excluded all
-three, with its reason recorded as *"keyed by STABLE urls, so the previous
+three, with its reason recorded as _"keyed by STABLE urls, so the previous
 build's entries are still perfectly valid. Dropping them would force a
-re-download of hundreds of MP3s for no benefit."*
+re-download of hundreds of MP3s for no benefit."_
 **True in its first half, false in its operative half.** The entries were valid
 and unreadable, so the re-download happened on every deploy anyway, and the
 exclusion bought nothing while the orphans accumulated — which is precisely the
@@ -4847,8 +4843,8 @@ nothing and had no business failing.
 **A GUARD WAS ACTIVELY DEFENDING A.** The same file's header NAMES
 `-images`/`-audio`/`-fonts` as part of the accumulation problem, and then
 `expect(SUFFIXES).not.toContain('-images')` (and audio, and fonts) restated the
-exclusion's premise instead of checking it. That is *a test can encode the false
-premise instead of checking it, and then it defends the defect* — the
+exclusion's premise instead of checking it. That is _a test can encode the false
+premise instead of checking it, and then it defends the defect_ — the
 `AlphabetScreen` `vs`-marker shape — with the file's own prose contradicting its
 own assertion eighty lines apart.
 
@@ -4933,7 +4929,7 @@ result by hand rather than believing it:**
   of two. Fixed with an index-controlled scan that advances by one character on
   a non-match instead of past the whole pair.
 - The ratchet's first draft decided "is this call chained to the previous one?"
-  with *"the preceding text ends with `)`"* — and `readFileSync(path, 'utf8')`
+  with _"the preceding text ends with `)`"_ — and `readFileSync(path, 'utf8')`
   also ends with `)`, so it stitched the last call of one chain onto the first
   call of the NEXT one and reported **five offences that do not exist**, all
   already in the right order. That is the fabricated-finding shape of sweeps 63
@@ -5076,10 +5072,10 @@ clicks, 0 crashes, plus six `region_*` routes "boundary engaged" while
 **That asymmetry is what stopped me reporting it** — six siblings crashing and
 the seventh not is not a shape real defects take. Control run, clicking disabled:
 
-| | routes with controls | region routes skipped |
-| --- | --- | --- |
-| clicks ON | 23 / 423 | 6 ("boundary engaged") |
-| clicks OFF | **374 / 423** | 0 |
+|            | routes with controls | region routes skipped  |
+| ---------- | -------------------- | ---------------------- |
+| clicks ON  | 23 / 423             | 6 ("boundary engaged") |
+| clicks OFF | **374 / 423**        | 0                      |
 
 **The clicking was destroying the sweep.** After the first few clicks later
 routes engaged the boundary and most stopped exposing controls at all, so
@@ -5107,11 +5103,12 @@ never presses. So: how many SCREENS does any test fire a real interaction on?
     401  router components resolved to a file
     107  have a unit test that renders them AND fires fireEvent/userEvent (27%)
     294  never interacted with in any unit test
-   -108  thin ModeDrill wrappers (~12 lines, delegating to a tested engine)
-    186  substantive
-    -76  hand-written drill siblings (practice/*Drill.tsx, ~400 lines each, one
-         shape differing only in its bank — "DATA wearing a .tsx extension")
-    110  GENUINELY DISTINCT screens with no unit interaction test
+
+-108 thin ModeDrill wrappers (~12 lines, delegating to a tested engine)
+186 substantive
+-76 hand-written drill siblings (practice/*Drill.tsx, ~400 lines each, one
+shape differing only in its bank — "DATA wearing a .tsx extension")
+110 GENUINELY DISTINCT screens with no unit interaction test
 
 Reporting 294, or even 186, would have been the "~80 practice surfaces" error.
 **Spot-checked** rather than trusted: `EquivalencyTestScreen`'s only naming test,
@@ -5191,21 +5188,23 @@ false-positive shape this sweep just walked into.
 against every literal and data reference in the app. First pass: 7 with no
 reference. **Five were my matcher, in two distinct ways**, and both are worth
 keeping because both are the shape that manufactures a finding:
- - `grammar-ref` and `new-placement` contain a HYPHEN, and the reference scan's
-   character class was `[a-z0-9_]`. The router's own keys were captured with a
-   different pattern than the references to them, so the two sides could never
-   agree on those two.
- - `kultura_b2` / `_c1` / `_c2` are reached by a TEMPLATE LITERAL
-   (`kultura_${tier}`), which a literal-only scan cannot see.
+
+- `grammar-ref` and `new-placement` contain a HYPHEN, and the reference scan's
+  character class was `[a-z0-9_]`. The router's own keys were captured with a
+  different pattern than the references to them, so the two sides could never
+  agree on those two.
+- `kultura_b2` / `_c1` / `_c2` are reached by a TEMPLATE LITERAL
+  (`kultura_${tier}`), which a literal-only scan cannot see.
 
 That left two, and **neither is a defect**:
- - **`personas` is deliberately unreachable**, and `partners.ts:200` says so:
-   the picker "is intentionally replaced by the partner rows". Reading the
-   comment is what stopped this being reported.
- - **`listeningpath` is reached TWICE — from server content.** My corpus was
-   `src/` only, and the Learn Path spine lives in
-   `functions/api/content/_data/learnPath.js`. **A reachability census is only
-   as wide as its corpus, and navigation data is not all in `src/`.**
+
+- **`personas` is deliberately unreachable**, and `partners.ts:200` says so:
+  the picker "is intentionally replaced by the partner rows". Reading the
+  comment is what stopped this being reported.
+- **`listeningpath` is reached TWICE — from server content.** My corpus was
+  `src/` only, and the Learn Path spine lives in
+  `functions/api/content/_data/learnPath.js`. **A reachability census is only
+  as wide as its corpus, and navigation data is not all in `src/`.**
 
 Two things came out of it. All **48 learn-path `go` targets are routed** — a
 third navigation surface neither 77 nor 78 covered, now asserted in
@@ -5231,7 +5230,7 @@ so the expensive one is now the honest answer rather than a preference.
 - **H2 — exclude navigation so one screen cannot poison the next.** Same.
 - **H3 — scope the corpus to the 15 routes reachable from a tab.** The decisive
   run: `PROTO TABBED: routes=15 ok=1 clicks=8 crashes=0
-  firstBail=region_bibinje => boundary engaged after 1 ok/8 clicks`. It failed
+firstBail=region_bibinje => boundary engaged after 1 ok/8 clicks`. It failed
   on the FIRST screen, not the fiftieth, so the cause is not accumulated state
   at all.
 
@@ -5315,14 +5314,14 @@ were never affected.)
 **Mutation-verified six ways, and two of them are CONTROLS against the OLD
 guard — the direct proof the widening is load-bearing rather than cosmetic:**
 
-| mutation | new guard | old guard |
-| --- | --- | --- |
-| dead read of a LEGACY key | 1 fails | **30 passed — fully green** |
-| dead write of a LEGACY key | 1 fails | **5 passed — fully green** |
-| dead read of an `nh_` key (regression check) | 1 fails | — |
-| scope snapped back to `nh_` | 2 fail | — |
-| constant resolution removed | 3 fail | — |
-| prefix-vacuity rule removed | 4 fail | — |
+| mutation                                     | new guard | old guard                   |
+| -------------------------------------------- | --------- | --------------------------- |
+| dead read of a LEGACY key                    | 1 fails   | **30 passed — fully green** |
+| dead write of a LEGACY key                   | 1 fails   | **5 passed — fully green**  |
+| dead read of an `nh_` key (regression check) | 1 fails   | —                           |
+| scope snapped back to `nh_`                  | 2 fail    | —                           |
+| constant resolution removed                  | 3 fail    | —                           |
+| prefix-vacuity rule removed                  | 4 fail    | —                           |
 
 The vacuity rule is now DERIVED rather than hard-coded: the old version deleted
 the literal `'nh_'`, which stopped describing the namespace the moment the scope
@@ -5356,16 +5355,16 @@ TEXT matches `/\bV_LEVELS,/`. One key of thirty-two, by string.
 **THE FINDING: `CULTURE_DEEP_DIVES` is served by `/api/content/core` and was
 ABSENT from the fixture.** `CultureDeepDiveScreen` optional-chains it and falls
 through to its `if (!essays.length)` branch, so under E2E all 24 deep-dive
-routes rendered *"New culture essays are on their way — reopen this screen in a
-moment to load them"* instead of the essays. Silent: no crash, no failing spec.
+routes rendered _"New culture essays are on their way — reopen this screen in a
+moment to load them"_ instead of the essays. Silent: no crash, no failing spec.
 
 **IT IS THE SAME KEY THE 2026-09-23 CONSOLIDATION WAS ABOUT.** That change found
 three hand-written copies of the core key list — the endpoint, the etag
 generator and the test — of which the TEST was missing exactly
 `CULTURE_DEEP_DIVES`, and replaced all three with `CORE_PAYLOAD_KEYS`. Its
 write-up names the fixture as "a genuinely separate carrier, still checked as a
-file", and states the harm in advance: *"without the fixture the E2E suite would
-exercise only the degrade path."* The fourth copy kept the very omission the
+file", and states the harm in advance: _"without the fixture the E2E suite would
+exercise only the degrade path."_ The fourth copy kept the very omission the
 first three were repaired for, under a sentence describing what that omission
 would cost. **Consolidating the copies you found is not the same as finding them
 all** — and a carrier called out BY NAME in the fix is the easiest one to
@@ -5460,23 +5459,23 @@ guard before asserting there isn't one.
 
 **THE DEAD FIXTURES (85).** A usage census of `e2e/fixtures/` by importer:
 
-| fixture | importers |
-| --- | --- |
-| `seed-auth.js` | 33 |
-| `forceCefr.js` | 4 |
-| `testids.js` | 3 |
-| `stealth-page.js` | 2 |
-| `content-fixture.js` | 1 |
-| `mockRnd.js` | 1 |
-| **`mockAiPost.js`** | **0** |
-| **`mockMediaRecorder.js`** | **0** |
+| fixture                    | importers |
+| -------------------------- | --------- |
+| `seed-auth.js`             | 33        |
+| `forceCefr.js`             | 4         |
+| `testids.js`               | 3         |
+| `stealth-page.js`          | 2         |
+| `content-fixture.js`       | 1         |
+| `mockRnd.js`               | 1         |
+| **`mockAiPost.js`**        | **0**     |
+| **`mockMediaRecorder.js`** | **0**     |
 
 Both are imported by nothing, anywhere in the repo. Two things make that worth
 recording rather than shrugging at:
 
 - **`mockAiPost` has a guard that reads as a production-contract check and is
-  not one.** `e2eFixtures.test.js` asserts *"CANNED.correct has the shape
-  /api/correct returns"* with three `toHaveProperty` calls against a
+  not one.** `e2eFixtures.test.js` asserts _"CANNED.correct has the shape
+  /api/correct returns"_ with three `toHaveProperty` calls against a
   hand-written object — nothing compares it to the endpoint, and no spec uses
   the fixture. A reader scanning `e2e/fixtures/` sees an AI mock plus a
   shape test and concludes AI surfaces are mocked and checked in E2E. **Neither
@@ -5645,13 +5644,13 @@ So the same harness was re-run collecting **every `pageerror` and every
 **Raw result: 430 of 430 routes reported something — and that number is
 worthless**, which is the finding worth recording. Classified:
 
-| messages | count | what it is |
-| --- | --- | --- |
-| `net::ERR_TUNNEL_CONNECTION_FAILED` | every route | the sandbox proxy refusing outbound traffic |
-| `Firebase: VITE_FIREBASE_API_KEY is missing` | 429 | no Firebase key in a local build |
-| `[apiFetch] Failed to get auth token` | 3 | the consequence of the line above |
-| `ERR_CERT_AUTHORITY_INVALID` | 1 | the same proxy |
-| **uncaught exceptions (`pageerror`)** | **0** | — |
+| messages                                     | count       | what it is                                  |
+| -------------------------------------------- | ----------- | ------------------------------------------- |
+| `net::ERR_TUNNEL_CONNECTION_FAILED`          | every route | the sandbox proxy refusing outbound traffic |
+| `Firebase: VITE_FIREBASE_API_KEY is missing` | 429         | no Firebase key in a local build            |
+| `[apiFetch] Failed to get auth token`        | 3           | the consequence of the line above           |
+| `ERR_CERT_AUTHORITY_INVALID`                 | 1           | the same proxy                              |
+| **uncaught exceptions (`pageerror`)**        | **0**       | —                                           |
 
 **Zero routes raise an uncaught exception on direct-URL load.** The three
 `apiFetch` lines are the degrade path working out loud: it logs the missing
@@ -5741,12 +5740,12 @@ much as one that lives — and this one would otherwise be repeated.
 login — so **424 screens had never been scanned by axe at all**. Swept, WCAG 2.1
 AA, serious + critical:
 
-| rule | routes | |
-| --- | --- | --- |
-| `color-contrast` | 252 | 985 nodes — excluded, see below |
-| `select-name` (**critical**) | 1 | `live_tutor` |
-| `frame-title` | 1 | `crmap` |
-| `aria-prohibited-attr` | 1 | `alka` |
+| rule                         | routes |                                 |
+| ---------------------------- | ------ | ------------------------------- |
+| `color-contrast`             | 252    | 985 nodes — excluded, see below |
+| `select-name` (**critical**) | 1      | `live_tutor`                    |
+| `frame-title`                | 1      | `crmap`                         |
+| `aria-prohibited-attr`       | 1      | `alka`                          |
 
 **All three singletons were real and are fixed**, each a one-line change with no
 visual effect:
@@ -5769,8 +5768,8 @@ at least eight palette colours (slate-400 211, green-600 181, gray-400 107,
 stone-400 60, cyan-600 43 …) and 246 come from CSS classes rather than inline
 styles. The root of the biggest group is a **two-copies problem**: `--subtext`
 was deliberately darkened to `#555e6e`, and index.css says why in its own
-comment — *"WCAG AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small
-text)"* — while **~130 hardcoded `#94a3b8` literals never followed it**
+comment — _"WCAG AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small
+text)"_ — while **~130 hardcoded `#94a3b8` literals never followed it**
 (`CertificateScreen` renders 10px and 12px text in it). A blanket replacement is
 NOT safe: some of those literals sit on dark backgrounds, where `#94a3b8` is
 correct and `#555e6e` would be worse. Repairing this properly changes how the
@@ -5807,10 +5806,10 @@ so dark mode is where those literals would actually hurt.
 
 **Measured, same 60-route sample, same seed, only the theme changed:**
 
-| | routes with violations | failing nodes |
-| --- | --- | --- |
-| light | 35 of 60 | 151 |
-| dark | 50 of 60 | **1,850** |
+|       | routes with violations | failing nodes |
+| ----- | ---------------------- | ------------- |
+| light | 35 of 60               | 151           |
+| dark  | 50 of 60               | **1,850**     |
 
 Twelve times the nodes. And the worst ratios are not "a bit thin" — they are
 **unreadable**: `#000000` on `#1e293b` = **1.43**, `#44403c` on `#1e293b` = 1.42,
@@ -5844,12 +5843,12 @@ the colour the design system already uses for text.
 **MEASURED BEFORE AND AFTER, INCLUDING THE CONTROL THAT MATTERED.** A token used
 104 times could easily regress the theme that was working:
 
-| | routes | nodes |
-| --- | --- | --- |
-| light BEFORE | 35 of 60 | 151 |
-| light AFTER | 35 of 60 | **151 — identical** |
-| dark BEFORE | 50 of 60 | 1,850 |
-| dark AFTER | 49 of 60 | **602** |
+|              | routes   | nodes               |
+| ------------ | -------- | ------------------- |
+| light BEFORE | 35 of 60 | 151                 |
+| light AFTER  | 35 of 60 | **151 — identical** |
+| dark BEFORE  | 50 of 60 | 1,850               |
+| dark AFTER   | 49 of 60 | **602**             |
 
 **1,248 failing nodes fixed by defining one variable, with light mode
 byte-identical.**
@@ -5953,7 +5952,7 @@ focus indicator of any kind**. All eight now carry their decoration on
    later; sampling immediately after the keypress measures the transition, not
    the product. Re-reading suspects after 450ms took 30 routes to 2. I spent
    three rounds theorising about which CSS rule was setting `outline-style:
-   solid; outline-width: 0` — an impossible cascade — when the answer was that
+solid; outline-width: 0` — an impossible cascade — when the answer was that
    nothing was: I was reading a value in flight. **Forcing an inline
    `outline: 3px solid red` and getting `solid 1px` BACK is what proved it**, and
    that is the diagnostic to reach for first, ahead of any theory about which
@@ -6043,12 +6042,12 @@ and the SPA fallback serves index.html for every path — so ANY address became 
 screen key, matched no branch in `AppRouter` (which has no fallback), and
 rendered nothing. Measured in a real browser, seeded and authenticated:
 
-| path            | main content |
-| --------------- | ------------ |
-| /genitivedrill  | 1,388 chars  |
-| /nonsense       | 33           |
-| /culture        | 33           |
-| /Dashboard      | 33           |
+| path           | main content |
+| -------------- | ------------ |
+| /genitivedrill | 1,388 chars  |
+| /nonsense      | 33           |
+| /culture       | 33           |
+| /Dashboard     | 33           |
 
 **`/culture` is the one that matters**: the Croatia tab was CALLED Culture until
 2026-04-26 — this repo's own nav table carried the stale name for five months
@@ -6132,8 +6131,8 @@ not flag readers that merely set state.
 
 ### Sweep 96 — the tests that assert nothing (2026-09-24, 22 REAL DEFECTS + 1 PRODUCT DEAD END, FIXED)
 
-**The question**, in the form this file says has paid every time: *name two
-things that must agree, and ask what happens when they stop.* Here: a test's
+**The question**, in the form this file says has paid every time: _name two
+things that must agree, and ask what happens when they stop._ Here: a test's
 TITLE (what it claims to check) against what it actually executes.
 
 **THE SHAPE.** A test whose every `expect(...)` sits inside an `if` with no
@@ -6149,18 +6148,18 @@ concern that would drown the signal. Narrowed to the `if`-with-no-else shape:
 its file, because no static rule can tell a guard that fires from one that
 cannot.
 
-| where | measured | verdict |
-| --- | --- | --- |
-| `gradedInputScreen.transport.test.tsx` ×2 | **0 firings** | LIVE VACUOUS |
-| `e2e/pronunciation.spec.js` | **21 guards, 19 never fired** | LIVE VACUOUS |
-| `word-sprint.test.tsx` ×3 | 1 firing each | latent |
-| `profile-persist.spec.js` ×2 | fires | latent |
-| the other 9 | 4–212 firings | legitimate, exempted with the count |
+| where                                     | measured                      | verdict                             |
+| ----------------------------------------- | ----------------------------- | ----------------------------------- |
+| `gradedInputScreen.transport.test.tsx` ×2 | **0 firings**                 | LIVE VACUOUS                        |
+| `e2e/pronunciation.spec.js`               | **21 guards, 19 never fired** | LIVE VACUOUS                        |
+| `word-sprint.test.tsx` ×3                 | 1 firing each                 | latent                              |
+| `profile-persist.spec.js` ×2              | fires                         | latent                              |
+| the other 9                               | 4–212 firings                 | legitimate, exempted with the count |
 
 **A. THE TRANSPORT CONTRACT NOBODY WAS CHECKING.**
 `gradedInputScreen.transport.test.tsx` exists to verify that pronunciation
 assessment posts `{ audioBase64, referenceText, locale, audioMimeType }` and
-*not* the old `{ audio, text }`. `assessPronunciation` runs from an effect
+_not_ the old `{ audio, text }`. `assessPronunciation` runs from an effect
 that returns early unless `recordingIdx !== null`, which **only a click on the
 record button sets** — and no test clicked it. So `_nativePost` was never
 called, and all three assertions (two behind `if (calls.length > 0)`, one
@@ -6217,14 +6216,14 @@ must not.
 
 **Mutation-verified, six, each confirmed landed:**
 
-| mutation | fails |
-| --- | --- |
-| the transport test's original `if (calls.length > 0)` shape restored | 1 |
-| an exemption for a test that no longer has the shape | 1 |
-| the analyser returns `[]` (a decorative detector) | 3 |
-| word-sprint's guard restored | 1 |
-| the else-branch exclusion removed (if/else both-assert over-reported) | 2 |
-| pronunciation.spec.js's `cat-tile` guard restored on one test | 1 |
+| mutation                                                              | fails |
+| --------------------------------------------------------------------- | ----- |
+| the transport test's original `if (calls.length > 0)` shape restored  | 1     |
+| an exemption for a test that no longer has the shape                  | 1     |
+| the analyser returns `[]` (a decorative detector)                     | 3     |
+| word-sprint's guard restored                                          | 1     |
+| the else-branch exclusion removed (if/else both-assert over-reported) | 2     |
+| pronunciation.spec.js's `cat-tile` guard restored on one test         | 1     |
 
 **ONE MUTATION EXPOSED A DECORATIVE LINE OF MY OWN.** The analyser originally
 excluded the THEN branch when the ELSE also asserts. Removing that clause
@@ -6287,13 +6286,13 @@ second click after the wait -> the screen opens
 
 **Measured, all five pooled exercises in Grad, during that window:**
 
-| tap | what the learner gets |
-| --- | --- |
-| Govori (speaking) | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;` |
-| Kviz (mcgame) | **nothing at all** — `launchMcGame` does the same |
-| Kartice (flashcards) | the ScreenGuard: *"This flashcard session needs to be started from the Practice tab — your previous session data couldn't be restored"* |
-| Spoji parove (match) | the same false message |
-| Slušanje (listening) | **works** — its bank is a static import, not content |
+| tap                  | what the learner gets                                                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Govori (speaking)    | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;`                                               |
+| Kviz (mcgame)        | **nothing at all** — `launchMcGame` does the same                                                                                       |
+| Kartice (flashcards) | the ScreenGuard: _"This flashcard session needs to be started from the Practice tab — your previous session data couldn't be restored"_ |
+| Spoji parove (match) | the same false message                                                                                                                  |
+| Slušanje (listening) | **works** — its bank is a static import, not content                                                                                    |
 
 The two ScreenGuard messages are false in both halves: the learner **is** on the
 Practice tab, and there was no previous session to restore. That is the "start
@@ -6301,10 +6300,10 @@ this properly" dead end, said to someone who did start it properly.
 
 **THE SAME DEFECT HAD ALREADY BEEN FOUND AND FIXED — AT ONE OF THE TWO
 CALLERS.** `LearningCenter.openScreen` carries a comment that states the rule
-better than I could: *"NOT LOADED YET" and "EMPTY" are different facts, and
+better than I could: _"NOT LOADED YET" and "EMPTY" are different facts, and
 saying the wrong one is NEVER-DO 13 … CI caught this: the same tap passed
 locally on a warm machine and failed on a loaded runner, which is the race a
-real learner meets on a slow connection.* Same five screens, same payload
+real learner meets on a slow connection._ Same five screens, same payload
 builders in `lib/practiceLaunch`, same race — and the **Grad tab, which is the
 app's primary route to all five**, was never touched. The Center is reached
 through Learn; Grad is the Practice tab itself.
@@ -6400,7 +6399,3802 @@ mechanism covering that shape; the next one will be found the same way.
 
 ---
 
+### Sweep 98 — BojeGame's completion contract, the last remainder of sweep 55 (2026-09-24, 1 REAL GAP, CLOSED)
+
+**The item sweep 96 named and left open.** `BojeGame` completes through
+`completeExercise({ key: 'boje', score: bjSc, total, xp: bjSc * 2 })` — a GATED
+row (`g('gc', 'vocab', 'vocabulary')`), so a pass writes `gc + 1`, the `boje`
+`vs` tag, `writeDelta({gc:1, vs:['boje']})`, the XP and `markQuest('vocab')`.
+**None of those five was asserted anywhere**, while the per-answer `award(5)`
+was asserted in eight separate tests.
+
+**The reason is mechanical, not an oversight of judgement**: the `useStats`
+mock was `vi.fn(() => ({ stats, setStats: vi.fn(), writeDelta: vi.fn() }))` — a
+FRESH object with new inline mocks on every call, so nothing outside the
+component could ever see what it wrote. `markQuest` was mocked the same way and
+never read. The mock's shape decided what the file could test, and nobody
+noticed because the tests it COULD write all passed.
+
+**Checked and NOT a defect** (recorded so it is not re-chased): the test mocks
+`'../lib/quests.js'` while `useExerciseCompletion` imports `'../lib/quests'`.
+Probed directly — the mock DOES intercept (Vite resolves both to one module id),
+so `markQuest` is the mock. Had it not intercepted, the new assertion would have
+been vacuous in the one direction a green run cannot show.
+
+**Four assertions added, and the gate is tested in the direction that matters.**
+Every pre-existing completion test plays a PERFECT 15/15 round, so the 75%
+threshold had never been exercised from below: 10 of 15 (66.7%) must record
+nothing at all, and does. 12 of 15 (80%) must credit, and does — the gate is a
+threshold, not perfection. The already-credited path (`vs` already holding
+`boje`) must not write a second `gc`. The passing case drives the REAL updater
+the screen hands `setStats` rather than restating what it ought to do.
+
+**AND THE FILE WAS THE LOOP-SHAPED BLIND SPOT SWEEP 96 STATED IT COULD NOT SEE.**
+Eight copies of `for (…) { const b = container.querySelector('button.ob'); if
+(!b) break; … if (nextText) fireEvent.click(nextText); }`, plus two
+`if (doneBtn) fireEvent.click(doneBtn)`. Every one is a silent early-out: a run
+that renders no options on question 2 stops, and the test then asserts about a
+quiz that was never played. **Latent rather than live** — each old test's
+post-loop assertion (`getByText('Colors Quiz Complete!')`, `goBack` called)
+happens to catch it — but the NEW tests are NOT-called assertions, which pass
+perfectly on an unplayed quiz, so the shape had to go before they could mean
+anything. One `playQuiz(container, correct)` helper now ASSERTS what those
+conditionals swallowed, and all ten early-outs are gone.
+
+**Mutation-verified, six, each confirmed landed:** the 75% gate removed fails 1;
+`markQuest` removed fails 2; `writeDelta` removed fails 1; the already-credited
+early return removed fails 1; `completeExercise` removed from the screen fails 3
+(one of them a pre-existing test). **The sixth is the one that matters** — the
+quiz made unplayable after question 1, the exact shape `if (!optBtn) break`
+swallowed: **13 of 29 fail with a named message** ("question 2 rendered no
+options"), where before the de-silencing the four new NOT-called assertions
+would have passed on a quiz that never ran.
+
+**WHAT THIS SAYS GENERALLY:** a NOT-called assertion is only as good as the
+proof that the scenario actually happened. `expect(x).not.toHaveBeenCalled()` is
+the easiest assertion in any suite to satisfy by accident, and a loop that can
+exit early is exactly how it gets satisfied. Pair every such assertion with a
+floor that fails if the run did not reach the point of interest.
+
+**Sweep 55's "24 drills" claim is now fully closed**: sweep 96 corrected the
+number to one, and this is that one.
+
+---
+
+### Sweep 99 — an empty Learn Path congratulated the learner (2026-09-24, 1 REAL DEFECT, FIXED)
+
+**The question, in the form this file says pays:** name two things that must
+agree — here, _what a screen asserts about a learner's progress_ and _whether
+the data it measures progress from has arrived_. It is sweep 97's question
+(silent taps before content lands) asked of RENDERS rather than launches, and
+it was chosen because sweep 97's own "what this cannot see" named the gap.
+
+**THE DERIVATION'S FIRST VERSION WAS DECORATIVE, AND SAYING SO IS THE POINT.**
+It walks every `useContent`/`peekContent` consumer, collects the identifiers
+assigned from `content`, and reports those reaching a handler that ACTS on them
+(launches, navigates, or bails on `.length`). First run: **2 surfaces, both
+already fixed** — a clean-looking nothing. But it missed `LearningCenter`, a
+KNOWN member of the class, because the handler regex required `)` immediately
+before `{` and every TypeScript function with a return-type annotation —
+`async function openScreen(…): Promise<void> {` — was therefore invisible.
+Repaired, it finds all three. **A derivation that misses a known member is not
+a negative result, it is an unfinished tool**; testing it against an instance
+you already have is the only thing that separates the two.
+
+**THE FIND — `LearnPath.tsx`.** `LEARN_PATH` is `content?.LEARN_PATH ?? []`, so
+before `/api/content/core` lands the screen has no milestones to count.
+Rendered with content absent, measured rather than reasoned:
+
+```
+0% done · 0 / 0 milestones · Amazing progress!
+```
+
+A praise line over zero measured milestones, on the ONE screen whose entire job
+is reporting measured progress — NEVER-DO 13 in its purest form.
+
+**AND "Amazing progress!" IS REACHABLE ONLY IN THAT STATE**, which is what
+makes it a defect rather than clumsy copy. Its branch needs `pct !== 100` AND
+`activeLevel < 0`; with a real path, "no incomplete item" implies everything is
+done, which makes `pct === 100` and takes the TROPHY branch instead (asserted
+both ways). `pct` is `totalAll > 0 ? … : 0`, so the empty case is the only way
+to reach it. **The single thing that string ever meant was "the path has not
+loaded", and it said the opposite.**
+
+**Transient in the ordinary case, PERMANENT when the content fetch fails** —
+the same shape sweep 97 found behind the Grad tab, which is why the loading and
+failed sentences are kept apart here too: telling a learner their path failed
+while the request is still in flight is itself a claim the app has not measured.
+The ring now shows `—` rather than a measured `0%`.
+
+**Checked and NOT defects on the same surface:** the two non-null assertions
+`LEARN_PATH[activeLevel]!.title` are both behind `activeLevel >= 0`, which stays
+`-1` on an empty array, so the empty path never threw; and `pct` was already
+guarded against a 0/0 NaN. The screen was wrong, not broken — which is why
+nothing had ever noticed.
+
+**Mutation-verified, four, each confirmed landed:** the whole fix reverted (the
+praise line back over 0/0) fails 2; loading told it had failed fails 1; the
+measured `0%` ring restored fails 1; and the DANGEROUS direction — `pathMissing`
+true for a real path, which would hide a learner's actual progress behind a
+"could not be loaded" notice — fails 2.
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a surface that receives content-derived
+data as a PROP rather than calling `useContent` itself. `GoalFocusSection` is
+exactly that shape and was found in sweep 97 by reading the callers of the four
+launchers, not by any mechanism; this derivation would still miss it. The
+prop-drilled half of this class remains unswept.
+
+### Sweep 100 — the prop-drilled half, and the credit paid for a blank page (2026-09-24, 7 REAL DEFECTS, FIXED)
+
+**THE QUESTION SWEEP 99 LEFT OPEN**, verbatim from its own "what this cannot
+see": _a surface that receives content-derived data as a PROP rather than
+calling `useContent` itself._
+
+**The prop derivation was built and it came back almost empty — and that is a
+result, not a dead end.** `/tmp` script: for every file calling `useContent()`,
+take the names bound from the hook, close over every `const`/`let` whose
+initializer mentions one (8 passes), then read every JSX attribute whose value
+expression mentions a derived name. **48 content-derived prop passes to 11
+components.** The first run reported **0**, which is the sweep-99 lesson landing
+again: `GoalFocusSection` is a KNOWN member (fixed in sweep 97) and a derivation
+that misses a known member is an unfinished tool. The cause was the JSX tag
+matcher — `<([A-Z][\w.]*)((?:\s+[^<>])*?)\/?>` cannot span a tag containing an
+arrow function, because the `>` in `(v) => …` ends the match. Replaced with a
+brace- and string-aware tag scanner, and `GoalFocusSection` then appeared.
+
+**None of the 11 recipients is a defect, and the reason is structural**: every
+parent that passes content-derived data down ALSO guards, so the child never sees
+the pre-content value (`HERO title={d.title}`, `QUIZ_SECTION quiz={d.quiz}`,
+`BiText hr={r.introHr}`, `SessionCard session={session}`, `Bar mx={items.length}`
+and the rest sit below an `if (loading || !content) return …`). **The defect was
+in the guard itself.**
+
+**FINDING A — five screens rendered an EMPTY PAGE and said nothing about why.**
+Census of all 48 `useContent` consumers, reading what each early return actually
+renders: 20 say both states, **5 say neither.** `BodyDescScreen`,
+`ClothesScreen`, `CountriesScreen`, `ProfessionsScreen` and `WeatherScreen` each
+returned `<WRAP><BACK_BTN goBack={goBack} /></WRAP>` — a back arrow on a blank
+page — from BOTH their `if (error)` and their `if (loading || !content)` branch.
+The two returns were **byte-identical**, so "still loading" and "the fetch
+failed" were indistinguishable, and neither told the learner anything.
+`WeatherScreen` did not even destructure `error`: a failed fetch leaves `content`
+null, so that page was blank **for ever**, with nothing to retry and nothing to
+read. All five are routed in `AppRouter` (`weather`, `clothes`, `countries`,
+`professions`, `bodydesc`), reachable from the Learn Path and from search, and
+the payload lands ~9.2 s after first paint in the CI-equivalent E2E harness — so
+an early tap meets this window every time. This is the owner's own standing
+sentence ("if I ever click on anything and it doesn't work it's over") in its
+purest form: the tap works, the screen opens, and there is nothing on it.
+
+Fixed with `src/components/shared/ContentStateNotice.tsx` — two states, two
+sentences, the `LaunchFailureNotice`/`poolLaunchBlock` rule applied one layer up
+— plus `WeatherScreen`'s missing `error` branch. A shared component rather than
+five more inline copies, because a SIXTH silent screen is what this census keeps
+finding.
+
+**FINDING B — the dwell timer paid for a page that showed nothing.** This is the
+INTERACTIONS-BETWEEN-FEATURES seam the queue says is the live one, and neither
+feature is wrong alone. `launchPathItem` arms a 20-second timer when a LEARN_PATH
+item's `go` is in `BLACK_HOLE_SCREENS` and on fire credits `lc`/`gc` plus
+DWELL_XP. It knows the screen id and **nothing about whether that screen had
+anything to display.** Derived the split — for each of the 13 black-hole keys,
+resolve the component through the REAL router and walk the import graph
+(`components/` + `hooks/` only, the `sessionScreensFeedLedger` rule) for
+`useContent`/`getContent`/`peekContent`: **7 of 13 are content-dependent**
+(`idioms`, `brzalice`, `history`, `recipes`, `dialects`, `proverbs`,
+`bureaucratic`), 6 render from static imports. So a learner who tapped a path
+item during the content window — or after a failed fetch, where content never
+arrives at all — sat on a placeholder for twenty seconds and was credited a
+completed informational lesson and 5 XP for reading nothing. **NEVER-DO 14.**
+
+**THE RE-ARM IS THE LOAD-BEARING HALF, and the obvious fix would have been a
+worse defect than the one it fixes.** `vs` is written on TAP, so `wasFirstVisit`
+is false on every later visit — a bare `return` in the gate would have withheld
+the counter **PERMANENTLY** from the ordinary learner who tapped in during the
+content window, which is far commoner than a failed fetch. The timer re-arms a
+full dwell instead, capped at `DWELL_CONTENT_WAITS` (3), so the credit is paid
+for twenty seconds on a page that could actually be read, whenever the payload
+turns up. Past the cap the page has been unreadable for over a minute and nothing
+is owed. **The `vs` VISIT marker is deliberately untouched** — CLAUDE.md records
+what conflating that marker with a completion marker cost on AlphabetScreen, and
+the path node must not stick incomplete.
+
+**The 800-line cap was NOT raised.** The gate took `useScreenLauncher.ts` to 806
+countable lines, so the dwell block became `src/lib/dwellCredit.ts` — the same
+move that produced `blackHoleScreens.ts` out of this very hook. No override was
+added and the mechanism is byte-for-byte the same; the four mutations were re-run
+against the extracted module and each still fails.
+
+**Mutation-verified, ten in total, every one confirmed landed.**
+Dwell gate (`dwellContentGate.test.tsx`, 10 tests): the gate removed — the
+original bug — fails 4; a bare `return` instead of the re-arm fails 1; the cap
+removed fails 1; the re-armed timer not handed to `onArm`, so navigating away
+cannot cancel it, fails 1; the set widened to a STATIC screen fails 3; and the
+DANGEROUS direction — `dialects` dropped from the set, i.e. back to crediting a
+blank page — fails 6.
+Content state (`contentStateSpeaks.test.tsx`, 24 tests): Weather reverted to the
+original blank fails 4; Weather's `error` branch removed fails 3; both sentences
+made identical fails 6.
+Derived XP pin (`xpRebalance.test.ts`): a hardcoded 5 in place of `DWELL_XP`
+fails 1; the award duplicated so two files hold it fails 1; the award deleted
+entirely fails 1.
+
+**THE EXTRACTION BROKE A SOURCE PIN IN ANOTHER FILE, which is the reusable
+lesson.** `xpRebalance.test.ts` asserted `readFileSync('src/hooks/
+useScreenLauncher.ts')` contains the `award(DWELL_XP, …)` call — correct for
+thirteen months and stale the moment the block moved, with nothing in the
+extraction to hint at it. **A file path inside an assertion decays exactly like a
+hand-maintained list**, and the whole-suite run is what found it (629 files, this
+one failure). It is now derived over the set of files that could legitimately
+hold the call, asserting exactly ONE does, so the next extraction changes a list
+of two rather than going red.
+
+**And a self-inflicted one worth recording:** I ran `git checkout
+src/hooks/useScreenLauncher.ts` to undo a mutation in that file and reverted the
+whole sweep's change to it — the mutation-restore had been a `cp` from a backup
+everywhere else. The next `restored:` line read "1 failed" and for a moment
+looked like a real regression. **Never use `git checkout` to undo a mutation in a
+file the working tree has uncommitted work in**; the backup-and-copy pattern the
+rest of this hunt uses exists for exactly that reason.
+
+**TWO HARNESS DEFECTS IN MY OWN GUARDS, both found by mutation and both worth
+keeping.** (1) The rendering tests' `setStats` was a bare `vi.fn()` that recorded
+updaters without APPLYING them — and `wasFirstVisit` is assigned inside the
+launcher's `vs` updater and read twenty seconds later, so it stayed false and
+every credit path bailed before reaching the gate under test. The suite failed on
+the STATIC screen, where no gate should apply at all, which is what exposed it. A
+recording-only `setStats` mock silently disables any launcher behaviour that
+depends on a state update having happened. (2) The census's "does this branch say
+anything" predicate reported six screens rendering `<LoadingState />`, a local
+component whose entire body is the word "Loading…", so it followed one
+delegation hop — **and the first version of that hop was decorative**: it read a
+fixed 800 characters from the declaration, ran past the end of the function into
+a sibling's `textAlign: 'center'`, and a gutted `LoadingState` passed clean. That
+is verbatim the fixed-window harness defect `registryMatchesScreen` records.
+Fixed by bounding the body to its own braces AND stripping styling before testing
+for words — and `deStyle` is proved load-bearing rather than assumed: with it,
+the gutted `LoadingState` fails 1 test; **without it, the identical mutation
+passes clean.**
+
+**E2E audit:** grepped `e2e/` for all five screen names, for every black-hole
+key, and for any 20-second wait. The only match is `heavy-user-180day.spec.js`,
+which is in `testIgnore` and whose hits are vocabulary category names, not screen
+strings. No spec dwells on a black-hole screen, so nothing E2E depends on the
+dwell credit; `route-render-sweep` renders all five and the notice is a
+`role="status"` div (axe-clean by construction, and its focus pass is untouched).
+`dwell-award-callsite.test.tsx` DID go red and that is the guard working: its
+subject is award ATTRIBUTION on `dialects`, which presumes a readable page, so it
+now mocks the payload as present and asserts that premise explicitly, the way its
+existing `BLACK_HOLE_SCREENS[DWELT]` premise check already does.
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A screen that renders content-derived
+data with NO early return and no inline notice — the `NO GUARD` rows of the
+census (`GradTab`, `HomeTab`, `LearnTab`, `LearningCenter`, `HeroSection`,
+`SpeedChallenge`, `McResult`, `ReviewScreen`, `TypingScreen`, `WordSprint`,
+`LearnPath`, `SettingsTab`, `GoalFocusSection`, `AdvancedVocabScreen`,
+`VocabSceneComponents`). Sweeps 97 and 99 fixed six of those by hand; the rest
+were read and render nothing false, but nothing MECHANICAL covers them, because
+"renders a claim" has no source signature. (2) The dwell gate asks whether the
+PAYLOAD is present, not whether the screen's own KEY within it is — a payload
+that arrives missing `DIALECTS` would still credit. That is the `scene.qs` class
+and `contentShapeSweep` is what covers it. (3) A content-dependent screen reached
+by something other than `launchPathItem` earns no dwell credit at all, so the
+gate has nothing to say about it.
+
+### Sweep 101 — "empty" and "not arrived yet" are the same expression (2026-09-24, 4 REAL DEFECTS + 2 RESIDUES, FIXED)
+
+**THE SHAPE SWEEP 100 LEFT OPEN**, verbatim from its own "what this cannot see":
+_a screen that renders content-derived data with NO early return on the content
+state._ Sweep 97's note named the same gap from the other side: _a surface that
+builds its own list from `content` by hand rather than importing a builder._
+
+**THE DERIVATION TOOK FOUR SHAPES TO FINISH, and each was added only because it
+was caught hiding a member the previous shape could not see.** That sequence is
+the finding, not an anecdote: at every stage the tool reported a small clean
+number and looked done.
+
+| shape                                                            | found | what it had been hiding                                                                                                                                                       |
+| ---------------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. `X.length === 0 && <…>`                                       | 1     | —                                                                                                                                                                             |
+| 2. `if (X.length === 0) return (<…>)`                            | 6     | **ReviewScreen's "All caught up!"**, the worst instance in the class, which I had already found BY HAND                                                                       |
+| 3. `const flag = X.length === 0` → `flag ?`                      | 6     | `LearnPath`'s `pathMissing` — sweep 99's own fix, i.e. a KNOWN member                                                                                                         |
+| 4. `if (X.length < 4) setFlag(true)` **plus assignment closure** | 7     | **SpeedChallenge's**, whose pool lives in a REF (`pool.current = buildQuestionPool(V)`) — an assignment, not a declaration, so the entire screen was invisible to the closure |
+
+A separate derivation for SILENT BAILS (`if (<derived>.length < n) return;` with
+no state set) found **WordSprint's Start button**.
+
+**FOUR REAL DEFECTS. Every one is a sentence about the learner's own deck, said
+before the app had seen it — and said for ever after a failed fetch, because
+`content` then stays null.**
+
+1. **`ReviewScreen` — a green tick and "All caught up! No reviews due right
+   now."** on the app's highest-volume daily action. `dueWords` comes from
+   `vocabPool(content, level)`, and **Home's due-count pill counts against the
+   SAME derivation** — which is exactly the pill-vs-screen disagreement the
+   2026-09-04 vocabulary-deck work exists to make impossible "by construction".
+   The pre-content window was the one place it could still happen, and there the
+   learner was congratulated for finishing work the app had not yet loaded.
+2. **`SpeedChallenge` — "Complete a few vocabulary lessons first to unlock Speed
+   Challenge!"**, on HOME, the first screen. That is verbatim the lie
+   `LearningCenter.openScreen`'s own comment records: false advice about a deck
+   the app has not yet seen, told to a learner who may have hundreds of words.
+3. **`AdvancedVocabScreen` — "No words match your search."** A search that ran
+   against nothing found nothing. `V_B2`/`V_C1`/`V_C2` arrive with the payload.
+4. **`WordSprint` — "Start Sprint ⚡" did NOTHING** (`if (pool.length < 4)
+return;`). This is sweep 97's class in the shape sweep 97 said it could not
+   see, because WordSprint builds its own pool instead of importing a builder.
+
+**TWO RESIDUES ON SCREENS THAT WERE ALREADY RIGHT.** `TypingScreen` and
+`ShadowingScreen` already split the two facts — `content ? 'No words available
+right now…' : 'Loading…'` — and are the convention this fix follows (TypingScreen's
+comment even records the incident that produced it). Their one remaining lie is
+that `'Loading…'` is shown FOR EVER after a failed fetch, since content stays
+null. One line each, same classifier.
+
+**NO NEW PRIMITIVE WAS BUILT.** `poolLaunchBlock` (sweep 97) already answers
+exactly this question — loading / unavailable / empty, content decided BEFORE
+emptiness — so all six screens now route through it and each supplies its own
+honest three sentences. One classifier, six copies that fit their own surface.
+
+**Three CHECKED NON-DEFECTS, each exempted with a reason and checked in both
+staleness directions:** `CultureDeepDiveScreen` guards `loading || !content`
+ABOVE its `!essays.length` branch, so that branch can only mean a stale cached
+payload missing the key — which is what its message says; `HeroSection`'s
+fallback is the neutral LABEL "Learning" rather than a claim, so before the
+payload lands the hero is merely less specific; `LearnPath` was fixed in sweep 99
+with its own split, and its claim is about the PATH, so the pool copy would be
+wrong there. One recorded FALSE POSITIVE by name: `ReviewScreen`'s
+`if (!done || questions.length === 0) return;` is the Knight-reaction effect, a
+correct guard, not a tap.
+
+**Mutation-verified, eight, each confirmed landed** (`emptyIsNotAnAnswer.test.tsx`,
+7 tests). The four defects reverted: ReviewScreen fails 4, SpeedChallenge 2,
+WordSprint 2, AdvancedVocab 2. The derivation itself: the ASSIGNMENT closure
+dropped (SpeedChallenge invisible again) fails 1; the early-RETURN shape dropped
+(ReviewScreen invisible again) fails 2; an exemption made stale fails 1; the
+derivation returning `[]` fails 2 — the vacuity guard, because a ratchet over an
+empty list asserts nothing.
+
+**E2E audit:** grepped `e2e/` for every user-visible string touched ("All caught
+up", "No reviews due", "Complete a few vocabulary", "No words match", "Start
+Sprint", "No words available", "No shadowing lines") — **zero matches**. The only
+specs naming these screens are `daily-challenge-sync.spec.js`, which asserts the
+"Speed Challenge" HEADING (untouched), and `full-user-audit` / `heavy-user-*`,
+which are in `testIgnore`. All seven existing unit suites for the six screens pass
+unchanged (113 tests).
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A claim derived from content that is
+NOT an emptiness test — a count, a percentage, a level, a date rendered from a
+payload that has not arrived. The derivation is keyed on `.length`/`Object.keys`
+and nothing else; sweep 99's `0 / 0 milestones` was that shape and was found by
+hand. (2) A surface whose content-derived collection is non-empty but WRONG (a
+stale cached payload), which is the `scene.qs` class and belongs to
+`contentShapeSweep`. (3) The exemption REASONS are checked for existence and for
+both staleness directions, but not for truth — the `idioms` lesson: a plausible
+reason recorded beside an exemption is how a dead end survives a staleness test.
+
+### Sweep 102 — a COUNT is a claim too (2026-09-25, 2 REAL DEFECTS, FIXED)
+
+**THE SHAPE SWEEP 101 LEFT OPEN**, verbatim: _a claim derived from content that
+is not an emptiness test — a count, a percentage, a level or a date rendered from
+a payload that has not arrived._ Sweep 99's `0 / 0 milestones` was that shape and
+was found by hand; this is the mechanism for it.
+
+**TWO REAL DEFECTS**, both invisible to sweep 101's derivation because **nothing
+compares anything to zero — the count simply IS zero**:
+
+1. **`AdvancedVocabScreen` rendered "0/0 learned" over a 0% progress bar.**
+   `V_B2`/`V_C1`/`V_C2` arrive with the payload, so `totalInCat` and
+   `learnedInCat` are both 0 in the window and for ever after a failed fetch.
+   **It sat DIRECTLY ABOVE the word list sweep 101 had just taught to name its own
+   state** — one screen, two claims, and the previous sweep fixed one of them.
+2. **`ScenePicker` (VocabSceneComponents) rendered "0 / 0 words discovered"** in
+   its Total Progress hero — sweep 99's line in a second place.
+
+Both now ask `poolLaunchBlock` and render `—` / a named state instead.
+
+**ONE CHECKED NON-DEFECT, and it is the interesting one.** `LearnTab` computes
+`overallPct` 0 and `stagePct` **100** on an empty path — two numbers that
+contradict each other in one sentence ("0% complete overall · Stage 100% done").
+It never renders: the whole card sits inside `{nextItem && (…)}`, and `nextItem`
+is only ever assigned while walking the path, so an absent payload renders
+nothing. That is guarded BY CONSTRUCTION, and the derivation was taught to see it
+(`insideContentGate`) rather than given an exemption — a notice demanded for a
+line no learner can reach is how a guard earns the false-positive reputation that
+gets it ignored. **Mutation-verified in the dangerous direction**: removing that
+`nextItem` gate fails the guard.
+
+**ONE FALSE POSITIVE, recorded by name.** `LearnPath`'s `li` is a LOOP INDEX
+(`for (let li = 0; …)`, `.map((lv, li) =>`) used as a React key and a subscript.
+The lazy `;\n` in the declaration matcher let a `for`-HEADER swallow the rest of
+the statement and pick up the array it iterates, so an index read as a
+content-derived number.
+
+**MY OWN GUARD WAS DECORATIVE TWICE, AND MUTATION IS THE ONLY REASON NEITHER
+SHIPPED. Both are the same error at different scales, and I had written the
+lesson into the fix's own comment before making it.**
+
+- **Version 1 asked whether the FILE consults the classifier.** AdvancedVocab
+  consults it for the word list (sweep 101), so reverting the counter to "0/0
+  learned" over a 0% bar left the suite **fully green**. "Fixing one claim on a
+  screen does not fix the others" applies to the guard as much as to the screen:
+  a file-level predicate cannot see a second claim in the same file.
+- **Version 2 was per-render and STILL green**, and the cause is the
+  fixed-window defect `registryMatchesScreen` records, in a new form: walking
+  four brace levels outward from a JSX expression **reaches the COMPONENT's own
+  body braces**, which mention every flag declared anywhere in it — so the
+  outward walk silently degenerated back into the per-file check it was written
+  to replace. It now stops at any span containing a `return (`, which is a
+  function body rather than a JSX expression container.
+  **I reasoned about the predicate twice before measuring it, and was wrong both
+  times.** What settled it was dumping the derivation's real output under the
+  mutation — the file reported `guarded: true` with no matching `if`, which is
+  what pointed at the walk. Probe the predicate; do not re-read it.
+
+**Mutation-verified, six, each confirmed landed:** AdvancedVocab fully reverted
+fails 2; ScenePicker reverted fails 2; the content-value gate detector removed
+(LearnTab re-reported) fails 1; the `for`-header exclusion removed (loop index
+re-reported) fails 1; **`LearnTab`'s `nextItem` gate removed — the dangerous
+direction** — fails 1; the per-render predicate reverted to per-file fails 1 with
+the counter reverted.
+
+**ONE MUTATION SURVIVED AND IS REPORTED AS A RESULT, NOT PATCHED AROUND.**
+Reverting ONLY the progress bar (`width: countsKnown ? … : '0%'` → `${pct}%`)
+leaves the suite green. `pct` occurs in exactly two places — its own declaration
+and that CSS width — so the TEXTUAL claim is fully guarded and the bar is
+decoration following a label that now reads `—`. An empty bar beside `—` states
+no number. Widening the walk to reach a style object's grandparent would buy that
+one case at the cost of re-opening the component-body over-reach above, which is
+the trade this sweep just measured.
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A non-numeric claim that is not an
+emptiness test either — a LEVEL, a DATE, a name rendered from an absent payload.
+The matcher keys on `.length` / `reduce` / `Math.round` / `.size`, so a string
+claim derived from content is outside it. (2) A number whose gate is correct but
+whose VALUE is wrong because the payload is stale — the `scene.qs` class. (3) The
+surviving-mutation case above: a claim expressed only as a style.
+
+### Sweep 103 — the non-numeric claim (2026-09-25, NO DEFECTS; one real hole found IN THE PREVIOUS TWO SWEEPS' OWN HELPER)
+
+**THE SHAPE SWEEP 102 LEFT OPEN**, verbatim: _a non-numeric claim that is not an
+emptiness test either — a LEVEL, a DATE, a name rendered from an absent payload._
+Sweep 101 keyed on `.length === 0`, 102 on `.length`/`reduce`/`Math.round`; a
+string claim is outside both.
+
+**Derivation**: on every `useContent` consumer with NO whole-screen guard, find
+`<content-derived expression> ?? 'literal'` / `|| 'literal'` — a DEFAULTED string,
+which is how a screen renders a claim for a value it does not have.
+
+**RESULT: NO DEFECTS.** Two hits, both non-defects: `HeroSection`'s
+`rungs[…] || 'Learning'` (already established in sweep 101 — a neutral LABEL, less
+specific before the payload but stating nothing false) and
+`AdvancedVocabScreen`'s `poolLaunchBlock(…) ?? 'empty'`, which is a
+`data-pool-block` test attribute and not learner-facing.
+
+**THE 0 IS ONLY TRUSTWORTHY BECAUSE THE TOOL WAS MADE TO SEE A KNOWN MEMBER, AND
+THE FIRST TWO RUNS DID NOT.** Run 1 reported **0 hits**. Run 2, after widening the
+left-hand side, reported **1** — and still missed `HeroSection`, the member I
+already knew about from sweep 101's exemption list. Two separate causes:
+
+1. **A character-class left side cannot span a subscript.**
+   `rungs[Math.min(Math.max(level, 1), rungs.length) - 1] || 'Learning'` — the
+   matcher required `[A-Za-z_$][\w$.?[\]]*` immediately before the operator, which
+   cannot contain spaces, commas or parens. Fixed by looking BACKWARD from the
+   operator for a derived name instead of trying to match the expression.
+2. **A MULTI-LINE INITIALIZER SWALLOWS THE NEXT DECLARATION — and this one is in
+   the COMMITTED helper, not just the scratch script.** `contentDerived`'s `DECL`
+   runs lazily to the first `;\n`, so `const levelNarrative = (() => {` consumes
+   the `const rungs = LEVEL_NARRATIVE[…];` inside its own body; `matchAll` then
+   resumes PAST it and `rungs` never enters the closure. Any declaration
+   following a multi-line one was invisible to the closure that sweeps **101 and
+   102** both depend on. A single-line `DECL_LINE` pass now restarts from the top
+   and catches whatever the lazy one ate.
+
+**WHAT THAT HOLE COST, MEASURED RATHER THAN ASSUMED: nothing, for sweeps 101 and 102.** With `DECL_LINE` added, `emptyIsNotAnAnswer.test.tsx` reports 13/13
+unchanged, and removing it again also reports 13/13 — so the hole was real and
+LATENT for those two derivations' subjects. Say that plainly rather than
+presenting a widened closure as a save. It is load-bearing for THIS sweep:
+without `DECL_LINE` the string derivation reports 1 hit instead of 2 and cannot
+see `HeroSection` at all.
+
+**This is the third sweep running whose derivation reported a small clean number
+and was wrong**, and the cause is the same family each time: an over-reaching or
+under-reaching regex around a JS construct the matcher was not written for
+(a for-header, an arrow-function tag, a ref assignment, a component body, a
+multi-line initializer). **The check that catches it every time is the same one:
+name a member you already know about and confirm the tool reports it.**
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** A content-derived string rendered with NO
+default — `{content?.FOO?.title}` renders empty, which is a gap rather than a
+false claim, and the surrounding copy is what would make it read wrong. That
+needs a rendering census, not a source match, and is not attempted here.
+
+### Sweep 103 addendum — THE RED CODEQL CHECK WAS MY OWN GUARDS, NOT THE STORAGE HEURISTIC (2026-09-25, 15 REAL DEFECTS IN THIS BRANCH'S OWN TEST CODE, FIXED)
+
+**A CORRECTION TO MY OWN DIAGNOSIS, AND THE EVIDENCE THAT OVERTURNED IT.** PR #746
+showed a red `CodeQL` check: 2 high alerts "in code changed by this pull request".
+I could not read their identity (no code-scanning-alerts tool in this session,
+`get_check_run` returns an empty `output.text`, the analysis log names only the
+queries it ran), so I reasoned from the repo's history — **eight** standing
+dismissals of `js/clear-text-storage-of-sensitive-data`, plus CLAUDE.md's
+"A DISMISSAL IS KEYED TO A LOCATION, SO MOVING THE LINE LOSES IT" — and named
+`nh_level_quiz` / `nh_checkpoint_level` as the likely subjects, labelling that a
+hypothesis. **It was wrong.**
+
+**What settled it was a number, not more reading.** Pushing sweep 102 took the
+count **2 → 7**. Sweep 102 touched two screens and, heavily, `emptyClaimSurfaces.ts`
+— where it added five more `new RegExp` built from interpolated values. Five new
+alerts, five new interpolated constructions, one commit. That is `js/regex-injection`
+(high), and it is **my own code**, which makes it mine to fix outright rather than
+stand down on.
+
+**IT IS A CORRECTNESS BUG BEFORE IT IS A SCANNER FINDING, and that is why the fix
+is a behaviour change and not a suppression.** All fifteen sites across
+`emptyClaimSurfaces.ts`, `dwellContentGate.test.tsx` and `contentStateSpeaks.test.tsx`
+escaped **only `$`**. The derivations feed themselves names read out of SOURCE, and
+`[A-Za-z_$][\w$.]*` admits a dot — so `r.timeline` built `\br.timeline\b`, which
+matches `rXtimeline`. **A silent mis-match, inside the tools written to find silent
+mis-matches.** A name containing `(` or `[` would have THROWN at match time instead.
+`escapeRegExp` (exported from the helper) now escapes the full metacharacter class
+at every one of the fifteen.
+
+**Asserted directly, not left to the scanner going green** — which would only ever
+be evidence about the scanner. Three new tests: a dotted name must not match an
+arbitrary character in its place; a name carrying regex syntax must build a valid
+pattern and match itself; and **the old `$`-only escaping is asserted to fail both**,
+so the fix cannot be quietly undone. Mutation-verified: reverting `escapeRegExp` to
+`$`-only fails 2. All 47 tests across the three guard files pass with the escaping
+in place, so no derivation's result changed — the patterns were right for the names
+this corpus happens to hold, and wrong for the names it is allowed to hold.
+
+**THE PROCESS LESSON, which is the one CLAUDE.md already records and I repeated.**
+"Build the diagnostic first and let the cause name itself." I had _considered_
+regex construction in my own new code early, set it aside for the historically
+likelier storage heuristic, and spent the effort defending that instead. The
+alert-count delta across one commit was available the whole time and is a
+diagnostic; the repo's dismissal history is a prior, and I treated it as evidence.
+**A plausible prior is not a measurement.** The PR comment recording the wrong
+hypothesis stands, with the correction posted after it, because deleting it would
+hide exactly this.
+
+**THE ALERTS THEN ARRIVED AS REVIEW COMMENTS AND CORRECTED THE RULE NAME.**
+`github-advanced-security[bot]` posted all seven inline, so the subjects are read
+rather than inferred, and two things above need fixing:
+
+- **The rule is `Incomplete string escaping or encoding`
+  (`js/incomplete-sanitization`), NOT `js/regex-injection`** — its finding is
+  literally _"This does not escape backslash characters in the input."_ The
+  substance was right (my own helper, escaping too little); the rule name was a
+  guess dressed as a fact. The distinction is real: regex-injection is about a
+  pattern built from untrusted input, incomplete-sanitization is about an escape
+  function that misses cases — and a `$`-only `.replace` is the second.
+- **The open question is ANSWERED, and the answer is me.** All seven sit in
+  `src/tests/helpers/emptyClaimSurfaces.ts` — lines **50 and 72** (the original 2
+  on `5fbd3823`) plus 149, 182, 201 x2 and 226 (the five sweep 102 added). **None
+  is the clear-text-storage class**, so nothing from this branch belongs in
+  CLAUDE.md's standing-dismissal list, and `nh_level_quiz` /
+  `nh_checkpoint_level` were never involved.
+
+`escapeRegExp`'s character class includes the backslash, so the case the rule
+names is covered — verified by running it (`escapeRegExp('a\\b')` matches `a\b`
+and not `aXb`), not inferred from the class looking right.
+
+**7 → 1 → 0, AND THE LAST ONE WAS MY OWN PROOF-OF-BUG.** The escaping fix cleared
+six. The survivor (alert 89, `emptyIsNotAnAnswer.test.tsx`) was the deliberately
+weak `$`-only function the new tests used to show the fix is load-bearing — and
+**CodeQL was right about it**: the rule is "an escape that misses cases", and "it
+is wrong on purpose, it is a test" is not a property the rule can see. Rather than
+dismiss it, the assertion was restated as the LITERAL patterns the old escaping
+produced (`new RegExp('\\br.timeline\\b')` matching `rXtimeline`; an
+unterminated group throwing), plus `escapeRegExp(x) !== x` on both — which names
+the regex fact directly instead of via a copy of the bug. **Strictly stronger:** the
+`$`-only mutation now fails **3** tests where it failed 2, and a NO-OP
+`escapeRegExp` fails 3 as well, which the old pairing would not have caught.
+`no-invalid-regexp` then failed the lint on the deliberately broken literal, so it
+is bound to a const — the rule only evaluates direct literals. **A guard that has
+to write the bug in order to prove the fix can usually assert the consequence
+instead.**
+
+**CONFIRMED GREEN on `3908df47`: `CodeQL` success, "No new alerts in code changed
+by this pull request." 7 → 1 → 0.** Read rather than inferred — there was no
+failure event for `f48184c5`, and **absence of a failure event is not a pass**
+(its run was superseded when the docs commit landed on top of it, so the number
+came from the next head). That is this file's own rule about a missing mechanism
+and a passing mechanism looking identical from outside, met while waiting on the
+very check it applies to.
+
+**THE REUSABLE PART: the alert identity was available all along, on the PR, as
+inline review comments.** I read the check-run summary, found no `output.text`,
+concluded the identity was unreadable from this session, and reasoned from priors
+for two rounds — while the bot had already posted each finding with its file and
+line. **"I cannot read it with the tools I reached for" is not "it is
+unreadable."** Check a PR's review comments before deciding a CI failure is
+opaque.
+
+### Sweep 104 — the undefaulted string render: ATTEMPTED AND PARKED, with the reason (2026-09-25, NO DEFECTS FOUND; census too noisy to be evidence)
+
+**The shape sweep 103 left**: a content-derived STRING rendered with NO default —
+`{content?.FOO?.title}` renders empty, a gap rather than a false claim, and the
+SURROUNDING COPY is what would make it read wrong.
+
+**Run 1 reported 0**, looking for `{content?.X.y}` with no `??`. Not believable,
+and the reason is a real property of this codebase rather than a matcher bug:
+**the repo defaults AT THE BINDING** (`const X = content?.X ?? {}` at the top of
+the component, the convention in every one of the 48 consumers), so a direct
+optional-chained render off the payload essentially does not occur. The
+undefaulted render is one level DOWN — the object exists and is empty, and the
+PROPERTY is undefined.
+
+**Run 2, widened to that shape, produced 32 candidates and they are dominated by
+false positives.** Checked by hand, and recorded here so nobody re-chases them:
+
+- `SettingsTab`'s `V={V}` and `contentLoading={contentLoading}` are JSX **prop
+  passes**. A brace matcher cannot tell `prop={V}` from `{V}` in a text position.
+- `ReviewScreen`'s `q.word[0]` is inside a `logError(…)` CALL, not a render.
+- `McResult`'s reported `{content}` does not even grep — a phantom from the
+  matcher spanning a longer expression.
+- Everything else real (`ReviewScreen`'s `q.correct`, `TypingScreen`'s `tyW[1]`,
+  `WordSprint`'s `q.prompt`) sits inside a PHASE or LENGTH gate and cannot render
+  before content: the quiz body, the playing phase, the post-pool branch.
+
+**PARKED RATHER THAN PUSHED FURTHER, and the reason is stated so the next person
+does not redo the cheap half.** To be evidence this census needs (a) the
+gate-awareness sweep 102 built (`insideContentGate`) extended to phase flags and
+length guards, and (b) a reading of the copy AROUND each survivor — because an
+empty string in a label is not a false claim, and only the sentence it sits in
+decides whether the gap reads wrong. **(b) is a reading job, not a matching job**,
+which is what sweep 103 already predicted about this class. A noisy derivation
+whose output has to be hand-filtered is not a ratchet, and shipping one as though
+it were is the decorative-guard failure with extra steps.
+
+**No guard was added**, deliberately: a ratchet over a list that is mostly false
+positives trains everyone to ignore it — the 123-false-positive lesson. The class
+stays OPEN in the queue below with this measurement attached.
+
+### Sweep 105 — the once-per-day latch vs the content window (2026-09-25, NO DEFECTS)
+
+**The interaction**: `buildSessionActivities` runs from a synchronous read at
+HomeTab mount, the plan is persisted to `nh_daily_session`, and it is invalidated
+ONLY by a date or CEFR change. So a plan committed during the pre-content window
+is the plan for the WHOLE DAY. `useTeachingSlotRetry` exists because exactly that
+happened to P0 (the lesson slot) — measured in a browser, plan committed at 550 ms,
+curriculum request not issued until 6474 ms. **The question this sweep asks: does
+the same thing happen to any OTHER slot, for the VOCABULARY payload, which that
+retry deliberately does not watch?** (Its header records that its first version
+listened to `poolWords` and never fired, because `/api/content/core` and
+`/api/content/curriculum` are two separate fetches.)
+
+**MEASURED with the real builder, 40 trials per level, with and without
+`poolWords`:** identical activity count at every level (A1 4, A2–C2 5), **zero
+variance**, and `srsreview` present **40/40 both ways**. **No slot vanishes when
+the vocabulary payload is absent.** Three reasons, each verified in source rather
+than assumed:
+
+1. **P1 (SRS) degrades to the UNFILTERED count.** `poolWords && poolWords.size > 0
+? getServableReviewCount(poolWords) : getDueReviews().length` — documented as a
+   deliberate fallback, so the slot still fires.
+2. **P0 (the lesson) depends on the SPINE, not the vocabulary**, and has its own
+   second chance in `useTeachingSlotRetry`.
+3. **Every other slot draws from STATIC pools** (`sessionPools`, `croatiaPool`) —
+   module imports, not payload reads.
+
+**THE FIRST PROBE COULD NOT HAVE ANSWERED THE QUESTION, and that is the part worth
+keeping.** Run 1 compared the two plans' activity IDS at each level and they
+differed everywhere — which looks exactly like content-dependence and is nothing
+of the kind: the builder shuffles and tiebreaks, so two calls draw differently.
+**A single-trial comparison of a randomized builder cannot distinguish a real
+difference from a draw.** Only the 40-trial structural comparison (length, slot
+presence) is evidence. This is the stochastic-assertion lesson arriving in a
+measurement rather than in a test.
+
+**And the probe had a defect of its own**: it aggregated `x.kind`, a field
+`SessionActivity` does not have (the field is `category`), so it printed `?:4.00`
+for every level — a placeholder that reads like a result. The length and
+`srsreview` figures above do not depend on it and stand; the per-category line
+from run 2 should be disregarded. **A probe that reads a non-existent field
+reports a plausible number instead of an error**, which is the `scene.qs` class
+inside a throwaway script.
+
+**WHAT REMAINS TRUE AND IS COVERED ELSEWHERE:** P1's unfiltered fallback means the
+plan can PROMISE a review that is not servable. That is the pill-vs-screen class,
+and sweep 101 closed the screen end of it — `ReviewScreen` now names the loading
+and unavailable states instead of claiming "All caught up!". The plan over-offering
+and the screen lying are different defects, and only the second was one.
+
+**WHAT THIS SWEEP CANNOT SEE:** a slot whose CONTENT (not presence) is degraded by
+an absent payload — an activity that appears in the plan and then opens on less
+than it would have. The structural comparison is blind to that by construction,
+and the screen-side sweeps (100–102) are what cover it.
+
+### Sweep 106 — an absent payload must not CREDIT anything (2026-09-25, NO DEFECTS; one unpinned ORDERING now pinned)
+
+Sweeps 100–102 covered false CLAIMS. **A write is worse than a claim.** The shape:
+a screen whose "am I past the last item" test compares an index against a
+CONTENT-DERIVED length — `tyI >= tyPool.length` — satisfies it at **index 0** when
+the pool is empty. So the terminal branch IS the completion branch, and
+`tyS >= tyPool.length * 0.8 ? '🏆' : '📚'` sitting beside it reads as a **perfect
+score**, with `completeExercise` a few lines below.
+
+**Derived**: every `useContent` consumer that also calls a crediting write
+(`award`, `completeExercise`, `markQuest`, `recordExerciseOutcome`,
+`recordMasteryEvent`, `markLessonComplete`) and compares an index to a
+content-derived `.length`/`.size`. **Six comparisons across four screens.**
+
+**NO DEFECTS: every one is unreachable, because the emptiness guard comes FIRST.**
+`TypingScreen`'s `if (!tyPool.length) return` is at line 153 and the terminal test
+at 171; `ReviewScreen` and `ShadowingScreen` guard above theirs;
+`AdvancedVocabScreen`'s is the empty-state render, not a terminal test.
+
+**BUT THE ORDERING WAS THE WHOLE SAFETY PROPERTY AND NOTHING PINNED IT.** Move
+`TypingScreen`'s guard below its terminal test and an empty pool renders the
+completion branch on the first frame and credits it. `TypingScreen`'s own comment
+records the incident that produced the guard — so the guard is deliberate and its
+POSITION was incidental. **This codebase has been bitten by exactly that shape
+elsewhere**: `stopMic` nulling `onend` before `stop()` (the other order still
+fires), the Pages secret installed before `pages deploy` (after, it reaches
+nothing), the LINE comment strip before the BLOCK strip (sweep 71 lost 15,102
+characters of corpus to the wrong order). An ordering that only comments defend is
+one edit from being wrong.
+
+`terminalWriteSurfaces` reports `guardLine` vs `terminalLine` and the test asserts
+the guard is strictly above. **Mutation-verified, three, each fails 2:** the guard
+moved BELOW the terminal test (the dangerous direction, done by actually relocating
+the block in `TypingScreen`, not by editing the assertion); the derivation
+returning nothing (vacuity); and the guard scan removed so `guardLine` is always
+Infinity.
+
+**WHAT THIS SWEEP CANNOT SEE:** a credit reached through a CALLBACK rather than a
+render branch — an effect that fires `award` on a count that happens to be 0
+without any index comparison. The derivation keys on the index-vs-length
+comparison, which is the shape that makes "index 0 is the end" possible; a
+`useEffect` gated on `total === 0` would be outside it and is not attempted here.
+
+### 107. The credit reached through an effect, and one feature with two datasets — 2026-09-25 — TWO DEFECTS
+
+Sweep 106 ended by stating what it could not see, in as many words: _"a credit
+reached through a CALLBACK rather than a render branch — an effect that fires
+`award` on a count that happens to be 0."_ That is where the first defect was,
+and looking exactly where the previous sweep said to look is the whole method.
+
+**THE CENSUS.** 23 `useEffect` bodies across `src/components/**` and
+`src/hooks/**` call a credit writer. Twelve of those write only
+`signalSessionCompleteIfActive`, which is the ANTI-STRAND signal and is
+deliberately correct on an empty or failed path (the audio and lesson-gate
+directives both say so) — so they are not subjects. Of the eleven writing real
+credit, **two** gate on a comparison against a length- or size-derived total:
+
+| effect                         | gate                           | before                                 |
+| ------------------------------ | ------------------------------ | -------------------------------------- |
+| `SceneExplorer.tsx:70`         | `discCount >= total`           | **unguarded**                          |
+| `AdaptiveReviewScreen.tsx:315` | `sessionIdx >= session.length` | `session.length > 0` — already correct |
+
+**DEFECT 1 — `SceneExplorer` credited a completion nobody earned.**
+`total = scene.items.length`, `discCount = discovered.size`, and `0 >= 0` is
+true, so a scene carrying no items fired the effect **on mount**: `setShowComplete(true)`,
+a confetti burst, "Scene complete!", and `award(15, false, 'vocabulary')` — 15 XP
+and a celebration for a learner who had discovered nothing. NEVER-DO 14 reached
+through an effect. Fixed with `total > 0 &&`. Latent on today's data (every
+authored scene has 12–13 items) and the guard is still the right fix: it costs one
+comparison, and nothing anywhere else would have said a word.
+
+**DEFECT 2 — one feature, two datasets, and the picker was the only reader of
+one of them.** Found while establishing whether defect 1 was reachable, which
+meant asking where `scene` comes from:
+
+- `ScenePicker` (`VocabSceneComponents.tsx`) read **`content.SCENES`** — the
+  `/api/content/core` payload.
+- `VocabScenes` — its own PARENT, which receives the selected scene back through
+  `onSelect`, walks the list again in `handleNextScene`, and builds
+  `allDiscovered` — read the **static** `SCENES` from `./VocabSceneData.js`.
+- `SceneExplorer` imports that same static module for its localStorage helpers.
+
+The two files are **byte-identical today** (`diff` reports no difference) and
+**nothing enforces it.** `src/components/learn/VocabSceneData.js` and
+`functions/api/content/_data/vocabScenes.js` are the `wrangler.toml` "Shared with
+scheduled worker above" shape again — the fact kept in two places with a comment
+instead of a mechanism, which this file records drifting for `CORE_PAYLOAD_KEYS`
+(three copies, one stale) and for `dictation`'s pool category (two copies, one
+stale for five weeks).
+
+**What drift would have cost, stated precisely:** `handleNextScene` does
+`SCENES.findIndex((s) => s.id === currentScene.id)` on the LOCAL array with a
+SERVER scene's id, so an id present only on the server returns `-1` and
+`SCENES[(-1 + 1) % len]` silently serves **local scene 0** instead of the next
+one; and `allDiscovered` is keyed from LOCAL ids while the picker indexes it by
+SERVER ids, so a server-only scene reads 0 discovered for ever.
+
+**And one cost was already live, not hypothetical.** `content.SCENES` had
+**exactly one reader in the entire app** — this picker. So the feature waited on
+a network fetch (~9 s in the CI-equivalent harness) for data that is in the
+bundle regardless, because `SceneExplorer` imports the same module's localStorage
+helpers and therefore the data can never be tree-shaken out; and on a FAILED core
+fetch the picker said "Scenes could not be loaded." **permanently**, about bytes
+sitting in the bundle two files away. `git log` names the cause: `a482581f`
+("batch 4 — learn screens use useContent") moved the picker onto the payload and
+left its parent and the explorer on the static import. A half-finished migration
+that shrank nothing and gained a failure mode.
+
+**THE FIX IS THE STATIC EXPORT, AND THE OTHER DIRECTION WAS CONSIDERED AND
+REJECTED.** Moving `VocabScenes` and `SceneExplorer` ONTO the payload would also
+collapse the two sources — and it would make an offline-capable illustrated
+vocabulary game network-dependent, for a 252-line (~8 KB) data file, in a PWA.
+It also cannot shrink the bundle without first splitting the localStorage helpers
+out of the data module, which is a second change. Reading the static export makes
+the drift **unrepresentable** rather than merely checked, and is the smaller
+change. **The server side is deliberately untouched**: the payload key stays
+(`CORE_PAYLOAD_KEYS`, the etag generator, the E2E fixture, `core.test.js` and
+`scenesScreen.test.tsx`'s collision guard all read it, and old cached clients
+still fetch it).
+
+**IT ALSO SUPERSEDES SWEEP 102 ON THIS SCREEN, WITH THE STRONGER ANSWER.** Sweep
+102 taught the picker to say "Loading the scenes…" / "Scenes could not be loaded."
+instead of "0 / 0 words discovered". Sweep 107 removes the question: a count that
+does not depend on a payload cannot be a claim about an unarrived one. The notice
+branch is therefore **deleted, not left in place** — a branch that can no longer
+render is the decorative guard this file keeps rediscovering. `VocabSceneComponents`
+consequently leaves `numericClaimSurfaces` ENTIRELY, and there is an explicit test
+asserting its ABSENCE with the reason, so its departure cannot read as regression.
+
+**THE GUARD: `zeroSatisfiableCredits`** (`src/tests/helpers/emptyClaimSurfaces.ts`)
+— the callback twin of sweep 106's `terminalWriteSurfaces`. Deliberately NOT
+scoped to `useContent` consumers: a total reaches zero for reasons that have
+nothing to do with a payload (an authored collection left empty, a filter that
+removed everything, a level with no content at its band), and the question
+"does this `>=` also require the total to be positive" must not depend on who
+supplies the data. Two subjects, **zero false positives** — which is why a
+ratchet is worth having here and was not worth having in sweep 104.
+
+**THREE THINGS FOUND BY MUTATING THE NEW GUARD, and each was a defect in it:**
+
+1. **`src/hooks` was a root the walk cannot read.** I defaulted
+   `roots` to `['src/components', 'src/hooks']`; `walk()` yields **`.tsx` only**,
+   so the hooks root contributed nothing while reading as coverage. Measured
+   rather than assumed — a throwaway probe over `src/hooks/**` in both extensions
+   found zero credit-writing effects, so nothing is lost — and the default now
+   names only what is actually walked, with the `.ts` gap stated.
+2. **The `.size` clause SURVIVED its mutation.** Both real subjects reach the
+   derivation through `.length` (`total = scene.items.length`), so restricting the
+   totals scan to `.length` changed nothing. By this repo's own standard that made
+   it decoration. A Set size is a legitimate total — `discovered.size` IS one — so
+   the clause stays and a **positive control** now exercises it: two synthetic
+   `.tsx` files in a temp dir, one `.size` total without positivity (must be
+   reported) and its guarded twin (must be clean). With the control in place the
+   same mutation fails 1.
+3. **A LOOSE POSITIVITY MATCHER HID THE ORIGINAL BUG FROM EVERY OTHER
+   ASSERTION.** Forcing `positivity` to always return a value AND restoring
+   defect 1 left **both** of the tests written to catch it green — only the
+   positive control failed. The subject assertion now pins the matcher's OUTPUT
+   (`positivity` must contain the literal `total > 0`), not its truthiness, and the
+   same mutation fails 2. _Assert what the derivation said, not that it said
+   something._
+
+**AND MY OWN COMMENT BROKE THE SOURCE PIN, in the false-FAILURE direction.** The
+"no file under `learn/` reads `content.SCENES`" pin failed on the explanatory
+comment I had just written saying the picker _used to_ read it. Comments are
+stripped now. Every prior instance of this trap in this file ran the other way —
+prose SATISFYING a matcher (`speakingCoach.ts`'s header, `LoadingState`'s
+docstring). Both directions are the same defect: **a guard that reads prose is
+not reading code.**
+
+**Mutation-verified, five, each confirmed landed:**
+
+| mutation                                                          | fails |
+| ----------------------------------------------------------------- | ----- |
+| `SceneExplorer` credits at `0 >= 0` again (the original defect 1) | 2     |
+| the picker reads `content.SCENES` again (the original defect 2)   | 6     |
+| `zeroSatisfiableCredits` returns `[]` (vacuity)                   | 2     |
+| the totals scan blind to `.size`                                  | 1     |
+| positivity always non-empty + defect 1 restored                   | 2     |
+
+**E2E audit:** no spec references this screen at all — greps run for
+`Loading the scenes`, `Scenes could not be loaded`, `words discovered`,
+`Vocabulary Scenes`, `Scene complete`, `scene-total-progress`, `vocabscenes`,
+`Next Scene`, `Total Progress`, and `scene` generally (only `scenario` and
+`/api/scene-video` hits). `route-render-sweep.spec.js` walks the route
+generically and now renders MORE with no payload, which is strictly safer.
+`award` is genuinely passed at `AppRouter.tsx:1557`, so the credit path is live —
+the `routerAwardProp` guard covers that and this is not another `alphabet` hole.
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A credit effect in a `.ts` file (`walk` yields `.tsx`). Measured empty today.
+- A credit gated on equality with a total that is not syntactically a
+  length/size — `if (answered === QUESTIONS_PER_ROUND)` against a constant, where
+  zero is not reachable, versus `if (answered === target)` where `target` was
+  computed elsewhere. The derivation reads the declaration in the same file only.
+- A credit fired from an event handler rather than an effect. The eleven real
+  writers were enumerated for effects; handlers are the larger population and are
+  not attempted here.
+- The remaining two-copies-must-agree pairs. This sweep closed ONE by collapsing
+  it; a census of `src/data/**` against `functions/api/content/_data/**` (which
+  pairs are pinned byte-identical, which are merely believed to be) is not done.
+
+---
+
+### 108. The twinned data modules — 2026-09-25 — NO LIVE DEFECT, one drift already happened
+
+Sweep 107 closed ONE two-copies-must-agree pair by collapsing it, and listed the
+rest as uncensused. This is that census.
+
+**THE SUBJECTS.** `functions/api/content/_data/core.js` composes
+`/api/content/core` out of **thirteen** data modules. Eleven have a twin under
+`src/` that the app imports statically (`learnPath` and `seasonalCampaigns` do
+not, and are pinned as the only two). 34 served export names across the eleven.
+
+| state                                                        | pairs                                                                                                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| byte-identical AND pinned by an existing test                | 4 — `deepdives`, `history`, `language`, `regions`                                                                               |
+| byte-identical with **NOTHING** enforcing it                 | 4 — `cultural/events`, `cultural/proverbs`, `scenarios`, `cultural/geography` (a test reads both paths and never compares them) |
+| byte-identical, unpinned, and NOT FOUND by a basename census | 1 — `vocabScenes` ↔ `VocabSceneData` (sweep 107's pair; the two halves are not named alike)                                     |
+| genuinely divergent                                          | 2 — `vocabulary.js`, `exercises.js`                                                                                             |
+
+**THE DRIFT THAT ALREADY HAPPENED, and why it costs nothing.** `exercises.js` has
+the SAME 46 export names on both sides and the client copy is 25 KB larger. Ten
+exports differ, the client larger in every case:
+
+| export                  | client                     | server |
+| ----------------------- | -------------------------- | ------ |
+| `LISTEN`                | 45                         | 21     |
+| `UNJUMBLE`, `PREPDRILL` | 40                         | 15     |
+| `COMPQUIZ`, `ORDQUIZ`   | 30                         | 15     |
+| `PREPS`                 | 25                         | 15     |
+| `COMPARE`               | 24                         | 15     |
+| `ORDINALS`              | 20                         | 15     |
+| `RELPRON`, `VOCATIVE`   | (objects, contents differ) |        |
+
+The divergence starts at a comment reading _"2026-07 depth expansion (+25):
+clitic clusters, questions, conditionals"_ — an authoring pass that edited the
+client copy and not the server one. **`core.js` imports exactly 2 of those 46
+exports** (`IDIOMS`, `BRZALICE`), and neither is among the ten, so the server
+copy is a 44-export dead fork and the client copy is the live one for every
+divergent bank. **No learner was ever served the stale data.** The cross-check
+that settles it: the levelled-bank work measured `LISTEN` at **45 items**, which
+is the client figure.
+
+`vocabulary.js`'s divergence is by DESIGN and documented — the server carries
+`V_B2`/`V_C1`/`V_C2`, which the client deliberately lacks because the tiers reach
+it through the payload and the bundle must not pay for them. The 11 shared
+categories agree exactly.
+
+**THE GUARD: `payloadTwinParity.test.ts`, and BYTE-IDENTITY IS THE WRONG
+CONTRACT.** Three of the eleven twins legitimately differ, so a byte-identity
+rule over the set would forbid the vocabulary design and demand the dead
+`exercises.js` fork be maintained. The contract is **the SERVED names only**,
+derived from `core.js`'s own import statements rather than listed in the test —
+so a module added to the payload is covered without anyone remembering. That
+admits every legitimate divergence and catches the one that reaches a learner:
+**extending `IDIOMS` or `BRZALICE` in the client copy alone would serve the old
+data from the payload in silence**, which is exactly what already happened to the
+other ten exports of that same file.
+
+Three things the guard does that a byte-diff would not:
+
+- **The ALIAS is explicit and pinned.** `vocabScenes` ↔ `VocabSceneData` is why
+  my first census — keyed on basename — missed sweep 107's own pair while
+  reporting ten others. A guard that can only find twins sharing a name cannot
+  find the class.
+- **`SERVER_ONLY` is checked in BOTH staleness directions**: an exempted name
+  must still be served AND must still be absent from the client. A tier appearing
+  in the bundle must be compared, not exempted.
+- **The two untwinned modules are pinned BY NAME**, because `continue` skips
+  them — and that same `continue` is how a RENAMED twin would vanish from the
+  guard without a word. `expect(untwinned).toEqual(['learnPath', 'seasonalCampaigns'])`.
+
+**THE VACUITY RISK WAS REAL AND WAS MEASURED, NOT REASONED ABOUT.** The
+comparison uses a dynamic template import, vite prints
+`vite:dynamic-import-vars` for it, and if those imports had resolved to empty
+modules every name would be `undefined === undefined` and all 34 comparisons
+would pass while checking nothing. Proven otherwise by mutating a single English
+field in a served export and watching the failure NAME it
+(`cultural/events.EVENTS`).
+
+**Mutation-verified, five, each confirmed landed:**
+
+| mutation                                                                    | fails |
+| --------------------------------------------------------------------------- | ----- |
+| one served export differs by one string (proves the comparison runs at all) | 1     |
+| `IDIOMS` extended in the client copy only — the LIVE danger                 | 1     |
+| the twin derivation returns `[]` (vacuity)                                  | 3     |
+| a stale `SERVER_ONLY` entry over an export that IS compared                 | 1     |
+| the `vocabScenes` alias removed                                             | 2     |
+
+**A CONSEQUENCE OF SWEEP 107 WORTH STATING PLAINLY:** `content.SCENES` now has
+**no production reader**. Its remaining consumers are all infrastructure —
+`CORE_PAYLOAD_KEYS`, the etag generator, the E2E fixture, `core.test.js` and
+`scenesScreen.test.tsx`'s collision guard. The pair stays in this derivation
+anyway: the key is still served, so a future reader inherits the guarantee rather
+than having to notice it is absent.
+
+**NOT DONE, DELIBERATELY:** the 44 dead exports in the server `exercises.js`
+(~248 KB, of which ~2 are live) are not deleted. It would shrink a served module
+by most of its bytes and is exactly the "improve things beyond what was asked"
+this repo forbids; and deleting from a module the payload imports risks an import
+this census did not find. The new guard removes the danger the dead fork posed
+without touching it.
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A twin pair where NEITHER copy is imported by `core.js` — the derivation starts
+  from the payload's own imports, so a client/server pair wired through some
+  other endpoint is outside it.
+- A third copy. `CORE_PAYLOAD_KEYS` drifted as three copies; this compares two.
+- Divergence in a SHARED export's key ORDER only, which `JSON.stringify` reports
+  as a difference — that is deliberate (these files are hand-edited, so a
+  reordered key means one copy was rewritten) but it will read as a defect when
+  it is only a diff.
+- The dead-export question generally: which of the 11 twins carry exports that
+  nothing anywhere reads. Measured for `exercises.js` (44) and `scenarios.js`
+  (11) as a side effect; not swept.
+
+---
+
+### 109. The same credit shape in EVENT HANDLERS — 2026-09-25 — NO DEFECTS, and the reason is structural
+
+Sweep 107's largest stated gap: it enumerated `useEffect` bodies and said handlers
+were "the larger population and are not attempted here." This is that population.
+
+**THE CENSUS.** Handler-shaped function bodies (an arrow assigned to a name, a
+`useCallback`, a `function` declaration) across `src/components/**/*.tsx` that call
+a credit writer: **338**. Of those, **152** gate on a comparison against a
+length- or size-derived total. That is twelve times the effect population, and it
+is dominated by one thing: **roughly a hundred are the hand-written drills**, each
+a copy of the same ~400-line component ending in `score === total` /
+`score >= total`.
+
+**Narrowing to a total that can actually reach zero at runtime brought 152 → 10.**
+The hundred drills read STATIC banks (`src/data/drills/*`, `exercises.js`), so
+`total` cannot be zero — and where it is, the screen throws on `questions[idx]!`
+long before it credits. The ten are the ones whose total is prop- or
+content-derived:
+
+| subject                                              | why it cannot credit at zero                                                                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `McResult` `next >= mistakes.length`                 | the whole review flow is behind `showReviewPrompt = mistakes.length >= 2`                                                                  |
+| `BureaucraticScreen` `QuizBlock` (×2)                | `loading \|\| !content` and `error` return ABOVE it; and its handler is a per-QUESTION tap, so with no questions there is nothing to click |
+| `SentenceTileScreen` `nextIdx >= questions.length`   | `shuffle(SENTBUILD).slice(0, 10)` — static, 42 items                                                                                       |
+| `DialogueSim` `nextIdx >= scenario.turns.length`     | `if (!scenario) return` at line 254                                                                                                        |
+| `Flashcards` `finalKnown === activePool.length` (×2) | reached only through a child's `onComplete`, i.e. a quiz that ran                                                                          |
+| `GenderDrillScreen` `GENDERDRILL.adjectives.length`  | static, 10 items                                                                                                                           |
+| `ReflexiveScreen` `REFLEXIVE.quiz.length`            | static, 10 items                                                                                                                           |
+| `LessonProduceStep` `words >= MIN_PRODUCE_WORDS`     | the right-hand side is a positive CONSTANT, so `0 >= MIN` is false                                                                         |
+
+**WHY THERE IS NOTHING HERE, STATED AS A PROPERTY RATHER THAN A COUNT.** _An
+effect fires on mount whatever is on screen; a handler needs a control to be
+clicked._ The controls that reach these handlers are either per-ITEM (a question
+tile, an answer button — unclickable when there are no items) or behind a flow
+ENTRY condition that already establishes the count. That asymmetry is the whole
+reason sweep 107's defect was in an effect and this sweep found none, and it is
+worth knowing before anyone spends a day on the 152.
+
+**NO RATCHET WAS ADDED, DELIBERATELY** — the sweep 104 precedent. My positivity
+matcher is scoped to the handler BODY, and in every one of the ten the guard lives
+OUTSIDE it (an entry condition, an early return above, the shape of the control).
+So a ratchet on this derivation would ship with ten false positives, and a guard
+that is mostly false positives trains everyone to ignore it. Recording the
+measurement is the deliverable.
+
+**A METHOD NOTE THAT ALMOST COST THE SWEEP.** My first narrowing pass excluded
+totals it could not resolve to a declaration in the same file — the bucket labelled
+`UNRESOLVED`. That took the census to exactly ONE subject and looked finished.
+**`UNRESOLVED` is precisely where prop-passed content lives**: nine of the ten
+above, including every content-derived one, were in it. Excluding what a derivation
+cannot explain is how it reports a small clean number and misses the class — the
+same shape as sweep 102's four-stage derivation and sweep 107's unreadable root.
+**Investigate the bucket you cannot resolve; do not filter it out.**
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A credit gated on equality with a total that is not syntactically a
+  `.length`/`.size` — `if (answered === target)` where `target` was computed
+  elsewhere. Still open, and sweep 107 named it too.
+- A handler reached by a control whose own render condition is itself wrong. This
+  sweep read each of the ten entry conditions and judged them; it did not derive
+  them, so a fifth kind of entry guard would be read by hand again.
+- A credit inside a `.then()`, a timer callback or an event listener registered
+  outside a named function — the matcher keys on named/assigned function bodies.
+
+---
+
+### 110. The 25 drills whose completion contract nothing exercises — 2026-09-25 — NO DEFECTS in the contracts; the exemptions have ONE root cause
+
+This picks up the only NAMED open item left in the section below: sweep 55 ended
+_"the 24 honest skips are 24 drills whose completion contract nothing exercises —
+the ratchet guards the exemption, not the coverage."_ (It is 25 now.)
+
+**ALL 25 EXEMPTIONS HAVE A SINGLE ROOT CAUSE, and it is in the harness, not the
+screens.** `completeDrill` in `exerciseContract.test.tsx` drives a drill by
+clicking, in priority order: a `.tc` menu tile, `case-intro-start`, a button whose
+text matches `next|see results|done|finish`, and then — Priority 2 — **a button
+whose `className` includes `'ob'`.** Nothing else. Every one of the 25 skip
+reasons is a restatement of that one sentence: _"Option buttons use inline styles
+(no .ob class)"_, _"no .ob MC buttons"_, _"helper cannot click options"_. The
+reasons are honest and they are not 25 separate problems.
+
+**THE CONTRACTS THEMSELVES WERE AUDITED BY READING, AND THEY ARE UNIFORM AND
+CORRECT.** Since nothing exercises them, the question is whether the completion
+predicate is right. Two idioms exist across the exercise screens for "the last
+answer just landed", and both were checked mechanically:
+
+- **Sixteen screens** use `handledRef.current.size >= X.length`
+  (CityLocative, ColorAgreement, Comparatives, ConvMatch, EmotionGender,
+  FillStory, FutureTense, LogicQuiz, Ordinals, Possessives, Pronouns,
+  RelativePronouns, Riddles, SentenceBuilder, Sibilarization, TenseFlip). In
+  **all sixteen** the `.add()` precedes the size check and each carries a
+  `handledRef.current.has()` re-answer guard — so the Set counts distinct
+  questions and the predicate fires exactly once, on the last one.
+- **`NegationScreen` alone** uses `answeredCount + 1 >= shuffledQuiz.length`,
+  where `answeredCount` is `Object.keys(answers).length` from the PREVIOUS
+  render. That form would over-count on a re-answer — answer four of five, then
+  re-answer the first, and `4 + 1 >= 5` would credit with a question
+  untouched — but `if (answers[qi] !== undefined) return;` at the top of the
+  handler makes a re-answer impossible. Correct, and its own comments show the
+  score arithmetic (`correctCount + (isCorrect ? 1 : 0)`) was already audited.
+
+So: **no defect in any of the 25 completion contracts.** The gap is coverage, and
+the coverage gap is one helper.
+
+**THE FIX IS AVAILABLE WITHOUT TOUCHING A PRODUCTION FILE — and my attempt to
+measure it FAILED, which is recorded here rather than dressed up.** Reading
+`PronounsScreen`'s markup shows the option buttons carry **no `className` at
+all**, while every advance/retry button carries `b bp`. So "a `<button>` with an
+empty className that is not disabled" identifies an option button structurally,
+and Priority 2.5 could be one line. I built a throwaway experiment to measure how
+many of the 25 that unlocks — 15 screens, the extended driver, logging
+award/quest/setStats counts — and **it produced no output in eight minutes and had
+to be killed.** So the honest state is:
+
+- the root cause is measured and certain;
+- the proposed mechanism is plausible and NOT measured;
+- and the hang is itself weak evidence that at least one of those 15 screens does
+  not terminate under a naive click-the-first-classless-button driver — which is
+  what the next attempt should find out FIRST, one screen at a time with a small
+  iteration cap, instead of fifteen at once with a 400-iteration loop.
+
+**Do not read the hang as "the approach does not work."** It says the experiment
+was badly built: fifteen components, each spinning up to 400 full
+`queryAllByRole` sweeps, with vitest buffering console output until the file
+finishes — so a single non-terminating screen produces exactly the same silence as
+a slow one. That is this file's own lesson about a missing mechanism and a passing
+mechanism looking identical from outside, landing on my own harness.
+
+**WHAT THE NEXT PERSON SHOULD DO, concretely:** take ONE screen
+(`PronounsScreen` — `handledRef` idiom, no menu phase, no audio, no timer), add
+the bare-className priority to a LOCAL copy of the driver with a cap of ~60
+iterations and a per-iteration log, and see whether `award` fires. If it does,
+walk the other 24 one at a time and un-skip the ones that pass, leaving a reason
+on each that genuinely cannot be driven (the microphone one, the timer one, the
+tile-assembly one). Each un-skip is one exemption converted into coverage of a
+live credit path.
+
+**WHAT THIS SWEEP CANNOT SEE:** whether each contract fires at the right MOMENT
+and with the right SCORE under real interaction — that is exactly what the 25
+skipped tests would have checked, and reading a predicate is not running it. The
+`.add()`-before-check ordering and the `has()` guard are necessary, not
+sufficient.
+
+---
+
+### 111. A conduit is not a producer — 2026-09-25 — ONE GUARD DEFECT, FIVE NO-PRODUCER KEYS
+
+Picked by the rule this file's own queue lays down for choosing a question:
+_"name two things that must agree, and ask what would happen if they stopped."_
+The pair: **every localStorage key a READER depends on must be WRITTEN somewhere,
+under the same spelling.** This app is localStorage-authoritative, so a read with
+no writer is a feature that silently never activates.
+
+**THE CLASS WAS ALREADY SWEPT, AND I ALMOST RE-CHASED IT.**
+`deadKeyReaders.test.tsx` already derives reads and writes across `src/`,
+resolves constants through named imports, bounds prefix vacuity, and carries
+exactly four `NO_WRITER_BY_DESIGN` exemptions with reasons and both staleness
+directions — `nh_debug`, `nh_streak_freezes`, `uSR`, `fbBackupConfirmed`. My
+ad-hoc census "found" fourteen orphans; **every one was my own resolver being
+weaker than the guard's**, because the app writes through `lsSet`/`_safeSet`
+wrappers and I matched only `localStorage.setItem`. `nh_level` — a KNOWN member,
+this file records `PlacementTest` writing it — was in my list, which is the
+signal that a derivation is unfinished rather than reporting a result.
+
+**THE QUESTION THAT SURVIVED, AND IT IS NOT THE ONE THAT GUARD ASKS.**
+`hasWriter` is satisfied by `applyRemoteProgress`. But the sync layer is a
+**CONDUIT**: it writes what Firestore held, which is what `progressSnapshot`
+read, which is what something else PRODUCED. So a key whose only writer is the
+sync layer sits in a closed loop with no source — absent for every learner, for
+ever — and `hasWriter` calls it covered.
+
+Measured with the guard's OWN resolution (a temporary probe inside the real test
+file, not a parallel census): of the **66 keys `progressSnapshot` uploads, six**
+have no writer outside the sync layer.
+
+**FINDING 1 — THE GUARD'S RESOLVER DROPPED A TWO-HOP ALIAS, and asking the
+producer question is what exposed it.** `MyWordsScreen` saves the learner's own
+vocabulary as `localStorage.setItem(STORAGE_KEY, …)` where
+`const STORAGE_KEY = CUSTOM_WORDS_KEY;` — an IDENTIFIER initializer. `LOCAL`
+records only string-LITERAL initializers and `IMPORTS` only imported names, so
+that name was in neither map: `lookup` returned null, `classify` returned null,
+and **the write was dropped entirely.** The orphan test passed anyway, because
+`applyRemoteProgress` also writes that key — so the gap was invisible for exactly
+as long as some OTHER writer happened to cover it. Fixed with an `ALIAS` map that
+`lookup` consults after LOCAL and IMPORTS, resolving `const A = B;` (where B may
+itself be imported). Mutation-verified: removing it fails 2.
+
+**FINDING 2 — FIVE SNAPSHOT KEYS HAVE NO PRODUCER.** Each recorded with its
+reason and what it costs, because none is repairable without adding a feature or
+changing live behaviour on a guess:
+
+| key                                            | what was established                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nh_prestige`                                  | a grep of the whole tree finds the sync read/write and **two `ProgressCharts` comments discussing "prestige resets"** — nothing increments it. The feature cannot be earned and the synced field is always 0. Making it earnable is a FEATURE, not a fix                                            |
+| `dcDay3`                                       | the daily-challenge answers. `useDaily` reads it as the PRIMARY source in a first-render initializer, under a comment saying it is _"written on every answer click"_ — nothing writes it, so every read falls through to the documented fallback `uP_<uid>.dc`, which the sync auto-save does write |
+| `nh_placement_vocab` · `_grammar` · `_culture` | `PlacementTest` writes `nh_placement_done` and `nh_level` ONLY. The three per-skill sub-scores are never produced, and nothing consumes them for a decision either — so the cost is three always-absent snapshot fields and three `_maxNum` calls that can never fire                               |
+
+**`dcDay3` LEAVES A SHARP OPEN QUESTION RATHER THAN A GUESS.** Its fallback,
+`loadFromMainDoc`, requires `uS.u` — a session. So the primary path being dead is
+free for a signed-in learner and **may cost a signed-out one their
+daily-challenge state on reload**. What I established: nothing writes `dcDay3`
+outside the sync layer; the fallback needs `uS.u`; `App.tsx` does have a
+`GUEST_UID` path writing `uP_guest`. What I did NOT establish: whether a guest's
+`uS` carries a `u`, which is what decides it. Recorded unresolved on purpose —
+the alternative was a behaviour change to a live screen on an inference.
+
+**A comment asserting a mechanism that does not exist** is the third instance of
+that exact shape in this repo: `wrangler.toml`'s "Shared with scheduled worker
+above", the three CEFR badges' "all three must stay in sync", and now
+`useDaily`'s "written on every answer click".
+
+**Mutation-verified, five, each confirmed landed:**
+
+| mutation                                                               | fails |
+| ---------------------------------------------------------------------- | ----- |
+| the `ALIAS` resolution removed (the resolver gap restored)             | 2     |
+| `producedOutsideSync` always true (vacuity)                            | 2     |
+| a stale `NO_PRODUCER` entry over a key that HAS a producer             | 1     |
+| `MyWordsScreen` stops saving the learner's words (the real regression) | 2     |
+| `SYNC_LAYER` drops `applyRemoteProgress`, so everything looks produced | 2     |
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A producer that writes through a wrapper the `SET` alternation does not name.
+  That list is hand-maintained (`lsSet`, `ssSet`, `_safeSet`, `_unionStrArr`,
+  `_maxNum`, …) and has the decay shape this file keeps recording; nothing
+  derives it.
+- A key produced only in a `.jsx`/`.js` file the glob misses, or by a native
+  bridge.
+- The DIRECTION this sweep did not take: a key with a producer whose VALUE is
+  never what a consumer expects. "Something writes it" and "what it writes is
+  usable" are different questions, and only the first is now mechanised.
+- Whether `NO_PRODUCER`'s reasons are TRUE. The staleness tests check that each
+  entry is still uploaded and still unproduced; no test can check that the
+  sentence beside it describes reality.
+
+---
+
+### 112. Does a writer's VALUE SHAPE match what readers expect? — 2026-09-25 — NO DEFECTS, and my tool was wrong twice
+
+Sweep 111's stated gap: _"a key with a producer whose VALUE is never what a
+consumer expects. 'Something writes it' and 'what it writes is usable' are
+different questions, and only the first is now mechanised."_ The class has a
+RECORDED past instance in this repo — `applyRemoteProgress` still carries the
+comment that `nh_immersion_days` "was never a number; the old `Math.max` here
+silently no-op'd on the array" — so it is live, not hypothetical.
+
+**Method**: for every localStorage key, classify what writers STORE
+(`JSON.stringify` of an array/object, `'1'`, `'true'`, `String(n)`, a literal)
+against what readers PARSE (`JSON.parse` with a `[]`/`{}` default, `parseInt`,
+`=== 'true'`, `=== '1'`, truthiness), and report keys where the two sets share no
+concrete shape.
+
+**FIRST RUN: 106 keys, ZERO disagreements — AND THE NUMBER WAS MEANINGLESS.**
+Before reporting it I injected a defect, per this file's own rule. **The control
+was not detected.** Two separate reasons, both my fault, both worth recording:
+
+1. **My first control mutated one arm of an `||`.**
+   `progressSnapshot` reads `nh_heritage_saved` as
+   `=== '1' || === 'true'`; flipping one arm left the other matching, so no
+   disagreement existed to find. _A control that does not create the defect
+   proves nothing about the tool._
+2. **The second control was correct and STILL undetected, because the predicate
+   compared a reader against ANY writer.** `nh_heritage_saved` is written
+   `'true'` by `WelcomeScreen` — its only real producer — and `'1'` by
+   `applyRemoteProgress`. So the key carries BOTH shapes and any reader matches
+   one of them. **The sync layer's own spelling masks the defect**, which is
+   sweep 111's conduit-vs-producer rule landing on the SHAPE question one day
+   later. Restricting writer shapes to producers (non-sync files) made the
+   control fire immediately.
+
+**SECOND RUN, with a working tool: 90 producer-and-reader keys, ONE
+disagreement — and it is an existing guard's documented NEGATIVE CONTROL.**
+`placement_done` (the legacy key) is written `'1'` by `AppRouter` and read
+`=== 'true'` by the snapshot. `snapshotPredicatesReachable.test.ts:246` already
+says so by name: _"the legacy `placement_done` key, which is only ever written as
+'1' and so can never satisfy `=== 'true'`. The field is still fine, because its
+other alternative works."_
+
+**THE EXISTING GUARD HAD ALREADY IMPLEMENTED THE CONDUIT RULE.** That same file
+carries `NEGATIVE CONTROL — applyRemoteProgress alone cannot make a field look
+reachable`, with the reason "Including it would close the loop on every field."
+So the insight sweep 111 arrived at for WRITERS was already in the tree for
+PREDICATES — and I did not find that by reading, I found it by my own tool
+disagreeing with a committed guard and checking which was right.
+
+**NO RATCHET ADDED**, on the sweep 104 / 109 precedent: it would duplicate
+`snapshotPredicatesReachable` over a broader population that measured clean, with
+a tool I had to fix twice to make meaningful. The deliverable is the measurement
+and the method.
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A shape disagreement where the writer's value is computed (`String(f(x))`,
+  a template, a concatenation) — `wshape` classifies those as `stringified` and
+  the comparison ignores them, which is most numeric writes.
+- A key whose writer and reader agree on the SHAPE and disagree on the units,
+  range or encoding (seconds vs milliseconds, 0–1 vs 0–100). Shape agreement is
+  necessary, not sufficient — and this is the same boundary sweep 111 drew from
+  the other side.
+- Any key written through a wrapper not in the `SET` alternation, or with a
+  non-literal key. The population is 90 of the ~149 concrete keys.
+
+---
+
+### 113. Two score scales, and the ledger that hides the difference — 2026-09-25 — NO DEFECTS, ratcheted
+
+Sweep 112's stated gap: _"shape agreement is necessary, not sufficient — units,
+range and encoding (seconds vs ms, 0–1 vs 0–100) are outside both tools."_ This is
+that question, aimed at the highest-stakes number in the app: the score that
+reaches the mastery ledger, whose EWMA is what `weakestProductionKind` /
+`weakestReceptiveKind` read, and therefore what the recommender and the P2.8 input
+slot point a learner at.
+
+**A NAME CENSUS WAS TOO WEAK, AND THAT IS WHY THE FIRST ATTEMPT IS NOT THE
+FINDING.** Collecting every identifier compared against both a `0<x<1` fraction
+and a `1<x<=100` literal reported three score-ish names (`accuracy`, `pct`,
+`score`) — all of them per-file LOCALS with per-file conventions (`pct` is a
+fraction in `AlphabetScreen` and a percentage in `DialectAwarenessScreen`). A name
+is not a boundary; the question is whether a value CROSSES one.
+
+**THE TWO SCALES ARE BOTH REAL, and I established them by reading the PROMPTS
+rather than assuming the convention:**
+
+| producer                                                | scale                                                          |
+| ------------------------------------------------------- | -------------------------------------------------------------- |
+| `/api/correct` mode `writeeval` (`WRITING_EVAL_PROMPT`) | **0–100** — "Score 0-100 based on grammar accuracy…"           |
+| `SPEAKING_RUBRIC_PROMPT` / `SPEAKING_COACH_PROMPT`      | **0.0–1.0** — "each 0.0–1.0, where {{level}} competence ≈ 0.8" |
+
+So `/ 100` is REQUIRED on the writing path and WRONG on the speaking path. **My
+working hypothesis was that the speaking sites had a missing division** —
+`speakingCoach` writes `Math.max(0, Math.min(1, data.overall))` with no `/100`,
+which looks exactly like the bug. Reading the prompt showed the clamp is
+defensive on an already-0..1 value. _The plausible reading was the wrong one._
+
+**EVERY BOUNDARY VERIFIED, at the five external ledger writers and the exam:**
+
+- `LessonProduceStep`, `GuidedWritingScreen`, `WritingScreen` —
+  `Math.max(0, Math.min(1, data.score / 100))`. Correct.
+- `speakingCoach` — clamps a 0..1 rubric value. Correct.
+- `whisperClaudeScorer` — `score: overall`, where
+  `overall = computeSpeakingOverall(scores)` ends in `clamp01`. Correct, and its
+  own test file already drives the out-of-range cases.
+- `WritingTaskScreen` (the exam) — `Math.max(0, Math.min(1, raw / 100))` before
+  `onScore`, so `SkillScores` is 0..1 throughout and
+  `recordExamSkillScores(level, scores)` receives the right scale at the one path
+  that changes a learner's CEFR STANDING.
+
+**THE MOST USEFUL THING FOUND IS AN INVERSION OF MY OWN RATIONALE.** I wrote an
+assertion that the ledger does NOT clamp, reasoning that a clamp there would hide
+a mis-scale. **It does clamp** — `const score = Math.max(0, Math.min(1, ev.score))`
+— and reading that made the case for the guard stronger, not weaker: a raw 0–100
+score is silently folded in as a **PERFECT 1.0**, so nothing downstream looks
+broken and the EWMA simply reports mastery, after which that skill stops being
+offered. The backstop is right to exist; it is also exactly why a check at the
+ledger could never catch this and one at the call sites can.
+
+**THE GUARD: `masteryScoreScale.test.ts`**, and the scope decision is the whole
+design. It cannot demand `/100` (wrong for speaking) or forbid it (wrong for
+writing) — only that the value reaching the ledger is BOUNDED to 0..1 by
+something: inline (`Math.min(1, …)`, `clamp01(…)`, `/ 100`), by one hop into a
+helper whose body clamps, or by one hop through a same-file `const`. All three
+hops exist in the real corpus; an idealised two-of-three would have reported the
+compliant speaking path as a violation.
+
+**THE DEFINING MODULE IS EXCLUDED BY SCOPE, NOT BY EXEMPTION.** `masteryLedger.ts`
+has three internal wrappers whose scores are bounded SEMANTICALLY —
+`score / total` behind a `total > 0` guard, `correct ? 1 : 0`, and
+`recordExamSkillScores` forwarding a caller's `SkillScores`. A syntactic guard
+cannot check a semantic bound, so exempting them would rest on my word, which is
+the shape this file keeps finding rotten. Instead the module that DEFINES the
+contract is not treated as a consumer of it — and the scope is pinned: exactly
+three internal callers, named, so a fourth fails and gets read.
+
+**Mutation-verified, four, each confirmed landed:**
+
+| mutation                                                      | fails |
+| ------------------------------------------------------------- | ----- |
+| `GuidedWritingScreen` stops dividing by 100 (the real defect) | 1     |
+| `computeSpeakingOverall` stops clamping (the helper hop)      | 2     |
+| the call-site derivation returns `[]` (vacuity)               | 1     |
+| a fourth internal ledger caller appears                       | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- Units and encoding, which sweep 112 named alongside range and which remain
+  unchecked: seconds vs milliseconds, a date string vs an epoch, a 1–5 rubric vs
+  a 0–1 one. This guard is about ONE contract (`0..1` into the ledger).
+- A score bounded to 0..1 that is nonetheless the wrong QUANTITY — a fluency
+  score written into the accuracy cell. Bounds say nothing about meaning.
+- A producer whose own scale changes. The scales above live in PROMPT TEXT; a
+  reworded prompt saying "score 1–5" moves the version hash and nothing else,
+  and no test compares a prompt's stated range against its consumers' arithmetic.
+
+---
+
+### 114. A prompt's declared JSON is a contract — 2026-09-25 — NO DEFECTS, ratcheted
+
+Sweep 113 ended on this gap: _"the scales live in PROMPT TEXT; a reworded prompt
+saying 'score 1–5' moves the version hash and nothing else, and no test compares a
+prompt's stated range against its consumers' arithmetic."_ `contentShapeSweep`
+does exactly this for `/api/content/*`; the AI endpoints had nothing.
+
+**THE FAILURE IT PREVENTS is the `scene.qs` / `v.tip` shape on an AI boundary**:
+drop or rename a key in the prompt and every consumer's optional render simply
+goes blank — `undefined` short-circuits, no throw, no Sentry, no failing test, one
+line fewer on screen.
+
+**A BROAD CENSUS WAS ATTEMPTED FIRST AND MEASURED THE WRONG SIDE.** Extracting
+object literals from the 46 endpoint handlers yields the keys of the **Anthropic
+REQUEST** (`model`, `max_tokens`, `messages`, `system`), because these endpoints
+forward the MODEL's parsed JSON — the response shape is declared in the PROMPT,
+not in the handler. It reported 18 "unreturned field" findings, every one a false
+positive. **Start from the prompt, not the handler.** That is the fifth first-pass
+derivation of mine in this session to come back too weak, and the tell each time
+was the same: it disagreed with something already known to be true.
+
+**THE ONE BOUNDARY VERIFIED BY HAND, and it is the most-used AI contract in the
+product.** `WRITING_EVAL_PROMPT` declares seven keys — `corrected_text`, `score`,
+`level_demonstrated`, `changes`, `strengths`, `improvements`, `encouragement`.
+Six surfaces post mode `writeeval` (the exam's writing section, Guided Writing,
+`WritingScreen`, `LessonProduceStep`, AI Conversation, `GrammarExplainer`), and
+**every field any of them reads is declared** — with one dead legacy fallback,
+`data.changes || data.mistakes || []` in `WritingScreen`, where `changes` is
+declared and always present.
+
+A related check that came out clean on the way: `SPEAKING_COACH_PROMPT` declares
+no `overall` key while `speakingCoach.ts` reads `data.overall` — which looks
+exactly like this defect. `/api/speaking-coach` COMPUTES it server-side (the mean
+of the four criteria) and the client validates `typeof data.overall !== 'number'`
+before use, so a missing field is a named parse failure rather than a `NaN` into
+the ledger. Correct, and worth recording so it is not re-chased.
+
+**THE GUARD: `promptContractKeys.test.ts`**, scoped honestly. It pins (a) every
+field a consumer reads is a prompt-declared key, (b) the stated range `Score
+0-100` still appears beside the four consumers that divide by 100 — which closes
+sweep 113's gap directly — and (c) both staleness directions on the one legacy
+exemption.
+
+**SCOPE IS BY A DERIVED PROPERTY, NOT BY NAME.** `AIConversation` (4 endpoints)
+and `GrammarExplainer` (2) post `writeeval` AND call others, so their
+`data.croatian` / `data.quiz` belong to `/api/conversation` and `/api/ai-chat`;
+attributing those to the evaluator MANUFACTURES findings, which is what the first
+run did. They are excluded by "more than one `/api/` path in the file", and the
+exclusions are re-checked (each must really be multi-endpoint) so the scope cannot
+widen by a file merely dropping out of a matcher. The honest way to cover them is
+to brace-match the enclosing function of each call; a fixed character window would
+be the defect `registryMatchesScreen` and `dwellContentGate` both record.
+
+**AND MY OWN EDIT SILENTLY DID NOT LAND.** The scope fix appeared to fail twice
+because a `str.replace` search string said `return out;` where the file had
+`return out.sort();` — Python does not raise on a miss, so the file was unchanged
+and I was re-running the same code while reasoning about why the logic was wrong.
+`endpointsIn` was correct all along (measured: 4 and 2 endpoints). **This is the
+"confirm the mutation landed" rule applied to an ordinary edit**, and the cheap
+check that caught it was a `grep -c` of the new symbol before and after.
+
+**Mutation-verified, four, each confirmed landed:**
+
+| mutation                                                            | fails |
+| ------------------------------------------------------------------- | ----- |
+| the prompt drops `encouragement`, a key consumers read              | 2     |
+| the prompt's stated scale reworded to `Score 1-5` (sweep 113's gap) | 1     |
+| the scope widens to multi-endpoint files                            | 1     |
+| a stale `LEGACY_TOLERATED` entry over a declared key                | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- The other ~25 Claude prompts. This pins ONE, by hand-verified derivation; the
+  general version needs the enclosing-function walk described above.
+- A key declared by the prompt AND read by a consumer whose MEANING has drifted —
+  `level_demonstrated` changing from "B1 - Intermediate" to "B1". Presence is not
+  format.
+- A prompt whose JSON example is right and whose PROSE contradicts it. Only the
+  `{…}` block is parsed.
+
+---
+
+### 115. The legacy guest's daily challenge — 2026-09-25 — ONE REAL DEFECT, FIXED
+
+Sweep 111 left this as a deliberately sharp open question rather than a guess:
+`dcDay3` is written by nothing outside the sync layer, and the documented fallback
+`loadFromMainDoc` needs `uS.u` — **so does a signed-out learner lose the day's
+answers?** What I had not established was whether a guest's `uS` carries a `u`.
+
+**ANSWERED FROM THE CODEBASE'S OWN WORDS, in App.tsx's idle-signout comment:**
+_"LEGACY GUEST (anonymous sign-in unavailable; authUser === null, isGuest ===
+true). **sS() — the only writer of the 'uS' session record — runs solely in the
+fbUser branch**, and touchSession() is a no-op when no record exists, **so a
+legacy guest never has one.**"_
+
+So for that cohort BOTH sources were dead: no `dcDay3` (nothing writes it) and no
+fallback (no `uS.u`). **Their daily-challenge answers did not survive a reload —
+while the data sat in `uP_guest.dc` the whole time.** (**CORRECTED BY SWEEP 116 —
+read it before reasoning from this.** The daily challenge turns out to be
+VESTIGIAL: nothing can answer it and nothing renders it, so there were no answers
+to lose. The change is right; this impact claim was wrong.) Verified end to end rather
+than inferred: `App.tsx` writes `uP_<uid>` with `uid = authUser ? authUser.u :
+GUEST_UID`, and `buildProgressSnapshot` emits `dc` (line 131, from `_bestDc`). The
+state was always on disk, one key away from the function that could not find it.
+
+**THE FIX IS FOUR LINES**: `const uid = sess?.u || GUEST_UID`. Safe in the one
+direction that matters — it fires ONLY when no session record exists (nobody signed
+in), `App.tsx` removes `uP_guest` on sign-in, and the pre-existing
+`dc.day === today` check discards anything but today. Signed-in learners and
+anonymous guests (who DO have a `uS`) are byte-identical.
+
+**`GUEST_UID` NOW HAS ONE HOME, AND CHOOSING IT SURFACED A RESOLVER SPLIT.** Two
+places must agree on it, so it moved out of App.tsx into `lib/guestIdentity.ts`.
+My first attempt put it in `lib/constants/storage.js` and **`tsc` could not see
+it** — because that module is a `.ts`/`.js` PAIR whose resolvers disagree:
+TypeScript resolves `'./constants/storage.js'` to **`storage.ts`** while Vite
+bundles **`storage.js`**. `noUnreachableModules.test.ts` already records the `.ts`
+as unreachable at runtime, from the other side; what is new is that the
+typechecker reads the dead copy, and **the pair has already drifted** —
+`PLACEMENT_DECLINED` exists only in the `.js`. So a constant added there is
+bundled but invisible to `tsc`, or type-checked and never shipped. A new shared
+fact needs an unambiguous home. (The drift itself is harmless today: nothing
+imports the `.ts`, and it is already a named exemption — not re-chased.)
+
+**Mutation-verified, four, each confirmed landed:**
+
+| mutation                                                          | fails |
+| ----------------------------------------------------------------- | ----- |
+| the original bug — bail when there is no session record           | 1     |
+| the fallback ignores the session, so a stale guest blob could win | 1     |
+| the `dc.day === today` check removed                              | 1     |
+| `App.tsx` re-declares its own `GUEST_UID` literal                 | 1     |
+
+**E2E audit**: `e2e/guest.spec.js` exercises exactly this cohort (guest → app →
+`uP_guest` written → reload → restored) and asserts nothing about daily-challenge
+state; `daily-challenge-sync.spec.js` records that the `dcDay3` UI was replaced by
+QuestTracker. Greps run for `dcDay3`, `uP_guest`, `'uS'`, `guest`, `dchl`. The
+change only ADDS a restore on the guest path, so no assertion goes stale.
+
+**WHAT IS STILL NOT FIXED, and deliberately:** `dcDay3` remains written by nothing
+outside the sync layer, so its comment ("written on every answer click") is still
+false and it is still a `NO_PRODUCER` entry. Writing it on answer would be the
+other repair; this one restores the cohort that had NEITHER source, with a
+four-line change to a function that already existed for this purpose. Making the
+primary source real is a separate decision about a live screen.
+
+---
+
+### 116. CORRECTION TO SWEEP 115 — the daily challenge is VESTIGIAL, so there were no answers to lose — 2026-09-25
+
+**Sweep 115 overstated its own finding, and I am correcting it in the next sweep
+rather than leaving it to be reasoned from.** It says a legacy guest's
+"daily-challenge answers did not survive a reload", which implies a learner-visible
+loss. Measured now — which is what I should have done before writing that sentence:
+
+| question                                  | answer                                                                                                                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Can a learner ANSWER the daily challenge? | **No.** The only caller of `sDchlA` / `sDchlSl` outside plumbing is `applyRemoteProgress.ts:247-248` — the sync-DOWN path. `HomeTab` receives both and voids them (`_sDchlA`, `_sDchlSl`). |
+| Does anything RENDER the answers?         | **No.** `HomeTab.tsx:271` computes `doneCount = dchlA.filter(Boolean).length`, which feeds only `_dcOpen` — discarded on the next two lines by `void _dcOpen; void _setDcOpen;`.           |
+| Is there any daily-challenge UI at all?   | **No.** Zero matches for "Daily Challenge" in `src/components/`, and `daily-challenge-sync.spec.js` says in its header that the dcDay3 UI "was replaced by QuestTracker".                  |
+
+**The whole feature is a conduit-only loop**: the sync layer writes the state, the
+sync layer reads it, nothing produces it and nothing displays it — while
+`dchlA`/`dchlSl` are still threaded through `App.tsx`, `AppRouter`, `HomeTab`,
+`useSyncManager`, `progressSnapshot`, `applyRemoteProgress` and `AppContext`, and
+`dc` is still uploaded to Firestore on every save.
+
+**This is sweep 111's "a conduit is not a producer" at FEATURE scale**, and sweep
+111 had already listed `dcDay3` as a `NO_PRODUCER` key without my noticing that its
+whole feature was dead. The pattern generalises past single keys: a FEATURE can be a
+closed sync loop.
+
+**WHAT SWEEP 115'S CHANGE ACTUALLY DOES, stated correctly.** The code is right and
+the test is valid — `loadFromMainDoc` really did fail for a cohort it was written to
+serve, and it now reads `uP_guest.dc` — but the effect is that a **synced field
+becomes consistent for guests**, not that a learner gets anything back. Nothing
+about the UI changes. It is NOT reverted: it is correct, additive,
+mutation-verified, and makes the function do what its own comment says. Only my
+claim about its impact was wrong.
+
+**THE RULE I BROKE IS ONE I CITED IN THIS SAME SESSION** — _report what was
+OBSERVED, not the strongest claim consistent with it._ I traced the state's STORAGE
+end to end (App.tsx writes `uP_<uid>`, `buildProgressSnapshot` emits `dc`) and never
+asked the two questions that decide whether a learner is affected: **can this be
+SET, and is it SHOWN?** Tracing a write path proves data moves; it says nothing
+about anyone seeing it. Add those two questions to any finding that claims a
+learner-visible loss.
+
+**NOT REMOVED, deliberately.** Deleting the vestigial plumbing touches seven modules
+including the root component and the sync manager, for no learner-visible gain — a
+refactor, not a fix, and this repo forbids widening scope that way. Recorded here
+with the measurement so the next person deciding it is dead need not re-derive it.
+Also worth knowing: `dchlSl` is typed `boolean` in `HomeTab`'s props while it is
+`string[]` everywhere else — a type lie that costs nothing today only because the
+prop is discarded.
+
+**Nothing to mutation-verify**: this sweep adds no guard. It is a measurement and a
+correction, and the measurement is four greps a reader can re-run.
+
+---
+
+### 117. Is any OTHER feature a closed sync loop? — 2026-09-25 — NO, and the guard that would have caught the first one
+
+Sweep 116 found the daily challenge to be a closed sync loop. The obvious next
+question is whether it is the only one, and there is a bounded population to ask it
+of: **`RemoteProgressSetters`** — the six app-state setters `applyRemoteProgress`
+is handed, which is exactly the set that can go that way.
+
+**Measured: 4 of 6 have real producers, and the orphan pair is the one already
+known.**
+
+| setter               | producer outside the sync layer                                                |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `setFavs`            | `usePreferences.ts:89` — the favourites toggle                                 |
+| `setJWords`          | `AIConversation.tsx:860`, `AppRouter.tsx:3177`, `AIConversationResult.tsx:531` |
+| `setOnboarded`       | `AppModals.tsx:197`                                                            |
+| `setName`            | `WelcomeScreen.tsx:124`                                                        |
+| `sDchlA` / `sDchlSl` | **none** — sweep 116's vestigial pair                                          |
+
+So sweep 116's finding is **isolated, not systemic**, which is worth knowing before
+anyone goes looking for more dead features by hand.
+
+**THE GUARD IS THE MECHANISM THAT WAS MISSING** when the daily challenge died:
+`syncSettersHaveProducers.test.ts` derives the population from the
+`RemoteProgressSetters` interface itself and requires each name to be called by
+something that is not the sync layer, with the vestigial pair as exemptions carrying
+sweep 116's measured reason and both staleness directions.
+
+**A CLEAR IS NOT A PRODUCER, AND THAT COST A SURVIVING MUTATION TO LEARN.** The
+first version matched `name(` anywhere outside the sync layer. Gutting
+`usePreferences`'s real toggle — the ONLY thing that produces favourites — left the
+guard **green**, because `App.tsx` calls `setFavs([])` on sign-out and a wipe path
+counted as a producer. A feature could therefore lose every producer and still look
+alive. Calls whose sole argument is an empty or falsy literal are now excluded.
+
+**AND THAT CLAUSE SURVIVED ITS OWN MUTATION, WHICH IS ALSO A RESULT.** Removing the
+exclusion changes nothing on today's corpus, because the orphan test only fails at
+ZERO callers — the clause is load-bearing only JOINTLY with a lost producer, which
+is exactly what the `setFavs` mutation flipping from _surviving_ to _failing 2_
+proves. **A clause that is load-bearing only in combination still needs a test of
+its own**, so the non-vacuity block now pins it on real data: `App.tsx` must contain
+`setFavs([])` AND must not be counted among `setFavs`'s producers. With that,
+removing the exclusion fails 1.
+
+**Mutation-verified, five, each confirmed landed:**
+
+| mutation                                                           | fails |
+| ------------------------------------------------------------------ | ----- |
+| `setFavs` loses its only real producer (a feature goes vestigial)  | 2     |
+| the interface derivation returns `[]` (vacuity)                    | 2     |
+| a stale `NO_PRODUCER` entry over a setter that HAS a producer      | 1     |
+| a prop PASS counted as a call (`sDchlA={sDchlA}` would look alive) | 2     |
+| the clear-exclusion removed                                        | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a setter with a live producer whose RESULT
+nothing renders — **half of sweep 116's evidence**. "Something sets it" is
+necessary, not sufficient; `doneCount` proves a render site can exist and be dead
+(`void _dcOpen`). Covering the render half needs a different derivation, and it is
+the obvious next question on this axis. Also outside it: state that is not in
+`RemoteProgressSetters` at all — this population is the sync layer's writes, not
+every feature in the app.
+
+---
+
+### 118. Does every key the sync layer RESTORES have a consumer? — 2026-09-25 — ONE learner-visible defect, and four dead round trips
+
+Sweep 117 closed by naming what it could not see: "a setter with a live producer
+whose RESULT nothing renders — half of sweep 116's evidence." This is that half,
+asked of the other population the sync layer owns: **the 54 localStorage keys
+`applyRemoteProgress` writes back onto a device with a string literal.** Each one
+is a claim that this fact matters enough to survive a device change, so a key
+nothing reads is a round trip with no destination.
+
+**Measured: 49 of 54 have a consumer outside the sync layer. Six did not, and one
+of them was a button that saved nowhere.**
+
+**THE DEFECT: "💾 SAVE STORY" ANSWERED "✅ SAVED!" AND DISCARDED THE STORY.**
+`HeritageStoryScreen` generates the learner's heritage story from one
+`/api/ai-chat` call (mode `heritage`, their region, era, name and family notes),
+and `saveToProfile` has written it to `heritageStory` since the screen shipped.
+**Nothing has ever read that key** — not the screen's next mount, not the profile,
+nothing on any device. So the story was gone the moment the learner navigated
+away, and returning showed the empty form and cost another Claude call to
+regenerate what they had just asked the app to keep. `progressSnapshot` and
+`applyRemoteProgress` faithfully carried the key both ways, so the value was
+replicated to a second device that could not read it either.
+
+Fixed where the promise was made: the screen reads the entry on mount and opens ON
+the story, with its own region header (the entry carries `region`, so a Slavonian
+story is no longer framed in Dalmatia), its era and its name; "🔄 Generate Another"
+was already there as the way back to the form. `parts` is required rather than
+merely typed — an older-shaped entry would otherwise restore into the story phase
+and render its frame around nothing, which is a worse answer than the form.
+
+**THE RESTORE OPENED A FARM, AND CLOSING IT IS ONE LINE WITH A REASON.** The 20 XP
+and the culture quest fire once three narrative parts have been read, guarded by a
+per-mount ref — so restoring without seeding that ref would turn "open the screen,
+scroll past three parts, leave" into 20 XP on every visit for ever, with no AI
+call in the way. Before the fix, generating a story was the throttle. A restored
+story is one the learner already reached and read (the Save button is only
+reachable from the story phase), so `awardFired` starts true. The stated cost:
+someone who saved before reading three parts forgoes that one award, which is the
+safe direction.
+
+**THE OTHER FIVE ARE DEAD ROUND TRIPS, each with a measured reason**, recorded in
+the guard's `NO_CONSUMER` rather than repaired, because the data sits on real
+devices and in real Firestore documents and removing a synced field is a
+migration-shaped change, not a tidy-up:
+
+| key                               | why it is dead                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nh_last_ex` / `nh_last_ex_label` | its reader was HomeTab's "continue last activity" card, **deleted on 2026-04-25** in the HomeTab rewrite (`c1aea80d`, which removed `getLastActivity()`). The write in `App.tsx` survived — with the ~40-row label map that exists only to fill the label — and both keys have synced ever since. Superseded by `getNextStep`, which computes the recommendation instead of remembering the last screen |
+| `nh_heritage_saved`               | **has never had a reader in its entire git history.** `heritageLearner.ts` answers the question it would have answered from `nh_heritage_region` directly                                                                                                                                                                                                                                               |
+| `nh_level_quiz_passes`            | a localStorage MIRROR whose own comment says it "ensures the value survives across cold starts" — it cannot, because nothing reads it. The real value is `stats.levelQuizPasses`: merged by `mergeStatsFromRemote`, validated by `sanitizeStats`, persisted in the `uP_` blob and rendered by `LearnPath`, which gates the next level on it                                                             |
+| `nh_prestige`                     | dead in BOTH directions, and already known in one — sweep 111 put it in `deadKeyReaders`'s `NO_PRODUCER`. Nothing writes it outside the sync layer and nothing reads it: the field exists only to be snapshotted and restored                                                                                                                                                                           |
+
+**A CONDUIT IS NOT A CONSUMER** — the twin of sweep 111's "a conduit is not a
+producer", and `nh_heritage_saved` is the sharpest instance in this file. An
+earlier sweep found that field's snapshot predicate wrong (`WelcomeScreen` writes
+`'true'`, the snapshot demanded `'1'`, so the flag could never sync), fixed it, and
+pinned it with `snapshotPredicatesReachable.test.ts`. That work was correct and the
+flag has no reader. **Verifying that data MOVES is not verifying that anything USES
+it**, and from inside a sync test the two questions are indistinguishable.
+
+**THE CONSTANT HOP IS THE WHOLE DIFFERENCE between a signal and a flood.** The
+first derivation matched a read call on the key LITERAL and reported **sixteen**
+keys, fourteen of them false: this codebase reads a key through a named constant —
+`const SOUND_KEY = 'nh_sound_enabled'` … `lsGet(SOUND_KEY)` — in `soundSettings`,
+`appUtils`, `streak`, `EasterScreen` and more. A list that is 87% noise is a list
+nobody reads twice, which is the 123-false-positive lesson arriving on a guard
+instead of a lint. Following one binding hop took it to six, all six confirmed by
+hand before anything was written. The clause is pinned on real data
+(`nh_sound_enabled` must resolve through `soundSettings.ts`), because dropping it
+fails three tests rather than none.
+
+**The positive control came from real data too, twice over.** The derivation
+reports `nh_prestige` — a key sweep 111 had ALREADY established as dead — which is
+the check that the tool finds a known member before its other answers are believed.
+And the guard's own control removes `HeritageStoryScreen` from the corpus and
+requires `heritageStory` to be reported again, so the assertion is about the READER
+and not about the key existing.
+
+**Mutation-verified, six, each confirmed landed:**
+
+| mutation                                                   | fails |
+| ---------------------------------------------------------- | ----- |
+| the fix reverted (the screen ignores the saved key)        | 6     |
+| the population derivation returns `[]` (vacuity)           | 2     |
+| a stale `NO_CONSUMER` entry over a key that HAS a consumer | 1     |
+| the constant hop dropped (literal reads only)              | 3     |
+| a WRITE counted as a use (`READ` admits `setItem`/`lsSet`) | 1     |
+| `awardFired` back to `false` (a restored story pays again) | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a key with a real READ whose value changes
+nothing a learner meets — a read into a variable that is then discarded satisfies
+this definition and is dead in fact, which is exactly `doneCount` → `void _dcOpen`
+(sweep 116). It also sees only the keys restored with a string LITERAL: the ones
+built from a constant or a template (`CUSTOM_WORDS_KEY`, `nh_ceremony_${k}`) are
+outside the population, and so is everything the sync layer carries inside the
+`stats` blob rather than as its own key.
+
+---
+
+### 119. What does the app compute and then throw away? — 2026-09-25 — ONE unconditional credit, and eight dead computations on the Home render
+
+`void x;` is how this codebase silences the unused-variable rule, and it is worth a
+census for a reason nothing else in this file has: **two of its members had already
+produced real defects before anyone looked at it as a class.** `void _questXP` was
+HomeTab summing the XP printed on every daily-quest card and discarding it — not one
+quest had ever been paid (fixed 2026-09-14). `void _dcOpen` was the daily challenge,
+state threaded through seven modules and uploaded to Firestore with no producer and
+no UI (sweep 116). So the population is small (25 standalone `void <ident>;`
+statements, all hand-readable) and has a 2-for-25 hit rate before this sweep.
+
+**THE DEFECT: `void total; // suppress unused warning` WAS A LESSON GATE THAT NEVER
+RAN.** `MicroLessonScreen`'s results effect computed its quiz length, discarded it,
+and then paid XP, marked the grammar quest and incremented `gc` — **on any score,
+zero of three correct included.** `gc` feeds the CEFR score (`xp + lc*15 + gc*25`)
+and the Learn Path stage, so a learner who got every question in their own weak-word
+review wrong still advanced their measured level (NEVER-DO 14). The sibling screen
+`ImpersonalScreen`, whose quiz has the identical shape, routes through
+`completeLesson` and is gated at the shared 75%. The screen is in `PRODUCTION_POOL`
+at A2+ with `award` wired, so every learner from A2 up can be served it.
+
+The results card made the same claim one layer up: **"XP Earned +10" over a 0-of-3
+answer sheet**, with the heading "Odlično!" at 2 of 3 — a failing score under that
+rule. Both now follow `passed`, and the failing card states the bar it missed.
+
+**THE SESSION SIGNAL IS WHY THIS IS NOT A ONE-LINE CHANGE.** The pool entry for this
+screen says "awards on results" — `award()` is what writes `nh_session_completed` —
+so gating the award alone would strand a session-launched micro-lesson at N-1/N on
+every failed attempt. `signalSessionCompleteIfActive('micro_lesson')` now fires
+BEFORE the gate: Today's Session is a practice FLOW, credit is gated, the flow is
+not. That is the AnimatedLesson rule (2026-09-07) arriving at the one lesson screen
+that never joined the completion authority — there is no `micro_lesson` row in
+`exerciseRegistry` at all.
+
+**THE STATED COST: on a three-item quiz the shared 75% admits no slips**
+(`Math.ceil(3 × 0.75) = 3`), and `/api/micro-lesson` asks the model for exactly three
+questions. That is strict, and it is what every other gated lesson in the app already
+does; inventing a second threshold for this one screen is the thing this file keeps
+recording as the mistake. The card now SAYS "3 of 3 needed to log this lesson."
+rather than leaving the learner to infer it. The honest alternative is CONTENT — a
+four-to-six-item quiz, where one slip survives — and that is a prompt change with a
+`max_tokens` ceiling and a truncation risk, so it is recorded here rather than bundled
+into a credit fix.
+
+**THE OTHER HALF OF THE CENSUS: A DISCARDED PROP IS AN UNUSED PARAMETER; A DISCARDED
+LOCAL IS WORK DONE FOR NOTHING.** That distinction partitions the population exactly
+along the benign/dangerous line, and every finding sits on the LOCAL side. HomeTab's
+block carried the comment "Suppress unused variable warnings for props kept for API
+compatibility" over fourteen names, and it described **neither** of the two things it
+claimed:
+
+- **Three were not unused.** `pathData`, `currentDayIdx` and `allQuestsDone` are all
+  live in that file, so the block asserted something false about itself — and the
+  genuinely dead names sat inside it unread. Voids removed; eslint is the proof they
+  were redundant (it would error if they were not).
+- **Four were not props.** `dc = getDailyChallenge()`, `ws = getWeekStats()`,
+  `weekXP = getWeekXP()` and `userGoal` are LOCAL computations, memoised on `st` and
+  discarded — the residue of the same 2026-04-25 "remove 12 sections" HomeTab rewrite
+  that deleted `nh_last_ex`'s reader (sweep 118). Deleted, with the imports and the
+  local `getWeekXP` helper that went unused with them. `weekXP` was a duplicate
+  besides: the same key is read live 100 lines further down.
+- `_questXP` went the same way — App.tsx has paid daily-quest XP since 2026-09-14, so
+  HomeTab's sum was the fixed bug's residue.
+- **`activeCampaign` / `activePalette` / the `SEASONAL_CAMPAIGNS` memo are gone**, and
+  what they were for is worth recording: `CampaignBanner` was deleted from HomeTab in
+  that same commit. The campaign's 1.5× XP multiplier is still LIVE through
+  `useAward` → `getActiveCampaign`, and its authored name, icon, colours, blurb and
+  quests still ship in `/api/content/core` — so **during a campaign window the learner
+  earns 1.5× and is never told why.** That is not repaired here: removing the banner
+  was a deliberate owner decision (twelve sections went), and re-adding a Home section
+  runs against it. Stated so the next person decides it rather than rediscovers it.
+
+**THE GUARD: `discardedLocals.test.ts`** derives every standalone `void <ident>;`
+under `src/`, classifies each as a local declaration (`const`/`let`/`var`, plain or
+destructured — which covers `const [a, setA] = useState(…)`) or a prop/parameter, and
+requires every LOCAL to carry a reason. After the cleanup the population is 14 and the
+exemption list is **two** entries: sweep 116's `_dcOpen`/`_setDcOpen`, whose reason is
+already measured. It also refuses a `void` on a name the file uses elsewhere, which is
+the `pathData` shape.
+
+**The classifier took three passes, and each earlier one was wrong in a way that read
+as a clean result.** Counting occurrences and subtracting a fixed baseline ("a
+declaration plus the void") flagged every prop, because a prop appears in its type
+AND its destructuring. Stripping declaration-shaped LINES then missed three cases
+where the declaration is inline — a one-line `type X = { … }`, a destructured
+parameter list, and a typed function parameter. The fix was to probe the real corpus
+and print what it thought was a use, not to re-read the regex: the last version
+reported exactly one remaining "use" and it was `stats?: Record<string, any>` inside a
+single-line type alias. **Known limit, stated: a shorthand property in a CALL
+(`f({ stats })`) reads as a field and is missed — the safe direction, since the check
+can fail to report a redundant `void` but never invent one.**
+
+**Mutation-verified, eight, each confirmed landed:**
+
+| mutation                                                             | fails |
+| -------------------------------------------------------------------- | ----- |
+| the micro-lesson gate removed (credit on any score)                  | 2     |
+| the session signal removed from the results effect (strands the day) | 1     |
+| the results card claims XP again                                     | 2     |
+| the heading ignores `passed` ("Odlično!" on a fail)                  | 1     |
+| a computed-and-discarded local returns                               | 1     |
+| a `void` on a name the file uses (the historical `pathData` lie)     | 2     |
+| the local/prop classifier never says local (vacuity)                 | 3     |
+| a stale `DISCARDED_LOCALS` entry                                     | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a value that is computed, USED, and whose use
+changes nothing a learner meets — `void` marks only the values whose discard someone
+had to silence. A dead computation assigned into a state setter, passed to a child that
+ignores it, or written to a key nothing reads (sweep 118) leaves no `void` behind. And
+the census is of standalone `void x;` statements only: `void someCall()` is the
+fire-and-forget promise idiom and is a different thing.
+
+---
+
+### 120. The other ~25 Claude prompts — 2026-09-25 — SEVENTEEN endpoints were outside the shared parser, and the rule said none may be
+
+Sweep 114 pinned ONE prompt's declared JSON against its consumers and left its own
+next step written down: generalise it, and **measure the cheap scope before building
+the expensive walk**. Measured — and the measurement sent the sweep somewhere else.
+
+**COVERAGE OF THE CHEAP SCOPE: 13 of 33 prompts** (a prompt id maps to its
+endpoint; a client file counts as attributable when it mentions that path, matches
+the `mode:` for a multi-mode endpoint, and mentions exactly ONE `/api/` path).
+Seven candidate findings, and **every one is a non-defect** — which is the result,
+because of what they have in common.
+
+**THERE ARE TWO CONTRACTS, NOT ONE, AND SWEEP 114 PINNED ACROSS BOTH.** The prompt's
+declared JSON is the contract between the endpoint and the MODEL. What a client reads
+is the contract between the endpoint and the CLIENT — and most of these endpoints do
+not forward the parsed object:
+
+| endpoint               | what the client actually receives                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------------- |
+| `/api/assess-speaking` | the rubric's four keys NESTED under `scores`, plus `transcript` and `transcriptSufficiency` |
+| `/api/speaking-coach`  | a reshape: `{scores, overall, errors, advice, encouragement}`                               |
+| `/api/listening`       | a rebuilt `response` object assembled field by field from `parsed`                          |
+| `/api/ai-chat`         | `{...parsed, _raw, model}` on a parse, `{text, model}` on a failure                         |
+| `/api/correct`         | the parsed object verbatim — which is why sweep 114 worked                                  |
+
+So `data.overall`, `data.scores`, `data.transcript`, `data.transcriptSufficiency` and
+`data.text` are ENVELOPE fields, correctly read; `.mistakes` is sweep 114's own
+recorded legacy arm; and `StoryViewPanel`'s `data.text` is tolerance for ai-chat's
+documented parse-failure shape. **A prompt-key check is only valid for an endpoint
+that forwards `parsed` verbatim**, and nothing said which those are.
+
+**ASKING THE OTHER SIDE — the model→server contract — FOUND THE DEFECT.** CLAUDE.md
+states it without qualification: _"NEVER parse a model reply with a private fence
+regex or a bare `JSON.parse` (use `parseModelJson`)"_. Measured across the 24 Claude
+callers: **7 used the shared parser and 17 did not.** Every one of the 17 carried its
+own
+
+````js
+.replace(/^```(?:json)?\s*/i, '')
+.replace(/\s*```$/, '')
+JSON.parse(cleaned)
+````
+
+That is every AI surface except the feedback path: the micro-lesson, AI Listening,
+Maja, the news simplifier, Story / Heritage / Postcard / Phrase-of-the-Day through
+`ai-chat`, the daily culture card, the live-tutor summary, `srs-sync`, the daily
+plan, adaptive insights, flash-context, vocab-expand, photo-vocab, the conversation
+stream (two sites) and the conversational tutor.
+
+**A FENCE STRIP IS NOT THE SAME TOLERANCE, and the difference is the exact shape the
+original report was about.** `parseModelJson` tries the raw text, then the
+fence-stripped text, **then the outermost `{…}`/`[…]` span** — so it is the only one
+of the two that recovers `Here is the lesson:\n{…}` or a trailing "Let me know!".
+Each of the 17 answered such a reply with a 502 and a named parse error, which the
+learner reads as the feature being unavailable. `_modelJson.js`'s own header names
+that case in its first paragraph; seventeen endpoints simply never adopted it.
+
+**TWO OF THEM SAID SO IN THEIR OWN COMMENTS**, which is the `wrangler.toml` shape
+again: `news.js` called its private strip "the same guard every other AI endpoint
+applies" (true of the fence, false of the parser), and `ai-chat.js` recorded that a
+fenced object had once fallen through to `{ text }` so "the postcard client silently
+showed the user's UNCORRECTED text". Both comments describe adopting a mechanism
+weaker than the one that already existed.
+
+**WHY THE GUARD DID NOT SAY.** `modelJson.test.js` demanded the shared parser from a
+HAND-WRITTEN LIST OF SEVEN — the feedback endpoints the 2026-09-07 census was about —
+and computed the full 24-caller list only to check those seven were still live. The
+rule is general; the guard was a list, and the list was never meant to cover the
+rest. That is this file's most-repeated lesson landing on the rule's own enforcement:
+**a guard that covers most of a thing reads exactly like a guard that covers the
+thing.**
+
+**THE FIX AND THE MECHANISM.** All 17 sites route through `parseModelJson(raw)`, each
+catch-based error path becoming `if (!parsed) { …the same named error… }` so every
+502 code, log line and validation that followed is unchanged; `ai-chat` additionally
+gains a real improvement from the parser's object requirement — a bare `"hello"`
+reply used to `JSON.parse` fine and spread into `{0:'h',1:'e',…}`, and now falls to
+the `{ text }` branch as intended. The guard's seven-name list is REPLACED by a
+derivation over every Claude caller: no private fence regex anywhere, and every
+caller either uses the shared parser or carries a reason. **One exemption**,
+`dialogue.js` — its reply is the NPC's free-text Croatian line, its prompt declares
+no JSON example (asserted as the positive half of the reason), and its two
+`JSON.parse` calls are the Anthropic envelope every caller parses.
+
+**A STALE SOURCE PIN MOVED WITH IT.** `news-c2-mode.test.ts` asserted the private
+regex BY NAME plus `JSON.parse(cleaned)` — a test demanding the defect, written when
+news.js's fence strip was itself the fix. It now pins the shared parser and the
+ABSENCE of a private strip.
+
+**Mutation-verified, seven, each confirmed landed:**
+
+| mutation                                                                       | fails |
+| ------------------------------------------------------------------------------ | ----- |
+| one endpoint back to a private fence regex                                     | 2     |
+| one endpoint loses the import and the call                                     | 1     |
+| a stale `NO_MODEL_JSON` entry over an endpoint that uses the parser            | 1     |
+| the caller census returns `[]` (vacuity)                                       | 2     |
+| the call replaced, its name left in a comment as `parseModelJson(raw)`         | 1     |
+| — the same mutation with comments UNSTRIPPED                                   | **0** |
+| a `writeeval` surface gains a query-string second endpoint (sweep 114's scope) | 3     |
+
+**THE COMMENT STRIP IS PROVED, NOT ASSUMED.** These files now explain themselves in
+prose that NAMES the parser, so `// was: parseModelJson(raw)` is a live hazard: with
+the strip the mutation fails 1, without it the suite is **12/12 green**. That is
+`speakingCoach.ts`'s header comment satisfying a writer check, in a file edited the
+day after that lesson was re-read.
+
+**AND SWEEP 114'S OWN ATTRIBUTION MATCHER HAD A LATENT HOLE.** `endpointsIn` required
+a closing quote right after the path, so a second endpoint reached through a template
+literal with a query string — `` `/api/news?level=${level}` `` — was invisible, and a
+multi-endpoint file would read as attributable with every key of that OTHER response
+reported against the writing evaluator. Measured: the strict form undercounts in **3
+of the 52** client files that mention `/api/`, and **none of them is a `writeeval`
+surface** — latent, a ratchet rather than a save. Fixed; with the strict matcher the
+mutation above passes 4/4 and with the wide one the guard NOTICES (3 failures, one of
+them its own scope pin).
+
+**MY PROMPT→ENDPOINT MAPPING REPORTED 11/33 BEFORE IT REPORTED 13, AND THE TELL WAS A
+KNOWN MEMBER.** The first version derived the endpoint path from the prompt's
+DEFINING FILE, so every prompt in `_evalPrompts.js` mapped to `/api/_evalPrompts` and
+resolved to nothing — including `writing-eval`, which sweep 114 had already pinned
+against four consumers. Fifth time this session a derivation reported a small clean
+number while being unfinished, and the fifth time the check that caught it was: name
+a member you already know about and confirm the tool reports it.
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** the 20 prompts with no attributable client
+consumer — 14 `ai-chat` modes behind one path, the Maja personas, `conversation`,
+`news`, and the server-only pair (`speaking-rubric`, `writing-eval` are consumed by
+their endpoints, not by screens). Covering them needs the SECOND contract stated
+above: compare each endpoint's own RESPONSE literal to what its clients read, with
+the prompt keys used only for the endpoint's `parsed.*` reads. That is the shape of
+the next sweep on this axis, and it is now measurable rather than guessed.
+
+---
+
+### 121. The server→client half of an AI endpoint's contract — 2026-09-25 — NEGATIVE, and the guard that finds it was decorative twice before it worked
+
+Sweep 120 ended by naming the shape of this one: compare each endpoint's own RESPONSE
+to what its clients read, because the prompt's keys are the wrong side for a
+reshaping endpoint. The failure this asks about is the `scene.qs` / `v.tip` class on
+an AI boundary — a client reading a field the endpoint never sends, where `undefined`
+short-circuits the optional render, the card is one line shorter, and nothing throws.
+
+**Measured: 31 attributable client files across 20 endpoints, and the contract
+HOLDS.** Five candidates, every one a non-defect: `.speakers` and `.narrator` (the
+derivation's own gap — see below), `.message`/`.text` on `/api/maja` and `.mistakes`
+on `/api/correct` (tolerant fallback arms whose FIRST arm the endpoint always sends),
+and `.size` (a Blob member, not a response field). So this is a **ratchet, not a
+save**, and it is worth saying that plainly.
+
+**The coverage is nearly three times sweep 120's** — 31 client files against 13
+prompts — because attribution by ENDPOINT admits the fourteen `ai-chat` modes, the
+Maja personas and the news simplifier, all of which a prompt-keyed derivation had to
+skip.
+
+**THE GUARD WAS DECORATIVE TWICE, AND ONLY MUTATION SAID SO.**
+
+1. **A response object is not only its literal.** `/api/listening` builds
+   `const response = { title, en_summary, questions, vocab, level, topic, style }` and
+   then, conditionally on style, assigns `response.speakers = …` or
+   `response.narrator = …` AFTER it. Reading the literal alone reported both AI
+   Listening surfaces as broken. The clause that follows `x.key = …` assignments on a
+   returned local is pinned by its own positive control, because without it the guard
+   manufactures two findings on correct code — the direction that gets a guard
+   ignored.
+2. **The read set missed almost every real read, and the suite was GREEN.** The
+   headline mutation — renaming `en_summary` on the endpoint while `AIListeningScreen`
+   still reads it — **passed 4/4**. Nearly every screen does
+   `const data = await res.json()` and then `setContent(data)`, reading fields later
+   as `content.en_summary`, so following only the `.json()` variable sees nothing.
+   `fieldsRead` now takes ONE HOP through the state setter (`setX(data)` → the
+   `const [x, setX] = useState` name) and through `ref.current = data`. With the hop
+   the same mutation fails 1 and NAMES the file and the field; with the hop removed
+   and the rename still applied it is 4/4 green again. **That pair is the whole
+   evidence that the hop is the guard** — the same one-binding-hop that made sweep
+   118's constant lookup work.
+
+**A RESHAPING ENDPOINT MUST NOT INHERIT ITS PROMPT'S KEYS**, and that is asserted
+rather than assumed: `/api/speaking-coach` nests the rubric under `scores`, so
+`fluency` is NOT on the wire and the guard must say so. The prompt's keys are unioned
+in only where the endpoint SPREADS or FORWARDS the parsed object whole
+(`{...parsed, _raw, model}` in `ai-chat`, `new Response(JSON.stringify(result))` in
+`correct`) — which is the one case where the two contracts genuinely coincide, and
+sweep 120 recorded that it is the exception, not the rule.
+
+**Mutation-verified, four, each confirmed landed:**
+
+| mutation                                                                  | fails |
+| ------------------------------------------------------------------------- | ----- |
+| an endpoint renames a field its client reads (`en_summary` → `enSummary`) | 1     |
+| — the same rename with the state hop removed                              | **0** |
+| the post-hoc assignment clause removed (two false findings appear)        | 3     |
+| `attributable()` returns `[]` (vacuity)                                   | 2     |
+| a stale `TOLERATED` entry over a field the endpoint DOES send             | 1     |
+
+**WHAT THIS SWEEP CANNOT SEE, stated:** a client file that calls two endpoints (still
+unattributable — the brace-matched enclosing-function walk sweep 114 described is
+still the only honest answer there); a field read through a DESTRUCTURE
+(`const { title } = data`) or two hops of state; and the shape of a value, as opposed
+to its presence — an endpoint that starts sending `vocab` as an object of objects
+rather than an array of `{hr,en}` satisfies every assertion here. That last one is
+`contentShapeSweep`'s question asked of the AI boundary, and it needs a RENDERING
+test, not a source derivation.
+
+---
+
+### 122. Units and encoding — 2026-09-25 — NEGATIVE, because the NAME is the mechanism; one guard kept where the name was absent
+
+Sweep 113 closed on this gap by name: "units and encoding (seconds vs ms, a 1–5
+rubric vs 0–1) are outside both tools". Asked properly, and the answer is a negative
+with a reason that is worth more than the result.
+
+**49 unit-named constants, every use consistent with the name.** `_MS`, `_SECONDS`,
+`_MINUTES`, `_HOURS`, `_DAYS` — read every use of all 49: `BACKUP_JUDGEMENT_DAYS *
+86400000`, `COOLDOWN_DAYS * 24 * 60 * 60 * 1000`, `PUSH_RUN_TTL_SECONDS / (24 * 60 *
+60)`, `PUSH_RUN_STALE_MINUTES` against an age already in minutes. Not one conversion
+is wrong. **The name is the mechanism**: a constant that states its unit makes the
+author do the arithmetic at the call site, and it did, 49 times out of 49.
+
+**THE UNNAMED SIDE CANNOT BE GUARDED BY NAME, and measuring that is the finding.**
+Derived over every field written as `Date.now()` (35 fields), `localDateStr()` (7) and
+`new Date().toISOString()` (6): **five names carry more than one unit** — `at`, `date`,
+`last`, `savedAt`, `ts`. Every one is a COLLISION between unrelated objects, not a
+mismatch: `progressSnapshot`'s `savedAt` is ms while `HeritageStoryScreen`'s entry is
+ISO; `lessonRetention`'s `last` is ms while `useHeroRewards`'s `uStreak.last` is a date
+string. So a name-based guard here would be noise — the 123-false-positive shape — and
+the mechanism that actually covers the typed objects already exists: TypeScript. The
+uncovered surface is `JSON.parse` results typed `any`, and closing that is a migration
+task, not a ratchet.
+
+**The one thread that could have been live was hand-checked and is consistent.**
+`uStreak.last` is written as a date string by `useHeroRewards` while `srs.ts`,
+`GradMap` and `push-send` do arithmetic on THEIR own `last`; every reader of the streak
+object treats it as a date string (`=== yesterday`, `new Date(s.last + 'T00:00:00')`).
+
+**WHERE A NAME WAS MISSING, A GUARD IS KEPT.** Cloudflare KV's `expirationTtl` is in
+SECONDS and nothing said so: 24 arguments, all correct today, and **one constant whose
+name did not state its unit** — `WEEKLY_TTL` in `backup-mine.js` (90 days in seconds,
+correctly). Renamed `WEEKLY_TTL_SECONDS`, because the name is the mechanism this whole
+class rests on, and `kvTtlUnits.test.js` now requires every TTL argument to be
+seconds-valued ON ITS FACE: numeric-literal arithmetic a reader can check, or an
+identifier that states seconds. **The failure is silent and expensive in one
+direction**: a `_DAYS` value there turns the 90-day TTS audio cache into a 90-SECOND
+one, so `/api/tts` regenerates nearly every phrase — real money against the $10/month
+ceiling, and the audio still plays, so nothing looks wrong. CLAUDE.md's AI-cost layer 6
+rests on that cache, so its 90 days is pinned by value too.
+
+**A TERNARY'S CONDITION CARRIES NO UNIT, and the first predicate reported one.**
+`_middleware`'s `contaminated ? OBS_INCIDENT_TTL_S : OBS_SAMPLE_TTL_S` failed because
+`contaminated` is not seconds-named — a false finding on correct code, caught before
+shipping, and both arms are checked while the condition is not.
+
+**Mutation-verified, four, each confirmed landed:** the TTS cache passed a `_DAYS`
+value (fails 2), the census returns `[]` (1), the predicate always true (1), the TTS
+TTL silently halved (1).
+
+**WHAT THIS CANNOT SEE, stated:** a unit error inside one object's own lifetime where
+the name is honest and the arithmetic is wrong by a factor the reader accepts (30 days
+written as `30 * 24 * 60 * 1000` — minutes, not hours); and the RUBRIC half of sweep
+113's gap, which is not a unit but a SCALE on an un-named number (a 1–5 grade read as
+0–1). The score-scale half is already pinned by `masteryScoreScale`; the remaining
+un-named scales are not enumerable from source.
+
+---
+
+### 123. The server→client AI contract, widened three ways — 2026-09-25 — NEGATIVE on the app, one live defect in the GUARD
+
+Sweep 121 shipped `aiResponseContract.test.ts` and recorded three gaps. This sweep
+measured all three before touching anything, widened the guard to cover them, and
+found **no new defect in the app** — while finding one in the guard itself, in the
+dangerous direction.
+
+**(a) MULTI-ENDPOINT CLIENT FILES WERE SKIPPED OUTRIGHT — and they are the
+AI-heaviest screens in the product.** `attributable()` bailed on `paths.size !== 1`,
+which excluded **ten** files: `LiveTutorScreen` (4 endpoints), `AIConversation` (4),
+`MajaScreen`, `CroatianNewsScreen`, `GrammarExplainer`, `PronunciationScorer`,
+`VideoLessonScreen`, `Flashcards`, `PhraseOfDayScreen`, `pushNotifications`. Ten of
+forty-one, ~24% of the client surface, covered by nothing.
+
+They are now compared against the **UNION** of their endpoints' keys, and the choice
+of the union over per-handler attribution is the finding worth keeping. Per-handler
+scoping needs the brace-matched enclosing function sweep 114 described, which needs a
+string-and-regex-aware scanner over TSX — and one was written: **it reported 4 of these
+10 files unbalanced on its first run and 99 of 969 across the tree.** JSX `</div>`
+reads as a regex start; a `'` inside `/["'()[\]]/g` opens a string that swallows to the
+next apostrophe; adding regex awareness fixed four files and broke two that had been
+right. The balance self-check (does depth return to 0 at EOF) is what made each of
+those visible, and it is why the scanner was abandoned rather than shipped: **a guard
+built on a fragile parser is the decorative-guard failure this project keeps
+rediscovering.** The union is weaker and cannot manufacture a finding — stated in the
+guard: it cannot see a field sent by endpoint A read off B's response inside one file,
+but it does catch the `v.tip` class, a field NO endpoint in the file sends, which is
+the failure that has actually shipped.
+
+**(b) A DESTRUCTURED READ WAS NO READ AT ALL.** `const { imageUrl } = await r.json()`
+binds no name the read loop could follow, so the whole file's contract was satisfied
+vacuously. **Measured before extending anything: FIVE such reads in the entire client
+tree** — `flux-generate`'s two (`Flashcards`, `StoryScreens`), `/api/ai-chat`'s `text`
+in `GrammarReader`, `/api/server-time`'s `ts` in `dateUtils`, and one off a Firestore
+document in `firebase.ts` that is not an API response at all. Every one correct. Say
+that plainly: a ratchet, not a save.
+
+**(c) A TEMPLATE-PREFIXED PATH WAS NOT A PATH.** `WIDE` required a quote immediately
+before `/api/`, so `` `${apiBase}/api/server-time` `` was invisible and two files
+(`dateUtils`, `errorReporter`) reached no endpoint at all. Measured: 5 files whose
+endpoint the quote-only form missed, 2 real code and 3 trailing comments. **This
+widening SURVIVED its own first mutation** — 41 subjects still cleared the ≥40 floor —
+so `dateUtils` is now pinned BY NAME. A clause that survives its mutation without a
+control exercising it is decoration, and that rule earned its keep again here.
+
+**THE LIVE DEFECT WAS IN `strip`, AND IT IS SWEEP 72's CLASS IN THE PLACE SWEEP 72
+DELIBERATELY LEFT.** `commentStripOrder.test.ts` records the decision not to
+consolidate the strippers because "20 uses strip WHOLE-LINE comments only …, leaving a
+trailing `// note` after code intact" — documented as a SEMANTIC difference and never
+measured as a RISK. Here it is a risk: `keysOf` runs on `ok({`, so an endpoint line
+reading `foo(); // ok({ neverSent })` credits the endpoint with a key it does not send
+and **turns a real finding into a pass**. Proven on real files, not argued: with the
+phantom credit in `functions/api/maja.js` and the read in `MajaScreen.tsx`, the
+hardened strip fails 1 test and NAMES the field, the old one passes all 9 and never
+mentions it.
+
+- The fix keeps sweep 72's ordering — line comments FIRST, blocks LAST — because
+  reversing it (which my first draft did) re-opens the runaway-block hole, and
+  `commentStripOrder.test.ts` caught that within one run. **The ratchet works.**
+- The trailing pass refuses any comment whose body contains `*/`, so a one-line
+  `/* a // b */` keeps its own terminator instead of being truncated into a runaway.
+  Measured across `src/`, `functions/` and `scripts/`: **zero** such one-line block
+  comments exist today, so this is belt-and-braces — and it is pinned by a control
+  either way.
+- **The class is LATENT everywhere else, measured rather than assumed.** Across the
+  symbols the other guards match (`recordMasteryEvent`, `completeExercise`,
+  `parseModelJson`, `poolLaunchBlock`, `levelledBank`, `clickable`, `markQuest`,
+  `award`, …), only **two** trailing comments in the whole tree mention one, both as
+  English prose and neither as a call; and **zero** trailing comments in
+  `functions/api/*.js` spell `ok({` or `JSON.stringify({`. So the hole was live only
+  where `keysOf` reads an object literal.
+
+**Two false findings removed, both pinned by real data** (each fails 1 test if the
+exclusion is dropped, so neither is a guess): `resetAt` rides the SHARED 429 envelope
+`requireAuthedAI` sends (`daily_quota_exceeded` / the budget pause) and is read inside
+`if (!res.ok)` — the same channel as `error`, never a 200 field; and `getReader` is a
+ReadableStream member reached through a **name collision**, because `MajaScreen`
+declares `const body = await res.clone().json()` for the error code AND streams with
+`res.body.getReader()`, so the tracked name `body` picks up `.getReader`.
+
+**MEASURED, before and after:** 31 subjects / 20 endpoints → **43 subjects / 33
+endpoints**, and the only candidates are the three fallback arms already in
+`TOLERATED`. The contract holds.
+
+**Mutation-verified, nine, each confirmed landed:** multi-endpoint files skipped again
+(fails 1), the destructure clause removed (1), the trailing-comment pass removed (1),
+`WIDE` back to quote-only (1), `resetAt` un-ignored (1), `getReader` un-ignored (1), a
+multi-endpoint client reading a field no endpoint sends (1, and it NAMES the field), the
+same with the endpoint crediting it in a trailing comment under the hardened strip (1,
+still named), and **the same with the trailing pass removed — 0 failed and the field
+never named, which is the defect.**
+
+**A TOOL NOTE THAT COST A WRONG ANSWER.** `npx vitest run` WITHOUT `--reporter=verbose`
+prints nothing from `console.log`. My first destructure census printed zero lines and I
+read that as zero instances; it was zero OUTPUT. The count was only settled because a
+`grep` over the tree independently found the two `flux-generate` reads and disagreed
+with the probe. **A probe that prints nothing has not measured zero** — check the
+harness prints before reading its silence, which is this file's own "a missing mechanism
+and a passing mechanism look identical from outside", landing on a reporter flag.
+
+**WHAT THIS STILL CANNOT SEE, stated:** inside a multi-endpoint file, a field sent by
+one of its endpoints and read off another's response (the union's price, paid
+deliberately); the SHAPE of a field as opposed to its presence (a `string` where the
+client maps an array — needs a rendering test, and that gap is unchanged from sweep
+121); and a read reached through two hops of state or a helper's parameter.
+
+---
+
+### 124. A zero denominator — 2026-09-25 — NEGATIVE on the app, one latent hole in the backstop 47 sites depend on
+
+The question nobody had asked: **`0 / 0` is `NaN`, and this app computes a
+percentage or an XP amount from a division on 81 lines.** Sweep 106 asked whether
+a credit can fire at `0 >= 0`; sweeps 101/102 asked whether a count can be a
+claim about an unarrived payload. Neither asked what the ARITHMETIC does when the
+denominator is zero — `NaN%` on screen, or a `NaN` folded into a measurement.
+
+**THE APP IS CLEAN, and it took resolving every denominator to say so.** 81
+candidate lines (a division on a line mentioning xp/score/pct/rate/percent); 47
+with no guard on their own line and no earlier mention of the denominator in a
+guard shape. Every one of those 47 was resolved one level and read:
+
+- most are `const total = SOME_STATIC_BANK.length` — `bjQ`, `cjQ`, `czQ`, `pfQ`,
+  `m7q`, `tnQ`, `quizQs`, `PITCH_ACCENT`, `MAP_REGIONS`, `FREQUENCY_500`, the
+  `LEVELS` reduce — which cannot be zero;
+- `LearningInsights`'s `maxXP` ends `, 1)` inside `Math.max`;
+- `ClozeEngine`'s topic filter returns the WHOLE bank when the filtered subset is
+  thin, so `questions.length` is never 0;
+- `CefrTest` returns its level picker (`if (!levelKey)`) above the results view,
+  after which `activeQuestions` is that level's static bank;
+- `RetentionCheckScreen` returns on `queue.length === 0` ABOVE its `done` branch —
+  which is the one place a genuinely-empty queue is routine;
+- `ReadingScreen`'s award sits inside `{rph === 'quiz' && rp.qs[rqi] && (…)}`, so
+  a passage with no questions renders no quiz and reaches no award;
+- `GrammarScreen` already writes `(gl?.qs?.length ?? 1) > 0 ? … : 0` at its other
+  percentage site;
+- `masteryLedger`'s `score / total` sits behind `total <= 0` return.
+
+So the class holds — on **47 separate reachability arguments**, each true for its
+own reason. That is the finding worth recording, and it is what made the next
+paragraph worth doing.
+
+**THE REAL HOLE IS IN THE BACKSTOP: A CLAMP BOUNDS THE RANGE AND NOT THE
+FINITENESS.** `recordMasteryEvent` opens
+`const score = Math.max(0, Math.min(1, ev.score))`, which CLAUDE.md records as
+the reason a mis-scaled score is harmless (sweep 113: a raw 0–100 folds in as a
+perfect 1.0, "the backstop is right"). `Math.max(0, Math.min(1, NaN))` is **NaN**,
+and so is the weight clamp. A single non-finite score therefore enters a cell and
+cannot be undone:
+
+1. the cell becomes `{s: NaN, n: NaN}`;
+2. `JSON.stringify` writes that as `{"s": null, "n": null}` — `getMasteryLedger`
+   validated the envelope and never the cells;
+3. `getMasteryProfile` then computes `tested: null >= MIN_SAMPLES`, **false for
+   ever**, and an untested cell scores MAXIMUM need in `weakestReceptiveKind` /
+   `weakestProductionKind`, so the recommender latches onto that one skill —
+   #720's reading latch, reached from the other side;
+4. `mergeRemoteMasteryLedger` cannot repair it: its own `typeof === 'number'`
+   test rejects the `null` that was written (and `typeof NaN` IS `'number'`, so it
+   would have admitted a poisoned cell from another device), while `r.n > l.n` is
+   false in BOTH directions against a NaN. The ledger is in
+   `buildProgressSnapshot`, so this is a synced field.
+
+**A CORRECTION TO MY OWN FIRST STATEMENT OF THAT, because it matters.** I first
+wrote that the cell holds NaN permanently. It does not: `JSON.stringify` turns it
+into `null`, so the persisted shape is `{s: null, n: null}` and new events DO
+rebuild `n` from zero (`null + weight` is a number). The damage is that the skill
+reads as never-measured with a null score until enough new events accumulate, and
+that the merge can never shortcut the repair. Weaker than "permanent", still the
+inverse of what the ledger is for — and the difference is invisible while you are
+writing the stronger sentence. _Report what was observed._
+
+**IT IS LATENT, and that is stated rather than dressed up.** All six call
+boundaries were audited by sweep 113 and each supplies a finite number;
+`/api/correct` rejects a reply whose `score` is not a number (and JSON cannot
+carry a NaN literal at all), the speaking coach validates `typeof data.overall`,
+and `recordExerciseOutcome` refuses `total <= 0`. Nothing reaches it today. It is
+fixed anyway, because it is the one invariant those 47 arguments are all leaning
+on, and a one-line `Number.isFinite` replaces 47 arguments with one.
+
+**THE OTHER SINK WAS ALREADY SAFE AND ALREADY PINNED**, which is why `stats.xp`
+was never at risk: `useAward` has `if (!Number.isFinite(amt) || amt === 0) return;`
+and `useAward.test.ts` asserts "award(NaN) is a no-op"; `completeExercise` pays XP
+only through `award`. Worth saying, because "a NaN XP award" is the alarming
+version of this finding and it is not true.
+
+**Three hardenings**, all in `masteryLedger.ts`: reject a non-finite `score` or
+`weight` the way a bad level or skill is already rejected; drop a cell on LOAD
+that is not three finite numbers with `n > 0` (so a device already carrying one
+recovers to "never measured", which is the truth); and make the merge's validation
+`Number.isFinite` rather than `typeof === 'number'`.
+
+**Mutation-verified, five, each confirmed landed:** the score check removed (fails
+3), the weight check removed (1), the load-path sanitisation removed (1), the merge
+back to `typeof` (1) — and **the `total <= 0` return removed SURVIVES, by design**:
+the new finiteness check catches the `0 / 0` it produces, so the invariant is now
+defended twice and neither defence alone is load-bearing. The test says so
+explicitly instead of claiming to pin that line, because a test that claims a pin
+it does not hold is the decoration this file keeps finding.
+
+**THE DERIVATION FAILED TWICE BEFORE IT SAID ANYTHING TRUE, and both failures were
+in the LOUD direction for once.** The first matcher reported **21,586** divisions:
+`/` inside import specifiers (`'../lib/adaptive'`), URLs and paths, because it
+scanned raw source. Blanking string and template literals took it to 286; regex
+literals (`/g`, `/i.test`) still leaked, and the `xp|score|pct` line filter is what
+finally made the set readable at 81. **A derivation reporting a huge number is
+exactly as unfinished as one reporting a small clean number** — this file has
+recorded the second shape five times and this is the first record of the first.
+
+**WHAT THIS CANNOT SEE, stated:** a division whose denominator is a function
+PARAMETER supplied by a caller in another file (only `masteryLedger`'s own is
+covered, and by reading); a NaN produced by something other than a division
+(`parseInt` of a bad string, `Number(undefined)`); and the display half at
+run time — the `pct` sites live on RESULTS views reached only by finishing an
+exercise, so the 430-route render sweep cannot reach them, which is why this was
+settled by reading rather than by an E2E text assertion.
+
+---
+
+### 125. Something happening after the learner left, and the positivity that was about the wrong number — 2026-09-25 — ONE find, three negatives
+
+The axis: **an effect that runs when the learner is no longer there, or on a set
+they never saw.** Three censuses, in the order they were run.
+
+**(1) TIMERS THAT CREDIT OR NAVIGATE — 3 of 106, all benign.** Of 106
+`setTimeout` calls in `src/components`, exactly **three** have a callback that
+credits or navigates, and none of the three captures an id anything clears:
+`MatchGame` (`completeExercise` after the final pair), `LessonScreen`
+(`setScr('review')` at 50 ms), `EasterScreen` (quiz state). Read: the MatchGame
+credit is for work already finished, so firing after a quick exit is correct
+rather than wrong; the other two set state on a component that may be gone, which
+React no-ops. No defect.
+
+**(2) A CREDIT OR NAVIGATION AFTER AN `await`, WITH NO MOUNTED CHECK — 8, all
+benign.** 28 components declare a mounted/cancel guard, and 8 async functions
+navigate or award after an `await` without one. Every one is a direct response to
+a tap the learner just made — `LearnPath.launchLevelQuiz`,
+`LessonProduceStep.submit`, `PostcardScreen.sharePostcard`, two in
+`AIConversation`, `LiveTutorScreen`, two router paths. The worst case is being
+taken into a quiz you asked for a moment after changing your mind. No defect.
+
+**(3) A CREDIT EFFECT GATED ON A NAMED FLAG — 1, and it found TWO holes in the
+guard sweep 106 shipped.** 11 `useEffect` bodies in `src/components` contain a
+credit call, all with meaningful deps (none with `[]`), which is sweep 106's
+population. But `zeroSatisfiableCredits` matches the length comparison **inside
+the effect body**, and `QuestionWordsScreen` writes it one hop away:
+
+```
+const allDone = answeredCount === total;      // component body
+React.useEffect(() => { if (!allDone) return; markQuest('grammar'); … }, [allDone]);
+```
+
+The effect mentions no total at all, so it was invisible. **That stage — closing
+over a named flag — was in sweeps 101/102's derivation and missing from this one**,
+which is the asymmetry those sweeps kept finding, met again inside the same helper
+file.
+
+**AND THE SECOND HOLE IS THE ONE WORTH REMEMBERING: THE POSITIVITY DID NOT HAVE
+TO BE ABOUT THE TOTAL.** With the flag stage added, the screen was reported and
+then **passed**, because the matcher accepted any `X > 0` and the effect ends
+`if (xpEarned > 0 && typeof award === 'function') award(xpEarned, …)`. `xpEarned`
+is `correctCount * 3` and says nothing whatever about `total` — while
+`markQuest('grammar')`, `gc + 1`, `writeDelta({gc: 1})` and
+`signalSessionCompleteIfActive('qwords')` in the same effect were gated by nothing
+at all. **A positivity about an unrelated quantity reads exactly like a positivity
+about the right one**, and `0 === 0` is true, so an empty bank would have ticked
+the grammar quest and added a `gc` for a set the learner never saw (NEVER-DO 14).
+The matcher now requires the positivity to NAME a total that appears in the
+comparison it is clearing.
+
+**Reachability, stated: NOT reachable.** `QWORDS` is a static bank in `src/data`,
+so `total` is fixed and non-zero. The fix (`if (!allDone || total === 0) return;`)
+is belt-and-braces; the GUARD's two holes are the finding, and they are what would
+let the next screen — with a content-derived or prop-derived total — through.
+
+**The matcher also learned the NEGATED early-return form** (`if (total === 0)
+return;`, `< 1`, `<= 0`, `!x.length`), because demanding the positive spelling
+would push production into `if (!(total > 0))` purely to satisfy a test. Still
+name-filtered, so this is not the loosening the sweep just closed.
+
+**Mutation-verified, four, each confirmed landed:** the flag stage removed (fails
+2, and the failures NAME QuestionWordsScreen), the positivity name-filter removed
+(1), the negated-form alternatives removed (3), and the production guard reverted —
+the real defect — (2, named). Two synthetic controls carry the new properties,
+because the real subject now passes: one file whose only positivity is about an
+unrelated quantity must report `positivity: []`, and one using the negated form
+must report it.
+
+**A HARNESS NOTE that cost two runs:** both synthetic fixtures were first written
+with `answered !== total`, which the comparison matcher does not accept (`>=`,
+`===`, `==` only), so the derivation saw neither file and both controls failed as
+"not seen at all". **A control that the tool cannot even reach proves nothing** —
+check it lands in the population before reading its verdict.
+
+**WHAT THESE CANNOT SEE, stated:** a timer or an await in a `.ts` hook (`walk`
+yields `.tsx`, unchanged from sweep 106 and re-measured as empty); a flag assembled
+across two hops (`const a = x === total; const b = a && ready;`); and a credit
+whose total is a function PARAMETER, which no per-file derivation can resolve.
+
+---
+
+### 126. The corpus sweep swept five modules of two hundred and eleven — 2026-09-25 — RATCHET, and the proof it was needed is one mutation
+
+`answerKeyIntegrity.test.ts` guards the class where a question is **literally
+unwinnable**: the declared answer is absent from its own options, so no option ever
+turns green, no XP is awarded, and nothing anywhere says so. It names three real
+shipped violations (a `CONDITIONAL` item whose answer was `'bi (ona bi došla)'`
+against `['bih','bismo','biste','bi']`; duplicate options in `PADEZI_FULL` and
+`WordFamilies`). Its middle block is called **"answer-key integrity — corpus
+sweep"** and its corpus was a hand-written map of **five modules**.
+
+**Measured: 211 modules carry an option-bearing item, and there are 10,144 items.**
+The sweep covered five of the 211 — and the block immediately BELOW it says so in
+its own docstring ("the corpus sweep above covers five modules, none of them
+these") while widening the corpus occurred to nobody, including me when I read
+that sentence. The largest uncovered body is the **~75 hand-written `*Drill.tsx`
+components** — the oldest graded content in the app, which CLAUDE.md itself
+describes as "DATA wearing a `.tsx` extension" — plus the lesson bodies and the
+graded stories. 97 bank-bearing modules sat outside both covered sets.
+
+**THE PROOF, and it is one mutation:** put a genuinely unwinnable item into
+`NominativeDrill.tsx` — change `opts: ['Ana','Anu','Ane','Anom']` to
+`['Anu','Ane','Anom','Anama']` while `answer` stays `'Ana'` — and the COMMITTED
+guard passes **36 of 36**. With the corpus derived it fails 1 and names the file.
+The same holds for duplicate options.
+
+**Widening costs nothing, which is why it is done and not deferred.** The same
+`sweep` over the whole derived corpus (`src/data/**`,
+`functions/api/content/_data/**`, `practice/`, `learn/` and `croatia/` components)
+reports **ZERO** failures — no false positives to train anyone to ignore it. So
+this is a ratchet: nothing is broken today, and the next authored bank cannot be
+unwinnable silently.
+
+**The five named modules are CHECKED, not deleted.** A glob that stopped reaching
+one of them would shrink the corpus back with the item floor none the wiser — five
+modules are 2% of the items — so each is asserted to be reachable by identity, and
+four of the previously-uncovered drill files are pinned BY NAME for the same reason
+(a typo dropping `practice/**` still leaves ~9,000 items and clears any floor).
+Mutation-verified: the practice glob removed fails 2.
+
+**`import.meta.glob` with `eager`, matching the drill-bank block below it** — not a
+dynamic `import()`. Sweep 108's rule: a dynamic import that silently resolved to
+nothing would make every assertion here vacuous, and only the item floor plus the
+named pins would catch it. The eager glob costs ~14 s of import time in that one
+file, which is the price of covering 644 modules.
+
+**Three synthetic positive controls**, because the corpus is clean and otherwise
+both assertions could be satisfied by a sweep that had stopped looking: an answer
+absent from its options, a duplicated option, and an index out of range.
+
+**WHERE THE ANSWER KEY HAS NO STANDARD NAME, and why the check is name-independent.**
+388 option arrays carry no field named like an answer at all: `LISTEN` items are
+`{hr, en, opts, level}` and `useListeningQuiz` grades `opt === q.en`, so `en` IS
+the key; `GENDERDRILL` uses `adj`, `COLORAGREE` uses `color`, `SENTBUILD` uses
+`hr`. The existing sweep already handles this with the weaker but name-independent
+invariant — SOME string field of the item must appear among its options — and that
+is what makes widening safe. Checked directly while here: all 45 client `LISTEN`
+items and all 21 server ones have `en` among their options, with no duplicates.
+
+**Mutation-verified, five, each confirmed landed:** an unwinnable item in
+`NominativeDrill` (fails 1, names the file), duplicate options there (1), the
+practice glob removed (2), the corpus reverted to the five named modules (2), and
+**the same unwinnable item against the committed guard — 0 failed, 36 passed,
+which is the defect.**
+
+**WHAT THIS CANNOT SEE, stated:** a bank reached only through a function call (the
+walk reads exported VALUES, so a `buildQuiz()` bank is checked only where a screen
+also exports its source data); a grader that compares something other than the
+option string (a normalising grader could accept an option the strict check calls
+absent, and `UNJUMBLE`'s tile winnability is a separate block in the same file for
+exactly that reason); and an answer that is present but WRONG Croatian, which is
+the lint's question and not this one.
+
+---
+
+### 127. The route sweep blamed a screen for the fixture — 2026-09-25 — ONE find, and the proof is empirical
+
+**WHY IT WAS RUN AT ALL.** `route-render-sweep.spec.js` is the only thing that opens
+all 430 screens by URL, and it is deliberately OUT of the deploy gate: it runs from
+`route-render-sweep.yml`, weekly on Mondays and on dispatch — **which means on the
+DEFAULT branch.** This PR carries 30 commits and the sweep had never once run against
+it. So it was run locally, against a build made with `ci.yml`'s own placeholder
+`VITE_FIREBASE_*` values (the artifact-identity rule: a build the app never ships is
+not evidence).
+
+**IT FAILED, 3 of 3 ATTEMPTS, 17.6 MINUTES EACH:**
+
+```
+crmap: Failed to read the 'localStorage' property from 'Window':
+       Access is denied for this document.
+```
+
+reported under the spec's own message — _"these screens raise an uncaught exception
+with no boundary to catch it, so nothing renders an error and nothing fails — it is
+simply wrong"_.
+
+**THE DIAGNOSIS CAME FROM A PROBE, NOT FROM READING.** A bare Playwright visit to
+`/crmap` raises **nothing** (and reports 1 frame — the Google Maps embed never loads
+here, because this sandbox has no egress to google.com). Adding the sweep's four
+fixtures reproduces it exactly once, and the stack is `at <anonymous>:109:7` — an
+ANONYMOUS script, which is how Playwright injects `addInitScript`. That one line is
+what settled it; three rounds of reasoning about `CrMap` would not have.
+
+**THE CAUSE: `page.addInitScript` RUNS IN EVERY FRAME.** `CrMap` embeds
+`https://www.google.com/maps/embed?…`. Where that embed cannot load — a sandbox with
+no egress, an offline runner, a blocked third party, and increasingly a browser
+phasing out third-party storage — the iframe's document has an **opaque origin**, and
+`localStorage` access there throws `SecurityError`. `seedAuth`'s init script writes
+eleven keys unguarded. Playwright surfaces the throw on `page.on('pageerror')`
+**with no frame attribution**, so the sweep attributed it to whichever SCREEN embeds
+the iframe.
+
+**IT IS THE ARTIFACT-IDENTITY RULE FROM THE OTHER SIDE.** This file already records
+"a green local E2E against a build the app never ships is not evidence". Here the
+run was RED and the product was fine: the failure exists only where the embed fails,
+which is why CI — where google.com resolves — has never seen it. **A red run needs
+its artifact established just as much as a green one.**
+
+**THE FIX IS A TOP-FRAME BAIL, BEFORE THE FIRST WRITE.** Bail rather than catch:
+seeding the learner's storage is meaningful in the main frame and nowhere else, and a
+swallowed throw would leave that frame half-seeded while saying nothing. `forceCefr`
+already wraps its whole body in try/catch and was never affected; `mockRnd`,
+`mockMediaRecorder` and `stealth-page` patch `Math`/`navigator` and cannot throw this.
+
+**Measured in both directions, on the real fixture:** unguarded, `/crmap` raises
+exactly one pageerror; guarded, it raises none AND the main frame is still seeded
+(`uS` present, `nh_goal_set` = `'1'`).
+
+**THE EMPIRICAL PROOF IS THE SWEEP ITSELF: it now passes — 430 routes, 5.0 minutes,
+zero crashes and zero uncaught exceptions**, down from 17.6 minutes of retries. That
+also establishes, for the first time, that every screen on this branch renders on
+direct URL entry after 30 commits.
+
+**The guard is `fixtureInitScriptFrames.test.ts`**: every `addInitScript` body in
+`e2e/fixtures/` that touches `localStorage`/`sessionStorage` must be frame-safe, plus
+a named assertion that `seedAuth`'s bail comes BEFORE its first write, plus a
+synthetic control that the matcher rejects an unguarded script and accepts both safe
+forms.
+
+**COMMENT STRIPPING BIT IMMEDIATELY, IN THE LOUD DIRECTION.** The comment written
+above the bail explains the defect and therefore mentions `localStorage`, so the
+"bail before the first write" assertion failed **on its own explanation**. Every
+prior instance in this file ran the other way (prose SATISFYING a matcher); this is
+the same defect and the same fix — strip comments, line-first then block (sweep 72).
+
+**Mutation-verified, three, each confirmed landed:** the bail removed (fails 2), the
+bail genuinely MOVED to after the first write (1), comment stripping removed from the
+extractor (1).
+
+**MEASURED AND NOT FIXED HERE — FIXED IN SWEEP 128, below:**
+`MicPermissionDeniedExplainer.onUseWriting` is an optional CALLBACK the component
+invokes and **no render site passes — all ten of them.** Its own docstring says the
+button is "hidden when the consumer doesn't pass the callback (e.g. screens with no
+writing analog like AIConversation)", which reads as if some consumers do. None does,
+so "Use writing instead" has never rendered anywhere. Verified harmless before
+leaving it: the exam speaking screen renders the explainer BESIDE its own
+`speak-typed-submit`, Maja/AIConversation/the sprint have their own typed inputs, and
+`ShadowingScreen`'s Next/Finish is unconditional with a comment saying in terms that
+"a learner whose mic or scorer never fired is measured on nothing and blocked by
+nothing". So it is dead code with a docstring that misdescribes it — the
+`LevelQuiz.onPass` shape (sweep 27), to be removed with its branch. — **DONE,
+sweep 128**: removed with its branch and its two tests, the docstring corrected, and
+the class ratcheted by a second caller-set check. The "verified harmless" reading
+above held up on re-measurement.
+
+**ALSO MEASURED: `routerOptionalProps` reads the FIRST `…Props` interface in a
+file**, which in **13 of 415** component files is not the component's own
+(`BadgeArtwork`→`ShapeProps`, `WordSprint`→`TimerDisplayProps`,
+`ProductionDrillScreen`→`LevelBadgeProps`, …). That is both directions at once: an
+inner component's optional props attributed to the outer one, and the outer's own
+props never checked. Resolving by the component's own signature yields **no new live
+finding today**, so it is a ratchet — and a probe of mine that claimed three
+(`EquivalencyTestScreen.overrideLevel`, `ReviewScreen.allCats`,
+`RetentionCheckScreen.lessons`) was WRONG: its branch matcher counted the
+DECLARATION `foo?: T` as a branch. **When an ad-hoc probe disagrees with a committed
+guard, the probe is wrong** — that rule paid for itself again. — **DONE, sweep 128**:
+resolved from the component's own signature, and the FALLBACK to the first `…Props`
+was removed rather than kept, because keeping it manufactured a finding
+(`StoriesTab.award`, an inner `WordTileProps` member read against a component that
+takes no props).
+
+**WHAT THIS CANNOT SEE, stated:** an init script that throws for a reason other than
+storage (a frame with no `document`, a patched global that a third party rejects);
+and the three other weekly sweeps in that spec (axe, phone-width, focus) were NOT
+run here — only the render pass, because this session's production changes are two
+files and a 45-minute axe pass over 430 routes would measure the palette, not the
+change.
+
+---
+
+### 128. A dead button under a docstring that said it was a choice — 2026-09-25 — TWO finds, one of them a hundred days old
+
+**THE SUBJECT, from sweep 127's own open-shapes list.**
+`MicPermissionDeniedExplainer` — the card a learner meets when the microphone is
+blocked — declared `onUseWriting?: () => void` and rendered a second button,
+**"Use writing instead"**, behind it. Its docstring said the button is "hidden
+when the consumer doesn't pass the callback (e.g. screens with no writing analog
+like AIConversation)", which reads as a considered per-consumer choice.
+
+Measured across all **ten** render sites: `PronunciationScorer`,
+`SpeakingTaskScreen` (twice), `AIConversation`, `MajaScreen`, `LiveTutorScreen`,
+`GradedInputScreen`, `SpeakingScreen`, `ShadowingScreen`, `SprintSpeakingPhase`
+— **not one passed it**, and the identifier appears nowhere else in `src/`. The
+button had never rendered in the app. The `AlphabetScreen.award` /
+`LevelQuiz.onPass` shape, third instance.
+
+**IT IS REMOVED RATHER THAN WIRED, and the reason is a census, not a preference.**
+Every consumer that HAS a writing alternative already renders it ITSELF, beside
+this card: `SpeakingTaskScreen`'s textarea + `speak-typed-submit`,
+`LiveTutorScreen`'s "You can type your Croatian below.", AIConversation, Maja and
+the speaking sprint each have their own input. The remainder —
+`PronunciationScorer`, `ShadowingScreen`, `GradedInputScreen`'s read-aloud — have
+no writing analog at all, because reading aloud IS the task there. So a mic-blocked
+learner is not stranded anywhere, and the prop was never the mechanism.
+
+**ITS OWN TEST SUPPLIED THE PROP**, which is the lesson verbatim: two of the nine
+tests in `MicPermissionDeniedExplainer.test.tsx` were about that branch and one
+passed `onUseWriting` itself, proving the branch works WHEN WIRED and saying
+nothing about whether it is. They are replaced by one assertion that the card
+offers exactly one action, so a second cannot return without a consumer.
+
+**THE GUARD COULD NOT HAVE SEEN IT, and that is the interesting half.**
+`routerOptionalProps.test.ts` was written for this exact class the day before, and
+it is scoped to `AppRouter`'s routed screens. The explainer is a shared CHILD, so
+it was never in `ROUTED`. The file now asks the question of two caller sets:
+
+| check | subject                                                                    | caller set                        |
+| ----- | -------------------------------------------------------------------------- | --------------------------------- |
+| A     | a ROUTED screen, an optional prop it BRANCHES on                           | `AppRouter`                       |
+| B     | ANY component, an optional prop whose TYPE IS A FUNCTION and which it uses | every production caller in `src/` |
+
+**Check B's scope was chosen by measurement.** Restricted to FUNCTION-typed props
+it yields exactly one finding across **204 subjects**; admitting value props
+yields 13 cosmetic ones (a defaulted flag, a style override), and a guard that is
+mostly false positives trains everyone to ignore it — the sweep 104 precedent.
+
+**TEST FILES ARE NOT CALLERS, and the joint mutation is what proves it
+load-bearing.** With `src/tests` in the caller set AND the dead prop restored AND
+its own test passing it again, Check B's assertion goes **GREEN** — the defect is
+invisible — and only the meta-assertion about the caller set fails. That is the
+AlphabetScreen lesson as a mechanism rather than a sentence.
+
+**THE SECOND FIND: `routerOptionalProps` was reading the wrong interface in 13 of
+619 component files.** It resolved a component's props as the FIRST `…Props`
+declaration in the file, which is an INNER helper's in `BadgeArtwork`→`ShapeProps`,
+`WordSprint`→`TimerDisplayProps`, `ProductionDrillScreen`→`LevelBadgeProps`,
+`StoryViewPanel`→`WordTokenProps`, four screens→`QuizBlockProps` and three
+→`BackBtnProps`. Those files were being asked the wrong question in both
+directions. It costs nothing today (Check A reports the identical set either way),
+so this half is a **ratchet**, and it is now resolved from the component's own
+signature.
+
+**THERE IS NO FALLBACK TO THE FIRST `…Props`, and that is a measurement.** My
+first draft kept one for signatures that would not resolve, and it MANUFACTURED a
+finding: `StoriesTab` takes no props at all (`const { award } = useApp()`), so the
+fallback read the inner `WordTileProps.award` and reported it against
+`StoriesTab`'s call sites — a dead prop on a live award path (lines 122 and 586).
+**An unresolvable signature must yield NO subject; a wrong subject is worse than a
+missing one.** My own probe produced that false positive before the guard did,
+which is the third time this session an ad-hoc derivation reported a small clean
+number and was wrong — and the check that caught it every time was naming a member
+already known to be true (`MicPermissionDeniedExplainer.onUseWriting`) and
+confirming the tool reports it.
+
+**TWO SCANNER FIXES, EACH SILENT UNTIL MEASURED:**
+
+- **The depth walk must not count `<` and `>`.** Every `=>` inside a function type
+  decremented the depth and lost the whole parameter, which took **33 of 401**
+  routed components from resolved to UNRESOLVED — and unresolved is silent, not
+  loud. With `(){}[]` only, **400 of 401** routed and **588 of 619** component
+  files resolve. (The last routed holdout was a class component; `extends` in an
+  interface declaration was the one before that.)
+- **A JSX props spread must be detected at ATTRIBUTE depth.** A bare
+  `/\{\s*\.\.\./` also matches an object spread inside a handler BODY, and
+  AppRouter's `<PlacementTest onComplete={… {...prev} …} onCancel={…} />` has one
+  — so the loose version skipped four components (PlacementTest, SessionCard,
+  HrvatskaTab, RazgovorTab) that pass every prop plainly. A skip is a silent loss
+  of coverage, the one direction this file must not fail in.
+
+**THE BUCKET THE DERIVATION COULD NOT RESOLVE HELD A SECOND, WORSE FINDING** —
+sweep 109's rule ("investigate the bucket, do not filter it out") paying off
+immediately. One component has an optional callback and **no render site at all**:
+
+**`DailyListeningCard` has been rendered by nothing since 2026-06-19.** 589 lines,
+"comprehensible input at the user's CEFR level", 15 XP, a quest, per-line audio,
+a daily reset — and PR #55 (the Grad redesign) deleted its only site in
+`PracticeTab.tsx` while **its own plan document said, in writing, "Keep …
+`DailyListeningCard` (reused by Grad/Today)"**. The new site was never added. It
+has been MAINTAINED FOUR TIMES since (#300, #677 fixed its quest XP, #701 gave it
+failure messages, sweep 94 gave it keyboard affordances) — three of those four are
+my own audit sweeps, all working on a card no learner can reach.
+
+**It is recorded as SUPERSEDED, not reinstated, and that is a judgement with
+evidence.** The routed `AIListeningScreen` (922 lines, in `PRODUCTION_POOL`,
+serving the P2.8 comprehension slot) calls the SAME `/api/listening` for the same
+job, so a second door would double-award one generator — the superseded-duplicate
+shape `noUnreachableModules.test.ts` records (three dead region screens, each
+shadowed by a live standalone file of the same name; the dead ones are gone, so
+naming the file here would itself be a path that no longer resolves). DELETION is a separate decision: three guards pin this PATH in source-pin
+lists (`aiRefusalMessages`, `questIdsExist`, `aiSurfaceClassifies`) and
+`dailyListeningCard.test.ts` imports `correctOption`, which is exactly the
+`MediaCard.tsx` exemption shape in `noUnreachableModules`.
+
+**NEITHER EXISTING GUARD COVERS THAT CLASS, and the reason is documented in one of
+them.** `noUnreachableModules`'s walk seeds from every TEST as well as the app
+entries, deliberately — "a module kept alive only by its own tests still counts as
+reachable — that is a softer problem and is not what this guard is for" — and
+Check B cannot judge a component with no call site, because there is no passed-set
+to compare against. A component reachable only from its own test therefore falls
+BETWEEN the two, which is how this one went a hundred days unrendered. The skip is
+now non-silent: `NOT_RENDERED` lists it with the reason and is checked in both
+staleness directions, so a second one cannot arrive quietly.
+
+**Mutation-verified, seven, each confirmed landed:** the dead prop restored fails
+1; the first-`…Props` fallback restored fails 2; `src/tests` counted as callers
+fails 1; the loose spread detector fails 1; the depth walk counting `<>` fails 1;
+`NOT_RENDERED` emptied fails 2; and the JOINT control (dead prop + tests as
+callers + its own test passing it) leaves Check B **green** with only the
+caller-set assertion failing, which is the direct proof that excluding tests is
+what makes this class visible.
+
+**E2E audit:** no spec anywhere references "Use writing instead" or any string on
+the removed control; the three specs that touch the mic-denied card
+(`pronunciation`, `sp4b-production-slot`, `error-boundary`) assert only "Try
+Again", which is untouched. Greps were run for every user-visible string on the
+deleted branch, not for the identifiers.
+
+**WHAT THIS STILL DOES NOT COVER, stated:** a prop inherited through
+`interface X extends Y` (the parent's members are not read, which can only MISS a
+finding, never invent one); a component whose call sites genuinely spread props;
+a callback passed down through an intermediate component that itself received it
+optionally (one hop is checked, a chain is not); and whether a prop that IS passed
+is passed with a value that does anything — sweep 119's gap, unchanged.
+
+---
+
+---
+
+### 129. A test can keep a dead screen alive — 2026-09-25 — 21 modules, 4,206 lines, and two sweeps spent editing them
+
+**THIS CAME STRAIGHT OUT OF SWEEP 128'S OWN QUEUE ITEM**, written an hour earlier:
+"ARE THERE OTHER COMPONENTS REACHABLE ONLY FROM THEIR OWN TESTS? … The derivation
+is cheap and has NOT been run." It was run. It is not cheap in what it found.
+
+**THE MECHANISM WAS ALREADY IN THE REPO, POINTED THE OTHER WAY.**
+`noUnreachableModules.test.ts` walks the real import graph — imports, re-exports,
+dynamic `import()`, `require()` — and seeds it from the app entries **AND every
+test**, on a reasoning its own docstring states: "a module kept alive only by its
+own tests still counts as reachable — that is a softer problem and is not what
+this guard is for." So the derivation was one line: run the same walk from
+`ENTRIES` alone and diff. **1,646 files, 986 app-reachable, 1,724 with the tests —
+21 modules in the gap.**
+
+**THE HERO CLUSTER: 13 MODULES, UNRENDERED SINCE 2026-04-25.**
+`HomeTab` stopped importing `HeroSection` in `c1aea80d` ("rewrite HomeTab — remove
+12 sections, add Daily Session Hub with SessionCard"), and nothing outside
+`src/tests` has imported it since. It took its whole tree with it: `HeroStats`
+(381), `heroHelpers` (353), `heroData` (352), `useHeroRewards` (142),
+`useKnightSpeech` (77), `KnightBubble` (337), `TypewriterText` (35),
+`CompactStrip` (88), `QuickReplyBanner` (36), `RewardsPanel` (229),
+`StoryOfTheDayCard` (155), `DailyListeningCard` (589), `HeroSection` (389).
+
+**THE COST IS NOT CLUTTER. IT IS TWO SWEEPS OF MY OWN WORK ON FILES NO LEARNER CAN
+REACH:**
+
+- **#655 (2026-09-12)** — "The hero stopped naming your goal at level 7, and never
+  named it for one goal". 21 lines changed in `HeroSection.tsx`, a 263-line test
+  added, a payload field added to `core.js`. Thirteen days ago.
+- **The 2026-09-06 and 09-08 CEFR-badge work** named `heroHelpers.getCEFR` →
+  `HeroStats` as one of **three** (later six) learner-visible badge surfaces,
+  pinned it by source, and renders `<HeroStats>` in `cefrBadgeCertified.test.tsx`
+  to this day. The field report it answered — "it shows C1, I'm not C1" — names the
+  **upper-right desktop badge**, i.e. `DesktopPanel`; the hero bar was already
+  five months dead. The FIX was right for the two live surfaces. The SENTENCE was
+  wrong, and it is the sentence a future reader would have trusted.
+- Sweep 102 also recorded a "checked non-defect" about `HeroSection` falling back
+  to the neutral label "Learning" — reasoning carefully about a render nobody sees.
+
+All three are corrected IN PLACE in CLAUDE.md, with the correction stated rather
+than the old claim quietly deleted.
+
+**`#682` DELETED 31 MODULES OF EXACTLY THIS KIND AND COULD NOT SEE THESE.** That
+sweep removed `DailyCroatianSection`, `PathProgressCard`, `CampaignBanner`,
+`WeeklyRecapModal` — home components from the same rewrite — and a duplicate
+`RegionScreen` trio. The 31 it found had no tests. These 21 do. **This set is the
+residue of that sweep, hidden by its own seeding rule: a guard's stated scope is
+also its blind spot, and this one wrote its blind spot into its own docstring.**
+
+**TWO DEAD MODULES SIT INSIDE LIVE DIRECTORIES — the precise hazard that guard
+cites ("a duplicate invites editing the one nobody renders"):**
+
+- `src/data/exerciseMeta.ts` (166) is a second copy of the exercise
+  difficulty/category scale. The live one is `lib/exerciseDifficulty.ts`, whose own
+  comment says it mirrors "exerciseMeta's scale". CLAUDE.md's new-drill checklist
+  names `exerciseDifficulty`, correctly — but the wrong file is one directory away
+  with a passing test on it.
+- `src/lib/conjugation/morphology.ts` (126) exports `expectedForms`, imported by
+  exactly two test files in `__tests__` — and **THIS ONE IS NOT A DEFECT. I WROTE
+  THAT IT WAS, AND THE CORRECTION MATTERS MORE THAN THE FINDING.** The first draft
+  of this entry said "the data is checked against a rule the learner never meets,
+  and the two could disagree with the test staying green", and queued a sweep to
+  measure it. Reading the two functions before running that sweep — twenty minutes
+  later — inverted it: `expectedForms` **derives** each form from the verb's class
+  and root, `verbsData.test.ts` asserts the STORED forms **equal** the derivation,
+  and `forms.ts`'s `formFor` is a **lookup** (`verb.present?.[cell.personIdx]`),
+  not a competing rule. So what a learner sees is exactly what was validated, and
+  there is no drift for the two to have. It is a test-only VALIDATOR — precisely
+  the "softer problem" the guard's own docstring means — and it belongs on the list
+  only because membership must never be silent.
+  **This is _report what was OBSERVED, not the strongest claim consistent with
+  it_, broken one hour after writing that rule into sweep 128's entry.** The
+  strongest reading — "a live directory holds a dead duplicate of a rule" — was
+  consistent with everything I had measured (the module is unreachable, a test
+  validates data with it, the app does not import it) and false, and the thing
+  that settled it was reading the two function bodies rather than reasoning from
+  their names. The queued sweep is withdrawn.
+
+**THREE ARE DEAD CLUSTER MEMBERS**, reachable only through another dead module:
+`useLocalStorage` (via `useHeroRewards`), `useTranslator` (via `useKnightSpeech`),
+`storyRecommendation` (via `StoryOfTheDayCard`). A "no importer" check finds none
+of them — they all have one. Only a reachability walk does, which is the argument
+that docstring already makes about `madge --orphans`.
+
+**THE REST:** `useErrorTracking` (171, no importer at all outside its test),
+`appData` (96, a re-export barrel nothing imports), `culturalFacts` (94 authored
+facts with a test and no reader — the live daily fact comes from
+`/api/daily-culture`).
+
+**THE FIX IS A SECOND WALK IN THE SAME FILE, and membership is deliberately not
+treated as a defect.** A pure library with a unit test and no caller yet is a
+different thing from a 389-line screen, so `TEST_ONLY_REACHABLE` requires a
+REASON per module rather than forbidding the state — and the reason-length floor
+earned itself immediately by rejecting ten of my own first-draft one-liners
+("DEAD, 88 lines. A HeroSection sub-strip." is exactly 40 characters), each of
+which now names the live replacement instead.
+
+**Mutation-verified, four:** an entry dropped fails 1; a stale entry (an
+app-reachable module listed) fails 2; **the app walk re-seeded with the tests —
+the hole itself — fails 3**; a gutted `edgesOf` fails 4 on the non-vacuity guard,
+which is why that guard names three unarguably-live modules rather than counting.
+
+**MY OWN PROBES WERE WRONG TWICE MORE, both the same way and both caught by
+checking a contradiction instead of accepting a number.** `exerciseMeta.ts` looked
+like it had a live importer — `grep` found `exerciseMeta` in `exerciseDifficulty.ts`
+— and the match was inside a **comment**. And a first pass reported `HeroSection`
+as dead, which contradicts five places in CLAUDE.md, so it was re-derived by hand
+(`grep` for every import of the name) before being believed. **A guard that reads
+prose is not reading code**, third instance this session, and the AST walk was
+right both times.
+
+**A THIRD FINDING CAME OUT OF WRITING THE REASONS, NOT OUT OF THE WALK.** The
+guard demands a reason per module, so I had to say what each dead file's LIVE
+replacement is — and two of my first answers were guesses. Checking them turned
+up something the walk could not see:
+
+**CLAUDE.md justified a content-authoring constraint with a dead mechanism.** The
+Reading Depth section said: "**Serials survive a picker that does not order by
+part.** The story-of-the-day picker sorts by score then title and indexes by day,
+so part 2 can be served before part 1." That picker is `StoryOfTheDayCard` →
+`storyRecommendation.recommendStory` — **both in the 21**. `TodaysDiscoveries`'s
+own comment records the card being dropped deliberately ("to leave a single
+reading lesson on the Home tab"), and there is no story-of-the-day path in the app
+at all now. Traced the live corpora to be sure: the daily "Read" row is
+`dailyInput` → `readingCurriculum`, which walks the `READ` pool in `exercises.js`
+and never touches `GRADED_STORIES`; the 35 long reads and their serials are
+reached ONLY through `GradedInputScreen`'s catalog list.
+
+**The constraint is right; only its reason was dead** — and the surviving reason is
+stronger: a learner BROWSES that list and picks freely, so part 2 before part 1 is
+one tap rather than a scheduling accident. Corrected in place. **A constraint whose
+justification has died reads as arbitrary, and the next author deletes it** — which
+is the same decay as a comment naming a mechanism that does not exist
+(`wrangler.toml`'s "Shared with scheduled worker above", the three CEFR badges'
+"all three must stay in sync", `useDaily`'s "written on every answer click"), with
+the twist that here the dead thing is the RATIONALE and the code it protects is
+correct.
+
+**The general rule, which is what the reason-per-module requirement bought:**
+naming a dead file's live replacement forces you to find the live path, and that
+is where the documentation is wrong. Two of my thirteen hero reasons were guesses
+and both were wrong (`StoryOfTheDayCard`'s "the Croatia tab and the P4 culture
+slot", `CompactStrip`'s "HomeTab's own header" — it is the COLLAPSED hero bar, and
+nothing on Home collapses any more).
+
+**WHAT THIS STILL DOES NOT COVER, stated:** a module the app reaches but never
+EXECUTES (imported for a type, or behind a flag that is never true); a module
+reached only from a `_data` payload the server no longer serves; and the truth of
+each recorded reason, which no staleness test can check — `conjugation/morphology`
+is in there on a reading of two test files, not on a proof that `expectedForms`
+and `formFor` disagree.
+
+---
+
+### 130. An endpoint nobody calls — 2026-09-25 — 3 of 30, and two were stranded by a correct action
+
+**THIS IS THE THIRD RUNG OF ONE LADDER CLIMBED IN A DAY, and each rung was found
+by asking the previous one's question one layer out:**
+
+| sweep | the question                          | found                    |
+| ----- | ------------------------------------- | ------------------------ |
+| 128   | is this optional PROP ever passed?    | 1 of 204 subjects        |
+| 129   | is this MODULE ever reached?          | 21 modules / 4,206 lines |
+| 130   | is this metered ENDPOINT ever called? | **3 of 30**              |
+
+It came out of sweep 129's deletion work, not from a plan: deciding whether
+`src/lib/culturalFacts.ts` (21 authored facts, dead) should be DELETED or WIRED as
+`/api/daily-culture`'s authored degrade meant reading that endpoint's failure
+path — and there is no client on the other end of it to degrade. **Asking whether
+dead content should be wired is what found the dead endpoint.**
+
+**THE THREE:**
+
+- **`/api/daily-culture`** — HomeTab's "Croatia Today postcard" was its only
+  caller, and `4afa7673` ("Remove Croatia Today postcard from Home page",
+  2026-03-29) removed it. Six months. The component itself, `CroatiaPostcard.tsx`,
+  survived unrendered until #682 deleted it.
+- **`/api/daily-plan`** — its only caller was `home/DailyPlanCard.tsx`.
+- **`/api/adaptive-insights`** — its only caller was
+  `profile/AdaptiveInsightsCard.tsx`.
+
+**THE LAST TWO WERE STRANDED BY #682, WHICH WAS RIGHT.** That sweep deleted 31
+modules nothing could reach — correct, and still pinned by `noUnreachableModules`
+— and **nothing anywhere asked whether a deleted client was the LAST CALLER of a
+live server endpoint.** So the failure mode is not carelessness; it is that
+removing dead client code is a correct action whose side effect had no observer.
+Nine days between that sweep and this one.
+
+**WHAT A STRANDED ENDPOINT STILL IS:** authenticated through `requireAuthedAI`,
+charged against the $10/month ledger on its `:generate` path, carrying a
+registered prompt id and the Croatian script rule, tagged for the prompt-version
+cache, and covered by four test suites (`promptRegistry`, `croatianScriptRule`,
+`promptCache`, `reconcileEndpoints`) — reachable by any account, with no product
+behind it. `/api/daily-culture`'s spend is bounded by its KV date key to one
+generation a day globally, so the cost is small and real rather than alarming;
+the guard exists for the class, not for this bill.
+
+**ALL THREE ARE SUPERSEDED, WHICH IS WHY THEY ARE RECORDED AND NOT RE-WIRED** —
+and each replacement is strictly better than what the endpoint did: the daily plan
+is `buildSessionActivities`, deterministic and unable to fail to generate; the
+insights are the mastery ledger, the concept map and InsightsTab, presenting
+MEASURED data instead of asking a model to characterise the learner (NEVER-DO 13
+territory); the culture fact is the P4 slot, `CULTURE_DEEP_DIVES` and City of the
+Day. Deleting a working endpoint is a decision, queued below.
+
+**TWO MATCHER RULES, EACH ALREADY PAID FOR ELSEWHERE IN THIS FILE:**
+
+- **A MENTION IS NOT A CALL.** All three are named in `_aiBudget.js`'s ceiling
+  table, two more in `_requireAuth.js` and `_promptCache.js` doc comments. My
+  first census counted those as "server callers" and reported **zero** stranded
+  endpoints — a clean result from a tool that was reading the subject list as
+  traffic. Comments are stripped, the endpoint's own handler is excluded, and the
+  four files that legitimately name every endpoint are excluded by name.
+- **A CALLER THAT IS ITSELF UNREACHABLE IS NOT A CALLER**, which is what made
+  sweeps 129 and 130 compose. `/api/translate` is called from
+  `hooks/useTranslator.ts` — one of the 21 — and stays healthy only because
+  `AIConversation` calls it too. Without the reachability filter the guard credits
+  a dead module, and the day that live caller changed it would report a stranded
+  endpoint as healthy. "A conduit is not a producer" (111) and "a clear is not a
+  producer" (117), third instance.
+
+**THE IMPORT GRAPH IS NOW SHARED** (`src/tests/helpers/moduleGraph.ts`), extracted
+from `noUnreachableModules` because two guards need one walk. The extraction was
+re-mutated afterwards rather than trusted: sweep 129's four mutations still fail
+1–4, **and the extraction taught something about my own helper** — mutating the
+convenience export `appReachable()` left the OLD guard green, because that guard
+builds its walk inline. It is load-bearing in the NEW guard, where the same
+mutation fails 1. A shared helper's exports are not automatically exercised by
+every importer; check which.
+
+**"BY DESIGN" IS ASSERTED, NOT TAKEN ON THE REASON'S WORD.** Two endpoints have no
+client caller legitimately — `/api/golden-calibration` and `/api/stt-calibration`
+are dispatch-only behind the CRON/CALIBRATION secret — so the guard requires a
+workflow to actually dispatch them AND requires the stranded three to be
+dispatched by nothing. An exemption whose reason cannot be checked is the `idioms`
+exemption again.
+
+**Mutation-verified, five, each failing 1 test:** an entry dropped; the
+reachability filter removed; `appReachable()` re-seeded with the tests; the
+ceiling-table exclusion removed (the table becomes a caller); and the
+query-string lookahead removed — which fails naming **`/api/news`**, called only
+as `` `/api/news?level=${level}` ``, the exact shape sweep 123 had to fix in a
+different guard. Three of the five needed a second attempt because the shell
+mangled the anchor or the `replace` silently did not land; **`assert old in s`
+before writing is the only reason I know all five landed.**
+
+**WHAT THIS STILL DOES NOT COVER, stated:** an endpoint called through a fully
+dynamic path (`` `/api/${name}` ``) — none exists today, checked; an endpoint whose
+only caller is a native/Capacitor shell outside this repo; and whether a called
+endpoint's RESPONSE reaches a learner, which is sweep 116's question and belongs
+to the render half.
+
+---
+
+### 131. Five field reports in one morning, and four were live defects — 2026-09-25
+
+**THE OWNER'S REPORTS, verbatim:** _"Objektne zamjenice is not providing
+evaluation service. This cannot happen."_ (with the Sentry issue),
+_"8 out of 12 is 75%, you stated it wasn't, what the fuck?"_, _"Detailed
+pronunciation scoring is unavailable. Again, cannot happen"_ (with a second
+Sentry issue), _"Why does my playback have an echo in Shadowing Practice?"_,
+_"AI coaching provided feedback once and never changed after that."_
+
+---
+
+**1. `/api/explain-error` REJECTED THE TYPE 109 DRILLS SEND — the same omission,
+in the same list, for the second time.**
+
+`VALID_TYPES` was `['cloze','dictation','flashcard','multiple_choice','case_drill']`.
+`WrongAnswerHelp` is mounted once inside `ModeDrill` and passes `type="drill"`, so
+**every press of "Why is this wrong?" in all 109 engine-backed drills answered 400
+'Invalid type'** — from the day rec #7 shipped it (2026-09-07) to the owner's
+report nineteen days later.
+
+The list's own comment says _"Keep this list in step with the `type:` sent by every
+_aiPost caller"_. That comment was written when `multiple_choice` — McGame, the
+app's most-used exercise — had been missing for the same reason. **A sentence
+asking the next person to remember is not a mechanism**, and this is the third
+instance in this file of a comment asserting an agreement nothing enforces
+(`wrangler.toml`, the three CEFR badges, `useDaily`'s "written on every answer
+click").
+
+**WHY IT REPORTED AS A SERVER FAULT**, which is why nobody noticed sooner:
+`failureFromStatus` has **no 4xx branch** — a 400 falls through to
+`build('server')`. So the learner read that the evaluator was having trouble and
+Sentry said `ai_feedback_failed:drill-explain-error:server` about a request the
+server had rejected as malformed.
+
+**AND IT WAS NOT FREE, which is the part that reaches other features.**
+`requireAuthedAI` charges a quota turn AND pre-charges the monthly budget ceiling
+at the GATE, before the handler validates; the only refund, `reconcileSafely`, runs
+after a successful Anthropic response. So each dead press spent one of the
+learner's 300 daily turns and **permanently booked ~$0.014 of the $9/month cap for
+a call that never happened** — a steady leak whose end state is every live
+evaluation in the app answering `monthly_budget_exhausted`. `refundPrecharge`
+(new, in `_aiBudget.js`) gives it back; `reconcileSafely` could not be reused
+because `actualClaudeCostMicroUsd` returns null for an all-zero usage object on
+purpose, so a zero-usage reconcile refunds nothing.
+
+`explainErrorTypes.test.ts` DERIVES the client types from source — three shapes,
+and **the live bug was in the third**: the hook-call literal, `WrongAnswerHelp`'s
+DEFAULT parameter, and the JSX attribute `ModeDrill` passes. It also requires every
+accepted type to have a `TYPE_DESCS` row, because a type without one passes
+validation and then asks the model about a _"Croatian undefined at CEFR B1"_.
+Mutation-verified, four: the original bug restored fails 1, a missing description
+fails 1, the refund removed fails 1, and `ModeDrill` dropping its attribute fails 1.
+
+---
+
+**2. "8 OUT OF 12 IS 75%" — THE ARITHMETIC WAS THE APP'S, AND THE SCREEN WAS STILL
+THE DEFECT.**
+
+8/12 is 66.7%; 9 of 12 is the 75% mark, and `passedLesson` uses `>=`, so exactly
+75% passes. The app was right. **What it never did was say so in a form the learner
+could check**: it printed `8 / 12` and a button reading "need 75%", and left the
+conversion to them. **117 hand-written drills plus the engine did that and not one
+printed the number needed.** `MicroLessonScreen` had already learned this six days
+earlier ("3 of 3 needed to log this lesson") and the lesson was not carried across.
+
+**AND ONE OF THE TWO NUMBERS ON THAT SCREEN WAS UNRELATED TO THE VERDICT.** The
+praise tier read `score >= total * 0.8` while the gate is 0.75 — so a learner at
+exactly 9 of 12, **a pass**, was told _"needs more practice"_. Two thresholds in
+one component, one of them attached to nothing.
+
+Fixed in `ModeDrill` (109 screens): the result now states
+`{needed} of {total} needed to pass`, the retry button says
+`Try again (need 9 of 12)`, and the praise tier reads `passed` so the sentence and
+the outcome cannot disagree. `itemsNeededToPass` / `retryNeedLabel` live beside
+`LESSON_PASS_THRESHOLD` so the count and the gate are one definition.
+**The 117 hand-written drills still say "need 75%" — queued below, measured, not
+guessed.**
+
+---
+
+**3. THE PRONUNCIATION FAILURE WAS UN-DIAGNOSABLE, AND THE SENTRY SHAPE IS WHAT
+SAID SO.** `ai_feedback_failed:pronunciation-assess:server` carried **`kind` and
+nothing else** — no `status`, no `code`. Only `failureFromError` produces that, so
+the request never got a response: `_nativePost` returned null and the client threw
+a bare `new Error('assess_transport_failed')`, discarding the reason. That one
+event was consistent with six different `err()` returns in the endpoint AND with
+the request never arriving. The null now classifies as `failureFromStatus(0,
+'transport_null')` — same learner message, but Sentry can finally tell "nothing
+answered" from "the handler refused". **The root cause of THIS occurrence is still
+not established** and saying so is the point; the next one will name itself.
+(Checked and ruled out from source: the client/endpoint field contract matches
+(`audioBase64`/`referenceText`/`locale`/`audioMimeType`), the webm/opus MIME
+mapping is correct, and an abort would classify as `timeout`, not `server`.)
+
+---
+
+**4. THE ECHO WAS TWO `Audio` ELEMENTS, NOT A MICROPHONE.**
+`useRecorder.playback()` did `new Audio(audioUrl)` on every call and kept **no
+reference**. A second tap of ▶ started a second copy of the same recording while
+the first was still running, offset by the gap between taps — which is exactly what
+an echo sounds like. No echo-cancellation constraint would have touched it.
+
+The missing reference cost a second thing: **nothing could stop a playback**, so
+leaving the screen mid-playback left the recording audible, and "Try again" started
+the next attempt over the previous one. One ref fixes both, and because
+`useRecorder` is shared it covers Shadowing, the exam speaking task, Roleplay, the
+graded reader and the pronunciation scorer at once. `stopPlayback` is deliberately
+NOT exported — nothing outside needs it, and an optional callback no caller passes
+is sweep 128's dead branch in a new place.
+
+**The guard's first draft asserted the wrong invariant**: `unlockAudio()`
+constructs its own silent element for the WebView activation rule, so "nothing was
+constructed" is false even with no recording. It asserts what matters — never two
+playing at once — and pins the ORDER (stop before `new Audio`), because the other
+order keeps the old one running underneath. Mutation-verified, two.
+
+---
+
+**5. THE COACH WAS TOLD THE LEARNER HAD SAID IT PERFECTLY, so of course the advice
+never changed.** Four layers, each individually reasonable:
+
+1. `parseAzureResponse` **dropped Azure's recognised text** (`Display`/`Lexical`),
+   so the client had no transcript on the acoustic path;
+2. so `PronunciationScorer` passed **`targetText` as `spoken`**;
+3. so `/api/pronunciation-coach`'s `analyzeCroatianPhonemes(word, spoken)` compared
+   a string with itself, found no issues, and left `phonemeContext` **empty**;
+4. leaving the score as the only varying input — and it selects one of **three**
+   fixed `performanceContext` sentences.
+
+One phrase, same score band, same paragraph, for ever. **Meanwhile Azure's
+per-phoneme measurements were in the response, already parsed into `word_scores`,
+already rendered as a "worst phoneme" tip two components away.** The app measured
+the right thing and showed it to the learner while telling the coach nothing.
+
+The prompt was also lying to the model: it stated unconditionally that the score is
+_"Levenshtein string distance, not a phonetic score"_ — true on the Web Speech path
+and **false on the acoustic one**, where it is a real measurement. A model told a
+measurement is a string comparison will hedge exactly where it could be specific.
+
+Fixed in all three layers: the endpoint returns `recognized`; the client sends the
+real transcript plus the six worst measured phonemes and `scoreKind: 'acoustic'`;
+the coach leads with `ACOUSTICALLY MEASURED per-phoneme accuracy` and describes the
+score honestly per path. The phoneme list is learner-influenced input reaching a
+prompt, so it is capped at 6, clamped 0–100 and `sanitizeParam`'d.
+
+---
+
+**THE SECOND HALF OF REPORT 2: ALL 120 SCREENS, and the transformation was derived
+rather than typed.** `ModeDrill` covered 109; the remaining **117 hand-written drill
+files** each had their own copy of the same two defects. A blind sed across 117
+production files is the wrong tool, so the totals were DERIVED: for each file, read
+the `{score} / {total}` render nearest its retry button and take the second operand.
+**101 of 116 said `total`**; ten used a named expression (`questions.length`,
+`shuffledQuiz.length`, `GENDERDRILL.adjectives.length`, …); **five were not derivable
+and were read by hand** (two took the total from their own `completeExercise` call,
+two from `passedLesson(score, total)`, one from `REFLEXIVE.quiz.length`). The import
+specifier is computed per file depth, and an existing `lessonGate` import is extended
+rather than duplicated.
+
+**THE PRAISE TIER WAS CHECKED BEFORE IT WAS CHANGED, and that check is the reason
+the change was safe.** 111 files contain `* 0.8`; a second probe asked what each
+occurrence FEEDS, and **all 108 matches of `score >= X * 0.8` were followed
+immediately by a string literal** — a praise ternary, nothing gating an award or a
+credit. So replacing the comparison with `passed` could not move XP. 97 had a
+`passed` binding in scope; the other five got `passedLesson(score, total)`.
+
+**THE GUARD'S RULE IS DIRECTIONAL, and its first draft was wrong in the useful
+direction.** Written as "no praise tier may use a threshold other than the gate", it
+flagged five more sites — and reading them showed three DIFFERENT things:
+`LevelQuiz`'s `passed = score >= Math.ceil(total * 0.7)` is its own deliberate GATE
+(level quizzes pass at 70% and gate level progression through
+`stats.levelQuizPasses` — a product decision), and the two listening screens'
+`0.6`/`0.7` bands sub-tier BENEATH their own `passed` branch. The rule that
+distinguishes them is the direction: **a threshold ABOVE the gate can only ever
+contradict the verdict** (a learner who passed is told to practise more), while one
+below it can only give an encouraging line to someone who did not pass. The guard
+now compares each factor against `LESSON_PASS_THRESHOLD` imported from production,
+so moving the gate moves the rule. Mutation-verified: restoring both defects in one
+file fails 2 of 4.
+
+**Three prose sites were fixed too** — `LessonCheckSlide` ("Show what you learned —
+5 of 6 completes the lesson"), `LessonSummarySlide` and `GenitiveDrill` — because
+"you need 75%" in a sentence is the same defect as on a button. **No E2E spec or unit
+test asserted the old literal**: they use `data-testid="drill-retry"`, which is
+untouched.
+
+**THE COMMON SHAPE, and it is not "AI is flaky":** in four of the five, the app
+already HAD the right information and a boundary threw it away — the type the
+client sends, the count the learner needed, the transcript Azure returned, the
+reason the transport failed. **Every one was invisible because the failure was
+reported as something else**: a 400 as `server`, a 66.7% as "need 75%", a discarded
+transcript as coaching that "works", a null transport as a server fault.
+
+**Full suite green; five mutations across three new guards.**
+
+---
+
+### 132. This file was growing its own indentation by four spaces a write — 2026-09-25 — ONE find, in the audit log itself
+
+Noticed while re-measuring after a `prettier --write`: 67 lines of AUDIT-STATE.md
+sat at **115 spaces of indentation**, and the number was not static — it had been
+107 two commits earlier and went to 119 on the next write. Reproduced in seven
+lines and confirmed **unbounded**: 6 -> 10 -> 14 -> 18, +4 for ever, ~300 bytes a
+run.
+
+**The shape is one specific markdown construct.** A `- [x] ` marker is six
+characters, so the item's first continuation paragraph aligns under it at 6
+spaces and prettier preserves that verbatim — it is a LAZY continuation of the
+marker line, part of the same paragraph node. A SECOND paragraph, after a blank
+line, at the same 6 spaces is a separate block that prettier re-indents, and its
+idea of the content column is **2**. The extra four are re-emitted as four more
+on top, every run. Two blocks in this file had it, 78 lines between them, and
+nothing else in either document does (measured by running prettier on a copy and
+diffing per-line indentation — 78 unstable lines, all in those two blocks).
+
+**WHY NOTHING NOTICED, and this is the part worth keeping.** The rendered output
+is unchanged — a deeply indented paragraph inside a list item still renders as a
+paragraph inside a list item. The diff is unreadable either way, because every
+write of this file reflows prose. And the file is an APPEND-heavy log: the two
+affected blocks are old entries nobody re-reads. **A document that still renders
+is a document nobody re-reads**, which is the same reason the nav table was wrong
+for five months and the directory diagram for a year — but reached here through
+formatting rather than through a stale claim.
+
+**Fixed structurally** (both blocks moved to the content column, 2 for paragraphs
+and sub-bullets, 4 for sub-bullet continuations), then proved a fixed point by
+running prettier twice and diffing. **Guarded** by a max-indent bound outside
+fenced code blocks in `claudeMdPaths.test.ts` — 10, against a measured maximum of
+8 (AUDIT-STATE) and 5 (CLAUDE.md), which the runaway breaks after a single write.
+Fences are excluded because they hold aligned tables (one legitimate 13-space line
+at :3828). Mutation-verified: one line put back at 14 fails 1 test and names the
+line.
+
+**A GUARD ON A DOCUMENT'S SHAPE, NOT ITS CLAIMS.** Every previous guard on these
+two files checks what they ASSERT — that a named file exists, that a nav label
+matches the code, that a count is the one the lint prints. This is the first that
+checks the document is still a fixed point of the tool that rewrites it. A
+formatter that is not idempotent on your source is a slow corruption with no
+error message, and `lint-staged` runs it on every commit, so the corruption is
+automated.
+
+AUDIT-STATE.md 637,393 -> 629,569 bytes.
+
+---
+
+### 133. A 4xx read as an outage — 2026-09-25 — ONE find, and it is why the last one cost nineteen days
+
+`failureFromStatus` had no branch between 401 and 504, so every client error
+became `build('server')`: the learner read "the evaluation service is temporarily
+unavailable, try again in a moment" for a request that could never succeed, and
+Sentry filed it as `ai_feedback_failed:<surface>:server`. That is exactly how
+`/api/explain-error` rejecting the `type` all 109 engine-backed drills send
+survived from 2026-09-07 to a field report — **nobody looks for a client/endpoint
+contract mismatch under a tag that says the server is down.** Recorded as open by
+sweep 131 because "adding a branch changes learner-facing copy on every AI
+surface"; measured, that is only true where a 4xx actually occurs, and every 4xx
+these endpoints return is a defect.
+
+Enumerated before writing the branch, because the danger is mis-classifying a
+legitimate learner condition: the 4xx the endpoints return are malformed
+requests, a blocked origin, a missing route and `audio_too_large`. The learner's
+own limits are 401 and 429 and are classified above the new line, and `bad_audio`
+is an `stt` code matched above it too. So `bad_request` is **not retryable** — a
+malformed request is malformed again, and before sweep 131's refund each retry
+also spent a quota turn and booked budget for a call that never happened.
+
+**THE KINDS LIST WAS HAND-WRITTEN AND WOULD HAVE COVERED ELEVEN OF TWELVE.**
+`aiFailure.test.ts` asserts every kind has a distinct sentence, from a literal
+array — so a kind added without a sentence was outside the claim the test makes.
+`AI_FAILURE_KINDS` is now the runtime value and the type is derived from it.
+
+**AND THAT DERIVATION GUARDS ONE DIRECTION ONLY — mutation said so.** It catches
+a kind ADDED without a sentence (it falls to `default`, duplicates the server
+sentence, distinctness fails). It does NOT catch a kind REMOVED while the
+classifier still produces it: the list just gets shorter and every survivor still
+has a sentence. Deleting `'bad_request'` from the array left the suite **fully
+green**. Fixed with an EFFECT assertion — the set of kinds the classifiers
+actually produce must equal the declared set — which also proves no declared kind
+is dead. Mutation-verified both directions plus the branch itself: removed branch
+fails 2, kind removed 1, kind added with no sentence 2.
+
+**The general shape: deriving a test's list from production closes the direction
+where production grows and leaves open the direction where it shrinks.** A
+membership check is not a coverage check.
+
+---
+
+### 134. The KV bill was one endpoint, and the cap silently disabled the anti-cheat — 2026-09-25 — owner report, TWO finds and a third in its only test
+
+Owner forwarded Cloudflare's "KV operations are nearing the daily cap", 50% used.
+The free Workers KV tier is a DAILY budget and the tight limit is **1,000 writes**
+(reads are 100,000 and were never the constraint).
+
+**Measured rather than guessed**: every `.put(` under `functions/` was read and
+attributed. Most are bounded — the TTS audio cache writes once per unique phrase
+for 90 days, news and daily-culture once per window, the push heartbeat 48/day,
+the weekly Firestore backup ~16 (50 docs a chunk, three collections). Three of the
+four per-request gates — `_rateLimit.js`, `_aiQuota.js`, `_aiBudget.js` — are
+D1-primary with KV only behind them, so they cost nothing. **Two of the `.put(`
+hits were the Cache API, not KV** (`_rateLimit.js`, `_verifyToken.js`); grepping
+`.put(` and counting is not a KV census.
+
+**WHAT REMAINS ON KV AFTER THE FIX, so the next email can be read without
+re-deriving this.** The largest remaining writer is `/api/backup-mine`: **4
+writes per active user per day**, correctly latched to once per UTC day
+(`backup:mine:rl:<uid>:<day>`, checked BEFORE the body is read). At 100
+daily-active learners that is 400 of the 1,000, which is fine and is also the
+number to watch — it scales with users where nothing else does. Everything else
+is per-CONTENT, not per-user: TTS one write per unique phrase for 90 days, news
+and daily-culture one per window, `vocab-expand`/`scene-video`/`adaptive-insights`
+one per cache miss, the push heartbeat 48/day, the weekly Firestore backup ~16.
+`content/_authedRead.js`'s daily read cap is already D1 — and its comment records
+the SAME defect in reverse (it used to call `.get()`/`.put()` on the D1 binding,
+which threw and was swallowed, so the cap never enforced), which is the evidence
+that this migration was the known-right direction and `award.js` was simply
+missed.
+
+**`/api/award` was the entire bill**: two KV writes (`xpv2:<uid>`,
+`xpday:<uid>:<date>`) plus two reads on **every XP award**, so 1,000 ÷ 2 =
+**~500 awards per day across every learner combined** — about ten engaged
+sessions, since one learner makes 30–60. It predates the D1 pattern (plan dated
+2026-04-24) and nothing carried it across, the one-copy-of-a-pattern-never-updated
+shape again; `AI_QUOTA_DB` has been bound the whole time and D1's free tier is
+100,000 writes/day.
+
+**THE SECOND FIND IS WORSE THAN THE BILL: exceeding the cap silently removed the
+anti-cheat.** A `put` that 429s throws, `award.js` caught it and fell through to
+"cap by allowlist only" — so on a KV-exhausted day the 600-XP/10-minute velocity
+budget AND the 2,500/day cap were not enforced at all, and nothing recorded that
+they had stopped. Identical to the dead news feed's `catch { return [] }`. The
+fall-through is still right (a learner must not lose earned XP because a store is
+down) and now logs the grep-able `xp_caps_unavailable`.
+
+**A comment claimed a property the store underneath could not provide.**
+"Write-back both keys synchronously — prevents concurrent requests from each
+reading the same pre-update state" — KV is eventually consistent, so ordering the
+writes does not order the reads. D1 is read-your-writes on the primary, so the
+same JS logic is strictly less racy there. It is NOT claimed atomic: the store
+still reads, decides and writes, and the docstring says so.
+
+**THE THIRD FIND IS THE TEST, AND IT EXPLAINS WHY THIS WAS INVISIBLE.**
+`award-worker.test.js` declared its own `computeAwarded` and its own copy of
+`ACTIVITY_XP_MAP` and **imported nothing from `functions/` at all** — 16 tests,
+none of which could see the endpoint. The `a2Curriculum` `SCREEN_FOR` trap. What
+it cost concretely: the copy took `velocityTotal` and nothing else, so the
+**2,500/day cap, added to the endpoint later, was outside every assertion in the
+file.** (The copied XP map did NOT drift — and its sibling pair
+`_activityXp.js` ↔ `src/lib/activityXp.ts` is properly mechanised by
+`crossBoundaryConstants.test.ts`, which is why only the in-test copy was wrong.)
+
+Fixed: `_xpVelocityStore.js` holds the clamp ONCE as a pure function both
+backends call, D1 primary with the SAME KV keys as the fallback so an in-flight
+velocity window survived the switch, a self-migrating `xp_velocity` table and the
+`_rateLimit.js` probabilistic cleanup (D1 has no TTL). `award-worker.test.js`
+rewritten to drive the real handler and the real clamp, 21 tests.
+
+**WHAT THE D1 STUB CANNOT PROVE, stated in the file rather than implied.** It
+stores rows and answers the two statements the store issues; it does not execute
+SQL. So the clamp is a pure function tested directly and the SQL is kept to a
+plain SELECT and a plain upsert with no computed columns — the atomic
+single-statement version was considered and rejected, because a store whose
+correctness depends on SQL semantics cannot be verified from here and an
+unverifiable store guarding the XP economy is worse than a simpler one. Naming
+the limit is the point; a stub that silently defines its own subject is the
+vacuity this file keeps finding.
+
+Mutation-verified, six, each confirmed landed: no D1 tier fails 5, the
+zero-award write guard 1, a day total carried across dates 1, a silent no-store
+1, the daily cap dropped 2, a sliding window 1.
+
+**CLAUDE.md never listed `XP_VELOCITY` at all** — the KV table named only
+`PUSH_SUBSCRIPTIONS`, so from the doc the binding did not exist and the endpoint
+looked storage-less. Added, with the D1 row extended to name all four tables it
+now carries.
+
+---
+
+### 135. `null` said WHAT and never WHY, across twenty callers — 2026-09-25 — the field report is EXPLAINED, plus one more live instance
+
+The parked question from sweep 131: why `/api/pronunciation-assess` got no response
+at all. **It is answered, and reading the code settled what reasoning about it
+could not.** The Sentry event carried a kind and nothing else — no status, no
+code — and that combination is produced by exactly one thing, `failureFromError`
+on something that is not a TypeError, not an abort, with the browser online.
+`PronunciationScorer` did `if (!res) throw new Error('assess_transport_failed')`
+inside a try whose catch calls `failureFromError`. **So the null transport was
+laundered into "the evaluation service is temporarily unavailable"** — the
+learner was told to retry, and nothing anywhere recorded that nothing had
+answered.
+
+**ELIMINATED, so nobody re-chases it**: the other live candidate was
+`getFirebaseBearer()` throwing, since it is awaited OUTSIDE `send()` and would
+propagate straight to the caller's catch. It cannot. `_getFirebaseBearer`'s
+entire body — including the `await _bearerPromise` that could inherit a rejected
+cached promise from the hot path's `getIdToken()` — sits inside one try/catch
+returning null. **Reading the body settled it; the await's position, which is
+what made it a candidate, says nothing.**
+
+**`getLastTransportFailure()` is the diagnostic that was missing**, and it is the
+"build the diagnostic and let the cause name itself" rule applied one layer down
+from where sweep 131 applied it. `_nativePost` now records `fetch_threw` /
+`capacitor_threw` / `capacitor_unusable_body` with the attempt count and the
+thrown error's NAME — a CLOSED vocabulary, names never messages, because a fetch
+rejection embeds the URL it failed against and this value is built to go in a
+report (the push-delivery rule). ANY response clears it, including a 4xx and a
+5xx: both prove the transport works, and a stale reason would let one surface
+report another's dead connection as the cause of this handler's refusal.
+
+**A 200 WHOSE BYTES CANNOT BE DECODED IS NOT "NOTHING ANSWERED", and they were
+the same null.** The native blob path `continue`s on undecodable data; with two
+endpoints both undecodable, `lastServerError` stays null and the caller saw
+exactly what a dead connection looks like. `capacitor_unusable_body` separates
+them.
+
+**THE CENSUS FOUND ONE MORE LIVE INSTANCE, which is why fixing the screen the
+Sentry issue named would have been half a fix** (this file's own "both launch
+sites and there were three", third recurrence). Four learner-facing callers:
+`PronunciationScorer` and **`LiveTutorScreen`** both laundered the null through a
+bare `throw new Error` into an unexplained `server`; `GradedInputScreen` and
+`whisperClaudeScorer` classified it correctly as `network` and carried no reason.
+`lib/audio.ts` was already fully instrumented (2026-09-10) and `lib/firebase.ts`'s
+delete-account returns a plain honest sentence through no classifier — both
+exempt with their reasons, and the exemption list is checked in BOTH staleness
+directions.
+
+**A CORRECTION TO MY OWN FIX FROM THIS MORNING.** 57c3a264 reported this case as
+`failureFromStatus(0, 'transport_null')` — and status 0 is not 4xx, so it fell
+through to `build('server')`: **the exact misreport that fix existed to end**,
+reintroduced in the line that was supposed to end it. `transportFailure(code)`
+returns `network` (nothing answered is not a server fault, and 0 is not a status)
+and carries the code, so all four callers now report the same honest kind with a
+diagnosable reason.
+
+**TWO HARNESS DEFECTS, both of which looked like production failures.**
+(1) A PARTIAL `vi.mock` of a module silently makes a NEW import from it
+`undefined`: seven test files mocked `nativePost.js` with `_nativePost` alone, so
+`getLastTransportFailure()` threw a TypeError at the call site and the failure
+presented as my change being wrong. Every partial mock now supplies it.
+(2) **Prettier collapsed the reason union onto one line and my format-dependent
+matcher came back EMPTY** — `declared` was `[]`, which would have made the
+per-literal loop vacuous had the equality assertion not caught it first. The
+derivation takes the whole declaration and then its literals.
+
+**AND TWO OF MY FIVE EXEMPTIONS GUARDED NOTHING.** `nativeTransport.ts` and
+`checkpointConfig.ts` name `_nativePost` only in a comment, which the strip
+already removes, so the walk could never have found them — a redundant exemption
+is the stale-exemption shape with its reason written in advance. Measured (0 calls
+after strip) and removed; the staleness assertion now fails if an exemption stops
+being needed.
+
+**A LOOSE MATCHER CONFLATED TWO DIFFERENT FINDINGS.** The bare-`throw` rule was
+written `if\s*\(\s*!\s*res?\b[^)]*\)`, and `[^)]*` also matched
+`if (!res.ok) throw new Error` — a non-OK RESPONSE, which has a status and is a
+separate (smaller) question. Scoped to the bare variable.
+
+Mutation-verified, ten, each confirmed landed: the fetch reason not recorded
+fails 6; the message recorded instead of the name 3; the record not cleared on a
+response 3; an abort recording before it rethrows 1; the caller back to the
+placeholder 1; an undeclared reason at a call site 1; `LiveTutorScreen` back to a
+bare Error 2; `whisperClaudeScorer` dropping the reason 1; a stale exemption 1;
+`transportFailure` returning `server` 1. E2E audit: no spec asserts any changed
+string.
+
+**STILL NOT ESTABLISHED, and now bounded**: why nothing answered for the owner
+that day. On web there is exactly one endpoint, so it means `fetch` itself threw
+while the browser was online. The next occurrence reports
+`ai_feedback_failed:pronunciation-assess:network code=fetch_threw` with
+`attempts=1 err=<Name>`, which names it.
+
+---
+
+### 137. A payload key nobody reads — 2026-09-25 — TWO of thirty-two, and a recorded reason that measured zero
+
+The layer sweep 136 pointed at, asked properly. `corePayloadKeys` requires every key
+in `CORE_PAYLOAD_KEYS` to name a real EXPORT (the server half) and `contentShapeSweep`
+checks that a screen's field accesses EXIST in the payload (the shape half). **Nothing
+asked whether anything reads a key at all**, so a key keeps being composed, serialized
+and shipped to every client in the 1.4 MB `/api/content/core` response after its last
+consumer goes away. That is `meteredEndpointsHaveCallers` one layer over, with the same
+cause: removing a dead client is the right move whose side effect had no observer.
+
+**Measured: two of thirty-two, and both were stranded by a CORRECT action.**
+
+| key               | bytes | how it lost its reader                                                    |
+| ----------------- | ----- | ------------------------------------------------------------------------- |
+| `SCENES`          | 8,626 | sweep 107 collapsed a two-source feature onto the static copy — correctly |
+| `LEVEL_NARRATIVE` | 704   | its one consumer was `HeroSection`, unrendered 2026-04-25, deleted in 136 |
+
+**A RECORDED REASON MEASURED ZERO.** Sweep 107's own note says of `SCENES` "**The
+server side stays** — the key still has five other consumers", and it is false: there
+are no consumers. The five are CARRIERS — the type declaration, the E2E fixture, the
+key list, the endpoint, the etag generator — which is sweep 118's rule in the consumer
+direction: **a conduit is not a consumer.** The same paragraph two lines above already
+says the picker "was the app's ONLY reader of the payload key", so the note contradicts
+itself; corrected in place. This is the third reason in this file to be wrong in the
+plausible direction (`idioms`, `KNOWN_NO_CLEARING_PATH`, now this), and the pattern is
+always that the number was never measured.
+
+**THE TYPE DECLARATION NEEDED MEASURING, NOT EXEMPTING.** `src/types/content.ts` names
+all 32 keys, so the obvious move is to exclude the file — and measured, the matcher
+already refuses it: an interface member is `KEY: Record<…>`, which is neither a property
+access nor a destructure, so all 32 read as unread there. No exclusion was written (a
+redundant exemption is the stale-exemption shape with its reason written in advance,
+sweep 135); the property is ASSERTED over all 32 keys on the real file instead, because
+it is what makes every finding here meaningful.
+
+**THE READER MATCHER IS OBJECT-BLIND ON PURPOSE.** Nearly every screen does
+`const data = useContent()` and reads `data.KEY` later, and several go one more hop into
+state (sweep 121), so following the `useContent()` variable sees almost nothing.
+`.KEY`, `?.KEY`, `['KEY']` and a destructure all count, off any object.
+
+**AND THE FILTER IS DRIVEN ON A FABRICATED PAIR, for the second time today.** A reader
+that is itself unreachable is not a reader — that is exactly how `LEVEL_NARRATIVE` got
+here, `HeroSection` reading it for five months after nothing rendered it. Sweep 136 had
+to rebuild `meteredEndpointsHaveCallers`'s equivalent clause because its fixture was a
+real dead file that got deleted; this one was built that way from the start.
+
+Both keys are RECORDED, not removed, and the removals are queued with their blockers —
+`SCENES`'s removal deletes the one differently-named twin that `payloadTwinParity` pins
+as its own non-vacuity proof, and `LEVEL_NARRATIVE`'s payload copy is the only one that
+reaches a client at all. 9.3 KB on a 1.4 MB payload is worth doing and not worth rushing.
+
+Mutation-verified, four, each confirmed landed and reverted: `LEVEL_NARRATIVE` dropped
+from the record fails 1; the reachability filter defeated fails 1; `readsIt` always true
+fails 2; `readsIt` always false fails 3.
+
+---
+
+### 136. Deleting the twenty dead modules — 2026-09-25 — THREE finds the deletion itself surfaced, and a count three mechanisms agreed was wrong
+
+Sweep 129 measured the set and named it; this executed the decision. **Twenty of the
+twenty-one deleted: 4,017 lines of modules and 1,365 of tests that existed only to
+keep them reachable.** The survivor is `lib/conjugation/morphology.ts`, a test-only
+VALIDATOR whose stored data the app renders through a lookup — the "softer problem"
+the guard's own docstring means, and the one case where membership is not a defect.
+
+Nothing a learner can see changed, which is the point and also what made the change
+safe to make in one sweep: `tsc --noEmit` passed with no production edit at all, no
+E2E spec references a deleted test id or string, and the full suite went 649 → 637
+files / 10,137 → 10,009 tests, green.
+
+**WHAT THE DELETION SURFACED, none of which a reading had found:**
+
+1. **Two MORE audit sweeps had been fixing bugs inside the dead files**, taking the
+   count from twice (sweep 129: #655 and the CEFR badge) to **four times**. The
+   deleted `paidStreakRestore.test.ts` fixed the 200-XP streak restore in
+   `useHeroRewards` and its docstring states the fixed path "is the ONLY one a user
+   can reach"; `storageResilience.test.ts`'s paid-actions block says of the same
+   handler "the difference is that these two were still live". **Both files reasoned
+   explicitly about reachability and both got it wrong**, because the question each
+   asked was "can this STATE occur" and not "can anyone get to this CODE".
+2. **The XP BOOST and the PAID STREAK RESTORE are features with no purchase path.**
+   `lXPgain` still doubles XP off `nh_xp_boost_expires`, `progressSnapshot` still
+   uploads it and `applyRemoteProgress` still merges it — and the only caller of
+   `activateXPBoost` and of `spendXp(STREAK_RESTORE_COST)` was this hook. So
+   `nh_xp_boost_expires` can never be non-zero for any learner. **Sweep 111's "a
+   conduit is not a producer" needs one more hop: a producer that is itself
+   UNREACHABLE is not a producer** — the same correction sweep 130 made for
+   endpoints, and the reason `deadKeyReaders`'s `NO_PRODUCER` cannot see this (the
+   write really is there in `appUtils`). RECORDED at the constants for the owner, not
+   patched: re-adding a purchase surface is a product decision, filed beside the
+   campaign multiplier.
+3. **`LEVEL_NARRATIVE` is a key in the 1.4 MB `/api/content/core` payload whose one
+   client consumer was `HeroSection`** — so #655's September fix to its level-7 rung
+   was a fix to the reading of a payload nobody reads. Still shipped; the general
+   question (a payload key with no reachable consumer) is queued below, because
+   `corePayloadKeys` requires every key to have an EXPORT and nothing requires a
+   READER. That is `meteredEndpointsHaveCallers` one layer over.
+
+**AND THE CROATIAN LINT'S COVERAGE FIGURE WAS WRONG, WITH ALL THREE MECHANISMS
+AGREEING.** Removing three hero files from `TARGETS` took the printed count 522 →
+518, which prompted a check of the array: **46 duplicate entries**, appended by the
+2026-09-07 fourth wave over files already listed. So 46 files were scanned TWICE,
+the lint printed `TARGETS.length` as its coverage figure, and
+`claudeMdPaths.test.ts` compared CLAUDE.md's sentence against **that same array
+length** — prose, tool output and guard consistent with each other and with nothing
+that mattered, which is verbatim the CEFR-badge finding landing on a count. True
+coverage is **472 files** (470 distinct targets + 2 walked structurally), not 522.
+Fixed three ways: the duplicates removed, the lint walks `[...new Set(TARGETS)]` so a
+re-added entry can neither double-scan nor inflate the figure, both count-reading
+guards count DISTINCT paths, and `croatianLintTargets.test.ts` fails on a duplicate.
+**A count two mechanisms derive from one array is one claim, not two.**
+
+**A GUARD'S NON-VACUITY MUST NOT DEPEND ON A DEAD MODULE STAYING DEAD.**
+`meteredEndpointsHaveCallers`'s load-bearing clause — "a caller that is itself
+unreachable is not a caller" — was driven on `hooks/useTranslator.ts` as its
+fixture, and this sweep deleted it. It now runs on a FABRICATED pair (a live caller
+plus an invented path) through the real reachable set and then with the filter
+defeated, so it cannot be broken again by somebody doing the right thing.
+
+**TWO EXEMPTION SETS WENT EMPTY AND BOTH ARE KEPT** (the `couplingClearingPath`
+rule): `routerOptionalProps`'s `NOT_RENDERED` and `learningCenter`'s
+`CATALOGUE_EXEMPT`. Each had a `length > 0` non-vacuity check that would now force a
+fake entry, so in both the non-vacuity moved onto the DERIVATION's subject count —
+an empty exemption set is the correct state, and asserting otherwise invents work.
+
+Mutation-verified, ten, each confirmed landed and reverted: a new app-unreachable
+module (fails 1, and it is NAMED); `TEST_ONLY_REACHABLE` emptied (2); the
+reachability filter defeated in `clientCallers` (1); `DesktopPanel` reverted to the
+unlock resolver — the live-surface check after losing its dead third (**4**); a
+duplicate `TARGETS` entry (1, while the printed count correctly stays 472); the
+CLAUDE.md coverage figure drifted back to 518 (1); `ListeningScreen` marking the
+wrong quest (1); `applyStreakEarnBack` no longer backfilling the day-set (1);
+`restoreStreakDays` made non-additive — the assertion rescued from the deleted spec
+(1); and `optionalCallbackProps` gutted, which is the non-vacuity swapped in above
+(2).
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
+
+- [x] ~~**THE OTHER 117 DRILLS STILL SAY "need 75%"**~~ — DONE, same day, and the
+      derivation is what made 120 files safe to change. It was the
+      owner's own report (2026-09-25) only half fixed. `ModeDrill` now prints the
+      COUNT a learner needs (109 screens); **117 hand-written drill files still show
+      a bare fraction beside a percentage**, and **108 of them carry the same
+      `total * 0.8` praise tier that contradicts the 0.75 gate** — so a learner at
+      exactly 75% passes and is told "needs more practice". The helpers exist
+      (`itemsNeededToPass`, `retryNeedLabel` in `lessonGate.ts`); what makes this a
+      separate change is that each file names its total differently (`total`, `len`,
+      `q.length`, `QUESTIONS.length`), so a blind sed across 117 production files is
+      the wrong tool. Do it in batches with `npm run typecheck` plus each file's own
+      contract test after every batch, and derive the total expression from the
+      `{score} / {total}` render each one already has. A guard should then forbid a
+      NEW drill printing a percentage without the count.
+- [ ] **WHY DID `/api/pronunciation-assess` GET NO RESPONSE AT ALL?** — OPEN, and
+      deliberately left unresolved rather than guessed. Established from source: the
+      field contract matches, the webm/opus MIME mapping is right, an abort would
+      classify as `timeout`, and a handler 5xx would carry a status — so the null is
+      a transport failure before any response, and `_nativePost` swallows the
+      original error into a debug log. Two candidates neither confirmed nor
+      eliminated: `fetch` throwing something that is not a `TypeError`, and
+      `getFirebaseBearer()` throwing (it is awaited OUTSIDE `send()`, so it
+      propagates straight to the caller's catch). `code=transport_null` now
+      distinguishes it in Sentry; the next occurrence should say which. **The general
+      fix is bigger than this one screen**: `_nativePost` has 20+ callers and none
+      of them can see why it returned null — the `ttsFetch` finding (2026-09-10) one
+      layer down, unfixed for the generic transport.
+- [x] ~~**`failureFromStatus` HAS NO 4xx BRANCH**~~ — DONE, sweep 133, and the
+      recorded blocker turned out to be smaller than it read. "A learner-facing copy
+      change across every AI surface" is only true where a 4xx actually OCCURS, and
+      every 4xx these endpoints return is a defect — enumerated first (malformed
+      request, blocked origin, missing route, `audio_too_large`; the learner's own
+      limits are 401/429 and `bad_audio` is an `stt` code, all matched above the new
+      line). `bad_request` is not retryable, and the kinds list is now a runtime
+      value the type derives from — plus an EFFECT assertion, because the derivation
+      alone only guards the direction where production GROWS. **A blocker recorded
+      as "needs its own decision" is worth re-reading before the next sweep: the
+      decision took ten minutes once the 4xx were enumerated instead of imagined.**
+
+- [x] ~~**IS ANY OTHER `/api/content/core` PAYLOAD KEY READ BY NOTHING REACHABLE?**~~
+      — ANSWERED, sweep 137: **two of thirty-two**, and both were stranded by a
+      CORRECT action. `LEVEL_NARRATIVE` (704 B) lost its only consumer when the hero
+      stopped being rendered; `SCENES` (8,626 B) lost its only reader to sweep 107's
+      own fix, which collapsed a two-source feature onto the static copy — and that
+      sweep's note claimed "the key still has five other consumers", which measured
+      ZERO (the five are carriers: the type declaration, the E2E fixture, the key
+      list, the endpoint, the etag generator). Ratcheted by
+      `payloadKeysHaveReaders.test.ts`, which requires a reachable READER per key.
+      The type declaration needed measuring rather than exempting: an interface member
+      is `KEY: Record<…>`, which the matcher already refuses, so the file stays in the
+      corpus and the property is asserted.
+- [ ] **REMOVE THE TWO STRANDED PAYLOAD KEYS?** — OPEN, and each has a different
+      blocker. `SCENES` is pure duplicate transport (the client reads a
+      byte-identical static module), so removing it loses NOTHING a learner can
+      reach — except that deleting the server twin `_data/vocabScenes.js` also
+      deletes the one DIFFERENTLY-NAMED twin that `payloadTwinParity` pins as its own
+      non-vacuity proof ("the alias pair left the derivation"), so that proof has to
+      move to a fabricated pair FIRST, the way sweeps 136 and 137 both had to.
+      `LEVEL_NARRATIVE` is 704 B and the payload is the only copy that reaches a
+      client, so removing it discards authored English goal-narrative copy that a
+      future Home surface may want — that is a product question, and
+      `GoalSelectorSection` still names it in prose. Either removal also touches
+      `src/types/content.ts`, `e2e/fixtures/content-fixture.js` and the generated
+      etags. Total win is 9.3 KB on a 1.4 MB payload (0.6%) — worth doing, not worth
+      rushing.
+- [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
+      server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three
+      with reasons and fails if a fourth appears. Deleting `daily-culture.js`,
+      `daily-plan.js` and `adaptive-insights.js` touches ~6 guards, and ONE of them
+      needs care rather than courage: `promptRegistry.test.js` asserts its three
+      coverage categories PARTITION the ceiling table exactly, so the ceiling
+      entries and the INSTRUMENTED list must move together; and `promptCache.test.js`
+      drives daily-culture as one of the two endpoints implementing the
+      prompt-version-in-KV-metadata rule, leaving `news` as the only one. If the
+      owner may want a daily cultural fact back, the endpoint working is the reason
+      to ASK rather than delete — it is a product question, not a cleanup.
+- [x] ~~**`DailyListeningCard`: delete it, or give it the site its own plan
+      promised?**~~ — DELETED, sweep 136, with the rest of the unrendered set. The
+      blocker recorded below was a coupling and it cost four edits: three source-pin
+      lists (`aiRefusalMessages`, `questIdsExist`, `aiSurfaceClassifies`) lost an
+      entry, `dailyListeningCard.test.ts` went, and `routerOptionalProps`'s
+      `NOT_RENDERED` is now empty (kept, with its non-vacuity moved to the SUBJECT
+      count — an empty exemption set is the correct state, so a length floor there
+      would have forced a fake entry). Not reinstated, for the reason below: the
+      routed `AIListeningScreen` calls the same generator. The original item read:
+      Established: 589 lines, 15 XP, a quest, per-line audio, rendered by nothing
+      since **2026-06-19**, when PR #55 removed its only site in `PracticeTab.tsx`
+      while that PR's own plan said in writing "Keep … `DailyListeningCard`
+      (reused by Grad/Today)". Maintained four times since, three of them by my
+      own sweeps. The routed `AIListeningScreen` (922 lines, `PRODUCTION_POOL`,
+      the P2.8 comprehension slot) calls the SAME `/api/listening` for the same
+      job, so reinstating it would give the learner two doors to one generator and
+      double-award it — which is why sweep 128 recorded it as SUPERSEDED rather
+      than wiring it. What blocks DELETION is a coupling, not a doubt: three
+      guards pin its PATH in source-pin lists (`aiRefusalMessages`,
+      `questIdsExist`, `aiSurfaceClassifies`) and `dailyListeningCard.test.ts`
+      imports `correctOption`, the `MediaCard.tsx` exemption shape in
+      `noUnreachableModules`. It cannot regress silently in the meantime:
+      `routerOptionalProps`'s `NOT_RENDERED` holds it with the reason and fails
+      if anything renders it or if the prop changes shape.
+- [x] ~~**ARE THERE OTHER COMPONENTS REACHABLE ONLY FROM THEIR OWN TESTS?**~~ —
+      ANSWERED, sweep 129, and the answer is **21 modules / 4,206 lines**, headed
+      by the 13-module `HeroSection` cluster dead since 2026-04-25. The derivation
+      was not the grep I proposed here — it is `noUnreachableModules`'s OWN import
+      walk re-seeded from `ENTRIES` alone, which also catches dead CLUSTERS (three
+      of the 21 have a live-looking importer that is itself dead). Ratcheted by
+      `TEST_ONLY_REACHABLE`, reason required per module.
+- [x] ~~**DELETE THE 21, or keep each with a reason?**~~ — DONE, sweep 136: twenty
+      deleted, one kept (the conjugation validator, which is what the guard's
+      "softer problem" clause actually means). 4,017 lines of modules and 1,365 of
+      tests that existed only to keep them reachable. Every edited guard was
+      mutated afterwards and each still fails for the LIVE surfaces — the CEFR pin
+      losing its dead third still fails 4 when `DesktopPanel` reverts to the unlock
+      resolver. The deletion SURFACED three things no reading could have (see the
+      sweep), the sharpest being that two more audit sweeps had been fixing bugs in
+      those files while reasoning explicitly about reachability.
+- [x] ~~**DO `expectedForms` AND `formFor` AGREE?**~~ — WITHDRAWN the same hour it
+      was queued, and the withdrawal is the lesson. The question presupposed two
+      competing RULES; there is one. `expectedForms` derives a form from the verb's
+      class and root, `verbsData.test.ts` asserts the stored data EQUALS that
+      derivation, and `formFor` is a lookup of the stored data — so the learner
+      meets exactly what was validated and no drift is expressible. See the
+      correction inside sweep 129. **Read the function bodies before queueing a
+      sweep about how two functions relate**; the names and the reachability
+      pointed one way and the code said otherwise.
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
       CLOSED, sweep 72: measured LATENT everywhere (flipping the order in all 72
@@ -6418,6 +10212,19 @@ mechanism covering that shape; the next one will be found the same way.
       survive the strip, per guard, against the same count in the raw file** — do
       not read a length ratio, and do not assume a guard is fine because it is
       green.
+
+  **A SECOND HOLE IN THE SAME SHAPE, sweep 123:** the ORDER is right
+  everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
+  `commentStripOrder.test.ts` records that as a deliberate semantic
+  difference and never measured it as a risk. It is a risk where the matcher
+  reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
+  with a key it does not send and turned a real finding into a pass
+  (`aiResponseContract`, fixed and mutation-proven in both directions).
+  Measured LATENT elsewhere — across the symbols the other guards match, only
+  two trailing comments in the whole tree mention one and both are English
+  prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
+  `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
+  literal, and keep line-before-block or sweep 71's hole re-opens.
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
@@ -6456,53 +10263,54 @@ None of them crash, so no sweep above can see any of them.
       negative and both now pinned, with each carrying mechanism measured
       rather than assumed.
 
-      **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-      class is open-ended, not because anything specific is outstanding** — and
-      that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-      have since been asked against it, and what each returned is recorded so
-      nobody re-derives them:
+  **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
+  class is open-ended, not because anything specific is outstanding** — and
+  that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+  have since been asked against it, and what each returned is recorded so
+  nobody re-derives them:
 
-      - **"Where does the app keep the same fact twice, with only one copy
-        having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-        sweep 52's eight negatives. Worked out. The sharpened form, which is
-        what actually selected the finds: *is one of the two copies never
-        exercised?* An inert copy (a display map, a test's list, a progress-bar
-        threshold, a type annotation) drifts silently; a live second CALLER, a
-        deliberately frozen snapshot and a genuine derivation all do not.
-      - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-        **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-        it: the guards are structural in at least five different shapes, so a
-        matcher that knows five will miss the sixth and flag the seventh.
+  - **"Where does the app keep the same fact twice, with only one copy
+    having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+    sweep 52's eight negatives. Worked out. The sharpened form, which is
+    what actually selected the finds: _is one of the two copies never
+    exercised?_ An inert copy (a display map, a test's list, a progress-bar
+    threshold, a type annotation) drifts silently; a live second CALLER, a
+    deliberately frozen snapshot and a genuine derivation all do not.
+  - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+    **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+    it: the guards are structural in at least five different shapes, so a
+    matcher that knows five will miss the sixth and flag the seventh.
 
-      - **"What does the tooling treat as reviewable text, and is that what the
-        source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-        raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-        so every change to them was unreviewable. Ratcheted repo-wide by
-        `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-        hazard, not a learner bug — and it is the first find in this file that
-        came from the TOOLING half of an agreement rather than the code half.
-        That axis is now swept for control bytes and otherwise untried: what
-        else does a tool silently decline to show?
+  - **"What does the tooling treat as reviewable text, and is that what the
+    source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+    raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+    so every change to them was unreviewable. Ratcheted repo-wide by
+    `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+    hazard, not a learner bug — and it is the first find in this file that
+    came from the TOOLING half of an agreement rather than the code half.
+    That axis is now swept for control bytes and otherwise untried: what
+    else does a tool silently decline to show?
 
-      - **"Does every committed test actually RUN?"** — sweep 55, the same
-        tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-        604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-        `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-        un-skipping every one showed **24 honest and ZnamGame's reason false** —
-        it blamed the harness's buttons when the real blocker is the drill's own
-        >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-        still fail. Still open on this axis: the 24 honest skips are 24 drills
-        whose completion contract nothing exercises — the ratchet guards the
-        exemption, not the coverage.
+  - **"Does every committed test actually RUN?"** — sweep 55, the same
+    tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+    604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+    `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+    un-skipping every one showed **24 honest and ZnamGame's reason false** —
+    it blamed the harness's buttons when the real blocker is the drill's own
 
-      - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+    > =75% credit gate. Ratcheted by re-running each skip and requiring it to
+    > still fail. Still open on this axis: the 24 honest skips are 24 drills
+    > whose completion contract nothing exercises — the ratchet guards the
+    > exemption, not the coverage.
+
+  - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
         the split was right. #720 (sweep 56) added the five ledger writers;
         #721 (sweep 58) fixed the pool-category disagreement. They did not
         belong in one PR: the first is about what a score EVIDENCES, the second
         about which slot may SERVE a screen, and conflating those two questions
         is precisely the error that made me pick the wrong value for
         `dictation`'s category first. See sweeps 59 and 60.
-      - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+  - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
         #720. Five screens now record at their genuine completion point
         (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
         `SpeakingScreen`, `VideoLessonScreen`), and
@@ -6512,23 +10320,24 @@ None of them crash, so no sweep above can see any of them.
         `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
         RECOGNITION, and filing it as spoken evidence would have made a learner
         who never spoke read as a tested speaker.
-      - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+  - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
         sweep 63. All four fixed, and my "three stale rows, all inert" summary
         was wrong: `shadowing` was LIVE, crediting the listening quest for
         acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
         mechanism sweep 57 lacked.
 
-      **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-      were about STATE OF THE CODE. The one that paid was about a fact with two
-      homes; the one that did not was about a control-flow property that the
-      codebase happens to enforce five different ways. The pattern across every
-      productive sweep in this file is the same: **they compare two things the
-      app itself already has to keep in agreement** — a claim against its
-      evidence, a queue against its clearer, a payload against its consumer, a
-      badge against its measurement. Questions that instead ask "is this code
-      correct in isolation" have consistently returned nothing a test suite was
-      not already catching. Pick the next question on that basis: name two
-      things that must agree, and ask what would happen if they stopped.)
+  **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+  were about STATE OF THE CODE. The one that paid was about a fact with two
+  homes; the one that did not was about a control-flow property that the
+  codebase happens to enforce five different ways. The pattern across every
+  productive sweep in this file is the same: **they compare two things the
+  app itself already has to keep in agreement** — a claim against its
+  evidence, a queue against its clearer, a payload against its consumer, a
+  badge against its measurement. Questions that instead ask "is this code
+  correct in isolation" have consistently returned nothing a test suite was
+  not already catching. Pick the next question on that basis: name two
+  things that must agree, and ask what would happen if they stopped.)
+
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
       The AbortError branch is untouched: its wording was already correct and
@@ -6539,12 +10348,12 @@ None of them crash, so no sweep above can see any of them.
       The B2 listening section returned 400; the badge claimed C1 for a level
       nothing measured; feedback surfaces rendered nothing on failure.
 - [x] ~~**Day-one path**~~ — CLOSED. The LESSON half is checked (sweep 7),
-  PLACEMENT is checked (sweep 14 — one real defect, the inescapable Exit loop),
-  the AUDIO leg is checked (sweep 19 — three real defects, all on the
-  `ttsFetch` path), the FEEDBACK leg is covered by sweeps 8/13 plus
-  `useExplainError`'s own classification, and the first DRILL is checked
-  (sweep 22 — the day-one drill is the Alphabet quiz, and finishing it never
-  signalled the session; one blocking and two mild defects, fixed).
+      PLACEMENT is checked (sweep 14 — one real defect, the inescapable Exit loop),
+      the AUDIO leg is checked (sweep 19 — three real defects, all on the
+      `ttsFetch` path), the FEEDBACK leg is covered by sweeps 8/13 plus
+      `useExplainError`'s own classification, and the first DRILL is checked
+      (sweep 22 — the day-one drill is the Alphabet quiz, and finishing it never
+      signalled the session; one blocking and two mild defects, fixed).
 - [x] ~~**Numbers displayed vs numbers measured** (NEVER-DO 13)~~ — DONE, see
       sweep 5. Clean. (This line sat unticked for one checkpoint after the sweep
       that closed it: the list and the findings are two places to remember, and

@@ -22,6 +22,7 @@ import { reconcileBudget } from './_aiBudget.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
+import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -672,15 +673,10 @@ export async function onRequestPost(context) {
       // message_stop = end of generation
       if (parsed.type === 'message_stop') {
         // Parse the full accumulated JSON response from Maja
-        let result = null;
-        try {
-          // Strip any markdown code fences if model adds them despite instructions
-          const cleaned = fullText
-            .replace(/^```json\s*/i, '')
-            .replace(/```\s*$/, '')
-            .trim();
-          result = JSON.parse(cleaned);
-        } catch {
+        // parseModelJson, not a private fence regex: the shared parser also recovers
+        // a reply with prose around the JSON (sweep 120).
+        let result = parseModelJson(fullText);
+        if (!result) {
           // JSON parse failure — return a graceful fallback
           result = fallbackResponse(safeTurnCount, maxTurns);
         }
@@ -734,15 +730,8 @@ export async function onRequestPost(context) {
         try {
           let fallbackResult = fallbackResponse(safeTurnCount, maxTurns);
           if (fullText) {
-            try {
-              const cleaned = fullText
-                .replace(/^```json\s*/i, '')
-                .replace(/```\s*$/, '')
-                .trim();
-              fallbackResult = JSON.parse(cleaned);
-            } catch {
-              /* use fallback as-is */
-            }
+            const recovered = parseModelJson(fullText);
+            if (recovered) fallbackResult = recovered;
           }
           await write(`data: ${JSON.stringify({ type: 'done', result: fallbackResult })}\n\n`);
         } catch {

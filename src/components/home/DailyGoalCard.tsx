@@ -8,7 +8,7 @@ import { getDailyXP, getDailyXPGoal } from '../../lib/appUtils';
  * in `nh_daily_goal_xp`); today's earned XP accumulates in `nh_daily_xp_<date>`
  * (written by useAward on every award, synced across devices via
  * progressSnapshot / applyRemoteProgress). Both were previously rendered ONLY
- * inside HeroSection, which is no longer mounted anywhere — so the goal the user
+ * inside HeroSection, unmounted since 2026-04-25 and deleted in sweep 136 — so the goal the user
  * committed to at signup was invisible in the running app. This surfaces it on
  * the live Today tab.
  *

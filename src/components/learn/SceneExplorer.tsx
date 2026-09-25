@@ -67,8 +67,14 @@ export default function SceneExplorer({
   const discCount = discovered.size;
 
   // Check completion
+  // `total > 0` is the whole guard: `0 >= 0` is true, so a scene carrying no
+  // items credited 15 XP and threw the "Scene complete!" celebration on MOUNT,
+  // for a learner who had discovered nothing (NEVER-DO 14). Sweep 106 named this
+  // shape as the class it could not see — a credit reached through an EFFECT
+  // gated on a count that happens to be zero, with no index comparison anywhere
+  // — and sweep 107 found it exactly there.
   useEffect(() => {
-    if (discCount >= total && !completeFired) {
+    if (total > 0 && discCount >= total && !completeFired) {
       setCompleteFired(true);
       setShowComplete(true);
       if (!awardFired.current) {

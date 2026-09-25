@@ -73,6 +73,25 @@ export function getMasteryLedger(): MasteryLedgerState {
     if (!parsed || parsed.v !== 1 || typeof parsed.cells !== 'object' || !parsed.cells) {
       return emptyState();
     }
+    // DROP A CELL THAT IS NOT THREE FINITE NUMBERS (sweep 124). `JSON.stringify`
+    // turns a NaN into `null`, so a cell poisoned once is read back as
+    // `{s: null, n: null}` — `tested` is then `null >= MIN_SAMPLES`, i.e. false
+    // FOR EVER, which makes `weakestReceptiveKind` score that skill at maximum
+    // need and latch the recommender onto it (#720's defect, reached from the
+    // other side). The remote merge cannot repair it either: its own validation
+    // rejects the `null` this wrote. Dropping the cell restores "never measured",
+    // which is the truth and is recoverable.
+    for (const k of Object.keys(parsed.cells)) {
+      const c = parsed.cells[k];
+      if (
+        !c ||
+        !Number.isFinite(c.s) ||
+        !Number.isFinite(c.n) ||
+        !Number.isFinite(c.at) ||
+        c.n <= 0
+      )
+        delete parsed.cells[k];
+    }
     return parsed;
   } catch {
     return emptyState();
@@ -104,6 +123,15 @@ export interface MasteryEvent {
  * in ability is never frozen out.
  */
 export function recordMasteryEvent(ev: MasteryEvent): void {
+  // THE CLAMP BOUNDS THE RANGE AND NOT THE FINITENESS, and that distinction is
+  // the whole of sweep 124: `Math.max(0, Math.min(1, NaN))` is NaN, so a single
+  // non-finite score would enter a cell that can never afterwards report itself
+  // as tested. Reject it the way a bad level or skill is rejected. 47 percentage
+  // and XP divisions in the app sit above this backstop — every one of them is
+  // safe today because its denominator happens to be non-zero, which is 47
+  // separate arguments; this is one.
+  if (!Number.isFinite(ev.score)) return;
+  if (ev.weight !== undefined && !Number.isFinite(ev.weight)) return;
   const score = Math.max(0, Math.min(1, ev.score));
   const weight = Math.max(0.05, Math.min(4, ev.weight ?? 1));
   if (!(CEFR_ORDER as readonly string[]).includes(ev.level)) return;
@@ -413,7 +441,10 @@ export function mergeRemoteMasteryLedger(remote: MasteryLedgerState | null | und
   let changed = false;
   for (const key of Object.keys(remote.cells)) {
     const r = remote.cells[key];
-    if (!r || typeof r.s !== 'number' || typeof r.n !== 'number' || typeof r.at !== 'number') {
+    // `Number.isFinite`, not `typeof === 'number'`: `typeof NaN` is 'number', so
+    // the old test admitted a poisoned cell from an older device and then clamped
+    // it to NaN again (sweep 124).
+    if (!r || !Number.isFinite(r.s) || !Number.isFinite(r.n) || !Number.isFinite(r.at)) {
       continue;
     }
     const l = local.cells[key];

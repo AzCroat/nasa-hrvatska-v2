@@ -33,6 +33,7 @@
 import React, { useState, useRef } from 'react';
 import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { itemsNeededToPass, retryNeedLabel } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
 import { drawDrillRun } from '../../lib/drillRun';
@@ -155,8 +156,19 @@ export default function ModeDrill({
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
+          {/* The count, not the percentage — see itemsNeededToPass. */}
+          <div style={{ fontSize: 13, color: '#64748b', marginBottom: 4 }}>
+            {passed
+              ? `Passed — ${itemsNeededToPass(total)} of ${total} needed`
+              : `${itemsNeededToPass(total)} of ${total} needed to pass`}
+          </div>
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
-            {score === total ? praise.perfect : score >= total * 0.8 ? praise.good : praise.more}
+            {/* THE PRAISE TIER USED 0.8 WHILE THE GATE USES 0.75, so a learner at
+                exactly 9 of 12 — a PASS — read "needs more practice" (owner
+                report, 2026-09-25). Two thresholds in one component, one of them
+                unrelated to the verdict beside it. Tier on `passed` so the
+                sentence and the outcome cannot disagree. */}
+            {score === total ? praise.perfect : passed ? praise.good : praise.more}
           </div>
           {!passed && (
             <button
@@ -172,7 +184,7 @@ export default function ModeDrill({
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
