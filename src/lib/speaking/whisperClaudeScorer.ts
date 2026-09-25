@@ -1,5 +1,5 @@
 // src/lib/speaking/whisperClaudeScorer.ts
-import { _nativePost } from '../nativePost.js';
+import { _nativePost, getLastTransportFailure } from '../nativePost.js';
 import { blobToBase64 } from '../audio.js';
 import { recordMasteryEvent } from '../masteryLedger.js';
 import type { CefrLevel } from '../cefr.js';
@@ -14,6 +14,7 @@ import {
   failureFromStatus,
   insufficientFailure,
   reportAiFailure,
+  transportFailure,
   type AiFailure,
 } from '../aiFailure.js';
 
@@ -55,7 +56,12 @@ async function postAndParse(body: Record<string, unknown>): Promise<SpeakingAsse
     // base URL on Capacitor native (relative URLs break there) and attaches the
     // Firebase bearer. Returns null on total transport failure.
     const r = await _nativePost('/api/assess-speaking', body);
-    if (!r) return fail(await failureFromResponse(null)); // nothing answered
+    if (!r) {
+      // Nothing answered, WITH the reason — the classification was already
+      // honest (`network`); the reason is what 20+ callers all lacked.
+      const t = getLastTransportFailure();
+      return fail(transportFailure(t ? t.reason : 'transport_null'));
+    }
     if (!r.ok) return fail(await failureFromResponse(r));
 
     const data = (await r.json()) as {

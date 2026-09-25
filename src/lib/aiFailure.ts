@@ -198,6 +198,24 @@ export function insufficientFailure(): AiFailure {
   return build('insufficient');
 }
 
+/**
+ * NOTHING ANSWERED — and `code` says why, from the transport's own record.
+ *
+ * `failureFromResponse(null)` has always meant this and always classified it
+ * `network`, which is the honest kind: no status exists, so no handler refused
+ * anything. What it could not do is carry a REASON, so every one of
+ * `_nativePost`'s 20+ callers reported the same contentless event.
+ *
+ * NOTE A CORRECTION. Earlier today I reported this case with
+ * `failureFromStatus(0, 'transport_null')` — and status 0 is not 4xx, so it fell
+ * through to `server`: "the evaluation service is temporarily unavailable", the
+ * exact misreport that fix existed to end. A dead transport is not a server
+ * fault, and 0 is not a status.
+ */
+export function transportFailure(code?: string): AiFailure {
+  return build('network', code ? { code } : {});
+}
+
 // ── Reporting: capped per surface+kind per session, never a learner blocker ──
 const _reported = new Map<string, number>();
 const REPORT_CAP = 3;

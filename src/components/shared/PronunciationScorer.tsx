@@ -3,11 +3,16 @@ import AzureResultPanel from './AzureResultPanel';
 import WebSpeechResultPanel from './WebSpeechResultPanel';
 import MicPermissionDeniedExplainer from './MicPermissionDeniedExplainer';
 import { apiFetch } from '../../lib/apiFetch.js';
-import { _nativePost } from '../../lib/nativePost.js';
+import { _nativePost, getLastTransportFailure } from '../../lib/nativePost.js';
 import { isNative } from '../../lib/platform.js';
 import { similarityPct } from '../../lib/text/similarity';
 import { useRecorder } from '../../hooks/useRecorder';
-import { failureFromStatus, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import {
+  failureFromStatus,
+  failureFromError,
+  reportAiFailure,
+  transportFailure,
+} from '../../lib/aiFailure';
 
 // Azure-preferred MIME negotiation order — format-sensitive for pronunciation assessment.
 // Backend STT is Cloudflare Workers AI Whisper (functions/api/assess-speaking.js),
@@ -309,8 +314,17 @@ export default function PronunciationScorer({
         // different err() returns in the endpoint AND with the request never
         // arriving, which is what made it un-diagnosable. Same naming rule the
         // TTS work applied to `_nativePost`'s null: say which.
-        const failure = failureFromStatus(0, 'transport_null');
-        reportAiFailure('pronunciation-assess', failure);
+        // The reason now comes from the transport itself rather than being a
+        // placeholder: `fetch_threw` (nothing answered, with the thrown error's
+        // NAME), `capacitor_threw`, or `capacitor_unusable_body` (a 200 whose
+        // bytes could not be decoded — which is not the same failure at all).
+        const t = getLastTransportFailure();
+        const failure = transportFailure(t ? t.reason : 'transport_null');
+        reportAiFailure(
+          'pronunciation-assess',
+          failure,
+          t ? `attempts=${t.attempts}${t.errorName ? ` err=${t.errorName}` : ''}` : undefined,
+        );
         if (webSpeechSupported) {
           setServiceNotice(failure.message);
           setMode('webspeech');

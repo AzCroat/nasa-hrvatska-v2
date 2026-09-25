@@ -3309,10 +3309,22 @@ transport read as a server error.
 - **A SENTRY EVENT'S MISSING FIELDS ARE THE DIAGNOSIS.**
   `ai_feedback_failed:pronunciation-assess:server` carried kind and nothing else —
   no status, no code — which only `failureFromError` produces, so the request never
-  got a response and `_nativePost`'s null had discarded the reason. It now reports
-  `code=transport_null`, so "nothing answered" is distinguishable from "the handler
-  refused". **The cause of that occurrence is still not established, and that is
-  recorded rather than guessed.**
+  got a response and `_nativePost`'s null had discarded the reason.
+  **THAT IS NOW EXPLAINED, and this entry's "the cause is still not established"
+  was true only until the code was read** (2026-09-25, later the same day). The
+  screen did `if (!res) throw new Error('assess_transport_failed')` inside a try
+  whose catch calls `failureFromError` — and a plain `Error`, online, not an
+  abort, falls to `build('server')` with no status and no code. **The null
+  transport was laundered into "the evaluation service is temporarily
+  unavailable."** The other candidate, `getFirebaseBearer()` throwing, is
+  ELIMINATED: its whole body sits inside one try/catch returning null, and the
+  await's position outside `send()` — which is what made it a candidate — says
+  nothing. What is still unestablished is narrower and bounded: why `fetch` itself
+  threw. See **A Null Transport Now Says Why**.
+  **AND MY FIX FOR IT WAS ITSELF THE MISREPORT.** `failureFromStatus(0, 'transport_null')`
+  — 0 is not 4xx, so it fell through to `server`, the exact thing this bullet is
+  about. It is `transportFailure(reason)` now, which returns `network`, because
+  nothing answered is not a server fault and 0 is not a status.
 - NEVER: add a `type`/mode string on a client without checking the endpoint's
   allow-list accepts it (derive it — the comment has failed twice); let a handler
   4xx after the gate without refunding the pre-charge; print a pass threshold as a
@@ -3323,6 +3335,67 @@ transport read as a server error.
   holding it (you cannot stop what you did not keep); pass the TARGET as what a
   learner said; tell a model its input is one kind of measurement when it is
   another; throw a bare `Error` for a transport that returned nothing.
+
+## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
+
+`_nativePost` returning `null` has meant "no endpoint answered at all" since
+2026-09-06, which was the right fix for a 503 coming back indistinguishable from
+a dropped connection. It said WHAT and never WHY, for **20+ callers**, so a real
+field report could be traced to that function and no further.
+
+- **`getLastTransportFailure()` records the reason as a CODE** —
+  `fetch_threw` / `capacitor_threw` / `capacitor_unusable_body` — with the attempt
+  count and the thrown error's **NAME only**. Never the message: a fetch
+  rejection embeds the URL it failed against and this value is built to go in a
+  report (the push-delivery failure-code rule). **ANY response clears it**,
+  including a 4xx and a 5xx, because both prove the transport works and a stale
+  reason would let one surface report another's dead connection as the cause of
+  this handler's refusal (the `ttsFetch` rule).
+- **A 200 WHOSE BYTES CANNOT BE DECODED IS NOT "NOTHING ANSWERED"**, and the two
+  were the same `null`: the native blob path `continue`s on undecodable data, so
+  with both endpoints undecodable the caller saw exactly what a dead connection
+  looks like. `capacitor_unusable_body` separates them.
+- **`transportFailure(code)` is the classifier for it** and returns **`network`**:
+  no status exists, so no handler refused anything, and 0 is not a status. All
+  four learner-facing callers use it.
+- **THE CENSUS IS THE POINT — one more caller had the same defect.** Fixing the
+  screen the Sentry issue named would have been half a fix. Measured: four
+  learner-facing callers, of which `PronunciationScorer` **and `LiveTutorScreen`**
+  both laundered the null through a bare `throw new Error` into an unexplained
+  `server`, while `GradedInputScreen` and `whisperClaudeScorer` classified it
+  honestly as `network` and carried no reason. `lib/audio.ts` was already
+  instrumented (2026-09-10) and `lib/firebase.ts`'s delete-account routes through
+  no classifier — both exempt with their reasons.
+- **A PARTIAL `vi.mock` MAKES A NEW IMPORT `undefined`, and it presents as the
+  production change being wrong.** Seven test files mocked `src/lib/nativePost.ts` — by its
+  .js import specifier, which is how vitest sees it — with `_nativePost` alone, so `getLastTransportFailure()` threw a TypeError at the
+  call site. When you add an export and a module is mocked anywhere, grep for
+  `vi.mock` on it.
+- **TWO OF FIVE EXEMPTIONS GUARDED NOTHING.** `nativeTransport.ts` and
+  `checkpointConfig.ts` name the helper only in a comment, which the strip
+  already removes — so the walk could never have found them. A redundant
+  exemption is the stale-exemption shape with its reason written in advance;
+  measure (0 calls after strip) before writing one, and assert each is still
+  needed.
+- **Prettier collapsed the reason union onto one line** and the format-dependent
+  matcher returned an EMPTY `declared` list, which would have made the
+  per-literal loop vacuous. Derive from the whole declaration, not a per-line
+  shape.
+- **A loose matcher conflated two findings**: `if\s*\(\s*!\s*res?\b[^)]*\)`
+  also matched `if (!res.ok) throw new Error`, which is a non-OK RESPONSE with a
+  status and a separate, smaller question. Scoped to the bare variable.
+- Mutation-verified, ten, each fails 1–6 tests: the reason not recorded, the
+  message recorded instead of the name, the record not cleared on a response, an
+  abort recording before it rethrows, the caller back to the placeholder, an
+  undeclared reason at a call site, `LiveTutorScreen` back to a bare Error,
+  `whisperClaudeScorer` dropping the reason, a stale exemption, and
+  `transportFailure` returning `server`.
+- NEVER: return `null` from a transport without recording WHY; put an error's
+  MESSAGE in a code meant for a report; keep a transport reason past a response
+  that arrived; classify "nothing answered" as `server` or pass 0 as a status;
+  fix the one caller a report named without censusing the rest; add an export to
+  a module without checking every `vi.mock` of it; write an exemption without
+  measuring that the walk would otherwise find it.
 
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 

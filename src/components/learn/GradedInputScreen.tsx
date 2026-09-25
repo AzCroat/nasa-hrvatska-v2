@@ -7,7 +7,7 @@ import {
   blobToDataUrl,
   ttsReadError,
 } from '../../lib/audio.js';
-import { _nativePost } from '../../lib/nativePost.js';
+import { _nativePost, getLastTransportFailure } from '../../lib/nativePost.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { getStoryCatalog, getStory } from '../../lib/contentClient';
 import type { StoryCatalogEntry } from '../../types/content';
@@ -24,6 +24,7 @@ import {
   failureFromError,
   failureFromStatus,
   reportAiFailure,
+  transportFailure,
   type AiFailure,
 } from '../../lib/aiFailure';
 
@@ -372,7 +373,14 @@ async function assessPronunciation(audioBlob: Blob, referenceText: string) {
   } finally {
     clearTimeout(timer);
   }
-  if (!res || !res.ok) throw new AssessError(await failureFromResponse(res));
+  // A null and a non-OK are different facts. `failureFromResponse(null)` already
+  // classified the null honestly as `network`; what it could not do is say WHY
+  // nothing answered, so every occurrence reported the same contentless event.
+  if (!res) {
+    const t = getLastTransportFailure();
+    throw new AssessError(transportFailure(t ? t.reason : 'transport_null'));
+  }
+  if (!res.ok) throw new AssessError(await failureFromResponse(res));
   const data = (await res.json()) as Record<string, unknown>;
   // The endpoint answers 200 { ok:false, error:'not_configured' } when Azure
   // is absent — a success status that is not a result.

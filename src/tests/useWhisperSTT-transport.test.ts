@@ -35,7 +35,10 @@ vi.mock('../lib/audio.ts', () => ({
   unlockAudio: vi.fn(),
   blobToBase64: vi.fn(async () => 'BASE64AUDIO'),
 }));
-vi.mock('../lib/nativePost.js', () => ({ _nativePost: (...a: unknown[]) => nativePost(...a) }));
+vi.mock('../lib/nativePost.js', () => ({
+  _nativePost: (...a: unknown[]) => nativePost(...a),
+  getLastTransportFailure: () => null,
+}));
 vi.mock('../lib/apiFetch.js', () => ({ apiFetch: (...a: unknown[]) => apiFetch(...a) }));
 vi.mock('../lib/platform.js', () => ({ isNative: () => false }));
 

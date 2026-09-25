@@ -11,7 +11,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const nativePost = vi.fn();
-vi.mock('../lib/nativePost.js', () => ({ _nativePost: (...a: unknown[]) => nativePost(...a) }));
+vi.mock('../lib/nativePost.js', () => ({
+  _nativePost: (...a: unknown[]) => nativePost(...a),
+  getLastTransportFailure: () => null,
+}));
 vi.mock('../lib/audio.js', () => ({ blobToBase64: vi.fn(async () => 'AAAA') }));
 const recordMasteryEvent = vi.fn();
 vi.mock('../lib/masteryLedger.js', () => ({

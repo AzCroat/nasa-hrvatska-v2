@@ -25,6 +25,7 @@ import PronunciationScorer from '../components/shared/PronunciationScorer';
 const mockNativePost = vi.fn();
 vi.mock('../lib/nativePost.js', () => ({
   _nativePost: (...args: unknown[]) => mockNativePost(...args),
+  getLastTransportFailure: () => null,
 }));
 
 // ── apiFetch mock — coaching call should still use apiFetch ──────────────────

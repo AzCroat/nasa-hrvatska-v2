@@ -9836,6 +9836,100 @@ now carries.
 
 ---
 
+### 135. `null` said WHAT and never WHY, across twenty callers — 2026-09-25 — the field report is EXPLAINED, plus one more live instance
+
+The parked question from sweep 131: why `/api/pronunciation-assess` got no response
+at all. **It is answered, and reading the code settled what reasoning about it
+could not.** The Sentry event carried a kind and nothing else — no status, no
+code — and that combination is produced by exactly one thing, `failureFromError`
+on something that is not a TypeError, not an abort, with the browser online.
+`PronunciationScorer` did `if (!res) throw new Error('assess_transport_failed')`
+inside a try whose catch calls `failureFromError`. **So the null transport was
+laundered into "the evaluation service is temporarily unavailable"** — the
+learner was told to retry, and nothing anywhere recorded that nothing had
+answered.
+
+**ELIMINATED, so nobody re-chases it**: the other live candidate was
+`getFirebaseBearer()` throwing, since it is awaited OUTSIDE `send()` and would
+propagate straight to the caller's catch. It cannot. `_getFirebaseBearer`'s
+entire body — including the `await _bearerPromise` that could inherit a rejected
+cached promise from the hot path's `getIdToken()` — sits inside one try/catch
+returning null. **Reading the body settled it; the await's position, which is
+what made it a candidate, says nothing.**
+
+**`getLastTransportFailure()` is the diagnostic that was missing**, and it is the
+"build the diagnostic and let the cause name itself" rule applied one layer down
+from where sweep 131 applied it. `_nativePost` now records `fetch_threw` /
+`capacitor_threw` / `capacitor_unusable_body` with the attempt count and the
+thrown error's NAME — a CLOSED vocabulary, names never messages, because a fetch
+rejection embeds the URL it failed against and this value is built to go in a
+report (the push-delivery rule). ANY response clears it, including a 4xx and a
+5xx: both prove the transport works, and a stale reason would let one surface
+report another's dead connection as the cause of this handler's refusal.
+
+**A 200 WHOSE BYTES CANNOT BE DECODED IS NOT "NOTHING ANSWERED", and they were
+the same null.** The native blob path `continue`s on undecodable data; with two
+endpoints both undecodable, `lastServerError` stays null and the caller saw
+exactly what a dead connection looks like. `capacitor_unusable_body` separates
+them.
+
+**THE CENSUS FOUND ONE MORE LIVE INSTANCE, which is why fixing the screen the
+Sentry issue named would have been half a fix** (this file's own "both launch
+sites and there were three", third recurrence). Four learner-facing callers:
+`PronunciationScorer` and **`LiveTutorScreen`** both laundered the null through a
+bare `throw new Error` into an unexplained `server`; `GradedInputScreen` and
+`whisperClaudeScorer` classified it correctly as `network` and carried no reason.
+`lib/audio.ts` was already fully instrumented (2026-09-10) and `lib/firebase.ts`'s
+delete-account returns a plain honest sentence through no classifier — both
+exempt with their reasons, and the exemption list is checked in BOTH staleness
+directions.
+
+**A CORRECTION TO MY OWN FIX FROM THIS MORNING.** 57c3a264 reported this case as
+`failureFromStatus(0, 'transport_null')` — and status 0 is not 4xx, so it fell
+through to `build('server')`: **the exact misreport that fix existed to end**,
+reintroduced in the line that was supposed to end it. `transportFailure(code)`
+returns `network` (nothing answered is not a server fault, and 0 is not a status)
+and carries the code, so all four callers now report the same honest kind with a
+diagnosable reason.
+
+**TWO HARNESS DEFECTS, both of which looked like production failures.**
+(1) A PARTIAL `vi.mock` of a module silently makes a NEW import from it
+`undefined`: seven test files mocked `nativePost.js` with `_nativePost` alone, so
+`getLastTransportFailure()` threw a TypeError at the call site and the failure
+presented as my change being wrong. Every partial mock now supplies it.
+(2) **Prettier collapsed the reason union onto one line and my format-dependent
+matcher came back EMPTY** — `declared` was `[]`, which would have made the
+per-literal loop vacuous had the equality assertion not caught it first. The
+derivation takes the whole declaration and then its literals.
+
+**AND TWO OF MY FIVE EXEMPTIONS GUARDED NOTHING.** `nativeTransport.ts` and
+`checkpointConfig.ts` name `_nativePost` only in a comment, which the strip
+already removes, so the walk could never have found them — a redundant exemption
+is the stale-exemption shape with its reason written in advance. Measured (0 calls
+after strip) and removed; the staleness assertion now fails if an exemption stops
+being needed.
+
+**A LOOSE MATCHER CONFLATED TWO DIFFERENT FINDINGS.** The bare-`throw` rule was
+written `if\s*\(\s*!\s*res?\b[^)]*\)`, and `[^)]*` also matched
+`if (!res.ok) throw new Error` — a non-OK RESPONSE, which has a status and is a
+separate (smaller) question. Scoped to the bare variable.
+
+Mutation-verified, ten, each confirmed landed: the fetch reason not recorded
+fails 6; the message recorded instead of the name 3; the record not cleared on a
+response 3; an abort recording before it rethrows 1; the caller back to the
+placeholder 1; an undeclared reason at a call site 1; `LiveTutorScreen` back to a
+bare Error 2; `whisperClaudeScorer` dropping the reason 1; a stale exemption 1;
+`transportFailure` returning `server` 1. E2E audit: no spec asserts any changed
+string.
+
+**STILL NOT ESTABLISHED, and now bounded**: why nothing answered for the owner
+that day. On web there is exactly one endpoint, so it means `fetch` itself threw
+while the browser was online. The next occurrence reports
+`ai_feedback_failed:pronunciation-assess:network code=fetch_threw` with
+`attempts=1 err=<Name>`, which names it.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**THE OTHER 117 DRILLS STILL SAY "need 75%"**~~ — DONE, same day, and the

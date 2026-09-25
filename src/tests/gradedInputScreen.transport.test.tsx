@@ -23,6 +23,7 @@ const mockBlobToBase64 = vi.hoisted(() => vi.fn(async (_blob: Blob) => 'MOCK_BAS
 // ── _nativePost mock ──────────────────────────────────────────────────────────
 vi.mock('../lib/nativePost.js', () => ({
   _nativePost: (...args: unknown[]) => mockNativePost(...args),
+  getLastTransportFailure: () => null,
 }));
 
 // ── audio mock: blobToBase64 is the chunked encoder from audio.ts ─────────────

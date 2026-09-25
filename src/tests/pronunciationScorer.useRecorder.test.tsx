@@ -24,6 +24,7 @@ const mockNativePost = vi.hoisted(() => vi.fn());
 // ── _nativePost mock ──────────────────────────────────────────────────────────
 vi.mock('../lib/nativePost.js', () => ({
   _nativePost: (...args: unknown[]) => mockNativePost(...args),
+  getLastTransportFailure: () => null,
 }));
 
 // ── apiFetch mock — coaching call ─────────────────────────────────────────────
