@@ -4156,8 +4156,13 @@ a failed fetch, because `content` then stays null.
   a half-finished migration (`a482581f`) that moved one of three files onto
   `useContent`. Reading the static export collapses it; moving the other two ONTO
   the payload would also collapse it and would make an offline-capable game
-  network-dependent for 8 KB, in a PWA. **The server side stays** — the key still
-  has five other consumers.
+  network-dependent for 8 KB, in a PWA. **The server side stays** — but the reason
+  given here was wrong and is corrected: this said "the key still has five other
+  consumers", and sweep 137 measured **zero**. Those five are CARRIERS — the type
+  declaration, the E2E fixture, the key list, the endpoint, the etag generator —
+  which is sweep 118's rule in the consumer direction: a conduit is not a consumer.
+  The key is 8,626 bytes of duplicate data in every payload with no reader, recorded
+  in `payloadKeysHaveReaders`'s `NO_CLIENT_READER` and queued for removal.
 - **REMOVING THE QUESTION BEATS ANSWERING IT, and then the answer must be
   DELETED.** Sweep 102 taught that picker to say "Loading the scenes…"; sweep 107
   took it off the payload, so a count that cannot be about an unarrived payload

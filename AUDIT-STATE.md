@@ -9930,6 +9930,63 @@ while the browser was online. The next occurrence reports
 
 ---
 
+### 137. A payload key nobody reads — 2026-09-25 — TWO of thirty-two, and a recorded reason that measured zero
+
+The layer sweep 136 pointed at, asked properly. `corePayloadKeys` requires every key
+in `CORE_PAYLOAD_KEYS` to name a real EXPORT (the server half) and `contentShapeSweep`
+checks that a screen's field accesses EXIST in the payload (the shape half). **Nothing
+asked whether anything reads a key at all**, so a key keeps being composed, serialized
+and shipped to every client in the 1.4 MB `/api/content/core` response after its last
+consumer goes away. That is `meteredEndpointsHaveCallers` one layer over, with the same
+cause: removing a dead client is the right move whose side effect had no observer.
+
+**Measured: two of thirty-two, and both were stranded by a CORRECT action.**
+
+| key               | bytes | how it lost its reader                                                    |
+| ----------------- | ----- | ------------------------------------------------------------------------- |
+| `SCENES`          | 8,626 | sweep 107 collapsed a two-source feature onto the static copy — correctly |
+| `LEVEL_NARRATIVE` | 704   | its one consumer was `HeroSection`, unrendered 2026-04-25, deleted in 136 |
+
+**A RECORDED REASON MEASURED ZERO.** Sweep 107's own note says of `SCENES` "**The
+server side stays** — the key still has five other consumers", and it is false: there
+are no consumers. The five are CARRIERS — the type declaration, the E2E fixture, the
+key list, the endpoint, the etag generator — which is sweep 118's rule in the consumer
+direction: **a conduit is not a consumer.** The same paragraph two lines above already
+says the picker "was the app's ONLY reader of the payload key", so the note contradicts
+itself; corrected in place. This is the third reason in this file to be wrong in the
+plausible direction (`idioms`, `KNOWN_NO_CLEARING_PATH`, now this), and the pattern is
+always that the number was never measured.
+
+**THE TYPE DECLARATION NEEDED MEASURING, NOT EXEMPTING.** `src/types/content.ts` names
+all 32 keys, so the obvious move is to exclude the file — and measured, the matcher
+already refuses it: an interface member is `KEY: Record<…>`, which is neither a property
+access nor a destructure, so all 32 read as unread there. No exclusion was written (a
+redundant exemption is the stale-exemption shape with its reason written in advance,
+sweep 135); the property is ASSERTED over all 32 keys on the real file instead, because
+it is what makes every finding here meaningful.
+
+**THE READER MATCHER IS OBJECT-BLIND ON PURPOSE.** Nearly every screen does
+`const data = useContent()` and reads `data.KEY` later, and several go one more hop into
+state (sweep 121), so following the `useContent()` variable sees almost nothing.
+`.KEY`, `?.KEY`, `['KEY']` and a destructure all count, off any object.
+
+**AND THE FILTER IS DRIVEN ON A FABRICATED PAIR, for the second time today.** A reader
+that is itself unreachable is not a reader — that is exactly how `LEVEL_NARRATIVE` got
+here, `HeroSection` reading it for five months after nothing rendered it. Sweep 136 had
+to rebuild `meteredEndpointsHaveCallers`'s equivalent clause because its fixture was a
+real dead file that got deleted; this one was built that way from the start.
+
+Both keys are RECORDED, not removed, and the removals are queued with their blockers —
+`SCENES`'s removal deletes the one differently-named twin that `payloadTwinParity` pins
+as its own non-vacuity proof, and `LEVEL_NARRATIVE`'s payload copy is the only one that
+reaches a client at all. 9.3 KB on a 1.4 MB payload is worth doing and not worth rushing.
+
+Mutation-verified, four, each confirmed landed and reverted: `LEVEL_NARRATIVE` dropped
+from the record fails 1; the reachability filter defeated fails 1; `readsIt` always true
+fails 2; `readsIt` always false fails 3.
+
+---
+
 ### 136. Deleting the twenty dead modules — 2026-09-25 — THREE finds the deletion itself surfaced, and a count three mechanisms agreed was wrong
 
 Sweep 129 measured the set and named it; this executed the decision. **Twenty of the
@@ -10052,22 +10109,32 @@ wrong quest (1); `applyStreakEarnBack` no longer backfilling the day-set (1);
       as "needs its own decision" is worth re-reading before the next sweep: the
       decision took ten minutes once the 4xx were enumerated instead of imagined.**
 
-- [ ] **IS ANY OTHER `/api/content/core` PAYLOAD KEY READ BY NOTHING REACHABLE?** —
-      OPEN, and sweep 136 found the first member by accident: `LEVEL_NARRATIVE`'s ONE
-      client consumer was `HeroSection`, so a key in the 1.4 MB payload every client
-      fetches is now read by nobody, and #655 spent a September PR fixing how it was
-      read. This is `meteredEndpointsHaveCallers` one layer over, and the tooling
-      already exists: `CORE_PAYLOAD_KEYS` is the subject list (33 keys, one array,
-      guarded by `corePayloadKeys.test.js`), `moduleGraph.appReachable()` is the
-      filter, and `contentShapeSweep` already knows how to walk `useContent`
-      consumers. What NOTHING requires today is a READER: `corePayloadKeys` requires
-      every listed key to have an EXPORT behind it, which is the server half.
-      Two traps to expect, both already met elsewhere: a key is read through
-      `const data = content` one hop away from `useContent()` (sweep 121's
-      state-hop finding), and a key read only by a module that is itself unreachable
-      must not count (sweep 130). A stranded key is NOT automatically deletable —
-      dropping one shrinks every client's payload, which is a win, but authored
-      content is recoverable only from git.
+- [x] ~~**IS ANY OTHER `/api/content/core` PAYLOAD KEY READ BY NOTHING REACHABLE?**~~
+      — ANSWERED, sweep 137: **two of thirty-two**, and both were stranded by a
+      CORRECT action. `LEVEL_NARRATIVE` (704 B) lost its only consumer when the hero
+      stopped being rendered; `SCENES` (8,626 B) lost its only reader to sweep 107's
+      own fix, which collapsed a two-source feature onto the static copy — and that
+      sweep's note claimed "the key still has five other consumers", which measured
+      ZERO (the five are carriers: the type declaration, the E2E fixture, the key
+      list, the endpoint, the etag generator). Ratcheted by
+      `payloadKeysHaveReaders.test.ts`, which requires a reachable READER per key.
+      The type declaration needed measuring rather than exempting: an interface member
+      is `KEY: Record<…>`, which the matcher already refuses, so the file stays in the
+      corpus and the property is asserted.
+- [ ] **REMOVE THE TWO STRANDED PAYLOAD KEYS?** — OPEN, and each has a different
+      blocker. `SCENES` is pure duplicate transport (the client reads a
+      byte-identical static module), so removing it loses NOTHING a learner can
+      reach — except that deleting the server twin `_data/vocabScenes.js` also
+      deletes the one DIFFERENTLY-NAMED twin that `payloadTwinParity` pins as its own
+      non-vacuity proof ("the alias pair left the derivation"), so that proof has to
+      move to a fabricated pair FIRST, the way sweeps 136 and 137 both had to.
+      `LEVEL_NARRATIVE` is 704 B and the payload is the only copy that reaches a
+      client, so removing it discards authored English goal-narrative copy that a
+      future Home surface may want — that is a product question, and
+      `GoalSelectorSection` still names it in prose. Either removal also touches
+      `src/types/content.ts`, `e2e/fixtures/content-fixture.js` and the generated
+      etags. Total win is 9.3 KB on a 1.4 MB payload (0.6%) — worth doing, not worth
+      rushing.
 - [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
       server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three
       with reasons and fails if a fourth appears. Deleting `daily-culture.js`,
