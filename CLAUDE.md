@@ -3921,6 +3921,47 @@ reachable` ("Including it would close the loop on every field"), plus
 - NEVER: restore a key without asking what reads it; treat a `setItem` as a use (two
   writes are not a consumer); let a restore re-open an award the learner already
   earned; add a snapshot field without naming the surface that consumes it.
+- **`void total; // suppress unused warning` WAS A LESSON GATE THAT NEVER RAN (sweep
+  119, 2026-09-25).** `MicroLessonScreen`'s results effect computed its quiz length,
+  discarded it, and then paid XP, marked the grammar quest and incremented `gc` **on
+  any score, zero of three correct included** — and `gc` feeds the CEFR score
+  (`xp + lc*15 + gc*25`) and the Learn Path stage, so a learner who got every question
+  in their own weak-word review wrong still advanced their measured level. The sibling
+  screen `ImpersonalScreen`, identical in shape, routes through `completeLesson` and is
+  gated at the shared 75%; there is no `micro_lesson` row in `exerciseRegistry` at all.
+  The card claimed it too: "XP Earned +10" over a 0-of-3 answer sheet, "Odlično!" at 2
+  of 3.
+- **THE SESSION SIGNAL IS WHY THAT IS NOT A ONE-LINE FIX.** The pool entry says
+  "awards on results" — `award()` is what writes `nh_session_completed` — so gating the
+  award alone strands a session-launched micro-lesson at N-1/N on every failed attempt.
+  `signalSessionCompleteIfActive('micro_lesson')` fires BEFORE the gate: credit is
+  gated, the FLOW is not. Stated cost: `Math.ceil(3 × 0.75) = 3`, so on the three-item
+  quiz the endpoint asks for, the shared threshold admits no slips — the card now SAYS
+  "3 of 3 needed to log this lesson." A second threshold for one screen would be worse;
+  the honest alternative is a longer quiz, which is a content change.
+- **A DISCARDED PROP IS AN UNUSED PARAMETER; A DISCARDED LOCAL IS WORK DONE FOR
+  NOTHING.** That line partitions the `void x;` census exactly, and every finding is on
+  the LOCAL side — `void _questXP` (daily-quest XP nobody was ever paid), `void _dcOpen`
+  (the dead daily challenge, sweep 116), `void total` (above). HomeTab's block said
+  "props kept for API compatibility" over fourteen names and described **neither**
+  claim: three (`pathData`, `currentDayIdx`, `allQuestsDone`) were live, and four
+  (`dc = getDailyChallenge()`, `ws = getWeekStats()`, `weekXP = getWeekXP()`,
+  `userGoal`) were local computations memoised on `st` and thrown away — residue of the
+  same 2026-04-25 "remove 12 sections" rewrite that killed `nh_last_ex`'s reader.
+  `discardedLocals.test.ts` derives the census, requires every LOCAL to carry a reason
+  (two entries, both sweep 116's), and refuses a `void` on a name the file uses.
+- **THE CAMPAIGN MULTIPLIER IS LIVE AND SILENT, and that is an owner decision, not a
+  defect to patch.** `CampaignBanner` went in the same rewrite; `useAward` still applies
+  `getActiveCampaign(...)?.multiplier` (1.5× during Easter), and the campaign's authored
+  name, icon, colours, blurb and quests still ship in `/api/content/core` — so a learner
+  in a campaign window earns 1.5× and is never told why. HomeTab's dead copies of that
+  computation are removed; re-adding a Home section would run against the deliberate
+  strip-down, so this is recorded for a decision rather than fixed.
+- NEVER: silence an unused COMPUTED value with `void` — delete it, or record why it is
+  waiting; write a `void` for a name the file actually uses (the comment then describes
+  nothing and the dead names beside it go unread); gate a screen's credit without
+  checking what used to write `nh_session_completed` for it; invent a per-screen pass
+  threshold instead of `LESSON_PASS_THRESHOLD`.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished

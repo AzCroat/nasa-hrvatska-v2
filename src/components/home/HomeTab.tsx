@@ -25,13 +25,6 @@ interface PathData {
   activeLvItemDone: boolean[] | null;
   nextItem: LearnPathItem | null;
 }
-interface Palette {
-  grad: string;
-  light?: string;
-  text: string;
-  border: string;
-  accent?: string;
-}
 
 interface HomeTabProps {
   dchlA: boolean[];
@@ -55,16 +48,14 @@ interface HomeTabProps {
   launchStory?: (storyId: string) => void;
 }
 
-import { getStreak, getDailyChallenge, preloadAudio, DAILY_QUESTS } from '../../data';
+import { getStreak, preloadAudio, DAILY_QUESTS } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { evalCk } from '../../lib/learnPathRules';
-import { getActiveCampaign } from '../../lib/seasonalCampaign';
 import { getWordOfDay, getPhraseOfDay } from '../../lib/wordOfDay.js';
 import TodaysDiscoveries from './TodaysDiscoveries';
 import { weekKey } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
-import { safeGetItem } from '../../hooks/useLocalStorage';
 import GoalSetterModal from '../shared/GoalSetterModal';
 import { shouldShowGoalModal } from '../../lib/onboardingGates';
 import WelcomeBackBanners from './WelcomeBackBanners';
@@ -91,55 +82,6 @@ import { useNextStepEngine } from '../../hooks/useNextStepEngine';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 import { questsDoneToday } from '../../lib/questState';
 
-const LEVEL_PALETTE = [
-  {
-    grad: 'linear-gradient(135deg,#92400e,#b45309)',
-    light: '#fef3c7',
-    text: '#92400e',
-    border: '#fcd34d',
-  },
-  {
-    grad: 'linear-gradient(135deg,#065f46,#059669)',
-    light: '#d1fae5',
-    text: '#065f46',
-    border: '#6ee7b7',
-  },
-  {
-    grad: 'linear-gradient(135deg,#1e3a8a,#1d4ed8)',
-    light: '#dbeafe',
-    text: '#1e3a8a',
-    border: '#93c5fd',
-  },
-  {
-    grad: 'linear-gradient(135deg,#4c1d95,#6d28d9)',
-    light: '#ede9fe',
-    text: '#4c1d95',
-    border: '#c4b5fd',
-  },
-  {
-    grad: 'linear-gradient(135deg,#7f1d1d,#dc2626)',
-    light: '#fee2e2',
-    text: '#7f1d1d',
-    border: '#fca5a5',
-  },
-  {
-    grad: 'linear-gradient(135deg,#134e4a,#0d9488)',
-    light: '#ccfbf1',
-    text: '#134e4a',
-    border: '#5eead4',
-  },
-  {
-    grad: 'linear-gradient(135deg,#1e1b4b,#3730a3)',
-    light: '#e0e7ff',
-    text: '#1e1b4b',
-    border: '#a5b4fc',
-  },
-];
-
-function getWeekXP() {
-  return safeGetItem('nh_week_xp_' + weekKey(), 0);
-}
-
 export default function HomeTab({
   dchlA,
   sDchlA: _sDchlA,
@@ -162,16 +104,6 @@ export default function HomeTab({
 }: HomeTabProps) {
   const { setScr, doSignUp, currentScreen } = useApp();
   const { stats: st, award } = useStats();
-  const dc = useMemo(() => getDailyChallenge(), []);
-
-  // getWeekStats reads external state; st is the change signal, getWeekStats is the accessor
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const ws = useMemo(() => getWeekStats(), [st, getWeekStats]);
-
-  // getWeekXP reads localStorage; re-derive when stats change (st is the stat-change signal)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const weekXP = useMemo(() => getWeekXP(), [st]);
-
   // uStreak is the canonical derived streak (union-merged active-day set; kept correct
   // cross-device by applyRemoteProgress/updateStreak). Do NOT Math.max with st.str — that
   // is independently merged and can be stale-inflated, which made the displayed streak
@@ -202,24 +134,8 @@ export default function HomeTab({
     if (wod?.hr) preloadAudio(wod.hr);
   }, [wod]);
 
-  const userGoal =
-    goal ||
-    (() => {
-      try {
-        return lsGet('nh_goal');
-      } catch {
-        return null;
-      }
-    })() ||
-    'fluent';
-
   const { content } = useContent();
   const LEARN_PATH = useMemo(() => content?.LEARN_PATH ?? [], [content?.LEARN_PATH]);
-  const SEASONAL_CAMPAIGNS = useMemo(
-    () => content?.SEASONAL_CAMPAIGNS ?? [],
-    [content?.SEASONAL_CAMPAIGNS],
-  );
-  const activeCampaign = useMemo(() => getActiveCampaign(SEASONAL_CAMPAIGNS), [SEASONAL_CAMPAIGNS]);
 
   // Goal-setter modal ("What's your main goal?"). CRITICAL cross-device fix:
   // gate on `syncReady` so we wait for the Firestore restore before deciding the user
@@ -244,12 +160,6 @@ export default function HomeTab({
     .filter(([k]) => k !== 'streak' && k !== 'streak_alive')
     .every(([, v]) => v);
 
-  const _questXP = DAILY_QUESTS.filter((q) => (questsDone as Record<string, boolean>)[q.id]).reduce(
-    (s, q) => s + q.xp,
-    0,
-  );
-  void _questXP;
-
   // Award Daily Mastery +50 XP bonus the first time all quests are done today
   const _td = new Date();
   const today =
@@ -269,6 +179,11 @@ export default function HomeTab({
   }, [allQuestsDone, masteryKey, award]);
 
   const doneCount = dchlA.filter(Boolean).length;
+  // VESTIGIAL (sweep 116): the daily challenge has no UI anywhere in
+  // src/components and no producer outside the sync layer, so this state is
+  // computed from a prop nothing can set and read by nothing. Left in place
+  // deliberately — unpicking the plumbing touches seven modules including the
+  // root component — and exempted by name in discardedLocals.test.ts.
   const [_dcOpen, _setDcOpen] = useState(doneCount === 0);
   void _dcOpen;
   void _setDcOpen;
@@ -333,9 +248,6 @@ export default function HomeTab({
       nextItem,
     };
   }, [st, LEARN_PATH]);
-
-  const activePalette: Palette =
-    LEVEL_PALETTE[(pathData.activeLv.level - 1) % LEVEL_PALETTE.length]!;
 
   // ── Daily Session Hub ──────────────────────────────────────────────────────
   // Full activation (Rec #4): the daily session unlocks content at the CERTIFIED
@@ -449,20 +361,11 @@ export default function HomeTab({
   }, [currentScreen, markDone]);
 
   // Suppress unused variable warnings for props kept for API compatibility
-  void dc;
-  void ws;
-  void weekXP;
-  void userGoal;
-  void activeCampaign;
-  void activePalette;
-  void pathData;
   void onSyncNow;
   void isNewUserWindow;
   void daysSinceJoin;
   void resumeLesson;
   void _sh;
-  void currentDayIdx;
-  void allQuestsDone;
 
   // The next incomplete LearnPath item (null when all complete)
   const nextLearnPathItem = pathData.nextItem ?? null;
