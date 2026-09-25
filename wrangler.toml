@@ -28,7 +28,12 @@
 #   npm run setup:cf
 #
 # Pages KV bindings (production + preview):
-#   XP_VELOCITY   (title: nasa-hrvatska-xp-velocity) — Per-user XP velocity window
+#   XP_VELOCITY   (title: nasa-hrvatska-xp-velocity) — Per-user XP velocity window,
+#                 FALLBACK ONLY since 2026-09-25. The D1 table `xp_velocity`
+#                 (AI_QUOTA_DB, self-migrating) is primary: two KV writes per XP
+#                 award put the account against the 1,000-writes/day free tier,
+#                 which allowed ~500 awards per day across ALL learners. Keep the
+#                 namespace — it is what answers when D1 does not.
 #
 # To create XP_VELOCITY:
 #   1. node scripts/setup-cf-resources.mjs   (creates + binds automatically)

@@ -9704,6 +9704,138 @@ AUDIT-STATE.md 637,393 -> 629,569 bytes.
 
 ---
 
+### 133. A 4xx read as an outage — 2026-09-25 — ONE find, and it is why the last one cost nineteen days
+
+`failureFromStatus` had no branch between 401 and 504, so every client error
+became `build('server')`: the learner read "the evaluation service is temporarily
+unavailable, try again in a moment" for a request that could never succeed, and
+Sentry filed it as `ai_feedback_failed:<surface>:server`. That is exactly how
+`/api/explain-error` rejecting the `type` all 109 engine-backed drills send
+survived from 2026-09-07 to a field report — **nobody looks for a client/endpoint
+contract mismatch under a tag that says the server is down.** Recorded as open by
+sweep 131 because "adding a branch changes learner-facing copy on every AI
+surface"; measured, that is only true where a 4xx actually occurs, and every 4xx
+these endpoints return is a defect.
+
+Enumerated before writing the branch, because the danger is mis-classifying a
+legitimate learner condition: the 4xx the endpoints return are malformed
+requests, a blocked origin, a missing route and `audio_too_large`. The learner's
+own limits are 401 and 429 and are classified above the new line, and `bad_audio`
+is an `stt` code matched above it too. So `bad_request` is **not retryable** — a
+malformed request is malformed again, and before sweep 131's refund each retry
+also spent a quota turn and booked budget for a call that never happened.
+
+**THE KINDS LIST WAS HAND-WRITTEN AND WOULD HAVE COVERED ELEVEN OF TWELVE.**
+`aiFailure.test.ts` asserts every kind has a distinct sentence, from a literal
+array — so a kind added without a sentence was outside the claim the test makes.
+`AI_FAILURE_KINDS` is now the runtime value and the type is derived from it.
+
+**AND THAT DERIVATION GUARDS ONE DIRECTION ONLY — mutation said so.** It catches
+a kind ADDED without a sentence (it falls to `default`, duplicates the server
+sentence, distinctness fails). It does NOT catch a kind REMOVED while the
+classifier still produces it: the list just gets shorter and every survivor still
+has a sentence. Deleting `'bad_request'` from the array left the suite **fully
+green**. Fixed with an EFFECT assertion — the set of kinds the classifiers
+actually produce must equal the declared set — which also proves no declared kind
+is dead. Mutation-verified both directions plus the branch itself: removed branch
+fails 2, kind removed 1, kind added with no sentence 2.
+
+**The general shape: deriving a test's list from production closes the direction
+where production grows and leaves open the direction where it shrinks.** A
+membership check is not a coverage check.
+
+---
+
+### 134. The KV bill was one endpoint, and the cap silently disabled the anti-cheat — 2026-09-25 — owner report, TWO finds and a third in its only test
+
+Owner forwarded Cloudflare's "KV operations are nearing the daily cap", 50% used.
+The free Workers KV tier is a DAILY budget and the tight limit is **1,000 writes**
+(reads are 100,000 and were never the constraint).
+
+**Measured rather than guessed**: every `.put(` under `functions/` was read and
+attributed. Most are bounded — the TTS audio cache writes once per unique phrase
+for 90 days, news and daily-culture once per window, the push heartbeat 48/day,
+the weekly Firestore backup ~16 (50 docs a chunk, three collections). Three of the
+four per-request gates — `_rateLimit.js`, `_aiQuota.js`, `_aiBudget.js` — are
+D1-primary with KV only behind them, so they cost nothing. **Two of the `.put(`
+hits were the Cache API, not KV** (`_rateLimit.js`, `_verifyToken.js`); grepping
+`.put(` and counting is not a KV census.
+
+**WHAT REMAINS ON KV AFTER THE FIX, so the next email can be read without
+re-deriving this.** The largest remaining writer is `/api/backup-mine`: **4
+writes per active user per day**, correctly latched to once per UTC day
+(`backup:mine:rl:<uid>:<day>`, checked BEFORE the body is read). At 100
+daily-active learners that is 400 of the 1,000, which is fine and is also the
+number to watch — it scales with users where nothing else does. Everything else
+is per-CONTENT, not per-user: TTS one write per unique phrase for 90 days, news
+and daily-culture one per window, `vocab-expand`/`scene-video`/`adaptive-insights`
+one per cache miss, the push heartbeat 48/day, the weekly Firestore backup ~16.
+`content/_authedRead.js`'s daily read cap is already D1 — and its comment records
+the SAME defect in reverse (it used to call `.get()`/`.put()` on the D1 binding,
+which threw and was swallowed, so the cap never enforced), which is the evidence
+that this migration was the known-right direction and `award.js` was simply
+missed.
+
+**`/api/award` was the entire bill**: two KV writes (`xpv2:<uid>`,
+`xpday:<uid>:<date>`) plus two reads on **every XP award**, so 1,000 ÷ 2 =
+**~500 awards per day across every learner combined** — about ten engaged
+sessions, since one learner makes 30–60. It predates the D1 pattern (plan dated
+2026-04-24) and nothing carried it across, the one-copy-of-a-pattern-never-updated
+shape again; `AI_QUOTA_DB` has been bound the whole time and D1's free tier is
+100,000 writes/day.
+
+**THE SECOND FIND IS WORSE THAN THE BILL: exceeding the cap silently removed the
+anti-cheat.** A `put` that 429s throws, `award.js` caught it and fell through to
+"cap by allowlist only" — so on a KV-exhausted day the 600-XP/10-minute velocity
+budget AND the 2,500/day cap were not enforced at all, and nothing recorded that
+they had stopped. Identical to the dead news feed's `catch { return [] }`. The
+fall-through is still right (a learner must not lose earned XP because a store is
+down) and now logs the grep-able `xp_caps_unavailable`.
+
+**A comment claimed a property the store underneath could not provide.**
+"Write-back both keys synchronously — prevents concurrent requests from each
+reading the same pre-update state" — KV is eventually consistent, so ordering the
+writes does not order the reads. D1 is read-your-writes on the primary, so the
+same JS logic is strictly less racy there. It is NOT claimed atomic: the store
+still reads, decides and writes, and the docstring says so.
+
+**THE THIRD FIND IS THE TEST, AND IT EXPLAINS WHY THIS WAS INVISIBLE.**
+`award-worker.test.js` declared its own `computeAwarded` and its own copy of
+`ACTIVITY_XP_MAP` and **imported nothing from `functions/` at all** — 16 tests,
+none of which could see the endpoint. The `a2Curriculum` `SCREEN_FOR` trap. What
+it cost concretely: the copy took `velocityTotal` and nothing else, so the
+**2,500/day cap, added to the endpoint later, was outside every assertion in the
+file.** (The copied XP map did NOT drift — and its sibling pair
+`_activityXp.js` ↔ `src/lib/activityXp.ts` is properly mechanised by
+`crossBoundaryConstants.test.ts`, which is why only the in-test copy was wrong.)
+
+Fixed: `_xpVelocityStore.js` holds the clamp ONCE as a pure function both
+backends call, D1 primary with the SAME KV keys as the fallback so an in-flight
+velocity window survived the switch, a self-migrating `xp_velocity` table and the
+`_rateLimit.js` probabilistic cleanup (D1 has no TTL). `award-worker.test.js`
+rewritten to drive the real handler and the real clamp, 21 tests.
+
+**WHAT THE D1 STUB CANNOT PROVE, stated in the file rather than implied.** It
+stores rows and answers the two statements the store issues; it does not execute
+SQL. So the clamp is a pure function tested directly and the SQL is kept to a
+plain SELECT and a plain upsert with no computed columns — the atomic
+single-statement version was considered and rejected, because a store whose
+correctness depends on SQL semantics cannot be verified from here and an
+unverifiable store guarding the XP economy is worse than a simpler one. Naming
+the limit is the point; a stub that silently defines its own subject is the
+vacuity this file keeps finding.
+
+Mutation-verified, six, each confirmed landed: no D1 tier fails 5, the
+zero-award write guard 1, a day total carried across dates 1, a silent no-store
+1, the daily cap dropped 2, a sliding window 1.
+
+**CLAUDE.md never listed `XP_VELOCITY` at all** — the KV table named only
+`PUSH_SUBSCRIPTIONS`, so from the doc the binding did not exist and the endpoint
+looked storage-less. Added, with the D1 row extended to name all four tables it
+now carries.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**THE OTHER 117 DRILLS STILL SAY "need 75%"**~~ — DONE, same day, and the
@@ -9733,13 +9865,17 @@ AUDIT-STATE.md 637,393 -> 629,569 bytes.
       fix is bigger than this one screen**: `_nativePost` has 20+ callers and none
       of them can see why it returned null — the `ttsFetch` finding (2026-09-10) one
       layer down, unfixed for the generic transport.
-- [ ] **`failureFromStatus` HAS NO 4xx BRANCH** — every client error falls through to
-      `build('server')`. That is why a 400 'Invalid type' reached Sentry as
-      `:server` and cost nineteen days. Adding a branch is a learner-facing copy
-      change across every AI surface ("the evaluator is having trouble" is wrong for
-      a malformed request), so it needs its own pass and a decision about what a
-      learner should be told when the app sent something the server refused —
-      arguably nothing, because it is never their fault and never their fix.
+- [x] ~~**`failureFromStatus` HAS NO 4xx BRANCH**~~ — DONE, sweep 133, and the
+      recorded blocker turned out to be smaller than it read. "A learner-facing copy
+      change across every AI surface" is only true where a 4xx actually OCCURS, and
+      every 4xx these endpoints return is a defect — enumerated first (malformed
+      request, blocked origin, missing route, `audio_too_large`; the learner's own
+      limits are 401/429 and `bad_audio` is an `stt` code, all matched above the new
+      line). `bad_request` is not retryable, and the kinds list is now a runtime
+      value the type derives from — plus an EFFECT assertion, because the derivation
+      alone only guards the direction where production GROWS. **A blocker recorded
+      as "needs its own decision" is worth re-reading before the next sweep: the
+      decision took ten minutes once the 4xx were enumerated instead of imagined.**
 
 - [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
       server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three

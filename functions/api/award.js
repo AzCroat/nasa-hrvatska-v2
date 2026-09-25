@@ -16,20 +16,16 @@
  */
 
 import { ACTIVITY_XP_MAP } from './_activityXp.js';
+import { claimXp } from './_xpVelocityStore.js';
 import { checkRateLimit } from './_rateLimit.js';
 import { getFirebaseUid } from './_verifyToken.js';
 import { corsHeaders, isAllowedOrigin } from './_helpers.js';
 
 const VALID_ACTIVITY_TYPES = new Set(Object.keys(ACTIVITY_XP_MAP).filter((k) => k !== 'default'));
 
-const VELOCITY_BUDGET = 600; // XP per 10-min window
-const VELOCITY_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const VELOCITY_TTL_S = 700; // KV TTL: 10 min + 2 min buffer
-
-// Daily XP cap: ~12 lessons + ample exercises for the most dedicated power user.
-// Prevents velocity-window chaining (144 windows/day × 600 XP = 86,400 XP exploit).
-const DAILY_XP_CAP = 2500;
-const DAILY_TTL_S = 90000; // 25 hours — covers UTC date boundary drift
+// The velocity budget, the daily cap and the clamp itself live in
+// `_xpVelocityStore.js`. They were declared here AND re-declared in
+// `award-worker.test.js`; one definition, imported by both.
 
 export async function onRequestOptions({ request }) {
   const origin = request.headers.get('origin') || '';
@@ -105,60 +101,31 @@ export async function onRequestPost(context) {
 
   const maxXp = ACTIVITY_XP_MAP[activityType] ?? ACTIVITY_XP_MAP.default;
 
-  // ── Per-user velocity + daily cap via KV ─────────────────────────────────
-  const kv = env.XP_VELOCITY;
-  if (kv) {
-    try {
-      const now = Date.now();
-      const todayUTC = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+  // ── Per-user velocity + daily cap ────────────────────────────────────────
+  // D1 primary, KV fallback — see `_xpVelocityStore.js` for why this moved off
+  // KV (it was the app's only unconditional per-request KV writer, at two
+  // writes per award against a 1,000/day free-tier ceiling).
+  const claim = await claimXp(env, uid, {
+    capped: Math.min(claimedXp, maxXp),
+    now: Date.now(),
+    todayUTC: new Date().toISOString().slice(0, 10),
+  });
 
-      // Fetch velocity window and daily cap in parallel
-      const velKey = `xpv2:${uid}`;
-      const dayKey = `xpday:${uid}:${todayUTC}`;
-      const [rawVel, rawDay] = await Promise.all([kv.get(velKey), kv.get(dayKey)]);
-
-      let entry = rawVel ? JSON.parse(rawVel) : { total: 0, windowStart: now };
-      const dayTotal = rawDay ? (JSON.parse(rawDay).total ?? 0) : 0;
-
-      // Reset velocity window if it has expired
-      if (now - entry.windowStart > VELOCITY_WINDOW_MS) {
-        entry = { total: 0, windowStart: now };
-      }
-
-      const velRemaining = Math.max(0, VELOCITY_BUDGET - entry.total);
-      const dayRemaining = Math.max(0, DAILY_XP_CAP - dayTotal);
-      const awarded = Math.min(claimedXp, maxXp, velRemaining, dayRemaining);
-
-      if (awarded <= 0) {
-        // Both caps enforce 0 — return 0 without updating KV to avoid wasted writes
-        return new Response(JSON.stringify({ awarded: 0, activityType }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-        });
-      }
-
-      entry.total += awarded;
-
-      // Write-back both keys synchronously — prevents concurrent requests from each
-      // reading the same pre-update state and each being awarded up to VELOCITY_BUDGET.
-      await Promise.all([
-        kv.put(velKey, JSON.stringify(entry), { expirationTtl: VELOCITY_TTL_S }),
-        kv.put(dayKey, JSON.stringify({ total: dayTotal + awarded }), {
-          expirationTtl: DAILY_TTL_S,
-        }),
-      ]);
-
-      return new Response(JSON.stringify({ awarded, activityType }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-      });
-    } catch (e) {
-      // KV unavailable — fall through to allowlist-only cap
-      console.warn('[award] KV error, falling back to allowlist-only cap:', e.message);
-    }
+  if (claim) {
+    return new Response(JSON.stringify({ awarded: claim.awarded, activityType }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    });
   }
 
-  // ── KV unavailable: cap by allowlist only ─────────────────────────────────
+  // NEITHER STORE ANSWERED, AND THIS USED TO BE SILENT. Falling through means
+  // the velocity budget and the daily cap are not applied at all — only the
+  // per-activity allowlist is. That is the right call (a learner must not lose
+  // earned XP because a store is down) and it is NOT a quiet one: the previous
+  // version logged nothing distinguishable, so a day with the caps disabled
+  // looked exactly like a day with them working. `xp_caps_unavailable` is a
+  // stable string to grep for in the Cloudflare tail.
+  console.warn(`[award] xp_caps_unavailable — allowlist-only cap for ${activityType}`);
   const awarded = Math.min(claimedXp, maxXp);
   return new Response(JSON.stringify({ awarded, activityType }), {
     status: 200,

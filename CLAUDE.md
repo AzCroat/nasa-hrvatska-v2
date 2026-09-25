@@ -4810,12 +4810,46 @@ Found from outside the code: the owner reported the Sentry project was receiving
 | Variable             | Namespace ID                       | Purpose                                                                                                                                                                                                                             |
 | -------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage — ALSO the KV fallback for rate limits, quotas, the budget ledger, and content caches (TTS audio, daily-culture, news) when a dedicated binding is absent. `tts.js` prefers `env.KV` if bound. |
+| `XP_VELOCITY`        | provisioned by CI                  | **Fallback only** for the per-user XP velocity + daily cap (`_xpVelocityStore.js`); D1 `xp_velocity` is primary. Created and bound by `scripts/setup-cf-resources.mjs` on every deploy, so it needs no dashboard step.              |
+
+**THE FREE KV TIER IS A DAILY WRITE BUDGET OF 1,000, AND ONE ENDPOINT SPENT IT
+ALL (owner report, 2026-09-25 — "KV operations are nearing the daily cap").**
+Reads are 100,000/day and were never the constraint. `/api/award` was the app's
+only UNCONDITIONAL per-request KV writer — two keys per XP award — so the free
+tier allowed **~500 XP awards per day across every learner combined**, about ten
+engaged sessions. Its three sibling gates (`_rateLimit.js`, `_aiQuota.js`,
+`_aiBudget.js`) were all D1-primary with KV behind them; `award.js` predated that
+pattern and nothing carried it across. It is now `_xpVelocityStore.js`, D1-first
+(100,000 writes/day) with the same KV keys as the fallback so an in-flight
+velocity window survived the switch.
+
+**AND EXCEEDING THE CAP SILENTLY DISABLED THE ANTI-CHEAT.** A `put` that 429s
+throws; `award.js` caught it and fell through to "allowlist-only cap", so on a
+KV-exhausted day the 600-XP/10-minute velocity budget and the 2,500/day cap were
+not enforced at all and **nothing recorded that they had stopped** — the same
+`catch { return [] }` shape as the dead news feed. The fall-through is still the
+right behaviour (a learner must not lose earned XP because a store is down) and
+it now logs the grep-able `xp_caps_unavailable`.
+
+**Its only test could not have caught any of it**: `award-worker.test.js`
+declared its own `computeAwarded` and its own copy of `ACTIVITY_XP_MAP` and
+imported nothing from `functions/` — sixteen tests, none touching the endpoint,
+and the 2,500/day cap (added later) outside every assertion in the file. The
+clamp is now one pure exported function that both backends call and the tests
+drive, alongside the real handler. Mutation-verified, six: no D1 tier fails 5,
+the zero-award write guard 1, a day total carried across dates 1, a silent
+no-store 1, the daily cap dropped 2, a sliding window 1.
+
+- NEVER: add an unconditional per-request KV write (D1 first, KV as the
+  fallback — the free write tier is 1,000/day and a learner makes dozens of
+  awards a session); let a storage failure disable a cap without saying so; test
+  an endpoint through a re-implementation of its own logic.
 
 ### D1 binding (Cloudflare Pages → Settings → Functions)
 
-| Variable      | Purpose                                                                                                                                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AI_QUOTA_DB` | Primary store for the per-user daily AI quota (`_aiQuota.js`) **and** the global monthly budget ledger (`_aiBudget.js`, table `ai_month_spend` — self-migrates on first use). Falls back to `PUSH_SUBSCRIPTIONS` KV when unbound; fail-closed when neither answers. |
+| Variable      | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AI_QUOTA_DB` | Primary store for the per-user daily AI quota (`_aiQuota.js`), the global monthly budget ledger (`_aiBudget.js`, table `ai_month_spend`), the IP rate limiter (`_rateLimit.js`, table `rate_limits`) **and** the XP velocity + daily cap (`_xpVelocityStore.js`, table `xp_velocity`). Every table self-migrates on first use — nobody runs SQL by hand. Each falls back to KV when unbound; the quota is fail-closed when neither answers. |
 
 ### Scheduled worker (wrangler.toml)
 
