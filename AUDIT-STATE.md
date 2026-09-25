@@ -7922,7 +7922,10 @@ legacy guest never has one.**"_
 
 So for that cohort BOTH sources were dead: no `dcDay3` (nothing writes it) and no
 fallback (no `uS.u`). **Their daily-challenge answers did not survive a reload —
-while the data sat in `uP_guest.dc` the whole time.** Verified end to end rather
+while the data sat in `uP_guest.dc` the whole time.** (**CORRECTED BY SWEEP 116 —
+read it before reasoning from this.** The daily challenge turns out to be
+VESTIGIAL: nothing can answer it and nothing renders it, so there were no answers
+to lose. The change is right; this impact claim was wrong.) Verified end to end rather
 than inferred: `App.tsx` writes `uP_<uid>` with `uid = authUser ? authUser.u :
 GUEST_UID`, and `buildProgressSnapshot` emits `dc` (line 131, from `_bestDc`). The
 state was always on disk, one key away from the function that could not find it.
@@ -7967,6 +7970,59 @@ false and it is still a `NO_PRODUCER` entry. Writing it on answer would be the
 other repair; this one restores the cohort that had NEITHER source, with a
 four-line change to a function that already existed for this purpose. Making the
 primary source real is a separate decision about a live screen.
+
+---
+
+### 116. CORRECTION TO SWEEP 115 — the daily challenge is VESTIGIAL, so there were no answers to lose — 2026-09-25
+
+**Sweep 115 overstated its own finding, and I am correcting it in the next sweep
+rather than leaving it to be reasoned from.** It says a legacy guest's
+"daily-challenge answers did not survive a reload", which implies a learner-visible
+loss. Measured now — which is what I should have done before writing that sentence:
+
+| question                                  | answer                                                                                                                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Can a learner ANSWER the daily challenge? | **No.** The only caller of `sDchlA` / `sDchlSl` outside plumbing is `applyRemoteProgress.ts:247-248` — the sync-DOWN path. `HomeTab` receives both and voids them (`_sDchlA`, `_sDchlSl`). |
+| Does anything RENDER the answers?         | **No.** `HomeTab.tsx:271` computes `doneCount = dchlA.filter(Boolean).length`, which feeds only `_dcOpen` — discarded on the next two lines by `void _dcOpen; void _setDcOpen;`.           |
+| Is there any daily-challenge UI at all?   | **No.** Zero matches for "Daily Challenge" in `src/components/`, and `daily-challenge-sync.spec.js` says in its header that the dcDay3 UI "was replaced by QuestTracker".                  |
+
+**The whole feature is a conduit-only loop**: the sync layer writes the state, the
+sync layer reads it, nothing produces it and nothing displays it — while
+`dchlA`/`dchlSl` are still threaded through `App.tsx`, `AppRouter`, `HomeTab`,
+`useSyncManager`, `progressSnapshot`, `applyRemoteProgress` and `AppContext`, and
+`dc` is still uploaded to Firestore on every save.
+
+**This is sweep 111's "a conduit is not a producer" at FEATURE scale**, and sweep
+111 had already listed `dcDay3` as a `NO_PRODUCER` key without my noticing that its
+whole feature was dead. The pattern generalises past single keys: a FEATURE can be a
+closed sync loop.
+
+**WHAT SWEEP 115'S CHANGE ACTUALLY DOES, stated correctly.** The code is right and
+the test is valid — `loadFromMainDoc` really did fail for a cohort it was written to
+serve, and it now reads `uP_guest.dc` — but the effect is that a **synced field
+becomes consistent for guests**, not that a learner gets anything back. Nothing
+about the UI changes. It is NOT reverted: it is correct, additive,
+mutation-verified, and makes the function do what its own comment says. Only my
+claim about its impact was wrong.
+
+**THE RULE I BROKE IS ONE I CITED IN THIS SAME SESSION** — _report what was
+OBSERVED, not the strongest claim consistent with it._ I traced the state's STORAGE
+end to end (App.tsx writes `uP_<uid>`, `buildProgressSnapshot` emits `dc`) and never
+asked the two questions that decide whether a learner is affected: **can this be
+SET, and is it SHOWN?** Tracing a write path proves data moves; it says nothing
+about anyone seeing it. Add those two questions to any finding that claims a
+learner-visible loss.
+
+**NOT REMOVED, deliberately.** Deleting the vestigial plumbing touches seven modules
+including the root component and the sync manager, for no learner-visible gain — a
+refactor, not a fix, and this repo forbids widening scope that way. Recorded here
+with the measurement so the next person deciding it is dead need not re-derive it.
+Also worth knowing: `dchlSl` is typed `boolean` in `HomeTab`'s props while it is
+`string[]` everywhere else — a type lie that costs nothing today only because the
+prop is discarded.
+
+**Nothing to mutation-verify**: this sweep adds no guard. It is a measurement and a
+correction, and the measurement is four greps a reader can re-run.
 
 ---
 
@@ -8029,78 +8085,78 @@ None of them crash, so no sweep above can see any of them.
       rather than assumed.
 
       **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-                                          class is open-ended, not because anything specific is outstanding** — and
-                                          that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-                                          have since been asked against it, and what each returned is recorded so
-                                          nobody re-derives them:
+                                                  class is open-ended, not because anything specific is outstanding** — and
+                                                  that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+                                                  have since been asked against it, and what each returned is recorded so
+                                                  nobody re-derives them:
 
-                                          - **"Where does the app keep the same fact twice, with only one copy
-                                            having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-                                            sweep 52's eight negatives. Worked out. The sharpened form, which is
-                                            what actually selected the finds: *is one of the two copies never
-                                            exercised?* An inert copy (a display map, a test's list, a progress-bar
-                                            threshold, a type annotation) drifts silently; a live second CALLER, a
-                                            deliberately frozen snapshot and a genuine derivation all do not.
-                                          - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-                                            **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-                                            it: the guards are structural in at least five different shapes, so a
-                                            matcher that knows five will miss the sixth and flag the seventh.
+                                                  - **"Where does the app keep the same fact twice, with only one copy
+                                                    having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+                                                    sweep 52's eight negatives. Worked out. The sharpened form, which is
+                                                    what actually selected the finds: *is one of the two copies never
+                                                    exercised?* An inert copy (a display map, a test's list, a progress-bar
+                                                    threshold, a type annotation) drifts silently; a live second CALLER, a
+                                                    deliberately frozen snapshot and a genuine derivation all do not.
+                                                  - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+                                                    **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+                                                    it: the guards are structural in at least five different shapes, so a
+                                                    matcher that knows five will miss the sixth and flag the seventh.
 
-                                          - **"What does the tooling treat as reviewable text, and is that what the
-                                            source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-                                            raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-                                            so every change to them was unreviewable. Ratcheted repo-wide by
-                                            `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-                                            hazard, not a learner bug — and it is the first find in this file that
-                                            came from the TOOLING half of an agreement rather than the code half.
-                                            That axis is now swept for control bytes and otherwise untried: what
-                                            else does a tool silently decline to show?
+                                                  - **"What does the tooling treat as reviewable text, and is that what the
+                                                    source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+                                                    raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+                                                    so every change to them was unreviewable. Ratcheted repo-wide by
+                                                    `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+                                                    hazard, not a learner bug — and it is the first find in this file that
+                                                    came from the TOOLING half of an agreement rather than the code half.
+                                                    That axis is now swept for control bytes and otherwise untried: what
+                                                    else does a tool silently decline to show?
 
-                                          - **"Does every committed test actually RUN?"** — sweep 55, the same
-                                            tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-                                            604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-                                            `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-                                            un-skipping every one showed **24 honest and ZnamGame's reason false** —
-                                            it blamed the harness's buttons when the real blocker is the drill's own
-                                            >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-                                            still fail. Still open on this axis: the 24 honest skips are 24 drills
-                                            whose completion contract nothing exercises — the ratchet guards the
-                                            exemption, not the coverage.
+                                                  - **"Does every committed test actually RUN?"** — sweep 55, the same
+                                                    tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+                                                    604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+                                                    `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+                                                    un-skipping every one showed **24 honest and ZnamGame's reason false** —
+                                                    it blamed the harness's buttons when the real blocker is the drill's own
+                                                    >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+                                                    still fail. Still open on this axis: the 24 honest skips are 24 drills
+                                                    whose completion contract nothing exercises — the ratchet guards the
+                                                    exemption, not the coverage.
 
-                                          - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
-                                            the split was right. #720 (sweep 56) added the five ledger writers;
-                                            #721 (sweep 58) fixed the pool-category disagreement. They did not
-                                            belong in one PR: the first is about what a score EVIDENCES, the second
-                                            about which slot may SERVE a screen, and conflating those two questions
-                                            is precisely the error that made me pick the wrong value for
-                                            `dictation`'s category first. See sweeps 59 and 60.
-                                          - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
-                                            #720. Five screens now record at their genuine completion point
-                                            (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
-                                            `SpeakingScreen`, `VideoLessonScreen`), and
-                                            `sessionScreensFeedLedger.test.ts` derives the demand from
-                                            `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
-                                            `SpeakingSprintScreen` stays silent with its reason recorded in
-                                            `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
-                                            RECOGNITION, and filing it as spoken evidence would have made a learner
-                                            who never spoke read as a tested speaker.
-                                          - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
-                                            sweep 63. All four fixed, and my "three stale rows, all inert" summary
-                                            was wrong: `shadowing` was LIVE, crediting the listening quest for
-                                            acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
-                                            mechanism sweep 57 lacked.
+                                                  - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+                                                    the split was right. #720 (sweep 56) added the five ledger writers;
+                                                    #721 (sweep 58) fixed the pool-category disagreement. They did not
+                                                    belong in one PR: the first is about what a score EVIDENCES, the second
+                                                    about which slot may SERVE a screen, and conflating those two questions
+                                                    is precisely the error that made me pick the wrong value for
+                                                    `dictation`'s category first. See sweeps 59 and 60.
+                                                  - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+                                                    #720. Five screens now record at their genuine completion point
+                                                    (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+                                                    `SpeakingScreen`, `VideoLessonScreen`), and
+                                                    `sessionScreensFeedLedger.test.ts` derives the demand from
+                                                    `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+                                                    `SpeakingSprintScreen` stays silent with its reason recorded in
+                                                    `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+                                                    RECOGNITION, and filing it as spoken evidence would have made a learner
+                                                    who never spoke read as a tested speaker.
+                                                  - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+                                                    sweep 63. All four fixed, and my "three stale rows, all inert" summary
+                                                    was wrong: `shadowing` was LIVE, crediting the listening quest for
+                                                    acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+                                                    mechanism sweep 57 lacked.
 
-                                          **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-                                          were about STATE OF THE CODE. The one that paid was about a fact with two
-                                          homes; the one that did not was about a control-flow property that the
-                                          codebase happens to enforce five different ways. The pattern across every
-                                          productive sweep in this file is the same: **they compare two things the
-                                          app itself already has to keep in agreement** — a claim against its
-                                          evidence, a queue against its clearer, a payload against its consumer, a
-                                          badge against its measurement. Questions that instead ask "is this code
-                                          correct in isolation" have consistently returned nothing a test suite was
-                                          not already catching. Pick the next question on that basis: name two
-                                          things that must agree, and ask what would happen if they stopped.)
+                                                  **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+                                                  were about STATE OF THE CODE. The one that paid was about a fact with two
+                                                  homes; the one that did not was about a control-flow property that the
+                                                  codebase happens to enforce five different ways. The pattern across every
+                                                  productive sweep in this file is the same: **they compare two things the
+                                                  app itself already has to keep in agreement** — a claim against its
+                                                  evidence, a queue against its clearer, a payload against its consumer, a
+                                                  badge against its measurement. Questions that instead ask "is this code
+                                                  correct in isolation" have consistently returned nothing a test suite was
+                                                  not already catching. Pick the next question on that basis: name two
+                                                  things that must agree, and ask what would happen if they stopped.)
 
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.

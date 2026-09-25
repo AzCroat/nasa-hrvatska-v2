@@ -3807,9 +3807,13 @@ reachable` ("Including it would close the loop on every field"), plus
   looks exactly like this class. `/api/speaking-coach` COMPUTES it server-side and
   the client validates `typeof data.overall !== 'number'` first, so a missing
   field is a named parse failure, not a `NaN` into the mastery ledger.
-- **A LEGACY GUEST LOST THE DAY'S DAILY-CHALLENGE ANSWERS, WITH THE DATA ONE KEY
-  AWAY** (sweep 115, 2026-09-25 — the open question sweep 111 left sharp instead of
-  guessing). `useDaily`'s PRIMARY source `dcDay3` is written by nothing outside the
+- **A LEGACY GUEST COULD NOT RESTORE THE DAY'S DAILY-CHALLENGE STATE, WITH THE DATA
+  ONE KEY AWAY** (sweep 115, 2026-09-25 — the open question sweep 111 left sharp
+  instead of guessing). **CORRECTED BY SWEEP 116: the daily challenge is VESTIGIAL**
+  — nothing can answer it (`sDchlA`'s only non-plumbing caller is the sync-down
+  path) and nothing renders it (`doneCount` feeds a `void`ed `_dcOpen`) — so this
+  makes a SYNCED FIELD consistent for guests rather than giving a learner anything
+  back. The fix stands; the impact claim was wrong. `useDaily`'s PRIMARY source `dcDay3` is written by nothing outside the
   sync layer, and its documented fallback `loadFromMainDoc` keyed on `uS.u` — which
   a legacy guest never has, because (App.tsx's own words) _"sS() — the only writer
   of the 'uS' session record — runs solely in the fbUser branch"_. Both sources
@@ -3833,6 +3837,27 @@ reachable` ("Including it would close the loop on every field"), plus
   real fix in twenty minutes, because the missing fact was already documented in a
   comment thirty lines from the code. Read what the repo already says about itself
   before building a tool.
+- **A FEATURE CAN BE A CLOSED SYNC LOOP, AND I CLAIMED A LEARNER-VISIBLE LOSS
+  WITHOUT CHECKING** (sweep 116, 2026-09-25). The daily challenge is threaded through
+  `App.tsx`, `AppRouter`, `HomeTab`, `useSyncManager`, `progressSnapshot`,
+  `applyRemoteProgress` and `AppContext`, and `dc` is uploaded on every save — while
+  **nothing can set it** (`sDchlA`/`sDchlSl`'s only non-plumbing caller is
+  `applyRemoteProgress`, the sync-DOWN path; `HomeTab` voids both props) and
+  **nothing renders it** (`doneCount` feeds only a discarded `_dcOpen`; zero "Daily
+  Challenge" strings in `src/components/`). Sweep 111's "a conduit is not a
+  producer" at FEATURE scale — and sweep 111 had already listed `dcDay3` as
+  `NO_PRODUCER` without my noticing the whole feature was dead.
+- **TRACING A WRITE PATH PROVES DATA MOVES; IT SAYS NOTHING ABOUT ANYONE SEEING
+  IT.** I traced storage end to end and never asked the two questions that decide
+  whether a learner is affected: **can this be SET, and is it SHOWN?** Ask both
+  before any finding claims a learner-visible loss — this is _report what was
+  OBSERVED, not the strongest claim consistent with it_, broken in the same session
+  that kept citing it.
+- **Vestigial plumbing is RECORDED, not removed.** Deleting it touches seven modules
+  including the root component and the sync manager for no learner-visible gain — a
+  refactor, not a fix. (`dchlSl` is also typed `boolean` in `HomeTab`'s props while
+  it is `string[]` everywhere else, which costs nothing today only because the prop
+  is discarded.)
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
