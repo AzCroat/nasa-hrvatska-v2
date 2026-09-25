@@ -7005,6 +7005,46 @@ line. **"I cannot read it with the tools I reached for" is not "it is
 unreadable."** Check a PR's review comments before deciding a CI failure is
 opaque.
 
+### Sweep 104 — the undefaulted string render: ATTEMPTED AND PARKED, with the reason (2026-09-25, NO DEFECTS FOUND; census too noisy to be evidence)
+
+**The shape sweep 103 left**: a content-derived STRING rendered with NO default —
+`{content?.FOO?.title}` renders empty, a gap rather than a false claim, and the
+SURROUNDING COPY is what would make it read wrong.
+
+**Run 1 reported 0**, looking for `{content?.X.y}` with no `??`. Not believable,
+and the reason is a real property of this codebase rather than a matcher bug:
+**the repo defaults AT THE BINDING** (`const X = content?.X ?? {}` at the top of
+the component, the convention in every one of the 48 consumers), so a direct
+optional-chained render off the payload essentially does not occur. The
+undefaulted render is one level DOWN — the object exists and is empty, and the
+PROPERTY is undefined.
+
+**Run 2, widened to that shape, produced 32 candidates and they are dominated by
+false positives.** Checked by hand, and recorded here so nobody re-chases them:
+
+- `SettingsTab`'s `V={V}` and `contentLoading={contentLoading}` are JSX **prop
+  passes**. A brace matcher cannot tell `prop={V}` from `{V}` in a text position.
+- `ReviewScreen`'s `q.word[0]` is inside a `logError(…)` CALL, not a render.
+- `McResult`'s reported `{content}` does not even grep — a phantom from the
+  matcher spanning a longer expression.
+- Everything else real (`ReviewScreen`'s `q.correct`, `TypingScreen`'s `tyW[1]`,
+  `WordSprint`'s `q.prompt`) sits inside a PHASE or LENGTH gate and cannot render
+  before content: the quiz body, the playing phase, the post-pool branch.
+
+**PARKED RATHER THAN PUSHED FURTHER, and the reason is stated so the next person
+does not redo the cheap half.** To be evidence this census needs (a) the
+gate-awareness sweep 102 built (`insideContentGate`) extended to phase flags and
+length guards, and (b) a reading of the copy AROUND each survivor — because an
+empty string in a label is not a false claim, and only the sentence it sits in
+decides whether the gap reads wrong. **(b) is a reading job, not a matching job**,
+which is what sweep 103 already predicted about this class. A noisy derivation
+whose output has to be hand-filtered is not a ratchet, and shipping one as though
+it were is the decorative-guard failure with extra steps.
+
+**No guard was added**, deliberately: a ratchet over a list that is mostly false
+positives trains everyone to ignore it — the 123-false-positive lesson. The class
+stays OPEN in the queue below with this measurement attached.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
