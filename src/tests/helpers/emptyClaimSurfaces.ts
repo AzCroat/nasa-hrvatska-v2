@@ -469,27 +469,66 @@ export function zeroSatisfiableCredits(roots = ['src/components']): ZeroSatisfia
       )) {
         if (/\.(?:length|size)\b/.test(d[2]!)) totals.add(d[1]!);
       }
+      // Booleans declared in the component body from a comparison against a total.
+      const flags = new Map<string, string>();
+      for (const d of src.matchAll(
+        /\b(?:const|let)\s+([A-Za-z_$][\w$]*)\s*=\s*([^;\n]{1,200});/g,
+      )) {
+        const init = d[2]!;
+        const c =
+          /([A-Za-z_$][\w$.?[\]']{0,40})\s*(?:>=|===|==)\s*([A-Za-z_$][\w$.?[\]']{0,40})/.exec(
+            init,
+          );
+        if (!c) continue;
+        if (![c[1]!, c[2]!].some((x) => totals.has(x) || /\.(?:length|size)$/.test(x))) continue;
+        flags.set(d[1]!, init);
+      }
 
       for (const m of src.matchAll(/\buseEffect\s*\(/g)) {
         const body = effectBody(src, m.index! + m[0].length - 1);
         if (body === null || !CREDIT_WRITE.test(body)) continue;
 
-        const cmp: string[] = [];
-        for (const c of body.matchAll(
-          /([A-Za-z_$][\w$.?[\]']{0,40})\s*(>=|===|==)\s*([A-Za-z_$][\w$.?[\]']{0,40})/g,
-        )) {
-          const sides = [c[1]!, c[3]!];
-          if (sides.some((s) => totals.has(s) || /\.(?:length|size)$/.test(s))) {
-            cmp.push(c[0]!.replace(/\s+/g, ' '));
-          }
-        }
+        const isTotal = (x: string) => totals.has(x) || /\.(?:length|size)$/.test(x);
+        const compares = (txt: string): string[] => {
+          const hits: string[] = [];
+          for (const c of txt.matchAll(
+            /([A-Za-z_$][\w$.?[\]']{0,40})\s*(>=|===|==)\s*([A-Za-z_$][\w$.?[\]']{0,40})/g,
+          ))
+            if ([c[1]!, c[3]!].some(isTotal)) hits.push(c[0]!.replace(/\s+/g, ' '));
+          return hits;
+        };
+
+        const cmp: string[] = compares(body);
+        // A NAMED FLAG IS THE SAME COMPARISON ONE HOP AWAY (sweep 125), and this
+        // stage was in sweeps 101/102's derivation and missing from this one — the
+        // same asymmetry those sweeps kept finding. `const allDone = answeredCount
+        // === total;` outside the effect, then `if (!allDone) return;` inside it, is
+        // invisible to a body-only match: the effect mentions no total at all.
+        for (const [name, init] of flags)
+          if (new RegExp(`(?<![\\w$.])${escapeRegExp(name)}(?![\\w$])`).test(body))
+            cmp.push(...compares(init));
         if (!cmp.length) continue;
 
+        // THE POSITIVITY MUST BE ABOUT THE TOTAL, and it did not have to be
+        // (sweep 125). The first version matched ANY `X > 0`, so
+        // `QuestionWordsScreen`'s `if (xpEarned > 0 && …) award(…)` cleared the
+        // check while `markQuest`, `gc + 1` and `writeDelta` in the same effect
+        // stayed ungated by anything about the total — a positivity about an
+        // unrelated quantity reads exactly like a positivity about the right one.
+        const totalNames = new Set<string>();
+        for (const c of cmp)
+          for (const w of c.matchAll(/[A-Za-z_$][\w$.?[\]']*/g))
+            if (isTotal(w[0]!)) totalNames.add(w[0]!);
+        // The NEGATED early-return form counts too — `if (total === 0) return;` is
+        // how this is idiomatically written, and demanding the positive spelling
+        // would push production into `if (!(total > 0))` to satisfy a test.
         const positivity = [
           ...body.matchAll(
-            /[A-Za-z_$][\w$.]*(?:\.(?:length|size))?\s*>\s*0|\.(?:length|size)\s*!==?\s*0|\b0\s*<\s*[A-Za-z_$]/g,
+            /[A-Za-z_$][\w$.]*(?:\.(?:length|size))?\s*>\s*0|\.(?:length|size)\s*!==?\s*0|\b0\s*<\s*[A-Za-z_$][\w$.]*|[A-Za-z_$][\w$.]*(?:\.(?:length|size))?\s*(?:===?\s*0|<\s*1|<=\s*0)|![A-Za-z_$][\w$.]*\.(?:length|size)\b/g,
           ),
-        ].map((x) => x[0]!.replace(/\s+/g, ' '));
+        ]
+          .map((x) => x[0]!.replace(/\s+/g, ' '))
+          .filter((t) => [...totalNames].some((n) => t.includes(n)));
 
         out.push({
           file: f,

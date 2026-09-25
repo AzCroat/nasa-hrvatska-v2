@@ -8785,6 +8785,88 @@ settled by reading rather than by an E2E text assertion.
 
 ---
 
+### 125. Something happening after the learner left, and the positivity that was about the wrong number — 2026-09-25 — ONE find, three negatives
+
+The axis: **an effect that runs when the learner is no longer there, or on a set
+they never saw.** Three censuses, in the order they were run.
+
+**(1) TIMERS THAT CREDIT OR NAVIGATE — 3 of 106, all benign.** Of 106
+`setTimeout` calls in `src/components`, exactly **three** have a callback that
+credits or navigates, and none of the three captures an id anything clears:
+`MatchGame` (`completeExercise` after the final pair), `LessonScreen`
+(`setScr('review')` at 50 ms), `EasterScreen` (quiz state). Read: the MatchGame
+credit is for work already finished, so firing after a quick exit is correct
+rather than wrong; the other two set state on a component that may be gone, which
+React no-ops. No defect.
+
+**(2) A CREDIT OR NAVIGATION AFTER AN `await`, WITH NO MOUNTED CHECK — 8, all
+benign.** 28 components declare a mounted/cancel guard, and 8 async functions
+navigate or award after an `await` without one. Every one is a direct response to
+a tap the learner just made — `LearnPath.launchLevelQuiz`,
+`LessonProduceStep.submit`, `PostcardScreen.sharePostcard`, two in
+`AIConversation`, `LiveTutorScreen`, two router paths. The worst case is being
+taken into a quiz you asked for a moment after changing your mind. No defect.
+
+**(3) A CREDIT EFFECT GATED ON A NAMED FLAG — 1, and it found TWO holes in the
+guard sweep 106 shipped.** 11 `useEffect` bodies in `src/components` contain a
+credit call, all with meaningful deps (none with `[]`), which is sweep 106's
+population. But `zeroSatisfiableCredits` matches the length comparison **inside
+the effect body**, and `QuestionWordsScreen` writes it one hop away:
+
+```
+const allDone = answeredCount === total;      // component body
+React.useEffect(() => { if (!allDone) return; markQuest('grammar'); … }, [allDone]);
+```
+
+The effect mentions no total at all, so it was invisible. **That stage — closing
+over a named flag — was in sweeps 101/102's derivation and missing from this one**,
+which is the asymmetry those sweeps kept finding, met again inside the same helper
+file.
+
+**AND THE SECOND HOLE IS THE ONE WORTH REMEMBERING: THE POSITIVITY DID NOT HAVE
+TO BE ABOUT THE TOTAL.** With the flag stage added, the screen was reported and
+then **passed**, because the matcher accepted any `X > 0` and the effect ends
+`if (xpEarned > 0 && typeof award === 'function') award(xpEarned, …)`. `xpEarned`
+is `correctCount * 3` and says nothing whatever about `total` — while
+`markQuest('grammar')`, `gc + 1`, `writeDelta({gc: 1})` and
+`signalSessionCompleteIfActive('qwords')` in the same effect were gated by nothing
+at all. **A positivity about an unrelated quantity reads exactly like a positivity
+about the right one**, and `0 === 0` is true, so an empty bank would have ticked
+the grammar quest and added a `gc` for a set the learner never saw (NEVER-DO 14).
+The matcher now requires the positivity to NAME a total that appears in the
+comparison it is clearing.
+
+**Reachability, stated: NOT reachable.** `QWORDS` is a static bank in `src/data`,
+so `total` is fixed and non-zero. The fix (`if (!allDone || total === 0) return;`)
+is belt-and-braces; the GUARD's two holes are the finding, and they are what would
+let the next screen — with a content-derived or prop-derived total — through.
+
+**The matcher also learned the NEGATED early-return form** (`if (total === 0)
+return;`, `< 1`, `<= 0`, `!x.length`), because demanding the positive spelling
+would push production into `if (!(total > 0))` purely to satisfy a test. Still
+name-filtered, so this is not the loosening the sweep just closed.
+
+**Mutation-verified, four, each confirmed landed:** the flag stage removed (fails
+2, and the failures NAME QuestionWordsScreen), the positivity name-filter removed
+(1), the negated-form alternatives removed (3), and the production guard reverted —
+the real defect — (2, named). Two synthetic controls carry the new properties,
+because the real subject now passes: one file whose only positivity is about an
+unrelated quantity must report `positivity: []`, and one using the negated form
+must report it.
+
+**A HARNESS NOTE that cost two runs:** both synthetic fixtures were first written
+with `answered !== total`, which the comparison matcher does not accept (`>=`,
+`===`, `==` only), so the derivation saw neither file and both controls failed as
+"not seen at all". **A control that the tool cannot even reach proves nothing** —
+check it lands in the population before reading its verdict.
+
+**WHAT THESE CANNOT SEE, stated:** a timer or an await in a `.ts` hook (`walk`
+yields `.tsx`, unchanged from sweep 106 and re-measured as empty); a flag assembled
+across two hops (`const a = x === total; const b = a && ready;`); and a credit
+whose total is a function PARAMETER, which no per-file derivation can resolve.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

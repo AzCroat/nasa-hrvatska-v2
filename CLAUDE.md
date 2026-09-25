@@ -3688,6 +3688,32 @@ a failed fetch, because `content` then stays null.
   because a total reaches zero for reasons that have nothing to do with a payload
   and the question "does this `>=` also require the total to be positive" must not
   depend on who supplies the data.
+- **A POSITIVITY ABOUT AN UNRELATED QUANTITY READS EXACTLY LIKE THE RIGHT ONE**
+  (sweep 125, 2026-09-25). `zeroSatisfiableCredits` accepted any `X > 0` as
+  clearing a `0 >= 0` credit, and `QuestionWordsScreen` ends its effect
+  `if (xpEarned > 0) award(…)` — `correctCount * 3`, which says nothing about
+  `total` — while `markQuest('grammar')`, `gc + 1`, `writeDelta` and the session
+  signal in the same effect were gated by nothing. The matcher now requires the
+  positivity to NAME a total from the comparison it clears, and accepts the negated
+  early-return spelling (`if (total === 0) return;`) so production is not pushed
+  into `if (!(total > 0))` to satisfy a test.
+- **AND THE COMPARISON CAN BE ONE HOP AWAY, IN A NAMED FLAG.**
+  `const allDone = answeredCount === total;` in the component body with
+  `if (!allDone) return;` in the effect leaves the effect mentioning no total at
+  all. That stage was in sweeps 101/102's derivation and missing from this one, in
+  the same helper file. NOT reachable today (`QWORDS` is a static bank) — the two
+  guard holes are the finding, and they are what would let the next screen through.
+- **THREE OTHER CENSUSES ON THAT AXIS ARE CLEAN, so do not re-run them**: of 106
+  `setTimeout` calls in components only 3 credit or navigate, and all three fire
+  for work already done or set state React no-ops; 8 async functions award or
+  navigate after an `await` with no mounted check, every one a direct response to a
+  tap the learner just made (28 components do declare such a guard); and all 11
+  credit-bearing `useEffect`s have meaningful deps, none `[]`.
+- **A CONTROL THE TOOL CANNOT REACH PROVES NOTHING.** Both synthetic fixtures were
+  first written with `answered !== total`, which the comparison matcher does not
+  accept (`>=`, `===`, `==` only), so the derivation saw neither file and both
+  controls failed as "not seen at all" rather than as a verdict. Check a control
+  lands in the population before reading what it says.
 - **ONE FEATURE HAD TWO DATASETS, AND THE FIX IS TO MAKE THE DRIFT
   UNREPRESENTABLE.** `ScenePicker` read `content.SCENES` while its own PARENT
   (`VocabScenes`, which receives the selected scene back and walks the list again in
@@ -4152,6 +4178,10 @@ screens still read the raw key, each with an invented default, so a learner
 placed at A2 who reached C1 drew A2 content for ever and one who skipped
 placement drew **B1 whoever they were**.
 
+- NEVER: accept a positivity check that does not NAME the total it is clearing;
+  match a credit's length comparison only inside the effect body (a named flag in
+  the component body is the same comparison one hop away); read a synthetic control
+  as a verdict without confirming the derivation reached it at all.
 - **The four were NOT equivalent** and reading what each DOES with the value is
   what separated them: `SpeakingSprintScreen` (the prompt POOL, and the level
   RENDERED on setup — no way to change it) is the real one; `AspectScreen`

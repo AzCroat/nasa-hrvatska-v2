@@ -334,9 +334,10 @@ describe('an effect does not credit on a total of zero', () => {
   const surfaces = zeroSatisfiableCredits();
 
   it('the derivation has subjects', () => {
-    // Two today, and both are real — no false positives to train anyone to
-    // ignore it. A floor, so a broken matcher cannot pass by finding nothing.
-    expect(surfaces.length).toBeGreaterThanOrEqual(2);
+    // Three today (sweep 125 added the named-flag stage), and all real — no
+    // false positives to train anyone to ignore it. A floor, so a broken matcher
+    // cannot pass by finding nothing.
+    expect(surfaces.length).toBeGreaterThanOrEqual(3);
     for (const s of surfaces) expect(s.cmp.length).toBeGreaterThan(0);
   });
 
@@ -386,6 +387,74 @@ describe('an effect does not credit on a total of zero', () => {
     expect(bad!.positivity).toEqual([]);
     expect(good, 'the guarded twin must still be a subject').toBeTruthy();
     expect(good!.positivity.length).toBeGreaterThan(0);
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('a NAMED FLAG is the same comparison one hop away — QuestionWordsScreen is IN', () => {
+    // `const allDone = answeredCount === total;` sits in the component body and
+    // the effect says only `if (!allDone) return;`, so a body-only match saw no
+    // total at all. This stage was in sweeps 101/102's derivation and missing
+    // from this one — the same asymmetry those sweeps kept finding.
+    const hit = surfaces.find((s) => s.file.endsWith('practice/exercises/QuestionWordsScreen.tsx'));
+    expect(hit, 'the flag stage no longer reaches the screen it was written for').toBeTruthy();
+    expect(hit!.cmp.join(' ')).toMatch(/answeredCount\s*===\s*total/);
+    expect(hit!.positivity.join(' ')).toMatch(/total/);
+  });
+
+  it('POSITIVE CONTROL: a positivity about an UNRELATED quantity does not count', () => {
+    // The weakness this sweep closed. `QuestionWordsScreen` gated only its XP, on
+    // `xpEarned > 0`, while `markQuest`, `gc + 1` and the session signal in the
+    // same effect were ungated — and the matcher accepted any `X > 0`, so the
+    // screen read as guarded. Measured: with the name filter removed it does.
+    const dir = mkdtempSync(join(tmpdir(), 'zsc-unrelated-'));
+    writeFileSync(
+      join(dir, 'Unrelated.tsx'),
+      'const items: string[] = [];\n' +
+        'const total = items.length;\n' +
+        'const answered = 0;\n' +
+        'const xpEarned = 3;\n' +
+        'export default function Unrelated() {\n' +
+        '  useEffect(() => {\n' +
+        '    const done = answered === total;\n' +
+        '    if (!done) return;\n' +
+        '    markQuest("grammar");\n' +
+        '    if (xpEarned > 0) award(xpEarned);\n' +
+        '  }, []);\n' +
+        '  return null;\n' +
+        '}\n',
+    );
+    const found = zeroSatisfiableCredits([dir]);
+    const hit = found.find((f) => f.file.endsWith('Unrelated.tsx'));
+    expect(hit, 'the derivation must see it at all').toBeTruthy();
+    expect(
+      hit!.positivity,
+      '`xpEarned > 0` says nothing about `total`, so it must not clear the check',
+    ).toEqual([]);
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('POSITIVE CONTROL: the NEGATED early-return form does count', () => {
+    // `if (total === 0) return;` is how this is idiomatically written; demanding
+    // the positive spelling would push production into `if (!(total > 0))` purely
+    // to satisfy a test.
+    const dir = mkdtempSync(join(tmpdir(), 'zsc-negated-'));
+    writeFileSync(
+      join(dir, 'Negated.tsx'),
+      'const items: string[] = [];\n' +
+        'const total = items.length;\n' +
+        'const answered = 0;\n' +
+        'export default function Negated() {\n' +
+        '  useEffect(() => {\n' +
+        '    if (total === 0) return;\n' +
+        '    if (answered === total) award(5);\n' +
+        '  }, []);\n' +
+        '  return null;\n' +
+        '}\n',
+    );
+    const found = zeroSatisfiableCredits([dir]);
+    const hit = found.find((f) => f.file.endsWith('Negated.tsx'));
+    expect(hit).toBeTruthy();
+    expect(hit!.positivity.join(' ')).toMatch(/total\s*===\s*0/);
     rmSync(dir, { recursive: true, force: true });
   });
 
