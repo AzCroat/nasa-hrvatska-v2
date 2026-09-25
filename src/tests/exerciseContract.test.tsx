@@ -75,7 +75,29 @@ function makeCtx() {
 }
 
 async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOverride?: () => void) {
-  for (let i = 0; i < 300; i++) {
+  // A click that changes NOTHING in the DOM is not progress. Three in a row is a
+  // dead end, and stopping there is what keeps the staleness block below cheap:
+  // without it, Priority 3 drives the 24 undriveable screens for the full 300
+  // iterations over 70–140-button DOMs, and this file went from seconds to four
+  // minutes. Measured, per screen: GenderDrillScreen 50s, ComparativesScreen 37s,
+  // VerbDrillScreen 36s. innerHTML rather than textContent, because selecting a
+  // tile can legitimately change only styling on its way somewhere.
+  let lastHtml = '';
+  let idle = 0;
+  const progressed = () => {
+    const html = document.body.innerHTML;
+    if (html === lastHtml) return ++idle < 3;
+    lastHtml = html;
+    idle = 0;
+    return true;
+  };
+  // 60, down from 300 (sweep 138), and the number is a measurement rather than a
+  // guess: the longest drill that actually completes here takes 20 clicks
+  // (ClozeEngine: 10 questions x answer+Next), and the widest real shape is 15
+  // questions x 2 = 30. The cap is only ever REACHED by a screen the driver cannot
+  // finish, and every iteration there is a `queryAllByRole` over a 70-140-button
+  // DOM — at 300 the staleness block below cost 36 seconds of CI for 24 negatives.
+  for (let i = 0; i < 60; i++) {
     // Award fired means we reached the done screen and the contract was executed.
     if (awardMock.mock.calls.length > 0) break;
 
@@ -90,6 +112,7 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
     const menuTile = document.querySelector('.tc') as HTMLElement | null;
     if (menuTile) {
       fireEvent.click(menuTile);
+      if (!progressed()) break;
       continue;
     }
 
@@ -100,6 +123,7 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
     ) as HTMLElement | null;
     if (introStart) {
       fireEvent.click(introStart);
+      if (!progressed()) break;
       continue;
     }
 
@@ -112,6 +136,7 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
     );
     if (advanceBtn) {
       fireEvent.click(advanceBtn);
+      if (!progressed()) break;
       continue;
     }
 
@@ -122,6 +147,34 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
     );
     if (optionBtn) {
       fireEvent.click(optionBtn);
+      if (!progressed()) break;
+      continue;
+    }
+
+    // Priority 3 (sweep 138): an option button with NO class at all. The 25 skips
+    // below all said "inline styles, no .ob class", and for one of them that was
+    // the whole blocker — but a bare-className rule alone CANNOT work, measured:
+    // in ClozeEngine every button has an empty className, including a mode toggle
+    // (Multiple Choice / Typing) that a naive rule flips back and forth for ever,
+    // and a speaker button. So the discriminator is what a control LOOKS like:
+    // options are words, controls are prefixed with an emoji or are a nav verb.
+    // Advance is still checked first (Priority 1), which is what stops the loop
+    // sitting on "🔊 Hear it" once feedback is showing.
+    const plainOption = allButtons.find((b) => {
+      const el = b as HTMLButtonElement;
+      const t = (el.textContent || '').trim();
+      return (
+        !el.disabled &&
+        t.length > 0 &&
+        !/^(back|home|exit|menu|close|skip|cancel)\b/i.test(t) &&
+        // A leading non-letter/digit is a control affordance in this codebase's
+        // convention (🔘 Multiple Choice, 💡 Show grammar hint, 🔊 Hear it).
+        /^[\p{L}\p{N}"'(]/u.test(t)
+      );
+    });
+    if (plainOption) {
+      fireEvent.click(plainOption);
+      if (!progressed()) break;
       continue;
     }
 
@@ -159,15 +212,13 @@ const FULL_CONTRACT_DRILLS = [
   },
 
   // ─── SP2 Tier 1: exercises now following contract ─────────────────────────────
-  // ClozeEngine: contract-compliant but option buttons use inline styles (no .ob).
-  // completeDrill helper cannot click option buttons to advance through questions.
-  {
-    name: 'ClozeEngine',
-    path: '../components/practice/ClozeEngine',
-    vsTag: 'cloze',
-    skip: true,
-    skipReason: 'Option buttons use inline styles (no .ob class); helper cannot drive MC loop',
-  },
+  // ClozeEngine: DRIVEABLE since sweep 138, and its skip had been stale for as long
+  // as the helper's Priority 3 was missing. Its buttons carry no class at all — the
+  // stated reason — but that was never the whole blocker: a bare-className rule
+  // clicks this screen's OWN mode toggle (Multiple Choice / Typing) for ever. The
+  // advance-first ordering plus "a control is prefixed with an emoji" drives it in
+  // 20 clicks.
+  { name: 'ClozeEngine', path: '../components/practice/ClozeEngine', vsTag: 'cloze' },
   // ProductionDrillScreen: contract-compliant but multi-phase (Transform/Translate/Build)
   // with inline-style buttons; helper cannot navigate phase transitions.
   {
