@@ -525,6 +525,44 @@ occurrence names itself in Sentry as `ai_feedback_failed:<surface>:<kind>`.
 The production ledger value was not readable from here; if feedback still
 fails after this ships, the FIRST thing to read is Sentry for that tag.
 
+**SEVENTEEN OF THE TWENTY-FOUR CLAUDE ENDPOINTS WERE OUTSIDE THAT PARSER, AND THE
+GUARD WAS A LIST OF SEVEN (sweep 120, 2026-09-25).** The rule above is general; the
+enforcement was `modelJson.test.js`'s hand-written list of the FEEDBACK endpoints the
+2026-09-07 census was about, computing the full 24-caller list only to check those
+seven were still live. Measured: every other caller carried its own
+`.replace(/^```(?:json)?\s*/i, '')` pair and a bare `JSON.parse` — the micro-lesson,
+AI Listening, Maja, the news simplifier, Story / Heritage / Postcard /
+Phrase-of-the-Day through `ai-chat`, the daily culture card, the live-tutor summary,
+`srs-sync`, the daily plan, adaptive insights, flash-context, vocab-expand,
+photo-vocab, the conversation stream (two sites) and the conversational tutor.
+**A fence strip is NOT the same tolerance**: `parseModelJson` also recovers the
+outermost `{…}` span, so it is the only one of the two that reads
+`Here is the lesson:\n{…}` or a trailing remark — the exact shape the owner's report
+was about. Each of the 17 answered such a reply with a 502. Two of them said so in
+their own comments (`news.js`: "the same guard every other AI endpoint applies" — true
+of the fence, false of the parser; `ai-chat.js`: a fenced object once showed the
+learner their UNCORRECTED postcard). All 17 now route through `parseModelJson(raw)`
+with each catch becoming `if (!parsed)` so every named 502 is unchanged, and the
+guard's list is REPLACED by a derivation over every Claude caller — one exemption,
+`dialogue.js`, whose reply is the NPC's free-text line and whose prompt declares no
+JSON example.
+
+- **THERE ARE TWO CONTRACTS AROUND AN AI ENDPOINT, AND THEY ARE NOT THE SAME SET.**
+  The prompt's declared JSON binds the MODEL to the endpoint; what a client reads is
+  bound by the endpoint's own RESPONSE literal. Most of these endpoints reshape:
+  `/api/assess-speaking` nests the rubric under `scores` and adds `transcript` +
+  `transcriptSufficiency`, `/api/speaking-coach` returns
+  `{scores, overall, errors, advice, encouragement}`, `/api/listening` rebuilds its
+  object field by field, `/api/ai-chat` adds `_raw`/`model` or falls back to
+  `{ text }`. `/api/correct` forwards `parsed` verbatim, which is the only reason
+  sweep 114's prompt-keys-vs-client-reads check was valid. **Check a client's reads
+  against the ENDPOINT's response, and the prompt's keys against the endpoint's
+  `parsed.*` reads** — not one against the other.
+- **A guard's attribution matcher must admit a query string.** `endpointsIn` required
+  a closing quote right after the path, so `` `/api/news?level=${level}` `` was
+  invisible and a multi-endpoint file read as attributable — every key of that OTHER
+  response then reported against the writing evaluator. Latent (the strict form
+  undercounts in 3 of 52 client files, none a `writeeval` surface) and fixed.
 - NEVER: parse a model reply with a private fence regex or a bare
   `JSON.parse` (use `parseModelJson`); add a Claude endpoint without
   `reconcileSafely` or a stated exemption; return a bare `null`/`false` from a

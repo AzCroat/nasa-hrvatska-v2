@@ -8,6 +8,7 @@ import { corsHeaders as _corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-haiku-4-5-20251001';
@@ -270,18 +271,12 @@ async function simplifyArticle(article, level, anthropicKey) {
   }
 
   const raw = data.content?.[0]?.text || '';
-  // Strip a ```json code fence if the model wrapped its object in one. This is
-  // the same guard every other AI endpoint applies before JSON.parse; news.js
-  // was the sole outlier, so a fenced-but-valid response threw here and the
-  // article was silently dropped (News screen then rendered nothing).
-  const cleaned = raw
-    .replace(/^\s*```(?:json)?\s*/i, '')
-    .replace(/\s*```\s*$/i, '')
-    .trim();
-  let parsed;
-  try {
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex. The comment that stood here said
+  // this was "the same guard every other AI endpoint applies" — true of the FENCE
+  // and false of the shared parser, which also recovers a reply with prose around
+  // the JSON. That is the whole class sweep 120 closed.
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('news.js: simplifyArticle inner JSON parse failed:', raw.slice(0, 200));
     return null;
   }

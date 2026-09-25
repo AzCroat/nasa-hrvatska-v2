@@ -79,7 +79,16 @@ function endpointsIn(file: string): Set<string> {
   const s = readFileSync(file, 'utf8')
     .replace(/^\s*\/\/.*$/gm, '')
     .replace(/\/\*[\s\S]*?\*\//g, '');
-  return new Set([...s.matchAll(/['"`](\/api\/[a-z0-9-]+)['"`]/g)].map((m) => m[1]!));
+  // NO CLOSING QUOTE IS REQUIRED, and that is the point (sweep 120). A second
+  // endpoint reached through a template literal with a query string —
+  // `` `/api/news?level=${level}` `` — is invisible to a matcher that demands a
+  // quote right after the path, so a multi-endpoint file reads as attributable
+  // and any key from that OTHER response is reported against this prompt.
+  // Measured when widened: the strict form undercounts in 3 of the 52 client
+  // files that mention /api/, and none of them is a writeeval surface — so this
+  // was LATENT here and is a ratchet, not a save. The three are the files that
+  // tripped sweep 120's own census before it was widened.
+  return new Set([...s.matchAll(/['"`](\/api\/[a-z0-9-]+)/g)].map((m) => m[1]!));
 }
 
 /**

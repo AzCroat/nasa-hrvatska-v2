@@ -6,6 +6,7 @@ import { corsHeaders, sanitizeParam } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 // Was uninstrumentable until renderPrompt learned {{#if}}: two of these lines
 // only appear sometimes, and a flat template cannot say "sometimes". Both
@@ -210,14 +211,10 @@ export async function onRequestPost(context) {
   }
 
   // ── Parse response ──
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('flash-context.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(502, 'parse_failed', origin);
   }

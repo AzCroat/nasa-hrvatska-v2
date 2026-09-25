@@ -6,6 +6,7 @@ import { corsHeaders } from './_helpers.js';
 import { definePrompt, promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
 import { reconcileSafely } from './_aiBudget.js';
+import { parseModelJson } from './_modelJson.js';
 
 const DAILY_PLAN_PROMPT = definePrompt(
   'daily-plan',
@@ -279,14 +280,10 @@ LEARNER STYLE PROFILE (based on ${safeStyle.dataPoints} sessions):
   }
 
   // ── Parse Claude's JSON response ──
-  let parsed;
-  try {
-    const cleaned = raw
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/\s*```$/, '')
-      .trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
+  // parseModelJson, not a private fence regex: the shared parser also recovers a
+  // reply with prose around the JSON, which a fence strip alone cannot (sweep 120).
+  const parsed = parseModelJson(raw);
+  if (!parsed) {
     console.error('daily-plan.js: JSON parse failed. Raw:', raw.slice(0, 200));
     return err(500, 'Failed to parse AI response', origin);
   }
