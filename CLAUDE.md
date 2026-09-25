@@ -3612,6 +3612,37 @@ a failed fetch, because `content` then stays null.
   appended across two commits an hour apart with slightly different wording. A
   duplicated lesson decays exactly like a duplicated constant: a reader cannot tell
   which copy is current, and the superseded one keeps making its weaker claim.
+- **THE TWIN CENSUS SWEEP 107 ASKED FOR, AND BYTE-IDENTITY IS THE WRONG CONTRACT**
+  (sweep 108, 2026-09-25). `core.js` composes `/api/content/core` from thirteen
+  data modules; **eleven have a twin under `src/` that the app imports
+  statically**, and only four of those were pinned. Four more were byte-identical
+  with nothing enforcing it (`events`, `proverbs`, `scenarios`, `geography` — a
+  test reads both paths and never compares them), and one is invisible to a
+  basename census because its halves are not named alike (`vocabScenes` ↔
+  `VocabSceneData`, sweep 107's own pair — **my first census missed it while
+  reporting ten others**). `payloadTwinParity.test.ts` therefore compares **only
+  the names `core.js` actually imports**, derived from its import statements: that
+  admits the legitimate divergences (the server-only B2/C1/C2 tiers; a 44-export
+  dead fork) and catches the one that reaches a learner.
+- **A DRIFT HAD ALREADY HAPPENED IN THAT CLASS AND COST NOTHING, WHICH IS WHY
+  NOBODY NOTICED.** `exercises.js` carries the same 46 export names on both sides
+  and ten differ, the client always larger — `LISTEN` **45 v 21**, `UNJUMBLE` and
+  `PREPDRILL` 40 v 15, `COMPQUIZ`/`ORDQUIZ` 30 v 15 — starting at a comment
+  reading "2026-07 depth expansion (+25)". `core.js` imports **2 of the 46**, so
+  the server copy is a dead fork and the client is live for every divergent bank;
+  the cross-check that settles it is that the levelled-bank work measured `LISTEN`
+  at 45, the client figure. **The live danger is the same file in the other
+  direction**: extend `IDIOMS` or `BRZALICE` client-side only and the payload
+  serves stale data in silence, exactly as happened to the other ten.
+- **A DYNAMIC IMPORT IN A GUARD IS A VACUITY RISK, AND IT MUST BE MEASURED.**
+  Comparing two modules through `import(\`../../${path}\`)`prints`vite:dynamic-import-vars`, and had those resolved to empty modules all 34
+comparisons would have been `undefined === undefined` and passed while checking
+  nothing. Mutating one English field in one served export, and watching the
+  failure NAME it, is the only thing that distinguishes the two.
+- **A LIST OF SUBJECTS SKIPPED BY `continue` NEEDS PINNING BY NAME.** The twin
+  derivation skips a module with no client copy — correct for `learnPath` and
+  `seasonalCampaigns`, and also exactly how a RENAMED twin would leave the guard
+  without a word. The set of skipped modules is asserted, not assumed.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
@@ -3623,7 +3654,11 @@ a failed fetch, because `content` then stays null.
   sources** — collapse it so the drift cannot be expressed, and never leave a
   now-unreachable notice branch behind the collapse; leave a derivation clause that
   survives its own mutation without a positive control exercising it; name a root a
-  walk cannot read.
+  walk cannot read; **census a twin class by BASENAME** (the pair whose halves are
+  named differently is the one you will miss); demand byte-identity of a twin whose
+  divergence is by design; compare two modules through a dynamic import without
+  mutating one to prove the comparison runs; let `continue` drop a subject without
+  pinning the set it drops.
 
 ---
 

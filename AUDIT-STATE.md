@@ -7311,6 +7311,123 @@ the `routerAwardProp` guard covers that and this is not another `alphabet` hole.
 
 ---
 
+### 108. The twinned data modules — 2026-09-25 — NO LIVE DEFECT, one drift already happened
+
+Sweep 107 closed ONE two-copies-must-agree pair by collapsing it, and listed the
+rest as uncensused. This is that census.
+
+**THE SUBJECTS.** `functions/api/content/_data/core.js` composes
+`/api/content/core` out of **thirteen** data modules. Eleven have a twin under
+`src/` that the app imports statically (`learnPath` and `seasonalCampaigns` do
+not, and are pinned as the only two). 34 served export names across the eleven.
+
+| state                                                        | pairs                                                                                                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| byte-identical AND pinned by an existing test                | 4 — `deepdives`, `history`, `language`, `regions`                                                                               |
+| byte-identical with **NOTHING** enforcing it                 | 4 — `cultural/events`, `cultural/proverbs`, `scenarios`, `cultural/geography` (a test reads both paths and never compares them) |
+| byte-identical, unpinned, and NOT FOUND by a basename census | 1 — `vocabScenes` ↔ `VocabSceneData` (sweep 107's pair; the two halves are not named alike)                                     |
+| genuinely divergent                                          | 2 — `vocabulary.js`, `exercises.js`                                                                                             |
+
+**THE DRIFT THAT ALREADY HAPPENED, and why it costs nothing.** `exercises.js` has
+the SAME 46 export names on both sides and the client copy is 25 KB larger. Ten
+exports differ, the client larger in every case:
+
+| export                  | client                     | server |
+| ----------------------- | -------------------------- | ------ |
+| `LISTEN`                | 45                         | 21     |
+| `UNJUMBLE`, `PREPDRILL` | 40                         | 15     |
+| `COMPQUIZ`, `ORDQUIZ`   | 30                         | 15     |
+| `PREPS`                 | 25                         | 15     |
+| `COMPARE`               | 24                         | 15     |
+| `ORDINALS`              | 20                         | 15     |
+| `RELPRON`, `VOCATIVE`   | (objects, contents differ) |        |
+
+The divergence starts at a comment reading _"2026-07 depth expansion (+25):
+clitic clusters, questions, conditionals"_ — an authoring pass that edited the
+client copy and not the server one. **`core.js` imports exactly 2 of those 46
+exports** (`IDIOMS`, `BRZALICE`), and neither is among the ten, so the server
+copy is a 44-export dead fork and the client copy is the live one for every
+divergent bank. **No learner was ever served the stale data.** The cross-check
+that settles it: the levelled-bank work measured `LISTEN` at **45 items**, which
+is the client figure.
+
+`vocabulary.js`'s divergence is by DESIGN and documented — the server carries
+`V_B2`/`V_C1`/`V_C2`, which the client deliberately lacks because the tiers reach
+it through the payload and the bundle must not pay for them. The 11 shared
+categories agree exactly.
+
+**THE GUARD: `payloadTwinParity.test.ts`, and BYTE-IDENTITY IS THE WRONG
+CONTRACT.** Three of the eleven twins legitimately differ, so a byte-identity
+rule over the set would forbid the vocabulary design and demand the dead
+`exercises.js` fork be maintained. The contract is **the SERVED names only**,
+derived from `core.js`'s own import statements rather than listed in the test —
+so a module added to the payload is covered without anyone remembering. That
+admits every legitimate divergence and catches the one that reaches a learner:
+**extending `IDIOMS` or `BRZALICE` in the client copy alone would serve the old
+data from the payload in silence**, which is exactly what already happened to the
+other ten exports of that same file.
+
+Three things the guard does that a byte-diff would not:
+
+- **The ALIAS is explicit and pinned.** `vocabScenes` ↔ `VocabSceneData` is why
+  my first census — keyed on basename — missed sweep 107's own pair while
+  reporting ten others. A guard that can only find twins sharing a name cannot
+  find the class.
+- **`SERVER_ONLY` is checked in BOTH staleness directions**: an exempted name
+  must still be served AND must still be absent from the client. A tier appearing
+  in the bundle must be compared, not exempted.
+- **The two untwinned modules are pinned BY NAME**, because `continue` skips
+  them — and that same `continue` is how a RENAMED twin would vanish from the
+  guard without a word. `expect(untwinned).toEqual(['learnPath', 'seasonalCampaigns'])`.
+
+**THE VACUITY RISK WAS REAL AND WAS MEASURED, NOT REASONED ABOUT.** The
+comparison uses a dynamic template import, vite prints
+`vite:dynamic-import-vars` for it, and if those imports had resolved to empty
+modules every name would be `undefined === undefined` and all 34 comparisons
+would pass while checking nothing. Proven otherwise by mutating a single English
+field in a served export and watching the failure NAME it
+(`cultural/events.EVENTS`).
+
+**Mutation-verified, five, each confirmed landed:**
+
+| mutation                                                                    | fails |
+| --------------------------------------------------------------------------- | ----- |
+| one served export differs by one string (proves the comparison runs at all) | 1     |
+| `IDIOMS` extended in the client copy only — the LIVE danger                 | 1     |
+| the twin derivation returns `[]` (vacuity)                                  | 3     |
+| a stale `SERVER_ONLY` entry over an export that IS compared                 | 1     |
+| the `vocabScenes` alias removed                                             | 2     |
+
+**A CONSEQUENCE OF SWEEP 107 WORTH STATING PLAINLY:** `content.SCENES` now has
+**no production reader**. Its remaining consumers are all infrastructure —
+`CORE_PAYLOAD_KEYS`, the etag generator, the E2E fixture, `core.test.js` and
+`scenesScreen.test.tsx`'s collision guard. The pair stays in this derivation
+anyway: the key is still served, so a future reader inherits the guarantee rather
+than having to notice it is absent.
+
+**NOT DONE, DELIBERATELY:** the 44 dead exports in the server `exercises.js`
+(~248 KB, of which ~2 are live) are not deleted. It would shrink a served module
+by most of its bytes and is exactly the "improve things beyond what was asked"
+this repo forbids; and deleting from a module the payload imports risks an import
+this census did not find. The new guard removes the danger the dead fork posed
+without touching it.
+
+**WHAT THIS SWEEP CANNOT SEE:**
+
+- A twin pair where NEITHER copy is imported by `core.js` — the derivation starts
+  from the payload's own imports, so a client/server pair wired through some
+  other endpoint is outside it.
+- A third copy. `CORE_PAYLOAD_KEYS` drifted as three copies; this compares two.
+- Divergence in a SHARED export's key ORDER only, which `JSON.stringify` reports
+  as a difference — that is deliberate (these files are hand-edited, so a
+  reordered key means one copy was rewritten) but it will read as a defect when
+  it is only a diff.
+- The dead-export question generally: which of the 11 twins carry exports that
+  nothing anywhere reads. Measured for `exercises.js` (44) and `scenarios.js`
+  (11) as a side effect; not swept.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
@@ -7370,78 +7487,78 @@ None of them crash, so no sweep above can see any of them.
       rather than assumed.
 
       **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-          class is open-ended, not because anything specific is outstanding** — and
-          that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-          have since been asked against it, and what each returned is recorded so
-          nobody re-derives them:
+              class is open-ended, not because anything specific is outstanding** — and
+              that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+              have since been asked against it, and what each returned is recorded so
+              nobody re-derives them:
 
-          - **"Where does the app keep the same fact twice, with only one copy
-            having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-            sweep 52's eight negatives. Worked out. The sharpened form, which is
-            what actually selected the finds: *is one of the two copies never
-            exercised?* An inert copy (a display map, a test's list, a progress-bar
-            threshold, a type annotation) drifts silently; a live second CALLER, a
-            deliberately frozen snapshot and a genuine derivation all do not.
-          - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-            **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-            it: the guards are structural in at least five different shapes, so a
-            matcher that knows five will miss the sixth and flag the seventh.
+              - **"Where does the app keep the same fact twice, with only one copy
+                having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+                sweep 52's eight negatives. Worked out. The sharpened form, which is
+                what actually selected the finds: *is one of the two copies never
+                exercised?* An inert copy (a display map, a test's list, a progress-bar
+                threshold, a type annotation) drifts silently; a live second CALLER, a
+                deliberately frozen snapshot and a genuine derivation all do not.
+              - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+                **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+                it: the guards are structural in at least five different shapes, so a
+                matcher that knows five will miss the sixth and flag the seventh.
 
-          - **"What does the tooling treat as reviewable text, and is that what the
-            source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-            raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-            so every change to them was unreviewable. Ratcheted repo-wide by
-            `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-            hazard, not a learner bug — and it is the first find in this file that
-            came from the TOOLING half of an agreement rather than the code half.
-            That axis is now swept for control bytes and otherwise untried: what
-            else does a tool silently decline to show?
+              - **"What does the tooling treat as reviewable text, and is that what the
+                source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+                raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+                so every change to them was unreviewable. Ratcheted repo-wide by
+                `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+                hazard, not a learner bug — and it is the first find in this file that
+                came from the TOOLING half of an agreement rather than the code half.
+                That axis is now swept for control bytes and otherwise untried: what
+                else does a tool silently decline to show?
 
-          - **"Does every committed test actually RUN?"** — sweep 55, the same
-            tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-            604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-            `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-            un-skipping every one showed **24 honest and ZnamGame's reason false** —
-            it blamed the harness's buttons when the real blocker is the drill's own
-            >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-            still fail. Still open on this axis: the 24 honest skips are 24 drills
-            whose completion contract nothing exercises — the ratchet guards the
-            exemption, not the coverage.
+              - **"Does every committed test actually RUN?"** — sweep 55, the same
+                tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+                604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+                `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+                un-skipping every one showed **24 honest and ZnamGame's reason false** —
+                it blamed the harness's buttons when the real blocker is the drill's own
+                >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+                still fail. Still open on this axis: the 24 honest skips are 24 drills
+                whose completion contract nothing exercises — the ratchet guards the
+                exemption, not the coverage.
 
-          - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
-            the split was right. #720 (sweep 56) added the five ledger writers;
-            #721 (sweep 58) fixed the pool-category disagreement. They did not
-            belong in one PR: the first is about what a score EVIDENCES, the second
-            about which slot may SERVE a screen, and conflating those two questions
-            is precisely the error that made me pick the wrong value for
-            `dictation`'s category first. See sweeps 59 and 60.
-          - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
-            #720. Five screens now record at their genuine completion point
-            (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
-            `SpeakingScreen`, `VideoLessonScreen`), and
-            `sessionScreensFeedLedger.test.ts` derives the demand from
-            `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
-            `SpeakingSprintScreen` stays silent with its reason recorded in
-            `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
-            RECOGNITION, and filing it as spoken evidence would have made a learner
-            who never spoke read as a tested speaker.
-          - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
-            sweep 63. All four fixed, and my "three stale rows, all inert" summary
-            was wrong: `shadowing` was LIVE, crediting the listening quest for
-            acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
-            mechanism sweep 57 lacked.
+              - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+                the split was right. #720 (sweep 56) added the five ledger writers;
+                #721 (sweep 58) fixed the pool-category disagreement. They did not
+                belong in one PR: the first is about what a score EVIDENCES, the second
+                about which slot may SERVE a screen, and conflating those two questions
+                is precisely the error that made me pick the wrong value for
+                `dictation`'s category first. See sweeps 59 and 60.
+              - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+                #720. Five screens now record at their genuine completion point
+                (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+                `SpeakingScreen`, `VideoLessonScreen`), and
+                `sessionScreensFeedLedger.test.ts` derives the demand from
+                `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+                `SpeakingSprintScreen` stays silent with its reason recorded in
+                `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+                RECOGNITION, and filing it as spoken evidence would have made a learner
+                who never spoke read as a tested speaker.
+              - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+                sweep 63. All four fixed, and my "three stale rows, all inert" summary
+                was wrong: `shadowing` was LIVE, crediting the listening quest for
+                acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+                mechanism sweep 57 lacked.
 
-          **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-          were about STATE OF THE CODE. The one that paid was about a fact with two
-          homes; the one that did not was about a control-flow property that the
-          codebase happens to enforce five different ways. The pattern across every
-          productive sweep in this file is the same: **they compare two things the
-          app itself already has to keep in agreement** — a claim against its
-          evidence, a queue against its clearer, a payload against its consumer, a
-          badge against its measurement. Questions that instead ask "is this code
-          correct in isolation" have consistently returned nothing a test suite was
-          not already catching. Pick the next question on that basis: name two
-          things that must agree, and ask what would happen if they stopped.)
+              **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+              were about STATE OF THE CODE. The one that paid was about a fact with two
+              homes; the one that did not was about a control-flow property that the
+              codebase happens to enforce five different ways. The pattern across every
+              productive sweep in this file is the same: **they compare two things the
+              app itself already has to keep in agreement** — a claim against its
+              evidence, a queue against its clearer, a payload against its consumer, a
+              badge against its measurement. Questions that instead ask "is this code
+              correct in isolation" have consistently returned nothing a test suite was
+              not already catching. Pick the next question on that basis: name two
+              things that must agree, and ask what would happen if they stopped.)
 
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
