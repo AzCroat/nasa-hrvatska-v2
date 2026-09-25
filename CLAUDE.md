@@ -3776,6 +3776,37 @@ reachable` ("Including it would close the loop on every field"), plus
   names, every one a per-file LOCAL with a per-file convention (`pct` is a fraction
   in `AlphabetScreen`, a percentage in `DialectAwarenessScreen`). Ask whether a
   value CROSSES a module boundary, not whether a name is used two ways.
+- **A PROMPT'S DECLARED JSON IS A CONTRACT, AND NOTHING COMPARED IT TO ITS
+  CONSUMERS** (sweep 114, 2026-09-25). `contentShapeSweep` does this for
+  `/api/content/*`; the AI endpoints had nothing, so dropping or renaming a key in
+  a prompt is the `scene.qs` / `v.tip` failure on an AI boundary — `undefined`
+  short-circuits, the card is one line shorter, no throw and no Sentry event.
+  `promptContractKeys.test.ts` pins the app's most-used AI contract
+  (`WRITING_EVAL_PROMPT`, seven declared keys, six `writeeval` surfaces): every
+  field read is declared, and the stated `Score 0-100` is pinned beside the four
+  consumers that divide by 100 — which closes sweep 113's gap directly.
+- **START FROM THE PROMPT, NOT THE HANDLER.** A census over all 46 endpoint
+  handlers reported 18 findings, every one false: these endpoints forward the
+  MODEL's parsed JSON, so object literals in the handler are the **Anthropic
+  REQUEST** (`model`, `max_tokens`, `messages`, `system`). The response shape is
+  declared in prompt text and nowhere else.
+- **SCOPE A SOURCE GUARD BY A DERIVED PROPERTY, NOT BY NAME.** `AIConversation`
+  (4 endpoints) and `GrammarExplainer` (2) post `writeeval` and call others, so
+  their `data.croatian` belongs to a different response; attributing it to the
+  evaluator MANUFACTURES findings, which is what the first run did. Excluded by
+  "more than one `/api/` path", with each exclusion re-checked so the scope cannot
+  widen by a file dropping out of a matcher.
+- **CONFIRM AN ORDINARY EDIT LANDED, not just a mutation.** A scope fix appeared
+  to fail twice because a `str.replace` search string said `return out;` where the
+  file had `return out.sort();` — Python does not raise on a miss, so I re-ran
+  unchanged code while reasoning about why the logic was wrong. The derivation had
+  been correct all along. A `grep -c` of the new symbol before and after is the
+  cheap check.
+- **Checked non-defect, recorded so it is not re-chased**: `SPEAKING_COACH_PROMPT`
+  declares no `overall` key while `speakingCoach.ts` reads `data.overall` — which
+  looks exactly like this class. `/api/speaking-coach` COMPUTES it server-side and
+  the client validates `typeof data.overall !== 'number'` first, so a missing
+  field is a named parse failure, not a `NaN` into the mastery ledger.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
