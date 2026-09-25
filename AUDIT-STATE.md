@@ -7053,6 +7053,61 @@ it were is the decorative-guard failure with extra steps.
 positives trains everyone to ignore it — the 123-false-positive lesson. The class
 stays OPEN in the queue below with this measurement attached.
 
+### Sweep 105 — the once-per-day latch vs the content window (2026-09-25, NO DEFECTS)
+
+**The interaction**: `buildSessionActivities` runs from a synchronous read at
+HomeTab mount, the plan is persisted to `nh_daily_session`, and it is invalidated
+ONLY by a date or CEFR change. So a plan committed during the pre-content window
+is the plan for the WHOLE DAY. `useTeachingSlotRetry` exists because exactly that
+happened to P0 (the lesson slot) — measured in a browser, plan committed at 550 ms,
+curriculum request not issued until 6474 ms. **The question this sweep asks: does
+the same thing happen to any OTHER slot, for the VOCABULARY payload, which that
+retry deliberately does not watch?** (Its header records that its first version
+listened to `poolWords` and never fired, because `/api/content/core` and
+`/api/content/curriculum` are two separate fetches.)
+
+**MEASURED with the real builder, 40 trials per level, with and without
+`poolWords`:** identical activity count at every level (A1 4, A2–C2 5), **zero
+variance**, and `srsreview` present **40/40 both ways**. **No slot vanishes when
+the vocabulary payload is absent.** Three reasons, each verified in source rather
+than assumed:
+
+1. **P1 (SRS) degrades to the UNFILTERED count.** `poolWords && poolWords.size > 0
+   ? getServableReviewCount(poolWords) : getDueReviews().length` — documented as a
+   deliberate fallback, so the slot still fires.
+2. **P0 (the lesson) depends on the SPINE, not the vocabulary**, and has its own
+   second chance in `useTeachingSlotRetry`.
+3. **Every other slot draws from STATIC pools** (`sessionPools`, `croatiaPool`) —
+   module imports, not payload reads.
+
+**THE FIRST PROBE COULD NOT HAVE ANSWERED THE QUESTION, and that is the part worth
+keeping.** Run 1 compared the two plans' activity IDS at each level and they
+differed everywhere — which looks exactly like content-dependence and is nothing
+of the kind: the builder shuffles and tiebreaks, so two calls draw differently.
+**A single-trial comparison of a randomized builder cannot distinguish a real
+difference from a draw.** Only the 40-trial structural comparison (length, slot
+presence) is evidence. This is the stochastic-assertion lesson arriving in a
+measurement rather than in a test.
+
+**And the probe had a defect of its own**: it aggregated `x.kind`, a field
+`SessionActivity` does not have (the field is `category`), so it printed `?:4.00`
+for every level — a placeholder that reads like a result. The length and
+`srsreview` figures above do not depend on it and stand; the per-category line
+from run 2 should be disregarded. **A probe that reads a non-existent field
+reports a plausible number instead of an error**, which is the `scene.qs` class
+inside a throwaway script.
+
+**WHAT REMAINS TRUE AND IS COVERED ELSEWHERE:** P1's unfiltered fallback means the
+plan can PROMISE a review that is not servable. That is the pill-vs-screen class,
+and sweep 101 closed the screen end of it — `ReviewScreen` now names the loading
+and unavailable states instead of claiming "All caught up!". The plan over-offering
+and the screen lying are different defects, and only the second was one.
+
+**WHAT THIS SWEEP CANNOT SEE:** a slot whose CONTENT (not presence) is degraded by
+an absent payload — an activity that appears in the plan and then opens on less
+than it would have. The structural comparison is blind to that by construction,
+and the screen-side sweeps (100–102) are what cover it.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
