@@ -3516,6 +3516,21 @@ a failed fetch, because `content` then stays null.
   **Probe the predicate, do not re-read it** — two rounds of reasoning about why
   it passed were both wrong; dumping its real output under the mutation is what
   pointed at the walk.
+- **A MULTI-LINE INITIALIZER SWALLOWS THE NEXT DECLARATION** (sweep 103): a
+  closure matcher running lazily to the first `;\n` lets
+  `const x = (() => {` consume the `const y = …;` inside its own body, and
+  `matchAll` resumes past it — so ANY declaration following a multi-line one is
+  invisible. It was in the helper sweeps 101 and 102 both depend on. Measured
+  cost for them: **none, latent** — 13/13 with the fix and 13/13 without — which
+  is worth saying rather than presenting a widened closure as a save. Every
+  content-derivation closure needs a single-line pass beside the lazy one.
+- **Three sweeps running, a derivation reported a small clean number and was
+  wrong**, always from the same family: a regex over- or under-reaching around a
+  JS construct it was not written for — a `for` header, a tag containing an arrow
+  function, a ref assignment, a component body, a multi-line initializer. **The
+  check that caught it every time: name a member you already know about and
+  confirm the tool reports it.** A derivation that misses a known member is an
+  unfinished tool, not a negative result.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished

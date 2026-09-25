@@ -38,6 +38,7 @@ import {
   emptyClaimSurfaces,
   consultsClassifier,
   numericClaimSurfaces,
+  escapeRegExp,
 } from './helpers/emptyClaimSurfaces';
 import { poolLaunchBlock } from '../lib/practiceLaunch';
 
@@ -269,5 +270,34 @@ describe('the scene overview does not report 0 / 0 words discovered', () => {
     });
     render(<ScenePicker onSelect={() => {}} allDiscovered={{ s1: new Set(['a']) }} />);
     expect(screen.getByTestId('scene-total-progress').textContent).toMatch(/1\s*\/\s*2/);
+  });
+});
+
+/**
+ * Every derivation above feeds itself names read out of SOURCE, and the patterns
+ * it builds from them escaped only `$`. That is a correctness bug before it is a
+ * scanner finding: `[A-Za-z_$][\w$.]*` admits a dot, and a dot in a regex matches
+ * ANY character — the silent-mis-match class this whole hunt is about, inside the
+ * tools doing the hunting. Asserted directly rather than trusted to CodeQL going
+ * green, which would only ever be evidence about CodeQL.
+ */
+describe('escapeRegExp makes a derived name match itself and nothing else', () => {
+  it('a dotted name does not match an arbitrary character in its place', () => {
+    const pattern = new RegExp(`\\b${escapeRegExp('r.timeline')}\\b`);
+    expect(pattern.test('r.timeline')).toBe(true);
+    expect(pattern.test('rXtimeline'), 'the dot matched any character').toBe(false);
+  });
+
+  it('a name with regex syntax in it builds a valid pattern instead of throwing', () => {
+    for (const name of ['a(b', 'x[0]', 'y+z', 'q?r', 'end$', '^start', 'a|b', 'back\\slash']) {
+      expect(() => new RegExp(`\\b${escapeRegExp(name)}\\b`), name).not.toThrow();
+      expect(new RegExp(escapeRegExp(name)).test(name), name).toBe(true);
+    }
+  });
+
+  it('the old escaping — `$` only — genuinely fails both of those', () => {
+    const weak = (x: string) => x.replace(/\$/g, '\\$');
+    expect(new RegExp(`\\b${weak('r.timeline')}\\b`).test('rXtimeline')).toBe(true);
+    expect(() => new RegExp(`\\b${weak('a(b')}\\b`)).toThrow();
   });
 });

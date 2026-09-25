@@ -27,6 +27,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 import { join } from 'node:path';
 import React from 'react';
 
@@ -182,7 +183,9 @@ function saysSomethingHere(body: string): boolean {
 
 /** The brace-balanced body of `function Name(...)` / `const Name = ...`. */
 function declBody(src: string, name: string): string | null {
-  const m = src.match(new RegExp(`(?:function\\s+${name}\\s*\\(|const\\s+${name}\\s*=)`));
+  const m = src.match(
+    new RegExp(`(?:function\\s+${escapeRegExp(name)}\\s*\\(|const\\s+${escapeRegExp(name)}\\s*=)`),
+  );
   if (!m) return null;
   let i = m.index! + m[0].length;
   const open = src.indexOf('{', i);

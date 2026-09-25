@@ -56,6 +56,7 @@ vi.mock('../hooks/useContent', () => ({
 }));
 
 import { useScreenLauncher } from '../hooks/useScreenLauncher';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 import {
   BLACK_HOLE_SCREENS,
   CONTENT_DEPENDENT_BLACK_HOLE_SCREENS,
@@ -299,7 +300,7 @@ function screenFile(key: string): string | null {
   const router = strip(readFileSync(ROUTER, 'utf8'));
   const block = router.match(
     new RegExp(
-      `currentScreen === '${key}'[\\s\\S]{0,500}?<(?:ScreenErrorBoundary[^>]*>\\s*<)?([A-Z]\\w*)`,
+      `currentScreen === '${escapeRegExp(key)}'[\\s\\S]{0,500}?<(?:ScreenErrorBoundary[^>]*>\\s*<)?([A-Z]\\w*)`,
     ),
   );
   if (!block) return null;
@@ -307,9 +308,9 @@ function screenFile(key: string): string | null {
   const imp =
     router.match(
       new RegExp(
-        `const\\s+${comp}\\s*=\\s*lazyWithReload\\(\\s*\\(\\)\\s*=>\\s*import\\(['"]([^'"]+)`,
+        `const\\s+${escapeRegExp(comp)}\\s*=\\s*lazyWithReload\\(\\s*\\(\\)\\s*=>\\s*import\\(['"]([^'"]+)`,
       ),
-    ) || router.match(new RegExp(`import\\s+${comp}\\s+from\\s+['"]([^'"]+)['"]`));
+    ) || router.match(new RegExp(`import\\s+${escapeRegExp(comp)}\\s+from\\s+['"]([^'"]+)['"]`));
   return imp ? resolveImport(ROUTER, imp[1]!) : null;
 }
 

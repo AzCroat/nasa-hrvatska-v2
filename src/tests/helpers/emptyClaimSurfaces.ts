@@ -24,6 +24,28 @@ import { join } from 'node:path';
 
 const strip = (s: string) => s.replace(/^\s*\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
 
+/**
+ * Escape EVERY regex metacharacter before interpolating a value into a pattern.
+ *
+ * Every derivation in this file and its two sibling guards built patterns as
+ * `` new RegExp(`\\b${name}\\b`) `` escaping only `$`. Two things wrong with that,
+ * and the second is why it is fixed here rather than argued about:
+ *
+ *  - CORRECTNESS: a name containing `.` matches any character, so `r.timeline`
+ *    would match `r<anything>timeline`, and a name containing `(` or `[` makes an
+ *    invalid pattern that THROWS at match time. The derivations feed themselves
+ *    names read out of source (`[A-Za-z_$][\w$.]*` admits dots), so this is not
+ *    hypothetical — it is the silent-mis-match class this whole hunt is about,
+ *    inside the tools doing the hunting.
+ *  - CodeQL reports it as `js/regex-injection` (high). The alert count on PR #746
+ *    went 2 → 7 in lockstep with the commit that added five more of these, which
+ *    is what identified the subject after a first hypothesis about clear-text
+ *    storage that the evidence did not support.
+ */
+export function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function walk(dir: string, out: string[] = []): string[] {
   for (const e of readdirSync(dir)) {
     const p = join(dir, e);
@@ -47,11 +69,21 @@ function contentDerived(src: string): Set<string> {
     }
   if (!derived.size) return derived;
   const mentions = (txt: string) =>
-    [...derived].some((d) => new RegExp(`\\b${d.replace(/\$/g, '\\$')}\\b`).test(txt));
+    [...derived].some((d) => new RegExp(`\\b${escapeRegExp(d)}\\b`).test(txt));
   const DECL = /(?:const|let)\s+([A-Za-z_$][\w$]*)\s*(?::\s*[^=]{0,160})?=\s*([\s\S]{0,500}?);\n/g;
   const ASSIGN = /([A-Za-z_$][\w$]*)(?:\.current)?\s*=\s*([^;\n]{0,300});/g;
+  // A MULTI-LINE INITIALIZER SWALLOWS THE NEXT DECLARATION. `DECL` runs lazily to
+  // the first `;\n`, so `const levelNarrative = (() => {` consumes the
+  // `const rungs = LEVEL_NARRATIVE[…];` inside its own body — matchAll then
+  // resumes past it and `rungs` never enters the closure. HeroSection's
+  // `rungs[…] || 'Learning'` is the known member that exposed it: a derivation
+  // that cannot see a member found by reading is unfinished (sweep 103). The
+  // SINGLE-LINE pass restarts from the top and catches whatever the lazy one ate.
+  const DECL_LINE =
+    /(?<!for\s*\()(?:const|let)\s+([A-Za-z_$][\w$]*)\s*(?::\s*[^=;\n]{0,120})?=\s*([^;\n]{1,300});/g;
   for (let i = 0; i < 8; i++) {
     for (const m of src.matchAll(DECL)) if (mentions(m[2]!)) derived.add(m[1]!);
+    for (const m of src.matchAll(DECL_LINE)) if (mentions(m[2]!)) derived.add(m[1]!);
     for (const m of src.matchAll(ASSIGN)) if (mentions(m[2]!)) derived.add(m[1]!);
   }
   return derived;
@@ -146,7 +178,7 @@ function enclosingSpans(src: string, at: number, levels = 4): string[] {
 }
 
 function insideContentGate(src: string, name: string, derived: Set<string>): boolean {
-  const esc = (x: string) => x.replace(/\$/g, '\\$');
+  const esc = escapeRegExp;
   const uses = [
     ...src.matchAll(new RegExp(`\\{\\s*${esc(name)}\\s*\\}|\\$\\{\\s*${esc(name)}\\s*\\}`, 'g')),
   ];
@@ -179,7 +211,7 @@ export function numericClaimSurfaces(root = 'src/components'): NumericClaimSurfa
     const derived = contentDerived(src);
     if (!derived.size) continue;
     const mentions = (txt: string, set: Set<string>) =>
-      [...set].some((d) => new RegExp(`\\b${d.replace(/\$/g, '\\$')}\\b`).test(txt));
+      [...set].some((d) => new RegExp(`\\b${escapeRegExp(d)}\\b`).test(txt));
     // `for (let li = 0; li < LEARN_PATH.length; li++)` is NOT a content-derived
     // number: the lazy `;\n` made a for-header swallow the rest of the statement
     // and pick up the array it iterates, which reported LearnPath's loop index —
@@ -197,9 +229,7 @@ export function numericClaimSurfaces(root = 'src/components'): NumericClaimSurfa
       }
 
     const rendered = [...nums].filter((n) =>
-      new RegExp(
-        `\\{\\s*${n.replace(/\$/g, '\\$')}\\s*\\}|\\$\\{\\s*${n.replace(/\$/g, '\\$')}\\s*\\}`,
-      ).test(src),
+      new RegExp(`\\{\\s*${escapeRegExp(n)}\\s*\\}|\\$\\{\\s*${escapeRegExp(n)}\\s*\\}`).test(src),
     );
     if (!rendered.length) continue;
     // "Guarded" means SOME early return stands between the hook and the render —
@@ -218,12 +248,12 @@ export function numericClaimSurfaces(root = 'src/components'): NumericClaimSurfa
 
     const wholeScreenGuard =
       /if\s*\([^)]*(?:\bloading\b|!\s*content\b|\berror\b)[^)]*\)\s*(?:\{\s*)?return/.test(src) ||
-      [...gateFlags].some((fl) => new RegExp(`if\\s*\\([^)]*\\b${fl}\\b`).test(src));
+      [...gateFlags].some((fl) => new RegExp(`if\\s*\\([^)]*\\b${escapeRegExp(fl)}\\b`).test(src));
 
     const renderGuarded = (n: string): boolean => {
       if (wholeScreenGuard) return true;
       if (insideContentGate(src, n, derived)) return true;
-      const esc = n.replace(/\$/g, '\\$');
+      const esc = escapeRegExp(n);
       const uses = [
         ...src.matchAll(new RegExp(`\\{\\s*${esc}\\s*\\}|\\$\\{\\s*${esc}\\s*\\}`, 'g')),
       ];
@@ -248,7 +278,7 @@ export function emptyClaimSurfaces(root = 'src/components'): EmptyClaimSurface[]
     const derived = contentDerived(src);
     if (!derived.size) continue;
     const mentions = (txt: string) =>
-      [...derived].some((d) => new RegExp(`\\b${d.replace(/\$/g, '\\$')}\\b`).test(txt));
+      [...derived].some((d) => new RegExp(`\\b${escapeRegExp(d)}\\b`).test(txt));
 
     const conditions = new Set<string>();
     const add = (c: string) => conditions.add(c.replace(/\s+/g, ' ').trim());
@@ -261,7 +291,8 @@ export function emptyClaimSurfaces(root = 'src/components'): EmptyClaimSurface[]
       for (const m of src.matchAll(DECL))
         if (
           EMPTY_TEST.test(m[2]!) &&
-          (mentions(m[2]!) || [...flags].some((fl) => new RegExp(`\\b${fl}\\b`).test(m[2]!)))
+          (mentions(m[2]!) ||
+            [...flags].some((fl) => new RegExp(`\\b${escapeRegExp(fl)}\\b`).test(m[2]!)))
         )
           flags.add(m[1]!);
 
@@ -275,7 +306,8 @@ export function emptyClaimSurfaces(root = 'src/components'): EmptyClaimSurface[]
       add(cond);
     }
     // 3: a named emptiness flag that reaches the render
-    for (const fl of flags) if (new RegExp(`\\b${fl}\\b\\s*(?:&&|\\?)`).test(src)) add(fl);
+    for (const fl of flags)
+      if (new RegExp(`\\b${escapeRegExp(fl)}\\b\\s*(?:&&|\\?)`).test(src)) add(fl);
     // 4: a state flag set from an emptiness test
     for (const m of src.matchAll(/if\s*\(([^;{}]{1,200}?)\)\s*\{([\s\S]{0,240}?)\}/g)) {
       if (!EMPTY_TEST.test(m[1]!) || !mentions(m[1]!)) continue;

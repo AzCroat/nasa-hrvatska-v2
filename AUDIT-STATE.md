@@ -6855,6 +6855,117 @@ claim derived from content is outside it. (2) A number whose gate is correct but
 whose VALUE is wrong because the payload is stale — the `scene.qs` class. (3) The
 surviving-mutation case above: a claim expressed only as a style.
 
+### Sweep 103 — the non-numeric claim (2026-09-25, NO DEFECTS; one real hole found IN THE PREVIOUS TWO SWEEPS' OWN HELPER)
+
+**THE SHAPE SWEEP 102 LEFT OPEN**, verbatim: _a non-numeric claim that is not an
+emptiness test either — a LEVEL, a DATE, a name rendered from an absent payload._
+Sweep 101 keyed on `.length === 0`, 102 on `.length`/`reduce`/`Math.round`; a
+string claim is outside both.
+
+**Derivation**: on every `useContent` consumer with NO whole-screen guard, find
+`<content-derived expression> ?? 'literal'` / `|| 'literal'` — a DEFAULTED string,
+which is how a screen renders a claim for a value it does not have.
+
+**RESULT: NO DEFECTS.** Two hits, both non-defects: `HeroSection`'s
+`rungs[…] || 'Learning'` (already established in sweep 101 — a neutral LABEL, less
+specific before the payload but stating nothing false) and
+`AdvancedVocabScreen`'s `poolLaunchBlock(…) ?? 'empty'`, which is a
+`data-pool-block` test attribute and not learner-facing.
+
+**THE 0 IS ONLY TRUSTWORTHY BECAUSE THE TOOL WAS MADE TO SEE A KNOWN MEMBER, AND
+THE FIRST TWO RUNS DID NOT.** Run 1 reported **0 hits**. Run 2, after widening the
+left-hand side, reported **1** — and still missed `HeroSection`, the member I
+already knew about from sweep 101's exemption list. Two separate causes:
+
+1. **A character-class left side cannot span a subscript.**
+   `rungs[Math.min(Math.max(level, 1), rungs.length) - 1] || 'Learning'` — the
+   matcher required `[A-Za-z_$][\w$.?[\]]*` immediately before the operator, which
+   cannot contain spaces, commas or parens. Fixed by looking BACKWARD from the
+   operator for a derived name instead of trying to match the expression.
+2. **A MULTI-LINE INITIALIZER SWALLOWS THE NEXT DECLARATION — and this one is in
+   the COMMITTED helper, not just the scratch script.** `contentDerived`'s `DECL`
+   runs lazily to the first `;\n`, so `const levelNarrative = (() => {` consumes
+   the `const rungs = LEVEL_NARRATIVE[…];` inside its own body; `matchAll` then
+   resumes PAST it and `rungs` never enters the closure. Any declaration
+   following a multi-line one was invisible to the closure that sweeps **101 and
+   102** both depend on. A single-line `DECL_LINE` pass now restarts from the top
+   and catches whatever the lazy one ate.
+
+**WHAT THAT HOLE COST, MEASURED RATHER THAN ASSUMED: nothing, for sweeps 101 and
+102.** With `DECL_LINE` added, `emptyIsNotAnAnswer.test.tsx` reports 13/13
+unchanged, and removing it again also reports 13/13 — so the hole was real and
+LATENT for those two derivations' subjects. Say that plainly rather than
+presenting a widened closure as a save. It is load-bearing for THIS sweep:
+without `DECL_LINE` the string derivation reports 1 hit instead of 2 and cannot
+see `HeroSection` at all.
+
+**This is the third sweep running whose derivation reported a small clean number
+and was wrong**, and the cause is the same family each time: an over-reaching or
+under-reaching regex around a JS construct the matcher was not written for
+(a for-header, an arrow-function tag, a ref assignment, a component body, a
+multi-line initializer). **The check that catches it every time is the same one:
+name a member you already know about and confirm the tool reports it.**
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** A content-derived string rendered with NO
+default — `{content?.FOO?.title}` renders empty, which is a gap rather than a
+false claim, and the surrounding copy is what would make it read wrong. That
+needs a rendering census, not a source match, and is not attempted here.
+
+### Sweep 103 addendum — THE RED CODEQL CHECK WAS MY OWN GUARDS, NOT THE STORAGE HEURISTIC (2026-09-25, 15 REAL DEFECTS IN THIS BRANCH'S OWN TEST CODE, FIXED)
+
+**A CORRECTION TO MY OWN DIAGNOSIS, AND THE EVIDENCE THAT OVERTURNED IT.** PR #746
+showed a red `CodeQL` check: 2 high alerts "in code changed by this pull request".
+I could not read their identity (no code-scanning-alerts tool in this session,
+`get_check_run` returns an empty `output.text`, the analysis log names only the
+queries it ran), so I reasoned from the repo's history — **eight** standing
+dismissals of `js/clear-text-storage-of-sensitive-data`, plus CLAUDE.md's
+"A DISMISSAL IS KEYED TO A LOCATION, SO MOVING THE LINE LOSES IT" — and named
+`nh_level_quiz` / `nh_checkpoint_level` as the likely subjects, labelling that a
+hypothesis. **It was wrong.**
+
+**What settled it was a number, not more reading.** Pushing sweep 102 took the
+count **2 → 7**. Sweep 102 touched two screens and, heavily, `emptyClaimSurfaces.ts`
+— where it added five more `new RegExp` built from interpolated values. Five new
+alerts, five new interpolated constructions, one commit. That is `js/regex-injection`
+(high), and it is **my own code**, which makes it mine to fix outright rather than
+stand down on.
+
+**IT IS A CORRECTNESS BUG BEFORE IT IS A SCANNER FINDING, and that is why the fix
+is a behaviour change and not a suppression.** All fifteen sites across
+`emptyClaimSurfaces.ts`, `dwellContentGate.test.tsx` and `contentStateSpeaks.test.tsx`
+escaped **only `$`**. The derivations feed themselves names read out of SOURCE, and
+`[A-Za-z_$][\w$.]*` admits a dot — so `r.timeline` built `\br.timeline\b`, which
+matches `rXtimeline`. **A silent mis-match, inside the tools written to find silent
+mis-matches.** A name containing `(` or `[` would have THROWN at match time instead.
+`escapeRegExp` (exported from the helper) now escapes the full metacharacter class
+at every one of the fifteen.
+
+**Asserted directly, not left to the scanner going green** — which would only ever
+be evidence about the scanner. Three new tests: a dotted name must not match an
+arbitrary character in its place; a name carrying regex syntax must build a valid
+pattern and match itself; and **the old `$`-only escaping is asserted to fail both**,
+so the fix cannot be quietly undone. Mutation-verified: reverting `escapeRegExp` to
+`$`-only fails 2. All 47 tests across the three guard files pass with the escaping
+in place, so no derivation's result changed — the patterns were right for the names
+this corpus happens to hold, and wrong for the names it is allowed to hold.
+
+**THE PROCESS LESSON, which is the one CLAUDE.md already records and I repeated.**
+"Build the diagnostic first and let the cause name itself." I had *considered*
+regex construction in my own new code early, set it aside for the historically
+likelier storage heuristic, and spent the effort defending that instead. The
+alert-count delta across one commit was available the whole time and is a
+diagnostic; the repo's dismissal history is a prior, and I treated it as evidence.
+**A plausible prior is not a measurement.** The PR comment recording the wrong
+hypothesis stands, with the correction posted after it, because deleting it would
+hide exactly this.
+
+**WHAT IS STILL NOT ESTABLISHED:** whether the ORIGINAL 2 alerts on `5fbd3823`
+were also regex-injection (sweeps 100–101 added interpolated constructions in the
+same two test files, which fits 2 exactly) or the storage class after all. The
+count after this push is the test: if it returns to 0, they were mine; if 2
+remain, those two are the documented false-positive class and belong in CLAUDE.md's
+dismissal list. **Do not record either outcome until that number is read.**
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
