@@ -558,6 +558,23 @@ JSON example.
   sweep 114's prompt-keys-vs-client-reads check was valid. **Check a client's reads
   against the ENDPOINT's response, and the prompt's keys against the endpoint's
   `parsed.*` reads** — not one against the other.
+- **THE SERVER→CLIENT HALF IS CLEAN, AND ITS GUARD WAS DECORATIVE TWICE (sweep 121,
+  2026-09-25).** `aiResponseContract.test.ts` compares each endpoint's own 200-response
+  keys against what its attributable clients read — the `v.tip` class on an AI boundary.
+  Measured: **31 client files across 20 endpoints, zero defects** (five candidates, all
+  tolerant fallback arms, a Blob member, or the derivation's own gap), so it is a
+  ratchet, not a save. Two things had to be got right, and only mutation said so:
+  **a response object is not only its literal** — `/api/listening` assigns
+  `response.speakers`/`response.narrator` AFTER it, conditionally, and reading the
+  literal alone manufactures two findings on correct code; and **the read set needs ONE
+  HOP THROUGH STATE** — nearly every screen does `const data = await res.json()` then
+  `setContent(data)` and reads `content.en_summary` later, so following only the
+  `.json()` variable saw nothing and renaming a field the endpoint sends left the suite
+  **4/4 green**. With the hop it fails and names the file and the field.
+- **A reshaping endpoint must NOT inherit its prompt's keys** (asserted, not assumed):
+  the prompt's keys are unioned in only where the endpoint spreads or forwards the
+  parsed object whole — `{...parsed, _raw, model}`, or `JSON.stringify(result)`. That
+  is the exception; reshaping is the rule.
 - **A guard's attribution matcher must admit a query string.** `endpointsIn` required
   a closing quote right after the path, so `` `/api/news?level=${level}` `` was
   invisible and a multi-endpoint file read as attributable — every key of that OTHER
