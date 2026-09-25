@@ -10205,6 +10205,67 @@ that mutation is run per screen rather than once.
   from a declaration; rewrite a JSX attribute list mechanically without diffing the
   attribute SET before and after.
 
+### 140. Can every session slot be finished? — 2026-09-25 — 376 screens, zero strands, and the guard's first run was wrong about two of them
+
+The strand this ratchets: Today's Session advances only when HomeTab, on return, finds
+`shouldAutoCompleteOnReturn(pending, completed)` true. A screen satisfying neither
+branch leaves the plan at **N-1/N for ever** — re-tapping Start re-drops the learner
+onto the same activity, and the on-completion auto-regenerate is blocked behind it.
+
+**IT HAS BEEN FIXED ONE SCREEN AT A TIME, FOUR TIMES, each after it reached a
+learner**: the whole Croatia slot (2026-06-12, when the dwell credit that covered
+browse screens was removed), `alphabet` (2026-09-23 — its award was gated on a `vs` key
+the dwell timer had PRE-WRITTEN, so the day-one curriculum drill could be finished and
+the session stayed at N-1/N), `micro_lesson` (sweep 119, where gating the award would
+have stranded it had the signal not been moved above the gate), and `dictation`'s
+empty-bank case. Nobody asked it of every screen the slots can serve — the
+`sessionScreensFeedLedger` shape applied to the session handshake.
+
+**Measured: 376 session-launchable screens, ZERO that can finish by neither route.** So
+`sessionSlotsCanFinish.test.ts` is a RATCHET, not a save, and the value is that the
+next browse screen added to a pool — or the next graded screen whose award moves behind
+a gate — fails there instead of stranding a learner's day.
+
+**A GUARD THAT KNOWS ONLY ONE MECHANISM REPORTS ~64 HEALTHY SCREENS AS BROKEN**, which
+is what my first census did. `useAward` writes `nh_session_completed` ITSELF, so any
+positive award finishes the slot and `signalSessionCompleteIfActive` is the
+supplementary path for screens that grade without awarding; and
+`SESSION_AUTOCOMPLETE_SCREENS` (every `CROATIA_POOL` screen plus the `reference: true`
+pool entries) is marked done on return because a browse surface has nothing to grade.
+Both branches are asserted non-trivial (>20 and >200 subjects), so a future
+simplification cannot quietly drop one.
+
+**AND THE SECOND RUN REPORTED TWO FINDINGS ON CORRECT CODE, both `award?.(...)`.**
+`award\s*\(` does not match an OPTIONAL call: `AlkaScreen` passes
+`onXp: (xp) => award?.(xp, true, 'vocabulary')` and `RoleplayScreen` calls
+`award?.(20, false, 'speaking')`, and those are their only completion paths. **A matcher
+that misses the syntax the corpus actually uses manufactures findings** — the mirror of
+this file's "a name that matches nothing guards nothing", and the reason the
+optional-call arm is now pinned on both real strings. Checking the two by hand instead
+of believing the walk is what caught it.
+
+**`stripDecl`'s CALL SITE SURVIVED ITS OWN MUTATION**, because `BLOCKED` already covers
+every module that declares a finisher today. Rather than leave a decorative clause it
+has a FABRICATED positive control — a module whose only mention of a finisher is its own
+declaration must not read as finishing, and must once it also calls one — after which
+the mutation fails 1. Third time in two sweeps that a clause needed a synthetic control
+to stop being decoration.
+
+- Mutation-verified, four: `alka` losing its award fails 2 (the real strand); the
+  optional-call arm removed fails 2; the autocomplete branch ignored fails 1; the
+  `stripDecl` call removed fails 1.
+- NEVER: add a screen to a session pool without a finisher or a place in the
+  autocomplete set; write a guard's matcher without the optional-call form the corpus
+  uses; judge a session screen by the signal alone (the award path and the
+  autocomplete-on-view path are both real).
+
+**Two adjacent censuses came back clean and are recorded so they are not re-run**: no
+`onClick` / `onChange` / `onSubmit` handler anywhere in `src/components` is a no-op or
+returns without doing anything (0 of ~1,900), no control is hard-disabled, every
+`setScr` target is a real `ROUTE_KEYS` entry (430 keys, 0 unknown), and both tile banks
+are winnable through their own graders (`UNJUMBLE` 40/40, `SENTBUILD` 42/42 — the tile
+multiset equals the target's word multiset, so some arrangement is always accepted).
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
