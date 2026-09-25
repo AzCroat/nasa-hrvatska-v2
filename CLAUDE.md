@@ -3807,6 +3807,32 @@ reachable` ("Including it would close the loop on every field"), plus
   looks exactly like this class. `/api/speaking-coach` COMPUTES it server-side and
   the client validates `typeof data.overall !== 'number'` first, so a missing
   field is a named parse failure, not a `NaN` into the mastery ledger.
+- **A LEGACY GUEST LOST THE DAY'S DAILY-CHALLENGE ANSWERS, WITH THE DATA ONE KEY
+  AWAY** (sweep 115, 2026-09-25 — the open question sweep 111 left sharp instead of
+  guessing). `useDaily`'s PRIMARY source `dcDay3` is written by nothing outside the
+  sync layer, and its documented fallback `loadFromMainDoc` keyed on `uS.u` — which
+  a legacy guest never has, because (App.tsx's own words) _"sS() — the only writer
+  of the 'uS' session record — runs solely in the fbUser branch"_. Both sources
+  dead, while `App.tsx` was writing their whole snapshot, `dc` included, to
+  `uP_guest`. Fixed with `const uid = sess?.u || GUEST_UID`: it fires only when no
+  session exists, App.tsx removes `uP_guest` on sign-in, and the pre-existing
+  `dc.day === today` check discards anything else — so signed-in learners and
+  anonymous guests are byte-identical. Pinned by `guestDailyRestore.test.ts`.
+- **`lib/constants/storage` IS A `.ts`/`.js` PAIR WHOSE RESOLVERS DISAGREE — do not
+  put a new shared fact there.** TypeScript resolves `'./constants/storage.js'` to
+  **`storage.ts`**; Vite bundles **`storage.js`**. `noUnreachableModules` already
+  records the `.ts` as unreachable at RUNTIME; what is new is that the TYPECHECKER
+  reads that dead copy, and the two have already drifted (`PLACEMENT_DECLINED`
+  exists only in the `.js`). So a constant added there is bundled but invisible to
+  `tsc`, or type-checked and never shipped — measured the hard way, by doing it and
+  watching `tsc` fail. A fact two modules must agree on needs an unambiguous home
+  (`lib/guestIdentity.ts`).
+- **ANSWERING A DELIBERATELY-PARKED QUESTION IS WORTH MORE THAN ANOTHER CENSUS.**
+  Sweeps 112–114 were three negatives from derived censuses, each needing rework;
+  the one unresolved question I had written down as "NOT established" turned into a
+  real fix in twenty minutes, because the missing fact was already documented in a
+  comment thirty lines from the code. Read what the repo already says about itself
+  before building a tool.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished

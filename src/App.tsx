@@ -17,6 +17,7 @@ import {
   recordJourneyMilestone,
 } from './lib/appUtils.js';
 import { touchSession, isSessionExpired, isValidEmail, fbApplyDelta } from './lib/firebase.js';
+import { GUEST_UID } from './lib/guestIdentity';
 import { getSR } from './lib/srs.js';
 import { buildProgressSnapshot } from './lib/progressSnapshot.js';
 import { applyRemoteProgress as _applyRemoteProgressLib } from './lib/applyRemoteProgress.js';
@@ -157,7 +158,6 @@ const ICONS = {
 // Identity used to key a guest's local progress blob. Guests have no account, so
 // there is no uid to key on; real keys are 'uP_' + email-or-uid, which can never
 // be the literal 'guest', so this cannot collide with an account's blob.
-const GUEST_UID = 'guest';
 
 const TAB_PATHS: Record<string, string> = {
   home: '/',
