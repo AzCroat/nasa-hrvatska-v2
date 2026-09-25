@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 import { H } from '../../data';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
@@ -41,6 +41,38 @@ interface AudioShim {
 }
 
 // ── Region data ───────────────────────────────────────────────────────────────
+/** The one localStorage key this screen owns. Also in clearUserScopedStorage. */
+const SAVED_STORY_KEY = 'heritageStory';
+
+/**
+ * The saved story, or null.
+ *
+ * WHY THIS FUNCTION HAD TO EXIST: `saveToProfile` has written this key since the
+ * screen shipped and **nothing ever read it** — not this screen, not the profile,
+ * nothing on any device. The button said "💾 Save Story", answered "✅ Saved!",
+ * and the story was gone the moment the learner navigated away; coming back
+ * showed the empty form and cost another Claude call to regenerate a story they
+ * had already asked the app to keep. The sync layer even carried the key both
+ * ways, so the value was faithfully replicated to a second device that could not
+ * read it either (sweep 118 — a conduit is not a consumer).
+ *
+ * `parts` is required rather than merely typed: an entry from an older shape
+ * would otherwise restore into the story phase and render its frame around
+ * nothing, which is a worse answer than the form.
+ */
+function readSavedStory(): (HeritageData & { region?: string; era?: string }) | null {
+  try {
+    const raw = localStorage.getItem(SAVED_STORY_KEY);
+    if (!raw) return null;
+    const e = JSON.parse(raw) as (HeritageData & { region?: string; era?: string }) | null;
+    if (!e || typeof e !== 'object') return null;
+    if (!Array.isArray(e.parts) || e.parts.length === 0) return null;
+    return e;
+  } catch {
+    return null;
+  }
+}
+
 const REGIONS: Region[] = [
   {
     name: 'Dalmatia',
@@ -360,23 +392,44 @@ export default function HeritageStoryScreen({
 }) {
   const { isOnline } = useOnlineStatus();
 
-  // Form state
-  const [selectedRegion, setSelectedRegion] = useState<Region>(REGIONS[0]!);
-  const [userName, setUserName] = useState('');
+  // Read once per mount, before the state below is initialised from it. A saved
+  // story opens ON the story, which is what "Save Story" promises; "🔄 Generate
+  // Another" is still the way back to the form.
+  const savedStory = useMemo(readSavedStory, []);
+
+  // Form state — seeded from the saved story so its region header, era and name
+  // are the ones it was generated with. `userName` is stored as 'you' when the
+  // learner left it blank (see saveToProfile), so map that back to blank rather
+  // than pre-filling the form with the placeholder.
+  const [selectedRegion, setSelectedRegion] = useState<Region>(
+    () => REGIONS.find((r) => r.name === savedStory?.region) || REGIONS[0]!,
+  );
+  const [userName, setUserName] = useState(
+    savedStory?.userName === 'you' ? '' : String(savedStory?.userName || ''),
+  );
   const [familyNotes, setFamilyNotes] = useState('');
-  const [selectedEra, setSelectedEra] = useState('Any era');
+  const [selectedEra, setSelectedEra] = useState(String(savedStory?.era || 'Any era'));
 
   // Phase: form | loading | story | error
-  const [phase, setPhase] = useState('form');
-  const [heritageData, setHeritageData] = useState<HeritageData | null>(null);
+  const [phase, setPhase] = useState(savedStory ? 'story' : 'form');
+  const [heritageData, setHeritageData] = useState<HeritageData | null>(savedStory ?? null);
   const [error, setError] = useState('');
 
   // Story interactions
   const [ttsPlaying, setTtsPlaying] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(!!savedStory);
   const audioRef = useRef<HTMLAudioElement | AudioShim | null>(null);
   const readParts = useRef(new Set<number>());
-  const awardFired = useRef(false);
+  // A RESTORED STORY HAS ALREADY BEEN READ, so it must not pay again. The award
+  // fires after three parts are read, and `awardFired` is per-mount — so without
+  // this, restoring would turn "open the screen, tap three parts, leave" into 20
+  // XP and a culture quest on every visit, for ever, with no AI call in the way.
+  // The Save button is only reachable from the story phase, so a saved story is
+  // one the learner reached and read; the cost of this line is that someone who
+  // saved before reading three parts forgoes that one award, which is the safe
+  // direction (CLAUDE.md: never credit the same work twice). Generating a new
+  // story resets it, exactly as before.
+  const awardFired = useRef(!!savedStory);
   const _unmountedRef = useRef(false);
 
   const handlePartRead = useCallback(
@@ -482,7 +535,7 @@ export default function HeritageStoryScreen({
       userName: userName || 'you',
       ...heritageData,
     };
-    localStorage.setItem('heritageStory', JSON.stringify(entry));
+    localStorage.setItem(SAVED_STORY_KEY, JSON.stringify(entry));
     setSaved(true);
   }, [heritageData, selectedRegion, selectedEra, userName]);
 

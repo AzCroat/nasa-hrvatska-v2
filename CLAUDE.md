@@ -3881,6 +3881,46 @@ reachable` ("Including it would close the loop on every field"), plus
 - **What that guard still cannot see:** a setter with a live producer whose RESULT
   nothing renders — half of sweep 116's evidence. "Something sets it" is necessary,
   not sufficient; `doneCount` proves a render site can exist and be dead.
+- **"💾 SAVE STORY" SAVED NOWHERE, AND THAT IS THE RENDER HALF (sweep 118,
+  2026-09-25).** Asked of the other population the sync layer owns — the 54
+  localStorage keys `applyRemoteProgress` restores with a string literal — **49 had a
+  consumer outside the sync layer and six did not.** `HeritageStoryScreen` writes the
+  learner's AI-generated heritage story to `heritageStory`, answers "✅ Saved!", and
+  **nothing has ever read the key**: the story was discarded on navigation and
+  returning cost another Claude call to regenerate what the learner had asked the app
+  to keep, while `progressSnapshot` faithfully replicated it to a second device that
+  could not read it either. The screen now restores it on mount, with its own region
+  header (the entry carries `region`, so a Slavonian story is no longer framed in
+  Dalmatia); `parts` is REQUIRED, because an older-shaped entry restoring into the
+  story phase would render the frame around nothing.
+- **A RESTORE CAN OPEN A FARM.** The 20 XP + culture quest fire once three narrative
+  parts are read, guarded by a per-mount ref — so restoring without seeding that ref
+  turns "open the screen, scroll past three parts, leave" into 20 XP every visit, for
+  ever, with **no AI call in the way**: generating the story used to be the throttle.
+  `awardFired` starts true on a restored story (the Save button is only reachable from
+  the story phase, so it was reached and read). Stated cost: saving before reading
+  three parts forgoes that one award — the safe direction.
+- **A CONDUIT IS NOT A CONSUMER** — the twin of sweep 111's "a conduit is not a
+  producer", and `nh_heritage_saved` is the sharpest instance: an earlier sweep fixed
+  that field's snapshot predicate so the flag would finally sync, and the flag has
+  **never had a reader in its entire git history**. Verifying that data MOVES is not
+  verifying that anything USES it, and from inside a sync test the two questions are
+  indistinguishable. The other dead round trips: `nh_last_ex`/`nh_last_ex_label`
+  (their HomeTab "continue last activity" reader was deleted on 2026-04-25 in
+  `c1aea80d`; the write and its ~40-row label map survived), `nh_level_quiz_passes` (a
+  mirror whose comment claims a cold-start rescue it cannot perform — the real value
+  is `stats.levelQuizPasses`, which `LearnPath` renders and gates the next level on),
+  and `nh_prestige` (dead in both directions, already in `deadKeyReaders`'s
+  `NO_PRODUCER`).
+- **THE CONSTANT HOP IS THE DIFFERENCE BETWEEN A SIGNAL AND A FLOOD.** Matching a read
+  on the key LITERAL reported **sixteen** keys, fourteen of them false, because this
+  codebase reads through a named constant (`const SOUND_KEY = 'nh_sound_enabled'` …
+  `lsGet(SOUND_KEY)`). One binding hop took it to six, all confirmed by hand. A list
+  that is 87% noise is the 123-false-positive lesson arriving on a guard instead of a
+  lint; the clause is pinned on real data, and dropping it fails 3.
+- NEVER: restore a key without asking what reads it; treat a `setItem` as a use (two
+  writes are not a consumer); let a restore re-open an award the learner already
+  earned; add a snapshot field without naming the surface that consumes it.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
