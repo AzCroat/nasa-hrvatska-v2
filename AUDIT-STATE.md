@@ -8941,6 +8941,114 @@ the lint's question and not this one.
 
 ---
 
+### 127. The route sweep blamed a screen for the fixture — 2026-09-25 — ONE find, and the proof is empirical
+
+**WHY IT WAS RUN AT ALL.** `route-render-sweep.spec.js` is the only thing that opens
+all 430 screens by URL, and it is deliberately OUT of the deploy gate: it runs from
+`route-render-sweep.yml`, weekly on Mondays and on dispatch — **which means on the
+DEFAULT branch.** This PR carries 30 commits and the sweep had never once run against
+it. So it was run locally, against a build made with `ci.yml`'s own placeholder
+`VITE_FIREBASE_*` values (the artifact-identity rule: a build the app never ships is
+not evidence).
+
+**IT FAILED, 3 of 3 ATTEMPTS, 17.6 MINUTES EACH:**
+
+```
+crmap: Failed to read the 'localStorage' property from 'Window':
+       Access is denied for this document.
+```
+
+reported under the spec's own message — _"these screens raise an uncaught exception
+with no boundary to catch it, so nothing renders an error and nothing fails — it is
+simply wrong"_.
+
+**THE DIAGNOSIS CAME FROM A PROBE, NOT FROM READING.** A bare Playwright visit to
+`/crmap` raises **nothing** (and reports 1 frame — the Google Maps embed never loads
+here, because this sandbox has no egress to google.com). Adding the sweep's four
+fixtures reproduces it exactly once, and the stack is `at <anonymous>:109:7` — an
+ANONYMOUS script, which is how Playwright injects `addInitScript`. That one line is
+what settled it; three rounds of reasoning about `CrMap` would not have.
+
+**THE CAUSE: `page.addInitScript` RUNS IN EVERY FRAME.** `CrMap` embeds
+`https://www.google.com/maps/embed?…`. Where that embed cannot load — a sandbox with
+no egress, an offline runner, a blocked third party, and increasingly a browser
+phasing out third-party storage — the iframe's document has an **opaque origin**, and
+`localStorage` access there throws `SecurityError`. `seedAuth`'s init script writes
+eleven keys unguarded. Playwright surfaces the throw on `page.on('pageerror')`
+**with no frame attribution**, so the sweep attributed it to whichever SCREEN embeds
+the iframe.
+
+**IT IS THE ARTIFACT-IDENTITY RULE FROM THE OTHER SIDE.** This file already records
+"a green local E2E against a build the app never ships is not evidence". Here the
+run was RED and the product was fine: the failure exists only where the embed fails,
+which is why CI — where google.com resolves — has never seen it. **A red run needs
+its artifact established just as much as a green one.**
+
+**THE FIX IS A TOP-FRAME BAIL, BEFORE THE FIRST WRITE.** Bail rather than catch:
+seeding the learner's storage is meaningful in the main frame and nowhere else, and a
+swallowed throw would leave that frame half-seeded while saying nothing. `forceCefr`
+already wraps its whole body in try/catch and was never affected; `mockRnd`,
+`mockMediaRecorder` and `stealth-page` patch `Math`/`navigator` and cannot throw this.
+
+**Measured in both directions, on the real fixture:** unguarded, `/crmap` raises
+exactly one pageerror; guarded, it raises none AND the main frame is still seeded
+(`uS` present, `nh_goal_set` = `'1'`).
+
+**THE EMPIRICAL PROOF IS THE SWEEP ITSELF: it now passes — 430 routes, 5.0 minutes,
+zero crashes and zero uncaught exceptions**, down from 17.6 minutes of retries. That
+also establishes, for the first time, that every screen on this branch renders on
+direct URL entry after 30 commits.
+
+**The guard is `fixtureInitScriptFrames.test.ts`**: every `addInitScript` body in
+`e2e/fixtures/` that touches `localStorage`/`sessionStorage` must be frame-safe, plus
+a named assertion that `seedAuth`'s bail comes BEFORE its first write, plus a
+synthetic control that the matcher rejects an unguarded script and accepts both safe
+forms.
+
+**COMMENT STRIPPING BIT IMMEDIATELY, IN THE LOUD DIRECTION.** The comment written
+above the bail explains the defect and therefore mentions `localStorage`, so the
+"bail before the first write" assertion failed **on its own explanation**. Every
+prior instance in this file ran the other way (prose SATISFYING a matcher); this is
+the same defect and the same fix — strip comments, line-first then block (sweep 72).
+
+**Mutation-verified, three, each confirmed landed:** the bail removed (fails 2), the
+bail genuinely MOVED to after the first write (1), comment stripping removed from the
+extractor (1).
+
+**MEASURED AND NOT FIXED HERE, recorded so it is not lost:**
+`MicPermissionDeniedExplainer.onUseWriting` is an optional CALLBACK the component
+invokes and **no render site passes — all ten of them.** Its own docstring says the
+button is "hidden when the consumer doesn't pass the callback (e.g. screens with no
+writing analog like AIConversation)", which reads as if some consumers do. None does,
+so "Use writing instead" has never rendered anywhere. Verified harmless before
+leaving it: the exam speaking screen renders the explainer BESIDE its own
+`speak-typed-submit`, Maja/AIConversation/the sprint have their own typed inputs, and
+`ShadowingScreen`'s Next/Finish is unconditional with a comment saying in terms that
+"a learner whose mic or scorer never fired is measured on nothing and blocked by
+nothing". So it is dead code with a docstring that misdescribes it — the
+`LevelQuiz.onPass` shape (sweep 27), to be removed with its branch.
+
+**ALSO MEASURED: `routerOptionalProps` reads the FIRST `…Props` interface in a
+file**, which in **13 of 415** component files is not the component's own
+(`BadgeArtwork`→`ShapeProps`, `WordSprint`→`TimerDisplayProps`,
+`ProductionDrillScreen`→`LevelBadgeProps`, …). That is both directions at once: an
+inner component's optional props attributed to the outer one, and the outer's own
+props never checked. Resolving by the component's own signature yields **no new live
+finding today**, so it is a ratchet — and a probe of mine that claimed three
+(`EquivalencyTestScreen.overrideLevel`, `ReviewScreen.allCats`,
+`RetentionCheckScreen.lessons`) was WRONG: its branch matcher counted the
+DECLARATION `foo?: T` as a branch. **When an ad-hoc probe disagrees with a committed
+guard, the probe is wrong** — that rule paid for itself again.
+
+**WHAT THIS CANNOT SEE, stated:** an init script that throws for a reason other than
+storage (a frame with no `document`, a patched global that a third party rejects);
+and the three other weekly sweeps in that spec (axe, phone-width, focus) were NOT
+run here — only the render pass, because this session's production changes are two
+files and a 45-minute axe pass over 430 routes would measure the palette, not the
+change.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

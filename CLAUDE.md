@@ -4200,13 +4200,44 @@ placement drew **B1 whoever they were**.
   the rule is that SOME string field of the item must appear among its options. That
   is what makes widening the corpus safe, and a hard-coded key list produced 70
   false positives on its first run.
+- **AN `addInitScript` RUNS IN EVERY FRAME, AND THE ROUTE SWEEP BLAMED A SCREEN FOR
+  IT** (sweep 127, 2026-09-25). `route-render-sweep.spec.js` runs weekly from its own
+  workflow, which means on the DEFAULT branch — so it had never run against this PR's
+  30 commits. Run locally it failed 3 of 3 attempts, 17.6 min each, with
+  `crmap: Failed to read the 'localStorage' property from 'Window': Access is denied
+for this document`. A bare visit to `/crmap` raises NOTHING; with the fixtures it
+  raises exactly one, and the stack is `at <anonymous>:109:7` — how Playwright injects
+  `addInitScript`. `CrMap` embeds a cross-origin Google Maps iframe; where that embed
+  cannot load (no egress, offline, a blocked third party, a browser phasing out
+  third-party storage) its document has an **opaque origin** and `localStorage` throws
+  there, and Playwright reports `pageerror` with **no frame attribution**. Fixed with a
+  top-frame bail in `seedAuth`, BEFORE the first write — bail, not catch, because a
+  swallowed throw leaves that frame half-seeded and says nothing. `forceCefr` already
+  wrapped its body in try/catch and was never affected.
+- **A RED RUN NEEDS ITS ARTIFACT ESTABLISHED JUST AS MUCH AS A GREEN ONE.** This file
+  records "a green local E2E against a build the app never ships is not evidence";
+  here the run was red and the product was fine, and the failure exists only where the
+  embed fails — which is why CI has never seen it. **The empirical proof of the fix is
+  the sweep itself: 430 routes, 5.0 minutes, zero crashes and zero uncaught
+  exceptions**, which also establishes for the first time that every screen on this
+  branch renders on direct URL entry.
+- **`fixtureInitScriptFrames.test.ts`** requires every `addInitScript` body in
+  `e2e/fixtures/` that touches storage to be frame-safe. Its comment stripping bit
+  immediately in the LOUD direction: the comment ABOVE the bail explains the defect
+  and therefore mentions `localStorage`, so the "bail before the first write"
+  assertion failed on its own explanation — the same defect as prose satisfying a
+  matcher, and the same fix (strip comments, line-first then block).
 - NEVER: accept a positivity check that does not NAME the total it is clearing;
   match a credit's length comparison only inside the effect body (a named flag in
   the component body is the same comparison one hop away); read a synthetic control
   as a verdict without confirming the derivation reached it at all. NEVER: hand-list the
   corpus of a guard whose subject can grow — derive it, and pin the named members a
   floor cannot protect; ship a bank whose declared answer is absent from its own
-  options, or whose options repeat.
+  options, or whose options repeat. NEVER: touch storage in a Playwright
+  `addInitScript` without bailing outside the top frame (it runs in EVERY frame, and
+  a third-party iframe that failed to load has an opaque origin); read a RED local
+  E2E as the product's fault before establishing which artifact and environment
+  produced it.
 - **The four were NOT equivalent** and reading what each DOES with the value is
   what separated them: `SpeakingSprintScreen` (the prompt POOL, and the level
   RENDERED on setup — no way to change it) is the real one; `AspectScreen`
