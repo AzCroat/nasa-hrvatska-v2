@@ -3516,6 +3516,39 @@ a failed fetch, because `content` then stays null.
   **Probe the predicate, do not re-read it** — two rounds of reasoning about why
   it passed were both wrong; dumping its real output under the mutation is what
   pointed at the walk.
+- **EVERY INTERPOLATED REGEX IN A GUARD NEEDS A FULL `escapeRegExp`**, and the
+  derivations here escaped only `$` at fifteen sites. A name read out of source
+  can contain a `.` (the matchers admit one), and a dot matches ANY character —
+  so `r.timeline` built a pattern matching `rXtimeline`: a silent mis-match inside
+  the tools written to find silent mis-matches. A `(` or `[` would have thrown at
+  match time instead. CodeQL calls it `js/incomplete-sanitization`, "does not
+  escape backslash characters"; the correctness bug is the reason to fix it, and
+  the new tests assert the old `$`-only escaping FAILS so the fix cannot be
+  quietly undone.
+- **"I CANNOT READ IT WITH THE TOOLS I REACHED FOR" IS NOT "IT IS UNREADABLE."**
+  A red CodeQL check's summary carries a count and no `output.text`, and I spent
+  two rounds reasoning from the repo's dismissal history about which alerts it
+  meant — while `github-advanced-security[bot]` had already posted all seven as
+  inline review comments naming file and line. **Read the PR's review comments
+  before calling a CI failure opaque.** A plausible prior is not a measurement,
+  and the alert-count delta across a single commit (2 → 7) was the diagnostic that
+  finally pointed at the right file.
+- **EVERY INTERPOLATED REGEX IN A GUARD NEEDS A FULL `escapeRegExp`**, and these
+  derivations escaped only `$` at fifteen sites. A name read out of source can
+  contain a `.` (the matchers admit one), and a dot matches ANY character — so
+  `r.timeline` built a pattern matching `rXtimeline`: a silent mis-match inside the
+  tools written to find silent mis-matches. A `(` or `[` would have thrown at match
+  time instead. CodeQL calls it `js/incomplete-sanitization`, "does not escape
+  backslash characters"; the correctness bug is the reason to fix it, and the tests
+  assert the old `$`-only escaping FAILS so the fix cannot be quietly undone.
+- **"I CANNOT READ IT WITH THE TOOLS I REACHED FOR" IS NOT "IT IS UNREADABLE."**
+  A red CodeQL check's summary carries a count and no `output.text`, and I spent
+  two rounds reasoning from the repo's dismissal history about which alerts it
+  meant — while `github-advanced-security[bot]` had already posted all seven as
+  inline review comments naming file and line. **Read a PR's review comments before
+  calling a CI failure opaque.** A plausible prior is not a measurement; the
+  alert-count delta across one commit (2 → 7) was the diagnostic that pointed at
+  the right file.
 - **A MULTI-LINE INITIALIZER SWALLOWS THE NEXT DECLARATION** (sweep 103): a
   closure matcher running lazily to the first `;\n` lets
   `const x = (() => {` consume the `const y = …;` inside its own body, and

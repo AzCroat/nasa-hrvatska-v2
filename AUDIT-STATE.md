@@ -6959,12 +6959,35 @@ diagnostic; the repo's dismissal history is a prior, and I treated it as evidenc
 hypothesis stands, with the correction posted after it, because deleting it would
 hide exactly this.
 
-**WHAT IS STILL NOT ESTABLISHED:** whether the ORIGINAL 2 alerts on `5fbd3823`
-were also regex-injection (sweeps 100–101 added interpolated constructions in the
-same two test files, which fits 2 exactly) or the storage class after all. The
-count after this push is the test: if it returns to 0, they were mine; if 2
-remain, those two are the documented false-positive class and belong in CLAUDE.md's
-dismissal list. **Do not record either outcome until that number is read.**
+**THE ALERTS THEN ARRIVED AS REVIEW COMMENTS AND CORRECTED THE RULE NAME.**
+`github-advanced-security[bot]` posted all seven inline, so the subjects are read
+rather than inferred, and two things above need fixing:
+
+- **The rule is `Incomplete string escaping or encoding`
+  (`js/incomplete-sanitization`), NOT `js/regex-injection`** — its finding is
+  literally *"This does not escape backslash characters in the input."* The
+  substance was right (my own helper, escaping too little); the rule name was a
+  guess dressed as a fact. The distinction is real: regex-injection is about a
+  pattern built from untrusted input, incomplete-sanitization is about an escape
+  function that misses cases — and a `$`-only `.replace` is the second.
+- **The open question is ANSWERED, and the answer is me.** All seven sit in
+  `src/tests/helpers/emptyClaimSurfaces.ts` — lines **50 and 72** (the original 2
+  on `5fbd3823`) plus 149, 182, 201 x2 and 226 (the five sweep 102 added). **None
+  is the clear-text-storage class**, so nothing from this branch belongs in
+  CLAUDE.md's standing-dismissal list, and `nh_level_quiz` /
+  `nh_checkpoint_level` were never involved.
+
+`escapeRegExp`'s character class includes the backslash, so the case the rule
+names is covered — verified by running it (`escapeRegExp('a\\b')` matches `a\b`
+and not `aXb`), not inferred from the class looking right.
+
+**THE REUSABLE PART: the alert identity was available all along, on the PR, as
+inline review comments.** I read the check-run summary, found no `output.text`,
+concluded the identity was unreadable from this session, and reasoned from priors
+for two rounds — while the bot had already posted each finding with its file and
+line. **"I cannot read it with the tools I reached for" is not "it is
+unreadable."** Check a PR's review comments before deciding a CI failure is
+opaque.
 
 ---
 
