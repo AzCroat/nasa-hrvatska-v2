@@ -3722,6 +3722,28 @@ comparisons would have been `undefined === undefined` and passed while checking
   exists. NOT established: whether a guest's `uS` carries a `u` — which is what
   decides it. Recorded unresolved, because the alternative was changing a live
   screen on an inference.
+- **A CONTROL THAT DOES NOT CREATE THE DEFECT PROVES NOTHING ABOUT THE TOOL**
+  (sweep 112, 2026-09-25). A value-shape census over every localStorage key
+  reported **zero disagreements across 106 keys**, and the number was meaningless:
+  my injected control flipped one arm of `=== '1' || === 'true'`, so the other arm
+  still matched and there was no defect to find. **Check where a control landed,
+  and that it landed on an arm that is load-bearing.**
+- **THE SYNC LAYER'S OWN SPELLING MASKS A SHAPE DEFECT, which is sweep 111's rule
+  one day later.** The corrected control STILL went undetected, because the
+  predicate compared a reader against ANY writer: `nh_heritage_saved` is written
+  `'true'` by its real producer (`WelcomeScreen`) and `'1'` by
+  `applyRemoteProgress`, so the key carries both shapes and every reader matches
+  one. Restricting writer shapes to PRODUCERS made it fire at once. **Two sweeps
+  composed: "conduit is not a producer" is not only about whether a key is
+  written, but about which spelling counts as the truth.**
+- **AND THE COMMITTED GUARD HAD ALREADY DONE IT.** `snapshotPredicatesReachable`
+  carries `NEGATIVE CONTROL — applyRemoteProgress alone cannot make a field look
+reachable` ("Including it would close the loop on every field"), plus
+  `placement_done` — my census's single "finding" — as a named non-defect. I did
+  not learn that by reading the guard; I learned it because my tool disagreed with
+  a committed one and I checked which was right. **Shape agreement is necessary,
+  not sufficient**: units, range and encoding (seconds vs ms, 0–1 vs 0–100) are
+  outside both tools.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
