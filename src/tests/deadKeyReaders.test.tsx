@@ -348,6 +348,26 @@ describe('no key is read that nothing writes', () => {
     EXPORTED.set(f, exported);
   }
 
+  /**
+   * SWEEP 111 — a local const ALIASING another name, `const STORAGE_KEY =
+   * CUSTOM_WORDS_KEY;`. `LOCAL` above records only string-LITERAL initializers,
+   * so such a name was in neither map: `lookup` returned null, `classify`
+   * returned null, and the write was DROPPED. `MyWordsScreen` saves the
+   * learner's own vocabulary exactly that way, so `nh_custom_words` looked
+   * unwritten by its real producer — and the orphan test passed anyway only
+   * because `applyRemoteProgress` also writes it. A resolution gap that is
+   * invisible while some OTHER writer happens to cover the key.
+   */
+  const ALIAS = new Map<string, Map<string, string>>();
+  for (const [f, s] of SRC) {
+    const m = new Map<string, string>();
+    for (const a of s.matchAll(
+      /\b(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=\n]+)?=\s*([A-Za-z_$][\w$]*)\s*;/g,
+    ))
+      m.set(a[1]!, a[2]!);
+    ALIAS.set(f, m);
+  }
+
   const resolveSpec = (from: string, spec: string): string | null => {
     if (!spec.startsWith('.')) return null;
     const dir = from.slice(0, from.lastIndexOf('/'));
@@ -388,8 +408,10 @@ describe('no key is read that nothing writes', () => {
     const local = LOCAL.get(f);
     if (local?.has(name)) return local.get(name)!;
     const im = IMPORTS.get(f)?.get(name);
-    if (!im) return null;
-    return EXPORTED.get(im.file)?.get(im.name) ?? lookup(im.file, im.name, depth + 1);
+    if (im) return EXPORTED.get(im.file)?.get(im.name) ?? lookup(im.file, im.name, depth + 1);
+    // …then a same-file alias of another name (which may itself be imported).
+    const al = ALIAS.get(f)?.get(name);
+    return al ? lookup(f, al, depth + 1) : null;
   };
 
   // Every spelling the app reaches Web Storage through. `safeStorage`'s wrappers
@@ -424,6 +446,8 @@ describe('no key is read that nothing writes', () => {
   };
 
   const written = new Set<string>();
+  /** key -> the files that write it. The PRODUCER question needs the file. */
+  const writtenBy = new Map<string, Set<string>>();
   const writtenPrefixes = new Set<string>();
   /** key -> the files that read it. */
   const reads = new Map<string, string[]>();
@@ -431,8 +455,10 @@ describe('no key is read that nothing writes', () => {
     for (const m of s.matchAll(accessor(SET))) {
       const c = classify(f, m[1]!);
       if (!c) continue;
-      if (c.key != null) written.add(c.key);
-      else writtenPrefixes.add(c.prefix!);
+      if (c.key != null) {
+        written.add(c.key);
+        writtenBy.set(c.key, new Set([...(writtenBy.get(c.key) ?? []), f]));
+      } else writtenPrefixes.add(c.prefix!);
     }
     for (const m of s.matchAll(accessor(GET))) {
       const c = classify(f, m[1]!);
@@ -533,6 +559,89 @@ describe('no key is read that nothing writes', () => {
   it('every exemption still lacks a writer', () => {
     const fixed = Object.keys(NO_WRITER_BY_DESIGN).filter((k) => hasWriter(k));
     expect(fixed, 'this key gained a writer — take it off the list').toEqual([]);
+  });
+
+  /**
+   * SWEEP 111 — A CONDUIT IS NOT A PRODUCER.
+   *
+   * Every assertion above asks "does anything WRITE this key". `applyRemoteProgress`
+   * satisfies that for anything the snapshot uploads — and it can only write what
+   * Firestore held, which is only what `progressSnapshot` read, which is only what
+   * something else PRODUCED. So a key whose sole writer is the sync layer is in a
+   * closed loop with no source: it is absent for every learner, for ever, and
+   * `hasWriter` reports it covered.
+   *
+   * Measured over the 66 keys the snapshot reads: **six** have no writer outside
+   * the sync layer. One of them (`nh_custom_words`) turned out to have a real
+   * producer the resolver was dropping — see the ALIAS fix above, which is how
+   * this question found a defect in the guard before finding one in the app.
+   */
+  const SYNC_LAYER = new Set([
+    'src/lib/applyRemoteProgress.ts',
+    'src/lib/progressSnapshot.ts',
+    'src/lib/firebase.ts',
+    'src/lib/mergeStatsFromRemote.ts',
+    'src/hooks/useSyncManager.ts',
+  ]);
+
+  /**
+   * Snapshot keys with no producer, each recorded rather than repaired, with the
+   * reason and what it costs. Both staleness directions are checked below.
+   */
+  const NO_PRODUCER: Record<string, string> = {
+    nh_prestige:
+      'nothing anywhere increments it — grep of the whole tree finds only the sync read/write and two ProgressCharts comments discussing "prestige resets". The feature cannot be earned, so the synced field is always 0. Recorded, not repaired: making it earnable is a FEATURE, not a fix',
+    dcDay3:
+      'the daily-challenge answer state. useDaily reads it as the PRIMARY source in a first-render initializer under a comment saying it is "written on every answer click" — nothing writes it, so every read falls through to the documented fallback (uP_<uid>.dc, written by the sync auto-save). NOT established here: the fallback needs uS.u, so whether a signed-out learner loses the state on reload is an open question, left sharp rather than guessed',
+    nh_placement_vocab:
+      'a PlacementTest per-skill sub-score. PlacementTest writes nh_placement_done and nh_level only, so the three sub-scores are never produced; nothing consumes them for a decision either, so the cost is three always-absent snapshot fields and three _maxNum calls that can never fire',
+    nh_placement_grammar: 'as nh_placement_vocab — never produced by PlacementTest',
+    nh_placement_culture: 'as nh_placement_vocab — never produced by PlacementTest',
+  };
+
+  const snapshotKeys = () => {
+    const snap = SRC.get('src/lib/progressSnapshot.ts')!;
+    return new Set([...snap.matchAll(/lsGet\(\s*'([^']{2,80})'/g)].map((m) => m[1]!));
+  };
+
+  const producedOutsideSync = (k: string) =>
+    [...(writtenBy.get(k) ?? [])].some((f) => !SYNC_LAYER.has(f));
+
+  it('the producer derivation is real', () => {
+    const keys = snapshotKeys();
+    expect(keys.size).toBeGreaterThan(50);
+    // Non-vacuity in both directions: a key with a real producer, and one without.
+    expect(producedOutsideSync('nh_goal')).toBe(true);
+    expect(producedOutsideSync('nh_prestige')).toBe(false);
+    // The ALIAS fix is load-bearing here: MyWordsScreen writes nh_custom_words
+    // through `const STORAGE_KEY = CUSTOM_WORDS_KEY` and nothing else outside the
+    // sync layer does, so without alias resolution this flips to false.
+    expect(producedOutsideSync('nh_custom_words')).toBe(true);
+  });
+
+  it('every key the snapshot UPLOADS is produced by something that is not the sync layer', () => {
+    const orphans = [...snapshotKeys()]
+      .filter((k) => !producedOutsideSync(k) && !(k in NO_PRODUCER))
+      .map((k) => `${k} — written only by ${[...(writtenBy.get(k) ?? ['(nothing)'])].join(', ')}`);
+    expect(
+      orphans,
+      'The sync layer is a CONDUIT: it writes what Firestore held, which is what ' +
+        'the snapshot read, which is what something produced. A key with no ' +
+        'producer is absent for every learner for ever, and `hasWriter` calls it covered.\n' +
+        orphans.map((o) => `  - ${o}`).join('\n'),
+    ).toEqual([]);
+  });
+
+  it('every NO_PRODUCER entry is still uploaded and still has no producer', () => {
+    const keys = snapshotKeys();
+    for (const [k, reason] of Object.entries(NO_PRODUCER)) {
+      expect(reason.length, `${k} needs a reason`).toBeGreaterThan(40);
+      expect(keys.has(k), `${k} is no longer uploaded — delete the entry`).toBe(true);
+      expect(producedOutsideSync(k), `${k} gained a producer — take it off NO_PRODUCER`).toBe(
+        false,
+      );
+    }
+    expect(Object.keys(NO_PRODUCER)).toHaveLength(5);
   });
 
   it('the exemption list is not silently emptied', () => {

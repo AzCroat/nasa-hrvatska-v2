@@ -3685,6 +3685,43 @@ comparisons would have been `undefined === undefined` and passed while checking
   my own harness. Probe ONE subject with a small cap and per-iteration logging
   before fanning out; and do not report a hung experiment as evidence the approach
   fails.
+- **A CONDUIT IS NOT A PRODUCER** (sweep 111, 2026-09-25). `deadKeyReaders`
+  already asks "does anything WRITE this key", and `applyRemoteProgress` satisfies
+  it for everything the snapshot uploads — but the sync layer writes what Firestore
+  held, which is what `progressSnapshot` read, which is what something else
+  PRODUCED. A key whose only writer is the sync layer is a closed loop with no
+  source: absent for every learner for ever, and `hasWriter` calls it covered. Of
+  the 66 keys the snapshot uploads, **six** had no producer; five are recorded in
+  `NO_PRODUCER` with reasons — `nh_prestige` (nothing increments it, so the feature
+  cannot be earned), `dcDay3` (the PRIMARY daily-challenge source, read in a
+  first-render initializer under a comment saying it is "written on every answer
+  click"), and the three `nh_placement_*` sub-scores (`PlacementTest` writes only
+  `nh_placement_done` and `nh_level`).
+- **ASKING THE PRODUCER QUESTION FOUND A DEFECT IN THE GUARD BEFORE ONE IN THE
+  APP.** `MyWordsScreen` saves the learner's own vocabulary through
+  `const STORAGE_KEY = CUSTOM_WORDS_KEY` — an IDENTIFIER initializer, so it was in
+  neither the literal-constant map nor the imports map, `classify` returned null and
+  **the write was dropped**. The orphan test passed regardless, because
+  `applyRemoteProgress` also writes that key — **a resolution gap is invisible for
+  as long as some other writer happens to cover the key.** Fixed with an `ALIAS`
+  hop; mutation-verified.
+- **MY OWN CENSUS WAS WEAKER THAN THE GUARD THAT ALREADY EXISTED, and the tell was
+  a known member.** Matching only `localStorage.setItem` reported fourteen orphans,
+  `nh_level` among them — a key this file records `PlacementTest` writing. When an
+  ad-hoc probe disagrees with a committed guard, assume the probe is wrong and
+  measure with the guard's own resolution (a temporary block inside the real test
+  file), not a parallel tool.
+- **A COMMENT ASSERTING A MECHANISM THAT DOES NOT EXIST, third instance.**
+  `wrangler.toml`'s "Shared with scheduled worker above", the three CEFR badges'
+  "all three must stay in sync", and now `useDaily`'s "written on every answer
+  click". When a comment names a writer, grep for it.
+- **LEAVE A SHARP OPEN QUESTION RATHER THAN A GUESS.** `dcDay3`'s fallback needs
+  `uS.u`, so a dead primary path is free for a signed-in learner and may cost a
+  signed-out one their daily-challenge state on reload. Established: nothing writes
+  it outside the sync layer, the fallback needs a session, a `GUEST_UID` path
+  exists. NOT established: whether a guest's `uS` carries a `u` — which is what
+  decides it. Recorded unresolved, because the alternative was changing a live
+  screen on an inference.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
