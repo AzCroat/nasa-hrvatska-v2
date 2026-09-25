@@ -1,12 +1,27 @@
 /**
  * MicPermissionDeniedExplainer — shown when useRecorder.state === 'denied'.
  *
- * Detects platform via getMicPermissionPlatform() and renders per-OS
- * re-grant instructions. Two action buttons:
- *   - "Try Again" (required) invokes onRetry
- *   - "Use writing instead" (optional) invokes onUseWriting — hidden when
- *     the consumer doesn't pass the callback (e.g., screens with no
- *     writing analog like AIConversation).
+ * Detects platform via getMicPermissionPlatform() and renders per-OS re-grant
+ * instructions plus ONE action: "Try Again", which invokes onRetry.
+ *
+ * THERE WAS A SECOND BUTTON AND NO CONSUMER COULD EVER RENDER IT (2026-09-25).
+ * An optional `onUseWriting` gated a "Use writing instead" button, and this
+ * docstring said it was "hidden when the consumer doesn't pass the callback
+ * (e.g., screens with no writing analog like AIConversation)" — which reads as
+ * a deliberate per-consumer choice and was not one: measured across all ten
+ * render sites, NOT ONE passed it, so the button had never appeared in the app.
+ * The `AlphabetScreen.award` / `LevelQuiz.onPass` shape (see
+ * `routerOptionalProps.test.ts`), and its own test supplied the prop itself,
+ * which proves the branch works WHEN WIRED and says nothing about whether it is.
+ *
+ * It is removed rather than wired because the writing alternative was never
+ * this component's job: every consumer that HAS one renders it itself, beside
+ * this card — `SpeakingTaskScreen`'s `speak-typed-submit` textarea,
+ * `LiveTutorScreen`'s "You can type your Croatian below.", AIConversation, Maja
+ * and the speaking sprint. The rest (pronunciation scoring, shadowing, the
+ * graded reader's read-aloud) have no writing analog at all, because reading
+ * aloud IS the task there. A card offering a second route must not be the only
+ * thing that knows the route exists.
  *
  * role="alert" so screen readers announce the blocked state.
  */
@@ -23,10 +38,9 @@ const INSTRUCTIONS: Record<MicPermissionPlatform, string> = {
 
 interface Props {
   onRetry: () => void;
-  onUseWriting?: () => void;
 }
 
-export default function MicPermissionDeniedExplainer({ onRetry, onUseWriting }: Props) {
+export default function MicPermissionDeniedExplainer({ onRetry }: Props) {
   const platform = getMicPermissionPlatform();
   const text = INSTRUCTIONS[platform];
 
@@ -75,22 +89,6 @@ export default function MicPermissionDeniedExplainer({ onRetry, onUseWriting }: 
         >
           Try Again
         </button>
-        {onUseWriting && (
-          <button
-            onClick={onUseWriting}
-            style={{
-              padding: '8px 14px',
-              background: 'transparent',
-              color: '#92400e',
-              border: '1px solid #f59e0b',
-              borderRadius: 8,
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-          >
-            Use writing instead
-          </button>
-        )}
       </div>
     </div>
   );

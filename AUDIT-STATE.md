@@ -8736,7 +8736,7 @@ rebuild `n` from zero (`null + weight` is a number). The damage is that the skil
 reads as never-measured with a null score until enough new events accumulate, and
 that the merge can never shortcut the repair. Weaker than "permanent", still the
 inverse of what the ledger is for — and the difference is invisible while you are
-writing the stronger sentence. *Report what was observed.*
+writing the stronger sentence. _Report what was observed._
 
 **IT IS LATENT, and that is stated rather than dressed up.** All six call
 boundaries were audited by sweep 113 and each supplies a finite number;
@@ -9015,7 +9015,7 @@ the same defect and the same fix — strip comments, line-first then block (swee
 bail genuinely MOVED to after the first write (1), comment stripping removed from the
 extractor (1).
 
-**MEASURED AND NOT FIXED HERE, recorded so it is not lost:**
+**MEASURED AND NOT FIXED HERE — FIXED IN SWEEP 128, below:**
 `MicPermissionDeniedExplainer.onUseWriting` is an optional CALLBACK the component
 invokes and **no render site passes — all ten of them.** Its own docstring says the
 button is "hidden when the consumer doesn't pass the callback (e.g. screens with no
@@ -9026,7 +9026,10 @@ leaving it: the exam speaking screen renders the explainer BESIDE its own
 `ShadowingScreen`'s Next/Finish is unconditional with a comment saying in terms that
 "a learner whose mic or scorer never fired is measured on nothing and blocked by
 nothing". So it is dead code with a docstring that misdescribes it — the
-`LevelQuiz.onPass` shape (sweep 27), to be removed with its branch.
+`LevelQuiz.onPass` shape (sweep 27), to be removed with its branch. — **DONE,
+sweep 128**: removed with its branch and its two tests, the docstring corrected, and
+the class ratcheted by a second caller-set check. The "verified harmless" reading
+above held up on re-measurement.
 
 **ALSO MEASURED: `routerOptionalProps` reads the FIRST `…Props` interface in a
 file**, which in **13 of 415** component files is not the component's own
@@ -9038,7 +9041,11 @@ finding today**, so it is a ratchet — and a probe of mine that claimed three
 (`EquivalencyTestScreen.overrideLevel`, `ReviewScreen.allCats`,
 `RetentionCheckScreen.lessons`) was WRONG: its branch matcher counted the
 DECLARATION `foo?: T` as a branch. **When an ad-hoc probe disagrees with a committed
-guard, the probe is wrong** — that rule paid for itself again.
+guard, the probe is wrong** — that rule paid for itself again. — **DONE, sweep 128**:
+resolved from the component's own signature, and the FALLBACK to the first `…Props`
+was removed rather than kept, because keeping it manufactured a finding
+(`StoriesTab.award`, an inner `WordTileProps` member read against a component that
+takes no props).
 
 **WHAT THIS CANNOT SEE, stated:** an init script that throws for a reason other than
 storage (a frame with no `document`, a patched global that a third party rejects);
@@ -9049,9 +9056,184 @@ change.
 
 ---
 
+### 128. A dead button under a docstring that said it was a choice — 2026-09-25 — TWO finds, one of them a hundred days old
+
+**THE SUBJECT, from sweep 127's own open-shapes list.**
+`MicPermissionDeniedExplainer` — the card a learner meets when the microphone is
+blocked — declared `onUseWriting?: () => void` and rendered a second button,
+**"Use writing instead"**, behind it. Its docstring said the button is "hidden
+when the consumer doesn't pass the callback (e.g. screens with no writing analog
+like AIConversation)", which reads as a considered per-consumer choice.
+
+Measured across all **ten** render sites: `PronunciationScorer`,
+`SpeakingTaskScreen` (twice), `AIConversation`, `MajaScreen`, `LiveTutorScreen`,
+`GradedInputScreen`, `SpeakingScreen`, `ShadowingScreen`, `SprintSpeakingPhase`
+— **not one passed it**, and the identifier appears nowhere else in `src/`. The
+button had never rendered in the app. The `AlphabetScreen.award` /
+`LevelQuiz.onPass` shape, third instance.
+
+**IT IS REMOVED RATHER THAN WIRED, and the reason is a census, not a preference.**
+Every consumer that HAS a writing alternative already renders it ITSELF, beside
+this card: `SpeakingTaskScreen`'s textarea + `speak-typed-submit`,
+`LiveTutorScreen`'s "You can type your Croatian below.", AIConversation, Maja and
+the speaking sprint each have their own input. The remainder —
+`PronunciationScorer`, `ShadowingScreen`, `GradedInputScreen`'s read-aloud — have
+no writing analog at all, because reading aloud IS the task there. So a mic-blocked
+learner is not stranded anywhere, and the prop was never the mechanism.
+
+**ITS OWN TEST SUPPLIED THE PROP**, which is the lesson verbatim: two of the nine
+tests in `MicPermissionDeniedExplainer.test.tsx` were about that branch and one
+passed `onUseWriting` itself, proving the branch works WHEN WIRED and saying
+nothing about whether it is. They are replaced by one assertion that the card
+offers exactly one action, so a second cannot return without a consumer.
+
+**THE GUARD COULD NOT HAVE SEEN IT, and that is the interesting half.**
+`routerOptionalProps.test.ts` was written for this exact class the day before, and
+it is scoped to `AppRouter`'s routed screens. The explainer is a shared CHILD, so
+it was never in `ROUTED`. The file now asks the question of two caller sets:
+
+| check | subject                                                                    | caller set                        |
+| ----- | -------------------------------------------------------------------------- | --------------------------------- |
+| A     | a ROUTED screen, an optional prop it BRANCHES on                           | `AppRouter`                       |
+| B     | ANY component, an optional prop whose TYPE IS A FUNCTION and which it uses | every production caller in `src/` |
+
+**Check B's scope was chosen by measurement.** Restricted to FUNCTION-typed props
+it yields exactly one finding across **204 subjects**; admitting value props
+yields 13 cosmetic ones (a defaulted flag, a style override), and a guard that is
+mostly false positives trains everyone to ignore it — the sweep 104 precedent.
+
+**TEST FILES ARE NOT CALLERS, and the joint mutation is what proves it
+load-bearing.** With `src/tests` in the caller set AND the dead prop restored AND
+its own test passing it again, Check B's assertion goes **GREEN** — the defect is
+invisible — and only the meta-assertion about the caller set fails. That is the
+AlphabetScreen lesson as a mechanism rather than a sentence.
+
+**THE SECOND FIND: `routerOptionalProps` was reading the wrong interface in 13 of
+619 component files.** It resolved a component's props as the FIRST `…Props`
+declaration in the file, which is an INNER helper's in `BadgeArtwork`→`ShapeProps`,
+`WordSprint`→`TimerDisplayProps`, `ProductionDrillScreen`→`LevelBadgeProps`,
+`StoryViewPanel`→`WordTokenProps`, four screens→`QuizBlockProps` and three
+→`BackBtnProps`. Those files were being asked the wrong question in both
+directions. It costs nothing today (Check A reports the identical set either way),
+so this half is a **ratchet**, and it is now resolved from the component's own
+signature.
+
+**THERE IS NO FALLBACK TO THE FIRST `…Props`, and that is a measurement.** My
+first draft kept one for signatures that would not resolve, and it MANUFACTURED a
+finding: `StoriesTab` takes no props at all (`const { award } = useApp()`), so the
+fallback read the inner `WordTileProps.award` and reported it against
+`StoriesTab`'s call sites — a dead prop on a live award path (lines 122 and 586).
+**An unresolvable signature must yield NO subject; a wrong subject is worse than a
+missing one.** My own probe produced that false positive before the guard did,
+which is the third time this session an ad-hoc derivation reported a small clean
+number and was wrong — and the check that caught it every time was naming a member
+already known to be true (`MicPermissionDeniedExplainer.onUseWriting`) and
+confirming the tool reports it.
+
+**TWO SCANNER FIXES, EACH SILENT UNTIL MEASURED:**
+
+- **The depth walk must not count `<` and `>`.** Every `=>` inside a function type
+  decremented the depth and lost the whole parameter, which took **33 of 401**
+  routed components from resolved to UNRESOLVED — and unresolved is silent, not
+  loud. With `(){}[]` only, **400 of 401** routed and **588 of 619** component
+  files resolve. (The last routed holdout was a class component; `extends` in an
+  interface declaration was the one before that.)
+- **A JSX props spread must be detected at ATTRIBUTE depth.** A bare
+  `/\{\s*\.\.\./` also matches an object spread inside a handler BODY, and
+  AppRouter's `<PlacementTest onComplete={… {...prev} …} onCancel={…} />` has one
+  — so the loose version skipped four components (PlacementTest, SessionCard,
+  HrvatskaTab, RazgovorTab) that pass every prop plainly. A skip is a silent loss
+  of coverage, the one direction this file must not fail in.
+
+**THE BUCKET THE DERIVATION COULD NOT RESOLVE HELD A SECOND, WORSE FINDING** —
+sweep 109's rule ("investigate the bucket, do not filter it out") paying off
+immediately. One component has an optional callback and **no render site at all**:
+
+**`DailyListeningCard` has been rendered by nothing since 2026-06-19.** 589 lines,
+"comprehensible input at the user's CEFR level", 15 XP, a quest, per-line audio,
+a daily reset — and PR #55 (the Grad redesign) deleted its only site in
+`PracticeTab.tsx` while **its own plan document said, in writing, "Keep …
+`DailyListeningCard` (reused by Grad/Today)"**. The new site was never added. It
+has been MAINTAINED FOUR TIMES since (#300, #677 fixed its quest XP, #701 gave it
+failure messages, sweep 94 gave it keyboard affordances) — three of those four are
+my own audit sweeps, all working on a card no learner can reach.
+
+**It is recorded as SUPERSEDED, not reinstated, and that is a judgement with
+evidence.** The routed `AIListeningScreen` (922 lines, in `PRODUCTION_POOL`,
+serving the P2.8 comprehension slot) calls the SAME `/api/listening` for the same
+job, so a second door would double-award one generator — the superseded-duplicate
+shape `noUnreachableModules.test.ts` records (three dead region screens, each
+shadowed by a live standalone file of the same name; the dead ones are gone, so
+naming the file here would itself be a path that no longer resolves). DELETION is a separate decision: three guards pin this PATH in source-pin
+lists (`aiRefusalMessages`, `questIdsExist`, `aiSurfaceClassifies`) and
+`dailyListeningCard.test.ts` imports `correctOption`, which is exactly the
+`MediaCard.tsx` exemption shape in `noUnreachableModules`.
+
+**NEITHER EXISTING GUARD COVERS THAT CLASS, and the reason is documented in one of
+them.** `noUnreachableModules`'s walk seeds from every TEST as well as the app
+entries, deliberately — "a module kept alive only by its own tests still counts as
+reachable — that is a softer problem and is not what this guard is for" — and
+Check B cannot judge a component with no call site, because there is no passed-set
+to compare against. A component reachable only from its own test therefore falls
+BETWEEN the two, which is how this one went a hundred days unrendered. The skip is
+now non-silent: `NOT_RENDERED` lists it with the reason and is checked in both
+staleness directions, so a second one cannot arrive quietly.
+
+**Mutation-verified, seven, each confirmed landed:** the dead prop restored fails
+1; the first-`…Props` fallback restored fails 2; `src/tests` counted as callers
+fails 1; the loose spread detector fails 1; the depth walk counting `<>` fails 1;
+`NOT_RENDERED` emptied fails 2; and the JOINT control (dead prop + tests as
+callers + its own test passing it) leaves Check B **green** with only the
+caller-set assertion failing, which is the direct proof that excluding tests is
+what makes this class visible.
+
+**E2E audit:** no spec anywhere references "Use writing instead" or any string on
+the removed control; the three specs that touch the mic-denied card
+(`pronunciation`, `sp4b-production-slot`, `error-boundary`) assert only "Try
+Again", which is untouched. Greps were run for every user-visible string on the
+deleted branch, not for the identifiers.
+
+**WHAT THIS STILL DOES NOT COVER, stated:** a prop inherited through
+`interface X extends Y` (the parent's members are not read, which can only MISS a
+finding, never invent one); a component whose call sites genuinely spread props;
+a callback passed down through an intermediate component that itself received it
+optionally (one hop is checked, a chain is not); and whether a prop that IS passed
+is passed with a value that does anything — sweep 119's gap, unchanged.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
+
+- [ ] **`DailyListeningCard`: delete it, or give it the site its own plan
+      promised?** — OPEN, and it is a DECISION, not a defect hunt (sweep 128).
+      Established: 589 lines, 15 XP, a quest, per-line audio, rendered by nothing
+      since **2026-06-19**, when PR #55 removed its only site in `PracticeTab.tsx`
+      while that PR's own plan said in writing "Keep … `DailyListeningCard`
+      (reused by Grad/Today)". Maintained four times since, three of them by my
+      own sweeps. The routed `AIListeningScreen` (922 lines, `PRODUCTION_POOL`,
+      the P2.8 comprehension slot) calls the SAME `/api/listening` for the same
+      job, so reinstating it would give the learner two doors to one generator and
+      double-award it — which is why sweep 128 recorded it as SUPERSEDED rather
+      than wiring it. What blocks DELETION is a coupling, not a doubt: three
+      guards pin its PATH in source-pin lists (`aiRefusalMessages`,
+      `questIdsExist`, `aiSurfaceClassifies`) and `dailyListeningCard.test.ts`
+      imports `correctOption`, the `MediaCard.tsx` exemption shape in
+      `noUnreachableModules`. It cannot regress silently in the meantime:
+      `routerOptionalProps`'s `NOT_RENDERED` holds it with the reason and fails
+      if anything renders it or if the prop changes shape.
+- [ ] **ARE THERE OTHER COMPONENTS REACHABLE ONLY FROM THEIR OWN TESTS?** — the
+      general form of the above, and it sits in the gap between two guards BY
+      DESIGN: `noUnreachableModules` seeds its walk from every test on purpose
+      ("a softer problem … not what this guard is for"), and
+      `routerOptionalProps`'s Check B cannot judge a component with no call site.
+      Sweep 128 found the one member that happens to carry an optional callback;
+      a component with no optional callback at all would be invisible to both.
+      The derivation is cheap (every `.tsx` in `src/components` with no `<Name`
+      anywhere outside `src/tests`) and has NOT been run. Expect most hits to be
+      inner helpers rendered under another name — check what a file EXPORTS
+      before calling it unrendered.
 
 - [x] ~~**DOES ANY OTHER GUARD'S COMMENT STRIPPER EAT ITS OWN CORPUS?**~~ —
       CLOSED, sweep 72: measured LATENT everywhere (flipping the order in all 72
@@ -9071,17 +9253,17 @@ change.
       green.
 
       **A SECOND HOLE IN THE SAME SHAPE, sweep 123:** the ORDER is right
-      everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
-      `commentStripOrder.test.ts` records that as a deliberate semantic
-      difference and never measured it as a risk. It is a risk where the matcher
-      reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
-      with a key it does not send and turned a real finding into a pass
-      (`aiResponseContract`, fixed and mutation-proven in both directions).
-      Measured LATENT elsewhere — across the symbols the other guards match, only
-      two trailing comments in the whole tree mention one and both are English
-      prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
-      `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
-      literal, and keep line-before-block or sweep 71's hole re-opens.
+              everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
+              `commentStripOrder.test.ts` records that as a deliberate semantic
+              difference and never measured it as a risk. It is a risk where the matcher
+              reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
+              with a key it does not send and turned a real finding into a pass
+              (`aiResponseContract`, fixed and mutation-proven in both directions).
+              Measured LATENT elsewhere — across the symbols the other guards match, only
+              two trailing comments in the whole tree mention one and both are English
+              prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
+              `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
+              literal, and keep line-before-block or sweep 71's hole re-opens.
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
@@ -9121,78 +9303,78 @@ None of them crash, so no sweep above can see any of them.
       rather than assumed.
 
       **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-                                                                                  class is open-ended, not because anything specific is outstanding** — and
-                                                                                  that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-                                                                                  have since been asked against it, and what each returned is recorded so
-                                                                                  nobody re-derives them:
+                                                                                          class is open-ended, not because anything specific is outstanding** — and
+                                                                                          that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+                                                                                          have since been asked against it, and what each returned is recorded so
+                                                                                          nobody re-derives them:
 
-                                                                                  - **"Where does the app keep the same fact twice, with only one copy
-                                                                                    having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-                                                                                    sweep 52's eight negatives. Worked out. The sharpened form, which is
-                                                                                    what actually selected the finds: *is one of the two copies never
-                                                                                    exercised?* An inert copy (a display map, a test's list, a progress-bar
-                                                                                    threshold, a type annotation) drifts silently; a live second CALLER, a
-                                                                                    deliberately frozen snapshot and a genuine derivation all do not.
-                                                                                  - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-                                                                                    **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-                                                                                    it: the guards are structural in at least five different shapes, so a
-                                                                                    matcher that knows five will miss the sixth and flag the seventh.
+                                                                                          - **"Where does the app keep the same fact twice, with only one copy
+                                                                                            having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+                                                                                            sweep 52's eight negatives. Worked out. The sharpened form, which is
+                                                                                            what actually selected the finds: *is one of the two copies never
+                                                                                            exercised?* An inert copy (a display map, a test's list, a progress-bar
+                                                                                            threshold, a type annotation) drifts silently; a live second CALLER, a
+                                                                                            deliberately frozen snapshot and a genuine derivation all do not.
+                                                                                          - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+                                                                                            **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+                                                                                            it: the guards are structural in at least five different shapes, so a
+                                                                                            matcher that knows five will miss the sixth and flag the seventh.
 
-                                                                                  - **"What does the tooling treat as reviewable text, and is that what the
-                                                                                    source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-                                                                                    raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-                                                                                    so every change to them was unreviewable. Ratcheted repo-wide by
-                                                                                    `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-                                                                                    hazard, not a learner bug — and it is the first find in this file that
-                                                                                    came from the TOOLING half of an agreement rather than the code half.
-                                                                                    That axis is now swept for control bytes and otherwise untried: what
-                                                                                    else does a tool silently decline to show?
+                                                                                          - **"What does the tooling treat as reviewable text, and is that what the
+                                                                                            source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+                                                                                            raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+                                                                                            so every change to them was unreviewable. Ratcheted repo-wide by
+                                                                                            `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+                                                                                            hazard, not a learner bug — and it is the first find in this file that
+                                                                                            came from the TOOLING half of an agreement rather than the code half.
+                                                                                            That axis is now swept for control bytes and otherwise untried: what
+                                                                                            else does a tool silently decline to show?
 
-                                                                                  - **"Does every committed test actually RUN?"** — sweep 55, the same
-                                                                                    tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-                                                                                    604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-                                                                                    `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-                                                                                    un-skipping every one showed **24 honest and ZnamGame's reason false** —
-                                                                                    it blamed the harness's buttons when the real blocker is the drill's own
-                                                                                    >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-                                                                                    still fail. Still open on this axis: the 24 honest skips are 24 drills
-                                                                                    whose completion contract nothing exercises — the ratchet guards the
-                                                                                    exemption, not the coverage.
+                                                                                          - **"Does every committed test actually RUN?"** — sweep 55, the same
+                                                                                            tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+                                                                                            604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+                                                                                            `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+                                                                                            un-skipping every one showed **24 honest and ZnamGame's reason false** —
+                                                                                            it blamed the harness's buttons when the real blocker is the drill's own
+                                                                                            >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+                                                                                            still fail. Still open on this axis: the 24 honest skips are 24 drills
+                                                                                            whose completion contract nothing exercises — the ratchet guards the
+                                                                                            exemption, not the coverage.
 
-                                                                                  - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
-                                                                                    the split was right. #720 (sweep 56) added the five ledger writers;
-                                                                                    #721 (sweep 58) fixed the pool-category disagreement. They did not
-                                                                                    belong in one PR: the first is about what a score EVIDENCES, the second
-                                                                                    about which slot may SERVE a screen, and conflating those two questions
-                                                                                    is precisely the error that made me pick the wrong value for
-                                                                                    `dictation`'s category first. See sweeps 59 and 60.
-                                                                                  - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
-                                                                                    #720. Five screens now record at their genuine completion point
-                                                                                    (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
-                                                                                    `SpeakingScreen`, `VideoLessonScreen`), and
-                                                                                    `sessionScreensFeedLedger.test.ts` derives the demand from
-                                                                                    `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
-                                                                                    `SpeakingSprintScreen` stays silent with its reason recorded in
-                                                                                    `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
-                                                                                    RECOGNITION, and filing it as spoken evidence would have made a learner
-                                                                                    who never spoke read as a tested speaker.
-                                                                                  - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
-                                                                                    sweep 63. All four fixed, and my "three stale rows, all inert" summary
-                                                                                    was wrong: `shadowing` was LIVE, crediting the listening quest for
-                                                                                    acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
-                                                                                    mechanism sweep 57 lacked.
+                                                                                          - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+                                                                                            the split was right. #720 (sweep 56) added the five ledger writers;
+                                                                                            #721 (sweep 58) fixed the pool-category disagreement. They did not
+                                                                                            belong in one PR: the first is about what a score EVIDENCES, the second
+                                                                                            about which slot may SERVE a screen, and conflating those two questions
+                                                                                            is precisely the error that made me pick the wrong value for
+                                                                                            `dictation`'s category first. See sweeps 59 and 60.
+                                                                                          - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+                                                                                            #720. Five screens now record at their genuine completion point
+                                                                                            (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+                                                                                            `SpeakingScreen`, `VideoLessonScreen`), and
+                                                                                            `sessionScreensFeedLedger.test.ts` derives the demand from
+                                                                                            `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+                                                                                            `SpeakingSprintScreen` stays silent with its reason recorded in
+                                                                                            `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+                                                                                            RECOGNITION, and filing it as spoken evidence would have made a learner
+                                                                                            who never spoke read as a tested speaker.
+                                                                                          - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+                                                                                            sweep 63. All four fixed, and my "three stale rows, all inert" summary
+                                                                                            was wrong: `shadowing` was LIVE, crediting the listening quest for
+                                                                                            acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+                                                                                            mechanism sweep 57 lacked.
 
-                                                                                  **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-                                                                                  were about STATE OF THE CODE. The one that paid was about a fact with two
-                                                                                  homes; the one that did not was about a control-flow property that the
-                                                                                  codebase happens to enforce five different ways. The pattern across every
-                                                                                  productive sweep in this file is the same: **they compare two things the
-                                                                                  app itself already has to keep in agreement** — a claim against its
-                                                                                  evidence, a queue against its clearer, a payload against its consumer, a
-                                                                                  badge against its measurement. Questions that instead ask "is this code
-                                                                                  correct in isolation" have consistently returned nothing a test suite was
-                                                                                  not already catching. Pick the next question on that basis: name two
-                                                                                  things that must agree, and ask what would happen if they stopped.)
+                                                                                          **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+                                                                                          were about STATE OF THE CODE. The one that paid was about a fact with two
+                                                                                          homes; the one that did not was about a control-flow property that the
+                                                                                          codebase happens to enforce five different ways. The pattern across every
+                                                                                          productive sweep in this file is the same: **they compare two things the
+                                                                                          app itself already has to keep in agreement** — a claim against its
+                                                                                          evidence, a queue against its clearer, a payload against its consumer, a
+                                                                                          badge against its measurement. Questions that instead ask "is this code
+                                                                                          correct in isolation" have consistently returned nothing a test suite was
+                                                                                          not already catching. Pick the next question on that basis: name two
+                                                                                          things that must agree, and ask what would happen if they stopped.)
 
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.

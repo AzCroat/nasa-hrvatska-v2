@@ -3021,6 +3021,77 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
   guard as covering the whole registry; credit a production quest from a screen
   where the production half is optional.
 
+## Critical Architecture: An Optional Prop Nobody Passes (2026-09-25)
+
+`foo?:` plus a branch on it is how a component declares an optional dependency —
+and it is indistinguishable from a dead branch. Three instances:
+`AlphabetScreen.award` (the quiz's 20 XP, dead for the life of the screen),
+`LevelQuiz.onPass` (harmless), and `MicPermissionDeniedExplainer.onUseWriting`,
+which gated a **"Use writing instead" button that none of its ten render sites
+passed**, under a docstring saying it was "hidden when the consumer doesn't pass
+the callback (e.g. screens with no writing analog like AIConversation)" — prose
+describing a per-consumer choice nobody was making.
+
+- **IT WAS REMOVED, NOT WIRED, on a census**: every consumer that HAS a writing
+  alternative renders it ITSELF beside the card (`SpeakingTaskScreen`'s
+  `speak-typed-submit`, `LiveTutorScreen`'s "You can type your Croatian below.",
+  AIConversation, Maja, the sprint); the rest — pronunciation scoring, shadowing,
+  the graded reader's read-aloud — have no writing analog, because reading aloud
+  IS the task. No learner was stranded, so the prop was never the mechanism.
+- **`routerOptionalProps.test.ts` asks the question of TWO CALLER SETS**, because
+  the third instance was outside the first: Check A is a ROUTED screen's branched
+  optional prop against `AppRouter`; Check B is ANY component's optional
+  FUNCTION-typed prop that it uses, against every production caller in `src/`.
+  The explainer is a shared CHILD, never in `ROUTED`. Check B's scope is a
+  measurement: FUNCTION-typed props yield one finding across 204 subjects, value
+  props add 13 cosmetic ones, and a mostly-false-positive guard gets ignored.
+- **TEST FILES ARE NOT CALLERS**, and the joint mutation proves it load-bearing:
+  with `src/tests` in the caller set, the dead prop restored and its own test
+  passing it again, Check B goes **green** and only the caller-set assertion
+  fails. A component test that supplies the prop is evidence about the component,
+  never about the wiring.
+- **A COMPONENT'S PROPS TYPE IS RESOLVED FROM ITS OWN SIGNATURE.** It used to be
+  the first `…Props` declaration in the file, which in 13 of 619 component files
+  is an inner helper's (`BadgeArtwork`→`ShapeProps`,
+  `WordSprint`→`TimerDisplayProps`, `ProductionDrillScreen`→`LevelBadgeProps`,
+  four screens→`QuizBlockProps`). **There is NO FALLBACK to the first one**, and
+  that is a measurement: keeping one manufactured a finding — `StoriesTab` takes
+  no props (`const { award } = useApp()`), so the fallback read the inner
+  `WordTileProps.award` and reported it against `StoriesTab`'s call sites. An
+  unresolvable signature yields NO subject; a wrong subject is worse than a
+  missing one.
+- **Two scanner fixes, each silent until measured**: the depth walk must not count
+  `<`/`>` (every `=>` in a function type decremented it, taking 33 of 401 routed
+  components from resolved to UNRESOLVED — 400 of 401 resolve now), and a JSX
+  props spread must be detected at ATTRIBUTE depth (a bare `/\{\s*\.\.\./` also
+  matches `{...prev}` inside a handler body, which skipped four components that
+  pass every prop plainly).
+- **THE UNRESOLVABLE BUCKET HELD A WORSE FINDING** (sweep 109's rule).
+  `DailyListeningCard` — 589 lines, 15 XP, a quest, per-line audio — **has been
+  rendered by nothing since 2026-06-19**, when PR #55 deleted its only site while
+  that PR's own plan said in writing "Keep … `DailyListeningCard` (reused by
+  Grad/Today)". It has been maintained four times since. Recorded as SUPERSEDED
+  rather than reinstated: the routed `AIListeningScreen` calls the same
+  `/api/listening` for the same job, so a second door would double-award one
+  generator — the superseded-duplicate shape `noUnreachableModules.test.ts`
+  records (three dead region screens, each shadowed by a live standalone file of
+  the same name). **Neither existing guard covers that
+  class**: `noUnreachableModules` seeds its walk from every test deliberately ("a
+  module kept alive only by its own tests still counts as reachable — a softer
+  problem"), and Check B cannot judge a component with no call site. The skip is
+  non-silent now — `NOT_RENDERED` lists it with its reason, both staleness
+  directions checked.
+- Mutation-verified, seven: the dead prop restored fails 1; the first-`…Props`
+  fallback fails 2; tests as callers fails 1; the loose spread detector fails 1;
+  the depth walk counting `<>` fails 1; `NOT_RENDERED` emptied fails 2; the joint
+  control leaves Check B green with only the meta-assertion failing.
+- NEVER: leave an optional prop and its branch in place when no production caller
+  passes it — pass it or delete both, and correct any docstring implying a
+  consumer chooses; count a test file as a caller; fall back to the first `…Props`
+  declaration in a file when a signature will not resolve; count `<`/`>` in a
+  parameter depth walk; detect a props spread anywhere but attribute depth; skip a
+  component with no render site without recording WHY.
+
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 
 Owner: _"news is coming from Index.hr, they are a communist propaganda news
