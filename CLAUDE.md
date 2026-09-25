@@ -3882,6 +3882,41 @@ reachable` ("Including it would close the loop on every field"), plus
   **perfect 1.0**, so nothing downstream looks broken, the EWMA reports mastery,
   and `weakestProductionKind` stops offering that skill. The backstop is right;
   it is also why a check at the ledger could never catch this.
+- **THAT CLAMP BOUNDS THE RANGE AND NOT THE FINITENESS (sweep 124, 2026-09-25).**
+  `Math.max(0, Math.min(1, NaN))` is NaN, and so is the weight clamp — so the
+  sentence above is true of a MIS-SCALED score and false of a non-finite one, which
+  is worse because it cannot be undone: the cell becomes `{s: NaN, n: NaN}`,
+  `JSON.stringify` persists that as `{"s": null, "n": null}`, `getMasteryProfile`
+  computes `tested: null >= MIN_SAMPLES` — **false for ever** — and an untested cell
+  scores MAXIMUM need, so the recommender latches onto that one skill (#720's
+  reading latch from the other side). `mergeRemoteMasteryLedger` could not repair
+  it either: `typeof NaN` IS `'number'` so its validation admitted a poisoned cell
+  from another device, while `r.n > l.n` is false in BOTH directions against a NaN,
+  and the ledger is a SYNCED field. Fixed three ways — reject a non-finite score or
+  weight, drop a cell on LOAD that is not three finite numbers with `n > 0` (so a
+  device already carrying one recovers to "never measured", which is the truth),
+  and make the merge use `Number.isFinite`. **LATENT**: all six call boundaries
+  supply a finite number, `/api/correct` rejects a non-numeric `score`, and JSON
+  cannot carry a NaN literal. Fixed anyway, because 47 percentage-and-XP divisions
+  in the app are safe only by 47 separate reachability arguments and this replaces
+  them with one. `stats.xp` was never at risk — `useAward` refuses a non-finite
+  amount and `useAward.test.ts` pins it.
+- **THE APP HAS NO REACHABLE ZERO DENOMINATOR, established by resolving all 47.**
+  Static banks, a `Math.max(…, 1)`, a filter that falls back to the whole bank
+  (`ClozeEngine`), a level picker returned above the results view (`CefrTest`), an
+  emptiness return above the `done` branch (`RetentionCheckScreen`), an award nested
+  inside `rp.qs[rqi] && (…)` (`ReadingScreen`). Re-run the census, do not re-derive
+  it: the `pct` sites live on RESULTS views reached only by finishing an exercise,
+  so the 430-route render sweep cannot reach them and no E2E text assertion can
+  settle this.
+- **A DERIVATION REPORTING A HUGE NUMBER IS AS UNFINISHED AS ONE REPORTING A SMALL
+  CLEAN NUMBER.** The first division matcher reported **21,586** hits, because `/`
+  lives in import specifiers, URLs and paths and it scanned raw source; blanking
+  string and template literals took it to 286, regex literals still leaked, and a
+  line filter made it readable at 81. Five entries in this file record the
+  small-clean-number failure; this is the first record of the loud one, and the
+  check is the same — name a member you already know and confirm the tool reports
+  it, then look at what it discarded.
 - **EXCLUDE THE DEFINING MODULE BY SCOPE, NOT BY EXEMPTION.** `masteryLedger.ts`'s
   three wrappers bound their scores SEMANTICALLY (`score / total` behind
   `total > 0`; `correct ? 1 : 0`; a forwarded `SkillScores`). A syntactic guard
@@ -4096,6 +4131,15 @@ reachable` ("Including it would close the loop on every field"), plus
   divergence is by design; compare two modules through a dynamic import without
   mutating one to prove the comparison runs; let `continue` drop a subject without
   pinning the set it drops.
+
+- NEVER: read a `Math.min`/`Math.max` clamp as bounding a value — it bounds the
+  RANGE and lets `NaN` through unchanged; fold a non-finite score or weight into
+  the mastery ledger, or validate a synced numeric cell with `typeof === 'number'`
+  (`typeof NaN` is `'number'`); leave a `score / total` unguarded on the strength
+  of today's denominator when one `Number.isFinite` at the sink covers every
+  caller; report a derivation's LOUD number as a result — 21,586 division "hits"
+  meant it was scanning string literals, and the fix is the same as for a
+  suspiciously small number.
 
 ---
 

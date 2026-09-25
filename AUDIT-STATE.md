@@ -8675,6 +8675,116 @@ client maps an array — needs a rendering test, and that gap is unchanged from 
 
 ---
 
+### 124. A zero denominator — 2026-09-25 — NEGATIVE on the app, one latent hole in the backstop 47 sites depend on
+
+The question nobody had asked: **`0 / 0` is `NaN`, and this app computes a
+percentage or an XP amount from a division on 81 lines.** Sweep 106 asked whether
+a credit can fire at `0 >= 0`; sweeps 101/102 asked whether a count can be a
+claim about an unarrived payload. Neither asked what the ARITHMETIC does when the
+denominator is zero — `NaN%` on screen, or a `NaN` folded into a measurement.
+
+**THE APP IS CLEAN, and it took resolving every denominator to say so.** 81
+candidate lines (a division on a line mentioning xp/score/pct/rate/percent); 47
+with no guard on their own line and no earlier mention of the denominator in a
+guard shape. Every one of those 47 was resolved one level and read:
+
+- most are `const total = SOME_STATIC_BANK.length` — `bjQ`, `cjQ`, `czQ`, `pfQ`,
+  `m7q`, `tnQ`, `quizQs`, `PITCH_ACCENT`, `MAP_REGIONS`, `FREQUENCY_500`, the
+  `LEVELS` reduce — which cannot be zero;
+- `LearningInsights`'s `maxXP` ends `, 1)` inside `Math.max`;
+- `ClozeEngine`'s topic filter returns the WHOLE bank when the filtered subset is
+  thin, so `questions.length` is never 0;
+- `CefrTest` returns its level picker (`if (!levelKey)`) above the results view,
+  after which `activeQuestions` is that level's static bank;
+- `RetentionCheckScreen` returns on `queue.length === 0` ABOVE its `done` branch —
+  which is the one place a genuinely-empty queue is routine;
+- `ReadingScreen`'s award sits inside `{rph === 'quiz' && rp.qs[rqi] && (…)}`, so
+  a passage with no questions renders no quiz and reaches no award;
+- `GrammarScreen` already writes `(gl?.qs?.length ?? 1) > 0 ? … : 0` at its other
+  percentage site;
+- `masteryLedger`'s `score / total` sits behind `total <= 0` return.
+
+So the class holds — on **47 separate reachability arguments**, each true for its
+own reason. That is the finding worth recording, and it is what made the next
+paragraph worth doing.
+
+**THE REAL HOLE IS IN THE BACKSTOP: A CLAMP BOUNDS THE RANGE AND NOT THE
+FINITENESS.** `recordMasteryEvent` opens
+`const score = Math.max(0, Math.min(1, ev.score))`, which CLAUDE.md records as
+the reason a mis-scaled score is harmless (sweep 113: a raw 0–100 folds in as a
+perfect 1.0, "the backstop is right"). `Math.max(0, Math.min(1, NaN))` is **NaN**,
+and so is the weight clamp. A single non-finite score therefore enters a cell and
+cannot be undone:
+
+1. the cell becomes `{s: NaN, n: NaN}`;
+2. `JSON.stringify` writes that as `{"s": null, "n": null}` — `getMasteryLedger`
+   validated the envelope and never the cells;
+3. `getMasteryProfile` then computes `tested: null >= MIN_SAMPLES`, **false for
+   ever**, and an untested cell scores MAXIMUM need in `weakestReceptiveKind` /
+   `weakestProductionKind`, so the recommender latches onto that one skill —
+   #720's reading latch, reached from the other side;
+4. `mergeRemoteMasteryLedger` cannot repair it: its own `typeof === 'number'`
+   test rejects the `null` that was written (and `typeof NaN` IS `'number'`, so it
+   would have admitted a poisoned cell from another device), while `r.n > l.n` is
+   false in BOTH directions against a NaN. The ledger is in
+   `buildProgressSnapshot`, so this is a synced field.
+
+**A CORRECTION TO MY OWN FIRST STATEMENT OF THAT, because it matters.** I first
+wrote that the cell holds NaN permanently. It does not: `JSON.stringify` turns it
+into `null`, so the persisted shape is `{s: null, n: null}` and new events DO
+rebuild `n` from zero (`null + weight` is a number). The damage is that the skill
+reads as never-measured with a null score until enough new events accumulate, and
+that the merge can never shortcut the repair. Weaker than "permanent", still the
+inverse of what the ledger is for — and the difference is invisible while you are
+writing the stronger sentence. *Report what was observed.*
+
+**IT IS LATENT, and that is stated rather than dressed up.** All six call
+boundaries were audited by sweep 113 and each supplies a finite number;
+`/api/correct` rejects a reply whose `score` is not a number (and JSON cannot
+carry a NaN literal at all), the speaking coach validates `typeof data.overall`,
+and `recordExerciseOutcome` refuses `total <= 0`. Nothing reaches it today. It is
+fixed anyway, because it is the one invariant those 47 arguments are all leaning
+on, and a one-line `Number.isFinite` replaces 47 arguments with one.
+
+**THE OTHER SINK WAS ALREADY SAFE AND ALREADY PINNED**, which is why `stats.xp`
+was never at risk: `useAward` has `if (!Number.isFinite(amt) || amt === 0) return;`
+and `useAward.test.ts` asserts "award(NaN) is a no-op"; `completeExercise` pays XP
+only through `award`. Worth saying, because "a NaN XP award" is the alarming
+version of this finding and it is not true.
+
+**Three hardenings**, all in `masteryLedger.ts`: reject a non-finite `score` or
+`weight` the way a bad level or skill is already rejected; drop a cell on LOAD
+that is not three finite numbers with `n > 0` (so a device already carrying one
+recovers to "never measured", which is the truth); and make the merge's validation
+`Number.isFinite` rather than `typeof === 'number'`.
+
+**Mutation-verified, five, each confirmed landed:** the score check removed (fails
+3), the weight check removed (1), the load-path sanitisation removed (1), the merge
+back to `typeof` (1) — and **the `total <= 0` return removed SURVIVES, by design**:
+the new finiteness check catches the `0 / 0` it produces, so the invariant is now
+defended twice and neither defence alone is load-bearing. The test says so
+explicitly instead of claiming to pin that line, because a test that claims a pin
+it does not hold is the decoration this file keeps finding.
+
+**THE DERIVATION FAILED TWICE BEFORE IT SAID ANYTHING TRUE, and both failures were
+in the LOUD direction for once.** The first matcher reported **21,586** divisions:
+`/` inside import specifiers (`'../lib/adaptive'`), URLs and paths, because it
+scanned raw source. Blanking string and template literals took it to 286; regex
+literals (`/g`, `/i.test`) still leaked, and the `xp|score|pct` line filter is what
+finally made the set readable at 81. **A derivation reporting a huge number is
+exactly as unfinished as one reporting a small clean number** — this file has
+recorded the second shape five times and this is the first record of the first.
+
+**WHAT THIS CANNOT SEE, stated:** a division whose denominator is a function
+PARAMETER supplied by a caller in another file (only `masteryLedger`'s own is
+covered, and by reading); a NaN produced by something other than a division
+(`parseInt` of a bad string, `Number(undefined)`); and the display half at
+run time — the `pct` sites live on RESULTS views reached only by finishing an
+exercise, so the 430-route render sweep cannot reach them, which is why this was
+settled by reading rather than by an E2E text assertion.
+
+---
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
