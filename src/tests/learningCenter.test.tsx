@@ -57,8 +57,11 @@ const ASSEMBLER = 'src/hooks/useLearningIndex.ts';
  * only checked the first.
  */
 const CATALOGUE_EXEMPT: Record<string, string> = {
-  CONTEXTUAL_POOL:
-    'Hero motivational copy in heroData.ts — lines shown on the Today card, not learnable content with a screen to open.',
+  // EMPTY as of sweep 136. Its one entry was CONTEXTUAL_POOL — hero motivational
+  // copy in heroData.ts, exempted as "lines shown on the Today card, not learnable
+  // content with a screen to open". The whole hero cluster was unrendered since
+  // 2026-04-25 and is deleted, so the export is gone and the exemption with it.
+  // The record is KEPT so the next non-source catalogue has to be named here.
 };
 
 function sourceFiles(): string[] {
@@ -160,7 +163,9 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
       //     would sit here asserting a gap that had closed
       expect(assembler.includes(name), `${name} IS now a source; drop the exemption`).toBe(false);
     }
-    expect(Object.keys(CATALOGUE_EXEMPT).length).toBe(1);
+    // Legitimately empty since sweep 136; the non-vacuity that matters is the
+    // catalogue derivation itself, pinned in the describe above.
+    expect(catalogues.size).toBeGreaterThan(3);
   });
 });
 

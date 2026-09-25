@@ -50,6 +50,18 @@ describe('the lint actually covers what it claims to', () => {
     expect(targets.size).toBeGreaterThan(150);
   });
 
+  it('TARGETS has no duplicate entry', () => {
+    // 46 of them (sweep 136), appended by the fourth wave over files already in
+    // the list. Nothing failed and nothing could: this file reads TARGETS into a
+    // Set, the lint printed the array LENGTH as its coverage figure, and
+    // claudeMdPaths compared CLAUDE.md against that same length — so prose, output
+    // and guard all agreed on 522 while 472 files were covered. A duplicate is a
+    // failure now, and the other two count distinct files.
+    const seen = new Set<string>();
+    const dup = lintTargets().filter((t) => (seen.has(t) ? true : (seen.add(t), false)));
+    expect(dup.sort(), `TARGETS lists these more than once: ${dup.join(', ')}`).toEqual([]);
+  });
+
   it('every target still exists on disk', () => {
     // A renamed or deleted file leaves a TARGETS entry that scans nothing. The
     // lint itself skips unreadable targets rather than failing, which is right

@@ -3,7 +3,8 @@
 // toward the 30-per-level program target. Re-exported from sessionPools for
 // import stability.
 // Structural difficulty tier per session exercise type (1 = recognition …
-// 5 = open production), mirroring exerciseMeta's scale. Used to bias the daily
+// 5 = open production). It used to mirror a second copy in src/data/exerciseMeta,
+// which nothing rendered and sweep 136 deleted; this is now the only scale. Used to bias the daily
 // Priority-3 fill toward the user's ability so content scales as they advance
 // (defect #1: difficulty was inert — nothing consumed difficulty tiers). Any id
 // not listed defaults to tier 3.

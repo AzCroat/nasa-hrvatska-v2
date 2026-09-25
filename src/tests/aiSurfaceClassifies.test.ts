@@ -5,7 +5,7 @@
 // The 2026-09-07 feedback census fixed every surface that promises feedback on
 // WRITING or SPEECH and pinned each one BY NAME in `feedbackSurfaces.test.ts`.
 // On 2026-09-22 four more surfaces were found with the same defect —
-// MicroLessonScreen rendering `monthly_budget_exhausted` raw, DailyListeningCard
+// MicroLessonScreen rendering `monthly_budget_exhausted` raw, DailyListeningCard (deleted in sweep 136)
 // and DialogueSim answering every cause with "try again",
 // GrammarDiagnosisScreen blaming the learner's internet for a quota cap — and
 // they were pinned by name too, in `aiRefusalMessages.test.ts`.

@@ -60,11 +60,6 @@ const EXEMPT: Record<string, string> = {
     'guards `loading || !content` ABOVE its !essays.length branch, so that branch ' +
     'can only mean a stale cached payload without the CULTURE_DEEP_DIVES key — ' +
     'which is what its message says.',
-  'src/components/home/HeroSection.tsx':
-    'its fallback is the neutral LABEL "Learning", not a claim about the learner — ' +
-    'before the payload lands the hero is less specific ("Learning" rather than ' +
-    '"Naš Čovjek"), which states nothing false; the classifier copy would be wrong ' +
-    'here because there is no pool and nothing to retry.',
   'src/components/profile/LearnPath.tsx':
     'fixed in sweep 99 with its own `contentLoading` split (learnpath-unavailable); ' +
     'its claim is about the PATH, not a word pool, so the pool copy would be wrong.',

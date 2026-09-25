@@ -380,18 +380,18 @@ const EXEMPT: Record<string, string> = {
  * Listing them here is what makes the skip non-silent.
  */
 const NOT_RENDERED: Record<string, string> = {
-  'DailyListeningCard.award':
-    'SUPERSEDED, not stranded (2026-09-25). 589 lines, 15 XP, a quest and per-line ' +
-    'audio, rendered by nothing since 2026-06-19 — PR #55 (Grad redesign) deleted its ' +
-    'only site in PracticeTab while its own plan said in writing "Keep … ' +
-    'DailyListeningCard (reused by Grad/Today)", and the new site was never added. It ' +
-    'is not reinstated because the routed AIListeningScreen (922 lines, in ' +
-    'PRODUCTION_POOL and serving the P2.8 comprehension slot) calls the SAME ' +
-    '/api/listening for the same job, so a second door would double-award the same ' +
-    'generator — the RegionScreens.tsx shape. Deletion is a separate decision: three ' +
-    'guards pin this PATH in source-pin lists (aiRefusalMessages, questIdsExist, ' +
-    'aiSurfaceClassifies) and dailyListeningCard.test.ts imports correctOption, the ' +
-    'MediaCard.tsx exemption shape in noUnreachableModules.',
+  // EMPTY as of sweep 136. Its one entry was `DailyListeningCard.award`, recorded
+  // on 2026-09-25 as SUPERSEDED rather than stranded — 589 lines, 15 XP, a quest
+  // and per-line audio, rendered by nothing since PR #55 (2026-06-19) deleted its
+  // only site while that PR's plan said in writing "Keep … DailyListeningCard
+  // (reused by Grad/Today)". The routed AIListeningScreen calls the SAME
+  // /api/listening for the same job, so reinstating it would double-award one
+  // generator; the whole file was deleted with the rest of the unrendered set.
+  //
+  // The array is KEPT rather than removed: the assertion below partitions against
+  // it, and the next component that loses its render site has to be named here or
+  // fail. Its non-vacuity is the derivation's own subject count, not this length —
+  // an empty exemption set is the CORRECT state, which is why that check moved.
 };
 
 const ROUTED = [...new Set([...ROUTER.matchAll(/<([A-Z]\w+)\b/g)].map((m) => m[1]!))].filter((n) =>
@@ -609,7 +609,9 @@ describe('no component uses an optional callback that no production caller passe
   });
 
   it('every NOT_RENDERED entry still names a real, still-unrendered component', () => {
-    expect(Object.keys(NOT_RENDERED).length).toBeGreaterThan(0);
+    // No length floor: the set is legitimately empty since sweep 136. What must
+    // stay non-vacuous is the SUBJECT set, pinned in the describe above.
+    expect(subjects().length).toBeGreaterThan(50);
     for (const [key, reason] of Object.entries(NOT_RENDERED)) {
       const [comp, prop] = key.split('.') as [string, string];
       expect(reason.length, `${key} needs a stated reason`).toBeGreaterThan(80);

@@ -197,11 +197,22 @@ describe('CLAUDE.md states the lint coverage the lint actually has', () => {
     return LINT.slice(at, LINT.indexOf('\n];', at));
   }
 
-  /** TARGETS holds bare path strings. */
-  const targetPaths = (): string[] =>
-    [...arrayBlock('TARGETS').matchAll(/'([^']+)'/g)]
-      .map((m) => m[1])
-      .filter((v) => v.includes('/'));
+  /**
+   * TARGETS holds bare path strings. DEDUPED, and the duplicates were real: the
+   * array carried 46 of them (sweep 136), so this test compared CLAUDE.md's
+   * figure against an array LENGTH that overstated coverage by 46 files — and the
+   * lint printed the same inflated number, so prose, output and guard agreed on a
+   * count that was false. Consistency between copies is not truth (the CEFR-badge
+   * lesson). `croatianLintTargets.test.ts` now fails on a duplicate entry; this
+   * counts distinct files so the figure means what it says either way.
+   */
+  const targetPaths = (): string[] => [
+    ...new Set(
+      [...arrayBlock('TARGETS').matchAll(/'([^']+)'/g)]
+        .map((m) => m[1])
+        .filter((v) => v.includes('/')),
+    ),
+  ];
 
   /**
    * STRUCTURED holds `{ rel, strings }` objects, and one `rel` is a DESCRIPTION

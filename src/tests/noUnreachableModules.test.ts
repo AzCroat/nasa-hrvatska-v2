@@ -103,56 +103,29 @@ function unreachableModules(): { files: string[]; dead: string[]; reachable: num
  * no caller yet is a different thing from a 389-line screen. What is required is
  * that each one is NAMED, so a module cannot join the set in silence — which is
  * exactly what happened to all 21.
+ *
+ * TWENTY OF THE TWENTY-ONE ARE DELETED (sweep 136, the same day). 4,017 lines of
+ * modules plus 1,365 of tests that only existed to keep them reachable. WHAT THE
+ * DELETION ITSELF SURFACED, because nothing else could have:
+ *   - a THIRD and FOURTH instance of work done on the dead files.
+ *     `paidStreakRestore.test.ts` fixed the 200-XP restore in `useHeroRewards` and
+ *     its own docstring says the fixed path "is the ONLY one a user can reach";
+ *     `storageResilience.test.ts`'s paid-actions block says of the same handler
+ *     "the difference is that these two were still live". Neither was reachable.
+ *   - the XP BOOST and the PAID STREAK RESTORE are features with no purchase
+ *     path: `lXPgain` still applies `XP_BOOST_MULTIPLIER` and the snapshot still
+ *     syncs `nh_xp_boost_expires`, while the only caller of `activateXpBoost` /
+ *     `spendXp` was this hook. Sweep 111's "a conduit is not a producer" needs one
+ *     more hop — a producer that is itself UNREACHABLE is not a producer, which is
+ *     exactly what sweep 130 established for endpoints. Recorded for the owner,
+ *     not patched: re-adding a purchase surface is a product decision.
+ *   - `LEVEL_NARRATIVE`, a key in the 1.4 MB `/api/content/core` payload, had
+ *     `HeroSection` as its ONE client consumer — so #655's September fix to the
+ *     level-7 rung was a fix to the reading of a payload nobody reads.
+ * The one survivor is the conjugation validator, which is what the docstring's
+ * "softer problem" actually means.
  */
 const TEST_ONLY_REACHABLE: Record<string, string> = {
-  // ── the hero cluster: one cause, one commit (c1aea80d, 2026-04-25) ──────────
-  'src/components/home/HeroSection.tsx':
-    'DEAD SCREEN, 389 lines. The old Home hero, replaced by SessionCard + the Daily ' +
-    'Session Hub in c1aea80d. Still edited by #655 in September. Deletion queued.',
-  'src/components/home/HeroStats.tsx':
-    'DEAD, 381 lines. Rendered only by HeroSection — and by cefrBadgeCertified.test.tsx, ' +
-    'which pins it as one of the six CEFR DISPLAY surfaces. It displays to nobody.',
-  'src/components/home/heroHelpers.ts':
-    'DEAD, 353 lines. Imported by HeroSection and useKnightSpeech, both dead. Named in ' +
-    "CLAUDE.md as a display surface reading getDisplayLevel; that claim's subject is unrendered.",
-  'src/components/home/heroData.ts':
-    'DEAD, 352 lines of scene and mascot data read by HeroSection alone. The live Home ' +
-    'greeting comes from hostFamily + SessionCard.',
-  'src/components/home/useHeroRewards.ts':
-    'DEAD, 142 lines. HeroSection reward state; the live reward path is useAward + quests.',
-  'src/components/home/useKnightSpeech.ts':
-    'DEAD, 77 lines. HeroSection knight speech. The live coach is shared/KnightCompanion.',
-  'src/components/home/KnightBubble.tsx':
-    'DEAD, 337 lines, rendered by HeroSection alone — not to be confused with the LIVE ' +
-    'shared/KnightCompanion, which is what renders prof. Kovač today.',
-  'src/components/home/TypewriterText.tsx':
-    'DEAD, 35 lines. Imported by KnightBubble only, itself dead — a two-deep cluster.',
-  'src/components/home/CompactStrip.tsx':
-    'DEAD, 88 lines. The COLLAPSED hero bar (streak/level/XP chips plus an expand ' +
-    'affordance), presentational, extracted from HeroSection in the 1c decomposition ' +
-    'and dead with it. Nothing on Home collapses any more.',
-  'src/components/home/QuickReplyBanner.tsx':
-    'DEAD, 36 lines. A HeroSection banner; live Home banners are WelcomeBackBanners.',
-  'src/components/home/RewardsPanel.tsx':
-    'DEAD, 229 lines, rendered by HeroSection alone. Rewards reach the learner through ' +
-    'the quest board and the badge surfaces instead.',
-  'src/components/home/StoryOfTheDayCard.tsx':
-    'DEAD, 155 lines, and a DELIBERATE removal whose file was left behind: ' +
-    'TodaysDiscoveries\' own comment says Story of the Day was dropped "to leave a ' +
-    'single reading lesson on the Home tab". There is no story-of-the-day path in the ' +
-    "app at all now — CLAUDE.md's serial-authoring rule cited its day-indexed picker " +
-    'until 2026-09-25. Graded stories are reached through GradedInputScreen.',
-  'src/components/home/DailyListeningCard.tsx':
-    'DEAD, 589 lines, and SUPERSEDED rather than stranded — the routed AIListeningScreen ' +
-    'calls the same /api/listening for the same job. Its own site went in PR #55 ' +
-    '(2026-06-19) although that PR\'s plan said "Keep … DailyListeningCard (reused by ' +
-    'Grad/Today)". Also held by routerOptionalProps\' NOT_RENDERED. See sweep 128.',
-
-  // ── independent of the hero, each its own finding ───────────────────────────
-  'src/data/exerciseMeta.ts':
-    'DEAD, 166 lines — a second copy of the exercise difficulty/category scale. The LIVE ' +
-    "one is lib/exerciseDifficulty.ts, whose own comment says it mirrors this file's " +
-    "scale; CLAUDE.md's new-drill checklist names exerciseDifficulty, correctly.",
   'src/lib/conjugation/morphology.ts':
     'TEST-ONLY VALIDATOR, 126 lines, and legitimately so — the one entry here that is ' +
     'the "softer problem" this guard\'s docstring means. `expectedForms` DERIVES each ' +
@@ -160,22 +133,6 @@ const TEST_ONLY_REACHABLE: Record<string, string> = {
     'equal the derivation; the app renders those stored forms through forms.ts `formFor`, ' +
     'which is a LOOKUP and not a competing rule. So the data a learner meets is exactly ' +
     'what was validated. Listed because membership must never be silent, not as a defect.',
-  'src/hooks/useErrorTracking.ts':
-    'DEAD, 171 lines, with NO importer at all outside its own test. The live error ' +
-    'taxonomy is lib/adaptive + the mastery ledger; crash reporting is errorReporter.',
-  'src/hooks/useLocalStorage.ts':
-    'Dead CLUSTER member, 84 lines: its only non-test importer is useHeroRewards, itself ' +
-    'dead. The live storage path is lib/safeStorage.',
-  'src/hooks/useTranslator.ts':
-    'Dead CLUSTER member, 70 lines: its only non-test importer is useKnightSpeech, dead.',
-  'src/lib/appData.ts':
-    'DEAD, 96 lines. A re-export barrel over data.jsx for data-only consumers; every ' +
-    'consumer imports src/data directly, so nothing has ever used it.',
-  'src/lib/culturalFacts.ts':
-    'DEAD, 94 lines of authored cultural facts with a test and no reader. The live daily ' +
-    'fact comes from /api/daily-culture and the CULTURE_DEEP_DIVES payload.',
-  'src/lib/storyRecommendation.ts':
-    'Dead CLUSTER member, 136 lines: its only non-test importer is StoryOfTheDayCard, dead.',
 };
 
 describe('no unreachable modules in src/', () => {
@@ -257,5 +214,8 @@ describe('every module the APP cannot reach is named, with its reason', () => {
       expect(reason.length, `${f} needs a stated reason`).toBeGreaterThan(40);
       expect(testOnly, `${f} is app-reachable now — drop its entry`).toContain(f);
     }
+    // Sweep 131 deleted twenty of the twenty-one. The count is pinned so growth
+    // back toward a cluster is a decision somebody made in this file, not drift.
+    expect(Object.keys(TEST_ONLY_REACHABLE)).toHaveLength(1);
   });
 });

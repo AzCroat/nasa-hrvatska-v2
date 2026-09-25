@@ -76,7 +76,8 @@ function contentDerived(src: string): Set<string> {
   // the first `;\n`, so `const levelNarrative = (() => {` consumes the
   // `const rungs = LEVEL_NARRATIVE[…];` inside its own body — matchAll then
   // resumes past it and `rungs` never enters the closure. HeroSection's
-  // `rungs[…] || 'Learning'` is the known member that exposed it: a derivation
+  // `rungs[…] || 'Learning'` is the known member that exposed it (that file was
+  // deleted as unrendered in sweep 136; the derivation rule it proved stands): a derivation
   // that cannot see a member found by reading is unfinished (sweep 103). The
   // SINGLE-LINE pass restarts from the top and catches whatever the lazy one ate.
   const DECL_LINE =

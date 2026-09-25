@@ -5,7 +5,7 @@
  * SECOND guard needs it, and for a reason worth stating: `meteredEndpointsHaveCallers`
  * asks whether anything calls each metered AI endpoint, and **a caller that is
  * itself unreachable is not a caller.** Without this graph that guard credits
- * `/api/translate` to `hooks/useTranslator.ts`, which sweep 129 established is
+ * `/api/translate` to `hooks/useTranslator.ts`, which sweep 129 established was
  * reachable only from its own tests. Same shape as "a conduit is not a producer"
  * (sweep 111) and "a clear is not a producer" (sweep 117): the question is never
  * "does the name appear somewhere", it is "does a LIVE path reach it".

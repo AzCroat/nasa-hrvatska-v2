@@ -38,13 +38,22 @@
  *    the endpoint, not traffic to it. Comments are stripped and the endpoint's
  *    own handler is excluded; the ceiling table is excluded by construction
  *    because it is the SUBJECT list.
- * 2. **A CALLER THAT IS ITSELF UNREACHABLE IS NOT A CALLER.** `/api/translate`
- *    is called from `hooks/useTranslator.ts`, which sweep 129 established is
- *    reachable only from its own tests. It survives here only because
- *    `AIConversation` also calls it — so without the reachability filter this
- *    guard would credit a dead module and, the day that live caller changed,
- *    report a stranded endpoint as healthy. Same shape as "a conduit is not a
- *    producer" (sweep 111) and "a clear is not a producer" (sweep 117).
+ * 2. **A CALLER THAT IS ITSELF UNREACHABLE IS NOT A CALLER.** The case that
+ *    proved it: `/api/translate` was called from `hooks/useTranslator.ts`, which
+ *    sweep 129 established was reachable only from its own tests (deleted in sweep
+ *    136), and the
+ *    endpoint survived only because `AIConversation` calls it too. Without the
+ *    reachability filter this guard credits a dead module and, the day that live
+ *    caller changes, reports a stranded endpoint as healthy. Same shape as "a
+ *    conduit is not a producer" (sweep 111) and "a clear is not a producer"
+ *    (sweep 117).
+ *
+ *    THAT FIXTURE WAS A REAL FILE AND SWEEP 136 DELETED IT, which is the reason
+ *    the clause is now driven on a FABRICATED pair instead: a live caller plus an
+ *    invented path, run through the same filter with the REAL reachable set and
+ *    then with the filter defeated. A guard whose non-vacuity depends on a
+ *    specific dead module staying dead breaks the moment somebody does the right
+ *    thing and deletes it.
  */
 import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
@@ -94,13 +103,23 @@ function walkFiles(dir: string, exts: string[], out: string[] = []): string[] {
   return out;
 }
 
+/**
+ * The client half, with its inputs injectable so the reachability filter can be
+ * driven on a fabricated pair (see clause 2 above) rather than on whichever dead
+ * module happens to exist this month.
+ */
+function clientCallers(
+  ep: string,
+  files: [string, string][] = CLIENT_FILES,
+  reachable: Set<string> = APP_REACHABLE,
+): string[] {
+  return files.filter(([f, t]) => reachable.has(f) && callsIt(t, ep)).map(([f]) => f);
+}
+
 /** Where each endpoint is called from, by kind of caller. */
 function callersOf(ep: string): { client: string[]; server: string[]; ci: string[] } {
-  const reachable = APP_REACHABLE;
   const handler = `functions/api/${ep.slice('/api/'.length)}.js`;
-  const client = CLIENT_FILES.filter(([f, t]) => reachable.has(f) && callsIt(t, ep)).map(
-    ([f]) => f,
-  );
+  const client = clientCallers(ep);
   const server = SERVER_FILES.filter(
     ([f, t]) => f !== handler && !NOT_TRAFFIC.has(f) && callsIt(t, ep),
   ).map(([f]) => f);
@@ -179,17 +198,26 @@ describe('every metered AI endpoint has a caller', () => {
   });
 
   it('a caller that is itself unreachable does not count', () => {
-    // hooks/useTranslator.ts calls /api/translate and is reachable only from its
-    // own tests (sweep 129). The endpoint stays healthy here because AIConversation
-    // calls it too — so assert BOTH halves, or this clause proves nothing.
-    const dead = 'src/hooks/useTranslator.ts';
-    expect(
-      fs.readFileSync(path.join(ROOT, dead), 'utf8').includes('/api/translate'),
-      'fixture moved: useTranslator no longer calls /api/translate',
-    ).toBe(true);
-    expect(APP_REACHABLE.has(dead), 'fixture moved: useTranslator is live again').toBe(false);
-    expect(callersOf('/api/translate').client).not.toContain(dead);
-    expect(callersOf('/api/translate').client.length).toBeGreaterThan(0);
+    // Driven on a fabricated pair against the REAL reachable set: one file the app
+    // genuinely reaches, one path that exists nowhere. Both "call" the endpoint.
+    const ep = '/api/translate';
+    const live = 'src/components/croatia/AIConversation.tsx';
+    const dead = 'src/hooks/__not_a_real_module.ts';
+    const files: [string, string][] = [
+      [live, `await fetch('${ep}', { method: 'POST' })`],
+      [dead, `await fetch('${ep}', { method: 'POST' })`],
+    ];
+    // Non-vacuity: the live half really is reachable and the invented half is not,
+    // so the filter has something to do.
+    expect(APP_REACHABLE.has(live), 'fixture moved: AIConversation is unreachable').toBe(true);
+    expect(APP_REACHABLE.has(dead)).toBe(false);
+
+    expect(clientCallers(ep, files)).toEqual([live]);
+    // And with the filter defeated, the dead module counts — which is the bug.
+    expect(clientCallers(ep, files, new Set([live, dead]))).toEqual([live, dead]);
+
+    // The endpoint itself is still healthy through its real caller.
+    expect(callersOf(ep).client).toContain(live);
   });
 
   it('every endpoint is called from the app, or recorded with its reason', () => {

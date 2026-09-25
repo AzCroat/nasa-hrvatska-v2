@@ -18,7 +18,7 @@
  *   listening    THE QUEST NOW EXISTS (owner decision, 2026-09-14). Seven paths
  *                marked it — five registry rows plus DictationScreen and
  *                ShadowingScreen — and two MORE screens were still on the old
- *                mislabel: ListeningScreen and DailyListeningCard both awarded
+ *                mislabel: ListeningScreen and DailyListeningCard (since deleted) both awarded
  *                activityType 'listening' and marked `speak`. All nine now
  *                credit the Listening Quest.
  *
@@ -135,16 +135,16 @@ describe('every id that reaches markQuest names a real quest', () => {
   });
 
   it('every listening path credits the Listening Quest', () => {
-    // The whole point of adding the quest. Nine paths: five registry rows, the
-    // two screens that marked `listening` into the void, and the two that were
-    // still on the old `speak` mislabel.
+    // The whole point of adding the quest. Eight paths: five registry rows, the
+    // two screens that marked `listening` into the void, and the one that was
+    // still on the old `speak` mislabel. (The ninth was DailyListeningCard,
+    // unrendered since 2026-06-19 and deleted in sweep 136.)
     const marked = markedIds();
     expect(DEFINED.has('listening')).toBe(true);
     const where = [...(marked.get('listening') ?? [])];
     expect(where.length).toBeGreaterThan(3);
     for (const f of [
       'src/components/practice/ListeningScreen.tsx',
-      'src/components/home/DailyListeningCard.tsx',
       'src/components/practice/DictationScreen.tsx',
       'src/components/practice/ShadowingScreen.tsx',
     ]) {

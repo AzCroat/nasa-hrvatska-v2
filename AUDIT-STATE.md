@@ -9930,6 +9930,87 @@ while the browser was online. The next occurrence reports
 
 ---
 
+### 136. Deleting the twenty dead modules — 2026-09-25 — THREE finds the deletion itself surfaced, and a count three mechanisms agreed was wrong
+
+Sweep 129 measured the set and named it; this executed the decision. **Twenty of the
+twenty-one deleted: 4,017 lines of modules and 1,365 of tests that existed only to
+keep them reachable.** The survivor is `lib/conjugation/morphology.ts`, a test-only
+VALIDATOR whose stored data the app renders through a lookup — the "softer problem"
+the guard's own docstring means, and the one case where membership is not a defect.
+
+Nothing a learner can see changed, which is the point and also what made the change
+safe to make in one sweep: `tsc --noEmit` passed with no production edit at all, no
+E2E spec references a deleted test id or string, and the full suite went 649 → 637
+files / 10,137 → 10,009 tests, green.
+
+**WHAT THE DELETION SURFACED, none of which a reading had found:**
+
+1. **Two MORE audit sweeps had been fixing bugs inside the dead files**, taking the
+   count from twice (sweep 129: #655 and the CEFR badge) to **four times**. The
+   deleted `paidStreakRestore.test.ts` fixed the 200-XP streak restore in
+   `useHeroRewards` and its docstring states the fixed path "is the ONLY one a user
+   can reach"; `storageResilience.test.ts`'s paid-actions block says of the same
+   handler "the difference is that these two were still live". **Both files reasoned
+   explicitly about reachability and both got it wrong**, because the question each
+   asked was "can this STATE occur" and not "can anyone get to this CODE".
+2. **The XP BOOST and the PAID STREAK RESTORE are features with no purchase path.**
+   `lXPgain` still doubles XP off `nh_xp_boost_expires`, `progressSnapshot` still
+   uploads it and `applyRemoteProgress` still merges it — and the only caller of
+   `activateXPBoost` and of `spendXp(STREAK_RESTORE_COST)` was this hook. So
+   `nh_xp_boost_expires` can never be non-zero for any learner. **Sweep 111's "a
+   conduit is not a producer" needs one more hop: a producer that is itself
+   UNREACHABLE is not a producer** — the same correction sweep 130 made for
+   endpoints, and the reason `deadKeyReaders`'s `NO_PRODUCER` cannot see this (the
+   write really is there in `appUtils`). RECORDED at the constants for the owner, not
+   patched: re-adding a purchase surface is a product decision, filed beside the
+   campaign multiplier.
+3. **`LEVEL_NARRATIVE` is a key in the 1.4 MB `/api/content/core` payload whose one
+   client consumer was `HeroSection`** — so #655's September fix to its level-7 rung
+   was a fix to the reading of a payload nobody reads. Still shipped; the general
+   question (a payload key with no reachable consumer) is queued below, because
+   `corePayloadKeys` requires every key to have an EXPORT and nothing requires a
+   READER. That is `meteredEndpointsHaveCallers` one layer over.
+
+**AND THE CROATIAN LINT'S COVERAGE FIGURE WAS WRONG, WITH ALL THREE MECHANISMS
+AGREEING.** Removing three hero files from `TARGETS` took the printed count 522 →
+518, which prompted a check of the array: **46 duplicate entries**, appended by the
+2026-09-07 fourth wave over files already listed. So 46 files were scanned TWICE,
+the lint printed `TARGETS.length` as its coverage figure, and
+`claudeMdPaths.test.ts` compared CLAUDE.md's sentence against **that same array
+length** — prose, tool output and guard consistent with each other and with nothing
+that mattered, which is verbatim the CEFR-badge finding landing on a count. True
+coverage is **472 files** (470 distinct targets + 2 walked structurally), not 522.
+Fixed three ways: the duplicates removed, the lint walks `[...new Set(TARGETS)]` so a
+re-added entry can neither double-scan nor inflate the figure, both count-reading
+guards count DISTINCT paths, and `croatianLintTargets.test.ts` fails on a duplicate.
+**A count two mechanisms derive from one array is one claim, not two.**
+
+**A GUARD'S NON-VACUITY MUST NOT DEPEND ON A DEAD MODULE STAYING DEAD.**
+`meteredEndpointsHaveCallers`'s load-bearing clause — "a caller that is itself
+unreachable is not a caller" — was driven on `hooks/useTranslator.ts` as its
+fixture, and this sweep deleted it. It now runs on a FABRICATED pair (a live caller
+plus an invented path) through the real reachable set and then with the filter
+defeated, so it cannot be broken again by somebody doing the right thing.
+
+**TWO EXEMPTION SETS WENT EMPTY AND BOTH ARE KEPT** (the `couplingClearingPath`
+rule): `routerOptionalProps`'s `NOT_RENDERED` and `learningCenter`'s
+`CATALOGUE_EXEMPT`. Each had a `length > 0` non-vacuity check that would now force a
+fake entry, so in both the non-vacuity moved onto the DERIVATION's subject count —
+an empty exemption set is the correct state, and asserting otherwise invents work.
+
+Mutation-verified, ten, each confirmed landed and reverted: a new app-unreachable
+module (fails 1, and it is NAMED); `TEST_ONLY_REACHABLE` emptied (2); the
+reachability filter defeated in `clientCallers` (1); `DesktopPanel` reverted to the
+unlock resolver — the live-surface check after losing its dead third (**4**); a
+duplicate `TARGETS` entry (1, while the printed count correctly stays 472); the
+CLAUDE.md coverage figure drifted back to 518 (1); `ListeningScreen` marking the
+wrong quest (1); `applyStreakEarnBack` no longer backfilling the day-set (1);
+`restoreStreakDays` made non-additive — the assertion rescued from the deleted spec
+(1); and `optionalCallbackProps` gutted, which is the non-vacuity swapped in above
+(2).
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**THE OTHER 117 DRILLS STILL SAY "need 75%"**~~ — DONE, same day, and the
@@ -9971,6 +10052,22 @@ while the browser was online. The next occurrence reports
       as "needs its own decision" is worth re-reading before the next sweep: the
       decision took ten minutes once the 4xx were enumerated instead of imagined.**
 
+- [ ] **IS ANY OTHER `/api/content/core` PAYLOAD KEY READ BY NOTHING REACHABLE?** —
+      OPEN, and sweep 136 found the first member by accident: `LEVEL_NARRATIVE`'s ONE
+      client consumer was `HeroSection`, so a key in the 1.4 MB payload every client
+      fetches is now read by nobody, and #655 spent a September PR fixing how it was
+      read. This is `meteredEndpointsHaveCallers` one layer over, and the tooling
+      already exists: `CORE_PAYLOAD_KEYS` is the subject list (33 keys, one array,
+      guarded by `corePayloadKeys.test.js`), `moduleGraph.appReachable()` is the
+      filter, and `contentShapeSweep` already knows how to walk `useContent`
+      consumers. What NOTHING requires today is a READER: `corePayloadKeys` requires
+      every listed key to have an EXPORT behind it, which is the server half.
+      Two traps to expect, both already met elsewhere: a key is read through
+      `const data = content` one hop away from `useContent()` (sweep 121's
+      state-hop finding), and a key read only by a module that is itself unreachable
+      must not count (sweep 130). A stranded key is NOT automatically deletable —
+      dropping one shrinks every client's payload, which is a win, but authored
+      content is recoverable only from git.
 - [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
       server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three
       with reasons and fails if a fourth appears. Deleting `daily-culture.js`,
@@ -9982,8 +10079,15 @@ while the browser was online. The next occurrence reports
       prompt-version-in-KV-metadata rule, leaving `news` as the only one. If the
       owner may want a daily cultural fact back, the endpoint working is the reason
       to ASK rather than delete — it is a product question, not a cleanup.
-- [ ] **`DailyListeningCard`: delete it, or give it the site its own plan
-      promised?** — OPEN, and it is a DECISION, not a defect hunt (sweep 128).
+- [x] ~~**`DailyListeningCard`: delete it, or give it the site its own plan
+      promised?**~~ — DELETED, sweep 136, with the rest of the unrendered set. The
+      blocker recorded below was a coupling and it cost four edits: three source-pin
+      lists (`aiRefusalMessages`, `questIdsExist`, `aiSurfaceClassifies`) lost an
+      entry, `dailyListeningCard.test.ts` went, and `routerOptionalProps`'s
+      `NOT_RENDERED` is now empty (kept, with its non-vacuity moved to the SUBJECT
+      count — an empty exemption set is the correct state, so a length floor there
+      would have forced a fake entry). Not reinstated, for the reason below: the
+      routed `AIListeningScreen` calls the same generator. The original item read:
       Established: 589 lines, 15 XP, a quest, per-line audio, rendered by nothing
       since **2026-06-19**, when PR #55 removed its only site in `PracticeTab.tsx`
       while that PR's own plan said in writing "Keep … `DailyListeningCard`
@@ -10006,19 +10110,15 @@ while the browser was online. The next occurrence reports
       walk re-seeded from `ENTRIES` alone, which also catches dead CLUSTERS (three
       of the 21 have a live-looking importer that is itself dead). Ratcheted by
       `TEST_ONLY_REACHABLE`, reason required per module.
-- [ ] **DELETE THE 21, or keep each with a reason?** — OPEN, a DECISION, and it is
-      now bounded rather than open-ended (sweep 129 lists all 21 with reasons and
-      fails if one joins in silence). The hero cluster is unambiguous — superseded
-      by SessionCard + the Daily Session Hub, with the owner's own "hero only —
-      want a guided learning path" directive behind that replacement — so its 13
-      modules and the tests that exist only for them are deletable. What needs
-      CARE, not courage: six test files reference the cluster as part of BROADER
-      guards (`cefrBadgeCertified`, `cefrBandsSingleSource`, `emptyIsNotAnAnswer`,
-      `helpers/emptyClaimSurfaces`, `learningCenter`, `storageResilience`,
-      `paidStreakRestore`), so deleting `HeroStats` means removing a subject from
-      the CEFR badge pin — and that pin's remaining subjects are the ones a learner
-      actually sees. Do it in one sweep, mutating each edited guard afterwards to
-      prove it still fails for the LIVE surfaces.
+- [x] ~~**DELETE THE 21, or keep each with a reason?**~~ — DONE, sweep 136: twenty
+      deleted, one kept (the conjugation validator, which is what the guard's
+      "softer problem" clause actually means). 4,017 lines of modules and 1,365 of
+      tests that existed only to keep them reachable. Every edited guard was
+      mutated afterwards and each still fails for the LIVE surfaces — the CEFR pin
+      losing its dead third still fails 4 when `DesktopPanel` reverts to the unlock
+      resolver. The deletion SURFACED three things no reading could have (see the
+      sweep), the sharpest being that two more audit sweeps had been fixing bugs in
+      those files while reasoning explicitly about reachability.
 - [x] ~~**DO `expectedForms` AND `formFor` AGREE?**~~ — WITHDRAWN the same hour it
       was queued, and the withdrawal is the lesson. The question presupposed two
       competing RULES; there is one. `expectedForms` derives a form from the verb's

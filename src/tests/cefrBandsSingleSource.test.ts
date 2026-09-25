@@ -14,6 +14,10 @@
  *   3. `CEFR_FLOOR`, a second inline map ~400 lines below it    (StatsTab)
  *   4. `CEFR_BANDS`, floors and thresholds                      (heroHelpers)
  *
+ * The fourth copy's file went with the hero cluster in sweep 136 (unrendered
+ * since 2026-04-25), so three consumers remain and `lib/cefr` is still the one
+ * definition — that is what the assertions below now check.
+ *
  * **Measured, not assumed: all four agreed**, so this is a hazard closed rather
  * than a bug fixed — say which it is. But only the ladder had a reason to
  * change, and moving a band there would leave the LEVEL right everywhere while
@@ -124,16 +128,10 @@ describe('the consumers derive rather than restate', () => {
     ).toBe(false);
   });
 
-  it('heroHelpers builds its progress bands from the table', () => {
-    const src = read('../components/home/heroHelpers.ts');
-    expect(src).toMatch(/CEFR_BANDS\.filter\(/);
-    expect(/threshold:\s*3500/.test(src), 'heroHelpers has gone back to literal thresholds.').toBe(
-      false,
-    );
-  });
-
-  it('neither consumer recomputes the score formula', () => {
-    for (const p of ['../components/profile/StatsTab.tsx', '../components/home/heroHelpers.ts']) {
+  it('the consumer does not recompute the score formula', () => {
+    // One consumer now: heroHelpers was the other, and it was never rendered
+    // (sweep 136). lib/cefr is excluded because cefrScore() is DEFINED there.
+    for (const p of ['../components/profile/StatsTab.tsx']) {
       expect(
         /\*\s*15\s*\+[^;]*\*\s*25/.test(read(p).replace(/\/\*[\s\S]*?\*\//g, '')),
         `${p} restates xp + lc*15 + gc*25. cefrScore() is the one definition.`,

@@ -529,8 +529,9 @@ export default function HomeTab({
       />
 
       {/* ── DAILY XP GOAL — the commitment the user set at onboarding, shown on the
-          live Today tab. Previously only rendered inside the now-unmounted
-          HeroSection, so the chosen goal was invisible. ── */}
+          live Today tab. Previously only rendered inside HeroSection, which was
+          unmounted on 2026-04-25 and deleted in sweep 136, so the chosen goal was
+          invisible. ── */}
       <DailyGoalCard xp={st.xp} />
 
       {/* ── TODAY'S INPUT — comprehensible-input spine (Content-Rec #6): the next

@@ -116,7 +116,6 @@ describe('AI clients classify 429s through the helper, not by hand', () => {
     'src/components/croatia/majaErrors.ts',
     'src/components/practice/AIStoryScreen.tsx',
     'src/components/practice/WritingScreen.tsx',
-    'src/hooks/useTranslator.ts',
   ];
 
   it.each(LIMIT_AWARE)('%s classifies its 429 through the helper', (file) => {

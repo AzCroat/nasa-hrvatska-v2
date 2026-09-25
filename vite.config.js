@@ -254,7 +254,9 @@ export default defineConfig({
           // startup needs.
           if (/src[/\\]data\.tsx$/.test(id) || id.includes('src/data/content'))
             return 'chunk-content-hub';
-          if (id.includes('src/data') || id.includes('src/lib/appData')) return 'chunk-data';
+          // (`src/lib/appData` was in this test until sweep 136: a re-export barrel
+          // over src/data that nothing in the app ever imported.)
+          if (id.includes('src/data')) return 'chunk-data';
           // src/lib/** claimed EXPLICITLY, and this line is the one that actually
           // moved first paint (894 kB -> 598 kB gzipped, -33%).
           //
