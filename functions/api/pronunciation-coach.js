@@ -169,7 +169,7 @@ export async function onRequestPost(context) {
     return err(400, 'Invalid JSON in request body', origin);
   }
 
-  const { word, spoken, score, level } = body;
+  const { word, spoken, score, level, phonemes, scoreKind } = body;
 
   if (typeof word !== 'string' || !word.trim()) return err(400, 'Missing word', origin);
 
@@ -178,12 +178,36 @@ export async function onRequestPost(context) {
   const safeScore = Math.min(Math.max(parseInt(score) || 0, 0), 100);
   const safeLevel = VALID_LEVELS.includes(level) ? level : 'B1';
 
-  // Run the local phoneme rule engine before building the Claude prompt.
+  // MEASURED PHONEME SCORES BEAT THE LOCAL STRING HEURISTIC (2026-09-25).
+  // `analyzeCroatianPhonemes` infers likely issues by comparing the target with
+  // what was heard — the only thing available on the Web Speech path. The Azure
+  // path MEASURES each phoneme acoustically, and that was being thrown away: the
+  // client sent the target as `spoken`, so the comparison ran a string against
+  // itself, found nothing, and the coaching had no input that varied between
+  // attempts. When real scores arrive, lead with them.
+  const measured = Array.isArray(phonemes)
+    ? phonemes
+        .filter(
+          (p) =>
+            p && typeof p.phoneme === 'string' && p.phoneme && Number.isFinite(Number(p.score)),
+        )
+        .slice(0, 6)
+        .map((p) => ({
+          phoneme: sanitizeParam(String(p.phoneme), 12),
+          score: Math.min(Math.max(Math.round(Number(p.score)), 0), 100),
+        }))
+    : [];
+
   const phonemeIssues = analyzeCroatianPhonemes(safeWord, safeSpoken);
 
-  const phonemeContext = phonemeIssues
-    ? `\nDetected Croatian phoneme issues for English speakers:\n${phonemeIssues.map((i) => `  • ${i.phoneme} [${i.ipa}]: ${i.hint}`).join('\n')}`
+  const measuredContext = measured.length
+    ? `\nACOUSTICALLY MEASURED per-phoneme accuracy for THIS attempt (0-100, lower = worse):\n${measured.map((p) => `  • ${p.phoneme}: ${p.score}`).join('\n')}\nCoach these, in this order. They are measurements of this learner's audio, not guesses.`
     : '';
+
+  const phonemeContext =
+    (phonemeIssues
+      ? `\n${measured.length ? 'Additional rule-based' : 'Detected'} Croatian phoneme issues for English speakers:\n${phonemeIssues.map((i) => `  • ${i.phoneme} [${i.ipa}]: ${i.hint}`).join('\n')}`
+      : '') + measuredContext;
 
   const performanceContext =
     safeScore >= 85
@@ -192,9 +216,19 @@ export async function onRequestPost(context) {
         ? 'Overall similarity is moderate — prioritize the most impactful phoneme correction, then secondary issues.'
         : 'Overall similarity is low — focus on foundational mouth placement before rhythm or stress.';
 
+  // DESCRIBE THE SCORE HONESTLY. This line said "Levenshtein string distance,
+  // not a phonetic score" unconditionally — true of the Web Speech path and
+  // FALSE of the Azure one, where it is a real acoustic measurement. Telling the
+  // model a real measurement is a string comparison invites it to hedge exactly
+  // where it could be specific.
+  const scoreLine =
+    scoreKind === 'acoustic'
+      ? `Acoustic pronunciation score from a speech-assessment service: ${safeScore}% (a real measurement of the learner's audio, not a text comparison)`
+      : `Text-similarity score (not an acoustic measurement): ${safeScore}% (100 = exact text match; this is Levenshtein string distance, not a phonetic score)`;
+
   const userMsg = `A Croatian learner (CEFR ${safeLevel}) attempted to pronounce: "${safeWord}"
 Speech recognition heard: "${safeSpoken || 'unclear/nothing'}"
-Text-similarity score (not an acoustic measurement): ${safeScore}% (100 = exact text match; this is Levenshtein string distance, not a phonetic score)
+${scoreLine}
 
 ${performanceContext}
 ${phonemeContext}

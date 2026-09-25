@@ -321,6 +321,54 @@ export async function reconcileSafely(env, pathname, usage) {
   }
 }
 
+/**
+ * Give back a pre-charge for a request that never reached the model.
+ *
+ * WHY THIS EXISTS (2026-09-25). `requireAuthedAI` charges the worst-case ceiling
+ * at the GATE, before a handler has looked at the body — correct, because the
+ * budget must be the one thing no endpoint can forget. But the only refund,
+ * `reconcileSafely`, is reached after a successful provider response, so a
+ * handler that validates the body and returns 400 keeps the whole ceiling for a
+ * call that never happened. `/api/explain-error` made that concrete: with
+ * `type: 'drill'` missing from its allow-list, every "Why is this wrong?" press
+ * across 109 drills booked ~$0.014 and spent nothing, walking the $9/month cap
+ * down for a feature that was returning an error.
+ *
+ * `reconcileSafely(env, path, { input_tokens: 0 })` cannot be used for this:
+ * `actualClaudeCostMicroUsd` returns null when every token count is zero — on
+ * purpose, so an absent `usage` leaves the conservative pre-charge alone — and a
+ * null actual refunds nothing. This says "zero" explicitly instead.
+ *
+ * Fail-soft like every other ledger write: a storage error leaves the ceiling
+ * charged, which is the safe direction.
+ */
+export async function refundPrecharge(env, pathname) {
+  try {
+    const ceiling = ENDPOINT_CEILING_MICROUSD[pathname] ?? DEFAULT_CEILING_MICROUSD;
+    if (ceiling <= 0) return; // self-metered path: the gate charged nothing
+    const month = monthUTC();
+    const db = env.AI_QUOTA_DB || null;
+    if (db) {
+      await db
+        .prepare('UPDATE ai_month_spend SET microusd = MAX(0, microusd - ?1) WHERE month = ?2')
+        .bind(ceiling, month)
+        .run();
+      return;
+    }
+    const kv = env.PUSH_SUBSCRIPTIONS || null;
+    if (kv) {
+      const key = `budget:${month}`;
+      const raw = await kv.get(key);
+      const current = raw ? parseInt(raw, 10) || 0 : 0;
+      await kv.put(key, String(Math.max(0, current - ceiling)), {
+        expirationTtl: 60 * 60 * 24 * 40,
+      });
+    }
+  } catch (e) {
+    console.warn('[AIBudget] refund failed (ceiling stays charged):', e?.message);
+  }
+}
+
 /** Current month's ledger, for the status endpoint. Read-only. */
 export async function getBudgetStatus(env) {
   const db = env.AI_QUOTA_DB || null;

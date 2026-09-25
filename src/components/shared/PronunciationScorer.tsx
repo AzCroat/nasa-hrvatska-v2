@@ -49,6 +49,38 @@ interface CoachingResult {
 // (mirrors AzureResultPanel's worst-phoneme tip). Returns null when the response
 // carries no per-phoneme breakdown. Kept as a plain function so it's trivially
 // testable and shared by the onScore forward.
+/** What the coach needs to say something specific about THIS attempt. */
+interface CoachDetail {
+  phonemes?: Array<{ phoneme: string; score: number }>;
+  scoreKind?: 'acoustic' | 'text-similarity';
+}
+
+/** Azure's own recognised text, when the response carried it. */
+function recognizedTextOf(data: Record<string, unknown>): string {
+  const r = data['recognized'];
+  return typeof r === 'string' ? r : '';
+}
+
+/**
+ * The phonemes Azure scored lowest — the measurement the coach was never given.
+ * Capped so the prompt cannot grow without bound on a long phrase, and sorted
+ * worst-first so the cap keeps the ones worth coaching.
+ */
+function weakPhonemesOf(data: Record<string, unknown>): Array<{ phoneme: string; score: number }> {
+  const wordScores =
+    (data['word_scores'] as
+      Array<{ phonemes?: Array<{ phoneme?: string; score?: number }> }> | undefined) || [];
+  const all: Array<{ phoneme: string; score: number }> = [];
+  for (const w of wordScores)
+    for (const p of w.phonemes || [])
+      if (typeof p.score === 'number' && p.phoneme)
+        all.push({ phoneme: p.phoneme, score: p.score });
+  return all
+    .filter((p) => p.score < 80)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 6);
+}
+
 function worstPhonemeOf(data: Record<string, unknown>): string | null {
   const wordScores =
     (data['word_scores'] as
@@ -266,7 +298,29 @@ export default function PronunciationScorer({
         { audioBase64, referenceText: targetText, locale: 'hr-HR', audioMimeType: mimeType },
         { signal: controller.signal },
       );
-      if (!res) throw new Error('assess_transport_failed');
+      if (!res) {
+        // NOTHING ANSWERED — and that used to be indistinguishable from the
+        // handler returning a 5xx. `_nativePost` returns null only when no
+        // endpoint responded at all, but a bare `new Error(...)` reaches
+        // `failureFromError`, which classifies a plain Error as `server` with NO
+        // status and NO code. The owner's Sentry issue
+        // `ai_feedback_failed:pronunciation-assess:server` (2026-09-25) carried
+        // exactly that — kind and nothing else — so it was consistent with six
+        // different err() returns in the endpoint AND with the request never
+        // arriving, which is what made it un-diagnosable. Same naming rule the
+        // TTS work applied to `_nativePost`'s null: say which.
+        const failure = failureFromStatus(0, 'transport_null');
+        reportAiFailure('pronunciation-assess', failure);
+        if (webSpeechSupported) {
+          setServiceNotice(failure.message);
+          setMode('webspeech');
+          startWebSpeech();
+        } else {
+          setSrErrorMsg(failure.message);
+          setState('idle');
+        }
+        return;
+      }
       clearTimeout(tid);
       const data = (await res.json()) as Record<string, unknown>;
 
@@ -302,7 +356,16 @@ export default function PronunciationScorer({
       if (onScore)
         onScore({ spoken: targetText, score: overallScore, worstPhoneme: worstPhonemeOf(data) });
       // No numeric score → nothing to coach on (mirrors the translation-only null path).
-      if (overallScore !== null) fetchCoaching(targetText, overallScore);
+      // COACH ON THE ATTEMPT, NOT THE TARGET. Passing `targetText` as `spoken`
+      // told the coach the learner had said the phrase perfectly, so its phoneme
+      // comparison ran a string against itself and the only input that varied
+      // between attempts was the score band — identical advice for ever. Azure
+      // measured the real thing; send that.
+      if (overallScore !== null)
+        fetchCoaching(recognizedTextOf(data) || targetText, overallScore, {
+          phonemes: weakPhonemesOf(data),
+          scoreKind: 'acoustic',
+        });
     } catch (fetchErr) {
       clearTimeout(tid);
       const failure = failureFromError(fetchErr);
@@ -382,7 +445,7 @@ export default function PronunciationScorer({
 
   // ── AI Coaching fetch ─────────────────────────────────────────────────────
   const fetchCoaching = useCallback(
-    async (spoken: string, score: number) => {
+    async (spoken: string, score: number, detail?: CoachDetail) => {
       setCoaching('loading');
       const controller = new AbortController();
       const tid = setTimeout(() => controller.abort(), 12000); // 12s max
@@ -390,7 +453,17 @@ export default function PronunciationScorer({
         const res = await apiFetch('/api/pronunciation-coach', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ word: targetText, spoken, score, level }),
+          body: JSON.stringify({
+            word: targetText,
+            spoken,
+            score,
+            level,
+            // The acoustic path can say what was actually weak; the Web Speech
+            // path cannot, and must not pretend to (the coach prompt describes
+            // the score differently for each — see scoreKind).
+            ...(detail?.phonemes?.length ? { phonemes: detail.phonemes } : {}),
+            scoreKind: detail?.scoreKind ?? 'text-similarity',
+          }),
           signal: controller.signal,
         });
         clearTimeout(tid);

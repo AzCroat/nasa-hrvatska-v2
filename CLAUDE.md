@@ -3223,6 +3223,88 @@ canonical AI-endpoint list), **three of thirty**:
   "dispatched by CI" without a workflow that dispatches it; leave a metered
   endpoint callable with no product behind it and no record of why.
 
+## Critical Architecture: Five Reports, One Shape (owner reports, 2026-09-25)
+
+Four live defects in one morning, and in every one the app **already had the right
+information and a boundary threw it away** — then reported the loss as something
+else. That misreporting is why each survived: a 400 read as a server fault, 66.7%
+read as "need 75%", a discarded transcript read as coaching that works, a dead
+transport read as a server error.
+
+- **`/api/explain-error` REJECTED THE TYPE 109 DRILLS SEND.** `WrongAnswerHelp`
+  (mounted once in `ModeDrill`) passes `type="drill"`; `VALID_TYPES` did not list
+  it, so **every "Why is this wrong?" press in all 109 engine-backed drills was a
+  400** from 2026-09-07 until the owner reported it. The list's own comment said
+  "keep this list in step with the `type:` sent by every _aiPost caller" — written
+  when `multiple_choice` had been missing for exactly the same reason. **A comment
+  asking the next person to remember is not a mechanism** (fourth instance in this
+  file). `explainErrorTypes.test.ts` derives the client types from source in three
+  shapes — the hook-call literal, `WrongAnswerHelp`'s DEFAULT parameter, and the
+  JSX attribute — and the live bug was in the third.
+- **A REJECTED REQUEST KEPT THE MONEY.** `requireAuthedAI` charges the quota turn
+  and pre-charges the monthly ceiling at the GATE, before a handler validates; the
+  only refund runs after a successful provider response. So each dead press spent a
+  daily turn and permanently booked ~$0.014 of the $9 month for a call that never
+  happened — the end state being every live evaluation answering
+  `monthly_budget_exhausted`. **`refundPrecharge` (new) is the primitive**;
+  `reconcileSafely(env, path, { input_tokens: 0 })` cannot do it, because
+  `actualClaudeCostMicroUsd` returns null for an all-zero usage on purpose and a
+  null actual refunds nothing. Any handler that 4xxs after the gate should refund.
+- **`failureFromStatus` HAS NO 4xx BRANCH**, so every client error becomes
+  `build('server')`. That is the whole reason a malformed request read as
+  `ai_feedback_failed:drill-explain-error:server` and cost nineteen days. Recorded
+  as open: adding a branch changes learner-facing copy on every AI surface.
+- **THE PASS GATE WAS RIGHT AND THE SCREEN WAS STILL WRONG.** 8/12 is 66.7%; 9 of
+  12 is the mark and `passedLesson` uses `>=`, so exactly 75% passes. But the result
+  printed `8 / 12` beside a button reading "need 75%" and left the learner to
+  convert — in **117 hand-written drills plus the engine, none of which ever printed
+  the number needed**. `itemsNeededToPass`/`retryNeedLabel` live beside
+  `LESSON_PASS_THRESHOLD` so the count cannot drift from the gate. **State the
+  count, not the percentage**: a percentage is the rule, a count is what a learner
+  can check against the score in front of them.
+- **AND THE PRAISE TIER WAS ATTACHED TO NOTHING.** `score >= total * 0.8` beside a
+  0.75 gate meant a learner at exactly 9 of 12 — a PASS — read "needs more
+  practice". Tier on the verdict (`passed`), never on a second threshold.
+- **THE ECHO WAS TWO `Audio` ELEMENTS.** `useRecorder.playback()` did
+  `new Audio(audioUrl)` per call and kept no reference, so a second tap of ▶ layered
+  a second copy over the first, offset by the gap between taps. The missing
+  reference also meant **nothing could stop a playback** — leaving the screen
+  mid-playback kept it audible, and "Try again" started the next attempt over the
+  previous one. One ref fixes both, for every `useRecorder` consumer. `stopPlayback`
+  is NOT exported: an optional callback no caller passes is a dead branch.
+- **THE COACH WAS TOLD THE LEARNER HAD SAID IT PERFECTLY.** Four reasonable layers
+  composed into useless advice: `parseAzureResponse` dropped Azure's recognised
+  text → the client passed `targetText` as `spoken` → the coach's
+  `analyzeCroatianPhonemes(word, spoken)` compared a string with itself and found
+  nothing → the score became the only varying input, and it selects one of three
+  fixed sentences. Same phrase, same band, same paragraph for ever — while Azure's
+  per-phoneme measurements sat in the response, already parsed into `word_scores`
+  and already displayed as a "worst phoneme" tip two components away. **The app
+  measured the right thing, showed it to the learner, and told the coach nothing.**
+  Now: the endpoint returns `recognized`, the client sends the transcript plus the
+  six worst measured phonemes and `scoreKind: 'acoustic'`, and the coach leads with
+  the measurement.
+- **A PROMPT MUST NOT MISDESCRIBE ITS OWN INPUT.** The coach prompt stated
+  unconditionally that the score is "Levenshtein string distance, not a phonetic
+  score" — true on the Web Speech path, false on the acoustic one. A model told a
+  real measurement is a string comparison hedges exactly where it could be
+  specific. One branch per `scoreKind`.
+- **A SENTRY EVENT'S MISSING FIELDS ARE THE DIAGNOSIS.**
+  `ai_feedback_failed:pronunciation-assess:server` carried kind and nothing else —
+  no status, no code — which only `failureFromError` produces, so the request never
+  got a response and `_nativePost`'s null had discarded the reason. It now reports
+  `code=transport_null`, so "nothing answered" is distinguishable from "the handler
+  refused". **The cause of that occurrence is still not established, and that is
+  recorded rather than guessed.**
+- NEVER: add a `type`/mode string on a client without checking the endpoint's
+  allow-list accepts it (derive it — the comment has failed twice); let a handler
+  4xx after the gate without refunding the pre-charge; print a pass threshold as a
+  percentage beside a fraction without the count; tier praise on a threshold other
+  than the one that decides the verdict; construct a playback element without
+  holding it (you cannot stop what you did not keep); pass the TARGET as what a
+  learner said; tell a model its input is one kind of measurement when it is
+  another; throw a bare `Error` for a transport that returned nothing.
+
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 
 Owner: _"news is coming from Index.hr, they are a communist propaganda news

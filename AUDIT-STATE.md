@@ -9459,7 +9459,199 @@ to the render half.
 
 ---
 
+### 131. Five field reports in one morning, and four were live defects — 2026-09-25
+
+**THE OWNER'S REPORTS, verbatim:** _"Objektne zamjenice is not providing
+evaluation service. This cannot happen."_ (with the Sentry issue),
+_"8 out of 12 is 75%, you stated it wasn't, what the fuck?"_, _"Detailed
+pronunciation scoring is unavailable. Again, cannot happen"_ (with a second
+Sentry issue), _"Why does my playback have an echo in Shadowing Practice?"_,
+_"AI coaching provided feedback once and never changed after that."_
+
+---
+
+**1. `/api/explain-error` REJECTED THE TYPE 109 DRILLS SEND — the same omission,
+in the same list, for the second time.**
+
+`VALID_TYPES` was `['cloze','dictation','flashcard','multiple_choice','case_drill']`.
+`WrongAnswerHelp` is mounted once inside `ModeDrill` and passes `type="drill"`, so
+**every press of "Why is this wrong?" in all 109 engine-backed drills answered 400
+'Invalid type'** — from the day rec #7 shipped it (2026-09-07) to the owner's
+report nineteen days later.
+
+The list's own comment says _"Keep this list in step with the `type:` sent by every
+_aiPost caller"_. That comment was written when `multiple_choice` — McGame, the
+app's most-used exercise — had been missing for the same reason. **A sentence
+asking the next person to remember is not a mechanism**, and this is the third
+instance in this file of a comment asserting an agreement nothing enforces
+(`wrangler.toml`, the three CEFR badges, `useDaily`'s "written on every answer
+click").
+
+**WHY IT REPORTED AS A SERVER FAULT**, which is why nobody noticed sooner:
+`failureFromStatus` has **no 4xx branch** — a 400 falls through to
+`build('server')`. So the learner read that the evaluator was having trouble and
+Sentry said `ai_feedback_failed:drill-explain-error:server` about a request the
+server had rejected as malformed.
+
+**AND IT WAS NOT FREE, which is the part that reaches other features.**
+`requireAuthedAI` charges a quota turn AND pre-charges the monthly budget ceiling
+at the GATE, before the handler validates; the only refund, `reconcileSafely`, runs
+after a successful Anthropic response. So each dead press spent one of the
+learner's 300 daily turns and **permanently booked ~$0.014 of the $9/month cap for
+a call that never happened** — a steady leak whose end state is every live
+evaluation in the app answering `monthly_budget_exhausted`. `refundPrecharge`
+(new, in `_aiBudget.js`) gives it back; `reconcileSafely` could not be reused
+because `actualClaudeCostMicroUsd` returns null for an all-zero usage object on
+purpose, so a zero-usage reconcile refunds nothing.
+
+`explainErrorTypes.test.ts` DERIVES the client types from source — three shapes,
+and **the live bug was in the third**: the hook-call literal, `WrongAnswerHelp`'s
+DEFAULT parameter, and the JSX attribute `ModeDrill` passes. It also requires every
+accepted type to have a `TYPE_DESCS` row, because a type without one passes
+validation and then asks the model about a _"Croatian undefined at CEFR B1"_.
+Mutation-verified, four: the original bug restored fails 1, a missing description
+fails 1, the refund removed fails 1, and `ModeDrill` dropping its attribute fails 1.
+
+---
+
+**2. "8 OUT OF 12 IS 75%" — THE ARITHMETIC WAS THE APP'S, AND THE SCREEN WAS STILL
+THE DEFECT.**
+
+8/12 is 66.7%; 9 of 12 is the 75% mark, and `passedLesson` uses `>=`, so exactly
+75% passes. The app was right. **What it never did was say so in a form the learner
+could check**: it printed `8 / 12` and a button reading "need 75%", and left the
+conversion to them. **117 hand-written drills plus the engine did that and not one
+printed the number needed.** `MicroLessonScreen` had already learned this six days
+earlier ("3 of 3 needed to log this lesson") and the lesson was not carried across.
+
+**AND ONE OF THE TWO NUMBERS ON THAT SCREEN WAS UNRELATED TO THE VERDICT.** The
+praise tier read `score >= total * 0.8` while the gate is 0.75 — so a learner at
+exactly 9 of 12, **a pass**, was told _"needs more practice"_. Two thresholds in
+one component, one of them attached to nothing.
+
+Fixed in `ModeDrill` (109 screens): the result now states
+`{needed} of {total} needed to pass`, the retry button says
+`Try again (need 9 of 12)`, and the praise tier reads `passed` so the sentence and
+the outcome cannot disagree. `itemsNeededToPass` / `retryNeedLabel` live beside
+`LESSON_PASS_THRESHOLD` so the count and the gate are one definition.
+**The 117 hand-written drills still say "need 75%" — queued below, measured, not
+guessed.**
+
+---
+
+**3. THE PRONUNCIATION FAILURE WAS UN-DIAGNOSABLE, AND THE SENTRY SHAPE IS WHAT
+SAID SO.** `ai_feedback_failed:pronunciation-assess:server` carried **`kind` and
+nothing else** — no `status`, no `code`. Only `failureFromError` produces that, so
+the request never got a response: `_nativePost` returned null and the client threw
+a bare `new Error('assess_transport_failed')`, discarding the reason. That one
+event was consistent with six different `err()` returns in the endpoint AND with
+the request never arriving. The null now classifies as `failureFromStatus(0,
+'transport_null')` — same learner message, but Sentry can finally tell "nothing
+answered" from "the handler refused". **The root cause of THIS occurrence is still
+not established** and saying so is the point; the next one will name itself.
+(Checked and ruled out from source: the client/endpoint field contract matches
+(`audioBase64`/`referenceText`/`locale`/`audioMimeType`), the webm/opus MIME
+mapping is correct, and an abort would classify as `timeout`, not `server`.)
+
+---
+
+**4. THE ECHO WAS TWO `Audio` ELEMENTS, NOT A MICROPHONE.**
+`useRecorder.playback()` did `new Audio(audioUrl)` on every call and kept **no
+reference**. A second tap of ▶ started a second copy of the same recording while
+the first was still running, offset by the gap between taps — which is exactly what
+an echo sounds like. No echo-cancellation constraint would have touched it.
+
+The missing reference cost a second thing: **nothing could stop a playback**, so
+leaving the screen mid-playback left the recording audible, and "Try again" started
+the next attempt over the previous one. One ref fixes both, and because
+`useRecorder` is shared it covers Shadowing, the exam speaking task, Roleplay, the
+graded reader and the pronunciation scorer at once. `stopPlayback` is deliberately
+NOT exported — nothing outside needs it, and an optional callback no caller passes
+is sweep 128's dead branch in a new place.
+
+**The guard's first draft asserted the wrong invariant**: `unlockAudio()`
+constructs its own silent element for the WebView activation rule, so "nothing was
+constructed" is false even with no recording. It asserts what matters — never two
+playing at once — and pins the ORDER (stop before `new Audio`), because the other
+order keeps the old one running underneath. Mutation-verified, two.
+
+---
+
+**5. THE COACH WAS TOLD THE LEARNER HAD SAID IT PERFECTLY, so of course the advice
+never changed.** Four layers, each individually reasonable:
+
+1. `parseAzureResponse` **dropped Azure's recognised text** (`Display`/`Lexical`),
+   so the client had no transcript on the acoustic path;
+2. so `PronunciationScorer` passed **`targetText` as `spoken`**;
+3. so `/api/pronunciation-coach`'s `analyzeCroatianPhonemes(word, spoken)` compared
+   a string with itself, found no issues, and left `phonemeContext` **empty**;
+4. leaving the score as the only varying input — and it selects one of **three**
+   fixed `performanceContext` sentences.
+
+One phrase, same score band, same paragraph, for ever. **Meanwhile Azure's
+per-phoneme measurements were in the response, already parsed into `word_scores`,
+already rendered as a "worst phoneme" tip two components away.** The app measured
+the right thing and showed it to the learner while telling the coach nothing.
+
+The prompt was also lying to the model: it stated unconditionally that the score is
+_"Levenshtein string distance, not a phonetic score"_ — true on the Web Speech path
+and **false on the acoustic one**, where it is a real measurement. A model told a
+measurement is a string comparison will hedge exactly where it could be specific.
+
+Fixed in all three layers: the endpoint returns `recognized`; the client sends the
+real transcript plus the six worst measured phonemes and `scoreKind: 'acoustic'`;
+the coach leads with `ACOUSTICALLY MEASURED per-phoneme accuracy` and describes the
+score honestly per path. The phoneme list is learner-influenced input reaching a
+prompt, so it is capped at 6, clamped 0–100 and `sanitizeParam`'d.
+
+---
+
+**THE COMMON SHAPE, and it is not "AI is flaky":** in four of the five, the app
+already HAD the right information and a boundary threw it away — the type the
+client sends, the count the learner needed, the transcript Azure returned, the
+reason the transport failed. **Every one was invisible because the failure was
+reported as something else**: a 400 as `server`, a 66.7% as "need 75%", a discarded
+transcript as coaching that "works", a null transport as a server fault.
+
+**Full suite green; five mutations across three new guards.**
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
+
+- [ ] **THE OTHER 117 DRILLS STILL SAY "need 75%"** — OPEN, measured, and it is the
+      owner's own report (2026-09-25) only half fixed. `ModeDrill` now prints the
+      COUNT a learner needs (109 screens); **117 hand-written drill files still show
+      a bare fraction beside a percentage**, and **108 of them carry the same
+      `total * 0.8` praise tier that contradicts the 0.75 gate** — so a learner at
+      exactly 75% passes and is told "needs more practice". The helpers exist
+      (`itemsNeededToPass`, `retryNeedLabel` in `lessonGate.ts`); what makes this a
+      separate change is that each file names its total differently (`total`, `len`,
+      `q.length`, `QUESTIONS.length`), so a blind sed across 117 production files is
+      the wrong tool. Do it in batches with `npm run typecheck` plus each file's own
+      contract test after every batch, and derive the total expression from the
+      `{score} / {total}` render each one already has. A guard should then forbid a
+      NEW drill printing a percentage without the count.
+- [ ] **WHY DID `/api/pronunciation-assess` GET NO RESPONSE AT ALL?** — OPEN, and
+      deliberately left unresolved rather than guessed. Established from source: the
+      field contract matches, the webm/opus MIME mapping is right, an abort would
+      classify as `timeout`, and a handler 5xx would carry a status — so the null is
+      a transport failure before any response, and `_nativePost` swallows the
+      original error into a debug log. Two candidates neither confirmed nor
+      eliminated: `fetch` throwing something that is not a `TypeError`, and
+      `getFirebaseBearer()` throwing (it is awaited OUTSIDE `send()`, so it
+      propagates straight to the caller's catch). `code=transport_null` now
+      distinguishes it in Sentry; the next occurrence should say which. **The general
+      fix is bigger than this one screen**: `_nativePost` has 20+ callers and none
+      of them can see why it returned null — the `ttsFetch` finding (2026-09-10) one
+      layer down, unfixed for the generic transport.
+- [ ] **`failureFromStatus` HAS NO 4xx BRANCH** — every client error falls through to
+      `build('server')`. That is why a 400 'Invalid type' reached Sentry as
+      `:server` and cost nineteen days. Adding a branch is a learner-facing copy
+      change across every AI surface ("the evaluator is having trouble" is wrong for
+      a malformed request), so it needs its own pass and a decision about what a
+      learner should be told when the app sent something the server refused —
+      arguably nothing, because it is never their fault and never their fix.
 
 - [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
       server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three
@@ -9537,17 +9729,17 @@ to the render half.
       green.
 
       **A SECOND HOLE IN THE SAME SHAPE, sweep 123:** the ORDER is right
-                              everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
-                              `commentStripOrder.test.ts` records that as a deliberate semantic
-                              difference and never measured it as a risk. It is a risk where the matcher
-                              reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
-                              with a key it does not send and turned a real finding into a pass
-                              (`aiResponseContract`, fixed and mutation-proven in both directions).
-                              Measured LATENT elsewhere — across the symbols the other guards match, only
-                              two trailing comments in the whole tree mention one and both are English
-                              prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
-                              `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
-                              literal, and keep line-before-block or sweep 71's hole re-opens.
+                                  everywhere now, but 20 of these guards strip WHOLE-LINE comments only —
+                                  `commentStripOrder.test.ts` records that as a deliberate semantic
+                                  difference and never measured it as a risk. It is a risk where the matcher
+                                  reads an object LITERAL: `foo(); // ok({ neverSent })` credited an endpoint
+                                  with a key it does not send and turned a real finding into a pass
+                                  (`aiResponseContract`, fixed and mutation-proven in both directions).
+                                  Measured LATENT elsewhere — across the symbols the other guards match, only
+                                  two trailing comments in the whole tree mention one and both are English
+                                  prose, and ZERO trailing comments in `functions/api/*.js` spell `ok({` or
+                                  `JSON.stringify({`. Add the trailing pass to a guard whose matcher reads a
+                                  literal, and keep line-before-block or sweep 71's hole re-opens.
 
 Every defect the owner has actually hit is in this list, not the one above.
 None of them crash, so no sweep above can see any of them.
@@ -9587,78 +9779,78 @@ None of them crash, so no sweep above can see any of them.
       rather than assumed.
 
       **THE NAMED SUB-ITEMS ARE ALL DONE. The heading stays open because the
-                                                                                                          class is open-ended, not because anything specific is outstanding** — and
-                                                                                                          that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
-                                                                                                          have since been asked against it, and what each returned is recorded so
-                                                                                                          nobody re-derives them:
+                                                                                                              class is open-ended, not because anything specific is outstanding** — and
+                                                                                                              that distinction is the point of leaving it unticked. TWO NEW QUESTIONS
+                                                                                                              have since been asked against it, and what each returned is recorded so
+                                                                                                              nobody re-derives them:
 
-                                                                                                          - **"Where does the app keep the same fact twice, with only one copy
-                                                                                                            having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
-                                                                                                            sweep 52's eight negatives. Worked out. The sharpened form, which is
-                                                                                                            what actually selected the finds: *is one of the two copies never
-                                                                                                            exercised?* An inert copy (a display map, a test's list, a progress-bar
-                                                                                                            threshold, a type annotation) drifts silently; a live second CALLER, a
-                                                                                                            deliberately frozen snapshot and a genuine derivation all do not.
-                                                                                                          - **"Can a credit fire twice for one piece of work?"** — sweep 53,
-                                                                                                            **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
-                                                                                                            it: the guards are structural in at least five different shapes, so a
-                                                                                                            matcher that knows five will miss the sixth and flag the seventh.
+                                                                                                              - **"Where does the app keep the same fact twice, with only one copy
+                                                                                                                having a reason to change?"** — sweeps 48–51, **FOUR FINDS**, then
+                                                                                                                sweep 52's eight negatives. Worked out. The sharpened form, which is
+                                                                                                                what actually selected the finds: *is one of the two copies never
+                                                                                                                exercised?* An inert copy (a display map, a test's list, a progress-bar
+                                                                                                                threshold, a type annotation) drifts silently; a live second CALLER, a
+                                                                                                                deliberately frozen snapshot and a genuine derivation all do not.
+                                                                                                              - **"Can a credit fire twice for one piece of work?"** — sweep 53,
+                                                                                                                **ZERO finds** from 13 candidates, and a recommendation NOT to ratchet
+                                                                                                                it: the guards are structural in at least five different shapes, so a
+                                                                                                                matcher that knows five will miss the sixth and flag the seventh.
 
-                                                                                                          - **"What does the tooling treat as reviewable text, and is that what the
-                                                                                                            source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
-                                                                                                            raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
-                                                                                                            so every change to them was unreviewable. Ratcheted repo-wide by
-                                                                                                            `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
-                                                                                                            hazard, not a learner bug — and it is the first find in this file that
-                                                                                                            came from the TOOLING half of an agreement rather than the code half.
-                                                                                                            That axis is now swept for control bytes and otherwise untried: what
-                                                                                                            else does a tool silently decline to show?
+                                                                                                              - **"What does the tooling treat as reviewable text, and is that what the
+                                                                                                                source actually is?"** — sweep 54, **ONE FIND**: two guard files carried a
+                                                                                                                raw NUL and were binary to `git diff`, `git grep` and GitHub's PR view,
+                                                                                                                so every change to them was unreviewable. Ratcheted repo-wide by
+                                                                                                                `sourceIsText.test.ts` over `git ls-files` (2,079 files). A review
+                                                                                                                hazard, not a learner bug — and it is the first find in this file that
+                                                                                                                came from the TOOLING half of an agreement rather than the code half.
+                                                                                                                That axis is now swept for control bytes and otherwise untried: what
+                                                                                                                else does a tool silently decline to show?
 
-                                                                                                          - **"Does every committed test actually RUN?"** — sweep 55, the same
-                                                                                                            tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
-                                                                                                            604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
-                                                                                                            `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
-                                                                                                            un-skipping every one showed **24 honest and ZnamGame's reason false** —
-                                                                                                            it blamed the harness's buttons when the real blocker is the drill's own
-                                                                                                            >=75% credit gate. Ratcheted by re-running each skip and requiring it to
-                                                                                                            still fail. Still open on this axis: the 24 honest skips are 24 drills
-                                                                                                            whose completion contract nothing exercises — the ratchet guards the
-                                                                                                            exemption, not the coverage.
+                                                                                                              - **"Does every committed test actually RUN?"** — sweep 55, the same
+                                                                                                                tooling axis, **ONE FIND**. Orphan test files: negative (654 test-shaped,
+                                                                                                                604 collected = the 604 the suite reports, 48 Playwright, 2 deliberate).
+                                                                                                                `.only`: zero anywhere. The 25 skipped tests all carry reasons, and
+                                                                                                                un-skipping every one showed **24 honest and ZnamGame's reason false** —
+                                                                                                                it blamed the harness's buttons when the real blocker is the drill's own
+                                                                                                                >=75% credit gate. Ratcheted by re-running each skip and requiring it to
+                                                                                                                still fail. Still open on this axis: the 24 honest skips are 24 drills
+                                                                                                                whose completion contract nothing exercises — the ratchet guards the
+                                                                                                                exemption, not the coverage.
 
-                                                                                                          - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
-                                                                                                            the split was right. #720 (sweep 56) added the five ledger writers;
-                                                                                                            #721 (sweep 58) fixed the pool-category disagreement. They did not
-                                                                                                            belong in one PR: the first is about what a score EVIDENCES, the second
-                                                                                                            about which slot may SERVE a screen, and conflating those two questions
-                                                                                                            is precisely the error that made me pick the wrong value for
-                                                                                                            `dictation`'s category first. See sweeps 59 and 60.
-                                                                                                          - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
-                                                                                                            #720. Five screens now record at their genuine completion point
-                                                                                                            (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
-                                                                                                            `SpeakingScreen`, `VideoLessonScreen`), and
-                                                                                                            `sessionScreensFeedLedger.test.ts` derives the demand from
-                                                                                                            `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
-                                                                                                            `SpeakingSprintScreen` stays silent with its reason recorded in
-                                                                                                            `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
-                                                                                                            RECOGNITION, and filing it as spoken evidence would have made a learner
-                                                                                                            who never spoke read as a tested speaker.
-                                                                                                          - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
-                                                                                                            sweep 63. All four fixed, and my "three stale rows, all inert" summary
-                                                                                                            was wrong: `shadowing` was LIVE, crediting the listening quest for
-                                                                                                            acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
-                                                                                                            mechanism sweep 57 lacked.
+                                                                                                              - [x] ~~**one PR carrying sweeps 56 + 57 + 58**~~ — SHIPPED AS TWO, and
+                                                                                                                the split was right. #720 (sweep 56) added the five ledger writers;
+                                                                                                                #721 (sweep 58) fixed the pool-category disagreement. They did not
+                                                                                                                belong in one PR: the first is about what a score EVIDENCES, the second
+                                                                                                                about which slot may SERVE a screen, and conflating those two questions
+                                                                                                                is precisely the error that made me pick the wrong value for
+                                                                                                                `dictation`'s category first. See sweeps 59 and 60.
+                                                                                                              - [x] ~~**three speaking screens the ledger cannot see**~~ — CLOSED by
+                                                                                                                #720. Five screens now record at their genuine completion point
+                                                                                                                (`ListeningScreen`, `DictationScreen`, `ShadowingScreen`,
+                                                                                                                `SpeakingScreen`, `VideoLessonScreen`), and
+                                                                                                                `sessionScreensFeedLedger.test.ts` derives the demand from
+                                                                                                                `PRODUCTION_POOL` + the P2.8 input set rather than listing screens.
+                                                                                                                `SpeakingSprintScreen` stays silent with its reason recorded in
+                                                                                                                `NOT_LEDGER_EVIDENCE`, as does `dialogue` — guided dialogue grades
+                                                                                                                RECOGNITION, and filing it as spoken evidence would have made a learner
+                                                                                                                who never spoke read as a tested speaker.
+                                                                                                              - [x] ~~**the stale `exerciseRegistry` rows** (sweep 57)~~ — CLOSED,
+                                                                                                                sweep 63. All four fixed, and my "three stale rows, all inert" summary
+                                                                                                                was wrong: `shadowing` was LIVE, crediting the listening quest for
+                                                                                                                acoustically-scored speaking. `registryMatchesScreen.test.ts` is the
+                                                                                                                mechanism sweep 57 lacked.
 
-                                                                                                          **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
-                                                                                                          were about STATE OF THE CODE. The one that paid was about a fact with two
-                                                                                                          homes; the one that did not was about a control-flow property that the
-                                                                                                          codebase happens to enforce five different ways. The pattern across every
-                                                                                                          productive sweep in this file is the same: **they compare two things the
-                                                                                                          app itself already has to keep in agreement** — a claim against its
-                                                                                                          evidence, a queue against its clearer, a payload against its consumer, a
-                                                                                                          badge against its measurement. Questions that instead ask "is this code
-                                                                                                          correct in isolation" have consistently returned nothing a test suite was
-                                                                                                          not already catching. Pick the next question on that basis: name two
-                                                                                                          things that must agree, and ask what would happen if they stopped.)
+                                                                                                              **WHAT THIS SUGGESTS FOR THE NEXT QUESTION.** Both of today's questions
+                                                                                                              were about STATE OF THE CODE. The one that paid was about a fact with two
+                                                                                                              homes; the one that did not was about a control-flow property that the
+                                                                                                              codebase happens to enforce five different ways. The pattern across every
+                                                                                                              productive sweep in this file is the same: **they compare two things the
+                                                                                                              app itself already has to keep in agreement** — a claim against its
+                                                                                                              evidence, a queue against its clearer, a payload against its consumer, a
+                                                                                                              badge against its measurement. Questions that instead ask "is this code
+                                                                                                              correct in isolation" have consistently returned nothing a test suite was
+                                                                                                              not already catching. Pick the next question on that basis: name two
+                                                                                                              things that must agree, and ask what would happen if they stopped.)
 
 - [x] ~~LOW: `AIConversation` appended the raw `Error.message`~~ — FIXED. Both
       sites (:476/:593) drop the parenthetical and keep `cause` for diagnostics.
