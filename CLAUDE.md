@@ -3744,6 +3744,38 @@ reachable` ("Including it would close the loop on every field"), plus
   a committed one and I checked which was right. **Shape agreement is necessary,
   not sufficient**: units, range and encoding (seconds vs ms, 0–1 vs 0–100) are
   outside both tools.
+- **THIS APP HAS TWO SCORE SCALES, AND A MIS-SCALE READS AS MASTERY** (sweep 113,
+  2026-09-25). `/api/correct` mode `writeeval` scores **0–100**
+  ("Score 0-100 based on grammar accuracy…"); `SPEAKING_RUBRIC_PROMPT` and
+  `SPEAKING_COACH_PROMPT` score **0.0–1.0** ("each 0.0–1.0, where {{level}}
+  competence ≈ 0.8"). So `/ 100` is REQUIRED on the writing path and WRONG on the
+  speaking path, and `MasteryEvent.score` accepts only 0..1. All six boundaries
+  verified correct — three writing sites `/100`, `speakingCoach` clamping an
+  already-0..1 value, `whisperClaudeScorer` via `computeSpeakingOverall`'s
+  `clamp01`, and `WritingTaskScreen` normalising before `SkillScores` reaches the
+  CEFR pass. Pinned by `masteryScoreScale.test.ts`.
+  **My working hypothesis was that the speaking sites had a missing division** —
+  a clamp with no `/100` looks exactly like the bug. Reading the PROMPT settled
+  it; the plausible reading was the wrong one.
+- **THE LEDGER CLAMPS, WHICH IS WHY THE CALL SITE IS THE ONLY PLACE THIS SHOWS.**
+  I first asserted the opposite, reasoning that a clamp there would hide a
+  mis-scale — and reading `recordMasteryEvent` inverted the rationale for the
+  better: `Math.max(0, Math.min(1, ev.score))` folds a raw 0–100 score in as a
+  **perfect 1.0**, so nothing downstream looks broken, the EWMA reports mastery,
+  and `weakestProductionKind` stops offering that skill. The backstop is right;
+  it is also why a check at the ledger could never catch this.
+- **EXCLUDE THE DEFINING MODULE BY SCOPE, NOT BY EXEMPTION.** `masteryLedger.ts`'s
+  three wrappers bound their scores SEMANTICALLY (`score / total` behind
+  `total > 0`; `correct ? 1 : 0`; a forwarded `SkillScores`). A syntactic guard
+  cannot verify a semantic bound, so an exemption would rest on my word — the shape
+  this file keeps finding rotten. The module that defines a contract is not a
+  consumer of it, and the scope is PINNED at exactly three named internal callers
+  so a fourth fails and gets read.
+- **A NAME CENSUS IS NOT A BOUNDARY CENSUS.** Collecting identifiers compared
+  against both a `0<x<1` fraction and a `1<x<=100` literal found three score-ish
+  names, every one a per-file LOCAL with a per-file convention (`pct` is a fraction
+  in `AlphabetScreen`, a percentage in `DialectAwarenessScreen`). Ask whether a
+  value CROSSES a module boundary, not whether a name is used two ways.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
