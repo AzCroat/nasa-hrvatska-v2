@@ -328,3 +328,78 @@ export function emptyClaimSurfaces(root = 'src/components'): EmptyClaimSurface[]
 export function consultsClassifier(file: string): boolean {
   return /\bpoolLaunchBlock\s*\(/.test(strip(readFileSync(file, 'utf8')));
 }
+
+/**
+ * A screen that WRITES (awards, completes, credits a quest) and whose "am I past
+ * the last item" test compares against a CONTENT-DERIVED length: `tyI >=
+ * tyPool.length`. With an empty pool that is `0 >= 0` — true on the first render
+ * — so the terminal branch is the completion branch, and `tyS >= tyPool.length`
+ * beside it reads as a PERFECT score. The only thing standing between an absent
+ * payload and a credited completion of nothing is that the emptiness guard comes
+ * FIRST.
+ *
+ * `TypingScreen` has that ordering and its own comment records the incident that
+ * produced it. Nothing pinned the ORDER, and this codebase has been bitten by
+ * exactly that shape elsewhere — `stopMic` before `stop()`, the Pages secret
+ * before `pages deploy`, the line strip before the block strip. Reported as
+ * `guardLine` vs `terminalLine` so a test can assert the guard is above.
+ */
+export type TerminalWriteSurface = {
+  file: string;
+  terminals: string[];
+  guardLine: number;
+  terminalLine: number;
+};
+
+const CREDIT_WRITE =
+  /\b(?:award|completeExercise|markQuest|recordExerciseOutcome|recordMasteryEvent|markLessonComplete)\s*\(/;
+
+export function terminalWriteSurfaces(root = 'src/components'): TerminalWriteSurface[] {
+  const out: TerminalWriteSurface[] = [];
+  for (const f of walk(root)) {
+    const raw = readFileSync(f, 'utf8');
+    if (!/useContent\s*\(\s*\)/.test(raw)) continue;
+    const src = strip(raw);
+    if (!CREDIT_WRITE.test(src)) continue;
+    const derived = contentDerived(src);
+    if (!derived.size) continue;
+
+    const lineOf = (idx: number) => src.slice(0, idx).split('\n').length;
+    const terminals: string[] = [];
+    let terminalLine = Infinity;
+    for (const d of derived) {
+      const e = escapeRegExp(d);
+      // `i >= X.length`, `i === X.length - 1`, `i > X.length` — an index compared
+      // to a content-derived size, which an empty list satisfies at index 0.
+      const re = new RegExp(
+        `[A-Za-z_$][\\w$.]*\\s*(?:>=|>|===|==)\\s*${e}(?:\\.length|\\.size)\\b`,
+        'g',
+      );
+      for (const m of src.matchAll(re)) {
+        terminals.push(m[0].replace(/\s+/g, ' '));
+        terminalLine = Math.min(terminalLine, lineOf(m.index!));
+      }
+    }
+    if (!terminals.length) continue;
+
+    // the earliest emptiness early-return over content-derived data
+    let guardLine = Infinity;
+    const guardRe = /if\s*\(([^)]{1,200}?)\)\s*\{?\s*return/g;
+    for (const m of src.matchAll(guardRe)) {
+      const cond = m[1]!;
+      const emptiness =
+        /\.length\s*(?:===\s*0|==\s*0|<\s*\d|<=\s*0)|^\s*!\s*[A-Za-z_$][\w$.]*\.length|\bloading\b|!\s*content\b/.test(
+          cond,
+        );
+      if (!emptiness) continue;
+      if (
+        ![...derived].some((d) => new RegExp(`\\b${escapeRegExp(d)}\\b`).test(cond)) &&
+        !/\bloading\b|!\s*content\b/.test(cond)
+      )
+        continue;
+      guardLine = Math.min(guardLine, lineOf(m.index!));
+    }
+    out.push({ file: f, terminals: [...new Set(terminals)], guardLine, terminalLine });
+  }
+  return out;
+}

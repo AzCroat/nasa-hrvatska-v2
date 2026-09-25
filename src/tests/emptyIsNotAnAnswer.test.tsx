@@ -39,6 +39,7 @@ import {
   consultsClassifier,
   numericClaimSurfaces,
   escapeRegExp,
+  terminalWriteSurfaces,
 } from './helpers/emptyClaimSurfaces';
 import { poolLaunchBlock } from '../lib/practiceLaunch';
 
@@ -313,5 +314,51 @@ describe('escapeRegExp makes a derived name match itself and nothing else', () =
     // pairing that would still catch a no-op `escapeRegExp`.
     expect(escapeRegExp('r.timeline')).not.toBe('r.timeline');
     expect(escapeRegExp('a(b')).not.toBe('a(b');
+  });
+});
+
+/**
+ * SWEEP 106 — an absent payload must not CREDIT anything.
+ *
+ * Sweeps 100–102 covered false CLAIMS. A write is worse. A screen whose "past the
+ * last item" test compares an index against a content-derived length — `tyI >=
+ * tyPool.length` — satisfies it at index 0 when the pool is empty, so the terminal
+ * branch IS the completion branch and `tyS >= tyPool.length` beside it reads as a
+ * perfect score. Measured: no screen is actually reachable that way, because in
+ * every case the emptiness guard comes FIRST. That ORDERING is the whole safety
+ * property and nothing pinned it — and this codebase has been bitten by the same
+ * shape elsewhere (`stopMic` before `stop()`, the Pages secret before
+ * `pages deploy`, the line strip before the block strip).
+ */
+describe('an absent payload cannot credit a completion', () => {
+  const surfaces = terminalWriteSurfaces();
+
+  it('the derivation has subjects', () => {
+    expect(surfaces.length).toBeGreaterThan(0);
+    for (const s of surfaces) expect(s.terminals.length).toBeGreaterThan(0);
+  });
+
+  it('every emptiness guard sits ABOVE the terminal comparison it protects', () => {
+    const wrong = surfaces
+      .filter((s) => !(s.guardLine < s.terminalLine))
+      .map(
+        (s) =>
+          `${s.file}: guard at ${s.guardLine === Infinity ? 'NONE' : s.guardLine}, ` +
+          `terminal at ${s.terminalLine} (${s.terminals.join(', ')})`,
+      );
+    expect(
+      wrong,
+      'an empty content-derived list satisfies the terminal test at index 0, so a ' +
+        'guard below it means the completion branch renders — and credits — on nothing',
+    ).toEqual([]);
+  });
+
+  it('TypingScreen is in the derivation — it is the shape this is written about', () => {
+    const hit = surfaces.find((s) => s.file === 'src/components/practice/TypingScreen.tsx');
+    expect(
+      hit,
+      'TypingScreen no longer compares an index to a content-derived length',
+    ).toBeTruthy();
+    expect(hit!.guardLine).toBeLessThan(hit!.terminalLine);
   });
 });

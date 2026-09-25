@@ -3516,6 +3516,16 @@ a failed fetch, because `content` then stays null.
   **Probe the predicate, do not re-read it** — two rounds of reasoning about why
   it passed were both wrong; dumping its real output under the mutation is what
   pointed at the walk.
+- **AN EMPTY CONTENT-DERIVED LIST SATISFIES A TERMINAL TEST AT INDEX 0.**
+  `tyI >= tyPool.length` is `0 >= 0` when the pool is empty, so the "past the last
+  item" branch IS the completion branch — and `tyS >= tyPool.length` beside it
+  reads as a perfect score, with `completeExercise` below. Every such screen is
+  safe today ONLY because its emptiness guard comes first, which nothing pinned:
+  move `TypingScreen`'s guard below its terminal test and an absent payload credits
+  a completion of nothing (NEVER-DO 14). Pinned by `terminalWriteSurfaces` as
+  `guardLine < terminalLine`. **An ordering that only a comment defends is one edit
+  from being wrong** — the same shape as `stopMic` before `stop()`, the Pages
+  secret before `pages deploy`, and the line strip before the block strip.
 - **EVERY INTERPOLATED REGEX IN A GUARD NEEDS A FULL `escapeRegExp`**, and the
   derivations here escaped only `$` at fifteen sites. A name read out of source
   can contain a `.` (the matchers admit one), and a dot matches ANY character —

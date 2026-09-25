@@ -7108,6 +7108,49 @@ an absent payload — an activity that appears in the plan and then opens on les
 than it would have. The structural comparison is blind to that by construction,
 and the screen-side sweeps (100–102) are what cover it.
 
+### Sweep 106 — an absent payload must not CREDIT anything (2026-09-25, NO DEFECTS; one unpinned ORDERING now pinned)
+
+Sweeps 100–102 covered false CLAIMS. **A write is worse than a claim.** The shape:
+a screen whose "am I past the last item" test compares an index against a
+CONTENT-DERIVED length — `tyI >= tyPool.length` — satisfies it at **index 0** when
+the pool is empty. So the terminal branch IS the completion branch, and
+`tyS >= tyPool.length * 0.8 ? '🏆' : '📚'` sitting beside it reads as a **perfect
+score**, with `completeExercise` a few lines below.
+
+**Derived**: every `useContent` consumer that also calls a crediting write
+(`award`, `completeExercise`, `markQuest`, `recordExerciseOutcome`,
+`recordMasteryEvent`, `markLessonComplete`) and compares an index to a
+content-derived `.length`/`.size`. **Six comparisons across four screens.**
+
+**NO DEFECTS: every one is unreachable, because the emptiness guard comes FIRST.**
+`TypingScreen`'s `if (!tyPool.length) return` is at line 153 and the terminal test
+at 171; `ReviewScreen` and `ShadowingScreen` guard above theirs;
+`AdvancedVocabScreen`'s is the empty-state render, not a terminal test.
+
+**BUT THE ORDERING WAS THE WHOLE SAFETY PROPERTY AND NOTHING PINNED IT.** Move
+`TypingScreen`'s guard below its terminal test and an empty pool renders the
+completion branch on the first frame and credits it. `TypingScreen`'s own comment
+records the incident that produced the guard — so the guard is deliberate and its
+POSITION was incidental. **This codebase has been bitten by exactly that shape
+elsewhere**: `stopMic` nulling `onend` before `stop()` (the other order still
+fires), the Pages secret installed before `pages deploy` (after, it reaches
+nothing), the LINE comment strip before the BLOCK strip (sweep 71 lost 15,102
+characters of corpus to the wrong order). An ordering that only comments defend is
+one edit from being wrong.
+
+`terminalWriteSurfaces` reports `guardLine` vs `terminalLine` and the test asserts
+the guard is strictly above. **Mutation-verified, three, each fails 2:** the guard
+moved BELOW the terminal test (the dangerous direction, done by actually relocating
+the block in `TypingScreen`, not by editing the assertion); the derivation
+returning nothing (vacuity); and the guard scan removed so `guardLine` is always
+Infinity.
+
+**WHAT THIS SWEEP CANNOT SEE:** a credit reached through a CALLBACK rather than a
+render branch — an effect that fires `award` on a count that happens to be 0
+without any index comparison. The derivation keys on the index-vs-length
+comparison, which is the shape that makes "index 0 is the end" possible; a
+`useEffect` gated on `total === 0` would be outside it and is not attempted here.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
