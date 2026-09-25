@@ -3493,6 +3493,29 @@ a failed fetch, because `content` then stays null.
   was found by hand); a collection that is non-empty but STALE, which is the
   `scene.qs` class; and the truth of an exemption's reason, which no staleness
   test can check.
+- **A COUNT IS A CLAIM TOO, and sweep 101's derivation could not see one**
+  (2026-09-25): nothing compares anything to zero, the count simply IS zero.
+  `AdvancedVocabScreen` rendered **"0/0 learned" over a 0% bar** — DIRECTLY ABOVE
+  the word list the sweep before had just taught to name its own state — and
+  `ScenePicker` rendered **"0 / 0 words discovered"**. One screen makes several
+  claims and **fixing one does not fix the others.**
+- **A render gated on a content-derived VALUE is guarded by construction.**
+  `LearnTab` computes `overallPct` 0 and `stagePct` **100** on an empty path — two
+  numbers contradicting each other in one sentence — and never renders them,
+  because the card sits inside `{nextItem && (…)}`. The derivation was taught to
+  see that rather than given an exemption; a notice demanded for a line no learner
+  can reach is how a guard earns the reputation that gets it ignored.
+- **WALKING OUTWARD FROM JSX REACHES THE COMPONENT BODY, which is the fixed-window
+  defect in a new form.** The per-render predicate walked four brace levels out to
+  find a number's own gate and thereby reached the component's own braces, which
+  mention every flag declared anywhere in it — so it silently degenerated back
+  into the per-FILE check it was written to replace, and reverting the counter left
+  the suite green. It stops at any span containing a `return (`. **A file-level
+  predicate cannot see a second claim in the same file**, and I wrote that lesson
+  into the fix's comment before making the same mistake in its guard, twice.
+  **Probe the predicate, do not re-read it** — two rounds of reasoning about why
+  it passed were both wrong; dumping its real output under the mutation is what
+  pointed at the walk.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished

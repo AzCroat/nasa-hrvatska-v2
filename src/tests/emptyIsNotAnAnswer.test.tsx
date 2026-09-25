@@ -34,7 +34,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { emptyClaimSurfaces, consultsClassifier } from './helpers/emptyClaimSurfaces';
+import {
+  emptyClaimSurfaces,
+  consultsClassifier,
+  numericClaimSurfaces,
+} from './helpers/emptyClaimSurfaces';
 import { poolLaunchBlock } from '../lib/practiceLaunch';
 
 /**
@@ -193,5 +197,77 @@ describe('Review Due does not congratulate a learner whose cards have not arrive
     expect(poolLaunchBlock(null, false, [])).toBe('unavailable');
     expect(poolLaunchBlock({ V: {} }, false, [])).toBe('empty');
     expect(poolLaunchBlock({ V: {} }, false, [1])).toBeNull();
+  });
+});
+
+/**
+ * SWEEP 102 — a COUNT is a claim too.
+ *
+ * `emptyClaimSurfaces` keys on an emptiness TEST and therefore cannot see this
+ * shape: nothing compares anything to zero, the count simply IS zero.
+ * `AdvancedVocabScreen` rendered **"0/0 learned" over a 0% progress bar** and
+ * `VocabSceneComponents` **"0 / 0 words discovered"** — sweep 99's
+ * `0 / 0 milestones` in two more places. On AdvancedVocab it sat directly ABOVE
+ * the word list sweep 101 had just taught to name its own state, which is the
+ * lesson: **fixing one claim on a screen does not fix the others.**
+ */
+describe('a content-derived COUNT is not rendered before the payload arrives', () => {
+  const surfaces = numericClaimSurfaces();
+
+  it('the derivation has subjects', () => {
+    expect(surfaces.length).toBeGreaterThan(2);
+    for (const s of surfaces) expect(s.rendered.length).toBeGreaterThan(0);
+  });
+
+  it('every screen rendering a content-derived count answers the content question', () => {
+    const unguarded = surfaces
+      .filter((s) => !s.guarded)
+      .map((s) => `${s.file}: renders ${s.rendered.join(', ')}`);
+    expect(
+      unguarded,
+      'these screens put a number derived from content on screen with nothing ' +
+        'standing between them and an unarrived payload — "0 / 0" is a claim, not a count',
+    ).toEqual([]);
+  });
+
+  it('the two screens this sweep fixed are IN the derivation', () => {
+    for (const f of [
+      'src/components/learn/AdvancedVocabScreen.tsx',
+      'src/components/learn/VocabSceneComponents.tsx',
+    ]) {
+      const hit = surfaces.find((s) => s.file === f);
+      expect(hit, `${f} no longer renders a content-derived count`).toBeTruthy();
+      expect(hit!.guarded, `${f} stopped answering the content question`).toBe(true);
+    }
+  });
+});
+
+import { ScenePicker } from '../components/learn/VocabSceneComponents';
+
+describe('the scene overview does not report 0 / 0 words discovered', () => {
+  it('says it is loading instead of reporting a ratio over nothing', () => {
+    state.mockReturnValue({ content: null, loading: true, error: null });
+    render(<ScenePicker onSelect={() => {}} allDiscovered={{}} />);
+    const el = screen.getByTestId('scene-total-progress');
+    expect(el.textContent).not.toMatch(/0\s*\/\s*0/);
+    expect(el.textContent).toMatch(/Loading/i);
+  });
+
+  it('names the failure once the request has finished with no content', () => {
+    state.mockReturnValue({ content: null, loading: false, error: new Error('offline') });
+    render(<ScenePicker onSelect={() => {}} allDiscovered={{}} />);
+    const el = screen.getByTestId('scene-total-progress');
+    expect(el.textContent).not.toMatch(/0\s*\/\s*0/);
+    expect(el.textContent).toMatch(/could not be loaded/i);
+  });
+
+  it('reports the real ratio once the payload is there', () => {
+    state.mockReturnValue({
+      content: { SCENES: [{ id: 's1', items: [{ id: 'a' }, { id: 'b' }] }] },
+      loading: false,
+      error: null,
+    });
+    render(<ScenePicker onSelect={() => {}} allDiscovered={{ s1: new Set(['a']) }} />);
+    expect(screen.getByTestId('scene-total-progress').textContent).toMatch(/1\s*\/\s*2/);
   });
 });

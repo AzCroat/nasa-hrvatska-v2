@@ -88,6 +88,13 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
   }
 
   const pct = totalInCat > 0 ? Math.round((learnedInCat / totalInCat) * 100) : 0;
+  // A COUNT IS A CLAIM TOO. The word list below says which of the three content
+  // states it is in (sweep 101); this counter sat above it still reading
+  // "0/0 learned" over a 0% bar, because V_B2/C1/C2 arrive with the payload and
+  // an absent list has the same length as a finished one. Fixing one claim on a
+  // screen does not fix the others — the bar is a second statement about the
+  // learner's progress and needed its own answer (sweep 102).
+  const countsKnown = poolLaunchBlock(content, contentLoading, categories) === null;
 
   return (
     <div className="scr-wrap">
@@ -216,7 +223,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
               <span
                 style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', fontWeight: 700 }}
               >
-                {learnedInCat}/{totalInCat} learned
+                {countsKnown ? `${learnedInCat}/${totalInCat} learned` : '—'}
               </span>
             </div>
             <div
@@ -230,7 +237,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
               <div
                 style={{
                   height: '100%',
-                  width: `${pct}%`,
+                  width: countsKnown ? `${pct}%` : '0%',
                   background: 'linear-gradient(90deg, #7c3aed, #5b21b6)',
                   borderRadius: 99,
                   transition: 'width .3s ease',

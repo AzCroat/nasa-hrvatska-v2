@@ -6774,6 +6774,87 @@ stale cached payload), which is the `scene.qs` class and belongs to
 both staleness directions, but not for truth — the `idioms` lesson: a plausible
 reason recorded beside an exemption is how a dead end survives a staleness test.
 
+### Sweep 102 — a COUNT is a claim too (2026-09-25, 2 REAL DEFECTS, FIXED)
+
+**THE SHAPE SWEEP 101 LEFT OPEN**, verbatim: _a claim derived from content that
+is not an emptiness test — a count, a percentage, a level or a date rendered from
+a payload that has not arrived._ Sweep 99's `0 / 0 milestones` was that shape and
+was found by hand; this is the mechanism for it.
+
+**TWO REAL DEFECTS**, both invisible to sweep 101's derivation because **nothing
+compares anything to zero — the count simply IS zero**:
+
+1. **`AdvancedVocabScreen` rendered "0/0 learned" over a 0% progress bar.**
+   `V_B2`/`V_C1`/`V_C2` arrive with the payload, so `totalInCat` and
+   `learnedInCat` are both 0 in the window and for ever after a failed fetch.
+   **It sat DIRECTLY ABOVE the word list sweep 101 had just taught to name its own
+   state** — one screen, two claims, and the previous sweep fixed one of them.
+2. **`ScenePicker` (VocabSceneComponents) rendered "0 / 0 words discovered"** in
+   its Total Progress hero — sweep 99's line in a second place.
+
+Both now ask `poolLaunchBlock` and render `—` / a named state instead.
+
+**ONE CHECKED NON-DEFECT, and it is the interesting one.** `LearnTab` computes
+`overallPct` 0 and `stagePct` **100** on an empty path — two numbers that
+contradict each other in one sentence ("0% complete overall · Stage 100% done").
+It never renders: the whole card sits inside `{nextItem && (…)}`, and `nextItem`
+is only ever assigned while walking the path, so an absent payload renders
+nothing. That is guarded BY CONSTRUCTION, and the derivation was taught to see it
+(`insideContentGate`) rather than given an exemption — a notice demanded for a
+line no learner can reach is how a guard earns the false-positive reputation that
+gets it ignored. **Mutation-verified in the dangerous direction**: removing that
+`nextItem` gate fails the guard.
+
+**ONE FALSE POSITIVE, recorded by name.** `LearnPath`'s `li` is a LOOP INDEX
+(`for (let li = 0; …)`, `.map((lv, li) =>`) used as a React key and a subscript.
+The lazy `;\n` in the declaration matcher let a `for`-HEADER swallow the rest of
+the statement and pick up the array it iterates, so an index read as a
+content-derived number.
+
+**MY OWN GUARD WAS DECORATIVE TWICE, AND MUTATION IS THE ONLY REASON NEITHER
+SHIPPED. Both are the same error at different scales, and I had written the
+lesson into the fix's own comment before making it.**
+
+- **Version 1 asked whether the FILE consults the classifier.** AdvancedVocab
+  consults it for the word list (sweep 101), so reverting the counter to "0/0
+  learned" over a 0% bar left the suite **fully green**. "Fixing one claim on a
+  screen does not fix the others" applies to the guard as much as to the screen:
+  a file-level predicate cannot see a second claim in the same file.
+- **Version 2 was per-render and STILL green**, and the cause is the
+  fixed-window defect `registryMatchesScreen` records, in a new form: walking
+  four brace levels outward from a JSX expression **reaches the COMPONENT's own
+  body braces**, which mention every flag declared anywhere in it — so the
+  outward walk silently degenerated back into the per-file check it was written
+  to replace. It now stops at any span containing a `return (`, which is a
+  function body rather than a JSX expression container.
+  **I reasoned about the predicate twice before measuring it, and was wrong both
+  times.** What settled it was dumping the derivation's real output under the
+  mutation — the file reported `guarded: true` with no matching `if`, which is
+  what pointed at the walk. Probe the predicate; do not re-read it.
+
+**Mutation-verified, six, each confirmed landed:** AdvancedVocab fully reverted
+fails 2; ScenePicker reverted fails 2; the content-value gate detector removed
+(LearnTab re-reported) fails 1; the `for`-header exclusion removed (loop index
+re-reported) fails 1; **`LearnTab`'s `nextItem` gate removed — the dangerous
+direction** — fails 1; the per-render predicate reverted to per-file fails 1 with
+the counter reverted.
+
+**ONE MUTATION SURVIVED AND IS REPORTED AS A RESULT, NOT PATCHED AROUND.**
+Reverting ONLY the progress bar (`width: countsKnown ? … : '0%'` → `${pct}%`)
+leaves the suite green. `pct` occurs in exactly two places — its own declaration
+and that CSS width — so the TEXTUAL claim is fully guarded and the bar is
+decoration following a label that now reads `—`. An empty bar beside `—` states
+no number. Widening the walk to reach a style object's grandparent would buy that
+one case at the cost of re-opening the component-body over-reach above, which is
+the trade this sweep just measured.
+
+**WHAT THIS SWEEP CANNOT SEE, stated.** (1) A non-numeric claim that is not an
+emptiness test either — a LEVEL, a DATE, a name rendered from an absent payload.
+The matcher keys on `.length` / `reduce` / `Math.round` / `.size`, so a string
+claim derived from content is outside it. (2) A number whose gate is correct but
+whose VALUE is wrong because the payload is stale — the `scene.qs` class. (3) The
+surviving-mutation case above: a claim expressed only as a style.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

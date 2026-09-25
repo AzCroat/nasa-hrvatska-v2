@@ -59,6 +59,185 @@ function contentDerived(src: string): Set<string> {
 
 export type EmptyClaimSurface = { file: string; conditions: string[] };
 
+/**
+ * Sweep 102: a content-derived NUMBER rendered on a screen that never
+ * early-returns on the content state — so the number is on screen before the
+ * payload arrives, and for ever after a failed fetch.
+ *
+ * `emptyClaimSurfaces` keys on an EMPTINESS TEST, which cannot see this: nothing
+ * compares anything to zero, the count simply IS zero. `AdvancedVocabScreen`
+ * rendered "0/0 learned" over a 0% bar and `VocabSceneComponents` "0 / 0 words
+ * discovered" — sweep 99's `0 / 0 milestones` in two more places, and on
+ * AdvancedVocab it sat directly ABOVE the list sweep 101 had just taught to name
+ * its own state. **Fixing one claim on a screen does not fix the others.**
+ */
+export type NumericClaimSurface = { file: string; guarded: boolean; rendered: string[] };
+
+/**
+ * Is every render of `name` inside a `{<content-derived value> && (…)}` gate?
+ *
+ * That is guarded BY CONSTRUCTION and needs no notice: `LearnTab` computes
+ * `overallPct` 0 and `stagePct` 100 on an empty path — two numbers that
+ * contradict each other — but the whole card sits inside `{nextItem && (…)}`,
+ * and `nextItem` is only ever assigned while walking the path, so an absent
+ * payload renders nothing at all. Without this the derivation would demand a
+ * notice for a line no learner can reach, which is how a guard earns the
+ * false-positive reputation that gets it ignored.
+ */
+/**
+ * The enclosing brace spans around an index, innermost first, up to `levels`.
+ * A number's own gate can sit a level or two out — `{countsKnown ? `${a}/${b}` :
+ * '—'}` puts it one out, a style object two — so a single innermost span is not
+ * enough to see it.
+ */
+function enclosingSpans(src: string, at: number, levels = 4): string[] {
+  const out: string[] = [];
+  let from = at;
+  for (let l = 0; l < levels; l++) {
+    let depth = 0;
+    let open = -1;
+    for (let i = from; i >= 0; i--) {
+      if (src[i] === '}') depth++;
+      else if (src[i] === '{') {
+        if (depth === 0) {
+          open = i;
+          break;
+        }
+        depth--;
+      }
+    }
+    if (open < 0) break;
+    // STOP AT A FUNCTION BODY. Four levels out from JSX reaches the COMPONENT's
+    // own braces, which mention every flag declared anywhere in it — so the walk
+    // silently degenerated into the per-file check it was written to replace, and
+    // reverting the counter left the suite green. A span holding a `return (` is
+    // a function body, not a JSX expression container.
+    {
+      let d2 = 0;
+      let cl = src.length;
+      for (let j = open; j < src.length; j++) {
+        if (src[j] === '{') d2++;
+        else if (src[j] === '}') {
+          d2--;
+          if (d2 === 0) {
+            cl = j;
+            break;
+          }
+        }
+      }
+      if (/\breturn\s*\(/.test(src.slice(open, cl + 1))) break;
+    }
+    let d = 0;
+    let close = src.length;
+    for (let j = open; j < src.length; j++) {
+      if (src[j] === '{') d++;
+      else if (src[j] === '}') {
+        d--;
+        if (d === 0) {
+          close = j;
+          break;
+        }
+      }
+    }
+    out.push(src.slice(open, close + 1));
+    from = open - 1;
+  }
+  return out;
+}
+
+function insideContentGate(src: string, name: string, derived: Set<string>): boolean {
+  const esc = (x: string) => x.replace(/\$/g, '\\$');
+  const uses = [
+    ...src.matchAll(new RegExp(`\\{\\s*${esc(name)}\\s*\\}|\\$\\{\\s*${esc(name)}\\s*\\}`, 'g')),
+  ];
+  if (!uses.length) return false;
+  // every `{<derived> && (` opener and the index its brace closes at
+  const gates: Array<[number, number]> = [];
+  for (const g of src.matchAll(/\{\s*([A-Za-z_$][\w$.]*)\s*&&\s*\(/g)) {
+    const base = g[1]!.split('.')[0]!;
+    if (!derived.has(base)) continue;
+    let depth = 0;
+    let j = g.index!;
+    for (; j < src.length; j++) {
+      if (src[j] === '{') depth++;
+      else if (src[j] === '}') {
+        depth--;
+        if (depth === 0) break;
+      }
+    }
+    gates.push([g.index!, j]);
+  }
+  return uses.every((u) => gates.some(([a, b]) => u.index! > a && u.index! < b));
+}
+
+export function numericClaimSurfaces(root = 'src/components'): NumericClaimSurface[] {
+  const out: NumericClaimSurface[] = [];
+  for (const f of walk(root)) {
+    const raw = readFileSync(f, 'utf8');
+    if (!/useContent\s*\(\s*\)/.test(raw)) continue;
+    const src = strip(raw);
+    const derived = contentDerived(src);
+    if (!derived.size) continue;
+    const mentions = (txt: string, set: Set<string>) =>
+      [...set].some((d) => new RegExp(`\\b${d.replace(/\$/g, '\\$')}\\b`).test(txt));
+    // `for (let li = 0; li < LEARN_PATH.length; li++)` is NOT a content-derived
+    // number: the lazy `;\n` made a for-header swallow the rest of the statement
+    // and pick up the array it iterates, which reported LearnPath's loop index —
+    // used as a React key and a subscript — as a rendered claim.
+    const DECL =
+      /(?<!for\s*\()(?:const|let)\s+([A-Za-z_$][\w$]*)\s*(?::\s*[^=]{0,160})?=\s*([\s\S]{0,500}?);\n/g;
+
+    // A number counted or reduced out of content-derived data.
+    const nums = new Set<string>();
+    for (let i = 0; i < 4; i++)
+      for (const m of src.matchAll(DECL)) {
+        const init = m[2]!;
+        if (!mentions(init, derived) && !mentions(init, nums)) continue;
+        if (/\.length\b|\breduce\(|Math\.(?:round|floor)\s*\(|\.size\b/.test(init)) nums.add(m[1]!);
+      }
+
+    const rendered = [...nums].filter((n) =>
+      new RegExp(
+        `\\{\\s*${n.replace(/\$/g, '\\$')}\\s*\\}|\\$\\{\\s*${n.replace(/\$/g, '\\$')}\\s*\\}`,
+      ).test(src),
+    );
+    if (!rendered.length) continue;
+    // "Guarded" means SOME early return stands between the hook and the render —
+    // whether it names the content state directly or asks the shared classifier.
+    // THE PREDICATE IS PER-RENDER, NOT PER-FILE, and the per-file version was
+    // decorative — mutation caught it. `AdvancedVocabScreen` consults the
+    // classifier for its WORD LIST (sweep 101), so a file-level check reported
+    // the counter directly above it as guarded while it still read
+    // "0/0 learned" over a 0% bar. A screen makes several claims and each needs
+    // its own answer, which is the very lesson this sweep records.
+    const gateFlags = new Set<string>();
+    for (let i = 0; i < 3; i++)
+      for (const m of src.matchAll(DECL))
+        if (/\bpoolLaunchBlock\s*\(/.test(m[2]!) || mentions(m[2]!, gateFlags))
+          gateFlags.add(m[1]!);
+
+    const wholeScreenGuard =
+      /if\s*\([^)]*(?:\bloading\b|!\s*content\b|\berror\b)[^)]*\)\s*(?:\{\s*)?return/.test(src) ||
+      [...gateFlags].some((fl) => new RegExp(`if\\s*\\([^)]*\\b${fl}\\b`).test(src));
+
+    const renderGuarded = (n: string): boolean => {
+      if (wholeScreenGuard) return true;
+      if (insideContentGate(src, n, derived)) return true;
+      const esc = n.replace(/\$/g, '\\$');
+      const uses = [
+        ...src.matchAll(new RegExp(`\\{\\s*${esc}\\s*\\}|\\$\\{\\s*${esc}\\s*\\}`, 'g')),
+      ];
+      return uses.every((u) =>
+        enclosingSpans(src, u.index!).some((span) => mentions(span, gateFlags)),
+      );
+    };
+
+    const guarded = rendered.every(renderGuarded);
+    out.push({ file: f, guarded, rendered });
+  }
+  return out;
+}
+
 /** Every component file whose render or handler branches on content-derived emptiness. */
 export function emptyClaimSurfaces(root = 'src/components'): EmptyClaimSurface[] {
   const out: EmptyClaimSurface[] = [];

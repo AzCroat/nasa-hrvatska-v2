@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { H } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { poolLaunchBlock } from '../../lib/practiceLaunch';
 
 interface SceneItem {
   id: string;
@@ -184,10 +185,15 @@ export function ScenePicker({
   onSelect: (scene: any) => void;
   allDiscovered: Record<string, Set<string>>;
 }) {
-  const { content } = useContent();
+  const { content, loading: contentLoading } = useContent();
   const SCENES = useMemo(() => (content?.SCENES ?? []) as any[], [content]);
   const TOTAL_WORDS = useMemo(() => SCENES.reduce((s, sc) => s + sc.items.length, 0), [SCENES]);
   const totalDiscovered = SCENES.reduce((s, sc) => s + (allDiscovered[sc.id]?.size ?? 0), 0);
+  // "0 / 0 words discovered" is what this said before the payload landed, and for
+  // ever after a failed fetch — sweep 99's "0 / 0 milestones" in a second place.
+  // A ratio over an absent denominator is not a small number, it is a claim the
+  // app cannot make (sweep 102).
+  const totalsKnown = poolLaunchBlock(content, contentLoading, SCENES) === null;
 
   return (
     <div className="scr-wrap">
@@ -223,9 +229,17 @@ export function ScenePicker({
           >
             Total Progress
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800 }}>
-            {totalDiscovered}{' '}
-            <span style={{ fontSize: 14, opacity: 0.7 }}>/ {TOTAL_WORDS} words discovered</span>
+          <div style={{ fontSize: 22, fontWeight: 800 }} data-testid="scene-total-progress">
+            {totalsKnown ? (
+              <>
+                {totalDiscovered}{' '}
+                <span style={{ fontSize: 14, opacity: 0.7 }}>/ {TOTAL_WORDS} words discovered</span>
+              </>
+            ) : (
+              <span style={{ fontSize: 14, opacity: 0.8, fontWeight: 700 }}>
+                {contentLoading ? 'Loading the scenes…' : 'Scenes could not be loaded.'}
+              </span>
+            )}
           </div>
         </div>
         <div style={{ fontSize: 36 }}>🌟</div>
