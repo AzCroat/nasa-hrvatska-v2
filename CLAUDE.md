@@ -88,7 +88,8 @@ functions/
     ├── tts.js                 # Croatian TTS — edge/KV cached, self-metered
     ├── correct.js             # Writing evaluation (the shared rubric)
     ├── contact.js             # Contact form → Resend
-    ├── daily-culture.js       # Daily cultural fact generation
+    ├── daily-culture.js       # Daily cultural fact generation — NO CALLER since
+    │                          # 2026-03-29; see "An Endpoint Nobody Calls"
     └── ...                    # 15+ other API endpoints
 
 public/                        # Static assets, SW, icons
@@ -2845,7 +2846,7 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 3. **Per-user quota** (`_aiQuota.js`): 300 turns/day (doubled with the 2026-08-14 budget raise), sized against the budget, not just abuse.
 4. **Global monthly governor** (`_aiBudget.js`; the `ai_month_spend` schema is `CREATE_LEDGER_SQL` in `_aiBudget.js` itself and SELF-MIGRATES on first use, so nobody runs SQL by hand; there is no migration file for it): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). EVERY non-streaming Claude endpoint RECONCILES after the response (`reconcileSafely` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged; until 2026-09-07 only three did, and the other twenty-one booked ~5x real cost — see "Feedback Must Work Every Time"), so the ledger records real spend and the budget funds ~5-10x more calls than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
 5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts`, `/api/daily-culture`, `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
-6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key); news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
+6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key) — **and nothing in the app has called it since 2026-03-29, so in practice it is zero; the mechanism is described here because it is the pattern a future cached endpoint must follow, not because a learner meets this one (see "An Endpoint Nobody Calls")**; news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
 7. **Prompt version on cached content** (`_promptCache.js`): a cache-served 200 replays text generated hours ago, so it is tagged with the version stored **beside** the body in KV metadata — never the current one, which would attribute old text to a new prompt. The stored VALUE stays byte-identical (that is why metadata, not an envelope), and an entry written before tagging carries no tag and is served **untagged** rather than guessed. Applies to `/api/daily-culture` and `/api/news`; any future cached AI content must do the same.
 8. **Croatian script rule** (`CROATIAN_SCRIPT_RULE` in `_croatianGuard.js`): any endpoint whose Claude output can contain Croatian must state the alphabet — appended to the system prompt at request time, and carried in `alsoVersion` so rewording the rule moves the prompt's version. `latinizeResponseBody` is the net, NOT the fix: it transliterates Cyrillic before a learner sees it, which means a prompt with no script rule fails silently and forever. `/api/explain-error` proved this on 2026-08-21 (caught by the weekly observatory, `explain-error@72630bad`). Coverage is ratcheted by `croatianScriptRule.test.js`; `KNOWN_GAP` there is empty as of 2026-08-25 and can only shrink. One trap: `/api/correct` gets the rule inside `writingEvalSystemPrompt` rather than at its own call site, because `/api/golden-calibration` runs that same builder — appending at the call site would make the drift detector measure a prompt production no longer uses.
 9. **Multi-prompt responses** (`promptListHeaders` / `parsePromptTagList`): a response produced by MORE than one prompt sends every tag, comma-separated. The middleware records one tag as `promptId`/`promptVersion` exactly as before, and two or more as `prompts: [...]` — never one of them as _the_ prompt, which would attribute the whole response to a prompt that produced part of it. `/api/golden-calibration` is the case (both evaluators, one dispatch); it derives the list from the rows it actually produced, so a trimmed golden set cannot make it claim a prompt that never ran. The observatory groups such records under the joined tags, not under `(uninstrumented)`.
@@ -3162,6 +3163,65 @@ whole `home/` hero cluster.
   narrower question than its name); let a module join the test-only set without a
   reason; delete a test to make a module look unreachable; assume a guard that
   renders a component proves anyone can see it.
+
+## Critical Architecture: An Endpoint Nobody Calls (2026-09-25)
+
+Third rung of one ladder: sweep 128 found a **prop** nobody passes, sweep 129
+**modules** nobody reaches, and this is the layer out from both — a metered,
+authenticated, prompt-registered, budget-charged AI **endpoint** with no caller in
+the product. Measured across the 30 entries of `ENDPOINT_CEILING_MICROUSD` (the
+canonical AI-endpoint list), **three of thirty**:
+
+| endpoint                 | lost its caller                                                         |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `/api/daily-culture`     | `4afa7673`, 2026-03-29 — "Remove Croatia Today postcard from Home page" |
+| `/api/daily-plan`        | #682 deleted its only caller, the home DailyPlanCard                    |
+| `/api/adaptive-insights` | #682 deleted its only caller, the profile AdaptiveInsightsCard          |
+
+- **THE LAST TWO WERE STRANDED BY A CORRECT ACTION.** #682 deleted 31 modules
+  nothing could reach — right, and pinned by `noUnreachableModules` ever since —
+  and nothing anywhere asked whether a deleted client was the LAST CALLER of a
+  live server endpoint. The failure mode is not carelessness: removing dead
+  client code is the right move whose side effect had no observer. Each survivor
+  still authenticates, still charges the $10/month ledger on its generate path,
+  still carries a prompt id and the Croatian script rule, and is still covered by
+  four test suites — with no product behind it.
+- **All three are SUPERSEDED, not missing**, which is why they are recorded rather
+  than re-wired: the daily plan is what `buildSessionActivities` composes
+  deterministically (and cannot fail to generate), the insights are what the
+  mastery ledger, the concept map and InsightsTab present from MEASURED data
+  instead of asking a model to characterise the learner, and the culture fact is
+  what the P4 slot, `CULTURE_DEEP_DIVES` and City of the Day serve. Deleting them
+  is a decision about a working endpoint, queued in `AUDIT-STATE.md`.
+- **A MENTION IS NOT A CALL.** All three are named in `_aiBudget.js`'s ceiling
+  table and two in `_requireAuth.js` / `_promptCache.js` doc comments. A first
+  census read those as "server callers" and reported zero stranded endpoints.
+  Comments are stripped, the endpoint's own handler is excluded, and the four
+  files that legitimately name every endpoint are excluded by name.
+- **A CALLER THAT IS ITSELF UNREACHABLE IS NOT A CALLER**, and this is what made
+  the two sweeps compose. `/api/translate` is called from `hooks/useTranslator.ts`,
+  which sweep 129 established is reachable only from its own tests; it stays
+  healthy only because `AIConversation` calls it too. Without the reachability
+  filter this guard credits a dead module, and the day the live caller changed it
+  would report a stranded endpoint as healthy. Same shape as "a conduit is not a
+  producer" (sweep 111) and "a clear is not a producer" (sweep 117). The import
+  graph moved to `src/tests/helpers/moduleGraph.ts` so both guards share one walk.
+- **"BY DESIGN" IS ASSERTED, NOT TAKEN ON THE REASON'S WORD.** Two endpoints have
+  no client caller legitimately — `/api/golden-calibration` and
+  `/api/stt-calibration` are dispatch-only behind the CRON/CALIBRATION secret — so
+  the guard requires a workflow to actually dispatch them, and requires the
+  stranded three to be dispatched by nothing. A reason that cannot be checked is
+  the `idioms` exemption again.
+- Mutation-verified, five, each failing 1 test: an entry dropped; the reachability
+  filter removed; the helper's `appReachable()` re-seeded with the tests; the
+  ceiling-table exclusion removed (the table becomes a caller); and the
+  query-string lookahead removed, which names `/api/news` — called only as
+  `` `/api/news?level=${level}` ``, the exact shape sweep 123 had to fix.
+- NEVER: delete a client module without asking what it was the last caller OF;
+  read a path's appearance in the ceiling table or a doc comment as traffic; count
+  a caller without checking the caller itself is reachable; record an endpoint as
+  "dispatched by CI" without a workflow that dispatches it; leave a metered
+  endpoint callable with no product behind it and no record of why.
 
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 

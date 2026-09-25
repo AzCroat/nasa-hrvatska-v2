@@ -29,12 +29,23 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import ts from 'typescript';
-import { execFileSync } from 'node:child_process';
 import { describe, it, expect } from 'vitest';
+import {
+  ROOT,
+  ENTRIES,
+  isTest,
+  isSubject,
+  edgesOf,
+  srcFiles,
+  dependencyGraph,
+  reachableFrom,
+} from './helpers/moduleGraph';
 
-const ROOT = path.join(__dirname, '..', '..');
-const ENTRIES = ['src/main.tsx', 'src/sw.js'];
+// The graph itself lives in `helpers/moduleGraph` as of sweep 130, because
+// `meteredEndpointsHaveCallers` needs the same walk — a caller that is itself
+// unreachable is not a caller. `edgesOf` is re-exported so importers of this
+// file by name keep working.
+export { edgesOf } from './helpers/moduleGraph';
 
 /**
  * Unreachable on purpose. Each entry states WHY, and both staleness directions
@@ -53,96 +64,6 @@ const KNOWN_UNREACHABLE: Record<string, string> = {
     'tsc resolves to storage.ts. They differ only by `as const` today, so ' +
     'nothing diverges — but which file to keep is a deliberate decision.',
 };
-
-const EXTS = ['.ts', '.tsx', '.js', '.jsx'];
-const isTest = (f: string) =>
-  f.includes('/tests/') || f.includes('__tests__') || /\.test\.[jt]sx?$/.test(f);
-
-function resolveSpec(fromFile: string, spec: string): string | null {
-  if (!spec.startsWith('.')) return null; // package import
-  const base = path.normalize(path.join(path.dirname(fromFile), spec));
-  const stems = [base];
-  const m = base.match(/^(.*)\.(js|jsx)$/);
-  if (m) stems.push(m[1]!); // TS bundler resolution: ".js" may mean ".ts"
-  for (const s of stems) {
-    for (const e of ['', ...EXTS]) {
-      const p = s + e;
-      if (fs.existsSync(p) && fs.statSync(p).isFile()) return p;
-    }
-    for (const e of EXTS) {
-      const p = path.join(s, 'index' + e);
-      if (fs.existsSync(p)) return p;
-    }
-  }
-  return null;
-}
-
-/** Every module specifier `file` depends on — imports, re-exports, dynamic. */
-export function edgesOf(file: string, text: string): string[] {
-  const kind = file.endsWith('.tsx')
-    ? ts.ScriptKind.TSX
-    : file.endsWith('.ts')
-      ? ts.ScriptKind.TS
-      : ts.ScriptKind.JSX;
-  const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, kind);
-  const out = new Set<string>();
-  const add = (spec: string) => {
-    const r = resolveSpec(file, spec);
-    if (r) out.add(r);
-  };
-  const visit = (n: ts.Node): void => {
-    if (ts.isImportDeclaration(n) && ts.isStringLiteral(n.moduleSpecifier))
-      add(n.moduleSpecifier.text);
-    else if (
-      ts.isExportDeclaration(n) &&
-      n.moduleSpecifier &&
-      ts.isStringLiteral(n.moduleSpecifier)
-    )
-      add(n.moduleSpecifier.text); // the edge madge misses
-    else if (ts.isCallExpression(n)) {
-      const dynamic = n.expression.kind === ts.SyntaxKind.ImportKeyword;
-      const req = ts.isIdentifier(n.expression) && n.expression.text === 'require';
-      const arg = n.arguments[0];
-      if ((dynamic || req) && arg && ts.isStringLiteral(arg)) add(arg.text);
-    }
-    ts.forEachChild(n, visit);
-  };
-  visit(sf);
-  return [...out];
-}
-
-function srcFiles(): string[] {
-  return execFileSync(
-    'bash',
-    [
-      '-c',
-      "find src -type f \\( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' \\)",
-    ],
-    { cwd: ROOT, encoding: 'utf8' },
-  )
-    .trim()
-    .split('\n');
-}
-
-function dependencyGraph(files: string[]): Map<string, string[]> {
-  const deps = new Map<string, string[]>();
-  for (const f of files) deps.set(f, edgesOf(f, fs.readFileSync(path.join(ROOT, f), 'utf8')));
-  return deps;
-}
-
-function reachableFrom(deps: Map<string, string[]>, seeds: string[]): Set<string> {
-  const seen = new Set<string>();
-  const queue = [...seeds];
-  while (queue.length) {
-    const f = queue.pop()!;
-    if (seen.has(f)) continue;
-    seen.add(f);
-    for (const d of deps.get(f) ?? []) if (!seen.has(d)) queue.push(d);
-  }
-  return seen;
-}
-
-const isSubject = (f: string) => !isTest(f) && !/\.d\.ts$/.test(f);
 
 function unreachableModules(): { files: string[]; dead: string[]; reachable: number } {
   const files = srcFiles();
