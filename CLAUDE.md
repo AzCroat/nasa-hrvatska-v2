@@ -438,8 +438,8 @@ played, which `useHeardGate` reads as heard. That is "never score an assessment
 item whose audio the learner has not heard", reached through the fallback.
 
 **The ratchet could not have caught any of it.** `aiSurfaceClassifies.test.ts`
-matched `ttsFetch\s*\(\s*['"`]/api/tts` and every call site passes an OBJECT,
-so that branch fired nowhere and two `ttsFetch`-only files were invisible to
+matched `ttsFetch\s*\(\s*['"`]/api/tts`and every call site passes an OBJECT,
+so that branch fired nowhere and two`ttsFetch`-only files were invisible to
 the suite. `ENDPOINT_HELPERS` now maps a helper to the route it fixes in its
 own source. Mutation-verified: a fully nameless sprint screen passes the old
 matcher and fails the new one.
@@ -1716,6 +1716,7 @@ fillTarget`, so it DISPLACES a fill slot and can never add one. Stands down
   the input set without a ledger write or an exemption stating why it has no
   honest score; let a reachability walk follow `lib/` imports (a shared library
   that records internally makes every importer look wired).
+
 - **KIND alternates by what was served less recently** (`nh_session_served`, now
   read from `src/lib/sessionServed.ts` by both the discovery slot and this one),
   unless the mastery ledger has measured a weaker receptive skill
@@ -2417,15 +2418,15 @@ case ending.
 - Mutation-verified, four, each confirmed landed: the stage removed fails 5; one
   case named instead of every reading fails 1; a focus whose form is absent from
   its own answer fails 2; the self-correction fast path removed fails 1.
-**THE SPOKEN FLOOR NOW BUILDS UP TOO, and it was flat before (2026-09-23).**
-`minWords` was one value per level — 15 at A1 across all eight units — so a
-learner's FIRST ever spoken task was the same size as their last. It is now a
-ladder within each level (A1 8→15, A2 10→15, B1 12→20, B2 14→20, C1 20→30,
-C2 22→30). **No level's ceiling was raised**; only the early units got smaller,
-so this can only make the path gentler. Laddering by index is meaningful because
-`pickSpeakingUnit` rotates SEQUENTIALLY — a stored pointer from 0 — so unit 0
-really is the learner's first at that level; a random rotation would have made
-the ladder decorative, and that was checked before editing.
+  **THE SPOKEN FLOOR NOW BUILDS UP TOO, and it was flat before (2026-09-23).**
+  `minWords` was one value per level — 15 at A1 across all eight units — so a
+  learner's FIRST ever spoken task was the same size as their last. It is now a
+  ladder within each level (A1 8→15, A2 10→15, B1 12→20, B2 14→20, C1 20→30,
+  C2 22→30). **No level's ceiling was raised**; only the early units got smaller,
+  so this can only make the path gentler. Laddering by index is meaningful because
+  `pickSpeakingUnit` rotates SEQUENTIALLY — a stored pointer from 0 — so unit 0
+  really is the learner's first at that level; a random rotation would have made
+  the ladder decorative, and that was checked before editing.
 
 **THE FLOOR IS WRITTEN THREE TIMES PER UNIT** — `minWords`, the `len` checklist
 item's own `minWords`, and the NUMBER inside that item's LABEL TEXT ("Speak at
@@ -2436,12 +2437,13 @@ fails 1 and restoring flat floors fails 2.
 
 **A2 AND B1 ARE AUTHORED TOO (2026-09-23): 24 units, 72 sentences.** Each drills
 one government a learner actually gets wrong — `hvala na` + locative, `sjećati se`
-+ genitive, `bojati se` + genitive, `nema` + genitive, the quantity genitive after
-five, `do`/`kod`/`zbog`/`protiv`/`blizu`/`između` + genitive, `s` + instrumental —
-and the pairs are deliberate: `u školi` (where you are) against `u školu` (movement
-into), `Želim kavu` against `Koliko košta kava`. B2–C2 still inherit the old ladder,
-and the coverage guard asserts BOTH halves so "authored" cannot quietly shrink and
-the degrade path stays real until it is filled.
+
+- genitive, `bojati se` + genitive, `nema` + genitive, the quantity genitive after
+  five, `do`/`kod`/`zbog`/`protiv`/`blizu`/`između` + genitive, `s` + instrumental —
+  and the pairs are deliberate: `u školi` (where you are) against `u školu` (movement
+  into), `Želim kavu` against `Koliko košta kava`. B2–C2 still inherit the old ladder,
+  and the coverage guard asserts BOTH halves so "authored" cannot quietly shrink and
+  the degrade path stays real until it is filled.
 
 **THE LADDER IS COMPLETE (2026-09-23): all 48 units, 144 sentences, A1–C2.**
 The upper levels drill the governments a learner still gets wrong at B2+ —
@@ -2903,9 +2905,9 @@ an inert copy waiting for the screen to migrate onto `completeExercise`.
 
 ## Critical Architecture: The News Sources Are An Editorial Decision (owner directive, 2026-09-24)
 
-Owner: *"news is coming from Index.hr, they are a communist propaganda news
+Owner: _"news is coming from Index.hr, they are a communist propaganda news
 organization and I want a real news source that loves Croatia... why are we not
-using Dnevnik?"* — answer: nobody ever chose. The three feeds in
+using Dnevnik?"_ — answer: nobody ever chose. The three feeds in
 `functions/api/news.js` were hardcoded when the endpoint was written and nothing
 revisited them. `RSS_FEEDS` is now **Dnevnik.hr, 24sata.hr, Zadarski list,
 Večernji list**; Index.hr is out, of the feed list, the media catalogue and the
@@ -2951,13 +2953,13 @@ reading-practice prompt on `CivicScreen`.
 
 ## Critical Architecture: A Recognizer Ending Is Not A Learner Finishing (owner report, 2026-09-24)
 
-Owner, on Baka Mara: *"wasn't always reading properly or picking up my full
-sentences."* A Web Speech session ends for two quite different reasons and
+Owner, on Baka Mara: _"wasn't always reading properly or picking up my full
+sentences."_ A Web Speech session ends for two quite different reasons and
 `MajaScreen`'s `onend` treated them as one:
 
-| why it ended | what it means |
-| ------------ | ------------- |
-| our silence timer called `stop()` | the utterance looked finished (`computeSilenceDelay` decided). Send. |
+| why it ended                       | what it means                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------------- |
+| our silence timer called `stop()`  | the utterance looked finished (`computeSilenceDelay` decided). Send.              |
 | the speech service ended it itself | a long pause, a service timeout, a network blip. **The learner is mid-sentence.** |
 
 The handler was `if (listening && transcript.length > 1) { send }`, which
@@ -3118,10 +3120,10 @@ control could at least be reached.
 This app has exactly two keyboard focus indicators, both in `src/index.css`, and
 an inline style beats both of them silently:
 
-| indicator                   | who gets it                                                           |
-| --------------------------- | --------------------------------------------------------------------- |
-| `:focus-visible` outline    | everything — except a text field, where the base `input[type=…]` rule's `outline:none` outranks it |
-| `input:focus,textarea:focus` | a text field: `border-color` **plus** a 4px `box-shadow` ring — the whole indicator it has |
+| indicator                    | who gets it                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- |
+| `:focus-visible` outline     | everything — except a text field, where the base `input[type=…]` rule's `outline:none` outranks it |
+| `input:focus,textarea:focus` | a text field: `border-color` **plus** a 4px `box-shadow` ring — the whole indicator it has         |
 
 - **`outline` IS THE FOCUS RING, so it is not available for decoration.** Six
   controls used it for a SELECTED state — `HeritageModeScreen`'s section tabs,
@@ -3181,7 +3183,7 @@ the later one before the learner ever reaches it.
   XP had a LEVEL-3 tile done), `history` (lp31@L5 → lp61@L6) and `pitchaccent`
   (lp50@L6 → lp70@L7).
 - **lp70 was a second, distinct shape**: its leaf read `vsIncludes:
-  'pitchaccent'`, copied from lp50 with the counter updated and the key not, so
+'pitchaccent'`, copied from lp50 with the counter updated and the key not, so
   the PITCH ACCENT drill ticked "Tongue Twisters: Expert" while doing the tongue
   twisters (which write `brzalice`) never did. One item of 97 whose key was not
   its own destination.
@@ -3272,7 +3274,7 @@ SOME_STATIC_DATASET)` — a real but far weaker concern that would drown the
   making the quiz unplayable after question 1 fails 13 of 29 with a named
   message, where before it would have left the four new assertions green.
 - NEVER: put a test's only assertions inside a condition the test does not
-  establish; assert a mock was called *inside* `if (mock.mock.calls.length >
+  establish; assert a mock was called _inside_ `if (mock.mock.calls.length >
 0)`; loop over `mock.mock.calls` without a floor on its length; write a
   tautological guard (`if (body.includes('earn')) expect(body).toMatch(/earn/)`
   cannot fail); leave an E2E locator in a visibility guard when the screen is
@@ -3291,13 +3293,13 @@ surface did in that window, measured against the CI-equivalent build (content
 landed at 9.2 s, because `fetchAuthed` awaits `getFirebaseBearer()` and that has
 a 6 s failsafe when no Firebase user arrives):
 
-| tap | before |
-| --- | ------ |
-| Grad → Govori | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;` |
-| Grad → Kviz | **nothing at all** — `launchMcGame` the same |
+| tap                          | before                                                                                                                                                                 |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Grad → Govori                | **nothing at all** — `launchSpeaking` opens `if (!items \|\| items.length === 0) return;`                                                                              |
+| Grad → Kviz                  | **nothing at all** — `launchMcGame` the same                                                                                                                           |
 | Grad → Kartice, Spoji parove | the ScreenGuard, whose words are "this needs to be started from the Practice tab" — said to a learner standing on the Practice tab, about a session that never existed |
-| Me → Goal Focus → Speaking | **nothing at all**; its `speaking_sprint` fallback had been removed and nothing replaced the else |
-| Grad → Slušanje | worked — its bank is a static import, not content |
+| Me → Goal Focus → Speaking   | **nothing at all**; its `speaking_sprint` fallback had been removed and nothing replaced the else                                                                      |
+| Grad → Slušanje              | worked — its bank is a static import, not content                                                                                                                      |
 
 - **THE ANSWER ALREADY EXISTED AT ONE CALLER.** `LearningCenter.openScreen`
   carries the rule: **"NOT LOADED YET" and "EMPTY" are different facts**, and
@@ -3349,10 +3351,10 @@ screen, and the screen has nothing on it. Measured across all 48 `useContent`
 consumers, reading what each early return actually renders — **20 say both
 states, five said neither.**
 
-| screen | before |
-| ------ | ------ |
+| screen                                                                    | before                                                                                                                                                                       |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `BodyDescScreen`, `ClothesScreen`, `CountriesScreen`, `ProfessionsScreen` | `<WRAP><BACK_BTN/></WRAP>` from BOTH the `error` and the `loading \|\| !content` branch — **byte-identical**, so the two causes were indistinguishable and neither was named |
-| `WeatherScreen` | the same, and it never destructured `error` at all: a failed fetch leaves `content` null, so that page was blank **for ever** |
+| `WeatherScreen`                                                           | the same, and it never destructured `error` at all: a failed fetch leaves `content` null, so that page was blank **for ever**                                                |
 
 All five are routed (`weather`, `clothes`, `countries`, `professions`,
 `bodydesc`), reachable from the Learn Path and from search, and the payload lands
@@ -3451,12 +3453,12 @@ A content-derived collection is empty for two quite different reasons, and every
 own deck**, and each said it for the whole pre-content window AND for ever after
 a failed fetch, because `content` then stays null.
 
-| surface | what it said |
-| ------- | ------------ |
-| `ReviewScreen` | a green tick and **"All caught up! No reviews due right now."** — on the highest-volume daily action, to a learner whose Home pill had just said words were due |
-| `SpeedChallenge` | **"Complete a few vocabulary lessons first to unlock Speed Challenge!"** — on HOME, the first screen |
-| `AdvancedVocabScreen` | **"No words match your search."** — a search that ran against nothing |
-| `WordSprint` | **nothing at all**: "Start Sprint ⚡" was `if (pool.length < 4) return;` |
+| surface               | what it said                                                                                                                                                    |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ReviewScreen`        | a green tick and **"All caught up! No reviews due right now."** — on the highest-volume daily action, to a learner whose Home pill had just said words were due |
+| `SpeedChallenge`      | **"Complete a few vocabulary lessons first to unlock Speed Challenge!"** — on HOME, the first screen                                                            |
+| `AdvancedVocabScreen` | **"No words match your search."** — a search that ran against nothing                                                                                           |
+| `WordSprint`          | **nothing at all**: "Start Sprint ⚡" was `if (pool.length < 4) return;`                                                                                        |
 
 - **THE PILL AND THE SCREEN READ THE SAME DERIVATION, WHICH IS WHY REVIEW IS THE
   WORST OF THE FOUR.** `dueWords` comes from `vocabPool(content, level)` and
@@ -3526,23 +3528,6 @@ a failed fetch, because `content` then stays null.
   `guardLine < terminalLine`. **An ordering that only a comment defends is one edit
   from being wrong** — the same shape as `stopMic` before `stop()`, the Pages
   secret before `pages deploy`, and the line strip before the block strip.
-- **EVERY INTERPOLATED REGEX IN A GUARD NEEDS A FULL `escapeRegExp`**, and the
-  derivations here escaped only `$` at fifteen sites. A name read out of source
-  can contain a `.` (the matchers admit one), and a dot matches ANY character —
-  so `r.timeline` built a pattern matching `rXtimeline`: a silent mis-match inside
-  the tools written to find silent mis-matches. A `(` or `[` would have thrown at
-  match time instead. CodeQL calls it `js/incomplete-sanitization`, "does not
-  escape backslash characters"; the correctness bug is the reason to fix it, and
-  the new tests assert the old `$`-only escaping FAILS so the fix cannot be
-  quietly undone.
-- **"I CANNOT READ IT WITH THE TOOLS I REACHED FOR" IS NOT "IT IS UNREADABLE."**
-  A red CodeQL check's summary carries a count and no `output.text`, and I spent
-  two rounds reasoning from the repo's dismissal history about which alerts it
-  meant — while `github-advanced-security[bot]` had already posted all seven as
-  inline review comments naming file and line. **Read the PR's review comments
-  before calling a CI failure opaque.** A plausible prior is not a measurement,
-  and the alert-count delta across a single commit (2 → 7) was the diagnostic that
-  finally pointed at the right file.
 - **EVERY INTERPOLATED REGEX IN A GUARD NEEDS A FULL `escapeRegExp`**, and these
   derivations escaped only `$` at fifteen sites. A name read out of source can
   contain a `.` (the matchers admit one), and a dot matches ANY character — so
@@ -3574,12 +3559,71 @@ a failed fetch, because `content` then stays null.
   check that caught it every time: name a member you already know about and
   confirm the tool reports it.** A derivation that misses a known member is an
   unfinished tool, not a negative result.
+- **A CREDIT REACHED THROUGH AN EFFECT IS THE OTHER HALF OF THAT, and sweep 106
+  said exactly where to look** (2026-09-25). `SceneExplorer`'s completion effect is
+  `discCount >= total` where `total = scene.items.length`, so `0 >= 0` fired it **on
+  mount**: 15 XP, confetti and "Scene complete!" for a learner who had discovered
+  nothing (NEVER-DO 14). Census: 23 credit-writing effects, twelve of them writing
+  only `signalSessionCompleteIfActive` (the ANTI-STRAND signal, correct on an empty
+  path), two gating on a length comparison — one guarded, one not. Pinned by
+  `zeroSatisfiableCredits`, deliberately NOT scoped to `useContent` consumers,
+  because a total reaches zero for reasons that have nothing to do with a payload
+  and the question "does this `>=` also require the total to be positive" must not
+  depend on who supplies the data.
+- **ONE FEATURE HAD TWO DATASETS, AND THE FIX IS TO MAKE THE DRIFT
+  UNREPRESENTABLE.** `ScenePicker` read `content.SCENES` while its own PARENT
+  (`VocabScenes`, which receives the selected scene back and walks the list again in
+  `handleNextScene`) read the byte-identical STATIC copy — with nothing enforcing
+  that they agreed, the `wrangler.toml` "Shared with scheduled worker above" shape
+  again. Drift would have sent "Next scene" to local scene 0 (`findIndex` → -1 →
+  `SCENES[0]`) and shown 0 discovered for ever on a server-only scene. **One cost
+  was already live**: that picker was the app's ONLY reader of the payload key, so
+  the feature waited on a fetch for data in the bundle regardless — `SceneExplorer`
+  imports the same module's localStorage helpers, so it can never be tree-shaken —
+  and said "Scenes could not be loaded." **permanently** after a failed one. Cause:
+  a half-finished migration (`a482581f`) that moved one of three files onto
+  `useContent`. Reading the static export collapses it; moving the other two ONTO
+  the payload would also collapse it and would make an offline-capable game
+  network-dependent for 8 KB, in a PWA. **The server side stays** — the key still
+  has five other consumers.
+- **REMOVING THE QUESTION BEATS ANSWERING IT, and then the answer must be
+  DELETED.** Sweep 102 taught that picker to say "Loading the scenes…"; sweep 107
+  took it off the payload, so a count that cannot be about an unarrived payload
+  needs no notice — and the notice branch is removed rather than left unreachable,
+  with a test asserting the file's ABSENCE from `numericClaimSurfaces` and why, so
+  its departure cannot read as a regression.
+- **A LOOSE PREDICATE IN A NEW GUARD HID THE ORIGINAL BUG FROM EVERY ASSERTION
+  WRITTEN TO CATCH IT.** Forcing the positivity matcher to always return a value
+  AND restoring the defect left both subject tests green; only the positive control
+  failed. **Assert what a derivation SAID, not that it said something** — the
+  subject test now pins the literal `total > 0`. Two sibling findings from the same
+  mutation run: a clause that SURVIVES its mutation because no real subject
+  exercises it is decoration until a synthetic positive control exercises it (the
+  `.size` total); and **a root the walk cannot read is not a root** — `walk()`
+  yields `.tsx` only, so defaulting to `['src/components', 'src/hooks']` claimed
+  coverage of `.ts` hooks it never opened.
+- **MY OWN COMMENT BROKE A SOURCE PIN, in the false-FAILURE direction.** The "no
+  file under `learn/` reads `content.SCENES`" pin failed on the comment explaining
+  that the picker _used to_ read it. Every prior instance in this file ran the other
+  way — prose SATISFYING a matcher (`speakingCoach.ts`'s header, `LoadingState`'s
+  docstring). Both are one defect: **a guard that reads prose is not reading code.**
+  Strip comments in both directions.
+- **THIS FILE ITSELF CARRIED THE SAME TWO BULLETS TWICE** (removed 2026-09-25),
+  appended across two commits an hour apart with slightly different wording. A
+  duplicated lesson decays exactly like a duplicated constant: a reader cannot tell
+  which copy is current, and the superseded one keeps making its weaker claim.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
   without content; tell a learner to go and learn more words when the app has not
   yet seen the words they have; build a second classifier for this — ask
-  `poolLaunchBlock`; close a content-derivation over declarations only.
+  `poolLaunchBlock`; close a content-derivation over declarations only; **credit a
+  completion from an effect gated on `>=` a total without also requiring that total
+  to be positive** (`0 >= 0` is true); **read one feature's dataset from two
+  sources** — collapse it so the drift cannot be expressed, and never leave a
+  now-unreachable notice branch behind the collapse; leave a derivation clause that
+  survives its own mutation without a positive control exercising it; name a root a
+  walk cannot read.
 
 ---
 

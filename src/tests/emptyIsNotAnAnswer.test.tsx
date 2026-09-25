@@ -40,8 +40,12 @@ import {
   numericClaimSurfaces,
   escapeRegExp,
   terminalWriteSurfaces,
+  zeroSatisfiableCredits,
 } from './helpers/emptyClaimSurfaces';
 import { poolLaunchBlock } from '../lib/practiceLaunch';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
 
 /**
  * The ratchet. Any surface that branches on content-derived emptiness must ask
@@ -232,45 +236,168 @@ describe('a content-derived COUNT is not rendered before the payload arrives', (
     ).toEqual([]);
   });
 
-  it('the two screens this sweep fixed are IN the derivation', () => {
-    for (const f of [
-      'src/components/learn/AdvancedVocabScreen.tsx',
-      'src/components/learn/VocabSceneComponents.tsx',
-    ]) {
-      const hit = surfaces.find((s) => s.file === f);
-      expect(hit, `${f} no longer renders a content-derived count`).toBeTruthy();
-      expect(hit!.guarded, `${f} stopped answering the content question`).toBe(true);
-    }
+  it('the screen this sweep fixed is IN the derivation', () => {
+    const f = 'src/components/learn/AdvancedVocabScreen.tsx';
+    const hit = surfaces.find((s) => s.file === f);
+    expect(hit, `${f} no longer renders a content-derived count`).toBeTruthy();
+    expect(hit!.guarded, `${f} stopped answering the content question`).toBe(true);
+  });
+
+  it('VocabSceneComponents left the derivation ENTIRELY — sweep 107 removed the question', () => {
+    // Sweep 102 taught it to name the state; sweep 107 took it off the payload,
+    // so there is no unarrived content for its count to be a claim about. That is
+    // why it is absent here and not merely `guarded: true`.
+    expect(surfaces.find((s) => s.file === 'src/components/learn/VocabSceneComponents.tsx')).toBe(
+      undefined,
+    );
   });
 });
 
 import { ScenePicker } from '../components/learn/VocabSceneComponents';
+import {
+  SCENES as STATIC_SCENES,
+  TOTAL_WORDS as STATIC_TOTAL_WORDS,
+} from '../components/learn/VocabSceneData.js';
 
-describe('the scene overview does not report 0 / 0 words discovered', () => {
-  it('says it is loading instead of reporting a ratio over nothing', () => {
+/**
+ * SWEEP 107 supersedes sweep 102's fix here, and the stronger answer is to remove
+ * the question. The picker read `content.SCENES` while its own PARENT
+ * (`VocabScenes`) read the byte-identical STATIC copy — so one feature had two
+ * datasets, nothing enforced that they agreed, the picker was the app's only
+ * reader of that payload key, and the screen waited on a fetch for data already
+ * in the bundle (and died permanently on a failed one). A count that does not
+ * depend on a payload cannot be a claim about an unarrived payload.
+ */
+describe('the scene overview reports a real ratio with no payload at all', () => {
+  it('lists the scenes and counts them without content, loading or an error', () => {
     state.mockReturnValue({ content: null, loading: true, error: null });
     render(<ScenePicker onSelect={() => {}} allDiscovered={{}} />);
     const el = screen.getByTestId('scene-total-progress');
     expect(el.textContent).not.toMatch(/0\s*\/\s*0/);
-    expect(el.textContent).toMatch(/Loading/i);
+    expect(el.textContent).toMatch(new RegExp(`/\\s*${STATIC_TOTAL_WORDS} words discovered`));
+    expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(STATIC_SCENES.length);
   });
 
-  it('names the failure once the request has finished with no content', () => {
+  it('a failed fetch does not take the feature away — the data is local', () => {
     state.mockReturnValue({ content: null, loading: false, error: new Error('offline') });
     render(<ScenePicker onSelect={() => {}} allDiscovered={{}} />);
     const el = screen.getByTestId('scene-total-progress');
-    expect(el.textContent).not.toMatch(/0\s*\/\s*0/);
-    expect(el.textContent).toMatch(/could not be loaded/i);
+    expect(el.textContent).not.toMatch(/could not be loaded/i);
+    expect(el.textContent).toMatch(new RegExp(`/\\s*${STATIC_TOTAL_WORDS} words discovered`));
   });
 
-  it('reports the real ratio once the payload is there', () => {
-    state.mockReturnValue({
-      content: { SCENES: [{ id: 's1', items: [{ id: 'a' }, { id: 'b' }] }] },
-      loading: false,
-      error: null,
-    });
-    render(<ScenePicker onSelect={() => {}} allDiscovered={{ s1: new Set(['a']) }} />);
-    expect(screen.getByTestId('scene-total-progress').textContent).toMatch(/1\s*\/\s*2/);
+  it('counts what the learner has actually discovered', () => {
+    state.mockReturnValue({ content: null, loading: false, error: null });
+    const first = STATIC_SCENES[0] as { id: string; items: { id: string }[] };
+    render(
+      <ScenePicker
+        onSelect={() => {}}
+        allDiscovered={{ [first.id]: new Set([first.items[0]!.id]) }}
+      />,
+    );
+    expect(screen.getByTestId('scene-total-progress').textContent).toMatch(
+      new RegExp(`^1\\s*/\\s*${STATIC_TOTAL_WORDS} words discovered`),
+    );
+  });
+
+  it('ONE dataset for one feature: nothing under learn/ reads the payload key', () => {
+    // The drift is unrepresentable rather than checked: the picker, the parent
+    // that walks the list in handleNextScene, and the explorer that receives the
+    // selected scene all import the same module.
+    for (const f of [
+      'src/components/learn/VocabSceneComponents.tsx',
+      'src/components/learn/VocabScenes.tsx',
+      'src/components/learn/SceneExplorer.tsx',
+    ]) {
+      // Comments STRIPPED: these files now explain in prose what they used to
+      // read, and an unstripped match fails on the explanation — the same trap
+      // in the opposite direction from the guards that passed on a docstring.
+      const src = readFileSync(f, 'utf8')
+        .replace(/^\s*\/\/.*$/gm, '')
+        .replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(src, `${f} must not read content.SCENES`).not.toMatch(/content\??\.SCENES/);
+      expect(src, `${f} must read the one static dataset`).toMatch(/from '\.\/VocabSceneData\.js'/);
+    }
+  });
+});
+
+/**
+ * SWEEP 107 — the CALLBACK twin of sweep 106.
+ *
+ * Sweep 106 pinned a terminal index test in a RENDER branch and stated the gap it
+ * could not see: a credit reached through an EFFECT, gated on a count that simply
+ * happens to be zero. `SceneExplorer` was exactly that — `discCount >= total` is
+ * `0 >= 0` on a scene with no items, so opening it credited 15 XP and celebrated
+ * a completion nobody earned (NEVER-DO 14).
+ */
+describe('an effect does not credit on a total of zero', () => {
+  const surfaces = zeroSatisfiableCredits();
+
+  it('the derivation has subjects', () => {
+    // Two today, and both are real — no false positives to train anyone to
+    // ignore it. A floor, so a broken matcher cannot pass by finding nothing.
+    expect(surfaces.length).toBeGreaterThanOrEqual(2);
+    for (const s of surfaces) expect(s.cmp.length).toBeGreaterThan(0);
+  });
+
+  it('SceneExplorer is IN it — the surface this sweep fixed', () => {
+    const hit = surfaces.find((s) => s.file === 'src/components/learn/SceneExplorer.tsx');
+    expect(hit, 'SceneExplorer no longer credits on a length comparison').toBeTruthy();
+    expect(hit!.cmp.join(' ')).toMatch(/discCount\s*>=\s*total/);
+    // The ACTUAL text, not merely "something matched": a positivity matcher
+    // loosened to always return a value hides the original bug from every other
+    // assertion here — measured, it left both of them green.
+    expect(hit!.positivity).toContain('total > 0');
+  });
+
+  it('POSITIVE CONTROL: the matcher reports a .size total, and clears a guarded one', () => {
+    // Both of today's real subjects reach the derivation through `.length`, so
+    // mutating the `.size` clause out changed NOTHING — it survived, which by this
+    // repo's own standard makes it decoration until something exercises it. A
+    // Set/Map size is a legitimate total (`discovered.size` IS one), so the clause
+    // stays and this control is what makes it load-bearing.
+    const dir = mkdtempSync(join(tmpdir(), 'zsc-'));
+    writeFileSync(
+      join(dir, 'Bad.tsx'),
+      'const picked = new Set<string>();\n' +
+        'const seen = picked.size;\n' +
+        'export default function Bad() {\n' +
+        '  useEffect(() => {\n' +
+        '    if (seen >= seen) award(5);\n' +
+        '  }, []);\n' +
+        '  return null;\n' +
+        '}\n',
+    );
+    writeFileSync(
+      join(dir, 'Good.tsx'),
+      'const picked = new Set<string>();\n' +
+        'const seen = picked.size;\n' +
+        'export default function Good() {\n' +
+        '  useEffect(() => {\n' +
+        '    if (seen > 0 && seen >= seen) award(5);\n' +
+        '  }, []);\n' +
+        '  return null;\n' +
+        '}\n',
+    );
+    const found = zeroSatisfiableCredits([dir]);
+    const bad = found.find((f) => f.file.endsWith('Bad.tsx'));
+    const good = found.find((f) => f.file.endsWith('Good.tsx'));
+    expect(bad, 'a .size total is not reached by the totals scan').toBeTruthy();
+    expect(bad!.positivity).toEqual([]);
+    expect(good, 'the guarded twin must still be a subject').toBeTruthy();
+    expect(good!.positivity.length).toBeGreaterThan(0);
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('every effect crediting on a length comparison also requires the total to be positive', () => {
+    const unguarded = surfaces
+      .filter((s) => s.positivity.length === 0)
+      .map((s) => `${s.file}:${s.line} credits on ${s.cmp.join(', ')} with nothing requiring > 0`);
+    expect(
+      unguarded,
+      'these effects fire on an EMPTY collection, because `0 >= 0` is true — a ' +
+        'credit for work the learner could not do',
+    ).toEqual([]);
   });
 });
 

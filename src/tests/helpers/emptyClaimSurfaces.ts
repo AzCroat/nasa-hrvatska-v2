@@ -403,3 +403,102 @@ export function terminalWriteSurfaces(root = 'src/components'): TerminalWriteSur
   }
   return out;
 }
+
+/**
+ * SWEEP 107 — the CALLBACK twin of `terminalWriteSurfaces`.
+ *
+ * That derivation reports a terminal index test in a RENDER branch. Sweep 106
+ * stated its own gap in as many words: *"a credit reached through a CALLBACK
+ * rather than a render branch — an effect that fires `award` on a count that
+ * happens to be 0"* — and that is where `SceneExplorer` was. `discCount >= total`
+ * inside a `useEffect` is `0 >= 0` on a scene with no items, so the effect fired
+ * on MOUNT: 15 XP, a confetti burst and "Scene complete!" for a learner who had
+ * discovered nothing.
+ *
+ * This is DELIBERATELY not scoped to `useContent` consumers. A total reaches zero
+ * for reasons that have nothing to do with a payload — an authored collection
+ * left empty, a filter that removed everything, a level with no content at its
+ * band. The question is only ever "does `>=` here also require the total to be
+ * positive", and the answer must not depend on who supplies the data.
+ *
+ * `positivity` is what the condition establishes; a surface with `cmp` and no
+ * `positivity` credits on an empty collection.
+ *
+ * STATED GAP: `walk` yields `.tsx` only, so a credit effect living in a `.ts`
+ * hook is outside this. Measured rather than assumed — a throwaway probe over
+ * `src/hooks/**` found zero effects calling a credit writer at all — and the
+ * default root says `src/components` rather than naming a root the walk cannot
+ * read, which would read as coverage it does not have.
+ */
+export type ZeroSatisfiableCredit = {
+  file: string;
+  line: number;
+  cmp: string[];
+  positivity: string[];
+};
+
+/** `useEffect(` → the index of its closing paren, tracking real nesting. */
+function effectBody(src: string, openParen: number): string | null {
+  const close: Record<string, string> = { '(': ')', '{': '}', '[': ']' };
+  const stack: string[] = [];
+  for (let i = openParen; i < src.length; i++) {
+    const ch = src[i]!;
+    if (close[ch]) stack.push(close[ch]!);
+    else if (stack.length && ch === stack[stack.length - 1]) {
+      stack.pop();
+      if (!stack.length) return src.slice(openParen + 1, i);
+    }
+  }
+  return null;
+}
+
+export function zeroSatisfiableCredits(roots = ['src/components']): ZeroSatisfiableCredit[] {
+  const out: ZeroSatisfiableCredit[] = [];
+  for (const root of roots) {
+    for (const f of walk(root)) {
+      const raw = readFileSync(f, 'utf8');
+      const src = strip(raw);
+      if (!CREDIT_WRITE.test(src)) continue;
+
+      // Names the FILE declares as a length/size — the totals a comparison can
+      // reach zero through. Read from the file rather than the effect, because
+      // `const total = scene.items.length` sits in the component body.
+      const totals = new Set<string>();
+      for (const d of src.matchAll(
+        /\b(?:const|let)\s+([A-Za-z_$][\w$]*)\s*=\s*([^;\n]{1,200});/g,
+      )) {
+        if (/\.(?:length|size)\b/.test(d[2]!)) totals.add(d[1]!);
+      }
+
+      for (const m of src.matchAll(/\buseEffect\s*\(/g)) {
+        const body = effectBody(src, m.index! + m[0].length - 1);
+        if (body === null || !CREDIT_WRITE.test(body)) continue;
+
+        const cmp: string[] = [];
+        for (const c of body.matchAll(
+          /([A-Za-z_$][\w$.?[\]']{0,40})\s*(>=|===|==)\s*([A-Za-z_$][\w$.?[\]']{0,40})/g,
+        )) {
+          const sides = [c[1]!, c[3]!];
+          if (sides.some((s) => totals.has(s) || /\.(?:length|size)$/.test(s))) {
+            cmp.push(c[0]!.replace(/\s+/g, ' '));
+          }
+        }
+        if (!cmp.length) continue;
+
+        const positivity = [
+          ...body.matchAll(
+            /[A-Za-z_$][\w$.]*(?:\.(?:length|size))?\s*>\s*0|\.(?:length|size)\s*!==?\s*0|\b0\s*<\s*[A-Za-z_$]/g,
+          ),
+        ].map((x) => x[0]!.replace(/\s+/g, ' '));
+
+        out.push({
+          file: f,
+          line: raw.slice(0, m.index!).split('\n').length,
+          cmp: [...new Set(cmp)],
+          positivity: [...new Set(positivity)],
+        });
+      }
+    }
+  }
+  return out;
+}
