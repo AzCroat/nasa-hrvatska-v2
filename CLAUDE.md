@@ -3265,6 +3265,23 @@ transport read as a server error.
 - **AND THE PRAISE TIER WAS ATTACHED TO NOTHING.** `score >= total * 0.8` beside a
   0.75 gate meant a learner at exactly 9 of 12 — a PASS — read "needs more
   practice". Tier on the verdict (`passed`), never on a second threshold.
+- **BOTH HALVES SHIPPED TOGETHER, 120 SCREENS, AND THE BLANKET REWRITE WAS ONLY SAFE
+  BECAUSE IT WAS PROBED FIRST.** The engine is one file; the 117 hand-written drills
+  are 117, plus three prose sites (`LessonCheckSlide`, `LessonSummarySlide`,
+  `GenitiveDrill`). Each drill's total came from the `{score} / {total}` render it
+  already had (101 literal `total`, 10 named, 5 read by hand) — **derive the
+  expression from what the screen already prints**, never from the bank's length,
+  which several of them slice. And before touching a single praise tier: all 108
+  matches of `score >= X * 0.8` were checked to be followed IMMEDIATELY by a string
+  literal, i.e. every one was a praise ternary and not one gated an award. A rewrite
+  across 117 files is a measurement, not a regex.
+- **THE GUARD IS DIRECTIONAL, AND ITS FIRST DRAFT WAS A BLANKET BAN THAT FLAGGED FIVE
+  CORRECT SITES.** `passThresholdStatedAsCount.test.ts` forbids a completion
+  comparison against a factor **above** `LESSON_PASS_THRESHOLD` — such a factor can
+  only withhold praise from a learner who passed. A factor BELOW it cannot contradict
+  the verdict, which is why `LevelQuiz`'s deliberate 0.7 gate and two listening
+  screens' 0.6/0.7 sub-tiers are legitimate and the first draft was wrong to say
+  otherwise. **Ban the direction that can lie, not the shape.**
 - **THE ECHO WAS TWO `Audio` ELEMENTS.** `useRecorder.playback()` did
   `new Audio(audioUrl)` per call and kept no reference, so a second tap of ▶ layered
   a second copy over the first, offset by the gap between taps. The missing
@@ -3300,7 +3317,9 @@ transport read as a server error.
   allow-list accepts it (derive it — the comment has failed twice); let a handler
   4xx after the gate without refunding the pre-charge; print a pass threshold as a
   percentage beside a fraction without the count; tier praise on a threshold other
-  than the one that decides the verdict; construct a playback element without
+  than the one that decides the verdict; rewrite a threshold across a hundred files
+  without first probing what each match actually gates; forbid a comparison SHAPE
+  when only one direction of it can contradict the verdict; construct a playback element without
   holding it (you cannot stop what you did not keep); pass the TARGET as what a
   learner said; tell a model its input is one kind of measurement when it is
   another; throw a bare `Error` for a transport that returned nothing.
@@ -4914,6 +4933,22 @@ there was simply nothing capable of noticing, which is this file's own
 most-repeated lesson (`a hand-maintained list decays exactly like one in
 production`) landing on the file itself. Derived and pinned now, so the next
 rename fails CI instead of misleading a reader for another five months.
+
+**AND THE DOCUMENT'S SHAPE DECAYS TOO, WITH NO CLAIM INVOLVED (2026-09-25).**
+`prettier --write` is NOT idempotent on one markdown construct this file and
+`AUDIT-STATE.md` both use: a SECOND paragraph inside a `- [x] ` checklist item,
+indented to align under the six-character marker instead of to the content
+column (2). The first continuation paragraph is a LAZY continuation of the marker
+line and is preserved; a later block is re-indented, and the extra four spaces
+are re-emitted as four MORE on every run — 6 → 10 → 14 → 18, unbounded.
+AUDIT-STATE.md had 78 such lines at 115 spaces, growing on every commit through
+`lint-staged`, and nothing noticed because **the rendered output is identical and
+the diff of a reflowed prose file is unreadable either way**. Fixed structurally
+and bounded by a max-indent assertion outside fenced code blocks in
+`claudeMdPaths.test.ts` (10, against a measured 8 and 5). NEVER indent a block
+after a blank line inside a checklist item past the content column, and when a
+formatter runs on your source automatically, **check it is a fixed point** — a
+non-idempotent formatter is a slow corruption with no error message.
 
 ### The rule in plain English:
 

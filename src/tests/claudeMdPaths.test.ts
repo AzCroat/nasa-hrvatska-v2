@@ -494,3 +494,54 @@ describe('the slash-commands name files that exist', () => {
     ).toEqual([]);
   });
 });
+
+// A PRETTIER-UNSTABLE LIST ITEM GROWS ITS OWN INDENTATION FOR EVER
+// (2026-09-25).
+//
+// Both of this repo's long-form documents are written and rewritten by
+// `prettier --write`, and one markdown shape is NOT a fixed point of it: a
+// SECOND paragraph inside a `- [x] ` checklist item, indented to align under
+// the six-character marker instead of to the content column (2). Prettier
+// preserves the item's FIRST paragraph — a lazy continuation of the marker
+// line — and re-indents every later block by four more spaces on every run.
+// Reproduced in seven lines and confirmed unbounded: 6 → 10 → 14 → 18 …
+//
+// AUDIT-STATE.md had two such blocks, 78 lines between them, at 115 spaces of
+// indentation and +4 per write. It cost ~300 bytes a run and nothing noticed,
+// because a document that still renders is a document nobody re-reads: the
+// growth is invisible in the rendered output and invisible in a diff that is
+// already all reflow. The fix is structural (put the block at the content
+// column), and this is the mechanism that keeps it there — a max-indent bound
+// outside fenced code blocks, which the runaway breaks long before it becomes
+// unreadable.
+//
+// Fenced blocks are excluded because they legitimately hold aligned tables.
+// The bound is 10 against a measured maximum of 8 (AUDIT-STATE) and 5
+// (CLAUDE.md): loose enough for an honest nested list, far below anything the
+// compounding shape reaches after one write.
+describe('long-form docs are a prettier fixed point', () => {
+  const MAX_INDENT = 10;
+
+  for (const f of ['CLAUDE.md', 'AUDIT-STATE.md']) {
+    it(`${f} has no runaway list indentation`, () => {
+      const lines = readFileSync(join(root, f), 'utf8').split('\n');
+      let inFence = false;
+      const deep: string[] = [];
+      lines.forEach((l, i) => {
+        if (l.trim().startsWith('```')) {
+          inFence = !inFence;
+          return;
+        }
+        if (inFence || !l.trim()) return;
+        const n = l.length - l.trimStart().length;
+        if (n > MAX_INDENT) deep.push(`L${i + 1} indented ${n}: ${l.trim().slice(0, 60)}`);
+      });
+      expect(
+        deep,
+        `lines indented past ${MAX_INDENT} spaces — a second paragraph in a checklist ` +
+          `item gains 4 spaces on every prettier run; move it to the content column (2):\n  ` +
+          deep.join('\n  '),
+      ).toEqual([]);
+    });
+  }
+});

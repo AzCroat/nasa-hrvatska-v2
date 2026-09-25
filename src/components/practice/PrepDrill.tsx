@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { H, Bar, sh, PREPDRILL } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { passedLesson } from '../../lib/lessonGate';
+import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
 
 export default function PrepDrill({
   goBack,
@@ -75,7 +75,7 @@ export default function PrepDrill({
                   sPpSl(-1);
                 }}
               >
-                🔁 Try again (need 75%)
+                {retryNeedLabel(total)}
               </button>
               <button className="b bs" onClick={goBack}>
                 ← Back

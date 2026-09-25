@@ -4,6 +4,7 @@ import { CITYLOC } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface Props {
   goBack: () => void;
@@ -218,7 +219,7 @@ function CityLocativeScreen({ goBack, award }: Props) {
               style={{ width: '100%', marginTop: 12 }}
               onClick={retry}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(quizCities.length)}
             </button>
           )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

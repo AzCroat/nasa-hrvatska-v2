@@ -7,6 +7,7 @@ import DrillExplainCard from './DrillExplainCard';
 import { useExplainError } from '../../hooks/useExplainError';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { rnd } from '../../lib/random.js';
+import { itemsNeededToPass } from '../../lib/lessonGate';
 
 function shLocal(a: any[]) {
   const b = [...a];
@@ -474,7 +475,7 @@ export default function GenitiveDrill({ goBack, award }: Props) {
               ? score === total
                 ? 'Perfect! Genitive mastered! 🏆'
                 : 'Great work! Genitive is essential!'
-              : 'You need 75% to complete this. Try again — genitive shapes possession, partitive, and negation!'}
+              : `You needed ${itemsNeededToPass(total)} of ${total}. Try again — genitive shapes possession, partitive, and negation!`}
           </div>
           {!passed && (
             <button

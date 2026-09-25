@@ -122,7 +122,7 @@ export default function ListeningScreen({
       <div className="scr-wrap">
         <div style={{ textAlign: 'center', paddingTop: 40 }}>
           <div style={{ fontSize: 64, marginBottom: 8 }}>
-            {score >= answeredTotal * 0.8 ? '🏆' : score >= answeredTotal * 0.6 ? '⭐' : '💪'}
+            {passed ? '🏆' : score >= answeredTotal * 0.6 ? '⭐' : '💪'}
           </div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63', marginBottom: 4 }}>
             Listening Complete!

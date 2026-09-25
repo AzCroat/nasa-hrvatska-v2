@@ -5,6 +5,7 @@
 
 import React from 'react';
 import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
+import { itemsNeededToPass } from '../../lib/lessonGate';
 
 // ── Summary slide ─────────────────────────────────────────────────────────────
 //
@@ -98,8 +99,8 @@ export function SummarySlide({
             marginBottom: 20,
           }}
         >
-          You need 75% to complete this lesson. Nothing was recorded — review the lesson and take
-          the check again.
+          {`You needed ${itemsNeededToPass(quizTotal)} of ${quizTotal} to complete this lesson.`}{' '}
+          Nothing was recorded — review the lesson and take the check again.
         </p>
         <button
           className="b bp"

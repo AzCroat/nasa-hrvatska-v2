@@ -3,6 +3,7 @@ import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
+import { passedLesson } from '../../lib/lessonGate';
 
 interface QuizQuestion {
   q: string;
@@ -115,17 +116,17 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
           style={{
             margin: '16px 0',
             padding: '14px 18px',
-            background: score >= questions.length * 0.8 ? '#dcfce7' : '#fef3c7',
+            background: passedLesson(score, questions.length) ? '#dcfce7' : '#fef3c7',
             borderRadius: 14,
             textAlign: 'center',
             fontWeight: 700,
             fontSize: 16,
-            color: score >= questions.length * 0.8 ? '#14532d' : '#92400e',
+            color: passedLesson(score, questions.length) ? '#14532d' : '#92400e',
           }}
         >
-          {score >= questions.length * 0.8 ? '🌟 ' : '💪 '}
+          {passedLesson(score, questions.length) ? '🌟 ' : '💪 '}
           {score}/{questions.length} —{' '}
-          {score >= questions.length * 0.8 ? 'Excellent!' : 'Keep practising!'}
+          {passedLesson(score, questions.length) ? 'Excellent!' : 'Keep practising!'}
         </div>
       )}
     </div>

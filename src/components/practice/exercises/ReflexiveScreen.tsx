@@ -5,6 +5,7 @@ import { rnd } from '../../../lib/random.js';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface Props {
   goBack: () => void;
@@ -499,7 +500,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                   style={{ width: '100%', marginTop: 12 }}
                   onClick={retry}
                 >
-                  🔁 Try again (need 75%)
+                  {retryNeedLabel(REFLEXIVE.quiz.length)}
                 </button>
               )}
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

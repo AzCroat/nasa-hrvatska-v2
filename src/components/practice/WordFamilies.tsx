@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { passedLesson } from '../../lib/lessonGate';
+import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
 
 import { rnd } from '../../lib/random.js';
@@ -211,7 +211,7 @@ export default function WordFamilies({
       <div className="scr-wrap">
         {H('🌱 Word Families', 'Learn one root, understand a hundred words', goBack)}
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 64 }}>{score >= total * 0.8 ? '🏆' : '📚'}</div>
+          <div style={{ fontSize: 64 }}>{passedLesson(score, total) ? '🏆' : '📚'}</div>
           <h2>
             {score} / {total}
           </h2>
@@ -254,7 +254,7 @@ export default function WordFamilies({
                   setSelected(-1);
                 }}
               >
-                🔁 Try again (need 75%)
+                {retryNeedLabel(total)}
               </button>
               <button className="b bs" style={{ width: '100%', marginTop: 10 }} onClick={goBack}>
                 ← Back

@@ -7,6 +7,7 @@ import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 import CompletionCard from '../../shared/CompletionCard';
 import { clickable } from '../../../lib/clickable';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface VerbEntry {
   inf: string;
@@ -228,7 +229,7 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
               setQuizDone(false);
             }}
           >
-            🔁 Try again (need 75%)
+            {retryNeedLabel(questions.length)}
           </button>
         )}
       </div>

@@ -8,6 +8,7 @@ import { useExplainError } from '../../hooks/useExplainError';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -459,7 +460,7 @@ export default function CliticDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Clitic master! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Great work! 💪'
                 : 'Keep practising — clitics take time!'}
           </div>
@@ -477,7 +478,7 @@ export default function CliticDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

@@ -3,6 +3,7 @@ import { H, Bar } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 
 function shLocal(a: any[]) {
   const b = [...a];
@@ -182,7 +183,7 @@ export default function IdiomDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Idioms mastered! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Great work! 💪'
                 : 'Keep practising — idioms take time!'}
           </div>
@@ -200,7 +201,7 @@ export default function IdiomDrill({ goBack, award }: Props) {
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

@@ -3,6 +3,7 @@ import { H, speak, sh, shMemo } from '../../../data';
 import { POSSESS } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
+import { retryNeedLabel } from '../../../lib/lessonGate';
 
 interface Props {
   goBack: () => void;
@@ -202,7 +203,7 @@ function PossessivesScreen({ goBack, award }: Props) {
               style={{ width: '100%', marginTop: 12 }}
               onClick={retry}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(questions.length)}
             </button>
           )}
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

@@ -5,6 +5,7 @@
 import React, { useMemo, useState } from 'react';
 import { shuffledOrder, type LessonCheckItem } from '../../lib/lessonCheck';
 import type { LessonMeta } from './lessonSlideTypes';
+import { itemsNeededToPass } from '../../lib/lessonGate';
 
 // ── Mastery check slide ───────────────────────────────────────────────────────
 //
@@ -103,7 +104,7 @@ export function CheckSlide({
         </span>
       </div>
       <p style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', margin: '0 0 12px' }}>
-        Show what you learned — you need 75% to complete the lesson.
+        {`Show what you learned — ${itemsNeededToPass(items.length)} of ${items.length} completes the lesson.`}
       </p>
       <div
         style={{

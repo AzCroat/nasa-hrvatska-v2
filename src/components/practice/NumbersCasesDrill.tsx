@@ -4,6 +4,7 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 
 import { rnd } from '../../lib/random.js';
+import { retryNeedLabel } from '../../lib/lessonGate';
 function shLocal<T>(a: T[]): T[] {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -264,7 +265,7 @@ export default function NumbersCasesDrill({
           <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! You nailed the number rules! 🏆'
-              : score >= total * 0.8
+              : passed
                 ? 'Really solid work! 💪'
                 : 'Numbers and cases take practice — keep going!'}
           </div>
@@ -282,7 +283,7 @@ export default function NumbersCasesDrill({
                 setDone(false);
               }}
             >
-              🔁 Try again (need 75%)
+              {retryNeedLabel(total)}
             </button>
           )}
           <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
