@@ -3858,6 +3858,29 @@ reachable` ("Including it would close the loop on every field"), plus
   refactor, not a fix. (`dchlSl` is also typed `boolean` in `HomeTab`'s props while
   it is `string[]` everywhere else, which costs nothing today only because the prop
   is discarded.)
+- **THE CLOSED-SYNC-LOOP CLASS HAS EXACTLY ONE MEMBER, AND IT IS NOW GUARDED**
+  (sweep 117, 2026-09-25). `RemoteProgressSetters` — the six setters
+  `applyRemoteProgress` is handed — is the population that can die the way the daily
+  challenge did. Four have real producers (`usePreferences` toggles favourites,
+  `AIConversation`/`AppRouter`/`AIConversationResult` add journal words, `AppModals`
+  completes onboarding, `WelcomeScreen` sets the name); only `sDchlA`/`sDchlSl` do
+  not. `syncSettersHaveProducers.test.ts` derives the population from the interface
+  and is the mechanism that was missing when that feature died.
+- **A CLEAR IS NOT A PRODUCER, and that cost a surviving mutation to learn.** The
+  first predicate matched `name(` anywhere outside the sync layer — and gutting
+  `usePreferences`'s toggle, the ONLY thing that produces favourites, left the guard
+  GREEN, because `App.tsx` calls `setFavs([])` on sign-out. A feature could lose
+  every producer and still look alive on its wipe path. Exclude calls whose sole
+  argument is an empty or falsy literal.
+- **A CLAUSE THAT IS LOAD-BEARING ONLY JOINTLY STILL NEEDS ITS OWN TEST.** Removing
+  that clear-exclusion survived its own mutation, because the orphan test fails only
+  at ZERO callers — the clause matters only in combination with a lost producer,
+  which is what the `setFavs` mutation flipping from surviving to failing-2 proves.
+  The non-vacuity block now pins it on real data (`App.tsx` contains `setFavs([])`
+  and must NOT be counted a producer), after which removing it fails 1.
+- **What that guard still cannot see:** a setter with a live producer whose RESULT
+  nothing renders — half of sweep 116's evidence. "Something sets it" is necessary,
+  not sufficient; `doneCount` proves a render site can exist and be dead.
 - NEVER: decide "the learner has nothing" from a collection that is also empty
   while the content request is in flight; let a tap bail silently on a thin
   content-derived pool; say "Loading…" for a request that has already finished
