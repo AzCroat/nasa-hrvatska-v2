@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, speak, sh } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { rnd } from '../../lib/random.js';
 import { completeLesson } from '../../hooks/useLessonCompletion';
-import { LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
+import { LESSON_PASS_THRESHOLD, itemsNeededToPass } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext.tsx';
 
 interface TensesQ {
@@ -67,6 +67,35 @@ export default function TensesScreen({
   const [tnA, setTnA] = useState(false);
   const [tnSl, setTnSl] = useState(-1);
   const [tnO, setTnO] = useState<string[]>([]);
+
+  // CREDIT FOLLOWS THE WORK, NOT THE BUTTON (2026-09-26). This screen paid from the
+  // onClick of the one button on its results view that also calls goBack() — and
+  // H(..., goBack) draws a real Back button beside it while TabBar is mounted on every
+  // screen, so finishing the quiz and leaving any other way lost the XP, the `gc`, the
+  // `tenses` vs key (the Learn Path node AND the teach→practice coupling's clearing
+  // path) and the grammar quest. Crediting on REACHING the results view makes every
+  // exit equivalent. `tnQ.length > 0` is required, or `0 >= 0` would credit on mount
+  // before the quiz is built (NEVER-DO 14); completeLesson is itself gated at 75% and
+  // idempotent on the vs key, so calling it for a failing score records nothing while
+  // still firing the session signal the flow needs.
+  useEffect(() => {
+    const total = tnQ.length;
+    if (total === 0 || tnI < total || finishFired.current) return;
+    finishFired.current = true;
+    completeLesson({
+      screenId: 'tenses',
+      statKind: 'gc',
+      score: tnS,
+      total,
+      xp: tnS * 5,
+      questKind: 'grammar',
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tnI, tnQ.length, tnS]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -445,32 +474,9 @@ export default function TensesScreen({
                 <div style={{ fontSize: 13, color: '#78716c', margin: '8px 0 4px' }}>
                   {tnS / total >= LESSON_PASS_THRESHOLD
                     ? 'Passed — lesson complete!'
-                    : `Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%. Re-enter to try again.`}
+                    : `Not passed — need ${itemsNeededToPass(total)} of ${total}. Re-enter to try again.`}
                 </div>
-                <button
-                  className="b bp"
-                  style={{ marginTop: 16 }}
-                  onClick={() => {
-                    // Gated: credit + completion only at >=75% (completeLesson). Below → exit
-                    // without credit; re-entering the lesson restarts the quiz to retry.
-                    if (!finishFired.current) {
-                      finishFired.current = true;
-                      completeLesson({
-                        screenId: 'tenses',
-                        statKind: 'gc',
-                        score: tnS,
-                        total,
-                        xp: tnS * 5,
-                        questKind: 'grammar',
-                        stats,
-                        setStats,
-                        writeDelta,
-                        award,
-                      });
-                    }
-                    goBack();
-                  }}
-                >
+                <button className="b bp" style={{ marginTop: 16 }} onClick={goBack}>
                   {tnS / total >= LESSON_PASS_THRESHOLD ? '🏠 Finish' : '↻ Exit & retry'}
                 </button>
               </div>

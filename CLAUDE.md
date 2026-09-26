@@ -3313,6 +3313,27 @@ transport read as a server error.
   `LESSON_PASS_THRESHOLD` so the count cannot drift from the gate. **State the
   count, not the percentage**: a percentage is the rule, a count is what a learner
   can check against the score in front of them.
+- **THAT REPORT WAS STILL LIVE IN SIX FILES, IN COMPUTED FORM (sweep 143,
+  2026-09-26).** The guard written for it matches the STRINGS that shipped —
+  `/need 75%/`, `/75% to complete/` — and six lesson screens render
+  `Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%` immediately under
+  `{score}/{total}`: the identical sentence, built from the constant, so a search for
+  the rendered text could never find it. **A guard that matches a rendered string
+  cannot see a string that is computed.** All six now interpolate
+  `itemsNeededToPass(total)` of `total`. The new clause looks at where the CONSTANT is
+  used and is scoped to string INTERPOLATIONS, because `pct >= LESSON_PASS_THRESHOLD *
+100` is a correct comparison on a 0–100 percentage and banning that shape would push
+  right code around to satisfy a test — that file is the false-alarm control, and a
+  real one rather than a synthetic. The scan is brace-matched, not a regex, so
+  Prettier's line breaks inside a long template cannot hide an occurrence.
+- **THE RATIO FORM OF THE PRAISE TIER IS CLEAN, AND THE RATIONALE IS WHAT SAYS SO.**
+  `pct >= 0.8` where `pct = score / total` is invisible to the count-form matcher, and
+  five files use it — `AlphabetScreen` 0.9/0.7, `DeclensionScreen` 0.8/0.6,
+  `DictationScreen` 0.8/0.6, `McResult` 0.8/0.5, `FlashcardResultScreen` 0.8. All read:
+  **none contradicts a verdict beside it** ("Good work! Practice the tricky ones" is
+  not "needs more practice", and dictation, MC and flashcards have no pass gate at
+  all). So the matcher is deliberately NOT widened — it would report five files and
+  name zero defects, which is how a guard earns the reputation that gets it ignored.
 - **AND THE PRAISE TIER WAS ATTACHED TO NOTHING.** `score >= total * 0.8` beside a
   0.75 gate meant a learner at exactly 9 of 12 — a PASS — read "needs more
   practice". Tier on the verdict (`passed`), never on a second threshold.
@@ -3509,6 +3530,26 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   removals fails it. Nth instance of the fixed-window defect here
   (`registryMatchesScreen`, `dwellContentGate`); caught only because mutation was run
   **per screen** rather than once.
+- **AND THE RULE'S OWN WRITER SET MISSED THE WRAPPER (sweep 143, 2026-09-26).**
+  `completeLesson` is a thin wrapper over `completeExercise` in another module, so a
+  caller of it contains neither the authority's name nor any of the six hand-rolled
+  writes — invisible to every entry in `CREDIT_WRITERS` while being exactly the same
+  act. Three more screens shipped the defect through it: `TensesScreen` (owing the
+  `tenses` vs key, which is a Learn Path node AND the coupling's clearing path),
+  `DeclensionScreen` (which also prints "+N XP", and whose results view offers
+  "📖 Review" as an in-screen second exit) and `FutureTenseLessonScreen` (which
+  prints "Quest complete! +20 XP bonus" and "Grammar quest marked." above the
+  button). Real-world mutation both ways: with `completeLesson(` out of the set all
+  three pre-fix files read CLEAN. **A wrapper is not covered by a rule that names
+  what it wraps** — and `sessionSlotsCanFinish.test.ts` had the name in its own
+  FINISHERS list the day before, so the fact was already in the repo.
+- **`DeclensionScreen`'s RETRY NEVER RETRIED, and sweep 141 asked exactly this.**
+  `↻ Review & retry` set `mode` and nothing else, and the `quizDone` branch is tested
+  BEFORE quiz mode, so a failing learner walked to the case table and back to the
+  same finished results for ever. That census narrowed on "a handler assigning an
+  index-ish setter to 0" and this handler assigns no setter at all. One `startQuiz()`
+  now owns the reset for both entry points and clears `finishFired`, because a first
+  attempt that failed recorded nothing and a second that passes must still credit.
 - NEVER: call a credit writer (`completeExercise`, `award`, `markQuest`,
   `recordExerciseOutcome`, `recordSrsReview`, `recordMasteryEvent`) from the onClick of
   a control that also navigates away; print an XP figure or a badge on a results view
@@ -3518,7 +3559,9 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   never adopted it); record "a driver cannot reach this screen" without trying; pin a
   gate's inputs by their SHORTHAND SPELLING rather than their value; assert a guard
   clause inside a fixed character window from a declaration; rewrite a JSX attribute
-  list mechanically without diffing the attribute SET before and after.
+  list mechanically without diffing the attribute SET before and after; name a credit
+  writer in a rule without also naming the WRAPPERS that front it; ship a "retry" that
+  resets nothing but the view it is leaving.
 
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 

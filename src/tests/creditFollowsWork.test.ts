@@ -79,6 +79,21 @@ const FIXED_HANDROLLED = [
   'src/components/practice/ShadowingScreen.tsx',
 ];
 
+/**
+ * The three that credit through `completeLesson`, the wrapper — the omission that made
+ * this rule blind to them until 2026-09-26. They are pinned separately because the
+ * FIXED block above asserts `completeExercise({`, which a `completeLesson` caller does
+ * not contain, so it could not have seen these three even once the writer set found
+ * them. Real-world mutation: with `completeLesson(` out of `CREDIT_WRITERS`, all three
+ * pre-fix files read CLEAN; with it in, all three are flagged and all three post-fix
+ * files are clean.
+ */
+const FIXED_LESSON = [
+  'src/components/learn/DeclensionScreen.tsx',
+  'src/components/learn/FutureTenseLessonScreen.tsx',
+  'src/components/learn/TensesScreen.tsx',
+];
+
 /** The two screens that credit from an advance button — correct, and not flagged. */
 const ADVANCE_CREDITERS = [
   'src/components/practice/BojeGame.tsx',
@@ -170,6 +185,25 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
       // guard DELETED, because that much preceding code mentions a length somewhere.
       // Every instance of this repo's fixed-window defect has been found the same
       // way: by mutating and watching the assertion hold.
+      expect(
+        before.slice(effectAt),
+        `${f}'s credit effect has no positivity guard — an empty bank would credit on mount`,
+      ).toMatch(/(length === 0|total === 0|length > 0|total > 0|\.length &&|!\w*[Tt]otal\b)/);
+    }
+  });
+
+  it('the three completeLesson screens still credit, and credit from an effect', () => {
+    for (const f of FIXED_LESSON) {
+      const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+      expect(src, `${f} no longer credits at all`).toContain('completeLesson({');
+      const at = src.indexOf('completeLesson({');
+      const before = src.slice(Math.max(0, at - 1600), at);
+      const effectAt = before.lastIndexOf('useEffect');
+      expect(effectAt > before.lastIndexOf('onClick'), `${f} credits outside an effect again`).toBe(
+        true,
+      );
+      // Same positivity requirement, read from the effect's own guard region — an empty
+      // question bank must not credit an unplayed lesson on mount (sweep 106).
       expect(
         before.slice(effectAt),
         `${f}'s credit effect has no positivity guard — an empty bank would credit on mount`,

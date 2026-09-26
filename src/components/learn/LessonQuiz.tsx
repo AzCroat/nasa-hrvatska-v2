@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { H, sh } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { completeLesson } from '../../hooks/useLessonCompletion';
-import { LESSON_PASS_THRESHOLD, lessonScorePct } from '../../lib/lessonGate';
+import { LESSON_PASS_THRESHOLD, lessonScorePct, itemsNeededToPass } from '../../lib/lessonGate';
 
 export interface LessonQuizQuestion {
   prompt: string;
@@ -78,7 +78,7 @@ export default function LessonQuiz({
           <div style={{ fontSize: 13, color: '#78716c', margin: '8px 0 20px' }}>
             {passed
               ? 'Passed — lesson complete!'
-              : `Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%. Review and try again.`}
+              : `Not passed — need ${itemsNeededToPass(total)} of ${total}. Review and try again.`}
           </div>
           {passed ? (
             <button className="b bp" style={{ width: '100%' }} onClick={goBack}>

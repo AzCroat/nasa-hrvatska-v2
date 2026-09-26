@@ -290,3 +290,124 @@ describe('PronunciationContrast: the hand-rolled credit path', () => {
     expect(goBack).toHaveBeenCalled();
   });
 });
+
+/**
+ * DeclensionScreen: the wrapper's own instance, and a retry that never retried.
+ *
+ * Driven because this screen is the `completeLesson` half of the class
+ * (sweep 143) — a DIFFERENT authority from the twelve above, reached through a
+ * wrapper module, which is exactly why `creditFollowsWork`'s writer set could not
+ * see it. Its results view has THREE exits — "📖 Review" (back to the case table,
+ * inside the screen), H(..., goBack)'s Back button, and the ever-present TabBar —
+ * while only "✓ Done" paid, above a line PRINTING "+N XP".
+ *
+ * Answers are derived from the real `DECL` data rather than guessed: the question
+ * renders "{caseNum}. {CASE} CASE" and the noun, so the correct form is
+ * `noun.cases[caseNum - 1]`. A wrong answer would be useless here — `completeLesson`
+ * gates at 75%, so a failing run records nothing and every assertion below would
+ * pass for the wrong reason.
+ */
+describe('DeclensionScreen: the completeLesson instance', () => {
+  type Noun = { nom: string; en: string; g: string; cases: string[] };
+
+  async function playCorrectly() {
+    const { DECL } = (await import('../data')) as unknown as {
+      DECL: { nouns: Noun[]; caseNames: string[] };
+    };
+    fireEvent.click(screen.getByText(/Test the Cases/));
+    for (let guard = 0; guard < 40; guard++) {
+      if (screen.queryByText(/correct$/)) return; // results view: "N/14 correct"
+      const next = screen.queryByText(/^(Next →|See Results)$/);
+      if (next) {
+        fireEvent.click(next);
+        continue;
+      }
+      // The prompt line names the ENGLISH gloss, which is unambiguous — the
+      // nominative form also appears among the OPTIONS, so matching on it picks
+      // the wrong noun (or throws on a duplicate).
+      const head = screen.getByText(/^\d+\. [A-ZČĆĐŠŽ]+ CASE$/).textContent || '';
+      const caseNum = Number(head.split('.')[0]);
+      const gloss = (document.body.textContent || '').match(/\((.+?)\) — pick the correct/);
+      expect(gloss, `no prompt line found beside "${head}"`).toBeTruthy();
+      const noun = DECL.nouns.find((n) => n.en === gloss![1]);
+      expect(noun, `no DECL noun glossed "${gloss![1]}"`).toBeTruthy();
+      const correct = noun!.cases[caseNum - 1]!;
+      const opt = screen
+        .getAllByRole('button')
+        .find((b) => (b.textContent || '').trim() === correct);
+      expect(opt, `no option offered the correct form "${correct}"`).toBeTruthy();
+      fireEvent.click(opt!);
+    }
+  }
+
+  it('answering everything and tapping 📖 Review still credits the lesson', async () => {
+    const { default: DeclensionScreen } = await import('../components/learn/DeclensionScreen');
+    const { value, setStats, writeDelta, award } = makeCtx();
+    const goBack = vi.fn();
+    render(
+      <StatsProvider value={value}>
+        <DeclensionScreen goBack={goBack} award={value.award} />
+      </StatsProvider>,
+    );
+    await playCorrectly();
+
+    // The promise is on screen, and so is a second exit that used to swallow it.
+    expect(screen.getByText(/\+\d+ XP/), 'never reached the results view').toBeTruthy();
+    const review = screen.getByText(/📖 Review/);
+    fireEvent.click(review);
+
+    expect(award, 'a passed lesson paid nothing when the learner tapped Review').toHaveBeenCalled();
+    expect(setStats).toHaveBeenCalled();
+    expect(writeDelta).toHaveBeenCalled();
+    // Review is an in-screen exit, so the screen itself must NOT have navigated away.
+    expect(goBack).not.toHaveBeenCalled();
+  });
+
+  it('↻ Try again actually starts a new attempt', async () => {
+    // The old handler set only `mode`, and the `quizDone` branch is tested BEFORE quiz
+    // mode — so "Review & retry" walked the learner to the table and back to the same
+    // finished results, for ever. Reached here by ANSWERING WRONGLY on purpose: the
+    // retry button only renders below the pass gate.
+    const { DECL } = (await import('../data')) as unknown as {
+      DECL: { nouns: Noun[]; caseNames: string[] };
+    };
+    const { default: DeclensionScreen } = await import('../components/learn/DeclensionScreen');
+    const { value } = makeCtx();
+    render(
+      <StatsProvider value={value}>
+        <DeclensionScreen goBack={vi.fn()} award={value.award} />
+      </StatsProvider>,
+    );
+    fireEvent.click(screen.getByText(/Test the Cases/));
+    for (let guard = 0; guard < 40; guard++) {
+      if (screen.queryByText(/correct$/)) break;
+      const next = screen.queryByText(/^(Next →|See Results)$/);
+      if (next) {
+        fireEvent.click(next);
+        continue;
+      }
+      const head = screen.getByText(/^\d+\. [A-ZČĆĐŠŽ]+ CASE$/).textContent || '';
+      const caseNum = Number(head.split('.')[0]);
+      const gloss = (document.body.textContent || '').match(/\((.+?)\) — pick the correct/)!;
+      const noun = DECL.nouns.find((n) => n.en === gloss[1])!;
+      const correct = noun.cases[caseNum - 1]!;
+      // Every option is a case form of SOME noun in the table, so that set identifies
+      // the option buttons without knowing which four were shuffled in. Picking "a
+      // button that is not the answer" instead would hit "Back to reference".
+      const forms = new Set(DECL.nouns.flatMap((n) => n.cases));
+      const wrong = screen.getAllByRole('button').find((b) => {
+        const t = (b.textContent || '').trim();
+        return t !== correct && forms.has(t);
+      });
+      expect(wrong, `no wrong option offered beside "${correct}"`).toBeTruthy();
+      fireEvent.click(wrong!);
+    }
+    const retry = screen.queryByText(/↻ Try again/);
+    expect(retry, 'a failing run showed no retry affordance').toBeTruthy();
+    fireEvent.click(retry!);
+
+    // A fresh attempt means question 1 of the quiz, not the same finished results.
+    expect(screen.queryByText(/correct$/), 'the retry returned to the old results').toBeNull();
+    expect(screen.getByText(/^\d+\. [A-ZČĆĐŠŽ]+ CASE$/)).toBeTruthy();
+  });
+});

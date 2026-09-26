@@ -10385,6 +10385,92 @@ view's own strings return nothing), so no spec moved.
 
 ---
 
+### 143. Does the credit-on-exit rule cover the WRAPPER? — 2026-09-26 — three more screens, the owner's own report still live in six, and a retry that never retried
+
+Asked because sweep 142 was found by reading a results view rather than by a
+derivation, so the next question was what ELSE sweep 139's rule cannot see. The
+answer was in its own writer set.
+
+**`completeLesson(` WAS NOT IN `CREDIT_WRITERS`, AND THAT COST THREE SCREENS.**
+It is a thin wrapper over `completeExercise` living in another module, so a caller
+of it contains neither the authority's name nor any of the six hand-rolled writes
+— invisible to every entry in the set while being exactly the same act.
+`TensesScreen`, `DeclensionScreen` and `FutureTenseLessonScreen` all paid from the
+onClick of a button that also calls `goBack()`. Real-world mutation settles it both
+ways: with `completeLesson(` out of the set all three PRE-FIX files read **clean**;
+with it in, all three are flagged and all three post-fix files are clean. **A
+wrapper is not covered by a rule that names what it wraps** — and
+`sessionSlotsCanFinish.test.ts` had listed the name in its own FINISHERS since the
+day before, so the fact was already in the repo.
+
+**Two of the three printed a claim they had not honoured**, the sweep 139 class
+again: `FutureTenseLessonScreen`'s passing view renders "Quest complete! +20 XP
+bonus" and "Grammar quest marked." directly above the button, and
+`DeclensionScreen` renders "+N XP". `TensesScreen` owed the `tenses` vs key, which
+is a Learn Path node AND the teach→practice coupling's clearing path — the very id
+this file records as the 18th broken coupling.
+
+**AND DECLENSIONSCREEN'S RETRY NEVER RETRIED.** `↻ Review & retry` set `mode` and
+nothing else, and the `quizDone` branch is tested BEFORE quiz mode — so a learner
+who failed walked to the case table, came back, and met the SAME finished results,
+for ever. **Sweep 141 asked exactly this question and could not see it**: its
+narrowing was "a handler assigning an index-ish setter to `0`", and this handler
+assigns no setter at all. One `startQuiz()` now owns the reset for both entry
+points (the retry and "✏️ Test the Cases →"), and it clears `finishFired` too — a
+first attempt that failed recorded nothing, so a second that passes must still be
+able to credit.
+
+**THE OWNER'S OWN REPORT WAS STILL LIVE IN SIX FILES, IN COMPUTED FORM.**
+`passThresholdStatedAsCount.test.ts` was written for _"8 out of 12 is 75%, you
+stated it wasn't"_ and matches the STRINGS that shipped — `/need 75%/`,
+`/75% to complete/`. Six lesson screens render
+`Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%` immediately under
+`{score}/{total}`: the identical sentence, built from the constant, so a search for
+the rendered text cannot find it. **A guard that matches a rendered string cannot
+see a string that is computed.** All six now interpolate
+`itemsNeededToPass(total)` of `total`, which is the convention
+`LessonCheckSlide`/`LessonSummarySlide` already used.
+
+The new clause looks at where the CONSTANT is used, not at the copy, and is scoped
+to string INTERPOLATIONS: `FutureTenseLessonScreen`'s `pct >=
+LESSON_PASS_THRESHOLD * 100` is a correct comparison on a 0–100 percentage, and
+banning that shape would push right code around to satisfy a test. The scan is
+brace-matched rather than a regex so Prettier's line breaks inside a long template
+cannot hide an occurrence — and that file is the false-alarm control, a REAL one
+rather than a synthetic.
+
+**THE RATIO FORM OF THE PRAISE-TIER DEFECT IS CLEAN, and it is the guard's
+RATIONALE that says so.** That guard bans `score >= total * 0.8` above a 0.75 gate;
+the ratio form (`pct >= 0.8` where `pct = score / total`) is invisible to it, and
+five files use it — `AlphabetScreen` 0.9/0.7, `DeclensionScreen` 0.8/0.6,
+`DictationScreen` 0.8/0.6, `McResult` 0.8/0.5, `FlashcardResultScreen` 0.8. Every
+one was read: **none contradicts a verdict beside it.** The shipped defect was a
+learner who PASSED being told "needs more practice"; "Good work! Practice the
+tricky ones: č, š, ž, lj, nj" and "Good progress! Cases take time to internalize"
+are not that, and dictation, MC and flashcards have no pass gate at all. So the
+matcher is deliberately NOT widened to the ratio form: it would report five files
+and name zero defects, which is how a guard earns the reputation that gets it
+ignored (the sweep 104 and sweep 109 precedent).
+
+Mutation-verified, six: reverting `TensesScreen` to the onClick fails 2 (including
+the headline judgement, which is the direct proof the widened writer set is what
+catches it); dropping its effect's positivity guard fails 1; reverting
+`DeclensionScreen` fails 2 of the DRIVEN tests; the retry set back to `setMode`
+alone fails 1; restoring one computed percentage fails 1 and names the file and the
+interpolation; and the comparison control stays unflagged. The two driven tests
+derive their answers from the real `DECL` data — the question line names the English
+gloss and the case number, so the correct form is `noun.cases[caseNum - 1]` — and
+run identically 5 times; answering WRONGLY on purpose is what reaches the retry
+button, which only renders below the gate.
+
+- NEVER: name a writer in a credit rule without also naming the wrappers that front
+  it; match learner-facing copy by its rendered STRING when the same sentence can be
+  computed from a constant; ban a shape the ratio form shares with correct code
+  when reading shows no instance contradicts a verdict; ship a "retry" that resets
+  nothing but the view it is leaving.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

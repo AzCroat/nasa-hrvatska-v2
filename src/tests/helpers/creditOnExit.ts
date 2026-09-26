@@ -65,9 +65,19 @@ function creditsOnlyOnExit(src: string, at: number): boolean {
  * authority, but nine screens grade and award themselves and never reach it — and they
  * had the identical defect, so a rule that watched only the authority would have found
  * twelve of twenty-one. Each of these is a WRITE a learner loses if it does not run.
+ *
+ * `completeLesson(` WAS MISSING FROM THIS LIST AND THAT COST THREE MORE SCREENS
+ * (2026-09-26). It is a thin wrapper over `completeExercise` living in another module,
+ * so a caller of it contains neither the authority's name nor any of the hand-rolled
+ * writes — invisible to every entry above while being exactly the same act. Three
+ * lesson screens (`TensesScreen`, `DeclensionScreen`, `FutureTenseLessonScreen`) shipped
+ * the defect through it, and `sessionSlotsCanFinish.test.ts` had known the name existed
+ * since the day before. **A wrapper is not covered by a rule that names what it wraps**:
+ * when a new module fronts a writer here, add the front door too.
  */
 const CREDIT_WRITERS = [
   'completeExercise(',
+  'completeLesson(',
   'award(',
   'markQuest(',
   'recordExerciseOutcome(',

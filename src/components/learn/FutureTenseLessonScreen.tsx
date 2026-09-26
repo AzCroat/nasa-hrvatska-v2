@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, speak, sh } from '../../data';
 import { completeLesson } from '../../hooks/useLessonCompletion';
 import { LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
@@ -221,8 +221,38 @@ export default function FutureTenseLessonScreen({
   const [selected, setSelected] = useState(-1);
   const [opts, setOpts] = useState<string[]>([]);
 
+  // CREDIT FOLLOWS THE WORK, NOT THE BUTTON (2026-09-26). The credit was paid from the
+  // "Finish" onClick, which also calls goBack() — while H(..., goBack) draws a Back
+  // button and TabBar is mounted on every screen, so finishing the quiz and leaving any
+  // other way lost the XP, the `gc`, the `future_tense_lesson` vs key and the grammar
+  // quest. Worse, the passing view PRINTS "Quest complete! +20 XP bonus" and "Grammar
+  // quest marked." above that button — a claim whose truth depended on which control the
+  // learner pressed next. `quizQs.length > 0` is required, or `0 >= 0` credits before
+  // the quiz is built (NEVER-DO 14); completeLesson gates at 75% itself.
+  useEffect(() => {
+    const total = quizQs.length;
+    if (total === 0 || qi < total || finishFired.current) return;
+    finishFired.current = true;
+    completeLesson({
+      screenId: 'future_tense_lesson',
+      statKind: 'gc',
+      score,
+      total,
+      xp: score * 5,
+      questKind: 'grammar',
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qi, quizQs.length, score]);
+
   function startQuiz() {
     const shuffled = sh([...QUIZ_QS]);
+    // A first attempt that failed recorded nothing, so a second that passes must still
+    // be able to credit — the ref guards one attempt, not the mount.
+    finishFired.current = false;
     setQuizQs(shuffled);
     setQi(0);
     setScore(0);
@@ -815,29 +845,7 @@ export default function FutureTenseLessonScreen({
                     </div>
                   </div>
                 )}
-                <button
-                  className="b bp"
-                  style={{ marginTop: 8, marginRight: 8 }}
-                  onClick={() => {
-                    if (!finishFired.current) {
-                      finishFired.current = true;
-                      // Gated: credit + completion only at >=75% (completeLesson).
-                      completeLesson({
-                        screenId: 'future_tense_lesson',
-                        statKind: 'gc',
-                        score,
-                        total,
-                        xp: score * 5,
-                        questKind: 'grammar',
-                        stats,
-                        setStats,
-                        writeDelta,
-                        award,
-                      });
-                    }
-                    goBack();
-                  }}
-                >
+                <button className="b bp" style={{ marginTop: 8, marginRight: 8 }} onClick={goBack}>
                   Finish
                 </button>
                 <button className="b bg" style={{ marginTop: 8 }} onClick={startQuiz}>
