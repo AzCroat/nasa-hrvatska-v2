@@ -25,6 +25,8 @@ import {
   awaitingUnitTest,
   buildCourseUnits,
   courseProgress,
+  lockReason,
+  unitTestOffer,
   courseMapBlock,
   nextCourseLesson,
   unitOfLesson,
@@ -275,6 +277,20 @@ describe('courseProgress with a gate', () => {
     expect(p.units[2]!.state).toBe('locked');
     expect(p.currentIndex).toBe(2);
     expect(p.unitsMastered).toBe(1);
+  });
+
+  // THE LOCK OUTRANKS ANYTHING THE LEARNER DID WITH THE LIBRARY. Reading a locked
+  // unit's five lessons through the Learning Center or search — both deliberately
+  // open — used to render it `cleared`, which made `lockReason` silent and
+  // `unitTestOffer` return `primary`: a learner could sit unit 3's test while unit 1
+  // was unmastered. A live hole in the gate, closed by testing `locked` first.
+  it('keeps a read-ahead unit LOCKED, not cleared', () => {
+    const readAhead = units[2]!.lessons.map((l) => l.id);
+    const p = courseProgress(units, readAhead, [], { open: ['A1-1'], advanced: [] });
+    expect(p.units[2]!.done).toBe(5);
+    expect(p.units[2]!.state).toBe('locked');
+    expect(lockReason(p.units[2]!, units[1]!)).toMatch(/opens this after Unit 2/);
+    expect(unitTestOffer(p.units[2]!)).toBe('none');
   });
 
   it('locks nothing when no gate is supplied', () => {

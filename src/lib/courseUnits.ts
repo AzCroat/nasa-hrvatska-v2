@@ -425,14 +425,24 @@ export function courseProgress(
       // `mastered` means the WHOLE bar, not the test alone — a unit with a passed
       // test and an owed production task is `current`, because that is where the
       // learner is and what the map must ask them for.
+      // LOCKED IS TESTED BEFORE CLEARED, and the other order was a live hole in the
+      // gate. `cleared` means "all five lessons read", which a learner can reach for
+      // ANY unit through the Learning Center or search — both deliberately open. With
+      // `cleared` first, such a unit rendered as cleared rather than locked, so
+      // `lockReason` said nothing, `unitTestOffer` returned `primary`, and they could
+      // sit unit 5's test while unit 2 was unmastered. The lock is about the COURSE's
+      // position and outranks anything the learner did with the library.
+      //
+      // `current` cannot be locked: `openUnits` adds a unit before deciding whether it
+      // advances, so the first non-advanced unit is always open.
       state: (advanced ? advanced.has(r.unit.id) : r.tested)
         ? 'mastered'
-        : r.unit.index === currentIndex
-          ? 'current'
-          : r.total > 0 && r.done >= r.total
-            ? 'cleared'
-            : openable && !openable.has(r.unit.id)
-              ? 'locked'
+        : openable && !openable.has(r.unit.id)
+          ? 'locked'
+          : r.unit.index === currentIndex
+            ? 'current'
+            : r.total > 0 && r.done >= r.total
+              ? 'cleared'
               : 'upcoming',
     })),
     currentIndex,

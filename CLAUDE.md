@@ -4114,6 +4114,16 @@ single lesson and made it first.
   survived at first** — nothing asserted the SLOT serves production, which is the
   silent stall the design is about; three assertions in
   `curriculumSessionSlot.test.ts` fixed that and it fails now.
+- **AND THE GATE HAD A HOLE THE LIBRARY COULD WALK THROUGH.** `cleared` ("all five
+  lessons read") was tested BEFORE `locked` in the state ladder, and a learner can
+  read any unit's lessons through the Learning Center or search — both deliberately
+  open. So a locked unit whose lessons had been read rendered as `cleared`:
+  `lockReason` said nothing, `unitTestOffer` returned `primary`, and they could sit
+  unit 5's test while unit 2 was unmastered. `locked` is tested first now; it is about
+  the COURSE's position and outranks anything the learner did with the library.
+  (`current` can never be locked — `openUnits` adds a unit before deciding whether it
+  advances, so the first non-advanced unit is always open.) Mutation-verified: the old
+  order fails 1 test and names the unit.
 - NEVER: gate course progress on a score an AI model assigns; require a microphone
   for it; swallow an evaluator's refusal (record it, and let the gate through);
   advance a unit on reading alone; compute a learner's position from one half of a
