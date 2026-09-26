@@ -9,16 +9,18 @@
  * would throw. So this drives the derivation over the REAL spine, not a fixture.
  *
  * AND IT PINS THE ONE-PATH DIRECTIVE MECHANICALLY (owner, 2026-09-26: "all users
- * follow the same learning path"). `getNextLesson` infers that everything below a
- * learner's certified level is already known; the course must not, or a returning
- * learner opens the map with twelve units marked in a way nothing measured. A
- * source pin is the only thing that can say so, because a certification-reading
- * version would pass every behavioural test written with an A1 fixture.
+ * follow the same learning path"). The engine this replaced inferred that
+ * everything below a learner's certified level was already known; the course must
+ * not, or a returning learner opens the map with twelve units marked in a way
+ * nothing measured. A source pin is the only thing that can say so, because a
+ * certification-reading version would pass every behavioural test written with an
+ * A1 fixture.
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
+import { COURSE_UNIT_TITLES } from '../data/courseUnitTitles';
 import {
   awaitingUnitTest,
   buildCourseUnits,
@@ -82,16 +84,35 @@ describe('buildCourseUnits over the real spine', () => {
     }
   });
 
-  it('authors a title for every unit (none falls back to a positional name)', () => {
-    const derived = units.filter((u) => u.titleDerived);
+  // NAMES ARE PASSED IN, NOT IMPORTED — the titles live in src/data, which
+  // `manualChunks` groups with the whole content library, and this module is on the
+  // first-paint path. So the derivation is checked both ways: named, and bare.
+  it('takes authored names when they are supplied', () => {
+    const named = buildCourseUnits(SPINE, COURSE_UNIT_TITLES);
+    const derived = named.filter((u) => u.titleDerived);
     expect(
       derived.map((u) => u.id),
       'these units have no authored title in src/data/courseUnitTitles.ts',
     ).toEqual([]);
-    for (const u of units) {
+    for (const u of named) {
       expect(u.title.length, u.id).toBeGreaterThan(3);
       expect(u.subtitle.length, u.id).toBeGreaterThan(10);
     }
+  });
+
+  it('falls back to a positional name when none is supplied', () => {
+    // What the daily session sees. A course map that silently dropped a unit would
+    // be worse than one with a plain heading.
+    expect(units[0]!.title).toBe('A1 · Unit 1');
+    expect(units[0]!.titleDerived).toBe(true);
+    expect(units[0]!.subtitle).toBe('');
+    expect(units.every((u) => u.title.length > 0)).toBe(true);
+  });
+
+  it('does not import the authored names (they would land on first paint)', () => {
+    const code = strip(src('lib/courseUnits.ts'));
+    expect(code).not.toContain('courseUnitTitles');
+    expect(code).not.toContain("from '../data");
   });
 
   it('finds the unit a lesson belongs to, and reports an unknown lesson as absent', () => {

@@ -121,11 +121,17 @@ const OUTSIDE_SESSION: string[] = [
   // credit a slot for looking at a map, which is the reading-a-table-as-a-lesson
   // failure again. The lessons it links to are session-reachable on their own.
   'coursemap',
-  // The unit test is reached from the course map, on a unit whose five lessons are
-  // all read — it cannot be served as a session activity because it needs a UNIT,
-  // and a cumulative test over lessons the learner has not met would fail them on
-  // content they were never taught. It will become a course-path step, not a
-  // rotation slot.
+  // The unit test IS served in a session — by P0's teaching slot, once the open
+  // unit's lessons are all read (`buildCurriculumSlots`, increment 3) — but not by
+  // the CEFR POOL, which is what this list is about. It cannot be a pool entry: a
+  // pool entry is a screen the rotation may serve at any time, and this one needs
+  // a UNIT, whose identity the session builder writes into a handoff. Same shape
+  // as `animlesson`, which is also served by P0 and also carries its subject
+  // through a launcher rather than through the pool.
+  //
+  // (The reason recorded here in increment 2 said it "cannot be served as a session
+  // activity". That became false one increment later, which is the stale-exemption
+  // shape this file keeps finding in other people's lists.)
   'unittest',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──

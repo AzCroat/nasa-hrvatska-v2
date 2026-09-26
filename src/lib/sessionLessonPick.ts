@@ -8,9 +8,7 @@
  */
 import { isUnlocked } from './cefr';
 import { localDateStr } from './dateUtils';
-import { getNextLesson } from './curriculum';
-import { readCurriculumSpine, readCompletedLessons } from './curriculumProgress';
-import { getCertifiedLevel } from './cefrCertification';
+import { nextCourseStep } from './courseStep';
 
 // Screen-id → last-served date, per LESSON id (the 'animlesson' screen is one
 // route serving a 45-lesson catalog). Mirrors useDailySession's
@@ -69,23 +67,22 @@ export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | n
   if (unlocked.length === 0) return null;
   const served = readServedLessons();
 
-  // ── Curriculum first ──────────────────────────────────────────────────────
-  // The step is only honoured when its lesson is actually present and unlocked.
-  // A spine that names a lesson this client cannot serve must fall through to
-  // rotation rather than return null: the learner gets taught either way.
+  // ── THE COURSE DECIDES (increment 3, 2026-09-26) ──────────────────────────
+  // This asked `getNextLesson`, whose certification inference serves a certified
+  // learner their own level's first lesson — a unit the course map shows as locked.
+  // The session and the map must not be able to disagree about what comes next, so
+  // both read `nextCourseStep`.
+  //
+  // The step is only honoured when its lesson is actually present and unlocked. A
+  // spine that names a lesson this client cannot serve falls through to rotation
+  // rather than returning null: the learner gets taught either way.
   const curriculumPick = (() => {
     try {
-      const spine = readCurriculumSpine();
-      if (spine.length === 0) return null;
-      const step = getNextLesson({
-        spine,
-        completed: readCompletedLessons(),
-        certifiedLevel: getCertifiedLevel(),
-      });
-      if (!step) return null;
-      return unlocked.find((l) => l.id === step.entry.id) ?? null;
+      const step = nextCourseStep();
+      if (!step || step.kind !== 'lesson') return null;
+      return unlocked.find((l) => l.id === step.lesson.id) ?? null;
     } catch {
-      // Curriculum is an improvement to the pick, never a dependency of it.
+      // The course is an improvement to the pick, never a dependency of it.
       return null;
     }
   })();

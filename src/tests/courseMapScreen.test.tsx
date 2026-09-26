@@ -90,7 +90,9 @@ describe('the map a learner sees', () => {
       expect(screen.getByTestId(`course-unit-${u.id}`), u.id).toBeTruthy();
     }
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('upcoming');
+    // THE COURSE OPENS ONE UNIT AT A TIME. Unit 2 waits on unit 1's test.
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
+    expect(screen.getByTestId('course-unit-C2-6').getAttribute('data-unit-state')).toBe('locked');
     expect(screen.getByText('Unit 1 of 36')).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe('0 / 180 lessons');
 
@@ -137,15 +139,82 @@ describe('the map a learner sees', () => {
     expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1');
   });
 
-  it('does NOT offer the unit test while a lesson is still unread', async () => {
+  // TEST-OUT IS THE SAME TEST AT THE SAME BAR. Offered before the reading is
+  // done, because one path for everyone only works if a learner who already knows
+  // A1 can clear it quickly — and a failed attempt records nothing.
+  it('offers the test as a TEST-OUT before the reading is done', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.slice(0, 4).map((l) => l.id));
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
     expect(await screen.findByTestId('course-map')).toBeTruthy();
-    await waitFor(() => expect(screen.getByTestId('course-lesson-alphabet')).toBeTruthy());
-    expect(screen.queryByTestId('course-unit-test-A1-1')).toBeNull();
+    const btn = await screen.findByTestId('course-unit-test-A1-1');
+    expect(btn.getAttribute('data-offer')).toBe('testout');
+    expect(btn.textContent).toMatch(/Already know this/);
+  });
+
+  it('offers it as the unit’s PRIMARY action once every lesson is read', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    const btn = await screen.findByTestId('course-unit-test-A1-1');
+    expect(btn.getAttribute('data-offer')).toBe('primary');
+    expect(btn.textContent).toBe('Take the unit test →');
+  });
+
+  // A LOCK IS NEVER SILENT, and it says what it does NOT cover.
+  it('says why a locked unit is not open, and names the library as still open', async () => {
+    seedSpine();
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    fireEvent.click(
+      (await screen.findByText('Asking, Doing, Denying, Describing')).closest('button')!,
+    );
+    const notice = await screen.findByTestId('course-unit-locked-A1-2');
+    expect(notice.textContent).toMatch(/opens this after Unit 1/);
+    expect(notice.textContent).toMatch(/Learning Center/);
+    // No test offer on a locked unit, and its lessons are not tappable from here.
+    expect(screen.queryByTestId('course-unit-test-A1-2')).toBeNull();
+    expect(
+      (screen.getByTestId('course-lesson-basic-questions') as HTMLButtonElement).disabled,
+    ).toBe(true);
+  });
+
+  it('opens the next unit once the current one is mastered', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
+    expect(screen.getByTestId('course-unit-A1-3').getAttribute('data-unit-state')).toBe('locked');
+  });
+
+  // A LOCK MUST NEVER STRAND ANYONE: a unit whose test could not be assembled
+  // from a stale payload lets the course past it.
+  it('opens the next unit when a test could not be assembled', async () => {
+    seedSpine();
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ units: { 'A1-1': { insufficient: true } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).not.toBe(
+      'locked',
+    );
   });
 
   it('marks a unit mastered once its test is passed, and moves the position on', async () => {

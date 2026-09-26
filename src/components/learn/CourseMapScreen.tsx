@@ -39,12 +39,21 @@ import {
   buildCourseUnits,
   courseProgress,
   courseMapBlock,
-  awaitingUnitTest,
+  openUnits,
+  unitTestOffer,
+  lockReason,
   COURSE_MAP_COPY,
   type CourseMapBlock,
+  type CourseUnit,
   type UnitProgress,
 } from '../../lib/courseUnits';
-import { passedUnits, requestUnitTest } from '../../lib/courseUnitProgress';
+import {
+  passedUnits,
+  insufficientUnits,
+  requestUnitTest,
+  readCourseUnits,
+} from '../../lib/courseUnitProgress';
+import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 
 const LEVEL_COLOR: Record<string, string> = {
   A1: '#0e7490',
@@ -69,7 +78,9 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     readCurriculumSpine().length > 0 ? 'settled' : 'pending',
   );
   const [completed, setCompleted] = useState<ReadonlySet<string>>(() => readCompletedLessons());
-  const [mastered, setMastered] = useState<ReadonlySet<string>>(() => passedUnits());
+  const [store, setStore] = useState(() => readCourseUnits());
+  const mastered = useMemo(() => passedUnits(store), [store]);
+  const short = useMemo(() => insufficientUnits(store), [store]);
   const [openUnit, setOpenUnit] = useState<string | null>(null);
   const [launchFailed, setLaunchFailed] = useState<string | null>(null);
 
@@ -113,10 +124,20 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     return () => window.removeEventListener(CURRICULUM_SPINE_EVENT, onSpine);
   }, []);
 
-  const units = useMemo(() => buildCourseUnits(spine), [spine]);
+  const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
+  const openIds = useMemo(
+    () =>
+      openUnits({
+        units,
+        completed,
+        passedUnitIds: mastered,
+        insufficientUnitIds: short,
+      }),
+    [units, completed, mastered, short],
+  );
   const progress = useMemo(
-    () => courseProgress(units, completed, mastered),
-    [units, completed, mastered],
+    () => courseProgress(units, completed, mastered, openIds, short),
+    [units, completed, mastered, openIds, short],
   );
   const block: CourseMapBlock | null = courseMapBlock(fetchState, units.length);
 
@@ -134,7 +155,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
       if (!ok) setLaunchFailed(lessonId);
       else {
         setCompleted(readCompletedLessons());
-        setMastered(passedUnits());
+        setStore(readCourseUnits());
       }
     },
     [onOpenLesson],
@@ -288,6 +309,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
             {rows.map((row) => (
               <UnitRow
                 key={row.unit.id}
+                previous={progress.units[row.unit.index - 2]?.unit ?? null}
                 row={row}
                 color={LEVEL_COLOR[level] || '#0e7490'}
                 expanded={openUnit === row.unit.id}
@@ -309,6 +331,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
 
 function UnitRow({
   row,
+  previous,
   color,
   expanded,
   onToggle,
@@ -317,6 +340,7 @@ function UnitRow({
   onTakeTest,
 }: {
   row: UnitProgress;
+  previous: CourseUnit | null;
   color: string;
   expanded: boolean;
   onToggle: () => void;
@@ -325,6 +349,8 @@ function UnitRow({
   onTakeTest: () => void;
 }) {
   const { unit, done, total, state } = row;
+  const offer = unitTestOffer(row);
+  const locked = lockReason(row, previous);
   return (
     <div
       data-testid={`course-unit-${unit.id}`}
@@ -413,13 +439,35 @@ function UnitRow({
 
       {expanded && (
         <div style={{ padding: '0 14px 12px 14px' }}>
-          {/* THE UNIT'S NEXT ACTION. Offered only once every lesson is read,
-              because a cumulative test over lessons the learner has not met
-              would fail them on content they were never taught — the
-              never-falsely-fail rule the Level Check already holds to. */}
-          {awaitingUnitTest(row) && (
+          {/* WHY THE COURSE HAS NOT OPENED THIS YET — never silence. The library
+              is untouched, and the sentence says so. */}
+          {locked && (
+            <div
+              data-testid={`course-unit-locked-${unit.id}`}
+              role="status"
+              style={{
+                fontSize: 11.5,
+                fontWeight: 700,
+                color: 'var(--subtext)',
+                padding: '8px 2px 4px',
+                lineHeight: 1.5,
+              }}
+            >
+              {locked}
+            </div>
+          )}
+
+          {/* THE UNIT'S TEST. `primary` once the reading is done; `testout`
+              beforehand, which is the SAME test at the SAME bar — the owner's own
+              condition on one path for everyone ("if they are already somewhat
+              familiar they will be able to master easier subjects quickly"), and
+              the answer AnimatedLesson's test-out settled for a single lesson:
+              ONE BAR, NOT TWO. A failed attempt records nothing, so offering it
+              early costs the learner nothing. */}
+          {offer !== 'none' && (
             <button
               data-testid={`course-unit-test-${unit.id}`}
+              data-offer={offer}
               onClick={onTakeTest}
               style={{
                 width: '100%',
@@ -427,9 +475,9 @@ function UnitRow({
                 marginTop: 4,
                 marginBottom: 2,
                 borderRadius: 10,
-                border: 'none',
-                background: color,
-                color: '#fff',
+                border: offer === 'primary' ? 'none' : `1.5px solid ${color}`,
+                background: offer === 'primary' ? color : 'transparent',
+                color: offer === 'primary' ? '#fff' : color,
                 fontSize: 13,
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -437,7 +485,9 @@ function UnitRow({
                 fontFamily: "'Outfit',sans-serif",
               }}
             >
-              Take the unit test →
+              {offer === 'primary'
+                ? 'Take the unit test →'
+                : 'Already know this? Take the unit test →'}
             </button>
           )}
           {row.tested && (
@@ -461,6 +511,7 @@ function UnitRow({
                 data-testid={`course-lesson-${lesson.id}`}
                 data-lesson-done={isDone ? '1' : '0'}
                 onClick={() => onOpenLesson(lesson.id)}
+                disabled={!!locked}
                 style={{
                   width: '100%',
                   display: 'flex',
@@ -471,7 +522,8 @@ function UnitRow({
                   borderRadius: 10,
                   border: '1px solid var(--card-b)',
                   background: isDone ? 'rgba(22,163,74,.06)' : 'var(--bar-bg)',
-                  cursor: 'pointer',
+                  cursor: locked ? 'default' : 'pointer',
+                  opacity: locked ? 0.55 : 1,
                   textAlign: 'left',
                   fontFamily: "'Outfit',sans-serif",
                 }}

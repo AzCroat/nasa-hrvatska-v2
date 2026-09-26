@@ -45,6 +45,7 @@ import {
   type UnitTestItem,
 } from '../../lib/unitTest';
 import { shuffledOrder } from '../../lib/lessonCheck';
+import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 
 /** XP for a first pass. A cumulative test is the biggest single thing a learner
  *  does in a unit, and it is paid once — `passedAt` is written once. */
@@ -74,7 +75,7 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
   const [openFailed, setOpenFailed] = useState(false);
 
   const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
-  const units = useMemo(() => buildCourseUnits(spine), [spine]);
+  const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
 
   // ── Assemble the paper ──────────────────────────────────────────────────
   useEffect(() => {

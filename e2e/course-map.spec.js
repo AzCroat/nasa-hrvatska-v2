@@ -27,7 +27,12 @@ test.describe('Course map', () => {
 
     // Six levels × six units. The count comes from the spine, so this also
     // proves the real /api/content/curriculum projection reached the screen.
-    await expect(page.locator('[data-testid^="course-unit-"]')).toHaveCount(36);
+    //
+    // MATCHED ON `data-unit-state`, NOT on the testid prefix: `course-unit-` also
+    // prefixes `course-unit-test-*`, `course-unit-locked-*` and
+    // `course-unit-mastered-*`, so the prefix form counted 37 once the open unit
+    // started rendering its test offer. Only a unit ROW carries the state attribute.
+    await expect(page.locator('[data-unit-state]')).toHaveCount(36);
     await expect(page.getByText('Unit 1 of 36')).toBeVisible();
     await expect(page.getByTestId('course-lessons-count')).toContainText('/ 180 lessons');
   });
@@ -121,5 +126,48 @@ test.describe('Unit test', () => {
     await expect(page.getByTestId('unit-test-next')).toBeVisible();
     await page.getByTestId('unit-test-next').click();
     await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 2 of 15');
+  });
+});
+
+/**
+ * The gate — the course opens one unit at a time, and says so.
+ *
+ * Driven because the lock is computed from two stores and rendered per row: the
+ * unit tests prove the rule, and only a browser proves a learner meets it.
+ */
+test.describe('The course gate', () => {
+  test.beforeEach(async ({ page }) => {
+    await seedAuth(page);
+    await blockFirebase(page);
+    await mockTTS(page);
+    await mockContent(page);
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('locks every unit after the first, and names what it is waiting on', async ({ page }) => {
+    await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute(
+      'data-unit-state',
+      'current',
+    );
+    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
+    await expect(page.getByTestId('course-unit-C2-6')).toHaveAttribute('data-unit-state', 'locked');
+    await page.getByTestId('course-unit-A1-2').locator('button').first().click();
+    const notice = page.getByTestId('course-unit-locked-A1-2');
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('opens this after Unit 1');
+    // THE LIBRARY IS NOT LOCKED, and the sentence says so.
+    await expect(notice).toContainText('Learning Center');
+  });
+
+  test('offers the test-out on the open unit before any reading', async ({ page }) => {
+    // The CURRENT unit opens by itself, so clicking its header would COLLAPSE it —
+    // which is what made the first version of this test fail on correct code.
+    const offer = page.getByTestId('course-unit-test-A1-1');
+    await expect(offer).toHaveAttribute('data-offer', 'testout');
+    await expect(offer).toContainText('Already know this?');
+    await offer.click();
+    await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 1 of 15');
   });
 });

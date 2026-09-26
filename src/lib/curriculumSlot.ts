@@ -22,32 +22,37 @@
 // (A1 → 3, A2+ → 4, +2 in fluency mode) is unchanged by construction rather than
 // by a second cap that could drift from the first.
 //
-// NO SPINE, NO SLOT. getNextLesson returns null only when the curriculum has
-// never been fetched, and the session then composes exactly as it did before this
-// existed — a path that has never stranded anyone. Teaching is an addition to the
-// session, never a dependency of building one.
+// NO SPINE, NO SLOT. `courseStep.nextCourseStep` returns null only when the
+// curriculum has never been fetched, and the session then composes exactly as it
+// did before this existed — a path that has never stranded anyone. Teaching is an
+// addition to the session, never a dependency of building one.
 
 import type { SkillCategory } from './adaptive';
-import { getNextLesson, type CurriculumStep } from './curriculum';
-import { readCurriculumSpine, readCompletedLessons } from './curriculumProgress';
-import { getCertifiedLevel } from './cefrCertification';
+import type { CurriculumStep } from './curriculum';
+import { nextCourseStep, unitTestActivityId } from './courseStep';
+import { requestUnitTest } from './courseUnitProgress';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 
 /**
- * The lesson to teach in today's session, or null when there is no curriculum
- * data to answer from. Never throws: a failure here must cost the teaching slot,
- * never the session.
+ * The lesson to teach in today's session, or null when the course has no lesson to
+ * serve — either because there is no curriculum data, or because the learner's open
+ * unit is read through and its TEST is the next step (see `buildCurriculumSlots`).
+ * Never throws: a failure here must cost the teaching slot, never the session.
+ *
+ * THE COURSE DECIDES, NOT THE CERTIFICATION INFERENCE (increment 3, 2026-09-26).
+ * This used to call `getNextLesson`, which treats everything below a learner's
+ * certified level as known and therefore serves a certified B1 learner their own
+ * level's first lesson — a unit the course map shows as locked. One path for
+ * everyone means position is positional, and it means Home and the map cannot
+ * disagree. `userCefr` is no longer read for the pick; it stays in the signature
+ * because the follow-on drill below is still CEFR-gated, which is about what the
+ * learner can OPEN rather than where they are.
  */
-export function resolveCurriculumLesson(userCefr: string): CurriculumStep | null {
+export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | null {
   try {
-    const spine = readCurriculumSpine();
-    if (spine.length === 0) return null;
-    return getNextLesson({
-      spine,
-      completed: readCompletedLessons(),
-      certifiedLevel: getCertifiedLevel(),
-      unlockedLevel: userCefr as never,
-    });
+    const step = nextCourseStep();
+    if (!step || step.kind !== 'lesson') return null;
+    return { entry: step.lesson, isReview: false, reason: step.reason };
   } catch {
     return null;
   }
@@ -129,8 +134,45 @@ export function buildCurriculumSlots(opts: {
   screenCefr: Record<string, string | undefined>;
   isUnlocked: (screenCefr: string, userCefr: string) => boolean;
 }): SlotActivity[] {
-  const step = resolveCurriculumLesson(opts.userCefr);
-  if (!step) return [];
+  let course: ReturnType<typeof nextCourseStep> = null;
+  try {
+    course = nextCourseStep();
+  } catch {
+    course = null;
+  }
+  if (!course) return [];
+
+  // THE UNIT TEST IS A TEACHING SLOT, and it has to be, or the course stalls.
+  // With the reading done, the alternative to serving the test is serving the NEXT
+  // unit's lesson — racing past the gate — or serving nothing, which leaves the
+  // course waiting on an action Home never asks for. It takes P0's slot exactly as
+  // a lesson does, and carries no follow-on drill: the test is the whole step.
+  //
+  // The handoff is written HERE rather than at launch, because the session builder
+  // is the only place that knows which unit the slot is about. It is idempotent and
+  // ephemeral (sessionStorage), and the screen reads it non-destructively.
+  if (course.kind === 'unit-test') {
+    try {
+      requestUnitTest(course.unit.id);
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    return [
+      {
+        id: unitTestActivityId(course.unit.id),
+        label: `Unit ${course.unit.index} test`,
+        screen: 'unittest',
+        category: 'general',
+        reason: course.reason,
+      },
+    ];
+  }
+
+  const step: CurriculumStep = {
+    entry: course.lesson,
+    isReview: false,
+    reason: course.reason,
+  };
   const out: SlotActivity[] = [
     {
       id: curriculumLessonId(step.entry.id),

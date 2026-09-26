@@ -11114,6 +11114,68 @@ production (one spoken, one written, rubric-graded through `/api/correct` and
 `/api/speaking-coach`), then the 7/30-day retention re-checks that turn `mastered`
 into a claim about retention rather than one sitting.
 
+## Sweep 153 — step 3, increment 3: the gate, and one answer to "what next" (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 3". The short
+version: increment 2 left the daily session choosing lessons through the old
+CERTIFICATION INFERENCE while the map gated on unit mastery, so for a certified
+learner the two surfaces disagreed. That is why the gate and the session change
+shipped together.
+
+**SHIPPED**
+
+- `src/lib/courseStep.ts` — `nextCourseStep` / `pickCourseStep`, read by BOTH the
+  teaching slot (`resolveCurriculumLesson`) and the launcher (`pickSessionLesson`).
+- `openUnits` + `lockReason` + the `locked` state: the course opens one unit at a
+  time, on the unit test, with two escape hatches (a test that cannot be assembled,
+  and a unit whose lessons are all read).
+- `unitTestOffer` → `testout`: the same test at the same bar, offered before the
+  reading, which is what makes one path for everyone bearable.
+- The unit test as a teaching slot, with the handoff written by the session builder.
+- `getNextLesson` and `levelProgress` DELETED, and `curriculumEngine.test.ts` with
+  them. `curriculum.ts` is 65 lines of types plus the history of why the inference
+  existed.
+
+**THE FIVE THINGS WORTH REMEMBERING**
+
+1. **A unit both read-through and unassemblable was a STRAND**, found by a test I
+   wrote for something else: the gate let the course past it while the offer still
+   called it `primary`, so the teaching slot sent the learner to a dead-end screen
+   every day. `short` is on `UnitProgress` for that reason.
+2. **My own optional parameter contradicted its own docstring.** "Omit to lock
+   nothing" defaulted to an empty SET, which locked everything after the current
+   unit. `undefined` is the no-gate signal now.
+3. **The locked clause in the walk survived its mutation and is now exercisable.**
+   It is unreachable through storage (provably, across two modules), so the walk was
+   extracted as the pure `pickCourseStep` and given a synthetic control rather than
+   deleted — an invariant proved by cross-module reasoning is what breaks when one
+   module changes.
+4. **`firstPaintGraph` caught 9 KB of unit titles re-coupling the whole content
+   library**, exactly as its own comment predicts (`manualChunks` groups every
+   `src/data/*` file into one chunk). Names are passed in by the lazy screens now;
+   the session's reason line is positional.
+5. **A SURVIVING MUTATION MAY MEAN THE RUNNER IS TOO NARROW.** Gutting the
+   launcher's course pick passed my five-file runner and fails
+   `curriculumPick.test.ts`, which was not in it.
+
+**VERIFICATION** — mutation-verified twelve ways (M24–M35), each failing 1–10
+tests; full suite 653 files / 10,305 tests; `e2e/course-map.spec.js` at 8 tests
+(the lock, its sentence, the test-out, a real fifteen-item paper) green against a
+CI-equivalent build, plus `home`/`learn`/`navigation`/`sp4b-production-slot` (37)
+re-run because the teaching slot changed.
+
+**WHAT THIS COSTS, STATED** — every learner with a certification now starts the
+course at Unit 1 whatever their CEFR badge says. The owner's decision, in those
+words; test-out is what makes it cheap. Content unlock, the verification gate and
+every CEFR badge are untouched.
+
+**NEXT** — production in the gate (one spoken, one written, rubric-graded through
+`/api/correct` and `/api/speaking-coach`, 72 authored tasks — the first thing worth
+fanning agents at, behind the writing curriculum's existing "the model must pass
+its own checklist" rule), then the 7/30-day retention re-checks that turn
+`mastered` into a claim about RETENTION rather than one sitting. After that, step 2:
+the ~100 hand-written drills onto ModeDrill.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

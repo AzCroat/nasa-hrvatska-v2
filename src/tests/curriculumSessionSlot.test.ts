@@ -61,6 +61,7 @@ const SPINE: CurriculumEntry[] = [
 
 beforeEach(() => {
   localStorage.clear();
+  sessionStorage.clear();
   vi.clearAllMocks();
 });
 
@@ -76,7 +77,36 @@ describe('the lesson comes first', () => {
     writeCurriculumSpine(SPINE);
     const first = buildSessionActivities('A1')[0];
     expect(first?.label).toBe('Croatian Alphabet & Pronunciation');
-    expect(first?.reason).toBe('Lesson 1 of 2 in A1');
+    // THE REASON NAMES THE UNIT POSITIONALLY (increment 3, 2026-09-26). It used to
+    // be "Lesson 1 of 2 in A1", from `getNextLesson`; the course is the arbiter now.
+    // The unit's authored NAME is deliberately absent: it lives in src/data, which
+    // `manualChunks` groups with the content library, and this path is reached from
+    // App.tsx. The label beside it is the lesson's own title. This two-lesson
+    // fixture spine is one short unit.
+    expect(first?.reason).toBe('Unit 1 of 1');
+  });
+
+  // ONCE THE UNIT IS READ THROUGH, THE TEACHING SLOT IS ITS TEST. The alternative
+  // is serving the next unit's lesson (racing past the gate) or nothing at all (a
+  // silent stall, waiting on an action Home never asks for).
+  it('serves the unit test once every lesson of the open unit is read', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    const first = buildSessionActivities('A1')[0];
+    expect(first?.screen).toBe('unittest');
+    expect(first?.id).toBe('course_unit_test_A1-1');
+    expect(first?.reason).toMatch(/Unit 1 test/);
+    // The handoff names the unit, so the screen knows what to assemble.
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1');
+  });
+
+  it('carries no follow-on drill with the unit test — the test is the whole step', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    const acts = buildSessionActivities('A1');
+    expect(acts.filter((a) => a.id.startsWith('curriculum_practice_'))).toHaveLength(0);
   });
 
   it('advances once the learner completes it', () => {

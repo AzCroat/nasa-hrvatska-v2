@@ -34,9 +34,10 @@ export interface DailySession {
    *
    * Absent on plans written before 2026-09-22, which reads as false and lets
    * those be repaired once. This is RECORDED rather than inferred from "the plan
-   * has no lesson", because inferring it would couple the retry to
-   * getNextLesson staying total — and a future change there would turn a silent
-   * no-op into a rebuild on every render. See shouldRetryTeachingSlot.
+   * has no lesson", because inferring it would couple the retry to the sequencer
+   * (`courseStep.nextCourseStep`) staying total — and a future change there would
+   * turn a silent no-op into a rebuild on every render. See
+   * shouldRetryTeachingSlot.
    */
   spineSeen?: boolean;
   activities: SessionActivity[];

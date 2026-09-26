@@ -14,8 +14,8 @@
 // WHY THE CACHE EXISTS AT ALL: buildSessionActivities is synchronous, and making
 // it async to await a fetch would ripple through every caller and every test for
 // the sake of one slot. A cached spine keeps the seam where it belongs — and its
-// absence is already a defined state, because getNextLesson returns null with no
-// spine and the session simply composes as it did before.
+// absence is already a defined state, because `courseStep.nextCourseStep` returns
+// null with no spine and the session simply composes as it did before.
 
 import type { CurriculumEntry } from './curriculum';
 

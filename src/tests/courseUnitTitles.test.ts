@@ -21,7 +21,7 @@ import { buildCourseUnits } from '../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../data/courseUnitTitles';
 import type { CurriculumEntry } from '../lib/curriculum';
 
-const units = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[]);
+const units = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[], COURSE_UNIT_TITLES);
 
 /** [first lesson id, last lesson id] per unit — frozen on 2026-09-26. */
 const BOUNDARIES: Readonly<Record<string, readonly [string, string]>> = {

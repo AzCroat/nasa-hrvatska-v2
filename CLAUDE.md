@@ -3944,6 +3944,101 @@ test, and `src/lib/courseUnitProgress.ts` (`nh_course_units`) records it.
   infer `insufficient` instead of recording that the build was attempted; treat five
   lessons read as mastery.
 
+### Increment 3 — the gate, the test-out, and one answer to "what next" (2026-09-26)
+
+Increment 2 shipped a unit test and a mastery state while the daily session was
+still choosing lessons through `getNextLesson`'s CERTIFICATION INFERENCE. **Two
+surfaces contradicting each other is worse than either rule alone**: the session
+served a certified B1 learner their own level's first lesson, and the course map
+would have shown that unit as locked. So the gate and the session change ship
+together, and the old sequencer is deleted.
+
+- **`src/lib/courseStep.ts` IS THE ONE ANSWER NOW.** `resolveCurriculumLesson`
+  (P0's teaching slot) and `pickSessionLesson` (the launcher that resolves which
+  lesson to open) both read `nextCourseStep`, so Home, the launcher and the map
+  cannot disagree. `getNextLesson` and `levelProgress` are **deleted, not
+  deprecated** — a second sequencer in the tree, unused but tested and plausible,
+  is the `SpeakingScreen` prompt-pool shape, and this one had just caused the
+  contradiction. `curriculum.ts` keeps its two TYPES (a dozen live modules import
+  `CurriculumEntry`) and its header now records the inference as history, including
+  WHY it existed: every learner had zero completions on the day the curriculum
+  shipped, and backfilling them would have been a lie in synced storage.
+- **THE GATE OPENS ONE UNIT AT A TIME**, and the bar is the unit test
+  (`openUnits`). What is gated is the PATH, not the content: every lesson stays
+  reachable from the Learning Center and from search, which is the owner's own
+  sentence in the same breath as asking for the course — _"You can do extra
+  studying if you want but there is a PROVEN set curriculum that guides the
+  learner."_ A locked unit is the course declining to walk you there.
+- **TWO ESCAPE HATCHES, because a lock must never strand anyone.** A unit whose
+  test could not be assembled (`insufficient`, measured) opens the next one; and so
+  does a unit whose five lessons are all READ, which is not the bar and does not
+  master it — a learner who has done the reading and cannot pass yet must not hit a
+  dead end. The unit stays un-mastered and the map keeps offering its test.
+- **TEST-OUT IS THE SAME TEST AT THE SAME BAR** (`unitTestOffer` → `testout`).
+  One path for everyone only works if a learner who already knows A1 can clear its
+  six units quickly, and the owner's directive says exactly that. `AnimatedLesson`
+  settled the identical question for a single lesson and its answer was ONE BAR,
+  NOT TWO — a stricter threshold for the same questions would be arbitrary and
+  unexplainable, and a failed attempt records nothing, so offering it early costs
+  the learner nothing. A passed test-out advances the course with the lessons
+  unread, which is honest: the map shows 0/5 and a mastered tick.
+- **THE UNIT TEST IS A TEACHING SLOT, and it has to be.** With the reading done,
+  the alternatives were serving the next unit's lesson (racing past the gate) or
+  serving nothing (a silent stall, the course waiting on an action Home never asks
+  for). It takes P0's slot as a lesson does and carries no follow-on drill. The
+  `OUTSIDE_SESSION` reason written for it one increment earlier — "it cannot be
+  served as a session activity" — became FALSE and is corrected in place; that is
+  the stale-exemption shape, met in a list I had just written.
+- **A UNIT BOTH READ-THROUGH AND UNASSEMBLABLE WAS A STRAND, found by a test.**
+  The gate lets the course past such a unit, but `unitTestOffer` still called it
+  `primary`, so the teaching slot sent the learner to a screen that cannot serve a
+  test — every day, for ever. `short` is now on `UnitProgress` for that reason: both
+  the map and the session must stop OFFERING a test they know cannot be served.
+- **MY OWN OPTIONAL PARAMETER CONTRADICTED ITS OWN DOCSTRING.**
+  `courseProgress`'s gate argument said "omit to lock nothing" and defaulted to an
+  empty SET, which locked every unit after the current one. `undefined` is the
+  no-gate signal now, distinguishable from an empty set (which legitimately means
+  the course has opened nothing). Mutation-verified.
+- **THE LOCKED CLAUSE IN THE WALK SURVIVED ITS MUTATION, AND IS NOW EXERCISABLE.**
+  Removing `if (row.state === 'locked') break;` changed nothing, because `openUnits`
+  stops the chain at the first unit that does not advance and such a unit has an
+  unread lesson the walk returns on — so the walk provably cannot reach a locked row
+  today. The clause STAYS (an invariant proved by reasoning across two modules is
+  what breaks when one changes), and the walk was extracted as the pure
+  `pickCourseStep` so a synthetic control can hand it a locked row. Both directions
+  now fail on that mutation.
+- **`firstPaintGraph` CAUGHT THE TITLES RE-COUPLING THE CONTENT LIBRARY**, which is
+  that guard's own comment landing on exactly the case it predicted: `manualChunks`
+  maps every `src/data/*` module into ONE chunk, so `courseUnits.ts` statically
+  importing 9 KB of authored names put the whole library on the first-paint path
+  (App.tsx → useScreenLauncher → sessionLessonPick → courseStep → courseUnits).
+  Names are PASSED IN now: the two lazily-loaded screens supply them, the session
+  path does not, and the session's reason line is positional (`Unit 1 of 36`) beside
+  a label that is already the lesson's own title.
+- **A MUTATION THAT "SURVIVES" MAY MEAN THE RUNNER'S FILE LIST IS TOO NARROW.**
+  Gutting `pickSessionLesson`'s course pick passed my five-file mutation runner and
+  fails `curriculumPick.test.ts`, which was not in it. Same family as "check where
+  the mutation landed": check what the runner RUNS before reading a survival.
+- Mutation-verified, twelve (M24–M35), each failing 1–10 tests: the gate opening
+  everything; a read-through unit not opening the next; the `insufficient` marker not
+  opening the next; no test-out; the teaching slot never serving the test; the slot
+  forgetting the handoff; the walk running past a locked row (with the control);
+  an unassemblable unit's test still offered; the lock reason going silent; the
+  launcher back to rotation only; the empty-set gate default; and the titles imported
+  back onto the first-paint path.
+- **WHAT THIS COSTS, STATED.** Every learner with a certification now starts the
+  course at Unit 1, whatever their CEFR badge says. That is the owner's decision,
+  made in those words, and the test-out offer is what makes it cheap. Nothing else
+  moved: content unlock, the verification gate and every CEFR badge still read what
+  they read.
+- NEVER: read a CEFR or certified level to decide what the course serves next;
+  leave a second sequencer in the tree; gate the LIBRARY (only the path); ship a
+  lock without an escape hatch for a test that cannot be assembled; offer a test the
+  app knows it cannot serve; let an optional parameter's default contradict its
+  docstring; import `src/data` from a module on the first-paint path (one small file
+  re-couples the whole content chunk); read a surviving mutation without checking
+  which files the runner ran.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What
