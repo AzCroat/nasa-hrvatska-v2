@@ -10,6 +10,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import {
   COURSE_UNITS_KEY,
+  markProductionUnavailable,
+  producedUnits,
+  productionBlockedUnits,
+  recordUnitProduction,
   MAX_UNIT_ATTEMPTS,
   courseUnitsOrUndef,
   insufficientUnits,
@@ -113,6 +117,111 @@ describe('the insufficient marker', () => {
     markUnitTestInsufficient('B2-3');
     expect(unitRecord('B2-3')!.attempts).toHaveLength(1);
     expect(unitRecord('B2-3')!.insufficient).toBe(true);
+  });
+});
+
+describe('production', () => {
+  it('records each half separately and reports both done', () => {
+    recordUnitProduction('A1-1', 'write', 74, '2026-09-20');
+    expect([...producedUnits()]).toEqual([]);
+    recordUnitProduction('A1-1', 'speak', 0.8, '2026-09-21');
+    expect([...producedUnits()]).toEqual(['A1-1']);
+    const prod = unitRecord('A1-1')!.production!;
+    expect(prod).toMatchObject({
+      wroteAt: '2026-09-20',
+      writeScore: 74,
+      spokeAt: '2026-09-21',
+      speakScore: 0.8,
+    });
+  });
+
+  it('keeps the FIRST date and the BEST score on a repeat', () => {
+    recordUnitProduction('A1-1', 'write', 80, '2026-09-10');
+    recordUnitProduction('A1-1', 'write', 55, '2026-09-25');
+    expect(unitRecord('A1-1')!.production).toMatchObject({ wroteAt: '2026-09-10', writeScore: 80 });
+    recordUnitProduction('A1-1', 'write', 91, '2026-09-26');
+    expect(unitRecord('A1-1')!.production!.writeScore).toBe(91);
+  });
+
+  it('refuses a non-numeric score and an empty unit', () => {
+    expect(recordUnitProduction('A1-1', 'write', NaN)).toBeNull();
+    expect(recordUnitProduction('', 'write', 50)).toBeNull();
+    expect([...producedUnits()]).toEqual([]);
+  });
+
+  it('records a refused evaluator, which is not a grade', () => {
+    markProductionUnavailable('A1-1');
+    expect([...productionBlockedUnits()]).toEqual(['A1-1']);
+    expect([...producedUnits()]).toEqual([]);
+  });
+
+  // A LATER SUCCESS CLEARS IT: the learner reached the evaluator.
+  it('clears the refusal marker on a later grade', () => {
+    markProductionUnavailable('A1-1');
+    recordUnitProduction('A1-1', 'write', 66);
+    expect([...productionBlockedUnits()]).toEqual([]);
+  });
+
+  it('does not record a refusal once both halves are graded', () => {
+    recordUnitProduction('A1-1', 'write', 66);
+    recordUnitProduction('A1-1', 'speak', 0.7);
+    markProductionUnavailable('A1-1');
+    expect([...productionBlockedUnits()]).toEqual([]);
+  });
+
+  it('leaves the unit test record alone', () => {
+    recordUnitTest('A1-1', 13, 15, true, '2026-09-01');
+    recordUnitProduction('A1-1', 'write', 74);
+    expect(unitRecord('A1-1')!.passedAt).toBe('2026-09-01');
+    expect(unitRecord('A1-1')!.attempts).toHaveLength(1);
+  });
+});
+
+describe('the production merge is additive', () => {
+  it('unions the two halves across devices', () => {
+    const m = mergeCourseUnits(
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-10', writeScore: 70 } } } },
+      { units: { 'A1-1': { production: { spokeAt: '2026-09-11', speakScore: 0.8 } } } },
+    );
+    expect(m.units['A1-1']!.production).toMatchObject({
+      wroteAt: '2026-09-10',
+      writeScore: 70,
+      spokeAt: '2026-09-11',
+      speakScore: 0.8,
+    });
+  });
+
+  it('takes the EARLIER date and the BETTER score', () => {
+    const m = mergeCourseUnits(
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-20', writeScore: 60 } } } },
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-05', writeScore: 88 } } } },
+    );
+    expect(m.units['A1-1']!.production).toMatchObject({ wroteAt: '2026-09-05', writeScore: 88 });
+  });
+
+  it('drops a refusal marker when the other device graded both halves', () => {
+    const m = mergeCourseUnits(
+      { units: { 'A1-1': { production: { unavailable: true } } } },
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-10', spokeAt: '2026-09-11' } } } },
+    );
+    expect(m.units['A1-1']!.production!.unavailable).toBeUndefined();
+  });
+
+  it('keeps a refusal marker while a half is still ungraded', () => {
+    const m = mergeCourseUnits(
+      { units: { 'A1-1': { production: { unavailable: true } } } },
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-10' } } } },
+    );
+    expect(m.units['A1-1']!.production!.unavailable).toBe(true);
+  });
+
+  it('carries one side’s production when the other has none', () => {
+    const m = mergeCourseUnits(
+      { units: { 'A1-1': { passedAt: '2026-09-01' } } },
+      { units: { 'A1-1': { production: { wroteAt: '2026-09-02' } } } },
+    );
+    expect(m.units['A1-1']!.production!.wroteAt).toBe('2026-09-02');
+    expect(m.units['A1-1']!.passedAt).toBe('2026-09-01');
   });
 });
 
@@ -241,6 +350,8 @@ describe('the store writes nothing a scheduler reads', () => {
   it('touches only its own key', () => {
     recordUnitTest('A1-1', 13, 15, true);
     markUnitTestInsufficient('A1-2');
+    recordUnitProduction('A1-1', 'write', 70);
+    markProductionUnavailable('A1-3');
     writeCourseUnits(readCourseUnits());
     const keys = Object.keys(localStorage).sort();
     expect(keys).toEqual([COURSE_UNITS_KEY]);

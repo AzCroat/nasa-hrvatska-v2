@@ -437,6 +437,7 @@ const GrammarReference = lazyWithReload(() => import('./shared/GrammarReference'
 const LearningCenter = lazyWithReload(() => import('./learn/LearningCenter'));
 const CourseMapScreen = lazyWithReload(() => import('./learn/CourseMapScreen'));
 const UnitTestScreen = lazyWithReload(() => import('./learn/UnitTestScreen'));
+const UnitProductionScreen = lazyWithReload(() => import('./learn/UnitProductionScreen'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
 const SurvivalDinner = lazyWithReload(() => import('./croatia/SurvivalDinner'));
@@ -3384,6 +3385,17 @@ export default function AppRouter(props: Record<string, any>) {
             <AnalyticsScreen goBack={goBack} stats={stats} name={name} />
           </ScreenErrorBoundary>
         )}
+        {
+          // ═══ UNIT PRODUCTION ═══
+          // The other half of the course's bar: one written and one spoken task per
+          // unit, briefed from its own lessons' objectives and graded by the same
+          // evaluators everything else uses.
+          currentScreen === 'unitproduction' && (
+            <ScreenErrorBoundary key="unitproduction" name="unitproduction">
+              <UnitProductionScreen goBack={goBack} award={award} />
+            </ScreenErrorBoundary>
+          )
+        }
         {
           // ═══ UNIT TEST ═══
           // The cumulative test at the end of a course unit: fifteen items mixed

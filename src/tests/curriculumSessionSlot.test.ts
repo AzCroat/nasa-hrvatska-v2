@@ -36,6 +36,7 @@ vi.mock('../lib/cefrCertification', () => ({
 
 import { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } from '../hooks/useDailySession';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
+import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 // Real lesson ids, so the LESSON_TAUGHT_CATEGORY lookup exercises the real map
@@ -99,6 +100,50 @@ describe('the lesson comes first', () => {
     expect(first?.reason).toMatch(/Unit 1 test/);
     // The handoff names the unit, so the screen knows what to assemble.
     expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1');
+  });
+
+  // AND ONCE THE TEST IS PASSED, THE SLOT IS THE PRODUCTION TASK. Without this the
+  // course stalls in silence: Home would serve the next unit's lesson (advancing the
+  // learner past a bar they have not met) or nothing at all, waiting on an action
+  // nothing asks for. Mutation-verified — removing the slot's production branch
+  // passed every other suite.
+  it('serves the written production task once the unit test is passed', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    recordUnitTest('A1-1', 15, 15, true);
+    const first = buildSessionActivities('A1')[0];
+    expect(first?.screen).toBe('unitproduction');
+    expect(first?.id).toBe('course_unit_write_A1-1');
+    expect(first?.reason).toMatch(/write what you have learned/);
+    // The handoff names the unit AND the half.
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
+  });
+
+  it('serves the spoken half once the written one is graded', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    recordUnitTest('A1-1', 15, 15, true);
+    recordUnitProduction('A1-1', 'write', 72);
+    const first = buildSessionActivities('A1')[0];
+    expect(first?.screen).toBe('unitproduction');
+    expect(first?.id).toBe('course_unit_speak_A1-1');
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|speak');
+  });
+
+  it('moves on to the next unit’s lesson once the whole bar is met', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    recordUnitTest('A1-1', 15, 15, true);
+    recordUnitProduction('A1-1', 'write', 72);
+    recordUnitProduction('A1-1', 'speak', 0.8);
+    // This fixture spine is one unit, so the course is finished and the teaching
+    // slot stands down — which is the null contract, not a stall.
+    const acts = buildSessionActivities('A1');
+    expect(acts.filter((a) => a.screen === 'unitproduction')).toHaveLength(0);
+    expect(acts.filter((a) => a.screen === 'unittest')).toHaveLength(0);
   });
 
   it('carries no follow-on drill with the unit test — the test is the whole step', () => {

@@ -218,41 +218,97 @@ export interface UnitProgress {
 // curriculum that guides the learner."_ A locked unit is the course declining to
 // walk you there, never the app hiding it.
 //
-// A LOCK MUST NEVER BE ABLE TO STRAND ANYONE, so two things pass through it:
+// THE BAR IS THE UNIT TEST **AND** PRODUCTION (increment 4): the owner's own
+// design, _"advance on accuracy (unit test at 85%) + production (one spoken, one
+// written, rubric-graded)"_. The test is recognition; production is the half that
+// asks the learner to reach for the structure rather than recognise it.
+//
+// A LOCK MUST NEVER BE ABLE TO STRAND ANYONE, so two MEASURED conditions pass
+// through it — both of them "the app could not serve the bar", never "the learner
+// could not meet it":
 //
 //   * `insufficient` — the unit's cached lesson bodies could not assemble a real
-//     test (measured, not inferred; see courseUnitProgress). A learner must not be
-//     walled behind an old payload, so such a unit opens the next one.
-//   * a unit whose five lessons are all READ. That is not the bar and does not
-//     master the unit, but a learner who has done the reading and cannot pass the
-//     test yet must still be able to go on rather than hit a dead end. The unit
-//     stays un-mastered, the map keeps offering its test, and nothing claims they
-//     know it.
+//     test (see courseUnitProgress). A learner must not be walled behind an old
+//     payload.
+//   * `production.unavailable` — the learner produced and the EVALUATOR refused
+//     (budget paused, daily quota, offline). Course progress must not depend on a
+//     live AI service the learner does not control. A later successful grade clears
+//     the marker.
+//
+// A READ-THROUGH HATCH WAS HERE FOR ONE INCREMENT AND IS REMOVED, which is worth
+// recording because the reasoning for it was wrong in a way that read as safety.
+// It let a unit advance once its five lessons were read, on the argument that a
+// learner who has done the reading and cannot pass the test must not hit a dead
+// end. But the test is RE-TAKEABLE indefinitely, with a different sample each time,
+// and the library is open — so there was never a dead end to prevent. What the
+// hatch actually did was let anyone skip both halves of the bar by paging through
+// five lessons, which is the gate the owner asked for quietly not existing
+// (_"It should begin basic and move to more advanced topics after basics have been
+// mastered"_). Being stuck on a unit you have not yet mastered is the gate working.
 //
 // The FIRST unit is never locked, whatever the store says.
 
 export interface OpenUnitsInput {
   units: readonly CourseUnit[];
+  /** Kept for the row counts; no longer part of the advancement rule. */
   completed: ReadonlySet<string> | readonly string[];
   passedUnitIds: ReadonlySet<string> | readonly string[];
+  /** Units whose BOTH production tasks are graded. */
+  producedUnitIds?: ReadonlySet<string> | readonly string[];
   /** Units whose test could not be assembled. */
   insufficientUnitIds?: ReadonlySet<string> | readonly string[];
+  /** Units where the learner produced and the evaluator refused. */
+  productionBlockedUnitIds?: ReadonlySet<string> | readonly string[];
 }
 
-/** The unit ids the course has opened, in order. */
-export function openUnits(input: OpenUnitsInput): Set<string> {
-  const done = asSet(input.completed);
+/**
+ * What the course has opened, and what has met the whole bar.
+ *
+ * TWO SETS, NOT ONE, and that is a correction: `currentIndex` used to be the first
+ * unit whose TEST was unpassed, which was the same thing as "not finished" only
+ * while the test was the whole bar. With production in it, a unit with a passed test
+ * and an owed written task is still where the learner is — and computing the
+ * position from `tested` alone made the map show the NEXT unit as current while
+ * locking it, which is two contradictory things about one row. Found in a browser by
+ * the E2E, not by any unit test.
+ */
+export interface OpenUnitsResult {
+  /** Units the learner may work in: everything advanced, plus the one they are on. */
+  open: Set<string>;
+  /** Units that have met the whole bar. */
+  advanced: Set<string>;
+}
+
+export function openUnits(input: OpenUnitsInput): OpenUnitsResult {
   const passed = asSet(input.passedUnitIds);
+  const produced = asSet(input.producedUnitIds ?? []);
   const short = asSet(input.insufficientUnitIds ?? []);
-  const out = new Set<string>();
+  const blocked = asSet(input.productionBlockedUnitIds ?? []);
+  const open = new Set<string>();
+  const advanced = new Set<string>();
   for (const unit of input.units) {
-    out.add(unit.id);
-    const total = unit.lessons.length;
-    const read = unit.lessons.filter((l) => done.has(l.id)).length;
-    const advances = passed.has(unit.id) || short.has(unit.id) || (total > 0 && read >= total);
-    if (!advances) break;
+    open.add(unit.id);
+    // Either half may be satisfied by the app admitting it could not serve it, and
+    // by nothing else. `short` stands in for the test, `blocked` for production.
+    const accuracy = passed.has(unit.id) || short.has(unit.id);
+    const output = produced.has(unit.id) || blocked.has(unit.id);
+    if (!(accuracy && output)) break;
+    advanced.add(unit.id);
   }
-  return out;
+  return { open, advanced };
+}
+
+/** Whether this unit still owes production, and which half. */
+export function productionOwed(input: {
+  unitId: string;
+  producedUnitIds: ReadonlySet<string> | readonly string[];
+  wrote: boolean;
+  spoke: boolean;
+  blocked: boolean;
+}): { write: boolean; speak: boolean } | null {
+  if (asSet(input.producedUnitIds).has(input.unitId) || input.blocked) return null;
+  const owed = { write: !input.wrote, speak: !input.spoke };
+  return owed.write || owed.speak ? owed : null;
 }
 
 /** Why a unit will not open, in the learner's words. Null when it is open. */
@@ -320,31 +376,44 @@ function asSet(v: ReadonlySet<string> | readonly string[]): ReadonlySet<string> 
  * `currentIndex` is null; the caller must render its content-state notice rather
  * than a row of zeros, because a count is a claim too.
  */
+export interface CourseGate {
+  /** Units the learner may work in — `openUnits().open`. */
+  open: ReadonlySet<string> | readonly string[];
+  /** Units that met the whole bar — `openUnits().advanced`. */
+  advanced: ReadonlySet<string> | readonly string[];
+  /** Units whose test could not be assembled. */
+  insufficient?: ReadonlySet<string> | readonly string[];
+}
+
+/**
+ * ONE GATE OBJECT, not four positional sets. The previous signature had grown to
+ * five arguments, one of which silently locked everything when omitted — and the
+ * next one would have been six. A named object means a caller cannot pass the gate
+ * in the wrong slot, and an omitted gate means exactly one thing: no gate.
+ */
 export function courseProgress(
   units: readonly CourseUnit[],
   completed: ReadonlySet<string> | readonly string[],
   passedUnitIds: ReadonlySet<string> | readonly string[],
-  /** Units the course has opened — see `openUnits`. Omit to lock nothing. */
-  openableUnitIds?: ReadonlySet<string> | readonly string[],
-  /** Units whose test could not be assembled. Omit when nothing is known. */
-  insufficientUnitIds?: ReadonlySet<string> | readonly string[],
+  gate?: CourseGate,
 ): CourseProgress {
   const set = asSet(completed);
   const passed = asSet(passedUnitIds);
-  // OMITTED MEANS LOCK NOTHING, and the first version of this got it backwards:
+  // AN OMITTED GATE MEANS NO GATE, and the first version of this got it backwards:
   // defaulting to an empty SET locked every unit after the current one while the
   // docstring said the opposite — a default that contradicts its own comment, which
-  // is the defect this file keeps finding in other people's code. `null` is the
-  // "no gate" signal and is distinguishable from an empty set, which legitimately
-  // means "the course has opened nothing".
-  const openable = openableUnitIds === undefined ? null : asSet(openableUnitIds);
-  const short = asSet(insufficientUnitIds ?? []);
+  // is the defect this file keeps finding in other people's code.
+  const openable = gate ? asSet(gate.open) : null;
+  const advanced = gate ? asSet(gate.advanced) : null;
+  const short = asSet(gate?.insufficient ?? []);
   const rows = units.map((unit) => {
     const total = unit.lessons.length;
     const done = unit.lessons.filter((l) => set.has(l.id)).length;
     return { unit, done, total, tested: passed.has(unit.id), short: short.has(unit.id) };
   });
-  const first = rows.find((r) => !r.tested);
+  // THE CURRENT UNIT IS THE FIRST ONE THAT HAS NOT MET THE WHOLE BAR. Without a gate
+  // there is nothing but the test to go on, which is the pre-gate reading.
+  const first = advanced ? rows.find((r) => !advanced.has(r.unit.id)) : rows.find((r) => !r.tested);
   const currentIndex = first ? first.unit.index : null;
   return {
     units: rows.map((r) => ({
@@ -353,7 +422,10 @@ export function courseProgress(
       total: r.total,
       tested: r.tested,
       short: r.short,
-      state: r.tested
+      // `mastered` means the WHOLE bar, not the test alone — a unit with a passed
+      // test and an owed production task is `current`, because that is where the
+      // learner is and what the map must ask them for.
+      state: (advanced ? advanced.has(r.unit.id) : r.tested)
         ? 'mastered'
         : r.unit.index === currentIndex
           ? 'current'
@@ -364,7 +436,7 @@ export function courseProgress(
               : 'upcoming',
     })),
     currentIndex,
-    unitsMastered: rows.filter((r) => r.tested).length,
+    unitsMastered: rows.filter((r) => (advanced ? advanced.has(r.unit.id) : r.tested)).length,
     unitsCleared: rows.filter((r) => r.total > 0 && r.done >= r.total).length,
     unitsTotal: rows.length,
     lessonsDone: rows.reduce((n, r) => n + r.done, 0),

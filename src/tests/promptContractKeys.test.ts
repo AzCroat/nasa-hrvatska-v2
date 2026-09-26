@@ -88,8 +88,23 @@ function endpointsIn(file: string): Set<string> {
   // files that mention /api/, and none of them is a writeeval surface — so this
   // was LATENT here and is a ratchet, not a save. The three are the files that
   // tripped sweep 120's own census before it was widened.
-  return new Set([...s.matchAll(/['"`](\/api\/[a-z0-9-]+)/g)].map((m) => m[1]!));
+  const found = new Set([...s.matchAll(/['"`](\/api\/[a-z0-9-]+)/g)].map((m) => m[1]!));
+  // A HELPER STANDS FOR ITS ROUTE. A file that posts writeeval directly and reaches
+  // a SECOND endpoint through a named library function is multi-endpoint, and
+  // attributing that other response's keys to this prompt manufactures findings —
+  // which is what happened to `UnitProductionScreen`, whose `.overall` comes from
+  // `/api/speaking-coach`. Same mechanism as `aiSurfaceClassifies`' ENDPOINT_HELPERS,
+  // and each entry is pinned below to the route its own source actually posts to.
+  for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
+    if (new RegExp(`\\b${helper}\\s*\\(`).test(s)) found.add(route);
+  }
+  return found;
 }
+
+/** Library functions that ARE a call to one endpoint. Pinned by source below. */
+const ENDPOINT_HELPERS: Record<string, string> = {
+  requestSpeakingCoach: '/api/speaking-coach',
+};
 
 /**
  * ATTRIBUTABLE surfaces only: files where the evaluator is the ONLY AI endpoint,
@@ -137,6 +152,26 @@ describe('the writing evaluator promises what its consumers read', () => {
   const declared = declaredKeys('WRITING_EVAL_PROMPT');
   const consumers = writeevalConsumers();
 
+  // A NAME IN A MATCHER GUARDS NOTHING UNTIL IT IS CONFIRMED TO MATCH A REAL USE
+  // (sweep 124's rule). Each helper must exist, post the route claimed for it, and
+  // be reached by at least one file in the tree.
+  it('every endpoint helper really posts the route claimed for it', () => {
+    const files = globSync('src/**/*.{ts,tsx}').filter(
+      (f) => !/(^|\/)(tests|__tests__)\//.test(f) && !/\.test\./.test(f),
+    );
+    for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
+      const home = files.find((f) =>
+        new RegExp(`function ${helper}\\b`).test(readFileSync(f, 'utf8')),
+      );
+      expect(home, `${helper} is not defined anywhere in src/`).toBeTruthy();
+      expect(readFileSync(home!, 'utf8'), `${helper} does not post ${route}`).toContain(route);
+      const callers = files.filter(
+        (f) => f !== home && new RegExp(`\\b${helper}\\s*\\(`).test(readFileSync(f, 'utf8')),
+      );
+      expect(callers.length, `${helper} matches no caller — it guards nothing`).toBeGreaterThan(0);
+    }
+  });
+
   it('the derivation is real, and its scope is pinned', () => {
     // The prompt's seven documented keys.
     expect(declared.size).toBeGreaterThanOrEqual(7);
@@ -150,7 +185,11 @@ describe('the writing evaluator promises what its consumers read', () => {
     // Every exclusion must really be multi-endpoint — the scope cannot widen by
     // a file merely dropping out of the matcher.
     for (const f of excluded) expect(endpointsIn(f).size).toBeGreaterThan(1);
-    expect(excluded.length).toBeLessThanOrEqual(2);
+    // THREE, not two: `UnitProductionScreen` (2026-09-26) posts writeeval AND reaches
+    // /api/speaking-coach through `requestSpeakingCoach`, so it is legitimately
+    // multi-endpoint. The bound exists so the scope cannot widen by a file quietly
+    // dropping out of the matcher, which the clause above already checks per file.
+    expect(excluded.length).toBeLessThanOrEqual(3);
   });
 
   it('every field a consumer reads is a key the prompt declares', () => {

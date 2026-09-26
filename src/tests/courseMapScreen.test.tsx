@@ -190,7 +190,15 @@ describe('the map a learner sees', () => {
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-20',
+            // BOTH HALVES: the test alone no longer opens the next unit.
+            production: { wroteAt: '2026-09-20', spokeAt: '2026-09-20' },
+          },
+        },
+      }),
     );
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
@@ -200,13 +208,16 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-3').getAttribute('data-unit-state')).toBe('locked');
   });
 
-  // A LOCK MUST NEVER STRAND ANYONE: a unit whose test could not be assembled
-  // from a stale payload lets the course past it.
-  it('opens the next unit when a test could not be assembled', async () => {
+  // A LOCK MUST NEVER STRAND ANYONE: an unassemblable test stands in for the
+  // ACCURACY half, and a refused evaluator for the PRODUCTION half. Both are needed
+  // to open the next unit, so this seeds both.
+  it('opens the next unit when neither half could be served', async () => {
     seedSpine();
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { insufficient: true } } }),
+      JSON.stringify({
+        units: { 'A1-1': { insufficient: true, production: { unavailable: true } } },
+      }),
     );
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
@@ -217,12 +228,55 @@ describe('the map a learner sees', () => {
     );
   });
 
-  it('marks a unit mastered once its test is passed, and moves the position on', async () => {
+  // AN UNASSEMBLABLE TEST ALONE IS NOT THE WHOLE BAR.
+  it('keeps the next unit locked when only the accuracy half was excused', async () => {
+    seedSpine();
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ units: { 'A1-1': { insufficient: true } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
+  });
+
+  // MASTERED MEANS THE WHOLE BAR (increment 4): the test AND both production halves.
+  // A passed test with an owed written task leaves the unit CURRENT, because that is
+  // where the learner is and what the map has to ask them for.
+  it('keeps a unit current when its test is passed but production is owed', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
+    expect(screen.getByText(/0 of 36 units mastered/)).toBeTruthy();
+    // And the map asks for the owed half rather than showing a tick that is not true.
+    expect(await screen.findByTestId('course-unit-write-A1-1')).toBeTruthy();
+    expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
+  });
+
+  it('marks a unit mastered once the test AND production are done', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-20',
+            production: { wroteAt: '2026-09-21', spokeAt: '2026-09-21' },
+          },
+        },
+      }),
     );
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,

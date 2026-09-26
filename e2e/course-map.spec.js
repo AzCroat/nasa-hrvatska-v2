@@ -171,3 +171,68 @@ test.describe('The course gate', () => {
     await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 1 of 15');
   });
 });
+
+/**
+ * Production — the other half of the bar, in a browser.
+ *
+ * The AI evaluators are MOCKED here on purpose: what an E2E can prove that a unit
+ * test cannot is that a learner who passed a unit test is offered the production
+ * task, reaches it, and that a graded submission is recorded against the unit. What
+ * the evaluator says is the evaluators' own contract, covered elsewhere.
+ */
+test.describe('Unit production', () => {
+  test.beforeEach(async ({ page }) => {
+    await seedAuth(page);
+    await blockFirebase(page);
+    await mockTTS(page);
+    await mockContent(page);
+    await page.addInitScript(() => {
+      if (window.top !== window) return; // an init script runs in EVERY frame
+      try {
+        // Unit A1-1's test passed, production owed.
+        localStorage.setItem(
+          'nh_course_units',
+          JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+        );
+      } catch {
+        /* storage blocked — the test fails visibly rather than silently */
+      }
+    });
+    await page.route('**/api/correct', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ score: 82, changes: [], corrected_text: 'Ispravljeno.' }),
+      }),
+    );
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('is offered on a unit whose test is passed, and records a graded task', async ({ page }) => {
+    // The unit is not mastered yet: production is owed, so no tick.
+    await expect(page.getByTestId('course-unit-mastered-A1-1')).toHaveCount(0);
+    const write = page.getByTestId('course-unit-write-A1-1');
+    await expect(write).toBeVisible();
+    await write.click();
+
+    await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
+    // The brief comes from the unit's own lessons — nothing was authored for it.
+    await expect(page.getByTestId('unit-production-count')).toContainText('of 25 words');
+    await expect(page.getByTestId('unit-production-submit')).toBeDisabled();
+
+    const enough = Array.from({ length: 26 }, (_, i) => `rijec${i}`).join(' ');
+    await page.getByTestId('unit-production-input').fill(enough);
+    await expect(page.getByTestId('unit-production-submit')).toBeEnabled();
+    await page.getByTestId('unit-production-submit').click();
+
+    await expect(page.getByTestId('unit-production-result')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByText('82/100')).toBeVisible();
+    const stored = await page.evaluate(() => localStorage.getItem('nh_course_units'));
+    expect(stored).toContain('wroteAt');
+  });
+
+  test('the next unit stays locked until BOTH halves are done', async ({ page }) => {
+    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
+  });
+});

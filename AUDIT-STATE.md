@@ -11176,6 +11176,62 @@ its own checklist" rule), then the 7/30-day retention re-checks that turn
 `mastered` into a claim about RETENTION rather than one sitting. After that, step 2:
 the ~100 hand-written drills onto ModeDrill.
 
+## Sweep 154 — step 3, increment 4: production in the bar (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 4". The
+advancement rule is now the owner's whole rule: the unit test (recognition) AND
+production (one written, one spoken, rubric-graded).
+
+**SHIPPED**
+
+- `src/lib/unitProduction.ts` — the brief, built from the unit's five lessons' own
+  spine `objectives`; per-level word floors, spoken lower than written.
+- `courseUnitProgress` gains `production` (wroteAt/writeScore, spokeAt/speakScore,
+  `unavailable`) with an additive merge; `unitProductionRequest` is the handoff.
+- `UnitProductionScreen` (route `unitproduction`), graded by `/api/correct`
+  `writeeval` and `/api/speaking-coach` — the same evaluators everything else uses.
+- `openUnits` returns `{ open, advanced }`; `courseProgress` takes a gate OBJECT.
+- The teaching slot and the course map both offer the owed half.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **I PLANNED 72 AUTHORED TASKS AND A FAN-OUT, AND THE CONTENT ALREADY EXISTED.**
+   `LessonProduceStep` briefs production from a lesson's own objectives; a unit's
+   brief is the union of its five. Authoring 72 fresh tasks would have been a second
+   statement of what each unit teaches. **Check whether the content exists before
+   fanning agents at authoring it.**
+2. **I REMOVED MY OWN HATCH FROM ONE INCREMENT EARLIER.** The read-through hatch
+   ("five lessons read advances the unit") was added as anti-strand and was wrong: the
+   test is re-takeable and the library is open, so there was no dead end — the hatch
+   just let anyone skip the whole bar by paging through five lessons. Its absence is
+   now pinned.
+3. **THE POSITION AND THE MASTERY COUNT BOTH IGNORED THE NEW HALF, AND ONLY THE
+   BROWSER SAW IT.** The map called the next unit `current` while rendering it
+   `locked`, and printed "1 of 36 mastered" above a row it showed as current. No unit
+   test caught it; the E2E did.
+4. **THE SCORE DOES NOT GATE**, and the screen says so. A second threshold would
+   gate course progress on a model's judgement of a learner's prose.
+5. **A REFUSED EVALUATOR IS RECORDED AND EXCUSED** — course progress must not depend
+   on a live AI service the learner does not control.
+6. **TWO AI-CONTRACT GUARDS CAUGHT THE NEW SCREEN AND WERE RIGHT TO.** It posts one
+   endpoint directly and reaches another through a named helper, so `.overall` read as
+   a field the writing evaluator fails to send. Both guards now carry
+   `ENDPOINT_HELPERS`, each entry pinned to the route its source posts AND to having a
+   real caller. And a SpeechRecognition event named `ev` collided with those guards'
+   spelling of "a parsed response body" — renamed, because an exemption there would
+   assert something about the guard rather than the code.
+
+**VERIFICATION** — 27 new tests (unitProduction 12, unitProductionScreen 15) plus
+new gate coverage; mutation-verified nine ways (M36–M44); `e2e/course-map.spec.js`
+at 10 tests green against a CI-equivalent build, including a graded production
+submission recorded against the unit.
+
+**NEXT** — the 7/30-day retention re-checks, which turn `mastered` into a claim
+about RETENTION rather than one sitting (and will rename the state ladder honestly:
+`cleared` for the bar met, `mastered` for retention held). Then step 2: the ~100
+hand-written drills onto ModeDrill, which IS worth fanning — separable per drill,
+and four guards already grade them.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

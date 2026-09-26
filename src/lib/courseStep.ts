@@ -32,7 +32,14 @@
 // the old behaviour, never to no teaching.
 
 import { readCurriculumSpine, readCompletedLessons } from './curriculumProgress';
-import { passedUnits, insufficientUnits, readCourseUnits } from './courseUnitProgress';
+import {
+  passedUnits,
+  insufficientUnits,
+  producedUnits,
+  productionBlockedUnits,
+  readCourseUnits,
+  unitRecord,
+} from './courseUnitProgress';
 import {
   buildCourseUnits,
   courseProgress,
@@ -41,11 +48,14 @@ import {
   type CourseUnit,
   type UnitProgress,
 } from './courseUnits';
+import { productionOwed } from './courseUnits';
+import type { ProductionKind } from './unitProduction';
 import type { CurriculumEntry } from './curriculum';
 
 export type CourseStep =
   | { kind: 'lesson'; unit: CourseUnit; lesson: CurriculumEntry; reason: string }
-  | { kind: 'unit-test'; unit: CourseUnit; reason: string };
+  | { kind: 'unit-test'; unit: CourseUnit; reason: string }
+  | { kind: 'production'; unit: CourseUnit; owed: ProductionKind; reason: string };
 
 /**
  * The whole course state, read once.
@@ -53,26 +63,48 @@ export type CourseStep =
  * Exported because three callers need the same view and computing it twice invites
  * the two of them to disagree — which is the defect this file exists to remove.
  */
-export function readCourseState(): {
+export function readCourseState(
+  /** Authored unit names, for the screens. See `buildCourseUnits`. */
+  names?: Parameters<typeof buildCourseUnits>[1],
+): {
   units: CourseUnit[];
   rows: UnitProgress[];
   open: Set<string>;
+  advanced: Set<string>;
   currentIndex: number | null;
+  produced: Set<string>;
+  blocked: Set<string>;
 } {
   const spine = readCurriculumSpine() as CurriculumEntry[];
-  const units = buildCourseUnits(spine);
+  const units = buildCourseUnits(spine, names);
   const store = readCourseUnits();
   const completed = readCompletedLessons();
   const passed = passedUnits(store);
   const short = insufficientUnits(store);
-  const open = openUnits({
+  const produced = producedUnits(store);
+  const blocked = productionBlockedUnits(store);
+  const gate = openUnits({
     units,
     completed,
     passedUnitIds: passed,
+    producedUnitIds: produced,
     insufficientUnitIds: short,
+    productionBlockedUnitIds: blocked,
   });
-  const progress = courseProgress(units, completed, passed, open, short);
-  return { units, rows: progress.units, open, currentIndex: progress.currentIndex };
+  const progress = courseProgress(units, completed, passed, {
+    open: gate.open,
+    advanced: gate.advanced,
+    insufficient: short,
+  });
+  return {
+    units,
+    rows: progress.units,
+    open: gate.open,
+    advanced: gate.advanced,
+    currentIndex: progress.currentIndex,
+    produced,
+    blocked,
+  };
 }
 
 /**
@@ -96,9 +128,27 @@ export function pickCourseStep(input: {
   rows: readonly UnitProgress[];
   completed: ReadonlySet<string>;
   unitCount: number;
+  /** Which production halves each unit still owes. Absent → owes nothing. */
+  owed?: (unitId: string) => { write: boolean; speak: boolean } | null;
 }): CourseStep | null {
   for (const row of input.rows) {
-    if (row.tested) continue;
+    if (row.tested) {
+      // ACCURACY IS DONE, OUTPUT MAY NOT BE. A unit whose test is passed but whose
+      // production is owed is where the course is, and the step is the task itself
+      // — otherwise the learner is advanced past a bar they have not met, or left
+      // on a unit with nothing asked of them.
+      const owed = input.owed?.(row.unit.id) ?? null;
+      if (owed) {
+        const kind: ProductionKind = owed.write ? 'write' : 'speak';
+        return {
+          kind: 'production',
+          unit: row.unit,
+          owed: kind,
+          reason: `Unit ${row.unit.index}: ${kind === 'write' ? 'write' : 'say'} what you have learned`,
+        };
+      }
+      continue;
+    }
     if (row.state === 'locked') break;
     const unit = row.unit;
     const unread = unit.lessons.find((l) => !input.completed.has(l.id));
@@ -156,10 +206,25 @@ export function nextCourseStep(): CourseStep | null {
     rows: state.rows,
     completed,
     unitCount: state.units.length,
+    owed: (unitId) => {
+      const rec = unitRecord(unitId);
+      return productionOwed({
+        unitId,
+        producedUnitIds: state.produced,
+        wrote: !!rec?.production?.wroteAt,
+        spoke: !!rec?.production?.spokeAt,
+        blocked: state.blocked.has(unitId),
+      });
+    },
   });
 }
 
 /** Stable activity id for the unit-test slot. */
 export function unitTestActivityId(unitId: string): string {
   return `course_unit_test_${unitId}`;
+}
+
+/** Stable activity id for a unit-production slot. */
+export function unitProductionActivityId(unitId: string, kind: ProductionKind): string {
+  return `course_unit_${kind}_${unitId}`;
 }

@@ -17,7 +17,9 @@ import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
 import {
   recordUnitTest,
+  recordUnitProduction,
   markUnitTestInsufficient,
+  markProductionUnavailable,
   readUnitTestRequest,
 } from '../lib/courseUnitProgress';
 import {
@@ -35,6 +37,18 @@ const UNITS = buildCourseUnits(SPINE);
 
 function readUnit(index: number): void {
   for (const l of UNITS[index]!.lessons) markLessonComplete(l.id, '2026-09-01');
+}
+
+/** Both halves of a unit's production, graded. */
+function produced(unitId: string): void {
+  recordUnitProduction(unitId, 'write', 78);
+  recordUnitProduction(unitId, 'speak', 0.8);
+}
+
+/** Test passed AND production done — the whole bar. */
+function master(unitId: string): void {
+  recordUnitTest(unitId, 15, 15, true);
+  produced(unitId);
 }
 
 beforeEach(() => {
@@ -72,21 +86,56 @@ describe('what the course serves', () => {
     expect(step?.reason).toMatch(/Unit 1 test/);
   });
 
-  it('moves to the next unit once the test is passed', () => {
+  // THE BAR IS BOTH HALVES. With the test passed and production owed, the course
+  // stays on this unit and asks for the production — serving the next unit's lesson
+  // would advance the learner past a bar they have not met.
+  it('asks for production once the test is passed', () => {
     writeCurriculumSpine(SPINE);
     readUnit(0);
     recordUnitTest('A1-1', 15, 15, true);
+    const step = nextCourseStep();
+    expect(step?.kind).toBe('production');
+    expect(step?.unit.id).toBe('A1-1');
+    expect(step && step.kind === 'production' && step.owed).toBe('write');
+    expect(step?.reason).toMatch(/write what you have learned/);
+  });
+
+  it('asks for the spoken half once the written one is graded', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    recordUnitTest('A1-1', 15, 15, true);
+    recordUnitProduction('A1-1', 'write', 74);
+    const step = nextCourseStep();
+    expect(step?.kind).toBe('production');
+    expect(step && step.kind === 'production' && step.owed).toBe('speak');
+  });
+
+  it('moves to the next unit once the test AND both production halves are done', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
     const step = nextCourseStep();
     expect(step?.kind).toBe('lesson');
     expect(step?.unit.id).toBe('A1-2');
     expect(step && step.kind === 'lesson' && step.lesson.id).toBe('basic-questions');
   });
 
+  // A REFUSED EVALUATOR MUST NOT WALL A LEARNER OUT of their own course.
+  it('moves on when the learner produced and the evaluator refused', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    recordUnitTest('A1-1', 15, 15, true);
+    markProductionUnavailable('A1-1');
+    const step = nextCourseStep();
+    expect(step?.kind).toBe('lesson');
+    expect(step?.unit.id).toBe('A1-2');
+  });
+
   // A PASSED TEST-OUT ADVANCES THE COURSE WITHOUT THE READING, which is what makes
   // one path for everyone bearable for a learner who already knows the level.
-  it('advances on a passed test-out, with the unit’s lessons unread', () => {
+  it('advances on a passed test-out plus production, with the lessons unread', () => {
     writeCurriculumSpine(SPINE);
-    recordUnitTest('A1-1', 14, 15, true);
+    master('A1-1');
     const step = nextCourseStep();
     expect(step?.unit.id).toBe('A1-2');
     expect(step && step.kind === 'lesson' && step.lesson.id).toBe('basic-questions');
@@ -96,9 +145,9 @@ describe('what the course serves', () => {
     expect(nextCourseStep()).toBeNull();
   });
 
-  it('is null when every unit is mastered', () => {
+  it('is null when every unit has met the whole bar', () => {
     writeCurriculumSpine(SPINE);
-    for (const u of UNITS) recordUnitTest(u.id, 15, 15, true);
+    for (const u of UNITS) master(u.id);
     expect(nextCourseStep()).toBeNull();
   });
 
@@ -108,58 +157,99 @@ describe('what the course serves', () => {
 });
 
 describe('the gate', () => {
-  it('opens only the first unit for a new learner', () => {
-    expect([...openUnits({ units: UNITS, completed: [], passedUnitIds: [] })]).toEqual(['A1-1']);
+  it('opens only the first unit for a new learner, and advances none', () => {
+    const gate = openUnits({ units: UNITS, completed: [], passedUnitIds: [] });
+    expect([...gate.open]).toEqual(['A1-1']);
+    expect([...gate.advanced]).toEqual([]);
   });
 
-  it('opens the next unit on a pass', () => {
-    expect([...openUnits({ units: UNITS, completed: [], passedUnitIds: ['A1-1'] })]).toEqual([
+  // BOTH HALVES, OR NEITHER OPENS THE NEXT UNIT.
+  it('does not open the next unit on the test alone', () => {
+    expect([...openUnits({ units: UNITS, completed: [], passedUnitIds: ['A1-1'] }).open]).toEqual([
       'A1-1',
-      'A1-2',
     ]);
   });
 
+  it('does not open the next unit on production alone', () => {
+    expect([
+      ...openUnits({ units: UNITS, completed: [], passedUnitIds: [], producedUnitIds: ['A1-1'] })
+        .open,
+    ]).toEqual(['A1-1']);
+  });
+
+  it('opens the next unit on the test AND production', () => {
+    expect([
+      ...openUnits({
+        units: UNITS,
+        completed: [],
+        passedUnitIds: ['A1-1'],
+        producedUnitIds: ['A1-1'],
+      }).open,
+    ]).toEqual(['A1-1', 'A1-2']);
+  });
+
   // ESCAPE HATCH 1: a unit whose test could not be assembled from a stale payload.
-  it('opens the next unit when a test could not be assembled', () => {
+  // It stands in for the ACCURACY half only; production is still owed.
+  it('accepts an unassemblable test in place of the accuracy half', () => {
     expect([
       ...openUnits({
         units: UNITS,
         completed: [],
         passedUnitIds: [],
+        producedUnitIds: ['A1-1'],
         insufficientUnitIds: ['A1-1'],
-      }),
+      }).open,
     ]).toEqual(['A1-1', 'A1-2']);
   });
 
-  // ESCAPE HATCH 2: the reading is done. Not the bar, and it does not master the
-  // unit — but a learner who has read everything and cannot pass yet must not hit
-  // a dead end.
-  it('opens the next unit when every lesson is read, without claiming mastery', () => {
+  // ESCAPE HATCH 2: the learner produced and the evaluator refused.
+  it('accepts a refused evaluator in place of the production half', () => {
+    expect([
+      ...openUnits({
+        units: UNITS,
+        completed: [],
+        passedUnitIds: ['A1-1'],
+        productionBlockedUnitIds: ['A1-1'],
+      }).open,
+    ]).toEqual(['A1-1', 'A1-2']);
+  });
+
+  // THE READ-THROUGH HATCH IS GONE (increment 4), and this pins its absence. It let
+  // anyone skip both halves by paging through five lessons, which is the gate quietly
+  // not existing; the test is re-takeable and the library is open, so there was never
+  // a dead end for it to prevent.
+  it('does NOT open the next unit just because every lesson is read', () => {
     const read = UNITS[0]!.lessons.map((l) => l.id);
-    const open = openUnits({ units: UNITS, completed: read, passedUnitIds: [] });
-    expect([...open]).toEqual(['A1-1', 'A1-2']);
+    expect([...openUnits({ units: UNITS, completed: read, passedUnitIds: [] }).open]).toEqual([
+      'A1-1',
+    ]);
     writeCurriculumSpine(SPINE);
     readUnit(0);
-    // …and the course still asks for the test rather than moving on.
     expect(nextCourseStep()?.kind).toBe('unit-test');
   });
 
   it('never locks the first unit, whatever the store says', () => {
-    expect(openUnits({ units: UNITS, completed: [], passedUnitIds: [] }).has('A1-1')).toBe(true);
+    expect(openUnits({ units: UNITS, completed: [], passedUnitIds: [] }).open.has('A1-1')).toBe(
+      true,
+    );
   });
 
   it('stops at the first unit that does not advance', () => {
-    const open = openUnits({
+    const gate = openUnits({
       units: UNITS,
       completed: [],
       // A pass three units ahead cannot open the ones before it.
       passedUnitIds: ['A1-3'],
+      producedUnitIds: ['A1-3'],
     });
-    expect([...open]).toEqual(['A1-1']);
+    expect([...gate.open]).toEqual(['A1-1']);
+    expect([...gate.advanced]).toEqual([]);
   });
 
   it('opens nothing from an empty course', () => {
-    expect([...openUnits({ units: [], completed: [], passedUnitIds: [] })]).toEqual([]);
+    const gate = openUnits({ units: [], completed: [], passedUnitIds: [] });
+    expect([...gate.open]).toEqual([]);
+    expect([...gate.advanced]).toEqual([]);
   });
 });
 
@@ -286,11 +376,12 @@ describe('degradation', () => {
 
   it('keeps walking past a unit that can offer nothing', () => {
     writeCurriculumSpine(SPINE);
-    // Read through unit 1 and mark its test unassemblable: the gate lets the course
-    // past it, and the walk must not stop on a unit with no unread lesson and no
-    // servable test.
+    // Read through unit 1, mark its test unassemblable AND its production graded:
+    // the gate lets the course past it, and the walk must not stop on a unit with no
+    // unread lesson, no servable test and nothing owed.
     readUnit(0);
     markUnitTestInsufficient('A1-1');
+    produced('A1-1');
     const step = nextCourseStep();
     expect(step?.unit.id).toBe('A1-2');
   });

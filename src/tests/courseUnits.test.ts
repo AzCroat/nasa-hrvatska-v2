@@ -243,6 +243,58 @@ describe('courseProgress', () => {
   });
 });
 
+describe('courseProgress with a gate', () => {
+  const units = buildCourseUnits(SPINE);
+
+  // THE CURRENT UNIT IS THE FIRST THAT HAS NOT MET THE WHOLE BAR — not the first
+  // whose TEST is unpassed. Those were the same thing only while the test was the
+  // whole bar; with production in it, a unit with a passed test and an owed task is
+  // still where the learner is. Computing it from `tested` alone made the map call
+  // the NEXT unit `current` while also locking it: two contradictory things about one
+  // row, found in a browser by the E2E and by no unit test.
+  it('keeps a unit current when its test is passed but the bar is not met', () => {
+    const p = courseProgress(units, [], ['A1-1'], {
+      open: ['A1-1'],
+      advanced: [],
+    });
+    expect(p.currentIndex).toBe(1);
+    expect(p.units[0]!.state).toBe('current');
+    expect(p.units[0]!.tested).toBe(true);
+    expect(p.units[1]!.state).toBe('locked');
+    // …and it is not counted as mastered, because it is not.
+    expect(p.unitsMastered).toBe(0);
+  });
+
+  it('calls a unit mastered only when it has met the whole bar', () => {
+    const p = courseProgress(units, [], ['A1-1'], {
+      open: ['A1-1', 'A1-2'],
+      advanced: ['A1-1'],
+    });
+    expect(p.units[0]!.state).toBe('mastered');
+    expect(p.units[1]!.state).toBe('current');
+    expect(p.units[2]!.state).toBe('locked');
+    expect(p.currentIndex).toBe(2);
+    expect(p.unitsMastered).toBe(1);
+  });
+
+  it('locks nothing when no gate is supplied', () => {
+    const p = courseProgress(units, [], ['A1-1']);
+    expect(p.units.some((r) => r.state === 'locked')).toBe(false);
+    // Without a gate the only evidence is the test, which is the pre-gate reading.
+    expect(p.units[0]!.state).toBe('mastered');
+  });
+
+  it('reports which units could not assemble a test', () => {
+    const p = courseProgress(units, [], [], {
+      open: ['A1-1', 'A1-2'],
+      advanced: ['A1-1'],
+      insufficient: ['A1-1'],
+    });
+    expect(p.units[0]!.short).toBe(true);
+    expect(p.units[1]!.short).toBe(false);
+  });
+});
+
 describe('nextCourseLesson', () => {
   const units = buildCourseUnits(SPINE);
 

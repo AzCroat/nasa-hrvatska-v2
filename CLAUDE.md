@@ -4039,6 +4039,87 @@ together, and the old sequencer is deleted.
   re-couples the whole content chunk); read a surviving mutation without checking
   which files the runner ran.
 
+### Increment 4 — production in the bar (2026-09-26)
+
+The other half of the owner's advancement rule, verbatim: _"advance on accuracy
+(unit test at 85%) + production (one spoken, one written, rubric-graded)"_. The
+unit test is RECOGNITION — fifteen four-option items — and a learner can recognise
+the accusative in a list and be unable to reach for it in a sentence. Pushed
+output (Swain) is the mechanism; `LessonProduceStep` makes the same argument for a
+single lesson and made it first.
+
+- **NOTHING IS AUTHORED FOR IT, and that reversed a plan.** I had told the owner
+  this increment meant 72 authored tasks (one spoken, one written per unit) and that
+  it was the first thing worth fanning agents at. Reading `LessonProduceStep` first
+  showed the content already exists: it briefs production from a LESSON's own spine
+  `objectives`, so a UNIT's brief is the union of its five lessons' — and authoring
+  72 fresh tasks would have created a second statement of what each unit teaches,
+  which is the hand-maintained-list decay this file keeps rediscovering. **Check
+  whether the content exists before fanning agents at authoring it.**
+- **THE SCORE DOES NOT GATE, and the learner is told so.** Production is done when
+  they produced at the word floor and the evaluator graded it, whatever the score.
+  Two reasons: the accuracy bar is the unit test, which is deterministic and
+  re-takeable; and a second threshold here would gate a learner's course progress on
+  a language model's judgement of their prose. The score is recorded, shown, and fed
+  to the mastery ledger and the error taxonomy.
+- **TWO FLOORS, SPOKEN LOWER THAN WRITTEN AT EVERY LEVEL** (25→70 written, 15→50
+  spoken). Speech is produced under time pressure with no chance to revise, which is
+  why `speakingCurriculum`'s own floors already sit below the writing curriculum's.
+- **THE MIC IS NEVER REQUIRED.** The spoken task takes the browser recogniser when
+  there is one and TYPED Croatian otherwise, counting identically — the rule
+  `GuidedSpeakingScreen` holds, because the transcript is what the coach grades and
+  course progress must not depend on a learner's hardware.
+- **A REFUSED EVALUATOR IS RECORDED AND EXCUSED.** `markProductionUnavailable` says
+  the learner produced and the grader would not answer (budget paused, daily quota,
+  offline, a 502), and the gate lets that unit through — course progress must not
+  depend on a live AI service the learner does not control. A later successful grade
+  clears it, in the store AND in the merge. Same shape as `insufficient` for the test.
+- **THE READ-THROUGH HATCH FROM INCREMENT 3 IS REMOVED, and the reasoning that put
+  it there was wrong in a way that read as safety.** It let a unit advance once its
+  five lessons were read, to stop a learner who cannot pass the test hitting a dead
+  end. But the test is RE-TAKEABLE indefinitely with a different sample each time and
+  the library is open, so there was never a dead end; what the hatch did was let
+  anyone skip both halves of the bar by paging through five lessons — the gate the
+  owner asked for quietly not existing. Being stuck on a unit you have not mastered
+  is the gate working. Pinned by a test asserting its absence.
+- **THE POSITION AND THE MASTERY COUNT BOTH IGNORED THE NEW HALF, AND ONLY THE
+  BROWSER SAW IT.** `currentIndex` was "the first unit whose TEST is unpassed", which
+  equalled "not finished" only while the test was the whole bar: with production in
+  it, the map called the NEXT unit `current` while also rendering it `locked` — two
+  contradictory things about one row — and printed "1 of 36 units mastered" above a
+  row it was showing as current. `openUnits` returns `{ open, advanced }` now and
+  both the position and the count read `advanced`. **No unit test caught this; the
+  E2E did**, which is the component-test / wiring-test split landing on a derived
+  count.
+- **`courseProgress` TOOK A GATE OBJECT INSTEAD OF A FIFTH POSITIONAL SET.** The
+  signature had reached five arguments, one of which silently locked everything when
+  omitted, and the next would have been six. A named object means a caller cannot
+  pass the gate in the wrong slot.
+- **TWO AI-CONTRACT GUARDS REPORTED THE NEW SCREEN, AND BOTH WERE RIGHT TO.**
+  `aiResponseContract` and `promptContractKeys` attribute a file's field reads to the
+  endpoints it posts to — and this screen posts `/api/correct` directly while reaching
+  `/api/speaking-coach` through `requestSpeakingCoach`, so `.overall` was reported as
+  a field the writing evaluator fails to send. Both guards now carry
+  `ENDPOINT_HELPERS` (a helper stands for its route, the mechanism
+  `aiSurfaceClassifies` already had), each entry pinned to the route its own source
+  posts and to having a real caller. Separately, `ev.<field>` is those guards'
+  spelling of "a field off a parsed body", so my SpeechRecognition event named `ev`
+  had its DOM members reported: renaming it `speech` is the honest fix, because the
+  alternative is an exemption asserting something about a guard rather than the code.
+- Mutation-verified, nine (M36–M44), each failing 1–5 tests: the test alone
+  advancing; the read-through hatch restored; a refused evaluator not excusing
+  production; the screen swallowing a refusal; the teaching slot never serving
+  production; the walk advancing past an owed task; a grade not clearing the refusal;
+  the brief ignoring the unit's objectives; the merge keeping the later date. **M40
+  survived at first** — nothing asserted the SLOT serves production, which is the
+  silent stall the design is about; three assertions in
+  `curriculumSessionSlot.test.ts` fixed that and it fails now.
+- NEVER: gate course progress on a score an AI model assigns; require a microphone
+  for it; swallow an evaluator's refusal (record it, and let the gate through);
+  advance a unit on reading alone; compute a learner's position from one half of a
+  two-half bar; grow a function past four positional sets; attribute a file's reads
+  to one endpoint when a named helper reaches another.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

@@ -29,8 +29,9 @@
 
 import type { SkillCategory } from './adaptive';
 import type { CurriculumStep } from './curriculum';
-import { nextCourseStep, unitTestActivityId } from './courseStep';
+import { nextCourseStep, unitTestActivityId, unitProductionActivityId } from './courseStep';
 import { requestUnitTest } from './courseUnitProgress';
+import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 
 /**
@@ -162,6 +163,30 @@ export function buildCurriculumSlots(opts: {
         id: unitTestActivityId(course.unit.id),
         label: `Unit ${course.unit.index} test`,
         screen: 'unittest',
+        category: 'general',
+        reason: course.reason,
+      },
+    ];
+  }
+
+  // PRODUCTION IS A TEACHING SLOT TOO, for the same reason the test is: with the
+  // test passed and production owed, serving the next unit's lesson would advance
+  // the learner past a bar they have not met, and serving nothing would leave the
+  // course waiting on an action Home never asks for.
+  if (course.kind === 'production') {
+    try {
+      requestUnitProduction(course.unit.id, course.owed);
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    return [
+      {
+        id: unitProductionActivityId(course.unit.id, course.owed),
+        label:
+          course.owed === 'write'
+            ? `Unit ${course.unit.index}: write`
+            : `Unit ${course.unit.index}: speak`,
+        screen: 'unitproduction',
         category: 'general',
         reason: course.reason,
       },

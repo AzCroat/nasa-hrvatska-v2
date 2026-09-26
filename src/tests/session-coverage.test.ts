@@ -133,6 +133,11 @@ const OUTSIDE_SESSION: string[] = [
   // activity". That became false one increment later, which is the stale-exemption
   // shape this file keeps finding in other people's lists.)
   'unittest',
+  // Unit production, same shape as the unit test: served by P0's teaching slot once
+  // a unit's test is passed and its production is owed, never by the CEFR pool — it
+  // needs a UNIT and a HALF (write or speak), which the session builder writes into
+  // a handoff.
+  'unitproduction',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

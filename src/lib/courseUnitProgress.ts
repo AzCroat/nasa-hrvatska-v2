@@ -39,6 +39,23 @@ export interface UnitAttempt {
   passed: boolean;
 }
 
+export interface UnitProduction {
+  /** Written task graded — ISO date and the 0–100 rubric score. */
+  wroteAt?: string;
+  writeScore?: number;
+  /** Spoken task graded — ISO date and the 0–1 rubric overall. */
+  spokeAt?: string;
+  speakScore?: number;
+  /**
+   * The evaluator could not answer. MEASURED, not inferred: the learner produced
+   * and the grader refused (budget paused, daily quota, offline, a 502). The gate
+   * lets such a unit through for the same reason `insufficient` does — a learner
+   * must not be walled out of their own course by a service they do not control —
+   * and a later successful grade clears it.
+   */
+  unavailable?: boolean;
+}
+
 export interface UnitRecord {
   /** First pass — written once, never rewritten, never removed. */
   passedAt?: string;
@@ -49,6 +66,8 @@ export interface UnitRecord {
   attempts?: UnitAttempt[];
   /** The unit's lesson bodies could not assemble a real test. Measured. */
   insufficient?: boolean;
+  /** The two production tasks — see `UnitProduction`. */
+  production?: UnitProduction;
 }
 
 export interface CourseUnitsStore {
@@ -145,6 +164,67 @@ export function recordUnitTest(
   return next;
 }
 
+/**
+ * Record a graded production task.
+ *
+ * A successful grade CLEARS the `unavailable` marker: the learner reached the
+ * evaluator, so whatever refused them before is no longer refusing.
+ */
+export function recordUnitProduction(
+  unitId: string,
+  kind: 'write' | 'speak',
+  score: number,
+  isoDate: string = localDateStr(),
+): UnitRecord | null {
+  if (!unitId || !Number.isFinite(score)) return null;
+  const store = readRaw();
+  const prev = store.units[unitId] ?? {};
+  const prod: UnitProduction = { ...(prev.production ?? {}) };
+  if (kind === 'write') {
+    prod.wroteAt = prod.wroteAt || isoDate;
+    if (!(typeof prod.writeScore === 'number' && prod.writeScore > score)) prod.writeScore = score;
+  } else {
+    prod.spokeAt = prod.spokeAt || isoDate;
+    if (!(typeof prod.speakScore === 'number' && prod.speakScore > score)) prod.speakScore = score;
+  }
+  delete prod.unavailable;
+  const next: UnitRecord = { ...prev, production: prod };
+  store.units[unitId] = next;
+  writeCourseUnits(store);
+  return next;
+}
+
+/** Record that the learner produced and the evaluator could not answer. */
+export function markProductionUnavailable(unitId: string): void {
+  if (!unitId) return;
+  const store = readRaw();
+  const prev = store.units[unitId] ?? {};
+  const prod: UnitProduction = { ...(prev.production ?? {}) };
+  if (prod.wroteAt && prod.spokeAt) return; // both graded — nothing is blocked
+  if (prod.unavailable) return;
+  prod.unavailable = true;
+  store.units[unitId] = { ...prev, production: prod };
+  writeCourseUnits(store);
+}
+
+/** Unit ids whose BOTH production tasks are graded. */
+export function producedUnits(store: CourseUnitsStore = readRaw()): Set<string> {
+  return new Set(
+    Object.entries(store.units)
+      .filter(([, r]) => !!r?.production?.wroteAt && !!r?.production?.spokeAt)
+      .map(([id]) => id),
+  );
+}
+
+/** Unit ids where the learner produced and the evaluator refused. */
+export function productionBlockedUnits(store: CourseUnitsStore = readRaw()): Set<string> {
+  return new Set(
+    Object.entries(store.units)
+      .filter(([, r]) => r?.production?.unavailable === true)
+      .map(([id]) => id),
+  );
+}
+
 /** Record that this unit's lesson bodies cannot assemble a test. */
 export function markUnitTestInsufficient(unitId: string): void {
   if (!unitId) return;
@@ -205,6 +285,8 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     attempts.sort((x, y) => (x.at < y.at ? -1 : x.at > y.at ? 1 : 0));
     const merged: UnitRecord = { attempts: attempts.slice(0, MAX_UNIT_ATTEMPTS) };
     if (passedAt) merged.passedAt = passedAt;
+    const prod = mergeProduction(a.production, b.production);
+    if (prod) merged.production = prod;
     if (best.bestTotal) {
       merged.bestCorrect = best.bestCorrect;
       merged.bestTotal = best.bestTotal;
@@ -214,6 +296,36 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     out[id] = merged;
   }
   return { units: out };
+}
+
+/**
+ * Merge one unit's production. Additive like everything else: a task graded on
+ * either device stays graded, the EARLIER date wins (a second device cannot
+ * postpone when you produced), the better score wins, and `unavailable` survives
+ * only while the halves it blocks are still ungraded — a device that reached the
+ * evaluator is better evidence than one that could not.
+ */
+function mergeProduction(
+  a: UnitProduction | undefined,
+  b: UnitProduction | undefined,
+): UnitProduction | undefined {
+  if (!a && !b) return undefined;
+  if (!a) return b;
+  if (!b) return a;
+  const out: UnitProduction = {};
+  const earlier = (x?: string, y?: string) => (x && y ? (x < y ? x : y) : x || y);
+  const better = (x?: number, y?: number) =>
+    typeof x === 'number' && typeof y === 'number' ? Math.max(x, y) : (x ?? y);
+  const wroteAt = earlier(a.wroteAt, b.wroteAt);
+  const spokeAt = earlier(a.spokeAt, b.spokeAt);
+  if (wroteAt) out.wroteAt = wroteAt;
+  if (spokeAt) out.spokeAt = spokeAt;
+  const w = better(a.writeScore, b.writeScore);
+  const s = better(a.speakScore, b.speakScore);
+  if (typeof w === 'number') out.writeScore = w;
+  if (typeof s === 'number') out.speakScore = s;
+  if ((a.unavailable || b.unavailable) && !(wroteAt && spokeAt)) out.unavailable = true;
+  return out;
 }
 
 /** For the snapshot: the store, or undefined when empty so a fresh device cannot

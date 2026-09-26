@@ -36,10 +36,7 @@ import {
 import { getCurriculumSpine } from '../../lib/contentClient';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import {
-  buildCourseUnits,
-  courseProgress,
   courseMapBlock,
-  openUnits,
   unitTestOffer,
   lockReason,
   COURSE_MAP_COPY,
@@ -47,12 +44,10 @@ import {
   type CourseUnit,
   type UnitProgress,
 } from '../../lib/courseUnits';
-import {
-  passedUnits,
-  insufficientUnits,
-  requestUnitTest,
-  readCourseUnits,
-} from '../../lib/courseUnitProgress';
+import { readCourseState } from '../../lib/courseStep';
+import { requestUnitTest, readCourseUnits, unitRecord } from '../../lib/courseUnitProgress';
+import { requestUnitProduction } from '../../lib/unitProductionRequest';
+import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 
 const LEVEL_COLOR: Record<string, string> = {
@@ -78,9 +73,8 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     readCurriculumSpine().length > 0 ? 'settled' : 'pending',
   );
   const [completed, setCompleted] = useState<ReadonlySet<string>>(() => readCompletedLessons());
+  // Bumped after a lesson opens, so the gate view recomputes from fresh storage.
   const [store, setStore] = useState(() => readCourseUnits());
-  const mastered = useMemo(() => passedUnits(store), [store]);
-  const short = useMemo(() => insufficientUnits(store), [store]);
   const [openUnit, setOpenUnit] = useState<string | null>(null);
   const [launchFailed, setLaunchFailed] = useState<string | null>(null);
 
@@ -124,20 +118,38 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     return () => window.removeEventListener(CURRICULUM_SPINE_EVENT, onSpine);
   }, []);
 
-  const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
-  const openIds = useMemo(
-    () =>
-      openUnits({
-        units,
-        completed,
-        passedUnitIds: mastered,
-        insufficientUnitIds: short,
-      }),
-    [units, completed, mastered, short],
+  // THE SAME VIEW THE SESSION READS. Computing the gate a second time here is how
+  // the map and Home came to disagree in the first place, so the map asks
+  // `readCourseState` — the one function — and only supplies the authored names,
+  // which the session path deliberately does not carry (they live in src/data,
+  // which `manualChunks` groups with the whole content library).
+  const state = useMemo(
+    () => readCourseState(COURSE_UNIT_TITLES),
+    // `readCourseState` reads STORAGE, so its inputs are invisible to the linter —
+    // it sees no argument and calls these dependencies unnecessary. They are the
+    // recompute triggers: `store`, `completed` and `spine` are this screen's snapshots
+    // of the same three keys, re-read after a lesson opens or when the spine lands.
+    // Dropping `store`/`completed` would leave the map showing a stale gate after the
+    // learner finished something; dropping `spine` left the map EMPTY when the spine
+    // arrived mid-visit, which a test caught.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [store, completed, spine],
   );
+  const units = state.units;
   const progress = useMemo(
-    () => courseProgress(units, completed, mastered, openIds, short),
-    [units, completed, mastered, openIds, short],
+    () => ({
+      units: state.rows,
+      currentIndex: state.currentIndex,
+      // COUNTED FROM `advanced`, NOT `tested`. The state ladder calls a unit mastered
+      // only when it has met the WHOLE bar; counting the test alone here would put
+      // "1 of 36 units mastered" above a row the same screen renders as `current`.
+      unitsMastered: state.rows.filter((r) => state.advanced.has(r.unit.id)).length,
+      unitsCleared: state.rows.filter((r) => r.total > 0 && r.done >= r.total).length,
+      unitsTotal: state.rows.length,
+      lessonsDone: state.rows.reduce((n, r) => n + r.done, 0),
+      lessonsTotal: state.rows.reduce((n, r) => n + r.total, 0),
+    }),
+    [state],
   );
   const block: CourseMapBlock | null = courseMapBlock(fetchState, units.length);
 
@@ -159,6 +171,20 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
       }
     },
     [onOpenLesson],
+  );
+
+  const owedFor = useCallback(
+    (unitId: string) => {
+      const rec = unitRecord(unitId, store);
+      return productionOwed({
+        unitId,
+        producedUnitIds: state.produced,
+        wrote: !!rec?.production?.wroteAt,
+        spoke: !!rec?.production?.spokeAt,
+        blocked: state.blocked.has(unitId),
+      });
+    },
+    [store, state],
   );
 
   const pct =
@@ -303,7 +329,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                 {level}
               </span>
               <span style={{ fontSize: 11.5, color: 'var(--subtext)', fontWeight: 700 }}>
-                {rows.filter((r) => r.tested).length} of {rows.length} mastered
+                {rows.filter((r) => r.state === 'mastered').length} of {rows.length} mastered
               </span>
             </div>
             {rows.map((row) => (
@@ -320,6 +346,11 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                   requestUnitTest(row.unit.id);
                   setScr('unittest');
                 }}
+                onProduce={(kind) => {
+                  requestUnitProduction(row.unit.id, kind);
+                  setScr('unitproduction');
+                }}
+                owedFor={owedFor}
               />
             ))}
           </div>
@@ -338,6 +369,8 @@ function UnitRow({
   completed,
   onOpenLesson,
   onTakeTest,
+  onProduce,
+  owedFor,
 }: {
   row: UnitProgress;
   previous: CourseUnit | null;
@@ -347,10 +380,13 @@ function UnitRow({
   completed: ReadonlySet<string>;
   onOpenLesson: (lessonId: string) => void;
   onTakeTest: () => void;
+  onProduce: (kind: 'write' | 'speak') => void;
+  owedFor: (unitId: string) => { write: boolean; speak: boolean } | null;
 }) {
   const { unit, done, total, state } = row;
   const offer = unitTestOffer(row);
   const locked = lockReason(row, previous);
+  const owed = owedFor(unit.id);
   return (
     <div
       data-testid={`course-unit-${unit.id}`}
@@ -490,7 +526,40 @@ function UnitRow({
                 : 'Already know this? Take the unit test →'}
             </button>
           )}
-          {row.tested && (
+          {/* THE OTHER HALF OF THE BAR. A unit whose test is passed but whose
+              production is owed is not finished, and the map must say which half
+              is missing rather than showing a tick that is not true yet. */}
+          {row.tested &&
+            owed &&
+            (['write', 'speak'] as const)
+              .filter((k) => owed[k])
+              .map((k) => (
+                <button
+                  key={k}
+                  data-testid={`course-unit-${k}-${unit.id}`}
+                  onClick={() => onProduce(k)}
+                  style={{
+                    width: '100%',
+                    padding: '11px 12px',
+                    marginTop: 4,
+                    marginBottom: 2,
+                    borderRadius: 10,
+                    border: 'none',
+                    background: color,
+                    color: '#fff',
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    fontFamily: "'Outfit',sans-serif",
+                  }}
+                >
+                  {k === 'write'
+                    ? 'Now write what you have learned →'
+                    : 'Now say what you have learned →'}
+                </button>
+              ))}
+          {row.tested && !owed && (
             <div
               data-testid={`course-unit-mastered-${unit.id}`}
               style={{

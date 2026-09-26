@@ -202,6 +202,7 @@ export const SCREEN_TAB: Record<string, string> = {
   learning_center: 'learn',
   coursemap: 'learn',
   unittest: 'learn',
+  unitproduction: 'learn',
   mistakes: 'practice',
   listeningpath: 'practice',
   grammarmap: 'learn', // align with _TAB_FOR_SCR.grammarmap; was 'practice' → the two maps disagreed, so the highlighted tab flipped depending on entry path
