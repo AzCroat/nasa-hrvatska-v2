@@ -3550,6 +3550,33 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   index-ish setter to 0" and this handler assigns no setter at all. One `startQuiz()`
   now owns the reset for both entry points and clears `finishFired`, because a first
   attempt that failed recorded nothing and a second that passes must still credit.
+- **AND THE FOURTH IS TWO PATHS TO ONE RESULTS VIEW (sweep 145, 2026-09-26).**
+  `MistakesScreen`'s printed `mastered * 5` and paid `newMastered * 5` are the same
+  number; the defect is that `handleGotIt` awarded when it exhausted the deck while
+  `handleStudyAgain` — the "still learning" button — sets the SAME `'done'` state and
+  awarded nothing. Mastering four of five words and answering the last "📚 Study
+  Again" reached a view printing **"+20 XP"** and "You mastered 4 words" with `award`
+  never called and the review quest never credited. **The same file already knew**: the
+  effect directly beneath fires `signalSessionCompleteIfActive` on either terminal
+  state under a comment reading "both paths would strand a session-launched review" —
+  the FLOW was fixed for both paths two waves earlier and the CREDIT stayed on one
+  handler. Put a session's credit on the STATE, not in a handler that reaches it.
+- **ITS TEST FILE DOCUMENTED THE DEFECT AS THE CONTRACT** — header line `"📚 Study
+Again" on last card: mode='done' (without awarding mastered)`, with a passing test
+  named `"📚 Study Again" does NOT call award` that ran on a ONE-card deck, where
+  `mastered` is 0 and the guard is right. The assertion was correct and its scenario
+  could not distinguish "nothing was mastered" from "nothing is ever paid here". Same
+  shape as the `vs`-marker case: **a test can encode the false premise instead of
+  checking it**, and then it defends the defect.
+- **NONE OF THE THREE GUARDS IS AT FAULT, and that is the point.**
+  `creditFollowsWork` wants an `onClick` that navigates (this one sets state);
+  `zeroSatisfiableCredits` wants a length comparison (there is none); a printed-vs-paid
+  formula census compares expressions (they AGREE). The defect is WHICH PATH runs —
+  a third question about the same line. The class has exactly one member, measured over
+  every component, and **no guard was committed**: a screen that pays INCREMENTALLY
+  legitimately has no credit at its terminal setter (`BojeGame`, `ZnamGame`,
+  `SpeedChallenge`), so any rule of this shape flags every incremental payer, and two of
+  its three hits were noise on the first run.
 - **THE THIRD SHAPE IS CREDIT WRITTEN DURING RENDER, and neither guard reads it
   (sweep 144, 2026-09-26).** `creditFollowsWork` looks for an enclosing `onClick`;
   `zeroSatisfiableCredits` looks inside a `useEffect`; a writer at a component's own
@@ -3585,7 +3612,11 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   writer in a rule without also naming the WRAPPERS that front it; ship a "retry" that
   resets nothing but the view it is leaving; write a third guard for a third shape when
   the code can be moved into a shape two existing guards already read; leave a clause
-  guarding an unreachable state without a synthetic control that exercises it.
+  guarding an unreachable state without a synthetic control that exercises it; put a
+  session's credit in one of the handlers that reaches its results view rather than on
+  the state; read agreeing PRINT and PAY expressions as proof the figure is paid (ask
+  which paths reach the view); write a test whose scenario cannot distinguish a guard
+  from the absence of the thing it guards.
 
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 

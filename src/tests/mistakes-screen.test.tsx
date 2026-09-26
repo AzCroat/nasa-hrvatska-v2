@@ -10,7 +10,12 @@
  *   - FlipCard: both faces always in DOM (CSS backfaceVisibility not enforced in jsdom)
  *   - "✅ Got It!": clearMistake(hr) called, mastered incremented
  *   - "✅ Got It!" on last card: award(mastered*5, mastered>=3) + recordSrsReview(deck) + mode='done'
- *   - "📚 Study Again" on last card: mode='done' (without awarding mastered)
+ *   - "📚 Study Again" on last card: mode='done', and the words mastered EARLIER in the
+ *     session are still paid — the credit is on the terminal state, not on one of the
+ *     two handlers that reach it. This line used to read "(without awarding mastered)",
+ *     which documented a live defect as the contract: mastering four of five words and
+ *     answering the last one "Study Again" reached a view printing "+20 XP" with award
+ *     never called (fixed 2026-09-26).
  *   - "← Back to List" in review → returns to list mode
  *   - Clear one: × button → clearMistake(hr) called
  *   - Clear All: confirm=false → nothing; confirm=true → clearAllMistakes() called
@@ -441,14 +446,49 @@ describe('MistakesScreen — "📚 Study Again" behavior', () => {
     expect(screen.getByText(/Card 2 of 2/)).toBeTruthy();
   });
 
-  it('"📚 Study Again" does NOT call award', () => {
+  it('"📚 Study Again" with nothing mastered does NOT call award', () => {
     mockGetMistakes.mockReturnValue([MISTAKE_A]);
     const award = vi.fn();
     renderScreen({ award });
     clickStartReview();
     fireEvent.click(screen.getByText(/📚 Study Again/));
-    // mastered=0, so award(0*5, 0>=3) = award(0, false); but component guards: `if (award && newMastered > 0)`
+    // A one-card deck answered "still learning": `mastered` is 0, and the credit's
+    // `mastered > 0` guard is what keeps an all-unmastered session from paying
+    // (NEVER-DO 14). The floor for this assertion is the test below, which proves the
+    // same button DOES pay when something was mastered — without it, a screen that
+    // simply stopped awarding would pass here.
     expect(award).not.toHaveBeenCalled();
+  });
+
+  /**
+   * THE CREDIT IS ON THE TERMINAL STATE, NOT ON ONE HANDLER (2026-09-26).
+   *
+   * `handleGotIt` paid when it exhausted the deck; `handleStudyAgain` sets the SAME
+   * 'done' state and paid nothing — so mastering words and then answering the LAST card
+   * "still learning" reached a results view printing "+N XP" and "You mastered N words"
+   * with `award` never called and the review quest never credited. The effect above it
+   * had already got this right for the session SIGNAL ("both paths would strand a
+   * session-launched review") two waves earlier, and the XP stayed on one path.
+   */
+  it('"📚 Study Again" on the last card still pays for what WAS mastered', () => {
+    mockGetMistakes.mockReturnValueOnce([MISTAKE_A, MISTAKE_B]).mockReturnValue([MISTAKE_B]);
+    const award = vi.fn();
+    renderScreen({ award });
+    clickStartReview();
+    // Master the first card, then answer the last one "still learning".
+    fireEvent.click(screen.getAllByText(/✅ Got It!/)[0]);
+    fireEvent.click(screen.getAllByText(/📚 Study Again/)[0]);
+
+    expect(screen.getByText('Session Complete!'), 'never reached the results view').toBeTruthy();
+    // The figure on screen, and the figure paid, must be the same one.
+    expect(screen.getByText(/\+5 XP/)).toBeTruthy();
+    expect(award, 'a mastered word paid nothing on the still-learning exit').toHaveBeenCalledWith(
+      5,
+      false,
+      'review',
+    );
+    // The quest counts words REVIEWED, which is the whole deck either way.
+    expect(mockRecordSrsReview).toHaveBeenCalledWith(2);
   });
 });
 
