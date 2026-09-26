@@ -27,6 +27,7 @@ import {
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeLessonRetention, readRetention, writeRetention } from './lessonRetention';
 import { readAttempts, writeAttempts, mergeLessonAttempts } from './lessonAttempts';
+import { readCourseUnits, writeCourseUnits, mergeCourseUnits } from './courseUnitProgress';
 import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
 import { lsGet } from './safeStorage.js';
@@ -391,6 +392,13 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       // Attempts are HISTORY: the merge unions them and keeps the EARLIEST,
       // because the first attempt is the entire signal.
       writeAttempts(mergeLessonAttempts(readAttempts(), fp.nh_lesson_attempts));
+    }
+    // Unit mastery (2026-09-26). Additive: a unit passed on either device stays
+    // passed and the EARLIER pass date wins; attempts are unioned oldest-first so
+    // the device that saw the first attempt contributes it; and a real pass
+    // anywhere clears the "could not assemble a test" marker everywhere.
+    if (fp.nh_course_units && typeof fp.nh_course_units === 'object') {
+      writeCourseUnits(mergeCourseUnits(readCourseUnits(), fp.nh_course_units));
     }
   } catch (_) {}
 

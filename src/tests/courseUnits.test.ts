@@ -20,6 +20,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 import {
+  awaitingUnitTest,
   buildCourseUnits,
   courseProgress,
   courseMapBlock,
@@ -124,11 +125,13 @@ describe('buildCourseUnits over the real spine', () => {
 
 describe('courseProgress', () => {
   const units = buildCourseUnits(SPINE);
+  const NONE: string[] = [];
 
   it('starts every learner at unit 1 with nothing claimed', () => {
-    const p = courseProgress(units, []);
+    const p = courseProgress(units, [], NONE);
     expect(p.currentIndex).toBe(1);
-    expect(p.unitsDone).toBe(0);
+    expect(p.unitsMastered).toBe(0);
+    expect(p.unitsCleared).toBe(0);
     expect(p.lessonsDone).toBe(0);
     expect(p.lessonsTotal).toBe(180);
     expect(p.units[0]!.state).toBe('current');
@@ -136,57 +139,85 @@ describe('courseProgress', () => {
     expect(p.units[35]!.state).toBe('upcoming');
   });
 
-  it('marks a finished unit done and moves the position on', () => {
+  // READING IS NOT THE BAR — that is the whole of increment 2. Five lessons read
+  // leaves the unit CURRENT, because its next action is the test.
+  it('keeps a unit current when its five lessons are read but its test is not passed', () => {
     const done = units[0]!.lessons.map((l) => l.id);
-    const p = courseProgress(units, done);
-    expect(p.units[0]!.state).toBe('done');
+    const p = courseProgress(units, done, NONE);
+    expect(p.units[0]!.state).toBe('current');
     expect(p.units[0]!.done).toBe(5);
-    expect(p.currentIndex).toBe(2);
-    expect(p.unitsDone).toBe(1);
+    expect(p.units[0]!.tested).toBe(false);
+    expect(p.currentIndex).toBe(1);
+    expect(p.unitsMastered).toBe(0);
+    expect(p.unitsCleared).toBe(1);
     expect(p.lessonsDone).toBe(5);
   });
 
-  // A learner can reach a later lesson through search, which is ungated. The
-  // current unit is still the first unfinished one, and it honestly reports the
-  // partial count rather than skipping ahead.
-  it('keeps the position at the first unfinished unit even when a later one is complete', () => {
+  it('marks a unit mastered and moves the position on once its test is passed', () => {
+    const done = units[0]!.lessons.map((l) => l.id);
+    const p = courseProgress(units, done, ['A1-1']);
+    expect(p.units[0]!.state).toBe('mastered');
+    expect(p.units[0]!.tested).toBe(true);
+    expect(p.units[1]!.state).toBe('current');
+    expect(p.currentIndex).toBe(2);
+    expect(p.unitsMastered).toBe(1);
+  });
+
+  it('reports a unit ready for its test, and only when every lesson is read', () => {
+    const partial = units[0]!.lessons.slice(0, 4).map((l) => l.id);
+    expect(awaitingUnitTest(courseProgress(units, partial, NONE).units[0]!)).toBe(false);
+    const all = units[0]!.lessons.map((l) => l.id);
+    expect(awaitingUnitTest(courseProgress(units, all, NONE).units[0]!)).toBe(true);
+    // Already mastered: nothing to await.
+    expect(awaitingUnitTest(courseProgress(units, all, ['A1-1']).units[0]!)).toBe(false);
+  });
+
+  // A learner can work ahead through search or the library, which is deliberately
+  // open. A unit read out of order is `cleared` — honest, and weaker than mastered.
+  it('calls a unit read out of order cleared, not current and not mastered', () => {
     const done = [...units[2]!.lessons.map((l) => l.id), units[0]!.lessons[0]!.id];
-    const p = courseProgress(units, done);
+    const p = courseProgress(units, done, NONE);
     expect(p.currentIndex).toBe(1);
     expect(p.units[0]!.state).toBe('current');
     expect(p.units[0]!.done).toBe(1);
-    expect(p.units[2]!.state).toBe('done');
-    expect(p.unitsDone).toBe(1);
+    expect(p.units[2]!.state).toBe('cleared');
+    expect(p.unitsCleared).toBe(1);
+    expect(p.unitsMastered).toBe(0);
   });
 
-  it('reports a completed course with no current unit', () => {
+  it('reports a finished course with no current unit only when every test is passed', () => {
+    const allLessons = SPINE.map((e) => e.id);
+    // Every lesson read, no test passed: still on unit 1.
+    expect(courseProgress(units, allLessons, NONE).currentIndex).toBe(1);
     const p = courseProgress(
       units,
-      SPINE.map((e) => e.id),
+      allLessons,
+      units.map((u) => u.id),
     );
     expect(p.currentIndex).toBeNull();
-    expect(p.unitsDone).toBe(36);
+    expect(p.unitsMastered).toBe(36);
     expect(p.lessonsDone).toBe(180);
-    expect(p.units.every((r) => r.state === 'done')).toBe(true);
+    expect(p.units.every((r) => r.state === 'mastered')).toBe(true);
   });
 
   // A COUNT IS A CLAIM TOO. With no spine the caller must render its
   // content-state notice; these zeros exist so it can tell that it must.
   it('returns zeros and no position for an empty course', () => {
-    const p = courseProgress([], []);
+    const p = courseProgress([], [], NONE);
     expect(p).toMatchObject({
       currentIndex: null,
-      unitsDone: 0,
+      unitsMastered: 0,
+      unitsCleared: 0,
       unitsTotal: 0,
       lessonsDone: 0,
       lessonsTotal: 0,
     });
   });
 
-  it('accepts a Set or an array of completions identically', () => {
+  it('accepts a Set or an array for either input', () => {
     const ids = units[0]!.lessons.map((l) => l.id);
-    expect(courseProgress(units, new Set(ids)).lessonsDone).toBe(
-      courseProgress(units, ids).lessonsDone,
+    expect(courseProgress(units, new Set(ids), new Set(['A1-1'])).unitsMastered).toBe(
+      courseProgress(units, ids, ['A1-1']).unitsMastered,
     );
   });
 });

@@ -53,9 +53,35 @@ const MODULES = import.meta.glob('../components/practice/exercises/*.tsx');
  */
 const KEY_IN_FILE = /completeExercise\(\s*\{[^}]*?\bkey:\s*'([^']+)'/;
 
+/**
+ * A glob key (`../components/practice/X.tsx`) as a path from the repo root.
+ *
+ * CodeQL flagged the previous `p.replace('../', 'src/')` as incomplete escaping
+ * (alert 90), and the honest statement of what that was worth is: **the anchor
+ * changes nothing for any input this glob produces.** `import.meta.glob` keys begin
+ * with `../`, so the first occurrence IS the leading one and both forms give the
+ * same path — probed on `../../functions/api/x.tsx` as well, which also matches.
+ * The `^` is kept because it states the intent and makes a half-conversion
+ * unrepresentable if the glob's root ever moves.
+ *
+ * THE EXISTENCE CHECK IS THE PART THAT ADDS ANYTHING. Without it, a glob whose
+ * keys change shape resolves to a path that is not there and the suite dies on a
+ * bare ENOENT from `readFileSync`; with it, the failure names the key. That matters
+ * here more than elsewhere, because the population of this guard is DERIVED — a
+ * resolution that silently found nothing is how a guard's subject list empties
+ * without anyone noticing.
+ */
+function repoPath(globKey: string): string {
+  const out = globKey.replace(/^\.\.\//, 'src/');
+  if (!fs.existsSync(out)) {
+    throw new Error(`glob key ${globKey} did not resolve to a file (tried ${out})`);
+  }
+  return out;
+}
+
 const SUBJECTS = Object.keys(MODULES)
   .map((p) => {
-    const src = fs.readFileSync(p.replace('../', 'src/'), 'utf8');
+    const src = fs.readFileSync(repoPath(p), 'utf8');
     const key = src.match(KEY_IN_FILE)?.[1];
     return {
       path: p,

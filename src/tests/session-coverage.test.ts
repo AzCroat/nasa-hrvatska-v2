@@ -121,6 +121,12 @@ const OUTSIDE_SESSION: string[] = [
   // credit a slot for looking at a map, which is the reading-a-table-as-a-lesson
   // failure again. The lessons it links to are session-reachable on their own.
   'coursemap',
+  // The unit test is reached from the course map, on a unit whose five lessons are
+  // all read — it cannot be served as a session activity because it needs a UNIT,
+  // and a cumulative test over lessons the learner has not met would fail them on
+  // content they were never taught. It will become a course-path step, not a
+  // rotation slot.
+  'unittest',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

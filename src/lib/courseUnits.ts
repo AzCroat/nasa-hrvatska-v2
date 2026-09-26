@@ -136,29 +136,47 @@ export function unitOfLesson(units: readonly CourseUnit[], lessonId: string): Co
 /**
  * A unit's state, from what the app has actually measured.
  *
- * `done` — every lesson in it is complete.
- * `current` — the first unit that is not done; where the learner is now.
- * `upcoming` — everything after that.
+ * `mastered` — its cumulative unit test is PASSED. The strongest claim the course
+ *   makes, and the only one that means "you have shown you know this".
+ * `current` — the first unit not yet mastered; where the learner is now. It shows
+ *   as current even when all five lessons are read, because reading is not the
+ *   bar: its next action is the test.
+ * `cleared` — all five lessons read, but not the current unit and not tested.
+ *   Reachable when a learner works ahead through search or the library, which is
+ *   deliberately open.
+ * `upcoming` — everything else.
  *
- * There is deliberately no fourth state for "partly done but behind the current
- * unit": it cannot occur, because the first unit that is not done IS the current
- * one. A learner who reaches lesson 8 through search before finishing 6 leaves
- * unit 2 as current with 3 of 5 — which is exactly true.
+ * THE ORDER OF THAT LADDER IS THE WHOLE POINT OF INCREMENT 2. Before the unit
+ * test, "all five lessons read" was the strongest thing the course could say, and
+ * the owner's report was precisely that this never captured whether a learner was
+ * grasping anything. `mastered` is the measured claim; `cleared` is honest about
+ * being weaker.
  */
-export type UnitState = 'done' | 'current' | 'upcoming';
+export type UnitState = 'mastered' | 'current' | 'cleared' | 'upcoming';
 
 export interface UnitProgress {
   unit: CourseUnit;
+  /** Lessons of this unit the learner has read. */
   done: number;
   total: number;
+  /** Whether the unit's cumulative test is passed. */
+  tested: boolean;
   state: UnitState;
+}
+
+/** Ready for its test: every lesson read, and the test not yet passed. */
+export function awaitingUnitTest(row: UnitProgress): boolean {
+  return !row.tested && row.total > 0 && row.done >= row.total;
 }
 
 export interface CourseProgress {
   units: UnitProgress[];
-  /** 1-based index of the current unit, or null when the course is complete. */
+  /** 1-based index of the current unit, or null when every unit is mastered. */
   currentIndex: number | null;
-  unitsDone: number;
+  /** Units whose test is passed. */
+  unitsMastered: number;
+  /** Units whose five lessons are all read — a weaker fact, counted separately. */
+  unitsCleared: number;
   unitsTotal: number;
   lessonsDone: number;
   lessonsTotal: number;
@@ -179,22 +197,34 @@ function asSet(v: ReadonlySet<string> | readonly string[]): ReadonlySet<string> 
 export function courseProgress(
   units: readonly CourseUnit[],
   completed: ReadonlySet<string> | readonly string[],
+  passedUnitIds: ReadonlySet<string> | readonly string[],
 ): CourseProgress {
   const set = asSet(completed);
+  const passed = asSet(passedUnitIds);
   const rows = units.map((unit) => {
     const total = unit.lessons.length;
     const done = unit.lessons.filter((l) => set.has(l.id)).length;
-    return { unit, done, total };
+    return { unit, done, total, tested: passed.has(unit.id) };
   });
-  const first = rows.find((r) => r.done < r.total);
+  const first = rows.find((r) => !r.tested);
   const currentIndex = first ? first.unit.index : null;
   return {
     units: rows.map((r) => ({
-      ...r,
-      state: r.done >= r.total ? 'done' : r.unit.index === currentIndex ? 'current' : 'upcoming',
+      unit: r.unit,
+      done: r.done,
+      total: r.total,
+      tested: r.tested,
+      state: r.tested
+        ? 'mastered'
+        : r.unit.index === currentIndex
+          ? 'current'
+          : r.total > 0 && r.done >= r.total
+            ? 'cleared'
+            : 'upcoming',
     })),
     currentIndex,
-    unitsDone: rows.filter((r) => r.total > 0 && r.done >= r.total).length,
+    unitsMastered: rows.filter((r) => r.tested).length,
+    unitsCleared: rows.filter((r) => r.total > 0 && r.done >= r.total).length,
     unitsTotal: rows.length,
     lessonsDone: rows.reduce((n, r) => n + r.done, 0),
     lessonsTotal: rows.reduce((n, r) => n + r.total, 0),

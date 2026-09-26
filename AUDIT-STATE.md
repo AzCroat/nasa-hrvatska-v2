@@ -11060,6 +11060,60 @@ CI-equivalent build in a real browser, and mutation-verified in anger
 - `LessonScreen` is where the completion authority's model is too narrow (four
   stats in one updater — see sweep 150); the unit gate is when to widen it.
 
+## Sweep 152 — step 3, increment 2: the unit test, and mastery (2026-09-26)
+
+Increment 1 showed the learner a course; this one asks whether they got it. Full
+design record in CLAUDE.md, "The Course, In Units → Increment 2".
+
+**SHIPPED**
+
+- `src/lib/unitTest.ts` — 15 items, 3 per lesson, assembled ROUND-ROBIN so no two
+  consecutive items share a lesson; `UNIT_PASS_THRESHOLD` 0.85 (13 of 15) against a
+  lesson's 0.75; `unitItemsNeeded` so every surface states the COUNT.
+- `src/lib/courseUnitProgress.ts` (`nh_course_units`) — passes, every attempt, the
+  `insufficient` marker, and an additive merge. Synced four-point (snapshot, remote
+  apply, merge, absent-when-empty).
+- `src/components/learn/UnitTestScreen.tsx` (route `unittest`), reached from the
+  course map on a unit whose five lessons are read.
+- `UnitState` is now `mastered | current | cleared | upcoming`.
+
+**THE THINGS WORTH REMEMBERING**
+
+1. **Interleaved, not blocked, and round-robin rather than shuffled.** A shuffle
+   sometimes blocks three items from one lesson together — the exact condition the
+   test exists to avoid — and makes the property unverifiable.
+2. **A generic question stem is CORRECT in a mixed test.** Measured: "Which
+   sentence is correct?" is shared across lessons in 20 of 36 units. Naming the
+   topic would remove the discrimination the interleaving measures. Pinned so a
+   later reader does not "fix" it.
+3. **Item identity is (lesson, question).** A by-text comparison reported two
+   different lessons' items as a repeat and failed the retake assertion on correct
+   code.
+4. **Reading five lessons is not mastery**, so a read-through unit stays `current`.
+   Six existing assertions were rewritten to the new contract rather than patched.
+5. **MY SOURCE PIN SURVIVED ITS OWN MUTATION.** Sliced from the credit effect to
+   the END OF FILE, it also saw the retake button's onClick, so moving the award
+   there left it green — the nth fixed-window instance in this file. Bounded to the
+   effect's dependency array; both the moved-award and paid-twice mutations now
+   fail it.
+6. **A python patch that did not apply reported "98 passed" and meant nothing.**
+   M19's heredoc had a syntax error, the file was untouched, and the run looked
+   like a surviving mutation. Check WHERE a mutation landed before reading its
+   result — written down in this file twice already, met again.
+
+**VERIFICATION** — 54 new tests (unitTest 18, courseUnitProgress 23, unitTestScreen 13) plus 6 rewritten; mutation-verified thirteen more ways (M11–M23), each failing
+1–4 tests; two more E2E tests assembling a real fifteen-item paper from five
+separately-fetched lesson bodies in a browser.
+
+**NEXT, AND WHY IN THIS ORDER** — the LOCK ships with pointing the daily session's
+teaching slot at the course order. Shipping the lock alone would let the session
+teach a lesson from a unit the map shows as locked: two surfaces contradicting each
+other is worse than no lock. `getNextLesson`'s certification inference is what the
+session still uses, and is the thing to retire in that same increment. Then
+production (one spoken, one written, rubric-graded through `/api/correct` and
+`/api/speaking-coach`), then the 7/30-day retention re-checks that turn `mastered`
+into a claim about retention rather than one sitting.
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

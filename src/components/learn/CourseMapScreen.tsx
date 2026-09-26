@@ -39,10 +39,12 @@ import {
   buildCourseUnits,
   courseProgress,
   courseMapBlock,
+  awaitingUnitTest,
   COURSE_MAP_COPY,
   type CourseMapBlock,
   type UnitProgress,
 } from '../../lib/courseUnits';
+import { passedUnits, requestUnitTest } from '../../lib/courseUnitProgress';
 
 const LEVEL_COLOR: Record<string, string> = {
   A1: '#0e7490',
@@ -57,14 +59,17 @@ interface CourseMapScreenProps {
   goBack: () => void;
   /** Opens a lesson. Resolves false when it could not be opened — see below. */
   onOpenLesson: (lessonId: string) => Promise<boolean>;
+  /** Navigates to a screen — used to open the unit test. */
+  setScr: (screen: string) => void;
 }
 
-export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScreenProps) {
+export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: CourseMapScreenProps) {
   const [spine, setSpine] = useState<CurriculumEntry[]>(() => readCurriculumSpine());
   const [fetchState, setFetchState] = useState<'pending' | 'failed' | 'settled'>(() =>
     readCurriculumSpine().length > 0 ? 'settled' : 'pending',
   );
   const [completed, setCompleted] = useState<ReadonlySet<string>>(() => readCompletedLessons());
+  const [mastered, setMastered] = useState<ReadonlySet<string>>(() => passedUnits());
   const [openUnit, setOpenUnit] = useState<string | null>(null);
   const [launchFailed, setLaunchFailed] = useState<string | null>(null);
 
@@ -109,7 +114,10 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
   }, []);
 
   const units = useMemo(() => buildCourseUnits(spine), [spine]);
-  const progress = useMemo(() => courseProgress(units, completed), [units, completed]);
+  const progress = useMemo(
+    () => courseProgress(units, completed, mastered),
+    [units, completed, mastered],
+  );
   const block: CourseMapBlock | null = courseMapBlock(fetchState, units.length);
 
   // Open the current unit by default, and re-open it if the position moves.
@@ -124,7 +132,10 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
       setLaunchFailed(null);
       const ok = await onOpenLesson(lessonId);
       if (!ok) setLaunchFailed(lessonId);
-      else setCompleted(readCompletedLessons());
+      else {
+        setCompleted(readCompletedLessons());
+        setMastered(passedUnits());
+      }
     },
     [onOpenLesson],
   );
@@ -188,7 +199,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
           }}
         >
           <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
-            {progress.unitsDone} of {progress.unitsTotal} units finished
+            {progress.unitsMastered} of {progress.unitsTotal} units mastered
           </span>
           <span
             data-testid="course-lessons-count"
@@ -217,8 +228,9 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
           />
         </div>
         <div style={{ fontSize: 11.5, color: 'var(--subtext)', marginTop: 8, lineHeight: 1.5 }}>
-          Every learner takes the same path, from Unit 1. Work through a unit’s five lessons in
-          order — you can move as fast as you like.
+          Every learner takes the same path, from Unit 1. Read a unit’s five lessons, then pass its
+          test — the test mixes questions from all five, which is harder than each check on its own
+          and a far better sign that it has stuck.
         </div>
       </div>
 
@@ -270,7 +282,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
                 {level}
               </span>
               <span style={{ fontSize: 11.5, color: 'var(--subtext)', fontWeight: 700 }}>
-                {rows.filter((r) => r.state === 'done').length} of {rows.length} units
+                {rows.filter((r) => r.tested).length} of {rows.length} mastered
               </span>
             </div>
             {rows.map((row) => (
@@ -282,6 +294,10 @@ export default function CourseMapScreen({ goBack, onOpenLesson }: CourseMapScree
                 onToggle={() => setOpenUnit(openUnit === row.unit.id ? null : row.unit.id)}
                 completed={completed}
                 onOpenLesson={open}
+                onTakeTest={() => {
+                  requestUnitTest(row.unit.id);
+                  setScr('unittest');
+                }}
               />
             ))}
           </div>
@@ -298,6 +314,7 @@ function UnitRow({
   onToggle,
   completed,
   onOpenLesson,
+  onTakeTest,
 }: {
   row: UnitProgress;
   color: string;
@@ -305,6 +322,7 @@ function UnitRow({
   onToggle: () => void;
   completed: ReadonlySet<string>;
   onOpenLesson: (lessonId: string) => void;
+  onTakeTest: () => void;
 }) {
   const { unit, done, total, state } = row;
   return (
@@ -349,11 +367,11 @@ function UnitRow({
             placeItems: 'center',
             fontSize: 12,
             fontWeight: 900,
-            color: state === 'done' ? '#fff' : color,
-            background: state === 'done' ? color : `${color}1a`,
+            color: state === 'mastered' ? '#fff' : color,
+            background: state === 'mastered' ? color : `${color}1a`,
           }}
         >
-          {state === 'done' ? '✓' : unit.index}
+          {state === 'mastered' ? '✓' : unit.index}
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span
@@ -395,6 +413,46 @@ function UnitRow({
 
       {expanded && (
         <div style={{ padding: '0 14px 12px 14px' }}>
+          {/* THE UNIT'S NEXT ACTION. Offered only once every lesson is read,
+              because a cumulative test over lessons the learner has not met
+              would fail them on content they were never taught — the
+              never-falsely-fail rule the Level Check already holds to. */}
+          {awaitingUnitTest(row) && (
+            <button
+              data-testid={`course-unit-test-${unit.id}`}
+              onClick={onTakeTest}
+              style={{
+                width: '100%',
+                padding: '11px 12px',
+                marginTop: 4,
+                marginBottom: 2,
+                borderRadius: 10,
+                border: 'none',
+                background: color,
+                color: '#fff',
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontFamily: "'Outfit',sans-serif",
+              }}
+            >
+              Take the unit test →
+            </button>
+          )}
+          {row.tested && (
+            <div
+              data-testid={`course-unit-mastered-${unit.id}`}
+              style={{
+                fontSize: 11.5,
+                fontWeight: 700,
+                color: 'rgb(22, 163, 74)',
+                padding: '6px 2px 2px',
+              }}
+            >
+              Unit test passed — you have shown you know this.
+            </div>
+          )}
           {unit.lessons.map((lesson, i) => {
             const isDone = completed.has(lesson.id);
             return (

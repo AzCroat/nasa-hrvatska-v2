@@ -3855,6 +3855,95 @@ instead of alphabet…plural-nouns`), which is a decision for a person.
   spine; add a course surface without a route key and an `OUTSIDE_SESSION` reason;
   pin a launcher's success boolean by source instead of driving it.
 
+### Increment 2 — the unit test, and the second state (2026-09-26)
+
+Increment 1 showed the learner a course. It did not ask whether they had got any
+of it: each lesson's own mastery check (`lessonCheck.ts`, 75%) is taken minutes
+after reading that lesson, and it was the strongest thing the course could say.
+`src/lib/unitTest.ts` + `UnitTestScreen` (route `unittest`) add the cumulative
+test, and `src/lib/courseUnitProgress.ts` (`nh_course_units`) records it.
+
+- **INTERLEAVED, NOT BLOCKED, AND THAT IS THE WHOLE DESIGN.** Fifteen items, three
+  from each of the unit's five lessons, assembled ROUND-ROBIN so no two consecutive
+  items come from the same lesson. Five per-lesson checks taken after their own
+  lessons is maximally blocked practice, which inflates performance and depresses
+  retention (Bjork); and the hard part of Croatian is DISCRIMINATION — accusative
+  against genitive, perfective against imperfective — which a single-lesson check
+  cannot see, because only one of the confusable pair is in the room.
+  `lessonRetention.ts` makes the same argument for its weekly cumulative and made
+  it first. **Round-robin rather than a shuffle on purpose**: a shuffle sometimes
+  puts three items from one lesson together, which is the condition the test exists
+  to avoid, and it would make the interleaving unverifiable.
+- **THE GENERIC STEM IS CORRECT HERE, and it is pinned so it is not read as a
+  defect.** Measured: "Which sentence is correct?" is shared across lessons in 20
+  of the 36 units. In a single-lesson check naming the topic is harmless because the
+  lesson just taught it; in a MIXED test it must not, because knowing "this one is
+  about the genitive" removes the discrimination the interleaving measures. The
+  options carry the content, so every item stands alone. (No lesson repeats a
+  question inside its own check — also measured, 0 of 180.)
+- **ITEM IDENTITY IS (lesson, question), NOT the question text**, and getting that
+  wrong made the retake assertion fail on correct code. A by-text comparison reports
+  two DIFFERENT lessons' items as a repeat.
+- **THE BAR IS HIGHER THAN A LESSON'S: `UNIT_PASS_THRESHOLD` 0.85 against
+  `LESSON_PASS_THRESHOLD` 0.75** — 13 of 15. The unit test is what advancement will
+  be measured on, and a threshold a learner clears with two thirds of a unit
+  understood is not a mastery gate. **Every surface states the COUNT** (sweep 143's
+  rule): "13 of 15 needed", never "85%".
+- **A TEST WITH NO ITEMS IS NOT A TEST.** `unitTestPassed(0, 0)` is FALSE, because
+  `0 >= 0` is exactly how a credit for work nobody did has happened here before
+  (NEVER-DO 14, sweep 106). The screen's credit effect additionally requires
+  `total > 0`.
+- **A FAIL RECORDS THE ATTEMPT AND NOTHING ELSE** — no XP, no pass, no counter, no
+  `vs`, no quest. The attempt is a DIAGNOSTIC (`lessonAttempts`'s argument, applied
+  one level up: the event that proves a unit did not land is the one the gate's
+  "nothing is recorded" rule would otherwise throw away), and the result names which
+  of the five lessons the misses came from with a tap through to each. The store
+  touches only its own key, asserted.
+- **`passedAt` IS WRITTEN ONCE and a unit is never un-mastered by a bad day** — the
+  rule `lessonRetention` holds for a failed re-check. The XP is paid on the FIRST
+  pass only, from an effect on REACHING the result rather than from a button that
+  leaves it (`creditFollowsWork`).
+- **THE STALE-PAYLOAD PATH IS MEASURED, NOT INVENTED.** A unit whose cached lesson
+  bodies cannot assemble `UNIT_TEST_MIN_ITEMS` records `insufficient: true` — the app
+  TRIED and could not — so the coming gate can let the learner through rather than
+  walling them behind missing data, and nothing infers it. A real pass anywhere
+  clears the marker everywhere in the merge, because a device that assembled and
+  passed the test is better evidence than one with an old blob.
+- **THE STATE LADDER IS THE POINT.** `UnitState` is now
+  `mastered | current | cleared | upcoming`: reading five lessons leaves a unit
+  CURRENT, because reading is not the bar and its next action is the test. `cleared`
+  (read, untested, not current) is reachable when a learner works ahead through
+  search or the library, which stays deliberately open. The six tests whose
+  assertions changed were rewritten to state the new contract, not patched to green.
+- **THE SOURCE PIN ON THE CREDIT SURVIVED ITS OWN MUTATION AND WAS FIXED.** Written
+  as a slice from the effect to the END OF FILE, it therefore also saw the retake
+  button's onClick — so moving the award there left it green while the behavioural
+  test caught it. The nth instance of the fixed-window defect in this file
+  (`registryMatchesScreen`, `dwellContentGate`, `creditFollowsWork`'s own
+  positivity clause); it is bounded to the effect's dependency array now, and both
+  the moved-award and the paid-twice mutations fail it.
+- Mutation-verified, thirteen more (M11–M23), each failing 1–4 tests: an empty test
+  can pass; the paper flattened to blocked order; a retake serving the same sample;
+  the bar dropped to 0.75; a FAIL recorded as a pass; a fail paying XP; the merge
+  letting remote take a pass away; the merge keeping the LATER pass date; reading
+  five lessons counted as mastery; the test offered before every lesson is read; the
+  `insufficient` marker not recorded; the credit moved into the exit button; the
+  credit paid twice. `e2e/course-map.spec.js` grew two tests that assemble a real
+  fifteen-item paper from five separately-fetched lesson bodies in a browser.
+- **WHAT IS STILL NOT DONE, and why in this order.** Nothing LOCKS yet. The lock
+  belongs with pointing the daily session's teaching slot at the course order,
+  because shipping it alone would let the session teach a lesson from a unit the map
+  shows as locked — two surfaces contradicting each other, which is worse than no
+  lock. `getNextLesson`'s certification inference is what the session still uses and
+  is the thing to retire in that same increment. Production (one spoken, one
+  written, rubric-graded) and the 7/30-day retention re-checks follow.
+- NEVER: shuffle a cumulative test's items instead of interleaving them; label which
+  lesson a mixed item came from; compare two papers by question text alone; let a
+  failed unit test write anything but the attempt; un-master a unit on a later
+  failure; pay for a pass more than once, or from a control that navigates away;
+  infer `insufficient` instead of recording that the build was attempted; treat five
+  lessons read as mastery.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

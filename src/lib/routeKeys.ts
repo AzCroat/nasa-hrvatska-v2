@@ -411,6 +411,7 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'typing',
   'uljudnost',
   'umjetnost',
+  'unittest',
   'unjumble',
   'upitne',
   'usporedbe',

@@ -81,7 +81,9 @@ afterEach(() => {
 describe('the map a learner sees', () => {
   it('renders every unit, with unit 1 current and open for a new learner', async () => {
     seedSpine();
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
 
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     for (const u of UNITS) {
@@ -103,7 +105,9 @@ describe('the map a learner sees', () => {
 
   it('shows the authored unit title, not a positional placeholder', async () => {
     seedSpine();
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     // The authored title, verbatim — including the Croatian term. Asserting a
     // PREFIX would keep passing if the rest of the name were lost.
     expect(await screen.findByText(COURSE_UNIT_TITLES['A1-4']!.title)).toBeTruthy();
@@ -111,29 +115,60 @@ describe('the map a learner sees', () => {
     expect(screen.queryByText('A1 · Unit 4')).toBeNull();
   });
 
-  it('moves the position on when a unit is finished, and ticks its lessons', async () => {
+  // READING IS NOT THE BAR. Five lessons read offers the unit test and leaves the
+  // unit current — the whole point of increment 2.
+  it('offers the unit test once every lesson in the unit is read', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    const setScr = vi.fn();
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={setScr} />,
+    );
 
     expect(await screen.findByTestId('course-map')).toBeTruthy();
-    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('done');
-    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByText('Unit 2 of 36')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
+    expect(screen.getByText('Unit 1 of 36')).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe('5 / 180 lessons');
 
-    await waitFor(() =>
-      expect(screen.getByTestId('course-lesson-basic-questions').getAttribute('data-lesson-done')),
+    const take = await screen.findByTestId('course-unit-test-A1-1');
+    fireEvent.click(take);
+    expect(setScr).toHaveBeenCalledWith('unittest');
+    // The handoff names the unit the test is about.
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1');
+  });
+
+  it('does NOT offer the unit test while a lesson is still unread', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.slice(0, 4).map((l) => l.id));
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
-    expect(
-      screen.getByTestId('course-lesson-basic-questions').getAttribute('data-lesson-done'),
-    ).toBe('0');
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    await waitFor(() => expect(screen.getByTestId('course-lesson-alphabet')).toBeTruthy());
+    expect(screen.queryByTestId('course-unit-test-A1-1')).toBeNull();
+  });
+
+  it('marks a unit mastered once its test is passed, and moves the position on', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('mastered');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
+    expect(screen.getByText('Unit 2 of 36')).toBeTruthy();
+    expect(screen.getByText('1 of 36 units mastered')).toBeTruthy();
   });
 
   it('opens the lesson that was tapped', async () => {
     seedSpine();
     const onOpenLesson = vi.fn(async () => true);
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={onOpenLesson} />);
+    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={onOpenLesson} setScr={vi.fn()} />);
     const row = await screen.findByTestId('course-lesson-alphabet');
     fireEvent.click(row);
     expect(onOpenLesson).toHaveBeenCalledWith('alphabet');
@@ -142,7 +177,9 @@ describe('the map a learner sees', () => {
 
   it('expands a unit the learner taps, and collapses it again', async () => {
     seedSpine();
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     const header = (await screen.findByText('Out in the World')).closest('button')!;
     fireEvent.click(header);
     expect(screen.getByTestId('course-lesson-likes-preferences')).toBeTruthy();
@@ -154,7 +191,9 @@ describe('the map a learner sees', () => {
   // offline learner reaches a launcher that cannot navigate.
   it('says why when a lesson could not be opened', async () => {
     seedSpine();
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => false)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => false)} setScr={vi.fn()} />,
+    );
     const row = await screen.findByTestId('course-lesson-alphabet');
     fireEvent.click(row);
     const notice = await screen.findByTestId('course-open-failed');
@@ -170,7 +209,9 @@ describe('why the map cannot be shown — three facts, never conflated', () => {
         settle = r;
       }),
     );
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     const block = await screen.findByTestId('course-map-block');
     expect(block.getAttribute('data-block')).toBe('loading');
     expect(block.textContent).toMatch(/one moment/i);
@@ -182,7 +223,9 @@ describe('why the map cannot be shown — three facts, never conflated', () => {
 
   it('says "could not be loaded" when the fetch fails', async () => {
     getCurriculumSpine.mockRejectedValue(new Error('offline'));
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     await waitFor(() =>
       expect(screen.getByTestId('course-map-block').getAttribute('data-block')).toBe('unavailable'),
     );
@@ -190,7 +233,9 @@ describe('why the map cannot be shown — three facts, never conflated', () => {
 
   it('says "no units yet" when the fetch succeeds with nothing', async () => {
     getCurriculumSpine.mockResolvedValue([]);
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     await waitFor(() =>
       expect(screen.getByTestId('course-map-block').getAttribute('data-block')).toBe('empty'),
     );
@@ -198,7 +243,9 @@ describe('why the map cannot be shown — three facts, never conflated', () => {
 
   it('never renders a course count it does not have', async () => {
     getCurriculumSpine.mockRejectedValue(new Error('offline'));
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     await screen.findByTestId('course-map-block');
     expect(screen.queryByTestId('course-lessons-count')).toBeNull();
     expect(screen.queryByTestId('course-map')).toBeNull();
@@ -211,7 +258,9 @@ describe('why the map cannot be shown — three facts, never conflated', () => {
         settle = r;
       }),
     );
-    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} />);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
     await screen.findByTestId('course-map-block');
     await act(async () => {
       seedSpine();
