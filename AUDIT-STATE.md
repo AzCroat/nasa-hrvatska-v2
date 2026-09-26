@@ -10266,6 +10266,45 @@ returns without doing anything (0 of ~1,900), no control is hard-disabled, every
 are winnable through their own graders (`UNJUMBLE` 40/40, `SENTBUILD` 42/42 — the tile
 multiset equals the target's word multiset, so some arrangement is always accepted).
 
+### 141. Does every Retry actually reset? — 2026-09-26 — 162 handlers, three candidates, zero defects
+
+Asked because a Retry that resets the index but not the answered flag drops the learner
+on question 1 with the answer already showing, and one that resets the index but not the
+SCORE lets a second attempt inherit the first — which would defeat the very pass gates
+sweeps 119 and 139 just installed.
+
+**Method, and the narrowing is the whole of it.** A first pass — "any onClick calling two
+or more `useState` setters, one of them to a falsy value" — reported **162 handlers** with
+a list of omissions each, which is unreadable and mostly correct code: nearly every entry
+is a NEXT-QUESTION handler, where the score is supposed to carry. Scoping to a true RETRY
+(an index-ish setter explicitly assigned `0`) and asking only whether the ANSWERED or
+SCORE state is left behind took it to **three**.
+
+**All three are non-defects, and reading each is what settled it:**
+
+- `MicroLessonScreen`'s "Start Quiz →" resets `qIdx`/`selected`/`answered` and not
+  `correctCount` — which would be the serious one, since `passedLesson(correctCount,
+total)` gates the XP and `gc`, and `gc` feeds the CEFR score. It is UNREACHABLE: the
+  only route to the intro phase is `fetchLesson`, whose own body calls
+  `setCorrectCount(0)`, and the results view's "Try Another Lesson" goes through it. **I
+  would have been wrong to report this as a defect from the census output alone.**
+- `AspectDrillScreen`'s "Drill Mistakes" leaves `revealRule` set. That is a manual
+  "Show full rule explanation" toggle the learner opened themselves, not an answer
+  reveal — carrying it across a restart is the reasonable behaviour, not a leak.
+- `HeritagePathScreen` has TWO independent sections, each with its own answer flag, and
+  each reset handler resets its own. The census reported `showAnswer` missing from the
+  GRAMMAR handler, which resets `showGrammarAnswer` correctly.
+
+**The class is clean; do not re-run it.** What would make it dirty again is a new screen
+whose retry forgets its own answered flag, and no ratchet was added for the sweep 109
+reason: the derivation's own output was 162 rows of which 159 were correct code, so a
+committed guard would ship as noise and train everyone to ignore it. The method is
+recorded here instead, with the narrowing that makes it a three-row answer.
+
+- NEVER: read a reset-omission census as a defect list — every row needs the reachability
+  question asked of it (can the learner get here twice?) and the meaning question (is this
+  flag an ANSWER reveal or something the learner chose to open?).
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
