@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext.tsx';
@@ -180,6 +180,32 @@ export default function PastTenseLessonScreen({
   const [quizQs, setQuizQs] = useState<QuizQuestion[]>([]);
   const [qi, setQi] = useState(0);
   const [score, setScore] = useState(0);
+
+  // Credit on REACHING the quiz results, not on acknowledging it. That view offers
+  // "Try Again" beside "Finish", carries the Back button H(..., goBack) draws, and the
+  // TabBar is mounted besides — so Finish was one exit of four and the ONLY one that
+  // paid. A learner who answered every question and left any other way got no XP and,
+  // on a pass, no `gc`, no `vs` and no quest mark, while the view above the button
+  // said "Quest complete! +20 XP bonus". `quizQs.length > 0` is required, or 0 >= 0
+  // would fire this on mount and credit a quiz nobody played (NEVER-DO 14).
+  useEffect(() => {
+    if (tab !== 'quiz' || quizQs.length === 0 || qi < quizQs.length || finishFired.current) return;
+    finishFired.current = true;
+    if (typeof award === 'function') award(score * 5, false, 'grammar');
+    const pass = Math.round((score / quizQs.length) * 100) >= 60;
+    if (pass) {
+      markQuest('grammar');
+      writeDelta && writeDelta({ gc: 1 });
+      if (!stats.vs?.includes('past_tense_lesson')) {
+        setStats((prev) => ({
+          ...prev,
+          gc: (prev.gc || 0) + 1,
+          vs: [...(prev.vs || []), 'past_tense_lesson'],
+        }));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab, qi, quizQs.length, score]);
   const [answered, setAnswered] = useState(false);
   const [selected, setSelected] = useState(-1);
   const [opts, setOpts] = useState<string[]>([]);
@@ -644,27 +670,7 @@ export default function PastTenseLessonScreen({
                     </div>
                   </div>
                 )}
-                <button
-                  className="b bp"
-                  style={{ marginTop: 8, marginRight: 8 }}
-                  onClick={() => {
-                    if (finishFired.current) return;
-                    finishFired.current = true;
-                    if (typeof award === 'function') award(score * 5, false, 'grammar');
-                    if (pass) {
-                      markQuest('grammar');
-                      writeDelta && writeDelta({ gc: 1 });
-                      if (!stats.vs?.includes('past_tense_lesson')) {
-                        setStats((prev) => ({
-                          ...prev,
-                          gc: (prev.gc || 0) + 1,
-                          vs: [...(prev.vs || []), 'past_tense_lesson'],
-                        }));
-                      }
-                    }
-                    goBack();
-                  }}
-                >
+                <button className="b bp" style={{ marginTop: 8, marginRight: 8 }} onClick={goBack}>
                   Finish
                 </button>
                 <button className="b bg" style={{ marginTop: 8 }} onClick={startQuiz}>

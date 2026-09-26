@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar } from '../../data';
 import { speak } from '../../lib/audio.js';
 import { markQuest } from '../../lib/quests.js';
@@ -283,6 +283,34 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
 
   const total = qs.length;
 
+  // Credit on REACHING the results view, not on acknowledging it. That view carries the
+  // Back button H(..., goBack) draws and the TabBar is mounted besides, so the Finish
+  // button was one exit of three and the ONLY one that paid. A learner who answered
+  // every contrast and left any other way got no XP, no `gc`, no `vs` and no quest mark.
+  // `total > 0` is required, or 0 >= 0 would credit on mount (NEVER-DO 14).
+  //
+  // The credit is unconditional on purpose: `pronunciation-contrast` is registered as
+  // an EFFORT policy in exerciseRegistry, so finishing is the bar. That is why the
+  // trophy/book emoji above reads the pass mark and the credit does not.
+  useEffect(() => {
+    if (total === 0 || idx < total || finishFired.current) return;
+    finishFired.current = true;
+    if (typeof award === 'function') award(score * 5, false, 'grammar');
+    markQuest('grammar');
+    if (!stats.vs?.includes('pronunciation-contrast')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('pronunciation-contrast')) return prev;
+        return {
+          ...prev,
+          gc: (prev.gc || 0) + 1,
+          vs: [...(prev.vs || []), 'pronunciation-contrast'],
+        };
+      });
+      if (writeDelta) writeDelta({ gc: 1, vs: ['pronunciation-contrast'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, total, score]);
+
   if (!qs.length) return null;
 
   if (idx >= total) {
@@ -294,28 +322,7 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
           <h2>
             {score} / {total}
           </h2>
-          <button
-            className="b bp"
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              if (typeof award === 'function') award(score * 5, false, 'grammar');
-              markQuest('grammar');
-              if (!stats.vs?.includes('pronunciation-contrast')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('pronunciation-contrast')) return prev;
-                  return {
-                    ...prev,
-                    gc: (prev.gc || 0) + 1,
-                    vs: [...(prev.vs || []), 'pronunciation-contrast'],
-                  };
-                });
-                if (writeDelta) writeDelta({ gc: 1, vs: ['pronunciation-contrast'] });
-              }
-              goBack();
-            }}
-            style={{ width: '100%', marginTop: 16 }}
-          >
+          <button className="b bp" onClick={goBack} style={{ width: '100%', marginTop: 16 }}>
             🏠 Done
           </button>
         </div>

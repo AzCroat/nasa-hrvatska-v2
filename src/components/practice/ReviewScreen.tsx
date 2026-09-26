@@ -255,6 +255,34 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
     );
   }
 
+  // Credit on REACHING the done view, not on acknowledging it. The TabBar is mounted
+  // on every screen and this view also carries the Back button H(..., goBack) draws,
+  // so "Continue →" was one exit of several — and it was the ONLY one that paid. A
+  // learner who reviewed every due card and tapped a tab, or Back, lost the XP, the
+  // `rc` counter, `vs: srsreview`, the SRS-review quest count and the practice
+  // timestamp. This is the app's highest-volume daily action. `questions.length > 0`
+  // is required, or an empty queue would credit a review nobody did (NEVER-DO 14).
+  useEffect(() => {
+    if (!done || questions.length === 0 || finishFired.current) return;
+    finishFired.current = true;
+    markPracticed();
+    haptic.award();
+    if (typeof award === 'function') award(score * 5 + 5, false, 'review');
+    // `master` is the SRS-review quest and is the one that counts. It takes the
+    // COUNT — the quest reads "Review 5+ SRS words" and a bare markQuest('master')
+    // cleared it for a one-card session, and through TIER2_MAP's second-mark
+    // promotion cleared "Review 15+" for two.
+    recordSrsReview(questions.length);
+    if (!stats.vs?.includes('srsreview')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('srsreview')) return prev;
+        return { ...prev, rc: (prev.rc || 0) + 1, vs: [...(prev.vs || []), 'srsreview'] };
+      });
+      if (writeDelta) writeDelta({ rc: 1, vs: ['srsreview'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, questions.length, score]);
+
   if (done) {
     const pct = Math.round((score / questions.length) * 100);
     return (
@@ -340,31 +368,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
           <button
             className="b bp"
             style={{ animation: 'fade-up .5s ease .42s both' }}
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              markPracticed();
-              haptic.award();
-              if (typeof award === 'function') award(score * 5 + 5, false, 'review');
-              // `master` is the SRS-review quest and is the one that counts. The
-              // `markQuest('review')` that sat here wrote nh_quest_review_<date>,
-              // a key no quest owns and nothing reads — harmless only because the
-              // line above it did the real work.
-              //
-              // It takes the COUNT now. The quest reads "Review 5+ SRS words" and
-              // a bare `markQuest('master')` cleared it for a one-card session —
-              // and, through TIER2_MAP's second-mark promotion, cleared "Review
-              // 15+" for two of them.
-              recordSrsReview(questions.length);
-              if (!stats.vs?.includes('srsreview')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('srsreview')) return prev;
-                  return { ...prev, rc: (prev.rc || 0) + 1, vs: [...(prev.vs || []), 'srsreview'] };
-                });
-                if (writeDelta) writeDelta({ rc: 1, vs: ['srsreview'] });
-              }
-              goBack();
-            }}
+            onClick={goBack}
           >
             Continue →
           </button>

@@ -494,6 +494,37 @@ export default function DictationScreen({ goBack, award }: Props) {
     if (!qs.length) signalSessionCompleteIfActive('dictation');
   }, [qs.length]);
 
+  // Credit on REACHING the results view, not on acknowledging it. That view carries
+  // the Back button H(..., goBack) draws and the TabBar is mounted besides, so ✓ Done
+  // was one exit of three and the ONLY one that paid — while the view prints "+N XP"
+  // it had not yet credited. A learner who typed every sentence and left any other way
+  // got no XP, no `lc`, no `vs`, no quest mark and no ledger write.
+  //
+  // `answeredTotal > 0` is required for two reasons: 0 >= 0 would credit on mount, and
+  // the all-skipped case has its OWN screen above that credits nothing on purpose
+  // ("never credit work the learner could not do" — NEVER-DO 14), so this effect must
+  // not pay for it behind that screen's back.
+  useEffect(() => {
+    if (idx < total || answeredTotal === 0 || finishFired.current) return;
+    finishFired.current = true;
+    const xp = score * 8;
+    if (typeof award === 'function') award(xp, false, 'listening');
+    markQuest('listening');
+    // Dictation is the app's OTHER audio-first screen, and its score is a HEARING
+    // score: the round deliberately forgives punctuation ("Punctuation is inaudible in
+    // dictation") and its own done copy says "Excellent ear!". `answeredTotal` excludes
+    // skipped-unheard items, so the denominator is already the honest one.
+    recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
+    if (!stats.vs?.includes('dictation')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('dictation')) return prev;
+        return { ...prev, lc: (prev.lc || 0) + 1, vs: [...(prev.vs || []), 'dictation'] };
+      });
+      if (writeDelta) writeDelta({ lc: 1, vs: ['dictation'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, total, answeredTotal, score]);
+
   if (!qs.length) return null;
 
   if (idx >= total && answeredTotal === 0) {
@@ -542,30 +573,7 @@ export default function DictationScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 900, color: '#d97706', marginBottom: 24 }}>
             +{xp} XP
           </div>
-          <button
-            className="b bp"
-            style={{ width: '100%' }}
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              if (typeof award === 'function') award(xp, false, 'listening');
-              markQuest('listening');
-              // Dictation is the app's OTHER audio-first screen, and its score is
-              // a HEARING score: the round deliberately forgives punctuation
-              // ("Punctuation is inaudible in dictation" above) and its own done
-              // copy says "Excellent ear!". `answeredTotal` excludes skipped-
-              // unheard items, so the denominator is already the honest one.
-              recordExerciseOutcome({ activityType: 'listening', score, total: answeredTotal });
-              if (!stats.vs?.includes('dictation')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('dictation')) return prev;
-                  return { ...prev, lc: (prev.lc || 0) + 1, vs: [...(prev.vs || []), 'dictation'] };
-                });
-                if (writeDelta) writeDelta({ lc: 1, vs: ['dictation'] });
-              }
-              goBack();
-            }}
-          >
+          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
             ✓ Done
           </button>
         </div>

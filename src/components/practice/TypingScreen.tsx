@@ -148,6 +148,35 @@ export default function TypingScreen({
     startTsRef.current = Date.now();
   }, [tyI]);
 
+  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT. This used to live in the
+  // Done button's onClick — and the results view also renders a Back button (it
+  // passes `goBack` to H), so a learner who answered every word and left by Back
+  // got no XP, no gc/vs, no writeDelta and no session signal, having done all of
+  // it. `xp = tyS * 5` is paid entirely here, so that exit cost them everything.
+  //
+  // The `tyPool.length > 0` half is not decoration: `tyI >= tyPool.length` is
+  // `0 >= 0` on an empty pool, which would credit a completion of nothing the
+  // moment the screen mounted (NEVER-DO 14, the shape sweep 106 found in
+  // SceneExplorer). `finishFired` keeps it to exactly once.
+  useEffect(() => {
+    if (tyPool.length === 0 || tyI < tyPool.length || finishFired.current) return;
+    finishFired.current = true;
+    if (tyS / tyPool.length >= 0.9) {
+      knightSpeak('tearsofjoy', 'Savršeno! Sve napisano točno! ✍️');
+    }
+    completeExercise({
+      key: 'typing',
+      score: tyS,
+      total: tyPool.length,
+      xp: tyS * 5,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tyI, tyPool.length, tyS]);
+
   // Content still loading (or genuinely empty) — show a header + back path instead
   // of a blank screen the user is stranded on.
   if (!tyPool.length) {
@@ -185,29 +214,9 @@ export default function TypingScreen({
           <div style={{ fontSize: 22, fontWeight: 900, color: '#d97706', marginBottom: 20 }}>
             {willPass ? `+${xp} XP` : 'Reach 75% to earn XP'}
           </div>
-          <button
-            className="b bp"
-            onClick={() => {
-              if (finishFired.current) return;
-              finishFired.current = true;
-              if (tyS / tyPool.length >= 0.9) {
-                knightSpeak('tearsofjoy', 'Savršeno! Sve napisano točno! ✍️');
-              }
-              // Gate completion on the comprehension pass (>=75%) via the single
-              // authority — no gc/XP credit when the typing score is below the gate.
-              completeExercise({
-                key: 'typing',
-                score: tyS,
-                total: tyPool.length,
-                xp,
-                stats,
-                setStats,
-                writeDelta,
-                award,
-              });
-              goBack();
-            }}
-          >
+          {/* Credit already fired when this view was reached — see the effect
+              above. This button only navigates, so Done and Back are equivalent. */}
+          <button className="b bp" onClick={goBack}>
             🏠 Done
           </button>
         </div>

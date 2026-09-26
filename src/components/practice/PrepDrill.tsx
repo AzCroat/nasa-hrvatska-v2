@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, sh, PREPDRILL } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
@@ -25,6 +25,26 @@ export default function PrepDrill({
 
   const total = ppQ.length;
 
+  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT — the results view renders a
+  // Back button, so a learner who passed and left by it used to lose the whole
+  // award. Same condition as the Done button it replaces, so a failed run still
+  // credits nothing and keeps its retry; `total > 0` stops `0 >= 0` on an empty bank.
+  useEffect(() => {
+    if (total === 0 || ppI < total || !passedLesson(ppS, total) || finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'preposition',
+      score: ppS,
+      total,
+      xp: ppS * 5,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ppI, total, ppS]);
+
   if (!ppQ.length) return null;
 
   if (ppI >= total) {
@@ -41,24 +61,7 @@ export default function PrepDrill({
             +{ppS * 5} XP
           </div>
           {passed ? (
-            <button
-              className="b bp"
-              onClick={() => {
-                if (finishFired.current) return;
-                finishFired.current = true;
-                completeExercise({
-                  key: 'preposition',
-                  score: ppS,
-                  total,
-                  xp: ppS * 5,
-                  stats,
-                  setStats,
-                  writeDelta,
-                  award,
-                });
-                goBack();
-              }}
-            >
+            <button className="b bp" onClick={goBack}>
               🏠 Done
             </button>
           ) : (

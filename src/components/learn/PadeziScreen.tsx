@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, speak, sh, PREPS } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
@@ -49,6 +49,30 @@ export default function PadeziScreen({
   const [czA, sCzA] = useState(false);
   const [czSl, sCzSl] = useState(-1);
   const [czO, sCzO] = useState<string[]>([]);
+
+  // Credit on REACHING the results view, not on acknowledging it. That view offers
+  // three exits — 🏠 Finish, 📖 Review, and the Back button H(..., goBack) draws — so
+  // a learner who answered every question and left by either of the other two got no
+  // completion XP, no gc, no vs, no quest mark, no writeDelta and no session signal.
+  // `czQ.length > 0` is required, or 0 >= 0 would fire this on mount and credit a
+  // quiz nobody played (NEVER-DO 14).
+  useEffect(() => {
+    if (czMode !== 'quiz' || czQ.length === 0 || czI < czQ.length || finishFired.current) return;
+    finishFired.current = true;
+    // Gate completion on the comprehension pass (>=75%) — no
+    // credit, XP or quest mark on a failed cases quiz.
+    completeExercise({
+      key: 'padezi',
+      score: czS,
+      total: czQ.length,
+      xp: czS * 3 + 15,
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [czMode, czI, czQ.length, czS]);
 
   if (error) return <ErrorState message="Couldn't load grammar - please retry." />;
   if (loading || !grammar) return <LoadingState />;
@@ -196,26 +220,7 @@ export default function PadeziScreen({
                   <button className="b bg" onClick={() => sCzMode('learn')}>
                     📖 Review
                   </button>
-                  <button
-                    className="b bp"
-                    onClick={() => {
-                      if (finishFired.current) return;
-                      finishFired.current = true;
-                      // Gate completion on the comprehension pass (>=75%) — no
-                      // credit, XP or quest mark on a failed cases quiz.
-                      completeExercise({
-                        key: 'padezi',
-                        score: czS,
-                        total,
-                        xp: czS * 3 + 15,
-                        stats,
-                        setStats,
-                        writeDelta,
-                        award,
-                      });
-                      goBack();
-                    }}
-                  >
+                  <button className="b bp" onClick={goBack}>
                     🏠 Finish!
                   </button>
                 </div>

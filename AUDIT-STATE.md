@@ -10066,9 +10066,223 @@ wrong quest (1); `applyStreakEarnBack` no longer backfilling the day-set (1);
 (1); and `optionalCallbackProps` gutted, which is the non-vacuity swapped in above
 (2).
 
+### 139. Twenty-one screens paid for the acknowledgement, not the work — 2026-09-25 — every results view has a second exit and one button paid
+
+The owner's bar for this session is **"there is nothing the user finds that doesn't
+work."** This is the first defect found by looking for that rather than by a
+derivation, and it is a learner losing a whole round of work.
+
+`H(title, subtitle, back)` (`src/data/content.tsx`) draws a real Back **button** when
+`back` is passed, and **`TabBar` is mounted on every screen but `welcome` and
+`placement`** (`App.tsx`) — so a tab is always another way out and EVERY results view has
+a second exit. **Twenty-one screens** paid their credit from the **onClick of the Done /
+Finish button on that view**; several had a fourth exit of their own (📋 Menu, 📖 Review,
+🔄 Retry, Practice Again). Answer every question, leave any other way, get nothing: no
+XP, no `gc`/`lc`/`rc`, no `vs`, no quest mark, no `writeDelta`, no ledger write, no
+session signal, no Learn-Path tick.
+
+Twelve used `completeExercise`. **Nine hand-rolled the same credit**
+(`award` + `markQuest` + their own `vs` write) and were outside the authority entirely —
+so a rule watching only `completeExercise` would have found twelve of twenty-one, and
+missed the worst of them.
+
+| screen                                                     | what leaving by the other exit cost                                                                                    |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Unjumble`                                                 | everything — no per-answer award, and the view PRINTS "+N XP"                                                          |
+| `VocativeScreen`                                           | everything — "+N XP" printed, and a "✓ Done" badge                                                                     |
+| `PadezifullScreen`                                         | everything — `xp: pfS * 5` paid only at the button                                                                     |
+| `ConjugationDrill`                                         | everything — and 📋 Menu is a third silent exit                                                                        |
+| `TypingScreen`                                             | everything — `xp: tyS * 5`                                                                                             |
+| `AspectDrillScreen`                                        | everything, plus the `aspectdrill` path node (lp52)                                                                    |
+| `ModalScreen`                                              | the completion bonus AND the `mv` badge counter — while the view announces "🏅 Modal Verbs Badge Earned!"              |
+| `PadeziScreen`                                             | the completion bonus, `gc`, `vs`, the quest mark                                                                       |
+| `CollocationsGame`, `NumTime`, `PrepDrill`, `WordFamilies` | the completion credit                                                                                                  |
+| **`ReviewScreen`** (hand-rolled)                           | **the app's highest-volume daily action** — XP, the `rc` counter, `vs: srsreview` and the review COUNT the quest reads |
+| `DictationScreen`, `ListeningScreen` (hand-rolled)         | everything, and both print "+N XP"; both also lost their mastery-ledger write                                          |
+| `ShadowingScreen` (hand-rolled)                            | XP, `lc`, `vs: shadowing` (its lp node), BOTH quest marks, the speaking ledger write                                   |
+| `PitchAccentScreen` (hand-rolled)                          | XP, `gc`, `vs: pitchaccent` (lp50) and the teach→practice coupling discharge                                           |
+| `AlphabetScreen` (hand-rolled)                             | the day-one curriculum drill: XP, `lc`, `vs`, quest, coupling AND the session signal                                   |
+| `PastTenseLessonScreen` (hand-rolled)                      | XP and, on a pass, `gc`/`vs`/quest — under "Quest complete! +20 XP bonus"                                              |
+| `PronunciationContrast` (hand-rolled)                      | XP, `gc`, `vs`, quest                                                                                                  |
+| `LiveTutorDebrief` (hand-rolled)                           | the whole session's XP — printed ON the button, with "← Back" and "Practice Again" beside it                           |
+
+**SEVEN SCREENS PRINTED A CLAIM THEY HAD NOT YET HONOURED.** `Unjumble`,
+`VocativeScreen`, `BojeGame`, `DictationScreen`, `ListeningScreen` and
+`LiveTutorDebrief` render "+N XP" on the results view — the last one **on the button
+itself** — `ModalScreen` announces the badge, and `PastTenseLessonScreen` says "Quest
+complete! +20 XP bonus". That is the `0 / 0 milestones` class from sweep 102 with the
+opposite cause: the number is right, and whether it becomes true depends on which button
+the learner presses next.
+
+**WHY NOTHING COULD SEE IT.** Every contract test in `exerciseContract.test.tsx`
+clicks Done. **A test that exercises the paying path cannot tell you the other path
+exists** — the component-test / wiring-test split (the `award` prop, 2026-09-23)
+landing on a second exit instead of a missing prop.
+
+**TWO SOURCE PINS SAT DIRECTLY ON DEFECTIVE CALL SITES AND EXCUSED THEMSELVES WITH THE
+SAME FALSE PREMISE.** `unjumble.contract.test.tsx` opened with "a generic render-driver
+cannot reliably build the CORRECT sentence to clear the 75% gate" — FALSE, the bank's own
+`correct` string gives the tile order — and `comprehensionGateBypass.contract.test.ts`,
+which covers all four of modal/padezi/padezifull/vocative, with "whose UI a generic
+render-driver cannot reliably drive to a deterministic pass/fail". **A stated reason for
+not driving a screen is where that screen's real behaviour goes to die**; both premises
+are corrected in place and two of the screens are now driven end to end.
+
+**AND BOTH PINS FAILED ON THE CORRECT CHANGE, for the same reason.** Each asserted the
+SHORTHAND spelling `total,` / `xp,`, which stops matching the moment the credit moves
+into an effect where the render branch's `total` local is out of scope. A spelling pin
+says nothing about the value — and a wrong total silently moves the 75% gate — so both
+now pin the screen's own question-bank length. **Pin the VALUE, never the spelling.**
+
+**THE FIX** moves the credit into an effect keyed on REACHING the results view, so
+both exits are equivalent, with a `total > 0` guard because `0 >= 0` would otherwise
+credit an unplayed exercise on mount (sweep 106 / NEVER-DO 14). Each screen keeps its
+own gating condition and its own `finishFired` ref, so Retry still cannot re-credit.
+
+**THE RULE IS A CONJUNCTION, and each half alone is wrong.** `BojeGame` and
+`ZnamGame` also call `completeExercise` from an `onClick` — the ADVANCE button of the
+final question, which IS the act of finishing; they move the learner onto a view
+whose credit is already recorded, so every exit from it is equivalent. Banning the
+shape flags both as defects. And calling `goBack()` from an onClick is fine
+everywhere. It is **paying only when the learner presses the button that LEAVES**
+that makes a second exit lose their work, so that is what
+`creditFollowsWork.test.ts` forbids.
+
+**AND ITS WRITER SET IS NOT JUST THE AUTHORITY.** Scoped to `completeExercise` the rule
+finds twelve of twenty-one and misses `ReviewScreen`; it therefore also watches `award`,
+`markQuest`, `recordExerciseOutcome`, `recordSrsReview` and `recordMasteryEvent`. Those
+nine screens are deliberately NOT converted to `completeExercise` — each has its own XP
+semantics and routing them through the shared path would change live awards for no gain
+(the `writing_guided` / `relpron` precedent). **A rule scoped to a single source of truth
+misses everything that never adopted it.**
+
+**REAL-WORLD MUTATION, not only a synthetic one.** The rule was run against the
+pre-fix version of every subject (`git show 567a3080:<path>` into a scratch tree):
+**flagged 21 of 21, and 0 of 21 after, with `BojeGame` and `ZnamGame` correctly left
+alone in both runs**. The non-vacuity clause in the committed test uses a FABRICATED pair
+instead — both a defective probe and the prescribed fix — so it cannot come to depend on
+a real file keeping the defect (sweep 137's rule).
+
+**THREE screens are also DRIVEN** (`creditSurvivesLeavingResults.test.tsx`):
+`TypingScreen`, `Unjumble` (off the REAL static bank) and `PronunciationContrast` — one
+of the nine, because an effect can be present and never fire (a wrong dependency, a
+condition never true) and only rendering shows that. Each reverted fails the behavioural
+test naming what it broke.
+
+**A MECHANICAL JSX REWRITE DROPPED A `style` ATTRIBUTE AND NOTHING TYPE-CHECKED IT.** The
+helper that rewrote 21 buttons preserved the attributes BEFORE `onClick` and silently lost
+a trailing `style={{ width: '100%', marginTop: 16 }}` on `PronunciationContrast` — a
+visible regression with no error behind it. Found by diffing each button's attribute SET
+before and after, which is the check to run after any mechanical edit to JSX; the helper
+now reads both sides.
+
+**AND MY OWN CARRY-OVER GUARD MATCHED A COMMENT.** Moving `ListeningScreen`'s block, I
+asserted the old handler contained no `recordTopicResult(` call that had to come with it —
+and it fired on a COMMENT reading "(recordTopicResult below)". The
+prose-satisfies-a-matcher trap in its FALSE-ALARM direction, which is new here: every
+prior instance in this file ran the other way. Strip comments in both directions.
+
+**AND MY OWN POSITIVITY ASSERTION SURVIVED ITS FIRST MUTATION.** Written against a
+fixed 1,600-character look-behind, it passed with `total === 0` DELETED from
+`VocativeScreen`, because that much preceding code mentions a length somewhere. It
+reads the effect's own guard region now (from `useEffect(` to the call) and each of
+the four removals fails it. **Nth instance of the fixed-window defect in this repo**
+(`registryMatchesScreen`, `dwellContentGate`) — and the only reason it was caught is
+that mutation is run per screen rather than once.
+
+- Mutation-verified, twenty-nine: each of the twenty-one pre-fix files flagged and the
+  two correct controls not flagged (23); the `Unjumble` fix reverted fails 3 across both
+  suites and the `PronunciationContrast` fix reverted fails 1, each naming the promise it
+  broke; the positivity guard removed from `VocativeScreen`, `Unjumble`, `ModalScreen`
+  and `AspectDrillScreen` each fails 1; the synthetic probe's prescribed-fix arm proves
+  the rule does not forbid its own remedy.
+- NEVER: call a credit writer (`completeExercise`, `award`, `markQuest`,
+  `recordExerciseOutcome`, `recordSrsReview`, `recordMasteryEvent`) from the onClick of a
+  control that also navigates away; print an XP figure or a badge on a results view
+  before it has been credited; scope a credit rule to `completeExercise` alone; record "a
+  driver cannot reach this screen" without trying; pin a gate's inputs by their SHORTHAND
+  SPELLING rather than their value; assert a guard clause inside a fixed character window
+  from a declaration; rewrite a JSX attribute list mechanically without diffing the
+  attribute SET before and after.
+
+### 140. Can every session slot be finished? — 2026-09-25 — 376 screens, zero strands, and the guard's first run was wrong about two of them
+
+The strand this ratchets: Today's Session advances only when HomeTab, on return, finds
+`shouldAutoCompleteOnReturn(pending, completed)` true. A screen satisfying neither
+branch leaves the plan at **N-1/N for ever** — re-tapping Start re-drops the learner
+onto the same activity, and the on-completion auto-regenerate is blocked behind it.
+
+**IT HAS BEEN FIXED ONE SCREEN AT A TIME, FOUR TIMES, each after it reached a
+learner**: the whole Croatia slot (2026-06-12, when the dwell credit that covered
+browse screens was removed), `alphabet` (2026-09-23 — its award was gated on a `vs` key
+the dwell timer had PRE-WRITTEN, so the day-one curriculum drill could be finished and
+the session stayed at N-1/N), `micro_lesson` (sweep 119, where gating the award would
+have stranded it had the signal not been moved above the gate), and `dictation`'s
+empty-bank case. Nobody asked it of every screen the slots can serve — the
+`sessionScreensFeedLedger` shape applied to the session handshake.
+
+**Measured: 376 session-launchable screens, ZERO that can finish by neither route.** So
+`sessionSlotsCanFinish.test.ts` is a RATCHET, not a save, and the value is that the
+next browse screen added to a pool — or the next graded screen whose award moves behind
+a gate — fails there instead of stranding a learner's day.
+
+**A GUARD THAT KNOWS ONLY ONE MECHANISM REPORTS ~64 HEALTHY SCREENS AS BROKEN**, which
+is what my first census did. `useAward` writes `nh_session_completed` ITSELF, so any
+positive award finishes the slot and `signalSessionCompleteIfActive` is the
+supplementary path for screens that grade without awarding; and
+`SESSION_AUTOCOMPLETE_SCREENS` (every `CROATIA_POOL` screen plus the `reference: true`
+pool entries) is marked done on return because a browse surface has nothing to grade.
+Both branches are asserted non-trivial (>20 and >200 subjects), so a future
+simplification cannot quietly drop one.
+
+**AND THE SECOND RUN REPORTED TWO FINDINGS ON CORRECT CODE, both `award?.(...)`.**
+`award\s*\(` does not match an OPTIONAL call: `AlkaScreen` passes
+`onXp: (xp) => award?.(xp, true, 'vocabulary')` and `RoleplayScreen` calls
+`award?.(20, false, 'speaking')`, and those are their only completion paths. **A matcher
+that misses the syntax the corpus actually uses manufactures findings** — the mirror of
+this file's "a name that matches nothing guards nothing", and the reason the
+optional-call arm is now pinned on both real strings. Checking the two by hand instead
+of believing the walk is what caught it.
+
+**`stripDecl`'s CALL SITE SURVIVED ITS OWN MUTATION**, because `BLOCKED` already covers
+every module that declares a finisher today. Rather than leave a decorative clause it
+has a FABRICATED positive control — a module whose only mention of a finisher is its own
+declaration must not read as finishing, and must once it also calls one — after which
+the mutation fails 1. Third time in two sweeps that a clause needed a synthetic control
+to stop being decoration.
+
+- Mutation-verified, four: `alka` losing its award fails 2 (the real strand); the
+  optional-call arm removed fails 2; the autocomplete branch ignored fails 1; the
+  `stripDecl` call removed fails 1.
+- NEVER: add a screen to a session pool without a finisher or a place in the
+  autocomplete set; write a guard's matcher without the optional-call form the corpus
+  uses; judge a session screen by the signal alone (the award path and the
+  autocomplete-on-view path are both real).
+
+**Two adjacent censuses came back clean and are recorded so they are not re-run**: no
+`onClick` / `onChange` / `onSubmit` handler anywhere in `src/components` is a no-op or
+returns without doing anything (0 of ~1,900), no control is hard-disabled, every
+`setScr` target is a real `ROUTE_KEYS` entry (430 keys, 0 unknown), and both tile banks
+are winnable through their own graders (`UNJUMBLE` 40/40, `SENTBUILD` 42/42 — the tile
+multiset equals the target's word multiset, so some arrangement is always accepted).
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from
+
+- [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:
+      **twenty-one screens** (twelve through `completeExercise`, nine hand-rolling the
+      same credit — the half containing `ReviewScreen`), found by asking the owner's
+      question ("is there anything a
+      user finds that doesn't work") rather than by a derivation. `H(..., goBack)`
+      draws a real Back BUTTON, so every results view has a second exit, and twelve
+      screens paid only through the Done / Finish button on it, and the TabBar makes
+      that true of EVERY screen. Seven printed "+N XP" or a badge they had not yet
+      credited. Ratcheted by `creditFollowsWork.test.ts`
+      as a CONJUNCTION (credit from an onClick that also navigates) — `BojeGame` and
+      `ZnamGame` credit from the final ADVANCE button, which is correct, so a ban on
+      the shape alone would flag them. Real-world mutation: the rule flags all
+      twenty-one pre-fix files, none after, and neither control in either run.
 
 - [x] ~~**THE OTHER 117 DRILLS STILL SAY "need 75%"**~~ — DONE, same day, and the
       derivation is what made 120 files safe to change. It was the

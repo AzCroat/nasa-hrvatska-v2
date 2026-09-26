@@ -240,6 +240,26 @@ function goToDone(award = vi.fn()) {
   clickNext(); // "Results" → done
 }
 
+/**
+ * Reach the done view with the per-card `srsTotal` increments already cleared, so the
+ * caller sees ONLY the completion (rc/vs) update.
+ *
+ * The clear has to happen BEFORE the transition, not after: since sweep 139 the credit
+ * fires on REACHING the done view rather than on the Continue click, because the view
+ * also carries a Back button and the TabBar, and paying only through Continue lost the
+ * whole round for anyone who left another way. Two tests here cleared afterwards and
+ * so wiped the very call they then asserted — the defect encoded as a test premise.
+ */
+function goToDoneIsolated(award = vi.fn()) {
+  renderScreen({ award });
+  clickCorrectOption();
+  clickNext(); // → question 2 (last)
+  clickCorrectOption();
+  mockSetStats.mockClear();
+  mockWriteDelta.mockClear();
+  clickNext(); // "Results" → done, and the credit lands here
+}
+
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
 describe('ReviewScreen — empty state', () => {
@@ -549,12 +569,8 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
   });
 
   it('setStats is called with vs including "srsreview" on completion', () => {
-    goToDone();
-    // Ignore the per-card srsTotal increments that fired during grading — isolate
-    // the completion (rc/vs) update.
-    mockSetStats.mockClear();
-    const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
-    fireEvent.click(btn);
+    // Reaching the done view IS the completion — see goToDoneIsolated.
+    goToDoneIsolated();
     expect(mockSetStats).toHaveBeenCalled();
     const fn = mockSetStats.mock.calls[0][0] as (prev: { vs?: string[]; rc?: number }) => {
       vs: string[];
@@ -584,12 +600,9 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
   });
 
   it('setStats inner guard returns prev unchanged if vs already includes "srsreview"', () => {
-    // Verify idempotency of the setStats updater function itself.
-    // Navigate to done and click Continue — setStats is called once.
-    goToDone();
-    mockSetStats.mockClear(); // isolate the completion update from per-card increments
-    const btn = screen.getAllByRole('button').find((b) => b.textContent?.includes('Continue'))!;
-    fireEvent.click(btn);
+    // Verify idempotency of the setStats updater function itself. Reaching the done
+    // view credits exactly once — see goToDoneIsolated.
+    goToDoneIsolated();
     expect(mockSetStats).toHaveBeenCalledTimes(1);
     const fn = mockSetStats.mock.calls[0]![0] as (prev: { vs: string[]; rc?: number }) => {
       vs: string[];
