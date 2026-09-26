@@ -10536,6 +10536,80 @@ credit guard dropped fails 1, and gating `onComplete` alongside it fails 1.
 
 ---
 
+### 145. Is the printed XP the paid XP, everywhere? — 2026-09-26 — one live defect, on the app's mistake-review screen
+
+Sweep 142 answered this for `Flashcards` by reading, and checked seven other screens
+by hand. This is the mechanical version: every component rendering `+{…} XP` in JSX,
+with the expression it prints set beside every `award(…)` / `xp:` expression in the
+same file. **25 files print an XP figure.**
+
+**The formula census came back clean, and that is what made it misleading.** The
+interesting rows were the ones where the two expressions differ, and every one was a
+composite that agrees when read: `BojeGame` prints `bjSc * 7` and pays `award(5)` per
+answer plus a `bjSc * 2` completion bonus — the sum, with a comment saying so;
+`ZnamGame` prints `znSc * 5` against `award(5)` per answer and `xp: 0`;
+`SpeedChallenge` pays per answer and prints an accumulator written on the same line;
+`FlashcardRecallQuiz`'s `XP_BASE + total * XP_PER_CORRECT` is a PREVIEW that labels
+itself "for a perfect score"; `MajaDebrief`, `PracticalCroatianScreen`,
+`VideoLessonScreen`, `MistakesScreen` and the rest agree expression for expression.
+
+**AND `MistakesScreen` WAS BROKEN ANYWAY, WHICH IS THE FINDING.** Its printed
+`mastered * 5` and its paid `newMastered * 5` are the same number. The defect is that
+the results view has **TWO entry paths and only one of them pays**: `handleGotIt`
+awarded when it exhausted the deck, and `handleStudyAgain` — the "still learning"
+button — sets the SAME `'done'` state and awarded nothing. So mastering four of five
+words and answering the last one "📚 Study Again" reaches a view printing
+**"+20 XP"** and **"You mastered 4 words"** with `award` never called and the review
+quest (`recordSrsReview`) never credited.
+
+**The same file already knew.** The effect directly beneath fires
+`signalSessionCompleteIfActive` on either terminal state, under a comment reading
+"both paths would strand a session-launched review" — the author got the FLOW right
+for both paths two waves earlier and the CREDIT stayed on one handler. Paying from the
+terminal state is what makes them equivalent; `mastered > 0` keeps an all-unmastered
+session from paying (NEVER-DO 14) and the ref latch resets on a restart, because a
+second session must be able to pay.
+
+**THE TEST FILE DOCUMENTED THE DEFECT AS THE CONTRACT.** Its header line read
+`"📚 Study Again" on last card: mode='done' (without awarding mastered)`, and a test
+named `"📚 Study Again" does NOT call award` passed — on a ONE-card deck, where
+`mastered` is 0 and the guard is correct. **A test can encode the false premise instead
+of checking it**, exactly as the `vs`-marker case did; the assertion was right and the
+scenario could not distinguish "nothing was mastered" from "nothing is ever paid here".
+That test keeps its (now precise) name and gains the two-card case beside it as its
+floor.
+
+**Neither existing guard could see this, and none of the three is at fault.**
+`creditFollowsWork` looks for credit in an `onClick` that navigates — this onClick does
+not navigate, it sets state. `zeroSatisfiableCredits` looks for a length comparison in
+an effect — there is none. The formula census compares expressions — and they AGREE.
+The defect is in WHICH PATH runs, which is a third question about the same line.
+
+**THE CLASS HAS EXACTLY ONE MEMBER, measured.** A derivation over every component for
+a terminal-state setter (`setX(true)` or `setX('done'|'result'|'summary'|…)`) written
+at two or more sites with a credit writer near only some of them reports three:
+`MistakesScreen` (the real one), `SpeedChallenge` (pays per ANSWER, so both terminal
+paths are already paid — correct) and `CroatianNewsScreen`'s `setUsingFallback(true)`,
+which is a feed-source flag and not a results state at all.
+
+**No guard was committed, and the reason is structural rather than tidiness.** A screen
+that pays INCREMENTALLY legitimately has no credit at its terminal setter — that is
+`BojeGame`, `ZnamGame` and `SpeedChallenge`, three of the twenty-five — so any rule of
+this shape flags every incremental payer. Two of three hits were noise on the first
+run, and a guard that is mostly noise trains everyone to ignore it (the sweep 104 /
+109 / 144 precedent). The method is recorded here; it is re-runnable in ten minutes.
+
+Mutation-verified, two: reverting to paying from `handleGotIt` fails 1 (the new
+two-card test, which names what it broke), and dropping the `mastered > 0` guard fails
+1 (the one-card test, whose premise that guard IS).
+
+- NEVER: put a session's credit in one of the handlers that reaches its results view —
+  put it on the state; read agreeing PRINT and PAY expressions as proof the figure is
+  paid (ask which paths reach the view); write a test whose scenario cannot distinguish
+  the guard from the absence of the credit.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

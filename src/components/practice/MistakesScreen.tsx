@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { H, getMistakes, clearMistake, clearAllMistakes, speak } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { recordSrsReview } from '../../lib/quests.js';
@@ -281,6 +281,7 @@ export default function MistakesScreen({
   const [mode, setMode] = useState('list'); // 'list' | 'review'
   const [reviewIdx, setReviewIdx] = useState(0);
   const [mastered, setMastered] = useState(0);
+  const creditFired = useRef(false);
   const [reviewDeck, setReviewDeck] = useState<any[]>([]);
 
   function startReview() {
@@ -293,6 +294,9 @@ export default function MistakesScreen({
     setReviewDeck(deck);
     setReviewIdx(0);
     setMastered(0);
+    // A second session must be able to pay: the latch guards one visit to 'done',
+    // not the mount.
+    creditFired.current = false;
     setMode('review');
   }
 
@@ -308,26 +312,42 @@ export default function MistakesScreen({
     // leaving the badge permanently unattainable.
     setStats((prev) => ({ ...prev, mistakesMastered: (prev.mistakesMastered || 0) + 1 }));
     if (reviewIdx + 1 >= reviewDeck.length) {
-      // Session complete
-      if (award && newMastered > 0) {
-        award(newMastered * 5, newMastered >= 3, 'review');
-        // The whole deck was reviewed, not just the ones newly mastered — the
-        // quest counts words REVIEWED. See lib/quests recordSrsReview.
-        recordSrsReview(reviewDeck.length);
-      }
+      // Session complete. The CREDIT is paid by the effect below, not here — see
+      // its comment: this handler is only one of the two ways to reach 'done'.
       setMode('done');
     } else {
       setReviewIdx((i) => i + 1);
     }
-  }, [reviewDeck, reviewIdx, mastered, award, setStats]);
+  }, [reviewDeck, reviewIdx, mastered, setStats]);
 
   // Wave 6 (session catchment): the finish award fires only when at least one
   // word was mastered, and an empty mistake log renders a celebratory wall —
   // both paths would strand a session-launched review. Signal completion on
   // either terminal state; a no-op outside sessions.
+  //
+  // THE XP WAS ON ONE OF THOSE TWO PATHS AND THE SIGNAL WAS ON BOTH (2026-09-26).
+  // `handleGotIt` awarded `newMastered * 5` when it exhausted the deck;
+  // `handleStudyAgain` — the "still learning" path — sets the SAME terminal state and
+  // awarded nothing. So mastering four of five words and answering the last one
+  // "study again" reached a view printing "+20 XP" and "You mastered 4 words" with
+  // `award` never called and the review quest (`recordSrsReview`) never credited. The
+  // comment above got this exactly right for the FLOW two waves ago and the credit
+  // stayed on one handler. Paying from the terminal state is what makes the two paths
+  // equivalent; `mastered > 0` keeps an all-unmastered session from paying (NEVER-DO
+  // 14), and the ref keeps a re-render from paying twice.
   useEffect(() => {
     if (mode === 'done' || mistakes.length === 0) signalSessionCompleteIfActive('mistakes');
   }, [mode, mistakes.length]);
+
+  useEffect(() => {
+    if (mode !== 'done' || mastered <= 0 || creditFired.current) return;
+    creditFired.current = true;
+    if (award) award(mastered * 5, mastered >= 3, 'review');
+    // The whole deck was reviewed, not just the ones newly mastered — the quest
+    // counts words REVIEWED. See lib/quests recordSrsReview.
+    recordSrsReview(reviewDeck.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, mastered]);
 
   const handleStudyAgain = useCallback(() => {
     if (reviewIdx + 1 >= reviewDeck.length) {
