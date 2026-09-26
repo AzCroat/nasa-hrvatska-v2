@@ -44,6 +44,29 @@ const p = (statKind: StatKind): ExerciseEntry => ({
 });
 
 const RAW: Record<string, ExerciseEntry> = {
+  // ── FIVE MORE UNGUARDED gc WRITERS (2026-09-26, engine increment 1 cont.) ────
+  // Same defect as the ten below: `gc` incremented with no once-only flag, so every
+  // replay was worth 25 CEFR points. Each of these keeps its OWN `award(...)` call
+  // exactly where it was — the authority is given `xp: 0` and no `award`, so it owns
+  // the completion (counter, quest, vs) and changes no payment. That split is what
+  // makes these conversions verifiable: the only thing that moves is idempotency.
+  //
+  // Policy is `effort` for all five. Where a screen already gates itself — MicroLesson
+  // returns early on `!passedLesson(...)` — the gate stays in the screen, so the
+  // authority must not re-gate on a score it was not given.
+  bureaucratic: e('gc', 'grammar', 'grammar'),
+  casetransformer: e('gc', 'grammar', 'grammar'),
+  grammarexplainer: e('gc', 'grammar', 'grammar'),
+  micro_lesson: e('gc', 'grammar', 'grammar'),
+  phoneme_practice: e('gc', 'grammar', 'pronunciation'),
+  grammar: e('gc', 'grammar', 'grammar'),
+  // NO activityType on purpose: the screen keeps its own `award(score * 7, false, 'default')`
+  // and the authority is passed no `award`, so the field would be inert — and adding
+  // 'default' took the registry's distinct-type count to 10, which is exactly the
+  // inequality `appUtils`' distinctExercisesDone comment rests on (a type-keyed count
+  // "would cap" below the 10- and 15-exercise badges). registryMatchesScreen caught it.
+  cefrtest: e('gc', 'grammar'),
+
   // ── TEN SINGLE-PAGE GRAMMAR EXERCISES THAT CREDITED gc ON EVERY REPLAY ───────
   // Added 2026-09-26. Each of these incremented `gc` by hand with NO once-only
   // mechanism — no `vs` flag, no ref that survives a remount — so finishing, leaving

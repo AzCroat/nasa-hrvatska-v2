@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { NOUN_LIBRARY, CASE_INFO, declineNoun } from './CaseTransformerData.js';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import CaseTransformerPicker from './CaseTransformerPicker';
 import CaseTransformerDeclension from './CaseTransformerDeclension';
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export default function CaseTransformer({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('picker'); // "picker" | "declension" | "quiz"
   const [selectedNoun, setSelectedNoun] = useState<Noun | null>(null);
   const [number, setNumber] = useState('sg'); // "sg" | "pl"
@@ -125,9 +125,7 @@ export default function CaseTransformer({ goBack, award }: Props) {
       if (!xpAwardedRef.current && typeof award === 'function') {
         xpAwardedRef.current = true;
         setXpAwarded(true);
-        markQuest('grammar');
-        setStats((s) => ({ ...s, gc: s.gc + 1 }));
-        writeDelta({ gc: 1 });
+        completeExercise({ key: 'casetransformer', xp: 0, stats, setStats, writeDelta });
         award(10, false, 'grammar');
       }
     }

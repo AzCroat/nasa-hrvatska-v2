@@ -3695,8 +3695,57 @@ was right.
 - Mutation-verified, four: the quest mark back below the return fails 1 and names it; marking
   unconditionally fails the tier-2 clause; each of the ten screens reverted fails its own
   idempotency test; the registry rows removed fail the derivation floor.
+### Increment 1 finished: the counter class is now UNREPRESENTABLE
+
+`counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
+`src` outside a short exempted list. That is what turns "fixed in 17 places" into "cannot be
+written": the increment lives in one module, and a new screen either routes through
+`completeExercise` or fails the guard. **Seventeen screens are converted** (ten
+single-page exercises, then `bureaucratic`, `casetransformer`, `grammarexplainer`,
+`micro_lesson`, `phoneme_practice`, `grammar`, `cefrtest`); the authority went from **140 to
+157** of the 222 crediting components.
+
+**THE CONVERSION RULE IS A SPLIT, and it is what makes 17 edits verifiable: the authority
+owns the COMPLETION (counter, quest, idempotent `vs`), and each screen keeps its own
+`award(...)` call exactly where it was.** `xp: 0` and no `award` are passed, so no payment
+moves and the only thing that changes is idempotency. Reaching for "move the award in too"
+would have changed `useAward`'s activityType branches (a server XP claim fires only when an
+activityType is supplied), which is a different change with a different blast radius.
+
+**FOUR COUNTER WRITERS REMAIN, ALL EXEMPTED ON A CHECKED REASON** — and the reasons split
+two ways. Three are ALREADY idempotent by their own explicit test (`AnimatedLesson` checks
+`vs?.includes('al_' + lessonId)`, `PitchAccentMastery` `'pitch_accent'`, `SpeakingScreen`
+`'speaking'`), plus `dwellCredit`, whose `wasFirstVisit()` is assigned inside the caller's
+`vs` updater. `LessonScreen` is the one place **the authority's model is too narrow**: its
+updater writes FOUR stats in one call (`lc`, `pf`, `rs`, `ct`) and the authority owns `vs`
+plus a single counter. Worth remembering for the course spine, which replaces that path.
+
+- **TWO OF MY OWN EXEMPTIONS WERE BOGUS AND THE STALENESS CLAUSE CAUGHT BOTH.** I exempted
+  `useExerciseCompletion.ts` (it writes through a COMPUTED key, `next[statKind] = … + 1`, so
+  the literal shape never matched) and `statsReducer.ts` (which does not touch these counters
+  at all). An exemption that cannot fire is the stale-exemption shape with its reason written
+  in advance — which is why every entry must still match the pattern it is excused from.
+- **ADDING A REGISTRY ROW CAN BREAK AN INVARIANT TWO FILES AWAY.** `registryMatchesScreen`
+  failed on both new rows, correctly: `GrammarScreen` also marks a **second, conditional**
+  quest (`perfect`, only on a flawless run) that one `questKind` cannot express, now in
+  `DELIBERATE`; and giving `cefrtest` `activityType: 'default'` took the registry's distinct
+  type count to **10**, which is exactly the inequality `appUtils`' `distinctExercisesDone`
+  comment rests on ("a type-keyed count would cap below the 10- and 15-exercise badges").
+  The field was inert there — no `award` is passed — so the row was narrowed rather than the
+  threshold raised.
+- **WHAT IS LEFT HAND-ROLLED, AND WHY IT IS NOT THE SAME CLASS.** 19 screens write a
+  `vs`/`writeDelta` completion with NO counter: a repeat writes a duplicate `vs` entry (a
+  set union) and a duplicate delta, neither of which credits anything, so there is no
+  inflation to fix. 22 more are REPEATABLE DAILY activities — Maja, the live tutor, AI
+  conversation, story mode, guided writing and speaking — with no once-ever state at all;
+  routing those through the authority would give them a `vs` flag and make a daily activity
+  **once-ever**, which is a regression, not a consolidation. One credit path does not mean
+  one credit policy.
+
 - NEVER: increment a mastery counter without an idempotent flag (route it through the
-  authority — a ref does not survive a remount); couple a DAY-scoped mark to the ONCE-EVER
+  authority — a ref does not survive a remount); move a screen's `award` into the authority
+  in the same change as its completion (the activityType decides whether a server XP claim
+  fires); convert a repeatable daily activity onto a once-ever `vs` key; couple a DAY-scoped mark to the ONCE-EVER
   completion flag; mark a daily quest unconditionally on a replay (tier 2 means two DISTINCT
   exercises); add an export to a heavily-mocked module that the authority calls; define a
   guard's population by the defect it is written to catch; let one test's storage writes reach

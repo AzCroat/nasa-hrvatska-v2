@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, speak, getMistakes } from '../../data';
 import { useStats } from '../../context/StatsContext';
-import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { passedLesson, LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
@@ -104,7 +104,7 @@ export default function MicroLessonScreen({
   award?: (pts: number, celebrate?: boolean, activityType?: string) => void;
   goFlashcards?: () => void;
 }) {
-  const { level, setStats, writeDelta } = useStats();
+  const { stats, level, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('loading'); // loading | error | intro | quiz | results
   const [lesson, setLesson] = useState<MicroLesson | null>(null);
   const [weakWords, setWeakWords] = useState<WeakWord[]>([]);
@@ -159,11 +159,12 @@ export default function MicroLessonScreen({
       if (!passedLesson(correctCount, total)) return;
       const xpEarned = 10 + correctCount * 5;
       awardFn(xpEarned);
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'micro_lesson', xp: 0, stats, setStats, writeDelta });
     }
-  }, [phase, lesson, correctCount, awardFn, setStats, writeDelta]);
+    // `stats` is a dependency because the authority reads `stats.vs` to decide whether this
+    // completion has already been credited — a stale closure would see an older `vs` and
+    // could credit twice. Re-running is harmless: `xpFiredRef` gates the whole body.
+  }, [phase, lesson, correctCount, awardFn, stats, setStats, writeDelta]);
 
   // ── Fetch lesson ─────────────────────────────────────────────────────────────
   const fetchLesson = useCallback(async () => {

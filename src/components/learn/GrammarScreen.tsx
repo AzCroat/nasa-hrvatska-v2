@@ -1,4 +1,5 @@
 import React, { useRef, useMemo, useEffect } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, speak } from '../../data';
 import { recordTopicResult } from '../../lib/adaptive.js';
@@ -84,7 +85,7 @@ export default function GrammarScreen({
   award,
   setSt,
 }: GrammarScreenProps) {
-  const { writeDelta } = useStats();
+  const { stats, writeDelta } = useStats();
   const resultFired = useRef(false);
 
   // Knight coaching — entry tip on learn phase
@@ -243,10 +244,17 @@ export default function GrammarScreen({
                     resultFired.current = true;
                     if (typeof award === 'function')
                       award(Math.round((gs / qs.length) * 25) + 10, false, 'grammar');
-                    markQuest('grammar');
                     if (gs === qs.length) markQuest('perfect');
-                    setSt((s) => ({ ...s, gc: s.gc + 1 }));
-                    writeDelta({ gc: 1 });
+                    // The authority owns the completion (counter, the `grammar` quest and
+                    // the idempotent `vs` write); the award above is untouched. `setSt` is
+                    // AppRouter's own `setStats`, so this is the same setter.
+                    completeExercise({
+                      key: 'grammar',
+                      xp: 0,
+                      stats,
+                      setStats: setSt,
+                      writeDelta,
+                    });
                     sGp('result');
                   }
                 }}

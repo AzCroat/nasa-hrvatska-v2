@@ -10925,6 +10925,65 @@ not blind.
 
 ---
 
+## Sweep 150 — step 1 finished: the mastery counter has one owner (2026-09-26)
+
+Continues sweep 149. The remaining hand-rolled screens were censused and split by WHAT they
+credit, because that decides whether conversion is a fix or a regression:
+
+| group | count | disposition |
+| --- | --- | --- |
+| a once-ever COUNTER of their own | 17 + 4 | **converted** (17) / exempted on a checked reason (4) |
+| a `vs`/`writeDelta` completion, no counter | 19 | left — a repeat writes a duplicate set entry, crediting nothing |
+| REPEATABLE DAILY activities, no once-ever state | 22 | left deliberately — see below |
+| per-answer XP only, no completion to own | 20 | nothing for the authority to own |
+
+**THE COUNTER CLASS IS NOW UNREPRESENTABLE**, which is what "finished" means here:
+`counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
+`src` outside four exempted files. The authority went from 140 to **157** of 222.
+
+**THE CONVERSION RULE IS A SPLIT, and it is why 17 edits are verifiable at all.** The
+authority owns the COMPLETION — counter, quest, idempotent `vs` — and each screen keeps its
+own `award(...)` exactly where it was (`xp: 0`, no `award` passed). Moving the award in too
+would have changed `useAward`'s behaviour: a server XP claim fires only when an activityType
+is supplied, and `MicroLessonScreen` calls `awardFn(xp)` with none. Different change,
+different blast radius.
+
+**CONVERTING A REPEATABLE ACTIVITY WOULD BE A REGRESSION, NOT A CONSOLIDATION.** Maja, the
+live tutor, AI conversation, story mode, guided writing and speaking award XP and mark a
+daily quest with NO once-ever state. Routing them through the authority would give each a
+`vs` flag and make a daily activity once-ever. **One credit path does not mean one credit
+policy** — that distinction is the reason the census split by what a screen credits rather
+than by how it credits.
+
+**TWO OF MY OWN EXEMPTIONS WERE BOGUS AND THE STALENESS CLAUSE CAUGHT BOTH.** I exempted the
+authority itself (it increments through a COMPUTED key, `next[statKind] = … + 1`, so the
+literal shape never matched) and `statsReducer.ts` (which does not touch these counters at
+all). Both were written by reasoning about which files "own" the counter rather than by
+checking which files match. **Require every exemption to still match the pattern it is
+excused from** — that clause has now caught three bogus entries across two sweeps.
+
+**ADDING A REGISTRY ROW BROKE AN INVARIANT TWO FILES AWAY, and the guard named it.**
+`registryMatchesScreen` failed twice: `GrammarScreen` also marks a second, CONDITIONAL quest
+(`perfect`, only on a flawless run) that one `questKind` cannot express — recorded in
+`DELIBERATE`; and giving `cefrtest` `activityType: 'default'` took the registry's distinct
+type count to 10, which is precisely the inequality `appUtils`' `distinctExercisesDone`
+comment rests on. The field was inert (no award is passed there), so the ROW was narrowed
+rather than the threshold raised. **A new registry row is not a local change.**
+
+**AND `LessonScreen` IS THE ONE PLACE THE AUTHORITY'S MODEL IS TOO NARROW** — its updater
+writes four stats in one call (`lc`, `pf`, `rs`, `ct`) while the authority owns `vs` plus a
+single counter. Recorded rather than papered over, and relevant to step 3: the course spine
+replaces that path, so the right time to widen the model is when the unit gate is built.
+
+- Mutation-verified, two: a converted screen reverted to writing the counter itself fails the
+  guard and names the file; a stale exemption (a file that no longer increments) fails the
+  staleness clause and names it.
+- Full suite green. NEXT: **step 3, the single-path unit course** (units, the accuracy +
+  production gate, retention confirmation, the daily session demoted to delivery), then step
+  2, the drill-engine conversion.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:
