@@ -30,7 +30,7 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   // ── kaopoput ──────────────────────────────────────────────────────────────
   {
     mode: 'kaopoput',
-    q: 'Visok je kao ____. (ti)',
+    q: 'Visok je kao ____.',
     en: 'He is as tall as you.',
     opts: ['ti', 'tebe', 'tebi', 'tobom'],
     answer: 'ti',
@@ -62,7 +62,7 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kaopoput',
-    q: 'Radi kao ____. (liječnik)',
+    q: 'Radi kao ____.',
     en: 'He works as a doctor.',
     opts: ['liječnik', 'liječnika', 'liječniku', 'liječnikom'],
     answer: 'liječnik',

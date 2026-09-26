@@ -79,7 +79,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'faza',
-    q: 'Nemoj ____ o tome. (govoriti)',
+    q: 'Nemoj ____ o tome.',
     en: 'Do not talk about it.',
     opts: ['govoriti', 'reći', 'kazati', 'izgovoriti'],
     answer: 'govoriti',
@@ -153,7 +153,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ishod',
-    q: 'Zaboravio sam ____ ključeve. (ponijeti)',
+    q: 'Zaboravio sam ____ ključeve.',
     en: 'I forgot to bring the keys.',
     opts: ['ponijeti', 'nositi', 'noseći', 'nosim'],
     answer: 'ponijeti',
@@ -195,7 +195,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'modalni',
-    q: 'Mogu ti ____ ako želiš. (pomoći)',
+    q: 'Mogu ti ____ ako želiš.',
     en: 'I can help you if you want.',
     opts: ['pomoći', 'pomagati', 'pomažući', 'pomažem'],
     answer: 'pomoći',
@@ -211,7 +211,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'modalni',
-    q: 'Želim ____ hrvatski. (naučiti)',
+    q: 'Želim ____ hrvatski.',
     en: 'I want to learn Croatian.',
     opts: ['naučiti', 'učiti', 'učeći', 'učim'],
     answer: 'naučiti',
@@ -219,7 +219,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'modalni',
-    q: 'Volim ____ hrvatski. (učiti)',
+    q: 'Volim ____ hrvatski.',
     en: 'I enjoy learning Croatian.',
     opts: ['učiti', 'naučiti', 'učeći', 'naučim'],
     answer: 'učiti',

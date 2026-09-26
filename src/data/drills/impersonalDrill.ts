@@ -42,7 +42,7 @@ export const IMPERSONAL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'treba',
-    q: 'Treba ____ pomoć. (ti)',
+    q: 'Treba ____ pomoć.',
     en: 'You need help.',
     opts: ['ti', 'te', 'tebe', 'tvoj'],
     answer: 'ti',
@@ -182,7 +182,7 @@ export const IMPERSONAL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dativ',
-    q: 'Vruće ____ je. (ti)',
+    q: 'Vruće ____ je.',
     en: 'You are hot.',
     opts: ['ti', 'te', 'tebe', 'si'],
     answer: 'ti',

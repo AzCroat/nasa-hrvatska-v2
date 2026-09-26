@@ -125,7 +125,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'opseg',
-    q: 'Nisam rekao ____ nego da razmislim. (da neću)',
+    q: 'Nisam rekao ____ nego da razmislim.',
     en: 'I did not say I would not, but that I would think about it.',
     opts: ['da neću', 'da ne', 'ne', 'niti'],
     answer: 'da neću',
@@ -167,7 +167,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
   // ── konstrukcije ──────────────────────────────────────────────────────────
   {
     mode: 'konstrukcije',
-    q: 'Nemam ____ plan. (baš nikakav)',
+    q: 'Nemam ____ plan.',
     en: 'I have no plan whatsoever.',
     opts: ['nikakav', 'nijedan', 'nikoji', 'nijedanput'],
     answer: 'nikakav',

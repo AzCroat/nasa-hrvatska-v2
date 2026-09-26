@@ -73,7 +73,7 @@ export const TWO_CASE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'za',
-    q: 'Vraćam se za ____. (sat)',
+    q: 'Vraćam se za ____.',
     en: 'I am coming back in an hour.',
     opts: ['sat', 'satom', 'sata', 'satu'],
     answer: 'sat',
@@ -123,7 +123,7 @@ export const TWO_CASE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'po',
-    q: 'Idem po ____. (kruh)',
+    q: 'Idem po ____.',
     en: 'I am going to get bread.',
     opts: ['kruh', 'kruhu', 'kruha', 'kruhom'],
     answer: 'kruh',
@@ -205,7 +205,7 @@ export const TWO_CASE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostali',
-    q: 'Udario je glavom o ____. (zid)',
+    q: 'Udario je glavom o ____.',
     en: 'He hit his head against the wall.',
     opts: ['zid', 'zidu', 'zida', 'zidom'],
     answer: 'zid',
@@ -213,7 +213,7 @@ export const TWO_CASE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostali',
-    q: 'Lopta se otkotrljala pod ____. (stol)',
+    q: 'Lopta se otkotrljala pod ____.',
     en: 'The ball rolled under the table.',
     opts: ['stol', 'stolom', 'stola', 'stolu'],
     answer: 'stol',

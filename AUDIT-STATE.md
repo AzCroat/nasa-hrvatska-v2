@@ -10778,6 +10778,89 @@ delegates to `ConjugationDrillEngine`, which `conjugation-engine.test.tsx` drive
 
 ---
 
+## Sweep 148 — the questions were giving the answers away (owner reports, 2026-09-26)
+
+Two owner reports minutes apart, both about learning being impossible: *"In objektne
+zamjenice you are giving the answers in the questions. What the fuck. How is someone
+going to learn if you give them the answers?"* and *"Verb aspect drill also gives the
+answer. You cannot learn if given the answers."*
+
+**One defect, 131 instances, 55 files.** A parenthetical cue after the sentence naming the
+word to use — in the very form the item asks for. Every one could be answered by copying
+the cue, so the item measured nothing, and the two the owner happened to open are the two
+where it is most obvious: an ASPECT drill whose cue gives the aspect, and an ORDER drill
+whose cue gives the order.
+
+The fix is overwhelmingly to DELETE the parenthetical, because the options are already
+forms of one lemma. Four glosses were kept for information the options do not carry.
+Details, the predicate, and every narrowing that a false positive forced are in CLAUDE.md
+under **A Question Must Not Contain Its Own Answer**.
+
+**WHAT THIS SWEEP IS REALLY ABOUT, METHODOLOGICALLY.** I had spent the morning building a
+suite that drives 98 drill screens end to end, proving their COMPLETION contract — award
+once, vs key written, credit before the exit, retry can still pass. Every one of those 98
+passed. And the content inside them could be answered by copying the question. **A
+contract test proves the machinery around an item works; it says nothing about whether the
+item is worth answering.** The owner found in two taps what 10,126 green tests could not
+see, because nothing in the suite was ever asked "is this a question".
+
+That is the gap to keep in mind for the course rebuild: the app has extensive guards on
+COMPLETION and almost none on CONTENT QUALITY. `answerKeyIntegrity` (the declared answer
+must be among the options) and the Croatian lint (no Serbisms, no Cyrillic) were the whole
+of it. This adds a third. There is room for more of the same kind and they are cheap:
+each is one predicate over 5,666 items.
+
+**THE ENGLISH GLOSS IS A SECOND CARRIER, AND IT IS NOW SWEPT — but my first note about it
+was wrong in the way this file keeps warning about.** I wrote that a blunt rule "would flag
+hundreds of correct items" and queued the class. Measured: of **5,166** items carrying both
+an `en` and an answer, **101** have the answer in the gloss as a whole word — not hundreds.
+Stating an unmeasured magnitude to justify deferring work is the same failure as stating
+one to justify doing it.
+
+Measured properly, the class splits cleanly and **eleven items were live leaks**: the shape
+`en: '<English> → <the answer>'`. `ModeDrill` and every hand-written `*Drill.tsx` render
+`{cur.en}` **unconditionally, directly above the options**, so `money → lova` hands over
+the answer before the learner chooses — `RazgovorniDrill`, a slang drill, held six of them.
+All eleven are fixed, and the eleventh had to be done by hand because its tail carried an
+extra word (`→ standard budući da`); it also spelled `pošto` without its diacritic.
+
+**The remaining 89 are CORRECT and a blunt rule would have flagged every one**: the answer
+is a loanword or proper noun English shares (`internet`, `euro`, `film`, `park`, `laptop`,
+`referendum`, `London`, `Zagreb`, `m²`) or a clitic coinciding with its English pronoun
+(`Uhvatila ____ je fjaka.` → `me`). You cannot render the sentence in English without the
+word. So only the arrow shape is guarded, and that scope is a measurement rather than a
+preference.
+
+**THE CLUSTER THAT LOOKED LIKE THE BIGGEST INSTANCE IS A NON-DEFECT, and only one question
+separated them.** `CollocationsGame` stores the full Croatian collocation in `en`
+(`en: 'napraviti grešku'` for answer `napraviti`) — twenty-plus items, and by far the
+largest group the census surfaced. It renders that block inside `{answered && (…)}`, so it
+is FEEDBACK. **Ask WHEN a field is rendered, not only whether it contains the answer**; the
+same census that found eleven real leaks would have produced twenty false ones without it.
+
+**A HARNESS BUG WORTH REMEMBERING: direction is the wrong thing to reason about when field
+order varies.** My arrow fixer looked for `answer:` in a window around each `en:` and
+reported 0. Widening backwards found the PREVIOUS item's answer; searching forward only
+found the NEXT item's, because these banks order fields `q, opts, answer, en, tip` in some
+files and `q, en, opts, answer` in others. Bounding the search to the enclosing braces
+found all ten at once. Two rounds of reasoning about direction; one about the boundary.
+
+- Mutation-verified, three: each owner-reported cue re-injected fails the guard and names
+  itself; the item filter gutted fails the non-vacuity floor at 0 of 3,000.
+- The non-vacuity clause counts the items the scan REACHES (5,666), because zero leaks is
+  also what a broken walk reports. Its first draft asserted `Array.isArray(...)` — the
+  decorative shape, caught by asking what would have to break for it to fail.
+- E2E audit: 141 question strings changed; all four grep hits are inside the new guard's
+  own docstring quoting the defect. No spec asserts any of them.
+- Croatian lint 0 findings across 472 files; twin parity holds on both `exercises.js`
+  copies; content etags regenerated.
+- NEVER: write a cue in the form the item asks for; give the order of a clitic cluster in
+  a drill that tests order; read a substring match as a cue leak; flag an answer appearing
+  in the question's own prose; compare case-insensitively when the options differ only by
+  case; print the answer in the `en` gloss.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

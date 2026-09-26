@@ -127,7 +127,7 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padezi',
-    q: 'Vidim ____. (noć)',
+    q: 'Vidim ____.',
     en: 'I see the night.',
     opts: ['noć', 'noći', 'noću', 'noćom'],
     answer: 'noć',
@@ -222,7 +222,7 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Ta ____ je bila teška. (odluka → misao)',
+    q: 'Ta ____ je bila teška.',
     en: 'That thought was hard.',
     opts: ['misao', 'misla', 'mislu', 'misli'],
     answer: 'misao',

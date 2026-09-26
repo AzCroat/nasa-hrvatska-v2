@@ -122,7 +122,7 @@ export const POSITION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'Lezi na ____. (krevet)',
+    q: 'Lezi na ____.',
     en: 'Lie down on the bed.',
     opts: ['krevet', 'krevetu', 'kreveta', 'krevetom'],
     answer: 'krevet',
@@ -146,7 +146,7 @@ export const POSITION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'Objesi kaput u ____. (ormar)',
+    q: 'Objesi kaput u ____.',
     en: 'Hang the coat in the wardrobe.',
     opts: ['ormar', 'ormaru', 'ormara', 'ormarom'],
     answer: 'ormar',

@@ -42,7 +42,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'akuzativ',
-    q: 'Čitam ____. (knjige)',
+    q: 'Čitam ____.',
     en: 'I am reading books.',
     opts: ['knjige', 'knjiga', 'knjigama', 'knjigu'],
     answer: 'knjige',
@@ -50,7 +50,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'akuzativ',
-    q: 'Vidim ____. (sela)',
+    q: 'Vidim ____.',
     en: 'I see villages.',
     opts: ['sela', 'sele', 'selima', 'selo'],
     answer: 'sela',
@@ -74,7 +74,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'akuzativ',
-    q: 'Kupujem ____. (jabuke)',
+    q: 'Kupujem ____.',
     en: 'I am buying apples.',
     opts: ['jabuke', 'jabuka', 'jabukama', 'jabuku'],
     answer: 'jabuke',
@@ -100,7 +100,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'genitiv',
-    q: 'Deset ____. (knjiga)',
+    q: 'Deset ____.',
     en: 'ten books',
     opts: ['knjiga', 'knjige', 'knjigama', 'knjigu'],
     answer: 'knjiga',

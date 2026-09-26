@@ -90,7 +90,7 @@ export const IMATI_DRILL_DATA: ModeDrillItem[] = [
   // ── padez ─────────────────────────────────────────────────────────────────
   {
     mode: 'padez',
-    q: 'Imam ____. (auto)',
+    q: 'Imam ____.',
     en: 'I have a car.',
     opts: ['auto', 'auta', 'autom', 'autu'],
     answer: 'auto',
@@ -106,7 +106,7 @@ export const IMATI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'Imam ____. (vrijeme)',
+    q: 'Imam ____.',
     en: 'I have time.',
     opts: ['vrijeme', 'vremena', 'vremenu', 'vremenom'],
     answer: 'vrijeme',

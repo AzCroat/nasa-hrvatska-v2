@@ -217,7 +217,7 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prilozi',
-    q: 'Radim ____. (svaki dan)',
+    q: 'Radim ____.',
     en: 'I work every day.',
     opts: ['svaki dan', 'svakog dana ne', 'sve dane', 'dan svaki'],
     answer: 'svaki dan',

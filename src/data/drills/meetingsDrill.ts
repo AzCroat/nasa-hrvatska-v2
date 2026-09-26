@@ -158,7 +158,7 @@ export const MEETINGS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'predlazem',
-    q: 'Možemo li naći ____? (kompromis)',
+    q: 'Možemo li naći ____?',
     en: 'Can we find a compromise?',
     opts: ['kompromis', 'kompromisa', 'kompromisu', 'kompromisom'],
     answer: 'kompromis',

@@ -77,7 +77,7 @@ const DATA = [
   },
   {
     mode: 'poredak',
-    q: 'Rekla ____ istinu. (bi + vam)',
+    q: 'Rekla ____ istinu. (vam + bi)',
     opts: ['bi vam', 'vam bi', 'bi vas', 'vam se bi'],
     answer: 'bi vam',
     en: 'she would tell you the truth',
@@ -85,7 +85,7 @@ const DATA = [
   },
   {
     mode: 'poredak',
-    q: 'Hoćeš ____ pokazati? (li + mi + ga)',
+    q: 'Hoćeš ____ pokazati? (mi + ga + li)',
     opts: ['li mi ga', 'li ga mi', 'mi li ga', 'ga mi li'],
     answer: 'li mi ga',
     en: 'will you show it to me?',
@@ -127,7 +127,7 @@ const DATA = [
   },
   {
     mode: 'polozaj',
-    q: 'Jučer ____ ga vidio u gradu. (sam)',
+    q: 'Jučer ____ ga vidio u gradu.',
     opts: ['sam', 'sam ja', 'je', 'bih'],
     answer: 'sam',
     en: 'yesterday I saw him in town',
@@ -190,7 +190,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Mislim da ____ vidio. (sam + ga)',
+    q: 'Mislim da ____ vidio. (ga + sam)',
     opts: ['sam ga', 'ga sam', 'sam njega ga', 'ga se sam'],
     answer: 'sam ga',
     en: 'I think that I saw him',
@@ -206,7 +206,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Čovjek koji ____ jučer pomogao zove se Marko. (mi + je)',
+    q: 'Čovjek koji ____ jučer pomogao zove se Marko. (je + mi)',
     opts: ['mi je', 'je mi', 'mi ga je', 'je'],
     answer: 'mi je',
     en: 'the man who helped me yesterday is called Marko',
@@ -214,7 +214,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Kad ____ vidjeli, pozdravili su nas. (su + nas)',
+    q: 'Kad ____ vidjeli, pozdravili su nas.',
     opts: ['su nas', 'nas su', 'su se nas', 'nas se su'],
     answer: 'su nas',
     en: 'when they saw us, they greeted us',
@@ -222,7 +222,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Rekla je da ____ vratiti sutra. (će + se)',
+    q: 'Rekla je da ____ vratiti sutra. (se + će)',
     opts: ['će se', 'se će', 'će je se', 'se hoće'],
     answer: 'će se',
     en: 'she said she would come back tomorrow',
@@ -230,7 +230,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Ako ____ vidiš, javi mi. (ga)',
+    q: 'Ako ____ vidiš, javi mi.',
     opts: ['ga', 'njega', 'mu', 'se'],
     answer: 'ga',
     en: 'if you see him, let me know',
@@ -238,7 +238,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: 'Nadam se da ____ svidjeti. (će + ti + se)',
+    q: 'Nadam se da ____ svidjeti. (se + ti + će)',
     opts: ['će ti se', 'ti će se', 'će se ti', 'se će ti'],
     answer: 'će ti se',
     en: 'I hope you will like it',

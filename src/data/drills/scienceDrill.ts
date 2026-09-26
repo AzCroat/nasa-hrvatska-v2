@@ -133,7 +133,7 @@ export const SCIENCE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'registar',
-    q: 'Iz toga proizlazi ____ zaključak. (sljedeći)',
+    q: 'Iz toga proizlazi ____ zaključak.',
     en: 'The following conclusion follows from this.',
     opts: ['sljedeći', 'sljedećeg', 'sljedećem', 'sljedećim'],
     answer: 'sljedeći',

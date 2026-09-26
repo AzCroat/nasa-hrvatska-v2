@@ -80,7 +80,7 @@ export const INVITATIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'poziv',
-    q: 'Idemo u ____? (kino)',
+    q: 'Idemo u ____?',
     en: 'Shall we go to the cinema?',
     opts: ['kino', 'kinu', 'kina', 'kinom'],
     answer: 'kino',
@@ -217,7 +217,7 @@ export const INVITATIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dogovor',
-    q: 'Odgađamo za ____. (sljedeći tjedan)',
+    q: 'Odgađamo za ____.',
     en: 'Let us postpone to next week.',
     opts: ['sljedeći tjedan', 'sljedećeg tjedna', 'sljedećem tjednu', 'sljedećim tjednom'],
     answer: 'sljedeći tjedan',

@@ -203,7 +203,7 @@ export const ABSTRACT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rasprava',
-    q: 'Moć ____ korumpira. (nominativ ili?)',
+    q: 'Koji je padež „moć” u „Moć korumpira”?',
     en: 'Which case is moć here?',
     opts: ['nominativ', 'akuzativ', 'genitiv', 'instrumental'],
     answer: 'nominativ',

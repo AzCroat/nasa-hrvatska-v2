@@ -155,7 +155,7 @@ const DATA = [
   },
   {
     mode: 'recenice',
-    q: 'Cijelu ____ nisam spavao. (noć)',
+    q: 'Cijelu ____ nisam spavao.',
     opts: ['noć', 'noći', 'noću', 'noćju'],
     answer: 'noć',
     en: 'I did not sleep all night',
@@ -179,7 +179,7 @@ const DATA = [
   },
   {
     mode: 'recenice',
-    q: 'Došao je na ____ . (vlast)',
+    q: 'Došao je na ____.',
     opts: ['vlast', 'vlasti', 'vlašću', 'vlastu'],
     answer: 'vlast',
     en: 'he came to power',
@@ -211,7 +211,7 @@ const DATA = [
   },
   {
     mode: 'recenice',
-    q: 'U ____ smo stigli kući. (ponoć)',
+    q: 'U ____ smo stigli kući.',
     opts: ['ponoć', 'ponoći', 'ponoćju', 'ponoćom'],
     answer: 'ponoć',
     en: 'we got home at midnight',

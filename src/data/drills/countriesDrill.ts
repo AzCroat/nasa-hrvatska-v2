@@ -152,7 +152,7 @@ export const COUNTRIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rod',
-    q: 'Govorim ____. (hrvatski jezik)',
+    q: 'Govorim ____.',
     en: 'I speak Croatian.',
     opts: ['hrvatski', 'Hrvatski', 'Hrvat', 'hrvatska'],
     answer: 'hrvatski',

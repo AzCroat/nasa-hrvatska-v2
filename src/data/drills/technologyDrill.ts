@@ -225,7 +225,7 @@ export const TECHNOLOGY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uredaji',
-    q: 'Spojen sam na ____. (internet)',
+    q: 'Spojen sam na ____.',
     en: 'I am connected to the internet.',
     opts: ['internet', 'interneta', 'internetu', 'internetom'],
     answer: 'internet',

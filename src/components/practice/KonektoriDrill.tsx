@@ -167,7 +167,7 @@ const DATA = [
     q: 'Kolokvijalno uzročno „pošto” u standardu glasi:',
     opts: ['budući da', 'nakon što', 'pošto-poto', 'otkad'],
     answer: 'budući da',
-    en: 'colloquial causal posto → standard budući da',
+    en: 'the standard causal connector',
     tip: 'U standardu je pošto samo VREMENSKO; uzrok = budući da / jer.',
   },
   {

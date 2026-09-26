@@ -214,7 +214,7 @@ export const SPONTANEOUS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'struktura',
-    q: '"Ako sam dobro razumio ____…" (pitanje)',
+    q: '"Ako sam dobro razumio ____…"',
     en: 'If I have understood the question…',
     opts: ['pitanje', 'pitanja', 'pitanju', 'pitanjem'],
     answer: 'pitanje',

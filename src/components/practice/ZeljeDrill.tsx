@@ -124,7 +124,7 @@ const DATA = [
   },
   {
     mode: 'neka',
-    q: '„Dobro ____ !” (došao — pozdrav gostu)',
+    q: '„Dobro ____!” (pozdrav gostu)',
     opts: ['došao', 'dolazio', 'dođi', 'došavši'],
     answer: 'došao',
     en: 'welcome!',

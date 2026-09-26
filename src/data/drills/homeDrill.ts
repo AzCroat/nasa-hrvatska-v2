@@ -202,7 +202,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'smjestaj',
-    q: 'Stavljam knjigu u ____. (ormar)',
+    q: 'Stavljam knjigu u ____.',
     en: 'I am putting the book in the wardrobe.',
     opts: ['ormar', 'ormaru', 'ormara', 'ormarom'],
     answer: 'ormar',

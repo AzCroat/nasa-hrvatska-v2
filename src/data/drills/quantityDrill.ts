@@ -42,7 +42,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'Nekoliko ____. (knjiga)',
+    q: 'Nekoliko ____.',
     en: 'a few books',
     opts: ['knjiga', 'knjige', 'knjigu', 'knjigama'],
     answer: 'knjiga',
@@ -92,7 +92,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
   // ── brojivo ───────────────────────────────────────────────────────────────
   {
     mode: 'brojivo',
-    q: 'Puno ____. (ljudi)',
+    q: 'Puno ____.',
     en: 'a lot of people',
     opts: ['ljudi', 'ljude', 'ljudima', 'čovjeka'],
     answer: 'ljudi',
@@ -179,7 +179,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Jedan ____. (student)',
+    q: 'Jedan ____.',
     en: 'one student',
     opts: ['student', 'studenta', 'studenti', 'studenata'],
     answer: 'student',
@@ -211,7 +211,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Dvadeset i jedan ____. (student)',
+    q: 'Dvadeset i jedan ____.',
     en: 'twenty-one students',
     opts: ['student', 'studenta', 'studenata', 'studenti'],
     answer: 'student',

@@ -4808,7 +4808,7 @@ export const COMPQUIZ = [
     opts: ['skup', 'skuplji', 'najskuplji'],
   },
   {
-    q: 'Pero je _____ od olovke. (light — use: lak→lakši)',
+    q: 'Pero je _____ od olovke. (light)',
     a: 'lakši',
     opts: ['lak', 'lakši', 'najlakši'],
   },
@@ -5881,42 +5881,42 @@ export const PAST_EXERCISES_XFORM = [
 // ── Future tense exercises (Multiple choice) ────────────────────────
 export const FUTURE_EXERCISES_MC = [
   {
-    q: 'Sutra ću _____ (ići) u grad.',
+    q: 'Sutra ću _____ u grad.',
     a: 'ići',
     opts: ['idem', 'ići', 'išao', 'idu'],
   },
   {
-    q: 'Ona će _____ (pisati) pismo.',
+    q: 'Ona će _____ pismo.',
     a: 'pisati',
     opts: ['piše', 'pisati', 'pisala', 'pisanje'],
   },
   {
-    q: 'Mi ćemo _____ (jesti) zajedno.',
+    q: 'Mi ćemo _____ zajedno.',
     a: 'jesti',
     opts: ['jedemo', 'jesti', 'jeli', 'jede'],
   },
   {
-    q: 'Oni će _____ (raditi) do večeri.',
+    q: 'Oni će _____ do večeri.',
     a: 'raditi',
     opts: ['rade', 'raditi', 'radili', 'radit'],
   },
   {
-    q: 'Ti ćeš _____ (govoriti) na konferenciji.',
+    q: 'Ti ćeš _____ na konferenciji.',
     a: 'govoriti',
     opts: ['govoriš', 'govoriti', 'govorio', 'govori'],
   },
   {
-    q: 'Ja neću _____ (kupiti) to.',
+    q: 'Ja neću _____ to.',
     a: 'kupiti',
     opts: ['kupim', 'kupiti', 'kupio', 'kupujem'],
   },
   {
-    q: 'Vi ćete _____ (putovati) u Dubrovnik.',
+    q: 'Vi ćete _____ u Dubrovnik.',
     a: 'putovati',
     opts: ['putujete', 'putovati', 'putovali', 'putovanje'],
   },
   {
-    q: 'On će _____ (doći) kasno.',
+    q: 'On će _____ kasno.',
     a: 'doći',
     opts: ['dolazi', 'doći', 'došao', 'dolaziti'],
   },

@@ -66,7 +66,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'imena',
-    q: 'Razgovarali smo o Angeli ____. (Merkel)',
+    q: 'Razgovarali smo o Angeli ____.',
     en: 'We talked about Angela Merkel.',
     opts: ['Merkel', 'Merkelovoj', 'Merkeli', 'Merkelu'],
     answer: 'Merkel',
@@ -90,7 +90,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'imena',
-    q: 'Putujem u ____. (London)',
+    q: 'Putujem u ____.',
     en: 'I am travelling to London.',
     opts: ['London', 'Londonu', 'Londona', 'Londonom'],
     answer: 'London',

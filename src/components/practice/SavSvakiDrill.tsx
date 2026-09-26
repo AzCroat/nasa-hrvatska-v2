@@ -59,7 +59,7 @@ const DATA = [
   },
   {
     mode: 'sav',
-    q: '„Radio je ____ dan.” (cijeli)',
+    q: '„Radio je ____ dan.”',
     opts: ['cijeli', 'sav', 'svaki', 'sam'],
     answer: 'cijeli',
     en: 'he worked the whole day',
@@ -75,7 +75,7 @@ const DATA = [
   },
   {
     mode: 'sav',
-    q: '„Uza ____ trud, nije uspjelo.” (sav)',
+    q: '„Uza ____ trud, nije uspjelo.”',
     opts: ['sav', 'svega', 'svem', 'svime'],
     answer: 'sav',
     en: 'despite all the effort',
