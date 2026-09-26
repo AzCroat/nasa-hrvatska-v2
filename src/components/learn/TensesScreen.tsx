@@ -536,23 +536,9 @@ export default function TensesScreen({
                 {tnO.map((o, oi) => (
                   <button
                     key={oi}
-                    className="ob"
-                    style={{
-                      background: tnA
-                        ? o === q.answer
-                          ? '#dcfce7'
-                          : tnSl === oi
-                            ? '#fee2e2'
-                            : 'white'
-                        : 'white',
-                      borderColor: tnA
-                        ? o === q.answer
-                          ? '#16a34a'
-                          : tnSl === oi
-                            ? '#dc2626'
-                            : 'rgba(14,116,144,.12)'
-                        : 'rgba(14,116,144,.12)',
-                    }}
+                    className={
+                      'ob' + (tnA ? (o === q.answer ? ' ok' : tnSl === oi ? ' no' : '') : '')
+                    }
                     onClick={() => {
                       if (!tnA) {
                         setTnSl(oi);

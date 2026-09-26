@@ -4665,6 +4665,96 @@ control could at least be reached.
   the tab order; make every word of a passage focusable; use `role="button"` for
   something that is a range or a toggle group.
 
+## Critical Architecture: A Themed Class Owns Both Halves Of Its Contrast (2026-09-26)
+
+Found while surveying step 2 (converting the hand-written drills onto `ModeDrill`), by
+asking what the engine gives a learner that a hand-written drill does not. The answer
+turned out to include _being able to read the options_.
+
+`.ob` is the option button on every multiple-choice surface in the app, and it sets
+**both** halves of its contrast from theme variables — dark mode `--ob-bg: #1e293b` on
+`--ob-c: #e2e8f0`. **Thirty-two option buttons across thirty screens overrode the
+background inline with an opaque LIGHT literal and left the class's light `color` in
+place.** Measured in Chrome, not reasoned from the CSS:
+
+| state                | before     | after       |
+| -------------------- | ---------- | ----------- |
+| resting option       | **1.23:1** | **11.87:1** |
+| the correct option   | 1.12:1     | 4.57:1      |
+| the chosen wrong one | **1.01:1** | 5.30:1      |
+
+Against the 4.5:1 WCAG AA floor, 1.01:1 is not "hard to read" — the option is
+**invisible**, and a learner in dark mode was answering a multiple-choice question whose
+answers they could not see. Thirty of the thirty-two rested on `'white'`, so every option
+was gone from the moment the question appeared; the two lesson screens
+(`FutureTenseLessonScreen`, `PastTenseLessonScreen`) rested on `var(--card)` and lost only
+the answered ones.
+
+- **DARK MODE IS NOT OPT-IN, which is what makes this a live defect rather than a corner.**
+  `usePreferences` follows `prefers-color-scheme` unless the learner has explicitly chosen
+  in the Me tab, so every learner whose OS is dark met this by default.
+- **THE PROJECT ALREADY HAD THE RIGHT ANSWER AND HALF THE APP USED IT.** `.ob.ok` /
+  `.ob.no` set `color` alongside their background, and twelve screens
+  (`PlacementTest`, `GrammarScreen`, `LessonQuiz`, `ReadingScreen`, `PadeziScreen`,
+  `ModalScreen`, `TextingScreen`, `RetentionCheckScreen`, `LessonScreen`…) already
+  expressed the state that way. The fix is to adopt the convention, not to invent one: the
+  inline `background` and `borderColor` go away entirely and the state goes on the
+  className. `--card` and `--ob-bg` are byte-identical in both themes, so the two lesson
+  screens' resting paint does not move at all. The one deliberate visual loss is
+  `C2StructureDrill`'s purple resting border, which becomes the neutral themed border.
+- **WHAT IS FORBIDDEN IS NARROW, AND THAT SCOPE IS MEASURED.** An inline background is
+  fine when it TRACKS THE THEME — a `var(...)`, or a translucent `rgba()` compositing over
+  whatever the class painted — and fine when the element sets `color` itself, because then
+  it owns both halves. Only an OPAQUE LIGHT literal with no inline `color` is a defect.
+  Widening the rule to "no inline background at all" would flag five correct translucent
+  sites and `VocativeScreen`; a rule that is mostly false alarms is one everybody learns
+  to ignore.
+- **axe COUNTS THIS RULE AND ASSERTS NOTHING ABOUT IT, AND ITS OWN TITLE SAYS SO.**
+  `route-render-sweep.spec.js`'s axe test is named "no screen has a serious or critical
+  WCAG violation, **contrast aside**": it tallies `color-contrast` violations and prints
+  them `(not asserted)`. It also runs in the DEFAULT theme, so the dark half was outside
+  both the measurement and the assertion. A 430-route accessibility sweep was green across
+  all thirty-two of these.
+- **AND axe COULD NOT HAVE JUDGED THE FIX EITHER.** Its `color-contrast` rule reports
+  _incomplete_ for an element carrying a `background-image`, and `.ob.ok` paints a
+  `linear-gradient`. `getComputedStyle().backgroundColor` reads `rgba(0,0,0,0)` for the
+  same reason, which made my own first post-fix probe report 2.84:1 and 3.25:1 — the dark
+  ink measured against the CARD behind the gradient rather than the gradient that actually
+  paints. **Read the gradient's own colour stops**; they are literal colours in the
+  computed value, and against them the answered states are 4.57:1 and 5.30:1.
+- **THE GUARD SURVIVED ITS FIRST MUTATION, AND THE HOLE WAS 78% OF THE CORPUS.**
+  `themedInlineBackground.test.ts` first scanned the TAG for literals — and the commonest
+  shape by far is `background: bg` with `let bg = 'white'` computed in the `.map` callback
+  above, which carries no literal in the tag at all. Restoring a real defective file left
+  the guard green; 25 of the 32 defects were invisible to it. It follows a bare identifier
+  one hop to its assignments now (the same hop `aiResponseContract` needs through component
+  state), and because the corpus is clean a **synthetic control** pins that clause — the
+  measured blind spot, `className={variable}` with an inline background, is 0 of 12 such
+  elements today.
+- **MY CODEMOD ORPHANED A BRACE IN 25 FILES AT ONCE.** The first version matched the state
+  block with a lazy `\{[\s\S]*?\n[ \t]*\}` and stopped at the inner `else if`'s closing
+  brace. Brace-match, never regex, over anything containing nested blocks — this file
+  already says so about `passThresholdStatedAsCount` and it was still the first thing I
+  reached for. A second pass was a silent no-op because a refactor left a capture group
+  `undefined` and `String.replace(undefined, '')` replaces the literal text "undefined";
+  every downstream guard caught it, which is why they were written.
+- **THE FIX BROKE A TEST HARNESS, AND THE ASSERTION THAT CAUGHT IT IS THE ONE TO KEEP.**
+  `driveHandWrittenDrill`'s `markedCorrect()` read the success green off the inline
+  `borderColor`, which this change moves into a CSS class — and **jsdom applies no
+  stylesheet**, so `.ob.ok`'s border-color is empty there. 24 drills failed at once rather
+  than passing while proving nothing, because that helper asserts "marked a correct option
+  on only N". There are three conventions in the cohort now and the helper reads all three;
+  a class-based marker can never be read with `getComputedStyle`.
+- Mutation-verified, four: a real defective file restored fails 1 and names the file and
+  its literals (M56); the identifier hop dropped fails its synthetic control (M58); the
+  tag walker gutted fails the non-vacuity clause (M57); and `.ob.ok` stripped of its
+  `color` fails the clause asserting the remedy is a remedy.
+- NEVER: override a themed class's `background` inline with an opaque colour without also
+  setting `color`; read `getComputedStyle().backgroundColor` as "what is painted" when a
+  gradient may be involved; read a class-based marker with `getComputedStyle` in jsdom;
+  treat a green axe run as a contrast result (that rule is counted and not asserted, in one
+  theme); match a nested block with a lazy regex.
+
 ## Critical Architecture: An Inline Style Is Where The Focus Ring Goes To Die (2026-09-24)
 
 This app has exactly two keyboard focus indicators, both in `src/index.css`, and

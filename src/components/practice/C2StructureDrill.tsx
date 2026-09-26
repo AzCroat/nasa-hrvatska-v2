@@ -423,22 +423,14 @@ export default function C2StructureDrill({ goBack, award }: Props) {
         <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>{cur.en}</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8, marginTop: 16 }}>
           {cur.opts.map((opt: string) => {
-            let bg = 'white';
-            let bc = 'rgba(124,58,237,.15)';
-            if (answered) {
-              if (opt === cur.answer) {
-                bg = '#dcfce7';
-                bc = '#16a34a';
-              } else if (opt === chosen) {
-                bg = '#fee2e2';
-                bc = '#dc2626';
-              }
-            }
             return (
               <button
                 key={opt}
-                className="ob"
-                style={{ background: bg, borderColor: bc, textAlign: 'left' }}
+                className={
+                  'ob' +
+                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
+                }
+                style={{ textAlign: 'left' }}
                 onClick={() => pick(opt)}
               >
                 {opt}

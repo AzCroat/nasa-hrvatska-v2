@@ -11302,7 +11302,102 @@ lint, `practiceProgrammeDrills`), which is the precondition sweep 136's city-cor
 near-miss established: **the checker ships before the fan-out, and it has to be strong
 enough to catch the class you care about.**
 
+## Sweep 156 — the options were invisible in dark mode (2026-09-26)
+
+Full design record in CLAUDE.md, "A Themed Class Owns Both Halves Of Its Contrast".
+**Found while surveying step 2**, by asking what `ModeDrill` gives a learner that a
+hand-written drill does not — the answer included being able to read the options.
+
+**THE DEFECT** — `.ob` sets background AND colour from theme variables
+(`#1e293b` on `#e2e8f0` in dark). Thirty-two option buttons across thirty screens
+painted an opaque LIGHT background inline and left the class's light colour in
+place. Measured in Chrome: **1.23:1** on every resting option and **1.01:1** on the
+chosen wrong one, against the 4.5:1 AA floor. Thirty of them rested on `'white'`, so
+the options were gone before the learner answered. Dark mode is the DEFAULT for any
+learner whose OS is dark — `usePreferences` follows `prefers-color-scheme`.
+
+**SHIPPED** — all 32 moved onto the project's own `.ob.ok` / `.ob.no` classes, which
+set `color` beside their background and which twelve screens already used; the inline
+`background`/`borderColor` removed entirely. After, in Chrome: **11.87:1** resting,
+**4.57:1** correct, **5.30:1** wrong. `themedInlineBackground.test.ts` is the ratchet.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **A 430-ROUTE axe SWEEP WAS GREEN ACROSS ALL THIRTY-TWO.** `route-render-sweep`'s
+   axe test is titled "…contrast aside" and prints its `color-contrast` tally
+   `(not asserted)` — in the DEFAULT theme only. The dark half was outside both the
+   measurement and the assertion. **A green accessibility sweep is not a contrast
+   result** when the rule is counted rather than asserted.
+2. **MY GUARD SURVIVED ITS FIRST MUTATION AND MISSED 78% OF THE CORPUS.** It scanned
+   the TAG for literals; 25 of the 32 are `background: bg` with `let bg = 'white'`
+   above, which carries no literal in the tag. Restoring a real defective file left it
+   green. One hop through the local fixed it, pinned by a synthetic control because
+   the corpus is now clean.
+3. **NEITHER axe NOR A COMPUTED STYLE CAN JUDGE A GRADIENT.** `.ob.ok` paints
+   `linear-gradient`, so `backgroundColor` computes to `rgba(0,0,0,0)` and axe reports
+   _incomplete_. My own post-fix probe read 2.84:1 — the dark ink against the CARD
+   behind the gradient. Read the gradient's colour stops.
+4. **MY CODEMOD ORPHANED A BRACE IN 25 FILES AT ONCE** with a lazy
+   `\{[\s\S]*?\n[ \t]*\}` that stopped at an inner `else if`. This file already records
+   that lesson for `passThresholdStatedAsCount` and it was still my first reach.
+5. **THE FIX BROKE A HARNESS AND THE RIGHT ASSERTION CAUGHT IT.**
+   `driveHandWrittenDrill` read the success green off the inline `borderColor`, which
+   moved into a CSS class — and **jsdom applies no stylesheet**. 24 drills failed at
+   once instead of passing vacuously, because that helper asserts "marked a correct
+   option on only N". Three conventions now; all three read.
+6. **A BACKGROUND COMMAND THAT REPORTS EXIT 0 WITH NO OUTPUT HAS NOT RUN.** I put
+   `nohup … &` inside a backgrounded tool call, so exit 0 was the launcher. Same shape
+   as "a probe that prints nothing has not measured zero".
+
+**VERIFICATION** — full suite **657 files / 10,402 tests green**, typecheck and eslint
+clean, Croatian lint 0/473. `handWrittenDrills.contract.test.tsx` 103/103 after the
+harness fix. E2E: `lesson-complete`, `navigation`, `practice` = 32/32 against a
+CI-equivalent build; the suite's `.ob` selectors all keep matching (the base token
+survives) and `full-user-audit` already excluded `.ok`/`.no`. Mutation-verified four.
+
 ## NOT YET CHECKED — where the next field report will come from
+
+- [ ] **HARDCODED DARK BRAND COLOURS ARE UNREADABLE IN DARK MODE, ON 160 ROUTES** —
+      the general form of sweep 156, and much bigger. Measured with axe's
+      `color-contrast` rule alone over all 430 routes in BOTH themes (a throwaway
+      spec; re-runnable from the recipe below):
+      **dark 4,354 failing nodes across 348 routes; light 932 across 236** — so
+      **3,429 extra nodes across 160 routes are attributable to dark mode**. Sweep 156
+      fixed a hardcoded light BACKGROUND under a themed colour; this is the inverse and
+      far commoner — hardcoded DARK ink in an inline style on a dark surface:
+      `color: rgb(22,78,99)` (`#164e63`), `rgb(14,116,144)` (`#0e7490`),
+      `rgb(120,113,108)` (`#78716c`). Worst routes by dark-only excess: `proverbs`
+      **+730**, `verbdrill` +240, `readlist` +160, `alphabet` +145, `padezi` +123,
+      `padezifull` +107, `crmap` +89, `ordinals` +78, `grocery` +70, `coloragree` +66.
+      The palette looks small and closed (the app's brand hexes) and `--text` /
+      `--subtext` / `--accent` already flip by theme, so this may be a codemod over a
+      known palette rather than 160 screens of surgery — **measure the palette's size
+      first**, that is what decides it. The checker already exists (this census), which
+      is the precondition for fanning agents at it.
+      Method notes so it is not re-derived: axe's violation MESSAGE does not match
+      `/contrast of ([\d.]+):1/` (my ratios all came back as the 99 sentinel) — take the
+      ratio from each node's `data`, not its message; and axe reports _incomplete_, not a
+      violation, for any element carrying a `background-image`, so a gradient-painted
+      surface is outside these numbers entirely.
+- [ ] **STEP 2 ITSELF — the ~100 hand-written drills onto `ModeDrill`** — surveyed, not
+      started. The survey's own findings, worth keeping:
+      **~70 of the 101 are ALREADY the engine's shape** — same item fields
+      (`mode`/`q`/`opts`/`answer`/`en`/`tip`), same single-column themed render, same
+      Croatian copy ("Rezultat →" / "Dalje →"), byte-identical to `ModeDrill`'s own JSX
+      apart from the props. They were written in the engine's style and never converted,
+      so converting them is moving `DATA` + `MODE_LABEL` into `src/data/drills/` behind a
+      12-line wrapper. **The learner-visible gain is `WrongAnswerHelp`**: rec #7
+      (2026-09-07) mounted it once in the engine and reached 109 drills, and
+      **91 of the 101 hand-written drills still show only the item's `tip` on a wrong
+      answer — the same line they see when they get it RIGHT** (9 carry the older
+      `DrillExplainCard`). So step 2 is not tidying; it is the other half of that fix.
+      The remaining ~18 are the older two-column `.ob` style (converting them changes the
+      look), and a handful are genuinely different: `ConjugationDrill` (mic),
+      `ConjugationSessionDrill` (no `completeExercise`), the 7 case drills + `CliticDrill`
+      (`CaseConceptIntro` — an owner directive, teach-before-test, must not be lost).
+      Coverage consequence to plan for: `handWrittenDrills.contract.test.tsx` derives its
+      corpus from `src/components/practice/*Drill.tsx`, so a converted drill leaves that
+      glob and is covered by `modeDrillContract`'s single representative instead.
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:
       **twenty-one screens** (twelve through `completeExercise`, nine hand-rolling the

@@ -911,23 +911,10 @@ export default function FutureTenseLessonScreen({
                 {opts.map((o, oi) => (
                   <button
                     key={oi}
-                    className="ob"
-                    style={{
-                      background: answered
-                        ? o === q.answer
-                          ? '#dcfce7'
-                          : selected === oi
-                            ? '#fee2e2'
-                            : 'var(--card)'
-                        : 'var(--card)',
-                      borderColor: answered
-                        ? o === q.answer
-                          ? '#16a34a'
-                          : selected === oi
-                            ? '#dc2626'
-                            : 'rgba(124,58,237,.12)'
-                        : 'rgba(124,58,237,.12)',
-                    }}
+                    className={
+                      'ob' +
+                      (answered ? (o === q.answer ? ' ok' : selected === oi ? ' no' : '') : '')
+                    }
                     onClick={() => {
                       if (answered) return;
                       setSelected(oi);

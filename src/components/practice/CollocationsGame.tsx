@@ -291,23 +291,11 @@ export default function CollocationsGame({ goBack, award }: Props) {
         {q.opts.map((o: string, oi: number) => (
           <button
             key={oi}
-            className="ob"
+            className={
+              'ob' + (answered ? (o === q.answer ? ' ok' : selected === oi ? ' no' : '') : '')
+            }
             style={{
               textAlign: 'center',
-              background: answered
-                ? o === q.answer
-                  ? '#dcfce7'
-                  : selected === oi
-                    ? '#fee2e2'
-                    : 'white'
-                : 'white',
-              borderColor: answered
-                ? o === q.answer
-                  ? '#16a34a'
-                  : selected === oi
-                    ? '#dc2626'
-                    : 'rgba(14,116,144,.12)'
-                : 'rgba(14,116,144,.12)',
             }}
             onClick={() => {
               if (!answered) {

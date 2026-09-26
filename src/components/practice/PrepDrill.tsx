@@ -110,23 +110,9 @@ export default function PrepDrill({
         {q.opts.map((o: string, oi: number) => (
           <button
             key={oi}
-            className="ob"
+            className={'ob' + (ppA ? (o === q.answer ? ' ok' : ppSl === oi ? ' no' : '') : '')}
             style={{
               textAlign: 'center',
-              background: ppA
-                ? o === q.answer
-                  ? '#dcfce7'
-                  : ppSl === oi
-                    ? '#fee2e2'
-                    : 'white'
-                : 'white',
-              borderColor: ppA
-                ? o === q.answer
-                  ? '#16a34a'
-                  : ppSl === oi
-                    ? '#dc2626'
-                    : 'rgba(14,116,144,.12)'
-                : 'rgba(14,116,144,.12)',
             }}
             onClick={() => {
               if (!ppA) {

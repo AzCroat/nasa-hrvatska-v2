@@ -94,22 +94,13 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           {cur.opts.map((opt) => {
-            let bg = 'white';
-            let bc = 'rgba(14,116,144,.12)';
-            if (answered) {
-              if (opt === cur.answer) {
-                bg = '#dcfce7';
-                bc = '#16a34a';
-              } else if (opt === chosen) {
-                bg = '#fee2e2';
-                bc = '#dc2626';
-              }
-            }
             return (
               <button
                 key={opt}
-                className="ob"
-                style={{ background: bg, borderColor: bc }}
+                className={
+                  'ob' +
+                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
+                }
                 onClick={() => pick(opt)}
               >
                 {opt}

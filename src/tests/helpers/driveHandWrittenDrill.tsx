@@ -22,11 +22,20 @@
  *    a run, because each mount re-draws in `useState`'s initialiser.
  *  - THE ANSWER IS READ FROM THE SCREEN, not from the bank. `DATA` is file-local and
  *    unexported in every one of them, so a discovery pass answers with the first option
- *    and records which button the screen itself marks correct: `borderColor` becomes
- *    `rgb(22, 163, 74)`, under BOTH styling conventions in the cohort (the inline `border`
- *    shorthand and the `.ob` class's `borderColor`). Reading the shorthand alone returns
- *    '' for the `.ob` drills and finds nothing — which is how the first version of this
- *    helper reported every case drill as having no correct answer.
+ *    and records which button the screen itself marks correct. There are now THREE
+ *    conventions in the cohort and all three must be read:
+ *      1. an inline `borderColor` of `rgb(22, 163, 74)` — the ~70 engine-shaped drills;
+ *      2. the same value via the `border` SHORTHAND — reading only the shorthand returns
+ *         '' for convention 1 and finds nothing, which is how the first version of this
+ *         helper reported every case drill as having no correct answer;
+ *      3. the `ok` CLASS (`.ob.ok`), added in 2026-09 when 32 screens moved their state
+ *         onto the class to fix dark mode — an inline light `background` was overriding
+ *         `.ob`'s themed `color` and every option was invisible at 1.23:1.
+ *    Convention 3 is CLASS-based rather than style-based on purpose and cannot be read
+ *    with `getComputedStyle`: jsdom does not apply `src/index.css`, so `.ob.ok`'s
+ *    `border-color` is empty here. Read the className. (This is the whole reason the
+ *    "marked a correct option on only N" assertion below exists: when that fix landed it
+ *    failed 24 drills at once instead of passing while proving nothing.)
  *
  * STRUCTURAL RULES, each measured over a diverse sample before being relied on:
  *   button[0] is always the header Back (`H(title, subtitle, goBack)` is uniform);
@@ -53,13 +62,21 @@ export function drillOptions(): HTMLElement[] {
     .filter((b) => !isPrimary(b)) as HTMLElement[];
 }
 
+/** The success green, as an inline style reports it. */
+const GREEN = /\b22,\s*163,\s*74\b/;
+
 /**
  * The option the SCREEN says is correct, or null before an answer.
- * Read from `borderColor`, never the `border` shorthand — see the header.
+ *
+ * All three conventions, per the header: the inline `borderColor`, the `border`
+ * shorthand, and the `ok` class. Never `getComputedStyle` — jsdom applies no
+ * stylesheet, so a class-based marker is invisible to it.
  */
 export function markedCorrect(): string | null {
   for (const b of drillOptions()) {
-    if (/\b22,\s*163,\s*74\b/.test(b.style.borderColor || '')) return (b.textContent || '').trim();
+    if (/(?:^|\s)ok(?:\s|$)/.test(b.className || '')) return (b.textContent || '').trim();
+    if (GREEN.test(b.style.borderColor || '')) return (b.textContent || '').trim();
+    if (GREEN.test(b.style.border || '')) return (b.textContent || '').trim();
   }
   return null;
 }

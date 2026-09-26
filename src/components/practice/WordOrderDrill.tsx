@@ -328,22 +328,14 @@ export default function WordOrderDrill({ goBack, award }: Props) {
         </div>
         <div style={{ display: 'grid', gap: 8, marginTop: 16 }}>
           {cur.opts.map((opt: string) => {
-            let bg = 'white';
-            let bc = 'rgba(14,116,144,.12)';
-            if (answered) {
-              if (opt === cur.answer) {
-                bg = '#dcfce7';
-                bc = '#16a34a';
-              } else if (opt === chosen) {
-                bg = '#fee2e2';
-                bc = '#dc2626';
-              }
-            }
             return (
               <button
                 key={opt}
-                className="ob"
-                style={{ background: bg, borderColor: bc, textAlign: 'left' }}
+                className={
+                  'ob' +
+                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
+                }
+                style={{ textAlign: 'left' }}
                 onClick={() => pick(opt)}
               >
                 {opt}
