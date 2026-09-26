@@ -3618,6 +3618,53 @@ Again" on last card: mode='done' (without awarding mastered)`, with a passing te
   which paths reach the view); write a test whose scenario cannot distinguish a guard
   from the absence of the thing it guards.
 
+## Critical Architecture: A Green Suite Is Not A Driven App (2026-09-26)
+
+Owner, after four consecutive sweeps of credit defects: _"Will you ever complete
+this application? It's been seven months."_ Measuring the audit's own reach to
+answer that produced a bigger finding than any of the four, and a correction to a
+figure I had just quoted out loud.
+
+- **`npm test` REPORTS 10,016 GREEN AND SAYS NOTHING ABOUT THIS.** Of the **222
+  components that credit a learner, 76 are DRIVEN** — rendered by a test that
+  asserts a credit writer fired. The suite is large because it tests LIBRARIES;
+  the defects of sweeps 139–145 were all in screens nothing renders. A test count
+  is not a coverage measure, and the two move independently.
+- **`scripts/creditCoverage.mjs` prints the number**, because a figure in prose is
+  a hand-maintained list of one (sweep 136's lint count) and decays the same way.
+  Its docstring states what it cannot claim: it may over-credit, and **one subject
+  can stand for many screens**.
+- **`ModeDrill` IS THE EXTREME CASE — one entry, 109 drills.** It is the engine
+  behind the whole practice programme, and it was rendered by two test files
+  neither of which asserted a single credit writer (`grep -c 'expect((award|
+setStats)'` → 0 on both). The audit spent four sweeps on twenty-six hand-written
+  screens and none on the one subject worth a hundred and nine. **The engine is
+  CORRECT** — it credits from the final ADVANCE click, so every exit from the
+  results view is equivalent, the shape sweep 139 established — which makes
+  `modeDrillContract.test.tsx` a ratchet rather than a fix. The load-bearing clause
+  is ORDERED: `award` is asserted BEFORE any exit is pressed, because checking it
+  afterwards cannot distinguish "credited on finishing" from "credited by that
+  button", and that is exactly how twenty-six screens passed their own contract
+  tests. Mutation-verified: the credit moved into the `← Back` onClick fails 4 of 7.
+- **I REPORTED "17 of 219, 8%" AND IT WAS WRONG — toward the DIRE claim.** I read
+  `exerciseContract.test.tsx` (41 subjects, 24 skipped, 17 driven) and called it the
+  app's coverage. **Every one of those 24 skips has its own dedicated
+  `*.contract.test.tsx`**; they are not gaps. This file's rule is "report what was
+  OBSERVED, not the strongest claim consistent with it", and an estimate that makes
+  the work look WORSE breaks it exactly as thoroughly as one that flatters —
+  unverifiable in the same way. Quote a coverage figure from the population, never
+  from one suite.
+- **THE METHOD AUDIT, measured over 96 recorded sweeps.** The finds came from owner
+  reports and from asking the owner's own question ("is there anything a user finds
+  that doesn't work"). The derivation-first sweeps 108–114 and 121–124 produced
+  **about two findings across twelve**. That evidence was in `AUDIT-STATE.md` by
+  sweep 114 and the next ten sweeps were derivations anyway. **Choose the next
+  question by where defects have actually been found, not by which derivation is
+  most elegant.**
+- NEVER: read a green suite as a driven app; quote coverage from one suite; let an
+  estimate run toward the dire claim; leave the highest-leverage component undriven
+  while fixing the lowest-leverage ones one at a time.
+
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 
 `_nativePost` returning `null` has meant "no endpoint answered at all" since

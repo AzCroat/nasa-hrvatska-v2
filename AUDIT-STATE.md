@@ -10610,6 +10610,79 @@ two-card test, which names what it broke), and dropping the `mastered > 0` guard
 
 ---
 
+### 146. The engine behind 109 drills was driven by nothing — 2026-09-26 — and the coverage number I reported first was wrong in the ALARMING direction
+
+Owner, after four sweeps of credit defects: _"Will you ever complete this
+application? It's been seven months."_ The honest answer needed a measurement of
+this audit's own method, and making it produced a finding bigger than any single
+sweep plus a correction to something I had just said out loud.
+
+**THE FINDING: `ModeDrill` — the shared engine for 109 drills — was rendered by two
+test files and NEITHER asserted a single credit writer.** `grep -cE 'expect\((award|
+mockAward|setStats)'` returns **0** on both `wrongAnswerHelp.test.tsx` and
+`lessonLookup.test.tsx`. Its completion contract IS the contract of the entire
+practice programme, and it was covered by nothing — while sweeps 139–145 found
+credit defects in twenty-six HAND-WRITTEN screens one at a time. The leverage was
+inverted: the audit spent four sweeps on twenty-six screens and zero on the one
+subject worth a hundred and nine.
+
+**The engine is CORRECT, and that is why this is a ratchet rather than a fix.** It
+credits from the final ADVANCE click — `next()` calls `completeExercise` and only
+then sets `done` — so the credit is already recorded when the results view first
+renders, and `← Back`, the header Back and the TabBar are all equivalent exits.
+That is precisely the shape sweep 139 established as correct (`BojeGame`,
+`ZnamGame`), and precisely what twenty-six screens got wrong. Nothing checked it.
+
+`modeDrillContract.test.tsx` drives a real run and pins six clauses, of which one
+is the point: **the assertion that the credit is recorded BEFORE any exit is
+pressed is ORDERED.** Checking `award` after clicking Back cannot distinguish
+"credited on finishing" from "credited by that button" — which is exactly how the
+twenty-six passed their own contract tests for months. Mutation-verified, three:
+moving the credit into the `← Back` onClick (the twenty-six-screen defect) fails
+**4 of 7**; the retry no longer resetting `finishFired` fails 1; the count replaced
+by a bare percentage fails 1.
+
+**THE CORRECTION, and it is the more important half.** Asked how much of the app is
+driven, I read `exerciseContract.test.tsx` — 41 subjects, 24 skipped, 17 driven —
+and reported **"17 of 219, 8%"** to the owner. That is wrong. **Every one of those
+24 skips has its own dedicated `*.contract.test.tsx`**; the skips are not coverage
+gaps, they are screens with bespoke drivers in another file. I read ONE suite and
+called it the app's coverage, in the middle of answering a question about honesty.
+
+Measured properly over every component that credits a learner: **75 of 222 driven,
+76 after this file.** Not 8% — 34%. **The inflation ran toward the DIRE claim**,
+which is the same defect as sweeps 129/136's hardened claims running the other way:
+this file's rule is "report what was OBSERVED, not the strongest claim consistent
+with it", and a number that makes the work look worse breaks it just as thoroughly
+as one that flatters. Both are a claim the reader cannot check.
+
+**So the count is now a committed script, not a sentence.**
+`scripts/creditCoverage.mjs` prints `driven / population` and names what is not
+driven. Its own docstring states the two things it cannot claim: it may over-credit
+(it cannot tell whether a file's assertion is about the component that file also
+renders), and one subject can stand for many screens — this entry's own subject is
+worth 109. Read it as a floor on work remaining. **A number in prose is a
+hand-maintained list of one** (sweep 136's lesson about the lint's 522), and I had
+just written that sentence into this file before quoting 17 from memory of one
+suite.
+
+**WHAT THE METHOD AUDIT SAYS, measured across this file's 96 recorded sweeps.** The
+sweeps that found live defects were owner reports (131, 134) and the ones that asked
+the owner's own question — "is there anything a user finds that doesn't work" (139,
+142, 143, 145, and this one). The derivation-first sweeps 108–114 and 121–124
+produced **roughly two findings across twelve sweeps**. The evidence for that was in
+this file by sweep 114 and the next ten sweeps were derivations anyway. **Pick the
+next question by where the defects have actually been**, not by which question has
+the most elegant derivation.
+
+- NEVER: quote a coverage figure from one suite (every skip may be covered
+  elsewhere); let an estimate run toward the dire claim because it sounds humble —
+  it is unverifiable in exactly the same way as a flattering one; measure a guard's
+  reach in prose when a script can print it; leave the app's highest-leverage
+  component undriven while fixing its lowest-leverage ones one at a time.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:
