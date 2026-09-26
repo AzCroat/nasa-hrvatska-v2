@@ -10471,6 +10471,71 @@ button, which only renders below the gate.
 
 ---
 
+### 144. Does the writer set have any other omissions, and what about credit on the RENDER path? — 2026-09-26 — the set is complete, and the third shape had one member
+
+Two questions in one pass, because sweep 143's finding was about the rule's
+VOCABULARY rather than about a screen.
+
+**THE WRITER SET IS COMPLETE, and that is the answer.** Every module under
+`src/hooks` and `src/lib` that calls a credit writer was listed with its exports,
+and the thirteen plausible fronts were added to a throwaway probe —
+`markExerciseDone`, `recordSrsOutcome`, `recordExamSkillScores`, `markQuestPaid`,
+`recordTopicResult`, `markLessonComplete`, `recordScreenPractised`,
+`recordLessonTaught`, `signalSessionCompleteIfActive`, `recordEquivalencyAttempt`,
+`recordLessonAttempt`, `addWordToSRS`, `srMark` — and run over the whole tree.
+**One hit, and it was a FALSE POSITIVE of the fixed-window kind.**
+`ConjugationSessionDrill` passes `signalSessionCompleteIfActive` inside an
+`onComplete` callback; the `onClick` the predicate attributed it to sits in an
+EARLIER return branch, 1,500 characters back. Nth instance of this repo's
+fixed-window defect, this time in a scratch probe rather than a guard — which is
+where it belongs, and it is why the hit was read rather than reported.
+
+**THE THIRD SHAPE IS CREDIT WRITTEN DURING RENDER, and neither committed guard
+reads it.** `creditFollowsWork` looks for an enclosing `onClick`;
+`zeroSatisfiableCredits` looks inside a `useEffect`. A writer at the component's
+own top level, behind a `useRef` latch, is in neither. Census: one genuine member,
+`ConjugationDrillEngine` — which was NOT the credit-on-exit defect (it fires on
+REACHING the results branch, so both exits already paid) but carried two things:
+
+- **a zero-cell round paid 10 XP and the grammar quest.** The branch is
+  `!cell || !verb || !correct`, which `cells.length === 0` satisfies ON MOUNT, and
+  the credit is `score * 2 + 10` (NEVER-DO 14). Unreachable today — three
+  arguments in two other files: `ConjugationSessionDrill` returns early on
+  `cells.length === 0`, and `ConjugationLab` only sets `activeCells` behind
+  `if (set.length)` / `if (cells.length)`. One line at the sink replaces all three,
+  the trade sweep 124 made at the mastery ledger.
+- **it awarded during render**, updating another component mid-render.
+
+**Moving it into an effect is the fix, and the reason is the general one: make the
+code conform to a shape the existing guards already read, rather than writing a
+third guard for a third shape.** It is now inside a `useEffect` with a positivity
+guard, which is exactly what `zeroSatisfiableCredits` and the FIXED blocks of
+`creditFollowsWork` assert about every other screen.
+
+**NO GUARD WAS ADDED FOR THE RENDER SHAPE, because my classifier is not good
+enough to be one.** It reported `LiveTutorScreen` and `MajaScreen` as render-path
+writers; both are inside a `useCallback` or an async handler it did not know about,
+and both are correct — Maja's `commitDebriefXp` carries a comment saying in terms
+that both ways out of the debrief call it. Worse, it MISLABELLED the one genuine
+member as a callback, because `onComplete` appears in the Props interface inside its
+look-behind window. A guard built on that would ship two false alarms and miss its
+only subject (the sweep 104 / sweep 109 rule). The method is recorded here instead.
+
+**The clause needed its own positive control**, because the state it guards is
+unreachable: dropped, it survived every existing test. `conjugation-engine.test.tsx`
+now renders the engine with `cells={[]}` and asserts no `award` and no
+`markQuest` — with `onComplete` asserted to fire ANYWAY as the floor, both against
+vacuity and because the FLOW signal is not credit (sweep 119: an empty round must
+not pay and must not strand Today's Session at N-1/N). Mutation-verified, two: the
+credit guard dropped fails 1, and gating `onComplete` alongside it fails 1.
+
+- NEVER: read a probe's single hit as a finding without checking which construct it
+  actually attributed the call to; write a third guard for a third shape when the
+  code can be moved into a shape two existing guards already read; leave a clause
+  guarding an unreachable state without a synthetic control that exercises it.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

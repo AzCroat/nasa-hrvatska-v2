@@ -29,6 +29,9 @@ vi.mock('firebase/firestore', () => ({
   orderBy: vi.fn(),
 }));
 
+const markQuestMock = vi.hoisted(() => vi.fn());
+vi.mock('../lib/quests', () => ({ markQuest: (...a: unknown[]) => markQuestMock(...a) }));
+
 import ConjugationDrillEngine from '../components/practice/ConjugationDrillEngine';
 import type { ConjVerb, ConjCell } from '../lib/conjugation/types';
 
@@ -65,5 +68,38 @@ describe('ConjugationDrillEngine', () => {
     const correct = opts.find((o) => o.textContent?.trim() === 'pišem')!;
     fireEvent.click(correct);
     expect(screen.getByTestId('conj-feedback').textContent).toMatch(/✓|Correct|Točno/);
+  });
+
+  /**
+   * A ZERO-CELL ROUND MUST NOT PAY, AND MUST NOT STRAND A SESSION (2026-09-26).
+   *
+   * `cells.length === 0` reaches the results branch on MOUNT, where the credit is
+   * `score * 2 + 10` — 10 XP and the grammar quest for an unplayed round (NEVER-DO 14).
+   * The state is unreachable through both production callers (`ConjugationSessionDrill`
+   * returns early on `cells.length === 0`; `ConjugationLab` only sets `activeCells`
+   * behind `if (set.length)` / `if (cells.length)`), which is why the guard needs THIS
+   * test: without it the clause survives its own mutation and is decoration by this
+   * repo's own standard.
+   *
+   * `onComplete` is asserted to fire ANYWAY, because the flow signal is not credit —
+   * gating it too would let an empty round strand Today's Session at N-1/N (sweep 119).
+   */
+  it('an empty cell list credits nothing, and still reports completion', () => {
+    const onComplete = vi.fn();
+    const award = vi.fn();
+    render(
+      <ConjugationDrillEngine
+        verbs={[pisati]}
+        cells={[]}
+        onComplete={onComplete}
+        award={award}
+        goBack={vi.fn()}
+      />,
+    );
+    expect(award, 'an unplayed round paid XP').not.toHaveBeenCalled();
+    expect(markQuestMock, 'an unplayed round marked the grammar quest').not.toHaveBeenCalled();
+    // The floor that stops the two assertions above passing vacuously: the results
+    // branch really was reached, so there WAS a moment where credit could have fired.
+    expect(onComplete).toHaveBeenCalledWith(0, 0);
   });
 });

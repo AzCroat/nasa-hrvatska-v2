@@ -3550,6 +3550,28 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   index-ish setter to 0" and this handler assigns no setter at all. One `startQuiz()`
   now owns the reset for both entry points and clears `finishFired`, because a first
   attempt that failed recorded nothing and a second that passes must still credit.
+- **THE THIRD SHAPE IS CREDIT WRITTEN DURING RENDER, and neither guard reads it
+  (sweep 144, 2026-09-26).** `creditFollowsWork` looks for an enclosing `onClick`;
+  `zeroSatisfiableCredits` looks inside a `useEffect`; a writer at a component's own
+  top level behind a `useRef` latch is in neither. One genuine member,
+  `ConjugationDrillEngine`, and it was NOT the credit-on-exit defect — it fires on
+  REACHING the results branch, so both exits already paid. It carried a zero-cell
+  credit instead (`!cell || !verb || !correct` is satisfied on mount by
+  `cells.length === 0`, paying `score * 2 + 10`), unreachable only by three arguments
+  living in two other files. **The fix is to move it into an effect rather than to
+  write a third guard**: the code then conforms to the shape the two existing guards
+  already assert about every other screen. No guard was added for the render shape,
+  because the classifier that found it reported two false alarms (`LiveTutorScreen`
+  and `MajaScreen`, both inside a `useCallback` or async handler it did not know) and
+  MISLABELLED its only real subject, since `onComplete` appears in that file's Props
+  interface inside the look-behind window.
+- **THE WRITER SET IS OTHERWISE COMPLETE, measured.** Thirteen further fronts
+  (`markExerciseDone`, `recordSrsOutcome`, `recordExamSkillScores`, `markQuestPaid`,
+  `recordTopicResult`, `markLessonComplete`, `recordScreenPractised`,
+  `recordLessonTaught`, `signalSessionCompleteIfActive`, `recordEquivalencyAttempt`,
+  `recordLessonAttempt`, `addWordToSRS`, `srMark`) over the whole tree yield ONE hit,
+  a fixed-window false positive: the `onClick` attributed to
+  `ConjugationSessionDrill`'s `onComplete` callback sits in an earlier return branch.
 - NEVER: call a credit writer (`completeExercise`, `award`, `markQuest`,
   `recordExerciseOutcome`, `recordSrsReview`, `recordMasteryEvent`) from the onClick of
   a control that also navigates away; print an XP figure or a badge on a results view
@@ -3561,7 +3583,9 @@ activePool.length` and the old expression is numerically EQUAL to the new one on
   clause inside a fixed character window from a declaration; rewrite a JSX attribute
   list mechanically without diffing the attribute SET before and after; name a credit
   writer in a rule without also naming the WRAPPERS that front it; ship a "retry" that
-  resets nothing but the view it is leaving.
+  resets nothing but the view it is leaving; write a third guard for a third shape when
+  the code can be moved into a shape two existing guards already read; leave a clause
+  guarding an unreachable state without a synthetic control that exercises it.
 
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 
