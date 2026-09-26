@@ -2900,11 +2900,12 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **472 files**, 2 of them walked structurally — the figure the lint
+Coverage is **473 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
-deleted the hero cluster three more pointed at.
+deleted the hero cluster three more pointed at, and up by one for
+`src/data/courseUnitTitles.ts` (sweep 151).
 
 **AND IT SAID 522 WHILE 470 DISTINCT FILES WERE COVERED, BECAUSE ALL THREE
 MECHANISMS AGREED ON THE SAME WRONG NUMBER (sweep 136, 2026-09-25).** `TARGETS`
@@ -3695,6 +3696,7 @@ was right.
 - Mutation-verified, four: the quest mark back below the return fails 1 and names it; marking
   unconditionally fails the tier-2 clause; each of the ten screens reverted fails its own
   idempotency test; the registry rows removed fail the derivation floor.
+
 ### Increment 1 finished: the counter class is now UNREPRESENTABLE
 
 `counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
@@ -3750,6 +3752,108 @@ plus a single counter. Worth remembering for the course spine, which replaces th
   exercises); add an export to a heavily-mocked module that the authority calls; define a
   guard's population by the defect it is written to catch; let one test's storage writes reach
   the next.
+
+## Critical Architecture: The Course, In Units (owner directive, 2026-09-26)
+
+Step 3 of the structural overhaul. The owner's report, verbatim: _"I don't feel
+the application really provides a structured learning experience that moves the
+user along as they grasp subjects. It seems to bounce around, never really
+capturing if the user is grasping subjects… We need to make this much more like
+a course."_
+
+The spine already held 180 lessons in a defensible order. What a learner could
+not do was **see the shape they were inside**: 180 is a list, not a course. A
+course has units you finish and a position you hold in it. `src/lib/courseUnits.ts`
+is that shape, `src/components/learn/CourseMapScreen.tsx` renders it (route
+`coursemap`, door on the Learn tab above the lookup), and this increment
+deliberately stops there — the unit test and the gate come next.
+
+- **ONE PATH, EVERYONE STARTS AT UNIT 1** (owner: _"Fuck a heritage user, all
+  users follow the same learning path. If they are already somewhat familiar they
+  will be able to master easier subjects quickly."_). So the course does NOT read
+  the certification level, and that is the single most important property of the
+  module. `getNextLesson` infers that everything below a learner's certified level
+  is already known — correct for the question IT answers ("what do I teach today"
+  under the old CEFR-driven model) and wrong for "where am I in the course".
+  Position is POSITIONAL: the current unit is the first with an unfinished lesson,
+  for every learner, always. **A behavioural test cannot say this** — every fixture
+  is an A1-order spine, so a certification-reading version would pass all of them;
+  `courseUnits.test.ts` pins it by SOURCE (no `cefrCertification`, `getUserCefr`,
+  `getCertifiedLevel`, `getVerifiedLevel`, `getContentUnlockLevel`,
+  `getGenerationCefr`, and no `certifiedLevel`/`unlockedLevel` parameter).
+- **THE UNITS ARE DERIVED, NOT LISTED.** The obvious implementation is a second
+  data file naming 36 units and the five lesson ids in each — 180 ids restated, in
+  a codebase whose most-repeated lesson is that a hand-maintained list decays
+  exactly like one in production, and in defiance of the spine's own header, which
+  refuses to restate facts that have a home. A unit is a CHUNK: five consecutive
+  lessons of one level in spine order, so a reorder cannot desynchronise the units
+  from the spine. Measured: the curriculum was authored in thematic blocks and they
+  fall at fives throughout — A1's boundary at 16 lands exactly on `cases`, which
+  that file calls the hinge of the level, and where a block straddles (B1's aspect
+  sequence at 7–10) it sits wholly inside one unit.
+- **THE ONLY AUTHORED PART IS 36 NAMES, AND A NAME IS A CLAIM ABOUT FIVE
+  LESSONS.** "The Cases Begin" over a unit that no longer contains `cases` is the
+  CEFR-badge failure in miniature: a sentence consistent with nothing that matters,
+  with nothing able to notice. `courseUnitTitles.test.ts` therefore freezes each
+  unit's FIRST and LAST lesson id — **deliberately not derived**, because a
+  derivation agrees with whatever the spine says today, which is the thing under
+  test. A reorder fails and names the unit AND its title
+  (`unit A1-1 ("Sounds, Hellos and Naming Things") now spans alphabet…basic-questions
+instead of alphabet…plural-nouns`), which is a decision for a person.
+- **IT RENDERS ONLY WHAT WAS MEASURED.** No `locked` badge — this increment does
+  not gate, and a padlock for a rule the app does not enforce is NEVER-DO 13 from
+  the other side. No `mastered` badge — mastery needs the unit test and the spaced
+  re-checks, and a tick meaning "you read five lessons" must not be dressed up as
+  "you have mastered this". Three states only: `done`, `current`, `upcoming`.
+  There is no fourth state for "partly done but behind the current unit" because
+  it cannot occur — the first unit that is not done IS the current one, so a
+  learner who reached lesson 8 through search leaves unit 2 current at 3 of 5,
+  which is exactly true.
+- **A COUNT IS A CLAIM TOO**, so the map never renders "0 of 0 units" out of a
+  failed fetch. `courseMapBlock` gives the three answers `poolLaunchBlock`
+  established — pending / failed / settled-but-empty — and the screen FETCHES the
+  spine itself rather than waiting for App.tsx's fire-and-forget warm, precisely
+  because that warm swallows its failure by design and a listener could never tell
+  "still coming" from "never arriving".
+- **`launchAnimLesson` NOW REPORTS WHETHER IT OPENED ANYTHING**, and the boolean is
+  not decoration. The lesson body is a separate fetch, so an offline learner reached
+  `if (l)` with nothing and **the tap did nothing at all** — the "a tap either opens
+  it or says why" class, live for the life of that launcher. It returns false on a
+  missing lesson and on a throw (getLessons rejects on offline, auth and rate
+  limit); older callers ignore the result exactly as before. **A source pin on that
+  return would have been the dead-branch shape**: if the launcher always resolved
+  truthy the failure notice could never render and would read exactly like
+  coverage — so `courseMapScreen.test.tsx` drives the real launcher to all three
+  outcomes, and the screen separately to the notice.
+- **TWO EXISTING GUARDS CAUGHT THE SCREEN BEFORE A LEARNER COULD**, which is the
+  mechanism working rather than a defect: `routeKeys.test.ts` ("its own URL now
+  resolves to the not-found card") and `session-coverage.test.ts` ("register in
+  CEFR_EXERCISE_POOL or add to OUTSIDE_SESSION with a reason"). The map is
+  NAVIGATION and joins `learning_center` in `OUTSIDE_SESSION` for the same stated
+  reason: no bounded round, no finish line, and crediting a session slot for
+  looking at a map is the reading-a-table-as-a-lesson failure again.
+- Mutation-verified, ten, each failing 1–7 tests: a deleted unit title (4); a spine
+  reorder across a unit boundary (4, naming the unit); `currentIndex` from the LAST
+  unfinished unit instead of the first (7); the chunker dropping a short level's
+  remainder (1); the module importing `getCertifiedLevel` (1); `loading` collapsed
+  into `unavailable` (1 file, 2 tests); `launchAnimLesson` always reporting success
+  (2); the AppRouter route removed (1); the Learn-tab door removed (1); the
+  spine-event listener removed (1). Plus the lint in both directions (a `hleb` in a
+  unit title fails; the same word with the file out of TARGETS passes) and the E2E
+  in anger — `onOpenLesson` severed to `async () => false` fails
+  `course-map.spec.js`, against a CI-equivalent build in a real browser.
+- **What this does NOT do, stated:** it does not gate. Every unit is open and every
+  lesson tappable, because `launchAnimLesson` has always been ungated — the
+  Learning Center's header records that as what makes "look anything up, at any
+  time" true — and inventing a restriction one increment early would be a rule with
+  no test behind it. When the unit gate lands, a tap ahead of the learner's position
+  gets a reason, not silence.
+- NEVER: read a CEFR or certified level to decide a learner's position in the
+  course (one path, everyone from Unit 1); hand-list the units; derive the title
+  boundary pin from the spine it is checking; render a `locked` or `mastered` state
+  the app cannot yet evidence; render a unit or lesson count built from an absent
+  spine; add a course surface without a route key and an `OUTSIDE_SESSION` reason;
+  pin a launcher's success boolean by source instead of driving it.
 
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 

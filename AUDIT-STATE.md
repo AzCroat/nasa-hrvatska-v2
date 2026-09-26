@@ -10780,10 +10780,10 @@ delegates to `ConjugationDrillEngine`, which `conjugation-engine.test.tsx` drive
 
 ## Sweep 148 — the questions were giving the answers away (owner reports, 2026-09-26)
 
-Two owner reports minutes apart, both about learning being impossible: *"In objektne
+Two owner reports minutes apart, both about learning being impossible: _"In objektne
 zamjenice you are giving the answers in the questions. What the fuck. How is someone
-going to learn if you give them the answers?"* and *"Verb aspect drill also gives the
-answer. You cannot learn if given the answers."*
+going to learn if you give them the answers?"_ and _"Verb aspect drill also gives the
+answer. You cannot learn if given the answers."_
 
 **One defect, 131 instances, 55 files.** A parenthetical cue after the sentence naming the
 word to use — in the very form the item asks for. Every one could be answered by copying
@@ -10930,12 +10930,12 @@ not blind.
 Continues sweep 149. The remaining hand-rolled screens were censused and split by WHAT they
 credit, because that decides whether conversion is a fix or a regression:
 
-| group | count | disposition |
-| --- | --- | --- |
-| a once-ever COUNTER of their own | 17 + 4 | **converted** (17) / exempted on a checked reason (4) |
-| a `vs`/`writeDelta` completion, no counter | 19 | left — a repeat writes a duplicate set entry, crediting nothing |
-| REPEATABLE DAILY activities, no once-ever state | 22 | left deliberately — see below |
-| per-answer XP only, no completion to own | 20 | nothing for the authority to own |
+| group                                           | count  | disposition                                                     |
+| ----------------------------------------------- | ------ | --------------------------------------------------------------- |
+| a once-ever COUNTER of their own                | 17 + 4 | **converted** (17) / exempted on a checked reason (4)           |
+| a `vs`/`writeDelta` completion, no counter      | 19     | left — a repeat writes a duplicate set entry, crediting nothing |
+| REPEATABLE DAILY activities, no once-ever state | 22     | left deliberately — see below                                   |
+| per-answer XP only, no completion to own        | 20     | nothing for the authority to own                                |
 
 **THE COUNTER CLASS IS NOW UNREPRESENTABLE**, which is what "finished" means here:
 `counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
@@ -10983,6 +10983,82 @@ replaces that path, so the right time to widen the model is when the unit gate i
   2, the drill-engine conversion.
 
 ---
+
+## Sweep 151 — step 3, increment 1: the course has units, and a map (2026-09-26)
+
+**OWNER INSTRUCTION: "step 3 go"**, after _"finish step 1, then step 3 and then
+step 2"_. Step 1 closed in sweep 150. This is the first increment of step 3, as
+stated to the owner: _"Unit grouping + the course map screen. No gating yet — the
+learner immediately sees a structure and where they are in it."_
+
+**WHAT SHIPPED**
+
+- `src/lib/courseUnits.ts` — units DERIVED by chunking the spine five at a time
+  within a level: 6 units per level, **36 over 180 lessons**, `courseProgress`
+  (done / current / upcoming), `nextCourseLesson`, `unitOfLesson`,
+  `courseMapBlock`.
+- `src/data/courseUnitTitles.ts` — the only authored part: 36 titles + subtitles,
+  in the spine's `objectives` voice. In the Croatian lint TARGETS (473 files now),
+  mutation-verified both directions.
+- `src/components/learn/CourseMapScreen.tsx` — route `coursemap`, door on the
+  Learn tab above the lookup, registered in `screenTabs` (learn + restore-safe),
+  `routeKeys` and `OUTSIDE_SESSION`.
+- `launchAnimLesson` now resolves `true`/`false` instead of `void`.
+
+**THE DESIGN DECISIONS WORTH KEEPING** (full record in CLAUDE.md, "The Course, In
+Units")
+
+1. **The course does not read a CEFR level.** Owner: _"all users follow the same
+   learning path… everyone starts at Unit 1."_ Pinned by SOURCE, because every
+   behavioural fixture is an A1-order spine and a certification-reading version
+   would pass all of them.
+2. **Units are chunked, never listed.** A second file naming 36 units and 180
+   lesson ids is the hand-maintained list this file keeps watching decay. Measured
+   first: the curriculum's thematic blocks fall at fives throughout, and A1's
+   boundary at 16 lands exactly on `cases`, its documented hinge.
+3. **The title boundary pin is frozen, deliberately not derived.** A derivation
+   agrees with whatever the spine says today, which is the thing under test. The
+   failure names the unit and quotes its title.
+4. **Only measured states render.** No `locked` (nothing gates yet — a padlock for
+   an unenforced rule is NEVER-DO 13 from the other side) and no `mastered`
+   (mastery needs the unit test and the re-checks; a tick meaning "you read five
+   lessons" must not claim more).
+5. **A live silent tap was found and fixed on the way.** `launchAnimLesson` fetched
+   the lesson body and did NOTHING when it was absent or the fetch threw — the "a
+   tap either opens it or says why" class, for the life of that launcher. The
+   boolean is driven to all three outcomes rather than pinned by source, because a
+   source pin on a return value is the dead-branch shape: a launcher that always
+   resolved truthy would make the failure notice unrenderable and it would read
+   exactly like coverage.
+6. **Two existing guards caught the screen before a learner could**, which is the
+   mechanism working: `routeKeys` (its own URL would have hit the not-found card)
+   and `session-coverage` (unclassified screen). The map is NAVIGATION and joins
+   `learning_center` in `OUTSIDE_SESSION` with the same stated reason.
+
+**VERIFICATION** — 81 new unit tests across three suites; mutation-verified ten
+ways, each failing 1–7 tests (deleted title 4; spine reorder 4, naming the unit;
+`currentIndex` from the last unfinished unit 7; remainder dropped 1;
+`getCertifiedLevel` imported 1; `loading` collapsed into `unavailable` 2; launcher
+always successful 2; route removed 1; door removed 1; spine listener removed 1).
+Lint mutation both directions. `e2e/course-map.spec.js` — 4 tests, green against a
+CI-equivalent build in a real browser, and mutation-verified in anger
+(`onOpenLesson` severed to `async () => false` fails it). Full suite 650 files /
+10,257 tests, typecheck, eslint, Croatian lint 0 findings.
+
+**WHAT IS NOT DONE, AND IS NEXT** — the unit test and the gate:
+
+- A cumulative unit test at the end of each unit's five lessons, at
+  `LESSON_PASS_THRESHOLD`-or-higher, sampling across the unit rather than one
+  lesson.
+- Advancement on accuracy AND production (one spoken, one written, rubric-graded
+  through the existing `/api/correct` and `/api/speaking-coach` paths).
+- Mastery confirmed LATER by retention at 7 and 30 days, reusing
+  `lessonRetention.ts`; a failed re-check re-opens practice and does NOT
+  un-advance.
+- The second unit state (`mastered`) and the `locked` state become renderable at
+  that point, and not before.
+- `LessonScreen` is where the completion authority's model is too narrow (four
+  stats in one updater — see sweep 150); the unit gate is when to widen it.
 
 ## NOT YET CHECKED — where the next field report will come from
 

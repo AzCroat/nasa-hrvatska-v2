@@ -435,6 +435,7 @@ const MistakesScreen = lazyWithReload(() => import('./practice/MistakesScreen'))
 const AnalyticsScreen = lazyWithReload(() => import('./profile/AnalyticsScreen'));
 const GrammarReference = lazyWithReload(() => import('./shared/GrammarReference'));
 const LearningCenter = lazyWithReload(() => import('./learn/LearningCenter'));
+const CourseMapScreen = lazyWithReload(() => import('./learn/CourseMapScreen'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
 const SurvivalDinner = lazyWithReload(() => import('./croatia/SurvivalDinner'));
@@ -3382,6 +3383,17 @@ export default function AppRouter(props: Record<string, any>) {
             <AnalyticsScreen goBack={goBack} stats={stats} name={name} />
           </ScreenErrorBoundary>
         )}
+        {
+          // ═══ COURSE MAP ═══
+          // The whole course in units, and where the learner is in it. Reads
+          // real completions only — no CEFR inference, per the one-path-for-
+          // everyone directive in src/lib/courseUnits.ts.
+          currentScreen === 'coursemap' && (
+            <ScreenErrorBoundary key="coursemap" name="coursemap">
+              <CourseMapScreen goBack={goBack} onOpenLesson={launchAnimLesson} />
+            </ScreenErrorBoundary>
+          )
+        }
         {
           // ═══ LEARNING CENTER ═══
           // Look-up, not scheduling: search + the whole syllabus. Opens content

@@ -115,6 +115,12 @@ const OUTSIDE_SESSION: string[] = [
   // `reference: true` rule already guards against elsewhere. It has no bounded
   // round and no finish line by design.
   'learning_center',
+  // The course map is NAVIGATION, and belongs beside the Learning Center for the
+  // same reason: it shows a learner where they are in the course and has no
+  // bounded round and no finish line. Serving it as a session activity would
+  // credit a slot for looking at a map, which is the reading-a-table-as-a-lesson
+  // failure again. The lessons it links to are session-reachable on their own.
+  'coursemap',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',
