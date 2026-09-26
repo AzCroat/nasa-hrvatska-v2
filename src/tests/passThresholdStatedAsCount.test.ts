@@ -59,6 +59,42 @@ describe('a pass threshold is stated as a count, not only a percentage', () => {
     ).toEqual([]);
   });
 
+  it('no learner-facing copy states the threshold as a COMPUTED percentage', () => {
+    // THE LITERAL MATCHER ABOVE COULD NOT SEE SIX MORE FILES (sweep 143). They render
+    // `Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%` — the identical
+    // sentence the owner reported, built from the constant instead of typed out, and so
+    // invisible to a search for "need 75%". A guard that matches a rendered STRING
+    // cannot see a string that is computed; this one looks at where the constant is
+    // USED instead.
+    //
+    // Scoped to INTERPOLATIONS, not to the constant, because comparing against it is
+    // exactly right: `FutureTenseLessonScreen` does `pct >= LESSON_PASS_THRESHOLD * 100`
+    // on a 0–100 percentage, and banning that would push correct code around to satisfy
+    // a test. A brace-matched scan rather than a regex so Prettier's line breaks inside
+    // a long template cannot hide an occurrence.
+    const bad: string[] = [];
+    for (const [f, src] of FILES) {
+      for (let i = src.indexOf('${'); i !== -1; i = src.indexOf('${', i + 2)) {
+        let depth = 1;
+        let j = i + 2;
+        for (; j < src.length && depth > 0; j++) {
+          if (src[j] === '{') depth++;
+          else if (src[j] === '}') depth--;
+        }
+        const span = src.slice(i + 2, j - 1);
+        if (span.includes('LESSON_PASS_THRESHOLD'))
+          bad.push(`${f} — \${${span.trim().replace(/\s+/g, ' ')}}`);
+      }
+    }
+    expect(
+      bad,
+      'interpolate the COUNT, not the gate: `itemsNeededToPass(total)` of `total`. ' +
+        'A percentage computed from the constant reads exactly like the hand-typed one ' +
+        'the owner reported, and beside a fraction it still asks them to do the ' +
+        'arithmetic to find out whether they passed.',
+    ).toEqual([]);
+  });
+
   it('no score threshold sits ABOVE the pass gate', () => {
     // THE RULE IS DIRECTIONAL, and that is what makes it precise rather than a
     // blanket ban on second thresholds. The shipped defect was

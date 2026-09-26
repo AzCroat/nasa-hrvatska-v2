@@ -1,5 +1,5 @@
 // src/components/practice/ConjugationDrillEngine.tsx
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { H, Bar, speak, sh } from '../../data';
 import { markQuest } from '../../lib/quests';
 import { recordTopicResult } from '../../lib/adaptive';
@@ -44,6 +44,36 @@ export default function ConjugationDrillEngine({ verbs, cells, onComplete, award
   const verb = cell ? byInf.get(cell.inf) : undefined;
   const correct = verb && cell ? formFor(verb, cell) : null;
 
+  /**
+   * CREDIT ON REACHING THE RESULTS BRANCH (2026-09-26). This already paid whichever
+   * exit the learner took — it fired when the branch was reached, not from a button —
+   * so it was never the credit-on-exit defect. Two things move it into an effect:
+   *
+   *  - `cells.length === 0` reaches this branch on MOUNT, and `score * 2 + 10` paid
+   *    10 XP plus the grammar quest for an unplayed round (NEVER-DO 14). Unreachable
+   *    today — both callers guard (`cells.length === 0` in ConjugationSessionDrill,
+   *    `if (set.length)` / `if (cells.length)` in ConjugationLab) — so this replaces
+   *    three reachability arguments living in other files with one line here, the
+   *    same trade sweep 124 made at the mastery ledger's sink.
+   *  - awarding DURING RENDER updates another component mid-render. An effect is
+   *    also the shape `zeroSatisfiableCredits` and `creditFollowsWork` already read,
+   *    so this code is covered by them rather than by a third bespoke rule.
+   *
+   * The FLOW signal is deliberately outside the credit guard (sweep 119): a zero-cell
+   * round must not pay, and must not strand a daily session either.
+   */
+  const atResults = !cell || !verb || !correct;
+  useEffect(() => {
+    if (!atResults || finished.current) return;
+    finished.current = true;
+    if (cells.length > 0) {
+      if (typeof award === 'function') award(score * 2 + 10, false, 'grammar');
+      markQuest('grammar');
+    }
+    onComplete(score, cells.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [atResults, cells.length, score]);
+
   // Build options once per question (re-derived when the cell changes).
   const options = useMemo(() => {
     if (!verb || !cell || !correct) return [];
@@ -57,12 +87,6 @@ export default function ConjugationDrillEngine({ verbs, cells, onComplete, award
   if (!cell || !verb || !correct) {
     // finished or malformed cell → results
     const total = cells.length;
-    if (!finished.current) {
-      finished.current = true;
-      if (typeof award === 'function') award(score * 2 + 10, false, 'grammar');
-      markQuest('grammar');
-      onComplete(score, total);
-    }
     const pct = total ? Math.round((score / total) * 100) : 0;
     return (
       <div className="scr-wrap">

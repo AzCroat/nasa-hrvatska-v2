@@ -10266,6 +10266,274 @@ returns without doing anything (0 of ~1,900), no control is hard-disabled, every
 are winnable through their own graders (`UNJUMBLE` 40/40, `SENTBUILD` 42/42 — the tile
 multiset equals the target's word multiset, so some arrangement is always accepted).
 
+### 141. Does every Retry actually reset? — 2026-09-26 — 162 handlers, three candidates, zero defects
+
+Asked because a Retry that resets the index but not the answered flag drops the learner
+on question 1 with the answer already showing, and one that resets the index but not the
+SCORE lets a second attempt inherit the first — which would defeat the very pass gates
+sweeps 119 and 139 just installed.
+
+**Method, and the narrowing is the whole of it.** A first pass — "any onClick calling two
+or more `useState` setters, one of them to a falsy value" — reported **162 handlers** with
+a list of omissions each, which is unreadable and mostly correct code: nearly every entry
+is a NEXT-QUESTION handler, where the score is supposed to carry. Scoping to a true RETRY
+(an index-ish setter explicitly assigned `0`) and asking only whether the ANSWERED or
+SCORE state is left behind took it to **three**.
+
+**All three are non-defects, and reading each is what settled it:**
+
+- `MicroLessonScreen`'s "Start Quiz →" resets `qIdx`/`selected`/`answered` and not
+  `correctCount` — which would be the serious one, since `passedLesson(correctCount,
+total)` gates the XP and `gc`, and `gc` feeds the CEFR score. It is UNREACHABLE: the
+  only route to the intro phase is `fetchLesson`, whose own body calls
+  `setCorrectCount(0)`, and the results view's "Try Another Lesson" goes through it. **I
+  would have been wrong to report this as a defect from the census output alone.**
+- `AspectDrillScreen`'s "Drill Mistakes" leaves `revealRule` set. That is a manual
+  "Show full rule explanation" toggle the learner opened themselves, not an answer
+  reveal — carrying it across a restart is the reasonable behaviour, not a leak.
+- `HeritagePathScreen` has TWO independent sections, each with its own answer flag, and
+  each reset handler resets its own. The census reported `showAnswer` missing from the
+  GRAMMAR handler, which resets `showGrammarAnswer` correctly.
+
+**The class is clean; do not re-run it.** What would make it dirty again is a new screen
+whose retry forgets its own answered flag, and no ratchet was added for the sweep 109
+reason: the derivation's own output was 162 rows of which 159 were correct code, so a
+committed guard would ship as noise and train everyone to ignore it. The method is
+recorded here instead, with the narrowing that makes it a three-row answer.
+
+- NEVER: read a reset-omission census as a defect list — every row needs the reachability
+  question asked of it (can the learner get here twice?) and the meaning question (is this
+  flag an ANSWER reveal or something the learner chose to open?).
+
+---
+
+### 142. Is the XP a results view PRINTS the XP it PAID? — 2026-09-26 — one live defect, wrong in both directions
+
+Sweep 139 found seven screens printing "+N XP" they had not yet credited. That
+asked WHEN the figure becomes true. This asks whether it is the right figure at
+all: every results view that renders an XP number, compared against the number
+its own parent actually hands `award`.
+
+**`Flashcards` was the one live defect, and it is wrong in both directions.**
+There are two completion paths through `handleQuizComplete(quizScore, skipped)`
+and they pay different rates — the skip path
+`finalKnown * XP_PER_KNOWN + XP_COMPLETION_BONUS`, the quiz path
+`QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT`. `FlashcardResultScreen`
+rendered `knownCount * 2 + 5` — its own hardcoded THIRD copy of the review rate
+— on **both**. The flow is deck → recall quiz → result, so the quiz path is the
+ordinary one: a 20-card deck, knew 15, quiz score 12 pays `10 + 12*5 = 70` and
+printed `15*2 + 5 = 35`; knew 20, quiz score 2 pays `20` and printed `45`.
+
+**The fix makes the drift unrepresentable rather than guarding it.** The parent
+computes the figure ONCE into `xpAwarded`, awards that, and passes it as a
+**required** prop the screen prints verbatim. Dropping the prop is a compile
+error (verified: `TS2741`), which is the property a test cannot give you — a
+guard comparing two formulas still permits a third copy.
+
+**THE SKIP-PATH ASSERTION IS A CONTROL, NOT A SUBJECT, and saying so is the
+honest report.** Both `finish()` call sites fire on the LAST card, so the deck
+is always fully rated and `finalKnown + missed.length === activePool.length` —
+which makes the old expression numerically EQUAL to the new one on the skip
+path. Neither mutation moves that test. It is in the file to prove the fix did
+not break the path that was already right; the defect was only ever on the quiz
+path, and reporting "two paths fixed" would have been the inflation this file
+keeps warning about.
+
+**AND MY OWN ASSERTION WAS VACUOUS ONE RUN IN FIVE, WHICH THE COINCIDENCE GUARD
+TURNED INTO A FLAKE RATHER THAN A SILENT PASS.** The pre-existing driver clicks
+option 0 every time, so the score is however often the shuffle happened to put
+the correct answer first — which is why its own older test asserts a RANGE. On a
+5-card deck a score of **1** pays `10 + 1*5 = 15`, which is EXACTLY what the
+review rate pays for 5 known: the two formulas coincide and the comparison proves
+nothing. I had written `expect(paid).not.toBe(reviewRateFigure)` for precisely
+that possibility, and it fired on the fifth run — so the vacuity surfaced as a
+named failure instead of a green test. **The guard is not the fix**: the driver
+now derives the correct gloss from the question on screen (`makePool` is
+`[hrWordN, enWordN, phN]`, so it is derivable whatever the shuffle does), the
+score is 5 of 5 every run, and the paid figure is pinned at 35. Confirmed 8 runs
+in a row. Mutating the driver to answer WRONGLY fails that pin, which is what
+makes it load-bearing rather than decorative.
+
+**Everything else on the axis is correct, recorded so it is not re-chased.**
+`MistakesScreen`, `ZnamGame`, `BojeGame`, `VideoLessonScreen`,
+`DialogueSim`/`DialogueAiMode`, `SlangScreen`/`SlangQuizPanel` each print the
+expression their own award uses; `FlashcardRecallQuiz`'s
+`XP_BASE + total * XP_PER_CORRECT` is a PREVIEW and labels itself "for a
+perfect score", which is a different claim and a true one.
+
+**Latent duplication left recorded, not collapsed.** The flashcard rates are
+declared twice (`Flashcards.tsx`'s four constants against
+`FlashcardRecallQuiz.tsx`'s `XP_BASE`/`XP_PER_CORRECT`) and `SlangScreen` /
+`SlangQuizPanel` both hardcode `quizScore * 3`. Neither is a defect today —
+both copies agree — and both are the two-homes-for-one-fact shape that produced
+this sweep's finding, so they are queued rather than swept into a display fix.
+
+Mutation-verified, four: the hardcoded review formula restored in the child
+fails 1; the parent passing that formula while awarding the quiz rate fails 1;
+the prop dropped is a type error (`TS2741`); the driver answering wrongly fails
+the 35 pin. Full suite 641 files / 10,010 tests green.
+No E2E spec asserts a flashcard XP figure (greps for `+N XP` and for the result
+view's own strings return nothing), so no spec moved.
+
+- NEVER: render an XP figure from a formula the awarding code does not itself
+  use — pass the awarded value down as a REQUIRED prop, so a second rate cannot
+  be expressed; read a passing assertion on a path where two formulas happen to
+  agree as evidence that either is right; compare two formulas on a scenario
+  whose inputs a shuffle decides — a coincidence guard converts that vacuity
+  into a flake, which is better than a silent pass and is not a substitute for
+  making the driver deterministic.
+
+---
+
+### 143. Does the credit-on-exit rule cover the WRAPPER? — 2026-09-26 — three more screens, the owner's own report still live in six, and a retry that never retried
+
+Asked because sweep 142 was found by reading a results view rather than by a
+derivation, so the next question was what ELSE sweep 139's rule cannot see. The
+answer was in its own writer set.
+
+**`completeLesson(` WAS NOT IN `CREDIT_WRITERS`, AND THAT COST THREE SCREENS.**
+It is a thin wrapper over `completeExercise` living in another module, so a caller
+of it contains neither the authority's name nor any of the six hand-rolled writes
+— invisible to every entry in the set while being exactly the same act.
+`TensesScreen`, `DeclensionScreen` and `FutureTenseLessonScreen` all paid from the
+onClick of a button that also calls `goBack()`. Real-world mutation settles it both
+ways: with `completeLesson(` out of the set all three PRE-FIX files read **clean**;
+with it in, all three are flagged and all three post-fix files are clean. **A
+wrapper is not covered by a rule that names what it wraps** — and
+`sessionSlotsCanFinish.test.ts` had listed the name in its own FINISHERS since the
+day before, so the fact was already in the repo.
+
+**Two of the three printed a claim they had not honoured**, the sweep 139 class
+again: `FutureTenseLessonScreen`'s passing view renders "Quest complete! +20 XP
+bonus" and "Grammar quest marked." directly above the button, and
+`DeclensionScreen` renders "+N XP". `TensesScreen` owed the `tenses` vs key, which
+is a Learn Path node AND the teach→practice coupling's clearing path — the very id
+this file records as the 18th broken coupling.
+
+**AND DECLENSIONSCREEN'S RETRY NEVER RETRIED.** `↻ Review & retry` set `mode` and
+nothing else, and the `quizDone` branch is tested BEFORE quiz mode — so a learner
+who failed walked to the case table, came back, and met the SAME finished results,
+for ever. **Sweep 141 asked exactly this question and could not see it**: its
+narrowing was "a handler assigning an index-ish setter to `0`", and this handler
+assigns no setter at all. One `startQuiz()` now owns the reset for both entry
+points (the retry and "✏️ Test the Cases →"), and it clears `finishFired` too — a
+first attempt that failed recorded nothing, so a second that passes must still be
+able to credit.
+
+**THE OWNER'S OWN REPORT WAS STILL LIVE IN SIX FILES, IN COMPUTED FORM.**
+`passThresholdStatedAsCount.test.ts` was written for _"8 out of 12 is 75%, you
+stated it wasn't"_ and matches the STRINGS that shipped — `/need 75%/`,
+`/75% to complete/`. Six lesson screens render
+`Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%` immediately under
+`{score}/{total}`: the identical sentence, built from the constant, so a search for
+the rendered text cannot find it. **A guard that matches a rendered string cannot
+see a string that is computed.** All six now interpolate
+`itemsNeededToPass(total)` of `total`, which is the convention
+`LessonCheckSlide`/`LessonSummarySlide` already used.
+
+The new clause looks at where the CONSTANT is used, not at the copy, and is scoped
+to string INTERPOLATIONS: `FutureTenseLessonScreen`'s `pct >=
+LESSON_PASS_THRESHOLD * 100` is a correct comparison on a 0–100 percentage, and
+banning that shape would push right code around to satisfy a test. The scan is
+brace-matched rather than a regex so Prettier's line breaks inside a long template
+cannot hide an occurrence — and that file is the false-alarm control, a REAL one
+rather than a synthetic.
+
+**THE RATIO FORM OF THE PRAISE-TIER DEFECT IS CLEAN, and it is the guard's
+RATIONALE that says so.** That guard bans `score >= total * 0.8` above a 0.75 gate;
+the ratio form (`pct >= 0.8` where `pct = score / total`) is invisible to it, and
+five files use it — `AlphabetScreen` 0.9/0.7, `DeclensionScreen` 0.8/0.6,
+`DictationScreen` 0.8/0.6, `McResult` 0.8/0.5, `FlashcardResultScreen` 0.8. Every
+one was read: **none contradicts a verdict beside it.** The shipped defect was a
+learner who PASSED being told "needs more practice"; "Good work! Practice the
+tricky ones: č, š, ž, lj, nj" and "Good progress! Cases take time to internalize"
+are not that, and dictation, MC and flashcards have no pass gate at all. So the
+matcher is deliberately NOT widened to the ratio form: it would report five files
+and name zero defects, which is how a guard earns the reputation that gets it
+ignored (the sweep 104 and sweep 109 precedent).
+
+Mutation-verified, six: reverting `TensesScreen` to the onClick fails 2 (including
+the headline judgement, which is the direct proof the widened writer set is what
+catches it); dropping its effect's positivity guard fails 1; reverting
+`DeclensionScreen` fails 2 of the DRIVEN tests; the retry set back to `setMode`
+alone fails 1; restoring one computed percentage fails 1 and names the file and the
+interpolation; and the comparison control stays unflagged. The two driven tests
+derive their answers from the real `DECL` data — the question line names the English
+gloss and the case number, so the correct form is `noun.cases[caseNum - 1]` — and
+run identically 5 times; answering WRONGLY on purpose is what reaches the retry
+button, which only renders below the gate.
+
+- NEVER: name a writer in a credit rule without also naming the wrappers that front
+  it; match learner-facing copy by its rendered STRING when the same sentence can be
+  computed from a constant; ban a shape the ratio form shares with correct code
+  when reading shows no instance contradicts a verdict; ship a "retry" that resets
+  nothing but the view it is leaving.
+
+---
+
+### 144. Does the writer set have any other omissions, and what about credit on the RENDER path? — 2026-09-26 — the set is complete, and the third shape had one member
+
+Two questions in one pass, because sweep 143's finding was about the rule's
+VOCABULARY rather than about a screen.
+
+**THE WRITER SET IS COMPLETE, and that is the answer.** Every module under
+`src/hooks` and `src/lib` that calls a credit writer was listed with its exports,
+and the thirteen plausible fronts were added to a throwaway probe —
+`markExerciseDone`, `recordSrsOutcome`, `recordExamSkillScores`, `markQuestPaid`,
+`recordTopicResult`, `markLessonComplete`, `recordScreenPractised`,
+`recordLessonTaught`, `signalSessionCompleteIfActive`, `recordEquivalencyAttempt`,
+`recordLessonAttempt`, `addWordToSRS`, `srMark` — and run over the whole tree.
+**One hit, and it was a FALSE POSITIVE of the fixed-window kind.**
+`ConjugationSessionDrill` passes `signalSessionCompleteIfActive` inside an
+`onComplete` callback; the `onClick` the predicate attributed it to sits in an
+EARLIER return branch, 1,500 characters back. Nth instance of this repo's
+fixed-window defect, this time in a scratch probe rather than a guard — which is
+where it belongs, and it is why the hit was read rather than reported.
+
+**THE THIRD SHAPE IS CREDIT WRITTEN DURING RENDER, and neither committed guard
+reads it.** `creditFollowsWork` looks for an enclosing `onClick`;
+`zeroSatisfiableCredits` looks inside a `useEffect`. A writer at the component's
+own top level, behind a `useRef` latch, is in neither. Census: one genuine member,
+`ConjugationDrillEngine` — which was NOT the credit-on-exit defect (it fires on
+REACHING the results branch, so both exits already paid) but carried two things:
+
+- **a zero-cell round paid 10 XP and the grammar quest.** The branch is
+  `!cell || !verb || !correct`, which `cells.length === 0` satisfies ON MOUNT, and
+  the credit is `score * 2 + 10` (NEVER-DO 14). Unreachable today — three
+  arguments in two other files: `ConjugationSessionDrill` returns early on
+  `cells.length === 0`, and `ConjugationLab` only sets `activeCells` behind
+  `if (set.length)` / `if (cells.length)`. One line at the sink replaces all three,
+  the trade sweep 124 made at the mastery ledger.
+- **it awarded during render**, updating another component mid-render.
+
+**Moving it into an effect is the fix, and the reason is the general one: make the
+code conform to a shape the existing guards already read, rather than writing a
+third guard for a third shape.** It is now inside a `useEffect` with a positivity
+guard, which is exactly what `zeroSatisfiableCredits` and the FIXED blocks of
+`creditFollowsWork` assert about every other screen.
+
+**NO GUARD WAS ADDED FOR THE RENDER SHAPE, because my classifier is not good
+enough to be one.** It reported `LiveTutorScreen` and `MajaScreen` as render-path
+writers; both are inside a `useCallback` or an async handler it did not know about,
+and both are correct — Maja's `commitDebriefXp` carries a comment saying in terms
+that both ways out of the debrief call it. Worse, it MISLABELLED the one genuine
+member as a callback, because `onComplete` appears in the Props interface inside its
+look-behind window. A guard built on that would ship two false alarms and miss its
+only subject (the sweep 104 / sweep 109 rule). The method is recorded here instead.
+
+**The clause needed its own positive control**, because the state it guards is
+unreachable: dropped, it survived every existing test. `conjugation-engine.test.tsx`
+now renders the engine with `cells={[]}` and asserts no `award` and no
+`markQuest` — with `onComplete` asserted to fire ANYWAY as the floor, both against
+vacuity and because the FLOW signal is not credit (sweep 119: an empty round must
+not pay and must not strand Today's Session at N-1/N). Mutation-verified, two: the
+credit guard dropped fails 1, and gating `onComplete` alongside it fails 1.
+
+- NEVER: read a probe's single hit as a finding without checking which construct it
+  actually attributed the call to; write a third guard for a third shape when the
+  code can be moved into a shape two existing guards already read; leave a clause
+  guarding an unreachable state without a synthetic control that exercises it.
+
 ---
 
 ## NOT YET CHECKED — where the next field report will come from

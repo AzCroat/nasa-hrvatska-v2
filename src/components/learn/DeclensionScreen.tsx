@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { H, speak, sh } from '../../data';
 import { DECL } from '../../data';
 import { completeLesson } from '../../hooks/useLessonCompletion';
-import { LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
+import { LESSON_PASS_THRESHOLD, itemsNeededToPass } from '../../lib/lessonGate';
 import { addWordToSRS } from '../../lib/srs.js';
 import { useStats } from '../../context/StatsContext.tsx';
 
@@ -78,6 +78,52 @@ export default function DeclensionScreen({ goBack, award }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
+  const finishFired = useRef(false);
+
+  /**
+   * START A FRESH ATTEMPT (2026-09-26). `mode` and `quizDone` are independent, and
+   * the `quizDone` branch is tested BEFORE quiz mode — so "↻ Review & retry" (which
+   * set `mode` and nothing else) walked the learner to the reference table and back
+   * to the SAME failed results, for ever. A retry that cannot retry is worse than no
+   * retry button. `finishFired` resets too: a first attempt that failed recorded
+   * nothing, so a second that passes must still be able to credit.
+   */
+  function startQuiz() {
+    setQi(0);
+    setScore(0);
+    setAnswered(false);
+    setSelected(null);
+    setQuizDone(false);
+    finishFired.current = false;
+    setMode('quiz');
+  }
+
+  // CREDIT FOLLOWS THE WORK, NOT THE BUTTON (2026-09-26). The credit was paid from the
+  // onClick of "✓ Done", which also calls goBack() — while the same view offers
+  // "📖 Review" (back to the reference table), H(..., goBack)'s Back button and the
+  // ever-present TabBar. Passing the quiz and then looking something up lost the XP,
+  // the `gc`, the `declension` vs key and the grammar quest. The view also PRINTED
+  // "+N XP" above those buttons, so it promised a figure whose truth depended on which
+  // one the learner pressed. `questions.length > 0` is required, or `0 >= 0` credits an
+  // unplayed quiz on mount (NEVER-DO 14); completeLesson gates at 75% itself, so a
+  // failing score records nothing while the session signal still fires.
+  useEffect(() => {
+    if (!quizDone || questions.length === 0 || finishFired.current) return;
+    finishFired.current = true;
+    completeLesson({
+      screenId: 'declension',
+      statKind: 'gc',
+      score,
+      total: questions.length,
+      xp: score * 4 + 10,
+      questKind: 'grammar',
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quizDone, questions.length, score]);
 
   const n = DECL.nouns[dcNoun];
 
@@ -213,7 +259,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
         <button
           className="b bp"
           style={{ width: '100%', fontSize: 15, marginBottom: 24 }}
-          onClick={() => setMode('quiz')}
+          onClick={startQuiz}
         >
           ✏️ Test the Cases →
         </button>
@@ -244,7 +290,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 900, color: '#d97706', marginBottom: 24 }}>
             {pct >= LESSON_PASS_THRESHOLD
               ? `+${score * 4 + 10} XP`
-              : `Need ${Math.round(LESSON_PASS_THRESHOLD * 100)}% to pass`}
+              : `Need ${itemsNeededToPass(questions.length)} of ${questions.length} to pass`}
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <button
@@ -257,30 +303,12 @@ export default function DeclensionScreen({ goBack, award }: Props) {
               📖 Review
             </button>
             {pct >= LESSON_PASS_THRESHOLD ? (
-              <button
-                className="b bp"
-                style={{ flex: 1 }}
-                onClick={() => {
-                  completeLesson({
-                    screenId: 'declension',
-                    statKind: 'gc',
-                    score,
-                    total: questions.length,
-                    xp: score * 4 + 10,
-                    questKind: 'grammar',
-                    stats,
-                    setStats,
-                    writeDelta,
-                    award,
-                  });
-                  goBack();
-                }}
-              >
+              <button className="b bp" style={{ flex: 1 }} onClick={goBack}>
                 ✓ Done
               </button>
             ) : (
-              <button className="b bp" style={{ flex: 1 }} onClick={() => setMode('reference')}>
-                ↻ Review &amp; retry
+              <button className="b bp" style={{ flex: 1 }} onClick={startQuiz}>
+                ↻ Try again
               </button>
             )}
           </div>

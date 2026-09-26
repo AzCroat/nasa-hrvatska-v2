@@ -534,6 +534,42 @@ describe('Flashcards — full integration with fake timers', () => {
     }
   }
 
+  /**
+   * ANSWER EVERY QUESTION CORRECTLY, DETERMINISTICALLY.
+   *
+   * `answerAllQuizQuestions` above always clicks option 0, so the score is however
+   * many times the shuffle happened to put the correct answer first — which is why
+   * its own test asserts a RANGE. That is fine for a range, and fatal for a test
+   * that compares two XP formulas: on the run where the score lands on 1 the quiz
+   * rate (10 + 1*5) EQUALS the review rate (5*2 + 5) and the comparison proves
+   * nothing. The coincidence guard below caught exactly that, on its fifth run.
+   *
+   * `makePool` builds `[hrWordN, enWordN, phN]`, so the correct gloss is derivable
+   * from the question on screen whatever the shuffle does.
+   */
+  function answerAllQuizQuestionsCorrectly(count: number) {
+    for (let i = 0; i < count; i++) {
+      const asked = document.body.textContent?.match(/hrWord(\d+)/);
+      expect(asked, `question ${i + 1} rendered no Croatian prompt`).toBeTruthy();
+      const gloss = `enWord${asked![1]}`;
+      act(() => {
+        const opt = screen
+          .queryAllByRole('button')
+          .find(
+            (b) =>
+              b.getAttribute('data-testid')?.startsWith('quiz-opt-') &&
+              b.textContent?.trim() === gloss,
+          );
+        expect(opt, `no option offered the correct answer ${gloss}`).toBeTruthy();
+        fireEvent.click(opt!);
+      });
+      act(() => {
+        const next = screen.queryByTestId('quiz-next-btn');
+        if (next) fireEvent.click(next);
+      });
+    }
+  }
+
   it('quiz path fires award with flashcards activity type', () => {
     const award = vi.fn();
     const { container } = renderFlashcards({ award });
@@ -558,6 +594,61 @@ describe('Flashcards — full integration with fake timers', () => {
     expect(xp).toBeGreaterThanOrEqual(10); // 10 + 0*5
     expect(xp).toBeLessThanOrEqual(35); // 10 + 5*5
     expect((xp - 10) % 5).toBe(0);
+  });
+
+  /**
+   * THE RESULT SCREEN MUST PRINT WHAT WAS PAID, ON BOTH PATHS (2026-09-26).
+   *
+   * `FlashcardResultScreen` printed `knownCount * 2 + 5` — its OWN hardcoded copy of
+   * the REVIEW rate — on both of this screen's completion paths, while the quiz path
+   * pays `QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT`. So a learner who took the
+   * quiz read a figure they had not earned, wrong in EITHER direction depending on
+   * the numbers: knew 15 of 20 and scored 12 → paid 70, printed 35; knew 20 and
+   * scored 2 → paid 20, printed 45.
+   *
+   * These two assert the EFFECT rather than the wiring. A source pin on the prop
+   * would pass just as happily if the parent computed the figure a second time and
+   * the two expressions drifted — which is the defect, one layer up. Reading the
+   * rendered number and comparing it to `award`'s own argument cannot.
+   */
+  function printedXp(): number {
+    const m = document.body.textContent?.match(/\+(\d+)\s*XP/);
+    expect(m, 'the result screen printed no XP figure').toBeTruthy();
+    return Number(m![1]);
+  }
+
+  it('skip path: the result screen prints exactly what was awarded', () => {
+    const award = vi.fn();
+    const { container } = renderFlashcards({ award });
+    flipAllWithFakeTimers(container, 5);
+    act(() => {
+      fireEvent.click(screen.getByTestId('quiz-skip-btn'));
+    });
+    const paid = award.mock.calls[0]?.[0] as number;
+    expect(paid, 'nothing was awarded — the scenario never reached completion').toBe(15);
+    expect(printedXp()).toBe(paid);
+  });
+
+  it('quiz path: the result screen prints exactly what was awarded', () => {
+    const award = vi.fn();
+    const { container } = renderFlashcards({ award });
+    flipAllWithFakeTimers(container, 5);
+    act(() => {
+      fireEvent.click(screen.getByTestId('quiz-start-btn'));
+    });
+    answerAllQuizQuestionsCorrectly(5);
+    const paid = award.mock.calls[0]?.[0] as number;
+    // 5 of 5 correct: QUIZ_XP_BASE 10 + 5 * QUIZ_XP_PER_CORRECT 5. Pinned exactly,
+    // which also means the scenario cannot drift onto a score where the two rates
+    // coincide — the flake that made this assertion vacuous before the helper above.
+    expect(paid, 'the quiz did not complete with a full score').toBe(35);
+    expect(printedXp()).toBe(paid);
+    // AND the two formulas genuinely differ here, or the test proves nothing: all 5
+    // known would pay 15 by the review rate the result screen used to hardcode.
+    const reviewRateFigure = 5 * 2 + 5;
+    expect(paid, 'the two rates coincide here — pick a scenario where they differ').not.toBe(
+      reviewRateFigure,
+    );
   });
 
   it('markQuest("vocab") called after quiz completion', () => {

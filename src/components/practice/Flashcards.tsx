@@ -124,6 +124,8 @@ export default function Flashcards({
   const [done, setDone] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const finalKnownRef = useRef(0);
+  // What handleQuizComplete actually awarded — the ONE figure the result screen prints.
+  const [xpAwarded, setXpAwarded] = useState(0);
   const [correctAnim, setCorrectAnim] = useState(false);
   const [wrongAnim, setWrongAnim] = useState(false);
   const [showStillLearning, setShowStillLearning] = useState(false);
@@ -348,15 +350,28 @@ export default function Flashcards({
   function handleQuizComplete(quizScore: number, skipped: boolean) {
     setShowQuiz(false);
     const finalKnown = finalKnownRef.current;
+    // THE FIGURE IS COMPUTED ONCE AND BOTH PAID AND PRINTED (2026-09-26). The two
+    // paths pay by DIFFERENT formulas — the skip path by the review rate, the quiz
+    // path by the quiz rate — while FlashcardResultScreen printed
+    // `knownCount * 2 + 5`, the review formula, on BOTH. So a learner who took the
+    // quiz was shown a number they had not earned, wrong in either direction: knew
+    // 15 of 20 and scored 12 → paid 70, printed 35; knew 20 and scored 2 → paid 20,
+    // printed 45. Passing the awarded amount down makes the drift unrepresentable
+    // rather than merely guarded, and it also retires the child's hardcoded copy of
+    // the review rate (it wrote the 2 and the 5 as literals beside these constants).
+    // Named `paid` rather than `xpAwarded` on purpose: shadowing the state of that
+    // name would let a later reader pick up the stale render value by accident.
+    const paid = skipped
+      ? finalKnown * XP_PER_KNOWN + XP_COMPLETION_BONUS
+      : QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT;
+    setXpAwarded(paid);
     if (skipped) {
       // Skip path — preserve existing XP formula and old quest tag
-      if (typeof award === 'function')
-        award(finalKnown * XP_PER_KNOWN + XP_COMPLETION_BONUS, false, 'vocabulary');
+      if (typeof award === 'function') award(paid, false, 'vocabulary');
       markQuest('vocab');
     } else {
       // Quiz path — new XP formula per Exercise Contract
-      if (typeof award === 'function')
-        award(QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT, false, 'flashcards');
+      if (typeof award === 'function') award(paid, false, 'flashcards');
       // markQuest + setStats/writeDelta fired inside FlashcardRecallQuiz before calling onComplete
     }
     knightSpeak(
@@ -421,6 +436,7 @@ export default function Flashcards({
         activePool={activePool}
         known={known}
         missed={missed}
+        xpAwarded={xpAwarded}
         onGoBack={goBack}
         onStudyMissed={studyMissedAgain}
       />

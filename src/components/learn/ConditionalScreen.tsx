@@ -3,7 +3,7 @@ import { H, speak } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
 import { completeLesson } from '../../hooks/useLessonCompletion';
-import { LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
+import { LESSON_PASS_THRESHOLD, itemsNeededToPass } from '../../lib/lessonGate';
 
 interface QuizQuestion {
   q: string;
@@ -175,7 +175,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                 {score}/{questions.length} —{' '}
                 {passed
                   ? 'Passed — lesson complete!'
-                  : `Not passed — need ${Math.round(LESSON_PASS_THRESHOLD * 100)}%. Review and try again.`}
+                  : `Not passed — need ${itemsNeededToPass(questions.length)} of ${questions.length}. Review and try again.`}
               </div>
               {!passed && (
                 <button

@@ -7,6 +7,15 @@ interface Props {
   activePool: unknown[][];
   known: number;
   missed: unknown[][];
+  /**
+   * The XP the parent ACTUALLY awarded. Required, not optional: this screen used to
+   * print `knownCount * 2 + 5` — its own hardcoded copy of the REVIEW rate — on both
+   * of Flashcards' two completion paths, while the quiz path pays
+   * `QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT`. The learner was shown a figure
+   * they had not earned, over- or under-stating depending on the numbers. One value,
+   * paid and printed, is what makes that unrepresentable.
+   */
+  xpAwarded: number;
   onGoBack: () => void;
   onStudyMissed: (missed: unknown[][]) => void;
 }
@@ -14,6 +23,7 @@ export default function FlashcardResultScreen({
   activePool,
   known,
   missed,
+  xpAwarded,
   onGoBack,
   onStudyMissed,
 }: Props) {
@@ -70,7 +80,7 @@ export default function FlashcardResultScreen({
         <div
           style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: '#fbbf24', marginTop: 8 }}
         >
-          +{knownCount * 2 + 5} XP
+          +{xpAwarded} XP
         </div>
         <div style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)', marginTop: 4 }}>
           {missedCount === 0
