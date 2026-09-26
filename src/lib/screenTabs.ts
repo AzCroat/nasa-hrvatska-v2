@@ -200,6 +200,8 @@ export const SCREEN_TAB: Record<string, string> = {
   terms: 'profile',
   'grammar-ref': 'learn',
   learning_center: 'learn',
+  coursemap: 'learn',
+  unittest: 'learn',
   mistakes: 'practice',
   listeningpath: 'practice',
   grammarmap: 'learn', // align with _TAB_FOR_SCR.grammarmap; was 'practice' → the two maps disagreed, so the highlighted tab flipped depending on entry path
@@ -246,6 +248,7 @@ export const RESTORE_SAFE_SCREENS: ReadonlySet<string> = new Set([
   'grammar_track',
   'grammar-ref',
   'learning_center',
+  'coursemap',
   'grammarmap',
   'favorites',
   'journal',

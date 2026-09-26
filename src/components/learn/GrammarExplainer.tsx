@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H } from '../../data';
 import { speak } from '../../lib/audio.js';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr } from '../../lib/cefr.js';
 
@@ -324,9 +324,14 @@ export default function GrammarExplainer({
     if (!xpAwarded.current && typeof award === 'function') {
       xpAwarded.current = true;
       award(20, false, 'grammar');
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({
+        key: 'grammarexplainer',
+        xp: 0,
+        // `stats` is destructured under this name here — it is the same object.
+        stats: _statsForLevel,
+        setStats,
+        writeDelta,
+      });
       setPhase('done');
       setTimeout(() => setPhase('lesson'), 1800);
     }

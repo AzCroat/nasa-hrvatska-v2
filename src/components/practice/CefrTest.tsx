@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, Bar } from '../../data';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
 function shLocal(a: any[]) {
@@ -853,7 +853,7 @@ export default function CefrTest({
 }: {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
   const [levelKey, setLevelKey] = useState<string | null>(null);
   // Shuffled questions for the active level — rebuilt each time a level is started
@@ -898,9 +898,7 @@ export default function CefrTest({
       if (!finishFired.current) {
         finishFired.current = true;
         if (award) award(score * 7, false, 'default');
-        markQuest('grammar');
-        setStats((s) => ({ ...s, gc: s.gc + 1 }));
-        writeDelta({ gc: 1 });
+        completeExercise({ key: 'cefrtest', xp: 0, stats, setStats, writeDelta });
       }
       setDone(true);
     } else {

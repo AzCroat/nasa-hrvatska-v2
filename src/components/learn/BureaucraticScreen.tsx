@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { passedLesson } from '../../lib/lessonGate';
 
@@ -15,7 +15,7 @@ interface QuizBlockProps {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 function QuizBlock({ questions, award }: QuizBlockProps) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [score, setScore] = useState<number | null>(null);
 
@@ -30,9 +30,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
       setScore(pts);
       if (award) {
         award(pts * 5, false, 'grammar');
-        markQuest('grammar');
-        setStats((s) => ({ ...s, gc: s.gc + 1 }));
-        writeDelta({ gc: 1 });
+        completeExercise({ key: 'bureaucratic', xp: 0, stats, setStats, writeDelta });
       }
     }
   }

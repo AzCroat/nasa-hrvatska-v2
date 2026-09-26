@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { RELPRON } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { recordScreenPractised } from '../../../lib/teachPractice';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function RelativePronounsScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = shMemo('rp', RELPRON.quiz, 10);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -47,9 +47,7 @@ function RelativePronounsScreen({ goBack, award }: Props) {
       // XP semantics and is a separate decision. Found by
       // couplingClearingPath.test.ts.
       recordScreenPractised('relpron');
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'relpron', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }

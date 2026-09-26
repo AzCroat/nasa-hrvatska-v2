@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { QWORDS } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { useStats } from '../../../context/StatsContext';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function QuestionWordsScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = useMemo(() => shMemo('qw', QWORDS, undefined), []);
   const shuffledOpts = useMemo(
     () =>
@@ -40,9 +40,7 @@ function QuestionWordsScreen({ goBack, award }: Props) {
     // award() below is gated on xpEarned > 0, which stranded the session on a
     // zero-score run (2026-07-16 completion-matrix audit).
     signalSessionCompleteIfActive('qwords');
-    markQuest('grammar');
-    setStats((s) => ({ ...s, gc: s.gc + 1 }));
-    writeDelta({ gc: 1 });
+    completeExercise({ key: 'qwords', xp: 0, stats, setStats, writeDelta });
     try {
       sessionStorage.setItem('nh_grammar_unit_completed', 'true');
     } catch {}

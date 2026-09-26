@@ -32,6 +32,9 @@ export function cleanupStaleQuestKeys(): void {
       // `nh_srs_reviewed_<date>` is swept here too: it is written once per day
       // by recordSrsReview and read only for today, so without this it would be
       // the one daily key in this module that grows forever.
+      // `completeExercise` also writes `nh_quest_src_<quest>_<exercise>_<date>` to make a
+      // daily quest markable once per EXERCISE per day; it starts with `nh_quest_`, so this
+      // one predicate sweeps it too and no second prefix is needed here.
       if (!key || !(key.startsWith('nh_quest_') || key.startsWith(SRS_REVIEWED_PREFIX))) continue;
       // Key format: nh_quest_<id>_YYYY-MM-DD  or  nh_quest_<id>_count_YYYY-MM-DD
       const datePart = key.slice(-10); // last 10 chars = YYYY-MM-DD

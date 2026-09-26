@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { speak } from '../../data';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { orderByWeakness, getWeakPhonemes } from '../../lib/pronunciationCurriculum';
@@ -134,7 +134,7 @@ export default function PhonemePracticeScreen({
   goBack: () => void;
   award?: (pts: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [mastered, setMastered] = useState<Set<string>>(() => loadMastered() as Set<string>);
   const [active, setActive] = useState<number | null>(null);
   const [celebrated, setCelebrated] = useState(false);
@@ -182,9 +182,7 @@ export default function PhonemePracticeScreen({
     if (next.size === PHONEMES.length && !celebrated) {
       setCelebrated(true);
       if (typeof award === 'function') award(100, true, 'pronunciation');
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'phoneme_practice', xp: 0, stats, setStats, writeDelta });
       setTimeout(() => {
         knightSpeak(
           'victory',

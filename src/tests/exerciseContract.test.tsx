@@ -538,14 +538,31 @@ describe('the skips are still real', () => {
     }
   });
 
+  // EXPLICIT TIMEOUT, SIZED ON A MEASUREMENT. These re-run the FULL gold contract,
+  // which drives the screen until `completeDrill` gives up — inherently the slow
+  // path, and `GenderDrillScreen` is a 10.9 s outlier standalone against ~1.5 s for
+  // the next slowest. At the 30 s default it timed out under a fully parallel
+  // `vitest run` (and only there — it passes every time the file runs alone), which
+  // is a load factor of ~2.8x. 60 s is 5.5x the measured standalone cost.
+  //
+  // This is sizing a bound to what the work costs, not loosening a gate to go
+  // green: nothing about the assertion changes, and a screen that becomes
+  // driveable still fails it. If a future edit makes these materially slower,
+  // re-measure rather than raising this again.
+  const STALENESS_TIMEOUT_MS = 60_000;
+
   for (const drill of skipped) {
-    it(`${drill.name} still cannot be driven`, async () => {
-      await expect(
-        assertContract(drill),
-        `${drill.name} now satisfies the contract test — its skip is stale. ` +
-          'Delete `skip: true` from its entry so the real test runs.',
-      ).rejects.toThrow();
-    });
+    it(
+      `${drill.name} still cannot be driven`,
+      async () => {
+        await expect(
+          assertContract(drill),
+          `${drill.name} now satisfies the contract test — its skip is stale. ` +
+            'Delete `skip: true` from its entry so the real test runs.',
+        ).rejects.toThrow();
+      },
+      STALENESS_TIMEOUT_MS,
+    );
   }
 });
 

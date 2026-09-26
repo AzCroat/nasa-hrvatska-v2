@@ -139,7 +139,16 @@ interface ScreenLauncherParams {
 
 interface ScreenLauncherResult {
   resumeLesson: () => Promise<void>;
-  launchAnimLesson: (lessonId: string) => Promise<void>;
+  /**
+   * Opens a server content lesson. Resolves TRUE when it navigated.
+   *
+   * The boolean is not decoration: the body comes from /api/content/lessons, so
+   * an offline or rate-limited learner reaches `if (l)` with nothing and the tap
+   * used to do NOTHING AT ALL — the "a tap either opens it or says why" class.
+   * Callers that can render a reason (the course map) need to know it failed;
+   * the older callers ignore the result exactly as before.
+   */
+  launchAnimLesson: (lessonId: string) => Promise<boolean>;
   launchMcGame: (questions: McQuestion[]) => void;
   launchLegendary: (item: LearnPathItem) => Promise<void>;
   launchCheckpoint: (levelIndex: number, levelItems: LearnPathItem[]) => Promise<void>;
@@ -244,15 +253,24 @@ export function useScreenLauncher({
   }, [setScr, sCurEx, sLt, sLi, sLx, sLs, sLp, sLa, sLsl, sQi]);
 
   const launchAnimLesson = useCallback(
-    async (lessonId: string): Promise<void> => {
-      const lessons = await getLessons();
-      const l = lessons.find((x) => x.id === lessonId);
-      if (l) {
-        returnContextRef.current = { tab: tab || 'learn', screen: currentScreen || 'dashboard' };
-        setAnimLesson(l);
-        sCurEx('animlesson');
-        setScr('animlesson');
+    async (lessonId: string): Promise<boolean> => {
+      // A THROW IS ALSO A FAILED TAP. getLessons() rejects on offline, auth and
+      // rate-limit, and an unhandled rejection here would leave the caller unable
+      // to tell "not found" from "could not be fetched" — both are "it did not
+      // open", which is what the caller has to be able to say.
+      let lessons: Awaited<ReturnType<typeof getLessons>>;
+      try {
+        lessons = await getLessons();
+      } catch {
+        return false;
       }
+      const l = lessons.find((x) => x.id === lessonId);
+      if (!l) return false;
+      returnContextRef.current = { tab: tab || 'learn', screen: currentScreen || 'dashboard' };
+      setAnimLesson(l);
+      sCurEx('animlesson');
+      setScr('animlesson');
+      return true;
     },
     [setScr, sCurEx, setAnimLesson, tab, currentScreen],
   );

@@ -10780,10 +10780,10 @@ delegates to `ConjugationDrillEngine`, which `conjugation-engine.test.tsx` drive
 
 ## Sweep 148 — the questions were giving the answers away (owner reports, 2026-09-26)
 
-Two owner reports minutes apart, both about learning being impossible: *"In objektne
+Two owner reports minutes apart, both about learning being impossible: _"In objektne
 zamjenice you are giving the answers in the questions. What the fuck. How is someone
-going to learn if you give them the answers?"* and *"Verb aspect drill also gives the
-answer. You cannot learn if given the answers."*
+going to learn if you give them the answers?"_ and _"Verb aspect drill also gives the
+answer. You cannot learn if given the answers."_
 
 **One defect, 131 instances, 55 files.** A parenthetical cue after the sentence naming the
 word to use — in the very form the item asks for. Every one could be answered by copying
@@ -10860,6 +10860,259 @@ found all ten at once. Two rounds of reasoning about direction; one about the bo
   case; print the answer in the `en` gloss.
 
 ---
+
+## Sweep 149 — the completion engine, increment 1 (owner directive, 2026-09-26)
+
+The owner authorised the restructuring: one completion engine, one drill engine, then a
+single-path unit course with a mastery gate. This is increment 1 of the first, and it found
+two live defects — each of which a per-screen fix would have had to make 10 and 140 times.
+
+**Census: 222 crediting components — 140 through the authority, 82 hand-rolled, 14 both**
+(per-answer XP plus a completion call, the legitimate incremental-payer shape).
+
+**DEFECT 1: ten exercises inflated the measured level on every replay.** `gc` incremented
+with no once-only mechanism; a `questFiredRef` in one of them does not survive a remount.
+Driven twice over one shared stats object: `gc` 1 → 2 on all of them, and `getCEFR` values
+each `gc` at 25 points. Routed through the authority, policy `effort` so today's
+credit-on-finish is preserved — the pass-gate question belongs to the course work.
+
+**DEFECT 2: the authority never credited a daily quest on a replay — 140 screens.** The mark
+sat below the already-credited return. A daily quest is DAY-scoped, `vs` is ONCE-EVER; the
+further a learner progressed the fewer screens could advance today's quests. One line, 140
+screens — the consolidation argument in its clearest form.
+
+Full write-up, including why a bare move above the return would have been wrong (tier 2 means
+two DISTINCT exercises) and why the guard had to live in the authority rather than in
+`quests.ts`, is in CLAUDE.md under **The Completion Engine — One Credit Path**.
+
+**THE PROCESS FINDINGS ARE THE REUSABLE PART, and there are four.**
+
+1. **94 test files `vi.mock` the quests module.** Adding an export the authority then CALLS
+   made it `undefined` in every one of them. Measure the mock surface before adding an export
+   to a module on a hot path — this is the `vi.mock` rule from sweep 138 at 94× the scale.
+2. **A guard's population must not be defined by the defect.** The idempotency suite derived
+   its subjects from files writing `s.gc + 1` by hand; routing all ten through the authority
+   emptied it, and ten named failures became one vacuous pass. It derives from the REGISTRY
+   now — the `effort` rows, via each file's own completion key.
+3. **This cohort cannot be driven to a pass, and that is good pedagogy.** A second attempt
+   tried to learn each answer key from the DOM. Measured: these screens colour only the
+   CHOSEN option, so a wrong answer leaves the right one unmarked. Three successive
+   populations (defect-derived → all counter-crediting → registry `effort` rows) and only the
+   last is both honest and non-vacuous. **A driver's reach is part of a guard's scope.**
+4. **One test's storage writes reached the next**, for the life of the suite. `setup.js` built
+   its polyfill once per FILE, so every `it` inherited the previous one's keys. Invisible
+   until production kept per-day state keyed on an exercise, at which point 38 tests failed
+   asserting something they were right to assert. Cleared globally now.
+
+**AND 13 TESTS ENCODED THE OLD CONTRACT, 14 SIBLINGS DID NOT.** The same assertion —
+`expect(markQuestMock).not.toHaveBeenCalled()` — appears in two situations: a REPLAY (now
+wrong, the quest must be marked) and a FAILING run (still right, the gate withholds credit).
+Classifying by the enclosing test name before patching is what kept the correct half intact;
+a blanket replace would have broken 14 true assertions to fix 13 false ones.
+
+**WHAT REMAINS OF THIS INCREMENT: 72 of the 82 hand-rolled screens.** The ten converted here
+were the ones with a demonstrated counter defect. The rest are varied — per-answer awards,
+custom XP shapes, screens whose `activityType` is deliberately not what the registry would
+give them — and each needs its payment fingerprinted before and after. That is mechanical but
+not blind.
+
+- Mutation-verified, four: the quest mark back below the return fails 1 and names it; an
+  unconditional mark fails the tier-2 clause; each converted screen reverted fails its own
+  idempotency test; the registry rows removed fail the derivation floor.
+- NEVER: increment a mastery counter without an idempotent flag; couple a DAY-scoped mark to
+  a ONCE-EVER flag; add an export to a heavily-mocked module the authority calls; define a
+  guard's population by the defect; let a test inherit the previous test's storage.
+
+---
+
+## Sweep 150 — step 1 finished: the mastery counter has one owner (2026-09-26)
+
+Continues sweep 149. The remaining hand-rolled screens were censused and split by WHAT they
+credit, because that decides whether conversion is a fix or a regression:
+
+| group                                           | count  | disposition                                                     |
+| ----------------------------------------------- | ------ | --------------------------------------------------------------- |
+| a once-ever COUNTER of their own                | 17 + 4 | **converted** (17) / exempted on a checked reason (4)           |
+| a `vs`/`writeDelta` completion, no counter      | 19     | left — a repeat writes a duplicate set entry, crediting nothing |
+| REPEATABLE DAILY activities, no once-ever state | 22     | left deliberately — see below                                   |
+| per-answer XP only, no completion to own        | 20     | nothing for the authority to own                                |
+
+**THE COUNTER CLASS IS NOW UNREPRESENTABLE**, which is what "finished" means here:
+`counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
+`src` outside four exempted files. The authority went from 140 to **157** of 222.
+
+**THE CONVERSION RULE IS A SPLIT, and it is why 17 edits are verifiable at all.** The
+authority owns the COMPLETION — counter, quest, idempotent `vs` — and each screen keeps its
+own `award(...)` exactly where it was (`xp: 0`, no `award` passed). Moving the award in too
+would have changed `useAward`'s behaviour: a server XP claim fires only when an activityType
+is supplied, and `MicroLessonScreen` calls `awardFn(xp)` with none. Different change,
+different blast radius.
+
+**CONVERTING A REPEATABLE ACTIVITY WOULD BE A REGRESSION, NOT A CONSOLIDATION.** Maja, the
+live tutor, AI conversation, story mode, guided writing and speaking award XP and mark a
+daily quest with NO once-ever state. Routing them through the authority would give each a
+`vs` flag and make a daily activity once-ever. **One credit path does not mean one credit
+policy** — that distinction is the reason the census split by what a screen credits rather
+than by how it credits.
+
+**TWO OF MY OWN EXEMPTIONS WERE BOGUS AND THE STALENESS CLAUSE CAUGHT BOTH.** I exempted the
+authority itself (it increments through a COMPUTED key, `next[statKind] = … + 1`, so the
+literal shape never matched) and `statsReducer.ts` (which does not touch these counters at
+all). Both were written by reasoning about which files "own" the counter rather than by
+checking which files match. **Require every exemption to still match the pattern it is
+excused from** — that clause has now caught three bogus entries across two sweeps.
+
+**ADDING A REGISTRY ROW BROKE AN INVARIANT TWO FILES AWAY, and the guard named it.**
+`registryMatchesScreen` failed twice: `GrammarScreen` also marks a second, CONDITIONAL quest
+(`perfect`, only on a flawless run) that one `questKind` cannot express — recorded in
+`DELIBERATE`; and giving `cefrtest` `activityType: 'default'` took the registry's distinct
+type count to 10, which is precisely the inequality `appUtils`' `distinctExercisesDone`
+comment rests on. The field was inert (no award is passed there), so the ROW was narrowed
+rather than the threshold raised. **A new registry row is not a local change.**
+
+**AND `LessonScreen` IS THE ONE PLACE THE AUTHORITY'S MODEL IS TOO NARROW** — its updater
+writes four stats in one call (`lc`, `pf`, `rs`, `ct`) while the authority owns `vs` plus a
+single counter. Recorded rather than papered over, and relevant to step 3: the course spine
+replaces that path, so the right time to widen the model is when the unit gate is built.
+
+- Mutation-verified, two: a converted screen reverted to writing the counter itself fails the
+  guard and names the file; a stale exemption (a file that no longer increments) fails the
+  staleness clause and names it.
+- Full suite green. NEXT: **step 3, the single-path unit course** (units, the accuracy +
+  production gate, retention confirmation, the daily session demoted to delivery), then step
+  2, the drill-engine conversion.
+
+---
+
+## Sweep 151 — step 3, increment 1: the course has units, and a map (2026-09-26)
+
+**OWNER INSTRUCTION: "step 3 go"**, after _"finish step 1, then step 3 and then
+step 2"_. Step 1 closed in sweep 150. This is the first increment of step 3, as
+stated to the owner: _"Unit grouping + the course map screen. No gating yet — the
+learner immediately sees a structure and where they are in it."_
+
+**WHAT SHIPPED**
+
+- `src/lib/courseUnits.ts` — units DERIVED by chunking the spine five at a time
+  within a level: 6 units per level, **36 over 180 lessons**, `courseProgress`
+  (done / current / upcoming), `nextCourseLesson`, `unitOfLesson`,
+  `courseMapBlock`.
+- `src/data/courseUnitTitles.ts` — the only authored part: 36 titles + subtitles,
+  in the spine's `objectives` voice. In the Croatian lint TARGETS (473 files now),
+  mutation-verified both directions.
+- `src/components/learn/CourseMapScreen.tsx` — route `coursemap`, door on the
+  Learn tab above the lookup, registered in `screenTabs` (learn + restore-safe),
+  `routeKeys` and `OUTSIDE_SESSION`.
+- `launchAnimLesson` now resolves `true`/`false` instead of `void`.
+
+**THE DESIGN DECISIONS WORTH KEEPING** (full record in CLAUDE.md, "The Course, In
+Units")
+
+1. **The course does not read a CEFR level.** Owner: _"all users follow the same
+   learning path… everyone starts at Unit 1."_ Pinned by SOURCE, because every
+   behavioural fixture is an A1-order spine and a certification-reading version
+   would pass all of them.
+2. **Units are chunked, never listed.** A second file naming 36 units and 180
+   lesson ids is the hand-maintained list this file keeps watching decay. Measured
+   first: the curriculum's thematic blocks fall at fives throughout, and A1's
+   boundary at 16 lands exactly on `cases`, its documented hinge.
+3. **The title boundary pin is frozen, deliberately not derived.** A derivation
+   agrees with whatever the spine says today, which is the thing under test. The
+   failure names the unit and quotes its title.
+4. **Only measured states render.** No `locked` (nothing gates yet — a padlock for
+   an unenforced rule is NEVER-DO 13 from the other side) and no `mastered`
+   (mastery needs the unit test and the re-checks; a tick meaning "you read five
+   lessons" must not claim more).
+5. **A live silent tap was found and fixed on the way.** `launchAnimLesson` fetched
+   the lesson body and did NOTHING when it was absent or the fetch threw — the "a
+   tap either opens it or says why" class, for the life of that launcher. The
+   boolean is driven to all three outcomes rather than pinned by source, because a
+   source pin on a return value is the dead-branch shape: a launcher that always
+   resolved truthy would make the failure notice unrenderable and it would read
+   exactly like coverage.
+6. **Two existing guards caught the screen before a learner could**, which is the
+   mechanism working: `routeKeys` (its own URL would have hit the not-found card)
+   and `session-coverage` (unclassified screen). The map is NAVIGATION and joins
+   `learning_center` in `OUTSIDE_SESSION` with the same stated reason.
+
+**VERIFICATION** — 81 new unit tests across three suites; mutation-verified ten
+ways, each failing 1–7 tests (deleted title 4; spine reorder 4, naming the unit;
+`currentIndex` from the last unfinished unit 7; remainder dropped 1;
+`getCertifiedLevel` imported 1; `loading` collapsed into `unavailable` 2; launcher
+always successful 2; route removed 1; door removed 1; spine listener removed 1).
+Lint mutation both directions. `e2e/course-map.spec.js` — 4 tests, green against a
+CI-equivalent build in a real browser, and mutation-verified in anger
+(`onOpenLesson` severed to `async () => false` fails it). Full suite 650 files /
+10,257 tests, typecheck, eslint, Croatian lint 0 findings.
+
+**WHAT IS NOT DONE, AND IS NEXT** — the unit test and the gate:
+
+- A cumulative unit test at the end of each unit's five lessons, at
+  `LESSON_PASS_THRESHOLD`-or-higher, sampling across the unit rather than one
+  lesson.
+- Advancement on accuracy AND production (one spoken, one written, rubric-graded
+  through the existing `/api/correct` and `/api/speaking-coach` paths).
+- Mastery confirmed LATER by retention at 7 and 30 days, reusing
+  `lessonRetention.ts`; a failed re-check re-opens practice and does NOT
+  un-advance.
+- The second unit state (`mastered`) and the `locked` state become renderable at
+  that point, and not before.
+- `LessonScreen` is where the completion authority's model is too narrow (four
+  stats in one updater — see sweep 150); the unit gate is when to widen it.
+
+## Sweep 152 — step 3, increment 2: the unit test, and mastery (2026-09-26)
+
+Increment 1 showed the learner a course; this one asks whether they got it. Full
+design record in CLAUDE.md, "The Course, In Units → Increment 2".
+
+**SHIPPED**
+
+- `src/lib/unitTest.ts` — 15 items, 3 per lesson, assembled ROUND-ROBIN so no two
+  consecutive items share a lesson; `UNIT_PASS_THRESHOLD` 0.85 (13 of 15) against a
+  lesson's 0.75; `unitItemsNeeded` so every surface states the COUNT.
+- `src/lib/courseUnitProgress.ts` (`nh_course_units`) — passes, every attempt, the
+  `insufficient` marker, and an additive merge. Synced four-point (snapshot, remote
+  apply, merge, absent-when-empty).
+- `src/components/learn/UnitTestScreen.tsx` (route `unittest`), reached from the
+  course map on a unit whose five lessons are read.
+- `UnitState` is now `mastered | current | cleared | upcoming`.
+
+**THE THINGS WORTH REMEMBERING**
+
+1. **Interleaved, not blocked, and round-robin rather than shuffled.** A shuffle
+   sometimes blocks three items from one lesson together — the exact condition the
+   test exists to avoid — and makes the property unverifiable.
+2. **A generic question stem is CORRECT in a mixed test.** Measured: "Which
+   sentence is correct?" is shared across lessons in 20 of 36 units. Naming the
+   topic would remove the discrimination the interleaving measures. Pinned so a
+   later reader does not "fix" it.
+3. **Item identity is (lesson, question).** A by-text comparison reported two
+   different lessons' items as a repeat and failed the retake assertion on correct
+   code.
+4. **Reading five lessons is not mastery**, so a read-through unit stays `current`.
+   Six existing assertions were rewritten to the new contract rather than patched.
+5. **MY SOURCE PIN SURVIVED ITS OWN MUTATION.** Sliced from the credit effect to
+   the END OF FILE, it also saw the retake button's onClick, so moving the award
+   there left it green — the nth fixed-window instance in this file. Bounded to the
+   effect's dependency array; both the moved-award and paid-twice mutations now
+   fail it.
+6. **A python patch that did not apply reported "98 passed" and meant nothing.**
+   M19's heredoc had a syntax error, the file was untouched, and the run looked
+   like a surviving mutation. Check WHERE a mutation landed before reading its
+   result — written down in this file twice already, met again.
+
+**VERIFICATION** — 54 new tests (unitTest 18, courseUnitProgress 23, unitTestScreen 13) plus 6 rewritten; mutation-verified thirteen more ways (M11–M23), each failing
+1–4 tests; two more E2E tests assembling a real fifteen-item paper from five
+separately-fetched lesson bodies in a browser.
+
+**NEXT, AND WHY IN THIS ORDER** — the LOCK ships with pointing the daily session's
+teaching slot at the course order. Shipping the lock alone would let the session
+teach a lesson from a unit the map shows as locked: two surfaces contradicting each
+other is worse than no lock. `getNextLesson`'s certification inference is what the
+session still uses, and is the thing to retire in that same increment. Then
+production (one spoken, one written, rubric-graded through `/api/correct` and
+`/api/speaking-coach`), then the 7/30-day retention re-checks that turn `mastered`
+into a claim about retention rather than one sitting.
 
 ## NOT YET CHECKED — where the next field report will come from
 

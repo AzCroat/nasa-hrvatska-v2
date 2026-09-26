@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh } from '../../../data';
 import { EMOGENDER } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function EmotionGenderScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const total = EMOGENDER.reduce(function (sum, eg) {
     return sum + eg.pairs.length;
   }, 0);
@@ -55,9 +55,7 @@ function EmotionGenderScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'emogender', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
