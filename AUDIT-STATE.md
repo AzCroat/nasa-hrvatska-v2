@@ -10307,6 +10307,84 @@ recorded here instead, with the narrowing that makes it a three-row answer.
 
 ---
 
+### 142. Is the XP a results view PRINTS the XP it PAID? — 2026-09-26 — one live defect, wrong in both directions
+
+Sweep 139 found seven screens printing "+N XP" they had not yet credited. That
+asked WHEN the figure becomes true. This asks whether it is the right figure at
+all: every results view that renders an XP number, compared against the number
+its own parent actually hands `award`.
+
+**`Flashcards` was the one live defect, and it is wrong in both directions.**
+There are two completion paths through `handleQuizComplete(quizScore, skipped)`
+and they pay different rates — the skip path
+`finalKnown * XP_PER_KNOWN + XP_COMPLETION_BONUS`, the quiz path
+`QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT`. `FlashcardResultScreen`
+rendered `knownCount * 2 + 5` — its own hardcoded THIRD copy of the review rate
+— on **both**. The flow is deck → recall quiz → result, so the quiz path is the
+ordinary one: a 20-card deck, knew 15, quiz score 12 pays `10 + 12*5 = 70` and
+printed `15*2 + 5 = 35`; knew 20, quiz score 2 pays `20` and printed `45`.
+
+**The fix makes the drift unrepresentable rather than guarding it.** The parent
+computes the figure ONCE into `xpAwarded`, awards that, and passes it as a
+**required** prop the screen prints verbatim. Dropping the prop is a compile
+error (verified: `TS2741`), which is the property a test cannot give you — a
+guard comparing two formulas still permits a third copy.
+
+**THE SKIP-PATH ASSERTION IS A CONTROL, NOT A SUBJECT, and saying so is the
+honest report.** Both `finish()` call sites fire on the LAST card, so the deck
+is always fully rated and `finalKnown + missed.length === activePool.length` —
+which makes the old expression numerically EQUAL to the new one on the skip
+path. Neither mutation moves that test. It is in the file to prove the fix did
+not break the path that was already right; the defect was only ever on the quiz
+path, and reporting "two paths fixed" would have been the inflation this file
+keeps warning about.
+
+**AND MY OWN ASSERTION WAS VACUOUS ONE RUN IN FIVE, WHICH THE COINCIDENCE GUARD
+TURNED INTO A FLAKE RATHER THAN A SILENT PASS.** The pre-existing driver clicks
+option 0 every time, so the score is however often the shuffle happened to put
+the correct answer first — which is why its own older test asserts a RANGE. On a
+5-card deck a score of **1** pays `10 + 1*5 = 15`, which is EXACTLY what the
+review rate pays for 5 known: the two formulas coincide and the comparison proves
+nothing. I had written `expect(paid).not.toBe(reviewRateFigure)` for precisely
+that possibility, and it fired on the fifth run — so the vacuity surfaced as a
+named failure instead of a green test. **The guard is not the fix**: the driver
+now derives the correct gloss from the question on screen (`makePool` is
+`[hrWordN, enWordN, phN]`, so it is derivable whatever the shuffle does), the
+score is 5 of 5 every run, and the paid figure is pinned at 35. Confirmed 8 runs
+in a row. Mutating the driver to answer WRONGLY fails that pin, which is what
+makes it load-bearing rather than decorative.
+
+**Everything else on the axis is correct, recorded so it is not re-chased.**
+`MistakesScreen`, `ZnamGame`, `BojeGame`, `VideoLessonScreen`,
+`DialogueSim`/`DialogueAiMode`, `SlangScreen`/`SlangQuizPanel` each print the
+expression their own award uses; `FlashcardRecallQuiz`'s
+`XP_BASE + total * XP_PER_CORRECT` is a PREVIEW and labels itself "for a
+perfect score", which is a different claim and a true one.
+
+**Latent duplication left recorded, not collapsed.** The flashcard rates are
+declared twice (`Flashcards.tsx`'s four constants against
+`FlashcardRecallQuiz.tsx`'s `XP_BASE`/`XP_PER_CORRECT`) and `SlangScreen` /
+`SlangQuizPanel` both hardcode `quizScore * 3`. Neither is a defect today —
+both copies agree — and both are the two-homes-for-one-fact shape that produced
+this sweep's finding, so they are queued rather than swept into a display fix.
+
+Mutation-verified, four: the hardcoded review formula restored in the child
+fails 1; the parent passing that formula while awarding the quiz rate fails 1;
+the prop dropped is a type error (`TS2741`); the driver answering wrongly fails
+the 35 pin. Full suite 641 files / 10,010 tests green.
+No E2E spec asserts a flashcard XP figure (greps for `+N XP` and for the result
+view's own strings return nothing), so no spec moved.
+
+- NEVER: render an XP figure from a formula the awarding code does not itself
+  use — pass the awarded value down as a REQUIRED prop, so a second rate cannot
+  be expressed; read a passing assertion on a path where two formulas happen to
+  agree as evidence that either is right; compare two formulas on a scenario
+  whose inputs a shuffle decides — a coincidence guard converts that vacuity
+  into a flake, which is better than a silent pass and is not a substitute for
+  making the driver deterministic.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

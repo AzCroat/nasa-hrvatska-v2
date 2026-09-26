@@ -3419,6 +3419,33 @@ round paid zero.
   presses next. `AspectDrillScreen` also owed the `aspectdrill` path-node key (lp52),
   `PitchAccentScreen` its `pitchaccent` key (lp50) and its coupling discharge,
   `ModalScreen` the `mv` badge counter, and `ShadowingScreen` both quest marks.
+- **AND THE OTHER HALF OF "+N XP" IS WHETHER IT IS THE RIGHT NUMBER (sweep 142,
+  2026-09-26).** Those seven print a figure that is right and not yet true;
+  `FlashcardResultScreen` printed one that was never true. `Flashcards` has two
+  completion paths — skip pays `finalKnown * XP_PER_KNOWN + XP_COMPLETION_BONUS`, the
+  recall quiz pays `QUIZ_XP_BASE + quizScore * QUIZ_XP_PER_CORRECT` — and the result
+  screen carried its own hardcoded THIRD copy of the review rate for BOTH: a 20-card
+  deck, knew 15, quiz score 12 paid **70** and printed **35**; knew 20, quiz score 2
+  paid **20** and printed **45**. Wrong in both directions, on the ordinary path (the
+  flow is deck → quiz → result). The fix passes the awarded value down as a
+  **required** prop, so a second rate cannot be expressed — dropping it is `TS2741`,
+  which no formula-comparing test can give you.
+- **AND A SCENARIO A SHUFFLE DECIDES CAN MAKE SUCH A COMPARISON VACUOUS.** The
+  pre-existing driver clicks option 0, so the quiz score is however often the
+  shuffle put the answer first — and a score of **1** pays `10 + 1*5 = 15`, which
+  is exactly the review rate for 5 known. The coincidence guard I had written
+  (`expect(paid).not.toBe(reviewRateFigure)`) fired on the fifth run, so the
+  vacuity surfaced as a named failure rather than a green test — **but the guard
+  is not the fix**: the driver now derives the correct gloss from the question on
+  screen and the paid figure is pinned at 35 (8 consecutive runs; answering
+  wrongly fails that pin). A comparison of two formulas needs deterministic
+  inputs, not a warning that they might have coincided.
+- **A PATH WHERE TWO FORMULAS AGREE IS A CONTROL, NOT A SUBJECT.** Both `finish()`
+  call sites fire on the LAST card, so `finalKnown + missed.length ===
+activePool.length` and the old expression is numerically EQUAL to the new one on the
+  SKIP path — neither mutation moves that test. It stays as proof the fix did not
+  break the path that was right; reporting "two paths fixed" would have been the
+  inflation this file keeps warning about.
 - **A TEST THAT EXERCISES THE PAYING PATH CANNOT TELL YOU THE OTHER PATH EXISTS.**
   Every contract test in `exerciseContract.test.tsx` clicks Done — the
   component-test / wiring-test split landing on a second exit instead of a missing
@@ -3485,7 +3512,9 @@ round paid zero.
 - NEVER: call a credit writer (`completeExercise`, `award`, `markQuest`,
   `recordExerciseOutcome`, `recordSrsReview`, `recordMasteryEvent`) from the onClick of
   a control that also navigates away; print an XP figure or a badge on a results view
-  before it is credited; scope a credit rule to `completeExercise` alone (nine screens
+  before it is credited, **or one computed from a formula the awarding code does not
+  itself use** (pass the awarded value down as a required prop); scope a credit rule to
+  `completeExercise` alone (nine screens
   never adopted it); record "a driver cannot reach this screen" without trying; pin a
   gate's inputs by their SHORTHAND SPELLING rather than their value; assert a guard
   clause inside a fixed character window from a declaration; rewrite a JSX attribute
