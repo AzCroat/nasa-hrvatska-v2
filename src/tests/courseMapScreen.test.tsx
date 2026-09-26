@@ -194,8 +194,10 @@ describe('the map a learner sees', () => {
         units: {
           'A1-1': {
             passedAt: '2026-09-20',
-            // BOTH HALVES: the test alone no longer opens the next unit.
+            // BOTH HALVES plus a HELD ladder: the bar opens the next unit, retention
+            // is what earns the tick.
             production: { wroteAt: '2026-09-20', spokeAt: '2026-09-20' },
+            recheck: { stage: 2, dueAt: '2026-10-20', heldAt: '2026-10-20' },
           },
         },
       }),
@@ -264,7 +266,9 @@ describe('the map a learner sees', () => {
     expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
   });
 
-  it('marks a unit mastered once the test AND production are done', async () => {
+  // MASTERY IS RETENTION (increment 5). The bar met makes the unit `cleared` and opens
+  // the next one; the tick waits on the 7/30-day check-ups.
+  it('says a unit is holding, not mastered, until its retention ladder is held', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     localStorage.setItem(
@@ -274,6 +278,96 @@ describe('the map a learner sees', () => {
           'A1-1': {
             passedAt: '2026-09-20',
             production: { wroteAt: '2026-09-21', spokeAt: '2026-09-21' },
+            recheck: { stage: 0, dueAt: '2026-09-28' },
+          },
+        },
+      }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('cleared');
+    expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
+    // A1-1's own line needs the row expanded: the CURRENT unit opens by itself and
+    // that is now A1-2.
+    fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);
+    expect(await screen.findByTestId('course-unit-holding-A1-1')).toBeTruthy();
+    expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
+    // The summary counts RETAINED units, so nothing is mastered yet. Matched on the
+    // span's own text content, because JSX splits `{a} of {b} units mastered` across
+    // text nodes and a regex over the document cannot span them.
+    expect(screen.getByTestId('course-units-mastered').textContent).toBe('0 of 36 units mastered');
+  });
+
+  // A DUE CHECK-UP MUST BE TAKEABLE FROM THE MAP, not only from the daily session.
+  // The map promised "we will check it again" and offered nothing when the day came;
+  // the E2E found it, because it is the only test that walks the learner's route.
+  it('offers a due check-up, and requests it in recheck mode', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-01',
+            production: { wroteAt: '2026-09-01', spokeAt: '2026-09-01' },
+            recheck: { stage: 0, dueAt: '2020-01-01' },
+          },
+        },
+      }),
+    );
+    const setScr = vi.fn();
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={setScr} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);
+    const btn = await screen.findByTestId('course-unit-recheck-A1-1');
+    expect(screen.getByTestId('course-unit-holding-A1-1').textContent).toMatch(/Time to check/);
+    fireEvent.click(btn);
+    expect(setScr).toHaveBeenCalledWith('unittest');
+    // THE MARKER IS WHAT STOPS THE SCREEN RECORDING A FIRST PASS.
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1|recheck');
+  });
+
+  it('offers no check-up before one is due', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-01',
+            production: { wroteAt: '2026-09-01', spokeAt: '2026-09-01' },
+            recheck: { stage: 0, dueAt: '2099-01-01' },
+          },
+        },
+      }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    expect(await screen.findByTestId('course-map')).toBeTruthy();
+    fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);
+    expect(screen.queryByTestId('course-unit-recheck-A1-1')).toBeNull();
+    expect(screen.getByTestId('course-unit-holding-A1-1').textContent).toMatch(/in a few days/);
+  });
+
+  it('marks a unit mastered once the ladder is held', async () => {
+    seedSpine();
+    seedDone(UNITS[0]!.lessons.map((l) => l.id));
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-20',
+            production: { wroteAt: '2026-09-21', spokeAt: '2026-09-21' },
+            // The bar opens the next unit; the HELD ladder is what earns the tick.
+            recheck: { stage: 2, dueAt: '2026-10-20', heldAt: '2026-10-20' },
           },
         },
       }),
@@ -285,7 +379,10 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('mastered');
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByText('Unit 2 of 36')).toBeTruthy();
-    expect(screen.getByText('1 of 36 units mastered')).toBeTruthy();
+    expect(screen.getByTestId('course-units-mastered').textContent).toBe('1 of 36 units mastered');
+    // The row's own line, which needs the row expanded — the CURRENT unit is A1-2 now.
+    fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);
+    expect(await screen.findByTestId('course-unit-mastered-A1-1')).toBeTruthy();
   });
 
   it('opens the lesson that was tapped', async () => {

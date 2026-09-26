@@ -34,7 +34,7 @@ vi.mock('../lib/errorReporter', () => ({
 import UnitTestScreen, { UNIT_TEST_XP } from '../components/learn/UnitTestScreen';
 import { buildCourseUnits } from '../lib/courseUnits';
 import { buildUnitTest, unitItemsNeeded, type LessonBodyLike } from '../lib/unitTest';
-import { passedUnits, unitRecord, readCourseUnits } from '../lib/courseUnitProgress';
+import { passedUnits, unitRecord, readCourseUnits, retainedUnits } from '../lib/courseUnitProgress';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 const SPINE = CURRICULUM as unknown as CurriculumEntry[];
@@ -254,6 +254,95 @@ describe('the sitting itself', () => {
     const rec = await waitFor(() => unitRecord('A1-1')!);
     // The first answer stood: one correct out of fifteen.
     expect(rec.attempts![0]!.correct).toBe(1);
+  });
+});
+
+// ── A RE-CHECK IS THE SAME TEST, AND IT CAN NEVER TAKE ANYTHING AWAY ────────
+describe('a retention re-check', () => {
+  function barMet(): void {
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: {
+          'A1-1': {
+            passedAt: '2026-09-01',
+            production: { wroteAt: '2026-09-01', spokeAt: '2026-09-01' },
+            recheck: { stage: 0, dueAt: '2026-09-08' },
+          },
+        },
+      }),
+    );
+  }
+
+  it('draws a FRESH sample — a re-check of the same paper measures memory of it', async () => {
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    mount();
+    await screen.findByTestId('unit-test');
+    const first = paper('A1-1', 0).map((i) => `${i.lessonId}|${i.q}`);
+    // The screen seeds the sample off the ladder's stage, so the paper is not attempt 0.
+    const shown = screen.getByText(paper('A1-1', 1)[0]!.q);
+    expect(shown).toBeTruthy();
+    expect(first).not.toContain(`${paper('A1-1', 1)[0]!.lessonId}|${paper('A1-1', 1)[0]!.q}`);
+  });
+
+  it('climbs the ladder on a pass, and pays no XP for it', async () => {
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    const { award } = mount();
+    await sit(paper('A1-1', 1));
+    const result = await screen.findByTestId('unit-test-result');
+    expect(result.getAttribute('data-mode')).toBe('recheck');
+    expect(screen.getByTestId('unit-test-verdict').textContent).toMatch(/Still there/);
+    expect(unitRecord('A1-1')!.recheck!.stage).toBe(1);
+    // The XP was paid when the unit was first passed; a check-up is not a second wage.
+    expect(award).not.toHaveBeenCalled();
+    expect([...retainedUnits()]).toEqual([]);
+  });
+
+  // THE CONTRACT: a failure moves the LADDER and nothing else.
+  it('takes NOTHING away on a failure', async () => {
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    const { award } = mount();
+    await sit(paper('A1-1', 1), 1);
+    await screen.findByTestId('unit-test-result');
+    expect(screen.getByTestId('unit-test-verdict').textContent).toMatch(/Slipped a little/);
+    expect(screen.getByText(/You keep this unit/)).toBeTruthy();
+    expect([...passedUnits()]).toEqual(['A1-1']);
+    expect(unitRecord('A1-1')!.passedAt).toBe('2026-09-01');
+    expect(unitRecord('A1-1')!.production!.wroteAt).toBe('2026-09-01');
+    expect(unitRecord('A1-1')!.recheck).toMatchObject({ stage: 0 });
+    expect(award).not.toHaveBeenCalled();
+  });
+
+  it('records no unit-test attempt — a check-up is not an attempt at the bar', async () => {
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    mount();
+    await sit(paper('A1-1', 1), 1);
+    await screen.findByTestId('unit-test-result');
+    expect(unitRecord('A1-1')!.attempts ?? []).toHaveLength(0);
+  });
+
+  it('is titled as a check-up, not as the unit test', async () => {
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    mount();
+    expect(await screen.findByText('Check-up')).toBeTruthy();
+  });
+
+  // A BARE HANDOFF STILL READS AS A FIRST PASS, so nothing has to migrate.
+  it('treats a handoff with no marker as the first pass', async () => {
+    seed();
+    mount();
+    const el = await screen.findByTestId('unit-test');
+    expect(el.getAttribute('data-mode')).toBe('first');
   });
 });
 

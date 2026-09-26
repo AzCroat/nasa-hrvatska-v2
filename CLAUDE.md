@@ -4130,6 +4130,85 @@ single lesson and made it first.
   two-half bar; grow a function past four positional sets; attribute a file's reads
   to one endpoint when a named helper reaches another.
 
+### Increment 5 — mastery is retention (2026-09-26)
+
+The last line of the owner's design: _"mastery confirmed LATER by retention at 7 and
+30 days, where a failed re-check re-opens practice but does NOT un-advance."_
+Increments 2–4 built the bar. Passing it on one afternoon is evidence of learning and
+is **not yet** evidence that the learning stayed — two different claims, and not
+conflating them is what this whole overhaul has been about. `src/lib/unitRetention.ts`
+is the ladder; `mastered` now means the bar was met AND the ladder held, and `cleared`
+means the bar was met with retention pending.
+
+- **`mastered` CHANGED MEANING, AND THE COUNT HAD TO FOLLOW.** Before this increment
+  `mastered` was "the unit test is passed"; a learner could finish 36 units in six
+  weeks and read "36 of 36 units mastered" having never been re-asked a single
+  question. The map's header count, the per-unit state and the session's own choice of
+  what to serve all read `retainedUnits` now, from one derivation — which is the fix
+  the map's progress object needed twice already (it drifted in increments 3 and 4 by
+  counting `tested` and then the bar, while the ladder counted something else).
+- **TWO INTERVALS, NOT FOUR, AND THE NUMBERS ARE BORROWED ON PURPOSE.**
+  `lessonRetention` already runs 3/10/30/90 at LESSON scale. A unit is five lessons and
+  its instrument is a fifteen-item paper, so the first interval is later (7) and there
+  are two rungs: a fifth fifteen-item sitting per unit costs more attention than it
+  buys, and the lesson ladder is already re-asking the individual items underneath.
+- **A FAILED RE-CHECK MOVES THE LADDER AND NOTHING ELSE.** No XP, no pass record
+  rewritten, no production cleared, and above all no un-advancing: the learner DID meet
+  the bar, on evidence, and withdrawing that would be the app changing its mind about
+  something it measured. The ladder goes back to stage 0 and the unit returns tomorrow;
+  the unit simply stops being CALLED mastered until it is climbed again. Same rule
+  `lessonRetention` states for a lesson, one scale up.
+- **THE RE-CHECK DRAWS A FRESH PAPER**, seeded `attempt + 1 + stage`, so the 7-day and
+  30-day sittings differ from each other and from the original. A re-check of the same
+  fifteen items measures memory of the paper, which is the one thing a retention check
+  must not measure.
+- **THE LADDER IS STARTED IN `courseStep`, NOT BY WHICHEVER SCREEN FINISHED LAST.** A
+  unit meets the bar when its test AND its production are done — two screens, often two
+  days apart — so asking either to start the clock means one of them forgets it. The
+  start is idempotent (a running ladder is never restarted) and reading the course is
+  the one thing every surface already does. Mutation-verified: nothing starting it fails
+  1 test.
+- **A DUE RE-CHECK PREEMPTS THE NEXT LESSON AND GATES NOTHING.** It takes the teaching
+  slot because decay is time-sensitive — the argument `retentionSlot` makes for sitting
+  beside the SRS slot — but it never locks a unit: the course has already opened what
+  the learner earned, and a check-up that could take an open door away would make
+  advancement provisional, which is exactly what the NEVER above forbids.
+- **THE MAP PROMISED A CHECK-UP AND HAD NO DOOR WHEN THE DAY CAME, AND ONLY THE E2E
+  SAW IT.** The holding line read "we will check it again in a few days to see it
+  stayed" and there was no button, at any point, so a learner whose 7-day check came due
+  met the identical sentence for ever while the session slot quietly served the check-up
+  and the map's own count stayed at zero. That is the promise-without-a-door shape this
+  file records for the verification gate's CTA, arriving on a line I had just written.
+  `course-unit-recheck-<id>` ("Check-up due — see if it stayed") appears exactly when
+  `dueRechecks` says so, and the copy is conditional: **"Passed. Time to check it
+  stayed."** when it is due, the waiting sentence when it is not. Both arms are driven,
+  because two arms differing only in wording is precisely the case where a test on one
+  reads like coverage of both. Mutation-verified: flattening the copy fails 1 E2E test,
+  never rendering the button fails 2.
+- **NO `toISOString`, AND THE GUARD WAS RIGHT TO FLAG THE FIRST VERSION.**
+  `localDayBoundary.test.ts` forbids it in `src/`, and my first `addDays` used it. That
+  version was calendar-safe by accident — it anchored the string at UTC midnight, so the
+  arithmetic was timezone-independent — but a guard against a class this app has shipped
+  five times should not need a reader to work that out. Formatting the UTC parts by hand
+  is shorter, obviously correct, and needs no exemption. The DATES still come from
+  `localDateStr`: what day it is, is a local question; how many days after that, is not.
+- **THE MERGE KEEPS A HELD LADDER HELD.** The LATER check wins the schedule and the
+  EARLIER `heldAt` is kept (`mergeLessonRetention`'s rule), and because `retentionHeld`
+  reads the STAGE, a merged `heldAt` also raises the stage — otherwise a device that is
+  behind can make a held unit present as unheld while carrying the proof that it was
+  held. Mutation-verified: both halves of that fail 1 test each.
+- Mutation-verified, eight (M45–M52) plus two at the E2E layer (M54–M55), each landing
+  confirmed before the run: a failed re-check keeping its rung (fails 1); `retentionHeld`
+  true the moment a ladder exists (8); nothing ever due (5); the merge taking the remote
+  `heldAt` unconditionally (1); stage and `heldAt` allowed to disagree (1); the check-up
+  drawing the same paper (2); a failed check-up un-passing the unit (3); the ladder never
+  started (1); the holding copy flattened (1 E2E); the due button never rendered (2 E2E).
+- NEVER: call a unit mastered on one sitting; un-pass a unit, clear its production, or
+  pay XP on a failed re-check; re-check a unit with the paper it already sat; let a
+  check-up lock a unit or take an opened one away; start the ladder from a screen rather
+  than from the course read; promise a learner a future check without rendering the
+  control that serves it when it arrives; do calendar arithmetic with `toISOString`.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

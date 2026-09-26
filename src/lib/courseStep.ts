@@ -37,14 +37,19 @@ import {
   insufficientUnits,
   producedUnits,
   productionBlockedUnits,
+  retainedUnits,
+  dueRecheckUnits,
+  startUnitRetention,
   readCourseUnits,
   unitRecord,
 } from './courseUnitProgress';
+import { localDateStr } from './dateUtils';
 import {
   buildCourseUnits,
   courseProgress,
   openUnits,
   unitTestOffer,
+  type CourseProgress,
   type CourseUnit,
   type UnitProgress,
 } from './courseUnits';
@@ -55,7 +60,8 @@ import type { CurriculumEntry } from './curriculum';
 export type CourseStep =
   | { kind: 'lesson'; unit: CourseUnit; lesson: CurriculumEntry; reason: string }
   | { kind: 'unit-test'; unit: CourseUnit; reason: string }
-  | { kind: 'production'; unit: CourseUnit; owed: ProductionKind; reason: string };
+  | { kind: 'production'; unit: CourseUnit; owed: ProductionKind; reason: string }
+  | { kind: 'recheck'; unit: CourseUnit; reason: string };
 
 /**
  * The whole course state, read once.
@@ -74,6 +80,18 @@ export function readCourseState(
   currentIndex: number | null;
   produced: Set<string>;
   blocked: Set<string>;
+  retained: Set<string>;
+  dueRechecks: string[];
+  /**
+   * The whole `CourseProgress`, so a screen never re-derives a count.
+   *
+   * THE MAP HAND-BUILT THIS OBJECT AND IT DRIFTED TWICE IN ONE DAY — first counting
+   * the test alone as mastery while the state ladder counted the whole bar, then
+   * counting the bar while the ladder counted retention. Both printed a figure
+   * contradicting a row on the same screen. A second definition of a derived count is
+   * the duplicate-constant defect this repo keeps finding; there is one now.
+   */
+  progress: CourseProgress;
 } {
   const spine = readCurriculumSpine() as CurriculumEntry[];
   const units = buildCourseUnits(spine, names);
@@ -91,10 +109,19 @@ export function readCourseState(
     insufficientUnitIds: short,
     productionBlockedUnitIds: blocked,
   });
+  const retained = retainedUnits(store);
+  // THE LADDER IS STARTED HERE, not by whichever surface happened to record the last
+  // half of the bar. A unit meets the bar when its test AND its production are done,
+  // which are two different screens on two different days; asking either of them to
+  // start the clock means one of them forgets. This is idempotent (a running ladder is
+  // never restarted) and reading the course is the one thing every surface does.
+  for (const id of gate.advanced) startUnitRetention(id);
+  const after = gate.advanced.size > 0 ? readCourseUnits() : store;
   const progress = courseProgress(units, completed, passed, {
     open: gate.open,
     advanced: gate.advanced,
     insufficient: short,
+    retained,
   });
   return {
     units,
@@ -104,6 +131,9 @@ export function readCourseState(
     currentIndex: progress.currentIndex,
     produced,
     blocked,
+    retained,
+    dueRechecks: dueRecheckUnits(localDateStr(), after),
+    progress,
   };
 }
 
@@ -202,6 +232,23 @@ export function nextCourseStep(): CourseStep | null {
       return new Set<string>();
     }
   })();
+  // A DUE RE-CHECK PREEMPTS THE NEXT LESSON. Retention is time-sensitive — the
+  // argument `retentionSlot` makes for sitting beside the SRS slot — and a re-check
+  // that keeps being pushed behind new material is a re-check that never happens. It
+  // is NOT a gate: the unit is already advanced and stays advanced whatever the
+  // re-check says.
+  const dueId = state.dueRechecks[0];
+  if (dueId) {
+    const unit = state.units.find((u) => u.id === dueId);
+    if (unit) {
+      return {
+        kind: 'recheck',
+        unit,
+        reason: `Unit ${unit.index} again — checking it stayed`,
+      };
+    }
+  }
+
   return pickCourseStep({
     rows: state.rows,
     completed,
@@ -222,6 +269,11 @@ export function nextCourseStep(): CourseStep | null {
 /** Stable activity id for the unit-test slot. */
 export function unitTestActivityId(unitId: string): string {
   return `course_unit_test_${unitId}`;
+}
+
+/** Stable activity id for a retention re-check slot. */
+export function unitRecheckActivityId(unitId: string): string {
+  return `course_unit_recheck_${unitId}`;
 }
 
 /** Stable activity id for a unit-production slot. */

@@ -29,7 +29,12 @@
 
 import type { SkillCategory } from './adaptive';
 import type { CurriculumStep } from './curriculum';
-import { nextCourseStep, unitTestActivityId, unitProductionActivityId } from './courseStep';
+import {
+  nextCourseStep,
+  unitTestActivityId,
+  unitProductionActivityId,
+  unitRecheckActivityId,
+} from './courseStep';
 import { requestUnitTest } from './courseUnitProgress';
 import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
@@ -187,6 +192,26 @@ export function buildCurriculumSlots(opts: {
             ? `Unit ${course.unit.index}: write`
             : `Unit ${course.unit.index}: speak`,
         screen: 'unitproduction',
+        category: 'general',
+        reason: course.reason,
+      },
+    ];
+  }
+
+  // A DUE RE-CHECK IS THE TEACHING SLOT, ahead of the next lesson. It runs the unit's
+  // own test again on a fresh sample; the handoff carries the `recheck` marker so the
+  // screen records the ladder rather than a first pass.
+  if (course.kind === 'recheck') {
+    try {
+      requestUnitTest(course.unit.id, 'recheck');
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    return [
+      {
+        id: unitRecheckActivityId(course.unit.id),
+        label: `Unit ${course.unit.index} check-up`,
+        screen: 'unittest',
         category: 'general',
         reason: course.reason,
       },

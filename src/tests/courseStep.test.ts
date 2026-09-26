@@ -18,9 +18,11 @@ import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgr
 import {
   recordUnitTest,
   recordUnitProduction,
+  recordUnitRecheck,
   markUnitTestInsufficient,
   markProductionUnavailable,
   readUnitTestRequest,
+  unitRecord,
 } from '../lib/courseUnitProgress';
 import {
   nextCourseStep,
@@ -153,6 +155,78 @@ describe('what the course serves', () => {
 
   it('names a stable activity id for the unit-test slot', () => {
     expect(unitTestActivityId('A1-4')).toBe('course_unit_test_A1-4');
+  });
+});
+
+describe('retention', () => {
+  // MASTERY IS RETENTION (increment 5). Meeting the bar advances the unit and starts
+  // a 7/30-day ladder; the unit is `cleared` until the ladder is held.
+  it('starts the ladder when a unit meets the bar, and calls it cleared not mastered', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    const state = readCourseState();
+    expect(state.rows[0]!.state).toBe('cleared');
+    expect(state.rows[0]!.tested).toBe(true);
+    expect(unitRecord('A1-1')!.recheck).toBeTruthy();
+    expect([...state.retained]).toEqual([]);
+  });
+
+  it('calls it mastered once the ladder is held', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    readCourseState(); // starts the ladder
+    recordUnitRecheck('A1-1', true, '2026-09-08');
+    recordUnitRecheck('A1-1', true, '2026-10-08');
+    const state = readCourseState();
+    expect(state.rows[0]!.state).toBe('mastered');
+    expect([...state.retained]).toEqual(['A1-1']);
+  });
+
+  // A DUE RE-CHECK PREEMPTS THE NEXT LESSON — retention is time-sensitive, and a
+  // re-check pushed behind new material for ever is one that never happens.
+  it('serves a due re-check ahead of the next unit’s lesson', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    readCourseState();
+    // Force it due.
+    const rec = unitRecord('A1-1')!;
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: { 'A1-1': { ...rec, recheck: { stage: 0, dueAt: '2020-01-01' } } },
+      }),
+    );
+    const step = nextCourseStep();
+    expect(step?.kind).toBe('recheck');
+    expect(step?.unit.id).toBe('A1-1');
+    expect(step?.reason).toMatch(/checking it stayed/);
+  });
+
+  it('goes back to the next lesson once nothing is due', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    readCourseState();
+    const step = nextCourseStep();
+    expect(step?.kind).toBe('lesson');
+    expect(step?.unit.id).toBe('A1-2');
+  });
+
+  // IT IS NOT A GATE. A failed re-check leaves the unit advanced and the next one open.
+  it('keeps the next unit open after a FAILED re-check', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    readCourseState();
+    recordUnitRecheck('A1-1', false, '2026-09-08');
+    const state = readCourseState();
+    expect(state.open.has('A1-2')).toBe(true);
+    expect(state.advanced.has('A1-1')).toBe(true);
+    expect(state.rows[0]!.state).toBe('cleared');
+    expect(state.rows[1]!.state).toBe('current');
   });
 });
 

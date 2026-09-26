@@ -136,21 +136,12 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     [store, completed, spine],
   );
   const units = state.units;
-  const progress = useMemo(
-    () => ({
-      units: state.rows,
-      currentIndex: state.currentIndex,
-      // COUNTED FROM `advanced`, NOT `tested`. The state ladder calls a unit mastered
-      // only when it has met the WHOLE bar; counting the test alone here would put
-      // "1 of 36 units mastered" above a row the same screen renders as `current`.
-      unitsMastered: state.rows.filter((r) => state.advanced.has(r.unit.id)).length,
-      unitsCleared: state.rows.filter((r) => r.total > 0 && r.done >= r.total).length,
-      unitsTotal: state.rows.length,
-      lessonsDone: state.rows.reduce((n, r) => n + r.done, 0),
-      lessonsTotal: state.rows.reduce((n, r) => n + r.total, 0),
-    }),
-    [state],
-  );
+  // THE COUNTS COME FROM THE SHARED STATE, NOT FROM A SECOND DERIVATION HERE. This
+  // screen used to build them itself and drifted twice in one day — once counting the
+  // unit test as mastery while the row ladder counted the whole bar, once counting the
+  // bar while the ladder counted retention. Each time it printed a figure that
+  // contradicted a row beside it.
+  const progress = state.progress;
   const block: CourseMapBlock | null = courseMapBlock(fetchState, units.length);
 
   // Open the current unit by default, and re-open it if the position moves.
@@ -245,7 +236,10 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
             justifyContent: 'space-between',
           }}
         >
-          <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}>
+          <span
+            data-testid="course-units-mastered"
+            style={{ fontSize: 13, fontWeight: 800, color: 'var(--heading)' }}
+          >
             {progress.unitsMastered} of {progress.unitsTotal} units mastered
           </span>
           <span
@@ -350,6 +344,11 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                   requestUnitProduction(row.unit.id, kind);
                   setScr('unitproduction');
                 }}
+                onRecheck={() => {
+                  requestUnitTest(row.unit.id, 'recheck');
+                  setScr('unittest');
+                }}
+                recheckDue={state.dueRechecks.includes(row.unit.id)}
                 owedFor={owedFor}
               />
             ))}
@@ -370,6 +369,8 @@ function UnitRow({
   onOpenLesson,
   onTakeTest,
   onProduce,
+  onRecheck,
+  recheckDue,
   owedFor,
 }: {
   row: UnitProgress;
@@ -381,6 +382,8 @@ function UnitRow({
   onOpenLesson: (lessonId: string) => void;
   onTakeTest: () => void;
   onProduce: (kind: 'write' | 'speak') => void;
+  onRecheck: () => void;
+  recheckDue: boolean;
   owedFor: (unitId: string) => { write: boolean; speak: boolean } | null;
 }) {
   const { unit, done, total, state } = row;
@@ -559,7 +562,54 @@ function UnitRow({
                     : 'Now say what you have learned →'}
                 </button>
               ))}
-          {row.tested && !owed && (
+          {/* WHERE THE UNIT IS ON ITS RETENTION LADDER. `cleared` means the bar is met
+              and the course has opened the next unit — mastery is a claim about
+              RETENTION and waits on the 7- and 30-day check-ups. Saying "mastered"
+              here would be the app claiming more than it has measured. */}
+          {/* A DUE CHECK-UP MUST BE TAKEABLE FROM HERE. The map said "we will check it
+              again in a few days" and, when the day came, offered no way to do it —
+              only the daily session's teaching slot did. Found by the E2E, which is
+              the one thing that walks the learner's actual route. */}
+          {state === 'cleared' && row.tested && !owed && recheckDue && (
+            <button
+              data-testid={`course-unit-recheck-${unit.id}`}
+              onClick={onRecheck}
+              style={{
+                width: '100%',
+                padding: '11px 12px',
+                marginTop: 4,
+                marginBottom: 2,
+                borderRadius: 10,
+                border: `1.5px solid ${color}`,
+                background: 'transparent',
+                color,
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontFamily: "'Outfit',sans-serif",
+              }}
+            >
+              Check-up due — see if it stayed →
+            </button>
+          )}
+          {state === 'cleared' && row.tested && !owed && (
+            <div
+              data-testid={`course-unit-holding-${unit.id}`}
+              style={{
+                fontSize: 11.5,
+                fontWeight: 700,
+                color: 'var(--subtext)',
+                padding: '6px 2px 2px',
+                lineHeight: 1.5,
+              }}
+            >
+              {recheckDue
+                ? 'Passed. Time to check it stayed.'
+                : 'Passed. We will check it again in a few days to see it stayed.'}
+            </div>
+          )}
+          {state === 'mastered' && !owed && (
             <div
               data-testid={`course-unit-mastered-${unit.id}`}
               style={{
@@ -569,7 +619,7 @@ function UnitRow({
                 padding: '6px 2px 2px',
               }}
             >
-              Unit test passed — you have shown you know this.
+              Mastered — you passed it and it stayed.
             </div>
           )}
           {unit.lessons.map((lesson, i) => {

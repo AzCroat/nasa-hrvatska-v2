@@ -236,3 +236,123 @@ test.describe('Unit production', () => {
     await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
   });
 });
+
+/**
+ * Retention — mastery is a claim about what stayed.
+ *
+ * The 7/30-day ladder cannot be waited out in a test, so the ladder is SEEDED as due
+ * and what is driven is the consequence: the check-up is served, it draws a fresh
+ * paper, and a failure takes nothing away.
+ */
+test.describe('Retention check-up', () => {
+  test.beforeEach(async ({ page }) => {
+    await seedAuth(page);
+    await blockFirebase(page);
+    await mockTTS(page);
+    await mockContent(page);
+    await page.addInitScript(() => {
+      if (window.top !== window) return; // an init script runs in EVERY frame
+      try {
+        // Unit A1-1 has met the whole bar, and its first check-up is overdue.
+        localStorage.setItem(
+          'nh_course_units',
+          JSON.stringify({
+            units: {
+              'A1-1': {
+                passedAt: '2026-09-01',
+                production: { wroteAt: '2026-09-01', spokeAt: '2026-09-01' },
+                recheck: { stage: 0, dueAt: '2020-01-01' },
+              },
+            },
+          }),
+        );
+      } catch {
+        /* storage blocked — the test fails visibly rather than silently */
+      }
+    });
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('the bar opens the next unit while mastery waits on retention', async ({ page }) => {
+    await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute(
+      'data-unit-state',
+      'cleared',
+    );
+    await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute(
+      'data-unit-state',
+      'current',
+    );
+    await expect(page.getByTestId('course-units-mastered')).toHaveText('0 of 36 units mastered');
+    // The unit's own line says what it is waiting for, and — because this ladder is
+    // seeded DUE — the promise comes with the button that keeps it. Asserting the
+    // due wording rather than the waiting wording is deliberate: a line reading
+    // "we will check it again in a few days" beside an overdue check-up is the
+    // promise-without-a-door defect this pair exists to keep closed.
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
+    await expect(page.getByTestId('course-unit-holding-A1-1')).toContainText(
+      'Time to check it stayed',
+    );
+    await expect(page.getByTestId('course-unit-recheck-A1-1')).toBeVisible();
+  });
+
+  test('a ladder that is not yet due says so and offers nothing', async ({ page }) => {
+    // The OTHER arm of the holding copy. Written because the two arms differ only in
+    // wording and a test that drives one of them reads exactly like a test that
+    // covers both. The later init script wins, so this re-seeds the same unit with a
+    // check-up far in the future.
+    await page.addInitScript(() => {
+      if (window.top !== window) return;
+      try {
+        localStorage.setItem(
+          'nh_course_units',
+          JSON.stringify({
+            units: {
+              'A1-1': {
+                passedAt: '2026-09-01',
+                production: { wroteAt: '2026-09-01', spokeAt: '2026-09-01' },
+                recheck: { stage: 0, dueAt: '2099-01-01' },
+              },
+            },
+          }),
+        );
+      } catch {
+        /* storage blocked — the test fails visibly rather than silently */
+      }
+    });
+    await page.reload();
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('course-unit-A1-1')).toHaveAttribute(
+      'data-unit-state',
+      'cleared',
+    );
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
+    await expect(page.getByTestId('course-unit-holding-A1-1')).toContainText('check it again');
+    await expect(page.getByTestId('course-unit-recheck-A1-1')).toHaveCount(0);
+  });
+
+  test('a failed check-up takes nothing away', async ({ page }) => {
+    await page.getByTestId('course-unit-A1-1').locator('button').first().click();
+    // The DUE check-up, not the unit test: a passed unit has no test offer.
+    await page.getByTestId('course-unit-recheck-A1-1').click();
+    const sitting = page.getByTestId('unit-test');
+    await expect(sitting).toBeVisible({ timeout: 20_000 });
+    await expect(sitting).toHaveAttribute('data-mode', 'recheck');
+
+    // Answer every question wrongly: pick the second option each time.
+    for (let i = 0; i < 15; i++) {
+      const opts = page.locator('[data-testid^="unit-test-opt-"]');
+      await opts.nth(1).click();
+      await page.getByTestId('unit-test-next').click();
+    }
+    const result = page.getByTestId('unit-test-result');
+    await expect(result).toBeVisible({ timeout: 20_000 });
+    await expect(result).toHaveAttribute('data-mode', 'recheck');
+    await expect(page.getByTestId('unit-test-verdict')).toContainText('Slipped');
+
+    // The unit keeps its pass and its production; only the ladder moved.
+    const stored = await page.evaluate(() => localStorage.getItem('nh_course_units'));
+    expect(stored).toContain('"passedAt":"2026-09-01"');
+    expect(stored).toContain('wroteAt');
+  });
+});

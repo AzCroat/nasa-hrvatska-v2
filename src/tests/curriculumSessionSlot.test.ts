@@ -37,6 +37,7 @@ vi.mock('../lib/cefrCertification', () => ({
 import { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } from '../hooks/useDailySession';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
 import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
+import { readCourseState } from '../lib/courseStep';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 // Real lesson ids, so the LESSON_TAUGHT_CATEGORY lookup exercises the real map
@@ -144,6 +145,30 @@ describe('the lesson comes first', () => {
     const acts = buildSessionActivities('A1');
     expect(acts.filter((a) => a.screen === 'unitproduction')).toHaveLength(0);
     expect(acts.filter((a) => a.screen === 'unittest')).toHaveLength(0);
+  });
+
+  // A DUE RE-CHECK IS THE TEACHING SLOT, ahead of everything else.
+  it('serves a due retention check-up as the teaching slot', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    recordUnitTest('A1-1', 15, 15, true);
+    recordUnitProduction('A1-1', 'write', 72);
+    recordUnitProduction('A1-1', 'speak', 0.8);
+    readCourseState(); // starts the ladder
+    const raw = JSON.parse(localStorage.getItem('nh_course_units')!) as {
+      units: Record<string, Record<string, unknown>>;
+    };
+    raw.units['A1-1']!.recheck = { stage: 0, dueAt: '2020-01-01' };
+    localStorage.setItem('nh_course_units', JSON.stringify(raw));
+
+    const first = buildSessionActivities('A1')[0];
+    expect(first?.screen).toBe('unittest');
+    expect(first?.id).toBe('course_unit_recheck_A1-1');
+    expect(first?.reason).toMatch(/checking it stayed/);
+    // The handoff marks it a RE-CHECK, so the screen records the ladder and not a
+    // first pass.
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1|recheck');
   });
 
   it('carries no follow-on drill with the unit test — the test is the whole step', () => {

@@ -29,11 +29,14 @@ import type { CurriculumEntry } from '../../lib/curriculum';
 import { buildCourseUnits, type CourseUnit } from '../../lib/courseUnits';
 import {
   readUnitTestRequest,
+  readUnitTestMode,
   clearUnitTestRequest,
   recordUnitTest,
+  recordUnitRecheck,
   markUnitTestInsufficient,
   unitRecord,
 } from '../../lib/courseUnitProgress';
+import { UNIT_RECHECK_INTERVALS } from '../../lib/unitRetention';
 import {
   buildUnitTest,
   unitItemsNeeded,
@@ -64,6 +67,9 @@ interface UnitTestScreenProps {
 
 export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTestScreenProps) {
   const unitId = useMemo(() => readUnitTestRequest(), []);
+  // A RE-CHECK IS THE SAME TEST ON A FRESH SAMPLE. It records the retention LADDER,
+  // not a first pass, and it can never un-advance the unit — see unitRetention.
+  const mode = useMemo(() => readUnitTestMode(), []);
   const [phase, setPhase] = useState<Phase>('loading');
   const [unit, setUnit] = useState<CourseUnit | null>(null);
   const [items, setItems] = useState<UnitTestItem[]>([]);
@@ -96,7 +102,12 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
           id: string;
           slides?: readonly { type?: string; items?: unknown }[];
         }[];
-        const built = buildUnitTest(bodies, attempt);
+        // THE SAMPLE MUST BE FRESH ON A RE-CHECK, or the ladder measures memory of
+        // one paper. The ladder's own stage offsets the attempt seed, so the 7-day and
+        // 30-day checks draw different items from each other and from the first pass.
+        const rec = unitRecord(u.id);
+        const seed = mode === 'recheck' ? attempt + 1 + (rec?.recheck?.stage ?? 0) : attempt;
+        const built = buildUnitTest(bodies, seed);
         if (unitTestAvailability(built) === 'insufficient') {
           // MEASURED, NOT INVENTED: this records that the app tried and could not
           // assemble a real test from the cached bodies, so the course gate can
@@ -117,7 +128,7 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     return () => {
       live = false;
     };
-  }, [unitId, units, attempt]);
+  }, [unitId, units, attempt, mode]);
 
   // Leaving clears the handoff so a later visit cannot land on a stale unit.
   useEffect(() => clearUnitTestRequest, []);
@@ -135,11 +146,17 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     if (phase !== 'done' || !unit || total <= 0) return;
     if (recorded.current === `${unit.id}:${attempt}`) return;
     recorded.current = `${unit.id}:${attempt}`;
+    if (mode === 'recheck') {
+      // A FAILED RE-CHECK MOVES THE LADDER AND NOTHING ELSE: no XP, no pass record,
+      // and above all no un-advancing. The learner did meet the bar, on evidence.
+      recordUnitRecheck(unit.id, passed);
+      return;
+    }
     const before = unitRecord(unit.id);
     const firstPass = passed && !before?.passedAt;
     recordUnitTest(unit.id, correct, total, passed);
     if (firstPass) award(UNIT_TEST_XP, 'grammar');
-  }, [phase, unit, total, correct, passed, attempt, award]);
+  }, [phase, unit, total, correct, passed, attempt, award, mode]);
 
   const answer = useCallback(
     (sourceIndex: number) => {
@@ -207,8 +224,8 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     const lessonTitle = (id: string) =>
       unit?.lessons.find((l) => l.id === id)?.title || spine.find((e) => e.id === id)?.title || id;
     return (
-      <div data-testid="unit-test-result" data-passed={passed ? '1' : '0'}>
-        {H('Unit test', title, goBack)}
+      <div data-testid="unit-test-result" data-passed={passed ? '1' : '0'} data-mode={mode}>
+        {H(mode === 'recheck' ? 'Check-up' : 'Unit test', title, goBack)}
         <div
           style={{
             padding: 18,
@@ -225,14 +242,24 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
             data-testid="unit-test-verdict"
             style={{ fontSize: 14, fontWeight: 800, marginTop: 6, color: 'var(--heading)' }}
           >
-            {passed ? 'Unit passed — you have shown you know this.' : 'Not yet.'}
+            {mode === 'recheck'
+              ? passed
+                ? 'Still there — this unit is holding.'
+                : 'Slipped a little. Nothing is taken away.'
+              : passed
+                ? 'Unit passed — you have shown you know this.'
+                : 'Not yet.'}
           </div>
           {/* STATE THE COUNT, NEVER THE PERCENTAGE. */}
           <div style={{ fontSize: 12.5, color: 'var(--subtext)', marginTop: 6, lineHeight: 1.5 }}>
             {needed} of {total} needed to pass.{' '}
-            {passed
-              ? 'Nothing here is taken away if a later attempt goes worse.'
-              : 'Nothing has been taken away — go back over the lessons below and try again.'}
+            {mode === 'recheck'
+              ? passed
+                ? `You will see this unit again in ${UNIT_RECHECK_INTERVALS[1]} days.`
+                : 'You keep this unit. It will come back tomorrow so it can settle.'
+              : passed
+                ? 'Nothing here is taken away if a later attempt goes worse.'
+                : 'Nothing has been taken away — go back over the lessons below and try again.'}
           </div>
         </div>
 
@@ -319,8 +346,8 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
   const answered = chosen !== null;
 
   return (
-    <div data-testid="unit-test">
-      {H('Unit test', title, goBack)}
+    <div data-testid="unit-test" data-mode={mode}>
+      {H(mode === 'recheck' ? 'Check-up' : 'Unit test', title, goBack)}
       <div
         style={{
           display: 'flex',

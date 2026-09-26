@@ -11232,6 +11232,76 @@ about RETENTION rather than one sitting (and will rename the state ladder honest
 hand-written drills onto ModeDrill, which IS worth fanning — separable per drill,
 and four guards already grade them.
 
+## Sweep 155 — step 3, increment 5: mastery is retention (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 5". This closes
+step 3: the course now has units, a position, a two-half bar, and a claim about
+RETENTION rather than one sitting.
+
+**SHIPPED**
+
+- `src/lib/unitRetention.ts` — the 7/30-day ladder (`startRecheckLadder`,
+  `recheckDue`, `retentionHeld`, `afterRecheck`, `mergeRecheck`), pure and dateless
+  except for the ISO day it is handed.
+- `courseUnitProgress` gains `recheck` on the unit record with an additive merge,
+  plus `startUnitRetention`, `recordUnitRecheck`, `retainedUnits`, `dueRecheckUnits`.
+- `courseUnits` state ladder rewritten: `mastered` = bar met AND ladder held,
+  `cleared` = bar met with retention pending. The map's header count follows.
+- `courseStep` starts the ladder from `gate.advanced` and serves a due re-check
+  AHEAD of the next unit's lesson; `curriculumSlot` serves it as the teaching slot.
+- `UnitTestScreen` gains a `recheck` mode: a fresh paper, no XP, no pass record —
+  the ladder and nothing else.
+- `CourseMapScreen` gains `course-unit-recheck-<id>` and conditional holding copy.
+
+**THE FIVE THINGS WORTH REMEMBERING**
+
+1. **THE MAP PROMISED A CHECK-UP AND HAD NO DOOR WHEN THE DAY CAME.** The holding
+   line said "we will check it again in a few days" with no button at any point, so a
+   learner whose 7-day check came due met that same sentence for ever while the
+   session slot quietly served the check-up and the map's count stayed at zero. The
+   promise-without-a-door shape this repo already records for the verification gate's
+   CTA, arriving on a line I had written an hour earlier. **Only the E2E saw it** —
+   third time in three increments that the browser caught what the unit tests could
+   not, and all three were about a DERIVED display disagreeing with the mechanism.
+2. **MY OWN TEST COPY WENT STALE AGAINST MY OWN FIX, WITHIN THE SAME HOUR.** The
+   conditional wording I added to fix (1) broke the E2E assertion I had written
+   against the unconditional wording, on a unit whose seeded ladder was DUE. That was
+   a test defect, not a product one — and it is also the warning: two arms differing
+   only in wording is exactly where a test on one reads like coverage of both. Both
+   arms are driven now, and flattening the copy fails 1 E2E test.
+3. **`mastered` CHANGED MEANING AND EVERY COUNT HAD TO FOLLOW.** Before this, a
+   learner could finish 36 units and read "36 of 36 units mastered" having never been
+   re-asked a question. The map's progress object had already drifted twice in
+   increments 3 and 4 by deriving the count itself; it reads `state.progress` and the
+   count reads `retainedUnits`, from one derivation.
+4. **A GUARD CAUGHT MY CALENDAR ARITHMETIC AND WAS RIGHT TO.**
+   `localDayBoundary.test.ts` forbids `toISOString` in `src/`; my first `addDays` used
+   it and was calendar-safe **by accident** (it anchored at UTC midnight). Hand-format
+   the UTC parts: shorter, obviously timezone-independent, no exemption. A guard
+   against a class shipped five times should not need a reader to reason it out.
+5. **A FAILED CHECK-UP MOVES THE LADDER AND NOTHING ELSE**, and the mutation for that
+   is the one to keep: un-passing the unit on a failure fails 3 tests across three
+   files. Withdrawing a pass would be the app changing its mind about something it
+   measured.
+
+**VERIFICATION** — `unitRetention.test.ts` plus new blocks in `courseStep`,
+`courseUnitProgress`, `unitTestScreen`, `courseMapScreen` and
+`curriculumSessionSlot`; full suite **656 files / 10,396 tests green**, typecheck and
+eslint clean, Croatian lint 0 findings across 473 files. Mutation-verified **ten**
+(M45–M52 at the unit layer, M54–M55 at the E2E layer), each landing confirmed before
+the run: failed re-check keeps its rung (fails 1), `retentionHeld` true on any ladder
+(8), nothing ever due (5), merge takes remote `heldAt` (1), stage/`heldAt` may
+disagree (1), check-up draws the same paper (2), failed check-up un-passes (3), ladder
+never started (1), holding copy flattened (1 E2E), due button never rendered (2 E2E).
+`e2e/course-map.spec.js` at **13 tests green** against a CI-equivalent build.
+
+**NEXT** — step 2: the ~100 hand-written `src/components/practice/*Drill.tsx` onto
+ModeDrill. This IS worth fanning agents at — separable per drill, and four guards
+already grade the output (`answerNotInPrompt`, `answerKeyIntegrity`, the Croatian
+lint, `practiceProgrammeDrills`), which is the precondition sweep 136's city-corpus
+near-miss established: **the checker ships before the fan-out, and it has to be strong
+enough to catch the class you care about.**
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

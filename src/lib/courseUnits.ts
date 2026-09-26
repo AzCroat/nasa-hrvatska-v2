@@ -161,14 +161,17 @@ export function unitOfLesson(units: readonly CourseUnit[], lessonId: string): Co
 /**
  * A unit's state, from what the app has actually measured.
  *
- * `mastered` — its cumulative unit test is PASSED. The strongest claim the course
- *   makes, and the only one that means "you have shown you know this".
+ * `mastered` — the bar was met AND the retention ladder is held (increment 5). The
+ *   strongest claim the course makes, and the only one that means "you have shown
+ *   you know this, and it stayed".
+ * `cleared` — the bar was met and retention is still pending. Under a gate this is
+ *   what a finished unit looks like until its 7- and 30-day re-checks are held; the
+ *   course has already opened the next unit, because advancement is about the bar
+ *   and mastery is about retention. WITHOUT a gate it keeps its older meaning ("all
+ *   five lessons read"), which is what the no-gate tests exercise.
  * `current` — the first unit not yet mastered; where the learner is now. It shows
  *   as current even when all five lessons are read, because reading is not the
  *   bar: its next action is the test.
- * `cleared` — all five lessons read, but not the current unit and not tested.
- *   Reachable when a learner works ahead through search or the library, which is
- *   deliberately open.
  * `locked` — the unit before it is not mastered, so the COURSE has not opened it
  *   yet. The library has not locked anything: every lesson stays reachable from
  *   the Learning Center and from search, which is the owner's own "you can do
@@ -383,6 +386,13 @@ export interface CourseGate {
   advanced: ReadonlySet<string> | readonly string[];
   /** Units whose test could not be assembled. */
   insufficient?: ReadonlySet<string> | readonly string[];
+  /**
+   * Units whose retention ladder is held. MASTERY IS RETENTION (increment 5), so
+   * this is what `mastered` reads. Omitted, mastery falls back to the bar — which is
+   * what a caller with no retention data can honestly say, and is the reading every
+   * gate test written before this increment exercises.
+   */
+  retained?: ReadonlySet<string> | readonly string[];
 }
 
 /**
@@ -406,6 +416,7 @@ export function courseProgress(
   const openable = gate ? asSet(gate.open) : null;
   const advanced = gate ? asSet(gate.advanced) : null;
   const short = asSet(gate?.insufficient ?? []);
+  const retained = gate?.retained ? asSet(gate.retained) : null;
   const rows = units.map((unit) => {
     const total = unit.lessons.length;
     const done = unit.lessons.filter((l) => set.has(l.id)).length;
@@ -435,18 +446,29 @@ export function courseProgress(
       //
       // `current` cannot be locked: `openUnits` adds a unit before deciding whether it
       // advances, so the first non-advanced unit is always open.
-      state: (advanced ? advanced.has(r.unit.id) : r.tested)
-        ? 'mastered'
-        : openable && !openable.has(r.unit.id)
-          ? 'locked'
-          : r.unit.index === currentIndex
-            ? 'current'
-            : r.total > 0 && r.done >= r.total
-              ? 'cleared'
-              : 'upcoming',
+      state:
+        retained && retained.has(r.unit.id)
+          ? 'mastered'
+          : openable && !openable.has(r.unit.id)
+            ? 'locked'
+            : // A unit that met the bar but whose retention is pending is `cleared`:
+              // the course has opened the next one, and it is not yet mastered.
+              advanced && advanced.has(r.unit.id)
+              ? retained
+                ? 'cleared'
+                : 'mastered'
+              : r.unit.index === currentIndex
+                ? 'current'
+                : !advanced && r.tested
+                  ? 'mastered'
+                  : r.total > 0 && r.done >= r.total
+                    ? 'cleared'
+                    : 'upcoming',
     })),
     currentIndex,
-    unitsMastered: rows.filter((r) => (advanced ? advanced.has(r.unit.id) : r.tested)).length,
+    unitsMastered: rows.filter((r) =>
+      retained ? retained.has(r.unit.id) : advanced ? advanced.has(r.unit.id) : r.tested,
+    ).length,
     unitsCleared: rows.filter((r) => r.total > 0 && r.done >= r.total).length,
     unitsTotal: rows.length,
     lessonsDone: rows.reduce((n, r) => n + r.done, 0),

@@ -28,6 +28,14 @@
 // unit as passable-through. Nothing infers it.
 
 import { localDateStr } from './dateUtils';
+import {
+  afterRecheck,
+  mergeRecheck,
+  recheckDue,
+  retentionHeld,
+  startRecheckLadder,
+  type UnitRecheck,
+} from './unitRetention';
 
 export const COURSE_UNITS_KEY = 'nh_course_units';
 
@@ -68,6 +76,8 @@ export interface UnitRecord {
   insufficient?: boolean;
   /** The two production tasks — see `UnitProduction`. */
   production?: UnitProduction;
+  /** The retention ladder, started the day the unit met the bar. */
+  recheck?: UnitRecheck;
 }
 
 export interface CourseUnitsStore {
@@ -236,6 +246,57 @@ export function markUnitTestInsufficient(unitId: string): void {
 }
 
 /**
+ * Start the retention ladder for a unit that has just met the bar.
+ *
+ * Idempotent and never restarted: a ladder already running is left alone, so
+ * re-taking a test or re-submitting production cannot push the next re-check away.
+ */
+export function startUnitRetention(unitId: string, isoDate: string = localDateStr()): void {
+  if (!unitId) return;
+  const store = readRaw();
+  const prev = store.units[unitId];
+  if (!prev || prev.recheck) return;
+  store.units[unitId] = { ...prev, recheck: startRecheckLadder(isoDate) };
+  writeCourseUnits(store);
+}
+
+/** Record a finished re-check. A failure moves the LADDER and nothing else. */
+export function recordUnitRecheck(
+  unitId: string,
+  passed: boolean,
+  isoDate: string = localDateStr(),
+): UnitRecord | null {
+  if (!unitId) return null;
+  const store = readRaw();
+  const prev = store.units[unitId];
+  if (!prev) return null;
+  const next: UnitRecord = { ...prev, recheck: afterRecheck(prev.recheck, passed, isoDate) };
+  store.units[unitId] = next;
+  writeCourseUnits(store);
+  return next;
+}
+
+/** Unit ids whose retention ladder is fully held. */
+export function retainedUnits(store: CourseUnitsStore = readRaw()): Set<string> {
+  return new Set(
+    Object.entries(store.units)
+      .filter(([, r]) => retentionHeld(r?.recheck))
+      .map(([id]) => id),
+  );
+}
+
+/** Unit ids with a re-check due today or earlier, oldest due first. */
+export function dueRecheckUnits(
+  today: string = localDateStr(),
+  store: CourseUnitsStore = readRaw(),
+): string[] {
+  return Object.entries(store.units)
+    .filter(([, r]) => recheckDue(r?.recheck, today))
+    .sort((a, b) => (a[1].recheck!.dueAt < b[1].recheck!.dueAt ? -1 : 1))
+    .map(([id]) => id);
+}
+
+/**
  * Merge a remote store into local. ADDITIVE, like every other merge here:
  *
  *  - a unit passed on either device stays passed, and the EARLIER `passedAt`
@@ -287,6 +348,8 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     if (passedAt) merged.passedAt = passedAt;
     const prod = mergeProduction(a.production, b.production);
     if (prod) merged.production = prod;
+    const rc = mergeRecheck(a.recheck, b.recheck);
+    if (rc) merged.recheck = rc;
     if (best.bestTotal) {
       merged.bestCorrect = best.bestCorrect;
       merged.bestTotal = best.bestTotal;
@@ -345,20 +408,43 @@ export function courseUnitsOrUndef(): CourseUnitsStore | undefined {
 
 export const UNIT_TEST_REQUEST_KEY = 'nh_unit_test';
 
-export function requestUnitTest(unitId: string): void {
+export type UnitTestMode = 'first' | 'recheck';
+
+export function requestUnitTest(unitId: string, mode: UnitTestMode = 'first'): void {
   if (!unitId) return;
   try {
-    sessionStorage.setItem(UNIT_TEST_REQUEST_KEY, unitId);
+    sessionStorage.setItem(
+      UNIT_TEST_REQUEST_KEY,
+      mode === 'recheck' ? `${unitId}|recheck` : unitId,
+    );
   } catch {
     /* the screen will report that it has no unit, rather than crash */
   }
 }
 
+/**
+ * The unit the test screen is about.
+ *
+ * A BARE ID STILL READS AS `first`, so a handoff written by an older build — or by
+ * any caller that does not care — behaves exactly as it did. The marker is appended
+ * rather than stored as JSON for the same reason: nothing has to migrate.
+ */
 export function readUnitTestRequest(): string | null {
   try {
-    return sessionStorage.getItem(UNIT_TEST_REQUEST_KEY) || null;
+    const raw = sessionStorage.getItem(UNIT_TEST_REQUEST_KEY);
+    return raw ? raw.split('|')[0]! : null;
   } catch {
     return null;
+  }
+}
+
+export function readUnitTestMode(): UnitTestMode {
+  try {
+    return sessionStorage.getItem(UNIT_TEST_REQUEST_KEY)?.endsWith('|recheck')
+      ? 'recheck'
+      : 'first';
+  } catch {
+    return 'first';
   }
 }
 
