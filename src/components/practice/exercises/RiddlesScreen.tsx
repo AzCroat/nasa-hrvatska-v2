@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { RIDDLES } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function RiddlesScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const riddles = shMemo('rid', RIDDLES, 8);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -38,9 +38,7 @@ function RiddlesScreen({ goBack, award }: Props) {
     }
 
     if (handledRef.current.size >= riddles.length) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'riddles', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }

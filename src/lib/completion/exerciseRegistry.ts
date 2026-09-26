@@ -44,6 +44,31 @@ const p = (statKind: StatKind): ExerciseEntry => ({
 });
 
 const RAW: Record<string, ExerciseEntry> = {
+  // ── TEN SINGLE-PAGE GRAMMAR EXERCISES THAT CREDITED gc ON EVERY REPLAY ───────
+  // Added 2026-09-26. Each of these incremented `gc` by hand with NO once-only
+  // mechanism — no `vs` flag, no ref that survives a remount — so finishing, leaving
+  // and finishing again added `gc` again, unbounded. `getCEFR` scores a learner
+  // `xp + lc*15 + gc*25`, so each replay was worth 25 points in the number the Learn
+  // Path stage is derived from. Demonstrated by driving each twice over one shared
+  // stats object: gc went 1 -> 2 on all ten.
+  //
+  // POLICY IS `effort`, PRESERVING TODAY'S BEHAVIOUR ON PURPOSE. These screens credit
+  // on a genuine finish whatever the score, and whether a grammar exercise's `gc`
+  // should require 75% is a COURSE decision, not an idempotency fix — changing both at
+  // once would make it impossible to say which change caused what.
+  //
+  // The `vs` keys are new, so they are additive: no existing progress is reinterpreted.
+  ordinals: e('gc', 'grammar', 'grammar'),
+  logicquiz: e('gc', 'grammar', 'grammar'),
+  sibil: e('gc', 'grammar', 'grammar'),
+  tenseflip: e('gc', 'grammar', 'grammar'),
+  riddles: e('gc', 'grammar', 'grammar'),
+  coloragree: e('gc', 'grammar', 'grammar'),
+  emogender: e('gc', 'grammar', 'grammar'),
+  profgender: e('gc', 'grammar', 'grammar'),
+  qwords: e('gc', 'grammar', 'grammar'),
+  relpron: e('gc', 'grammar', 'grammar'),
+
   // ── Passive lessons gated by PRs #36–#38 (completeLesson) ──
   declension: g('gc', 'grammar', 'lesson'),
   tenses: g('gc', 'grammar', 'lesson'),

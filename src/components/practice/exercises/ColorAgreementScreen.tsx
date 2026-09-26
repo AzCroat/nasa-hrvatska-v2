@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { COLORAGREE } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function ColorAgreementScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const singQuestions = shMemo('cs', COLORAGREE.singQuiz, undefined);
   const plurQuestions = shMemo('cp', COLORAGREE.plurQuiz, undefined);
   const total = singQuestions.length + plurQuestions.length;
@@ -45,9 +45,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'coloragree', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -64,9 +62,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'coloragree', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }

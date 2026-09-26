@@ -10861,6 +10861,70 @@ found all ten at once. Two rounds of reasoning about direction; one about the bo
 
 ---
 
+## Sweep 149 — the completion engine, increment 1 (owner directive, 2026-09-26)
+
+The owner authorised the restructuring: one completion engine, one drill engine, then a
+single-path unit course with a mastery gate. This is increment 1 of the first, and it found
+two live defects — each of which a per-screen fix would have had to make 10 and 140 times.
+
+**Census: 222 crediting components — 140 through the authority, 82 hand-rolled, 14 both**
+(per-answer XP plus a completion call, the legitimate incremental-payer shape).
+
+**DEFECT 1: ten exercises inflated the measured level on every replay.** `gc` incremented
+with no once-only mechanism; a `questFiredRef` in one of them does not survive a remount.
+Driven twice over one shared stats object: `gc` 1 → 2 on all of them, and `getCEFR` values
+each `gc` at 25 points. Routed through the authority, policy `effort` so today's
+credit-on-finish is preserved — the pass-gate question belongs to the course work.
+
+**DEFECT 2: the authority never credited a daily quest on a replay — 140 screens.** The mark
+sat below the already-credited return. A daily quest is DAY-scoped, `vs` is ONCE-EVER; the
+further a learner progressed the fewer screens could advance today's quests. One line, 140
+screens — the consolidation argument in its clearest form.
+
+Full write-up, including why a bare move above the return would have been wrong (tier 2 means
+two DISTINCT exercises) and why the guard had to live in the authority rather than in
+`quests.ts`, is in CLAUDE.md under **The Completion Engine — One Credit Path**.
+
+**THE PROCESS FINDINGS ARE THE REUSABLE PART, and there are four.**
+
+1. **94 test files `vi.mock` the quests module.** Adding an export the authority then CALLS
+   made it `undefined` in every one of them. Measure the mock surface before adding an export
+   to a module on a hot path — this is the `vi.mock` rule from sweep 138 at 94× the scale.
+2. **A guard's population must not be defined by the defect.** The idempotency suite derived
+   its subjects from files writing `s.gc + 1` by hand; routing all ten through the authority
+   emptied it, and ten named failures became one vacuous pass. It derives from the REGISTRY
+   now — the `effort` rows, via each file's own completion key.
+3. **This cohort cannot be driven to a pass, and that is good pedagogy.** A second attempt
+   tried to learn each answer key from the DOM. Measured: these screens colour only the
+   CHOSEN option, so a wrong answer leaves the right one unmarked. Three successive
+   populations (defect-derived → all counter-crediting → registry `effort` rows) and only the
+   last is both honest and non-vacuous. **A driver's reach is part of a guard's scope.**
+4. **One test's storage writes reached the next**, for the life of the suite. `setup.js` built
+   its polyfill once per FILE, so every `it` inherited the previous one's keys. Invisible
+   until production kept per-day state keyed on an exercise, at which point 38 tests failed
+   asserting something they were right to assert. Cleared globally now.
+
+**AND 13 TESTS ENCODED THE OLD CONTRACT, 14 SIBLINGS DID NOT.** The same assertion —
+`expect(markQuestMock).not.toHaveBeenCalled()` — appears in two situations: a REPLAY (now
+wrong, the quest must be marked) and a FAILING run (still right, the gate withholds credit).
+Classifying by the enclosing test name before patching is what kept the correct half intact;
+a blanket replace would have broken 14 true assertions to fix 13 false ones.
+
+**WHAT REMAINS OF THIS INCREMENT: 72 of the 82 hand-rolled screens.** The ten converted here
+were the ones with a demonstrated counter defect. The rest are varied — per-answer awards,
+custom XP shapes, screens whose `activityType` is deliberately not what the registry would
+give them — and each needs its payment fingerprinted before and after. That is mechanical but
+not blind.
+
+- Mutation-verified, four: the quest mark back below the return fails 1 and names it; an
+  unconditional mark fails the tier-2 clause; each converted screen reverted fails its own
+  idempotency test; the registry rows removed fail the derivation floor.
+- NEVER: increment a mastery counter without an idempotent flag; couple a DAY-scoped mark to
+  a ONCE-EVER flag; add an export to a heavily-mocked module the authority calls; define a
+  guard's population by the defect; let a test inherit the previous test's storage.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

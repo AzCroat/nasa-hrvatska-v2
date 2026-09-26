@@ -3618,6 +3618,90 @@ Again" on last card: mode='done' (without awarding mastered)`, with a passing te
   which paths reach the view); write a test whose scenario cannot distinguish a guard
   from the absence of the thing it guards.
 
+## Critical Architecture: The Completion Engine — One Credit Path (2026-09-26)
+
+The first increment of the consolidation the owner authorised: **credit belongs to one
+place, and the two defects found on the way are both things a per-screen fix would have
+had to fix 10 and 140 times.**
+
+Census of the 222 components that credit a learner: **140 route through the authority
+(`completeExercise`/`completeLesson`), 82 hand-roll it**, and 14 do both (per-answer XP
+plus a completion call — legitimate, the incremental-payer shape).
+
+### Defect 1 — ten exercises inflated the measured level on every replay
+
+`getCEFR(xp, lc, gc)` scores a learner `xp + lc * 15 + gc * 25`, and that score drives the
+Learn Path stage. Ten single-page grammar exercises incremented `gc` with **no once-only
+mechanism of any kind**: no `vs` flag, and where one had a ref (`questFiredRef`) a ref does
+not survive a remount. **Demonstrated, not inferred** — driven twice over one shared stats
+object, `gc` went 1 → 2 on all of them. Twenty-five CEFR points per replay of a
+fifteen-question sheet, in the one number a mastery course has to gate on.
+
+All ten now route through the authority, which owns an idempotent `vs` write. **Policy is
+`effort`, preserving today's credit-on-finish**: whether a grammar exercise's `gc` should
+require 75% is a COURSE decision, and changing both at once would make it impossible to say
+which change caused what. The per-answer XP is untouched.
+
+### Defect 2 — the authority never credited a daily quest on a replay, for 140 screens
+
+The quest mark sat BELOW the already-credited early return that `stats.vs` guards. **A daily
+quest is DAY-scoped and `vs` is ONCE-EVER** — the two were coupled to opposite lifetimes, so
+a learner who finished a drill last month and finished it again today got no quest credit at
+all, and the further they progressed the fewer screens could advance today's quests. Driven
+straight against the authority: first run marks `grammar`, replay marks nothing.
+
+- **A BARE MOVE ABOVE THE RETURN WOULD HAVE BEEN WRONG.** `markQuest` also counts per day
+  and auto-promotes the tier-2 quest on the second call, and tier 2 means "do TWO grammar
+  exercises today". Marking unconditionally on replay lets ONE drill, replayed, satisfy it.
+  `markQuestOnce(questKind, vsKey)` keys its guard on the EXERCISE: any finish advances
+  today's quest, and only DISTINCT exercises advance tier 2.
+- **THE GUARD LIVES IN THE AUTHORITY, NOT IN `quests.ts`, AND THAT IS A MEASUREMENT.** It was
+  first written there as a new export — and **94 test files `vi.mock` that module**, none of
+  which provides a function that did not exist when they were written. A partial mock makes a
+  new import `undefined`, so the authority threw a TypeError in all of them. Adding an export
+  to a heavily-mocked module that the authority then CALLS has a blast radius of 94 files, and
+  the next export repeats it. Keeping the call as plain `markQuest` leaves every mock valid.
+  (This is the `vi.mock` rule from **A Null Transport Now Says Why**, met at 94× the scale.)
+
+### What the fix exposed in the SUITE, and why the tests were right
+
+38 tests across 21 files then failed asserting `markQuest` fired — because an EARLIER test in
+the same file had already completed that exercise "today". The shared `setup.js` created its
+storage polyfill once per test FILE and every `it` inherited what the previous one wrote.
+**The tests were right and the isolation was missing**, invisible for as long as nothing in
+production kept per-day state keyed on an exercise. `setup.js` now clears both storages in a
+global `beforeEach` — one place, so the next piece of per-day state cannot re-open it.
+
+13 further tests asserted that a replay "writes nothing", which included the quest mark.
+Those encoded the OLD contract and are updated; the 14 sibling assertions about a FAILING run
+are untouched and still say the quest is not marked, which is correct — the gate withholds
+credit there. **Classify before patching**: a blanket replace would have broken the half that
+was right.
+
+- Pinned by `dailyQuestOnReplay.test.ts` (the lifetime contract, asserted through
+  localStorage because `markQuestOnce` calls `markQuest` module-locally and a namespace mock
+  cannot see it) and `masteryCounterIdempotent.test.tsx` (the ten screens, driven twice).
+- **THE POPULATION OF A GUARD MUST NOT BE DEFINED BY THE DEFECT.** The idempotency suite
+  first derived its subjects from files writing `s.gc + 1` themselves — and routing all ten
+  through the authority EMPTIED it, turning ten named failures into one vacuous pass. It now
+  derives from the registry: the `effort`-policy rows, found through each file's own
+  completion key.
+- **AND THE COHORT CANNOT BE DRIVEN TO A PASS, WHICH IS GOOD PEDAGOGY.** A second attempt
+  widened the population to every counter-crediting screen and tried to learn each answer key
+  from the DOM. Measured: these screens colour only the CHOSEN option, so a wrong answer
+  leaves the right one unmarked and no driver can discover it. That is why the population is
+  the `effort` rows — the ones a driver can honestly complete — with the gated ones left to
+  their own contract tests.
+- Mutation-verified, four: the quest mark back below the return fails 1 and names it; marking
+  unconditionally fails the tier-2 clause; each of the ten screens reverted fails its own
+  idempotency test; the registry rows removed fail the derivation floor.
+- NEVER: increment a mastery counter without an idempotent flag (route it through the
+  authority — a ref does not survive a remount); couple a DAY-scoped mark to the ONCE-EVER
+  completion flag; mark a daily quest unconditionally on a replay (tier 2 means two DISTINCT
+  exercises); add an export to a heavily-mocked module that the authority calls; define a
+  guard's population by the defect it is written to catch; let one test's storage writes reach
+  the next.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What
