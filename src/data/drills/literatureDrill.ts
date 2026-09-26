@@ -89,7 +89,7 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'odakle',
-    q: 'Čitam ____ Brlić-Mažuranić. (priče)',
+    q: 'Čitam ____ Brlić-Mažuranić.',
     en: 'I am reading the stories of Brlić-Mažuranić.',
     opts: ['priče', 'priča', 'pričama', 'pričom'],
     answer: 'priče',

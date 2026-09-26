@@ -167,7 +167,7 @@ const DATA = [
     q: '„weekend” u hrvatskome standardu piše se:',
     opts: ['vikend', 'weekend', 'week-end', 'vikent'],
     answer: 'vikend',
-    en: 'weekend → vikend (adapted)',
+    en: 'weekend',
     tip: 'Prilagođene posuđenice pišu se fonetski: vikend, menadžer.',
   },
   {

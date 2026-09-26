@@ -103,7 +103,7 @@ const DATA = [
     q: '„Novac” u žargonu je:',
     opts: ['lova', 'roba', 'kusur', 'marka'],
     answer: 'lova',
-    en: 'money → lova',
+    en: 'money',
     tip: 'Lova, kinta, pare — žargonski nazivi za novac.',
   },
   {
@@ -111,7 +111,7 @@ const DATA = [
     q: '„Računalo” razgovorno zovemo:',
     opts: ['komp', 'stroj', 'kutija', 'ekran'],
     answer: 'komp',
-    en: 'computer → komp',
+    en: 'computer',
     tip: 'Komp — univerzalna razgovorna pokrata.',
   },
   {
@@ -119,7 +119,7 @@ const DATA = [
     q: '„Izvrsno!” mladi razgovorno kažu:',
     opts: ['mrak', 'mrak i po', 'svjetlo', 'sjena'],
     answer: 'mrak',
-    en: 'excellent → mrak (lit. darkness)',
+    en: 'excellent',
     tip: 'Mrak = super, odlično (žargon pohvale).',
   },
   {
@@ -127,7 +127,7 @@ const DATA = [
     q: '„Prijatelj” razgovorno je:',
     opts: ['frend', 'kolega s posla', 'znanac', 'sugovornik'],
     answer: 'frend',
-    en: 'friend → frend',
+    en: 'friend',
     tip: 'Anglizam frend u opuštenom govoru.',
   },
   {
@@ -135,7 +135,7 @@ const DATA = [
     q: '„Dosadno mi je zbog njega” razgovorno:',
     opts: ['smara me', 'veseli me', 'čudi me', 'krijepi me'],
     answer: 'smara me',
-    en: 'he bores me → smara me',
+    en: 'he bores me',
     tip: 'Smarati = gnjaviti, dosađivati.',
   },
   {
@@ -143,7 +143,7 @@ const DATA = [
     q: '„Brzo je otišao” pojačano razgovorno:',
     opts: ['zbrisao je', 'došetao je', 'pristigao je', 'svratio je'],
     answer: 'zbrisao je',
-    en: 'he took off → zbrisao je',
+    en: 'he took off',
     tip: 'Zbrisati = naglo otići, pobjeći.',
   },
   {

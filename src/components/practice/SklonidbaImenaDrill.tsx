@@ -172,7 +172,7 @@ const DATA = [
   },
   {
     mode: 'titule',
-    q: 'Novinari razgovaraju s gospođom ____. (Kovač)',
+    q: 'Novinari razgovaraju s gospođom ____.',
     opts: ['Kovač', 'Kovačem', 'Kovačicom', 'Kovačevom'],
     answer: 'Kovač',
     en: 'the journalists are talking with Mrs Kovač',

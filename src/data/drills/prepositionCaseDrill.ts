@@ -43,7 +43,7 @@ export const PREPOSITION_CASE_DRILL_DATA: ModeDrillItem[] = [
   // ── kamoigdje ─────────────────────────────────────────────────────────────
   {
     mode: 'kamoigdje',
-    q: 'Idem u ____. (grad)',
+    q: 'Idem u ____.',
     en: 'I am going to the city.',
     opts: ['grad', 'gradu', 'grada', 'gradom'],
     answer: 'grad',

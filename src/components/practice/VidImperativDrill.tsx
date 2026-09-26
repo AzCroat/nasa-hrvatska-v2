@@ -97,7 +97,7 @@ const DATA = [
   },
   {
     mode: 'zabrana',
-    q: 'Nemoj ____ ! (kasniti — općenito)',
+    q: 'Nemoj ____! (općenito)',
     opts: ['kasniti', 'zakasniti', 'kasnio', 'zakasnivši'],
     answer: 'kasniti',
     en: 'do not be late (in general)',
@@ -121,7 +121,7 @@ const DATA = [
   },
   {
     mode: 'zabrana',
-    q: 'Nemoj to ____ ! (raditi)',
+    q: 'Nemoj to ____!',
     opts: ['raditi', 'uraditi', 'radio', 'uradivši'],
     answer: 'raditi',
     en: 'do not do that!',
@@ -137,7 +137,7 @@ const DATA = [
   },
   {
     mode: 'zabrana',
-    q: 'Upozorenje na jedan čin: „Nemoj ____ !” (pasti)',
+    q: 'Upozorenje na jedan čin: „Nemoj ____!”',
     opts: ['pasti', 'padati', 'pao', 'padnuvši'],
     answer: 'pasti',
     en: 'mind you do not fall!',
@@ -158,7 +158,7 @@ const DATA = [
   },
   {
     mode: 'zabrana',
-    q: 'Nemojte ____ za vrijeme predavanja. (razgovarati)',
+    q: 'Nemojte ____ za vrijeme predavanja.',
     opts: ['razgovarati', 'porazgovarati', 'razgovarali', 'razgovor'],
     answer: 'razgovarati',
     en: 'do not talk during the lecture',
@@ -166,7 +166,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Počeo je ____ hrvatski. (učiti)',
+    q: 'Počeo je ____ hrvatski.',
     opts: ['učiti', 'naučiti', 'naučio', 'učivši'],
     answer: 'učiti',
     en: 'he began to learn Croatian',
@@ -174,7 +174,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Nastavite ____ ! (raditi)',
+    q: 'Nastavite ____!',
     opts: ['raditi', 'uraditi', 'radili', 'uradite'],
     answer: 'raditi',
     en: 'carry on working!',
@@ -182,7 +182,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Prestani ____ ! (vikati)',
+    q: 'Prestani ____!',
     opts: ['vikati', 'viknuti', 'vikao', 'viknuvši'],
     answer: 'vikati',
     en: 'stop shouting!',
@@ -198,7 +198,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Želim ____ ovaj roman do petka. (čitati/pročitati)',
+    q: 'Želim ____ ovaj roman do petka.',
     opts: ['pročitati', 'čitati', 'čitao', 'pročitavši'],
     answer: 'pročitati',
     en: 'I want to finish this novel by Friday',
@@ -206,7 +206,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Idem ____ . (spavati)',
+    q: 'Idem ____.',
     opts: ['spavati', 'zaspati', 'spavao', 'zaspavši'],
     answer: 'spavati',
     en: 'I am going to sleep',
@@ -214,7 +214,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Moraš ____ zadaću prije izlaska. (završiti)',
+    q: 'Moraš ____ zadaću prije izlaska.',
     opts: ['završiti', 'završavati', 'završivši', 'završavao'],
     answer: 'završiti',
     en: 'you must finish your homework before going out',
@@ -222,7 +222,7 @@ const DATA = [
   },
   {
     mode: 'infinitiv',
-    q: 'Zna ____ otkad je imao pet godina. (plivati)',
+    q: 'Zna ____ otkad je imao pet godina.',
     opts: ['plivati', 'otplivati', 'plivao', 'zaplivavši'],
     answer: 'plivati',
     en: 'he has known how to swim since he was five',

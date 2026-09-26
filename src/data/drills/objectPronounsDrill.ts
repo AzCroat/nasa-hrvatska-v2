@@ -58,7 +58,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Vide ____. (nas)',
+    q: 'Vide ____.',
     en: 'They see us.',
     opts: ['nas', 'nam', 'vas', 'ih'],
     answer: 'nas',
@@ -158,7 +158,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   // ── redanje ───────────────────────────────────────────────────────────────
   {
     mode: 'redanje',
-    q: 'Dao ____ je knjigu. (meni + nju)',
+    q: 'Dao ____ je knjigu. (nju + meni)',
     en: 'He gave it to me.',
     opts: ['mi ju', 'ju mi', 'mi je', 'je mi'],
     answer: 'mi ju',
@@ -195,7 +195,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'redanje',
-    q: 'Poslao ____ pismo. (njemu + njega)',
+    q: 'Poslao ____ pismo. (njega + njemu)',
     en: 'He sent it to him.',
     opts: ['mu ga je', 'ga mu je', 'je mu ga', 'mu je ga'],
     answer: 'mu ga je',
@@ -203,7 +203,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'redanje',
-    q: 'Kupit ____ sutra. (tebi + njega)',
+    q: 'Kupit ____ sutra. (njega + tebi)',
     en: 'I will buy it for you tomorrow.',
     opts: ['ću ti ga', 'ću ga ti', 'ti ću ga', 'ga ću ti'],
     answer: 'ću ti ga',

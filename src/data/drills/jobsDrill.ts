@@ -121,7 +121,7 @@ export const JOBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pitanje',
-    q: 'Ja sam ____. (profesor)',
+    q: 'Ja sam ____.',
     en: 'I am a teacher.',
     opts: ['profesor', 'profesora', 'profesoru', 'profesorom'],
     answer: 'profesor',
@@ -153,7 +153,7 @@ export const JOBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pitanje',
-    q: 'Tražim ____. (posao)',
+    q: 'Tražim ____.',
     en: 'I am looking for a job.',
     opts: ['posao', 'posla', 'poslu', 'poslom'],
     answer: 'posao',
@@ -187,7 +187,7 @@ export const JOBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ured',
-    q: 'Imam ____ u deset. (sastanak)',
+    q: 'Imam ____ u deset.',
     en: 'I have a meeting at ten.',
     opts: ['sastanak', 'sastanka', 'sastanku', 'sastankom'],
     answer: 'sastanak',

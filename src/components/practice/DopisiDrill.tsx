@@ -36,7 +36,7 @@ const DATA = [
   },
   {
     mode: 'molba',
-    q: 'U molbi se prijavljujemo „na natječaj ____ ” (objavljen)',
+    q: 'U molbi se prijavljujemo „na natječaj ____ ”',
     opts: ['objavljen', 'objavljujući', 'koji objavljen', 'objavljenoga'],
     answer: 'objavljen',
     en: 'the advertised vacancy',
@@ -70,7 +70,7 @@ const DATA = [
   },
   {
     mode: 'molba',
-    q: '„U prilogu dostavljam ____ .” (životopis)',
+    q: '„U prilogu dostavljam ____.”',
     opts: ['životopis', 'život', 'životopisa', 'životopisom'],
     answer: 'životopis',
     en: 'I enclose my CV',
@@ -94,7 +94,7 @@ const DATA = [
   },
   {
     mode: 'molba',
-    q: '„Stojim Vam na raspolaganju za ____ .” (dodatne obavijesti)',
+    q: '„Stojim Vam na raspolaganju za ____.”',
     opts: [
       'dodatne obavijesti',
       'dodatnih obavijesti',
@@ -133,7 +133,7 @@ const DATA = [
   },
   {
     mode: 'zalba',
-    q: '„Ulažem žalbu ____ rješenje.” (protiv)',
+    q: '„Ulažem žalbu ____ rješenje.”',
     opts: ['protiv', 'na protiv', 'za', 'o'],
     answer: 'protiv',
     en: 'I lodge an appeal against the decision',

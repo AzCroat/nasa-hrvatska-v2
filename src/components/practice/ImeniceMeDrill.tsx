@@ -169,7 +169,7 @@ const DATA = [
   },
   {
     mode: 'recenica',
-    q: 'Zovem te u ____ svih nas. (ime)',
+    q: 'Zovem te u ____ svih nas.',
     opts: ['ime', 'imenu', 'imena', 'imenom'],
     answer: 'ime',
     en: 'I call you on behalf of us all',
@@ -177,7 +177,7 @@ const DATA = [
   },
   {
     mode: 'recenica',
-    q: 'Ptica mi je sletjela na ____ . (rame)',
+    q: 'Ptica mi je sletjela na ____.',
     opts: ['rame', 'ramenu', 'ramena', 'ramenom'],
     answer: 'rame',
     en: 'a bird landed on my shoulder',

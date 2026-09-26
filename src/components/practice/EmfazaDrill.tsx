@@ -120,7 +120,7 @@ const DATA = [
   },
   {
     mode: 'fokus',
-    q: '„Upravo ____ tražim!” (tebe)',
+    q: '„Upravo ____ tražim!”',
     opts: ['tebe', 'te', 'ti', 'tobom'],
     answer: 'tebe',
     en: 'it is precisely YOU I am looking for',
@@ -128,7 +128,7 @@ const DATA = [
   },
   {
     mode: 'fokus',
-    q: '„Ni ____ to ne bih rekao.” (njemu)',
+    q: '„Ni ____ to ne bih rekao.”',
     opts: ['njemu', 'mu', 'njega', 'on'],
     answer: 'njemu',
     en: 'I would not tell even HIM that',
@@ -176,7 +176,7 @@ const DATA = [
   },
   {
     mode: 'stil',
-    q: '„Dao ____ za rođendan.” (njemu, njega)',
+    q: '„Dao ____ za rođendan.” (njega, njemu)',
     opts: ['mu ga je', 'mu je ga', 'ga mu je', 'je mu ga'],
     answer: 'mu ga je',
     en: 'he gave it to him for his birthday',
@@ -200,7 +200,7 @@ const DATA = [
   },
   {
     mode: 'stil',
-    q: '„Htio ____ predstaviti.” (vama, sebe)',
+    q: '„Htio ____ predstaviti.” (sebe, vama)',
     opts: ['bih vam se', 'bih se vam', 'vam bih se', 'se bih vam'],
     answer: 'bih vam se',
     en: 'I would like to introduce myself to you',

@@ -108,7 +108,7 @@ const DATA = [
   },
   {
     mode: 'naglaseni',
-    q: 'Na početku rečenice: „____ je pomogao.” (isticanje: baš meni)',
+    q: 'Na početku rečenice: „____ je pomogao.” (isticanje)',
     opts: ['Meni', 'Mi', 'Ja', 'Mnom'],
     answer: 'Meni',
     en: 'it was ME he helped',

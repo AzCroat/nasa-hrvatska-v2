@@ -62,10 +62,10 @@ const DATA = [
   },
   {
     mode: 'glagoli',
-    q: 'Umjesto „uzeti mjesto” (dogoditi se) standard kaže:',
+    q: 'Umjesto „uzeti mjesto” standard kaže:',
     opts: ['održati se / dogoditi se', 'zauzeti mjesto sjedeći', 'uzeti prostor', 'mjestiti se'],
     answer: 'održati se / dogoditi se',
-    en: 'to take place → održati se',
+    en: 'to take place',
     tip: 'Konferencija se održava, ne uzima mjesto.',
   },
   {
@@ -152,7 +152,7 @@ const DATA = [
     q: 'Umjesto „vršiti pritisak” jednostavnije je:',
     opts: ['pritiskati', 'pritisak vršiti jače', 'izvršavati tlak', 'tlačiti papire'],
     answer: 'pritiskati',
-    en: 'to exert pressure → pritiskati',
+    en: 'to exert pressure',
     tip: 'Vršiti + imenica često skriva običan glagol.',
   },
   {
@@ -257,7 +257,7 @@ const DATA = [
     q: '„Deadline” standard zamjenjuje:',
     opts: ['rok', 'mrtva linija', 'crta smrti', 'kraj vremena'],
     answer: 'rok',
-    en: 'deadline → rok',
+    en: 'deadline',
     tip: 'Do roka, prije roka, probiti rok.',
   },
   {
@@ -265,7 +265,7 @@ const DATA = [
     q: '„Feedback” standard zamjenjuje:',
     opts: ['povratna informacija', 'hranjenje natrag', 'odjek zvuka', 'odgovor jedino'],
     answer: 'povratna informacija',
-    en: 'feedback → povratna informacija',
+    en: 'feedback',
     tip: 'Dati povratnu informaciju.',
   },
 ];

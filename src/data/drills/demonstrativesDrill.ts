@@ -90,7 +90,7 @@ export const DEMONSTRATIVES_DRILL_DATA: ModeDrillItem[] = [
   // ── rod ───────────────────────────────────────────────────────────────────
   {
     mode: 'rod',
-    q: '____ stol (ovaj)',
+    q: '____ stol',
     en: 'this table',
     opts: ['ovaj', 'ova', 'ovo', 'ovi'],
     answer: 'ovaj',

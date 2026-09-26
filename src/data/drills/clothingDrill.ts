@@ -54,7 +54,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nositi',
-    q: 'Nosi ____. (crni džemper)',
+    q: 'Nosi ____.',
     en: 'He is wearing a black jumper.',
     opts: ['crni džemper', 'crnog džempera', 'crnom džemperu', 'crnim džemperom'],
     answer: 'crni džemper',
@@ -70,7 +70,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nositi',
-    q: 'Zimi nosim ____. (topao kaput)',
+    q: 'Zimi nosim ____.',
     en: 'In winter I wear a warm coat.',
     opts: ['topao kaput', 'toplog kaputa', 'toplom kaputu', 'toplim kaputom'],
     answer: 'topao kaput',
@@ -136,7 +136,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Kaput je ____. (zelen)',
+    q: 'Kaput je ____.',
     en: 'The coat is green.',
     opts: ['zelen', 'zelena', 'zeleno', 'zelene'],
     answer: 'zelen',

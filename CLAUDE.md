@@ -3618,6 +3618,91 @@ Again" on last card: mode='done' (without awarding mastered)`, with a passing te
   which paths reach the view); write a test whose scenario cannot distinguish a guard
   from the absence of the thing it guards.
 
+## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
+
+Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What
+the fuck. How is someone going to learn if you give them the answers?"_ — and separately,
+of the verb-aspect drill: _"Verb aspect drill also gives the answer. You cannot learn if
+given the answers."_ Both were one defect with **131 instances across 55 files**, and
+every one of them could be answered by copying its own cue, which means the item tested
+nothing at all.
+
+The shape is a parenthetical after the sentence, naming the word to use — **in the very
+form the item is asking for**:
+
+```
+q: 'Nemoj ____ o tome. (govoriti)'      answer: 'govoriti'     ← the cue IS the answer
+q: 'Sutra ću _____ (ići) u grad.'       answer: 'ići'          ← the future takes the
+                                                                 infinitive, and the cue
+                                                                 is the infinitive
+q: 'Dao ____ je knjigu. (meni + nju)'   answer: 'mi ju'        ← `redanje` mode tests
+                                                                 dative-before-accusative
+                                                                 and the cue gives the order
+```
+
+- **THE FIX IS ALMOST ALWAYS TO DELETE THE PARENTHETICAL**, because the options are
+  already forms of one lemma — `Vraćam se za ____. (sat)` offers `sat / satom / sata /
+satu`, so the cue identifies nothing the learner cannot see and only lets them copy it.
+  Four glosses were kept because they carry real information the options do not
+  (`(light)`, `(općenito)`, `(pozdrav gostu)`, `(s jednoga na drugo)`).
+- **A CUE THAT NAMES THE PERSON IS LEGITIMATE AND MUST SURVIVE.** `Treba ____ odmor. (ja)`
+  → `mi` says whose rest it is without giving the dative form; it sits two lines from one
+  that was a leak. That the predicate left it alone is the check that it is precise.
+- **THE PREDICATE IS TOKEN CONTAINMENT INSIDE A PARENTHETICAL, and every narrowing was
+  forced by a false positive on real content:**
+  - **Not substring.** `Vidim ____. (njega)` → `ga` contains `ga` inside `njega`
+    incidentally, and long-form-to-clitic conversion is the exercise. A substring rule
+    reported **255** items, over a hundred of them correct.
+  - **Not the question's prose, only its brackets.** 29 items legitimately contain their
+    answer in prose — `Je li ova sklonidba dulja ili kraća…?` offers the alternatives on
+    purpose, `Vokativ imena „Marko” glasi:` has to name the word.
+  - **Order matters for a multi-word answer.** `EnklitikeDrill` TEACHES clitic order, so
+    listing the clitics is the task: `(je + mu + ih)` → `mu ih je` requires ordering them
+    and is correct, while `(mi + je)` → `mi je` is a giveaway. A presence-only rule
+    flagged all eleven and could not tell them apart. Six had the cue in the answer's
+    order and were scrambled, which is what the drill's own correct items already do.
+  - **A `/`-separated cue is a scaffold, not an answer.** `(čitati/pročitati)` narrows
+    four options to two and still makes the learner choose the aspect.
+  - **WHERE THE ITEM IS ABOUT CAPITALISATION, CASE IS THE ANSWER.** `VelikoSlovoDrill`
+    offers `Sveučilište | sveučilište | SVEUČILIŠTE | Sve Učilište`; two options are the
+    same word differing only in case, which is how you can tell the capital letter is the
+    question, so its lowercase cue withholds exactly what is being tested. The comparison
+    is case-sensitive there and case-insensitive everywhere else, because a
+    sentence-initial capital is incidental (`(tijekom + puni oblik)` → `Tijekom` IS a
+    giveaway). Scoped by reading the OPTIONS, not by guessing.
+- **THE LONG FORMS HIDE AN ORDER LEAK THAT NO SURFACE MATCH CAN SEE**, and it was the
+  owner's first example: `(meni + nju)` → `mi ju` shares not one word with its answer.
+  `CLITIC_OF` is a closed long↔short mapping, applied **only to multi-word answers** —
+  converting ONE long form is a real exercise the app runs on purpose, and mapping it
+  would flag every such item.
+- **THE ENGLISH GLOSS IS A SECOND CARRIER AND IS SWEPT TOO.** `ModeDrill` and every
+  hand-written `*Drill.tsx` render `{cur.en}` **unconditionally, above the options**, so a
+  gloss reading `money → lova` hands over the answer before the learner chooses. Eleven
+  items did exactly that (`RazgovorniDrill`, a slang drill, held six); all are fixed.
+  **Only the `→` shape is guarded, and that scope is measured**: of 5,166 items with both
+  an `en` and an answer, 101 have the answer in the gloss, and **89 of those are correct** —
+  a loanword or proper noun English shares (`internet`, `euro`, `film`, `London`, `m²`) or
+  a clitic coinciding with its English pronoun (`Uhvatila ____ je fjaka.` → `me`). A blunt
+  rule reports all 89 and names no defect.
+  **ASK WHEN A FIELD IS RENDERED, NOT ONLY WHAT IT CONTAINS.** `CollocationsGame` puts the
+  whole Croatian collocation in `en` (`'napraviti grešku'` for answer `napraviti`) — the
+  largest cluster the census surfaced, twenty-plus items — and renders it inside
+  `{answered && (…)}`, so it is FEEDBACK. Without that question the sweep would have been
+  eleven real fixes and twenty false ones.
+  **And I first deferred this class on an unmeasured magnitude** ("a blunt rule would flag
+  hundreds"), which is the same failure as inflating one to justify doing work. It was 101.
+- Pinned by `answerNotInPrompt.test.ts` over `helpers/promptCues.ts`. **The non-vacuity
+  clause counts the items the scan REACHES (5,666)**, because zero leaks is also what a
+  walk that stopped descending reports, and the two are otherwise indistinguishable — the
+  first draft asserted `Array.isArray(...)`, which is the decorative shape this file keeps
+  finding. Mutation-verified, three: each owner-reported cue re-injected fails and names
+  itself; the item filter gutted fails the non-vacuity floor at 0.
+- NEVER: write a cue in the FORM the item is asking for; give the ORDER of a clitic
+  cluster in a drill that tests order (scramble it — the ingredients are the task); read a
+  substring match as a cue leak; flag an answer appearing in the question's own prose;
+  compare case-insensitively when two of the options differ only by case; print the
+  answer in the `en` gloss.
+
 ## Critical Architecture: A Green Suite Is Not A Driven App (2026-09-26)
 
 Owner, after four consecutive sweeps of credit defects: _"Will you ever complete

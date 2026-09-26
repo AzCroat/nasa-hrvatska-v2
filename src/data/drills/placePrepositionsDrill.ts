@@ -93,7 +93,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   // ── kretanje ──────────────────────────────────────────────────────────────
   {
     mode: 'kretanje',
-    q: 'Idem u ____. (grad)',
+    q: 'Idem u ____.',
     en: 'I am going to town.',
     opts: ['grad', 'gradu', 'grada', 'gradom'],
     answer: 'grad',
@@ -109,7 +109,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kretanje',
-    q: 'Putujemo na ____. (more)',
+    q: 'Putujemo na ____.',
     en: 'We are travelling to the seaside.',
     opts: ['more', 'moru', 'mora', 'morem'],
     answer: 'more',
@@ -133,7 +133,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kretanje',
-    q: 'Stavi tanjur na ____. (stol)',
+    q: 'Stavi tanjur na ____.',
     en: 'Put the plate on the table.',
     opts: ['stol', 'stolu', 'stola', 'stolom'],
     answer: 'stol',

@@ -61,7 +61,7 @@ export const RECONSTRUCTION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dijelovi',
-    q: 'Ključni je ____ u tom rasuđivanju drugi. (korak)',
+    q: 'Ključni je ____ u tom rasuđivanju drugi.',
     en: 'The key step in that reasoning is the second one.',
     opts: ['korak', 'koraka', 'koraku', 'korakom'],
     answer: 'korak',

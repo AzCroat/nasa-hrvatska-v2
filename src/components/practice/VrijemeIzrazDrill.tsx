@@ -156,7 +156,7 @@ const DATA = [
   },
   {
     mode: 'izrazi',
-    q: '„____ mjeseca stiže isplata.” (tijekom + puni oblik)',
+    q: '„____ mjeseca stiže isplata.” (puni oblik, ne „u tijeku”)',
     opts: ['Tijekom', 'U tijeku od', 'Kroz za', 'Preko na'],
     answer: 'Tijekom',
     en: 'during the month the payment arrives',

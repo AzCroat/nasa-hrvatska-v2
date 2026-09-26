@@ -29,7 +29,7 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
   // ── prefiksi ──────────────────────────────────────────────────────────────
   {
     mode: 'prefiksi',
-    q: 'pisati → ____ (prepisati s jednoga na drugo)',
+    q: 'pisati → ____ (s jednoga na drugo)',
     en: 'to copy out',
     opts: ['prepisati', 'napisati', 'upisati', 'opisati'],
     answer: 'prepisati',

@@ -43,7 +43,7 @@ export const DURATION_DRILL_DATA: ModeDrillItem[] = [
   // ── prijeza ───────────────────────────────────────────────────────────────
   {
     mode: 'prijeza',
-    q: 'Stigao sam prije ____. (dva dana)',
+    q: 'Stigao sam prije ____.',
     en: 'I arrived two days ago.',
     opts: ['dva dana', 'dva dane', 'dvama danima', 'dva danom'],
     answer: 'dva dana',
@@ -51,7 +51,7 @@ export const DURATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prijeza',
-    q: 'Vraćam se za ____. (tjedan dana)',
+    q: 'Vraćam se za ____.',
     en: 'I am coming back in a week.',
     opts: ['tjedan dana', 'tjedna dana', 'tjednu dana', 'tjednom'],
     answer: 'tjedan dana',
@@ -99,7 +99,7 @@ export const DURATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prijeza',
-    q: 'Radim od ____ do ____. (devet, pet)',
+    q: 'Radim od ____ do ____.',
     en: 'I work from nine to five.',
     opts: ['devet do pet', 'devet do peti', 'devetu do pet', 'devetom do petom'],
     answer: 'devet do pet',
@@ -109,7 +109,7 @@ export const DURATION_DRILL_DATA: ModeDrillItem[] = [
   // ── trajanje ──────────────────────────────────────────────────────────────
   {
     mode: 'trajanje',
-    q: 'Čekao sam ____. (dva sata)',
+    q: 'Čekao sam ____.',
     en: 'I waited two hours.',
     opts: ['dva sata', 'za dva sata', 'dvama satima', 'do dva sata'],
     answer: 'dva sata',

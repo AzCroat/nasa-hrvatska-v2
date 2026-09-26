@@ -110,7 +110,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'salter',
-    q: 'Trebam podići ____. (novac)',
+    q: 'Trebam podići ____.',
     en: 'I need to withdraw money.',
     opts: ['novac', 'novca', 'novcu', 'novcem'],
     answer: 'novac',
@@ -118,7 +118,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'salter',
-    q: 'Htio bih otvoriti ____. (račun)',
+    q: 'Htio bih otvoriti ____.',
     en: 'I would like to open an account.',
     opts: ['račun', 'računa', 'računu', 'računom'],
     answer: 'račun',
@@ -150,7 +150,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'salter',
-    q: 'Uzmite ____ i pričekajte. (broj)',
+    q: 'Uzmite ____ i pričekajte.',
     en: 'Take a number and wait.',
     opts: ['broj', 'broja', 'broju', 'brojem'],
     answer: 'broj',

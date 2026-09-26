@@ -186,7 +186,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razgledavanje',
-    q: 'Na koliko dugo je ____? (ugovor)',
+    q: 'Na koliko dugo je ____?',
     en: 'How long is the contract for?',
     opts: ['ugovor', 'ugovora', 'ugovoru', 'ugovorom'],
     answer: 'ugovor',

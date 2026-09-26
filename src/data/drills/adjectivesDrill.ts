@@ -27,7 +27,7 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   // ── rod ───────────────────────────────────────────────────────────────────
   {
     mode: 'rod',
-    q: '____ grad (velik)',
+    q: '____ grad',
     en: 'a big city',
     opts: ['velik', 'velika', 'veliko', 'veliki'],
     answer: 'velik',

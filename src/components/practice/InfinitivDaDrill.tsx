@@ -60,7 +60,7 @@ const DATA = [
   },
   {
     mode: 'standard',
-    q: '„Idem ____ .” (kupovati)',
+    q: '„Idem ____.”',
     opts: ['kupovati', 'da kupujem', 'na da kupujem', 'kupovina'],
     answer: 'kupovati',
     en: 'I am going shopping',
@@ -177,7 +177,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Planiramo ____ novu školu.” (graditi)',
+    q: '„Planiramo ____ novu školu.”',
     opts: ['graditi', 'da gradimo', 'gradnja', 'da bismo gradili'],
     answer: 'graditi',
     en: 'we plan to build a new school',
@@ -193,7 +193,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Volim ____ ujutro.” (trčati)',
+    q: '„Volim ____ ujutro.”',
     opts: ['trčati', 'da trčim', 'trčanje samo', 'da ću trčati'],
     answer: 'trčati',
     en: 'I love running in the morning',
@@ -201,7 +201,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Zabranjeno je ____ po travi.” (hodati)',
+    q: '„Zabranjeno je ____ po travi.”',
     opts: ['hodati', 'da se hoda', 'hodanje da', 'da hodaš'],
     answer: 'hodati',
     en: 'walking on the grass is forbidden',
@@ -217,7 +217,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Uspio sam ____ ulaznice.” (nabaviti)',
+    q: '„Uspio sam ____ ulaznice.”',
     opts: ['nabaviti', 'da nabavim', 'nabava', 'da sam nabavio'],
     answer: 'nabaviti',
     en: 'I managed to get tickets',

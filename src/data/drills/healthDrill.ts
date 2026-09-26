@@ -219,7 +219,7 @@ export const HEALTH_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'lijecnik',
-    q: 'Trebam ____ za glavobolju. (lijek)',
+    q: 'Trebam ____ za glavobolju.',
     en: 'I need something for a headache.',
     opts: ['lijek', 'lijeka', 'lijeku', 'lijekom'],
     answer: 'lijek',

@@ -79,7 +79,7 @@ export const APPEARANCE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kakavkoji',
-    q: 'Kakvo je ____? (dijete)',
+    q: 'Kakvo je ____?',
     en: 'What is the child like?',
     opts: ['dijete', 'djeteta', 'djetetu', 'djetetom'],
     answer: 'dijete',
@@ -145,7 +145,7 @@ export const APPEARANCE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kosaoci',
-    q: 'Nosi ____. (naočale)',
+    q: 'Nosi ____.',
     en: 'He wears glasses.',
     opts: ['naočale', 'naočalu', 'naočala', 'naočalama'],
     answer: 'naočale',

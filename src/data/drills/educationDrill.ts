@@ -78,7 +78,7 @@ export const EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'glagoli',
     q: 'Koji padež traži "učiti" ovdje: učim ____?',
-    en: 'Učim ____ (hrvatski)',
+    en: 'Which case does učiti take here?',
     opts: ['hrvatski', 'hrvatskog', 'hrvatskom', 'hrvatskim'],
     answer: 'hrvatski',
     tip: 'A direct object in the accusative, and this one looks like the nominative.',

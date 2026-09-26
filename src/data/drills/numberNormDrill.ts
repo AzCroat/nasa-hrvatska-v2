@@ -103,7 +103,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   // ── sklonidba ─────────────────────────────────────────────────────────────
   {
     mode: 'sklonidba',
-    q: 'Pet ____. (kuna)',
+    q: 'Pet ____.',
     en: 'five kuna',
     opts: ['kuna', 'kune', 'kunu', 'kunama'],
     answer: 'kuna',

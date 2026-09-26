@@ -118,7 +118,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'zaiz',
-    q: 'Vlak za ____. (Zagreb)',
+    q: 'Vlak za ____.',
     en: 'the train to Zagreb',
     opts: ['Zagreb', 'Zagreba', 'Zagrebu', 'Zagrebom'],
     answer: 'Zagreb',

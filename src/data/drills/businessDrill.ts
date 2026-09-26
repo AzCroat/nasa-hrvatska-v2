@@ -39,7 +39,7 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'tvrtka',
-    q: 'Potpisali smo ____. (ugovor)',
+    q: 'Potpisali smo ____.',
     en: 'We signed a contract.',
     opts: ['ugovor', 'ugovora', 'ugovoru', 'ugovorom'],
     answer: 'ugovor',
@@ -224,7 +224,7 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'sezona',
-    q: 'Hrvatska je uvela ____ 2023. (euro)',
+    q: 'Hrvatska je uvela ____ 2023.',
     en: 'Croatia adopted the euro in 2023.',
     opts: ['euro', 'eura', 'euru', 'eurom'],
     answer: 'euro',
