@@ -10683,6 +10683,101 @@ the most elegant derivation.
 
 ---
 
+## Sweep 147 — the other hundred: 98 hand-written drills driven by one derived suite (2026-09-26)
+
+Sweep 146 drove the engine behind 109 wrapper drills and printed the coverage figure
+as a script. Running that script named the next subject without a judgement call:
+**146 of 222 crediting components undriven, and the largest single block of them was
+`src/components/practice/*Drill.tsx`** — 101 files, ~400–570 lines each, all copies of
+one component, and the oldest graded content in the app. `exerciseContract.test.tsx`
+skips 24 of them and this file already records the reason: its shared `completeDrill`
+picks options by `className.includes('ob')` and most of these style their buttons
+inline with no className at all. So sweeps 139–145 audited twenty-six screens of that
+cohort one at a time while ninety-eight were driven by nothing.
+
+**THE RESULT IS CLEAN: all 98 are correct on both paths.** A perfect run credits once
+and writes its `vs` key; the credit is already recorded when the results view first
+renders, so every exit is equivalent; a sub-threshold run records nothing and offers
+its retry; the retry can still credit. This is a ratchet, not a fix, and saying so
+plainly is the point — a clean sweep presented as a save is the inflation sweep 146
+was itself a correction for. Coverage **76 → 157 of 222**.
+
+**WHAT MADE THEM DRIVEABLE, and neither half works alone.**
+
+1. **ONE SOURCE OF RANDOMNESS.** Each drill re-draws its run inside `useState`'s
+   initialiser, so a replay is impossible unless the draw is fixed. Every local
+   `shLocal` is a PRIVATE copy of Fisher–Yates — 97 separate copies — and every one
+   calls the SHARED `rnd` in `src/lib/random.ts`, as does `drawDrillRun`. Mocking that
+   single export fixes every shuffle in the cohort at once. Measured, not assumed: two
+   mounts present the identical first question.
+2. **THE ANSWER READ OFF THE SCREEN.** `DATA` is file-local and unexported in all of
+   them, so nothing can import the key. A discovery pass answers with the first option
+   and records the option the screen ITSELF marks correct — **from `borderColor`, never
+   the `border` shorthand.** The cohort has two styling conventions (an inline `border`
+   and the `.ob` class's `borderColor`); reading the shorthand returns `''` for every
+   `.ob` drill, which is how the first version of the helper reported all seven case
+   drills as never marking an answer.
+
+**A REPLAY MUST NOT FALL BACK SILENTLY.** The "click the option discovery recorded"
+lookup was first written `opts[Math.max(0, texts.indexOf(want))]` — so a replay that
+had drifted would quietly answer option 0, produce an imperfect run, and still credit
+on most drills: a green test proving nothing about the thing it names. It throws and
+names the question and the options now, and that strictness is exactly what made the
+determinism mutation legible rather than a silent pass.
+
+**A CLAUSE CAN NEED A JOINT MUTATION, AND THE SINGLE-POINT ONE SURVIVING IS THE
+FINDING.** "A failed run records nothing" survived (a) removing `PrepDrill`'s own
+`!passedLesson(ppS, total)` guard from its credit effect and (b), separately, forcing
+the `score` argument to `total` — because `completeExercise` re-gates on `passedLesson`
+itself. Two independent gates on one fact is a good property of the app; it also means
+that clause's non-vacuity needs both defeated at once, which is what finally failed it
+with the named message. **Check WHERE a mutation landed before reading its result** —
+my first attempt patched an argument sitting downstream of the real gate, and reading
+"survived" as "the clause is decorative" would have been wrong twice over.
+
+**THE SHARED `strip()` IDIOM EATS A GLOB PATTERN**, and it cost the coverage figure.
+`'../components/practice/*Drill.tsx'` contains `/*`, so `strip`'s block-comment pass
+treats the pattern as a comment opener and deletes everything to the next `*/`. The
+counter therefore reported **zero** glob-derived coverage for a suite driving
+ninety-eight screens, and the symptom was indistinguishable from a broken glob — I
+debugged the path resolution twice before dumping what the matcher actually captured
+(`'../components/practice\nconst NOT_A_SUBJECT…'`, the giveaway). Anything that strips
+comments and then matches a PATH has this hazard. Counterpart to sweep 121's trailing
+comment and sweep 72's ordering rule: the strip is load-bearing in both directions.
+
+**A NAME-ONLY DETECTOR CANNOT SEE A DERIVED CORPUS.** `creditCoverage.mjs` credited a
+component when a test file mentioned its name — and this suite names none of its 98
+subjects, deliberately, taking them from `import.meta.glob` so that a drill authored
+next month is covered without an edit. It expands the glob now, reports how many were
+credited that way, and its docstring states the imprecision this introduces: a
+glob-driven suite is credited with everything its pattern matches, while such a suite
+may exempt a subject (this one exempts 3, each with a reason it asserts itself — so
+157 is generous by 2, `ModeDrill` being genuinely driven elsewhere).
+
+**THE THREE EXEMPTIONS**, checked in both staleness directions and each required to
+still fail to present a multiple-choice run: `ModeDrill` (the shared engine, takes its
+bank as a prop, driven by sweep 146's file), `ConjugationDrill` (reads its tables from
+`useGrammar()`, so with no content payload it renders its loading state and never
+reaches a question — a content fixture is its own subject) and
+`ConjugationSessionDrill` (needs `category`/`cefr` from the session builder and
+delegates to `ConjugationDrillEngine`, which `conjugation-engine.test.tsx` drives).
+
+- Mutation-verified, five: the credit moved into the `← Back` onClick fails that
+  drill's test with the named message; the `rnd` mock removed fails and names the
+  non-replay; the retry's `finishFired` reset dropped fails and names it; a stale
+  exemption over a driveable drill fails; the joint gate defeat fails the failed-run
+  clause.
+- Runtime: the suite adds ~123 s to `npm test`. Accepted — the unit job is not the
+  pipeline's critical path (`e2e` is 15–35 min and runs in parallel), and it buys 98
+  screens of end-to-end coverage.
+- NEVER: hand-list the corpus of a guard whose subject can grow; let a replay answer
+  something other than what it recorded; read a correct-answer marker off the `border`
+  shorthand when the cohort styles two ways; strip block comments before matching a
+  path; conclude a clause is decorative from a single-point mutation when the app
+  guards the same fact twice.
+
+---
+
 ## NOT YET CHECKED — where the next field report will come from
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:

@@ -3626,10 +3626,11 @@ answer that produced a bigger finding than any of the four, and a correction to 
 figure I had just quoted out loud.
 
 - **`npm test` REPORTS 10,016 GREEN AND SAYS NOTHING ABOUT THIS.** Of the **222
-  components that credit a learner, 76 are DRIVEN** — rendered by a test that
-  asserts a credit writer fired. The suite is large because it tests LIBRARIES;
-  the defects of sweeps 139–145 were all in screens nothing renders. A test count
-  is not a coverage measure, and the two move independently.
+  components that credit a learner, 76 were DRIVEN** — rendered by a test that
+  asserts a credit writer fired — **157 as of sweep 147**. The suite is large
+  because it tests LIBRARIES; the defects of sweeps 139–145 were all in screens
+  nothing renders. A test count is not a coverage measure, and the two move
+  independently. **Do not read the figure off this sentence — run the script.**
 - **`scripts/creditCoverage.mjs` prints the number**, because a figure in prose is
   a hand-maintained list of one (sweep 136's lint count) and decays the same way.
   Its docstring states what it cannot claim: it may over-credit, and **one subject
@@ -3661,9 +3662,59 @@ setStats)'` → 0 on both). The audit spent four sweeps on twenty-six hand-writt
   sweep 114 and the next ten sweeps were derivations anyway. **Choose the next
   question by where defects have actually been found, not by which derivation is
   most elegant.**
+- **THE OTHER HUNDRED (sweep 147, 2026-09-26): `src/components/practice/*Drill.tsx`,
+  the oldest graded content in the app, ~400–570 lines each and all copies of one
+  component. 98 of them are now driven end to end by ONE derived suite
+  (`handWrittenDrills.contract.test.tsx`), and all 98 are CORRECT on both paths — a
+  ratchet, like ModeDrill, said plainly rather than dressed up as a save.** Coverage
+  76 → 157 of 222 (generous by the 2 subjects that suite exempts with reasons it
+  asserts itself).
+  **TWO THINGS MADE THEM DRIVEABLE AND NEITHER WORKS ALONE.** Each drill re-draws its
+  run inside `useState`'s initialiser, so a replay is impossible unless the draw is
+  fixed — and every local `shLocal` is a PRIVATE copy of Fisher–Yates (97 of them)
+  that nonetheless calls the SHARED `rnd` in `src/lib/random.ts`, as does
+  `drawDrillRun`. Mocking that one export fixes every shuffle in the cohort. And
+  `DATA` is file-local and unexported in all of them, so nothing can import the answer
+  key: a discovery pass answers with the first option and reads the option the screen
+  ITSELF marks correct. **From `borderColor`, never the `border` shorthand** — the
+  cohort has two styling conventions and the shorthand is `''` for the `.ob` drills,
+  which is how the first version of that helper reported every case drill as having no
+  correct answer.
+  **A REPLAY MUST NOT FALL BACK SILENTLY.** The lookup for "click the option the
+  discovery pass recorded" first read `Math.max(0, indexOf(want))` — so a mismatched
+  replay would quietly answer option 0, produce an imperfect run, and still credit on
+  most drills: a green test proving nothing. It throws and names the question now, and
+  that strictness is what made the determinism mutation legible.
+  **A CLAUSE CAN NEED A JOINT MUTATION, AND A SINGLE-POINT ONE SURVIVING IS THE
+  FINDING.** "A failed run records nothing" survived removing the screen's own
+  `passedLesson` guard AND, separately, forcing its `score` argument to `total` —
+  because `completeExercise` re-gates on `passedLesson` itself. Two independent gates
+  on one fact is a good property of the app; it also means that clause's non-vacuity
+  needs both defeated at once, which is what finally failed it. **Check WHERE a
+  mutation landed before reading its result** — my first attempt patched an argument
+  downstream of the real gate.
+  Mutation-verified, five: the credit moved into the `← Back` onClick fails that
+  drill's test; the `rnd` mock removed fails and names the non-replay; the retry's
+  `finishFired` reset dropped fails and names it; a stale exemption over a driveable
+  drill fails; and the joint gate defeat fails the failed-run clause.
+- **THE SHARED `strip()` IDIOM EATS A GLOB PATTERN.** `'../components/practice/*Drill.tsx'`
+  contains `/*`, so the block-comment pass reads the pattern as a comment opener and
+  deletes everything to the next `*/` — which made the coverage counter report **zero**
+  for a suite driving ninety-eight screens, and looked exactly like a broken glob. Any
+  guard that strips comments and then matches a PATH has this hazard; match
+  line-stripped source there. (Counterpart to sweep 121's trailing-comment finding and
+  sweep 72's ordering rule: the strip is load-bearing in both directions.)
+- **A NAME-ONLY DETECTOR CANNOT SEE A DERIVED CORPUS.** `creditCoverage.mjs` credited a
+  component when a test file mentioned its name, so a suite taking its subjects from
+  `import.meta.glob` — deliberately, so a drill authored next month needs no edit —
+  read as no coverage at all. It expands the glob now. The same blindness applies to
+  any census of "what is tested" run over test SOURCE.
 - NEVER: read a green suite as a driven app; quote coverage from one suite; let an
   estimate run toward the dire claim; leave the highest-leverage component undriven
-  while fixing the lowest-leverage ones one at a time.
+  while fixing the lowest-leverage ones one at a time; let a replay fall back to
+  another option when the one it recorded is absent; read a correct-answer marker off
+  the `border` shorthand; conclude a clause is decorative from a single-point mutation
+  when the app guards the same fact twice.
 
 ## Critical Architecture: A Null Transport Now Says Why (2026-09-25)
 
