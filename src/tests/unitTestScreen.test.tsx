@@ -288,6 +288,9 @@ describe('when the test cannot be served', () => {
     const { setScr } = mount();
     expect(await screen.findByTestId('unit-test-missing')).toBeTruthy();
     expect(screen.queryByTestId('unit-test-insufficient')).toBeNull();
+    // The heading must not read "Unit test / Unit test" — a doubled title looks broken.
+    expect(screen.getAllByText(/^Unit test$/)).toHaveLength(1);
+    expect(screen.getByText('Your course')).toBeTruthy();
     fireEvent.click(screen.getByTestId('unit-test-open-map'));
     expect(setScr).toHaveBeenCalledWith('coursemap');
     expect(readCourseUnits().units).toEqual({});

@@ -204,7 +204,9 @@ export default function UnitTestScreen({
     [onOpenLesson],
   );
 
-  const title = unit ? unit.title : 'Unit test';
+  // Without a unit there is nothing to name, and repeating "Unit test" under the
+  // heading "Unit test" read as a rendering fault. Name where the tests live instead.
+  const title = unit ? unit.title : 'Your course';
 
   if (phase === 'loading') {
     return (
