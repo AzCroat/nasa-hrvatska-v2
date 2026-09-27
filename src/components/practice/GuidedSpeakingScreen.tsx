@@ -78,6 +78,18 @@ export function phraseMatches(heard: string, target: string): boolean {
 }
 
 /** Rotate through the level's units across visits so content does not repeat. */
+/**
+ * The unit this learner is on at `level`. A READ, and only a read (2026-09-27).
+ *
+ * It used to advance the stored pointer as it read, and it is called when the screen
+ * MOUNTS — so opening a unit and backing out skipped it for the whole rotation, and a
+ * learner who backed out of their first unit never met it. The floors in this
+ * curriculum ladder by index on the premise that the rotation is sequential ("unit 0
+ * really is the learner's first"); advancing on open made that premise false for
+ * anyone who looked before committing. The pointer now moves in `advanceSpeakingUnit`, called
+ * from the graded finish — the same place the course coupling is discharged. Found
+ * walking a learner's day in a browser: reopening an abandoned unit served another.
+ */
 export function pickSpeakingUnit(level: string): SpeakingUnit {
   const pool = speakingUnitsForLevel(level as CefrLevel);
   const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
@@ -87,13 +99,19 @@ export function pickSpeakingUnit(level: string): SpeakingUnit {
   } catch {
     /* storage unavailable — first unit */
   }
-  const unit = units[((idx % units.length) + units.length) % units.length]!;
+  return units[((idx % units.length) + units.length) % units.length]!;
+}
+
+/** Move this level's pointer past the unit just FINISHED. Only a graded finish calls it. */
+export function advanceSpeakingUnit(level: string): void {
+  const pool = speakingUnitsForLevel(level as CefrLevel);
+  const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
   try {
+    const idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
     localStorage.setItem(`${UNIT_PTR_KEY}:${level}`, String((idx + 1) % units.length));
   } catch {
     /* storage unavailable — same unit next time */
   }
-  return unit;
 }
 
 export function checklistSatisfied(item: SpeakingChecklistItem, transcript: string): boolean {
@@ -140,7 +158,10 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const recRef = useRef<Recognizer | null>(null);
   const { isOnline } = useOnlineStatus();
 
-  const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(getCurrentContentLevel()));
+  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // The pointer moves once per unit finished, however many times the grade is re-run.
+  const advancedRef = useRef(false);
+  const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(unitLevel));
   const buildItems = unit.build ?? [];
   const [stage, setStage] = useState<Stage>('listen');
   const [showEn, setShowEn] = useState(false);
@@ -366,6 +387,10 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     // the same reason writing_guided and relpron each need this call (see
     // couplingClearingPath.test.ts). Only on the GRADED finish.
     recordScreenPractised('speaking_guided');
+    if (!advancedRef.current) {
+      advancedRef.current = true;
+      advanceSpeakingUnit(unitLevel);
+    }
     if (!finishFired.current) {
       finishFired.current = true;
       award(Math.round(res.data.overall * 10) + 5, false, 'speaking');

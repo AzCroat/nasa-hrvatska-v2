@@ -41,6 +41,7 @@ vi.mock('../hooks/useOnlineStatus', () => ({ useOnlineStatus: () => ({ isOnline:
 import GuidedSpeakingScreen, {
   phraseMatches,
   pickSpeakingUnit,
+  advanceSpeakingUnit,
   countSpokenWords,
   checklistSatisfied,
 } from '../components/practice/GuidedSpeakingScreen';
@@ -120,10 +121,19 @@ describe('phraseMatches — the recogniser is not the judge', () => {
 });
 
 describe('pickSpeakingUnit — rotation', () => {
-  it('rotates through the level across visits, and falls back to A1 on an unknown level', () => {
+  it('rotates through the level across FINISHED units, and falls back to A1 on an unknown level', () => {
     expect(pickSpeakingUnit('A1').id).toBe(A1[0]!.id);
+    advanceSpeakingUnit('A1');
     expect(pickSpeakingUnit('A1').id).toBe(A1[1]!.id);
     expect(pickSpeakingUnit('ZZ').id).toBe(A1[0]!.id);
+  });
+
+  // Opening a unit and backing out used to skip it for the whole rotation, because
+  // the pick advanced the pointer on MOUNT (found in a browser walk, 2026-09-27).
+  it('reading the current unit does not move the pointer — only a finish does', () => {
+    const first = pickSpeakingUnit('A1').id;
+    expect(pickSpeakingUnit('A1').id).toBe(first);
+    expect(pickSpeakingUnit('A1').id).toBe(first);
   });
 });
 

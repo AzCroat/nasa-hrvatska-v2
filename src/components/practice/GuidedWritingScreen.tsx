@@ -73,6 +73,18 @@ export function frameMatches(input: string, answer: string, accept?: string[]): 
 }
 
 /** Rotate through the level's units across visits so content doesn't repeat. */
+/**
+ * The unit this learner is on at `level`. A READ, and only a read (2026-09-27).
+ *
+ * It used to advance the stored pointer as it read, and it is called when the screen
+ * MOUNTS — so opening a unit and backing out skipped it for the whole rotation, and a
+ * learner who backed out of their first unit never met it. The floors in this
+ * curriculum ladder by index on the premise that the rotation is sequential ("unit 0
+ * really is the learner's first"); advancing on open made that premise false for
+ * anyone who looked before committing. The pointer now moves in `advanceUnit`, called
+ * from the graded finish — the same place the course coupling is discharged. Found
+ * walking a learner's day in a browser: reopening an abandoned unit served another.
+ */
 export function pickUnit(level: string): WritingUnit {
   const pool = unitsForLevel(level as CefrLevel);
   const units = pool.length > 0 ? pool : WRITING_CURRICULUM.filter((u) => u.level === 'A1');
@@ -82,13 +94,19 @@ export function pickUnit(level: string): WritingUnit {
   } catch {
     /* storage unavailable — first unit */
   }
-  const unit = units[((idx % units.length) + units.length) % units.length]!;
+  return units[((idx % units.length) + units.length) % units.length]!;
+}
+
+/** Move this level's pointer past the unit just FINISHED. Only a graded finish calls it. */
+export function advanceUnit(level: string): void {
+  const pool = unitsForLevel(level as CefrLevel);
+  const units = pool.length > 0 ? pool : WRITING_CURRICULUM.filter((u) => u.level === 'A1');
   try {
+    const idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
     localStorage.setItem(`${UNIT_PTR_KEY}:${level}`, String((idx + 1) % units.length));
   } catch {
     /* storage unavailable — same unit next time */
   }
-  return unit;
 }
 
 type Stage = 'study' | 'frames' | 'write';
@@ -97,7 +115,10 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
   const mountedRef = useRef(true);
   const finishFired = useRef(false);
   const { isOnline } = useOnlineStatus();
-  const [unit] = useState<WritingUnit>(() => pickUnit(getCurrentContentLevel()));
+  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // The pointer moves once per unit finished, however many times the grade is re-run.
+  const advancedRef = useRef(false);
+  const [unit] = useState<WritingUnit>(() => pickUnit(unitLevel));
   const [stage, setStage] = useState<Stage>('study');
   const [showEn, setShowEn] = useState(false);
   const [openStructure, setOpenStructure] = useState<number | null>(null);
@@ -230,6 +251,10 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       // Only on the GRADED finish: the AI-failure and exit paths below are not
       // practice. Found by couplingClearingPath.test.ts.
       recordScreenPractised('writing_guided');
+      if (!advancedRef.current) {
+        advancedRef.current = true;
+        advanceUnit(unitLevel);
+      }
       if (typeof data.score === 'number') {
         // Graded free production at the UNIT's level — strong written evidence,
         // same weight WritingScreen uses.
