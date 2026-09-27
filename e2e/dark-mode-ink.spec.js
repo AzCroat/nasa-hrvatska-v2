@@ -55,6 +55,7 @@ const ROUTES = [
   'mistakes', // a pale orange gradient under --ink-warn
   'immersion', // a white button slab under an accent ink
   'pitch_accent', // an amber ink on a pale gradient
+  'cefrtest', // fixed pastel cards whose ink was lifted by accentInk() for dark mode
   'postcard', // CONTROL: white names over a photo overlay must NOT be reported
 ];
 

@@ -13,6 +13,9 @@ function shLocal(a: any[]) {
   return b;
 }
 
+// `color` paints a FIXED pastel card and `text` is its FIXED dark ink: the pair is correct in
+// both themes, so the ink is never passed through accentInk() while it sits on that card —
+// lifting it for dark mode put light text on the same pastel (all six cards, 2026-09-27).
 const LEVELS = {
   A1: {
     label: 'A1 — Beginner',
@@ -944,7 +947,7 @@ export default function CefrTest({
                   style={{
                     fontSize: 13,
                     fontWeight: 900,
-                    color: accentInk(lv.text),
+                    color: lv.text,
                     lineHeight: 1.3,
                     marginBottom: 4,
                   }}
@@ -954,7 +957,7 @@ export default function CefrTest({
                 <div
                   style={{
                     fontSize: 11,
-                    color: accentInk(lv.text),
+                    color: lv.text,
                     opacity: 0.75,
                     lineHeight: 1.4,
                   }}
@@ -966,7 +969,7 @@ export default function CefrTest({
                     marginTop: 10,
                     fontSize: 10,
                     fontWeight: 700,
-                    color: accentInk(lv.text),
+                    color: lv.text,
                     opacity: 0.6,
                   }}
                 >
@@ -1002,14 +1005,10 @@ export default function CefrTest({
           }}
         >
           <div style={{ fontSize: 48, marginBottom: 12 }}>{icon}</div>
-          <div
-            style={{ fontSize: 32, fontWeight: 900, color: accentInk(level.text), marginBottom: 4 }}
-          >
+          <div style={{ fontSize: 32, fontWeight: 900, color: level.text, marginBottom: 4 }}>
             {finalScore} / {total}
           </div>
-          <div
-            style={{ fontSize: 15, color: accentInk(level.text), opacity: 0.75, marginBottom: 16 }}
-          >
+          <div style={{ fontSize: 15, color: level.text, opacity: 0.75, marginBottom: 16 }}>
             {pct}% correct
           </div>
           <div
@@ -1019,7 +1018,7 @@ export default function CefrTest({
               padding: '12px 16px',
               fontSize: 15,
               fontWeight: 700,
-              color: accentInk(level.text),
+              color: level.text,
             }}
           >
             {msg}
@@ -1096,7 +1095,7 @@ export default function CefrTest({
           style={{
             fontSize: 11,
             fontWeight: 800,
-            color: accentInk(level.text),
+            color: level.text,
             opacity: 0.7,
             marginBottom: 8,
             textTransform: 'uppercase',
@@ -1109,7 +1108,7 @@ export default function CefrTest({
           style={{
             fontSize: 16,
             fontWeight: 700,
-            color: accentInk(level.text),
+            color: level.text,
             lineHeight: 1.5,
           }}
         >
