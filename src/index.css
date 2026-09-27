@@ -2909,23 +2909,16 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
    DESKTOP RIGHT PANEL
 ═══════════════════════════════════════════════════════════ */
 .app-layout{display:block}
-.desktop-panel{display:none}
+/* The right rail held one thing, a CEFR level badge, and the owner removed it as a
+   distraction (2026-09-27). The content column keeps the width it had beside it
+   (1200 - 280), so no screen reflows wider than it was designed for. */
 @media(min-width:768px){
   .app-layout{
     display:grid;
-    grid-template-columns:1fr 280px;
+    grid-template-columns:minmax(0,1fr);
     gap:0;
-    max-width:1200px;
+    max-width:920px;
     margin:0 auto;
-  }
-  .desktop-panel{
-    display:block;
-    position:sticky;top:0;
-    height:100vh;
-    overflow-y:auto;
-    padding:32px 20px;
-    border-left:1px solid var(--card-b);
-    scrollbar-width:thin;
   }
 }
 
@@ -3789,7 +3782,6 @@ body {
 .capacitor-native .sidebar { display: none !important; }
 .capacitor-native .app-content { margin-left: 0 !important; }
 .capacitor-native .app-layout { display: block !important; }
-.capacitor-native .desktop-panel { display: none !important; }
 .capacitor-native .scr-wrap {
   max-width: 100% !important;
   /* Top: 20px spacing + status bar height (edge-to-edge: WebView extends under status bar).

@@ -78,7 +78,6 @@ import DebugOverlay from './components/shared/DebugOverlay';
 import KnightCompanion from './components/shared/KnightCompanion';
 import AppHeader from './components/shared/AppHeader';
 import AppRouter from './components/AppRouter';
-import DesktopPanel from './components/shared/DesktopPanel';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet } from './lib/safeStorage';
 import { LAUNCH_FAILED_EVENT } from './lib/launchFailure';
 import { LAUNCH_FAILURE_COPY } from './components/shared/LaunchFailureNotice';
@@ -1947,9 +1946,6 @@ function App() {
                   lsInitQ={lsInitQ}
                   curEx={curEx}
                 />
-                {authScreen === 'app' &&
-                  currentScreen !== 'welcome' &&
-                  currentScreen !== 'placement' && <DesktopPanel />}
               </div>
               {authScreen === 'app' &&
                 currentScreen !== 'welcome' &&

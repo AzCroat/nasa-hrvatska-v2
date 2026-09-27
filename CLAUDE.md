@@ -218,7 +218,9 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
   `getVerifiedLevel()` — real passes only — and the six DISPLAY surfaces read it
   (**FIVE, not six: `heroHelpers` was unrendered from 2026-04-25 and deleted in
   sweep 136 — correction of 2026-09-25**)
-  (DesktopPanel, StatsTab, CertificateScreen, InsightsTab, LearnTab). **Content unlock is untouched**: `getContentUnlockLevel` still reads
+  (DesktopPanel, StatsTab, CertificateScreen, InsightsTab, LearnTab — **DesktopPanel was
+  REMOVED by the owner on 2026-09-27** as a distraction on Home; it was the desktop right
+  rail's only content, so the rail went too and `cefrBadgeCertified.test.tsx` pins its absence). **Content unlock is untouched**: `getContentUnlockLevel` still reads
   the certified level, provisional included, so a grandfathered learner keeps
   every door they had while the badge stops claiming a level for them. A claim
   and a door are different questions. `getEffectiveLevelForUnlock` survives as
