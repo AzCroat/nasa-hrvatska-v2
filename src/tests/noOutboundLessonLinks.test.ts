@@ -22,23 +22,68 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const OUTBOUND: RegExp[] = [
-  // any youtube.com / youtu.be address except the privacy-mode embed host
-  /(?<![\w.-])(?:www\.|m\.)?youtube\.com(?!\/embed)/i,
-  /(?<![\w.-])youtu\.be\b/i,
-  /Open on YouTube/i,
-  // language-learning services
-  /\b(?:duolingo|babbel|italki|preply|lingopie|croatianpod101|innovativelanguage|memrise|busuu|pimsleur|rosettastone|mondly|lingq)\.com\b/i,
+// HOSTS ARE MATCHED BY SCANNING, NOT BY A HOST REGEX. The first version was an
+// unanchored `youtube\.com` pattern, and CodeQL flags that shape
+// (js/regex/missing-regexp-anchor, alert #94): used to VALIDATE a URL it would accept
+// `evil.example/youtube.com`. Here it only ever SEARCHES a line of source, where
+// "anywhere in the line" is the point — but a regex that reads like a URL check invites
+// someone to reuse it as one, so the boundaries are written out instead.
+const COMPETITORS = [
+  'duolingo',
+  'babbel',
+  'italki',
+  'preply',
+  'lingopie',
+  'croatianpod101',
+  'innovativelanguage',
+  'memrise',
+  'busuu',
+  'pimsleur',
+  'rosettastone',
+  'mondly',
+  'lingq',
 ];
+const isWord = (c: string | undefined) => !!c && /\w/.test(c);
+
+/** Every index at which `needle` occurs in `hay`. */
+function occurrences(hay: string, needle: string): number[] {
+  const out: number[] = [];
+  for (let i = hay.indexOf(needle); i >= 0; i = hay.indexOf(needle, i + 1)) out.push(i);
+  return out;
+}
+
+/** A YouTube host that is not the in-app embed: youtube.com (optionally www./m.) or youtu.be. */
+function youtubeLink(l: string): boolean {
+  for (const host of ['youtube.com', 'youtu.be']) {
+    for (const i of occurrences(l, host)) {
+      const before = l.slice(0, i);
+      const pre = before.endsWith('www.') ? 4 : before.endsWith('m.') ? 2 : 0;
+      const prev = l[i - pre - 1];
+      if (isWord(prev) || prev === '.' || prev === '-') continue; // part of another host
+      const after = l.slice(i + host.length);
+      if (isWord(after[0])) continue; // youtube.community, youtu.bet …
+      if (host === 'youtube.com' && after.startsWith('/embed')) continue; // plays in the app
+      return true;
+    }
+  }
+  return false;
+}
+
+/** A link to a competing language service's .com domain (any subdomain). */
+function competitorLink(l: string): boolean {
+  return COMPETITORS.some((c) =>
+    occurrences(l, `${c}.com`).some(
+      (i) => !isWord(l[i - 1]) && !isWord(l[i + c.length + '.com'.length]),
+    ),
+  );
+}
 
 function outboundHits(src: string): string[] {
   const hits: string[] = [];
   src.split('\n').forEach((line, i) => {
-    for (const re of OUTBOUND) {
-      if (re.test(line)) {
-        hits.push(`${i + 1}: ${line.trim().slice(0, 100)}`);
-        break;
-      }
+    const l = line.toLowerCase();
+    if (youtubeLink(l) || competitorLink(l) || l.includes('open on youtube')) {
+      hits.push(`${i + 1}: ${line.trim().slice(0, 100)}`);
     }
   });
   return hits;
@@ -75,6 +120,13 @@ describe('no link out to YouTube or another language service', () => {
     expect(outboundHits(`<button>Open on YouTube →</button>`)).toHaveLength(1);
     expect(outboundHits(`window.open('https://www.italki.com/teachers/croatian')`)).toHaveLength(1);
     expect(outboundHits('const src = `https://www.youtube-nocookie.com/embed/${id}`;')).toEqual([]);
+    expect(outboundHits(`src="https://www.youtube.com/embed/abc"`)).toEqual([]);
+    // boundaries: a subdomain of a competitor is still a link; a longer host is not ours
+    expect(outboundHits(`src: 'https://app.duolingo.com/'`)).toHaveLength(1);
+    expect(outboundHits(`href="https://m.youtube.com/watch?v=x"`)).toHaveLength(1);
+    expect(outboundHits(`'https://notyoutube.com/'`)).toEqual([]);
+    expect(outboundHits(`'https://youtube.community/'`)).toEqual([]);
+    expect(outboundHits(`'https://notbabbel.com/'`)).toEqual([]);
   });
 
   it('no source file links to YouTube or to a language service', () => {
