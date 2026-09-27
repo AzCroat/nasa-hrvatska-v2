@@ -550,7 +550,7 @@ function ScreenGuard({ goBack, label = 'exercise' }: { goBack: () => void; label
       <button
         onClick={goBack}
         style={{
-          background: 'var(--info)',
+          background: 'var(--fill-info)',
           color: '#fff',
           border: 'none',
           borderRadius: 12,

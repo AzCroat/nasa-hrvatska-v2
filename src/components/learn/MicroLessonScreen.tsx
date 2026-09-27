@@ -770,7 +770,7 @@ export default function MicroLessonScreen({
                       height: 22,
                       borderRadius: '50%',
                       flexShrink: 0,
-                      background: i === q.answer ? '#16a34a' : '#dc2626',
+                      background: i === q.answer ? 'var(--fill-success)' : '#dc2626',
                       color: 'white',
                       fontSize: 13,
                       fontWeight: 900,

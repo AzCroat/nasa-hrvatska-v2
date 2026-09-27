@@ -12,7 +12,7 @@ import SlangAgeGate from './SlangAgeGate';
 import SlangEntryCard from './SlangEntryCard';
 import SlangQuizPanel from './SlangQuizPanel';
 import { lsGet, lsSet, lsRemove } from '../../lib/safeStorage';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 export default function SlangScreen({
   goBack,
@@ -345,7 +345,7 @@ export default function SlangScreen({
                   borderRadius: 10,
                   border: 'none',
                   cursor: 'pointer',
-                  background: section.color,
+                  background: accentFill(section.color),
                   color: '#fff',
                   fontSize: 11,
                   fontWeight: 800,

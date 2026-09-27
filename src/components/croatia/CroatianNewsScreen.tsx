@@ -9,6 +9,7 @@ import { markQuest } from '../../lib/quests.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { unlockAudio, ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
+import { accentFill } from '../../lib/accentInk.js';
 
 // ── Fallback articles shown when the live API is unavailable ─────────────────
 //
@@ -726,7 +727,7 @@ export default function CroatianNewsScreen({
               padding: '6px 14px',
               borderRadius: 20,
               cursor: 'pointer',
-              background: selectedLevel === lvl ? LC[lvl] || '#0e7490' : 'var(--card)',
+              background: selectedLevel === lvl ? accentFill(LC[lvl] || '#0e7490') : 'var(--card)',
               color: selectedLevel === lvl ? '#fff' : 'var(--subtext)',
               fontSize: 13,
               fontWeight: 700,

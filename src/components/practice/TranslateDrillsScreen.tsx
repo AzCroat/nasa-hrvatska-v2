@@ -119,7 +119,7 @@ export default function TranslateDrillsScreen({
               setDone(false);
             }}
             style={{
-              background: '#16a34a',
+              background: 'var(--fill-success)',
               color: '#fff',
               border: 'none',
               borderRadius: 12,

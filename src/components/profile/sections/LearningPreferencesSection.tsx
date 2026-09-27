@@ -149,10 +149,10 @@ export default function LearningPreferencesSection() {
               cursor: audioTestStatus === 'testing' ? 'default' : 'pointer',
               background:
                 audioTestStatus === 'ok'
-                  ? 'var(--success)'
+                  ? 'var(--fill-success)'
                   : audioTestStatus === 'failed'
                     ? '#dc2626'
-                    : 'var(--info)',
+                    : 'var(--fill-info)',
               color: '#fff',
               fontWeight: 700,
               fontSize: 'var(--text-xs)',
@@ -540,7 +540,7 @@ export default function LearningPreferencesSection() {
               borderRadius: 20,
               border: 'none',
               cursor: 'pointer',
-              background: 'var(--info)',
+              background: 'var(--fill-info)',
               color: '#fff',
               fontWeight: 700,
               fontSize: 'var(--text-xs)',

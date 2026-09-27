@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { H } from '../../data';
 import { SCENES } from './VocabSceneData.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface SceneItem {
   id: string;
@@ -282,7 +282,7 @@ export function ScenePicker({
                     position: 'absolute',
                     top: 8,
                     right: 8,
-                    background: scene.color,
+                    background: accentFill(scene.color),
                     color: 'white',
                     borderRadius: 20,
                     padding: '2px 8px',
@@ -579,7 +579,7 @@ export function ItemPopup({
             onClick={onAddSRS}
             style={{
               flex: 1,
-              background: isAdded ? '#dcfce7' : scene.color,
+              background: isAdded ? '#dcfce7' : accentFill(scene.color),
               border: 'none',
               borderRadius: 12,
               padding: '10px 0',
@@ -735,7 +735,7 @@ export function SceneComplete({
             onClick={onNext}
             style={{
               flex: 2,
-              background: scene.color,
+              background: accentFill(scene.color),
               border: 'none',
               borderRadius: 12,
               padding: '12px 0',

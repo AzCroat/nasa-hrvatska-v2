@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { BASKETBALL } from '../../data';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface SportPhrase {
   hr: string;
@@ -309,7 +309,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                   style={{
                     width: 40,
                     flexShrink: 0,
-                    background: isPlaying ? accent : accent + '08',
+                    background: isPlaying ? accentFill(accent) : accent + '08',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

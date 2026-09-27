@@ -342,7 +342,7 @@ export function AppToasts({
           <button
             onClick={resendVerification}
             style={{
-              background: 'var(--warning,#f59e0b)',
+              background: 'var(--fill-warning)',
               color: '#fff',
               border: 'none',
               borderRadius: 6,

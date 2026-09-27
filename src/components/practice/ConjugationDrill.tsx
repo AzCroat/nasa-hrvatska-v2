@@ -5,7 +5,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface ConjVerb {
   inf: string;
@@ -214,7 +214,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                     fontSize: 11,
                     fontWeight: 800,
                     color: '#fff',
-                    background: tC,
+                    background: accentFill(tC),
                     marginBottom: 8,
                   }}
                 >

@@ -4,6 +4,7 @@ import { useStats } from '../../context/StatsContext';
 import { recordSrsReview } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { clickable } from '../../lib/clickable';
+import { accentFill } from '../../lib/accentInk.js';
 
 // ── Flip card ──────────────────────────────────────────────────────────────────
 function FlipCard({
@@ -95,7 +96,7 @@ function FlipCard({
               speak(mistake.hr);
             }}
             style={{
-              background: '#3b82f6',
+              background: '#1d4ed8',
               border: 'none',
               borderRadius: 50,
               width: 36,
@@ -245,7 +246,7 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
               fontSize: 10,
               fontWeight: 800,
               color: '#fff',
-              background: bg,
+              background: accentFill(bg),
               borderRadius: 20,
               padding: '3px 9px',
               flexShrink: 0,

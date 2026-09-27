@@ -5,7 +5,7 @@ import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { orderByWeakness, getWeakPhonemes } from '../../lib/pronunciationCurriculum';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 const STORAGE_KEY = 'nh_phonemes_mastered';
 
@@ -255,7 +255,7 @@ export default function PhonemePracticeScreen({
                   width: 40,
                   height: 40,
                   borderRadius: 10,
-                  background: p.color,
+                  background: accentFill(p.color),
                   color: 'white',
                   display: 'flex',
                   alignItems: 'center',
@@ -712,7 +712,7 @@ export default function PhonemePracticeScreen({
                     width: 20,
                     height: 20,
                     borderRadius: '50%',
-                    background: '#16a34a',
+                    background: 'var(--fill-success)',
                     color: 'white',
                     display: 'flex',
                     alignItems: 'center',

@@ -115,12 +115,12 @@ export default function LiveTutorControls({
               borderRadius: 14,
               border: 'none',
               background: isRecording
-                ? 'var(--error, #D4002D)'
+                ? 'var(--fill-error)'
                 : playing
-                  ? 'var(--subtext, #9ca3af)'
+                  ? '#64748b'
                   : micBusy
                     ? 'rgba(0,0,0,.08)'
-                    : 'var(--info, #3b82f6)',
+                    : 'var(--fill-info)',
               color: isRecording || playing || !micBusy ? 'white' : 'var(--subtext)',
               fontSize: 'var(--text-sm)',
               fontWeight: 800,

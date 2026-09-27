@@ -625,7 +625,7 @@ export default function LearnPath({
                                     width: 18,
                                     height: 18,
                                     borderRadius: '50%',
-                                    background: '#f59e0b',
+                                    background: 'var(--fill-warning)',
                                     border: '2px solid #fff',
                                     display: 'flex',
                                     alignItems: 'center',

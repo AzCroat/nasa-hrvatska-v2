@@ -305,6 +305,15 @@ const LIVE_LINKS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+// Gold, silver and bronze each own both halves of their contrast. White on the gold and
+// silver was 2.15:1 and 2.54:1, so those two take a dark ink (8.1 and 6.9:1); the bronze is
+// darkened instead so it keeps white (5.8:1). The discs are the same in both themes.
+const MEDALS: ReadonlyArray<{ bg: string; ink: string }> = [
+  { bg: '#f59e0b', ink: '#1c1917' },
+  { bg: '#9ca3af', ink: '#1c1917' },
+  { bg: '#8b5a2b', ink: '#ffffff' },
+];
+
 export default function HNLScreen({ goBack }: { goBack: () => void }) {
   const [tab, setTab] = useState('standings');
 
@@ -623,20 +632,13 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   width: 24,
                   height: 24,
                   borderRadius: '50%',
-                  background:
-                    i === 0
-                      ? '#f59e0b'
-                      : i === 1
-                        ? '#9ca3af'
-                        : i === 2
-                          ? '#b87333'
-                          : 'rgba(0,0,0,.08)',
+                  background: MEDALS[i]?.bg ?? 'rgba(0,0,0,.08)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: 11,
                   fontWeight: 800,
-                  color: i <= 2 ? 'white' : 'var(--ink-muted-warm)',
+                  color: MEDALS[i]?.ink ?? 'var(--ink-muted-warm)',
                   flexShrink: 0,
                 }}
               >

@@ -685,7 +685,7 @@ export default function CroatianErrorInsights() {
                 cursor: 'pointer',
                 padding: '8px 4px',
                 borderRadius: 9,
-                background: activeTab === tab.key ? 'var(--info)' : 'transparent',
+                background: activeTab === tab.key ? 'var(--fill-info)' : 'transparent',
                 color: activeTab === tab.key ? '#fff' : 'var(--subtext)',
                 fontSize: 12,
                 fontWeight: 800,

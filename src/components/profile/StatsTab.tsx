@@ -16,7 +16,7 @@ import {
 } from '../../lib/cefr';
 import { getDisplayLevel, getVerificationGate } from '../../lib/cefrCertification';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentFill, accentInk } from '../../lib/accentInk';
 
 // LABEL AND COLOUR ARE THIS FILE'S; THE NUMBERS ARE NOT (2026-09-23).
 // `needed` and the floor map below used to carry their own copies of the CEFR
@@ -649,10 +649,10 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                           fontWeight: 800,
                           background: isActive
                             ? cefr.level === 'A1' || cefr.level === 'A2'
-                              ? 'var(--warning-dark,#92400e)'
+                              ? 'var(--fill-warning)'
                               : cefr.level === 'B2'
                                 ? '#14532d'
-                                : cefr.color
+                                : accentFill(cefr.color)
                             : 'var(--info-bg)',
                           color: isActive ? '#fff' : 'var(--info)',
                           borderRadius: 4,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ── A1→B2 Grammar Curriculum ─────────────────────────────────────────────────
 // Each unit links to an existing screen. Progress tracked per-unit in localStorage.
@@ -659,7 +659,7 @@ export default function GrammarTrackScreen({
                 padding: '8px 16px',
                 borderRadius: 20,
                 border: 'none',
-                background: isActive ? l.color : 'var(--bar-bg)',
+                background: isActive ? accentFill(l.color) : 'var(--bar-bg)',
                 color: isActive ? 'white' : 'var(--subtext)',
                 fontWeight: 800,
                 fontSize: 13,
@@ -789,7 +789,7 @@ export default function GrammarTrackScreen({
                       width: 18,
                       height: 18,
                       borderRadius: '50%',
-                      background: '#16a34a',
+                      background: 'var(--fill-success)',
                       border: '2px solid var(--card)',
                       display: 'flex',
                       alignItems: 'center',
@@ -811,7 +811,7 @@ export default function GrammarTrackScreen({
                       width: 18,
                       height: 18,
                       borderRadius: '50%',
-                      background: level.color,
+                      background: accentFill(level.color),
                       border: '2px solid var(--card)',
                       display: 'flex',
                       alignItems: 'center',
@@ -881,11 +881,7 @@ export default function GrammarTrackScreen({
                     : isNext
                       ? level.color + '15'
                       : 'var(--bar-bg)',
-                  color: isDone
-                    ? 'var(--ink-green)'
-                    : isNext
-                      ? accentInk(level.color)
-                      : level.color,
+                  color: isDone ? 'var(--ink-green)' : accentInk(level.color),
                   border: `1px solid ${isDone ? 'var(--success-b)' : isNext ? level.color + '40' : level.border}`,
                   whiteSpace: 'nowrap',
                 }}

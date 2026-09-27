@@ -1,6 +1,6 @@
 import React from 'react';
 import { speak } from '../../data';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface SlangSection {
   color: string;
@@ -99,7 +99,7 @@ export default function SlangQuizPanel({
               padding: '12px',
               borderRadius: 12,
               border: 'none',
-              background: section.color,
+              background: accentFill(section.color),
               color: '#fff',
               fontSize: 13,
               fontWeight: 800,
@@ -221,7 +221,7 @@ export default function SlangQuizPanel({
             padding: '4px 12px',
             borderRadius: 8,
             border: 'none',
-            background: section.color,
+            background: accentFill(section.color),
             color: '#fff',
             fontSize: 12,
             cursor: 'pointer',

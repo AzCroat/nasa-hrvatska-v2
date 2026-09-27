@@ -1,7 +1,7 @@
 // ── GrammarConstellation — shared UI sub-components ───────────
 import React from 'react';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentFill, accentInk } from '../../lib/accentInk';
 
 export function ConstellationBackground() {
   const points = [
@@ -169,7 +169,9 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
       {/* Card header */}
       <div
         style={{
-          background: color,
+          // A CASE COLOUR IS DATA, and under white text most of them fail (VOC #16a34a
+          // 3.3:1, LOC #0284c7 4.1). accentFill darkens just enough, keeping the hue.
+          background: accentFill(color),
           padding: '10px 12px',
           display: 'flex',
           alignItems: 'center',
@@ -178,7 +180,9 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
       >
         <span
           style={{
-            background: 'rgba(255,255,255,0.25)',
+            // A DARKENING pill, not a lightening one: 25% white over the case colour put
+            // the abbreviation at 2.4–3.6:1 whatever the colour underneath it.
+            background: 'rgba(0,0,0,0.22)',
             color: '#fff',
             fontWeight: 800,
             fontSize: 11,

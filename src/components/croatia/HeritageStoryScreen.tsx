@@ -14,7 +14,7 @@ import {
 } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Region {
@@ -737,7 +737,7 @@ export default function HeritageStoryScreen({
                   padding: '9px 16px',
                   borderRadius: 10,
                   border: `2px solid ${selectedEra === era ? accentColor : 'var(--card-b)'}`,
-                  backgroundColor: selectedEra === era ? accentColor : 'var(--card)',
+                  backgroundColor: selectedEra === era ? accentFill(accentColor) : 'var(--card)',
                   color: selectedEra === era ? '#fff' : 'var(--heading)',
                   fontWeight: 600,
                   fontSize: 13,
@@ -1100,7 +1100,7 @@ export default function HeritageStoryScreen({
               flex: 1,
               padding: '14px',
               borderRadius: 12,
-              backgroundColor: ttsPlaying ? '#fef9c3' : accentColor,
+              backgroundColor: ttsPlaying ? '#fef9c3' : accentFill(accentColor),
               color: ttsPlaying ? '#854d0e' : '#fff',
               border: 'none',
               fontWeight: 700,
@@ -1164,7 +1164,7 @@ export default function HeritageStoryScreen({
               flex: 1,
               padding: '14px',
               borderRadius: 12,
-              backgroundColor: accentColor,
+              backgroundColor: accentFill(accentColor),
               color: '#fff',
               border: 'none',
               fontWeight: 700,

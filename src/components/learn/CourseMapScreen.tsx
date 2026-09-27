@@ -49,7 +49,7 @@ import { requestUnitTest, readCourseUnits, unitRecord } from '../../lib/courseUn
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 const LEVEL_COLOR: Record<string, string> = {
   A1: '#0e7490',
@@ -434,7 +434,7 @@ function UnitRow({
             fontSize: 12,
             fontWeight: 900,
             color: state === 'mastered' ? '#fff' : accentInk(color),
-            background: state === 'mastered' ? color : `${color}1a`,
+            background: state === 'mastered' ? accentFill(color) : `${color}1a`,
           }}
         >
           {state === 'mastered' ? '✓' : unit.index}
@@ -516,7 +516,7 @@ function UnitRow({
                 marginBottom: 2,
                 borderRadius: 10,
                 border: offer === 'primary' ? 'none' : `1.5px solid ${color}`,
-                background: offer === 'primary' ? color : 'transparent',
+                background: offer === 'primary' ? accentFill(color) : 'transparent',
                 color: offer === 'primary' ? '#fff' : accentInk(color),
                 fontSize: 13,
                 fontWeight: 800,
@@ -549,7 +549,7 @@ function UnitRow({
                     marginBottom: 2,
                     borderRadius: 10,
                     border: 'none',
-                    background: color,
+                    background: accentFill(color),
                     color: '#fff',
                     fontSize: 13,
                     fontWeight: 800,

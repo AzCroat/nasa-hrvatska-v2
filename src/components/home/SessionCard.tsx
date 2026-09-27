@@ -4,7 +4,7 @@ import type { DailySession, SessionActivity } from '../../hooks/useDailySession'
 import { useLaunchFailure } from '../../hooks/useLaunchFailure';
 import LaunchFailureNotice from '../shared/LaunchFailureNotice';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -310,7 +310,7 @@ export default function SessionCard({
                   padding: '13px 16px',
                   borderRadius: 13,
                   border: 'none',
-                  background: CROATIAN_RED,
+                  background: accentFill(CROATIAN_RED),
                   color: '#fff',
                   fontSize: 14,
                   fontWeight: 900,
@@ -664,7 +664,7 @@ export default function SessionCard({
                 padding: '13px 0',
                 borderRadius: 13,
                 border: 'none',
-                background: nextActivity ? CROATIAN_RED : 'rgba(204,0,0,.4)',
+                background: nextActivity ? accentFill(CROATIAN_RED) : 'rgba(204,0,0,.4)',
                 color: '#fff',
                 fontSize: 14,
                 fontWeight: 900,

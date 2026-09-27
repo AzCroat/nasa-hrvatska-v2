@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { H } from '../../data';
 import { MAPPLACES } from '../../data';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface CrMapProps {
   goBack: () => void;
@@ -58,7 +58,7 @@ export default function CrMap({ goBack }: CrMapProps) {
                 padding: '6px 14px',
                 borderRadius: 10,
                 border: '2px solid ' + (mapCat === cat.id ? cat.color : '#e7e5e4'),
-                background: mapCat === cat.id ? cat.color : 'white',
+                background: mapCat === cat.id ? accentFill(cat.color) : 'white',
                 color: mapCat === cat.id ? 'white' : '#44403c',
                 fontWeight: 600,
                 fontSize: 12,
@@ -192,7 +192,7 @@ export default function CrMap({ goBack }: CrMapProps) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       padding: '10px 14px',
-                      background: '#16a34a',
+                      background: 'var(--fill-success)',
                       color: 'white',
                       borderRadius: 12,
                       fontWeight: 700,

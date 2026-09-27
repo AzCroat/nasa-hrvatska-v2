@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { H, READ } from '../../data';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { LocalOnlySheet } from './LocalMorphology';
+import { accentFill } from '../../lib/accentInk.js';
 
 interface TextItem {
   id: string;
@@ -316,7 +317,7 @@ function AnalysisSheet({
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
               color: '#fff',
-              background: posColor,
+              background: accentFill(posColor),
               borderRadius: 6,
               padding: '3px 9px',
               letterSpacing: '.04em',

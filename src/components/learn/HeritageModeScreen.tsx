@@ -288,7 +288,11 @@ export default function HeritageModeScreen({
                 fontWeight: 700,
                 fontSize: 11,
                 lineHeight: 1.3,
-                background: active ? 'var(--info)' : visited ? 'var(--info-bg)' : 'var(--bar-bg)',
+                background: active
+                  ? 'var(--fill-info)'
+                  : visited
+                    ? 'var(--info-bg)'
+                    : 'var(--bar-bg)',
                 color: active ? '#fff' : visited ? 'var(--info)' : 'var(--subtext)',
                 // Decoration must not sit on `outline`: an inline one beats the
                 // app's `:focus-visible` ring, so these tabs had no keyboard

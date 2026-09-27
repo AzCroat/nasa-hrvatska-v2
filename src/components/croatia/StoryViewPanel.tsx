@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { CITY_PHOTOS } from './StoryModeData.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Token {
   type: 'word' | 'space';
@@ -400,7 +400,7 @@ export default function StoryViewPanel({
         style={{
           width: '100%',
           marginBottom: 12,
-          backgroundColor: ttsPlaying ? '#fef9c3' : accentColor,
+          backgroundColor: ttsPlaying ? '#fef9c3' : accentFill(accentColor),
           color: ttsPlaying ? '#854d0e' : '#fff',
           border: 'none',
           borderRadius: 12,
@@ -605,7 +605,7 @@ export default function StoryViewPanel({
             flex: 1,
             padding: '14px',
             borderRadius: 12,
-            backgroundColor: accentColor,
+            backgroundColor: accentFill(accentColor),
             color: '#fff',
             border: 'none',
             fontWeight: 700,

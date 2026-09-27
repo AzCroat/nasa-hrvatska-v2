@@ -194,3 +194,27 @@ export function inkSafeOnLight(color: string): string {
   const out = ch.map((v) => Math.floor(v * (1 - hi)));
   return '#' + out.map((v) => v.toString(16).padStart(2, '0')).join('');
 }
+
+// ── THE SAME QUESTION FOR A SURFACE UNDER WHITE TEXT (2026-09-27) ───────────────────────
+//
+// The other half of the data-colour class: `<span style={{ background: level.color,
+// color: 'white' }}>A2</span>`. The level palettes, the case colours on the grammar map,
+// the medal colours, the club colours — each is DATA, each is correctly a pale-ish accent
+// somewhere else, and under white text most of them fail: measured over all 430 routes,
+// `#16a34a` is 3.30:1, `#ca8a04` 2.94, `#f97316` 2.80, the VOC case green 2.43, the gold
+// medal 2.15. Contrast of white ON a colour is the same number as that colour ON white, so
+// `inkSafeOnLight` already answers it: the least darkening, same hue, that reaches 5.5:1.
+// A fill is the same in both themes, so there is no lift.
+//
+// A TRANSLUCENT VALUE IS NOT A FILL and passes through untouched: `${color}1a` is a tint
+// with DARK text on it, and parsing it as opaque would paint a solid dark slab.
+
+/** A data colour made safe to paint WHITE text on, in either theme. */
+export function accentFill(color: string): string;
+export function accentFill(color: string | undefined): string | undefined;
+export function accentFill(color: string | null | undefined): string | null | undefined {
+  if (typeof color !== 'string' || !color.trim()) return color;
+  const s = color.trim();
+  if (/^#[0-9a-f]{8}$/i.test(s) || /^#[0-9a-f]{4}$/i.test(s) || /^rgba\(/i.test(s)) return color;
+  return inkSafeOnLight(color);
+}

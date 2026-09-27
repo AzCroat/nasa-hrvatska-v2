@@ -12626,3 +12626,30 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
   grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
   adaptive skip removed fails 5; the reached-tag clause removed fails 1.
+
+- [x] **Sweep 172 — white text on data colours, and the contrast tail closed in both themes (2026-09-27).**
+  Fresh census over all 430 routes on master: light 66 elements on 17 routes, dark 194 on 43.
+  Tokens first: dark `--subtext` and `--ink-muted` #94a3b8 → #a8b4c6 (4.37:1 on the dark
+  `--warning-bg` tile, and the drills' #353e4f option rows), dark `--ink-error` → #fca5a5,
+  dark `--ink-mode` → #c4b5fd (4.42 on its own tint), light `--ink-red` #D40030 → #b8002a
+  (4.23 on the screen-header pill), `--fill-info` added. That alone took dark 194 → 70.
+  The rest was one class — white text on a DATA colour — plus a tail: `accentFill` (86 render
+  sites by codemod, arms paired with the white ink only when the ink is unconditional or its
+  ternary shares the background's condition, plus 7 wrapped by hand; 12 literal fills and 5
+  status-token fills rewritten by two narrower passes), literal fills
+  under white darkened or moved to `--fill-*`, the case badges' lightening pill, the
+  `.cefr-*` classes' own-tint inks, HNL medals (gold/silver take dark ink, bronze darkened —
+  a paired lookup, because `inlineInkContrast` cannot pair ternary arms), the athletes' filter
+  tabs (a fixed white slab with a themed count pill, 2.56:1 in dark), Baka Summer's chapter
+  dots and date line, the profession-gender header, the Unjumble answer slab
+  (`rgba(255,255,255,.65)` under themed ink, 1.69:1 in dark), the static privacy/terms
+  footers (#a8a29e on #f8fafc, 2.41) and their dark-mode links, `MapScreen`'s title (white on
+  the light header, 1.08:1), and GrammarTrackScreen's locked badge (raw `level.color` as ink).
+  **Result, all 430 routes: light 66 → 6, dark 194 → 6**; the six are postcard names over a
+  photo + 72% black gradient overlay (checked: ~9.9:1 worst case), and the nine touched
+  routes re-censused at 0 in both themes after the last fix. Guard `whiteTextFill.test.ts`
+  (4), mutation-verified three ways. Unit suite 674 files / 10,561 passed; dark-mode-ink +
+  accessibility E2E 35/35.
+  Also this sweep: #754's E2E red was mine — `ai-conversation.spec.js` clicked the centre of
+  the outermost `div` containing "Free Talk"; the wider column (right rail removed) moved
+  that point off the card. Now `getByRole('button', …)`; 32/32. #754 merged green (a6a920b2).

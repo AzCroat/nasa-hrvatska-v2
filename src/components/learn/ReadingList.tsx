@@ -9,7 +9,7 @@ import {
 } from '../../lib/readingCurriculum';
 import ReadingPathBanner from './ReadingPathBanner';
 import { ssRemove } from '../../lib/safeStorage';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 const LEVEL_META = {
   beginner: { badge: 'A1/A2', color: '#16a34a', label: 'Beginner' },
@@ -156,7 +156,7 @@ export default function ReadingList({
               </h3>
               <span
                 style={{
-                  background: meta.color,
+                  background: accentFill(meta.color),
                   color: '#fff',
                   borderRadius: 4,
                   fontSize: 11,

@@ -10,7 +10,7 @@ import {
 } from './gradModel';
 import CharacterPortrait from '../family/CharacterPortrait';
 import GradTownArt from './GradTownArt';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 const TEAL = '#0e7490';
 const GOLD = '#C8980A';
@@ -194,7 +194,7 @@ export default function GradMap({
         <span
           style={{
             flex: 'none',
-            background: TEAL,
+            background: accentFill(TEAL),
             color: '#fff',
             fontWeight: 800,
             fontSize: 13,

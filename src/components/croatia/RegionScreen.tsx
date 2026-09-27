@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Props {
   regionKey: string;
@@ -134,7 +134,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
               cursor: 'pointer',
               fontWeight: 700,
               fontSize: 12,
-              background: tab === t.id ? accentColor : 'rgba(0,0,0,.06)',
+              background: tab === t.id ? accentFill(accentColor) : 'rgba(0,0,0,.06)',
               color: tab === t.id ? 'white' : 'var(--ink-body)',
             }}
           >

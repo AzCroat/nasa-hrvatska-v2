@@ -79,7 +79,7 @@ export default function MicPermissionDeniedExplainer({ onRetry }: Props) {
           onClick={onRetry}
           style={{
             padding: '8px 14px',
-            background: '#f59e0b',
+            background: 'var(--fill-warning)',
             color: '#fff',
             border: 'none',
             borderRadius: 8,

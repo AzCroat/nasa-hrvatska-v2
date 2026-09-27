@@ -249,7 +249,7 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
             borderRadius: 14,
             border: 'none',
             cursor: canNext ? 'pointer' : 'default',
-            background: canNext ? 'var(--info)' : 'var(--bar-bg)',
+            background: canNext ? 'var(--fill-info)' : 'var(--bar-bg)',
             color: canNext ? '#fff' : 'var(--subtext)',
             fontSize: 16,
             fontWeight: 800,

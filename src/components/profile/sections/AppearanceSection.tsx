@@ -118,7 +118,7 @@ export default function AppearanceSection() {
                 border: 'none',
                 borderLeft: i > 0 ? '1px solid var(--card-b)' : 'none',
                 cursor: 'pointer',
-                background: fontSize === size ? 'var(--info)' : 'var(--card)',
+                background: fontSize === size ? 'var(--fill-info)' : 'var(--card)',
                 color: fontSize === size ? '#fff' : 'var(--subtext)',
                 fontWeight: 700,
                 fontSize: size === 'small' ? 11 : size === 'large' ? 15 : 13,

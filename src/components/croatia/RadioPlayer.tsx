@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { markImmersionToday } from './MediaPlayerUtils';
 import { API_BASE, openUrl } from '../../lib/platform.ts';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Props {
   src: string;
@@ -157,7 +157,7 @@ export default function RadioPlayer({
           width: 40,
           height: 40,
           borderRadius: '50%',
-          background: playing || buffering ? color : `${color}18`,
+          background: playing || buffering ? accentFill(color) : `${color}18`,
           border: `2px solid ${color}50`,
           color: playing || buffering ? 'white' : accentInk(color),
           fontSize: 16,

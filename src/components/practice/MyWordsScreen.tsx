@@ -687,7 +687,7 @@ function DrillMode({
             Try again ✗
           </button>
           <button
-            style={{ ...S.drillBtnFlex, background: '#16a34a', color: '#fff' }}
+            style={{ ...S.drillBtnFlex, background: 'var(--fill-success)', color: '#fff' }}
             onClick={() => handleResult(true)}
           >
             Got it ✓
