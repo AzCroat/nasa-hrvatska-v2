@@ -39,6 +39,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsB2.js',
   'functions/api/content/_data/lessonsC1.js',
   'functions/api/content/_data/lessonsC2.js',
+  'functions/api/content/_data/lessonPracticeA1.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',
@@ -976,6 +977,38 @@ function* lessonStrings() {
       // the one slide whose verdict changes a learner's standing).
       if (s.type === 'quiz' && typeof s.explanation === 'string') {
         yield { loc: `${at}.explanation`, field: 'explanation', content: s.explanation, kind };
+      }
+      // Worked examples and guided practice (2026-09-27): the problem, the answer,
+      // every step, and each practice item's question, options, hint and
+      // explanation. All of it is Croatian or English prose quoting Croatian, so
+      // both checks; `en` is the English gloss and is skipped like everywhere else.
+      if (s.type === 'worked') {
+        if (typeof s.problem === 'string')
+          yield { loc: `${at}.problem`, field: 'problem', content: s.problem, kind };
+        if (typeof s.answer === 'string')
+          yield { loc: `${at}.answer`, field: 'answer', content: s.answer, kind };
+        const steps = Array.isArray(s.steps) ? s.steps : [];
+        for (let k = 0; k < steps.length; k++) {
+          const st = steps[k] || {};
+          if (typeof st.text === 'string')
+            yield { loc: `${at}.steps[${k}]`, field: 'steps', content: st.text, kind };
+          if (typeof st.label === 'string')
+            yield { loc: `${at}.steps[${k}].label`, field: 'steps', content: st.label, kind };
+        }
+      }
+      if (s.type === 'practice') {
+        const items = Array.isArray(s.items) ? s.items : [];
+        for (let k = 0; k < items.length; k++) {
+          const it = items[k] || {};
+          const where = `${at}.items[${k}]`;
+          for (const f of ['q', 'hint', 'explanation']) {
+            if (typeof it[f] === 'string')
+              yield { loc: `${where}.${f}`, field: f, content: it[f], kind };
+          }
+          for (const o of Array.isArray(it.options) ? it.options : []) {
+            yield { loc: `${where}.options`, field: 'options', content: o, kind };
+          }
+        }
       }
       if (s.type === 'check') {
         const items = Array.isArray(s.items) ? s.items : [];
