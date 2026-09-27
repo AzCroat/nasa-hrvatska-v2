@@ -38,10 +38,8 @@
  * could see. The cluster is deleted; those assertions went with it, and nothing
  * live carries `pctInLevel` — StatsTab's own getCEFR never had it.
  */
-import React from 'react';
-import { readFileSync } from 'node:fs';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { existsSync, readFileSync } from 'node:fs';
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   recordEquivalencyAttempt,
   getCertifiedLevel,
@@ -54,17 +52,20 @@ import {
   writeCertState,
 } from './helpers/seedCertified';
 
-// StatsContext is mocked per test via this holder so the panel can be rendered
-// bare (useStats throws outside its provider).
+import { getDisplayLevel } from '../lib/cefrCertification';
+import { getUserCefr } from '../lib/cefr';
+
+// THE DESKTOP BADGE IS GONE (owner decision, 2026-09-27: "remove A1 beginner banner
+// in upper right corner of … Home … it is a worthless distraction"). It was the
+// only surface these scenarios were first written against, and it was also the
+// only content of the desktop right rail, so the rail went with it. The scenarios
+// still matter — they are about which level ANY badge may claim — so they now drive
+// the resolver every remaining display surface reads.
 const statsRef: { stats: { xp: number; lc: number; gc: number } } = {
   stats: { xp: 0, lc: 0, gc: 0 },
 };
-vi.mock('../context/StatsContext', () => ({
-  useStats: () => ({ stats: statsRef.stats }),
-}));
-vi.mock('../data', () => ({ nXP: vi.fn(() => 100) }));
-
-import DesktopPanel from '../components/shared/DesktopPanel';
+const shown = () =>
+  getDisplayLevel(getUserCefr(statsRef.stats.xp, statsRef.stats.lc, statsRef.stats.gc));
 
 // A B2 attempt that fails on production — strong receptive skills, no writing.
 const FAILED_B2 = {
@@ -84,7 +85,7 @@ beforeEach(() => {
   statsRef.stats = { xp: 0, lc: 0, gc: 0 };
 });
 
-describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
+describe('the level a badge may claim — the reported rollback scenario', () => {
   it('after a failed B2 check the badge shows the VERIFIED level, not the provisional standing it rolled back to', () => {
     // Grandfathered (provisional) standing up to B2 — the learner's C1-band XP
     // is what the old badge read. The B2 verification fails on production.
@@ -104,14 +105,11 @@ describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
     expect(getVerifiedLevel()).toBe('A1');
 
     statsRef.stats = C1_BAND_STATS;
-    render(<DesktopPanel />);
-    const badge = screen.getByTestId('desktop-cefr-badge');
-    expect(badge).toHaveTextContent('A1');
-    expect(badge).toHaveTextContent('Beginner');
-    expect(badge).not.toHaveTextContent('C1');
-    expect(badge).not.toHaveTextContent('Advanced');
+    const badge = shown();
+    expect(badge).toBe('A1');
+    expect(badge).not.toBe('C1');
     // The 2026-09-06 behaviour: B1 came from a pass the migration granted.
-    expect(badge).not.toHaveTextContent('B1');
+    expect(badge).not.toBe('B1');
   });
 
   it('a purely grandfathered learner is shown A1 — the badge never claims a migrated level', () => {
@@ -125,49 +123,44 @@ describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
     });
     expect(getCertifiedLevel()).toBe('C1'); // access unchanged
     statsRef.stats = C1_BAND_STATS;
-    render(<DesktopPanel />);
-    const badge = screen.getByTestId('desktop-cefr-badge');
-    expect(badge).toHaveTextContent('A1');
-    expect(badge).not.toHaveTextContent('C1');
+    const badge = shown();
+    expect(badge).toBe('A1');
+    expect(badge).not.toBe('C1');
   });
 
   it('ONE real pass among the grandfathered levels is shown — verified, not merely held', () => {
     writeCertState({ A2: realPass(), B1: provisionalPass(), B2: provisionalPass() });
     statsRef.stats = C1_BAND_STATS;
-    render(<DesktopPanel />);
-    const badge = screen.getByTestId('desktop-cefr-badge');
-    expect(badge).toHaveTextContent('A2');
-    expect(badge).not.toHaveTextContent('B2');
+    const badge = shown();
+    expect(badge).toBe('A2');
+    expect(badge).not.toBe('B2');
   });
 
   it('a learner certified at their XP band still sees that band (no over-correction)', () => {
     seedCertifiedTo('C1');
     statsRef.stats = C1_BAND_STATS;
-    render(<DesktopPanel />);
-    const badge = screen.getByTestId('desktop-cefr-badge');
-    expect(badge).toHaveTextContent('C1');
-    expect(badge).toHaveTextContent('Advanced');
+    const badge = shown();
+    expect(badge).toBe('C1');
   });
 
   it('XP alone never advances the badge past the certified level', () => {
     seedCertifiedTo('A2');
     statsRef.stats = { xp: 20000, lc: 0, gc: 0 }; // C2-band XP
-    render(<DesktopPanel />);
-    const badge = screen.getByTestId('desktop-cefr-badge');
-    expect(badge).toHaveTextContent('A2');
-    expect(badge).toHaveTextContent('Elementary');
-    expect(badge).not.toHaveTextContent('C2');
+    const badge = shown();
+    expect(badge).toBe('A2');
+    expect(badge).not.toBe('C2');
   });
 
   it('agrees with the Me tab by construction: both read getDisplayLevel', () => {
     // A SOURCE pin, because the bug was three copies of one formula drifting
     // apart: a fourth copy would pass every rendering test above at whatever
     // rate its thresholds still matched.
-    // Two files, not three: the hero bar that used to be the middle entry was
-    // never rendered and is gone (sweep 136).
+    // The hero bar (never rendered, sweep 136) and the desktop badge (removed by
+    // the owner, 2026-09-27) are gone; these are the live display surfaces.
     for (const f of [
-      'src/components/shared/DesktopPanel.tsx',
       'src/components/profile/StatsTab.tsx',
+      'src/components/profile/CertificateScreen.tsx',
+      'src/components/profile/InsightsTab.tsx',
     ]) {
       const src = readFileSync(f, 'utf8');
       expect(src, `${f} must resolve the badge through the VERIFIED level`).toMatch(
@@ -183,5 +176,13 @@ describe('DesktopPanel CEFR badge — the reported rollback scenario', () => {
         /getEffectiveLevelForUnlock\(/,
       );
     }
+  });
+});
+
+describe('Home carries no level badge (owner decision, 2026-09-27)', () => {
+  it('the desktop right rail and its CEFR badge stay removed', () => {
+    expect(existsSync('src/components/shared/DesktopPanel.tsx')).toBe(false);
+    const app = readFileSync('src/App.tsx', 'utf8');
+    expect(app).not.toMatch(/DesktopPanel|desktop-cefr-badge|desktop-panel/);
   });
 });
