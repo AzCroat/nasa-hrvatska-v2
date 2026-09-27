@@ -8,6 +8,8 @@
 import type { SkillCategory } from './adaptive';
 import { localDateStr } from './dateUtils';
 import { hasCurriculumSpine } from './curriculumProgress';
+import { buildPlanReason, skillForCategory } from './masteryLedger';
+import type { CefrLevel } from './cefr.js';
 
 export type SessionCategory = SkillCategory | 'culture' | 'practical' | 'general';
 
@@ -40,6 +42,15 @@ export interface DailySession {
    * shouldRetryTeachingSlot.
    */
   spineSeen?: boolean;
+  /**
+   * The plan's one-line explanation, FROZEN when the plan is built and naming only
+   * a skill the plan contains. It used to be computed on every render of Home from
+   * the live ledger, so the first graded activity of the day rewrote it — a card that
+   * said nothing at breakfast read "Today leans into vocabulary" after a case drill,
+   * over a plan with no vocabulary in it. Absent on older plans, which then say
+   * nothing: honest, and what a missing reason has always meant here.
+   */
+  planReason?: string;
   activities: SessionActivity[];
   completedIds: string[];
   estimatedMinutes: number;
@@ -65,7 +76,20 @@ export function newSession(
     completedIds,
     estimatedMinutes: activities.length * MINUTES_PER_ACTIVITY,
     spineSeen: hasCurriculumSpine(),
+    ...planReasonFor(userCefr, activities),
   };
+}
+
+function planReasonFor(userCefr: string, activities: SessionActivity[]): { planReason?: string } {
+  try {
+    const r = buildPlanReason(
+      userCefr as CefrLevel,
+      activities.map((a) => skillForCategory(a.category)),
+    );
+    return r ? { planReason: r } : {};
+  } catch {
+    return {};
+  }
 }
 
 /** Today's persisted plan, or null when there is none for today. */

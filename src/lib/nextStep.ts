@@ -188,7 +188,7 @@ export function getNextStep(opts: {
           category: ex.category,
           label: ex.label,
           reason:
-            buildPlanReason(userCefr as CefrLevel) ??
+            buildPlanReason(userCefr as CefrLevel, [weak === 'speak' ? 'speaking' : 'writing']) ??
             `Fluency grows by ${weak === 'speak' ? 'speaking' : 'writing'} — this trains it.`,
         };
       }
