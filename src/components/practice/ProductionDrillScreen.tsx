@@ -694,12 +694,12 @@ export const ERROR_CORRECT = [
     level: 'A2',
   },
   {
-    sentence: 'Idem kod doktor.',
+    sentence: 'Bio sam kod doktor.',
     error: 'doktor',
     correct: 'doktora',
     opts: ['doktora', 'doktoru', 'doktorom'],
-    explanation: '"Kod" uvijek traži genitiv: kod doktora, kod bake',
-    en: 'I am going to the doctor.',
+    explanation: '"Kod" uvijek traži genitiv: bio sam kod doktora, kod bake',
+    en: "I was at the doctor's.",
     level: 'A2',
   },
   {

@@ -14,8 +14,8 @@ const CODE_SWITCH_EXAMPLES = [
   },
   {
     mixed: 'Idem kod doktora, trebam appointment.',
-    full: 'Idem kod doktora, trebam termin.',
-    note: '"Termin" is the Croatian word — but diaspora speakers hear "appointment" and use it.',
+    full: 'Idem liječniku, trebam termin.',
+    note: '"Termin" is the Croatian word — but diaspora speakers hear "appointment" and use it. And going TO the doctor is liječniku; kod is for being there.',
   },
   {
     mixed: 'Ovo je, you know, jako kompliciran.',

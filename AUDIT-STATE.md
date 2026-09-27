@@ -12789,5 +12789,24 @@ mogli`, B1 ×6, B2, a drill); `Pasti će` → `Past će`; `ako bude padati` → 
   - Lint 479 files, 0 findings; `lessonDepthCheck` + `lessonPracticeCheck` 0 at every level;
     full unit suite green except `curriculum.test.js`'s etag pin, which was the LOCAL
     gitignored `_etags.js` gone stale after the objective edit — regenerated, 14/14.
-  - **Not checked yet**: the 109 ModeDrill banks and ~100 hand-written drills against the same
-    classes (`kod` for motion was in two; `Hugoa` in one) — a census, not a spot fix.
+  - **Census of the same classes outside the lessons (same day):**
+    - `kod` for motion: `ProductionDrillScreen`'s error-correction item marked standard
+      `Idem doktoru` WRONG (recast to location), `DiasporaNote` gave `Idem kod doktora` as the
+      "full" standard sentence, and a graded story + its vocab example (`Ide kod unuke`).
+    - **Future I misspelled as the TAUGHT form**: `FutureTenseLessonScreen`'s "10 common verbs,
+      tap to hear" list spoke `Raditi ćemo`, `Jesti ćemo`, `Piti će`… — eight of ten wrong (the
+      infinitive drops -i before ću); its Future II panel `jesti ćemo` and `uspijet` (uspjet).
+      Its never-rendered `wrong` column labelled standard `Kad završim, nazvat ću te` an error —
+      deleted, notes now say both are standard.
+    - Phrase of the Day (live) served `Jednog dana posjeti ću sva hrvatska otoka` — three
+      errors: `posjetit ću sve hrvatske otoke`.
+    - **Serbian fused futures as distractors or "bad" examples** (NEVER-DO 17): `Biće lijepo`
+      (both exercise copies), `čitaću`, `pisaću`, `Se tuširaću`. Now guarded by
+      `fusedFutureSpelling.test.ts`, which flags a fused form only when the corpus spells the
+      same stem as a two-word future — precise where a `[aei]ću` rule is 97 false alarms.
+      Its first draft used JS `\b` and misfired on `noću`; Unicode lookarounds fixed it.
+      Mutation-verified: `Se tuširaću` restored fails 2.
+    - Gibberish/misspelt distractors replaced: `budeš stizati ćeš`, `htjeti će`.
+  - **Not checked yet**: a per-item read of the 109 ModeDrill banks and ~100 hand-written drills
+    for the subtler classes (a real form keyed wrong, a case filed under the wrong preposition) —
+    the census above was pattern-driven, so it finds only the shapes it was told to look for.

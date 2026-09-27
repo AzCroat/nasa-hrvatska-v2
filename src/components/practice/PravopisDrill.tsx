@@ -189,7 +189,7 @@ const DATA = [
   {
     mode: 'sastavljeno',
     q: 'Futur I. glagola „pisati” s enklitikom iza infinitiva pišemo:',
-    opts: ['pisat ću', 'pisati ću', 'pisaću', 'pisat-ću'],
+    opts: ['pisat ću', 'pisati ću', 'pisa ću', 'pisat-ću'],
     answer: 'pisat ću',
     en: 'I will write',
     tip: 'Infinitiv gubi završno -i ispred ću: pisat ću (rastavljeno).',

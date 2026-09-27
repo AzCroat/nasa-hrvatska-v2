@@ -44,36 +44,35 @@ const FUTURE2_PARADIGM = [
   { person: 'Oni/One/Ona', form: 'budu radili/radile', en: 'when they have worked' },
 ];
 
+// Future II in these clauses is the careful, explicit option. The perfective present
+// (Kad završim, nazvat ću te.) is equally standard and commoner in speech, so no pair
+// here is presented as right-versus-wrong — an earlier version carried a never-rendered
+// `wrong` column that labelled standard Croatian as an error.
 const FUTURE2_CONTRASTS = [
   {
     en: "When I finish, I'll call you.",
-    wrong: 'Kada završim, nazvat ću te.',
     right: 'Kad budem završio, nazvat ću te.',
-    note: 'Future II in the subordinate "kad" clause',
+    note: 'Future II in the "kad" clause; "Kad završim" is just as standard',
   },
   {
     en: 'If you have time, come visit.',
-    wrong: 'Ako imaš vremena, dođi.',
     right: 'Ako budeš imao vremena, dođi.',
-    note: 'Future II after "ako" for future condition',
+    note: 'Future II after "ako" for a future condition; "Ako imaš vremena" also works',
   },
   {
     en: "As soon as she arrives, we'll eat.",
-    wrong: 'Čim dođe, jesti ćemo.',
-    right: 'Čim bude došla, jesti ćemo.',
-    note: '"čim" + Future II marks the triggering event',
+    right: 'Čim bude došla, jest ćemo.',
+    note: '"čim" + Future II marks the triggering event; "Čim dođe" says the same',
   },
   {
     en: "Once I learn Croatian, I'll move to Split.",
-    wrong: 'Kada naučim hrvatski, preselit ću se u Split.',
     right: 'Kad budem naučio hrvatski, preselit ću se u Split.',
-    note: 'The Croatian future perfect — completed condition',
+    note: 'The Croatian future perfect — a completed condition',
   },
   {
     en: 'Whoever works hard will succeed.',
-    wrong: 'Tko radi, uspijet će.',
-    right: 'Tko bude radio, uspijet će.',
-    note: 'Future II in relative clause with future reference',
+    right: 'Tko bude radio, uspjet će.',
+    note: 'Future II in a relative clause with future reference',
   },
 ];
 
@@ -481,14 +480,14 @@ export default function FutureTenseLessonScreen({
               {[
                 'Ići ću',
                 'Doći ćeš',
-                'Raditi ćemo',
-                'Pisati će',
-                'Čitati ćete',
-                'Gledati ću',
-                'Jesti ćemo',
-                'Piti će',
-                'Učiti ćeš',
-                'Putovati ću',
+                'Radit ćemo',
+                'Pisat će',
+                'Čitat ćete',
+                'Gledat ću',
+                'Jest ćemo',
+                'Pit će',
+                'Učit ćeš',
+                'Putovat ću',
               ].map((s, i) => (
                 <button
                   key={i}

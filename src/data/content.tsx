@@ -611,7 +611,7 @@ function getDailyChallenge() {
     {
       q: 'Conjugate: ja + čitati (future)',
       a: 'čitat ću',
-      opts: ['čitat ću', 'čitam ću', 'čitati ću', 'čitaću'],
+      opts: ['čitat ću', 'čitam ću', 'čitati ću', 'čitao ću'],
     },
     {
       q: 'Conjugate: ti + gledati (present)',
@@ -1052,7 +1052,7 @@ const REFLEXIVE = {
     {
       rule: 'Future tense: SE follows ću/ćeš/će...',
       icon: '🔮',
-      bad: 'Se tuširaću.',
+      bad: 'Se ću tuširati.',
       good: 'Tuširat ću se.',
       note: "In future, the ću-form comes second, SE comes after: 'Tuširat ću se', 'Obući ćeš se'.",
     },

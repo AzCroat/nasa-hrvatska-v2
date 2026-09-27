@@ -6300,7 +6300,7 @@ export const TRANSLATE_DRILLS = [
   {
     en: 'It will be beautiful.',
     hr: 'Bit će lijepo.',
-    opts: ['Bit će lijepo.', 'Biti će lijepo.', 'Biće lijepo.', 'Bit ću lijepo.'],
+    opts: ['Bit će lijepo.', 'Biti će lijepo.', 'Bi će lijepo.', 'Bit ću lijepo.'],
     level: 'B1',
   },
   {

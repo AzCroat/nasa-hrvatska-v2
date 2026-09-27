@@ -3696,7 +3696,7 @@ export const GRADED_STORIES = [
         en: 'Ana decided to visit her sister in Split. She bought a ticket at the station — thirty euros one way. "The train departs at eight fifteen from platform three," said the clerk at the counter.',
       },
       {
-        hr: 'Vlak je krenuo točno na vrijeme. Ana je sjedila pokraj prozora. Nasuprot nje sjedila je starija gospođa koja je odmah počela razgovor: "Idete li i vi na more? Ja idem kod unuke u Kaštela!"',
+        hr: 'Vlak je krenuo točno na vrijeme. Ana je sjedila pokraj prozora. Nasuprot nje sjedila je starija gospođa koja je odmah počela razgovor: "Idete li i vi na more? Ja idem unuci u Kaštela!"',
         en: 'The train left exactly on time. Ana sat by the window. Opposite her sat an older lady who immediately started a conversation: "Are you going to the seaside too? I am going to my granddaughter\'s in Kaštela!"',
       },
       {
@@ -3718,7 +3718,7 @@ export const GRADED_STORIES = [
       { hr: 'peron', en: 'platform', ex: 'Vlak je na trećem peronu.' },
       { hr: 'šalter', en: 'counter / ticket window', ex: 'Kupujem kartu na šalteru.' },
       { hr: 'nasuprot', en: 'opposite', ex: 'Sjedi nasuprot mene.' },
-      { hr: 'unuka', en: 'granddaughter', ex: 'Ide kod unuke na more.' },
+      { hr: 'unuka', en: 'granddaughter', ex: 'Ide unuci na more.' },
       { hr: 'krojačica', en: 'seamstress', ex: 'Radila je kao krojačica.' },
       { hr: 'krajolik', en: 'landscape', ex: 'Krajolik se promijenio.' },
       { hr: 'uzviknuti', en: 'to exclaim', ex: 'Svi su uzviknuli: "More!"' },
