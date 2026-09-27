@@ -12223,3 +12223,25 @@ against mocked evaluators, and asserts the course moved them into Unit 2.
   read `locked`.
 - A lesson check option's visible text carries a letter badge, so the harness reads the
   option from its aria-label. Not a defect: the label is exact.
+
+### Sweep 163 — step 2 begins: 34 hand-written drills onto the engine (2026-09-27)
+
+Of the 101 `src/components/practice/*Drill.tsx`, **34 are exact clones of the ModeDrill
+engine**, proved by a converter that abstracts the drill-specific literals (name, key,
+title/subtitle, praise triple, data and label identifiers) and requires the remaining
+component body to equal the reference byte for byte (whitespace-normalised). Those 34
+keep their file, their data, their exports and their completion key; only the ~150
+duplicated lines of screen code are replaced by `<ModeDrill …/>`: **5,440 lines removed**.
+Each gains what the engine gives and the copies lacked: the wrong-answer explanation
+(`WrongAnswerHelp`), the "N of M needed" count on the result, and every future fix to
+the engine at once.
+- Skipped 67, recorded by reason: 44 "shape not recognised" (a concept intro, the AI
+  explainer, custom modes or a different Props shape — the case drills are all here) and
+  21 "body differs", plus 2 whose data section references a removed import. None was
+  forced.
+- Verified: the 98-drill contract suite drives all 34 converted drills end to end
+  (credit, retry, both exits) and passes; answer-key integrity passes; typecheck clean;
+  Croatian lint 0 findings across 474 files; full suite green.
+- `completionKeyRegistered`'s non-vacuity floor moved to the UNION of direct call sites
+  and engine ids: direct sites fell 153 → 119 as wrapper ids rose 109 → 143, and the
+  per-population floor read that correct move as a collapse. Every key is still checked.
