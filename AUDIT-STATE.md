@@ -12295,3 +12295,40 @@ themed ink TOKEN in the subtree, and inherited ink has none.
   cards from a gradient the source reads outside a style object), /postcard (white text on
   UA buttonface — a photo thumbnail; probe artifact until shown otherwise). Suite
   663 / 10,453 green.
+
+## Sweep 165 — the dark-mode check becomes permanent, and the tail it then found (2026-09-27)
+
+- **The light-on-light half was only ever measured by an uncommitted scratch probe**, so
+  nothing stopped it coming back. `e2e/dark-mode-ink.spec.js` now asserts BOTH halves per
+  route (dark ink on the dark page; light themed ink on a hardcoded light surface or an
+  all-light gradient): a named sample in the deploy gate, and all 430 routes weekly in a new
+  `dark-ink` job in `route-render-sweep.yml` (`DARK_SWEEP=1`). A separate job because the
+  render sweep is already near its 70-minute budget. The full-sweep asserts are
+  `expect.soft`, so one run reports both halves — the first run stopped at the first.
+- **"3 routes left" (sweep 164b) was an undercount.** The scratch probe parsed only
+  `rgb(...)`, and every `accentInk()` ink computes to `color(srgb …)`, so it could not see
+  a lifted accent on a pale tint at all. The committed check can; its first sample run found
+  /pitch_accent (five `bg` tints in data under accentInk inks).
+- **Fixed**: Analytics streak card + Mistakes summary (pale orange gradient → new
+  `--grad-orange`); Listening Comprehension (`bg` is DATA in `listening/exercises.ts` → six
+  `--grad-*` tokens, exact light matches); Pitch Accent (tints → the five `*-bg` tokens,
+  exact matches); Today's Discoveries' active tab label (rgb(146,64,14) on a translucent
+  tint → accentInk — it was dark-on-dark on dashboard, welcome and placement);
+  GuidedSpeaking's section labels (#6b7280 in a named `CSSProperties` const → --ink-muted);
+  MyWordsScreen's `S` table (five dark inks on translucent tints → accentInk); CefrTest's
+  level cards (accentInk had lifted a FIXED pastel card's FIXED dark ink → the fixed pair).
+- **`inkSurfaceAgreement`'s light threshold 0.75 → 0.6.** `#fed7aa` (0.72) read as
+  mid-tone. Measured before changing: exactly the two orange cards, nothing else.
+- **`inlineInkContrast` read only `style={{…}}`.** A named `React.CSSProperties` object —
+  and each leaf of a `Record<string, React.CSSProperties>` table — is now judged the same
+  way. It found MyWordsScreen's five on its first run; that screen renders EMPTY for a fresh
+  learner, so no browser sweep could have reached them. Mutation-verified: the grey kicker
+  and one MyWords ink restored fail the guard and name all three sites.
+- **Checked non-defect**: /postcard. White city names on a 72%-black overlay over a photo;
+  the overlay and the <img> are SIBLINGS of the text, never ancestors, so an ancestor walk
+  reads the button's UA background. The check skips text whose chain passes an element with
+  a media child, and /postcard stays in the sample as the control for that skip.
+- **The fixed-pair lesson, again**: a FIXED light slab wants a FIXED dark ink. Wrapping that
+  ink in accentInk() (correct on a themed surface) is wrong on a fixed one — CefrTest is the
+  inverse of every other finding in this sweep, and a comment on `LEVELS` now says so.
+- Full unit suite 663 / 10,453 green on `ddb329b9`. Commits: 75ff7437, ddb329b9, 4ae08d44.
