@@ -18,6 +18,7 @@ import WordOfDayCard from './WordOfDayCard';
 import PhraseOfDayCard from './PhraseOfDayCard';
 import CityOfDayCard from './CityOfDayCard';
 import type { WordOfDay, PhraseOfDay } from '../../lib/wordOfDay';
+import { accentInk } from '../../lib/accentInk';
 
 type Tab = 'word' | 'phrase' | 'city';
 
@@ -135,7 +136,7 @@ export default function TodaysDiscoveries({ wod, pod, setScr }: Props) {
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: isActive ? `rgb(${t.textColor})` : 'var(--subtext)',
+                  color: isActive ? accentInk(`rgb(${t.textColor})`) : 'var(--subtext)',
                   letterSpacing: '.02em',
                   transition: 'color .2s ease',
                 }}

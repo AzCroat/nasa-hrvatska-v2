@@ -165,8 +165,8 @@ test.describe('dark mode paints light ink', () => {
     expect(measured, 'almost no route was measured — the sweep proves nothing').toBeGreaterThan(
       300,
     );
-    expect(dd, DARK_ON_DARK).toEqual([]);
-    expect(ll, LIGHT_ON_LIGHT).toEqual([]);
+    expect.soft(dd, DARK_ON_DARK).toEqual([]);
+    expect.soft(ll, LIGHT_ON_LIGHT).toEqual([]);
   });
 });
 

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { accentInk } from '../../lib/accentInk';
 import { speak, srMark } from '../../data';
 import {
   CUSTOM_WORDS_KEY,
@@ -195,7 +196,7 @@ const S: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     gap: 4,
     fontSize: 13,
-    color: '#1e3a5f',
+    color: accentInk('#1e3a5f'),
     background: 'rgba(30,58,95,0.08)',
     borderRadius: 6,
     padding: '2px 8px',
@@ -216,7 +217,7 @@ const S: Record<string, React.CSSProperties> = {
     right: 10,
     background: 'rgba(220,38,38,0.1)',
     border: 'none',
-    color: '#dc2626',
+    color: accentInk('#dc2626'),
     borderRadius: 6,
     width: 28,
     height: 28,
@@ -283,7 +284,7 @@ const S: Record<string, React.CSSProperties> = {
     fontFamily: 'inherit',
   },
   errorText: {
-    color: '#dc2626',
+    color: accentInk('#dc2626'),
     fontSize: 12,
     marginTop: 4,
   },
@@ -341,7 +342,7 @@ const S: Record<string, React.CSSProperties> = {
   },
   drillPhonetic: {
     fontSize: 14,
-    color: '#1e3a5f',
+    color: accentInk('#1e3a5f'),
     background: 'rgba(30,58,95,0.08)',
     borderRadius: 6,
     padding: '2px 10px',
@@ -357,7 +358,7 @@ const S: Record<string, React.CSSProperties> = {
   drillEn: {
     fontSize: 22,
     fontWeight: 600,
-    color: '#16a34a',
+    color: accentInk('#16a34a'),
     marginBottom: 6,
   },
   drillBtns: {

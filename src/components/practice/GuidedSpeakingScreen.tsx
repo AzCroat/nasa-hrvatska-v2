@@ -404,7 +404,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const kicker: React.CSSProperties = {
     fontSize: 12,
     fontWeight: 800,
-    color: '#6b7280',
+    color: 'var(--ink-muted)',
     marginBottom: 8,
   };
 

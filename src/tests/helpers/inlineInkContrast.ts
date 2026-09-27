@@ -185,21 +185,46 @@ function styleObjects(src: string): { index: number; body: string }[] {
   const out: { index: number; body: string }[] = [];
   for (const m of src.matchAll(/style=\{\{/g)) {
     const start = m.index! + m[0].length;
-    let i = start;
-    let depth = 2;
-    let quote: string | null = null;
-    while (i < src.length && depth > 0) {
-      const c = src[i]!;
-      if (quote) {
-        if (c === quote && src[i - 1] !== '\\') quote = null;
-      } else if (c === '"' || c === "'" || c === '`') quote = c;
-      else if (c === '{') depth++;
-      else if (c === '}') depth--;
-      i++;
+    out.push({ index: m.index!, body: src.slice(start, closeOf(src, start, 2) - 2) });
+  }
+  // A NAMED STYLE OBJECT IS THE SAME DEFECT OUT OF THIS GUARD'S SIGHT (2026-09-27).
+  // `const kicker: React.CSSProperties = { color: '#6b7280' }` … `style={kicker}` paints
+  // exactly what an inline literal would, and GuidedSpeaking's three section labels were
+  // grey-on-dark on every visit while this guard read green — found by the whole-app
+  // browser sweep, not by source. A `Record<string, React.CSSProperties>` table holds one
+  // style per key, so each LEAF object is judged on its own: MyWordsScreen's `S` table
+  // held five dark inks on translucent tints, on a screen a fresh learner sees empty, so
+  // no browser sweep could have reached them.
+  for (const m of src.matchAll(/CSSProperties\s*>?\s*=\s*\{/g)) {
+    const start = m.index! + m[0].length;
+    const end = closeOf(src, start, 1) - 1;
+    const body = src.slice(start, end);
+    const leaves = [...body.matchAll(/(?:^|[,{\s])[\w'"$-]+\s*:\s*\{/g)];
+    if (!leaves.length) {
+      out.push({ index: m.index!, body });
+      continue;
     }
-    out.push({ index: m.index!, body: src.slice(start, i - 2) });
+    for (const l of leaves) {
+      const ls = start + l.index! + l[0].length;
+      out.push({ index: ls, body: src.slice(ls, closeOf(src, ls, 1) - 1) });
+    }
   }
   return out;
+}
+
+/** The index just past the brace that closes a span opened `depth` levels deep at `i`. */
+function closeOf(src: string, i: number, depth: number): number {
+  let quote: string | null = null;
+  while (i < src.length && depth > 0) {
+    const c = src[i]!;
+    if (quote) {
+      if (c === quote && src[i - 1] !== '\\') quote = null;
+    } else if (c === '"' || c === "'" || c === '`') quote = c;
+    else if (c === '{') depth++;
+    else if (c === '}') depth--;
+    i++;
+  }
+  return i;
 }
 
 /**
