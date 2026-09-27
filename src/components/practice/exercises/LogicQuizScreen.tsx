@@ -96,12 +96,12 @@ function LogicQuizScreen({ goBack, award }: Props) {
                       border: `2px solid ${!answered ? '#d6d3d1' : isRight ? '#16a34a' : wasChosen ? '#dc2626' : '#d6d3d1'}`,
                       borderRadius: 10,
                       background: !answered
-                        ? 'white'
+                        ? 'var(--card)'
                         : isRight
-                          ? '#dcfce7'
+                          ? 'var(--success-bg-strong)'
                           : wasChosen
-                            ? '#fee2e2'
-                            : 'white',
+                            ? 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: answered ? 'default' : 'pointer',

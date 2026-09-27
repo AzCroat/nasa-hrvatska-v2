@@ -415,7 +415,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
                     border = '1.5px solid #bbf7d0';
                     color = '#166534';
                   } else if (idx === quizAnswer) {
-                    bg = '#fff1f2';
+                    bg = 'var(--error-bg)';
                     border = '1.5px solid #fecaca';
                     color = '#b91c1c';
                   }

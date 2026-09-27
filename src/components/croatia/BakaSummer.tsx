@@ -402,7 +402,15 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
           <span style={{ fontWeight: 600 }}>Poglavlje {chapter + 1} od 16</span>
           <span>{chaptersDone.size} / 16 dovršeno</span>
         </div>
-        <div style={{ background: '#e5e7eb', borderRadius: 8, height: 8, overflow: 'hidden' }}>
+        <div
+          style={{
+            background: '#e5e7eb',
+            color: '#1c1917',
+            borderRadius: 8,
+            height: 8,
+            overflow: 'hidden',
+          }}
+        >
           <div
             style={{
               background: '#b61800',

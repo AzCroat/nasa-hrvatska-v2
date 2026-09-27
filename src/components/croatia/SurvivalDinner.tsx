@@ -332,6 +332,7 @@ export default function SurvivalDinner({ goBack }: Props) {
                       borderRadius: 10,
                       flexShrink: 0,
                       background: sc.color,
+                      color: '#1c1917', // the data tint is always light, in both themes
                       border: `1px solid ${sc.border}`,
                       display: 'flex',
                       alignItems: 'center',
@@ -375,13 +376,18 @@ export default function SurvivalDinner({ goBack }: Props) {
                 style={{
                   width: '100%',
                   padding: '8px 16px 10px',
-                  background: revealed[`${activeScenario}_${i}`] ? sc.color : 'transparent',
+                  background: revealed[`${activeScenario}_${i}`]
+                    ? 'var(--surface-mute)'
+                    : 'transparent',
                   border: 'none',
                   borderTop: `1px solid ${sc.border}`,
                   cursor: 'pointer',
                   textAlign: 'left',
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 12,
+                  // The revealed row used the scenario's LIGHT data tint under this themed ink,
+                  // which went near-white on it in dark mode. It now reveals onto the themed
+                  // muted surface, so the surface and the ink follow the theme together.
                   color: 'var(--subtext)',
                   fontWeight: 600,
                   transition: 'all .2s',
@@ -455,6 +461,7 @@ export default function SurvivalDinner({ goBack }: Props) {
               gap: 14,
               padding: '16px 18px',
               background: sc.color,
+              color: '#1c1917', // the data tint is always light, in both themes
               border: `1.5px solid ${sc.border}`,
               borderRadius: 14,
               cursor: 'pointer',

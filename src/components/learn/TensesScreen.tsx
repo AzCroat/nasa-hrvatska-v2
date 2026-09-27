@@ -312,7 +312,7 @@ export default function TensesScreen({
                             style={{
                               borderBottom: '1px solid #f3f4f6',
                               cursor: 'pointer',
-                              background: isSpeaker ? 'rgba(14,116,144,.03)' : 'white',
+                              background: isSpeaker ? 'rgba(14,116,144,.03)' : 'var(--card)',
                             }}
                             onClick={() => speak((TENSES.persons[fi] ?? '') + ' ' + f)}
                             onKeyDown={(e) => {
@@ -522,6 +522,9 @@ export default function TensesScreen({
                           : q.tense === 'past'
                             ? '#fef3c7'
                             : '#dcfce7',
+                      // Three FIXED pale chips, so a FIXED dark ink: the pair reads the same
+                      // in both themes. Without it the text inherited the theme's near-white.
+                      color: '#1c1917',
                       borderRadius: 10,
                       fontSize: 12,
                       fontWeight: 700,

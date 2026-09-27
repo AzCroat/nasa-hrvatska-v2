@@ -181,12 +181,12 @@ function CityLocativeScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[i] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[i] === o
                             ? o === c2.lok
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       fontWeight: 600,
                       cursor: choices[i] !== undefined ? 'default' : 'pointer',

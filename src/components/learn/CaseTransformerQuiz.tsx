@@ -227,11 +227,11 @@ export default function CaseTransformerQuiz({
           let color = 'var(--heading)';
           if (quizChosen !== null) {
             if (opt === q.correct) {
-              bg = '#dcfce7';
+              bg = 'var(--success-bg-strong)';
               border = '#16a34a';
               color = '#166534';
             } else if (opt === quizChosen && opt !== q.correct) {
-              bg = '#fee2e2';
+              bg = 'var(--error-bg-strong)';
               border = '#ef4444';
               color = '#991b1b';
             }

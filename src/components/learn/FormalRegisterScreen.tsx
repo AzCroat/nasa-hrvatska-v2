@@ -319,7 +319,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : 'var(--surface-mute)',
+                        background: i % 2 === 0 ? 'var(--card)' : 'var(--surface-mute)',
                       }}
                     >
                       <td
@@ -425,7 +425,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : 'var(--mode-bg)',
+                        background: i % 2 === 0 ? 'var(--card)' : 'var(--mode-bg)',
                       }}
                     >
                       <td

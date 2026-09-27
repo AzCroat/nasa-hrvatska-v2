@@ -18,6 +18,7 @@ import { writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
+  findLightSlabInheritedInk,
   findLightSlabThemedInk,
   findThemedSlabDarkInk,
   elementSpan,
@@ -49,6 +50,59 @@ describe('an ink and its surface agree about the theme', () => {
         'dark-on-dark. This is the exact shape that fixing the clause above CREATES, which ' +
         'is why both live in one guard: use an --ink-* token for the ink too.',
     ).toEqual([]);
+  });
+
+  /** Subjects whose inherited ink paints nothing a learner reads, each with its reason. */
+  const INHERITED_INK_EXEMPT: Record<string, string> = {
+    'src/components/grad/PlaceScreen.tsx#ece6d9':
+      'the exercise icon box: its only child is an emoji, which the font paints — `color` does not reach it',
+  };
+
+  it('no hardcoded light slab leaves its ink to be inherited', () => {
+    const all = findLightSlabInheritedInk();
+    // BOTH STALENESS DIRECTIONS: every exemption must still describe a live finding.
+    for (const key of Object.keys(INHERITED_INK_EXEMPT)) {
+      expect(
+        all.some((f) => `${f.file}${f.surface}` === key),
+        `exemption ${key} no longer matches anything — delete it`,
+      ).toBe(true);
+    }
+    const named = all
+      .filter((f) => !INHERITED_INK_EXEMPT[`${f.file}${f.surface}`])
+      .map((f) => `${f.file}:${f.line} background: ${f.surface} and no colour of its own`);
+    expect(
+      named,
+      'This element paints a LIGHT background and sets no ink, so its text inherits the ' +
+        'theme — near-white in dark mode, on that light slab. A dark-mode sweep measured 662 ' +
+        'such elements, most of them answer options. Use a tint TOKEN for the background ' +
+        '(--card, --surface-mute, --success-bg-strong, --error-bg-strong, …) so it follows ' +
+        'the theme, or give the element a FIXED dark ink so the pair owns its contrast.',
+    ).toEqual([]);
+  });
+
+  it('clause 3 finds a planted defect and spares a bar and an owned pair', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'inherit-'));
+    const bad = join(dir, 'Bad.tsx');
+    writeFileSync(
+      bad,
+      `export const A = ({ ok }) => (
+  <button style={{ padding: 6, background: ok ? '#dcfce7' : 'white' }}>option</button>
+);\n`,
+    );
+    const found = findLightSlabInheritedInk([bad]);
+    expect(found).toHaveLength(1);
+    const spared = join(dir, 'Spared.tsx');
+    writeFileSync(
+      spared,
+      `export const B = () => (
+  <div>
+    <div style={{ height: 8, background: '#e5e7eb' }} />
+    <span style={{ background: '#fef3c7', color: '#1c1917' }}>chip</span>
+    <button style={{ background: 'var(--card)' }}>themed</button>
+  </div>
+);\n`,
+    );
+    expect(findLightSlabInheritedInk([spared])).toEqual([]);
   });
 
   it('both clauses find a planted defect and neither is vacuous', () => {

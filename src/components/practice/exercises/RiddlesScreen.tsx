@@ -91,12 +91,12 @@ function RiddlesScreen({ goBack, award }: Props) {
                       borderRadius: 12,
                       background:
                         choices[ri] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[ri] === o
                             ? o === r.answer
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: choices[ri] !== undefined ? 'default' : 'pointer',

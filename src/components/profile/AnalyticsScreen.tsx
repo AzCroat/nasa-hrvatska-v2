@@ -33,7 +33,14 @@ function MiniBar({
         </div>
         <div style={{ fontSize: 13, fontWeight: 800, color }}>{value}</div>
       </div>
-      <div style={{ height: 8, background: '#f1f5f9', borderRadius: 4, overflow: 'hidden' }}>
+      <div
+        style={{
+          height: 8,
+          background: 'var(--surface-mute)',
+          borderRadius: 4,
+          overflow: 'hidden',
+        }}
+      >
         <div
           style={{
             width: `${pct}%`,

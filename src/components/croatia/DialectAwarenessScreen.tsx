@@ -957,16 +957,16 @@ function QuizView({
 
           if (isAnswered) {
             if (i === q.ans) {
-              bg = '#d1fae5';
+              bg = 'var(--success-bg-strong)';
               border = '2px solid #6ee7b7';
               color = '#065f46';
             } else if (i === selected && i !== q.ans) {
-              bg = '#fee2e2';
+              bg = 'var(--error-bg-strong)';
               border = '2px solid #fca5a5';
               color = '#7f1d1d';
             }
           } else if (selected === i) {
-            bg = '#eff6ff';
+            bg = 'var(--info-bg)';
             border = '2px solid #93c5fd';
           }
 

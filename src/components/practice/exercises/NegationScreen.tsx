@@ -193,6 +193,7 @@ function NegationScreen({ goBack, award }: Props) {
               marginBottom: 12,
               padding: '10px 14px',
               background: '#fef3c7',
+              color: '#1c1917',
               borderRadius: 12,
               fontSize: 12,
               borderLeft: '3px solid #ca8a04',

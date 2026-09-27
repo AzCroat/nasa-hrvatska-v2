@@ -210,11 +210,11 @@ export default function DialogueGuidedMode({
 
             if (answered) {
               if (i === shuffled.correctIdx) {
-                bg = '#dcfce7';
+                bg = 'var(--success-bg-strong)';
                 border = '1.5px solid #86efac';
                 color = '#166534';
               } else if (i === selected && i !== shuffled.correctIdx) {
-                bg = '#fee2e2';
+                bg = 'var(--error-bg-strong)';
                 border = '1.5px solid #fca5a5';
                 color = '#991b1b';
               } else {

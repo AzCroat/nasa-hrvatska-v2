@@ -1207,11 +1207,11 @@ export default function ClozeEngine({ goBack, award }: Props) {
               color = 'var(--heading)';
             if (isAnswered) {
               if (opt === q.blank) {
-                bg = '#dcfce7';
+                bg = 'var(--success-bg-strong)';
                 border = '#86efac';
                 color = '#166534';
               } else if (opt === selected) {
-                bg = '#fee2e2';
+                bg = 'var(--error-bg-strong)';
                 border = '#fca5a5';
                 color = '#991b1b';
               }

@@ -122,12 +122,12 @@ function FillStoryScreen({ goBack, award }: Props) {
                             borderRadius: 10,
                             background:
                               chosen === undefined
-                                ? 'white'
+                                ? 'var(--card)'
                                 : chosen === o
                                   ? o === s.blank
-                                    ? '#dcfce7'
-                                    : '#fee2e2'
-                                  : 'white',
+                                    ? 'var(--success-bg-strong)'
+                                    : 'var(--error-bg-strong)'
+                                  : 'var(--card)',
                             fontSize: 12,
                             fontWeight: 600,
                             cursor: chosen !== undefined ? 'default' : 'pointer',

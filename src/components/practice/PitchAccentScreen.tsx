@@ -302,12 +302,12 @@ export default function PitchAccentScreen({
                 border = '#86efac';
                 color = '#166534';
               } else if (a.id === selected) {
-                bg = '#fff1f2';
+                bg = 'var(--error-bg)';
                 border = '#fca5a5';
                 color = '#991b1b';
               }
             } else if (selected === a.id) {
-              bg = '#f5f3ff';
+              bg = 'var(--mode-bg)';
               border = '#c4b5fd';
             }
             return (

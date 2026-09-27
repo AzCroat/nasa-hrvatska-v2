@@ -90,7 +90,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
           <tbody>
             {COLORAGREE.colors.map(function (c2, ci) {
               return (
-                <tr key={ci} style={{ background: ci % 2 ? 'var(--info-bg)' : 'white' }}>
+                <tr key={ci} style={{ background: ci % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
                   <td style={{ padding: '4px', fontWeight: 700, color: 'var(--ink-strong)' }}>
                     {c2.en}
                   </td>
@@ -148,12 +148,12 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         singChoices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : singChoices[qi] === o
                             ? o === q.color
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       cursor: singChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: singChoices[qi] !== undefined ? 'none' : 'auto',
@@ -202,12 +202,12 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         plurChoices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : plurChoices[qi] === o
                             ? o === q.color
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       cursor: plurChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: plurChoices[qi] !== undefined ? 'none' : 'auto',

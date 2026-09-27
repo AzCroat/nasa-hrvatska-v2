@@ -1077,11 +1077,11 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
 
           if (selected !== null) {
             if (oi === current.ans) {
-              bg = '#dcfce7';
+              bg = 'var(--success-bg-strong)';
               border = '2px solid #16a34a';
               color = '#14532d';
             } else if (oi === selected) {
-              bg = '#fee2e2';
+              bg = 'var(--error-bg-strong)';
               border = '2px solid #dc2626';
               color = '#7f1d1d';
             }

@@ -387,7 +387,11 @@ export default function PadezifullScreen({
                         border:
                           '2px solid ' +
                           (pfCaseA ? (cn === q.caseName ? '#16a34a' : '#e7e5e4') : '#d6d3d1'),
-                        background: pfCaseA ? (cn === q.caseName ? '#dcfce7' : 'white') : 'white',
+                        background: pfCaseA
+                          ? cn === q.caseName
+                            ? 'var(--success-bg-strong)'
+                            : 'var(--card)'
+                          : 'var(--card)',
                         fontWeight: 700,
                         cursor: 'pointer',
                       }}

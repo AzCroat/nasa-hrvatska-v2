@@ -627,6 +627,7 @@ export default function GrammarDiagnosisScreen({
                                 flex: 1,
                                 minWidth: 130,
                                 background: '#fff1f2',
+                                color: '#1c1917',
                                 border: '1.5px solid #fecdd3',
                                 borderRadius: 12,
                                 padding: '12px 14px',
@@ -756,12 +757,12 @@ export default function GrammarDiagnosisScreen({
                                       border = '1.5px solid #86efac';
                                       color = '#166534';
                                     } else if (isChosen && !isCorrect) {
-                                      bg = '#fff1f2';
+                                      bg = 'var(--error-bg)';
                                       border = '1.5px solid #fecdd3';
                                       color = '#9f1239';
                                     }
                                   } else if (isChosen) {
-                                    bg = '#eff6ff';
+                                    bg = 'var(--info-bg)';
                                     border = '1.5px solid #93c5fd';
                                   }
 

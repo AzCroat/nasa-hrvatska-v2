@@ -418,6 +418,8 @@ interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
+const TINT = { ok: 'var(--success-bg-strong)', no: 'var(--error-bg-strong)' } as const;
+
 export default function DictationScreen({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
@@ -742,7 +744,7 @@ export default function DictationScreen({ goBack, award }: Props) {
           border: checked
             ? `2px solid ${correct ? '#16a34a' : '#dc2626'}`
             : '2px solid rgba(14,116,144,.2)',
-          background: checked ? (correct ? '#dcfce7' : '#fee2e2') : 'white',
+          background: checked ? (correct ? TINT.ok : TINT.no) : 'var(--card)',
           outline: 'none',
           marginBottom: 8,
         }}

@@ -109,7 +109,7 @@ function SvojMojScreen({
                 style={{
                   flex: 1,
                   padding: '8px 12px',
-                  background: '#fee2e2',
+                  background: 'var(--error-bg-strong)',
                   borderRadius: 10,
                   fontSize: 13,
                 }}
@@ -197,7 +197,7 @@ function SvojMojScreen({
                   key={ri}
                   style={{
                     borderBottom: '1px solid #f3f4f6',
-                    background: ri % 2 === 0 ? 'white' : 'var(--surface-mute)',
+                    background: ri % 2 === 0 ? 'var(--card)' : 'var(--surface-mute)',
                   }}
                 >
                   <td

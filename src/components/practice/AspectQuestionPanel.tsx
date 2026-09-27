@@ -100,7 +100,7 @@ export default function AspectQuestionPanel({
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -176,7 +176,7 @@ export default function AspectQuestionPanel({
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -257,7 +257,7 @@ export default function AspectQuestionPanel({
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.id === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -318,7 +318,7 @@ export default function AspectQuestionPanel({
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.aspect === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }

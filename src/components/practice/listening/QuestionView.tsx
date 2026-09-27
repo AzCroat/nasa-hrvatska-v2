@@ -303,7 +303,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
               border = '1.5px solid var(--success-b, #bbf7d0)';
               color = 'var(--success)';
             } else if (isChosen) {
-              bg = '#fff1f2';
+              bg = 'var(--error-bg)';
               border = '1.5px solid #fecaca';
               color = '#b91c1c';
             }

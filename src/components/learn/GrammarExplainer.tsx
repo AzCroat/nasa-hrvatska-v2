@@ -808,12 +808,12 @@ export default function GrammarExplainer({
                           bg = 'rgba(99,102,241,0.08)';
                         }
                         if (quizSubmitted && oi === q.correct) {
-                          bg = '#dcfce7';
+                          bg = 'var(--success-bg-strong)';
                           border = '2px solid #16a34a';
                           color = '#166534';
                         }
                         if (quizSubmitted && answered === oi && oi !== q.correct) {
-                          bg = '#fee2e2';
+                          bg = 'var(--error-bg-strong)';
                           border = '2px solid #dc2626';
                           color = '#991b1b';
                         }

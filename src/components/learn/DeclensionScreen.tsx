@@ -210,7 +210,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                     key={ci}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: ci % 2 ? 'var(--surface-mute)' : 'white',
+                      background: ci % 2 ? 'var(--surface-mute)' : 'var(--card)',
                     }}
                     onClick={function () {
                       speak(n.cases[ci] ?? '');

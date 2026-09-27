@@ -12245,3 +12245,36 @@ the engine at once.
 - `completionKeyRegistered`'s non-vacuity floor moved to the UNION of direct call sites
   and engine ids: direct sites fell 153 → 119 as wrapper ids rose 109 → 143, and the
   per-population floor read that correct move as a collapse. Every key is still checked.
+
+### Sweep 164 — this PR made answer options invisible in dark mode, and the fix (2026-09-27)
+
+`602088f2` (this PR) gave form controls `color: inherit` so a bare `<button>` stopped
+painting UA black on the dark card — 214 findings fixed. It ALSO turned every button that
+paints its OWN light background into light-on-light in dark mode: the text now inherits
+the theme's near-white. A dark-mode browser sweep over all 430 routes (text luminance
+> 0.45 whose nearest opaque surface has luminance > 0.6) measured **662 elements on 36
+routes**, most of them answer options (`background: 'white'`, then `#dcfce7`/`#fee2e2`
+once answered). No source guard could see it: inkSurfaceAgreement's clause 1 looks for a
+themed ink TOKEN in the subtree, and inherited ink has none.
+- Fixed ~80 style objects: `white` → `var(--card)`; the answered tints → new tokens
+  `--success-bg-strong` / `--error-bg-strong` (light values ARE `#dcfce7` / `#fee2e2`, so
+  light mode is byte-identical; dark values translucent); `#f1f5f9` → `--surface-mute`;
+  pale tints with no token and a light-only surface → a FIXED dark ink `#1c1917`, the
+  pairing every sibling option screen already uses. Mixed sites (resting state already a
+  token) get tokens for their tints, never a fixed ink, which would break the resting arm.
+- **Clause 3 of inkSurfaceAgreement**: an element painting an opaque light background
+  that sets NO ink and holds TEXT. Two refinements, both forced by false positives: TEXT
+  not children (a progress bar holding its fill is not a subject), and ONE HOP through a
+  local (`let bg = 'white'` … `background: bg`) scoped to the NEAREST DECLARATION —
+  file-wide, it attributed another function's `bg = 'white'` to FormalRegisterScreen's
+  translucent card. It also reads the SHORTHAND `color,` as an own ink; missing that sent
+  a fix script to add a duplicate `color` to seven files, all reverted (tsc caught one).
+  One checked exemption: PlaceScreen's icon box, whose only child is an emoji.
+- Mutation-verified: OrdinalsScreen's white options restored fails clause 3 and names
+  line 89; QuestionWordsScreen's ink removed fails it through the local hop (line 141).
+- Measured after: the 36 routes → 13, 29 distinct styles. Full suite 663 / 10,453 green.
+- LEFT, next: civic / lifeevents / survival_dinner (data-tint buttons whose CHILD divs
+  set a themed ink, so the button's fixed ink does not reach them); football, immersion
+  (white slabs under accentInk / teal inks); listeningpath; postcard (UA buttonface under
+  photo text — likely a probe artifact of a background image); seven "grad" (gradient)
+  findings to classify.

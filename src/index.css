@@ -94,6 +94,12 @@ button,input,optgroup,select,textarea{
   --warning-b:    #fcd34d;
   --error:        #dc2626;
   --error-bg:     #fef2f2;
+  /* The ANSWERED-option tints: a correct or wrong answer's own background. Their light
+     values are the literals 53 inline styles carried (#dcfce7 / #fee2e2); the dark
+     values exist because those elements set no ink of their own, so their text follows
+     the theme and went near-white on a light tint in dark mode (2026-09-27). */
+  --success-bg-strong: #dcfce7;
+  --error-bg-strong:   #fee2e2;
   --error-b:      #fca5a5;
   --info:         #0e7490;
   --info-bg:      #f0f9ff;
@@ -504,6 +510,8 @@ button,input,optgroup,select,textarea{
   --warning-b:    rgba(251,191,36,.3);
   --error:        #f87171;
   --error-bg:     rgba(248,113,113,.1);
+  --success-bg-strong: rgba(74,222,128,.2);
+  --error-bg-strong:   rgba(248,113,113,.2);
   --error-b:      rgba(248,113,113,.3);
   --info:         #38bdf8;
   --info-bg:      rgba(56,189,248,.1);

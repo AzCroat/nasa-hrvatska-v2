@@ -143,6 +143,10 @@ function QuestionWordsScreen({ goBack, award }: Props) {
                       border: `2px solid ${border}`,
                       borderRadius: 10,
                       background: bg,
+                      // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                      // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                      // white in dark mode once buttons followed the theme (2026-09-27).
+                      color: '#1c1917',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: state !== null ? 'default' : 'pointer',

@@ -1288,7 +1288,7 @@ export default function PitchAccentMastery({
                     border = '2px solid #16a34a';
                     color = '#166534';
                   } else if (isSelected && !isCorrect) {
-                    bg = '#fff1f2';
+                    bg = 'var(--error-bg)';
                     border = '2px solid #dc2626';
                     color = '#9b1c1c';
                   }

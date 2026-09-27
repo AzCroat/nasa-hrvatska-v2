@@ -286,6 +286,7 @@ export default function GradMap({
                     height: 6,
                     borderRadius: 3,
                     background: '#eee6d6',
+                    color: '#1c1917',
                     marginTop: 7,
                     maxWidth: 150,
                     overflow: 'hidden',

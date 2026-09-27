@@ -91,7 +91,7 @@ function RelativePronounsScreen({ goBack, award }: Props) {
             {(['m', 'f', 'n'] as const).map(function (g, gi) {
               const r = RELPRON.table[g];
               return (
-                <tr key={gi} style={{ background: gi % 2 ? 'var(--info-bg)' : 'white' }}>
+                <tr key={gi} style={{ background: gi % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
                   <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
                     {g === 'm' ? '♂ M' : g === 'f' ? '♀ F' : '⚧ N'}
                   </td>
@@ -136,12 +136,12 @@ function RelativePronounsScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',

@@ -318,7 +318,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
             padding: '14px 16px',
             marginBottom: 20,
             fontSize: 13,
-            color: 'var(--subtext)',
+            color: '#555e6e', // --subtext's light value: the data tint stays light in both themes
             lineHeight: 1.6,
           }}
         >
@@ -457,6 +457,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
               gap: 14,
               padding: '16px 18px',
               background: ev.color,
+              color: '#1c1917', // the data tint is always light, in both themes
               border: `1.5px solid ${ev.border}`,
               borderRadius: 14,
               cursor: 'pointer',

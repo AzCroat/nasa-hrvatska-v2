@@ -288,7 +288,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                     key={i}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: i % 2 === 0 ? 'white' : 'var(--surface-mute)',
+                      background: i % 2 === 0 ? 'var(--card)' : 'var(--surface-mute)',
                     }}
                   >
                     <td style={{ padding: '10px', fontWeight: 700, color: 'var(--ink-accent)' }}>

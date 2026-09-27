@@ -213,6 +213,7 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
         aria-label={`Play audio for ${mistake.hr}`}
         style={{
           background: '#eff6ff',
+          color: '#1c1917',
           border: 'none',
           borderRadius: 50,
           width: 36,

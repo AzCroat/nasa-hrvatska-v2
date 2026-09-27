@@ -170,7 +170,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         flex: 1,
                         minWidth: 140,
                         padding: '8px 12px',
-                        background: '#fee2e2',
+                        background: 'var(--error-bg-strong)',
                         borderRadius: 10,
                         fontSize: 12,
                       }}
@@ -400,6 +400,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     style={{
                       padding: '4px 8px',
                       background: '#fef3c7',
+                      color: '#1c1917',
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}
@@ -414,6 +415,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     style={{
                       padding: '4px 8px',
                       background: '#fce7f3',
+                      color: '#1c1917',
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}

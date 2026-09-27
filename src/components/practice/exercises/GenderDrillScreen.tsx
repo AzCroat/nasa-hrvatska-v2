@@ -118,7 +118,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
       >
         <span
           style={{
-            background: sortDone ? '#dcfce7' : '#f1f5f9',
+            background: sortDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -128,7 +128,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         </span>
         <span
           style={{
-            background: pluralDone ? '#dcfce7' : '#f1f5f9',
+            background: pluralDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -138,7 +138,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         </span>
         <span
           style={{
-            background: adjDone ? '#dcfce7' : '#f1f5f9',
+            background: adjDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -227,6 +227,10 @@ function GenderDrillScreen({ goBack, award }: Props) {
                 border: '2px solid ' + bc,
                 borderRadius: 10,
                 background: bg,
+                // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                // white in dark mode once buttons followed the theme (2026-09-27).
+                color: '#1c1917',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: revealed ? 'default' : 'pointer',
@@ -385,6 +389,10 @@ function GenderDrillScreen({ goBack, award }: Props) {
                       border: '2px solid ' + bc,
                       borderRadius: 10,
                       background: bg,
+                      // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                      // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                      // white in dark mode once buttons followed the theme (2026-09-27).
+                      color: '#1c1917',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: 'pointer',

@@ -254,7 +254,7 @@ export function ScenePicker({
               key={scene.id}
               onClick={() => onSelect(scene)}
               style={{
-                background: complete ? scene.bg : 'white',
+                background: complete ? scene.bg : 'var(--card)',
                 border: complete ? `2px solid ${scene.color}` : '1.5px solid rgba(0,0,0,.08)',
                 borderRadius: 16,
                 padding: '16px 14px',
@@ -371,7 +371,12 @@ export function ItemButton({
   if (justFound) {
     return (
       <div
-        style={{ ...baseStyle, background: '#fef9c3', boxShadow: '0 0 0 3px #f59e0b' }}
+        style={{
+          ...baseStyle,
+          background: '#fef9c3',
+          color: '#1c1917',
+          boxShadow: '0 0 0 3px #f59e0b',
+        }}
         className="vs-discovered-anim"
       >
         <span style={{ fontSize: 22, lineHeight: 1 }}>{item.icon}</span>

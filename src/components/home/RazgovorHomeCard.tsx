@@ -67,6 +67,7 @@ export default function RazgovorHomeCard({
               overflow: 'hidden',
               border: '2px solid #fff',
               background: '#fbf6ec',
+              color: '#1c1917',
             }}
           >
             <CharacterPortrait name={host} title={partner.name} size={50} />

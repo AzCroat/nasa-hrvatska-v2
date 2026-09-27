@@ -326,6 +326,7 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
               gap: 14,
               padding: '14px 18px',
               background: s.color,
+              color: '#1c1917', // the data tint is always light, in both themes
               border: `1.5px solid ${s.border}`,
               borderRadius: 14,
               cursor: 'pointer',

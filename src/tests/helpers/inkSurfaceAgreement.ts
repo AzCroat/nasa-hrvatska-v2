@@ -291,3 +291,77 @@ export function findThemedSlabDarkInk(list?: string[]): AgreementFinding[] {
   }
   return out;
 }
+
+/**
+ * Clause 3 — an opaque LIGHT inline background on an element that sets NO ink at all.
+ *
+ * `button,input,… { color: inherit }` (602088f2) made a form control follow the theme
+ * instead of the UA's black, which fixed 214 black-on-dark findings — and turned every
+ * button that paints its OWN light background into light-on-light in dark mode, because
+ * its text now inherits the theme's near-white. A dark-mode browser sweep measured 662
+ * such elements across 36 routes, most of them answer options (`background: 'white'`,
+ * then `#dcfce7`/`#fee2e2` once answered). Clause 1 could not see them: it looks for a
+ * themed ink TOKEN in the subtree, and inherited ink has none.
+ *
+ * An element with no children (a bar, a flag cell) paints no text and is not a subject.
+ */
+export function findLightSlabInheritedInk(list?: string[]): AgreementFinding[] {
+  const out: AgreementFinding[] = [];
+  for (const f of files(list)) {
+    const src = readFileSync(f, 'utf8');
+    for (const m of src.matchAll(/style=\{\{/g)) {
+      const lt = src.lastIndexOf('<', m.index!);
+      if (lt < 0) continue;
+      const span = elementSpan(src, lt);
+      if (span.endsWith('/>')) continue; // self-closing: no text of its own
+      // TEXT, not merely children: a progress bar holding its fill (AspectTimeline) is
+      // a container with no ink to lose. After removing the tags, a subject shows
+      // letters or digits of its own, or a bare `{value}` child like `{o}` / `{q.tense}`.
+      const inner = span.replace(/<[^>]*>/g, ' ');
+      const hasText =
+        /[\p{L}\p{N}]/u.test(inner.replace(/\{[^}]*\}/g, ' ')) ||
+        /\{\s*[A-Za-z_$][\w$.]*(?:\[[^\]]*\])?\s*\}/.test(inner);
+      if (!hasText) continue;
+      const body = stripComments(styleBodies(src.slice(m.index!))[0] ?? '');
+      // An own ink in either spelling: `color: x` or the SHORTHAND `color,` — the second
+      // form is how GenderDrillScreen writes it, and missing it reported a correct pair.
+      if (/(?:^|[,{\s])(?<![a-zA-Z-])color\s*(?::|,|$)/.test(body)) continue;
+      const bm = /(?:^|[,{\s])(?:background|backgroundColor)\s*:\s*/.exec(body);
+      if (!bm) continue;
+      // ONE HOP THROUGH A LOCAL. The commonest option-button shape is `let bg = 'white'`
+      // reassigned per answer state and then `background: bg`, which carries no literal
+      // at all; QuestionWordsScreen and GenderDrillScreen shipped this way and a
+      // literal-only reading passed them.
+      const arms = inkArms(valueOfProperty(body, bm.index! + bm[0].length)).flatMap((a) => {
+        const id = /^[A-Za-z_$][\w$]*$/.exec(a.trim())?.[0];
+        if (!id) return [a];
+        // SCOPED TO THE NEAREST DECLARATION, not the file: FormalRegisterScreen has a `bg`
+        // drawn from translucent tints and, in another function, a `bg = 'white'`. A
+        // file-wide read attributed the second to the first and a fix script then gave a
+        // correct translucent card a dark ink it did not need.
+        const decls = [
+          ...src.slice(0, m.index!).matchAll(new RegExp(`\\b(?:let|const|var)\\s+${id}\\b`, 'g')),
+        ];
+        const from = decls.length ? decls[decls.length - 1]!.index! : m.index!;
+        return [
+          ...src
+            .slice(from, m.index!)
+            .matchAll(new RegExp(`\\b${id}\\s*=\\s*(['"][^'"]*['"])`, 'g')),
+        ].map((x) => x[1]!);
+      });
+      const lightHex = arms
+        .map((a) => /^(['"])(#[0-9a-fA-F]{3,6}|white)\1$/.exec(a.trim())?.[2])
+        .map((h) => (h === 'white' ? '#ffffff' : h))
+        .find((h) => h && lum(hexRgb(h)!) >= LIGHT_SURFACE_LUM);
+      if (!lightHex) continue;
+      out.push({
+        file: f,
+        line: src.slice(0, m.index!).split('\n').length,
+        surface: lightHex,
+        inks: ['(inherited)'],
+        kind: 'light-slab-themed-ink',
+      });
+    }
+  }
+  return out;
+}

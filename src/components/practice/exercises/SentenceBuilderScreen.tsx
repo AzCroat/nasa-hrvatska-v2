@@ -141,12 +141,12 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[i] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[i] === o
                             ? o === s.hr
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 13,
                       textAlign: 'left',
                       cursor: choices[i] !== undefined ? 'default' : 'pointer',

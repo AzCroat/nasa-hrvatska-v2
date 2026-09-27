@@ -204,7 +204,7 @@ export default function CertificateScreen({
             }}
           >
             <div style={{ width: 60, background: '#D4002D' }} />
-            <div style={{ width: 60, background: '#F5F5F5' }} />
+            <div style={{ width: 60, background: '#F5F5F5', color: '#1c1917' }} />
             <div style={{ width: 60, background: '#003DA5' }} />
           </div>
           <div
@@ -319,7 +319,15 @@ export default function CertificateScreen({
                 {xpPct}%
               </span>
             </div>
-            <div style={{ height: 8, background: '#e2e8f0', borderRadius: 4, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: 8,
+                background: '#e2e8f0',
+                color: '#1c1917',
+                borderRadius: 4,
+                overflow: 'hidden',
+              }}
+            >
               <div
                 style={{
                   height: '100%',

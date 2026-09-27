@@ -112,7 +112,7 @@ function PronounsScreen({ goBack, award }: Props) {
           <tbody>
             {PRONOUNCASE.table.map(function (r, ri) {
               return (
-                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'white' }}>
+                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
                   {[r.nom, r.gen, r.dat, r.aku, r.inst, r.lok].map(function (v, vi) {
                     return (
                       <td
@@ -176,12 +176,12 @@ function PronounsScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
