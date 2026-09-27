@@ -4601,8 +4601,8 @@ and the mic is dead until the learner leaves the screen.
   forward; restart without a cap.
 
 **AND THE SAME SCREEN READ ONE STRING TO THE LEARNER WHILE SPEAKING ANOTHER
-(2026-09-27).** Found from the opposite end to every finding above: a CodeQL
-`js/incomplete-sanitization` alert on PR #753, on lines my branch did not write.
+(2026-09-27).** Found while chasing a CodeQL alert on PR #753 — and **it was not
+that alert; see the correction at the end of this entry.**
 `MajaScreen`'s JSON-parse `catch` salvages the `reply` value out of a truncated
 envelope (a reply longer than `max_tokens`) and **decoded the escapes itself**:
 `\n`→' ', then `\"`→'"', then `\\`→'\'. Unescaping backslashes LAST is
@@ -4640,20 +4640,27 @@ its n outright; `\t` leaks raw.
   was entirely bash quoting), and `\u010d` does not arise — `JSON.stringify('č')`
   emits `č` literally, so no real encoder produces that escape and my worry about
   a Croatian diacritic leaking was unfounded.
-- **A CODEQL ALERT ON LINES YOU DID NOT WRITE IS STILL YOURS WHEN YOUR PR TOUCHES
-  THE FILE.** These lines date from `e3f530f7` (2026-07-22); the alert surfaced
-  because the ink sweep touched the file, exactly as the check's own summary warns
-  ("Alerts not introduced by this pull request might have been detected because
-  the code changes were too large"). The alert count went 7 → 1 across my
-  `escapeRegExp` fixes, and that delta is what identified the survivor — the
-  check's `output.text` is empty and no MCP tool reads the security tab, so the
-  route was: read the delta, audit every escaping site in the diff, find the one
-  that is not mine.
+- **CORRECTION: THE MAJA CHAIN WAS NOT THE COUNTED CODEQL ALERT.** I attributed
+  it by elimination — the count went 7 → 1 across my `escapeRegExp` fixes, and
+  the Maja chain was the one escaping site left in the diff that was not mine — and
+  the next head still reported exactly one high alert. So the decoder fix above is a
+  real, measured defect, and it is NOT what the check was counting. Then it was
+  MEASURED instead: CodeQL run locally with CI's suite, at 2.26.4 and again at
+  2.27.1 (the version the runner's toolcache actually used — the action's pinned
+  bundle is not what ran, and the job log says which), over the PR head AND master.
+  **Both produce the same 17 alerts, fingerprint for fingerprint, and none sits on a
+  line the PR added.** Whatever GitHub counts as new is a difference in ITS state,
+  not in the code — and the timestamps show one: the PR's verdict was computed at
+  05:33:04, and master's own analysis of the commit it was compared against finished
+  at 05:33:46. Elimination picks the most plausible candidate among the ones you
+  thought of; it cannot tell you the answer is outside that set.
 - NEVER: decode JSON string escapes with a chain of `.replace()` calls that
   handles `\\` last (one pass, consuming the char after each backslash); leave two
   decoders live on one value; measure backslash behaviour through nested shell
   quoting — write the probe to a file; read a `grep`ped `Tests` line as a verdict
-  when a failed COLLECTION reports on the `Test Files` line instead.
+  when a failed COLLECTION reports on the `Test Files` line instead; name the alert
+  a check is counting by elimination — run CodeQL locally at the version the job log
+  names, over BOTH the PR head and its base, and diff the fingerprints.
 
 **AND THE OTHER HALF OF THAT REPORT WAS A PROMISE THAT NEVER SETTLES.** Ten
 screens carried this block, byte-identical:

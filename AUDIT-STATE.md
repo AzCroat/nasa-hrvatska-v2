@@ -12051,3 +12051,37 @@ from `e3f530f7` (2026-07-22) that my branch merely touched.
 - Gate: 661 files / 10,430 tests green, tsc clean, eslint zero-warnings,
   prettier clean, Croatian lint 0/474. E2E audit: no spec asserts a `"reply"`
   envelope, so nothing depended on the salvage decode.
+
+### Sweep 159c — correction: sweep 159b named the wrong alert
+
+Sweep 159b says the survivor was `js/incomplete-sanitization` on
+`MajaScreen.tsx:644-646`. **It was not.** Head 91240405 carries that fix and CodeQL
+still reported exactly one new high alert. The attribution was made by elimination
+(the one escaping site in the diff that was not mine), which cannot see an answer
+outside the candidates considered. The decoder fix itself stands: it is a real
+defect, measured 3/8 wrong, and pinned.
+
+What was measured instead (all in the session scratchpad, re-runnable):
+
+- CodeQL CLI run locally with CI's suite (`javascript-security-extended.qls`) at
+  **2.26.4** over the PR head and over master `1055dd5a`: **17 alerts each,
+  identical by (rule, path, primaryLocationLineHash)**, zero on any of the 16,393
+  lines the PR adds.
+- The CI job log shows the runner used **2.27.1** from the toolcache (queries
+  `javascript-queries 2.4.6`), not the bundle the action pins. Re-run at 2.27.1 over
+  the PR head: the same 17, fingerprint for fingerprint, zero on added lines.
+- Timing: the PR's CodeQL verdict completed 05:33:04; master's own CodeQL run for
+  `1055dd5a` (the PR's base) completed 05:33:46. GitHub judged the PR before the
+  baseline it compares against existed.
+- **NOT established**: which alert GitHub counted. The check's `output.text` is
+  empty, no review comment was posted (GitHub posts one only for a diff line), and
+  nothing reachable from here reads the Security tab. Next push tests the timing
+  explanation: if the count persists with a current baseline, it is not timing.
+
+**Found while waiting, recorded not fixed (queued):** 30+ component files build a
+colour by appending a hex alpha to a data field (`${x.color}cc`, `x.color + '18'`).
+Where that field holds `var(--…)` the result (`var(--error)cc`) is INVALID and the
+whole declaration is dropped — confirmed in `SpotifySection`, where four of ten
+playlist tiles rendered with no background at all (fixed in the CSS-token change).
+The census of which data fields hold `var()` AND flow into an alpha append is the
+next sweep; `inlineInkContrast` reads the hex form of this shape, never the var form.
