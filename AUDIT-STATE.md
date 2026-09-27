@@ -12332,3 +12332,7 @@ themed ink TOKEN in the subtree, and inherited ink has none.
   ink in accentInk() (correct on a themed surface) is wrong on a fixed one — CefrTest is the
   inverse of every other finding in this sweep, and a comment on `LEVELS` now says so.
 - Full unit suite 663 / 10,453 green on `ddb329b9`. Commits: 75ff7437, ddb329b9, 4ae08d44.
+- **Confirmed at `4ae08d44`: the full 430-route dark sweep passes, both halves, zero
+  findings** (11.5 min; its `measured > 300` floor is what makes the zero mean something).
+  Down from 36 routes / 662 elements at the start of sweep 164. Plan item 2 (dark/light
+  unreadable text) is closed; the weekly `dark-ink` job keeps it closed.
