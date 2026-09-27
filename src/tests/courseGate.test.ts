@@ -31,6 +31,8 @@ import {
   MODALITY_CATEGORIES,
 } from '../lib/courseGate';
 import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
+import { withTeachingSlots } from '../lib/teachingSlotSplice';
+import type { DailySession } from '../lib/dailySessionStore';
 import { CATEGORY_SCREEN_MAP } from '../lib/categoryRoutes';
 import type { CurriculumEntry } from '../lib/curriculum';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
@@ -188,4 +190,46 @@ describe('the session and the next-step engine obey it', () => {
       }
     },
   );
+});
+
+// A plan committed before the spine arrived was composed with NOTHING ahead, so it can
+// hold a drill the course has not taught. Measured in a browser (2026-09-27): a Unit 2
+// learner's cold-start plan kept "Genitive" beside the check-up and lesson the splice
+// inserted. The splice now drops UNSTARTED ahead-of-course activities — never a
+// completed one, and nothing while an activity is in flight.
+describe('the splice into a plan built before the spine', () => {
+  const plan = (): DailySession =>
+    ({
+      date: DAY,
+      cefrLevel: 'A2',
+      activities: [
+        { id: 'srsreview', label: 'SRS', screen: 'srsreview', category: 'vocab-a2' },
+        { id: 'cat_genitive', label: 'Genitive', screen: 'genitivedrill', category: 'genitive' },
+        { id: 'cityofday', label: 'City', screen: 'cityofday', category: 'culture' },
+      ],
+      completedIds: ['srsreview'],
+      estimatedMinutes: 15,
+      spineSeen: false,
+    }) as unknown as DailySession;
+
+  it('drops an unstarted drill the course has not reached, keeps the rest', () => {
+    writeCurriculumSpine(SPINE);
+    const ids = withTeachingSlots(plan(), 'A2').activities.map((a) => a.id);
+    expect(ids).toContain('srsreview');
+    expect(ids).toContain('cityofday');
+    expect(ids).not.toContain('cat_genitive');
+  });
+
+  it('keeps a COMPLETED activity even when it is ahead of the course', () => {
+    writeCurriculumSpine(SPINE);
+    const p = plan();
+    p.completedIds = ['srsreview', 'cat_genitive'];
+    expect(withTeachingSlots(p, 'A2').activities.map((a) => a.id)).toContain('cat_genitive');
+  });
+
+  it('drops nothing while an activity is in flight', () => {
+    writeCurriculumSpine(SPINE);
+    sessionStorage.setItem('nh_session_started', 'genitivedrill');
+    expect(withTeachingSlots(plan(), 'A2').activities.map((a) => a.id)).toContain('cat_genitive');
+  });
 });

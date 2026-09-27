@@ -12653,3 +12653,31 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   Also this sweep: #754's E2E red was mine — `ai-conversation.spec.js` clicked the centre of
   the outermost `div` containing "Free Talk"; the wider column (right rail removed) moved
   that point off the card. Now `getByRole('button', …)`; 32/32. #754 merged green (a6a920b2).
+
+- [x] **Sweep 173 — step 3, the course walked past the unit test (2026-09-27).**
+  Walked in a real browser against a CI-equivalent build: both Unit 1 production tasks
+  graded from the course map (Unit 1 → `cleared`, Unit 2 opens, Home leads with "Unit 2
+  of 36"); a refused evaluator (429 `monthly_budget_exhausted`) names the cause, records
+  `production.unavailable`, and Unit 2 opens as the screen promises; all six A1 units
+  held → map shows 6 of 36 and A2 Unit 1 current, Home opens `present`; a due 30-day
+  check-up is served first and a failed one keeps the unit and resets the ladder to
+  stage 0 due tomorrow. No page errors on any path.
+  **Two of my first "findings" were my seed**: `addInitScript` re-runs on every
+  `page.goto`, so writing `nh_course_units` unconditionally erased what the app had just
+  recorded — which read as "production never recorded" and "a refusal walls the course".
+  The committed spec seeds once behind a sessionStorage flag and says why.
+  **One real defect**: a plan committed before the spine arrives is composed with
+  NOTHING ahead (the no-spine contract), and when the learner has already started it the
+  retry SPLICES the teaching slots in rather than rebuilding — leaving the drills the
+  course gate would never have served (the genitive for a Unit 2 learner) beside the
+  inserted check-up and lesson. `withTeachingSlots` now drops UNSTARTED ahead-of-course
+  activities; a completed one keeps its place, and nothing is dropped while an activity
+  is in flight (a failed read counts as in flight). 3 tests in `courseGate.test.ts`;
+  mutation-verified three ways (prune removed, completed not protected, in-flight guard
+  removed — each fails 1). The untouched-plan path already rebuilds cleanly once the
+  spine lands (walked: 6 s shows the pre-spine plan, 16 s shows check-up + lesson).
+  **Still true and deliberate**: for the seconds before the spine lands on a device's
+  first load, Home shows the pre-course plan; returning devices read the cached spine.
+  `e2e/course-walk.spec.js` (3) pins production → next unit, refusal → next unit, and the
+  A1 → A2 boundary on map and Home; mutation-verified in the browser — a no-op
+  `markProductionUnavailable` fails the refusal walk (Unit 2 `locked`).
