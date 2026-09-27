@@ -52,8 +52,10 @@ const THEMED_INK =
 const THEMED_SURFACE =
   /var\(--(?:card|surface-mute|mode-bg|warning-bg|success-bg|error-bg|info-bg|success-bg-strong|error-bg-strong|grad-[a-z]+)\)/;
 
-/** Luminance above which a surface counts as LIGHT for this rule. */
-export const LIGHT_SURFACE_LUM = 0.75;
+/** Luminance above which a surface counts as LIGHT for this rule. 0.6, not 0.75: `#fed7aa` (0.72) is
+ * the second stop of a pale orange gradient that hid two cards' text in dark mode while
+ * the guard read it as mid-tone. Lowered on a measurement: exactly those two, no others. */
+export const LIGHT_SURFACE_LUM = 0.6;
 /** Luminance below which an ink counts as DARK for this rule. */
 export const DARK_INK_LUM = 0.18;
 

@@ -65,3 +65,49 @@ jobs:
           name: route-render-sweep-report
           path: playwright-report/
           retention-days: 7
+
+  # Every route, in DARK MODE: ink and surface must agree (e2e/dark-mode-ink.spec.js,
+  # DARK_SWEEP=1). A separate job, not a step above, because that job is already
+  # budgeted near its 70-minute limit and this walk takes ~12 minutes on its own.
+  # The deploy gate runs the same check over a named sample; only this sees a new
+  # instance on a route outside it — and the class lives in DATA as often as in
+  # styles (a level card's `bg` field), where no source guard reads it.
+  dark-ink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          set -e
+          install() { timeout 600 npx playwright install --with-deps chromium; }
+          if ! install; then
+            echo "::warning::playwright install attempt 1 failed — clearing apt locks and retrying"
+            sudo pkill -9 -f apt-get || true
+            sudo rm -f /var/lib/apt/lists/lock /var/lib/dpkg/lock /var/lib/dpkg/lock-frontend || true
+            install
+          fi
+
+      - run: npm run build
+
+      - name: Every route, dark mode, ink against surface
+        run: npx playwright test --project="Desktop Chrome" e2e/dark-mode-ink.spec.js -g "every route"
+        env:
+          CI: true
+          DARK_SWEEP: '1'
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dark-ink-sweep-report
+          path: playwright-report/
+          retention-days: 7

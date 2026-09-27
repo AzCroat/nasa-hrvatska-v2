@@ -298,7 +298,7 @@ export default function AnalyticsScreen({
             style={{
               flex: 1,
               textAlign: 'center',
-              background: 'linear-gradient(135deg,#fff7ed,#fed7aa)',
+              background: 'var(--grad-orange)',
               borderRadius: 12,
               padding: '14px 8px',
               border: '1px solid #fdba74',

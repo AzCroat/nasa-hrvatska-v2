@@ -1,13 +1,17 @@
 // Built-in Comprehension Exercises by CEFR Level — extracted from
 // ListeningComprehensionScreen as part of the 1b decomposition. Data only;
 // the screen imports EXERCISES and casts via Record<string, typeof EXERCISES.A1>.
+//
+// `bg` is a THEME TOKEN, not a literal: it paints the level and set cards under
+// `var(--heading)` / `var(--subtext)` inks, and a pale literal there put light text
+// on a light card in dark mode. Each token's light value is the gradient it replaced.
 
 export const EXERCISES = {
   A1: {
     label: 'A1 — Starter',
     color: '#16a34a',
     headerBg: 'linear-gradient(135deg,#059669,#065f46)',
-    bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+    bg: 'var(--grad-green)',
     border: '#bbf7d0',
     desc: 'Single words and simple greetings — build your ear from day one',
     sets: [
@@ -514,7 +518,7 @@ export const EXERCISES = {
     label: 'A2 — Elementary',
     color: '#0e7490',
     headerBg: 'linear-gradient(135deg,#0e7490,#164e63)',
-    bg: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+    bg: 'var(--grad-sky)',
     border: '#bae6fd',
     desc: 'Short sentences about daily life — family, food, weather and routines',
     sets: [
@@ -1131,7 +1135,7 @@ export const EXERCISES = {
     label: 'B1 — Intermediate',
     color: '#d97706',
     headerBg: 'linear-gradient(135deg,#d97706,#92400e)',
-    bg: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+    bg: 'var(--grad-amber)',
     border: '#fde68a',
     desc: 'Conversations and descriptions — travel, plans and expressing opinions',
     sets: [
@@ -1717,7 +1721,7 @@ export const EXERCISES = {
     label: 'B2 — Upper Intermediate',
     color: '#7c3aed',
     headerBg: 'linear-gradient(135deg,#7c3aed,#5b21b6)',
-    bg: 'linear-gradient(135deg,#faf5ff,#ede9fe)',
+    bg: 'var(--grad-lilac)',
     border: '#ddd6fe',
     desc: 'Complex sentences, nuance, culture and abstract topics',
     sets: [
@@ -2396,7 +2400,7 @@ export const EXERCISES = {
     label: 'C1 — Advanced',
     color: '#7e22ce',
     headerBg: 'linear-gradient(135deg,#7e22ce,#6b21a8)',
-    bg: 'linear-gradient(135deg,#faf5ff,#f3e8ff)',
+    bg: 'var(--grad-purple)',
     border: '#e9d5ff',
     desc: 'Complex clauses at natural speed — argument, nuance and current affairs',
     sets: [
@@ -2966,7 +2970,7 @@ export const EXERCISES = {
     label: 'C2 — Mastery',
     color: '#9d174d',
     headerBg: 'linear-gradient(135deg,#9d174d,#831843)',
-    bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+    bg: 'var(--grad-rose)',
     border: '#fbcfe8',
     desc: 'Native-speed rhetoric — irony, abstraction and the literary register',
     sets: [

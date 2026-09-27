@@ -502,7 +502,7 @@ export default function MistakesScreen({
           <div
             className="c"
             style={{
-              background: 'linear-gradient(135deg,#fff7ed,#fed7aa)',
+              background: 'var(--grad-orange)',
               borderLeft: '4px solid #f97316',
               marginBottom: 16,
             }}

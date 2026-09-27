@@ -117,6 +117,7 @@ button,input,optgroup,select,textarea{
   --grad-lemon: linear-gradient(135deg,#fefce8,#fef9c3);
   --grad-butter: linear-gradient(135deg,#fef9c3,#fef3c7);
   --grad-peach: linear-gradient(135deg,#fef3c7,#fff7ed);
+  --grad-orange: linear-gradient(135deg,#fff7ed,#fed7aa);
   --error-b:      #fca5a5;
   --info:         #0e7490;
   --info-bg:      #f0f9ff;
@@ -543,6 +544,7 @@ button,input,optgroup,select,textarea{
   --grad-lemon: linear-gradient(135deg,rgba(250,204,21,.1),rgba(250,204,21,.18));
   --grad-butter: linear-gradient(135deg,rgba(250,204,21,.1),rgba(250,204,21,.18));
   --grad-peach: linear-gradient(135deg,rgba(251,146,60,.1),rgba(251,146,60,.18));
+  --grad-orange: linear-gradient(135deg,rgba(251,146,60,.12),rgba(251,146,60,.22));
   --error-b:      rgba(248,113,113,.3);
   --info:         #38bdf8;
   --info-bg:      rgba(56,189,248,.1);

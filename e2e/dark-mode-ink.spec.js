@@ -23,6 +23,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { readFileSync } from 'node:fs';
 
 /**
  * Routes chosen to span the surfaces the ink change touched, PLUS every route a
@@ -45,6 +46,16 @@ const ROUTES = [
   'negation', // 15: a bare <button> that DOES set its own dark ink
   'football', // 14: per-club identity colours used as text
   'croatiaathletes', // 11: a per-athlete accent on a 5% tint
+  // The LIGHT-on-light half, from the same whole-app run after the dark half was clean:
+  'civic', // per-category tint table: themed ink on a pale data tint
+  'lifeevents', // same table shape
+  'survival_dinner', // same, plus a conditional reveal
+  'listeningpath', // a pale tint under a themed heading
+  'listening_comprehension', // level cards painted from a DATA field, not a style
+  'mistakes', // a pale orange gradient under --ink-warn
+  'immersion', // a white button slab under an accent ink
+  'pitch_accent', // an amber ink on a pale gradient
+  'postcard', // CONTROL: white names over a photo overlay must NOT be reported
 ];
 
 test.describe('dark mode paints light ink', () => {
@@ -101,81 +112,185 @@ test.describe('dark mode paints light ink', () => {
   });
 
   for (const route of ROUTES) {
-    test(`/${route} has no dark ink on a dark surface`, async ({ page }) => {
+    test(`/${route}: ink and surface agree in dark mode`, async ({ page }) => {
       test.setTimeout(90_000);
       await page.goto('/' + route);
       await page.waitForLoadState('networkidle').catch(() => {});
       await page.waitForTimeout(1200); // let transitions finish — a 500ms read sampled
       // one route mid-transition and reported 3,741 nodes that settle to 0.
-
-      const bad = await page.evaluate(() => {
-        const lum = (r, g, b) => {
-          const f = (x) => {
-            const c = x / 255;
-            return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-          };
-          return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
-        };
-        const parse = (s) => {
-          // A `color-mix()` computes to `color(srgb r g b / a)` with channels in 0..1,
-          // NOT to `rgb(...)`. A parser that only knows `rgba?(` returns null for it and
-          // this walker then SKIPS the element — so the moment any ink is expressed as a
-          // mix, the guard stops seeing it while still reading green. Both forms here.
-          const cf = /color\(\s*srgb\s+([\d.eE+-]+)\s+([\d.eE+-]+)\s+([\d.eE+-]+)(?:\s*\/\s*([\d.eE+-]+))?\s*\)/.exec(
-            s || '',
-          );
-          if (cf) {
-            const rgb = [1, 2, 3].map((i) => parseFloat(cf[i]) * 255);
-            return { rgb, a: cf[4] === undefined ? 1 : parseFloat(cf[4]) };
-          }
-          const m = /rgba?\(([^)]+)\)/.exec(s || '');
-          if (!m) return null;
-          const p = m[1].split(',').map((v) => parseFloat(v));
-          return p.length >= 3 ? { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 } : null;
-        };
-        const out = [];
-        for (const el of document.querySelectorAll('*')) {
-          // only elements that actually paint text of their own
-          const text = [...el.childNodes]
-            .filter((n) => n.nodeType === 3)
-            .map((n) => n.textContent.trim())
-            .join('');
-          if (!text) continue;
-          // An emoji or a pictograph is painted by the font, not by `color` — 25 flag
-          // spans on /countries reported black ink that no learner can see. Require a
-          // letter or a digit before judging an element's ink.
-          if (!/[\p{L}\p{N}]/u.test(text)) continue;
-          const cs = getComputedStyle(el);
-          if (cs.visibility === 'hidden' || cs.display === 'none' || cs.opacity === '0') continue;
-          const fg = parse(cs.color);
-          if (!fg || fg.a < 0.5) continue;
-          // DARK ink: luminance below the midpoint between the dark card and white
-          if (lum(...fg.rgb) > 0.18) continue;
-          // Is it on a light surface something in its own chain paints opaquely?
-          let p = el;
-          let onLight = false;
-          while (p && p !== document.documentElement) {
-            const b = parse(getComputedStyle(p).backgroundColor);
-            if (b && b.a >= 0.9) {
-              onLight = lum(...b.rgb) > 0.18;
-              break;
-            }
-            p = p.parentElement;
-          }
-          if (onLight) continue;
-          out.push(
-            `${cs.color} — "${text.slice(0, 40)}" — ${(el.getAttribute('style') || el.className || el.tagName).toString().slice(0, 70)}`,
-          );
-        }
-        return [...new Set(out)];
-      });
-
-      expect(
-        bad,
-        'In dark mode the page is dark, so its text must be light. Each of these ' +
-          'elements paints DARK text and nothing in its own chain paints a light ' +
-          'surface under it — so it is dark-on-dark. Use one of the --ink-* tokens.',
-      ).toEqual([]);
+      const { darkOnDark, lightOnLight } = await page.evaluate(measureInk);
+      expect(darkOnDark, DARK_ON_DARK).toEqual([]);
+      expect(lightOnLight, LIGHT_ON_LIGHT).toEqual([]);
     });
   }
+
+  /**
+   * THE WHOLE APP, not a sample — weekly, from route-render-sweep.yml (DARK_SWEEP=1).
+   *
+   * The sample above can only keep the routes it names clean. The light-on-light half
+   * of this class lived in DATA as often as in styles — a level card's `bg` in
+   * `listening/exercises.ts`, a per-category tint table in CivicScreen — where no
+   * source guard reads it as a background, so a new instance on a route outside the
+   * sample would be invisible to every check in the deploy gate. 430 routes take
+   * ~12 min, which is why it is not in the gate.
+   */
+  test('every route: ink and surface agree in dark mode', async ({ page }) => {
+    test.skip(!process.env.DARK_SWEEP, 'weekly, from route-render-sweep.yml (DARK_SWEEP=1)');
+    test.setTimeout(40 * 60 * 1000);
+    const all = [
+      ...new Set(
+        [
+          ...readFileSync('src/components/AppRouter.tsx', 'utf8').matchAll(
+            /currentScreen === '([a-z0-9_-]+)'/g,
+          ),
+        ].map((m) => m[1]),
+      ),
+    ].sort();
+    expect(all.length, 'the route derivation read nothing').toBeGreaterThan(300);
+    const dd = [];
+    const ll = [];
+    let measured = 0;
+    for (const r of all) {
+      try {
+        await page.goto('/' + r, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        await page.waitForTimeout(1300);
+        const res = await page.evaluate(measureInk);
+        measured += 1;
+        for (const x of res.darkOnDark) dd.push(`${r}: ${x}`);
+        for (const x of res.lightOnLight) ll.push(`${r}: ${x}`);
+      } catch {
+        /* a route that will not load is the render sweep's finding, not this one */
+      }
+    }
+    expect(measured, 'almost no route was measured — the sweep proves nothing').toBeGreaterThan(
+      300,
+    );
+    expect(dd, DARK_ON_DARK).toEqual([]);
+    expect(ll, LIGHT_ON_LIGHT).toEqual([]);
+  });
 });
+
+const DARK_ON_DARK =
+  'In dark mode the page is dark, so its text must be light. Each of these ' +
+  'elements paints DARK text and nothing in its own chain paints a light ' +
+  'surface under it — so it is dark-on-dark. Use one of the --ink-* tokens.';
+
+const LIGHT_ON_LIGHT =
+  'Each of these elements paints LIGHT (themed) text on a LIGHT surface an ancestor ' +
+  'paints with a hardcoded colour or gradient — the ink followed the theme and the ' +
+  'surface did not. Paint the surface with a theme token (--card, --surface-mute, ' +
+  '--success-bg-strong, --grad-*), or give it a FIXED dark ink so the pair is fixed.';
+
+/**
+ * Runs IN THE PAGE. Two findings over every element that paints letters or digits:
+ *
+ *  darkOnDark   — a DARK ink with no opaque light surface in its own chain.
+ *  lightOnLight — a LIGHT ink whose nearest opaque surface is LIGHT, or sits on a
+ *                 gradient whose every opaque stop is light.
+ *
+ * The second half is what a browser sweep of all 430 routes found 662 elements of on
+ * 2026-09-27, after the first half was clean: `button { color: inherit }` made buttons
+ * follow the theme, and every button painting its OWN pale background with no ink of
+ * its own became light-on-light. A walk that stops at the first opaque layer is
+ * correct for both; a translucent layer is composited over whatever is under it, so it
+ * is walked through.
+ *
+ * TEXT OVER A PHOTO IS SKIPPED, and that was measured rather than assumed: the
+ * Postcard city thumbnails put white names on a 72%-black overlay over an <img>, and
+ * both the overlay and the image are SIBLINGS of the text, never ancestors — so an
+ * ancestor walk reaches the button's UA background and reports white-on-light for a
+ * name that is perfectly readable.
+ */
+function measureInk() {
+  const lum = (r, g, b) => {
+    const f = (x) => {
+      const c = x / 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    };
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  };
+  const parse = (s) => {
+    // A `color-mix()` computes to `color(srgb r g b / a)` with channels in 0..1,
+    // NOT to `rgb(...)`. A parser that only knows `rgba?(` returns null for it and
+    // this walker then SKIPS the element — so the moment any ink is expressed as a
+    // mix, the guard stops seeing it while still reading green. Both forms here.
+    const cf =
+      /color\(\s*srgb\s+([\d.eE+-]+)\s+([\d.eE+-]+)\s+([\d.eE+-]+)(?:\s*\/\s*([\d.eE+-]+))?\s*\)/.exec(
+        s || '',
+      );
+    if (cf) {
+      const rgb = [1, 2, 3].map((i) => parseFloat(cf[i]) * 255);
+      return { rgb, a: cf[4] === undefined ? 1 : parseFloat(cf[4]) };
+    }
+    const m = /rgba?\(([^)]+)\)/.exec(s || '');
+    if (!m) return null;
+    const p = m[1].split(',').map((v) => parseFloat(v));
+    return p.length >= 3 ? { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 } : null;
+  };
+  const onMedia = (p) =>
+    [...p.children].some((c) => /^(IMG|VIDEO|PICTURE|CANVAS)$/.test(c.tagName));
+  const label = (el) =>
+    (el.getAttribute('style') || el.className || el.tagName).toString().slice(0, 70);
+  const darkOnDark = [];
+  const lightOnLight = [];
+  for (const el of document.querySelectorAll('*')) {
+    // only elements that actually paint text of their own
+    const text = [...el.childNodes]
+      .filter((n) => n.nodeType === 3)
+      .map((n) => n.textContent.trim())
+      .join('');
+    if (!text) continue;
+    // An emoji or a pictograph is painted by the font, not by `color` — 25 flag
+    // spans on /countries reported black ink that no learner can see. Require a
+    // letter or a digit before judging an element's ink.
+    if (!/[\p{L}\p{N}]/u.test(text)) continue;
+    const cs = getComputedStyle(el);
+    if (cs.visibility === 'hidden' || cs.display === 'none' || cs.opacity === '0') continue;
+    const fg = parse(cs.color);
+    if (!fg || fg.a < 0.5) continue;
+    const ink = lum(...fg.rgb);
+
+    if (ink <= 0.18) {
+      // DARK ink: is it on a light surface something in its own chain paints opaquely?
+      let p = el;
+      let onLight = false;
+      while (p && p !== document.documentElement) {
+        const b = parse(getComputedStyle(p).backgroundColor);
+        if (b && b.a >= 0.9) {
+          onLight = lum(...b.rgb) > 0.18;
+          break;
+        }
+        p = p.parentElement;
+      }
+      if (!onLight) darkOnDark.push(`${cs.color} — "${text.slice(0, 40)}" — ${label(el)}`);
+      continue;
+    }
+
+    if (ink < 0.45) continue; // mid-tone ink: neither half of this rule can judge it
+    let p = el;
+    while (p && p !== document.documentElement) {
+      if (onMedia(p)) break;
+      const ps = getComputedStyle(p);
+      if (ps.backgroundImage && ps.backgroundImage.includes('gradient')) {
+        const stops = [...ps.backgroundImage.matchAll(/rgba?\([^)]+\)/g)]
+          .map((x) => parse(x[0]))
+          .filter((x) => x && x.a >= 0.9);
+        if (stops.length) {
+          if (stops.every((x) => lum(...x.rgb) > 0.6))
+            lightOnLight.push(`${cs.color} — "${text.slice(0, 40)}" — on gradient — ${label(p)}`);
+          break;
+        }
+      }
+      const b = parse(ps.backgroundColor);
+      if (b && b.a >= 0.9) {
+        if (lum(...b.rgb) > 0.6)
+          lightOnLight.push(
+            `${cs.color} — "${text.slice(0, 40)}" — on ${ps.backgroundColor} — ${label(p)}`,
+          );
+        break;
+      }
+      p = p.parentElement;
+    }
+  }
+  return { darkOnDark: [...new Set(darkOnDark)], lightOnLight: [...new Set(lightOnLight)] };
+}
