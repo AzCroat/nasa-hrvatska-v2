@@ -130,7 +130,16 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
     // A floor, so a walk or a matcher that silently stops finding anything cannot
     // make the judgement below vacuous.
     const callers = completionCallers(files);
-    expect(callers.length).toBeGreaterThan(100);
+    // Drills moved onto ModeDrill credit THROUGH the engine, so they leave the direct-
+    // caller set; the floor is on the union, or consolidating the drills would read as
+    // the population collapsing (86 direct + 67 engine wrappers after the 2026-09-27
+    // conversion). The engine itself must stay a direct caller.
+    const wrappers = files.filter((f) =>
+      fs.readFileSync(path.join(ROOT, f), 'utf8').includes('<ModeDrill'),
+    );
+    expect(callers).toContain('src/components/practice/ModeDrill.tsx');
+    expect(wrappers.length).toBeGreaterThan(60);
+    expect(callers.length + wrappers.length).toBeGreaterThan(140);
     for (const f of [
       'src/components/practice/TypingScreen.tsx',
       'src/hooks/useLessonCompletion.ts',
