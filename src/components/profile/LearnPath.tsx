@@ -287,7 +287,7 @@ export default function LearnPath({
           display: 'flex',
           alignItems: 'center',
           gap: 20,
-          background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+          background: 'var(--grad-sky)',
           border: '1.5px solid #7dd3fc',
         }}
       >
@@ -772,8 +772,8 @@ export default function LearnPath({
                   padding: '14px 18px',
                   borderRadius: 16,
                   background: passedCheckpoints.has(li)
-                    ? 'linear-gradient(135deg,#f0fdf4,#dcfce7)'
-                    : 'linear-gradient(135deg,#fef9c3,#fef3c7)',
+                    ? 'var(--grad-green)'
+                    : 'var(--grad-butter)',
                   border: passedCheckpoints.has(li) ? '2px solid #86efac' : '2px solid #fcd34d',
                   display: 'flex',
                   alignItems: 'center',
@@ -840,7 +840,7 @@ export default function LearnPath({
                   marginTop: 4,
                   marginBottom: 20,
                   padding: '16px',
-                  background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+                  background: 'var(--grad-sky)',
                   border: '2px solid #0e7490',
                   borderRadius: 12,
                 }}
@@ -901,7 +901,7 @@ export default function LearnPath({
           style={{
             textAlign: 'center',
             padding: '32px',
-            background: 'linear-gradient(135deg,#fef3c7,#fde68a)',
+            background: 'var(--grad-gold)',
             border: '2px solid #f59e0b',
             animation: 'glow 3s ease-in-out infinite',
           }}

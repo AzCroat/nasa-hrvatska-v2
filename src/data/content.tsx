@@ -1907,7 +1907,7 @@ class _ErrorBoundary extends React.Component {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg,#fef3c7,#fff7ed)',
+            background: 'var(--grad-peach)',
             padding: 24,
             textAlign: 'center',
           }}

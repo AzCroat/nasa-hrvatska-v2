@@ -448,7 +448,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
           <div
             style={{
               padding: '14px 16px',
-              background: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+              background: 'var(--grad-sky)',
               borderRadius: 14,
               borderLeft: '4px solid ' + city.color,
             }}

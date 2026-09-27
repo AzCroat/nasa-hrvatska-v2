@@ -134,7 +134,7 @@ export default function ModalScreen({
             style={{
               marginBottom: 20,
               borderLeft: '4px solid #7c3aed',
-              background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+              background: 'var(--grad-violet)',
             }}
           >
             <div

@@ -101,7 +101,7 @@ function HimnaPlayer() {
       style={{
         marginTop: 24,
         borderLeft: '4px solid #dc2626',
-        background: 'linear-gradient(135deg,#fef2f2,#fee2e2)',
+        background: 'var(--grad-red)',
         padding: '20px',
       }}
     >
@@ -326,7 +326,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
         style={{
           marginBottom: 20,
           borderLeft: '4px solid #dc2626',
-          background: 'linear-gradient(135deg,#fef2f2,#fee2e2)',
+          background: 'var(--grad-red)',
         }}
       >
         <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
@@ -456,7 +456,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           marginTop: 24,
           textAlign: 'center',
           borderLeft: '4px solid #dc2626',
-          background: 'linear-gradient(135deg,#fef2f2,#fee2e2)',
+          background: 'var(--grad-red)',
         }}
       >
         <div

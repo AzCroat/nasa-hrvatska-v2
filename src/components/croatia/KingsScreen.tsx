@@ -81,7 +81,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
             style={{
               marginBottom: 20,
               borderLeft: '4px solid #b45309',
-              background: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+              background: 'var(--grad-amber)',
             }}
           >
             <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
@@ -148,7 +148,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
               marginTop: 24,
               textAlign: 'center',
               borderLeft: '4px solid #b45309',
-              background: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+              background: 'var(--grad-amber)',
             }}
           >
             <div
@@ -236,7 +236,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
             className="c"
             style={{
               marginBottom: 16,
-              background: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+              background: 'var(--grad-amber)',
               borderLeft: '4px solid #b45309',
             }}
           >

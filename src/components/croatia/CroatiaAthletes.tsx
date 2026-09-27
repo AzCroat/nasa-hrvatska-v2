@@ -540,7 +540,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           alignItems: 'center',
           gap: 12,
           padding: '13px 16px',
-          background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+          background: 'var(--grad-green)',
           borderRadius: 14,
           marginBottom: 16,
           border: '1.5px solid #86efac',

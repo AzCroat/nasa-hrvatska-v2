@@ -86,7 +86,7 @@ export default function StorySetupPanel({
             padding: '12px 14px',
             borderRadius: 12,
             marginBottom: 16,
-            background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #86efac',
           }}
         >

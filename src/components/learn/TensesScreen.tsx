@@ -374,7 +374,7 @@ export default function TensesScreen({
                     className="c"
                     style={{
                       marginTop: 12,
-                      background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+                      background: 'var(--grad-violet)',
                       borderLeft: '4px solid #7c3aed',
                     }}
                   >

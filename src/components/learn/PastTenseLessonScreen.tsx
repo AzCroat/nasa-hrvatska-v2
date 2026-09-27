@@ -110,7 +110,7 @@ export default function PastTenseLessonScreen({
             style={{
               marginBottom: 14,
               borderLeft: '4px solid #7c3aed',
-              background: 'linear-gradient(135deg,#faf5ff,#ede9fe)',
+              background: 'var(--grad-lilac)',
             }}
           >
             <div
@@ -423,7 +423,7 @@ export default function PastTenseLessonScreen({
             className="c"
             style={{
               marginTop: 12,
-              background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+              background: 'var(--grad-violet)',
               borderLeft: '4px solid #7c3aed',
             }}
           >
@@ -551,7 +551,7 @@ export default function PastTenseLessonScreen({
                     className="c"
                     style={{
                       marginBottom: 16,
-                      background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+                      background: 'var(--grad-green)',
                       borderLeft: '4px solid #16a34a',
                       textAlign: 'left',
                     }}

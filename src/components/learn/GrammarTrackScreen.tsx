@@ -900,7 +900,7 @@ export default function GrammarTrackScreen({
             marginTop: 16,
             padding: '14px 16px',
             borderRadius: 14,
-            background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #bbf7d0',
             textAlign: 'center',
           }}

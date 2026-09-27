@@ -46,7 +46,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
             marginTop: 6,
             padding: '12px 14px',
             borderRadius: 10,
-            background: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+            background: 'var(--grad-sky)',
             border: '1.5px solid #bae6fd',
             fontSize: 12,
             lineHeight: 1.55,

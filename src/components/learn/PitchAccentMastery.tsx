@@ -706,7 +706,7 @@ export default function PitchAccentMastery({
 
         <div
           style={{
-            background: 'linear-gradient(135deg,#fef3c7,#fde68a)',
+            background: 'var(--grad-gold)',
             border: '1px solid #fcd34d',
             borderRadius: 14,
             padding: '12px 16px',
@@ -1482,7 +1482,7 @@ export default function PitchAccentMastery({
       </p>
       <div
         style={{
-          background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+          background: 'var(--grad-violet)',
           border: '2px solid #c4b5fd',
           borderRadius: 20,
           padding: '20px',

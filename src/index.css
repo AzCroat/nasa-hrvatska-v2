@@ -100,6 +100,23 @@ button,input,optgroup,select,textarea{
      the theme and went near-white on a light tint in dark mode (2026-09-27). */
   --success-bg-strong: #dcfce7;
   --error-bg-strong:   #fee2e2;
+
+  /* Pale two-stop gradients as theme tokens (2026-09-27): each light value IS the literal
+     gradient a card painted, so light mode is byte-identical; the dark value is a tint of
+     the same hue, because a themed ink inside went near-white on the pastel in dark mode. */
+  --grad-green: linear-gradient(135deg,#f0fdf4,#dcfce7);
+  --grad-amber: linear-gradient(135deg,#fffbeb,#fef3c7);
+  --grad-sky: linear-gradient(135deg,#f0f9ff,#e0f2fe);
+  --grad-violet: linear-gradient(135deg,#f5f3ff,#ede9fe);
+  --grad-gold: linear-gradient(135deg,#fef3c7,#fde68a);
+  --grad-lilac: linear-gradient(135deg,#faf5ff,#ede9fe);
+  --grad-red: linear-gradient(135deg,#fef2f2,#fee2e2);
+  --grad-purple: linear-gradient(135deg,#faf5ff,#f3e8ff);
+  --grad-rose: linear-gradient(135deg,#fff1f2,#ffe4e6);
+  --grad-blue: linear-gradient(135deg,#eff6ff,#dbeafe);
+  --grad-lemon: linear-gradient(135deg,#fefce8,#fef9c3);
+  --grad-butter: linear-gradient(135deg,#fef9c3,#fef3c7);
+  --grad-peach: linear-gradient(135deg,#fef3c7,#fff7ed);
   --error-b:      #fca5a5;
   --info:         #0e7490;
   --info-bg:      #f0f9ff;
@@ -512,6 +529,20 @@ button,input,optgroup,select,textarea{
   --error-bg:     rgba(248,113,113,.1);
   --success-bg-strong: rgba(74,222,128,.2);
   --error-bg-strong:   rgba(248,113,113,.2);
+
+  --grad-green: linear-gradient(135deg,rgba(74,222,128,.1),rgba(74,222,128,.18));
+  --grad-amber: linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.18));
+  --grad-sky: linear-gradient(135deg,rgba(56,189,248,.1),rgba(56,189,248,.18));
+  --grad-violet: linear-gradient(135deg,rgba(167,139,250,.1),rgba(167,139,250,.18));
+  --grad-gold: linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.18));
+  --grad-lilac: linear-gradient(135deg,rgba(167,139,250,.1),rgba(167,139,250,.18));
+  --grad-red: linear-gradient(135deg,rgba(248,113,113,.1),rgba(248,113,113,.18));
+  --grad-purple: linear-gradient(135deg,rgba(192,132,252,.1),rgba(192,132,252,.18));
+  --grad-rose: linear-gradient(135deg,rgba(251,113,133,.1),rgba(251,113,133,.18));
+  --grad-blue: linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.18));
+  --grad-lemon: linear-gradient(135deg,rgba(250,204,21,.1),rgba(250,204,21,.18));
+  --grad-butter: linear-gradient(135deg,rgba(250,204,21,.1),rgba(250,204,21,.18));
+  --grad-peach: linear-gradient(135deg,rgba(251,146,60,.1),rgba(251,146,60,.18));
   --error-b:      rgba(248,113,113,.3);
   --info:         #38bdf8;
   --info-bg:      rgba(56,189,248,.1);

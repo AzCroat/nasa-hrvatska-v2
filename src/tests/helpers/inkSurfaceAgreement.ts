@@ -50,7 +50,7 @@ const THEMED_INK =
 
 /** Surface tokens that follow the theme (light tint in light mode, dark in dark). */
 const THEMED_SURFACE =
-  /var\(--(?:card|surface-mute|mode-bg|warning-bg|success-bg|error-bg|info-bg)\)/;
+  /var\(--(?:card|surface-mute|mode-bg|warning-bg|success-bg|error-bg|info-bg|success-bg-strong|error-bg-strong|grad-[a-z]+)\)/;
 
 /** Luminance above which a surface counts as LIGHT for this rule. */
 export const LIGHT_SURFACE_LUM = 0.75;
@@ -78,6 +78,30 @@ function lum([r, g, b]: readonly [number, number, number]): number {
   return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
 }
 
+/**
+ * The LIGHT colour a quoted background arm paints, or undefined.
+ *
+ * A pale two-stop GRADIENT is a light slab exactly as a pale hex is: 41 sites paint one
+ * (`linear-gradient(135deg,#f0f9ff,#e0f2fe)`), and a dark-mode sweep measured six routes
+ * where a themed ink sat on one. Reading hex only, both clauses skipped every one.
+ */
+function lightSurfaceOf(arm: string): string | undefined {
+  const a = arm.trim();
+  const q = /^(['"`])(.*)\1$/s.exec(a)?.[2];
+  if (q === undefined) return undefined;
+  if (q === 'white') return '#ffffff';
+  if (/^#[0-9a-fA-F]{3,6}$/.test(q)) return lum(hexRgb(q)!) >= LIGHT_SURFACE_LUM ? q : undefined;
+  if (/^linear-gradient\(/.test(q)) {
+    const stops = q.match(/#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b/g) ?? [];
+    if (
+      stops.length >= 2 &&
+      !/rgba?\(|var\(/.test(q) &&
+      stops.every((h) => lum(hexRgb(h)!) >= LIGHT_SURFACE_LUM)
+    )
+      return stops[0];
+  }
+  return undefined;
+}
 /**
  * The source span of the JSX element whose `<` sits at `lt`, brace- and quote-aware.
  *
@@ -214,9 +238,8 @@ export function findLightSlabThemedInk(list?: string[]): AgreementFinding[] {
       // (`activeTab === id ? 'white' : 'transparent'` under a themed ink) passed this clause
       // while the dark-mode browser sweep measured it light-on-light (2026-09-27).
       const lightHex = inkArms(raw)
-        .map((a) => /^(['"])(#[0-9a-fA-F]{3,6}|white)\1$/.exec(a.trim())?.[2])
-        .map((h) => (h === 'white' ? '#ffffff' : h))
-        .find((h) => h && lum(hexRgb(h)!) >= LIGHT_SURFACE_LUM);
+        .map(lightSurfaceOf)
+        .find((h) => h !== undefined);
       if (!lightHex) continue;
       const lt = src.lastIndexOf('<', m.index!);
       if (lt < 0) continue;
@@ -350,13 +373,13 @@ export function findLightSlabInheritedInk(list?: string[]): AgreementFinding[] {
         return [
           ...src
             .slice(from, m.index!)
-            .matchAll(new RegExp(`\\b${id}\\s*=\\s*(['"][^'"]*['"])`, 'g')),
-        ].map((x) => x[1]!);
+            // The WHOLE initializer, not only a bare literal: HNLScreen's table rows are
+            // `const bg = i % 2 === 0 ? 'white' : 'rgba(0,0,0,.02)'`, whose quoted arms a
+            // literal-only read never saw.
+            .matchAll(new RegExp(`\\b${id}\\s*=(?!=)\\s*([^;\\n]+)`, 'g')),
+        ].flatMap((x) => x[1]!.match(/(['"])[^'"]*\1/g) ?? []);
       });
-      const lightHex = arms
-        .map((a) => /^(['"])(#[0-9a-fA-F]{3,6}|white)\1$/.exec(a.trim())?.[2])
-        .map((h) => (h === 'white' ? '#ffffff' : h))
-        .find((h) => h && lum(hexRgb(h)!) >= LIGHT_SURFACE_LUM);
+      const lightHex = arms.map(lightSurfaceOf).find((h) => h !== undefined);
       if (!lightHex) continue;
       out.push({
         file: f,

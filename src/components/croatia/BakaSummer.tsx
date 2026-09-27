@@ -461,7 +461,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
       {allDone && (
         <div
           style={{
-            background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+            background: 'var(--grad-amber)',
             border: '2px solid #f59e0b',
             borderRadius: 12,
             padding: '20px 16px',

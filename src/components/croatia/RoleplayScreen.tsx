@@ -162,7 +162,7 @@ function RoleplayScreen({
         style={{
           marginBottom: 16,
           borderLeft: '4px solid #7c3aed',
-          background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+          background: 'var(--grad-violet)',
         }}
       >
         <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-mode)' }}>{r.title}</div>

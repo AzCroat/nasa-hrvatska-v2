@@ -868,7 +868,7 @@ export default function GrammarDiagnosisScreen({
       {xpAwarded && (
         <div
           style={{
-            background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #86efac',
             borderRadius: 12,
             padding: '12px 16px',

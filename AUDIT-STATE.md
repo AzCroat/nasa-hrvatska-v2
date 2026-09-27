@@ -12278,3 +12278,20 @@ themed ink TOKEN in the subtree, and inherited ink has none.
   (white slabs under accentInk / teal inks); listeningpath; postcard (UA buttonface under
   photo text — likely a probe artifact of a background image); seven "grad" (gradient)
   findings to classify.
+- **Sweep 164b — the tails (same day).** Civic / Life Events / Survival Dinner: a data tint
+  under CHILD elements with themed inks; the data field is only ever a background, so each
+  tint names its nearest theme token and the fixed button inks came out again. Four
+  `'white'` tab/chip arms under themed inks (Immersion, HNL, two Tenses chips): clause 1
+  read hex only and missed the keyword. HNL's table rows: `const bg = i % 2 ? 'white' : …`
+  — the local hop read only a bare literal initializer, now every quoted value in it.
+  **Pale gradients**: 41 sites paint a two-stop pastel; both clauses read hex only, so the
+  30 with a themed ink inside were invisible. Each pair is now a `--grad-*` token whose
+  light value IS the literal gradient (light mode byte-identical) and whose dark value is a
+  tint of the same hue; the new tokens joined clause 2's themed-surface list, so a later
+  dark literal ink on one fails. The app's own crash-fallback page was one of them.
+- **Measured over ALL 430 routes after: 3 routes, 9 distinct styles** (from 36 routes / 662
+  elements at the start of this sweep). Left: /analytics (a gradient whose second stop,
+  `#fed7aa`, sits just under the 0.75 light threshold), /listening_comprehension (level
+  cards from a gradient the source reads outside a style object), /postcard (white text on
+  UA buttonface — a photo thumbnail; probe artifact until shown otherwise). Suite
+  663 / 10,453 green.

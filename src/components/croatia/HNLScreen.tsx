@@ -472,7 +472,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
             </div>
             {HNL_TABLE.map((row, i) => {
               const gd = row.gf - row.ga;
-              const bg = i % 2 === 0 ? 'white' : 'rgba(0,0,0,.02)';
+              const bg = i % 2 === 0 ? 'var(--card)' : 'rgba(0,0,0,.02)';
               const borderLeft = row.cl
                 ? '3px solid #003da5'
                 : row.rel
