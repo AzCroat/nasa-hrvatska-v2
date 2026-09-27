@@ -27,13 +27,21 @@
 // and nothing is shown — a wrong explanation of a wrong answer is worse than
 // the tip alone.
 
-import { analyzeForm, describeReading, type FormAnalysis } from './croatianMorphology';
+import { analyzeForm, describeReading, nounStemKey, CASE_NAME } from './croatianMorphology';
+
+export interface ContrastSide {
+  word: string;
+  /** What the form can be, capped at MAX_READINGS. */
+  readings: string[];
+  /** True when the form permits MORE readings than are listed — the line must say so. */
+  more?: boolean;
+}
 
 export interface AnswerContrast {
   /** The learner's word, and what it can be. */
-  chosen: { word: string; readings: string[] };
+  chosen: ContrastSide;
   /** The right word, and what it can be. */
-  answer: { word: string; readings: string[] };
+  answer: ContrastSide;
   /**
    * The one line worth reading, when the two forms differ in a way the rules
    * can name. Absent when they do not — never filled with a guess.
@@ -43,18 +51,29 @@ export interface AnswerContrast {
 
 const MAX_READINGS = 3;
 
-function readingLines(word: string): string[] {
-  const r = analyzeForm(word);
+function readingLines(word: string): { lines: string[]; more: boolean } {
   const seen = new Set<string>();
-  const out: string[] = [];
-  for (const c of r.candidates) {
+  const all: string[] = [];
+  // Case readings only: once the pair is known to be two forms of one declinable
+  // word (below), a verb reading the ending also permits (stola as a participle)
+  // is not what this word is.
+  for (const c of analyzeForm(word).candidates) {
+    if (!c.case) continue;
     const line = describeReading(c);
     if (seen.has(line)) continue;
     seen.add(line);
-    out.push(line);
-    if (out.length >= MAX_READINGS) break;
+    all.push(line);
   }
-  return out;
+  return { lines: all.slice(0, MAX_READINGS), more: all.length > MAX_READINGS };
+}
+
+const hasCase = (word: string) => analyzeForm(word).candidates.some((c) => Boolean(c.case));
+const hasVerb = (word: string) => analyzeForm(word).candidates.some((c) => c.pos === 'verb');
+
+/** Closed-class words (ga, mu, meni, nas) are read off a table, not guessed. */
+function closedClass(word: string): boolean {
+  const cs = analyzeForm(word).candidates;
+  return cs.length > 0 && cs.every((c) => c.pos === 'pronoun' || c.pos === 'clitic');
 }
 
 /** The cases a reading set can be, as a set of case letters. */
@@ -64,8 +83,15 @@ function caseSet(word: string): Set<string> {
   return s;
 }
 
-function firstCase(word: string): FormAnalysis | undefined {
-  return analyzeForm(word).candidates.find((c) => c.case);
+const CASE_ORDER = ['N', 'G', 'D', 'A', 'V', 'L', 'I'];
+
+/** "is the dative" / "can be the genitive or the accusative" — every case, in order. */
+function caseList(cases: Set<string>): string {
+  const names = CASE_ORDER.filter((c) => cases.has(c)).map(
+    (c) => `the ${CASE_NAME[c as keyof typeof CASE_NAME]}`,
+  );
+  if (names.length === 1) return `is ${names[0]}`;
+  return `can be ${names.slice(0, -1).join(', ')} or ${names[names.length - 1]}`;
 }
 
 /**
@@ -79,13 +105,33 @@ export function contrastAnswers(chosen: string, answer: string): AnswerContrast 
   if (!a || !b || a.toLowerCase() === b.toLowerCase()) return null;
   if (/\s/.test(a) || /\s/.test(b)) return null;
 
+  // ONLY TWO FORMS OF ONE WORD (2026-09-27). The ending rules read ANY string as a
+  // noun — so across the 109 engine drills this panel was telling learners that
+  // the connector "stoga" is a genitive singular, that the participle "pisao" is a
+  // nominative, that the imperative "idi" is a dative. A case contrast is
+  // meaningful exactly where a case drill uses it: the same noun or pronoun in
+  // two different forms. Anything else — a verb, a connector, two different
+  // words — gets nothing from the rules and keeps the tip and the AI button.
+  if (!hasCase(a) || !hasCase(b)) return null;
+  // Both could be verb forms (pomogla / pomogle): not a case question.
+  if (hasVerb(a) && hasVerb(b)) return null;
+  const pronounPair = closedClass(a) && closedClass(b);
+  if (!pronounPair && nounStemKey(a) !== nounStemKey(b)) return null;
+
   const chosenReadings = readingLines(a);
   const answerReadings = readingLines(b);
-  if (chosenReadings.length === 0 && answerReadings.length === 0) return null;
 
   const out: AnswerContrast = {
-    chosen: { word: a, readings: chosenReadings },
-    answer: { word: b, readings: answerReadings },
+    chosen: {
+      word: a,
+      readings: chosenReadings.lines,
+      ...(chosenReadings.more ? { more: true } : {}),
+    },
+    answer: {
+      word: b,
+      readings: answerReadings.lines,
+      ...(answerReadings.more ? { more: true } : {}),
+    },
   };
 
   const ca = caseSet(a);
@@ -94,12 +140,11 @@ export function contrastAnswers(chosen: string, answer: string): AnswerContrast 
     const shared = [...ca].filter((c) => cb.has(c));
     if (shared.length === 0) {
       // The clean case: the two endings cannot be the same case at all, which
-      // is exactly the mistake a case drill is testing for.
-      const pa = firstCase(a);
-      const pb = firstCase(b);
-      if (pa && pb) {
-        out.headline = `Those two endings can never be the same case. ${a} is ${describeReading(pa).split(' — ')[0]}; the sentence needs ${describeReading(pb).split(' — ')[0]}.`;
-      }
+      // is exactly the mistake a case drill is testing for. It names EVERY case
+      // each form permits: the old line picked the first reading of each and
+      // stated it flatly ("the sentence needs genitive singular" for mene, which
+      // is the accusative too), which is the one thing this module never does.
+      out.headline = `Those two forms can never be the same case. ${a} ${caseList(ca)}; ${b} ${caseList(cb)}.`;
     } else if (shared.length === ca.size && shared.length === cb.size) {
       // Both forms permit the same cases — the difference is elsewhere (gender,
       // number, a stem alternation). Saying "wrong case" here would be false.

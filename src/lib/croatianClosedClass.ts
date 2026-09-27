@@ -309,11 +309,18 @@ export const CLOSED: Record<string, Closed[]> = {
   si: [
     {
       pos: 'clitic',
-      lemma: 'ti',
-      case: 'D',
-      number: 'sg',
+      lemma: 'biti',
       person: 2,
-      note: 'to you — the short dative; also the 2nd person of biti, as in ti si',
+      number: 'sg',
+      note: 'are — the short present of biti, as in ti si',
+    },
+    {
+      // NOT "to you": that is ti. si is the short dative of the REFLEXIVE sebe —
+      // "Kupio si je auto" (he bought himself a car). Corrected 2026-09-27.
+      pos: 'clitic',
+      lemma: 'sebe',
+      case: 'D',
+      note: 'to oneself — the short reflexive dative, as in kupio si je auto',
     },
   ],
   je: [
@@ -473,3 +480,21 @@ export const PREPOSITION_CASE: Record<string, { cases: Case[]; note: string }> =
   niz: { cases: ['A'], note: 'down along' },
   uz: { cases: ['A'], note: 'alongside, up' },
 };
+
+// SYNCRETISM THE ROWS ABOVE STATE ONCE (2026-09-27). In Croatian the long forms
+// mene/tebe/njega/nas/vas/njih and the clitics me/te/ga/je/ih are the genitive AND
+// the accusative; meni/tebi/njemu/njoj/nama/vama/njima are the dative AND the
+// locative, and nama/vama/njima the instrumental too. The table listed one case
+// each, so the wrong-answer panel told a learner who picked "meni" in "Vidim ___"
+// that "the sentence needs genitive singular" — it needs the accusative. Every
+// reading the form permits is listed, which is the rule this module keeps.
+function alsoCase(word: string, from: Case, to: Case): void {
+  const rows = CLOSED[word];
+  const base = rows?.find((r) => r.case === from);
+  if (!rows || !base || rows.some((r) => r.case === to && r.lemma === base.lemma)) return;
+  rows.push({ ...base, case: to });
+}
+for (const w of ['mene', 'tebe', 'njega', 'nas', 'vas', 'njih']) alsoCase(w, 'G', 'A');
+for (const w of ['me', 'te', 'ga', 'je', 'ih']) alsoCase(w, 'A', 'G');
+for (const w of ['meni', 'tebi', 'njemu', 'njoj', 'nama', 'vama', 'njima']) alsoCase(w, 'D', 'L');
+for (const w of ['nama', 'vama', 'njima']) alsoCase(w, 'D', 'I');

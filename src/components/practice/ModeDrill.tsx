@@ -46,8 +46,21 @@ export interface ModeDrillItem {
   mode: string;
   /** The Croatian prompt. */
   q: string;
-  /** English gloss shown under the prompt. */
-  en: string;
+  /**
+   * English gloss shown under the prompt. Optional: a drill whose options ARE the
+   * English meanings (the idiom drill) must not print one, or the gloss answers it.
+   */
+  en?: string;
+  /**
+   * A cue shown under the prompt that is NOT a gloss — e.g. the nominative a
+   * learner must put into the accusative. It must never be the answer's own form.
+   */
+  cue?: string;
+  /**
+   * A given sentence shown above the prompt, which the question transforms (the
+   * negation drill shows "Imam brata." and asks for its negation).
+   */
+  lead?: string;
   /** Options as authored; the engine shuffles them per run. */
   opts: string[];
   /** Must be one of `opts`. */
@@ -73,6 +86,17 @@ export interface ModeDrillProps {
   praise?: { perfect: string; good: string; more: string };
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
+  /**
+   * Teach before test (owner directive, 2026-08-18): the concept card the case,
+   * clitic, present-tense and word-order drills open with. Rendered before the
+   * first question; `start` dismisses it. Returning learners tap straight through.
+   */
+  intro?: (start: () => void) => React.ReactNode;
+  /**
+   * The `type` sent to /api/explain-error when the learner asks why. The case
+   * drills send `case_drill`, whose prompt assumes no formal grammar background.
+   */
+  explainType?: string;
 }
 
 function shuffle<T>(a: T[]): T[] {
@@ -99,6 +123,8 @@ export default function ModeDrill({
   praise = DEFAULT_PRAISE,
   goBack,
   award,
+  intro,
+  explainType = 'drill',
 }: ModeDrillProps) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
@@ -114,6 +140,7 @@ export default function ModeDrill({
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [passed, setPassed] = useState(false);
+  const [showIntro, setShowIntro] = useState(Boolean(intro));
 
   const cur = q[idx]!;
   const answered = chosen !== null;
@@ -145,6 +172,15 @@ export default function ModeDrill({
       setIdx((i) => i + 1);
       setChosen(null);
     }
+  }
+
+  if (intro && showIntro && !done) {
+    return (
+      <div className="scr-wrap">
+        {H(title, subtitle, goBack)}
+        <div style={{ marginTop: 12 }}>{intro(() => setShowIntro(false))}</div>
+      </div>
+    );
   }
 
   if (done) {
@@ -208,8 +244,33 @@ export default function ModeDrill({
         <div style={{ fontSize: 13, color: 'var(--ink-mode)', fontWeight: 700, marginBottom: 8 }}>
           {modeLabels[cur.mode]}
         </div>
+        {cur.lead && (
+          <div
+            data-testid="drill-lead"
+            style={{
+              background: 'var(--success-bg)',
+              borderRadius: 12,
+              padding: '10px 14px',
+              marginBottom: 10,
+              fontSize: 16,
+              fontWeight: 700,
+              color: 'var(--ink-green)',
+            }}
+          >
+            ✅ {cur.lead}
+          </div>
+        )}
         <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 14 }}>{cur.en}</div>
+        {cur.cue && (
+          <div
+            style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
+            {cur.cue}
+          </div>
+        )}
+        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 14 }}>
+          {cur.en ?? ''}
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {cur.opts.map((opt) => {
             const isCorrect = opt === cur.answer;
@@ -217,6 +278,8 @@ export default function ModeDrill({
             return (
               <button
                 key={opt}
+                data-testid="drill-option"
+                data-verdict={showState ? (isCorrect ? 'correct' : 'wrong') : undefined}
                 onClick={() => pick(opt)}
                 style={{
                   textAlign: 'left',
@@ -254,6 +317,12 @@ export default function ModeDrill({
               color: 'var(--subtext)',
             }}
           >
+            {/* The verdict in WORDS (2026-09-27). The engine said right and wrong
+                with a border colour alone, which a colour-blind learner cannot
+                read (WCAG 1.4.1); the hand-written drills it replaced said it. */}
+            <strong data-testid="drill-verdict">
+              {chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}
+            </strong>{' '}
             💡 {cur.tip}
           </div>
         )}
@@ -269,13 +338,18 @@ export default function ModeDrill({
             chosen={chosen!}
             answer={cur.answer}
             context={cur.q}
-            type="drill"
+            type={explainType}
             level={getCurrentContentLevel()}
             screen={id}
           />
         )}
         {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>
+          <button
+            className="b bp"
+            data-testid="drill-next"
+            style={{ width: '100%', marginTop: 14 }}
+            onClick={next}
+          >
             {idx + 1 >= total ? 'Rezultat →' : 'Dalje →'}
           </button>
         )}

@@ -385,6 +385,11 @@ const NOUN_ENDINGS: EndingRule[] = [
     end: 'e',
     readings: [
       { case: 'G', number: 'sg', gender: 'f' },
+      // Neuter nouns in -e (more, polje, sunce, and every verbal noun in -nje):
+      // their nominative and accusative singular were missing from this list,
+      // so učenje was offered as a genitive or a plural and never as itself.
+      { case: 'N', number: 'sg', gender: 'n' },
+      { case: 'A', number: 'sg', gender: 'n' },
       { case: 'N', number: 'pl', gender: 'f' },
       { case: 'A', number: 'pl', gender: 'f' },
       { case: 'A', number: 'pl', gender: 'm' },
@@ -426,6 +431,25 @@ const NOUN_ENDINGS: EndingRule[] = [
     ],
   },
 ];
+
+/**
+ * A comparison key for "are these two forms of ONE noun?" — the ending the table
+ * knows is removed, then the fleeting a and the sibilarized consonants are folded
+ * (pas/psa, knjiga/knjizi, učenik/učenici). It answers only that yes/no question:
+ * two DIFFERENT words can still collide, which is why the caller also requires
+ * every reading of both forms to be a case reading.
+ */
+export function nounStemKey(raw: string): string {
+  const w = raw.trim().toLowerCase();
+  let stem = w;
+  for (const rule of NOUN_ENDINGS) {
+    if (w.endsWith(rule.end) && w.length > rule.end.length + 1) {
+      stem = w.slice(0, -rule.end.length);
+      break;
+    }
+  }
+  return stem.replace(/a/g, '').replace(/[cč]/g, 'k').replace(/[zž]/g, 'g').replace(/[sš]/g, 'h');
+}
 
 const VERB_PRESENT: { end: string; person: 1 | 2 | 3; number: Number_ }[] = [
   { end: 'mo', person: 1, number: 'pl' },
@@ -475,7 +499,9 @@ export function analyzeForm(raw: string): WordReading {
     candidates.push({ pos: 'verb', tense: 'infinitive', lemma: w, note: 'the dictionary form' });
   }
   const lp = /^(.*)(o|la|lo|li|le)$/.exec(w);
-  if (lp && /l$|la$|lo$|li$|le$/.test(w) && w.length > 3) {
+  // -ao/-io/-eo/-uo is the commonest masculine participle (pisao, radio, rekao,
+  // čuo) and was missing, so those forms read ONLY as nouns (2026-09-27).
+  if (lp && /l$|la$|lo$|li$|le$|[aeiu]o$/.test(w) && w.length > 3) {
     const g: Gender | undefined = w.endsWith('la')
       ? 'f'
       : w.endsWith('lo')
@@ -495,6 +521,8 @@ export function analyzeForm(raw: string): WordReading {
   }
 
   for (const v of VERB_PRESENT) {
+    // -om is the instrumental singular (gradom, stolom); no verb's present ends there.
+    if (v.end === 'm' && w.endsWith('om')) break;
     if (w.endsWith(v.end) && w.length > v.end.length + 1) {
       candidates.push({
         pos: 'verb',

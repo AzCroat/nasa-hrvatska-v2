@@ -83,6 +83,13 @@ function clientTypes(): { type: string; where: string }[] {
     for (const tag of src.matchAll(/<WrongAnswerHelp\b[\s\S]{0,400}?\/>/g))
       for (const m of tag[0].matchAll(/\btype="([^"]+)"/g))
         out.push({ type: m[1]!, where: `${file} (JSX attribute)` });
+    // Since 2026-09-27 the engine forwards `explainType` (default 'drill') and the
+    // case drills set it to 'case_drill' on <ModeDrill>. Two more shapes, same rule.
+    if (file.endsWith('ModeDrill.tsx'))
+      for (const m of src.matchAll(/^\s*explainType = '([^']+)',/gm))
+        out.push({ type: m[1]!, where: `${file} (engine default)` });
+    for (const m of src.matchAll(/<ModeDrill\b[\s\S]{0,1200}?\bexplainType="([^"]+)"/g))
+      out.push({ type: m[1]!, where: `${file} (ModeDrill attribute)` });
   }
   return out;
 }
@@ -90,7 +97,8 @@ function clientTypes(): { type: string; where: string }[] {
 describe('/api/explain-error accepts every type its clients send', () => {
   it('the derivation is real: it finds the known call sites', () => {
     const found = clientTypes();
-    // Eight case drills + word order pass 'case_drill'; ModeDrill passes 'drill'.
+    // Seven case drills, clitics, present tense and word order pass 'case_drill' on
+    // <ModeDrill>; the engine defaults to 'drill'.
     expect(found.length).toBeGreaterThan(8);
     expect(found.map((f) => f.type)).toContain('case_drill');
     expect(

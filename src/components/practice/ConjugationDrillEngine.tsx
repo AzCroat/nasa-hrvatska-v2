@@ -9,6 +9,8 @@ import { buildDistractors } from '../../lib/conjugation/distractors';
 import { formFor } from '../../lib/conjugation/forms';
 import { PERSONS_6, PERSONS_IMP } from '../../lib/conjugation/types';
 import type { ConjVerb, ConjCell } from '../../lib/conjugation/types';
+import WrongAnswerHelp from '../shared/WrongAnswerHelp';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 interface Props {
   verbs: ConjVerb[];
@@ -169,6 +171,16 @@ export default function ConjugationDrillEngine({ verbs, cells, onComplete, award
         <div data-testid="conj-feedback" className="c" style={{ marginTop: 12, fontSize: 14 }}>
           {selected === correct ? '✓ Točno!' : `✗ ${selected} — ${personLabel(cell)} → ${correct}`}
         </div>
+      )}
+      {answered && selected !== correct && selected && correct && (
+        <WrongAnswerHelp
+          chosen={selected}
+          answer={correct}
+          context={`${verb.inf} (${verb.en}), ${TENSE_LABEL[cell.formType]?.toLowerCase() ?? cell.formType}: ${personLabel(cell)} ___`}
+          type="drill"
+          level={getCurrentContentLevel()}
+          screen="conjugation"
+        />
       )}
       {answered && (
         <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>

@@ -5,17 +5,17 @@
  *   - Menu screen shows 4 tense tiles
  *   - Clicking "All Tenses" transitions to quiz mode
  *   - First question shown (CONJ[0]/ja with identity shuffle)
- *   - award(cjS * 2 + 10) called ONCE on "🏠 Finish!" (20 correct → award(50))
+ *   - award(cjS * 2 + 10) called ONCE on "🏠 Finish!" (12 correct → award(34))
  *   - markQuest('grammar') called on Finish
  *   - writeDelta({ gc: 1, vs: ['conjugation'] }) called on Finish
  *   - setStats called on Finish (via context, not prop)
  *   - goBack called on Finish
  *
  * Shuffle is deterministic: rnd() → 0.99 makes sh() identity.
- * CONJ has 21 verbs × 6 persons = 126 questions; picks first 20.
+ * CONJ has 21 verbs × 6 persons = 126 questions; picks first 12 (DRILL_RUN_LENGTH, since 2026-09-27; was 20).
  * Q0: verb "čitati" (to read), person "ja", answer "čitam".
  * Options are constructed as sh([answer, ...wrongs]) — identity keeps answer first.
- * All 20 questions: clicking first .ob button = correct → score=20, award(50) on Finish.
+ * All 12 questions: clicking first .ob button = correct → score=12, award(34) on Finish.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -122,31 +122,37 @@ vi.mock('../hooks/useGrammar', async () => {
 });
 
 import ConjugationDrill from '../components/practice/ConjugationDrill';
+import AppContext from '../context/AppContext';
+
+/** The wrong-answer panel reads the app's navigator; in the app it is always there. */
+const inApp = (ui: React.ReactElement) => (
+  <AppContext.Provider value={{ setScr: vi.fn() } as never}>{ui}</AppContext.Provider>
+);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function renderConjugationDrill(overrides = {}) {
   const props = { goBack: vi.fn(), award: vi.fn(), ...overrides };
-  const utils = render(<ConjugationDrill {...props} />);
+  const utils = render(inApp(<ConjugationDrill {...props} />));
   return { ...utils, props };
 }
 
 /**
- * Start quiz in "All Tenses" mode and complete all 20 questions by clicking
+ * Start quiz in "All Tenses" mode and complete all 12 questions by clicking
  * the first .ob button each time (always correct with identity shuffle).
- * Then click "🏠 Finish!" to trigger award(50) + markQuest + writeDelta + goBack.
+ * Then click "🏠 Finish!" to trigger award(34) + markQuest + writeDelta + goBack.
  *
- * award(cjS * 2 + 10) = award(50) is called exactly once on Finish.
+ * award(cjS * 2 + 10) = award(34) is called exactly once on Finish.
  */
 function completeAllAndFinish(
   award: ReturnType<typeof vi.fn> = vi.fn(),
   goBack: ReturnType<typeof vi.fn> = vi.fn(),
 ) {
-  const { container } = render(<ConjugationDrill award={award} goBack={goBack} />);
+  const { container } = render(inApp(<ConjugationDrill award={award} goBack={goBack} />));
   // Click "All Tenses" to start the quiz
   fireEvent.click(screen.getByText('All Tenses'));
-  // Answer all 20 questions
-  for (let i = 0; i < 20; i++) {
+  // Answer all 12 questions
+  for (let i = 0; i < 12; i++) {
     const optBtn = container.querySelector('button.ob');
     if (!optBtn) break;
     fireEvent.click(optBtn);
@@ -231,10 +237,10 @@ describe('ConjugationDrill — quiz start', () => {
     expect(container.querySelectorAll('button.ob').length).toBe(4);
   });
 
-  it('shows progress counter 1 / 20 after starting quiz', () => {
+  it('shows progress counter 1 / 12 after starting quiz', () => {
     renderConjugationDrill();
     fireEvent.click(screen.getByText('All Tenses'));
-    expect(screen.getByText(/1 \/ 20/)).toBeTruthy();
+    expect(screen.getByText(/1 \/ 12/)).toBeTruthy();
   });
 
   it('shows progress bar in quiz mode', () => {
@@ -268,7 +274,7 @@ describe('ConjugationDrill — answer mechanics', () => {
 
   it('options are locked after answering — clicking again does not change state', () => {
     const award = vi.fn();
-    const { container } = render(<ConjugationDrill award={award} goBack={vi.fn()} />);
+    const { container } = render(inApp(<ConjugationDrill award={award} goBack={vi.fn()} />));
     fireEvent.click(screen.getByText('All Tenses'));
     const optBtn = container.querySelector('button.ob')!;
     fireEvent.click(optBtn);
@@ -284,17 +290,17 @@ describe('ConjugationDrill — answer mechanics', () => {
     fireEvent.click(container.querySelector('button.ob')!);
     fireEvent.click(screen.getByText('Next →'));
     // Q1: verb "čitati", person "ti"
-    expect(screen.getByText(/2 \/ 20/)).toBeTruthy();
+    expect(screen.getByText(/2 \/ 12/)).toBeTruthy();
   });
 
   it('shows See Results on the last question after answering', () => {
     const { container } = renderConjugationDrill();
     fireEvent.click(screen.getByText('All Tenses'));
-    for (let i = 0; i < 19; i++) {
+    for (let i = 0; i < 11; i++) {
       fireEvent.click(container.querySelector('button.ob')!);
       fireEvent.click(container.querySelector('button.b.bp')!);
     }
-    // Now on question 20 (last)
+    // Now on question 12 (last)
     fireEvent.click(container.querySelector('button.ob')!);
     expect(screen.getByText('See Results')).toBeTruthy();
   });
@@ -309,7 +315,7 @@ describe('ConjugationDrill — completion + award guard', () => {
     mockSetStats.mockClear();
   });
 
-  it('shows done screen after all 20 questions answered', () => {
+  it('shows done screen after all 12 questions answered', () => {
     completeAllAndFinish();
     // goBack is called, but "Conjugation Complete!" would have been shown before
     // We can verify by checking markQuest was called (completion effect fired)
@@ -317,9 +323,9 @@ describe('ConjugationDrill — completion + award guard', () => {
   });
 
   it('shows Conjugation Complete! heading on done screen', () => {
-    const { container } = render(<ConjugationDrill goBack={vi.fn()} award={vi.fn()} />);
+    const { container } = render(inApp(<ConjugationDrill goBack={vi.fn()} award={vi.fn()} />));
     fireEvent.click(screen.getByText('All Tenses'));
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 12; i++) {
       const optBtn = container.querySelector('button.ob');
       if (!optBtn) break;
       fireEvent.click(optBtn);
@@ -329,24 +335,24 @@ describe('ConjugationDrill — completion + award guard', () => {
     expect(screen.getByText('Conjugation Complete!')).toBeTruthy();
   });
 
-  it('shows score on done screen (20 / 20)', () => {
-    const { container } = render(<ConjugationDrill goBack={vi.fn()} award={vi.fn()} />);
+  it('shows score on done screen (12 / 12)', () => {
+    const { container } = render(inApp(<ConjugationDrill goBack={vi.fn()} award={vi.fn()} />));
     fireEvent.click(screen.getByText('All Tenses'));
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 12; i++) {
       const optBtn = container.querySelector('button.ob');
       if (!optBtn) break;
       fireEvent.click(optBtn);
       const nextBtn = container.querySelector('button.b.bp');
       if (nextBtn) fireEvent.click(nextBtn);
     }
-    expect(screen.getByText(/20 \/ 20/)).toBeTruthy();
+    expect(screen.getByText(/12 \/ 12/)).toBeTruthy();
   });
 
-  it('award(cjS * 2 + 10) called exactly once on Finish (20 correct → award(50))', () => {
+  it('award(cjS * 2 + 10) called exactly once on Finish (12 correct → award(34))', () => {
     const award = vi.fn();
     completeAllAndFinish(award);
     expect(award).toHaveBeenCalledTimes(1);
-    expect(award).toHaveBeenCalledWith(50, false, 'grammar');
+    expect(award).toHaveBeenCalledWith(34, false, 'grammar');
   });
 
   it('markQuest("grammar") called on Finish', () => {
@@ -388,7 +394,7 @@ describe('ConjugationDrill — navigation', () => {
   it('Menu button on done screen returns to menu mode', () => {
     const { container } = renderConjugationDrill();
     fireEvent.click(screen.getByText('All Tenses'));
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 12; i++) {
       const optBtn = container.querySelector('button.ob');
       if (!optBtn) break;
       fireEvent.click(optBtn);

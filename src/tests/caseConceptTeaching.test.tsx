@@ -73,8 +73,11 @@ describe('caseConcepts — the content contract', () => {
       expect(src, `${file} missing CaseConceptIntro`).toContain('CaseConceptIntro');
       expect(src, `${file} wrong conceptId`).toContain(`conceptId="${conceptId}"`);
       expect(caseConceptById(conceptId), `concept ${conceptId} must exist`).toBeTruthy();
-      // The wrong-answer path requests a plain-English explanation.
-      expect(src, `${file} missing explain wiring`).toContain('requestExplain');
+      // The wrong-answer path offers the plain-English explanation written for
+      // learners with no formal grammar (type case_drill). Since 2026-09-27 the drill
+      // runs on the shared engine, which puts it behind a button instead of firing it
+      // on every wrong answer; the type still has to be case_drill.
+      expect(src, `${file} missing explain wiring`).toContain('explainType="case_drill"');
     }
     // VocativeScreen has its own rules phase — it embeds the bridge instead.
     const voc = readFileSync(join(__dir, '../components/practice/VocativeScreen.tsx'), 'utf8');

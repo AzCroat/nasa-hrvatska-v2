@@ -52,6 +52,12 @@ vi.mock('../data', async (importOriginal) => {
 });
 
 import GenitiveDrill from '../components/practice/GenitiveDrill';
+import AppContext from '../context/AppContext';
+
+/** The wrong-answer panel reads the app's navigator; in the app it is always there. */
+const inApp = (ui: React.ReactElement) => (
+  <AppContext.Provider value={{ setScr: vi.fn() } as never}>{ui}</AppContext.Provider>
+);
 
 /** Drive the whole drill, clicking option index `optIdx` (0 = correct, 1 = wrong) each question. */
 function runDrill(optIdx: number) {
@@ -66,12 +72,14 @@ function runDrill(optIdx: number) {
     }
     const advance = screen
       .queryAllByRole('button')
-      .find((b) => /next|see results/i.test(b.textContent || ''));
+      .find((b) => b.getAttribute('data-testid') === 'drill-next');
     if (advance) {
       fireEvent.click(advance);
       continue;
     }
-    const opts = Array.from(document.querySelectorAll('button.ob')) as HTMLButtonElement[];
+    const opts = Array.from(
+      document.querySelectorAll('[data-testid="drill-option"]'),
+    ) as HTMLButtonElement[];
     if (opts.length === 0) break; // reached results screen
     fireEvent.click(opts[Math.min(optIdx, opts.length - 1)]!);
   }
@@ -86,7 +94,7 @@ beforeEach(() => {
 
 describe('GenitiveDrill — 75% completion gate', () => {
   it('FAILS the gate below 75%: no vs write, no award, offers Retry', () => {
-    render(<GenitiveDrill goBack={vi.fn()} award={awardMock} />);
+    render(inApp(<GenitiveDrill goBack={vi.fn()} award={awardMock} />));
     runDrill(1); // all wrong → 0%
     expect(awardMock).not.toHaveBeenCalled();
     expect(writeDeltaMock).not.toHaveBeenCalled();
@@ -95,7 +103,7 @@ describe('GenitiveDrill — 75% completion gate', () => {
   });
 
   it('PASSES the gate at 100%: writes genitive to vs, awards, marks quest', () => {
-    render(<GenitiveDrill goBack={vi.fn()} award={awardMock} />);
+    render(inApp(<GenitiveDrill goBack={vi.fn()} award={awardMock} />));
     runDrill(0); // all correct → 100%
     expect(awardMock).toHaveBeenCalledTimes(1);
     expect(awardMock.mock.calls[0]![2]).toBe('grammar');

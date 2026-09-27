@@ -1,23 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-import { rnd } from '../../lib/random.js';
-import { retryNeedLabel } from '../../lib/lessonGate';
-
-function shLocal(a: any[]) {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j], b[i]];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // C1 — discourse connectors: linking ideas in formal/written register
 // (consequence, concession, addition, contrast). Cohesion at text level is C1.
 const DATA = [
   {
+    mode: 'posljedica',
     q: 'Cijene rastu; ___, kupovna moć pada. (therefore)',
     opts: ['stoga', 'naime', 'unatoč tome', 'doduše'],
     answer: 'stoga',
@@ -25,6 +13,7 @@ const DATA = [
     tip: "'stoga' = therefore (consequence).",
   },
   {
+    mode: 'dodavanje',
     q: 'Projekt je uspješan; ___, dobio je nagradu. (moreover)',
     opts: ['štoviše', 'naime', 'unatoč tome', 'inače'],
     answer: 'štoviše',
@@ -32,6 +21,7 @@ const DATA = [
     tip: "'štoviše' = moreover / what's more (addition, intensifying).",
   },
   {
+    mode: 'suprotnost',
     q: 'Bilo je hladno; ___ smo otišli na izlet. (despite that)',
     opts: ['unatoč tome', 'stoga', 'naime', 'dakle'],
     answer: 'unatoč tome',
@@ -39,6 +29,7 @@ const DATA = [
     tip: "'unatoč tome' = despite that (concession).",
   },
   {
+    mode: 'suprotnost',
     q: 'Plan je dobar; ___, ima rizika. (however)',
     opts: ['međutim', 'stoga', 'naime', 'dakle'],
     answer: 'međutim',
@@ -46,6 +37,7 @@ const DATA = [
     tip: "'međutim' = however (contrast).",
   },
   {
+    mode: 'suprotnost',
     q: 'Volim grad; ___, ne bih ondje živio. (admittedly)',
     opts: ['doduše', 'štoviše', 'stoga', 'naime'],
     answer: 'doduše',
@@ -53,6 +45,7 @@ const DATA = [
     tip: "'doduše' = admittedly / though (qualifying concession).",
   },
   {
+    mode: 'dodavanje',
     q: 'On nije lijen; ___, vrlo je marljiv. (on the contrary)',
     opts: ['dapače', 'stoga', 'naime', 'ipak'],
     answer: 'dapače',
@@ -60,6 +53,7 @@ const DATA = [
     tip: "'dapače' = on the contrary / indeed (reinforcing reversal).",
   },
   {
+    mode: 'posljedica',
     q: 'Treba učiti; ___ ćeš pasti ispit. (otherwise)',
     opts: ['inače', 'naime', 'štoviše', 'doduše'],
     answer: 'inače',
@@ -67,6 +61,7 @@ const DATA = [
     tip: "'inače' = otherwise (alternative consequence).",
   },
   {
+    mode: 'posljedica',
     q: 'Sve je spremno; ___ možemo početi. (accordingly)',
     opts: ['prema tome', 'unatoč tome', 'naime', 'doduše'],
     answer: 'prema tome',
@@ -74,6 +69,7 @@ const DATA = [
     tip: "'prema tome' = accordingly / so (drawing a conclusion).",
   },
   {
+    mode: 'dodavanje',
     q: 'Zatvoreno je; ___, ne radi se nedjeljom. (namely)',
     opts: ['naime', 'štoviše', 'unatoč tome', 'međutim'],
     answer: 'naime',
@@ -81,13 +77,134 @@ const DATA = [
     tip: "'naime' = namely / that is (explanatory).",
   },
   {
+    mode: 'posljedica',
     q: 'Kasnio je; ___, propustio je sastanak. (consequently)',
     opts: ['posljedično', 'naime', 'doduše', 'štoviše'],
     answer: 'posljedično',
     en: 'He was late; consequently, he missed the meeting.',
     tip: "'posljedično' = consequently (formal consequence).",
   },
+  {
+    mode: 'posljedica',
+    q: 'Vlak je otkazan; ___ smo morali uzeti autobus. (that is why)',
+    opts: ['zato', 'naime', 'doduše', 'štoviše'],
+    answer: 'zato',
+    en: 'The train was cancelled; that is why we had to take the bus.',
+    tip: "'zato' = that is why (consequence; at home in speech and writing alike).",
+  },
+  {
+    mode: 'posljedica',
+    q: 'Svi su se složili; ___, prijedlog je prihvaćen. (so / thus)',
+    opts: ['dakle', 'međutim', 'štoviše', 'doduše'],
+    answer: 'dakle',
+    en: 'Everyone agreed; so the proposal was accepted.',
+    tip: "'dakle' = so, thus (drawing the conclusion from what came before).",
+  },
+  {
+    mode: 'posljedica',
+    q: 'Mjerenja su dala iste rezultate; ___ zaključujemo da je hipoteza potvrđena. (on that basis)',
+    opts: ['na temelju toga', 'unatoč tome', 'osim toga', 's druge strane'],
+    answer: 'na temelju toga',
+    en: 'The measurements gave the same results; on that basis we conclude the hypothesis is confirmed.',
+    tip: "'na temelju toga' = on that basis (academic and formal conclusions).",
+  },
+  {
+    mode: 'posljedica',
+    q: 'Nije bilo dovoljno prijava; ___ je natječaj poništen. (as a result)',
+    opts: ['slijedom toga', 'naime', 'doduše', 'dapače'],
+    answer: 'slijedom toga',
+    en: 'There were not enough applications; as a result, the call was cancelled.',
+    tip: "'slijedom toga' = as a result (administrative and legal style).",
+  },
+  {
+    mode: 'suprotnost',
+    q: 'Stan je malen; ___, lokacija je izvrsna. (on the other hand)',
+    opts: ['s druge strane', 'stoga', 'štoviše', 'naime'],
+    answer: 's druge strane',
+    en: 'The flat is small; on the other hand, the location is excellent.',
+    tip: "'s druge strane' = on the other hand (weighing one side against another).",
+  },
+  {
+    mode: 'suprotnost',
+    q: 'Trudio se cijelu godinu; ___ nije položio ispit. (nevertheless)',
+    opts: ['ipak', 'stoga', 'štoviše', 'naime'],
+    answer: 'ipak',
+    en: 'He worked hard all year; nevertheless, he did not pass the exam.',
+    tip: "'ipak' = nevertheless, still (the expected result did not follow).",
+  },
+  {
+    mode: 'suprotnost',
+    q: 'Ideja je zanimljiva, ___ bi provedba bila preskupa. (but)',
+    opts: ['no', 'stoga', 'naime', 'štoviše'],
+    answer: 'no',
+    en: 'The idea is interesting, but carrying it out would be too expensive.',
+    tip: "'no' = but — the written, more formal equivalent of 'ali'.",
+  },
+  {
+    mode: 'suprotnost',
+    q: '___ je padala kiša, utakmica je odigrana. (although)',
+    opts: ['Iako', 'Stoga', 'Štoviše', 'Naime'],
+    answer: 'Iako',
+    en: 'Although it was raining, the match was played.',
+    tip: "'iako' = although. It opens a clause of its own, unlike 'unatoč tome', which points back to the previous sentence.",
+  },
+  {
+    mode: 'suprotnost',
+    q: 'Govorio je o uspjesima; o gubicima ___ nije rekao ni riječ. (on the other hand)',
+    opts: ['pak', 'stoga', 'naime', 'dakle'],
+    answer: 'pak',
+    en: 'He talked about the successes; about the losses, on the other hand, he said nothing.',
+    tip: "'pak' = on the other hand. It follows the word it contrasts ('o gubicima pak'), which is typical of written Croatian.",
+  },
+  {
+    mode: 'dodavanje',
+    q: 'Hotel je blizu plaže; ___, cijene su povoljne. (besides that)',
+    opts: ['osim toga', 'međutim', 'stoga', 'unatoč tome'],
+    answer: 'osim toga',
+    en: 'The hotel is near the beach; besides that, the prices are reasonable.',
+    tip: "'osim toga' = besides that, in addition.",
+  },
+  {
+    mode: 'dodavanje',
+    q: 'Tvrtka posluje s gubitkom; ___, troši više nego što zarađuje. (in other words)',
+    opts: ['drugim riječima', 'unatoč tome', 'inače', 'doduše'],
+    answer: 'drugim riječima',
+    en: 'The company is running at a loss; in other words, it spends more than it earns.',
+    tip: "'drugim riječima' = in other words (restating the same point more plainly).",
+  },
+  {
+    mode: 'dodavanje',
+    q: 'Plaća je dobra; ___ dobivaš i dodatne slobodne dane. (on top of that)',
+    opts: ['uz to', 'međutim', 'naime', 'stoga'],
+    answer: 'uz to',
+    en: 'The pay is good; on top of that, you get extra days off.',
+    tip: "'uz to' = on top of that (another point in the same direction).",
+  },
+  {
+    mode: 'dodavanje',
+    q: 'Mnogi hrvatski gradovi privlače turiste, ___ Dubrovnik i Split. (for example)',
+    opts: ['primjerice', 'međutim', 'stoga', 'doduše'],
+    answer: 'primjerice',
+    en: 'Many Croatian towns attract tourists, for example Dubrovnik and Split.',
+    tip: "'primjerice' = for example — the formal equivalent of 'na primjer'.",
+  },
+  {
+    mode: 'dodavanje',
+    q: 'Projekt kasni; ___, troškovi su veći od planiranih. (furthermore)',
+    opts: ['nadalje', 'doduše', 'ipak', 'inače'],
+    answer: 'nadalje',
+    en: 'The project is late; furthermore, the costs are higher than planned.',
+    tip: "'nadalje' = furthermore (the next point in a list, typical of reports).",
+  },
 ];
+
+// Three question types, 8 each (expanded 2026-09-27 from a single 10-item list), so
+// the run is 4 of each — the same shape as every other engine drill.
+const MODE_LABEL: Record<string, string> = {
+  posljedica: '➡️ Posljedica i zaključak',
+  suprotnost: '↔️ Suprotnost i dopuštanje',
+  dodavanje: '➕ Dodavanje i objašnjenje',
+};
 
 interface Props {
   goBack: () => void;
@@ -95,155 +212,20 @@ interface Props {
 }
 
 export default function DiscourseDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'discourse',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🪡 Discourse Connectors', 'Linking ideas in formal register', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect! Cohesion mastered! 🏆'
-              : passed
-                ? 'Great work! 💪'
-                : 'Keep practising — connectors take time!'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🪡 Discourse Connectors', 'Linking ideas in formal register', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-muted)',
-            marginBottom: 6,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-          }}
-        >
-          Choose the correct connector
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
-          {cur.q}
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>{cur.en}</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
-          {cur.opts.map((opt: string) => {
-            return (
-              <button
-                key={opt}
-                className={
-                  'ob' +
-                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
-                }
-                style={{ fontSize: 13 }}
-                onClick={() => pick(opt)}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 14px',
-              background: 'var(--info-bg)',
-              borderRadius: 10,
-              border: '1px solid #bae6fd',
-              fontSize: 14,
-              color: 'var(--ink-info)',
-            }}
-          >
-            <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
-            {idx + 1 >= total ? 'See results' : 'Next →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="discourse"
+      title={'🪡 Discourse Connectors'}
+      subtitle={'Linking ideas in formal register'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Perfect! Cohesion mastered! 🏆',
+        good: 'Great work! 💪',
+        more: 'Keep practising — connectors take time!',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

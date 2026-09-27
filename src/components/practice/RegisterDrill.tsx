@@ -1,23 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-import { rnd } from '../../lib/random.js';
-import { retryNeedLabel } from '../../lib/lessonGate';
-
-function shLocal(a: any[]) {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j], b[i]];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // C1 — register: recognising the standard/formal equivalent of a colloquial or
 // slang word. Controlling register is a C1 competence.
 const DATA = [
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'skužiti':",
     opts: ['shvatiti', 'čuti', 'gledati', 'pisati'],
     answer: 'shvatiti',
@@ -25,6 +13,7 @@ const DATA = [
     tip: "'skužiti'/'kužiti' (colloq.) → 'shvatiti' (standard).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'lova':",
     opts: ['novac', 'hrana', 'kuća', 'posao'],
     answer: 'novac',
@@ -32,6 +21,7 @@ const DATA = [
     tip: "'lova' (slang) → 'novac' (standard).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'frend':",
     opts: ['prijatelj', 'susjed', 'rođak', 'kolega'],
     answer: 'prijatelj',
@@ -39,6 +29,7 @@ const DATA = [
     tip: "'frend' (anglicism/slang) → 'prijatelj' (standard).",
   },
   {
+    mode: 'dijalekt',
     q: "Standard equivalent of dialectal 'kaj':",
     opts: ['što', 'tko', 'kako', 'gdje'],
     answer: 'što',
@@ -46,6 +37,7 @@ const DATA = [
     tip: "'kaj' (kajkavian) → 'što' (standard).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'murja':",
     opts: ['policija', 'vojska', 'bolnica', 'škola'],
     answer: 'policija',
@@ -53,6 +45,7 @@ const DATA = [
     tip: "'murja' (slang) → 'policija' (standard).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of colloquial 'faks':",
     opts: ['fakultet', 'razred', 'ured', 'tečaj'],
     answer: 'fakultet',
@@ -60,6 +53,7 @@ const DATA = [
     tip: "'faks' (colloq.) → 'fakultet' (standard).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'šljaka':",
     opts: ['posao', 'odmor', 'igra', 'put'],
     answer: 'posao',
@@ -67,6 +61,7 @@ const DATA = [
     tip: "'šljaka' (slang) → 'posao' (standard).",
   },
   {
+    mode: 'formalno',
     q: "More formal equivalent of 'super':",
     opts: ['izvrsno', 'dobro', 'onako', 'možda'],
     answer: 'izvrsno',
@@ -74,6 +69,7 @@ const DATA = [
     tip: "'super' (colloq.) → 'izvrsno' / 'odlično' (formal).",
   },
   {
+    mode: 'sleng',
     q: "Standard equivalent of slang 'cuga':",
     opts: ['piće', 'jelo', 'pjesma', 'šala'],
     answer: 'piće',
@@ -81,13 +77,134 @@ const DATA = [
     tip: "'cuga' (slang) → 'piće' (standard).",
   },
   {
+    mode: 'formalno',
     q: "Formal request form of 'Daj mi to.':",
     opts: ['Možete li mi to dati?', 'Daj to amo.', 'Daj mi to brzo.', 'Hajde, daj.'],
     answer: 'Možete li mi to dati?',
     en: 'Could you give me that? (formal/polite)',
     tip: 'Formal register uses the polite Vi-form and a question, not a bare imperative.',
   },
+  {
+    mode: 'sleng',
+    q: "Standard equivalent of slang 'klopa':",
+    opts: ['hrana', 'piće', 'novac', 'škola'],
+    answer: 'hrana',
+    en: 'food',
+    tip: "'klopa' (slang) → 'hrana' (standard).",
+  },
+  {
+    mode: 'formalno',
+    q: "Greeting an official when you walk into an office in the morning, instead of 'Bog!':",
+    opts: ['Dobro jutro.', 'Bog!', 'Ćao!', 'Hej!'],
+    answer: 'Dobro jutro.',
+    en: 'Good morning.',
+    tip: "'Bog' and 'ćao' are for friends; strangers and officials get 'Dobro jutro', 'Dobar dan', 'Dobra večer'.",
+  },
+  {
+    mode: 'formalno',
+    q: "Formal equivalent of 'Hvala ti.':",
+    opts: ['Hvala Vam.', 'Hvala ti puno.', 'Fala.', 'Hvala, stari.'],
+    answer: 'Hvala Vam.',
+    en: 'Thank you. (formal)',
+    tip: "Formal address switches ti → Vi, and 'Vam' is capitalised in writing.",
+  },
+  {
+    mode: 'formalno',
+    q: "Formal equivalent of 'Kako si?':",
+    opts: ['Kako ste?', 'Kako si ti?', 'Kako ide?', 'Što ima?'],
+    answer: 'Kako ste?',
+    en: 'How are you? (formal)',
+    tip: 'The Vi-form uses the 2nd person plural, even to one person: Kako ste?',
+  },
+  {
+    mode: 'formalno',
+    q: "The opening of a formal email, instead of 'Bog,':",
+    opts: ['Poštovani,', 'Bog,', 'Hej,', 'Dragi prijatelju,'],
+    answer: 'Poštovani,',
+    en: 'Dear Sir or Madam, (formal opening)',
+    tip: "'Poštovani' (or 'Poštovana gospođo …') opens a formal letter; 'Bog' belongs to messages between friends.",
+  },
+  {
+    mode: 'formalno',
+    q: "Formal equivalent of 'Čekaj malo.':",
+    opts: ['Pričekajte trenutak, molim Vas.', 'Čekaj malo.', 'Stani!', 'Daj, čekaj.'],
+    answer: 'Pričekajte trenutak, molim Vas.',
+    en: 'Please wait a moment. (formal)',
+    tip: "Formal register uses the Vi-imperative (pričekajte) and 'molim Vas'.",
+  },
+  {
+    mode: 'formalno',
+    q: "Telling a customer 'Nemam pojma.' politely:",
+    opts: ['Nažalost, ne znam.', 'Nemam pojma.', 'Pojma nemam, stari.', 'Ma tko zna.'],
+    answer: 'Nažalost, ne znam.',
+    en: "I'm afraid I don't know.",
+    tip: "'Nemam pojma' is informal; at work soften it — 'Nažalost, ne znam' — and offer to find out.",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of kajkavian 'zakaj':",
+    opts: ['zašto', 'kako', 'kada', 'gdje'],
+    answer: 'zašto',
+    en: 'why',
+    tip: "'zakaj' (kajkavian) → 'zašto' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of kajkavian 'hiža':",
+    opts: ['kuća', 'soba', 'ulica', 'crkva'],
+    answer: 'kuća',
+    en: 'house',
+    tip: "'hiža' (kajkavian) → 'kuća' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of Dalmatian 'pomidor':",
+    opts: ['rajčica', 'krumpir', 'jabuka', 'luk'],
+    answer: 'rajčica',
+    en: 'tomato',
+    tip: "'pomidor' (Dalmatian, from Italian) → 'rajčica' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of Dalmatian 'kušin':",
+    opts: ['jastuk', 'pokrivač', 'stolica', 'ormar'],
+    answer: 'jastuk',
+    en: 'pillow',
+    tip: "'kušin' (Dalmatian, from Italian 'cuscino') → 'jastuk' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of Dalmatian 'bićikleta':",
+    opts: ['bicikl', 'automobil', 'motor', 'čamac'],
+    answer: 'bicikl',
+    en: 'bicycle',
+    tip: "'bićikleta' (Dalmatian and Istrian) → 'bicikl' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of Dalmatian 'teća':",
+    opts: ['lonac', 'tanjur', 'čaša', 'nož'],
+    answer: 'lonac',
+    en: 'cooking pot',
+    tip: "'teća' (Dalmatian) → 'lonac' (standard).",
+  },
+  {
+    mode: 'dijalekt',
+    q: "Standard equivalent of Dalmatian 'fureštar':",
+    opts: ['stranac', 'susjed', 'ribar', 'turist'],
+    answer: 'stranac',
+    en: 'outsider, stranger',
+    tip: "'fureštar' (Dalmatian, from Italian 'forestiero') → 'stranac' (standard).",
+  },
 ];
+
+// Three question types, 8 each (expanded 2026-09-27 from a single 10-item list), so
+// the run is 4 of each — the same shape as every other engine drill.
+const MODE_LABEL: Record<string, string> = {
+  sleng: '🗣️ Sleng → standard',
+  formalno: '🎩 Formalni izraz',
+  dijalekt: '🗺️ Dijalekt → standard',
+};
 
 interface Props {
   goBack: () => void;
@@ -95,155 +212,20 @@ interface Props {
 }
 
 export default function RegisterDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'register',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🎩 Register', 'Standard/formal vs colloquial', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect! Register mastered! 🏆'
-              : passed
-                ? 'Great work! 💪'
-                : 'Keep practising — register takes time!'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🎩 Register', 'Standard/formal vs colloquial', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-muted)',
-            marginBottom: 6,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-          }}
-        >
-          Choose the standard / formal form
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
-          {cur.q}
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>{cur.en}</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8, marginTop: 16 }}>
-          {cur.opts.map((opt: string) => {
-            return (
-              <button
-                key={opt}
-                className={
-                  'ob' +
-                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
-                }
-                style={{ fontSize: 13, textAlign: 'left' }}
-                onClick={() => pick(opt)}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 14px',
-              background: 'var(--info-bg)',
-              borderRadius: 10,
-              border: '1px solid #bae6fd',
-              fontSize: 14,
-              color: 'var(--ink-info)',
-            }}
-          >
-            <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
-            {idx + 1 >= total ? 'See results' : 'Next →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="register"
+      title={'🎩 Register'}
+      subtitle={'Standard/formal vs colloquial'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Perfect! Register mastered! 🏆',
+        good: 'Great work! 💪',
+        more: 'Keep practising — register takes time!',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

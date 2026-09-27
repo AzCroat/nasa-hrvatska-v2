@@ -1,6 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
 import ConjugationSessionDrill from '../components/practice/ConjugationSessionDrill';
+import AppContext from '../context/AppContext';
+
+/** The wrong-answer panel reads the app's navigator; in the app it is always there. */
+const inApp = (ui: React.ReactElement) => (
+  <AppContext.Provider value={{ setScr: vi.fn() } as never}>{ui}</AppContext.Provider>
+);
 import type * as Adaptive from '../lib/adaptive';
 
 const VERBS = [
@@ -40,12 +47,14 @@ describe('ConjugationSessionDrill', () => {
   it('drills the surfaced category and closes the adaptive loop on completion', () => {
     const goBack = vi.fn();
     render(
-      <ConjugationSessionDrill
-        category="present-tense"
-        cefr="A1"
-        goBack={goBack}
-        award={vi.fn()}
-      />,
+      inApp(
+        <ConjugationSessionDrill
+          category="present-tense"
+          cefr="A1"
+          goBack={goBack}
+          award={vi.fn()}
+        />,
+      ),
     );
     // 4 options render for the first present-tense question.
     expect(screen.getAllByTestId('conj-option')).toHaveLength(4);
